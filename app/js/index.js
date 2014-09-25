@@ -30,7 +30,8 @@ var App = React.createClass({
         <header>
           <ul className='content'>
             <li className='logo'><Link to="app">Abakus</Link></li>
-            <Login auth={this.state.auth} onLogin={this.login}/>
+            <li><input placeholder='Søk' /></li>
+            <li><Login auth={this.state.auth} onLogin={this.login}/></li>
           </ul>
         </header>
         <nav>

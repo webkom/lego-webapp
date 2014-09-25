@@ -5,17 +5,31 @@ header
   color #eee
   padding 0 20px
 
+  ul
+    display table
+
   .logo a
     display inline-block
-    width 100px
-    background url('images/logo.png') center center no-repeat
+    width 120px
+    background url('images/logo.png') 20px center no-repeat
     background-size 100px 20px
-    vertical-align middle
     color transparent
 
   li
-    float left
+    display table-cell
     line-height 80px
 
-  .login-status
-    float right
+
+  // Search field
+  input
+    font-size 20px
+    width 70%
+    height 40px
+    padding 0 20px
+    border 0
+    background #333
+    color #fff
+    border-radius 5px
+
+    &:focus
+      outline none
