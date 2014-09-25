@@ -44,6 +44,10 @@ var App = React.createClass({
         </nav>
 
         <this.props.activeRouteHandler />
+
+        <footer>
+          <p>Abakus er best</p>
+        </footer>
       </section>
     );
   }

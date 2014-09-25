@@ -61,8 +61,8 @@ app.get('/api/feed', function(req, res) {
         payload: {
           name: any(['Bekk', 'Iterate', 'Netlight', 'Knowit', 'Visma']),
           type: any(['Kurs', 'Bedpress', 'Annet']),
-          description: faker.Lorem.paragraphs(3),
-          image: 'http://lorempixel.com/800/200/',
+          description: faker.Lorem.paragraphs(4),
+          image: 'http://lorempixel.com/940/160/',
           startsAt: faker.Date.past(1),
           endsAt: faker.Date.recent(4)
         }

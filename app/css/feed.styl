@@ -1,18 +1,54 @@
 .feed
   li
-    border-bottom 1px solid #ddd
-    padding 5px 10px
+    padding 5px 0
 
-    &:last-child
-      border-bottom none
 
-  img
-    width 780px
+    &.notification-item
+      background rgba(255, 255, 255, .9)
+      border-right 4px solid #ccc
+      padding-left 10px
+      margin 5px 0
+
+    img
+      width 640px
+
+.feed-container h2
+  color #ccc
+  text-transform uppercase
+  font-size 18px
+  margin 20px 0
+  text-align center
+
+  &:after, &:before
+    content '~'
+
+
+h3
+  font-size 24px
+  font-weight 700
+  margin 10px 0
+  color #222
 
 .event-info-box
-  padding 10px
-  background #fff
+  background transparent
   margin-bottom 10px
+  display table
+  border-top 4px solid #aaa
+
+  &.kurs-event
+    border-color $courseevent
+
+  &.bedpress-event
+    border-color $companypresentationevent
+
+  .event-description, .event-join
+    padding 15px
+
+  .event-description:first-letter
+    text-transform capitalize
+
+  div
+    display table-cell
 
   button
     background #C54A3C
@@ -23,3 +59,13 @@
     font-size 14px
     padding 5px 10px
     cursor pointer
+
+  .event-description
+    background #fff
+
+  .event-join
+    width 30%
+    background #d5d5d7
+    text-align center
+    vertical-align middle
+    border-radius 0 0 20px 0

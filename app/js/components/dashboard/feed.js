@@ -12,7 +12,7 @@ var FeedItem = React.createClass({
       case 'article':
         return (
           <div>
-            <h2>{this.props.item.payload.title}</h2>
+            <h3>{this.props.item.payload.title}</h3>
             <p>{this.props.item.payload.body}</p>
           </div>
         );
@@ -20,11 +20,14 @@ var FeedItem = React.createClass({
       case 'event':
         return (
           <div>
-            <h2>{this.props.item.payload.type}: {this.props.item.payload.name}</h2>
-            <img src={this.props.item.payload.image} />
-            <div className='event-info-box'>
-              <p>Åpen for 3.-5. klasse.</p>
-              <p>Påmeldingen åpner snart. <button>Meld deg på</button></p>
+            <h3>{this.props.item.payload.type}: {this.props.item.payload.name}</h3>
+            <div className='event-image'><img src={this.props.item.payload.image} /></div>
+            <div className={this.props.item.payload.type + '-event event-info-box'}>
+              <div className='event-description'>{this.props.item.payload.description.slice(0, 140)}</div>
+              <div className='event-join'>
+                <p>Åpen for 3.-5. klasse.</p>
+                <button>Meld deg på</button>
+              </div>
             </div>
           </div>
         );
@@ -67,7 +70,7 @@ var Feed = module.exports = React.createClass({
       <ul className='feed'>
       {this.state.feedItems.map(function(item) {
         return (
-          <li>
+          <li className={item.type + '-item'}>
             <FeedItem item={item} key={item.id}/>
           </li>
         );
