@@ -1,0 +1,91 @@
+@import 'nib'
+
+@import url('http://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700')
+@import url('http://fonts.googleapis.com/css?family=Open+Sans:400,700')
+
+global-reset()
+
+$headerheight = 50px
+$maxwidth = 800px
+$backgroundcolor = #F5F5F4
+
+*
+  box-sizing border-box
+  font-smoothing antialiased
+
+a
+  text-decoration none
+  color #c0392b
+
+  &:hover
+    text-decoration underline
+
+body
+  font-size 1em
+  line-height 1.8
+  font-family 'Open Sans', 'Source Sans Pro', 'Helvetica Neue', Helvetica, sans-serif
+  margin 0 auto
+  color #444
+  background $backgroundcolor
+
+.content
+  width $maxwidth
+  margin 0 auto
+
+
+
+@import 'layout'
+@import 'header'
+@import 'navigation'
+@import 'feed'
+
+
+h1
+  font-size 2.2em
+  font-weight 700
+
+h2
+  font-size 1.6em
+  font-weight 700
+  margin 20px 0
+
+blockquote
+  border-left 4px solid #ddd
+  padding 10px 20px
+
+footer
+  padding 20px
+  text-align center
+  color #777
+
+.gravatar
+  width 26px
+  border 2px solid #fff
+  height @width
+  border-radius (@width/2)
+  display inline
+  vertical-align middle
+  margin-right 10px
+
+
+.modal-container
+  display block
+
+  &.hidden
+    display none
+
+.modal
+  position absolute
+  width 600px
+  height 600px
+  border 10px solid #000
+  z-index 100
+  background #333
+
+.backdrop
+  background #000
+  position fixed
+  left 0
+  right 0
+  bottom 0
+  top 0
