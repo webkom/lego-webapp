@@ -31,7 +31,7 @@ var App = React.createClass({
         <header>
           <ul className='content'>
             <li className='logo'><Link to="app">Abakus</Link></li>
-            <li><input placeholder='Søk' /></li>
+            <li><input className='search' placeholder='Søk' /></li>
             <li><Login auth={this.state.auth} onLogin={this.login}/></li>
           </ul>
         </header>
