@@ -2,8 +2,8 @@
 
 var React = require('react');
 var Link = require('react-router').Link;
-
 var EventStore = require('../../stores/EventStore');
+var Time = require('../time');
 
 var Feed = module.exports = React.createClass({
 
@@ -16,7 +16,6 @@ var Feed = module.exports = React.createClass({
 
   update: function() {
     this.setState({events: EventStore.all()});
-    console.log(this.state.events)
   },
 
   componentWillMount: function() {
@@ -42,13 +41,15 @@ var Feed = module.exports = React.createClass({
         <div>
         {this.state.events.slice(0,4).map(function(event) {
           return (
-            <Link to='event' params={{eventId: event.id}}>
+            <Link to='event' params={{eventId: event.id}} key={event.id}>
               <div className={'feed-event-box ' + event.type}>
                 <div className='feed-event-image'><img src={event.image} /></div>
                 <div className='feed-event-description'>
                   <h3>Noe med {event.name}</h3>
                   {event.description.slice(0, 140)}
-                  <p className='event-time-location'><time>{event.startsAt}</time> @ H3</p>
+                  <p className='event-time-location'>
+                    <Time time={event.startsAt} format='MMMM Do YYYY, HH:mm' /> @ H3
+                  </p>
                 </div>
               </div>
             </Link>
@@ -60,7 +61,7 @@ var Feed = module.exports = React.createClass({
         <div className='event-grid'>
           {this.state.events.slice(4).map(function(event) {
             return (
-              <Link to='event' params={{eventId: event.id}}>
+              <Link to='event' params={{eventId: event.id}} key={event.id}>
                 <div className={'feed-event-box ' + event.type}>
                   <h3>Noe med {event.name}</h3>
                   {event.description.slice(0, 140)}
