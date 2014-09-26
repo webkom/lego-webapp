@@ -74,8 +74,11 @@ endif
 watchify:
 	$(WATCHIFY) $(TRANSFORMS) $(JS_MAIN) -o $(BUILD_JS)
 
+watch-css: public/app.css
+	@true
+
 watch:
-	$(MAKE) watchify & $(MAKE) public/app.css & wait
+	foreman start
 
 #
 # Start a local dev server listening on PORT
