@@ -4,6 +4,7 @@ var React = require('react');
 var Link = require('react-router').Link;
 var EventStore = require('../../stores/EventStore');
 var Time = require('../time');
+var Icon = require('../icon');
 
 var Feed = module.exports = React.createClass({
 
@@ -48,7 +49,7 @@ var Feed = module.exports = React.createClass({
                   <h3>Noe med {event.name}</h3>
                   {event.description.slice(0, 140)}
                   <p className='event-time-location'>
-                    <Time time={event.startsAt} format='MMMM Do YYYY, HH:mm' /> @ H3
+                    <Icon name='clock-o' /> <Time time={event.startsAt} format='MMMM Do YYYY, HH:mm' /> @ H3
                   </p>
                 </div>
               </div>
