@@ -41,8 +41,6 @@ body
   width $maxwidth
   margin 0 auto
 
-
-
 @import 'layout'
 @import 'header'
 @import 'navigation'
@@ -70,25 +68,11 @@ footer
   text-align center
   color #777
 
-
-.modal-container
+input, select, textarea, button
   display block
+  border 0
+  padding 10px
+  font-size 16px
 
-  &.hidden
-    display none
-
-.modal
-  position absolute
-  width 600px
-  height 600px
-  border 10px solid #000
-  z-index 100
-  background #333
-
-.backdrop
-  background #000
-  position fixed
-  left 0
-  right 0
-  bottom 0
-  top 0
+button
+  cursor pointer

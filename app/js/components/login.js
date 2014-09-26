@@ -28,9 +28,12 @@ var Login = module.exports = React.createClass({
     return (
       <div>
         <p className="login-status">
-          <img className="gravatar" src="http://www.gravatar.com/avatar/279f5b4c5c781eb6aaa5c3f09c974acf.jpg?s=64&d=identicon" />
           {this.props.auth ?
-            <span>Hans-Kristian Seem Koren</span> : <a onClick={this.toggleLoginOpen}><Icon name='lock'/> Logg inn</a>}
+            <div>
+              <img className="gravatar" src="http://www.gravatar.com/avatar/279f5b4c5c781eb6aaa5c3f09c974acf.jpg?s=64&d=identicon" />
+              <span>Hans-Kristian Seem Koren</span>
+            </div>
+            : <a onClick={this.toggleLoginOpen} className='login-button'><Icon name='lock'/>Logg inn</a>}
         </p>
         <div className={'login-form ' + (!this.state.loginOpen ? 'hidden' : '')}>
           <form onSubmit={this.onLogin}>

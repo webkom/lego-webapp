@@ -39,7 +39,7 @@ var Dashboard = module.exports = React.createClass({
   render: function() {
     return (
       <section>
-        <div className='content clearfix'>
+        <div className='content'>
           <div className='sidebar'>
             <SidebarBlock title="Mine arrangementer">
               <ul>

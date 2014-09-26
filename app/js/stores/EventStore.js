@@ -20,5 +20,12 @@ module.exports = Store.create({
   },
 
   where: function() {
-  }
+  },
+
+  find: function(id) {
+    for (var i = 0; i < store.length; i++) {
+      if (store[i].id === id) return store[i];
+    }
+    return null;
+  },
 });

@@ -11,6 +11,7 @@ NIB        = node_modules/nib/lib
 
 #
 # The dev server PORT
+# PORT=3001 make
 #
 
 PORT ?= 3000
@@ -49,6 +50,11 @@ TRANSFORMS = -t reactify
 
 all: $(BUILD_CSS) $(BUILD_JS)
 
+install: node_modules
+
+node_modules: package.json
+	@npm install
+
 #
 # Build CSS files
 #
@@ -71,14 +77,26 @@ else
 	$(BROWSERIFY) $(TRANSFORMS) $(JS_MAIN) > $(BUILD_JS)
 endif
 
+#
+# Watchify is extremely fast compared to running browserify on file changes.
+#
+
 watchify:
-	$(WATCHIFY) $(TRANSFORMS) $(JS_MAIN) -o $(BUILD_JS)
+	$(WATCHIFY) $(TRANSFORMS) $(JS_MAIN) -v -o $(BUILD_JS)
+
+#
+# A avoid to avoid «Nothing to be done for all messages»
+#
 
 watch-css: public/app.css
 	@true
 
+#
+#
+#
+
 watch:
-	foreman start
+	@foreman start
 
 #
 # Start a local dev server listening on PORT
@@ -98,4 +116,4 @@ clean:
 # Non-files are PHONY targets
 #
 
-.PHONY: clean server
+.PHONY: clean server install test lint

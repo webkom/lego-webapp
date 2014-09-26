@@ -5,7 +5,9 @@ var React = require('react');
 var Events = module.exports = React.createClass({
   render: function() {
     return (
-      <h1>Events</h1>
+      <div className='content'>
+        <h2>Events For All</h2>
+      </div>
     );
   }
 });
