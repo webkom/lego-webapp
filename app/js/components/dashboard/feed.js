@@ -1,81 +1,75 @@
 /** @jsx React.DOM */
 
 var React = require('react');
+var Link = require('react-router').Link;
 
-var FeedStore = require('../../stores/FeedStore');
-
-
-var FeedItem = React.createClass({
-
-  render: function() {
-    switch (this.props.item.type) {
-      case 'article':
-        return (
-          <div>
-            <h3>{this.props.item.payload.title}</h3>
-            <p>{this.props.item.payload.body}</p>
-          </div>
-        );
-
-      case 'event':
-        return (
-          <div>
-            <h3>{this.props.item.payload.type}: {this.props.item.payload.name}</h3>
-            <div className='event-image'><img src={this.props.item.payload.image} /></div>
-            <div className={this.props.item.payload.type + '-event event-info-box'}>
-              <div className='event-description'>{this.props.item.payload.description.slice(0, 140)}</div>
-              <div className='event-join'>
-                <p>Åpen for 3.-5. klasse.</p>
-                <button>Meld deg på</button>
-              </div>
-            </div>
-          </div>
-        );
-
-      case 'notification':
-        return <span>Notification: {this.props.item.payload.description}</span>;
-
-      default:
-        return <span>this.props.item.payload.description</span>;
-    }
-  }
-});
+var EventStore = require('../../stores/EventStore');
 
 var Feed = module.exports = React.createClass({
 
   getInitialState: function() {
     return {
-      feedItems: FeedStore.all()
+      events: EventStore.all(),
+      compressedMode: false
     };
   },
 
   update: function() {
-    this.setState({feedItems: FeedStore.all()});
+    this.setState({events: EventStore.all()});
+    console.log(this.state.events)
   },
 
   componentWillMount: function() {
-    FeedStore.fetch();
+    EventStore.fetch();
   },
 
   componentDidMount: function() {
-    FeedStore.addChangeListener(this.update);
+    EventStore.addChangeListener(this.update);
   },
 
   componentWillUnmount: function() {
-    FeedStore.removeChangeListener(this.update);
+    EventStore.removeChangeListener(this.update);
+  },
+
+  toggleCompressedMode: function() {
+    this.setState({compressedMode: !this.state.compressedMode});
   },
 
   render: function() {
     return (
-      <ul className='feed'>
-      {this.state.feedItems.map(function(item) {
-        return (
-          <li className={item.type + '-item'}>
-            <FeedItem item={item} key={item.id}/>
-          </li>
-        );
-      })}
-      </ul>
+      <div>
+        <h2>Aktiviteter denne uken</h2>
+        <div>
+        {this.state.events.slice(0,4).map(function(event) {
+          return (
+            <Link to='event' params={{eventId: event.id}}>
+              <div className={'feed-event-box ' + event.type}>
+                <div className='feed-event-image'><img src={event.image} /></div>
+                <div className='feed-event-description'>
+                  <h3>Noe med {event.name}</h3>
+                  {event.description.slice(0, 140)}
+                  <p className='event-time-location'><time>{event.startsAt}</time> @ H3</p>
+                </div>
+              </div>
+            </Link>
+          );
+        })}
+        </div>
+
+        <h2>Aktiviterer senere</h2>
+        <div className='event-grid'>
+          {this.state.events.slice(4).map(function(event) {
+            return (
+              <Link to='event' params={{eventId: event.id}}>
+                <div className={'feed-event-box ' + event.type}>
+                  <h3>Noe med {event.name}</h3>
+                  {event.description.slice(0, 140)}
+                </div>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
     );
   }
 });

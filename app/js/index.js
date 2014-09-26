@@ -10,6 +10,7 @@ var Link = ReactRouter.Link;
 
 var Dashboard = require('./components/dashboard');
 var Events = require('./components/events');
+var Event = require('./components/events/event');
 var Login = require('./components/login');
 
 var App = React.createClass({
@@ -36,7 +37,7 @@ var App = React.createClass({
         </header>
         <nav>
           <ul className='content'>
-            <li><Link to="app">Nyhetsstrøm</Link></li>
+            <li><Link to="app">Oversikt</Link></li>
             <li><Link to="events">Arrangementer</Link></li>
             <li><Link to="events">Om Abakus</Link></li>
             <li><Link to="events">Kontakt</Link></li>
@@ -64,7 +65,9 @@ var NotFound = React.createClass({
 React.renderComponent((
   <Routes location="history">
     <Route name="app" path="/" handler={App}>
-      <Route name="events" handler={Events}></Route>
+      <Route name="events" handler={Events}>
+      </Route>
+      <Route name="event" path="/events/:eventId" handler={Event}/>
       <DefaultRoute handler={Dashboard} />
     </Route>
     <NotFoundRoute handler={NotFound}/>

@@ -39,7 +39,7 @@ var Dashboard = module.exports = React.createClass({
   render: function() {
     return (
       <section>
-        <div className='content'>
+        <div className='content clearfix'>
           <div className='sidebar'>
             <SidebarBlock title="Mine arrangementer">
               <ul>
@@ -62,7 +62,6 @@ var Dashboard = module.exports = React.createClass({
             </SidebarBlock>
           </div>
           <div className='feed-container'>
-            <h2>Nyhetsstrøm</h2>
             <Feed />
           </div>
         </div>

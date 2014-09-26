@@ -9,9 +9,6 @@
       padding-left 10px
       margin 5px 0
 
-    img
-      width 640px
-
 .feed-container h2
   color #ccc
   text-transform uppercase
@@ -29,43 +26,86 @@ h3
   margin 10px 0
   color #222
 
-.event-info-box
-  background transparent
-  margin-bottom 10px
+.feed-event-box
+  background #fff
   display table
-  border-top 4px solid #aaa
+  margin-bottom 10px
+  color #444
+  border-right 4px solid #ddd
 
-  &.kurs-event
+  &.party
+    border-color $partyevent
+
+  &.course
     border-color $courseevent
 
-  &.bedpress-event
+  &.company-presentation
     border-color $companypresentationevent
 
-  .event-description, .event-join
-    padding 15px
+  &.other
+    border-color $otherevent
 
-  .event-description:first-letter
+  &.regular
+    border-color $regularevent
+
+
+.feed-event-image
+  display table-cell
+  width 100px
+  border-collapse collapse
+  vertical-align middle
+
+  img
+    width 130px
+
+.feed-event-description
+  display table-cell
+  padding 10px 20px
+  font-size 14px
+
+  h3
+    font-size 18px
+    margin 0
+
+  button, .button
+    cursor pointer
+    background linear-gradient(#eee, #ddd)
+    color #333
+    border 0
+    border-radius 4px
+    font-size 14px
+    font-weight 700
+    padding 8px 14px
+    box-shadow 0 0 1px #999
+    outline none
+
+    &:hover
+      box-shadow 0 0 1px #333
+      background linear-gradient(#eee, #ccc)
+
+
+  &:first-letter
     text-transform capitalize
 
-  div
-    display table-cell
+.event-time-location
+  color #888
+  margin-top 6px
 
-  button
-    background #C54A3C
-    border-radius 5px
-    color #fff
-    font-weight 700
-    border 0
-    font-size 14px
-    padding 5px 10px
-    cursor pointer
 
-  .event-description
-    background #fff
+.event-grid
+  clearfix()
+  h3
+    font-size 16px
+    margin 0
 
-  .event-join
-    width 30%
-    background #d5d5d7
-    text-align center
-    vertical-align middle
-    border-radius 0 0 20px 0
+  .feed-event-box
+    float left
+    padding 20px
+    display block
+    width 50%
+    background transparent
+    border-right 0
+    height 300px
+
+    &:nth-child(even)
+      float right
