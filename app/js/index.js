@@ -12,6 +12,7 @@ var Dashboard = require('./components/dashboard');
 var Events = require('./components/events');
 var Event = require('./components/events/event');
 var Login = require('./components/login');
+var Icon = require('./components/icon');
 
 var App = React.createClass({
 
@@ -29,11 +30,14 @@ var App = React.createClass({
     return (
       <section>
         <header>
-          <ul className='content'>
-            <li className='logo'><Link to="app">Abakus</Link></li>
-            <li><input className='search' placeholder='Søk' /></li>
-            <li><Login auth={this.state.auth} onLogin={this.login}/></li>
-          </ul>
+          <div className='content'>
+            <ul>
+              <li className='logo'><Link to="app">Abakus</Link></li>
+              <li className='search-box'><input className='search' placeholder='Søk' /></li>
+              <li className='partner-logo'><a href="http://bekk.no">Bekk</a></li>
+              <li><Login auth={this.state.auth} onLogin={this.login}/></li>
+            </ul>
+          </div>
         </header>
         <nav>
           <ul className='content'>
@@ -41,6 +45,7 @@ var App = React.createClass({
             <li><Link to="events">Arrangementer</Link></li>
             <li><Link to="events">Om Abakus</Link></li>
             <li><Link to="events">Kontakt</Link></li>
+            <li><Link to="events"><Icon name='bars' />Mer</Link></li>
           </ul>
         </nav>
 

@@ -26,12 +26,12 @@ var Login = module.exports = React.createClass({
 
   render: function() {
     return (
-      <div>
+      <div className='login-container'>
         <p className="login-status">
           {this.props.auth ?
             <div>
               <img className="gravatar" src="http://www.gravatar.com/avatar/279f5b4c5c781eb6aaa5c3f09c974acf.jpg?s=64&d=identicon" />
-              <span>Hans-Kristian Seem Koren</span>
+              <span>Hans-Kristian</span>
             </div>
             : <a onClick={this.toggleLoginOpen} className='login-button'><Icon name='lock'/>Logg inn</a>}
         </p>
