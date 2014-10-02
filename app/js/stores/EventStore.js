@@ -8,7 +8,7 @@ module.exports = Store.create({
   fetch: function() {
     if (isFetching) return;
     isFetching = true;
-    request.get('/api/events', function(res) {
+    request.get('http://api.abakus.dev/events').auth('admin', 'testtest').end(function(res) {
       store = res.body;
       isFetching = false;
       this.emitChange();

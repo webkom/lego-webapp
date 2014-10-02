@@ -40,16 +40,16 @@ var Feed = module.exports = React.createClass({
       <div>
         <h2>Aktiviteter denne uken</h2>
         <div>
-        {this.state.events.slice(0,4).map(function(event) {
+        {this.state.events.slice(0, 4).map(function(event) {
           return (
             <Link to='event' params={{eventId: event.id}} key={event.id}>
               <div className={'feed-event-box ' + event.type}>
-                <div className='feed-event-image'><img src={event.image} /></div>
+                <div className='feed-event-image'><img src="http://lorempixel.com/200/200" /></div>
                 <div className='feed-event-description'>
-                  <h3>Noe med {event.name}</h3>
+                  <h3>{event.name}</h3>
                   {event.description.slice(0, 140)}
                   <p className='event-time-location'>
-                    <Icon name='clock-o' /> <Time time={event.startsAt} format='MMMM Do YYYY, HH:mm' /> @ H3
+                    <Icon name='clock-o' /> <Time time={event.starts_at} format='MMMM Do YYYY, HH:mm' /> @ H3
                   </p>
                 </div>
               </div>
@@ -64,7 +64,7 @@ var Feed = module.exports = React.createClass({
             return (
               <Link to='event' params={{eventId: event.id}} key={event.id}>
                 <div className={'feed-event-box ' + event.type}>
-                  <h3>Noe med {event.name}</h3>
+                  <h3>{event.name}</h3>
                   {event.description.slice(0, 140)}
                 </div>
               </Link>

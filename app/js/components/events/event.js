@@ -28,6 +28,7 @@ var Event = module.exports = React.createClass({
   },
 
   render: function() {
+    console.log(this.state.event)
     return (
       <section>
         <div className='content'>
@@ -35,9 +36,20 @@ var Event = module.exports = React.createClass({
           <article>
             {this.state.event.description}
           </article>
+          <div className='event-open-for'>
+            <h3>Åpent for</h3>
+            {(this.state.event.admissible_groups || []).map(function(group) {
+              return <span key={'group-' + group.group}>{group.group}</span>;
+            })}
+          </div>
+
+
+          <h3>Bli med på dette arrangementet</h3>
           <form className='event-participate'>
             <textarea placeholder="Melding til arrangører" />
             <button type='submit'>Bli med</button>
+
+            <p>Påmeldingen stenger {this.state.event.registration_ends_at}</p>
           </form>
         </div>
       </section>
