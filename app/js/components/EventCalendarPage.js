@@ -1,8 +1,8 @@
 /** @jsx React.DOM */
 
 var React = require('react');
-var EventStore = require('../../stores/EventStore');
-var EventService = require('../../services/EventService');
+var EventStore = require('../stores/EventStore');
+var EventService = require('../services/EventService');
 
 function getState() {
   return {
@@ -10,7 +10,7 @@ function getState() {
   }
 }
 
-var Events = module.exports = React.createClass({
+var EventCalendarPage = React.createClass({
 
   getInitialState: function() {
     return getState();
@@ -41,3 +41,5 @@ var Events = module.exports = React.createClass({
     );
   }
 });
+
+module.exports = EventCalendarPage;

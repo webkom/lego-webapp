@@ -2,47 +2,43 @@
 
 var React = require('react');
 var Link = require('react-router').Link;
-var EventStore = require('../../stores/EventStore');
-var EventService = require('../../services/EventService');
-var Time = require('../time');
-var Icon = require('../icon');
+var EventStore = require('../stores/EventStore');
+var EventService = require('../services/EventService');
+var Time = require('./time');
+var Icon = require('./icon');
 
-var Feed = module.exports = React.createClass({
+function getState() {
+  return {
+    events: EventStore.getAllSorted(),
+  }
+}
+
+var FrontPageFeed = React.createClass({
 
   getInitialState: function() {
-    return {
-      events: EventStore.getAllSorted(),
-      compressedMode: false
-    };
+    return getState();
   },
 
-  update: function() {
-    this.setState({events: EventStore.getAllSorted()});
-  },
-
-  componentWillMount: function() {
-    //EventStore.fetch();
+  _onChange: function() {
+    this.setState(getState());
   },
 
   componentDidMount: function() {
-    EventStore.addChangeListener(this.update);
+    EventStore.addChangeListener(this._onChange);
     EventService.getAllEvents();
   },
 
   componentWillUnmount: function() {
-    EventStore.removeChangeListener(this.update);
-  },
-
-  toggleCompressedMode: function() {
-    this.setState({compressedMode: !this.state.compressedMode});
+    EventStore.removeChangeListener(this._onChange);
   },
 
   render: function() {
+    var events = this.state.events;
     return (
       <div>
         <h2>Aktiviteter denne uken</h2>
         <div>
-        {this.state.events.slice(0, 4).map(function(event) {
+        {events.slice(0, 4).map(function(event) {
           return (
             <Link to='event' params={{eventId: event.id}} key={event.id}>
               <div className={'feed-event-box ' + event.type}>
@@ -62,7 +58,7 @@ var Feed = module.exports = React.createClass({
 
         <h2>Aktiviterer senere</h2>
         <div className='event-grid'>
-          {this.state.events.slice(4).map(function(event) {
+          {events.slice(4).map(function(event) {
             return (
               <Link to='event' params={{eventId: event.id}} key={event.id}>
                 <div className={'feed-event-box ' + event.type}>
@@ -77,3 +73,5 @@ var Feed = module.exports = React.createClass({
     );
   }
 });
+
+module.exports = FrontPageFeed;

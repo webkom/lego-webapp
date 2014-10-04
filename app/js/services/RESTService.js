@@ -20,30 +20,13 @@ var urlFor = function(resource) {
   return API_URL + resource;
 };
 
-module.exports = {
-
-  get: function(url) {
-    console.log('Sent a GET request to %s.', url);
-    return request
-      .get(urlFor(url))
+/**
+ *
+ */
+['get', 'post', 'put', 'delete'].forEach(function(method) {
+  exports[method] = function(url) {
+    console.log('Sent a %s request to %s', method.toUpperCase(), url);
+    return request[method].call(null, urlFor(url))
       .timeout(TIMEOUT);
-  },
-
-  post: function(url) {
-    return request
-      .post(urlFor(url))
-      .timeout(timeout);
-  },
-
-  put: function(url) {
-    return request
-      .put(urlFor(url))
-      .timeout(timeout);
-  },
-
-  delete: function(url) {
-    return request
-      .delete(urlFor(url))
-      .timeout(timeout);
-  }
-};
+  };
+});

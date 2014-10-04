@@ -2,19 +2,22 @@
 
 var React = require('react');
 
-var EventStore = require('../../stores/EventStore');
+var EventStore = require('../stores/EventStore');
 
-var Event = React.createClass({
+function getState(eventId) {
+  return {
+    event: EventStore.get(eventId|0)
+  };
+}
+
+var EventPage = React.createClass({
+
   getInitialState: function() {
-    return {
-      event: EventStore.get(this.props.params.eventId|0)
-    }
+    return getState(this.props.params.eventId);
   },
 
   _onChange: function() {
-    this.setState({
-      event: EventStore.get(this.props.params.eventId|0)
-    });
+    this.setState(getState(this.props.params.eventId));
   },
 
   componentDidMount: function() {
@@ -26,16 +29,17 @@ var Event = React.createClass({
   },
 
   render: function() {
+    var event = this.state.event;
     return (
       <section>
         <div className='content'>
-          <h2>{this.state.event.name}</h2>
+          <h2>{event.name}</h2>
           <article>
-            {this.state.event.description}
+            {event.description}
           </article>
           <div className='event-open-for'>
             <h3>Åpent for</h3>
-            {(this.state.event.admissible_groups || []).map(function(group) {
+            {(event.admissible_groups || []).map(function(group) {
               return <span key={'group-' + group.group}>{group.group}</span>;
             })}
           </div>
@@ -46,7 +50,7 @@ var Event = React.createClass({
             <textarea placeholder="Melding til arrangører" />
             <button type='submit'>Bli med</button>
 
-            <p>Påmeldingen stenger {this.state.event.registration_ends_at}</p>
+            <p>Påmeldingen stenger {event.registration_ends_at}</p>
           </form>
         </div>
       </section>
@@ -54,4 +58,4 @@ var Event = React.createClass({
   }
 });
 
-module.exports = Event;
+module.exports = EventPage;

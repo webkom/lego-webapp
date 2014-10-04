@@ -1,35 +1,15 @@
 /** @jsx React.DOM */
 
 var React = require('react');
-var Feed = require('./feed');
-var Icon = require('../icon');
+var Feed = require('./FrontPageFeed');
+var Icon = require('./icon');
+var SidebarBlock = require('./SidebarBlock');
 
 /**
- * Dashboard Component
+ * Frontpage Component
  */
 
-var SidebarBlock = React.createClass({
-  getDefaultProps: function() {
-    return {
-      title: 'No title'
-    };
-  },
-
-  render: function() {
-    return (
-      <div>
-        <h2>{this.props.title}</h2>
-
-        <div className='sidebar-block-content'>
-          {this.props.children}
-        </div>
-      </div>
-    );
-  },
-});
-
-
-var Dashboard = module.exports = React.createClass({
+var FrontPage = React.createClass({
 
   getInitialState: function() {
     return {
@@ -69,3 +49,5 @@ var Dashboard = module.exports = React.createClass({
     );
   }
 });
+
+module.exports = FrontPage;
