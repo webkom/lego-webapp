@@ -7,6 +7,7 @@ STYLUS     = node_modules/.bin/stylus
 UGLIFY     = node_modules/.bin/uglifyjs
 BROWSERIFY = node_modules/.bin/browserify
 WATCHIFY   = node_modules/.bin/watchify
+JEST       = node_modules/.bin/jest
 NIB        = node_modules/nib/lib
 
 #
@@ -54,6 +55,9 @@ install: node_modules
 
 node_modules: package.json
 	@npm install
+
+test:
+	$(JEST)
 
 #
 # Build CSS files

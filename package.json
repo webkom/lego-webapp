@@ -6,6 +6,8 @@
   "author": "Hanse",
   "license": "MIT",
   "dependencies": {
-    "flux": "^2.0.1"
+    "flux": "^2.0.1",
+    "jest-cli": "^0.1.18",
+    "jshint": "^2.5.6"
   }
 }
