@@ -28,6 +28,10 @@ var EventStore = Store.create({
       sorted.push(_events[id]);
     }
     return sorted;
+  },
+
+  isEmpty: function() {
+    return Object.keys(_events).length === 0;
   }
 });
 

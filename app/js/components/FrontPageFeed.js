@@ -25,7 +25,7 @@ var FrontPageFeed = React.createClass({
 
   componentDidMount: function() {
     EventStore.addChangeListener(this._onChange);
-    EventService.getAllEvents();
+    if (EventStore.isEmpty()) EventService.getAllEvents();
   },
 
   componentWillUnmount: function() {

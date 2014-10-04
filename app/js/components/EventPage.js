@@ -1,8 +1,10 @@
 /** @jsx React.DOM */
 
 var React = require('react');
+var RequireLogin = require('./RequireLogin');
 
 var EventStore = require('../stores/EventStore');
+var EventService = require('../services/EventService');
 
 function getState(eventId) {
   return {
@@ -22,6 +24,7 @@ var EventPage = React.createClass({
 
   componentDidMount: function() {
     EventStore.addChangeListener(this._onChange);
+    if (EventStore.isEmpty()) EventService.getAllEvents(); // shouldn't get all (fix it)
   },
 
   componentWillUnmount: function() {
@@ -44,14 +47,15 @@ var EventPage = React.createClass({
             })}
           </div>
 
+          <RequireLogin>
+            <h3>Bli med på dette arrangementet</h3>
+            <form className='event-participate'>
+              <textarea placeholder="Melding til arrangører" />
+              <button type='submit'>Bli med</button>
 
-          <h3>Bli med på dette arrangementet</h3>
-          <form className='event-participate'>
-            <textarea placeholder="Melding til arrangører" />
-            <button type='submit'>Bli med</button>
-
-            <p>Påmeldingen stenger {event.registration_ends_at}</p>
-          </form>
+              <p>Påmeldingen stenger {event.registration_ends_at}</p>
+            </form>
+          </RequireLogin>
         </div>
       </section>
     );
