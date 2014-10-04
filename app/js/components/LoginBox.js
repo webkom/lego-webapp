@@ -2,16 +2,17 @@
 
 var React = require('react');
 var UserViewActionCreators = require('../actions/UserViewActionCreators');
-var Icon  = require('./icon');
 var UserStore = require('../stores/UserStore');
+var AuthMixin = require('./AuthMixin');
+var Icon  = require('./icon');
 
 var LoginBox = React.createClass({
+
+  mixins: [AuthMixin],
 
   getInitialState: function() {
     return {
       loginOpen: false,
-      isLoggedIn: false,
-      userInfo: {}
     };
   },
 
@@ -22,23 +23,6 @@ var LoginBox = React.createClass({
 
     if (!this.state.loginOpen)
       this.refs.username.getDOMNode().focus();
-  },
-
-  componentDidMount: function() {
-    UserStore.addChangeListener(this._onChange);
-  },
-
-  componentWillUnmount: function() {
-    UserStore.removeChangeListener(this._onChange);
-  },
-
-  _onChange: function() {
-    var isLoggedIn = UserStore.isLoggedIn();
-    this.setState({
-      isLoggedIn: isLoggedIn,
-      userInfo: UserStore.getUserInfo(),
-      loginOpen: !isLoggedIn
-    });
   },
 
   onLogin: function(event) {
@@ -63,7 +47,7 @@ var LoginBox = React.createClass({
             </div>
             : <a onClick={this.toggleLoginOpen} className='login-button'><Icon name='lock'/>Logg inn</a>}
         </p>
-        <div className={'login-form ' + (!this.state.loginOpen ? 'hidden' : '')}>
+        <div className={'login-form ' + ((!this.state.loginOpen || this.state.isLoggedIn) ? 'hidden' : '')}>
           <form onSubmit={this.onLogin}>
             <input type='text' ref='username' placeholder='Username' />
             <input type='password' ref='password' placeholder='Password' />
