@@ -31,7 +31,15 @@ var LoginBox = React.createClass({
     var username = this.refs.username.getDOMNode().value.trim();
     var password = this.refs.password.getDOMNode().value.trim();
 
-    if (username === '' || password === '') return;
+    if (username === '') {
+      this.refs.username.getDOMNode().focus();
+      return;
+    }
+
+    if (password === '') {
+      this.refs.password.getDOMNode().focus();
+      return;
+    }
 
     UserViewActionCreators.login(username, password);
   },
