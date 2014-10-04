@@ -11,6 +11,7 @@ module.exports = {
       .end(function(res) {
         if (!res.ok) {
           console.log('Not OK', res);
+          UserServerActionCreators.failedLogin();
           return;
         }
         var userInfo = res.body;

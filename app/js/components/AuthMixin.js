@@ -22,6 +22,7 @@ var AuthMixin = {
     this.setState({
       isLoggedIn: UserStore.isLoggedIn(),
       userInfo: UserStore.getUserInfo(),
+      loginFailed: UserStore.didLoginFail()
     });
   },
 };

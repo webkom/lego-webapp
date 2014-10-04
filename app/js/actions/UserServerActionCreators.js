@@ -9,5 +9,11 @@ module.exports = {
       type: UserActionTypes.RECEIVE_USER_INFO,
       userInfo: userInfo
     });
+  },
+
+  failedLogin: function() {
+    AppDispatcher.handleServerAction({
+      type: UserActionTypes.FAILED_LOGIN,
+    });
   }
 };

@@ -49,6 +49,7 @@ var LoginBox = React.createClass({
         </p>
         <div className={'login-form ' + ((!this.state.loginOpen || this.state.isLoggedIn) ? 'hidden' : '')}>
           <form onSubmit={this.onLogin}>
+            <span>{this.state.loginFailed && 'Login failed'}</span>
             <input type='text' ref='username' placeholder='Username' />
             <input type='password' ref='password' placeholder='Password' />
             <button type='submit'>Logg inn</button>
