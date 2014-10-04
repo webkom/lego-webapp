@@ -1,13 +1,17 @@
 /** @jsx React.DOM */
 
 var React = require('react');
+var UserViewActionCreators = require('../actions/UserViewActionCreators');
 var Icon  = require('./icon');
+var UserStore = require('../stores/UserStore');
 
 var LoginBox = React.createClass({
 
   getInitialState: function() {
     return {
-      loginOpen: false
+      loginOpen: false,
+      isLoggedIn: false,
+      userInfo: {}
     };
   },
 
@@ -15,27 +19,47 @@ var LoginBox = React.createClass({
     this.setState({
       loginOpen: !this.state.loginOpen
     });
+
+    if (!this.state.loginOpen)
+      this.refs.username.getDOMNode().focus();
+  },
+
+  componentDidMount: function() {
+    UserStore.addChangeListener(this._onChange);
+  },
+
+  componentWillUnmount: function() {
+    UserStore.removeChangeListener(this._onChange);
+  },
+
+  _onChange: function() {
+    var isLoggedIn = UserStore.isLoggedIn();
+    this.setState({
+      isLoggedIn: isLoggedIn,
+      userInfo: UserStore.getUserInfo(),
+      loginOpen: !isLoggedIn
+    });
   },
 
   onLogin: function(event) {
     event.preventDefault();
 
-    this.props.onLogin(
-      this.refs.username.getDOMNode().value,
-      this.refs.password.getDOMNode().value
-    );
+    var username = this.refs.username.getDOMNode().value.trim();
+    var password = this.refs.password.getDOMNode().value.trim();
 
-    this.setState({loginOpen: false});
+    if (username === '' || password === '') return;
+
+    UserViewActionCreators.login(username, password);
   },
 
   render: function() {
     return (
       <div className='login-container'>
         <p className="login-status">
-          {this.props.auth ?
+          {this.state.isLoggedIn ?
             <div>
               <img className='gravatar' src='http://www.gravatar.com/avatar/279f5b4c5c781eb6aaa5c3f09c974acf.jpg?s=64&d=identicon' />
-              <span>{this.props.auth.username}</span>
+              <span>{this.state.userInfo.username}</span>
             </div>
             : <a onClick={this.toggleLoginOpen} className='login-button'><Icon name='lock'/>Logg inn</a>}
         </p>

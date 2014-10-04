@@ -5,13 +5,9 @@ var Link = require('react-router').Link;
 var LoginBox = require('./LoginBox');
 var Icon = require('./Icon');
 
-var App = React.createClass({
+var UserStore = require('../stores/UserStore');
 
-  getInitialState: function() {
-    return {
-      auth: false
-    };
-  },
+var App = React.createClass({
 
   render: function() {
     return (
@@ -22,7 +18,7 @@ var App = React.createClass({
               <li className='logo'><Link to="app">Abakus</Link></li>
               <li className='search-box'><input className='search' placeholder='Søk' /></li>
               <li className='partner-logo'><a href="http://bekk.no">Bekk</a></li>
-              <li><LoginBox auth={this.state.auth} onLogin={this.login}/></li>
+              <li><LoginBox /></li>
             </ul>
           </div>
         </header>

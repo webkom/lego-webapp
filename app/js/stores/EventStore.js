@@ -38,12 +38,9 @@ EventStore.dispatchToken = AppDispatcher.register(function(payload) {
       _addEvents(action.events);
       EventStore.emitChange();
       break;
-
-    default:
-      console.log('Unknown Action Type')
   }
 
-  return true; // crucial
+  return true;
 });
 
 module.exports = EventStore;
