@@ -36,6 +36,7 @@ UserStore.dispatchToken = AppDispatcher.register(function(payload) {
       break;
 
     case UserActionTypes.LOGIN:
+      _loginFailed = false;
       UserStore.emitChange();
       break;
   }

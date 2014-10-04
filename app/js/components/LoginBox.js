@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-var React = require('react');
+var React = require('react/addons');
 var UserViewActionCreators = require('../actions/UserViewActionCreators');
 var UserStore = require('../stores/UserStore');
 var AuthMixin = require('./AuthMixin');
@@ -45,6 +45,7 @@ var LoginBox = React.createClass({
   },
 
   render: function() {
+    var cx = React.addons.classSet;
     return (
       <div className='login-container'>
         <p className="login-status">
@@ -55,9 +56,14 @@ var LoginBox = React.createClass({
             </div>
             : <a onClick={this.toggleLoginOpen} className='login-button'><Icon name='lock'/>Logg inn</a>}
         </p>
-        <div className={'login-form ' + ((!this.state.loginOpen || this.state.isLoggedIn) ? 'hidden' : '')}>
+        <div className={
+          cx({
+            'login-form': true,
+            'hidden': (!this.state.loginOpen || this.state.isLoggedIn),
+            'animated shake': this.state.loginFailed
+          })
+        }>
           <form onSubmit={this.onLogin}>
-            <span>{this.state.loginFailed && 'Login failed'}</span>
             <input type='text' ref='username' placeholder='Username' />
             <input type='password' ref='password' placeholder='Password' />
             <button type='submit'>Logg inn</button>
