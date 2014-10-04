@@ -4,31 +4,28 @@ var React = require('react');
 
 var EventStore = require('../../stores/EventStore');
 
-var Event = module.exports = React.createClass({
+var Event = React.createClass({
   getInitialState: function() {
     return {
-      event: {}
-    };
+      event: EventStore.get(this.props.params.eventId|0)
+    }
   },
 
-  update: function() {
-    this.setState({event: EventStore.find(this.props.params.eventId|0)})
-  },
-
-  componentWillMount: function() {
-    EventStore.addChangeListener(this.update);
-    EventStore.fetch();
+  _onChange: function() {
+    this.setState({
+      event: EventStore.get(this.props.params.eventId|0)
+    });
   },
 
   componentDidMount: function() {
+    EventStore.addChangeListener(this._onChange);
   },
 
   componentWillUnmount: function() {
-    EventStore.removeChangeListener(this.update);
+    EventStore.removeChangeListener(this._onChange);
   },
 
   render: function() {
-    console.log(this.state.event)
     return (
       <section>
         <div className='content'>
@@ -56,3 +53,5 @@ var Event = module.exports = React.createClass({
     );
   }
 });
+
+module.exports = Event;

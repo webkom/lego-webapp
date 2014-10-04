@@ -4,5 +4,8 @@
   "description": "Abakus",
   "main": "index.js",
   "author": "Hanse",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "flux": "^2.0.1"
+  }
 }

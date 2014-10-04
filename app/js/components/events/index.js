@@ -1,12 +1,42 @@
 /** @jsx React.DOM */
 
 var React = require('react');
+var EventStore = require('../../stores/EventStore');
+var EventService = require('../../services/EventService');
+
+function getState() {
+  return {
+    events: EventStore.getAllSorted()
+  }
+}
 
 var Events = module.exports = React.createClass({
+
+  getInitialState: function() {
+    return getState();
+  },
+
+  componentDidMount: function() {
+    EventStore.addChangeListener(this._onChange);
+    EventService.getAllEvents();
+  },
+
+  componentWillUnmount: function() {
+    EventStore.removeChangeListener(this._onChange);
+  },
+
+  _onChange: function() {
+    this.setState(getState());
+  },
+
   render: function() {
+    var events = this.state.events;
     return (
       <div className='content'>
-        <h2>Events For All</h2>
+        <h2>Events</h2>
+        {events.map(function(event) {
+          return <p key={event.id}>{event.name}</p>;
+        })}
       </div>
     );
   }

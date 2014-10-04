@@ -3,6 +3,14 @@ var merge = require('react/lib/merge');
 
 var CHANGE_EVENT = 'change';
 
+/**
+ * Generic Store
+ *
+ * This is the base store from which all other stores should inherit.
+ * It provides some common functionality for adding, removing and emiting
+ * change events.
+ */
+
 module.exports = {
   create: function(store) {
     return merge(EventEmitter.prototype, merge(store, {
@@ -10,12 +18,12 @@ module.exports = {
         this.emit(CHANGE_EVENT)
       },
 
-      addChangeListener: function(fn) {
-        this.on(CHANGE_EVENT, fn);
+      addChangeListener: function(callback) {
+        this.on(CHANGE_EVENT, callback);
       },
 
-      removeChangeListener: function(fn) {
-        this.removeListener(CHANGE_EVENT, fn);
+      removeChangeListener: function(callback) {
+        this.removeListener(CHANGE_EVENT, callback);
       }
     }));
   }

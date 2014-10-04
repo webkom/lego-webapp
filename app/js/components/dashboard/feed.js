@@ -3,6 +3,7 @@
 var React = require('react');
 var Link = require('react-router').Link;
 var EventStore = require('../../stores/EventStore');
+var EventService = require('../../services/EventService');
 var Time = require('../time');
 var Icon = require('../icon');
 
@@ -10,21 +11,22 @@ var Feed = module.exports = React.createClass({
 
   getInitialState: function() {
     return {
-      events: EventStore.all(),
+      events: EventStore.getAllSorted(),
       compressedMode: false
     };
   },
 
   update: function() {
-    this.setState({events: EventStore.all()});
+    this.setState({events: EventStore.getAllSorted()});
   },
 
   componentWillMount: function() {
-    EventStore.fetch();
+    //EventStore.fetch();
   },
 
   componentDidMount: function() {
     EventStore.addChangeListener(this.update);
+    EventService.getAllEvents();
   },
 
   componentWillUnmount: function() {

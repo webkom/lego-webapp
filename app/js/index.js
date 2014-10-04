@@ -16,15 +16,36 @@ var Icon = require('./components/icon');
 
 var App = React.createClass({
 
+  // getInitialState: function() {
+  //   return {
+  //     auth: AuthStore.getState()
+  //   };
+  // },
   getInitialState: function() {
     return {
       auth: false
     };
   },
-
-  login: function() {
-    this.setState({auth: true});
-  },
+  //
+  // componentWillMount: function() {
+  //   AuthStore.addChangeListener(this.update);
+  // },
+  //
+  // componentDidMount: function() {
+  //
+  // },
+  //
+  // componentWillUnmount: function() {
+  //   AuthStore.removeChangeListener(this.update);
+  // },
+  //
+  // login: function(username, password) {
+  //   AuthStore.login(username, password);
+  // },
+  //
+  // update: function() {
+  //   this.setState({auth: AuthStore.getState()});
+  // },
 
   render: function() {
     return (

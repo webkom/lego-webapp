@@ -15,3 +15,7 @@ Notification
 Job
 
 Maybe implement Interessegrupper as facebook-like groups.
+
+
+## Flux
+We utilize the Flux design pattern designed by Facebook.

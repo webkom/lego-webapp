@@ -1,31 +1,49 @@
-var request = require('superagent');
 var Store = require('./Store');
+var AppDispatcher = require('../AppDispatcher');
+var EventActionTypes = require('../Constants').EventActionTypes;
 
-var store = [];
-var isFetching = false;
+var _events = {};
 
-module.exports = Store.create({
-  fetch: function() {
-    if (isFetching) return;
-    isFetching = true;
-    request.get('http://api.abakus.dev/events').auth('admin', 'testtest').end(function(res) {
-      store = res.body;
-      isFetching = false;
-      this.emitChange();
-    }.bind(this));
-  },
-
-  all: function() {
-    return store;
-  },
-
-  where: function() {
-  },
-
-  find: function(id) {
-    for (var i = 0; i < store.length; i++) {
-      if (store[i].id === id) return store[i];
+function _addEvents(events) {
+  events.forEach(function(event) {
+    if (!_events[event.id]) {
+      _events[event.id] = event;
     }
-    return null;
+  });
+}
+
+var EventStore = Store.create({
+
+  get: function(id) {
+    return _events[id] || {};
   },
+
+  getAll: function() {
+    return _events;
+  },
+
+  getAllSorted: function() {
+    var sorted = [];
+    for (var id in _events) {
+      sorted.push(_events[id]);
+    }
+    return sorted;
+  }
 });
+
+EventStore.dispatchToken = AppDispatcher.register(function(payload) {
+  var action = payload.action;
+  switch (action.type) {
+    case EventActionTypes.RECEIVE_EVENTS:
+      _addEvents(action.events);
+      EventStore.emitChange();
+      break;
+
+    default:
+      console.log('Unknown Action Type')
+  }
+
+  return true; // crucial
+});
+
+module.exports = EventStore;
