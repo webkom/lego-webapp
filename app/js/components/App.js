@@ -3,6 +3,7 @@
 var React = require('react');
 var Link = require('react-router').Link;
 var LoginBox = require('./LoginBox');
+var SearchBox = require('./SearchBox');
 var Icon = require('./Icon');
 
 var UserStore = require('../stores/UserStore');
@@ -16,7 +17,7 @@ var App = React.createClass({
           <div className='content'>
             <ul>
               <li className='logo'><Link to="app">Abakus</Link></li>
-              <li className='search-box'><input className='search' placeholder='Søk' /></li>
+              <li className='search-box'><SearchBox /></li>
               <li className='partner-logo'><a href="http://bekk.no">Bekk</a></li>
               <li><LoginBox /></li>
             </ul>
