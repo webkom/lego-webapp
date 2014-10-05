@@ -5,20 +5,20 @@ var AuthMixin = {
 
   getInitialState: function() {
     return {
-      isLoggedIn: false,
-      userInfo: {}
+      isLoggedIn: UserStore.isLoggedIn(),
+      userInfo: UserStore.getUserInfo()
     };
   },
 
   componentDidMount: function() {
-    UserStore.addChangeListener(this._onChange);
+    UserStore.addChangeListener(this._onLoginChange);
   },
 
   componentWillUnmount: function() {
-    UserStore.removeChangeListener(this._onChange);
+    UserStore.removeChangeListener(this._onLoginChange);
   },
 
-  _onChange: function() {
+  _onLoginChange: function() {
     this.setState({
       isLoggedIn: UserStore.isLoggedIn(),
       userInfo: UserStore.getUserInfo(),

@@ -6,6 +6,8 @@ var RequireLogin = require('./RequireLogin');
 var EventStore = require('../stores/EventStore');
 var EventService = require('../services/EventService');
 
+var AuthMixin = require('./AuthMixin');
+
 function getState(eventId) {
   return {
     event: EventStore.get(eventId|0)
@@ -13,6 +15,8 @@ function getState(eventId) {
 }
 
 var EventPage = React.createClass({
+
+  mixins: [AuthMixin],
 
   getInitialState: function() {
     return getState(this.props.params.eventId);
@@ -33,6 +37,7 @@ var EventPage = React.createClass({
 
   render: function() {
     var event = this.state.event;
+    console.log(this.state)
     return (
       <section>
         <div className='content'>
@@ -47,7 +52,7 @@ var EventPage = React.createClass({
             })}
           </div>
 
-          <RequireLogin>
+          <RequireLogin loggedIn={this.state.isLoggedIn}>
             <h3>Bli med på dette arrangementet</h3>
             <form className='event-participate'>
               <textarea placeholder="Melding til arrangører" />

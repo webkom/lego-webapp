@@ -27,6 +27,7 @@ UserStore.dispatchToken = AppDispatcher.register(function(payload) {
     case UserActionTypes.RECEIVE_USER_INFO:
       _user = action.userInfo;
       _isLoggedIn = true;
+      _loginFailed = false;
       UserStore.emitChange();
       break;
 

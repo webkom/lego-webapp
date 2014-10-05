@@ -1,12 +1,16 @@
 /** @jsx React.DOM */
 var React = require('react');
-var AuthMixin = require('./AuthMixin');
 
 var RequireLogin = React.createClass({
-  mixins: [AuthMixin],
+
+  getDefaultProps: function() {
+    return {
+      loggedIn: false
+    };
+  },
 
   render: function() {
-    if (!this.state.isLoggedIn) return <div></div>;
+    if (!this.props.loggedIn) return <div>Login to see this</div>;
     return <div>{this.props.children}</div>;
   }
 })
