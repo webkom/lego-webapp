@@ -18,5 +18,11 @@ module.exports = {
   EventActionTypes: {
     RECEIVE_EVENTS: 'RECEIVE_EVENTS',
     CLICK_JOIN: 'CLICK_JOIN',
+  },
+
+  SearchActionTypes: {
+    SEARCH: 'SEARCH',
+    CLEAR_SEARCH: 'CLEAR_SEARCH',
+    RECEIVE_SEARCH_RESULTS: 'RECEIVE_SEARCH_RESULTS'
   }
 };
