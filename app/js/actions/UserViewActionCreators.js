@@ -12,5 +12,11 @@ module.exports = {
     });
 
     UserService.login(username, password);
+  },
+
+  logout: function() {
+    AppDispatcher.handleViewAction({
+      type: UserActionTypes.LOGOUT
+    });
   }
 };

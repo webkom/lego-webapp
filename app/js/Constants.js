@@ -10,6 +10,7 @@ module.exports = {
 
   UserActionTypes: {
     LOGIN: 'LOGIN',
+    LOGOUT: 'LOGOUT',
     FAILED_LOGIN: 'FAILED_LOGIN',
     RECEIVE_USER_INFO: 'RECEIVE_USER_INFO'
   },

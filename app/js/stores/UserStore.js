@@ -16,6 +16,12 @@ var UserStore = Store.create({
     return _isLoggedIn;
   },
 
+  destroy: function() {
+    _user = {};
+    _isLoggedIn = false;
+    _loginFailed = false;
+  },
+
   didLoginFail: function() {
     return _loginFailed;
   }
@@ -38,6 +44,11 @@ UserStore.dispatchToken = AppDispatcher.register(function(payload) {
 
     case UserActionTypes.LOGIN:
       _loginFailed = false;
+      UserStore.emitChange();
+      break;
+
+    case UserActionTypes.LOGOUT:
+      UserStore.destroy();
       UserStore.emitChange();
       break;
   }
