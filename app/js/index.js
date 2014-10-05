@@ -11,15 +11,16 @@ var App = require('./components/App');
 var FrontPage = require('./components/FrontPage');
 var EventCalendarPage = require('./components/EventCalendarPage');
 var EventPage = require('./components/EventPage');
+var ContactPage = require('./components/ContactPage');
 var NotFoundPage = require('./components/NotFoundPage');
 
 React.renderComponent((
   <Routes location="history">
-    <Route name="app" path="/" handler={App}>
-      <Route name="events" handler={EventCalendarPage}>
-      </Route>
+    <Route handler={App}>
+      <Route name="events" handler={EventCalendarPage} />
       <Route name="event" path="/events/:eventId" handler={EventPage} />
-      <DefaultRoute handler={FrontPage} />
+      <Route name="contact" handler={ContactPage} />
+      <DefaultRoute name="overview" handler={FrontPage} />
     </Route>
     <NotFoundRoute handler={NotFoundPage}/>
   </Routes>

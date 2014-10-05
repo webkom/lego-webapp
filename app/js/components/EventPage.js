@@ -42,7 +42,7 @@ var EventPage = React.createClass({
     return (
       <section>
         <LoadingIndicator loading={Object.keys(event).length === 0}>
-        <div className='content'>
+        <div className='content event-page'>
           <h2>{event.name}</h2>
           <article>
             {event.description}
