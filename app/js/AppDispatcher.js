@@ -14,7 +14,7 @@ module.exports = copyProperties(new Dispatcher(), {
    * the action's type and additional data coming from the server.
    */
   handleServerAction: function(action) {
-    console.log('Handled Server Action', action)
+    console.log('Server Action: ', action)
     this.dispatch({
       source: 'SERVER_ACTION',
       action: action
@@ -26,7 +26,7 @@ module.exports = copyProperties(new Dispatcher(), {
    * the action's type and additional data coming from the view.
    */
   handleViewAction: function(action) {
-    console.log('Handled View Action', action)
+    console.log('View Action: ', action)
     this.dispatch({
       source: 'VIEW_ACTION',
       action: action

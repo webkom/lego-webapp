@@ -2,6 +2,7 @@
 
 var React = require('react');
 var RequireLogin = require('./RequireLogin');
+var LoadingIndicator = require('./LoadingIndicator');
 
 var EventStore = require('../stores/EventStore');
 var EventService = require('../services/EventService');
@@ -40,6 +41,7 @@ var EventPage = React.createClass({
     console.log(this.state)
     return (
       <section>
+        <LoadingIndicator loading={Object.keys(event).length === 0}>
         <div className='content'>
           <h2>{event.name}</h2>
           <article>
@@ -62,6 +64,7 @@ var EventPage = React.createClass({
             </form>
           </RequireLogin>
         </div>
+        </LoadingIndicator>
       </section>
     );
   }

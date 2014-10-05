@@ -13,7 +13,7 @@ var LoadingIndicator = React.createClass({
   render: function() {
     if (this.props.loading) {
       return (
-        <div className={'spinner'}>
+        <div className='spinner'>
           <div className='double-bounce1'></div>
           <div className='double-bounce2'></div>
         </div>
