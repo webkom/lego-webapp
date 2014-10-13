@@ -43,7 +43,7 @@ BUILD_JS   = public/app.js
 # See https://github.com/substack/node-browserify/wiki/list-of-transforms
 #
 
-TRANSFORMS = -t reactify
+TRANSFORMS = -t [ reactify --harmony ]
 
 #
 # Default task
