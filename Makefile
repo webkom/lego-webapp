@@ -8,6 +8,7 @@ UGLIFY     = node_modules/.bin/uglifyjs
 BROWSERIFY = node_modules/.bin/browserify
 WATCHIFY   = node_modules/.bin/watchify
 JEST       = node_modules/.bin/jest
+LINT       = node_modules/.bin/jsxhint
 NIB        = node_modules/nib/lib
 
 #
@@ -94,6 +95,13 @@ watchify:
 
 watch-css: public/app.css
 	@true
+
+#
+#
+#
+
+lint:
+	$(LINT) app/js/* --verbose
 
 #
 #
