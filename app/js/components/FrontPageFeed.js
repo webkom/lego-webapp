@@ -11,7 +11,7 @@ var LoadingIndicator = require('./LoadingIndicator');
 function getState() {
   return {
     events: EventStore.getAllSorted(),
-  }
+  };
 }
 
 var FrontPageFeed = React.createClass({

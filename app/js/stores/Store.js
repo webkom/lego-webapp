@@ -15,7 +15,7 @@ module.exports = {
   create: function(store) {
     return merge(EventEmitter.prototype, merge(store, {
       emitChange: function() {
-        this.emit(CHANGE_EVENT)
+        this.emit(CHANGE_EVENT);
       },
 
       addChangeListener: function(callback) {
@@ -24,7 +24,7 @@ module.exports = {
 
       removeChangeListener: function(callback) {
         this.removeListener(CHANGE_EVENT, callback);
-      }
+      },
     }));
   }
-}
+};

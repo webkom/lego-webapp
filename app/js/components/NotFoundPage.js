@@ -7,6 +7,6 @@ var NotFoundPage = React.createClass({
       <h1>Not Found</h1>
     );
   }
-})
+});
 
 module.exports = NotFoundPage;

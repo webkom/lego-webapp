@@ -38,7 +38,6 @@ var EventPage = React.createClass({
 
   render: function() {
     var event = this.state.event;
-    console.log(this.state)
     return (
       <section>
         <LoadingIndicator loading={Object.keys(event).length === 0}>

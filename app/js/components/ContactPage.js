@@ -11,6 +11,6 @@ var ContactPage = React.createClass({
       </section>
     );
   }
-})
+});
 
 module.exports = ContactPage;

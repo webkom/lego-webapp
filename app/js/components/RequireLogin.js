@@ -13,6 +13,6 @@ var RequireLogin = React.createClass({
     if (!this.props.loggedIn) return <div>Login to see this</div>;
     return <div>{this.props.children}</div>;
   }
-})
+});
 
 module.exports = RequireLogin;

@@ -7,7 +7,7 @@ var EventService = require('../services/EventService');
 function getState() {
   return {
     events: EventStore.getAllSorted()
-  }
+  };
 }
 
 var EventCalendarPage = React.createClass({
