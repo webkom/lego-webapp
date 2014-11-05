@@ -16,19 +16,19 @@ var App = React.createClass({
         <header>
           <div className='content'>
             <ul>
-              <li className='logo'><Link to="overview">Abakus</Link></li>
+              <li className='logo'><Link to='overview'>Abakus</Link></li>
               <li className='search-box'><SearchBox /></li>
-              <li className='partner-logo'><a href="http://bekk.no">Bekk</a></li>
+              <li className='partner-logo'><a href='http://bekk.no'>Bekk</a></li>
               <li><LoginBox /></li>
             </ul>
           </div>
         </header>
         <nav>
           <ul className='content'>
-            <li><Link to="overview">Oversikt</Link></li>
-            <li><Link to="events">Arrangementer</Link></li>
-            <li><Link to="events">Om Abakus</Link></li>
-            <li><Link to="contact">Kontakt</Link></li>
+            <li><Link to='overview'>Oversikt</Link></li>
+            <li><Link to='events'>Arrangementer</Link></li>
+            <li><Link to='events'>Om Abakus</Link></li>
+            <li><Link to='contact'>Kontakt</Link></li>
             <li><a><Icon name='bars' />Mer</a></li>
           </ul>
         </nav>

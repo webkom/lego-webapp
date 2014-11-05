@@ -56,7 +56,7 @@ var EventPage = React.createClass({
           <RequireLogin loggedIn={this.state.isLoggedIn}>
             <h3>Bli med på dette arrangementet</h3>
             <form className='event-participate'>
-              <textarea placeholder="Melding til arrangører" />
+              <textarea placeholder='Melding til arrangører' />
               <button type='submit'>Bli med</button>
 
               <p>Påmeldingen stenger {event.registration_ends_at}</p>
