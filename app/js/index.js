@@ -14,7 +14,7 @@ var EventPage = require('./components/EventPage');
 var ContactPage = require('./components/ContactPage');
 var NotFoundPage = require('./components/NotFoundPage');
 
-React.renderComponent((
+React.render((
   <Routes location="history">
     <Route handler={App}>
       <Route name="events" handler={EventCalendarPage} />

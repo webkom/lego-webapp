@@ -14,9 +14,9 @@
     "jsxhint": "^0.4.15",
     "moment": "^2.8.3",
     "nib": "^1.0.4",
-    "react": "^0.11.2",
-    "react-router": "^0.8.0",
-    "reactify": "^0.14.0",
+    "react": "^0.12.0",
+    "react-router": "^0.10.2",
+    "reactify": "^0.15.2",
     "stylus": "^0.49.1",
     "superagent": "^0.20.0",
     "watchify": "^1.0.6"

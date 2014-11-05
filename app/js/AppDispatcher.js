@@ -1,5 +1,5 @@
 var Dispatcher = require('flux').Dispatcher;
-var copyProperties = require('react/lib/copyProperties');
+var assign = require('object-assign');
 
 /**
  * The Application Dispatcher
@@ -7,7 +7,7 @@ var copyProperties = require('react/lib/copyProperties');
  * See Flux App Dispatchers for more info.
  */
 
-module.exports = copyProperties(new Dispatcher(), {
+module.exports = assign(new Dispatcher(), {
 
   /**
    * @param {object} action The details of the action including

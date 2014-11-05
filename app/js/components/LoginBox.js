@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 var React = require('react/addons');
 var UserViewActionCreators = require('../actions/UserViewActionCreators');

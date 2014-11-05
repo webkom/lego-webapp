@@ -1,5 +1,5 @@
 var EventEmitter = require('events').EventEmitter;
-var merge = require('react/lib/merge');
+var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
@@ -13,7 +13,7 @@ var CHANGE_EVENT = 'change';
 
 module.exports = {
   create: function(store) {
-    return merge(EventEmitter.prototype, merge(store, {
+    return assign(EventEmitter.prototype, store, {
       emitChange: function() {
         this.emit(CHANGE_EVENT);
       },
@@ -25,6 +25,6 @@ module.exports = {
       removeChangeListener: function(callback) {
         this.removeListener(CHANGE_EVENT, callback);
       },
-    }));
+    });
   }
 };

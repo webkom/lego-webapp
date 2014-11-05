@@ -1,4 +1,3 @@
-/** @jsx React.DOM */
 
 var React = require('react');
 var SearchViewActionCreators = require('../actions/SearchViewActionCreators');
