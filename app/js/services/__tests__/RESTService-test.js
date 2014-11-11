@@ -1,14 +1,15 @@
-jest.dontMock('../RESTService');
+// jest.dontMock('../RESTService');
+// jest.dontMock('superagent');
 
-describe('RESTService', function() {
+// describe('RESTService', function() {
 
-  var RESTService;
+//   var RESTService;
 
-  beforeEach(function() {
-    RESTService = require('../RESTService');
-  });
+//   beforeEach(function() {
+//     RESTService = require('../RESTService');
+//   });
 
-  it('should encapsulate superagent', function() {
-    expect(1+1).toBe(2);
-  });
-});
+//   it('should encapsulate superagent', function() {
+//     expect(1 + 1).toBe(2);
+//   });
+// });

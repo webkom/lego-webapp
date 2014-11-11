@@ -1,7 +1,11 @@
 
 var React = require('react');
 
-var Icon = module.exports = React.createClass({
+/**
+ * Render a Font-Awesome icon.
+ */
+
+var Icon = React.createClass({
 
   propTypes: {
     name: React.PropTypes.string,
@@ -18,3 +22,5 @@ var Icon = module.exports = React.createClass({
   },
 
 });
+
+module.exports = Icon;

@@ -13,7 +13,7 @@ var CHANGE_EVENT = 'change';
 
 module.exports = {
   create: function(store) {
-    return assign(EventEmitter.prototype, store, {
+    return assign({}, EventEmitter.prototype, {
       emitChange: function() {
         this.emit(CHANGE_EVENT);
       },
@@ -25,6 +25,6 @@ module.exports = {
       removeChangeListener: function(callback) {
         this.removeListener(CHANGE_EVENT, callback);
       },
-    });
+    }, store);
   }
 };
