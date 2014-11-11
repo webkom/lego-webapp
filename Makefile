@@ -22,15 +22,15 @@ PORT ?= 3000
 # The main CSS and JS files
 #
 
-CSS_MAIN   = app/css/style.styl
-JS_MAIN    = app/js/index.js
+CSS_MAIN   = assets/stylesheets/style.styl
+JS_MAIN    = src/index.js
 
 #
 # All CSS and JS files (used for file watching)
 #
 
-CSS        = $(shell find app/css -name "*.styl")
-JS         = $(shell find app/js -name "*.js")
+CSS        = $(shell find assets/stylesheets -name "*.styl")
+JS         = $(shell find src -name "*.js")
 
 #
 # Compiled CSS and JS Files
@@ -58,7 +58,7 @@ node_modules: package.json
 	@npm install
 
 test:
-	$(JEST)
+	$(JEST) src/
 
 #
 # Build CSS files
@@ -66,9 +66,9 @@ test:
 
 $(BUILD_CSS): $(CSS)
 ifneq ($(NODE_ENV), development)
-	$(STYLUS) --include $(NIB) --compress < $(CSS_MAIN) > $(BUILD_CSS)
+	$(STYLUS) --include $(NIB) --include assets/stylesheets --include-css --compress < $(CSS_MAIN) > $(BUILD_CSS)
 else
-	$(STYLUS) --include $(NIB) --include app/css --include-css < $(CSS_MAIN) > $(BUILD_CSS)
+	$(STYLUS) --include $(NIB) --include assets/stylesheets --include-css < $(CSS_MAIN) > $(BUILD_CSS)
 endif
 
 #

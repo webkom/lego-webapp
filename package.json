@@ -5,6 +5,10 @@
   "main": "index.js",
   "author": "webkom",
   "license": "MIT",
+  "scripts": {
+    "test": "make test",
+    "build": "make"
+  },
   "devDependencies": {
     "browserify": "^6.0.2",
     "express": "^4.9.5",
@@ -19,9 +23,7 @@
     "reactify": "^0.15.2",
     "stylus": "^0.49.1",
     "superagent": "^0.20.0",
-    "watchify": "^1.0.6"
-  },
-  "dependencies": {
+    "watchify": "^1.0.6",
     "debounce": "^1.0.0"
   }
 }
