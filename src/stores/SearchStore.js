@@ -5,10 +5,15 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var SearchActionTypes = require('../Constants').SearchActionTypes;
 
 var _results = [];
+var _closed = true;
 
 var SearchStore = Store.create({
   getResults: function() {
     return _results;
+  },
+
+  isClosed: function() {
+    return _closed;
   }
 });
 
@@ -25,11 +30,13 @@ SearchStore.dispatchToken = AppDispatcher.register(function(payload) {
   switch (action.type) {
     case SearchActionTypes.SEARCH:
       _results = generateDummyResults();
+      _closed = false;
       SearchStore.emitChange();
       break;
 
     case SearchActionTypes.CLEAR_SEARCH:
       _results = [];
+      _closed = true;
       SearchStore.emitChange();
       break;
 

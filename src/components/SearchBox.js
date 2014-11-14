@@ -14,21 +14,25 @@ var SearchBox = React.createClass({
   getInitialState: function() {
     return {
       results: SearchStore.getResults(),
+      closed: SearchStore.isClosed(),
       query: ''
     };
   },
 
   componentDidMount: function() {
     SearchStore.addChangeListener(this._onChange);
+    window.addEventListener('keydown', this._closeOnEscape);
   },
 
   componentWillUnmount: function() {
     SearchStore.removeChangeListener(this._onChange);
+    window.removeEventListener('keydown', this._closeOnEscape);
   },
 
   _onChange: function() {
     this.setState({
-      results: SearchStore.getResults()
+      results: SearchStore.getResults(),
+      closed: SearchStore.isClosed()
     });
   },
 
@@ -45,8 +49,7 @@ var SearchBox = React.createClass({
   _onKeyDown: function(e) {
     switch (e.keyCode) {
       case ESCAPE_KEY:
-        this.setState({query: ''});
-        SearchViewActionCreators.clear();
+        this.close();
         break;
 
       case UP_KEY:
@@ -54,6 +57,16 @@ var SearchBox = React.createClass({
         e.preventDefault();
         break;
     }
+  },
+
+  _closeOnEscape: function(e) {
+    if (this.state.closed) return;
+    (e.keyCode === ESCAPE_KEY) && this.close();
+  },
+
+  close: function() {
+    this.setState({query: ''});
+    SearchViewActionCreators.clear();
   },
 
   render: function() {
