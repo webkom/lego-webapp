@@ -9,19 +9,16 @@ $ brew install forego
 $ make watch
 ```
 
-In order for `make watch` to work, you must have [foreman](), [forego]() or similar installed.
-
-## Thoughts
-FriendActivity
-Event
-Article
-Notification
-Job
-
-Maybe implement Interessegrupper as facebook-like groups.
+In order for `make watch` to work, you must have [foreman](https://github.com/ddollar/foreman), [forego](https://github.com/ddollar/forego) or similar installed.
 
 ## Flux
-We utilize the Flux design pattern designed by Facebook.
+
+## ES6
+Harmony, go!
+
+## Roadmap
+
+## Coding Standards
 
 ## License
 ABA

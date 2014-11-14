@@ -24,6 +24,7 @@
     "stylus": "^0.49.1",
     "superagent": "^0.20.0",
     "watchify": "^1.0.6",
-    "debounce": "^1.0.0"
+    "debounce": "^1.0.0",
+    "object-assign": "^1.0.0"
   }
 }
