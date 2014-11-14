@@ -1,6 +1,7 @@
+'use strict';
 
 var React = require('react');
-var Link = require('react-router').Link;
+var {Link} = require('react-router');
 var LoginBox = require('./LoginBox');
 var SearchBox = require('./SearchBox');
 var Icon = require('./Icon');

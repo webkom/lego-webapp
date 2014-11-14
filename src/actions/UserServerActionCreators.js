@@ -1,3 +1,5 @@
+'use strict';
+
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var UserActionTypes = require('../Constants').UserActionTypes;
 var UserService = require('../services/UserService');

@@ -1,3 +1,5 @@
+'use strict';
+
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var SearchActionTypes = require('../Constants').SearchActionTypes;
 

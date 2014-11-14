@@ -1,3 +1,5 @@
+'use strict';
+
 var request = require('superagent');
 var EventActionCreators = require('../actions/EventServerActionCreators');
 var RESTService = require('./RESTService');

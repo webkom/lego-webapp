@@ -1,13 +1,13 @@
+'use strict';
 
 var React = require('react');
+var debounce = require('debounce');
 var SearchViewActionCreators = require('../actions/SearchViewActionCreators');
 var SearchStore = require('../stores/SearchStore');
 
 var ESCAPE_KEY = 27;
 var UP_KEY = 38;
 var DOWN_KEY = 40;
-
-var debounce = require('debounce');
 
 var SearchBox = React.createClass({
 

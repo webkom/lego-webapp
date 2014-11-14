@@ -1,12 +1,12 @@
-/**
- * This file holds all the constants that are used in a Flux app
- *
- * Conventions:
- *   RECEIVE_* Something is coming from the server (server action)
- *   CLICK_* Something is clicked (view action)
- */
+'use strict';
 
-module.exports = {
+/**
+ * All action types should be defined in this file
+ * and referenced in the ActionCreators.
+ *
+ * Server actions should typically be prefixed with RECEIVE_
+ */
+var Constants = {
 
   UserActionTypes: {
     LOGIN: 'LOGIN',
@@ -26,3 +26,5 @@ module.exports = {
     RECEIVE_SEARCH_RESULTS: 'RECEIVE_SEARCH_RESULTS'
   }
 };
+
+module.exports = Constants;

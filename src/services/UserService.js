@@ -1,3 +1,4 @@
+'use strict';
 
 var request = require('superagent');
 var UserServerActionCreators = require('../actions/UserServerActionCreators');
