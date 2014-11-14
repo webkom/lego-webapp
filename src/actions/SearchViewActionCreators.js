@@ -1,4 +1,4 @@
-var AppDispatcher = require('../AppDispatcher');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
 var SearchActionTypes = require('../Constants').SearchActionTypes;
 
 module.exports = {

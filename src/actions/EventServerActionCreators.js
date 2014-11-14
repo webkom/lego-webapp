@@ -1,4 +1,4 @@
-var AppDispatcher = require('../AppDispatcher');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventActionTypes = require('../Constants').EventActionTypes;
 
 module.exports = {

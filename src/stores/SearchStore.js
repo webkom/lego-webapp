@@ -1,5 +1,5 @@
 var Store = require('./Store');
-var AppDispatcher = require('../AppDispatcher');
+var AppDispatcher = require('../dispatcher/AppDispatcher');
 var SearchActionTypes = require('../Constants').SearchActionTypes;
 
 var _results = [];
