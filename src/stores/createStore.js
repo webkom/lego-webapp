@@ -12,9 +12,9 @@ var CHANGE_EVENT = 'change';
  * @param Function dispatchCallback
  */
 function createStore(methods, dispatchCallback) {
-	var store = assign({}, EventEmitter.prototype, {
+  var store = assign({}, EventEmitter.prototype, {
 
-	  emitChange() {
+    emitChange() {
       this.emit(CHANGE_EVENT);
     },
 
@@ -26,10 +26,10 @@ function createStore(methods, dispatchCallback) {
       this.removeListener(CHANGE_EVENT, callback);
     }
 
-	}, methods);
+  }, methods);
 
-	store.dispatchToken = AppDispatcher.register(dispatchCallback);
-	return store;
+  store.dispatchToken = AppDispatcher.register(dispatchCallback);
+  return store;
 }
 
 module.exports = createStore;
