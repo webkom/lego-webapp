@@ -101,7 +101,7 @@ watch-css: public/app.css
 #
 
 lint:
-	$(LINT) app/js/* --verbose
+	$(LINT) src/* --verbose
 
 #
 #

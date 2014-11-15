@@ -1,21 +1,10 @@
 'use strict';
 
-var Store = require('./Store');
-var AppDispatcher = require('../dispatcher/AppDispatcher');
+var createStore = require('./createStore');
 var SearchActionTypes = require('../Constants').SearchActionTypes;
 
 var _results = [];
 var _closed = true;
-
-var SearchStore = Store.create({
-  getResults: function() {
-    return _results;
-  },
-
-  isClosed: function() {
-    return _closed;
-  }
-});
 
 var db = ["Bekk", "Itera", "Iterate", "Knowit", "Visma", "BearingPoint"];
 function generateDummyResults() {
@@ -25,7 +14,17 @@ function generateDummyResults() {
   return results;
 }
 
-SearchStore.dispatchToken = AppDispatcher.register(function(payload) {
+var SearchStore = createStore({
+
+  getResults() {
+    return _results;
+  },
+
+  isClosed() {
+    return _closed;
+  }
+
+}, function(payload) {
   var action = payload.action;
   switch (action.type) {
     case SearchActionTypes.SEARCH:

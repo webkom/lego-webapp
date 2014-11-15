@@ -1,7 +1,6 @@
 'use strict';
 
-var Store = require('./Store');
-var AppDispatcher = require('../dispatcher/AppDispatcher');
+var createStore = require('./createStore');
 var EventActionTypes = require('../Constants').EventActionTypes;
 
 var _events = {};
@@ -14,17 +13,17 @@ function _addEvents(events) {
   });
 }
 
-var EventStore = Store.create({
+var EventStore = createStore({
 
-  get: function(id) {
+  get(id) {
     return _events[id] || {};
   },
 
-  getAll: function() {
+  getAll() {
     return _events;
   },
 
-  getAllSorted: function() {
+  getAllSorted() {
     var sorted = [];
     for (var id in _events) {
       sorted.push(_events[id]);
@@ -32,12 +31,12 @@ var EventStore = Store.create({
     return sorted;
   },
 
-  isEmpty: function() {
+  isEmpty() {
     return Object.keys(_events).length === 0;
   }
-});
 
-EventStore.dispatchToken = AppDispatcher.register(function(payload) {
+}, function(payload) {
+
   var action = payload.action;
   switch (action.type) {
     case EventActionTypes.RECEIVE_EVENTS:

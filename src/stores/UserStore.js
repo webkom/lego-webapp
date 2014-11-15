@@ -1,35 +1,33 @@
 'use strict';
 
-var Store = require('./Store');
-var AppDispatcher = require('../dispatcher/AppDispatcher');
+var createStore = require('./createStore');
 var UserActionTypes = require('../Constants').UserActionTypes;
 
 var _user = {};
 var _isLoggedIn = false;
 var _loginFailed = false;
 
-var UserStore = Store.create({
+var UserStore = createStore({
 
-  getUserInfo: function() {
+  getUserInfo() {
     return _user;
   },
 
-  isLoggedIn: function() {
+  isLoggedIn() {
     return _isLoggedIn;
   },
 
-  destroy: function() {
+  destroy() {
     _user = {};
     _isLoggedIn = false;
     _loginFailed = false;
   },
 
-  didLoginFail: function() {
+  didLoginFail() {
     return _loginFailed;
   }
-});
-
-UserStore.dispatchToken = AppDispatcher.register(function(payload) {
+  
+}, function(payload) {
   var action = payload.action;
   switch (action.type) {
     case UserActionTypes.RECEIVE_USER_INFO:
