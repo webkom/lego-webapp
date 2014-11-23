@@ -4,6 +4,7 @@ var React = require('react');
 var Feed = require('./FrontPageFeed');
 var Icon = require('./icon');
 var SidebarBlock = require('./SidebarBlock');
+var FrontPageCarousel = require('./FrontPageCarousel');
 
 /**
  * Frontpage Component
@@ -19,7 +20,7 @@ var FrontPage = React.createClass({
   render: function() {
     return (
       <section>
-        <div className='content'>
+        <div className='content frontpage'>
           <div className='sidebar'>
             <SidebarBlock title="Mine arrangementer">
               <ul>
@@ -42,6 +43,7 @@ var FrontPage = React.createClass({
             </SidebarBlock>
           </div>
           <div className='feed-container'>
+            <FrontPageCarousel />
             <Feed />
           </div>
         </div>
