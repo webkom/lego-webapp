@@ -1,19 +1,26 @@
 nav
-  height 50px
-  line-height @height
-  background #ddd
+  width 100%
+  height 85px
+  background #2c353a
 
   ul li
+    padding 20px
     float left
 
     a
+      text-align center
+      color #848e92
       display block
       padding 0 30px
-      text-transform uppercase
       font-weight 700
 
-      &:hover, &.active
-        background $backgroundcolor
+      span
+        display block
 
-      i
-        margin-right 4px
+      &:hover, &.active
+        color #fff
+        text-decoration none
+
+    &:hover, &.active
+      cursor pointer
+      background #222b2f
