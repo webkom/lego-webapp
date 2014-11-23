@@ -3,15 +3,25 @@ nav
   height 85px
   background #2c353a
 
-  ul li
-    padding 20px
+  ul
+    display table
+    table-layout fixed
+    width 100%
+
+  li
+    &:first-child
+      padding-left 20px
+
+    display table-cell
     float left
+    height @height
 
     a
+      display table-cell
+      vertical-align middle
       text-align center
       color #848e92
-      display block
-      padding 0 30px
+      padding 10px 30px
       font-weight 700
 
       span

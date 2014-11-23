@@ -29,7 +29,6 @@ var App = React.createClass({
             <li><Link to='events'><Icon name='calendar' /> Arrangementer</Link></li>
             <li><Link to='events'><Icon name='info' /> Om Abakus</Link></li>
             <li><Link to='contact'><Icon name='phone' /> Kontakt</Link></li>
-            <li><a><Icon name='bars' /> Mer</a></li>
           </ul>
         </nav>
 
