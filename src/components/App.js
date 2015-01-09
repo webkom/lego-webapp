@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react');
-var {Link} = require('react-router');
+var {RouteHandler, Link} = require('react-router');
 var LoginBox = require('./LoginBox');
 var SearchBox = require('./SearchBox');
 var Icon = require('./Icon');
@@ -33,7 +33,7 @@ var App = React.createClass({
           </ul>
         </nav>
 
-        <this.props.activeRouteHandler />
+        <RouteHandler />
 
         <footer>
           <p>Abakus er best</p>

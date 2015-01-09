@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+var Router = require('react-router');
 var RequireLogin = require('./RequireLogin');
 var LoadingIndicator = require('./LoadingIndicator');
 
@@ -17,14 +18,14 @@ function getState(eventId) {
 
 var EventPage = React.createClass({
 
-  mixins: [AuthMixin],
+  mixins: [AuthMixin, Router.State],
 
   getInitialState: function() {
-    return getState(this.props.params.eventId);
+    return getState(this.getParams().eventId);
   },
 
   _onChange: function() {
-    this.setState(getState(this.props.params.eventId));
+    this.setState(getState(this.getParams().eventId));
   },
 
   componentDidMount: function() {
