@@ -1,0 +1,3 @@
+tasks:
+ - make install
+ - make test
