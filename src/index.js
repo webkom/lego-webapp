@@ -1,11 +1,8 @@
 'use strict';
 
 var React = require('react');
-var ReactRouter = require('react-router');
-var Routes = ReactRouter.Routes;
-var Route = ReactRouter.Route;
-var DefaultRoute = ReactRouter.DefaultRoute;
-var NotFoundRoute = ReactRouter.NotFoundRoute;
+var Router = require('react-router');
+var {Routes, Route, DefaultRoute, NotFoundRoute} = Router;
 
 var App = require('./components/App');
 var FrontPage = require('./components/FrontPage');
@@ -14,14 +11,22 @@ var EventPage = require('./components/EventPage');
 var ContactPage = require('./components/ContactPage');
 var NotFoundPage = require('./components/NotFoundPage');
 
-React.render((
-  <Routes location="history">
-    <Route handler={App}>
-      <Route name="events" handler={EventCalendarPage} />
-      <Route name="event" path="/events/:eventId" handler={EventPage} />
-      <Route name="contact" handler={ContactPage} />
-      <DefaultRoute name="overview" handler={FrontPage} />
-    </Route>
-    <NotFoundRoute handler={NotFoundPage}/>
-  </Routes>
-), document.getElementById('app'));
+var routes = (
+  <Route handler={App}>
+    <Route name="events" handler={EventCalendarPage} />
+    <Route name="event" path="/events/:eventId" handler={EventPage} />
+    <Route name="contact" handler={ContactPage} />
+    <DefaultRoute name="overview" handler={FrontPage} />
+    <NotFoundRoute handler={NotFoundPage} />
+  </Route>
+);
+
+Router.run(routes, Router.HistoryLocation, function(Handler, state) {
+  React.render(
+    <Handler params={state.params} query={state.query} />,
+    document.getElementById('app')
+  );
+});
+
+
+
