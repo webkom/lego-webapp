@@ -38,19 +38,31 @@ var FrontPageFeed = React.createClass({
     return (
       <LoadingIndicator loading={events.length === 0}>
         <div>
-          <h2>Aktiviteter denne uken</h2>
-          <div>
+          <div className='feed-events'>
           {events.slice(0, 4).map(function(event) {
             return (
               <Link to='event' params={{eventId: event.id}} key={event.id}>
-                <div className={'feed-event-box ' + event.type}>
-                  <div className='feed-event-image'><img src="http://lorempixel.com/200/200" /></div>
-                  <div className='feed-event-description'>
+                <div className='feed-event-box'>
+                  <div className='feed-event-image'>
+                    <img className='event-banner' src='http://lorempixel.com/500/200' />
+                    <img className='event-avatar' src='http://lorempixel.com/200/200' />
                     <h3>{event.name}</h3>
-                    {event.description.slice(0, 140)}
+                  </div>
+                  <div className={'feed-event-description ' + event.type}>
                     <p className='event-time-location'>
-                      <Icon name='clock-o' /> <Time time={event.starts_at} format='MMMM Do YYYY, HH:mm' /> @ H3
+                      <span className='event-time'>
+                        <Icon name='clock-o' /> <Time time={event.starts_at} format='DD/MM, HH:mm' />
+                      </span>
+                      <span className='event-location'>
+                        <Icon name='map-marker' /> H3
+                      </span>
                     </p>
+                    <p className='event-description-text'>
+                      {event.description.slice(0, 140)}
+                    </p>
+                    <div className='event-bottom'>
+                      Bedriftspresentasjon
+                    </div>
                   </div>
                 </div>
               </Link>

@@ -25,11 +25,10 @@ var App = React.createClass({
         </header>
         <nav>
           <ul className='content'>
-            <li><Link to='overview'>Oversikt</Link></li>
-            <li><Link to='events'>Arrangementer</Link></li>
-            <li><Link to='events'>Om Abakus</Link></li>
-            <li><Link to='contact'>Kontakt</Link></li>
-            <li><a><Icon name='bars' />Mer</a></li>
+            <li><Link to='overview'><Icon name='home' /> Oversikt</Link></li>
+            <li><Link to='events'><Icon name='calendar' /> Arrangementer</Link></li>
+            <li><Link to='events'><Icon name='info' /> Om Abakus</Link></li>
+            <li><Link to='contact'><Icon name='phone' /> Kontakt</Link></li>
           </ul>
         </nav>
 
