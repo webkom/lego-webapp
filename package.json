@@ -30,5 +30,8 @@
     "watchify": "^2.2.1",
     "debounce": "^1.0.0",
     "object-assign": "^2.0.0"
+  },
+  "dependencies": {
+    "node-jsx": "^0.12.4"
   }
 }
