@@ -2,7 +2,7 @@
 
 var React = require('react');
 var debounce = require('debounce');
-var SearchViewActionCreators = require('../actions/SearchViewActionCreators');
+var SearchActionCreators = require('../actions/SearchActionCreators');
 var SearchStore = require('../stores/SearchStore');
 
 var ESCAPE_KEY = 27;
@@ -43,7 +43,7 @@ var SearchBox = React.createClass({
   },
 
   search: debounce(function() {
-    SearchViewActionCreators.search(this.state.query);
+    SearchActionCreators.search(this.state.query);
   }, 300),
 
   _onKeyDown: function(e) {
@@ -66,7 +66,7 @@ var SearchBox = React.createClass({
 
   close: function() {
     this.setState({query: ''});
-    SearchViewActionCreators.clear();
+    SearchActionCreators.clear();
   },
 
   render: function() {

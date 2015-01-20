@@ -1,7 +1,6 @@
 'use strict';
 
-var createStore = require('./createStore');
-var SearchActionTypes = require('../Constants').SearchActionTypes;
+var {createStore, registerStore, Dispatcher} = require('lego-flux');
 
 var _results = [];
 var _closed = true;
@@ -16,36 +15,38 @@ function generateDummyResults() {
 
 var SearchStore = createStore({
 
-  getResults() {
+  actions: {
+    SEARCH: '_onSearch',
+    CLEAR_SEARCH: '_onClearSearch',
+    RECEIVE_SEARCH_RESULTS: '_onReceiveSearchResults'
+  },
+
+  getResults: function() {
     return _results;
   },
 
-  isClosed() {
+  isClosed: function() {
     return _closed;
+  },
+
+  _onSearch: function() {
+    _results = generateDummyResults();
+    _closed = false;
+    this.emitChange();
+  },
+
+  _onClearSearch: function() {
+    _results = [];
+    _closed = true;
+    this.emitChange();
+  },
+
+  _onReceiveSearchResults: function(action) {
+    _result = action.results;
+    this.emitChange();
   }
-
-}, function(payload) {
-  var action = payload.action;
-  switch (action.type) {
-    case SearchActionTypes.SEARCH:
-      _results = generateDummyResults();
-      _closed = false;
-      SearchStore.emitChange();
-      break;
-
-    case SearchActionTypes.CLEAR_SEARCH:
-      _results = [];
-      _closed = true;
-      SearchStore.emitChange();
-      break;
-
-    case SearchActionTypes.RECEIVE_SEARCH_RESULTS:
-      _results = action.results;
-      SearchStore.emitChange();
-      break;
-  }
-
-  return true;
 });
+
+registerStore(Dispatcher, SearchStore);
 
 module.exports = SearchStore;

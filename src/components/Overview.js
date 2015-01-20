@@ -2,19 +2,10 @@
 
 var React = require('react');
 var Feed = require('./FrontPageFeed');
-var Icon = require('./icon');
+var Icon = require('./Icon');
 var SidebarBlock = require('./SidebarBlock');
 
-/**
- * Frontpage Component
- */
-
-var FrontPage = React.createClass({
-
-  getInitialState: function() {
-    return {
-    };
-  },
+var Overview = React.createClass({
 
   render: function() {
     return (
@@ -28,16 +19,16 @@ var FrontPage = React.createClass({
               </ul>
             </SidebarBlock>
 
-            <SidebarBlock title="Interessegrupper">
+            <SidebarBlock title='Interessegrupper'>
               <p>Du er ikke medlem av noen interessegrupper.</p>
               <p><a>Finn noen som passer deg &rarr;</a></p>
             </SidebarBlock>
 
-            <SidebarBlock title="Nyeste README">
+            <SidebarBlock title='Nyeste README'>
               <img src='http://readme.abakus.no/bilder/14/2014-03.jpg' />
             </SidebarBlock>
 
-            <SidebarBlock title="Komitéene">
+            <SidebarBlock title='Komitéene'>
               <p>Hello World</p>
             </SidebarBlock>
           </div>
@@ -50,4 +41,4 @@ var FrontPage = React.createClass({
   }
 });
 
-module.exports = FrontPage;
+module.exports = Overview;

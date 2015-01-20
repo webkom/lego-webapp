@@ -1,51 +1,49 @@
 'use strict';
 
-var createStore = require('./createStore');
-var EventActionTypes = require('../Constants').EventActionTypes;
-
-var _events = {};
-
-function _addEvents(events) {
-  events.forEach(function(event) {
-    if (!_events[event.id]) {
-      _events[event.id] = event;
-    }
-  });
-}
+var {createStore, registerStore, Dispatcher} = require('lego-flux');
 
 var EventStore = createStore({
 
-  get(id) {
-    return _events[id] || {};
+  actions: {
+    'RECEIVE_EVENTS': '_onReceiveEvents'
   },
 
-  getAll() {
-    return _events;
+  events: {},
+
+  addEvents: function(events) {
+    var that = this;
+    events.forEach(function(event) {
+      if (!that.events[event.id])
+        that.events[event.id] = event;
+    });
   },
 
-  getAllSorted() {
+  get: function(id) {
+    return this.events[id] || {};
+  },
+
+  getAll: function() {
+    return this.events;
+  },
+
+  getAllSorted: function() {
     var sorted = [];
-    for (var id in _events) {
-      sorted.push(_events[id]);
+    for (var id in this.events) {
+      sorted.push(this.events[id]);
     }
     return sorted;
   },
 
-  isEmpty() {
-    return Object.keys(_events).length === 0;
+  isEmpty: function() {
+    return Object.keys(this.events).length === 0;
+  },
+
+  _onReceiveEvents(action) {
+    this.addEvents(action.events);
+    this.emitChange();
   }
-
-}, function(payload) {
-
-  var action = payload.action;
-  switch (action.type) {
-    case EventActionTypes.RECEIVE_EVENTS:
-      _addEvents(action.events);
-      EventStore.emitChange();
-      break;
-  }
-
-  return true;
 });
+
+registerStore(Dispatcher, EventStore);
 
 module.exports = EventStore;

@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react/addons');
-var UserViewActionCreators = require('../actions/UserViewActionCreators');
+var UserActionCreators = require('../actions/UserActionCreators');
 var UserStore = require('../stores/UserStore');
 var AuthMixin = require('./AuthMixin');
 var Icon  = require('./icon');
@@ -41,7 +41,7 @@ var LoginBox = React.createClass({
       return;
     }
 
-    UserViewActionCreators.login(username, password);
+    UserActionCreators.login(username, password);
   },
 
   render: function() {

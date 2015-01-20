@@ -1,7 +1,6 @@
 'use strict';
 
-var createStore = require('./createStore');
-var UserActionTypes = require('../Constants').UserActionTypes;
+var {createStore, registerStore, Dispatcher} = require('lego-flux');
 
 var _user = {};
 var _isLoggedIn = false;
@@ -9,51 +8,54 @@ var _loginFailed = false;
 
 var UserStore = createStore({
 
-  getUserInfo() {
+  actions: {
+    'RECEIVE_USER_INFO': '_onReceiveUserInfo',
+    'FAILED_LOGIN': '_onFailedLogin',
+    'LOGIN': '_onLogin',
+    'LOGOUT': '_onLogout'
+  },
+
+  getUserInfo: function() {
     return _user;
   },
 
-  isLoggedIn() {
+  isLoggedIn: function() {
     return _isLoggedIn;
   },
 
-  destroy() {
+  destroy: function() {
     _user = {};
     _isLoggedIn = false;
     _loginFailed = false;
   },
 
-  didLoginFail() {
+  didLoginFail: function() {
     return _loginFailed;
+  },
+
+  _onReceiveUserInfo: function(action) {
+    _user = action.userInfo;
+    _isLoggedIn = true;
+    _loginFailed = false;
+    this.emitChange();
+  },
+
+  _onFailedLogin: function(action) {
+    _loginFailed = true;
+    this.emitChange();
+  },
+
+  _onLogin: function(action) {
+    _loginFailed = true;
+    this.emitChange();
+  },
+
+  _onLogout: function(action) {
+    this.destroy();
+    this.emitChange();
   }
-  
-}, function(payload) {
-  var action = payload.action;
-  switch (action.type) {
-    case UserActionTypes.RECEIVE_USER_INFO:
-      _user = action.userInfo;
-      _isLoggedIn = true;
-      _loginFailed = false;
-      UserStore.emitChange();
-      break;
-
-    case UserActionTypes.FAILED_LOGIN:
-      _loginFailed = true;
-      UserStore.emitChange();
-      break;
-
-    case UserActionTypes.LOGIN:
-      _loginFailed = false;
-      UserStore.emitChange();
-      break;
-
-    case UserActionTypes.LOGOUT:
-      UserStore.destroy();
-      UserStore.emitChange();
-      break;
-  }
-
-  return true; // crucial
 });
+
+registerStore(Dispatcher, UserStore);
 
 module.exports = UserStore;

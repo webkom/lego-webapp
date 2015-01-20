@@ -1,7 +1,7 @@
 'use strict';
 
 var request = require('superagent');
-var UserServerActionCreators = require('../actions/UserServerActionCreators');
+var UserActionCreators = require('../actions/UserActionCreators');
 var RESTService = require('./RESTService');
 
 module.exports = {
@@ -12,11 +12,11 @@ module.exports = {
       .end(function(res) {
         if (!res.ok) {
           console.log('Not OK', res);
-          UserServerActionCreators.failedLogin();
+          UserActionCreators.failedLogin();
           return;
         }
         var userInfo = res.body;
-        UserServerActionCreators.receiveUserInfo(userInfo);
+        UserActionCreators.receiveUserInfo(userInfo);
       });
   },
 };

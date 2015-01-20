@@ -32,6 +32,7 @@
     "object-assign": "^2.0.0"
   },
   "dependencies": {
+    "lego-flux": "git+ssh://git@github.com:webkom/lego-flux",
     "node-jsx": "^0.12.4"
   }
 }

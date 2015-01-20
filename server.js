@@ -12,11 +12,11 @@ app.set('port', process.env.PORT || 3001);
 app.use(express.static(__dirname + '/public'));
 
 app.use(function(req, res) {
-	Router.run(routes, req.url, function(Handler) {
-		fs.readFile('public/template.html', 'utf8', function(err, content) {
-			res.send(content.replace('{{content}}', React.renderToString(React.createElement(Handler))));
-		});
-	});
+  Router.run(routes, req.url, function(Handler) {
+    fs.readFile('public/template.html', 'utf8', function(err, content) {
+      res.send(content.replace('{{content}}', React.renderToString(React.createElement(Handler))));
+    });
+  });
 });
 
 app.listen(app.get('port'), function() {

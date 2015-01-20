@@ -115,7 +115,7 @@ watch:
 #
 
 server:
-	@supervisor test-server.js
+	@nodemon server.js
 
 #
 # Remove build files
