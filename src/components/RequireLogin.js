@@ -11,8 +11,8 @@ var RequireLogin = React.createClass({
   },
 
   render: function() {
-    if (!this.props.loggedIn) return <div>Login to see this</div>;
-    return <div>{this.props.children}</div>;
+    var content = this.props.loggedIn ? this.props.children : null;
+    return <div>{content}</div>;
   }
 });
 

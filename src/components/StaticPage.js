@@ -2,16 +2,16 @@
 
 var React = require('react');
 
-var ContactPage = React.createClass({
+var StaticPage = React.createClass({
   render: function() {
     return (
       <section>
         <div className='content'>
-          <h2>Kontakt Abakus</h2>
+          <h2>Statisk side</h2>
         </div>
       </section>
     );
   }
 });
 
-module.exports = ContactPage;
+module.exports = StaticPage;

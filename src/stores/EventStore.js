@@ -38,7 +38,7 @@ var EventStore = createStore({
     return Object.keys(this.events).length === 0;
   },
 
-  _onReceiveEvents(action) {
+  _onReceiveEvents: function(action) {
     this.addEvents(action.events);
     this.emitChange();
   }

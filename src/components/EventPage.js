@@ -7,6 +7,7 @@ var LoadingIndicator = require('./LoadingIndicator');
 
 var EventStore = require('../stores/EventStore');
 var EventService = require('../services/EventService');
+var EventActionCreators = require('../actions/EventActionCreators');
 
 var AuthMixin = require('./AuthMixin');
 
@@ -30,7 +31,10 @@ var EventPage = React.createClass({
 
   componentDidMount: function() {
     EventStore.addChangeListener(this._onChange);
-    if (EventStore.isEmpty()) EventService.getAllEvents(); // shouldn't get all (fix it)
+    EventService.findById(this.getParams().eventId, function(err, event) {
+      if (err) return;
+      EventActionCreators.receiveAll([event]);
+    });
   },
 
   componentWillUnmount: function() {

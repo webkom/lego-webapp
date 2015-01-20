@@ -16,9 +16,9 @@ function generateDummyResults() {
 var SearchStore = createStore({
 
   actions: {
-    SEARCH: '_onSearch',
-    CLEAR_SEARCH: '_onClearSearch',
-    RECEIVE_SEARCH_RESULTS: '_onReceiveSearchResults'
+    'SEARCH': '_onSearch',
+    'CLEAR_SEARCH': '_onClearSearch',
+    'RECEIVE_SEARCH_RESULTS': '_onReceiveSearchResults'
   },
 
   getResults: function() {

@@ -3,7 +3,7 @@
 var Dispatcher = require('lego-flux/lib/Dispatcher');
 var UserService = require('../services/UserService');
 
-module.exports = {
+var UserActionCreators = {
 
   login: function(username, password) {
     Dispatcher.handleViewAction({
@@ -12,7 +12,10 @@ module.exports = {
       password: password
     });
 
-    UserService.login(username, password);
+    UserService.login(username, password, function(err, userInfo) {
+      if (err) return UserActionCreators.failedLogin();
+      UserActionCreators.receiveUserInfo(userInfo);
+    });
   },
 
   logout: function() {
@@ -34,3 +37,5 @@ module.exports = {
     });
   }
 };
+
+module.exports = UserActionCreators;

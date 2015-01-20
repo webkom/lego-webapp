@@ -1,22 +1,29 @@
 'use strict';
 
 var request = require('superagent');
-var UserActionCreators = require('../actions/UserActionCreators');
 var RESTService = require('./RESTService');
 
 module.exports = {
 
-  login: function(username, password) {
+  login: function(username, password, fn) {
     RESTService.get('/me')
       .auth(username, password)
       .end(function(res) {
-        if (!res.ok) {
-          console.log('Not OK', res);
-          UserActionCreators.failedLogin();
-          return;
-        }
-        var userInfo = res.body;
-        UserActionCreators.receiveUserInfo(userInfo);
+        if (!res.ok) return fn(res.body);
+        return fn(null, res.body);
       });
   },
+
+  getToken: function() {
+  	return localStorage.token || 'CRASHOVERRIDE';
+  },
+
+  logout: function(fn) {
+  	delete localStorage.token;
+  	fn && fn();
+  },
+
+  loggedIn: function() {
+  	return !!localStorage.token;
+  }
 };

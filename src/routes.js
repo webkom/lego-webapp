@@ -6,14 +6,14 @@ var App = require('./components/App');
 var Overview = require('./components/Overview');
 var EventCalendarPage = require('./components/EventCalendarPage');
 var EventPage = require('./components/EventPage');
-var ContactPage = require('./components/ContactPage');
 var NotFoundPage = require('./components/NotFoundPage');
+var StaticPage = require('./components/StaticPage');
 
 var routes = (
   <Route handler={App} path='/'>
     <Route name='events' handler={EventCalendarPage} />
     <Route name='event' path='/events/:eventId' handler={EventPage} />
-    <Route name='contact' handler={ContactPage} />
+    <Route name='staticPage' path='/p/:pageSlug' handler={StaticPage} />
     <DefaultRoute name='overview' handler={Overview} />
     <NotFoundRoute handler={NotFoundPage} />
   </Route>

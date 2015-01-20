@@ -4,6 +4,7 @@ var React = require('react');
 var Link = require('react-router').Link;
 var EventStore = require('../stores/EventStore');
 var EventService = require('../services/EventService');
+var EventActionCreators = require('../actions/EventActionCreators');
 var Time = require('./Time');
 var Icon = require('./Icon');
 var LoadingIndicator = require('./LoadingIndicator');
@@ -26,7 +27,10 @@ var FrontPageFeed = React.createClass({
 
   componentDidMount: function() {
     EventStore.addChangeListener(this._onChange);
-    if (EventStore.isEmpty()) EventService.getAllEvents();
+    EventService.findAll(function(err, events) {
+      if (err) return;
+      EventActionCreators.receiveAll(events);
+    });
   },
 
   componentWillUnmount: function() {

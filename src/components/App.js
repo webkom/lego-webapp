@@ -27,8 +27,8 @@ var App = React.createClass({
           <ul className='content'>
             <li><Link to='overview'>Oversikt</Link></li>
             <li><Link to='events'>Arrangementer</Link></li>
-            <li><Link to='events'>Om Abakus</Link></li>
-            <li><Link to='contact'>Kontakt</Link></li>
+            <li><Link to='staticPage' params={{pageSlug: 'about'}}>Om Abakus</Link></li>
+            <li><Link to='staticPage' params={{pageSlug: 'contact'}}>Kontakt</Link></li>
             <li><a><Icon name='bars' />Mer</a></li>
           </ul>
         </nav>
