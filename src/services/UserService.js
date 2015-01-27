@@ -8,8 +8,8 @@ module.exports = {
   login: function(username, password, fn) {
     RESTService.get('/me')
       .auth(username, password)
-      .end(function(res) {
-        if (!res.ok) return fn(res.body);
+      .end(function(err, res) {
+        if (err || !res.ok) return fn(res.body);
         return fn(null, res.body);
       });
   },

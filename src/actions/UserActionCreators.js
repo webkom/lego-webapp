@@ -5,6 +5,15 @@ var UserService = require('../services/UserService');
 
 var UserActionCreators = {
 
+  // move this out so other action creators can use it
+  _serverCall: function(actionName, serviceMethod, ...args) {
+    var self = this;
+    serviceMethod.apply(serviceMethod, args.concat([function(err, payload) {
+      if (err) return self[actionName + 'Failed'](err);
+      return self[actionName + 'Completed'](payload);
+    }]));
+  },
+
   login: function(username, password) {
     Dispatcher.handleViewAction({
       type: 'LOGIN',
@@ -12,10 +21,7 @@ var UserActionCreators = {
       password: password
     });
 
-    UserService.login(username, password, function(err, userInfo) {
-      if (err) return UserActionCreators.failedLogin();
-      UserActionCreators.receiveUserInfo(userInfo);
-    });
+    this._serverCall('login', UserService.login, username, password);
   },
 
   logout: function() {
@@ -24,16 +30,16 @@ var UserActionCreators = {
     });
   },
 
-  receiveUserInfo: function(userInfo) {
+  loginCompleted: function(userInfo) {
     Dispatcher.handleServerAction({
-      type: 'RECEIVE_USER_INFO',
+      type: 'LOGIN_COMPLETED',
       userInfo: userInfo
     });
   },
 
-  failedLogin: function() {
+  loginFailed: function() {
     Dispatcher.handleServerAction({
-      type: 'FAILED_LOGIN',
+      type: 'LOGIN_FAILED',
     });
   }
 };

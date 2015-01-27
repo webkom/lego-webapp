@@ -9,8 +9,8 @@ var _loginFailed = false;
 var UserStore = createStore({
 
   actions: {
-    'RECEIVE_USER_INFO': '_onReceiveUserInfo',
-    'FAILED_LOGIN': '_onFailedLogin',
+    'LOGIN_COMPLETED': '_onLoginCompleted',
+    'LOGIN_FAILED': '_onLoginFailed',
     'LOGIN': '_onLogin',
     'LOGOUT': '_onLogout'
   },
@@ -33,14 +33,15 @@ var UserStore = createStore({
     return _loginFailed;
   },
 
-  _onReceiveUserInfo: function(action) {
+  _onLoginCompleted: function(action) {
     _user = action.userInfo;
     _isLoggedIn = true;
     _loginFailed = false;
     this.emitChange();
   },
 
-  _onFailedLogin: function(action) {
+  _onLoginFailed: function(action) {
+    console.log(action)
     _loginFailed = true;
     this.emitChange();
   },
