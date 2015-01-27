@@ -100,6 +100,16 @@ watch-css: public/app.css
 #
 #
 
+LIVERELOAD_SRC = $(BUILD_CSS) $(BUILD_JS)
+include node_modules/make-livereload/index.mk
+
+reload-all: reload
+	@true
+
+#
+#
+#
+
 lint:
 	$(LINT) src/* --verbose
 

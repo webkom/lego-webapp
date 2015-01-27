@@ -11,6 +11,13 @@ $ make watch
 
 In order for `make watch` to work, you must have [foreman](https://github.com/ddollar/foreman), [forego](https://github.com/ddollar/forego) or similar installed and change the `Makefile` accordingly.
 
+# Live Reloading
+Add the browser plugin and start the livereload server
+```bash
+make livereload
+```
+then `make watch`.
+
 ## Flux
 [draw nice diagram of the system here]
 
@@ -21,7 +28,7 @@ Some ES6 features may be used and some may not. Ask a management consultant or y
 ![Roadmap](http://www.ntnu.no/kart/typo3temp/floorplans/floorPlan_a511b7194c63e6cfda1117ceadc20f80.jpg)
 
 ## Coding Standards
-2 spaces, clever hacks and visual appeal are encouraged. The code should like a beautiful mountain range when the screen is rotated π/2 radians CW. No kidding.
+2 spaces, clever hacks and visual appeal are encouraged. The code should look like a beautiful mountain range when the screen is rotated π/2 radians CW. No kidding.
 
 ## License
 The MIT License (MIT)
