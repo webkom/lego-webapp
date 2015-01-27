@@ -41,7 +41,6 @@ var UserStore = createStore({
   },
 
   _onLoginFailed: function(action) {
-    console.log(action)
     _loginFailed = true;
     this.emitChange();
   },

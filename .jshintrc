@@ -1,3 +1,7 @@
 {
-	"quotmark": "single"
+	"globalstrict": true,
+	"browserify": true,
+	"esnext": true,
+	"devel": true,
+	"expr": true
 }

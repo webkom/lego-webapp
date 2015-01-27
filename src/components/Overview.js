@@ -14,8 +14,8 @@ var Overview = React.createClass({
           <div className='sidebar'>
             <SidebarBlock title="Mine arrangementer">
               <ul>
-                <li><a><Icon name="star" />Immball</a></li>
-                <li><a><Icon name="star" />React.js med Ciber</a></li>
+                <li><a><Icon name='star' />Immball</a></li>
+                <li><a><Icon name='star' />React.js med Ciber</a></li>
               </ul>
             </SidebarBlock>
 

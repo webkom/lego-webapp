@@ -61,7 +61,7 @@ var SearchBox = React.createClass({
 
   _closeOnEscape: function(e) {
     if (this.state.closed) return;
-    (e.keyCode === ESCAPE_KEY) && this.close();
+    if (e.keyCode === ESCAPE_KEY) this.close();
   },
 
   close: function() {
