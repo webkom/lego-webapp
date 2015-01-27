@@ -4,7 +4,7 @@ var React = require('react/addons');
 var UserActionCreators = require('../actions/UserActionCreators');
 var UserStore = require('../stores/UserStore');
 var AuthMixin = require('./AuthMixin');
-var Icon  = require('./icon');
+var Icon  = require('./Icon');
 
 var LoginBox = React.createClass({
 
