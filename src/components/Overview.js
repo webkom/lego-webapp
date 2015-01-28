@@ -25,7 +25,7 @@ var Overview = React.createClass({
       <section>
         <div className='content'>
           <div className='sidebar'>
-            <SidebarBlock title="Mine arrangementer">
+            <SidebarBlock title='Mine arrangementer'>
               <ul>
                 {this.state.favorites.map(function(favorite, i) {
                   return (

@@ -25,6 +25,7 @@ then `make watch`.
 Some ES6 features may be used and some may not. Ask a management consultant or your financial supervisor.
 
 ## Roadmap
+* Overview Page, Event Timeline, fancy article grid layout
 * Authentication Flow
 * Event Calendar View
 * Design Decisions

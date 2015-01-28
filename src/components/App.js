@@ -44,8 +44,9 @@ var App = React.createClass({
           <ul className='content'>
             <li><Link to='overview'>Oversikt</Link></li>
             <li><Link to='events'>Arrangementer</Link></li>
+            <li><Link to='staticPage' params={{pageSlug: 'career'}}>Karriere</Link></li>
+            <li><Link to='staticPage' params={{pageSlug: 'readme'}} style={{textTransform: 'lowercase'}}>readme</Link></li>
             <li><Link to='staticPage' params={{pageSlug: 'about'}}>Om Abakus</Link></li>
-            <li><Link to='staticPage' params={{pageSlug: 'contact'}}>Kontakt</Link></li>
             <li className='expand-menu'>
               <a onClick={this._onToggleMenu} className={this.state.menuOpen ? 'active' : ''}>
                 <Icon name={this.state.menuOpen ? 'times' : 'bars'} />
