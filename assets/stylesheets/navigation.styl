@@ -26,8 +26,25 @@ nav
       a
         color #333
         
+        &.active
+          background #333
+          color #fff
+        
         i
           line-height 50px
+          
+
+.overlay-menu
+  background #333
+  color #fff
+  display none
+  padding 20px
+  position absolute
+  right 0
+  left 0
+  
+  &.open
+    display block
         
 
 @media all and (max-width: 500px)

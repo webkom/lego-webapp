@@ -10,6 +10,19 @@ var UserStore = require('../stores/UserStore');
 
 var App = React.createClass({
 
+  getInitialState: function() {
+    return {
+      menuOpen: false
+    };
+  },
+
+  _onToggleMenu: function() {
+    this.setState({
+      menuOpen: !this.state.menuOpen
+    });
+    console.log(this.state.menuOpen)
+  },
+
   render: function() {
     return (
       <section>
@@ -23,15 +36,25 @@ var App = React.createClass({
             </ul>
           </div>
         </header>
-        <nav>
+        <nav role='main'>
           <ul className='content'>
             <li><Link to='overview'>Oversikt</Link></li>
             <li><Link to='events'>Arrangementer</Link></li>
             <li><Link to='staticPage' params={{pageSlug: 'about'}}>Om Abakus</Link></li>
             <li><Link to='staticPage' params={{pageSlug: 'contact'}}>Kontakt</Link></li>
-            <li className='expand-menu'><a href='#'><Icon name='bars' /></a></li>
+            <li className='expand-menu'>
+              <a onClick={this._onToggleMenu} className={this.state.menuOpen ? 'active' : ''}>
+                <Icon name='bars' />
+              </a>
+            </li>
           </ul>
         </nav>
+
+        <div className='content' style={{position: 'relative'}}>
+          <div className={'overlay-menu' + (this.state.menuOpen ? ' open' : '')}>
+            Hello World
+          </div>
+        </div>
 
         <RouteHandler />
 
