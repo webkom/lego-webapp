@@ -14,7 +14,7 @@ var EventTimeline = React.createClass({
       {events.map(function(event) {
         return (
           <Link to='event' params={{eventId: event.id}} key={event.id}>
-            <div className={'feed-event-box ' + event.type}>
+            <div className={'event-timeline-item ' + event.type}>
               <div className='feed-event-image'><img src="http://www.iteraconsulting.com.ua/App_Themes/Default/Images/Logo_stor.png" /></div>
               <div className='feed-event-description'>
                 <p className='event-time-location' style={{backgroundColor: event.color}}>

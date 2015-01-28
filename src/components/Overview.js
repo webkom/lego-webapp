@@ -2,39 +2,39 @@
 
 var React = require('react');
 var Link = require('react-router').Link;
-var Feed = require('./FrontPageFeed');
 var Icon = require('./Icon');
 var SidebarBlock = require('./SidebarBlock');
+var LoadingIndicator = require('./LoadingIndicator');
+var EventTimeline = require('./EventTimeline');
+var Favorites = require('./Favorites');
 var FavoritesStore = require('../stores/FavoritesStore');
 var FavoritesService = require('../services/FavoritesService');
 var FavoritesActionCreators = require('../actions/FavoritesActionCreators');
+var EventStore = require('../stores/EventStore');
+var EventService = require('../services/EventService');
+var EventActionCreators = require('../actions/EventActionCreators');
 
 var Overview = React.createClass({
 
-  mixins: [FavoritesStore.mixin()],
+  mixins: [EventStore.mixin()],
 
   componentDidMount: function() {
-    FavoritesService.findAll(function(err, favorites) {
+    EventService.findAll(function(err, events) {
       if (err) return;
-      FavoritesActionCreators.receiveAll(favorites);
+      EventActionCreators.receiveAll(events);
     });
   },
 
   render: function() {
+    var events = this.state.events;
     return (
       <section>
         <div className='content'>
+          <EventTimeline events={events.slice(0, 4)} />
+
           <div className='sidebar'>
             <SidebarBlock title='Mine arrangementer'>
-              <ul>
-                {this.state.favorites.map(function(favorite, i) {
-                  return (
-                    <li key={i}>
-                      <Link to='event' params={{eventId: favorite.id}}><Icon name='star' />{favorite.name}</Link>
-                    </li>
-                  );
-                })}
-              </ul>
+              <Favorites />
             </SidebarBlock>
 
             <SidebarBlock title='Interessegrupper'>
@@ -50,9 +50,21 @@ var Overview = React.createClass({
               <p>Hello World</p>
             </SidebarBlock>
           </div>
-          <div className='feed-container'>
-            <Feed />
-          </div>
+
+          <LoadingIndicator loading={events.length === 0}>
+            <div className='feed-container'>
+              <div className='event-grid'>
+                {events.slice(4).map(function(event) {
+                  return (
+                    <Link to='event' params={{eventId: event.id}} key={event.id} className={'feed-event-box ' + event.type}>
+                      <h3>{event.name}</h3>
+                      {event.description.slice(0, 140)}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </LoadingIndicator>
         </div>
       </section>
     );
