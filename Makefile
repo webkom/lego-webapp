@@ -93,7 +93,7 @@ watchify:
 # A avoid to avoid «Nothing to be done for all messages»
 #
 
-watch-css: public/app.css
+watch-css: $(BUILD_CSS)
 	@true
 
 #

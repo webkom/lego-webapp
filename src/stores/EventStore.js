@@ -2,6 +2,14 @@
 
 var {createStore, registerStore, Dispatcher} = require('lego-flux');
 
+var colors = {
+  company_presentation: '#A1C34A',
+  course: '#52B0EC',
+  party: '#E8953A',
+  regular: '#B11C11',
+  other: '#333333'
+};
+
 var EventStore = createStore({
 
   actions: {
@@ -29,6 +37,7 @@ var EventStore = createStore({
   getAllSorted: function() {
     var sorted = [];
     for (var id in this.events) {
+      this.events[id].color = colors[this.events[id].type];
       sorted.push(this.events[id]);
     }
     return sorted;

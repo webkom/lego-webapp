@@ -29,7 +29,7 @@ var App = React.createClass({
             <li><Link to='events'>Arrangementer</Link></li>
             <li><Link to='staticPage' params={{pageSlug: 'about'}}>Om Abakus</Link></li>
             <li><Link to='staticPage' params={{pageSlug: 'contact'}}>Kontakt</Link></li>
-            <li><a><Icon name='bars' />Mer</a></li>
+            <li className='expand-menu'><a href='#'><Icon name='bars' /></a></li>
           </ul>
         </nav>
 

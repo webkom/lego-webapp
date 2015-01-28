@@ -3,17 +3,40 @@ nav
   line-height @height
   background #ddd
 
-  ul li
-    float left
+  ul
+    display flex
+    flex-direction row
+
+  li
+    flex 1
 
     a
       display block
-      padding 0 30px
       text-transform uppercase
       font-weight 700
+      text-align center
 
       &:hover, &.active
         background $backgroundcolor
+        
+    &.expand-menu
+      margin-left auto
+      flex 0 1 60px
+      
+      a
+        color #333
+        
+        i
+          line-height 50px
+        
 
-      i
-        margin-right 4px
+@media all and (max-width: 500px)
+  nav
+    height auto
+    line-height 2
+
+    ul
+      flex-direction column
+      
+    .expand-menu
+      display none

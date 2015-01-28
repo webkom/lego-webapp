@@ -10,7 +10,7 @@
       margin 5px 0
 
 .feed-container h2
-  color #ccc
+  color #bbb
   text-transform uppercase
   font-size 18px
   margin 20px 0
@@ -26,40 +26,36 @@ h3
   margin 10px 0
   color #222
 
+.event-timeline
+  display flex
+
+  .feed-event-box
+    overflow hidden
+    text-align center
+    border-bottom 4px solid #ddd
+    padding 5px
+    width auto
+    flex 1
+  
 .feed-event-box
   background #fff
-  display table
-  margin-bottom 10px
+  display inline-block
+  width 48%
+  margin 0 1% 10px 1%
   color #444
-  border-right 4px solid #ddd
-
-  &.party
-    border-color $partyevent
-
-  &.course
-    border-color $courseevent
-
-  &.company-presentation
-    border-color $companypresentationevent
-
-  &.other
-    border-color $otherevent
-
-  &.regular
-    border-color $regularevent
-
-
-.feed-event-image
-  display table-cell
-  width 100px
-  border-collapse collapse
-  vertical-align middle
 
   img
-    width 130px
+    height 90px
+    margin-top 10px
+
+.event-time-location
+  color #fff
+  background #EDC943
+  font-size 14px
+  text-transform uppercase
+  font-weight 700
 
 .feed-event-description
-  display table-cell
   padding 10px 20px
   font-size 14px
 
@@ -87,10 +83,6 @@ h3
   &:first-letter
     text-transform capitalize
 
-.event-time-location
-  color #888
-  margin-top 6px
-
 
 .event-grid
   clearfix()
@@ -102,7 +94,6 @@ h3
     float left
     padding 20px
     display block
-    width 50%
     background transparent
     border-right 0
     height 300px
