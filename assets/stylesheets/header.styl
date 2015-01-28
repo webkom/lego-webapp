@@ -83,7 +83,56 @@ header
   display inline
   vertical-align middle
   margin-right 10px
-  
+
+.login-container
+  width 100%
+
+.login-form
+  background rgba(68, 68, 68, .9)
+  position relative
+  display block
+  padding 20px
+  opacity 1
+  transform translateY(0)
+  transition all .6s ease
+
+  &.hidden
+    transform translateY(-180px)
+    opacity 0
+
+  input, button
+    display block
+    font-size 16px
+    border 0
+    width 100%
+    padding 10px
+    cursor pointer
+    margin-bottom 5px
+
+  button
+    margin 10px 0 0 0
+    background linear-gradient(#eee, #ccc)
+
+  input
+    &:focus
+      outline none
+      background #FAFFBD
+
+.login-status
+  background #222
+  text-align center
+  z-index 100
+  position relative
+
+.login-button
+  color #eee
+  display block
+  font-weight 700
+  text-transform uppercase
+
+  i
+    color #777
+    margin-right 5px
 
 @media all and (max-width: 500px)
   header
@@ -98,3 +147,13 @@ header
     
   header ul, header ul li
     display block
+    
+  .login-form
+    position absolute
+    right 0
+    left 0
+    display block
+    
+    &.hidden
+      transform none
+      display none

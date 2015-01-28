@@ -27,7 +27,7 @@ nav
         color #333
         
         &.active
-          background #333
+          background rgba(0,0,0,.9)
           color #fff
         
         i
@@ -44,7 +44,21 @@ nav
   left 0
   
   &.open
+    display flex
+    flex-wrap wrap
+    
+  a
     display block
+    flex 0 0 25%
+    color #ffff
+    text-decoration none
+    font-weight 700
+    padding 10px
+    text-align center
+    transition background .2s
+    
+    &:hover
+      background #333
 
 @media all and (max-width: 500px)
   nav

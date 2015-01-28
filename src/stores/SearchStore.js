@@ -5,7 +5,7 @@ var {createStore, registerStore, Dispatcher} = require('lego-flux');
 var _results = [];
 var _closed = true;
 
-var db = 'Bekk,Itera,Iterate,Knowit,Visma,BearingPoint,Norkart'.split(' ');
+var db = 'Bekk,Itera,Iterate,Knowit,Visma,BearingPoint,Norkart'.split(',');
 function generateDummyResults() {
   var n = (Math.random() * 6)|0;
   var results = [];

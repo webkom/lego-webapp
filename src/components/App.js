@@ -5,7 +5,6 @@ var {RouteHandler, Link} = require('react-router');
 var LoginBox = require('./LoginBox');
 var SearchBox = require('./SearchBox');
 var Icon = require('./Icon');
-
 var UserStore = require('../stores/UserStore');
 
 var App = React.createClass({
@@ -22,9 +21,15 @@ var App = React.createClass({
     });
   },
 
+  _onCloseMenu: function() {
+    if (this.state.menuOpen) {
+      this.setState({menuOpen: false});
+    }
+  },
+
   render: function() {
     return (
-      <section>
+      <section onClick={this._onCloseMenu}>
         <header>
           <div className='content'>
             <ul>
@@ -51,7 +56,9 @@ var App = React.createClass({
 
         <div className='content' style={{position: 'relative'}}>
           <div className={'overlay-menu' + (this.state.menuOpen ? ' open' : '')}>
-            Hello World
+            {['Karriere', 'BDB', 'Møter', 'Utland', 'Spørreskjema', 'Butikk'].map(function(item) {
+              return <a href='#'>{item}</a>;
+            })}
           </div>
         </div>
 
