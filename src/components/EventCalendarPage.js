@@ -2,33 +2,11 @@
 
 var React = require('react');
 var EventStore = require('../stores/EventStore');
-var EventService = require('../services/EventService');
-
-function getState() {
-  return {
-    events: EventStore.getAllSorted()
-  };
-}
 
 var EventCalendarPage = React.createClass({
 
-  getInitialState: function() {
-    return getState();
-  },
-
-  componentDidMount: function() {
-    EventStore.addChangeListener(this._onChange);
-    if (EventStore.isEmpty()) EventService.getAllEvents();
-  },
-
-  componentWillUnmount: function() {
-    EventStore.removeChangeListener(this._onChange);
-  },
-
-  _onChange: function() {
-    this.setState(getState());
-  },
-
+  mixins: [EventStore.mixin()],
+  
   render: function() {
     var events = this.state.events;
     return (

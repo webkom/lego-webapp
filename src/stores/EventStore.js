@@ -18,6 +18,12 @@ var EventStore = createStore({
 
   events: {},
 
+  getState: function() {
+    return {
+      events: this.getAllSorted()
+    };
+  },
+
   addEvents: function(events) {
     var that = this;
     events.forEach(function(event) {

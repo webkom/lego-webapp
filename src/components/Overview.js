@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+var Link = require('react-router').Link;
 var Feed = require('./FrontPageFeed');
 var Icon = require('./Icon');
 var SidebarBlock = require('./SidebarBlock');
@@ -27,7 +28,11 @@ var Overview = React.createClass({
             <SidebarBlock title="Mine arrangementer">
               <ul>
                 {this.state.favorites.map(function(favorite, i) {
-                  return <li key={i}><a href=''><Icon name='star' />{favorite.name}</a></li>
+                  return (
+                    <li key={i}>
+                      <Link to='event' params={{eventId: favorite.id}}><Icon name='star' />{favorite.name}</Link>
+                    </li>
+                  );
                 })}
               </ul>
             </SidebarBlock>

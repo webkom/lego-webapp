@@ -10,32 +10,15 @@ var Time = require('./Time');
 var Icon = require('./Icon');
 var LoadingIndicator = require('./LoadingIndicator');
 
-function getState() {
-  return {
-    events: EventStore.getAllSorted(),
-  };
-}
-
 var FrontPageFeed = React.createClass({
 
-  getInitialState: function() {
-    return getState();
-  },
-
-  _onChange: function() {
-    this.setState(getState());
-  },
+  mixins: [EventStore.mixin()],
 
   componentDidMount: function() {
-    EventStore.addChangeListener(this._onChange);
     EventService.findAll(function(err, events) {
       if (err) return;
       EventActionCreators.receiveAll(events);
     });
-  },
-
-  componentWillUnmount: function() {
-    EventStore.removeChangeListener(this._onChange);
   },
 
   render: function() {
