@@ -35,7 +35,46 @@ header
   .search-box
     width 400px
 
-@import 'search'
+.search-container
+  width 100%
+
+.search
+  input
+    font-size 20px
+    height 40px
+    padding 0 20px
+    border 0
+    background #333
+    color #fff
+    border-radius 5px
+    width 100%
+    display inline
+
+    &:focus
+      outline none
+
+.search-results
+  background rgba(20, 20, 20, .9)
+  position relative
+  display block
+  padding 20px
+  opacity 1
+
+  &.hidden
+    padding 0
+    opacity 0
+
+  ul
+    display block
+
+  li
+    display block
+    line-height 1.8
+    padding 10px
+
+    &:hover
+      background black
+
 
 .gravatar
   width 32px
@@ -44,3 +83,18 @@ header
   display inline
   vertical-align middle
   margin-right 10px
+  
+
+@media all and (max-width: 500px)
+  header
+    height auto
+    line-height inherit
+    
+    .search-box
+      width 100%
+      
+    .partner-logo
+      display none
+    
+  header ul, header ul li
+    display block

@@ -20,7 +20,6 @@ var App = React.createClass({
     this.setState({
       menuOpen: !this.state.menuOpen
     });
-    console.log(this.state.menuOpen)
   },
 
   render: function() {
@@ -44,7 +43,7 @@ var App = React.createClass({
             <li><Link to='staticPage' params={{pageSlug: 'contact'}}>Kontakt</Link></li>
             <li className='expand-menu'>
               <a onClick={this._onToggleMenu} className={this.state.menuOpen ? 'active' : ''}>
-                <Icon name='bars' />
+                <Icon name={this.state.menuOpen ? 'times' : 'bars'} />
               </a>
             </li>
           </ul>

@@ -30,7 +30,6 @@ h3
   display flex
 
   .feed-event-box
-    overflow hidden
     text-align center
     border-bottom 4px solid #ddd
     padding 5px
@@ -100,3 +99,15 @@ h3
 
     &:nth-child(even)
       float right
+      
+
+@media all and (max-width: 500px)
+  .event-grid .feed-event-box
+    width 100%
+    height auto
+    
+  .event-timeline
+    flex-direction column
+    
+    .feed-event-box
+      width 100%
