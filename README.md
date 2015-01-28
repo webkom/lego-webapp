@@ -25,7 +25,12 @@ then `make watch`.
 Some ES6 features may be used and some may not. Ask a management consultant or your financial supervisor.
 
 ## Roadmap
-![Roadmap](http://www.ntnu.no/kart/typo3temp/floorplans/floorPlan_a511b7194c63e6cfda1117ceadc20f80.jpg)
+* Authentication Flow
+* Event Calendar View
+* Design Decisions
+* ...
+* ...
+* Keyboard Shortcuts
 
 ## Coding Standards
 2 spaces, clever hacks and visual appeal are encouraged. The code should look like a beautiful mountain range when the screen is rotated π/2 radians CW. No kidding.

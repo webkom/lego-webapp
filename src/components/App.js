@@ -56,8 +56,8 @@ var App = React.createClass({
 
         <div className='content' style={{position: 'relative'}}>
           <div className={'overlay-menu' + (this.state.menuOpen ? ' open' : '')}>
-            {['Karriere', 'BDB', 'Møter', 'Utland', 'Spørreskjema', 'Butikk'].map(function(item) {
-              return <a href='#'>{item}</a>;
+            {['Karriere', 'BDB', 'Møter', 'Utland', 'Spørreskjema', 'Butikk'].map(function(item, i) {
+              return <a href='#' key={i}>{item}</a>;
             })}
           </div>
         </div>
