@@ -5,18 +5,19 @@
 ## Setup
 ```bash
 $ npm install
+$ npm install -g nodemon
+$ brew install visionmedia-watch
 $ gem install foreman
+```
+
+Start a decent development environment with a server, asset building and live reloading.
+```bash
 $ make watch
 ```
 
-In order for `make watch` to work, you must have [foreman](https://github.com/ddollar/foreman), [forego](https://github.com/ddollar/forego) or similar installed and change the `Makefile` accordingly.
+Everything should be up and running on [localhost:3000](http://localhost:3000).
 
-# Live Reloading
-Add the browser plugin and start the livereload server
-```bash
-make livereload
-```
-then `make watch`.
+Be sure to install the [LiveReload](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei) chrome extension as well. Non-Chrome users must find an extension themselves.
 
 ## Flux
 [draw nice diagram of the system here]
