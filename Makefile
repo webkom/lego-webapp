@@ -12,13 +12,6 @@ LINT       = node_modules/.bin/jsxhint
 NIB        = node_modules/nib/lib
 
 #
-# The dev server PORT
-# PORT=3001 make
-#
-
-PORT ?= 3000
-
-#
 # The main CSS and JS files
 #
 
@@ -52,10 +45,9 @@ TRANSFORMS = -t [ reactify --harmony ]
 
 all: $(BUILD_CSS) $(BUILD_JS)
 
-install: node_modules
-
-node_modules: package.json
-	@npm install
+#
+# Run tests
+#
 
 test:
 	$(JEST) src/
@@ -86,7 +78,7 @@ endif
 # Watchify is extremely fast compared to running browserify on file changes.
 #
 
-watchify:
+watch-js:
 	$(WATCHIFY) $(TRANSFORMS) $(JS_MAIN) -v -o $(BUILD_JS)
 
 #
@@ -97,13 +89,16 @@ watch-css: $(BUILD_CSS)
 	@true
 
 #
-#
+# Live Reloading <3
 #
 
 LIVERELOAD_SRC = $(BUILD_CSS) $(BUILD_JS)
-include node_modules/make-livereload/index.mk
 
-reload-all: reload
+tiny-lr.pid: $(LIVERELOAD_SRC)
+	@touch $@
+	@curl --ipv4 --silent http://localhost:35729/changed?files=$(shell node -pe '"$?".split(" ").join(",")')
+
+reload: tiny-lr.pid
 	@true
 
 #
@@ -121,7 +116,7 @@ watch:
 	@foreman start
 
 #
-# Start a local dev server listening on PORT
+#
 #
 
 server:
@@ -138,4 +133,4 @@ clean:
 # Non-files are PHONY targets
 #
 
-.PHONY: clean server install test lint
+.PHONY: clean server install test lint watch reload-all watch-css watch-js

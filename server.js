@@ -8,7 +8,7 @@ var App = require('./src/components/App');
 var routes = require('./src/routes');
 var app = module.exports = express();
 
-app.set('port', process.env.PORT || 3001);
+app.set('port', process.env.PORT || 3000);
 app.use(express.static(__dirname + '/public'));
 
 app.use(function(req, res) {

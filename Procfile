@@ -1,3 +1,4 @@
 css: watch make watch-css
-js: make watchify
-reload: watch make reload-all
+js: make watch-js
+reload: watch make reload
+livereload-server: node_modules/.bin/tiny-lr
