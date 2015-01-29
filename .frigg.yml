@@ -1,3 +1,3 @@
 tasks:
- - make install
+ - npm install
  - make test
