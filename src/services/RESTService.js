@@ -1,17 +1,13 @@
 'use strict';
 
 var request = require('superagent');
+var config = require('../../config.json');
 
 /**
  * This module is basically a wrapper
  * around superagent to add some common stuff.
  */
 
-var API_URL = 'http://api.abakus.dev';
-
-/**
- * Timeout for server requests
- */
 var TIMEOUT = 10000;
 
 /**
@@ -19,7 +15,7 @@ var TIMEOUT = 10000;
  * @param {string} resource
  */
 var urlFor = function(resource) {
-  return API_URL + resource;
+  return config.serverUrl + resource;
 };
 
 /**
