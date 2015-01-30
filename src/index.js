@@ -5,6 +5,7 @@ var Router = require('react-router');
 var moment = require('moment');
 var routes = require('./routes');
 
+require('react-a11y')();
 require('moment/locale/nb');
 
 moment.locale('nb');
