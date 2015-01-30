@@ -1,5 +1,7 @@
 'use strict';
 
+var storage = require('../localStorage');
+
 /**
  * Dummy implementation of favorites.
  * Stores data in localStorage, but must store this on
@@ -9,14 +11,14 @@ module.exports = {
 
   findAll: function(fn) {
     // not async atm, but will fetch from server soon
-    var favorites = JSON.parse(window.localStorage.favorites || null) || [];
+    var favorites = storage.getItem('favorites');
     fn(null, favorites);
   },
 
   addFavorite: function(favorite, fn) {
-    var favorites = JSON.parse(window.localStorage.favorites || null) || [];
+    var favorites = storage.getItem('favorites') || [];
     favorites.push(favorite);
-    window.localStorage.favorites = JSON.stringify(favorites);
+    storage.setItem('favorites', favorites);
     fn(null, favorite);
   }
 };

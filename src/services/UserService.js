@@ -5,12 +5,14 @@ var RESTService = require('./RESTService');
 
 module.exports = {
 
-  login: function(username, password, fn) {
-    RESTService.get('/me')
-      .auth(username, password)
-      .end(function(err, res) {
-        if (err || !res.ok) return fn(res.body);
-        return fn(null, res.body);
-      });
+  login: function(username, password) {
+    return new Promise(function(resolve, reject) {
+      RESTService.get('/me')
+        .auth(username, password)
+        .end(function(err, res) {
+          if (err || !res.ok) return reject(res.body);
+          return resolve(res.body);
+        });
+    });
   }
 };
