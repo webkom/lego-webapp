@@ -9,6 +9,7 @@ BROWSERIFY = node_modules/.bin/browserify
 WATCHIFY   = node_modules/.bin/watchify
 JEST       = node_modules/.bin/jest
 LINT       = node_modules/.bin/jsxhint
+JSXCS      = node_modules/.bin/jsxcs
 NIB        = node_modules/nib/lib
 
 #
@@ -91,6 +92,7 @@ watch-css: $(BUILD_CSS)
 
 lint:
 	$(LINT) src/* --verbose
+	$(JSXCS) src --esnext
 
 watch:
 	@foreman start

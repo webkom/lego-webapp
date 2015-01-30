@@ -12,7 +12,7 @@ function randomImage() {
     'https://abakus.no/uploads/events/thumbs/2011-06-08-1343-Accenture-260x110.jpg',
     'https://abakus.no/uploads/events/thumbs/2014-11-15-0157-2013-08-10-2050-visma_bilde-578x150-578x150.jpg'
   ];
-  return urls[(Math.random() * urls.length)|0];
+  return urls[(Math.random() * urls.length) | 0];
 }
 
 var EventTimeline = React.createClass({

@@ -26,7 +26,7 @@ var AuthMixin = {
       userInfo: UserStore.getUserInfo(),
       loginFailed: UserStore.didLoginFail()
     });
-  },
+  }
 };
 
 module.exports = AuthMixin;

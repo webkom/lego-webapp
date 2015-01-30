@@ -39,7 +39,7 @@ var UserActionCreators = {
 
   loginFailed: function() {
     Dispatcher.handleServerAction({
-      type: 'LOGIN_FAILED',
+      type: 'LOGIN_FAILED'
     });
   }
 };

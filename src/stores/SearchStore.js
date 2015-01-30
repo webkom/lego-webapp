@@ -7,9 +7,9 @@ var _closed = true;
 
 var db = 'Bekk,Itera,Iterate,Knowit,Visma,BearingPoint,Norkart'.split(',');
 function generateDummyResults() {
-  var n = (Math.random() * 6)|0;
+  var n = (Math.random() * 6) | 0;
   var results = [];
-  while (n--) results.push(db[(db.length*Math.random())|0]);
+  while (n--) results.push(db[(db.length * Math.random()) | 0]);
   return results;
 }
 

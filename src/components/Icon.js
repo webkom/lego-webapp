@@ -9,7 +9,7 @@ var React = require('react');
 var Icon = React.createClass({
 
   propTypes: {
-    name: React.PropTypes.string,
+    name: React.PropTypes.string
   },
 
   getDefaultProps: function() {
@@ -20,8 +20,7 @@ var Icon = React.createClass({
 
   render: function() {
     return <i className={'fa fa-' + this.props.name} />;
-  },
-
+  }
 });
 
 module.exports = Icon;

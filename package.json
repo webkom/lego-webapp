@@ -33,6 +33,7 @@
     "watchify": "^2.2.1"
   },
   "dependencies": {
+    "jsxcs": "^0.2.1",
     "lego-flux": "0.0.1",
     "node-jsx": "^0.12.4"
   }

@@ -25,10 +25,10 @@ var EventStore = createStore({
   },
 
   addEvents: function(events) {
-    var that = this;
+    var self = this;
     events.forEach(function(event) {
-      if (!that.events[event.id])
-        that.events[event.id] = event;
+      if (!self.events[event.id])
+        self.events[event.id] = event;
     });
   },
 

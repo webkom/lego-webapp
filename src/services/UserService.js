@@ -12,18 +12,5 @@ module.exports = {
         if (err || !res.ok) return fn(res.body);
         return fn(null, res.body);
       });
-  },
-
-  getToken: function() {
-  	return localStorage.token || 'CRASHOVERRIDE';
-  },
-
-  logout: function(fn) {
-  	delete localStorage.token;
-  	fn && fn();
-  },
-
-  loggedIn: function() {
-  	return !!localStorage.token;
   }
 };

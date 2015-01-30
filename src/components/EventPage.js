@@ -15,7 +15,7 @@ var AuthMixin = require('./AuthMixin');
 
 function getState(eventId) {
   return {
-    event: EventStore.get(eventId|0)
+    event: EventStore.get(eventId | 0)
   };
 }
 

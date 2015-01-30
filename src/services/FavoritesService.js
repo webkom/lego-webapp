@@ -18,5 +18,5 @@ module.exports = {
     favorites.push(favorite);
     window.localStorage.favorites = JSON.stringify(favorites);
     fn(null, favorite);
-  },
+  }
 };

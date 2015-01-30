@@ -20,7 +20,7 @@ module.exports = {
 
     FavoritesService.addFavorite(favorite, function(err, payload) {
       if (err) return this.addFavoriteFailed(err);
-      return this.addFavoriteCompleted(payload); 
+      return this.addFavoriteCompleted(payload);
     }.bind(this));
   },
 

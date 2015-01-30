@@ -12,7 +12,7 @@ var moment = require('moment');
 var Time = React.createClass({
 
   propTypes: {
-    format: React.PropTypes.string,
+    format: React.PropTypes.string
   },
 
   getDefaultProps: function() {

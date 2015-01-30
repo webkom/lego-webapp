@@ -20,8 +20,7 @@ var LoadingIndicator = React.createClass({
       );
     }
     return this.props.children;
-  },
-
+  }
 });
 
 module.exports = LoadingIndicator;

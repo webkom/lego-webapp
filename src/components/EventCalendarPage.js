@@ -6,7 +6,7 @@ var EventStore = require('../stores/EventStore');
 var EventCalendarPage = React.createClass({
 
   mixins: [EventStore.mixin()],
-  
+
   render: function() {
     var events = this.state.events;
     return (

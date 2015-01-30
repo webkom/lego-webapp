@@ -19,7 +19,7 @@ var SidebarBlock = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 });
 
 module.exports = SidebarBlock;

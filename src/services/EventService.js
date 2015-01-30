@@ -16,11 +16,11 @@ module.exports = {
   },
 
   findById: function(id, fn) {
-  	RESTService.get('/events/' + id)
-  	  .auth('admin', 'testtest')
-  	  .end(function(res) {
-  	  	if (!res.ok) return fn(res.body);
+    RESTService.get('/events/' + id)
+      .auth('admin', 'testtest')
+      .end(function(res) {
+        if (!res.ok) return fn(res.body);
         return fn(null, res.body);
-  	  });
+      });
   }
 };

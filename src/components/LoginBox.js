@@ -12,7 +12,7 @@ var LoginBox = React.createClass({
 
   getInitialState: function() {
     return {
-      loginOpen: false,
+      loginOpen: false
     };
   },
 
