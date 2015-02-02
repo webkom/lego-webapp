@@ -50,8 +50,7 @@ all: $(BUILD_CSS) $(BUILD_JS)
 # Run tests
 #
 
-test: lint
-	$(JEST) src/
+test: lint jest
 
 #
 # Build CSS files
@@ -93,6 +92,9 @@ watch-css: $(BUILD_CSS)
 lint:
 	$(LINT) src/* --verbose
 	$(JSXCS) src --esnext
+
+jest:
+	$(JEST) src/
 
 watch:
 	@foreman start

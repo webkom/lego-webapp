@@ -1,3 +1,4 @@
 tasks:
  - npm install
- - make test
+ - make lint
+ - make jest
