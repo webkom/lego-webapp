@@ -120,17 +120,44 @@ h3
       display flex
       align-items flex-top
 
-      div
+      &:hover
+        .event-time
+          opacity 1
+          max-height 30px
+
+      .event-time
+        display flex
+        position absolute
+        bottom 0
+
+        margin 0
+        padding 2px 30px
+
+        overflow-y hidden
+        opacity 0
+        max-height 0
+        transition all .4s
+
+        div
+          flex 1
+
+        .location
+          text-align right
+
+      > div
         flex 1 50%
+        position relative
 
         &:nth-child(2)
-          padding 10px 30px
           order -1
           background white
 
+          .description
+            padding 10px 30px
+
     &:nth-child(2n+1)
       > article
-        div:nth-child(2)
+        > div:nth-child(2)
           order 1
 
 .sidebar
