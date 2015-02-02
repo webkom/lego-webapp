@@ -3,6 +3,7 @@
 var React = require('react');
 var Link = require('react-router').Link;
 var Icon = require('./Icon');
+var Time = require('./Time');
 var SidebarBlock = require('./SidebarBlock');
 var LoadingIndicator = require('./LoadingIndicator');
 var EventTimeline = require('./EventTimeline');
@@ -61,10 +62,22 @@ var Overview = React.createClass({
                   return (
                     <Link to='event' params={{eventId: event.id}} key={event.id} className={'feed-event-box ' + event.type}>
                       <article>
-                        <div><img src={Math.random() > .5 ? 'https://s3.amazonaws.com/f.cl.ly/items/411l1P330u2X0M3P3D0q/Skjermbilde%202015-01-30%20kl.%2017.27.53.png' : 'http://himmelpartner.no/wp-content/uploads/2013/09/L%C3%A5vefest31-08-2013-3869.jpg'} /></div>
                         <div>
-                          <h3>{event.name}</h3>
-                          {event.description.slice(0, 200)}
+                          <img src={Math.random() > 0.5 ? 'https://s3.amazonaws.com/f.cl.ly/items/411l1P330u2X0M3P3D0q/Skjermbilde%202015-01-30%20kl.%2017.27.53.png' : 'http://himmelpartner.no/wp-content/uploads/2013/09/L%C3%A5vefest31-08-2013-3869.jpg'} />
+                        </div>
+                        <div>
+                          <div className='description'>
+                            <h3>{event.name}</h3>
+                            {event.description.slice(0, 200)}
+                          </div>
+                          <div className='event-time' style={{backgroundColor: event.color}}>
+                            <div className='time'>
+                              <Icon name='clock-o' /> <Time time={event.starts_at} format='DD/MM, HH:mm' />
+                            </div>
+                            <div className='location'>
+                              <Icon name='map-marker' /> H3, Hovedbygget
+                            </div>
+                          </div>
                         </div>
                       </article>
                     </Link>
