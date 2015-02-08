@@ -10,6 +10,7 @@ WATCHIFY   = node_modules/.bin/watchify
 JEST       = node_modules/.bin/jest
 LINT       = node_modules/.bin/jsxhint
 JSXCS      = node_modules/.bin/jsxcs
+FOREMAN    = node_modules/.bin/nf
 NIB        = node_modules/nib/lib
 
 #
@@ -62,7 +63,6 @@ ifneq ($(NODE_ENV), development)
 	$(STYLUS) --include $(NIB) --include assets/stylesheets --include-css --compress < $(CSS_MAIN) > $(BUILD_CSS)
 else
 	$(STYLUS) --include $(NIB) --include assets/stylesheets --include-css < $(CSS_MAIN) > $(BUILD_CSS)
-	@curl --silent http://localhost:35729/changed?files=$@
 endif
 
 #
@@ -95,7 +95,7 @@ lint:
 	$(JSXCS) src --esnext
 
 watch:
-	@foreman start
+	@$(FOREMAN) start
 
 clean:
 	rm -f $(BUILD_CSS) $(BUILD_JS)
