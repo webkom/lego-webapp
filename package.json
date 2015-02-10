@@ -6,8 +6,13 @@
   "author": "webkom",
   "license": "MIT",
   "scripts": {
-    "test": "make test",
-    "build": "make"
+    "watch-js": "watchify src/index.js -d -o public/app.js -v",
+    "watch-css": "stylus --use nib -w assets/stylesheets/style.styl -o public/app.css",
+    "watch": "npm run watch-js & npm run watch-css & npm run start",
+    "start": "nodemon --exec npm run 6to5-node -- server.js",
+    "test": "jest",
+    "lint": "jsxhint src/ && jsxcs src/ --esnext; true",
+    "6to5-node": "6to5-node --experimental --modules=common"
   },
   "repository": {
     "type": "git",
@@ -39,6 +44,11 @@
     "jsxcs": "^0.2.1",
     "lego-flux": "0.0.1",
     "react-a11y": "0.0.5"
+  },
+  "browserify": {
+    "transform": [
+      ["6to5ify", {"modules": "common"}]
+    ]
   },
   "jscsConfig": {
     "preset": "airbnb",

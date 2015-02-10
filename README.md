@@ -5,12 +5,7 @@
 ## Setup
 ```bash
 $ npm install
-$ brew install visionmedia-watch
-```
-
-Start a decent development environment with a server, asset building and live reloading.
-```bash
-$ make watch
+$ npm run watch
 ```
 
 Everything should be up and running on [localhost:3000](http://localhost:3000).

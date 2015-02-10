@@ -2,9 +2,8 @@ import React from 'react';
 import Router from 'react-router';
 import moment from 'moment';
 import routes from './routes';
-
-require('react-a11y')();
-require('moment/locale/nb');
+import reactA11y from 'react-a11y';
+import 'moment/locale/nb';
 
 moment.locale('nb');
 
