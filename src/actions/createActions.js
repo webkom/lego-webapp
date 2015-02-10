@@ -3,16 +3,8 @@ import assign from 'object-assign';
 
 function Actions() {}
 
-export default function createActions(actions) {
+function createActions(actions) {
   var actionContainer = new Actions();
-
-  if (actions.hasOwnProperty('voidActions')) {
-    actions.voidActions.forEach((action) => {
-      actions[action] = () => {};
-    });
-
-    delete actions.voidActions;
-  }
 
   Object.keys(actions).forEach(function(action) {
     actionContainer[action] = (...args) => {
@@ -25,3 +17,5 @@ export default function createActions(actions) {
 
   return actionContainer;
 }
+
+export default createActions;

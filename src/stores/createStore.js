@@ -23,8 +23,10 @@ class Store {
   }
 }
 
-export default function createStore(methods) {
+function createStore(methods) {
   var store = assign(new Store(), methods);
   Dispatcher.registerStore(store);
   return store;
 }
+
+export default createStore;

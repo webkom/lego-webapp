@@ -27,7 +27,7 @@ export default assign(new Dispatcher(), {
       // the store doesn't care about this action
       if (!handler) return;
 
-      if ('string' === typeof handler) {
+      if (typeof handler === 'string') {
         handlerName = handler;
         handler = store[handler];
       }
