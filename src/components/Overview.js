@@ -1,18 +1,16 @@
-'use strict';
-
-var React = require('react');
-var Link = require('react-router').Link;
-var Icon = require('./Icon');
-var SidebarBlock = require('./SidebarBlock');
-var LoadingIndicator = require('./LoadingIndicator');
-var EventTimeline = require('./EventTimeline');
-var Favorites = require('./Favorites');
-var FavoritesStore = require('../stores/FavoritesStore');
-var FavoritesService = require('../services/FavoritesService');
-var FavoritesActionCreators = require('../actions/FavoritesActionCreators');
-var EventStore = require('../stores/EventStore');
-var EventService = require('../services/EventService');
-var EventActionCreators = require('../actions/EventActionCreators');
+import React from 'react';
+import {Link} from 'react-router';
+import Icon from './Icon';
+import SidebarBlock from './SidebarBlock';
+import LoadingIndicator from './LoadingIndicator';
+import EventTimeline from './EventTimeline';
+import Favorites from './Favorites';
+import FavoritesStore from '../stores/FavoritesStore';
+import FavoritesService from '../services/FavoritesService';
+import FavoritesActionCreators from '../actions/FavoritesActionCreators';
+import EventStore from '../stores/EventStore';
+import EventService from '../services/EventService';
+import EventActionCreators from '../actions/EventActionCreators';
 
 var Overview = React.createClass({
 
@@ -61,7 +59,7 @@ var Overview = React.createClass({
                   return (
                     <Link to='event' params={{eventId: event.id}} key={event.id} className={'feed-event-box ' + event.type}>
                       <article>
-                        <div><img src={Math.random() > .5 ? 'https://s3.amazonaws.com/f.cl.ly/items/411l1P330u2X0M3P3D0q/Skjermbilde%202015-01-30%20kl.%2017.27.53.png' : 'http://himmelpartner.no/wp-content/uploads/2013/09/L%C3%A5vefest31-08-2013-3869.jpg'} /></div>
+                        <div><img src={Math.random() > 0.5 ? 'https://s3.amazonaws.com/f.cl.ly/items/411l1P330u2X0M3P3D0q/Skjermbilde%202015-01-30%20kl.%2017.27.53.png' : 'http://himmelpartner.no/wp-content/uploads/2013/09/L%C3%A5vefest31-08-2013-3869.jpg'} /></div>
                         <div>
                           <h3>{event.name}</h3>
                           {event.description.slice(0, 200)}
@@ -79,4 +77,4 @@ var Overview = React.createClass({
   }
 });
 
-module.exports = Overview;
+export default Overview;

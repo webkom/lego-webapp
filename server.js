@@ -1,4 +1,4 @@
-require('node-jsx').install({harmony: true});
+require('6to5/register');
 
 var fs = require('fs');
 var express = require('express');

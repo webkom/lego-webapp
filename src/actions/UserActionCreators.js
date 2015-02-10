@@ -1,8 +1,6 @@
-'use strict';
-
-var Dispatcher = require('lego-flux/lib/Dispatcher');
-var UserService = require('../services/UserService');
-var tryServerAction = require('../tryServerAction');
+import Dispatcher from 'lego-flux/lib/Dispatcher';
+import UserService from '../services/UserService';
+import tryServerAction from '../tryServerAction';
 
 var UserActionCreators = {
 
@@ -36,4 +34,4 @@ var UserActionCreators = {
   }
 };
 
-module.exports = UserActionCreators;
+export default UserActionCreators;

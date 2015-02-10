@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * This thing of beauty is a helper method for use
  * in action creators that require something to be done on the server.
@@ -26,4 +24,4 @@ function tryServerAction(context, actionName, serviceMethod, ...args) {
   });
 }
 
-module.exports = tryServerAction;
+export default tryServerAction;

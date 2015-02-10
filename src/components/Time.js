@@ -1,7 +1,5 @@
-'use strict';
-
-var React = require('react');
-var moment = require('moment');
+import React from 'react';
+import moment from 'moment';
 
 /**
  * A wrapper for the HTML <time>-element
@@ -27,4 +25,4 @@ var Time = React.createClass({
 
 });
 
-module.exports = Time;
+export default Time;

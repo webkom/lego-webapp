@@ -1,9 +1,7 @@
-'use strict';
+import request from 'superagent';
+import RESTService from './RESTService';
 
-var request = require('superagent');
-var RESTService = require('./RESTService');
-
-module.exports = {
+export default {
 
   login: function(username, password) {
     return new Promise(function(resolve, reject) {

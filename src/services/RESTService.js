@@ -1,7 +1,5 @@
-'use strict';
-
-var request = require('superagent');
-var config = require('../../config.json');
+import request from 'superagent';
+import config from '../../config.json';
 
 /**
  * This module is basically a wrapper

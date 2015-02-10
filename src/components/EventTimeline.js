@@ -1,9 +1,7 @@
-'use strict';
-
-var React = require('react');
-var Link = require('react-router').Link;
-var Time = require('./Time');
-var Icon = require('./Icon');
+import React from 'react';
+import {Link} from 'react-router';
+import Time from './Time';
+import Icon from './Icon';
 
 function randomImage() {
   var urls = [
@@ -38,4 +36,4 @@ var EventTimeline = React.createClass({
   }
 });
 
-module.exports = EventTimeline;
+export default EventTimeline;

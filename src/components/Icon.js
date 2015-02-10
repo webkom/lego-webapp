@@ -1,6 +1,4 @@
-'use strict';
-
-var React = require('react');
+import React from 'react';
 
 /**
  * Render a Font-Awesome icon.
@@ -23,4 +21,4 @@ var Icon = React.createClass({
   }
 });
 
-module.exports = Icon;
+export default Icon;

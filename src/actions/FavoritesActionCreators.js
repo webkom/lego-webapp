@@ -1,9 +1,7 @@
-'use strict';
+import Dispatcher from 'lego-flux/lib/Dispatcher';
+import FavoritesService from '../services/FavoritesService';
 
-var Dispatcher = require('lego-flux/lib/Dispatcher');
-var FavoritesService = require('../services/FavoritesService');
-
-module.exports = {
+export default {
 
   receiveAll: function(favorites) {
     Dispatcher.handleServerAction({

@@ -1,10 +1,8 @@
-'use strict';
-
-var React = require('react/addons');
-var UserActionCreators = require('../actions/UserActionCreators');
-var UserStore = require('../stores/UserStore');
-var AuthMixin = require('./AuthMixin');
-var Icon  = require('./Icon');
+import React from 'react/addons';
+import UserActionCreators from '../actions/UserActionCreators';
+import UserStore from '../stores/UserStore';
+import AuthMixin from './AuthMixin';
+import Icon from './Icon';
 
 var LoginBox = React.createClass({
 
@@ -74,4 +72,4 @@ var LoginBox = React.createClass({
   }
 });
 
-module.exports = LoginBox;
+export default LoginBox;

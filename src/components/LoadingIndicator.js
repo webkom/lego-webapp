@@ -1,6 +1,4 @@
-'use strict';
-
-var React = require('react');
+import React from 'react';
 
 var LoadingIndicator = React.createClass({
 
@@ -23,4 +21,4 @@ var LoadingIndicator = React.createClass({
   }
 });
 
-module.exports = LoadingIndicator;
+export default LoadingIndicator;

@@ -1,6 +1,4 @@
-'use strict';
-
-var React = require('react');
+import React from 'react';
 
 var NotFoundPage = React.createClass({
   render: function() {
@@ -10,4 +8,4 @@ var NotFoundPage = React.createClass({
   }
 });
 
-module.exports = NotFoundPage;
+export default NotFoundPage;

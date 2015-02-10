@@ -1,12 +1,10 @@
-'use strict';
-
-var React = require('react');
-var Link = require('react-router').Link;
-var Time = require('./Time');
-var Icon = require('./Icon');
-var FavoritesStore = require('../stores/FavoritesStore');
-var FavoritesService = require('../services/FavoritesService');
-var FavoritesActionCreators = require('../actions/FavoritesActionCreators');
+import React from 'react';
+import {Link} from 'react-router';
+import Time from './Time';
+import Icon from './Icon';
+import FavoritesStore from '../stores/FavoritesStore';
+import FavoritesService from '../services/FavoritesService';
+import FavoritesActionCreators from '../actions/FavoritesActionCreators';
 
 var Favorites = React.createClass({
 
@@ -34,4 +32,4 @@ var Favorites = React.createClass({
   }
 });
 
-module.exports = Favorites;
+export default Favorites;

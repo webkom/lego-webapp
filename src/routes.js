@@ -1,15 +1,13 @@
-'use strict';
+import React from 'react';
+import Router from 'react-router';
+import App from './components/App';
+import Overview from './components/Overview';
+import EventCalendarPage from './components/EventCalendarPage';
+import EventPage from './components/EventPage';
+import NotFoundPage from './components/NotFoundPage';
+import StaticPage from './components/StaticPage';
 
-var React = require('react');
-var Router = require('react-router');
 var {Routes, Route, DefaultRoute, NotFoundRoute} = Router;
-
-var App = require('./components/App');
-var Overview = require('./components/Overview');
-var EventCalendarPage = require('./components/EventCalendarPage');
-var EventPage = require('./components/EventPage');
-var NotFoundPage = require('./components/NotFoundPage');
-var StaticPage = require('./components/StaticPage');
 
 var routes = (
   <Route handler={App} path='/'>
@@ -21,4 +19,4 @@ var routes = (
   </Route>
 );
 
-module.exports = routes;
+export default routes;

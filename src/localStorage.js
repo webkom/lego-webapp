@@ -1,6 +1,4 @@
-'use strict';
-
-module.exports = {
+export default {
 
   setItem: function(key, value) {
     window.localStorage.setItem(key, JSON.stringify(value));
