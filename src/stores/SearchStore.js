@@ -1,4 +1,4 @@
-import {createStore, registerStore, Dispatcher} from 'lego-flux';
+import createStore from './createStore';
 
 var _results = [];
 var _closed = true;
@@ -11,13 +11,7 @@ function generateDummyResults() {
   return results;
 }
 
-var SearchStore = createStore({
-
-  actions: {
-    'SEARCH': '_onSearch',
-    'CLEAR_SEARCH': '_onClearSearch',
-    'RECEIVE_SEARCH_RESULTS': '_onReceiveSearchResults'
-  },
+export default createStore({
 
   getResults() {
     return _results;
@@ -27,24 +21,22 @@ var SearchStore = createStore({
     return _closed;
   },
 
-  _onSearch() {
-    _results = generateDummyResults();
-    _closed = false;
-    this.emitChange();
-  },
+  actions: {
+    search() {
+      _results = generateDummyResults();
+      _closed = false;
+      this.emitChange();
+    },
 
-  _onClearSearch() {
-    _results = [];
-    _closed = true;
-    this.emitChange();
-  },
+    clearSearch() {
+      _results = [];
+      _closed = true;
+      this.emitChange();
+    },
 
-  _onReceiveSearchResults(action) {
-    _results = action.results;
-    this.emitChange();
+    searchResultsReceived(action) {
+      _results = action.results;
+      this.emitChange();
+    }
   }
 });
-
-registerStore(Dispatcher, SearchStore);
-
-export default SearchStore;

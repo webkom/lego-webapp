@@ -1,4 +1,4 @@
-import {createStore, registerStore, Dispatcher} from 'lego-flux';
+import createStore from './createStore';
 
 const colors = {
   company_presentation: '#A1C34A',
@@ -8,13 +8,9 @@ const colors = {
   other: '#333333'
 };
 
-var EventStore = createStore({
+var _events = {};
 
-  actions: {
-    'RECEIVE_EVENTS': '_onReceiveEvents'
-  },
-
-  events: {},
+export default createStore({
 
   getState() {
     return {
@@ -23,40 +19,36 @@ var EventStore = createStore({
   },
 
   addEvents(events) {
-    var self = this;
-    events.forEach(function(event) {
-      if (!self.events[event.id])
-        self.events[event.id] = event;
+    events.forEach((event) => {
+      _events[event.id] = event;
     });
   },
 
   get(id) {
-    return this.events[id] || {};
+    return _events[id] || {};
   },
 
   getAll() {
-    return this.events;
+    return _events;
   },
 
   getAllSorted() {
     var sorted = [];
-    for (var id in this.events) {
-      this.events[id].color = colors[this.events[id].type];
-      sorted.push(this.events[id]);
+    for (var id in _events) {
+      _events[id].color = colors[_events[id].type];
+      sorted.push(_events[id]);
     }
     return sorted;
   },
 
   isEmpty() {
-    return Object.keys(this.events).length === 0;
+    return Object.keys(_events).length === 0;
   },
 
-  _onReceiveEvents(action) {
-    this.addEvents(action.events);
-    this.emitChange();
+  actions: {
+    eventsReceived(action) {
+      this.addEvents(action.events);
+      this.emitChange();
+    }
   }
 });
-
-registerStore(Dispatcher, EventStore);
-
-export default EventStore;

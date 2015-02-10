@@ -7,20 +7,30 @@ import EventTimeline from './EventTimeline';
 import Favorites from './Favorites';
 import FavoritesStore from '../stores/FavoritesStore';
 import FavoritesService from '../services/FavoritesService';
-import FavoritesActionCreators from '../actions/FavoritesActionCreators';
+import FavoritesActions from '../actions/FavoritesActions';
 import EventStore from '../stores/EventStore';
-import EventService from '../services/EventService';
-import EventActionCreators from '../actions/EventActionCreators';
+import * as EventService from '../services/EventService';
+import EventActions from '../actions/EventActions';
 
 var Overview = React.createClass({
 
-  mixins: [EventStore.mixin()],
+  getInitialState() {
+    return EventStore.getState();
+  },
 
   componentDidMount() {
-    EventService.findAll(function(err, events) {
-      if (err) return;
-      EventActionCreators.receiveAll(events);
+    EventStore.addChangeListener(this.update);
+    EventService.findAll().then((events) => {
+      EventActions.receiveAll(events);
     });
+  },
+
+  componentWillUnmount() {
+    EventStore.removeChangeListener(this.update);
+  },
+
+  update() {
+    this.setState(EventStore.getState());
   },
 
   render() {

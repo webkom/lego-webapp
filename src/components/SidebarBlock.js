@@ -1,6 +1,7 @@
 import React from 'react';
 
 var SidebarBlock = React.createClass({
+
   getDefaultProps() {
     return {
       title: 'No title'

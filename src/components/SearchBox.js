@@ -1,6 +1,6 @@
 import React from 'react';
 import debounce from 'debounce';
-import SearchActionCreators from '../actions/SearchActionCreators';
+import SearchActions from '../actions/SearchActions';
 import SearchStore from '../stores/SearchStore';
 
 const ESCAPE_KEY = 27;
@@ -41,7 +41,7 @@ var SearchBox = React.createClass({
   },
 
   search: debounce(function() {
-    SearchActionCreators.search(this.state.query);
+    SearchActions.search(this.state.query);
   }, 300),
 
   _onKeyDown(e) {
@@ -64,7 +64,7 @@ var SearchBox = React.createClass({
 
   close() {
     this.setState({query: ''});
-    SearchActionCreators.clear();
+    SearchActions.clear();
   },
 
   render() {

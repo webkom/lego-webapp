@@ -1,5 +1,5 @@
 import React from 'react/addons';
-import UserActionCreators from '../actions/UserActionCreators';
+import UserActions from '../actions/UserActions';
 import UserStore from '../stores/UserStore';
 import AuthMixin from './AuthMixin';
 import Icon from './Icon';
@@ -39,7 +39,7 @@ var LoginBox = React.createClass({
       return;
     }
 
-    UserActionCreators.login(username, password);
+    UserActions.login(username, password);
   },
 
   render() {

@@ -3,9 +3,9 @@ import Router from 'react-router';
 import RequireLogin from './RequireLogin';
 import LoadingIndicator from './LoadingIndicator';
 import EventStore from '../stores/EventStore';
-import EventService from '../services/EventService';
-import EventActionCreators from '../actions/EventActionCreators';
-import FavoritesActionCreators from '../actions/FavoritesActionCreators';
+import * as EventService from '../services/EventService';
+import EventActions from '../actions/EventActions';
+import FavoritesActions from '../actions/FavoritesActions';
 import AuthMixin from './AuthMixin';
 
 function getState(eventId) {
@@ -30,7 +30,7 @@ var EventPage = React.createClass({
     EventStore.addChangeListener(this._onChange);
     EventService.findById(this.getParams().eventId, function(err, event) {
       if (err) return;
-      EventActionCreators.receiveAll([event]);
+      EventActions.receiveAll([event]);
     });
   },
 
@@ -39,7 +39,7 @@ var EventPage = React.createClass({
   },
 
   _onAddToFavorites() {
-    FavoritesActionCreators.addFavorite(this.state.event);
+    FavoritesActions.addFavorite(this.state.event);
   },
 
   render() {

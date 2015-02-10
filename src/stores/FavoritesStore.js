@@ -1,29 +1,23 @@
-import {createStore, registerStore, Dispatcher} from 'lego-flux';
+import createStore from './createStore';
 
-var FavoritesStore = createStore({
+var _favorites = [];
 
-  actions: {
-    'FAVORITES_RECEIVED': '_onFavoritesReceived'
-  },
-
-  favorites: [],
+export default createStore({
 
   getState() {
     return {
-      favorites: this.favorites
+      favorites: _favorites
     };
   },
 
   getAll() {
-    return this.favorites;
+    return _favorites;
   },
 
-  _onFavoritesReceived(action) {
-    this.favorites = action.favorites;
-    this.emitChange();
-  },
+  actions: {
+    favoritesReceived(action) {
+      _favorites = action.favorites;
+      this.emitChange();
+    }
+  }
 });
-
-registerStore(Dispatcher, FavoritesStore);
-
-export default FavoritesStore;

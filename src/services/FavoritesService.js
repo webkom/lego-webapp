@@ -1,4 +1,4 @@
-import storage from '../localStorage';
+import {setItem, getItem} from '../localStorage';
 
 /**
  * Dummy implementation of favorites.
@@ -8,13 +8,13 @@ import storage from '../localStorage';
 
 export function findAll(fn) {
   // not async atm, but will fetch from server soon
-  var favorites = storage.getItem('favorites');
+  var favorites = getItem('favorites');
   fn(null, favorites);
 }
 
 export function addFavorite(favorite, fn) {
-  var favorites = storage.getItem('favorites') || [];
+  var favorites = getItem('favorites') || [];
   favorites.push(favorite);
-  storage.setItem('favorites', favorites);
+  setItem('favorites', favorites);
   fn(null, favorite);
 }
