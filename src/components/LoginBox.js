@@ -8,13 +8,13 @@ var LoginBox = React.createClass({
 
   mixins: [AuthMixin],
 
-  getInitialState: function() {
+  getInitialState() {
     return {
       loginOpen: false
     };
   },
 
-  toggleLoginOpen: function() {
+  toggleLoginOpen() {
     this.setState({
       loginOpen: !this.state.loginOpen
     });
@@ -23,7 +23,7 @@ var LoginBox = React.createClass({
       this.refs.username.getDOMNode().focus();
   },
 
-  onLogin: function(event) {
+  onLogin(event) {
     event.preventDefault();
 
     var username = this.refs.username.getDOMNode().value.trim();
@@ -42,7 +42,7 @@ var LoginBox = React.createClass({
     UserActionCreators.login(username, password);
   },
 
-  render: function() {
+  render() {
     var cx = React.addons.classSet;
     return (
       <div className='login-container'>

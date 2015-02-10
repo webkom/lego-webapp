@@ -16,13 +16,13 @@ var EventStore = createStore({
 
   events: {},
 
-  getState: function() {
+  getState() {
     return {
       events: this.getAllSorted()
     };
   },
 
-  addEvents: function(events) {
+  addEvents(events) {
     var self = this;
     events.forEach(function(event) {
       if (!self.events[event.id])
@@ -30,15 +30,15 @@ var EventStore = createStore({
     });
   },
 
-  get: function(id) {
+  get(id) {
     return this.events[id] || {};
   },
 
-  getAll: function() {
+  getAll() {
     return this.events;
   },
 
-  getAllSorted: function() {
+  getAllSorted() {
     var sorted = [];
     for (var id in this.events) {
       this.events[id].color = colors[this.events[id].type];
@@ -47,11 +47,11 @@ var EventStore = createStore({
     return sorted;
   },
 
-  isEmpty: function() {
+  isEmpty() {
     return Object.keys(this.events).length === 0;
   },
 
-  _onReceiveEvents: function(action) {
+  _onReceiveEvents(action) {
     this.addEvents(action.events);
     this.emitChange();
   }

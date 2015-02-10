@@ -3,14 +3,14 @@ import FavoritesService from '../services/FavoritesService';
 
 export default {
 
-  receiveAll: function(favorites) {
+  receiveAll(favorites) {
     Dispatcher.handleServerAction({
       type: 'FAVORITES_RECEIVED',
       favorites: favorites
     });
   },
 
-  addFavorite: function(favorite) {
+  addFavorite(favorite) {
     Dispatcher.handleViewAction({
       type: 'ADD_FAVORITE',
       favorite: favorite
@@ -22,14 +22,14 @@ export default {
     }.bind(this));
   },
 
-  addFavoriteCompleted: function(favorite) {
+  addFavoriteCompleted(favorite) {
     Dispatcher.handleServerAction({
       type: 'ADD_FAVORITE_COMPLETED',
       favorite: favorite
     });
   },
 
-  addFavoriteFailed: function(err) {
+  addFavoriteFailed(err) {
     Dispatcher.handleServerAction({
       type: 'ADD_FAVORITE_FAILED',
       error: err

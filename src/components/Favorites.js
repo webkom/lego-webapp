@@ -10,14 +10,14 @@ var Favorites = React.createClass({
 
   mixins: [FavoritesStore.mixin()],
 
-  componentDidMount: function() {
+  componentDidMount() {
     FavoritesService.findAll(function(err, favorites) {
       if (err) return;
       FavoritesActionCreators.receiveAll(favorites);
     });
   },
 
-  render: function() {
+  render() {
     return (
       <ul>
         {(this.state.favorites || []).map(function(favorite, i) {

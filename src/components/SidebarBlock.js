@@ -1,13 +1,13 @@
 import React from 'react';
 
 var SidebarBlock = React.createClass({
-  getDefaultProps: function() {
+  getDefaultProps() {
     return {
       title: 'No title'
     };
   },
 
-  render: function() {
+  render() {
     return (
       <div>
         <h2>{this.props.title}</h2>

@@ -7,25 +7,25 @@ import UserStore from '../stores/UserStore';
 
 var App = React.createClass({
 
-  getInitialState: function() {
+  getInitialState() {
     return {
       menuOpen: false
     };
   },
 
-  _onToggleMenu: function() {
+  _onToggleMenu() {
     this.setState({
       menuOpen: !this.state.menuOpen
     });
   },
 
-  _onCloseMenu: function() {
+  _onCloseMenu() {
     if (this.state.menuOpen) {
       this.setState({menuOpen: false});
     }
   },
 
-  render: function() {
+  render() {
     return (
       <section onClick={this._onCloseMenu}>
         <header>

@@ -4,7 +4,7 @@ import tryServerAction from '../tryServerAction';
 
 var UserActionCreators = {
 
-  login: function(username, password) {
+  login(username, password) {
     Dispatcher.handleViewAction({
       type: 'LOGIN',
       username: username,
@@ -14,20 +14,20 @@ var UserActionCreators = {
     tryServerAction(this, 'login', UserService.login, username, password);
   },
 
-  logout: function() {
+  logout() {
     Dispatcher.handleViewAction({
       type: 'LOGOUT'
     });
   },
 
-  loginCompleted: function(userInfo) {
+  loginCompleted(userInfo) {
     Dispatcher.handleServerAction({
       type: 'LOGIN_COMPLETED',
       userInfo: userInfo
     });
   },
 
-  loginFailed: function() {
+  loginFailed() {
     Dispatcher.handleServerAction({
       type: 'LOGIN_FAILED'
     });

@@ -18,15 +18,15 @@ var EventPage = React.createClass({
 
   mixins: [AuthMixin, Router.State],
 
-  getInitialState: function() {
+  getInitialState() {
     return getState(this.getParams().eventId);
   },
 
-  _onChange: function() {
+  _onChange() {
     this.setState(getState(this.getParams().eventId));
   },
 
-  componentDidMount: function() {
+  componentDidMount() {
     EventStore.addChangeListener(this._onChange);
     EventService.findById(this.getParams().eventId, function(err, event) {
       if (err) return;
@@ -34,15 +34,15 @@ var EventPage = React.createClass({
     });
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     EventStore.removeChangeListener(this._onChange);
   },
 
-  _onAddToFavorites: function() {
+  _onAddToFavorites() {
     FavoritesActionCreators.addFavorite(this.state.event);
   },
 
-  render: function() {
+  render() {
     var event = this.state.event;
     return (
       <section>

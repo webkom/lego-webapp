@@ -16,7 +16,7 @@ function randomImage() {
 
 var EventTimeline = React.createClass({
 
-  render: function() {
+  render() {
     var events = this.props.events;
     return (
       <div className='event-timeline'>

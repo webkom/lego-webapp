@@ -5,7 +5,7 @@ var EventCalendarPage = React.createClass({
 
   mixins: [EventStore.mixin()],
 
-  render: function() {
+  render() {
     var events = this.state.events;
     return (
       <div className='content'>

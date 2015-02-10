@@ -2,14 +2,14 @@ import Dispatcher from 'lego-flux/lib/Dispatcher';
 
 export default {
 
-  search: function(query) {
+  search(query) {
     Dispatcher.handleViewAction({
       type: 'SEARCH',
       query: query
     });
   },
 
-  clear: function() {
+  clear() {
     Dispatcher.handleViewAction({
       type: 'CLEAR_SEARCH'
     });

@@ -13,42 +13,42 @@ var UserStore = createStore({
     'LOGOUT': '_onLogout'
   },
 
-  getUserInfo: function() {
+  getUserInfo() {
     return _user;
   },
 
-  isLoggedIn: function() {
+  isLoggedIn() {
     return _isLoggedIn;
   },
 
-  destroy: function() {
+  destroy() {
     _user = {};
     _isLoggedIn = false;
     _loginFailed = false;
   },
 
-  didLoginFail: function() {
+  didLoginFail() {
     return _loginFailed;
   },
 
-  _onLoginCompleted: function(action) {
+  _onLoginCompleted(action) {
     _user = action.userInfo;
     _isLoggedIn = true;
     _loginFailed = false;
     this.emitChange();
   },
 
-  _onLoginFailed: function(action) {
+  _onLoginFailed(action) {
     _loginFailed = true;
     this.emitChange();
   },
 
-  _onLogin: function(action) {
+  _onLogin(action) {
     _loginFailed = true;
     this.emitChange();
   },
 
-  _onLogout: function(action) {
+  _onLogout(action) {
     this.destroy();
     this.emitChange();
   }

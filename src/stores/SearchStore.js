@@ -19,27 +19,27 @@ var SearchStore = createStore({
     'RECEIVE_SEARCH_RESULTS': '_onReceiveSearchResults'
   },
 
-  getResults: function() {
+  getResults() {
     return _results;
   },
 
-  isClosed: function() {
+  isClosed() {
     return _closed;
   },
 
-  _onSearch: function() {
+  _onSearch() {
     _results = generateDummyResults();
     _closed = false;
     this.emitChange();
   },
 
-  _onClearSearch: function() {
+  _onClearSearch() {
     _results = [];
     _closed = true;
     this.emitChange();
   },
 
-  _onReceiveSearchResults: function(action) {
+  _onReceiveSearchResults(action) {
     _results = action.results;
     this.emitChange();
   }

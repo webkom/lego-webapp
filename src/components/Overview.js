@@ -16,14 +16,14 @@ var Overview = React.createClass({
 
   mixins: [EventStore.mixin()],
 
-  componentDidMount: function() {
+  componentDidMount() {
     EventService.findAll(function(err, events) {
       if (err) return;
       EventActionCreators.receiveAll(events);
     });
   },
 
-  render: function() {
+  render() {
     var events = this.state.events;
     return (
       <section>

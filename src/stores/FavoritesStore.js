@@ -8,17 +8,17 @@ var FavoritesStore = createStore({
 
   favorites: [],
 
-  getState: function() {
+  getState() {
     return {
       favorites: this.favorites
     };
   },
 
-  getAll: function() {
+  getAll() {
     return this.favorites;
   },
 
-  _onFavoritesReceived: function(action) {
+  _onFavoritesReceived(action) {
     this.favorites = action.favorites;
     this.emitChange();
   },
