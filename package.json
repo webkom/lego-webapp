@@ -39,5 +39,21 @@
     "jsxcs": "^0.2.1",
     "lego-flux": "0.0.1",
     "react-a11y": "0.0.5"
+  },
+  "jscsConfig": {
+    "preset": "airbnb",
+    "excludeFiles": ["node_modules/**", "coverage/**", "public/libs/**"],
+    "validateIndentation": 2,
+    "disallowMultipleVarDecl": true,
+    "requireMultipleVarDecl": null,
+    "safeContextKeyword": ["self"],
+    "requireCamelCaseOrUpperCaseIdentifiers": "ignoreProperties"
+  },
+  "jshintConfig": {
+    "globalstrict": false,
+    "browserify": true,
+    "esnext": true,
+    "devel": true,
+    "expr": true
   }
 }
