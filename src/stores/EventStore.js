@@ -1,8 +1,6 @@
-'use strict';
+import {createStore, registerStore, Dispatcher} from 'lego-flux';
 
-var {createStore, registerStore, Dispatcher} = require('lego-flux');
-
-var colors = {
+const colors = {
   company_presentation: '#A1C34A',
   course: '#52B0EC',
   party: '#E8953A',
@@ -61,4 +59,4 @@ var EventStore = createStore({
 
 registerStore(Dispatcher, EventStore);
 
-module.exports = EventStore;
+export default EventStore;

@@ -5,9 +5,7 @@
 ## Setup
 ```bash
 $ npm install
-$ npm install -g nodemon
 $ brew install visionmedia-watch
-$ gem install foreman
 ```
 
 Start a decent development environment with a server, asset building and live reloading.

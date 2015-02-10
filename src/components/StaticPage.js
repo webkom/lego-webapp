@@ -1,6 +1,4 @@
-'use strict';
-
-var React = require('react');
+import React from 'react';
 
 var StaticPage = React.createClass({
   render: function() {
@@ -14,4 +12,4 @@ var StaticPage = React.createClass({
   }
 });
 
-module.exports = StaticPage;
+export default StaticPage;

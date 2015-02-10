@@ -1,6 +1,4 @@
-'use strict';
-
-var React = require('react');
+import React from 'react';
 
 var SidebarBlock = React.createClass({
   getDefaultProps: function() {
@@ -22,4 +20,4 @@ var SidebarBlock = React.createClass({
   }
 });
 
-module.exports = SidebarBlock;
+export default SidebarBlock;

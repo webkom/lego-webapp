@@ -1,5 +1,5 @@
 {
-	"globalstrict": true,
+	"globalstrict": false,
 	"browserify": true,
 	"esnext": true,
 	"devel": true,

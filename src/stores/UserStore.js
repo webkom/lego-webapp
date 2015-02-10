@@ -1,6 +1,4 @@
-'use strict';
-
-var {createStore, registerStore, Dispatcher} = require('lego-flux');
+import {createStore, registerStore, Dispatcher} from 'lego-flux';
 
 var _user = {};
 var _isLoggedIn = false;
@@ -58,4 +56,4 @@ var UserStore = createStore({
 
 registerStore(Dispatcher, UserStore);
 
-module.exports = UserStore;
+export default UserStore;

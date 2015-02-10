@@ -1,9 +1,7 @@
-'use strict';
-
-var React = require('react');
-var Router = require('react-router');
-var moment = require('moment');
-var routes = require('./routes');
+import React from 'react';
+import Router from 'react-router';
+import moment from 'moment';
+import routes from './routes';
 
 require('react-a11y')();
 require('moment/locale/nb');

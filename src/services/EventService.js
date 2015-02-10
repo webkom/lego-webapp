@@ -1,10 +1,8 @@
-'use strict';
+import request from 'superagent';
+import EventActionCreators from '../actions/EventActionCreators';
+import RESTService from './RESTService';
 
-var request = require('superagent');
-var EventActionCreators = require('../actions/EventActionCreators');
-var RESTService = require('./RESTService');
-
-module.exports = {
+export default {
 
   findAll: function(fn) {
     RESTService.get('/events')

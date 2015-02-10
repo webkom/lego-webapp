@@ -1,6 +1,4 @@
-'use strict';
-
-var {createStore, registerStore, Dispatcher} = require('lego-flux');
+import {createStore, registerStore, Dispatcher} from 'lego-flux';
 
 var FavoritesStore = createStore({
 
@@ -28,4 +26,4 @@ var FavoritesStore = createStore({
 
 registerStore(Dispatcher, FavoritesStore);
 
-module.exports = FavoritesStore;
+export default FavoritesStore;

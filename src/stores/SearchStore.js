@@ -1,6 +1,4 @@
-'use strict';
-
-var {createStore, registerStore, Dispatcher} = require('lego-flux');
+import {createStore, registerStore, Dispatcher} from 'lego-flux';
 
 var _results = [];
 var _closed = true;
@@ -49,4 +47,4 @@ var SearchStore = createStore({
 
 registerStore(Dispatcher, SearchStore);
 
-module.exports = SearchStore;
+export default SearchStore;

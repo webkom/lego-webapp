@@ -10,6 +10,7 @@ WATCHIFY   = node_modules/.bin/watchify
 JEST       = node_modules/.bin/jest
 LINT       = node_modules/.bin/jsxhint
 JSXCS      = node_modules/.bin/jsxcs
+FOREMAN    = node_modules/.bin/nf
 NIB        = node_modules/nib/lib
 
 #
@@ -38,7 +39,7 @@ BUILD_JS   = public/app.js
 # See https://github.com/substack/node-browserify/wiki/list-of-transforms
 #
 
-TRANSFORMS = -t [ reactify --harmony ]
+TRANSFORMS = -t [ 6to5ify --modules common ]
 
 #
 # Default task
@@ -61,7 +62,6 @@ ifneq ($(NODE_ENV), development)
 	$(STYLUS) --include $(NIB) --include assets/stylesheets --include-css --compress < $(CSS_MAIN) > $(BUILD_CSS)
 else
 	$(STYLUS) --include $(NIB) --include assets/stylesheets --include-css < $(CSS_MAIN) > $(BUILD_CSS)
-	@curl --silent http://localhost:35729/changed?files=$@
 endif
 
 #
@@ -97,7 +97,7 @@ jest:
 	$(JEST) src/
 
 watch:
-	@foreman start
+	@$(FOREMAN) start
 
 clean:
 	rm -f $(BUILD_CSS) $(BUILD_JS)

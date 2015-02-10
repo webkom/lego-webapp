@@ -1,8 +1,6 @@
-'use strict';
+import Dispatcher from 'lego-flux/lib/Dispatcher';
 
-var Dispatcher = require('lego-flux/lib/Dispatcher');
-
-module.exports = {
+export default {
 
   receiveAll: function(events) {
     Dispatcher.handleServerAction({

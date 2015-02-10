@@ -1,7 +1,5 @@
-'use strict';
-
-var React = require('react');
-var UserStore = require('../stores/UserStore');
+import React from 'react';
+import UserStore from '../stores/UserStore';
 
 var AuthMixin = {
 
@@ -29,4 +27,4 @@ var AuthMixin = {
   }
 };
 
-module.exports = AuthMixin;
+export default AuthMixin;

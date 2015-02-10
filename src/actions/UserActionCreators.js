@@ -1,18 +1,8 @@
-'use strict';
-
-var Dispatcher = require('lego-flux/lib/Dispatcher');
-var UserService = require('../services/UserService');
+import Dispatcher from 'lego-flux/lib/Dispatcher';
+import UserService from '../services/UserService';
+import tryServerAction from '../tryServerAction';
 
 var UserActionCreators = {
-
-  // move this out so other action creators can use it
-  _serverCall: function(actionName, serviceMethod, ...args) {
-    var self = this;
-    serviceMethod.apply(serviceMethod, args.concat([function(err, payload) {
-      if (err) return self[actionName + 'Failed'](err);
-      return self[actionName + 'Completed'](payload);
-    }]));
-  },
 
   login: function(username, password) {
     Dispatcher.handleViewAction({
@@ -21,7 +11,7 @@ var UserActionCreators = {
       password: password
     });
 
-    this._serverCall('login', UserService.login, username, password);
+    tryServerAction(this, 'login', UserService.login, username, password);
   },
 
   logout: function() {
@@ -44,4 +34,4 @@ var UserActionCreators = {
   }
 };
 
-module.exports = UserActionCreators;
+export default UserActionCreators;

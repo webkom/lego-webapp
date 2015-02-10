@@ -1,17 +1,12 @@
-'use strict';
-
-var React = require('react');
-var Router = require('react-router');
-var RequireLogin = require('./RequireLogin');
-var LoadingIndicator = require('./LoadingIndicator');
-
-var EventStore = require('../stores/EventStore');
-var EventService = require('../services/EventService');
-var EventActionCreators = require('../actions/EventActionCreators');
-
-var FavoritesActionCreators = require('../actions/FavoritesActionCreators');
-
-var AuthMixin = require('./AuthMixin');
+import React from 'react';
+import Router from 'react-router';
+import RequireLogin from './RequireLogin';
+import LoadingIndicator from './LoadingIndicator';
+import EventStore from '../stores/EventStore';
+import EventService from '../services/EventService';
+import EventActionCreators from '../actions/EventActionCreators';
+import FavoritesActionCreators from '../actions/FavoritesActionCreators';
+import AuthMixin from './AuthMixin';
 
 function getState(eventId) {
   return {
@@ -80,4 +75,4 @@ var EventPage = React.createClass({
   }
 });
 
-module.exports = EventPage;
+export default EventPage;

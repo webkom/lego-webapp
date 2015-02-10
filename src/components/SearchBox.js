@@ -1,13 +1,11 @@
-'use strict';
+import React from 'react';
+import debounce from 'debounce';
+import SearchActionCreators from '../actions/SearchActionCreators';
+import SearchStore from '../stores/SearchStore';
 
-var React = require('react');
-var debounce = require('debounce');
-var SearchActionCreators = require('../actions/SearchActionCreators');
-var SearchStore = require('../stores/SearchStore');
-
-var ESCAPE_KEY = 27;
-var UP_KEY = 38;
-var DOWN_KEY = 40;
+const ESCAPE_KEY = 27;
+const UP_KEY = 38;
+const DOWN_KEY = 40;
 
 var SearchBox = React.createClass({
 
@@ -89,4 +87,4 @@ var SearchBox = React.createClass({
   }
 });
 
-module.exports = SearchBox;
+export default SearchBox;

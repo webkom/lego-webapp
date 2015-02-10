@@ -1,11 +1,9 @@
-'use strict';
-
-var React = require('react');
-var {RouteHandler, Link} = require('react-router');
-var LoginBox = require('./LoginBox');
-var SearchBox = require('./SearchBox');
-var Icon = require('./Icon');
-var UserStore = require('../stores/UserStore');
+import React from 'react';
+import {RouteHandler, Link} from 'react-router';
+import LoginBox from './LoginBox';
+import SearchBox from './SearchBox';
+import Icon from './Icon';
+import UserStore from '../stores/UserStore';
 
 var App = React.createClass({
 
@@ -73,4 +71,4 @@ var App = React.createClass({
   }
 });
 
-module.exports = App;
+export default App;

@@ -1,6 +1,4 @@
-'use strict';
-
-var React = require('react');
+import React from 'react';
 
 var RequireLogin = React.createClass({
 
@@ -16,4 +14,4 @@ var RequireLogin = React.createClass({
   }
 });
 
-module.exports = RequireLogin;
+export default RequireLogin;

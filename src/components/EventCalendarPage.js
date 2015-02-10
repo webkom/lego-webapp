@@ -1,7 +1,5 @@
-'use strict';
-
-var React = require('react');
-var EventStore = require('../stores/EventStore');
+import React from 'react';
+import EventStore from '../stores/EventStore';
 
 var EventCalendarPage = React.createClass({
 
@@ -20,4 +18,4 @@ var EventCalendarPage = React.createClass({
   }
 });
 
-module.exports = EventCalendarPage;
+export default EventCalendarPage;
