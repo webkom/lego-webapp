@@ -3,22 +3,22 @@ import UserStore from '../stores/UserStore';
 
 var AuthMixin = {
 
-  getInitialState: function() {
+  getInitialState() {
     return {
       isLoggedIn: UserStore.isLoggedIn(),
       userInfo: UserStore.getUserInfo()
     };
   },
 
-  componentDidMount: function() {
+  componentDidMount() {
     UserStore.addChangeListener(this._onLoginChange);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     UserStore.removeChangeListener(this._onLoginChange);
   },
 
-  _onLoginChange: function() {
+  _onLoginChange() {
     this.setState({
       isLoggedIn: UserStore.isLoggedIn(),
       userInfo: UserStore.getUserInfo(),

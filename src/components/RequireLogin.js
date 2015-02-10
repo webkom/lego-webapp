@@ -2,13 +2,13 @@ import React from 'react';
 
 var RequireLogin = React.createClass({
 
-  getDefaultProps: function() {
+  getDefaultProps() {
     return {
       loggedIn: false
     };
   },
 
-  render: function() {
+  render() {
     var content = this.props.loggedIn ? this.props.children : null;
     return <div>{content}</div>;
   }

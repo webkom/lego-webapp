@@ -1,7 +1,7 @@
 import React from 'react';
 
 var NotFoundPage = React.createClass({
-  render: function() {
+  render() {
     return (
       <h1>Not Found</h1>
     );

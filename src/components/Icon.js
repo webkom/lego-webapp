@@ -10,13 +10,13 @@ var Icon = React.createClass({
     name: React.PropTypes.string
   },
 
-  getDefaultProps: function() {
+  getDefaultProps() {
     return {
       name: 'star'
     };
   },
 
-  render: function() {
+  render() {
     return <i className={'fa fa-' + this.props.name} />;
   }
 });

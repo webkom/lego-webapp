@@ -3,9 +3,9 @@ import Router from 'react-router';
 import RequireLogin from './RequireLogin';
 import LoadingIndicator from './LoadingIndicator';
 import EventStore from '../stores/EventStore';
-import EventService from '../services/EventService';
-import EventActionCreators from '../actions/EventActionCreators';
-import FavoritesActionCreators from '../actions/FavoritesActionCreators';
+import * as EventService from '../services/EventService';
+import EventActions from '../actions/EventActions';
+import FavoritesActions from '../actions/FavoritesActions';
 import AuthMixin from './AuthMixin';
 
 function getState(eventId) {
@@ -18,31 +18,31 @@ var EventPage = React.createClass({
 
   mixins: [AuthMixin, Router.State],
 
-  getInitialState: function() {
+  getInitialState() {
     return getState(this.getParams().eventId);
   },
 
-  _onChange: function() {
+  _onChange() {
     this.setState(getState(this.getParams().eventId));
   },
 
-  componentDidMount: function() {
+  componentDidMount() {
     EventStore.addChangeListener(this._onChange);
     EventService.findById(this.getParams().eventId, function(err, event) {
       if (err) return;
-      EventActionCreators.receiveAll([event]);
+      EventActions.receiveAll([event]);
     });
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     EventStore.removeChangeListener(this._onChange);
   },
 
-  _onAddToFavorites: function() {
-    FavoritesActionCreators.addFavorite(this.state.event);
+  _onAddToFavorites() {
+    FavoritesActions.addFavorite(this.state.event);
   },
 
-  render: function() {
+  render() {
     var event = this.state.event;
     return (
       <section>

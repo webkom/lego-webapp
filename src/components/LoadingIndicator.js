@@ -2,13 +2,13 @@ import React from 'react';
 
 var LoadingIndicator = React.createClass({
 
-  getDefaultProps: function() {
+  getDefaultProps() {
     return {
       loading: false
     };
   },
 
-  render: function() {
+  render() {
     if (this.props.loading) {
       return (
         <div className='spinner'>

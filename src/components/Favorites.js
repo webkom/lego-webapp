@@ -3,21 +3,32 @@ import {Link} from 'react-router';
 import Time from './Time';
 import Icon from './Icon';
 import FavoritesStore from '../stores/FavoritesStore';
-import FavoritesService from '../services/FavoritesService';
-import FavoritesActionCreators from '../actions/FavoritesActionCreators';
+import * as FavoritesService from '../services/FavoritesService';
+import FavoritesActions from '../actions/FavoritesActions';
 
 var Favorites = React.createClass({
 
-  mixins: [FavoritesStore.mixin()],
+  getInitialState() {
+    return FavoritesStore.getState();
+  },
 
-  componentDidMount: function() {
+  componentDidMount() {
+    FavoritesStore.addChangeListener(this.update);
     FavoritesService.findAll(function(err, favorites) {
       if (err) return;
-      FavoritesActionCreators.receiveAll(favorites);
+      FavoritesActions.receiveAll(favorites);
     });
   },
 
-  render: function() {
+  componentWillUnmount() {
+    FavoritesStore.removeChangeListener(this.update);
+  },
+
+  update() {
+    this.setState(FavoritesStore.getState());
+  },
+
+  render() {
     return (
       <ul>
         {(this.state.favorites || []).map(function(favorite, i) {

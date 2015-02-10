@@ -1,59 +1,50 @@
-import {createStore, registerStore, Dispatcher} from 'lego-flux';
+import createStore from './createStore';
 
 var _user = {};
 var _isLoggedIn = false;
 var _loginFailed = false;
 
-var UserStore = createStore({
+export default createStore({
 
-  actions: {
-    'LOGIN_COMPLETED': '_onLoginCompleted',
-    'LOGIN_FAILED': '_onLoginFailed',
-    'LOGIN': '_onLogin',
-    'LOGOUT': '_onLogout'
-  },
-
-  getUserInfo: function() {
+  getUserInfo() {
     return _user;
   },
 
-  isLoggedIn: function() {
+  isLoggedIn() {
     return _isLoggedIn;
   },
 
-  destroy: function() {
+  destroy() {
     _user = {};
     _isLoggedIn = false;
     _loginFailed = false;
   },
 
-  didLoginFail: function() {
+  didLoginFail() {
     return _loginFailed;
   },
 
-  _onLoginCompleted: function(action) {
-    _user = action.userInfo;
-    _isLoggedIn = true;
-    _loginFailed = false;
-    this.emitChange();
-  },
+  actions: {
+    loginCompleted(action) {
+      _user = action.userInfo;
+      _isLoggedIn = true;
+      _loginFailed = false;
+      this.emitChange();
+    },
 
-  _onLoginFailed: function(action) {
-    _loginFailed = true;
-    this.emitChange();
-  },
+    loginFailed(action) {
+      _loginFailed = true;
+      this.emitChange();
+    },
 
-  _onLogin: function(action) {
-    _loginFailed = true;
-    this.emitChange();
-  },
+    login(action) {
+      _loginFailed = true;
+      this.emitChange();
+    },
 
-  _onLogout: function(action) {
-    this.destroy();
-    this.emitChange();
+    logout(action) {
+      this.destroy();
+      this.emitChange();
+    }
   }
 });
-
-registerStore(Dispatcher, UserStore);
-
-export default UserStore;

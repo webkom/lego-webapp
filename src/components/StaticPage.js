@@ -1,7 +1,8 @@
 import React from 'react';
 
 var StaticPage = React.createClass({
-  render: function() {
+
+  render() {
     return (
       <section>
         <div className='content'>

@@ -13,13 +13,13 @@ var Time = React.createClass({
     format: React.PropTypes.string
   },
 
-  getDefaultProps: function() {
+  getDefaultProps() {
     return {
       format: 'YYYY-MM-d'
     };
   },
 
-  render: function() {
+  render() {
     return <time dateTime={this.props.time}>{moment(this.props.time).format(this.props.format)}</time>;
   }
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import debounce from 'debounce';
-import SearchActionCreators from '../actions/SearchActionCreators';
+import SearchActions from '../actions/SearchActions';
 import SearchStore from '../stores/SearchStore';
 
 const ESCAPE_KEY = 27;
@@ -9,7 +9,7 @@ const DOWN_KEY = 40;
 
 var SearchBox = React.createClass({
 
-  getInitialState: function() {
+  getInitialState() {
     return {
       results: SearchStore.getResults(),
       closed: SearchStore.isClosed(),
@@ -17,34 +17,34 @@ var SearchBox = React.createClass({
     };
   },
 
-  componentDidMount: function() {
+  componentDidMount() {
     SearchStore.addChangeListener(this._onChange);
     window.addEventListener('keydown', this._closeOnEscape);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     SearchStore.removeChangeListener(this._onChange);
     window.removeEventListener('keydown', this._closeOnEscape);
   },
 
-  _onChange: function() {
+  _onChange() {
     this.setState({
       results: SearchStore.getResults(),
       closed: SearchStore.isClosed()
     });
   },
 
-  _onInput: function(e) {
+  _onInput(e) {
     var query = this.refs.query.getDOMNode().value;
     this.setState({query: query});
     this.search();
   },
 
   search: debounce(function() {
-    SearchActionCreators.search(this.state.query);
+    SearchActions.search(this.state.query);
   }, 300),
 
-  _onKeyDown: function(e) {
+  _onKeyDown(e) {
     switch (e.keyCode) {
       case ESCAPE_KEY:
         this.close();
@@ -57,17 +57,17 @@ var SearchBox = React.createClass({
     }
   },
 
-  _closeOnEscape: function(e) {
+  _closeOnEscape(e) {
     if (this.state.closed) return;
     if (e.keyCode === ESCAPE_KEY) this.close();
   },
 
-  close: function() {
+  close() {
     this.setState({query: ''});
-    SearchActionCreators.clear();
+    SearchActions.clear();
   },
 
-  render: function() {
+  render() {
     var results = this.state.results;
     return (
       <div className='search-container'>
