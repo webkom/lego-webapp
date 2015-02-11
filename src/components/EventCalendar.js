@@ -6,12 +6,6 @@ var EventStore = require('../stores/EventStore');
 
 var EventCalendar = React.createClass({
 
-  getDefaultProps() {
-    return {
-      weekOffset: 0
-    };
-  },
-
   getInitialState() {
     return {
       date: moment()
@@ -22,10 +16,11 @@ var EventCalendar = React.createClass({
     var days = [];
     var date = this.state.date.startOf('month');
     var diff = date.weekday() - this.props.weekOffset;
+    var day;
 
-    var i, day;
+    var i;
     for (i = 0; i < diff; i++) {
-      day = moment([this.state.date.year(), this.state.date.month(), i-diff+1]);
+      day = moment([this.state.date.year(), this.state.date.month(), i - diff + 1]);
       days.push({day: day, classNames: 'prev-month'});
     }
 
@@ -37,7 +32,7 @@ var EventCalendar = React.createClass({
 
     i = 1;
     while (days.length % 7 !== 0) {
-      day = moment([this.state.date.year(), this.state.date.month(), numberOfDays+1]);
+      day = moment([this.state.date.year(), this.state.date.month(), i++]);
       days.push({day: day, classNames: 'next-month'});
     }
 
