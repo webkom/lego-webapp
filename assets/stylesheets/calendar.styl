@@ -1,0 +1,30 @@
+.calendar
+  h2
+    display flex
+    justify-content space-between
+    width 100%
+
+    span:nth-child(2n+1)
+      cursor pointer
+
+.calendar-grid
+  display flex
+  width 100%
+  flex-wrap wrap
+  margin 20px 0
+
+  > div
+    flex 0 14.28571%
+    text-align center
+    height 100px
+    border-right 1px solid #ddd
+    border-bottom 1px solid #ddd
+
+    &:nth-child(7n+1)
+      border-left 1px solid #ddd
+
+    &:nth-child(-n+7)
+      border-top 1px solid #ddd
+
+    &.prev-month, &.next-month
+      color #bbb
