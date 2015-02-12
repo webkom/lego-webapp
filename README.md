@@ -10,7 +10,13 @@ $ npm run watch
 
 Everything should be up and running on [localhost:3000](http://localhost:3000).
 
-Be sure to install the [LiveReload](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei) chrome extension as well. Non-Chrome users must find an extension themselves.
+## Run tests
+```
+$ pip install frigg-runner
+$ frigg
+```
+
+or just run `npm test`.
 
 ## Flux
 [draw nice diagram of the system here]

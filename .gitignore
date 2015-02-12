@@ -5,3 +5,4 @@ public/app.js
 public/app.css
 compiler.jar
 tiny-lr.pid
+coverage

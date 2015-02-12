@@ -1,15 +1,7 @@
-// jest.dontMock('../RESTService');
-// jest.dontMock('superagent');
+import {expect} from 'chai';
 
-// describe('RESTService', function() {
-
-//   var RESTService;
-
-//   beforeEach(function() {
-//     RESTService = require('../RESTService');
-//   });
-
-//   it('should encapsulate superagent', function() {
-//     expect(1 + 1).toBe(2);
-//   });
-// });
+describe('RESTService', function() {
+  it('should do the math', function() {
+    expect(1 + 1).to.equal(2);
+  });
+});

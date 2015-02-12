@@ -10,7 +10,7 @@
     "watch-css": "stylus --use nib -w assets/stylesheets/style.styl -o public/app.css",
     "watch": "npm run watch-js & npm run watch-css & npm run start",
     "start": "nodemon --exec npm run 6to5-node -- server.js",
-    "test": "jest",
+    "test": "istanbul cover _mocha -- src/**/__tests__/*-test.js --compilers js:6to5/register && istanbul report cobertura",
     "lint": "jsxhint src/ && jscs src/ --esnext; true",
     "6to5-node": "6to5-node --experimental --modules=common"
   },
@@ -19,29 +19,32 @@
     "url": "github.com/webkom/lego-webapp"
   },
   "devDependencies": {
-    "6to5": "^3.5.3",
-    "6to5ify": "^4.1.0",
-    "browserify": "^8.1.3",
-    "esprima-fb": "^12001.1.0-dev-harmony-fb",
-    "jest-cli": "^0.2.2",
-    "jscs": "^1.11.2",
-    "jsxhint": "^0.9.0",
-    "nib": "^1.1.0",
-    "nodemon": "^1.3.6",
-    "stylus": "^0.50.0",
-    "uglify-js": "^2.4.16",
-    "watchify": "^2.3.0"
+    "6to5": "~3.5.3",
+    "6to5ify": "~4.1.0",
+    "browserify": "~8.1.3",
+    "chai": "~2.0.0",
+    "esprima-fb": "~12001.1.0-dev-harmony-fb",
+    "istanbul": "~0.3.5",
+    "jscs": "~1.11.3",
+    "jsdom": "~3.1.1",
+    "jsxhint": "~0.10.0",
+    "mocha": "~2.1.0",
+    "nib": "~1.1.0",
+    "nodemon": "~1.3.7",
+    "stylus": "~0.50.0",
+    "uglify-js": "~2.4.16",
+    "watchify": "~2.3.0"
   },
   "dependencies": {
-    "react": "^0.12.2",
-    "react-router": "^0.11.6",
-    "react-a11y": "0.0.5",
-    "superagent": "^0.21.0",
-    "object-assign": "^2.0.0",
-    "flux": "^2.0.1",
-    "express": "^4.11.2",
     "debounce": "^1.0.0",
-    "moment": "^2.9.0"
+    "express": "^4.11.2",
+    "flux": "^2.0.1",
+    "moment": "^2.9.0",
+    "object-assign": "^2.0.0",
+    "react": "^0.12.2",
+    "react-a11y": "0.0.5",
+    "react-router": "^0.11.6",
+    "superagent": "^0.21.0"
   },
   "browserify": {
     "transform": [
