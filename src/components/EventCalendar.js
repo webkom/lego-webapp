@@ -14,14 +14,21 @@ var EventCalendar = React.createClass({
 
   days() {
     var days = [];
-    var date = this.state.date.startOf('month');
-    var diff = date.weekday() - this.props.weekOffset;
+    var date = this.state.date;
+    var lastMonday = moment(date).startOf('month').startOf('week');
+    if(lastMonday.date() !== 1) {
+      var lastDayLastMonth = moment(lastMonday).endOf('month');
+      var diff = lastDayLastMonth.date() - lastMonday.date();
+    }
+    
     var day;
-
     var i;
-    for (i = 0; i < diff; i++) {
-      day = moment([this.state.date.year(), this.state.date.month(), i - diff + 1]);
-      days.push({day: day, classNames: 'prev-month'});
+
+    if(diff !== undefined) {
+      for (i = 0; i < diff + 1; i++) {
+        day = moment([this.state.date.year(), this.state.date.month(), i - diff]);
+        days.push({day: day, className: 'prev-month'});
+      }
     }
 
     var numberOfDays = date.daysInMonth();
@@ -33,7 +40,7 @@ var EventCalendar = React.createClass({
     i = 1;
     while (days.length % 7 !== 0) {
       day = moment([this.state.date.year(), this.state.date.month(), i++]);
-      days.push({day: day, classNames: 'next-month'});
+      days.push({day: day, className: 'next-month'});
     }
 
     return days;
@@ -48,6 +55,7 @@ var EventCalendar = React.createClass({
   },
 
   render() {
+    var weekdayAbbrevs = ['M', 'Tu', 'W', 'Th', 'F', 'Sa', 'Su'];
     return (
       <div className='content'>
         <div className='calendar'>
@@ -57,9 +65,16 @@ var EventCalendar = React.createClass({
             <span onClick={this._onNext}>&raquo;</span>
           </h2>
           <div className='calendar-grid'>
+            {weekdayAbbrevs.map(function(weekAbb, i) {
+              return (
+                <div key={'weekday-abbrev-' + i} className={"weekday-abbrev"}>
+                  <span className='weekday-abbrev-letter'><b>{weekAbb}</b></span>
+                </div>
+              );
+            })}
             {this.days().map(function(day, i) {
               return (
-                <div key={'day-' + i} className={day.classNames}>
+                <div key={'day-' + i} className={day.className}>
                   <span className='day-number'>{day.day.date()}</span>
                 </div>
               );
