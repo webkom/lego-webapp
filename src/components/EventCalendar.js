@@ -53,7 +53,6 @@ var EventCalendar = React.createClass({
   },
 
   render() {
-    //var weekdayAbbrevs = ['M', 'Ti', 'O', 'To', 'F', 'L', 'S'];
     return (
       <div className='content'>
         <div className='calendar'>
