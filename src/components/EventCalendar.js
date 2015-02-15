@@ -14,24 +14,16 @@ var EventCalendar = React.createClass({
 
   days() {
     var days = [];
-    var date = this.state.date;
-    var lastMonday = moment(date).startOf('month').startOf('week');
-    if(lastMonday.date() !== 1) {
-      var lastDayLastMonth = moment(lastMonday).endOf('month');
-      var diff = lastDayLastMonth.date() - lastMonday.date();
-    }
-    
+    var diff = moment(this.state.date).startOf('month').weekday() - 1;
     var day;
     var i;
-
-    if(diff !== undefined) {
-      for (i = 0; i < diff + 1; i++) {
-        day = moment([this.state.date.year(), this.state.date.month(), i - diff]);
-        days.push({day: day, className: 'prev-month'});
-      }
+    
+    for (i = 0; i < diff + 1; i++) {
+      day = moment([this.state.date.year(), this.state.date.month(), i - diff]);
+      days.push({day: day, className: 'prev-month'});
     }
 
-    var numberOfDays = date.daysInMonth();
+    var numberOfDays = this.state.date.daysInMonth();
     for (i = 1; i <= numberOfDays; i++) {
       day = moment([this.state.date.year(), this.state.date.month(), i]);
       days.push({day: day});
@@ -54,18 +46,24 @@ var EventCalendar = React.createClass({
     this.setState({date: this.state.date.subtract(1, 'months')});
   },
 
+  weekdayAbbrevs: function() {
+    return [0, 1, 2, 3, 4, 5, 6].map((i) => {
+      return moment().weekday(i).format('dd');
+    })
+  },
+
   render() {
-    var weekdayAbbrevs = ['M', 'Tu', 'W', 'Th', 'F', 'Sa', 'Su'];
+    //var weekdayAbbrevs = ['M', 'Ti', 'O', 'To', 'F', 'L', 'S'];
     return (
       <div className='content'>
         <div className='calendar'>
           <h2>
             <span onClick={this._onPrev}>&laquo;</span>
-            <span>{this.state.date.format('MMMM YYYY')}</span>
+            <span id="month-year">{this.state.date.format('MMMM YYYY')}</span>
             <span onClick={this._onNext}>&raquo;</span>
           </h2>
           <div className='calendar-grid'>
-            {weekdayAbbrevs.map(function(weekAbb, i) {
+            {this.weekdayAbbrevs().map(function(weekAbb, i) {
               return (
                 <div key={'weekday-abbrev-' + i} className={"weekday-abbrev"}>
                   <span className='weekday-abbrev-letter'><b>{weekAbb}</b></span>
