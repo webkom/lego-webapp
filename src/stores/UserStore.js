@@ -1,6 +1,7 @@
 import createStore from './createStore';
 
 var _user = {};
+var _token = null;
 var _isLoggedIn = false;
 var _loginFailed = false;
 
@@ -11,7 +12,7 @@ export default createStore({
   },
 
   getTokenHeader() {
-    return `JWT ${_user.token}`;
+    return `JWT ${_token}`;
   },
 
   isLoggedIn() {
@@ -30,7 +31,8 @@ export default createStore({
 
   actions: {
     loginCompleted(action) {
-      _user = action.userInfo;
+      _user = action.userInfo.user;
+      _token = action.userInfo.token;
       _isLoggedIn = true;
       _loginFailed = false;
       this.emitChange();
