@@ -9,8 +9,16 @@ import FavoritesStore from '../stores/FavoritesStore';
 import FavoritesService from '../services/FavoritesService';
 import FavoritesActions from '../actions/FavoritesActions';
 import EventStore from '../stores/EventStore';
+import UserStore from '../stores/UserStore';
 import * as EventService from '../services/EventService';
 import EventActions from '../actions/EventActions';
+
+function findEvents() {
+  EventService.findAll()
+    .then((events) => {
+      EventActions.receiveAll(events);
+    });
+}
 
 var Overview = React.createClass({
 
@@ -20,13 +28,13 @@ var Overview = React.createClass({
 
   componentDidMount() {
     EventStore.addChangeListener(this.update);
-    EventService.findAll().then((events) => {
-      EventActions.receiveAll(events);
-    });
+    UserStore.addChangeListener(findEvents);
+    findEvents();
   },
 
   componentWillUnmount() {
     EventStore.removeChangeListener(this.update);
+    UserStore.removeChangeListener(findEvents);
   },
 
   update() {
@@ -65,14 +73,14 @@ var Overview = React.createClass({
             <div className='feed-container'>
               <h2 className='inside-feed'>På plakaten</h2>
               <div className='event-grid'>
-                {events.slice(4).map(function(event) {
+                {events.map(function(event) {
                   return (
                     <Link to='event' params={{eventId: event.id}} key={event.id} className={'feed-event-box ' + event.type}>
                       <article>
                         <div><img src={Math.random() > 0.5 ? 'https://s3.amazonaws.com/f.cl.ly/items/411l1P330u2X0M3P3D0q/Skjermbilde%202015-01-30%20kl.%2017.27.53.png' : 'http://himmelpartner.no/wp-content/uploads/2013/09/L%C3%A5vefest31-08-2013-3869.jpg'} /></div>
                         <div>
-                          <h3>{event.name}</h3>
-                          {event.description.slice(0, 200)}
+                          <h3>{event.title}</h3>
+                          {event.ingress}
                         </div>
                       </article>
                     </Link>

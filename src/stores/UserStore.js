@@ -10,6 +10,10 @@ export default createStore({
     return _user;
   },
 
+  getTokenHeader() {
+    return `JWT ${_user.token}`;
+  },
+
   isLoggedIn() {
     return _isLoggedIn;
   },
