@@ -28,10 +28,10 @@ var EventPage = React.createClass({
 
   componentDidMount() {
     EventStore.addChangeListener(this._onChange);
-    EventService.findById(this.getParams().eventId, function(err, event) {
-      if (err) return;
-      EventActions.receiveAll([event]);
-    });
+    EventService.findById(this.getParams().eventId)
+      .then(function(event) {
+        EventActions.receiveAll([event]);
+      });
   },
 
   componentWillUnmount() {
@@ -48,9 +48,10 @@ var EventPage = React.createClass({
       <section>
         <LoadingIndicator loading={Object.keys(event).length === 0}>
           <div className='content event-page'>
-            <h2 onClick={this._onAddToFavorites}>{event.name}</h2>
+            <h2 onClick={this._onAddToFavorites}>{event.title}</h2>
             <article>
-              {event.description}
+              <p>{event.ingress}</p>
+              <p>{event.text}</p>
             </article>
             <div className='event-open-for'>
               <h3>Åpent for</h3>

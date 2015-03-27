@@ -1,4 +1,5 @@
-import request from 'superagent';
+import request from 'superagent-bluebird-promise';
+import UserStore from '../stores/UserStore';
 import config from '../../config.json';
 
 /**
@@ -23,9 +24,18 @@ var methods = {};
 
 ['get', 'post', 'put', 'delete'].forEach(function(method) {
   methods[method] = function(url) {
-    console.log('Sent a %s request to %s', method.toUpperCase(), url);
-    return request[method].call(null, urlFor(url))
-      .timeout(TIMEOUT);
+    function apiRequest() {
+      console.log('Sent a %s request to %s', method.toUpperCase(), url);
+      return request[method].call(null, urlFor(url))
+        .timeout(TIMEOUT);
+    }
+
+    if (UserStore.isLoggedIn()) {
+      return apiRequest()
+        .set('Authorization', `JWT ${UserStore.getToken()}`);
+    }
+
+    return apiRequest();
   };
 });
 

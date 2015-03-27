@@ -46,7 +46,7 @@ var LoginBox = React.createClass({
     var cx = React.addons.classSet;
     return (
       <div className='login-container'>
-        <p className="login-status">
+        <p className='login-status'>
           {this.state.isLoggedIn ?
             <div>
               <img className='gravatar' src='http://www.gravatar.com/avatar/279f5b4c5c781eb6aaa5c3f09c974acf.jpg?s=64&d=identicon' />
