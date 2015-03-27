@@ -10,15 +10,7 @@ import FavoritesService from '../services/FavoritesService';
 import FavoritesActions from '../actions/FavoritesActions';
 import EventStore from '../stores/EventStore';
 import UserStore from '../stores/UserStore';
-import * as EventService from '../services/EventService';
-import EventActions from '../actions/EventActions';
-
-function findEvents() {
-  EventService.findAll()
-    .then((events) => {
-      EventActions.receiveAll(events);
-    });
-}
+import * as EventAPIUtils from '../utils/EventAPIUtils';
 
 var Overview = React.createClass({
 
@@ -28,13 +20,13 @@ var Overview = React.createClass({
 
   componentDidMount() {
     EventStore.addChangeListener(this.update);
-    UserStore.addChangeListener(findEvents);
-    findEvents();
+    UserStore.addChangeListener(EventAPIUtils.findAll);
+    EventAPIUtils.findAll();
   },
 
   componentWillUnmount() {
     EventStore.removeChangeListener(this.update);
-    UserStore.removeChangeListener(findEvents);
+    UserStore.removeChangeListener(EventAPIUtils.findAll);
   },
 
   update() {
