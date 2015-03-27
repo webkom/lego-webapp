@@ -1,8 +1,12 @@
 
 export function setItem(key, value) {
-  window.localStorage.setItem(key, JSON.stringify(value));
+  window.localStorage.setItem(key, value);
 }
 
 export function getItem(key) {
-  return JSON.parse(window.localStorage.getItem(key));
+  return window.localStorage.getItem(key);
+}
+
+export function removeItem(key) {
+  window.localStorage.removeItem(key);
 }

@@ -4,6 +4,7 @@ import LoginBox from './LoginBox';
 import SearchBox from './SearchBox';
 import Icon from './Icon';
 import UserStore from '../stores/UserStore';
+import * as UserAPIUtils from '../utils/UserAPIUtils';
 
 var App = React.createClass({
 
@@ -11,6 +12,10 @@ var App = React.createClass({
     return {
       menuOpen: false
     };
+  },
+
+  componentDidMount() {
+    UserAPIUtils.tokenLogin();
   },
 
   _onToggleMenu() {

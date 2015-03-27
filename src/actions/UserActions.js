@@ -15,5 +15,7 @@ export default createActions({
     return {userInfo};
   },
 
+  refreshTokenFailed() {},
+
   loginFailed() {}
 });

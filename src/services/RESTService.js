@@ -32,7 +32,7 @@ var methods = {};
 
     if (UserStore.isLoggedIn()) {
       return apiRequest()
-        .set('Authorization', UserStore.getTokenHeader());
+        .set('Authorization', `JWT ${UserStore.getToken()}`);
     }
 
     return apiRequest();
