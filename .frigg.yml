@@ -7,7 +7,7 @@ deploy_tasks:
  - npm install
  - npm install forever
  - npm run bundle
- - PORT=8000 ./node_modules/.bin/forever start node_modules/.bin/6to5-node server.js
+ - PORT=8000 ./node_modules/.bin/forever start node_modules/.bin/babel-node server.js
 
 coverage:
   path: coverage/cobertura-coverage.xml
