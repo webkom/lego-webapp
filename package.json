@@ -6,6 +6,9 @@
   "author": "webkom",
   "license": "MIT",
   "scripts": {
+    "bundle-js": "browserify src/index.js -d -o public/app.js -v",
+    "bundle-css": "stylus --use nib assets/stylesheets/style.styl -o public/app.css",
+    "bundle": "npm run bundle-js && npm run bundle-css",
     "watch-js": "watchify src/index.js -d -o public/app.js -v",
     "watch-css": "stylus --use nib -w assets/stylesheets/style.styl -o public/app.css",
     "watch": "npm run watch-js & npm run watch-css & npm run start",
