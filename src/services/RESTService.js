@@ -1,5 +1,5 @@
 import request from 'superagent';
-import config from '../../config.json';
+import config from '../../config';
 
 /**
  * This module is basically a wrapper

@@ -1,12 +1,8 @@
-import React from 'react/addons';
-import UserActions from '../actions/UserActions';
-import UserStore from '../stores/UserStore';
-import AuthMixin from './AuthMixin';
+import React from 'react';
+import cx from 'classnames';
 import Icon from './Icon';
 
 var LoginBox = React.createClass({
-
-  mixins: [AuthMixin],
 
   getInitialState() {
     return {
@@ -26,24 +22,21 @@ var LoginBox = React.createClass({
   onLogin(event) {
     event.preventDefault();
 
-    var username = this.refs.username.getDOMNode().value.trim();
-    var password = this.refs.password.getDOMNode().value.trim();
+    var username = this.refs.username.value.trim();
+    var password = this.refs.password.value.trim();
 
     if (username === '') {
-      this.refs.username.getDOMNode().focus();
+      this.refs.username.focus();
       return;
     }
 
     if (password === '') {
-      this.refs.password.getDOMNode().focus();
+      this.refs.password.focus();
       return;
     }
-
-    UserActions.login(username, password);
   },
 
   render() {
-    var cx = React.addons.classSet;
     return (
       <div className='login-container'>
         <p className="login-status">

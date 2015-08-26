@@ -1,7 +1,5 @@
 import React from 'react';
-import debounce from 'debounce';
-import SearchActions from '../actions/SearchActions';
-import SearchStore from '../stores/SearchStore';
+import debounce from 'lodash/function/debounce';
 
 const ESCAPE_KEY = 27;
 const UP_KEY = 38;
@@ -11,27 +9,13 @@ var SearchBox = React.createClass({
 
   getInitialState() {
     return {
-      results: SearchStore.getResults(),
-      closed: SearchStore.isClosed(),
+      results: [],
+      closed: true,
       query: ''
     };
   },
 
-  componentDidMount() {
-    SearchStore.addChangeListener(this._onChange);
-    window.addEventListener('keydown', this._closeOnEscape);
-  },
-
-  componentWillUnmount() {
-    SearchStore.removeChangeListener(this._onChange);
-    window.removeEventListener('keydown', this._closeOnEscape);
-  },
-
   _onChange() {
-    this.setState({
-      results: SearchStore.getResults(),
-      closed: SearchStore.isClosed()
-    });
   },
 
   _onInput(e) {

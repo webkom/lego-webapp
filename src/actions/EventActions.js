@@ -1,11 +1,5 @@
-import createActions from './createActions';
+export function loadAll() {
+  return (dispatch, getState) => {
 
-export default createActions({
-
-  receiveAll(events) {
-    return {
-      type: 'eventsReceived',
-      events
-    };
-  }
-});
+  };
+}

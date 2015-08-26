@@ -1,33 +1,18 @@
-import React from 'react';
-import {RouteHandler, Link} from 'react-router';
-import LoginBox from './LoginBox';
-import SearchBox from './SearchBox';
-import Icon from './Icon';
-import UserStore from '../stores/UserStore';
+import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
+import SearchBox from '../components/SearchBox';
+import LoginBox from '../components/LoginBox';
+import Icon from '../components/Icon';
 
-var App = React.createClass({
+export default class AppContainer extends Component {
 
-  getInitialState() {
-    return {
-      menuOpen: false
-    };
-  },
-
-  _onToggleMenu() {
-    this.setState({
-      menuOpen: !this.state.menuOpen
-    });
-  },
-
-  _onCloseMenu() {
-    if (this.state.menuOpen) {
-      this.setState({menuOpen: false});
-    }
-  },
+  state = {
+    menuOpen: false
+  }
 
   render() {
     return (
-      <section onClick={this._onCloseMenu}>
+      <section>
         <header>
           <div className='content'>
             <ul>
@@ -38,13 +23,11 @@ var App = React.createClass({
             </ul>
           </div>
         </header>
+
         <nav role='main'>
           <ul className='content'>
-            <li><Link to='overview'>Oversikt</Link></li>
+            <li><Link to=''>Oversikt</Link></li>
             <li><Link to='events'>Arrangementer</Link></li>
-            <li><Link to='staticPage' params={{pageSlug: 'career'}}>Karriere</Link></li>
-            <li><Link to='staticPage' params={{pageSlug: 'readme'}} style={{textTransform: 'lowercase'}}>readme</Link></li>
-            <li><Link to='staticPage' params={{pageSlug: 'about'}}>Om Abakus</Link></li>
             <li className='expand-menu'>
               <a onClick={this._onToggleMenu} className={this.state.menuOpen ? 'active' : ''}>
                 <Icon name={this.state.menuOpen ? 'times' : 'bars'} />
@@ -61,7 +44,7 @@ var App = React.createClass({
           </div>
         </div>
 
-        <RouteHandler />
+        {this.props.children}
 
         <footer>
           <p>Abakus er best</p>
@@ -69,6 +52,4 @@ var App = React.createClass({
       </section>
     );
   }
-});
-
-export default App;
+}

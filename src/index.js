@@ -1,15 +1,15 @@
+import 'babel/polyfill';
 import React from 'react';
-import Router from 'react-router';
-import moment from 'moment';
-import routes from './routes';
-import reactA11y from 'react-a11y';
-import 'moment/locale/nb';
+import ReactDOM from 'react-dom';
+import RootContainer from './containers/RootContainer';
+import HashHistory from 'react-router/lib/HashHistory';
 
-moment.locale('nb');
+global.log = function log(self = this) {
+  console.log(self);
+  return this;
+};
 
-Router.run(routes, Router.HistoryLocation, function(Handler, state) {
-  React.render(
-    <Handler params={state.params} query={state.query} />,
-    document.getElementById('app')
-  );
-});
+ReactDOM.render(
+  <RootContainer history={new HashHistory()} />,
+  document.getElementById('root')
+);

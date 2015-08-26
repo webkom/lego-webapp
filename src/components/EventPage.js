@@ -26,22 +26,6 @@ var EventPage = React.createClass({
     this.setState(getState(this.getParams().eventId));
   },
 
-  componentDidMount() {
-    EventStore.addChangeListener(this._onChange);
-    EventService.findById(this.getParams().eventId, function(err, event) {
-      if (err) return;
-      EventActions.receiveAll([event]);
-    });
-  },
-
-  componentWillUnmount() {
-    EventStore.removeChangeListener(this._onChange);
-  },
-
-  _onAddToFavorites() {
-    FavoritesActions.addFavorite(this.state.event);
-  },
-
   render() {
     var event = this.state.event;
     return (
