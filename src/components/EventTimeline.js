@@ -1,10 +1,10 @@
-import React from 'react';
-import {Link} from 'react-router';
+import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import Time from './Time';
 import Icon from './Icon';
 
 function randomImage() {
-  var urls = [
+  const urls = [
     'http://www.iteraconsulting.com.ua/App_Themes/Default/Images/Logo_stor.png',
     'https://abakus.no/uploads/events/thumbs/2015-01-16-1359-TD%20Logo-260x110.jpg',
     'https://abakus.no/uploads/events/thumbs/2011-06-08-1343-Accenture-260x110.jpg',
@@ -14,26 +14,22 @@ function randomImage() {
   return urls[(Math.random() * urls.length) | 0];
 }
 
-var EventTimeline = React.createClass({
+export default class EventTimeline extends Component {
 
   render() {
-    var events = this.props.events;
+    const { events } = this.props;
     return (
       <div className='event-timeline'>
-      {events.map(function(event) {
-        return (
-          <Link to='event' params={{eventId: event.id}} key={event.id}>
-            <p className='event-location'><Icon name='map-marker'/> H3</p>
-            <img src={randomImage()} />
-            <p className='event-time' style={{backgroundColor: event.color}}>
-              <Icon name='clock-o' /> <Time time={event.starts_at} format='dddd HH:mm' />
-            </p>
-          </Link>
-        );
-      })}
+      {events.map((event) =>
+        <Link to='event' params={{eventId: event.id}} key={event.id}>
+          <p className='event-location'><Icon name='map-marker'/> H3</p>
+          <img src={randomImage()} />
+          <p className='event-time' style={{backgroundColor: event.color}}>
+            <Icon name='clock-o' /> <Time time={event.starts_at} format='dddd HH:mm' />
+          </p>
+        </Link>
+      )}
       </div>
     );
   }
-});
-
-export default EventTimeline;
+}

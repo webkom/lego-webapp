@@ -9,5 +9,5 @@ const initialState = {
 
 export default createReducer(initialState, {
   [Search.CLEAR]: (state, action) => ({ ...state, closed: true, query: '' }),
-  [Search.SEARCH]: (state, action) => ({ ...state, query: action.payload })
+  [Search.SEARCH]: (state, action) => ({ ...state, closed: false, query: action.payload })
 });

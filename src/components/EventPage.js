@@ -1,38 +1,16 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import Router from 'react-router';
 import RequireLogin from './RequireLogin';
 import LoadingIndicator from './LoadingIndicator';
-import EventStore from '../stores/EventStore';
-import * as EventService from '../services/EventService';
-import EventActions from '../actions/EventActions';
-import FavoritesActions from '../actions/FavoritesActions';
-import AuthMixin from './AuthMixin';
 
-function getState(eventId) {
-  return {
-    event: EventStore.get(eventId | 0)
-  };
-}
-
-var EventPage = React.createClass({
-
-  mixins: [AuthMixin, Router.State],
-
-  getInitialState() {
-    return getState(this.getParams().eventId);
-  },
-
-  _onChange() {
-    this.setState(getState(this.getParams().eventId));
-  },
-
+export default class EventPage extends Component {
   render() {
-    var event = this.state.event;
+    const { event } = this.props;
     return (
       <section>
         <LoadingIndicator loading={Object.keys(event).length === 0}>
           <div className='content event-page'>
-            <h2 onClick={this._onAddToFavorites}>{event.name}</h2>
+            <h2 onClick={() => {}}>{event.name}</h2>
             <article>
               {event.description}
             </article>
@@ -57,6 +35,4 @@ var EventPage = React.createClass({
       </section>
     );
   }
-});
-
-export default EventPage;
+}

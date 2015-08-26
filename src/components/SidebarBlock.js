@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 
-var SidebarBlock = React.createClass({
+export default class SidebarBlock extends Component {
 
-  getDefaultProps() {
-    return {
-      title: 'No title'
-    };
-  },
+  static propTypes = {
+    title: PropTypes.string
+  }
+
+  static defaultProps = {
+    title: 'No title'
+  }
 
   render() {
     return (
@@ -19,6 +21,4 @@ var SidebarBlock = React.createClass({
       </div>
     );
   }
-});
-
-export default SidebarBlock;
+}

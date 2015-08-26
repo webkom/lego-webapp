@@ -1,24 +1,19 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 
 /**
  * Render a Font-Awesome icon.
  */
+export default class Icon extends Component {
 
-var Icon = React.createClass({
-
-  propTypes: {
+  static propTypes = {
     name: React.PropTypes.string
-  },
+  }
 
-  getDefaultProps() {
-    return {
-      name: 'star'
-    };
-  },
+  static defaultProps = {
+    name: 'star'
+  }
 
   render() {
-    return <i className={'fa fa-' + this.props.name} />;
+    return <i className={`fa fa-${this.props.name}`} />;
   }
-});
-
-export default Icon;
+}

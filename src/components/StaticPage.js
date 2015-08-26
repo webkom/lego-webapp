@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-var StaticPage = React.createClass({
+export default class StaticPage extends Component {
 
   render() {
     return (
@@ -11,6 +11,4 @@ var StaticPage = React.createClass({
       </section>
     );
   }
-});
-
-export default StaticPage;
+}
