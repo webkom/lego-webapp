@@ -2,7 +2,7 @@ import createReducer from '../createReducer';
 import { Events } from '../actions/ActionTypes';
 
 const initialState = {
-  items: []
+  items: [{ name: 'Foo' }]
 };
 
 export default createReducer(initialState, {

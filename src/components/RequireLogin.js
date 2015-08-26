@@ -1,17 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-var RequireLogin = React.createClass({
-
-  getDefaultProps() {
-    return {
-      loggedIn: false
-    };
-  },
-
+export default class RequireLogin extends Component {
   render() {
-    var content = this.props.loggedIn ? this.props.children : null;
-    return <div>{content}</div>;
+    const { loggedIn, children } = this.props;
+    return loggedIn ? <div>{this.props.children}</div> : null;
   }
-});
-
-export default RequireLogin;
+}

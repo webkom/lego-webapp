@@ -1,37 +1,16 @@
-import React from 'react';
-import debounce from 'lodash/function/debounce';
+import React, { Component, PropTypes } from 'react';
+import { clear, search } from '../actions/SearchActions';
 
 const ESCAPE_KEY = 27;
 const UP_KEY = 38;
 const DOWN_KEY = 40;
 
-var SearchBox = React.createClass({
+export default class SearchBox extends Component {
 
-  getInitialState() {
-    return {
-      results: [],
-      closed: true,
-      query: ''
-    };
-  },
-
-  _onChange() {
-  },
-
-  _onInput(e) {
-    var query = this.refs.query.getDOMNode().value;
-    this.setState({query: query});
-    this.search();
-  },
-
-  search: debounce(function() {
-    SearchActions.search(this.state.query);
-  }, 300),
-
-  _onKeyDown(e) {
+  handleKeyDown(e) {
     switch (e.keyCode) {
       case ESCAPE_KEY:
-        this.close();
+        this.props.dispatch(clear());
         break;
 
       case UP_KEY:
@@ -39,36 +18,30 @@ var SearchBox = React.createClass({
         e.preventDefault();
         break;
     }
-  },
+  }
 
-  _closeOnEscape(e) {
-    if (this.state.closed) return;
-    if (e.keyCode === ESCAPE_KEY) this.close();
-  },
-
-  close() {
-    this.setState({query: ''});
-    SearchActions.clear();
-  },
+  handleChange(e) {
+    const query = this.refs.query.value;
+    this.props.dispatch(search(query));
+  }
 
   render() {
-    var results = this.state.results;
+    const { search: { results, closed, query } } = this.props;
     return (
-      <div className='search-container'>
-        <p className='search'><input ref='query'
-          onChange={this._onInput}
-          onKeyDown={this._onKeyDown}
-          value={this.state.query}
-          placeholder='Søk' /></p>
+      <div className='SearchBox'>
+        <div className='search'>
+          <input ref='query'
+            onChange={::this.handleChange}
+            onKeyDown={::this.handleKeyDown}
+            value={query}
+            placeholder='Søk'
+          />
+        </div>
 
         <ul className={'search-results' + (results.length === 0 ? ' hidden' : '')}>
-          {results.map(function(result, i) {
-            return <li key={'search-result-' + i}>{result}</li>;
-          })}
+          {results.map((result, i) => <li key={i}>{result}</li>)}
         </ul>
       </div>
-    );
+    )
   }
-});
-
-export default SearchBox;
+}

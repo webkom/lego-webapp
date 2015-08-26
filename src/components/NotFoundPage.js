@@ -1,11 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-var NotFoundPage = React.createClass({
+export default class NotFoundPage extends Component {
   render() {
-    return (
-      <h1>Not Found</h1>
-    );
+    return <h1>Not Found</h1>;
   }
-});
-
-export default NotFoundPage;
+}

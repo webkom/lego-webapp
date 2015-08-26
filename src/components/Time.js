@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 
 /**
@@ -7,22 +7,19 @@ import moment from 'moment';
  * the content according to the given props.
  */
 
-var Time = React.createClass({
+export default class Time extends Component {
 
-  propTypes: {
-    format: React.PropTypes.string
-  },
+  static propTypes = {
+    format: PropTypes.string.isRequired,
+    time: PropTypes.string.isRequired
+  }
 
-  getDefaultProps() {
-    return {
-      format: 'YYYY-MM-d'
-    };
-  },
+  static defaultProps = {
+    format: 'YYYY-MM-d'
+  }
 
   render() {
     return <time dateTime={this.props.time}>{moment(this.props.time).format(this.props.format)}</time>;
   }
 
-});
-
-export default Time;
+}

@@ -1,40 +1,19 @@
-import React from 'react';
-import {Link} from 'react-router';
+import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import Icon from './Icon';
-import SidebarBlock from './SidebarBlock';
 import LoadingIndicator from './LoadingIndicator';
 import EventTimeline from './EventTimeline';
 import Favorites from './Favorites';
-import FavoritesStore from '../stores/FavoritesStore';
-import FavoritesService from '../services/FavoritesService';
-import FavoritesActions from '../actions/FavoritesActions';
-import EventStore from '../stores/EventStore';
-import * as EventService from '../services/EventService';
-import EventActions from '../actions/EventActions';
+import SidebarBlock from './SidebarBlock';
 
-var Overview = React.createClass({
+export default class Overview extends Component {
 
-  getInitialState() {
-    return EventStore.getState();
-  },
-
-  componentDidMount() {
-    EventStore.addChangeListener(this.update);
-    EventService.findAll().then((events) => {
-      EventActions.receiveAll(events);
-    });
-  },
-
-  componentWillUnmount() {
-    EventStore.removeChangeListener(this.update);
-  },
-
-  update() {
-    this.setState(EventStore.getState());
-  },
+  static defaultProps = {
+    events: []
+  }
 
   render() {
-    var events = this.state.events;
+    const { events } = this.props;
     return (
       <section>
         <div className='content'>
@@ -85,6 +64,4 @@ var Overview = React.createClass({
       </section>
     );
   }
-});
-
-export default Overview;
+}

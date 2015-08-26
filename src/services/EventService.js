@@ -1,8 +1,6 @@
-import request from 'superagent';
-import EventActions from '../actions/EventActions';
 import RESTService from './RESTService';
 
-export function findAll(fn) {
+export function findAll() {
   return new Promise((resolve, reject) => {
     RESTService.get('/events')
     .auth('admin', 'testtest')
@@ -13,7 +11,7 @@ export function findAll(fn) {
   });
 }
 
-export function findById(id, fn) {
+export function findById(id) {
   return new Promise((resolve, reject) => {
     RESTService.get('/events/' + id)
     .auth('admin', 'testtest')

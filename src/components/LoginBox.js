@@ -1,29 +1,18 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import cx from 'classnames';
 import Icon from './Icon';
 
-var LoginBox = React.createClass({
+export default class LoginBox extends Component {
 
-  getInitialState() {
-    return {
-      loginOpen: false
-    };
-  },
+  static propTypes = {
+    loggedIn: PropTypes.bool.isRequired
+  }
 
-  toggleLoginOpen() {
-    this.setState({
-      loginOpen: !this.state.loginOpen
-    });
+  handleSubmit(e) {
+    e.preventDefault();
 
-    if (!this.state.loginOpen)
-      this.refs.username.getDOMNode().focus();
-  },
-
-  onLogin(event) {
-    event.preventDefault();
-
-    var username = this.refs.username.value.trim();
-    var password = this.refs.password.value.trim();
+    const username = this.refs.username.value.trim();
+    const password = this.refs.password.value.trim();
 
     if (username === '') {
       this.refs.username.focus();
@@ -34,35 +23,40 @@ var LoginBox = React.createClass({
       this.refs.password.focus();
       return;
     }
-  },
+  }
+
+  renderLoginStatus() {
+    const { loggedIn, userInfo } = this.props;
+    if (!loggedIn) {
+      return <a className='login-button'><Icon name='lock' /> Logg inn</a>;
+    }
+    return (
+      <div>
+        <img className='gravatar' src='http://www.gravatar.com/avatar/279f5b4c5c781eb6aaa5c3f09c974acf.jpg?s=64&d=identicon' />
+        <span>{userInfo.username}</span>
+      </div>
+    );
+  }
 
   render() {
+    const { loggedIn, loginOpen, userInfo } = this.props;
     return (
-      <div className='login-container'>
-        <p className="login-status">
-          {this.state.isLoggedIn ?
-            <div>
-              <img className='gravatar' src='http://www.gravatar.com/avatar/279f5b4c5c781eb6aaa5c3f09c974acf.jpg?s=64&d=identicon' />
-              <span>{this.state.userInfo.username}</span>
-            </div>
-            : <a onClick={this.toggleLoginOpen} className='login-button'><Icon name='lock'/> Logg inn</a>}
-        </p>
-        <div className={
-          cx({
-            'login-form': true,
-            'hidden': (!this.state.loginOpen || this.state.isLoggedIn),
-            'animated shake': this.state.loginFailed
-          })
-        }>
-          <form onSubmit={this.onLogin}>
+      <div className='Login'>
+        <div className='Login-status'>
+          {this.renderLoginStatus()}
+        </div>
+
+        <div className={cx({
+          'login-form': true,
+          'hidden': (!loginOpen || loggedIn),
+        })}>
+          <form onSubmit={::this.handleSubmit}>
             <input type='text' ref='username' placeholder='Username' />
             <input type='password' ref='password' placeholder='Password' />
             <button type='submit'>Logg inn</button>
           </form>
         </div>
       </div>
-    );
+    )
   }
-});
-
-export default LoginBox;
+}

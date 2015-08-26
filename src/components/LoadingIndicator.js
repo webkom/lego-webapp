@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 
-var LoadingIndicator = React.createClass({
+export default class LoadingIndicator extends Component {
 
-  getDefaultProps() {
-    return {
-      loading: false
-    };
-  },
+  static propTypes = {
+    loading: PropTypes.bool.isRequired
+  }
+
+  static defaultProps = {
+    loading: false
+  }
 
   render() {
     if (this.props.loading) {
@@ -19,6 +21,4 @@ var LoadingIndicator = React.createClass({
     }
     return this.props.children;
   }
-});
-
-export default LoadingIndicator;
+}
