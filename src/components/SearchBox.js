@@ -29,7 +29,7 @@ export default class SearchBox extends Component {
     const { search: { results, closed, query } } = this.props;
     return (
       <div className='SearchBox'>
-        <div className='search'>
+        <div className='SearchBox-input'>
           <input ref='query'
             onChange={::this.handleChange}
             onKeyDown={::this.handleKeyDown}
@@ -38,7 +38,7 @@ export default class SearchBox extends Component {
           />
         </div>
 
-        <ul className={'search-results' + (results.length === 0 ? ' hidden' : '')}>
+        <ul className={'SearchBox-results' + (results.length === 0 ? ' hidden' : '')}>
           {results.map((result, i) => <li key={i}>{result}</li>)}
         </ul>
       </div>

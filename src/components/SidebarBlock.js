@@ -12,10 +12,9 @@ export default class SidebarBlock extends Component {
 
   render() {
     return (
-      <div>
-        <h2>{this.props.title}</h2>
-
-        <div className='sidebar-block-content'>
+      <div className='SidebarBlock'>
+        <h2 className='SidebarBlock-title'>{this.props.title}</h2>
+        <div className='SidebarBlock-content'>
           {this.props.children}
         </div>
       </div>

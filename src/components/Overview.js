@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import Icon from './Icon';
-import LoadingIndicator from './LoadingIndicator';
+import Loader from './Loader';
 import EventTimeline from './EventTimeline';
 import Favorites from './Favorites';
 import SidebarBlock from './SidebarBlock';
@@ -16,7 +16,7 @@ export default class Overview extends Component {
     const { events } = this.props;
     return (
       <section>
-        <div className='content'>
+        <div className='u-container'>
           <h2 className='inside-feed'>Kommende aktiviteter</h2>
           <EventTimeline events={events.slice(0, 5)} />
 
@@ -40,7 +40,7 @@ export default class Overview extends Component {
             </SidebarBlock>
           </div>
 
-          <LoadingIndicator loading={events.length === 0}>
+          <Loader loading={events.length === 0}>
             <div className='feed-container'>
               <h2 className='inside-feed'>På plakaten</h2>
               <div className='event-grid'>
@@ -59,7 +59,7 @@ export default class Overview extends Component {
                 })}
               </div>
             </div>
-          </LoadingIndicator>
+          </Loader>
         </div>
       </section>
     );

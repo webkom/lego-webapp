@@ -53,7 +53,7 @@ export default class LoginBox extends Component {
 
         <form className={cx({
           'LoginBox-form': true,
-          'hidden': (!loginOpen || loggedIn),
+          'hidden': userInfo !== null,
         })} onSubmit={::this.handleSubmit}>
           <input type='text' ref='username' placeholder='Username' />
           <input type='password' ref='password' placeholder='Password' />

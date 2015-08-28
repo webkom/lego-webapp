@@ -22,22 +22,25 @@ export default class App extends Component {
     const { dispatch, menuOpen, search, auth } = this.props;
     return (
       <section>
-        <header>
-          <div className='container'>
-            <div className='logo'><Link to=''>Abakus</Link></div>
-            <div className='search-box'><SearchBox {...{ search, dispatch }}/></div>
-            <div className='partner-logo'><a href='http://bekk.no'>Bekk</a></div>
-            <div><LoginBox
-              login={(u, p) => dispatch(login(u, p))}
-              userInfo={auth.userInfo} /></div>
+        <header className='Header'>
+          <div className='Header-content u-container'>
+            <div className='Header-logo'><Link to=''>Abakus</Link></div>
+            <div className='Header-searchBox'><SearchBox {...{ search, dispatch }}/></div>
+            <div className='Header-partnerLogo'><a href='http://bekk.no'>Bekk</a></div>
+            <div className='Header-login'>
+              <LoginBox
+                login={(u, p) => dispatch(login(u, p))}
+                userInfo={auth.userInfo}
+              />
+            </div>
           </div>
         </header>
 
-        <nav className='navigation'>
-          <ul className='container'>
+        <nav className='MainNavigation'>
+          <ul className='MainNavigation-list u-container'>
             <li><Link to=''>Oversikt</Link></li>
             <li><Link to='events'>Arrangementer</Link></li>
-            <li className='expand-menu'>
+            <li>
               <a onClick={() => dispatch(toggleMenu())} className={menuOpen ? 'active' : ''}>
                 <Icon name={menuOpen ? 'times' : 'bars'} />
               </a>
@@ -45,8 +48,8 @@ export default class App extends Component {
           </ul>
         </nav>
 
-        <div className='container'>
-          {menuOpen && <div className='overlay-menu open'>
+        <div className='u-relative u-container'>
+          {menuOpen && <div className='ExtendedNavigation'>
             {MENU_ITEMS.map((item, i) => <a href='#' key={i}>{item}</a>)}
           </div>}
         </div>

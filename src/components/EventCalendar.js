@@ -1,3 +1,4 @@
+import '../styles/Calendar.css';
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 
@@ -43,20 +44,18 @@ export default class EventCalendar extends Component {
 
   render() {
     return (
-      <div className='content'>
-        <div className='calendar'>
-          <h2>
-            <span onClick={::this._onPrev}>&laquo;</span>
-            <span>{this.state.date.format('MMMM YYYY')}</span>
-            <span onClick={::this._onNext}>&raquo;</span>
-          </h2>
-          <div className='calendar-grid'>
-            {this.days().map((day, i) =>
-              <div key={`day-${i}`} className={day.classNames}>
-                <span className='day-number'>{day.day.date()}</span>
-              </div>
-            )}
-          </div>
+      <div className='Calendar'>
+        <h2>
+          <span onClick={::this._onPrev}>&laquo;</span>
+          <span>{this.state.date.format('MMMM YYYY')}</span>
+          <span onClick={::this._onNext}>&raquo;</span>
+        </h2>
+        <div className='Calendar-grid'>
+          {this.days().map((day, i) =>
+            <div key={`day-${i}`} className={'Calendar-grid-item ' + day.classNames}>
+              <span className='day-number'>{day.day.date()}</span>
+            </div>
+          )}
         </div>
       </div>
     );

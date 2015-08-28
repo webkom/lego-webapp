@@ -1,0 +1,25 @@
+:root {
+  --calendar-border: 1px solid #ddd;
+}
+
+.Calendar-grid {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+}
+
+.Calendar-grid-item {
+  flex: 0 14.28571%;
+  text-align: center;
+  border-right: var(--calendar-border);
+  border-bottom: var(--calendar-border);
+
+  &:nth-child(7n+1) {
+    border-left: var(--calendar-border);
+  }
+
+  &:nth-child(-n+7) {
+    border-top: var(--calendar-border);
+  }
+}

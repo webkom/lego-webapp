@@ -4,56 +4,207 @@
 
 * {
   box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
 }
 
 html {
   font-size: 1rem;
-  -webkit-font-smoothing: antialiased;
 }
 
 body {
   line-height: 1.8;
   font-family: Lato, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--lego-background-color);
+  color: var(--lego-font-color);
 }
-
 
 a {
   color: var(--lego-link-color);
+  cursor: pointer;
+}
 
-  &:hover {
-    color: green;
+.u-container {
+  max-width: var(--lego-max-width);
+  margin: 0 auto;
+}
+
+.u-relative {
+  position: relative;
+}
+
+.Header {
+  background: #222;
+  height: var(--lego-header-height);
+  line-height: var(--lego-header-height);
+  color: #eee;
+  padding: 0 2rem;
+}
+
+.Header-content {
+  display: flex;
+}
+
+.Header {
+  &-logo, &-searchBox, &-partnerLogo, &-login {
+    flex: 1;
   }
 }
 
-header {
-  background: #222;
+@media (--small-viewport) {
+  .Header {
+    height: auto;
+    line-height: inherit;
+  }
+
+  .Header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    div {
+      width: 100%;
+    }
+  }
 }
 
-.logo a {
-  display: inline-block;
+.Header-logo a {
   background: url('../../public/images/logo.png') 20px center no-repeat;
   background-size: 100px 20px;
   color: transparent;
+  display: inline-block;
   width: 100%;
 }
 
-nav {
-  background: #ddd;
-  height: 50px;
-  line-height: 50px;
+.Header-searchBox {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  input {
+    display: inline;
+    width: 100%;
+    font-size: 1.4rem;
+    height: calc(var(--lego-header-height) / 2);
+    padding: 0 1rem;
+    border: 0;
+    background: #333;
+    color: #fff;
+    border-radius: 5px;
+
+    &:focus, &:hover {
+      outline: none;
+    }
+  }
 }
 
-.navigation ul {
+.Header-partnerLogo {
+  a {
+    display: inline-block;
+    width: 100%;
+    background: url('http://open.bekk.no/Content/Images/BEKK_logo.svgz') center center no-repeat;
+    color: transparent;
+  }
+}
+
+.Header-login {
+  text-align: center;
+
+  .gravatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    display: inline;
+    vertical-align: middle;
+    margin-right: 1rem;
+  }
+}
+
+.SearchBox-results.hidden {
+  display: none;
+}
+
+.MainNavigation {
+  background: #ddd;
+  height: var(--lego-main-nav-height);
+  line-height: var(--lego-main-nav-height);
+}
+
+.MainNavigation-list {
   display: flex;
   flex-direction: row;
   list-style: none;
-  margin: 0;
 }
 
-.navigation ul li {
+.MainNavigation-list li {
   flex: 1;
+}
+
+.MainNavigation-list li a {
+  display: block;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-align: center;
+
+  &:hover, &.active {
+    background: var(--lego-background-color);
+  }
+}
+
+.MainNavigation-list li:last-of-type {
+  margin-left: auto;
+  flex: 0 1 60px;
+
+  a {
+    color: #333;
+  }
+
+  a:hover, a.active {
+    background: rgba(0, 0, 0, .9);
+    color: #fff;
+  }
+
+  i {
+    line-height: var(--lego-main-nav-height);
+  }
+}
+
+.ExtendedNavigation {
+  background: rgba(0, 0, 0, .9);
+  color: #fff;
+  padding: var(--lego-default-padding);
+  position: absolute;
+  right: 0;
+  left: 0;
+  display: flex;
+  flex-wrap: wrap;
+
+  a {
+    display: block;
+    flex: 0 0 25%;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 10px;
+    text-align: center;
+    transition: background .2s;
+  }
+
+  a:hover {
+    letter-spacing: 1px;
+    color: #999;
+  }
 }
 
 .LoginBox-form {
   margin: 0;
+
+  &.hidden {
+    display: none;
+  }
+}
+
+h1 {
+  font-size: 2.2rem;
 }
