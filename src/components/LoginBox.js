@@ -5,7 +5,8 @@ import Icon from './Icon';
 export default class LoginBox extends Component {
 
   static propTypes = {
-    loggedIn: PropTypes.bool.isRequired
+    userInfo: PropTypes.object,
+    login: PropTypes.func.isRequired
   }
 
   handleSubmit(e) {
@@ -23,10 +24,14 @@ export default class LoginBox extends Component {
       this.refs.password.focus();
       return;
     }
+
+    this.props.login(username, password);
   }
 
   renderLoginStatus() {
-    const { loggedIn, userInfo } = this.props;
+    const { userInfo } = this.props;
+    const loggedIn = userInfo !== null;
+
     if (!loggedIn) {
       return <a className='login-button'><Icon name='lock' /> Logg inn</a>;
     }
@@ -39,23 +44,21 @@ export default class LoginBox extends Component {
   }
 
   render() {
-    const { loggedIn, loginOpen, userInfo } = this.props;
+    const { loginOpen, userInfo } = this.props;
     return (
       <div className='Login'>
         <div className='Login-status'>
           {this.renderLoginStatus()}
         </div>
 
-        <div className={cx({
-          'login-form': true,
+        <form className={cx({
+          'LoginBox-form': true,
           'hidden': (!loginOpen || loggedIn),
-        })}>
-          <form onSubmit={::this.handleSubmit}>
-            <input type='text' ref='username' placeholder='Username' />
-            <input type='password' ref='password' placeholder='Password' />
-            <button type='submit'>Logg inn</button>
-          </form>
-        </div>
+        })} onSubmit={::this.handleSubmit}>
+          <input type='text' ref='username' placeholder='Username' />
+          <input type='password' ref='password' placeholder='Password' />
+          <button type='submit'>Logg inn</button>
+        </form>
       </div>
     )
   }

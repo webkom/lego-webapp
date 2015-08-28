@@ -1,0 +1,59 @@
+@import 'normalize.css/normalize.css';
+@import url('http://fonts.googleapis.com/css?family=Lato:400,700');
+@import './_variables.css';
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 1rem;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  line-height: 1.8;
+  font-family: Lato, 'Helvetica Neue', Arial, sans-serif;
+}
+
+
+a {
+  color: var(--lego-link-color);
+
+  &:hover {
+    color: green;
+  }
+}
+
+header {
+  background: #222;
+}
+
+.logo a {
+  display: inline-block;
+  background: url('../../public/images/logo.png') 20px center no-repeat;
+  background-size: 100px 20px;
+  color: transparent;
+  width: 100%;
+}
+
+nav {
+  background: #ddd;
+  height: 50px;
+  line-height: 50px;
+}
+
+.navigation ul {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  margin: 0;
+}
+
+.navigation ul li {
+  flex: 1;
+}
+
+.LoginBox-form {
+  margin: 0;
+}

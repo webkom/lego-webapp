@@ -1,23 +1,9 @@
-import RESTService from './RESTService';
+import { get } from './RESTService';
 
 export function findAll() {
-  return new Promise((resolve, reject) => {
-    RESTService.get('/events')
-    .auth('admin', 'testtest')
-    .end(function(res) {
-      if (!res.ok) return reject(res.body);
-      resolve(res.body);
-    });
-  });
+  return get('/events');
 }
 
 export function findById(id) {
-  return new Promise((resolve, reject) => {
-    RESTService.get('/events/' + id)
-    .auth('admin', 'testtest')
-    .end(function(res) {
-      if (!res.ok) return reject(res.body);
-      resolve(res.body);
-    });
-  });
+  return get(`/events/${id}`);
 }
