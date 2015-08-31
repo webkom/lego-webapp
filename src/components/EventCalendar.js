@@ -19,23 +19,23 @@ export default class EventCalendar extends Component {
     date: moment()
   }
 
-  days() {
-    const date = this.state.date.startOf('month');
+  getDaysForCalendar(date, weekOffset) {
+    const startOfMonth = date.startOf('month');
 
-    let diff = date.weekday() - this.props.weekOffset;
+    let diff = startOfMonth.weekday() - weekOffset;
     if (diff < 0) diff += 7;
 
     const prevMonthDays = range(0, diff).map(n => ({
-      day: date.clone().subtract(diff - n, 'days'),
+      day: startOfMonth.clone().subtract(diff - n, 'days'),
       classNames: 'prev-month'
     }));
 
-    const currentMonthDays = range(1, this.state.date.daysInMonth() + 1).map(index => ({
-      day: moment([this.state.date.year(), this.state.date.month(), index])
+    const currentMonthDays = range(1, date.daysInMonth() + 1).map(index => ({
+      day: moment([date.year(), date.month(), index])
     }));
 
     const daysAdded = prevMonthDays.length + currentMonthDays.length - 1;
-    const nextMonthDays = takeWhile(range(1, 7), n => (daysAdded - n) % 7 !== 0).map((n) => ({
+    const nextMonthDays = takeWhile(range(1, 7), n => (daysAdded + n) % 7 !== 0).map((n) => ({
       day: last(currentMonthDays).day.clone().add(n, 'days'),
       classNames: 'next-month'
     }));
@@ -60,7 +60,7 @@ export default class EventCalendar extends Component {
           <span onClick={::this._onNext}>&raquo;</span>
         </h2>
         <div className='Calendar-grid'>
-          {this.days().map((day, i) =>
+          {this.getDaysForCalendar(this.state.date, this.props.weekOffset).map((day, i) =>
             <div key={`day-${i}`} className={'Calendar-grid-item ' + day.classNames}>
               <span className='day-number'>{day.day.format('YYYY-MM-D')}</span>
             </div>
