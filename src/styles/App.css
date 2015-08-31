@@ -190,6 +190,12 @@ a {
   }
 }
 
+@media (--small-viewport) {
+  .ExtendedNavigation a {
+    flex: 0 0 100%;
+  }
+}
+
 .LoginBox-form {
   margin: 0;
 
@@ -240,6 +246,12 @@ h1 {
 
   &:first-of-type {
     flex: 0 0 66.6666%;
+  }
+}
+
+@media (--small-viewport) {
+  .UpcomingEvents-item, .UpcomingEvents-item:first-of-type {
+    flex: 0 0 100%;
   }
 }
 
