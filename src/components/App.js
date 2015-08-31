@@ -1,14 +1,24 @@
 import '../styles/App.css';
 import React, { Component, PropTypes } from 'react';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link } from 'react-router';
-import { toggleMenu } from '../actions/UIActions';
+import { toggleMenu, closeMenu } from '../actions/UIActions';
 import { login } from '../actions/UserActions';
 import Overview from '../components/Overview';
 import SearchBox from '../components/SearchBox';
 import LoginBox from '../components/LoginBox';
 import Icon from '../components/Icon';
 
-const MENU_ITEMS = ['Karriere', 'BDB', 'Møter', 'Utland', 'Spørreskjema', 'Butikk'];
+const MENU_ITEMS = [
+  ['/events', 'Arrangementer'],
+  ['', 'readme'],
+  ['', 'Karriere'],
+  ['', 'BDB'],
+  ['', 'Møter'],
+  ['', 'Utland'],
+  ['', 'Spørreskjema'],
+  ['', 'Butikk']
+];
 
 export default class App extends Component {
 
@@ -21,7 +31,7 @@ export default class App extends Component {
   render() {
     const { dispatch, menuOpen, search, auth } = this.props;
     return (
-      <section>
+      <div className='Site' onClick={() => dispatch(closeMenu())}>
         <header className='Header'>
           <div className='Header-content u-container'>
             <div className='Header-logo'><Link to=''>Abakus</Link></div>
@@ -38,28 +48,31 @@ export default class App extends Component {
 
         <nav className='MainNavigation'>
           <ul className='MainNavigation-list u-container'>
-            <li><Link to=''>Oversikt</Link></li>
-            <li><Link to='events'>Arrangementer</Link></li>
             <li>
-              <a onClick={() => dispatch(toggleMenu())} className={menuOpen ? 'active' : ''}>
+              <a onClick={(e) => (e.stopPropagation(), dispatch(toggleMenu()))} className={menuOpen ? 'active' : ''}>
                 <Icon name={menuOpen ? 'times' : 'bars'} />
               </a>
             </li>
           </ul>
         </nav>
 
+
         <div className='u-relative u-container'>
-          {menuOpen && <div className='ExtendedNavigation'>
-            {MENU_ITEMS.map((item, i) => <a href='#' key={i}>{item}</a>)}
-          </div>}
+          <CSSTransitionGroup transitionName='menu'>
+            {menuOpen && <div className='ExtendedNavigation' key='menu'>
+              {MENU_ITEMS.map((item, i) => <Link to={item[0]} key={i}>{item[1]}</Link>)}
+            </div>}
+          </CSSTransitionGroup>
         </div>
 
         {this.props.children || <Overview {...this.props} />}
 
-        <footer>
-          <p>Abakus er best</p>
+        <footer className='Footer'>
+          <div className='u-container'>
+            <p>Abakus er best</p>
+          </div>
         </footer>
-      </section>
+      </div>
     );
   }
 }

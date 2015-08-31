@@ -1,4 +1,5 @@
 @import 'normalize.css/normalize.css';
+@import 'animate.css/animate.css';
 @import url('http://fonts.googleapis.com/css?family=Lato:400,700');
 @import './_variables.css';
 
@@ -33,7 +34,7 @@ a {
 }
 
 .Header {
-  background: #222;
+  background: linear-gradient(#111, #222);
   height: var(--lego-header-height);
   line-height: var(--lego-header-height);
   color: #eee;
@@ -143,12 +144,9 @@ a {
 .MainNavigation-list li a {
   display: block;
   text-transform: uppercase;
+  text-decoration: none;
   font-weight: 700;
   text-align: center;
-
-  &:hover, &.active {
-    background: var(--lego-background-color);
-  }
 }
 
 .MainNavigation-list li:last-of-type {
@@ -157,11 +155,6 @@ a {
 
   a {
     color: #333;
-  }
-
-  a:hover, a.active {
-    background: rgba(0, 0, 0, .9);
-    color: #fff;
   }
 
   i {
@@ -205,6 +198,68 @@ a {
   }
 }
 
+.Footer {
+  background: blue;
+}
+
 h1 {
   font-size: 2.2rem;
+}
+
+.menu-enter {
+  animation: zoomIn .25s;
+}
+
+.menu-leave {
+  animation: zoomOut .25s;
+}
+
+.UpcomingEvents {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.UpcomingEvents-item {
+  flex: 0 0 33.3333%;
+  padding: 1rem;
+  text-decoration: none;
+  color: #fff;
+  font-size: 1.8rem;
+  height: 220px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  strong {
+    background: rgba(0, 0, 0, .7);
+    padding: .5rem;
+  }
+
+  &:first-of-type {
+    flex: 0 0 66.6666%;
+  }
+}
+
+.u-heading-with-bar {
+  position: relative;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 4px;
+  line-height: 1;
+  margin: 2rem 0;
+
+  &:after {
+    position: absolute;
+    content: ' ';
+    height: 1px;
+    border-bottom: 10px dotted #ddd;
+    width: 50%;
+    right: 0;
+    display: block;
+    top: 50%;
+    margin-top: -3px;
+  }
 }
