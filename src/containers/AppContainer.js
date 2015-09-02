@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import { loginAutomaticallyIfPossible } from '../actions/UserActions';
 import App from '../components/App';
 
@@ -11,6 +10,10 @@ import App from '../components/App';
   events: state.events.items
 }))
 export default class AppContainer extends Component {
+
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired
+  }
 
   componentWillMount() {
     this.props.dispatch(loginAutomaticallyIfPossible());

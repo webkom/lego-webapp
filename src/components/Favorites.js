@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import Time from './Time';
 import Icon from './Icon';
 
 export default class Favorites extends Component {

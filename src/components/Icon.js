@@ -6,7 +6,7 @@ import React, { Component, PropTypes } from 'react';
 export default class Icon extends Component {
 
   static propTypes = {
-    name: React.PropTypes.string
+    name: PropTypes.string
   }
 
   static defaultProps = {

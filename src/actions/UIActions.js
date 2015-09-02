@@ -18,5 +18,5 @@ export function closeMenu() {
     dispatch({
       type: UI.CLOSE_MENU
     });
-  }
+  };
 }

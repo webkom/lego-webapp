@@ -7,16 +7,21 @@ const DOWN_KEY = 40;
 
 export default class SearchBox extends Component {
 
+  static propTypes = {
+    dispatch: PropTypes.func.isRequired,
+    search: PropTypes.object
+  };
+
   handleKeyDown(e) {
     switch (e.keyCode) {
-      case ESCAPE_KEY:
-        this.props.dispatch(clear());
-        break;
+    case ESCAPE_KEY:
+      this.props.dispatch(clear());
+      break;
 
-      case UP_KEY:
-      case DOWN_KEY:
-        e.preventDefault();
-        break;
+    case UP_KEY:
+    case DOWN_KEY:
+      e.preventDefault();
+      break;
     }
   }
 
@@ -26,7 +31,8 @@ export default class SearchBox extends Component {
   }
 
   render() {
-    const { search: { results, closed, query } } = this.props;
+    const { search: { results, query } } = this.props;
+
     return (
       <div className='SearchBox'>
         <div className='SearchBox-input'>
@@ -42,6 +48,6 @@ export default class SearchBox extends Component {
           {results.map((result, i) => <li key={i}>{result}</li>)}
         </ul>
       </div>
-    )
+    );
   }
 }

@@ -44,7 +44,7 @@ export default class LoginBox extends Component {
   }
 
   render() {
-    const { loginOpen, userInfo } = this.props;
+    const { userInfo } = this.props;
     return (
       <div className='Login'>
         <div className='Login-status'>
@@ -53,13 +53,13 @@ export default class LoginBox extends Component {
 
         <form className={cx({
           'LoginBox-form': true,
-          'hidden': userInfo !== null,
+          'hidden': userInfo !== null
         })} onSubmit={::this.handleSubmit}>
           <input type='text' ref='username' placeholder='Username' />
           <input type='password' ref='password' placeholder='Password' />
           <button type='submit'>Logg inn</button>
         </form>
       </div>
-    )
+    );
   }
 }

@@ -1,11 +1,15 @@
 import React, { Component, PropTypes } from 'react';
-import Router from 'react-router';
 import RequireLogin from './RequireLogin';
 import LoadingIndicator from './LoadingIndicator';
 
 export default class EventPage extends Component {
+  static propTypes = {
+    event: PropTypes.object.isRequired
+  }
+
   render() {
     const { event } = this.props;
+
     return (
       <section>
         <LoadingIndicator loading={Object.keys(event).length === 0}>
@@ -16,9 +20,9 @@ export default class EventPage extends Component {
             </article>
             <div className='event-open-for'>
               <h3>Åpent for</h3>
-              {(event.admissible_groups || []).map(function(group) {
-                return <span key={'group-' + group.group}>{group.group}</span>;
-              })}
+              {(event.admissible_groups || []).map(group =>
+                <span key={'group-' + group.group}>{group.group}</span>
+              )}
             </div>
 
             <RequireLogin loggedIn={this.state.isLoggedIn}>

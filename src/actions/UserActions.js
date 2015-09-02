@@ -5,8 +5,9 @@ function performLogin(username, password) {
   let user = JSON.parse(window.localStorage.getItem('user')) || {};
   if (user.token) return Promise.resolve(user);
 
-  if (!username || !password)
+  if (!username || !password) {
     return Promise.reject(new Error('missing username or password'));
+  }
 
   return post('/login', { username, password })
     .then(data => {
@@ -25,7 +26,7 @@ export function login(username, password) {
     type: User.LOGIN,
     promise: performLogin(username, password),
     bailout: state => state.users.userInfo !== null
-  }
+  };
 }
 
 export function loginWithExistingToken(username, token) {

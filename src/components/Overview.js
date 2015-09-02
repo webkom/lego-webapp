@@ -1,10 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import Icon from './Icon';
-import Loader from './Loader';
-import EventTimeline from './EventTimeline';
-import Favorites from './Favorites';
-import SidebarBlock from './SidebarBlock';
 
 let id = 0;
 function getImage() {
@@ -12,6 +7,10 @@ function getImage() {
 }
 
 export default class Overview extends Component {
+
+  static propTypes = {
+    events: PropTypes.array.isRequired
+  }
 
   static defaultProps = {
     events: []

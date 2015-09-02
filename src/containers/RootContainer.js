@@ -17,8 +17,7 @@ export default class RootContainer extends Component {
       <Provider {...{ store }}>
         <Router history={this.props.history}>
           <Route path='/' component={AppContainer}>
-            <Route path='events' component={EventsContainer}>
-            </Route>
+            <Route path='events' component={EventsContainer}  />
           </Route>
         </Router>
       </Provider>

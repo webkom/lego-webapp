@@ -3,7 +3,8 @@ import React, { Component, PropTypes } from 'react';
 export default class SidebarBlock extends Component {
 
   static propTypes = {
-    title: PropTypes.string
+    title: PropTypes.string,
+    children: PropTypes.array
   }
 
   static defaultProps = {

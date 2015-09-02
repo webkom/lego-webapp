@@ -18,9 +18,9 @@ function promiseMiddleware() {
     });
 
     return promise.then(
-      payload => next({
+      result => next({
         type: `${type}_SUCCESS`,
-        payload,
+        payload: result,
         meta: { ...meta, receivedAt: Date.now() }
       }),
       error => next({

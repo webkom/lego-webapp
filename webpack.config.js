@@ -1,6 +1,5 @@
-var path = require('path');
+/* eslint no-var: 0 */
 var webpack = require('webpack');
-var nib = require('nib');
 
 module.exports = {
   devtool: 'eval-source-map',
@@ -32,4 +31,4 @@ module.exports = {
       require('postcss-nested')
     ]
   }
-}
+};
