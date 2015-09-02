@@ -3,7 +3,7 @@ import { User } from '../actions/ActionTypes';
 
 const initialState = {
   username: null,
-  token: null,
+  token: null
 };
 
 export default createReducer(initialState, {

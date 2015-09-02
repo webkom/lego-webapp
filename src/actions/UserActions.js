@@ -1,7 +1,6 @@
 import { User } from './ActionTypes';
 import { post } from '../http';
-import { transitionTo, replaceWith } from 'redux-react-router';
-import { callAPI } from '../http';
+import { replaceWith } from 'redux-react-router';
 
 function putInLocalStorage(key) {
   return (payload) => {

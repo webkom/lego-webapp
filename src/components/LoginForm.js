@@ -34,6 +34,6 @@ export default class LoginForm extends Component {
           <button type='submit'>Logg inn</button>
         </form>
       </div>
-    )
+    );
   }
 }

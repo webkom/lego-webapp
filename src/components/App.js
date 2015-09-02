@@ -27,7 +27,8 @@ export default class App extends Component {
     auth: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     menuOpen: PropTypes.bool.isRequired,
-    search: PropTypes.object.isRequired
+    search: PropTypes.object.isRequired,
+    loggedIn: PropTypes.bool.isRequired
   }
 
   render() {
