@@ -3,10 +3,10 @@ import React, { Component, PropTypes } from 'react';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link } from 'react-router';
 import { toggleMenu, closeMenu } from '../actions/UIActions';
-import { login } from '../actions/UserActions';
+import { login, logout } from '../actions/UserActions';
 import Overview from '../components/Overview';
 import SearchBox from '../components/SearchBox';
-import LoginBox from '../components/LoginBox';
+import LoginForm from '../components/LoginForm';
 import Icon from '../components/Icon';
 
 const MENU_ITEMS = [
@@ -31,7 +31,7 @@ export default class App extends Component {
   }
 
   render() {
-    const { dispatch, menuOpen, search, auth } = this.props;
+    const { dispatch, menuOpen, search, auth, loggedIn } = this.props;
 
     return (
       <div className='Site' onClick={() => dispatch(closeMenu())}>
@@ -41,10 +41,9 @@ export default class App extends Component {
             <div className='Header-searchBox'><SearchBox {...{ search, dispatch }}/></div>
             <div className='Header-partnerLogo'><a href='http://bekk.no'>Bekk</a></div>
             <div className='Header-login'>
-              <LoginBox
-                login={(u, p) => dispatch(login(u, p))}
-                userInfo={auth.userInfo}
-              />
+              {loggedIn
+                ? <div onClick={() => dispatch(logout())}>{auth.username}</div>
+                : <LoginForm login={(u, p) => dispatch(login(u, p))} />}
             </div>
           </div>
         </header>

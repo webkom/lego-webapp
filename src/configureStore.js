@@ -1,6 +1,7 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
+import { routerStateReducer } from 'redux-react-router';
 import * as reducers from './reducers';
 
 function promiseMiddleware() {
@@ -43,7 +44,10 @@ const createStoreWithMiddleware = applyMiddleware(
   loggerMiddleware
 )(createStore);
 
-const reducer = combineReducers(reducers);
+const reducer = combineReducers({
+  router: routerStateReducer,
+  ...reducers
+});
 
 export default function configureStore(initialState) {
   return createStoreWithMiddleware(reducer, initialState);
