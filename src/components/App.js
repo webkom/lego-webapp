@@ -58,14 +58,13 @@ export default class App extends Component {
           </ul>
         </nav>
 
-
-        <div className='u-relative u-container'>
-          <CSSTransitionGroup transitionName='menu'>
-            {menuOpen && <div className='ExtendedNavigation' key='menu'>
-              {MENU_ITEMS.map((item, i) => <Link to={item[0]} key={i}>{item[1]}</Link>)}
-            </div>}
-          </CSSTransitionGroup>
-        </div>
+        <CSSTransitionGroup transitionName='menu'>
+          {menuOpen && <div className='ExtendedNavigation-back' key='menu'>
+            <div className='ExtendedNavigation u-container'>
+            {MENU_ITEMS.map((item, i) => <Link to={item[0]} key={i}>{item[1]}</Link>)}
+            </div>
+          </div>}
+        </CSSTransitionGroup>
 
         {this.props.children || <Overview {...this.props} />}
 
