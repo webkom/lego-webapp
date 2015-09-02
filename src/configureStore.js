@@ -50,5 +50,12 @@ const reducer = combineReducers({
 });
 
 export default function configureStore(initialState) {
-  return createStoreWithMiddleware(reducer, initialState);
+  const store = createStoreWithMiddleware(reducer, initialState);
+  if (module.hot) {
+    module.hot.accept('./reducers', () => {
+      const nextReducer = require('./reducers');
+      store.replaceReducer(nextReducer);
+    });
+  }
+  return store;
 }
