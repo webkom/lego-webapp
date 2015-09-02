@@ -11,13 +11,6 @@ function putInLocalStorage(key) {
 }
 
 function performLogin(username, password) {
-  let user = JSON.parse(window.localStorage.getItem('user')) || {};
-  if (user.token) return Promise.resolve(user);
-
-  if (!username || !password) {
-    return Promise.reject(new Error('missing username or password'));
-  }
-
   return post('/login', { username, password })
     .then(data => ({ username, token: data.authToken }))
     .then(putInLocalStorage('user'));
@@ -26,10 +19,6 @@ function performLogin(username, password) {
 export function login(username, password) {
   return {
     type: User.LOGIN,
-<<<<<<< HEAD
-    promise: performLogin(username, password),
-    bailout: state => state.users.userInfo !== null
-=======
     promise: performLogin(username, password)
   };
 }
@@ -39,7 +28,6 @@ export function logout() {
     window.localStorage.removeItem('user');
     dispatch({ type: User.LOGOUT });
     dispatch(replaceWith('/'));
->>>>>>> Improve auth
   };
 }
 
