@@ -3,7 +3,8 @@ import React, { Component, PropTypes } from 'react';
 export default class LoadingIndicator extends Component {
 
   static propTypes = {
-    loading: PropTypes.bool.isRequired
+    loading: PropTypes.bool.isRequired,
+    children: PropTypes.array
   }
 
   static defaultProps = {

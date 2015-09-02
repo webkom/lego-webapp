@@ -28,14 +28,6 @@ function abortPendingRequests(key) {
   }
 }
 
-export function get(url) {
-  return httpRequest('get', url);
-}
-
-export function post(url, json) {
-  return httpRequest('post', url, json);
-}
-
 /**
  *
  */
@@ -62,4 +54,12 @@ export default function httpRequest(method, url, json) {
       return resolve(camelize(res.body));
     });
   });
+}
+
+export function get(url) {
+  return httpRequest('get', url);
+}
+
+export function post(url, json) {
+  return httpRequest('post', url, json);
 }

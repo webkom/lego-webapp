@@ -23,6 +23,8 @@ const MENU_ITEMS = [
 export default class App extends Component {
 
   static propTypes = {
+    children: PropTypes.array,
+    auth: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     menuOpen: PropTypes.bool.isRequired,
     search: PropTypes.object.isRequired
@@ -30,6 +32,7 @@ export default class App extends Component {
 
   render() {
     const { dispatch, menuOpen, search, auth } = this.props;
+
     return (
       <div className='Site' onClick={() => dispatch(closeMenu())}>
         <header className='Header'>

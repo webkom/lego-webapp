@@ -16,8 +16,13 @@ function randomImage() {
 
 export default class EventTimeline extends Component {
 
+  static propTypes = {
+    events: PropTypes.array.isRequired
+  }
+
   render() {
     const { events } = this.props;
+
     return (
       <div className='event-timeline'>
       {events.map((event) =>

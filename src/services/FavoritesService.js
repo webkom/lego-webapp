@@ -8,12 +8,12 @@ import {setItem, getItem} from '../localStorage';
 
 export function findAll(fn) {
   // not async atm, but will fetch from server soon
-  var favorites = getItem('favorites');
+  const favorites = getItem('favorites');
   fn(null, favorites);
 }
 
 export function addFavorite(favorite, fn) {
-  var favorites = getItem('favorites') || [];
+  const favorites = getItem('favorites') || [];
   favorites.push(favorite);
   setItem('favorites', favorites);
   fn(null, favorite);
