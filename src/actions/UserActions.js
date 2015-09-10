@@ -9,11 +9,24 @@ function putInLocalStorage(key) {
   };
 }
 
+function clearLocalStorage(key) {
+  window.localStorage.removeItem(key);
+}
+
 function performLogin(username, password) {
-  return post('/login', { username, password })
-    .then(data => ({ username, token: data.authToken }))
+  return post('/token-auth/', { username, password })
     .then(putInLocalStorage('user'));
 }
+
+export function refreshToken(token) {
+  return post('/token-auth/refresh/', { token })
+    .then(putInLocalStorage('user'))
+    .catch(err => {
+      clearLocalStorage('user');
+      throw err;
+    });
+}
+
 
 export function login(username, password) {
   return {
@@ -30,10 +43,10 @@ export function logout() {
   };
 }
 
-export function loginWithExistingToken(username, token) {
+export function loginWithExistingToken(token) {
   return {
-    type: User.LOGIN_SUCCESS,
-    payload: { username, token }
+    type: User.LOGIN,
+    promise: refreshToken(token)
   };
 }
 
@@ -42,9 +55,9 @@ export function loginWithExistingToken(username, token) {
  */
 export function loginAutomaticallyIfPossible() {
   return (dispatch) => {
-    const { username, token } = JSON.parse(window.localStorage.getItem('user')) || {};
-    if (username && token) {
-      dispatch(loginWithExistingToken(username, token));
+    const { token } = JSON.parse(window.localStorage.getItem('user')) || {};
+    if (token) {
+      dispatch(loginWithExistingToken(token));
     }
   };
 }
