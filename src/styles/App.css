@@ -162,6 +162,16 @@ a {
   }
 }
 
+.ExtendedNavigation-back {
+  background: rgba(0, 0, 0, .5);
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 100;
+}
+
 .ExtendedNavigation {
   background: rgba(0, 0, 0, .9);
   color: #fff;
@@ -169,6 +179,7 @@ a {
   position: absolute;
   right: 0;
   left: 0;
+  top: 150px;
   display: flex;
   flex-wrap: wrap;
 
@@ -216,7 +227,7 @@ h1 {
   animation: zoomIn .25s;
 }
 
-.menu-leave {
+.menu-leave-active {
   animation: zoomOut .25s;
 }
 

@@ -1,9 +1,9 @@
 import { Events } from './ActionTypes';
-import { findAll } from '../services/EventService';
+import { callAPI } from '../http';
 
 export function fetchAll() {
-  return {
+  return callAPI({
     type: Events.FETCH_ALL,
-    promise: findAll()
-  };
+    endpoint: '/events'
+  });
 }
