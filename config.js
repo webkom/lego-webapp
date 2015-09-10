@@ -1,3 +1,3 @@
 export default {
-  serverUrl: 'http://api.abakus.dev/v1'
+  serverUrl: 'http://localhost:8000/api/v1'
 };

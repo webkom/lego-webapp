@@ -44,19 +44,23 @@ export function del(url, body) {
 
 export function callAPI(action) {
   return (dispatch, getState) => {
-    const jwt = getState().auth.token;
     const { method, endpoint, body } = action;
+    const options = {
+      method,
+      url: endpoint,
+      body
+    };
+
+    const jwt = getState().auth.token;
+    if (jwt) {
+      options.headers = {
+        'Authorization': `JWT ${jwt}`
+      };
+    }
 
     return dispatch({
       type: action.type,
-      promise: request({
-        method,
-        url: endpoint,
-        body,
-        headers: {
-          'Authorization': `Bearer ${jwt}`
-        }
-      })
+      promise: request(options)
     });
   };
 }
