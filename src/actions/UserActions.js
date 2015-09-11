@@ -1,6 +1,8 @@
+import jwtDecode from 'jwt-decode';
+import moment from 'moment';
+import { replaceWith } from 'redux-react-router';
 import { User } from './ActionTypes';
 import { post } from '../http';
-import { replaceWith } from 'redux-react-router';
 
 function putInLocalStorage(key) {
   return (payload) => {
@@ -43,10 +45,23 @@ export function logout() {
   };
 }
 
-export function loginWithExistingToken(token) {
+function almostExpired(token) {
+  const decodedToken = jwtDecode(token);
+  const expirationDate = moment(decodedToken.exp * 1000);
+  return expirationDate.isSame(moment(), 'day');
+}
+
+export function loginWithExistingToken(user, token) {
+  if (almostExpired(token)) {
+    return {
+      type: User.LOGIN,
+      promise: refreshToken(token)
+    };
+  }
+
   return {
-    type: User.LOGIN,
-    promise: refreshToken(token)
+    type: User.LOGIN_SUCCESS,
+    payload: { user, token }
   };
 }
 
@@ -55,9 +70,9 @@ export function loginWithExistingToken(token) {
  */
 export function loginAutomaticallyIfPossible() {
   return (dispatch) => {
-    const { token } = JSON.parse(window.localStorage.getItem('user')) || {};
+    const { user, token } = JSON.parse(window.localStorage.getItem('user')) || {};
     if (token) {
-      dispatch(loginWithExistingToken(token));
+      dispatch(loginWithExistingToken(user, token));
     }
   };
 }
