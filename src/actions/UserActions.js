@@ -45,24 +45,27 @@ export function logout() {
   };
 }
 
-function almostExpired(token) {
+function getExpirationDate(token) {
   const decodedToken = jwtDecode(token);
-  const expirationDate = moment(decodedToken.exp * 1000);
-  return expirationDate.isSame(moment(), 'day');
+  return moment(decodedToken.exp * 1000);
 }
 
-export function loginWithExistingToken(user, token) {
-  if (almostExpired(token)) {
-    return {
+export function loginWithExistingToken(dispatch, user, token) {
+  const expirationDate = getExpirationDate(token);
+  const now = moment();
+  if (expirationDate.isSame(now, 'day')) {
+    dispatch({
       type: User.LOGIN,
       promise: refreshToken(token)
-    };
+    });
+  } else if (now.isAfter(expirationDate)) {
+    clearLocalStorage('token');
+  } else {
+    dispatch({
+      type: User.LOGIN_SUCCESS,
+      payload: { user, token }
+    });
   }
-
-  return {
-    type: User.LOGIN_SUCCESS,
-    payload: { user, token }
-  };
 }
 
 /**
@@ -72,7 +75,7 @@ export function loginAutomaticallyIfPossible() {
   return (dispatch) => {
     const { user, token } = JSON.parse(window.localStorage.getItem('user')) || {};
     if (token) {
-      dispatch(loginWithExistingToken(user, token));
+      loginWithExistingToken(dispatch, user, token);
     }
   };
 }
