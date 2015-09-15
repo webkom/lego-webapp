@@ -1,6 +1,8 @@
+import jwtDecode from 'jwt-decode';
+import moment from 'moment';
+import { replaceWith } from 'redux-react-router';
 import { User } from './ActionTypes';
 import { post } from '../http';
-import { replaceWith } from 'redux-react-router';
 
 function putInLocalStorage(key) {
   return (payload) => {
@@ -9,11 +11,24 @@ function putInLocalStorage(key) {
   };
 }
 
+function clearLocalStorage(key) {
+  window.localStorage.removeItem(key);
+}
+
 function performLogin(username, password) {
-  return post('/login', { username, password })
-    .then(data => ({ username, token: data.authToken }))
+  return post('/token-auth/', { username, password })
     .then(putInLocalStorage('user'));
 }
+
+export function refreshToken(token) {
+  return post('/token-auth/refresh/', { token })
+    .then(putInLocalStorage('user'))
+    .catch(err => {
+      clearLocalStorage('user');
+      throw err;
+    });
+}
+
 
 export function login(username, password) {
   return {
@@ -30,11 +45,27 @@ export function logout() {
   };
 }
 
-export function loginWithExistingToken(username, token) {
-  return {
-    type: User.LOGIN_SUCCESS,
-    payload: { username, token }
-  };
+function getExpirationDate(token) {
+  const decodedToken = jwtDecode(token);
+  return moment(decodedToken.exp * 1000);
+}
+
+export function loginWithExistingToken(dispatch, user, token) {
+  const expirationDate = getExpirationDate(token);
+  const now = moment();
+  if (expirationDate.isSame(now, 'day')) {
+    dispatch({
+      type: User.LOGIN,
+      promise: refreshToken(token)
+    });
+  } else if (now.isAfter(expirationDate)) {
+    clearLocalStorage('token');
+  } else {
+    dispatch({
+      type: User.LOGIN_SUCCESS,
+      payload: { user, token }
+    });
+  }
 }
 
 /**
@@ -42,9 +73,9 @@ export function loginWithExistingToken(username, token) {
  */
 export function loginAutomaticallyIfPossible() {
   return (dispatch) => {
-    const { username, token } = JSON.parse(window.localStorage.getItem('user')) || {};
-    if (username && token) {
-      dispatch(loginWithExistingToken(username, token));
+    const { user, token } = JSON.parse(window.localStorage.getItem('user')) || {};
+    if (token) {
+      loginWithExistingToken(dispatch, user, token);
     }
   };
 }

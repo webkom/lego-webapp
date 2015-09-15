@@ -43,7 +43,7 @@ export default class App extends Component {
             <div className='Header-partnerLogo'><a href='http://bekk.no'>Bekk</a></div>
             <div className='Header-login'>
               {loggedIn
-                ? <div onClick={() => dispatch(logout())}>{auth.username}</div>
+                ? <div onClick={() => dispatch(logout())}>{auth.user.username}</div>
                 : <LoginForm login={(u, p) => dispatch(login(u, p))} />}
             </div>
           </div>
