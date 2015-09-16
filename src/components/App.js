@@ -4,7 +4,6 @@ import CSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link } from 'react-router';
 import { toggleMenu, closeMenu } from '../actions/UIActions';
 import { login, logout } from '../actions/UserActions';
-import Overview from '../components/Overview';
 import SearchBox from '../components/SearchBox';
 import LoginForm from '../components/LoginForm';
 import Icon from '../components/Icon';
@@ -29,14 +28,6 @@ export default class App extends Component {
     menuOpen: PropTypes.bool.isRequired,
     search: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired
-  }
-
-  renderChildren() {
-    if (this.props.children) {
-      return React.cloneElement(this.props.children, this.props);
-    }
-
-    return <Overview {...this.props} />;
   }
 
   render() {
@@ -75,7 +66,7 @@ export default class App extends Component {
           </div>}
         </CSSTransitionGroup>
 
-        {this.renderChildren()}
+        {React.cloneElement(this.props.children, this.props)}
 
         <footer className='Footer'>
           <div className='u-container'>
