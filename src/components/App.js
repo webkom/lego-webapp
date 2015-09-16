@@ -30,14 +30,6 @@ export default class App extends Component {
     loggedIn: PropTypes.bool.isRequired
   }
 
-  renderChildren() {
-    if (this.props.children) {
-      return React.cloneElement(this.props.children, this.props);
-    }
-
-    return <Overview {...this.props} />;
-  }
-
   render() {
     const { dispatch, menuOpen } = this.props;
 
@@ -63,7 +55,7 @@ export default class App extends Component {
           </div>}
         </CSSTransitionGroup>
 
-        {this.renderChildren()}
+        {React.cloneElement(this.props.children, this.props)}
 
         <footer className='Footer'>
           <div className='u-container'>
