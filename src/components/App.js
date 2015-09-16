@@ -23,12 +23,20 @@ const MENU_ITEMS = [
 export default class App extends Component {
 
   static propTypes = {
-    children: PropTypes.array,
+    children: PropTypes.any,
     auth: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     menuOpen: PropTypes.bool.isRequired,
     search: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired
+  }
+
+  renderChildren() {
+    if (this.props.children) {
+      return React.cloneElement(this.props.children, this.props);
+    }
+
+    return <Overview {...this.props} />;
   }
 
   render() {
@@ -43,7 +51,7 @@ export default class App extends Component {
             <div className='Header-partnerLogo'><a href='http://bekk.no'>Bekk</a></div>
             <div className='Header-login'>
               {loggedIn
-                ? <div onClick={() => dispatch(logout())}>{auth.user.username}</div>
+                ? <div onClick={() => dispatch(logout())}>{auth.username}</div>
                 : <LoginForm login={(u, p) => dispatch(login(u, p))} />}
             </div>
           </div>
@@ -67,7 +75,7 @@ export default class App extends Component {
           </div>}
         </CSSTransitionGroup>
 
-        {this.props.children || <Overview {...this.props} />}
+        {this.renderChildren()}
 
         <footer className='Footer'>
           <div className='u-container'>

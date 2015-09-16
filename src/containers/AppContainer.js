@@ -8,6 +8,7 @@ import App from '../components/App';
   search: state.search,
   auth: state.auth,
   events: state.events.items,
+  users: state.users,
   loggedIn: state.auth.token !== null
 }))
 export default class AppContainer extends Component {
