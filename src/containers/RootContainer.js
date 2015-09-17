@@ -4,6 +4,7 @@ import { reduxRouteComponent } from 'redux-react-router';
 import configureStore from '../configureStore';
 import AppContainer from './AppContainer';
 import EventsContainer from './EventsContainer';
+import UserSettings from '../components/UserSettings';
 
 const store = configureStore();
 
@@ -23,6 +24,7 @@ export default class RootContainer extends Component {
         <Route component={RouteComponent}>
           <Route path='/' component={AppContainer}>
             <Route path='events' component={EventsContainer}  />
+            <Route path='settings' component={UserSettings}  />
           </Route>
         </Route>
       </Router>
