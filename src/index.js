@@ -1,9 +1,10 @@
 import 'babel/polyfill';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import moment from 'moment';
-import RootContainer from './containers/RootContainer';
-import HashHistory from 'react-router/lib/HashHistory';
+import { render } from 'react-dom';
+import { Provider } from 'react-redux';
+import { ReduxRouter } from 'redux-react-router';
+import configureStore from './configureStore';
 
 moment.locale('nb-NO');
 
@@ -12,7 +13,11 @@ global.log = function log(self = this) {
   return this;
 };
 
-ReactDOM.render(
-  <RootContainer history={new HashHistory()} />,
+const store = configureStore();
+
+render(
+  <Provider store={store}>
+    <ReduxRouter />
+  </Provider>,
   document.getElementById('root')
 );

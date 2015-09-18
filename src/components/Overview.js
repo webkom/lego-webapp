@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import { fetchAll } from '../actions/EventActions';
 
 let id = 0;
 function getImage() {
@@ -11,7 +10,7 @@ export default class Overview extends Component {
 
   static propTypes = {
     events: PropTypes.array.isRequired,
-    dispatch: PropTypes.func.isRequired,
+    fetchAll: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired
   }
 
@@ -21,7 +20,7 @@ export default class Overview extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (!this.props.loggedIn && nextProps.loggedIn) {
-      this.props.dispatch(fetchAll());
+      this.props.fetchAll();
     }
   }
 

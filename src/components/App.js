@@ -2,9 +2,6 @@ import '../styles/App.css';
 import React, { Component, PropTypes } from 'react';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link } from 'react-router';
-import { toggleMenu, closeMenu } from '../actions/UIActions';
-import { login, logout } from '../actions/UserActions';
-import Overview from '../components/Overview';
 import SearchBox from '../components/SearchBox';
 import LoginForm from '../components/LoginForm';
 import Icon from '../components/Icon';
@@ -23,28 +20,34 @@ const MENU_ITEMS = [
 export default class App extends Component {
 
   static propTypes = {
-    children: PropTypes.array,
+    children: PropTypes.any,
     auth: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
     menuOpen: PropTypes.bool.isRequired,
     search: PropTypes.object.isRequired,
-    loggedIn: PropTypes.bool.isRequired
+    loggedIn: PropTypes.bool.isRequired,
+    closeMenu: PropTypes.func.isRequired,
+    login: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
+    toggleMenu: PropTypes.func.isRequired,
+    fetchAll: PropTypes.func.isRequired,
+    clear: PropTypes.func.isRequired,
+    performSearch: PropTypes.func.isRequired
   }
 
   render() {
-    const { dispatch, menuOpen, search, auth, loggedIn } = this.props;
+    const { menuOpen, search, auth, loggedIn, closeMenu, logout, login, toggleMenu, clear, performSearch } = this.props;
 
     return (
-      <div className='Site' onClick={() => dispatch(closeMenu())}>
+      <div className='Site' onClick={closeMenu}>
         <header className='Header'>
           <div className='Header-content u-container'>
             <div className='Header-logo'><Link to=''>Abakus</Link></div>
-            <div className='Header-searchBox'><SearchBox {...{ search, dispatch }}/></div>
+            <div className='Header-searchBox'><SearchBox {...{ search, clear, performSearch }}/></div>
             <div className='Header-partnerLogo'><a href='http://bekk.no'>Bekk</a></div>
             <div className='Header-login'>
               {loggedIn
-                ? <div onClick={() => dispatch(logout())}>{auth.user.username}</div>
-                : <LoginForm login={(u, p) => dispatch(login(u, p))} />}
+                ? <div onClick={logout}>{auth.username}</div>
+                : <LoginForm login={login} />}
             </div>
           </div>
         </header>
@@ -52,7 +55,7 @@ export default class App extends Component {
         <nav className='MainNavigation'>
           <ul className='MainNavigation-list u-container'>
             <li>
-              <a onClick={(e) => (e.stopPropagation(), dispatch(toggleMenu()))} className={menuOpen ? 'active' : ''}>
+              <a onClick={(e) => (e.stopPropagation(), toggleMenu())} className={menuOpen ? 'active' : ''}>
                 <Icon name={menuOpen ? 'times' : 'bars'} />
               </a>
             </li>
@@ -67,7 +70,7 @@ export default class App extends Component {
           </div>}
         </CSSTransitionGroup>
 
-        {this.props.children || <Overview {...this.props} />}
+        {React.cloneElement(this.props.children, this.props)}
 
         <footer className='Footer'>
           <div className='u-container'>

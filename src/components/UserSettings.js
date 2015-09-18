@@ -1,56 +1,15 @@
 import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux'
-import {connectReduxForm, initialize} from 'redux-form';
 
-
-function validateContact(data) {
-	const errors = {};
-	if(!data.username) {
-		errors.username = 'Required';
-	}
-	if(!data.firstName) {
-		errors.firstName = 'Required';
-	}
-	if(!data.lastName) {
-		errors.lastName = 'Required';
-	}
-	if(!data.email) {
-		errors.email = 'Required';
-	}else if(!data.email.match('.+\@.+\..+')){
-		errors.email = 'Invalid email';
-	}
-	return errors;
-}
-
-@connect( (state) => ({user:state.auth.user||{}}))
-@connectReduxForm({
-	form: 'contact',
-	fields: ['username', 'firstName', 'lastName', 'email'],
-	validate: validateContact,
-})
-class ContactForm extends Component {
+export default class UserSettings extends Component {
 	static propTypes = {
 		fields: PropTypes.object.isRequired,
-		handleSubmit: PropTypes.func.isRequired,
-		dispatch: PropTypes.func.isRequired,
-		user: PropTypes.object.isRequired
-	}
-
-	componentWillMount(){
-		console.log(this.props.user)
-		let {user} = this.props;
-		this.props.dispatch(initialize('contact', {
-			username: user.username,
-			firstName: user.firstName,
-			lastName: user.lastName,
-			email: user.email,
-		})); // clear form
+		onSubmit: PropTypes.func.isRequired,
 	}
 
 	render() {
-		const { fields: {username, firstName, lastName, email}, handleSubmit } = this.props;
+		const { fields: {username, firstName, lastName, email}, onSubmit } = this.props;
 		return (
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={onSubmit}>
 				<label>Username</label>
 				<input type="text" {...username}/>     {/* will pass value, onBlur and onChange*/}
 				{username.error && username.touched ? <span style={{color:'red',fontWeight:'bold'}}>{username.error}</span>:null}
@@ -71,23 +30,12 @@ class ContactForm extends Component {
 				{email.error && email.touched ? <span style={{color:'red',fontWeight:'bold'}}>{email.error}</span>:null}
 				<br />
 
-				<button onClick={handleSubmit}>Submit</button>
+				<button onClick={onSubmit}>Submit</button>
 			</form>
 		);
 	}
 }
 
-class ContactFormWrapper extends Component{
-	handleSubmit(data){
-		console.log(data);
-	}
-	render(){
-		return <ContactForm onSubmit={::this.handleSubmit} />
-	}
-}
-
-// export the wrapped component
-export default ContactFormWrapper;
 
 
 

@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { clear, search } from '../actions/SearchActions';
 
 const ESCAPE_KEY = 27;
 const UP_KEY = 38;
@@ -8,14 +7,15 @@ const DOWN_KEY = 40;
 export default class SearchBox extends Component {
 
   static propTypes = {
-    dispatch: PropTypes.func.isRequired,
-    search: PropTypes.object
+    search: PropTypes.object,
+    clear: PropTypes.func.isRequired,
+    performSearch: PropTypes.func.isRequired,
   };
 
   handleKeyDown(e) {
     switch (e.keyCode) {
     case ESCAPE_KEY:
-      this.props.dispatch(clear());
+      this.props.clear();
       break;
 
     case UP_KEY:
@@ -27,7 +27,7 @@ export default class SearchBox extends Component {
 
   handleChange(e) {
     const query = this.refs.query.value;
-    this.props.dispatch(search(query));
+    this.props.performSearch(query);
   }
 
   render() {

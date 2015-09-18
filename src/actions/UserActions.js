@@ -2,7 +2,7 @@ import jwtDecode from 'jwt-decode';
 import moment from 'moment';
 import { replaceWith } from 'redux-react-router';
 import { User } from './ActionTypes';
-import { post } from '../http';
+import { callAPI, post } from '../http';
 
 function putInLocalStorage(key) {
   return (payload) => {
@@ -29,7 +29,6 @@ export function refreshToken(token) {
     });
 }
 
-
 export function login(username, password) {
   return {
     type: User.LOGIN,
@@ -43,6 +42,28 @@ export function logout() {
     dispatch({ type: User.LOGOUT });
     dispatch(replaceWith('/'));
   };
+}
+
+export function updateUser({username, firstName, lastName, email}){
+  console.log('update user', {username, firstName, lastName, email});
+  return callAPI({
+    method: 'put',
+    type: User.UPDATE_USER,
+    endpoint: `/users/${username}/`,
+    body: {
+      username,
+      first_name: firstName,
+      last_name: lastName,
+      email
+    }
+  });
+}
+
+export function fetchUser(username) {
+  return callAPI({
+    type: User.FETCH_USER,
+    endpoint: `/users/${username}/`
+  });
 }
 
 function getExpirationDate(token) {
