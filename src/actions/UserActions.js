@@ -44,12 +44,12 @@ export function logout() {
   };
 }
 
-export function updateUser({username, firstName, lastName, email}){
+export function updateUser({oldUsername, username, firstName, lastName, email}){
   console.log('update user', {username, firstName, lastName, email});
   return callAPI({
     method: 'put',
     type: User.UPDATE_USER,
-    endpoint: `/users/${username}/`,
+    endpoint: `/users/${oldUsername}/`,
     body: {
       username,
       first_name: firstName,
