@@ -44,8 +44,7 @@ export default class UserSettingsWrapper extends Component{
 	}
 	onSubmit(data){
 		console.log('post',data);
-		data.oldUsername = this.props.user.username;
-		this.props.updateUser(data);
+		this.props.updateUser(data).then;
 	}
 	render(){
 		const {fields, handleSubmit} = this.props;

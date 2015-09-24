@@ -1,5 +1,5 @@
 import { Events } from './ActionTypes';
-import { callAPI } from '../http';
+import { callAPI } from '../util/http';
 
 export function fetchAll() {
   return callAPI({

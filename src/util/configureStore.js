@@ -3,8 +3,8 @@ import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 import createHashHistory from 'history/lib/createHashHistory';
 import { reduxReactRouter, routerStateReducer } from 'redux-react-router';
-import routes from './routes';
-import * as reducers from './reducers';
+import routes from '../routes';
+import * as reducers from '../reducers';
 
 function promiseMiddleware() {
   return next => action => {
@@ -63,8 +63,8 @@ export default function configureStore(initialState) {
   const store = finalCreateStore(reducer, initialState);
 
   if (module.hot) {
-    module.hot.accept('./reducers', () => {
-      const nextReducer = require('./reducers');
+    module.hot.accept('../reducers', () => {
+      const nextReducer = require('../reducers');
       store.replaceReducer(nextReducer);
     });
   }

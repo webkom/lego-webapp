@@ -11,7 +11,7 @@ export default class UserSettings extends Component {
 		return (
 			<form onSubmit={onSubmit}>
 				<label>Username</label>
-				<input type="text" {...username}/>     {/* will pass value, onBlur and onChange*/}
+				<input type="text" {...username} readOnly />     {/* will pass value, onBlur and onChange*/}
 				{username.error && username.touched ? <span style={{color:'red',fontWeight:'bold'}}>{username.error}</span>:null}
 				<br />
 

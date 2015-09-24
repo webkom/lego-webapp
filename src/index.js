@@ -4,7 +4,7 @@ import moment from 'moment';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { ReduxRouter } from 'redux-react-router';
-import configureStore from './configureStore';
+import configureStore from './util/configureStore';
 
 moment.locale('nb-NO');
 

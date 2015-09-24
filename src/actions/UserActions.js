@@ -2,7 +2,7 @@ import jwtDecode from 'jwt-decode';
 import moment from 'moment';
 import { replaceWith } from 'redux-react-router';
 import { User } from './ActionTypes';
-import { callAPI, post } from '../http';
+import { callAPI, post } from '../util/http';
 
 function putInLocalStorage(key) {
   return (payload) => {
@@ -44,12 +44,12 @@ export function logout() {
   };
 }
 
-export function updateUser({oldUsername, username, firstName, lastName, email}){
+export function updateUser({username, firstName, lastName, email}){
   console.log('update user', {username, firstName, lastName, email});
   return callAPI({
     method: 'put',
     type: User.UPDATE_USER,
-    endpoint: `/users/${oldUsername}/`,
+    endpoint: `/users/${username}/`,
     body: {
       username,
       first_name: firstName,
