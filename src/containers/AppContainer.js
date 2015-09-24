@@ -5,6 +5,7 @@ import App from '../components/App';
 
 @connect(state => ({
   menuOpen: state.ui.menuOpen,
+  loginOpen: state.ui.loginOpen,
   search: state.search,
   auth: state.auth,
   events: state.events.items,

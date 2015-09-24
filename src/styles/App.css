@@ -51,6 +51,42 @@ a {
   }
 }
 
+.LoginBox {
+  position: relative;
+}
+
+.LoginBox .LoginForm {
+  background: rgba(68, 68, 68, .9);
+  position: absolute;
+  padding: 20px;
+  opacity: 1;
+  transform: translateY(var(--lego-header-height));
+  transition: all .6s ease;
+  z-index: 4;
+}
+
+.LoginBox.is-hidden .LoginForm {
+  transform: translateY(-240px);
+  opacity: 1;
+}
+
+.LoginBox__loginButton {
+  color: #fff;
+  display: inline-block;
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: linear-gradient(#111, #222);
+}
+
+.LoginForm input, .LoginForm button {
+  display: block;
+}
+
 @media (--small-viewport) {
   .Header {
     height: auto;
@@ -108,19 +144,6 @@ a {
   }
 }
 
-.Header-login {
-  text-align: center;
-
-  .gravatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 16px;
-    display: inline;
-    vertical-align: middle;
-    margin-right: 1rem;
-  }
-}
-
 .SearchBox-results.hidden {
   display: none;
 }
@@ -162,16 +185,6 @@ a {
   }
 }
 
-.ExtendedNavigation-back {
-  background: rgba(0, 0, 0, .5);
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  z-index: 100;
-}
-
 .ExtendedNavigation {
   background: rgba(0, 0, 0, .9);
   color: #fff;
@@ -205,18 +218,6 @@ a {
   .ExtendedNavigation a {
     flex: 0 0 100%;
   }
-}
-
-.LoginBox-form {
-  margin: 0;
-
-  &.hidden {
-    display: none;
-  }
-}
-
-.Footer {
-  background: blue;
 }
 
 h1 {
@@ -276,6 +277,7 @@ h1 {
 
   &:after {
     position: absolute;
+    z-index: -1;
     content: ' ';
     height: 1px;
     border-bottom: 10px dotted #ddd;

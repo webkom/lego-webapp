@@ -12,6 +12,12 @@ export function openMenu() {
   };
 }
 
+export function toggleLogin() {
+  return {
+    type: UI.TOGGLE_LOGIN
+  };
+}
+
 export function closeMenu() {
   return (dispatch, getState) => {
     if (!getState().ui.menuOpen) return;
