@@ -8,10 +8,10 @@ function loadData(props) {
 }
 
 @connect(
-	(state) => ({
-  		events: state.events.items
-	}),
-	{ fetchAll }
+  (state) => ({
+    events: state.events.items
+  }),
+  { fetchAll }
 )
 export default class EventsContainer extends Component {
 

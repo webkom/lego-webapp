@@ -9,7 +9,7 @@ export default class SearchBox extends Component {
   static propTypes = {
     search: PropTypes.object,
     clear: PropTypes.func.isRequired,
-    performSearch: PropTypes.func.isRequired,
+    performSearch: PropTypes.func.isRequired
   };
 
   handleKeyDown(e) {

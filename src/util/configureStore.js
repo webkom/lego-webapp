@@ -5,35 +5,7 @@ import createHashHistory from 'history/lib/createHashHistory';
 import { reduxReactRouter, routerStateReducer } from 'redux-react-router';
 import routes from '../routes';
 import * as reducers from '../reducers';
-
-function promiseMiddleware() {
-  return next => action => {
-    if (!action.promise) {
-      return next(action);
-    }
-
-    const { type, meta, payload, promise } = action;
-
-    next({
-      type: `${type}_BEGIN`,
-      payload,
-      meta
-    });
-
-    return promise.then(
-      result => next({
-        type: `${type}_SUCCESS`,
-        payload: result,
-        meta: { ...meta, receivedAt: Date.now() }
-      }),
-      error => next({
-        type: `${type}_FAILURE`,
-        payload: error,
-        error: true
-      })
-    );
-  };
-}
+import promiseMiddleware from '../middlewares/promiseMiddleware';
 
 const loggerMiddleware = createLogger({
   level: 'info',

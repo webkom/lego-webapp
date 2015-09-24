@@ -5,16 +5,16 @@ import RequireLogin from '../components/RequireLogin';
 import { fetchUser } from '../actions/UserActions';
 
 function fetchData(props) {
-  const { fetchUser, username, users } = props;
+  const { username, users } = props;
   if (!users[username]) {
-    fetchUser(username);
+    props.fetchUser(username);
   }
 }
 
 @connect(
   (state, props) => ({
     username: props.params.username || state.auth.username,
-    isMe: !props.params.username || props.params.username == state.auth.username
+    isMe: !props.params.username || props.params.username === state.auth.username
   }),
   { fetchUser }
 )

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { capitalize } from 'lodash';
 import LoadingIndicator from './LoadingIndicator';
-import { Link } from 'react-router'
+import { Link } from 'react-router';
 
 const fieldTranslations = {
   username: 'brukernavn',
@@ -41,8 +41,8 @@ export default class UserProfile extends Component {
         <h2>{user.fullName}</h2>
         <img src={`http://api.adorable.io/avatars/${user.username}.png`}></img>
         <br/>
-        {isMe ? <Link to="/users/me/settings">Settings</Link>:""}
-        
+        {isMe ? <Link to='/users/me/settings'>Settings</Link> : ''}
+
         <div>
           {this.renderFields()}
         </div>
