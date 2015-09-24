@@ -4,7 +4,6 @@ import CSSTransitionGroup from 'react-addons-css-transition-group';
 import { Link } from 'react-router';
 import { toggleMenu, closeMenu } from '../actions/UIActions';
 import { login, logout } from '../actions/UserActions';
-import Overview from '../components/Overview';
 import SearchBox from '../components/SearchBox';
 import LoginForm from '../components/LoginForm';
 import Icon from '../components/Icon';
@@ -23,7 +22,7 @@ const MENU_ITEMS = [
 export default class App extends Component {
 
   static propTypes = {
-    children: PropTypes.array,
+    children: PropTypes.any,
     auth: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     menuOpen: PropTypes.bool.isRequired,
@@ -43,7 +42,7 @@ export default class App extends Component {
             <div className='Header-partnerLogo'><a href='http://bekk.no'>Bekk</a></div>
             <div className='Header-login'>
               {loggedIn
-                ? <div onClick={() => dispatch(logout())}>{auth.user.username}</div>
+                ? <div onClick={() => dispatch(logout())}>{auth.username}</div>
                 : <LoginForm login={(u, p) => dispatch(login(u, p))} />}
             </div>
           </div>
@@ -67,7 +66,7 @@ export default class App extends Component {
           </div>}
         </CSSTransitionGroup>
 
-        {this.props.children || <Overview {...this.props} />}
+        {React.cloneElement(this.props.children, this.props)}
 
         <footer className='Footer'>
           <div className='u-container'>

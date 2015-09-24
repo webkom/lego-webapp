@@ -4,7 +4,7 @@ export default class LoadingIndicator extends Component {
 
   static propTypes = {
     loading: PropTypes.bool.isRequired,
-    children: PropTypes.array
+    children: PropTypes.any
   }
 
   static defaultProps = {
