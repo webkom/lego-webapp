@@ -14,8 +14,8 @@ export default class Overview extends Component {
     loggedIn: PropTypes.bool.isRequired
   }
 
-  static defaultProps = {
-    events: []
+  componentWillMount() {
+    this.props.fetchAll();
   }
 
   componentWillReceiveProps(nextProps) {
