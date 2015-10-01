@@ -47,7 +47,6 @@ export function logout() {
 
 export function updateUser( {username, firstName, lastName, email} ) {
   return (dispatch, getState) => {
-
     const options = {
       url: `/users/${username}/`,
       method: 'put',
