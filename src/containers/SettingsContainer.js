@@ -44,7 +44,6 @@ export default class UserSettingsWrapper extends Component {
   };
   componentWillReceiveProps(newProps) {
     if (newProps.user !== this.props.user) {
-      // console.log('new user', newProps.user)
       this.props.initialize('contact', {
         username: newProps.user.username,
         firstName: newProps.user.firstName,
@@ -63,7 +62,6 @@ export default class UserSettingsWrapper extends Component {
     }); // clear form
   }
   onSubmit(data) {
-    // console.log('post', data);
     this.props.updateUser(data);
   }
   render() {

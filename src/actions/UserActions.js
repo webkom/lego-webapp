@@ -47,7 +47,6 @@ export function logout() {
 
 export function updateUser( {username, firstName, lastName, email} ) {
   return (dispatch, getState) => {
-    // console.log('update user', {username, firstName, lastName, email});
 
     const options = {
       url: `/users/${username}/`,
