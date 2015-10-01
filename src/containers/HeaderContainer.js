@@ -1,4 +1,4 @@
-import React, { Component /* , PropTypes */ } from 'react';
+import React, { Component } from 'react';
 
 import Header from '../components/Header';
 import { connect } from 'react-redux';
