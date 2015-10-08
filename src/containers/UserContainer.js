@@ -5,8 +5,8 @@ import RequireLogin from '../components/RequireLogin';
 import { fetchUser } from '../actions/UserActions';
 
 function fetchData(props) {
-  const { username, users } = props;
-  if (!users[username]) {
+  const { username, user } = props;
+  if (!user) {
     props.fetchUser(username);
   }
 }
@@ -14,7 +14,10 @@ function fetchData(props) {
 @connect(
   (state, props) => ({
     username: props.params.username || state.auth.username,
-    isMe: !props.params.username || props.params.username === state.auth.username
+    isMe: !props.params.username || props.params.username === state.auth.username,
+    auth: state.auth,
+    user: state.users[props.params.username || state.auth.username],
+    loggedIn: state.auth.token !== null
   }),
   { fetchUser }
 )
@@ -24,7 +27,7 @@ export default class UserContainer extends Component {
     auth: PropTypes.object.isRequired,
     username: PropTypes.string,
     loggedIn: PropTypes.bool.isRequired,
-    users: PropTypes.object.isRequired,
+    user: PropTypes.object,
     isMe: PropTypes.bool.isRequired,
     fetchUser: PropTypes.func.isRequired
   };
@@ -40,8 +43,7 @@ export default class UserContainer extends Component {
   }
 
   render() {
-    const user = this.props.users[this.props.username];
-    const isMe = this.props.isMe;
+    const { user, isMe } = this.props;
 
     return (
       <RequireLogin loggedIn={this.props.loggedIn}>
