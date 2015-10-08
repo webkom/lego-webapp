@@ -1,6 +1,10 @@
 {
   "extends": "webkom/react",
   "rules": {
-    "guard-for-in": 0
+    "guard-for-in": 0,
+    "func-names": 0
+  },
+  "env": {
+    "mocha": true
   }
 }
