@@ -54,6 +54,6 @@
     "eslint-config-webkom": "*",
     "eslint-plugin-react": "3.5.1",
     "webpack": "1.12.2",
-    "webpack-dev-server": "1.10.1"
+    "webpack-dev-server": "1.12.0"
   }
 }
