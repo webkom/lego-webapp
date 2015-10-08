@@ -55,14 +55,9 @@ export function updateUser( {username, firstName, lastName, email} ) {
         first_name: firstName,
         last_name: lastName,
         email
-      }
+      },
+      jwtToken: getState().auth.token
     };
-    const jwt = getState().auth.token;
-    if (jwt) {
-      options.headers = {
-        'Authorization': `JWT ${jwt}`
-      };
-    }
 
     dispatch({
       promise: request(options),

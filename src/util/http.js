@@ -6,8 +6,12 @@ function urlFor(resource) {
   return config.serverUrl + resource;
 }
 
-export default function request({ method = 'get', url, body, headers = {} }) {
+export default function request({ method = 'get', url, body, headers = {}, jwtToken }) {
   const req = superagent[method].call(request, urlFor(url));
+
+  if (jwtToken) {
+    headers.Authorization = `JWT ${jwtToken}`;
+  }
 
   for (const header in headers) {
     req.set(header, headers[header]);
