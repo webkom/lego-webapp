@@ -35,7 +35,7 @@
     "react-router": "1.0.0-rc1",
     "redux": "3.0.0",
     "redux-logger": "1.0.6",
-    "redux-react-router": "1.0.0-beta1",
+    "redux-react-router": "1.0.0-beta3",
     "redux-thunk": "0.1.0",
     "style-loader": "0.12.3",
     "stylus": "0.52.0",
