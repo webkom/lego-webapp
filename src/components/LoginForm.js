@@ -28,8 +28,8 @@ export default class LoginForm extends Component {
   render() {
     return (
       <div className='LoginForm'>
-        <form onSubmit={::this.handleSubmit}>
-          <input type='text' ref='username' placeholder='Username' />
+        <form onSubmit={::this.handleSubmit} className='u-vertical'>
+          <input type='text' ref='username' placeholder='Username' autoFocus />
           <input type='password' ref='password' placeholder='Password' />
           <button type='submit'>Logg inn</button>
         </form>
