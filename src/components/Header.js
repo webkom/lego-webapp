@@ -3,8 +3,7 @@ import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 import { Modal } from 'react-overlays';
 import cx from 'classnames';
-import { login, logout } from '../actions/UserActions';
-import SearchBox from './SearchBox';
+import { login } from '../actions/UserActions';
 import LoginForm from './LoginForm';
 import { ButtonTriggeredDropdown } from './ui';
 
@@ -52,7 +51,7 @@ export default class Header extends Component {
   }
 
   render() {
-    const { dispatch, search, auth, loggedIn } = this.props;
+    const { dispatch, auth, loggedIn } = this.props;
 
     return (
       <header className='Header'>

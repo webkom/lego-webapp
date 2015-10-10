@@ -1,21 +1,6 @@
 import '../styles/App.css';
 import React, { Component, PropTypes } from 'react';
-import CSSTransitionGroup from 'react-addons-css-transition-group';
-import { Link } from 'react-router';
-import Overview from '../components/Overview';
 import Header from './Header';
-import Icon from '../components/Icon';
-
-const MENU_ITEMS = [
-  ['/events', 'Arrangementer'],
-  ['', 'readme'],
-  ['', 'Karriere'],
-  ['', 'BDB'],
-  ['', 'Møter'],
-  ['', 'Utland'],
-  ['', 'Spørreskjema'],
-  ['', 'Butikk']
-];
 
 export default class App extends Component {
 
@@ -30,7 +15,7 @@ export default class App extends Component {
   }
 
   render() {
-    const { dispatch, menuOpen } = this.props;
+    const { dispatch } = this.props;
 
     return (
       <div className='Site'>

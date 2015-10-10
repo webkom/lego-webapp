@@ -6,7 +6,10 @@ export default class ButtonTriggeredDropdown extends Component {
 
   static propTypes = {
     iconName: PropTypes.string,
-    toggle: PropTypes.func.isRequired
+    toggle: PropTypes.func.isRequired,
+    className: PropTypes.string,
+    show: PropTypes.bool,
+    children: PropTypes.any
   }
 
   static defaultProps = {
@@ -14,7 +17,7 @@ export default class ButtonTriggeredDropdown extends Component {
   }
 
   render() {
-    const { iconName, toggle, show, className } = this.props;
+    const { iconName, toggle, show, className, children } = this.props;
 
     return (
       <button onClick={toggle} ref='target' className={className}>
@@ -28,7 +31,7 @@ export default class ButtonTriggeredDropdown extends Component {
           rootClose
         >
           <div className='Dropdown__content'>
-            {this.props.children}
+            {children}
           </div>
         </Overlay>
       </button>
