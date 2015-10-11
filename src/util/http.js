@@ -3,6 +3,9 @@ import camelize from 'camelize';
 import config from '../../config.js';
 
 function urlFor(resource) {
+  if (resource.match(/^\/\//)) {
+    return config.baseUrl + resource.replace(/^\//, '');
+  }
   return config.serverUrl + resource;
 }
 

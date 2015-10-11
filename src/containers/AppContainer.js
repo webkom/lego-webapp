@@ -2,11 +2,10 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { loginAutomaticallyIfPossible } from '../actions/UserActions';
 import App from '../components/App';
-import { closeMenu } from '../actions/UIActions';
 
 @connect(
   null,
-  { loginAutomaticallyIfPossible, closeMenu }
+  { loginAutomaticallyIfPossible }
 )
 export default class AppContainer extends Component {
 
