@@ -1,8 +1,9 @@
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
-import { replaceWith } from 'redux-react-router';
+import { replaceState, pushState } from 'redux-react-router';
 import { User } from './ActionTypes';
-import { callAPI, post } from '../http';
+import request, { callAPI, post } from '../util/http';
+
 
 function putInLocalStorage(key) {
   return (payload) => {
@@ -16,12 +17,12 @@ function clearLocalStorage(key) {
 }
 
 function performLogin(username, password) {
-  return post('/token-auth/', { username, password })
+  return post('//authorization/token-auth/', { username, password })
     .then(putInLocalStorage('user'));
 }
 
 export function refreshToken(token) {
-  return post('/token-auth/refresh/', { token })
+  return post('//authorization/token-auth/refresh/', { token })
     .then(putInLocalStorage('user'))
     .catch(err => {
       clearLocalStorage('user');
@@ -40,7 +41,35 @@ export function logout() {
   return (dispatch) => {
     window.localStorage.removeItem('user');
     dispatch({ type: User.LOGOUT });
-    dispatch(replaceWith('/'));
+    dispatch(replaceState(null, '/'));
+  };
+}
+
+export function updateUser( {username, firstName, lastName, email} ) {
+  return (dispatch, getState) => {
+    const options = {
+      url: `/users/${username}/`,
+      method: 'put',
+      body: {
+        username,
+        first_name: firstName,
+        last_name: lastName,
+        email
+      },
+      jwtToken: getState().auth.token
+    };
+
+    dispatch({
+      promise: request(options),
+      types: {
+        begin: User.UPDATE_USER_BEGIN,
+        success: [
+          User.UPDATE_USER_SUCCESS,
+          (res) => pushState(null, `/users/${res.payload.username || 'me'}`)
+        ],
+        failure: User.UPDATE_USER_FAILURE
+      }
+    });
   };
 }
 

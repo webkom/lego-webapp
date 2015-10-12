@@ -1,4 +1,4 @@
-import createReducer from '../createReducer';
+import createReducer from '../util/createReducer';
 import { User } from '../actions/ActionTypes';
 
 const initialState = {};
@@ -12,6 +12,13 @@ export default createReducer(initialState, {
     };
   },
   [User.FETCH_USER_SUCCESS]: (state, action) => {
+    const { username } = action.payload;
+    return {
+      ...state,
+      [username]: action.payload
+    };
+  },
+  [User.UPDATE_USER_SUCCESS]: (state, action) => {
     const { username } = action.payload;
     return {
       ...state,

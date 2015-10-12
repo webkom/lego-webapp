@@ -3,26 +3,21 @@ import { connect } from 'react-redux';
 import { loginAutomaticallyIfPossible } from '../actions/UserActions';
 import App from '../components/App';
 
-@connect(state => ({
-  menuOpen: state.ui.menuOpen,
-  loginOpen: state.ui.loginOpen,
-  search: state.search,
-  auth: state.auth,
-  events: state.events.items,
-  users: state.users,
-  loggedIn: state.auth.token !== null
-}))
+@connect(
+  null,
+  { loginAutomaticallyIfPossible }
+)
 export default class AppContainer extends Component {
 
   static propTypes = {
-    dispatch: PropTypes.func.isRequired
+    loginAutomaticallyIfPossible: PropTypes.func.isRequired
   }
 
   componentWillMount() {
-    this.props.dispatch(loginAutomaticallyIfPossible());
+    this.props.loginAutomaticallyIfPossible();
   }
 
   render() {
-    return <App {...this.props} />;
+    return <App {...this.props}/>;
   }
 }

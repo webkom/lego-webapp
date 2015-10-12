@@ -5,22 +5,31 @@ import RequireLogin from '../components/RequireLogin';
 import { fetchUser } from '../actions/UserActions';
 
 function fetchData(props) {
-  const { dispatch, username, users } = props;
-  if (!users[username]) {
-    dispatch(fetchUser(username));
+  const { username, user } = props;
+  if (!user) {
+    props.fetchUser(username);
   }
 }
 
-@connect(state => ({
-  username: state.router.params.username || state.auth.username
-}))
+@connect(
+  (state, props) => ({
+    username: props.params.username || state.auth.username,
+    isMe: !props.params.username || props.params.username === state.auth.username,
+    auth: state.auth,
+    user: state.users[props.params.username || state.auth.username],
+    loggedIn: state.auth.token !== null
+  }),
+  { fetchUser }
+)
 export default class UserContainer extends Component {
 
   static propTypes = {
     auth: PropTypes.object.isRequired,
     username: PropTypes.string,
     loggedIn: PropTypes.bool.isRequired,
-    users: PropTypes.object.isRequired
+    user: PropTypes.object,
+    isMe: PropTypes.bool.isRequired,
+    fetchUser: PropTypes.func.isRequired
   };
 
   componentDidMount() {
@@ -34,11 +43,11 @@ export default class UserContainer extends Component {
   }
 
   render() {
-    const user = this.props.users[this.props.username];
+    const { user, isMe } = this.props;
 
     return (
       <RequireLogin loggedIn={this.props.loggedIn}>
-        <UserProfile user={user} />
+        <UserProfile user={user} isMe={isMe} />
       </RequireLogin>
     );
   }

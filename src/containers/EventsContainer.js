@@ -4,12 +4,15 @@ import EventCalendar from '../components/EventCalendar';
 import { fetchAll } from '../actions/EventActions';
 
 function loadData(props) {
-  props.dispatch(fetchAll());
+  props.fetchAll();
 }
 
-@connect(state => ({
-  events: state.events.items
-}))
+@connect(
+  (state) => ({
+    events: state.events.items
+  }),
+  { fetchAll }
+)
 export default class EventsContainer extends Component {
 
   componentWillMount() {

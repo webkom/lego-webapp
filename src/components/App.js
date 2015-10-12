@@ -1,37 +1,20 @@
 import '../styles/App.css';
 import React, { Component, PropTypes } from 'react';
-import Header from './Header';
+import HeaderContainer from '../containers/HeaderContainer';
 
 export default class App extends Component {
 
   static propTypes = {
-    children: PropTypes.any,
-    auth: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
-    menuOpen: PropTypes.bool.isRequired,
-    loginOpen: PropTypes.bool.isRequired,
-    search: PropTypes.object.isRequired,
-    loggedIn: PropTypes.bool.isRequired
+    children: PropTypes.any
   }
 
   render() {
-    const { dispatch } = this.props;
-
     return (
       <div className='Site'>
-        <Header
-          searchOpen={false}
-          accountOpen={false}
-          dispatch={dispatch}
-        />
+        <HeaderContainer/>
 
-        {React.cloneElement(this.props.children, this.props)}
+        {this.props.children}
 
-        <footer className='Footer'>
-          <div className='u-container'>
-            <p>Abakus er best</p>
-          </div>
-        </footer>
       </div>
     );
   }

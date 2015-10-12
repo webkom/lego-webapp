@@ -3,7 +3,6 @@ import React, { PropTypes, Component } from 'react';
 import { Link } from 'react-router';
 import { Modal } from 'react-overlays';
 import cx from 'classnames';
-import { login } from '../actions/UserActions';
 import LoginForm from './LoginForm';
 import { ButtonTriggeredDropdown } from './ui';
 
@@ -39,7 +38,8 @@ export default class Header extends Component {
   static propTypes = {
     children: PropTypes.array,
     auth: PropTypes.object.isRequired,
-    dispatch: PropTypes.func.isRequired,
+    login: PropTypes.func.isRequired,
+    logout: PropTypes.func.isRequired,
     search: PropTypes.object.isRequired,
     loggedIn: PropTypes.bool.isRequired
   }
@@ -51,7 +51,7 @@ export default class Header extends Component {
   }
 
   render() {
-    const { dispatch, auth, loggedIn } = this.props;
+    const { login, logout, auth, loggedIn } = this.props;
 
     return (
       <header className='Header'>
@@ -59,7 +59,7 @@ export default class Header extends Component {
           <Link to='' className='Header__logo'>Abakus</Link>
 
           <div className='Header__navigation'>
-            <Link to='events'>Arrangementer</Link>
+            <Link to='/events'>Arrangementer</Link>
             <Link to=''>Karriere</Link>
             <Link to=''>README</Link>
           </div>
@@ -82,12 +82,15 @@ export default class Header extends Component {
             >
               {!loggedIn && (
                 <LoginForm
-                  login={(u, p) => dispatch(login(u, p))}
+                  login={login}
                 />
               )}
 
               {loggedIn && (
-                <div>{auth}</div>
+                <div>
+                  <b>{auth && auth.username}</b><br/>
+                  <a onClick={logout}>Log out</a>
+                </div>
               )}
             </ButtonTriggeredDropdown>
 

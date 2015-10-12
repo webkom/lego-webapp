@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { capitalize } from 'lodash';
 import LoadingIndicator from './LoadingIndicator';
+import { Link } from 'react-router';
 
 const fieldTranslations = {
   username: 'brukernavn',
@@ -9,7 +10,8 @@ const fieldTranslations = {
 
 export default class UserProfile extends Component {
   static propTypes = {
-    user: PropTypes.object
+    user: PropTypes.object,
+    isMe: PropTypes.bool.isRequired
   };
 
   renderFields() {
@@ -32,12 +34,14 @@ export default class UserProfile extends Component {
   }
 
   renderProfile() {
-    const { user } = this.props;
+    const { user, isMe } = this.props;
 
     return (
       <section className='u-container'>
         <h2>{user.fullName}</h2>
         <img src={`http://api.adorable.io/avatars/${user.username}.png`}></img>
+        <br/>
+        {isMe ? <Link to='/users/me/settings'>Settings</Link> : ''}
 
         <div>
           {this.renderFields()}
