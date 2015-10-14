@@ -42,7 +42,7 @@
     "redux-react-router": "1.0.0-beta3",
     "redux-thunk": "0.1.0",
     "style-loader": "0.12.4",
-    "stylus": "0.52.0",
+    "stylus": "0.52.4",
     "stylus-loader": "1.4.0",
     "superagent": "1.4.0",
     "url-loader": "0.5.6"
