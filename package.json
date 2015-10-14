@@ -36,7 +36,7 @@
     "react-overlays": "0.5.0",
     "react-redux": "3.1.0",
     "react-router": "1.0.0-rc1",
-    "redux": "3.0.0",
+    "redux": "3.0.2",
     "redux-form": "^1.5.3",
     "redux-logger": "1.0.6",
     "redux-react-router": "1.0.0-beta3",
