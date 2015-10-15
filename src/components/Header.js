@@ -1,6 +1,6 @@
 import '../styles/Header.css';
 import React, { PropTypes, Component } from 'react';
-import { Link } from 'react-router';
+import { Link, IndexLink } from 'react-router';
 import { Modal } from 'react-overlays';
 import cx from 'classnames';
 import LoginForm from './LoginForm';
@@ -56,7 +56,7 @@ export default class Header extends Component {
     return (
       <header className='Header'>
         <div className='Header__content u-container'>
-          <Link to='' className='Header__logo'>Abakus</Link>
+          <IndexLink to='/' className='Header__logo'>Abakus</IndexLink>
 
           <div className='Header__navigation'>
             <Link to='/events'>Arrangementer</Link>
