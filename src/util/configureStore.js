@@ -1,7 +1,7 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
-import createHashHistory from 'history/lib/createHashHistory';
+import { createHistory } from 'history';
 import { reduxReactRouter, routerStateReducer } from 'redux-react-router';
 import routes from '../routes';
 import * as reducers from '../reducers';
@@ -20,10 +20,7 @@ const middlewares = applyMiddleware(
 
 const finalCreateStore = compose(
   middlewares,
-  reduxReactRouter({
-    routes,
-    createHistory: createHashHistory
-  })
+  reduxReactRouter({ routes, createHistory })
 )(createStore);
 
 const reducer = combineReducers({
