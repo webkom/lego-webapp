@@ -34,12 +34,11 @@ export default class Overview extends Component {
       <section>
         <div className='u-container'>
           <div className='UpcomingEvents'>
-            {events.slice(0, 5).map((event) =>
+            {events.slice(0, 5).map(event =>
               <Link
               key={event.id}
               className='UpcomingEvents-item'
-              to='events'
-              params={{ eventId: event.id }}
+              to={`/events/${event.id}/`}
               style={{background: `url(${getImage()})`}}>
                 <strong>{event.title}</strong>
               </Link>
@@ -50,7 +49,7 @@ export default class Overview extends Component {
             <h2 className='u-heading-with-bar'>Nyheter på tegnspråk</h2>
             {events.map((event) =>
               <div key={event.id}>
-                {event.title}
+                <Link to={`/events/${event.id}`}>{event.title} - {event.ingress}</Link>
               </div>
             )}
           </div>
