@@ -2,30 +2,25 @@ import '../../styles/Quotes.css';
 import React, { Component, PropTypes } from 'react';
 
 export default class SingleQuote extends Component {
-  /*static propTypes = {
-    event: PropTypes.object.isRequired
-  }*/
-  logItBaby() {
-    console.log("Min quote: ",this.props.quote)
-  }
-  like(quote) {
 
+  like(event) {
+    //console.log(event, this, this.props.quote.id)
   }
 
   render() {
-    const { event } = this.props;
+    const { quote, like } = this.props;
 
     return (
       <section>
-        {this.logItBaby()}
         <li className="enkelQuote">
           <h3>{this.props.quote.quote}</h3>
 
           <span><i>-{this.props.quote.author}</i></span>
             <br />
           <span
+            data-quote-id={this.props.quote.id}
             className="liker"
-            onClick={this.like(this)}
+            onClick={()=>like(this.props.quote.id)}
           > Liker</span>
 
           <span> {this.props.quote.likes}</span>

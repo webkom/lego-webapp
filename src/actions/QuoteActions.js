@@ -7,3 +7,11 @@ export function fetchAll() {
     endpoint: '/quotes/'
   });
 }
+
+export function like(quoteId) {
+  return callAPI({
+    type: Quotes.LIKE,
+    endpoint: `/quotes/${quoteId}/like/`,
+    method: 'post'
+  });
+}

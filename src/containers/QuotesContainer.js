@@ -1,18 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { fetchAll, like } from '../actions/QuoteActions';
 import QuotePage from '../components/quotes/QuotePage';
-import { fetchAll } from '../actions/QuoteActions';
 
 function loadData(props) {
   props.fetchAll();
 }
 
-@connect(
-  (state) => ({
+@connect(state => ({
     quotes: state.quotes.items
   }),
-  { fetchAll }
+  { fetchAll, like }
 )
+
 export default class QuotesContainer extends Component {
 
   componentWillMount() {
@@ -20,6 +21,6 @@ export default class QuotesContainer extends Component {
   }
 
   render() {
-    return <QuotePage quotes = {this.props.quotes} />;
+    return <QuotePage {...this.props} />;
   }
 }
