@@ -15,3 +15,11 @@ export function like(quoteId) {
     method: 'post'
   });
 }
+
+export function unlike(quoteId) {
+  return callAPI({
+    type: Quotes.UNLIKE,
+    endpoint: `/quotes/${quoteId}/unlike/`,
+    method: 'post'
+  });
+}
