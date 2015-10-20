@@ -41,7 +41,7 @@
     "redux-logger": "2.0.4",
     "redux-react-router": "1.0.0-beta3",
     "redux-thunk": "1.0.0",
-    "style-loader": "0.12.4",
+    "style-loader": "0.13.0",
     "superagent": "1.4.0",
     "url-loader": "0.5.6"
   },
