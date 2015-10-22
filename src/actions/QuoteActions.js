@@ -23,3 +23,19 @@ export function unlike(quoteId) {
     method: 'post'
   });
 }
+
+export function approve(quoteId) {
+  return callAPI({
+    type: Quotes.APPROVE,
+    endpoint: `/quotes/${quoteId}/approve/`,
+    method: 'put'
+  });
+}
+
+export function unapprove(quoteId) {
+  return callAPI({
+    type: Quotes.UNAPPROVE,
+    endpoint: `/quotes/${quoteId}/unapprove/`,
+    method: 'put'
+  });
+}
