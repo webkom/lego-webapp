@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import EventCalendar from '../components/EventCalendar';
 import { fetchAll } from '../actions/EventActions';
@@ -14,6 +14,9 @@ function loadData(props) {
   { fetchAll }
 )
 export default class EventsContainer extends Component {
+  static propTypes = {
+    children: PropTypes.array
+  };
 
   componentWillMount() {
     loadData(this.props);

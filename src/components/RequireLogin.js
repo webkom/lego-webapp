@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 export default class RequireLogin extends Component {
 
   static propTypes = {
+    children: PropTypes.array.isRequired,
     loggedIn: PropTypes.bool.isRequired
   };
 
