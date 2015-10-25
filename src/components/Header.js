@@ -71,7 +71,7 @@ export default class Header extends Component {
               show={this.state.notificationsOpen}
               toggle={() => this.setState({ notificationsOpen: !this.state.notificationsOpen })}
             >
-              Notifications
+              <h2>No Notifications</h2>
             </ButtonTriggeredDropdown>
 
             <ButtonTriggeredDropdown
@@ -88,8 +88,13 @@ export default class Header extends Component {
 
               {loggedIn && (
                 <div>
-                  <b>{auth && auth.username}</b><br/>
-                  <a onClick={logout}>Log out</a>
+                  <h2>{auth && auth.username}</h2>
+                  <ul className='Dropdown__content__menu'>
+                    <li><Link to='events'>My Profile</Link></li>
+                    <li><Link to='events'>Settings</Link></li>
+                    <li><Link to='events'>Favorites</Link></li>
+                    <li><a onClick={logout}>Log out</a></li>
+                  </ul>
                 </div>
               )}
             </ButtonTriggeredDropdown>

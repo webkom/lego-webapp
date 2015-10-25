@@ -10,13 +10,54 @@
 }
 
 .Dropdown__content {
-  background: #fff;
+  background: rgba(27, 27, 27, .96);
+  border-top: 5px solid #888;
   padding: 1rem;
-  border-radius: 4px;
-  box-shadow: 0 0 4px #ddd;
-  border: 1px solid #aaa;
+  border-radius: 5px;
   margin-top: 5px;
   position: absolute;
+  width: 250px;
+  color: #fff;
+}
+
+.Dropdown__content h2 {
+  color: #ffedba;
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.Dropdown__content__menu a {
+  color: #fff;
+  display: block;
+  border-bottom: 1px solid #333;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+  line-height: 2.2;
+}
+
+.Dropdown__content__menu a:hover {
+  background: #111;
+}
+
+.LoginForm input {
+  margin: 2px 0;
+  background: #fff;
+  border: 0;
+  padding: .5rem;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.LoginForm button {
+  margin: 10px 0 0 0;
+  border-radius: 0;
+  background: #C0392B;
+  border: 0;
+}
+
+.LoginForm input:focus {
+  background: #ffedba;
+  outline: none;
 }
 
 .Search__overlay {

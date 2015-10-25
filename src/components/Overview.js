@@ -1,10 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import Icon from './Icon';
+import Time from './Time';
 
 let id = 0;
 function getImage() {
   return 'http://lorempixel.com/800/400?' + (id++);
 }
+
+const colors = ['#A1C34A', '#52B0EC', '#E8953A', '#B11C11', '#11111'];
 
 export default class Overview extends Component {
 
@@ -36,11 +40,23 @@ export default class Overview extends Component {
           <div className='UpcomingEvents'>
             {events.slice(0, 5).map(event =>
               <Link
-              key={event.id}
-              className='UpcomingEvents-item'
-              to={`/events/${event.id}/`}
-              style={{ background: `url(${getImage()})` }}>
-                <strong>{event.title}</strong>
+                key={event.id}
+                className='UpcomingEvents__item'
+                to='events'
+                params={{ eventId: event.id }}
+                style={{background: `url(${getImage()})`}}
+              >
+                <span
+                  className='UpcomingEvents__item__title'
+                  style={{
+                    borderBottom: `6px solid ${colors[event.eventType]}`
+                  }}>{event.title}
+                </span>
+
+                <div className='UpcomingEvents__item__moreInfo'>
+                  <Icon name='clock-o' />&nbsp;<Time time={event.starts_at} format='DD.MM HH:mm' />&nbsp;
+                  <Icon name='map-marker' />&nbsp;<span>{event.location}</span>
+                </div>
               </Link>
             )}
           </div>

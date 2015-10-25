@@ -31,7 +31,7 @@ export default class LoginForm extends Component {
         <form onSubmit={::this.handleSubmit} className='u-vertical'>
           <input type='text' ref='username' placeholder='Username' autoFocus />
           <input type='password' ref='password' placeholder='Password' />
-          <button type='submit'>Logg inn</button>
+          <button className='Button' type='submit'>Logg inn</button>
         </form>
       </div>
     );
