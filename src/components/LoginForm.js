@@ -4,7 +4,8 @@ import Button from './ui/Button';
 export default class LoginForm extends Component {
 
   static propTypes = {
-    login: PropTypes.func.isRequired
+    login: PropTypes.func.isRequired,
+    loginFailed: PropTypes.bool
   }
 
   handleSubmit(e) {

@@ -41,7 +41,8 @@ export default class Header extends Component {
     login: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
     search: PropTypes.object.isRequired,
-    loggedIn: PropTypes.bool.isRequired
+    loggedIn: PropTypes.bool.isRequired,
+    loginFailed: PropTypes.bool
   }
 
   state = {
@@ -51,7 +52,7 @@ export default class Header extends Component {
   }
 
   render() {
-    const { login, logout, auth, loggedIn } = this.props;
+    const { login, logout, auth, loggedIn, loginFailed } = this.props;
 
     return (
       <header className='Header'>
@@ -66,7 +67,7 @@ export default class Header extends Component {
 
           <div>
             <ButtonTriggeredDropdown
-              className='Header__content__button'
+              buttonClassName='Header__content__button'
               iconName='bell'
               show={this.state.notificationsOpen}
               toggle={() => this.setState({ notificationsOpen: !this.state.notificationsOpen })}
@@ -75,15 +76,14 @@ export default class Header extends Component {
             </ButtonTriggeredDropdown>
 
             <ButtonTriggeredDropdown
-              className='Header__content__button'
+              buttonClassName='Header__content__button'
+              contentClassName={this.props.loginFailed && 'animated shake'}
               iconName='user'
               show={this.state.accountOpen}
               toggle={() => this.setState({ accountOpen: !this.state.accountOpen })}
             >
               {!loggedIn && (
-                <LoginForm
-                  login={login}
-                />
+                <LoginForm login={login} />
               )}
 
               {loggedIn && (
