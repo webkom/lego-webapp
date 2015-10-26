@@ -77,7 +77,7 @@ export default class Header extends Component {
 
             <ButtonTriggeredDropdown
               buttonClassName='Header__content__button'
-              contentClassName={this.props.loginFailed && 'animated shake'}
+              contentClassName={loginFailed && 'animated shake'}
               iconName='user'
               show={this.state.accountOpen}
               toggle={() => this.setState({ accountOpen: !this.state.accountOpen })}
