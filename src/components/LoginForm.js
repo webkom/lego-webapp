@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Button from './ui/Button';
 
 export default class LoginForm extends Component {
 
@@ -31,7 +32,7 @@ export default class LoginForm extends Component {
         <form onSubmit={::this.handleSubmit} className='u-vertical'>
           <input type='text' ref='username' placeholder='Username' autoFocus />
           <input type='password' ref='password' placeholder='Password' />
-          <button className='Button' type='submit'>Logg inn</button>
+          <Button submit dark>Logg inn</Button>
         </form>
       </div>
     );

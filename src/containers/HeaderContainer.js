@@ -8,10 +8,7 @@ import { login, logout } from '../actions/UserActions';
   (state) => ({
     search: state.search,
     auth: state.auth,
-    loggedIn: state.auth.token !== null,
-    menuOpen: state.ui.menuOpen,
-    accountOpen: false,
-    searchOpen: false
+    loggedIn: state.auth.token !== null
   }),
   { login, logout }
 )

@@ -17,12 +17,12 @@ function clearLocalStorage(key) {
 }
 
 function performLogin(username, password) {
-  return post('//authorization/token-auth/', { username, password })
+  return post('/authorization/token-auth/', { username, password })
     .then(putInLocalStorage('user'));
 }
 
 export function refreshToken(token) {
-  return post('//authorization/token-auth/refresh/', { token })
+  return post('/authorization/token-auth/refresh/', { token })
     .then(putInLocalStorage('user'))
     .catch(err => {
       clearLocalStorage('user');

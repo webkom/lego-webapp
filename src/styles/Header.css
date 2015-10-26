@@ -48,13 +48,6 @@
   color: #333;
 }
 
-.LoginForm button {
-  margin: 10px 0 0 0;
-  border-radius: 0;
-  background: #C0392B;
-  border: 0;
-}
-
 .LoginForm input:focus {
   background: #ffedba;
   outline: none;

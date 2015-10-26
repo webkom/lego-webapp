@@ -1,0 +1,22 @@
+.Button {
+  border: 0;
+  font-weight: 700;
+  cursor: pointer;
+  background: #ddd;
+  text-transform: uppercase;
+  margin: 2px 0;
+  color: #333;
+}
+
+.Button--dark {
+  background: #C0392B;
+  color: #fff;
+}
+
+.Button--normal {
+  font-size: inherit;
+}
+
+.Button--large {
+  font-size: 1.4rem;
+}

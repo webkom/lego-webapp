@@ -30,19 +30,6 @@ form {
   padding: 0;
 }
 
-.Button {
-  border-radius: 5px;
-  border: 1px solid #ccc;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
-  font-weight: 700;
-  cursor: pointer;
-  background: #ddd;
-  text-transform: uppercase;
-}
-
-.Button:hover {
-  border-color: #ccc;
-}
 
 ul {
   margin: 0;
