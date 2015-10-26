@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import Icon from './Icon';
-import Time from './Time';
+import { Icon, Time } from './ui';
 
 let id = 0;
 function getImage() {

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import RequireLogin from './RequireLogin';
-import LoadingIndicator from './LoadingIndicator';
+import LoadingIndicator from './ui/LoadingIndicator';
 
 const Event = ({ event, loggedIn }) => (
   <section className='content event-page'>
