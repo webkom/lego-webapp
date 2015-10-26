@@ -30,15 +30,5 @@ export default createReducer(initialState, {
     ...state,
     isFetching: false,
     items: state.items.map(q => !action.payload ? q : (q.id===action.payload.id ? action.payload : q))
-  }),
-  [Quotes.SORT_BY_DATE_SUCCESS]: (state, action) => ({
-    ...state,
-    isFetching: false,
-    items: state.items.map(q => !action.payload ? q : (q.id===action.payload.id ? action.payload : q))
-  }),
-  [Quotes.SORT_BY_LIKES_SUCCESS]: (state, action) => ({
-    ...state,
-    isFetching: false,
-    items: state.items.map(q => !action.payload ? q : (q.id===action.payload.id ? action.payload : q))
   })
 });

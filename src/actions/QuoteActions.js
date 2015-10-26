@@ -39,19 +39,3 @@ export function unapprove(quoteId) {
     method: 'put'
   });
 }
-
-export function sort_by_likes() {
-  return callAPI({
-    type: Quotes.SORT_BY_LIKES,
-    endpoint: `/quotes/sort_by_likes/`,
-    method: 'post'
-  });
-}
-
-export function sort_by_date() {
-  return callAPI({
-    type: Quotes.SORT_BY_DATE,
-    endpoint: `/quotes/sort_by_date/`,
-    method: 'post'
-  });
-}
