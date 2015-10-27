@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { connectReduxForm, initialize } from 'redux-form';
+import { reduxForm, initialize } from 'redux-form';
 import UserSettings from '../components/UserSettings';
 import { updateUser } from '../actions/UserActions';
 
@@ -29,7 +29,7 @@ function validateContact(data) {
   (state) => ({ user: state.auth.username ? state.users[state.auth.username] : {} }),
   { initialize, updateUser }
 )
-@connectReduxForm({
+@reduxForm({
   form: 'contact',
   fields: ['username', 'firstName', 'lastName', 'email'],
   validate: validateContact

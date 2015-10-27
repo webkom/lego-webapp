@@ -2,37 +2,10 @@ import '../styles/Header.css';
 import React, { PropTypes, Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Modal } from 'react-overlays';
-import cx from 'classnames';
+import { debounce } from 'lodash';
 import LoginForm from './LoginForm';
+import Search from './Search';
 import { ButtonTriggeredDropdown } from './ui';
-
-
-const Search = ({ closeSearch }) => (
-  <div className={cx('Search')}>
-    <div className='Search__overlay u-container'>
-      <div className='Search__input'>
-        <input type='search' placeholder='Hva leter du etter?' autoFocus />
-        <button type='button' className='Search__closeButton' onClick={closeSearch}>
-          <i className='fa fa-close u-scale-on-hover' />
-        </button>
-      </div>
-      <div className='Search__results'>
-        <ul className='Search__results__items'>
-          <li><span className='u-pill'>article</span> Hugh hefner on a roll</li>
-          <li><span className='u-pill'>page</span> An awesome page</li>
-        </ul>
-
-        <div className='Search__results__quickLinks'>
-          <ul>
-            <li><a href=''>Interessegrupper</a></li>
-            <li><a href=''>Butikk</a></li>
-            <li><a href=''>Kontakt</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-);
 
 export default class Header extends Component {
   static propTypes = {
@@ -40,7 +13,9 @@ export default class Header extends Component {
     auth: PropTypes.object.isRequired,
     login: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
-    search: PropTypes.object.isRequired,
+    search: PropTypes.func.isRequired,
+    searchResults: PropTypes.object.isRequired,
+    searching: PropTypes.bool,
     loggedIn: PropTypes.bool.isRequired,
     loginFailed: PropTypes.bool
   }
@@ -52,7 +27,12 @@ export default class Header extends Component {
   }
 
   render() {
-    const { login, logout, auth, loggedIn, loginFailed } = this.props;
+    const {
+      login, logout,
+      search, searchResults, searching,
+      auth,
+      loggedIn, loginFailed
+    } = this.props;
 
     return (
       <header className='Header'>
@@ -109,7 +89,13 @@ export default class Header extends Component {
               backdropClassName='Backdrop'
               backdrop
             >
-              <Search isOpen={this.state.searchOpen} closeSearch={() => this.setState({ searchOpen: false })} />
+              <Search
+                isOpen={this.state.searchOpen}
+                onCloseSearch={() => this.setState({ searchOpen: false })}
+                onQueryChanged={debounce(search, 500)}
+                results={searchResults}
+                searching={searching}
+              />
             </Modal>
           </div>
         </div>

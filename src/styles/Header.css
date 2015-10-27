@@ -132,6 +132,16 @@
   background: #eee;
 }
 
+.Search__results__items__item {
+  border-bottom: 1px solid #ddd;
+  padding: .5rem;
+  display: flex;
+}
+
+.Search__results__items__item.is-selected {
+  font-weight: 700;
+}
+
 .Header__content {
   position: relative;
   display: flex;

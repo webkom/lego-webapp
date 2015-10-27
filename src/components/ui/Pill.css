@@ -1,0 +1,9 @@
+.Pill {
+  background: #ccc;
+  padding: 2px 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: .8rem;
+  font-weight: 700;
+}

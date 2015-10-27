@@ -17,9 +17,10 @@ export default class LoadingIndicator extends Component {
         <div className='spinner'>
           <div className='double-bounce1'></div>
           <div className='double-bounce2'></div>
+          Loading
         </div>
       );
     }
-    return this.props.children;
+    return this.props.children || null;
   }
 }

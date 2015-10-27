@@ -23,8 +23,8 @@ export const Favorites = {
  *
  */
 export const Search = {
-  CLEAR: 'CLOSE',
-  SEARCH: 'SEARCH'
+  SEARCH: 'Search.SEARCH',
+  RESULTS_RECEIVED: 'Search.RESULTS_RECEIVED'
 };
 
 /**
