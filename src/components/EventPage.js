@@ -2,38 +2,44 @@ import React, { Component, PropTypes } from 'react';
 import RequireLogin from './RequireLogin';
 import LoadingIndicator from './LoadingIndicator';
 
+const Event = ({ event, loggedIn }) => (
+  <section className='content event-page'>
+    <h2>{event.title}</h2>
+    <article className='event-ingress'>
+      {event.ingress}
+    </article>
+    <article className='event-body'>
+      {event.text}
+    </article>
+    <div className='event-open-for'>
+      <h3>Åpent for</h3>
+    </div>
+
+    <RequireLogin loggedIn={loggedIn}>
+      <h3>Bli med på dette arrangementet</h3>
+      <form className='event-participate'>
+        <textarea placeholder='Melding til arrangører' />
+        <button type='submit'>Bli med</button>
+
+        <p>Påmeldingen stenger 13:37</p>
+      </form>
+    </RequireLogin>
+  </section>
+);
+
 export default class EventPage extends Component {
   static propTypes = {
-    event: PropTypes.object.isRequired
+    event: PropTypes.object,
+    loggedIn: PropTypes.bool.isRequired
   }
 
   render() {
     const { event } = this.props;
-
     return (
       <section>
-        <LoadingIndicator loading={Object.keys(event).length === 0}>
-          <div className='content event-page'>
-            <h2 onClick={() => {}}>{event.name}</h2>
-            <article>
-              {event.description}
-            </article>
-            <div className='event-open-for'>
-              <h3>Åpent for</h3>
-              {(event.admissible_groups || []).map(group =>
-                <span key={'group-' + group.group}>{group.group}</span>
-              )}
-            </div>
-
-            <RequireLogin loggedIn={this.state.isLoggedIn}>
-              <h3>Bli med på dette arrangementet</h3>
-              <form className='event-participate'>
-                <textarea placeholder='Melding til arrangører' />
-                <button type='submit'>Bli med</button>
-
-                <p>Påmeldingen stenger {event.registration_ends_at}</p>
-              </form>
-            </RequireLogin>
+        <LoadingIndicator loading={!event}>
+          <div>
+            {event && <Event {...this.props} />}
           </div>
         </LoadingIndicator>
       </section>
