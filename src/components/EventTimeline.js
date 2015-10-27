@@ -26,10 +26,10 @@ export default class EventTimeline extends Component {
     return (
       <div className='event-timeline'>
       {events.map((event) =>
-        <Link to='event' params={{eventId: event.id}} key={event.id}>
+        <Link to='event' params={{ eventId: event.id }} key={event.id}>
           <p className='event-location'><Icon name='map-marker'/> H3</p>
           <img src={randomImage()} />
-          <p className='event-time' style={{backgroundColor: event.color}}>
+          <p className='event-time' style={{ backgroundColor: event.color }}>
             <Icon name='clock-o' /> <Time time={event.starts_at} format='dddd HH:mm' />
           </p>
         </Link>
