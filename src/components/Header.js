@@ -41,7 +41,8 @@ export default class Header extends Component {
     login: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
     search: PropTypes.object.isRequired,
-    loggedIn: PropTypes.bool.isRequired
+    loggedIn: PropTypes.bool.isRequired,
+    loginFailed: PropTypes.bool
   }
 
   state = {
@@ -51,7 +52,7 @@ export default class Header extends Component {
   }
 
   render() {
-    const { login, logout, auth, loggedIn } = this.props;
+    const { login, logout, auth, loggedIn, loginFailed } = this.props;
 
     return (
       <header className='Header'>
@@ -66,30 +67,34 @@ export default class Header extends Component {
 
           <div>
             <ButtonTriggeredDropdown
-              className='Header__content__button'
+              buttonClassName='Header__content__button'
               iconName='bell'
               show={this.state.notificationsOpen}
               toggle={() => this.setState({ notificationsOpen: !this.state.notificationsOpen })}
             >
-              Notifications
+              <h2>No Notifications</h2>
             </ButtonTriggeredDropdown>
 
             <ButtonTriggeredDropdown
-              className='Header__content__button'
+              buttonClassName='Header__content__button'
+              contentClassName={loginFailed && 'animated shake'}
               iconName='user'
               show={this.state.accountOpen}
               toggle={() => this.setState({ accountOpen: !this.state.accountOpen })}
             >
               {!loggedIn && (
-                <LoginForm
-                  login={login}
-                />
+                <LoginForm login={login} />
               )}
 
               {loggedIn && (
                 <div>
-                  <b>{auth && auth.username}</b><br/>
-                  <a onClick={logout}>Log out</a>
+                  <h2>{auth && auth.username}</h2>
+                  <ul className='Dropdown__content__menu'>
+                    <li><Link to='events'>My Profile</Link></li>
+                    <li><Link to='events'>Settings</Link></li>
+                    <li><Link to='events'>Favorites</Link></li>
+                    <li><a onClick={logout}>Log out</a></li>
+                  </ul>
                 </div>
               )}
             </ButtonTriggeredDropdown>

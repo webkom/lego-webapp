@@ -22,21 +22,14 @@ export const Favorites = {
 /**
  *
  */
-export const UI = {
-  TOGGLE_MENU: 'TOGGLE_MENU',
-  OPEN_MENU: 'OPEN_MENU',
-  CLOSE_MENU: 'CLOSE_MENU',
-  TOGGLE_LOGIN: 'TOGGLE_LOGIN'
-};
-
-/**
- *
- */
 export const Search = {
   CLEAR: 'CLOSE',
   SEARCH: 'SEARCH'
 };
 
+/**
+ *
+ */
 export const User = {
   FETCH_USER: 'FETCH_USER',
   FETCH_USER_BEGIN: 'FETCH_USER_BEGIN',
