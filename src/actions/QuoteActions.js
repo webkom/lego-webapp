@@ -1,10 +1,16 @@
 import { Quotes } from './ActionTypes';
 import { callAPI } from '../util/http';
 
-export function fetchAll() {
+export function fetchAllApproved() {
   return callAPI({
-    type: Quotes.FETCH_ALL,
+    type: Quotes.FETCH_ALL_APPROVED,
     endpoint: '/quotes/'
+  });
+}
+export function fetchAllUnapproved() {
+  return callAPI({
+    type: Quotes.FETCH_ALL_UNAPPROVED,
+    endpoint: '/quotes/unapproved/'
   });
 }
 
@@ -37,5 +43,16 @@ export function unapprove(quoteId) {
     type: Quotes.UNAPPROVE,
     endpoint: `/quotes/${quoteId}/unapprove/`,
     method: 'put'
+  });
+}
+
+export function deleter(quoteId) {
+  return callAPI({
+    type: Quotes.DELETE,
+    endpoint: `/quotes/${quoteId}/`,
+    method: 'del',
+    meta: {
+      quoteId
+    }
   });
 }

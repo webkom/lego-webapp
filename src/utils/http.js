@@ -55,7 +55,7 @@ export function del(url, body) {
 
 export function callAPI(action) {
   return (dispatch, getState) => {
-    const { method, endpoint, body } = action;
+    const { method, endpoint, body, meta } = action;
     const options = {
       method,
       url: endpoint,
@@ -72,7 +72,11 @@ export function callAPI(action) {
     return dispatch({
       type: action.type,
       promise: request(options),
+<<<<<<< 6661453e0ff01088224a471d3316e2d288d0115f
       meta: action.meta
+=======
+      meta
+>>>>>>> Finished frontend functionality and CSS for deleting quotes
     });
   };
 }

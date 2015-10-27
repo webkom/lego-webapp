@@ -58,6 +58,7 @@ export default function promiseMiddleware() {
       });
     }, error => {
       dispatchThis(next, types.failure, {
+        meta,
         payload: error,
         error: true
       });
