@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import GroupPage from '../components/GroupPage';
-import fetchOnUpdate from '../decorators/fetchOnUpdate';
+import fetchOnUpdate from '../utils/fetchOnUpdate';
 import { fetchGroup } from '../actions/GroupActions';
 
 function loadData({ groupId }, props) {

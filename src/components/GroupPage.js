@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import LoadingIndicator from './LoadingIndicator';
+import LoadingIndicator from './ui/LoadingIndicator';
 
 const Group = ({ group }) => (
   <section className='content event-page'>
