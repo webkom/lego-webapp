@@ -43,7 +43,7 @@ export default class Overview extends Component {
                 className='UpcomingEvents__item'
                 to='events'
                 params={{ eventId: event.id }}
-                style={{background: `url(${getImage()})`}}
+                style={{ background: `url(${getImage()})` }}
               >
                 <span
                   className='UpcomingEvents__item__title'
