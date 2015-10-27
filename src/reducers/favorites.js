@@ -1,10 +1,10 @@
 import createReducer from '../util/createReducer';
-import { Favorites } from '../actions/ActionTypes';
+import { Favorite } from '../actions/ActionTypes';
 
 const initialState = {
   items: []
 };
 
 export default createReducer(initialState, {
-  [Favorites.LOAD_ALL_SUCCESS]: (state, action) => ({ ...state, items: action.payload })
+  [Favorite.FETCH_ALL_SUCCESS]: (state, action) => ({ ...state, items: action.payload })
 });

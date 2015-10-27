@@ -62,9 +62,9 @@ export function updateUser({ username, firstName, lastName, email }) {
     dispatch({
       promise: request(options),
       types: {
-        begin: User.UPDATE_USER_BEGIN,
+        begin: User.UPDATE_BEGIN,
         success: [
-          User.UPDATE_USER_SUCCESS,
+          User.UPDATE_SUCCESS,
           (res) => pushState(null, `/users/${res.payload.username || 'me'}`)
         ],
         failure: User.UPDATE_USER_FAILURE
@@ -75,7 +75,7 @@ export function updateUser({ username, firstName, lastName, email }) {
 
 export function fetchUser(username) {
   return callAPI({
-    type: User.FETCH_USER,
+    type: User.FETCH,
     endpoint: `/users/${username}/`
   });
 }
