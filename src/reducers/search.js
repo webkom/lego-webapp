@@ -3,11 +3,20 @@ import { Search } from '../actions/ActionTypes';
 
 const initialState = {
   results: [],
-  closed: false,
-  query: ''
+  query: '',
+  searching: false
 };
 
 export default createReducer(initialState, {
-  [Search.CLEAR]: (state, action) => ({ ...state, closed: true, query: '' }),
-  [Search.SEARCH]: (state, action) => ({ ...state, closed: false, query: action.payload })
+  [Search.SEARCH]: (state, action) => ({
+    ...state,
+    query: action.payload,
+    searching: true
+  }),
+
+  [Search.RESULTS_RECEIVED]: (state, action) => ({
+    ...state,
+    results: action.payload,
+    searching: false
+  })
 });

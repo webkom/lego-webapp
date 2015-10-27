@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import cx from 'classnames';
 
 /**
  * Render a Font-Awesome icon.
@@ -6,14 +7,22 @@ import React, { Component, PropTypes } from 'react';
 export default class Icon extends Component {
 
   static propTypes = {
-    name: PropTypes.string
+    name: PropTypes.string,
+    scaleOnHover: PropTypes.bool
   }
 
   static defaultProps = {
-    name: 'star'
+    name: 'star',
+    scaleOnHover: false
   }
 
   render() {
-    return <i className={`fa fa-${this.props.name}`} />;
+    return (
+      <i className={cx(
+        'fa',
+        `fa-${this.props.name}`,
+        this.props.scaleOnHover && 'u-scale-on-hover'
+      )}/>
+    );
   }
 }
