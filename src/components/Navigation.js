@@ -21,7 +21,7 @@ export default class Navigation extends Component {
     menuOpen: PropTypes.bool.isRequired
   };
   render() {
-    const {menuOpen, toggleMenu} = this.props;
+    const { menuOpen, toggleMenu } = this.props;
     return (
       <div>
         <nav className='MainNavigation'>

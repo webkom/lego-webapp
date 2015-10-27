@@ -1,6 +1,6 @@
-import React, {Component, PropTypes} from 'react';
-import {connect} from 'react-redux';
-import {connectReduxForm, initialize} from 'redux-form';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { connectReduxForm, initialize } from 'redux-form';
 import UserSettings from '../components/UserSettings';
 import { updateUser } from '../actions/UserActions';
 
@@ -26,7 +26,7 @@ function validateContact(data) {
 
 
 @connect(
-  (state) => ({ user: state.auth.username ? state.users[state.auth.username] : {}}),
+  (state) => ({ user: state.auth.username ? state.users[state.auth.username] : {} }),
   { initialize, updateUser }
 )
 @connectReduxForm({
@@ -53,7 +53,7 @@ export default class UserSettingsWrapper extends Component {
     }
   }
   componentWillMount() {
-    const {user} = this.props;
+    const { user } = this.props;
     this.props.initialize('contact', {
       username: user.username,
       firstName: user.firstName,
@@ -65,7 +65,11 @@ export default class UserSettingsWrapper extends Component {
     this.props.updateUser(data);
   }
   render() {
-    const {fields, handleSubmit} = this.props;
-    return (<UserSettings onSubmit={handleSubmit(::this.onSubmit)} fields={fields} />);
+    const { fields, handleSubmit } = this.props;
+    return (
+      <UserSettings
+        onSubmit={ handleSubmit(::this.onSubmit) }
+        fields={fields} />
+    );
   }
 }
