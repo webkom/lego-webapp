@@ -7,6 +7,7 @@ import UserContainer from './containers/UserContainer';
 import OverviewContainer from './containers/OverviewContainer';
 import SettingsContainer from './containers/SettingsContainer';
 import EventCalendar from './components/EventCalendar';
+import GroupsContainer from './containers/GroupsContainer';
 
 const routes = (
   <Route path='/' component={AppContainer}>
@@ -18,6 +19,7 @@ const routes = (
     <Route path='users/me' component={UserContainer} />
     <Route path='users/me/settings' component={SettingsContainer} />
     <Route path='users/:username' component={UserContainer} />
+    <Route path='groups' component={GroupsContainer} />
   </Route>
 );
 
