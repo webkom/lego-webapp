@@ -1,4 +1,4 @@
-/* eslint no-var: 0 */
+/* eslint-disable */
 module.exports = {
   output: {
     path: __dirname + '/../public',
@@ -11,13 +11,15 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.jsx?$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
-      { test: /\.css$/, loader: 'style!css!cssnext' },
+      { test: /\.css$/, loader: 'style!css!postcss' },
       { test: /\.png$/, loader: 'url-loader?mimetype=image/png' }
     ]
   },
-  cssnext: {
-    plugins: [
+  postcss: function(webpack) {
+    return [
+      require('postcss-import')({ addDependencyTo: webpack }),
+      require('postcss-cssnext'),
       require('postcss-nested')
-    ]
+    ];
   }
 };
