@@ -78,7 +78,7 @@ export default class EventCalendar extends Component {
   }
 
   render() {
-    const { year, month } = this.props.location.query;
+    const { year = moment().year(), month = moment().month() + 1 } = this.props.location.query;
     const date = moment([ parseInt(year, 10), parseInt(month, 10) - 1 ]);
 
     return (
