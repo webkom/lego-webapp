@@ -2,14 +2,14 @@
   --calendar-border: 1px solid #ddd;
 }
 
-.Calendar-grid {
+.Calendar__grid {
   display: flex;
   width: 100%;
   flex-wrap: wrap;
   margin: 2rem 0;
 }
 
-.Calendar-grid-item {
+.Calendar__day {
   flex: 0 14.28571%;
   text-align: center;
   border-right: var(--calendar-border);
@@ -22,4 +22,12 @@
   &:nth-child(-n+7) {
     border-top: var(--calendar-border);
   }
+}
+
+.Calendar__day--prevMonth {
+  background: yellow;
+}
+
+.Calendar__day--nextMonth {
+  background: green;
 }
