@@ -2,7 +2,7 @@ import jwtDecode from 'jwt-decode';
 import moment from 'moment';
 import { replaceState, pushState } from 'redux-react-router';
 import { User } from './ActionTypes';
-import request, { callAPI, post } from '../util/http';
+import request, { callAPI, post } from '../utils/http';
 
 
 function putInLocalStorage(key) {
