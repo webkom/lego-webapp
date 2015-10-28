@@ -5,7 +5,7 @@ import { createHistory } from 'history';
 import { reduxReactRouter, routerStateReducer } from 'redux-react-router';
 import routes from '../routes';
 import * as reducers from '../reducers';
-import promiseMiddleware from '../middlewares/promiseMiddleware';
+import promiseMiddleware from '../utils/promiseMiddleware';
 
 const loggerMiddleware = createLogger({
   level: 'info',
