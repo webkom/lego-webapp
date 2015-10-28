@@ -23,6 +23,6 @@ export default class EventsContainer extends Component {
   }
 
   render() {
-    return this.props.children || <EventCalendar />;
+    return this.props.children || <EventCalendar {...this.props} />;
   }
 }

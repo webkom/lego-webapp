@@ -2,6 +2,7 @@ import '../styles/Calendar.css';
 import React, { Component, PropTypes } from 'react';
 import cx from 'classnames';
 import moment from 'moment';
+import { Link } from 'react-router';
 import { range, takeWhile, last } from 'lodash';
 
 /**
@@ -9,7 +10,7 @@ import { range, takeWhile, last } from 'lodash';
  * Might require *some* memory, should maybe
  * figure out and un-beautify it.
  */
-function getDaysForCalendar(date, weekOffset) {
+function createDateObjects(date, weekOffset, events) {
   const startOfMonth = date.startOf('month');
 
   let diff = startOfMonth.weekday() - weekOffset;
@@ -21,7 +22,8 @@ function getDaysForCalendar(date, weekOffset) {
   }));
 
   const currentMonthDays = range(1, date.daysInMonth() + 1).map(index => ({
-    day: moment([date.year(), date.month(), index])
+    day: moment([date.year(), date.month(), index]),
+    events: events.filter(e => moment(e.startTime).isSame(moment([date.year(), date.month(), index]), 'day'))
   }));
 
   const daysAdded = prevMonthDays.length + currentMonthDays.length - 1;
@@ -33,31 +35,17 @@ function getDaysForCalendar(date, weekOffset) {
   return [...prevMonthDays, ...currentMonthDays, ...nextMonthDays];
 }
 
-/* eslint-disable no-unused-vars */
-const myEvents = {
-  2015: {
-    9: {
-      1: [{ name: 'Foo' }, { name: 'Bar' }],
-      2: [{ name: 'Balle' }]
-    }
-  }
-};
-
-function selectEvents(events, year, month, day) {
-  return (events[year] && events[year][month] && events[year][month][day]) || [];
-}
-
 /**
  *
  */
-const Event = ({ name }) => <div key={name}>{name}</div>;
+const Event = ({ id, title }) => <div key={id}>{title}</div>;
 
 /**
  *
  */
 const Day = ({ day, classNames, events = [] }) => (
   <div className={cx('Calendar__day', `Calendar__day--${classNames}`)}>
-    <strong>{day.format('YYYY-MM-D')}</strong>
+    <strong>{day.date()}</strong>
     {events.map(Event)}
   </div>
 );
@@ -68,42 +56,45 @@ const Day = ({ day, classNames, events = [] }) => (
 export default class EventCalendar extends Component {
 
   static propTypes = {
-    weekOffset: PropTypes.number
+    weekOffset: PropTypes.number,
+    events: PropTypes.array,
+    location: PropTypes.object
   }
 
   static defaultProps = {
-    weekOffset: 0
+    weekOffset: 0,
+    events: []
   }
 
-  state = {
-    date: moment()
+  queryForPrevMonth(date) {
+    // moment objects are mutated
+    const newDate = date.clone().subtract(1, 'months');
+    return { year: newDate.year(), month: newDate.month() + 1 };
   }
 
-  handleNext() {
-    this.setState({ date: this.state.date.add(1, 'months') });
-  }
-
-  handlePrev() {
-    this.setState({ date: this.state.date.subtract(1, 'months') });
+  queryForNextMonth(date) {
+    const newDate = date.clone().add(1, 'months');
+    return { year: newDate.year(), month: newDate.month() + 1 };
   }
 
   render() {
+    const { year, month } = this.props.location.query;
+    const date = moment([ parseInt(year, 10), parseInt(month, 10) - 1 ]);
+
     return (
       <div className='Calendar u-container'>
         <h2 className='Calendar__header'>
-          <span onClick={::this.handlePrev}>&laquo;</span>
-          <span>{this.state.date.format('MMMM YYYY')}</span>
-          <span onClick={::this.handleNext}>&raquo;</span>
+          <Link to='/events' query={this.queryForPrevMonth(date)}>&laquo;</Link>
+          <span>{date.format('MMMM YYYY')}</span>
+          <Link to='/events' query={this.queryForNextMonth(date)}>&raquo;</Link>
         </h2>
 
         <div className='Calendar__grid'>
-          {getDaysForCalendar(this.state.date, this.props.weekOffset).map((day, i) =>
-            <Day
-              {...day}
-              key={i}
-              events={selectEvents(myEvents, day.day.year(), day.day.month(), day.day.date())}
-            />
-          )}
+          {createDateObjects(
+            date,
+            this.props.weekOffset,
+            this.props.events
+          ).map(Day)}
         </div>
       </div>
     );
