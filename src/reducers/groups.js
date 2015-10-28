@@ -1,5 +1,5 @@
 import createReducer from '../utils/createReducer';
-import { Groups } from '../actions/ActionTypes';
+import { Group } from '../actions/ActionTypes';
 
 const initialState = {
   items: [],
@@ -17,10 +17,10 @@ function replaceGroup(groups, newGroup) {
 }
 
 export default createReducer(initialState, {
-  [Groups.FETCH_ALL_BEGIN]: (state, action) => ({ ...state, isFetching: true }),
-  [Groups.FETCH_ALL_FAILURE]: (state, action) => ({ ...state, isFetching: false }),
-  [Groups.FETCH_ALL_SUCCESS]: (state, action) => ({ ...state, isFetching: false, items: action.payload }),
-  [Groups.FETCH_GROUP_SUCCESS]: (state, action) => ({
+  [Group.FETCH_ALL_BEGIN]: (state, action) => ({ ...state, isFetching: true }),
+  [Group.FETCH_ALL_FAILURE]: (state, action) => ({ ...state, isFetching: false }),
+  [Group.FETCH_ALL_SUCCESS]: (state, action) => ({ ...state, isFetching: false, items: action.payload }),
+  [Group.FETCH_SUCCESS]: (state, action) => ({
     ...state,
     isFetching: false,
     items: replaceGroup(state.items, action.payload)

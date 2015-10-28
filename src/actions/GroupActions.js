@@ -3,14 +3,14 @@ import { callAPI } from '../utils/http';
 
 export function fetchGroup(groupId) {
   return callAPI({
-    type: Groups.FETCH_GROUP,
+    type: Group.FETCH,
     endpoint: `/groups/${groupId}/`
   });
 }
 
 export function fetchAll() {
   return callAPI({
-    type: Groups.FETCH_ALL,
+    type: Group.FETCH_ALL,
     endpoint: '/groups/'
   });
 }
