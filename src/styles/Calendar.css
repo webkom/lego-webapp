@@ -9,11 +9,26 @@
   margin: 2rem 0;
 }
 
+.Calendar__header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Calendar__day__number {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+}
+
 .Calendar__day {
   flex: 0 14.28571%;
   text-align: center;
   border-right: var(--calendar-border);
   border-bottom: var(--calendar-border);
+  height: 100px;
+  overflow-y: scroll;
+  background: #fff;
+  position: relative;
 
   &:nth-child(7n+1) {
     border-left: var(--calendar-border);
@@ -24,10 +39,7 @@
   }
 }
 
-.Calendar__day--prevMonth {
-  background: yellow;
-}
-
+.Calendar__day--prevMonth,
 .Calendar__day--nextMonth {
-  background: green;
+  color: #aaa;
 }

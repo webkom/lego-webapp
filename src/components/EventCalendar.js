@@ -45,7 +45,7 @@ const Event = ({ id, title }) => <div key={id}>{title}</div>;
  */
 const Day = ({ day, classNames, events = [] }) => (
   <div className={cx('Calendar__day', `Calendar__day--${classNames}`)}>
-    <strong>{day.date()}</strong>
+    <strong className='Calendar__day__number'>{day.date()}</strong>
     {events.map(Event)}
   </div>
 );
