@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import EventPage from '../components/EventPage';
-import fetchOnUpdate from '../decorators/fetchOnUpdate';
+import fetchOnUpdate from '../utils/fetchOnUpdate';
 import { fetchEvent } from '../actions/EventActions';
 
 function loadData({ eventId }, props) {

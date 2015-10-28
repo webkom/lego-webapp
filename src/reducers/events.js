@@ -1,5 +1,5 @@
 import createReducer from '../util/createReducer';
-import { Events } from '../actions/ActionTypes';
+import { Event } from '../actions/ActionTypes';
 
 const initialState = {
   items: [],
@@ -17,10 +17,10 @@ function replaceEvent(events, newEvent) {
 }
 
 export default createReducer(initialState, {
-  [Events.FETCH_ALL_BEGIN]: (state, action) => ({ ...state, isFetching: true }),
-  [Events.FETCH_ALL_FAILURE]: (state, action) => ({ ...state, isFetching: false }),
-  [Events.FETCH_ALL_SUCCESS]: (state, action) => ({ ...state, isFetching: false, items: action.payload }),
-  [Events.FETCH_EVENT_SUCCESS]: (state, action) => ({
+  [Event.FETCH_ALL_BEGIN]: (state, action) => ({ ...state, isFetching: true }),
+  [Event.FETCH_ALL_FAILURE]: (state, action) => ({ ...state, isFetching: false }),
+  [Event.FETCH_ALL_SUCCESS]: (state, action) => ({ ...state, isFetching: false, items: action.payload }),
+  [Event.FETCH_SUCCESS]: (state, action) => ({
     ...state,
     isFetching: false,
     items: replaceEvent(state.items, action.payload)

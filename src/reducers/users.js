@@ -11,14 +11,14 @@ export default createReducer(initialState, {
       [username]: action.payload.user
     };
   },
-  [User.FETCH_USER_SUCCESS]: (state, action) => {
+  [User.FETCH_SUCCESS]: (state, action) => {
     const { username } = action.payload;
     return {
       ...state,
       [username]: action.payload
     };
   },
-  [User.UPDATE_USER_SUCCESS]: (state, action) => {
+  [User.UPDATE_SUCCESS]: (state, action) => {
     const { username } = action.payload;
     return {
       ...state,

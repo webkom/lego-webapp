@@ -12,7 +12,7 @@ const quickLinks = [
 export default class Search extends Component {
 
   static propTypes = {
-    results: PropTypes.object,
+    results: PropTypes.array,
     onCloseSearch: PropTypes.func.isRequired,
     onQueryChanged: PropTypes.func.isRequired,
     searching: PropTypes.bool
