@@ -32,7 +32,7 @@
     "postcss-loader": "0.7.0",
     "postcss-nested": "1.0.0",
     "react": "0.14.0",
-    "react-addons-css-transition-group": "0.14.0",
+    "react-addons-css-transition-group": "0.14.1",
     "react-dom": "0.14.0",
     "react-hot-loader": "2.0.0-alpha-4",
     "react-overlays": "0.5.0",
