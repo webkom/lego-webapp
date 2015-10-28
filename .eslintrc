@@ -4,6 +4,9 @@
     "guard-for-in": 0,
     "func-names": 0
   },
+  "globals": {
+    "log": true
+  },
   "env": {
     "mocha": true
   }

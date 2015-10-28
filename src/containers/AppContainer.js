@@ -18,6 +18,6 @@ export default class AppContainer extends Component {
   }
 
   render() {
-    return <App {...this.props}/>;
+    return <App {...this.props} />;
   }
 }
