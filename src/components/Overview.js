@@ -1,13 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Icon, Time } from './ui';
+import colorForEvent from '../utils/colorForEvent';
 
 let id = 0;
 function getImage() {
   return 'http://lorempixel.com/800/400?' + (id++);
 }
-
-const colors = ['#A1C34A', '#52B0EC', '#E8953A', '#B11C11', '#11111'];
 
 export default class Overview extends Component {
 
@@ -48,7 +47,7 @@ export default class Overview extends Component {
                 <span
                   className='UpcomingEvents__item__title'
                   style={{
-                    borderBottom: `6px solid ${colors[event.eventType]}`
+                    borderBottom: `6px solid ${colorForEvent(event.eventType)}`
                   }}>{event.title}
                 </span>
 

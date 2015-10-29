@@ -4,13 +4,15 @@ import cx from 'classnames';
 import moment from 'moment';
 import { Link } from 'react-router';
 import { range, takeWhile, last } from 'lodash';
+import colorForEvent from '../utils/colorForEvent';
+import { Circle } from './ui';
 
 /**
  * Generate days of an entire month.
  * Might require *some* memory, should maybe
  * figure out and un-beautify it.
  */
-function createDateObjects(date, weekOffset, events) {
+function createDateObjects(date, weekOffset, events = []) {
   const startOfMonth = date.startOf('month');
 
   let diff = startOfMonth.weekday() - weekOffset;
@@ -38,7 +40,13 @@ function createDateObjects(date, weekOffset, events) {
 /**
  *
  */
-const Event = ({ id, title }) => <div key={id}>{title}</div>;
+const Event = ({ id, title, eventType }) => (
+  <div key={id}>
+    <Circle color={colorForEvent(eventType)} />
+    {' '}
+    <Link to={`events/${id}`}>{title}</Link>
+  </div>
+);
 
 /**
  *
@@ -90,10 +98,13 @@ export default class EventCalendar extends Component {
         </h2>
 
         <div className='Calendar__grid'>
+          {['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'].map(
+            d => <div className='Calendar__headingItem'>{d}</div>
+          )}
           {createDateObjects(
             date,
             this.props.weekOffset,
-            this.props.events
+            this.props.events || []
           ).map(Day)}
         </div>
       </div>
