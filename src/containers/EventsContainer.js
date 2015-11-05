@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import EventCalendar from '../components/EventCalendar';
 import { fetchAll } from '../actions/EventActions';
 
 function loadData(props) {
@@ -23,6 +22,6 @@ export default class EventsContainer extends Component {
   }
 
   render() {
-    return this.props.children || <EventCalendar />;
+    return React.cloneElement(this.props.children, this.props);
   }
 }
