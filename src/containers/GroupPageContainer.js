@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import GroupPage from '../components/GroupPage';
 import fetchOnUpdate from '../utils/fetchOnUpdate';
@@ -19,6 +19,9 @@ function loadData({ groupId }, props) {
 )
 @fetchOnUpdate(['groupId'], loadData)
 export default class GroupPageContainer extends Component {
+  static propTypes = {
+    params: PropTypes.object
+  }
   render() {
     return <GroupPage {...this.props} />;
   }
