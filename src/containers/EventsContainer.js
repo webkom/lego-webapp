@@ -1,4 +1,4 @@
-import { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { fetchAll } from '../actions/EventActions';
 
@@ -22,6 +22,6 @@ export default class EventsContainer extends Component {
   }
 
   render() {
-    return this.props.children;
+    return React.cloneElement(this.props.children, this.props);
   }
 }
