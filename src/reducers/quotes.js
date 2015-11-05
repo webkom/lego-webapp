@@ -1,5 +1,5 @@
-import createReducer from '../util/createReducer';
-import { Quotes } from '../actions/ActionTypes';
+import createReducer from '../utils/createReducer';
+import { Quote } from '../actions/ActionTypes';
 
 const initialState = {
   items: [],
@@ -7,34 +7,58 @@ const initialState = {
   lastUpdated: null
 };
 
+function handleSuccess(state, action) {
+  let added = false;
+  const newState = {
+    ...state,
+    isFetching: false,
+    items: state.items.map(item => {
+      if (item.id === action.payload.id) {
+        added = true;
+        return action.payload;
+      }
+      return item;
+    })
+  };
+  if (!added) {
+    newState.items.push(action.payload);
+  }
+  return newState;
+}
+
+function approvalSuccess(state, action) {
+  return {
+    ...state,
+    isFetching: false,
+    items: state.items.filter(item => item.id !== action.payload.id)
+  };
+}
+
 export default createReducer(initialState, {
-  [Quotes.FETCH_ALL_APPROVED_BEGIN]: (state, action) => ({ ...state, isFetching: true }),
-  [Quotes.FETCH_ALL_APPROVED_FAILURE]: (state, action) => ({ ...state, isFetching: false }),
-  [Quotes.FETCH_ALL_APPROVED_SUCCESS]: (state, action) => ({ ...state, isFetching: false, items: action.payload }),
-  [Quotes.FETCH_ALL_UNAPPROVED_BEGIN]: (state, action) => ({ ...state, isFetching: true }),
-  [Quotes.FETCH_ALL_UNAPPROVED_FAILURE]: (state, action) => ({ ...state, isFetching: false }),
-  [Quotes.FETCH_ALL_UNAPPROVED_SUCCESS]: (state, action) => ({ ...state, isFetching: false, items: action.payload }),
-  [Quotes.LIKE_SUCCESS]: (state, action) => ({
-    ...state,
-    isFetching: false,
-    items: state.items.map(q => !action.payload ? q : (q.id===action.payload.id ? action.payload : q))
-  }),
-  [Quotes.UNLIKE_SUCCESS]: (state, action) => ({
-    ...state,
-    isFetching: false,
-    items: state.items.map(q => !action.payload ? q : (q.id===action.payload.id ? action.payload : q))
-  }),
-  [Quotes.APPROVE_SUCCESS]: (state, action) => ({
-    ...state,
-    isFetching: false,
-    items: state.items.map(q => !action.payload ? q : (q.id===action.payload.id ? action.payload : q))
-  }),
-  [Quotes.UNAPPROVE_SUCCESS]: (state, action) => ({
-    ...state,
-    isFetching: false,
-    items: state.items.map(q => !action.payload ? q : (q.id===action.payload.id ? action.payload : q))
-  }),
-  [Quotes.DELETE_SUCCESS]: (state, action) => ({
+  [Quote.FETCH_BEGIN]: (state, action) => ({
+    ...state, isFetching: true }),
+  [Quote.FETCH_FAILURE]: (state, action) => ({
+    ...state, isFetching: false }),
+  [Quote.FETCH_SUCCESS]: (state, action) => ({
+    ...state, isFetching: false, items: [action.payload] }),
+  [Quote.FETCH_ALL_APPROVED_BEGIN]: (state, action) => ({
+    ...state, isFetching: true }),
+  [Quote.FETCH_ALL_APPROVED_FAILURE]: (state, action) => ({
+    ...state, isFetching: false }),
+  [Quote.FETCH_ALL_APPROVED_SUCCESS]: (state, action) => ({
+    ...state, isFetching: false, items: action.payload }),
+  [Quote.FETCH_ALL_UNAPPROVED_BEGIN]: (state, action) => ({
+    ...state, isFetching: true }),
+  [Quote.FETCH_ALL_UNAPPROVED_FAILURE]: (state, action) => ({
+    ...state, isFetching: false }),
+  [Quote.FETCH_ALL_UNAPPROVED_SUCCESS]: (state, action) => ({
+    ...state, isFetching: false, items: action.payload }),
+  [Quote.LIKE_SUCCESS]: handleSuccess,
+  [Quote.UNLIKE_SUCCESS]: handleSuccess,
+  [Quote.APPROVE_SUCCESS]: approvalSuccess,
+  [Quote.UNAPPROVE_SUCCESS]: approvalSuccess,
+  [Quote.ADD_SUCCESS]: handleSuccess,
+  [Quote.DELETE_SUCCESS]: (state, action) => ({
     ...state,
     isFetching: false,
     items: state.items.filter(q => action.meta.quoteId !== q.id)

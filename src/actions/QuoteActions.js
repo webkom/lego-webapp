@@ -1,22 +1,22 @@
-import { Quotes } from './ActionTypes';
-import { callAPI } from '../util/http';
+import { Quote } from './ActionTypes';
+import { callAPI } from '../utils/http';
 
 export function fetchAllApproved() {
   return callAPI({
-    type: Quotes.FETCH_ALL_APPROVED,
+    type: Quote.FETCH_ALL_APPROVED,
     endpoint: '/quotes/'
   });
 }
 export function fetchAllUnapproved() {
   return callAPI({
-    type: Quotes.FETCH_ALL_UNAPPROVED,
-    endpoint: '/quotes/unapproved/'
+    type: Quote.FETCH_ALL_UNAPPROVED,
+    endpoint: '/quotes/?approved=false'
   });
 }
 
 export function like(quoteId) {
   return callAPI({
-    type: Quotes.LIKE,
+    type: Quote.LIKE,
     endpoint: `/quotes/${quoteId}/like/`,
     method: 'post'
   });
@@ -24,7 +24,7 @@ export function like(quoteId) {
 
 export function unlike(quoteId) {
   return callAPI({
-    type: Quotes.UNLIKE,
+    type: Quote.UNLIKE,
     endpoint: `/quotes/${quoteId}/unlike/`,
     method: 'post'
   });
@@ -32,7 +32,7 @@ export function unlike(quoteId) {
 
 export function approve(quoteId) {
   return callAPI({
-    type: Quotes.APPROVE,
+    type: Quote.APPROVE,
     endpoint: `/quotes/${quoteId}/approve/`,
     method: 'put'
   });
@@ -40,7 +40,7 @@ export function approve(quoteId) {
 
 export function unapprove(quoteId) {
   return callAPI({
-    type: Quotes.UNAPPROVE,
+    type: Quote.UNAPPROVE,
     endpoint: `/quotes/${quoteId}/unapprove/`,
     method: 'put'
   });
@@ -48,7 +48,7 @@ export function unapprove(quoteId) {
 
 export function deleter(quoteId) {
   return callAPI({
-    type: Quotes.DELETE,
+    type: Quote.DELETE,
     endpoint: `/quotes/${quoteId}/`,
     method: 'del',
     meta: {
