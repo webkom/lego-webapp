@@ -5,7 +5,7 @@
 ## Setup
 ```bash
 $ npm install
-$ npm run watch
+$ npm start
 ```
 
 Everything should be up and running on [localhost:3000](http://localhost:3000).
