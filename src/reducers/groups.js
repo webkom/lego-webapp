@@ -8,6 +8,7 @@ const initialState = {
 };
 
 function replaceGroup(groups, newGroup) {
+  newGroup.users = newGroup.users.map(u => u.username);
   const existing = groups.find(group => group.id === newGroup.id);
   if (existing) {
     return groups.map(group => group.id === newGroup.id ? newGroup : group);
