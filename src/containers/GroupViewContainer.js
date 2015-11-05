@@ -8,12 +8,23 @@ function loadData({ groupId }, props) {
   props.fetchGroup(Number(groupId));
 }
 
+function findGroup({ groups, users }, groupId) {
+  const foundGroup = groups.items.find(
+    group => group.id === Number(groupId)
+  );
+
+  if (foundGroup && foundGroup.users) {
+    const mappedUsers = foundGroup.users.map(username => users[username]);
+    return { ...foundGroup, users: mappedUsers };
+  }
+
+  return foundGroup;
+}
+
 @connect(
   (state, props) => ({
     loggedIn: state.auth.token !== null,
-    group: state.groups.items.find(
-      group => group.id === Number(props.params.groupId)
-    )
+    group: findGroup(state, props.params.groupId)
   }),
   { fetchGroup }
 )
@@ -22,6 +33,7 @@ export default class GroupViewContainer extends Component {
   static propTypes = {
     params: PropTypes.object
   }
+
   render() {
     return <GroupView {...this.props} />;
   }

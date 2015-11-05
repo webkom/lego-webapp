@@ -26,7 +26,7 @@ export default createReducer(initialState, {
     };
   },
   [Group.FETCH_SUCCESS]: (state, action) => {
-    const loadedUsers = action.payload.users.reduce( (acc, user) => {
+    const loadedUsers = action.payload.users.reduce((acc, user) => {
       acc[user.username] = user;
       return acc;
     }, {});

@@ -11,6 +11,8 @@ import GroupPageContainer from './containers/GroupPageContainer';
 import AdminContainer from './containers/AdminContainer';
 import AdminOverview from './components/AdminOverview';
 import GroupViewContainer from './containers/GroupViewContainer';
+import GroupSettings from './components/GroupSettings';
+import GroupMembers from './components/GroupMembers';
 
 const Test = () => {
   return <div>Select a group</div>;
@@ -30,7 +32,10 @@ const routes = (
       <IndexRoute component={AdminOverview}/>
       <Route path='groups' component={GroupPageContainer}>
         <IndexRoute component={Test} />
-        <Route path=':groupId' component={GroupViewContainer} />
+        <Route path=':groupId' component={GroupViewContainer}>
+          <IndexRoute component={GroupSettings} />
+          <Route path='members' component={GroupMembers} />
+        </Route>
       </Route>
     </Route>
   </Route>
