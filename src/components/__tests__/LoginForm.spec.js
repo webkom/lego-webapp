@@ -2,8 +2,8 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import expect from 'expect';
 import TestUtils from 'react-addons-test-utils';
-import LoginForm from './LoginForm';
-import Button from './ui/Button';
+import LoginForm from '../LoginForm';
+import Button from '../ui/Button';
 
 function setup(props = {}) {
   const renderer = TestUtils.createRenderer();
@@ -15,7 +15,7 @@ function setup(props = {}) {
 describe('components', () => {
   describe('LoginForm', () => {
     it('should render correctly', () => {
-      const { output } = setup();
+      const { output } = setup({ login: () => {} });
       expect(output.type).toBe('div');
       expect(output.props.className).toInclude('LoginForm');
 
