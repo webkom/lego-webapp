@@ -44,7 +44,7 @@ const Event = ({ id, title, eventType }) => (
   <div key={id}>
     <Circle color={colorForEvent(eventType)} />
     {' '}
-    <Link to={`events/${id}`}>{title}</Link>
+    <Link to={`/events/${id}`}>{title}</Link>
   </div>
 );
 
