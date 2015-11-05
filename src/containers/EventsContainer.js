@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { fetchAll } from '../actions/EventActions';
 
@@ -14,7 +14,7 @@ function loadData(props) {
 )
 export default class EventsContainer extends Component {
   static propTypes = {
-    children: PropTypes.array
+    children: PropTypes.object.isRequired
   };
 
   componentWillMount() {
@@ -22,6 +22,6 @@ export default class EventsContainer extends Component {
   }
 
   render() {
-    return React.cloneElement(this.props.children, this.props);
+    return this.props.children;
   }
 }

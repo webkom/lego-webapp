@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import shallowEqual from 'react-redux/lib/utils/shallowEqual';
 
 function mapParams(watchParams, params) {
@@ -14,6 +14,11 @@ Calls fn on route changes where watchParams are changed.
 function fetchOnUpdate(watchParams, fn) {
   return DecoratedComponent =>
   class FetchOnUpdateDecorator extends Component {
+
+    static propTypes = {
+      params: PropTypes.object.isRequired
+    }
+
     componentWillMount() {
       fn(mapParams(watchParams, this.props.params), this.props);
     }

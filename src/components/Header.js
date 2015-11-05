@@ -14,7 +14,7 @@ export default class Header extends Component {
     login: PropTypes.func.isRequired,
     logout: PropTypes.func.isRequired,
     search: PropTypes.func.isRequired,
-    searchResults: PropTypes.object.isRequired,
+    searchResults: PropTypes.array.isRequired,
     searching: PropTypes.bool,
     loggedIn: PropTypes.bool.isRequired,
     loginFailed: PropTypes.bool
@@ -57,7 +57,7 @@ export default class Header extends Component {
 
             <ButtonTriggeredDropdown
               buttonClassName='Header__content__button'
-              contentClassName={loginFailed && 'animated shake'}
+              contentClassName={loginFailed ? '' : 'animated shake'}
               iconName='user'
               show={this.state.accountOpen}
               toggle={() => this.setState({ accountOpen: !this.state.accountOpen })}

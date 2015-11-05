@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import EventPage from '../components/EventPage';
 import fetchOnUpdate from '../utils/fetchOnUpdate';
@@ -19,6 +19,11 @@ function loadData({ eventId }, props) {
 )
 @fetchOnUpdate(['eventId'], loadData)
 export default class EventPageContainer extends Component {
+
+  static propTypes = {
+    params: PropTypes.object.isRequired
+  }
+
   render() {
     return <EventPage {...this.props} />;
   }

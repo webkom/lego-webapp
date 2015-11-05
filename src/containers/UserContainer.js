@@ -29,7 +29,8 @@ export default class UserContainer extends Component {
     loggedIn: PropTypes.bool.isRequired,
     user: PropTypes.object,
     isMe: PropTypes.bool.isRequired,
-    fetchUser: PropTypes.func.isRequired
+    fetchUser: PropTypes.func.isRequired,
+    params: PropTypes.object.isRequired
   };
 
   componentDidMount() {

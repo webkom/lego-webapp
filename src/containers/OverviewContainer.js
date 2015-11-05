@@ -12,6 +12,6 @@ import Overview from '../components/Overview';
 }), { fetchAll })
 export default class OverviewContainer extends Component {
   render() {
-    return <Overview {...this.props}/>;
+    return <Overview {...this.props} />;
   }
 }

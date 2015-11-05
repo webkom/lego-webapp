@@ -40,7 +40,7 @@ export default class Overview extends Component {
               <Link
                 key={event.id}
                 className='UpcomingEvents__item'
-                to='events'
+                to={`/events/${event.id}`}
                 params={{ eventId: event.id }}
                 style={{ background: `url(${getImage()})` }}
               >

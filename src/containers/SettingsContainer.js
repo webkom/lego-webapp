@@ -42,6 +42,7 @@ export default class UserSettingsWrapper extends Component {
     initialize: PropTypes.func.isRequired,
     updateUser: PropTypes.func.isRequired
   };
+
   componentWillReceiveProps(newProps) {
     if (newProps.user !== this.props.user) {
       this.props.initialize('contact', {
