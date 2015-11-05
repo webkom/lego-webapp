@@ -7,10 +7,14 @@ import UserContainer from './containers/UserContainer';
 import OverviewContainer from './containers/OverviewContainer';
 import SettingsContainer from './containers/SettingsContainer';
 import EventCalendar from './components/EventCalendar';
-import GroupsContainer from './containers/GroupsContainer';
+import GroupPageContainer from './containers/GroupPageContainer';
 import AdminContainer from './containers/AdminContainer';
 import AdminOverview from './components/AdminOverview';
-import GroupPageContainer from './containers/GroupPageContainer';
+import GroupViewContainer from './containers/GroupViewContainer';
+
+const Test = () => {
+  return <div>Select a group</div>;
+};
 
 const routes = (
   <Route path='/' component={AppContainer}>
@@ -24,8 +28,10 @@ const routes = (
     <Route path='users/:username' component={UserContainer} />
     <Route path='admin' component={AdminContainer}>
       <IndexRoute component={AdminOverview}/>
-      <Route path='groups' component={GroupsContainer} />
-      <Route path='groups/:groupId' component={GroupPageContainer} />
+      <Route path='groups' component={GroupPageContainer}>
+        <IndexRoute component={Test} />
+        <Route path=':groupId' component={GroupViewContainer} />
+      </Route>
     </Route>
   </Route>
 );

@@ -1,32 +1,19 @@
 import React, { Component, PropTypes } from 'react';
-import LoadingIndicator from './ui/LoadingIndicator';
+import GroupTree from './GroupTree';
 
-const Group = ({ group }) => (
-  <section className='content event-page'>
-    <h2>{group.name}</h2>
-    <p>{group.description}</p>
-    <h4>Permissions:</h4>
-    <ul>
-      {group.permissions && group.permissions.map((p, i) => <li key={i}>{p}</li>)}
-    </ul>
-  </section>
-);
-
-export default class EventPage extends Component {
+export default class GroupPage extends Component {
   static propTypes = {
-    group: PropTypes.object
+    groups: PropTypes.array,
+    children: PropTypes.any
   }
 
   render() {
-    const { group } = this.props;
+    const { groups } = this.props;
     return (
-      <section>
-        <LoadingIndicator loading={!group}>
-          <div>
-            {group && <Group {...this.props} />}
-          </div>
-        </LoadingIndicator>
-      </section>
+      <div>
+        <GroupTree groups={groups}/>
+        {this.props.children}
+      </div>
     );
   }
 }

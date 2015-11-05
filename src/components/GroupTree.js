@@ -60,7 +60,7 @@ export default class GroupTree extends Component {
     const tree = generateTreeStructure(groups);
 
     return (
-      <div>
+      <div className='sidebar'>
         {generateTreeView(tree)}
       </div>
     );

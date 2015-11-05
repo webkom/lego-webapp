@@ -1,27 +1,27 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import GroupPage from '../components/GroupPage';
-import fetchOnUpdate from '../utils/fetchOnUpdate';
-import { fetchGroup } from '../actions/GroupActions';
+import { fetchAll } from '../actions/GroupActions';
 
-function loadData({ groupId }, props) {
-  props.fetchGroup(Number(groupId));
+function loadData(props) {
+  props.fetchAll();
 }
 
 @connect(
-  (state, props) => ({
-    loggedIn: state.auth.token !== null,
-    group: state.groups.items.find(
-      group => group.id === Number(props.params.groupId)
-    )
+  (state) => ({
+    groups: state.groups.items || []
   }),
-  { fetchGroup }
+  { fetchAll }
 )
-@fetchOnUpdate(['groupId'], loadData)
 export default class GroupPageContainer extends Component {
   static propTypes = {
-    params: PropTypes.object
+    groups: PropTypes.array
+  };
+
+  componentWillMount() {
+    loadData(this.props);
   }
+
   render() {
     return <GroupPage {...this.props} />;
   }
