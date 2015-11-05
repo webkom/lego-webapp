@@ -19,7 +19,7 @@
     "animate.css": "3.4.0",
     "camelize": "1.0.0",
     "classnames": "2.2.0",
-    "css-loader": "0.21.0",
+    "css-loader": "0.22.0",
     "file-loader": "0.8.4",
     "history": "1.13.0",
     "jwt-decode": "1.4.0",
