@@ -2,13 +2,21 @@
 import React, { Component, PropTypes } from 'react';
 import LoadingIndicator from './ui/LoadingIndicator';
 
-const Group = props => (
-  <div>
-    <h2>{props.group.name}</h2>
-    <p>{props.group.description}</p>
-    {React.cloneElement(props.children, props)}
-  </div>
-);
+const Group = props => {
+  const { description } = props.group;
+  const descriptionText = description && description.length ? `(${description})` : '';
+
+  return (
+    <div>
+      <header className='GroupPage__header'>
+        <h2>{props.group.name}</h2>
+        <span>{descriptionText}</span>
+      </header>
+
+      {React.cloneElement(props.children, props)}
+    </div>
+  );
+};
 
 export default class GroupView extends Component {
   static propTypes = {
