@@ -11,7 +11,7 @@ export default class App extends Component {
   render() {
     return (
       <div className='Site'>
-        <HeaderContainer/>
+        <HeaderContainer />
 
         {this.props.children}
 

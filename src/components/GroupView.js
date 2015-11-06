@@ -19,13 +19,19 @@ export default class GroupView extends Component {
   render() {
     const { group } = this.props;
     return (
-      <section>
-        <LoadingIndicator loading={!group}>
-          <section className='content event-page'>
-            {group && <Group {...this.props} />}
-          </section>
-        </LoadingIndicator>
-      </section>
+      <div>
+        <header>
+          tabs
+        </header>
+
+        <section>
+          <LoadingIndicator loading={!group}>
+            <section className='content event-page'>
+              {group && <Group {...this.props} />}
+            </section>
+          </LoadingIndicator>
+        </section>
+      </div>
     );
   }
 }

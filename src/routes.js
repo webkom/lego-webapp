@@ -1,5 +1,5 @@
 import React from 'react';
-import { IndexRoute, Route } from 'react-router';
+import { IndexRedirect, IndexRoute, Route } from 'react-router';
 import AppContainer from './containers/AppContainer';
 import EventsContainer from './containers/EventsContainer';
 import EventPageContainer from './containers/EventPageContainer';
@@ -33,8 +33,9 @@ const routes = (
       <Route path='groups' component={GroupPageContainer}>
         <IndexRoute component={Test} />
         <Route path=':groupId' component={GroupViewContainer}>
-          <IndexRoute component={GroupSettings} />
+          <Route path='settings' component={GroupSettings} />
           <Route path='members' component={GroupMembers} />
+          <IndexRedirect to='settings' />
         </Route>
       </Route>
     </Route>
