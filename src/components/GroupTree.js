@@ -16,7 +16,7 @@ function generateTreeView(groups) {
     }
 
     return (
-      <div key={group.id} className='info'>
+      <div key={group.id} className='GroupTree__sidebar__info'>
         {nodeLabel}
       </div>
     );
@@ -34,7 +34,8 @@ export default class GroupTree extends Component {
     const tree = generateTreeStructure(groups);
 
     return (
-      <div className='sidebar'>
+      <div className='GroupTree__sidebar'>
+        <h3>Groups</h3>
         {generateTreeView(tree)}
       </div>
     );

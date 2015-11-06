@@ -12,9 +12,7 @@ export default class App extends Component {
     return (
       <div className='Site'>
         <HeaderContainer />
-
         {this.props.children}
-
       </div>
     );
   }
