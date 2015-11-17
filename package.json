@@ -39,7 +39,7 @@
     "react-addons-test-utils": "0.14.2",
     "react-dom": "0.14.2",
     "react-hot-loader": "2.0.0-alpha-4",
-    "react-overlays": "0.5.3",
+    "react-overlays": "0.5.4",
     "react-redux": "4.0.0",
     "react-router": "1.0.0-rc4",
     "redux": "3.0.4",
