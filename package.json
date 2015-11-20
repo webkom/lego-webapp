@@ -61,7 +61,7 @@
     "eslint-config-webkom": "^1.0.0",
     "eslint-plugin-react": "^3.5.1",
     "object-assign": "4.0.1",
-    "webpack": "1.12.7",
+    "webpack": "1.12.8",
     "webpack-dev-server": "1.12.1"
   }
 }
