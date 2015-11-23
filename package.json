@@ -21,7 +21,7 @@
     "classnames": "2.2.0",
     "css-loader": "0.22.0",
     "expect": "1.12.2",
-    "file-loader": "0.8.4",
+    "file-loader": "0.8.5",
     "history": "1.13.0",
     "jsdom": "7.0.2",
     "jwt-decode": "1.4.0",
