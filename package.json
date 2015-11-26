@@ -18,7 +18,7 @@
   "dependencies": {
     "animate.css": "3.4.0",
     "camelize": "1.0.0",
-    "classnames": "2.2.0",
+    "classnames": "2.2.1",
     "css-loader": "0.22.0",
     "expect": "1.12.2",
     "file-loader": "0.8.4",
