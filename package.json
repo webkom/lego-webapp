@@ -23,7 +23,7 @@
     "expect": "1.12.2",
     "file-loader": "0.8.4",
     "history": "1.13.0",
-    "jsdom": "7.1.1",
+    "jsdom": "7.2.0",
     "jwt-decode": "1.4.0",
     "lodash": "3.10.1",
     "mocha": "2.3.3",
