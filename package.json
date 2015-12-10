@@ -22,7 +22,7 @@
     "css-loader": "0.22.0",
     "expect": "1.12.2",
     "file-loader": "0.8.4",
-    "history": "1.15.0",
+    "history": "1.16.0",
     "jsdom": "7.0.2",
     "jwt-decode": "1.4.0",
     "lodash": "3.10.1",
