@@ -20,7 +20,7 @@
     "camelize": "1.0.0",
     "classnames": "2.2.0",
     "css-loader": "0.22.0",
-    "expect": "1.13.1",
+    "expect": "1.13.2",
     "file-loader": "0.8.4",
     "history": "1.13.0",
     "jsdom": "7.0.2",
