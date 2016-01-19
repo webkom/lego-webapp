@@ -16,7 +16,7 @@ export default function request({ method = 'get', url, body, headers = {}, jwtTo
     headers.Authorization = `JWT ${jwtToken}`;
   }
 
-  for (const header in headers) {
+  for (const header of headers) {
     req.set(header, headers[header]);
   }
 

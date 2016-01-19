@@ -1,6 +1,6 @@
 tasks:
  - npm install
- - npm test
+ - npm run mocha
  - npm run lint
 
 deploy_tasks:

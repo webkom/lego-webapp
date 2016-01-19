@@ -45,7 +45,7 @@ describe('components', () => {
       username.value = '';
       password.value = '';
       TestUtils.Simulate.submit(form);
-      expect(login.calls.length).toEqual(1);
+      expect(login.calls.length).toBe(1);
     });
   });
 });
