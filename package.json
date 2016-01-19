@@ -9,6 +9,7 @@
     "start": "node webpack/server",
     "test": "npm run lint && npm run mocha",
     "mocha": "mocha --compilers js:babel-core/register --require ./tests/setup.js --recursive 'src/**/*.spec.js'",
+    "mocha:watch": "npm run mocha -- --watch --reporter min",
     "build": "webpack --config webpack/prod.config.js",
     "lint": "eslint . --ignore-path .gitignore"
   },
