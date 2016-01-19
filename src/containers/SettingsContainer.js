@@ -25,15 +25,15 @@ function validateContact(data) {
 }
 
 
-@connect(
-  state => ({ user: state.auth.username ? state.users[state.auth.username] : {} }),
-  { initialize, updateUser }
-)
 @reduxForm({
   form: 'contact',
   fields: ['username', 'firstName', 'lastName', 'email'],
   validate: validateContact
 })
+@connect(
+  state => ({ user: state.auth.username ? state.users[state.auth.username] : {} }),
+  { initialize, updateUser }
+)
 export default class UserSettingsWrapper extends Component {
   static propTypes = {
     user: PropTypes.object.isRequired,
