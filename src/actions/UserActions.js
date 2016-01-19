@@ -6,7 +6,7 @@ import request, { callAPI, post } from '../utils/http';
 
 
 function putInLocalStorage(key) {
-  return (payload) => {
+  return payload => {
     window.localStorage.setItem(key, JSON.stringify(payload));
     return payload;
   };
@@ -38,7 +38,7 @@ export function login(username, password) {
 }
 
 export function logout() {
-  return (dispatch) => {
+  return dispatch => {
     window.localStorage.removeItem('user');
     dispatch({ type: User.LOGOUT });
     dispatch(replaceState(null, '/'));
@@ -65,7 +65,7 @@ export function updateUser({ username, firstName, lastName, email }) {
         begin: User.UPDATE_BEGIN,
         success: [
           User.UPDATE_SUCCESS,
-          (res) => pushState(null, `/users/${res.payload.username || 'me'}`)
+          res => pushState(null, `/users/${res.payload.username || 'me'}`)
         ],
         failure: User.UPDATE_USER_FAILURE
       }
@@ -107,7 +107,7 @@ export function loginWithExistingToken(dispatch, user, token) {
  * Dispatch a login success if a token exists in local storage.
  */
 export function loginAutomaticallyIfPossible() {
-  return (dispatch) => {
+  return dispatch => {
     const { user, token } = JSON.parse(window.localStorage.getItem('user')) || {};
     if (token) {
       loginWithExistingToken(dispatch, user, token);

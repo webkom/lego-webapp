@@ -7,7 +7,7 @@ function loadData(props) {
 }
 
 @connect(
-  (state) => ({
+  state => ({
     events: state.events.items
   }),
   { fetchAll }

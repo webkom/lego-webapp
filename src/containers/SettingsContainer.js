@@ -26,7 +26,7 @@ function validateContact(data) {
 
 
 @connect(
-  (state) => ({ user: state.auth.username ? state.users[state.auth.username] : {} }),
+  state => ({ user: state.auth.username ? state.users[state.auth.username] : {} }),
   { initialize, updateUser }
 )
 @reduxForm({

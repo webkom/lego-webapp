@@ -53,7 +53,7 @@ export default function promiseMiddleware() {
         payload: result,
         meta: { ...meta, receivedAt: Date.now() }
       });
-    }, (error) => {
+    }, error => {
       dispatchThis(next, types.failure, {
         payload: error,
         error: true

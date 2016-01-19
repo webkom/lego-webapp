@@ -6,7 +6,7 @@ import { login, logout } from '../actions/UserActions';
 import { search } from '../actions/SearchActions';
 
 @connect(
-  (state) => ({
+  state => ({
     searchResults: state.search.results,
     searching: state.search.searching,
     auth: state.auth,

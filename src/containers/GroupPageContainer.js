@@ -8,7 +8,7 @@ function loadData(props) {
 }
 
 @connect(
-  (state) => ({
+  state => ({
     groups: state.groups.items || []
   }),
   { fetchAll }
