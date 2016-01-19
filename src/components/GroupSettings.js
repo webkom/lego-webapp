@@ -26,8 +26,13 @@ export default class GroupSettings extends Component {
   constructor() {
     super();
     this.state = {
-      editing: true
+      editing: false
     };
+  }
+  toggleEditing() {
+    this.setState({
+      editing: !this.state.editing
+    });
   }
   render() {
     const { permissions, id } = this.props.group;
@@ -43,7 +48,7 @@ export default class GroupSettings extends Component {
 
     return (
       <div>
-        <h4>Permissions:</h4>
+        <h4>Permissions: (<a onClick={::this.toggleEditing}>{editing ? 'Cancel' : 'Edit'}</a>)</h4>
         <LoadingIndicator loading={!permissions}>
           {display}
 
