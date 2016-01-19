@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "start": "node webpack/server",
-    "test": "mocha --compilers js:babel/register --require ./tests/setup.js --recursive 'src/**/*.spec.js'",
+    "test": "npm run lint && npm run mocha",
+    "mocha": "mocha --compilers js:babel-core/register --require ./tests/setup.js --recursive 'src/**/*.spec.js'",
     "build": "webpack --config webpack/prod.config.js",
     "lint": "eslint . --ignore-path .gitignore"
   },
@@ -53,7 +54,6 @@
     "url-loader": "0.5.7"
   },
   "devDependencies": {
-    "babel": "6.3.26",
     "babel-core": "6.4.0",
     "babel-eslint": "^5.0.0-beta6",
     "babel-loader": "6.2.1",
