@@ -42,10 +42,10 @@ describe('components', () => {
     it('should render the root nodes correctly', () => {
       const { output } = setup({ groups });
       const [treeView, div] = output.props.children[1];
-      expect(treeView.type).toEqual(TreeView);
-      expect(treeView.key).toEqual('1');
-      expect(div.type).toEqual('div');
-      expect(div.key).toEqual('3');
+      expect(treeView.type).toBe(TreeView);
+      expect(treeView.key).toBe('1');
+      expect(div.type).toBe('div');
+      expect(div.key).toBe('3');
     });
 
     it('should work with no groups', () => {
@@ -57,8 +57,8 @@ describe('components', () => {
       const rootGroups = groups.slice(0, 1);
       const { output } = setup({ groups: rootGroups });
       const [treeView] = output.props.children[1];
-      expect(treeView.type).toEqual('div');
-      expect(treeView.key).toEqual('1');
+      expect(treeView.type).toBe('div');
+      expect(treeView.key).toBe('1');
     });
   });
 });
