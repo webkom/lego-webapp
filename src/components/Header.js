@@ -70,8 +70,8 @@ export default class Header extends Component {
                 <div>
                   <h2>{auth && auth.username}</h2>
                   <ul className='Dropdown__content__menu'>
-                    <li><Link to='events'>My Profile</Link></li>
-                    <li><Link to='events'>Settings</Link></li>
+                    <li><Link to='/users/me'>My Profile</Link></li>
+                    <li><Link to='/users/me/settings'>Settings</Link></li>
                     <li><Link to='events'>Favorites</Link></li>
                     <li><a onClick={logout}>Log out</a></li>
                   </ul>
