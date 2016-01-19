@@ -7,10 +7,22 @@ export function fetchAllApproved() {
     endpoint: '/quotes/'
   });
 }
+
 export function fetchAllUnapproved() {
   return callAPI({
     type: Quote.FETCH_ALL_UNAPPROVED,
     endpoint: '/quotes/?approved=false'
+  });
+}
+
+export function fetchQuote(quoteId) {
+  return callAPI({
+    type: Quote.FETCH,
+    endpoint: `/quotes/${quoteId}/`,
+    method: 'get',
+    meta: {
+      quoteId
+    }
   });
 }
 
