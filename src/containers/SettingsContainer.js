@@ -73,11 +73,11 @@ export default class UserSettingsWrapper extends Component {
   }
 
   render() {
-    const { fields, handleSubmit } = this.props;
+    const { handleSubmit } = this.props;
     return (
       <UserSettings
-        onSubmit={ handleSubmit(::this.onSubmit) }
-        fields={fields}
+        onSubmit={handleSubmit(::this.onSubmit)}
+        {...this.props}
       />
     );
   }
