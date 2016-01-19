@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "node webpack/server",
-    "test": "mocha --compilers js:babel/register --require ./tests/setup.js --recursive src/**/*.spec.js",
+    "test": "mocha --compilers js:babel/register --require ./tests/setup.js --recursive 'src/**/*.spec.js'",
     "build": "webpack --config webpack/prod.config.js",
     "lint": "eslint . --ignore-path .gitignore"
   },
