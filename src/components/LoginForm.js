@@ -5,7 +5,7 @@ export default class LoginForm extends Component {
 
   static propTypes = {
     login: PropTypes.func.isRequired
-  }
+  };
 
   handleSubmit(e) {
     e.preventDefault();

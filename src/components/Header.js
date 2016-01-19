@@ -18,13 +18,13 @@ export default class Header extends Component {
     searching: PropTypes.bool,
     loggedIn: PropTypes.bool.isRequired,
     loginFailed: PropTypes.bool
-  }
+  };
 
   state = {
     accountOpen: false,
     searchOpen: false,
     notificationsOpen: false
-  }
+  };
 
   render() {
     const {
@@ -79,7 +79,10 @@ export default class Header extends Component {
               )}
             </ButtonTriggeredDropdown>
 
-            <button className='Header__content__button' onClick={() => this.setState({ searchOpen: !this.state.searchOpen })}>
+            <button
+              className='Header__content__button'
+              onClick={() => this.setState({ searchOpen: !this.state.searchOpen })}
+            >
               <i className='fa fa-search' />
             </button>
 

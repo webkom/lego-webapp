@@ -12,11 +12,11 @@ export default class ButtonTriggeredDropdown extends Component {
     contentClassName: PropTypes.string,
     show: PropTypes.bool,
     children: PropTypes.any
-  }
+  };
 
   static defaultProps = {
     iconName: 'star'
-  }
+  };
 
   render() {
     const { iconName, toggle, show, contentClassName, buttonClassName, children } = this.props;
@@ -28,7 +28,7 @@ export default class ButtonTriggeredDropdown extends Component {
         <Overlay
           show={show}
           onHide={toggle}
-          target={(props) => this.refs.target}
+          target={props => this.refs.target}
           placement='bottom'
           rootClose
         >

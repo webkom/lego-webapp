@@ -14,7 +14,7 @@ export default class Overview extends Component {
     events: PropTypes.array.isRequired,
     fetchAll: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired
-  }
+  };
 
   componentWillMount() {
     this.props.fetchAll();
@@ -48,11 +48,14 @@ export default class Overview extends Component {
                   className='UpcomingEvents__item__title'
                   style={{
                     borderBottom: `6px solid ${colorForEvent(event.eventType)}`
-                  }}>{event.title}
+                  }}
+                >
+                  {event.title}
                 </span>
 
                 <div className='UpcomingEvents__item__moreInfo'>
-                  <Icon name='clock-o' />&nbsp;<Time time={event.startTime} format='DD.MM HH:mm' />&nbsp;
+                  <Icon name='clock-o' />&nbsp;
+                  <Time time={event.startTime} format='DD.MM HH:mm' />&nbsp;
                   <Icon name='map-marker' />&nbsp;<span>{event.location}</span>
                 </div>
               </Link>

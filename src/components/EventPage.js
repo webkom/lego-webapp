@@ -31,7 +31,7 @@ export default class EventPage extends Component {
   static propTypes = {
     event: PropTypes.object,
     loggedIn: PropTypes.bool.isRequired
-  }
+  };
 
   render() {
     const { event } = this.props;

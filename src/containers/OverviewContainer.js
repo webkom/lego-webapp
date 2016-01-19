@@ -6,7 +6,7 @@ import { fetchAll } from '../actions/EventActions';
 
 import Overview from '../components/Overview';
 
-@connect( (state) => ({
+@connect(state => ({
   events: state.events.items,
   loggedIn: state.auth.token !== null
 }), { fetchAll })

@@ -27,7 +27,7 @@ export default class GroupTree extends Component {
 
   static propTypes = {
     groups: PropTypes.array
-  }
+  };
 
   render() {
     const { groups } = this.props;

@@ -26,5 +26,8 @@ export default ({
       className
     )}
     type={submit ? 'submit' : 'button'}
-    {...rest}>{children}</button>
+    {...rest}
+  >
+    {children}
+  </button>
 );

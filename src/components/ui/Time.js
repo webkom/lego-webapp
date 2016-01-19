@@ -12,13 +12,17 @@ export default class Time extends Component {
   static propTypes = {
     format: PropTypes.string.isRequired,
     time: PropTypes.string.isRequired
-  }
+  };
 
   static defaultProps = {
     format: 'YYYY-MM-d'
-  }
+  };
 
   render() {
-    return <time dateTime={this.props.time}>{moment(this.props.time).format(this.props.format)}</time>;
+    return (
+      <time dateTime={this.props.time}>
+        {moment(this.props.time).format(this.props.format)}
+      </time>
+    );
   }
 }

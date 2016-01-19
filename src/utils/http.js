@@ -61,7 +61,7 @@ export function callAPI(action) {
     const jwt = getState().auth.token;
     if (jwt) {
       options.headers = {
-        'Authorization': `JWT ${jwt}`
+        Authorization: `JWT ${jwt}`
       };
     }
 

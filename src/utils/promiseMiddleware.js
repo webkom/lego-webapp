@@ -10,7 +10,7 @@ function dispatchThis(dispatch, type, actionData) {
       ...actionData
     });
   } else if (type instanceof Array) {
-    type.forEach( (fn) => {
+    type.forEach(fn => {
       dispatchThis(dispatch, fn, actionData);
     });
   } else if (typeof(type) === 'function') {
@@ -37,7 +37,10 @@ export default function promiseMiddleware() {
       };
     }
     if (!types.success || !types.failure || !types.begin) {
-      throw new Error('Types is missing either success, error or begin type. (Maybe you referenced to non-existent constants?)');
+      throw new Error(
+        'Types is missing either success, error or begin type. ' +
+        '(Maybe you referenced to non-existent constants?)'
+      );
     }
 
     dispatchThis(next, types.begin, {
@@ -45,7 +48,7 @@ export default function promiseMiddleware() {
       meta
     });
 
-    return promise.then( (result) => {
+    return promise.then(result => {
       dispatchThis(next, types.success, {
         payload: result,
         meta: { ...meta, receivedAt: Date.now() }

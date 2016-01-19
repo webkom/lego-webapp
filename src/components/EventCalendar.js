@@ -25,7 +25,9 @@ function createDateObjects(date, weekOffset, events = []) {
 
   const currentMonthDays = range(1, date.daysInMonth() + 1).map(index => ({
     day: moment([date.year(), date.month(), index]),
-    events: events.filter(e => moment(e.startTime).isSame(moment([date.year(), date.month(), index]), 'day'))
+    events: events.filter(e =>
+      moment(e.startTime).isSame(moment([date.year(), date.month(), index]), 'day')
+    )
   }));
 
   const daysAdded = prevMonthDays.length + currentMonthDays.length - 1;
@@ -67,12 +69,12 @@ export default class EventCalendar extends Component {
     weekOffset: PropTypes.number,
     events: PropTypes.array,
     location: PropTypes.object
-  }
+  };
 
   static defaultProps = {
     weekOffset: 0,
     events: []
-  }
+  };
 
   queryForPrevMonth(date) {
     // moment objects are mutated
@@ -87,7 +89,7 @@ export default class EventCalendar extends Component {
 
   render() {
     const { year = moment().year(), month = moment().month() + 1 } = this.props.location.query;
-    const date = moment([ parseInt(year, 10), parseInt(month, 10) - 1 ]);
+    const date = moment([parseInt(year, 10), parseInt(month, 10) - 1]);
 
     return (
       <div className='Calendar u-container'>

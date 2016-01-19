@@ -1,4 +1,4 @@
-import 'babel/polyfill';
+import 'babel-polyfill';
 import React from 'react';
 import moment from 'moment';
 import { render } from 'react-dom';
