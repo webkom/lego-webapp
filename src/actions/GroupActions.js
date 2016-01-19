@@ -1,5 +1,5 @@
 import { Group } from './ActionTypes';
-import { callAPI, patch } from '../utils/http';
+import { callAPI } from '../utils/http';
 
 export function fetchGroup(groupId) {
   return callAPI({

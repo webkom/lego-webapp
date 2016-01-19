@@ -24,23 +24,21 @@ export default class Search extends Component {
 
   handleKeyDown(e) {
     switch (e.which) {
-      case 38: // UP
-        e.preventDefault();
-        this.setState({ selectedIndex: Math.max(0, this.state.selectedIndex - 1) });
-        break;
+    case 38: // UP
+      e.preventDefault();
+      this.setState({ selectedIndex: Math.max(0, this.state.selectedIndex - 1) });
+      break;
 
-      case 40: // DOWN
-        e.preventDefault();
-        this.setState({
-          selectedIndex: Math.min(this.props.results.length - 1, this.state.selectedIndex + 1)
-        });
-
-        break;
-
-      case 13: // Enter
-        e.preventDefault();
-        // @todo: push some new history state here
-        break;
+    case 40: // DOWN
+      e.preventDefault();
+      this.setState({
+        selectedIndex: Math.min(this.props.results.length - 1, this.state.selectedIndex + 1)
+      });
+      break;
+    case 13: // Enter
+      e.preventDefault();
+      // @todo: push some new history state here
+      break;
     }
   }
 
