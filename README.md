@@ -10,16 +10,25 @@ $ npm start
 
 Everything should be up and running on [localhost:3000](http://localhost:3000).
 
-## Run tests
+## Tests
+Run all the tests and check for lint errors with the command:
 ```
-$ pip install frigg-runner
-$ frigg
+$ npm test
 ```
 
-or just run `npm test`.
+For development you can run the tests continuously by using:
+```
+$ npm run mocha:watch
+```
 
-## Flux
-[draw nice diagram of the system here]
+## Linting
+ESLint is used to maintain high code quality and a unified code style.
+The config used can be found [here](https://github.com/webkom/eslint-config-webkom).
+
+To run the linter, use:
+```
+$ npm run lint
+```
 
 ## ES6
 Some ES6 features may be used and some may not. Ask a management consultant or your financial supervisor.
@@ -39,7 +48,7 @@ Some ES6 features may be used and some may not. Ask a management consultant or y
 ## License
 The MIT License (MIT)
 
-Copyright (c) 2015 webkom
+Copyright (c) 2016 webkom <webkom@abakus.no>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
