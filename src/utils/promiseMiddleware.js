@@ -14,7 +14,10 @@ function dispatchThis(dispatch, type, actionData) {
       dispatchThis(dispatch, fn, actionData);
     });
   } else if (typeof(type) === 'function') {
-    dispatch(type(actionData));
+    const res = type(actionData);
+    if (res) {
+      dispatch(res);
+    }
   }
 }
 
