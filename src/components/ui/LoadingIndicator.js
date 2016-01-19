@@ -5,11 +5,11 @@ export default class LoadingIndicator extends Component {
   static propTypes = {
     loading: PropTypes.bool.isRequired,
     children: PropTypes.any
-  }
+  };
 
   static defaultProps = {
     loading: false
-  }
+  };
 
   render() {
     if (this.props.loading) {
@@ -21,6 +21,7 @@ export default class LoadingIndicator extends Component {
         </div>
       );
     }
+
     return this.props.children || null;
   }
 }

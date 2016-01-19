@@ -22,7 +22,7 @@ export default class GroupView extends Component {
   static propTypes = {
     group: PropTypes.object,
     children: PropTypes.object.isRequired
-  }
+  };
 
   render() {
     const { group } = this.props;

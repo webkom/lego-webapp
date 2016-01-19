@@ -35,7 +35,7 @@ export default class GroupPage extends Component {
   static propTypes = {
     groups: PropTypes.array,
     children: PropTypes.any
-  }
+  };
 
   render() {
     const { groups } = this.props;

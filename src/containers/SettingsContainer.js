@@ -18,7 +18,7 @@ function validateContact(data) {
   }
   if (!data.email) {
     errors.email = 'Required';
-  }else if (!data.email.match('.+\@.+\..+')) {
+  } else if (!data.email.match('.+\@.+\..+')) {
     errors.email = 'Invalid email';
   }
   return errors;
@@ -45,26 +45,33 @@ export default class UserSettingsWrapper extends Component {
 
   componentWillReceiveProps(newProps) {
     if (newProps.user !== this.props.user) {
-      this.props.initialize('contact', {
+      const data = {
         username: newProps.user.username,
         firstName: newProps.user.firstName,
         lastName: newProps.user.lastName,
         email: newProps.user.email
-      });
+      };
+
+      this.props.initialize('contact', data, Object.keys(data));
     }
   }
+
   componentWillMount() {
     const { user } = this.props;
-    this.props.initialize('contact', {
+    const data = {
       username: user.username,
       firstName: user.firstName,
       lastName: user.lastName,
       email: user.email
-    }); // clear form
+    };
+
+    this.props.initialize('contact', data, Object.keys(data));
   }
+
   onSubmit(data) {
     this.props.updateUser(data);
   }
+
   render() {
     const { fields, handleSubmit } = this.props;
     return (

@@ -21,7 +21,7 @@ const Members = ({ users }) => {
 export default class GroupMembers extends Component {
   static propTypes = {
     group: PropTypes.object
-  }
+  };
 
   render() {
     const { users } = this.props.group;

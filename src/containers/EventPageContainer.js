@@ -22,7 +22,7 @@ export default class EventPageContainer extends Component {
 
   static propTypes = {
     params: PropTypes.object.isRequired
-  }
+  };
 
   render() {
     return <EventPage {...this.props} />;

@@ -67,12 +67,12 @@ export default class EventCalendar extends Component {
     weekOffset: PropTypes.number,
     events: PropTypes.array,
     location: PropTypes.object
-  }
+  };
 
   static defaultProps = {
     weekOffset: 0,
     events: []
-  }
+  };
 
   queryForPrevMonth(date) {
     // moment objects are mutated

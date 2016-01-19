@@ -14,7 +14,7 @@ export default class Overview extends Component {
     events: PropTypes.array.isRequired,
     fetchAll: PropTypes.func.isRequired,
     loggedIn: PropTypes.bool.isRequired
-  }
+  };
 
   componentWillMount() {
     this.props.fetchAll();

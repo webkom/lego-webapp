@@ -9,12 +9,12 @@ export default class Icon extends Component {
   static propTypes = {
     name: PropTypes.string,
     scaleOnHover: PropTypes.bool
-  }
+  };
 
   static defaultProps = {
     name: 'star',
     scaleOnHover: false
-  }
+  };
 
   render() {
     return (

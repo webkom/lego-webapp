@@ -18,13 +18,13 @@ export default class Header extends Component {
     searching: PropTypes.bool,
     loggedIn: PropTypes.bool.isRequired,
     loginFailed: PropTypes.bool
-  }
+  };
 
   state = {
     accountOpen: false,
     searchOpen: false,
     notificationsOpen: false
-  }
+  };
 
   render() {
     const {

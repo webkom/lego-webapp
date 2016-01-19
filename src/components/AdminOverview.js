@@ -5,6 +5,7 @@ export default class AdminOverview extends Component {
   static propTypes = {
     children: PropTypes.any
   };
+
   render() {
     return (
       <div>

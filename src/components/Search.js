@@ -16,11 +16,11 @@ export default class Search extends Component {
     onCloseSearch: PropTypes.func.isRequired,
     onQueryChanged: PropTypes.func.isRequired,
     searching: PropTypes.bool
-  }
+  };
 
   state = {
     selectedIndex: 0
-  }
+  };
 
   handleKeyDown(e) {
     switch (e.which) {

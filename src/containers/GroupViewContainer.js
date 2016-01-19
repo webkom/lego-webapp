@@ -32,7 +32,7 @@ function findGroup({ groups, users }, groupId) {
 export default class GroupViewContainer extends Component {
   static propTypes = {
     params: PropTypes.object
-  }
+  };
 
   render() {
     return <GroupView {...this.props} />;

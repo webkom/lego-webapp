@@ -5,11 +5,11 @@ import Icon from './ui/Icon';
 export default class Favorites extends Component {
   static propTypes = {
     favorites: PropTypes.array
-  }
+  };
 
   static defaultProps = {
     favorites: []
-  }
+  };
 
   render() {
     const { favorites } = this.props;

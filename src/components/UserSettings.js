@@ -4,7 +4,7 @@ export default class UserSettings extends Component {
   static propTypes = {
     fields: PropTypes.object.isRequired,
     onSubmit: PropTypes.func.isRequired
-  }
+  };
 
   render() {
     const { fields: { username, firstName, lastName, email }, onSubmit } = this.props;

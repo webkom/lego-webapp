@@ -10,7 +10,7 @@ import App from '../components/App';
 export default class AppContainer extends Component {
   static propTypes = {
     loginAutomaticallyIfPossible: PropTypes.func.isRequired
-  }
+  };
 
   componentWillMount() {
     this.props.loginAutomaticallyIfPossible();

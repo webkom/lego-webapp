@@ -20,7 +20,7 @@ const Permissions = ({ permissions }) => {
 export default class GroupSettings extends Component {
   static propTypes = {
     group: PropTypes.object
-  }
+  };
 
   render() {
     const { permissions } = this.props.group;

@@ -17,7 +17,7 @@ function fetchOnUpdate(watchParams, fn) {
 
     static propTypes = {
       params: PropTypes.object.isRequired
-    }
+    };
 
     componentWillMount() {
       fn(mapParams(watchParams, this.props.params), this.props);
