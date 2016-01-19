@@ -2,6 +2,7 @@ import React from 'react';
 import expect from 'expect';
 import GroupMembers from '../GroupMembers';
 import GroupMembersList from '../GroupMembersList';
+import LoadingIndicator from '../ui/LoadingIndicator';
 import TestUtils from 'react-addons-test-utils';
 import { Link } from 'react-router';
 import { omit } from 'lodash';
@@ -64,6 +65,7 @@ describe('components', () => {
     it('should not render the GroupMembersList component while loading', () => {
       const { output } = setupGroupMembers({ group: omit(group, 'users') });
       const loadingIndicator = output.props.children[1];
+      expect(loadingIndicator.type).toBe(LoadingIndicator);
       expect(loadingIndicator.props.loading).toBe(true);
       expect(loadingIndicator.props.children).toNotExist();
     });
