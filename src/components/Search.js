@@ -24,20 +24,23 @@ export default class Search extends Component {
 
   handleKeyDown(e) {
     switch (e.which) {
-    case 38: // UP
-      e.preventDefault();
-      this.setState({ selectedIndex: Math.max(0, this.state.selectedIndex - 1) });
-      break;
+      case 38: // UP
+        e.preventDefault();
+        this.setState({ selectedIndex: Math.max(0, this.state.selectedIndex - 1) });
+        break;
 
-    case 40: // DOWN
-      e.preventDefault();
-      this.setState({ selectedIndex: Math.min(this.props.results.length - 1, this.state.selectedIndex + 1) });
-      break;
+      case 40: // DOWN
+        e.preventDefault();
+        this.setState({
+          selectedIndex: Math.min(this.props.results.length - 1, this.state.selectedIndex + 1)
+        });
 
-    case 13: // Enter
-      e.preventDefault();
-      // @todo: push some new history state here
-      break;
+        break;
+
+      case 13: // Enter
+        e.preventDefault();
+        // @todo: push some new history state here
+        break;
     }
   }
 
@@ -63,10 +66,12 @@ export default class Search extends Component {
             <ul className='Search__results__items'>
               {!searching && results.length === 0 && <li>No results</li>}
               {results.map((item, i) => (
-                <li className={cx(
-                  'Search__results__items__item',
-                  i === this.state.selectedIndex && 'is-selected'
-                )} key={i}>
+                <li
+                  className={cx(
+                    'Search__results__items__item',
+                    i === this.state.selectedIndex && 'is-selected'
+                  )} key={i}
+                >
                   <Pill style={{ width: '150px', marginRight: '10px' }}>{item.type}</Pill>
                   {item.title}
                 </li>
@@ -74,7 +79,12 @@ export default class Search extends Component {
             </ul>
 
             <div className='Search__results__quickLinks'>
-              <ul>{quickLinks.map(([href, name]) => <li key={name}><Link to={href}>{name}</Link></li>)}</ul>
+              <ul>
+                {quickLinks.map(([href, name]) =>
+                  <li key={name}>
+                    <Link to={href}>{name}</Link>
+                  </li>)}
+              </ul>
             </div>
           </div>
         </div>

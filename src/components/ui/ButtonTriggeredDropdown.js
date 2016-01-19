@@ -28,7 +28,7 @@ export default class ButtonTriggeredDropdown extends Component {
         <Overlay
           show={show}
           onHide={toggle}
-          target={(props) => this.refs.target}
+          target={props => this.refs.target}
           placement='bottom'
           rootClose
         >

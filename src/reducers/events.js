@@ -19,7 +19,9 @@ function replaceEvent(events, newEvent) {
 export default createReducer(initialState, {
   [Event.FETCH_ALL_BEGIN]: (state, action) => ({ ...state, isFetching: true }),
   [Event.FETCH_ALL_FAILURE]: (state, action) => ({ ...state, isFetching: false }),
-  [Event.FETCH_ALL_SUCCESS]: (state, action) => ({ ...state, isFetching: false, items: action.payload }),
+  [Event.FETCH_ALL_SUCCESS]: (state, action) => ({
+    ...state, isFetching: false, items: action.payload
+  }),
   [Event.FETCH_SUCCESS]: (state, action) => ({
     ...state,
     isFetching: false,

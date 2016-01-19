@@ -18,11 +18,13 @@ export default class Icon extends Component {
 
   render() {
     return (
-      <i className={cx(
-        'fa',
-        `fa-${this.props.name}`,
-        this.props.scaleOnHover && 'u-scale-on-hover'
-      )}/>
+      <i
+        className={cx(
+          'fa',
+          `fa-${this.props.name}`,
+          this.props.scaleOnHover && 'u-scale-on-hover'
+        )}
+      />
     );
   }
 }

@@ -19,7 +19,7 @@ describe('components', () => {
       expect(output.type).toBe('div');
       expect(output.props.className).toInclude('LoginForm');
 
-      const [ username, password, submit ] = output.props.children.props.children;
+      const [username, password, submit] = output.props.children.props.children;
       expect(username.type).toBe('input');
       expect(username.props.autoFocus).toBe(true);
 
@@ -34,7 +34,7 @@ describe('components', () => {
       const login = expect.createSpy();
       const output = TestUtils.renderIntoDocument(<LoginForm {...{ login }} />);
       const form = findDOMNode(output).children[0];
-      const [ username, password ] = Array.from(form.children);
+      const [username, password] = Array.from(form.children);
 
       username.value = 'webkom';
       password.value = 'webkom';

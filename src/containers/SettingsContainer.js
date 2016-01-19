@@ -77,7 +77,8 @@ export default class UserSettingsWrapper extends Component {
     return (
       <UserSettings
         onSubmit={ handleSubmit(::this.onSubmit) }
-        fields={fields} />
+        fields={fields}
+      />
     );
   }
 }

@@ -12,7 +12,8 @@ const Tab = ({ base, name }) => (
   <Link
     className='GroupPage__tabs__tab'
     to={`${base}/${name.toLowerCase()}`}
-    activeClassName='active'>
+    activeClassName='active'
+  >
     {name}
   </Link>
 );

@@ -19,6 +19,10 @@ export default class Time extends Component {
   };
 
   render() {
-    return <time dateTime={this.props.time}>{moment(this.props.time).format(this.props.format)}</time>;
+    return (
+      <time dateTime={this.props.time}>
+        {moment(this.props.time).format(this.props.format)}
+      </time>
+    );
   }
 }
