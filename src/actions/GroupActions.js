@@ -1,5 +1,5 @@
 import { Group } from './ActionTypes';
-import { callAPI } from '../utils/http';
+import { callAPI, patch } from '../utils/http';
 
 export function fetchGroup(groupId) {
   return callAPI({
@@ -12,5 +12,14 @@ export function fetchAll() {
   return callAPI({
     type: Group.FETCH_ALL,
     endpoint: '/groups/'
+  });
+}
+
+export function updateGroup({ groupId, updates }) {
+  return callAPI({
+    type: Group.UPDATE,
+    endpoint: `/groups/${groupId}/`,
+    method: 'patch',
+    body: updates
   });
 }

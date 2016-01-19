@@ -41,6 +41,10 @@ export function post(url, body) {
   return request({ method: 'post', url, body });
 }
 
+export function patch(url, body) {
+  return request({ method: 'patch', url, body });
+}
+
 export function put(url, body) {
   return request({ method: 'put', url, body });
 }
