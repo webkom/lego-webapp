@@ -22,7 +22,7 @@ export default class GroupSettings extends Component {
   static propTypes = {
     group: PropTypes.object,
     updateGroup: PropTypes.func
-  }
+  };
   constructor() {
     super();
     this.state = {

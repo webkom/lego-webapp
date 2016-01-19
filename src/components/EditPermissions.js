@@ -17,7 +17,7 @@ export default class EditPermissions extends Component {
     permissions: PropTypes.array.isRequired,
     groupId: PropTypes.number.isRequired,
     updateGroup: PropTypes.func.isRequired
-  }
+  };
   constructor(props) {
     super(props);
     this.state = {
@@ -64,7 +64,7 @@ export default class EditPermissions extends Component {
     return (
       <div>
         <ul>
-          {permissions.map( (p) =>
+          {permissions.map((p) =>
             <li key={p}>{p} <a className='fa fa-times' onClick={this.del.bind(this, p)}/></li>
           )}
         </ul>
