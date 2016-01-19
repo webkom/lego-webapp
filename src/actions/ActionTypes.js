@@ -12,6 +12,17 @@ export const Event = {
   FETCH_ALL_FAILURE: 'Event.FETCH_ALL_FAILURE'
 };
 
+export const Group = {
+  FETCH: 'Group.FETCH',
+  FETCH_BEGIN: 'Group.FETCH_BEGIN',
+  FETCH_SUCCESS: 'Group.FETCH_SUCCESS',
+  FETCH_FAILURE: 'Group.FETCH_FAILURE',
+  FETCH_ALL: 'Group.FETCH_ALL',
+  FETCH_ALL_BEGIN: 'Group.FETCH_ALL_BEGIN',
+  FETCH_ALL_SUCCESS: 'Group.FETCH_ALL_SUCCESS',
+  FETCH_ALL_FAILURE: 'Group.FETCH_ALL_FAILURE'
+};
+
 /**
  *
  */

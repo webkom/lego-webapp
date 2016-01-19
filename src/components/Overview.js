@@ -52,7 +52,7 @@ export default class Overview extends Component {
                 </span>
 
                 <div className='UpcomingEvents__item__moreInfo'>
-                  <Icon name='clock-o' />&nbsp;<Time time={event.starts_at} format='DD.MM HH:mm' />&nbsp;
+                  <Icon name='clock-o' />&nbsp;<Time time={event.startTime} format='DD.MM HH:mm' />&nbsp;
                   <Icon name='map-marker' />&nbsp;<span>{event.location}</span>
                 </div>
               </Link>

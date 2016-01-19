@@ -1,5 +1,5 @@
 import createReducer from '../utils/createReducer';
-import { User } from '../actions/ActionTypes';
+import { User, Group } from '../actions/ActionTypes';
 
 const initialState = {};
 
@@ -23,6 +23,16 @@ export default createReducer(initialState, {
     return {
       ...state,
       [username]: action.payload
+    };
+  },
+  [Group.FETCH_SUCCESS]: (state, action) => {
+    const loadedUsers = action.payload.users.reduce((acc, user) => {
+      acc[user.username] = user;
+      return acc;
+    }, {});
+    return {
+      ...loadedUsers,
+      ...state
     };
   }
 });
