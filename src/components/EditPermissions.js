@@ -1,16 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-
-function hasSameArrayContent(arr1, arr2) {
-  if (arr1.length !== arr2.length) {
-    return false;
-  }
-  arr1.forEach((el) => {
-    if (arr2.indexOf(el) === -1) {
-      return false;
-    }
-  });
-  return true;
-}
+import isEqual from 'lodash/isEqual';
 
 export default class EditPermissions extends Component {
   static propTypes = {
@@ -59,12 +48,12 @@ export default class EditPermissions extends Component {
   }
   render() {
     const { permissions } = this.state;
-    const edited = !hasSameArrayContent(permissions, this.props.permissions);
+    const edited = !isEqual(permissions, this.props.permissions);
 
     return (
       <div>
         <ul>
-          {permissions.map((p) =>
+          {permissions.map(p =>
             <li key={p}>{p} <a className='fa fa-times' onClick={this.del.bind(this, p)}/></li>
           )}
         </ul>
