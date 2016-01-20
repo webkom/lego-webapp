@@ -10,17 +10,21 @@ function validateContact(data) {
   if (!data.username) {
     errors.username = 'Required';
   }
+
   if (!data.firstName) {
     errors.firstName = 'Required';
   }
+
   if (!data.lastName) {
     errors.lastName = 'Required';
   }
+
   if (!data.email) {
     errors.email = 'Required';
   } else if (!data.email.match('.+\@.+\..+')) {
     errors.email = 'Invalid email';
   }
+
   return errors;
 }
 

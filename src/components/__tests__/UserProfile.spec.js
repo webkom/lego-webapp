@@ -2,15 +2,8 @@ import React from 'react';
 import expect from 'expect';
 import LoadingIndicator from '../ui/LoadingIndicator';
 import UserProfile from '../UserProfile';
-import TestUtils from 'react-addons-test-utils';
+import { shallow } from 'enzyme';
 import { Link } from 'react-router';
-
-function setup(props = {}) {
-  const renderer = TestUtils.createRenderer();
-  renderer.render(<UserProfile {...props} />);
-  const output = renderer.getRenderOutput();
-  return { props, output, renderer };
-}
 
 const user = {
   id: 1,
@@ -26,27 +19,27 @@ const user = {
 describe('components', () => {
   describe('UserProfile', () => {
     it('should show a settings link if the user is me', () => {
-      const { output } = setup({ user, isMe: true });
-      expect(output).toIncludeJSX(<Link to='/users/me/settings'>Settings</Link>);
+      const wrapper = shallow(<UserProfile user={user} isMe />);
+      expect(wrapper.contains(<Link to='/users/me/settings'>Settings</Link>)).toBe(true);
     });
 
     it('should not show a settings link for other users', () => {
-      const { output } = setup({ user, isMe: false });
-      expect(output).toNotIncludeJSX(<Link to='/users/me/settings'>Settings</Link>);
+      const wrapper = shallow(<UserProfile user={user} isMe={false} />);
+      expect(wrapper.contains(<Link to='/users/me/settings'>Settings</Link>)).toBe(false);
     });
 
     it('should show a LoadingIndicator while the user prop is loading', () => {
-      const { output } = setup();
-      expect(output.type).toBe(LoadingIndicator);
-      expect(output.props.loading).toBe(true);
-      expect(output.props.children).toNotExist();
+      const wrapper = shallow(<UserProfile />);
+      expect(wrapper.is(LoadingIndicator)).toBe(true);
+      expect(wrapper.props().loading).toBe(true);
+      expect(wrapper.children().isEmpty()).toBe(true);
     });
 
     it('should render user info', () => {
-      const { output } = setup({ user, isMe: false });
-      expect(output).toIncludeJSX(<h2>{user.fullName}</h2>);
-      expect(output).toIncludeJSX(user.email);
-      expect(output).toIncludeJSX(user.username);
+      const wrapper = shallow(<UserProfile user={user} isMe={false} />);
+      expect(wrapper.contains(<h2>{user.fullName}</h2>)).toBe(true);
+      expect(wrapper.contains(user.email)).toBe(true);
+      expect(wrapper.contains(user.username)).toBe(true);
     });
   });
 });

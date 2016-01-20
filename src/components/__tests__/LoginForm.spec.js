@@ -1,50 +1,46 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import expect from 'expect';
-import TestUtils from 'react-addons-test-utils';
 import LoginForm from '../LoginForm';
 import Button from '../ui/Button';
-
-function setup(props = {}) {
-  const renderer = TestUtils.createRenderer();
-  renderer.render(<LoginForm {...props} />);
-  const output = renderer.getRenderOutput();
-  return { props, output, renderer };
-}
+import { mount, shallow } from 'enzyme';
 
 describe('components', () => {
   describe('LoginForm', () => {
     it('should render correctly', () => {
-      const { output } = setup({ login: () => {} });
-      expect(output.type).toBe('div');
-      expect(output.props.className).toInclude('LoginForm');
+      const login = () => {};
+      const wrapper = shallow(<LoginForm login={login} />);
+      expect(wrapper.is('div')).toBe(true);
+      expect(wrapper.props().className).toInclude('LoginForm');
 
-      const [username, password, submit] = output.props.children.props.children;
-      expect(username.type).toBe('input');
-      expect(username.props.autoFocus).toBe(true);
+      const form = wrapper.find('form');
+      const username = form.children().at(0);
+      const password = form.children().at(1);
+      const submit = form.children().at(2);
+      expect(username.is('input')).toBe(true);
+      expect(username.props().autoFocus).toBe(true);
 
-      expect(password.type).toBe('input');
-      expect(password.props.type).toBe('password');
+      expect(password.is('input')).toBe(true);
+      expect(password.props().type).toBe('password');
 
-      expect(submit.type).toBe(Button);
-      expect(submit.props.submit).toBe(true);
+      expect(submit.is(Button)).toBe(true);
+      expect(submit.props().submit).toBe(true);
     });
 
     it('should call login() only if valid', () => {
       const login = expect.createSpy();
-      const output = TestUtils.renderIntoDocument(<LoginForm {...{ login }} />);
-      const form = findDOMNode(output).children[0];
-      const [username, password] = Array.from(form.children);
+      const wrapper = mount(<LoginForm login={login} />);
+      const form = wrapper.find('form');
+      const username = wrapper.ref('username');
+      const password = wrapper.ref('password');
 
-      username.value = 'webkom';
-      password.value = 'webkom';
-
-      TestUtils.Simulate.submit(form);
+      username.node.value = 'webkom';
+      password.node.value = 'webkom';
+      form.simulate('submit');
       expect(login).toHaveBeenCalled();
 
-      username.value = '';
-      password.value = '';
-      TestUtils.Simulate.submit(form);
+      username.node.value = '';
+      password.node.value = '';
+      form.simulate('submit');
       expect(login.calls.length).toBe(1);
     });
   });
