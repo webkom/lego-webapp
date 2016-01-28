@@ -17,6 +17,7 @@ export default createReducer(initialState, {
 
   [User.LOGIN_FAILURE]: (state, _) => ({
     ...state,
+    loggingIn: false,
     loginFailed: true
   }),
 
