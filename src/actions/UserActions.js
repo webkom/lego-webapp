@@ -47,6 +47,7 @@ export function logout() {
 
 export function updateUser({ username, firstName, lastName, email }) {
   return (dispatch, getState) => {
+    const token = getState().auth.token;
     const options = {
       url: `/users/${username}/`,
       method: 'put',
@@ -56,7 +57,7 @@ export function updateUser({ username, firstName, lastName, email }) {
         last_name: lastName,
         email
       },
-      jwtToken: getState().auth.token
+      jwtToken: token
     };
 
     dispatch({
@@ -65,9 +66,14 @@ export function updateUser({ username, firstName, lastName, email }) {
         begin: User.UPDATE_BEGIN,
         success: [
           User.UPDATE_SUCCESS,
-          res => pushState(null, `/users/${res.payload.username || 'me'}`)
+          res => pushState(null, `/users/${res.payload.username || 'me'}`),
+          ({ payload: user }) => {
+            if (getState().auth.username === username) {
+              putInLocalStorage('user')({ token, user });
+            }
+          }
         ],
-        failure: User.UPDATE_USER_FAILURE
+        failure: User.UPDATE_FAILURE
       }
     });
   };
