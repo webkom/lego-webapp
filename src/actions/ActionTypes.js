@@ -39,6 +39,9 @@ export const Favorite = {
  */
 export const Search = {
   SEARCH: 'Search.SEARCH',
+  SEARCH_BEGIN: 'Search.SEARCH_BEGIN',
+  SEARCH_FAILURE: 'Search.SEARCH_FAILURE',
+  SEARCH_SUCCESS: 'Search.SEARCH_SUCCESS',
   RESULTS_RECEIVED: 'Search.RESULTS_RECEIVED'
 };
 

@@ -8,15 +8,21 @@ const initialState = {
 };
 
 export default createReducer(initialState, {
-  [Search.SEARCH]: (state, action) => ({
+  [Search.SEARCH_BEGIN]: (state, action) => ({
     ...state,
-    query: action.payload,
+    query: action.meta.query,
     searching: true
   }),
 
-  [Search.RESULTS_RECEIVED]: (state, action) => ({
-    ...state,
-    results: action.payload,
-    searching: false
-  })
+  [Search.SEARCH_SUCCESS]: (state, action) => {
+    // Don't overwrite if the results for an old query returns
+    if (action.meta.query !== state.query) {
+      return state;
+    }
+    return {
+      ...state,
+      results: action.payload,
+      searching: false
+    };
+  }
 });

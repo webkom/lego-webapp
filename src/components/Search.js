@@ -10,18 +10,15 @@ const quickLinks = [
 ];
 
 export default class Search extends Component {
-
   static propTypes = {
     results: PropTypes.array,
     onCloseSearch: PropTypes.func.isRequired,
     onQueryChanged: PropTypes.func.isRequired,
     searching: PropTypes.bool
   };
-
   state = {
     selectedIndex: 0
   };
-
   handleKeyDown(e) {
     switch (e.which) {
       case 38: // UP
@@ -62,6 +59,10 @@ export default class Search extends Component {
 
           <div className='Search__results'>
             <ul className='Search__results__items'>
+              <span
+                className='fa fa-refresh fa-spin'
+                style={{ display: searching ? 'inline-block' : 'none' }}
+              />
               {!searching && results.length === 0 && <li>No results</li>}
               {results.map((item, i) => (
                 <li
