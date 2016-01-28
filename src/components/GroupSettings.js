@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import LoadingIndicator from './ui/LoadingIndicator';
+import EditPermissions from './EditPermissions';
 
 const Permissions = ({ permissions }) => {
   if (!permissions.length) {
@@ -19,16 +20,38 @@ const Permissions = ({ permissions }) => {
 
 export default class GroupSettings extends Component {
   static propTypes = {
-    group: PropTypes.object
+    group: PropTypes.object,
+    updateGroup: PropTypes.func
   };
-
+  constructor() {
+    super();
+    this.state = {
+      editing: false
+    };
+  }
+  toggleEditing() {
+    this.setState({
+      editing: !this.state.editing
+    });
+  }
   render() {
-    const { permissions } = this.props.group;
+    const { permissions, id } = this.props.group;
+    const { updateGroup } = this.props;
+    const { editing } = this.state;
+
+    let display;
+    if (permissions) {
+      display = editing ?
+        <EditPermissions permissions={permissions} groupId={id} updateGroup={updateGroup} /> :
+        <Permissions permissions={permissions} />;
+    }
+
     return (
       <div>
-        <h4>Permissions:</h4>
+        <h4>Permissions: (<a onClick={::this.toggleEditing}>{editing ? 'Cancel' : 'Edit'}</a>)</h4>
         <LoadingIndicator loading={!permissions}>
-          {permissions && <Permissions permissions={permissions} />}
+          {display}
+
         </LoadingIndicator>
       </div>
     );

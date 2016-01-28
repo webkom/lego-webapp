@@ -27,5 +27,10 @@ export default createReducer(initialState, {
     ...state,
     isFetching: false,
     items: replaceGroup(state.items, action.payload)
+  }),
+  [Group.UPDATE_SUCCESS]: (state, action) => ({
+    ...state,
+    isFetching: false,
+    items: replaceGroup(state.items, action.payload)
   })
 });

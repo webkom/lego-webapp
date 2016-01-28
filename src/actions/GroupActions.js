@@ -14,3 +14,12 @@ export function fetchAll() {
     endpoint: '/groups/'
   });
 }
+
+export function updateGroup({ groupId, updates }) {
+  return callAPI({
+    type: Group.UPDATE,
+    endpoint: `/groups/${groupId}/`,
+    method: 'patch',
+    body: updates
+  });
+}

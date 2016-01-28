@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import GroupView from '../components/GroupView';
 import fetchOnUpdate from '../utils/fetchOnUpdate';
-import { fetchGroup } from '../actions/GroupActions';
+import { fetchGroup, updateGroup } from '../actions/GroupActions';
 
 function loadData({ groupId }, props) {
   props.fetchGroup(Number(groupId));
@@ -26,7 +26,7 @@ function findGroup({ groups, users }, groupId) {
     loggedIn: state.auth.token !== null,
     group: findGroup(state, props.params.groupId)
   }),
-  { fetchGroup }
+  { fetchGroup, updateGroup }
 )
 @fetchOnUpdate(['groupId'], loadData)
 export default class GroupViewContainer extends Component {

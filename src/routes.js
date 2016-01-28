@@ -14,9 +14,7 @@ import GroupViewContainer from './containers/GroupViewContainer';
 import GroupSettings from './components/GroupSettings';
 import GroupMembers from './components/GroupMembers';
 
-const Test = () => {
-  return <div>Select a group</div>;
-};
+const Test = () => <div>Select a group</div>;
 
 const routes = (
   <Route path='/' component={AppContainer}>

@@ -34,9 +34,7 @@ export default class Search extends Component {
         this.setState({
           selectedIndex: Math.min(this.props.results.length - 1, this.state.selectedIndex + 1)
         });
-
         break;
-
       case 13: // Enter
         e.preventDefault();
         // @todo: push some new history state here
