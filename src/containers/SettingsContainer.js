@@ -10,30 +10,34 @@ function validateContact(data) {
   if (!data.username) {
     errors.username = 'Required';
   }
+
   if (!data.firstName) {
     errors.firstName = 'Required';
   }
+
   if (!data.lastName) {
     errors.lastName = 'Required';
   }
+
   if (!data.email) {
     errors.email = 'Required';
   } else if (!data.email.match('.+\@.+\..+')) {
     errors.email = 'Invalid email';
   }
+
   return errors;
 }
 
 
-@connect(
-  state => ({ user: state.auth.username ? state.users[state.auth.username] : {} }),
-  { initialize, updateUser }
-)
 @reduxForm({
   form: 'contact',
   fields: ['username', 'firstName', 'lastName', 'email'],
   validate: validateContact
 })
+@connect(
+  state => ({ user: state.auth.username ? state.users[state.auth.username] : {} }),
+  { initialize, updateUser }
+)
 export default class UserSettingsWrapper extends Component {
   static propTypes = {
     user: PropTypes.object.isRequired,
@@ -73,11 +77,11 @@ export default class UserSettingsWrapper extends Component {
   }
 
   render() {
-    const { fields, handleSubmit } = this.props;
+    const { handleSubmit } = this.props;
     return (
       <UserSettings
-        onSubmit={ handleSubmit(::this.onSubmit) }
-        fields={fields}
+        onSubmit={handleSubmit(::this.onSubmit)}
+        {...this.props}
       />
     );
   }

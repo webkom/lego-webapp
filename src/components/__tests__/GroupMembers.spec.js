@@ -2,23 +2,10 @@ import React from 'react';
 import expect from 'expect';
 import GroupMembers from '../GroupMembers';
 import GroupMembersList from '../GroupMembersList';
-import TestUtils from 'react-addons-test-utils';
+import LoadingIndicator from '../ui/LoadingIndicator';
+import { shallow } from 'enzyme';
 import { Link } from 'react-router';
 import { omit } from 'lodash';
-
-function setupGroupMembers(props = {}) {
-  const renderer = TestUtils.createRenderer();
-  renderer.render(<GroupMembers {...props} />);
-  const output = renderer.getRenderOutput();
-  return { props, output, renderer };
-}
-
-function setupGroupMembersList(props = {}) {
-  const renderer = TestUtils.createRenderer();
-  renderer.render(<GroupMembersList {...props} />);
-  const output = renderer.getRenderOutput();
-  return { props, output, renderer };
-}
 
 const users = [
   {
@@ -54,40 +41,38 @@ const group = {
 describe('components', () => {
   describe('GroupMembers', () => {
     it('should render the GroupMembersList component with the user list', () => {
-      const { output } = setupGroupMembers({ group });
-      const loadingIndicator = output.props.children[1];
-      const members = loadingIndicator.props.children;
-      expect(members.type).toBe(GroupMembersList);
-      expect(members.props.users).toBe(users);
+      const wrapper = shallow(<GroupMembers group={group} />);
+      const membersList = wrapper.find(GroupMembersList);
+      expect(membersList.props().users).toBe(users);
     });
 
     it('should not render the GroupMembersList component while loading', () => {
-      const { output } = setupGroupMembers({ group: omit(group, 'users') });
-      const loadingIndicator = output.props.children[1];
-      expect(loadingIndicator.props.loading).toBe(true);
-      expect(loadingIndicator.props.children).toNotExist();
+      const wrapper = shallow(<GroupMembers group={omit(group, 'users')} />);
+      const loadingIndicator = wrapper.find(LoadingIndicator);
+      const { loading, children } = loadingIndicator.props();
+      expect(loading).toBe(true);
+      expect(children).toNotExist();
     });
   });
 
   describe('GroupMembersList', () => {
     it('should render "No users" for an empty array', () => {
-      const { output } = setupGroupMembersList({ users: [] });
-      expect(output).toIncludeJSX('No users');
+      const wrapper = shallow(<GroupMembersList users={[]} />);
+      expect(wrapper.contains('No users')).toBe(true);
     });
 
     it('should render an <ul> of users', () => {
-      const { output } = setupGroupMembersList({ users });
-      const links = output.props.children;
-      expect(output.type).toEqual('ul');
-      expect(links.length).toEqual(users.length);
+      const wrapper = shallow(<GroupMembersList users={users} />);
+      expect(wrapper.type()).toEqual('ul');
+      expect(wrapper.children().length).toEqual(users.length);
     });
 
     it('should include links for all users in the list', () => {
-      const { output } = setupGroupMembersList({ users });
+      const wrapper = shallow(<GroupMembersList users={users} />);
+      const children = wrapper.children();
       users.forEach(({ username }, i) => {
-        const link = output.props.children[i];
-        expect(link.key).toEqual(username);
-        expect(link).toIncludeJSX(<Link to={`/users/${username}`}>{username}</Link>);
+        const link = <Link to={`/users/${username}`}>{username}</Link>;
+        expect(children.at(i).contains(link)).toBe(true);
       });
     });
   });
