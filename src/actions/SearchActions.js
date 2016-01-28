@@ -1,7 +1,7 @@
 import { Search } from './ActionTypes';
 
 function createRandomSearchResults(n, timeout = 0) {
-  return new Promise( (resolve, reject) => {
+  return new Promise((resolve, reject) => {
     const types = ['article', 'event', 'user', 'interest group'];
     const titles = ['hello world', 'everyone is fired', 'you are a dick', 'lego ruler'];
     setTimeout(() => resolve(Array(n).fill(0).map(() => ({
@@ -17,8 +17,7 @@ export function search(query) {
     types: {
       begin: Search.SEARCH_BEGIN,
       success: [
-        Search.SEARCH_SUCCESS,
-        (res) => {console.log(res);}
+        Search.SEARCH_SUCCESS
       ],
       failure: Search.SEARCH_FAILURE
     },
