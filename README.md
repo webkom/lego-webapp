@@ -10,6 +10,9 @@ $ npm start
 
 Everything should be up and running on [localhost:3000](http://localhost:3000).
 
+Noob guide for setting up LEGO: 
+https://docs.google.com/document/d/1ukHSgrDupTOF7xaSqOMp08bJ89bKJVOh_Phrt2xK7yM/edit?usp=sharing
+
 ## Tests
 Run all the tests and check for lint errors with the command:
 ```
