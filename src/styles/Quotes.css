@@ -1,0 +1,144 @@
+.enkelQuote {
+  padding: 1px 20px 20px 100px;
+  background-repeat:no-repeat;
+  background-image: url(/images/quotes.png);
+  width: 750px;
+  margin-bottom:25px;
+}
+
+.enkelQuote .theQuote a{
+  color: black;
+}
+
+.enkelQuote .theQuote:hover {
+  color: black;
+  text-decoration: none;
+}
+
+.enkelQuote .leftQuote {
+  width: 500px;
+  float: left;
+}
+
+.enkelQuote .rightQuote {
+  float: right;
+  margin-top:2px;
+  width: 80px;
+}
+
+.enkelQuote .source {
+  font-size:20px;
+  margin-top:50px;
+}
+
+.enkelQuote .author {
+  font-size:15px;
+  margin-top:50px;
+}
+
+.enkelQuote hr {
+  width: 100px;
+  margin-left: 250px;
+  margin-bottom:30px;
+}
+
+.enkelQuote .likeCount {
+  float: right;
+  font-size: 30px;
+  color: orange;
+  margin-top:-64px;
+}
+
+.enkelQuote h3{
+  font-weight: 200;
+  font-size: 35px;
+  margin: 0;
+  line-height:50px;
+}
+
+.enkelquote h3 a{
+  color:#777;
+}
+.enkelquote h3 a:hover{
+  color:orange;
+}
+
+.enkelQuote .likes,.enkelQuote .unlikes, {
+  width:50px;
+  height:50px;
+}
+
+.enkelQuote .likes img{
+  background-image: url(/images/thumbs_up.png);
+  background-repeat: no-repeat;
+}
+
+.enkelQuote .unlikes img{
+  background-image: url(/images/thumbs_up2.png);
+  background-repeat: no-repeat;
+}
+
+.bottom {
+  margin-top:20px;
+  margin-bottom:10px;
+}
+
+.sort {
+  float:right;
+  width: 200px;
+  margin-top: 40px;
+}
+
+.top .sort a {
+  margin-left: 20px;
+}
+
+.top {
+  height: 100px;
+  width: 750px;
+  margin-bottom: 30px;
+}
+
+.top h1 {
+  float: left;
+  width: 200px;
+}
+
+.sort_selected {
+  font-weight: 600;
+}
+
+.enkelQuote .admin {
+  float: right;
+}
+
+.delete {
+  margin-left: 20px;
+}
+
+.content-left {
+  float: left;
+  width: 750px;
+}
+
+.content-right {
+  float: left;
+  min-height: 300px;
+  padding: 20px 0 0 30px;
+  margin: 120px 0 0 60px;
+  border-left: 1px solid #cccccc;
+}
+
+#theQuote {
+  width: 500px;
+  height: 150px;
+}
+
+#theSource {
+  width: 500px;
+  height: 75px;
+}
+
+.clear {
+  clear:both;
+}

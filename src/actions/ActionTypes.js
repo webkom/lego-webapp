@@ -32,7 +32,7 @@ export const Group = {
  */
 export const Favorite = {
   FETCH_ALL_SUCCESS: 'Favorite.FETCH_ALL_SUCCESS'
-}
+};
 
 /**
  *
@@ -69,7 +69,11 @@ export const Quote = {
   DELETE: 'Quote.DELETE',
   DELETE_BEGIN: 'Quote.DELETE_BEGIN',
   DELETE_SUCCESS: 'Quote.DELETE_SUCCESS',
-  DELETE_FAILURE: 'Quote.DELETE_FAILURE'
+  DELETE_FAILURE: 'Quote.DELETE_FAILURE',
+  ADD: 'Quote.ADD',
+  ADD_BEGIN: 'Quote.ADD_BEGIN',
+  ADD_SUCCESS: 'Quote.ADD_SUCCESS',
+  ADD_FAILURE: 'Quote.ADD_FAILURE'
 };
 
 /**

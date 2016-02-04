@@ -1,5 +1,6 @@
 import { Quote } from './ActionTypes';
-import { callAPI } from '../utils/http';
+import request, { callAPI } from '../utils/http';
+import { pushState } from 'redux-react-router';
 
 export function fetchAllApproved() {
   return callAPI({
@@ -56,6 +57,34 @@ export function unapprove(quoteId) {
     endpoint: `/quotes/${quoteId}/unapprove/`,
     method: 'put'
   });
+}
+
+export function addQuotes(text, source) {
+  return (dispatch, getState) => {
+    const options = {
+      url: `/quotes/`,
+      method: 'post',
+      body: {
+        title: 'Tittel',
+        text,
+        source,
+        approved: true
+      },
+      jwtToken: getState().auth.token
+    };
+
+    dispatch({
+      promise: request(options),
+      types: {
+        begin: Quote.ADD_BEGIN,
+        success: [
+          Quote.ADD_SUCCESS,
+          res => pushState(null, '/quotes')
+        ],
+        failure: Quote.ADD_FAILURE
+      }
+    });
+  };
 }
 
 export function deleter(quoteId) {
