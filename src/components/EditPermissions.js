@@ -7,6 +7,7 @@ export default class EditPermissions extends Component {
     groupId: PropTypes.number.isRequired,
     updateGroup: PropTypes.func.isRequired
   };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -14,6 +15,7 @@ export default class EditPermissions extends Component {
       edited: false
     };
   }
+
   componentWillReceiveProps(newProps) {
     if (newProps.permissions !== this.props.permissions) {
       this.setState({
@@ -21,12 +23,14 @@ export default class EditPermissions extends Component {
       });
     }
   }
+
   del(perm) {
     const permissions = this.state.permissions.filter(p => p !== perm);
     this.setState({
       permissions
     });
   }
+
   save() {
     this.props.updateGroup({
       groupId: this.props.groupId,
@@ -35,17 +39,20 @@ export default class EditPermissions extends Component {
       }
     });
   }
+
   add(e) {
     e.preventDefault();
     if (!this.refs.newPermission.value) {
       return;
     }
+
     const permissions = [...this.state.permissions, this.refs.newPermission.value];
     this.refs.newPermission.value = '';
     this.setState({
       permissions
     });
   }
+
   render() {
     const { permissions } = this.state;
     const edited = !isEqual(permissions, this.props.permissions);

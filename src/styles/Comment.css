@@ -1,0 +1,44 @@
+.Comment {
+  background-color: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  border-radius: 3px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: row;
+  margin-bottom: 1em;
+}
+
+.Comment__avatar {
+  padding: 0.5em;
+  margin-right: 1em;
+  border-radius: 12px;
+}
+
+.Comment__content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.Comment__header {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.Comment__bullet {
+  color: #888;
+  padding: 0 8px;
+  font-size: 0.6rem;
+}
+
+.Comment__timestamp {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.Comment__text {
+  font-size: 1.1rem;
+  margin: 0;
+}
