@@ -1,6 +1,6 @@
 import superagent from 'superagent';
 import camelize from 'camelize';
-import config from '../../config.js';
+import config from '../config';
 
 function urlFor(resource) {
   if (resource.match(/^\/\//)) {
