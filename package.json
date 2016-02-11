@@ -56,7 +56,7 @@
   },
   "devDependencies": {
     "babel-core": "6.5.1",
-    "babel-eslint": "^5.0.0-beta6",
+    "babel-eslint": "^5.0.0-beta10",
     "babel-loader": "6.2.2",
     "babel-plugin-transform-decorators-legacy": "1.3.4",
     "babel-polyfill": "6.5.0",
