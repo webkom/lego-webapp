@@ -68,7 +68,7 @@
     "eslint-config-airbnb": "^5.0.0",
     "eslint-config-webkom": "^1.1.1",
     "eslint-plugin-react": "^3.5.1",
-    "expect-jsx": "2.2.2",
+    "expect-jsx": "2.3.0",
     "object-assign": "4.0.1",
     "webpack": "1.12.13",
     "webpack-dev-server": "1.14.1"
