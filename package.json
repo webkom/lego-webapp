@@ -28,7 +28,7 @@
     "jsdom": "8.0.2",
     "jwt-decode": "1.5.1",
     "lodash": "4.3.0",
-    "mocha": "2.3.4",
+    "mocha": "2.4.5",
     "moment": "2.11.2",
     "nib": "1.1.0",
     "normalize.css": "3.0.3",
