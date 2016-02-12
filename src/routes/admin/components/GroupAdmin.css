@@ -1,0 +1,63 @@
+@import '../../../shared/_variables.css';
+
+.GroupPage {
+  margin-top: 5em;
+  display: flex;
+}
+
+.GroupPage__sidebar {
+  flex: 0 0 15em;
+  order: -1;
+}
+
+.GroupPage__main {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.GroupPage__header {
+  text-align: center;
+  border-bottom: 2px solid var(--lego-link-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 25px;
+  padding-bottom: 10px;
+
+  > h2 {
+    line-height: 1;
+    margin: 0 10px;
+  }
+
+  > span {
+    line-height: 1;
+    margin: 0 10px;
+    font-size: 15px;
+    color: #808080;
+  }
+}
+
+.GroupPage__tabs {
+  height: 40px;
+  display: flex;
+  border-bottom: 2px solid #ddd;
+  flex-direction: row;
+  width: 100%;
+}
+
+.GroupPage__tabs__tab {
+  border-left: 4px solid var(--lego-link-color);
+  width: 100%;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: bottom;
+  color: #868686;
+  background-color: #E2E2E2;
+
+  &.active {
+    background-color: white;
+    color: var(--lego-link-color)
+  }
+}
