@@ -19,6 +19,7 @@ export default class SingleQuote extends Component {
       // I tilfelle man skal legge til bekreftelse av sletting av quotes
       deleter(id);
     }
+
     return (
       <li className='enkelQuote'>
         <div className='leftQuote'>
@@ -32,8 +33,10 @@ export default class SingleQuote extends Component {
         <div className='rightQuote'>
           <a
             data-quote-id={quote.id}
-            className= {(quote.hasLiked ? 'unlikes' : 'likes')}
-            onClick={() => (quote.hasLiked ? unlike(quote.id) : like(quote.id))}
+            className={`likeFunc ${quote.hasLiked ? 'unlikes' : 'likes'}`}
+            onClick={() => {
+              return quote.hasLiked ? unlike(quote.id) : like(quote.id);
+            }}
           >
             <i
               className={ (quote.hasLiked ? 'fa fa-thumbs-up liked' : 'fa fa-thumbs-up default')}
@@ -54,7 +57,7 @@ export default class SingleQuote extends Component {
           <div className='admin'>
             <a
               data-quote-id={quote.id}
-              className={ (quote.approved ? 'unapprove' : 'approve') }
+              className= 'approve-it'
               onClick={() => (quote.approved ? unapprove(quote.id) :
                 approve(quote.id))}
             > {(quote.approved ? 'Fjern Godkjenning' : 'Godkjenn')}</a>
