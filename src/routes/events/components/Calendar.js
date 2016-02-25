@@ -4,7 +4,7 @@ import cx from 'classnames';
 import moment from 'moment';
 import { Link } from 'react-router';
 import { range, takeWhile, last } from 'lodash';
-import colorForEvent from '../../../utils/colorForEvent';
+import colorForEvent from '../colorForEvent';
 import { Circle } from '../../../shared/components/ui';
 
 /**

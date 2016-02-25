@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import { Icon, Time } from '../../../shared/components/ui';
-import colorForEvent from '../../../utils/colorForEvent';
+import colorForEvent from '../../events/colorForEvent';
 
 let id = 0;
 function getImage() {
