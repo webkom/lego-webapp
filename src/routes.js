@@ -1,3 +1,4 @@
+import React from 'react';
 import Root from './Root';
 import overview from './routes/overview';
 import events from './routes/events';
@@ -11,6 +12,10 @@ export default {
   childRoutes: [
     events,
     users,
-    admin
+    admin,
+    {
+      path: '*',
+      component: () => <div>Not Found</div>
+    }
   ]
 };

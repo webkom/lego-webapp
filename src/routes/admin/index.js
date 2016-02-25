@@ -1,28 +1,19 @@
-// <Route path='admin' component={AdminContainer}>
-// //       <IndexRoute component={AdminOverview}/>
-// //       <Route path='groups' component={GroupPageContainer}>
-// //         <IndexRoute component={Test} />
-// //         <Route path=':groupId' component={GroupViewContainer}>
-// //           <Route path='settings' component={GroupSettings} />
-// //           <Route path='members' component={GroupMembers} />
-// //         </Route>
-// //       </Route>
-// //     </Route>
-
 export default {
-  path: 'admin',
-  indexRoute: require('./OverviewRoute').default,
+  path: 'admin', // admin
+  indexRoute: {
+    component: require('./OverviewRoute').default
+  },
   childRoutes: [{
-    path: 'groups',
+    path: 'groups', // admin/groups
     component: require('./GroupsRoute').default,
     childRoutes: [{
-      path: ':groupId',
+      path: ':groupId', // admin/groups/123
       component: require('./GroupDetailRoute').default,
       childRoutes: [{
-        path: 'settings',
+        path: 'settings', // admin/groups/123/settings
         component: require('./GroupSettingsRoute').default
       }, {
-        path: 'members',
+        path: 'members', // admin/groups/123/members
         component: require('./GroupMembersRoute').default
       }]
     }]
