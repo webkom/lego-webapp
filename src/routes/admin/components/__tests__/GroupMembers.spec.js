@@ -1,8 +1,8 @@
 import React from 'react';
 import expect from 'expect';
-import GroupMembers from '../GroupMembers';
+import GroupMembers from '../../GroupMembersRoute';
 import GroupMembersList from '../GroupMembersList';
-import LoadingIndicator from '../ui/LoadingIndicator';
+import LoadingIndicator from '../../../../shared/components/ui/LoadingIndicator';
 import { shallow } from 'enzyme';
 import { Link } from 'react-router';
 import { omit } from 'lodash';

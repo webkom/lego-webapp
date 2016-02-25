@@ -3,7 +3,7 @@ import expect from 'expect';
 import { mount, shallow } from 'enzyme';
 import CommentTree from '../CommentTree';
 import comments from './fixtures/comments';
-import { generateTreeStructure } from '../../utils';
+import { generateTreeStructure } from '../../../../utils';
 
 describe('components', () => {
   describe('CommentTree', () => {

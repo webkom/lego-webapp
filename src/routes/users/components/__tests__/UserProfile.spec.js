@@ -1,6 +1,6 @@
 import React from 'react';
 import expect from 'expect';
-import LoadingIndicator from '../ui/LoadingIndicator';
+import LoadingIndicator from '../../../../shared/components/ui/LoadingIndicator';
 import UserProfile from '../UserProfile';
 import { shallow } from 'enzyme';
 import { Link } from 'react-router';
