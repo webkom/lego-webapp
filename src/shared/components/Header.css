@@ -1,0 +1,199 @@
+@import '../_variables.css';
+
+.Backdrop {
+  background: rgba(0, 0, 0, .6);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+}
+
+.Dropdown__content {
+  background: rgba(27, 27, 27, .96);
+  border-top: 5px solid #888;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-top: 5px;
+  position: absolute;
+  width: 250px;
+  color: #fff;
+}
+
+.Dropdown__content h2 {
+  color: #ffedba;
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.Dropdown__content__menu a {
+  color: #fff;
+  display: block;
+  border-bottom: 1px solid #333;
+  margin: 0 -1rem;
+  padding: 0 1rem;
+  line-height: 2.2;
+}
+
+.Dropdown__content__menu a:hover {
+  background: #111;
+}
+
+.LoginForm input {
+  margin: 2px 0;
+  background: #fff;
+  border: 0;
+  padding: .5rem;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.LoginForm input:focus {
+  background: #ffedba;
+  outline: none;
+}
+
+.Search__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #222;
+}
+
+.Search__input {
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+  background: #111;
+}
+
+.Search__input input {
+  flex: 1;
+  outline: none;
+  border: 0;
+  padding: 0 1rem;
+  font-size: 1.4rem;
+  color: #fff;
+  background: transparent;
+}
+
+.Search__closeButton {
+  width: 60px;
+  outline: none;
+  border: 0;
+  background: transparent;
+  color: #eee;
+}
+
+.Search__closeButton i {
+  transition: transform .2s;
+}
+
+.Search__closeButton:hover i {
+  transform: scale(1.5);
+}
+
+.Search__results {
+  display: flex;
+  border-top: 10px solid var(--lego-link-color);
+}
+
+.Search__results__quickLinks {
+  flex: 1;
+  color: #fff;
+  padding: 2rem;
+}
+
+.Search h2 {
+  margin: 0;
+}
+
+.Search__results__quickLinks li {
+  list-style: none;
+}
+
+.Search__results__quickLinks a {
+  display: block;
+  color: #eee;
+  line-height: 2;
+  padding: 0 1rem;
+  text-transform: uppercase;
+}
+
+.Search__results__quickLinks a:hover {
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.Search__results__items {
+  flex: 2;
+  padding: 2rem;
+  background: #eee;
+}
+
+.Search__results__items__item {
+  border-bottom: 1px solid #ddd;
+  padding: .5rem;
+  display: flex;
+}
+
+.Search__results__items__item.is-selected {
+  font-weight: 700;
+}
+
+.Header__content {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+  height: 60px;
+}
+
+.Header__content__button {
+  width: 60px;
+  height: 60px;
+  color: #fff;
+  font-size: 1.4rem;
+  outline: none;
+  background: transparent;
+  border: 0;
+}
+
+.Header__content__button:hover {
+  color: #eee;
+}
+
+.Header {
+  background: linear-gradient(#111, #222);
+  border-bottom: 10px solid #ddd;
+}
+
+.Header__logo {
+  background: url('../../../public/images/logo.png') 20px center no-repeat;
+  background-size: 100px 20px;
+  color: transparent;
+  display: inline-block;
+  width: 130px;
+}
+
+.Header__navigation {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  line-height: 60px;
+  font-size: 1.1rem;
+}
+
+.Header__navigation a {
+  padding: 0 1rem;
+  height: 100%;
+  color: #bbb;
+  text-transform: uppercase;
+}
+
+.Header__navigation a:hover {
+  color: #fff;
+}
