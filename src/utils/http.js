@@ -71,7 +71,8 @@ export function callAPI(action) {
 
     return dispatch({
       type: action.type,
-      promise: request(options)
+      promise: request(options),
+      meta: action.meta
     });
   };
 }
