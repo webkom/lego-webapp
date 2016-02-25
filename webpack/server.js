@@ -8,7 +8,8 @@ var server = new WebpackDevServer(webpack(config), {
   contentBase: 'public/',
   publicPath: config.output.publicPath,
   hot: true,
-  historyApiFallback: true
+  historyApiFallback: true,
+  noInfo: true
 });
 
 server.listen(port, 'localhost', function listen(err) {
