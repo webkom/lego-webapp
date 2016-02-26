@@ -54,7 +54,7 @@ export default function promiseMiddleware() {
     return promise.then(result => {
       dispatchThis(next, types.success, {
         payload: result,
-        meta: { ...meta, receivedAt: Date.now() }
+        meta
       });
     }, error => {
       dispatchThis(next, types.failure, {

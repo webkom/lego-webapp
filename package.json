@@ -71,7 +71,9 @@
     "eslint-plugin-react": "^3.5.1",
     "expect-jsx": "2.2.2",
     "json-loader": "0.5.4",
+    "nock": "7.2.2",
     "object-assign": "4.0.1",
+    "redux-mock-store": "0.0.6",
     "webpack": "1.12.11",
     "webpack-dev-server": "1.14.1"
   }
