@@ -17,9 +17,11 @@ export default class Search extends Component {
     onQueryChanged: PropTypes.func.isRequired,
     searching: PropTypes.bool
   };
+
   state = {
     selectedIndex: 0
   };
+
   handleKeyDown(e) {
     switch (e.which) {
       case 38: // UP
@@ -33,6 +35,7 @@ export default class Search extends Component {
           selectedIndex: Math.min(this.props.results.length - 1, this.state.selectedIndex + 1)
         });
         break;
+
       case 13: // Enter
         e.preventDefault();
         // @todo: push some new history state here
