@@ -5,7 +5,7 @@ import { Modal } from 'react-overlays';
 import { debounce } from 'lodash';
 import LoginForm from './LoginForm';
 import Search from './Search';
-import { ButtonTriggeredDropdown } from './ui';
+import ButtonTriggeredDropdown from './ButtonTriggeredDropdown';
 
 export default class Header extends Component {
   static propTypes = {

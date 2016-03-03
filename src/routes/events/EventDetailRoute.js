@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import EventPage from './components/EventPage';
-import fetchOnUpdate from '../../utils/fetchOnUpdate';
-import { fetchEvent } from '../../actions/EventActions';
+import fetchOnUpdate from 'utils/fetchOnUpdate';
+import { fetchEvent } from 'actions/EventActions';
 
 function loadData({ eventId }, props) {
   props.fetchEvent(Number(eventId));

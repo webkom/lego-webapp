@@ -3,9 +3,9 @@ import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 import { createHistory } from 'history';
 import { reduxReactRouter, routerStateReducer } from 'redux-react-router';
-import routes from '../routes';
-import * as reducers from '../reducers';
-import promiseMiddleware from '../utils/promiseMiddleware';
+import routes from 'routes';
+import * as reducers from 'reducers';
+import promiseMiddleware from './promiseMiddleware';
 
 const loggerMiddleware = createLogger({
   level: 'info',

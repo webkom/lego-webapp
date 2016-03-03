@@ -1,8 +1,8 @@
 import './Root.css';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { loginAutomaticallyIfPossible } from './actions/UserActions';
-import HeaderContainer from './shared/components/HeaderContainer';
+import { loginAutomaticallyIfPossible } from 'actions/UserActions';
+import HeaderContainer from 'components/HeaderContainer';
 
 @connect(null, { loginAutomaticallyIfPossible })
 export default class Root extends Component {

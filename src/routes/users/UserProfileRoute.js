@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import UserProfile from './components/UserProfile';
-import RequireLogin from '../../shared/components/RequireLogin';
-import { fetchUser } from '../../actions/UserActions';
+import RequireLogin from 'components/RequireLogin';
+import { fetchUser } from 'actions/UserActions';
 
 function fetchData(props) {
   const { username, user } = props;

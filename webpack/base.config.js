@@ -6,6 +6,10 @@ module.exports = {
     publicPath: ''
   },
   resolve: {
+    modulesDirectories: [
+      'src',
+      'node_modules'
+    ],
     extensions: ['', '.js', '.jsx', '.json', '.css', '.png']
   },
   module: {

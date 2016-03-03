@@ -4,6 +4,9 @@
   "globals": {
     "log": true
   },
+  "rules": {
+    "react/jsx-no-bind": 0
+  },
   "env": {
     "mocha": true
   }

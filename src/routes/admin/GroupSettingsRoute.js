@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import LoadingIndicator from '../../shared/components/ui/LoadingIndicator';
+import LoadingIndicator from 'components/LoadingIndicator';
 import EditPermissions from './components/EditPermissions';
 
 const Permissions = ({ permissions }) => {

@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import cx from 'classnames';
-import { Pill, Icon } from './ui';
+import Pill from './Pill';
+import Icon from './Icon';
 
 const quickLinks = [
   ['', 'Interessegrupper'],

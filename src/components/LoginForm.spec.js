@@ -1,7 +1,7 @@
 import React from 'react';
 import expect from 'expect';
 import LoginForm from '../LoginForm';
-import Button from '../ui/Button';
+import Button from '../Button';
 import { mount, shallow } from 'enzyme';
 
 describe('components', () => {

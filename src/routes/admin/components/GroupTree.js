@@ -2,7 +2,7 @@ import './GroupTree.css';
 import React, { Component, PropTypes } from 'react';
 import TreeView from 'react-treeview';
 import { Link } from 'react-router';
-import { generateTreeStructure } from '../../../utils';
+import { generateTreeStructure } from 'utils';
 
 function generateTreeView(groups) {
   return groups.map(group => {

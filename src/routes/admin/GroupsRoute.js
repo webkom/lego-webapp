@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import GroupPage from './components/GroupPage';
-import { fetchAll } from '../../actions/GroupActions';
+import { fetchAll } from 'actions/GroupActions';
 
 function loadData(props) {
   props.fetchAll();

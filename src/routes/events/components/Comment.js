@@ -1,7 +1,7 @@
 import './Comment.css';
 import React from 'react';
 import { Link } from 'react-router';
-import ReadableDateTime from '../../../shared/components/ui/ReadableDateTime';
+import ReadableDateTime from 'components/ReadableDateTime';
 
 const Comment = ({ comment: { createdAt, text, author } }) => (
   <div className='Comment'>

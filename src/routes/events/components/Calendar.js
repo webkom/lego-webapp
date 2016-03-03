@@ -5,7 +5,7 @@ import moment from 'moment';
 import { Link } from 'react-router';
 import { range, takeWhile, last } from 'lodash';
 import colorForEvent from '../colorForEvent';
-import { Circle } from '../../../shared/components/ui';
+import Circle from 'components/Circle';
 
 /**
  * Generate days of an entire month.

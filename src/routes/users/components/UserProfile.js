@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { capitalize } from 'lodash';
-import LoadingIndicator from '../../../shared/components/ui/LoadingIndicator';
+import LoadingIndicator from 'components/LoadingIndicator';
 import { Link } from 'react-router';
 
 const fieldTranslations = {

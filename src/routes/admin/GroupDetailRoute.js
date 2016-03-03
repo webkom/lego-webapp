@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import GroupView from './components/GroupView';
-import fetchOnUpdate from '../../utils/fetchOnUpdate';
-import { fetchGroup, updateGroup } from '../../actions/GroupActions';
+import fetchOnUpdate from 'utils/fetchOnUpdate';
+import { fetchGroup, updateGroup } from 'actions/GroupActions';
 
 function loadData({ groupId }, props) {
   props.fetchGroup(Number(groupId));

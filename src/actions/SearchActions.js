@@ -1,5 +1,5 @@
 import { Search } from './ActionTypes';
-import { callAPI } from '../utils/http';
+import { callAPI } from 'utils/http';
 
 export function search(query) {
   return callAPI({
