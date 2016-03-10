@@ -1,3 +1,4 @@
+const path = require('path');
 module.exports = {
   devtool: 'inline-source-map',
   module: {
@@ -37,13 +38,10 @@ module.exports = {
     'react/lib/ReactContext': 'window'
   },
   resolve: {
-    modulesDirectories: [
-      'src',
-      'node_modules'
-    ],
     alias: {
-      // required for enzyme to work properly
+      '🏠': path.resolve(__dirname, '../src'),
       sinon: 'sinon/pkg/sinon'
-    }
+    },
+    extensions: ['', '.js', '.jsx', '.json', '.css', '.png']
   }
 };

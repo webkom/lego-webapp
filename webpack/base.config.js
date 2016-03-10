@@ -1,4 +1,5 @@
 /* eslint-disable */
+var path = require('path');
 module.exports = {
   output: {
     path: __dirname + '/../public',
@@ -6,14 +7,8 @@ module.exports = {
     publicPath: ''
   },
   resolve: {
-    modulesDirectories: [
-      '.',
-      'node_modules'
-    ],
     alias: {
-      ['🏠']: 'src',
-      ['💰']: 'src',
-      '~': 'src'
+      '🏠': path.resolve(__dirname, '../src')
     },
     extensions: ['', '.js', '.jsx', '.json', '.css', '.png']
   },
