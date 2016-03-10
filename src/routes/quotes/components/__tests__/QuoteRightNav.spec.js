@@ -10,7 +10,7 @@ describe('components', () => {
       const wrapper = shallow(
         <QuoteRightNav {...createProps()} quotes={createQuotes} />
       );
-      const link = wrapper.find('[href="/quotes?filter=unapproved"]');
+      const link = wrapper.find('[to="/quotes?filter=unapproved"]');
       expect(link.isEmpty()).toBe(false);
       expect(link.contains('Ikke godkjente sitater')).toBe(true);
     });
@@ -19,7 +19,7 @@ describe('components', () => {
       const wrapper = shallow(
         <QuoteRightNav {...createProps('unapproved')} quotes={createQuotes} />
       );
-      const link = wrapper.find('[href="/quotes"]');
+      const link = wrapper.find('[to="/quotes"]');
       expect(link.isEmpty()).toBe(false);
       expect(link.contains('Godkjente sitater')).toBe(true);
     });

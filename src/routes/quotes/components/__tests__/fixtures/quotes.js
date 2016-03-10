@@ -29,7 +29,7 @@ export const quotes = [
     },
     createdAt: '2015-11-08T22:05:36.881015Z',
     id: 2,
-    likes: 2,
+    likes: 0,
     permissions: [
       'can_approve'
     ],
@@ -49,8 +49,7 @@ export function singleQuote(hasLiked = false, approved = true, index = 0) {
   };
 }
 
-// I can't find a way to actually copy quotes without just making a new reference to it.
-// Send help
+// To send a copy of the quotes instead of a reference to them
 export const createQuotes = quotes.slice(0);
 
 export const createProps = (filter, path = '/quotes') => ({

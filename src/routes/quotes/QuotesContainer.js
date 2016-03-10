@@ -12,9 +12,30 @@ import {
 } from '../../actions/QuoteActions';
 import QuotePage from './components/QuotePage';
 
-@connect(state => ({
-  quotes: state.quotes.items,
-  query: state.router.location.query
+const compareByDate = (a, b) => {
+  const date1 = new Date(a.createdAt);
+  const date2 = new Date(b.createdAt);
+  return date2.getTime() - date1.getTime();
+};
+
+const compareByLikes = (a, b) => {
+  return (b.likes - a.likes);
+};
+
+const sortQuotes = (myList, sortType) => {
+  return sortType === 'date' ? myList.sort(compareByDate) : myList.sort(compareByLikes);
+};
+
+const doIWantApproved = state => {
+  return state.router.location.query.filter === 'unapproved' ? false : true;
+};
+
+@connect((state, props) => ({
+  quotes: sortQuotes(
+            state.quotes.items.filter(item => item.approved === doIWantApproved(state)),
+            props.location.query.sort === 'likes' ? 'likes' : 'date'
+  ),
+  query: props.location.query
 }),
   {
     fetchAllApproved,
@@ -34,12 +55,12 @@ export default class QuotesContainer extends Component {
     fetchAllApproved: PropTypes.func.isRequired,
     fetchAllUnapproved: PropTypes.func.isRequired,
     fetchQuote: PropTypes.func.isRequired,
-    query: PropTypes.object.isRequired
+    query: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired
   };
 
-  componentWillMount() {
-    const { query } = this.props;
-    const { filter } = query;
+  loadData(props) {
+    const filter = props.query.filter;
 
     if (filter === 'unapproved') {
       this.props.fetchAllUnapproved();
@@ -48,7 +69,23 @@ export default class QuotesContainer extends Component {
     }
   }
 
+  componentWillMount() {
+    this.loadData(this.props);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props.query.filter !== nextProps.query.filter) {
+      this.loadData(nextProps);
+    }
+  }
+
   render() {
-    return <QuotePage {...this.props} />;
+    const sortType = this.props.query.sort === 'likes' ? 'likes' : 'date';
+    return (
+      <QuotePage
+        {...this.props}
+        sortType={sortType}
+      />
+    );
   }
 }

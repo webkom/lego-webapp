@@ -12,9 +12,9 @@ import {
 } from '../../actions/QuoteActions';
 import QuoteSingleRoute from './components/QuoteSingleRoute';
 
-@connect(state => ({
+@connect((state, props) => ({
   quotes: state.quotes.items,
-  query: state.router.location.query
+  query: props.location.query
 }),
   {
     fetchAllApproved,
@@ -33,7 +33,8 @@ export default class QuotesSingleRouteContainer extends Component {
     params: PropTypes.object.isRequired,
     quotes: PropTypes.array.isRequired,
     fetchQuote: PropTypes.func.isRequired,
-    query: PropTypes.object.isRequired
+    query: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired
   };
 
   componentWillMount() {

@@ -1,39 +1,39 @@
-.enkel-quote {
+.single-quote {
   padding: 1px 20px 10px 0;
   background-repeat:no-repeat;
-  width: 750px;
+  width: 100%;
   margin-bottom:25px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-.enkel-quote .the-quote {
-  width: 465px;
+.single-quote .the-quote {
+  width: 93%;
 }
 
-.enkel-quote .the-quote a{
+.single-quote .the-quote a{
   color: black;
 }
 
-.enkel-quote .the-quote a:hover {
+.single-quote .the-quote a:hover {
   color: black;
   text-decoration: none;
 }
 
-.enkel-quote .left-quote {
-  width: 505px;
+.single-quote .left-quote {
+  width: 69%;
   order: 1;
 }
 
-.enkel-quote .right-quote {
+.single-quote .right-quote {
   order: 2;
   margin-top:2px;
   width: 70px;
   margin-left: 20px;
 }
 
-.enkel-quote .like-count {
+.single-quote .like-count {
   float: right;
   font-size: 30px;
   color: orange;
@@ -41,39 +41,39 @@
   padding-bottom:15px;
 }
 
-.enkel-quote h3{
+.single-quote h3{
   font-weight: 200;
   font-size: 30px;
   margin: 0;
   line-height:35px;
 }
 
-.enkel-quote h3 a{
+.single-quote h3 a{
   color:#777;
 }
-.enkel-quote h3 a:hover{
+.single-quote h3 a:hover{
   color:orange;
 }
 
-.enkel-quote .likes,.enkel-quote .unlikes {
+.single-quote .likes,.single-quote .unlikes {
   width:50px;
   height:50px;
 }
 
-.enkel-quote .fa-thumbs-up {
+.single-quote .fa-thumbs-up {
   padding-top: 5px;
   font-size: 35px;
 }
 
-.enkel-quote .quote-default {
+.single-quote .quote-default {
   color: gray;
 }
 
-.enkel-quote .quote-liked {
+.single-quote .quote-liked {
   color: orange;
 }
 
-.enkel-quote .fa-thumbs-up:hover {
+.single-quote .fa-thumbs-up:hover {
   color: orange;
 }
 
@@ -88,20 +88,20 @@
   order: 3;
 }
 
-.enkel-quote .quote-source {
+.single-quote .quote-source {
   font-size:20px;
   order: 1;
   margin-top:-5px;
-  width: 455px;
+  width: 76%;
   line-height: 25px;
 }
 
-.enkel-quote .quote-author {
+.single-quote .quote-author {
   font-size:15px;
   margin-top:50px;
 }
 
-.enkel-quote .quote-date {
+.single-quote .quote-date {
   color: #666666;
   font-size: 13px;
   order: 2;
@@ -109,9 +109,9 @@
   margin-top: 1px;
 }
 
-.enkel-quote .quote-admin {
+.single-quote .quote-admin {
   margin: 20px 0 0 200px;
-  min-width: 200px;
+  width: 200px;
   order: 3;
 }
 
@@ -119,9 +119,10 @@
   margin-left: 20px;
 }
 
-.enkel-quote .fa-quote-right {
+.single-quote .fa-quote-right {
   font-size: 100px;
   color: #dbdbdb;
   margin-right: 30px;
   order: 0;
+  height: 0;
  }

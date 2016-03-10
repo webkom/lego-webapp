@@ -4,10 +4,6 @@ import './QuoteSingleRoute.css';
 
 export default class QuoteSingleRoute extends Component {
 
-  state = {
-    sortType: 'date'
-  };
-
   static propTypes = {
     quotes: PropTypes.array.isRequired,
     like: PropTypes.func.isRequired,
@@ -17,34 +13,26 @@ export default class QuoteSingleRoute extends Component {
     deleter: PropTypes.func.isRequired
   };
 
-  setSortType = sortType => {
-    this.setState({ sortType });
-  };
-
   render() {
     const { like, unlike, approve, unapprove, deleter } = this.props;
     const quote = this.props.quotes[0];
-    console.log(this.props);
-    console.log(quote);
 
-    function deleteIt(id) {
-      // I tilfelle man skal legge til bekreftelse av sletting av quotes
-      deleter(id);
-    }
     if (!quote) {
       return null;
     }
     return (
       <div className='u-container quote-container'>
         <div className='quote-singleroute'>
-          <h1>Enkelt sitat!</h1>
-          <li className='enkel-quote'>
+
+          <h1>singlet sitat!</h1>
+
+          <li className='single-quote'>
             <i className='fa fa-quote-right'></i>
+
             <div className='left-quote'>
               <h3 className='the-quote'>
                 <a href={`/quotes/${quote.id}`}>{quote.text}</a>
               </h3>
-
             </div>
 
             <div className='right-quote'>
@@ -84,7 +72,7 @@ export default class QuoteSingleRoute extends Component {
                 > {(quote.approved ? 'Fjern Godkjenning' : 'Godkjenn')}</a>
                 <a
                   className='delete-quote'
-                  onClick = {() => deleteIt(quote.id)}
+                  onClick = {() => deleter(quote.id)}
                 >Slett</a>
               </div>
               )}

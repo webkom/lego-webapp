@@ -5,34 +5,27 @@ import QuoteList from './QuoteList';
 
 export default class QuotePage extends Component {
 
-  state = {
-    sortType: 'date'
-  };
-
   static propTypes = {
     quotes: PropTypes.array.isRequired,
-    route: PropTypes.object.isRequired,
     routeParams: PropTypes.object.isRequired,
-    query: PropTypes.object.isRequired
-  };
-
-  setSortType = sortType => {
-    this.setState({ sortType });
+    query: PropTypes.object.isRequired,
+    sortType: PropTypes.string.isRequired
   };
 
   render() {
+    const { sortType } = this.props;
     return (
       <div className='u-container quote-container'>
         <div className='quotepage-left'>
+
           <QuoteTopNav
-            routeParams={this.props.routeParams}
-            sortType = {this.state.sortType}
-            setSortType = {this.setSortType.bind(this)}
+            {...this.props}
+            sortType={sortType}
           />
 
           <QuoteList
             {...this.props}
-            sortType = {this.state.sortType}
+            sortType={sortType}
           />
 
         </div>

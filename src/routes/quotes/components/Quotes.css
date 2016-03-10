@@ -4,7 +4,7 @@
 }
 
 .quotepage-left {
-  width: 750px;
+  width: 68%;
   order: 1;
 }
 
@@ -28,7 +28,6 @@
 
 .quote-top {
   height: 100px;
-  width: 750px;
   margin-bottom: 30px;
 }
 

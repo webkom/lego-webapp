@@ -53,7 +53,7 @@ export default class AddQuote extends Component {
             <br /> <br />
 
             <input type='submit' className='submit-quote'
-              value='Send inn' disabled = { disabledButton }
+              value='Send inn' disabled = {disabledButton}
             />
           </form>
 

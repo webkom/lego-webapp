@@ -1,5 +1,6 @@
 import './Quotes.css';
 import './QuoteSingle.css';
+import './QuoteResponsive.css';
 import ReadableDateTime from '../../../shared/components/ui/ReadableDateTime.js';
 import React, { Component, PropTypes } from 'react';
 
@@ -16,13 +17,8 @@ export default class SingleQuote extends Component {
   render() {
     const { quote, like, unlike, approve, unapprove, deleter } = this.props;
 
-    function deleteIt(id) {
-      // I tilfelle man skal legge til bekreftelse av sletting av quotes
-      deleter(id);
-    }
-
     return (
-      <li className='enkel-quote'>
+      <li className='single-quote'>
         <i className='fa fa-quote-right'></i>
         <div className='left-quote'>
           <h3 className='the-quote'>
@@ -68,7 +64,7 @@ export default class SingleQuote extends Component {
             > {(quote.approved ? 'Fjern Godkjenning' : 'Godkjenn')}</a>
             <a
               className='delete-quote'
-              onClick = {() => deleteIt(quote.id)}
+              onClick = {() => deleter(quote.id)}
             >Slett</a>
           </div>
           )}

@@ -81,10 +81,8 @@ export function addQuotes({ text, source }) {
         begin: Quote.ADD_BEGIN,
         success: [
           Quote.ADD_SUCCESS,
-          res => {
-            dispatch(stopSubmit('addQuote'));
-            dispatch(pushState(null, '/quotes'));
-          }
+          stopSubmit('addQuote'),
+          pushState(null, '/quotes')
         ],
         failure: [
           Quote.ADD_FAILURE,

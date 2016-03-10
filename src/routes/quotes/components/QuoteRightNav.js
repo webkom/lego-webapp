@@ -11,12 +11,12 @@ export default class QuoteRightNav extends Component {
     const path = this.props.query.filter;
     return (
       <div className='quotepage-right'>
-        <a
-          href={path === 'unapproved' ?
+        <Link
+          to={path === 'unapproved' ?
           '/quotes' : '/quotes?filter=unapproved'}
         >
           {path === 'unapproved' ? 'Godkjente sitater' : 'Ikke godkjente sitater'}
-        </a>
+        </Link>
         <br />
         <Link to='/quotes/add'>Legg til nytt sitat!</Link>
       </div>
