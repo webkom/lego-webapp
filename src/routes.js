@@ -4,6 +4,7 @@ import overview from './routes/overview';
 import events from './routes/events';
 import users from './routes/users';
 import admin from './routes/admin';
+import quotes from './routes/quotes';
 
 export default {
   path: '/',
@@ -13,6 +14,7 @@ export default {
     events,
     users,
     admin,
+    quotes,
     {
       path: '*',
       component: () => <div>Not Found</div>

@@ -1,0 +1,26 @@
+.quote-singleroute h1{
+  margin-bottom: 45px;
+}
+
+.quote-singleroute .enkel-quote{
+  width: 1040px;
+}
+
+.quote-singleroute .left-quote{
+  width: 805px;
+}
+
+.quote-singleroute .the-quote{
+  width: 765px;
+}
+
+.quote-singleroute .quote-source{
+  width: 765px;
+}
+
+.quote-singleroute .quote-admin{
+  margin-left: 300px;
+}
+.quote-singleroute .quote-bottom{
+  border-bottom: none;
+}

@@ -1,6 +1,7 @@
 import { Quote } from './ActionTypes';
 import request, { callAPI } from '../utils/http';
 import { pushState } from 'redux-react-router';
+import { startSubmit, stopSubmit } from 'redux-form';
 
 export function fetchAllApproved() {
   return callAPI({
@@ -59,8 +60,9 @@ export function unapprove(quoteId) {
   });
 }
 
-export function addQuotes(text, source) {
+export function addQuotes({ text, source }) {
   return (dispatch, getState) => {
+    dispatch(startSubmit('addQuote'));
     const options = {
       url: `/quotes/`,
       method: 'post',
@@ -68,7 +70,7 @@ export function addQuotes(text, source) {
         title: 'Tittel',
         text,
         source,
-        approved: true
+        approved: false
       },
       jwtToken: getState().auth.token
     };
@@ -79,9 +81,24 @@ export function addQuotes(text, source) {
         begin: Quote.ADD_BEGIN,
         success: [
           Quote.ADD_SUCCESS,
-          res => pushState(null, '/quotes')
+          res => {
+            dispatch(stopSubmit('addQuote'));
+            dispatch(pushState(null, '/quotes'));
+          }
         ],
-        failure: Quote.ADD_FAILURE
+        failure: [
+          Quote.ADD_FAILURE,
+          res => {
+            const errors = { ...res.payload.response.body };
+            if (errors.text) {
+              errors.text = errors.text[0];
+            }
+            if (errors.source) {
+              errors.source = errors.source[0];
+            }
+            dispatch(stopSubmit('addQuote', errors));
+          }
+        ]
       }
     });
   };

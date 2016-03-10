@@ -1,0 +1,70 @@
+.quote-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.quotepage-left {
+  width: 750px;
+  order: 1;
+}
+
+.quotepage-right {
+  min-height: 300px;
+  padding: 20px 0 0 30px;
+  margin: 120px 0 0 60px;
+  border-left: 1px solid #cccccc;
+  order: 2;
+}
+
+.sort-quote {
+  float:right;
+  width: 200px;
+  margin-top: 40px;
+}
+
+.quote-top .sort-quote a {
+  margin-left: 20px;
+}
+
+.quote-top {
+  height: 100px;
+  width: 750px;
+  margin-bottom: 30px;
+}
+
+.quote-top h1 {
+  float: left;
+  width: 200px;
+}
+
+.selected-quote-sort {
+  font-weight: 600;
+}
+
+.submit-quote {
+  padding: 10px 20px;
+  font-size: 14px;
+  margin: 10px 0 50px 0;
+}
+
+.submit-quote:disabled {
+  color: #cccccc;
+}
+
+#add-quote-content {
+  width: 500px;
+  height: 150px;
+}
+
+#add-quote-source {
+  width: 500px;
+  height: 75px;
+}
+
+.error-message {
+  color: red;
+}
+
+.clear {
+  clear:both;
+}

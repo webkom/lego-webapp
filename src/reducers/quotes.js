@@ -26,13 +26,11 @@ function handleSuccess(state, action) {
   return newState;
 }
 
-function approvalSuccess(state, action) {
-  return {
-    ...state,
-    isFetching: false,
-    items: state.items.filter(item => item.id !== action.payload.id)
-  };
-}
+const approvalSuccess = (state, action) => ({
+  ...state,
+  isFetching: false,
+  items: state.items.filter(item => item.id !== action.payload.id)
+});
 
 export default createReducer(initialState, {
   [Quote.FETCH_BEGIN]: (state, action) => ({
