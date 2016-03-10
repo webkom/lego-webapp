@@ -11,7 +11,6 @@ module.exports = {
       'node_modules'
     ],
     alias: {
-      app: 'src',
       ['🏠']: 'src',
       ['💰']: 'src',
       '~': 'src'

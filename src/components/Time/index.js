@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import moment from 'moment-timezone';
-import config from 'config';
+import config from '🏠/config';
 
 /**
  * A wrapper for the HTML <time>-element
