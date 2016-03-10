@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm, initialize } from 'redux-form';
 import UserSettings from './components/UserSettings';
-import { updateUser } from 'actions/UserActions';
+import { updateUser } from '🏠/actions/UserActions';
 
 
 function validateContact(data) {

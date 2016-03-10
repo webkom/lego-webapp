@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import RequireLogin from 'components/RequireLogin';
-import LoadingIndicator from 'components/LoadingIndicator';
+import RequireLogin from '🏠/components/RequireLogin';
+import LoadingIndicator from '🏠/components/LoadingIndicator';
 import CommentView from './CommentView';
 
 const Event = ({ event, loggedIn }) => (

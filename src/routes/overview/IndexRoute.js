@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchAll } from 'actions/EventActions';
+import { fetchAll } from '🏠/actions/EventActions';
 import Overview from './components/Overview';
 
 @connect(state => ({

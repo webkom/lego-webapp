@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import React, { Component, PropTypes } from 'react';
-import LoadingIndicator from 'components/LoadingIndicator';
+import LoadingIndicator from '🏠/components/LoadingIndicator';
 
 const Group = props => {
   const { description } = props.group;

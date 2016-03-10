@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { generateTreeStructure } from 'utils';
-import LoadingIndicator from 'components/LoadingIndicator';
+import { generateTreeStructure } from '🏠/utils';
+import LoadingIndicator from '🏠/components/LoadingIndicator';
 import CommentTree from './CommentTree';
 
 export default class CommentView extends Component {

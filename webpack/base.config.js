@@ -7,9 +7,15 @@ module.exports = {
   },
   resolve: {
     modulesDirectories: [
-      'src',
+      '.',
       'node_modules'
     ],
+    alias: {
+      app: 'src',
+      ['🏠']: 'src',
+      ['💰']: 'src',
+      '~': 'src'
+    },
     extensions: ['', '.js', '.jsx', '.json', '.css', '.png']
   },
   module: {

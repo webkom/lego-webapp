@@ -2,7 +2,7 @@ import React from 'react';
 import expect from 'expect';
 import GroupMembers from '../../GroupMembersRoute';
 import GroupMembersList from '../GroupMembersList';
-import LoadingIndicator from 'components/LoadingIndicator';
+import LoadingIndicator from '🏠/components/LoadingIndicator';
 import { shallow } from 'enzyme';
 import { Link } from 'react-router';
 import { omit } from 'lodash';
