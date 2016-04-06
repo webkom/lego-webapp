@@ -7,7 +7,9 @@
     "sinon": true
   },
   "rules": {
-    "react/jsx-no-bind": 0
+    "react/jsx-no-bind": 0,
+    "arrow-parens": 0,
+    "quote-props": 0
   },
   "env": {
     "mocha": true

@@ -1,5 +1,3 @@
-import superagent from 'superagent';
-import camelize from 'camelize';
 import config from '../config';
 
 function urlFor(resource) {
@@ -9,70 +7,76 @@ function urlFor(resource) {
   return config.serverUrl + resource;
 }
 
-export default function request({ method = 'get', url, body, headers = {}, jwtToken }) {
-  const req = superagent[method].call(request, urlFor(url));
-
-  if (jwtToken) {
-    headers.Authorization = `JWT ${jwtToken}`;
+/**
+ *
+ */
+export function fetchJSON(path, options = {}) {
+  if (typeof options.body === 'object' && options.json !== false) {
+    options.body = JSON.stringify(options.body);
   }
 
-  Object.keys(headers).forEach(header => {
-    req.set(header, headers[header]);
+  const request = new Request(path, {
+    ...options,
+    headers: new Headers({
+      'Content-Type': 'application/json',
+      ...options.headers
+    })
   });
 
-  if (body) {
-    req.send(body);
-  }
+  console.log('HTTP Request', request);
 
-  return new Promise((resolve, reject) => {
-    req.end((err, res) => {
-      if (err) return reject(err);
-      if (!res.ok) return reject(new Error(res.body));
-      return resolve(camelize(res.body));
-    });
+  return fetch(request).then((response) =>
+    response.json().then(json => ({ json, response }))
+  ).then(({ json, response }) => {
+    if (response.ok) {
+      return { json, response };
+    }
+
+    const error = new Error(`${response.status} ${response.statusText}`);
+    error.response = response;
+    error.json = json;
+    throw error;
   });
 }
 
-export function get(url) {
-  return request({ method: 'get', url });
-}
-
-export function post(url, body) {
-  return request({ method: 'post', url, body });
-}
-
-export function patch(url, body) {
-  return request({ method: 'patch', url, body });
-}
-
-export function put(url, body) {
-  return request({ method: 'put', url, body });
-}
-
-export function del(url, body) {
-  return request({ method: 'delete', url, body });
-}
-
-export function callAPI(action) {
+/**
+ * Action creator for calling the API.
+ *
+ * It will automatically append the auth token if one exists.
+ *
+ * ```js
+ * dispatch(callAPI({
+ *   types: [Post.FETCH_BEGIN, Post.FETCH_SUCCESS, Post.FETCH_FAILURE]
+ *   endpoint: `/posts`
+ * }))
+ * ```
+ */
+export function callAPI({
+  types,
+  method = 'get',
+  headers,
+  endpoint,
+  body,
+  meta
+}) {
   return (dispatch, getState) => {
-    const { method, endpoint, body } = action;
     const options = {
       method,
-      url: endpoint,
       body
     };
 
     const jwt = getState().auth.token;
     if (jwt) {
       options.headers = {
-        Authorization: `JWT ${jwt}`
+        'Authorization': `JWT ${jwt}`
       };
     }
 
     return dispatch({
-      type: action.type,
-      promise: request(options),
-      meta: action.meta
+      types,
+      payload: body,
+      meta,
+      promise: fetchJSON(urlFor(endpoint), options)
     });
   };
 }
