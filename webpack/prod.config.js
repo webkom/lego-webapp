@@ -4,7 +4,7 @@ var webpack = require('webpack');
 var baseConfig = require('./base.config');
 
 module.exports = objectAssign(baseConfig, {
-  entry: './src/index.js',
+  entry: './app/index.js',
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
       compressor: {

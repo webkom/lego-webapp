@@ -2,7 +2,7 @@ setup_tasks:
  - npm install
 
 tasks:
- - npm run mocha
+ - npm test
  - npm run lint
 
 deploy_tasks:
