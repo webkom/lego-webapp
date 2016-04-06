@@ -26,7 +26,7 @@ export function fetchJSON(path, options = {}) {
   console.log('HTTP Request', request);
 
   return fetch(request).then((response) =>
-    response.json().then(json => ({ json, response }))
+    response.json().then((json) => ({ json, response }))
   ).then(({ json, response }) => {
     if (response.ok) {
       return { json, response };

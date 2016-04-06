@@ -18,20 +18,20 @@ function createDateObjects(date, weekOffset, events = []) {
   let diff = startOfMonth.weekday() - weekOffset;
   if (diff < 0) diff += 7;
 
-  const prevMonthDays = range(0, diff).map(n => ({
+  const prevMonthDays = range(0, diff).map((n) => ({
     day: startOfMonth.clone().subtract(diff - n, 'days'),
     classNames: 'prevMonth'
   }));
 
-  const currentMonthDays = range(1, date.daysInMonth() + 1).map(index => ({
+  const currentMonthDays = range(1, date.daysInMonth() + 1).map((index) => ({
     day: moment([date.year(), date.month(), index]),
-    events: events.filter(e =>
+    events: events.filter((e) =>
       moment(e.startTime).isSame(moment([date.year(), date.month(), index]), 'day')
     )
   }));
 
   const daysAdded = prevMonthDays.length + currentMonthDays.length - 1;
-  const nextMonthDays = takeWhile(range(1, 7), n => (daysAdded + n) % 7 !== 0).map(n => ({
+  const nextMonthDays = takeWhile(range(1, 7), (n) => (daysAdded + n) % 7 !== 0).map((n) => ({
     day: last(currentMonthDays).day.clone().add(n, 'days'),
     classNames: 'nextMonth'
   }));
@@ -101,7 +101,7 @@ export default class Calendar extends Component {
 
         <div className='Calendar__grid'>
           {['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'].map(
-            d => <div className='Calendar__headingItem'>{d}</div>
+            (d) => <div className='Calendar__headingItem'>{d}</div>
           )}
           {createDateObjects(
             date,

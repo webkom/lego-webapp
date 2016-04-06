@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import Comment from './Comment';
 
 const CommentTree = ({ comments, isChild = false }) => {
-  const tree = comments.map(comment => {
+  const tree = comments.map((comment) => {
     const suffix = isChild ? 'child' : 'root';
     const className = `CommentTree__${suffix}`;
     if (comment.children.length) {

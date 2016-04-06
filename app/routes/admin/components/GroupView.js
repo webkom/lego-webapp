@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 
-const Group = props => {
+const Group = (props) => {
   const { description } = props.group;
   const descriptionText = description && description.length ? `(${description})` : '';
 

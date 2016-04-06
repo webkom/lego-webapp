@@ -50,7 +50,7 @@ export default class Search extends Component {
         <div className='Search__overlay u-container'>
           <div className='Search__input'>
             <input
-              onChange={e => onQueryChanged(e.target.value)}
+              onChange={(e) => onQueryChanged(e.target.value)}
               type='search'
               placeholder='Hva leter du etter?'
               autoFocus

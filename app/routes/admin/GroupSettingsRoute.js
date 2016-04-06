@@ -9,7 +9,7 @@ const Permissions = ({ permissions }) => {
 
   return (
     <ul>
-      {permissions.map(permission =>
+      {permissions.map((permission) =>
         <li key={permission}>
           {permission}
         </li>

@@ -37,7 +37,7 @@ export default class Overview extends Component {
       <section>
         <div className='u-container'>
           <div className='UpcomingEvents'>
-            {events.slice(0, 5).map(event =>
+            {events.slice(0, 5).map((event) =>
               <Link
                 key={event.id}
                 className='UpcomingEvents__item'
@@ -65,7 +65,7 @@ export default class Overview extends Component {
 
           <div className='news'>
             <h2 className='u-heading-with-bar'>Nyheter på tegnspråk</h2>
-            {events.map(event =>
+            {events.map((event) =>
               <div key={event.id}>
                 <Link to={`/events/${event.id}`}>{event.title} - {event.ingress}</Link>
               </div>

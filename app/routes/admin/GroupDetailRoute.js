@@ -10,11 +10,11 @@ function loadData({ groupId }, props) {
 
 function findGroup({ groups, users }, groupId) {
   const foundGroup = groups.items.find(
-    group => group.id === Number(groupId)
+    (group) => group.id === Number(groupId)
   );
 
   if (foundGroup && foundGroup.users) {
-    const mappedUsers = foundGroup.users.map(username => users[username]);
+    const mappedUsers = foundGroup.users.map((username) => users[username]);
     return { ...foundGroup, users: mappedUsers };
   }
 

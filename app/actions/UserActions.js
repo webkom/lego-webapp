@@ -7,7 +7,7 @@ import { callAPI } from 'app/utils/http';
 const USER_STORAGE_KEY = 'user';
 
 function putInLocalStorage(key) {
-  return payload => {
+  return (payload) => {
     window.localStorage.setItem(key, JSON.stringify(payload));
     return payload;
   };
@@ -32,7 +32,7 @@ export function login(username, password) {
 }
 
 export function logout() {
-  return dispatch => {
+  return (dispatch) => {
     window.localStorage.removeItem(USER_STORAGE_KEY);
     dispatch({ type: User.LOGOUT });
     dispatch(replaceState(null, '/'));
@@ -88,7 +88,7 @@ export function loginWithExistingToken(user, token) {
     if (expirationDate.isSame(now, 'day')) {
       dispatch(refreshToken(token))
         .then(putInLocalStorage(USER_STORAGE_KEY))
-        .catch(err => {
+        .catch((err) => {
           clearLocalStorage(USER_STORAGE_KEY);
           throw err;
         });
@@ -107,7 +107,7 @@ export function loginWithExistingToken(user, token) {
  * Dispatch a login success if a token exists in local storage.
  */
 export function loginAutomaticallyIfPossible() {
-  return dispatch => {
+  return (dispatch) => {
     const { user, token } = JSON.parse(
       window.localStorage.getItem(USER_STORAGE_KEY)
     ) || {};

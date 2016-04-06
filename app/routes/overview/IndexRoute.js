@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { fetchAll } from 'app/actions/EventActions';
 import Overview from './components/Overview';
 
-@connect(state => ({
+@connect((state) => ({
   events: state.events.items,
   loggedIn: state.auth.token !== null
 }), { fetchAll })
