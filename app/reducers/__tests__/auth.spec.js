@@ -1,4 +1,4 @@
-import expect from 'expect';
+
 
 import auth from '../auth';
 import { User } from '../../actions/ActionTypes';
@@ -7,7 +7,7 @@ describe('reducers', () => {
   describe('auth', () => {
     it('should have correct initialState', () => {
       const prevState = undefined;
-      expect(auth(prevState, {})).toEqual({
+      expect(auth(prevState, {})).to.deep.equal({
         username: null,
         token: null,
         loginFailed: false,
@@ -19,16 +19,16 @@ describe('reducers', () => {
       const prevState = undefined;
       const action = { type: User.LOGIN_BEGIN };
       const state = auth(prevState, action);
-      expect(state.loggingIn).toBe(true);
-      expect(state.loginFailed).toBe(false);
+      expect(state.loggingIn).to.equal(true);
+      expect(state.loginFailed).to.equal(false);
     });
 
     it('should set loggingIn to false and loginFailed to true when logging in fails', () => {
       const prevState = auth(undefined, { type: User.LOGIN_BEGIN });
       const action = { type: User.LOGIN_FAILURE };
       const state = auth(prevState, action);
-      expect(state.loggingIn).toBe(false);
-      expect(state.loginFailed).toBe(true);
+      expect(state.loggingIn).to.equal(false);
+      expect(state.loginFailed).to.equal(true);
     });
 
     it('should set username and token correctly when login succeeds', () => {
@@ -42,7 +42,7 @@ describe('reducers', () => {
           }
         }
       };
-      expect(auth(prevState, action)).toEqual({
+      expect(auth(prevState, action)).to.deep.equal({
         username: action.payload.user.username,
         token: action.payload.token,
         loginFailed: false,
@@ -64,7 +64,7 @@ describe('reducers', () => {
 
       const prevState = auth(_prevState, _action);
       const action = { type: User.LOGOUT };
-      expect(auth(prevState, action)).toEqual({
+      expect(auth(prevState, action)).to.deep.equal({
         username: null,
         token: null,
         loginFailed: false,

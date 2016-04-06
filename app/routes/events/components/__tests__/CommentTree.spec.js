@@ -1,5 +1,5 @@
 import React from 'react';
-import expect from 'expect';
+
 import { mount, shallow } from 'enzyme';
 import CommentTree from '../CommentTree';
 import comments from './fixtures/comments';
@@ -12,7 +12,7 @@ describe('components', () => {
     it('should render the top level comments at root level ', () => {
       const wrapper = shallow(<CommentTree comments={tree} />);
       const commentElements = wrapper.find('.CommentTree__root');
-      expect(commentElements.length).toEqual(2);
+      expect(commentElements.length).to.equal(2);
     });
 
     it('should nest comments', () => {
@@ -20,7 +20,7 @@ describe('components', () => {
       const rootElements = wrapper.find('.CommentTree__root');
       const rootElement = rootElements.at(1);
       const childTree = rootElement.find('.CommentTree__child');
-      expect(childTree.html()).toContain(comments[2].text);
+      expect(childTree.html()).to.contain(comments[2].text);
     });
   });
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import expect from 'expect';
+
 import Time from '../Time';
 import { shallow } from 'enzyme';
 
@@ -14,7 +14,7 @@ describe('components', () => {
         </time>
       );
 
-      expect(wrapper.equals(expected)).toBe(true);
+      expect(wrapper.equals(expected)).to.equal(true);
     });
 
     it('should show a date with a custom format', () => {
@@ -26,7 +26,7 @@ describe('components', () => {
         </time>
       );
 
-      expect(wrapper.equals(expected)).toBe(true);
+      expect(wrapper.equals(expected)).to.equal(true);
     });
   });
 });

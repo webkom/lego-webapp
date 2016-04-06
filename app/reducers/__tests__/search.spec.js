@@ -1,6 +1,6 @@
-import expect from 'expect';
 import reducer from '../search';
 import { Search } from '../../actions/ActionTypes';
+
 
 const initialState = {
   query: '',
@@ -11,14 +11,14 @@ const initialState = {
 describe('reducers', () => {
   describe('search', () => {
     it('should return the initial state', () => {
-      expect(reducer(undefined, {})).toEqual(initialState);
+      expect(reducer(undefined, {})).to.deep.equal(initialState);
     });
 
     it('should handle SEARCH_BEGIN', () => {
       expect(reducer(initialState, {
         type: Search.SEARCH_BEGIN,
         meta: { query: 'hello world' }
-      })).toEqual({
+      })).to.deep.equal({
         query: 'hello world',
         results: [],
         searching: true
@@ -30,7 +30,7 @@ describe('reducers', () => {
         type: Search.SEARCH_SUCCESS,
         payload: [123, 456],
         meta: { query: '' }
-      })).toEqual({
+      })).to.deep.equal({
         query: '',
         results: [123, 456],
         searching: false
@@ -41,7 +41,7 @@ describe('reducers', () => {
       expect(reducer(initialState, {
         type: Search.SEARCH_SUCCESS,
         meta: { query: 'foo' }
-      })).toEqual(initialState);
+      })).to.deep.equal(initialState);
     });
   });
 });

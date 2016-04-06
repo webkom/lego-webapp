@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-expressions */
 import React from 'react';
-import expect from 'expect';
+
 import GroupMembers from '../../GroupMembersRoute';
 import GroupMembersList from '../GroupMembersList';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -43,28 +44,28 @@ describe('components', () => {
     it('should render the GroupMembersList component with the user list', () => {
       const wrapper = shallow(<GroupMembers group={group} />);
       const membersList = wrapper.find(GroupMembersList);
-      expect(membersList.props().users).toBe(users);
+      expect(membersList.props().users).to.equal(users);
     });
 
     it('should not render the GroupMembersList component while loading', () => {
       const wrapper = shallow(<GroupMembers group={omit(group, 'users')} />);
       const loadingIndicator = wrapper.find(LoadingIndicator);
       const { loading, children } = loadingIndicator.props();
-      expect(loading).toBe(true);
-      expect(children).toNotExist();
+      expect(loading).to.equal(true);
+      expect(children).to.not.exist;
     });
   });
 
   describe('GroupMembersList', () => {
     it('should render "No users" for an empty array', () => {
       const wrapper = shallow(<GroupMembersList users={[]} />);
-      expect(wrapper.contains('No users')).toBe(true);
+      expect(wrapper.contains('No users')).to.equal(true);
     });
 
     it('should render an <ul> of users', () => {
       const wrapper = shallow(<GroupMembersList users={users} />);
-      expect(wrapper.type()).toEqual('ul');
-      expect(wrapper.children().length).toEqual(users.length);
+      expect(wrapper.type()).to.equal('ul');
+      expect(wrapper.children().length).to.equal(users.length);
     });
 
     it('should include links for all users in the list', () => {
@@ -72,7 +73,7 @@ describe('components', () => {
       const children = wrapper.children();
       users.forEach(({ username }, i) => {
         const link = <Link to={`/users/${username}`}>{username}</Link>;
-        expect(children.at(i).contains(link)).toBe(true);
+        expect(children.at(i).contains(link)).to.equal(true);
       });
     });
   });
