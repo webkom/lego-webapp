@@ -19,8 +19,8 @@ export default class SingleQuote extends Component {
 
     return (
       <li className='single-quote'>
-        <i className='fa fa-quote-right'></i>
         <div className='left-quote'>
+          <i className='fa fa-quote-right'></i>
           <h3 className='the-quote'>
             <a href={`/quotes/${quote.id}`}>{quote.text}</a>
           </h3>

@@ -35,6 +35,6 @@ export default class QuotesAddContainer extends Component {
 
   render() {
     const { handleSubmit } = this.props;
-    return <AddQuote {...this.props} addQuotes={handleSubmit(::this.props.addQuotes)} />;
+    return <AddQuote {...this.props} addQuotes={handleSubmit(this.props.addQuotes)} />;
   }
 }

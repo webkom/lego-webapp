@@ -17,7 +17,7 @@
 }
 
 .sort-quote {
-  float:right;
+  order: 2;
   width: 200px;
   margin-top: 40px;
 }
@@ -29,11 +29,13 @@
 .quote-top {
   height: 100px;
   margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .quote-top h1 {
-  float: left;
   width: 200px;
+  order: 1;
 }
 
 .selected-quote-sort {
@@ -50,6 +52,14 @@
   color: #cccccc;
 }
 
+.add-quote-top {
+  margin-bottom: 0;
+}
+
+.add-quote label {
+  display: block;
+}
+
 #add-quote-content {
   width: 500px;
   height: 150px;
@@ -58,6 +68,11 @@
 #add-quote-source {
   width: 500px;
   height: 75px;
+}
+
+.add-quote .field-error {
+  color: red;
+  font-weight: bold;
 }
 
 .error-message {

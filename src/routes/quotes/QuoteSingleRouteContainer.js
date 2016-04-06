@@ -42,7 +42,6 @@ export default class QuotesSingleRouteContainer extends Component {
   }
 
   render() {
-    console.log('props: ', this.props);
     return <QuoteSingleRoute {...this.props} />;
   }
 }

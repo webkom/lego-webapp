@@ -19,20 +19,19 @@ const compareByDate = (a, b) => {
 };
 
 const compareByLikes = (a, b) => {
-  return (b.likes - a.likes);
+  return b.likes - a.likes;
 };
 
-const sortQuotes = (myList, sortType) => {
-  return sortType === 'date' ? myList.sort(compareByDate) : myList.sort(compareByLikes);
-};
-
-const doIWantApproved = state => {
-  return state.router.location.query.filter === 'unapproved' ? false : true;
+const sortQuotes = (quotes, sortType) => {
+  const compare = sortType === 'date' ? compareByDate : compareByLikes;
+  return quotes.sort(compare);
 };
 
 @connect((state, props) => ({
   quotes: sortQuotes(
-            state.quotes.items.filter(item => item.approved === doIWantApproved(state)),
+            state.quotes.items.filter(item => item.approved ===
+              (state.router.location.query.filter !== 'unapproved')
+            ),
             props.location.query.sort === 'likes' ? 'likes' : 'date'
   ),
   query: props.location.query

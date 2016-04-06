@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ReadableDateTime from '../../../shared/components/ui/ReadableDateTime.js';
-import './QuoteSingleRoute.css';
+import './QuoteSingle.css';
 
 export default class QuoteSingleRoute extends Component {
 
@@ -24,12 +24,12 @@ export default class QuoteSingleRoute extends Component {
       <div className='u-container quote-container'>
         <div className='quote-singleroute'>
 
-          <h1>singlet sitat!</h1>
+          <h1>Enkelt sitat!</h1>
 
           <li className='single-quote'>
-            <i className='fa fa-quote-right'></i>
 
             <div className='left-quote'>
+              <i className='fa fa-quote-right'></i>
               <h3 className='the-quote'>
                 <a href={`/quotes/${quote.id}`}>{quote.text}</a>
               </h3>
