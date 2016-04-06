@@ -6,7 +6,7 @@ import colorForEvent from 'app/routes/events/colorForEvent';
 
 let id = 0;
 function getImage() {
-  return 'http://lorempixel.com/800/400?' + (id++);
+  return `http://lorempixel.com/800/400?${id++}`;
 }
 
 export default class Overview extends Component {

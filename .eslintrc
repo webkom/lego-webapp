@@ -9,7 +9,10 @@
   "rules": {
     "react/jsx-no-bind": 0,
     "arrow-parens": [2, "always"],
-    "quote-props": 0
+    "quote-props": 0,
+    "react/prop-types": 0,
+    "react/jsx-space-before-closing": 0,
+    "react/prefer-stateless-function": 0
   },
   "env": {
     "mocha": true

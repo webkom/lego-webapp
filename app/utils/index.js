@@ -17,12 +17,10 @@
  */
 export function generateTreeStructure(nodes) {
   // Create a map of id -> node for retrievals later:
-  const nodeMap = nodes.reduce((acc, node) => {
-    return {
-      ...acc,
-      [node.id]: { ...node, children: [] }
-    };
-  }, {});
+  const nodeMap = nodes.reduce((acc, node) => ({
+    ...acc,
+    [node.id]: { ...node, children: [] }
+  }), {});
 
   return nodes.reduce((acc, { id }) => {
     const node = nodeMap[id];

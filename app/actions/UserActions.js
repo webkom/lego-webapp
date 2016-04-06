@@ -21,7 +21,7 @@ export function login(username, password) {
   return (dispatch) => {
     dispatch(callAPI({
       types: [User.LOGIN_BEGIN, User.LOGIN_SUCCESS, User.LOGIN_FAILURE],
-      endpoint: `//authorization/token-auth/`,
+      endpoint: '//authorization/token-auth/',
       method: 'post',
       body: {
         username,
