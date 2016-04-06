@@ -20,5 +20,5 @@ global.should = chai.should();
 global.window = document.defaultView;
 global.navigator = global.window.navigator;
 
-const context = require.context('../src', true, /.spec\.js$/);
+const context = require.context('../app', true, /.spec\.js$/);
 context.keys().forEach(context);
