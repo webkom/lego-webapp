@@ -1,5 +1,5 @@
 import React from 'react';
-import expect from 'expect';
+
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import UserProfile from '../UserProfile';
 import { shallow } from 'enzyme';
@@ -20,26 +20,26 @@ describe('components', () => {
   describe('UserProfile', () => {
     it('should show a settings link if the user is me', () => {
       const wrapper = shallow(<UserProfile user={user} isMe />);
-      expect(wrapper.contains(<Link to='/users/me/settings'>Settings</Link>)).toBe(true);
+      expect(wrapper.contains(<Link to='/users/me/settings'>Settings</Link>)).to.equal(true);
     });
 
     it('should not show a settings link for other users', () => {
       const wrapper = shallow(<UserProfile user={user} isMe={false} />);
-      expect(wrapper.contains(<Link to='/users/me/settings'>Settings</Link>)).toBe(false);
+      expect(wrapper.contains(<Link to='/users/me/settings'>Settings</Link>)).to.equal(false);
     });
 
     it('should show a LoadingIndicator while the user prop is loading', () => {
       const wrapper = shallow(<UserProfile />);
-      expect(wrapper.is(LoadingIndicator)).toBe(true);
-      expect(wrapper.props().loading).toBe(true);
-      expect(wrapper.children().isEmpty()).toBe(true);
+      expect(wrapper.is(LoadingIndicator)).to.equal(true);
+      expect(wrapper.props().loading).to.equal(true);
+      expect(wrapper.children().isEmpty()).to.equal(true);
     });
 
     it('should render user info', () => {
       const wrapper = shallow(<UserProfile user={user} isMe={false} />);
-      expect(wrapper.contains(<h2>{user.fullName}</h2>)).toBe(true);
-      expect(wrapper.contains(user.email)).toBe(true);
-      expect(wrapper.contains(user.username)).toBe(true);
+      expect(wrapper.contains(<h2>{user.fullName}</h2>)).to.equal(true);
+      expect(wrapper.contains(user.email)).to.equal(true);
+      expect(wrapper.contains(user.username)).to.equal(true);
     });
   });
 });

@@ -2,7 +2,9 @@
   "extends": "webkom/react",
   "parser": "babel-eslint",
   "globals": {
-    "log": true
+    "log": true,
+    "expect": true,
+    "sinon": true
   },
   "rules": {
     "react/jsx-no-bind": 0

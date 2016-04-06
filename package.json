@@ -79,6 +79,7 @@
     "object-assign": "4.0.1",
     "redux-mock-store": "0.0.6",
     "sinon": "1.17.3",
+    "sinon-chai": "2.8.0",
     "webpack": "1.12.11",
     "webpack-dev-server": "1.14.1"
   }
