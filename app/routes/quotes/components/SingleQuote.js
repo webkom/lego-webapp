@@ -1,7 +1,7 @@
 import './Quotes.css';
 import './QuoteSingle.css';
 import './QuoteResponsive.css';
-import ReadableDateTime from '../../../shared/components/ui/ReadableDateTime.js';
+import ReadableDateTime from 'app/components/ReadableDateTime';
 import React, { Component, PropTypes } from 'react';
 
 export default class SingleQuote extends Component {

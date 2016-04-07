@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import ReadableDateTime from '../../../shared/components/ui/ReadableDateTime.js';
+import ReadableDateTime from 'app/components/ReadableDateTime';
 import './QuoteSingle.css';
 
 export default class QuoteSingleRoute extends Component {
