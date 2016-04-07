@@ -8,11 +8,11 @@ const initialState = {
 };
 
 function mergeElements(oldList, newList) {
-  const oldListIds = oldList.map(item => item.id);
-  const newListIds = newList.map(item => item.id);
+  const oldListIds = oldList.map((item) => item.id);
+  const newListIds = newList.map((item) => item.id);
 
   // Replace items in state if there are new versions in payload
-  const items = oldList.map(item => {
+  const items = oldList.map((item) => {
     if (newListIds.includes(item.id)) {
       return newList[newListIds.indexOf(item.id)];
     }
@@ -21,7 +21,7 @@ function mergeElements(oldList, newList) {
   });
 
   // Add any new elements
-  newList.forEach(item => {
+  newList.forEach((item) => {
     if (!oldListIds.includes(item.id)) {
       items.push(item);
     }
@@ -70,6 +70,6 @@ export default createReducer(initialState, {
   [Quote.DELETE_SUCCESS]: (state, action) => ({
     ...state,
     isFetching: false,
-    items: state.items.filter(q => action.meta.quoteId !== q.id)
+    items: state.items.filter((q) => action.meta.quoteId !== q.id)
   })
 });

@@ -4,7 +4,7 @@ import SingleQuote from '../SingleQuote';
 import { shallow } from 'enzyme';
 import { singleQuote, quotes } from './fixtures/quotes';
 
-const emptyProps = rm => ({
+const emptyProps = (rm) => ({
   // Just to remove warnings from npm test
   like: () => ({}),
   unlike: () => ({}),

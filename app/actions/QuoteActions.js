@@ -86,7 +86,7 @@ export function addQuotes({ text, source }) {
         ],
         failure: [
           Quote.ADD_FAILURE,
-          res => {
+          (res) => {
             const errors = { ...res.payload.response.body };
             if (errors.text) {
               errors.text = errors.text[0];

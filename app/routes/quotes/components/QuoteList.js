@@ -12,7 +12,7 @@ export default class QuoteList extends Component {
   render() {
     return (
       <ul>
-        {this.props.quotes.map(quote =>
+        {this.props.quotes.map((quote) =>
           <SingleQuote
             {...this.props}
             quote={quote}

@@ -29,7 +29,7 @@ const sortQuotes = (quotes, sortType) => {
 
 @connect((state, props) => ({
   quotes: sortQuotes(
-            state.quotes.items.filter(item => item.approved ===
+            state.quotes.items.filter((item) => item.approved ===
               (state.router.location.query.filter !== 'unapproved')
             ),
             props.location.query.sort === 'likes' ? 'likes' : 'date'
