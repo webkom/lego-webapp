@@ -11,7 +11,7 @@ function loadData({ eventId }, props) {
 @connect((state, props) => ({
   loggedIn: state.auth.token !== null,
   event: state.events.items.find(
-    event => event.id === Number(props.params.eventId)
+    (event) => event.id === Number(props.params.eventId)
   )
 }), { fetchEvent })
 @fetchOnUpdate(['eventId'], loadData)

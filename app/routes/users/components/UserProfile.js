@@ -16,8 +16,8 @@ export default class UserProfile extends Component {
 
   renderFields() {
     const { user } = this.props;
-    const fields = Object.keys(fieldTranslations).filter(field => user[field]);
-    const tags = fields.map(field => {
+    const fields = Object.keys(fieldTranslations).filter((field) => user[field]);
+    const tags = fields.map((field) => {
       const translation = capitalize(fieldTranslations[field]);
       return (
         <li key={field}>

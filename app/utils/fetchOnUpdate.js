@@ -12,7 +12,7 @@ function mapParams(watchParams, params) {
 Calls fn on route changes where watchParams are changed.
 */
 function fetchOnUpdate(watchParams, fn) {
-  return DecoratedComponent =>
+  return (DecoratedComponent) =>
   class FetchOnUpdateDecorator extends Component {
 
     static propTypes = {

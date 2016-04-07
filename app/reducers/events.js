@@ -8,9 +8,9 @@ const initialState = {
 };
 
 function replaceEvent(events, newEvent) {
-  const existing = events.find(event => event.id === newEvent.id);
+  const existing = events.find((event) => event.id === newEvent.id);
   if (existing) {
-    return events.map(event => event.id === newEvent.id ? newEvent : event);
+    return events.map((event) => event.id === newEvent.id ? newEvent : event);
   }
 
   return events.concat(newEvent);

@@ -25,7 +25,7 @@ export default class EditPermissions extends Component {
   }
 
   del(perm) {
-    const permissions = this.state.permissions.filter(p => p !== perm);
+    const permissions = this.state.permissions.filter((p) => p !== perm);
     this.setState({
       permissions
     });
@@ -60,7 +60,7 @@ export default class EditPermissions extends Component {
     return (
       <div>
         <ul>
-          {permissions.map(p =>
+          {permissions.map((p) =>
             <li key={p}>{p} <a className='fa fa-times' onClick={this.del.bind(this, p)}/></li>
           )}
         </ul>

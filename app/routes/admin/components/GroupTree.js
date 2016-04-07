@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import { generateTreeStructure } from 'app/utils';
 
 function generateTreeView(groups) {
-  return groups.map(group => {
+  return groups.map((group) => {
     const nodeLabel = <Link to={`/admin/groups/${group.id}/settings`}>{group.name}</Link>;
     if (group.children.length) {
       return (

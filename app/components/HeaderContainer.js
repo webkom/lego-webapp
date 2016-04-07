@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { login, logout } from 'app/actions/UserActions';
 import { search } from 'app/actions/SearchActions';
 
-@connect(state => ({
+@connect((state) => ({
   searchResults: state.search.results,
   searching: state.search.searching,
   auth: state.auth,

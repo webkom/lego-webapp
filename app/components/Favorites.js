@@ -15,7 +15,7 @@ export default class Favorites extends Component {
     const { favorites } = this.props;
     return (
       <ul>
-        {favorites.map(favorite =>
+        {favorites.map((favorite) =>
           <li>
             <Link to='' params={{ eventId: favorite.id }}><Icon name='star' />{favorite.name}</Link>
           </li>

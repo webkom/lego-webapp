@@ -6,7 +6,7 @@ function loadData(props) {
   props.fetchAll();
 }
 
-@connect(state => ({
+@connect((state) => ({
   events: state.events.items
 }), { fetchAll })
 export default class EventsRoot extends Component {

@@ -7,7 +7,7 @@ function loadData(props) {
   props.fetchAll();
 }
 
-@connect(state => ({
+@connect((state) => ({
   groups: state.groups.items || []
 }), { fetchAll })
 export default class GroupsRoute extends Component {

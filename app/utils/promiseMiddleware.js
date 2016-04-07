@@ -1,69 +1,38 @@
-/*
- * This function will use the type passed to dispatch actions.
- * This allows the actionCreators to pass multiple actions to dispatch when an action status changes
- */
-
-function dispatchThis(dispatch, type, actionData) {
-  if (typeof(type) === 'string') {
-    dispatch({
-      type,
-      ...actionData
-    });
-  } else if (type instanceof Array) {
-    type.forEach(fn => {
-      dispatchThis(dispatch, fn, actionData);
-    });
-  } else if (typeof(type) === 'object') {
-    dispatch(type);
-  } else if (typeof(type) === 'function') {
-    const res = type(actionData);
-    if (res) {
-      dispatch(res);
-    }
-  }
-}
-
 export default function promiseMiddleware() {
-  return next => action => {
+  return (next) => (action) => {
     if (!action.promise) {
       return next(action);
     }
 
-    let { types } = action;
-    const { type, meta, payload, promise } = action;
-    if (!types && !type) {
-      throw new Error('No type or types provided in action (promiseMiddleware)');
-    }
-    if (!types) {
-      types = {
-        success: `${type}_SUCCESS`,
-        failure: `${type}_FAILURE`,
-        begin: `${type}_BEGIN`
-      };
-    }
-    if (!types.success || !types.failure || !types.begin) {
-      throw new Error(
-        'Types is missing either success, error or begin type. ' +
-        '(Maybe you referenced to non-existent constants?)'
+    const { types, meta, payload, promise } = action;
+
+    if (!Array.isArray(types) || types.length !== 3) {
+      console.log(action);
+      throw new TypeError(
+        'promiseMiddleware expects action to contain a `types` property with 3 elements. ' +
+        `${(types || []).join('')} was provided`
       );
     }
 
-    dispatchThis(next, types.begin, {
+    const [PENDING, SUCCESS, FAILURE] = types;
+
+    next({
+      type: PENDING,
       payload,
       meta
     });
 
-    return promise.then(result => {
-      dispatchThis(next, types.success, {
-        payload: result,
+    return promise.then(
+      ({ json, response }) => next({
+        type: SUCCESS,
+        payload: json,
         meta
-      });
-    }, error => {
-      dispatchThis(next, types.failure, {
-        meta,
-        payload: error,
-        error: true
-      });
-    });
+      }),
+      (error) => next({
+        type: FAILURE,
+        error,
+        meta
+      })
+    );
   };
 }

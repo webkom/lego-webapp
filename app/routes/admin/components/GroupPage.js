@@ -25,7 +25,7 @@ const Tabs = ({ location }) => {
 
   return (
     <header className='GroupPage__tabs'>
-      {tabNames.map(name =>
+      {tabNames.map((name) =>
         <Tab key={name} base={base} name={name} />
       )}
     </header>
