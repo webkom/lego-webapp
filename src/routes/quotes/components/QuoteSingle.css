@@ -1,0 +1,138 @@
+.single-quote {
+  padding: 1px 20px 10px 0;
+  background-repeat:no-repeat;
+  width: 100%;
+  margin-bottom:25px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.single-quote .the-quote {
+  width: 93%;
+}
+
+.single-quote .the-quote a{
+  color: black;
+}
+
+.single-quote .the-quote a:hover {
+  color: black;
+  text-decoration: none;
+}
+
+.single-quote .left-quote {
+  display: flex;
+  width: calc(100% - 100px);
+  order: 1;
+}
+
+.single-quote .right-quote {
+  order: 2;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2px;
+  width: 70px;
+  margin-left: 20px;
+}
+
+.single-quote .like-count {
+  order: 2;
+  font-size: 30px;
+  color: orange;
+  margin-top: -7px;
+  padding-bottom: 15px;
+}
+
+.single-quote h3 {
+  font-weight: 200;
+  font-size: 30px;
+  margin: 0;
+  line-height: 35px;
+}
+
+.single-quote h3 a {
+  color: #777;
+}
+.single-quote h3 a:hover {
+  color: orange;
+}
+
+.single-quote .likes,.single-quote .unlikes {
+  width: 50px;
+  height: 50px;
+  order: 1;
+}
+
+.single-quote .fa-thumbs-up {
+  padding-top: 5px;
+  font-size: 35px;
+  order: 0;
+}
+
+.single-quote .quote-default {
+  color: gray;
+}
+
+.single-quote .quote-liked {
+  color: orange;
+}
+
+.single-quote .fa-thumbs-up:hover {
+  color: orange;
+}
+
+.quote-bottom {
+  width: 100%;
+  margin-top: 20px;
+  padding-bottom: 40px;
+  margin-left: 130px;
+  border-bottom: 1px solid #cccccc;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  order: 3;
+}
+
+.single-quote .quote-source {
+  font-size: 20px;
+  order: 1;
+  margin-top: -5px;
+  width: 76%;
+  line-height: 25px;
+}
+
+.single-quote .quote-author {
+  font-size: 15px;
+  margin-top: 50px;
+}
+
+.single-quote .quote-date {
+  color: #666666;
+  font-size: 13px;
+  order: 2;
+  align-self: auto;
+  margin-top: 1px;
+}
+
+.single-quote .quote-admin {
+  margin: 20px auto 0 auto;
+  width: 200px;
+  order: 3;
+}
+
+.delete-quote {
+  margin-left: 20px;
+}
+
+.single-quote .fa-quote-right {
+  font-size: 100px;
+  color: #dbdbdb;
+  margin-right: 30px;
+  order: 0;
+  height: 0;
+ }
+
+ .quote-singleroute .quote-bottom{
+   border-bottom: none;
+ }

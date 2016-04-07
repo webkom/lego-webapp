@@ -26,7 +26,7 @@ export default class GroupSettings extends Component {
   constructor() {
     super();
     this.state = {
-      editing: false
+      editing: true
     };
   }
   toggleEditing() {
@@ -34,6 +34,7 @@ export default class GroupSettings extends Component {
       editing: !this.state.editing
     });
   }
+
   render() {
     const { permissions, id } = this.props.group;
     const { updateGroup } = this.props;

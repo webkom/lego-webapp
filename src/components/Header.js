@@ -43,6 +43,7 @@ export default class Header extends Component {
             <Link to='/events'>Arrangementer</Link>
             <Link to=''>Karriere</Link>
             <Link to=''>README</Link>
+            <Link to='/quotes'>Sitater</Link>
           </div>
 
           <div>

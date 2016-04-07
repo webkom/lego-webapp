@@ -13,6 +13,8 @@ function dispatchThis(dispatch, type, actionData) {
     type.forEach(fn => {
       dispatchThis(dispatch, fn, actionData);
     });
+  } else if (typeof(type) === 'object') {
+    dispatch(type);
   } else if (typeof(type) === 'function') {
     const res = type(actionData);
     if (res) {
@@ -58,6 +60,7 @@ export default function promiseMiddleware() {
       });
     }, error => {
       dispatchThis(next, types.failure, {
+        meta,
         payload: error,
         error: true
       });
