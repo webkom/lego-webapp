@@ -7,9 +7,10 @@ module.exports = {
     publicPath: ''
   },
   resolve: {
-    alias: {
-      '🏠': path.resolve(__dirname, '../src')
-    },
+    modules: [
+      path.resolve(__dirname, '../'),
+      'node_modules'
+    ],
     extensions: ['', '.js', '.jsx', '.json', '.css', '.png']
   },
   module: {
