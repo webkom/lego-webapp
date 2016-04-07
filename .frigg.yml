@@ -5,15 +5,6 @@ tasks:
  - npm test
  - npm run lint
 
-deploy_tasks:
- - npm install
- - npm install forever
- - npm run bundle
- - PORT=8000 ./node_modules/.bin/forever start node_modules/.bin/babel-node server.js
-
 coverage:
   path: coverage/cobertura-coverage.xml
   parser: cobertura
-
-deployment:
-  image: frigg/frigg-test-base
