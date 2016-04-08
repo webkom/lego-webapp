@@ -18,9 +18,7 @@ const compareByDate = (a, b) => {
   return date2.getTime() - date1.getTime();
 };
 
-const compareByLikes = (a, b) => {
-  return b.likes - a.likes;
-};
+const compareByLikes = (a, b) => b.likes - a.likes;
 
 const sortQuotes = (quotes, sortType) => {
   const compare = sortType === 'date' ? compareByDate : compareByLikes;
