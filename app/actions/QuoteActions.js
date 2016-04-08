@@ -1,25 +1,37 @@
 import { Quote } from './ActionTypes';
-import request, { callAPI } from '../utils/http';
+import { callAPI } from '../utils/http';
 import { pushState } from 'redux-react-router';
 import { startSubmit, stopSubmit } from 'redux-form';
 
 export function fetchAllApproved() {
   return callAPI({
-    type: Quote.FETCH_ALL_APPROVED,
+    types: [
+      Quote.FETCH_ALL_APPROVED_BEGIN,
+      Quote.FETCH_ALL_APPROVED_SUCCESS,
+      Quote.FETCH_ALL_APPROVED_FAILURE
+    ],
     endpoint: '/quotes/'
   });
 }
 
 export function fetchAllUnapproved() {
   return callAPI({
-    type: Quote.FETCH_ALL_UNAPPROVED,
+    types: [
+      Quote.FETCH_ALL_UNAPPROVED_BEGIN,
+      Quote.FETCH_ALL_UNAPPROVED_SUCCESS,
+      Quote.FETCH_ALL_UNAPPROVED_FAILURE
+    ],
     endpoint: '/quotes/?approved=false'
   });
 }
 
 export function fetchQuote(quoteId) {
   return callAPI({
-    type: Quote.FETCH,
+    types: [
+      Quote.FETCH_BEGIN,
+      Quote.FETCH_SUCCESS,
+      Quote.FETCH_FAILURE
+    ],
     endpoint: `/quotes/${quoteId}/`,
     method: 'get',
     meta: {
@@ -30,7 +42,11 @@ export function fetchQuote(quoteId) {
 
 export function like(quoteId) {
   return callAPI({
-    type: Quote.LIKE,
+    types: [
+      Quote.LIKE_BEGIN,
+      Quote.LIKE_SUCCESS,
+      Quote.LIKE_FAILURE
+    ],
     endpoint: `/quotes/${quoteId}/like/`,
     method: 'post'
   });
@@ -38,7 +54,11 @@ export function like(quoteId) {
 
 export function unlike(quoteId) {
   return callAPI({
-    type: Quote.UNLIKE,
+    types: [
+      Quote.UNLIKE_BEGIN,
+      Quote.UNLIKE_SUCCESS,
+      Quote.UNLIKE_FAILURE
+    ],
     endpoint: `/quotes/${quoteId}/unlike/`,
     method: 'post'
   });
@@ -46,7 +66,11 @@ export function unlike(quoteId) {
 
 export function approve(quoteId) {
   return callAPI({
-    type: Quote.APPROVE,
+    types: [
+      Quote.APPROVE_BEGIN,
+      Quote.APPROVE_SUCCESS,
+      Quote.APPROVE_FAILURE
+    ],
     endpoint: `/quotes/${quoteId}/approve/`,
     method: 'put'
   });
@@ -54,7 +78,11 @@ export function approve(quoteId) {
 
 export function unapprove(quoteId) {
   return callAPI({
-    type: Quote.UNAPPROVE,
+    types: [
+      Quote.UNAPPROVE_BEGIN,
+      Quote.UNAPPROVE_SUCCESS,
+      Quote.UNAPPROVE_FAILURE
+    ],
     endpoint: `/quotes/${quoteId}/unapprove/`,
     method: 'put'
   });
@@ -63,48 +91,39 @@ export function unapprove(quoteId) {
 export function addQuotes({ text, source }) {
   return (dispatch, getState) => {
     dispatch(startSubmit('addQuote'));
-    const options = {
-      url: `/quotes/`,
+
+    dispatch(callAPI({
+      types: [Quote.ADD_BEGIN, Quote.ADD_SUCCESS, Quote.ADD_FAILURE],
+      endpoint: '/quotes/',
       method: 'post',
       body: {
         title: 'Tittel',
         text,
         source,
         approved: false
-      },
-      jwtToken: getState().auth.token
-    };
-
-    dispatch({
-      promise: request(options),
-      types: {
-        begin: Quote.ADD_BEGIN,
-        success: [
-          Quote.ADD_SUCCESS,
-          stopSubmit('addQuote'),
-          pushState(null, '/quotes')
-        ],
-        failure: [
-          Quote.ADD_FAILURE,
-          (res) => {
-            const errors = { ...res.payload.response.body };
-            if (errors.text) {
-              errors.text = errors.text[0];
-            }
-            if (errors.source) {
-              errors.source = errors.source[0];
-            }
-            dispatch(stopSubmit('addQuote', errors));
-          }
-        ]
       }
-    });
+    })).then(
+      () => {
+        stopSubmit('addQuote');
+        pushState(null, '/quotes');
+      },
+      (error) => {
+        const errors = { ...error.response.body };
+        if (errors.text) {
+          errors.text = errors.text[0];
+        }
+        if (errors.source) {
+          errors.source = errors.source[0];
+        }
+        dispatch(stopSubmit('addQuote', errors));
+      }
+    );
   };
 }
 
 export function deleter(quoteId) {
   return callAPI({
-    type: Quote.DELETE,
+    types: [Quote.DELETE_BEGIN, Quote.DELETE_SUCCESS, Quote.DELETE_FAILURE],
     endpoint: `/quotes/${quoteId}/`,
     method: 'del',
     meta: {

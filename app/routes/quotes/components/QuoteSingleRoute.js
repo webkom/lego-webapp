@@ -39,9 +39,7 @@ export default class QuoteSingleRoute extends Component {
               <a
                 data-quote-id={quote.id}
                 className={`${quote.hasLiked ? 'quote-unlikes' : 'quote-likes'}`}
-                onClick={() => {
-                  return quote.hasLiked ? unlike(quote.id) : like(quote.id);
-                }}
+                onClick={() => quote.hasLiked ? unlike(quote.id) : like(quote.id)}
               >
                 <i
                   className={(quote.hasLiked ?
