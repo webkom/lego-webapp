@@ -10,7 +10,7 @@ export function fetchAllApproved() {
       Quote.FETCH_ALL_APPROVED_SUCCESS,
       Quote.FETCH_ALL_APPROVED_FAILURE
     ],
-    endpoint: '/quotes/'
+    endpoint: '/quotes/?approved=true'
   });
 }
 
