@@ -10,11 +10,11 @@ export default class QuoteSingleRoute extends Component {
     unlike: PropTypes.func.isRequired,
     approve: PropTypes.func.isRequired,
     unapprove: PropTypes.func.isRequired,
-    deleter: PropTypes.func.isRequired
+    deleteQuote: PropTypes.func.isRequired
   };
 
   render() {
-    const { like, unlike, approve, unapprove, deleter } = this.props;
+    const { like, unlike, approve, unapprove, deleteQuote } = this.props;
     const quote = this.props.quotes[0];
 
     if (!quote) {
@@ -70,7 +70,7 @@ export default class QuoteSingleRoute extends Component {
                 > {(quote.approved ? 'Fjern Godkjenning' : 'Godkjenn')}</a>
                 <a
                   className='delete-quote'
-                  onClick = {() => deleter(quote.id)}
+                  onClick = {() => deleteQuote(quote.id)}
                 >Slett</a>
               </div>
               )}

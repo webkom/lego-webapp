@@ -10,7 +10,7 @@ const emptyProps = (rm) => ({
   unlike: () => ({}),
   approve: () => ({}),
   unapprove: () => ({}),
-  deleter: () => ({})
+  deleteQuote: () => ({})
 });
 
 describe('components', () => {
@@ -58,13 +58,13 @@ describe('components', () => {
     });
 
     it('should notice that delete is clicked and recieve correct quoteId', () => {
-      const deleter = expect.createSpy();
+      const deleteQuote = expect.createSpy();
       const wrapper = shallow(
-        <SingleQuote {...emptyProps()} deleter={deleter} quote={singleQuote()} />
+        <SingleQuote {...emptyProps()} deleteQuote={deleteQuote} quote={singleQuote()} />
       );
       const deleteButton = wrapper.find('.quote-admin').children().at(1);
       deleteButton.simulate('click');
-      expect(deleter).toHaveBeenCalledWith(quotes[0].id);
+      expect(deleteQuote).toHaveBeenCalledWith(quotes[0].id);
     });
   });
 });

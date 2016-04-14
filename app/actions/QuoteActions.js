@@ -121,7 +121,7 @@ export function addQuotes({ text, source }) {
   };
 }
 
-export function deleter(quoteId) {
+export function deleteQuote(quoteId) {
   return callAPI({
     types: [Quote.DELETE_BEGIN, Quote.DELETE_SUCCESS, Quote.DELETE_FAILURE],
     endpoint: `/quotes/${quoteId}/`,

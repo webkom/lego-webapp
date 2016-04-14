@@ -8,7 +8,7 @@ import {
   unlike,
   approve,
   unapprove,
-  deleter
+  deleteQuote
 } from '../../actions/QuoteActions';
 import QuoteSingleRoute from './components/QuoteSingleRoute';
 
@@ -24,7 +24,7 @@ import QuoteSingleRoute from './components/QuoteSingleRoute';
     unlike,
     approve,
     unapprove,
-    deleter
+    deleteQuote
   }
 )
 export default class QuotesSingleRouteContainer extends Component {
