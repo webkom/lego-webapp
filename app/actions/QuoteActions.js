@@ -104,8 +104,8 @@ export function addQuotes({ text, source }) {
       }
     })).then(
       () => {
-        stopSubmit('addQuote');
-        pushState(null, '/quotes');
+        dispatch(stopSubmit('addQuote'));
+        dispatch(pushState(null, '/quotes'));
       },
       (error) => {
         const errors = { ...error.response.body };
