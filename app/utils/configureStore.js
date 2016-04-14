@@ -1,10 +1,8 @@
-import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, applyMiddleware, combineReducers } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
-import { createHistory } from 'history';
-import { reduxReactRouter, routerStateReducer } from 'redux-react-router';
-import routes from 'app/routes';
-import * as reducers from 'app/reducers';
+import { hashHistory } from 'react-router';
+import { routerReducer, routerMiddleware } from 'react-router-redux';
 import promiseMiddleware from './promiseMiddleware';
 
 const loggerMiddleware = createLogger({
@@ -12,28 +10,26 @@ const loggerMiddleware = createLogger({
   collapsed: true
 });
 
-const middlewares = applyMiddleware(
-  thunkMiddleware,
-  promiseMiddleware,
-  loggerMiddleware
-);
+export default function configureStore(initialState = {}) {
+  const mergeReducers = (reducers) => combineReducers({
+    ...reducers,
+    routing: routerReducer
+  });
 
-const finalCreateStore = compose(
-  middlewares,
-  reduxReactRouter({ routes, createHistory })
-)(createStore);
-
-const reducer = combineReducers({
-  router: routerStateReducer,
-  ...reducers
-});
-
-export default function configureStore(initialState) {
-  const store = finalCreateStore(reducer, initialState);
+  const store = createStore(
+    mergeReducers(require('../reducers')),
+    initialState,
+    applyMiddleware(
+      routerMiddleware(hashHistory),
+      thunkMiddleware,
+      promiseMiddleware,
+      loggerMiddleware
+    )
+  );
 
   if (module.hot) {
     module.hot.accept('../reducers', () => {
-      const nextReducer = require('../reducers');
+      const nextReducer = mergeReducers(require('../reducers'));
       store.replaceReducer(nextReducer);
     });
   }

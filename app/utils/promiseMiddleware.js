@@ -22,17 +22,19 @@ export default function promiseMiddleware() {
       meta
     });
 
-    return promise.then(
-      ({ json, response }) => next({
-        type: SUCCESS,
-        payload: json,
-        meta
-      }),
-      (error) => next({
-        type: FAILURE,
-        error,
-        meta
-      })
-    );
+    return new Promise((resolve, reject) => {
+      promise.then(
+        ({ json, response }) => resolve(next({
+          type: SUCCESS,
+          payload: json,
+          meta
+        })),
+        (error) => reject(next({
+          type: FAILURE,
+          error,
+          meta
+        }))
+      );
+    });
   };
 }
