@@ -19,6 +19,9 @@ export default class EventsRoot extends Component {
   }
 
   render() {
-    return React.cloneElement(this.props.children, this.props);
+    const props = { ...this.props };
+    delete props.ref;
+    delete props.key;
+    return React.cloneElement(this.props.children, props);
   }
 }
