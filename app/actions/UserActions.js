@@ -7,7 +7,7 @@ import { callAPI } from 'app/utils/http';
 const USER_STORAGE_KEY = 'user';
 
 function putInLocalStorage(key) {
-  return (payload) => {
+  return ({ payload }) => {
     window.localStorage.setItem(key, JSON.stringify(payload));
     return payload;
   };
