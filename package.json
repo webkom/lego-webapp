@@ -44,6 +44,7 @@
     "react-addons-css-transition-group": "15.0.0",
     "react-addons-test-utils": "15.0.0",
     "react-dom": "15.0.0",
+    "react-notification": "5.0.3",
     "react-overlays": "0.6.3",
     "react-redux": "4.4.1",
     "react-router": "2.0.1",

@@ -10,6 +10,7 @@ import auth from './auth';
 import form from 'redux-form';
 import users from './users';
 import groups from './groups';
+export { default as notifications } from './notifications';
 import entities from './entities';
 
 export default combineReducers({
@@ -21,6 +22,7 @@ export default combineReducers({
   form,
   users,
   groups,
+  notifications,
   entities,
   routing: routerReducer
 });
