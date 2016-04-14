@@ -1,6 +1,6 @@
 import { Quote } from './ActionTypes';
 import { callAPI } from '../utils/http';
-import { pushState } from 'redux-react-router';
+import { push } from 'react-router-redux';
 import { startSubmit, stopSubmit } from 'redux-form';
 
 export function fetchAllApproved() {
@@ -105,7 +105,7 @@ export function addQuotes({ text, source }) {
     })).then(
       () => {
         dispatch(stopSubmit('addQuote'));
-        dispatch(pushState(null, '/quotes'));
+        dispatch(push('/quotes'));
       },
       (error) => {
         const errors = { ...error.response.body };

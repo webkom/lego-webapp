@@ -4,7 +4,8 @@
   "globals": {
     "log": true,
     "expect": true,
-    "sinon": true
+    "sinon": true,
+    "__DEV__": true
   },
   "rules": {
     "react/jsx-no-bind": 0,

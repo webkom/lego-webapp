@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import moment from 'moment';
-import { replaceState, pushState } from 'redux-react-router';
+import { push, replace } from 'react-router-redux';
 import { User } from './ActionTypes';
 import { callAPI } from 'app/utils/http';
 
@@ -27,7 +27,9 @@ export function login(username, password) {
         username,
         password
       }
-    })).then(putInLocalStorage(USER_STORAGE_KEY));
+    }))
+      .then(putInLocalStorage(USER_STORAGE_KEY))
+      .catch((error) => console.error(error));
   };
 }
 
@@ -35,7 +37,7 @@ export function logout() {
   return (dispatch) => {
     window.localStorage.removeItem(USER_STORAGE_KEY);
     dispatch({ type: User.LOGOUT });
-    dispatch(replaceState(null, '/'));
+    dispatch(replace('/'));
   };
 }
 
@@ -53,9 +55,14 @@ export function updateUser({ username, firstName, lastName, email }) {
         email
       }
     })).then((action) => {
-      dispatch(pushState(null, `/users/${action.payload.username || 'me'}`));
+      dispatch(push(`/users/${action.payload.username || 'me'}`));
       if (getState().auth.username === username) {
-        putInLocalStorage(USER_STORAGE_KEY)({ token, user: action.payload });
+        putInLocalStorage(USER_STORAGE_KEY)({
+          payload: {
+            token,
+            user: action.payload
+          }
+        });
       }
     });
   };
