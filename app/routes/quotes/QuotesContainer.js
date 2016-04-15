@@ -8,7 +8,7 @@ import {
   unlike,
   approve,
   unapprove,
-  deleter
+  deleteQuote
 } from '../../actions/QuoteActions';
 import QuotePage from './components/QuotePage';
 
@@ -42,7 +42,7 @@ const sortQuotes = (quotes, sortType) => {
     unlike,
     approve,
     unapprove,
-    deleter
+    deleteQuote
   }
 )
 export default class QuotesContainer extends Component {

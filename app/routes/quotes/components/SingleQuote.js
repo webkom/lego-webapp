@@ -11,11 +11,11 @@ export default class SingleQuote extends Component {
     unlike: PropTypes.func.isRequired,
     approve: PropTypes.func.isRequired,
     unapprove: PropTypes.func.isRequired,
-    deleter: PropTypes.func.isRequired
+    deleteQuote: PropTypes.func.isRequired
   };
 
   render() {
-    const { quote, like, unlike, approve, unapprove, deleter } = this.props;
+    const { quote, like, unlike, approve, unapprove, deleteQuote } = this.props;
 
     return (
       <li className='single-quote'>
@@ -49,7 +49,7 @@ export default class SingleQuote extends Component {
           </span>
 
           <div className='quote-date'>
-            {<ReadableDateTime dateTime={this.props.quote.createdAt} />}
+            {<ReadableDateTime dateTime={quote.createdAt} />}
           </div>
 
           {quote.permissions && quote.permissions.indexOf('can_approve') !== -1 && (
@@ -62,7 +62,7 @@ export default class SingleQuote extends Component {
             > {(quote.approved ? 'Fjern Godkjenning' : 'Godkjenn')}</a>
             <a
               className='delete-quote'
-              onClick = {() => deleter(quote.id)}
+              onClick = {() => deleteQuote(quote.id)}
             >Slett</a>
           </div>
           )}

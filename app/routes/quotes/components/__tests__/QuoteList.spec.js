@@ -10,7 +10,7 @@ const emptyProps = () => ({
   unlike: () => ({}),
   approve: () => ({}),
   unapprove: () => ({}),
-  deleter: () => ({}),
+  deleteQuote: () => ({}),
   sortType: ''
 });
 
