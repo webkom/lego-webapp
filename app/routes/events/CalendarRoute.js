@@ -1,20 +1,11 @@
-import React, { Component } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetchAll } from 'app/actions/EventActions';
 import Calendar from './components/Calendar';
+import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 
-function loadData(props) {
+function loadData(params, props) {
   props.fetchAll();
-}
-
-export default class CalendarRoute extends Component {
-  componentWillMount() {
-    loadData(this.props);
-  }
-
-  render() {
-    return <Calendar {...this.props} />;
-  }
 }
 
 function mapStateToProps(state) {
@@ -25,7 +16,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = { fetchAll };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CalendarRoute);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  fetchOnUpdate([], loadData)
+)(Calendar);

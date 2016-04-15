@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
@@ -7,12 +6,6 @@ import EventDetail from './components/EventDetail';
 
 function loadData({ eventId }, props) {
   props.fetchEvent(Number(eventId));
-}
-
-class EventDetailRoute extends Component {
-  render() {
-    return <EventDetail {...this.props} />;
-  }
 }
 
 function mapStateToProps(state, props) {
@@ -28,4 +21,4 @@ const mapDispatchToProps = { fetchEvent };
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   fetchOnUpdate(['eventId'], loadData),
-)(EventDetailRoute);
+)(EventDetail);
