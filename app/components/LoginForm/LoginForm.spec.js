@@ -1,4 +1,4 @@
-/* eslint-disable-rule no-unused-expressions */
+/* eslint-disable no-unused-expressions */
 import React from 'react';
 
 import LoginForm from '../LoginForm';
@@ -17,12 +17,11 @@ describe('components', () => {
       const password = form.children().at(1);
       const submit = form.children().at(2);
       expect(username).to.tagName('input');
-      expect(username).to.have.prop('autoFocus')
+      expect(username).to.have.prop('autoFocus');
       expect(password).to.tagName('input');
-      expect(password).to.have.attr('type','password');
+      expect(password).to.have.attr('type', 'password');
       expect(submit).to.have.match(Button);
       expect(submit).to.have.prop('submit');
-
     });
 
     it('should call login() only if valid', () => {
@@ -36,7 +35,6 @@ describe('components', () => {
       password.node.value = 'webkom';
       form.simulate('submit');
       expect(login).to.have.been.called;
-
       username.node.value = '';
       password.node.value = '';
       form.simulate('submit');
