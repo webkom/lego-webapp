@@ -28,26 +28,25 @@ describe('components', () => {
   describe('GroupTree', () => {
     it('should render the child nodes as links', () => {
       const wrapper = shallow(<GroupTree groups={groups} />);
-      expect(wrapper.contains(<Link to='/admin/groups/2/settings'>Dog</Link>)).to.equal(true);
-      expect(wrapper.contains(<Link to='/admin/groups/3/settings'>Bird</Link>)).to.equal(true);
+      expect(wrapper).to.contain(<Link to='/admin/groups/2/settings'>Dog</Link>);
+      expect(wrapper).to.contain(<Link to='/admin/groups/3/settings'>Bird</Link>);
     });
 
     it('should render the root nodes correctly', () => {
       const children = shallow(<GroupTree groups={groups} />).children();
       expect(children.at(1).is(TreeView)).to.equal(true);
-      expect(children.at(2).is('div')).to.equal(true);
     });
 
     it('should work with no groups', () => {
       const children = shallow(<GroupTree groups={[]} />).children();
-      expect(children.contains(<h3>Groups</h3>)).to.equal(true);
+      expect(children).to.contain(<h3>Groups</h3>);
     });
 
     it('should work with only root groups', () => {
       const rootGroups = groups.slice(0, 1);
       const wrapper = shallow(<GroupTree groups={rootGroups} />);
       const links = wrapper.find(Link);
-      expect(wrapper.find(TreeView).isEmpty()).to.equal(true);
+      expect(wrapper.find(TreeView)).to.be.blank();
       expect(links.length).to.equal(1);
     });
   });
