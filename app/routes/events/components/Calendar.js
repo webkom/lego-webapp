@@ -94,20 +94,22 @@ export default class Calendar extends Component {
     return (
       <div className='Calendar u-container'>
         <h2 className='Calendar__header'>
-          <Link to='/events' query={this.queryForPrevMonth(date)}>&laquo;</Link>
+          <Link to={{ pathname: '/events', query: this.queryForPrevMonth(date) }}>&laquo;</Link>
           <span>{date.format('MMMM YYYY')}</span>
-          <Link to='/events' query={this.queryForNextMonth(date)}>&raquo;</Link>
+          <Link to={{ pathname: '/events', query: this.queryForNextMonth(date) }}>&raquo;</Link>
         </h2>
 
         <div className='Calendar__grid'>
           {['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'].map(
-            (d) => <div className='Calendar__headingItem'>{d}</div>
+            (d) => <div key={d} className='Calendar__headingItem'>{d}</div>
           )}
           {createDateObjects(
             date,
             this.props.weekOffset,
             this.props.events || []
-          ).map(Day)}
+          ).map((dateObject) =>
+            <Day key={dateObject.day.format('x')} {...dateObject} />
+          )}
         </div>
       </div>
     );
