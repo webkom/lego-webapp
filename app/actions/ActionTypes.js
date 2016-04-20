@@ -12,6 +12,9 @@ export const Event = {
   FETCH_ALL_FAILURE: 'Event.FETCH_ALL_FAILURE'
 };
 
+/**
+ *
+ */
 export const Group = {
   FETCH: 'Group.FETCH',
   FETCH_BEGIN: 'Group.FETCH_BEGIN',
@@ -32,6 +35,15 @@ export const Group = {
  */
 export const Favorite = {
   FETCH_ALL_SUCCESS: 'Favorite.FETCH_ALL_SUCCESS'
+};
+
+/**
+ *
+ */
+export const Comment = {
+  ADD_BEGIN: 'Comment.ADD_BEGIN',
+  ADD_SUCCESS: 'Comment.ADD_SUCCESS',
+  ADD_FAILURE: 'Comment.ADD_FAILURE'
 };
 
 /**

@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import RequireLogin from 'app/components/RequireLogin';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import CommentView from './CommentView';
+import { CommentView } from 'app/components/Comments';
 
-const Event = ({ event, loggedIn }) => (
+const Event = ({ event, loggedIn, user }) => (
   <section className='u-container content event-page'>
     <h2>{event.title}</h2>
     <article className='event-ingress'>
@@ -25,8 +25,8 @@ const Event = ({ event, loggedIn }) => (
         <p>Påmeldingen stenger 13:37</p>
       </form>
     </RequireLogin>
-
-    <CommentView comments={[]} />
+    <CommentView formEnabled user={user} commentTarget={event.commentTarget}
+      loggedIn={loggedIn} comments={event.comments || []} />
   </section>
 );
 

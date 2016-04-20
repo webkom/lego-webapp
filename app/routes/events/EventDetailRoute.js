@@ -12,7 +12,8 @@ function loadData({ eventId }, props) {
   loggedIn: state.auth.token !== null,
   event: state.events.items.find(
     (event) => event.id === Number(props.params.eventId)
-  )
+  ),
+  user: state.auth
 }), { fetchEvent })
 @fetchOnUpdate(['eventId'], loadData)
 export default class EventDetailRoute extends Component {
