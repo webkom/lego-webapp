@@ -1,28 +1,25 @@
-import React, { Component, PropTypes } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
-import EventPage from './components/EventPage';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { fetchEvent } from 'app/actions/EventActions';
+import EventDetail from './components/EventDetail';
 
 function loadData({ eventId }, props) {
   props.fetchEvent(Number(eventId));
 }
 
-@connect((state, props) => ({
-  loggedIn: state.auth.token !== null,
-  event: state.events.items.find(
-    (event) => event.id === Number(props.params.eventId)
-  ),
-  user: state.auth
-}), { fetchEvent })
-@fetchOnUpdate(['eventId'], loadData)
-export default class EventDetailRoute extends Component {
-
-  static propTypes = {
-    params: PropTypes.object.isRequired
+function mapStateToProps(state, props) {
+  return {
+    loggedIn: state.auth.token !== null,
+    user: state.auth,
+    event: state.events.items.find((event) =>
+      event.id === +props.params.eventId)
   };
-
-  render() {
-    return <EventPage {...this.props} />;
-  }
 }
+
+const mapDispatchToProps = { fetchEvent };
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  fetchOnUpdate(['eventId'], loadData),
+)(EventDetail);

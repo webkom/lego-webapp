@@ -1,7 +1,6 @@
 export default {
   path: 'events',
-  component: require('./IndexRoute').default,
-  indexRoute: { component: require('./components/Calendar').default },
+  indexRoute: { component: require('./CalendarRoute').default },
   childRoutes: [{
     path: ':eventId',
     component: require('./EventDetailRoute').default
