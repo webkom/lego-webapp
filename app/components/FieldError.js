@@ -1,4 +1,4 @@
 import React from 'react';
 export default ({ error }) => (
-  <span className='field-error'>{error}<br /></span>
+  <span className='field-error'>{error}</span>
 );
