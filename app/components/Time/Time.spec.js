@@ -13,8 +13,7 @@ describe('components', () => {
           2016-02-2
         </time>
       );
-
-      expect(wrapper.equals(expected)).to.equal(true);
+      expect(wrapper).to.contain(expected);
     });
 
     it('should show a date with a custom format', () => {
@@ -25,8 +24,7 @@ describe('components', () => {
           23:17
         </time>
       );
-
-      expect(wrapper.equals(expected)).to.equal(true);
+      expect(wrapper).to.contain(expected);
     });
   });
 });

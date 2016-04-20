@@ -44,7 +44,7 @@ describe('components', () => {
     it('should render the GroupMembersList component with the user list', () => {
       const wrapper = shallow(<GroupMembers group={group} />);
       const membersList = wrapper.find(GroupMembersList);
-      expect(membersList.props().users).to.equal(users);
+      expect(membersList).to.have.prop('users').equal(users);
     });
 
     it('should not render the GroupMembersList component while loading', () => {
@@ -59,13 +59,13 @@ describe('components', () => {
   describe('GroupMembersList', () => {
     it('should render "No users" for an empty array', () => {
       const wrapper = shallow(<GroupMembersList users={[]} />);
-      expect(wrapper.contains('No users')).to.equal(true);
+      expect(wrapper).to.contain('No users');
     });
 
     it('should render an <ul> of users', () => {
       const wrapper = shallow(<GroupMembersList users={users} />);
-      expect(wrapper.type()).to.equal('ul');
-      expect(wrapper.children().length).to.equal(users.length);
+      expect(wrapper).to.have.tagName('ul');
+      expect(wrapper).to.have.exactly(users.length).descendants('li');
     });
 
     it('should include links for all users in the list', () => {
@@ -73,7 +73,7 @@ describe('components', () => {
       const children = wrapper.children();
       users.forEach(({ username }, i) => {
         const link = <Link to={`/users/${username}`}>{username}</Link>;
-        expect(children.at(i).contains(link)).to.equal(true);
+        expect(children.at(i)).to.contain(link);
       });
     });
   });

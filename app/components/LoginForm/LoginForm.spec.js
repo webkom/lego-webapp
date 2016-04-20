@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-expressions */
+/* eslint-disable-rule no-unused-expressions */
 import React from 'react';
 
 import LoginForm from '../LoginForm';
@@ -10,21 +10,19 @@ describe('components', () => {
     it('should render correctly', () => {
       const login = () => {};
       const wrapper = shallow(<LoginForm login={login} />);
-      expect(wrapper.is('div')).to.equal(true);
-      expect(wrapper.props().className).to.include('LoginForm');
-
+      expect(wrapper).to.tagName('div');
+      expect(wrapper).to.have.prop('className', 'LoginForm');
       const form = wrapper.find('form');
       const username = form.children().at(0);
       const password = form.children().at(1);
       const submit = form.children().at(2);
-      expect(username.is('input')).to.equal(true);
-      expect(username.props().autoFocus).to.equal(true);
+      expect(username).to.tagName('input');
+      expect(username).to.have.prop('autoFocus')
+      expect(password).to.tagName('input');
+      expect(password).to.have.attr('type','password');
+      expect(submit).to.have.match(Button);
+      expect(submit).to.have.prop('submit');
 
-      expect(password.is('input')).to.equal(true);
-      expect(password.props().type).to.equal('password');
-
-      expect(submit.is(Button)).to.equal(true);
-      expect(submit.props().submit).to.equal(true);
     });
 
     it('should call login() only if valid', () => {

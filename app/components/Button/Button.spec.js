@@ -1,8 +1,10 @@
 import React from 'react';
 import TestUtils from 'react-addons-test-utils';
+import { mount, shallow } from 'enzyme';
 import Button from '../Button';
 
 function setup(props = {}) {
+
   const renderer = TestUtils.createRenderer();
   renderer.render(<Button {...props} />);
   const output = renderer.getRenderOutput();
@@ -12,24 +14,28 @@ function setup(props = {}) {
 describe('components', () => {
   describe('ui/Button', () => {
     it('should render correctly', () => {
-      const { output } = setup();
-      expect(output.type).to.equal('button');
-      expect(output.props.className).to.include('Button');
+      const wrapper = shallow(<Button/>);
+      expect(wrapper).to.have.attr('type','button');
+      expect(wrapper).to.have.className('Button');
     });
 
     it('should support multiple variants', () => {
-      const { props, output } = setup({ size: 'large' });
-      expect(output.props.className).to.include(`Button--${props.size}`);
+      const props = {
+        size: 'large'
+      };
+      const wrapper = shallow(<Button {...props} />);
+      expect(wrapper).to.have.className(`Button--${props.size}`);
     });
 
     it('should be a normal button by default', () => {
-      const { output } = setup();
-      expect(output.props.type).to.equal('button');
+      const wrapper = shallow(<Button/>);
+      expect(wrapper).to.have.attr('type','button');
     });
 
     it('should turn to a submit button with a flag', () => {
-      const { output } = setup({ submit: true });
-      expect(output.props.type).to.equal('submit');
+      const wrapper = shallow(<Button submit='true' />)
+      expect(wrapper).to.have.attr('type','submit');
+      //expect(wrapper).to.have.prop('type').equal('submit');
     });
   });
 });

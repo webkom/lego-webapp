@@ -1,5 +1,3 @@
-
-
 import auth from '../auth';
 import { User } from '../../actions/ActionTypes';
 

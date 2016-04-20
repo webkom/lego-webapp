@@ -20,26 +20,27 @@ describe('components', () => {
   describe('UserProfile', () => {
     it('should show a settings link if the user is me', () => {
       const wrapper = shallow(<UserProfile user={user} isMe />);
-      expect(wrapper.contains(<Link to='/users/me/settings'>Settings</Link>)).to.equal(true);
+      expect(wrapper).to.contain(<Link to='/users/me/settings'>Settings</Link>);
     });
 
     it('should not show a settings link for other users', () => {
       const wrapper = shallow(<UserProfile user={user} isMe={false} />);
-      expect(wrapper.contains(<Link to='/users/me/settings'>Settings</Link>)).to.equal(false);
+      expect(wrapper).to.not.contain(<Link to='/users/me/settings'>Settings</Link>);
     });
 
     it('should show a LoadingIndicator while the user prop is loading', () => {
       const wrapper = shallow(<UserProfile />);
       expect(wrapper.is(LoadingIndicator)).to.equal(true);
-      expect(wrapper.props().loading).to.equal(true);
-      expect(wrapper.children().isEmpty()).to.equal(true);
+
+      expect(wrapper).to.have.prop('loading');
+      expect(wrapper.children()).to.be.blank();
     });
 
     it('should render user info', () => {
       const wrapper = shallow(<UserProfile user={user} isMe={false} />);
-      expect(wrapper.contains(<h2>{user.fullName}</h2>)).to.equal(true);
-      expect(wrapper.contains(user.email)).to.equal(true);
-      expect(wrapper.contains(user.username)).to.equal(true);
+      expect(wrapper).to.contain(<h2>{user.fullName}</h2>);
+      expect(wrapper).to.contain(user.email);
+      expect(wrapper).to.contain(user.username);
     });
   });
 });
