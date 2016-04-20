@@ -11,6 +11,7 @@ function loadData({ eventId }, props) {
 function mapStateToProps(state, props) {
   return {
     loggedIn: state.auth.token !== null,
+    user: state.auth,
     event: state.events.items.find((event) =>
       event.id === +props.params.eventId)
   };

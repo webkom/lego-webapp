@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import RequireLogin from 'app/components/RequireLogin';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import CommentView from './CommentView';
+import CommentView from 'app/components/Comments/CommentView';
 
 /**
  *
@@ -13,7 +13,7 @@ export default class EventDetail extends Component {
   };
 
   render() {
-    const { event, loggedIn } = this.props;
+    const { event, loggedIn, user } = this.props;
 
     if (!event) {
       return <LoadingIndicator loading />;
@@ -42,7 +42,12 @@ export default class EventDetail extends Component {
           </form>
         </RequireLogin>
 
-        <CommentView comments={[]} />
+        <CommentView
+          formEnabled
+          user={user}
+          commentTarget={event.commentTarget}
+          loggedIn={loggedIn} comments={event.comments || []}
+        />
       </div>
     );
   }
