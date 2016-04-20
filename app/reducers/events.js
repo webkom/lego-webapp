@@ -1,5 +1,5 @@
 import createReducer from '../utils/createReducer';
-import { Event } from '../actions/ActionTypes';
+import { Event, Comment } from '../actions/ActionTypes';
 
 const initialState = {
   items: [],
@@ -16,6 +16,28 @@ function replaceEvent(events, newEvent) {
   return events.concat(newEvent);
 }
 
+function addComment(state, action) {
+  const [sourceType, objectId] = action.meta.commentTarget.split('-');
+  if (sourceType === 'events') {
+    return {
+      ...state,
+      items: state.items.map((evt) => {
+        if (evt.id !== parseInt(objectId, 10)) {
+          return evt;
+        }
+        return {
+          ...evt,
+          comments: [
+            ...evt.comments,
+            action.payload
+          ]
+        };
+      })
+    };
+  }
+  return state;
+}
+
 export default createReducer(initialState, {
   [Event.FETCH_ALL_BEGIN]: (state, action) => ({ ...state, isFetching: true }),
   [Event.FETCH_ALL_FAILURE]: (state, action) => ({ ...state, isFetching: false }),
@@ -26,5 +48,6 @@ export default createReducer(initialState, {
     ...state,
     isFetching: false,
     items: replaceEvent(state.items, action.payload)
-  })
+  }),
+  [Comment.ADD_SUCCESS]: addComment
 });

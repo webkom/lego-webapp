@@ -1,9 +1,6 @@
 import './Quotes.css';
 import React, { Component, PropTypes } from 'react';
-
-const FieldError = ({ error }) => (
-  <span className='field-error'>{error}<br /></span>
-);
+import FieldError from 'app/components/FieldError';
 
 export default class AddQuote extends Component {
 
