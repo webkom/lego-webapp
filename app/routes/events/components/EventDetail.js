@@ -20,8 +20,16 @@ export type Props = {
 export default class EventDetail extends Component {
   props: Props;
 
+  state = {
+    joinFormOpen: false
+  };
+
   handleJoinSubmit = (messageToOrganizers) => {
     console.log(messageToOrganizers);
+  };
+
+  toggleJoinFormOpen = () => {
+    this.setState({ joinFormOpen: !this.state.joinFormOpen });
   };
 
   render() {
@@ -43,7 +51,9 @@ export default class EventDetail extends Component {
 
         <FlexRow>
           <FlexColumn className='EventDetail__description'>
-            {event.text}
+            <p>{event.text}</p>
+            <p>{event.text}</p>
+            <p>{event.text}</p>
           </FlexColumn>
           <FlexColumn className='EventDetail__meta'>
             <ul>
@@ -57,15 +67,23 @@ export default class EventDetail extends Component {
         <FlexRow>
           {loggedIn && (
             <FlexColumn className='EventDetail__join'>
-              <h3>Bli med på dette arrangementet</h3>
-              <JoinEventForm
-                onSubmit={this.handleJoinSubmit}
-              />
+              <a
+                onClick={this.toggleJoinFormOpen}
+                className='EventDetail__joinToggle'
+              >
+                Bli med på dette arrangementet &rarr;
+              </a>
+
+              {this.state.joinFormOpen && (
+                <JoinEventForm
+                  onSubmit={this.handleJoinSubmit}
+                />
+              )}
             </FlexColumn>
           )}
 
           <FlexColumn className='EventDetail__openFor'>
-            <h3>Åpent for</h3>
+            <strong>Åpent for</strong>
             <ul>
             {(event.openFor || []).map((openFor) => (
               <li key={openFor}>{openFor}</li>

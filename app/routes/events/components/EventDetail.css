@@ -28,3 +28,8 @@
   flex: 2;
   padding: 20px;
 }
+
+.EventDetail__joinToggle {
+  font-size: 20px;
+  color: #333;
+}
