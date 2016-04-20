@@ -1,0 +1,30 @@
+.EventDetail__coverImage {
+  width: 100%;
+  height: 250px;
+  background: red;
+}
+
+.EventDetail__description {
+  background: #fff;
+  padding: 20px;
+  flex: 2;
+}
+
+.EventDetail__meta {
+  flex: 1;
+  background: #ba1414;
+  padding: 20px;
+  color: #fff;
+}
+
+.EventDetail__openFor {
+  background: #CACACA;
+  flex: 1;
+  padding: 20px;
+}
+
+.EventDetail__join {
+  background: #AAAAAA;
+  flex: 2;
+  padding: 20px;
+}

@@ -1,3 +1,4 @@
+import './LoadingIndicator.css';
 import React, { Component, PropTypes } from 'react';
 
 export default class LoadingIndicator extends Component {
@@ -17,7 +18,6 @@ export default class LoadingIndicator extends Component {
         <div className='spinner'>
           <div className='double-bounce1'></div>
           <div className='double-bounce2'></div>
-          Loading
         </div>
       );
     }
