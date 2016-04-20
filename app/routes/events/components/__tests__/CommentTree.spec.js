@@ -12,7 +12,7 @@ describe('components', () => {
     it('should render the top level comments at root level ', () => {
       const wrapper = shallow(<CommentTree comments={tree} />);
       const commentElements = wrapper.find('.CommentTree__root');
-      expect(commentElements.length).to.deep.equal(2);
+      expect(commentElements.length).to.equal(2);
     });
 
     it('should nest comments', () => {
@@ -21,7 +21,6 @@ describe('components', () => {
       const rootElement = rootElements.at(1);
       const childTree = rootElement.find('.CommentTree__child');
       expect(childTree.html()).to.contain(comments[2].text);
-
     });
   });
 });

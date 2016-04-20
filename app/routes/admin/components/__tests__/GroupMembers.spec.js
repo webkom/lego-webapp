@@ -44,7 +44,7 @@ describe('components', () => {
     it('should render the GroupMembersList component with the user list', () => {
       const wrapper = shallow(<GroupMembers group={group} />);
       const membersList = wrapper.find(GroupMembersList);
-      expect(membersList).to.have.prop('users').equal(users);
+      expect(membersList.prop('users')).to.equal(users);
     });
 
     it('should not render the GroupMembersList component while loading', () => {
