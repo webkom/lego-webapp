@@ -4,14 +4,30 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import CommentView from 'app/components/Comments/CommentView';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 import Button from 'app/components/Button';
+import Icon from 'app/components/Icon';
 import JoinEventForm from './JoinEventForm';
+
+const InterestedButton = ({ value, onClick }) => {
+  const [icon, text] = value
+    ? ['check', "You're interested"]
+    : ['plus', "I'm interested in this"];
+
+  return (
+    <Button onClick={onClick}>
+      <Icon name={icon} />
+      {' '}
+      {text}
+    </Button>
+  );
+};
 
 /**
  *
  */
 export type Props = {
-  event: {};
+  event: Event;
   loggedIn: boolean;
+  isUserInterested: boolean;
 };
 
 /**
@@ -42,11 +58,13 @@ export default class EventDetail extends Component {
     return (
       <div className='EventDetail u-container'>
         <div className='EventDetail__coverImage'>
+          <img src='https://www.gochile.cl/fotos/overview-full/2348-img_8707.jpg' />
+          <div className='EventDetail__coverImage__overlay' />
         </div>
 
         <FlexRow alignItems='center' justifyContent='space-between'>
           <h2>{event.title}</h2>
-          <Button>{"I'm interested in this"}</Button>
+          <InterestedButton value={this.props.isUserInterested} />
         </FlexRow>
 
         <FlexRow>
