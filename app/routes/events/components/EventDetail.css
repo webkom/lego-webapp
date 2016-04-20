@@ -7,7 +7,12 @@
 }
 
 .EventDetail__coverImage img {
+  position: absolute;
   width: 100%;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
 }
 
 .EventDetail__coverImage__overlay {
@@ -47,4 +52,6 @@
 .EventDetail__joinToggle {
   font-size: 20px;
   color: #333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }

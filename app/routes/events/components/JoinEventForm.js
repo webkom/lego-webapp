@@ -21,7 +21,7 @@ export default class JoinEventForm extends Component {
           value={this.state.messageToOrganizers}
         />
         <Button submit>
-          Bli med
+          Meld deg på
         </Button>
       </Form>
     );

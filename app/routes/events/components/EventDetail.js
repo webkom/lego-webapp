@@ -9,8 +9,8 @@ import JoinEventForm from './JoinEventForm';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
-    ? ['check', "You're interested"]
-    : ['plus', "I'm interested in this"];
+    ? ['check', 'Du er interessert']
+    : ['plus', 'Jeg er interessert'];
 
   return (
     <Button onClick={onClick}>
@@ -89,7 +89,11 @@ export default class EventDetail extends Component {
                 onClick={this.toggleJoinFormOpen}
                 className='EventDetail__joinToggle'
               >
-                Bli med på dette arrangementet &rarr;
+                Bli med på dette arrangementet
+                {' '}
+                <Icon
+                  name={this.state.joinFormOpen ? 'angle-up' : 'angle-right'}
+                />
               </a>
 
               {this.state.joinFormOpen && (
