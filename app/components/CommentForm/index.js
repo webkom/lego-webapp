@@ -1,7 +1,9 @@
+import './CommentForm.css';
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 import FieldError from 'app/components/FieldError';
 import { addComment } from 'app/actions/CommentActions';
+import { Link } from 'react-router';
 
 const validate = (values) => {
   const errors = {};
@@ -45,14 +47,29 @@ class ContactForm extends Component {
     }
     return (
       <form onSubmit={handleSubmit(::this.onSubmit)}>
-        <div>
-          <div><i>Commenting as {user.username}</i></div>
-          <label>Comment</label>
-          <input type='text' placeholder='Comment' {...text}/>
-          {text.error && text.touched ?
-            <FieldError error={text.error} /> : null}
+        <div className='Comment'>
+          <img
+            className='Comment__avatar'
+            src={`http://api.adorable.io/avatars/70/${user.username}.png`}
+          >
+          </img>
+
+          <div className='Comment__content'>
+            <div className='Comment__header'>
+              <Link
+                className='Comment__username'
+                to={`/users/${user.username}`}
+              >
+                {user.username}
+              </Link>
+            </div>
+
+            <textarea {...text} className='Comment__text'></textarea>
+            {text.error && text.touched ?
+              <FieldError error={text.error} /> : null}
+            <button className='Comment__submit'>Send kommentar</button>
+          </div>
         </div>
-        <button type='submit'>Submit</button>
       </form>
     );
   }

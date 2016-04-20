@@ -26,7 +26,8 @@ const Event = ({ event, loggedIn, user }) => (
       </form>
     </RequireLogin>
     <CommentView formEnabled user={user} commentTarget={event.commentTarget}
-      loggedIn={loggedIn} comments={event.comments || []} />
+      loggedIn={loggedIn} comments={event.comments || []}
+    />
   </section>
 );
 

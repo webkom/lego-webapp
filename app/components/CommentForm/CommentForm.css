@@ -1,0 +1,13 @@
+.Comment__text:empty:before {
+  content: 'Skriv en kommentar...';
+  color: grey;
+}
+
+.Comment__submit {
+  margin: 20px 35%;
+  outline-color: none;
+}
+
+.Comment__text:focus {
+  outline: 0px solid transparent;
+}
