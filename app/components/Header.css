@@ -194,6 +194,6 @@
   text-transform: uppercase;
 }
 
-.Header__navigation a:hover {
+.Header__navigation a:hover, .Header__navigation a.active {
   color: #fff;
 }

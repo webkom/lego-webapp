@@ -40,10 +40,10 @@ export default class Header extends Component {
           <IndexLink to='/' className='Header__logo'>Abakus</IndexLink>
 
           <div className='Header__navigation'>
-            <Link to='/events'>Arrangementer</Link>
-            <Link to=''>Karriere</Link>
-            <Link to=''>README</Link>
-            <Link to='/quotes'>Sitater</Link>
+            <Link to='/events' activeClassName='active'>Arrangementer</Link>
+            <Link to='/career' activeClassName='active'>Karriere</Link>
+            <Link to='/readme' activeClassName='active'>README</Link>
+            <Link to='/quotes' activeClassName='active'>Sitater</Link>
           </div>
 
           <div>
