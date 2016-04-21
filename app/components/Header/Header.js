@@ -4,6 +4,7 @@ import styles from './Header.css';
 import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Modal } from 'react-overlays';
+import cx from 'classnames';
 import LoginForm from '../LoginForm';
 import Search from '../Search';
 import ButtonTriggeredDropdown from '../ButtonTriggeredDropdown';
@@ -59,6 +60,7 @@ export default class Header extends Component {
           <div>
             <ButtonTriggeredDropdown
               buttonClassName={styles.contentButton}
+              contentClassName={styles.dropdown}
               iconName='bell'
               show={this.state.notificationsOpen}
               toggle={() => this.setState({
@@ -70,7 +72,7 @@ export default class Header extends Component {
 
             <ButtonTriggeredDropdown
               buttonClassName={styles.contentButton}
-              contentClassName={loginFailed && 'animated shake'}
+              contentClassName={cx(styles.dropdown, loginFailed && 'animated shake')}
               iconName='user'
               show={this.state.accountOpen}
               toggle={() => this.setState({ accountOpen: !this.state.accountOpen })}

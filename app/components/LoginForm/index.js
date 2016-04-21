@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import cx from 'classnames';
 import { Form } from '../Form';
 import Button from '../Button';
 
@@ -31,22 +30,20 @@ export default class LoginForm extends Component {
 
   render() {
     return (
-      <div className={cx('LoginForm', this.props.className)}>
-        <Form onSubmit={this.handleSubmit}>
-          <input
-            type='text'
-            ref={(ref) => { this.username = ref; }}
-            placeholder='Username'
-            autoFocus
-          />
-          <input
-            type='password'
-            ref={(ref) => { this.password = ref; }}
-            placeholder='Password'
-          />
-          <Button submit dark>Logg inn</Button>
-        </Form>
-      </div>
+      <Form onSubmit={this.handleSubmit} className={this.props.className}>
+        <input
+          type='text'
+          ref={(ref) => { this.username = ref; }}
+          placeholder='Username'
+          autoFocus
+        />
+        <input
+          type='password'
+          ref={(ref) => { this.password = ref; }}
+          placeholder='Password'
+        />
+        <Button submit dark>Logg inn</Button>
+      </Form>
     );
   }
 }

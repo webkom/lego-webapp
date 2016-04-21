@@ -1,24 +1,5 @@
 @import '../../_variables.css';
 
-:global {
-  .Dropdown__content {
-    background: rgba(27, 27, 27, .96);
-    border-top: 5px solid #888;
-    padding: 1rem;
-    border-radius: 5px;
-    margin-top: 5px;
-    position: absolute;
-    width: 250px;
-    color: #fff;
-  }
-
-  .Dropdown__content h2 {
-    color: #ffedba;
-    margin: 0;
-    font-size: 1.2rem;
-  }
-}
-
 .backdrop {
   background: rgba(0, 0, 0, .6);
   top: 0;
@@ -111,4 +92,21 @@
 .loginForm input:focus {
   background: #ffedba;
   outline: none;
+}
+
+.dropdown {
+  background: rgba(27, 27, 27, .96);
+  border-top: 5px solid #888;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-top: 5px;
+  position: absolute;
+  width: 250px;
+  color: #fff;
+}
+
+.dropdown h2 {
+  color: #ffedba;
+  margin: 0;
+  font-size: 1.2rem;
 }

@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import { Overlay } from 'react-overlays';
-import cx from 'classnames';
 
 type Props = {
   iconName: string;
@@ -45,7 +44,7 @@ export default class ButtonTriggeredDropdown extends Component {
           placement='bottom'
           rootClose
         >
-          <div className={cx('Dropdown__content', contentClassName)}>
+          <div className={contentClassName}>
             {children}
           </div>
         </Overlay>
