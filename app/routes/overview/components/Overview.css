@@ -2,46 +2,96 @@
   composes: container from '../../../Root.css';
 }
 
-:global {
-  .UpcomingEvents {
-    display: flex;
-    overflow-x: scroll;
-    margin: 1rem 0;
-  }
+.Overview {
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border-right: 1px solid #ddd;
+}
 
-  .UpcomingEvents::-webkit-scrollbar {
-    width: 0 !important;
-  }
+.Overview__item {
+  text-align: center;
+  flex-basis: 50%;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  margin: 30px 0;
+  padding: 0 20px;
+}
 
-  .UpcomingEvents__item {
-    flex: 0 0 23%;
-    text-align: center;
-    margin: 0 1%;
-    border: 4px solid #ddd;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 170px;
-  }
+.Overview__item:hover .Overview__item__moreInfo {
+  color: black;
+}
 
-  .UpcomingEvents__item__moreInfo {
-    background: rgba(255, 255, 255, .8);
-    margin: 0;
-    transform: translateY(20px);
-    opacity: 0;
-    transition: transform .2s, opacity .2s;
-  }
+.Overview__item:nth-child(odd) {
+  border-right: 1px solid #ddd;
+}
 
-  .UpcomingEvents__item:hover .UpcomingEvents__item__moreInfo {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.Overview__item__type {
+  margin: 0;
+  font-size: 1rem;
+}
 
-  .UpcomingEvents__item__title {
-    font-size: 2rem;
-    color: #fff;
-    background-color: rgba(0, 0, 0, .8);
-    width: 100%;
-    display: block;
-  }
+.Overview__item__title {
+  margin: 0;
+  padding-top: 10px;
+  line-height: 1.1;
+}
+
+.Overview__item__title > a {
+  line-height: 1.1;
+  color: rgba(0, 0, 0, 0.9);
+  font-size: 1.8rem;
+  text-transform: uppercase;
+}
+
+.Overview__item__moreInfo {
+  transition: color .2s;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.Overview__item__description {
+  padding-top: 10px;
+  margin: 0;
+  font-family: 'skolar-latin';
+  font-size: 1.1rem;
+  -webkit-font-smoothing: initial;
+}
+
+.Sidebar {
+  display: flex;
+  flex-basis: 27%;
+  flex-shrink: 0;
+  flex-direction: column;
+}
+
+.Profile {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.Profile__avatar {
+  border-radius: 999em;
+  width: 40px;
+  height: 40px;
+}
+
+.Profile__user {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Profile__user > i {
+  padding-left: 10px;
 }

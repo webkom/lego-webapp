@@ -6,6 +6,7 @@
 * {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 html {
@@ -14,7 +15,7 @@ html {
 
 body {
   line-height: 1.8;
-  font-family: Lato, 'Helvetica Neue', Arial, sans-serif;
+  font-family: proxima-nova, 'Helvetica Neue', Arial, sans-serif;
   background: var(--lego-background-color);
   color: var(--lego-font-color);
 }
@@ -61,4 +62,11 @@ button {
     max-width: var(--lego-max-width);
     margin: 0 auto;
   }
+}
+
+.Frontpage {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
