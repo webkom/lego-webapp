@@ -1,4 +1,4 @@
-import './index.css';
+import styles from './index.css';
 import React from 'react';
 import cx from 'classnames';
 
@@ -11,7 +11,7 @@ export const FlexRow = ({
   ...rest
 }) => (
   <div
-    className={cx('FlexRow', className)}
+    className={cx(styles.row, className)}
     style={{
       justifyContent,
       alignItems,
@@ -32,7 +32,7 @@ export const FlexColumn = ({
   ...rest
 }) => (
   <div
-    className={cx('FlexColumn', className)}
+    className={cx(styles.column, className)}
     style={{
       justifyContent,
       alignItems,

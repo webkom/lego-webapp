@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
+import { Form } from '../Form';
 import Button from '../Button';
 
 type Props = {
@@ -31,7 +32,7 @@ export default class LoginForm extends Component {
   render() {
     return (
       <div className={cx('LoginForm', this.props.className)}>
-        <form onSubmit={this.handleSubmit} className='u-vertical'>
+        <Form onSubmit={this.handleSubmit}>
           <input
             type='text'
             ref={(ref) => { this.username = ref; }}
@@ -44,7 +45,7 @@ export default class LoginForm extends Component {
             placeholder='Password'
           />
           <Button submit dark>Logg inn</Button>
-        </form>
+        </Form>
       </div>
     );
   }

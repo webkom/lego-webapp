@@ -1,3 +1,5 @@
+:global {
+
 :root {
   --calendar-border: 1px solid #ddd;
 }
@@ -54,4 +56,5 @@
 .Calendar__day--prevMonth,
 .Calendar__day--nextMonth {
   color: #bbb;
+}
 }

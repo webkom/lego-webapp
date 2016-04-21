@@ -1,3 +1,4 @@
+:global {
 .Comment__text:empty:before {
   content: 'Skriv en kommentar...';
   color: grey;
@@ -10,4 +11,5 @@
 
 .Comment__text:focus {
   outline: 0px solid transparent;
+}
 }

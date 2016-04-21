@@ -1,5 +1,5 @@
 /** @flow */
-
+import styles from './Search.css';
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
@@ -25,8 +25,7 @@ const quickLinks = [
 
 const SearchResultItem = ({ item, isSelected }) => (
   <li className={cx(
-    'Search__results__items__item',
-    isSelected && 'is-selected'
+    isSelected && styles.isSelected
   )}
   >
     <Pill style={{ width: '150px', marginRight: '10px' }}>
@@ -86,9 +85,9 @@ class Search extends Component {
   render() {
     const { results, onCloseSearch, onQueryChanged, searching } = this.props;
     return (
-      <div onKeyDown={this.handleKeyDown} className={cx('Search')} tabIndex={-1}>
-        <div className='Search__overlay u-container'>
-          <div className='Search__input'>
+      <div onKeyDown={this.handleKeyDown} tabIndex={-1}>
+        <div className={styles.overlay}>
+          <div className={styles.inputContainer}>
             <input
               onChange={(e) => onQueryChanged(e.target.value)}
               type='search'
@@ -96,13 +95,13 @@ class Search extends Component {
               autoFocus
             />
 
-            <button type='button' className='Search__closeButton' onClick={onCloseSearch}>
+            <button type='button' className={styles.closeButton} onClick={onCloseSearch}>
               <Icon name='close' scaleOnHover />
             </button>
           </div>
 
-          <div className='Search__results'>
-            <ul className='Search__results__items'>
+          <div className={styles.resultsContainer}>
+            <ul className={styles.results}>
               <LoadingIndicator loading={searching} />
               {!searching && results.length === 0 && <li>No results</li>}
               {results.map((item, i) => (
@@ -114,7 +113,7 @@ class Search extends Component {
               ))}
             </ul>
 
-            <div className='Search__results__quickLinks'>
+            <div className={styles.quickLinks}>
               <ul>
                 {quickLinks.map(([href, name]) => (
                   <li key={name}>

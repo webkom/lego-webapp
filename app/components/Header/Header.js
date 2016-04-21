@@ -1,6 +1,6 @@
 /** @flow */
 
-import './Header.css';
+import styles from './Header.css';
 import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Modal } from 'react-overlays';
@@ -40,20 +40,25 @@ export default class Header extends Component {
     } = this.props;
 
     return (
-      <header className='Header'>
-        <div className='Header__content u-container'>
-          <IndexLink to='/' className='Header__logo'>Abakus</IndexLink>
+      <header className={styles.root}>
+        <div className={styles.content}>
+          <IndexLink
+            to='/'
+            className={styles.logo}
+          >
+            Abakus
+          </IndexLink>
 
-          <div className='Header__navigation'>
-            <Link to='/events' activeClassName='active'>Arrangementer</Link>
-            <Link to='/career' activeClassName='active'>Karriere</Link>
-            <Link to='/readme' activeClassName='active'>README</Link>
-            <Link to='/quotes' activeClassName='active'>Sitater</Link>
+          <div className={styles.navigation}>
+            <Link to='/events' activeClassName={styles.activeLink}>Arrangementer</Link>
+            <Link to='/career' activeClassName={styles.activeLink}>Karriere</Link>
+            <Link to='/readme' activeClassName={styles.activeLink}>README</Link>
+            <Link to='/quotes' activeClassName={styles.activeLink}>Sitater</Link>
           </div>
 
           <div>
             <ButtonTriggeredDropdown
-              buttonClassName='Header__content__button'
+              buttonClassName={styles.contentButton}
               iconName='bell'
               show={this.state.notificationsOpen}
               toggle={() => this.setState({
@@ -64,20 +69,23 @@ export default class Header extends Component {
             </ButtonTriggeredDropdown>
 
             <ButtonTriggeredDropdown
-              buttonClassName='Header__content__button'
+              buttonClassName={styles.contentButton}
               contentClassName={loginFailed && 'animated shake'}
               iconName='user'
               show={this.state.accountOpen}
               toggle={() => this.setState({ accountOpen: !this.state.accountOpen })}
             >
               {!loggedIn && (
-                <LoginForm login={login} />
+                <LoginForm
+                  login={login}
+                  className={styles.loginForm}
+                />
               )}
 
               {loggedIn && (
                 <div>
                   <h2>{auth && auth.username}</h2>
-                  <ul className='Dropdown__content__menu'>
+                  <ul className={styles.dropdownMenu}>
                     <li><Link to='/users/me'>My Profile</Link></li>
                     <li><Link to='/users/me/settings'>Settings</Link></li>
                     <li><Link to='events'>Favorites</Link></li>
@@ -88,7 +96,7 @@ export default class Header extends Component {
             </ButtonTriggeredDropdown>
 
             <button
-              className='Header__content__button'
+              className={styles.contentButton}
               onClick={() => this.setState({ searchOpen: !this.state.searchOpen })}
             >
               <i className='fa fa-search' />
@@ -97,7 +105,7 @@ export default class Header extends Component {
             <Modal
               show={this.state.searchOpen}
               onHide={() => this.setState({ searchOpen: false })}
-              backdropClassName='Backdrop'
+              backdropClassName={styles.backdrop}
               backdrop
             >
               <Search

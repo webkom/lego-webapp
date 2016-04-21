@@ -1,3 +1,4 @@
+:global {
 .single-quote {
   padding: 1px 20px 10px 0;
   background-repeat:no-repeat;
@@ -135,4 +136,5 @@
 
  .quote-singleroute .quote-bottom{
    border-bottom: none;
+ }
  }

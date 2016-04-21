@@ -1,3 +1,4 @@
+:global {
 .TextField {
   padding: 10px;
   border: 0;
@@ -10,4 +11,5 @@
   outline: none;
   box-shadow: 0 0 5px #ccc;
   border-color: #aaa;
+}
 }

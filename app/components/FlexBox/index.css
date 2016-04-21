@@ -1,9 +1,9 @@
-.FlexRow {
+.row {
   display: flex;
   flex-direction: row;
 }
 
-.FlexColumn {
+.column {
   display: flex;
   flex-direction: column;
 }
