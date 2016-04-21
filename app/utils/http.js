@@ -1,3 +1,4 @@
+import 'isomorphic-fetch';
 import { normalize } from 'normalizr';
 import config from '../config';
 
