@@ -1,7 +1,8 @@
 import './CommentForm.css';
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
-import FieldError from 'app/components/FieldError';
+import { TextField } from 'app/components/Form';
+import Button from 'app/components/Button';
 import { addComment } from 'app/actions/CommentActions';
 import { Link } from 'react-router';
 
@@ -20,7 +21,8 @@ class ContactForm extends Component {
     loggedIn: PropTypes.bool.isRequired,
     addComment: PropTypes.func.isRequired,
     parent: PropTypes.number
-  }
+  };
+
   onSubmit({ text }) {
     const { commentTarget, parent } = this.props;
     this.props.addComment({
@@ -29,6 +31,7 @@ class ContactForm extends Component {
       parent
     });
   }
+
   render() {
     const { fields: { text }, handleSubmit, user, commentTarget, loggedIn } = this.props;
     if (!loggedIn) {
@@ -45,6 +48,9 @@ class ContactForm extends Component {
         </div>
       );
     }
+
+    const hasError = text.error && text.touched;
+
     return (
       <form onSubmit={handleSubmit(::this.onSubmit)}>
         <div className='Comment'>
@@ -64,10 +70,20 @@ class ContactForm extends Component {
               </Link>
             </div>
 
-            <textarea {...text} className='Comment__text'></textarea>
-            {text.error && text.touched ?
-              <FieldError error={text.error} /> : null}
-            <button className='Comment__submit'>Send kommentar</button>
+            <TextField
+              className='Comment__text'
+              placeholder='Skriv noe her...'
+              style={{ borderColor: hasError && 'red' }}
+              {...text}
+            />
+
+            <Button
+              className='Comment__submit'
+              disabled={hasError}
+              submit
+            >
+              {hasError ? 'Kommentaren kan ikke være tom' : 'Send kommentar'}
+            </Button>
           </div>
         </div>
       </form>

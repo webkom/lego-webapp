@@ -1,0 +1,13 @@
+.TextField {
+  padding: 10px;
+  border: 0;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+}
+
+.TextField:focus {
+  outline: none;
+  box-shadow: 0 0 5px #ccc;
+  border-color: #aaa;
+}

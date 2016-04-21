@@ -1,15 +1,51 @@
-import React, { Component, PropTypes } from 'react';
-import RequireLogin from 'app/components/RequireLogin';
+import './EventDetail.css';
+import React, { Component } from 'react';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import CommentView from 'app/components/Comments/CommentView';
+import { FlexRow, FlexColumn } from 'app/components/FlexBox';
+import Button from 'app/components/Button';
+import Icon from 'app/components/Icon';
+import JoinEventForm from './JoinEventForm';
+
+const InterestedButton = ({ value, onClick }) => {
+  const [icon, text] = value
+    ? ['check', 'Du er interessert']
+    : ['plus', 'Jeg er interessert'];
+
+  return (
+    <Button onClick={onClick}>
+      <Icon name={icon} />
+      {' '}
+      {text}
+    </Button>
+  );
+};
+
+/**
+ *
+ */
+export type Props = {
+  event: Event;
+  loggedIn: boolean;
+  isUserInterested: boolean;
+};
 
 /**
  *
  */
 export default class EventDetail extends Component {
-  static propTypes = {
-    event: PropTypes.object,
-    loggedIn: PropTypes.bool.isRequired
+  props: Props;
+
+  state = {
+    joinFormOpen: false
+  };
+
+  handleJoinSubmit = (messageToOrganizers) => {
+    console.log(messageToOrganizers);
+  };
+
+  toggleJoinFormOpen = () => {
+    this.setState({ joinFormOpen: !this.state.joinFormOpen });
   };
 
   render() {
@@ -20,33 +56,70 @@ export default class EventDetail extends Component {
     }
 
     return (
-      <div>
-        <h2>{event.title}</h2>
-        <article className='event-ingress'>
-          {event.ingress}
-        </article>
-        <article className='event-body'>
-          {event.text}
-        </article>
-        <div className='event-open-for'>
-          <h3>Åpent for</h3>
+      <div className='EventDetail u-container'>
+        <div className='EventDetail__coverImage'>
+          <img src='https://www.gochile.cl/fotos/overview-full/2348-img_8707.jpg' />
+          <div className='EventDetail__coverImage__overlay' />
         </div>
 
-        <RequireLogin loggedIn={loggedIn}>
-          <h3>Bli med på dette arrangementet</h3>
-          <form className='event-participate'>
-            <textarea placeholder='Melding til arrangører' />
-            <button type='submit'>Bli med</button>
+        <FlexRow alignItems='center' justifyContent='space-between'>
+          <h2>{event.title}</h2>
+          <InterestedButton value={this.props.isUserInterested} />
+        </FlexRow>
 
-            <p>Påmeldingen stenger 13:37</p>
-          </form>
-        </RequireLogin>
+        <FlexRow>
+          <FlexColumn className='EventDetail__description'>
+            <p>{event.text}</p>
+            <p>{event.text}</p>
+            <p>{event.text}</p>
+          </FlexColumn>
+          <FlexColumn className='EventDetail__meta'>
+            <ul>
+              <li>Starter om <strong>3 timer</strong></li>
+              <li>Finner sted i <strong>H3</strong></li>
+              <li>Mingling på <strong>Frati</strong></li>
+            </ul>
+          </FlexColumn>
+        </FlexRow>
+
+        <FlexRow>
+          {loggedIn && (
+            <FlexColumn className='EventDetail__join'>
+              <a
+                onClick={this.toggleJoinFormOpen}
+                className='EventDetail__joinToggle'
+              >
+                Bli med på dette arrangementet
+                {' '}
+                <Icon
+                  name={this.state.joinFormOpen ? 'angle-up' : 'angle-right'}
+                />
+              </a>
+
+              {this.state.joinFormOpen && (
+                <JoinEventForm
+                  onSubmit={this.handleJoinSubmit}
+                />
+              )}
+            </FlexColumn>
+          )}
+
+          <FlexColumn className='EventDetail__openFor'>
+            <strong>Åpent for</strong>
+            <ul>
+            {(event.openFor || []).map((openFor) => (
+              <li key={openFor}>{openFor}</li>
+            ))}
+            </ul>
+          </FlexColumn>
+        </FlexRow>
 
         <CommentView
           formEnabled
           user={user}
           commentTarget={event.commentTarget}
-          loggedIn={loggedIn} comments={event.comments || []}
+          loggedIn={loggedIn}
+          comments={event.comments || []}
         />
       </div>
     );

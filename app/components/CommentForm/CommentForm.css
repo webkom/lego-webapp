@@ -4,8 +4,8 @@
 }
 
 .Comment__submit {
-  margin: 20px 35%;
-  outline-color: none;
+  margin-top: 20px;
+  width: auto;
 }
 
 .Comment__text:focus {

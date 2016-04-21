@@ -5,7 +5,10 @@
   background: #ddd;
   text-transform: uppercase;
   margin: 2px 0;
+  padding: 0 20px;
   color: #333;
+  height: 40px;
+  line-height: 40px;
 }
 
 .Button--dark {
