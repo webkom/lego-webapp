@@ -1,9 +1,15 @@
-import React, { Component, PropTypes } from 'react';
+/** @flow */
+
+import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { connect } from 'react-redux';
 import cx from 'classnames';
-import Pill from './Pill';
-import Icon from './Icon';
-import LoadingIndicator from './LoadingIndicator';
+import { debounce } from 'lodash';
+import Pill from '../Pill';
+import Icon from '../Icon';
+import LoadingIndicator from '../LoadingIndicator';
+import { search } from 'app/actions/SearchActions';
+import { push } from 'react-router-redux';
 
 const Keyboard = {
   ENTER: 13,
@@ -30,15 +36,22 @@ const SearchResultItem = ({ item, isSelected }) => (
   </li>
 );
 
-export default class Search extends Component {
-  static propTypes = {
-    results: PropTypes.array,
-    onCloseSearch: PropTypes.func.isRequired,
-    onQueryChanged: PropTypes.func.isRequired,
-    searching: PropTypes.bool
-  };
+type Props = {
+  results: Array<any>;
+  onCloseSearch: () => any;
+  onQueryChanged: (value: string) => any;
+  openSearchResult: () => any;
+  searching: boolean;
+};
 
-  state = {
+type State = {
+  selectedIndex: number;
+};
+
+class Search extends Component {
+  props: Props;
+
+  state: State = {
     selectedIndex: 0
   };
 
@@ -63,7 +76,9 @@ export default class Search extends Component {
 
       case Keyboard.ENTER:
         e.preventDefault();
-        // @todo: push some new history state here
+        this.props.openSearchResult(
+          this.props.results[this.state.selectedIndex]
+        );
         break;
     }
   };
@@ -114,3 +129,22 @@ export default class Search extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    results: state.search.results,
+    searching: state.search.searching
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onQueryChanged: debounce((query) => dispatch(search(query)), 500),
+    openSearchResult: () => dispatch(push('/hello'))
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Search);

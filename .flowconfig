@@ -1,0 +1,36 @@
+
+[ignore]
+
+.*/node_modules/babel.*
+.*/node_modules/babylon.*
+.*/node_modules/invariant.*
+.*/node_modules/fbjs/lib/PromiseMap.js
+.*/node_modules/fbjs/lib/fetchWithRetries.js
+.*/node_modules/fbjs/lib/Deferred.js.flow
+.*/node_modules/fbjs/lib/equalsSet.js.flow
+.*/node_modules/fbjs/lib/shallowEqual.js.flow
+.*/node_modules/fbjs/lib/someSet.js.flow
+.*/node_modules/fbjs/lib/everySet.js.flow
+.*/node_modules/fbjs/lib/UnicodeBidi.js.flow
+.*/node_modules/fbjs/lib/UnicodeBidiService.js.flow
+
+[libs]
+./interfaces/
+
+[options]
+esproposal.class_static_fields=enable
+esproposal.class_instance_fields=enable
+module.name_mapper='.*\(.css\)' -> 'empty/object'
+module.name_mapper='^\(.*\)$' -> '<PROJECT_ROOT>/\1'
+
+munge_underscores=true
+
+strip_root=true
+
+suppress_type=$FlowIssue
+suppress_type=$FlowFixMe
+suppress_type=$FixMe
+
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixMe\\($\\|[^(]\\|(\\(>=0\\.\\(1[0-6]\\|[0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*www[a-z,_]*\\)?)\\)
+suppress_comment=\\(.\\|\n\\)*\\$FlowIssue\\((\\(>=0\\.\\(1[0-6]\\|[0-9]\\).[0-9]\\)? *\\(site=[a-z,_]*www[a-z,_]*\\)?)\\)? #[0-9]+
+suppress_comment=\\(.\\|\n\\)*\\$FlowFixedInNextDeploy

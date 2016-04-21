@@ -1,26 +1,32 @@
+/** @flow */
+
 import './Header.css';
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Modal } from 'react-overlays';
-import { debounce } from 'lodash';
 import LoginForm from '../LoginForm';
 import Search from '../Search';
 import ButtonTriggeredDropdown from '../ButtonTriggeredDropdown';
 
-export default class Header extends Component {
-  static propTypes = {
-    children: PropTypes.array,
-    auth: PropTypes.object.isRequired,
-    login: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired,
-    search: PropTypes.func.isRequired,
-    searchResults: PropTypes.array.isRequired,
-    searching: PropTypes.bool,
-    loggedIn: PropTypes.bool.isRequired,
-    loginFailed: PropTypes.bool
-  };
+type Props = {
+  children: any;
+  auth: any;
+  login: () => any;
+  logout: () => any;
+  loggedIn: boolean;
+  loginFailed: boolean;
+};
 
-  state = {
+type State = {
+  accountOpen: boolean;
+  searchOpen: boolean;
+  notificationsOpen: boolean;
+};
+
+export default class Header extends Component {
+  props: Props;
+
+  state: State = {
     accountOpen: false,
     searchOpen: false,
     notificationsOpen: false
@@ -28,9 +34,8 @@ export default class Header extends Component {
 
   render() {
     const {
-      login, logout,
-      search, searchResults, searching,
       auth,
+      login, logout,
       loggedIn, loginFailed
     } = this.props;
 
@@ -51,7 +56,9 @@ export default class Header extends Component {
               buttonClassName='Header__content__button'
               iconName='bell'
               show={this.state.notificationsOpen}
-              toggle={() => this.setState({ notificationsOpen: !this.state.notificationsOpen })}
+              toggle={() => this.setState({
+                notificationsOpen: !this.state.notificationsOpen
+              })}
             >
               <h2>No Notifications</h2>
             </ButtonTriggeredDropdown>
@@ -96,9 +103,6 @@ export default class Header extends Component {
               <Search
                 isOpen={this.state.searchOpen}
                 onCloseSearch={() => this.setState({ searchOpen: false })}
-                onQueryChanged={debounce(search, 500)}
-                results={searchResults}
-                searching={searching}
               />
             </Modal>
           </div>
