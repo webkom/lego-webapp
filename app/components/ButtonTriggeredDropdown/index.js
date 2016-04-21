@@ -8,7 +8,7 @@ type Props = {
   iconName: string;
   toggle: () => any;
   buttonClassName?: string;
-  contentClassName?: string;
+  contentClassName?: string|boolean;
   show: boolean;
   children?: any;
 };

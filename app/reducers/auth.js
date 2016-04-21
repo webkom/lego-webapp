@@ -1,5 +1,13 @@
-import createReducer from '../utils/createReducer';
+/** @flow */
 import { User } from '../actions/ActionTypes';
+import type { Action } from '../actions/ActionTypes';
+
+type State = {
+  username: ?string;
+  token: ?string;
+  loginFailed: boolean;
+  loggingIn: boolean;
+};
 
 const initialState = {
   username: null,
@@ -8,29 +16,38 @@ const initialState = {
   loggingIn: false
 };
 
-export default createReducer(initialState, {
-  [User.LOGIN_BEGIN]: (state, _) => ({
-    ...state,
-    loggingIn: true,
-    loginFailed: false
-  }),
+export default function auth(state: State = initialState, action: Action): State {
+  switch (action.type) {
+    case User.LOGIN_BEGIN:
+      return {
+        ...state,
+        loggingIn: true,
+        loginFailed: false
+      };
 
-  [User.LOGIN_FAILURE]: (state, _) => ({
-    ...state,
-    loggingIn: false,
-    loginFailed: true
-  }),
+    case User.LOGIN_FAILURE:
+      return {
+        ...state,
+        loggingIn: false,
+        loginFailed: true
+      };
 
-  [User.LOGIN_SUCCESS]: (state, action) => ({
-    ...state,
-    loggingIn: false,
-    username: action.payload.user.username,
-    token: action.payload.token
-  }),
+    case User.LOGIN_SUCCESS:
+      return {
+        ...state,
+        loggingIn: false,
+        username: action.payload.user.username,
+        token: action.payload.token
+      };
 
-  [User.LOGOUT]: (state, _) => ({
-    ...state,
-    username: null,
-    token: null
-  })
-});
+    case User.LOGOUT:
+      return {
+        ...state,
+        username: null,
+        token: null
+      };
+
+    default:
+      return state;
+  }
+}
