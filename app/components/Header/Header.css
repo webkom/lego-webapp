@@ -1,4 +1,4 @@
-@import '../_variables.css';
+@import '../../_variables.css';
 
 .Backdrop {
   background: rgba(0, 0, 0, .6);
@@ -171,7 +171,7 @@
 }
 
 .Header__logo {
-  background: url('../../public/images/logo.png') 20px center no-repeat;
+  background: url('../../../public/images/logo.png') 20px center no-repeat;
   background-size: 100px 20px;
   color: transparent;
   display: inline-block;

@@ -3,9 +3,9 @@ import React, { PropTypes, Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Modal } from 'react-overlays';
 import { debounce } from 'lodash';
-import LoginForm from './LoginForm';
-import Search from './Search';
-import ButtonTriggeredDropdown from './ButtonTriggeredDropdown';
+import LoginForm from '../LoginForm';
+import Search from '../Search';
+import ButtonTriggeredDropdown from '../ButtonTriggeredDropdown';
 
 export default class Header extends Component {
   static propTypes = {
