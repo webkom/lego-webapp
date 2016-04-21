@@ -19,14 +19,17 @@ export default class CommentView extends Component {
     const tree = generateTreeStructure(comments);
     return (
       <div>
-        <h4>Comments</h4>
+        <h3>Diskusjon</h3>
         <LoadingIndicator loading={!comments}>
-          {!formDisabled && comments ?
-            <CommentForm {...commentFormProps} />
-            : null
-          }
           {comments && <CommentTree comments={tree} commentFormProps={commentFormProps} />}
         </LoadingIndicator>
+
+        {!formDisabled ? (
+          <div>
+            <h3>Ta del i diskusjonen eller få svar på dine spørsmål</h3>
+            <CommentForm {...commentFormProps} />
+          </div>
+        ) : null}
       </div>
     );
   }

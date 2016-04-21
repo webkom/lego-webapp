@@ -12,19 +12,19 @@ export default class Comment extends Component {
 
   state = {
     replyOpen: false
-  }
+  };
 
-  openReply() {
+  openReply = () => {
     this.setState({
       replyOpen: true
     });
-  }
+  };
 
-  closeReply() {
+  closeReply = () => {
     this.setState({
       replyOpen: false
     });
-  }
+  };
 
   render() {
     const { comment, commentFormProps } = this.props;
@@ -36,33 +36,26 @@ export default class Comment extends Component {
           <img
             className='Comment__avatar'
             src={`http://api.adorable.io/avatars/70/${author.username}.png`}
-          >
-          </img>
+          />
 
           <div className='Comment__content'>
             <div className='Comment__header'>
-              <Link
-                className='Comment__username'
-                to={`/users/${author.username}`}
-              >
+              <Link to={`/users/${author.username}`}>
                 {author.username}
               </Link>
               <span className='Comment__bullet'>•</span>
-              <span className='Comment__timestamp'>
-                <ReadableDateTime dateTime={createdAt} />
-              </span>
+              <ReadableDateTime className='Comment__timestamp' dateTime={createdAt} />
               <span className='Comment__bullet'>•</span>
-              <span className='Comment__reply'>
-                <a onClick={::this.openReply}>Svar</a>
-              </span>
+              <a onClick={this.openReply}>Svar</a>
             </div>
 
             <p className='Comment__text'>{text}</p>
           </div>
         </div>
+
         {replyOpen ?
           <div>
-            <button type='button' onClick={::this.closeReply}>x</button>
+            <button type='button' onClick={this.closeReply}>x</button>
             <CommentForm {...commentFormProps}
               formKey={`${commentFormProps.commentTarget}-${comment.id}`}
               parent={comment.id}

@@ -11,8 +11,8 @@ const TIMEZONE = 'Europe/Oslo';
  * Example: "3 days ago"
 */
 
-const ReadableDateTime = ({ dateTime }) => (
-  <time dateTime={dateTime}>
+const ReadableDateTime = ({ dateTime, ...rest }) => (
+  <time dateTime={dateTime} {...rest}>
     {moment.tz(dateTime, TIMEZONE).fromNow()}
   </time>
 );
