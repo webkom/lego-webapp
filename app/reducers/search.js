@@ -16,6 +16,10 @@ export default function search(state = initialState, action) {
       });
 
     case Search.SEARCH_SUCCESS:
+      if (action.meta.query !== state.query) {
+        return state;
+      }
+
       return {
         ...state,
         results: action.payload,
