@@ -5,6 +5,7 @@ import CommentView from 'app/components/Comments/CommentView';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
+import Markdown from 'app/components/Markdown';
 import JoinEventForm from './JoinEventForm';
 
 const InterestedButton = ({ value, onClick }) => {
@@ -69,9 +70,7 @@ export default class EventDetail extends Component {
 
         <FlexRow>
           <FlexColumn className='EventDetail__description'>
-            <p>{event.text}</p>
-            <p>{event.text}</p>
-            <p>{event.text}</p>
+            <Markdown>{event.text}</Markdown>
           </FlexColumn>
           <FlexColumn className='EventDetail__meta'>
             <ul>
