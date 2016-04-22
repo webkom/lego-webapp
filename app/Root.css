@@ -52,21 +52,16 @@ button {
   border-radius: 999em;
 }
 
-.container {
-  max-width: var(--lego-max-width);
-  margin: 0 auto;
-}
-
 :global {
   .u-container {
     max-width: var(--lego-max-width);
     margin: 0 auto;
   }
-}
 
-.Frontpage {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  .Frontpage {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }

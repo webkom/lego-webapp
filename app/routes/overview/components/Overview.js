@@ -5,9 +5,9 @@ import Icon from 'app/components/Icon';
 import Time from 'app/components/Time';
 import colorForEvent from 'app/routes/events/colorForEvent';
 
-let id = 0;
+let id = Math.floor(Math.random() * 1000);
 function getImage() {
-  return `http://unplash.it/800/400?${id++}`;
+  return `http://unsplash.it/800/600?image=${id++}`;
 }
 
 const EVENT_TYPES = [
@@ -18,17 +18,18 @@ const EVENT_TYPES = [
   'Arrangement'
 ];
 
-const OverviewItem = ({ event }) => (
+const OverviewItem = ({ event, showImage }) => (
   <div key={event.id} className='Overview__item'>
     <h4 style={{ color: colorForEvent(event.eventType) }} className='Overview__item__type'>
       {EVENT_TYPES[event.eventType]}
     </h4>
-
+    {showImage && <img className='Overview__item__image' src={getImage()}></img>}
     <h2 className='Overview__item__title'>
       <Link to={`/events/${event.id}`}>
         {event.title}
       </Link>
     </h2>
+
     <span className='Overview__item__moreInfo'>
       <Time time={event.startTime} format='DD.MM HH:mm' />
       <span> - </span>
@@ -52,7 +53,12 @@ export default class Overview extends Component {
       <section className={styles.root}>
         <div className='u-container Frontpage'>
           <div className='Overview'>
-            {[0, 1].map(() => events.map((event) => <OverviewItem event={event} />))}
+            <div className='Overview__headline'>
+              {events.slice(0, 2).map((event) => <OverviewItem event={event} showImage />)}
+            </div>
+            <div className='Overview__normal'>
+              {events.slice(2, 5).map((event) => <OverviewItem event={event} />)}
+            </div>
           </div>
 
           <div className='Sidebar'>
