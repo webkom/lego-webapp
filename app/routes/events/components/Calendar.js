@@ -1,5 +1,5 @@
-import './Calendar.css';
-import React, { Component, PropTypes } from 'react';
+import styles from './Calendar.css';
+import React, { Component } from 'react';
 import cx from 'classnames';
 import moment from 'moment';
 import { Link } from 'react-router';
@@ -7,10 +7,12 @@ import { range, takeWhile, last } from 'lodash';
 import colorForEvent from '../colorForEvent';
 import Circle from 'app/components/Circle';
 
+const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
+
 /**
  * Generate days of an entire month.
- * Might require *some* memory, should maybe
- * figure out and un-beautify it.
+ *
+ * @TODO: memoize
  */
 function createDateObjects(date, weekOffset, events = []) {
   const startOfMonth = date.startOf('month');
@@ -20,7 +22,7 @@ function createDateObjects(date, weekOffset, events = []) {
 
   const prevMonthDays = range(0, diff).map((n) => ({
     day: startOfMonth.clone().subtract(diff - n, 'days'),
-    classNames: 'prevMonth'
+    className: styles.prevMonthDay
   }));
 
   const currentMonthDays = range(1, date.daysInMonth() + 1).map((index) => ({
@@ -33,7 +35,7 @@ function createDateObjects(date, weekOffset, events = []) {
   const daysAdded = prevMonthDays.length + currentMonthDays.length - 1;
   const nextMonthDays = takeWhile(range(1, 7), (n) => (daysAdded + n) % 7 !== 0).map((n) => ({
     day: last(currentMonthDays).day.clone().add(n, 'days'),
-    classNames: 'nextMonth'
+    className: styles.nextMonthDay
   }));
 
   return [...prevMonthDays, ...currentMonthDays, ...nextMonthDays];
@@ -53,27 +55,30 @@ const Event = ({ id, title, eventType }) => (
 /**
  *
  */
-const Day = ({ day, classNames, events = [] }) => (
-  <div className={cx('Calendar__day', `Calendar__day--${classNames}`)}>
-    <strong className='Calendar__day__number'>{day.date()}</strong>
+const Day = ({ day, className, events = [] }) => (
+  <div className={cx(styles.day, className)}>
+    <strong className={styles.dayNumber}>{day.date()}</strong>
     {events.map(Event)}
   </div>
 );
 
-/**
- *
- */
-export default class Calendar extends Component {
 
-  static propTypes = {
-    weekOffset: PropTypes.number,
-    events: PropTypes.array,
-    location: PropTypes.object
-  };
+type Props = {
+  weekOffset: number;
+  events: Array<any>;
+  location: any;
+  year: string;
+  month: string;
+};
+
+export default class Calendar extends Component {
+  props: Props;
 
   static defaultProps = {
     weekOffset: 0,
-    events: []
+    events: [],
+    year: moment().year(),
+    month: moment().month() + 1
   };
 
   queryForPrevMonth(date) {
@@ -88,20 +93,20 @@ export default class Calendar extends Component {
   }
 
   render() {
-    const { year = moment().year(), month = moment().month() + 1 } = this.props.location.query;
+    const { year, month } = this.props;
     const date = moment([parseInt(year, 10), parseInt(month, 10) - 1]);
 
     return (
-      <div className='Calendar u-container'>
-        <h2 className='Calendar__header'>
+      <div className={styles.root}>
+        <h2 className={styles.header}>
           <Link to={{ pathname: '/events', query: this.queryForPrevMonth(date) }}>&laquo;</Link>
           <span>{date.format('MMMM YYYY')}</span>
           <Link to={{ pathname: '/events', query: this.queryForNextMonth(date) }}>&raquo;</Link>
         </h2>
 
-        <div className='Calendar__grid'>
-          {['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'].map(
-            (d) => <div key={d} className='Calendar__headingItem'>{d}</div>
+        <div className={styles.grid}>
+          {WEEKDAYS.map(
+            (d) => <div key={d} className={styles.headingItem}>{d}</div>
           )}
           {createDateObjects(
             date,

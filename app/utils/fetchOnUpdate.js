@@ -11,7 +11,7 @@ function mapParams(watchParams, params) {
 /**
 Calls fn on route changes where watchParams are changed.
 */
-function fetchOnUpdate(watchParams, fn) {
+function fetchOnUpdate(watchParams, fetch) {
   return (DecoratedComponent) =>
   class FetchOnUpdateDecorator extends Component {
 
@@ -20,15 +20,14 @@ function fetchOnUpdate(watchParams, fn) {
     };
 
     componentWillMount() {
-      fn(mapParams(watchParams, this.props.params), this.props);
+      fetch(mapParams(watchParams, this.props), this.props);
     }
 
     componentDidUpdate(prevProps) {
-      const params = mapParams(watchParams, this.props.params);
-      const prevParams = mapParams(watchParams, prevProps.params);
-
+      const params = mapParams(watchParams, this.props);
+      const prevParams = mapParams(watchParams, prevProps);
       if (!shallowEqual(params, prevParams)) {
-        fn(params, this.props);
+        fetch(params, this.props);
       }
     }
 

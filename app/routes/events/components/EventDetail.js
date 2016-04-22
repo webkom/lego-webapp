@@ -58,9 +58,9 @@ export default class EventDetail extends Component {
 
     return (
       <div className={styles.root}>
-        <div className='EventDetail__coverImage'>
+        <div className={styles.coverImage}>
           <img src='https://www.gochile.cl/fotos/overview-full/2348-img_8707.jpg' />
-          <div className='EventDetail__coverImage__overlay' />
+          <div className={styles.coverImageOverlay} />
         </div>
 
         <FlexRow alignItems='center' justifyContent='space-between'>
@@ -69,10 +69,10 @@ export default class EventDetail extends Component {
         </FlexRow>
 
         <FlexRow>
-          <FlexColumn className='EventDetail__description'>
+          <FlexColumn className={styles.description}>
             <Markdown>{event.text}</Markdown>
           </FlexColumn>
-          <FlexColumn className='EventDetail__meta'>
+          <FlexColumn className={styles.meta}>
             <ul>
               <li>Starter om <strong>3 timer</strong></li>
               <li>Finner sted i <strong>H3</strong></li>
@@ -83,10 +83,10 @@ export default class EventDetail extends Component {
 
         <FlexRow>
           {loggedIn && (
-            <FlexColumn className='EventDetail__join'>
+            <FlexColumn className={styles.join}>
               <a
                 onClick={this.toggleJoinFormOpen}
-                className='EventDetail__joinToggle'
+                className={styles.joinToggle}
               >
                 Bli med på dette arrangementet
                 {' '}
@@ -103,7 +103,7 @@ export default class EventDetail extends Component {
             </FlexColumn>
           )}
 
-          <FlexColumn className='EventDetail__openFor'>
+          <FlexColumn className={styles.openFor}>
             <strong>Åpent for</strong>
             <ul>
             {(event.openFor || []).map((openFor) => (
