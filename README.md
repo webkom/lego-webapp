@@ -10,7 +10,7 @@ $ npm start
 
 Everything should be up and running on [localhost:3000](http://localhost:3000).
 
-Noob guide for setting up LEGO: 
+Noob guide for setting up LEGO:
 https://github.com/webkom/lego/wiki/Noob-Guide
 
 ## Tests
@@ -21,7 +21,7 @@ $ npm test
 
 For development you can run the tests continuously by using:
 ```
-$ npm run mocha:watch
+$ npm run test:watch
 ```
 
 ## Linting
@@ -32,21 +32,6 @@ To run the linter, use:
 ```
 $ npm run lint
 ```
-
-## ES6
-Some ES6 features may be used and some may not. Ask a management consultant or your financial supervisor.
-
-## Roadmap
-* Overview Page, Event Timeline, fancy article grid layout
-* Authentication Flow
-* Event Calendar View
-* Design Decisions
-* ...
-* ...
-* Keyboard Shortcuts
-
-## Coding Standards
-2 spaces, clever hacks and visual appeal are encouraged. The code should look like a beautiful mountain range when the screen is rotated π/2 radians CW. No kidding.
 
 ## License
 The MIT License (MIT)

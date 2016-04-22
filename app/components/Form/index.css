@@ -1,5 +1,4 @@
-:global {
-.TextField {
+.textField {
   padding: 10px;
   border: 0;
   font-size: 16px;
@@ -7,9 +6,8 @@
   border-radius: 2px;
 }
 
-.TextField:focus {
+.textField:focus {
   outline: none;
   box-shadow: 0 0 5px #ccc;
   border-color: #aaa;
-}
 }

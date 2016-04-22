@@ -1,4 +1,4 @@
-import './index.css';
+import styles from './index.css';
 import React from 'react';
 import cx from 'classnames';
 
@@ -10,7 +10,7 @@ export const Form = ({
   ...rest
 }) => (
   <form
-    className={cx('Form', className)}
+    className={cx(styles.form, className)}
     style={{
       display: 'flex',
       flexDirection: horizontal ? 'row' : 'column',
@@ -25,7 +25,7 @@ export const Form = ({
 
 export const TextField = ({ className, ...rest }) => (
   <textarea
-    className={cx('TextField', className)}
+    className={cx(styles.textField, className)}
     {...rest}
   />
 );
