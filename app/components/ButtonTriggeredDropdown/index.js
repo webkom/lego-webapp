@@ -1,38 +1,50 @@
-import React, { PropTypes, Component } from 'react';
-import { Overlay } from 'react-overlays';
-import cx from 'classnames';
+/** @flow */
 
+import React, { Component } from 'react';
+import { Overlay } from 'react-overlays';
+
+type Props = {
+  iconName: string;
+  toggle: () => any;
+  buttonClassName?: string;
+  contentClassName?: string|boolean;
+  show: boolean;
+  children?: any;
+};
 
 export default class ButtonTriggeredDropdown extends Component {
-
-  static propTypes = {
-    iconName: PropTypes.string,
-    toggle: PropTypes.func.isRequired,
-    buttonClassName: PropTypes.string,
-    contentClassName: PropTypes.string,
-    show: PropTypes.bool,
-    children: PropTypes.any
-  };
+  props: Props;
 
   static defaultProps = {
     iconName: 'star'
   };
 
   render() {
-    const { iconName, toggle, show, contentClassName, buttonClassName, children } = this.props;
+    const {
+      iconName,
+      toggle,
+      show,
+      contentClassName,
+      buttonClassName,
+      children
+    } = this.props;
 
     return (
-      <button onClick={toggle} ref='target' className={buttonClassName}>
+      <button
+        onClick={toggle}
+        ref='target'
+        className={buttonClassName}
+      >
         <i className={`fa fa-${iconName}`} />
 
         <Overlay
           show={show}
           onHide={toggle}
-          target={(props) => this.refs.target}
+          target={() => this.refs.target}
           placement='bottom'
           rootClose
         >
-          <div className={cx('Dropdown__content', contentClassName)}>
+          <div className={contentClassName}>
             {children}
           </div>
         </Overlay>

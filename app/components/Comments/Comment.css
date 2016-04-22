@@ -1,3 +1,4 @@
+:global {
 .Comment {
   background-color: white;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
@@ -42,4 +43,5 @@
 .Comment__text {
   font-size: 1.1rem;
   margin: 0;
+}
 }

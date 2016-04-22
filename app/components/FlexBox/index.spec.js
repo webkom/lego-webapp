@@ -18,7 +18,7 @@ describe('FlexBox', () => {
         justifyContent: 'center'
       });
 
-      expect(wrapper.props().className).to.equal('FlexRow TestContainer');
+      expect(wrapper.props().className).to.contain('TestContainer');
     });
   });
 
@@ -37,7 +37,7 @@ describe('FlexBox', () => {
         justifyContent: 'center'
       });
 
-      expect(wrapper.props().className).to.equal('FlexColumn TestContainer');
+      expect(wrapper.props().className).to.contain('TestContainer');
     });
   });
 });

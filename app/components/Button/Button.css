@@ -1,3 +1,4 @@
+:global {
 .Button {
   border: 0;
   font-weight: 700;
@@ -22,4 +23,5 @@
 
 .Button--large {
   font-size: 1.4rem;
+}
 }

@@ -9,13 +9,12 @@ describe('components', () => {
   describe('LoginForm', () => {
     it('should render correctly', () => {
       const login = () => {};
-      const wrapper = shallow(<LoginForm login={login} />);
-      expect(wrapper).to.tagName('div');
+      const wrapper = shallow(<LoginForm login={login} className='LoginForm' />);
+      expect(wrapper).to.tagName('form');
       expect(wrapper).to.have.prop('className', 'LoginForm');
-      const form = wrapper.find('form');
-      const username = form.children().at(0);
-      const password = form.children().at(1);
-      const submit = form.children().at(2);
+      const username = wrapper.children().at(0);
+      const password = wrapper.children().at(1);
+      const submit = wrapper.children().at(2);
       expect(username).to.tagName('input');
       expect(username).to.have.prop('autoFocus');
       expect(password).to.tagName('input');
@@ -35,6 +34,7 @@ describe('components', () => {
       password.node.value = 'webkom';
       form.simulate('submit');
       expect(login).to.have.been.called;
+
       username.node.value = '';
       password.node.value = '';
       form.simulate('submit');

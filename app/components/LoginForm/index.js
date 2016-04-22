@@ -1,13 +1,15 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import { Form } from '../Form';
 import Button from '../Button';
 
+type Props = {
+  login: (username: string, password: string) => any;
+};
+
 export default class LoginForm extends Component {
+  props: Props;
 
-  static propTypes = {
-    login: PropTypes.func.isRequired
-  };
-
-  handleSubmit(e) {
+  handleSubmit = (e) => {
     e.preventDefault();
 
     const username = this.refs.username.value.trim();
@@ -24,17 +26,24 @@ export default class LoginForm extends Component {
     }
 
     this.props.login(username, password);
-  }
+  };
 
   render() {
     return (
-      <div className='LoginForm'>
-        <form onSubmit={::this.handleSubmit} className='u-vertical'>
-          <input type='text' ref='username' placeholder='Username' autoFocus />
-          <input type='password' ref='password' placeholder='Password' />
-          <Button submit dark>Logg inn</Button>
-        </form>
-      </div>
+      <Form onSubmit={this.handleSubmit} className={this.props.className}>
+        <input
+          type='text'
+          ref='username'
+          placeholder='Username'
+          autoFocus
+        />
+        <input
+          type='password'
+          ref='password'
+          placeholder='Password'
+        />
+        <Button submit dark>Logg inn</Button>
+      </Form>
     );
   }
 }

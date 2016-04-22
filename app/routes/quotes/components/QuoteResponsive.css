@@ -1,3 +1,5 @@
+:global {
+
 @media (max-width: 480px) {
 
   .quote-container {
@@ -67,4 +69,5 @@
     font-size: 20px;
   }
 
+}
 }

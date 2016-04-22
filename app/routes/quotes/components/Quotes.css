@@ -1,3 +1,4 @@
+:global {
 .quote-container {
   display: flex;
   flex-direction: row;
@@ -81,4 +82,5 @@
 
 .clear {
   clear:both;
+}
 }

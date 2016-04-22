@@ -1,4 +1,3 @@
-import createReducer from '../utils/createReducer';
 import { Search } from '../actions/ActionTypes';
 
 const initialState = {
@@ -7,22 +6,33 @@ const initialState = {
   searching: false
 };
 
-export default createReducer(initialState, {
-  [Search.SEARCH_BEGIN]: (state, action) => ({
-    ...state,
-    query: action.meta.query,
-    searching: true
-  }),
+export default function search(state = initialState, action) {
+  switch (action.type) {
+    case Search.SEARCH_BEGIN:
+      return ({
+        ...state,
+        query: action.meta.query,
+        searching: true
+      });
 
-  [Search.SEARCH_SUCCESS]: (state, action) => {
-    // Don't overwrite if the results for an old query returns
-    if (action.meta.query !== state.query) {
+    case Search.SEARCH_SUCCESS:
+      if (action.meta.query !== state.query) {
+        return state;
+      }
+
+      return {
+        ...state,
+        results: action.payload,
+        searching: false
+      };
+
+    case Search.SEARCH_FAILURE:
+      return {
+        ...state,
+        searching: false
+      };
+
+    default:
       return state;
-    }
-    return {
-      ...state,
-      results: action.payload,
-      searching: false
-    };
   }
-});
+}

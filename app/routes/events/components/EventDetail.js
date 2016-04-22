@@ -1,4 +1,4 @@
-import './EventDetail.css';
+import styles from './EventDetail.css';
 import React, { Component } from 'react';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import CommentView from 'app/components/Comments/CommentView';
@@ -56,7 +56,7 @@ export default class EventDetail extends Component {
     }
 
     return (
-      <div className='EventDetail u-container'>
+      <div className={styles.root}>
         <div className='EventDetail__coverImage'>
           <img src='https://www.gochile.cl/fotos/overview-full/2348-img_8707.jpg' />
           <div className='EventDetail__coverImage__overlay' />

@@ -1,26 +1,33 @@
-import './Header.css';
-import React, { PropTypes, Component } from 'react';
+/** @flow */
+
+import styles from './Header.css';
+import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Modal } from 'react-overlays';
-import { debounce } from 'lodash';
-import LoginForm from './LoginForm';
-import Search from './Search';
-import ButtonTriggeredDropdown from './ButtonTriggeredDropdown';
+import cx from 'classnames';
+import LoginForm from '../LoginForm';
+import Search from '../Search';
+import ButtonTriggeredDropdown from '../ButtonTriggeredDropdown';
+
+type Props = {
+  children: any;
+  auth: any;
+  login: () => any;
+  logout: () => any;
+  loggedIn: boolean;
+  loginFailed: boolean;
+};
+
+type State = {
+  accountOpen: boolean;
+  searchOpen: boolean;
+  notificationsOpen: boolean;
+};
 
 export default class Header extends Component {
-  static propTypes = {
-    children: PropTypes.array,
-    auth: PropTypes.object.isRequired,
-    login: PropTypes.func.isRequired,
-    logout: PropTypes.func.isRequired,
-    search: PropTypes.func.isRequired,
-    searchResults: PropTypes.array.isRequired,
-    searching: PropTypes.bool,
-    loggedIn: PropTypes.bool.isRequired,
-    loginFailed: PropTypes.bool
-  };
+  props: Props;
 
-  state = {
+  state: State = {
     accountOpen: false,
     searchOpen: false,
     notificationsOpen: false
@@ -28,49 +35,59 @@ export default class Header extends Component {
 
   render() {
     const {
-      login, logout,
-      search, searchResults, searching,
       auth,
+      login, logout,
       loggedIn, loginFailed
     } = this.props;
 
     return (
-      <header className='Header'>
-        <div className='Header__content u-container'>
-          <IndexLink to='/' className='Header__logo'>Abakus</IndexLink>
+      <header className={styles.root}>
+        <div className={styles.content}>
+          <IndexLink
+            to='/'
+            className={styles.logo}
+          >
+            Abakus
+          </IndexLink>
 
-          <div className='Header__navigation'>
-            <Link to='/events'>Arrangementer</Link>
-            <Link to=''>Karriere</Link>
-            <Link to=''>README</Link>
-            <Link to='/quotes'>Sitater</Link>
+          <div className={styles.navigation}>
+            <Link to='/events' activeClassName={styles.activeLink}>Arrangementer</Link>
+            <Link to='/career' activeClassName={styles.activeLink}>Karriere</Link>
+            <Link to='/readme' activeClassName={styles.activeLink}>README</Link>
+            <Link to='/quotes' activeClassName={styles.activeLink}>Sitater</Link>
           </div>
 
           <div>
             <ButtonTriggeredDropdown
-              buttonClassName='Header__content__button'
+              buttonClassName={styles.contentButton}
+              contentClassName={styles.dropdown}
               iconName='bell'
               show={this.state.notificationsOpen}
-              toggle={() => this.setState({ notificationsOpen: !this.state.notificationsOpen })}
+              toggle={() => this.setState({
+                notificationsOpen: !this.state.notificationsOpen
+              })}
             >
               <h2>No Notifications</h2>
             </ButtonTriggeredDropdown>
 
             <ButtonTriggeredDropdown
-              buttonClassName='Header__content__button'
-              contentClassName={auth.loggingIn && loginFailed ? 'animated shake' : ''}
+              buttonClassName={styles.contentButton}
+              contentClassName={cx(styles.dropdown, loginFailed && 'animated shake')}
               iconName='user'
               show={this.state.accountOpen}
               toggle={() => this.setState({ accountOpen: !this.state.accountOpen })}
             >
               {!loggedIn && (
-                <LoginForm login={login} />
+                <LoginForm
+                  login={login}
+                  className={styles.loginForm}
+                />
               )}
 
               {loggedIn && (
                 <div>
                   <h2>{auth && auth.username}</h2>
-                  <ul className='Dropdown__content__menu'>
+                  <ul className={styles.dropdownMenu}>
                     <li><Link to='/users/me'>My Profile</Link></li>
                     <li><Link to='/users/me/settings'>Settings</Link></li>
                     <li><Link to='events'>Favorites</Link></li>
@@ -81,7 +98,7 @@ export default class Header extends Component {
             </ButtonTriggeredDropdown>
 
             <button
-              className='Header__content__button'
+              className={styles.contentButton}
               onClick={() => this.setState({ searchOpen: !this.state.searchOpen })}
             >
               <i className='fa fa-search' />
@@ -90,15 +107,12 @@ export default class Header extends Component {
             <Modal
               show={this.state.searchOpen}
               onHide={() => this.setState({ searchOpen: false })}
-              backdropClassName='Backdrop'
+              backdropClassName={styles.backdrop}
               backdrop
             >
               <Search
                 isOpen={this.state.searchOpen}
                 onCloseSearch={() => this.setState({ searchOpen: false })}
-                onQueryChanged={debounce(search, 500)}
-                results={searchResults}
-                searching={searching}
               />
             </Modal>
           </div>

@@ -1,0 +1,85 @@
+.overlay {
+  composes: container from '../../Root.css';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #222;
+}
+
+.inputContainer {
+  display: flex;
+  justify-content: space-between;
+  height: 60px;
+  background: #111;
+}
+
+.inputContainer input {
+  flex: 1;
+  outline: none;
+  border: 0;
+  padding: 0 1rem;
+  font-size: 1.4rem;
+  color: #fff;
+  background: transparent;
+}
+
+.closeButton {
+  width: 60px;
+  outline: none;
+  border: 0;
+  background: transparent;
+  color: #eee;
+}
+
+.closeButton i {
+  transition: transform .2s;
+}
+
+.closeButton:hover i {
+  transform: scale(1.5);
+}
+
+.resultsContainer {
+  display: flex;
+  border-top: 10px solid var(--lego-link-color);
+}
+
+.quickLinks {
+  flex: 1;
+  color: #fff;
+  padding: 2rem;
+}
+
+.quickLinks li {
+  list-style: none;
+}
+
+.quickLinks a {
+  display: block;
+  color: #eee;
+  line-height: 2;
+  padding: 0 1rem;
+  text-transform: uppercase;
+}
+
+.quickLinks a:hover {
+  letter-spacing: 1px;
+  color: #fff;
+}
+
+.results {
+  flex: 2;
+  padding: 2rem;
+  background: #eee;
+}
+
+.results li {
+  border-bottom: 1px solid #ddd;
+  padding: .5rem;
+  display: flex;
+}
+
+.isSelected {
+  font-weight: 700;
+}
