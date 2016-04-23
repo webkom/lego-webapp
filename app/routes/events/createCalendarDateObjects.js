@@ -9,8 +9,8 @@ import { range, takeWhile, last } from 'lodash';
  */
 export default function createDateObjects(
   date: moment,
-  weekOffset: number,
-  styles: any
+  weekOffset: number = 0,
+  styles: any = {}
 ) {
   const startOfMonth = date.startOf('month');
 

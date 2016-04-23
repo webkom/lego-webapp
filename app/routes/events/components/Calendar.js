@@ -19,9 +19,7 @@ export default class Calendar extends Component {
   props: Props;
 
   static defaultProps = {
-    weekOffset: 0,
-    year: moment().year(),
-    month: moment().month() + 1
+    weekOffset: 0
   };
 
   queryForPrevMonth(date) {
