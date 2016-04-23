@@ -1,6 +1,5 @@
 import 'isomorphic-fetch';
-import { fetchJSON } from '../http';
-
+import { fetchJSON, createQueryString } from '../http';
 
 describe('http/fetchJSON', () => {
   beforeEach(() => {
@@ -53,5 +52,17 @@ describe('http/fetchJSON', () => {
           done();
         }).catch(done);
     });
+  });
+});
+
+describe('http/createQueryString', () => {
+  it('should work for strings and numbers', () => {
+    const qs = createQueryString({ year: 2016, name: 'webkom', foo: 0 });
+    expect(qs).to.equal('?year=2016&name=webkom&foo=0');
+  });
+
+  it('should remove keys for empty values', () => {
+    const qs = createQueryString({ year: '', name: '', bar: null });
+    expect(qs).to.equal('');
   });
 });

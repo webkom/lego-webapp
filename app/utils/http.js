@@ -8,16 +8,12 @@ function urlFor(resource) {
 }
 
 export function createQueryString(query: {[id:string]: string|number}): string {
-  const queryString = Object.keys(query).reduce((qs, key) => {
-    if (!query[key]) return qs;
-    return `${qs}${encodeURIComponent(key)}=${encodeURIComponent(query[key])}&`;
-  }, '');
+  const queryString = Object.keys(query)
+    .filter((key) => typeof query[key] === 'number' || !!query[key])
+    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
+    .join('&');
 
-  if (queryString) {
-    return `?${queryString}`;
-  }
-
-  return '';
+  return queryString ? `?${queryString}` : '';
 }
 
 /**
