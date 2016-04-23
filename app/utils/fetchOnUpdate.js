@@ -1,33 +1,29 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import shallowEqual from 'react-redux/lib/utils/shallowEqual';
 
-function mapParams(watchParams, params) {
-  return watchParams.reduce((total, key) => {
-    total[key] = params[key];
+function extractWatchedProps(watchProps, props) {
+  return watchProps.reduce((total, key) => {
+    total[key] = props[key];
     return total;
   }, {});
 }
 
 /**
-Calls fn on route changes where watchParams are changed.
-*/
-function fetchOnUpdate(watchParams, fetch) {
+ * A HOC that calls `fetchData` whenever one of the `watchProps`
+ * are changed.
+ */
+function fetchOnUpdate(watchProps, fetchData) {
   return (DecoratedComponent) =>
   class FetchOnUpdateDecorator extends Component {
-
-    static propTypes = {
-      params: PropTypes.object.isRequired
-    };
-
     componentWillMount() {
-      fetch(mapParams(watchParams, this.props), this.props);
+      fetchData(extractWatchedProps(watchProps, this.props), this.props);
     }
 
-    componentDidUpdate(prevProps) {
-      const params = mapParams(watchParams, this.props);
-      const prevParams = mapParams(watchParams, prevProps);
-      if (!shallowEqual(params, prevParams)) {
-        fetch(params, this.props);
+    componentWillReceiveProps(nextProps) {
+      const params = extractWatchedProps(watchProps, this.props);
+      const nextParams = extractWatchedProps(watchProps, nextProps);
+      if (!shallowEqual(params, nextParams)) {
+        fetchData(nextParams, nextProps);
       }
     }
 
