@@ -1,67 +1,11 @@
 import styles from './Calendar.css';
 import React, { Component } from 'react';
-import cx from 'classnames';
 import moment from 'moment';
 import { Link } from 'react-router';
-import { range, takeWhile, last } from 'lodash';
-import colorForEvent from '../colorForEvent';
-import Circle from 'app/components/Circle';
+import createCalendarDateObjects from '../createCalendarDateObjects';
+import CalendarCell from './CalendarCell';
 
 const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
-
-/**
- * Generate days of an entire month.
- *
- * @TODO: memoize
- */
-function createDateObjects(date, weekOffset, events = []) {
-  const startOfMonth = date.startOf('month');
-
-  let diff = startOfMonth.weekday() - weekOffset;
-  if (diff < 0) diff += 7;
-
-  const prevMonthDays = range(0, diff).map((n) => ({
-    day: startOfMonth.clone().subtract(diff - n, 'days'),
-    className: styles.prevMonthDay
-  }));
-
-  const currentMonthDays = range(1, date.daysInMonth() + 1).map((index) => ({
-    day: moment([date.year(), date.month(), index]),
-    events: events.filter((e) =>
-      moment(e.startTime).isSame(moment([date.year(), date.month(), index]), 'day')
-    )
-  }));
-
-  const daysAdded = prevMonthDays.length + currentMonthDays.length - 1;
-  const nextMonthDays = takeWhile(range(1, 7), (n) => (daysAdded + n) % 7 !== 0).map((n) => ({
-    day: last(currentMonthDays).day.clone().add(n, 'days'),
-    className: styles.nextMonthDay
-  }));
-
-  return [...prevMonthDays, ...currentMonthDays, ...nextMonthDays];
-}
-
-/**
- *
- */
-const Event = ({ id, title, eventType }) => (
-  <div key={id}>
-    <Circle color={colorForEvent(eventType)} />
-    {' '}
-    <Link to={`/events/${id}`}>{title}</Link>
-  </div>
-);
-
-/**
- *
- */
-const Day = ({ day, className, events = [] }) => (
-  <div className={cx(styles.day, className)}>
-    <strong className={styles.dayNumber}>{day.date()}</strong>
-    {events.map(Event)}
-  </div>
-);
-
 
 type Props = {
   weekOffset: number;
@@ -76,7 +20,6 @@ export default class Calendar extends Component {
 
   static defaultProps = {
     weekOffset: 0,
-    events: [],
     year: moment().year(),
     month: moment().month() + 1
   };
@@ -105,15 +48,16 @@ export default class Calendar extends Component {
         </h2>
 
         <div className={styles.grid}>
-          {WEEKDAYS.map(
-            (d) => <div key={d} className={styles.headingItem}>{d}</div>
-          )}
-          {createDateObjects(
+          {WEEKDAYS.map((d) => <div key={d} className={styles.headingItem}>{d}</div>)}
+          {createCalendarDateObjects(
             date,
             this.props.weekOffset,
-            this.props.events || []
+            styles
           ).map((dateObject) =>
-            <Day key={dateObject.day.format('x')} {...dateObject} />
+            <CalendarCell
+              key={dateObject.day.format('x')}
+              {...dateObject}
+            />
           )}
         </div>
       </div>
