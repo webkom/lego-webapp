@@ -2,6 +2,7 @@ import { commentSchema } from 'app/reducers';
 import { Comment } from './ActionTypes';
 import { callAPI } from '../utils/http';
 import { startSubmit, stopSubmit } from 'redux-form';
+import { catchErrorAsNotification } from './NotificationActions';
 
 export function addComment({ text, commentTarget, parent }) {
   return (dispatch, getState) => {
@@ -21,17 +22,15 @@ export function addComment({ text, commentTarget, parent }) {
         commentTarget
       },
       schema: commentSchema
-    })).then(
-      () => {
-        dispatch(stopSubmit('comment'));
-      },
-      (error) => {
-        const errors = { ...error.response.body };
-        if (errors.text) {
-          errors.text = errors.text[0];
-        }
-        dispatch(stopSubmit('comment', errors));
+    })).then(() => {
+      dispatch(stopSubmit('comment'));
+    }).catch((action) => {
+      catchErrorAsNotification(dispatch, 'Posting comment failed')(action);
+      const errors = { ...action.error.response.body };
+      if (errors.text) {
+        errors.text = errors.text[0];
       }
-    );
+      dispatch(stopSubmit('comment', errors));
+    });
   };
 }

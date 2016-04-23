@@ -5,6 +5,7 @@ import moment from 'moment';
 import { push, replace } from 'react-router-redux';
 import { User } from './ActionTypes';
 import { callAPI } from 'app/utils/http';
+import { catchErrorAsNotification } from './NotificationActions';
 
 const USER_STORAGE_KEY = 'user';
 
@@ -35,7 +36,7 @@ export function login(username, password) {
         type: User.FETCH_SUCCESS,
         payload: normalize(user, userSchema)
       });
-    });
+    }).catch(catchErrorAsNotification(dispatch, 'Login failed'));
   };
 }
 
@@ -71,16 +72,18 @@ export function updateUser({ username, firstName, lastName, email }) {
           }
         });
       }
-    });
+    }).catch(catchErrorAsNotification(dispatch, 'Updating user failed'));
   };
 }
 
 export function fetchUser(username) {
-  return callAPI({
-    types: [User.FETCH_BEGIN, User.FETCH_SUCCESS, User.FETCH_FAILURE],
-    endpoint: `/users/${username}/`,
-    schema: userSchema
-  });
+  return (dispatch, getState) => {
+    dispatch(callAPI({
+      types: [User.FETCH_BEGIN, User.FETCH_SUCCESS, User.FETCH_FAILURE],
+      endpoint: `/users/${username}/`,
+      schema: userSchema
+    })).catch(catchErrorAsNotification(dispatch, 'Fetching user failed'));
+  };
 }
 
 function getExpirationDate(token) {

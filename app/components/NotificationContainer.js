@@ -4,27 +4,33 @@ import { connect } from 'react-redux';
 import { removeNotification } from 'app/actions/NotificationActions';
 
 @connect((state) => ({
-  notifications: state.notifications
+  notifications: state.notifications.items
                 .filter((n) => !n.removed)
-                .map((n) => {
-                  n.key = n.id;
-                  return n;
-                })
 }), { removeNotification })
 export default class NotificationContainer extends Component {
   static propTypes = {
     removeNotification: PropTypes.func.isRequired,
     notifications: PropTypes.array.isRequired
   };
+  onClick = (notification) => {
+    // For now, we assume the action is "close". In the future, this might be a
+    // link to a resource instead
+    this.props.removeNotification({ id: notification.id });
+  };
   render() {
+    const notifications = this.props.notifications.map((n) => {
+      n.key = n.id;
+      // onClick has to be implemented on each object because NotificationStack
+      // does not support onClick like it supports onDismiss (see below)
+      n.onClick = this.onClick.bind(this, n);
+      return n;
+    });
     return (
-      <div>
-        <NotificationStack
-          dismissAfter={5000}
-          notifications={this.props.notifications}
-          onDismiss={(notification) => this.props.removeNotification({ id: notification.id })}
-        />
-      </div>
+      <NotificationStack
+        dismissAfter={5000}
+        notifications={notifications}
+        onDismiss={(notification) => this.props.removeNotification({ id: notification.id })}
+      />
     );
   }
 }
