@@ -1,33 +1,34 @@
-:global {
+
 
 :root {
   --calendar-border: 1px solid #ddd;
 }
 
-.Calendar {
+.root {
+  composes: container from '../../../Root.css';
   margin-top: 2rem;
 }
 
-.Calendar__grid {
+.grid {
   display: flex;
   width: 100%;
   flex-wrap: wrap;
   margin: 0;
 }
 
-.Calendar__header {
+.header {
   display: flex;
   justify-content: space-between;
   margin: 0 0 2rem 0;
 }
 
-.Calendar__day__number {
+.dayNumber {
   position: absolute;
   top: 5px;
   right: 8px;
 }
 
-.Calendar__headingItem {
+.headingItem {
   flex: 0 14.28571%;
   color: #444;
   text-align: right;
@@ -35,7 +36,7 @@
   border-bottom: 2px solid #ddd;
 }
 
-.Calendar__day {
+.day {
   flex: 0 14.28571%;
   border-right: var(--calendar-border);
   border-bottom: var(--calendar-border);
@@ -53,8 +54,7 @@
   }
 }
 
-.Calendar__day--prevMonth,
-.Calendar__day--nextMonth {
+.prevMonthDay,
+.nextMonthDay {
   color: #bbb;
-}
 }

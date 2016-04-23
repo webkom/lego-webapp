@@ -1,5 +1,5 @@
 import { Event } from './ActionTypes';
-import { callAPI } from 'app/utils/http';
+import { callAPI, createQueryString } from 'app/utils/http';
 
 export function fetchEvent(eventId) {
   return callAPI({
@@ -12,13 +12,13 @@ export function fetchEvent(eventId) {
   });
 }
 
-export function fetchAll() {
+export function fetchAll({ year, month } = {}) {
   return callAPI({
     types: [
       Event.FETCH_ALL_BEGIN,
       Event.FETCH_ALL_SUCCESS,
       Event.FETCH_ALL_FAILURE
     ],
-    endpoint: '/events/'
+    endpoint: `/events/${createQueryString({ year, month })}`
   });
 }

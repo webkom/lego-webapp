@@ -1,79 +1,25 @@
-import './Calendar.css';
-import React, { Component, PropTypes } from 'react';
-import cx from 'classnames';
+import styles from './Calendar.css';
+import React, { Component } from 'react';
 import moment from 'moment';
 import { Link } from 'react-router';
-import { range, takeWhile, last } from 'lodash';
-import colorForEvent from '../colorForEvent';
-import Circle from 'app/components/Circle';
+import createCalendarDateObjects from '../createCalendarDateObjects';
+import CalendarCell from './CalendarCell';
 
-/**
- * Generate days of an entire month.
- * Might require *some* memory, should maybe
- * figure out and un-beautify it.
- */
-function createDateObjects(date, weekOffset, events = []) {
-  const startOfMonth = date.startOf('month');
+const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
 
-  let diff = startOfMonth.weekday() - weekOffset;
-  if (diff < 0) diff += 7;
+type Props = {
+  weekOffset: number;
+  events: Array<any>;
+  location: any;
+  year: string;
+  month: string;
+};
 
-  const prevMonthDays = range(0, diff).map((n) => ({
-    day: startOfMonth.clone().subtract(diff - n, 'days'),
-    classNames: 'prevMonth'
-  }));
-
-  const currentMonthDays = range(1, date.daysInMonth() + 1).map((index) => ({
-    day: moment([date.year(), date.month(), index]),
-    events: events.filter((e) =>
-      moment(e.startTime).isSame(moment([date.year(), date.month(), index]), 'day')
-    )
-  }));
-
-  const daysAdded = prevMonthDays.length + currentMonthDays.length - 1;
-  const nextMonthDays = takeWhile(range(1, 7), (n) => (daysAdded + n) % 7 !== 0).map((n) => ({
-    day: last(currentMonthDays).day.clone().add(n, 'days'),
-    classNames: 'nextMonth'
-  }));
-
-  return [...prevMonthDays, ...currentMonthDays, ...nextMonthDays];
-}
-
-/**
- *
- */
-const Event = ({ id, title, eventType }) => (
-  <div key={id}>
-    <Circle color={colorForEvent(eventType)} />
-    {' '}
-    <Link to={`/events/${id}`}>{title}</Link>
-  </div>
-);
-
-/**
- *
- */
-const Day = ({ day, classNames, events = [] }) => (
-  <div className={cx('Calendar__day', `Calendar__day--${classNames}`)}>
-    <strong className='Calendar__day__number'>{day.date()}</strong>
-    {events.map(Event)}
-  </div>
-);
-
-/**
- *
- */
 export default class Calendar extends Component {
-
-  static propTypes = {
-    weekOffset: PropTypes.number,
-    events: PropTypes.array,
-    location: PropTypes.object
-  };
+  props: Props;
 
   static defaultProps = {
-    weekOffset: 0,
-    events: []
+    weekOffset: 0
   };
 
   queryForPrevMonth(date) {
@@ -88,27 +34,28 @@ export default class Calendar extends Component {
   }
 
   render() {
-    const { year = moment().year(), month = moment().month() + 1 } = this.props.location.query;
+    const { year, month } = this.props;
     const date = moment([parseInt(year, 10), parseInt(month, 10) - 1]);
 
     return (
-      <div className='Calendar u-container'>
-        <h2 className='Calendar__header'>
+      <div className={styles.root}>
+        <h2 className={styles.header}>
           <Link to={{ pathname: '/events', query: this.queryForPrevMonth(date) }}>&laquo;</Link>
           <span>{date.format('MMMM YYYY')}</span>
           <Link to={{ pathname: '/events', query: this.queryForNextMonth(date) }}>&raquo;</Link>
         </h2>
 
-        <div className='Calendar__grid'>
-          {['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'].map(
-            (d) => <div key={d} className='Calendar__headingItem'>{d}</div>
-          )}
-          {createDateObjects(
+        <div className={styles.grid}>
+          {WEEKDAYS.map((d) => <div key={d} className={styles.headingItem}>{d}</div>)}
+          {createCalendarDateObjects(
             date,
             this.props.weekOffset,
-            this.props.events || []
+            styles
           ).map((dateObject) =>
-            <Day key={dateObject.day.format('x')} {...dateObject} />
+            <CalendarCell
+              key={dateObject.day.format('x')}
+              {...dateObject}
+            />
           )}
         </div>
       </div>
