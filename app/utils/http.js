@@ -7,6 +7,19 @@ function urlFor(resource) {
   return config.serverUrl + resource;
 }
 
+export function createQueryString(query: {[id:string]: string|number}): string {
+  const queryString = Object.keys(query).reduce((qs, key) => {
+    if (!query[key]) return qs;
+    return `${qs}${encodeURIComponent(key)}=${encodeURIComponent(query[key])}&`;
+  }, '');
+
+  if (queryString) {
+    return `?${queryString}`;
+  }
+
+  return '';
+}
+
 /**
  *
  */
