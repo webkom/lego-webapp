@@ -1,3 +1,4 @@
+import { commentSchema } from 'app/reducers';
 import { Comment } from './ActionTypes';
 import { callAPI } from '../utils/http';
 import { startSubmit, stopSubmit } from 'redux-form';
@@ -11,13 +12,15 @@ export function addComment({ text, commentTarget, parent }) {
       endpoint: '/comments/',
       method: 'post',
       body: {
+        id: Date.now(),
         text,
         comment_target: commentTarget,
         ...(parent ? { parent } : {})
       },
       meta: {
         commentTarget
-      }
+      },
+      schema: commentSchema
     })).then(
       () => {
         dispatch(stopSubmit('comment'));

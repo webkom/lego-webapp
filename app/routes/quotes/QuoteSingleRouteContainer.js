@@ -13,7 +13,7 @@ import {
 import QuoteSingleRoute from './components/QuoteSingleRoute';
 
 @connect((state, props) => ({
-  quotes: state.quotes.items,
+  quotes: state.quotes.items.map((id) => state.entities.quotes[id]),
   query: props.location.query
 }),
   {

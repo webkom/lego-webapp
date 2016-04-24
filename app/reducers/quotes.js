@@ -1,75 +1,35 @@
-import createReducer from '../utils/createReducer';
 import { Quote } from '../actions/ActionTypes';
+import { fetchBegin, fetchSuccess, fetchFailure, defaultEntityState } from './entities';
 
 const initialState = {
-  items: [],
-  isFetching: false,
-  lastUpdated: null
+  ...defaultEntityState
 };
 
-function mergeElements(oldList, newList) {
-  const oldListIds = oldList.map((item) => item.id);
-  const newListIds = newList.map((item) => item.id);
+export default function quotes(state = initialState, action) {
+  switch (action.type) {
+    case Quote.FETCH_BEGIN:
+      return fetchBegin(state, action);
 
-  // Replace items in state if there are new versions in payload
-  const items = oldList.map((item) => {
-    if (newListIds.includes(item.id)) {
-      return newList[newListIds.indexOf(item.id)];
-    }
+    case Quote.FETCH_SUCCESS:
+      return fetchSuccess(state, action);
 
-    return item;
-  });
+    case Quote.FETCH_FAILURE:
+      return fetchFailure(state, action);
 
-  // Add any new elements
-  newList.forEach((item) => {
-    if (!oldListIds.includes(item.id)) {
-      items.push(item);
-    }
-  });
+    case Quote.LIKE_SUCCESS:
+    case Quote.UNLIKE_SUCCESS:
+    case Quote.APPROVE_SUCCESS:
+    case Quote.UNAPPROVE_SUCCESS:
+    case Quote.ADD_SUCCESS:
+      return fetchSuccess(state, action);
 
-  return items;
+    case Quote.DELETE_SUCCESS:
+      return {
+        ...state,
+        items: state.items.filter((id) => action.meta.quoteId !== id)
+      };
+
+    default:
+      return state;
+  }
 }
-
-const handleSuccess = (state, action) => ({
-  ...state,
-  isFetching: false,
-  items: mergeElements(state.items, [action.payload])
-});
-
-export default createReducer(initialState, {
-  [Quote.FETCH_BEGIN]: (state, action) => ({
-    ...state, isFetching: true
-  }),
-  [Quote.FETCH_FAILURE]: (state, action) => ({
-    ...state, isFetching: false
-  }),
-  [Quote.FETCH_SUCCESS]: handleSuccess,
-  [Quote.FETCH_ALL_APPROVED_BEGIN]: (state, action) => ({
-    ...state, isFetching: true
-  }),
-  [Quote.FETCH_ALL_APPROVED_FAILURE]: (state, action) => ({
-    ...state, isFetching: false
-  }),
-  [Quote.FETCH_ALL_APPROVED_SUCCESS]: (state, action) => ({
-    ...state, isFetching: false, items: mergeElements(state.items, action.payload)
-  }),
-  [Quote.FETCH_ALL_UNAPPROVED_BEGIN]: (state, action) => ({
-    ...state, isFetching: true
-  }),
-  [Quote.FETCH_ALL_UNAPPROVED_FAILURE]: (state, action) => ({
-    ...state, isFetching: false
-  }),
-  [Quote.FETCH_ALL_UNAPPROVED_SUCCESS]: (state, action) => ({
-    ...state, isFetching: false, items: mergeElements(state.items, action.payload)
-  }),
-  [Quote.LIKE_SUCCESS]: handleSuccess,
-  [Quote.UNLIKE_SUCCESS]: handleSuccess,
-  [Quote.APPROVE_SUCCESS]: handleSuccess,
-  [Quote.UNAPPROVE_SUCCESS]: handleSuccess,
-  [Quote.ADD_SUCCESS]: handleSuccess,
-  [Quote.DELETE_SUCCESS]: (state, action) => ({
-    ...state,
-    isFetching: false,
-    items: state.items.filter((q) => action.meta.quoteId !== q.id)
-  })
-});

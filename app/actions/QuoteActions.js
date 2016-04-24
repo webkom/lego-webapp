@@ -1,28 +1,28 @@
+import { arrayOf } from 'normalizr';
+import { quoteSchema } from 'app/reducers';
 import { Quote } from './ActionTypes';
 import { callAPI } from '../utils/http';
 import { push } from 'react-router-redux';
 import { startSubmit, stopSubmit } from 'redux-form';
 
-export function fetchAllApproved() {
+export function fetchAll({ approved = true }) {
   return callAPI({
     types: [
-      Quote.FETCH_ALL_APPROVED_BEGIN,
-      Quote.FETCH_ALL_APPROVED_SUCCESS,
-      Quote.FETCH_ALL_APPROVED_FAILURE
+      Quote.FETCH_BEGIN,
+      Quote.FETCH_SUCCESS,
+      Quote.FETCH_FAILURE
     ],
-    endpoint: '/quotes/?approved=true'
+    endpoint: `/quotes/?approved=${approved}`,
+    schema: arrayOf(quoteSchema)
   });
 }
 
+export function fetchAllApproved() {
+  return fetchAll({ approved: true });
+}
+
 export function fetchAllUnapproved() {
-  return callAPI({
-    types: [
-      Quote.FETCH_ALL_UNAPPROVED_BEGIN,
-      Quote.FETCH_ALL_UNAPPROVED_SUCCESS,
-      Quote.FETCH_ALL_UNAPPROVED_FAILURE
-    ],
-    endpoint: '/quotes/?approved=false'
-  });
+  return fetchAll({ approved: false });
 }
 
 export function fetchQuote(quoteId) {
@@ -36,7 +36,8 @@ export function fetchQuote(quoteId) {
     method: 'get',
     meta: {
       quoteId
-    }
+    },
+    schema: quoteSchema
   });
 }
 
@@ -48,7 +49,8 @@ export function like(quoteId) {
       Quote.LIKE_FAILURE
     ],
     endpoint: `/quotes/${quoteId}/like/`,
-    method: 'post'
+    method: 'post',
+    schema: quoteSchema
   });
 }
 
@@ -60,7 +62,8 @@ export function unlike(quoteId) {
       Quote.UNLIKE_FAILURE
     ],
     endpoint: `/quotes/${quoteId}/unlike/`,
-    method: 'post'
+    method: 'post',
+    schema: quoteSchema
   });
 }
 
@@ -72,7 +75,8 @@ export function approve(quoteId) {
       Quote.APPROVE_FAILURE
     ],
     endpoint: `/quotes/${quoteId}/approve/`,
-    method: 'put'
+    method: 'put',
+    schema: quoteSchema
   });
 }
 
@@ -84,7 +88,8 @@ export function unapprove(quoteId) {
       Quote.UNAPPROVE_FAILURE
     ],
     endpoint: `/quotes/${quoteId}/unapprove/`,
-    method: 'put'
+    method: 'put',
+    schema: quoteSchema
   });
 }
 
@@ -97,11 +102,13 @@ export function addQuotes({ text, source }) {
       endpoint: '/quotes/',
       method: 'post',
       body: {
+        id: Date.now(),
         title: 'Tittel',
         text,
         source,
         approved: false
-      }
+      },
+      schema: quoteSchema
     })).then(
       () => {
         dispatch(stopSubmit('addQuote'));
@@ -128,6 +135,7 @@ export function deleteQuote(quoteId) {
     method: 'del',
     meta: {
       quoteId
-    }
+    },
+    schema: quoteSchema
   });
 }

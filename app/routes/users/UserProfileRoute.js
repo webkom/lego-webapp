@@ -15,7 +15,7 @@ function fetchData(props) {
   username: props.params.username || state.auth.username,
   isMe: !props.params.username || props.params.username === state.auth.username,
   auth: state.auth,
-  user: state.users[props.params.username || state.auth.username],
+  user: state.entities.users[props.params.username || state.auth.username],
   loggedIn: state.auth.token !== null
 }), { fetchUser })
 export default class UserProfileRoute extends Component {

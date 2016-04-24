@@ -1,3 +1,4 @@
+import { normalize } from 'normalizr';
 import config from '../config';
 
 function urlFor(resource) {
@@ -7,6 +8,9 @@ function urlFor(resource) {
   return config.serverUrl + resource;
 }
 
+/**
+ *
+ */
 export function createQueryString(query: {[id:string]: string|number}): string {
   const queryString = Object.keys(query)
     .filter((key) => typeof query[key] === 'number' || !!query[key])
@@ -66,7 +70,8 @@ export function callAPI({
   headers,
   endpoint,
   body,
-  meta
+  meta,
+  schema
 }) {
   return (dispatch, getState) => {
     const options = {
@@ -81,11 +86,22 @@ export function callAPI({
       };
     }
 
+    function _normalize(payload) {
+      return schema ? normalize(payload, schema) : payload;
+    }
+
     return dispatch({
       types,
-      payload: body,
-      meta,
+      payload: body ? _normalize(body) : null,
+      meta: {
+        ...meta,
+        body
+      },
       promise: fetchJSON(urlFor(endpoint), options)
+        .then(({ json, response }) => ({
+          response,
+          json: _normalize(json)
+        }))
     });
   };
 }

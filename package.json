@@ -34,6 +34,7 @@
     "moment-timezone": "0.5.3",
     "nib": "1.1.0",
     "normalize.css": "4.0.0",
+    "normalizr": "2.0.1",
     "null-loader": "0.1.1",
     "postcss-cssnext": "2.5.2",
     "postcss-import": "8.1.0",

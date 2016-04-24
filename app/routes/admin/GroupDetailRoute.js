@@ -8,17 +8,17 @@ function loadData(params, props) {
   props.fetchGroup(Number(params.groupId));
 }
 
-function findGroup({ groups, users }, groupId) {
-  const foundGroup = groups.items.find(
-    (group) => group.id === Number(groupId)
-  );
+function findGroup(state, groupId) {
+  const group = state.entities.groups[groupId];
 
-  if (foundGroup && foundGroup.users) {
-    const mappedUsers = foundGroup.users.map((username) => users[username]);
-    return { ...foundGroup, users: mappedUsers };
+  if (group && group.users) {
+    return {
+      ...group,
+      users: group.users.map((userId) => state.entities.users[userId])
+    };
   }
 
-  return foundGroup;
+  return group;
 }
 
 function mapStateToProps(state, props) {
