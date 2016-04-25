@@ -1,6 +1,5 @@
 import { Comment } from 'app/actions/ActionTypes';
 import merge from 'lodash/merge';
-import update from 'lodash/update';
 
 export type EntityID = number;
 
@@ -65,7 +64,8 @@ export const defaultEntityState = {
 export function fetchBegin(state) {
   return {
     ...state,
-    isFetching: true
+    isFetching: true,
+    error: null
   };
 }
 
