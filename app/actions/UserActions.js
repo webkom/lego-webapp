@@ -1,4 +1,5 @@
 import jwtDecode from 'jwt-decode';
+import { normalize } from 'normalizr';
 import { userSchema } from 'app/reducers';
 import moment from 'moment';
 import { push, replace } from 'react-router-redux';
@@ -32,14 +33,7 @@ export function login(username, password) {
       const { user } = action.payload;
       dispatch({
         type: User.FETCH_SUCCESS,
-        payload: {
-          entities: {
-            users: {
-              [user.id]: user
-            }
-          },
-          result: user.id
-        }
+        payload: normalize(user, userSchema)
       });
     });
   };
@@ -123,14 +117,7 @@ export function loginWithExistingToken(user, token) {
 
       dispatch({
         type: User.FETCH_SUCCESS,
-        payload: {
-          entities: {
-            users: {
-              [user.id]: user
-            }
-          },
-          result: user.id
-        }
+        payload: normalize(user, userSchema)
       });
     }
   };
