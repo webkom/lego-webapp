@@ -1,36 +1,21 @@
-import createReducer from '../utils/createReducer';
 import { Group } from '../actions/ActionTypes';
+import { fetchBegin, fetchSuccess, fetchFailure, defaultEntityState } from './entities';
 
 const initialState = {
-  items: [],
-  isFetching: false,
-  lastUpdated: null
+  ...defaultEntityState
 };
 
-function replaceGroup(groups, newGroup) {
-  newGroup.users = newGroup.users.map((u) => u.username);
-  const existing = groups.find((group) => group.id === newGroup.id);
-  if (existing) {
-    return groups.map((group) => group.id === newGroup.id ? newGroup : group);
+export default function groups(state = initialState, action) {
+  switch (action.type) {
+    case Group.FETCH_ALL_BEGIN:
+      return fetchBegin(state, action);
+    case Group.FETCH_ALL_FAILURE:
+      return fetchFailure(state, action);
+    case Group.FETCH_ALL_SUCCESS:
+      return fetchSuccess(state, action);
+    case Group.UPDATE_SUCCESS:
+      return fetchSuccess(state, action);
+    default:
+      return state;
   }
-
-  return groups.concat(newGroup);
 }
-
-export default createReducer(initialState, {
-  [Group.FETCH_ALL_BEGIN]: (state, action) => ({ ...state, isFetching: true }),
-  [Group.FETCH_ALL_FAILURE]: (state, action) => ({ ...state, isFetching: false }),
-  [Group.FETCH_ALL_SUCCESS]: (state, action) => ({
-    ...state, isFetching: false, items: action.payload
-  }),
-  [Group.FETCH_SUCCESS]: (state, action) => ({
-    ...state,
-    isFetching: false,
-    items: replaceGroup(state.items, action.payload)
-  }),
-  [Group.UPDATE_SUCCESS]: (state, action) => ({
-    ...state,
-    isFetching: false,
-    items: replaceGroup(state.items, action.payload)
-  })
-});

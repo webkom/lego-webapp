@@ -25,15 +25,21 @@ const sortQuotes = (quotes, sortType) => {
   return quotes.sort(compare);
 };
 
-@connect((state, props) => ({
-  quotes: sortQuotes(
-            state.quotes.items.filter((item) => item.approved ===
-              (props.location.query.filter !== 'unapproved')
-            ),
-            props.location.query.sort === 'likes' ? 'likes' : 'date'
-  ),
-  query: props.location.query
-}),
+function mapStateToProps(state, props) {
+  const { query } = props.location;
+  const quotes = state.quotes.items
+    .map((id) => state.entities.quotes[id])
+    .filter((quote) => quote.approved === (query.filter !== 'unapproved'));
+
+  const sortType = query.sort === 'likes' ? 'likes' : 'date';
+  return {
+    quotes: sortQuotes(quotes, sortType),
+    query,
+    sortType
+  };
+}
+
+@connect(mapStateToProps,
   {
     fetchAllApproved,
     fetchAllUnapproved,
@@ -77,11 +83,9 @@ export default class QuotesContainer extends Component {
   }
 
   render() {
-    const sortType = this.props.query.sort === 'likes' ? 'likes' : 'date';
     return (
       <QuotePage
         {...this.props}
-        sortType={sortType}
       />
     );
   }

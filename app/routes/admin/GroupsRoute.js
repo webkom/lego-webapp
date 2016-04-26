@@ -8,7 +8,7 @@ function loadData(props) {
 }
 
 @connect((state) => ({
-  groups: state.groups.items || []
+  groups: state.groups.items.map((id) => state.entities.groups[id])
 }), { fetchAll })
 export default class GroupsRoute extends Component {
   static propTypes = {

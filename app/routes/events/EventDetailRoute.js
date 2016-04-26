@@ -9,11 +9,16 @@ function loadData({ eventId }, props) {
 }
 
 function mapStateToProps(state, props) {
+  const { eventId } = props.params;
+  const event = state.entities.events[eventId];
+  const comments = event ? (event.comments || []).map((id) => state.entities.comments[id]) : [];
+
   return {
     loggedIn: state.auth.token !== null,
     user: state.auth,
-    event: state.events.items.find((event) =>
-      event.id === +props.params.eventId)
+    comments,
+    event,
+    eventId
   };
 }
 

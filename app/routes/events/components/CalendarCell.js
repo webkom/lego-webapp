@@ -27,9 +27,9 @@ const CalendarCell = ({ day, className, events = [] }) => (
 
 function mapStateToProps(state, ownProps) {
   return {
-    events: state.events.items.filter((event) =>
-      moment(event.startTime).isSame(ownProps.day, 'day')
-    )
+    events: state.events.items
+      .map((id) => state.entities.events[id])
+      .filter((event) => moment(event.startTime).isSame(ownProps.day, 'day'))
   };
 }
 

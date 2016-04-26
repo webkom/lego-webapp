@@ -1,10 +1,16 @@
-import createReducer from '../utils/createReducer';
 import { Favorite } from '../actions/ActionTypes';
+import { fetchSuccess, defaultEntityState } from './entities';
 
 const initialState = {
-  items: []
+  ...defaultEntityState
 };
 
-export default createReducer(initialState, {
-  [Favorite.FETCH_ALL_SUCCESS]: (state, action) => ({ ...state, items: action.payload })
-});
+export default function favorites(state = initialState, action) {
+  switch (action.type) {
+    case Favorite.FETCH_ALL_SUCCESS:
+      return fetchSuccess(state, action);
+
+    default:
+      return state;
+  }
+}

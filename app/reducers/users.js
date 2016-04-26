@@ -1,41 +1,19 @@
-import createReducer from '../utils/createReducer';
-import { User, Group } from '../actions/ActionTypes';
+import { User } from '../actions/ActionTypes';
+import { fetchBegin, fetchSuccess, fetchFailure, defaultEntityState } from './entities';
 
-const initialState = {};
+const initialState = {
+  ...defaultEntityState
+};
 
-export default createReducer(initialState, {
-  [User.LOGIN_SUCCESS]: (state, action) => {
-    const { username } = action.payload.user;
-    return {
-      ...state,
-      [username]: action.payload.user
-    };
-  },
-  [User.FETCH_SUCCESS]: (state, action) => {
-    const { username } = action.payload;
-    return {
-      ...state,
-      [username]: action.payload
-    };
-  },
-  [User.UPDATE_SUCCESS]: (state, action) => {
-    const { username } = action.payload;
-    return {
-      ...state,
-      [username]: action.payload
-    };
-  },
-  [Group.FETCH_SUCCESS]: (state, action) => {
-    const loadedUsers = action.payload.users.reduce((acc, user) => {
-      acc[user.username] = {
-        ...state[user.username],
-        ...user
-      };
-      return acc;
-    }, {});
-    return {
-      ...loadedUsers,
-      ...state
-    };
+export default function users(state = initialState, action) {
+  switch (action.type) {
+    case User.FETCH_BEGIN:
+      return fetchBegin(state, action);
+    case User.FETCH_SUCCESS:
+      return fetchSuccess(state, action);
+    case User.FETCH_FAILURE:
+      return fetchFailure(state, action);
+    default:
+      return state;
   }
-});
+}

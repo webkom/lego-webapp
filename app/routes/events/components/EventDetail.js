@@ -27,6 +27,7 @@ const InterestedButton = ({ value, onClick }) => {
  */
 export type Props = {
   event: Event;
+  comments: Array;
   loggedIn: boolean;
   isUserInterested: boolean;
 };
@@ -50,7 +51,7 @@ export default class EventDetail extends Component {
   };
 
   render() {
-    const { event, loggedIn, user } = this.props;
+    const { event, loggedIn, user, comments } = this.props;
 
     if (!event) {
       return <LoadingIndicator loading />;
@@ -118,7 +119,7 @@ export default class EventDetail extends Component {
           user={user}
           commentTarget={event.commentTarget}
           loggedIn={loggedIn}
-          comments={event.comments || []}
+          comments={comments}
         />
       </div>
     );

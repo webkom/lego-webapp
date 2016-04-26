@@ -1,4 +1,6 @@
 import jwtDecode from 'jwt-decode';
+import { normalize } from 'normalizr';
+import { userSchema } from 'app/reducers';
 import moment from 'moment';
 import { push, replace } from 'react-router-redux';
 import { User } from './ActionTypes';
@@ -7,9 +9,9 @@ import { callAPI } from 'app/utils/http';
 const USER_STORAGE_KEY = 'user';
 
 function putInLocalStorage(key) {
-  return ({ payload }) => {
-    window.localStorage.setItem(key, JSON.stringify(payload));
-    return payload;
+  return (action) => {
+    window.localStorage.setItem(key, JSON.stringify(action.payload));
+    return action;
   };
 }
 
@@ -27,9 +29,13 @@ export function login(username, password) {
         username,
         password
       }
-    }))
-      .then(putInLocalStorage(USER_STORAGE_KEY))
-      .catch((error) => console.error(error));
+    })).then(putInLocalStorage(USER_STORAGE_KEY)).then((action) => {
+      const { user } = action.payload;
+      dispatch({
+        type: User.FETCH_SUCCESS,
+        payload: normalize(user, userSchema)
+      });
+    });
   };
 }
 
@@ -53,7 +59,8 @@ export function updateUser({ username, firstName, lastName, email }) {
         first_name: firstName,
         last_name: lastName,
         email
-      }
+      },
+      schema: userSchema
     })).then((action) => {
       dispatch(push(`/users/${action.payload.username || 'me'}`));
       if (getState().auth.username === username) {
@@ -71,7 +78,8 @@ export function updateUser({ username, firstName, lastName, email }) {
 export function fetchUser(username) {
   return callAPI({
     types: [User.FETCH_BEGIN, User.FETCH_SUCCESS, User.FETCH_FAILURE],
-    endpoint: `/users/${username}/`
+    endpoint: `/users/${username}/`,
+    schema: userSchema
   });
 }
 
@@ -105,6 +113,11 @@ export function loginWithExistingToken(user, token) {
       dispatch({
         type: User.LOGIN_SUCCESS,
         payload: { user, token }
+      });
+
+      dispatch({
+        type: User.FETCH_SUCCESS,
+        payload: normalize(user, userSchema)
       });
     }
   };

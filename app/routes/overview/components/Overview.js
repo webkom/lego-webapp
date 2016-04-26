@@ -18,20 +18,6 @@ export default class Overview extends Component {
     loggedIn: PropTypes.bool.isRequired
   };
 
-  componentWillMount() {
-    this.props.fetchAll();
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (!this.props.loggedIn && nextProps.loggedIn) {
-      this.props.fetchAll();
-    }
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return this.props.events.length !== nextProps.events.length;
-  }
-
   render() {
     const { events } = this.props;
     return (
