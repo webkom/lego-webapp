@@ -1,0 +1,16 @@
+.octagonWrapper, .octagon {
+  transform-origin: 50% 50%;
+  overflow: hidden;
+}
+
+.octagonWrapper {
+  transform: rotate(45deg);
+}
+
+.octagon {
+  transform: rotate(-45deg);
+}
+
+.octagon > img {
+  width: 100%;
+}

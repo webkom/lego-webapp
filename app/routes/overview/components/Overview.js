@@ -1,14 +1,11 @@
 import styles from './Overview.css';
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import Icon from 'app/components/Icon';
 import Time from 'app/components/Time';
+import EventSidebar from './EventSidebar';
+import ProfileBox from './ProfileBox';
 import colorForEvent from 'app/routes/events/colorForEvent';
-
-let id = Math.floor(Math.random() * 1000);
-function getImage() {
-  return `http://unsplash.it/800/600?image=${id++}`;
-}
+import { getRandomImage } from 'app/utils';
 
 const EVENT_TYPES = [
   'Bedriftspresentasjon',
@@ -23,7 +20,10 @@ const OverviewItem = ({ event, showImage }) => (
     <h4 style={{ color: colorForEvent(event.eventType) }} className='Overview__item__type'>
       {EVENT_TYPES[event.eventType]}
     </h4>
-    {showImage && <img className='Overview__item__image' src={getImage()}></img>}
+    {showImage &&
+      <Link to={`/events/${event.id}`}>
+        <img className='Overview__item__image' src={getRandomImage(800, 600)}></img>
+      </Link>}
     <h2 className='Overview__item__title'>
       <Link to={`/events/${event.id}`}>
         {event.title}
@@ -48,7 +48,7 @@ export default class Overview extends Component {
   };
 
   render() {
-    const { events } = this.props;
+    const { events, user } = this.props;
     return (
       <section className={styles.root}>
         <div className='u-container Frontpage'>
@@ -62,17 +62,8 @@ export default class Overview extends Component {
           </div>
 
           <div className='Sidebar'>
-            <div className='Profile'>
-              <img className='Profile__avatar' src='http://api.adorable.io/avatars/70/ekmartin.png'></img>
-              <div className='Profile__user'>
-                <h3>Martin Ek</h3>
-                <Icon name='chevron-down' />
-              </div>
-            </div>
-
-            <div className='Upcoming'>
-              <h2>Arrangementer</h2>
-            </div>
+            <ProfileBox user={user} />
+            <EventSidebar events={events} />
           </div>
         </div>
       </div>

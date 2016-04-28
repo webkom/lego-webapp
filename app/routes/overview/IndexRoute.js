@@ -1,6 +1,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetchAll } from 'app/actions/EventActions';
+import { login, logout } from 'app/actions/UserActions';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import Overview from './components/Overview';
 
@@ -11,11 +12,12 @@ function loadData(params, props) {
 function mapStateToProps(state) {
   return {
     loggedIn: state.auth.token !== null,
+    user: state.auth.token !== null && state.users[state.auth.username],
     events: state.events.items.map((id) => state.entities.events[id])
   };
 }
 
-const mapDispatchToProps = { fetchAll };
+const mapDispatchToProps = { fetchAll, login, logout };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

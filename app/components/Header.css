@@ -195,7 +195,7 @@ div.SearchBox  {
 
 .SearchBox__input {
   text-indent: 30px;
-  background-color: black;
+  background-color: rgba(0, 0, 0, 0.8);
   border: 1px solid transparent;
   border-radius: 3px;
   height: 45px;
@@ -218,5 +218,5 @@ div.SearchBox  {
 }
 
 .Header__navigation a:hover {
-  color: #fff;
+  color: #1D1D1D;
 }
