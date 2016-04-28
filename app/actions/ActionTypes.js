@@ -39,6 +39,17 @@ export const Comment = {
 /**
  *
  */
+export const Bdb = {
+  FETCH: 'Bdb.FETCH',
+  FETCH_BEGIN: 'Bdb.FETCH_BEGIN',
+  FETCH_SUCCESS: 'Bdb.FETCH_SUCCESS',
+  FETCH_FAILURE: 'Bdb.FETCH_FAILURE',
+  FETCH_ALL: 'Bdb.FETCH_ALL'
+};
+
+/**
+ *
+ */
 export const Quote = {
   FETCH: generateStatuses('Quote.FETCH'),
   FETCH_ALL_APPROVED: generateStatuses('Quote.FETCH_ALL_APPROVED'),

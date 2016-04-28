@@ -1,0 +1,12 @@
+:global{
+  
+.company-list ul li {
+  display: inline-block;
+  width: 150px;
+}
+
+.category-header {
+  font-weight: bold;
+}
+
+}

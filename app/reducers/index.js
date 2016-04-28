@@ -2,6 +2,7 @@ import { Schema, arrayOf } from 'normalizr';
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import { reducer as form } from 'redux-form';
+import bdb from './bdb';
 import quotes from './quotes';
 import events from './events';
 import search from './search';
@@ -12,6 +13,7 @@ import notifications from './notifications';
 import comments from './comments';
 
 export default combineReducers({
+  bdb,
   quotes,
   events,
   search,
@@ -29,6 +31,7 @@ export const commentSchema = new Schema('comments', { idAttribute: 'id' });
 export const groupSchema = new Schema('groups', { idAttribute: 'id' });
 export const userSchema = new Schema('users', { idAttribute: 'username' });
 export const quoteSchema = new Schema('quotes', { idAttribute: 'id' });
+export const bdbSchema = new Schema('bdb', { idAttribute: 'id' });
 
 eventSchema.define({
   comments: arrayOf(commentSchema)
