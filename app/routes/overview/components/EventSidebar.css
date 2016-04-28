@@ -1,4 +1,4 @@
-.EventSidebar {
+.eventSidebar {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -7,24 +7,24 @@
   text-align: center;
 }
 
-.EventSidebar > h2 {
+.eventSidebar > h2 {
   margin: 0;
 }
 
-.EventSidebar__events {
+.events {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   margin-top: 10px;
 }
 
-.EventSidebar__events > h3 {
+.events > h3 {
   margin: 0;
   font-size: 1.2em;
   color: rgba(0, 0, 0, 0.85);
 }
 
-.EventSidebar__item {
+.item {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -32,7 +32,7 @@
   padding: 10px 0;
 }
 
-.EventSidebar__itemTitle {
+.itemTitle {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -42,11 +42,12 @@
   margin-left: 12px;
 }
 
-.EventSidebar__later .EventSidebar__itemTitle {
+.later {}
+.later .itemTitle {
   font-size: 1rem;
 }
 
-.EventSidebar__moreInfo {
+.moreInfo {
   font-size: 0.9rem;
   font-weight: 600;
 }

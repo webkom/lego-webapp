@@ -15,7 +15,7 @@ html {
 
 body {
   line-height: 1.8;
-  font-family: proxima-nova, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'proxima-nova', 'Helvetica Neue', Arial, sans-serif;
   background: var(--lego-background-color);
   color: var(--lego-font-color);
 }
@@ -56,12 +56,5 @@ button {
   .u-container {
     max-width: var(--lego-max-width);
     margin: 0 auto;
-  }
-
-  .Frontpage {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
   }
 }

@@ -19,26 +19,26 @@ const HEADLINE_EVENTS = 2;
 const FRONT_EVENTS = 5;
 
 const OverviewItem = ({ event, showImage }) => (
-  <div key={event.id} className='Overview__item'>
-    <h4 style={{ color: colorForEvent(event.eventType) }} className='Overview__item__type'>
+  <div key={event.id} className={styles.item}>
+    <h4 style={{ color: colorForEvent(event.eventType) }} className={styles.itemType}>
       {EVENT_TYPES[event.eventType]}
     </h4>
     {showImage &&
       <Link to={`/events/${event.id}`}>
-        <img className='Overview__item__image' src={getRandomImage(800, 600)}></img>
+        <img className={styles.itemImage} src={getRandomImage(800, 600)}></img>
       </Link>}
-    <h2 className='Overview__item__title'>
+    <h2 className={styles.itemTitle}>
       <Link to={`/events/${event.id}`}>
         {event.title}
       </Link>
     </h2>
 
-    <span className='Overview__item__moreInfo'>
+    <span className={styles.itemInfo}>
       <Time time={event.startTime} format='DD.MM HH:mm' />
       <span> - </span>
       <span>{event.location}</span>
     </span>
-    <p className='Overview__item__description'>{event.description}</p>
+    <p className={styles.itemDescription}>{event.description}</p>
   </div>
 );
 
@@ -55,23 +55,21 @@ export default class Overview extends Component {
     const normalEvents = events.slice(HEADLINE_EVENTS, FRONT_EVENTS);
 
     return (
-      <section className={styles.root}>
-        <div className='u-container Frontpage'>
-          <div className='Overview'>
-            <div className='Overview__headline'>
-              {headlineEvents.map((event) => <OverviewItem event={event} showImage />)}
-            </div>
-            <div className='Overview__normal'>
-              {normalEvents.map((event) => <OverviewItem event={event} />)}
-            </div>
+      <section className={`u-container ${styles.frontpage}`}>
+        <div className={styles.overview}>
+          <div className={styles.headline}>
+            {headlineEvents.map((event) => <OverviewItem event={event} showImage />)}
           </div>
-
-          <div className='Sidebar'>
-            <ProfileBox {...this.props} />
-            <EventSidebar events={events} />
+          <div className={styles.normal}>
+            {normalEvents.map((event) => <OverviewItem event={event} />)}
           </div>
         </div>
-      </div>
+
+        <div className={styles.sidebar}>
+          <ProfileBox {...this.props} />
+          <EventSidebar events={events} />
+        </div>
+      </section>
     );
   }
 }

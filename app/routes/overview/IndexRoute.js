@@ -12,7 +12,7 @@ function loadData(params, props) {
 function mapStateToProps(state) {
   return {
     loggedIn: state.auth.token !== null,
-    user: state.auth.token !== null && state.users[state.auth.username],
+    user: state.auth.token !== null && state.entities.users[state.auth.username],
     events: state.events.items.map((id) => state.entities.events[id])
   };
 }

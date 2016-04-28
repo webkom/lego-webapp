@@ -1,4 +1,4 @@
-import './EventSidebar.css';
+import styles from './EventSidebar.css';
 import React from 'react';
 import { Link } from 'react-router';
 import Octagon from 'app/components/Octagon';
@@ -7,13 +7,13 @@ import { getRandomImage } from 'app/utils';
 
 const EventItem = ({ event, imageSize }) => (
   <Link to={`/events/${event.id}`}>
-    <li className='EventSidebar__item' key={event.id}>
+    <li className={styles.item} key={event.id}>
       <Octagon size={imageSize}>
-        <img className='EventSidebar__itemImage' src={getRandomImage(100)}></img>
+        <img className={styles.itemImage} src={getRandomImage(100)}></img>
       </Octagon>
       <div>
         <h3
-          className='EventSidebar__itemTitle'
+          className={styles.itemTitle}
           style={{ color: colorForEvent(event.eventType) }}
         >
           {event.title}
@@ -25,13 +25,13 @@ const EventItem = ({ event, imageSize }) => (
 
 // TODO: Only show events from the next 14 days under "Kommende"
 const EventSidebar = ({ events }) => (
-  <div className='EventSidebar'>
+  <div className={styles.eventSidebar}>
     <h2>Arrangementer</h2>
-    <div className='EventSidebar__events EventSidebar__upcoming'>
+    <div className={`${styles.events}`}>
       <h3>Kommende</h3>
       {events.slice(0, 3).map((event) => <EventItem imageSize='30px' event={event} />)}
     </div>
-    <div className='EventSidebar__events EventSidebar__later'>
+    <div className={`${styles.events} ${styles.later}`}>
       <h3>Videre</h3>
       {events.slice(3).map((event) => <EventItem imageSize='25px' event={event} />)}
     </div>

@@ -1,8 +1,11 @@
-.root {
-  composes: container from '../../../Root.css';
+.frontpage {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.Overview {
+.overview {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -11,18 +14,18 @@
   border-right: 1px solid #ddd;
 }
 
-.Overview__headline, .Overview__normal {
+.headline, .normal {
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #ddd;
   margin: 0 30px;
 }
 
-.Overview__rest {
+.rest {
   flex-direction: column;
 }
 
-.Overview__item {
+.item {
   text-align: center;
   display: flex;
   justify-content: flex-start;
@@ -32,34 +35,34 @@
   padding: 0 20px;
 }
 
-.Overview__item__image {
+.itemImage {
   width: 70%;
   padding-top: 15px;
 }
 
-.Overview__headline > .Overview__item {
+.headline > .item {
   width: 50%;
 }
 
-.Overview__normal > .Overview__item {
+.normal > .item {
   width: 33%;
 }
 
-.Overview__item:hover .Overview__item__moreInfo {
+.item:hover .itemInfo {
   color: black;
 }
 
-.Overview__item:not(:last-child) {
+.item:not(:last-child) {
   border-right: 1px solid #ddd;
 }
 
-.Overview__item__type {
+.itemType {
   margin: 0;
   font-size: 1rem;
   line-height: 1;
 }
 
-.Overview__item__title {
+.itemTitle {
   margin: 0;
   padding-top: 10px;
   line-height: 1.1;
@@ -67,22 +70,22 @@
   text-transform: uppercase;
 }
 
-.Overview__normal .Overview__item__title {
+.normal .itemTitle {
   font-size: 1.2rem;
 }
 
-.Overview__item__title > a {
+.itemTitle > a {
   color: rgba(0, 0, 0, 0.9);
 }
 
-.Overview__item__moreInfo {
+.itemInfo {
   transition: color .2s;
   font-size: 0.8rem;
   font-weight: 600;
   color: rgba(0, 0, 0, 0.8);
 }
 
-.Overview__item__description {
+.itemDescription {
   padding-top: 10px;
   margin: 0;
   font-family: 'skolar-latin';
@@ -90,40 +93,13 @@
   -webkit-font-smoothing: initial;
 }
 
-.Overview__normal .Overview__item__description {
+.normal .itemDescription {
   font-size: 1.0rem;
 }
 
-.Sidebar {
+.sidebar {
   display: flex;
   flex-basis: 27%;
   flex-shrink: 0;
   flex-direction: column;
-}
-
-.Profile {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid #ddd;
-  padding-left: 30px;
-  padding-right: 30px;
-}
-
-.Profile__avatar {
-  border-radius: 999em;
-  width: 40px;
-  height: 40px;
-}
-
-.Profile__user {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.Profile__user > i {
-  padding-left: 10px;
 }

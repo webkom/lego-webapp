@@ -1,13 +1,13 @@
-import './ProfileBox.css';
+import styles from './ProfileBox.css';
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import Icon from 'app/components/icon';
+import Icon from 'app/components/Icon';
 import LoginForm from 'app/components/LoginForm';
 
 const Dropdown = ({ login, logout, user }) => {
   if (user) {
     return (
-      <ul className='Dropdown__list'>
+      <ul className={styles.dropdownList}>
         <li>
           <Link to='/users/me'>
             Min profil
@@ -30,7 +30,11 @@ const Dropdown = ({ login, logout, user }) => {
     );
   }
 
-  return <LoginForm login={login} />;
+  return (
+    <div className={styles.loginForm}>
+      <LoginForm login={login} />
+    </div>
+  );
 };
 
 export default class ProfileBox extends Component {
@@ -50,19 +54,19 @@ export default class ProfileBox extends Component {
     const nameOrLogin = user ? user.username : 'Logg inn';
     const icon = this.state.open ? 'chevron-up' : 'chevron-down';
     return (
-      <div className='Profile'>
-        <div className='Profile__bar'>
-          <img className='Profile__avatar' src={`http://api.adorable.io/avatars/70/${nameOrLogin}.png`}></img>
+      <div className={styles.profile}>
+        <div className={styles.bar}>
+          <img className={styles.avatar} src={`http://api.adorable.io/avatars/70/${nameOrLogin}.png`}></img>
           <a
-            className='Profile__user'
+            className={styles.user}
             onClick={() => this.toggleOpen()}
           >
             <h3>{nameOrLogin}</h3>
-            <Icon className='Profile__arrow' name={icon} />
+            <Icon className={styles.arrow} name={icon} />
           </a>
         </div>
         {this.state.open &&
-          <div className='Dropdown'>
+          <div>
             <Dropdown {...this.props} />
           </div>}
       </div>

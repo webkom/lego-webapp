@@ -1,4 +1,4 @@
-.Profile {
+.profile {
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid #ddd;
@@ -7,20 +7,20 @@
   padding-bottom: 15px;
 }
 
-.Profile__bar {
+.bar {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 }
 
-.Profile__avatar {
+.avatar {
   border-radius: 999em;
   width: 40px;
   height: 40px;
 }
 
-.Profile__user {
+.user {
   color: #333;
   display: flex;
   flex-direction: row;
@@ -28,11 +28,29 @@
   justify-content: space-between;
 }
 
-.Profile__arrow {
+.arrow {
   padding-left: 10px;
 }
 
-.LoginForm input {
+.dropdownList {
+  text-align: right;
+}
+
+.dropdownList i {
+  margin-left: 15px;
+}
+
+.dropdownList a {
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.dropdownlist a:hover {
+  color: #111;
+}
+
+.loginForm input {
   margin: 5px 0;
   background: #fff;
   border: 0;
@@ -41,29 +59,12 @@
   color: #333;
 }
 
-.LoginForm input:focus {
+.loginForm input:focus {
   background: #ffedba;
   outline: none;
 }
 
-.LoginForm .Button {
+.loginForm button {
   margin-top: 10px;
-}
-
-.Dropdown__list {
-  text-align: right;
-}
-
-.Dropdown__list i {
-  margin-left: 15px;
-}
-
-.Dropdown__list a {
-  color: #333;
-  font-size: 1.1rem;
-  font-weight: 500;
-}
-
-.Dropdown__list a:hover {
-  color: #111;
+  border-radius: 3px;
 }
