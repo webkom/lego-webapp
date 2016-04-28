@@ -3,6 +3,7 @@ import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
 import form from './forms';
 import companies from './companies';
+import bdb from './bdb';
 import quotes from './quotes';
 import events from './events';
 import articles from './articles';
@@ -23,6 +24,7 @@ import feeds from './feeds';
 import { User } from '../actions/ActionTypes';
 
 const appReducer = combineReducers({
+  bdb,
   quotes,
   events,
   articles,
