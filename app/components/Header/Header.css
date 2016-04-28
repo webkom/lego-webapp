@@ -48,18 +48,18 @@
   font-size: 1.2rem;
   left: 10px;
   top: 12px;
-  color: white;
+  color: #ddd;
 }
 
 .searchInput {
   text-indent: 30px;
-  background-color: rgba(0, 0, 0, 0.8);
-  border: 1px solid transparent;
+  background-color: transparent;
+  border: 1px solid #E8E8E8;
   border-radius: 3px;
   height: 45px;
   line-height: 45px;
   width: 100%;
-  color: rgba(255, 255, 255, 0.9);
+  color: #333;
   padding: 20px 10px;
 }
 
