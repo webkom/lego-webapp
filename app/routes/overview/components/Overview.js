@@ -15,6 +15,9 @@ const EVENT_TYPES = [
   'Arrangement'
 ];
 
+const HEADLINE_EVENTS = 2;
+const FRONT_EVENTS = 5;
+
 const OverviewItem = ({ event, showImage }) => (
   <div key={event.id} className='Overview__item'>
     <h4 style={{ color: colorForEvent(event.eventType) }} className='Overview__item__type'>
@@ -43,26 +46,28 @@ export default class Overview extends Component {
 
   static propTypes = {
     events: PropTypes.array.isRequired,
-    fetchAll: PropTypes.func.isRequired,
-    loggedIn: PropTypes.bool.isRequired
+    fetchAll: PropTypes.func.isRequired
   };
 
   render() {
-    const { events, user } = this.props;
+    const { events } = this.props;
+    const headlineEvents = events.slice(0, HEADLINE_EVENTS);
+    const normalEvents = events.slice(HEADLINE_EVENTS, FRONT_EVENTS);
+
     return (
       <section className={styles.root}>
         <div className='u-container Frontpage'>
           <div className='Overview'>
             <div className='Overview__headline'>
-              {events.slice(0, 2).map((event) => <OverviewItem event={event} showImage />)}
+              {headlineEvents.map((event) => <OverviewItem event={event} showImage />)}
             </div>
             <div className='Overview__normal'>
-              {events.slice(2, 5).map((event) => <OverviewItem event={event} />)}
+              {normalEvents.map((event) => <OverviewItem event={event} />)}
             </div>
           </div>
 
           <div className='Sidebar'>
-            <ProfileBox user={user} />
+            <ProfileBox {...this.props} />
             <EventSidebar events={events} />
           </div>
         </div>

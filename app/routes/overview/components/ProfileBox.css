@@ -1,0 +1,69 @@
+.Profile {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #ddd;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 15px;
+}
+
+.Profile__bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Profile__avatar {
+  border-radius: 999em;
+  width: 40px;
+  height: 40px;
+}
+
+.Profile__user {
+  color: #333;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Profile__arrow {
+  padding-left: 10px;
+}
+
+.LoginForm input {
+  margin: 5px 0;
+  background: #fff;
+  border: 0;
+  padding: .5rem;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.LoginForm input:focus {
+  background: #ffedba;
+  outline: none;
+}
+
+.LoginForm .Button {
+  margin-top: 10px;
+}
+
+.Dropdown__list {
+  text-align: right;
+}
+
+.Dropdown__list i {
+  margin-left: 15px;
+}
+
+.Dropdown__list a {
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.Dropdown__list a:hover {
+  color: #111;
+}
