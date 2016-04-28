@@ -1,12 +1,22 @@
-:global{
-  
-.company-list ul li {
-  display: inline-block;
+.companyList table{
+  border-collapse: collapse;
+}
+
+.companyList th {
+  padding: 5px 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa!important;
+}
+
+.companyList th, .companyList td {
+  padding-left: 7px;
   width: 150px;
+  border-bottom: 1px dashed #aaa;
+  text-align: left;
+  display: table-cell;
 }
 
-.category-header {
+.categoryHeader {
   font-weight: bold;
-}
-
+  background-color: #eee;
 }

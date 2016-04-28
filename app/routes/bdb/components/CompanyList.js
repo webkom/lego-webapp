@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import './bdbPage.css';
+import styles from './bdbPage.css';
 
 export default class CompanyList extends Component {
 
@@ -10,29 +10,38 @@ export default class CompanyList extends Component {
   render() {
     const { companies } = this.props;
     return (
-      <div className='company-list'>
-        <ul className='category-header'>
-          <li>Bedrifter</li>
-          <li>Høst 2016</li>
-          <li>Vår 2017</li>
-          <li>Høst 2017</li>
-          <li>Vår 2018</li>
-          <li>Studentkontakt</li>
-          <li>Kommentar</li>
-        </ul>
-        <ul>
-          {companies.map((company) =>
-            <ul>
-              <li>{company.name}</li>
-              <li>{company.contacted[0]}</li>
-              <li>{company.contacted[1]}</li>
-              <li>{company.contacted[2]}</li>
-              <li>{company.contacted[3]}</li>
-              <li>{company.studentContact}</li>
-              <li>{company.comment}</li>
-            </ul>
-          )}
-        </ul>
+
+      <div className={styles.companyList}>
+
+      <table>
+        <thead className={styles.categoryHeader}>
+          <tr>
+            <th>Bedrifter</th>
+            <th>Høst 2016</th>
+            <th>Vår 2017</th>
+            <th>Høst 2017</th>
+            <th>Vår 2018</th>
+            <th>Studentkontakt</th>
+            <th>Kommentar</th>
+          </tr>
+        </thead>
+
+        <tbody>
+            {companies.map((company) =>
+              <tr>
+                <td>{company.name}</td>
+                <td>{company.contacted[0]}</td>
+                <td>{company.contacted[1]}</td>
+                <td>{company.contacted[2]}</td>
+                <td>{company.contacted[3]}</td>
+                <td>{company.studentContact}</td>
+                <td>{company.comment}</td>
+              </tr>
+            )}
+        </tbody>
+
+      </table>
+
       </div>
     );
   }
