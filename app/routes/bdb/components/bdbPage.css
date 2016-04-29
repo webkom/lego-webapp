@@ -2,6 +2,11 @@
   border-collapse: collapse;
 }
 
+.companyList table a{
+  display: block;
+  color: black;
+}
+
 .companyList th {
   padding: 5px 0;
   border-top: 1px solid #aaa;
@@ -20,3 +25,48 @@
   font-weight: bold;
   background-color: #eee;
 }
+
+.bedpres {
+  background-color: #3fff3f;
+}
+
+ .bedpresKurs {
+  background-color: #9fff3f;
+ }
+
+ .kurs {
+   background-color: #9fff3f;
+ }
+
+ .notOffered {
+   background-color: #F5F5D5;
+ }
+
+ .notInterested {
+   background-color: #FF0000;
+ }
+
+ .contacted {
+   background-color: #ffff7f;
+ }
+
+ .notContacted {
+   background-color: #cccccc;
+ }
+
+.title {
+  float: left;
+  width: 80%;
+}
+
+ .showAscending, .showDescending {
+   display: block!important;
+   float: right;
+   width: 10%;
+   padding-right: 20px;
+   color: #999999;
+ }
+
+ .hidden {
+   display: none!important;
+ }

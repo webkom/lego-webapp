@@ -10,7 +10,7 @@ export function fetchAll() {
     type: 'Bdb.FETCH_SUCCESS',
     payload: {
       result: [
-        0, 1
+        0, 1, 2
       ],
       entities: {
         companies: [
@@ -18,19 +18,31 @@ export function fetchAll() {
             name: 'BEKK',
             id: 1,
             contacted: [
-              'Kontaktet', 'Ikke kontaktet', 'Bedpress', 'Kurs'
+              'Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs'
             ],
             studentContact: 'Marius Kotlarz',
-            comment: 'Partner'
+            comment: 'Partner',
+            jobOfferOnly: false
           },
           {
             name: 'Facebook',
             id: 2,
             contacted: [
-              'Kontaktet', 'Kontaktet', 'Ikke interessert', 'Bedpress'
+              'Kontaktet', 'Kontaktet', 'Ikke interessert', 'Bedpres'
             ],
             studentContact: 'Finn Smith',
-            comment: 'Se mail'
+            comment: 'Se mail',
+            jobOfferOnly: false
+          },
+          {
+            name: 'Itera',
+            id: 3,
+            contacted: [
+              'Interessert, ikke tilbudt', 'Bedpres & kurs', 'Kurs', 'Ikke kontaktet'
+            ],
+            studentContact: 'Ingen',
+            comment: '',
+            jobOfferOnly: false
           }
         ]
       }
