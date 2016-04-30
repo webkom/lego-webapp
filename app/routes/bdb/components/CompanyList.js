@@ -2,83 +2,92 @@ import React, { Component, PropTypes } from 'react';
 import styles from './bdbPage.css';
 import { Link } from 'react-router';
 import CompanySingleRow from './CompanySingleRow';
+import { indexToSemester } from '../utils.js';
 
 export default class CompanyList extends Component {
 
-  headerItems = [
-    {
-      title: 'Bedrifter',
-      sortLink: 'nameSort'
-    }, {
-      title: 'Høst 2016',
-      sortLink: 'sem0Sort'
-    }, {
-      title: 'Vår 2017',
-      sortLink: 'sem1Sort'
-    }, {
-      title: 'Høst 2017',
-      sortLink: 'sem2Sort'
-    }, {
-      title: 'Vår 2018',
-      sortLink: 'sem3Sort'
-    }, {
-      title: 'Studentkontakt',
-      sortLink: 'contactSort'
-    }, {
-      title: 'Kommentar',
-      sortLink: 'commentSort'
-    }
-  ];
+  static propTypes = {
+    companies: PropTypes.array.isRequired,
+    query: PropTypes.object.isRequired,
+    startYear: PropTypes.number.isRequired,
+    startSem: PropTypes.number.isRequired,
+    changeSemesters: PropTypes.func.isRequired
+  };
+
+  findTitle = (index) => {
+    const { startYear, startSem } = this.props;
+    const result = indexToSemester(index, startYear, startSem);
+    const sem = result.semester === 0 ? 'Vår' : 'Høst';
+    return `${sem} ${result.year}`;
+  };
 
   findSortLink = (sortType) => {
     const { query } = this.props;
+    const ascending = query.ascending === 'true';
     // Seperate sorting for name because the url for default sorting is just /bdb/
-    if (sortType === 'nameSort') {
-      if (Object.keys(query).length !== 0) {
-        return '/bdb/';
-      } return `/bdb?${sortType}=ascending`;
+    if (sortType === 'name' && Object.keys(query).length !== 0) {
+      return '/bdb/';
     }
-    if (query[sortType]) {
-      const ascending = query[sortType] === 'ascending' ? 'descending' : 'ascending';
-      return `/bdb?${sortType}=${ascending}`;
-    } return `/bdb?${sortType}=descending`;
+    if (sortType === 'name') {
+      return '/bdb?sortBy=name&ascending=false';
+    } // The rest
+    if (query.sortBy === sortType) {
+      return `/bdb?sortBy=${sortType}&ascending=${!ascending}`;
+    } return `/bdb?sortBy=${sortType}&ascending=true`;
   };
 
-  showOrHideSortIcon = (sortType, ascending) => {
+  showOrHideSortIcon = (sortType) => {
     const { query } = this.props;
+    const ascending = query.ascending === 'true';
     // Special treatment for name sorting
-    if (sortType === 'nameSort') {
-      if (Object.keys(query).length === 0) {
-        return ascending ? 'hidden' : 'showDescending';
-      } else if (query[sortType] && query[sortType] === 'descending') {
-        return ascending ? 'showAscending' : 'hidden';
-      }
+    if (sortType === 'name' && Object.keys(query).length === 0) {
+      return 'showAscending';
     } // The rest
-    if (query[sortType] && query[sortType] === 'ascending') {
-      return ascending ? 'showAscending' : 'hidden';
-    } else if (query[sortType] && query[sortType] === 'descending') {
-      return ascending ? 'hidden' : 'showDescending';
+    if (sortType === query.sortBy) {
+      return ascending ? 'showAscending' : 'showDescending';
     } return 'hidden';
   };
 
-  static propTypes = {
-    companies: PropTypes.array.isRequired,
-    query: PropTypes.object.isRequired
-  };
-
   render() {
-    const { companies } = this.props;
+    const { companies, changeSemesters, startYear, startSem } = this.props;
 
-    const headers = this.headerItems.map((item, i) => (
+    const HEADER_ITEMS = [
+      {
+        title: 'Bedrifter',
+        sortLink: 'name'
+      }, {
+        title: this.findTitle(0),
+        sortLink: 'sem0'
+      }, {
+        title: this.findTitle(1),
+        sortLink: 'sem1'
+      }, {
+        title: this.findTitle(2),
+        sortLink: 'sem2'
+      }, {
+        title: this.findTitle(3),
+        sortLink: 'sem3'
+      }, {
+        title: 'Studentkontakt',
+        sortLink: 'studentContact'
+      }, {
+        title: 'Kommentar',
+        sortLink: 'comment'
+      }
+    ];
+
+    const headers = HEADER_ITEMS.map((item, i) => (
       <th key={i}>
         <Link to={this.findSortLink(item.sortLink)}>
           <div className={styles.title}>{item.title}</div>
 
-          <div className={styles[this.showOrHideSortIcon(item.sortLink, true)]}>
-            <i className='fa fa-arrow-up' aria-hidden='true'></i>
-          </div>
-          <div className={styles[this.showOrHideSortIcon(item.sortLink, false)]}>
-            <i className='fa fa-arrow-down' aria-hidden='true'></i>
+          <div className={styles[this.showOrHideSortIcon(item.sortLink)]}>
+            <div className={styles.upArrow}>
+              <i className='fa fa-arrow-up' aria-hidden='true'></i>
+            </div>
+            <div className={styles.downArrow}>
+              <i className='fa fa-arrow-down' aria-hidden='true'></i>
+            </div>
           </div>
 
         </Link>
@@ -89,16 +98,30 @@ export default class CompanyList extends Component {
       <div className={styles.companyList}>
 
       <table>
-        <thead className={styles.categoryHeader}>
-          <tr>
+        <thead>
+
+          <tr className={styles.invisRow}>
+            <td></td><td>
+              <i onClick={changeSemesters.bind(this, false)}className='fa fa-arrow-left'></i>
+            </td><td></td><td></td>
+            <td className={styles.rightArrow}>
+              <i onClick={changeSemesters.bind(this, true)} className='fa fa-arrow-right'></i>
+            </td>
+          </tr>
+
+          <tr className={styles.categoryHeader}>
             {headers}
           </tr>
+
         </thead>
 
         <tbody>
             {companies.map((company) =>
               <CompanySingleRow
                 company={company}
+                startYear={startYear}
+                startSem={startSem}
+                changeSemesters={this.changeSemesters}
                 key={company.id}
               />
             )}
