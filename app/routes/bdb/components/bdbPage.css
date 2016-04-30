@@ -1,3 +1,7 @@
+.root {
+  composes: container from '../../../Root.css';
+}
+
 .companyList table{
   border-collapse: collapse;
 }
@@ -59,7 +63,7 @@
   width: 80%;
 }
 
- .showAscending, .showDescending {
+ .showAscending .upArrow, .showDescending .downArrow{
    display: block!important;
    float: right;
    width: 10%;
@@ -67,6 +71,35 @@
    color: #999999;
  }
 
- .hidden {
+ .hidden, .showAscending .downArrow, .showDescending .upArrow {
    display: none!important;
  }
+
+.detailTable thead th:nth-child(1), .detailTable tbody td:nth-child(1) {
+  width: 100px;
+}
+
+.detailTable thead th:nth-child(2), .detailTable tbody td:nth-child(2) {
+  width: 200px;
+}
+
+.detailTable thead th:nth-child(3), .detailTable tbody td:nth-child(3) {
+  width: 300px;
+}
+
+.invisRow i {
+  transition: color 0.3s ease;
+}
+
+.invisRow i {
+  &:hover {
+    color: red;
+    cursor: pointer;
+  }
+}
+
+
+
+.rightArrow {
+  text-align: right!important;
+}
