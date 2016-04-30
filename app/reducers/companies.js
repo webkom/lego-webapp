@@ -5,12 +5,13 @@ const initialState = {
   ...defaultEntityState
 };
 
-export default function bdb(state = initialState, action) {
+export default function companies(state = initialState, action) {
   switch (action.type) {
     case Bdb.FETCH_BEGIN:
       return fetchBegin(state, action);
 
     case Bdb.FETCH_SUCCESS:
+    case Bdb.ADD_SUCCESS:
       return fetchSuccess(state, action);
 
     case Bdb.FETCH_FAILURE:

@@ -1,64 +1,20 @@
 import { Bdb } from './ActionTypes';
 import { callAPI } from '../utils/http';
-import { bdbSchema } from 'app/reducers';
-// import { arrayOf } from 'normalizr';
+import { companySchema } from 'app/reducers';
+import { arrayOf } from 'normalizr';
+import { startSubmit, stopSubmit } from 'redux-form';
+import { push } from 'react-router-redux';
 
 export function fetchAll() {
-  // Using custom JSON object until back-end is up and running.
-  // API call is commented below
-  return {
-    type: 'Bdb.FETCH_SUCCESS',
-    payload: {
-      result: [
-        0, 1, 2
-      ],
-      entities: {
-        companies: [
-          {
-            name: 'BEKK',
-            id: 1,
-            contacted: [
-              'Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs'
-            ],
-            studentContact: 'Marius Kotlarz',
-            comment: 'Partner',
-            jobOfferOnly: false
-          },
-          {
-            name: 'Facebook',
-            id: 2,
-            contacted: [
-              'Kontaktet', 'Kontaktet', 'Ikke interessert', 'Bedpres'
-            ],
-            studentContact: 'Finn Smith',
-            comment: 'Se mail',
-            jobOfferOnly: false
-          },
-          {
-            name: 'Itera',
-            id: 3,
-            contacted: [
-              'Interessert, ikke tilbudt', 'Bedpres & kurs', 'Kurs', 'Ikke kontaktet'
-            ],
-            studentContact: 'Ingen',
-            comment: '',
-            jobOfferOnly: false
-          }
-        ]
-      }
-    }
-  };
-  /*
   return callAPI({
     types: [
       Bdb.FETCH_BEGIN,
       Bdb.FETCH_SUCCESS,
       Bdb.FETCH_FAILURE
     ],
-    endpoint: '/bdb/',
-    schema: arrayOf(bdbSchema)
+    endpoint: '/companies/',
+    schema: arrayOf(companySchema)
   });
-  */
 }
 
 export function fetch(companyId) {
@@ -68,7 +24,44 @@ export function fetch(companyId) {
       Bdb.FETCH_SUCCESS,
       Bdb.FETCH_FAILURE
     ],
-    endpoint: `/bdb/${companyId}/`,
-    schema: bdbSchema
+    endpoint: `/companies/${companyId}/`,
+    schema: companySchema
   });
+}
+
+export function addCompany({ name, studentContact, adminComment, jobOfferOnly, phone }) {
+  return (dispatch, getState) => {
+    dispatch(startSubmit('company'));
+
+    dispatch(callAPI({
+      types: [
+        Bdb.ADD_BEGIN,
+        Bdb.ADD_SUCCESS,
+        Bdb.ADD_FAILURE
+      ],
+      endpoint: '/companies/',
+      method: 'post',
+      body: {
+        id: Date.now(),
+        name,
+        studentContact,
+        adminComment,
+        jobOfferOnly,
+        phone
+      },
+      schema: companySchema
+    })).then(
+      (payload) => {
+        dispatch(stopSubmit('company'));
+        dispatch(push(`/companies/${payload.id}`));
+      },
+      (error) => {
+        const errors = { ...error.response.body };
+        if (errors.text) {
+          errors.text = errors.text[0];
+        }
+        dispatch(stopSubmit('company', errors));
+      }
+    );
+  };
 }
