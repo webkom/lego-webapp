@@ -7,7 +7,7 @@ import events from './events';
 import favorites from './favorites';
 import search from './search';
 import auth from './auth';
-import form from 'redux-form';
+import { reducer as form } from 'redux-form';
 import users from './users';
 import groups from './groups';
 import entities from './entities';
