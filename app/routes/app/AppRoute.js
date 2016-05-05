@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loginAutomaticallyIfPossible } from 'app/actions/UserActions';
 import Header from 'app/components/Header';
+import NotificationContainer from 'app/components/NotificationContainer';
 
 class App extends Component {
   componentWillMount() {
@@ -13,6 +14,7 @@ class App extends Component {
     return (
       <div>
         <Header />
+        <NotificationContainer />
         {this.props.children}
       </div>
     );

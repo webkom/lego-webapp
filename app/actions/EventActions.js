@@ -4,15 +4,20 @@ import { eventSchema } from 'app/reducers';
 import { callAPI, createQueryString } from 'app/utils/http';
 
 export function fetchEvent(eventId) {
-  return callAPI({
-    types: [
-      Event.FETCH_BEGIN,
-      Event.FETCH_SUCCESS,
-      Event.FETCH_FAILURE
-    ],
-    endpoint: `/events/${eventId}/`,
-    schema: eventSchema
-  });
+  return (dispatch) => {
+    dispatch(callAPI({
+      types: [
+        Event.FETCH_BEGIN,
+        Event.FETCH_SUCCESS,
+        Event.FETCH_FAILURE
+      ],
+      endpoint: `/events/${eventId}/`,
+      schema: eventSchema,
+      meta: {
+        errorMessage: 'Fetching event failed'
+      }
+    }));
+  };
 }
 
 export function fetchAll({ year, month } = {}) {
@@ -23,6 +28,9 @@ export function fetchAll({ year, month } = {}) {
       Event.FETCH_FAILURE
     ],
     endpoint: `/events/${createQueryString({ year, month })}`,
-    schema: arrayOf(eventSchema)
+    schema: arrayOf(eventSchema),
+    meta: {
+      errorMessage: 'Fetching events failed'
+    }
   });
 }

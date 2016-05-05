@@ -18,20 +18,18 @@ export function addComment({ text, commentTarget, parent }) {
         ...(parent ? { parent } : {})
       },
       meta: {
-        commentTarget
+        commentTarget,
+        errorMessage: 'Posting comment failed'
       },
       schema: commentSchema
-    })).then(
-      () => {
-        dispatch(stopSubmit('comment'));
-      },
-      (error) => {
-        const errors = { ...error.response.body };
-        if (errors.text) {
-          errors.text = errors.text[0];
-        }
-        dispatch(stopSubmit('comment', errors));
+    })).then(() => {
+      dispatch(stopSubmit('comment'));
+    }).catch((action) => {
+      const errors = { ...action.error.response.body };
+      if (errors.text) {
+        errors.text = errors.text[0];
       }
-    );
+      dispatch(stopSubmit('comment', errors));
+    });
   };
 }

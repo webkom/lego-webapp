@@ -13,7 +13,10 @@ export function fetchAll({ approved = true }) {
       Quote.FETCH_FAILURE
     ],
     endpoint: `/quotes/?approved=${approved}`,
-    schema: arrayOf(quoteSchema)
+    schema: arrayOf(quoteSchema),
+    meta: {
+      errorMessage: `Fetching ${approved ? '' : 'un'}approved quotes failed`
+    }
   });
 }
 
@@ -35,7 +38,8 @@ export function fetchQuote(quoteId) {
     endpoint: `/quotes/${quoteId}/`,
     method: 'get',
     meta: {
-      quoteId
+      quoteId,
+      errorMessage: 'Fetching quote failed'
     },
     schema: quoteSchema
   });
@@ -50,7 +54,10 @@ export function like(quoteId) {
     ],
     endpoint: `/quotes/${quoteId}/like/`,
     method: 'post',
-    schema: quoteSchema
+    schema: quoteSchema,
+    meta: {
+      errorMessage: 'Liking quote failed'
+    }
   });
 }
 
@@ -63,7 +70,10 @@ export function unlike(quoteId) {
     ],
     endpoint: `/quotes/${quoteId}/unlike/`,
     method: 'post',
-    schema: quoteSchema
+    schema: quoteSchema,
+    meta: {
+      errorMessage: 'Unliking quote failed'
+    }
   });
 }
 
@@ -76,7 +86,10 @@ export function approve(quoteId) {
     ],
     endpoint: `/quotes/${quoteId}/approve/`,
     method: 'put',
-    schema: quoteSchema
+    schema: quoteSchema,
+    meta: {
+      errorMessage: 'Approving quote failed'
+    }
   });
 }
 
@@ -89,7 +102,10 @@ export function unapprove(quoteId) {
     ],
     endpoint: `/quotes/${quoteId}/unapprove/`,
     method: 'put',
-    schema: quoteSchema
+    schema: quoteSchema,
+    meta: {
+      errorMessage: 'Unapproving quote failed'
+    }
   });
 }
 
@@ -108,23 +124,23 @@ export function addQuotes({ text, source }) {
         source,
         approved: false
       },
-      schema: quoteSchema
-    })).then(
-      () => {
-        dispatch(stopSubmit('addQuote'));
-        dispatch(push('/quotes'));
-      },
-      (error) => {
-        const errors = { ...error.response.body };
-        if (errors.text) {
-          errors.text = errors.text[0];
-        }
-        if (errors.source) {
-          errors.source = errors.source[0];
-        }
-        dispatch(stopSubmit('addQuote', errors));
+      schema: quoteSchema,
+      meta: {
+        errorMessage: 'Adding quote failed'
       }
-    );
+    })).then(() => {
+      dispatch(stopSubmit('addQuote'));
+      dispatch(push('/quotes'));
+    }).catch((action) => {
+      const errors = { ...action.error.response.body };
+      if (errors.text) {
+        errors.text = errors.text[0];
+      }
+      if (errors.source) {
+        errors.source = errors.source[0];
+      }
+      dispatch(stopSubmit('addQuote', errors));
+    });
   };
 }
 
@@ -134,7 +150,8 @@ export function deleteQuote(quoteId) {
     endpoint: `/quotes/${quoteId}/`,
     method: 'del',
     meta: {
-      quoteId
+      quoteId,
+      errorMessage: 'Deleting quote failed'
     },
     schema: quoteSchema
   });

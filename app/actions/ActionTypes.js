@@ -102,6 +102,11 @@ export const Search = {
   RESULTS_RECEIVED: 'Search.RESULTS_RECEIVED'
 };
 
+export const Notifications = {
+  NOTIFICATION_ADDED: 'Notification.ADDED',
+  NOTIFICATION_REMOVED: 'Notification.REMOVED'
+};
+
 /**
  *
  */

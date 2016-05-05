@@ -6,7 +6,8 @@ export function search(query) {
     endpoint: `/search/${query}`,
     types: [Search.SEARCH_BEGIN, Search.SEARCH_SUCCESS, Search.SEARCH_FAILURE],
     meta: {
-      query
+      query,
+      errorMessage: 'Search failed'
     }
   });
 }

@@ -28,6 +28,9 @@ export function login(username, password) {
       body: {
         username,
         password
+      },
+      meta: {
+        errorMessage: 'Login failed'
       }
     })).then(putInLocalStorage(USER_STORAGE_KEY)).then((action) => {
       const { user } = action.payload;
@@ -60,7 +63,10 @@ export function updateUser({ username, firstName, lastName, email }) {
         last_name: lastName,
         email
       },
-      schema: userSchema
+      schema: userSchema,
+      meta: {
+        errorMessage: 'Updating user failed'
+      }
     })).then((action) => {
       dispatch(push(`/users/${action.payload.username || 'me'}`));
       if (getState().auth.username === username) {
@@ -79,7 +85,10 @@ export function fetchUser(username) {
   return callAPI({
     types: [User.FETCH_BEGIN, User.FETCH_SUCCESS, User.FETCH_FAILURE],
     endpoint: `/users/${username}/`,
-    schema: userSchema
+    schema: userSchema,
+    meta: {
+      errorMessage: 'Fetching user failed'
+    }
   });
 }
 
