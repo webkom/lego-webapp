@@ -1,7 +1,7 @@
 @import 'normalize.css/normalize.css';
 @import 'animate.css/animate.css';
 @import url('http://fonts.googleapis.com/css?family=Lato:400,700');
-@import './_variables.css';
+@import './variables.css';
 
 * {
   box-sizing: border-box;
