@@ -1,14 +1,14 @@
 import React from 'react';
-import Root from './Root';
-import overview from './routes/overview';
-import events from './routes/events';
-import users from './routes/users';
-import admin from './routes/admin';
-import quotes from './routes/quotes';
+import { AppRoute } from 'app/routes/app';
+import overview from 'app/routes/overview';
+import events from 'app/routes/events';
+import users from 'app/routes/users';
+import admin from 'app/routes/admin';
+import quotes from 'app/routes/quotes';
 
 export default {
   path: '/',
-  component: Root,
+  component: AppRoute,
   indexRoute: overview,
   childRoutes: [
     events,
