@@ -1,32 +1,15 @@
-import './Root.css';
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
-import { loginAutomaticallyIfPossible } from 'app/actions/UserActions';
-import Header from 'app/components/Header';
+import React, { Component } from 'react';
+import { Router } from 'react-router';
+import { Provider } from 'react-redux';
+import routes from 'app/routes';
 
-class Root extends Component {
-  static propTypes = {
-    loginAutomaticallyIfPossible: PropTypes.func.isRequired,
-    children: PropTypes.any.isRequired
-  };
-
-  componentWillMount() {
-    this.props.loginAutomaticallyIfPossible();
-  }
-
+export default class Root extends Component {
   render() {
+    const { store, history } = this.props;
     return (
-      <div className='Site'>
-        <Header />
-        {this.props.children}
-      </div>
+      <Provider {...{ store }}>
+        <Router {...{ history, routes }} />
+      </Provider>
     );
   }
 }
-
-const mapDispatchToProps = { loginAutomaticallyIfPossible };
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(Root);

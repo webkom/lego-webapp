@@ -7,6 +7,7 @@ module.exports = objectAssign(baseConfig, {
   devtool: 'source-map',
   entry: [
     'webpack-hot-middleware/client',
+    'react-hot-loader/patch',
     './app/index.js'
   ],
   plugins: [

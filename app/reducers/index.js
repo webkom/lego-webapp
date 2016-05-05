@@ -1,14 +1,29 @@
 import { Schema, arrayOf } from 'normalizr';
+import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux';
 
-export { default as quotes } from './quotes';
-export { default as events } from './events';
-export { default as favorites } from './favorites';
-export { default as search } from './search';
-export { default as auth } from './auth';
-export { reducer as form } from 'redux-form';
-export { default as users } from './users';
-export { default as groups } from './groups';
-export { default as entities } from './entities';
+import quotes from './quotes';
+import events from './events';
+import favorites from './favorites';
+import search from './search';
+import auth from './auth';
+import form from 'redux-form';
+import users from './users';
+import groups from './groups';
+import entities from './entities';
+
+export default combineReducers({
+  quotes,
+  events,
+  favorites,
+  search,
+  auth,
+  form,
+  users,
+  groups,
+  entities,
+  routing: routerReducer
+});
 
 export const eventSchema = new Schema('events', { idAttribute: 'id' });
 export const commentSchema = new Schema('comments', { idAttribute: 'id' });
