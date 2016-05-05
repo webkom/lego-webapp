@@ -28,16 +28,3 @@ export function addNotification({
     }
   };
 }
-
-// Helper function to reduce copy-paste
-export function catchErrorAsNotification(dispatch, actionString = 'Action') {
-  if (!dispatch) {
-    throw new Error('Cannot call catchErrorAsNotification without dispatch');
-  }
-  return (action) => {
-    dispatch(addNotification({
-      message: `${actionString} failed: ${action.error}`
-    }));
-    console.error(`${actionString} failed`, action);
-  };
-}
