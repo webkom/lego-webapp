@@ -1,5 +1,3 @@
-:global {
-
 @custom-media --small-viewport (max-width: 30em);
 
 :root {
@@ -11,11 +9,7 @@
 
   --lego-header-height: 100px;
   --lego-main-nav-height: 50px;
-}
 
-:root {
   --lego-color-gray: #333;
   --lego-color-gray-light: #eee;
-}
-
 }
