@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 import cx from 'classnames';
 import { debounce } from 'lodash';
 import Pill from '../Pill';
-import Icon from '../Icon';
 import LoadingIndicator from '../LoadingIndicator';
 import { search } from 'app/actions/SearchActions';
 import { push } from 'react-router-redux';
@@ -88,6 +87,9 @@ class Search extends Component {
       <div onKeyDown={this.handleKeyDown} tabIndex={-1}>
         <div className={styles.overlay}>
           <div className={styles.inputContainer}>
+            <div className={styles.searchIcon}>
+              <i className='ion-search' />
+            </div>
             <input
               onChange={(e) => onQueryChanged(e.target.value)}
               type='search'
@@ -96,7 +98,7 @@ class Search extends Component {
             />
 
             <button type='button' className={styles.closeButton} onClick={onCloseSearch}>
-              <i name='close' scaleOnHover />
+              <i className='ion-close' />
             </button>
           </div>
 

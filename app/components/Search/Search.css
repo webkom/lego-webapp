@@ -6,14 +6,14 @@
   top: 0;
   left: 0;
   right: 0;
-  background: #222;
 }
 
 .inputContainer {
   display: flex;
   justify-content: space-between;
-  height: 60px;
-  background: #111;
+  height: 120px;
+  padding-top: 40px;
+  border-bottom: 1px solid #ccc;
 }
 
 .inputContainer input {
@@ -21,9 +21,22 @@
   outline: none;
   border: 0;
   padding: 0 1rem;
-  font-size: 1.4rem;
-  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #333;
   background: transparent;
+}
+
+::-webkit-input-placeholder {
+  color: #666;
+}
+
+.searchIcon {
+  color: #777;
+  font-size: 2rem;
+  width: 30px;
+  display: flex;
+  align-items: center;
 }
 
 .closeButton {
@@ -31,7 +44,8 @@
   outline: none;
   border: 0;
   background: transparent;
-  color: #eee;
+  color: #333;
+  font-size: 2rem;
 }
 
 .closeButton i {
@@ -44,6 +58,8 @@
 
 .resultsContainer {
   display: flex;
+  background: #a0261b;
+  background: rgba(255, 255, 255, .8);
 }
 
 .quickLinks {
@@ -58,15 +74,16 @@
 
 .quickLinks a {
   display: block;
-  color: #eee;
+  color: #a0261b;
   line-height: 2;
   padding: 0 1rem;
+  font-size: 1.2rem;
   text-transform: uppercase;
 }
 
 .quickLinks a:hover {
   letter-spacing: 1px;
-  color: #fff;
+  color: #333;
 }
 
 .results {

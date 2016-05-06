@@ -5,7 +5,6 @@ import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Modal } from 'react-overlays';
 import ButtonTriggeredDropdown from '../ButtonTriggeredDropdown';
-import Icon from 'app/components/Icon';
 import Search from '../Search';
 
 type Props = {
@@ -45,7 +44,7 @@ export default class Header extends Component {
                 <ButtonTriggeredDropdown
                   buttonClassName={styles.contentButton}
                   contentClassName={styles.dropdown}
-                  iconName='bell'
+                  iconName='ios-bell'
                   show={this.state.notificationsOpen}
                   toggle={() => this.setState({
                     notificationsOpen: !this.state.notificationsOpen
@@ -59,7 +58,7 @@ export default class Header extends Component {
                   onClick={() => this.props.toggleSearch()}
                   style={{ color: '#c0392b' }}
                 >
-                  <Icon name='search' />
+                  <i className='ion-search' />
                 </button>
               </div>
             </div>

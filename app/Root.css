@@ -1,6 +1,7 @@
 @import 'normalize.css/normalize.css';
 @import 'animate.css/animate.css';
 @import url('http://fonts.googleapis.com/css?family=Lato:400,700');
+@import url('http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
 @import './variables.css';
 
 * {
@@ -50,6 +51,11 @@ button {
   border: 1px solid #27ae60;
   color: #27ae60;
   border-radius: 999em;
+}
+
+.container {
+  max-width: var(--lego-max-width);
+  margin: 0 auto;
 }
 
 :global {
