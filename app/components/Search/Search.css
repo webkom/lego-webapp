@@ -44,7 +44,6 @@
 
 .resultsContainer {
   display: flex;
-  border-top: 10px solid var(--lego-link-color);
 }
 
 .quickLinks {

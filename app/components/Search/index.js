@@ -96,7 +96,7 @@ class Search extends Component {
             />
 
             <button type='button' className={styles.closeButton} onClick={onCloseSearch}>
-              <Icon name='close' scaleOnHover />
+              <i name='close' scaleOnHover />
             </button>
           </div>
 
