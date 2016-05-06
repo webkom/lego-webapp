@@ -2,7 +2,6 @@
 
 .header {
   border-bottom: 1px solid #ddd;
-  padding-bottom: 10px;
 }
 
 .backdrop {
@@ -15,14 +14,25 @@
   backdrop-filter: blur(7px);
 }
 
+.canvas {
+  position: absolute;
+  display: block;
+  top: 0;
+  bottom: 0;
+}
+
 .buttonGroup {
   padding: 0 1rem;
 }
 
 .buttonGroup button, i {
   border: 0;
-  color: #4e4e4e;
+  color: var(--lego-text-gray);
   font-size: 1.4rem;
+}
+
+.buttonGroup button:focus {
+  outline: none;
 }
 
 .buttonGroup button:hover {
@@ -30,6 +40,7 @@
 }
 
 .content {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,6 +64,7 @@
   height: 60px;
   line-height: 60px;
   font-size: 1.2rem;
+  margin-bottom: 10px;
 }
 
 .searchBox {
@@ -89,10 +101,27 @@
   font-size: 1.1rem;
   padding: 0 1rem;
   height: 100%;
-  color: #4e4e4e;
+  color: var(--lego-text-gray);
   text-transform: uppercase;
 }
 
 .navigation a:hover {
   color: #1D1D1D;
+}
+
+.dropdown {
+  background: rgba(27, 27, 27, .96);
+  border-top: 5px solid #888;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-top: 5px;
+  position: absolute;
+  width: 250px;
+  color: #fff;
+}
+
+.dropdown h2 {
+  color: #fff;
+  margin: 0;
+  font-size: 1.2rem;
 }

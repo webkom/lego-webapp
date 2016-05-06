@@ -6,6 +6,7 @@ import { Link, IndexLink } from 'react-router';
 import { Modal } from 'react-overlays';
 import ButtonTriggeredDropdown from '../ButtonTriggeredDropdown';
 import Search from '../Search';
+import drawFancyNodes from './drawFancyNodes';
 
 type Props = {
   searchOpen: boolean;
@@ -15,19 +16,53 @@ type Props = {
 type State = {
   accountOpen: boolean;
   notificationsOpen: boolean;
+  width: number;
 };
+
+const CANVAS_HEIGHT = 160;
 
 export default class Header extends Component {
   props: Props;
 
   state: State = {
     accountOpen: false,
-    notificationsOpen: false
+    notificationsOpen: false,
+    width: window.innerWidth
   };
+
+  handleResize = (e) => {
+    this.setState({
+      width: e.target.innerWidth
+    });
+    this.drawGraphics();
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.handleResize);
+    this.drawGraphics();
+  }
+
+  drawGraphics() {
+    const context = this._canvas.getContext('2d');
+    drawFancyNodes(context, {
+      width: this.state.width,
+      height: CANVAS_HEIGHT
+    });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleResize);
+  }
 
   render() {
     return (
       <header className={styles.header}>
+        <canvas
+          ref={(ref) => { this._canvas = ref; }}
+          className={styles.canvas}
+          width={this.state.width}
+          height={CANVAS_HEIGHT}
+        />
         <div className={styles.content}>
           <IndexLink to='/' className={styles.logo}>
             <img src='/images/logo_dark.png' />
@@ -40,7 +75,7 @@ export default class Header extends Component {
               <Link to=''>README</Link>
               <Link to='/quotes'>Sitater</Link>
 
-              <div className={styles.buttonGroup}>
+              <span className={styles.buttonGroup}>
                 <ButtonTriggeredDropdown
                   buttonClassName={styles.contentButton}
                   contentClassName={styles.dropdown}
@@ -60,7 +95,7 @@ export default class Header extends Component {
                 >
                   <i className='ion-search' />
                 </button>
-              </div>
+              </span>
             </div>
 
             <Modal
