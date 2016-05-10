@@ -37,6 +37,18 @@ export function fetchQuote(quoteId) {
   });
 }
 
+export function fetchRandomQuote() {
+  return callAPI({
+    types: Quote.FETCH,
+    endpoint: '/quotes/random/',
+    method: 'get',
+    meta: {
+      errorMessage: 'Fetching random quote failed'
+    },
+    schema: arrayOf(quoteSchema)
+  });
+}
+
 export function like(quoteId) {
   return callAPI({
     types: Quote.LIKE,
