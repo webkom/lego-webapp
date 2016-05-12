@@ -3,7 +3,8 @@ import { Search } from '../actions/ActionTypes';
 const initialState = {
   results: [],
   query: '',
-  searching: false
+  searching: false,
+  open: false
 };
 
 export default function search(state = initialState, action) {
@@ -30,6 +31,12 @@ export default function search(state = initialState, action) {
       return {
         ...state,
         searching: false
+      };
+
+    case Search.TOGGLE_OPEN:
+      return {
+        ...state,
+        open: !state.open
       };
 
     default:

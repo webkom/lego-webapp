@@ -1,10 +1,10 @@
 @custom-media --small-viewport (max-width: 30em);
 
 :root {
-  --lego-background-color: #F5F5F4;
+  --lego-background-color: #fbfbf8;
   --lego-font-color: #333;
   --lego-link-color: #c0392b;
-  --lego-max-width: 1100px;
+  --lego-max-width: 970px;
   --lego-default-padding: 2rem;
 
   --lego-header-height: 100px;
@@ -12,4 +12,5 @@
 
   --lego-color-gray: #333;
   --lego-color-gray-light: #eee;
+  --lego-text-gray: #4e4e4e;
 }

@@ -34,3 +34,9 @@ export function generateTreeStructure(nodes) {
     return acc;
   }, []);
 }
+
+let id = 0;
+export function getRandomImage(width, height) {
+  const heightOrWidth = height || width;
+  return `http://unsplash.it/${width}/${heightOrWidth}/?random&pleasedontcacheme=${id++}`;
+}

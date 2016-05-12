@@ -42,7 +42,7 @@ export default class LoginForm extends Component {
           ref='password'
           placeholder='Password'
         />
-        <Button submit dark>Logg inn</Button>
+        <Button submit dark>Send</Button>
       </Form>
     );
   }

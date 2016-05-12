@@ -1,47 +1,105 @@
-.root {
-  composes: container from '../../../Root.css';
+.frontpage {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-:global {
-  .UpcomingEvents {
-    display: flex;
-    overflow-x: scroll;
-    margin: 1rem 0;
-  }
+.overview {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border-right: 1px solid #ddd;
+}
 
-  .UpcomingEvents::-webkit-scrollbar {
-    width: 0 !important;
-  }
+.headline, .normal {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #ddd;
+  margin: 0 30px;
+}
 
-  .UpcomingEvents__item {
-    flex: 0 0 23%;
-    text-align: center;
-    margin: 0 1%;
-    border: 4px solid #ddd;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 170px;
-  }
+.rest {
+  flex-direction: column;
+}
 
-  .UpcomingEvents__item__moreInfo {
-    background: rgba(255, 255, 255, .8);
-    margin: 0;
-    transform: translateY(20px);
-    opacity: 0;
-    transition: transform .2s, opacity .2s;
-  }
+.item {
+  text-align: center;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  margin: 30px 0;
+  padding: 0 20px;
+}
 
-  .UpcomingEvents__item:hover .UpcomingEvents__item__moreInfo {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.itemImage {
+  width: 70%;
+  padding-top: 15px;
+}
 
-  .UpcomingEvents__item__title {
-    font-size: 2rem;
-    color: #fff;
-    background-color: rgba(0, 0, 0, .8);
-    width: 100%;
-    display: block;
-  }
+.headline > .item {
+  width: 50%;
+}
+
+.normal > .item {
+  width: 33%;
+}
+
+.item:hover .itemInfo {
+  color: black;
+}
+
+.item:not(:last-child) {
+  border-right: 1px solid #ddd;
+}
+
+.itemType {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.itemTitle {
+  margin: 0;
+  padding-top: 10px;
+  line-height: 1.1;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+}
+
+.normal .itemTitle {
+  font-size: 1.2rem;
+}
+
+.itemTitle > a {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.itemInfo {
+  transition: color .2s;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.itemDescription {
+  padding-top: 10px;
+  margin: 0;
+  font-family: 'skolar-latin';
+  font-size: 1.1rem;
+  -webkit-font-smoothing: initial;
+}
+
+.normal .itemDescription {
+  font-size: 1.0rem;
+}
+
+.sidebar {
+  display: flex;
+  flex-basis: 27%;
+  flex-shrink: 0;
+  flex-direction: column;
 }

@@ -1,63 +1,75 @@
 import styles from './Overview.css';
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import Icon from 'app/components/Icon';
 import Time from 'app/components/Time';
+import EventSidebar from './EventSidebar';
+import ProfileBox from './ProfileBox';
 import colorForEvent from 'app/routes/events/colorForEvent';
+import { getRandomImage } from 'app/utils';
 
-let id = 0;
-function getImage() {
-  return `http://lorempixel.com/800/400?${id++}`;
-}
+const EVENT_TYPES = [
+  'Bedriftspresentasjon',
+  'Kurs',
+  'Fest',
+  'Annet',
+  'Arrangement'
+];
+
+const HEADLINE_EVENTS = 2;
+const FRONT_EVENTS = 5;
+
+const OverviewItem = ({ event, showImage }) => (
+  <div key={event.id} className={styles.item}>
+    <h4 style={{ color: colorForEvent(event.eventType) }} className={styles.itemType}>
+      {EVENT_TYPES[event.eventType]}
+    </h4>
+    {showImage &&
+      <Link to={`/events/${event.id}`}>
+        <img className={styles.itemImage} src={getRandomImage(800, 600)}></img>
+      </Link>}
+    <h2 className={styles.itemTitle}>
+      <Link to={`/events/${event.id}`}>
+        {event.title}
+      </Link>
+    </h2>
+
+    <span className={styles.itemInfo}>
+      <Time time={event.startTime} format='DD.MM HH:mm' />
+      <span> - </span>
+      <span>{event.location}</span>
+    </span>
+    <p className={styles.itemDescription}>{event.description}</p>
+  </div>
+);
 
 export default class Overview extends Component {
 
   static propTypes = {
     events: PropTypes.array.isRequired,
-    fetchAll: PropTypes.func.isRequired,
-    loggedIn: PropTypes.bool.isRequired
+    fetchAll: PropTypes.func.isRequired
   };
 
   render() {
     const { events } = this.props;
+    const headlineEvents = events.slice(0, HEADLINE_EVENTS);
+    const normalEvents = events.slice(HEADLINE_EVENTS, FRONT_EVENTS);
+
     return (
-      <div className={styles.root}>
-        <div className='UpcomingEvents'>
-          {events.slice(0, 5).map((event) =>
-            <Link
-              key={event.id}
-              className='UpcomingEvents__item'
-              to={`/events/${event.id}`}
-              params={{ eventId: event.id }}
-              style={{ background: `url(${getImage()})` }}
-            >
-              <span
-                className='UpcomingEvents__item__title'
-                style={{
-                  borderBottom: `6px solid ${colorForEvent(event.eventType)}`
-                }}
-              >
-                {event.title}
-              </span>
-
-              <div className='UpcomingEvents__item__moreInfo'>
-                <Icon name='clock-o' />&nbsp;
-                <Time time={event.startTime} format='DD.MM HH:mm' />&nbsp;
-                <Icon name='map-marker' />&nbsp;<span>{event.location}</span>
-              </div>
-            </Link>
-          )}
+      <section className={`u-container ${styles.frontpage}`}>
+        <div className={styles.overview}>
+          <div className={styles.headline}>
+            {headlineEvents.map((event) => <OverviewItem event={event} showImage />)}
+          </div>
+          <div className={styles.normal}>
+            {normalEvents.map((event) => <OverviewItem event={event} />)}
+          </div>
         </div>
 
-        <div className='news'>
-          <h2 className='u-heading-with-bar'>Nyheter på tegnspråk</h2>
-          {events.map((event) =>
-            <div key={event.id}>
-              <Link to={`/events/${event.id}`}>{event.title} - {event.ingress}</Link>
-            </div>
-          )}
+        <div className={styles.sidebar}>
+          <ProfileBox {...this.props} />
+          <EventSidebar events={events} />
         </div>
-      </div>
+      </section>
     );
   }
 }

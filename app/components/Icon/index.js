@@ -22,7 +22,8 @@ export default class Icon extends Component {
         className={cx(
           'fa',
           `fa-${this.props.name}`,
-          this.props.scaleOnHover && 'u-scale-on-hover'
+          this.props.scaleOnHover && 'u-scale-on-hover',
+          this.props.className
         )}
       />
     );

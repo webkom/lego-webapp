@@ -1,11 +1,13 @@
 @import 'normalize.css/normalize.css';
 @import 'animate.css/animate.css';
 @import url('http://fonts.googleapis.com/css?family=Lato:400,700');
+@import url('http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
 @import './variables.css';
 
 * {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 html {
@@ -14,7 +16,7 @@ html {
 
 body {
   line-height: 1.8;
-  font-family: Lato, 'Helvetica Neue', Arial, sans-serif;
+  font-family: 'proxima-nova', 'Helvetica Neue', Arial, sans-serif;
   background: var(--lego-background-color);
   color: var(--lego-font-color);
 }

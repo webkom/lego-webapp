@@ -99,7 +99,8 @@ export const Search = {
   SEARCH_BEGIN: 'Search.SEARCH_BEGIN',
   SEARCH_FAILURE: 'Search.SEARCH_FAILURE',
   SEARCH_SUCCESS: 'Search.SEARCH_SUCCESS',
-  RESULTS_RECEIVED: 'Search.RESULTS_RECEIVED'
+  RESULTS_RECEIVED: 'Search.RESULTS_RECEIVED',
+  TOGGLE_OPEN: 'Search.TOGGLE_OPEN'
 };
 
 export const Notifications = {

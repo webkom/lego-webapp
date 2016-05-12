@@ -26,7 +26,8 @@ export default class ButtonTriggeredDropdown extends Component {
       show,
       contentClassName,
       buttonClassName,
-      children
+      children,
+      style
     } = this.props;
 
     return (
@@ -34,8 +35,9 @@ export default class ButtonTriggeredDropdown extends Component {
         onClick={toggle}
         ref='target'
         className={buttonClassName}
+        style={style}
       >
-        <i className={`fa fa-${iconName}`} />
+        <i className={`ion-${iconName}`} />
 
         <Overlay
           show={show}

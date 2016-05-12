@@ -1,97 +1,112 @@
 @import '../../variables.css';
 
+.header {
+  border-bottom: 1px solid #ddd;
+}
+
 .backdrop {
-  background: rgba(0, 0, 0, .6);
+  background: rgba(255, 255, 255, .5);
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   position: fixed;
+  backdrop-filter: blur(7px);
 }
 
-.root {
-  background: linear-gradient(#111, #222);
-  border-bottom: 10px solid #ddd;
+.canvas {
+  position: absolute;
+  display: block;
+  top: 0;
+  bottom: 0;
+}
+
+.buttonGroup {
+  padding: 0 1rem;
+}
+
+.buttonGroup button, i {
+  border: 0;
+  color: var(--lego-text-gray);
+  font-size: 1.4rem;
+}
+
+.buttonGroup button:focus {
+  outline: none;
+}
+
+.buttonGroup button:hover {
+  color: #1D1D1D;
 }
 
 .content {
-  composes: container from '../../Root.css';
   position: relative;
   display: flex;
-  flex-direction: row;
-  align-items: stretch;
-  justify-content: space-between;
-  height: 60px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .logo {
-  background: url('../../../public/images/logo.png') 20px center no-repeat;
-  background-size: 100px 20px;
-  color: transparent;
-  display: inline-block;
-  width: 130px;
+  padding-top: 30px;
+  padding-bottom: 10px;
+}
+
+.logo > img {
+  max-width: 12rem;
 }
 
 .navigation {
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: space-around;
   align-items: center;
   height: 60px;
   line-height: 60px;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.searchBox {
+  position: relative;
+  margin: 0 20px;
+  flex-grow: 2;
+}
+
+.searchBox > i {
+  position: absolute;
+  font-size: 1.2rem;
+  left: 10px;
+  top: 12px;
+  color: #ddd;
+}
+
+.searchInput {
+  text-indent: 30px;
+  background-color: transparent;
+  border: 1px solid #E8E8E8;
+  border-radius: 3px;
+  height: 45px;
+  line-height: 45px;
+  width: 100%;
+  color: #333;
+  padding: 20px 10px;
+}
+
+.searchInput:active, .searchInput:focus {
+  outline: none;
 }
 
 .navigation a {
+  font-size: 1.1rem;
   padding: 0 1rem;
   height: 100%;
-  color: #bbb;
+  color: var(--lego-text-gray);
   text-transform: uppercase;
 }
 
-.navigation a:hover,
-.navigation .activeLink {
-  color: #fff;
-}
-
-.contentButton {
-  width: 60px;
-  height: 60px;
-  color: #fff;
-  font-size: 1.4rem;
-  outline: none;
-  background: transparent;
-  border: 0;
-}
-
-.contentButton:hover {
-  color: #eee;
-}
-
-.dropdownMenu a {
-  color: #fff;
-  display: block;
-  border-bottom: 1px solid #333;
-  margin: 0 -1rem;
-  padding: 0 1rem;
-  line-height: 2.2;
-}
-
-.dropdownMenu a:hover {
-  background: #111;
-}
-
-.loginForm input {
-  margin: 2px 0;
-  background: #fff;
-  border: 0;
-  padding: .5rem;
-  font-size: 1.1rem;
-  color: #333;
-}
-
-.loginForm input:focus {
-  background: #ffedba;
-  outline: none;
+.navigation a:hover {
+  color: #1D1D1D;
 }
 
 .dropdown {
@@ -106,7 +121,7 @@
 }
 
 .dropdown h2 {
-  color: #ffedba;
+  color: #fff;
   margin: 0;
   font-size: 1.2rem;
 }
