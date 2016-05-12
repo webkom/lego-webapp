@@ -2,7 +2,7 @@ import 'babel-polyfill';
 import React from 'react';
 import moment from 'moment';
 import { render } from 'react-dom';
-import { hashHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 import { AppContainer } from 'react-hot-loader';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from 'app/utils/configureStore';
@@ -16,7 +16,7 @@ global.log = function log(self = this) {
 };
 
 const store = configureStore();
-const history = syncHistoryWithStore(hashHistory, store);
+const history = syncHistoryWithStore(browserHistory, store);
 
 const rootElement = document.getElementById('root');
 
