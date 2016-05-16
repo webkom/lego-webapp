@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import CompanyList from './CompanyList';
-import styles from './bdbPage.css';
+import styles from './bdb.css';
 import sortCompanies from '../SortCompanies.js';
 
 export default class BdbPage extends Component {

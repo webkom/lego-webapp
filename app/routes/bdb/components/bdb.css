@@ -98,8 +98,68 @@
   }
 }
 
-
-
 .rightArrow {
   text-align: right!important;
+}
+
+.detail {
+  display: flex;
+  width: 100%;
+}
+
+.leftSection {
+  width: 70%;
+  order: 1;
+}
+
+.rightSection {
+  min-height: 300px;
+  padding: 20px 0 0 30px;
+  margin: 0 0 0 60px;
+  border-left: 1px solid #cccccc;
+  order: 2;
+}
+
+.submit {
+  padding: 10px 20px;
+  font-size: 14px;
+  margin: 10px 0 50px 0;
+}
+
+.submit:disabled {
+  color: #cccccc;
+}
+
+label {
+  display: block;
+}
+
+#add-comapny-name {
+  width: 500px;
+  height: 50px;
+}
+
+#add-company-student-contact {
+  width: 500px;
+  height: 50px;
+}
+
+.checkBox {
+  display: block;
+  margin: 10px 0;
+}
+
+.field-error {
+  color: red;
+  font-weight: bold;
+  display: block;
+}
+
+.error-message {
+  color: red;
+  display: block;
+}
+
+.clear {
+  clear:both;
 }

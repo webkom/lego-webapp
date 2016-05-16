@@ -1,9 +1,10 @@
-import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import {
-  fetch
+  fetch, addCompany
 } from '../../actions/BdbActions';
 import CompanyDetail from './components/CompanyDetail';
+import { compose } from 'redux';
+import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 
 function mapStateToProps(state, props) {
   const companyId = props.params.companyId;
@@ -16,27 +17,13 @@ function mapStateToProps(state, props) {
   };
 }
 
-const mapDispatchToProps = { fetch };
+const mapDispatchToProps = { fetch, addCompany };
 
-class CompanyDetailContainer extends Component {
-  static propTypes = {
-    fetch: PropTypes.func.isRequired
-  };
-
-  componentWillMount() {
-    this.props.fetch(this.props.companyId);
-  }
-
-  render() {
-    return (
-      <CompanyDetail
-        company = {this.props.company}
-      />
-    );
-  }
+function loadData(params, props) {
+  props.fetch(props.companyId);
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CompanyDetailContainer);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  fetchOnUpdate(['companyId'], loadData)
+)(CompanyDetail);

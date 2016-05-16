@@ -51,11 +51,19 @@ export function addCompany({ name, studentContact, adminComment, jobOfferOnly, p
       },
       schema: companySchema
     })).then(
-      (payload) => {
+      (callback) => {
+        let company = {};
+        for (const prop in callback.payload.entities.companies) {
+          if (prop) {
+            company = prop;
+          }
+        }
         dispatch(stopSubmit('company'));
-        dispatch(push(`/companies/${payload.id}`));
+        dispatch(push(`/bdb/${company}`));
       },
       (error) => {
+        console.log('ERROR D:');
+        console.log(error);
         const errors = { ...error.response.body };
         if (errors.text) {
           errors.text = errors.text[0];
