@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import styles from './bdbPage.css';
+import styles from './bdb.css';
 import { Link } from 'react-router';
 import CompanySingleRow from './CompanySingleRow';
 import { indexToSemester } from '../utils.js';

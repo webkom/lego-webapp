@@ -17,7 +17,7 @@ export const statusIntToString = (status) => {
     0: 'Bedpres',
     1: 'Bedpres & kurs',
     2: 'Kurs',
-    3: 'Interessert, ikke tilbudt',
+    3: 'Interessert',
     4: 'Ikke interessert',
     5: 'Kontaktet',
     6: 'Ikke kontaktet'
