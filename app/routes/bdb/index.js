@@ -7,6 +7,9 @@ export default {
   }, {
     path: ':companyId',
     component: require('./CompanyDetailContainer').default
+  }, {
+    path: ':companyId/edit',
+    component: require('./EditCompanyContainer').default
   }
   ]
 };
