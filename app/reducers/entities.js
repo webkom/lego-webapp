@@ -77,7 +77,8 @@ export function fetchSuccess(state, action) {
     ...state,
     isFetching: false,
     items: forceArray(action.payload.result),
-    error: null
+    error: null,
+    pagination: action.pagination
   };
 }
 

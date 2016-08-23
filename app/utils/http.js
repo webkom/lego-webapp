@@ -101,7 +101,12 @@ export function callAPI({
       promise: fetchJSON(urlFor(endpoint), options)
         .then(({ json, response }) => ({
           response,
-          json: _normalize(json)
+          json: _normalize(json.results || json),
+          pagination: json.count ? {
+            count: json.count,
+            next: json.next,
+            previous: json.previous
+          } : null
         }))
     });
   };

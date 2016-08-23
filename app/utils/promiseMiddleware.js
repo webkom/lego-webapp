@@ -24,10 +24,11 @@ export default function promiseMiddleware() {
 
     return new Promise((resolve, reject) => {
       promise.then(
-        ({ json, response }) => resolve(next({
+        ({ json, response, pagination }) => resolve(next({
           type: SUCCESS,
           payload: json,
-          meta
+          meta,
+          pagination
         })),
         (error) => reject(next({
           type: FAILURE,
