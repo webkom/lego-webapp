@@ -62,7 +62,53 @@ export function addCompany({ name, studentContact, adminComment, jobOfferOnly, p
         dispatch(push(`/bdb/${company}`));
       },
       (error) => {
-        console.log('ERROR D:');
+        console.log('ERROR ADDING:');
+        console.log(error);
+        const errors = { ...error.response.body };
+        if (errors.text) {
+          errors.text = errors.text[0];
+        }
+        dispatch(stopSubmit('company', errors));
+      }
+    );
+  };
+}
+
+export function editCompany({ companyId, name, studentContact, adminComment,
+  jobOfferOnly, phone }) {
+  return (dispatch, getState) => {
+    dispatch(startSubmit('company'));
+
+    dispatch(callAPI({
+      types: [
+        Bdb.EDIT_BEGIN,
+        Bdb.EDIT_SUCCESS,
+        Bdb.EDIT_FAILURE
+      ],
+      endpoint: `/companies/${companyId}/`,
+      method: 'put',
+      body: {
+        id: companyId,
+        name,
+        studentContact,
+        adminComment,
+        jobOfferOnly,
+        phone
+      },
+      schema: companySchema
+    })).then(
+      (callback) => {
+        let company = {};
+        for (const prop in callback.payload.entities.companies) {
+          if (prop) {
+            company = prop;
+          }
+        }
+        dispatch(stopSubmit('company'));
+        dispatch(push(`/bdb/${company}`));
+      },
+      (error) => {
+        console.log('ERROR EDITING:');
         console.log(error);
         const errors = { ...error.response.body };
         if (errors.text) {

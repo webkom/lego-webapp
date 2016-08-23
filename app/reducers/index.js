@@ -2,7 +2,7 @@ import { Schema, arrayOf } from 'normalizr';
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import { reducer as form } from 'redux-form';
-import bdb from './bdb';
+import companies from './companies';
 import quotes from './quotes';
 import events from './events';
 import search from './search';
@@ -13,7 +13,7 @@ import notifications from './notifications';
 import comments from './comments';
 
 export default combineReducers({
-  bdb,
+  companies,
   quotes,
   events,
   search,
