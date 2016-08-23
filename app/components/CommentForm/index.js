@@ -14,7 +14,7 @@ const validate = (values) => {
   return errors;
 };
 
-class ContactForm extends Component {
+class CommentForm extends Component {
   static propTypes = {
     commentTarget: PropTypes.string.isRequired,
     user: PropTypes.object.isRequired,
@@ -94,5 +94,6 @@ class ContactForm extends Component {
 export default reduxForm({
   form: 'comment',
   fields: ['text'],
-  validate
-}, null, { addComment })(ContactForm);
+  validate,
+  destroyOnUnmount: false
+}, null, { addComment })(CommentForm);
