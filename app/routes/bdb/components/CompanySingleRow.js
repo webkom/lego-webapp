@@ -1,50 +1,75 @@
-import React, { Component, PropTypes } from 'react';
-import styles from './bdb.css';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { selectColorCode, statusIntToString, indexToSemester } from '../utils.js';
+import { indexToSemester } from '../utils.js';
+import SemesterStatus from './SemesterStatus';
+
+type Props = {
+  company: Object,
+  startYear: number,
+  startSem: number,
+  handleChange: () => void,
+  removeChangedStatus: () => void,
+  changedStatuses: Array<Object>
+};
+
 export default class CompanySingleRow extends Component {
 
-  static propTypes = {
-    company: PropTypes.object.isRequired,
-    startYear: PropTypes.number.isRequired,
-    startSem: PropTypes.number.isRequired
-  };
+  props: Props;
 
   semesterElement = (index) => {
     const { startYear, startSem } = this.props;
     const result = indexToSemester(index, startYear, startSem);
     const statuses = this.props.company.semesterStatuses;
-
-    return statuses.find((status) =>
-      status.year === result.year &&
-      status.semester === result.semester
-    ) || { contactedStatus: 6 };
+    if (statuses) {
+      return statuses.find((status) =>
+        status.year === result.year &&
+        status.semester === result.semester
+      ) || { contactedStatus: 6 };
+    }
+    return { contactedStatus: 6 };
   };
 
   render() {
     const { company } = this.props;
-    let semesters = [];
-    if (company) {
-      semesters = [
-        this.semesterElement(0),
-        this.semesterElement(1),
-        this.semesterElement(2),
-        this.semesterElement(3)
-      ].map((status, i) => (
-        <td key={i} className={styles[selectColorCode(status.contactedStatus)]}>
-          {statusIntToString(status.contactedStatus)}
-        </td>
-      ));
+    if (!company) {
+      return 'Laster';
     }
+    const semesters = [
+      this.semesterElement(0),
+      this.semesterElement(1),
+      this.semesterElement(2)
+    ].map((status, i) => (
+      <SemesterStatus
+        key={i}
+        semIndex={i}
+        semesterStatus={status}
+        handleChange={this.props.handleChange}
+        companyId={this.props.company.id}
+        changedStatuses={this.props.changedStatuses}
+        startYear={this.props.startYear}
+        startSem={this.props.startSem}
+      />
+    ));
 
+    let comment = company.adminComment;
+    let adminComment = '';
+    if (comment) {
+      if (comment.length > 20) {
+        comment = `${comment.substring(0, 17)}...`;
+        adminComment = (<Link to={`/bdb/${company.id}`}>{comment}</Link>);
+      } else {
+        adminComment = comment;
+      }
+    }
 
     return (
       <tr>
-        <td>
-          <Link to={`/bdb/${company.id}`}>{company.name}</Link></td>
+        <td><Link to={`/bdb/${company.id}`}>{company.name}</Link></td>
         {semesters}
-        <td>{company.studentContact}</td>
-        <td>{company.adminComment}</td>
+        <td style={{ width: '170px' }}>
+          {company.studentContact ? company.studentContact.fullName : ''}
+        </td>
+        <td>{adminComment}</td>
       </tr>
     );
   }

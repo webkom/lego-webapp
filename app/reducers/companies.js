@@ -1,23 +1,28 @@
-import { Bdb } from '../actions/ActionTypes';
-import { fetchBegin, fetchSuccess, fetchFailure, defaultEntityState } from './entities';
+import { Company } from '../actions/ActionTypes';
+import createEntityReducer from 'app/utils/createEntityReducer';
 
-const initialState = {
-  ...defaultEntityState
-};
+export default createEntityReducer({
+  key: 'companies',
+  types: {
+    fetch: Company.FETCH,
+    mutate: Company.ADD
+  },
+  mutate(state, action) {
+    switch (action.type) {
 
-export default function companies(state = initialState, action) {
-  switch (action.type) {
-    case Bdb.FETCH_BEGIN:
-      return fetchBegin(state, action);
+      case Company.DELETE_SEMESTER_FAILURE: {
+        const byId = state.byId;
+        byId[action.meta.companyId].semesterStatuses = byId[action.meta.companyId].
+          semesterStatuses.filter((status) => status.id !== action.meta.semesterId
+        );
+        return {
+          ...state,
+          byId
+        };
+      }
 
-    case Bdb.FETCH_SUCCESS:
-    case Bdb.ADD_SUCCESS:
-      return fetchSuccess(state, action);
-
-    case Bdb.FETCH_FAILURE:
-      return fetchFailure(state, action);
-
-    default:
-      return state;
+      default:
+        return state;
+    }
   }
-}
+});

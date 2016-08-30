@@ -33,6 +33,11 @@ export const userSchema = new Schema('users', { idAttribute: 'username' });
 export const quoteSchema = new Schema('quotes', { idAttribute: 'id' });
 export const companySchema = new Schema('companies', { idAttribute: 'id' });
 
+companySchema.define({
+  studentContact: userSchema,
+  comments: arrayOf(commentSchema)
+});
+
 eventSchema.define({
   comments: arrayOf(commentSchema)
 });
