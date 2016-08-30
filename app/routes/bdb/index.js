@@ -1,15 +1,15 @@
 export default {
   path: 'bdb',
-  indexRoute: { component: require('./BdbContainer').default },
+  indexRoute: { component: require('./BdbRoute').default },
   childRoutes: [{
     path: 'add',
-    component: require('./AddCompanyContainer').default
+    component: require('./AddCompanyRoute').default
   }, {
     path: ':companyId',
-    component: require('./CompanyDetailContainer').default
+    component: require('./CompanyDetailRoute').default
   }, {
     path: ':companyId/edit',
-    component: require('./EditCompanyContainer').default
+    component: require('./EditCompanyRoute').default
   }
   ]
 };

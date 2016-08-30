@@ -1,17 +1,27 @@
 import styles from './bdb.css';
-import React, { Component, PropTypes } from 'react';
-import FieldError from 'app/components/FieldError';
+import React, { Component } from 'react';
+import { trueIcon, falseIcon } from '../utils.js';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import InfoBubble from 'app/components/InfoBubble';
+import CompanyRightNav from './CompanyRightNav';
+import { Field } from 'redux-form';
+import Button from 'app/components/Button';
+import { TextEditor } from 'app/components/Form';
+import { TextInput } from 'app/components/Form';
+
+type Props = {
+  editCompany: () => void,
+  fields: any,
+  company: Object,
+  companyId: string,
+  submitting: boolean,
+  handleSubmit: () => void,
+  autoFocus: any
+};
 
 export default class editCompany extends Component {
 
-  static propTypes = {
-    editCompany: PropTypes.func.isRequired,
-    fields: PropTypes.object.isRequired,
-    company: PropTypes.object.isRequired,
-    companyId: PropTypes.string.isRequired,
-    submitting: PropTypes.bool.isRequired,
-    handleSubmit: PropTypes.func.isRequired
-  };
+  props: Props;
 
   onSubmit({ name = this.props.company.name, studentContact = this.props.company.studentContact,
     adminComment, jobOfferOnly, phone }) {
@@ -28,68 +38,149 @@ export default class editCompany extends Component {
   render() {
     const {
       company,
-      fields: {
-        name, studentContact, adminComment, jobOfferOnly, phone
-      },
-      submitting
+      submitting,
+      autoFocus
     } = this.props;
 
     if (!company) {
       return (
-        <div className={styles.root}>
-          Laster...
-        </div>
+        <LoadingIndicator />
       );
     }
     return (
       <div className={styles.root}>
 
-        <div>
-          <h1>Endre bedrift</h1>
-        </div>
+        <Field
+          placeholder={company.name}
+          autoFocus={autoFocus}
+          name='name'
+          component={TextInput.Field}
+          className={styles.editTitle}
+        />
 
-        <div>
-          <form onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}>
+        <div className={styles.detail}>
+          <div className={styles.leftSection}>
 
-            <label htmlFor='edit-company-name' style={{ fontSize: 25 }}>
-              Bedriftens navn
-            </label>
-            {name.error && name.touched ?
-              <FieldError error={name.error} /> : null}
-            <input type='text' id='edit-company-name' {...name} />
+            <form onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}>
 
-            <label htmlFor='edit-company-student-contact' style={{ fontSize: 25 }}>
-              Studentkontakt
-            </label>
-            {studentContact.error && studentContact.touched ?
-              <FieldError error={studentContact.error} /> : null}
-            <input type='text' id='edit-company-student-contact'
-              {...studentContact}
-            />
+              <div className={styles.description}>
+                <Field
+                  placeholder={company.description}
+                  autoFocus={autoFocus}
+                  name='description'
+                  component={TextEditor.Field}
+                />
+              </div>
 
-            <label htmlFor='edit-company-admin-comment' style={{ fontSize: 20 }}>
-              Kommentar for BedKom
-            </label>
-            <textarea id='edit-company-admin-comment'
-              {...adminComment}
-            />
+              <div className={styles.infoBubbles}>
+                <InfoBubble
+                  icon={'phone'}
+                  data={
+                    <Field
+                      placeholder={company.phone}
+                      autoFocus={autoFocus}
+                      name='phone'
+                      component={TextInput.Field}
+                      className={styles.editBubble}
+                    />
+                  }
+                  meta={'Telefon'}
+                  style={{ order: 0 }}
+                />
+                <InfoBubble
+                  icon={'user'}
+                  data={
+                    <Field
+                      placeholder={company.studentContact}
+                      autoFocus={autoFocus}
+                      name='studentContact'
+                      component={TextInput.Field}
+                      className={styles.editBubble}
+                    />
+                  }
+                  meta={'Studentkontakt'}
+                  style={{ order: 1 }}
+                />
+                <InfoBubble
+                  icon={'paper-plane'}
+                  data={
+                    <Field
+                      placeholder={company.website}
+                      autoFocus={autoFocus}
+                      name='website'
+                      component={TextInput.Field}
+                      className={styles.editBubble}
+                    />
+                  }
+                  meta={'Nettside'}
+                  style={{ order: 2 }}
+                />
+              </div>
 
-            <label htmlFor='edit-company-phone' style={{ fontSize: 25 }}>
-              Telefonnummer
-            </label>
-            <input type='text' id='edit-company-phone' {...phone} />
+              <div className={styles.info}>
+                <div style={{ order: 0 }}>
+                  <h3>Aktiv bedrift?</h3>
+                  <div className={styles.editInfo}>
+                    <input type='radio' name='active' value />
+                      {trueIcon}<br />
+                  </div>
+                  <div className={styles.editInfo}>
+                    <input type='radio' name='active' value={false} />
+                      {falseIcon}<br />
+                  </div>
+                </div>
 
-            <div className={styles.checkBox}>
-              <input type='checkbox' value='jobOfferOnly' id='edit-company-job-only'
-                {...jobOfferOnly}
-              /> Lages denne bedriften kun for jobbtilbud?
-            </div>
+                <div style={{ order: 1 }}>
+                  <h3>Kun for jobbtilbud?</h3>
+                  <div className={styles.editInfo}>
+                    <input type='radio' name='jobOfferOnly' value />
+                      {trueIcon}<br />
+                  </div>
+                  <div className={styles.editInfo}>
+                    <input type='radio' name='jobOfferOnly' value={false} />
+                      {falseIcon}<br />
+                  </div>
+                </div>
 
-            <div className={styles.clear}></div>
-            <input type='submit' className={styles.submit}
-              value='Send inn' disabled = {submitting}
-            />
-          </form>
+                <div style={{ order: 2 }}>
+                  <h3>Bedex i år?</h3>
+                  <div className={styles.editInfo}>
+                    <input type='radio' name='bedex' value />
+                      {trueIcon}<br />
+                  </div>
+                  <div className={styles.editInfo}>
+                    <input type='radio' name='bedex' value={false} />
+                      {falseIcon}<br />
+                  </div>
+                </div>
+              </div>
+
+              <div className={styles.adminNote}>
+                <h3>Notat fra Bedkom</h3>
+                <Field
+                  placeholder={company.adminComment}
+                  autoFocus={autoFocus}
+                  name='adminComment'
+                  component={TextEditor.Field}
+                />
+              </div>
+
+              <div className={styles.clear}></div>
+              <Button
+                className={styles.submit}
+                disabled={submitting}
+                submit
+              >
+                Lagre
+              </Button>
+
+            </form>
+          </div>
+
+          <CompanyRightNav
+            {...this.props}
+          />
+
         </div>
       </div>
     );
