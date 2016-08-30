@@ -1,18 +1,21 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import styles from './bdb.css';
 import { Link } from 'react-router';
 import CompanySingleRow from './CompanySingleRow';
 import { indexToSemester } from '../utils.js';
 
+type Props = {
+  companies: Array<any>,
+  query: Object,
+  startYear: number,
+  startSem: number,
+  changeSemesters: () => void,
+  changedStatuses: Array<any>
+};
+
 export default class CompanyList extends Component {
 
-  static propTypes = {
-    companies: PropTypes.array.isRequired,
-    query: PropTypes.object.isRequired,
-    startYear: PropTypes.number.isRequired,
-    startSem: PropTypes.number.isRequired,
-    changeSemesters: PropTypes.func.isRequired
-  };
+  props: Props;
 
   findTitle = (index) => {
     const { startYear, startSem } = this.props;
@@ -65,9 +68,6 @@ export default class CompanyList extends Component {
         title: this.findTitle(2),
         sortLink: 'sem2'
       }, {
-        title: this.findTitle(3),
-        sortLink: 'sem3'
-      }, {
         title: 'Studentkontakt',
         sortLink: 'studentContact'
       }, {
@@ -103,7 +103,7 @@ export default class CompanyList extends Component {
           <tr className={styles.invisRow}>
             <td></td><td>
               <i onClick={changeSemesters.bind(this, false)}className='fa fa-arrow-left'></i>
-            </td><td></td><td></td>
+            </td><td></td>
             <td className={styles.rightArrow}>
               <i onClick={changeSemesters.bind(this, true)} className='fa fa-arrow-right'></i>
             </td>
@@ -116,13 +116,16 @@ export default class CompanyList extends Component {
         </thead>
 
         <tbody>
-            {companies.map((company) =>
+            {companies.map((company, i) =>
               <CompanySingleRow
                 company={company}
                 startYear={startYear}
                 startSem={startSem}
                 changeSemesters={this.changeSemesters}
-                key={company.id}
+                key={i}
+                handleChange={this.props.handleChange}
+                removeChangedStatus={this.props.removeChangedStatus}
+                changedStatuses = {this.props.changedStatuses}
               />
             )}
         </tbody>

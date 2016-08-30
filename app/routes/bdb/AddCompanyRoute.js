@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
-import { addCompany } from '../../actions/BdbActions';
+import { addCompany } from '../../actions/CompanyActions';
 import AddCompany from './components/AddCompany';
 
 function validateCompany(data) {

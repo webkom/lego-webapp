@@ -1,3 +1,14 @@
+import React from 'react';
+
+export const statusStrings = {
+  0: 'Bedpres',
+  1: 'Bedpres & kurs',
+  2: 'Kurs',
+  3: 'Interessert',
+  4: 'Ikke interessert',
+  5: 'Kontaktet',
+  6: 'Ikke kontaktet'
+};
 
 export const selectColorCode = (status) => {
   const statusToClass = {
@@ -10,19 +21,6 @@ export const selectColorCode = (status) => {
     6: 'notContacted'
   };
   return statusToClass[status] || 'notContacted';
-};
-
-export const statusIntToString = (status) => {
-  const statusStrings = {
-    0: 'Bedpres',
-    1: 'Bedpres & kurs',
-    2: 'Kurs',
-    3: 'Interessert',
-    4: 'Ikke interessert',
-    5: 'Kontaktet',
-    6: 'Ikke kontaktet'
-  };
-  return statusStrings[status] || 6;
 };
 
 export const indexToSemester = (index, startYear, startSem) => {
@@ -46,3 +44,10 @@ export const indexToSemester = (index, startYear, startSem) => {
     semester
   };
 };
+
+export const trueIcon = (
+  <i className='fa fa-check' style={{ color: 'green', fontSize: '25px' }}></i>
+);
+export const falseIcon = (
+  <i className='fa fa-times' style={{ color: '#d13c32', fontSize: '25px' }}></i>
+);

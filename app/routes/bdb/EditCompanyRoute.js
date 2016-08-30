@@ -1,9 +1,30 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
-import { editCompany, fetch } from '../../actions/BdbActions';
+import { editCompany, fetch } from '../../actions/CompanyActions';
 import EditCompany from './components/EditCompany';
+
+type Props = {
+  fetch: () => {}
+};
+
+class EditCompanyRoute extends Component {
+
+  props: Props;
+
+  componentWillMount() {
+    this.props.fetch(this.props.companyId);
+  }
+
+  render() {
+    return (
+      <EditCompany
+        {...this.props}
+      />
+    );
+  }
+}
 
 function validateCompany(data) {
   const errors = {};
@@ -21,7 +42,7 @@ function validateCompany(data) {
 function mapStateToProps(state, props) {
   const companyId = props.params.companyId;
   const company = state.companies.items
-    .map((id) => state.entities.companies[id])[0];
+    .map((id) => state.companies.byId[id])[0];
 
   return {
     company,
@@ -30,31 +51,17 @@ function mapStateToProps(state, props) {
       name: company.name,
       studentContact: company.studentContact,
       adminComment: company.adminComment,
+      active: company.active,
       jobOfferOnly: company.jobOfferOnly,
-      phone: company.phone
+      bedex: company.bedex,
+      description: company.description,
+      phone: company.phone,
+      website: company.website
     } : {}
   };
 }
 
 const mapDispatchToProps = { editCompany, fetch };
-
-class EditCompanyContainer extends Component {
-  static propTypes = {
-    fetch: PropTypes.func.isRequired
-  };
-
-  componentWillMount() {
-    this.props.fetch(this.props.companyId);
-  }
-
-  render() {
-    return (
-      <EditCompany
-        {...this.props}
-      />
-    );
-  }
-}
 
 export default compose(
   connect(
@@ -63,7 +70,9 @@ export default compose(
   ),
   reduxForm({
     form: 'editCompany',
-    fields: ['name', 'studentContact', 'adminComment', 'jobOfferOnly', 'phone'],
+    /*
+    fields: ['name', 'studentContact', 'adminComment', 'active', 'jobOfferOnly',
+      'bedex', 'description', 'phone', 'website'],*/
     validate: validateCompany
   })
-)(EditCompanyContainer);
+)(EditCompanyRoute);

@@ -1,17 +1,16 @@
 import styles from './bdb.css';
-import React, { Component, PropTypes } from 'react';
-import FieldError from 'app/components/FieldError';
+import React, { Component } from 'react';
+
+type Props = {
+  addCompany: () => void,
+  fields: any,
+  invalid: boolean,
+  pristine: boolean,
+  submitting: boolean,
+  handleSubmit: () => void
+};
 
 export default class AddCompany extends Component {
-
-  static propTypes = {
-    addCompany: PropTypes.func.isRequired,
-    fields: PropTypes.object.isRequired,
-    invalid: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
-    submitting: PropTypes.bool.isRequired,
-    handleSubmit: PropTypes.func.isRequired
-  };
 
   onSubmit({ name, studentContact, adminComment, jobOfferOnly, phone }) {
     this.props.addCompany({
@@ -22,6 +21,8 @@ export default class AddCompany extends Component {
       phone
     });
   }
+
+  props: Props;
 
   render() {
     const {
