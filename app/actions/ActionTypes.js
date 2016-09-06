@@ -24,6 +24,15 @@ export const Event = {
 export const Article = {
   FETCH: generateStatuses('Article.FETCH')
 };
+/**
+ *
+ */
+export const Joblistings = {
+  FETCH: 'Joblistings.FETCH',
+  FETCH_BEGIN: 'Joblistings.FETCH_BEGIN',
+  FETCH_SUCCESS: 'Joblistings.FETCH_SUCCESS',
+  FETCH_FAILURE: 'Joblistings.FETCH_FAILURE'
+};
 
 /**
  *
