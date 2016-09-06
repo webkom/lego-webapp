@@ -30,7 +30,7 @@ export default class CommentView extends Component {
               ? 'Ta del i diskusjonen eller få svar på dine spørsmål'
               : 'Start en diskusjon eller still et spørsmål'
             }</h3>
-            <CommentForm {...commentFormProps} />
+            <CommentForm formKey={commentFormProps.commentTarget} {...commentFormProps} />
           </div>
         ) : null}
       </div>

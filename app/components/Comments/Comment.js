@@ -56,9 +56,10 @@ export default class Comment extends Component {
         {replyOpen ?
           <div>
             <button type='button' onClick={this.closeReply}>x</button>
-            <CommentForm {...commentFormProps}
+            <CommentForm
               formKey={`${commentFormProps.commentTarget}-${comment.id}`}
               parent={comment.id}
+              {...commentFormProps}
             />
           </div>
           : null}

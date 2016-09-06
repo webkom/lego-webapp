@@ -11,10 +11,19 @@ const initialState = {
   quotes: {}
 };
 
+const entityTypeMappings = {
+  'events.event': 'events'
+};
+
+function getEntityType(serverName) {
+  return entityTypeMappings[serverName] || serverName;
+}
+
 function mutations(state = {}, action) {
   switch (action.type) {
     case Comment.ADD_SUCCESS: {
-      const [targetType, targetId] = action.meta.commentTarget.split('-');
+      const [serverTargetType, targetId] = action.meta.commentTarget.split('-');
+      const targetType = getEntityType(serverTargetType);
       return {
         ...state,
         [targetType]: {
