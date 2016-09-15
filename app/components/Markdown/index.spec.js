@@ -11,18 +11,18 @@ describe('<Markdown />', () => {
       </Markdown>
     );
 
-    expect(wrapper).to.contain.html('<div><p><strong>Hello World</strong></p>\n</div>');
+    expect(
+      wrapper.html()
+    ).toEqual('<div><p><strong>Hello World</strong></p>\n</div>');
   });
 
   it('should throw on invalid children', () => {
-    const shouldThrow = () => {
+    expect(() => {
       shallow(
         <Markdown>
           {{ hello: 'world' }}
         </Markdown>
       );
-    };
-
-    expect(shouldThrow).to.throw();
+    }).toThrow();
   });
 });

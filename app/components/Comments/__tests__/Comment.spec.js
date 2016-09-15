@@ -17,8 +17,8 @@ describe('components', () => {
   describe('Comment', () => {
     it('should show a comment', () => {
       const wrapper = shallow(<Comment comment={comment} />);
-      expect(wrapper).to.contain(comment.author.username);
-      expect(wrapper).to.contain(comment.text);
+      expect(wrapper.contains(comment.author.username)).toEqual(true);
+      expect(wrapper.contains(comment.text)).toEqual(true);
     });
   });
 });

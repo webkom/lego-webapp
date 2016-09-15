@@ -10,6 +10,7 @@ type Props = {
   contentClassName?: string|boolean;
   show: boolean;
   children?: any;
+  style?: any;
 };
 
 export default class ButtonTriggeredDropdown extends Component {

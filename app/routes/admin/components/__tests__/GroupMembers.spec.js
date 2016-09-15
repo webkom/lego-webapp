@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-expressions */
 import React from 'react';
-
 import GroupMembers from '../../GroupMembersRoute';
 import GroupMembersList from '../GroupMembersList';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -39,42 +38,40 @@ const group = {
   users
 };
 
-describe('components', () => {
-  describe('GroupMembers', () => {
-    it('should render the GroupMembersList component with the user list', () => {
-      const wrapper = shallow(<GroupMembers group={group} />);
-      const membersList = wrapper.find(GroupMembersList);
-      expect(membersList.prop('users')).to.equal(users);
-    });
-
-    it('should not render the GroupMembersList component while loading', () => {
-      const wrapper = shallow(<GroupMembers group={omit(group, 'users')} />);
-      const loadingIndicator = wrapper.find(LoadingIndicator);
-      const { loading, children } = loadingIndicator.props();
-      expect(loading).to.equal(true);
-      expect(children).to.not.exist;
-    });
+describe('<GroupMembers />', () => {
+  it('should render the GroupMembersList component with the user list', () => {
+    const wrapper = shallow(<GroupMembers group={group} />);
+    const membersList = wrapper.find(GroupMembersList);
+    expect(membersList.prop('users')).toEqual(users);
   });
 
-  describe('GroupMembersList', () => {
-    it('should render "No users" for an empty array', () => {
-      const wrapper = shallow(<GroupMembersList users={[]} />);
-      expect(wrapper).to.contain('No users');
-    });
+  it('should not render the GroupMembersList component while loading', () => {
+    const wrapper = shallow(<GroupMembers group={omit(group, 'users')} />);
+    const loadingIndicator = wrapper.find(LoadingIndicator);
+    const { loading, children } = loadingIndicator.props();
+    expect(loading).toEqual(true);
+    expect(children).toBeUndefined();
+  });
+});
 
-    it('should render an <ul> of users', () => {
-      const wrapper = shallow(<GroupMembersList users={users} />);
-      expect(wrapper).to.have.tagName('ul');
-      expect(wrapper).to.have.exactly(users.length).descendants('li');
-    });
+describe('GroupMembersList', () => {
+  it('should render "No users" for an empty array', () => {
+    const wrapper = shallow(<GroupMembersList users={[]} />);
+    expect(wrapper.text()).toContain('No users');
+  });
 
-    it('should include links for all users in the list', () => {
-      const wrapper = shallow(<GroupMembersList users={users} />);
-      const children = wrapper.children();
-      users.forEach(({ username }, i) => {
-        const link = <Link to={`/users/${username}`}>{username}</Link>;
-        expect(children.at(i)).to.contain(link);
-      });
+  it('should render an <ul> of users', () => {
+    const wrapper = shallow(<GroupMembersList users={users} />);
+    expect(wrapper.type()).toEqual('ul');
+    expect(wrapper.find('li').length).toEqual(users.length);
+  });
+
+  it('should include links for all users in the list', () => {
+    const wrapper = shallow(<GroupMembersList users={users} />);
+    const children = wrapper.children();
+    users.forEach(({ username }, i) => {
+      const link = <Link to={`/users/${username}`}>{username}</Link>;
+      expect(children.at(i).containsMatchingElement(link)).toEqual(true);
     });
   });
 });
