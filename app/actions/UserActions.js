@@ -101,6 +101,7 @@ export function refreshToken(token) {
   return callAPI({
     types: [User.LOGIN_BEGIN, User.LOGIN_SUCCESS, User.LOGIN_FAILURE],
     endpoint: '//authorization/token-auth/refresh/',
+    method: 'post',
     body: { token }
   });
 }

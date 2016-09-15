@@ -80,7 +80,7 @@
     "express": "4.13.4",
     "json-loader": "0.5.4",
     "object-assign": "4.0.1",
-    "react-hot-loader": "3.0.0-beta.1",
+    "react-hot-loader": "3.0.0-beta.3",
     "redux-mock-store": "1.0.2",
     "sinon": "1.17.3",
     "sinon-chai": "2.8.0",
