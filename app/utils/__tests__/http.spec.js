@@ -1,4 +1,5 @@
 import 'isomorphic-fetch';
+import sinon from 'sinon';
 import { fetchJSON, createQueryString } from '../http';
 
 describe('http/fetchJSON', () => {
@@ -22,14 +23,12 @@ describe('http/fetchJSON', () => {
       global.fetch.returns(Promise.resolve(res));
     });
 
-    it('should format the response correctly', (done) => {
+    it('should format the response correctly', () =>
       fetchJSON('https://abakus.no')
-        .catch(done)
         .then(({ json }) => {
-          expect(json).to.eql({ hello: 'world' });
-          done();
-        });
-    });
+          expect(json).toEqual({ hello: 'world' });
+        })
+    );
   });
 
   describe('response with error', () => {
@@ -45,24 +44,23 @@ describe('http/fetchJSON', () => {
       global.fetch.returns(Promise.resolve(res));
     });
 
-    it('should catch errors', (done) => {
+    it('should catch errors', () =>
       fetchJSON('https://abakus.no')
         .then(() => {}, (error) => {
-          expect(error.response.statusText).to.eql('Unauthorized');
-          done();
-        }).catch(done);
-    });
+          expect(error.response.statusText).toEqual('Unauthorized');
+        })
+    );
   });
 });
 
 describe('http/createQueryString', () => {
   it('should work for strings and numbers', () => {
     const qs = createQueryString({ year: 2016, name: 'webkom', foo: 0 });
-    expect(qs).to.equal('?year=2016&name=webkom&foo=0');
+    expect(qs).toEqual('?year=2016&name=webkom&foo=0');
   });
 
   it('should remove keys for empty values', () => {
     const qs = createQueryString({ year: '', name: '', bar: null });
-    expect(qs).to.equal('');
+    expect(qs).toEqual('');
   });
 });

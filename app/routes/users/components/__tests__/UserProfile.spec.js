@@ -16,31 +16,33 @@ const user = {
   username: 'webkom'
 };
 
-describe('components', () => {
-  describe('UserProfile', () => {
-    it('should show a settings link if the user is me', () => {
-      const wrapper = shallow(<UserProfile user={user} isMe />);
-      expect(wrapper).to.contain(<Link to='/users/me/settings'>Settings</Link>);
-    });
+describe('<UserProfile />', () => {
+  it('should show a settings link if the user is me', () => {
+    const wrapper = shallow(<UserProfile user={user} isMe />);
+    expect(wrapper.containsMatchingElement(
+      <Link to='/users/me/settings'>Settings</Link>
+    )).toEqual(true);
+  });
 
-    it('should not show a settings link for other users', () => {
-      const wrapper = shallow(<UserProfile user={user} isMe={false} />);
-      expect(wrapper).to.not.contain(<Link to='/users/me/settings'>Settings</Link>);
-    });
+  it('should not show a settings link for other users', () => {
+    const wrapper = shallow(<UserProfile user={user} isMe={false} />);
+    expect(wrapper.containsMatchingElement(
+      <Link to='/users/me/settings'>Settings</Link>
+    )).toEqual(false);
+  });
 
-    it('should show a LoadingIndicator while the user prop is loading', () => {
-      const wrapper = shallow(<UserProfile />);
-      expect(wrapper.is(LoadingIndicator)).to.equal(true);
+  it('should show a LoadingIndicator while the user prop is loading', () => {
+    const wrapper = shallow(<UserProfile />);
+    expect(wrapper.is(LoadingIndicator)).toEqual(true);
 
-      expect(wrapper).to.have.prop('loading');
-      expect(wrapper.children()).to.be.blank();
-    });
+    expect(wrapper.prop('loading')).toEqual(true);
+    expect(wrapper.children().length).toEqual(0);
+  });
 
-    it('should render user info', () => {
-      const wrapper = shallow(<UserProfile user={user} isMe={false} />);
-      expect(wrapper).to.contain(<h2>{user.fullName}</h2>);
-      expect(wrapper).to.contain(user.email);
-      expect(wrapper).to.contain(user.username);
-    });
+  it('should render user info', () => {
+    const wrapper = shallow(<UserProfile user={user} isMe={false} />);
+    expect(wrapper.containsMatchingElement(<h2>{user.fullName}</h2>)).toEqual(true);
+    expect(wrapper.html()).toContain(user.email);
+    expect(wrapper.html()).toContain(user.username);
   });
 });

@@ -4,6 +4,7 @@
 .*/node_modules/babel.*
 .*/node_modules/babylon.*
 .*/node_modules/invariant.*
+.*/node_modules/editions.*
 .*/node_modules/fbjs/lib/PromiseMap.js
 .*/node_modules/fbjs/lib/fetchWithRetries.js
 .*/node_modules/fbjs/lib/Deferred.js.flow
@@ -24,8 +25,6 @@ module.name_mapper='.*\(.css\)' -> 'empty/object'
 module.name_mapper='^\(.*\)$' -> '<PROJECT_ROOT>/\1'
 
 munge_underscores=true
-
-strip_root=true
 
 suppress_type=$FlowIssue
 suppress_type=$FlowFixMe

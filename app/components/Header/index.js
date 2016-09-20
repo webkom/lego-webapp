@@ -16,6 +16,7 @@ type Props = {
 type State = {
   accountOpen: boolean;
   notificationsOpen: boolean;
+  searchOpen: boolean;
   width: number;
 };
 
@@ -27,10 +28,13 @@ export default class Header extends Component {
   state: State = {
     accountOpen: false,
     notificationsOpen: false,
-    width: window.innerWidth
+    width: window.innerWidth,
+    searchOpen: false
   };
 
-  handleResize = (e) => {
+  _canvas: any;
+
+  handleResize = (e: any) => {
     this.setState({
       width: e.target.innerWidth
     });

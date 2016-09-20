@@ -5,6 +5,7 @@
     "log": true,
     "expect": true,
     "sinon": true,
+    "jest": true,
     "__DEV__": true
   },
   "rules": {
@@ -16,6 +17,6 @@
     "react/prefer-stateless-function": 0
   },
   "env": {
-    "mocha": true
+    "jest": true
   }
 }
