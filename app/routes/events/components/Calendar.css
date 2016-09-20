@@ -1,4 +1,4 @@
-
+@import '../../../variables.css';
 
 :root {
   --calendar-border: 1px solid #ddd;
@@ -40,10 +40,11 @@
   flex: 0 14.28571%;
   border-right: var(--calendar-border);
   border-bottom: var(--calendar-border);
-  height: 100px;
   background: #fff;
   position: relative;
-  padding: .5rem;
+  min-height: 100px;
+  padding: 20px 10px;
+  overflow-x: hidden;
 
   &:nth-child(7n+1) {
     border-left: var(--calendar-border);
