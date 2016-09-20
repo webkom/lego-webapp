@@ -1,4 +1,4 @@
-import './Quotes.css';
+import styles from './Quotes.css';
 import React, { Component, PropTypes } from 'react';
 import FieldError from 'app/components/FieldError';
 
@@ -25,33 +25,33 @@ export default class AddQuote extends Component {
     const disabledButton = invalid || pristine || submitting;
 
     return (
-      <div className='u-container'>
+      <div className={styles.root}>
 
-        <div className='quote-top add-quote-top'>
+        <div className={styles.quoteTop}>
           <h1>Legg til sitat</h1>
         </div>
 
-        <div className='add-quote'>
+        <div className={styles.addQuote}>
           <form onSubmit={this.props.addQuotes}>
 
-            <label htmlFor='add-quote-content' style={{ fontSize: 30 }}>
+            <label htmlFor='addQuoteContent' style={{ fontSize: 30 }}>
               Selve sitatet <b>*</b>
             </label>
 
             {text.error && text.touched ?
               <FieldError error={text.error} /> : null}
-            <textarea id='add-quote-content' {...text} />
+            <textarea id='addQuoteContent' {...text} />
 
-            <label htmlFor='add-quote-source' style={{ fontSize: 20 }}>
+            <label htmlFor='addQuoteSource' style={{ fontSize: 20 }}>
               Hvor sitatet kommer fra (sleng gjerne med noe snaks!) <b>*</b>
             </label>
 
             {source.error && source.touched ?
               <FieldError error={source.error} /> : null}
-            <textarea id='add-quote-source' {...source} />
+            <textarea id='addQuoteSource' {...source} />
 
-            <div className='clear'></div>
-            <input type='submit' className='submit-quote'
+            <div className={styles.clear}></div>
+            <input type='submit' className={styles.submitQuote}
               value='Send inn' disabled = {disabledButton}
             />
           </form>

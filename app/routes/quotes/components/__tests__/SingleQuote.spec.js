@@ -41,7 +41,7 @@ describe('components', () => {
       const wrapper = shallow(
         <SingleQuote {...emptyProps()} approve={approve} quote={singleQuote(false, false)} />
       );
-      const approveButton = wrapper.find('.quote-admin').children().at(0);
+      const approveButton = wrapper.find('.quoteAdmin').children().at(0);
       approveButton.simulate('click');
       expect(approve).toBeCalledWith(quotes[0].id);
     });
@@ -51,7 +51,7 @@ describe('components', () => {
       const wrapper = shallow(
         <SingleQuote {...emptyProps()} unapprove={unapprove} quote={singleQuote(false, true, 1)} />
       );
-      const approveButton = wrapper.find('.quote-admin').children().at(0);
+      const approveButton = wrapper.find('.quoteAdmin').children().at(0);
       approveButton.simulate('click');
       expect(unapprove).toBeCalledWith(quotes[1].id);
     });
@@ -61,7 +61,7 @@ describe('components', () => {
       const wrapper = shallow(
         <SingleQuote {...emptyProps()} deleteQuote={deleteQuote} quote={singleQuote()} />
       );
-      const deleteButton = wrapper.find('.quote-admin').children().at(1);
+      const deleteButton = wrapper.find('.quoteAdmin').children().at(1);
       deleteButton.simulate('click');
       expect(deleteQuote).toBeCalledWith(quotes[0].id);
     });

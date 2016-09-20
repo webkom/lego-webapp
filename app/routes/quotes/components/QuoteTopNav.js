@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import styles from './Quotes.css';
 
 export default class QuoteTopNav extends Component {
 
@@ -11,29 +12,29 @@ export default class QuoteTopNav extends Component {
 
   render() {
     return (
-      <div>
-        <div className='quote-top'>
+      <div className={styles.root}>
+        <div className={styles.quoteTop}>
           <h1>Sitater!</h1>
-          <div className='sort-quote'>
+          <div className={styles.sortQuote}>
             Sorter etter:
 
             <Link
               to={this.props.query.filter === 'unapproved' ?
               '/quotes?filter=unapproved' : '/quotes'}
               className = {(this.props.sortType === 'date') ?
-                'selected-quote-sort' : 'unselected-quote-sort'}
+                'selectedQuoteSort' : 'unselectedQuoteSort'}
             >Dato</Link>
 
             <Link
               to={this.props.query.filter === 'unapproved' ?
               '/quotes?filter=unapproved&sort=likes' : '/quotes?sort=likes'}
               className = {(this.props.sortType === 'likes') ?
-              'selected-quote-sort' : 'unselected-quote-sort'}
+              'selectedQuoteSort' : 'unselectedQuoteSort'}
             >Likes</Link>
 
           </div>
         </div>
-        <div className='clear'></div>
+        <div className={styles.clear}></div>
       </div>
     );
   }

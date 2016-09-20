@@ -1,15 +1,19 @@
-:global {
-.quote-container {
+
+.root {
+  composes: container from '../../../Root.css';
+}
+
+.quoteContainer {
   display: flex;
   flex-direction: row;
 }
 
-.quotepage-left {
+.quotepageLeft {
   width: 68%;
   order: 1;
 }
 
-.quotepage-right {
+.quotepageRight {
   min-height: 300px;
   padding: 20px 0 0 30px;
   margin: 120px 0 0 60px;
@@ -17,70 +21,284 @@
   order: 2;
 }
 
-.sort-quote {
+.sortQuote {
   order: 2;
   width: 200px;
   margin-top: 40px;
 }
 
-.quote-top .sort-quote a {
+.quoteTop .sortQuote a {
   margin-left: 20px;
 }
 
-.quote-top {
+.quoteTop {
   height: 100px;
   margin-bottom: 30px;
   display: flex;
   justify-content: space-between;
 }
 
-.quote-top h1 {
+.quoteTop h1 {
   width: 200px;
   order: 1;
 }
 
-.selected-quote-sort {
+.selectedQuoteSort {
   font-weight: 600;
 }
 
-.submit-quote {
+.submitQuote {
   padding: 10px 20px;
   font-size: 14px;
   margin: 10px 0 50px 0;
 }
 
-.submit-quote:disabled {
+.submitQuote:disabled {
   color: #cccccc;
 }
 
-.add-quote-top {
+.addQuoteTop {
   margin-bottom: 0;
 }
 
-.add-quote label {
+.addQuote label {
   display: block;
 }
 
-#add-quote-content {
+#addQuoteContent {
   width: 500px;
   height: 150px;
 }
 
-#add-quote-source {
+#addQuoteSource {
   width: 500px;
   height: 75px;
 }
 
-.add-quote .field-error {
+.addQuote .fieldError {
   color: red;
   font-weight: bold;
 }
 
-.error-message {
+.errorMessage {
   color: red;
 }
 
 .clear {
   clear:both;
 }
+
+/* Detail */
+
+.singleQuote {
+  padding: 1px 20px 10px 0;
+  background-repeat:no-repeat;
+  width: 100%;
+  margin-bottom:25px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.singleQuote .theQuote {
+  width: 93%;
+}
+
+.singleQuote .theQuote a{
+  color: black;
+}
+
+.singleQuote .theQuote a:hover {
+  color: black;
+  text-decoration: none;
+}
+
+.singleQuote .leftQuote {
+  display: flex;
+  width: calc(100% - 100px);
+  order: 1;
+}
+
+.singleQuote .rightQuote {
+  order: 2;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2px;
+  width: 70px;
+  margin-left: 20px;
+}
+
+.singleQuote .likeCount {
+  order: 2;
+  font-size: 30px;
+  color: orange;
+  margin-top: -7px;
+  padding-bottom: 15px;
+}
+
+.singleQuote h3 {
+  font-weight: 300;
+  font-size: 30px;
+  margin: 0;
+  line-height: 35px;
+}
+
+.singleQuote h3 a {
+  color: #777;
+}
+.singleQuote h3 a:hover {
+  color: orange;
+}
+
+.singleQuote .likes, .singleQuote .unlikes {
+  width: 50px;
+  height: 50px;
+  order: 1;
+}
+
+.singleQuote .fa-thumbs-up {
+  padding-top: 5px;
+  font-size: 35px;
+  order: 0;
+}
+
+.singleQuote .quoteDefault {
+  color: gray;
+}
+
+.singleQuote .quoteLiked {
+  color: orange;
+}
+
+.singleQuote .fa-thumbs-up:hover {
+  color: orange;
+}
+
+.singleQuote .quoteBottom {
+  width: 100%;
+  margin-top: 20px;
+  padding-bottom: 40px;
+  margin-left: 130px;
+  border-bottom: 1px solid #cccccc;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  order: 3;
+}
+
+.singleQuote .quoteSource {
+  font-size: 20px;
+  order: 1;
+  margin-top: -5px;
+  width: 76%;
+  line-height: 25px;
+}
+
+.singleQuote .quoteAuthor {
+  font-size: 15px;
+  margin-top: 50px;
+}
+
+.singleQuote .quoteDate {
+  color: #666666;
+  font-size: 13px;
+  order: 2;
+  align-self: auto;
+  margin-top: 1px;
+}
+
+.singleQuote .quoteAdmin {
+  margin: 20px auto 0 auto;
+  width: 200px;
+  order: 3;
+}
+
+.deleteQuote {
+  margin-left: 20px;
+}
+
+.singleQuote .faQuote-right {
+  font-size: 100px;
+  color: #dbdbdb;
+  margin-right: 30px;
+  order: 0;
+  height: 0;
+ }
+
+ .quote-singleroute .quoteBottom {
+   border-bottom: none;
+ }
+
+
+/* Responsive */
+
+@media (max-width: 480px) {
+
+  .quoteContainer {
+    margin: 0 15px 0 15px;
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .quoteTop {
+    height: 150px;
+    flex-direction: column;
+  }
+
+  .quoteTop h1{
+    margin-bottom: 0;
+  }
+
+  .sortQuote {
+    margin: 0 0 0 0;
+  }
+
+  .quotepageLeft {
+    width: 100%;
+  }
+
+  .singleQuote {
+    width: 100%;
+    flex-direction: column;
+  }
+
+  .singleQuote .faQuote-right {
+    display: none;
+  }
+
+  .singleQuote .leftQuote {
+    width: 100%;
+  }
+
+  .singleQuote .quoteBottom {
+    width: 100%;
+    margin: 15px 0 0 0;
+    padding-bottom: 50px;
+  }
+
+  .singleQuote .quoteAdmin {
+    margin: 0;
+    width: 100%;
+  }
+
+  .singleQuote .quoteDate {
+    margin-top: 10px;
+  }
+
+  .singleQuote .theQuote {
+    width: 100%;
+  }
+
+  .singleQuote .rightQuote {
+    margin: -50px 0 0 0;
+    order: 4;
+  }
+
+  .quotepageRight {
+    order: 99;
+    border: 0;
+    margin: 0 0 0 100px;
+    font-size: 20px;
+  }
+
 }

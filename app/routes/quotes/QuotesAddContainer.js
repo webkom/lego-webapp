@@ -16,15 +16,13 @@ function validateQuote(data) {
   return errors;
 }
 
+const mapDispatchToProps = { addQuotes };
+
 @reduxForm({
   form: 'addQuote',
   fields: ['text', 'source'],
   validate: validateQuote
 })
-@connect(
-  null,
-  { addQuotes }
-)
 
 export default class QuotesAddContainer extends Component {
 
@@ -38,3 +36,7 @@ export default class QuotesAddContainer extends Component {
     return <AddQuote {...this.props} addQuotes={handleSubmit(this.props.addQuotes)} />;
   }
 }
+
+export default connect(
+  null, mapDispatchToProps
+)(QuotesAddContainer);

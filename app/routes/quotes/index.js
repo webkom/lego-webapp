@@ -7,7 +7,7 @@ export default {
   },
   {
     path: ':quoteId',
-    component: require('./QuoteSingleRouteContainer').default
+    component: require('./QuoteDetailContainer').default
   }
   ]
 };

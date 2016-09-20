@@ -39,18 +39,17 @@ function mapStateToProps(state, props) {
   };
 }
 
-@connect(mapStateToProps,
-  {
-    fetchAllApproved,
-    fetchAllUnapproved,
-    fetchQuote,
-    like,
-    unlike,
-    approve,
-    unapprove,
-    deleteQuote
-  }
-)
+const mapDispatchToProps = {
+  fetchAllApproved,
+  fetchAllUnapproved,
+  fetchQuote,
+  like,
+  unlike,
+  approve,
+  unapprove,
+  deleteQuote
+};
+
 export default class QuotesContainer extends Component {
 
   static propTypes = {
@@ -90,3 +89,7 @@ export default class QuotesContainer extends Component {
     );
   }
 }
+
+export default connect(
+  mapStateToProps, mapDispatchToProps
+)(QuotesContainer);
