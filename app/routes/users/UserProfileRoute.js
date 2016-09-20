@@ -1,52 +1,60 @@
-import React, { Component, PropTypes } from 'react';
+// @flow
+
+import React, { Component } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import UserProfile from './components/UserProfile';
 import RequireLogin from 'app/components/RequireLogin';
 import { fetchUser } from 'app/actions/UserActions';
+import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 
-function fetchData(props) {
-  const { username, user } = props;
-  if (!user) {
+function loadData(params, props) {
+  const { username } = params;
+  if (!props.user) {
     props.fetchUser(username);
   }
 }
 
-@connect((state, props) => ({
-  username: props.params.username || state.auth.username,
-  isMe: !props.params.username || props.params.username === state.auth.username,
-  auth: state.auth,
-  user: state.entities.users[props.params.username || state.auth.username],
-  loggedIn: state.auth.token !== null
-}), { fetchUser })
-export default class UserProfileRoute extends Component {
+type Props = {
+  auth: Object,
+  username: string,
+  loggedIn: boolean,
+  user: Object,
+  isMe: boolean,
+  fetchUser: () => void,
+  params: Object
+};
 
-  static propTypes = {
-    auth: PropTypes.object.isRequired,
-    username: PropTypes.string,
-    loggedIn: PropTypes.bool.isRequired,
-    user: PropTypes.object,
-    isMe: PropTypes.bool.isRequired,
-    fetchUser: PropTypes.func.isRequired,
-    params: PropTypes.object.isRequired
-  };
-
-  componentDidMount() {
-    fetchData(this.props);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.username !== this.props.username) {
-      fetchData(nextProps);
-    }
-  }
+class UserProfileRoute extends Component {
+  props: Props;
 
   render() {
     const { user, isMe } = this.props;
 
     return (
       <RequireLogin loggedIn={this.props.loggedIn}>
-        <UserProfile user={user} isMe={isMe} />
+        <UserProfile
+          user={user}
+          isMe={isMe}
+        />
       </RequireLogin>
     );
   }
 }
+
+function mapStateToProps(state, props) {
+  return {
+    username: props.params.username || state.auth.username,
+    isMe: !props.params.username || props.params.username === state.auth.username,
+    auth: state.auth,
+    user: state.entities.users[props.params.username || state.auth.username],
+    loggedIn: state.auth.token !== null
+  };
+}
+
+const mapDispatchToProps = { fetchUser };
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  fetchOnUpdate(['username'], loadData)
+)(UserProfileRoute);
