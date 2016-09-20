@@ -1,0 +1,40 @@
+.tooltip {
+  display: none;
+}
+
+.baseTooltipHover {
+  display: block;
+  position: absolute;
+  background: #333;
+  border-radius: 5px;
+  padding: 5px 15px;
+}
+
+.baseTooltipHover:after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-width: 5px;
+  border-style: solid;
+  left: 10%;
+}
+
+.showTooltip {
+  margin-top: -45px;
+}
+
+.showTooltip:after {
+  top: 100%;
+  border-color: #333 transparent transparent;
+}
+
+.listTooltip {
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+.listTooltip:after {
+  border-color: transparent transparent #333;
+  bottom: 100%;
+}
