@@ -4,14 +4,21 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { Link } from 'react-router';
-import colorForEvent from '../colorForEvent';
+import { createSelector } from 'reselect';
 import Circle from 'app/components/Circle';
+import truncateString from 'app/utils/truncateString';
+import colorForEvent from '../colorForEvent';
 
 const Event = ({ id, title, eventType }) => (
-  <div key={id}>
+  <div key={id} style={{ whiteSpace: 'nowrap' }}>
     <Circle color={colorForEvent(eventType)} />
     {' '}
-    <Link to={`/events/${id}`}>{title}</Link>
+    <Link
+      to={`/events/${id}`}
+      title={title}
+    >
+      {truncateString(title, 10)}
+    </Link>
   </div>
 );
 
@@ -25,11 +32,19 @@ const CalendarCell = ({ day, className, events = [] }) => (
   </div>
 );
 
+const selectEvents = createSelector(
+  (state) => state.events.items,
+  (state) => state.entities.events,
+  (state, props) => props.day,
+  (eventIds, eventsById, day) =>
+    eventIds
+      .map((id) => eventsById[id])
+      .filter((event) => moment(event.startTime).isSame(day, 'day'))
+);
+
 function mapStateToProps(state, ownProps) {
   return {
-    events: state.events.items
-      .map((id) => state.entities.events[id])
-      .filter((event) => moment(event.startTime).isSame(ownProps.day, 'day'))
+    events: selectEvents(state, ownProps)
   };
 }
 
