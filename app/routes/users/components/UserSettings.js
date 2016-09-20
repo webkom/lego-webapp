@@ -1,17 +1,19 @@
-import React, { Component, PropTypes } from 'react';
+// @flow
 
-const FieldError = ({ error }) => (
-  <span style={{ color: 'red', fontWeight: 'bold' }}>{error}</span>
-);
+import React, { Component } from 'react';
+import Button from 'app/components/Button';
+import { Form, Field } from 'app/components/Form';
+
+type Props = {
+  fields: Object,
+  onSubmit: () => void,
+  invalid: boolean,
+  pristine: boolean,
+  submitting: boolean
+};
 
 export default class UserSettings extends Component {
-  static propTypes = {
-    fields: PropTypes.object.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    invalid: PropTypes.bool.isRequired,
-    pristine: PropTypes.bool.isRequired,
-    submitting: PropTypes.bool.isRequired
-  };
+  props: Props;
 
   render() {
     const {
@@ -27,33 +29,37 @@ export default class UserSettings extends Component {
     const disabledButton = invalid || pristine || submitting;
 
     return (
-      <form onSubmit={onSubmit}>
-        <label>Username</label>
-        <input type='text' {...username} readOnly />
-          {username.error && username.touched ?
-            <FieldError error={username.error} /> : null}
-        <br />
+      <Form onSubmit={onSubmit}>
+        <Field
+          label='Username'
+          field={username}
+          readOnly
+        />
 
-        <label>First name</label>
-        <input type='text' {...firstName}/>
-          {firstName.error && firstName.touched ?
-            <FieldError error={firstName.error} /> : null}
-        <br />
+        <Field
+          label='First name'
+          field={firstName}
+        />
 
-        <label>Last name</label>
-        <input type='text' {...lastName}/>
-          {lastName.error && lastName.touched ?
-            <FieldError error={lastName.error} /> : null}
-        <br />
+        <Field
+          label='Last name'
+          field={lastName}
+        />
 
-        <label>Email</label>
-        <input type='text' {...email}/>
-          {email.error && email.touched ?
-            <FieldError error={email.error} /> : null}
-        <br />
+        <Field
+          label='Email'
+          field={email}
+          placeholder='abc@stud.ntnu.no'
+        />
 
-        <button onClick={onSubmit} disabled={disabledButton}>Submit</button>
-      </form>
+        <Button
+          onClick={onSubmit}
+          disabled={disabledButton}
+          submit
+        >
+          Submit
+        </Button>
+      </Form>
     );
   }
 }

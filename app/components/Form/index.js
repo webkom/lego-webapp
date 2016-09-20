@@ -2,6 +2,8 @@ import styles from './index.css';
 import React from 'react';
 import cx from 'classnames';
 
+export { default as Field } from './Field';
+
 export const Form = ({
   children,
   className,
@@ -21,7 +23,6 @@ export const Form = ({
     {children}
   </form>
 );
-
 
 export const TextField = ({ className, ...rest }) => (
   <textarea
