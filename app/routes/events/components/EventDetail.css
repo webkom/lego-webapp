@@ -2,6 +2,22 @@
   composes: container from '../../../Root.css';
 }
 
+.registeredThumbnails {
+  flex-wrap: wrap;
+  width: 300px;
+}
+
+.cell {
+  width: 58px;
+  height: 58px;
+  margin: 1px;
+}
+
+.cell img {
+  width: 58px;
+  height: 58px;
+}
+
 .coverImage {
   width: 100%;
   height: 300px;
