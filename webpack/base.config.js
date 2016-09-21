@@ -2,9 +2,9 @@
 var path = require('path');
 module.exports = {
   output: {
-    path: __dirname + '/../public',
+    path: path.join(__dirname, '..', 'public'),
     filename: 'bundle.js',
-    publicPath: ''
+    publicPath: '/'
   },
   resolve: {
     modules: [

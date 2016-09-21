@@ -1,6 +1,4 @@
 import React from 'react';
-
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import UserProfile from '../UserProfile';
 import { shallow } from 'enzyme';
 import { Link } from 'react-router';
@@ -29,14 +27,6 @@ describe('<UserProfile />', () => {
     expect(wrapper.containsMatchingElement(
       <Link to='/users/me/settings'>Settings</Link>
     )).toEqual(false);
-  });
-
-  it('should show a LoadingIndicator while the user prop is loading', () => {
-    const wrapper = shallow(<UserProfile />);
-    expect(wrapper.is(LoadingIndicator)).toEqual(true);
-
-    expect(wrapper.prop('loading')).toEqual(true);
-    expect(wrapper.children().length).toEqual(0);
   });
 
   it('should render user info', () => {
