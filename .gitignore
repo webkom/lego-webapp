@@ -6,3 +6,4 @@ public/bundle.css
 compiler.jar
 tiny-lr.pid
 coverage
+dist

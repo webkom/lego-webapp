@@ -1,4 +1,4 @@
-import styles from './Octagon';
+import styles from './Octagon.css';
 import React from 'react';
 
 const Octagon = ({ size, children }) => {

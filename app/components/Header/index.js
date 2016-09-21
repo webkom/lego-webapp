@@ -7,6 +7,7 @@ import { Modal } from 'react-overlays';
 import ButtonTriggeredDropdown from '../ButtonTriggeredDropdown';
 import Search from '../Search';
 import drawFancyNodes from './drawFancyNodes';
+import logoImage from 'app/assets/logo_dark.png';
 
 type Props = {
   searchOpen: boolean;
@@ -69,7 +70,7 @@ export default class Header extends Component {
         />
         <div className={styles.content}>
           <IndexLink to='/' className={styles.logo}>
-            <img src='/images/logo_dark.png' />
+            <img src={logoImage} />
           </IndexLink>
 
           <div>
