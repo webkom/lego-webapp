@@ -40,8 +40,17 @@ module.exports = {
     }),
 
     new webpack.LoaderOptionsPlugin({
-      minimize: true,
-      debug: false
+      options: {
+        context: __dirname,
+        minimize: isProduction,
+        postcss(wp) {
+          return [
+            require('postcss-import')({ addDependencyTo: wp }),
+            require('postcss-cssnext'),
+            require('postcss-nested')
+          ];
+        }
+      }
     }),
 
     new HtmlWebpackPlugin({
@@ -58,11 +67,11 @@ module.exports = {
       path.resolve(__dirname, '../'),
       'node_modules'
     ],
-    extensions: ['', '.js', '.jsx']
+    extensions: ['.js', '.jsx']
   },
 
   module: {
-    loaders: [{
+    rules: [{
       test: /\.jsx?$/,
       loader: 'babel',
       include: path.join(__dirname, '../app')
@@ -94,13 +103,5 @@ module.exports = {
         limit: 8192
       }
     }]
-  },
-
-  postcss(wp) {
-    return [
-      require('postcss-import')({ addDependencyTo: wp }),
-      require('postcss-cssnext'),
-      require('postcss-nested')
-    ];
   }
 }
