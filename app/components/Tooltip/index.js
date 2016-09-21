@@ -3,20 +3,18 @@ import React, { Component } from 'react';
 import cx from 'classnames';
 
 export default class Tooltip extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { showToolTip: false };
-    this.onMouseEnter = this.onMouseEnter.bind(this);
-    this.onMouseLeave = this.onMouseLeave.bind(this);
+
+  state = {
+    showToolTip: false
   }
 
-  onMouseEnter() {
+  onMouseEnter = () => {
     this.setState({
       showToolTip: true
     });
   }
 
-  onMouseLeave() {
+  onMouseLeave = () => {
     this.setState({
       showToolTip: false
     });
@@ -34,7 +32,10 @@ export default class Tooltip extends Component {
         <div className={cx(tooltipClass, tooltip)}>
           {content}
         </div>
-        <div onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
+        <div
+          onMouseEnter={this.onMouseEnter.bind(this)}
+          onMouseLeave={this.onMouseLeave.bind(this)}
+        >
           {children}
         </div>
       </div>
