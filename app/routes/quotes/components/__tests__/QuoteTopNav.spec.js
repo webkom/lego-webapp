@@ -1,5 +1,4 @@
 import React from 'react';
-import expect from 'expect';
 import QuoteTopNav from '../QuoteTopNav';
 import { shallow } from 'enzyme';
 import { createQuotes } from './fixtures/quotes';

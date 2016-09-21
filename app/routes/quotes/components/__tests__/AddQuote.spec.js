@@ -1,5 +1,4 @@
 import React from 'react';
-import expect from 'expect';
 import AddQuote from '../AddQuote';
 import { mount } from 'enzyme';
 
@@ -17,7 +16,7 @@ const emptyProps = () => ({
 describe('components', () => {
   describe('AddQuote', () => {
     it('should be possible to submit forms', () => {
-      const addQuotes = expect.createSpy();
+      const addQuotes = jest.fn();
       const wrapper = mount(
         <AddQuote addQuotes={addQuotes} {...emptyProps()} />
       );
