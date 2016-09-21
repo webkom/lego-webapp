@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { loginAutomaticallyIfPossible } from 'app/actions/UserActions';
 import { toggleSearch } from 'app/actions/SearchActions';
 import Header from 'app/components/Header';
+import Footer from 'app/components/Footer';
 import NotificationContainer from 'app/components/NotificationContainer';
 
 class App extends Component {
@@ -23,6 +24,8 @@ class App extends Component {
           <NotificationContainer />
           {this.props.children}
           </div>
+
+        <Footer />
       </div>
     );
   }
