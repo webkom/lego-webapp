@@ -14,7 +14,7 @@ class App extends Component {
 
   render() {
     return (
-      <div style={this.props.searchOpen ? { webkitFilter: 'blur(10px)' } : null}>
+      <div style={this.props.searchOpen ? { WebkitFilter: 'blur(10px)' } : null}>
         <Header
           searchOpen={this.props.searchOpen}
           toggleSearch={this.props.toggleSearch}
