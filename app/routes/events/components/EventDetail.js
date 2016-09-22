@@ -60,9 +60,10 @@ export default class EventDetail extends Component {
     }
 
     const registrations = event.pools
-      .map((pool) => (pool.registrations)
-      .map((reg) => (reg.user))
-    )[0];
+      .reduce((users, pool) => {
+        const poolUsers = pool.registrations.map((reg) => reg.user);
+        return [...users, ...poolUsers];
+      }, []);
 
     return (
       <div className={styles.root}>
