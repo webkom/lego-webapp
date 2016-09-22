@@ -4,7 +4,7 @@ import styles from './Header.css';
 import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Modal } from 'react-overlays';
-import ButtonTriggeredDropdown from '../ButtonTriggeredDropdown';
+import Dropdown from '../Dropdown';
 import Search from '../Search';
 import drawFancyNodes from './drawFancyNodes';
 import logoImage from 'app/assets/logo_dark.png';
@@ -17,7 +17,6 @@ type Props = {
 type State = {
   accountOpen: boolean;
   notificationsOpen: boolean;
-  searchOpen: boolean;
   width: number;
 };
 
@@ -29,8 +28,7 @@ export default class Header extends Component {
   state: State = {
     accountOpen: false,
     notificationsOpen: false,
-    width: window.innerWidth,
-    searchOpen: false
+    width: window.innerWidth
   };
 
   _canvas: any;
@@ -80,10 +78,9 @@ export default class Header extends Component {
               <Link to=''>README</Link>
               <Link to='/quotes'>Sitater</Link>
 
-              <span className={styles.buttonGroup}>
-                <ButtonTriggeredDropdown
-                  buttonClassName={styles.contentButton}
-                  contentClassName={styles.dropdown}
+              <div className={styles.buttonGroup}>
+                <Dropdown
+                  className={styles.contentButton}
                   iconName='ios-bell'
                   show={this.state.notificationsOpen}
                   toggle={() => this.setState({
@@ -91,7 +88,7 @@ export default class Header extends Component {
                   })}
                 >
                   <h2>No Notifications</h2>
-                </ButtonTriggeredDropdown>
+                </Dropdown>
 
                 <button
                   className={styles.contentButton}
@@ -100,7 +97,7 @@ export default class Header extends Component {
                 >
                   <i className='ion-search' />
                 </button>
-              </span>
+              </div>
             </div>
 
             <Modal
@@ -110,7 +107,7 @@ export default class Header extends Component {
               backdrop
             >
               <Search
-                isOpen={this.state.searchOpen}
+                isOpen={this.props.searchOpen}
                 onCloseSearch={() => this.props.toggleSearch()}
               />
             </Modal>

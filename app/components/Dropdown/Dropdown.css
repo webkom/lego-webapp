@@ -1,0 +1,16 @@
+.content {
+  background: rgba(27, 27, 27, 0.96);
+  border-top: 5px solid #888;
+  padding: 1rem;
+  border-radius: 5px;
+  margin-top: 5px;
+  position: absolute;
+  width: 250px;
+  color: #fff;
+}
+
+.content h2 {
+  color: #fff;
+  margin: 0;
+  font-size: 1.2rem;
+}
