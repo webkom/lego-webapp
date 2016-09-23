@@ -3,24 +3,7 @@ import { connect } from 'react-redux';
 import { addQuotes } from '../../actions/QuoteActions';
 import AddQuote from './components/AddQuote';
 import { reduxForm } from 'redux-form';
-
-function validateQuote(data) {
-  const errors = {};
-  if (!data.text) {
-    errors.text = 'Vennligst fyll ut dette feltet';
-  }
-
-  if (!data.source) {
-    errors.source = 'Vennligst fyll ut dette feltet';
-  }
-  return errors;
-}
-
-@reduxForm({
-  form: 'addQuote',
-  fields: ['text', 'source'],
-  validate: validateQuote
-})
+import { compose } from 'redux';
 
 export default class QuotesAddContainer extends Component {
 
@@ -35,8 +18,25 @@ export default class QuotesAddContainer extends Component {
   }
 }
 
+function validateQuote(data) {
+  const errors = {};
+  if (!data.text) {
+    errors.text = 'Vennligst fyll ut dette feltet';
+  }
+
+  if (!data.source) {
+    errors.source = 'Vennligst fyll ut dette feltet';
+  }
+  return errors;
+}
+
 const mapDispatchToProps = { addQuotes };
 
-export default connect(
-  null, mapDispatchToProps
+export default compose(
+  reduxForm({
+    form: 'addQuote',
+    fields: ['text', 'source'],
+    validate: validateQuote
+  }),
+  connect(null, mapDispatchToProps)
 )(QuotesAddContainer);
