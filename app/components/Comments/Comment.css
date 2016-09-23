@@ -1,5 +1,5 @@
-:global {
-.Comment {
+
+.comment {
   background-color: white;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
   border: 1px solid rgba(0, 0, 0, 0.04);
@@ -10,38 +10,30 @@
   padding: 10px;
 }
 
-.Comment__avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 32px;
-  margin: 5px 20px 10px 10px;
-}
-
-.Comment__content {
+.content {
   display: flex;
   flex: 1;
   flex-direction: column;
 }
 
-.Comment__header {
+.header {
   display: flex;
   align-items: center;
   flex-direction: row;
 }
 
-.Comment__bullet {
+.bullet {
   color: #888;
   padding: 0 8px;
   font-size: 0.6rem;
 }
 
-.Comment__timestamp {
+.timestamp {
   color: #777;
   font-size: 0.9rem;
 }
 
-.Comment__text {
+.text {
   font-size: 1.1rem;
   margin: 0;
-}
 }

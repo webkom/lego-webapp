@@ -6,13 +6,6 @@ describe('<Button />', () => {
   it('should render correctly', () => {
     const wrapper = shallow(<Button/>);
     expect(wrapper.prop('type')).toEqual('button');
-    expect(wrapper.hasClass('Button')).toEqual(true);
-  });
-
-  it('should support multiple variants', () => {
-    const props = { size: 'large' };
-    const wrapper = shallow(<Button {...props} />);
-    expect(wrapper.hasClass(`Button--${props.size}`)).toEqual(true);
   });
 
   it('should be a normal button by default', () => {

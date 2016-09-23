@@ -49,7 +49,7 @@ export default class SingleQuote extends Component {
           </span>
 
           <div className='quote-date'>
-            {<Time dateTime={quote.createdAt} wordsAgo />}
+            {<Time time={quote.createdAt} wordsAgo />}
           </div>
 
           {quote.permissions && quote.permissions.indexOf('can_approve') !== -1 && (

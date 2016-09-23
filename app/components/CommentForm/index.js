@@ -1,10 +1,12 @@
-import './CommentForm.css';
-import React, { Component, PropTypes } from 'react';
+// @flow
+
+import React, { Component } from 'react';
 import { reduxForm } from 'redux-form';
 import { TextField } from 'app/components/Form';
 import Button from 'app/components/Button';
+import ProfilePicture from 'app/components/ProfilePicture';
 import { addComment } from 'app/actions/CommentActions';
-import { Link } from 'react-router';
+import styles from './CommentForm.css';
 
 const validate = (values) => {
   const errors = {};
@@ -14,23 +16,27 @@ const validate = (values) => {
   return errors;
 };
 
-class CommentForm extends Component {
-  static propTypes = {
-    commentTarget: PropTypes.string.isRequired,
-    user: PropTypes.object.isRequired,
-    loggedIn: PropTypes.bool.isRequired,
-    addComment: PropTypes.func.isRequired,
-    parent: PropTypes.number
-  };
+type Props = {
+  commentTarget: string,
+  user: Object,
+  loggedIn: boolean,
+  addComment: () => void,
+  parent: number,
+  fields: Object,
+  handleSubmit: () => void
+};
 
-  onSubmit({ text }) {
+class CommentForm extends Component {
+  props: Props;
+
+  onSubmit = ({ text }) => {
     const { commentTarget, parent } = this.props;
     this.props.addComment({
       commentTarget,
       text,
       parent
     });
-  }
+  };
 
   render() {
     const { fields: { text }, handleSubmit, user, commentTarget, loggedIn } = this.props;
@@ -52,39 +58,29 @@ class CommentForm extends Component {
     const hasError = text.error && text.touched;
 
     return (
-      <form onSubmit={handleSubmit(::this.onSubmit)}>
-        <div className='Comment'>
-          <img
-            className='Comment__avatar'
-            src={`http://api.adorable.io/avatars/70/${user.username}.png`}
+      <form onSubmit={handleSubmit(this.onSubmit)} className={styles.form}>
+        <div>
+          <ProfilePicture
+            size={64}
+            username={user.username}
+            style={{ marginRight: 20 }}
+          />
+        </div>
+
+        <div className={styles.fields}>
+          <TextField
+            placeholder='Skriv noe her...'
+            style={{ borderColor: hasError && 'red' }}
+            {...text}
+          />
+
+          <Button
+            className={styles.submit}
+            disabled={hasError}
+            submit
           >
-          </img>
-
-          <div className='Comment__content'>
-            <div className='Comment__header'>
-              <Link
-                className='Comment__username'
-                to={`/users/${user.username}`}
-              >
-                {user.username}
-              </Link>
-            </div>
-
-            <TextField
-              className='Comment__text'
-              placeholder='Skriv noe her...'
-              style={{ borderColor: hasError && 'red' }}
-              {...text}
-            />
-
-            <Button
-              className='Comment__submit'
-              disabled={hasError}
-              submit
-            >
-              {hasError ? 'Kommentaren kan ikke være tom' : 'Send kommentar'}
-            </Button>
-          </div>
+            {hasError ? 'Kommentaren kan ikke være tom' : 'Send kommentar'}
+          </Button>
         </div>
       </form>
     );

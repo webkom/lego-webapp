@@ -1,5 +1,4 @@
-:global {
-.Button {
+.button {
   border: 0;
   font-weight: 700;
   cursor: pointer;
@@ -12,16 +11,15 @@
   line-height: 40px;
 }
 
-.Button--dark {
+.dark {
   background: #C0392B;
   color: #fff;
 }
 
-.Button--normal {
+.normal {
   font-size: inherit;
 }
 
-.Button--large {
+.large {
   font-size: 1.4rem;
-}
 }

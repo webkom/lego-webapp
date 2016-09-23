@@ -95,6 +95,7 @@
   "stylelint": {
     "extends": "stylelint-config-standard",
     "rules": {
+      "color-hex-case": null,
       "string-quotes": "single",
       "indentation": 2,
       "custom-property-empty-line-before": null,

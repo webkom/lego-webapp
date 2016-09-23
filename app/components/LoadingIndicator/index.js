@@ -1,12 +1,15 @@
-import './LoadingIndicator.css';
-import React, { Component, PropTypes } from 'react';
+// @flow
+
+import React, { Component } from 'react';
+import styles from './LoadingIndicator.css';
+
+type Props = {
+  loading: boolean,
+  children?: any
+};
 
 export default class LoadingIndicator extends Component {
-
-  static propTypes = {
-    loading: PropTypes.bool.isRequired,
-    children: PropTypes.any
-  };
+  props: Props;
 
   static defaultProps = {
     loading: false
@@ -15,9 +18,9 @@ export default class LoadingIndicator extends Component {
   render() {
     if (this.props.loading) {
       return (
-        <div className='spinner'>
-          <div className='double-bounce1'></div>
-          <div className='double-bounce2'></div>
+        <div className={styles.spinner}>
+          <div className={styles.bounce1} />
+          <div className={styles.bounce2} />
         </div>
       );
     }
