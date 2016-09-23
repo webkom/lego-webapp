@@ -1,5 +1,7 @@
-:global {
-.CommentTree__child {
+.child {
   margin-left: 5em;
 }
+
+.root {
+  margin-left: 0;
 }

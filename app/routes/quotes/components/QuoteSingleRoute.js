@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import ReadableDateTime from 'app/components/ReadableDateTime';
+import Time from 'app/components/Time';
 import './QuoteSingle.css';
 
 export default class QuoteSingleRoute extends Component {
@@ -57,7 +57,7 @@ export default class QuoteSingleRoute extends Component {
               </span>
 
               <div className='quote-date'>
-                {<ReadableDateTime dateTime={quote.createdAt} />}
+                {<Time time={quote.createdAt} wordsAgo />}
               </div>
 
               {quote.permissions && quote.permissions.indexOf('can_approve') !== -1 && (

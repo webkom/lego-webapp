@@ -1,7 +1,7 @@
 import './Quotes.css';
 import './QuoteSingle.css';
 import './QuoteResponsive.css';
-import ReadableDateTime from 'app/components/ReadableDateTime';
+import Time from 'app/components/Time';
 import React, { Component, PropTypes } from 'react';
 
 export default class SingleQuote extends Component {
@@ -49,7 +49,7 @@ export default class SingleQuote extends Component {
           </span>
 
           <div className='quote-date'>
-            {<ReadableDateTime dateTime={quote.createdAt} />}
+            {<Time time={quote.createdAt} wordsAgo />}
           </div>
 
           {quote.permissions && quote.permissions.indexOf('can_approve') !== -1 && (

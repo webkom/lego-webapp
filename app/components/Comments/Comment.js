@@ -1,14 +1,19 @@
-import './Comment.css';
-import React, { Component, PropTypes } from 'react';
+// @flow
+
+import React, { Component } from 'react';
 import { Link } from 'react-router';
-import ReadableDateTime from 'app/components/ReadableDateTime';
+import Time from 'app/components/Time';
 import CommentForm from 'app/components/CommentForm';
+import ProfilePicture from 'app/components/ProfilePicture';
+import styles from './Comment.css';
+
+type Props = {
+  comment: Object,
+  commentFormProps: Object
+};
 
 export default class Comment extends Component {
-  static propTypes = {
-    comment: PropTypes.object.isRequired,
-    commentFormProps: PropTypes.object.isRequired
-  };
+  props: Props;
 
   state = {
     replyOpen: false
@@ -30,26 +35,28 @@ export default class Comment extends Component {
     const { comment, commentFormProps } = this.props;
     const { createdAt, text, author } = comment;
     const { replyOpen } = this.state;
+
     return (
-      <div className='Comment__wrapper'>
-        <div className='Comment'>
-          <img
-            className='Comment__avatar'
-            src={`http://api.adorable.io/avatars/70/${author.username}.png`}
+      <div>
+        <div className={styles.comment}>
+          <ProfilePicture
+            username={author.username}
+            size={64}
+            style={{ marginRight: 20 }}
           />
 
-          <div className='Comment__content'>
-            <div className='Comment__header'>
+          <div className={styles.content}>
+            <div className={styles.header}>
               <Link to={`/users/${author.username}`}>
                 {author.username}
               </Link>
-              <span className='Comment__bullet'>•</span>
-              <ReadableDateTime className='Comment__timestamp' dateTime={createdAt} />
-              <span className='Comment__bullet'>•</span>
+              <span className={styles.bullet}>•</span>
+              <Time className={styles.timestamp} time={createdAt} wordsAgo />
+              <span className={styles.bullet}>•</span>
               <a onClick={this.openReply}>Svar</a>
             </div>
 
-            <p className='Comment__text'>{text}</p>
+            <div className={styles.text}>{text}</div>
           </div>
         </div>
 

@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './Card.css';
 
 type Props = {
-  children: any;
+  children?: any;
 }
 
 function Card({ children }: Props) {

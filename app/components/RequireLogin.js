@@ -1,14 +1,18 @@
-import React, { Component, PropTypes } from 'react';
+// @flow
 
-export default class RequireLogin extends Component {
+import React from 'react';
 
-  static propTypes = {
-    children: PropTypes.any,
-    loggedIn: PropTypes.bool.isRequired
-  };
+type Props = {
+  loggedIn: boolean,
+  children?: any
+};
 
-  render() {
-    const { loggedIn } = this.props;
-    return loggedIn ? <div>{this.props.children}</div> : null;
+function RequireLogin({ loggedIn, children }: Props) {
+  if (!loggedIn) {
+    return null;
   }
+
+  return <div>{children}</div>;
 }
+
+export default RequireLogin;

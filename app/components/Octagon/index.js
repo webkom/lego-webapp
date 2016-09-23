@@ -1,7 +1,14 @@
-import styles from './Octagon.css';
-import React from 'react';
+// @flow
 
-const Octagon = ({ size, children }) => {
+import React from 'react';
+import styles from './Octagon.css';
+
+type Props = {
+  size: number,
+  children?: any
+};
+
+function Octagon({ size, children }: Props) {
   const style = { width: size, height: size };
   return (
     <div style={style} className={styles.octagonWrapper}>
@@ -10,6 +17,6 @@ const Octagon = ({ size, children }) => {
       </div>
     </div>
   );
-};
+}
 
 export default Octagon;

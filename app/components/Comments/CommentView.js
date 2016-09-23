@@ -1,17 +1,21 @@
-import React, { Component, PropTypes } from 'react';
+// @flow
+
+import React, { Component } from 'react';
 import { generateTreeStructure } from 'app/utils';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import CommentTree from './CommentTree';
 import CommentForm from 'app/components/CommentForm';
+import CommentTree from './CommentTree';
+
+type Props = {
+  comments: Array<Object>,
+  formDisabled: boolean,
+  commentTarget: string,
+  user: Object,
+  loggedIn: boolean
+};
 
 export default class CommentView extends Component {
-  static propTypes = {
-    comments: PropTypes.array,
-    formDisabled: PropTypes.bool,
-    commentTarget: PropTypes.string.isRequired,
-    user: PropTypes.object.isRequired,
-    loggedIn: PropTypes.bool.isRequired
-  };
+  props: Props;
 
   render() {
     const { comments, formDisabled, commentTarget, user, loggedIn } = this.props;

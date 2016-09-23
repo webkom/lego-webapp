@@ -1,31 +1,29 @@
-import React, { Component, PropTypes } from 'react';
+// @flow
+
+import React from 'react';
 import cx from 'classnames';
+
+type Props = {
+  name: string,
+  scaleOnHover?: boolean,
+  className: string
+};
 
 /**
  * Render a Font-Awesome icon.
  */
-export default class Icon extends Component {
-
-  static propTypes = {
-    name: PropTypes.string,
-    scaleOnHover: PropTypes.bool
-  };
-
-  static defaultProps = {
-    name: 'star',
-    scaleOnHover: false
-  };
-
-  render() {
-    return (
-      <i
-        className={cx(
-          'fa',
-          `fa-${this.props.name}`,
-          this.props.scaleOnHover && 'u-scale-on-hover',
-          this.props.className
-        )}
-      />
-    );
-  }
+function Icon({ name = 'star', scaleOnHover = false, className, ...props }: Props) {
+  return (
+    <i
+      className={cx(
+        'fa',
+        `fa-${name}`,
+        scaleOnHover && 'u-scale-on-hover',
+        className
+      )}
+      {...props}
+    />
+  );
 }
+
+export default Icon;

@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import marked from 'marked';
 
@@ -12,7 +14,11 @@ marked.setOptions({
   smartypants: false
 });
 
-const Markdown = ({ children, ...rest }) => {
+type Props = {
+  children: string
+};
+
+function Markdown({ children, ...rest }: Props) {
   if (typeof children !== 'string') {
     throw new Error('<Markdown /> expects its child to be a string.');
   }
@@ -22,6 +28,6 @@ const Markdown = ({ children, ...rest }) => {
       dangerouslySetInnerHTML={{ __html: marked(children) }}
     />
   );
-};
+}
 
 export default Markdown;

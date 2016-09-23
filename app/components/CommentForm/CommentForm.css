@@ -1,15 +1,14 @@
-:global {
-.Comment__text:empty:before {
-  content: 'Skriv en kommentar...';
-  color: grey;
+.form {
+  background-color: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
 }
 
-.Comment__submit {
-  margin-top: 20px;
-  width: auto;
-}
-
-.Comment__text:focus {
-  outline: 0px solid transparent;
-}
+.fields {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
