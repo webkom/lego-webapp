@@ -1,6 +1,6 @@
 /** @flow */
 
-import styles from './Header.css';
+
 import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Modal } from 'react-overlays';
@@ -10,6 +10,7 @@ import Search from '../Search';
 import ProfilePicture from '../ProfilePicture';
 import FancyNodesCanvas from './FancyNodesCanvas';
 import logoImage from 'app/assets/logo_dark.png';
+import styles from './Header.css';
 
 type Props = {
   searchOpen: boolean;
@@ -80,10 +81,10 @@ export default class Header extends Component {
           </IndexLink>
 
           <div className={styles.navigation}>
-            <Link to='/events'>Arrangementer</Link>
-            <Link to=''>Karriere</Link>
-            <Link to=''>README</Link>
-            <Link to='/quotes'>Sitater</Link>
+            <Link to='/events' activeClassName={styles.activeItem}>Arrangementer</Link>
+            <Link to='/career' activeClassName={styles.activeItem}>Karriere</Link>
+            <Link to='/readme' activeClassName={styles.activeItem}>README</Link>
+            <Link to='/quotes' activeClassName={styles.activeItem}>Sitater</Link>
           </div>
 
           <div className={styles.buttonGroup}>
