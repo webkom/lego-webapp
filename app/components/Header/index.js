@@ -78,6 +78,9 @@ export default class Header extends Component {
               iconName='ios-bell'
               show={this.state.notificationsOpen}
               toggle={() => this.setState({ notificationsOpen: !this.state.notificationsOpen })}
+              triggerComponent={(
+                <Icon.Badge name='bell' badgeCount={1} />
+              )}
             >
               <div style={{ padding: 15 }}>
                 <h2>No Notifications</h2>
