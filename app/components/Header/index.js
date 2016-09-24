@@ -27,14 +27,27 @@ function AccountDropdownItems({ logout, onClose }) {
     <Dropdown.List>
       <Dropdown.ListItem>
         <Link to='/users/me' onClick={onClose}>
-          Min profil
+          <span style={{ color: '#333' }}>Logget inn som <strong>Hanse</strong></span>
           <Icon name='user' />
         </Link>
       </Dropdown.ListItem>
+      <Dropdown.Divider />
       <Dropdown.ListItem>
         <Link to='/users/me/settings' onClick={onClose}>
           Innstillinger
           <Icon name='cog' />
+        </Link>
+      </Dropdown.ListItem>
+      <Dropdown.ListItem>
+        <Link to='/users/me/settings' onClick={onClose}>
+          Abacash
+          <Icon name='money' />
+        </Link>
+      </Dropdown.ListItem>
+      <Dropdown.ListItem>
+        <Link to='/users/me/settings' onClick={onClose}>
+          Møteinnkallinger
+          <Icon name='calendar' />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.Divider />
@@ -83,7 +96,7 @@ export default class Header extends Component {
               )}
             >
               <div style={{ padding: 15 }}>
-                <h2>No Notifications</h2>
+                <h2>Ingen nye varslinger</h2>
               </div>
             </Dropdown>
 

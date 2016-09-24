@@ -6,6 +6,7 @@
   margin-top: -5px;
   position: absolute;
   width: 220px;
+  padding: 5px 0;
 }
 
 .content h2 {
@@ -21,7 +22,7 @@
   padding: 10px 15px;
 
   &:hover {
-    font-weight: 700;
+    background: linear-gradient(#eee, #dedede);
   }
 }
 
