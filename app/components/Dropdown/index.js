@@ -11,6 +11,7 @@ type Props = {
   className?: string;
   contentClassName?: string|boolean;
   componentClass: any;
+  triggerComponent?: React.Element<*>;
   show: boolean;
   children?: any;
   style?: any;
@@ -31,9 +32,17 @@ class Dropdown extends Component {
   static List = List;
   static Divider = Divider;
 
+  renderContent() {
+    if (this.props.triggerComponent) {
+      return this.props.triggerComponent;
+    }
+
+    const { iconName } = this.props;
+    return iconName ? <i className={`ion-${iconName}`} /> : null;
+  }
+
   render() {
     const {
-      iconName,
       toggle,
       show,
       contentClassName,
@@ -52,7 +61,7 @@ class Dropdown extends Component {
         className={className}
         style={style}
       >
-        {iconName && <i className={`ion-${iconName}`} />}
+        {this.renderContent()}
 
         <Overlay
           show={show}

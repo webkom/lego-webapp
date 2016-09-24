@@ -1,7 +1,9 @@
 @import '../../variables.css';
 
 .header {
-  border-bottom: 1px solid #ddd;
+  background: linear-gradient(#ddd, #eee);
+  border-bottom: 1px solid #ccc;
+  box-shadow: 0 5px 30px #efefef;
 }
 
 .backdrop {
@@ -11,18 +13,6 @@
   right: 0;
   bottom: 0;
   position: fixed;
-  backdrop-filter: blur(7px);
-}
-
-.canvas {
-  position: absolute;
-  display: block;
-  top: 0;
-  bottom: 0;
-}
-
-.buttonGroup {
-  padding: 0 1rem;
 }
 
 .buttonGroup button,
@@ -42,20 +32,17 @@ i {
 }
 
 .content {
+  composes: container from '../../Root.css';
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  flex-direction: column;
-}
-
-.logo {
-  padding-top: 30px;
-  padding-bottom: 10px;
+  flex-direction: row;
+  height: 96px;
 }
 
 .logo > img {
-  max-width: 12rem;
+  max-width: 120px;
 }
 
 .navigation {
@@ -65,42 +52,11 @@ i {
   align-items: center;
   height: 60px;
   line-height: 60px;
-  font-size: 1.8rem;
-}
-
-.searchBox {
-  position: relative;
-  margin: 0 20px;
-  flex-grow: 2;
-}
-
-.searchBox > i {
-  position: absolute;
-  font-size: 1.2rem;
-  left: 10px;
-  top: 12px;
-  color: #ddd;
-}
-
-.searchInput {
-  text-indent: 30px;
-  background-color: transparent;
-  border: 1px solid #E8E8E8;
-  border-radius: 3px;
-  height: 45px;
-  line-height: 45px;
-  width: 100%;
-  color: #333;
-  padding: 20px 10px;
-}
-
-.searchInput:active,
-.searchInput:focus {
-  outline: none;
 }
 
 .navigation a {
-  font-size: 1.1rem;
+  font-size: 1.3rem;
+  letter-spacing: 1px;
   padding: 0 1rem;
   height: 100%;
   color: var(--lego-text-gray);
