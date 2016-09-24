@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Modal } from 'react-overlays';
 import Dropdown from '../Dropdown';
+import Icon from '../Icon';
 import Search from '../Search';
 import drawFancyNodes from './drawFancyNodes';
 import logoImage from 'app/assets/logo_dark.png';
@@ -21,6 +22,34 @@ type State = {
 };
 
 const CANVAS_HEIGHT = 160;
+
+
+function AccountDropdownItems({ logout, onClose }) {
+  return (
+    <Dropdown.List>
+      <Dropdown.ListItem>
+        <Link to='/users/me' onClick={onClose}>
+          Min profil
+          <Icon name='user' />
+        </Link>
+      </Dropdown.ListItem>
+      <Dropdown.ListItem>
+        <Link to='/users/me/settings' onClick={onClose}>
+          Innstillinger
+          <Icon name='cog' />
+        </Link>
+      </Dropdown.ListItem>
+      <Dropdown.Divider />
+      <Dropdown.ListItem>
+        <a onClick={() => (logout(), onClose())}>
+          Logg ut
+          <Icon name='sign-out' />
+        </a>
+      </Dropdown.ListItem>
+    </Dropdown.List>
+  );
+}
+
 
 export default class Header extends Component {
   props: Props;
@@ -80,19 +109,27 @@ export default class Header extends Component {
 
               <div className={styles.buttonGroup}>
                 <Dropdown
-                  className={styles.contentButton}
                   iconName='ios-bell'
                   show={this.state.notificationsOpen}
-                  toggle={() => this.setState({
-                    notificationsOpen: !this.state.notificationsOpen
-                  })}
+                  toggle={() => this.setState({ notificationsOpen: !this.state.notificationsOpen })}
                 >
-                  <h2>No Notifications</h2>
+                  <div style={{ padding: 15 }}>
+                    <h2>No Notifications</h2>
+                  </div>
+                </Dropdown>
+
+                <Dropdown
+                  show={this.state.accountOpen}
+                  toggle={() => this.setState({ accountOpen: !this.state.accountOpen })}
+                  iconName='ios-contact'
+                >
+                  <AccountDropdownItems
+                    onClose={() => this.setState({ accountOpen: false })}
+                  />
                 </Dropdown>
 
                 <button
-                  className={styles.contentButton}
-                  onClick={() => this.props.toggleSearch()}
+                  onClick={this.props.toggleSearch}
                   style={{ color: '#c0392b' }}
                 >
                   <i className='ion-search' />
@@ -102,13 +139,13 @@ export default class Header extends Component {
 
             <Modal
               show={this.props.searchOpen}
-              onHide={() => this.props.toggleSearch()}
+              onHide={this.props.toggleSearch}
               backdropClassName={styles.backdrop}
               backdrop
             >
               <Search
                 isOpen={this.props.searchOpen}
-                onCloseSearch={() => this.props.toggleSearch()}
+                onCloseSearch={this.props.toggleSearch}
               />
             </Modal>
           </div>

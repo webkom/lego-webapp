@@ -1,16 +1,32 @@
 .content {
-  background: rgba(27, 27, 27, 0.96);
-  border-top: 5px solid #888;
-  padding: 1rem;
+  background: #fff;
   border-radius: 5px;
-  margin-top: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 2px #eee;
+  margin-top: -5px;
   position: absolute;
-  width: 250px;
-  color: #fff;
+  width: 220px;
 }
 
 .content h2 {
-  color: #fff;
   margin: 0;
   font-size: 1.2rem;
+}
+
+.dropdownList > li > a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+
+  &:hover {
+    font-weight: 700;
+  }
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background-color: #ccc;
 }

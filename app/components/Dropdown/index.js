@@ -17,7 +17,7 @@ type Props = {
   placement: 'top'|'bottom'|'left'|'right';
 };
 
-export default class Dropdown extends Component {
+class Dropdown extends Component {
   props: Props;
   target: any;
 
@@ -26,6 +26,10 @@ export default class Dropdown extends Component {
     componentClass: 'button',
     placement: 'bottom'
   };
+
+  static ListItem = ListItem;
+  static List = List;
+  static Divider = Divider;
 
   render() {
     const {
@@ -65,3 +69,21 @@ export default class Dropdown extends Component {
     );
   }
 }
+
+function List({ children }) {
+  return (
+    <ul className={styles.dropdownList}>
+      {children}
+    </ul>
+  );
+}
+
+function ListItem(props) {
+  return <li {...props}></li>
+}
+
+function Divider() {
+  return <li className={styles.divider} />;
+}
+
+export default Dropdown;

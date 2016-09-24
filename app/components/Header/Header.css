@@ -5,7 +5,7 @@
 }
 
 .backdrop {
-  background: rgba(255, 255, 255, .5);
+  background: rgba(255, 255, 255, 0.5);
   top: 0;
   left: 0;
   right: 0;
@@ -25,10 +25,12 @@
   padding: 0 1rem;
 }
 
-.buttonGroup button, i {
+.buttonGroup button,
+i {
   border: 0;
   color: var(--lego-text-gray);
-  font-size: 1.4rem;
+  font-size: 1.8rem;
+  cursor: pointer;
 }
 
 .buttonGroup button:focus {
@@ -63,8 +65,7 @@
   align-items: center;
   height: 60px;
   line-height: 60px;
-  font-size: 1.2rem;
-  margin-bottom: 10px;
+  font-size: 1.8rem;
 }
 
 .searchBox {
@@ -93,7 +94,8 @@
   padding: 20px 10px;
 }
 
-.searchInput:active, .searchInput:focus {
+.searchInput:active,
+.searchInput:focus {
   outline: none;
 }
 
