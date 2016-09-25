@@ -33,8 +33,8 @@ export default class Tooltip extends Component {
           {content}
         </div>
         <div
-          onMouseEnter={this.onMouseEnter.bind(this)}
-          onMouseLeave={this.onMouseLeave.bind(this)}
+          onMouseEnter={this.onMouseEnter}
+          onMouseLeave={this.onMouseLeave}
         >
           {children}
         </div>
