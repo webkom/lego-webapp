@@ -59,7 +59,7 @@ export default class EventDetail extends Component {
       return <LoadingIndicator loading />;
     }
 
-    const registrations = event.pools
+    const registrations = (event.pools || [])
       .reduce((users, pool) => {
         const poolUsers = pool.registrations.map((reg) => reg.user);
         return [...users, ...poolUsers];
@@ -87,7 +87,7 @@ export default class EventDetail extends Component {
               <li>Finner sted i <strong>H3</strong></li>
               <li>Mingling på <strong>Frati</strong></li>
             </ul>
-            {loggedIn && (
+            {loggedIn && registrations.length > 0 && (
               <FlexItem>
                 <strong>Påmeldte:</strong>
                 <FlexRow className={styles.registeredThumbnails}>
