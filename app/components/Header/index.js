@@ -1,5 +1,4 @@
-/** @flow */
-
+// @flow
 
 import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
@@ -9,12 +8,13 @@ import Icon from '../Icon';
 import Search from '../Search';
 import ProfilePicture from '../ProfilePicture';
 import FancyNodesCanvas from './FancyNodesCanvas';
-import logoImage from 'app/assets/logo_dark.png';
+import logoImage from 'app/assets/logo-dark.png';
 import styles from './Header.css';
 
 type Props = {
-  searchOpen: boolean;
-  toggleSearch: () => any;
+  searchOpen: boolean,
+  toggleSearch: () => any,
+  currentUser: string
 };
 
 type State = {
@@ -22,13 +22,12 @@ type State = {
   notificationsOpen: boolean
 };
 
-
-function AccountDropdownItems({ logout, onClose }) {
+function AccountDropdownItems({ logout, onClose, username }) {
   return (
     <Dropdown.List>
       <Dropdown.ListItem>
         <Link to='/users/me' onClick={onClose}>
-          <span style={{ color: '#333' }}>Logget inn som <strong>Hanse</strong></span>
+          <strong style={{ color: '#333' }}>{username}</strong>
           <Icon name='user' />
         </Link>
       </Dropdown.ListItem>
@@ -61,7 +60,6 @@ function AccountDropdownItems({ logout, onClose }) {
     </Dropdown.List>
   );
 }
-
 
 export default class Header extends Component {
   props: Props;
@@ -107,13 +105,14 @@ export default class Header extends Component {
               triggerComponent={(
                 <ProfilePicture
                   size={24}
-                  username='default'
+                  username={this.props.currentUser}
                   style={{ verticalAlign: 'middle', marginTop: -8 }}
                 />
               )}
             >
               <AccountDropdownItems
                 onClose={() => this.setState({ accountOpen: false })}
+                username={this.props.currentUser}
               />
             </Dropdown>
 

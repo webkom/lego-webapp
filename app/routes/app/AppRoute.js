@@ -18,6 +18,7 @@ class App extends Component {
         <Header
           searchOpen={this.props.searchOpen}
           toggleSearch={this.props.toggleSearch}
+          currentUser={this.props.currentUser}
         />
 
         <div style={{ flex: 1 }}>
@@ -33,7 +34,8 @@ class App extends Component {
 
 function mapStateToProps(state) {
   return {
-    searchOpen: state.search.open
+    searchOpen: state.search.open,
+    currentUser: state.auth.username
   };
 }
 
