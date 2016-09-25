@@ -89,7 +89,7 @@ export default class Header extends Component {
 
           <div className={styles.buttonGroup}>
             <Dropdown
-              iconName='ios-bell'
+              iconName='bell'
               show={this.state.notificationsOpen}
               toggle={() => this.setState({ notificationsOpen: !this.state.notificationsOpen })}
               triggerComponent={(
@@ -120,7 +120,7 @@ export default class Header extends Component {
             <button
               onClick={this.props.toggleSearch}
             >
-              <i className='ion-search' style={{ color: '#C24538' }} />
+              <Icon name='search' style={{ color: '#C24538' }} />
             </button>
           </div>
 

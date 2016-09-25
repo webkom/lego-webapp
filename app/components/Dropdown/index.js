@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { Overlay } from 'react-overlays';
 import cx from 'classnames';
+import Icon from 'app/components/Icon';
 import styles from './Dropdown.css';
 
 type Props = {
@@ -38,7 +39,7 @@ class Dropdown extends Component {
     }
 
     const { iconName } = this.props;
-    return iconName ? <i className={`ion-${iconName}`} /> : null;
+    return iconName ? <Icon name={iconName} /> : null;
   }
 
   render() {
