@@ -75,3 +75,7 @@
   text-transform: uppercase;
   letter-spacing: 1px;
 }
+
+.summary {
+  flex-wrap: wrap;
+}
