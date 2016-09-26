@@ -15,6 +15,12 @@
   position: fixed;
 }
 
+.buttonGroup {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
 .buttonGroup button,
 i {
   border: 0;
@@ -41,6 +47,10 @@ i {
   height: 96px;
 }
 
+.logo {
+  flex: 1;
+}
+
 .logo > img {
   max-width: 120px;
 }
@@ -52,6 +62,7 @@ i {
   align-items: center;
   height: 60px;
   line-height: 60px;
+  flex: 2;
 }
 
 .navigation a {
