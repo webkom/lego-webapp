@@ -2,11 +2,13 @@ import styles from './EventDetail.css';
 import React, { Component } from 'react';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import CommentView from 'app/components/Comments/CommentView';
-import { FlexRow, FlexColumn } from 'app/components/FlexBox';
+import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import Markdown from 'app/components/Markdown';
 import JoinEventForm from './JoinEventForm';
+import RegisteredCell from './RegisteredCell';
+import RegisteredSummary from './RegisteredSummary';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -57,6 +59,12 @@ export default class EventDetail extends Component {
       return <LoadingIndicator loading />;
     }
 
+    const registrations = (event.pools || [])
+      .reduce((users, pool) => {
+        const poolUsers = pool.registrations.map((reg) => reg.user);
+        return [...users, ...poolUsers];
+      }, []);
+
     return (
       <div className={styles.root}>
         <div className={styles.coverImage}>
@@ -79,6 +87,18 @@ export default class EventDetail extends Component {
               <li>Finner sted i <strong>H3</strong></li>
               <li>Mingling på <strong>Frati</strong></li>
             </ul>
+            {loggedIn && (
+              <FlexItem>
+                <strong>Påmeldte:</strong>
+                <FlexRow className={styles.registeredThumbnails}>
+                  {registrations.slice(0, 10).map((reg) => (
+                      <RegisteredCell key={reg.id} user={reg} />
+                    ))
+                  }
+                </FlexRow>
+                <RegisteredSummary registrations={registrations} />
+              </FlexItem>
+            )}
           </FlexColumn>
         </FlexRow>
 
@@ -107,8 +127,8 @@ export default class EventDetail extends Component {
           <FlexColumn className={styles.openFor}>
             <strong>Åpent for</strong>
             <ul>
-            {(event.openFor || []).map((openFor) => (
-              <li key={openFor}>{openFor}</li>
+            {(event.pools || []).map((pool) => (
+              <li key={pool}>{pool.permissionGroups}</li>
             ))}
             </ul>
           </FlexColumn>
