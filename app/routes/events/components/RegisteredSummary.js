@@ -27,8 +27,12 @@ const RegistrationList = ({ registrations }) => (
 );
 
 const RegisteredSummary = ({ registrations }) => {
-  const summary = [<Registration key={0} user={registrations[0]} />];
-
+  const summary = [];
+  if (registrations.length === 0) {
+    summary.push('Ingen');
+  } else {
+    summary.push(<Registration key={0} user={registrations[0]} />);
+  }
   if (registrations.length === 2) {
     summary.push(
       '\u00A0og\u00A0',

@@ -87,7 +87,7 @@ export default class EventDetail extends Component {
               <li>Finner sted i <strong>H3</strong></li>
               <li>Mingling på <strong>Frati</strong></li>
             </ul>
-            {loggedIn && registrations.length > 0 && (
+            {loggedIn && (
               <FlexItem>
                 <strong>Påmeldte:</strong>
                 <FlexRow className={styles.registeredThumbnails}>
