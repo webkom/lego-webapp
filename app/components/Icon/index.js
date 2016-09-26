@@ -2,6 +2,7 @@
 
 import React from 'react';
 import cx from 'classnames';
+import styles from './Icon.css';
 
 type Props = {
   name: string,
@@ -35,19 +36,7 @@ Icon.Badge = ({ badgeCount, ...props }) => {
 
   return (
     <div style={{ position: 'relative' }}>
-      <span
-        style={{
-          position: 'absolute',
-          top: -8,
-          right: -8,
-          backgroundColor: '#C24538',
-          borderRadius: 6,
-          minWidth: '28px',
-          fontSize: '16px',
-          color: '#fff',
-          padding: '0 5px'
-        }}
-      >{badgeCount}</span>
+      <span className={styles.badge}>{badgeCount}</span>
       {icon}
     </div>
   );

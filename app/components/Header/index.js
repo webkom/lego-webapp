@@ -14,7 +14,8 @@ import styles from './Header.css';
 type Props = {
   searchOpen: boolean,
   toggleSearch: () => any,
-  currentUser: string
+  currentUser: string,
+  isLoggedIn: boolean
 };
 
 type State = {
@@ -70,6 +71,8 @@ export default class Header extends Component {
   };
 
   render() {
+    const { isLoggedIn } = this.props;
+
     return (
       <header className={styles.header}>
         <FancyNodesCanvas height={96} />
@@ -86,35 +89,39 @@ export default class Header extends Component {
           </div>
 
           <div className={styles.buttonGroup}>
-            <Dropdown
-              iconName='bell'
-              show={this.state.notificationsOpen}
-              toggle={() => this.setState({ notificationsOpen: !this.state.notificationsOpen })}
-              triggerComponent={(
-                <Icon.Badge name='bell' badgeCount={1} />
-              )}
-            >
-              <div style={{ padding: 15 }}>
-                <h2>Ingen nye varslinger</h2>
-              </div>
-            </Dropdown>
+            {isLoggedIn && (
+              <Dropdown
+                iconName='bell'
+                show={this.state.notificationsOpen}
+                toggle={() => this.setState({ notificationsOpen: !this.state.notificationsOpen })}
+                triggerComponent={(
+                  <Icon.Badge name='bell' badgeCount={1} />
+                )}
+              >
+                <div style={{ padding: 15 }}>
+                  <h2>Ingen nye varslinger</h2>
+                </div>
+              </Dropdown>
+            )}
 
-            <Dropdown
-              show={this.state.accountOpen}
-              toggle={() => this.setState({ accountOpen: !this.state.accountOpen })}
-              triggerComponent={(
-                <ProfilePicture
-                  size={24}
+            {isLoggedIn && (
+              <Dropdown
+                show={this.state.accountOpen}
+                toggle={() => this.setState({ accountOpen: !this.state.accountOpen })}
+                triggerComponent={(
+                  <ProfilePicture
+                    size={24}
+                    username={this.props.currentUser}
+                    style={{ verticalAlign: 'middle', marginTop: -8 }}
+                  />
+                )}
+              >
+                <AccountDropdownItems
+                  onClose={() => this.setState({ accountOpen: false })}
                   username={this.props.currentUser}
-                  style={{ verticalAlign: 'middle', marginTop: -8 }}
                 />
-              )}
-            >
-              <AccountDropdownItems
-                onClose={() => this.setState({ accountOpen: false })}
-                username={this.props.currentUser}
-              />
-            </Dropdown>
+              </Dropdown>
+            )}
 
             <button
               onClick={this.props.toggleSearch}
