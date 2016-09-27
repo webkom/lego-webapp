@@ -1,21 +1,24 @@
-import React, { Component, PropTypes } from 'react';
+// @flow
+
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import GroupPage from './components/GroupPage';
 import { fetchAll } from 'app/actions/GroupActions';
+import { selectGroups } from 'app/reducers/groups';
 
 function loadData(props) {
   props.fetchAll();
 }
 
-@connect((state) => ({
-  groups: state.groups.items.map((id) => state.entities.groups[id])
-}), { fetchAll })
-export default class GroupsRoute extends Component {
-  static propTypes = {
-    groups: PropTypes.array
-  };
+type Props = {
+  groups: Array<any>,
+  fetchAll: () => void
+};
 
-  componentWillMount() {
+class GroupsRoute extends Component {
+  props: Props;
+
+  componentDidMount() {
     loadData(this.props);
   }
 
@@ -23,3 +26,16 @@ export default class GroupsRoute extends Component {
     return <GroupPage {...this.props} />;
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    groups: selectGroups(state)
+  };
+}
+
+const mapDispatchToProps = { fetchAll };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GroupsRoute);

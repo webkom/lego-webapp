@@ -35,7 +35,7 @@ function validateContact(data) {
   validate: validateContact
 })
 @connect(
-  (state) => ({ user: state.auth.username ? state.entities.users[state.auth.username] : {} }),
+  (state) => ({ user: state.auth.username ? state.users.byId[state.auth.username] : {} }),
   { initialize, updateUser }
 )
 export default class UserSettingsRoute extends Component {

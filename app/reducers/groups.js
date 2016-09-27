@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect';
 import { Group } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 
@@ -6,15 +7,24 @@ export default createEntityReducer({
   types: [Group.FETCH.BEGIN, Group.FETCH.SUCCESS, Group.FETCH.FAILURE]
 });
 
-export function selectGroup(state, { groupId }) {
-  const group = state.groups.byId[groupId];
-
-  if (group && group.users) {
-    return {
-      ...group,
-      users: group.users.map((userId) => state.users.byId[userId])
-    };
+export const selectGroup = createSelector(
+  (state) => state.groups.byId,
+  (state) => state.users.byId,
+  (state, props) => props.groupId,
+  (groupsById, usersById, groupId) => {
+    const group = groupsById[groupId];
+    if (group && group.users) {
+      return {
+        ...group,
+        users: group.users.map((userId) => usersById[userId])
+      };
+    }
+    return group;
   }
+);
 
-  return group;
-}
+export const selectGroups = createSelector(
+  (state) => state.groups.byId,
+  (state) => state.groups.items,
+  (groupsById, groupIds) => groupIds.map((id) => groupsById[id])
+);

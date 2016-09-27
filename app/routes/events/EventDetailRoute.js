@@ -10,8 +10,8 @@ function loadData({ eventId }, props) {
 
 function mapStateToProps(state, props) {
   const { eventId } = props.params;
-  const event = state.entities.events[eventId];
-  const comments = event ? (event.comments || []).map((id) => state.entities.comments[id]) : [];
+  const event = state.events.byId[eventId];
+  const comments = event ? (event.comments || []).map((id) => state.comments.byId[id]) : [];
 
   return {
     loggedIn: state.auth.token !== null,
