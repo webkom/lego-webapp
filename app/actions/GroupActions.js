@@ -16,7 +16,7 @@ export function fetchGroup(groupId) {
 
 export function fetchAll() {
   return callAPI({
-    types: Group.FETCH_ALL,
+    types: Group.FETCH,
     endpoint: '/groups/',
     schema: arrayOf(groupSchema),
     meta: {

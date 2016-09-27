@@ -1,10 +1,8 @@
-import union from 'lodash/union';
-import { Event } from '../actions/ActionTypes';
-import { fetchBegin, fetchSuccess, fetchFailure, defaultEntityState } from './entities';
+// @flow
 
-const initialState = {
-  ...defaultEntityState
-};
+import { Event } from '../actions/ActionTypes';
+import { mutateComments } from 'app/reducers/comments';
+import createEntityReducer from 'app/utils/createEntityReducer';
 
 export type EventEntity = {
   id: number;
@@ -12,21 +10,10 @@ export type EventEntity = {
   comments: Array<number>;
 };
 
-export default function events(state = initialState, action) {
-  switch (action.type) {
-    case Event.FETCH.BEGIN:
-      return fetchBegin(state, action);
+const mutate = mutateComments('events');
 
-    case Event.FETCH.FAILURE:
-      return fetchFailure(state, action);
-
-    case Event.FETCH.SUCCESS:
-      return fetchSuccess({
-        ...state,
-        items: union(state.items, action.payload.result)
-      }, action);
-
-    default:
-      return state;
-  }
-}
+export default createEntityReducer({
+  key: 'events',
+  types: [Event.FETCH.BEGIN, Event.FETCH.FAILURE, Event.FETCH.SUCCESS],
+  mutate
+});

@@ -15,7 +15,7 @@ const entityTypeMappings = {
   'events.event': 'events'
 };
 
-function getEntityType(serverName) {
+export function getEntityType(serverName) {
   return entityTypeMappings[serverName] || serverName;
 }
 
@@ -63,7 +63,7 @@ function forceArray(value) {
  */
 export const defaultEntityState = {
   items: [],
-  isFetching: false,
+  fetching: false,
   error: null
 };
 
@@ -73,7 +73,7 @@ export const defaultEntityState = {
 export function fetchBegin(state) {
   return {
     ...state,
-    isFetching: true,
+    fetching: true,
     error: null
   };
 }
@@ -84,7 +84,7 @@ export function fetchBegin(state) {
 export function fetchSuccess(state, action) {
   return {
     ...state,
-    isFetching: false,
+    fetching: false,
     items: forceArray(action.payload.result),
     error: null,
     pagination: action.pagination
@@ -97,7 +97,7 @@ export function fetchSuccess(state, action) {
 export function fetchFailure(state, action) {
   return {
     ...state,
-    isFetching: false,
+    fetching: false,
     error: action.error
   };
 }
