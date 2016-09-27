@@ -18,21 +18,21 @@ const initialState = {
 
 export default function auth(state: State = initialState, action: Action): State {
   switch (action.type) {
-    case User.LOGIN_BEGIN:
+    case User.LOGIN.BEGIN:
       return {
         ...state,
         loggingIn: true,
         loginFailed: false
       };
 
-    case User.LOGIN_FAILURE:
+    case User.LOGIN.FAILURE:
       return {
         ...state,
         loggingIn: false,
         loginFailed: true
       };
 
-    case User.LOGIN_SUCCESS:
+    case User.LOGIN.SUCCESS:
       return {
         ...state,
         loggingIn: false,

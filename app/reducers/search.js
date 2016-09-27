@@ -9,14 +9,14 @@ const initialState = {
 
 export default function search(state = initialState, action) {
   switch (action.type) {
-    case Search.SEARCH_BEGIN:
+    case Search.SEARCH.BEGIN:
       return ({
         ...state,
         query: action.meta.query,
         searching: true
       });
 
-    case Search.SEARCH_SUCCESS:
+    case Search.SEARCH.SUCCESS:
       if (action.meta.query !== state.query) {
         return state;
       }
@@ -27,7 +27,7 @@ export default function search(state = initialState, action) {
         searching: false
       };
 
-    case Search.SEARCH_FAILURE:
+    case Search.SEARCH.FAILURE:
       return {
         ...state,
         searching: false

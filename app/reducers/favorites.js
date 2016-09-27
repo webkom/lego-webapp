@@ -7,7 +7,7 @@ const initialState = {
 
 export default function favorites(state = initialState, action) {
   switch (action.type) {
-    case Favorite.FETCH_ALL_SUCCESS:
+    case Favorite.FETCH_ALL.SUCCESS:
       return fetchSuccess(state, action);
 
     default:

@@ -7,23 +7,23 @@ const initialState = {
 
 export default function quotes(state = initialState, action) {
   switch (action.type) {
-    case Quote.FETCH_BEGIN:
+    case Quote.FETCH.BEGIN:
       return fetchBegin(state, action);
 
-    case Quote.FETCH_SUCCESS:
+    case Quote.FETCH.SUCCESS:
       return fetchSuccess(state, action);
 
-    case Quote.FETCH_FAILURE:
+    case Quote.FETCH.FAILURE:
       return fetchFailure(state, action);
 
-    case Quote.LIKE_SUCCESS:
-    case Quote.UNLIKE_SUCCESS:
-    case Quote.APPROVE_SUCCESS:
-    case Quote.UNAPPROVE_SUCCESS:
-    case Quote.ADD_SUCCESS:
+    case Quote.LIKE.SUCCESS:
+    case Quote.UNLIKE.SUCCESS:
+    case Quote.APPROVE.SUCCESS:
+    case Quote.UNAPPROVE.SUCCESS:
+    case Quote.ADD.SUCCESS:
       return fetchSuccess(state, action);
 
-    case Quote.DELETE_SUCCESS:
+    case Quote.DELETE.SUCCESS:
       return {
         ...state,
         items: state.items.filter((id) => action.meta.quoteId !== id)

@@ -21,7 +21,7 @@ function getEntityType(serverName) {
 
 function mutations(state = {}, action) {
   switch (action.type) {
-    case Comment.ADD_SUCCESS: {
+    case Comment.ADD.SUCCESS: {
       const [serverTargetType, targetId] = action.meta.commentTarget.split('-');
       const targetType = getEntityType(serverTargetType);
       return {

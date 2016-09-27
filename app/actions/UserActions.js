@@ -22,7 +22,7 @@ function clearLocalStorage(key) {
 export function login(username, password) {
   return (dispatch) => {
     dispatch(callAPI({
-      types: [User.LOGIN_BEGIN, User.LOGIN_SUCCESS, User.LOGIN_FAILURE],
+      types: User.LOGIN,
       endpoint: '//authorization/token-auth/',
       method: 'post',
       body: {
@@ -54,7 +54,7 @@ export function updateUser({ username, firstName, lastName, email }) {
   return (dispatch, getState) => {
     const token = getState().auth.token;
     dispatch(callAPI({
-      types: [User.UPDATE_BEGIN, User.UPDATE_SUCCESS, User.UPDATE_FAILURE],
+      types: User.UPDATE,
       endpoint: `/users/${username}/`,
       method: 'put',
       body: {
@@ -83,7 +83,7 @@ export function updateUser({ username, firstName, lastName, email }) {
 
 export function fetchUser(username) {
   return callAPI({
-    types: [User.FETCH_BEGIN, User.FETCH_SUCCESS, User.FETCH_FAILURE],
+    types: User.FETCH,
     endpoint: `/users/${username}/`,
     schema: userSchema,
     meta: {
@@ -99,7 +99,7 @@ function getExpirationDate(token) {
 
 export function refreshToken(token) {
   return callAPI({
-    types: [User.LOGIN_BEGIN, User.LOGIN_SUCCESS, User.LOGIN_FAILURE],
+    types: User.LOGIN,
     endpoint: '//authorization/token-auth/refresh/',
     method: 'post',
     body: { token }

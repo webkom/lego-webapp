@@ -6,11 +6,7 @@ import { callAPI, createQueryString } from 'app/utils/http';
 export function fetchEvent(eventId) {
   return (dispatch) => {
     dispatch(callAPI({
-      types: [
-        Event.FETCH_BEGIN,
-        Event.FETCH_SUCCESS,
-        Event.FETCH_FAILURE
-      ],
+      types: Event.FETCH,
       endpoint: `/events/${eventId}/`,
       schema: eventSchema,
       meta: {
@@ -22,11 +18,7 @@ export function fetchEvent(eventId) {
 
 export function fetchAll({ year, month } = {}) {
   return callAPI({
-    types: [
-      Event.FETCH_BEGIN,
-      Event.FETCH_SUCCESS,
-      Event.FETCH_FAILURE
-    ],
+    types: Event.FETCH,
     endpoint: `/events/${createQueryString({ year, month })}`,
     schema: arrayOf(eventSchema),
     meta: {

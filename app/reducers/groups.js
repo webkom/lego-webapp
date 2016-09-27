@@ -7,13 +7,13 @@ const initialState = {
 
 export default function groups(state = initialState, action) {
   switch (action.type) {
-    case Group.FETCH_ALL_BEGIN:
+    case Group.FETCH_ALL.BEGIN:
       return fetchBegin(state, action);
-    case Group.FETCH_ALL_FAILURE:
+    case Group.FETCH_ALL.FAILURE:
       return fetchFailure(state, action);
-    case Group.FETCH_ALL_SUCCESS:
+    case Group.FETCH_ALL.SUCCESS:
       return fetchSuccess(state, action);
-    case Group.UPDATE_SUCCESS:
+    case Group.UPDATE.SUCCESS:
       return fetchSuccess(state, action);
     default:
       return state;
