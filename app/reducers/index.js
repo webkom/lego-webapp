@@ -10,7 +10,6 @@ import users from './users';
 import groups from './groups';
 import notifications from './notifications';
 import comments from './comments';
-import entities from './entities';
 
 export default combineReducers({
   quotes,
@@ -22,7 +21,6 @@ export default combineReducers({
   users,
   groups,
   notifications,
-  entities,
   routing: routerReducer
 });
 

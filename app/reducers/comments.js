@@ -1,6 +1,6 @@
 import { Comment } from 'app/actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import { getEntityType } from 'app/reducers/entities';
+import getEntityType from 'app/utils/getEntityType';
 
 /**
  * Used by the individual entity reducers
