@@ -59,8 +59,7 @@ export function selectIsLoggedIn(state: any) {
 }
 
 export const selectCurrentUser = createSelector(
-  selectIsLoggedIn,
   (state) => state.users.byId,
   (state) => state.auth.username,
-  (loggedIn, usersById, userId) => loggedIn ? usersById[userId] : null
+  (usersById, userId) => usersById[userId] || {}
 );

@@ -11,10 +11,12 @@ import FancyNodesCanvas from './FancyNodesCanvas';
 import logoImage from 'app/assets/logo-dark.png';
 import styles from './Header.css';
 
+import type { UserEntity } from 'app/reducers/users';
+
 type Props = {
   searchOpen: boolean,
   toggleSearch: () => any,
-  currentUser: string,
+  currentUser: UserEntity,
   loggedIn: boolean
 };
 

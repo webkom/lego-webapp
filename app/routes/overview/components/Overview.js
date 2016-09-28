@@ -66,7 +66,12 @@ export default class Overview extends Component {
         </div>
 
         <div className={styles.sidebar}>
-          <ProfileBox {...this.props} />
+          <ProfileBox
+            currentUser={this.props.currentUser}
+            loggedIn={this.props.loggedIn}
+            login={this.props.login}
+            logout={this.props.logout}
+          />
           <EventSidebar events={events} />
         </div>
       </section>
