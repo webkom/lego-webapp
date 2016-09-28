@@ -51,3 +51,7 @@ export default function auth(state: State = initialState, action: Action): State
       return state;
   }
 }
+
+export function selectIsLoggedIn(state: any) {
+  return state.auth.token !== null;
+}

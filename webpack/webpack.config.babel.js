@@ -13,7 +13,8 @@ module.exports = {
       !isProduction && 'webpack-hot-middleware/client',
       !isProduction && 'react-hot-loader/patch',
       './app/index.js'
-    ])
+    ]),
+    vendor: ['react', 'react-dom', 'lodash', 'react-router']
   },
   output: {
     path: path.join(__dirname, '..', 'dist'),
@@ -22,6 +23,12 @@ module.exports = {
     publicPath: '/'
   },
   plugins: compact([
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: Infinity,
+      filename: 'vendor.js'
+    }),
+
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(!isProduction),
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
@@ -104,4 +111,4 @@ module.exports = {
       }
     }]
   }
-}
+};

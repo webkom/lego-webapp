@@ -2,42 +2,18 @@ const path = require('path');
 const express = require('express');
 const chalk = require('chalk');
 const config = require('./webpack.config.babel.js');
+const formatMessage = require('react-dev-utils/formatWebpackMessages');
+const clearConsole = require('react-dev-utils/clearConsole');
 
 const app = express();
 
 app.set('host', process.env.HOST || '0.0.0.0');
 app.set('port', process.env.PORT || 3000);
 
-function clearConsole() {
-  process.stdout.write('\x1bc');
-}
-
-const friendlySyntaxErrorLabel = 'Syntax error:';
-const isLikelyASyntaxError = (message) => message.indexOf(friendlySyntaxErrorLabel) !== -1;
-
-function formatMessage(message) {
-  return message
-    // Make some common errors shorter:
-    .replace(
-      // Babel syntax error
-      'Module build failed: SyntaxError:',
-      friendlySyntaxErrorLabel
-    )
-    .replace(
-      // Webpack file not found error
-      /Module not found: Error: Cannot resolve 'file' or 'directory'/,
-      'Module not found:'
-    )
-    // Internal stacks are generally useless so we strip them
-    .replace(/^\s*at\s.*:\d+:\d+[\s\)]*\n/gm, '') // at ... ...:x:y
-    // Webpack loader names obscure CSS filenames
-    .replace('./~/css-loader!./~/postcss-loader!', '');
-}
-
 function printMessage(message) {
   clearConsole();
   console.log(`
-  ___      _______  _______  _______
+   ___      _______  _______  _______
   |   |    |       ||       ||       |
   |   |    |    ___||    ___||   _   |
   |   |    |   |___ |   | __ |  | |  |
@@ -61,27 +37,19 @@ if (process.env.NODE_ENV !== 'production') {
   });
 
   compiler.plugin('done', (stats) => {
-    const hasErrors = stats.hasErrors();
-    const hasWarnings = stats.hasWarnings();
+    const messages = formatMessage(stats.toJson({}, true));
+    const hasErrors = messages.errors.length;
+    const hasWarnings = messages.warnings.length;
 
     if (!hasErrors && !hasWarnings) {
-      printMessage(chalk.green(`Assets compiled successfully in ${stats.endTime - stats.startTime} ms :-)`));
+      printMessage(
+        chalk.green(`Assets compiled successfully in ${stats.endTime - stats.startTime} ms :-)`)
+      );
       return;
     }
-
-    const json = stats.toJson();
-
-    const formattedErrors = json.errors.map(
-      (message) => `Error in ${formatMessage(message)}`
-    );
-
-    const formattedWarnings = json.warnings.map(
-      (message) => `Warning in ${formatMessage(message)}`
-    );
-
     if (hasErrors) {
       printMessage(chalk.red('Failed to compile assets :-('));
-      formattedErrors.forEach((message) => {
+      messages.errors.forEach((message) => {
         console.log(message);
         console.log();
       });
@@ -90,7 +58,7 @@ if (process.env.NODE_ENV !== 'production') {
 
     if (hasWarnings) {
       printMessage(chalk.yellow('Compiled assets with warnings :/'));
-      formattedWarnings.forEach((message) => {
+      messages.warnings.forEach((message) => {
         console.log(message);
         console.log();
       });

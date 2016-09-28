@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { Overlay } from 'react-overlays';
 import cx from 'classnames';
+import Icon from 'app/components/Icon';
 import styles from './Dropdown.css';
 
 type Props = {
@@ -11,13 +12,14 @@ type Props = {
   className?: string;
   contentClassName?: string|boolean;
   componentClass: any;
+  triggerComponent?: React.Element<*>;
   show: boolean;
   children?: any;
   style?: any;
   placement: 'top'|'bottom'|'left'|'right';
 };
 
-export default class Dropdown extends Component {
+class Dropdown extends Component {
   props: Props;
   target: any;
 
@@ -27,9 +29,21 @@ export default class Dropdown extends Component {
     placement: 'bottom'
   };
 
+  static ListItem = ListItem;
+  static List = List;
+  static Divider = Divider;
+
+  renderContent() {
+    if (this.props.triggerComponent) {
+      return this.props.triggerComponent;
+    }
+
+    const { iconName } = this.props;
+    return iconName ? <Icon name={iconName} /> : null;
+  }
+
   render() {
     const {
-      iconName,
       toggle,
       show,
       contentClassName,
@@ -48,7 +62,7 @@ export default class Dropdown extends Component {
         className={className}
         style={style}
       >
-        {iconName && <i className={`ion-${iconName}`} />}
+        {this.renderContent()}
 
         <Overlay
           show={show}
@@ -65,3 +79,21 @@ export default class Dropdown extends Component {
     );
   }
 }
+
+function List({ children }) {
+  return (
+    <ul className={styles.dropdownList}>
+      {children}
+    </ul>
+  );
+}
+
+function ListItem(props) {
+  return <li {...props}></li>;
+}
+
+function Divider() {
+  return <li className={styles.divider} />;
+}
+
+export default Dropdown;

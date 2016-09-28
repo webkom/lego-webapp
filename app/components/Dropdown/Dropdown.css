@@ -1,16 +1,54 @@
 .content {
-  background: rgba(27, 27, 27, 0.96);
-  border-top: 5px solid #888;
-  padding: 1rem;
+  background: #fff;
   border-radius: 5px;
-  margin-top: 5px;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 2px #eee;
   position: absolute;
-  width: 250px;
-  color: #fff;
+  width: 220px;
+  padding: 5px 0;
+}
+
+.content::before,
+.content::after {
+  position: absolute;
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid #bbb;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  top: -8px;
+}
+
+.content::after {
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid #fff;
+  top: -7px;
 }
 
 .content h2 {
-  color: #fff;
   margin: 0;
   font-size: 1.2rem;
+}
+
+.dropdownList > li > a {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+
+  &:hover {
+    background: linear-gradient(#eee, #dedede);
+  }
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background-color: #ccc;
 }

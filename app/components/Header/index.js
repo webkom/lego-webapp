@@ -1,117 +1,146 @@
-/** @flow */
+// @flow
 
-import styles from './Header.css';
 import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Modal } from 'react-overlays';
 import Dropdown from '../Dropdown';
+import Icon from '../Icon';
 import Search from '../Search';
-import drawFancyNodes from './drawFancyNodes';
-import logoImage from 'app/assets/logo_dark.png';
+import ProfilePicture from '../ProfilePicture';
+import FancyNodesCanvas from './FancyNodesCanvas';
+import logoImage from 'app/assets/logo-dark.png';
+import styles from './Header.css';
 
 type Props = {
-  searchOpen: boolean;
-  toggleSearch: () => any;
+  searchOpen: boolean,
+  toggleSearch: () => any,
+  currentUser: string,
+  isLoggedIn: boolean
 };
 
 type State = {
   accountOpen: boolean;
-  notificationsOpen: boolean;
-  width: number;
+  notificationsOpen: boolean
 };
 
-const CANVAS_HEIGHT = 160;
+function AccountDropdownItems({ logout, onClose, username }) {
+  return (
+    <Dropdown.List>
+      <Dropdown.ListItem>
+        <Link to='/users/me' onClick={onClose}>
+          <strong style={{ color: '#333' }}>{username}</strong>
+          <Icon name='user' />
+        </Link>
+      </Dropdown.ListItem>
+      <Dropdown.Divider />
+      <Dropdown.ListItem>
+        <Link to='/users/me/settings' onClick={onClose}>
+          Innstillinger
+          <Icon name='cog' />
+        </Link>
+      </Dropdown.ListItem>
+      <Dropdown.ListItem>
+        <Link to='/users/me/settings' onClick={onClose}>
+          Abacash
+          <Icon name='money' />
+        </Link>
+      </Dropdown.ListItem>
+      <Dropdown.ListItem>
+        <Link to='/users/me/settings' onClick={onClose}>
+          Møteinnkallinger
+          <Icon name='calendar' />
+        </Link>
+      </Dropdown.ListItem>
+      <Dropdown.Divider />
+      <Dropdown.ListItem>
+        <a onClick={() => (logout(), onClose())}>
+          Logg ut
+          <Icon name='sign-out' />
+        </a>
+      </Dropdown.ListItem>
+    </Dropdown.List>
+  );
+}
 
 export default class Header extends Component {
   props: Props;
 
   state: State = {
     accountOpen: false,
-    notificationsOpen: false,
-    width: window.innerWidth
+    notificationsOpen: false
   };
 
-  _canvas: any;
-
-  handleResize = (e: any) => {
-    this.setState({
-      width: e.target.innerWidth
-    });
-    this.drawGraphics();
-  }
-
-  componentDidMount() {
-    window.addEventListener('resize', this.handleResize);
-    this.drawGraphics();
-  }
-
-  drawGraphics() {
-    const context = this._canvas.getContext('2d');
-    drawFancyNodes(context, {
-      width: this.state.width,
-      height: CANVAS_HEIGHT
-    });
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
-  }
-
   render() {
+    const { isLoggedIn } = this.props;
+
     return (
       <header className={styles.header}>
-        <canvas
-          ref={(ref) => { this._canvas = ref; }}
-          className={styles.canvas}
-          width={this.state.width}
-          height={CANVAS_HEIGHT}
-        />
+        <FancyNodesCanvas height={96} />
         <div className={styles.content}>
           <IndexLink to='/' className={styles.logo}>
             <img src={logoImage} />
           </IndexLink>
 
-          <div>
-            <div className={styles.navigation}>
-              <Link to='/events'>Arrangementer</Link>
-              <Link to=''>Karriere</Link>
-              <Link to=''>README</Link>
-              <Link to='/quotes'>Sitater</Link>
-
-              <div className={styles.buttonGroup}>
-                <Dropdown
-                  className={styles.contentButton}
-                  iconName='ios-bell'
-                  show={this.state.notificationsOpen}
-                  toggle={() => this.setState({
-                    notificationsOpen: !this.state.notificationsOpen
-                  })}
-                >
-                  <h2>No Notifications</h2>
-                </Dropdown>
-
-                <button
-                  className={styles.contentButton}
-                  onClick={() => this.props.toggleSearch()}
-                  style={{ color: '#c0392b' }}
-                >
-                  <i className='ion-search' />
-                </button>
-              </div>
-            </div>
-
-            <Modal
-              show={this.props.searchOpen}
-              onHide={() => this.props.toggleSearch()}
-              backdropClassName={styles.backdrop}
-              backdrop
-            >
-              <Search
-                isOpen={this.props.searchOpen}
-                onCloseSearch={() => this.props.toggleSearch()}
-              />
-            </Modal>
+          <div className={styles.navigation}>
+            <Link to='/events' activeClassName={styles.activeItem}>Arrangementer</Link>
+            <Link to='/career' activeClassName={styles.activeItem}>Karriere</Link>
+            <Link to='/readme' activeClassName={styles.activeItem}>README</Link>
+            <Link to='/quotes' activeClassName={styles.activeItem}>Sitater</Link>
           </div>
+
+          <div className={styles.buttonGroup}>
+            {isLoggedIn && (
+              <Dropdown
+                iconName='bell'
+                show={this.state.notificationsOpen}
+                toggle={() => this.setState({ notificationsOpen: !this.state.notificationsOpen })}
+                triggerComponent={(
+                  <Icon.Badge name='bell' badgeCount={1} />
+                )}
+              >
+                <div style={{ padding: 15 }}>
+                  <h2>Ingen nye varslinger</h2>
+                </div>
+              </Dropdown>
+            )}
+
+            {isLoggedIn && (
+              <Dropdown
+                show={this.state.accountOpen}
+                toggle={() => this.setState({ accountOpen: !this.state.accountOpen })}
+                triggerComponent={(
+                  <ProfilePicture
+                    size={24}
+                    username={this.props.currentUser}
+                    style={{ verticalAlign: 'middle', marginTop: -8 }}
+                  />
+                )}
+              >
+                <AccountDropdownItems
+                  onClose={() => this.setState({ accountOpen: false })}
+                  username={this.props.currentUser}
+                />
+              </Dropdown>
+            )}
+
+            <button
+              onClick={this.props.toggleSearch}
+            >
+              <Icon name='search' style={{ color: '#C24538' }} />
+            </button>
+          </div>
+
+          <Modal
+            show={this.props.searchOpen}
+            onHide={this.props.toggleSearch}
+            backdropClassName={styles.backdrop}
+            backdrop
+          >
+            <Search
+              isOpen={this.props.searchOpen}
+              onCloseSearch={this.props.toggleSearch}
+            />
+          </Modal>
         </div>
       </header>
     );

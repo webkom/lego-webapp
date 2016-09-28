@@ -6,20 +6,30 @@ import cx from 'classnames';
 import { Link } from 'react-router';
 import { createSelector } from 'reselect';
 import Circle from 'app/components/Circle';
+import Popover from 'app/components/Popover';
 import truncateString from 'app/utils/truncateString';
 import colorForEvent from '../colorForEvent';
 
-const Event = ({ id, title, eventType }) => (
-  <div key={id} style={{ whiteSpace: 'nowrap' }}>
-    <Circle color={colorForEvent(eventType)} />
-    {' '}
-    <Link
-      to={`/events/${id}`}
-      title={title}
-    >
-      {truncateString(title, 10)}
-    </Link>
-  </div>
+const Event = ({ id, title, description, eventType }) => (
+  <Popover
+    render={() => (
+      <div key={id} style={{ whiteSpace: 'nowrap' }}>
+        <Circle color={colorForEvent(eventType)} />
+        {' '}
+        <Link
+          to={`/events/${id}`}
+          title={title}
+        >
+          {truncateString(title, 10)}
+        </Link>
+      </div>
+    )}
+  >
+    <div>
+      <h2>{title}</h2>
+      {description}
+    </div>
+  </Popover>
 );
 
 /**
