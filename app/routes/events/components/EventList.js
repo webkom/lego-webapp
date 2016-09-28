@@ -6,11 +6,16 @@ import styles from './EventList.css';
 
 class EventList extends Component {
   render() {
+    const { events } = this.props;
     return (
       <div className={styles.root}>
         <Toolbar />
         <h2>Event List</h2>
-        <p>Hello World</p>
+        {events.map((event) => (
+          <div>
+            <pre>{JSON.stringify(event, null, 2)}</pre>
+          </div>
+        ))}
       </div>
     );
   }

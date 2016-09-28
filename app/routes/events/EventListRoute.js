@@ -1,25 +1,20 @@
 // @flow
 
-import moment from 'moment';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetchAll } from 'app/actions/EventActions';
 import EventList from './components/EventList';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
+import { selectEvents } from 'app/reducers/events';
 
 function loadData(params, props) {
   props.fetchAll();
 }
 
-function mapStateToProps(state, ownProps) {
-  const {
-    year = moment().year(),
-    month = moment().month() + 1
-  } = ownProps.location.query;
-
+function mapStateToProps(state) {
+  const events = selectEvents(state);
   return {
-    year,
-    month
+    events
   };
 }
 
