@@ -1,3 +1,5 @@
+// @flow
+
 import { Comment } from 'app/actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import getEntityType from 'app/utils/getEntityType';
@@ -5,8 +7,8 @@ import getEntityType from 'app/utils/getEntityType';
 /**
  * Used by the individual entity reducers
  */
-export function mutateComments(forTargetType) {
-  return (state, action) => {
+export function mutateComments(forTargetType: string) {
+  return (state: any, action: any) => {
     switch (action.type) {
       case Comment.ADD_SUCCESS: {
         const [serverTargetType, targetId] = action.meta.commentTarget.split('-');

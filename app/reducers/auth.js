@@ -1,4 +1,5 @@
-/** @flow */
+// @flow
+
 import { User } from '../actions/ActionTypes';
 import type { Action } from '../actions/ActionTypes';
 
