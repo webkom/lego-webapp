@@ -1,0 +1,37 @@
+.root {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+
+  &:last-of-type {
+    justify-content: flex-end;
+  }
+
+  &:first-of-type {
+    justify-content: flex-start;
+  }
+}
+
+.buttons {
+  composes: section;
+  flex: 2;
+  justify-content: center;
+
+  > a {
+    text-align: center;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0 10px;
+  }
+}
+
+.active {
+  font-weight: 700;
+}

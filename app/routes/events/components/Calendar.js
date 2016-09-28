@@ -4,6 +4,7 @@ import moment from 'moment';
 import { Link } from 'react-router';
 import createCalendarDateObjects from '../createCalendarDateObjects';
 import CalendarCell from './CalendarCell';
+import Toolbar from './Toolbar';
 
 const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
 
@@ -39,6 +40,8 @@ export default class Calendar extends Component {
 
     return (
       <div className={styles.root}>
+        <Toolbar />
+
         <h2 className={styles.header}>
           <Link to={{ pathname: '/events', query: this.queryForPrevMonth(date) }}>&laquo;</Link>
           <span>{date.format('MMMM YYYY')}</span>
