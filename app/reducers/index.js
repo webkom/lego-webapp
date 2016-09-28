@@ -1,29 +1,26 @@
 import { Schema, arrayOf } from 'normalizr';
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-
+import { reducer as form } from 'redux-form';
 import quotes from './quotes';
 import events from './events';
-import favorites from './favorites';
 import search from './search';
 import auth from './auth';
-import { reducer as form } from 'redux-form';
 import users from './users';
 import groups from './groups';
 import notifications from './notifications';
-import entities from './entities';
+import comments from './comments';
 
 export default combineReducers({
   quotes,
   events,
-  favorites,
   search,
+  comments,
   auth,
   form,
   users,
   groups,
   notifications,
-  entities,
   routing: routerReducer
 });
 

@@ -50,8 +50,8 @@ export default class ProfileBox extends Component {
   }
 
   render() {
-    const { user } = this.props;
-    const nameOrLogin = user ? user.username : 'Logg inn';
+    const { currentUser, loggedIn } = this.props;
+    const nameOrLogin = loggedIn ? currentUser.username : 'Logg inn';
     const icon = this.state.open ? 'chevron-up' : 'chevron-down';
     return (
       <div className={styles.profile}>
@@ -65,10 +65,13 @@ export default class ProfileBox extends Component {
             <Icon className={styles.arrow} name={icon} />
           </a>
         </div>
-        {this.state.open &&
-          <div>
-            <Dropdown {...this.props} />
-          </div>}
+        {this.state.open && (
+          <Dropdown
+            login={this.props.login}
+            logout={this.props.logout}
+            user={loggedIn ? currentUser : null}
+          />
+        )}
       </div>
     );
   }

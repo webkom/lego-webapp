@@ -28,7 +28,7 @@ const sortQuotes = (quotes, sortType) => {
 function mapStateToProps(state, props) {
   const { query } = props.location;
   const quotes = state.quotes.items
-    .map((id) => state.entities.quotes[id])
+    .map((id) => state.quotes.byId[id])
     .filter((quote) => quote.approved === (query.filter !== 'unapproved'));
 
   const sortType = query.sort === 'likes' ? 'likes' : 'date';

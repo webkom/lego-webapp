@@ -1,19 +1,11 @@
 import { User } from '../actions/ActionTypes';
-import { fetchBegin, fetchSuccess, fetchFailure, defaultEntityState } from './entities';
+import createEntityReducer from 'app/utils/createEntityReducer';
 
-const initialState = {
-  ...defaultEntityState
+export type UserEntity = {
+  username: string
 };
 
-export default function users(state = initialState, action) {
-  switch (action.type) {
-    case User.FETCH.BEGIN:
-      return fetchBegin(state, action);
-    case User.FETCH.SUCCESS:
-      return fetchSuccess(state, action);
-    case User.FETCH.FAILURE:
-      return fetchFailure(state, action);
-    default:
-      return state;
-  }
-}
+export default createEntityReducer({
+  key: 'users',
+  types: [User.FETCH.BEGIN, User.FETCH.SUCCESS, User.FETCH.FAILURE]
+});

@@ -25,7 +25,6 @@ export const Event = {
  */
 export const Group = {
   FETCH: generateStatuses('Group.FETCH'),
-  FETCH_ALL: generateStatuses('Group.FETCH_ALL'),
   UPDATE: generateStatuses('Group.UPDATE')
 };
 

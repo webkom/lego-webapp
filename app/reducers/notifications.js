@@ -4,7 +4,7 @@ const initialState = {
   items: []
 };
 
-export default function events(state = initialState, action) {
+export default function notifications(state = initialState, action) {
   switch (action.type) {
     case Notifications.NOTIFICATION_ADDED:
       return {

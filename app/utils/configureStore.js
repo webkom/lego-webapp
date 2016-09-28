@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
-import { hashHistory } from 'react-router';
+import { browserHistory } from 'react-router';
 import { routerMiddleware } from 'react-router-redux';
 import promiseMiddleware from './promiseMiddleware';
 import createErrorMiddleware from './errorMiddleware';
@@ -15,17 +15,22 @@ const loggerMiddleware = createLogger({
 const errorMiddleware = createErrorMiddleware((message) => addNotification({ message }));
 
 export default function configureStore(initialState = {}) {
+  const middlewares = [
+    routerMiddleware(browserHistory),
+    thunkMiddleware,
+    promiseMiddleware,
+    errorMiddleware
+  ];
+
+  if (__DEV__) {
+    middlewares.push(loggerMiddleware);
+  }
+
   const store = createStore(
     require('../reducers').default,
     initialState,
     compose(
-      applyMiddleware(
-        routerMiddleware(hashHistory),
-        thunkMiddleware,
-        promiseMiddleware,
-        errorMiddleware,
-        loggerMiddleware
-      ),
+      applyMiddleware(...middlewares),
       window.devToolsExtension ? window.devToolsExtension() : (f) => f
     )
   );

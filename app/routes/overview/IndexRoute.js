@@ -4,16 +4,15 @@ import { fetchAll } from 'app/actions/EventActions';
 import { login, logout } from 'app/actions/UserActions';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import Overview from './components/Overview';
+import { selectEvents } from 'app/reducers/events';
 
 function loadData(params, props) {
   props.fetchAll();
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
   return {
-    loggedIn: state.auth.token !== null,
-    user: state.auth.token !== null && state.entities.users[state.auth.username],
-    events: state.events.items.map((id) => state.entities.events[id])
+    events: selectEvents(state)
   };
 }
 

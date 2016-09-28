@@ -1,4 +1,6 @@
-/** @flow */
+// @flow
+
+import { createSelector } from 'reselect';
 import { User } from '../actions/ActionTypes';
 import type { Action } from '../actions/ActionTypes';
 
@@ -41,11 +43,7 @@ export default function auth(state: State = initialState, action: Action): State
       };
 
     case User.LOGOUT:
-      return {
-        ...state,
-        username: null,
-        token: null
-      };
+      return initialState;
 
     default:
       return state;
@@ -55,3 +53,9 @@ export default function auth(state: State = initialState, action: Action): State
 export function selectIsLoggedIn(state: any) {
   return state.auth.token !== null;
 }
+
+export const selectCurrentUser = createSelector(
+  (state) => state.users.byId,
+  (state) => state.auth.username,
+  (usersById, userId) => usersById[userId] || {}
+);

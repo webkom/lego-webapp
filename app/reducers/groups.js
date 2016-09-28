@@ -1,21 +1,30 @@
+import { createSelector } from 'reselect';
 import { Group } from '../actions/ActionTypes';
-import { fetchBegin, fetchSuccess, fetchFailure, defaultEntityState } from './entities';
+import createEntityReducer from 'app/utils/createEntityReducer';
 
-const initialState = {
-  ...defaultEntityState
-};
+export default createEntityReducer({
+  key: 'groups',
+  types: [Group.FETCH.BEGIN, Group.FETCH.SUCCESS, Group.FETCH.FAILURE]
+});
 
-export default function groups(state = initialState, action) {
-  switch (action.type) {
-    case Group.FETCH_ALL.BEGIN:
-      return fetchBegin(state, action);
-    case Group.FETCH_ALL.FAILURE:
-      return fetchFailure(state, action);
-    case Group.FETCH_ALL.SUCCESS:
-      return fetchSuccess(state, action);
-    case Group.UPDATE.SUCCESS:
-      return fetchSuccess(state, action);
-    default:
-      return state;
+export const selectGroup = createSelector(
+  (state) => state.groups.byId,
+  (state) => state.users.byId,
+  (state, props) => props.groupId,
+  (groupsById, usersById, groupId) => {
+    const group = groupsById[groupId];
+    if (group && group.users) {
+      return {
+        ...group,
+        users: group.users.map((userId) => usersById[userId])
+      };
+    }
+    return group;
   }
-}
+);
+
+export const selectGroups = createSelector(
+  (state) => state.groups.byId,
+  (state) => state.groups.items,
+  (groupsById, groupIds) => groupIds.map((id) => groupsById[id])
+);

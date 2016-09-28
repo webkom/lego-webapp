@@ -44,7 +44,7 @@ const CalendarCell = ({ day, className, events = [] }) => (
 
 const selectEvents = createSelector(
   (state) => state.events.items,
-  (state) => state.entities.events,
+  (state) => state.events.byId,
   (state, props) => props.day,
   (eventIds, eventsById, day) =>
     eventIds

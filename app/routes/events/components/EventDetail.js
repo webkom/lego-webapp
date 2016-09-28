@@ -32,6 +32,7 @@ export type Props = {
   comments: Array;
   loggedIn: boolean;
   isUserInterested: boolean;
+  currentUser: any;
 };
 
 /**
@@ -53,7 +54,7 @@ export default class EventDetail extends Component {
   };
 
   render() {
-    const { event, loggedIn, user, comments } = this.props;
+    const { event, loggedIn, currentUser, comments } = this.props;
 
     if (!event) {
       return <LoadingIndicator loading />;
@@ -136,7 +137,7 @@ export default class EventDetail extends Component {
 
         <CommentView
           formEnabled
-          user={user}
+          user={currentUser}
           commentTarget={event.commentTarget}
           loggedIn={loggedIn}
           comments={comments}

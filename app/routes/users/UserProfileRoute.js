@@ -47,7 +47,7 @@ function mapStateToProps(state, props) {
     username: props.params.username || state.auth.username,
     isMe: !props.params.username || props.params.username === state.auth.username,
     auth: state.auth,
-    user: state.entities.users[props.params.username || state.auth.username],
+    user: state.users.byId[props.params.username || state.auth.username],
     loggedIn: state.auth.token !== null
   };
 }

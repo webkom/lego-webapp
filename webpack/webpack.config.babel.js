@@ -7,7 +7,7 @@ const compact = (array) => array.filter(Boolean);
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
-  devtool: !isProduction && 'eval-source-map',
+  devtool: !isProduction && 'eval',
   entry: {
     app: compact([
       !isProduction && 'webpack-hot-middleware/client',

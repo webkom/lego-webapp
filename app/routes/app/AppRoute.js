@@ -5,29 +5,47 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loginAutomaticallyIfPossible } from 'app/actions/UserActions';
 import { toggleSearch } from 'app/actions/SearchActions';
+import { logout } from 'app/actions/UserActions';
 import Header from 'app/components/Header';
 import Footer from 'app/components/Footer';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import NotificationContainer from 'app/components/NotificationContainer';
-import { selectIsLoggedIn } from 'app/reducers/auth';
+import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 
 class App extends Component {
+  state = {
+    ready: false
+  };
+
   componentDidMount() {
-    this.props.loginAutomaticallyIfPossible();
+    this.props.loginAutomaticallyIfPossible()
+      .then(
+        () => this.setState({ ready: true }),
+        () => this.setState({ ready: true })
+      );
   }
 
   render() {
+    if (!this.state.ready) {
+      return <LoadingIndicator loading />;
+    }
+
     return (
       <div style={this.props.searchOpen ? { WebkitFilter: 'blur(10px)' } : null}>
         <Header
           searchOpen={this.props.searchOpen}
           toggleSearch={this.props.toggleSearch}
           currentUser={this.props.currentUser}
-          isLoggedIn={this.props.isLoggedIn}
+          loggedIn={this.props.loggedIn}
+          logout={this.props.logout}
         />
 
         <div style={{ flex: 1 }}>
           <NotificationContainer />
-          {this.props.children}
+          {React.cloneElement(this.props.children, {
+            currentUser: this.props.currentUser,
+            loggedIn: this.props.loggedIn
+          })}
         </div>
 
         <Footer />
@@ -39,14 +57,15 @@ class App extends Component {
 function mapStateToProps(state) {
   return {
     searchOpen: state.search.open,
-    currentUser: state.auth.username,
-    isLoggedIn: selectIsLoggedIn(state)
+    currentUser: selectCurrentUser(state),
+    loggedIn: selectIsLoggedIn(state)
   };
 }
 
 const mapDispatchToProps = {
   loginAutomaticallyIfPossible,
-  toggleSearch
+  toggleSearch,
+  logout
 };
 
 export default connect(

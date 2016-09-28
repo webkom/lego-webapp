@@ -21,7 +21,7 @@ function clearLocalStorage(key) {
 
 export function login(username, password) {
   return (dispatch) => {
-    dispatch(callAPI({
+    return dispatch(callAPI({
       types: User.LOGIN,
       endpoint: '//authorization/token-auth/',
       method: 'post',
@@ -32,13 +32,15 @@ export function login(username, password) {
       meta: {
         errorMessage: 'Login failed'
       }
-    })).then(putInLocalStorage(USER_STORAGE_KEY)).then((action) => {
-      const { user } = action.payload;
-      dispatch({
-        type: User.FETCH_SUCCESS,
-        payload: normalize(user, userSchema)
+    }))
+      .then(putInLocalStorage(USER_STORAGE_KEY))
+      .then((action) => {
+        const { user } = action.payload;
+        return dispatch({
+          type: User.FETCH.SUCCESS,
+          payload: normalize(user, userSchema)
+        });
       });
-    });
   };
 }
 
@@ -53,7 +55,7 @@ export function logout() {
 export function updateUser({ username, firstName, lastName, email }) {
   return (dispatch, getState) => {
     const token = getState().auth.token;
-    dispatch(callAPI({
+    return dispatch(callAPI({
       types: User.UPDATE,
       endpoint: `/users/${username}/`,
       method: 'put',
@@ -67,17 +69,18 @@ export function updateUser({ username, firstName, lastName, email }) {
       meta: {
         errorMessage: 'Updating user failed'
       }
-    })).then((action) => {
-      dispatch(push(`/users/${action.payload.username || 'me'}`));
-      if (getState().auth.username === username) {
-        putInLocalStorage(USER_STORAGE_KEY)({
-          payload: {
-            token,
-            user: action.payload
-          }
-        });
-      }
-    });
+    }))
+      .then((action) => {
+        dispatch(push(`/users/${action.payload.result || 'me'}`));
+        if (getState().auth.username === username) {
+          putInLocalStorage(USER_STORAGE_KEY)({
+            payload: {
+              token,
+              user: action.payload.entities.users[action.payload.result]
+            }
+          });
+        }
+      });
   };
 }
 
@@ -110,26 +113,32 @@ export function loginWithExistingToken(user, token) {
   return (dispatch) => {
     const expirationDate = getExpirationDate(token);
     const now = moment();
+
     if (expirationDate.isSame(now, 'day')) {
-      dispatch(refreshToken(token))
+      return dispatch(refreshToken(token))
         .then(putInLocalStorage(USER_STORAGE_KEY))
         .catch((err) => {
           clearLocalStorage(USER_STORAGE_KEY);
           throw err;
         });
-    } else if (now.isAfter(expirationDate)) {
-      clearLocalStorage(USER_STORAGE_KEY);
-    } else {
-      dispatch({
-        type: User.LOGIN_SUCCESS,
-        payload: { user, token }
-      });
-
-      dispatch({
-        type: User.FETCH_SUCCESS,
-        payload: normalize(user, userSchema)
-      });
     }
+
+    if (now.isAfter(expirationDate)) {
+      clearLocalStorage(USER_STORAGE_KEY);
+      return Promise.resolve();
+    }
+
+    dispatch({
+      type: User.LOGIN.SUCCESS,
+      payload: { user, token }
+    });
+
+    dispatch({
+      type: User.FETCH.SUCCESS,
+      payload: normalize(user, userSchema)
+    });
+
+    return Promise.resolve();
   };
 }
 
@@ -143,7 +152,9 @@ export function loginAutomaticallyIfPossible() {
     ) || {};
 
     if (token) {
-      dispatch(loginWithExistingToken(user, token));
+      return dispatch(loginWithExistingToken(user, token));
     }
+
+    return Promise.resolve();
   };
 }
