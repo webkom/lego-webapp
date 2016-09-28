@@ -14,13 +14,13 @@ export type EventEntity = {
 
 export default function events(state = initialState, action) {
   switch (action.type) {
-    case Event.FETCH_BEGIN:
+    case Event.FETCH.BEGIN:
       return fetchBegin(state, action);
 
-    case Event.FETCH_FAILURE:
+    case Event.FETCH.FAILURE:
       return fetchFailure(state, action);
 
-    case Event.FETCH_SUCCESS:
+    case Event.FETCH.SUCCESS:
       return fetchSuccess({
         ...state,
         items: union(state.items, action.payload.result)

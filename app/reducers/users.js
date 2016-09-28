@@ -7,11 +7,11 @@ const initialState = {
 
 export default function users(state = initialState, action) {
   switch (action.type) {
-    case User.FETCH_BEGIN:
+    case User.FETCH.BEGIN:
       return fetchBegin(state, action);
-    case User.FETCH_SUCCESS:
+    case User.FETCH.SUCCESS:
       return fetchSuccess(state, action);
-    case User.FETCH_FAILURE:
+    case User.FETCH.FAILURE:
       return fetchFailure(state, action);
     default:
       return state;

@@ -1,3 +1,14 @@
+
+type ActionTypeObject = {|BEGIN:string, SUCCESS:string, FAILURE:string|};
+type ActionTypeArray = [string, string, string];
+
+function extractTypes(types: ActionTypeArray|ActionTypeObject): ActionTypeArray {
+  if (Array.isArray(types) && types.length === 3) {
+    return types;
+  }
+  return [types.BEGIN, types.SUCCESS, types.FAILURE];
+}
+
 export default function promiseMiddleware() {
   return (next) => (action) => {
     if (!action.promise) {
@@ -6,15 +17,8 @@ export default function promiseMiddleware() {
 
     const { types, meta, payload, promise } = action;
 
-    if (!Array.isArray(types) || types.length !== 3) {
-      console.log(action);
-      throw new TypeError(
-        'promiseMiddleware expects action to contain a `types` property with 3 elements. ' +
-        `${(types || []).join('')} was provided`
-      );
-    }
 
-    const [PENDING, SUCCESS, FAILURE] = types;
+    const [PENDING, SUCCESS, FAILURE] = extractTypes(types);
 
     next({
       type: PENDING,

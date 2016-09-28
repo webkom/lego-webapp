@@ -7,11 +7,7 @@ import { startSubmit, stopSubmit } from 'redux-form';
 
 export function fetchAll({ approved = true }) {
   return callAPI({
-    types: [
-      Quote.FETCH_BEGIN,
-      Quote.FETCH_SUCCESS,
-      Quote.FETCH_FAILURE
-    ],
+    types: Quote.FETCH,
     endpoint: `/quotes/?approved=${approved}`,
     schema: arrayOf(quoteSchema),
     meta: {
@@ -30,11 +26,7 @@ export function fetchAllUnapproved() {
 
 export function fetchQuote(quoteId) {
   return callAPI({
-    types: [
-      Quote.FETCH_BEGIN,
-      Quote.FETCH_SUCCESS,
-      Quote.FETCH_FAILURE
-    ],
+    types: Quote.FETCH,
     endpoint: `/quotes/${quoteId}/`,
     method: 'get',
     meta: {
@@ -47,11 +39,7 @@ export function fetchQuote(quoteId) {
 
 export function like(quoteId) {
   return callAPI({
-    types: [
-      Quote.LIKE_BEGIN,
-      Quote.LIKE_SUCCESS,
-      Quote.LIKE_FAILURE
-    ],
+    types: Quote.LIKE,
     endpoint: `/quotes/${quoteId}/like/`,
     method: 'post',
     schema: quoteSchema,
@@ -63,11 +51,7 @@ export function like(quoteId) {
 
 export function unlike(quoteId) {
   return callAPI({
-    types: [
-      Quote.UNLIKE_BEGIN,
-      Quote.UNLIKE_SUCCESS,
-      Quote.UNLIKE_FAILURE
-    ],
+    types: Quote.UNLIKE,
     endpoint: `/quotes/${quoteId}/unlike/`,
     method: 'post',
     schema: quoteSchema,
@@ -79,11 +63,7 @@ export function unlike(quoteId) {
 
 export function approve(quoteId) {
   return callAPI({
-    types: [
-      Quote.APPROVE_BEGIN,
-      Quote.APPROVE_SUCCESS,
-      Quote.APPROVE_FAILURE
-    ],
+    types: Quote.APPROVE,
     endpoint: `/quotes/${quoteId}/approve/`,
     method: 'put',
     schema: quoteSchema,
@@ -95,11 +75,7 @@ export function approve(quoteId) {
 
 export function unapprove(quoteId) {
   return callAPI({
-    types: [
-      Quote.UNAPPROVE_BEGIN,
-      Quote.UNAPPROVE_SUCCESS,
-      Quote.UNAPPROVE_FAILURE
-    ],
+    types: Quote.UNAPPROVE,
     endpoint: `/quotes/${quoteId}/unapprove/`,
     method: 'put',
     schema: quoteSchema,
@@ -114,7 +90,7 @@ export function addQuotes({ text, source }) {
     dispatch(startSubmit('addQuote'));
 
     dispatch(callAPI({
-      types: [Quote.ADD_BEGIN, Quote.ADD_SUCCESS, Quote.ADD_FAILURE],
+      types: Quote.ADD,
       endpoint: '/quotes/',
       method: 'post',
       body: {
@@ -146,7 +122,7 @@ export function addQuotes({ text, source }) {
 
 export function deleteQuote(quoteId) {
   return callAPI({
-    types: [Quote.DELETE_BEGIN, Quote.DELETE_SUCCESS, Quote.DELETE_FAILURE],
+    types: Quote.DELETE,
     endpoint: `/quotes/${quoteId}/`,
     method: 'del',
     meta: {

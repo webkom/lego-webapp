@@ -5,7 +5,7 @@ import { callAPI } from 'app/utils/http';
 
 export function fetchGroup(groupId) {
   return callAPI({
-    types: [Group.FETCH_BEGIN, Group.FETCH_SUCCESS, Group.FETCH_FAILURE],
+    types: Group.FETCH,
     endpoint: `/groups/${groupId}/`,
     schema: groupSchema,
     meta: {
@@ -16,7 +16,7 @@ export function fetchGroup(groupId) {
 
 export function fetchAll() {
   return callAPI({
-    types: [Group.FETCH_ALL_BEGIN, Group.FETCH_ALL_SUCCESS, Group.FETCH_ALL_FAILURE],
+    types: Group.FETCH_ALL,
     endpoint: '/groups/',
     schema: arrayOf(groupSchema),
     meta: {
@@ -27,7 +27,7 @@ export function fetchAll() {
 
 export function updateGroup({ groupId, updates }) {
   return callAPI({
-    types: [Group.UPDATE_BEGIN, Group.UPDATE_SUCCESS, Group.UPDATE_FAILURE],
+    types: Group.UPDATE,
     endpoint: `/groups/${groupId}/`,
     method: 'patch',
     body: updates,

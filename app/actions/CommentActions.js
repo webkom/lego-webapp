@@ -8,7 +8,7 @@ export function addComment({ text, commentTarget, parent }) {
     dispatch(startSubmit('comment'));
 
     dispatch(callAPI({
-      types: [Comment.ADD_BEGIN, Comment.ADD_SUCCESS, Comment.ADD_FAILURE],
+      types: Comment.ADD,
       endpoint: '/comments/',
       method: 'post',
       body: {
