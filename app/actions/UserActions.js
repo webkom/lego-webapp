@@ -37,7 +37,7 @@ export function login(username, password) {
       .then((action) => {
         const { user } = action.payload;
         return dispatch({
-          type: User.FETCH_SUCCESS,
+          type: User.FETCH.SUCCESS,
           payload: normalize(user, userSchema)
         });
       });
@@ -129,12 +129,12 @@ export function loginWithExistingToken(user, token) {
     }
 
     dispatch({
-      type: User.LOGIN_SUCCESS,
+      type: User.LOGIN.SUCCESS,
       payload: { user, token }
     });
 
     dispatch({
-      type: User.FETCH_SUCCESS,
+      type: User.FETCH.SUCCESS,
       payload: normalize(user, userSchema)
     });
 
