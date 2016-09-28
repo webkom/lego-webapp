@@ -30,10 +30,10 @@
   font-weight: 500;
   color: #333;
   background: transparent;
-}
 
-::-webkit-input-placeholder {
-  color: #444;
+  &::placeholder {
+    color: #444;
+  }
 }
 
 .searchIcon {
