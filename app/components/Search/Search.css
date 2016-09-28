@@ -14,6 +14,11 @@
   height: 120px;
   padding-top: 40px;
   border-bottom: 1px solid #ccc;
+
+  @media (--small-viewport) {
+    padding: 0 20px;
+    height: 96px;
+  }
 }
 
 .inputContainer input {
@@ -28,12 +33,12 @@
 }
 
 ::-webkit-input-placeholder {
-  color: #666;
+  color: #444;
 }
 
 .searchIcon {
   color: #777;
-  font-size: 2rem;
+  font-size: 1.8rem;
   width: 30px;
   display: flex;
   align-items: center;
@@ -46,20 +51,16 @@
   background: transparent;
   color: #333;
   font-size: 2rem;
-}
-
-.closeButton i {
-  transition: transform .2s;
-}
-
-.closeButton:hover i {
-  transform: scale(1.5);
+  cursor: pointer;
 }
 
 .resultsContainer {
   display: flex;
-  background: #a0261b;
-  background: rgba(255, 255, 255, .8);
+  background: rgba(255, 255, 255, 0.8);
+
+  @media (--small-viewport) {
+    flex-direction: column;
+  }
 }
 
 .quickLinks {
@@ -94,7 +95,7 @@
 
 .results li {
   border-bottom: 1px solid #ddd;
-  padding: .5rem;
+  padding: 0.5rem;
   display: flex;
 }
 

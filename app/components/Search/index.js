@@ -1,4 +1,5 @@
-/** @flow */
+// @flow
+
 import styles from './Search.css';
 import React, { Component } from 'react';
 import { Link } from 'react-router';
@@ -6,7 +7,7 @@ import { connect } from 'react-redux';
 import cx from 'classnames';
 import { debounce } from 'lodash';
 import Pill from '../Pill';
-import LoadingIndicator from '../LoadingIndicator';
+import Icon from '../Icon';
 import { search } from 'app/actions/SearchActions';
 import { push } from 'react-router-redux';
 
@@ -88,8 +89,9 @@ class Search extends Component {
         <div className={styles.overlay}>
           <div className={styles.inputContainer}>
             <div className={styles.searchIcon}>
-              <i className='ion-search' />
+              <Icon name='search' />
             </div>
+
             <input
               onChange={(e) => onQueryChanged(e.target.value)}
               type='search'
@@ -97,15 +99,17 @@ class Search extends Component {
               autoFocus
             />
 
-            <button type='button' className={styles.closeButton} onClick={onCloseSearch}>
-              <i className='ion-close' />
+            <button
+              type='button'
+              className={styles.closeButton}
+              onClick={onCloseSearch}
+            >
+              <Icon name='close' />
             </button>
           </div>
 
           <div className={styles.resultsContainer}>
             <ul className={styles.results}>
-              <LoadingIndicator loading={searching} />
-              {!searching && results.length === 0 && <li>No results</li>}
               {results.map((item, i) => (
                 <SearchResultItem
                   key={i}
