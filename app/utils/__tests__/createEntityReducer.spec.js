@@ -1,4 +1,5 @@
 import createEntityReducer from '../createEntityReducer';
+import joinReducers from '../joinReducers';
 
 const reducer = createEntityReducer({
   key: 'events',
@@ -51,5 +52,45 @@ describe('createEntityReducer', () => {
 
     const nextState = reducer(state, { type: 'FETCH_SUCCESS' });
     expect(nextState.fetching).toEqual(false);
+  });
+
+  it('should run the mutate reducer', () => {
+    const customFlag = (state, action) => {
+      if (action.type === 'FETCH') {
+        return {
+          ...state,
+          customFlag: true
+        };
+      }
+      return state;
+    };
+
+    const customFlag2 = (state, action) => {
+      if (action.type === 'FETCH') {
+        return {
+          ...state,
+          customFlag2: false,
+          customFlag: false
+        };
+      }
+      return state;
+    };
+
+    const reducer = createEntityReducer({
+      key: 'users',
+      types: ['FETCH', 'FETCH_SUCCESS', 'FETCH_FAILURE'],
+      mutate: joinReducers(
+        customFlag,
+        customFlag2
+      )
+    });
+
+    expect(reducer(undefined, { type: 'FETCH' })).toEqual({
+      fetching: true,
+      customFlag: false,
+      customFlag2: false,
+      byId: {},
+      items: []
+    });
   });
 });

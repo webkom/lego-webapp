@@ -5,6 +5,6 @@
  */
 export default function joinReducers(...reducers) {
   return (state, action) => {
-    return reducers.reduceRight((nextState, reducer) => reducer(nextState, action), state);
+    return reducers.reduce((nextState, reducer) => reducer(nextState, action), state);
   };
 }

@@ -43,11 +43,7 @@ export default function auth(state: State = initialState, action: Action): State
       };
 
     case User.LOGOUT:
-      return {
-        ...state,
-        username: null,
-        token: null
-      };
+      return initialState;
 
     default:
       return state;
