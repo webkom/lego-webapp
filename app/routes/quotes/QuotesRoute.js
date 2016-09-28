@@ -12,7 +12,7 @@ import {
 } from '../../actions/QuoteActions';
 import QuotePage from './components/QuotePage';
 
-export default class QuotesContainer extends Component {
+export class QuotesRoute extends Component {
 
   static propTypes = {
     params: PropTypes.object.isRequired,
@@ -92,4 +92,4 @@ const mapDispatchToProps = {
 
 export default connect(
   mapStateToProps, mapDispatchToProps
-)(QuotesContainer);
+)(QuotesRoute);

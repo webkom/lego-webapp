@@ -1,13 +1,13 @@
 export default {
   path: 'quotes',
-  indexRoute: { component: require('./QuotesContainer').default },
+  indexRoute: { component: require('./QuotesRoute').default },
   childRoutes: [{
     path: 'add',
-    component: require('./QuotesAddContainer').default
+    component: require('./QuoteEditorRoute').default
   },
   {
     path: ':quoteId',
-    component: require('./QuoteDetailContainer').default
+    component: require('./QuoteDetailRoute').default
   }
   ]
 };

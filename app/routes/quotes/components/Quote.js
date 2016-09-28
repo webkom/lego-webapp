@@ -2,7 +2,7 @@ import styles from './Quotes.css';
 import Time from 'app/components/Time';
 import React, { Component, PropTypes } from 'react';
 
-export default class SingleQuote extends Component {
+export default class Quote extends Component {
   static propTypes = {
     quote: PropTypes.object.isRequired,
     like: PropTypes.func.isRequired,

@@ -5,7 +5,7 @@ import AddQuote from './components/AddQuote';
 import { reduxForm } from 'redux-form';
 import { compose } from 'redux';
 
-export default class QuotesAddContainer extends Component {
+export class QuoteEditorRoute extends Component {
 
   static propTypes = {
     addQuotes: PropTypes.func.isRequired,
@@ -39,4 +39,4 @@ export default compose(
     validate: validateQuote
   }),
   connect(null, mapDispatchToProps)
-)(QuotesAddContainer);
+)(QuoteEditorRoute);

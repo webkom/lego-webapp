@@ -1,5 +1,5 @@
 import React from 'react';
-import SingleQuote from '../SingleQuote';
+import Quote from '../Quote';
 import { shallow } from 'enzyme';
 import { singleQuote, quotes } from './fixtures/quotes';
 
@@ -17,7 +17,7 @@ describe('components', () => {
     it('should notice that like is clicked and recieve correct quoteId', () => {
       const like = jest.fn();
       const wrapper = shallow(
-        <SingleQuote {...emptyProps()} like={like} quote={singleQuote()} />
+        <Quote {...emptyProps()} like={like} quote={singleQuote()} />
       );
       const likeButton = wrapper.find('.quote-likes');
 
@@ -30,7 +30,7 @@ describe('components', () => {
     it('should notice that unlike is clicked and recieve correct quoteId', () => {
       const unlike = jest.fn();
       const wrapper = shallow(
-        <SingleQuote {...emptyProps()} unlike={unlike} quote={singleQuote(true)} />
+        <Quote {...emptyProps()} unlike={unlike} quote={singleQuote(true)} />
       );
       wrapper.find('.quote-unlikes').simulate('click');
       expect(unlike).toBeCalledWith(quotes[0].id);
@@ -39,7 +39,7 @@ describe('components', () => {
     it('should notice that approve is clicked and recieve correct quoteId', () => {
       const approve = jest.fn();
       const wrapper = shallow(
-        <SingleQuote {...emptyProps()} approve={approve} quote={singleQuote(false, false)} />
+        <Quote {...emptyProps()} approve={approve} quote={singleQuote(false, false)} />
       );
       const approveButton = wrapper.find('.quoteAdmin').children().at(0);
       approveButton.simulate('click');
@@ -49,7 +49,7 @@ describe('components', () => {
     it('should notice that unapprove is clicked and recieve correct quoteId', () => {
       const unapprove = jest.fn();
       const wrapper = shallow(
-        <SingleQuote {...emptyProps()} unapprove={unapprove} quote={singleQuote(false, true, 1)} />
+        <Quote {...emptyProps()} unapprove={unapprove} quote={singleQuote(false, true, 1)} />
       );
       const approveButton = wrapper.find('.quoteAdmin').children().at(0);
       approveButton.simulate('click');
@@ -59,7 +59,7 @@ describe('components', () => {
     it('should notice that delete is clicked and recieve correct quoteId', () => {
       const deleteQuote = jest.fn();
       const wrapper = shallow(
-        <SingleQuote {...emptyProps()} deleteQuote={deleteQuote} quote={singleQuote()} />
+        <Quote {...emptyProps()} deleteQuote={deleteQuote} quote={singleQuote()} />
       );
       const deleteButton = wrapper.find('.quoteAdmin').children().at(1);
       deleteButton.simulate('click');

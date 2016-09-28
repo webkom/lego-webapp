@@ -1,11 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import styles from './QuoteDetail.css';
-import SingleQuote from './SingleQuote';
+import Quote from './Quote';
 
 export default class QuoteDetail extends Component {
 
   static propTypes = {
-    quotes: PropTypes.array.isRequired,
+    quote: PropTypes.object.isRequired,
     like: PropTypes.func.isRequired,
     unlike: PropTypes.func.isRequired,
     approve: PropTypes.func.isRequired,
@@ -14,7 +14,7 @@ export default class QuoteDetail extends Component {
   };
 
   render() {
-    const quote = this.props.quotes[0];
+    const { quote } = this.props;
 
     if (!quote) {
       return null;
@@ -25,7 +25,7 @@ export default class QuoteDetail extends Component {
 
           <h1>Enkelt sitat!</h1>
 
-          <SingleQuote {...this.props} quote={quote} />
+          <Quote {...this.props} quote={quote} />
 
         </div>
       </div>

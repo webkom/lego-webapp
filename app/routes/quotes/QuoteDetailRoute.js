@@ -10,10 +10,9 @@ import {
   unapprove,
   deleteQuote
 } from '../../actions/QuoteActions';
-
 import QuoteDetail from './components/QuoteDetail';
 
-export default class QuotesDetailContainer extends Component {
+export class QuotesDetailRoute extends Component {
 
   static propTypes = {
     params: PropTypes.object.isRequired,
@@ -37,7 +36,7 @@ function mapStateToProps(state, props) {
   const query = props.location.query;
 
   return {
-    quotes,
+    quote: quotes[0],
     query
   };
 }
@@ -55,4 +54,4 @@ const mapDispatchToProps = {
 
 export default connect(
   mapStateToProps, mapDispatchToProps
-)(QuotesDetailContainer);
+)(QuotesDetailRoute);
