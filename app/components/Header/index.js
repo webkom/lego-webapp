@@ -17,7 +17,8 @@ type Props = {
   searchOpen: boolean,
   toggleSearch: () => any,
   currentUser: UserEntity,
-  loggedIn: boolean
+  loggedIn: boolean,
+  logout: () => void
 };
 
 type State = {
@@ -121,6 +122,7 @@ export default class Header extends Component {
                 <AccountDropdownItems
                   onClose={() => this.setState({ accountOpen: false })}
                   username={this.props.currentUser.username}
+                  logout={this.props.logout}
                 />
               </Dropdown>
             )}

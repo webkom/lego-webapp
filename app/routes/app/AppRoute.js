@@ -5,6 +5,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loginAutomaticallyIfPossible } from 'app/actions/UserActions';
 import { toggleSearch } from 'app/actions/SearchActions';
+import { logout } from 'app/actions/UserActions';
 import Header from 'app/components/Header';
 import Footer from 'app/components/Footer';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -36,6 +37,7 @@ class App extends Component {
           toggleSearch={this.props.toggleSearch}
           currentUser={this.props.currentUser}
           loggedIn={this.props.loggedIn}
+          logout={this.props.logout}
         />
 
         <div style={{ flex: 1 }}>
@@ -62,7 +64,8 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = {
   loginAutomaticallyIfPossible,
-  toggleSearch
+  toggleSearch,
+  logout
 };
 
 export default connect(
