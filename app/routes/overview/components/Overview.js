@@ -19,7 +19,7 @@ const HEADLINE_EVENTS = 2;
 const FRONT_EVENTS = 5;
 
 const OverviewItem = ({ event, showImage }) => (
-  <div key={event.id} className={styles.item}>
+  <div className={styles.item}>
     <h4 style={{ color: colorForEvent(event.eventType) }} className={styles.itemType}>
       {EVENT_TYPES[event.eventType]}
     </h4>
@@ -58,10 +58,10 @@ export default class Overview extends Component {
       <section className={`u-container ${styles.frontpage}`}>
         <div className={styles.overview}>
           <div className={styles.headline}>
-            {headlineEvents.map((event) => <OverviewItem event={event} showImage />)}
+            {headlineEvents.map((event) => <OverviewItem key={event.id} event={event} showImage />)}
           </div>
           <div className={styles.normal}>
-            {normalEvents.map((event) => <OverviewItem event={event} />)}
+            {normalEvents.map((event) => <OverviewItem key={event.id} event={event} />)}
           </div>
         </div>
 
