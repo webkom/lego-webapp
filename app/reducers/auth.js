@@ -1,5 +1,6 @@
 // @flow
 
+import { createSelector } from 'reselect';
 import { User } from '../actions/ActionTypes';
 import type { Action } from '../actions/ActionTypes';
 
@@ -56,3 +57,10 @@ export default function auth(state: State = initialState, action: Action): State
 export function selectIsLoggedIn(state: any) {
   return state.auth.token !== null;
 }
+
+export const selectCurrentUser = createSelector(
+  selectIsLoggedIn,
+  (state) => state.users.byId,
+  (state) => state.auth.username,
+  (loggedIn, usersById, userId) => loggedIn ? usersById[userId] : null
+);

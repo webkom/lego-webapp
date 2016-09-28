@@ -15,7 +15,7 @@ type Props = {
   searchOpen: boolean,
   toggleSearch: () => any,
   currentUser: string,
-  isLoggedIn: boolean
+  loggedIn: boolean
 };
 
 type State = {
@@ -71,7 +71,7 @@ export default class Header extends Component {
   };
 
   render() {
-    const { isLoggedIn } = this.props;
+    const { loggedIn } = this.props;
 
     return (
       <header className={styles.header}>
@@ -89,7 +89,7 @@ export default class Header extends Component {
           </div>
 
           <div className={styles.buttonGroup}>
-            {isLoggedIn && (
+            {loggedIn && (
               <Dropdown
                 iconName='bell'
                 show={this.state.notificationsOpen}
@@ -104,21 +104,21 @@ export default class Header extends Component {
               </Dropdown>
             )}
 
-            {isLoggedIn && (
+            {loggedIn && (
               <Dropdown
                 show={this.state.accountOpen}
                 toggle={() => this.setState({ accountOpen: !this.state.accountOpen })}
                 triggerComponent={(
                   <ProfilePicture
                     size={24}
-                    username={this.props.currentUser}
+                    username={this.props.currentUser.username}
                     style={{ verticalAlign: 'middle', marginTop: -8 }}
                   />
                 )}
               >
                 <AccountDropdownItems
                   onClose={() => this.setState({ accountOpen: false })}
-                  username={this.props.currentUser}
+                  username={this.props.currentUser.username}
                 />
               </Dropdown>
             )}

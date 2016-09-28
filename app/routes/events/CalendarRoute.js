@@ -26,5 +26,5 @@ const mapDispatchToProps = { fetchAll };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['year', 'month'], loadData)
+  fetchOnUpdate(['year', 'month', 'loggedIn'], loadData)
 )(Calendar);

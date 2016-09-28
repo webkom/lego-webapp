@@ -8,7 +8,7 @@ import { toggleSearch } from 'app/actions/SearchActions';
 import Header from 'app/components/Header';
 import Footer from 'app/components/Footer';
 import NotificationContainer from 'app/components/NotificationContainer';
-import { selectIsLoggedIn } from 'app/reducers/auth';
+import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 
 class App extends Component {
   componentDidMount() {
@@ -22,12 +22,15 @@ class App extends Component {
           searchOpen={this.props.searchOpen}
           toggleSearch={this.props.toggleSearch}
           currentUser={this.props.currentUser}
-          isLoggedIn={this.props.isLoggedIn}
+          loggedIn={this.props.loggedIn}
         />
 
         <div style={{ flex: 1 }}>
           <NotificationContainer />
-          {this.props.children}
+          {React.cloneElement(this.props.children, {
+            currentUser: this.props.currentUser,
+            loggedIn: this.props.loggedIn
+          })}
         </div>
 
         <Footer />
@@ -39,8 +42,8 @@ class App extends Component {
 function mapStateToProps(state) {
   return {
     searchOpen: state.search.open,
-    currentUser: state.auth.username,
-    isLoggedIn: selectIsLoggedIn(state)
+    currentUser: selectCurrentUser(state),
+    loggedIn: selectIsLoggedIn(state)
   };
 }
 
