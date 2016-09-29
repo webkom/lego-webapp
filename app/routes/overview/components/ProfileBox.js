@@ -2,6 +2,7 @@ import styles from './ProfileBox.css';
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
+import ProfilePicture from 'app/components/ProfilePicture';
 import LoginForm from 'app/components/LoginForm';
 
 const Dropdown = ({ login, logout, user }) => {
@@ -56,7 +57,10 @@ export default class ProfileBox extends Component {
     return (
       <div className={styles.profile}>
         <div className={styles.bar}>
-          <img className={styles.avatar} src={`http://api.adorable.io/avatars/70/${nameOrLogin}.png`}></img>
+          <ProfilePicture
+            user={currentUser.id}
+            size={50}
+          />
           <a
             className={styles.user}
             onClick={() => this.toggleOpen()}

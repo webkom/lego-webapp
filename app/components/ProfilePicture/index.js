@@ -3,15 +3,15 @@
 import React from 'react';
 
 type Props = {
-  username: string,
+  user: number,
   size: number,
   style?: Object
 };
 
-function ProfilePicture({ username, size = 100, style, ...props }: Props) {
+function ProfilePicture({ user, size = 100, style, ...props }: Props) {
   return (
     <img
-      src={`http://api.adorable.io/avatars/${username}.png`}
+      src={`http://api.randomuser.me/portraits/men/${user}.jpg`}
       style={{
         width: size,
         height: size,
