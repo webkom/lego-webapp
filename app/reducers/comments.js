@@ -10,7 +10,7 @@ import getEntityType from 'app/utils/getEntityType';
 export function mutateComments(forTargetType: string) {
   return (state: any, action: any) => {
     switch (action.type) {
-      case Comment.ADD_SUCCESS: {
+      case Comment.ADD.SUCCESS: {
         const [serverTargetType, targetId] = action.meta.commentTarget.split('-');
         const targetType = getEntityType(serverTargetType);
 
