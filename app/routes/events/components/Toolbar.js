@@ -10,18 +10,20 @@ function Toolbar() {
   return (
     <div className={styles.root}>
       <div className={styles.section}>
-        <Time format='ll' />
+        <Time format='ll' className={styles.timeNow} />
       </div>
 
       <div className={styles.buttons}>
         <IndexLink
           to='/events'
           activeClassName={styles.active}
+          className={styles.pickerItem}
         >Calendar</IndexLink>
 
         <Link
           to='/events/list'
           activeClassName={styles.active}
+          className={styles.pickerItem}
         >List</Link>
       </div>
 

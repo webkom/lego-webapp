@@ -10,12 +10,16 @@ class EventList extends Component {
     return (
       <div className={styles.root}>
         <Toolbar />
-        <h2>Event List</h2>
-        {events.map((event) => (
+        <h2 className={styles.periodHeading}>This week</h2>
+        {events.slice(0, 2).map((event) => (
           <div>
             <pre>{JSON.stringify(event, null, 2)}</pre>
           </div>
         ))}
+
+        <h2 className={styles.periodHeading}>Next Week</h2>
+
+        <h2 className={styles.periodHeading}>Later</h2>
       </div>
     );
   }

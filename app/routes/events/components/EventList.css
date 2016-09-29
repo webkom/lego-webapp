@@ -4,3 +4,12 @@
   composes: container from '../../../Root.css';
   margin-top: 2rem;
 }
+
+.periodHeading {
+  color: #666;
+  letter-spacing: 2px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 20px;
+  border-bottom: 1px solid #ddd;
+}

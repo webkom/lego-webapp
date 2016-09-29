@@ -2,7 +2,6 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 40px;
-  font-size: 18px;
 }
 
 .section {
@@ -23,16 +22,24 @@
   composes: section;
   flex: 2;
   justify-content: center;
+}
 
-  > a {
-    text-align: center;
-    color: #333;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    padding: 0 10px;
-  }
+.pickerItem {
+  text-align: center;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0 20px;
+  font-size: 18px;
+  border-bottom: 3px solid #f5f5f5;
 }
 
 .active {
   font-weight: 700;
+  border-bottom: 3px solid #ddd;
+}
+
+.timeNow {
+  font-size: 18px;
+  color: #666;
 }
