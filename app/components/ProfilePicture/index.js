@@ -11,7 +11,7 @@ type Props = {
 function ProfilePicture({ user, size = 100, style, ...props }: Props) {
   return (
     <img
-      src={`http://api.randomuser.me/portraits/men/${user}.jpg`}
+      src={`http://api.randomuser.me/portraits/women/${user}.jpg`}
       style={{
         width: size,
         height: size,

@@ -38,5 +38,7 @@ export function mutateComments(forTargetType: string) {
 
 export default createEntityReducer({
   key: 'comments',
-  types: [Comment.FETCH, Comment.FETCH_SUCCESS, Comment.FETCH_FAILURE]
+  types: {
+    fetch: Comment.FETCH
+  }
 });

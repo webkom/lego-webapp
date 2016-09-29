@@ -3,7 +3,10 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 
 export default createEntityReducer({
   key: 'quotes',
-  types: [Quote.FETCH.BEGIN, Quote.FETCH.SUCCESS, Quote.FETCH.FAILURE],
+  types: {
+    fetch: Quote.FETCH,
+    mutate: Quote.ADD
+  },
   mutate(state, action) {
     switch (action.type) {
       case Quote.DELETE.SUCCESS:

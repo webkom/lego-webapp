@@ -39,6 +39,7 @@ export const Favorite = {
  *
  */
 export const Comment = {
+  FETCH: generateStatuses('Comment.FETCH'),
   ADD: generateStatuses('Comment.ADD')
 };
 

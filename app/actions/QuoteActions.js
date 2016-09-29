@@ -94,7 +94,6 @@ export function addQuotes({ text, source }) {
       endpoint: '/quotes/',
       method: 'post',
       body: {
-        id: Date.now(),
         title: 'Tittel',
         text,
         source,
@@ -108,7 +107,7 @@ export function addQuotes({ text, source }) {
       dispatch(stopSubmit('addQuote'));
       dispatch(push('/quotes'));
     }).catch((action) => {
-      const errors = { ...action.error.response.body };
+      const errors = { ...action.error.response.jsonData };
       if (errors.text) {
         errors.text = errors.text[0];
       }
@@ -124,7 +123,7 @@ export function deleteQuote(quoteId) {
   return callAPI({
     types: Quote.DELETE,
     endpoint: `/quotes/${quoteId}/`,
-    method: 'del',
+    method: 'delete',
     meta: {
       quoteId,
       errorMessage: 'Deleting quote failed'

@@ -1,9 +1,17 @@
 import createEntityReducer from '../createEntityReducer';
 import joinReducers from '../joinReducers';
 
+const FETCH = {
+  BEGIN: 'FETCH_BEGIN',
+  SUCCESS: 'FETCH_SUCCESS',
+  FAILURE: 'FETCH_FAILURE'
+};
+
 const reducer = createEntityReducer({
   key: 'events',
-  types: ['FETCH', 'FETCH_SUCCESS', 'FETCH_FAILURE'],
+  types: {
+    fetch: FETCH
+  },
   initialState: {
     smashed: false
   },
@@ -27,7 +35,7 @@ describe('createEntityReducer', () => {
 
   it('should pick up entities from actions', () => {
     expect(reducer(undefined, {
-      type: 'FETCH_SUCCESS',
+      type: 'SUCCESS',
       payload: {
         entities: {
           events: {
@@ -47,16 +55,16 @@ describe('createEntityReducer', () => {
   });
 
   it('should toggle the fetching flag', () => {
-    const state = reducer(undefined, { type: 'FETCH' });
+    const state = reducer(undefined, { type: FETCH.BEGIN });
     expect(state.fetching).toEqual(true);
 
-    const nextState = reducer(state, { type: 'FETCH_SUCCESS' });
+    const nextState = reducer(state, { type: FETCH.SUCCESS });
     expect(nextState.fetching).toEqual(false);
   });
 
   it('should run the mutate reducer', () => {
     const customFlag = (state, action) => {
-      if (action.type === 'FETCH') {
+      if (action.type === FETCH.BEGIN) {
         return {
           ...state,
           customFlag: true
@@ -66,7 +74,7 @@ describe('createEntityReducer', () => {
     };
 
     const customFlag2 = (state, action) => {
-      if (action.type === 'FETCH') {
+      if (action.type === FETCH.BEGIN) {
         return {
           ...state,
           customFlag2: false,
@@ -78,14 +86,16 @@ describe('createEntityReducer', () => {
 
     const reducer = createEntityReducer({
       key: 'users',
-      types: ['FETCH', 'FETCH_SUCCESS', 'FETCH_FAILURE'],
+      types: {
+        fetch: FETCH
+      },
       mutate: joinReducers(
         customFlag,
         customFlag2
       )
     });
 
-    expect(reducer(undefined, { type: 'FETCH' })).toEqual({
+    expect(reducer(undefined, { type: FETCH.BEGIN })).toEqual({
       fetching: true,
       customFlag: false,
       customFlag2: false,

@@ -4,7 +4,9 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 
 export default createEntityReducer({
   key: 'groups',
-  types: [Group.FETCH.BEGIN, Group.FETCH.SUCCESS, Group.FETCH.FAILURE]
+  types: {
+    fetch: Group.FETCH
+  }
 });
 
 export const selectGroup = createSelector(
