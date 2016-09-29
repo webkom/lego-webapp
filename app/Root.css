@@ -4,6 +4,11 @@
 @import url('http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
 @import './variables.css';
 
+@font-face {
+  font-family: 'OCR A Extended';
+  src: url('./assets/fonts/ocraext.ttf') format('truetype');
+}
+
 * {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
