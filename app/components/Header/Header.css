@@ -78,15 +78,44 @@
   letter-spacing: 1px;
   padding: 0 1rem;
   height: 100%;
-  color: var(--lego-text-gray);
+  color: #444;
   text-transform: uppercase;
-  transition: all 0.3s;
-  border-bottom: 2px solid transparent;
-}
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: color 0.2s;
 
-.navigation a:hover,
-.navigation .activeItem {
-  color: #1C1C1C;
-  border-radius: 5px;
-  border-color: #C24538;
+  &::after {
+    content: '';
+    height: 10px;
+    left: 0;
+    right: 0;
+    border-bottom: 2px solid #C24538;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 0;
+    transform: scaleX(0);
+    transition: all 0.2s ease-in-out;
+  }
+
+  &:hover,
+  &.activeItem {
+    color: #000;
+    text-shadow: 0 0 5px #ccc;
+  }
+
+  &:hover::after,
+  &.activeItem::after {
+    transform: scaleX(1);
+    bottom: 3px;
+  }
+
+  &.readmeLink {
+    font-family: 'OCR A Extended', sans-serif;
+    font-size: 1.7rem;
+    text-transform: lowercase;
+    letter-spacing: 0;
+    padding-bottom: 7px;
+  }
 }

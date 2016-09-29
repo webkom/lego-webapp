@@ -2,7 +2,7 @@
   position: absolute;
   top: -8px;
   right: -8px;
-  background: #C24538;
+  background: linear-gradient(45deg, #842219, #e55649);
   color: #fff;
   border-radius: 8px;
   min-width: 28px;

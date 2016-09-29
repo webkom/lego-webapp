@@ -104,7 +104,7 @@ module.exports = {
       test: /\.json$/,
       loader: 'json-loader'
     }, {
-      test: /\.(png|jpg|mp4|webm)/,
+      test: /\.(png|jpg|jpeg|gif|woff|woff2|ttf|mp4|webm)/,
       loader: 'url',
       query: {
         limit: 8192
