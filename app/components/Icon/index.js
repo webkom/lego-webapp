@@ -20,6 +20,7 @@ function Icon({ name = 'star', scaleOnHover = false, className, ...props }: Prop
         'fa',
         `fa-${name}`,
         scaleOnHover && 'u-scale-on-hover',
+        styles.icon,
         className
       )}
       {...props}

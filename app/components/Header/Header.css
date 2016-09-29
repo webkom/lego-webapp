@@ -22,7 +22,7 @@
 }
 
 .buttonGroup button,
-i {
+.buttonGroup i {
   border: 0;
   color: var(--lego-text-gray);
   font-size: 1.8rem;
@@ -45,6 +45,10 @@ i {
   align-items: center;
   flex-direction: row;
   height: 96px;
+
+  @media (--small-viewport) {
+    padding: 0 20px;
+  }
 }
 
 .logo {
@@ -63,6 +67,10 @@ i {
   height: 60px;
   line-height: 60px;
   flex: 2;
+
+  @media (--small-viewport) {
+    display: none;
+  }
 }
 
 .navigation a {

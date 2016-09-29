@@ -1,3 +1,5 @@
+@import '../../variables.css';
+
 .content {
   background: #fff;
   border-radius: 5px;
@@ -6,6 +8,15 @@
   position: absolute;
   width: 220px;
   padding: 5px 0;
+
+  @media (--small-viewport) {
+    width: 100%;
+
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
 }
 
 .content::before,
