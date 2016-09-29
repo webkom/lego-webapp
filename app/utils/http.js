@@ -40,15 +40,17 @@ export function fetchJSON(path, options = {}) {
   console.log('HTTP Request', request);
 
   return fetch(request).then((response) =>
-    response.json().then((json) => ({ json, response }))
-  ).then(({ json, response }) => {
+    response.json().then((json) => {
+      response.jsonData = json;
+      return response;
+    })
+  ).then((response) => {
     if (response.ok) {
-      return { json, response };
+      return response;
     }
 
     const error = new Error(`${response.status} ${response.statusText}`);
     error.response = response;
-    error.json = json;
     throw error;
   });
 }
@@ -60,7 +62,7 @@ export function fetchJSON(path, options = {}) {
  *
  * ```js
  * dispatch(callAPI({
- *   types: [Post.FETCH_BEGIN, Post.FETCH_SUCCESS, Post.FETCH_FAILURE]
+ *   types: Post.FETCH
  *   endpoint: `/posts`
  * }))
  * ```
@@ -87,27 +89,31 @@ export function callAPI({
       };
     }
 
-    function _normalize(payload) {
+    function normalizeJsonResponse(jsonResponse = {}) {
+      const { results } = jsonResponse;
+      const payload = Array.isArray(results) ? results : jsonResponse;
       return schema ? normalize(payload, schema) : payload;
     }
 
+    const optimisticId = (Date.now() * Math.random() * 1000) | 0;
+    const optimisticPayload = body
+      ? normalizeJsonResponse({
+        id: optimisticId,
+        __persisted: false,
+        ...body
+      })
+      : null;
+
     return dispatch({
       types,
-      payload: body ? _normalize(body) : null,
+      payload: optimisticPayload,
       meta: {
         ...meta,
+        optimisticId: body ? optimisticId : undefined,
         body
       },
       promise: fetchJSON(urlFor(endpoint), options)
-        .then(({ json, response }) => ({
-          response,
-          json: _normalize(json.results || json),
-          pagination: json.count ? {
-            count: json.count,
-            next: json.next,
-            previous: json.previous
-          } : null
-        }))
+        .then((response) => normalizeJsonResponse(response.jsonData))
     });
   };
 }

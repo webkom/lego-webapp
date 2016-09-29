@@ -12,7 +12,6 @@ export function addComment({ text, commentTarget, parent }) {
       endpoint: '/comments/',
       method: 'post',
       body: {
-        id: Date.now(),
         text,
         comment_target: commentTarget,
         ...(parent ? { parent } : {})
@@ -31,7 +30,7 @@ export function addComment({ text, commentTarget, parent }) {
 
       dispatch(initializeWithKey('comment', formKey, { text: '' }, ['text']));
     }).catch((action) => {
-      const errors = { ...action.error.response.body };
+      const errors = { ...action.error.response.jsonData };
       if (errors.text) {
         errors.text = errors.text[0];
       }

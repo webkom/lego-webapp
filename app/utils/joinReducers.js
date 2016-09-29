@@ -5,6 +5,8 @@
  */
 export default function joinReducers(...reducers) {
   return (state, action) => {
-    return reducers.reduce((nextState, reducer) => reducer(nextState, action), state);
+    return reducers
+      .filter((reducer) => typeof reducer === 'function')
+      .reduce((nextState, reducer) => reducer(nextState, action), state);
   };
 }

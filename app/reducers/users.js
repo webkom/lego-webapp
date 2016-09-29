@@ -7,5 +7,7 @@ export type UserEntity = {
 
 export default createEntityReducer({
   key: 'users',
-  types: [User.FETCH.BEGIN, User.FETCH.SUCCESS, User.FETCH.FAILURE]
+  types: {
+    fetch: User.FETCH
+  }
 });

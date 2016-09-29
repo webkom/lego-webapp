@@ -15,7 +15,9 @@ const mutate = mutateComments('events');
 
 export default createEntityReducer({
   key: 'events',
-  types: [Event.FETCH.BEGIN, Event.FETCH.FAILURE, Event.FETCH.SUCCESS],
+  types: {
+    fetch: Event.FETCH
+  },
   mutate
 });
 

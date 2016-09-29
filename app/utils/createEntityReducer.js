@@ -2,10 +2,16 @@
 
 import union from 'lodash/union';
 import merge from 'lodash/merge';
+import joinReducers from 'app/utils/joinReducers';
+
+import type { ActionTypeObject } from 'app/utils/promiseMiddleware';
 
 type EntityReducerOptions = {
   key: string,
-  types: [string, string, string],
+  types: {
+    fetch: ActionTypeObject,
+    mutate?: ActionTypeObject,
+  },
   mutate?: () => void,
   initialState?: Object
 };
@@ -19,15 +25,20 @@ export default function createEntityReducer({
   mutate,
   initialState = {}
 }: EntityReducerOptions) {
-  const [fetchType, fetchSuccessType, fetchFailureType] = types;
+  const {
+    fetch: fetchType,
+    mutate: mutateType
+  } = types;
 
   function fetching(state: any, action: any) {
     switch (action.type) {
-      case fetchType:
+      case fetchType.BEGIN:
         return { ...state, fetching: true };
-      case fetchSuccessType:
-      case fetchFailureType:
+
+      case fetchType.SUCCESS:
+      case fetchType.FAILURE:
         return { ...state, fetching: false };
+
       default:
         return state;
     }
@@ -50,6 +61,22 @@ export default function createEntityReducer({
     return state;
   }
 
+  function optimistic(state, action) {
+    if (!mutateType ||
+      ![mutateType.FAILURE, mutateType.SUCCESS].includes(action.type)) {
+      return state;
+    }
+
+    if (!action.meta.optimisticId) {
+      return state;
+    }
+
+    return {
+      ...state,
+      items: state.items.filter((item) => item !== action.meta.optimisticId)
+    };
+  }
+
   const finalInitialState = {
     byId: {},
     items: [],
@@ -57,13 +84,12 @@ export default function createEntityReducer({
     ...initialState
   };
 
-  return function entityReducer(state: any = finalInitialState, action: any) {
-    const nextState = fetching(entities(state, action), action);
+  const reduce = joinReducers(
+    fetching,
+    entities,
+    optimistic,
+    mutate
+  );
 
-    if (typeof mutate === 'function') {
-      return mutate(nextState, action);
-    }
-
-    return nextState;
-  };
+  return (state: any = finalInitialState, action: any) => reduce(state, action);
 }

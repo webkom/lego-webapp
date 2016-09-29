@@ -25,8 +25,8 @@ describe('http/fetchJSON', () => {
 
     it('should format the response correctly', () =>
       fetchJSON('https://abakus.no')
-        .then(({ json }) => {
-          expect(json).toEqual({ hello: 'world' });
+        .then((response) => {
+          expect(response.jsonData).toEqual({ hello: 'world' });
         })
     );
   });
