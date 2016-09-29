@@ -9,7 +9,7 @@ import styles from './Comment.css';
 
 type Props = {
   comment: Object,
-  commentFormProps: Object
+  commentFormProps: Object,
 };
 
 export default class Comment extends Component {
@@ -19,16 +19,14 @@ export default class Comment extends Component {
     replyOpen: false
   };
 
-  openReply = () => {
-    this.setState({
-      replyOpen: true
-    });
+  closeReply = () => {
+    this.setState({ replyOpen: false });
   };
 
-  closeReply = () => {
-    this.setState({
-      replyOpen: false
-    });
+  toggleReply = () => {
+    this.setState((prevState) => ({
+      replyOpen: !prevState.replyOpen
+    }));
   };
 
   render() {
@@ -37,7 +35,7 @@ export default class Comment extends Component {
     const { replyOpen } = this.state;
 
     return (
-      <div>
+      <div className={styles.container}>
         <div className={styles.comment}>
           <ProfilePicture
             user={author.id}
@@ -53,23 +51,32 @@ export default class Comment extends Component {
               <span className={styles.bullet}>•</span>
               <Time className={styles.timestamp} time={createdAt} wordsAgo />
               <span className={styles.bullet}>•</span>
-              <a onClick={this.openReply}>Svar</a>
+              <a onClick={this.toggleReply}>
+                {this.state.replyOpen ? 'Lukk svar' : 'Svar'}
+              </a>
             </div>
 
-            <div className={styles.text}>{text}</div>
+            <div
+              className={styles.text}
+              style={{
+                fontStyle: this.state.replyOpen && 'italic'
+              }}
+            >
+              {text}
+            </div>
           </div>
         </div>
 
-        {replyOpen ?
-          <div>
-            <button type='button' onClick={this.closeReply}>x</button>
-            <CommentForm
-              formKey={`${commentFormProps.commentTarget}-${comment.id}`}
-              parent={comment.id}
-              {...commentFormProps}
-            />
-          </div>
-          : null}
+        {replyOpen && (
+          <CommentForm
+            formKey={`${commentFormProps.commentTarget}-${comment.id}`}
+            parent={comment.id}
+            submitText='Send svar'
+            inlineMode
+            autoFocus
+            {...commentFormProps}
+          />
+        )}
       </div>
     );
   }

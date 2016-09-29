@@ -7,6 +7,12 @@
   padding: 20px;
 }
 
+.inlineForm {
+  flex-direction: row;
+  display: flex;
+  margin-top: 20px;
+}
+
 .fields {
   display: flex;
   flex-direction: column;

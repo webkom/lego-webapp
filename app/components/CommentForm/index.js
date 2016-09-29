@@ -23,11 +23,19 @@ type Props = {
   addComment: () => void,
   parent: number,
   fields: Object,
-  handleSubmit: () => void
+  handleSubmit: () => void,
+  submitText: string,
+  inlineMode: boolean,
+  autoFocus: boolean
 };
 
 class CommentForm extends Component {
   props: Props;
+
+  static defaultProps = {
+    submitText: 'Send kommentar',
+    autoFocus: false
+  };
 
   onSubmit = ({ text }) => {
     const { commentTarget, parent } = this.props;
@@ -39,7 +47,18 @@ class CommentForm extends Component {
   };
 
   render() {
-    const { fields: { text }, handleSubmit, user, commentTarget, loggedIn } = this.props;
+    const {
+      fields: {
+        text
+      },
+      handleSubmit,
+      user,
+      loggedIn,
+      submitText,
+      inlineMode,
+      autoFocus
+    } = this.props;
+
     if (!loggedIn) {
       return (
         <div>
@@ -47,30 +66,23 @@ class CommentForm extends Component {
         </div>
       );
     }
-    if (!user || !commentTarget) {
-      return (
-        <div>
-          An error occured. Please try to reload the page.
-        </div>
-      );
-    }
 
     const hasError = text.error && text.touched;
+    const className = inlineMode ? styles.inlineForm : styles.form;
 
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)} className={styles.form}>
-        <div>
-          <ProfilePicture
-            size={64}
-            user={user.id}
-            style={{ marginRight: 20 }}
-          />
-        </div>
+      <form onSubmit={handleSubmit(this.onSubmit)} className={className}>
+        <ProfilePicture
+          size={64}
+          user={user.id}
+          style={{ marginRight: 20 }}
+        />
 
         <div className={styles.fields}>
           <TextField
             placeholder='Skriv noe her...'
             style={{ borderColor: hasError && 'red' }}
+            autoFocus={autoFocus}
             {...text}
           />
 
@@ -79,7 +91,7 @@ class CommentForm extends Component {
             disabled={hasError}
             submit
           >
-            {hasError ? 'Kommentaren kan ikke være tom' : 'Send kommentar'}
+            {hasError ? 'Kommentaren kan ikke være tom' : submitText}
           </Button>
         </div>
       </form>

@@ -1,7 +1,9 @@
 .child {
-  margin-left: 5em;
 }
 
 .root {
-  margin-left: 0;
+}
+
+.nested {
+  margin-left: 50px;
 }
