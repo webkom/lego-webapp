@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import styles from './Quotes.css';
 
 export default class QuoteRightNav extends Component {
 
@@ -10,7 +11,7 @@ export default class QuoteRightNav extends Component {
   render() {
     const path = this.props.query.filter;
     return (
-      <div className='quotepage-right'>
+      <div className={styles.quotepageRight}>
         <Link
           to={path === 'unapproved' ?
           '/quotes' : '/quotes?filter=unapproved'}

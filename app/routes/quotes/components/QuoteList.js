@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import SingleQuote from './SingleQuote';
+import Quote from './Quote';
 
 export default class QuoteList extends Component {
 
@@ -13,7 +13,7 @@ export default class QuoteList extends Component {
     return (
       <ul>
         {this.props.quotes.map((quote) =>
-          <SingleQuote
+          <Quote
             {...this.props}
             quote={quote}
             key={quote.id}

@@ -12,46 +12,7 @@ import {
 } from '../../actions/QuoteActions';
 import QuotePage from './components/QuotePage';
 
-const compareByDate = (a, b) => {
-  const date1 = new Date(a.createdAt);
-  const date2 = new Date(b.createdAt);
-  return date2.getTime() - date1.getTime();
-};
-
-const compareByLikes = (a, b) => b.likes - a.likes;
-
-const sortQuotes = (quotes, sortType) => {
-  const compare = sortType === 'date' ? compareByDate : compareByLikes;
-  return quotes.sort(compare);
-};
-
-function mapStateToProps(state, props) {
-  const { query } = props.location;
-  const quotes = state.quotes.items
-    .map((id) => state.quotes.byId[id])
-    .filter((quote) => quote.approved === (query.filter !== 'unapproved'));
-
-  const sortType = query.sort === 'likes' ? 'likes' : 'date';
-  return {
-    quotes: sortQuotes(quotes, sortType),
-    query,
-    sortType
-  };
-}
-
-@connect(mapStateToProps,
-  {
-    fetchAllApproved,
-    fetchAllUnapproved,
-    fetchQuote,
-    like,
-    unlike,
-    approve,
-    unapprove,
-    deleteQuote
-  }
-)
-export default class QuotesContainer extends Component {
+export class QuotesRoute extends Component {
 
   static propTypes = {
     params: PropTypes.object.isRequired,
@@ -90,3 +51,45 @@ export default class QuotesContainer extends Component {
     );
   }
 }
+
+const compareByDate = (a, b) => {
+  const date1 = new Date(a.createdAt);
+  const date2 = new Date(b.createdAt);
+  return date2.getTime() - date1.getTime();
+};
+
+const compareByLikes = (a, b) => b.likes - a.likes;
+
+const sortQuotes = (quotes, sortType) => {
+  const compare = sortType === 'date' ? compareByDate : compareByLikes;
+  return quotes.sort(compare);
+};
+
+function mapStateToProps(state, props) {
+  const { query } = props.location;
+  const quotes = state.quotes.items
+    .map((id) => state.quotes.byId[id])
+    .filter((quote) => quote.approved === (query.filter !== 'unapproved'));
+
+  const sortType = query.sort === 'likes' ? 'likes' : 'date';
+  return {
+    quotes: sortQuotes(quotes, sortType),
+    query,
+    sortType
+  };
+}
+
+const mapDispatchToProps = {
+  fetchAllApproved,
+  fetchAllUnapproved,
+  fetchQuote,
+  like,
+  unlike,
+  approve,
+  unapprove,
+  deleteQuote
+};
+
+export default connect(
+  mapStateToProps, mapDispatchToProps
+)(QuotesRoute);
