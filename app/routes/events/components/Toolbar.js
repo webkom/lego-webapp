@@ -18,13 +18,17 @@ function Toolbar() {
           to='/events'
           activeClassName={styles.active}
           className={styles.pickerItem}
-        >Calendar</IndexLink>
+        >
+          List View
+        </IndexLink>
 
         <Link
-          to='/events/list'
+          to='/events/calendar'
           activeClassName={styles.active}
           className={styles.pickerItem}
-        >List</Link>
+        >
+          Calendar
+        </Link>
       </div>
 
       <div className={styles.section}>
