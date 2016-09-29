@@ -107,6 +107,10 @@
   line-height: 25px;
 }
 
+.singleQuote .quoteSource i {
+  font-size: 20px!important;
+}
+
 .singleQuote .quoteAuthor {
   font-size: 15px;
   margin-top: 50px;

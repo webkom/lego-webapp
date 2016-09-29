@@ -16,7 +16,7 @@ export class QuotesDetailRoute extends Component {
 
   static propTypes = {
     params: PropTypes.object.isRequired,
-    quotes: PropTypes.array.isRequired,
+    quote: PropTypes.object.isRequired,
     fetchQuote: PropTypes.func.isRequired,
     query: PropTypes.object.isRequired,
     location: PropTypes.object.isRequired
@@ -32,7 +32,7 @@ export class QuotesDetailRoute extends Component {
 }
 
 function mapStateToProps(state, props) {
-  const quotes = state.quotes.items.map((id) => state.entities.quotes[id]);
+  const quotes = state.quotes.items.map((id) => state.quotes.byId[id]);
   const query = props.location.query;
 
   return {

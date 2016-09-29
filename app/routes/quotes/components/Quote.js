@@ -56,7 +56,7 @@ export default class Quote extends Component {
             <i>- {quote.source}</i>
           </span>
 
-          <div className='quote-date'>
+          <div className={styles.quoteDate}>
             {<Time time={quote.createdAt} wordsAgo />}
           </div>
 

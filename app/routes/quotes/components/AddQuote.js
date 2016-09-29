@@ -39,16 +39,20 @@ export default class AddQuote extends Component {
             </label>
 
             {text.error && text.touched ?
-              <FieldError error={text.error} /> : null}
-            <textarea id='addQuoteContent' {...text} />
+              (<div style={{ display: 'block', color: 'red' }}>
+                <FieldError error={text.error} />
+              </div>) : null}
+            <textarea className={styles.addQuoteContent} {...text} />
 
             <label htmlFor='addQuoteSource' style={{ fontSize: 20 }}>
               Hvor sitatet kommer fra (sleng gjerne med noe snaks!) <b>*</b>
             </label>
 
             {source.error && source.touched ?
-              <FieldError error={source.error} /> : null}
-            <textarea id='addQuoteSource' {...source} />
+              (<div style={{ display: 'block', color: 'red' }}>
+                <FieldError error={source.error} />
+              </div>) : null}
+            <textarea className={styles.addQuoteSource} {...source} />
 
             <div className={styles.clear}></div>
             <input type='submit' className={styles.submitQuote}

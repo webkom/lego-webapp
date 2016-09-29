@@ -65,12 +65,12 @@
   display: block;
 }
 
-#addQuoteContent {
+.addQuoteContent {
   width: 500px;
   height: 150px;
 }
 
-#addQuoteSource {
+.addQuoteSource {
   width: 500px;
   height: 75px;
 }
@@ -98,6 +98,9 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  &:last-child .quoteBottom{
+    border-bottom: none;
+  }
 }
 
 .singleQuote .theQuote {
@@ -192,6 +195,10 @@
   margin-top: -5px;
   width: 76%;
   line-height: 25px;
+}
+
+.singleQuote .quoteSource i {
+  font-size: 20px!important;
 }
 
 .singleQuote .quoteAuthor {
