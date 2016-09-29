@@ -1,7 +1,8 @@
 .root {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+  font-size: 18px;
 }
 
 .section {

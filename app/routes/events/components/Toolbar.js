@@ -2,14 +2,15 @@
 
 import React from 'react';
 import { Link, IndexLink } from 'react-router';
-import Icon from 'app/components/Icon';
+import Time from 'app/components/Time';
+import Button from 'app/components/Button';
 import styles from './Toolbar.css';
 
 function Toolbar() {
   return (
     <div className={styles.root}>
       <div className={styles.section}>
-        <Icon name='plus' />
+        <Time format='ll' />
       </div>
 
       <div className={styles.buttons}>
@@ -25,7 +26,7 @@ function Toolbar() {
       </div>
 
       <div className={styles.section}>
-        <Icon name='plus' />
+        <Button>Create Event</Button>
       </div>
     </div>
   );
