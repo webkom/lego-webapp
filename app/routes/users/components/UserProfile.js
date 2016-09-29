@@ -46,7 +46,7 @@ export default class UserProfile extends Component {
       <section className='u-container'>
         <FlexRow className={styles.header}>
           <ProfilePicture
-            username={user.username}
+            user={user.id}
             size={150}
           />
 

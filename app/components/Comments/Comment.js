@@ -40,7 +40,7 @@ export default class Comment extends Component {
       <div>
         <div className={styles.comment}>
           <ProfilePicture
-            username={author.username}
+            user={author.id}
             size={64}
             style={{ marginRight: 20 }}
           />
