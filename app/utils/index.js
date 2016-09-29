@@ -40,3 +40,7 @@ export function getRandomImage(width, height) {
   const heightOrWidth = height || width;
   return `http://unsplash.it/${width}/${heightOrWidth}/?random&pleasedontcacheme=${id++}`;
 }
+
+export function getImage(id, width = 320, height = 240) {
+  return `http://unsplash.it/${width}/${height}/?image=${id}`;
+}

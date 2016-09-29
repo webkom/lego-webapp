@@ -16,14 +16,30 @@
 
 .eventItem {
   padding-left: 20px;
-  border-left: 3px solid transparent;
+  border-left: 4px solid transparent;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .eventItemTitle {
   color: #333;
-  font-weight: 400;
+  font-weight: 700;
+  margin: 0;
 }
 
 .eventGroup {
   margin-bottom: 40px;
+}
+
+.eventTime {
+  color: #777;
+}
+
+.companyLogo {
+  width: 120px;
+
+  img {
+    max-width: 100%;
+  }
 }
