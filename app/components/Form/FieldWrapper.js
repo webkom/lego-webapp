@@ -5,8 +5,9 @@ export const FieldError = ({ error }) => (
   <span style={{ color: 'red', fontWeight: 'bold' }}>{error}</span>
 );
 
-const Field = ({
-  field,
+const FieldWrapper = ({
+  input,
+  meta,
   label,
   type = 'text',
   inputComponent = 'input',
@@ -17,10 +18,10 @@ const Field = ({
     {React.createElement(inputComponent, {
       type,
       ...props,
-      ...field
+      ...input
     })}
-    {field.error && field.touched ? <FieldError error={field.error} /> : null}
+    {meta.error && meta.touched ? <FieldError error={meta.error} /> : null}
   </div>
 );
 
-export default Field;
+export default FieldWrapper;

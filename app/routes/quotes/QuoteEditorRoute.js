@@ -20,7 +20,7 @@ export class QuoteEditorRoute extends Component {
 
 function validateQuote(data) {
   const errors = {};
-  if (!data.text) {
+  if (!data.text || data.text.length < 10) {
     errors.text = 'Vennligst fyll ut dette feltet';
   }
 
@@ -35,7 +35,6 @@ const mapDispatchToProps = { addQuotes };
 export default compose(
   reduxForm({
     form: 'addQuote',
-    fields: ['text', 'source'],
     validate: validateQuote
   }),
   connect(null, mapDispatchToProps)

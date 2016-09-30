@@ -42,7 +42,7 @@ export default class CommentView extends Component {
             }</h3>
 
             <CommentForm
-              formKey={commentFormProps.commentTarget}
+              form={`comment.${commentFormProps.commentTarget}`}
               {...commentFormProps}
             />
           </div>

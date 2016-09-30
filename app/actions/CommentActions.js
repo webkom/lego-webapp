@@ -1,7 +1,7 @@
 import { commentSchema } from 'app/reducers';
 import { Comment } from './ActionTypes';
 import { callAPI } from '../utils/http';
-import { startSubmit, stopSubmit, initializeWithKey } from 'redux-form';
+import { startSubmit, stopSubmit, initialize } from 'redux-form';
 
 export function addComment({ text, commentTarget, parent }) {
   return (dispatch, getState) => {
@@ -23,12 +23,12 @@ export function addComment({ text, commentTarget, parent }) {
       schema: commentSchema
     })).then(() => {
       dispatch(stopSubmit('comment'));
-      let formKey = commentTarget;
+      let formName = `comment.${commentTarget}`;
       if (parent) {
-        formKey += `-${parent}`;
+        formName += `-${parent}`;
       }
 
-      dispatch(initializeWithKey('comment', formKey, { text: '' }, ['text']));
+      dispatch(initialize(formName, { text: '' }));
     }).catch((action) => {
       const errors = { ...action.error.response.jsonData };
       if (errors.text) {
