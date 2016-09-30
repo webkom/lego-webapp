@@ -1,5 +1,6 @@
 // @flow
 
+import moment from 'moment';
 import { createSelector } from 'reselect';
 import { Event } from '../actions/ActionTypes';
 import { mutateComments } from 'app/reducers/comments';
@@ -21,16 +22,24 @@ export default createEntityReducer({
   mutate
 });
 
+function transformEvent(event) {
+  return {
+    ...event,
+    startTime: moment(event.startTime),
+    endTime: moment(event.endTime)
+  };
+}
+
 export const selectEvents = createSelector(
   (state) => state.events.byId,
   (state) => state.events.items,
-  (eventsById, eventIds) => eventIds.map((id) => eventsById[id])
+  (eventsById, eventIds) => eventIds.map((id) => transformEvent(eventsById[id]))
 );
 
 export const selectEventById = createSelector(
   (state) => state.events.byId,
   (state, props) => props.eventId,
-  (eventsById, eventId) => eventsById[eventId]
+  (eventsById, eventId) => transformEvent(eventsById[eventId])
 );
 
 export const selectCommentsForEvent = createSelector(

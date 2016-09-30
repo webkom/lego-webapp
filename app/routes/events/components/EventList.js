@@ -16,9 +16,9 @@ function groupEvents(events) {
   const nextWeek = now.clone().add(1, 'week');
 
   const groupers = {
-    currentWeek: (event) => moment(event.startTime).isSame(now, 'week'),
-    nextWeek: (event) => moment(event.startTime).isSame(nextWeek, 'week'),
-    later: (event) => moment(event.startTime).isAfter(nextWeek)
+    currentWeek: (event) => event.startTime.isSame(now, 'week'),
+    nextWeek: (event) => event.startTime.isSame(nextWeek, 'week'),
+    later: (event) => event.startTime.isAfter(nextWeek)
   };
 
   return events.reduce((result, event) => {
@@ -33,38 +33,56 @@ function groupEvents(events) {
   }, {});
 }
 
-function getAttendanceMessage() {
+function getAttendanceMessage(event) {
   return '0 / 100';
 }
 
-function Events({ events = [] }) {
-  const attendanceMessage = getAttendanceMessage();
+function EventItem({ event }) {
+  const attendanceMessage = getAttendanceMessage(event);
+  return (
+    <div
+      style={{ borderColor: colorForEvent(event.eventType) }}
+      className={styles.eventItem}
+    >
+      <div>
+        <Link to={`/events/${event.id}`}>
+          <h3 className={styles.eventItemTitle}>
+            {event.title}
+            <Pill style={{ marginLeft: 10 }}>
+              {attendanceMessage}
+            </Pill>
+          </h3>
+        </Link>
 
+        <div>
+          <span>3 friends are going</span>
+        </div>
+
+        <div className={styles.eventTime}>
+          <Time
+            time={event.startTime}
+            format='ll HH:mm'
+          />
+          {` • ${event.location}`}
+        </div>
+      </div>
+
+      <div className={styles.companyLogo}>
+        <img src={getImage(event.id)} />
+      </div>
+    </div>
+  );
+}
+
+function EventListGroup({ name, events = [] }) {
   return (
     <div className={styles.eventGroup}>
+      <h2 className={styles.heading}>{name}</h2>
       {events.map((event, i) => (
-        <div
+        <EventItem
           key={i}
-          style={{ borderColor: colorForEvent(event.eventType) }}
-          className={styles.eventItem}
-        >
-          <div>
-            <Link to={`/events/${event.id}`}>
-              <h3 className={styles.eventItemTitle}>
-                {event.title}
-                <Pill style={{ marginLeft: 10 }}>{attendanceMessage}</Pill>
-              </h3>
-            </Link>
-            <div><span>3 friends are going</span></div>
-            <div className={styles.eventTime}>
-              <Time time={event.startTime} format='ll HH:mm' />
-            </div>
-          </div>
-
-          <div className={styles.companyLogo}>
-            <img src={getImage(event.id)} />
-          </div>
-        </div>
+          event={event}
+        />
       ))}
     </div>
   );
@@ -76,14 +94,21 @@ class EventList extends Component {
     return (
       <div className={styles.root}>
         <Toolbar />
-        <h2 className={styles.heading}>Denne uken</h2>
-        <Events events={events.currentWeek} />
 
-        <h2 className={styles.heading}>Neste uke</h2>
-        <Events events={events.nextWeek} />
+        <EventListGroup
+          name='Denne uken'
+          events={events.currentWeek}
+        />
 
-        <h2 className={styles.heading}>Senere</h2>
-        <Events events={events.later} />
+        <EventListGroup
+          name='Neste uke'
+          events={events.nextWeek}
+        />
+
+        <EventListGroup
+          name='Senere'
+          events={events.later}
+        />
       </div>
     );
   }
