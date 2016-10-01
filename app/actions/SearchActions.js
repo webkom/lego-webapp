@@ -8,12 +8,22 @@ export function toggleSearch() {
 }
 
 export function search(query) {
-  return callAPI({
-    endpoint: `/search/${query}`,
-    types: Search.SEARCH,
-    meta: {
-      query,
-      errorMessage: 'Search failed'
+  return (dispatch, getState) => {
+    if (!query) {
+      return Promise.resolve();
     }
-  });
+
+    return dispatch(callAPI({
+      endpoint: '/search/search/',
+      types: Search.SEARCH,
+      method: 'post',
+      body: {
+        query
+      },
+      meta: {
+        query,
+        errorMessage: 'Search failed'
+      }
+    }));
+  };
 }

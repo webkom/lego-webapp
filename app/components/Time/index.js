@@ -6,7 +6,7 @@ import config from 'app/config';
 
 type Props = {
   format?: string,
-  time: string,
+  time?: string,
   wordsAgo?: boolean
 };
 
@@ -24,7 +24,7 @@ function getFormattedDateTime(time: moment, format: string): string {
  */
 function Time({ format = 'YYYY-MM-d', time, wordsAgo = false, ...props }: Props) {
   const formatted = getFormattedDateTime(
-    moment.tz(time, config.timezone),
+    moment.tz(time || moment(), config.timezone),
     wordsAgo ? 'timeAgoInWords' : format
   );
 

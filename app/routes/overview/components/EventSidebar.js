@@ -2,6 +2,7 @@ import styles from './EventSidebar.css';
 import React from 'react';
 import { Link } from 'react-router';
 import Octagon from 'app/components/Octagon';
+import Image from 'app/components/Image';
 import colorForEvent from 'app/routes/events/colorForEvent';
 import { getRandomImage } from 'app/utils';
 
@@ -9,7 +10,12 @@ const EventItem = ({ event, imageSize }) => (
   <Link to={`/events/${event.id}`}>
     <li className={styles.item} key={event.id}>
       <Octagon size={imageSize}>
-        <img className={styles.itemImage} src={getRandomImage(100)}></img>
+        <Image
+          style={{
+            paddingBottom: 15
+          }}
+          src={getRandomImage(100)}
+        />
       </Octagon>
       <div>
         <h3

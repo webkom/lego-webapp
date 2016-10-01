@@ -2,10 +2,11 @@ import styles from './Overview.css';
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
+import Image from 'app/components/Image';
 import EventSidebar from './EventSidebar';
 import ProfileBox from './ProfileBox';
 import colorForEvent from 'app/routes/events/colorForEvent';
-import { getRandomImage } from 'app/utils';
+import { getImage } from 'app/utils';
 
 const EVENT_TYPES = [
   'Bedriftspresentasjon',
@@ -25,7 +26,10 @@ const OverviewItem = ({ event, showImage }) => (
     </h4>
     {showImage &&
       <Link to={`/events/${event.id}`}>
-        <img className={styles.itemImage} src={getRandomImage(800, 600)}></img>
+        <Image
+          height={60}
+          src={getImage(event.id)}
+        />
       </Link>}
     <h2 className={styles.itemTitle}>
       <Link to={`/events/${event.id}`}>
