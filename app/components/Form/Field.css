@@ -1,4 +1,9 @@
 .field {
   display: flex;
   flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.inputWithError {
+  border: 1px solid #C24538 !important;
 }

@@ -57,7 +57,11 @@ function EventEditor({ handleSubmit }) {
 
 export default reduxForm({
   form: 'eventEditor',
-  validate() {
-    return {};
+  validate(values) {
+    const errors = {};
+    if (!values.description) {
+      errors.description = 'Required';
+    }
+    return errors;
   }
 })(EventEditor);

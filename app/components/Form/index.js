@@ -1,4 +1,3 @@
-export { default as FieldWrapper } from './FieldWrapper';
 export { default as TextInput } from './TextInput';
 export { default as TextEditor } from './TextEditor';
 export { default as DatePicker } from './DatePicker';
