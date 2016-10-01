@@ -4,7 +4,6 @@ import styles from './Field.css';
 export const FieldError = ({ error }) => (
   <span style={{ color: 'red', fontWeight: 'bold' }}>{error}</span>
 );
-
 const FieldWrapper = ({
   input,
   meta,

@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
-import { TextField } from 'app/components/Form';
+import { TextEditor } from 'app/components/Form';
 import Button from 'app/components/Button';
 import ProfilePicture from 'app/components/ProfilePicture';
 import { addComment } from 'app/actions/CommentActions';
@@ -85,7 +85,7 @@ class CommentForm extends Component {
             autoFocus={autoFocus}
             name='text'
             component={FieldWrapper}
-            inputComponent={TextField}
+            inputComponent={TextEditor}
             type='text'
           />
 

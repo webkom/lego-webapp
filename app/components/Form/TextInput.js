@@ -2,6 +2,7 @@
 
 import React from 'react';
 import cx from 'classnames';
+import { createField } from './Field';
 import styles from './TextInput.css';
 
 type Props = {
@@ -19,4 +20,5 @@ function TextInput({ type = 'text', className, ...props }: Props) {
   );
 }
 
+TextInput.Field = createField(TextInput);
 export default TextInput;

@@ -1,19 +1,63 @@
 // @flow
 
 import React from 'react';
-import { Form, TextInput, TextEditor, Button } from 'app/components/Form';
+import { reduxForm, Field } from 'redux-form';
+import {
+  Form,
+  TextInput,
+  TextEditor,
+  Button,
+  DatePicker
+} from 'app/components/Form';
 
-function EventEditor() {
+function EventEditor({ handleSubmit }) {
   return (
     <div>
       <h2>Create an event</h2>
-      <Form onSubmit={(e) => e.preventDefault()}>
-        <TextInput placeholder='Title' autoFocus />
-        <TextEditor placeholder='Description' />
-        <Button type='submit'>Save Event</Button>
+      <Form onSubmit={handleSubmit(() => {})}>
+        <Field
+          placeholder='Title'
+          name='title'
+          component={TextInput.Field}
+          autoFocus
+        />
+
+        <Field
+          placeholder='Description'
+          name='description'
+          component={TextEditor.Field}
+        />
+
+        <div style={{ flexDirection: 'row', display: 'flex' }}>
+          <Field
+            name='startTime'
+            component={DatePicker.Field}
+            fieldStyle={{ flex: 1 }}
+          />
+
+          <Field
+            name='endTime'
+            component={DatePicker.Field}
+            fieldStyle={{ flex: 1 }}
+          />
+        </div>
+
+        <Field
+          placeholder='Location'
+          name='location'
+          component={TextInput.Field}
+          type='password'
+        />
+
+        <Button submit>Save Event</Button>
       </Form>
     </div>
   );
 }
 
-export default EventEditor;
+export default reduxForm({
+  form: 'eventEditor',
+  validate() {
+    return {};
+  }
+})(EventEditor);

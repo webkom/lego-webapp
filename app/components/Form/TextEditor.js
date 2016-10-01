@@ -2,13 +2,14 @@
 
 import React from 'react';
 import cx from 'classnames';
+import { createField } from './Field';
 import styles from './TextEditor.css';
 
 type Props = {
   className: string
 };
 
-function TextInput({ className, ...props }: Props) {
+function TextEditor({ className, ...props }: Props) {
   return (
     <textarea
       className={cx(styles.input, className)}
@@ -17,4 +18,5 @@ function TextInput({ className, ...props }: Props) {
   );
 }
 
-export default TextInput;
+TextEditor.Field = createField(TextEditor);
+export default TextEditor;

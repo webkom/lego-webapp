@@ -1,7 +1,7 @@
 import styles from './Quotes.css';
 import React, { Component, PropTypes } from 'react';
 import { reduxForm, Field } from 'redux-form';
-import { TextField } from 'app/components/Form';
+import { TextEditor } from 'app/components/Form';
 import FieldWrapper from 'app/components/Form/FieldWrapper';
 
 class AddQuote extends Component {
@@ -43,7 +43,7 @@ class AddQuote extends Component {
               className={styles.addQuoteContent}
               name='text'
               component={FieldWrapper}
-              inputComponent={TextField}
+              inputComponent={TextEditor}
               type='text'
             />
             <label htmlFor='addQuoteSource' style={{ fontSize: 20 }}>
@@ -54,7 +54,7 @@ class AddQuote extends Component {
               className={styles.addQuoteSource}
               name='source'
               component={FieldWrapper}
-              inputComponent={TextField}
+              inputComponent={TextEditor}
               type='text'
             />
 
