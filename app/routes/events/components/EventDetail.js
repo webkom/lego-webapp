@@ -9,6 +9,7 @@ import Markdown from 'app/components/Markdown';
 import JoinEventForm from './JoinEventForm';
 import RegisteredCell from './RegisteredCell';
 import RegisteredSummary from './RegisteredSummary';
+import AttendanceStatus from './AttendanceStatus';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -85,8 +86,7 @@ export default class EventDetail extends Component {
           <FlexColumn className={styles.meta}>
             <ul>
               <li>Starter om <strong>3 timer</strong></li>
-              <li>Finner sted i <strong>H3</strong></li>
-              <li>Mingling på <strong>Frati</strong></li>
+              <li>Finner sted i <strong>{event.location}</strong></li>
             </ul>
             {loggedIn && (
               <FlexItem>
@@ -98,6 +98,7 @@ export default class EventDetail extends Component {
                   }
                 </FlexRow>
                 <RegisteredSummary registrations={registrations} />
+                <AttendanceStatus pools={event.pools} />
               </FlexItem>
             )}
           </FlexColumn>
