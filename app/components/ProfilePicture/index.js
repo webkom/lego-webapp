@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import Image from 'app/components/Image';
 
 type Props = {
   user: number,
@@ -10,7 +11,7 @@ type Props = {
 
 function ProfilePicture({ user, size = 100, style, ...props }: Props) {
   return (
-    <img
+    <Image
       src={`http://api.randomuser.me/portraits/women/${user}.jpg`}
       style={{
         width: size,

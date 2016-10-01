@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import moment from 'moment';
 import Time from 'app/components/Time';
 import Pill from 'app/components/Pill';
+import Image from 'app/components/Image';
 import Toolbar from './Toolbar';
 import colorForEvent from '../colorForEvent';
 import { getImage } from 'app/utils';
@@ -68,7 +69,7 @@ function EventItem({ event }) {
       </div>
 
       <div className={styles.companyLogo}>
-        <img src={getImage(event.id)} />
+        <Image src={getImage(event.id)} />
       </div>
     </div>
   );
