@@ -1,4 +1,4 @@
-@import 'normalize.css/normalize.css';
+@import 'minireset.css/minireset.css';
 @import 'animate.css/animate.css';
 @import url('http://fonts.googleapis.com/css?family=Lato:400,700');
 @import url('http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
@@ -32,11 +32,6 @@ a {
   text-decoration: none;
 }
 
-form {
-  margin: 0;
-  padding: 0;
-}
-
 p {
   margin-bottom: 10px;
 }
@@ -51,11 +46,23 @@ ul {
   list-style: none;
 }
 
+h2,
+h3 {
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+h3 {
+  font-size: 18px;
+}
+
 button {
   background-color: transparent;
-  border: 1px solid #27ae60;
-  color: #27ae60;
-  border-radius: 999em;
+  border: 0;
 }
 
 .container {

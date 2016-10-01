@@ -4,11 +4,12 @@
   background: #eff1f4;
   text-transform: uppercase;
   margin: 2px 0;
-  padding: 5px 20px;
+  padding: 10px 20px;
   color: #333;
   outline: none;
   border: 1px solid #ccc;
   letter-spacing: 1px;
+  border-radius: 999em;
 
   &:hover {
     border: 1px solid #bbb;
