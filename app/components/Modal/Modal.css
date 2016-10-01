@@ -1,0 +1,37 @@
+.modal {
+  position: 'fixed';
+  z-index: 1040;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.backdrop {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.8);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.content {
+  position: absolute;
+  max-width: 640px;
+  top: 100px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 5px;
+  padding: 20px;
+  outline: none;
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+}

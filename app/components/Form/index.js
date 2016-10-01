@@ -3,6 +3,10 @@ import React from 'react';
 import cx from 'classnames';
 
 export { default as FieldWrapper } from './FieldWrapper';
+export { default as eld } from './Field';
+export { default as TextInput } from './TextInput';
+export { default as TextEditor } from './TextEditor';
+export { default as Button } from 'app/components/Button';
 
 export const Form = ({
   children,
