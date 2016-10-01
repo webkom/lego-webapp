@@ -69,7 +69,7 @@ export default class Comment extends Component {
 
         {replyOpen && (
           <CommentForm
-            formKey={`${commentFormProps.commentTarget}-${comment.id}`}
+            form={`comment.${commentFormProps.commentTarget}-${comment.id}`}
             parent={comment.id}
             submitText='Send svar'
             inlineMode

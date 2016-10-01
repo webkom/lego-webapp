@@ -2,7 +2,10 @@
 
 import React, { Component } from 'react';
 import Button from 'app/components/Button';
-import { Form, Field } from 'app/components/Form';
+import { Form } from 'app/components/Form';
+import { Field } from 'redux-form';
+import FieldWrapper from 'app/components/Form/FieldWrapper';
+
 
 type Props = {
   fields: Object,
@@ -17,9 +20,6 @@ export default class UserSettings extends Component {
 
   render() {
     const {
-      fields: {
-        username, firstName, lastName, email
-      },
       onSubmit,
       invalid,
       pristine,
@@ -31,25 +31,32 @@ export default class UserSettings extends Component {
     return (
       <Form onSubmit={onSubmit}>
         <Field
+          placeholder='Brukernavn'
           label='Username'
-          field={username}
+          name='username'
           readOnly
+          component={FieldWrapper}
         />
 
         <Field
+          placeholder='Fornavn'
           label='First name'
-          field={firstName}
+          name='firstName'
+          component={FieldWrapper}
         />
 
         <Field
+          placeholder='Etternavn'
           label='Last name'
-          field={lastName}
+          name='lastName'
+          component={FieldWrapper}
         />
 
         <Field
-          label='Email'
-          field={email}
           placeholder='abc@stud.ntnu.no'
+          label='email'
+          name='email'
+          component={FieldWrapper}
         />
 
         <Button

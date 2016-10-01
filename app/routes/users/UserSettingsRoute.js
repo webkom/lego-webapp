@@ -31,7 +31,6 @@ function validateContact(data) {
 
 @reduxForm({
   form: 'contact',
-  fields: ['username', 'firstName', 'lastName', 'email'],
   validate: validateContact
 })
 @connect(
@@ -56,7 +55,7 @@ export default class UserSettingsRoute extends Component {
         email: newProps.user.email
       };
 
-      this.props.initialize('contact', data, Object.keys(data));
+      this.props.initialize('contact', data);
     }
   }
 
@@ -69,7 +68,7 @@ export default class UserSettingsRoute extends Component {
       email: user.email
     };
 
-    this.props.initialize('contact', data, Object.keys(data));
+    this.props.initialize('contact', data);
   }
 
   onSubmit(data) {

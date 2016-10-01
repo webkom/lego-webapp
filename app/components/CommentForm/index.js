@@ -1,12 +1,15 @@
 // @flow
 
 import React, { Component } from 'react';
-import { reduxForm } from 'redux-form';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
 import { TextField } from 'app/components/Form';
 import Button from 'app/components/Button';
 import ProfilePicture from 'app/components/ProfilePicture';
 import { addComment } from 'app/actions/CommentActions';
 import styles from './CommentForm.css';
+import FieldWrapper from 'app/components/Form/FieldWrapper';
 
 const validate = (values) => {
   const errors = {};
@@ -48,10 +51,9 @@ class CommentForm extends Component {
 
   render() {
     const {
-      fields: {
-        text
-      },
       handleSubmit,
+      pristine,
+      submitting,
       user,
       loggedIn,
       submitText,
@@ -67,7 +69,6 @@ class CommentForm extends Component {
       );
     }
 
-    const hasError = text.error && text.touched;
     const className = inlineMode ? styles.inlineForm : styles.form;
 
     return (
@@ -79,19 +80,21 @@ class CommentForm extends Component {
         />
 
         <div className={styles.fields}>
-          <TextField
+          <Field
             placeholder='Skriv noe her...'
-            style={{ borderColor: hasError && 'red' }}
             autoFocus={autoFocus}
-            {...text}
+            name='text'
+            component={FieldWrapper}
+            inputComponent={TextField}
+            type='text'
           />
 
           <Button
             className={styles.submit}
-            disabled={hasError}
+            disabled={pristine || submitting}
             submit
           >
-            {hasError ? 'Kommentaren kan ikke være tom' : submitText}
+            {submitText}
           </Button>
         </div>
       </form>
@@ -99,9 +102,17 @@ class CommentForm extends Component {
   }
 }
 
-export default reduxForm({
-  form: 'comment',
-  fields: ['text'],
-  validate,
-  destroyOnUnmount: false
-}, null, { addComment })(CommentForm);
+const mapDispatchToProps = {
+  addComment
+};
+
+export default compose(
+  connect(
+    null,
+    mapDispatchToProps
+  ),
+  reduxForm({
+    validate,
+    destroyOnUnmount: false
+  })
+)(CommentForm);

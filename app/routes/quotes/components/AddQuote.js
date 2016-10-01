@@ -1,12 +1,13 @@
 import styles from './Quotes.css';
 import React, { Component, PropTypes } from 'react';
-import FieldError from 'app/components/FieldError';
+import { reduxForm, Field } from 'redux-form';
+import { TextField } from 'app/components/Form';
+import FieldWrapper from 'app/components/Form/FieldWrapper';
 
-export default class AddQuote extends Component {
+class AddQuote extends Component {
 
   static propTypes = {
     addQuotes: PropTypes.func.isRequired,
-    fields: PropTypes.object.isRequired,
     invalid: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired
@@ -14,12 +15,11 @@ export default class AddQuote extends Component {
 
   render() {
     const {
-      fields: {
-        text, source
-      },
       invalid,
       pristine,
-      submitting
+      submitting,
+      handleSubmit,
+      addQuotes
     } = this.props;
 
     const disabledButton = invalid || pristine || submitting;
@@ -32,27 +32,31 @@ export default class AddQuote extends Component {
         </div>
 
         <div className={styles.addQuote}>
-          <form onSubmit={this.props.addQuotes}>
+          <form onSubmit={handleSubmit(addQuotes)}>
 
             <label htmlFor='addQuoteContent' style={{ fontSize: 30 }}>
               Selve sitatet <b>*</b>
             </label>
 
-            {text.error && text.touched ?
-              (<div style={{ display: 'block', color: 'red' }}>
-                <FieldError error={text.error} />
-              </div>) : null}
-            <textarea className={styles.addQuoteContent} {...text} />
-
+            <Field
+              placeholder='Skriv noe her...'
+              className={styles.addQuoteContent}
+              name='text'
+              component={FieldWrapper}
+              inputComponent={TextField}
+              type='text'
+            />
             <label htmlFor='addQuoteSource' style={{ fontSize: 20 }}>
               Hvor sitatet kommer fra (sleng gjerne med noe snaks!) <b>*</b>
             </label>
-
-            {source.error && source.touched ?
-              (<div style={{ display: 'block', color: 'red' }}>
-                <FieldError error={source.error} />
-              </div>) : null}
-            <textarea className={styles.addQuoteSource} {...source} />
+            <Field
+              placeholder='Skriv noe her...'
+              className={styles.addQuoteSource}
+              name='source'
+              component={FieldWrapper}
+              inputComponent={TextField}
+              type='text'
+            />
 
             <div className={styles.clear}></div>
             <input type='submit' className={styles.submitQuote}
@@ -64,3 +68,20 @@ export default class AddQuote extends Component {
     );
   }
 }
+
+function validateQuote(data) {
+  const errors = {};
+  if (!data.text) {
+    errors.text = 'Vennligst fyll ut dette feltet';
+  }
+
+  if (!data.source) {
+    errors.source = 'Vennligst fyll ut dette feltet';
+  }
+  return errors;
+}
+
+export default reduxForm({
+  form: 'addQuote',
+  validate: validateQuote
+})(AddQuote);
