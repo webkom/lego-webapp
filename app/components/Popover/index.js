@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Position, Portal } from 'react-overlays';
+import { Position } from 'react-overlays';
 import cx from 'classnames';
 import styles from './Popover.css';
 
@@ -43,7 +43,6 @@ class Popover extends Component {
       >
         {this.props.render && this.props.render()}
 
-        <Portal>
         {this.state.hovered && (
           <Position
             placement={placement}
@@ -54,7 +53,6 @@ class Popover extends Component {
             </div>
           </Position>
         )}
-        </Portal>
       </div>
     );
   }
