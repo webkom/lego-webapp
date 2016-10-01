@@ -1,14 +1,13 @@
 import styles from './Quotes.css';
 import React, { Component, PropTypes } from 'react';
-import { Field } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import { TextField } from 'app/components/Form';
 import FieldWrapper from 'app/components/Form/FieldWrapper';
 
-export default class AddQuote extends Component {
+class AddQuote extends Component {
 
   static propTypes = {
     addQuotes: PropTypes.func.isRequired,
-    fields: PropTypes.object.isRequired,
     invalid: PropTypes.bool.isRequired,
     pristine: PropTypes.bool.isRequired,
     submitting: PropTypes.bool.isRequired
@@ -18,7 +17,9 @@ export default class AddQuote extends Component {
     const {
       invalid,
       pristine,
-      submitting
+      submitting,
+      handleSubmit,
+      addQuotes
     } = this.props;
 
     const disabledButton = invalid || pristine || submitting;
@@ -31,7 +32,7 @@ export default class AddQuote extends Component {
         </div>
 
         <div className={styles.addQuote}>
-          <form onSubmit={this.props.addQuotes}>
+          <form onSubmit={handleSubmit(addQuotes)}>
 
             <label htmlFor='addQuoteContent' style={{ fontSize: 30 }}>
               Selve sitatet <b>*</b>
@@ -67,3 +68,20 @@ export default class AddQuote extends Component {
     );
   }
 }
+
+function validateQuote(data) {
+  const errors = {};
+  if (!data.text) {
+    errors.text = 'Vennligst fyll ut dette feltet';
+  }
+
+  if (!data.source) {
+    errors.source = 'Vennligst fyll ut dette feltet';
+  }
+  return errors;
+}
+
+export default reduxForm({
+  form: 'addQuote',
+  validate: validateQuote
+})(AddQuote);
