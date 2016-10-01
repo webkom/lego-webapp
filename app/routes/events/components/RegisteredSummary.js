@@ -1,4 +1,4 @@
-import styles from './EventDetail.css';
+import styles from './Registrations.css';
 import React from 'react';
 import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
