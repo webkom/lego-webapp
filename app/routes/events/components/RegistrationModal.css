@@ -1,0 +1,84 @@
+.overlay {
+  composes: container from '../../../Root.css';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 400px;
+  margin-left: auto;
+  outline: none;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.list {
+  height: 400px;
+  width: 100%;
+  padding: 0 30px 0 30px;
+  margin-bottom: 5px;
+  overflow: scroll;
+}
+
+.list > li {
+  border-bottom: 1px solid #CCC;
+}
+
+.list > li:last-child {
+  border-bottom: none;
+}
+
+.nav {
+  display: flex;
+  flex: 1;
+  border-top: 1px solid #CCC;
+  padding: 5px;
+  width: 100%;
+  justify-content: center;
+}
+
+.navButton {
+  display: flex;
+  height: 30px;
+  width: 75px;
+  justify-content: center;
+}
+
+.navButton:last-child {
+  border-right: none;
+}
+
+.row {
+  display: flex;
+  height: 50px;
+  align-items: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.row > img {
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
+}
+
+.registrationBox {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid;
+  border-color: #AAAAAA;
+  align-items: center;
+  background: #a0261b;
+  background: #FFF;
+}
+
+.navButton:hover,
+.activeItem {
+  color: #1C1C1C;
+  border-bottom: 1px solid;
+  border-radius: 5px;
+  border-color: #C24538;
+}

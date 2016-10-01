@@ -1,0 +1,41 @@
+.attendanceBox {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.backdrop {
+  background: rgba(255, 255, 255, 0.5);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+}
+
+.cell {
+  width: 58px;
+  height: 58px;
+  margin: 1px;
+}
+
+.cell img {
+  width: 58px;
+  height: 58px;
+}
+
+.poolBox {
+  display: flex;
+  flex: 1;
+  background-color: rgba(200, 200, 200, 0.5);
+  max-width: 100%;
+  min-width: 25%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.summary {
+  flex-wrap: wrap;
+}
