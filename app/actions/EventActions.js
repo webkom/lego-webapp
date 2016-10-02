@@ -1,7 +1,8 @@
 import { arrayOf } from 'normalizr';
 import { Event } from './ActionTypes';
 import { eventSchema } from 'app/reducers';
-import { callAPI, createQueryString } from 'app/utils/http';
+import createQueryString from 'app/utils/createQueryString';
+import callAPI from 'app/actions/callAPI';
 
 export function fetchEvent(eventId) {
   return callAPI({

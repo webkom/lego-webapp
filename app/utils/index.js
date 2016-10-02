@@ -1,42 +1,52 @@
+// @flow
+
+type Tree<T: Object> = Array<T & {
+  children: Tree<*>
+}>;
+
 /**
- * Generates a tree structure on the form of:
- * [
- *   {
- *   	 ...node,
- *   	 children: [
- *   	   {
- *   	     ...node,
- *   	     children: [...]
- *   	   }
- *   	 ]
- *   }
- * ]
+ * Generates a tree structure on the form of
+ *
+ * ```
+ * [{
+ *   ...node,
+ *   children: [{
+ *     ...node,
+ *   	 children: [...]
+ *   }]
+ * }]
  *
  * @param  {Object[]} nodes
  * @return {Object[]} tree
  */
-export function generateTreeStructure(nodes) {
+export function generateTreeStructure<T: {
+  id: string,
+  parent: string
+}>(nodes: Array<T>): Tree<T> {
   // Create a map of id -> node for retrievals later:
-  const nodeMap = nodes.reduce((acc, node) => ({
+  const tree = nodes.reduce((acc, node) => ({
     ...acc,
-    [node.id]: { ...node, children: [] }
+    [node.id]: {
+      ...node,
+      children: []
+    }
   }), {});
 
-  return nodes.reduce((acc, { id }) => {
-    const node = nodeMap[id];
+  return nodes.reduce((roots, { id }) => {
+    const node = tree[id];
     if (!node.parent) {
-      acc.push(node);
+      roots.push(node);
     } else {
-      const parent = nodeMap[node.parent];
+      const parent = tree[node.parent];
       parent.children.push(node);
     }
 
-    return acc;
+    return roots;
   }, []);
 }
 
 let id = 0;
-export function getRandomImage(width, height) {
+export function getRandomImage(width: number, height: number) {
   const heightOrWidth = height || width;
   return `http://unsplash.it/${width}/${heightOrWidth}/?random&pleasedontcacheme=${id++}`;
 }

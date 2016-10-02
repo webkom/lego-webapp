@@ -1,9 +1,9 @@
 import { arrayOf } from 'normalizr';
-import { quoteSchema } from 'app/reducers';
-import { Quote } from './ActionTypes';
-import { callAPI } from '../utils/http';
 import { push } from 'react-router-redux';
 import { startSubmit, stopSubmit } from 'redux-form';
+import { quoteSchema } from 'app/reducers';
+import callAPI from 'app/actions/callAPI';
+import { Quote } from './ActionTypes';
 
 export function fetchAll({ approved = true }) {
   return callAPI({

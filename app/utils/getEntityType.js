@@ -1,7 +1,11 @@
+// @flow
+
 const entityTypeMappings = {
   'events.event': 'events'
 };
 
-export default function getEntityType(serverName) {
+type ServerName = $Enum<typeof entityTypeMappings>;
+
+export default function getEntityType(serverName: ServerName) {
   return entityTypeMappings[serverName] || serverName;
 }

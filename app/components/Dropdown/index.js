@@ -10,13 +10,13 @@ type Props = {
   iconName: string;
   toggle: () => any;
   className?: string;
-  contentClassName?: string|boolean;
+  contentClassName?: string | boolean;
   componentClass: any;
   triggerComponent?: React.Element<*>;
   show: boolean;
   children?: any;
   style?: any;
-  placement: 'top'|'bottom'|'left'|'right';
+  placement: 'top' | 'bottom' | 'left' | 'right';
 };
 
 class Dropdown extends Component {

@@ -49,7 +49,7 @@ export default function createEntityReducer({
     return [value];
   }
 
-  function entities(state, action) {
+  function entities(state: any, action) {
     if (action.payload && action.payload.entities && action.payload.entities[key]) {
       return {
         ...state,
@@ -61,7 +61,7 @@ export default function createEntityReducer({
     return state;
   }
 
-  function optimistic(state, action) {
+  function optimistic(state: any, action) {
     if (!mutateType ||
       ![mutateType.FAILURE, mutateType.SUCCESS].includes(action.type)) {
       return state;

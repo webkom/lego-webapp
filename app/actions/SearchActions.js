@@ -1,5 +1,5 @@
 import { Search } from './ActionTypes';
-import { callAPI } from 'app/utils/http';
+import callAPI from 'app/actions/callAPI';
 
 export function toggleSearch() {
   return {

@@ -8,7 +8,7 @@ import styles from './Popover.css';
 type Props = {
   render: () => React.Element<*>,
   children: any,
-  placement: 'top'|'bottom'|'left'|'right',
+  placement: 'top' | 'bottom' | 'left' | 'right',
   contentClassName?: string;
 };
 

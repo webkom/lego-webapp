@@ -1,5 +1,5 @@
-import 'isomorphic-fetch';
 import { normalize } from 'normalizr';
+import fetchJSON from 'app/utils/fetchJSON';
 import config from '../config';
 
 function urlFor(resource) {
@@ -7,52 +7,6 @@ function urlFor(resource) {
     return config.baseUrl + resource.replace(/^\//, '');
   }
   return config.serverUrl + resource;
-}
-
-/**
- *
- */
-export function createQueryString(query: {[id:string]: string|number}): string {
-  const queryString = Object.keys(query)
-    .filter((key) => typeof query[key] === 'number' || !!query[key])
-    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
-    .join('&');
-
-  return queryString ? `?${queryString}` : '';
-}
-
-/**
- *
- */
-export function fetchJSON(path, options = {}) {
-  if (typeof options.body === 'object' && options.json !== false) {
-    options.body = JSON.stringify(options.body);
-  }
-
-  const request = new Request(path, {
-    ...options,
-    headers: new Headers({
-      'Content-Type': 'application/json',
-      ...options.headers
-    })
-  });
-
-  console.log('HTTP Request', request);
-
-  return fetch(request).then((response) =>
-    response.json().then((json) => {
-      response.jsonData = json;
-      return response;
-    })
-  ).then((response) => {
-    if (response.ok) {
-      return response;
-    }
-
-    const error = new Error(`${response.status} ${response.statusText}`);
-    error.response = response;
-    throw error;
-  });
 }
 
 /**
@@ -67,7 +21,7 @@ export function fetchJSON(path, options = {}) {
  * }))
  * ```
  */
-export function callAPI({
+export default function callAPI({
   types,
   method = 'get',
   headers,
