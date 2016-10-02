@@ -1,6 +1,23 @@
+// @flow
+
 import React from 'react';
 import cx from 'classnames';
 import styles from './Field.css';
+
+function FieldError({ error }) {
+  return (
+    <div className={styles.fieldError}>{error}</div>
+  );
+}
+
+function renderErrorMessage(error: Array<string> | string) {
+  if (Array.isArray(error)) {
+    return error.map(renderErrorMessage);
+  }
+
+  return <FieldError error={error} />;
+}
+
 
 /**
  * Wraps Component so it works with redux-form and add some default
@@ -8,8 +25,8 @@ import styles from './Field.css';
  *
  * http://redux-form.com/6.0.5/docs/api/Field.md/
  */
-export function createField(Component) {
-  return (field) => {
+export function createField(Component: any) {
+  return (field: any) => {
     const { input, meta, label, fieldStyle, fieldClassName, ...props } = field;
     const hasError = meta.touched && meta.error;
 
@@ -30,6 +47,7 @@ export function createField(Component) {
             hasError && styles.inputWithError
           )}
         />
+        {hasError && renderErrorMessage(meta.error)}
       </div>
     );
   };

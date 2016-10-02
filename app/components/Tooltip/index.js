@@ -1,28 +1,28 @@
-import styles from './Tooltip.css';
 import React, { Component } from 'react';
 import cx from 'classnames';
+import styles from './Tooltip.css';
 
 export default class Tooltip extends Component {
 
   state = {
-    showToolTip: false
-  }
+    hovered: false
+  };
 
   onMouseEnter = () => {
     this.setState({
-      showToolTip: true
+      hovered: true
     });
   }
 
   onMouseLeave = () => {
     this.setState({
-      showToolTip: false
+      hovered: false
     });
   }
 
   render() {
     const { content, children, className, list, style } = this.props;
-    const tooltipClass = this.state.showToolTip ? styles.baseTooltipHover : styles.tooltip;
+    const tooltipClass = this.state.hovered ? styles.baseTooltipHover : styles.tooltip;
     const tooltip = list ? styles.listTooltip : styles.showTooltip;
     return (
       <div

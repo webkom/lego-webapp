@@ -31,9 +31,6 @@ export function addComment({ text, commentTarget, parent }) {
       dispatch(initialize(formName, { text: '' }));
     }).catch((action) => {
       const errors = { ...action.error.response.jsonData };
-      if (errors.text) {
-        errors.text = errors.text[0];
-      }
       dispatch(stopSubmit('comment', errors));
     });
   };

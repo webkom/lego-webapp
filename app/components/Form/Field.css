@@ -7,3 +7,11 @@
 .inputWithError {
   border: 1px solid #C24538 !important;
 }
+
+.fieldError {
+  background: #C24538;
+  color: #fff;
+  padding: 5px 10px;
+  margin-top: 3px;
+  border-radius: 3px;
+}
