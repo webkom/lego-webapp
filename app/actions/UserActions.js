@@ -4,7 +4,7 @@ import { userSchema } from 'app/reducers';
 import moment from 'moment';
 import { push, replace } from 'react-router-redux';
 import { User } from './ActionTypes';
-import { callAPI } from 'app/utils/http';
+import callAPI from 'app/actions/callAPI';
 
 const USER_STORAGE_KEY = 'user';
 

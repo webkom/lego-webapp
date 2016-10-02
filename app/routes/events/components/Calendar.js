@@ -1,3 +1,5 @@
+// @flow
+
 import styles from './Calendar.css';
 import React, { Component } from 'react';
 import moment from 'moment';
@@ -10,7 +12,7 @@ const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
 
 type Props = {
   weekOffset: number;
-  events: Array<any>;
+  events: Array<{}>;
   location: any;
   year: string;
   month: string;
@@ -23,13 +25,13 @@ export default class Calendar extends Component {
     weekOffset: 0
   };
 
-  queryForPrevMonth(date) {
+  queryForPrevMonth(date: moment) {
     // moment objects are mutated
     const newDate = date.clone().subtract(1, 'months');
     return { year: newDate.year(), month: newDate.month() + 1 };
   }
 
-  queryForNextMonth(date) {
+  queryForNextMonth(date: moment) {
     const newDate = date.clone().add(1, 'months');
     return { year: newDate.year(), month: newDate.month() + 1 };
   }

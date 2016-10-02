@@ -7,7 +7,10 @@ import CommentForm from 'app/components/CommentForm';
 import CommentTree from './CommentTree';
 
 type Props = {
-  comments: Array<Object>,
+  comments: Array<{
+    id: string,
+    parent: string
+  }>,
   formDisabled: boolean,
   commentTarget: string,
   user: Object,

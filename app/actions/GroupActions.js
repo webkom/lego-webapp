@@ -1,7 +1,7 @@
 import { arrayOf } from 'normalizr';
 import { groupSchema } from 'app/reducers';
 import { Group } from './ActionTypes';
-import { callAPI } from 'app/utils/http';
+import callAPI from 'app/actions/callAPI';
 
 export function fetchGroup(groupId) {
   return callAPI({

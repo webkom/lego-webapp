@@ -1,6 +1,12 @@
 {
-  "extends": "webkom/react",
+  "extends": [
+    "webkom/react",
+    "plugin:flowtype/recommended"
+  ],
   "parser": "babel-eslint",
+  "plugins": [
+    "flowtype"
+  ],
   "globals": {
     "log": true,
     "expect": true,

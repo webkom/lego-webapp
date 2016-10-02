@@ -1,10 +1,3 @@
-export type Action = {
-  type: string;
-  payload: any;
-  meta?: any;
-  error: boolean;
-};
-
 function generateStatuses(name) {
   return {
     'BEGIN': `${name}.BEGIN`,

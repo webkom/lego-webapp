@@ -1,3 +1,5 @@
+// @flow
+
 import moment from 'moment';
 import { compose } from 'redux';
 import { connect } from 'react-redux';

@@ -1,7 +1,7 @@
-import { commentSchema } from 'app/reducers';
-import { Comment } from './ActionTypes';
-import { callAPI } from '../utils/http';
 import { startSubmit, stopSubmit, initialize } from 'redux-form';
+import { commentSchema } from 'app/reducers';
+import callAPI from 'app/actions/callAPI';
+import { Comment } from './ActionTypes';
 
 export function addComment({ text, commentTarget, parent }) {
   return (dispatch, getState) => {
