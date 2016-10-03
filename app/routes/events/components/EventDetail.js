@@ -1,6 +1,8 @@
 import styles from './EventDetail.css';
 import React, { Component } from 'react';
+import { getImage } from 'app/utils';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import Image from 'app/components/Image';
 import CommentView from 'app/components/Comments/CommentView';
 import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
 import Button from 'app/components/Button';
@@ -36,6 +38,14 @@ export type Props = {
   currentUser: any;
 };
 
+function selectRegistrations(event) {
+  return (event.pools || [])
+    .reduce((users, pool) => {
+      const poolUsers = pool.registrations.map((reg) => reg.user);
+      return [...users, ...poolUsers];
+    }, []);
+}
+
 /**
  *
  */
@@ -57,21 +67,16 @@ export default class EventDetail extends Component {
   render() {
     const { event, loggedIn, currentUser, comments } = this.props;
 
-    if (!event) {
+    if (!event.id) {
       return <LoadingIndicator loading />;
     }
 
-    const registrations = (event.pools || [])
-      .reduce((users, pool) => {
-        const poolUsers = pool.registrations.map((reg) => reg.user);
-        return [...users, ...poolUsers];
-      }, []);
+    const registrations = selectRegistrations(event);
 
     return (
       <div className={styles.root}>
         <div className={styles.coverImage}>
-          <img src='https://www.gochile.cl/fotos/overview-full/2348-img_8707.jpg' />
-          <div className={styles.coverImageOverlay} />
+          <Image src={getImage(event.id, 1000, 300)} />
         </div>
 
         <FlexRow alignItems='center' justifyContent='space-between'>
@@ -90,12 +95,11 @@ export default class EventDetail extends Component {
             </ul>
             {loggedIn && (
               <FlexItem>
-                <strong>Påmeldte:</strong>
+                <h3>Påmeldte:</h3>
                 <FlexRow className={styles.registeredThumbnails}>
                   {registrations.slice(0, 10).map((reg) => (
-                      <RegisteredCell key={reg.id} user={reg} />
-                    ))
-                  }
+                    <RegisteredCell key={reg.id} user={reg} />
+                  ))}
                 </FlexRow>
                 <RegisteredSummary registrations={registrations} />
                 <AttendanceStatus pools={event.pools} />
@@ -130,7 +134,7 @@ export default class EventDetail extends Component {
             <strong>Åpent for</strong>
             <ul>
             {(event.pools || []).map((pool) => (
-              <li key={pool}>{pool.permissionGroups}</li>
+              <li key={pool.id}>{pool.permissionGroups}</li>
             ))}
             </ul>
           </FlexColumn>

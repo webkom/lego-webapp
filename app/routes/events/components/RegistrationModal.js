@@ -1,75 +1,70 @@
-import styles from './RegistrationModal.css';
+// @flow
+
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import cx from 'classnames';
+import ProfilePicture from 'app/components/ProfilePicture';
+import styles from './RegistrationModal.css';
 
 export type Props = {
-  pools: Array
-}
+  pools: Array<Object>
+};
 
 class RegistrationModal extends Component {
   props: Props;
 
   state = {
-    activePool: this.props.pools[0].id
-  }
+    activePoolIndex: 0
+  };
 
-  togglePool = (id) => {
+  togglePool = (index: number) => {
     this.setState({
-      activePool: id
+      activePoolIndex: index
     });
-  }
+  };
 
   render() {
-    console.log(this.props);
     const { pools } = this.props;
 
-    const nav = pools.map((pool) => {
-      const active = this.state.activePool === pool.id ? styles.activeItem : '';
-      return (
-        <a
-          className={cx(styles.navButton, active)}
-          onClick={() => this.togglePool(pool.id)}
-        >
-          {pool.name}
-        </a>);
-    }
-    );
+    const tabs = pools.map((pool, i) => (
+      <a
+        key={i}
+        className={cx(
+          styles.navButton,
+          this.state.activePoolIndex === i && styles.activeItem
+        )}
+        onClick={() => this.togglePool(i)}
+      >
+        {pool.name}
+      </a>
+    ));
 
-    const liste = pools.map((pool) => {
-      if (pool.id === this.state.activePool) {
-        return (
-          <ul className={styles.list}>
-            {pool.registrations.map((registration) => (
-                <li>
-                  <div className={styles.row}>
-                    <img
-                      className={styles.thumbnail}
-                      src={`http://api.adorable.io/avatars/${registration.user.username}.png`}
-                    />
-                    <span>
-                      <Link to={`/users/${registration.user.username}`}>
-                        {registration.user.fullName}
-                      </Link>
-                    </span>
-                  </div>
-                </li>
-              )
-            )}
-          </ul>
-        );
-      }
-      return null;
-    });
-
+    const activePool = pools[this.state.activePoolIndex];
     return (
       <div className={styles.overlay}>
         <div className={styles.container}>
         <div className={styles.registrationBox}>
           <strong>Påmeldte:</strong>
-          {liste}
+          <ul className={styles.list}>
+            {activePool.registrations.map((registration, i) => (
+              <li key={i}>
+                <div className={styles.row}>
+                  <ProfilePicture
+                    size={30}
+                    user={registration.user.id}
+                  />
+                  <span>
+                    <Link to={`/users/${registration.user.username}`}>
+                      {registration.user.fullName}
+                    </Link>
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+
           <div className={styles.nav}>
-            {nav}
+            {tabs}
           </div>
         </div>
       </div>

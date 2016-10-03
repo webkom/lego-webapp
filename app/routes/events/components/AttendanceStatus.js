@@ -6,28 +6,27 @@ import { Modal } from 'react-overlays';
 import RegistrationModal from './RegistrationModal';
 
 export type Props = {
-  pools: Array,
-}
+  pools: Array<Object>,
+};
 
 class AttendanceStatus extends Component {
   props: Props;
 
   state = {
     modalOpen: false
-  }
+  };
 
   toggleModal = () => {
-    console.log('rip', this.state);
     this.setState({
       modalOpen: !this.state.modalOpen
     });
-  }
+  };
 
   render() {
     const { pools } = this.props;
-    const lists = (pools || []).map((pool) => {
+    const lists = (pools || []).map((pool, i) => {
       return (
-        <div className={styles.poolBox}>
+        <div key={i} className={styles.poolBox}>
           <strong>{pool.name}</strong>
           <a onClick={this.toggleModal}>
             <strong>{pool.registrations.length}/{pool.capacity}</strong>
@@ -35,6 +34,7 @@ class AttendanceStatus extends Component {
         </div>
       );
     });
+
     return (
       <div className={styles.attendanceBox}>
         {lists}

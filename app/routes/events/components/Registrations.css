@@ -15,17 +15,6 @@
   position: fixed;
 }
 
-.cell {
-  width: 58px;
-  height: 58px;
-  margin: 1px;
-}
-
-.cell img {
-  width: 58px;
-  height: 58px;
-}
-
 .poolBox {
   display: flex;
   flex: 1;

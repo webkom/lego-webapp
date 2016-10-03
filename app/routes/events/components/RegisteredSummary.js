@@ -12,7 +12,7 @@ const Registration = ({ user }) => (
   </Tooltip>
 );
 
-const nameList = (registrations) => (
+const renderNameList = (registrations) => (
   <FlexColumn>
     {registrations.map((reg) => (
       <FlexItem key={reg.id}>{reg.fullName}</FlexItem>
@@ -21,18 +21,20 @@ const nameList = (registrations) => (
 );
 
 const RegistrationList = ({ registrations }) => (
-  <Tooltip content={nameList(registrations)} list>
+  <Tooltip content={renderNameList(registrations)} list>
     {`${registrations.length} ${registrations.length === 1 ? 'annen' : 'andre'}`}
   </Tooltip>
 );
 
 const RegisteredSummary = ({ registrations }) => {
   const summary = [];
+
   if (registrations.length === 0) {
     summary.push('Ingen');
   } else {
     summary.push(<Registration key={0} user={registrations[0]} />);
   }
+
   if (registrations.length === 2) {
     summary.push(
       '\u00A0og\u00A0',
@@ -46,6 +48,7 @@ const RegisteredSummary = ({ registrations }) => {
       <RegistrationList key={2} registrations={registrations.slice(2)} />
     );
   }
+
   summary.push('\u00A0er påmeldt');
 
   return (

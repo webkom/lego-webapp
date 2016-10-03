@@ -17,7 +17,7 @@
 .list {
   height: 400px;
   width: 100%;
-  padding: 0 30px 0 30px;
+  padding: 0 30px;
   margin-bottom: 5px;
   overflow: scroll;
 }
@@ -68,17 +68,14 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  border: 1px solid;
-  border-color: #AAAAAA;
+  border: 1px solid #AAA;
   align-items: center;
-  background: #a0261b;
   background: #FFF;
 }
 
 .navButton:hover,
 .activeItem {
   color: #1C1C1C;
-  border-bottom: 1px solid;
+  border-bottom: 1px solid #C24538;
   border-radius: 5px;
-  border-color: #C24538;
 }
