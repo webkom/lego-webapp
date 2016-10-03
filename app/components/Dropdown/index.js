@@ -70,6 +70,7 @@ class Dropdown extends Component {
           target={this.target}
           placement={placement}
           rootClose
+          shouldUpdatePosition
         >
           <div className={cx(styles.content, contentClassName)}>
             {children}

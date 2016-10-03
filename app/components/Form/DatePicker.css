@@ -1,0 +1,64 @@
+:root {
+  --calendar-border: 1px solid #ddd;
+}
+
+.calendar {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  margin: 0;
+}
+
+.dropdown {
+  width: auto;
+  max-width: 400px;
+  padding: 0 20px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 20px;
+  text-align: center;
+  padding: 10px;
+
+  > h3 {
+    flex: 2;
+  }
+
+  > * {
+    flex: 1;
+  }
+}
+
+.calendarItem {
+  flex: 0 14.28571%;
+  border-right: var(--calendar-border);
+  border-bottom: var(--calendar-border);
+  background: #fff;
+  text-align: center;
+  font-size: 16px;
+  padding: 10px;
+
+  &:nth-child(7n+1) {
+    border-left: var(--calendar-border);
+  }
+
+  &:nth-child(-n+7) {
+    border-top: var(--calendar-border);
+  }
+
+  &:hover {
+    background: #eee;
+  }
+}
+
+.prevOrNextMonth {
+  color: #bbb;
+}
+
+.selectedDate {
+  font-weight: 700;
+}

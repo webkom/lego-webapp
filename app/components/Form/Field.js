@@ -15,7 +15,7 @@ function renderErrorMessage(error: Array<string> | string) {
     return error.map(renderErrorMessage);
   }
 
-  return <FieldError error={error} />;
+  return <FieldError error={error} key={error} />;
 }
 
 

@@ -7,7 +7,8 @@ import {
   TextInput,
   TextEditor,
   Button,
-  DatePicker
+  DatePicker,
+  TimePicker
 } from 'app/components/Form';
 
 function EventEditor({ handleSubmit }) {
@@ -37,7 +38,7 @@ function EventEditor({ handleSubmit }) {
 
           <Field
             name='endTime'
-            component={DatePicker.Field}
+            component={TimePicker.Field}
             fieldStyle={{ flex: 1 }}
           />
         </div>
