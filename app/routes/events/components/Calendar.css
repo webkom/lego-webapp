@@ -55,7 +55,6 @@
   }
 }
 
-.prevMonthDay,
-.nextMonthDay {
+.prevNextMonthDay {
   color: #bbb;
 }
