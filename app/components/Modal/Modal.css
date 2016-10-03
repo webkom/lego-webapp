@@ -17,7 +17,7 @@
 }
 
 .content {
-  position: absolute;
+  position: fixed;
   max-width: 640px;
   top: 100px;
   left: 0;
