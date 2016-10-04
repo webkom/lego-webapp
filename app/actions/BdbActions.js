@@ -17,3 +17,18 @@ export function fetchAll() {
     }
   });
 }
+
+export function fetchCompany(companyId) {
+  return callAPI({
+    types: [
+      Bdb.FETCH_BEGIN,
+      Bdb.FETCH_SUCCESS,
+      Bdb.FETCH_FAILURE
+    ],
+    endpoint: `/companies/${companyId}/`,
+    schema: companySchema,
+    meta: {
+      errorMessage: 'Fetching company failed'
+    }
+  });
+}

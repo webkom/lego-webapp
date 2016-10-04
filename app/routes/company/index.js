@@ -1,4 +1,8 @@
 export default {
-  path: 'company',
-  indexRoute: { component: require('./CompanyRoute').default }
+  path: 'companies',
+  indexRoute: { component: require('./CompaniesRoute').default },
+  childRoutes: [{
+    path: ':companyId',
+    component: require('./CompanyDetailRoute').default
+  }]
 };
