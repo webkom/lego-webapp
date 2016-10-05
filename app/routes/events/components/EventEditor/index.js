@@ -29,17 +29,17 @@ function EventEditor({ handleSubmit }) {
           component={TextEditor.Field}
         />
 
-        <div style={{ flexDirection: 'row', display: 'flex' }}>
+        <div style={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
           <Field
             name='startTime'
             component={DatePicker.Field}
-            fieldStyle={{ flex: 1 }}
+            fieldStyle={{ flex: '0 0 49%' }}
           />
 
           <Field
             name='endTime'
-            component={TimePicker.Field}
-            fieldStyle={{ flex: 1 }}
+            component={DatePicker.Field}
+            fieldStyle={{ flex: '0 0 49%' }}
           />
         </div>
 

@@ -50,10 +50,9 @@ class Dropdown extends Component {
       className,
       children,
       style,
-      placement
+      placement,
+      componentClass: ComponentClass
     } = this.props;
-
-    const ComponentClass = this.props.componentClass;
 
     return (
       <ComponentClass

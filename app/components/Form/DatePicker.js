@@ -3,40 +3,42 @@
 import React, { Component } from 'react';
 import moment from 'moment';
 import cx from 'classnames';
-import TextInput from 'app/components/Form/TextInput';
 import Dropdown from 'app/components/Dropdown';
 import Icon from 'app/components/Icon';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import { createField } from './Field';
+import TextInput from './TextInput';
 import TimePicker from './TimePicker';
 import styles from './DatePicker.css';
 
 type Props = {
-  onChange: () => void
+  onChange: () => void,
+  value: ?string,
+  showTimePicker?: boolean,
+  format: string,
 };
 
-// TODO THIS THING IS IN PROGRESS AND VERY BROKEN ATM.
-// DEPLOY IT TO PROD AND EVERY USER IN THE WORLD WILL HATE YOU AND YOU WILL BE FIRED.
+function parseDateValue(value) {
+  if (value) return moment(value);
+  return moment();
+}
+
 class DatePicker extends Component {
+  props: Props;
+
   static defaultProps = {
     value: '',
     showTimePicker: true,
-    format: 'lll'
+    format: 'lll',
   };
 
   static Field: any;
 
   state = {
     pickerOpen: false,
-    value: this.props.value ? moment(this.props.value) : moment(),
-    date: moment(this.props.date)
+    date: moment(),
+    value: parseDateValue(this.props.value)
   };
-
-  componentWillReceiveProps(nextProps: Props) {
-    if (nextProps.value) {
-      this.setState({ value: moment(nextProps.value) });
-    }
-  }
 
   onNext = () => {
     this.setState((prevState) => ({
@@ -50,15 +52,37 @@ class DatePicker extends Component {
     }));
   };
 
-  onChange = (value: moment) => {
-    this.setState({
-      value,
-      pickerOpen: false
-    }, () => this.props.onChange(value.toString()));
+  onChange = (day: moment) => {
+    this.setState((prevState) => {
+      const value = day.clone()
+        .hour(prevState.value.hour())
+        .minute(prevState.value.minute());
+
+      return {
+        value,
+        pickerOpen: false
+      };
+    }, this._notifyParent);
   };
 
-  onChangeTime = () => {
+  onChangeTime = (time: moment) => {
+    this.setState((prevState) => {
+      const value = this.state.value.clone()
+        .hour(time.hour())
+        .minute(time.minute());
 
+      return {
+        value
+      };
+    }, this._notifyParent);
+  };
+
+  _notifyParent = () => this.props.onChange(this.state.value.toString());
+
+  toggleDropdown = () => {
+    this.setState((prevState) => ({
+      pickerOpen: !prevState.pickerOpen
+    }));
   };
 
   render() {
@@ -68,12 +92,13 @@ class DatePicker extends Component {
     return (
       <Dropdown
         show={this.state.pickerOpen}
-        toggle={() => this.setState((prevState) => ({ pickerOpen: !prevState.pickerOpen }))}
+        toggle={this.toggleDropdown}
         triggerComponent={(
-          <span>{this.state.value.format(this.props.format)}</span>
+          <TextInput disabled value={this.state.value.format(this.props.format)} />
         )}
         componentClass='div'
         contentClassName={styles.dropdown}
+        style={{ flex: 1}}
       >
         <div className={styles.datePicker}>
           <div className={styles.header}>
@@ -89,7 +114,7 @@ class DatePicker extends Component {
                 className={cx(
                   styles.calendarItem,
                   dateProps.prevOrNextMonth && styles.prevOrNextMonth,
-                  dateProps.day.isSame(this.state.value) && styles.selectedDate
+                  dateProps.day.isSame(this.state.value, 'day') && styles.selectedDate
                 )}
                 onClick={() => this.onChange(dateProps.day)}
                 disabled={dateProps.prevOrNextMonth}
@@ -101,7 +126,7 @@ class DatePicker extends Component {
 
           {showTimePicker && (
             <TimePicker
-              value={date}
+              value={this.state.value}
               onChange={this.onChangeTime}
             />
           )}

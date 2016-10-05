@@ -58,13 +58,13 @@ class TimePicker extends Component {
   onPrevHour = this.onPrev('hour');
   onPrevMinute = this.onPrev('minute');
 
-  onChange = (unit: 'hour'|'minute') => () => {
+  onChange = (unit: 'hour' | 'minute') => () => {
     this.setState({
       value: this.state.value.clone()[unit].call(null, 1)
     }, this.commit);
   };
 
-  commit = () => this.props.onChange(this.state.value.toString());
+  commit = () => this.props.onChange(this.state.value);
 
   render() {
     return (

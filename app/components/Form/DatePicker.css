@@ -11,7 +11,7 @@
 
 .dropdown {
   width: auto;
-  max-width: 400px;
+  max-width: 320px;
   padding: 0 20px;
 }
 
@@ -25,7 +25,7 @@
   padding: 10px;
 
   > h3 {
-    flex: 2;
+    flex: 3;
   }
 
   > * {
@@ -40,7 +40,7 @@
   background: #fff;
   text-align: center;
   font-size: 16px;
-  padding: 10px;
+  padding: 5px;
 
   &:nth-child(7n+1) {
     border-left: var(--calendar-border);
