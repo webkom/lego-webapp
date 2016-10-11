@@ -1,0 +1,40 @@
+
+.infoBubble {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.bubble {
+  margin: 0 auto 10px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  order: 0;
+  width: 70px;
+  height: 70px;
+  background-color: #d13c32;
+  border-radius: 35px;
+}
+
+.data, .meta {
+  line-height: 25px;
+  margin: 0 auto;
+}
+
+.icon {
+  font-size: 35px;
+  color: white;
+  margin: 0 auto;
+}
+
+.data {
+  order: 1;
+  font-size: 25px;
+}
+
+.meta {
+  order: 2;
+  font-size: 18px;
+  font-weight: 200;
+}
