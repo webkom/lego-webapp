@@ -6,6 +6,7 @@ import moment from 'moment';
 import Time from 'app/components/Time';
 import Pill from 'app/components/Pill';
 import Image from 'app/components/Image';
+import Tag from 'app/components/Tag';
 import Toolbar from './Toolbar';
 import colorForEvent from '../colorForEvent';
 import { getImage } from 'app/utils';
@@ -65,6 +66,10 @@ function EventItem({ event }) {
             format='ll HH:mm'
           />
           {` • ${event.location}`}
+        </div>
+
+        <div className={styles.tagList}>
+          { event.tags.map(tag => <Tag tag={tag} small />) }
         </div>
       </div>
 

@@ -6,12 +6,11 @@ import styles from './Tag.css';
 export default class Tag extends Component {
 
   render() {
-    const { tag } = this.props;
-
-    let className = styles.tagLink;
+    const { tag, small } = this.props;
+    let className = small ? styles.tagLinkSmall : styles.tagLink;
 
     return (
-      <div>
+      <div className={styles.linkSpacing}>
         <Link className={className} to={`/`}>
           #{ tag }
         </Link>
