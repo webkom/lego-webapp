@@ -1,9 +1,9 @@
 // @flow
 
-import styles from './Registrations.css';
 import React, { Component } from 'react';
-import { Modal } from 'react-overlays';
+import Modal from 'app/components/Modal';
 import RegistrationModal from './RegistrationModal';
+import styles from './Registrations.css';
 
 export type Props = {
   pools: Array<Object>,
@@ -41,8 +41,6 @@ class AttendanceStatus extends Component {
         <Modal
           show={this.state.modalOpen}
           onHide={this.toggleModal}
-          backdropClassName={styles.backdrop}
-          backdrop
         >
           <RegistrationModal pools={pools} />
         </Modal>

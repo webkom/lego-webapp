@@ -7,7 +7,8 @@ import ProfilePicture from 'app/components/ProfilePicture';
 import styles from './RegistrationModal.css';
 
 export type Props = {
-  pools: Array<Object>
+  pools: Array<Object>,
+  initialPoolIndex: number
 };
 
 class RegistrationModal extends Component {
@@ -41,33 +42,28 @@ class RegistrationModal extends Component {
 
     const activePool = pools[this.state.activePoolIndex];
     return (
-      <div className={styles.overlay}>
-        <div className={styles.container}>
-        <div className={styles.registrationBox}>
-          <strong>Påmeldte:</strong>
-          <ul className={styles.list}>
-            {activePool.registrations.map((registration, i) => (
-              <li key={i}>
-                <div className={styles.row}>
-                  <ProfilePicture
-                    size={30}
-                    user={registration.user.id}
-                  />
-                  <span>
-                    <Link to={`/users/${registration.user.username}`}>
-                      {registration.user.fullName}
-                    </Link>
-                  </span>
-                </div>
-              </li>
-            ))}
-          </ul>
+      <div>
+        <h2>Påmeldte</h2>
+        <ul className={styles.list}>
+          {activePool.registrations.map((registration, i) => (
+            <li key={i}>
+              <div className={styles.row}>
+                <ProfilePicture
+                  size={30}
+                  user={registration.user.id}
+                />
 
-          <div className={styles.nav}>
-            {tabs}
-          </div>
+                <Link to={`/users/${registration.user.username}`}>
+                  {registration.user.fullName}
+                </Link>
+              </div>
+            </li>
+          ))}
+        </ul>
+
+        <div className={styles.nav}>
+          {tabs}
         </div>
-      </div>
       </div>
     );
   }
