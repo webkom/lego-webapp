@@ -1,41 +1,58 @@
 // @flow
 
-import React from 'react';
+import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
+import Modal from 'app/components/Modal';
 import Time from 'app/components/Time';
 import Button from 'app/components/Button';
+import EventEditor from './EventEditor';
 import styles from './Toolbar.css';
 
-function Toolbar() {
-  return (
-    <div className={styles.root}>
-      <div className={styles.section}>
-        <Time format='ll' className={styles.timeNow} />
-      </div>
+class Toolbar extends Component {
+  state = {
+    editorOpen: false
+  };
 
-      <div className={styles.buttons}>
-        <IndexLink
-          to='/events'
-          activeClassName={styles.active}
-          className={styles.pickerItem}
+  render() {
+    return (
+      <div className={styles.root}>
+        <div className={styles.section}>
+          <Time format='ll' className={styles.timeNow} />
+        </div>
+
+        <div className={styles.buttons}>
+          <IndexLink
+            to='/events'
+            activeClassName={styles.active}
+            className={styles.pickerItem}
+          >
+            List View
+          </IndexLink>
+
+          <Link
+            to='/events/calendar'
+            activeClassName={styles.active}
+            className={styles.pickerItem}
+          >
+            Calendar
+          </Link>
+        </div>
+
+        <div className={styles.section}>
+          <Button onClick={() => this.setState({ editorOpen: true })}>Create Event</Button>
+        </div>
+
+        <Modal
+          keyboard={false}
+          show={this.state.editorOpen}
+          onHide={() => this.setState({ editorOpen: false })}
+          closeOnBackdropClick={false}
         >
-          List View
-        </IndexLink>
-
-        <Link
-          to='/events/calendar'
-          activeClassName={styles.active}
-          className={styles.pickerItem}
-        >
-          Calendar
-        </Link>
+          <EventEditor />
+        </Modal>
       </div>
-
-      <div className={styles.section}>
-        <Button>Create Event</Button>
-      </div>
-    </div>
-  );
+    );
+  }
 }
 
 export default Toolbar;

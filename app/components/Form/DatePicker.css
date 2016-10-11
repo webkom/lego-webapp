@@ -1,50 +1,46 @@
-@import '../../../variables.css';
-
 :root {
   --calendar-border: 1px solid #ddd;
 }
 
-.root {
-  composes: container from '../../../Root.css';
-  margin-top: 2rem;
-}
-
-.grid {
+.calendar {
   display: flex;
   width: 100%;
   flex-wrap: wrap;
   margin: 0;
 }
 
+.dropdown {
+  width: auto;
+  max-width: 320px;
+  padding: 0 20px;
+}
+
 .header {
   display: flex;
+  flex-direction: row;
+  align-items: center;
   justify-content: space-between;
-  margin: 0 0 2rem;
+  font-size: 20px;
+  text-align: center;
+  padding: 10px;
+
+  > h3 {
+    flex: 3;
+  }
+
+  > * {
+    flex: 1;
+  }
 }
 
-.dayNumber {
-  position: absolute;
-  top: 5px;
-  right: 8px;
-}
-
-.headingItem {
-  flex: 0 14.28571%;
-  color: #444;
-  text-align: right;
-  padding-right: 8px;
-  border-bottom: 2px solid #ddd;
-}
-
-.day {
+.calendarItem {
   flex: 0 14.28571%;
   border-right: var(--calendar-border);
   border-bottom: var(--calendar-border);
   background: #fff;
-  position: relative;
-  min-height: 100px;
-  padding: 20px 10px;
-  overflow-x: hidden;
+  text-align: center;
+  font-size: 16px;
+  padding: 5px;
 
   &:nth-child(7n+1) {
     border-left: var(--calendar-border);
@@ -53,8 +49,16 @@
   &:nth-child(-n+7) {
     border-top: var(--calendar-border);
   }
+
+  &:hover {
+    background: #eee;
+  }
 }
 
-.prevNextMonthDay {
+.prevOrNextMonth {
   color: #bbb;
+}
+
+.selectedDate {
+  font-weight: 700;
 }

@@ -1,0 +1,19 @@
+.timePicker {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.timePickerInput {
+  display: flex;
+  flex-direction: column;
+  width: 50px;
+
+  > input {
+    text-align: center;
+  }
+
+  > button {
+    font-size: 18px;
+  }
+}

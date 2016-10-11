@@ -108,12 +108,6 @@ export function addQuotes({ text, source }) {
       dispatch(push('/quotes'));
     }).catch((action) => {
       const errors = { ...action.error.response.jsonData };
-      if (errors.text) {
-        errors.text = errors.text[0];
-      }
-      if (errors.source) {
-        errors.source = errors.source[0];
-      }
       dispatch(stopSubmit('addQuote', errors));
     });
   };

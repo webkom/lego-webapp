@@ -50,10 +50,9 @@ class Dropdown extends Component {
       className,
       children,
       style,
-      placement
+      placement,
+      componentClass: ComponentClass
     } = this.props;
-
-    const ComponentClass = this.props.componentClass;
 
     return (
       <ComponentClass
@@ -70,6 +69,7 @@ class Dropdown extends Component {
           target={this.target}
           placement={placement}
           rootClose
+          shouldUpdatePosition
         >
           <div className={cx(styles.content, contentClassName)}>
             {children}

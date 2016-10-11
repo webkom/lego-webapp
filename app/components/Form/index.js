@@ -1,33 +1,8 @@
-import styles from './index.css';
-import React from 'react';
-import cx from 'classnames';
-
-export { default as FieldWrapper } from './FieldWrapper';
-
-export const Form = ({
-  children,
-  className,
-  horizontal = false,
-  style,
-  ...rest
-}) => (
-  <form
-    className={cx(styles.form, className)}
-    style={{
-      display: 'flex',
-      flexDirection: horizontal ? 'row' : 'column',
-      ...style
-    }}
-    {...rest}
-  >
-    {children}
-  </form>
-);
-
-export const TextField = ({ className, input, ...rest }) => (
-  <textarea
-    className={cx(styles.textField, className)}
-    {...input}
-    {...rest}
-  />
-);
+export { default as TextInput } from './TextInput';
+export { default as TextEditor } from './TextEditor';
+export { default as DatePicker } from './DatePicker';
+export { default as Button } from 'app/components/Button';
+export { default as Form } from './Form';
+export { default as Field } from './Field';
+export { default as TimePicker } from './TimePicker';
+export { createField } from './Field';

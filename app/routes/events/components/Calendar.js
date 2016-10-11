@@ -4,7 +4,7 @@ import styles from './Calendar.css';
 import React, { Component } from 'react';
 import moment from 'moment';
 import { Link } from 'react-router';
-import createCalendarDateObjects from '../createCalendarDateObjects';
+import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import CalendarCell from './CalendarCell';
 import Toolbar from './Toolbar';
 
@@ -56,16 +56,15 @@ export default class Calendar extends Component {
 
         <div className={styles.grid}>
           {WEEKDAYS.map((d) => <div key={d} className={styles.headingItem}>{d}</div>)}
-          {createCalendarDateObjects(
+          {createMonthlyCalendar(
             date,
-            this.props.weekOffset,
-            styles
-          ).map((dateObject) =>
+            this.props.weekOffset
+          ).map((dateProps, i) => (
             <CalendarCell
-              key={dateObject.day.format('x')}
-              {...dateObject}
+              key={i}
+              {...dateProps}
             />
-          )}
+          ))}
         </div>
       </div>
     );

@@ -2,10 +2,8 @@
 
 import React, { Component } from 'react';
 import Button from 'app/components/Button';
-import { Form } from 'app/components/Form';
+import { Form, TextInput } from 'app/components/Form';
 import { Field } from 'redux-form';
-import FieldWrapper from 'app/components/Form/FieldWrapper';
-
 
 type Props = {
   fields: Object,
@@ -35,28 +33,28 @@ export default class UserSettings extends Component {
           label='Username'
           name='username'
           readOnly
-          component={FieldWrapper}
+          component={TextInput.Field}
         />
 
         <Field
           placeholder='Fornavn'
           label='First name'
           name='firstName'
-          component={FieldWrapper}
+          component={TextInput.Field}
         />
 
         <Field
           placeholder='Etternavn'
           label='Last name'
           name='lastName'
-          component={FieldWrapper}
+          component={TextInput.Field}
         />
 
         <Field
           placeholder='abc@stud.ntnu.no'
           label='email'
           name='email'
-          component={FieldWrapper}
+          component={TextInput.Field}
         />
 
         <Button

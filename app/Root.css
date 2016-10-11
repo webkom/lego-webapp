@@ -24,6 +24,7 @@ body {
   font-family: 'proxima-nova', 'Helvetica Neue', Arial, sans-serif;
   background: var(--lego-background-color);
   color: var(--lego-font-color);
+  position: relative;
 }
 
 a {
@@ -63,6 +64,8 @@ h3 {
 button {
   background-color: transparent;
   border: 0;
+  cursor: pointer;
+  outline: none;
 }
 
 .container {

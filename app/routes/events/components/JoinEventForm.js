@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, TextField } from 'app/components/Form';
+import { Form, TextEditor } from 'app/components/Form';
 import Button from 'app/components/Button';
 
 export default class JoinEventForm extends Component {
@@ -15,7 +15,7 @@ export default class JoinEventForm extends Component {
   render() {
     return (
       <Form onSubmit={this.handleSubmit}>
-        <TextField
+        <TextEditor
           placeholder='Melding til arrangører (allergier etc)'
           onChange={(e) => this.setState({ messageToOrganizers: e.target.value })}
           value={this.state.messageToOrganizers}

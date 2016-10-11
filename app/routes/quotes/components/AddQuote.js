@@ -1,8 +1,7 @@
 import styles from './Quotes.css';
 import React, { Component, PropTypes } from 'react';
 import { reduxForm, Field } from 'redux-form';
-import { TextField } from 'app/components/Form';
-import FieldWrapper from 'app/components/Form/FieldWrapper';
+import { TextEditor, Button } from 'app/components/Form';
 
 class AddQuote extends Component {
 
@@ -39,29 +38,30 @@ class AddQuote extends Component {
             </label>
 
             <Field
-              placeholder='Skriv noe her...'
-              className={styles.addQuoteContent}
+              placeholder='Det gjør seg ikke sjæl'
               name='text'
-              component={FieldWrapper}
-              inputComponent={TextField}
-              type='text'
+              component={TextEditor.Field}
             />
+
             <label htmlFor='addQuoteSource' style={{ fontSize: 20 }}>
               Hvor sitatet kommer fra (sleng gjerne med noe snaks!) <b>*</b>
             </label>
             <Field
-              placeholder='Skriv noe her...'
-              className={styles.addQuoteSource}
+              placeholder='Harald Rex'
               name='source'
-              component={FieldWrapper}
-              inputComponent={TextField}
+              component={TextEditor.Field}
               type='text'
             />
 
             <div className={styles.clear}></div>
-            <input type='submit' className={styles.submitQuote}
-              value='Send inn' disabled = {disabledButton}
-            />
+
+            <Button
+              type='submit'
+              className={styles.submitQuote}
+              disabled={disabledButton}
+            >
+              Send inn sitat
+            </Button>
           </form>
         </div>
       </div>

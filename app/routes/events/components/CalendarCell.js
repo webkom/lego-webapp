@@ -1,4 +1,4 @@
-import styles from './Calendar.css';
+
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
@@ -9,11 +9,13 @@ import Circle from 'app/components/Circle';
 import Popover from 'app/components/Popover';
 import truncateString from 'app/utils/truncateString';
 import colorForEvent from '../colorForEvent';
+import styles from './Calendar.css';
 
 const Event = ({ id, title, description, eventType }) => (
   <Popover
+    key={id}
     render={() => (
-      <div key={id} style={{ whiteSpace: 'nowrap' }}>
+      <div style={{ whiteSpace: 'nowrap' }}>
         <Circle color={colorForEvent(eventType)} />
         {' '}
         <Link
@@ -35,8 +37,8 @@ const Event = ({ id, title, description, eventType }) => (
 /**
  * Represents a cell in the calendar
  */
-const CalendarCell = ({ day, className, events = [] }) => (
-  <div className={cx(styles.day, className)}>
+const CalendarCell = ({ day, className, prevOrNextMonth, events = [] }) => (
+  <div className={cx(styles.day, prevOrNextMonth && styles.prevNextMonthDay, className)}>
     <strong className={styles.dayNumber}>{day.date()}</strong>
     {events.map(Event)}
   </div>
