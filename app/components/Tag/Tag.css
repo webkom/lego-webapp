@@ -1,0 +1,19 @@
+.tagLink {
+  color: #555;
+  margin-right: 8px;
+
+  border-radius: 4px;
+  padding: 2px 8px;
+  background: #f0f0f0;
+  transition: .1s;
+}
+
+.tagLink:hover {
+  background: #ba1414;
+  color: #fff;
+  transition: .2s;
+}
+
+.tagLink a {
+  color: inherit;
+}

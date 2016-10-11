@@ -13,6 +13,7 @@ import RegisteredCell from './RegisteredCell';
 import RegisteredSummary from './RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import { sendMessage } from 'app/utils/websockets';
+import Tag from 'app/components/Tag';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -106,6 +107,9 @@ export default class EventDetail extends Component {
         <FlexRow>
           <FlexColumn className={styles.description}>
             <Markdown>{event.text}</Markdown>
+            <FlexRow className={styles.tagRow}>
+              { event.tags.map(tag => <Tag tag={tag} />) }
+            </FlexRow>
           </FlexColumn>
           <FlexColumn className={styles.meta}>
             <ul>
