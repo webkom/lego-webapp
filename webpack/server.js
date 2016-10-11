@@ -22,7 +22,7 @@ function printMessage(message) {
   |_______||_______||_______||_______|
 
 
-  The app is running at ${chalk.blue(`http://localhost:${app.get('port')}`)}!
+  The app is running at ${chalk.blue(`http://${app.get('host')}:${app.get('port')}`)}!
   NODE_ENV=${chalk.green(process.env.NODE_ENV)}
 
   ${message}
