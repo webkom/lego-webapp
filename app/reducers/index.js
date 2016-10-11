@@ -4,6 +4,7 @@ import { routerReducer } from 'react-router-redux';
 import { reducer as form } from 'redux-form';
 import quotes from './quotes';
 import events from './events';
+import articles from './articles';
 import search from './search';
 import auth from './auth';
 import users from './users';
@@ -14,6 +15,7 @@ import comments from './comments';
 export default combineReducers({
   quotes,
   events,
+  articles,
   search,
   comments,
   auth,
@@ -24,6 +26,7 @@ export default combineReducers({
   routing: routerReducer
 });
 
+export const articleSchema = new Schema('articles', { idAttribute: 'id' });
 export const eventSchema = new Schema('events', { idAttribute: 'id' });
 export const commentSchema = new Schema('comments', { idAttribute: 'id' });
 export const groupSchema = new Schema('groups', { idAttribute: 'id' });

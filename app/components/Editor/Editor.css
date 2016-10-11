@@ -1,0 +1,29 @@
+
+.editorRoot {
+  background: #fff;
+  box-sizing: border-box;
+  position: relative;
+  line-height: 1.4em;
+}
+
+.editorRoot div {
+  font-weight: 400;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 1.6;
+  letter-spacing: -.003em;
+}
+
+.editorRoot blockquote div {
+  border-left: 3px solid rgba(0,0,0,.8);
+  padding-left: 10px;
+  margin-left: -13px;
+  padding-bottom: 3px;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 24px;
+  line-height: 1.58;
+  letter-spacing: -.003em;
+}
+
+.editorRoot ::selection { background: rgba(178, 34, 34, 0.26); }

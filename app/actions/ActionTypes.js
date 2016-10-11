@@ -16,6 +16,13 @@ export const Event = {
 /**
  *
  */
+export const Article = {
+  FETCH: generateStatuses('Article.FETCH')
+};
+
+/**
+ *
+ */
 export const Group = {
   FETCH: generateStatuses('Group.FETCH'),
   UPDATE: generateStatuses('Group.UPDATE')

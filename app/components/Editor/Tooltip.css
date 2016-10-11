@@ -1,0 +1,38 @@
+
+.tooltip {
+  background: #eff1f4;
+  text-transform: uppercase;
+  margin: 2px 0;
+  padding: 6px 12px;
+  font-size: 18px;
+  color: #333;
+  outline: none;
+  display: inline-block;
+  border: 1px solid #ccc;
+  letter-spacing: 1px;
+  border-radius: 999em;
+  position: absolute;
+  z-index: 500;
+  user-select: none;
+}
+
+.tooltipSeperator {
+  user-select: none;
+  display: inline-block;
+  vertical-align: top;
+  width: 1px;
+  margin: 0 6px;
+  height: 32px;
+  background: rgba(5,5,5,.9);
+}
+
+.tooltipButton {
+  user-select: none;
+  margin: 0px 3px;
+  cursor: pointer;
+  vertical-align: -webkit-baseline-middle;
+}
+
+.tooltipButtonActive > i {
+  color: #C24538;
+}
