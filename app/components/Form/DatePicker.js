@@ -29,7 +29,7 @@ class DatePicker extends Component {
   static defaultProps = {
     value: '',
     showTimePicker: true,
-    format: 'lll',
+    format: 'lll'
   };
 
   static Field: any;
@@ -98,7 +98,7 @@ class DatePicker extends Component {
         )}
         componentClass='div'
         contentClassName={styles.dropdown}
-        style={{ flex: 1}}
+        style={{ flex: 1 }}
       >
         <div className={styles.datePicker}>
           <div className={styles.header}>

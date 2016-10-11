@@ -7,8 +7,7 @@ import {
   TextInput,
   TextEditor,
   Button,
-  DatePicker,
-  TimePicker
+  DatePicker
 } from 'app/components/Form';
 
 function EventEditor({ handleSubmit }) {
