@@ -69,7 +69,7 @@ function EventItem({ event }) {
         </div>
 
         <div className={styles.tagList}>
-          { event.tags.map(tag => <Tag tag={tag} small />) }
+          {event.tags.map((tag) => <Tag tag={tag} small />)}
         </div>
       </div>
 
