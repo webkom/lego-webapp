@@ -1,8 +1,15 @@
 machine:
   node:
-    version: 6.6.0
+    version: 6.7.0
+
+dependencies:
+  pre:
+    - npm install -g yarnpkg
+
+  override:
+    - yarn
 
 test:
   override:
-    - npm test
-    - npm run lint
+    - yarn test
+    - yarn run lint
