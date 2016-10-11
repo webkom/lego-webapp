@@ -13,7 +13,6 @@
 }
 
 .circle {
-  color: #d13c32;
   font-size: 80px;
   position: absolute;
 }
@@ -28,7 +27,7 @@
   color: white;
   position: absolute;
   width: 70px;
-  top: 50px;
+  top: 52px;
   display: flex;
 }
 
@@ -46,4 +45,8 @@
   order: 2;
   font-size: 18px;
   font-weight: 200;
+}
+
+.abaRed {
+  color: #d13c32;
 }
