@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { Modal as ReactModal } from 'react-overlays';
+import cx from 'classnames';
 import Icon from 'app/components/Icon';
 import styles from './Modal.css';
 
@@ -31,7 +32,7 @@ class Modal extends Component {
       >
         <div>
           {!closeOnBackdropClick && this.modal && this.modal.renderBackdrop()}
-          <div className={styles.content}>
+          <div className={cx(styles.content, props.contentClassName)}>
             <button onClick={onHide} className={styles.closeButton}>
               <Icon name='close' />
             </button>

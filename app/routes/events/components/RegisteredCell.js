@@ -1,13 +1,15 @@
-import styles from './EventDetail.css';
 import React from 'react';
 import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
+import ProfilePicture from 'app/components/ProfilePicture';
+import styles from './Registrations.css';
 
 const RegisteredCell = ({ user }) => (
   <Tooltip className={styles.cell} content={user.fullName}>
     <Link to={`/users/${user.username}`}>
-      <img
-        src={`http://api.adorable.io/avatars/${user.username}.png`}
+      <ProfilePicture
+        size={40}
+        user={user.id}
       />
     </Link>
   </Tooltip>

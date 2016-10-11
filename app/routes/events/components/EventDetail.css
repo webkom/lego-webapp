@@ -7,41 +7,11 @@
   width: 300px;
 }
 
-.cell {
-  width: 58px;
-  height: 58px;
-  margin: 1px;
-}
-
-.cell img {
-  width: 58px;
-  height: 58px;
-}
-
 .coverImage {
   width: 100%;
   height: 300px;
   overflow: hidden;
-  background: #000;
   position: relative;
-}
-
-.coverImage img {
-  position: absolute;
-  width: 100%;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-}
-
-.coverImageOverlay {
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-  background: linear-gradient(transparent 10%, #F5F5F4);
 }
 
 .description {
@@ -74,8 +44,4 @@
   color: #333;
   text-transform: uppercase;
   letter-spacing: 1px;
-}
-
-.summary {
-  flex-wrap: wrap;
 }

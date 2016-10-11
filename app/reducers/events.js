@@ -39,7 +39,13 @@ export const selectEvents = createSelector(
 export const selectEventById = createSelector(
   (state) => state.events.byId,
   (state, props) => props.eventId,
-  (eventsById, eventId) => transformEvent(eventsById[eventId])
+  (eventsById, eventId) => {
+    const event = eventsById[eventId];
+    if (event) {
+      return transformEvent(event);
+    }
+    return {};
+  }
 );
 
 export const selectCommentsForEvent = createSelector(

@@ -1,0 +1,21 @@
+.attendanceBox {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+.poolBox {
+  display: flex;
+  flex: 1;
+  background-color: rgba(200, 200, 200, 0.5);
+  max-width: 100%;
+  min-width: 25%;
+  flex-direction: column;
+  align-items: center;
+}
+
+.summary {
+  flex-wrap: wrap;
+}
