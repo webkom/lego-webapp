@@ -4,8 +4,9 @@
 
 ## Setup
 ```bash
-$ npm install
-$ npm start
+$ npm install -g yarnpkg
+$ yarn
+$ yarn start
 ```
 
 Everything should be up and running on [localhost:3000](http://localhost:3000).
@@ -16,12 +17,12 @@ https://github.com/webkom/lego/wiki/Noob-Guide
 ## Tests
 Run all the tests and check for lint errors with the command:
 ```
-$ npm test
+$ yarn test
 ```
 
 For development you can run the tests continuously by using:
 ```
-$ npm run test:watch
+$ yarn run test:watch
 ```
 
 ## Linting
@@ -30,7 +31,7 @@ The config used can be found [here](https://github.com/webkom/eslint-config-webk
 
 To run the linter, use:
 ```
-$ npm run lint
+$ yarn run lint
 ```
 
 ## License

@@ -9,9 +9,9 @@
     "start": "node webpack/server",
     "build": "NODE_ENV=production webpack --config webpack/webpack.config.babel.js",
     "test": "NODE_ENV=test jest",
-    "test:coverage": "npm run test -- --coverage",
-    "test:watch": "npm run test -- --watch",
-    "lint": "npm run lint:js",
+    "test:coverage": "yarn run test -- --coverage",
+    "test:watch": "yarn run test -- --watch",
+    "lint": "yarn run lint:js",
     "lint:js": "eslint app --ignore-path .gitignore",
     "lint:css": "stylelint ./app/**/*.css",
     "flow": "flow"
