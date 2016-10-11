@@ -6,15 +6,15 @@
 }
 
 .bubble {
-  margin: -30px auto 10px auto;
+  margin: 0 auto 10px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   order: 0;
   width: 70px;
-  position: relative;
-}
-
-.circle {
-  font-size: 80px;
-  position: absolute;
+  height: 70px;
+  background-color: #d13c32;
+  border-radius: 35px;
 }
 
 .data, .meta {
@@ -25,28 +25,16 @@
 .icon {
   font-size: 35px;
   color: white;
-  position: absolute;
-  width: 70px;
-  top: 52px;
-  display: flex;
-}
-
-.icon i {
   margin: 0 auto;
 }
 
 .data {
   order: 1;
   font-size: 25px;
-  margin-top: 100px;
 }
 
 .meta {
   order: 2;
   font-size: 18px;
   font-weight: 200;
-}
-
-.abaRed {
-  color: #d13c32;
 }
