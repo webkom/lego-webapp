@@ -7,6 +7,8 @@ import events from './events';
 import articles from './articles';
 import pools from './pools';
 import registrations from './registrations';
+import meetings from './meetings';
+import meetingInvitations from './meetingInvitations';
 import search from './search';
 import auth from './auth';
 import users from './users';
@@ -21,6 +23,8 @@ export default combineReducers({
   articles,
   pools,
   registrations,
+  meetings,
+  meetingInvitations,
   search,
   comments,
   auth,
@@ -36,6 +40,8 @@ export const articleSchema = new Schema('articles', { idAttribute: 'id' });
 export const eventSchema = new Schema('events', { idAttribute: 'id' });
 export const poolSchema = new Schema('pools', { idAttribute: 'id' });
 export const registrationSchema = new Schema('registrations', { idAttribute: 'id' });
+export const meetingSchema = new Schema('meetings', { idAttribute: 'id' });
+export const meetingInvitationSchema = new Schema('meetingInvitations', { idAttribute: 'user' });
 export const commentSchema = new Schema('comments', { idAttribute: 'id' });
 export const groupSchema = new Schema('groups', { idAttribute: 'id' });
 export const userSchema = new Schema('users', { idAttribute: 'username' });

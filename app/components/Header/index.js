@@ -49,7 +49,7 @@ function AccountDropdownItems({ logout, onClose, username }) {
         </Link>
       </Dropdown.ListItem>
       <Dropdown.ListItem>
-        <Link to='/users/me/settings' onClick={onClose}>
+        <Link to='/meetings/' onClick={onClose}>
           Møteinnkallinger
           <Icon name='calendar' />
         </Link>

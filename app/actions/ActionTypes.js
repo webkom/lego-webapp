@@ -28,6 +28,19 @@ export const Article = {
 /**
  *
  */
+export const Meeting = {
+  FETCH: generateStatuses('Meeting.FETCH')
+};
+
+export const MeetingInvitations = {
+  FETCH: generateStatuses('MeetingInvitation.FETCH'),
+  SET_STATUS: generateStatuses('MeetingInvitation.SET_STATUS')
+  // ADD: generateStatuses('Comment.ADD')
+};
+
+/**
+ *
+ */
 export const Group = {
   FETCH: generateStatuses('Group.FETCH'),
   UPDATE: generateStatuses('Group.UPDATE')
