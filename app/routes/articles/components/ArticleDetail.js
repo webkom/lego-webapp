@@ -2,7 +2,7 @@ import styles from './ArticleDetail.css';
 import React, { Component } from 'react';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import CommentView from 'app/components/Comments/CommentView';
-import { FlexRow, FlexColumn } from 'app/components/FlexBox';
+import { FlexRow } from 'app/components/FlexBox';
 import Editor from 'app/components/Editor';
 
 /**

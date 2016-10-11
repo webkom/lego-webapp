@@ -3,7 +3,6 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import Image from 'app/components/Image';
-import Button from 'app/components/Button';
 import { getImage } from 'app/utils';
 
 const HEADLINE_EVENTS = 2;

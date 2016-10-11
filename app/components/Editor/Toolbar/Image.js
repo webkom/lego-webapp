@@ -16,7 +16,6 @@ export default class Image extends Component {
   props: Props;
 
   onClick = () => {
-    console.log('view image modal');
     this.addImageURL();
   }
 

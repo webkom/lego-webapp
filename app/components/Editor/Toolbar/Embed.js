@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import { AtomicBlockUtils, Entity } from 'draft-js';
-import cx from 'classnames';
 import Icon from 'app/components/Icon';
 import styles from './Toolbar.css';
 
