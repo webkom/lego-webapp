@@ -20,8 +20,6 @@ https://github.com/webkom/lego/wiki/Noob-Guide
 $ apm install nuclide pigments linter-eslint linter-stylelint
 ```
 
-You should disable linter
-
 ## Tests
 Run all the tests and check for lint errors with the command:
 ```
@@ -41,7 +39,7 @@ Run `flow` in the project directory to check if everything is good.
 ## Linting
 ESLint and Stylelint is used to maintain high code quality and a unified code style. Please run them before committing code.
 
-To run the linter, use_
+To run the linter, use:
 ```bash
 $ yarn run lint
 

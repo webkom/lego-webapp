@@ -44,7 +44,7 @@ export default class GroupPage extends Component {
     return (
       <div className='u-container GroupPage'>
         <section className='GroupPage__sidebar'>
-          <GroupTree groups={groups}/>
+          <GroupTree groups={groups} />
         </section>
 
         <section className='GroupPage__main'>

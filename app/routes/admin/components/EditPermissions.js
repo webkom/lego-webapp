@@ -74,9 +74,9 @@ export default class EditPermissions extends Component {
             type='text'
             ref={(ref) => { this.newPermissionRef = ref; }}
           />
-          <input type='submit' value='+'/>
+          <input type='submit' value='+' />
         </form>
-        <br/>
+        <br />
         <button
           onClick={this.save}
           style={{ display: edited ? 'block' : 'none' }}

@@ -27,7 +27,7 @@ export default function createMonthlyCalendar(
     prevOrNextMonth: false
   }));
 
-  const daysAdded = prevMonthDays.length + currentMonthDays.length - 1;
+  const daysAdded = (prevMonthDays.length + currentMonthDays.length) - 1;
   const nextMonthDays = takeWhile(range(1, 7), (n) => (daysAdded + n) % 7 !== 0).map((n) => ({
     day: last(currentMonthDays).day.clone().add(n, 'days'),
     prevOrNextMonth: true

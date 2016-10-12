@@ -48,7 +48,8 @@ export default function callAPI({
       return schema ? normalize(payload, schema) : payload;
     }
 
-    const optimisticId = (Date.now() * Math.random() * 1000) | 0;
+    // @todo: better id gen (cuid or something)
+    const optimisticId = Math.floor((Date.now() * Math.random() * 1000));
     const optimisticPayload = body
       ? normalizeJsonResponse({
         id: optimisticId,
