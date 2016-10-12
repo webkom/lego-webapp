@@ -11,7 +11,7 @@
     "test": "NODE_ENV=test jest",
     "test:coverage": "yarn run test -- --coverage",
     "test:watch": "yarn run test -- --watch",
-    "lint": "yarn run lint:js",
+    "lint": "yarn run lint:js && yarn run lint:css",
     "lint:js": "eslint app --ignore-path .gitignore",
     "lint:css": "stylelint ./app/**/*.css",
     "flow": "flow"

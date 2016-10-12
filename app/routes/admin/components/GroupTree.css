@@ -13,7 +13,7 @@
 }
 
 .tree-view_children-collapsed {
-  height: 0px;
+  height: 0;
 }
 
 .tree-view_arrow {
@@ -34,9 +34,6 @@
   transform: rotate(-90deg);
 }
 
-
-/* Extra styling */
-
 .node {
   -moz-transition: all 0.5s;
   -o-transition: all 0.5s;
@@ -51,7 +48,8 @@
   cursor: pointer;
 }
 
-.info, .node {
+.info,
+.node {
   padding: 2px 10px 2px 5px;
   font: 14px Helvetica, Arial, sans-serif;
   -webkit-user-select: none;

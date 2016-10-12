@@ -5,9 +5,9 @@
 
 .singleQuote {
   padding: 1px 20px 10px 0;
-  background-repeat:no-repeat;
+  background-repeat: no-repeat;
   width: 100%;
-  margin-bottom:25px;
+  margin-bottom: 25px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -17,7 +17,7 @@
   width: 93%;
 }
 
-.singleQuote .theQuote a{
+.singleQuote .theQuote a {
   color: black;
 }
 
@@ -59,11 +59,13 @@
 .singleQuote h3 a {
   color: #777;
 }
+
 .singleQuote h3 a:hover {
   color: orange;
 }
 
-.singleQuote .likes, .singleQuote .unlikes {
+.singleQuote .likes,
+.singleQuote .unlikes {
   width: 50px;
   height: 50px;
   order: 1;
@@ -92,7 +94,7 @@
   margin-top: 20px;
   padding-bottom: 40px;
   margin-left: 130px;
-  border-bottom: 1px solid #cccccc;
+  border-bottom: 1px solid #CCC;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -108,7 +110,7 @@
 }
 
 .singleQuote .quoteSource i {
-  font-size: 20px!important;
+  font-size: 20px !important;
 }
 
 .singleQuote .quoteAuthor {
@@ -117,7 +119,7 @@
 }
 
 .singleQuote .quoteDate {
-  color: #666666;
+  color: #666;
   font-size: 13px;
   order: 2;
   align-self: auto;
@@ -125,7 +127,7 @@
 }
 
 .singleQuote .quoteAdmin {
-  margin: 20px auto 0 auto;
+  margin: 20px auto 0;
   width: 200px;
   order: 3;
 }
@@ -140,8 +142,8 @@
   margin-right: 30px;
   order: 0;
   height: 0;
- }
+}
 
- .quote-singleroute .quoteBottom {
-   border-bottom: none;
- }
+.quote-singleroute .quoteBottom {
+  border-bottom: none;
+}

@@ -6,7 +6,7 @@
 }
 
 .bubble {
-  margin: 0 auto 10px auto;
+  margin: 0 auto 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,7 +17,8 @@
   border-radius: 35px;
 }
 
-.data, .meta {
+.data,
+.meta {
   line-height: 25px;
   margin: 0 auto;
 }
