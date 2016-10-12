@@ -10,7 +10,7 @@ function loadData(params, props) {
   props.fetchAll();
 }
 
-function mapStateToProps(state, props) {
+function mapStateToProps(state) {
   return {
     events: selectEvents(state)
   };

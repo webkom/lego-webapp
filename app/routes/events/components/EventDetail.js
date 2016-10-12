@@ -133,8 +133,8 @@ export default class EventDetail extends Component {
           <FlexColumn className={styles.openFor}>
             <strong>Åpent for</strong>
             <ul>
-            {(event.pools || []).map((pool) => (
-              <li key={pool.id}>{pool.permissionGroups}</li>
+              {(event.pools || []).map((pool) => (
+                <li key={pool.id}>{pool.permissionGroups}</li>
             ))}
             </ul>
           </FlexColumn>

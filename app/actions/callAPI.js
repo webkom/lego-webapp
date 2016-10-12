@@ -24,7 +24,7 @@ function urlFor(resource) {
 export default function callAPI({
   types,
   method = 'get',
-  headers,
+  headers = {},
   endpoint,
   body,
   meta,
@@ -33,14 +33,13 @@ export default function callAPI({
   return (dispatch, getState) => {
     const options = {
       method,
-      body
+      body,
+      headers
     };
 
     const jwt = getState().auth.token;
     if (jwt) {
-      options.headers = {
-        'Authorization': `JWT ${jwt}`
-      };
+      options.headers.Authorization = `JWT ${jwt}`;
     }
 
     function normalizeJsonResponse(jsonResponse = {}) {

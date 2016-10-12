@@ -27,7 +27,7 @@ export default class Quote extends Component {
               order: '0',
               height: '0'
             }}
-          ></i>
+          />
           <h3 className={styles.theQuote}>
             <a href={`/quotes/${quote.id}`}>{quote.text}</a>
           </h3>
@@ -38,13 +38,13 @@ export default class Quote extends Component {
           <a
             dataQuote-id={quote.id}
             className={`${quote.hasLiked ? 'quote-unlikes' : 'quote-likes'}`}
-            onClick={() => quote.hasLiked ? unlike(quote.id) : like(quote.id)}
+            onClick={() => (quote.hasLiked ? unlike(quote.id) : like(quote.id))}
           >
             <i
               className={`fa fa-thumbs-up ${quote.hasLiked ? styles.quoteLiked :
                 styles.quoteDefault}`}
               style={{ paddingTop: '5px', fontSize: '35px', order: '0' }}
-            ></i>
+            />
           </a>
           <br />
 
@@ -64,17 +64,17 @@ export default class Quote extends Component {
           <div className={styles.quoteAdmin}>
             <a
               dataQuote-id={quote.id}
-              className= 'approveQuote'
+              className='approveQuote'
               onClick={() => (quote.approved ? unapprove(quote.id) :
                 approve(quote.id))}
             > {(quote.approved ? 'Fjern Godkjenning' : 'Godkjenn')}</a>
             <a
               className={styles.deleteQuote}
-              onClick = {() => deleteQuote(quote.id)}
+              onClick={() => deleteQuote(quote.id)}
             >Slett</a>
           </div>
           )}
-       </div>
+        </div>
       </li>
     );
   }

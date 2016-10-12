@@ -44,7 +44,7 @@ export default class GroupSettings extends Component {
     if (permissions) {
       display = editing ?
         <EditPermissions permissions={permissions} groupId={id} updateGroup={updateGroup} /> :
-        <Permissions permissions={permissions} />;
+          <Permissions permissions={permissions} />;
     }
 
     return (

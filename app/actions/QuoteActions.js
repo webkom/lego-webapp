@@ -86,7 +86,7 @@ export function unapprove(quoteId) {
 }
 
 export function addQuotes({ text, source }) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch(startSubmit('addQuote'));
 
     dispatch(callAPI({

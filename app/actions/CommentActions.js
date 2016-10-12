@@ -4,7 +4,7 @@ import callAPI from 'app/actions/callAPI';
 import { Comment } from './ActionTypes';
 
 export function addComment({ text, commentTarget, parent }) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch(startSubmit('comment'));
 
     dispatch(callAPI({

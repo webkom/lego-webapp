@@ -24,10 +24,7 @@ const quickLinks = [
 ];
 
 const SearchResultItem = ({ item, isSelected }) => (
-  <li className={cx(
-    isSelected && styles.isSelected
-  )}
-  >
+  <li className={cx(isSelected && styles.isSelected)}>
     <Pill style={{ width: '150px', marginRight: '10px' }}>
       {item.type}
     </Pill>
@@ -79,6 +76,9 @@ class Search extends Component {
           this.props.results[this.state.selectedIndex]
         );
         break;
+
+      default:
+        return;
     }
   };
 

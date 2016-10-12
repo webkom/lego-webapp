@@ -3,12 +3,12 @@
 import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Modal } from 'react-overlays';
+import logoImage from 'app/assets/logo-dark.png';
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';
 import Search from '../Search';
 import ProfilePicture from '../ProfilePicture';
 import FancyNodesCanvas from './FancyNodesCanvas';
-import logoImage from 'app/assets/logo-dark.png';
 import styles from './Header.css';
 
 import type { UserEntity } from 'app/reducers/users';
@@ -81,13 +81,14 @@ export default class Header extends Component {
         <FancyNodesCanvas height={96} />
         <div className={styles.content}>
           <IndexLink to='/' className={styles.logo}>
-            <img src={logoImage} />
+            <img src={logoImage} role='presentation' />
           </IndexLink>
 
           <div className={styles.navigation}>
             <Link to='/events' activeClassName={styles.activeItem}>Arrangementer</Link>
             <Link to='/career' activeClassName={styles.activeItem}>Karriere</Link>
-            <Link to='/readme'
+            <Link
+              to='/readme'
               activeClassName={styles.activeItem}
               className={styles.readmeLink}
             >

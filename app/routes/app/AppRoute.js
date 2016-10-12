@@ -3,9 +3,8 @@
 import '../../Root.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { loginAutomaticallyIfPossible } from 'app/actions/UserActions';
+import { loginAutomaticallyIfPossible, logout } from 'app/actions/UserActions';
 import { toggleSearch } from 'app/actions/SearchActions';
-import { logout } from 'app/actions/UserActions';
 import Header from 'app/components/Header';
 import Footer from 'app/components/Footer';
 import LoadingIndicator from 'app/components/LoadingIndicator';

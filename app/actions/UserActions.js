@@ -1,10 +1,10 @@
 import jwtDecode from 'jwt-decode';
 import { normalize } from 'normalizr';
-import { userSchema } from 'app/reducers';
 import moment from 'moment';
 import { push, replace } from 'react-router-redux';
-import { User } from './ActionTypes';
+import { userSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
+import { User } from './ActionTypes';
 
 const USER_STORAGE_KEY = 'user';
 

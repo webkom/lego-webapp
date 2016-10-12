@@ -1,12 +1,15 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import isEqual from 'lodash/isEqual';
 
+type Props = {
+  groupId: number,
+  updateGroup: () => void
+};
+
 export default class EditPermissions extends Component {
-  static propTypes = {
-    permissions: PropTypes.array.isRequired,
-    groupId: PropTypes.number.isRequired,
-    updateGroup: PropTypes.func.isRequired
-  };
+  props: Props;
+
+  newPermissionRef: any;
 
   constructor(props) {
     super(props);
@@ -31,27 +34,27 @@ export default class EditPermissions extends Component {
     });
   }
 
-  save() {
+  save = () => {
     this.props.updateGroup({
       groupId: this.props.groupId,
       updates: {
         permissions: this.state.permissions
       }
     });
-  }
+  };
 
-  add(e) {
+  add = (e) => {
     e.preventDefault();
-    if (!this.refs.newPermission.value) {
+    if (!this.newPermissionRef.value) {
       return;
     }
 
-    const permissions = [...this.state.permissions, this.refs.newPermission.value];
-    this.refs.newPermission.value = '';
+    const permissions = [...this.state.permissions, this.newPermissionRef.value];
+    this.newPermissionRef.value = '';
     this.setState({
       permissions
     });
-  }
+  };
 
   render() {
     const { permissions } = this.state;
@@ -61,15 +64,25 @@ export default class EditPermissions extends Component {
       <div>
         <ul>
           {permissions.map((p) =>
-            <li key={p}>{p} <a className='fa fa-times' onClick={this.del.bind(this, p)}/></li>
+            <li key={p}>
+              {p} <button onClick={this.del.bind(this, p)}>X</button>
+            </li>
           )}
         </ul>
-        <form onSubmit={::this.add}>
-          <input type='text' ref='newPermission'/>
+        <form onSubmit={this.add}>
+          <input
+            type='text'
+            ref={(ref) => { this.newPermissionRef = ref; }}
+          />
           <input type='submit' value='+'/>
         </form>
         <br/>
-        <button onClick={::this.save} style={{ display: edited ? 'block' : 'none' }}>Save</button>
+        <button
+          onClick={this.save}
+          style={{ display: edited ? 'block' : 'none' }}
+        >
+          Save
+        </button>
       </div>
     );
   }

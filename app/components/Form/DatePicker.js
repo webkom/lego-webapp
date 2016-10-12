@@ -67,7 +67,7 @@ class DatePicker extends Component {
 
   onChangeTime = (time: moment) => {
     this.setState((prevState) => {
-      const value = this.state.value.clone()
+      const value = prevState.value.clone()
         .hour(time.hour())
         .minute(time.minute());
 
