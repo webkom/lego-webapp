@@ -14,6 +14,14 @@ Everything should be up and running on [localhost:3000](http://localhost:3000).
 Noob guide for setting up LEGO:
 https://github.com/webkom/lego/wiki/Noob-Guide
 
+## Text Editor
+[Atom](https://atom.io) with these plugins installed provides the best developer experience:
+́```bash
+$ apm install nuclide pigments linter-eslint linter-stylelint
+```
+
+You should disable linter
+
 ## Tests
 Run all the tests and check for lint errors with the command:
 ```
@@ -25,14 +33,27 @@ For development you can run the tests continuously by using:
 $ yarn run test:watch
 ```
 
-## Linting
-ESLint is used to maintain high code quality and a unified code style.
-The config used can be found [here](https://github.com/webkom/eslint-config-webkom).
+## Flow
+[Flow](https://flowtype.org/) is gradually being introduced so we can reap the benefits of static type checking.
 
-To run the linter, use:
-```
+Run `flow` in the project directory to check if everything is good.
+
+## Linting
+ESLint and Stylelint is used to maintain high code quality and a unified code style. Please run them before committing code.
+
+To run the linter, use_
+```bash
 $ yarn run lint
+
+# or
+$ yarn run lint:js
+$ yarn run lint:css
 ```
+
+Some ESLint errors can be fixed by running
+́́́```bash
+$ yarn run lint:js -- --fix
+́```
 
 ## License
 The MIT License (MIT)
