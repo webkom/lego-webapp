@@ -73,8 +73,8 @@ export function addCompany({ name, studentContact, adminComment, jobOfferOnly, p
   };
 }
 
-export function editCompany({ companyId, name, studentContact, adminComment,
-  jobOfferOnly, phone }) {
+export function editCompany({ companyId, name, studentContact, adminComment, active,
+  jobOfferOnly, bedex, description, phone, website }) {
   return (dispatch, getState) => {
     dispatch(startSubmit('company'));
 
@@ -85,13 +85,17 @@ export function editCompany({ companyId, name, studentContact, adminComment,
         Company.EDIT_FAILURE
       ],
       endpoint: `/companies/${companyId}/`,
-      method: 'patch',
+      method: 'PATCH',
       body: {
         name,
         studentContact,
         adminComment,
+        active,
         jobOfferOnly,
-        phone
+        bedex,
+        description,
+        phone,
+        website
       },
       schema: companySchema,
       meta: {
