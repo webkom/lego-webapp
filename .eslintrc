@@ -1,10 +1,11 @@
 {
   "extends": [
-    "webkom/react",
+    "airbnb",
     "plugin:flowtype/recommended"
   ],
   "parser": "babel-eslint",
   "plugins": [
+    "react",
     "flowtype"
   ],
   "globals": {
@@ -15,16 +16,32 @@
     "__DEV__": true
   },
   "rules": {
-    "react/jsx-no-bind": 0,
     "arrow-parens": [2, "always"],
     "arrow-body-style": 0,
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": ["**/*.spec.js"]}],
+    "import/prefer-default-export": 0,
+    "jsx-quotes": [2, "prefer-single"],
     "quote-props": 0,
+    "no-bitwise": 0,
+    "no-duplicate-imports": 0,
     "no-shadow": 0,
-    "react/prop-types": 0,
+    "react/jsx-no-bind": 0,
     "react/jsx-space-before-closing": 0,
-    "react/prefer-stateless-function": 0
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "react/prop-types": 0,
+    "comma-dangle": 0,
+    "no-mixed-operators": 0,
+    "no-plusplus": 0
+  },
+  "settings": {
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack/webpack.config.babel.js"
+      }
+    }
   },
   "env": {
-    "jest": true
+    "jest": true,
+    "browser": true
   }
 }

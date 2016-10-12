@@ -12,7 +12,7 @@ type Tree<T: Object> = Array<T & {
  *   ...node,
  *   children: [{
  *     ...node,
- *   	 children: [...]
+ *     children: [...]
  *   }]
  * }]
  *
