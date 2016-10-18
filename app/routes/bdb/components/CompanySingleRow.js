@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { indexToSemester } from '../utils.js';
 import SemesterStatus from './SemesterStatus';
+import styles from './bdb.css';
 
 type Props = {
   company: Object,
@@ -55,7 +56,7 @@ export default class CompanySingleRow extends Component {
     let adminComment = '';
     if (comment) {
       if (comment.length > 20) {
-        comment = `${comment.substring(0, 17)}...`;
+        comment = `${comment.substring(0, 30)}...`;
         adminComment = (<Link to={`/bdb/${company.id}`}>{comment}</Link>);
       } else {
         adminComment = comment;
@@ -69,7 +70,7 @@ export default class CompanySingleRow extends Component {
         <td style={{ width: '170px' }}>
           {company.studentContact ? company.studentContact.fullName : ''}
         </td>
-        <td>{adminComment}</td>
+        <td className={styles.adminComment}>{adminComment}</td>
       </tr>
     );
   }

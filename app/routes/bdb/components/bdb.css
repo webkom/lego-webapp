@@ -37,6 +37,11 @@ select {
   display: table-cell;
 }
 
+.adminComment {
+  padding: 5px 0;
+  line-height: 17px;
+}
+
 .categoryHeader {
   font-weight: bold;
   background-color: #eee;

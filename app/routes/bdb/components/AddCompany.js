@@ -1,6 +1,5 @@
 import styles from './bdb.css';
 import React, { Component } from 'react';
-import FieldError from 'app/components/FieldError';
 
 type Props = {
   addCompany: () => void,
@@ -13,8 +12,6 @@ type Props = {
 
 export default class AddCompany extends Component {
 
-  props: Props;
-
   onSubmit({ name, studentContact, adminComment, jobOfferOnly, phone }) {
     this.props.addCompany({
       name,
@@ -24,6 +21,8 @@ export default class AddCompany extends Component {
       phone
     });
   }
+
+  props: Props;
 
   render() {
     const {
