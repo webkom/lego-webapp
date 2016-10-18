@@ -1,14 +1,15 @@
 // @flow
 
 import React, { Component } from 'react';
-import { AtomicBlockUtils, Entity } from 'draft-js';
+import { Block } from '../constants';
+import { addNewBlock } from '../models';
 import Icon from 'app/components/Icon';
 import styles from './Toolbar.css';
 
 type Props = {
   close: () => void,
   onChange: () => void,
-  getEditorState: () => void
+  editorState: Object
 };
 
 export default class Embed extends Component {
@@ -18,21 +19,17 @@ export default class Embed extends Component {
   onClick = () => {
     const url = window.prompt('Enter a URL', 'https://www.youtube.com/watch?v=PMNFaAUs2mo');
     this.props.onClose();
-    if (!url) {
-      return;
-    }
+    if (!url) return;
     this.addEmbedURL(url);
   }
 
   addEmbedURL = (url) => {
-    const entityKey = Entity.create('embed', 'IMMUTABLE', { url });
-    this.props.onChange(
-      AtomicBlockUtils.insertAtomicBlock(
-        this.props.getEditorState(),
-        entityKey,
-        'E'
-      )
-    );
+    this.props.onChange(addNewBlock(
+        this.props.editorState,
+        Block.EMBED,
+        { url }
+    ));
+    this.props.onClose();
   }
 
 
@@ -40,8 +37,10 @@ export default class Embed extends Component {
     return (
       <span
         className={styles.toolbarButton}
-        onClick={(e) => {
+        onMouseDown={(e) => {
+          console.log(e);
           e.preventDefault();
+          e.stopPropagation();
           this.onClick();
         }}
       >

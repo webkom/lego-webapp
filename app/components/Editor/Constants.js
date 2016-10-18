@@ -14,8 +14,10 @@ export const Block = {
   BLOCKQUOTE_CAPTION: 'block-quote-caption',
   CAPTION: 'caption',
   TODO: 'todo',
-  IMAGE: 'image',
-  BREAK: 'break'
+  ATOMIC: 'atomic',
+  IMAGE: 'atomic:image',
+  BREAK: 'atomic:break',
+  EMBED: 'atomic:embed'
 };
 
 export const Inline = {
