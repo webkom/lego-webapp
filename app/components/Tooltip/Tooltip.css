@@ -10,8 +10,8 @@
   padding: 5px 15px;
 }
 
-.baseTooltipHover:after {
-  content: "";
+.baseTooltipHover::after {
+  content: '';
   position: absolute;
   width: 0;
   height: 0;
@@ -24,7 +24,7 @@
   margin-top: -45px;
 }
 
-.showTooltip:after {
+.showTooltip::after {
   top: 100%;
   border-color: #333 transparent transparent;
 }
@@ -34,7 +34,7 @@
   margin-top: 30px;
 }
 
-.listTooltip:after {
+.listTooltip::after {
   border-color: transparent transparent #333;
   bottom: 100%;
 }

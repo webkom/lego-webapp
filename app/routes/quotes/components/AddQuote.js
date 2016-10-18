@@ -53,7 +53,7 @@ class AddQuote extends Component {
               type='text'
             />
 
-            <div className={styles.clear}></div>
+            <div className={styles.clear} />
 
             <Button
               type='submit'

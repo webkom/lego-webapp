@@ -12,11 +12,20 @@ const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
 
 type Props = {
   weekOffset: number;
-  events: Array<{}>;
-  location: any;
   year: string;
   month: string;
 };
+
+function queryForPrevMonth(date: moment) {
+  // moment objects are mutated
+  const newDate = date.clone().subtract(1, 'months');
+  return { year: newDate.year(), month: newDate.month() + 1 };
+}
+
+function queryForNextMonth(date: moment) {
+  const newDate = date.clone().add(1, 'months');
+  return { year: newDate.year(), month: newDate.month() + 1 };
+}
 
 export default class Calendar extends Component {
   props: Props;
@@ -24,17 +33,6 @@ export default class Calendar extends Component {
   static defaultProps = {
     weekOffset: 0
   };
-
-  queryForPrevMonth(date: moment) {
-    // moment objects are mutated
-    const newDate = date.clone().subtract(1, 'months');
-    return { year: newDate.year(), month: newDate.month() + 1 };
-  }
-
-  queryForNextMonth(date: moment) {
-    const newDate = date.clone().add(1, 'months');
-    return { year: newDate.year(), month: newDate.month() + 1 };
-  }
 
   render() {
     const { year, month } = this.props;
@@ -45,11 +43,11 @@ export default class Calendar extends Component {
         <Toolbar />
 
         <h2 className={styles.header}>
-          <Link to={{ pathname: '/events/calendar', query: this.queryForPrevMonth(date) }}>
+          <Link to={{ pathname: '/events/calendar', query: queryForPrevMonth(date) }}>
             &laquo;
           </Link>
           <span>{date.format('MMMM YYYY')}</span>
-          <Link to={{ pathname: '/events/calendar', query: this.queryForNextMonth(date) }}>
+          <Link to={{ pathname: '/events/calendar', query: queryForNextMonth(date) }}>
             &raquo;
           </Link>
         </h2>

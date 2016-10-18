@@ -1,5 +1,5 @@
-import { Search } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
+import { Search } from './ActionTypes';
 
 export function toggleSearch() {
   return {
@@ -8,7 +8,7 @@ export function toggleSearch() {
 }
 
 export function search(query) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     if (!query) {
       return Promise.resolve();
     }

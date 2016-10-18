@@ -34,7 +34,7 @@ function groupEvents(events) {
   }, {});
 }
 
-function getAttendanceMessage(event) {
+function getAttendanceMessage() {
   return '0 / 100';
 }
 

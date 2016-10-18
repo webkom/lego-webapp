@@ -89,7 +89,7 @@ function List({ children }) {
 }
 
 function ListItem(props) {
-  return <li {...props}></li>;
+  return <li {...props} />;
 }
 
 function Divider() {

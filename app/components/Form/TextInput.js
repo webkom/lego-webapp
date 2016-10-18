@@ -6,8 +6,8 @@ import { createField } from './Field';
 import styles from './TextInput.css';
 
 type Props = {
-  type: string,
-  className: string
+  type?: string,
+  className?: string
 };
 
 function TextInput({ type = 'text', className, ...props }: Props) {

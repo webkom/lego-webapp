@@ -4,12 +4,12 @@ import Button from '../Button';
 
 describe('<Button />', () => {
   it('should render correctly', () => {
-    const wrapper = shallow(<Button/>);
+    const wrapper = shallow(<Button />);
     expect(wrapper.prop('type')).toEqual('button');
   });
 
   it('should be a normal button by default', () => {
-    const wrapper = shallow(<Button/>);
+    const wrapper = shallow(<Button />);
     expect(wrapper.prop('type')).toEqual('button');
   });
 

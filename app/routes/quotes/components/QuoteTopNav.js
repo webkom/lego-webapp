@@ -21,20 +21,20 @@ export default class QuoteTopNav extends Component {
             <Link
               to={this.props.query.filter === 'unapproved' ?
               '/quotes?filter=unapproved' : '/quotes'}
-              className = {(this.props.sortType === 'date') ?
+              className={(this.props.sortType === 'date') ?
                 'selectedQuoteSort' : 'unselectedQuoteSort'}
             >Dato</Link>
 
             <Link
               to={this.props.query.filter === 'unapproved' ?
               '/quotes?filter=unapproved&sort=likes' : '/quotes?sort=likes'}
-              className = {(this.props.sortType === 'likes') ?
+              className={(this.props.sortType === 'likes') ?
               'selectedQuoteSort' : 'unselectedQuoteSort'}
             >Likes</Link>
 
           </div>
         </div>
-        <div className={styles.clear}></div>
+        <div className={styles.clear} />
       </div>
     );
   }

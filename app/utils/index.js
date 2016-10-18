@@ -12,7 +12,7 @@ type Tree<T: Object> = Array<T & {
  *   ...node,
  *   children: [{
  *     ...node,
- *   	 children: [...]
+ *     children: [...]
  *   }]
  * }]
  *
@@ -51,6 +51,6 @@ export function getRandomImage(width: number, height: number) {
   return `http://unsplash.it/${width}/${heightOrWidth}/?random&pleasedontcacheme=${id++}`;
 }
 
-export function getImage(id, width = 320, height = 240) {
+export function getImage(id: number, width: number = 320, height: number = 240) {
   return `http://unsplash.it/${width}/${height}/?image=${id}`;
 }

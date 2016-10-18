@@ -16,13 +16,9 @@ function loadData(params, props) {
 }
 
 type Props = {
-  auth: Object,
-  username: string,
   loggedIn: boolean,
   user: Object,
-  isMe: boolean,
-  fetchUser: () => void,
-  params: Object
+  isMe: boolean
 };
 
 class UserProfileRoute extends Component {

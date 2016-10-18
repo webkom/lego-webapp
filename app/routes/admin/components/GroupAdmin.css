@@ -58,6 +58,6 @@
 
   &.active {
     background-color: white;
-    color: var(--lego-link-color)
+    color: var(--lego-link-color);
   }
 }

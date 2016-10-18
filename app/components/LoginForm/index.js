@@ -9,19 +9,22 @@ type Props = {
 export default class LoginForm extends Component {
   props: Props;
 
+  usernameRef: any;
+  passwordRef: any;
+
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const username = this.refs.username.value.trim();
-    const password = this.refs.password.value.trim();
+    const username = this.usernameRef.value.trim();
+    const password = this.passwordRef.value.trim();
 
     if (username === '') {
-      this.refs.username.focus();
+      this.usernameRef.focus();
       return;
     }
 
     if (password === '') {
-      this.refs.password.focus();
+      this.passwordRef.focus();
       return;
     }
 
@@ -33,13 +36,13 @@ export default class LoginForm extends Component {
       <Form onSubmit={this.handleSubmit} className={this.props.className}>
         <input
           type='text'
-          ref='username'
+          ref={(ref) => { this.usernameRef = ref; }}
           placeholder='Username'
           autoFocus
         />
         <input
           type='password'
-          ref='password'
+          ref={(ref) => { this.passwordRef = ref; }}
           placeholder='Password'
         />
         <Button submit dark>Send</Button>

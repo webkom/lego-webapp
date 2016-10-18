@@ -7,8 +7,7 @@ import ProfilePicture from 'app/components/ProfilePicture';
 import styles from './RegistrationModal.css';
 
 export type Props = {
-  pools: Array<Object>,
-  initialPoolIndex: number
+  pools: Array<Object>
 };
 
 class RegistrationModal extends Component {
