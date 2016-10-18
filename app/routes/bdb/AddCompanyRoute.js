@@ -22,7 +22,6 @@ const mapDispatchToProps = { addCompany };
 export default compose(
   reduxForm({
     form: 'addCompany',
-    fields: ['name', 'studentContact', 'adminComment', 'jobOfferOnly', 'phone'],
     validate: validateCompany
   }),
   connect(

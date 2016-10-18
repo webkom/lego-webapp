@@ -31,7 +31,7 @@ export default class CompanyDetail extends Component {
     }
 
     const semesters = company.semesterStatuses
-      .sort((a, b) => a.year === b.year ? a.semester - b.semester : b.year - a.year)
+      .sort((a, b) => (a.year === b.year ? a.semester - b.semester : b.year - a.year))
       .map((status, i) => (
         <tr key={i}>
           <td>{status.year} {status.semester === 0 ? 'Vår' : 'Høst'}</td>
@@ -41,7 +41,7 @@ export default class CompanyDetail extends Component {
           <td style={{ display: 'flex', justifyContent: 'space-between' }}>
             <span>{status.contract || '-'}</span>
             <span style={{ display: 'flex', flexDirection: 'row' }}>
-              <Link to='#'>
+              <Link to={`/bdb/${company.id}/semesters/${status.id}`}>
                 <i className='fa fa-pencil' style={{ marginRight: '5px', color: 'orange' }}></i>
               </Link>
               <a onClick={this.deleteSemesterStatus.bind(this, status.id)}>
@@ -73,7 +73,7 @@ export default class CompanyDetail extends Component {
         <tr key={i}>
           <td>{event.title}</td>
           <td>{event.eventType}</td>
-          <td><Time time={event.startTime} format='DD.MM.YYYY'/></td>
+          <td><Time time={event.startTime} format='DD.MM.YYYY' /></td>
         </tr>
       ));
     }
@@ -142,6 +142,7 @@ export default class CompanyDetail extends Component {
                 </tbody>
               </table>
             </div>
+            <Link to={`/bdb/${company.id}/semesters/add`}>Legg til nytt semester</Link>
 
             <div className={styles.info}>
               <div style={{ order: 0 }}>
@@ -156,7 +157,7 @@ export default class CompanyDetail extends Component {
 
               <div style={{ order: 2 }}>
                 <h3>Bedex i år?</h3>
-                {company.active ? trueIcon : falseIcon}
+                {company.bedex ? trueIcon : falseIcon}
               </div>
             </div>
 

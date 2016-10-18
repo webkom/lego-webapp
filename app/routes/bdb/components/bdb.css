@@ -315,3 +315,22 @@ option {
   margin-bottom: 0!important;
   font-weight: bold;
 }
+
+.yearForm {
+  width: 100px!important;
+}
+
+.semesterStatusForm {
+  width: 300px;
+  margin: 15px 0;
+  padding: 5px;
+}
+
+.semesterStatusForm select {
+  width: 100%;
+}
+
+.contractForm {
+  width: 300px!important;
+  margin-top: 15px;
+}

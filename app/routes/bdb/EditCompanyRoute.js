@@ -1,29 +1,12 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
 import { editCompany, fetch } from '../../actions/CompanyActions';
 import EditCompany from './components/EditCompany';
+import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 
-type Props = {
-  fetch: () => {}
-};
-
-class EditCompanyRoute extends Component {
-
-  props: Props;
-
-  componentWillMount() {
-    this.props.fetch(this.props.companyId);
-  }
-
-  render() {
-    return (
-      <EditCompany
-        {...this.props}
-      />
-    );
-  }
+function loadData({ companyId }, props) {
+  props.fetch(Number(companyId));
 }
 
 function validateCompany(data) {
@@ -41,8 +24,7 @@ function validateCompany(data) {
 
 function mapStateToProps(state, props) {
   const companyId = props.params.companyId;
-  const company = state.companies.items
-    .map((id) => state.companies.byId[id])[0];
+  const company = state.companies.byId[companyId];
 
   return {
     company,
@@ -57,7 +39,7 @@ function mapStateToProps(state, props) {
       description: company.description,
       phone: company.phone,
       website: company.website
-    } : {}
+    } : null
   };
 }
 
@@ -70,9 +52,7 @@ export default compose(
   ),
   reduxForm({
     form: 'editCompany',
-    /*
-    fields: ['name', 'studentContact', 'adminComment', 'active', 'jobOfferOnly',
-      'bedex', 'description', 'phone', 'website'],*/
     validate: validateCompany
-  })
-)(EditCompanyRoute);
+  }),
+  fetchOnUpdate(['companyId', 'loggedIn'], loadData),
+)(EditCompany);
