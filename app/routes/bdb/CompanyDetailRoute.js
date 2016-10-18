@@ -8,8 +8,7 @@ import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 
 function mapStateToProps(state, props) {
   const companyId = props.params.companyId;
-  const company = state.companies.items
-    .map((id) => state.companies.byId[id])[0];
+  const company = state.companies.byId[companyId];
   let comments = [];
   if (company) {
     if (company.comments) {

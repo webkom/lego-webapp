@@ -35,8 +35,9 @@ export function fetch(companyId) {
   });
 }
 
-export function addCompany({ name, studentContact, adminComment, jobOfferOnly, phone }) {
-  return (dispatch, getState) => {
+export function addCompany({ name, studentContact, adminComment, active,
+  jobOfferOnly, bedex, description, phone, website }) {
+  return (dispatch) => {
     dispatch(startSubmit('company'));
 
     dispatch(callAPI({
@@ -51,8 +52,12 @@ export function addCompany({ name, studentContact, adminComment, jobOfferOnly, p
         name,
         studentContact,
         adminComment,
+        active,
         jobOfferOnly,
-        phone
+        bedex,
+        description,
+        phone,
+        website
       },
       schema: companySchema,
       meta: {
@@ -75,7 +80,10 @@ export function addCompany({ name, studentContact, adminComment, jobOfferOnly, p
 
 export function editCompany({ companyId, name, studentContact, adminComment, active,
   jobOfferOnly, bedex, description, phone, website }) {
-  return (dispatch, getState) => {
+  console.log('Yo');
+  console.log({ companyId, name, studentContact, adminComment, active,
+    jobOfferOnly, bedex, description, phone, website });
+  return (dispatch) => {
     dispatch(startSubmit('company'));
 
     dispatch(callAPI({
@@ -101,17 +109,15 @@ export function editCompany({ companyId, name, studentContact, adminComment, act
       meta: {
         errorMessage: 'Editing company failed'
       }
-    })).then(
-      (callback) => {
-        dispatch(stopSubmit('company'));
-        dispatch(push(`/bdb/${companyId}/`));
-      }
-    );
+    })).then(() => {
+      dispatch(stopSubmit('company'));
+      dispatch(push(`/bdb/${companyId}/`));
+    });
   };
 }
 
-export function addSemesterStatus({ companyId, semesterId, value, year, semester }) {
-  return (dispatch, getState) => {
+export function addSemesterStatus({ companyId, value, year, semester }) {
+  return (dispatch) => {
     dispatch(startSubmit('company'));
 
     dispatch(callAPI({
@@ -120,7 +126,7 @@ export function addSemesterStatus({ companyId, semesterId, value, year, semester
         Company.ADD_SEMESTER_SUCCESS,
         Company.ADD_SEMESTER_FAILURE
       ],
-      endpoint: `/companies/${companyId}/semesterStatuses/`,
+      endpoint: `/companies/${companyId}/semester-statuses/`,
       method: 'post',
       body: {
         year,
@@ -134,8 +140,8 @@ export function addSemesterStatus({ companyId, semesterId, value, year, semester
   };
 }
 
-export function editSemesterStatus({ companyId, semesterId, value }) {
-  return (dispatch, getState) => {
+export function editSemesterStatus({ companyId, semesterId, value, contract }) {
+  return (dispatch) => {
     dispatch(startSubmit('company'));
 
     dispatch(callAPI({
@@ -144,25 +150,24 @@ export function editSemesterStatus({ companyId, semesterId, value }) {
         Company.EDIT_SEMESTER_SUCCESS,
         Company.EDIT_SEMESTER_FAILURE
       ],
-      endpoint: `/companies/${companyId}/semesterStatuses/${semesterId}/`,
+      endpoint: `/companies/${companyId}/semester-statuses/${semesterId}/`,
       method: 'PATCH',
       body: {
-        contactedStatus: value
+        contactedStatus: value,
+        contract
       },
       meta: {
         errorMessage: 'Editing semester status failed'
       }
-    })).then(
-      (callback) => {
-        dispatch(stopSubmit('company'));
-        dispatch(push('/bdb/'));
-      }
-    );
+    })).then(() => {
+      dispatch(stopSubmit('company'));
+      dispatch(push('/bdb/'));
+    });
   };
 }
 
 export function deleteSemesterStatus(companyId, semesterId) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     dispatch(startSubmit('company'));
 
     dispatch(callAPI({
@@ -171,18 +176,16 @@ export function deleteSemesterStatus(companyId, semesterId) {
         Company.DELETE_SEMESTER_SUCCESS,
         Company.DELETE_SEMESTER_FAILURE
       ],
-      endpoint: `/companies/${companyId}/semesterStatuses/${semesterId}/`,
+      endpoint: `/companies/${companyId}/semester-statuses/${semesterId}/`,
       method: 'delete',
       meta: {
         companyId,
         semesterId
       },
       schema: companySchema
-    })).then(
-      (callback) => {
-        dispatch(stopSubmit('company'));
-        dispatch(push(`/bdb/${companyId}/`));
-      }
-    );
+    })).then(() => {
+      dispatch(stopSubmit('company'));
+      dispatch(push(`/bdb/${companyId}/`));
+    });
   };
 }
