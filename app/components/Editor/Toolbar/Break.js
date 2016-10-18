@@ -1,29 +1,26 @@
 // @flow
 
 import React, { Component } from 'react';
-import { AtomicBlockUtils, Entity } from 'draft-js';
+import { Block } from '../constants';
+import { addNewBlock } from '../models';
 import Icon from 'app/components/Icon';
 import styles from './Toolbar.css';
 
 type Props = {
   close: () => void,
   onChange: () => void,
-  getEditorState: () => void
+  editorState: Object
 };
 
-export default class Seperator extends Component {
+export default class Break extends Component {
 
   props: Props;
 
   onClick = () => {
-    const entityKey = Entity.create('separator', 'IMMUTABLE', {});
-    this.props.onChange(
-      AtomicBlockUtils.insertAtomicBlock(
-        this.props.getEditorState(),
-        entityKey,
-        '-'
-      )
-    );
+    this.props.onChange(addNewBlock(
+        this.props.editorState,
+        Block.BREAK
+    ));
     this.props.onClose();
   }
 
@@ -31,8 +28,9 @@ export default class Seperator extends Component {
     return (
       <span
         className={styles.toolbarButton}
-        onClick={(e) => {
+        onMouseDown={(e) => {
           e.preventDefault();
+          e.stopPropagation();
           this.onClick();
         }}
       >

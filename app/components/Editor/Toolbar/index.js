@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import Icon from 'app/components/Icon';
 import ReactDOM from 'react-dom';
 import styles from './Toolbar.css';
-import Seperator from './Seperator';
+import Break from './Break';
 import Embed from './Embed';
 import Image from './Image';
 
 export type Props = {
   active: boolean,
   onChange: () => void,
-  getEditorState: () => void
+  editorState: Object
 };
 
 export default class Toolbar extends Component {
@@ -67,20 +67,20 @@ export default class Toolbar extends Component {
           />
 
         {this.state.open && <div className={styles.toolbarButtons}>
-            <Seperator
+            <Break
               onChange={this.props.onChange}
               onClose={this.handleClose}
-              getEditorState={this.props.getEditorState}
+              editorState={this.props.editorState}
             />
             <Embed
               onChange={this.props.onChange}
               onClose={this.handleClose}
-              getEditorState={this.props.getEditorState}
+              editorState={this.props.editorState}
             />
             <Image
               onChange={this.props.onChange}
               onClose={this.handleClose}
-              getEditorState={this.props.getEditorState}
+              editorState={this.props.editorState}
             />
           </div>}
 

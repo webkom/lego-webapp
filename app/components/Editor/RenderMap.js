@@ -16,6 +16,6 @@ export default Map({ // eslint-disable-line
     element: 'figure'
   },
   [Block.BREAK]: {
-    element: 'hr'
+    element: 'div'
   }
 }).merge(DefaultDraftBlockRenderMap);

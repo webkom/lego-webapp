@@ -4,6 +4,9 @@ import 'draft-js/dist/Draft.css';
 import { stateToHTML } from 'draft-js-export-html';
 import Tooltip from './Tooltip';
 import Toolbar from './Toolbar';
+import RenderMap from './RenderMap';
+import customRenderer from './CustomRenderer';
+import KeyBindings from './KeyBindings';
 import styles from './Editor.css';
 
 export type Props = {
@@ -37,15 +40,19 @@ export default class EditorComponent extends Component {
   }
 
   onBlur = (e) => {
-    console.log('blur', e);
     this.setState({ active: false });
   }
+
+  customRenderer = customRenderer(this.onChange, this.state.editorState);
 
   onFocus = (e) => {
     this.setState({ active: true });
     const selection = EditorState.moveSelectionToEnd(this.state.editorState);
     this.onChange(EditorState.forceSelection(selection, selection.getSelection()));
-    return this.editorRoot.focus();
+  }
+
+  onKeyCommand = (command) => {
+    console.log(command);
   }
 
   render() {
@@ -60,7 +67,11 @@ export default class EditorComponent extends Component {
             onBlur={this.onBlur}
             ref={(node) => { this.editorRoot = node; }}
             editorState={editorState}
+            blockRenderMap={RenderMap}
+            keyBindingFn={KeyBindings}
+            blockRendererFn={this.customRenderer}
             placeholder={this.props.placeholder}
+            handleKeyCommand={this.onKeyCommand}
             onChange={(e) => this.onChange(e)}
             onFocus={this.onFocus}
           />
