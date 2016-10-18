@@ -36,24 +36,28 @@ export default class EditorComponent extends Component {
     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, inlineStyle));
   }
 
-  onBlur = () => {
+  onBlur = (e) => {
+    console.log('blur', e);
     this.setState({ active: false });
   }
 
-  onFocus = () => {
-    const selection = EditorState.moveSelectionToEnd(this.state.editorState);
+  onFocus = (e) => {
     this.setState({ active: true });
+    const selection = EditorState.moveSelectionToEnd(this.state.editorState);
     this.onChange(EditorState.forceSelection(selection, selection.getSelection()));
     return this.editorRoot.focus();
   }
 
   render() {
     const { editorState } = this.state;
+    const currentBlockKey = editorState.getSelection().getAnchorKey();
+    const blockLength = editorState.getCurrentContent().getBlockForKey(currentBlockKey).getLength();
 
     return (
-      <div className={styles.editorRoot} onBlur={this.onBlur} id='editor'>
+      <div className={styles.editorRoot} id='editor'>
 
           <Editor
+            onBlur={this.onBlur}
             ref={(node) => { this.editorRoot = node; }}
             editorState={editorState}
             placeholder={this.props.placeholder}
@@ -61,21 +65,23 @@ export default class EditorComponent extends Component {
             onFocus={this.onFocus}
           />
 
-          <Toolbar
-            editorState={editorState}
-            editorRoot={this.editorRoot}
-            active={this.state.active}
-            onChange={(e) => this.onChange(e)}
-          />
+          {blockLength === 0 && this.state.active ?
+            <Toolbar
+              editorState={editorState}
+              editorRoot={this.editorRoot}
+              active={this.state.active}
+              onChange={(e) => this.onChange(e)}
+            /> : null
+          }
 
-        {!editorState.getSelection().isCollapsed() && this.state.active ?
-          <Tooltip
-            editorState={editorState}
-            editorRoot={this.editorRoot}
-            toggleInlineStyle={this.toggleInlineStyle}
-            toggleBlockType={this.toggleBlockType}
-          /> : null
-        }
+          {!editorState.getSelection().isCollapsed() && this.state.active ?
+            <Tooltip
+              editorState={editorState}
+              editorRoot={this.editorRoot}
+              toggleInlineStyle={this.toggleInlineStyle}
+              toggleBlockType={this.toggleBlockType}
+            /> : null
+          }
 
       </div>
     );

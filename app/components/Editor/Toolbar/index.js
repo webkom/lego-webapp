@@ -53,43 +53,38 @@ export default class Toolbar extends Component {
   }
 
   render() {
-    const currentBlockKey = this.props.editorState.getSelection().getAnchorKey();
-    const blockLength = this.props.editorState.getCurrentContent()
-      .getBlockForKey(currentBlockKey).getLength();
+    return (
+        <div className={styles.toolbar} style={{ top: this.state.top }}>
 
-    if (blockLength === 0 && this.props.active) {
-      return (
-          <div className={styles.toolbar} style={{ top: this.state.top }}>
+          <Icon
+            onMouseDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              this.setState({ open: !this.state.open });
+            }}
+            name='plus'
+            className={this.state.open ? styles.activeButton : ''}
+          />
 
-            <Icon
-              onClick={() => {
-                this.setState({ open: !this.state.open });
-              }}
-              name='plus'
-              className={this.state.open ? styles.activeButton : ''}
+        {this.state.open && <div className={styles.toolbarButtons}>
+            <Seperator
+              onChange={this.props.onChange}
+              onClose={this.handleClose}
+              getEditorState={this.props.getEditorState}
             />
+            <Embed
+              onChange={this.props.onChange}
+              onClose={this.handleClose}
+              getEditorState={this.props.getEditorState}
+            />
+            <Image
+              onChange={this.props.onChange}
+              onClose={this.handleClose}
+              getEditorState={this.props.getEditorState}
+            />
+          </div>}
 
-          {this.state.open && <div className={styles.toolbarButtons}>
-              <Seperator
-                onChange={this.props.onChange}
-                onClose={this.handleClose}
-                getEditorState={this.props.getEditorState}
-              />
-              <Embed
-                onChange={this.props.onChange}
-                onClose={this.handleClose}
-                getEditorState={this.props.getEditorState}
-              />
-              <Image
-                onChange={this.props.onChange}
-                onClose={this.handleClose}
-                getEditorState={this.props.getEditorState}
-              />
-            </div>}
-
-        </div>
-        );
-    }
-    return null;
+      </div>
+      );
   }
 }

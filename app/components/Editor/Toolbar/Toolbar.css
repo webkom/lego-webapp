@@ -4,6 +4,7 @@
   display: inline-block;
   left: -20px;
   top: 0;
+  user-select: none;
   font-size: 22px;
 }
 
