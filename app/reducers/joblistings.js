@@ -1,22 +1,15 @@
 import { Joblistings } from '../actions/ActionTypes';
-import { fetchBegin, fetchSuccess, fetchFailure, defaultEntityState } from './entities';
+import createEntityReducer from 'app/utils/createEntityReducer';
 
-const initialState = {
-  ...defaultEntityState
-};
-
-export default function joblistings(state = initialState, action) {
-  switch (action.type) {
-    case Joblistings.FETCH_BEGIN:
-      return fetchBegin(state, action);
-
-    case Joblistings.FETCH_SUCCESS:
-      return fetchSuccess(state, action);
-
-    case Joblistings.FETCH_FAILURE:
-      return fetchFailure(state, action);
-
-    default:
-      return state;
+export default createEntityReducer({
+  key: 'joblistings',
+  types: {
+    fetch: Joblistings.FETCH
+  },
+  mutate(state, action) {
+    switch (action.type) {
+      default:
+        return state;
+    }
   }
-}
+});

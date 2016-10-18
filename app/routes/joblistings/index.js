@@ -1,4 +1,4 @@
 export default {
   path: 'joblistings',
-  indexRoute: { component: require('./joblistingContainer').default }
+  indexRoute: { component: require('./JoblistingContainer').default }
 };

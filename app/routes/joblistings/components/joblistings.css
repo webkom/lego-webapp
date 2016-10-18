@@ -1,0 +1,10 @@
+.root {
+  composes: container from '../../../Root.css'
+}
+
+h1 {
+  font-size: 30px;
+  font-weight: bold;
+  display: block;
+  margin: 15px 0;
+}
