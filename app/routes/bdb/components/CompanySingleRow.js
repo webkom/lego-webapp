@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { indexToSemester } from '../utils.js';
 import SemesterStatus from './SemesterStatus';
 import styles from './bdb.css';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
   company: Object,
@@ -33,7 +34,7 @@ export default class CompanySingleRow extends Component {
   render() {
     const { company } = this.props;
     if (!company) {
-      return 'Laster';
+      return <LoadingIndicator loading />;
     }
     const semesters = [
       this.semesterElement(0),
@@ -52,17 +53,6 @@ export default class CompanySingleRow extends Component {
       />
     ));
 
-    let comment = company.adminComment;
-    let adminComment = '';
-    if (comment) {
-      if (comment.length > 20) {
-        comment = `${comment.substring(0, 30)}...`;
-        adminComment = (<Link to={`/bdb/${company.id}`}>{comment}</Link>);
-      } else {
-        adminComment = comment;
-      }
-    }
-
     return (
       <tr>
         <td><Link to={`/bdb/${company.id}`}>{company.name}</Link></td>
@@ -70,7 +60,7 @@ export default class CompanySingleRow extends Component {
         <td style={{ width: '170px' }}>
           {company.studentContact ? company.studentContact.fullName : ''}
         </td>
-        <td className={styles.adminComment}>{adminComment}</td>
+        <td className={styles.adminComment}>{company.adminComment}</td>
       </tr>
     );
   }

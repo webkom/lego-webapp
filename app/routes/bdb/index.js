@@ -10,6 +10,12 @@ export default {
   }, {
     path: ':companyId/edit',
     component: require('./EditCompanyRoute').default
+  }, {
+    path: ':companyId/semesters/add',
+    component: require('./AddSemesterRoute').default
+  }, {
+    path: ':companyId/semesters/:semesterId',
+    component: require('./EditSemesterRoute').default
   }
   ]
 };

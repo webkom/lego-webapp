@@ -19,19 +19,23 @@ type Props = {
   autoFocus: any
 };
 
-export default class editCompany extends Component {
+export default class EditCompany extends Component {
 
   props: Props;
 
-  onSubmit({ name = this.props.company.name, studentContact = this.props.company.studentContact,
-    adminComment, jobOfferOnly, phone }) {
+  onSubmit({ name, studentContact, adminComment, active, jobOfferOnly, bedex,
+    description, phone, website }) {
     this.props.editCompany({
       companyId: this.props.companyId,
       name,
       studentContact,
       adminComment,
-      jobOfferOnly: jobOfferOnly || false,
-      phone
+      active,
+      jobOfferOnly,
+      bedex,
+      description,
+      phone,
+      website
     });
   }
 
@@ -51,7 +55,7 @@ export default class editCompany extends Component {
       <div className={styles.root}>
 
         <Field
-          placeholder={company.name}
+          placeholder={'Bedriftens navn'}
           autoFocus={autoFocus}
           name='name'
           component={TextInput.Field}
@@ -65,7 +69,7 @@ export default class editCompany extends Component {
 
               <div className={styles.description}>
                 <Field
-                  placeholder={company.description}
+                  placeholder={'Beskrivelse av bedriften'}
                   autoFocus={autoFocus}
                   name='description'
                   component={TextEditor.Field}
@@ -77,7 +81,7 @@ export default class editCompany extends Component {
                   icon={'phone'}
                   data={
                     <Field
-                      placeholder={company.phone}
+                      placeholder={'Telefonnummer'}
                       autoFocus={autoFocus}
                       name='phone'
                       component={TextInput.Field}
@@ -91,7 +95,7 @@ export default class editCompany extends Component {
                   icon={'user'}
                   data={
                     <Field
-                      placeholder={company.studentContact}
+                      placeholder={'Studentkontakt'}
                       autoFocus={autoFocus}
                       name='studentContact'
                       component={TextInput.Field}
@@ -105,7 +109,7 @@ export default class editCompany extends Component {
                   icon={'paper-plane'}
                   data={
                     <Field
-                      placeholder={company.website}
+                      placeholder={'Nettside'}
                       autoFocus={autoFocus}
                       name='website'
                       component={TextInput.Field}
@@ -121,11 +125,13 @@ export default class editCompany extends Component {
                 <div style={{ order: 0 }}>
                   <h3>Aktiv bedrift?</h3>
                   <div className={styles.editInfo}>
-                    <input type='radio' name='active' value />
+                    <input type='radio' name='active' value value selected={company.active} />
                       {trueIcon}<br />
                   </div>
                   <div className={styles.editInfo}>
-                    <input type='radio' name='active' value={false} />
+                    <input type='radio' name='active' value={false} value
+                      selected={!company.active}
+                    />
                       {falseIcon}<br />
                   </div>
                 </div>
@@ -133,11 +139,13 @@ export default class editCompany extends Component {
                 <div style={{ order: 1 }}>
                   <h3>Kun for jobbtilbud?</h3>
                   <div className={styles.editInfo}>
-                    <input type='radio' name='jobOfferOnly' value />
+                    <input type='radio' name='jobOfferOnly' value selected={company.jobOfferOnly} />
                       {trueIcon}<br />
                   </div>
                   <div className={styles.editInfo}>
-                    <input type='radio' name='jobOfferOnly' value={false} />
+                    <input type='radio' name='jobOfferOnly' value={false}
+                      selected={!company.jobOfferOnly}
+                    />
                       {falseIcon}<br />
                   </div>
                 </div>
@@ -145,11 +153,11 @@ export default class editCompany extends Component {
                 <div style={{ order: 2 }}>
                   <h3>Bedex i år?</h3>
                   <div className={styles.editInfo}>
-                    <input type='radio' name='bedex' value />
+                    <input type='radio' name='bedex' value selected={company.bedex} />
                       {trueIcon}<br />
                   </div>
                   <div className={styles.editInfo}>
-                    <input type='radio' name='bedex' value={false} />
+                    <input type='radio' name='bedex' value={false} selected={!company.bedex} />
                       {falseIcon}<br />
                   </div>
                 </div>
