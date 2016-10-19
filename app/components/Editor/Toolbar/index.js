@@ -37,7 +37,9 @@ export default class Toolbar extends Component {
     if (props.editorRoot) {
       const contentBlocks = ReactDOM
         .findDOMNode(props.editorRoot)
-        .getElementsByClassName('public-DraftStyleDefault-block');
+        .getElementsByClassName('public-DraftEditor-content')[0]
+        .firstChild
+        .children;
 
       const currentBlockKey = props.editorState.getSelection().getAnchorKey();
 

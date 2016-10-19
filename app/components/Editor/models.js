@@ -23,11 +23,10 @@ export const getCurrentBlock = (editorState) => {
 
 
 /*
-Adds a new block (currently replaces an empty block) at the current cursor position
-of the given `newType`.
-*/
+ *Adds a new block (currently replaces an empty block) at the current cursor position
+ *of the given `newType`.
+ */
 export const addNewBlock = (editorState, newType = Block.UNSTYLED, initialData = {}) => {
-  console.log(editorState);
   const selectionState = editorState.getSelection();
   if (!selectionState.isCollapsed()) {
     return editorState;
@@ -54,4 +53,18 @@ export const addNewBlock = (editorState, newType = Block.UNSTYLED, initialData =
     return EditorState.push(editorState, newContentState, 'change-block-type');
   }
   return editorState;
+};
+
+/*
+Update block-level metadata of the given `block` to the `newData`/
+*/
+export const updateDataOfBlock = (editorState, block, newData) => {
+  const contentState = editorState.getCurrentContent();
+  const newBlock = block.merge({
+    data: newData
+  });
+  const newContentState = contentState.merge({
+    blockMap: contentState.getBlockMap().set(block.getKey(), newBlock)
+  });
+  return EditorState.push(editorState, newContentState, 'change-block-type');
 };

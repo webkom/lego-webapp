@@ -1,0 +1,13 @@
+.editorBlockTodo > div {
+  margin-left: 18px;
+}
+
+.todoCheckbox {
+  cursor: pointer;
+  float: left;
+  position: relative;
+  top: 9px;
+  left: -4px;
+  float: left;
+  margin-right: 6px;;
+}

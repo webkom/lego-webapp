@@ -13,11 +13,9 @@
   border-radius: 999em;
   position: absolute;
   z-index: 500;
-  user-select: none;
 }
 
 .tooltipSeperator {
-  user-select: none;
   display: inline-block;
   vertical-align: top;
   width: 1px;
@@ -27,7 +25,6 @@
 }
 
 .tooltipButton {
-  user-select: none;
   margin: 0px 3px;
   cursor: pointer;
   vertical-align: -webkit-baseline-middle;
@@ -35,4 +32,20 @@
 
 .tooltipButtonActive > i {
   color: #C24538;
+}
+
+input.urlInput {
+  font-size: 16px;
+  width: 260px;
+  margin-right: 5px;
+  background-color: rgba(255,255,255,0);
+  border: none;
+  outline: 0;
+  border-bottom: 1px solid darkgray;
+  padding: 4px 0px;
+  margin: 4px 4px;
+}
+
+.urlInputIcon {
+  cursor: pointer;
 }
