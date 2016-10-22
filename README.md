@@ -16,7 +16,7 @@ https://github.com/webkom/lego/wiki/Noob-Guide
 
 ## Text Editor
 [Atom](https://atom.io) with these plugins installed provides the best developer experience:
-́```bash
+```bash
 $ apm install nuclide pigments linter-eslint linter-stylelint
 ```
 
@@ -49,9 +49,9 @@ $ yarn run lint:css
 ```
 
 Some ESLint errors can be fixed by running
-́́́```bash
+```bash
 $ yarn run lint:js -- --fix
-́```
+```
 
 ## License
 The MIT License (MIT)
