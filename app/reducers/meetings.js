@@ -8,6 +8,31 @@ export default createEntityReducer({
   key: 'meetings',
   types: {
     fetch: Meeting.FETCH
+  },
+  mutate(state, action) {
+    switch (action.type) {
+      case Meeting.SET_INVITATION_STATUS.SUCCESS: {
+        const { meetingId, status, user } = action.meta;
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [meetingId]: {
+              ...state.byId[meetingId],
+              invitations: state.byId[meetingId].invitations.map(
+                (invitation) => {
+                  if (invitation.user.id === user) {
+                    invitation.status = status;
+                  }
+                  return invitation;
+                })
+            }
+          }
+        };
+      }
+      default:
+        return state;
+    }
   }
 });
 

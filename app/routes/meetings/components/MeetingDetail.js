@@ -13,8 +13,9 @@ import AttendanceStatus from './AttendanceStatus';
 class MeetingDetails extends Component {
 
   setInvitationStatus = (newStatus) => {
-    const { meeting, userIdMe } = this.props;
-    this.props.setInvitationStatus(meeting.id, newStatus, userIdMe);
+    const { meeting, userMe } = this.props;
+
+    this.props.setInvitationStatus(meeting.id, newStatus, userMe.id);
   }
   props: Props;
 
@@ -29,54 +30,44 @@ class MeetingDetails extends Component {
   sortInvitations = () => {
     const { invitations } = this.props.meeting;
     const pools = [{
+      'name': 'Ikke svart',
+      'capacity': invitations.length,
+      'registrations': []
+    }, {
       'name': 'Deltar',
       'capacity': invitations.length,
-      'registrations': invitations.filter((item) => (item.status === 1))
+      'registrations': []
     }, {
       'name': 'Deltar ikke',
       'capacity': invitations.length,
-      'registrations': invitations.filter((item) => (item.status === 2))
-    }, {
-      'name': 'Ikke svart',
-      'capacity': invitations.length,
-      'registrations': invitations.filter((item) => (item.status === 0))
+      'registrations': []
     }];
+
+    invitations.forEach((item) => (pools[item.status].registrations.push(item)));
     return pools.filter((pool) => (pool.registrations.length !== 0));
   }
 
   render() {
-    const { meeting, userIdMe } = this.props;
+    const { meeting, userMe } = this.props;
     const STATUS_MESSAGES = ['Ikke svart', 'Deltar', 'Deltar ikke'];
 
-    if (meeting === undefined) {
+    if (meeting === undefined || userMe === undefined) {
       return <LoadingIndicator loading />;
     }
-    const invitations = meeting.invitations;
-
-    // TODO Fix this
-    const statusMe = invitations[0].status; // .status
-    // statusMe = 0; // meeting.invitations[0].status;
-
-
-    const pools = [{
-      'name': 'Deltar',
-      'capacity': meeting.invitations.length,
-      'registrations': meeting.invitations
-    }, {
-      'name': 'Deltar ikke',
-      'capacity': meeting.invitations.length,
-      'registrations': []
-    }, {
-      'name': 'Ikke svart',
-      'capacity': meeting.invitations.length,
-      'registrations': []
-    }
-    ];
+    const statusMe = meeting.invitations.filter((item) =>
+        (item.user.username === userMe.username))[0].status;
 
     return (
       <div className={styles.root}>
         <FlexRow className={styles.header}>
-          <h2> {meeting.title} </h2>
+          <h2>
+            {meeting.title}
+            <span> - </span>
+            <Time
+              time={meeting.startTime}
+              format='ll'
+            />
+          </h2>
         </FlexRow>
         <FlexRow style={{ padding: 20 }}>
           <FlexItem flex={1}>
@@ -111,7 +102,7 @@ class MeetingDetails extends Component {
                 </li>
                 <li>
                   <strong> Forfatter </strong>
-                  Webkom
+                  Webkom Webkom
                 </li>
                 <li>
                   <AttendanceStatus pools={this.sortInvitations()} />

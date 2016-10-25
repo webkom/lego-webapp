@@ -23,6 +23,13 @@ class RegistrationModal extends Component {
     });
   };
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      activePoolIndex: props.selectedPool
+    };
+  }
+
   render() {
     const { pools } = this.props;
 

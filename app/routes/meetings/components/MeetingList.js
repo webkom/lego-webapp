@@ -37,7 +37,7 @@ function MeetingListItem({ meeting, userIdMe }) {
             time={meeting.startTime}
             format='ll HH:mm'
           />
-          {` • ${meeting.location}`}
+          {` • Lokasjon: ${meeting.location}`}
         </div>
       </div>
       <div className={styles.logo}>

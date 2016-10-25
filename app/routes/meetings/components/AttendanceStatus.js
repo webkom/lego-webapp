@@ -10,16 +10,18 @@ export type Props = {
   pools: Array<Object>,
 };
 
-class AttendanceStatus extends Component {
-  state = {
-    modalOpen: false
-  };
-
+export default class AttendanceStatus extends Component {
   props: Props;
 
-  toggleModal = () => {
+  state = {
+    modalOpen: false,
+    selectedPool: 0
+  };
+
+  toggleModal = (key) => {
     this.setState({
-      modalOpen: !this.state.modalOpen
+      modalOpen: !this.state.modalOpen,
+      selectedPool: key
     });
   };
 
@@ -29,7 +31,7 @@ class AttendanceStatus extends Component {
       return (
         <div key={i} className={styles.poolBox}>
           <strong>{pool.name}</strong>
-          <a onClick={this.toggleModal}>
+          <a onClick={this.toggleModal.bind(this, i)}>
             <strong>{pool.registrations.length}/{pool.capacity}</strong>
           </a>
         </div>
@@ -41,13 +43,11 @@ class AttendanceStatus extends Component {
         {lists}
         <Modal
           show={this.state.modalOpen}
-          onHide={this.toggleModal}
+          onHide={this.toggleModal.bind(this, 0)}
         >
-          <UserlistModal pools={pools} />
+          <UserlistModal selectedPool={this.state.selectedPool} pools={pools} />
         </Modal>
       </div>
     );
   }
 }
-
-export default AttendanceStatus;

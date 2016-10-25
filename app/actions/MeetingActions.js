@@ -24,3 +24,21 @@ export function fetchAll() {
     }
   });
 }
+
+export function setInvitationStatus(meetingId, status, user) {
+  return callAPI({
+    types: Meeting.SET_INVITATION_STATUS,
+    endpoint: `/meetings/${meetingId}/invitations/${user}/`,
+    method: 'put',
+    body: {
+      user,
+      status
+    },
+    meta: {
+      errorMessage: 'Set invitation status failed',
+      meetingId,
+      status,
+      user
+    }
+  });
+}

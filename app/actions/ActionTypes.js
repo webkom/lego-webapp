@@ -29,13 +29,8 @@ export const Article = {
  *
  */
 export const Meeting = {
-  FETCH: generateStatuses('Meeting.FETCH')
-};
-
-export const MeetingInvitations = {
-  FETCH: generateStatuses('MeetingInvitation.FETCH'),
-  SET_STATUS: generateStatuses('MeetingInvitation.SET_STATUS')
-  // ADD: generateStatuses('Comment.ADD')
+  FETCH: generateStatuses('Meeting.FETCH'),
+  SET_INVITATION_STATUS: generateStatuses('Meeting.SET_INVITATION_STATUS')
 };
 
 /**

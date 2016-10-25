@@ -25,7 +25,9 @@
 .navButton {
   display: flex;
   height: 30px;
-  width: 75px;
+  min-width: 75px;
+  padding-left: 5px;
+  padding-right: 5px;
   justify-content: center;
 }
 
