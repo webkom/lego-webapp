@@ -4,11 +4,13 @@ import JoblistingDetail from './components/JoblistingDetail';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { compose } from 'redux';
 
-function loadData([{ joblistingId }], props) {
+function loadData({ joblistingId }, props) {
+  console.log('Hei');
+  console.log(joblistingId);
   props.fetchDetailed(joblistingId);
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state, props) {
   const { joblistingId } = props.params;
   const joblisting = state.joblistings.byId[joblistingId];
 

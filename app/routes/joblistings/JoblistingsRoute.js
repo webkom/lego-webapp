@@ -8,7 +8,7 @@ function loadData([], props) {
   props.fetchAll();
 }
 
-function mapStateToProps(state, ownProps) {
+function mapStateToProps(state) {
   const joblistings = state.joblistings.items
     .map((id) => state.joblistings.byId[id]);
 

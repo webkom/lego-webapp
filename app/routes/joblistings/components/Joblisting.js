@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import styles from './joblistings.css';
 
 export default class Joblisting extends Component {
 
@@ -11,7 +10,7 @@ export default class Joblisting extends Component {
     const { joblisting } = this.props;
     return (
       <li>
-        <h2>{joblisting.title}</h2>
+        <h2><a href={`/joblistings/${joblisting.id}/`}>{joblisting.title}</a></h2>
         {joblisting.jobType}
         {joblisting.deadLine}
         {joblisting.fromYear}

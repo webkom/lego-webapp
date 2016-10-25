@@ -1,0 +1,23 @@
+.root {
+  composes: container from '../../../Root.css';
+}
+
+.meta {
+  flex: 1;
+  background: #ba1414;
+  padding: 20px;
+  color: #fff;
+}
+
+.description {
+  background: #fff;
+  padding: 20px;
+  flex: 2;
+}
+
+h1 {
+  font-size: 30px;
+  font-weight: bold;
+  display: block;
+  margin: 15px 0;
+}
