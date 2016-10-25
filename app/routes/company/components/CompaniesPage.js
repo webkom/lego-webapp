@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styles from './company.css';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
   company: Array<Object>,
@@ -13,18 +14,14 @@ export default class CompaniesPage extends Component {
   render() {
     const { companies } = this.props;
     if (companies.length < 1) {
-      return (
-        <div>
-        'Laster...'
-        </div>
-      );
+      return <LoadingIndicator loading/>;
     }
 
     return (
       <div className={styles.root}>
         <h1>Companies</h1>
         <p>{companies.map(
-          (company) => (<a href={`./${company.id}`}>{company.name} </a>)
+          (company, id) => (<a key={id} href={`companies/${company.id}`}>{company.name} </a>)
         )}</p>
       </div>
     );

@@ -5,11 +5,7 @@ import { arrayOf } from 'normalizr';
 
 export function fetchAll() {
   return callAPI({
-    types: [
-      Bdb.FETCH_BEGIN,
-      Bdb.FETCH_SUCCESS,
-      Bdb.FETCH_FAILURE
-    ],
+    types: Bdb.FETCH,
     endpoint: '/companies/',
     schema: arrayOf(companySchema),
     meta: {
@@ -20,11 +16,7 @@ export function fetchAll() {
 
 export function fetchCompany(companyId) {
   return callAPI({
-    types: [
-      Bdb.FETCH_BEGIN,
-      Bdb.FETCH_SUCCESS,
-      Bdb.FETCH_FAILURE
-    ],
+    types: Bdb.FETCH,
     endpoint: `/companies/${companyId}/`,
     schema: companySchema,
     meta: {

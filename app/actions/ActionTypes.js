@@ -101,8 +101,5 @@ export const Page = {
  *
  */
 export const Bdb = {
-  FETCH: 'Bdb.FETCH',
-  FETCH_BEGIN: 'Bdb.FETCH_BEGIN',
-  FETCH_SUCCESS: 'Bdb.FETCH_SUCCESS',
-  FETCH_FAILURE: 'Bdb.FETCH_FAILURE'
+  FETCH: generateStatuses('Bdb.FETCH')
 };
