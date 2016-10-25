@@ -19,6 +19,10 @@
     box-shadow: 0 0 2px #aaa;
     color: #555;
   }
+
+  &:disabled {
+    color: #888;
+  }
 }
 
 .dark {
