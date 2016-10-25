@@ -4,6 +4,7 @@ import styles from './bdb.css';
 import sortCompanies from '../SortCompanies.js';
 import { indexToSemester } from '../utils.js';
 import Button from 'app/components/Button';
+import OptionsBox from './OptionsBox'
 
 type Props = {
   companies: Array<Object>,
@@ -21,7 +22,9 @@ export default class BdbPage extends Component {
     startYear: 2016,
     startSem: 0,
     changedStatuses: [],
-    submitted: false
+    submitted: false,
+    displayOptions: false,
+    filters: {}
   }
 
   componentWillReceiveProps(newProps) {
@@ -132,6 +135,23 @@ export default class BdbPage extends Component {
     this.setState({ changedStatuses: [], submitted: true });
   };
 
+  updateFilters = (filters) => {
+    console.log('Forrige filter state:');
+    console.log(this.state.filters);
+    this.setState({
+      filters: {
+        ...this.state.filters,
+        ...filters
+      }
+    });
+  }
+
+  toggleDisplay = () => {
+    this.setState({
+      displayOptions: !this.state.displayOptions
+    });
+  }
+
   render() {
     const { query } = this.props;
     const sortedCompanies = sortCompanies(this.state.companies, query, this.state.startYear,
@@ -141,6 +161,18 @@ export default class BdbPage extends Component {
       <div className={styles.root}>
 
         <h1>Bedriftsdatabase</h1>
+
+        <h2
+          onClick={this.toggleDisplay}
+          className={styles.optionsHeader}
+        >Valg {this.state.displayOptions ?
+          (<i className='fa fa-caret-down'></i>) : (<i className='fa fa-caret-right'></i>)}
+        </h2>
+        <OptionsBox
+          companies={this.props.companies}
+          updateFilters={this.updateFilters}
+          display={this.state.displayOptions}
+        />
 
         {this.state.changedStatuses.length > 0 ? (
           <Button onClick={this.submitChange} dark>Lagre endringer</Button>

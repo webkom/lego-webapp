@@ -83,10 +83,10 @@ export default class CompanyList extends Component {
 
           <div className={styles[this.showOrHideSortIcon(item.sortLink)]}>
             <div className={styles.upArrow}>
-              <i className='fa fa-arrow-up' aria-hidden='true'></i>
+              <i className='fa fa-caret-up' aria-hidden='true'></i>
             </div>
             <div className={styles.downArrow}>
-              <i className='fa fa-arrow-down' aria-hidden='true'></i>
+              <i className='fa fa-caret-down' aria-hidden='true'></i>
             </div>
           </div>
 
