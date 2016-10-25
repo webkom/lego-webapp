@@ -63,6 +63,7 @@ export const Quote = {
  */
 export const Search = {
   SEARCH: generateStatuses('Search.SEARCH'),
+  MENTION: generateStatuses('Search.MENTION'),
   RESULTS_RECEIVED: 'Search.RESULTS_RECEIVED',
   TOGGLE_OPEN: 'Search.TOGGLE_OPEN'
 };

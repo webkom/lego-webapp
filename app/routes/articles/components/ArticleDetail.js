@@ -43,7 +43,7 @@ export default class ArticleDetail extends Component {
         <Editor
           placeholder='Some fancy placeholder text here...'
           onChange={(data) => {
-            // console.log(data);
+            console.log(data);
           }}
         />
 

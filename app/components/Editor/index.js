@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
+import { debounce } from 'lodash';
 import { RichUtils, EditorState, convertToRaw } from 'draft-js';
 import Editor from 'draft-js-plugins-editor';
+import { getMentions } from 'app/reducers/search';
 import createEmojiPlugin from 'draft-js-emoji-plugin';
+import { mention } from 'app/actions/SearchActions';
+import createMentionPlugin from 'draft-js-mention-plugin';
 import 'draft-js/dist/Draft.css';
 import 'draft-js-emoji-plugin/lib/plugin.css';
-import { stateToHTML } from 'draft-js-export-html';
+import 'draft-js-mention-plugin/lib/plugin.css';
+import { toHTML } from './utils';
 import Tooltip from './Tooltip';
 import Toolbar from './Toolbar';
 import RenderMap from './RenderMap';
@@ -13,8 +19,10 @@ import customRenderer from './CustomRenderer';
 import KeyBindings from './KeyBindings';
 import styles from './Editor.css';
 
+const mentionPlugin = createMentionPlugin();
 const emojiPlugin = createEmojiPlugin();
 const { EmojiSuggestions } = emojiPlugin;
+const { MentionSuggestions } = mentionPlugin;
 
 export type Props = {
   content: string,
@@ -22,7 +30,7 @@ export type Props = {
   onChange: () => void
 };
 
-export default class EditorComponent extends Component {
+class EditorComponent extends Component {
 
   props: Props;
 
@@ -50,7 +58,7 @@ export default class EditorComponent extends Component {
   onChange = (editorState) => {
     this.setState(
       { editorState },
-      () => this.props.onChange(stateToHTML(this.state.editorState.getCurrentContent()))
+      () => this.props.onChange(toHTML(this.state.editorState.getCurrentContent()))
     );
   }
 
@@ -96,7 +104,7 @@ export default class EditorComponent extends Component {
         >
 
             <Editor
-              plugins={[emojiPlugin]}
+              plugins={[emojiPlugin, mentionPlugin]}
               stripPastedStyles
               ref={(node) => { this.editorRoot = node; }}
               editorState={editorState}
@@ -110,6 +118,12 @@ export default class EditorComponent extends Component {
             />
 
             {this.state.active && <EmojiSuggestions />}
+            {this.state.active &&
+              <MentionSuggestions
+                onSearchChange={this.props.onMention}
+                suggestions={this.props.mentions}
+              />
+            }
 
             {blockLength === 0 && this.state.active ?
               <Toolbar
@@ -134,3 +148,20 @@ export default class EditorComponent extends Component {
     );
   }
 }
+
+function mapStateToProps(state) {
+  return {
+    mentions: getMentions(state)
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    onMention: debounce((query) => dispatch(mention(query.value)), 300)
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditorComponent);
