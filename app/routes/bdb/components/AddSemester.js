@@ -1,16 +1,14 @@
 import styles from './bdb.css';
 import React, { Component } from 'react';
-import CompanyRightNav from './CompanyRightNav';
+import BdbRightNav from './BdbRightNav';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextInput } from 'app/components/Form';
-import { selectColorCode, statusStrings } from '../utils.js';
+import { selectColorCode, statusStrings, trueIcon, falseIcon } from '../utils.js';
 import cx from 'classnames';
-import { Link } from 'react-router';
 
 type Props = {
   addSemester: () => void,
-  handleSubmit: () => void,
   companyId: string,
   fields: any,
   submitting: boolean,
@@ -20,19 +18,26 @@ type Props = {
 export default class AddSemester extends Component {
 
   state = {
-    contactedStatus: 6
+    semester: 0,
+    contactedStatus: 6,
   }
 
-  onSubmit({ year, semester, value }) {
-    this.props.addCompany({
-      companyId: this.props.company.id,
+  onSubmit({ year, contract }) {
+    const companyId = this.props.companyId;
+    this.props.addcontactedStatus({
+      companyId,
+      value: this.state.contactedStatus,
       year,
-      semester,
-      contactedStatus: value
-    });
+      semester: this.state.semester,
+      contract
+    }, true);
   }
 
-  handleChange = (event) => {
+  setSemester = (semester) => {
+    this.setState({ semester });
+  };
+
+  setContactedStatus = (event) => {
     this.setState({
       contactedStatus: event.target.value
     });
@@ -51,8 +56,6 @@ export default class AddSemester extends Component {
       <div className={styles.root}>
 
         <h1>Legg til semester</h1>
-        <i><Link to={`/bdb/${companyId}`}>Tilbake til bedriften</Link></i>
-        <br />
 
         <div className={styles.detail}>
           <div className={styles.leftSection}>
@@ -67,23 +70,34 @@ export default class AddSemester extends Component {
                 className={styles.yearForm}
               />
 
-              <h3>Semester</h3>
-              <div className={styles.editInfo}>
-                <input type='radio' name='semester' value={0} />
-                  Vår
-              </div>
-              <div className={styles.editInfo}>
-                <input type='radio' name='semester' value={1} />
-                  Høst
+              <div className={styles.choices}>
+                <h3>Semester</h3>
+                <input
+                  type='radio'
+                  value
+                  name='semester'
+                  checked={this.state.semester === 0}
+                  onChange={this.setSemester.bind(this, 0)}
+                  id='var'
+                /><label htmlFor='var'>Vår<br /></label>
+                <input
+                  type='radio'
+                  value={false}
+                  name='semester'
+                  checked={this.state.semester === 1}
+                  onChange={this.setSemester.bind(this, 1)}
+                  id='host'
+                /><label htmlFor='host'>Høst<br /></label>
               </div>
 
-              <div className={cx(styles[selectColorCode(this.state.contactedStatus)],
-                styles.semesterStatusForm)}
+              <div
+                className={cx(styles[selectColorCode(this.state.contactedStatus)],
+                styles.contactedStatusForm)}
               >
                 <select
                   name={'contactedStatus'}
                   value={this.state.contactedStatus}
-                  onChange={this.handleChange}
+                  onChange={this.setContactedStatus}
                 >
                   {Object.keys(statusStrings).map((statusString, j) => (
                     <option key={j} value={statusString}>{statusStrings[j]}</option>
@@ -99,7 +113,28 @@ export default class AddSemester extends Component {
                 className={styles.contractForm}
               />
 
-              <div className={styles.clear}></div>
+              <div className={styles.choices}>
+                <h3>Bedex?</h3>
+                <input
+                  type='radio'
+                  value
+                  name='bedex'
+                  checked={this.state.bedex}
+                  onChange={this.toggleBedex.bind(this, true)}
+                  id='bedex'
+                /><label htmlFor='bedex'>{trueIcon}<br /></label>
+                <input
+                  type='radio'
+                  value={false}
+                  name='bedex'
+                  checked={!this.state.bedex}
+                  onChange={this.toggleBedex.bind(this, false)}
+                  id='notBedex'
+                /><label htmlFor='notBedex'>{falseIcon}<br /></label>
+              </div>
+
+              <div className={styles.clear} />
+
               <Button
                 className={styles.submit}
                 disabled={submitting}
@@ -113,8 +148,9 @@ export default class AddSemester extends Component {
 
           </div>
 
-          <CompanyRightNav
+          <BdbRightNav
             {...this.props}
+            companyId={companyId}
           />
 
         </div>

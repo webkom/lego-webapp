@@ -24,19 +24,17 @@ export const selectColorCode = (status) => {
 };
 
 export const indexToSemester = (index, startYear, startSem) => {
-  const semester = (index % 2 + startSem) % 2;
+  const semester = ((index % 2) + startSem) % 2;
 
   let year = 0;
   if (startSem === 0) {
     year = index < 2 ? startYear : startYear + 1;
+  } else if (index === 0) {
+    year = startYear;
+  } else if (index === 3) {
+    year = startYear + 2;
   } else {
-    if (index === 0) {
-      year = startYear;
-    } else if (index === 3) {
-      year = startYear + 2;
-    } else {
-      year = startYear + 1;
-    }
+    year = startYear + 1;
   }
 
   return {
@@ -46,8 +44,8 @@ export const indexToSemester = (index, startYear, startSem) => {
 };
 
 export const trueIcon = (
-  <i className='fa fa-check' style={{ color: 'green', fontSize: '25px' }}></i>
+  <i className='fa fa-check' style={{ color: 'green', fontSize: '25px' }} />
 );
 export const falseIcon = (
-  <i className='fa fa-times' style={{ color: '#d13c32', fontSize: '25px' }}></i>
+  <i className='fa fa-times' style={{ color: '#d13c32', fontSize: '25px' }} />
 );

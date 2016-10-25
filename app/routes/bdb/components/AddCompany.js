@@ -1,12 +1,10 @@
 import styles from './bdb.css';
 import React, { Component } from 'react';
-import { trueIcon, falseIcon } from '../utils.js';
 import InfoBubble from 'app/components/InfoBubble';
-import CompanyRightNav from './CompanyRightNav';
+import BdbRightNav from './BdbRightNav';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
-import { TextEditor } from 'app/components/Form';
-import { TextInput } from 'app/components/Form';
+import { TextEditor, TextInput } from 'app/components/Form';
 
 type Props = {
   addCompany: () => void,
@@ -18,18 +16,18 @@ type Props = {
 
 export default class AddCompany extends Component {
 
-  onSubmit({ name, studentContact, adminComment, active, jobOfferOnly, bedex,
-    description, phone, website }) {
+  onSubmit({ name, studentContact, adminComment, active, description,
+    phone, website, companyType, paymentMail }) {
     this.props.addCompany({
       name,
       studentContact,
       adminComment: adminComment || '',
       active: active || false,
-      jobOfferOnly: jobOfferOnly || false,
-      bedex: bedex || false,
       description: description || false,
       phone: phone || '',
-      website: website || ''
+      website: website || '',
+      companyType: companyType || '',
+      paymentMail: paymentMail || ''
     });
   }
 
@@ -96,7 +94,24 @@ export default class AddCompany extends Component {
                   style={{ order: 1 }}
                 />
                 <InfoBubble
-                  icon={'paper-plane'}
+                  icon={'briefcase'}
+                  data={
+                    <Field
+                      placeholder={'Type bedrift'}
+                      autoFocus={autoFocus}
+                      name='companyType'
+                      component={TextInput.Field}
+                      className={styles.editBubble}
+                    />
+                  }
+                  meta={'Type bedrift'}
+                  style={{ order: 2 }}
+                />
+              </div>
+
+              <div className={styles.infoBubbles}>
+                <InfoBubble
+                  icon={'home'}
                   data={
                     <Field
                       placeholder={'Nettside'}
@@ -107,46 +122,36 @@ export default class AddCompany extends Component {
                     />
                   }
                   meta={'Nettside'}
+                  style={{ order: 0 }}
+                />
+                <InfoBubble
+                  icon={'building'}
+                  data={
+                    <Field
+                      placeholder={'Adresse'}
+                      autoFocus={autoFocus}
+                      name='adress'
+                      component={TextInput.Field}
+                      className={styles.editBubble}
+                    />
+                  }
+                  meta={'Adresse'}
+                  style={{ order: 1 }}
+                />
+                <InfoBubble
+                  icon={'envelope'}
+                  data={
+                    <Field
+                      placeholder={'Fakturamail'}
+                      autoFocus={autoFocus}
+                      name='companyMail'
+                      component={TextInput.Field}
+                      className={styles.editBubble}
+                    />
+                  }
+                  meta={'Fakturamail'}
                   style={{ order: 2 }}
                 />
-              </div>
-
-              <div className={styles.info}>
-                <div style={{ order: 0 }}>
-                  <h3>Aktiv bedrift?</h3>
-                  <div className={styles.editInfo}>
-                    <input type='radio' name='active' value />
-                      {trueIcon}<br />
-                  </div>
-                  <div className={styles.editInfo}>
-                    <input type='radio' name='active' value={false} />
-                      {falseIcon}<br />
-                  </div>
-                </div>
-
-                <div style={{ order: 1 }}>
-                  <h3>Kun for jobbtilbud?</h3>
-                  <div className={styles.editInfo}>
-                    <input type='radio' name='jobOfferOnly' value />
-                      {trueIcon}<br />
-                  </div>
-                  <div className={styles.editInfo}>
-                    <input type='radio' name='jobOfferOnly' value={false} />
-                      {falseIcon}<br />
-                  </div>
-                </div>
-
-                <div style={{ order: 2 }}>
-                  <h3>Bedex i år?</h3>
-                  <div className={styles.editInfo}>
-                    <input type='radio' name='bedex' value />
-                      {trueIcon}<br />
-                  </div>
-                  <div className={styles.editInfo}>
-                    <input type='radio' name='bedex' value={false} />
-                      {falseIcon}<br />
-                  </div>
-                </div>
               </div>
 
               <div className={styles.adminNote}>
@@ -159,7 +164,7 @@ export default class AddCompany extends Component {
                 />
               </div>
 
-              <div className={styles.clear}></div>
+              <div className={styles.clear} />
               <Button
                 className={styles.submit}
                 disabled={submitting}
@@ -171,7 +176,7 @@ export default class AddCompany extends Component {
             </form>
           </div>
 
-          <CompanyRightNav
+          <BdbRightNav
             {...this.props}
           />
 
