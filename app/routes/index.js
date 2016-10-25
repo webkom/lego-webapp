@@ -12,6 +12,7 @@ import search from './search';
 import interestGroups from './interestgroups';
 import joblistings from './joblistings';
 import NotFound from './errors/NotFound';
+import bdb from './bdb';
 
 export function loadRoute(callback) {
   return (module) => callback(null, module.default);
@@ -37,6 +38,7 @@ export default {
     search,
     interestGroups,
     joblistings,
+    bdb,
     {
       path: '*',
       component: NotFound

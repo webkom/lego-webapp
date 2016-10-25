@@ -12,8 +12,8 @@ export default createEntityReducer({
 
       case Company.DELETE_SEMESTER_FAILURE: {
         const byId = state.byId;
-        byId[action.meta.companyId].semesterStatuses = byId[action.meta.companyId].
-          semesterStatuses.filter((status) => status.id !== action.meta.semesterId
+        byId[action.meta.companyId].semesterStatuses = byId[action.meta.companyId]
+        .semesterStatuses.filter((status) => status.id !== action.meta.semesterId
         );
         return {
           ...state,

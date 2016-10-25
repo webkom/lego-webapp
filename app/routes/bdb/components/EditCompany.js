@@ -3,11 +3,10 @@ import React, { Component } from 'react';
 import { trueIcon, falseIcon } from '../utils.js';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import InfoBubble from 'app/components/InfoBubble';
-import CompanyRightNav from './CompanyRightNav';
+import BdbRightNav from './BdbRightNav';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
-import { TextEditor } from 'app/components/Form';
-import { TextInput } from 'app/components/Form';
+import { TextEditor, TextInput } from 'app/components/Form';
 
 type Props = {
   editCompany: () => void,
@@ -23,21 +22,34 @@ export default class EditCompany extends Component {
 
   props: Props;
 
-  onSubmit({ name, studentContact, adminComment, active, jobOfferOnly, bedex,
-    description, phone, website }) {
+  onSubmit({ name, adminComment, description, phone, website, companyType, paymentMail }) {
+    const { active } = this.state;
     this.props.editCompany({
       companyId: this.props.companyId,
       name,
-      studentContact,
-      adminComment,
-      active,
-      jobOfferOnly,
-      bedex,
       description,
+      adminComment,
+      website,
+      active,
       phone,
-      website
+      companyType,
+      paymentMail
     });
   }
+
+  constructor(props) {
+    super();
+    this.state = {
+      active: props.company && props.company.active
+    };
+  }
+  componentWillReceiveProps(newProps) {
+    this.setState({ active: newProps.company.active });
+  }
+
+  toggleActive = (active) => {
+    this.setState({ active });
+  };
 
   render() {
     const {
@@ -106,7 +118,24 @@ export default class EditCompany extends Component {
                   style={{ order: 1 }}
                 />
                 <InfoBubble
-                  icon={'paper-plane'}
+                  icon={'briefcase'}
+                  data={
+                    <Field
+                      placeholder={'Type bedrift'}
+                      autoFocus={autoFocus}
+                      name='companyType'
+                      component={TextInput.Field}
+                      className={styles.editBubble}
+                    />
+                  }
+                  meta={'Type bedrift'}
+                  style={{ order: 2 }}
+                />
+              </div>
+
+              <div className={styles.infoBubbles}>
+                <InfoBubble
+                  icon={'home'}
                   data={
                     <Field
                       placeholder={'Nettside'}
@@ -117,6 +146,34 @@ export default class EditCompany extends Component {
                     />
                   }
                   meta={'Nettside'}
+                  style={{ order: 0 }}
+                />
+                <InfoBubble
+                  icon={'building'}
+                  data={
+                    <Field
+                      placeholder={'Adresse'}
+                      autoFocus={autoFocus}
+                      name='adress'
+                      component={TextInput.Field}
+                      className={styles.editBubble}
+                    />
+                  }
+                  meta={'Adresse'}
+                  style={{ order: 1 }}
+                />
+                <InfoBubble
+                  icon={'envelope'}
+                  data={
+                    <Field
+                      placeholder={'Fakturamail'}
+                      autoFocus={autoFocus}
+                      name='companyMail'
+                      component={TextInput.Field}
+                      className={styles.editBubble}
+                    />
+                  }
+                  meta={'Fakturamail'}
                   style={{ order: 2 }}
                 />
               </div>
@@ -125,40 +182,24 @@ export default class EditCompany extends Component {
                 <div style={{ order: 0 }}>
                   <h3>Aktiv bedrift?</h3>
                   <div className={styles.editInfo}>
-                    <input type='radio' name='active' value value selected={company.active} />
-                      {trueIcon}<br />
+                    <input
+                      type='radio'
+                      value
+                      name='active'
+                      checked={this.state.active}
+                      onChange={this.toggleActive.bind(this, true)}
+                      id='active'
+                    /><label htmlFor='active'>{trueIcon}<br /></label>
                   </div>
                   <div className={styles.editInfo}>
-                    <input type='radio' name='active' value={false} value
-                      selected={!company.active}
-                    />
-                      {falseIcon}<br />
-                  </div>
-                </div>
-
-                <div style={{ order: 1 }}>
-                  <h3>Kun for jobbtilbud?</h3>
-                  <div className={styles.editInfo}>
-                    <input type='radio' name='jobOfferOnly' value selected={company.jobOfferOnly} />
-                      {trueIcon}<br />
-                  </div>
-                  <div className={styles.editInfo}>
-                    <input type='radio' name='jobOfferOnly' value={false}
-                      selected={!company.jobOfferOnly}
-                    />
-                      {falseIcon}<br />
-                  </div>
-                </div>
-
-                <div style={{ order: 2 }}>
-                  <h3>Bedex i år?</h3>
-                  <div className={styles.editInfo}>
-                    <input type='radio' name='bedex' value selected={company.bedex} />
-                      {trueIcon}<br />
-                  </div>
-                  <div className={styles.editInfo}>
-                    <input type='radio' name='bedex' value={false} selected={!company.bedex} />
-                      {falseIcon}<br />
+                    <input
+                      type='radio'
+                      value={false}
+                      name='active'
+                      checked={!this.state.active}
+                      onChange={this.toggleActive.bind(this, false)}
+                      id='inactive'
+                    /><label htmlFor='inactive'>{falseIcon}<br /></label>
                   </div>
                 </div>
               </div>
@@ -173,7 +214,7 @@ export default class EditCompany extends Component {
                 />
               </div>
 
-              <div className={styles.clear}></div>
+              <div className={styles.clear} />
               <Button
                 className={styles.submit}
                 disabled={submitting}
@@ -185,7 +226,7 @@ export default class EditCompany extends Component {
             </form>
           </div>
 
-          <CompanyRightNav
+          <BdbRightNav
             {...this.props}
           />
 

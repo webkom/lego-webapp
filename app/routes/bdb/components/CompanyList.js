@@ -83,10 +83,10 @@ export default class CompanyList extends Component {
 
           <div className={styles[this.showOrHideSortIcon(item.sortLink)]}>
             <div className={styles.upArrow}>
-              <i className='fa fa-arrow-up' aria-hidden='true'></i>
+              <i className='fa fa-caret-up' aria-hidden='true' />
             </div>
             <div className={styles.downArrow}>
-              <i className='fa fa-arrow-down' aria-hidden='true'></i>
+              <i className='fa fa-caret-down' aria-hidden='true' />
             </div>
           </div>
 
@@ -97,25 +97,25 @@ export default class CompanyList extends Component {
 
       <div className={styles.companyList}>
 
-      <table>
-        <thead>
+        <table>
+          <thead>
 
-          <tr className={styles.invisRow}>
-            <td></td><td>
-              <i onClick={changeSemesters.bind(this, false)}className='fa fa-arrow-left'></i>
-            </td><td></td>
-            <td className={styles.rightArrow}>
-              <i onClick={changeSemesters.bind(this, true)} className='fa fa-arrow-right'></i>
-            </td>
-          </tr>
+            <tr className={styles.invisRow}>
+              <td /><td>
+                <i onClick={changeSemesters.bind(this, false)}className='fa fa-arrow-left' />
+              </td><td />
+              <td className={styles.rightArrow}>
+                <i onClick={changeSemesters.bind(this, true)} className='fa fa-arrow-right' />
+              </td>
+            </tr>
 
-          <tr className={styles.categoryHeader}>
-            {headers}
-          </tr>
+            <tr className={styles.categoryHeader}>
+              {headers}
+            </tr>
 
-        </thead>
+          </thead>
 
-        <tbody>
+          <tbody>
             {companies.map((company, i) =>
               <CompanySingleRow
                 company={company}
@@ -125,12 +125,12 @@ export default class CompanyList extends Component {
                 key={i}
                 handleChange={this.props.handleChange}
                 removeChangedStatus={this.props.removeChangedStatus}
-                changedStatuses = {this.props.changedStatuses}
+                changedStatuses={this.props.changedStatuses}
               />
             )}
-        </tbody>
+          </tbody>
 
-      </table>
+        </table>
 
       </div>
     );

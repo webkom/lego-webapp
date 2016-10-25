@@ -14,11 +14,11 @@ select {
   font-family: 'proxima-nova', 'Helvetica Neue', Arial, sans-serif;
 }
 
-.companyList table{
+.companyList table {
   border-collapse: collapse;
 }
 
-.companyList table a{
+.companyList table a {
   display: block;
   color: black;
 }
@@ -26,7 +26,7 @@ select {
 .companyList th {
   padding: 5px 0;
   border-top: 1px solid #aaa;
-  border-bottom: 1px solid #aaa!important;
+  border-bottom: 1px solid #aaa !important;
 }
 
 .companyList th, .companyList td {
@@ -35,6 +35,18 @@ select {
   border-bottom: 1px dashed #aaa;
   text-align: left;
   display: table-cell;
+
+  &:first-child {
+    width: 180px;
+  }
+
+  &:nth-child(5) {
+    width: 190px;
+  }
+
+  &:nth-child(6) {
+    width: 180px;
+  }
 }
 
 .adminComment {
@@ -56,85 +68,101 @@ select {
   background-color: #3fff3f;
 }
 
- .bedpresKurs {
-  background-color: #9fff3f;
- }
+.bedpresKurs {
+background-color: #9fff3f;
+}
 
- .kurs {
-   background-color: #9fff3f;
- }
+.kurs {
+ background-color: #9fff3f;
+}
 
- .notOffered {
-   background-color: #F5F5D5;
- }
+.notOffered {
+ background-color: #F5F5D5;
+}
 
- .notInterested {
-   background-color: #FF0000;
- }
+.notInterested {
+ background-color: #F00;
+}
 
- .contacted {
-   background-color: #ffff7f;
- }
+.contacted {
+ background-color: #ffff7f;
+}
 
- .notContacted {
-   background-color: #cccccc;
- }
+.notContacted {
+ background-color: #ccc;
+}
 
- .showAscending .upArrow, .showDescending .downArrow{
-   display: block!important;
-   float: right;
-   width: 10%;
-   padding-right: 20px;
-   color: #999999;
- }
+.bedex {
+ background-color: #00fff6;
+}
 
- .hidden, .showAscending .downArrow, .showDescending .upArrow {
-   display: none!important;
- }
+.showAscending .upArrow, .showDescending .downArrow {
+ display: block !important;
+ float: right;
+ width: 10%;
+ padding-right: 20px;
+ color: #999;
+}
+
+.hidden,
+.showAscending .downArrow,
+.showDescending .upArrow {
+ display: none !important;
+}
 
 /* Semesters in detailroute */
 
-.detailTable thead th:nth-child(1), .detailTable tbody td:nth-child(1) {
+.detailTable thead th:nth-child(1),
+.detailTable tbody td:nth-child(1) {
   width: 120px;
 }
 
-.detailTable thead th:nth-child(2), .detailTable tbody td:nth-child(2) {
+.detailTable thead th:nth-child(2),
+.detailTable tbody td:nth-child(2) {
   width: 200px;
 }
 
-.detailTable thead th:nth-child(3), .detailTable tbody td:nth-child(3) {
+.detailTable thead th:nth-child(3),
+.detailTable tbody td:nth-child(3) {
   width: 360px;
 }
 
 /* company contant in detailroute */
 
-.contactTable thead th:nth-child(1), .contactTable tbody td:nth-child(1) {
+.contactTable thead th:nth-child(1),
+.contactTable tbody td:nth-child(1) {
   width: 200px;
 }
 
-.contactTable thead th:nth-child(2), .contactTable tbody td:nth-child(2) {
+.contactTable thead th:nth-child(2),
+.contactTable tbody td:nth-child(2) {
   width: 120px;
 }
 
-.contactTable thead th:nth-child(3), .contactTable tbody td:nth-child(3) {
+.contactTable thead th:nth-child(3),
+.contactTable tbody td:nth-child(3) {
   width: 220px;
 }
 
-.contactTable thead th:nth-child(4), .contactTable tbody td:nth-child(4) {
+.contactTable thead th:nth-child(4),
+.contactTable tbody td:nth-child(4) {
   width: 150px;
 }
 
 /* Events in company detailroute */
 
-.eventsTable thead th:nth-child(1), .eventsTable tbody td:nth-child(1) {
+.eventsTable thead th:nth-child(1),
+.eventsTable tbody td:nth-child(1) {
   width: 300px;
 }
 
-.eventsTable thead th:nth-child(2), .eventsTable tbody td:nth-child(2) {
+.eventsTable thead th:nth-child(2),
+.eventsTable tbody td:nth-child(2) {
   width: 220px;
 }
 
-.eventsTable thead th:nth-child(3), .eventsTable tbody td:nth-child(3) {
+.eventsTable thead th:nth-child(3),
+.eventsTable tbody td:nth-child(3) {
   width: 150px;
 }
 
@@ -146,10 +174,19 @@ select {
   padding-left: 20px;
 }
 
+.description textarea {
+  min-height: 100px;
+}
+
 .infoBubbles {
   display: flex;
   justify-content: space-between;
   margin: 30px 0;
+  text-align: center;
+}
+
+.editBubbles {
+  line-height: 0 !important;
 }
 
 .adminNote {
@@ -160,7 +197,7 @@ select {
   transition: color 0.3s ease;
 }
 
-.invisRow i {
+.invisRow i  {
   &:hover {
     color: red;
     cursor: pointer;
@@ -168,7 +205,7 @@ select {
 }
 
 .rightArrow {
-  text-align: right!important;
+  text-align: right !important;
 }
 
 .detail {
@@ -186,7 +223,7 @@ select {
   min-height: 300px;
   padding: 20px 0 0 30px;
   margin: 0 0 0 60px;
-  border-left: 1px solid #cccccc;
+  border-left: 1px solid #ccc;
   order: 2;
 }
 
@@ -201,7 +238,7 @@ select {
 }
 
 .submit:disabled {
-  color: #cccccc;
+  color: #ccc;
 }
 
 label {
@@ -246,6 +283,7 @@ select {
   background-color: inherit;
   border: none;
   outline: none;
+
   &:focus {
     border: none;
     outline: none;
@@ -256,7 +294,7 @@ select::-ms-expand {
     display: none;
 }
 
-select:hover {
+select:hover  {
   cursor: pointer;
   color: #999;
 }
@@ -288,13 +326,13 @@ option {
 }
 
 .editInfo {
-  margin: 0 auto;
-  display: flex!important;
-  flex-direction: row!important;
+  margin: 0 auto 10px auto;
+  display: flex !important;
+  flex-direction: row !important;
 }
 
 .editInfo input {
-  margin: 6px 5px 0 0;
+  padding-left: 10px;
   width: 15px;
 }
 
@@ -302,28 +340,57 @@ option {
   width: 30px;
 }
 
+.editInfo label::before {
+  top: 4px !important;
+}
+
+,
+.editInfo label::after {
+  top: -3px !important;
+}
+
+.editInfo label {
+  margin: 5px 0 0 45px;
+}
+
 .editTitle {
-  width: 250px!important;
-  font-size: 30px!important;
+  width: 250px !important;
+  font-size: 30px !important;
   margin: 30px 0 10px 0;
   font-weight: bold;
 }
 
 .editBubble {
-  width: 150px!important;
+  width: 150px !important;
   text-align: center;
-  margin-bottom: 0!important;
+  margin-bottom: 0 !important;
   font-weight: bold;
 }
 
+.choices {
+  margin: 20px 0;
+}
+
+.choices h3 {
+  margin-bottom: 7px;
+}
+
 .yearForm {
-  width: 100px!important;
+  width: 100px !important;
 }
 
 .semesterStatusForm {
   width: 300px;
   margin: 15px 0;
   padding: 5px;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.semesterStatusForm select:hover {
+  cursor: pointer;
 }
 
 .semesterStatusForm select {
@@ -331,6 +398,34 @@ option {
 }
 
 .contractForm {
-  width: 300px!important;
+  width: 300px !important;
   margin-top: 15px;
+}
+
+.search {
+  display: flex;
+}
+
+.search h2 {
+  display: inline;
+  margin-right: 20px;
+  padding-top: 3px;
+}
+
+.search input {
+  width: 200px;
+  height: 45px;
+}
+
+.info label {
+  padding-right: 45px;
+  margin-top: -13px !important;
+}
+
+.info .fa {
+  padding-left: 30px;
+}
+
+.info h3 {
+  margin-bottom: 15px;
 }

@@ -19,7 +19,7 @@ export default class SemesterStatus extends Component {
 
   handleChange = (event) => {
     const data = event.target.value.split('-');
-    this.props.handleChange(event, parseInt(data[1], 10));
+    this.props.handleChange(event, Number(data[1]));
   }
 
   render() {
@@ -35,7 +35,8 @@ export default class SemesterStatus extends Component {
     return (
       <td className={styles[selectColorCode(semesterStatus.contactedStatus)]}>
 
-        <select onChange={this.handleChange} value={
+        <select
+          onChange={this.handleChange} value={
           `${companyId}-${semIndex}-${semesterStatus.id}-${semesterStatus.contactedStatus}`
         }
         >
@@ -43,7 +44,7 @@ export default class SemesterStatus extends Component {
             <option key={j} value={`${companyId}-${semIndex}-${semesterStatus.id}-${j}`}>
               {statusStrings[j]}
               {changedStatuses.find(matchSemester) &&
-                parseInt(semesterStatus.contactedStatus, 10) === j ? ' *' : ''}
+                Number(semesterStatus.contactedStatus) === j ? ' *' : ''}
             </option>
           ))}
         </select>

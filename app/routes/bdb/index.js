@@ -6,7 +6,7 @@ export default {
     component: require('./AddCompanyRoute').default
   }, {
     path: ':companyId',
-    component: require('./CompanyDetailRoute').default
+    component: require('./BdbDetailRoute').default
   }, {
     path: ':companyId/edit',
     component: require('./EditCompanyRoute').default

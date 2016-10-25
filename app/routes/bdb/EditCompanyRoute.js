@@ -6,6 +6,7 @@ import EditCompany from './components/EditCompany';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 
 function loadData({ companyId }, props) {
+  console.log(`companyId: ${companyId}`);
   props.fetch(Number(companyId));
 }
 

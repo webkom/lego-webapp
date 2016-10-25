@@ -1,17 +1,13 @@
-import { Company } from './ActionTypes';
+import { Company, Event } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
-import { companySchema } from 'app/reducers';
+import { companySchema, eventSchema } from 'app/reducers';
 import { arrayOf } from 'normalizr';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 
 export function fetchAll() {
   return callAPI({
-    types: [
-      Company.FETCH_BEGIN,
-      Company.FETCH_SUCCESS,
-      Company.FETCH_FAILURE
-    ],
+    types: Company.FETCH,
     endpoint: '/companies/',
     schema: arrayOf(companySchema),
     meta: {
@@ -21,31 +17,34 @@ export function fetchAll() {
 }
 
 export function fetch(companyId) {
-  return callAPI({
-    types: [
-      Company.FETCH_BEGIN,
-      Company.FETCH_SUCCESS,
-      Company.FETCH_FAILURE
-    ],
-    endpoint: `/companies/${companyId}/`,
-    schema: companySchema,
-    meta: {
-      errorMessage: 'Fetching single company failed'
-    }
-  });
+  return (dispatch) => {
+    dispatch(callAPI({
+      types: Company.FETCH,
+      endpoint: `/companies/${companyId}/`,
+      schema: companySchema,
+      meta: {
+        errorMessage: 'Fetching single company failed'
+      }
+    })).then(
+      dispatch(callAPI({
+        types: Event.FETCH,
+        endpoint: `/events/?company=${companyId}`,
+        schema: arrayOf(eventSchema),
+        meta: {
+          errorMessage: 'Fetching assosiated events failed'
+        }
+      }))
+    );
+  };
 }
 
 export function addCompany({ name, studentContact, adminComment, active,
-  jobOfferOnly, bedex, description, phone, website }) {
+  description, phone, website, companyType, paymentMail }) {
   return (dispatch) => {
     dispatch(startSubmit('company'));
 
     dispatch(callAPI({
-      types: [
-        Company.ADD_BEGIN,
-        Company.ADD_SUCCESS,
-        Company.ADD_FAILURE
-      ],
+      types: Company.ADD,
       endpoint: '/companies/',
       method: 'post',
       body: {
@@ -53,11 +52,11 @@ export function addCompany({ name, studentContact, adminComment, active,
         studentContact,
         adminComment,
         active,
-        jobOfferOnly,
-        bedex,
         description,
         phone,
-        website
+        website,
+        companyType,
+        paymentMail
       },
       schema: companySchema,
       meta: {
@@ -78,32 +77,24 @@ export function addCompany({ name, studentContact, adminComment, active,
   };
 }
 
-export function editCompany({ companyId, name, studentContact, adminComment, active,
-  jobOfferOnly, bedex, description, phone, website }) {
-  console.log('Yo');
-  console.log({ companyId, name, studentContact, adminComment, active,
-    jobOfferOnly, bedex, description, phone, website });
+export function editCompany({ companyId, name, description, adminComment, website,
+   phone, active, companyType, paymentMail }) {
   return (dispatch) => {
     dispatch(startSubmit('company'));
 
     dispatch(callAPI({
-      types: [
-        Company.EDIT_BEGIN,
-        Company.EDIT_SUCCESS,
-        Company.EDIT_FAILURE
-      ],
+      types: Company.EDIT,
       endpoint: `/companies/${companyId}/`,
       method: 'PATCH',
       body: {
         name,
-        studentContact,
-        adminComment,
-        active,
-        jobOfferOnly,
-        bedex,
         description,
+        adminComment,
+        website,
+        active,
         phone,
-        website
+        companyType,
+        paymentMail
       },
       schema: companySchema,
       meta: {
@@ -116,52 +107,56 @@ export function editCompany({ companyId, name, studentContact, adminComment, act
   };
 }
 
-export function addSemesterStatus({ companyId, value, year, semester }) {
+export function addSemesterStatus({ companyId, year, semester, value, contract }, detail = false) {
   return (dispatch) => {
     dispatch(startSubmit('company'));
 
     dispatch(callAPI({
-      types: [
-        Company.ADD_SEMESTER_BEGIN,
-        Company.ADD_SEMESTER_SUCCESS,
-        Company.ADD_SEMESTER_FAILURE
-      ],
+      types: Company.ADD_SEMESTER,
       endpoint: `/companies/${companyId}/semester-statuses/`,
       method: 'post',
       body: {
         year,
         semester,
-        contactedStatus: value
+        contactedStatus: value,
+        contract: contract || ''
       },
       meta: {
         errorMessage: 'Adding semester status failed'
       }
-    }));
+    })).then(() => {
+      dispatch(stopSubmit('company'));
+      if (detail) {
+        dispatch(push(`bdb/${companyId}`));
+      } else {
+        dispatch(push('/bdb/'));
+      }
+    });
   };
 }
 
-export function editSemesterStatus({ companyId, semesterId, value, contract }) {
+export function editSemesterStatus({ companyId, semesterId, value, contract }, detail = false) {
   return (dispatch) => {
     dispatch(startSubmit('company'));
 
     dispatch(callAPI({
-      types: [
-        Company.EDIT_SEMESTER_BEGIN,
-        Company.EDIT_SEMESTER_SUCCESS,
-        Company.EDIT_SEMESTER_FAILURE
-      ],
+      types: Company.EDIT_SEMESTER,
       endpoint: `/companies/${companyId}/semester-statuses/${semesterId}/`,
       method: 'PATCH',
       body: {
         contactedStatus: value,
-        contract
+        contract: contract || ''
       },
       meta: {
         errorMessage: 'Editing semester status failed'
       }
     })).then(() => {
       dispatch(stopSubmit('company'));
-      dispatch(push('/bdb/'));
+      if (detail) {
+        dispatch(push(`bdb/${companyId}`));
+      } else {
+        dispatch(push('/bdb/'));
+      }
     });
   };
 }
@@ -171,16 +166,13 @@ export function deleteSemesterStatus(companyId, semesterId) {
     dispatch(startSubmit('company'));
 
     dispatch(callAPI({
-      types: [
-        Company.DELETE_SEMESTER_BEGIN,
-        Company.DELETE_SEMESTER_SUCCESS,
-        Company.DELETE_SEMESTER_FAILURE
-      ],
+      types: Company.DELETE_SEMESTER,
       endpoint: `/companies/${companyId}/semester-statuses/${semesterId}/`,
       method: 'delete',
       meta: {
         companyId,
-        semesterId
+        semesterId,
+        errorMessage: 'Semester status deleted. (TODO: auto-redirect)'
       },
       schema: companySchema
     })).then(() => {

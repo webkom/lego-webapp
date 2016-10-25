@@ -23,7 +23,10 @@ function validateSemesterStatus(data) {
 
 function mapStateToProps(state, props) {
   return {
-    companyId: props.params.quoteId
+    companyId: props.params.companyId,
+    initialValues: props.params.companyId ? {
+      bedex: false
+    } : null
   };
 }
 

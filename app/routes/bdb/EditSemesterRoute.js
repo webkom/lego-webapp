@@ -5,8 +5,9 @@ import { fetch, editSemesterStatus } from '../../actions/CompanyActions';
 import EditSemester from './components/EditSemester';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 
-function loadData(params, props) {
-  props.fetch(props.companyId);
+function loadData({ companyId }, props) {
+  console.log(`companyId: ${companyId}`);
+  props.fetch(Number(companyId));
 }
 
 function validateSemesterStatus(data) {
@@ -32,7 +33,7 @@ function mapStateToProps(state, props) {
   const semesterId = props.params.semesterId;
   let semesterStatus = null;
   if (company) {
-    semesterStatus = company.semesterStatuses[semesterId];
+    semesterStatus = company.semesterStatuses.find((status) => status.id === Number(semesterId));
   }
 
   return {
@@ -40,9 +41,8 @@ function mapStateToProps(state, props) {
     companyId,
     semesterStatus,
     initialValues: semesterStatus ? {
-      year: semesterStatus.year,
-      semester: semesterStatus.semester,
-      contactedStatus: semesterStatus.contactedStatus
+      contactedStatus: semesterStatus.contactedStatus,
+      contract: semesterStatus.contract
     } : null
   };
 }
@@ -50,13 +50,13 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = { fetch, editSemesterStatus };
 
 export default compose(
-  reduxForm({
-    form: 'editSemester',
-    validate: validateSemesterStatus
-  }),
   connect(
     mapStateToProps,
     mapDispatchToProps
   ),
-  fetchOnUpdate(['companyId, loggedIn'], loadData)
+  reduxForm({
+    form: 'editSemester',
+    validate: validateSemesterStatus
+  }),
+  fetchOnUpdate(['companyId', 'loggedIn'], loadData),
 )(EditSemester);
