@@ -11,7 +11,7 @@ export default class Joblisting extends Component {
     const { joblisting } = this.props;
     return (
       <li>
-        {joblisting.title}
+        <h2>{joblisting.title}</h2>
         {joblisting.jobType}
         {joblisting.deadLine}
         {joblisting.fromYear}

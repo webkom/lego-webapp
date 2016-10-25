@@ -17,3 +17,15 @@ export function fetchAll() {
     }
   });
 }
+
+export function fetchDetailed(joblistingId) {
+  return callAPI({
+    types: Joblistings.FETCH,
+    endpoint: `/joblistings/${joblistingId}/`,
+    schema: joblistingsSchema,
+    meta: {
+      joblistingId,
+      errorMessage: 'Fetching joblisting failed'
+    }
+  });
+}
