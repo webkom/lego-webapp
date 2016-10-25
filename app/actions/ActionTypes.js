@@ -43,6 +43,11 @@ export const Group = {
   UPDATE: generateStatuses('Group.UPDATE')
 };
 
+export const InterestGroup = {
+  FETCH_ALL: generateStatuses('InterestGroup.FETCH_ALL'),
+  FETCH: generateStatuses('InterestGroup.FETCH')
+};
+
 /**
  *
  */

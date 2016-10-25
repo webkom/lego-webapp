@@ -1,0 +1,43 @@
+.root {
+  composes: container from '../../../Root.css';
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.wrapper p {
+  margin: 10px auto;
+}
+
+h1 {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+h2 {
+  margin: 0 auto;
+}
+
+.interestPic {
+  width:200px;
+  border-style: solid;
+  margin: 10px;
+}
+
+.section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 30px auto;
+}
+.textInput {
+  margin-bottom: 10px;
+}
+
+.textEditor {
+
+}
