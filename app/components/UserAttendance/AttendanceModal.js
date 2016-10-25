@@ -4,18 +4,26 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import cx from 'classnames';
 import ProfilePicture from 'app/components/ProfilePicture';
-import styles from './RegistrationModal.css';
+import styles from './AttendanceModal.css';
 
 export type Props = {
   pools: Array<Object>
 };
 
-class RegistrationModal extends Component {
+class AttendanceModal extends Component {
   props: Props;
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      activePoolIndex: props.selectedPool ? props.selectedPool : 0
+    };
+  }
 
   state = {
     activePoolIndex: 0
   };
+
 
   togglePool = (index: number) => {
     this.setState({
@@ -24,7 +32,7 @@ class RegistrationModal extends Component {
   };
 
   render() {
-    const { pools } = this.props;
+    const { pools, title } = this.props;
 
     const tabs = pools.map((pool, i) => (
       <a
@@ -40,18 +48,15 @@ class RegistrationModal extends Component {
     ));
 
     const activePool = pools[this.state.activePoolIndex];
+    const statusTitle = title || 'Status';
     return (
       <div>
-        <h2>Påmeldte</h2>
+        <h2>{statusTitle}</h2>
         <ul className={styles.list}>
           {activePool.registrations.map((registration, i) => (
             <li key={i}>
               <div className={styles.row}>
-                <ProfilePicture
-                  size={30}
-                  user={registration.user.id}
-                />
-
+                <ProfilePicture size={30} user={registration.user.id} />
                 <Link to={`/users/${registration.user.username}`}>
                   {registration.user.fullName}
                 </Link>
@@ -68,4 +73,4 @@ class RegistrationModal extends Component {
   }
 }
 
-export default RegistrationModal;
+export default AttendanceModal;

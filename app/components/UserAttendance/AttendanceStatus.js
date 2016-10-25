@@ -2,8 +2,8 @@
 
 import React, { Component } from 'react';
 import Modal from 'app/components/Modal';
-import RegistrationModal from './RegistrationModal';
-import styles from './Registrations.css';
+import RegistrationModal from './AttendanceModal';
+import styles from './AttendanceStatus.css';
 
 export type Props = {
   pools: Array<Object>,
@@ -13,12 +13,14 @@ class AttendanceStatus extends Component {
   props: Props;
 
   state = {
-    modalOpen: false
+    modalOpen: false,
+    selectedPool: 0
   };
 
-  toggleModal = () => {
+  toggleModal = (key) => {
     this.setState({
-      modalOpen: !this.state.modalOpen
+      modalOpen: !this.state.modalOpen,
+      selectedPool: key
     });
   };
 
@@ -28,7 +30,7 @@ class AttendanceStatus extends Component {
       return (
         <div key={i} className={styles.poolBox}>
           <strong>{pool.name}</strong>
-          <a onClick={this.toggleModal}>
+          <a onClick={() => (this.toggleModal(i))}>
             <strong>{pool.registrations.length}/{pool.capacity}</strong>
           </a>
         </div>
@@ -40,9 +42,9 @@ class AttendanceStatus extends Component {
         {lists}
         <Modal
           show={this.state.modalOpen}
-          onHide={this.toggleModal}
+          onHide={() => (this.toggleModal(0))}
         >
-          <RegistrationModal pools={pools} />
+          <RegistrationModal {...this.props} selectedPool={this.state.selectedPool} pools={pools} />
         </Modal>
       </div>
     );
