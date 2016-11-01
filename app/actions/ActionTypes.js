@@ -30,7 +30,9 @@ export const Article = {
  */
 export const Meeting = {
   FETCH: generateStatuses('Meeting.FETCH'),
-  SET_INVITATION_STATUS: generateStatuses('Meeting.SET_INVITATION_STATUS')
+  SET_INVITATION_STATUS: generateStatuses('Meeting.SET_INVITATION_STATUS'),
+  CREATE: generateStatuses('Meeting.CREATE'),
+  EDIT: generateStatuses('Meeting.EDIT')
 };
 
 /**

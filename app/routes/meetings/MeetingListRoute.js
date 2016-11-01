@@ -12,10 +12,10 @@ function loadData(params, props) {
 
 function mapStateToProps(state) {
   const meetings = state.meetings.items.map((id) => state.meetings.byId[id]);
-  const usernameMe = state.auth.username;
+  const userMe = state.users.byId[state.auth.username];
   return {
     meetings,
-    usernameMe,
+    userMe,
   };
 }
 

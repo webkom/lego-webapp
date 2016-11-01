@@ -2,9 +2,12 @@
 
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
+import moment from 'moment-timezone';
+import config from 'app/config';
 import Time from 'app/components/Time';
 import Pill from 'app/components/Pill';
 import styles from './MeetingList.css';
+import Toolbar from './Toolbar';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 
 
@@ -18,10 +21,17 @@ function MeetingListItem({ meeting, userIdMe }) {
         <Link to={`/meetings/${meeting.id}`}>
           <h3 className={styles.meetingItemTitle}>
             {meeting.title}
-            { (userIdMe === meeting.id.reportAuthor) ?
+            { (userIdMe === meeting.createdBy) ?
                 (
                   <Pill style={{ marginLeft: 10 }}>
                     Eier
+                  </Pill>
+                ) : ''
+            }
+            { (userIdMe === meeting.reportAuthor) ?
+                (
+                  <Pill style={{ marginLeft: 10 }}>
+                    Referent
                   </Pill>
                 ) : ''
             }
@@ -29,7 +39,11 @@ function MeetingListItem({ meeting, userIdMe }) {
         </Link>
 
         <div>
-          <span> TL;DR: Webkom </span>
+          <span>
+            Deltakere:&nbsp;
+            {meeting.invitations.filter((invite) => (invite.status === 1)).length} av&nbsp;
+            {meeting.invitations.length} personer deltar
+          </span>
         </div>
 
         <div className={styles.meetingTime}>
@@ -40,9 +54,6 @@ function MeetingListItem({ meeting, userIdMe }) {
           {` • Lokasjon: ${meeting.location}`}
         </div>
       </div>
-      <div className={styles.logo}>
-        <img alt='logo' src='https://avatars0.githubusercontent.com/u/674861?v=3&s=200' />
-      </div>
     </div>
   );
 }
@@ -52,46 +63,79 @@ export default class MeetingList extends Component {
     meetings: PropTypes.array.isRequired,
   }
 
-  render() {
-    // Meeting sorting
-    // -- THIS WEEK --
-    // -- NEXT WEEK/MONTH --
-    // -- OLD --
+  sortMeetings = (meetings) => {
+    const currentYear = moment().year();
+    const currentWeek = moment().week();
+    const pools = [{
+      'title': 'Denne uken',
+      'meetings': []
+    }, {
+      'title': 'Neste uke',
+      'meetings': []
+    }, {
+      'title': 'Senere',
+      'meetings': []
+    }];
+    const fields = {};
 
-    const { meetings } = this.props;
+    meetings.forEach((meeting) => {
+      const startTime = moment.tz(meeting.startTime, config.timezone);
+      const year = startTime.year();
+      const week = startTime.week();
+      const quarter = startTime.quarter();
+      if (year === currentYear && week === currentWeek) {
+        pools[0].meetings.push(meeting);
+      } else if (year === currentYear && week + 1 === currentWeek) {
+        pools[1].meetings.push(meeting);
+      } else if (year === currentYear && week > currentWeek) {
+        pools[2].meetings.push(meeting);
+      } else {
+        const title = (Math.ceil(quarter / 2) - 1 ? 'H' : 'V') + year.toString();
+        fields[title] = fields[title] || { title, meetings: [] };
+        fields[title].meetings.push(meeting);
+      }
+    });
+
+    const oldMeetings = Object.keys(fields).map((key) => (
+      {
+        title: key,
+        meetings: fields[key].meetings
+      }
+    )).sort((elem1, elem2) => {
+      const year1 = elem1.title.substring(1, 5);
+      const year2 = elem2.title.substring(1, 5);
+      if (year1 === year2) {
+        return elem1.title < elem2.tilte ? 1 : -1;
+      }
+      return year2 - year1;
+    });
+
+    return pools.concat(oldMeetings).filter((elem) => (elem.meetings.length !== 0)).map((pool) => ({
+      title: pool.title,
+      meetings: pool.meetings.sort((elem1, elem2) => {
+        return moment(elem1.startTime) - moment(elem2.startTime);
+      })
+    }
+    ));
+  }
+
+  render() {
+    const { meetings, userMe } = this.props;
     if (meetings === undefined) {
       return <LoadingIndicator loading />;
     }
+    const pools = this.sortMeetings(meetings);
     return (
       <div className={styles.root}>
-        <h2> Dine møter </h2>
+        <Toolbar />
 
-        <h2 className={styles.heading}>Denne uken</h2>
-        { meetings.map((item, i) => (
-          <MeetingListItem key={i} meeting={item} />
-        ))}
-
-        <h2 className={styles.heading}>Neste uke</h2>
-        { meetings.map((item, i) => (
-          <MeetingListItem key={i} meeting={item} />
-        ))}
-
-        <h2 className={styles.heading}>Tidligere dette semestret</h2>
-        { meetings.map((item, i) => (
-          <MeetingListItem key={i} meeting={item} />
-        ))}
-
-        { meetings.map((item, i) => (
-          <MeetingListItem key={i} meeting={item} />
-        ))}
-
-        <h2 className={styles.heading}>V2016</h2>
-        { meetings.map((item, i) => (
-          <MeetingListItem key={i} meeting={item} />
-        ))}
-
-        { meetings.map((item, i) => (
-          <MeetingListItem key={i} meeting={item} />
+        {pools.map((item, key) => (
+          <div key={key}>
+            <h2 className={styles.heading}>{item.title}</h2>
+            {item.meetings.map((item, key) => (
+              <MeetingListItem key={key} userIdMe={userMe.id} meeting={item} />
+            ))}
+          </div>
         ))}
       </div>
     );

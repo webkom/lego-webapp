@@ -6,12 +6,18 @@
 }
 
 .heading {
-  color: #777;
-  letter-spacing: 2px;
-  font-weight: 400;
-  text-transform: uppercase;
-  font-size: 20px;
-  border-bottom: 1px solid #ddd;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.title {
+  margin-bottom: 0;
+}
+
+.mainContent {
+  flex-wrap: wrap;
+  padding: 20px;
+  display: flex;
 }
 
 .meetingItem {
@@ -20,6 +26,20 @@
   margin-bottom: 15px;
   display: flex;
   justify-content: space-between;
+}
+
+.reportContent {
+  min-width: 300px;
+  padding: 20px;
+}
+
+.statusContent {
+  min-width: 250px;
+}
+
+.statusButtons {
+  display: flex;
+  justify-content: space-around;
 }
 
 .meetingItemTitle {
@@ -34,9 +54,4 @@
 
 .meetingTime {
   color: #777;
-}
-
-.logo {
-  width: 80px;
-  height: 80px;
 }
