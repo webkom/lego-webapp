@@ -2,56 +2,76 @@ import React, { Component } from 'react';
 import styles from './company.css';
 import moment from 'moment';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import { EventItem } from 'app/routes/events/components/EventList';
+import Image from 'app/components/Image';
+import { getImage } from 'app/utils';
 
 type Props = {
   company: Array<Object>
 };
 
-export default class CompanyDetail extends Component {
+class CompanyDetail extends Component {
   props: Props;
 
 
   render() {
     const { company } = this.props;
     if (!company) {
-      return <LoadingIndicator loading/>;
+      return <LoadingIndicator loading />;
     }
     return (
       <div className={styles.root}>
         <div>
-          <h1>{company.name}</h1>
-          <p>Description: {company.description}</p>
+          <Image src={getImage(company.id, 1000, 300)} />
+        </div>
+
+        <h2>{company.name}</h2>
+        <div className={styles.card}>
+          <p>{company.description}</p>
           <p>Address: {company.Address}</p>
           <p>Phone: {company.phone}</p>
-          <p>Website: <a href={`https://www.${company.website}`} target='_blank'>{company.website}
+          <p>Website: <a href={`https://www.${company.website}`}>{company.website}
           </a></p>
         </div>
 
         <div>
-          <h3>Cummin&#39; Events</h3>
+          <h3>Kommende arrangementer</h3>
           {company.events
-            .filter((Event) => (moment().isSameOrBefore(Event.startTime)))
-            .map((Event) => (Event.title))
-          }
+            .filter((event) => (moment().isSameOrBefore(event.startTime)))
+            .map((event, id) => (
+
+              <EventItem
+                key={id}
+                event={event}
+              />
+          ))}
         </div>
 
         <div>
-          <h3>Previous Events</h3>
-          {company.events
-            .filter((Event) => (moment().isAfter(Event.startTime)))
-            .map((Event, id) => (<p key={id}>{Event.title}</p>))
-          }
-        </div>
-
-        <div>
-          <h3>Joblistings</h3>
+          <h3>Jobbannonser</h3>
           <ul>
-            <p>joblisting1</p>
-            <p>joblisting2</p>
-            <p>osv..</p>
+            <p>joblisting 1</p>
+            <p>joblisting 2</p>
+            <p>...</p>
           </ul>
+        </div>
+
+        <div>
+          <h3>Tidligere Events</h3>
+          {company.events
+            .filter((event) => (moment().isAfter(event.startTime)))
+            .map((event, id) => (
+              <div>
+                <EventItem
+                  key={id}
+                  event={event}
+                />
+              </div>
+          ))}
         </div>
       </div>
     );
   }
 }
+
+export default CompanyDetail;

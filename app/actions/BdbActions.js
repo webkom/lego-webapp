@@ -1,5 +1,5 @@
 import { Bdb } from './ActionTypes';
-import { callAPI } from '../utils/http';
+import callAPI from 'app/actions/callAPI';
 import { companySchema } from 'app/reducers';
 import { arrayOf } from 'normalizr';
 
