@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import styles from './JoblistingsPage.css';
-import Joblisting from './Joblisting';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
+import JoblistingsList from './JoblistingsList';
 
 export default class JoblistingsPage extends Component {
 
@@ -16,16 +16,9 @@ export default class JoblistingsPage extends Component {
     }
     return (
       <div className={styles.root}>
-        <h1>Jobbannonser</h1>
-        <ul>
-          {joblistings.map((joblisting) =>
-            <Joblisting
-              {...this.props}
-              joblisting={joblisting}
-              key={joblisting.id}
-            />
-          )}
-        </ul>
+        <JoblistingsList
+          joblistings = {joblistings}
+        />
       </div>
     );
   }

@@ -3,9 +3,11 @@ import { getImage } from 'app/utils';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
 import Image from 'app/components/Image';
 import styles from './JoblistingDetail.css';
-import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
+import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 import Markdown from 'app/components/Markdown';
-import { selectJobtype } from '../utils.js';
+import { selectJobtype, sameYear } from '../utils.js';
+import Time from 'app/components/Time';
+
 
 export default class JoblistingDetail extends Component {
   static propTypes = {
@@ -30,10 +32,20 @@ export default class JoblistingDetail extends Component {
           </FlexColumn>
           <FlexColumn className={styles.meta}>
             <ul>
-              <li>Frist: <strong>{joblisting.deadline}</strong></li>
-              <br></br>
+              <li>
+                Frist:
+                {' '}
+                <strong>
+                  <Time
+                    time={joblisting.deadline}
+                    format='ll HH:mm'
+                  />
+                </strong>
+              </li>
+              <br />
               <li>{selectJobtype(joblisting.jobType)}</li>
-              <li>{joblisting.fromYear}. - {joblisting.toYear}. klasse </li>
+              <li>{sameYear(joblisting) ? `${joblisting.fromYear}.` :
+               `${joblisting.fromYear}. - ${joblisting.toYear}.`} klasse</li>
               <li>{joblisting.workplaces}</li>
             </ul>
           </FlexColumn>
