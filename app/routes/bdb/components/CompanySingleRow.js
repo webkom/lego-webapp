@@ -57,7 +57,7 @@ export default class CompanySingleRow extends Component {
       <tr>
         <td><Link to={`/bdb/${company.id}`}>{company.name}</Link></td>
         {semesters}
-        <td style={{ width: '170px' }}>
+        <td>
           {company.studentContact ? company.studentContact.fullName : ''}
         </td>
         <td className={styles.adminComment}>{company.adminComment}</td>

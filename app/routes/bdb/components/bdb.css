@@ -35,6 +35,15 @@ select {
   border-bottom: 1px dashed #aaa;
   text-align: left;
   display: table-cell;
+  &:first-child {
+    width: 180px;
+  }
+  &:nth-child(5) {
+    width: 190px;
+  }
+  &:nth-child(6) {
+    width: 180px;
+  }
 }
 
 .adminComment {
@@ -335,20 +344,17 @@ option {
   margin-top: 15px;
 }
 
-.optionsHeader {
-  margin-bottom: 10px;
-  &:hover {
-    cursor: pointer;
-  }
+.search {
+  display: flex;
 }
 
-.optionsBox {
-  background-color: #efefef;
-  width: 500px;
-  min-height: 50px;
-  border: 1px solid grey;
-  padding: 10px;
-  border-radius: 5px;
-  box-shadow: inset 0 0 4px grey;
-  margin: 0 0 15px 0;
+.search h2 {
+  display: inline;
+  margin-right: 20px;
+  padding-top: 3px;
+}
+
+.search input {
+  width: 200px;
+  height: 45px;
 }

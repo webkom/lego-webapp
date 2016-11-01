@@ -51,8 +51,6 @@ export default class AddSemester extends Component {
       <div className={styles.root}>
 
         <h1>Legg til semester</h1>
-        <i><Link to={`/bdb/${companyId}`}>Tilbake til bedriften</Link></i>
-        <br />
 
         <div className={styles.detail}>
           <div className={styles.leftSection}>
@@ -115,6 +113,7 @@ export default class AddSemester extends Component {
 
           <CompanyRightNav
             {...this.props}
+            companyId={this.props.companyId}
           />
 
         </div>

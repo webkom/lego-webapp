@@ -17,13 +17,12 @@ function validateSemesterStatus(data) {
   if (!data.contactedStatus) {
     errors.studentContact = 'Vennligst fyll ut dette feltet';
   }
-
   return errors;
 }
 
 function mapStateToProps(state, props) {
   return {
-    companyId: props.params.quoteId
+    companyId: props.params.companyId
   };
 }
 

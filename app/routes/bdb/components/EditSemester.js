@@ -112,6 +112,7 @@ export default class EditSemester extends Component {
 
           <CompanyRightNav
             {...this.props}
+            companyId={this.props.companyId}
           />
 
         </div>

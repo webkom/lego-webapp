@@ -4,7 +4,8 @@ import styles from './bdb.css';
 import sortCompanies from '../SortCompanies.js';
 import { indexToSemester } from '../utils.js';
 import Button from 'app/components/Button';
-import OptionsBox from './OptionsBox'
+import OptionsBox from './OptionsBox';
+import TextInput from 'app/components/Form/TextInput';
 
 type Props = {
   companies: Array<Object>,
@@ -24,7 +25,8 @@ export default class BdbPage extends Component {
     changedStatuses: [],
     submitted: false,
     displayOptions: false,
-    filters: {}
+    filters: {},
+    searchQuery: ''
   }
 
   componentWillReceiveProps(newProps) {
@@ -135,21 +137,41 @@ export default class BdbPage extends Component {
     this.setState({ changedStatuses: [], submitted: true });
   };
 
-  updateFilters = (filters) => {
-    console.log('Forrige filter state:');
-    console.log(this.state.filters);
-    this.setState({
-      filters: {
-        ...this.state.filters,
-        ...filters
-      }
-    });
+  updateFilters = (name, value) => {
+    const filters = this.state.filters;
+    filters[name] = value;
+    this.setState({ filters });
   }
 
   toggleDisplay = () => {
     this.setState({
       displayOptions: !this.state.displayOptions
     });
+  }
+
+  companySearch = (companies) => {
+    return companies.filter((company) => company.name.toLowerCase().includes(
+      this.state.searchQuery.toLowerCase()
+    ));
+  }
+
+  filterCompanies = (companies) => {
+    if (this.state.searchQuery !== '') {
+      companies = this.companySearch(companies);
+    }
+    const { filters } = this.state;
+    return companies.filter((company) => {
+      for (const key of Object.keys(filters)) {
+        if (filters[key] !== undefined && company[key] !== filters[key]) {
+          return false;
+        }
+      } return true;
+    });
+  }
+
+  updateSearchQuery = (event) => {
+    const searchQuery = event.target.value;
+    this.setState({ searchQuery });
   }
 
   render() {
@@ -162,6 +184,11 @@ export default class BdbPage extends Component {
 
         <h1>Bedriftsdatabase</h1>
 
+        <div className={styles.search}>
+          <h2>Søk</h2>
+          <TextInput onChange={this.updateSearchQuery.bind(this)} />
+        </div>
+
         <h2
           onClick={this.toggleDisplay}
           className={styles.optionsHeader}
@@ -172,6 +199,7 @@ export default class BdbPage extends Component {
           companies={this.props.companies}
           updateFilters={this.updateFilters}
           display={this.state.displayOptions}
+          filters={this.state.filters}
         />
 
         {this.state.changedStatuses.length > 0 ? (
@@ -188,7 +216,7 @@ export default class BdbPage extends Component {
           {...this.props}
           startYear={this.state.startYear}
           startSem={this.state.startSem}
-          companies={sortedCompanies}
+          companies={this.filterCompanies(sortedCompanies)}
           changeSemesters={this.changeSemesters}
           handleChange={this.handleChange}
           removeChangedStatus={this.removeChangedStatus}
