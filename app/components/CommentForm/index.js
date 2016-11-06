@@ -4,11 +4,12 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
-import { TextEditor } from 'app/components/Form';
+import { EditorField } from 'app/components/Form';
 import Button from 'app/components/Button';
 import ProfilePicture from 'app/components/ProfilePicture';
 import { addComment } from 'app/actions/CommentActions';
 import styles from './CommentForm.css';
+import FieldWrapper from 'app/components/Form/FieldWrapper';
 
 const validate = (values) => {
   const errors = {};
@@ -24,8 +25,7 @@ type Props = {
   loggedIn: boolean,
   addComment: () => void,
   parent: number,
-  pristine: boolean,
-  submitting: boolean,
+  fields: Object,
   handleSubmit: () => void,
   submitText: string,
   inlineMode: boolean,
@@ -84,7 +84,10 @@ class CommentForm extends Component {
             placeholder='Skriv noe her...'
             autoFocus={autoFocus}
             name='text'
-            component={TextEditor.Field}
+            component={FieldWrapper}
+            inputComponent={EditorField}
+            simpleEditor
+            type='text'
           />
 
           <Button

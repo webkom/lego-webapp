@@ -1,5 +1,18 @@
-import { EditorState } from 'draft-js';
+/* eslint-disable new-cap */
+import { EditorState, genKey, ContentBlock } from 'draft-js';
+import { Map } from 'immutable';
+import Link, { findLinkEntities } from './Entities/Link';
 import { Block } from './constants';
+
+export const customDecorators = ([
+  {
+    strategy: findLinkEntities,
+    component: Link
+  }
+]);
+
+
+export const createEditorState = (content = null) => EditorState.createEmpty();
 
 /*
 Returns default block-level metadata for various block type. Empty object otherwise.
@@ -28,6 +41,7 @@ export const getCurrentBlock = (editorState) => {
  */
 export const addNewBlock = (editorState, newType = Block.UNSTYLED, initialData = {}) => {
   const selectionState = editorState.getSelection();
+  console.log(selectionState);
   if (!selectionState.isCollapsed()) {
     return editorState;
   }
@@ -53,6 +67,82 @@ export const addNewBlock = (editorState, newType = Block.UNSTYLED, initialData =
     return EditorState.push(editorState, newContentState, 'change-block-type');
   }
   return editorState;
+};
+
+/*
+Used from [react-rte](https://github.com/sstur/react-rte/blob/master/src/lib/insertBlockAfter.js)
+by [sstur](https://github.com/sstur)
+*/
+export const addNewBlockAt = (
+    editorState,
+    pivotBlockKey,
+    newBlockType = Block.UNSTYLED,
+    initialData = {}
+  ) => {
+  const content = editorState.getCurrentContent();
+  const blockMap = content.getBlockMap();
+  const block = blockMap.get(pivotBlockKey);
+  const blocksBefore = blockMap.toSeq().takeUntil((v) => (v === block));
+  const blocksAfter = blockMap.toSeq().skipUntil((v) => (v === block)).rest();
+  const newBlockKey = genKey();
+
+  const newBlock = new ContentBlock({
+    key: newBlockKey,
+    type: newBlockType,
+    text: '',
+    characterList: block.getCharacterList().slice(0, 0),
+    depth: 0,
+    data: Map(getDefaultBlockData(newBlockType, initialData))
+  });
+
+  const newBlockMap = blocksBefore.concat(
+    [[pivotBlockKey, block], [newBlockKey, newBlock]],
+    blocksAfter
+  ).toOrderedMap();
+
+  const selection = editorState.getSelection();
+
+  const newContent = content.merge({
+    blockMap: newBlockMap,
+    selectionBefore: selection,
+    selectionAfter: selection.merge({
+      anchorKey: newBlockKey,
+      anchorOffset: 0,
+      focusKey: newBlockKey,
+      focusOffset: 0,
+      isBackward: false
+    })
+  });
+  return EditorState.push(editorState, newContent, 'split-block');
+};
+
+/*
+Changes the block type of the current block.
+*/
+export const resetBlockWithType = (editorState, newType = Block.UNSTYLED) => {
+  const contentState = editorState.getCurrentContent();
+  const selectionState = editorState.getSelection();
+  const key = selectionState.getStartKey();
+  const blockMap = contentState.getBlockMap();
+  const block = blockMap.get(key);
+  let newText = '';
+  const text = block.getText();
+  if (block.getLength() >= 2) {
+    newText = text.substr(1);
+  }
+  const newBlock = block.merge({
+    text: newText,
+    type: newType,
+    data: getDefaultBlockData(newType)
+  });
+  const newContentState = contentState.merge({
+    blockMap: blockMap.set(key, newBlock),
+    selectionAfter: selectionState.merge({
+      anchorOffset: 0,
+      focusOffset: 0
+    })
+  });
+  return EditorState.push(editorState, newContentState, 'change-block-type');
 };
 
 /*

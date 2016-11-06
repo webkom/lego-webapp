@@ -1,12 +1,19 @@
 import React, { Component } from 'react';
-import { BlockButtons, InlineButtons } from './constants';
+import { Entity } from 'draft-js';
+import { BlockButtons, InlineButtons, Entity as EntityConstants } from './constants';
 import ReactDOM from 'react-dom';
 import TooltipButton from './TooltipButton';
 import styles from './Tooltip.css';
 import Icon from 'app/components/Icon';
 
+const Keyboard = {
+  ENTER: 13,
+  ESC: 13
+};
+
 export type Props = {
   editorState: Object,
+  toggleLink: () => void,
   toggleInlineStyle: () => void,
   toggleBlockType: () => void
 };
@@ -24,6 +31,7 @@ export default class Tooltip extends Component {
   }
 
   componentWillReceiveProps = () => {
+    console.log('new');
     this.calculatePositionOffset();
   }
 
@@ -50,9 +58,48 @@ export default class Tooltip extends Component {
     }
   }
 
+  setLink = (url) => {
+    const { editorState, toggleLink } = this.props;
+    const selection = editorState.getSelection();
+    let entityKey = null;
+    let newUrl = url;
+    if (url !== '') {
+      if (url.indexOf('@') >= 0) {
+        newUrl = `mailto:${newUrl}`;
+      } else if (url.indexOf('http') === -1) {
+        newUrl = `http://${newUrl}`;
+      }
+      entityKey = Entity.create(EntityConstants.LINK, 'IMMUTABLE ', { url: newUrl });
+    }
+    toggleLink(selection, entityKey);
+  }
+
+  onChange = (e) => {
+    this.setState({ urlInputValue: e.target.value });
+  }
+
+  handleBlur = (e) => {
+    this.setState({
+      showUrlInput: false,
+      urlInputValue: ''
+    });
+  }
+
+  handleKeyDown = (e) => {
+    switch (e.which) {
+      case Keyboard.ENTER:
+        this.setLink(this.state.urlInputValue);
+        this.setState({
+          showUrlInput: false,
+          urlInputValue: ''
+        });
+        break;
+    }
+  }
+
   render() {
     const { editorState, toggleInlineStyle, toggleBlockType } = this.props;
-
+    console.log(this.state);
     return (
       <div
         className={styles.tooltip}
@@ -69,8 +116,9 @@ export default class Tooltip extends Component {
               type='text'
               className={styles.urlInput}
               placeholder='Paste or type a link'
-              onKeyDown={this.onKeyDown}
               onChange={this.onChange}
+              onKeyDown={this.handleKeyDown}
+              onBlur={this.handleBlur}
               value={this.state.urlInputValue}
             />
             <Icon
@@ -79,7 +127,7 @@ export default class Tooltip extends Component {
               onMouseDown={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                this.setState({ showUrlInput: false });
+                this.setState({ showUrlInput: false }, this.props.focus());
               }}
             />
 
@@ -108,8 +156,8 @@ export default class Tooltip extends Component {
           )}
 
           <TooltipButton
-            editorState={editorState}
             type='block'
+            editorState={editorState}
             label='Link'
             style='link'
             icon='link'
