@@ -11,7 +11,7 @@ import Markdown from 'app/components/Markdown';
 import JoinEventForm from './JoinEventForm';
 import RegisteredCell from './RegisteredCell';
 import RegisteredSummary from './RegisteredSummary';
-import AttendanceStatus from './AttendanceStatus';
+import { AttendanceStatus } from 'app/components/UserAttendance';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -102,7 +102,7 @@ export default class EventDetail extends Component {
                   ))}
                 </FlexRow>
                 <RegisteredSummary registrations={registrations} />
-                <AttendanceStatus pools={event.pools} />
+                <AttendanceStatus title='Påmeldte' pools={event.pools} />
               </FlexItem>
             )}
           </FlexColumn>

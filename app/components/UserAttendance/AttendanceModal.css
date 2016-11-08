@@ -3,7 +3,7 @@
   height: 400px;
   padding: 0 30px;
   margin-bottom: 5px;
-  overflow: scroll;
+  overflow-y: scroll;
 }
 
 .list > li {
@@ -25,7 +25,9 @@
 .navButton {
   display: flex;
   height: 30px;
-  width: 75px;
+  min-width: 75px;
+  padding-left: 5px;
+  padding-right: 5px;
   justify-content: center;
 }
 
