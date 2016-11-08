@@ -2,16 +2,29 @@
   composes: container from '../../../Root.css';
 }
 
-.wrapper {
+.interestGroup {
   display: flex;
-  align-items: center;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-  margin: 20px auto;
+  margin-bottom: 40px;
 }
 
-.wrapper p {
-  margin: 10px auto;
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 1000px;
+  margin-top: 30px;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+}
+
+.contentDetail {
+  display: flex;
+  flex-direction: row;
 }
 
 h1 {
@@ -19,18 +32,34 @@ h1 {
   font-weight: bold;
 }
 
-h2 {
-  margin: 0 auto;
+.heading {
+  color: #777;
+  letter-spacing: 2px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 20px;
+  border-bottom: 1px solid #ddd;
 }
 
 .interestPic {
   width: 200px;
+  max-height: 200px;
   border-style: solid;
-  margin: 10px;
+  margin-left: 20px;
   -moz-box-shadow: 0 0 5px #000;
   -webkit-box-shadow: 0 0 5px #000;
   box-shadow: 0 0 5px #000;
 }
+
+.paragraph {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.bold {
+  font-weight: bold;
+ }
 
 .section {
   display: flex;
@@ -43,19 +72,23 @@ h2 {
   margin-bottom: 10px;
 }
 
-.textEditor {
-  height: 250px;
+.textEditor { height: 250px; }
+
+.contact {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
-.button {
-  display: flex;
-  justify-content: flex-end;
-  font-size: 12px;
-}
+.button { font-size: 12px; }
 
 .detail {
-  text-align: center;
   font-size: 30px;
+  color: #777;
+  letter-spacing: 2px;
+  font-weight: 400;
+  text-transform: uppercase;
+  border-bottom: 1px solid #ddd;
 }
 
 .interestPicDetail {
@@ -65,4 +98,8 @@ h2 {
   -moz-box-shadow: 0 0 5px #000;
   -webkit-box-shadow: 0 0 5px #000;
   box-shadow: 0 0 5px #000;
+}
+
+.paragraphDetail {
+  margin-top: 20px;
 }

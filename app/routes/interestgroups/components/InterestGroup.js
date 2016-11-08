@@ -6,20 +6,25 @@ import { Link } from 'react-router';
 
 class InterestGroup extends Component {
   state = {
-    editorOpen: false
+    editorOpen: false,
+    memberCount: Math.floor((Math.random() * 10) + 1)
   };
 
   render() {
     return (
-      <div className={styles.wrapper}>
+      <div className={styles.interestGroup}>
+        <Link to={`/interestgroups/${this.props.group.id}`} className={styles.link}>
+          <h2 className={styles.heading}>{this.props.group.name}</h2>
+        </Link>
         <div className={styles.content}>
-          {/* Skift fra .name til .slug, vent til dette er fikset i backenden */}
-          <Link to={`/interestgroups/${this.props.group.id}`}>
-            <h2>{this.props.group.name}</h2>
-          </Link>
-          <p>{this.props.group.descriptionLong}</p>
+          <div className={styles.paragraph}>
+            <p>{this.props.group.descriptionLong}</p>
+            <p className={styles.bold}>
+              Antall medlemmer i {this.props.group.name}: {this.state.memberCount}
+            </p>
+          </div>
+          <Image className={styles.interestPic} src={getImage(this.props.group.id)} />
         </div>
-        <Image className={styles.interestPic} src={getImage(this.props.group.id)} />
       </div>
     );
   }
