@@ -1,0 +1,138 @@
+import React, { Component } from 'react';
+import styles from './bdb.css';
+import { Link } from 'react-router';
+import CompanySingleRow from './CompanySingleRow';
+import { indexToSemester } from '../utils.js';
+
+type Props = {
+  companies: Array<any>,
+  query: Object,
+  startYear: number,
+  startSem: number,
+  changeSemesters: () => void,
+  changedStatuses: Array<any>
+};
+
+export default class CompanyList extends Component {
+
+  props: Props;
+
+  findTitle = (index) => {
+    const { startYear, startSem } = this.props;
+    const result = indexToSemester(index, startYear, startSem);
+    const sem = result.semester === 0 ? 'Vår' : 'Høst';
+    return `${sem} ${result.year}`;
+  };
+
+  findSortLink = (sortType) => {
+    const { query } = this.props;
+    const ascending = query.ascending === 'true';
+    // Seperate sorting for name because the url for default sorting is just /bdb/
+    if (sortType === 'name' && Object.keys(query).length !== 0) {
+      return '/bdb/';
+    }
+    if (sortType === 'name') {
+      return '/bdb?sortBy=name&ascending=false';
+    } // The rest
+    if (query.sortBy === sortType) {
+      return `/bdb?sortBy=${sortType}&ascending=${!ascending}`;
+    } return `/bdb?sortBy=${sortType}&ascending=true`;
+  };
+
+  showOrHideSortIcon = (sortType) => {
+    const { query } = this.props;
+    const ascending = query.ascending === 'true';
+    // Special treatment for name sorting
+    if (sortType === 'name' && Object.keys(query).length === 0) {
+      return 'showAscending';
+    } // The rest
+    if (sortType === query.sortBy) {
+      return ascending ? 'showAscending' : 'showDescending';
+    } return 'hidden';
+  };
+
+  render() {
+    const { companies, changeSemesters, startYear, startSem } = this.props;
+
+    const HEADER_ITEMS = [
+      {
+        title: 'Bedrifter',
+        sortLink: 'name'
+      }, {
+        title: this.findTitle(0),
+        sortLink: 'sem0'
+      }, {
+        title: this.findTitle(1),
+        sortLink: 'sem1'
+      }, {
+        title: this.findTitle(2),
+        sortLink: 'sem2'
+      }, {
+        title: 'Studentkontakt',
+        sortLink: 'studentContact'
+      }, {
+        title: 'Kommentar',
+        sortLink: 'comment'
+      }
+    ];
+
+    const headers = HEADER_ITEMS.map((item, i) => (
+      <th key={i}>
+        <Link to={this.findSortLink(item.sortLink)}>
+          <div className={styles.title}>{item.title}</div>
+
+          <div className={styles[this.showOrHideSortIcon(item.sortLink)]}>
+            <div className={styles.upArrow}>
+              <i className='fa fa-caret-up' aria-hidden='true'></i>
+            </div>
+            <div className={styles.downArrow}>
+              <i className='fa fa-caret-down' aria-hidden='true'></i>
+            </div>
+          </div>
+
+        </Link>
+      </th>
+    ));
+    return (
+
+      <div className={styles.companyList}>
+
+      <table>
+        <thead>
+
+          <tr className={styles.invisRow}>
+            <td></td><td>
+              <i onClick={changeSemesters.bind(this, false)}className='fa fa-arrow-left'></i>
+            </td><td></td>
+            <td className={styles.rightArrow}>
+              <i onClick={changeSemesters.bind(this, true)} className='fa fa-arrow-right'></i>
+            </td>
+          </tr>
+
+          <tr className={styles.categoryHeader}>
+            {headers}
+          </tr>
+
+        </thead>
+
+        <tbody>
+            {companies.map((company, i) =>
+              <CompanySingleRow
+                company={company}
+                startYear={startYear}
+                startSem={startSem}
+                changeSemesters={this.changeSemesters}
+                key={i}
+                handleChange={this.props.handleChange}
+                removeChangedStatus={this.props.removeChangedStatus}
+                changedStatuses = {this.props.changedStatuses}
+              />
+            )}
+        </tbody>
+
+      </table>
+
+      </div>
+    );
+  }
+}

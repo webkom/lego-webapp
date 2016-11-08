@@ -1,5 +1,6 @@
 import React from 'react';
 import { AppRoute } from 'app/routes/app';
+import bdb from 'app/routes/bdb';
 import overview from 'app/routes/overview';
 import events from 'app/routes/events';
 import users from 'app/routes/users';
@@ -15,6 +16,7 @@ export default {
     users,
     admin,
     quotes,
+    bdb,
     {
       path: '*',
       component: () => <div>Not Found</div>
