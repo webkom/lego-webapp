@@ -7,6 +7,7 @@
   align-items: center;
   flex-direction: row;
   justify-content: space-between;
+  margin: 20px auto;
 }
 
 .wrapper p {
@@ -26,6 +27,9 @@ h2 {
   width:200px;
   border-style: solid;
   margin: 10px;
+  -moz-box-shadow: 0 0 5px #000000;
+  -webkit-box-shadow: 0 0 5px #000000;
+  box-shadow: 0 0 5px #000000;
 }
 
 .section {
@@ -39,5 +43,25 @@ h2 {
 }
 
 .textEditor {
+  height: 250px;
+}
 
+.button {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 12px;
+}
+
+.detail {
+  text-align: center;
+  font-size: 30px;
+}
+
+.interestPicDetail {
+  width:300px;
+  border-style: solid;
+  margin: 10px;
+  -moz-box-shadow: 0 0 5px #000000;
+  -webkit-box-shadow: 0 0 5px #000000;
+  box-shadow: 0 0 5px #000000;
 }

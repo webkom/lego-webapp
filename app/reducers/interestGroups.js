@@ -23,7 +23,7 @@ export const selectInterestGroups = createSelector(
   (interestGroupById, interestGroupIds) => interestGroupIds.map((id) => interestGroupById[id])
 );
 
-export const selectIntrestGroupById = createSelector(
+export const selectInterestGroupById = createSelector(
   (state) => state.interestGroups.byId,
   (state, props) => props.interestGroupId,
   (interestGroupById, interestGroupId) => {

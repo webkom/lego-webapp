@@ -6,7 +6,7 @@ import { InterestGroup } from './ActionTypes';
 export function fetchInterestGroup(interestGroupId) {
   return callAPI({
     types: InterestGroup.FETCH,
-    endpoint: `/interestGroups/${interestGroupId}/`,
+    endpoint: `/interest-groups/${interestGroupId}/`,
     schema: interestGroupSchema,
     meta: {
       errorMessage: 'Fetching interestGroup failed'

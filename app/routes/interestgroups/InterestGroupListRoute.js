@@ -3,7 +3,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetchAll } from 'app/actions/InterestGroupActions';
-import InterestGroupPage from './components/InterestGroupPage';
+import InterestGroupList from './components/InterestGroupList';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { selectInterestGroups } from 'app/reducers/interestGroups';
 
@@ -23,4 +23,4 @@ const mapDispatchToProps = { fetchAll };
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   fetchOnUpdate(['loggedIn'], loadData)
-)(InterestGroupPage);
+)(InterestGroupList);
