@@ -9,15 +9,39 @@ type Props = {
   meta: string
 };
 
-function InfoBubble({ icon, data, meta, className, ...props }: Props) {
+const httpCheck = (link) => {
+  return link.startsWith('http') ? link : `http://${link}`;
+};
+
+const noLinkIcon = (icon, bubbleClass, iconClass) => (
+  <div className={cx(styles.bubble, bubbleClass)}>
+    <Icon name={icon} className={cx(styles.icon, iconClass)} />
+  </div>
+);
+
+const withLinkIcon = (link, icon, bubbleClass, iconClass) => (
+  <a href={httpCheck(link)}>{noLinkIcon(icon, bubbleClass, iconClass)}</a>
+);
+
+const noLinkData = (dataClass, data) => (
+  <span className={cx(styles[data], dataClass)}>{data || '-'}</span>
+);
+
+const withLinkData = (link, dataClass, data) => (
+  <a href={httpCheck(link)} style={{ margin: '0 auto' }}>{noLinkData(dataClass, data)}</a>
+);
+
+function InfoBubble({ icon, data, meta, className, bubbleClass, dataClass,
+  metaClass, iconClass, link, ...props }: Props) {
   return (
     <div
       className={cx(styles.infoBubble, className)}
       {...props}
     >
-      <div className={styles.bubble}><Icon name={icon} className={styles.icon} /></div>
-      <span className={styles.data}>{data || '-'}</span>
-      <span className={styles.meta}>{meta || '-'}</span>
+      {link ? withLinkIcon(link, icon, bubbleClass, iconClass) :
+        noLinkIcon(icon, bubbleClass, iconClass)}
+      {link ? withLinkData(link, dataClass, data) : noLinkData(dataClass, data)}
+      {noLinkData(metaClass, meta)}
     </div>
   );
 }
