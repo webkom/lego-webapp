@@ -24,12 +24,12 @@ h2 {
 }
 
 .interestPic {
-  width:200px;
+  width: 200px;
   border-style: solid;
   margin: 10px;
-  -moz-box-shadow: 0 0 5px #000000;
-  -webkit-box-shadow: 0 0 5px #000000;
-  box-shadow: 0 0 5px #000000;
+  -moz-box-shadow: 0 0 5px #000;
+  -webkit-box-shadow: 0 0 5px #000;
+  box-shadow: 0 0 5px #000;
 }
 
 .section {
@@ -38,6 +38,7 @@ h2 {
   align-items: center;
   margin: 30px auto;
 }
+
 .textInput {
   margin-bottom: 10px;
 }
@@ -47,9 +48,9 @@ h2 {
 }
 
 .button {
-    display: flex;
-    justify-content: flex-end;
-    font-size: 12px;
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12px;
 }
 
 .detail {
@@ -58,10 +59,10 @@ h2 {
 }
 
 .interestPicDetail {
-  width:300px;
+  width: 300px;
   border-style: solid;
   margin: 10px;
-  -moz-box-shadow: 0 0 5px #000000;
-  -webkit-box-shadow: 0 0 5px #000000;
-  box-shadow: 0 0 5px #000000;
+  -moz-box-shadow: 0 0 5px #000;
+  -webkit-box-shadow: 0 0 5px #000;
+  box-shadow: 0 0 5px #000;
 }
