@@ -22,8 +22,7 @@ function JoblistingItem({ joblisting }) {
                <h3 className={styles.joblistingItemTitle}>{joblisting.title}</h3>
             </Link>
             <div className={styles.companyJobtype}>
-                Company
-                {` • ${selectJobtype(joblisting.jobType)}`}
+                {`${joblisting.company} • ${selectJobtype(joblisting.jobType)}`}
             </div>
             <div>{sameYear(joblisting) ? `${joblisting.fromYear}.` :
              `${joblisting.fromYear}. - ${joblisting.toYear}.`} klasse</div>

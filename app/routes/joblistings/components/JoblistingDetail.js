@@ -19,7 +19,6 @@ export default class JoblistingDetail extends Component {
     if (!joblisting) {
       return <LoadingIndicator loading />;
     }
-    console.log(joblisting);
     return (
       <div className={styles.root}>
         <div className={styles.coverImage}>
@@ -28,7 +27,8 @@ export default class JoblistingDetail extends Component {
         <h1>{joblisting.title}</h1>
         <FlexRow>
           <FlexColumn className={styles.description}>
-            <Markdown>Hello</Markdown>
+            <Markdown>{joblisting.description}</Markdown>
+            <Markdown>{joblisting.text}</Markdown>
           </FlexColumn>
           <FlexColumn className={styles.meta}>
             <ul>

@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import styles from './JoblistingsPage.css';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
 import JoblistingsList from './JoblistingsList';
+import JoblistingsRightNav from './JoblistingsRightNav';
 
 export default class JoblistingsPage extends Component {
 
@@ -18,6 +19,9 @@ export default class JoblistingsPage extends Component {
       <div className={styles.root}>
         <JoblistingsList
           joblistings = {joblistings}
+        />
+        <JoblistingsRightNav
+          query = {this.props.query}
         />
       </div>
     );
