@@ -4,6 +4,10 @@
   color: white;
   margin-top: 50px;
   padding: 40px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .footer h2 {
@@ -13,16 +17,19 @@
 }
 
 .footerContent {
-  width: 970px;
-  margin: 0 auto;
+  max-width: 970px;
   display: flex;
+  flex-wrap: wrap;
+  margin-right: -1px;
 }
 
 .section {
   width: 100%;
   border-right: 1px solid #eee;
-  margin-right: 25px;
   padding-right: 25px;
+  padding-left: 25px;
+  min-width: 300px;
+  flex: 1;
   order: 1;
 
   &:first-child {

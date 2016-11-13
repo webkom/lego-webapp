@@ -1,6 +1,7 @@
 // @flow
 
 import '../../Root.css';
+import styles from './AppRoute.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loginAutomaticallyIfPossible, logout } from 'app/actions/UserActions';
@@ -30,7 +31,10 @@ class App extends Component {
     }
 
     return (
-      <div style={this.props.searchOpen ? { WebkitFilter: 'blur(10px)' } : null}>
+      <div
+        style={this.props.searchOpen ? { WebkitFilter: 'blur(10px)' } : null}
+        className={styles.AppRoute}
+      >
         <Header
           searchOpen={this.props.searchOpen}
           toggleSearch={this.props.toggleSearch}
