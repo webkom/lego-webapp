@@ -1,0 +1,12 @@
+.box {
+  margin-left: 2rem;
+  margin-top: 1rem;
+  min-height: 350px;
+  background: #f2ece8;
+  border: 1px solid #ddd;
+  padding: 10px;
+}
+
+.sort {
+  justify-content: space-around;
+}

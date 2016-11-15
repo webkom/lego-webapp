@@ -5,7 +5,7 @@ import { getImage } from 'app/utils';
 import Image from 'app/components/Image';
 import Time from 'app/components/Time';
 import { selectJobtype, sameYear } from '../utils.js';
-import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
+import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 
 function JoblistingItem({ joblisting }) {
   return (
@@ -14,15 +14,15 @@ function JoblistingItem({ joblisting }) {
         <FlexRow>
           <FlexColumn>
             <Link to={`/joblistings/${joblisting.id}/`}>
-               <Image src={getImage(joblisting.id)} className={styles.companyLogo} />
+              <Image src={getImage(joblisting.id)} className={styles.companyLogo} />
             </Link>
           </FlexColumn>
           <FlexColumn>
             <Link to={`/joblistings/${joblisting.id}/`}>
-               <h3 className={styles.joblistingItemTitle}>{joblisting.title}</h3>
+              <h3 className={styles.joblistingItemTitle}>{joblisting.title}</h3>
             </Link>
             <div className={styles.companyJobtype}>
-                {`${joblisting.company} • ${selectJobtype(joblisting.jobType)}`}
+              {`${joblisting.company} • ${selectJobtype(joblisting.jobType)}`}
             </div>
             <div>{sameYear(joblisting) ? `${joblisting.fromYear}.` :
              `${joblisting.fromYear}. - ${joblisting.toYear}.`} klasse</div>
@@ -47,7 +47,7 @@ function JoblistingListGroup({ joblistings = [] }) {
     <div>
       <FlexRow className={styles.heading}>
         <FlexColumn>
-        <h2 className={styles.headingText}>Jobbannonser</h2>
+          <h2 className={styles.headingText}>Jobbannonser</h2>
         </FlexColumn>
         <FlexColumn className={styles.headingDeadline}>
           Deadline:
@@ -71,11 +71,9 @@ class JoblistingsList extends Component {
   render() {
     const { joblistings } = this.props;
     return (
-      <div className={styles.root}>
-        <JoblistingListGroup
-          joblistings = {joblistings}
-        />
-      </div>
+      <JoblistingListGroup
+        joblistings={joblistings}
+      />
     );
   }
 }

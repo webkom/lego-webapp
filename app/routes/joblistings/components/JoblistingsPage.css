@@ -2,9 +2,22 @@
   composes: container from '../../../Root.css'
 }
 
+.page {
+  margin-top: 2rem;
+}
+
 h1 {
   font-size: 30px;
   font-weight: bold;
   display: block;
   margin: 15px 0;
+}
+
+.list {
+  min-width: 75%;
+}
+
+.rightNav {
+  min-width: 25%;
+  width: 25px;
 }
