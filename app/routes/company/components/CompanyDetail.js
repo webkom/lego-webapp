@@ -5,73 +5,104 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import { EventItem } from 'app/routes/events/components/EventList';
 import Image from 'app/components/Image';
 import { getImage } from 'app/utils';
+import InfoBubble from 'app/components/InfoBubble';
+import { Link } from 'react-router';
+import Button from 'app/components/Button';
+import Icon from 'app/components/Icon';
 
 type Props = {
-  company: Array<Object>
+  company: Array<Object>,
 };
 
-class CompanyDetail extends Component {
-  props: Props;
+function insertInfoBubbles(company) {
+  const infos = [['phone', company.phone], ['home', company.website],
+  ['twitter', company.twitter], ['facebook', company.facebook], ['github', company.github]];
 
+  return (
+    <div className={styles.infoBubbles}>
+      {infos
+        .map((info, i) => (
+          <InfoBubble
+            icon={info[0]}
+            data={info[1]}
+            style={{ order: i }}
+            link={info[1] && info[1].includes('/') ? info[1] : undefined}
+            bubbleClass={styles.bubble}
+            iconClass={styles.icon}
+            dataClass={styles.data}
+            metaClass={styles.meta}
+          />
+      ))}
+    </div>
+  );
+}
+
+export default class CompanyDetail extends Component {
+  props: Props;
 
   render() {
     const { company } = this.props;
     if (!company) {
       return <LoadingIndicator loading />;
     }
+
     return (
       <div className={styles.root}>
-        <div>
+        <div className={styles.picture} >
           <Image src={getImage(company.id, 1000, 300)} />
         </div>
 
-        <h2>{company.name}</h2>
-        <div className={styles.card}>
+        <div className={styles.titleFlex}>
+          <h1 className={styles.title} style={{ order: 1 }}>{company.name}</h1>
+          <Link to={'/companies'} className={styles.editLink} style={{ order: 2 }}>
+            <Button >
+              <Icon name='pencil' />
+              Endre
+            </Button>
+          </Link>
+        </div>
+
+        {insertInfoBubbles(company)}
+
+        <div className={styles.description}>
           <p>{company.description}</p>
-          <p>Address: {company.Address}</p>
-          <p>Phone: {company.phone}</p>
-          <p>Website: <a href={`https://www.${company.website}`}>{company.website}
-          </a></p>
         </div>
 
         <div>
-          <h3>Kommende arrangementer</h3>
+          <h3 className={styles.headings}>Kommende arrangementer</h3>
           {company.events
             .filter((event) => (moment().isSameOrBefore(event.startTime)))
-            .map((event, id) => (
-
+            .map((event) => (
               <EventItem
-                key={id}
+                key={event.id}
                 event={event}
               />
           ))}
         </div>
 
         <div>
-          <h3>Jobbannonser</h3>
+          <h3 className={styles.headings}>Jobbannonser</h3>
           <ul>
-            <p>joblisting 1</p>
-            <p>joblisting 2</p>
+            <li>joblisting 1</li>
+            <li>joblisting 2</li>
             <p>...</p>
           </ul>
         </div>
 
         <div>
-          <h3>Tidligere Events</h3>
+          <h3 className={styles.headings}>Tidligere Events</h3>
           {company.events
             .filter((event) => (moment().isAfter(event.startTime)))
-            .map((event, id) => (
-              <div>
-                <EventItem
-                  key={id}
-                  event={event}
-                />
-              </div>
+            .sort((a, b) => (moment(b.startTime) - moment(a.startTime)))
+            .map((event) => (
+              <EventItem
+                className={styles.eventItem}
+                key={event.id}
+                event={event}
+              />
           ))}
         </div>
       </div>
     );
   }
 }
-
-export default CompanyDetail;
