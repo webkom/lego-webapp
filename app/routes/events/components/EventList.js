@@ -19,9 +19,7 @@ function groupEvents(events) {
   const groupers = {
     currentWeek: (event) => event.startTime.isSame(now, 'week'),
     nextWeek: (event) => event.startTime.isSame(nextWeek, 'week'),
-    later: (event) => event.startTime.isAfter(nextWeek),
-    previous: (event) => event.endTime.isBefore(now, 'seconds'),
-    coming: (event) => event.endTime.isSameOrAfter(now, 'seconds')
+    later: (event) => event.startTime.isAfter(nextWeek)
   };
 
   return events.reduce((result, event) => {
