@@ -58,7 +58,7 @@ export const customDecorators = ([
 ]);
 
 
-export const createEditorState = (content = null) => EditorState.createEmpty();
+export const createEditorState = () => EditorState.createEmpty();
 
 /*
 Returns default block-level metadata for various block type. Empty object otherwise.

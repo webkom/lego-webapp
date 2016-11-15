@@ -1,6 +1,6 @@
-import BreakBlock from './blocks/Break';
-import EmbedBlock from './blocks/Embed';
-import TodoBlock from './blocks/Todo';
+import BreakBlock from './Blocks/Break';
+import EmbedBlock from './Blocks/Embed';
+import TodoBlock from './Blocks/Todo';
 import { Block } from './constants';
 
 export default (onChange, editorState) => (contentBlock) => {

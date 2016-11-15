@@ -10,12 +10,12 @@ const FRONT_EVENTS = 5;
 
 const OverviewItem = ({ article }) => (
   <div className={styles.item}>
-      <Link to={`/articles/${article.id}`}>
-        <Image
-          height={60}
-          src={getImage(article.id)}
-        />
-      </Link>
+    <Link to={`/articles/${article.id}`}>
+      <Image
+        height={60}
+        src={getImage(article.id)}
+      />
+    </Link>
     <h2 className={styles.itemTitle}>
       <Link to={`/articles/${article.id}`}>
         {article.title}
@@ -52,8 +52,7 @@ export default class Overview extends Component {
           </div>
         </div>
 
-        <div className={styles.sidebar}>
-        </div>
+        <div className={styles.sidebar} />
       </section>
     );
   }

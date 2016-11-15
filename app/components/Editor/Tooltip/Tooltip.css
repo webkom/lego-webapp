@@ -1,4 +1,3 @@
-
 .tooltip {
   background: #eff1f4;
   text-transform: uppercase;
@@ -21,11 +20,11 @@
   width: 1px;
   margin: 0 6px;
   height: 32px;
-  background: rgba(5,5,5,.9);
+  background: rgba(5, 5, 5, 0.9);
 }
 
 .tooltipButton {
-  margin: 0px 3px;
+  margin: 0 3px;
   cursor: pointer;
   vertical-align: -webkit-baseline-middle;
 }
@@ -37,13 +36,12 @@
 input.urlInput {
   font-size: 16px;
   width: 260px;
-  margin-right: 5px;
-  background-color: rgba(255,255,255,0);
+  background-color: rgba(255, 255, 255, 0);
   border: none;
   outline: 0;
   border-bottom: 1px solid darkgray;
-  padding: 4px 0px;
-  margin: 4px 4px;
+  padding: 4px 0;
+  margin: 4px;
 }
 
 .urlInputIcon {

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-find-dom-node */
 import React, { Component } from 'react';
 import { Entity } from 'draft-js';
 import { BlockButtons, InlineButtons, Entity as EntityConstants } from '../constants';
@@ -78,7 +79,7 @@ export default class Tooltip extends Component {
     this.setState({ urlInputValue: e.target.value });
   }
 
-  handleBlur = (e) => {
+  handleBlur = () => {
     this.setState({
       showUrlInput: false,
       urlInputValue: ''
@@ -94,12 +95,13 @@ export default class Tooltip extends Component {
           urlInputValue: ''
         });
         break;
+      default:
+        return;
     }
   }
 
   render() {
     const { editorState, toggleInlineStyle, toggleBlockType } = this.props;
-    console.log(this.state);
     return (
       <div
         className={styles.tooltip}
@@ -133,37 +135,36 @@ export default class Tooltip extends Component {
 
           </div> : <div>
 
-          {BlockButtons.map((button, key) =>
+            {BlockButtons.map((button, key) =>
+              <TooltipButton
+                key={key}
+                editorState={editorState}
+                onClick={toggleBlockType}
+                type='block'
+                {...button}
+              />
+            )}
+
+            <span className={styles.tooltipSeperator} />
+
+            {InlineButtons.map((button, key) =>
+              <TooltipButton
+                key={key}
+                onClick={toggleInlineStyle}
+                editorState={editorState}
+                type='inline'
+                {...button}
+              />
+            )}
+
             <TooltipButton
-              key={key}
-              editorState={editorState}
-              onClick={toggleBlockType}
               type='block'
-              {...button}
-            />
-          )}
-
-          <span className={styles.tooltipSeperator} />
-
-          {InlineButtons.map((button, key) =>
-            <TooltipButton
-              key={key}
-              onClick={toggleInlineStyle}
               editorState={editorState}
-              type='inline'
-              {...button}
+              label='Link'
+              icon='link'
+              onClick={() => { this.setState({ showUrlInput: true }); }}
+              description='Hyperlink'
             />
-          )}
-
-          <TooltipButton
-            type='block'
-            editorState={editorState}
-            label='Link'
-            style='link'
-            icon='link'
-            onClick={() => { this.setState({ showUrlInput: true }); }}
-            description='Hyperlink'
-          />
 
           </div>
         }

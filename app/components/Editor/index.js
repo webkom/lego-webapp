@@ -1,3 +1,4 @@
+/* eslint-disable react/no-find-dom-node */
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
@@ -132,7 +133,7 @@ class EditorComponent extends Component {
   }
 
 
-  onFocus = (e) => {
+  onFocus = () => {
     this.setState({ active: true });
   }
 
@@ -150,54 +151,54 @@ class EditorComponent extends Component {
         id='editor'
       >
 
-          <Editor
-            plugins={[emojiPlugin, mentionPlugin]}
-            stripPastedStyles
-            decorators={utils.customDecorators}
-            ref={(node) => { this.editorRoot = node; }}
-            handleReturn={this.handleReturn}
-            editorState={editorState}
-            customStyleMap={customStyleMap}
-            blockRenderMap={RenderMap}
-            blockRendererFn={this.customRenderer}
-            placeholder={this.props.placeholder}
-            onChange={this.onChange}
-            onFocus={this.onFocus}
+        <Editor
+          plugins={[emojiPlugin, mentionPlugin]}
+          stripPastedStyles
+          decorators={utils.customDecorators}
+          ref={(node) => { this.editorRoot = node; }}
+          handleReturn={this.handleReturn}
+          editorState={editorState}
+          customStyleMap={customStyleMap}
+          blockRenderMap={RenderMap}
+          blockRendererFn={this.customRenderer}
+          placeholder={this.props.placeholder}
+          onChange={this.onChange}
+          onFocus={this.onFocus}
+        />
+
+        {this.state.active &&
+          <EmojiSuggestions />
+        }
+
+        {this.state.active &&
+          <MentionSuggestions
+            onSearchChange={this.props.onMention}
+            suggestions={this.props.mentions}
           />
+        }
 
-          {this.state.active &&
-            <EmojiSuggestions />
-          }
+        {blockLength === 0 && this.state.active && !this.props.simpleEditor ?
+          <Toolbar
+            editorState={editorState}
+            editorRoot={this.editorRoot}
+            active={this.state.active}
+            onChange={this.onChange}
+          /> : null
+        }
 
-          {this.state.active &&
-            <MentionSuggestions
-              onSearchChange={this.props.onMention}
-              suggestions={this.props.mentions}
-            />
-          }
+        {!editorState.getSelection().isCollapsed() && this.state.active ?
+          <Tooltip
+            editorState={editorState}
+            simpleEditor={this.props.simpleEditor}
+            focus={this.focus}
+            editorRoot={this.editorRoot}
+            toggleLink={this.toggleLink}
+            toggleInlineStyle={this.toggleInlineStyle}
+            toggleBlockType={this.toggleBlockType}
+          /> : null
+        }
 
-          {blockLength === 0 && this.state.active && !this.props.simpleEditor ?
-            <Toolbar
-              editorState={editorState}
-              editorRoot={this.editorRoot}
-              active={this.state.active}
-              onChange={this.onChange}
-            /> : null
-          }
-
-          {!editorState.getSelection().isCollapsed() && this.state.active ?
-            <Tooltip
-              editorState={editorState}
-              simpleEditor={this.props.simpleEditor}
-              focus={this.focus}
-              editorRoot={this.editorRoot}
-              toggleLink={this.toggleLink}
-              toggleInlineStyle={this.toggleInlineStyle}
-              toggleBlockType={this.toggleBlockType}
-            /> : null
-          }
-
-    </div>
+      </div>
     );
   }
 }

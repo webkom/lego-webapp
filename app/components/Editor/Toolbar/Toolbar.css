@@ -1,6 +1,5 @@
-
 .toolbar {
-  position: absolute;;
+  position: absolute;
   display: inline-block;
   left: -20px;
   top: 0;
@@ -23,7 +22,7 @@
 }
 
 .toolbarButton {
-  margin: 0px 6px;
+  margin: 0 6px;
   z-index: 300;
   cursor: pointer;
   vertical-align: -webkit-baseline-middle;

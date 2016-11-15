@@ -1,3 +1,4 @@
+/* eslint-disable react/no-find-dom-node */
 import React, { Component } from 'react';
 import Icon from 'app/components/Icon';
 import ReactDOM from 'react-dom';
@@ -56,37 +57,36 @@ export default class Toolbar extends Component {
 
   render() {
     return (
-        <div className={styles.toolbar} style={{ top: this.state.top }}>
+      <div className={styles.toolbar} style={{ top: this.state.top }}>
 
-          <Icon
-            onMouseDown={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              this.setState({ open: !this.state.open });
-            }}
-            name='plus'
-            className={this.state.open ? styles.activeButton : ''}
-          />
+        <Icon
+          onMouseDown={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            this.setState({ open: !this.state.open });
+          }}
+          name='plus'
+          className={this.state.open ? styles.activeButton : ''}
+        />
 
         {this.state.open && <div className={styles.toolbarButtons}>
-            <Break
-              onChange={this.props.onChange}
-              onClose={this.handleClose}
-              editorState={this.props.editorState}
-            />
-            <Embed
-              onChange={this.props.onChange}
-              onClose={this.handleClose}
-              editorState={this.props.editorState}
-            />
-            <Image
-              onChange={this.props.onChange}
-              onClose={this.handleClose}
-              editorState={this.props.editorState}
-            />
-          </div>}
+          <Break
+            onChange={this.props.onChange}
+            onClose={this.handleClose}
+            editorState={this.props.editorState}
+          />
+          <Embed
+            onChange={this.props.onChange}
+            onClose={this.handleClose}
+            editorState={this.props.editorState}
+          />
+          <Image
+            onChange={this.props.onChange}
+            onClose={this.handleClose}
+            editorState={this.props.editorState}
+          />
+        </div>}
 
-      </div>
-      );
+      </div>);
   }
 }

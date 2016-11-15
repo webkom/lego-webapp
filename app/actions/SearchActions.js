@@ -29,7 +29,7 @@ export function search(query) {
 }
 
 export function mention(query) {
-  return (dispatch, getState) => {
+  return (dispatch) => {
     if (!query) {
       return Promise.resolve();
     }

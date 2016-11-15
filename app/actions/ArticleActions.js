@@ -1,7 +1,8 @@
 import { arrayOf } from 'normalizr';
 import { Article } from './ActionTypes';
 import { articleSchema } from 'app/reducers';
-import { callAPI, createQueryString } from 'app/utils/http';
+import callAPI from 'app/actions/callAPI';
+import createQueryString from 'app/utils/createQueryString';
 
 export function fetchArticle(articleId) {
   return callAPI({

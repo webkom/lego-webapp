@@ -58,12 +58,9 @@ export default class Comment extends Component {
 
             <div
               className={styles.text}
-              style={{
-                fontStyle: this.state.replyOpen && 'italic'
-              }}
+              style={{ fontStyle: this.state.replyOpen && 'italic' }}
               dangerouslySetInnerHTML={{ __html: text }}
-            >
-            </div>
+            />
           </div>
         </div>
 

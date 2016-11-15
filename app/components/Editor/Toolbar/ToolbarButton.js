@@ -2,7 +2,7 @@ import React from 'react';
 import { RichUtils } from 'draft-js';
 import cx from 'classnames';
 import Icon from 'app/components/Icon';
-import styles from './Tooltip.css';
+import styles from '../Tooltip/Tooltip.css';
 
 export default (props) => {
   const blockType = RichUtils.getCurrentBlockType(props.editorState);

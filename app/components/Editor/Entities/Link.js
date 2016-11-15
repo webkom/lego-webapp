@@ -21,10 +21,8 @@ type Props = {
 }
 
 export default (props: Props) => {
-  console.log(props);
   const { url } = Entity.get(props.entityKey).getData();
-  console.log(url);
   return (
-    <a href={url} target='_blank'>{props.children}</a>
+    <a href={url}>{props.children}</a>
   );
 };

@@ -14,7 +14,8 @@
   border-right: 1px solid #ddd;
 }
 
-.headline, .normal {
+.headline,
+.normal {
   display: flex;
   flex-direction: row;
   border-bottom: 1px solid #ddd;
@@ -74,7 +75,7 @@
 }
 
 .itemInfo {
-  transition: color .2s;
+  transition: color 0.2s;
   font-size: 0.8rem;
   font-weight: 600;
   color: rgba(0, 0, 0, 0.8);
@@ -89,7 +90,7 @@
 }
 
 .normal .itemDescription {
-  font-size: 1.0rem;
+  font-size: 1rem;
 }
 
 .sidebar {

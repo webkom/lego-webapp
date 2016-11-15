@@ -9,7 +9,6 @@ import Button from 'app/components/Button';
 import ProfilePicture from 'app/components/ProfilePicture';
 import { addComment } from 'app/actions/CommentActions';
 import styles from './CommentForm.css';
-import FieldWrapper from 'app/components/Form/FieldWrapper';
 
 const validate = (values) => {
   const errors = {};
@@ -84,8 +83,7 @@ class CommentForm extends Component {
             placeholder='Skriv noe her...'
             autoFocus={autoFocus}
             name='text'
-            component={FieldWrapper}
-            inputComponent={EditorField}
+            component={EditorField}
             simpleEditor
             type='text'
           />
