@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { EditorBlock } from 'draft-js';
-import { updateDataOfBlock } from '../models';
+import { updateDataOfBlock } from '../utils';
 import styles from './Todo.css';
 
 export type Props = {

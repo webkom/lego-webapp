@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { Block } from '../constants';
-import { addNewBlock } from '../models';
+import { addNewBlock } from '../utils';
 import Icon from 'app/components/Icon';
 import styles from './Toolbar.css';
 

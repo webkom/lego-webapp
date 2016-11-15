@@ -2,19 +2,18 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { debounce } from 'lodash';
-import isSoftNewlineEvent from 'draft-js/lib/isSoftNewlineEvent';
-import { createEditorState, addNewBlockAt, customDecorators, resetBlockWithType } from './models';
-import { RichUtils } from 'draft-js';
-import { toHTML } from './utils';
-import Editor from 'draft-js-plugins-editor';
-import { getMentions } from 'app/reducers/search';
-import createEmojiPlugin from 'draft-js-emoji-plugin';
-import { mention } from 'app/actions/SearchActions';
-import createMentionPlugin from 'draft-js-mention-plugin';
-import { Block, customStyleMap } from './constants';
 import 'draft-js/dist/Draft.css';
 import 'draft-js-emoji-plugin/lib/plugin.css';
 import 'draft-js-mention-plugin/lib/plugin.css';
+import isSoftNewlineEvent from 'draft-js/lib/isSoftNewlineEvent';
+import Editor from 'draft-js-plugins-editor';
+import { RichUtils } from 'draft-js';
+import createEmojiPlugin from 'draft-js-emoji-plugin';
+import createMentionPlugin from 'draft-js-mention-plugin';
+import { getMentions } from 'app/reducers/search';
+import { mention } from 'app/actions/SearchActions';
+import { Block, customStyleMap } from './constants';
+import * as utils from './utils';
 import Tooltip from './Tooltip';
 import Toolbar from './Toolbar';
 import RenderMap from './RenderMap';
@@ -37,7 +36,7 @@ class EditorComponent extends Component {
   props: Props;
 
   state = {
-    editorState: createEditorState(),
+    editorState: utils.createEditorState(),
     active: false
   }
 
@@ -65,7 +64,7 @@ class EditorComponent extends Component {
     this.setState(
       { editorState },
       () => {
-        this.props.onChange(toHTML(this.state.editorState.getCurrentContent()));
+        this.props.onChange(utils.toHTML(this.state.editorState.getCurrentContent()));
       }
     );
   }
@@ -85,13 +84,6 @@ class EditorComponent extends Component {
 
   customRenderer = customRenderer(this.onChange, this.state.editorState);
 
-  /*
-  By default, it handles return key for inserting soft breaks (BRs in HTML) and
-  also instead of inserting a new empty block after current empty block, it first check
-  whether the current block is of a type other than `unstyled`. If yes, current block is
-  simply converted to an unstyled empty block. If RETURN is pressed on an unstyled block
-  default behavior is executed.
-  */
   handleReturn = (e) => {
     const { editorState } = this.state;
 
@@ -107,7 +99,7 @@ class EditorComponent extends Component {
       const blockType = currentBlock.getType();
 
       if (blockType.indexOf('atomic') === 0) {
-        this.onChange(addNewBlockAt(editorState, currentBlock.getKey()));
+        this.onChange(utils.addNewBlockAt(editorState, currentBlock.getKey()));
         return true;
       }
 
@@ -122,7 +114,7 @@ class EditorComponent extends Component {
           case Block.H2:
           case Block.H3:
           case Block.H1:
-            this.onChange(resetBlockWithType(editorState, Block.UNSTYLED));
+            this.onChange(utils.resetBlockWithType(editorState, Block.UNSTYLED));
             return true;
           default:
             return false;
@@ -161,7 +153,7 @@ class EditorComponent extends Component {
           <Editor
             plugins={[emojiPlugin, mentionPlugin]}
             stripPastedStyles
-            decorators={customDecorators}
+            decorators={utils.customDecorators}
             ref={(node) => { this.editorRoot = node; }}
             handleReturn={this.handleReturn}
             editorState={editorState}
@@ -173,7 +165,10 @@ class EditorComponent extends Component {
             onFocus={this.onFocus}
           />
 
-          {this.state.active && <EmojiSuggestions />}
+          {this.state.active &&
+            <EmojiSuggestions />
+          }
+
           {this.state.active &&
             <MentionSuggestions
               onSearchChange={this.props.onMention}

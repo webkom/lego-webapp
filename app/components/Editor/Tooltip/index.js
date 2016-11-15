@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Entity } from 'draft-js';
-import { BlockButtons, InlineButtons, Entity as EntityConstants } from './constants';
+import { BlockButtons, InlineButtons, Entity as EntityConstants } from '../constants';
 import ReactDOM from 'react-dom';
 import TooltipButton from './TooltipButton';
 import styles from './Tooltip.css';
