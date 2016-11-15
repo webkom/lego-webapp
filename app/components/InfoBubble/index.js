@@ -10,7 +10,7 @@ type Props = {
 };
 
 const httpCheck = (link) => {
-  return link.startsWith('http') ? link : `http://${link}`;
+  return link.startsWith('http://') ? link : `http://${link}`;
 };
 
 const noLinkIcon = (icon, bubbleClass, iconClass) => (
