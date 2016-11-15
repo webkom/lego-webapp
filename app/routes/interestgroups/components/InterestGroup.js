@@ -20,7 +20,7 @@ class InterestGroup extends Component {
           <div className={styles.paragraph}>
             <p>{this.props.group.descriptionLong}</p>
             <p className={styles.bold}>
-              Antall medlemmer i {this.props.group.name}: {this.state.memberCount}
+              Antall medlemmer i {this.props.group.name}: {this.props.group.numberOfUsers}
             </p>
           </div>
           <Image className={styles.interestPic} src={getImage(this.props.group.id)} />

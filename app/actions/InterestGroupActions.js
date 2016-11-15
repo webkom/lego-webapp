@@ -3,6 +3,8 @@ import { interestGroupSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { InterestGroup } from './ActionTypes';
 
+/* CallAPI lager en HTTP-melding og sender den av gårde */
+
 export function fetchInterestGroup(interestGroupId) {
   return callAPI({
     types: InterestGroup.FETCH,
