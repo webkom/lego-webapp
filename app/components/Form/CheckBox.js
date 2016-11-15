@@ -10,15 +10,15 @@ type Props = {
   className?: string
 };
 
-function CheckBox({ label, className, ...props }: Props) {
+function CheckBox({ id, label, className, ...props }: Props) {
   return (
     <div className={className}>
       <input
         type='checkbox'
-        id={label}
+        id={id}
         {...props}
       />
-      <label htmlFor={label}>{label}</label>
+      <label htmlFor={id}>{label}</label>
     </div>
   );
 }
