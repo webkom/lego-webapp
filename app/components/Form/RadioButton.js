@@ -10,15 +10,15 @@ type Props = {
   className?: string
 };
 
-function RadioButton({ label, className, ...props }: Props) {
+function RadioButton({ id, label, className, ...props }: Props) {
   return (
     <div className={className}>
       <input
         type='radio'
-        id={label}
+        id={id}
         {...props}
       />
-      <label htmlFor={label}>{label}</label>
+      <label htmlFor={id}>{label}</label>
     </div>
   );
 }
