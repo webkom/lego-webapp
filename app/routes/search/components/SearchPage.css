@@ -1,0 +1,6 @@
+@import '../../../variables.css';
+
+.root {
+  composes: container from '../../../Root.css';
+  margin-top: 2rem;
+}

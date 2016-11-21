@@ -1,3 +1,4 @@
+// @flow
 import callAPI from 'app/actions/callAPI';
 import { Search } from './ActionTypes';
 
@@ -7,7 +8,29 @@ export function toggleSearch() {
   };
 }
 
-export function search(query) {
+export function autocomplete(query, filter) {
+  return (dispatch) => {
+    if (!query) {
+      return Promise.resolve();
+    }
+
+    return dispatch(callAPI({
+      endpoint: '/search/autocomplete/',
+      types: Search.AUTOCOMPLETE,
+      method: 'post',
+      body: {
+        query,
+        types: filter
+      },
+      meta: {
+        query,
+        errorMessage: 'Autocomplete failed'
+      }
+    }));
+  };
+}
+
+export function search(query, types) {
   return (dispatch) => {
     if (!query) {
       return Promise.resolve();
@@ -18,7 +41,8 @@ export function search(query) {
       types: Search.SEARCH,
       method: 'post',
       body: {
-        query
+        query,
+        types
       },
       meta: {
         query,

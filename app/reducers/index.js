@@ -8,6 +8,7 @@ import articles from './articles';
 import pools from './pools';
 import registrations from './registrations';
 import search from './search';
+import autocomplete from './autocomplete';
 import auth from './auth';
 import users from './users';
 import groups from './groups';
@@ -22,6 +23,7 @@ export default combineReducers({
   pools,
   registrations,
   search,
+  autocomplete,
   comments,
   auth,
   form,
