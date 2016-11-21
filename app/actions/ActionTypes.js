@@ -56,6 +56,7 @@ export const Quote = {
  */
 export const Search = {
   SEARCH: generateStatuses('Search.SEARCH'),
+  AUTOCOMPLETE: generateStatuses('Search.AUTOCOMPLETE'),
   RESULTS_RECEIVED: 'Search.RESULTS_RECEIVED',
   TOGGLE_OPEN: 'Search.TOGGLE_OPEN'
 };

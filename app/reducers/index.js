@@ -5,6 +5,7 @@ import { reducer as form } from 'redux-form';
 import quotes from './quotes';
 import events from './events';
 import search from './search';
+import autocomplete from './autocomplete';
 import auth from './auth';
 import users from './users';
 import groups from './groups';
@@ -15,6 +16,7 @@ export default combineReducers({
   quotes,
   events,
   search,
+  autocomplete,
   comments,
   auth,
   form,
