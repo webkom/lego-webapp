@@ -10,7 +10,9 @@ function generateStatuses(name) {
  *
  */
 export const Event = {
-  FETCH: generateStatuses('Event.FETCH')
+  FETCH: generateStatuses('Event.FETCH'),
+  REGISTER: generateStatuses('Event.REGISTER'),
+  UNREGISTER: generateStatuses('Event.UNREGISTER')
 };
 
 /**

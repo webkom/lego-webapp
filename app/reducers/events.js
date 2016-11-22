@@ -48,6 +48,29 @@ export const selectEventById = createSelector(
   }
 );
 
+export const selectPoolsForEvent = createSelector(
+  selectEventById,
+  (state) => state.pools.byId,
+  (event, poolsById) => {
+    if (!event) return [];
+    return (event.pools || []).map((poolId) => (poolsById[poolId]));
+  }
+);
+
+export const selectRegistrationsForEvent = createSelector(
+  selectEventById,
+  (state) => state.pools.byId,
+  (state) => state.registrations.byId,
+  (event, poolsById, registrationsById) => {
+    if (!event) return [];
+    return (event.pools || []).reduce((users, poolId) => {
+      const poolUsers = poolsById[poolId].registrations
+      .map((regId) => registrationsById[regId].user);
+      return [...users, ...poolUsers];
+    }, []);
+  }
+);
+
 export const selectCommentsForEvent = createSelector(
   selectEventById,
   (state) => state.comments.byId,

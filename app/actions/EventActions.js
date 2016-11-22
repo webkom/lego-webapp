@@ -25,3 +25,26 @@ export function fetchAll({ year, month } = {}) {
     }
   });
 }
+
+export function register(eventId) {
+  return callAPI({
+    types: Event.REGISTER,
+    endpoint: `/events/${eventId}/registrations/`,
+    method: 'post',
+    body: {},
+    meta: {
+      errorMessage: 'Registering to event failed'
+    }
+  });
+}
+
+export function unregister(eventId, registrationId) {
+  return callAPI({
+    types: Event.UNREGISTER,
+    endpoint: `/events/${eventId}/registrations/${registrationId}/`,
+    method: 'delete',
+    meta: {
+      errorMessage: 'Unregistering from event failed'
+    }
+  });
+}

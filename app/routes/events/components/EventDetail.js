@@ -32,19 +32,16 @@ const InterestedButton = ({ value, onClick }) => {
  */
 export type Props = {
   event: Event;
+  eventId: Number;
   comments: Array;
+  pools: Array;
+  registrations: Array;
   loggedIn: boolean;
   isUserInterested: boolean;
   currentUser: any;
+  register: (eventId: Number) => Promise<*>;
+  unregister: (eventId: Number, registrationId: Number) => Promise<*>;
 };
-
-function selectRegistrations(event) {
-  return (event.pools || [])
-    .reduce((users, pool) => {
-      const poolUsers = pool.registrations.map((reg) => reg.user);
-      return [...users, ...poolUsers];
-    }, []);
-}
 
 /**
  *
@@ -57,6 +54,12 @@ export default class EventDetail extends Component {
   };
 
   handleJoinSubmit = (messageToOrganizers) => {
+    this.props.register(this.props.eventId);
+    console.log(messageToOrganizers);
+  };
+
+  handleUnregisterSubmit = (messageToOrganizers) => {
+    this.props.unregister(this.props.eventId, this.props.event.registrationId);
     console.log(messageToOrganizers);
   };
 
@@ -65,13 +68,14 @@ export default class EventDetail extends Component {
   };
 
   render() {
-    const { event, loggedIn, currentUser, comments } = this.props;
+    const { event, loggedIn, currentUser, comments, pools, registrations } = this.props;
 
     if (!event.id) {
       return <LoadingIndicator loading />;
     }
 
-    const registrations = selectRegistrations(event);
+    const joinTitle = !event.registrationId ? 'MELD DEG PÅ' : 'AVREGISTRER';
+    const joinMethod = !event.registrationId ? this.handleJoinSubmit : this.handleUnregisterSubmit;
 
     return (
       <div className={styles.root}>
@@ -102,7 +106,7 @@ export default class EventDetail extends Component {
                   ))}
                 </FlexRow>
                 <RegisteredSummary registrations={registrations} />
-                <AttendanceStatus title='Påmeldte' pools={event.pools} />
+                <AttendanceStatus title='Påmeldte' pools={pools} />
               </FlexItem>
             )}
           </FlexColumn>
@@ -124,7 +128,8 @@ export default class EventDetail extends Component {
 
               {this.state.joinFormOpen && (
                 <JoinEventForm
-                  onSubmit={this.handleJoinSubmit}
+                  title={joinTitle}
+                  onSubmit={joinMethod}
                 />
               )}
             </FlexColumn>
@@ -133,7 +138,7 @@ export default class EventDetail extends Component {
           <FlexColumn className={styles.openFor}>
             <strong>Åpent for</strong>
             <ul>
-              {(event.pools || []).map((pool) => (
+              {(pools || []).map((pool) => (
                 <li key={pool.id}>{pool.permissionGroups}</li>
             ))}
             </ul>
