@@ -59,13 +59,20 @@ export default class EventDetail extends Component {
   };
 
   handleUnregisterSubmit = (messageToOrganizers) => {
-    this.props.unregister(this.props.eventId, this.props.event.registrationId);
+    this.props.unregister(this.props.eventId, this.selectRegistrationId());
     console.log(messageToOrganizers);
   };
 
   toggleJoinFormOpen = () => {
     this.setState({ joinFormOpen: !this.state.joinFormOpen });
   };
+
+  selectRegistrationId = () => {
+    const registration = this.props.registrations.find((reg) => {
+      return (reg.user.id === this.props.currentUser.id);
+    });
+    return registration ? registration.id : null;
+  }
 
   render() {
     const { event, loggedIn, currentUser, comments, pools, registrations } = this.props;
@@ -74,8 +81,9 @@ export default class EventDetail extends Component {
       return <LoadingIndicator loading />;
     }
 
-    const joinTitle = !event.registrationId ? 'MELD DEG PÅ' : 'AVREGISTRER';
-    const joinMethod = !event.registrationId ? this.handleJoinSubmit : this.handleUnregisterSubmit;
+    const registrationId = this.selectRegistrationId();
+    const joinTitle = !registrationId ? 'MELD DEG PÅ' : 'AVREGISTRER';
+    const joinMethod = !registrationId ? this.handleJoinSubmit : this.handleUnregisterSubmit;
 
     return (
       <div className={styles.root}>
@@ -102,7 +110,7 @@ export default class EventDetail extends Component {
                 <h3>Påmeldte:</h3>
                 <FlexRow className={styles.registeredThumbnails}>
                   {registrations.slice(0, 10).map((reg) => (
-                    <RegisteredCell key={reg.id} user={reg} />
+                    <RegisteredCell key={reg.user.id} user={reg.user} />
                   ))}
                 </FlexRow>
                 <RegisteredSummary registrations={registrations} />

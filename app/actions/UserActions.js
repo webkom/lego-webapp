@@ -45,8 +45,9 @@ export function login(username, password) {
 }
 
 export function logout() {
-  return (dispatch) => {
+  return (dispatch, getState, socket) => {
     window.localStorage.removeItem(USER_STORAGE_KEY);
+    socket.close();
     dispatch({ type: User.LOGOUT });
     dispatch(replace('/'));
   };
@@ -110,7 +111,7 @@ export function refreshToken(token) {
 }
 
 export function loginWithExistingToken(user, token) {
-  return (dispatch) => {
+  return (dispatch, getState, socket) => {
     const expirationDate = getExpirationDate(token);
     const now = moment();
 
@@ -132,6 +133,7 @@ export function loginWithExistingToken(user, token) {
       type: User.LOGIN.SUCCESS,
       payload: { user, token }
     });
+    socket.open(dispatch, token);
 
     dispatch({
       type: User.FETCH.SUCCESS,

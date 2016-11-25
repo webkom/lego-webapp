@@ -63,10 +63,10 @@ export const selectRegistrationsForEvent = createSelector(
   (state) => state.registrations.byId,
   (event, poolsById, registrationsById) => {
     if (!event) return [];
-    return (event.pools || []).reduce((users, poolId) => {
-      const poolUsers = poolsById[poolId].registrations
-      .map((regId) => registrationsById[regId].user);
-      return [...users, ...poolUsers];
+    return (event.pools || []).reduce((registrations, poolId) => {
+      const poolRegistrations = poolsById[poolId].registrations
+      .map((regId) => registrationsById[regId]);
+      return [...registrations, ...poolRegistrations];
     }, []);
   }
 );
