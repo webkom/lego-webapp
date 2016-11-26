@@ -68,9 +68,9 @@ export default class EventDetail extends Component {
   };
 
   selectRegistrationId = () => {
-    const registration = this.props.registrations.find((reg) => {
-      return (reg.user.id === this.props.currentUser.id);
-    });
+    const registration = this.props.registrations.find((reg) => (
+      reg.user.id === this.props.currentUser.id
+    ));
     return registration ? registration.id : null;
   }
 

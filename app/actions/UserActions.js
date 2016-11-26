@@ -5,6 +5,7 @@ import { push, replace } from 'react-router-redux';
 import { userSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { User } from './ActionTypes';
+import connectWebsockets from '../utils/websockets';
 
 const USER_STORAGE_KEY = 'user';
 
@@ -45,9 +46,9 @@ export function login(username, password) {
 }
 
 export function logout() {
-  return (dispatch, getState, socket) => {
+  return (dispatch) => {
     window.localStorage.removeItem(USER_STORAGE_KEY);
-    socket.close();
+    connectWebsockets(dispatch);
     dispatch({ type: User.LOGOUT });
     dispatch(replace('/'));
   };
@@ -111,7 +112,7 @@ export function refreshToken(token) {
 }
 
 export function loginWithExistingToken(user, token) {
-  return (dispatch, getState, socket) => {
+  return (dispatch) => {
     const expirationDate = getExpirationDate(token);
     const now = moment();
 
@@ -133,7 +134,7 @@ export function loginWithExistingToken(user, token) {
       type: User.LOGIN.SUCCESS,
       payload: { user, token }
     });
-    socket.open(dispatch, token);
+    connectWebsockets(dispatch, token);
 
     dispatch({
       type: User.FETCH.SUCCESS,

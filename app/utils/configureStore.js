@@ -6,7 +6,6 @@ import { routerMiddleware } from 'react-router-redux';
 import { addNotification } from 'app/actions/NotificationActions';
 import promiseMiddleware from './promiseMiddleware';
 import createErrorMiddleware from './errorMiddleware';
-import { WS } from './websockets';
 
 const loggerMiddleware = createLogger({
   level: 'info',
@@ -16,10 +15,9 @@ const loggerMiddleware = createLogger({
 const errorMiddleware = createErrorMiddleware((message) => addNotification({ message }));
 
 export default function configureStore(initialState = {}) {
-  const socket = new WS();
   const middlewares = [
     routerMiddleware(browserHistory),
-    thunkMiddleware.withExtraArgument(socket),
+    thunkMiddleware,
     promiseMiddleware,
     errorMiddleware
   ];

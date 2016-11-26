@@ -1,40 +1,23 @@
 import config from '../config';
-import { User } from '../actions/ActionTypes';
+import createQueryString from './createQueryString';
+import WebSocketClient from 'websocket.js';
 
-export class WS {
-  constructor() {
-    this.sock = null;
-  }
+let socket;
 
-  onMessage = (dispatch) => (evt) => {
-    const msg = JSON.parse(evt.data);
-    console.log('WS:', msg);
-    dispatch({
-      type: msg.type,
-      payload: msg.payload
-    });
-  }
+function handleMessage(dispatch, data) {
+  dispatch({
+    type: data.type,
+    payload: data.payload
+  });
+}
 
-  open = (dispatch, jwt) => {
-    dispatch({
-      type: User.SOCKET.BEGIN,
-    });
-    this.sock = new WebSocket(`${config.wsServerUrl}?jwt=${jwt}`);
-    if (this.sock.OPEN) {
-      this.sock.onmessage = this.onMessage(dispatch);
-      dispatch({
-        type: User.SOCKET.SUCCESS
-      });
-    } else {
-      dispatch({
-        type: User.SOCKET.FAILURE
-      });
-      this.sock = null;
-    }
-  }
 
-  close = () => {
-    this.sock.close();
-    this.sock = null;
-  }
+export default function connectWebsockets(dispatch, jwt) {
+  const qs = createQueryString({ jwt });
+  if (socket) socket.close();
+  socket = new WebSocketClient(`${config.wsServerUrl}/${qs}`);
+  socket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    handleMessage(dispatch, data);
+  };
 }

@@ -994,6 +994,12 @@ babylon@^6.11.0, babylon@^6.11.2, babylon@^6.8.1, babylon@^6.9.0:
   version "6.11.4"
   resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.11.4.tgz#75e1f52187efa0cde5a541a7f7fdda38f6eb5bd2"
 
+backoff@^2.4.1:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/backoff/-/backoff-2.5.0.tgz#f616eda9d3e4b66b8ca7fca79f695722c5f8e26f"
+  dependencies:
+    precond "0.2"
+
 balanced-match@^0.2.0:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-0.2.1.tgz#7bc658b4bed61eee424ad74f75f5c3e2c4df3cc7"
@@ -5038,6 +5044,10 @@ postcss@^5.0.0, postcss@^5.0.10, postcss@^5.0.11, postcss@^5.0.12, postcss@^5.0.
     source-map "^0.5.6"
     supports-color "^3.1.2"
 
+precond@0.2:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/precond/-/precond-0.2.3.tgz#aa9591bcaa24923f1e0f4849d240f47efc1075ac"
+
 prelude-ls@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
@@ -6432,6 +6442,12 @@ websocket-driver@>=0.3.6:
 websocket-extensions@>=0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/websocket-extensions/-/websocket-extensions-0.1.1.tgz#76899499c184b6ef754377c2dbb0cd6cb55d29e7"
+
+websocket.js:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/websocket.js/-/websocket.js-0.1.6.tgz#c74eac06ac2e0a112f315a21a3a791bb8dc24241"
+  dependencies:
+    backoff "^2.4.1"
 
 whatwg-fetch@>=0.10.0:
   version "1.0.0"
