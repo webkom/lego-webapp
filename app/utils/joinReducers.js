@@ -8,14 +8,14 @@ type Reducer<S, A> = (state: S, action: A) => S;
  * reduced prevState.
  */
 export default function joinReducers<S, A>(...reducers: Array<?Reducer<S, A>>): Reducer<S, A> {
-  return (state, action) => {
-    return reducers
+  return (state, action) => (
+    reducers
       .reduce((nextState, reducer) => {
         if (typeof reducer !== 'function') {
           return nextState;
         }
 
         return reducer(nextState, action);
-      }, state);
-  };
+      }, state)
+    );
 }

@@ -14,9 +14,9 @@ const Registration = ({ registration }) => (
 
 const renderNameList = (registrations) => (
   <FlexColumn>
-    {registrations.map((reg) => {
-      return <FlexItem key={reg.id}>{reg.user.fullName}</FlexItem>;
-    })}
+    {registrations.map((reg) => (
+      <FlexItem key={reg.id}>{reg.user.fullName}</FlexItem>
+    ))}
   </FlexColumn>
 );
 

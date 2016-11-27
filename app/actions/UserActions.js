@@ -21,8 +21,8 @@ function clearLocalStorage(key) {
 }
 
 export function login(username, password) {
-  return (dispatch) => {
-    return dispatch(callAPI({
+  return (dispatch) => (
+    dispatch(callAPI({
       types: User.LOGIN,
       endpoint: '//authorization/token-auth/',
       method: 'post',
@@ -41,8 +41,8 @@ export function login(username, password) {
           type: User.FETCH.SUCCESS,
           payload: normalize(user, userSchema)
         });
-      });
-  };
+      })
+    );
 }
 
 export function logout() {
