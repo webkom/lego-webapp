@@ -1,7 +1,12 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
-import { fetchEvent, register, unregister } from 'app/actions/EventActions';
+import {
+  fetchEvent,
+  register,
+  unregister,
+  payment
+} from 'app/actions/EventActions';
 import EventDetail from './components/EventDetail';
 import {
   selectEventById,
@@ -30,7 +35,7 @@ function mapStateToProps(state, props) {
   };
 }
 
-const mapDispatchToProps = { fetchEvent, register, unregister };
+const mapDispatchToProps = { fetchEvent, register, unregister, payment };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

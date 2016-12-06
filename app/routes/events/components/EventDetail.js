@@ -12,6 +12,8 @@ import JoinEventForm from './JoinEventForm';
 import RegisteredCell from './RegisteredCell';
 import RegisteredSummary from './RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
+import StripeCheckout from 'react-stripe-checkout';
+import logoImage from 'app/assets/kule.png';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -41,6 +43,7 @@ export type Props = {
   currentUser: any;
   register: (eventId: Number) => Promise<*>;
   unregister: (eventId: Number, registrationId: Number) => Promise<*>;
+  payment: (eventId: Number, token: string) => Promise<*>;
 };
 
 /**
@@ -59,7 +62,7 @@ export default class EventDetail extends Component {
   };
 
   handleUnregisterSubmit = (messageToOrganizers) => {
-    this.props.unregister(this.props.eventId, this.selectRegistrationId());
+    this.props.unregister(this.props.eventId, this.selectRegistration().id);
     console.log(messageToOrganizers);
   };
 
@@ -67,11 +70,15 @@ export default class EventDetail extends Component {
     this.setState({ joinFormOpen: !this.state.joinFormOpen });
   };
 
-  selectRegistrationId = () => {
+  selectRegistration = () => {
     const registration = this.props.registrations.find((reg) => (
       reg.user.id === this.props.currentUser.id
     ));
-    return registration ? registration.id : null;
+    return registration;
+  }
+
+  onToken = (token) => {
+    this.props.payment(this.props.event.id, token.id);
   }
 
   render() {
@@ -81,9 +88,9 @@ export default class EventDetail extends Component {
       return <LoadingIndicator loading />;
     }
 
-    const registrationId = this.selectRegistrationId();
-    const joinTitle = !registrationId ? 'MELD DEG PÅ' : 'AVREGISTRER';
-    const joinMethod = !registrationId ? this.handleJoinSubmit : this.handleUnregisterSubmit;
+    const registration = this.selectRegistration();
+    const joinTitle = !registration ? 'MELD DEG PÅ' : 'AVREGISTRER';
+    const joinMethod = !registration ? this.handleJoinSubmit : this.handleUnregisterSubmit;
 
     return (
       <div className={styles.root}>
@@ -135,10 +142,28 @@ export default class EventDetail extends Component {
               </a>
 
               {this.state.joinFormOpen && (
-                <JoinEventForm
-                  title={joinTitle}
-                  onSubmit={joinMethod}
-                />
+                <div>
+                  <JoinEventForm
+                    title={joinTitle}
+                    onSubmit={joinMethod}
+                  />
+                  {registration && registration.charge_status && event.isPriced && (
+                    <StripeCheckout
+                      name='Abakus Linjeforening'
+                      description={event.title}
+                      image={logoImage}
+                      currency='NOK'
+                      allowRememberMe={false}
+                      locale='no'
+                      token={this.onToken}
+                      stripeKey='pk_test_VWJmJ3yOunhMBkG71SXyjdqk'
+                      amount={event.price}
+                      email={currentUser.email}
+                    >
+                      <Button>Betal nå</Button>
+                    </StripeCheckout>
+                  )}
+                </div>
               )}
             </FlexColumn>
           )}

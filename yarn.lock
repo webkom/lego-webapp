@@ -5274,6 +5274,10 @@ react-router@2.8.1:
     loose-envify "^1.2.0"
     warning "^3.0.0"
 
+react-stripe-checkout:
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/react-stripe-checkout/-/react-stripe-checkout-2.2.5.tgz#1369fb44f522cfa21ba451d6be97d1a2b86ff84a"
+
 react-test-renderer@15.3.2:
   version "15.3.2"
   resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-15.3.2.tgz#d8f083d37d2d41e97bbdc26a1dd9282f0baf7857"

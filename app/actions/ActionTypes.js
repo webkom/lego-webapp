@@ -13,6 +13,7 @@ export const Event = {
   FETCH: generateStatuses('Event.FETCH'),
   REGISTER: generateStatuses('Event.REGISTER'),
   UNREGISTER: generateStatuses('Event.UNREGISTER'),
+  PAYMENT: generateStatuses('Event.PAYMENT'),
   SOCKET_REGISTRATION: 'SOCKET_REGISTRATION',
   SOCKET_UNREGISTRATION: 'SOCKET_UNREGISTRATION'
 };

@@ -48,3 +48,17 @@ export function unregister(eventId, registrationId) {
     }
   });
 }
+
+export function payment(eventId, token) {
+  return callAPI({
+    types: Event.PAYMENT,
+    endpoint: `/events/${eventId}/payment/`,
+    method: 'post',
+    body: {
+      token,
+    },
+    meta: {
+      errorMessage: 'Payment failed'
+    }
+  });
+}
