@@ -46,6 +46,19 @@ export type Props = {
   payment: (eventId: Number, token: string) => Promise<*>;
 };
 
+function selectRegistrations(pools) {
+  return (pools || [])
+    .reduce((users, pool) => (
+      [...users, ...pool.registrations]
+    ), []);
+}
+
+function selectCurrentRegistration(registrations, currentUser) {
+  return registrations.find((reg) => (
+    reg.user.id === currentUser.id
+  ));
+}
+
 /**
  *
  */
@@ -70,27 +83,21 @@ export default class EventDetail extends Component {
     this.setState({ joinFormOpen: !this.state.joinFormOpen });
   };
 
-  selectRegistration = () => {
-    const registration = this.props.registrations.find((reg) => (
-      reg.user.id === this.props.currentUser.id
-    ));
-    return registration;
-  }
-
   onToken = (token) => {
     this.props.payment(this.props.event.id, token.id);
   }
 
   render() {
-    const { event, loggedIn, currentUser, comments, pools, registrations } = this.props;
+    const { event, loggedIn, currentUser, comments, pools } = this.props;
 
     if (!event.id) {
       return <LoadingIndicator loading />;
     }
 
-    const registration = this.selectRegistration();
-    const joinTitle = !registration ? 'MELD DEG PÅ' : 'AVREGISTRER';
-    const joinMethod = !registration ? this.handleJoinSubmit : this.handleUnregisterSubmit;
+    const registrations = selectRegistrations(pools);
+    const currentRegistration = selectCurrentRegistration(registrations, currentUser);
+    const joinTitle = !currentRegistration ? 'MELD DEG PÅ' : 'AVREGISTRER';
+    const joinMethod = !currentRegistration ? this.handleJoinSubmit : this.handleUnregisterSubmit;
 
     return (
       <div className={styles.root}>
@@ -147,7 +154,7 @@ export default class EventDetail extends Component {
                     title={joinTitle}
                     onSubmit={joinMethod}
                   />
-                  {registration && registration.charge_status && event.isPriced && (
+                  {currentRegistration && !currentRegistration.chargeStatus && event.isPriced && (
                     <StripeCheckout
                       name='Abakus Linjeforening'
                       description={event.title}

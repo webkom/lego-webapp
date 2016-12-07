@@ -57,15 +57,15 @@ export const selectPoolsForEvent = createSelector(
   }
 );
 
-export const selectRegistrationsForEvent = createSelector(
-  selectEventById,
-  (state) => state.pools.byId,
+export const selectPoolsWithRegistrationsForEvent = createSelector(
+  selectPoolsForEvent,
   (state) => state.registrations.byId,
-  (event, poolsById, registrationsById) => (event.pools || []).reduce((registrations, poolId) => {
-    const poolRegistrations = poolsById[poolId].registrations
-    .map((regId) => registrationsById[regId]);
-    return [...registrations, ...poolRegistrations];
-  }, [])
+  (pools, registrationsById) => (
+    pools.map((pool) => ({
+      ...pool,
+      registrations: pool.registrations.map((regId) => registrationsById[regId])
+    }))
+  )
 );
 
 export const selectCommentsForEvent = createSelector(

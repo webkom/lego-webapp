@@ -11,8 +11,7 @@ import EventDetail from './components/EventDetail';
 import {
   selectEventById,
   selectCommentsForEvent,
-  selectPoolsForEvent,
-  selectRegistrationsForEvent
+  selectPoolsWithRegistrationsForEvent
 } from 'app/reducers/events';
 
 function loadData({ eventId }, props) {
@@ -23,15 +22,13 @@ function mapStateToProps(state, props) {
   const { eventId } = props.params;
   const event = selectEventById(state, { eventId });
   const comments = selectCommentsForEvent(state, { eventId });
-  const pools = selectPoolsForEvent(state, { eventId });
-  const registrations = selectRegistrationsForEvent(state, { eventId });
+  const pools = selectPoolsWithRegistrationsForEvent(state, { eventId });
 
   return {
     comments,
     event,
     eventId,
-    pools,
-    registrations
+    pools
   };
 }
 

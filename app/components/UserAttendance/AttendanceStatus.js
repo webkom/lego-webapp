@@ -6,7 +6,7 @@ import RegistrationModal from './AttendanceModal';
 import styles from './AttendanceStatus.css';
 
 export type Props = {
-  pools: Array<Object>,
+  pools: Array<Object>
 };
 
 class AttendanceStatus extends Component {
