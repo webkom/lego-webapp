@@ -12,6 +12,7 @@ import JoinEventForm from './JoinEventForm';
 import RegisteredCell from './RegisteredCell';
 import RegisteredSummary from './RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
+import { sendMessage } from 'app/utils/websockets';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -55,6 +56,14 @@ export default class EventDetail extends Component {
   };
 
   props: Props;
+
+  componentDidMount() {
+    sendMessage('SUBSCRIBE', `event-${this.props.eventId}`);
+  }
+
+  componentWillUnmount() {
+    sendMessage('UNSUBSCRIBE', `event-${this.props.eventId}`);
+  }
 
   handleSubmit = (messageToOrganizers) => {
     if (this.props.currentRegistration) {

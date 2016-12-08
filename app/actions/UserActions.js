@@ -5,7 +5,7 @@ import { push, replace } from 'react-router-redux';
 import { userSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { User } from './ActionTypes';
-import connectWebsockets from '../utils/websockets';
+import { connectWebsockets } from '../utils/websockets';
 
 const USER_STORAGE_KEY = 'user';
 

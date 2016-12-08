@@ -5,8 +5,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 export default createEntityReducer({
   key: 'registrations',
   types: {
-    fetch: false,
-    mutate: Event.SOCKET_REGISTRATION
+    fetch: false
   },
   mutate(state, action) {
     switch (action.type) {

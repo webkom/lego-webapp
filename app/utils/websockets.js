@@ -11,8 +11,19 @@ function handleMessage(dispatch, data) {
   });
 }
 
+export function sendMessage(type, payload) {
+  console.log({ type, payload }, socket, socket.ws.readyState);
+  if (socket.ws.readyState === 0) {
+    socket.onopen = () => {
+      socket.send(`${type}:${payload}`);
+    };
+  } else if (socket.ws.readyState === 1) {
+    socket.send(`${type}:${payload}`);
+  }
+}
 
-export default function connectWebsockets(dispatch, jwt) {
+
+export function connectWebsockets(dispatch, jwt) {
   const qs = createQueryString({ jwt });
   if (socket) socket.close();
   socket = new WebSocketClient(`${config.wsServerUrl}/${qs}`);

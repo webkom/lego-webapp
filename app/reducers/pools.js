@@ -4,8 +4,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 export default createEntityReducer({
   key: 'pools',
   types: {
-    fetch: false,
-    mutate: Event.SOCKET_REGISTRATION
+    fetch: false
   },
   mutate(state, action) {
     switch (action.type) {
@@ -47,8 +46,9 @@ export default createEntityReducer({
           }
         };
       }
-      default:
+      default: {
         return state;
+      }
     }
   }
 });
