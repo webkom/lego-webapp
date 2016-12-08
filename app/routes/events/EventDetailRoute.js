@@ -18,17 +18,35 @@ function loadData({ eventId }, props) {
   props.fetchEvent(Number(eventId));
 }
 
+function selectRegistrations(pools) {
+  return (pools || [])
+    .reduce((users, pool) => (
+      [...users, ...pool.registrations]
+    ), []);
+}
+
+function selectCurrentRegistration(registrations, currentUser) {
+  return registrations.find((reg) => (
+    reg.user.id === currentUser.id
+  ));
+}
+
 function mapStateToProps(state, props) {
   const { eventId } = props.params;
   const event = selectEventById(state, { eventId });
   const comments = selectCommentsForEvent(state, { eventId });
   const pools = selectPoolsWithRegistrationsForEvent(state, { eventId });
 
+  const registrations = selectRegistrations(pools);
+  const currentRegistration = selectCurrentRegistration(registrations, props.currentUser);
+
   return {
     comments,
     event,
     eventId,
-    pools
+    pools,
+    registrations,
+    currentRegistration
   };
 }
 

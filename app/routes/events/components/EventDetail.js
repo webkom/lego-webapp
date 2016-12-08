@@ -12,8 +12,6 @@ import JoinEventForm from './JoinEventForm';
 import RegisteredCell from './RegisteredCell';
 import RegisteredSummary from './RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
-import StripeCheckout from 'react-stripe-checkout';
-import logoImage from 'app/assets/kule.png';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -33,71 +31,57 @@ const InterestedButton = ({ value, onClick }) => {
  *
  */
 export type Props = {
-  event: Event;
-  eventId: Number;
-  comments: Array;
-  pools: Array;
-  registrations: Array;
-  loggedIn: boolean;
-  isUserInterested: boolean;
-  currentUser: any;
-  register: (eventId: Number) => Promise<*>;
-  unregister: (eventId: Number, registrationId: Number) => Promise<*>;
-  payment: (eventId: Number, token: string) => Promise<*>;
+  event: Event,
+  eventId: Number,
+  comments: Array,
+  pools: Array,
+  registrations: Array,
+  currentRegistration: Object,
+  loggedIn: boolean,
+  isUserInterested: boolean,
+  currentUser: Object,
+  register: (eventId: Number) => Promise<*>,
+  unregister: (eventId: Number, registrationId: Number) => Promise<*>,
+  payment: (eventId: Number, token: string) => Promise<*>,
 };
 
-function selectRegistrations(pools) {
-  return (pools || [])
-    .reduce((users, pool) => (
-      [...users, ...pool.registrations]
-    ), []);
-}
-
-function selectCurrentRegistration(registrations, currentUser) {
-  return registrations.find((reg) => (
-    reg.user.id === currentUser.id
-  ));
-}
 
 /**
  *
  */
 export default class EventDetail extends Component {
-  props: Props;
-
   state = {
     joinFormOpen: false
   };
 
-  handleJoinSubmit = (messageToOrganizers) => {
-    this.props.register(this.props.eventId);
-    console.log(messageToOrganizers);
-  };
+  props: Props;
 
-  handleUnregisterSubmit = (messageToOrganizers) => {
-    this.props.unregister(this.props.eventId, this.selectRegistration().id);
+  handleSubmit = (messageToOrganizers) => {
+    if (this.props.currentRegistration) {
+      this.props.unregister(this.props.eventId, this.props.currentRegistration.id);
+    } else {
+      this.props.register(this.props.eventId);
+    }
     console.log(messageToOrganizers);
-  };
+  }
 
   toggleJoinFormOpen = () => {
     this.setState({ joinFormOpen: !this.state.joinFormOpen });
   };
 
-  onToken = (token) => {
+  handleToken = (token) => {
     this.props.payment(this.props.event.id, token.id);
   }
 
   render() {
-    const { event, loggedIn, currentUser, comments, pools } = this.props;
+    const {
+      event, loggedIn, currentUser, comments,
+      pools, registrations, currentRegistration
+    } = this.props;
 
     if (!event.id) {
       return <LoadingIndicator loading />;
     }
-
-    const registrations = selectRegistrations(pools);
-    const currentRegistration = selectCurrentRegistration(registrations, currentUser);
-    const joinTitle = !currentRegistration ? 'MELD DEG PÅ' : 'AVREGISTRER';
-    const joinMethod = !currentRegistration ? this.handleJoinSubmit : this.handleUnregisterSubmit;
 
     return (
       <div className={styles.root}>
@@ -151,25 +135,12 @@ export default class EventDetail extends Component {
               {this.state.joinFormOpen && (
                 <div>
                   <JoinEventForm
-                    title={joinTitle}
-                    onSubmit={joinMethod}
+                    event={event}
+                    registration={currentRegistration}
+                    currentUser={currentUser}
+                    onSubmit={this.handleSubmit}
+                    onToken={this.handleToken}
                   />
-                  {currentRegistration && !currentRegistration.chargeStatus && event.isPriced && (
-                    <StripeCheckout
-                      name='Abakus Linjeforening'
-                      description={event.title}
-                      image={logoImage}
-                      currency='NOK'
-                      allowRememberMe={false}
-                      locale='no'
-                      token={this.onToken}
-                      stripeKey='pk_test_VWJmJ3yOunhMBkG71SXyjdqk'
-                      amount={event.price}
-                      email={currentUser.email}
-                    >
-                      <Button>Betal nå</Button>
-                    </StripeCheckout>
-                  )}
                 </div>
               )}
             </FlexColumn>
