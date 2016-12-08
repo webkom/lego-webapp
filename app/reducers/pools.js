@@ -30,18 +30,18 @@ export default createEntityReducer({
       }
       case Event.SOCKET_UNREGISTRATION: {
         const registration = action.payload;
-        if (!registration.from_pool) {
+        if (!registration.fromPool) {
           return state;
         }
-        const registrations = state.byId[registration.from_pool].registrations.filter((reg) => (
+        const registrations = state.byId[registration.fromPool].registrations.filter((reg) => (
           reg !== registration.id
         ));
         return {
           ...state,
           byId: {
             ...state.byId,
-            [registration.from_pool]: {
-              ...state.byId[registration.from_pool],
+            [registration.fromPool]: {
+              ...state.byId[registration.fromPool],
               registrations
             }
           }
