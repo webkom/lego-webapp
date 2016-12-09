@@ -4,15 +4,7 @@ import WebSocketClient from 'websocket.js';
 
 let socket;
 
-function handleMessage(dispatch, data) {
-  dispatch({
-    type: data.type,
-    payload: data.payload
-  });
-}
-
 export function sendMessage(type, payload) {
-  console.log({ type, payload }, socket, socket.ws.readyState);
   if (socket.ws.readyState === 0) {
     socket.onopen = () => {
       socket.send(`${type}:${payload}`);
@@ -29,6 +21,9 @@ export function connectWebsockets(dispatch, jwt) {
   socket = new WebSocketClient(`${config.wsServerUrl}/${qs}`);
   socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
-    handleMessage(dispatch, data);
+    dispatch({
+      type: data.type,
+      payload: data.payload
+    });
   };
 }

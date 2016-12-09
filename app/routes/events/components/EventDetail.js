@@ -12,7 +12,7 @@ import JoinEventForm from './JoinEventForm';
 import RegisteredCell from './RegisteredCell';
 import RegisteredSummary from './RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
-import { sendMessage } from 'app/utils/websockets';
+import { sendMessage } from 'app/utils/websockets';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -65,13 +65,13 @@ export default class EventDetail extends Component {
     sendMessage('UNSUBSCRIBE', `event-${this.props.eventId}`);
   }
 
-  handleSubmit = (messageToOrganizers) => {
+  handleRegistration = ({ captchaResponse, feedback }) => {
     if (this.props.currentRegistration) {
       this.props.unregister(this.props.eventId, this.props.currentRegistration.id);
     } else {
-      this.props.register(this.props.eventId);
+      this.props.register(this.props.eventId, captchaResponse);
     }
-    console.log(messageToOrganizers);
+    console.log(feedback);
   }
 
   toggleJoinFormOpen = () => {
@@ -147,8 +147,8 @@ export default class EventDetail extends Component {
                     event={event}
                     registration={currentRegistration}
                     currentUser={currentUser}
-                    onSubmit={this.handleSubmit}
                     onToken={this.handleToken}
+                    onSubmit={this.handleRegistration}
                   />
                 </div>
               )}

@@ -26,13 +26,16 @@ export function fetchAll({ year, month } = {}) {
   });
 }
 
-export function register(eventId) {
+export function register(eventId, captchaResponse) {
   return callAPI({
     types: Event.REGISTER,
     endpoint: `/events/${eventId}/registrations/`,
     method: 'post',
-    body: {},
+    body: {
+      captchaResponse
+    },
     meta: {
+      id: eventId,
       errorMessage: 'Registering to event failed'
     }
   });

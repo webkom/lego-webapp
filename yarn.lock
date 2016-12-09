@@ -950,6 +950,12 @@ babel-register@^6.14.0, babel-register@^6.16.0:
     path-exists "^1.0.0"
     source-map-support "^0.4.2"
 
+babel-runtime@^5.8.0:
+  version "5.8.38"
+  resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-5.8.38.tgz#1c0b02eb63312f5f087ff20450827b425c9d4c19"
+  dependencies:
+    core-js "^1.0.0"
+
 babel-runtime@^6.0.0, babel-runtime@^6.11.6, babel-runtime@^6.2.0, babel-runtime@^6.9.0, babel-runtime@^6.9.1:
   version "6.11.6"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.11.6.tgz#6db707fef2d49c49bfa3cb64efdb436b518b8222"
@@ -5195,6 +5201,12 @@ react-addons-test-utils@15.3.2:
   version "15.3.2"
   resolved "https://registry.yarnpkg.com/react-addons-test-utils/-/react-addons-test-utils-15.3.2.tgz#c09a44f583425a4a9c1b38444d7a6c3e6f0f41f6"
 
+react-async-script@~0.5.0:
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/react-async-script/-/react-async-script-0.5.1.tgz#e25d1a3fd8b52e5852ad9a1d6f7c19c50426fee2"
+  dependencies:
+    babel-runtime "^5.8.0"
+
 react-deep-force-update@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-2.0.1.tgz#4f7f6c12c3e7de42f345992a3c518236fa1ecad3"
@@ -5214,6 +5226,13 @@ react-dev-utils@0.2.0:
 "react-dom@^0.14.0 || ^15.0.0", react-dom@15.3.2:
   version "15.3.2"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.3.2.tgz#c46b0aa5380d7b838e7a59c4a7beff2ed315531f"
+
+react-google-recaptcha:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/react-google-recaptcha/-/react-google-recaptcha-0.5.4.tgz#03ee8443b2fdda5e86ea70660af62b94135af81b"
+  dependencies:
+    babel-runtime "^5.8.0"
+    react-async-script "~0.5.0"
 
 react-hot-loader@3.0.0-beta.4:
   version "3.0.0-beta.4"

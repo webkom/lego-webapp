@@ -1,7 +1,7 @@
 import { Schema, arrayOf } from 'normalizr';
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
-import { reducer as form } from 'redux-form';
+import form from './forms';
 import quotes from './quotes';
 import events from './events';
 import pools from './pools';

@@ -12,7 +12,50 @@ export type EventEntity = {
   comments: Array<number>;
 };
 
-const mutate = mutateComments('events');
+function mutateEvent(state, action) {
+  switch (action.type) {
+    case Event.REGISTER.BEGIN: {
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [action.meta.id]: {
+            ...state.byId[action.meta.id],
+            loading: true
+          }
+        }
+      };
+    }
+    case Event.REGISTER.SUCCESS: {
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [action.meta.id]: {
+            ...state.byId[action.meta.id],
+            loading: false
+          }
+        }
+      };
+    }
+    case Event.REGISTER.FAILURE: {
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [action.meta.id]: {
+            ...state.byId[action.meta.id],
+            loading: false
+          }
+        }
+      };
+    }
+    default:
+      return state;
+  }
+}
+
+const mutate = mutateComments('events', mutateEvent);
 
 export default createEntityReducer({
   key: 'events',
