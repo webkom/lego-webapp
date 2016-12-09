@@ -7,7 +7,7 @@ import getEntityType from 'app/utils/getEntityType';
 /**
  * Used by the individual entity reducers
  */
-export function mutateComments(forTargetType: string, mutate?: void) {
+export function mutateComments(forTargetType: string) {
   return (state: any, action: any) => {
     switch (action.type) {
       case Comment.ADD.SUCCESS: {
@@ -31,7 +31,7 @@ export function mutateComments(forTargetType: string, mutate?: void) {
       }
 
       default: {
-        return mutate ? mutate(state, action) : state;
+        return state;
       }
     }
   };

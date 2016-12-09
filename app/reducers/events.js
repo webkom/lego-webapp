@@ -5,6 +5,7 @@ import { createSelector } from 'reselect';
 import { Event } from '../actions/ActionTypes';
 import { mutateComments } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import joinReducers from 'app/utils/joinReducers';
 
 export type EventEntity = {
   id: number;
@@ -12,7 +13,7 @@ export type EventEntity = {
   comments: Array<number>;
 };
 
-function mutateEvent(state, action) {
+function mutateEvent(state: any, action: any) {
   switch (action.type) {
     case Event.REGISTER.BEGIN: {
       return {
@@ -55,7 +56,7 @@ function mutateEvent(state, action) {
   }
 }
 
-const mutate = mutateComments('events', mutateEvent);
+const mutate = joinReducers(mutateComments('events'), mutateEvent);
 
 export default createEntityReducer({
   key: 'events',
