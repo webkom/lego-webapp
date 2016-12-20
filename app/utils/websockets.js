@@ -5,12 +5,14 @@ import WebSocketClient from 'websocket.js';
 let socket;
 
 export function sendMessage(type, payload) {
-  if (socket.ws.readyState === 0) {
-    socket.onopen = () => {
+  if (socket) {
+    if (socket.ws.readyState === 0) {
+      socket.onopen = () => {
+        socket.send(`${type}:${payload}`);
+      };
+    } else if (socket.ws.readyState === 1) {
       socket.send(`${type}:${payload}`);
-    };
-  } else if (socket.ws.readyState === 1) {
-    socket.send(`${type}:${payload}`);
+    }
   }
 }
 
