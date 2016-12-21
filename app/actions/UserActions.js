@@ -6,6 +6,7 @@ import { userSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { User } from './ActionTypes';
 import { connectWebsockets } from '../utils/websockets';
+import { uploadFile } from './FileActions';
 
 const USER_STORAGE_KEY = 'user';
 
@@ -84,6 +85,27 @@ export function updateUser({ username, firstName, lastName, email }) {
         }
       });
   };
+}
+
+export function updatePicture({ picture }) {
+  return (dispatch, getState) => {
+    const username = getState().auth.username;
+    return dispatch(uploadFile(picture))
+      .then((action) => {
+        return dispatch(callAPI({
+          types: User.UPDATE,
+          endpoint: `/users/${username}/`,
+          method: 'PATCH',
+          body: {
+            picture: action.meta.fileToken
+          },
+          schema: userSchema,
+          meta: {
+            errorMessage: 'Updating picture failed'
+          }
+        }));
+      });
+  }
 }
 
 export function fetchUser(username) {
