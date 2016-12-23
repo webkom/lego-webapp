@@ -1,0 +1,11 @@
+.root {
+  composes: container from '../../../Root.css';
+}
+
+.coverImage {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+  background: #000;
+  position: relative;
+}

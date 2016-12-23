@@ -27,3 +27,25 @@ export function search(query) {
     }));
   };
 }
+
+export function mention(query) {
+  return (dispatch) => {
+    if (!query) {
+      return Promise.resolve();
+    }
+
+    return dispatch(callAPI({
+      endpoint: '/search/autocomplete/',
+      types: Search.MENTION,
+      method: 'post',
+      body: {
+        query,
+        contentType: 'users.user'
+      },
+      meta: {
+        query,
+        errorMessage: 'Search failed'
+      }
+    }));
+  };
+}

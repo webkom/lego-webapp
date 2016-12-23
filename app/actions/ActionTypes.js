@@ -21,6 +21,13 @@ export const Event = {
 /**
  *
  */
+export const Article = {
+  FETCH: generateStatuses('Article.FETCH')
+};
+
+/**
+ *
+ */
 export const Group = {
   FETCH: generateStatuses('Group.FETCH'),
   UPDATE: generateStatuses('Group.UPDATE')
@@ -61,6 +68,7 @@ export const Quote = {
  */
 export const Search = {
   SEARCH: generateStatuses('Search.SEARCH'),
+  MENTION: generateStatuses('Search.MENTION'),
   RESULTS_RECEIVED: 'Search.RESULTS_RECEIVED',
   TOGGLE_OPEN: 'Search.TOGGLE_OPEN'
 };
