@@ -5,6 +5,7 @@ import { push, replace } from 'react-router-redux';
 import { userSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { User } from './ActionTypes';
+import { connectWebsockets } from '../utils/websockets';
 
 const USER_STORAGE_KEY = 'user';
 
@@ -20,8 +21,8 @@ function clearLocalStorage(key) {
 }
 
 export function login(username, password) {
-  return (dispatch) => {
-    return dispatch(callAPI({
+  return (dispatch) => (
+    dispatch(callAPI({
       types: User.LOGIN,
       endpoint: '//authorization/token-auth/',
       method: 'post',
@@ -40,13 +41,14 @@ export function login(username, password) {
           type: User.FETCH.SUCCESS,
           payload: normalize(user, userSchema)
         });
-      });
-  };
+      })
+    );
 }
 
 export function logout() {
   return (dispatch) => {
     window.localStorage.removeItem(USER_STORAGE_KEY);
+    connectWebsockets(dispatch);
     dispatch({ type: User.LOGOUT });
     dispatch(replace('/'));
   };
@@ -132,6 +134,7 @@ export function loginWithExistingToken(user, token) {
       type: User.LOGIN.SUCCESS,
       payload: { user, token }
     });
+    connectWebsockets(dispatch, token);
 
     dispatch({
       type: User.FETCH.SUCCESS,

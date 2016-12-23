@@ -12,6 +12,7 @@ import JoinEventForm from './JoinEventForm';
 import RegisteredCell from './RegisteredCell';
 import RegisteredSummary from './RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
+import { sendMessage } from 'app/utils/websockets';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -31,47 +32,65 @@ const InterestedButton = ({ value, onClick }) => {
  *
  */
 export type Props = {
-  event: Event;
-  comments: Array;
-  loggedIn: boolean;
-  isUserInterested: boolean;
-  currentUser: any;
+  event: Event,
+  eventId: Number,
+  comments: Array,
+  pools: Array,
+  registrations: Array,
+  currentRegistration: Object,
+  loggedIn: boolean,
+  isUserInterested: boolean,
+  currentUser: Object,
+  register: (eventId: Number) => Promise<*>,
+  unregister: (eventId: Number, registrationId: Number) => Promise<*>,
+  payment: (eventId: Number, token: string) => Promise<*>,
 };
 
-function selectRegistrations(event) {
-  return (event.pools || [])
-    .reduce((users, pool) => {
-      const poolUsers = pool.registrations.map((reg) => reg.user);
-      return [...users, ...poolUsers];
-    }, []);
-}
 
 /**
  *
  */
 export default class EventDetail extends Component {
-  props: Props;
-
   state = {
     joinFormOpen: false
   };
 
-  handleJoinSubmit = (messageToOrganizers) => {
-    console.log(messageToOrganizers);
-  };
+  props: Props;
+
+  componentDidMount() {
+    sendMessage('SUBSCRIBE', `event-${this.props.eventId}`);
+  }
+
+  componentWillUnmount() {
+    sendMessage('UNSUBSCRIBE', `event-${this.props.eventId}`);
+  }
+
+  handleRegistration = ({ captchaResponse, feedback }) => {
+    if (this.props.currentRegistration) {
+      this.props.unregister(this.props.eventId, this.props.currentRegistration.id);
+    } else {
+      this.props.register(this.props.eventId, captchaResponse);
+    }
+    console.log(feedback);
+  }
 
   toggleJoinFormOpen = () => {
     this.setState({ joinFormOpen: !this.state.joinFormOpen });
   };
 
+  handleToken = (token) => {
+    this.props.payment(this.props.event.id, token.id);
+  }
+
   render() {
-    const { event, loggedIn, currentUser, comments } = this.props;
+    const {
+      event, loggedIn, currentUser, comments,
+      pools, registrations, currentRegistration
+    } = this.props;
 
     if (!event.id) {
       return <LoadingIndicator loading />;
     }
-
-    const registrations = selectRegistrations(event);
 
     return (
       <div className={styles.root}>
@@ -98,11 +117,11 @@ export default class EventDetail extends Component {
                 <h3>Påmeldte:</h3>
                 <FlexRow className={styles.registeredThumbnails}>
                   {registrations.slice(0, 10).map((reg) => (
-                    <RegisteredCell key={reg.id} user={reg} />
+                    <RegisteredCell key={reg.user.id} user={reg.user} />
                   ))}
                 </FlexRow>
                 <RegisteredSummary registrations={registrations} />
-                <AttendanceStatus title='Påmeldte' pools={event.pools} />
+                <AttendanceStatus title='Påmeldte' pools={pools} />
               </FlexItem>
             )}
           </FlexColumn>
@@ -123,9 +142,15 @@ export default class EventDetail extends Component {
               </a>
 
               {this.state.joinFormOpen && (
-                <JoinEventForm
-                  onSubmit={this.handleJoinSubmit}
-                />
+                <div>
+                  <JoinEventForm
+                    event={event}
+                    registration={currentRegistration}
+                    currentUser={currentUser}
+                    onToken={this.handleToken}
+                    onSubmit={this.handleRegistration}
+                  />
+                </div>
               )}
             </FlexColumn>
           )}
@@ -133,7 +158,7 @@ export default class EventDetail extends Component {
           <FlexColumn className={styles.openFor}>
             <strong>Åpent for</strong>
             <ul>
-              {(event.pools || []).map((pool) => (
+              {(pools || []).map((pool) => (
                 <li key={pool.id}>{pool.permissionGroups}</li>
             ))}
             </ul>

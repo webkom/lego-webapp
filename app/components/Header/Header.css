@@ -68,7 +68,7 @@
   line-height: 60px;
   flex: 2;
 
-  @media (--small-viewport) {
+  @media only screen and (max-width: 768px) {
     display: none;
   }
 }

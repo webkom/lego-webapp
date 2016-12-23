@@ -10,7 +10,12 @@ function generateStatuses(name) {
  *
  */
 export const Event = {
-  FETCH: generateStatuses('Event.FETCH')
+  FETCH: generateStatuses('Event.FETCH'),
+  REGISTER: generateStatuses('Event.REGISTER'),
+  UNREGISTER: generateStatuses('Event.UNREGISTER'),
+  PAYMENT: generateStatuses('Event.PAYMENT'),
+  SOCKET_REGISTRATION: 'SOCKET_REGISTRATION',
+  SOCKET_UNREGISTRATION: 'SOCKET_UNREGISTRATION'
 };
 
 /**
@@ -80,5 +85,6 @@ export const User = {
   FETCH: generateStatuses('User.FETCH'),
   UPDATE: generateStatuses('User.UPDATE'),
   LOGIN: generateStatuses('User.LOGIN'),
-  LOGOUT: 'User.LOGOUT'
+  LOGOUT: 'User.LOGOUT',
+  SOCKET: generateStatuses('User.SOCKET')
 };

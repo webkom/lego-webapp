@@ -17,7 +17,6 @@
   },
   "rules": {
     "arrow-parens": [2, "always"],
-    "arrow-body-style": 0,
     "global-require": 0,
     "import/no-extraneous-dependencies": 0,
     "import/prefer-default-export": 0,

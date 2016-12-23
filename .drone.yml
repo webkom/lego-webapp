@@ -1,0 +1,24 @@
+pipeline:
+  tests:
+    image: node:6
+    when:
+      event: push
+    environment:
+      - API_URL=https://lego.abakus.no/api/v1
+      - WS_URL=wss://ws.abakus.no
+      - BASE_URL=https://lego.abakus.no
+    commands:
+      - npm install -g yarn
+      - yarn
+      - yarn test
+      - yarn run lint
+      - yarn run build
+
+  docker:
+    image: plugins/docker
+    when:
+      branch: master
+      event: push
+    registry: https://registry.abakus.no
+    repo: registry.abakus.no/webkom/lego-webapp
+    tag: latest
