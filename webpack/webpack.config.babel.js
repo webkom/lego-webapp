@@ -1,12 +1,15 @@
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const packageJson = require('../package.json');
 
+const dllConfig = packageJson.dllPlugin;
 const compact = (array) => array.filter(Boolean);
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
+  cache: true,
   devtool: !isProduction && 'cheap-module-eval-source-map',
   entry: {
     app: compact([
@@ -14,21 +17,17 @@ module.exports = {
       !isProduction && 'react-hot-loader/patch',
       './app/index.js'
     ]),
-    vendor: ['react', 'react-dom', 'lodash', 'react-router']
+    vendor: ['react', 'react-dom', 'react-router', 'moment', 'moment-timezone', 'lodash']
   },
+
   output: {
-    path: path.join(__dirname, '..', 'dist'),
+    path: path.join(process.cwd(), 'dist'),
     filename: '[name].js',
     chunkFilename: '[name].chunk.js',
     publicPath: '/'
   },
-  plugins: compact([
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: Infinity,
-      filename: '[name].js'
-    }),
 
+  plugins: getDependencyHandlers().concat(compact([
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(!isProduction),
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
@@ -69,13 +68,14 @@ module.exports = {
       inject: true,
       hash: true,
       favicon: 'app/assets/favicon.png',
-      appName: packageJson.name
+      appName: packageJson.name,
+      ddlScriptTag: getDdlScriptTag()
     })
-  ]),
+  ])),
 
   resolve: {
     modules: [
-      path.resolve(__dirname, '../'),
+      process.cwd(),
       'node_modules'
     ],
     extensions: ['.js', '.jsx']
@@ -85,7 +85,10 @@ module.exports = {
     rules: [{
       test: /\.jsx?$/,
       loader: 'babel-loader',
-      include: path.join(__dirname, '../app')
+      include: path.resolve(process.cwd(), 'app'),
+      query: {
+        cacheDirectory: true
+      }
     }, {
       test: /\.css$/,
       include: /node_modules/,
@@ -113,3 +116,37 @@ module.exports = {
     }]
   }
 };
+
+function getDdlScriptTag() {
+  if (isProduction) {
+    return '';
+  }
+
+  return '<script type="text/javascript" src="/vendors.dll.js"></script>';
+}
+
+
+function getDependencyHandlers() {
+  if (isProduction) {
+    return [new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: Infinity,
+      filename: '[name].js'
+    })];
+  }
+
+  const dllPath = path.resolve(process.cwd(), dllConfig.path);
+  const manifestPath = path.resolve(dllPath, 'vendors.json');
+
+  if (!fs.existsSync(manifestPath)) {
+    console.error('The DLL manifest is missing. Please run `yarn run build:dll`');
+    process.exit(0);
+  }
+
+  return [
+    new webpack.DllReferencePlugin({
+      context: process.cwd(),
+      manifest: require(manifestPath)
+    })
+  ];
+}

@@ -57,7 +57,7 @@ if (process.env.NODE_ENV !== 'production') {
     }
 
     if (hasWarnings) {
-      printMessage(chalk.yellow('Compiled assets with warnings :/'));
+      printMessage(chalk.yellow(`Compiled assets with warnings in ${stats.endTime - stats.startTime} ms :/`));
       messages.warnings.forEach((message) => {
         console.log(message);
         console.log();
@@ -74,6 +74,7 @@ if (process.env.NODE_ENV !== 'production') {
     log: false
   }));
 
+  app.use(express.static(config.output.path));
   app.use((req, res, next) => {
     const filename = path.join(compiler.outputPath, 'index.html');
     compiler.outputFileSystem.readFile(filename, (err, result) => {

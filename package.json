@@ -8,6 +8,8 @@
   "scripts": {
     "start": "node webpack/server",
     "build": "NODE_ENV=production webpack --config webpack/webpack.config.babel.js -p --progress --color",
+    "build:dll": "BUILDING_DLL=true webpack --display-chunks --color --config webpack/webpack.dll.babel.js",
+    "postinstall": "yarn run build:dll",
     "test": "NODE_ENV=test jest",
     "test:coverage": "yarn run test -- --coverage",
     "test:watch": "yarn run test -- --watch",
@@ -39,9 +41,6 @@
     "moment": "^2.17.1",
     "moment-timezone": "^0.5.10",
     "normalizr": "^2.3.1",
-    "postcss-cssnext": "^2.9.0",
-    "postcss-import": "^9.0.0",
-    "postcss-nested": "1.0.0",
     "react": "^15.4.1",
     "react-addons-css-transition-group": "^15.4.1",
     "react-dom": "^15.4.1",
@@ -80,6 +79,9 @@
     "eslint-plugin-import": "^2.0.1",
     "eslint-plugin-jsx-a11y": "2.2.3",
     "eslint-plugin-react": "^6.4.1",
+    "postcss-cssnext": "^2.9.0",
+    "postcss-import": "^9.0.0",
+    "postcss-nested": "1.0.0",
     "express": "4.14.0",
     "file-loader": "0.9.0",
     "flow-bin": "^0.37.4",
@@ -135,5 +137,9 @@
       "^.+\\.css$": "<rootDir>/testing/CSSStub.js"
     },
     "testRegex": "\\.spec\\.(js|jsx)$"
+  },
+  "dllPlugin": {
+    "path": "dist",
+    "exclude": ["animate.css", "minireset.css"]
   }
 }
