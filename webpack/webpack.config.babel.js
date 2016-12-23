@@ -69,7 +69,7 @@ module.exports = {
       hash: true,
       favicon: 'app/assets/favicon.png',
       appName: packageJson.name,
-      ddlScriptTag: getDdlScriptTag()
+      dllScriptTag: getDllScriptTag()
     })
   ])),
 
@@ -117,7 +117,7 @@ module.exports = {
   }
 };
 
-function getDdlScriptTag() {
+function getDllScriptTag() {
   if (isProduction) {
     return '';
   }
