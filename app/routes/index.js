@@ -7,6 +7,14 @@ import articles from 'app/routes/articles';
 import admin from 'app/routes/admin';
 import quotes from 'app/routes/quotes';
 
+export function loadRoute(callback) {
+  return (module) => callback(null, module.default);
+}
+
+export function loadingError(err) {
+  console.error('Loading error', err); // eslint-disable-line
+}
+
 export default {
   path: '/',
   component: AppRoute,
