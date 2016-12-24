@@ -11,6 +11,11 @@ app.set('host', process.env.HOST || '0.0.0.0');
 app.set('port', process.env.PORT || 3000);
 
 function printMessage(message) {
+  if (process.env.NODE_ENV !== 'development') {
+    console.log(message);
+    return;
+  }
+
   clearConsole();
   console.log(`
    ___      _______  _______  _______
@@ -57,7 +62,7 @@ if (process.env.NODE_ENV !== 'production') {
     }
 
     if (hasWarnings) {
-      printMessage(chalk.yellow('Compiled assets with warnings :/'));
+      printMessage(chalk.yellow(`Compiled assets with warnings in ${stats.endTime - stats.startTime} ms :/`));
       messages.warnings.forEach((message) => {
         console.log(message);
         console.log();
@@ -74,6 +79,7 @@ if (process.env.NODE_ENV !== 'production') {
     log: false
   }));
 
+  app.use(express.static(config.output.path));
   app.use((req, res, next) => {
     const filename = path.join(compiler.outputPath, 'index.html');
     compiler.outputFileSystem.readFile(filename, (err, result) => {

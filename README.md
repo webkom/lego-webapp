@@ -14,6 +14,13 @@ Everything should be up and running on [localhost:3000](http://localhost:3000).
 Noob guide for setting up LEGO:
 https://github.com/webkom/lego/wiki/Noob-Guide
 
+
+## Build for production
+```
+$ yarn run build
+$ NODE_ENV=production node webpack/server.js
+```
+
 ## Text Editor
 [Atom](https://atom.io) with these plugins installed provides the best developer experience:
 ```bash

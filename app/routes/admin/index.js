@@ -1,20 +1,42 @@
+import { loadRoute, loadingError } from 'app/routes';
+
 export default {
   path: 'admin', // admin
   indexRoute: {
-    component: require('./OverviewRoute').default
+    getComponent(location, cb) {
+      import('./OverviewRoute')
+        .then(loadRoute(cb))
+        .catch(loadingError);
+    }
   },
   childRoutes: [{
     path: 'groups', // admin/groups
-    component: require('./GroupsRoute').default,
+    getComponent(location, cb) {
+      import('./GroupsRoute')
+        .then(loadRoute(cb))
+        .catch(loadingError);
+    },
     childRoutes: [{
       path: ':groupId', // admin/groups/123
-      component: require('./GroupDetailRoute').default,
+      getComponent(location, cb) {
+        import('./GroupDetailRoute')
+          .then(loadRoute(cb))
+          .catch(loadingError);
+      },
       childRoutes: [{
         path: 'settings', // admin/groups/123/settings
-        component: require('./GroupSettingsRoute').default
+        getComponent(location, cb) {
+          import('./GroupSettingsRoute')
+            .then(loadRoute(cb))
+            .catch(loadingError);
+        }
       }, {
         path: 'members', // admin/groups/123/members
-        component: require('./GroupMembersRoute').default
+        getComponent(location, cb) {
+          import('./GroupMembersRoute')
+            .then(loadRoute(cb))
+            .catch(loadingError);
+        }
       }]
     }]
   }]

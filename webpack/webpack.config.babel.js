@@ -1,34 +1,33 @@
+const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const packageJson = require('../package.json');
 
+const dllConfig = packageJson.dllPlugin;
 const compact = (array) => array.filter(Boolean);
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
-  devtool: !isProduction && 'eval',
+  cache: true,
+  devtool: !isProduction && 'cheap-module-eval-source-map',
   entry: {
     app: compact([
       !isProduction && 'webpack-hot-middleware/client',
       !isProduction && 'react-hot-loader/patch',
       './app/index.js'
     ]),
-    vendor: ['react', 'react-dom', 'lodash', 'react-router']
+    vendor: ['react', 'react-dom', 'react-router', 'moment', 'moment-timezone', 'lodash']
   },
+
   output: {
-    path: path.join(__dirname, '..', 'dist'),
+    path: path.join(process.cwd(), 'dist'),
     filename: '[name].js',
     chunkFilename: '[name].chunk.js',
     publicPath: '/'
   },
-  plugins: compact([
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: Infinity,
-      filename: 'vendor.js'
-    }),
 
+  plugins: getDependencyHandlers().concat(compact([
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(!isProduction),
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
@@ -54,9 +53,9 @@ module.exports = {
       options: {
         context: __dirname,
         minimize: isProduction,
-        postcss(wp) {
+        postcss() {
           return [
-            require('postcss-import')({ addDependencyTo: wp }),
+            require('postcss-import')(),
             require('postcss-cssnext'),
             require('postcss-nested')
           ];
@@ -69,13 +68,14 @@ module.exports = {
       inject: true,
       hash: true,
       favicon: 'app/assets/favicon.png',
-      appName: packageJson.name
+      appName: packageJson.name,
+      dllScriptTag: getDllScriptTag()
     })
-  ]),
+  ])),
 
   resolve: {
     modules: [
-      path.resolve(__dirname, '../'),
+      process.cwd(),
       'node_modules'
     ],
     extensions: ['.js', '.jsx']
@@ -84,35 +84,69 @@ module.exports = {
   module: {
     rules: [{
       test: /\.jsx?$/,
-      loader: 'babel',
-      include: path.join(__dirname, '../app')
+      loader: 'babel-loader',
+      include: path.resolve(process.cwd(), 'app'),
+      query: {
+        cacheDirectory: true
+      }
     }, {
       test: /\.css$/,
       include: /node_modules/,
-      loaders: ['style', 'css']
+      loaders: ['style-loader', 'css-loader']
     }, {
       test: /\.css$/,
       exclude: /node_modules/,
       loaders: [
-        'style', {
-          loader: 'css',
+        'style-loader', {
+          loader: 'css-loader',
           query: {
             modules: true,
             importLoaders: 1,
             localIdentName: '[name]__[local]___[hash:base64:5]'
           }
         },
-        'postcss'
+        'postcss-loader'
       ]
     }, {
-      test: /\.json$/,
-      loader: 'json-loader'
-    }, {
       test: /\.(png|jpg|jpeg|gif|woff|woff2|ttf|mp4|webm)/,
-      loader: 'url',
+      loader: 'url-loader',
       query: {
         limit: 8192
       }
     }]
   }
 };
+
+function getDllScriptTag() {
+  if (isProduction) {
+    return '';
+  }
+
+  return '<script type="text/javascript" src="/vendors.dll.js"></script>';
+}
+
+
+function getDependencyHandlers() {
+  if (isProduction) {
+    return [new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      minChunks: Infinity,
+      filename: '[name].js'
+    })];
+  }
+
+  const dllPath = path.resolve(process.cwd(), dllConfig.path);
+  const manifestPath = path.resolve(dllPath, 'vendors.json');
+
+  if (!fs.existsSync(manifestPath)) {
+    console.error('The DLL manifest is missing. Please run `yarn run build:dll`');
+    process.exit(0);
+  }
+
+  return [
+    new webpack.DllReferencePlugin({
+      context: process.cwd(),
+      manifest: require(manifestPath)
+    })
+  ];
+}

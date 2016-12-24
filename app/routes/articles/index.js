@@ -1,8 +1,20 @@
+import { loadRoute, loadingError } from 'app/routes';
+
 export default {
   path: 'articles',
-  indexRoute: { component: require('./ArticleListRoute').default },
+  indexRoute: {
+    getComponent(location, cb) {
+      import('./ArticleListRoute')
+        .then(loadRoute(cb))
+        .catch(loadingError);
+    }
+  },
   childRoutes: [{
     path: ':articleId',
-    component: require('./ArticleDetailRoute').default
+    getComponent(location, cb) {
+      import('./ArticleDetailRoute')
+        .then(loadRoute(cb))
+        .catch(loadingError);
+    }
   }]
 };
