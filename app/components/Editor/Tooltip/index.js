@@ -96,7 +96,7 @@ export default class Tooltip extends Component {
         });
         break;
       default:
-        return;
+
     }
   }
 
