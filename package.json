@@ -9,7 +9,7 @@
     "start": "node webpack/server",
     "build": "NODE_ENV=production webpack --config webpack/webpack.config.babel.js -p --progress --color",
     "build:dll": "BUILDING_DLL=true webpack --display-chunks --color --config webpack/webpack.dll.babel.js",
-    "postinstall": "[[ '$NODE_ENV' != 'production' ]] && yarn run build:dll",
+    "postinstall": "yarn run build:dll",
     "test": "NODE_ENV=test jest",
     "test:coverage": "yarn run test -- --coverage",
     "test:watch": "yarn run test -- --watch",

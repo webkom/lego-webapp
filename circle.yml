@@ -8,6 +8,7 @@ dependencies:
 
   override:
     - yarn
+    - yarn run build:dll
 
 test:
   override:
