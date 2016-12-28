@@ -1,4 +1,4 @@
-# lego-webapp [![Build status](https://ci.frigg.io/badges/webkom/lego-webapp/)](https://ci.frigg.io/webkom/lego-webapp/last/)
+# lego-webapp [![CircleCI](https://circleci.com/gh/webkom/lego-webapp.svg?style=svg)](https://circleci.com/gh/webkom/lego-webapp)
 
 > Next-gen frontend for abakus.no
 
