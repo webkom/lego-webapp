@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './PageDetail.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import Markdown from 'app/components/Markdown';
 
 export type Props = {
   page: Object;
@@ -13,8 +14,10 @@ const PageDetail = ({ page }: props) => {
 
   return (
     <div className={styles.root}>
-      <h2>{page.title}</h2>
-      <p>{page.content}</p>
+      <article className={styles.page}>
+        <h2 className={styles.title}>{page.title}</h2>
+        <Markdown>{page.content}</Markdown>
+      </article>
     </div>
   );
 };

@@ -1,3 +1,11 @@
 .root {
   composes: container from '../../../Root.css';
 }
+
+.title {
+  font-size: 28px;
+}
+
+.page {
+  margin-top: 30px;
+}
