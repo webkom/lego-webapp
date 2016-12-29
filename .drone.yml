@@ -20,5 +20,5 @@ pipeline:
       branch: master
       event: push
     registry: https://registry.abakus.no
-    repo: registry.abakus.no/webkom/lego-webapp
+    repo: registry.abakus.no/webkom/lego/lego-webapp
     tag: latest
