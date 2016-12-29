@@ -2,15 +2,16 @@ const path = require('path');
 const webpack = require('webpack');
 const pullAll = require('lodash/pullAll');
 
-const packageJson = require(path.join(process.cwd(), 'package.json'));
+const root = path.resolve(__dirname, '..');
+const packageJson = require(path.join(root, 'package.json'));
 
 const dllConfig = packageJson.dllPlugin;
-const outputPath = path.join(process.cwd(), dllConfig.path);
+const outputPath = path.join(root, dllConfig.path);
 
 const vendors = Object.keys(packageJson.dependencies);
 
 module.exports = () => ({
-  context: process.cwd(),
+  context: root,
   devtool: 'eval',
   entry: {
     vendors: pullAll(vendors, dllConfig.exclude),

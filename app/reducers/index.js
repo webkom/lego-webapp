@@ -13,6 +13,7 @@ import users from './users';
 import groups from './groups';
 import notifications from './notifications';
 import comments from './comments';
+import pages from './pages';
 
 export default combineReducers({
   quotes,
@@ -26,6 +27,7 @@ export default combineReducers({
   form,
   users,
   groups,
+  pages,
   notifications,
   routing: routerReducer
 });
@@ -38,6 +40,7 @@ export const commentSchema = new Schema('comments', { idAttribute: 'id' });
 export const groupSchema = new Schema('groups', { idAttribute: 'id' });
 export const userSchema = new Schema('users', { idAttribute: 'username' });
 export const quoteSchema = new Schema('quotes', { idAttribute: 'id' });
+export const pageSchema = new Schema('pages', { idAttribute: 'slug' });
 
 eventSchema.define({
   pools: arrayOf(poolSchema),
