@@ -93,5 +93,6 @@ export const User = {
  *
  */
 export const Page = {
-  FETCH: generateStatuses('Page.Fetch')
+  FETCH: generateStatuses('Page.FETCH'),
+  FETCH_HIERARCHY: generateStatuses('Page.FETCH_HIERARCHY')
 };

@@ -12,3 +12,13 @@ export function fetchPage(pageSlug) {
     }
   });
 }
+
+export function fetchHierarchy(pageSlug) {
+  return callAPI({
+    types: Page.FETCH_HIERARCHY,
+    endpoint: `/pages/${pageSlug}/hierarchy/`,
+    meta: {
+      errorMessage: 'Fetching page hierarchy failed'
+    }
+  });
+}
