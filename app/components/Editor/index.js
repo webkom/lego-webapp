@@ -28,8 +28,11 @@ const { MentionSuggestions } = mentionPlugin;
 
 export type Props = {
   content: string,
+  autoFocus: boolean,
   placeholder?: string,
-  onChange: () => void
+  onChange: () => void,
+  onFocus: () => void,
+  onBlur: () => void
 };
 
 class EditorComponent extends Component {
@@ -42,6 +45,7 @@ class EditorComponent extends Component {
   }
 
   componentDidMount = () => {
+    if (this.props.autoFocus) this.focus();
     document.body.addEventListener('click', this.handleClick);
   }
 
@@ -64,9 +68,7 @@ class EditorComponent extends Component {
   onChange = (editorState) => {
     this.setState(
       { editorState },
-      () => {
-        this.props.onChange(utils.toHTML(this.state.editorState.getCurrentContent()));
-      }
+      this.props.onChange(utils.toHTML(editorState.getCurrentContent()))
     );
   }
 
@@ -135,6 +137,11 @@ class EditorComponent extends Component {
 
   onFocus = () => {
     this.setState({ active: true });
+    this.props.onFocus();
+  }
+
+  onBlur = (e) => {
+    this.props.onBlur(e);
   }
 
   focus = () => this.editorRoot.focus();
@@ -164,6 +171,7 @@ class EditorComponent extends Component {
           placeholder={this.props.placeholder}
           onChange={this.onChange}
           onFocus={this.onFocus}
+          onBlur={this.onBlur}
         />
 
         {this.state.active &&

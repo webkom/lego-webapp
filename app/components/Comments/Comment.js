@@ -37,25 +37,25 @@ export default class Comment extends Component {
     return (
       <div className={styles.container}>
         <div className={styles.comment}>
-          <ProfilePicture
-            user={author.id}
-            size={64}
-            style={{ marginRight: 20 }}
-          />
+          <div className={styles.header}>
+            <ProfilePicture
+              size={40}
+              user={author.id}
+              style={{ marginRight: 20 }}
+            />
+
+            <Link to={`/users/${author.username}`}>
+              {author.username}
+            </Link>
+            <span className={styles.bullet}>•</span>
+            <Time className={styles.timestamp} time={createdAt} wordsAgo />
+            <span className={styles.bullet}>•</span>
+            <a onClick={this.toggleReply}>
+              {this.state.replyOpen ? 'Lukk svar' : 'Svar'}
+            </a>
+          </div>
 
           <div className={styles.content}>
-            <div className={styles.header}>
-              <Link to={`/users/${author.username}`}>
-                {author.username}
-              </Link>
-              <span className={styles.bullet}>•</span>
-              <Time className={styles.timestamp} time={createdAt} wordsAgo />
-              <span className={styles.bullet}>•</span>
-              <a onClick={this.toggleReply}>
-                {this.state.replyOpen ? 'Lukk svar' : 'Svar'}
-              </a>
-            </div>
-
             <div
               id='comment-text'
               className={styles.text}

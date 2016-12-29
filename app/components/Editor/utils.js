@@ -10,7 +10,7 @@ export const toHTML = (content) => convertToHTML({
     [Block.UNSTYLED]: {
       start: '<p>',
       end: '</p>',
-      empty: '<br>'
+      empty: ''
     },
     [Block.BREAK]: {
       start: '<p>',
