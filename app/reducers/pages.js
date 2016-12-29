@@ -1,9 +1,9 @@
 // @flow
 
 import { createSelector } from 'reselect';
+import values from 'lodash/values';
 import { Page } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import joinReducers from 'app/utils/joinReducers';
 
 export type PageEntity = {
   id: number;
@@ -13,35 +13,12 @@ export type PageEntity = {
   comments: Array<number>;
 };
 
-function hierarchyReducer(state: any, action: any) {
-  if (action.type === Page.FETCH_HIERARCHY.SUCCESS) {
-    // Assign the hierarchy to each slug,
-    // so we can easily retrieve it later on:
-    const hierarchy = action.payload.reduce((total, page) => ({
-      ...total,
-      [page.slug]: action.payload
-    }), {});
-
-    return {
-      ...state,
-      hierarchy
-    };
-  }
-
-  return state;
-}
-
-const entityReducer = createEntityReducer({
+export default createEntityReducer({
   key: 'pages',
   types: {
     fetch: Page.FETCH
-  },
-  initialState: {
-    hierarchy: {}
   }
 });
-
-export default joinReducers(hierarchyReducer, entityReducer);
 
 export const selectPageBySlug = createSelector(
   (state) => state.pages.byId,
@@ -49,8 +26,39 @@ export const selectPageBySlug = createSelector(
   (pagesBySlug, pageSlug) => pagesBySlug[pageSlug] || {}
 );
 
-export const selectHierarchyBySlug = createSelector(
-  (state) => state.pages.hierarchy,
-  (state, props) => props.pageSlug,
-  (hierarchy, pageSlug) => hierarchy[pageSlug] || {}
+const rootKey = 'root';
+/**
+ * Maps parent PKs to a list of their children:
+ */
+const selectParents = createSelector(
+  (state) => state.pages.byId,
+  (pagesBySlug) => Object.keys(pagesBySlug)
+    .map((key) => pagesBySlug[key])
+    .reduce((total, page) => {
+      const parent = page.parent || rootKey;
+      const existing = total[parent] || [];
+      return {
+        ...total,
+        [parent]: [...existing, page]
+      };
+    }, {})
+);
+
+/**
+ * Finds the siblings of the given parent PK
+ * (includes self)
+ */
+export const selectSiblings = createSelector(
+  selectParents,
+  (state, props) => props.parentPk || rootKey,
+  (pagesByParent, parentPk) => pagesByParent[parentPk] || []
+);
+
+/**
+ * Finds the page with the given parent PK.
+ */
+export const selectParent = createSelector(
+  (state) => values(state.pages.byId),
+  (state, props) => props.parentPk,
+  (pages, parentPk) => pages.find((page) => page.pk === parentPk)
 );

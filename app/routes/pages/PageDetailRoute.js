@@ -1,30 +1,34 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
-import { fetchHierarchy, fetchPage } from 'app/actions/PageActions';
+import { fetchAll, fetchPage } from 'app/actions/PageActions';
 import PageDetail from './components/PageDetail';
-import { selectHierarchyBySlug, selectPageBySlug } from 'app/reducers/pages';
+import { selectSiblings, selectParent, selectPageBySlug } from 'app/reducers/pages';
 
 function loadData({ pageSlug }, props) {
   props.fetchPage(pageSlug);
-  if (!props.hierarchy[pageSlug]) {
-    props.fetchHierarchy(pageSlug);
+  // We only need to fetch the title list once
+  // to show the page hierarchy:
+  if (!props.pages[pageSlug]) {
+    props.fetchAll(pageSlug);
   }
 }
 
 function mapStateToProps(state, props) {
   const { pageSlug } = props.params;
   const page = selectPageBySlug(state, { pageSlug });
-  const pageHierarchy = selectHierarchyBySlug(state, { pageSlug });
+  const siblings = selectSiblings(state, { parentPk: page.parent });
+  const parent = selectParent(state, { parentPk: page.parent });
   return {
     page,
     pageSlug,
-    pageHierarchy,
-    hierarchy: state.pages.hierarchy
+    siblings,
+    parent,
+    pages: state.pages.byId
   };
 }
 
-const mapDispatchToProps = { fetchHierarchy, fetchPage };
+const mapDispatchToProps = { fetchAll, fetchPage };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

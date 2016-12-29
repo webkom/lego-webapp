@@ -1,3 +1,4 @@
+import { arrayOf } from 'normalizr';
 import { Page } from './ActionTypes';
 import { pageSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
@@ -13,12 +14,13 @@ export function fetchPage(pageSlug) {
   });
 }
 
-export function fetchHierarchy(pageSlug) {
+export function fetchAll() {
   return callAPI({
-    types: Page.FETCH_HIERARCHY,
-    endpoint: `/pages/${pageSlug}/hierarchy/`,
+    types: Page.FETCH,
+    endpoint: '/pages/',
+    schema: arrayOf(pageSchema),
     meta: {
-      errorMessage: 'Fetching page hierarchy failed'
+      errorMessage: 'Fetching pages failed'
     }
   });
 }
