@@ -10,11 +10,12 @@ type Props = {
   className?: string
 };
 
-function EditorField({ className, input, ...rest }: Props) {
+function EditorField({ className, ...props }: Props) {
   return (<Editor
     className={cx(styles.textField, className)}
-    {...input}
-    {...rest}
+    {...props}
+    {...props.input}
+    {...props.meta}
   />);
 }
 
