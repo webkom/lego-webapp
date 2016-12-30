@@ -41,6 +41,9 @@ module.exports = {
     !isProduction && new webpack.HotModuleReplacementPlugin(),
     !isProduction && new webpack.NoErrorsPlugin(),
 
+    // Only include the Norwegian moment locale:
+    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /nb-NO/),
+
     new webpack.optimize.UglifyJsPlugin({
       compress: {
         warnings: false
