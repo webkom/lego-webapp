@@ -43,16 +43,6 @@ const EventSidebar = ({ events }) => (
         />
       ))}
     </div>
-    <div className={`${styles.events} ${styles.later}`}>
-      <h3>Videre</h3>
-      {events.slice(3).map((event) => (
-        <EventItem
-          key={event.id}
-          imageSize='25px'
-          event={event}
-        />
-      ))}
-    </div>
   </div>
 );
 

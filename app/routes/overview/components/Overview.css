@@ -10,7 +10,7 @@
   flex-direction: column;
   flex-grow: 1;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   border-right: 1px solid #ddd;
 }
 
@@ -62,8 +62,9 @@
   margin: 0;
   padding-top: 10px;
   line-height: 1.1;
-  font-size: 1.8rem;
+  font-size: 1.4rem;
   text-transform: uppercase;
+  word-break: break-all;
 }
 
 .normal .itemTitle {

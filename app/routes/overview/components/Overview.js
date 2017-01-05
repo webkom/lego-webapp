@@ -6,6 +6,7 @@ import Image from 'app/components/Image';
 import EventSidebar from './EventSidebar';
 import ProfileBox from './ProfileBox';
 import colorForEvent from 'app/routes/events/colorForEvent';
+import truncateString from 'app/utils/truncateString';
 import { getImage } from 'app/utils';
 
 const EVENT_TYPES = [
@@ -18,6 +19,7 @@ const EVENT_TYPES = [
 
 const HEADLINE_EVENTS = 2;
 const FRONT_EVENTS = 5;
+const DESCRIPTION_MAX_LENGTH = 130;
 
 const OverviewItem = ({ event, showImage }) => (
   <div className={styles.item}>
@@ -42,7 +44,9 @@ const OverviewItem = ({ event, showImage }) => (
       <span> - </span>
       <span>{event.location}</span>
     </span>
-    <p className={styles.itemDescription}>{event.description}</p>
+    <p className={styles.itemDescription}>
+      {truncateString(event.description, DESCRIPTION_MAX_LENGTH)}
+    </p>
   </div>
 );
 
