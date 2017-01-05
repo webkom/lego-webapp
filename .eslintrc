@@ -35,7 +35,6 @@
     "no-underscore-dangle": 1,
     "no-use-before-define": 0,
     "no-sequences": 1,
-    "no-useless-return": 0,
     "no-restricted-syntax": 1,
     "react/jsx-no-bind": 1,
     "react/sort-comp": 1,
@@ -45,8 +44,7 @@
     "react/prop-types": 0,
     "react/prefer-stateless-function": 1,
     "comma-dangle": 0,
-    "sort-comp": 0,
-    "import/first": 1
+    "sort-comp": 0
   },
   "settings": {
     "import/resolver": {
