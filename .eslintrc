@@ -22,6 +22,7 @@
     "import/prefer-default-export": 0,
     "import/first": 0,
     "import/no-dynamic-require": 0,
+    "import/extensions": 0,
     "jsx-quotes": [2, "prefer-single"],
     "jsx-a11y/no-static-element-interactions": 1,
     "jsx-a11y/tabindex-no-positive": 1,
@@ -43,6 +44,7 @@
     "react/prop-types": 0,
     "react/prefer-stateless-function": 1,
     "comma-dangle": 0,
+    "sort-comp": 0
   },
   "settings": {
     "import/resolver": {

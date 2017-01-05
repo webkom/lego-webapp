@@ -1,6 +1,6 @@
+import WebSocketClient from 'websocket.js';
 import config from '../config';
 import createQueryString from './createQueryString';
-import WebSocketClient from 'websocket.js';
 
 let socket;
 
