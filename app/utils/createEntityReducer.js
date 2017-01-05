@@ -1,7 +1,6 @@
 // @flow
 
-import union from 'lodash/union';
-import assign from 'lodash/assign';
+import { assign, union } from 'lodash';
 import joinReducers from 'app/utils/joinReducers';
 
 import type { ActionTypeObject } from 'app/utils/promiseMiddleware';

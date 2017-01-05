@@ -18,7 +18,7 @@ module.exports = {
       !isProduction && 'react-hot-loader/patch',
       './app/index.js'
     ]),
-    vendor: ['react', 'react-dom', 'react-router', 'moment', 'moment-timezone', 'lodash']
+    vendor: ['react', 'react-dom', 'react-router', 'moment', 'moment-timezone']
   },
 
   output: {
