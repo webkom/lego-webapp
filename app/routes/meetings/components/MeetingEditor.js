@@ -73,12 +73,28 @@ function MeetingEditor({ handleSubmit, handleSubmitCallback, meetingId, meeting 
         />
         {// TODO Liste over allerede inviterte brukere når man endrer referat
         }
-        <h3>Inviter brukere</h3>
-        <span>(Bruk @navn eller @gruppe for å invitere)</span>
-        <Field
-          name='inviteUsers'
-          component={TextInput.Field}
-        />
+        <div style={{ display: 'flex' }}>
+          <div style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
+            <h3>Inviter brukere</h3>
+            <span>(Bruk @navn for å invitere)</span>
+            <Field
+              name='users'
+              component={TextInput.Field}
+            />
+          </div>
+          <div style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
+            <h3>Inviter grupper</h3>
+            <span>(Bruk  @gruppe for å invitere)</span>
+            <Field
+              name='groups'
+              component={TextInput.Field}
+            />
+          </div>
+        </div>
+        { isEditPage && meeting.invitations.map((invite) => {
+          return <span>{invite.user.fullName}</span>;
+        }
+        )}
         <Button submit>Save Event</Button>
       </Form>
     </div>

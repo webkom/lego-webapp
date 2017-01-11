@@ -76,7 +76,32 @@ export function createMeeting({ title, report, location, startTime, endTime, rep
   };
 }
 
-export function editMeeting({ title, report, location, startTime, endTime, reportAuthor, id }) {
+export function inviteUsersAndGroups({ id, users, groups }) {
+  return callAPI({
+    types: Meeting.CREATE,
+    endpoint: `/meetings/${id}/bulk_invite/`,
+    method: 'post',
+    body: {
+      users: users ? users.split(' ') : [],
+      groups: groups ? groups.split(' ') : []
+    },
+    meta: {
+      errorMessage: 'editing meeting failed'
+    }
+  });
+}
+
+export function editMeeting({
+  title,
+  report,
+  location,
+  startTime,
+  endTime,
+  reportAuthor,
+  id,
+  users,
+  groups
+}) {
   return (dispatch) => {
     dispatch(startSubmit('meetingEditor'));
 
@@ -98,6 +123,10 @@ export function editMeeting({ title, report, location, startTime, endTime, repor
         errorMessage: 'editing meeting failed'
       }
     })).then(() => {
+      if (groups !== undefined || users !== undefined){
+        dispatch(inviteUsersAndGroups({id,users,groups}));
+      }
+
       dispatch(stopSubmit('meetingEditor'));
       dispatch(push(`/meetings/${id}`));
     }).catch((action) => {
