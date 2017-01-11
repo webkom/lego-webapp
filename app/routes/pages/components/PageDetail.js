@@ -42,12 +42,12 @@ export default class PageDetail extends Component {
   };
 
   render() {
-    const canEdit = true;
     const { page } = this.props;
     if (!page.content) {
       return <LoadingIndicator loading />;
     }
 
+    const canEdit = page.permissions && page.permissions.includes('update');
     return (
       <div className={styles.root}>
         <div className={styles.page}>
