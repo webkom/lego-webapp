@@ -1,6 +1,6 @@
 // @flow
 
-import { merge, union } from 'lodash';
+import { get, defaults, assign, union } from 'lodash';
 import joinReducers from 'app/utils/joinReducers';
 
 import type { ActionTypeObject } from 'app/utils/promiseMiddleware';
@@ -49,15 +49,15 @@ export default function createEntityReducer({
   }
 
   function entities(state: any, action) {
-    if (action.payload && action.payload.entities && action.payload.entities[key]) {
-      return {
-        ...state,
-        byId: merge({}, state.byId, action.payload.entities[key]),
-        items: union(state.items, arrayOf(action.payload.result))
-      };
-    }
-
-    return state;
+    const result = get(action, ['payload', 'entities', key]);
+    if (!result) return state;
+    // for list results we don't want to override existing data:
+    const func = Array.isArray(action.payload.result) ? defaults : assign;
+    return {
+      ...state,
+      byId: func({}, state.byId, result),
+      items: union(state.items, arrayOf(action.payload.result))
+    };
   }
 
   function optimistic(state: any, action) {
