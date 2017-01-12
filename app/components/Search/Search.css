@@ -44,6 +44,11 @@
   align-items: center;
 }
 
+.searchResultItemIcon {
+  font-size: 24px;
+  padding: 2px;
+  margin-right: 10px;
+}
 .closeButton {
   width: 60px;
   outline: none;

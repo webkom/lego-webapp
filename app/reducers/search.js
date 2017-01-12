@@ -36,6 +36,7 @@ export default function search(state = initialState, action) {
     case Search.TOGGLE_OPEN:
       return {
         ...state,
+        results: [],
         open: !state.open
       };
 
