@@ -1,7 +1,7 @@
 import 'isomorphic-fetch';
 
 export function stringifyBody(requestOptions: Object) {
-  const { body, json, method = 'get' } = requestOptions;
+  const { body, json } = requestOptions;
 
   if (typeof body === 'string') {
     return body;
@@ -11,10 +11,6 @@ export function stringifyBody(requestOptions: Object) {
     return JSON.stringify(body);
   }
 
-  if (['post', 'patch', 'put'].includes(method.toLowerCase()) && !body) {
-    return '';
-  }
-
   return null;
 }
 
@@ -22,7 +18,7 @@ export function stringifyBody(requestOptions: Object) {
  *
  */
 export default function fetchJSON(path, options = {}) {
-  const filesToUpload = options.files ? [...options.files] : [];
+  const filesToUpload = options.files ? options.files : [];
   delete options.files;
 
   let body;
@@ -31,9 +27,9 @@ export default function fetchJSON(path, options = {}) {
 
     const rawBody = options.body;
 
-    if (rawBody != null && typeof rawBody !== 'string') {
+    if (rawBody != null) {
       Object.keys(rawBody).forEach((prop) => {
-        (body).append(prop, rawBody[prop]);
+        body.append(prop, rawBody[prop]);
       });
     }
 

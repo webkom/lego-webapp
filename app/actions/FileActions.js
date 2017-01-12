@@ -18,7 +18,7 @@ export function uploadFile(file, fileName) {
       types: File.UPLOAD,
       method: 'post',
       endpoint: action.payload.url,
-      body: { ...action.payload.fields },
+      body: action.payload.fields,
       files: [file],
       timeout: 0,
       json: false,

@@ -55,7 +55,8 @@ export function logout() {
   };
 }
 
-export function updateUser({ username, firstName, lastName, email, picture }, redirect = true) {
+export function updateUser(user, options = { noRedirect: false }) {
+  const { username, firstName, lastName, email, picture } = user;
   return (dispatch, getState) => {
     const token = getState().auth.token;
     return dispatch(callAPI({
@@ -75,7 +76,7 @@ export function updateUser({ username, firstName, lastName, email, picture }, re
       }
     }))
       .then((action) => {
-        if (redirect) {
+        if (!options.noRedirect) {
           dispatch(push(`/users/${action.payload.result || 'me'}`));
         }
         if (getState().auth.username === username) {
@@ -95,7 +96,7 @@ export function updatePicture({ picture }) {
     const username = getState().auth.username;
     return dispatch(uploadFile(picture))
       .then((action) =>
-        dispatch(updateUser({ username, picture: action.meta.fileToken }, false)));
+        dispatch(updateUser({ username, picture: action.meta.fileToken }, { noRedirect: true })));
   };
 }
 

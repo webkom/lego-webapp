@@ -12,13 +12,11 @@ type Props = {
 
 function UploadPage({ updatePicture, user }: Props) {
   return (
-    <div>
-      <Upload
-        onSubmit={(file) => updatePicture({ picture: file })}
-        accept='image/*'
-        user={user}
-      />
-    </div>
+    <Upload
+      onSubmit={(file) => updatePicture({ picture: file })}
+      accept='image/*'
+      user={user}
+    />
   );
 }
 
