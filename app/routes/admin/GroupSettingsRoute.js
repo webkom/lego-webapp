@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import EditPermissions from './components/EditPermissions';
 
@@ -19,21 +19,15 @@ const Permissions = ({ permissions }) => {
 };
 
 export default class GroupSettings extends Component {
-  static propTypes = {
-    group: PropTypes.object,
-    updateGroup: PropTypes.func
+  state = {
+    editing: true
   };
-  constructor() {
-    super();
-    this.state = {
-      editing: true
-    };
-  }
-  toggleEditing() {
+
+  toggleEditing = () => {
     this.setState({
       editing: !this.state.editing
     });
-  }
+  };
 
   render() {
     const { permissions, id } = this.props.group;
@@ -42,14 +36,14 @@ export default class GroupSettings extends Component {
 
     let display;
     if (permissions) {
-      display = editing ?
-        <EditPermissions permissions={permissions} groupId={id} updateGroup={updateGroup} /> :
-          <Permissions permissions={permissions} />;
+      display = editing
+        ? <EditPermissions permissions={permissions} groupId={id} updateGroup={updateGroup} />
+        : <Permissions permissions={permissions} />;
     }
 
     return (
       <div>
-        <h4>Permissions: (<a onClick={::this.toggleEditing}>{editing ? 'Cancel' : 'Edit'}</a>)</h4>
+        <h4>Permissions: (<button onClick={this.toggleEditing}>{editing ? 'Cancel' : 'Edit'}</button>)</h4>
         <LoadingIndicator loading={!permissions}>
           {display}
 

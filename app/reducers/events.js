@@ -5,6 +5,7 @@ import { createSelector } from 'reselect';
 import { Event } from '../actions/ActionTypes';
 import { mutateComments } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import joinReducers from 'app/utils/joinReducers';
 
 export type EventEntity = {
   id: number;
@@ -12,7 +13,50 @@ export type EventEntity = {
   comments: Array<number>;
 };
 
-const mutate = mutateComments('events');
+function mutateEvent(state: any, action: any) {
+  switch (action.type) {
+    case Event.REGISTER.BEGIN: {
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [action.meta.id]: {
+            ...state.byId[action.meta.id],
+            loading: true
+          }
+        }
+      };
+    }
+    case Event.REGISTER.SUCCESS: {
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [action.meta.id]: {
+            ...state.byId[action.meta.id],
+            loading: false
+          }
+        }
+      };
+    }
+    case Event.REGISTER.FAILURE: {
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [action.meta.id]: {
+            ...state.byId[action.meta.id],
+            loading: false
+          }
+        }
+      };
+    }
+    default:
+      return state;
+  }
+}
+
+const mutate = joinReducers(mutateComments('events'), mutateEvent);
 
 export default createEntityReducer({
   key: 'events',
@@ -46,6 +90,26 @@ export const selectEventById = createSelector(
     }
     return {};
   }
+);
+
+export const selectPoolsForEvent = createSelector(
+  selectEventById,
+  (state) => state.pools.byId,
+  (event, poolsById) => {
+    if (!event) return [];
+    return (event.pools || []).map((poolId) => (poolsById[poolId]));
+  }
+);
+
+export const selectPoolsWithRegistrationsForEvent = createSelector(
+  selectPoolsForEvent,
+  (state) => state.registrations.byId,
+  (pools, registrationsById) => (
+    pools.map((pool) => ({
+      ...pool,
+      registrations: pool.registrations.map((regId) => registrationsById[regId])
+    }))
+  )
 );
 
 export const selectCommentsForEvent = createSelector(

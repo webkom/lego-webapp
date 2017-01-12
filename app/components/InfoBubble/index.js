@@ -9,9 +9,7 @@ type Props = {
   meta: string
 };
 
-const httpCheck = (link) => {
-  return link.startsWith('http://') ? link : `http://${link}`;
-};
+const httpCheck = (link) => (link.startsWith('http://') ? link : `http://${link}`);
 
 const noLinkIcon = (icon, bubbleClass, iconClass) => (
   <div className={cx(styles.bubble, bubbleClass)}>

@@ -10,7 +10,19 @@ function generateStatuses(name) {
  *
  */
 export const Event = {
-  FETCH: generateStatuses('Event.FETCH')
+  FETCH: generateStatuses('Event.FETCH'),
+  REGISTER: generateStatuses('Event.REGISTER'),
+  UNREGISTER: generateStatuses('Event.UNREGISTER'),
+  PAYMENT: generateStatuses('Event.PAYMENT'),
+  SOCKET_REGISTRATION: 'SOCKET_REGISTRATION',
+  SOCKET_UNREGISTRATION: 'SOCKET_UNREGISTRATION'
+};
+
+/**
+ *
+ */
+export const Article = {
+  FETCH: generateStatuses('Article.FETCH')
 };
 
 /**
@@ -57,6 +69,7 @@ export const Quote = {
 export const Search = {
   SEARCH: generateStatuses('Search.SEARCH'),
   AUTOCOMPLETE: generateStatuses('Search.AUTOCOMPLETE'),
+  MENTION: generateStatuses('Search.MENTION'),
   RESULTS_RECEIVED: 'Search.RESULTS_RECEIVED',
   TOGGLE_OPEN: 'Search.TOGGLE_OPEN'
 };
@@ -73,5 +86,13 @@ export const User = {
   FETCH: generateStatuses('User.FETCH'),
   UPDATE: generateStatuses('User.UPDATE'),
   LOGIN: generateStatuses('User.LOGIN'),
-  LOGOUT: 'User.LOGOUT'
+  LOGOUT: 'User.LOGOUT',
+  SOCKET: generateStatuses('User.SOCKET')
+};
+
+/**
+ *
+ */
+export const Page = {
+  FETCH: generateStatuses('Page.Fetch')
 };

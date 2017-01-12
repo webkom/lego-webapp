@@ -1,13 +1,27 @@
-export default {
+import { loadRoute, loadingError } from 'app/routes';
+
+export default ({
   path: 'quotes',
-  indexRoute: { component: require('./QuotesRoute').default },
+  indexRoute: {
+    getComponent(location, cb) {
+      import('./QuotesRoute')
+        .then(loadRoute(cb))
+        .catch(loadingError);
+    }
+  },
   childRoutes: [{
     path: 'add',
-    component: require('./QuoteEditorRoute').default
-  },
-  {
+    getComponent(location, cb) {
+      import('./QuoteEditorRoute')
+        .then(loadRoute(cb))
+        .catch(loadingError);
+    }
+  }, {
     path: ':quoteId',
-    component: require('./QuoteDetailRoute').default
-  }
-  ]
-};
+    getComponent(location, cb) {
+      import('./QuoteDetailRoute')
+        .then(loadRoute(cb))
+        .catch(loadingError);
+    }
+  }]
+});

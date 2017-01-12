@@ -1,7 +1,6 @@
 // @flow
 
-import union from 'lodash/union';
-import merge from 'lodash/merge';
+import { assign, union } from 'lodash';
 import joinReducers from 'app/utils/joinReducers';
 
 import type { ActionTypeObject } from 'app/utils/promiseMiddleware';
@@ -53,7 +52,7 @@ export default function createEntityReducer({
     if (action.payload && action.payload.entities && action.payload.entities[key]) {
       return {
         ...state,
-        byId: merge({}, state.byId, action.payload.entities[key]),
+        byId: assign({}, state.byId, action.payload.entities[key]),
         items: union(state.items, arrayOf(action.payload.result))
       };
     }

@@ -8,7 +8,7 @@ const RegisteredCell = ({ user }) => (
   <Tooltip className={styles.cell} content={user.fullName}>
     <Link to={`/users/${user.username}`}>
       <ProfilePicture
-        size={40}
+        size={60}
         user={user.id}
       />
     </Link>

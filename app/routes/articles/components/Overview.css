@@ -1,0 +1,121 @@
+.frontpage {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.overview {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  border-right: 1px solid #ddd;
+}
+
+.headline,
+.normal {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #ddd;
+  margin: 0 30px;
+}
+
+.rest {
+  flex-direction: column;
+}
+
+.item {
+  text-align: center;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  margin: 30px 0;
+  padding: 0 20px;
+}
+
+.headline > .item {
+  width: 50%;
+}
+
+.normal > .item {
+  width: 33%;
+}
+
+.item:hover .itemInfo {
+  color: black;
+}
+
+.item:not(:last-child) {
+  border-right: 1px solid #ddd;
+}
+
+.itemType {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.itemTitle {
+  margin: 0;
+  padding-top: 10px;
+  line-height: 1.1;
+  font-size: 1.8rem;
+  text-transform: uppercase;
+}
+
+.normal .itemTitle {
+  font-size: 1.2rem;
+}
+
+.itemTitle > a {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.itemInfo {
+  transition: color 0.2s;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.itemDescription {
+  padding-top: 10px;
+  margin: 0;
+  font-family: 'skolar-latin';
+  font-size: 1.1rem;
+  -webkit-font-smoothing: initial;
+}
+
+.normal .itemDescription {
+  font-size: 1rem;
+}
+
+.sidebar {
+  display: flex;
+  flex-basis: 27%;
+  flex-shrink: 0;
+  flex-direction: column;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.toolbarSection {
+  flex: 1;
+  display: flex;
+  align-items: center;
+
+  &:last-of-type {
+    justify-content: flex-end;
+  }
+
+  &:first-of-type {
+    justify-content: flex-start;
+  }
+}

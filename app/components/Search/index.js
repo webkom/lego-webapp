@@ -109,7 +109,7 @@ class Search extends Component {
         break;
 
       default:
-        return;
+
     }
   };
 

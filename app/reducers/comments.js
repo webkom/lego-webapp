@@ -30,8 +30,9 @@ export function mutateComments(forTargetType: string) {
         };
       }
 
-      default:
+      default: {
         return state;
+      }
     }
   };
 }

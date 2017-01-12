@@ -17,11 +17,12 @@
   },
   "rules": {
     "arrow-parens": [2, "always"],
-    "arrow-body-style": 0,
     "global-require": 0,
     "import/no-extraneous-dependencies": 0,
     "import/prefer-default-export": 0,
-    "import/imports-first": 0,
+    "import/first": 0,
+    "import/no-dynamic-require": 0,
+    "import/extensions": 0,
     "jsx-quotes": [2, "prefer-single"],
     "jsx-a11y/no-static-element-interactions": 1,
     "jsx-a11y/tabindex-no-positive": 1,
@@ -32,6 +33,7 @@
     "no-plusplus": 0,
     "no-param-reassign": 0,
     "no-underscore-dangle": 1,
+    "no-use-before-define": 0,
     "no-sequences": 1,
     "no-restricted-syntax": 1,
     "react/jsx-no-bind": 1,
@@ -42,6 +44,7 @@
     "react/prop-types": 0,
     "react/prefer-stateless-function": 1,
     "comma-dangle": 0,
+    "sort-comp": 0
   },
   "settings": {
     "import/resolver": {
