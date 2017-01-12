@@ -22,7 +22,6 @@ export function stringifyBody(requestOptions: Object) {
  *
  */
 export default function fetchJSON(path, options = {}) {
-
   const filesToUpload = options.files ? [...options.files] : [];
   delete options.files;
 
@@ -40,6 +39,7 @@ export default function fetchJSON(path, options = {}) {
 
     body.append('file', filesToUpload[0]);
   } else {
+    options.headers = options.headers || {};
     options.headers['Content-Type'] = options.headers['Content-Type'] || 'application/json';
     body = stringifyBody(options);
   }

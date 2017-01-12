@@ -13,25 +13,21 @@ export function fetchSignedPost(key) {
 }
 
 export function uploadFile(file, fileName) {
-  return (dispatch) => {
-    return dispatch(fetchSignedPost(fileName || file.name))
-      .then((action) => {
-        return dispatch(callAPI({
-          types: File.UPLOAD,
-          method: 'post',
-          endpoint: action.payload.url,
-          body: { ...action.payload.fields },
-          files: [file],
-          timeout: 0,
-          json: false,
-          headers: {
-            'Accept': 'application/json',
-          },
-          requiresAuthentication: false,
-          meta: {
-            fileToken: action.payload.file_token
-          }
-        }));
-      });
-  };
+  return (dispatch) => dispatch(fetchSignedPost(fileName || file.name))
+    .then((action) => dispatch(callAPI({
+      types: File.UPLOAD,
+      method: 'post',
+      endpoint: action.payload.url,
+      body: { ...action.payload.fields },
+      files: [file],
+      timeout: 0,
+      json: false,
+      headers: {
+        'Accept': 'application/json',
+      },
+      requiresAuthentication: false,
+      meta: {
+        fileToken: action.payload.file_token
+      }
+    })));
 }

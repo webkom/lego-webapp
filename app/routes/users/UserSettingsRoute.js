@@ -58,15 +58,10 @@ class UserSettingsRoute extends Component {
 }
 
 function mapStateToProps(state) {
-  const user = state.auth.username ? state.users.byId[state.auth.username] : undefined;
+  const user = state.auth.username ? state.users.byId[state.auth.username] : {};
   return {
-    user: user || {},
-    initialValues: user ? {
-      username: user.username,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email
-    } : {}
+    user,
+    initialValues: user
   };
 }
 
@@ -76,6 +71,7 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'contact',
-    validate: validateContact
+    validate: validateContact,
+    enableReinitialize: true
   })
 )(UserSettingsRoute);
