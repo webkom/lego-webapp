@@ -15,7 +15,7 @@ import {
 } from 'app/reducers/events';
 
 function loadData({ eventId }, props) {
-  props.fetchEvent(Number(eventId));
+  return props.fetchEvent(Number(eventId));
 }
 
 function selectRegistrations(pools) {
