@@ -152,12 +152,7 @@ class MeetingDetails extends Component {
           </FlexItem>
           <FlexItem className={styles.reportContent} flex={2}>
             <h2>Referat</h2>
-            {/* FIXME proper HTML escape etc. */}
-            {meeting.report.split('\n').map((item) => (
-              <p>
-                {item}
-              </p>
-            ))}
+            <div dangerouslySetInnerHTML={{ __html: meeting.report }} />
           </FlexItem>
         </div>
 

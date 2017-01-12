@@ -112,9 +112,9 @@ export default class MeetingList extends Component {
 
     return pools.concat(oldMeetings).filter((elem) => (elem.meetings.length !== 0)).map((pool) => ({
       title: pool.title,
-      meetings: pool.meetings.sort((elem1, elem2) => {
-        return moment(elem1.startTime) - moment(elem2.startTime);
-      })
+      meetings: pool.meetings.sort((elem1, elem2) =>
+        moment(elem1.startTime) - moment(elem2.startTime)
+      )
     }
     ));
   }

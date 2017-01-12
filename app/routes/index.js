@@ -4,6 +4,7 @@ import overview from './overview';
 import events from './events';
 import users from './users';
 import articles from './articles';
+import meetings from './meetings';
 import admin from './admin';
 import quotes from './quotes';
 import pages from './pages';
@@ -24,6 +25,7 @@ export default {
     events,
     users,
     articles,
+    meetings,
     admin,
     quotes,
     pages,

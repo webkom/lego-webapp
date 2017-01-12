@@ -7,15 +7,17 @@ import { reduxForm, Field } from 'redux-form';
 import { Form, TextInput, TextEditor, Button, DatePicker } from 'app/components/Form';
 import moment from 'moment';
 import config from 'app/config';
+import Editor from 'app/components/Editor';
 
 type Props = {
   handleSubmit: func,
   handleSubmitCallback: func,
   meetingId?: string,
-  meeting?: string
+  meeting?: string,
+  change: func
 }
 
-function MeetingEditor({ handleSubmit, handleSubmitCallback, meetingId, meeting }: Props) {
+function MeetingEditor({ handleSubmit, handleSubmitCallback, meetingId, meeting, change }: Props) {
   const isEditPage = (meetingId !== undefined);
   if (isEditPage && meeting === undefined) {
     return <LoadingIndicator loading />;
@@ -43,8 +45,17 @@ function MeetingEditor({ handleSubmit, handleSubmitCallback, meetingId, meeting 
         <Field
           name='report'
           rows='15'
+          style={{ display: 'none' }}
           component={TextEditor.Field}
         />
+        <div className={styles.editors}>
+          <Editor
+            content={meeting.report}
+            onChange={(data) => {
+              change('report', data);
+            }}
+          />
+        </div>
         <h3>Start- og sluttidspunkt</h3>
         <div style={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
           <Field
@@ -91,9 +102,8 @@ function MeetingEditor({ handleSubmit, handleSubmitCallback, meetingId, meeting 
             />
           </div>
         </div>
-        { isEditPage && meeting.invitations.map((invite) => {
-          return <span>{invite.user.fullName}</span>;
-        }
+        { isEditPage && meeting.invitations.map((invite) =>
+          <span>{invite.user.fullName}</span>
         )}
         <Button submit>Save Event</Button>
       </Form>

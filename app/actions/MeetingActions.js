@@ -123,8 +123,8 @@ export function editMeeting({
         errorMessage: 'editing meeting failed'
       }
     })).then(() => {
-      if (groups !== undefined || users !== undefined){
-        dispatch(inviteUsersAndGroups({id,users,groups}));
+      if (groups !== undefined || users !== undefined) {
+        dispatch(inviteUsersAndGroups({ id, users, groups }));
       }
 
       dispatch(stopSubmit('meetingEditor'));

@@ -3,6 +3,13 @@
   margin-top: 2rem;
 }
 
+.editors {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 10px;
+}
+
 .heading {
   color: #777;
   letter-spacing: 2px;
