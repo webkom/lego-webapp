@@ -17,20 +17,44 @@ const Keyboard = {
   DOWN: 40
 };
 
+export const searchMap = {
+  'users.user': {
+    icon: 'user',
+    title: (item) => item.payload.full_name,
+    color: '#A1C34A',
+    link: '/users/'
+  },
+  'articles.article': {
+    icon: 'newspaper-o',
+    title: (item) => item.text,
+    color: '#52B0EC',
+    link: '/articles/'
+  },
+  'events.event': {
+    icon: 'calendar',
+    title: (item) => item.text,
+    color: '#E8953A',
+    link: '/events/'
+  }
+};
+
 const quickLinks = [
   ['', 'Interessegrupper'],
   ['', 'Butikk'],
   ['', 'Kontakt']
 ];
 
-const SearchResultItem = ({ item, isSelected }) => (
-  <li className={cx(isSelected && styles.isSelected)}>
-    <Pill style={{ marginRight: '10px' }}>
-      {item.text}
-    </Pill>
-    {item.title}
-  </li>
-);
+const SearchResultItem = ({ item, isSelected }) => {
+  const objectType = searchMap[item.content_type];
+  return (
+    <Link to={objectType.link + item.object_id}>
+      <li className={cx(isSelected && styles.isSelected)} Style={{ borderColor: objectType.color }}>
+        <Icon className={styles.searchResultItemIcon} name={objectType.icon} />
+        {objectType.title(item)}
+      </li>
+    </Link>
+  );
+};
 
 type Props = {
   results: Array<any>;
@@ -66,7 +90,7 @@ class Search extends Component {
         e.preventDefault();
         this.setState({
           selectedIndex: Math.min(
-            this.props.results.length - 1,
+            this.props.results.length,
             this.state.selectedIndex + 1
           )
         });
@@ -74,7 +98,13 @@ class Search extends Component {
 
       case Keyboard.ENTER:
         e.preventDefault();
-        this.props.openSearchRoute(this.state.query);
+        if (this.state.selectedIndex === 0) {
+          this.props.openSearchRoute(this.state.query);
+        } else {
+          const item = this.props.results[this.state.selectedIndex - 1];
+          const objectType = searchMap[item.content_type];
+          this.props.push(objectType.link + item.object_id);
+        }
         this.props.onCloseSearch();
         break;
 
@@ -121,7 +151,7 @@ class Search extends Component {
                 <SearchResultItem
                   key={i}
                   item={item}
-                  isSelected={i === this.state.selectedIndex}
+                  isSelected={i === this.state.selectedIndex - 1}
                 />
               ))}
             </ul>
@@ -151,8 +181,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onQueryChanged: debounce((query) => dispatch(autocomplete(query)), 500),
-    openSearchRoute: (query) => dispatch(push(`/search?q=${query}`))
+    onQueryChanged: debounce((query) => dispatch(autocomplete(query)), 300),
+    openSearchRoute: (query) => dispatch(push(`/search?q=${query}`)),
+    push: (uri) => dispatch(push(uri))
   };
 }
 
