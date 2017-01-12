@@ -4,3 +4,49 @@
   composes: container from '../../../Root.css';
   margin-top: 2rem;
 }
+
+.inputContainer {
+  display: flex;
+  justify-content: space-between;
+  height: 120px;
+  padding-top: 40px;
+  border-bottom: 1px solid #ccc;
+
+  @media (--small-viewport) {
+    padding: 0 20px;
+    height: 96px;
+  }
+}
+
+.inputContainer input {
+  flex: 1;
+  outline: none;
+  border: 0;
+  padding: 0 1rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #333;
+  background: transparent;
+
+  &::placeholder {
+    color: #444;
+  }
+}
+
+.searchIcon {
+  color: #777;
+  font-size: 1.8rem;
+  width: 30px;
+  display: flex;
+  align-items: center;
+}
+
+.loadingIcon {
+  width: 60px;
+  outline: none;
+  border: 0;
+  margin: 15px 0;
+  background: transparent;
+  color: #333;
+  font-size: 2rem;
+}

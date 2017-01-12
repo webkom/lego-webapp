@@ -6,7 +6,6 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { debounce } from 'lodash';
-import Pill from '../Pill';
 import Icon from '../Icon';
 import { autocomplete } from 'app/actions/SearchActions';
 import { push } from 'react-router-redux';
