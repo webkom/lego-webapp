@@ -9,6 +9,3 @@ module.name_mapper='.*\(.css\)' -> 'empty/object'
 module.name_mapper='^\(.*\)$' -> '<PROJECT_ROOT>/\1'
 
 suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
-
-[version]
-0.36.0
