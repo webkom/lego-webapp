@@ -18,7 +18,7 @@ module.exports = {
       !isProduction && 'react-hot-loader/patch',
       './app/index.js'
     ]),
-    vendor: ['react', 'react-dom', 'react-router', 'moment', 'moment-timezone', 'lodash']
+    vendor: ['react', 'react-dom', 'react-router', 'moment', 'moment-timezone']
   },
 
   output: {
@@ -40,6 +40,9 @@ module.exports = {
 
     !isProduction && new webpack.HotModuleReplacementPlugin(),
     !isProduction && new webpack.NoErrorsPlugin(),
+
+    // Only include the Norwegian moment locale:
+    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /nb-NO/),
 
     new webpack.optimize.UglifyJsPlugin({
       compress: {

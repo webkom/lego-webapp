@@ -29,7 +29,7 @@ export function updateGroup({ groupId, updates }) {
   return callAPI({
     types: Group.UPDATE,
     endpoint: `/groups/${groupId}/`,
-    method: 'patch',
+    method: 'PATCH',
     body: updates,
     schema: groupSchema,
     meta: {
