@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { reduxForm, initialize } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import UserSettings from './components/UserSettings';
 import { updateUser } from 'app/actions/UserActions';
 
@@ -31,39 +31,12 @@ function validateContact(data) {
 }
 
 type Props = {
-  user: Object,
   handleSubmit: () => void,
-  initialize: () => void,
   updateUser: () => void
 };
 
 class UserSettingsRoute extends Component {
   props: Props;
-
-  componentWillMount() {
-    const { user } = this.props;
-    const data = {
-      username: user.username,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email
-    };
-
-    this.props.initialize('contact', data);
-  }
-
-  componentWillReceiveProps(newProps) {
-    if (newProps.user !== this.props.user) {
-      const data = {
-        username: newProps.user.username,
-        firstName: newProps.user.firstName,
-        lastName: newProps.user.lastName,
-        email: newProps.user.email
-      };
-
-      this.props.initialize('contact', data);
-    }
-  }
 
   onSubmit = (data) => {
     this.props.updateUser(data);
@@ -81,12 +54,19 @@ class UserSettingsRoute extends Component {
 }
 
 function mapStateToProps(state) {
+  const user = state.auth.username ? state.users.byId[state.auth.username] : undefined;
   return {
-    user: state.auth.username ? state.users.byId[state.auth.username] : {}
+    user: user || {},
+    initialValues: user ? {
+      username: user.username,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email
+    } : {}
   };
 }
 
-const mapDispatchToProps = { initialize, updateUser };
+const mapDispatchToProps = { updateUser };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
