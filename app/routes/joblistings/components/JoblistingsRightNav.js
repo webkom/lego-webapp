@@ -60,55 +60,43 @@ export default class JoblistingsRightNav extends Component {
     if (query.class) {
       query.class = query.class.split(',');
     }
+    if (query.jobtypes) {
+      query.jobtypes = query.jobtypes.split(',');
+    }
+    if (query.workplaces) {
+      query.workplaces = query.workplaces.split(',');
+    }
     this.setState({ filters: query });
   }
+
+  asd3 = (type, value, label) => (
+    <Link to={{ pathname: '/joblistings', query: this.updateFilters(type, value) }}>
+      <CheckBox
+        label={label}
+        checked={this.state.filters[type].includes(value)}
+        readOnly
+      />
+    </Link>
+  );
 
   render() {
     return (
       <FlexColumn className={styles.box}>
-        <FlexRow>
-          Sorter etter:
-        </FlexRow>
+        <h3>Sorter etter:</h3>
         <FlexRow className={styles.sort}>
           <Link to={{ pathname: '/joblistings', query: this.handleQuery('sort', 'company') }}>Bedrift </Link>
           <Link to={{ pathname: '/joblistings', query: this.handleQuery('sort', 'deadline') }}>Frist</Link>
         </FlexRow>
-        <FlexColumn>
-          <Link to={{ pathname: '/joblistings', query: this.updateFilters('class', '1') }}>
-            <CheckBox
-              label={'1. klasse'}
-              checked={this.state.filters.class.includes('1')}
-              readOnly
-            />
-          </Link>
-          <Link to={{ pathname: '/joblistings', query: this.updateFilters('class', '2') }}>
-            <CheckBox
-              label={'2. klasse'}
-              checked={this.state.filters.class.includes('2')}
-              readOnly
-            />
-          </Link>
-          <Link to={{ pathname: '/joblistings', query: this.updateFilters('class', '3') }}>
-            <CheckBox
-              label={'3. klasse'}
-              checked={this.state.filters.class.includes('3')}
-              readOnly
-            />
-          </Link>
-          <Link to={{ pathname: '/joblistings', query: this.updateFilters('class', '4') }}>
-            <CheckBox
-              label={'4. klasse'}
-              checked={this.state.filters.class.includes('4')}
-              readOnly
-            />
-          </Link>
-          <Link to={{ pathname: '/joblistings', query: this.updateFilters('class', '5') }}>
-            <CheckBox
-              label={'5. klasse'}
-              checked={this.state.filters.class.includes('5')}
-              readOnly
-            />
-          </Link>
+        <FlexColumn className={styles.filters}>
+          <h3>Klassetrinn:</h3>
+          {['1', '2', '3', '4', '5'].map((element) => this.asd3('class', element, `${element}. klasse`))}
+          <h3>Jobbtype:</h3>
+          {this.asd3('jobtypes', 'summer_job', 'Sommerjobb')}
+          {this.asd3('jobtypes', 'part_time', 'Deltid')}
+          {this.asd3('jobtypes', 'full_time', 'Fulltid')}
+          <h3>Sted:</h3>
+          {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map((element) =>
+            this.asd3('workplaces', element, element))}
         </FlexColumn>
       </FlexColumn>
     );

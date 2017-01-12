@@ -9,6 +9,8 @@ function loadData([], props) {
 }
 
 function filterJoblistings(joblistings, classes, jobtypes, workplaces) {
+  console.log('heisann', jobtypes);
+  console.log(classes);
   return joblistings.filter((joblisting) => {
     if (classes.length === 0) {
       return true;
@@ -60,12 +62,13 @@ function mapStateToProps(state, props) {
     .map((id) => state.joblistings.byId[id]);
   console.log('asd2', query);
   const sortType = query.sort === 'company' ? 'company' : 'deadline';
-  const filterClass = query.class ? query.class : [];
-  const filterJobType = query.jobtype ? query.jobtype : [];
-  const filterWorkplaces = query.workplaces ? query.workplaces : [];
+  const filterClass = query.class ? query.class.split(',') : [];
+  const filterJobType = query.jobtypes ? query.jobtypes.split(',') : [];
+  const filterWorkplaces = query.workplaces ? query.workplaces.split(',') : [];
 
   const filteredJoblistings = filterJoblistings(joblistings, filterClass,
     filterJobType, filterWorkplaces);
+    console.log(filteredJoblistings);
   const sortedJoblistings = sortJoblistings(filteredJoblistings, sortType);
 
   return {
