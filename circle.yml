@@ -4,7 +4,7 @@ machine:
 
 dependencies:
   pre:
-    - npm install -g yarnpkg
+    - npm install -g yarn
 
   override:
     - yarn

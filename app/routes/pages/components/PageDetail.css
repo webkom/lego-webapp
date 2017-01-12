@@ -4,8 +4,31 @@
 
 .title {
   font-size: 28px;
+
+  /** margin handled by .header **/
+  margin: 0;
 }
 
 .page {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.detail {
   margin-top: 30px;
+  width: 80%;
+  padding-right: 5em;
+}
+
+.header {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sidebar {
+  width: 20%;
 }

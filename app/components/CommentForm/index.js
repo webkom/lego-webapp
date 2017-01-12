@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import cx from 'classnames';
 import { reduxForm, Field } from 'redux-form';
 import { EditorField } from 'app/components/Form';
 import Button from 'app/components/Button';
@@ -59,6 +60,8 @@ class CommentForm extends Component {
       inlineMode,
       autoFocus
     } = this.props;
+    const active = autoFocus || !pristine;
+    const className = inlineMode ? styles.inlineForm : styles.form;
 
     if (!loggedIn) {
       return (
@@ -68,33 +71,43 @@ class CommentForm extends Component {
       );
     }
 
-    const className = inlineMode ? styles.inlineForm : styles.form;
-
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)} className={className}>
-        <ProfilePicture
-          size={64}
-          user={user.id}
-          style={{ marginRight: 20 }}
-        />
+      <form
+        onSubmit={handleSubmit(this.onSubmit)}
+        className={cx(className, active && styles.activeForm)}
+      >
+        <div className={styles.header}>
+          <ProfilePicture
+            size={40}
+            user={user.id}
+            style={{ margin: '9px 20px 9px 0px' }}
+          />
 
-        <div className={styles.fields}>
+          {active &&
+            <div className={styles.author}>
+              {this.props.user.fullName}
+            </div>
+          }
+        </div>
+
+        <div className={styles.active ? styles.activeFields : styles.fields}>
           <Field
-            placeholder='Skriv noe her...'
+            placeholder={submitText}
             autoFocus={autoFocus}
             name='text'
             component={EditorField}
             simpleEditor
-            type='text'
           />
 
-          <Button
-            className={styles.submit}
-            disabled={pristine || submitting}
-            submit
-          >
-            {submitText}
-          </Button>
+          {active &&
+            <Button
+              className={styles.submit}
+              disabled={pristine || submitting}
+              submit
+            >
+              {submitText}
+            </Button>
+          }
         </div>
       </form>
     );

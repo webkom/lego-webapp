@@ -1,6 +1,6 @@
 /* eslint-disable new-cap */
 import { EditorState, genKey, ContentBlock } from 'draft-js';
-import { convertToHTML } from 'draft-convert';
+import { convertFromHTML, convertToHTML } from 'draft-convert';
 import { Map } from 'immutable';
 import Link, { findLinkEntities } from './Entities/Link';
 import { Block, Inline } from './constants';
@@ -10,7 +10,7 @@ export const toHTML = (content) => convertToHTML({
     [Block.UNSTYLED]: {
       start: '<p>',
       end: '</p>',
-      empty: '<br>'
+      empty: ''
     },
     [Block.BREAK]: {
       start: '<p>',
@@ -57,8 +57,18 @@ export const customDecorators = ([
   }
 ]);
 
+/**
+ * Initializes EditorState, either with
+ * content or empty depending on the argument.
+ */
+export const createEditorState = (content) => {
+  if (content) {
+    const editorState = convertFromHTML(content);
+    return EditorState.createWithContent(editorState);
+  }
 
-export const createEditorState = () => EditorState.createEmpty();
+  return EditorState.createEmpty();
+};
 
 /*
 Returns default block-level metadata for various block type. Empty object otherwise.

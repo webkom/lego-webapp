@@ -13,8 +13,33 @@
   margin-top: 20px;
 }
 
+.activeForm {
+  flex-direction: column;
+}
+
+.header {
+  flex-direction: row;
+  display: flex;
+}
+
 .fields {
   display: flex;
   flex-direction: column;
   flex: 1;
+}
+
+.author {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  font-size: 18px;
+  font-weight: 500;
+  padding: 15px 0;
+  color: #ba1414;
+}
+
+.activeFields {
+  display: flex;
+  flex-direction: column;
+  flex: 2;
 }

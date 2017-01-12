@@ -13,7 +13,6 @@ pipeline:
       - yarn run build:dll
       - yarn test
       - yarn run lint
-      - yarn run build
 
   docker:
     image: plugins/docker

@@ -1,25 +1,82 @@
-import React from 'react';
+/* eslint-disable react/no-danger */
+// @flow
+
+import React, { Component } from 'react';
 import styles from './PageDetail.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import Markdown from 'app/components/Markdown';
+import Editor from 'app/components/Editor';
+import PageButtons from './PageButtons';
+import PageHierarchy from './PageHierarchy';
 
-export type Props = {
-  page: Object;
+type Props = {
+  updatePage: (string, Object) => void,
+  page: Object
 };
 
-const PageDetail = ({ page }: props) => {
-  if (!page.slug) {
-    return <LoadingIndicator loading />;
+export default class PageDetail extends Component {
+  state = {
+    isEditing: false,
+    content: ''
+  };
+
+  props: Props;
+
+  handleEditorChange = (content) => {
+    this.setState({
+      ...this.state,
+      content
+    });
+  };
+
+  handleSave = () => {
+    this.setState({ isEditing: false });
+    this.props.updatePage(this.props.page.slug, {
+      content: this.state.content
+    });
   }
 
-  return (
-    <div className={styles.root}>
-      <article className={styles.page}>
-        <h2 className={styles.title}>{page.title}</h2>
-        <Markdown>{page.content}</Markdown>
-      </article>
-    </div>
-  );
-};
+  toggleEditing = () => {
+    this.setState({
+      isEditing: !this.state.isEditing
+    });
+  };
 
-export default PageDetail;
+  render() {
+    const { page } = this.props;
+    if (!page.content) {
+      return <LoadingIndicator loading />;
+    }
+
+    const canEdit = page.permissions && page.permissions.includes('update');
+    return (
+      <div className={styles.root}>
+        <div className={styles.page}>
+          <article className={styles.detail}>
+            <div className={styles.header}>
+              <h2 className={styles.title}>
+                {page.title}
+              </h2>
+              {canEdit && <PageButtons
+                isEditing={this.state.isEditing}
+                toggleEditing={this.toggleEditing}
+                handleSave={this.handleSave}
+              />}
+            </div>
+            {this.state.isEditing ?
+              <Editor
+                content={page.content}
+                onChange={this.handleEditorChange}
+              /> :
+              <div dangerouslySetInnerHTML={{ __html: page.content }} />}
+          </article>
+          <aside className={styles.sidebar}>
+            <PageHierarchy
+              {...this.props}
+              selectedSlug={page.slug}
+            />
+          </aside>
+        </div>
+      </div>
+    );
+  }
+}
