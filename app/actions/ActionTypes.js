@@ -93,5 +93,5 @@ export const User = {
  *
  */
 export const Page = {
-  FETCH: generateStatuses('Page.Fetch')
+  FETCH: generateStatuses('Page.FETCH')
 };

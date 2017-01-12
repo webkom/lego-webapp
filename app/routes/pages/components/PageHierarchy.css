@@ -1,0 +1,30 @@
+@import '../../../variables.css';
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  margin-top: 4em;
+  border-left: 1px solid #ddd;
+}
+
+.pageList {
+  padding: 2em 0;
+  text-align: right;
+}
+
+.pageList a {
+  font-size: 18px;
+}
+
+.back {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  font-weight: bold;
+}
+
+.back > i {
+  padding-right: 10px;
+  color: var(--lego-link-color);
+}
