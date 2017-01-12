@@ -79,7 +79,7 @@ class CommentForm extends Component {
         <div className={styles.header}>
           <ProfilePicture
             size={40}
-            user={user.id}
+            user={user}
             style={{ margin: '9px 20px 9px 0px' }}
           />
 

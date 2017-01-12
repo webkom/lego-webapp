@@ -55,7 +55,7 @@ export function logout() {
   };
 }
 
-export function updateUser({ username, firstName, lastName, email }) {
+export function updateUser({ username, firstName, lastName, email, picture }, redirect = true) {
   return (dispatch, getState) => {
     const token = getState().auth.token;
     return dispatch(callAPI({
@@ -66,7 +66,8 @@ export function updateUser({ username, firstName, lastName, email }) {
         username,
         first_name: firstName,
         last_name: lastName,
-        email
+        email,
+        picture
       },
       schema: userSchema,
       meta: {
@@ -74,7 +75,9 @@ export function updateUser({ username, firstName, lastName, email }) {
       }
     }))
       .then((action) => {
-        dispatch(push(`/users/${action.payload.result || 'me'}`));
+        if (redirect) {
+          dispatch(push(`/users/${action.payload.result || 'me'}`));
+        }
         if (getState().auth.username === username) {
           putInLocalStorage(USER_STORAGE_KEY)({
             payload: {
@@ -91,21 +94,9 @@ export function updatePicture({ picture }) {
   return (dispatch, getState) => {
     const username = getState().auth.username;
     return dispatch(uploadFile(picture))
-      .then((action) => {
-        return dispatch(callAPI({
-          types: User.UPDATE,
-          endpoint: `/users/${username}/`,
-          method: 'PATCH',
-          body: {
-            picture: action.meta.fileToken
-          },
-          schema: userSchema,
-          meta: {
-            errorMessage: 'Updating picture failed'
-          }
-        }));
-      });
-  }
+      .then((action) =>
+        dispatch(updateUser({ username, picture: action.meta.fileToken }, false)));
+  };
 }
 
 export function fetchUser(username) {

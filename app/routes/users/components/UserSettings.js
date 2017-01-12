@@ -6,7 +6,6 @@ import { Form, TextInput } from 'app/components/Form';
 import { Field } from 'redux-form';
 
 type Props = {
-  fields: Object,
   onSubmit: () => void,
   invalid: boolean,
   pristine: boolean,

@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
 import UserSettings from './components/UserSettings';
+import UserImage from './components/UserImage';
 import { updateUser } from 'app/actions/UserActions';
 
 function validateContact(data) {
@@ -43,12 +44,15 @@ class UserSettingsRoute extends Component {
   };
 
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, user } = this.props;
     return (
-      <UserSettings
-        onSubmit={handleSubmit(this.onSubmit)}
-        {...this.props}
-      />
+      <div>
+        <UserImage user={user} />
+        <UserSettings
+          onSubmit={handleSubmit(this.onSubmit)}
+          {...this.props}
+        />
+      </div>
     );
   }
 }

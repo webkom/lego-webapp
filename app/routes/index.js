@@ -7,7 +7,6 @@ import articles from './articles';
 import admin from './admin';
 import quotes from './quotes';
 import pages from './pages';
-import upload from './upload';
 
 export function loadRoute(callback) {
   return (module) => callback(null, module.default);
@@ -28,7 +27,6 @@ export default {
     admin,
     quotes,
     pages,
-    upload,
     {
       path: '*',
       component: () => <div>Not Found</div>
