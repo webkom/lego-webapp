@@ -37,7 +37,7 @@ function arrayOf(value) {
 }
 
 function merge(old, updated) {
-  return mergeWith(old, updated, (oldValue, newValue) =>
+  return mergeWith({}, old, updated, (oldValue, newValue) =>
     (Array.isArray(oldValue) ? newValue : undefined
   ));
 }
