@@ -68,3 +68,8 @@ export const getMentions = createSelector(
   (state) => state.search.mentions,
   (mentions) => mentions.map((mention) => transformMention(mention))
 );
+
+export const selectResult = createSelector(
+  (state) => state.search.results,
+  (results) => results.map((result) => result)
+);
