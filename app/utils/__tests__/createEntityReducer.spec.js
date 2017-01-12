@@ -1,5 +1,7 @@
-import createEntityReducer from '../createEntityReducer';
+import createEntityReducer, { fetching, entities } from '../createEntityReducer';
 import joinReducers from '../joinReducers';
+import { eventSchema } from 'app/reducers';
+import { normalize, arrayOf } from 'normalizr';
 
 const FETCH = {
   BEGIN: 'FETCH_BEGIN',
@@ -101,6 +103,114 @@ describe('createEntityReducer', () => {
       customFlag2: false,
       byId: {},
       items: []
+    });
+  });
+});
+
+describe('fetching()', () => {
+  it('should toggle fetching flags', () => {
+    const state = {};
+    const reducer = fetching(FETCH);
+    expect(reducer(state, { type: FETCH.BEGIN })).toEqual({
+      fetching: true
+    });
+
+    expect(reducer(state, { type: FETCH.SUCCESS })).toEqual({
+      fetching: false
+    });
+
+    expect(reducer(state, { type: FETCH.FAILURE })).toEqual({
+      fetching: false
+    });
+  });
+});
+
+
+describe('entities()', () => {
+  it('store entities', () => {
+    const state = {
+      byId: {},
+      items: []
+    };
+
+    const reducer = entities('users');
+
+    const user = {
+      id: 1,
+      name: 'Hanse'
+    };
+
+    const action = {
+      type: 'ADD_USER',
+      payload: {
+        entities: {
+          users: {
+            1: user
+          }
+        },
+        result: 1
+      }
+    };
+
+    expect(reducer(state, action)).toEqual({
+      byId: {
+        1: user
+      },
+      items: [1]
+    });
+  });
+
+  it('should merge carefully', () => {
+    const reducer = entities('events');
+    const events = [{
+      id: 1,
+      title: 'First Event',
+      comments: [{
+        id: 2,
+        author: 'Orhan',
+      }]
+    }, {
+      id: 2,
+      title: 'Second Event',
+      comments: []
+    }];
+
+    const actions = [{
+      type: 'FETCH_ALL',
+      payload: normalize(events, arrayOf(eventSchema))
+    }, {
+      type: 'FETCH_SINGLE',
+      payload: normalize({
+        ...events[0],
+        title: 'First Event Updated',
+        extra: 'Foo'
+      }, eventSchema)
+    }, {
+      type: 'FETCH_ALL',
+      payload: normalize(events.map((event) => ({
+        ...event,
+        comments: []
+      })), arrayOf(eventSchema))
+    }, {
+      type: 'ADD_COMMENT',
+      payload: {}
+    }];
+
+    expect(actions.reduce(reducer, undefined)).toEqual({
+      byId: {
+        1: {
+          id: 1,
+          title: 'First Event',
+          comments: [],
+          extra: 'Foo'
+        },
+        2: {
+          id: 2,
+          title: 'Second Event',
+          comments: []
+        }
+      },
+      items: [1, 2]
     });
   });
 });
