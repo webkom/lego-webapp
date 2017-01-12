@@ -26,6 +26,7 @@ export default class Upload extends Component {
   handleSubmit = () => {
     if (this.state.file) {
       this.props.onSubmit(this.state.file);
+      this.setState({ file: null });
     }
   }
 
@@ -40,8 +41,9 @@ export default class Upload extends Component {
         {
           this.state.file &&
             <div>
-              {this.state.file.name}
-              <button onClick={this.handleSubmit}>Upload this file</button>
+              Preview of new profile picture:<br />
+              <img width={400} src={this.state.file.preview} /><br />
+              <button onClick={this.handleSubmit}>Save new profile picture</button>
             </div>
         }
       </div>
