@@ -10,6 +10,7 @@ pipeline:
     commands:
       - npm install -g yarn
       - yarn
+      - yarn run build:dll
       - yarn test
       - yarn run lint
       - yarn run build
@@ -20,5 +21,5 @@ pipeline:
       branch: master
       event: push
     registry: https://registry.abakus.no
-    repo: registry.abakus.no/webkom/lego-webapp
+    repo: registry.abakus.no/webkom/lego/lego-webapp
     tag: latest

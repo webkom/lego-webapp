@@ -88,3 +88,10 @@ export const User = {
   LOGOUT: 'User.LOGOUT',
   SOCKET: generateStatuses('User.SOCKET')
 };
+
+/**
+ *
+ */
+export const Page = {
+  FETCH: generateStatuses('Page.Fetch')
+};

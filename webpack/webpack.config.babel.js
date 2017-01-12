@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const packageJson = require('../package.json');
 
+const root = path.resolve(__dirname, '..');
 const dllConfig = packageJson.dllPlugin;
 const compact = (array) => array.filter(Boolean);
 const isProduction = process.env.NODE_ENV === 'production';
@@ -21,7 +22,7 @@ module.exports = {
   },
 
   output: {
-    path: path.join(process.cwd(), 'dist'),
+    path: path.join(root, 'dist'),
     filename: '[name].js',
     chunkFilename: '[name].chunk.js',
     publicPath: '/'
@@ -75,7 +76,7 @@ module.exports = {
 
   resolve: {
     modules: [
-      process.cwd(),
+      root,
       'node_modules'
     ],
     extensions: ['.js', '.jsx']
@@ -85,7 +86,7 @@ module.exports = {
     rules: [{
       test: /\.jsx?$/,
       loader: 'babel-loader',
-      include: path.resolve(process.cwd(), 'app'),
+      include: path.resolve(root, 'app'),
       query: {
         cacheDirectory: true
       }
@@ -135,7 +136,7 @@ function getDependencyHandlers() {
     })];
   }
 
-  const dllPath = path.resolve(process.cwd(), dllConfig.path);
+  const dllPath = path.resolve(root, dllConfig.path);
   const manifestPath = path.resolve(dllPath, 'vendors.json');
 
   if (!fs.existsSync(manifestPath)) {
@@ -145,7 +146,7 @@ function getDependencyHandlers() {
 
   return [
     new webpack.DllReferencePlugin({
-      context: process.cwd(),
+      context: root,
       manifest: require(manifestPath)
     })
   ];
