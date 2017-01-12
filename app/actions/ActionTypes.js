@@ -93,5 +93,6 @@ export const User = {
  *
  */
 export const Page = {
-  FETCH: generateStatuses('Page.FETCH')
+  FETCH: generateStatuses('Page.FETCH'),
+  UPDATE: generateStatuses('Page.UPDATE')
 };

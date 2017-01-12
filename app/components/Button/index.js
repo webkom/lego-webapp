@@ -7,7 +7,7 @@ import styles from './Button.css';
 type Props = {
   children?: any,
   className?: string,
-  size?: 'normal' | 'large',
+  size?: 'small' | 'normal' | 'large',
   submit?: boolean,
   dark?: boolean
 };

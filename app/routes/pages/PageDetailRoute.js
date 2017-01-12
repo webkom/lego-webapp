@@ -1,7 +1,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
-import { fetchAll, fetchPage } from 'app/actions/PageActions';
+import { fetchAll, fetchPage, updatePage } from 'app/actions/PageActions';
 import PageDetail from './components/PageDetail';
 import { selectSiblings, selectParent, selectPageBySlug } from 'app/reducers/pages';
 
@@ -28,7 +28,7 @@ function mapStateToProps(state, props) {
   };
 }
 
-const mapDispatchToProps = { fetchAll, fetchPage };
+const mapDispatchToProps = { fetchAll, fetchPage, updatePage };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

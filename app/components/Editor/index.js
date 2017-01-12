@@ -36,12 +36,16 @@ export type Props = {
 };
 
 class EditorComponent extends Component {
-
   props: Props;
 
-  state = {
-    editorState: utils.createEditorState(),
-    active: false
+  constructor(props) {
+    super(props);
+    this.state = {
+      editorState: utils.createEditorState(props.content),
+      active: false
+    };
+
+    this.customRenderer = customRenderer(this.onChange, this.state.editorState);
   }
 
   componentDidMount = () => {
@@ -84,8 +88,6 @@ class EditorComponent extends Component {
     this.onChange(RichUtils.toggleLink(this.state.editorState, selection, entityKey));
     setTimeout(() => this.focus(), 1); // HACK for resetting focus after links
   }
-
-  customRenderer = customRenderer(this.onChange, this.state.editorState);
 
   handleReturn = (e) => {
     const { editorState } = this.state;

@@ -24,3 +24,16 @@ export function fetchAll() {
     }
   });
 }
+
+export function updatePage(slug, body) {
+  return callAPI({
+    types: Page.UPDATE,
+    endpoint: `/pages/${slug}/`,
+    method: 'PATCH',
+    body,
+    schema: pageSchema,
+    meta: {
+      errorMessage: 'Updating page failed'
+    }
+  });
+}
