@@ -30,13 +30,19 @@ export type Props = {
   content: string,
   autoFocus: boolean,
   placeholder?: string,
-  onChange: () => void,
-  onFocus: () => void,
-  onBlur: () => void
+  onChange?: func,
+  onFocus?: func,
+  onBlur?: func
 };
 
 class EditorComponent extends Component {
   props: Props;
+
+  static defaultProps = {
+    onChange: () => {},
+    onFocus: () => {},
+    onBlur: () => {}
+  }
 
   constructor(props) {
     super(props);
