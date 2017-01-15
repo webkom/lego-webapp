@@ -1,4 +1,12 @@
-const colors = ['#A1C34A', '#52B0EC', '#E8953A', '#B11C11', '#111111'];
+const colors = {
+  'company_presentation': '#A1C34A',
+  'lunch_presentation': '#A1C34A',
+  'course': '#52B0EC',
+  'party': '#E8953A',
+  'social': '#B11C11',
+  'event': '#B11C11',
+  'other': '#111111'
+};
 export default function colorForEvent(eventType) {
   return colors[eventType];
 }

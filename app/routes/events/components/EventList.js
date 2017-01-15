@@ -34,8 +34,8 @@ function groupEvents(events) {
   }, {});
 }
 
-function getAttendanceMessage() {
-  return '0 / 100';
+function getAttendanceMessage({ registrationCount, totalCapacity }) {
+  return `${registrationCount} / ${totalCapacity}`;
 }
 
 function EventItem({ event }) {
