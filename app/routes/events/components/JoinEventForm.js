@@ -8,6 +8,7 @@ import Button from 'app/components/Button';
 import StripeCheckout from 'react-stripe-checkout';
 import logoImage from 'app/assets/kule.png';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import Time from 'app/components/Time';
 
 export type Props = {
   title: string,
@@ -21,7 +22,7 @@ export type Props = {
 
 class JoinEventForm extends Component {
   state = {
-    activationTime: '',
+    activationTime: null,
     formOpen: false,
     captchaOpen: false,
     buttonOpen: false,
@@ -43,18 +44,17 @@ class JoinEventForm extends Component {
     let duration = moment.duration(diffTime, 'milliseconds');
     if (startTime.isBefore(currentTime)) {
       this.setState({
-        activationTime: 'Registrering har åpnet',
         formOpen: true,
         captchaOpen: true,
         buttonOpen: true
       });
     } else if (startTime.day() > currentTime.day()) {
       this.setState({
-        activationTime: `Registrering åpner om ${startTime.day() - currentTime.day()} dager`
+        activationTime: startTime
       });
     } else if (duration.asMinutes() > 10) {
       this.setState({
-        activationTime: `Registrering åpner i dag kl ${startTime.format('HH:mm')}`
+        activationTime: startTime.format('HH:mm')
       });
       const interval = 10000;
       const checkDiffCounter = setInterval(() => {
@@ -81,7 +81,7 @@ class JoinEventForm extends Component {
       if (duration <= 1000) {
         clearInterval(counter);
         this.setState({
-          activationTime: 'Registrering har åpnet',
+          activationTime: null,
           buttonOpen: true
         });
         return;
@@ -92,7 +92,7 @@ class JoinEventForm extends Component {
         });
       }
       this.setState({
-        activationTime: `Registrering åpner om ${moment(duration).format('mm:ss')}`
+        activationTime: moment(duration).format('mm:ss')
       });
     }, interval);
     this.setState({
@@ -112,7 +112,11 @@ class JoinEventForm extends Component {
     const joinTitle = !registration ? 'MELD DEG PÅ' : 'AVREGISTRER';
     return (
       <div>
-        {this.state.activationTime}
+        {!this.state.formOpen && this.state.activationTime && (
+          <div>
+            Åpner <Time time={this.state.activationTime} format='nowToTimeInWords' />
+          </div>
+        )}
         {this.state.formOpen && (
           <form onSubmit={handleSubmit}>
             <Field
@@ -126,6 +130,9 @@ class JoinEventForm extends Component {
                 fieldStyle={{ width: 304 }}
                 component={Captcha.Field}
               />
+            )}
+            {this.state.activationTime && (
+              <Button disabled={disabledButton}>{`Åpner om ${this.state.activationTime}`}</Button>
             )}
             {this.state.buttonOpen && !event.loading && (
               <Button type='submit' disabled={disabledButton}>
