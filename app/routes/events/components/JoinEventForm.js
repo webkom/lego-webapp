@@ -75,15 +75,10 @@ class JoinEventForm extends Component {
 
   countdown(duration) {
     const interval = 1000;
-    duration -= 1000;
+    duration += 1000;
     const counter = setInterval(() => {
-      const diff = duration - interval;
-      if (diff < 60000) {
-        this.setState({
-          captchaOpen: true
-        });
-      }
-      if (diff <= 0) {
+      duration = moment.duration(duration, 'milliseconds') - interval;
+      if (duration <= 1000) {
         clearInterval(counter);
         this.setState({
           activationTime: 'Registrering har åpnet',
@@ -91,9 +86,13 @@ class JoinEventForm extends Component {
         });
         return;
       }
-      duration = moment.duration(diff, 'milliseconds');
+      if (duration < 60000) {
+        this.setState({
+          captchaOpen: true
+        });
+      }
       this.setState({
-        activationTime: `Registrering åpner om ${moment.utc(diff).format('mm:ss')}`
+        activationTime: `Registrering åpner om ${moment(duration).format('mm:ss')}`
       });
     }, interval);
     this.setState({
