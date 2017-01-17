@@ -41,6 +41,7 @@
     "react": "^15.4.1",
     "react-addons-css-transition-group": "^15.4.1",
     "react-dom": "^15.4.1",
+    "react-dropzone": "^3.9.0",
     "react-google-recaptcha": "^0.5.4",
     "react-notification": "^6.6.0",
     "react-overlays": "^0.6.10",

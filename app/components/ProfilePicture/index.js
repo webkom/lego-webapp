@@ -10,10 +10,15 @@ type Props = {
 };
 
 function ProfilePicture({ user, size = 100, style, ...props }: Props) {
-  const userNumber = (user - 1) % 10;
+  let imageSrc = user.picture;
+  if (!imageSrc) {
+    const userNumber = (user.id - 1) % 10;
+    imageSrc = `https://api.randomuser.me/portraits/lego/${userNumber}.jpg`;
+  }
+
   return (
     <Image
-      src={`https://api.randomuser.me/portraits/lego/${userNumber}.jpg`}
+      src={imageSrc}
       style={{
         width: size,
         height: size,
