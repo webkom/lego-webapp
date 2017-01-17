@@ -22,7 +22,7 @@ export type Props = {
 
 class JoinEventForm extends Component {
   state = {
-    activationTime: null,
+    time: null,
     formOpen: false,
     captchaOpen: false,
     buttonOpen: false,
@@ -30,31 +30,33 @@ class JoinEventForm extends Component {
   }
 
   componentDidMount() {
-    this.activationTime(this.props.event.activationTime);
+    this.parseEventTimes(this.props.event);
   }
 
   componentWillUnmount() {
     clearInterval(this.state.counter);
   }
 
-  activationTime = (time) => {
-    const startTime = moment(time);
+  parseEventTimes = ({ activationTime, startTime }) => {
+    const poolActivationTime = moment(activationTime);
     const currentTime = moment();
-    const diffTime = startTime.diff(currentTime);
+    const diffTime = poolActivationTime.diff(currentTime);
     let duration = moment.duration(diffTime, 'milliseconds');
-    if (startTime.isBefore(currentTime)) {
+    if (currentTime.isAfter(moment(startTime))) {
+      // Do nothing
+    } else if (poolActivationTime.isBefore(currentTime)) {
       this.setState({
         formOpen: true,
         captchaOpen: true,
         buttonOpen: true
       });
-    } else if (startTime.day() > currentTime.day()) {
+    } else if (poolActivationTime.day() > currentTime.day()) {
       this.setState({
-        activationTime: startTime
+        time: poolActivationTime
       });
     } else if (duration.asMinutes() > 10) {
       this.setState({
-        activationTime: startTime.format('HH:mm')
+        time: poolActivationTime.format('HH:mm')
       });
       const interval = 10000;
       const checkDiffCounter = setInterval(() => {
@@ -62,18 +64,18 @@ class JoinEventForm extends Component {
         duration = moment.duration(diff, 'milliseconds');
         if (diff < 600000) {
           clearInterval(checkDiffCounter);
-          this.countdown(duration);
+          this.initiateCountdown(duration);
         }
       }, interval);
       this.setState({
         counter: checkDiffCounter
       });
     } else {
-      this.countdown(duration);
+      this.initiateCountdown(duration);
     }
   };
 
-  countdown(duration) {
+  initiateCountdown(duration) {
     const interval = 1000;
     duration += 1000;
     const counter = setInterval(() => {
@@ -81,7 +83,7 @@ class JoinEventForm extends Component {
       if (duration <= 1000) {
         clearInterval(counter);
         this.setState({
-          activationTime: null,
+          time: null,
           buttonOpen: true
         });
         return;
@@ -92,7 +94,7 @@ class JoinEventForm extends Component {
         });
       }
       this.setState({
-        activationTime: moment(duration).format('mm:ss')
+        time: moment(duration).format('mm:ss')
       });
     }, interval);
     this.setState({
@@ -112,10 +114,13 @@ class JoinEventForm extends Component {
     const joinTitle = !registration ? 'MELD DEG PÅ' : 'AVREGISTRER';
     return (
       <div>
-        {!this.state.formOpen && this.state.activationTime && (
+        {!this.state.formOpen && this.state.time && (
           <div>
-            Åpner <Time time={this.state.activationTime} format='nowToTimeInWords' />
+            Åpner <Time time={this.state.time} format='nowToTimeInWords' />
           </div>
+        )}
+        {!this.state.formOpen && !this.state.time && (
+          <div>Det går ikke lenger å melde seg på.</div>
         )}
         {this.state.formOpen && (
           <form onSubmit={handleSubmit}>
@@ -131,8 +136,8 @@ class JoinEventForm extends Component {
                 component={Captcha.Field}
               />
             )}
-            {this.state.activationTime && (
-              <Button disabled={disabledButton}>{`Åpner om ${this.state.activationTime}`}</Button>
+            {this.state.time && (
+              <Button disabled={disabledButton}>{`Åpner om ${this.state.time}`}</Button>
             )}
             {this.state.buttonOpen && !event.loading && (
               <Button type='submit' disabled={disabledButton}>
