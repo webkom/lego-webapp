@@ -1,5 +1,5 @@
 .frontpage {
-  margin-top: 20px;
+  composes: container from '../../../Root.css';
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -9,17 +9,12 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  border-right: 1px solid #ddd;
 }
 
 .headline,
 .normal {
   display: flex;
   flex-direction: row;
-  border-bottom: 1px solid #ddd;
-  margin: 0 30px;
 }
 
 .rest {
@@ -27,13 +22,8 @@
 }
 
 .item {
-  text-align: center;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-direction: column;
-  margin: 30px 0;
-  padding: 0 20px;
+  text-align: justify;
+  padding: 20px;
 }
 
 .headline > .item {
@@ -41,21 +31,23 @@
 }
 
 .normal > .item {
-  width: 33%;
+  width: auto;
+  flex: 1;
 }
 
 .item:hover .itemInfo {
   color: black;
 }
 
-.item:not(:last-child) {
-  border-right: 1px solid #ddd;
+.imageLink {
+  display: block;
+  background: #eee;
+  margin-bottom: 15px;
 }
 
-.itemType {
-  margin: 0;
-  font-size: 1rem;
-  line-height: 1;
+.heading {
+  border-bottom: 2px solid #ddd;
+  text-align: center;
 }
 
 .itemTitle {
@@ -92,11 +84,4 @@
 
 .normal .itemDescription {
   font-size: 1rem;
-}
-
-.sidebar {
-  display: flex;
-  flex-basis: 27%;
-  flex-shrink: 0;
-  flex-direction: column;
 }

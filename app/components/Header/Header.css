@@ -45,10 +45,7 @@
   align-items: center;
   flex-direction: row;
   height: 96px;
-
-  @media (--small-viewport) {
-    padding: 0 20px;
-  }
+  padding: 0 20px;
 }
 
 .logo {

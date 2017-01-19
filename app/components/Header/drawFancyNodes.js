@@ -44,7 +44,7 @@ export default function drawFancyNodes(context, { width, height }) {
   );
 
   const rightNodes = graph.nodes.map(() =>
-    [(width - (width * Math.random())) / 3, Math.random() * height]
+    [width - ((width * Math.random()) / 3), Math.random() * height]
   );
 
   drawNetwork(context, leftNodes, graph);
