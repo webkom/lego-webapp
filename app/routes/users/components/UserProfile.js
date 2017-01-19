@@ -7,6 +7,7 @@ import ProfilePicture from 'app/components/ProfilePicture';
 import Card from 'app/components/Card';
 import { FlexRow, FlexItem } from 'app/components/FlexBox';
 import styles from './UserProfile.css';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 const fieldTranslations = {
   username: 'brukernavn',
@@ -42,6 +43,9 @@ export default class UserProfile extends Component {
 
   render() {
     const { user, isMe } = this.props;
+    if (!user) {
+      return <LoadingIndicator loading />;
+    }
     return (
       <section className='u-container'>
         <FlexRow className={styles.header}>
