@@ -49,7 +49,7 @@ function MeetingListItem({ meeting, userIdMe }) {
         <div className={styles.meetingTime}>
           <Time
             time={meeting.startTime}
-            format='ll HH:mm'
+            format='ll - HH:mm'
           />
           {` • Lokasjon: ${meeting.location}`}
         </div>
@@ -73,7 +73,7 @@ export default class MeetingList extends Component {
       'title': 'Neste uke',
       'meetings': []
     }, {
-      'title': 'Senere',
+      'title': 'Senere dette semesteret',
       'meetings': []
     }];
     const fields = {};
@@ -83,13 +83,14 @@ export default class MeetingList extends Component {
       const year = startTime.year();
       const week = startTime.week();
       const quarter = startTime.quarter();
-      if (year === currentYear && week === currentWeek) {
+      if (year === currentYear && week === currentWeek && moment() < startTime) {
         pools[0].meetings.push(meeting);
-      } else if (year === currentYear && week + 1 === currentWeek) {
+      } else if (year === currentYear && week === currentWeek + 1) {
         pools[1].meetings.push(meeting);
       } else if (year === currentYear && week > currentWeek) {
         pools[2].meetings.push(meeting);
       } else {
+        // Sort other meetings with their semester-code. eg V2017
         const title = (Math.ceil(quarter / 2) - 1 ? 'H' : 'V') + year.toString();
         fields[title] = fields[title] || { title, meetings: [] };
         fields[title].meetings.push(meeting);

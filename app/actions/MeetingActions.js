@@ -82,11 +82,11 @@ export function inviteUsersAndGroups({ id, users, groups }) {
     endpoint: `/meetings/${id}/bulk_invite/`,
     method: 'post',
     body: {
-      users: users ? users.split(' ') : [],
-      groups: groups ? groups.split(' ') : []
+      users: users ? users.replace(',', '').split(' ') : [],
+      groups: groups ? groups.replace(',', '').split(' ') : []
     },
     meta: {
-      errorMessage: 'editing meeting failed'
+      errorMessage: 'Error inviting users/groups'
     }
   });
 }
@@ -124,11 +124,17 @@ export function editMeeting({
       }
     })).then(() => {
       if (groups !== undefined || users !== undefined) {
-        dispatch(inviteUsersAndGroups({ id, users, groups }));
+        dispatch(inviteUsersAndGroups({ id, users, groups })).then(() => {
+          dispatch(stopSubmit('meetingEditor'));
+          dispatch(push(`/meetings/${id}`));
+        }).catch((action) => {
+          const errors = { ...action.error.response.jsonData };
+          dispatch(stopSubmit('meetingEditor', errors));
+        });
+      } else {
+        dispatch(stopSubmit('meetingEditor'));
+        dispatch(push(`/meetings/${id}`));
       }
-
-      dispatch(stopSubmit('meetingEditor'));
-      dispatch(push(`/meetings/${id}`));
     }).catch((action) => {
       const errors = { ...action.error.response.jsonData };
       dispatch(stopSubmit('meetingEditor', errors));

@@ -94,7 +94,11 @@ class DatePicker extends Component {
         show={this.state.pickerOpen}
         toggle={this.toggleDropdown}
         triggerComponent={(
-          <TextInput disabled value={this.state.value.format(this.props.format)} />
+          <TextInput
+            className={styles.inputField}
+            disabled
+            value={this.state.value.format(this.props.format)}
+          />
         )}
         componentClass='div'
         contentClassName={styles.dropdown}

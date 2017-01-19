@@ -19,10 +19,9 @@ type Props = {
 
 function MeetingEditor({ handleSubmit, handleSubmitCallback, meetingId, meeting, change }: Props) {
   const isEditPage = (meetingId !== undefined);
-  if (isEditPage && meeting === undefined) {
+  if (isEditPage && !meeting) {
     return <LoadingIndicator loading />;
   }
-
   return (
     <div className={styles.root}>
       <h2>
@@ -42,20 +41,20 @@ function MeetingEditor({ handleSubmit, handleSubmitCallback, meetingId, meeting,
           component={TextInput.Field}
         />
         <h3>Møteinkalling / referat</h3>
+        <div className={styles.editors}>
+          <Editor
+            content={meeting ? meeting.report : ''}
+            onChange={(data) => {
+              change('report', data);
+            }}
+          />
+        </div>
         <Field
           name='report'
           rows='15'
           style={{ display: 'none' }}
           component={TextEditor.Field}
         />
-        <div className={styles.editors}>
-          <Editor
-            content={meeting.report}
-            onChange={(data) => {
-              change('report', data);
-            }}
-          />
-        </div>
         <h3>Start- og sluttidspunkt</h3>
         <div style={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
           <Field
@@ -82,30 +81,29 @@ function MeetingEditor({ handleSubmit, handleSubmitCallback, meetingId, meeting,
           placeholder='La denne stå åpen for å velge (semi)tilfeldig'
           component={TextInput.Field}
         />
-        {// TODO Liste over allerede inviterte brukere når man endrer referat
-        }
         <div style={{ display: 'flex' }}>
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
             <h3>Inviter brukere</h3>
-            <span>(Bruk @navn for å invitere)</span>
             <Field
               name='users'
+              placeholder='Skriv inn brukernavn på de du vil invitere'
               component={TextInput.Field}
             />
           </div>
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
             <h3>Inviter grupper</h3>
-            <span>(Bruk  @gruppe for å invitere)</span>
             <Field
               name='groups'
+              placeholder='Skriv inn navn på gruppene du vil invitere'
               component={TextInput.Field}
             />
           </div>
         </div>
+        { isEditPage && (<h3> Allerede inviterte </h3>) }
         { isEditPage && meeting.invitations.map((invite) =>
           <span>{invite.user.fullName}</span>
         )}
-        <Button submit>Save Event</Button>
+        <Button submit>{isEditPage ? 'Save event' : 'Create event'} </Button>
       </Form>
     </div>
   );
@@ -116,19 +114,19 @@ export default reduxForm({
   validate(values) {
     const errors = {};
     if (!values.title) {
-      errors.title = 'Kan ikke være tom';
+      errors.title = 'Du må gi møtet en tittel';
     }
     if (!values.report) {
-      errors.report = 'Kan ikke være tom';
+      errors.report = 'Referatet kan ikke være tomt';
     }
     if (!values.location) {
-      errors.location = 'Kan ikke være tom';
+      errors.location = 'Du må velge en lokasjon for møtet';
     }
     if (!values.endTime) {
-      errors.endTime = 'Kan ikke være tom';
+      errors.endTime = 'Du må velge starttidspunkt';
     }
     if (!values.startTime) {
-      errors.startTime = 'Kan ikke være tom';
+      errors.startTime = 'Du må velge sluttidspunkt';
     }
     const startTime = moment.tz(values.startTime, config.timezone);
     const endTime = moment.tz(values.endTime, config.timezone);
