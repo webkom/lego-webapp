@@ -2,6 +2,7 @@ import React from 'react';
 import { AppRoute } from './app';
 import overview from './overview';
 import events from './events';
+import company from './company';
 import users from './users';
 import articles from './articles';
 import admin from './admin';
@@ -27,6 +28,7 @@ export default {
     admin,
     quotes,
     pages,
+    company,
     {
       path: '*',
       component: () => <div>Not Found</div>
