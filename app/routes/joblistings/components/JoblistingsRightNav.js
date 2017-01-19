@@ -6,53 +6,16 @@ import CheckBox from 'app/components/Form/CheckBox';
 
 export default class JoblistingsRightNav extends Component {
 
+  static propTypes = {
+    query: PropTypes.object.isRequired
+  };
+
   state = {
     filters: {
       class: [],
       jobtypes: [],
       workplaces: []
     }
-  }
-
-  static propTypes = {
-    query: PropTypes.object.isRequired
-  };
-
-  handleQuery = (type, value, remove = false) => {
-    const query = { ...this.props.query };
-    if (remove) {
-      delete query[type];
-    } else {
-      query[type] = value;
-    }
-    return query;
-  };
-
-  updateFilters = (type, value) => {
-    const filters = { ...this.state.filters };
-    let asd = {};
-    if (filters[type].includes(value)) {
-      asd = {
-        ...filters,
-        [type]: [
-          ...filters[type].filter((x) => x !== value)
-        ]
-      };
-    } else {
-      asd = {
-        ...filters,
-        [type]: [
-          ...filters[type],
-          value
-        ]
-      };
-    }
-    const asd2 = {
-      class: asd.class.toString(),
-      jobtypes: asd.jobtypes.toString(),
-      workplaces: asd.workplaces.toString()
-    };
-    return asd2;
   }
 
   componentWillReceiveProps(newProps) {
@@ -69,7 +32,44 @@ export default class JoblistingsRightNav extends Component {
     this.setState({ filters: query });
   }
 
-  asd3 = (type, value, label) => (
+  handleQuery = (type, value, remove = false) => {
+    const query = { ...this.props.query };
+    if (remove) {
+      delete query[type];
+    } else {
+      query[type] = value;
+    }
+    return query;
+  };
+
+  updateFilters = (type, value) => {
+    const filters = this.state.filters;
+    let newFilter = {};
+    if (filters[type].includes(value)) {
+      newFilter = {
+        ...filters,
+        [type]: [
+          ...filters[type].filter((x) => x !== value)
+        ]
+      };
+    } else {
+      newFilter = {
+        ...filters,
+        [type]: [
+          ...filters[type],
+          value
+        ]
+      };
+    }
+    const filterString = {
+      class: newFilter.class.toString(),
+      jobtypes: newFilter.jobtypes.toString(),
+      workplaces: newFilter.workplaces.toString()
+    };
+    return filterString;
+  }
+
+  filterLinkto = (type, value, label) => (
     <Link to={{ pathname: '/joblistings', query: this.updateFilters(type, value) }}>
       <CheckBox
         label={label}
@@ -89,14 +89,14 @@ export default class JoblistingsRightNav extends Component {
         </FlexRow>
         <FlexColumn className={styles.filters}>
           <h3>Klassetrinn:</h3>
-          {['1', '2', '3', '4', '5'].map((element) => this.asd3('class', element, `${element}. klasse`))}
+          {['1', '2', '3', '4', '5'].map((element) => this.filterLinkto('class', element, `${element}. klasse`))}
           <h3>Jobbtype:</h3>
-          {this.asd3('jobtypes', 'summer_job', 'Sommerjobb')}
-          {this.asd3('jobtypes', 'part_time', 'Deltid')}
-          {this.asd3('jobtypes', 'full_time', 'Fulltid')}
+          {this.filterLinkto('jobtypes', 'summer_job', 'Sommerjobb')}
+          {this.filterLinkto('jobtypes', 'part_time', 'Deltid')}
+          {this.filterLinkto('jobtypes', 'full_time', 'Fulltid')}
           <h3>Sted:</h3>
           {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map((element) =>
-            this.asd3('workplaces', element, element))}
+            this.filterLinkto('workplaces', element, element))}
         </FlexColumn>
       </FlexColumn>
     );

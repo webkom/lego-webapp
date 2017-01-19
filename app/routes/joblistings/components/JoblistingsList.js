@@ -1,11 +1,11 @@
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import styles from './JoblistingsList.css';
 import { getImage } from 'app/utils';
 import Image from 'app/components/Image';
 import Time from 'app/components/Time';
-import { selectJobtype, sameYear } from '../utils.js';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
+import { Year, Jobtype, Workplaces } from './Items';
 
 function JoblistingItem({ joblisting }) {
   return (
@@ -22,11 +22,10 @@ function JoblistingItem({ joblisting }) {
               <h3 className={styles.joblistingItemTitle}>{joblisting.title}</h3>
             </Link>
             <div className={styles.companyJobtype}>
-              {`${joblisting.company} • ${selectJobtype(joblisting.jobType)}`}
+              {joblisting.company} • {Jobtype(joblisting.jobType)}
             </div>
-            <div>{sameYear(joblisting) ? `${joblisting.fromYear}.` :
-             `${joblisting.fromYear}. - ${joblisting.toYear}.`} klasse</div>
-            <div>{joblisting.workplaces}</div>
+            <Year {...joblisting} />
+            <Workplaces places={joblisting.workplaces} />
           </FlexColumn>
         </FlexRow>
         <FlexColumn className={styles.deadLine}>
@@ -63,19 +62,10 @@ function JoblistingListGroup({ joblistings = [] }) {
   );
 }
 
-class JoblistingsList extends Component {
-  static propTypes = {
-    joblistings: PropTypes.array.isRequired
-  };
-
-  render() {
-    const { joblistings } = this.props;
-    return (
-      <JoblistingListGroup
-        joblistings={joblistings}
-      />
-    );
-  }
-}
+const JoblistingsList = ({ joblistings }) => (
+  <JoblistingListGroup
+    joblistings={joblistings}
+  />
+);
 
 export default JoblistingsList;

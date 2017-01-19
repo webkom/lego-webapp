@@ -5,8 +5,6 @@ import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { compose } from 'redux';
 
 function loadData({ joblistingId }, props) {
-  console.log('Hei');
-  console.log(joblistingId);
   props.fetchDetailed(joblistingId);
 }
 

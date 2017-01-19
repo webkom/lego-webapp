@@ -4,13 +4,11 @@ import JoblistingsPage from './components/JoblistingsPage';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { compose } from 'redux';
 
-function loadData([], props) {
+function loadData(params, props) {
   props.fetchAll();
 }
 
 function filterJoblistings(joblistings, classes, jobtypes, workplaces) {
-  console.log('heisann', jobtypes);
-  console.log(classes);
   return joblistings.filter((joblisting) => {
     if (classes.length === 0) {
       return true;
@@ -36,8 +34,10 @@ function filterJoblistings(joblistings, classes, jobtypes, workplaces) {
       return true;
     }
     for (const workplace of workplaces) {
-      if (workplace === joblisting.workplaces) {
-        return true;
+      for (const workplaceObj of joblisting.workplaces) {
+        if (workplace === workplaceObj.town) {
+          return true;
+        }
       }
     }
     return false;
@@ -60,7 +60,6 @@ function mapStateToProps(state, props) {
   const { query } = props.location;
   const joblistings = state.joblistings.items
     .map((id) => state.joblistings.byId[id]);
-  console.log('asd2', query);
   const sortType = query.sort === 'company' ? 'company' : 'deadline';
   const filterClass = query.class ? query.class.split(',') : [];
   const filterJobType = query.jobtypes ? query.jobtypes.split(',') : [];
@@ -68,7 +67,6 @@ function mapStateToProps(state, props) {
 
   const filteredJoblistings = filterJoblistings(joblistings, filterClass,
     filterJobType, filterWorkplaces);
-    console.log(filteredJoblistings);
   const sortedJoblistings = sortJoblistings(filteredJoblistings, sortType);
 
   return {
