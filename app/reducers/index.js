@@ -16,7 +16,7 @@ import notifications from './notifications';
 import comments from './comments';
 import pages from './pages';
 import joblistings from './joblistings';
- 
+
 export default combineReducers({
   quotes,
   events,
