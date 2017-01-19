@@ -5,6 +5,8 @@ import config from '../config';
 function urlFor(resource) {
   if (resource.match(/^\/\//)) {
     return config.baseUrl + resource.replace(/^\//, '');
+  } else if (resource.match(/^http:/) || resource.match(/^https:/)) {
+    return resource;
   }
   return config.serverUrl + resource;
 }
@@ -25,20 +27,25 @@ export default function callAPI({
   types,
   method = 'get',
   headers = {},
+  json = true,
   endpoint,
   body,
+  files,
   meta,
-  schema
+  schema,
+  requiresAuthentication = true,
 }) {
   return (dispatch, getState) => {
     const options = {
       method,
       body,
-      headers
+      files,
+      headers,
+      json,
     };
 
     const jwt = getState().auth.token;
-    if (jwt) {
+    if (jwt && requiresAuthentication) {
       options.headers.Authorization = `JWT ${jwt}`;
     }
 

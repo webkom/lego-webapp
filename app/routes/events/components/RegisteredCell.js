@@ -9,7 +9,7 @@ const RegisteredCell = ({ user }) => (
     <Link to={`/users/${user.username}`}>
       <ProfilePicture
         size={60}
-        user={user.id}
+        user={user}
       />
     </Link>
   </Tooltip>

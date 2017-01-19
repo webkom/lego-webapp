@@ -10,8 +10,9 @@ import Popover from 'app/components/Popover';
 import truncateString from 'app/utils/truncateString';
 import colorForEvent from '../colorForEvent';
 import styles from './Calendar.css';
+import Pill from 'app/components/Pill';
 
-const Event = ({ id, title, description, eventType }) => (
+const Event = ({ id, title, description, eventType, registrationCount, totalCapacity }) => (
   <Popover
     key={id}
     render={() => (
@@ -28,7 +29,13 @@ const Event = ({ id, title, description, eventType }) => (
     )}
   >
     <div>
-      <h2>{title}</h2>
+      <h3 className={styles.eventItemTitle}>
+        {title}
+        <Pill style={{ marginLeft: 10 }}>
+          {`${registrationCount} / ${totalCapacity}`}
+        </Pill>
+      </h3>
+
       {description}
     </div>
   </Popover>

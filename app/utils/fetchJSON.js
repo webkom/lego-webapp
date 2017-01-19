@@ -1,17 +1,49 @@
 import 'isomorphic-fetch';
 
+export function stringifyBody(requestOptions: Object) {
+  const { body, json } = requestOptions;
+
+  if (typeof body === 'string') {
+    return body;
+  }
+
+  if (typeof body === 'object' && json !== false) {
+    return JSON.stringify(body);
+  }
+
+  return null;
+}
+
 /**
  *
  */
 export default function fetchJSON(path, options = {}) {
-  if (typeof options.body === 'object' && options.json !== false) {
-    options.body = JSON.stringify(options.body);
+  const filesToUpload = options.files ? options.files : [];
+  delete options.files;
+
+  let body;
+  if (filesToUpload.length > 0) {
+    body = new FormData();
+
+    const rawBody = options.body;
+
+    if (rawBody != null) {
+      Object.keys(rawBody).forEach((prop) => {
+        body.append(prop, rawBody[prop]);
+      });
+    }
+
+    body.append('file', filesToUpload[0]);
+  } else {
+    options.headers = options.headers || {};
+    options.headers['Content-Type'] = options.headers['Content-Type'] || 'application/json';
+    body = stringifyBody(options);
   }
 
   const request = new Request(path, {
     ...options,
+    body,
     headers: new Headers({
-      'Content-Type': 'application/json',
       'Accept': 'application/json',
       ...options.headers
     })

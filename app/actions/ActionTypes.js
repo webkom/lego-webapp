@@ -103,3 +103,11 @@ export const Page = {
 export const Bdb = {
   FETCH: generateStatuses('Bdb.FETCH')
 };
+
+/**
+ *
+ */
+export const File = {
+  FETCH_SIGNED_POST: generateStatuses('File.FETCH_SIGNED_POST'),
+  UPLOAD: generateStatuses('File.UPLOAD')
+};

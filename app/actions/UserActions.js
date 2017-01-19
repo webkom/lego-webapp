@@ -6,6 +6,7 @@ import { userSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { User } from './ActionTypes';
 import { connectWebsockets } from '../utils/websockets';
+import { uploadFile } from './FileActions';
 
 const USER_STORAGE_KEY = 'user';
 
@@ -54,7 +55,8 @@ export function logout() {
   };
 }
 
-export function updateUser({ username, firstName, lastName, email }) {
+export function updateUser(user, options = { noRedirect: false }) {
+  const { username, firstName, lastName, email, picture } = user;
   return (dispatch, getState) => {
     const token = getState().auth.token;
     return dispatch(callAPI({
@@ -65,7 +67,8 @@ export function updateUser({ username, firstName, lastName, email }) {
         username,
         first_name: firstName,
         last_name: lastName,
-        email
+        email,
+        picture
       },
       schema: userSchema,
       meta: {
@@ -73,7 +76,9 @@ export function updateUser({ username, firstName, lastName, email }) {
       }
     }))
       .then((action) => {
-        dispatch(push(`/users/${action.payload.result || 'me'}`));
+        if (!options.noRedirect) {
+          dispatch(push(`/users/${action.payload.result || 'me'}`));
+        }
         if (getState().auth.username === username) {
           putInLocalStorage(USER_STORAGE_KEY)({
             payload: {
@@ -83,6 +88,15 @@ export function updateUser({ username, firstName, lastName, email }) {
           });
         }
       });
+  };
+}
+
+export function updatePicture({ picture }) {
+  return (dispatch, getState) => {
+    const username = getState().auth.username;
+    return dispatch(uploadFile(picture))
+      .then((action) =>
+        dispatch(updateUser({ username, picture: action.meta.fileToken }, { noRedirect: true })));
   };
 }
 

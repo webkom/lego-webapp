@@ -58,7 +58,7 @@ export default class ProfileBox extends Component {
       <div className={styles.profile}>
         <div className={styles.bar}>
           <ProfilePicture
-            user={currentUser.id}
+            user={currentUser}
             size={50}
           />
           <a

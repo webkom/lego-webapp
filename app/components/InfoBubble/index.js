@@ -21,8 +21,8 @@ const withLinkIcon = (link, icon, bubbleClass, iconClass) => (
   <a href={httpCheck(link)}>{noLinkIcon(icon, bubbleClass, iconClass)}</a>
 );
 
-const noLinkData = (dataClass, data) => (
-  <span className={cx(styles[data], dataClass)}>{data || '-'}</span>
+const noLinkData = (dataClass, data, isMeta = false) => (
+  <span className={cx(isMeta ? styles.meta : styles.data, dataClass)}>{data || '-'}</span>
 );
 
 const withLinkData = (link, dataClass, data) => (
@@ -39,7 +39,7 @@ function InfoBubble({ icon, data, meta, className, bubbleClass, dataClass,
       {link ? withLinkIcon(link, icon, bubbleClass, iconClass) :
         noLinkIcon(icon, bubbleClass, iconClass)}
       {link ? withLinkData(link, dataClass, data) : noLinkData(dataClass, data)}
-      {noLinkData(metaClass, meta)}
+      {noLinkData(metaClass, meta, true)}
     </div>
   );
 }

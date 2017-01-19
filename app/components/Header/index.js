@@ -120,7 +120,7 @@ export default class Header extends Component {
                 triggerComponent={(
                   <ProfilePicture
                     size={24}
-                    user={this.props.currentUser.id}
+                    user={this.props.currentUser}
                     style={{ verticalAlign: 'middle', marginTop: -8 }}
                   />
                 )}
