@@ -13,7 +13,7 @@ type Props = {
   handleSubmit: func,
   handleSubmitCallback: func,
   meetingId?: string,
-  meeting?: string,
+  meeting?: Object,
   change: func
 }
 

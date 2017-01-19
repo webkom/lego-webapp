@@ -46,7 +46,16 @@ export function setInvitationStatus(meetingId, status, user) {
   });
 }
 
-export function createMeeting({ title, report, location, startTime, endTime, reportAuthor }) {
+export function createMeeting({
+  title,
+  report,
+  location,
+  startTime,
+  endTime,
+  reportAuthor,
+  users,
+  groups
+}) {
   return (dispatch) => {
     dispatch(startSubmit('meetingEditor'));
 
@@ -67,8 +76,19 @@ export function createMeeting({ title, report, location, startTime, endTime, rep
         errorMessage: 'Creating meeting failed'
       }
     })).then((result) => {
-      dispatch(stopSubmit('meetingEditor'));
-      dispatch(push(`/meetings/${result.payload.result}`));
+      const id = result.payload.result;
+      if (!groups || !users) {
+        dispatch(inviteUsersAndGroups({ id, users, groups })).then(() => {
+          dispatch(stopSubmit('meetingEditor'));
+          dispatch(push(`/meetings/${id}`));
+        }).catch((action) => {
+          const errors = { ...action.error.response.jsonData };
+          dispatch(stopSubmit('meetingEditor', errors));
+        });
+      } else {
+        dispatch(stopSubmit('meetingEditor'));
+        dispatch(push(`/meetings/${id}`));
+      }
     }).catch((action) => {
       const errors = { ...action.error.response.jsonData };
       dispatch(stopSubmit('meetingEditor', errors));
@@ -78,7 +98,7 @@ export function createMeeting({ title, report, location, startTime, endTime, rep
 
 export function inviteUsersAndGroups({ id, users, groups }) {
   return callAPI({
-    types: Meeting.CREATE,
+    types: Meeting.EDIT,
     endpoint: `/meetings/${id}/bulk_invite/`,
     method: 'post',
     body: {

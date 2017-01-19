@@ -12,28 +12,29 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 
 
 function MeetingListItem({ meeting, userIdMe }) {
+  const isDone = moment(meeting.startTime) < moment();
   return (
     <div
-      style={{ borderColor: 'red' }}
+      style={{ borderColor: isDone ? 'gray' : 'red' }}
       className={styles.meetingItem}
     >
       <div>
         <Link to={`/meetings/${meeting.id}`}>
           <h3 className={styles.meetingItemTitle}>
             {meeting.title}
-            { (userIdMe === meeting.createdBy) ?
+            { (userIdMe === meeting.createdBy) &&
                 (
                   <Pill style={{ marginLeft: 10 }}>
                     Eier
                   </Pill>
-                ) : ''
+                )
             }
-            { (userIdMe === meeting.reportAuthor) ?
+            { (userIdMe === meeting.reportAuthor) &&
                 (
                   <Pill style={{ marginLeft: 10 }}>
                     Referent
                   </Pill>
-                ) : ''
+                )
             }
           </h3>
         </Link>
@@ -60,7 +61,7 @@ function MeetingListItem({ meeting, userIdMe }) {
 
 export default class MeetingList extends Component {
   static propTypes = {
-    meetings: PropTypes.array.isRequired,
+    meetings: PropTypes.arrayOf(Object)
   }
 
   sortMeetings = (meetings) => {
@@ -111,7 +112,7 @@ export default class MeetingList extends Component {
       return year2 - year1;
     });
 
-    return pools.concat(oldMeetings).filter((elem) => (elem.meetings.length !== 0)).map((pool) => ({
+    return pools.concat(oldMeetings).filter((elem) => (elem.meetings.length)).map((pool) => ({
       title: pool.title,
       meetings: pool.meetings.sort((elem1, elem2) =>
         moment(elem1.startTime) - moment(elem2.startTime)
