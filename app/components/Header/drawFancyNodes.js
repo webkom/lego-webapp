@@ -1,9 +1,13 @@
 function createErdosRenyi(n, p) {
   const graph = { nodes: [], edges: [] };
   for (let i = 0; i < n; i++) {
-    graph.nodes.push(i);
+    graph.nodes.push({
+      node: i,
+      edgeCount: 0
+    });
     for (let j = 0; j < i; j++) {
       if (Math.random() < p) {
+        graph.nodes[i].edgeCount++;
         graph.edges.push({
           source: i,
           target: j
@@ -22,9 +26,10 @@ function drawNetwork(context, nodes, graph) {
     context.stroke();
   });
 
-  nodes.forEach(([x, y]) => {
+  nodes.forEach(([x, y], node) => {
+    const edgeCount = graph.nodes[node].edgeCount;
     context.beginPath();
-    context.arc(x, y, 8 + Math.floor((Math.random() * 12)), 0, 2 * Math.PI);
+    context.arc(x, y, 4 + Math.floor((edgeCount * 4)), 0, 2 * Math.PI);
     context.fill();
   });
 }
@@ -37,7 +42,7 @@ export default function drawFancyNodes(context, { width, height }) {
   context.lineWidth = 1;
   context.globalAlpha = 0.1;
 
-  const graph = createErdosRenyi(20, 0.3);
+  const graph = createErdosRenyi(25, 0.1);
 
   const leftNodes = graph.nodes.map(() =>
     [(width * Math.random()) / 3, Math.random() * height]

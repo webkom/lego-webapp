@@ -2,8 +2,8 @@
 
 .header {
   background: linear-gradient(#ddd, #eee);
-  border-bottom: 1px solid #ccc;
-  box-shadow: 0 5px 30px #efefef;
+  border-bottom: 2px solid #ddd;
+  box-shadow: 0 5px 40px #eee;
 }
 
 .backdrop {
@@ -22,7 +22,8 @@
 }
 
 .buttonGroup button,
-.buttonGroup i {
+.buttonGroup i,
+.buttonGroup img {
   border: 0;
   color: var(--lego-text-gray);
   font-size: 1.8rem;
@@ -71,7 +72,8 @@
 }
 
 .navigation a {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
+  font-weight: 500;
   letter-spacing: 1px;
   padding: 0 1rem;
   height: 100%;
@@ -99,7 +101,6 @@
   &:hover,
   &.activeItem {
     color: #000;
-    text-shadow: 0 0 5px #ccc;
   }
 
   &:hover::after,

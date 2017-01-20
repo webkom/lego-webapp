@@ -4,7 +4,7 @@ import '../../Root.css';
 import styles from './AppRoute.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { loginAutomaticallyIfPossible, logout } from 'app/actions/UserActions';
+import { loginAutomaticallyIfPossible, logout, login } from 'app/actions/UserActions';
 import { toggleSearch } from 'app/actions/SearchActions';
 import Header from 'app/components/Header';
 import Footer from 'app/components/Footer';
@@ -41,6 +41,7 @@ class App extends Component {
           currentUser={this.props.currentUser}
           loggedIn={this.props.loggedIn}
           logout={this.props.logout}
+          login={this.props.login}
         />
 
         <div style={{ flex: 1 }}>
@@ -68,7 +69,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = {
   loginAutomaticallyIfPossible,
   toggleSearch,
-  logout
+  logout,
+  login
 };
 
 export default connect(

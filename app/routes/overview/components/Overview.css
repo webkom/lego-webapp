@@ -15,6 +15,7 @@
 .normal {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .rest {
@@ -32,7 +33,7 @@
 
 .normal > .item {
   width: auto;
-  flex: 1;
+  flex: 0 0 33.3333%;
 }
 
 .item:hover .itemInfo {

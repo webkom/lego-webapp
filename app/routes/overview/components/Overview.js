@@ -15,8 +15,8 @@ const EVENT_TYPES = [
 ];
 
 const HEADLINE_EVENTS = 2;
-const FRONT_EVENTS = 5;
-const DESCRIPTION_MAX_LENGTH = 130;
+const FRONT_EVENTS = 8;
+const DESCRIPTION_MAX_LENGTH = 150;
 
 const OverviewItem = ({ event, showImage }) => (
   <div className={styles.item}>
@@ -81,6 +81,7 @@ export default class Overview extends Component {
               <OverviewItem
                 key={event.id}
                 event={event}
+                showImage
               />
             ))}
           </div>
