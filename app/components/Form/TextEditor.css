@@ -1,4 +1,3 @@
 .input {
   composes: input from './TextInput.css';
-  height: 80px;
 }
