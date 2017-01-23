@@ -1,5 +1,3 @@
 import React from 'react';
 
-export default () => (
-  <hr />
-);
+export default () => (<hr />);

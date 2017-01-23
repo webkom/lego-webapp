@@ -13,9 +13,12 @@ export default Map({ // eslint-disable-line
     element: 'div'
   },
   [Block.IMAGE]: {
-    element: 'figure'
+    element: 'div'
   },
   [Block.BREAK]: {
+    element: 'div'
+  },
+  [Block.ATOMIC]: {
     element: 'div'
   },
   [Block.EMBED]: {

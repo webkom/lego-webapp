@@ -1,8 +1,10 @@
 // @flow
 
 import React, { Component } from 'react';
-import { AtomicBlockUtils, Entity } from 'draft-js';
 import Icon from 'app/components/Icon';
+import { addNewBlock } from '../utils';
+import { Block } from '../constants';
+import { ImageUpload } from 'app/components/Upload';
 import styles from './Toolbar.css';
 
 type Props = {
@@ -12,22 +14,31 @@ type Props = {
 };
 
 export default class Image extends Component {
-
   props: Props;
 
-  onClick = () => {
-    this.addImageURL();
+  state = {
+    showModal: false
   }
 
-  addImageURL = (url) => {
-    const entityKey = Entity.create('image', 'IMMUTABLE', { url });
-    this.props.onChange(
-      AtomicBlockUtils.insertAtomicBlock(
-        this.props.EditorState,
-        entityKey,
-        'I'
-      )
-    );
+  onClick = () => {
+    this.setState({ showModal: true });
+  }
+
+  onSubmit = (blob) => {
+    this.addImage(blob);
+  }
+
+  onClose = () => {
+    this.props.onClose();
+  }
+
+  addImage = (image) => {
+    this.props.onChange(addNewBlock(
+        this.props.editorState,
+        Block.IMAGE,
+        { image }
+    ));
+    this.props.onClose();
   }
 
 
@@ -41,6 +52,14 @@ export default class Image extends Component {
         }}
       >
         <Icon name='picture-o' />
+
+        {this.state.showModal &&
+          <ImageUpload
+            onClose={this.onClose}
+            onSubmit={this.onSubmit}
+            inModal
+          />
+        }
       </span>
     );
   }

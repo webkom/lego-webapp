@@ -1,8 +1,11 @@
 // @flow
 
 import React, { Component } from 'react';
+import {
+  AtomicBlockUtils,
+  Entity
+} from 'draft-js';
 import { Block } from '../constants';
-import { addNewBlock } from '../utils';
 import Icon from 'app/components/Icon';
 import styles from './Toolbar.css';
 
@@ -17,10 +20,14 @@ export default class Break extends Component {
   props: Props;
 
   onClick = () => {
-    this.props.onChange(addNewBlock(
+    const entityKey = Entity.create(Block.BREAK, 'IMMUTABLE', {});
+    this.props.onChange(
+      AtomicBlockUtils.insertAtomicBlock(
         this.props.editorState,
-        Block.BREAK
-    ));
+        entityKey,
+        '-'
+      )
+    );
     this.props.onClose();
   }
 

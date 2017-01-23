@@ -4,7 +4,6 @@ import Icon from 'app/components/Icon';
 import ReactDOM from 'react-dom';
 import styles from './Toolbar.css';
 import Break from './Break';
-import Embed from './Embed';
 import Image from './Image';
 
 export type Props = {
@@ -32,6 +31,7 @@ export default class Toolbar extends Component {
 
   handleClose = () => {
     this.setState({ open: false });
+    this.props.focus();
   }
 
   calculateHeightOffset = (props) => {
@@ -44,7 +44,7 @@ export default class Toolbar extends Component {
 
       const currentBlockKey = props.editorState.getSelection().getAnchorKey();
 
-      let top = 0;
+      let top = 15;
       for (let i = 0; i < contentBlocks.length; i++) {
         const block = contentBlocks[i];
         if (block.getAttribute('data-offset-key').includes(currentBlockKey)) break;
@@ -56,37 +56,38 @@ export default class Toolbar extends Component {
   }
 
   render() {
-    return (
-      <div className={styles.toolbar} style={{ top: this.state.top }}>
+    if (this.state.open || this.props.showToolbar) {
+      return (
+        <div className={styles.toolbar} style={{ top: this.state.top }}>
 
-        <Icon
-          onMouseDown={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            this.setState({ open: !this.state.open });
-          }}
-          name='plus'
-          className={this.state.open ? styles.activeButton : ''}
-        />
+          <Icon
+            onMouseDown={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              this.setState({ open: !this.state.open });
+            }}
+            name='plus'
+            className={this.state.open ? styles.activeButton : ''}
+          />
 
-        {this.state.open && <div className={styles.toolbarButtons}>
-          <Break
-            onChange={this.props.onChange}
-            onClose={this.handleClose}
-            editorState={this.props.editorState}
-          />
-          <Embed
-            onChange={this.props.onChange}
-            onClose={this.handleClose}
-            editorState={this.props.editorState}
-          />
-          <Image
-            onChange={this.props.onChange}
-            onClose={this.handleClose}
-            editorState={this.props.editorState}
-          />
-        </div>}
+          {this.state.open && <div className={styles.toolbarButtons}>
+            <Break
+              onChange={this.props.onChange}
+              onClose={this.handleClose}
+              editorState={this.props.editorState}
+            />
+            <Image
+              onChange={this.props.onChange}
+              uploadFile={this.props.uploadFile}
+              onClose={this.handleClose}
+              editorState={this.props.editorState}
+            />
+          </div>}
 
-      </div>);
+        </div>
+      );
+    }
+
+    return null;
   }
 }

@@ -1,3 +1,8 @@
+
+export const HYPERLINK = 'hyperlink';
+export const HANDLED = 'handled';
+export const NOT_HANDLED = 'not_handled';
+
 export const Block = {
   UNSTYLED: 'unstyled',
   OL: 'ordered-list-item',

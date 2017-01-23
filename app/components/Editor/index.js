@@ -1,30 +1,19 @@
 /* eslint-disable react/no-find-dom-node */
+import 'draft-js/dist/Draft.css';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
-import { debounce } from 'lodash';
-import 'draft-js/dist/Draft.css';
-import 'draft-js-emoji-plugin/lib/plugin.css';
-import 'draft-js-mention-plugin/lib/plugin.css';
 import isSoftNewlineEvent from 'draft-js/lib/isSoftNewlineEvent';
-import Editor from 'draft-js-plugins-editor';
-import { RichUtils } from 'draft-js';
-import createEmojiPlugin from 'draft-js-emoji-plugin';
-import createMentionPlugin from 'draft-js-mention-plugin';
-import { getMentions } from 'app/reducers/search';
-import { mention } from 'app/actions/SearchActions';
-import { Block, customStyleMap } from './constants';
+import { RichUtils, Editor } from 'draft-js';
+import { uploadFile } from 'app/actions/FileActions';
+import { Block, customStyleMap, NOT_HANDLED, HANDLED } from './constants';
 import * as utils from './utils';
+import beforeInput, { StringToTypeMap } from './beforeInput';
 import Tooltip from './Tooltip';
 import Toolbar from './Toolbar';
 import RenderMap from './RenderMap';
 import customRenderer from './CustomRenderer';
 import styles from './Editor.css';
-
-const mentionPlugin = createMentionPlugin();
-const emojiPlugin = createEmojiPlugin();
-const { EmojiSuggestions } = emojiPlugin;
-const { MentionSuggestions } = mentionPlugin;
 
 export type Props = {
   content: string,
@@ -44,15 +33,12 @@ class EditorComponent extends Component {
     onBlur: () => {}
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      editorState: utils.createEditorState(props.content),
-      active: false
-    };
+  state = {
+    editorState: utils.createEditorState(this.props.content),
+    active: false
+  };
 
-    this.customRenderer = customRenderer(this.onChange, this.state.editorState);
-  }
+  customRenderer = customRenderer(this.onChange, this.state.editorState);
 
   componentDidMount = () => {
     if (this.props.autoFocus) this.focus();
@@ -78,7 +64,10 @@ class EditorComponent extends Component {
   onChange = (editorState) => {
     this.setState(
       { editorState },
-      this.props.onChange(utils.toHTML(editorState.getCurrentContent()))
+      () => {
+        console.log(editorState.getCurrentContent().toJS().blockMap);
+        // this.props.onChange(utils.toHTML(editorState.getCurrentContent()));
+      }
     );
   }
 
@@ -100,18 +89,16 @@ class EditorComponent extends Component {
 
     if (isSoftNewlineEvent(e)) {
       this.onChange(RichUtils.insertSoftNewline(editorState));
-      return true;
+      return HANDLED;
     }
 
     if (!e.altKey && !e.metaKey && !e.ctrlKey) {
-      const selection = editorState.getSelection();
-      const currentBlockKey = selection.getAnchorKey();
-      const currentBlock = editorState.getCurrentContent().getBlockForKey(currentBlockKey);
+      const currentBlock = utils.getCurrentBlock(editorState);
       const blockType = currentBlock.getType();
 
-      if (blockType.indexOf('atomic') === 0) {
+      if (blockType === Block.ATOMIC) {
         this.onChange(utils.addNewBlockAt(editorState, currentBlock.getKey()));
-        return true;
+        return HANDLED;
       }
 
       if (currentBlock.getLength() === 0) {
@@ -126,22 +113,39 @@ class EditorComponent extends Component {
           case Block.H3:
           case Block.H1:
             this.onChange(utils.resetBlockWithType(editorState, Block.UNSTYLED));
-            return true;
+            return HANDLED;
           default:
-            return false;
+            return NOT_HANDLED;
         }
       }
 
+      const selection = editorState.getSelection();
+      const continuousBlocks = [
+        Block.UNSTYLED,
+        Block.BLOCKQUOTE,
+        Block.OL,
+        Block.UL,
+        Block.CODE,
+        Block.TODO,
+      ];
+
       if (selection.isCollapsed() && currentBlock.getLength() === selection.getStartOffset()) {
-        return false;
+        if (continuousBlocks.indexOf(blockType) < 0) {
+          this.onChange(utils.addNewBlockAt(editorState, currentBlock.getKey()));
+          return HANDLED;
+        }
+        return NOT_HANDLED;
       }
-
-      return false;
+      return NOT_HANDLED;
     }
-
-    return false;
+    return NOT_HANDLED;
   }
 
+  handleBeforeInput = (s) => beforeInput(this.state.editorState, s, this.onChange, StringToTypeMap);
+
+  handleKeyCommand = (command) => {
+    console.log(command);
+  };
 
   onFocus = () => {
     this.setState({ active: true });
@@ -167,11 +171,12 @@ class EditorComponent extends Component {
       >
 
         <Editor
-          plugins={[emojiPlugin, mentionPlugin]}
           stripPastedStyles
           decorators={utils.customDecorators}
           ref={(node) => { this.editorRoot = node; }}
           handleReturn={this.handleReturn}
+          handleBeforeInput={this.handleBeforeInput}
+          handleKeyCommand={this.handleKeyCommand}
           editorState={editorState}
           customStyleMap={customStyleMap}
           blockRenderMap={RenderMap}
@@ -182,25 +187,15 @@ class EditorComponent extends Component {
           onBlur={this.onBlur}
         />
 
-        {this.state.active &&
-          <EmojiSuggestions />
-        }
-
-        {this.state.active &&
-          <MentionSuggestions
-            onSearchChange={this.props.onMention}
-            suggestions={this.props.mentions}
-          />
-        }
-
-        {blockLength === 0 && this.state.active && !this.props.simpleEditor ?
-          <Toolbar
-            editorState={editorState}
-            editorRoot={this.editorRoot}
-            active={this.state.active}
-            onChange={this.onChange}
-          /> : null
-        }
+        <Toolbar
+          editorState={editorState}
+          editorRoot={this.editorRoot}
+          focus={this.focus}
+          active={this.state.active}
+          uploadFile={this.props.uploadFile}
+          showToolbar={blockLength === 0 && this.state.active && !this.props.simpleEditor}
+          onChange={this.onChange}
+        />
 
         {!editorState.getSelection().isCollapsed() && this.state.active ?
           <Tooltip
@@ -219,15 +214,11 @@ class EditorComponent extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({
-  mentions: getMentions(state)
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onMention: debounce((query) => dispatch(mention(query.value)), 300)
-});
+const mapDispatchToProps = {
+  uploadFile
+};
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(EditorComponent);
