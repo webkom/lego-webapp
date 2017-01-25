@@ -56,7 +56,9 @@
     "redux-logger": "^2.7.4",
     "redux-thunk": "2.1.0",
     "reselect": "2.5.4",
+    "selection-position": "^1.0.0",
     "slate": "^0.16.10",
+    "slate-auto-replace": "^0.2.1",
     "slate-auto-replace-text": "^0.3.1",
     "websocket.js": "^0.1.7"
   },
