@@ -4,6 +4,7 @@ import Icon from 'app/components/Icon';
 import { ImageUpload } from 'app/components/Upload';
 import styles from './Toolbar.css';
 import { Blocks } from '../constants';
+import ToolbarButton from './ToolbarButton';
 import { findDOMNode } from 'slate';
 
 export type Props = {
@@ -37,9 +38,7 @@ export default class Toolbar extends Component {
     this.container.style.top = `${rect.top + window.scrollY}px`;
   }
 
-  insertBreak = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+  insertBreak = () => {
     this.props.insertBlock({
       type: Blocks.Break,
       isVoid: true,
@@ -55,12 +54,7 @@ export default class Toolbar extends Component {
     });
   }
 
-  toggleImage = (e) => {
-    if (e.preventDefault || e.stopPropagation) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-
+  toggleImage = () => {
     this.setState({ ...this.state, openUpload: !this.state.openUpload });
   }
 
@@ -85,18 +79,14 @@ export default class Toolbar extends Component {
 
         {this.state.open &&
           <div className={styles.toolbarButtons}>
-            <span
-              className={styles.toolbarButton}
-              onMouseDown={this.insertBreak}
-            >
-              <Icon name='minus' />
-            </span>
-            <span
-              className={styles.toolbarButton}
-              onMouseDown={this.toggleImage}
-            >
-              <Icon name='picture-o' />
-            </span>
+            <ToolbarButton
+              icon='minus'
+              onClick={this.insertBreak}
+            />
+            <ToolbarButton
+              icon='picture-o'
+              onClick={this.toggleImage}
+            />
           </div>
         }
 
