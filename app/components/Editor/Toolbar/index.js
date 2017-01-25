@@ -1,9 +1,10 @@
 /* eslint-disable react/no-find-dom-node */
 import React, { Component } from 'react';
 import Icon from 'app/components/Icon';
+import { ImageUpload } from 'app/components/Upload';
 import styles from './Toolbar.css';
-import { findDOMNode } from 'slate';
-
+import { Blocks } from '../constants';
+import { findDOMNode } from 'slate';
 
 export type Props = {
   editorState: object,
@@ -12,7 +13,8 @@ export type Props = {
 
 export default class Toolbar extends Component {
   state = {
-    open: false
+    open: false,
+    openUpload: false
   }
   props: Props;
 
@@ -35,47 +37,76 @@ export default class Toolbar extends Component {
     this.container.style.top = `${rect.top + window.scrollY}px`;
   }
 
-  clickMinus = (e) => {
-    console.log('click');
+  insertBreak = (e) => {
     e.preventDefault();
     e.stopPropagation();
     this.props.insertBlock({
-      type: 'hr',
+      type: Blocks.Break,
       isVoid: true,
       data: {}
     });
   }
 
+  insertImage = (image, src) => {
+    this.props.insertBlock({
+      type: Blocks.Image,
+      isVoid: true,
+      data: { image, src }
+    });
+  }
+
+  toggleImage = (e) => {
+    if (e.preventDefault || e.stopPropagation) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    this.setState({ ...this.state, openUpload: !this.state.openUpload });
+  }
+
+  toggle = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.setState({ open: !this.state.open });
+  }
+
   render() {
     return (
-      <div className={styles.toolbar} style={{ top: '500px', left: '100px' }} ref={(c) => { this.container = c; }}>
+      <div
+        className={styles.toolbar}
+        style={{ top: '500px', left: '100px' }}
+        ref={(c) => { this.container = c; }}
+      >
         <Icon
-          onMouseDown={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            this.setState({ open: !this.state.open });
-          }}
+          onMouseDown={this.toggle}
           name='plus'
           className={this.state.open ? styles.activeButton : ''}
         />
 
-        {this.state.open && <div className={styles.toolbarButtons}>
-          <span
-            className={styles.toolbarButton}
-            onMouseDown={this.clickMinus}
-          >
-            <Icon name='minus' />
-          </span>
-          <span
-            className={styles.toolbarButton}
-            onMouseDown={(e) => {
-              e.preventDefault();
-              console.log('click image');
-            }}
-          >
-            <Icon name='picture-o' />
-          </span>
-        </div>}
+        {this.state.open &&
+          <div className={styles.toolbarButtons}>
+            <span
+              className={styles.toolbarButton}
+              onMouseDown={this.insertBreak}
+            >
+              <Icon name='minus' />
+            </span>
+            <span
+              className={styles.toolbarButton}
+              onMouseDown={this.toggleImage}
+            >
+              <Icon name='picture-o' />
+            </span>
+          </div>
+        }
+
+        {this.state.openUpload &&
+          <ImageUpload
+            inModal
+            onClose={this.toggleImage}
+            onSubmit={this.insertImage}
+          />
+        }
 
       </div>
     );

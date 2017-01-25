@@ -1,6 +1,8 @@
 /* eslint-disable react/no-find-dom-node */
 import React, { Component } from 'react';
 import { Editor, Raw } from 'slate';
+import { Blocks } from './constants';
+import { Break, Image } from './Blocks';
 import AutoReplaceText from 'slate-auto-replace-text';
 import AutoReplace from 'slate-auto-replace';
 import Toolbar from './Toolbar';
@@ -12,42 +14,33 @@ const plugins = [
     trigger: '-',
     before: /^(--)$/,
     after: /^$/,
-    transform: (transform) => {
-      return transform
-        .setBlock({ type: 'hr', isVoid: true })
-        .collapseToStartOfNextBlock();
-    }
+    transform: (transform) => transform
+        .setBlock({ type: Blocks.Break, isVoid: true })
+        .collapseToStartOfNextBlock()
   })
 ];
 
 const schema = {
   nodes: {
-    hr: (props) => {
-      const { node, state } = props;
-      const isFocused = state.selection.hasEdgeIn(node);
-      const style = isFocused ? { border: '1px solid blue' } : {};
-      return <hr {...props.attributes} style={style} />;
-    }
+    [Blocks.Break]: Break,
+    [Blocks.Image]: Image
   }
 };
 
-class CustomEditor extends Component {
+export default class CustomEditor extends Component {
   state = {
     editorState: Raw.deserialize(initialState, { terse: true })
   };
 
   onChange = (editorState) => {
-    this.setState({
-      editorState
-    });
+    this.setState({ editorState });
   }
 
-  insertParagraph = (state) => {
-    return state
+  insertParagraph = (state) => state
       .transform()
       .splitBlock()
       .setBlock({
-        type: 'paragraph',
+        type: Blocks.Paragraph,
         isVoid: false,
         data: {}
       })
@@ -55,19 +48,25 @@ class CustomEditor extends Component {
       .delete()
       .apply({
         save: false
-      });
-  }
+      })
 
   onDocumentChange = (document, state) => {
-    if (!state.isCollapsed) return;
+    if (!state.isCollapsed) {
+      return;
+    }
+
     const block = state.startBlock;
-    if (!block.isVoid) return;
+
+    if (!block.isVoid) {
+      return;
+    }
+
     const transformed = this.insertParagraph(state);
+
     this.onChange(transformed);
   }
 
   insertBlock = (properties) => {
-    console.log('insert', properties);
     const transformed = this.insertParagraph(
       this.state.editorState
         .transform()
@@ -77,11 +76,13 @@ class CustomEditor extends Component {
           save: false
         })
     );
+
     this.onChange(transformed);
   }
 
   render = () => {
     const { editorState } = this.state;
+
     return (
       <div>
         <Editor
@@ -91,15 +92,14 @@ class CustomEditor extends Component {
           schema={schema}
           onDocumentChange={this.onDocumentChange}
         />
-        { /* It is important that toolbar renders after editor because position calculation */ }
+
         <Toolbar
           editorState={editorState}
           insertBlock={this.insertBlock}
         />
+
       </div>
     );
   }
 
 }
-
-export default CustomEditor;

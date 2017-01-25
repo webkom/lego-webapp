@@ -12,7 +12,7 @@
     },
     {
       "kind": "block",
-      "type": "hr",
+      "type": "break",
       "isVoid": true
     },
     {
