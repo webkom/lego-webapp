@@ -8,7 +8,32 @@ import AutoReplace from 'slate-auto-replace';
 import Toolbar from './Toolbar';
 import initialState from './initialState.json';
 
+const insertParagraph = (state) => state
+    .transform()
+    .moveToOffsets(0, 0)
+    .splitBlock()
+    .setBlock({
+      type: Blocks.Paragraph,
+      isVoid: false,
+      data: {}
+    })
+    .extendForward(1)
+    .delete()
+    .apply({
+      save: false
+    });
+
+const enterOnVoidBlock = {
+  onKeyDown(e, data, state) {
+    if (e.keyCode === 13 && state.isCollapsed && state.startBlock.isVoid) {
+      return insertParagraph(state);
+    }
+    return undefined;
+  }
+};
+
 const plugins = [
+  enterOnVoidBlock,
   AutoReplaceText('(c)', '©'),
   AutoReplace({
     trigger: '-',
@@ -19,6 +44,7 @@ const plugins = [
         .collapseToStartOfNextBlock()
   })
 ];
+
 
 const schema = {
   nodes: {
@@ -36,20 +62,6 @@ export default class CustomEditor extends Component {
     this.setState({ editorState });
   }
 
-  insertParagraph = (state) => state
-      .transform()
-      .splitBlock()
-      .setBlock({
-        type: Blocks.Paragraph,
-        isVoid: false,
-        data: {}
-      })
-      .extendForward(1)
-      .delete()
-      .apply({
-        save: false
-      })
-
   onDocumentChange = (document, state) => {
     if (!state.isCollapsed) {
       return;
@@ -61,13 +73,13 @@ export default class CustomEditor extends Component {
       return;
     }
 
-    const transformed = this.insertParagraph(state);
+    const transformed = insertParagraph(state);
 
     this.onChange(transformed);
   }
 
   insertBlock = (properties) => {
-    const transformed = this.insertParagraph(
+    const transformed = insertParagraph(
       this.state.editorState
         .transform()
         .setBlock(properties)
@@ -94,7 +106,6 @@ export default class CustomEditor extends Component {
         />
 
         <Toolbar
-          uploadFile={this.props.uploadFile}
           editorState={editorState}
           insertBlock={this.insertBlock}
         />
@@ -102,5 +113,4 @@ export default class CustomEditor extends Component {
       </div>
     );
   }
-
 }
