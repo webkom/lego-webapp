@@ -5,7 +5,7 @@ import JoblistingsList from './JoblistingsList';
 import JoblistingsRightNav from './JoblistingsRightNav';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 
-const JoblistingsPage = ({ joblistings }) => {
+const JoblistingsPage = ({ joblistings, query }) => {
   if (!joblistings) {
     return <LoadingIndicator loading />;
   }
@@ -19,7 +19,7 @@ const JoblistingsPage = ({ joblistings }) => {
         </FlexColumn>
         <FlexColumn className={styles.rightNav}>
           <JoblistingsRightNav
-            query={this.props.query}
+            query={query}
           />
         </FlexColumn>
       </FlexRow>

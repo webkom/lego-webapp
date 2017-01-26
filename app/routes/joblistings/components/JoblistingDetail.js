@@ -9,15 +9,20 @@ import { Jobtype, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
 
 const JoblistingDetail = ({ joblisting }) => {
-  let kontaktOverskrift = '';
+  let contactTitle = '';
   if (!joblisting) {
     return <LoadingIndicator loading />;
   }
   if (joblisting.contactName || joblisting.contactPhone || joblisting.contactEmail) {
-    kontaktOverskrift = (
-      <li>
-        <h3>Kontaktinfo:</h3>
-      </li>
+    contactTitle = (
+      <div>
+        <li>
+          <h3>Kontaktinfo:</h3>
+        </li>
+        <li>{joblisting.contactName}</li>
+        <li>{joblisting.contactPhone}</li>
+        <li>{joblisting.contactEmail}</li>
+      </div>
     );
   }
   return (
@@ -46,14 +51,18 @@ const JoblistingDetail = ({ joblisting }) => {
                 />
               </strong>
             </li>
+            <li>
+              Søk her:
+              {' '}
+              <a href={`${joblisting.applicationUrl}`} className={styles.applicationUrl}>
+                {joblisting.applicationUrl}
+              </a>
+            </li>
             <br />
             <li>{Jobtype(joblisting.jobType)}</li>
             <Year {...joblisting} />
             <Workplaces places={joblisting.workplaces} />
-            {kontaktOverskrift}
-            <li>{joblisting.contactName}</li>
-            <li>{joblisting.contactEmail}</li>
-            <li>{joblisting.applicationUrl}</li>
+            {contactTitle}
           </ul>
         </FlexColumn>
       </FlexRow>

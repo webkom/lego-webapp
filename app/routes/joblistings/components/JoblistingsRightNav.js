@@ -19,17 +19,14 @@ export default class JoblistingsRightNav extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    const query = { ...newProps.query };
-    if (query.class) {
-      query.class = query.class.split(',');
-    }
-    if (query.jobtypes) {
-      query.jobtypes = query.jobtypes.split(',');
-    }
-    if (query.workplaces) {
-      query.workplaces = query.workplaces.split(',');
-    }
-    this.setState({ filters: query });
+    const query = newProps.query;
+    this.setState({
+      filters: {
+        class: query.class.split(',') || [],
+        jobtypes: query.jobtypes.split(',') || [],
+        workplaces: query.workplaces.split(',') || [],
+      }
+    });
   }
 
   handleQuery = (type, value, remove = false) => {

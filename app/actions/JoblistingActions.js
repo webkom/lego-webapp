@@ -14,7 +14,7 @@ export function fetchAll() {
   });
 }
 
-export function fetchDetailed(joblistingId) {
+export function fetchJoblisting(joblistingId) {
   return callAPI({
     types: Joblistings.FETCH,
     endpoint: `/joblistings/${joblistingId}/`,

@@ -5,11 +5,5 @@ export default createEntityReducer({
   key: 'joblistings',
   types: {
     fetch: Joblistings.FETCH
-  },
-  mutate(state, action) {
-    switch (action.type) {
-      default:
-        return state;
-    }
   }
 });

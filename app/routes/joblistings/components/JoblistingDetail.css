@@ -17,7 +17,17 @@
 
 h1 {
   font-size: 30px;
-  font-weight: bold;
   display: block;
   margin: 15px 0;
+  letter-spacing: 2px;
+  padding-left: 18px;
+}
+
+h3 {
+  border-bottom: 1px solid #FFF;
+}
+
+.applicationUrl {
+  color: #FFF;
+  text-decoration: underline;
 }

@@ -3,6 +3,7 @@ import { fetchAll } from 'app/actions/JoblistingActions';
 import JoblistingsPage from './components/JoblistingsPage';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { compose } from 'redux';
+import moment from 'moment';
 
 function loadData(params, props) {
   props.fetchAll();
@@ -10,44 +11,37 @@ function loadData(params, props) {
 
 function filterJoblistings(joblistings, classes, jobtypes, workplaces) {
   return joblistings.filter((joblisting) => {
+    let classBoolean = false;
+    let jobtypesBoolean = false;
+    let workplacesBoolean = false;
     if (classes.length === 0) {
-      return true;
+      classBoolean = true;
+    } else {
+      classBoolean = classes.find((c) => (
+        joblisting.fromYear <= Number(c)
+       && joblisting.toYear >= Number(c)
+     ));
     }
-    for (const filterClass of classes) {
-      if (joblisting.fromYear <= Number(filterClass) && joblisting.toYear >= Number(filterClass)) {
-        return true;
-      }
-    }
-    return false;
-  }).filter((joblisting) => {
     if (jobtypes.length === 0) {
-      return true;
+      jobtypesBoolean = true;
+    } else {
+      jobtypesBoolean = jobtypes.find((j) => (
+        j === joblisting.jobType
+      ));
     }
-    for (const jobtype of jobtypes) {
-      if (jobtype === joblisting.jobType) {
-        return true;
-      }
-    }
-    return false;
-  }).filter((joblisting) => {
     if (workplaces.length === 0) {
-      return true;
+      workplacesBoolean = true;
+    } else {
+      workplacesBoolean = joblisting.workplaces.some((w) => (workplaces.includes(w.town)));
     }
-    for (const workplace of workplaces) {
-      for (const workplaceObj of joblisting.workplaces) {
-        if (workplace === workplaceObj.town) {
-          return true;
-        }
-      }
-    }
-    return false;
+    return (classBoolean && jobtypesBoolean && workplacesBoolean);
   });
 }
 
 const dateSort = (a, b) => {
-  const date1 = new Date(a.deadline);
-  const date2 = new Date(b.deadline);
-  return date1.getTime() - date2.getTime();
+  const date1 = moment(a.deadline);
+  const date2 = moment(b.deadline);
+  return date1.isAfter(date2);
 };
 
 const companySort = (a, b) => a.company.localeCompare(b.company);
