@@ -6,6 +6,7 @@ import Modal from 'app/components/Modal';
 import TextInput from 'app/components/Form/TextInput';
 import TextEditor from 'app/components/Form/TextEditor';
 import Button from 'app/components/Button';
+import { FlexColumn, FlexRow } from 'app/components/FlexBox';
 
 class InterestGroup extends Component {
   state = {
@@ -32,11 +33,29 @@ class InterestGroup extends Component {
             <br />
             martyboy@alphamale.com
           </p>
-          <div className={styles.button}>
-            <Button onClick={() => this.setState({ editorOpen: true })}>Rediger interessegruppe
-            </Button>
-          </div>
+          <FlexColumn>
+            <div className={styles.button}>
+              <Button onClick={() => this.setState({ editorOpen: true })}>Rediger interessegruppe
+              </Button>
+            </div>
+            <div className={styles.button}>
+              <Button onClick={() => this.setState({ editorOpen: true })}>Rediger medlemmer
+              </Button>
+            </div>
+          </FlexColumn>
         </div>
+
+        <FlexRow>
+          <div className={styles.button}>
+            <Button onClick=''>Bli medlem!</Button>
+          </div>
+          <div className={styles.button}>
+            <Button onClick=''>Kontakt oss</Button>
+          </div>
+          <div className={styles.button}>
+            <Button onClick=''>Facebookgruppe</Button>
+          </div>
+        </FlexRow>
         <Modal
           keyboard={false}
           show={this.state.editorOpen}
