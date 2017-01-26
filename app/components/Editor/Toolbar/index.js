@@ -80,7 +80,6 @@ export default class Toolbar extends Component {
     return (
       <div
         className={styles.toolbar}
-        style={{ top: '500px', left: '100px' }}
         ref={(c) => { this.container = c; }}
       >
         <Icon

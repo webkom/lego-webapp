@@ -7,6 +7,7 @@ import AutoReplaceText from 'slate-auto-replace-text';
 import AutoReplace from 'slate-auto-replace';
 import Toolbar from './Toolbar';
 import initialState from './initialState.json';
+import styles from './Editor.css';
 
 const insertParagraph = (state) => state
     .transform()
@@ -58,6 +59,8 @@ export default class CustomEditor extends Component {
     editorState: Raw.deserialize(initialState, { terse: true })
   };
 
+  wrapperElement = undefined;
+
   onChange = (editorState) => {
     this.setState({ editorState });
   }
@@ -96,18 +99,23 @@ export default class CustomEditor extends Component {
     const { editorState } = this.state;
 
     return (
-      <div>
+      <div
+        ref={(c) => { this.wrapperElement = c; }}
+        className={styles.EditorWrapper}
+      >
         <Editor
           state={editorState}
           onChange={this.onChange}
           plugins={plugins}
           schema={schema}
           onDocumentChange={this.onDocumentChange}
+          className={styles.Editor}
         />
 
         <Toolbar
           editorState={editorState}
           insertBlock={this.insertBlock}
+          wrapperElement={this.wrapperElement}
         />
 
       </div>
