@@ -1,0 +1,76 @@
+.container {
+  border-radius: inherit;
+  height: inherit;
+  width: inherit;
+}
+
+.uploadContainer {
+  position: absolute;
+  border-radius: inherit;
+  height: inherit;
+  width: inherit;
+}
+
+.dropArea {
+  border-radius: inherit;
+  height: inherit;
+  width: inherit;
+  z-index: 0;
+  position: absolute;
+  background-color: gainsboro;
+}
+
+.inModalUpload {
+  height: 400px;
+  width: 600px;
+}
+
+.activeDropArea {
+  border-radius: inherit;
+  height: inherit;
+  width: inherit;
+  z-index: 0;
+  position: absolute;
+  color: white;
+  background-color: rgba(200, 200, 200, 0.7);
+}
+
+.placeholderIcon {
+  font-size: 80px;
+  color: inherit;
+}
+
+.placeholdeTitle {
+  font-size: 24px;
+  padding: 0 20px;
+  text-align: center;
+}
+
+.placeholderContainer {
+  border-radius: inherit;
+  height: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: inherit;
+  position: absolute;
+}
+
+.image {
+  border-radius: inherit;
+  height: inherit;
+}
+
+.cropper {
+  height: 400px;
+  width: 100%;
+}
+
+.buttons {
+  margin-top: 20px;
+}
+
+.saveButton {
+  margin-right: 10px;
+}

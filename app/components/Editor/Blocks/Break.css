@@ -1,0 +1,8 @@
+
+.hr {
+  margin: 10px auto;
+  width: 200px;
+  border: none;
+  height: 2px;
+  background-color: black;
+}

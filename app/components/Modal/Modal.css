@@ -3,6 +3,7 @@
   top: 0;
   bottom: 0;
   left: 0;
+  z-index: 2;
   right: 0;
 }
 
@@ -17,14 +18,14 @@
 
 .content {
   position: fixed;
-  max-width: 640px;
+  max-width: 680px;
   top: 100px;
   left: 0;
   right: 0;
   margin: 0 auto;
   background: #fff;
   border-radius: 5px;
-  padding: 20px;
+  padding: 40px;
   outline: none;
   max-height: 80vh;
   overflow-y: scroll;

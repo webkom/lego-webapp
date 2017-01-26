@@ -1,6 +1,6 @@
 import { Schema, arrayOf } from 'normalizr';
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
+import { routerReducer as routing } from 'react-router-redux';
 import form from './forms';
 import quotes from './quotes';
 import events from './events';
@@ -31,7 +31,7 @@ export default combineReducers({
   groups,
   pages,
   notifications,
-  routing: routerReducer
+  routing
 });
 
 export const articleSchema = new Schema('articles', { idAttribute: 'id' });

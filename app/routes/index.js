@@ -8,6 +8,7 @@ import meetings from './meetings';
 import admin from './admin';
 import quotes from './quotes';
 import pages from './pages';
+import search from './search';
 
 export function loadRoute(callback) {
   return (module) => callback(null, module.default);
@@ -29,6 +30,7 @@ export default {
     admin,
     quotes,
     pages,
+    search,
     {
       path: '*',
       component: () => <div>Not Found</div>
