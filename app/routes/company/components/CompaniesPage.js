@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import styles from './company.css';
+import styles from './Company.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Link } from 'react-router';
 

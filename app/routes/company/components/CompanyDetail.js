@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import styles from './company.css';
+import styles from './Company.css';
 import moment from 'moment';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { EventItem } from 'app/routes/events/components/EventList';
@@ -32,7 +32,6 @@ function insertInfoBubbles(company) {
             bubbleClass={styles.bubble}
             iconClass={styles.icon}
             dataClass={styles.data}
-            metaClass={styles.meta}
           />
       ))}
     </div>
