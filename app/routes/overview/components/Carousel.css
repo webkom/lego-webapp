@@ -1,0 +1,16 @@
+.carousel {
+  background: #eee;
+  width: 100%;
+  display: flex;
+  margin: 20px 10px;
+}
+
+.left {
+  flex: 1;
+  background: #eee;
+}
+
+.right {
+  flex: 2;
+  background: #ddd;
+}

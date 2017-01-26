@@ -1,39 +1,37 @@
-.frontpage {
+.container {
   composes: container from '../../../Root.css';
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.overview {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+.sidebar {
+  width: 300px;
+  padding: 20px;
 }
 
-.headline,
-.normal {
+.main {
+  flex: 1;
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-}
-
-.rest {
-  flex-direction: column;
 }
 
 .item {
   text-align: justify;
-  padding: 20px;
+  width: 33.3333333%;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s;
 }
 
-.headline > .item {
+.item:hover {
+  transform: scale(1.01);
+}
+
+.item.halfWidth {
   width: 50%;
-}
-
-.normal > .item {
-  width: auto;
-  flex: 0 0 33.3333%;
 }
 
 .item:hover .itemInfo {
@@ -43,12 +41,13 @@
 .imageLink {
   display: block;
   background: #eee;
-  margin-bottom: 15px;
 }
 
 .heading {
   border-bottom: 2px solid #ddd;
   text-align: center;
+  background: rgb(242, 241, 237);
+  padding: 20px;
 }
 
 .itemTitle {
@@ -60,8 +59,9 @@
   word-break: break-all;
 }
 
-.normal .itemTitle {
+.itemTitle {
   font-size: 1.2rem;
+  letter-spacing: 2px;
 }
 
 .itemTitle > a {
@@ -76,11 +76,14 @@
 }
 
 .itemDescription {
-  padding-top: 10px;
   margin: 0;
   font-family: 'skolar-latin';
   font-size: 1.1rem;
   -webkit-font-smoothing: initial;
+  word-break: break-all;
+  background: rgb(242, 241, 237);
+  padding: 20px;
+  flex: 1;
 }
 
 .normal .itemDescription {
