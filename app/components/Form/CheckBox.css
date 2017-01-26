@@ -32,7 +32,7 @@
   width: 17px;
   height: 17px;
   border: 1px solid #aaa;
-  border-radius: 2px;
+  border-radius: 1px;
 }
 
 [type='checkbox']:not(:checked) + label::before {
