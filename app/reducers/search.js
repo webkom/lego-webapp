@@ -1,13 +1,48 @@
 import { createSelector } from 'reselect';
 import { Search } from '../actions/ActionTypes';
-import { fromJS } from 'immutable';
 
 const initialState = {
   results: [],
-  mentions: fromJS([]),
+  autocomplete: [],
   query: '',
   searching: false,
   open: false
+};
+
+const searchMapping = {
+  'users.user': {
+    title: 'fullName',
+    color: '#A1C34A',
+    path: '/users/',
+    param: 'id',
+    picture: 'picture'
+  },
+  'articles.article': {
+    icon: 'newspaper-o',
+    title: 'title',
+    picture: 'cover',
+    color: '#52B0EC',
+    path: '/articles/',
+    param: 'id',
+    content: 'text'
+  },
+  'events.event': {
+    icon: 'calendar',
+    title: 'title',
+    color: '#E8953A',
+    picture: 'cover',
+    path: '/events/',
+    param: 'id',
+    content: 'description'
+  },
+  'flatpages.page': {
+    icon: 'file-text',
+    title: 'title',
+    color: '#E8953A',
+    path: '/pages/',
+    param: 'slugField',
+    content: 'content'
+  }
 };
 
 export default function search(state = initialState, action) {
@@ -19,10 +54,11 @@ export default function search(state = initialState, action) {
         searching: true
       });
 
-    case Search.MENTION.SUCCESS:
+    case Search.AUTOCOMPLETE.BEGIN:
       return {
         ...state,
-        mentions: fromJS(action.payload)
+        query: action.meta.query,
+        searching: true
       };
 
     case Search.SEARCH.SUCCESS:
@@ -36,7 +72,24 @@ export default function search(state = initialState, action) {
         searching: false
       };
 
+    case Search.AUTOCOMPLETE.SUCCESS:
+      if (action.meta.query !== state.query) {
+        return state;
+      }
+
+      return {
+        ...state,
+        autocomplete: action.payload,
+        searching: false
+      };
+
     case Search.SEARCH.FAILURE:
+      return {
+        ...state,
+        searching: false
+      };
+
+    case Search.AUTOCOMPLETE.FAILURE:
       return {
         ...state,
         searching: false
@@ -45,7 +98,7 @@ export default function search(state = initialState, action) {
     case Search.TOGGLE_OPEN:
       return {
         ...state,
-        results: [],
+        autocomplete: [],
         open: !state.open
       };
 
@@ -54,22 +107,25 @@ export default function search(state = initialState, action) {
   }
 }
 
-function transformMention(mention) {
-  return fromJS({
-    id: mention.get('objectId'),
-    link: `https://abakus.no/users/${mention.get('objectId')}`,
-    avatar: `http://api.adorable.io/avatars/${mention.get('objectId')}.png`,
-    name: mention.get('text'),
-    username: mention.get('text')
-  });
-}
+const transformResult = (result) => {
+  const fields = searchMapping[result.contentType];
+  const item = {};
 
-export const getMentions = createSelector(
-  (state) => state.search.mentions,
-  (mentions) => mentions.map((mention) => transformMention(mention))
+  Object.keys(fields).forEach((field) => {
+    item[field] = result[fields[field]] || fields[field];
+  });
+
+  item.link = item.path + item.param;
+
+  return item;
+};
+
+export const selectAutocomplete = createSelector(
+  (state) => state.search.autocomplete,
+  (autocomplete) => autocomplete.map((result) => transformResult(result))
 );
 
 export const selectResult = createSelector(
   (state) => state.search.results,
-  (results) => results.map((result) => result)
+  (results) => results.map((result) => transformResult(result))
 );

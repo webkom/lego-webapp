@@ -94,6 +94,7 @@ export default class CustomEditor extends Component {
         />
 
         <Toolbar
+          uploadFile={this.props.uploadFile}
           editorState={editorState}
           insertBlock={this.insertBlock}
         />

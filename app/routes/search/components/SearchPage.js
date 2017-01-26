@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
 import Icon from 'app/components/Icon';
+import SearchResult from './SearchResult';
 import styles from './SearchPage.css';
-
-const SearchResult = (result) => (
-  <div className={styles.searchResult}>
-    {result.content_type}
-  </div>
-);
 
 class SearchPage extends Component {
 
@@ -40,7 +35,7 @@ class SearchPage extends Component {
           {searching && <div className={styles.loadingIcon}><Icon name='spinner fa-spin' /></div>}
         </div>
         <div className={styles.searchResults}>
-          {results.map((result) => SearchResult(result))}
+          {results.map((result, id) => <SearchResult key={id} result={result} />)}
         </div>
       </div>
     );

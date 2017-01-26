@@ -7,7 +7,9 @@ import { connect } from 'react-redux';
 import cx from 'classnames';
 import { debounce } from 'lodash';
 import Icon from '../Icon';
+import ProfilePicture from '../ProfilePicture';
 import { autocomplete } from 'app/actions/SearchActions';
+import { selectAutocomplete } from 'app/reducers/search';
 import { push } from 'react-router-redux';
 
 const Keyboard = {
@@ -16,44 +18,22 @@ const Keyboard = {
   DOWN: 40
 };
 
-export const searchMap = {
-  'users.user': {
-    icon: 'user',
-    title: (item) => item.payload.full_name,
-    color: '#A1C34A',
-    link: '/users/'
-  },
-  'articles.article': {
-    icon: 'newspaper-o',
-    title: (item) => item.text,
-    color: '#52B0EC',
-    link: '/articles/'
-  },
-  'events.event': {
-    icon: 'calendar',
-    title: (item) => item.text,
-    color: '#E8953A',
-    link: '/events/'
-  }
-};
-
 const quickLinks = [
   ['', 'Interessegrupper'],
   ['', 'Butikk'],
   ['', 'Kontakt']
 ];
 
-const SearchResultItem = ({ item, isSelected }) => {
-  const objectType = searchMap[item.content_type];
-  return (
-    <Link to={objectType.link + item.object_id}>
-      <li className={cx(isSelected && styles.isSelected)} Style={{ borderColor: objectType.color }}>
-        <Icon className={styles.searchResultItemIcon} name={objectType.icon} />
-        {objectType.title(item)}
-      </li>
-    </Link>
-  );
-};
+const SearchResultItem = ({ result, isSelected }) => (
+  <Link to={result.link}>
+    <li className={cx(isSelected && styles.isSelected)}>
+      {result.icon && <Icon className={styles.searchResultItemIcon} name={result.icon} />}
+      {!result.icon && <ProfilePicture size={30} user={result} style={{ margin: '0px 10px 0px 0px' }} />}
+      {result.title}
+    </li>
+  </Link>
+);
+
 
 type Props = {
   results: Array<any>;
@@ -97,12 +77,14 @@ class Search extends Component {
 
       case Keyboard.ENTER:
         e.preventDefault();
+        console.log(this.state);
+        console.log(this.props);
         if (this.state.selectedIndex === 0) {
           this.props.openSearchRoute(this.state.query);
         } else {
-          const item = this.props.results[this.state.selectedIndex - 1];
-          const objectType = searchMap[item.content_type];
-          this.props.push(objectType.link + item.object_id);
+          const result = this.props.results[this.state.selectedIndex - 1];
+          console.log(result);
+          this.props.push(result.link);
         }
         this.props.onCloseSearch();
         break;
@@ -146,10 +128,10 @@ class Search extends Component {
 
           <div className={styles.resultsContainer}>
             <ul className={styles.results}>
-              {results.map((item, i) => (
+              {results.map((result, i) => (
                 <SearchResultItem
                   key={i}
-                  item={item}
+                  result={result}
                   isSelected={i === this.state.selectedIndex - 1}
                 />
               ))}
@@ -173,8 +155,8 @@ class Search extends Component {
 
 function mapStateToProps(state) {
   return {
-    results: state.autocomplete.results,
-    searching: state.autocomplete.searching
+    results: selectAutocomplete(state),
+    searching: state.search.searching
   };
 }
 

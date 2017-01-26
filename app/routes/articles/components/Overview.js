@@ -3,7 +3,6 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import Image from 'app/components/Image';
-import { getImage } from 'app/utils';
 
 const HEADLINE_EVENTS = 2;
 const FRONT_EVENTS = 5;
@@ -13,7 +12,7 @@ const OverviewItem = ({ article }) => (
     <Link to={`/articles/${article.id}`}>
       <Image
         height={60}
-        src={getImage(article.id)}
+        src={artice.cover}
       />
     </Link>
     <h2 className={styles.itemTitle}>

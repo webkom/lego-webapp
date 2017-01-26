@@ -8,7 +8,6 @@ import Pill from 'app/components/Pill';
 import Image from 'app/components/Image';
 import Toolbar from './Toolbar';
 import colorForEvent from '../colorForEvent';
-import { getImage } from 'app/utils';
 import styles from './EventList.css';
 
 // Kinda works
@@ -69,7 +68,7 @@ function EventItem({ event }) {
       </div>
 
       <div className={styles.companyLogo}>
-        <Image src={getImage(event.id)} />
+        <Image src={event.cover} />
       </div>
     </div>
   );

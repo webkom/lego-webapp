@@ -47,10 +47,11 @@ export default class Toolbar extends Component {
   }
 
   insertImage = (image, src) => {
+    const { uploadFile } = this.props;
     this.props.insertBlock({
       type: Blocks.Image,
       isVoid: true,
-      data: { image, src }
+      data: { uploadFile, image, src }
     });
   }
 

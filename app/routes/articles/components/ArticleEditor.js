@@ -40,7 +40,7 @@ export default class ArticleEditor extends Component {
   };
 
   render() {
-    const { isNew } = this.props;
+    const { isNew, uploadFile } = this.props;
     const { article, images } = this.state;
 
     if (!isNew && article.text) {
@@ -64,6 +64,7 @@ export default class ArticleEditor extends Component {
         </FlexRow>
 
         <Editor
+          uploadFile={uploadFile}
           content={article.content}
           onChange={this.handleEditorChange}
         />

@@ -1,6 +1,6 @@
 import { Schema, arrayOf } from 'normalizr';
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
+import { routerReducer as routing } from 'react-router-redux';
 import form from './forms';
 import quotes from './quotes';
 import events from './events';
@@ -8,7 +8,6 @@ import articles from './articles';
 import pools from './pools';
 import registrations from './registrations';
 import search from './search';
-import autocomplete from './autocomplete';
 import auth from './auth';
 import users from './users';
 import groups from './groups';
@@ -23,7 +22,6 @@ export default combineReducers({
   pools,
   registrations,
   search,
-  autocomplete,
   comments,
   auth,
   form,
@@ -31,7 +29,7 @@ export default combineReducers({
   groups,
   pages,
   notifications,
-  routing: routerReducer
+  routing
 });
 
 export const articleSchema = new Schema('articles', { idAttribute: 'id' });
