@@ -12,7 +12,7 @@ const OverviewItem = ({ article }) => (
     <Link to={`/articles/${article.id}`}>
       <Image
         height={60}
-        src={artice.cover}
+        src={article.cover}
       />
     </Link>
     <h2 className={styles.itemTitle}>

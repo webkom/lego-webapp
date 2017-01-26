@@ -12,11 +12,13 @@ type Props = {
 
 function UploadPage({ updatePicture, user }: Props) {
   return (
-    <div style={{
-      width: 250,
-      height: 250,
-      borderRadius: 250 / 2
-    }}>
+    <div
+      style={{
+        width: 250,
+        height: 250,
+        borderRadius: 250 / 2
+      }}
+    >
       <ImageUpload
         onSubmit={(file) => updatePicture({ picture: file })}
         aspectRatio={1}

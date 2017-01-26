@@ -32,14 +32,13 @@
   z-index: 0;
   position: absolute;
   color: white;
-  background-color: rgba(200,200,200,0.7);
+  background-color: rgba(200, 200, 200, 0.7);
 }
 
 .placeholderIcon {
   font-size: 80px;
   color: inherit;
 }
-
 
 .placeholdeTitle {
   font-size: 24px;
@@ -62,6 +61,7 @@
   border-radius: inherit;
   height: inherit;
 }
+
 .cropper {
   height: 400px;
   width: 100%;
@@ -73,8 +73,4 @@
 
 .saveButton {
   margin-right: 10px;
-}
-
-.backdrop {
-
 }
