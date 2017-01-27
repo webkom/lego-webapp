@@ -47,20 +47,35 @@ export default class CustomEditor extends Component {
 
   props: Props;
 
-  static defaultProps = {
-    onChange: () => {},
-    onFocus: () => {},
-    onBlur: () => {}
-  }
-
   state = {
-    editorState: html.deserialize(this.content || '<p></p>')
+    editorState: html.deserialize(this.content || '<p></p>'),
+    focus: false
   };
 
   wrapperElement = undefined;
 
   onChange = (editorState) => {
-    this.setState({ editorState });
+    const hasFocus = !editorState.isBlurred;
+    let focus = this.state.focus;
+
+    if (hasFocus && !focus) {
+      this.onFocus();
+      focus = true;
+    } else if (!hasFocus && focus) {
+      this.onBlur();
+      focus = false;
+    }
+    console.log(focus);
+
+    this.setState({ editorState, focus });
+  }
+
+  onFocus = () => {
+    this.props.onFocus();
+  }
+
+  onBlur = () => {
+    this.props.onBlur();
   }
 
   onDocumentChange = (document, state) => {
