@@ -18,18 +18,18 @@
   display: inline-block;
   vertical-align: top;
   width: 1px;
-  margin: 0 6px;
+  margin: 5px 6px 0 6px;
   height: 32px;
   background: rgba(5, 5, 5, 0.9);
 }
 
 .tooltipButton {
-  margin: 0 3px;
+  margin: 0 3px 8px;
   cursor: pointer;
   vertical-align: -webkit-baseline-middle;
 }
 
-.tooltipButtonActive > i {
+.activeTooltipButton > i {
   color: #C24538;
 }
 

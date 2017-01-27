@@ -158,7 +158,7 @@ export default class EventDetail extends Component {
             <strong>Åpent for</strong>
             <ul>
               {(pools || []).map((pool) => (
-                <li key={pool.id}>{pool.permissionGroups}</li>
+                <li key={pool.id}>{/* pool.permissionGroups */}</li>
             ))}
             </ul>
           </FlexColumn>
