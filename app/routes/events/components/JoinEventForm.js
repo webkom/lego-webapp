@@ -30,7 +30,15 @@ class JoinEventForm extends Component {
   }
 
   componentDidMount() {
-    this.parseEventTimes(this.props.event);
+    if (this.props.registration) {
+      this.setState({
+        formOpen: true,
+        captchaOpen: true,
+        buttonOpen: true
+      });
+    } else {
+      this.parseEventTimes(this.props.event);
+    }
   }
 
   componentWillUnmount() {

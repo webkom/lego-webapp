@@ -5,13 +5,7 @@ export default formReducer.plugin({
   joinEvent: (state, action) => {
     switch (action.type) {
       case Event.REGISTER.SUCCESS:
-        return {
-          ...state,
-          values: {
-            ...state.values,
-            captchaResponse: ''
-          }
-        };
+        return undefined;
       default:
         return state;
     }
