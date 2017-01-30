@@ -41,3 +41,23 @@
 .justifyContent__space-around {
   justify-content: space-around;
 }
+
+.alignItems__flex-start {
+  align-items: flex-start;
+}
+
+.alignItems__flex-end {
+  align-items: flex-end;
+}
+
+.alignItems__center {
+  align-items: center;
+}
+
+.alignItems__baseline {
+  align-items: baseline;
+}
+
+.alignItems__stretch {
+  align-items: stretch;
+}
