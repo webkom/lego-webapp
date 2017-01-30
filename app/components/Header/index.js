@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import { Modal } from 'react-overlays';
-import cx from 'classnames';
 import logoImage from 'app/assets/logo-dark.png';
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';

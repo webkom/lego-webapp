@@ -10,14 +10,6 @@ import { getImage } from 'app/utils';
 import Carousel from './Carousel';
 import { Content, Flex } from 'app/components/Layout';
 
-const EVENT_TYPES = [
-  'Bedriftspresentasjon',
-  'Kurs',
-  'Fest',
-  'Annet',
-  'Arrangement'
-];
-
 const DESCRIPTION_MAX_LENGTH = 150;
 
 const OverviewItem = ({ event, showImage, isHeadline }) => (
@@ -76,10 +68,10 @@ export default class Overview extends Component {
       <Content>
         <Carousel
           items={events.slice(0, 5)}
-          renderMenuItem={({ item, isActive }) => (
+          renderMenuItem={({ isActive }) => (
             <div>Event Title {isActive && 'Active'}</div>
           )}
-          renderContent={({ item }) => (
+          renderContent={() => (
             <div>Hello World</div>
           )}
         />

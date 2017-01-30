@@ -10,8 +10,8 @@ type Props = {
   column: boolean,
   component: any,
   wrap: any,
-  justifyContent: 'flex-start'|'flex-end'|'center'|'space-between'|'space-around',
-  alignItems: 'flex-start'|'flex-end'|'center'|'baseline'|'stretch'
+  justifyContent: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around',
+  alignItems: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
 };
 
 function Flex({
