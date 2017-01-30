@@ -1,5 +1,5 @@
 import styles from './Overview.css';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router';
 import cx from 'classnames';
 import Time from 'app/components/Time';
@@ -8,6 +8,7 @@ import colorForEvent from 'app/routes/events/colorForEvent';
 import truncateString from 'app/utils/truncateString';
 import { getImage } from 'app/utils';
 import Carousel from './Carousel';
+import { Content, Flex } from 'app/components/Layout';
 
 const EVENT_TYPES = [
   'Bedriftspresentasjon',
@@ -20,16 +21,14 @@ const EVENT_TYPES = [
 const DESCRIPTION_MAX_LENGTH = 150;
 
 const OverviewItem = ({ event, showImage, isHeadline }) => (
-  <div
+  <Flex
+    column
     className={cx(styles.item, isHeadline && styles.halfWidth)}
-    style={{
-    }}
   >
     {showImage && (
       <Link
         to={`/events/${event.id}`}
-        className={styles.imageLink}
-        style={{ height: 180 }}
+        style={{ height: 180, display: 'block' }}
       >
         <Image
           src={getImage(event.id, 400, 180)}
@@ -66,21 +65,15 @@ const OverviewItem = ({ event, showImage, isHeadline }) => (
     >
       {truncateString(event.description, DESCRIPTION_MAX_LENGTH)}
     </p>
-  </div>
+  </Flex>
 );
 
 export default class Overview extends Component {
-
-  static propTypes = {
-    events: PropTypes.array.isRequired,
-    fetchAll: PropTypes.func.isRequired
-  };
-
   render() {
     const { events } = this.props;
 
     return (
-      <ContainerWithSidebar>
+      <Content>
         <Carousel
           items={events.slice(0, 5)}
           renderMenuItem={({ item, isActive }) => (
@@ -90,26 +83,18 @@ export default class Overview extends Component {
             <div>Hello World</div>
           )}
         />
-        {events.map((event, index) => (
-          <OverviewItem
-            key={event.id}
-            event={event}
-            isHeadline={false}
-            showImage
-          />
-        ))}
-      </ContainerWithSidebar>
+
+        <Flex wrap>
+          {events.map((event) => (
+            <OverviewItem
+              key={event.id}
+              event={event}
+              isHeadline={false}
+              showImage
+            />
+          ))}
+        </Flex>
+      </Content>
     );
   }
-}
-
-
-function ContainerWithSidebar({ children, renderSidebar }) {
-  return (
-    <section className={styles.container}>
-      <div className={styles.main}>
-        {children}
-      </div>
-    </section>
-  );
 }

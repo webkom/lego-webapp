@@ -1,0 +1,4 @@
+.content {
+  composes: container from '../../Root.css';
+  width: 100%;
+}

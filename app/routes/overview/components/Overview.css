@@ -1,33 +1,13 @@
-.container {
-  composes: container from '../../../Root.css';
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.sidebar {
-  width: 300px;
-  padding: 20px;
-}
-
-.main {
-  flex: 1;
-  display: flex;
-  flex-wrap: wrap;
-}
 
 .item {
   text-align: justify;
-  width: 33.3333333%;
+  width: 33.333333%;
   padding: 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: transform 0.2s;
+  transition: opacity 0.2s;
 }
 
 .item:hover {
-  transform: scale(1.01);
+  opacity: 0.9;
 }
 
 .item.halfWidth {
@@ -36,11 +16,6 @@
 
 .item:hover .itemInfo {
   color: black;
-}
-
-.imageLink {
-  display: block;
-  background: #eee;
 }
 
 .heading {
@@ -54,14 +29,10 @@
   margin: 0;
   padding-top: 10px;
   line-height: 1.1;
-  font-size: 1.4rem;
-  text-transform: uppercase;
-  word-break: break-all;
-}
-
-.itemTitle {
   font-size: 1.2rem;
   letter-spacing: 2px;
+  text-transform: uppercase;
+  word-break: break-all;
 }
 
 .itemTitle > a {
