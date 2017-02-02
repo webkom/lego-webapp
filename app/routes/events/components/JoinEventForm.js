@@ -1,6 +1,8 @@
 // @flow
 
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { reduxForm, Field } from 'redux-form';
 import moment from 'moment';
 import { Captcha, TextEditor } from 'app/components/Form';
@@ -26,10 +28,10 @@ class JoinEventForm extends Component {
     formOpen: false,
     captchaOpen: false,
     buttonOpen: false,
-    counter: null
+    counter: undefined
   }
 
-  componentDidMount() {
+  componentWillMount() {
     if (this.props.registration) {
       this.setState({
         formOpen: true,
@@ -64,7 +66,7 @@ class JoinEventForm extends Component {
       });
     } else if (duration.asMinutes() > 10) {
       this.setState({
-        time: poolActivationTime.format('HH:mm')
+        time: poolActivationTime
       });
       const interval = 10000;
       const checkDiffCounter = setInterval(() => {
@@ -111,6 +113,23 @@ class JoinEventForm extends Component {
     });
   }
 
+  submitWithType = (handleSubmit, feedbackName, type = null) => {
+    if (type === 'unregister') {
+      return handleSubmit(() => (
+        this.props.onSubmit({
+          type
+        })
+      ));
+    }
+    return handleSubmit((values) => (
+      this.props.onSubmit({
+        captchaResponse: values.captchaResponse,
+        feedback: values[feedbackName],
+        type,
+      })
+    ));
+  };
+
   render() {
     const {
       title, event, registration, currentUser,
@@ -118,8 +137,12 @@ class JoinEventForm extends Component {
       invalid, pristine, submitting
     } = this.props;
 
-    const disabledButton = invalid || pristine || submitting;
+    const disabledButton = !registration ?
+      (invalid || pristine || submitting) :
+      null;
     const joinTitle = !registration ? 'MELD DEG PÅ' : 'AVREGISTRER';
+    const registrationType = !registration ? 'register' : 'unregister';
+    const feedbackName = getFeedbackName(event.feedbackRequired);
     return (
       <div>
         {!this.state.formOpen && this.state.time && (
@@ -131,12 +154,20 @@ class JoinEventForm extends Component {
           <div>Det går ikke lenger å melde seg på.</div>
         )}
         {this.state.formOpen && (
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={this.submitWithType(handleSubmit, feedbackName, registrationType)}>
             <Field
               placeholder='Melding til arrangører (allergier etc)'
-              name='feedback'
+              name={feedbackName}
               component={TextEditor.Field}
             />
+            {registration && (
+              <Button
+                type='button'
+                onClick={this.submitWithType(handleSubmit, feedbackName, 'feedback')}
+              >
+                Oppdater feedback
+              </Button>
+            )}
             {!registration && this.state.captchaOpen && (
               <Field
                 name='captchaResponse'
@@ -176,11 +207,15 @@ class JoinEventForm extends Component {
   }
 }
 
+function getFeedbackName(feedbackRequired) {
+  return feedbackRequired ? 'feedbackRequired' : 'feedback';
+}
+
 function validateEventForm(data) {
   const errors = {};
 
-  if (!data.feedback) {
-    errors.feedback = 'Tilbakemelding er påkrevet for dette arrangementet';
+  if (!data.feedbackRequired) {
+    errors.feedbackRequired = 'Tilbakemelding er påkrevet for dette arrangementet';
   }
 
   if (!data.captchaResponse) {
@@ -190,7 +225,21 @@ function validateEventForm(data) {
   return errors;
 }
 
-export default reduxForm({
-  form: 'joinEvent',
-  validate: validateEventForm
-})(JoinEventForm);
+function mapStateToProps(state, props) {
+  if (props.registration) {
+    const feedbackName = getFeedbackName(props.event.feedbackRequired);
+    return {
+      initialValues: {
+        [feedbackName]: props.registration.feedback
+      }
+    };
+  }
+  return {};
+}
+
+export default compose(
+  connect(mapStateToProps, null),
+  reduxForm({
+    form: 'joinEvent',
+    validate: validateEventForm
+  }))(JoinEventForm);

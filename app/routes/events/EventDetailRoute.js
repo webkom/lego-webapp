@@ -5,7 +5,8 @@ import {
   fetchEvent,
   register,
   unregister,
-  payment
+  payment,
+  updateFeedback
 } from 'app/actions/EventActions';
 import EventDetail from './components/EventDetail';
 import {
@@ -50,7 +51,7 @@ function mapStateToProps(state, props) {
   };
 }
 
-const mapDispatchToProps = { fetchEvent, register, unregister, payment };
+const mapDispatchToProps = { fetchEvent, register, unregister, payment, updateFeedback };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

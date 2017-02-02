@@ -6,6 +6,8 @@ export default formReducer.plugin({
     switch (action.type) {
       case Event.REGISTER.SUCCESS:
         return undefined;
+      case Event.UNREGISTER.SUCCESS:
+        return undefined;
       default:
         return state;
     }
