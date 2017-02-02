@@ -9,23 +9,12 @@ export const Year = (joblisting) => (
    </div>
 );
 
-export const Workplaces = ({ places }) => {
-  console.log('places', places);
-  let towns;
-  if (places.length > 1) {
-    towns = places.reduce((a, b) => {
-      console.log(a, b);
-      return (`${a.town}, ${b.town}`);
-    });
-  } else {
-    towns = places[0].town;
-  }
-  return (
-    <div>
-      {towns}
-    </div>
-  );
-};
+export const Workplaces = ({ places }) => (
+  <div>
+    {joinValues(places.map((place) => place.town))}
+  </div>
+);
+
 
 export const Jobtype = (status) => {
   const jobtype = {
@@ -36,3 +25,15 @@ export const Jobtype = (status) => {
   };
   return jobtype[status];
 };
+
+function joinValues(values) {
+  if (values.length < 2) {
+    return values[0] || '';
+  }
+
+  return [
+    values.slice(0, -1).join(', '),
+    'og',
+    values.slice(-1)
+  ].join(' ');
+}

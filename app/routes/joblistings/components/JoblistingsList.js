@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
 import styles from './JoblistingsList.css';
-import { getImage } from 'app/utils';
 import Image from 'app/components/Image';
 import Time from 'app/components/Time';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
@@ -9,35 +8,33 @@ import { Year, Jobtype, Workplaces } from './Items';
 
 function JoblistingItem({ joblisting }) {
   return (
-    <div>
-      <FlexRow className={styles.joblistingItem}>
-        <FlexRow>
-          <FlexColumn>
-            <Link to={`/joblistings/${joblisting.id}/`}>
-              <Image src={getImage(joblisting.id)} className={styles.companyLogo} />
-            </Link>
-          </FlexColumn>
-          <FlexColumn>
-            <Link to={`/joblistings/${joblisting.id}/`}>
-              <h3 className={styles.joblistingItemTitle}>{joblisting.title}</h3>
-            </Link>
-            <div className={styles.companyJobtype}>
-              {joblisting.company} • {Jobtype(joblisting.jobType)}
-            </div>
-            <Year {...joblisting} />
-            <Workplaces places={joblisting.workplaces} />
-          </FlexColumn>
-        </FlexRow>
-        <FlexColumn className={styles.deadLine}>
-          <div>
-            <Time
-              time={joblisting.deadline}
-              format='ll HH:mm'
-            />
+    <FlexRow className={styles.joblistingItem}>
+      <FlexRow>
+        <FlexColumn>
+          <Link to={`/joblistings/${joblisting.id}/`}>
+            <Image src='http://placehold.it/120x80' className={styles.companyLogo} />
+          </Link>
+        </FlexColumn>
+        <FlexColumn>
+          <Link to={`/joblistings/${joblisting.id}/`}>
+            <h3 className={styles.joblistingItemTitle}>{joblisting.title}</h3>
+          </Link>
+          <div className={styles.companyJobtype}>
+            {joblisting.company.name} • {Jobtype(joblisting.jobType)}
           </div>
+          <Year {...joblisting} />
+          <Workplaces places={joblisting.workplaces} />
         </FlexColumn>
       </FlexRow>
-    </div>
+      <FlexColumn className={styles.deadLine}>
+        <div>
+          <Time
+            time={joblisting.deadline}
+            format='ll HH:mm'
+          />
+        </div>
+      </FlexColumn>
+    </FlexRow>
   );
 }
 
@@ -57,7 +54,8 @@ function JoblistingListGroup({ joblistings = [] }) {
           key={i}
           joblisting={joblisting}
         />
-      ))}
+        )
+      )}
     </div>
   );
 }

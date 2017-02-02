@@ -44,7 +44,7 @@ const dateSort = (a, b) => {
   return date1.isAfter(date2);
 };
 
-const companySort = (a, b) => a.company.localeCompare(b.company);
+const companySort = (a, b) => a.company.name.localeCompare(b.company.name);
 
 function sortJoblistings(joblistings, sortType) {
   return joblistings.sort(sortType === 'company' ? companySort : dateSort);
