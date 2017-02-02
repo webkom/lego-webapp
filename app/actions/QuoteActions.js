@@ -45,7 +45,7 @@ export function fetchRandomQuote() {
     meta: {
       errorMessage: 'Fetching random quote failed'
     },
-    schema: arrayOf(quoteSchema)
+    schema: quoteSchema
   });
 }
 

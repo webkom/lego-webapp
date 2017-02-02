@@ -21,7 +21,8 @@ class RandomQuote extends Component {
   refreshQuote = () => {
     this.props.fetchRandomQuote()
       .then((action) => {
-        this.setState({ currentQuote: action.payload.result });
+        const payloadId = Object.keys(action.payload.entities.quotes)[0];
+        this.setState({ currentQuote: action.payload.entities.quotes[payloadId] });
       });
   }
 
