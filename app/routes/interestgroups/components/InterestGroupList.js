@@ -2,9 +2,6 @@ import styles from './InterestGroup.css';
 import React, { Component } from 'react';
 import InterestGroup from './InterestGroup';
 import Button from 'app/components/Button';
-import Modal from 'app/components/Modal';
-import TextInput from 'app/components/Form/TextInput';
-import TextEditor from 'app/components/Form/TextEditor';
 import { Link } from 'react-router';
 
 class InterestGroupList extends Component {

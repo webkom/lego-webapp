@@ -23,12 +23,6 @@
   justify-content: space-between;
 }
 
-.contentDetail {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
 h1 {
   font-size: 30px;
   font-weight: bold;
@@ -76,12 +70,6 @@ h1 {
 
 .textEditor { height: 250px; }
 
-.contact {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
 .button { font-size: 12px; }
 
 .detail {
@@ -95,6 +83,7 @@ h1 {
 
 .interestPicDetail {
   width: 300px;
+  max-height: 400px;
   border-style: solid;
   margin: 10px;
   -moz-box-shadow: 0 0 5px #000;

@@ -1,13 +1,12 @@
 import styles from './InterestGroup.css';
 import React, { Component } from 'react';
 import Image from 'app/components/Image';
-import { getImage } from 'app/utils';
 import Modal from 'app/components/Modal';
 import TextInput from 'app/components/Form/TextInput';
 import TextEditor from 'app/components/Form/TextEditor';
 import Button from 'app/components/Button';
 import { FlexColumn, FlexRow } from 'app/components/FlexBox';
-import { Link } from 'react-router';
+import Upload from 'app/components/Upload';
 
 class InterestGroupDetail extends Component {
   state = {
@@ -39,13 +38,13 @@ class InterestGroupDetail extends Component {
       <div className={styles.root}>
         <div className={styles.wrapper}>
           <h1 className={styles.detail}>{this.props.group.name}</h1>
-          <div className={styles.contentDetail}>
+          <div className={styles.content}>
             <p className={styles.paragraphDetail}>{this.props.group.text}</p>
-            <Image className={styles.interestPicDetail} src={getImage(this.props.group.id)} />
+            <Image className={styles.interestPicDetail} src={'https://i.redd.it/dz8mwvl4dgdy.jpg'} />
           </div>
         </div>
         <h2 className={styles.heading}>Kontaktinformasjon</h2>
-        <div className={styles.contact}>
+        <div className={styles.content}>
           <p>
             Martin<br />
             Call me anytime bby gurl, love you long time (30 s confirmed, can provide evidence)
@@ -100,11 +99,11 @@ class InterestGroupDetail extends Component {
             onChange={(event) => this.setState({ text: event.target.value })}
             placeholder='Text'
           />
-          <form>
+          <Upload>
             <p>Last opp bilde</p>
             <input type='file' name='user-song' /><br />
             <input type='submit' value='Upload' />
-          </form>
+          </Upload>
           <div>
             <Button onClick={this.updateId}>Hei</Button>
           </div>

@@ -1,7 +1,6 @@
 import styles from './InterestGroup.css';
 import React, { Component } from 'react';
 import Image from 'app/components/Image';
-import { getImage } from 'app/utils';
 import { Link } from 'react-router';
 
 class InterestGroup extends Component {
@@ -18,7 +17,7 @@ class InterestGroup extends Component {
               Antall medlemmer i {this.props.group.name}: {this.props.group.numberOfUsers}
             </p>
           </div>
-          <Image className={styles.interestPic} src={getImage(this.props.group.id)} />
+          <Image className={styles.interestPic} src={'https://i.redd.it/dz8mwvl4dgdy.jpg'} />
         </div>
       </div>
     );

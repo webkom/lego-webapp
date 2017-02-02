@@ -2,7 +2,6 @@ import styles from './InterestGroup.css';
 import React, { Component } from 'react';
 import TextInput from 'app/components/Form/TextInput';
 import TextEditor from 'app/components/Form/TextEditor';
-import { FlexColumn, FlexRow } from 'app/components/FlexBox';
 import Button from 'app/components/Button';
 
 class InterestGroupCreate extends Component {
