@@ -10,3 +10,19 @@
 .sort {
   justify-content: space-around;
 }
+
+h3 {
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 15px;
+  border-bottom: 1px solid #999;
+  letter-spacing: 2px;
+  margin-bottom: 4%;
+  margin-top: 8%;
+  padding-left: 0;
+}
+
+[type='checkbox']:checked + label::before {
+  border: none;
+  background: #a59a9a;
+}
