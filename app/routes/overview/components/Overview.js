@@ -4,15 +4,16 @@ import { Link } from 'react-router';
 import cx from 'classnames';
 import Time from 'app/components/Time';
 import Image from 'app/components/Image';
+import Card from 'app/components/Card';
 import colorForEvent from 'app/routes/events/colorForEvent';
 import truncateString from 'app/utils/truncateString';
 import { getImage } from 'app/utils';
-import Carousel from './Carousel';
 import { Content, Flex } from 'app/components/Layout';
 
 const DESCRIPTION_MAX_LENGTH = 150;
+const IMAGE_HEIGHT = 180;
 
-const OverviewItem = ({ event, showImage, isHeadline }) => (
+const OverviewItem = ({ event, showImage, isHeadline = false }) => (
   <Flex
     column
     className={cx(styles.item, isHeadline && styles.halfWidth)}
@@ -20,10 +21,10 @@ const OverviewItem = ({ event, showImage, isHeadline }) => (
     {showImage && (
       <Link
         to={`/events/${event.id}`}
-        style={{ height: 180, display: 'block' }}
+        style={{ height: IMAGE_HEIGHT, display: 'block' }}
       >
         <Image
-          src={getImage(event.id, 400, 180)}
+          src={getImage(event.id, 400, IMAGE_HEIGHT)}
         />
       </Link>
     )}
@@ -64,24 +65,53 @@ export default class Overview extends Component {
   render() {
     const { events } = this.props;
 
+    if (!events.length) {
+      return null;
+    }
+
     return (
       <Content>
-        <Carousel
-          items={events.slice(0, 5)}
-          renderMenuItem={({ isActive }) => (
-            <div>Event Title {isActive && 'Active'}</div>
-          )}
-          renderContent={() => (
-            <div>Hello World</div>
-          )}
+        <OverviewItem
+          isHeadline
+          event={events[0]}
         />
 
+        <Flex wrap padding={10}>
+          <Card>
+            Hello dude what is going on
+          </Card>
+
+          <Card dark>
+            <p>Hello World</p>
+          </Card>
+
+          <Card dark>
+            <p>Hello World</p>
+          </Card>
+
+          <Card>
+            <p>Hello World</p>
+          </Card>
+
+          <Card dark>
+            <p>Hello World</p>
+          </Card>
+
+          <Card dark>
+            <p>Hello World</p>
+          </Card>
+
+          <Card dark>
+            <p>Hello World</p>
+          </Card>
+        </Flex>
+
         <Flex wrap>
-          {events.map((event) => (
+          {events.slice(1).map((event) => (
             <OverviewItem
               key={event.id}
               event={event}
-              isHeadline={false}
+              isHeadline
               showImage
             />
           ))}

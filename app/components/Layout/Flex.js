@@ -22,6 +22,10 @@ function Flex({
   wrap = false,
   justifyContent = 'flex-start',
   alignItems = 'stretch',
+  padding,
+  margin,
+  width,
+  style,
   ...htmlAttributes
 }: Props) {
   return (
@@ -34,6 +38,12 @@ function Flex({
         styles[`alignItems__${alignItems}`],
         className
       )}
+      style={{
+        padding,
+        margin,
+        width,
+        ...style
+      }}
       {...htmlAttributes}
     >
       {children}

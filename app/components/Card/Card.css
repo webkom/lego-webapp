@@ -1,7 +1,16 @@
 .card {
   background: #fff;
   border: 1px solid #ddd;
-  box-shadow: 0 4px 2px #eee;
+  box-shadow: 0 2px 2px #eee;
   padding: 20px;
-  border-radius: 5px;
+  flex: 1;
+}
+
+.dark {
+  background: #333;
+  color: #fff;
+}
+
+.tight {
+  padding: 0;
 }
