@@ -99,13 +99,11 @@ class InterestGroupDetail extends Component {
             onChange={(event) => this.setState({ text: event.target.value })}
             placeholder='Text'
           />
-          <Upload>
-            <p>Last opp bilde</p>
-            <input type='file' name='user-song' /><br />
-            <input type='submit' value='Upload' />
-          </Upload>
-          <div>
-            <Button onClick={this.updateId}>Hei</Button>
+          <div className={styles.content}>
+            <div>
+              <Upload>Last opp bilde</Upload>
+            </div>
+            <Button onClick={styles.updateId}>Hei</Button>
           </div>
         </Modal>
       </div>

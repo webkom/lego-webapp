@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import TextInput from 'app/components/Form/TextInput';
 import TextEditor from 'app/components/Form/TextEditor';
 import Button from 'app/components/Button';
+import Upload from 'app/components/Upload';
 
 class InterestGroupCreate extends Component {
   state = {
@@ -41,13 +42,9 @@ class InterestGroupCreate extends Component {
         <TextEditor className={styles.textEditor} onChange={this.updateField} placeholder='Beskrivelse' />
         <TextEditor className={styles.textEditor} onChange={this.updateField} placeholder='Text' />
         <div className={styles.content}>
-          <div>
-            <form>
-              <p>Last opp bilde</p>
-              <input type='file' name='user-song' /><br />
-              <input type='submit' value='Upload' />
-            </form>
-          </div>
+          <Upload>
+            Last opp bilde
+          </Upload>
           <div>
             <Button onClick={this.onSubmit}>Lag ny interessegruppe</Button>
           </div>
