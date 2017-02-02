@@ -9,7 +9,7 @@ import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 
 function loadData(params, props) {
   const { year, month } = params;
-  props.fetchAll({ year, month });
+  return props.fetchAll({ year, month });
 }
 
 function mapStateToProps(state, ownProps) {

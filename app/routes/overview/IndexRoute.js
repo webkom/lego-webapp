@@ -7,7 +7,7 @@ import Overview from './components/Overview';
 import { selectEvents } from 'app/reducers/events';
 
 function loadData(params, props) {
-  props.fetchAll();
+  return props.fetchAll();
 }
 
 function mapStateToProps(state) {

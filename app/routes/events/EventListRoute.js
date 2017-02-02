@@ -8,7 +8,7 @@ import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { selectEvents } from 'app/reducers/events';
 
 function loadData(params, props) {
-  props.fetchAll();
+  return props.fetchAll();
 }
 
 function mapStateToProps(state) {

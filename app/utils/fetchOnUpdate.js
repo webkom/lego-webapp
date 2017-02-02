@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import shallowEqual from 'react-redux/lib/utils/shallowEqual';
+import NProgress from 'nprogress';
 
 function extractWatchedProps<Props: Object>(
   watchProps: Array<$Enum<Props>>,
@@ -23,11 +24,15 @@ function fetchOnUpdate<Props: Object>(
 ): (DecoratedComponent: ReactClass<*>) => ReactClass<*> {
   return (DecoratedComponent) => class extends Component {
 
-    componentWillMount() {
+    componentDidMount() {
+      NProgress.start();
       fetchData(
         extractWatchedProps(watchProps, this.props),
         this.props
-      );
+      ).then((value) => {
+        NProgress.done();
+        return value;
+      });
     }
 
     componentWillReceiveProps(nextProps: Props) {
