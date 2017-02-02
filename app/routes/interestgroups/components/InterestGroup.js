@@ -17,7 +17,9 @@ class InterestGroup extends Component {
               Antall medlemmer i {this.props.group.name}: {this.props.group.numberOfUsers}
             </p>
           </div>
-          <Image className={styles.interestPic} src={'https://i.redd.it/dz8mwvl4dgdy.jpg'} />
+          <Link to={`/interestgroups/${this.props.group.id}`}>
+            <Image className={styles.interestPic} src={'https://i.redd.it/dz8mwvl4dgdy.jpg'} />
+          </Link>
         </div>
       </div>
     );

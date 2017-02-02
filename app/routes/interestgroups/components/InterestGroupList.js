@@ -47,11 +47,9 @@ class InterestGroupList extends Component {
               interessegrupper.
             </p>
           </div>
-          <div>
-            <Link to={'/interestgroups/create'} className={styles.link}>
-              <Button>Lag ny interessegruppe</Button>
-            </Link>
-          </div>
+          <Link to={'/interestgroups/create'} className={styles.link}>
+            <Button>Lag ny interessegruppe</Button>
+          </Link>
         </div>
         <div className='groups'>
           {groups}
