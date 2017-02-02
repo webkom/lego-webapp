@@ -5,11 +5,34 @@ import Button from 'app/components/Button';
 import Modal from 'app/components/Modal';
 import TextInput from 'app/components/Form/TextInput';
 import TextEditor from 'app/components/Form/TextEditor';
+import { Link } from 'react-router';
 
 class InterestGroupList extends Component {
   state = {
-    editorOpen: false
+    editorOpen: false,
+    name: '',
+    description: '',
+    text: ''
   };
+
+  props: Props;
+
+  onSubmit = () => {
+    this.props.createInterestGroup(this.state.name, this.state.description, this.state.text);
+  }
+
+  updateNameField = (event) => {
+    this.setState({
+      name: event.target.value
+    });
+  }
+
+  updateField = (event) => {
+    this.setState({
+      text: event.target.value
+    });
+  }
+
   render() {
     const groups = this.props.interestGroups.map((group, key) => (
       <InterestGroup
@@ -28,25 +51,11 @@ class InterestGroupList extends Component {
             </p>
           </div>
           <div>
-            <Button onClick={() => this.setState({ editorOpen: true })}>Lag ny interessegruppe
-            </Button>
+            <Link to={'/interestgroups/create'} className={styles.link}>
+              <Button>Lag ny interessegruppe</Button>
+            </Link>
           </div>
         </div>
-        <Modal
-          keyboard={false}
-          show={this.state.editorOpen}
-          onHide={() => this.setState({ editorOpen: false })}
-          closeOnBackdropClick={false}
-        >
-          <h1>Hello world</h1>
-          <TextInput className={styles.textInput} placeholder='Navn på interessegruppe' />
-          <TextEditor className={styles.textEditor} placeholder='Beskrivelse' />
-          <form>
-            <p>Last opp bilde</p>
-            <input type='file' name='user-song' /><br />
-            <input type='submit' value='Upload' />
-          </form>
-        </Modal>
         <div className='groups'>
           {groups}
         </div>

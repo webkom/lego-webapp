@@ -2,7 +2,7 @@
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { fetchAll } from 'app/actions/InterestGroupActions';
+import { fetchAll, createInterestGroup } from 'app/actions/InterestGroupActions';
 import InterestGroupList from './components/InterestGroupList';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { selectInterestGroups } from 'app/reducers/interestGroups';
@@ -23,7 +23,7 @@ function mapStateToProps(state) {
 
 // Hvilke actions vi "bryr" oss om
 // Hvilke actions skal reduserne se på
-const mapDispatchToProps = { fetchAll };
+const mapDispatchToProps = { fetchAll, createInterestGroup };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

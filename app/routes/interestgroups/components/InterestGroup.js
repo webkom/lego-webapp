@@ -5,11 +5,6 @@ import { getImage } from 'app/utils';
 import { Link } from 'react-router';
 
 class InterestGroup extends Component {
-  state = {
-    editorOpen: false,
-    memberCount: Math.floor((Math.random() * 10) + 1)
-  };
-
   render() {
     return (
       <div className={styles.interestGroup}>
@@ -18,7 +13,7 @@ class InterestGroup extends Component {
         </Link>
         <div className={styles.content}>
           <div className={styles.paragraph}>
-            <p>{this.props.group.descriptionLong}</p>
+            <p>{this.props.group.description}</p>
             <p className={styles.bold}>
               Antall medlemmer i {this.props.group.name}: {this.props.group.numberOfUsers}
             </p>

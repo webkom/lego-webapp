@@ -15,6 +15,18 @@ export default createEntityReducer({
   types: {
     fetch: InterestGroup.FETCH_ALL
   },
+  mutate(state, action) {
+    switch (action.type) {
+      case InterestGroup.REMOVE.SUCCESS:
+        return {
+          ...state,
+          items: state.items.filter((id) => action.meta.interestGroupId !== id)
+        };
+
+      default:
+        return state;
+    }
+  }
 });
 
 export const selectInterestGroups = createSelector(

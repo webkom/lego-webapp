@@ -7,12 +7,31 @@ import TextInput from 'app/components/Form/TextInput';
 import TextEditor from 'app/components/Form/TextEditor';
 import Button from 'app/components/Button';
 import { FlexColumn, FlexRow } from 'app/components/FlexBox';
+import { Link } from 'react-router';
 
-class InterestGroup extends Component {
+class InterestGroupDetail extends Component {
   state = {
     editorOpen: false,
-    name: this.props.group.name,
-    descriptionLong: this.props.group.descriptionLong
+    name: null,
+    description: null,
+    text: null
+  };
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      name: nextProps.group.name,
+      text: nextProps.group.text
+    });
+  }
+
+  removeId = () => {
+    this.props.removeInterestGroup(this.props.group.id);
+  };
+
+  updateId = () => {
+    this.props.updateInterestGroup(
+      this.props.group.id, this.state.name, this.state.description, this.state.text
+    );
   };
 
   render() {
@@ -21,7 +40,7 @@ class InterestGroup extends Component {
         <div className={styles.wrapper}>
           <h1 className={styles.detail}>{this.props.group.name}</h1>
           <div className={styles.contentDetail}>
-            <p className={styles.paragraphDetail}>{this.props.group.descriptionLong}</p>
+            <p className={styles.paragraphDetail}>{this.props.group.text}</p>
             <Image className={styles.interestPicDetail} src={getImage(this.props.group.id)} />
           </div>
         </div>
@@ -39,7 +58,7 @@ class InterestGroup extends Component {
               </Button>
             </div>
             <div className={styles.button}>
-              <Button onClick={() => this.setState({ editorOpen: true })}>Rediger medlemmer
+              <Button onClick={this.removeId}>Slett interressegruppe
               </Button>
             </div>
           </FlexColumn>
@@ -67,20 +86,31 @@ class InterestGroup extends Component {
             className={styles.textInput}
             value={this.state.name}
             onChange={(event) => this.setState({ name: event.target.value })}
+            placeholder='Name'
           />
           <TextEditor
             className={styles.textEditor}
-            value={this.state.descriptionLong}
-            onChange={(event) => this.setState({ descriptionLong: event.target.value })}
+            value={this.state.description}
+            onChange={(event) => this.setState({ description: event.target.value })}
+            placeholder='Description'
+          />
+          <TextEditor
+            className={styles.textEditor}
+            value={this.state.text}
+            onChange={(event) => this.setState({ text: event.target.value })}
+            placeholder='Text'
           />
           <form>
             <p>Last opp bilde</p>
             <input type='file' name='user-song' /><br />
             <input type='submit' value='Upload' />
           </form>
+          <div>
+            <Button onClick={this.updateId}>Hei</Button>
+          </div>
         </Modal>
       </div>
     );
   }
 }
-export default InterestGroup;
+export default InterestGroupDetail;
