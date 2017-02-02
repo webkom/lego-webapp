@@ -13,6 +13,18 @@ export default {
         () => import('./JoblistingsDetailedRoute'),
         () => require('./JoblistingsDetailedRoute')
       )
+    }, {
+      path: ':joblistingId/edit',
+      ...resolveAsyncRoute(
+        () => import('./JoblistingEditRoute'),
+        () => require('./JoblistingEditRoute')
+      )
+    }, {
+      path: 'create',
+      ...resolveAsyncRoute(
+        () => import('./JoblistingCreateRoute'),
+        () => require('./JoblistingCreateRoute')
+      )
     }
   ]
 };
