@@ -40,7 +40,9 @@ export type Props = {
   placeholder?: string,
   onChange?: func,
   onFocus?: func,
-  onBlur?: func
+  onBlur?: func,
+  disableBlock: boolean,
+  disableInline: boolean
 };
 
 export default class CustomEditor extends Component {
@@ -65,7 +67,6 @@ export default class CustomEditor extends Component {
       this.onBlur();
       focus = false;
     }
-    console.log(focus);
 
     this.setState({ editorState, focus });
   }
@@ -79,8 +80,8 @@ export default class CustomEditor extends Component {
   }
 
   onDocumentChange = (document, state) => {
-    const content = html.serialize(state);
-    this.props.onChange(content);
+    // const content = html.serialize(state);
+    // this.props.onChange(content);
 
     if (!state.isCollapsed) {
       return;
@@ -167,7 +168,10 @@ export default class CustomEditor extends Component {
 
   render = () => {
     const { editorState } = this.state;
-
+    let plugins = [...Plugins.base];
+    if (!this.props.disableBlock) {
+      plugins = plugins.concat(Plugins.blocks);
+    }
     return (
       <div
         ref={(c) => { this.wrapperElement = c; }}
@@ -177,19 +181,24 @@ export default class CustomEditor extends Component {
           state={editorState}
           placeholder={this.props.placeholder || 'Default placeholder'}
           onChange={this.onChange}
-          plugins={Plugins}
+          plugins={plugins}
           schema={schema}
           onDocumentChange={this.onDocumentChange}
           className={styles.Editor}
         />
 
-        <Toolbar
-          editorState={editorState}
-          insertBlock={this.insertBlock}
-          wrapperElement={this.wrapperElement}
-        />
+        {
+          !this.props.disableBlock &&
+          <Toolbar
+            editorState={editorState}
+            insertBlock={this.insertBlock}
+            wrapperElement={this.wrapperElement}
+          />
+        }
 
         <Tooltip
+          disableBlock={this.props.disableBlock}
+          disableInline={this.props.disableInline}
           setBlockType={this.setBlockType}
           setInlineStyle={this.setInlineStyle}
           editorState={editorState}

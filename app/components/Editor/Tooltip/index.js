@@ -7,6 +7,8 @@ import styles from './Tooltip.css';
 
 export type Props = {
  editorState: object,
+ disableInline: boolean,
+ disableBlock: boolean,
  setInlineStyle: (String) => void,
  setBlockType: (String) => void,
  wrapperElement: object
@@ -71,6 +73,7 @@ export default class Tooltip extends Component {
       <Portal isOpened onOpen={this.onOpen}>
         <div className={styles.tooltip}>
           {
+            !this.props.disableInline &&
             [Inline.Bold, Inline.Italic, Inline.Underline, Inline.Code, Inline.Striketrough]
             .map((type) => (
               <TooltipButton
@@ -82,8 +85,12 @@ export default class Tooltip extends Component {
               />
             ))
           }
-          <span className={styles.tooltipSeperator} />
           {
+            !this.props.disableInline && !this.props.disableBlock &&
+            <span className={styles.tooltipSeperator} />
+          }
+          {
+            !this.props.disableBlock &&
             [Blocks.H1, Blocks.H2, Blocks.Blockquote, Blocks.Cite, Blocks.UL, Blocks.OL]
             .map((type) => (
               <TooltipButton

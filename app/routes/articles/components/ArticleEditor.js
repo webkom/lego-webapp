@@ -67,6 +67,8 @@ export default class ArticleEditor extends Component {
           uploadFile={uploadFile}
           content={article.content}
           onChange={this.handleEditorChange}
+          onFocus={() => { console.log('on focus'); }}
+          onBlur={() => { console.log('on blur'); }}
         />
       </div>
     );

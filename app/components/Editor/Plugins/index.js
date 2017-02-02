@@ -13,9 +13,8 @@ const enterOnVoidBlock = {
   }
 };
 
-export default [
+export const base = [
   enterOnVoidBlock,
-  AutoMarkdown,
   AutoReplaceText('(c)', '©'),
   AutoReplace({
     trigger: '-',
@@ -26,3 +25,12 @@ export default [
         .collapseToStartOfNextBlock()
   })
 ];
+
+export const blocks = [
+  AutoMarkdown
+];
+
+export default {
+  base,
+  blocks
+};
