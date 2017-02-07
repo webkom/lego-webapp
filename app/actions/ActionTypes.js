@@ -24,6 +24,12 @@ export const Event = {
 export const Article = {
   FETCH: generateStatuses('Article.FETCH')
 };
+/**
+ *
+ */
+export const Joblistings = {
+  FETCH: generateStatuses('Joblistings.FETCH')
+};
 
 /**
  *
