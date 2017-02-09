@@ -11,7 +11,7 @@ import JoinEventForm from './JoinEventForm';
 import RegisteredCell from './RegisteredCell';
 import RegisteredSummary from './RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
-import { sendMessage } from 'app/utils/websockets';
+import Time from 'app/components/Time';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -43,6 +43,7 @@ export type Props = {
   register: (eventId: Number) => Promise<*>,
   unregister: (eventId: Number, registrationId: Number) => Promise<*>,
   payment: (eventId: Number, token: string) => Promise<*>,
+  updateFeedback: (eventId: Number, registrationId: Number, feedback: string) => Promise<*>,
 };
 
 
@@ -56,21 +57,18 @@ export default class EventDetail extends Component {
 
   props: Props;
 
-  componentDidMount() {
-    sendMessage('SUBSCRIBE', `event-${this.props.eventId}`);
-  }
-
-  componentWillUnmount() {
-    sendMessage('UNSUBSCRIBE', `event-${this.props.eventId}`);
-  }
-
-  handleRegistration = ({ captchaResponse, feedback }) => {
-    if (this.props.currentRegistration) {
-      this.props.unregister(this.props.eventId, this.props.currentRegistration.id);
-    } else {
-      this.props.register(this.props.eventId, captchaResponse);
+  handleRegistration = ({ captchaResponse, feedback, type }) => {
+    const { eventId, currentRegistration, register, unregister, updateFeedback } = this.props;
+    switch (type) {
+      case 'feedback':
+        return updateFeedback(eventId, currentRegistration.id, feedback);
+      case 'register':
+        return register(eventId, captchaResponse, feedback);
+      case 'unregister':
+        return unregister(eventId, currentRegistration.id);
+      default:
+        return undefined;
     }
-    console.log(feedback);
   }
 
   toggleJoinFormOpen = () => {
@@ -108,7 +106,7 @@ export default class EventDetail extends Component {
           </FlexColumn>
           <FlexColumn className={styles.meta}>
             <ul>
-              <li>Starter om <strong>3 timer</strong></li>
+              <li>Starter <strong><Time time={event.startTime} format='DD.MM.YYYY HH:mm' /></strong></li>
               <li>Finner sted i <strong>{event.location}</strong></li>
             </ul>
             {loggedIn && (
@@ -158,7 +156,7 @@ export default class EventDetail extends Component {
             <strong>Åpent for</strong>
             <ul>
               {(pools || []).map((pool) => (
-                <li key={pool.id}>{/* pool.permissionGroups */}</li>
+                pool.permissionGroups.map((group) => (<li key={group.id}>{group.name}</li>))
             ))}
             </ul>
           </FlexColumn>

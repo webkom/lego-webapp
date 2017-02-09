@@ -13,6 +13,8 @@ type Props = {
 function getFormattedDateTime(time: moment, format: string): string {
   if (format === 'timeAgoInWords') {
     return time.fromNow();
+  } else if (format === 'nowToTimeInWords') {
+    return moment().to(time);
   }
   return time.format(format);
 }

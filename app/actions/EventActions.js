@@ -3,6 +3,7 @@ import { eventSchema } from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';
+import { addNotification } from 'app/actions/NotificationActions';
 
 export function fetchEvent(eventId) {
   return callAPI({
@@ -26,13 +27,14 @@ export function fetchAll({ year, month } = {}) {
   });
 }
 
-export function register(eventId, captchaResponse) {
+export function register(eventId, captchaResponse, feedback) {
   return callAPI({
     types: Event.REGISTER,
     endpoint: `/events/${eventId}/registrations/`,
     method: 'post',
     body: {
-      captchaResponse
+      captchaResponse,
+      feedback
     },
     meta: {
       id: eventId,
@@ -64,4 +66,20 @@ export function payment(eventId, token) {
       errorMessage: 'Payment failed'
     }
   });
+}
+
+export function updateFeedback(eventId, registrationId, feedback) {
+  return (dispatch) => {
+    dispatch(callAPI({
+      types: Event.UPDATE_REGISTRATION,
+      endpoint: `/events/${eventId}/registrations/${registrationId}/`,
+      method: 'put',
+      body: {
+        feedback
+      },
+      meta: {
+        errorMessage: 'Feedback update failed'
+      }
+    })).then(() => dispatch(addNotification({ message: 'Feedback updated' })));
+  };
 }
