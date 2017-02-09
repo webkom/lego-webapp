@@ -4,7 +4,6 @@ import { Link } from 'react-router';
 import cx from 'classnames';
 import Time from 'app/components/Time';
 import Image from 'app/components/Image';
-import Card from 'app/components/Card';
 import colorForEvent from 'app/routes/events/colorForEvent';
 import truncateString from 'app/utils/truncateString';
 import { Content, Flex } from 'app/components/Layout';

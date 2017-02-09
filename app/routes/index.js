@@ -1,4 +1,3 @@
-import React from 'react';
 import { AppRoute } from './app';
 import overview from './overview';
 import events from './events';
@@ -12,6 +11,7 @@ import pages from './pages';
 import search from './search';
 import interestGroups from './interestgroups';
 import joblistings from './joblistings';
+import NotFound from './errors/NotFound';
 
 export function loadRoute(callback) {
   return (module) => callback(null, module.default);
@@ -39,7 +39,7 @@ export default {
     joblistings,
     {
       path: '*',
-      component: () => <div>Not Found</div>
+      component: NotFound
     }
   ]
 };

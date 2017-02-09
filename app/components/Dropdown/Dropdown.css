@@ -8,6 +8,7 @@
   position: absolute;
   width: 220px;
   padding: 5px 0;
+  margin-top: 10px;
 
   @media (--small-viewport) {
     width: 100%;

@@ -139,7 +139,7 @@ export default class Header extends Component {
             {!loggedIn && (
               <Dropdown
                 show={this.state.accountOpen}
-                toggle={() => this.setState({ accountOpen: !this.state.accountOpen })}
+                toggle={() => this.setState({ accountOpen: !this.state.accountOpen, shake: false })}
                 contentClassName={this.state.shake && 'animated shake'}
                 triggerComponent={(
                   <Icon name='user' />
