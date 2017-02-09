@@ -82,11 +82,12 @@ export default class LoginForm extends Component {
           style={{ marginBottom: 10 }}
         />
 
-        <Button submit>
+        <Button submit dark>
           Login
-          {' '}
+          {'  '}
           <Icon
-            name={this.state.submitting ? 'spinner spin' : 'arrow-right'}
+            style={{ fontSize: 14, paddingTop: 3 }}
+            name={this.state.submitting ? 'spinner spin' : 'chevron-right'}
           />
         </Button>
       </Form>

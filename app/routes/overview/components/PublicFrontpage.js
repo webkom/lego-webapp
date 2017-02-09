@@ -1,6 +1,5 @@
 import React from 'react';
 import { Content, Flex } from 'app/components/Layout';
-import Card from 'app/components/Card';
 import styles from './PublicFrontpage.css';
 
 function InfoBox({ children }) {

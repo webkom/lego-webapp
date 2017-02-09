@@ -1,0 +1,27 @@
+.latestReadme {
+  flex: 1;
+  background: #333;
+  color: #fff;
+  border-radius: 3px;
+  padding: 20px;
+}
+
+.heading {
+  display: flex;
+  flex-direction: row;
+  font-size: 22px;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+}
+
+.thumb {
+  width: 150px;
+  height: 200px;
+  transition: transform 0.2s;
+  display: block;
+
+  &:hover {
+    transform: scale(1.1);
+  }
+}

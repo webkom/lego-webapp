@@ -4,10 +4,10 @@
   background: #fff;
   border-radius: 3px;
   border: 1px solid #ccc;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, .04);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   position: absolute;
-  width: 220px;
-  padding: 5px 0;
+  width: 250px;
+  padding: 10px 0;
   margin-top: 10px;
 
   @media (--small-viewport) {
