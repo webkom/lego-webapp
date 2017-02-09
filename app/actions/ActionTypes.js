@@ -14,7 +14,7 @@ export const Event = {
   REGISTER: generateStatuses('Event.REGISTER'),
   UNREGISTER: generateStatuses('Event.UNREGISTER'),
   PAYMENT: generateStatuses('Event.PAYMENT'),
-  UPDATE: generateStatuses('Event.UPDATE'),
+  UPDATE_REGISTRATION: generateStatuses('Event.UPDATE_REGISTRATION'),
   SOCKET_REGISTRATION: 'SOCKET_REGISTRATION',
   SOCKET_UNREGISTRATION: 'SOCKET_UNREGISTRATION'
 };

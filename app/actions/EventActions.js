@@ -71,7 +71,7 @@ export function payment(eventId, token) {
 export function updateFeedback(eventId, registrationId, feedback) {
   return (dispatch) => {
     dispatch(callAPI({
-      types: Event.UPDATE,
+      types: Event.UPDATE_REGISTRATION,
       endpoint: `/events/${eventId}/registrations/${registrationId}/`,
       method: 'put',
       body: {

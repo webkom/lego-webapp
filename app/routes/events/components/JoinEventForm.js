@@ -27,9 +27,9 @@ class JoinEventForm extends Component {
     time: null,
     formOpen: false,
     captchaOpen: false,
-    buttonOpen: false,
-    counter: undefined
+    buttonOpen: false
   }
+  counter = undefined;
 
   componentWillMount() {
     if (this.props.registration) {
@@ -44,7 +44,7 @@ class JoinEventForm extends Component {
   }
 
   componentWillUnmount() {
-    clearInterval(this.state.counter);
+    clearInterval(this.counter);
   }
 
   parseEventTimes = ({ activationTime, startTime }) => {
@@ -69,17 +69,14 @@ class JoinEventForm extends Component {
         time: poolActivationTime
       });
       const interval = 10000;
-      const checkDiffCounter = setInterval(() => {
+      this.counter = setInterval(() => {
         const diff = duration - interval;
         duration = moment.duration(diff, 'milliseconds');
         if (diff < 600000) {
-          clearInterval(checkDiffCounter);
+          clearInterval(this.counter);
           this.initiateCountdown(duration);
         }
       }, interval);
-      this.setState({
-        counter: checkDiffCounter
-      });
     } else {
       this.initiateCountdown(duration);
     }
@@ -88,10 +85,10 @@ class JoinEventForm extends Component {
   initiateCountdown(duration) {
     const interval = 1000;
     duration += 1000;
-    const counter = setInterval(() => {
+    this.counter = setInterval(() => {
       duration = moment.duration(duration, 'milliseconds') - interval;
       if (duration <= 1000) {
-        clearInterval(counter);
+        clearInterval(this.counter);
         this.setState({
           time: null,
           buttonOpen: true
@@ -108,8 +105,7 @@ class JoinEventForm extends Component {
       });
     }, interval);
     this.setState({
-      formOpen: true,
-      counter
+      formOpen: true
     });
   }
 
