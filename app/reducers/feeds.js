@@ -26,6 +26,7 @@ export default createEntityReducer({
           byId: {
             ...state.byId,
             [feedId]: {
+              type: feedId.split('-')[0],
               activities: union(
                 (state.byId[feedId] ? state.byId[feedId].activities : []) || [],
                 arrayOf(action.payload.result)

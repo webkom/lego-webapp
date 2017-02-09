@@ -75,7 +75,7 @@ export default class UserProfile extends Component {
               <h2> User feed </h2>
               {
                 feed ?
-                  <Feed items={feedItems} /> :
+                  <Feed items={feedItems} feed={feed} /> :
                   <LoadingIndicator loading />
               }
             </div>
