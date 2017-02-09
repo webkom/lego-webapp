@@ -6,9 +6,10 @@ import { Link } from 'react-router';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { debounce } from 'lodash';
-import Pill from '../Pill';
 import Icon from '../Icon';
-import { search } from 'app/actions/SearchActions';
+import ProfilePicture from '../ProfilePicture';
+import { autocomplete } from 'app/actions/SearchActions';
+import { selectAutocomplete } from 'app/reducers/search';
 import { push } from 'react-router-redux';
 
 const Keyboard = {
@@ -23,24 +24,27 @@ const quickLinks = [
   ['', 'Kontakt']
 ];
 
-const SearchResultItem = ({ item, isSelected }) => (
-  <li className={cx(isSelected && styles.isSelected)}>
-    <Pill style={{ width: '150px', marginRight: '10px' }}>
-      {item.type}
-    </Pill>
-    {item.title}
-  </li>
+const SearchResultItem = ({ result, isSelected }) => (
+  <Link to={result.link}>
+    <li className={cx(isSelected && styles.isSelected)}>
+      {result.icon && <Icon className={styles.searchResultItemIcon} name={result.icon} />}
+      {!result.icon && <ProfilePicture size={30} user={result} style={{ margin: '0px 10px 0px 0px' }} />}
+      {result.title}
+    </li>
+  </Link>
 );
+
 
 type Props = {
   results: Array<any>;
   onCloseSearch: () => any;
   onQueryChanged: (value: string) => any;
-  openSearchResult: () => any;
+  openSearchRoute: (query: string) => any;
   searching: boolean;
 };
 
 type State = {
+  query: string;
   selectedIndex: number;
 };
 
@@ -48,6 +52,7 @@ class Search extends Component {
   props: Props;
 
   state: State = {
+    query: '',
     selectedIndex: 0
   };
 
@@ -64,7 +69,7 @@ class Search extends Component {
         e.preventDefault();
         this.setState({
           selectedIndex: Math.min(
-            this.props.results.length - 1,
+            this.props.results.length,
             this.state.selectedIndex + 1
           )
         });
@@ -72,9 +77,16 @@ class Search extends Component {
 
       case Keyboard.ENTER:
         e.preventDefault();
-        this.props.openSearchResult(
-          this.props.results[this.state.selectedIndex]
-        );
+        console.log(this.state);
+        console.log(this.props);
+        if (this.state.selectedIndex === 0) {
+          this.props.openSearchRoute(this.state.query);
+        } else {
+          const result = this.props.results[this.state.selectedIndex - 1];
+          console.log(result);
+          this.props.push(result.link);
+        }
+        this.props.onCloseSearch();
         break;
 
       default:
@@ -82,8 +94,13 @@ class Search extends Component {
     }
   };
 
+  onQueryChanged = (query) => {
+    this.setState({ query });
+    this.props.onQueryChanged(query);
+  }
+
   render() {
-    const { results, onCloseSearch, onQueryChanged, searching } = this.props;
+    const { results, onCloseSearch, searching } = this.props;
     return (
       <div onKeyDown={this.handleKeyDown} tabIndex={-1}>
         <div className={styles.overlay}>
@@ -93,7 +110,8 @@ class Search extends Component {
             </div>
 
             <input
-              onChange={(e) => onQueryChanged(e.target.value)}
+              onChange={(e) => this.onQueryChanged(e.target.value)}
+              value={this.state.query}
               type='search'
               placeholder='Hva leter du etter?'
               autoFocus
@@ -110,11 +128,11 @@ class Search extends Component {
 
           <div className={styles.resultsContainer}>
             <ul className={styles.results}>
-              {results.map((item, i) => (
+              {results.map((result, i) => (
                 <SearchResultItem
                   key={i}
-                  item={item}
-                  isSelected={i === this.state.selectedIndex}
+                  result={result}
+                  isSelected={i === this.state.selectedIndex - 1}
                 />
               ))}
             </ul>
@@ -137,15 +155,16 @@ class Search extends Component {
 
 function mapStateToProps(state) {
   return {
-    results: state.search.results,
+    results: selectAutocomplete(state),
     searching: state.search.searching
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    onQueryChanged: debounce((query) => dispatch(search(query)), 500),
-    openSearchResult: () => dispatch(push('/hello'))
+    onQueryChanged: debounce((query) => dispatch(autocomplete(query)), 300),
+    openSearchRoute: (query) => dispatch(push(`/search?q=${query}`)),
+    push: (uri) => dispatch(push(uri))
   };
 }
 

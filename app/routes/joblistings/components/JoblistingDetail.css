@@ -1,0 +1,33 @@
+.root {
+  composes: container from '../../../Root.css';
+}
+
+.meta {
+  flex: 1;
+  background: #ba1414;
+  padding: 20px;
+  color: #fff;
+}
+
+.description {
+  background: #fff;
+  padding: 20px;
+  flex: 2.5;
+}
+
+h1 {
+  font-size: 30px;
+  display: block;
+  margin: 15px 0;
+  letter-spacing: 2px;
+  padding-left: 18px;
+}
+
+h3 {
+  border-bottom: 1px solid #FFF;
+}
+
+.applicationUrl {
+  color: #FFF;
+  text-decoration: underline;
+}

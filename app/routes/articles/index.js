@@ -10,6 +10,13 @@ export default {
     }
   },
   childRoutes: [{
+    path: 'new',
+    getComponent(location, cb) {
+      import('./ArticleCreateRoute')
+        .then(loadRoute(cb))
+        .catch(loadingError);
+    }
+  }, {
     path: ':articleId',
     getComponent(location, cb) {
       import('./ArticleDetailRoute')

@@ -35,7 +35,7 @@ module.exports = {
       'process.env.API_URL': JSON.stringify(process.env.API_URL) || JSON.stringify('http://127.0.0.1:8000/api/v1'),
       'process.env.WS_URL': JSON.stringify(process.env.WS_URL) || JSON.stringify('ws://127.0.0.1:8000'),
       'process.env.BASE_URL': JSON.stringify(process.env.BASE_URL) || JSON.stringify('http://127.0.0.1:8000'),
-      'process.env.CAPTCHA_KEY': JSON.stringify(process.env.CAPTCHA_KEY),
+      'process.env.CAPTCHA_KEY': JSON.stringify(process.env.CAPTCHA_KEY)
     }),
 
     !isProduction && new webpack.HotModuleReplacementPlugin(),

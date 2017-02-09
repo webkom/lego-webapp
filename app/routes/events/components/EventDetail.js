@@ -1,6 +1,5 @@
 import styles from './EventDetail.css';
 import React, { Component } from 'react';
-import { getImage } from 'app/utils';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Image from 'app/components/Image';
 import CommentView from 'app/components/Comments/CommentView';
@@ -95,7 +94,7 @@ export default class EventDetail extends Component {
     return (
       <div className={styles.root}>
         <div className={styles.coverImage}>
-          <Image src={getImage(event.id, 1000, 300)} />
+          <Image src={event.cover} />
         </div>
 
         <FlexRow alignItems='center' justifyContent='space-between'>

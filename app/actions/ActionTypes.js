@@ -24,6 +24,22 @@ export const Event = {
 export const Article = {
   FETCH: generateStatuses('Article.FETCH')
 };
+/**
+ *
+ */
+export const Joblistings = {
+  FETCH: generateStatuses('Joblistings.FETCH')
+};
+
+/**
+ *
+ */
+export const Meeting = {
+  FETCH: generateStatuses('Meeting.FETCH'),
+  SET_INVITATION_STATUS: generateStatuses('Meeting.SET_INVITATION_STATUS'),
+  CREATE: generateStatuses('Meeting.CREATE'),
+  EDIT: generateStatuses('Meeting.EDIT')
+};
 
 /**
  *
@@ -68,7 +84,7 @@ export const Quote = {
  */
 export const Search = {
   SEARCH: generateStatuses('Search.SEARCH'),
-  MENTION: generateStatuses('Search.MENTION'),
+  AUTOCOMPLETE: generateStatuses('Search.AUTOCOMPLETE'),
   RESULTS_RECEIVED: 'Search.RESULTS_RECEIVED',
   TOGGLE_OPEN: 'Search.TOGGLE_OPEN'
 };

@@ -15,6 +15,10 @@ export function fetchArticle(articleId) {
   });
 }
 
+export function createArticle(article) {
+  console.log(article);
+}
+
 export function fetchAll({ year, month } = {}) {
   return callAPI({
     types: Article.FETCH,

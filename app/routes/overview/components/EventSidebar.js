@@ -4,7 +4,6 @@ import { Link } from 'react-router';
 import Octagon from 'app/components/Octagon';
 import Image from 'app/components/Image';
 import colorForEvent from 'app/routes/events/colorForEvent';
-import { getRandomImage } from 'app/utils';
 
 const EventItem = ({ event, imageSize }) => (
   <Link to={`/events/${event.id}`}>
@@ -14,7 +13,7 @@ const EventItem = ({ event, imageSize }) => (
           style={{
             paddingBottom: 15
           }}
-          src={getRandomImage(100)}
+          src={event.thumbnail}
         />
       </Octagon>
       <div>

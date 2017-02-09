@@ -7,7 +7,6 @@ import EventSidebar from './EventSidebar';
 import ProfileBox from './ProfileBox';
 import colorForEvent from 'app/routes/events/colorForEvent';
 import truncateString from 'app/utils/truncateString';
-import { getImage } from 'app/utils';
 
 const EVENT_TYPES = [
   'Bedriftspresentasjon',
@@ -30,7 +29,7 @@ const OverviewItem = ({ event, showImage }) => (
       <Link to={`/events/${event.id}`}>
         <Image
           height={60}
-          src={getImage(event.id)}
+          src={event.cover}
         />
       </Link>}
     <h2 className={styles.itemTitle}>

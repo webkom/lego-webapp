@@ -49,7 +49,7 @@ function AccountDropdownItems({ logout, onClose, username }) {
         </Link>
       </Dropdown.ListItem>
       <Dropdown.ListItem>
-        <Link to='/users/me/settings' onClick={onClose}>
+        <Link to='/meetings/' onClick={onClose}>
           Møteinnkallinger
           <Icon name='calendar' />
         </Link>
@@ -86,7 +86,7 @@ export default class Header extends Component {
 
           <div className={styles.navigation}>
             <Link to='/events' activeClassName={styles.activeItem}>Arrangementer</Link>
-            <Link to='/career' activeClassName={styles.activeItem}>Karriere</Link>
+            <Link to='/joblistings' activeClassName={styles.activeItem}>Karriere</Link>
             <Link
               to='/readme'
               activeClassName={styles.activeItem}

@@ -5,9 +5,12 @@ import events from './events';
 import company from './company';
 import users from './users';
 import articles from './articles';
+import meetings from './meetings';
 import admin from './admin';
 import quotes from './quotes';
 import pages from './pages';
+import search from './search';
+import joblistings from './joblistings';
 
 export function loadRoute(callback) {
   return (module) => callback(null, module.default);
@@ -25,10 +28,13 @@ export default {
     events,
     users,
     articles,
+    meetings,
     admin,
     quotes,
     pages,
     company,
+    search,
+    joblistings,
     {
       path: '*',
       component: () => <div>Not Found</div>

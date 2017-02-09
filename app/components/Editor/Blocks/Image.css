@@ -1,0 +1,46 @@
+
+.img {
+  width: 100%;
+}
+
+.loader {
+  height: 2px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #ddd;
+}
+
+.loader::before {
+  display: block;
+  position: absolute;
+  content: '';
+  left: -200px;
+  width: 200px;
+  height: 4px;
+  background-color: #2980b9;
+  animation: loading 1s linear infinite;
+}
+
+@keyframes loading {
+  from {
+    left: -200px;
+    width: 50%;
+  }
+
+  50% {
+    width: 70%;
+  }
+
+  70% {
+    width: 95%;
+  }
+
+  95% {
+    left: 120%;
+  }
+
+  to {
+    left: 100%;
+  }
+}
