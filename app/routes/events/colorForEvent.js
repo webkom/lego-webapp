@@ -2,7 +2,7 @@ const colors = {
   'company_presentation': '#A1C34A',
   'lunch_presentation': '#A1C34A',
   'course': '#52B0EC',
-  'party': '#E8953A',
+  'party': '#FCD748',
   'social': '#B11C11',
   'event': '#B11C11',
   'other': '#111111'
