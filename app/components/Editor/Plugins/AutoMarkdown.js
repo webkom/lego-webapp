@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { Blocks } from '../constants';
 
 const getType = (chars) => {

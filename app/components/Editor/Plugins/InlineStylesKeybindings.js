@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 import { Inline } from '../constants';
 
 const onKeyDown = (e, data, state) => {

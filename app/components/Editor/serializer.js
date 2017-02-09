@@ -1,5 +1,7 @@
+/* eslint-disable consistent-return */
+/* eslint-disable default-case */
+
 import React from 'react';
-import { Blocks, Inline } from './constants';
 
 const BLOCK_TAGS = {
   blockquote: 'quote',
@@ -27,7 +29,7 @@ export default [
       };
     },
     serialize(object, children) {
-      if (object.kind != 'block') return;
+      if (object.kind !== 'block') return;
       switch (object.type) {
         case 'code': return <pre><code>{children}</code></pre>;
         case 'paragraph': return <p>{children}</p>;
@@ -47,7 +49,7 @@ export default [
       };
     },
     serialize(object, children) {
-      if (object.kind != 'mark') return;
+      if (object.kind !== 'mark') return;
       switch (object.type) {
         case 'bold': return <strong>{children}</strong>;
         case 'italic': return <em>{children}</em>;
