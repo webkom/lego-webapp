@@ -12,6 +12,7 @@ const MARK_TAGS = {
   em: 'italic',
   strong: 'bold',
   u: 'underline',
+  strike: 'strikethrough'
 };
 
 export default [
@@ -51,6 +52,7 @@ export default [
         case 'bold': return <strong>{children}</strong>;
         case 'italic': return <em>{children}</em>;
         case 'underline': return <u>{children}</u>;
+        case 'strikethrough': return <strike>{children}</strike>;
       }
     }
   }

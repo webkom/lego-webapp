@@ -29,6 +29,10 @@
   vertical-align: -webkit-baseline-middle;
 }
 
+.activeTooltipButton {
+  border: 1px dotted gray;
+}
+
 .activeTooltipButton > i {
   color: #C24538;
 }

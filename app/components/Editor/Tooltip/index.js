@@ -7,8 +7,7 @@ import styles from './Tooltip.css';
 
 export type Props = {
  editorState: object,
- disableInline: boolean,
- disableBlock: boolean,
+ disableBlocks: boolean,
  setInlineStyle: (String) => void,
  setBlockType: (String) => void,
  wrapperElement: object
@@ -41,7 +40,8 @@ export default class Tooltip extends Component {
     if (!menu) return;
 
     if (editorState.isBlurred || editorState.isCollapsed) {
-      menu.removeAttribute('style');
+      menu.style.display = 'none';
+      // menu.removeAttribute('style');
       return;
     }
 
@@ -51,7 +51,7 @@ export default class Tooltip extends Component {
     const range = selection.getRangeAt(0);
 
     const rect = range.getBoundingClientRect();
-    menu.style.opacity = 1;
+    menu.style.display = 'initial';
     menu.style.top = `${rect.top + window.scrollY - menu.offsetHeight}px`;
     menu.style.left = `${rect.left + window.scrollX - menu.offsetWidth / 2 + rect.width / 2}px`;
   }
@@ -73,7 +73,6 @@ export default class Tooltip extends Component {
       <Portal isOpened onOpen={this.onOpen}>
         <div className={styles.tooltip}>
           {
-            !this.props.disableInline &&
             [Inline.Bold, Inline.Italic, Inline.Underline, Inline.Code, Inline.Striketrough]
             .map((type) => (
               <TooltipButton
@@ -86,11 +85,11 @@ export default class Tooltip extends Component {
             ))
           }
           {
-            !this.props.disableInline && !this.props.disableBlock &&
+            !this.props.disableBlocks &&
             <span className={styles.tooltipSeperator} />
           }
           {
-            !this.props.disableBlock &&
+            !this.props.disableBlocks &&
             [Blocks.H1, Blocks.H2, Blocks.Blockquote, Blocks.Cite, Blocks.UL, Blocks.OL]
             .map((type) => (
               <TooltipButton

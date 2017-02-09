@@ -1,36 +1,15 @@
 /* eslint-disable react/no-find-dom-node */
 import React, { Component } from 'react';
 import { Editor, Html } from 'slate';
-import { Blocks, Inline } from './constants';
-import { Break, Image } from './Blocks';
-import Plugins from './Plugins';
-import { insertParagraph } from './utils';
+import { insertParagraph, getPlugins, getSchema } from './utils';
 import rules from './serializer';
 import Toolbar from './Toolbar';
 import Tooltip from './Tooltip';
 import styles from './Editor.css';
+import { Blocks } from './constants';
+
 
 const html = new Html({ rules });
-const schema = {
-  nodes: {
-    [Blocks.Break]: Break,
-    [Blocks.Image]: Image,
-    [Blocks.Blockquote]: (props) => <blockquote {...props.attributes}>{props.children}</blockquote>,
-    [Blocks.Cite]: (props) => <cite {...props.attributes}>{props.children}</cite>,
-    [Blocks.UL]: (props) => <ul {...props.attributes}>{props.children}</ul>,
-    [Blocks.H1]: (props) => <h1 {...props.attributes}>{props.children}</h1>,
-    [Blocks.H2]: (props) => <h2 {...props.attributes}>{props.children}</h2>,
-    [Blocks.LI]: (props) => <li {...props.attributes}>{props.children}</li>,
-    [Blocks.OL]: (props) => <ol {...props.attributes}>{props.children}</ol>,
-  },
-  marks: {
-    [Inline.Bold]: (props) => <strong>{props.children}</strong>,
-    [Inline.Code]: (props) => <code>{props.children}</code>,
-    [Inline.Italic]: (props) => <em>{props.children}</em>,
-    [Inline.Underline]: (props) => <u>{props.children}</u>,
-    [Inline.Striketrough]: (props) => <strike>{props.children}</strike>
-  }
-};
 
 export type Props = {
   content?: string,
@@ -41,8 +20,7 @@ export type Props = {
   onChange?: func,
   onFocus?: func,
   onBlur?: func,
-  disableBlock: boolean,
-  disableInline: boolean
+  disableBlocks: boolean
 };
 
 export default class CustomEditor extends Component {
@@ -80,25 +58,19 @@ export default class CustomEditor extends Component {
   }
 
   onDocumentChange = (document, state) => {
-    // const content = html.serialize(state);
-    // this.props.onChange(content);
+    const content = html.serialize(state);
+    this.props.onChange(content);
 
-    if (!state.isCollapsed) {
-      return;
+    if (state.isCollapsed && state.startBlock.isVoid) {
+      const transformed = insertParagraph(state);
+      this.onChange(transformed);
     }
-
-    const block = state.startBlock;
-
-    if (!block.isVoid) {
-      return;
-    }
-
-    const transformed = insertParagraph(state);
-
-    this.onChange(transformed);
   }
 
   insertBlock = (properties) => {
+    if (this.props.disableBlocks) {
+      return;
+    }
     const transformed = insertParagraph(
       this.state.editorState
         .transform()
@@ -118,6 +90,9 @@ export default class CustomEditor extends Component {
   }
 
   setBlockType = (type) => {
+    if (this.props.disableBlocks) {
+      return;
+    }
     const { editorState } = this.state;
     const transfrom = editorState.transform();
     const isActive = this.hasBlock(type);
@@ -168,10 +143,6 @@ export default class CustomEditor extends Component {
 
   render = () => {
     const { editorState } = this.state;
-    let plugins = [...Plugins.base];
-    if (!this.props.disableBlock) {
-      plugins = plugins.concat(Plugins.blocks);
-    }
     return (
       <div
         ref={(c) => { this.wrapperElement = c; }}
@@ -181,14 +152,14 @@ export default class CustomEditor extends Component {
           state={editorState}
           placeholder={this.props.placeholder || 'Default placeholder'}
           onChange={this.onChange}
-          plugins={plugins}
-          schema={schema}
+          plugins={getPlugins(!this.props.disableBlocks)}
+          schema={getSchema(!this.props.disableBlocks)}
           onDocumentChange={this.onDocumentChange}
           className={styles.Editor}
         />
 
         {
-          !this.props.disableBlock &&
+          !this.props.disableBlocks &&
           <Toolbar
             editorState={editorState}
             insertBlock={this.insertBlock}
@@ -197,8 +168,7 @@ export default class CustomEditor extends Component {
         }
 
         <Tooltip
-          disableBlock={this.props.disableBlock}
-          disableInline={this.props.disableInline}
+          disableBlocks={this.props.disableBlocks}
           setBlockType={this.setBlockType}
           setInlineStyle={this.setInlineStyle}
           editorState={editorState}

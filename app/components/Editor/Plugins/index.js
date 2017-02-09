@@ -3,6 +3,7 @@ import AutoReplace from 'slate-auto-replace';
 import { insertParagraph } from '../utils';
 import { Blocks } from '../constants';
 import AutoMarkdown from './AutoMarkdown';
+import InlineStylesKeybindings from './InlineStylesKeybindings';
 
 const enterOnVoidBlock = {
   onKeyDown(e, data, state) {
@@ -13,9 +14,14 @@ const enterOnVoidBlock = {
   }
 };
 
-export const base = [
+const base = [
   enterOnVoidBlock,
   AutoReplaceText('(c)', '©'),
+  InlineStylesKeybindings
+];
+
+const blocks = [
+  AutoMarkdown,
   AutoReplace({
     trigger: '-',
     before: /^(--)$/,
@@ -24,10 +30,6 @@ export const base = [
         .setBlock({ type: Blocks.Break, isVoid: true })
         .collapseToStartOfNextBlock()
   })
-];
-
-export const blocks = [
-  AutoMarkdown
 ];
 
 export default {
