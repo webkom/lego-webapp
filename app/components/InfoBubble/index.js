@@ -39,7 +39,7 @@ function InfoBubble({ icon, data, meta, className, bubbleClass, dataClass,
       {link ? withLinkIcon(link, icon, bubbleClass, iconClass) :
         noLinkIcon(icon, bubbleClass, iconClass)}
       {link ? withLinkData(link, dataClass, data) : noLinkData(dataClass, data)}
-      {noLinkData(metaClass, meta, true)}
+      {meta && noLinkData(metaClass, meta, true)}
     </div>
   );
 }
