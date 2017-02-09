@@ -113,10 +113,18 @@ export const Page = {
   FETCH: generateStatuses('Page.FETCH'),
   UPDATE: generateStatuses('Page.UPDATE')
 };
+
 /**
  *
  */
 export const File = {
   FETCH_SIGNED_POST: generateStatuses('File.FETCH_SIGNED_POST'),
   UPLOAD: generateStatuses('File.UPLOAD')
+};
+
+/**
+ *
+ */
+export const Feed = {
+  FETCH: generateStatuses('Feed.FETCH')
 };
