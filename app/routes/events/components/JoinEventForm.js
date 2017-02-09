@@ -11,6 +11,7 @@ import StripeCheckout from 'react-stripe-checkout';
 import logoImage from 'app/assets/kule.png';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Time from 'app/components/Time';
+import config from 'app/config';
 
 export type Props = {
   title: string,
@@ -191,7 +192,7 @@ class JoinEventForm extends Component {
             allowRememberMe={false}
             locale='no'
             token={onToken}
-            stripeKey='pk_test_VWJmJ3yOunhMBkG71SXyjdqk'
+            stripeKey={config.stripeKey}
             amount={event.price}
             email={currentUser.email}
           >
