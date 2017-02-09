@@ -1,8 +1,8 @@
 .toolbar {
+  line-height: 1;
   position: absolute;
   display: inline-block;
-  left: -20px;
-  top: 0;
+  margin: 0 2px;
   user-select: none;
   font-size: 22px;
 }
