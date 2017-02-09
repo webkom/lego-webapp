@@ -7,7 +7,6 @@ import Image from 'app/components/Image';
 import Card from 'app/components/Card';
 import colorForEvent from 'app/routes/events/colorForEvent';
 import truncateString from 'app/utils/truncateString';
-import { getImage } from 'app/utils';
 import { Content, Flex } from 'app/components/Layout';
 
 const DESCRIPTION_MAX_LENGTH = 150;
@@ -18,46 +17,42 @@ const OverviewItem = ({ event, showImage, isHeadline = false }) => (
     column
     className={cx(styles.item, isHeadline && styles.halfWidth)}
   >
-    {showImage && (
-      <Link
-        to={`/events/${event.id}`}
-        style={{ height: IMAGE_HEIGHT, display: 'block' }}
-      >
-        <Image
-          src={getImage(event.id, 400, IMAGE_HEIGHT)}
-        />
-      </Link>
-    )}
-
-    <div className={styles.heading}>
+    <Flex column className={styles.inner}>
       {showImage && (
-        <Link to={`/events/${event.id}`} className={styles.imageLink} style={{ height: 180 }}>
+        <Link
+          to={`/events/${event.id}`}
+          style={{ height: IMAGE_HEIGHT, display: 'block' }}
+        >
           <Image
+            className={styles.image}
             src={event.cover}
           />
         </Link>
       )}
-      <h2 className={styles.itemTitle}>
-        <Link to={`/events/${event.id}`}>
-          {event.title}
-        </Link>
-      </h2>
 
-      <span className={styles.itemInfo}>
-        <Time time={event.startTime} format='DD.MM HH:mm' />
-        <span> · </span>
-        <span>{event.location}</span>
-      </span>
-    </div>
+      <div className={styles.heading}>
+        <h2 className={styles.itemTitle}>
+          <Link to={`/events/${event.id}`}>
+            {event.title}
+          </Link>
+        </h2>
 
-    <p
-      className={styles.itemDescription}
-      style={{
-        borderBottom: `4px solid ${colorForEvent(event.eventType)}`,
-      }}
-    >
-      {truncateString(event.description, DESCRIPTION_MAX_LENGTH)}
-    </p>
+        <span className={styles.itemInfo}>
+          <Time time={event.startTime} format='DD.MM HH:mm' />
+          <span> · </span>
+          <span>{event.location}</span>
+        </span>
+      </div>
+
+      <p
+        className={styles.itemDescription}
+        style={{
+          borderTop: `2px solid ${colorForEvent(event.eventType)}`,
+        }}
+      >
+        {truncateString(event.description, DESCRIPTION_MAX_LENGTH)}
+      </p>
+    </Flex>
   </Flex>
 );
 
@@ -71,43 +66,8 @@ export default class Overview extends Component {
 
     return (
       <Content>
-        <OverviewItem
-          isHeadline
-          event={events[0]}
-        />
-
-        <Flex wrap padding={10}>
-          <Card>
-            Hello dude what is going on
-          </Card>
-
-          <Card dark>
-            <p>Hello World</p>
-          </Card>
-
-          <Card dark>
-            <p>Hello World</p>
-          </Card>
-
-          <Card>
-            <p>Hello World</p>
-          </Card>
-
-          <Card dark>
-            <p>Hello World</p>
-          </Card>
-
-          <Card dark>
-            <p>Hello World</p>
-          </Card>
-
-          <Card dark>
-            <p>Hello World</p>
-          </Card>
-        </Flex>
-
         <Flex wrap>
-          {events.slice(1).map((event) => (
+          {events.map((event) => (
             <OverviewItem
               key={event.id}
               event={event}

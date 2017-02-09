@@ -1,8 +1,9 @@
 .card {
   background: #fff;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 2px #eee;
+  border: 1px solid rgba(0, 0, 0, .09);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .04);
   padding: 20px;
+  border-radius: 3px;
   flex: 1;
 }
 
