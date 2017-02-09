@@ -87,3 +87,14 @@
   display: flex;
   justify-content: space-between;
 }
+
+.coverImage {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+}
+
+.image {
+  display: block;
+  margin: auto;
+}

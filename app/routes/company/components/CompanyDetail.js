@@ -2,11 +2,8 @@
 
 import React from 'react';
 import styles from './Company.css';
-import moment from 'moment';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { EventItem } from 'app/routes/events/components/EventList';
 import Image from 'app/components/Image';
-import { getImage } from 'app/utils';
 import InfoBubble from 'app/components/InfoBubble';
 import { Link } from 'react-router';
 import Button from 'app/components/Button';
@@ -45,8 +42,8 @@ const CompanyDetail = ({ company }: Props) => {
 
   return (
     <div className={styles.root}>
-      <div className={styles.picture} >
-        <Image src={getImage(company.id, 1000, 300)} />
+      <div className={styles.coverImage}>
+        <Image src={company.logo} className={styles.image} />
       </div>
 
       <div className={styles.titleFlex}>
@@ -63,41 +60,6 @@ const CompanyDetail = ({ company }: Props) => {
 
       <div className={styles.description}>
         <p>{company.description}</p>
-      </div>
-
-      <div>
-        <h3 className={styles.headings}>Kommende arrangementer</h3>
-        {company.events
-          .filter((event) => (moment().isSameOrBefore(event.startTime)))
-          .map((event) => (
-            <EventItem
-              key={event.id}
-              event={event}
-            />
-        ))}
-      </div>
-
-      <div>
-        <h3 className={styles.headings}>Jobbannonser</h3>
-        <ul>
-          <li>joblisting 1</li>
-          <li>joblisting 2</li>
-          <p>...</p>
-        </ul>
-      </div>
-
-      <div>
-        <h3 className={styles.headings}>Tidligere Events</h3>
-        {company.events
-          .filter((event) => (moment().isAfter(event.startTime)))
-          .sort((a, b) => (moment(b.startTime) - moment(a.startTime)))
-          .map((event) => (
-            <EventItem
-              className={styles.eventItem}
-              key={event.id}
-              event={event}
-            />
-        ))}
       </div>
     </div>
   );
