@@ -16,10 +16,15 @@ export function fetchEvent(eventId) {
   });
 }
 
-export function fetchAll({ year, month } = {}) {
+export function fetchAll({ year, month, dateAfter, dateBefore } = {}) {
   return callAPI({
     types: Event.FETCH,
-    endpoint: `/events/${createQueryString({ year, month })}`,
+    endpoint: `/events/${createQueryString({
+      year,
+      month,
+      date_after: dateAfter,
+      date_before: dateBefore
+    })}`,
     schema: arrayOf(eventSchema),
     meta: {
       errorMessage: 'Fetching events failed'
