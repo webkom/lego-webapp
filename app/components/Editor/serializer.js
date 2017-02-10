@@ -5,6 +5,7 @@ import React from 'react';
 
 const BLOCK_TAGS = {
   blockquote: 'quote',
+  br: 'paragraph',
   p: 'paragraph',
   pre: 'code'
 };
@@ -30,9 +31,12 @@ export default [
     },
     serialize(object, children) {
       if (object.kind !== 'block') return;
+      const data = object.data.toJS();
       switch (object.type) {
+        case 'image': return <img data-file-token={data.fileToken} />;
+        case 'break': return <hr />;
         case 'code': return <pre><code>{children}</code></pre>;
-        case 'paragraph': return <p>{children}</p>;
+        case 'paragraph': return children.length ? <p>{children}</p> : <br />;
         case 'quote': return <blockquote>{children}</blockquote>;
       }
     }
