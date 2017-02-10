@@ -55,7 +55,8 @@ export function entities(key: string) {
     return {
       ...state,
       byId: merge(state.byId, result),
-      items: union(state.items, arrayOf(action.payload.result))
+      items: union(state.items, arrayOf(action.payload.result)),
+      actionGrant: action.payload.actionGrant
     };
   };
 }
