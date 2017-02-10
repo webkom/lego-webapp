@@ -41,21 +41,6 @@
   cursor: default;
 }
 
-.bubble {
-  width: 50px !important;
-  height: 50px !important;
-  border-radius: 25px !important;
-}
-
-.icon {
-  font-size: 25px !important;
-}
-
-.data {
-  line-height: 20px !important;
-  font-size: 15px !important;
-}
-
 .description {
   margin: 15px;
   margin-bottom: 35px;
