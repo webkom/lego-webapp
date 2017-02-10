@@ -10,6 +10,7 @@ import { findDOMNode } from 'slate';
 export type Props = {
   editorState: object,
   insertBlock: (properties) => void,
+  setBlockData: (key, data) => void,
   wrapperElement: object
 };
 
@@ -40,6 +41,11 @@ export default class Toolbar extends Component {
                     !editorState.isBlurred;
     if (!visible) {
       this.container.style.display = 'none';
+      if (this.state.open) {
+        this.setState({
+          open: false
+        });
+      }
       return;
     }
     this.container.style.display = 'initial';
@@ -55,14 +61,22 @@ export default class Toolbar extends Component {
       isVoid: true,
       data: {}
     });
+    this.setState({
+      open: false
+    });
   }
 
   insertImage = (image, src) => {
-    const { uploadFile } = this.props;
+    const { uploadFile, setBlockData } = this.props;
     this.props.insertBlock({
       type: Blocks.Image,
       isVoid: true,
-      data: { uploadFile, image, src }
+      data: {
+        setBlockData,
+        uploadFile,
+        image,
+        src
+      }
     });
   }
 

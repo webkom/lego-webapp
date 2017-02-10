@@ -130,6 +130,17 @@ export default class CustomEditor extends Component {
     this.onChange(transfrom.apply({ save: false }));
   }
 
+  setBlockData = (key, data) => {
+    const { editorState } = this.state;
+
+    const transformed = editorState
+      .transform()
+      .setNodeByKey(key, { data })
+      .apply({ save: false });
+
+    this.onChange(transformed);
+  }
+
   setInlineStyle = (type) => {
     const { editorState } = this.state;
 
@@ -164,6 +175,8 @@ export default class CustomEditor extends Component {
             editorState={editorState}
             insertBlock={this.insertBlock}
             wrapperElement={this.wrapperElement}
+            uploadFile={this.props.uploadFile}
+            setBlockData={this.setBlockData}
           />
         }
 

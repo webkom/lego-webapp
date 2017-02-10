@@ -70,6 +70,9 @@ export default class ArticleEditor extends Component {
           onFocus={() => { console.log('on focus'); }}
           onBlur={() => { console.log('on blur'); }}
         />
+        <div style={{ border: '1px solid black' }}>
+          {this.state.article.content}
+        </div>
       </div>
     );
   }
