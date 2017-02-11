@@ -56,7 +56,7 @@ export function unregister(eventId, registrationId) {
 
 export function payment(eventId, token) {
   return callAPI({
-    types: Event.PAYMENT,
+    types: Event.PAYMENT_QUEUE,
     endpoint: `/events/${eventId}/payment/`,
     method: 'post',
     body: {
