@@ -176,9 +176,17 @@ class JoinEventForm extends Component {
               <Button disabled={disabledButton}>{`Åpner om ${this.state.time}`}</Button>
             )}
             {this.state.buttonOpen && !event.loading && (
-              <Button type='submit' disabled={disabledButton}>
-                {title || joinTitle}
-              </Button>
+              <div>
+                {event.spotsLeft === 0 && (
+                  <div>Det 0 plasser igjen, du blir registrert til venteliste</div>
+                )}
+                {event.spotsLeft > 0 && (
+                  <div>Det er {event.spotsLeft} plasser igjen.</div>
+                )}
+                <Button type='submit' disabled={disabledButton}>
+                  {title || joinTitle}
+                </Button>
+              </div>
             )}
             {event.loading && (<LoadingIndicator loading loadingStyle={{ margin: '5px auto' }} />)}
           </form>
