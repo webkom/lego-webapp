@@ -130,6 +130,9 @@ export default class EventDetail extends Component {
                 </strong>
               </li>
               <li>Finner sted i <strong>{event.location}</strong></li>
+              {event.activationTime && (
+                <li>Påmelding åpner <strong><Time time={event.activationTime} format='DD.MM.YYYY HH:mm' /></strong></li>
+              )}
             </ul>
             {loggedIn &&
               <FlexItem>
@@ -143,7 +146,15 @@ export default class EventDetail extends Component {
                 </FlexRow>
                 <RegisteredSummary registrations={registrations} />
                 <AttendanceStatus title='Påmeldte' pools={pools} />
-              </FlexItem>}
+                {!currentRegistration ? (
+                  <div><i className='fa fa-exclamation-circle' /> Du er ikke registrert</div>
+                ) : (<div><i className='fa fa-check-circle' /> Du er registrert</div>)}
+                {(event.isPriced && (!currentRegistration.chargeStatus ? (
+                  <div><i className='fa fa-exclamation-circle' /> Du har ikke betalt</div>
+                ) : (<div><i className='fa fa-check-circle' /> Du har betalt</div>))
+                )}
+              </FlexItem>
+            )}
           </FlexColumn>
         </FlexRow>
 
