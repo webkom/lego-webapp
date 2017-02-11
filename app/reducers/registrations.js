@@ -9,7 +9,9 @@ export default createEntityReducer({
   },
   mutate(state, action) {
     switch (action.type) {
-      case Event.SOCKET_REGISTRATION: {
+      case Event.SOCKET_REGISTRATION.SUCCESS:
+      case Event.PAYMENT_QUEUE.SUCCESS:
+      case Event.SOCKET_PAYMENT.FAILURE: {
         return {
           ...state,
           byId: {
@@ -20,7 +22,7 @@ export default createEntityReducer({
           }
         };
       }
-      case Event.SOCKET_UNREGISTRATION: {
+      case Event.SOCKET_UNREGISTRATION.SUCCESS: {
         return {
           ...state,
           byId: {
