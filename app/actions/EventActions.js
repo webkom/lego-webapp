@@ -16,12 +16,10 @@ export function fetchEvent(eventId) {
   });
 }
 
-export function fetchAll({ year, month, dateAfter, dateBefore } = {}) {
+export function fetchAll({ dateAfter, dateBefore } = {}) {
   return callAPI({
     types: Event.FETCH,
     endpoint: `/events/${createQueryString({
-      year,
-      month,
       date_after: dateAfter,
       date_before: dateBefore
     })}`,
