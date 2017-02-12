@@ -27,6 +27,7 @@ export function uploadFile(file, fileName) {
       },
       requiresAuthentication: false,
       meta: {
+        fileKey: action.payload.file_key,
         fileToken: action.payload.file_token
       }
     })));

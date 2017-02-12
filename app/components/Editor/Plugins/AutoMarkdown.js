@@ -3,10 +3,10 @@ import { Blocks } from '../constants';
 
 const getType = (chars) => {
   switch (chars) {
-    case '-':
     case '1.': return Blocks.OL;
+    case '-':
+    case '+':
     case '*': return Blocks.UL;
-    case '+': return Blocks.LI;
     case '>': return Blocks.Blockquote;
     case '#': return Blocks.H1;
     case '##': return Blocks.H2;
@@ -32,18 +32,41 @@ const onSpace = (e, state) => {
   if (type === Blocks.LI && startBlock.type === Blocks.LI) return;
   e.preventDefault();
 
-  const transform = state
+  let innerType = type;
+  let outerType;
+  if (type === Blocks.UL || type === Blocks.OL) {
+    innerType = Blocks.LI;
+    outerType = type;
+  }
+
+  let transform = state
       .transform()
-      .setBlock(type);
+      .setBlock(innerType);
 
-  if (type === Blocks.LI) transform.wrapBlock(Blocks.UL);
+  if (outerType) {
+    transform = transform.wrapBlock(outerType);
+  }
 
-  state = transform
+  transform = transform
       .extendToStartOf(startBlock)
       .delete()
       .apply();
 
-  return state;
+  return transform;
+};
+
+const onTab = (e, state) => {
+  if (state.isExpanded) return;
+  const { startBlock } = state;
+  if (startBlock.type === Blocks.LI) {
+    e.preventDefault();
+    const transform = state
+      .transform()
+      // .unwrapBlock()
+      // .wrapBlock(Blocks.OL)
+      .apply();
+    return transform;
+  }
 };
 
   /**
@@ -67,7 +90,7 @@ const onBackspace = (e, state) => {
       .transform()
       .setBlock(Blocks.Paragraph);
 
-  if (startBlock.type === Blocks.LI) transform.unwrapBlock(Blocks.UL);
+  if (startBlock.type === Blocks.LI) transform.unwrapBlock();
 
   state = transform.apply();
   return state;
@@ -110,6 +133,7 @@ const onKeyDown = (e, data, state) => {
     case 'space': return onSpace(e, state);
     case 'backspace': return onBackspace(e, state);
     case 'enter': return onEnter(e, state);
+    case 'tab': return onTab(e, state);
     default: return undefined;
   }
 };

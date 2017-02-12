@@ -96,7 +96,6 @@ class CommentForm extends Component {
             autoFocus={autoFocus}
             name='text'
             component={EditorField}
-            simpleEditor
             disableBlocks
           />
 
