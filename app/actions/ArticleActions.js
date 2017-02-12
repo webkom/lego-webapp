@@ -15,22 +15,40 @@ export function fetchArticle(articleId) {
   });
 }
 
-export function createArticle({ content }) {
+export function createArticle({ title, content }) {
   return callAPI({
     types: Article.CREATE,
     endpoint: '/articles/',
     method: 'POST',
     schema: articleSchema,
     body: {
+      title,
       content,
       author: 1,
-      description: 'nice article',
-      title: 'Test'
+      description: 'nice article'
     },
     meta: {
-      errorMessage: 'Fetching article failed'
+      errorMessage: 'Creating article failed'
     }
-  })
+  });
+}
+
+export function editArticle({ id, title, content }) {
+  return callAPI({
+    types: Article.EDIT,
+    endpoint: `/articles/${id}/`,
+    method: 'PUT',
+    schema: articleSchema,
+    body: {
+      title,
+      content,
+      author: 1,
+      description: 'nice article'
+    },
+    meta: {
+      errorMessage: 'Editing article failed'
+    }
+  });
 }
 
 export function fetchAll({ year, month } = {}) {

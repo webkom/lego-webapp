@@ -4,6 +4,8 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import CommentView from 'app/components/Comments/CommentView';
 import { FlexRow } from 'app/components/FlexBox';
 import Editor from 'app/components/Editor';
+import { Link } from 'react-router';
+
 
 /**
  *
@@ -25,7 +27,7 @@ export default class ArticleDetail extends Component {
   render() {
     const { article, loggedIn, currentUser, comments } = this.props;
 
-    if (!article.text) {
+    if (!article.content) {
       return <LoadingIndicator loading />;
     }
 
@@ -38,13 +40,17 @@ export default class ArticleDetail extends Component {
 
         <FlexRow alignItems='center' justifyContent='space-between'>
           <h2>{article.title}</h2>
+          {
+            article.actionGrant.includes('update') &&
+            <span>
+              <Link to={`/articles/${article.id}/edit`}>Edit</Link>
+            </span>
+          }
         </FlexRow>
 
         <Editor
-          placeholder='Some fancy placeholder text here...'
-          onChange={(data) => {
-            console.log(data);
-          }}
+          readOnly
+          value={article.content}
         />
 
         <CommentView

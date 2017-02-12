@@ -2,12 +2,9 @@ import React, { Component } from 'react';
 import { FlexRow } from 'app/components/FlexBox';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import styles from './ArticleEditor.css';
-import { EditorField } from 'app/components/Form';
+import { EditorField, TextInput } from 'app/components/Form';
 import { ImageUpload } from 'app/components/Upload';
-import { reduxForm, Field } from 'redux-form';
-import { createArticle } from 'app/actions/ArticleActions';
-import { compose } from 'redux';
-import { connect } from 'react-redux';
+import { Field } from 'redux-form';
 
 
 /**
@@ -20,7 +17,7 @@ export type Props = {
   currentUser: any;
 };
 
-class ArticleEditor extends Component {
+export default class ArticleEditor extends Component {
   props: Props;
 
   state = {
@@ -41,16 +38,25 @@ class ArticleEditor extends Component {
   };
 
   onSubmit = (data) => {
-    this.props.createArticle({
-      content: data.content
-    });
+    if (this.props.isNew) {
+      this.props.createArticle({
+        title: data.title,
+        content: data.content
+      });
+    } else {
+      this.props.editArticle({
+        id: this.props.article.id,
+        title: data.title,
+        content: data.content
+      });
+    }
   }
 
   render() {
-    const { isNew, uploadFile, handleSubmit } = this.props;
-    const { article, images } = this.state;
+    const { isNew, uploadFile, handleSubmit, article } = this.props;
+    const { images } = this.state;
 
-    if (!isNew && article.content) {
+    if (!isNew && !article.content) {
       return <LoadingIndicator loading />;
     }
 
@@ -69,35 +75,26 @@ class ArticleEditor extends Component {
             <div className={styles.coverImageOverlay} />
           </div>
 
-          <FlexRow alignItems='center' justifyContent='space-between'>
-            <h2>{article.title}</h2>
+          <FlexRow alignItems='left'>
+            <label htmlFor='article-title'>Title: </label>
+            <Field
+              placeholder='Title'
+              name='title'
+              component={TextInput.Field}
+              id='article-title'
+            />
           </FlexRow>
 
           <Field
-            placeholder={'Hello'}
-            autoFocus={false}
+            placeholder='Write your article here...'
             name='content'
             component={EditorField}
             uploadFile={uploadFile}
           />
 
-          <div style={{ border: '1px solid black' }}>
-            {this.state.article.content}
-          </div>
-          <input type="submit" value="Submit" />
+          <input type='submit' value={isNew ? 'Create' : 'Save'} />
         </form>
       </div>
     );
   }
 }
-
-export default compose(
-  connect(
-    null,
-    { createArticle }
-  ),
-  reduxForm({
-    destroyOnUnmount: false,
-    form: 'article'
-  })
-)(ArticleEditor);

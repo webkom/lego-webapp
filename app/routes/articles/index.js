@@ -23,5 +23,12 @@ export default {
         .then(loadRoute(cb))
         .catch(loadingError);
     }
+  }, {
+    path: ':articleId/edit',
+    getComponent(location, cb) {
+      import('./ArticleEditRoute')
+        .then(loadRoute(cb))
+        .catch(loadingError);
+    }
   }]
 };

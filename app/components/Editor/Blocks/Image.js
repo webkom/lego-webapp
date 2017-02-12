@@ -66,11 +66,10 @@ export default class ImageBlock extends Component {
           {...attributes}
           className={styles.image}
           style={style}
-          data-file-key={data.fileKey}
         />
         {(!uploading && error) &&
-          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'red', display: 'flex', 'flex-direction': 'column', 'justify-content': 'center' }}>
-            <span style={{ textAlign: 'center' }}>
+          <div className={styles.overlay}>
+            <span>
               There was an error uploading the image:
               <br />
               {error}

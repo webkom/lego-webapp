@@ -114,14 +114,15 @@ class CommentForm extends Component {
   }
 }
 
-const mapDispatchToProps = {
-  addComment
-};
 
 export default compose(
   connect(
-    null,
-    mapDispatchToProps
+    () => ({
+      initialValues: {
+        text: '<p></p>'
+      }
+    }),
+    { addComment }
   ),
   reduxForm({
     validate,
