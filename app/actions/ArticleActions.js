@@ -15,8 +15,22 @@ export function fetchArticle(articleId) {
   });
 }
 
-export function createArticle(article) {
-  console.log(article);
+export function createArticle({ content }) {
+  return callAPI({
+    types: Article.CREATE,
+    endpoint: '/articles/',
+    method: 'POST',
+    schema: articleSchema,
+    body: {
+      content,
+      author: 1,
+      description: 'nice article',
+      title: 'Test'
+    },
+    meta: {
+      errorMessage: 'Fetching article failed'
+    }
+  })
 }
 
 export function fetchAll({ year, month } = {}) {

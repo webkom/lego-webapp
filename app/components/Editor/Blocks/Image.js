@@ -4,7 +4,7 @@ import styles from './Image.css';
 export default class ImageBlock extends Component {
 
   state = {
-    fileToken: null,
+    fileKey: null,
     uploading: false,
     error: false
   }
@@ -17,7 +17,7 @@ export default class ImageBlock extends Component {
     const { node } = this.props;
     const { data, key } = node.toJS();
 
-    if (data.fileToken) {
+    if (data.fileKey) {
       return;
     }
 
@@ -35,7 +35,7 @@ export default class ImageBlock extends Component {
         });
         data.setBlockData(key, {
           ...data,
-          fileToken: meta.fileToken
+          fileKey: meta.fileKey
         });
       })
       .catch(() => {
@@ -66,7 +66,7 @@ export default class ImageBlock extends Component {
           {...attributes}
           className={styles.image}
           style={style}
-          data-file-token={data.fileToken}
+          data-file-key={data.fileKey}
         />
         {(!uploading && error) &&
           <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', backgroundColor: 'red', display: 'flex', 'flex-direction': 'column', 'justify-content': 'center' }}>
