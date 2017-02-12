@@ -14,27 +14,39 @@ const html = new Html({ rules });
 export type Props = {
   content?: string,
   uploadFile?: (Object) => void,
-  simple?: boolean,
   autoFocus?: boolean,
   placeholder?: string,
   onChange?: func,
   onFocus?: func,
   onBlur?: func,
-  disableBlocks: boolean
+  disableBlocks?: boolean,
+  readOnly?: boolean
 };
 
 export default class CustomEditor extends Component {
 
   props: Props;
 
-  state = {
-    editorState: html.deserialize(this.content || '<p></p>'),
-    focus: false
-  };
-
   wrapperElement = undefined;
 
+  lastSerializedState = undefined;
+
+  constructor(props) {
+    super(props);
+    if (!props.value) {
+      throw Error('You must pass an initial value to the editor. You can pass "<p></p>" if there is no content.');
+    }
+    this.state = {
+      editorState: html.deserialize(props.value),
+      focus: false
+    };
+    this.lastSerializedState = props.value;
+  }
+
   onChange = (editorState) => {
+    if (this.props.readOnly) {
+      return;
+    }
     const hasFocus = !editorState.isBlurred;
     let focus = this.state.focus;
 
@@ -50,16 +62,32 @@ export default class CustomEditor extends Component {
   }
 
   onFocus = () => {
-    this.props.onFocus();
+    if (this.props.onFocus) {
+      this.props.onFocus();
+    }
   }
 
   onBlur = () => {
-    this.props.onBlur();
+    if (this.props.onBlur) {
+      this.props.onBlur();
+    }
+  }
+
+  componentWillReceiveProps = (newProps) => {
+    if (newProps.value !== this.lastSerializedState) {
+      this.setState({
+        editorState: html.deserialize(newProps.value)
+      });
+      this.lastSerializedState = newProps.value;
+    }
   }
 
   onDocumentChange = (document, state) => {
     const content = html.serialize(state);
-    this.props.onChange(content);
+    if (this.props.onChange) {
+      this.props.onChange(content);
+      this.lastSerializedState = content;
+    }
 
     if (state.isCollapsed && state.startBlock.isVoid) {
       const transformed = insertParagraph(state);
@@ -160,6 +188,7 @@ export default class CustomEditor extends Component {
         className={styles.EditorWrapper}
       >
         <Editor
+          readOnly={this.props.readOnly}
           state={editorState}
           placeholder={this.props.placeholder || 'Default placeholder'}
           onChange={this.onChange}
@@ -170,7 +199,7 @@ export default class CustomEditor extends Component {
         />
 
         {
-          !this.props.disableBlocks &&
+          !this.props.disableBlocks && !this.props.readOnly &&
           <Toolbar
             editorState={editorState}
             insertBlock={this.insertBlock}
@@ -179,15 +208,16 @@ export default class CustomEditor extends Component {
             setBlockData={this.setBlockData}
           />
         }
-
-        <Tooltip
-          disableBlocks={this.props.disableBlocks}
-          setBlockType={this.setBlockType}
-          setInlineStyle={this.setInlineStyle}
-          editorState={editorState}
-          wrapperElement={this.wrapperElement}
-        />
-
+        {
+          !this.props.readOnly &&
+          <Tooltip
+            disableBlocks={this.props.disableBlocks}
+            setBlockType={this.setBlockType}
+            setInlineStyle={this.setInlineStyle}
+            editorState={editorState}
+            wrapperElement={this.wrapperElement}
+          />
+        }
       </div>
     );
   }

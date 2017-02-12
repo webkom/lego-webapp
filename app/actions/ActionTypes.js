@@ -25,7 +25,8 @@ export const Event = {
  */
 export const Article = {
   FETCH: generateStatuses('Article.FETCH'),
-  CREATE: generateStatuses('Article.CREATE')
+  CREATE: generateStatuses('Article.CREATE'),
+  EDIT: generateStatuses('Article.EDIT')
 };
 /**
  *

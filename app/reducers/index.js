@@ -48,6 +48,10 @@ export const quoteSchema = new Schema('quotes', { idAttribute: 'id' });
 export const pageSchema = new Schema('pages', { idAttribute: 'slug' });
 export const joblistingsSchema = new Schema('joblistings', { idAttribute: 'id' });
 
+articleSchema.define({
+  comments: arrayOf(commentSchema)
+});
+
 eventSchema.define({
   pools: arrayOf(poolSchema),
   comments: arrayOf(commentSchema)

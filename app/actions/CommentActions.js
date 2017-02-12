@@ -28,7 +28,7 @@ export function addComment({ text, commentTarget, parent }) {
         formName += `-${parent}`;
       }
 
-      dispatch(initialize(formName, { text: '' }));
+      dispatch(initialize(formName, { text: '<p></p>' }));
     }).catch((action) => {
       const errors = { ...action.error.response.jsonData };
       dispatch(stopSubmit('comment', errors));
