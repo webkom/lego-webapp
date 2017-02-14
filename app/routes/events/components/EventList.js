@@ -12,7 +12,7 @@ import styles from './EventList.css';
 
 // Kinda works
 function groupEvents(events) {
-  const now = moment().subtract(30, 'weeks');
+  const now = moment();
   const nextWeek = now.clone().add(1, 'week');
 
   const groupers = {
