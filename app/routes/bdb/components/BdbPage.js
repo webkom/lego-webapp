@@ -16,8 +16,6 @@ type Props = {
 
 export default class BdbPage extends Component {
 
-  props: Props;
-
   state = {
     companies: [],
     startYear: 2016,
@@ -35,7 +33,10 @@ export default class BdbPage extends Component {
     });
   }
 
+  props: Props;
+
   changeSemesters = (forward) => {
+    // Change which three semesters are displayed (move ahead or back in time)
     const { startSem, startYear } = this.state;
     const newSem = (startSem + 1) % 2;
 
@@ -49,6 +50,7 @@ export default class BdbPage extends Component {
   };
 
   handleChange = (event, index) => {
+    // Update state whenever a semesterStatus is graphically changed by the user
     const { changedStatuses, companies, startYear, startSem } = this.state;
     const data = event.target.value.split('-');
     const yearAndSemester = indexToSemester(Number(data[1]), startYear, startSem);
@@ -95,14 +97,18 @@ export default class BdbPage extends Component {
         {
           companyId: Number(data[0]),
           semesterId: data[2],
-          value: Number(data[3]),
+          contactedStatus: Number(data[3]),
           year: Number(indexToSemester(index, startYear, startSem).year),
           semester: Number(indexToSemester(index, startYear, startSem).semester)
         }
       );
+    } else if (changedStatuses.find(matchSemester).contactedStatus ===
+      this.props.companies[changedCompanyIndex].semesterStatuses[changedSemesterIndex]) {
+      // The status was changed back to it's original value and should be removed
+      changedStatuses.splice(changedStatuses.indexOf(status), 1);
     } else {
       // We're changing an existing entry in state.changedStatuses
-      changedStatuses.find(matchSemester).value = Number(data[3]);
+      changedStatuses.find(matchSemester).contactedStatus = Number(data[3]);
     }
 
     this.setState({
@@ -110,17 +116,6 @@ export default class BdbPage extends Component {
       changedStatuses
     });
   };
-
-  removeChangedStatus = (semesterId) => {
-    const changedStatuses = this.state.changedStatuses.splice();
-    changedStatuses.splice(changedStatuses.indexOf(semesterId), 1);
-    for (const status in changedStatuses) {
-      if (Number(status.semesterId) === semesterId) {
-        changedStatuses.splice(changedStatuses.indexOf(status), 1);
-      }
-    }
-    this.setState({ ...this.state, changedStatuses });
-  }
 
   submitChange = () => {
     this.state.changedStatuses.forEach((status) => {
@@ -134,6 +129,7 @@ export default class BdbPage extends Component {
   };
 
   updateFilters = (name, value) => {
+    // For OptionsBox
     const filters = this.state.filters;
     filters[name] = value;
     this.setState({ filters });
@@ -180,7 +176,7 @@ export default class BdbPage extends Component {
 
         <div className={styles.search}>
           <h2>Søk</h2>
-          <TextInput onChange={this.updateSearchQuery.bind(this)} />
+          <TextInput onChange={this.updateSearchQuery} />
         </div>
 
         <h2
@@ -200,7 +196,7 @@ export default class BdbPage extends Component {
         {this.state.changedStatuses.length > 0 ? (
           <Button onClick={this.submitChange} dark>Lagre endringer</Button>
         ) : ''}
-        {this.state.submitted ? `${{trueIcon}} Lagret!` : ''}
+        {this.state.submitted && `${trueIcon} Lagret!`}
 
         <i style={{ display: 'block' }}>
           <b>Tips:</b> Du kan endre semestere ved å trykke på dem i listen! Semestere merket med *

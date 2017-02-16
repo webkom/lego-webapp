@@ -12,7 +12,6 @@ type Props = {
   editCompany: () => void,
   fields: any,
   company: Object,
-  companyId: string,
   submitting: boolean,
   handleSubmit: () => void,
   autoFocus: any
@@ -20,12 +19,10 @@ type Props = {
 
 export default class EditCompany extends Component {
 
-  props: Props;
-
   onSubmit({ name, adminComment, description, phone, website, companyType, paymentMail }) {
     const { active } = this.state;
     this.props.editCompany({
-      companyId: this.props.companyId,
+      companyId: this.props.company.id,
       name,
       description,
       adminComment,
@@ -43,9 +40,12 @@ export default class EditCompany extends Component {
       active: props.company && props.company.active
     };
   }
+
   componentWillReceiveProps(newProps) {
     this.setState({ active: newProps.company.active });
   }
+
+  props: Props;
 
   toggleActive = (active) => {
     this.setState({ active });

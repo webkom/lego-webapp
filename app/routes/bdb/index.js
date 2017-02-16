@@ -16,6 +16,12 @@ export default {
   }, {
     path: ':companyId/semesters/:semesterId',
     component: require('./EditSemesterRoute').default
+  }, {
+    path: ':companyId/company-contacts/add',
+    component: require('./AddCompanyContactRoute').default
+  }, {
+    path: ':companyId/company-contacts/:companyContactId',
+    component: require('./EditCompanyContactRoute').default
   }
   ]
 };

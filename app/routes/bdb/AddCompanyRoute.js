@@ -10,10 +10,6 @@ function validateCompany(data) {
     errors.name = 'Vennligst fyll ut dette feltet';
   }
 
-  if (!data.studentContact) {
-    errors.studentContact = 'Vennligst fyll ut dette feltet';
-  }
-
   return errors;
 }
 

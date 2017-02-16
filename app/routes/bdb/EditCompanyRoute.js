@@ -6,7 +6,6 @@ import EditCompany from './components/EditCompany';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 
 function loadData({ companyId }, props) {
-  console.log(`companyId: ${companyId}`);
   props.fetch(Number(companyId));
 }
 
@@ -14,10 +13,6 @@ function validateCompany(data) {
   const errors = {};
   if (!data.name) {
     errors.name = 'Vennligst fyll ut dette feltet';
-  }
-
-  if (!data.studentContact) {
-    errors.studentContact = 'Vennligst fyll ut dette feltet';
   }
 
   return errors;
@@ -29,7 +24,6 @@ function mapStateToProps(state, props) {
 
   return {
     company,
-    companyId,
     initialValues: company ? {
       name: company.name,
       studentContact: company.studentContact,

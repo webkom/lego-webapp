@@ -13,7 +13,8 @@ type Props = {
   comments?: Array<Object>,
   companyEvents: Array<Object>,
   currentUser: any,
-  deleteSemesterStatus: () => void
+  deleteSemesterStatus: () => void,
+  push: () => void
 };
 
 export default class BdbDetail extends Component {
@@ -21,7 +22,10 @@ export default class BdbDetail extends Component {
   props: Props;
 
   deleteSemesterStatus = (semesterId) => {
-    this.props.deleteSemesterStatus(this.props.company.id, semesterId);
+    this.props.deleteSemesterStatus(this.props.company.id, semesterId)
+      .then(() => {
+        this.props.push(`/bdb/${this.props.company.id}`);
+      });
   }
 
   semesterIdToText = (id) => {
@@ -139,7 +143,7 @@ export default class BdbDetail extends Component {
                   </tbody>
                 </table>
               </div>) : (<i>Ingen bedriftskontakter registrert.<br /></i>)}
-            <Link to='' style={{ marginTop: '10px' }}>
+            <Link to={`/bdb/${this.props.company.id}/company-contact/add`} style={{ marginTop: '10px' }}>
               <i className='fa fa-plus-circle' /> Legg til bedriftskontakt
             </Link>
 

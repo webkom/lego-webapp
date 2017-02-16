@@ -4,13 +4,13 @@ import BdbRightNav from './BdbRightNav';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextInput } from 'app/components/Form';
-import { selectColorCode, statusStrings, trueIcon, falseIcon } from '../utils.js';
+import { selectColorCode, statusStrings } from '../utils.js';
 import cx from 'classnames';
 
 type Props = {
-  addSemester: () => void,
+  addSemesterStatus: () => void,
+  handleSubmit: () => void,
   companyId: string,
-  fields: any,
   submitting: boolean,
   autoFocus: any
 };
@@ -24,11 +24,11 @@ export default class AddSemester extends Component {
 
   onSubmit({ year, contract }) {
     const companyId = this.props.companyId;
-    this.props.addcontactedStatus({
+    this.props.addSemesterStatus({
       companyId,
-      value: this.state.contactedStatus,
       year,
       semester: this.state.semester,
+      contactedStatus: this.state.contactedStatus,
       contract
     }, true);
   }
@@ -90,20 +90,17 @@ export default class AddSemester extends Component {
                 /><label htmlFor='host'>Høst<br /></label>
               </div>
 
-              <div
+              <select
+                name={'contactedStatus'}
+                value={this.state.contactedStatus}
+                onChange={this.setContactedStatus}
                 className={cx(styles[selectColorCode(this.state.contactedStatus)],
                 styles.contactedStatusForm)}
               >
-                <select
-                  name={'contactedStatus'}
-                  value={this.state.contactedStatus}
-                  onChange={this.setContactedStatus}
-                >
-                  {Object.keys(statusStrings).map((statusString, j) => (
-                    <option key={j} value={statusString}>{statusStrings[j]}</option>
-                  ))}
-                </select>
-              </div>
+                {Object.keys(statusStrings).map((statusString, j) => (
+                  <option key={j} value={statusString}>{statusStrings[j]}</option>
+                ))}
+              </select>
 
               <Field
                 placeholder={'Kontrakt for dette semesteret'}
@@ -112,26 +109,6 @@ export default class AddSemester extends Component {
                 component={TextInput.Field}
                 className={styles.contractForm}
               />
-
-              <div className={styles.choices}>
-                <h3>Bedex?</h3>
-                <input
-                  type='radio'
-                  value
-                  name='bedex'
-                  checked={this.state.bedex}
-                  onChange={this.toggleBedex.bind(this, true)}
-                  id='bedex'
-                /><label htmlFor='bedex'>{trueIcon}<br /></label>
-                <input
-                  type='radio'
-                  value={false}
-                  name='bedex'
-                  checked={!this.state.bedex}
-                  onChange={this.toggleBedex.bind(this, false)}
-                  id='notBedex'
-                /><label htmlFor='notBedex'>{falseIcon}<br /></label>
-              </div>
 
               <div className={styles.clear} />
 

@@ -5,6 +5,7 @@ import {
 import BdbDetail from './components/BdbDetail';
 import { compose } from 'redux';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
+import { push } from 'react-router-redux';
 
 function mapStateToProps(state, props) {
   const companyId = props.params.companyId;
@@ -26,7 +27,7 @@ function mapStateToProps(state, props) {
     comments
   };
 }
-const mapDispatchToProps = { fetch, deleteSemesterStatus };
+const mapDispatchToProps = { fetch, push, deleteSemesterStatus };
 
 function loadData(params, props) {
   props.fetch(props.companyId);

@@ -4,7 +4,7 @@ import BdbRightNav from './BdbRightNav';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextInput } from 'app/components/Form';
-import { selectColorCode, statusStrings, trueIcon, falseIcon } from '../utils.js';
+import { selectColorCode, statusStrings } from '../utils.js';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import cx from 'classnames';
 import { Link } from 'react-router';
@@ -14,7 +14,6 @@ type Props = {
   handleSubmit: () => void,
   company: Object,
   semesterStatus: Object,
-  fields: any,
   submitting: boolean,
   autoFocus: any
 };
@@ -25,26 +24,23 @@ export default class EditSemester extends Component {
     contactedStatus: -1
   }
 
-  onSubmit({ contactedStatus, contract }) {
-    const { company, semesterStatus } = this.props;
-    this.props.editSemesterStatus({
-      companyId: company.id,
-      semesterId: semesterStatus.id,
-      value: contactedStatus,
-      contract: contract || ''
-    }, true);
-  }
-
   componentWillReceiveProps(newProps) {
-    console.log('mounting');
     if (newProps) {
-      console.log('props');
-      console.log(newProps);
-      console.log(this.state);
       if (this.state.contactedStatus === -1) {
         this.setState({ contactedStatus: newProps.semesterStatus.contactedStatus });
       }
     }
+  }
+
+  onSubmit({ contract }) {
+    const { company, semesterStatus } = this.props;
+    const { contactedStatus } = this.state;
+    this.props.editSemesterStatus({
+      companyId: company.id,
+      semesterId: semesterStatus.id,
+      contactedStatus,
+      contract: contract || ''
+    }, true);
   }
 
   setContactedStatus = (event) => {
@@ -56,8 +52,6 @@ export default class EditSemester extends Component {
   props: Props;
 
   render() {
-    console.log('***');
-    console.log(this.props);
     const {
       company,
       semesterStatus,
@@ -90,20 +84,17 @@ export default class EditSemester extends Component {
                 className={styles.contractForm}
               />
 
-              <div
+              <select
+                name={'contactedStatus'}
+                value={this.state.contactedStatus}
+                onChange={this.setContactedStatus}
                 className={cx(styles[selectColorCode(this.state.contactedStatus)],
                 styles.contactedStatusForm)}
               >
-                <select
-                  name={'contactedStatus'}
-                  value={this.state.contactedStatus}
-                  onChange={this.setContactedStatus}
-                >
-                  {Object.keys(statusStrings).map((statusString, j) => (
-                    <option key={j} value={statusString}>{statusStrings[j]}</option>
-                  ))}
-                </select>
-              </div>
+                {Object.keys(statusStrings).map((statusString, j) => (
+                  <option key={j} value={statusString}>{statusStrings[j]}</option>
+                ))}
+              </select>
 
               <div className={styles.clear} />
               <Button
@@ -120,7 +111,7 @@ export default class EditSemester extends Component {
 
           <BdbRightNav
             {...this.props}
-            companyId={this.props.companyId}
+            companyId={this.props.company.id}
           />
 
         </div>

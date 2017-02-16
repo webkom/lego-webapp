@@ -33,12 +33,12 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = { addSemesterStatus };
 
 export default compose(
-  reduxForm({
-    form: 'addSemester',
-    validate: validateSemesterStatus
-  }),
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )
+  ),
+  reduxForm({
+    form: 'addSemester',
+    validate: validateSemesterStatus
+  })
 )(AddSemester);
