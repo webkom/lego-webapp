@@ -124,7 +124,6 @@ export default class CompanyList extends Component {
                 changeSemesters={this.changeSemesters}
                 key={i}
                 handleChange={this.props.handleChange}
-                removeChangedStatus={this.props.removeChangedStatus}
                 changedStatuses={this.props.changedStatuses}
               />
             )}

@@ -10,7 +10,6 @@ type Props = {
   startYear: number,
   startSem: number,
   handleChange: () => void,
-  removeChangedStatus: () => void,
   changedStatuses: Array<Object>
 };
 

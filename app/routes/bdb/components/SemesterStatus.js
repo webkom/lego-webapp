@@ -5,7 +5,6 @@ import { selectColorCode, statusStrings, indexToSemester } from '../utils.js';
 type Props = {
   semesterStatus: Object,
   handleChange: () => void,
-  removeChangedStatus: () => void,
   companyId: number,
   semIndex: number,
   changedStatuses: Array<any>,

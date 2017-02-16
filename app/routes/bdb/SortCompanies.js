@@ -12,6 +12,8 @@ const sortByAttribute = (attribute) => (ascending) => (a, b) => {
 };
 
 const sortByContactStatus = (index, startYear, startSem) => (ascending) => (a, b) => {
+  // Index is either 0, 1 or 2: it's displayed left, middle or right in the table
+  // startYear and startSem is the year and semester of the leftmost status
   const semester = ((index % 2) + startSem) % 2;
 
   let year = 0;
@@ -19,8 +21,6 @@ const sortByContactStatus = (index, startYear, startSem) => (ascending) => (a, b
     year = index < 2 ? startYear : startYear + 1;
   } else if (index === 0) {
     year = startYear;
-  } else if (index === 3) {
-    year = startYear + 2;
   } else {
     year = startYear + 1;
   }
@@ -49,18 +49,15 @@ const sortCompanies = (companies, query, startYear, startSem) => {
     sem0: sortByContactStatus(0, startYear, startSem),
     sem1: sortByContactStatus(1, startYear, startSem),
     sem2: sortByContactStatus(2, startYear, startSem),
-    sem3: sortByContactStatus(3, startYear, startSem),
     studentContact: sortByAttribute('studentContact'),
     comment: sortByAttribute('adminComment')
   };
 
-  for (const sortTypeName in sortTypeToFunction) {
-    if (sortType === sortTypeName) {
-      const sortFunction = sortTypeToFunction[sortTypeName](ascending);
-      return companies.sort(sortFunction);
-    }
-  } // Sort by company name by default
-  return companies.sort((a, b) => a.name.localeCompare(b.name));
+  const sortTypeName = Object.keys(sortTypeToFunction).find((sortTypeName) =>
+    sortTypeName === sortType);
+  const sortFunction = sortTypeName ? sortTypeToFunction[sortTypeName](ascending) :
+    sortTypeToFunction.name(true)
+  return companies.sort(sortFunction);
 };
 
 export default sortCompanies;

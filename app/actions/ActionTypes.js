@@ -80,10 +80,13 @@ export const Comment = {
 export const Company = {
   FETCH: generateStatuses('Company.FETCH'),
   ADD: generateStatuses('Company.ADD'),
-  EDIT: generateStatuses('Company.EDIT_BEGIN'),
-  ADD_SEMESTER: generateStatuses('Company.ADD_SEMESTER_BEGIN'),
+  EDIT: generateStatuses('Company.EDIT'),
+  ADD_SEMESTER: generateStatuses('Company.ADD_SEMESTER'),
   EDIT_SEMESTER: generateStatuses('Company.EDIT_SEMESTER'),
-  DELETE_SEMESTER: generateStatuses('Company.DELETE_SEMESTER_BEGIN')
+  DELETE_SEMESTER: generateStatuses('Company.DELETE_SEMESTER'),
+  ADD_COMPANY_CONTACT: generateStatuses('Company.ADD_COMPANY_CONTACT'),
+  EDIT_COMPANY_CONTACT: generateStatuses('Company.EDIT_COMPANY_CONTACT'),
+  DELETE_COMPANY_CONTACT: generateStatuses('Company.DELETE_COMPANY_CONTACT')
 };
 
 /**

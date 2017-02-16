@@ -8,7 +8,6 @@ import { TextEditor, TextInput } from 'app/components/Form';
 
 type Props = {
   addCompany: () => void,
-  fields: any,
   submitting: boolean,
   handleSubmit: () => void,
   autoFocus: any
@@ -21,13 +20,13 @@ export default class AddCompany extends Component {
     this.props.addCompany({
       name,
       studentContact,
-      adminComment: adminComment || '',
-      active: active || false,
-      description: description || false,
-      phone: phone || '',
-      website: website || '',
-      companyType: companyType || '',
-      paymentMail: paymentMail || ''
+      adminComment,
+      active: active || true,
+      description,
+      phone,
+      website,
+      companyType,
+      paymentMail
     });
   }
 

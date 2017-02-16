@@ -372,7 +372,7 @@ option {
 }
 
 .choices h3 {
-  margin-bottom: 7px;
+  margin: 0 0 7px 0;
 }
 
 .yearForm {
@@ -428,4 +428,10 @@ option {
 
 .info h3 {
   margin-bottom: 15px;
+}
+
+.contactedStatusForm {
+  padding: 10px;
+  width: 240px;
+  margin-bottom: 10px;
 }

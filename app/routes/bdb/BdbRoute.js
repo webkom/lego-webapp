@@ -10,11 +10,12 @@ type Props = {
 };
 
 class BdbRoute extends Component {
-  props: Props;
 
   componentWillMount() {
     this.props.fetchAll();
   }
+
+  props: Props;
 
   render() {
     return (
