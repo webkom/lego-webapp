@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import QuoteRightNav from './QuoteRightNav';
 import QuoteTopNav from './QuoteTopNav';
 import QuoteList from './QuoteList';
