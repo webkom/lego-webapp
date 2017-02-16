@@ -7,10 +7,13 @@ function extractWatchedProps<Props: Object>(
   watchProps: Array<$Enum<Props>>,
   props: Props
 ): $Shape<Props> {
-  return watchProps.reduce((total, key) => {
-    total[key] = props[key];
-    return total;
-  }, {});
+  return watchProps.reduce(
+    (total, key) => {
+      total[key] = props[key];
+      return total;
+    },
+    {}
+  );
 }
 
 /**
@@ -21,13 +24,14 @@ function fetchOnUpdate<Props: Object>(
   watchProps: Array<$Enum<Props>>,
   fetchData: (params: $Shape<Props>, props: Props) => void
 ): (DecoratedComponent: ReactClass<*>) => ReactClass<*> {
-  return (DecoratedComponent) => class extends Component {
+  return DecoratedComponent => class extends Component {
+    state = {
+      error: null,
+      loading: true
+    };
 
     componentWillMount() {
-      fetchData(
-        extractWatchedProps(watchProps, this.props),
-        this.props
-      );
+      this.fetchData(extractWatchedProps(watchProps, this.props), this.props);
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -35,14 +39,24 @@ function fetchOnUpdate<Props: Object>(
       const nextParams = extractWatchedProps(watchProps, nextProps);
 
       if (!shallowEqual(params, nextParams)) {
-        fetchData(nextParams, nextProps);
+        this.fetchData(nextParams, nextProps);
       }
     }
 
-    render() {
-      return (
-        <DecoratedComponent {...this.props} />
+    fetchData = (params, props) => {
+      const maybePromise = fetchData(params, props);
+      if (!maybePromise || typeof maybePromise.then !== 'function') {
+        return;
+      }
+
+      maybePromise.then(
+        () => this.setState({ loading: false }),
+        error => this.setState({ error: error.payload, loading: false })
       );
+    };
+
+    render() {
+      return <DecoratedComponent {...this.state} {...this.props} />;
     }
   };
 }

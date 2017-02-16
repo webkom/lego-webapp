@@ -45,9 +45,12 @@ export type Props = {
   register: (eventId: Number) => Promise<*>,
   unregister: (eventId: Number, registrationId: Number) => Promise<*>,
   payment: (eventId: Number, token: string) => Promise<*>,
-  updateFeedback: (eventId: Number, registrationId: Number, feedback: string) => Promise<*>,
+  updateFeedback: (
+    eventId: Number,
+    registrationId: Number,
+    feedback: string
+  ) => Promise<*>
 };
-
 
 /**
  *
@@ -60,7 +63,13 @@ export default class EventDetail extends Component {
   props: Props;
 
   handleRegistration = ({ captchaResponse, feedback, type }) => {
-    const { eventId, currentRegistration, register, unregister, updateFeedback } = this.props;
+    const {
+      eventId,
+      currentRegistration,
+      register,
+      unregister,
+      updateFeedback
+    } = this.props;
     switch (type) {
       case 'feedback':
         return updateFeedback(eventId, currentRegistration.id, feedback);
@@ -71,24 +80,33 @@ export default class EventDetail extends Component {
       default:
         return undefined;
     }
-  }
+  };
 
   toggleJoinFormOpen = () => {
     this.setState({ joinFormOpen: !this.state.joinFormOpen });
   };
 
-  handleToken = (token) => {
+  handleToken = token => {
     this.props.payment(this.props.event.id, token.id);
-  }
+  };
 
   render() {
     const {
-      event, loggedIn, currentUser, comments,
-      pools, registrations, currentRegistration
+      event,
+      loggedIn,
+      currentUser,
+      comments,
+      pools,
+      registrations,
+      currentRegistration
     } = this.props;
 
-    if (!event.id) {
+    if (this.props.loading) {
       return <LoadingIndicator loading />;
+    }
+
+    if (this.props.error) {
+      return <div>{this.props.error.message}</div>;
     }
 
     return (
@@ -97,7 +115,7 @@ export default class EventDetail extends Component {
           <Image src={event.cover} />
         </div>
 
-        <FlexRow alignItems='center' justifyContent='space-between'>
+        <FlexRow alignItems="center" justifyContent="space-between">
           <h2>{event.title}</h2>
           <InterestedButton value={this.props.isUserInterested} />
         </FlexRow>
@@ -111,26 +129,32 @@ export default class EventDetail extends Component {
           </FlexColumn>
           <FlexColumn className={styles.meta}>
             <ul>
-              <li>Starter <strong><Time time={event.startTime} format='DD.MM.YYYY HH:mm' /></strong></li>
+              <li>
+                Starter{' '}
+                <strong>
+                  <Time time={event.startTime} format="DD.MM.YYYY HH:mm" />
+                </strong>
+              </li>
               <li>Finner sted i <strong>{event.location}</strong></li>
             </ul>
-            {loggedIn && (
+            {loggedIn &&
               <FlexItem>
                 <h3>Påmeldte:</h3>
                 <FlexRow className={styles.registeredThumbnails}>
-                  {registrations.slice(0, 10).map((reg) => (
-                    <RegisteredCell key={reg.user.id} user={reg.user} />
-                  ))}
+                  {registrations
+                    .slice(0, 10)
+                    .map(reg => (
+                      <RegisteredCell key={reg.user.id} user={reg.user} />
+                    ))}
                 </FlexRow>
                 <RegisteredSummary registrations={registrations} />
-                <AttendanceStatus title='Påmeldte' pools={pools} />
-              </FlexItem>
-            )}
+                <AttendanceStatus title="Påmeldte" pools={pools} />
+              </FlexItem>}
           </FlexColumn>
         </FlexRow>
 
         <FlexRow>
-          {loggedIn && (
+          {loggedIn &&
             <FlexColumn className={styles.join}>
               <a
                 onClick={this.toggleJoinFormOpen}
@@ -143,7 +167,7 @@ export default class EventDetail extends Component {
                 />
               </a>
 
-              {this.state.joinFormOpen && (
+              {this.state.joinFormOpen &&
                 <div>
                   <JoinEventForm
                     event={event}
@@ -152,17 +176,16 @@ export default class EventDetail extends Component {
                     onToken={this.handleToken}
                     onSubmit={this.handleRegistration}
                   />
-                </div>
-              )}
-            </FlexColumn>
-          )}
+                </div>}
+            </FlexColumn>}
 
           <FlexColumn className={styles.openFor}>
             <strong>Åpent for</strong>
             <ul>
-              {(pools || []).map((pool) => (
-                pool.permissionGroups.map((group) => (<li key={group.id}>{group.name}</li>))
-            ))}
+              {(pools || []).map(pool =>
+                pool.permissionGroups.map(group => (
+                  <li key={group.id}>{group.name}</li>
+                )))}
             </ul>
           </FlexColumn>
         </FlexRow>

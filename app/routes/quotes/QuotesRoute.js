@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
 import {
   fetchAllApproved,
   fetchAllUnapproved,
@@ -11,45 +13,18 @@ import {
   deleteQuote
 } from '../../actions/QuoteActions';
 import QuotePage from './components/QuotePage';
+import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 
-export class QuotesRoute extends Component {
-
-  static propTypes = {
-    params: PropTypes.object.isRequired,
-    fetchAllApproved: PropTypes.func.isRequired,
-    fetchAllUnapproved: PropTypes.func.isRequired,
-    fetchQuote: PropTypes.func.isRequired,
-    query: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired
-  };
-
-  loadData(props) {
-    const filter = props.query.filter;
-
-    if (filter === 'unapproved') {
-      this.props.fetchAllUnapproved();
-    } else {
-      this.props.fetchAllApproved();
-    }
+function loadData(params, props) {
+  if (!params.loggedIn) {
+    return Promise.resolve();
   }
 
-  componentWillMount() {
-    this.loadData(this.props);
+  if (params.query.filter === 'unapproved') {
+    return props.fetchAllUnapproved();
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.query.filter !== nextProps.query.filter) {
-      this.loadData(nextProps);
-    }
-  }
-
-  render() {
-    return (
-      <QuotePage
-        {...this.props}
-      />
-    );
-  }
+  return props.fetchAllApproved();
 }
 
 const compareByDate = (a, b) => {
@@ -60,22 +35,26 @@ const compareByDate = (a, b) => {
 
 const compareByLikes = (a, b) => b.likes - a.likes;
 
-const sortQuotes = (quotes, sortType) => {
-  const compare = sortType === 'date' ? compareByDate : compareByLikes;
-  return quotes.sort(compare);
-};
+const selectSortedQuotes = createSelector(
+  state => state.quotes.byId,
+  state => state.quotes.items,
+  (state, props) => props.location.query || {},
+  (byId, ids, query) => {
+    const compare = query.sort === 'likes' ? compareByLikes : compareByDate;
+
+    return ids
+      .map(id => byId[id])
+      .filter(quote => quote.approved === (query.filter !== 'unapproved'))
+      .sort(compare);
+  }
+);
 
 function mapStateToProps(state, props) {
   const { query } = props.location;
-  const quotes = state.quotes.items
-    .map((id) => state.quotes.byId[id])
-    .filter((quote) => quote.approved === (query.filter !== 'unapproved'));
-
-  const sortType = query.sort === 'likes' ? 'likes' : 'date';
   return {
-    quotes: sortQuotes(quotes, sortType),
+    quotes: selectSortedQuotes(state, props),
     query,
-    sortType
+    sortType: query.sort === 'likes' ? 'likes' : 'date'
   };
 }
 
@@ -90,6 +69,7 @@ const mapDispatchToProps = {
   deleteQuote
 };
 
-export default connect(
-  mapStateToProps, mapDispatchToProps
-)(QuotesRoute);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  fetchOnUpdate(['query', 'loggedIn'], loadData)
+)(QuotePage);

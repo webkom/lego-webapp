@@ -52,11 +52,12 @@ h3 {
 }
 
 h2 {
-  font-size: 22px;
+  font-size: 24px;
 }
 
 h3 {
-  font-size: 18px;
+  font-size: 22px;
+  font-weight: 700;
 }
 
 button {
@@ -90,5 +91,9 @@ button {
     font-size: 18px;
     font-weight: 400;
     letter-spacing: 1px;
+  }
+
+  .u-text-muted {
+    color: #999;
   }
 }
