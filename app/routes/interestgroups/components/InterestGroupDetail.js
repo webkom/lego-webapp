@@ -34,12 +34,13 @@ class InterestGroupDetail extends Component {
   };
 
   render() {
+    const { group } = this.props;
     return (
       <div className={styles.root}>
         <div className={styles.wrapper}>
-          <h1 className={styles.detail}>{this.props.group.name}</h1>
+          <h1 className={styles.detail}>{group.name}</h1>
           <div className={styles.content}>
-            <p className={styles.paragraphDetail}>{this.props.group.text}</p>
+            <p className={styles.paragraphDetail}>{group.text}</p>
             <Image className={styles.interestPicDetail} src={'https://i.redd.it/dz8mwvl4dgdy.jpg'} />
           </div>
         </div>
@@ -103,7 +104,7 @@ class InterestGroupDetail extends Component {
             <div>
               <Upload>Last opp bilde</Upload>
             </div>
-            <Button onClick={styles.updateId}>Hei</Button>
+            <Button onClick={styles.updateId}>Lagre endringer</Button>
           </div>
         </Modal>
       </div>

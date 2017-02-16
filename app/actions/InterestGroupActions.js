@@ -4,8 +4,6 @@ import callAPI from 'app/actions/callAPI';
 import { InterestGroup } from './ActionTypes';
 import { push } from 'react-router-redux';
 
-/* CallAPI lager en HTTP-melding og sender den av gårde */
-
 export function fetchInterestGroup(interestGroupId) {
   return callAPI({
     types: InterestGroup.FETCH,
