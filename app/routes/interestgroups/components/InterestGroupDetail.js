@@ -2,35 +2,21 @@ import styles from './InterestGroup.css';
 import React, { Component } from 'react';
 import Image from 'app/components/Image';
 import Modal from 'app/components/Modal';
-import TextInput from 'app/components/Form/TextInput';
-import TextEditor from 'app/components/Form/TextEditor';
-import Button from 'app/components/Button';
+import { Button } from 'app/components/Form';
 import { FlexColumn, FlexRow } from 'app/components/FlexBox';
-import Upload from 'app/components/Upload';
+import InterestGroupForm from './InterestGroupForm';
 
 class InterestGroupDetail extends Component {
   state = {
     editorOpen: false,
-    name: null,
-    description: null,
-    text: null
   };
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      name: nextProps.group.name,
-      text: nextProps.group.text
-    });
-  }
 
   removeId = () => {
     this.props.removeInterestGroup(this.props.group.id);
   };
 
-  updateId = () => {
-    this.props.updateInterestGroup(
-      this.props.group.id, this.state.name, this.state.description, this.state.text
-    );
+  updateId = ({ name, description, text }) => {
+    this.props.updateInterestGroup(this.props.group.id, name, description, text);
   };
 
   render() {
@@ -81,31 +67,12 @@ class InterestGroupDetail extends Component {
           onHide={() => this.setState({ editorOpen: false })}
           closeOnBackdropClick={false}
         >
-          <h1>Rediger interessegruppe</h1>
-          <TextInput
-            className={styles.textInput}
-            value={this.state.name}
-            onChange={(event) => this.setState({ name: event.target.value })}
-            placeholder='Name'
+          <InterestGroupForm
+            onSubmit={this.updateId}
+            buttonText='Rediger interessegruppe'
+            header='Rediger interessegruppe'
+            group={group}
           />
-          <TextEditor
-            className={styles.textEditor}
-            value={this.state.description}
-            onChange={(event) => this.setState({ description: event.target.value })}
-            placeholder='Description'
-          />
-          <TextEditor
-            className={styles.textEditor}
-            value={this.state.text}
-            onChange={(event) => this.setState({ text: event.target.value })}
-            placeholder='Text'
-          />
-          <div className={styles.content}>
-            <div>
-              <Upload>Last opp bilde</Upload>
-            </div>
-            <Button onClick={styles.updateId}>Lagre endringer</Button>
-          </div>
         </Modal>
       </div>
     );
