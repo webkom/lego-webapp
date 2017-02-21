@@ -16,6 +16,7 @@ import groups from './groups';
 import notifications from './notifications';
 import comments from './comments';
 import pages from './pages';
+import interestGroups from './interestGroups';
 import joblistings from './joblistings';
 
 export default combineReducers({
@@ -26,6 +27,7 @@ export default combineReducers({
   pools,
   registrations,
   meetings,
+  interestGroups,
   search,
   comments,
   auth,
@@ -48,11 +50,13 @@ export const groupSchema = new Schema('groups', { idAttribute: 'id' });
 export const userSchema = new Schema('users', { idAttribute: 'username' });
 export const quoteSchema = new Schema('quotes', { idAttribute: 'id' });
 export const pageSchema = new Schema('pages', { idAttribute: 'slug' });
+export const interestGroupSchema = new Schema('interestGroups', { idAttribute: 'id' });
 export const companySchema = new Schema('companies', { idAttribute: 'id' });
+export const joblistingsSchema = new Schema('joblistings', { idAttribute: 'id' });
+
 companySchema.define({
   studentContact: userSchema
 });
-export const joblistingsSchema = new Schema('joblistings', { idAttribute: 'id' });
 
 eventSchema.define({
   pools: arrayOf(poolSchema),

@@ -10,6 +10,7 @@ import admin from './admin';
 import quotes from './quotes';
 import pages from './pages';
 import search from './search';
+import interestGroups from './interestgroups';
 import joblistings from './joblistings';
 
 export function loadRoute(callback) {
@@ -34,6 +35,7 @@ export default {
     pages,
     company,
     search,
+    interestGroups,
     joblistings,
     {
       path: '*',
