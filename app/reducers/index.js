@@ -2,6 +2,7 @@ import { Schema, arrayOf } from 'normalizr';
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
 import form from './forms';
+import companies from './companies';
 import quotes from './quotes';
 import events from './events';
 import articles from './articles';
@@ -18,6 +19,7 @@ import pages from './pages';
 import joblistings from './joblistings';
 
 export default combineReducers({
+  companies,
   quotes,
   events,
   articles,
@@ -46,6 +48,10 @@ export const groupSchema = new Schema('groups', { idAttribute: 'id' });
 export const userSchema = new Schema('users', { idAttribute: 'username' });
 export const quoteSchema = new Schema('quotes', { idAttribute: 'id' });
 export const pageSchema = new Schema('pages', { idAttribute: 'slug' });
+export const companySchema = new Schema('companies', { idAttribute: 'id' });
+companySchema.define({
+  studentContact: userSchema
+});
 export const joblistingsSchema = new Schema('joblistings', { idAttribute: 'id' });
 
 eventSchema.define({

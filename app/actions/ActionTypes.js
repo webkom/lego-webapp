@@ -114,6 +114,14 @@ export const Page = {
   FETCH: generateStatuses('Page.FETCH'),
   UPDATE: generateStatuses('Page.UPDATE')
 };
+
+/**
+ *
+ */
+export const Bdb = {
+  FETCH: generateStatuses('Bdb.FETCH')
+};
+
 /**
  *
  */

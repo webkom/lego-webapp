@@ -37,7 +37,7 @@ function getAttendanceMessage({ registrationCount, totalCapacity }) {
   return `${registrationCount} / ${totalCapacity}`;
 }
 
-function EventItem({ event }) {
+export function EventItem({ event }) {
   const attendanceMessage = getAttendanceMessage(event);
   return (
     <div
@@ -113,5 +113,4 @@ class EventList extends Component {
     );
   }
 }
-
 export default EventList;
