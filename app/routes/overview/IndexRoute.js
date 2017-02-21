@@ -5,9 +5,10 @@ import { login, logout } from 'app/actions/UserActions';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import Overview from './components/Overview';
 import { selectEvents } from 'app/reducers/events';
+import moment from 'moment';
 
 function loadData(params, props) {
-  props.fetchAll();
+  props.fetchAll({ dateAfter: moment().format('YYYY-MM-DD') });
 }
 
 function mapStateToProps(state) {

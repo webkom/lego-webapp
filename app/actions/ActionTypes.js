@@ -13,10 +13,11 @@ export const Event = {
   FETCH: generateStatuses('Event.FETCH'),
   REGISTER: generateStatuses('Event.REGISTER'),
   UNREGISTER: generateStatuses('Event.UNREGISTER'),
-  PAYMENT: generateStatuses('Event.PAYMENT'),
+  PAYMENT_QUEUE: generateStatuses('Event.PAYMENT_QUEUE'),
   UPDATE_REGISTRATION: generateStatuses('Event.UPDATE_REGISTRATION'),
-  SOCKET_REGISTRATION: 'SOCKET_REGISTRATION',
-  SOCKET_UNREGISTRATION: 'SOCKET_UNREGISTRATION'
+  SOCKET_REGISTRATION: generateStatuses('Event.SOCKET_REGISTRATION'),
+  SOCKET_UNREGISTRATION: generateStatuses('Event.SOCKET_UNREGISTRATION'),
+  SOCKET_PAYMENT: generateStatuses('Event.SOCKET_PAYMENT')
 };
 
 /**
@@ -48,6 +49,14 @@ export const Meeting = {
 export const Group = {
   FETCH: generateStatuses('Group.FETCH'),
   UPDATE: generateStatuses('Group.UPDATE')
+};
+
+export const InterestGroup = {
+  FETCH_ALL: generateStatuses('InterestGroup.FETCH_ALL'),
+  FETCH: generateStatuses('InterestGroup.FETCH'),
+  CREATE: generateStatuses('InterestGroup.CREATE'),
+  REMOVE: generateStatuses('InterestGroup.REMOVE'),
+  UPDATE: generateStatuses('InterestGroup.UPDATE')
 };
 
 /**
@@ -112,6 +121,13 @@ export const User = {
 export const Page = {
   FETCH: generateStatuses('Page.FETCH'),
   UPDATE: generateStatuses('Page.UPDATE')
+};
+
+/**
+ *
+ */
+export const Bdb = {
+  FETCH: generateStatuses('Bdb.FETCH')
 };
 
 /**

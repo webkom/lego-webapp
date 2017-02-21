@@ -16,10 +16,13 @@ export function fetchEvent(eventId) {
   });
 }
 
-export function fetchAll({ year, month } = {}) {
+export function fetchAll({ dateAfter, dateBefore } = {}) {
   return callAPI({
     types: Event.FETCH,
-    endpoint: `/events/${createQueryString({ year, month })}`,
+    endpoint: `/events/${createQueryString({
+      date_after: dateAfter,
+      date_before: dateBefore
+    })}`,
     schema: arrayOf(eventSchema),
     meta: {
       errorMessage: 'Fetching events failed'
@@ -56,7 +59,7 @@ export function unregister(eventId, registrationId) {
 
 export function payment(eventId, token) {
   return callAPI({
-    types: Event.PAYMENT,
+    types: Event.PAYMENT_QUEUE,
     endpoint: `/events/${eventId}/payment/`,
     method: 'post',
     body: {
