@@ -16,14 +16,14 @@
     "__DEV__": true
   },
   "rules": {
-    "arrow-parens": [2, "always"],
+    "arrow-parens": 0,
     "global-require": 0,
     "import/no-extraneous-dependencies": 0,
     "import/prefer-default-export": 0,
     "import/first": 0,
     "import/no-dynamic-require": 0,
     "import/extensions": 0,
-    "jsx-quotes": [2, "prefer-single"],
+    "jsx-quotes": [1, "prefer-single"],
     "jsx-a11y/no-static-element-interactions": 1,
     "jsx-a11y/tabindex-no-positive": 1,
     "jsx-a11y/img-has-alt": 1,

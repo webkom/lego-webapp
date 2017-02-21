@@ -13,7 +13,12 @@ type Props = {
 /**
  * Render a Font-Awesome icon.
  */
-function Icon({ name = 'star', scaleOnHover = false, className, ...props }: Props) {
+function Icon({
+  name = 'star',
+  scaleOnHover = false,
+  className,
+  ...props
+}: Props) {
   return (
     <i
       className={cx(

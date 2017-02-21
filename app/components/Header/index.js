@@ -7,6 +7,7 @@ import logoImage from 'app/assets/logo-dark.png';
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';
 import Search from '../Search';
+import LoginForm from '../LoginForm';
 import ProfilePicture from '../ProfilePicture';
 import FancyNodesCanvas from './FancyNodesCanvas';
 import styles from './Header.css';
@@ -18,12 +19,14 @@ type Props = {
   toggleSearch: () => any,
   currentUser: UserEntity,
   loggedIn: boolean,
+  login: () => void,
   logout: () => void
 };
 
 type State = {
   accountOpen: boolean;
-  notificationsOpen: boolean
+  notificationsOpen: boolean,
+  shake: boolean
 };
 
 function AccountDropdownItems({ logout, onClose, username }) {
@@ -70,7 +73,8 @@ export default class Header extends Component {
 
   state: State = {
     accountOpen: false,
-    notificationsOpen: false
+    notificationsOpen: false,
+    shake: false
   };
 
   render() {
@@ -100,7 +104,6 @@ export default class Header extends Component {
           <div className={styles.buttonGroup}>
             {loggedIn && (
               <Dropdown
-                iconName='bell'
                 show={this.state.notificationsOpen}
                 toggle={() => this.setState({ notificationsOpen: !this.state.notificationsOpen })}
                 triggerComponent={(
@@ -130,6 +133,36 @@ export default class Header extends Component {
                   username={this.props.currentUser.username}
                   logout={this.props.logout}
                 />
+              </Dropdown>
+            )}
+
+            {!loggedIn && (
+              <Dropdown
+                show={this.state.accountOpen}
+                toggle={() => this.setState({ accountOpen: !this.state.accountOpen, shake: false })}
+                contentClassName={this.state.shake && 'animated shake'}
+                triggerComponent={(
+                  <Icon name='user' />
+                )}
+              >
+                <div style={{ padding: 10 }}>
+                  <LoginForm
+                    login={(...creds) => {
+                      this.setState({ shake: false });
+                      return this.props.login(...creds)
+                        .then(
+                          (res) => {
+                            this.setState({ shake: false, accountOpen: false });
+                            return res;
+                          },
+                          (err) => {
+                            this.setState({ shake: true });
+                            throw err;
+                          }
+                        );
+                    }}
+                  />
+                </div>
               </Dropdown>
             )}
 

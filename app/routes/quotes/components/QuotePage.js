@@ -1,18 +1,21 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import QuoteRightNav from './QuoteRightNav';
 import QuoteTopNav from './QuoteTopNav';
 import QuoteList from './QuoteList';
 import styles from './Quotes.css';
 import cx from 'classnames';
 
-export default class QuotePage extends Component {
+type Props = {
+  params: Object,
+  fetchAllApproved: () => void,
+  fetchAllUnapproved: () => void,
+  fetchQuote: () => void,
+  query: Object,
+  location: Object
+};
 
-  static propTypes = {
-    quotes: PropTypes.array.isRequired,
-    routeParams: PropTypes.object.isRequired,
-    query: PropTypes.object.isRequired,
-    sortType: PropTypes.string.isRequired
-  };
+export default class QuotePage extends Component {
+  props: Props;
 
   render() {
     const { sortType } = this.props;
@@ -20,25 +23,16 @@ export default class QuotePage extends Component {
     return (
       <div className={cx(styles.root, styles.quoteContainer)}>
         <div className={styles.quotepageLeft}>
-          <QuoteTopNav
-            {...this.props}
-            sortType={sortType}
-          />
+          <QuoteTopNav {...this.props} sortType={sortType} />
 
           {empty}
 
-          <QuoteList
-            {...this.props}
-            sortType={sortType}
-          />
+          <QuoteList {...this.props} sortType={sortType} />
 
         </div>
 
-        <QuoteRightNav
-          query={this.props.query}
-        />
+        <QuoteRightNav query={this.props.query} />
       </div>
-
     );
   }
 }

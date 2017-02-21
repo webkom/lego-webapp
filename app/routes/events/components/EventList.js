@@ -17,29 +17,36 @@ function groupEvents(events) {
   const nextWeek = now.clone().add(1, 'week');
 
   const groupers = {
-    currentWeek: (event) => event.startTime.isSame(now, 'week'),
-    nextWeek: (event) => event.startTime.isSame(nextWeek, 'week'),
-    later: (event) => event.startTime.isAfter(nextWeek)
+    currentWeek: event => event.startTime.isSame(now, 'week'),
+    nextWeek: event => event.startTime.isSame(nextWeek, 'week'),
+    later: event => event.startTime.isAfter(nextWeek)
   };
 
-  return events.reduce((result, event) => {
-    for (const groupName in groupers) {
-      if (groupers[groupName](event)) {
-        result[groupName] = (result[groupName] || []).concat([event]);
-        return result;
+  return events.reduce(
+    (result, event) => {
+      for (const groupName in groupers) {
+        if (groupers[groupName](event)) {
+          result[groupName] = (result[groupName] || []).concat([event]);
+          return result;
+        }
       }
-    }
 
-    return result;
-  }, {});
+      return result;
+    },
+    {}
+  );
 }
 
-function getAttendanceMessage({ registrationCount, totalCapacity }) {
-  return `${registrationCount} / ${totalCapacity}`;
+function Attendance({ registrationCount, totalCapacity }) {
+  // @todo choose pill color based on capacity
+  return (
+    <Pill style={{ marginLeft: 10 }}>
+      {`${registrationCount} / ${totalCapacity}`}
+    </Pill>
+  );
 }
 
-export function EventItem({ event }) {
-  const attendanceMessage = getAttendanceMessage(event);
+export function EventItem({ event }: any) {
   return (
     <div
       style={{ borderColor: colorForEvent(event.eventType) }}
@@ -49,9 +56,10 @@ export function EventItem({ event }) {
         <Link to={`/events/${event.id}`}>
           <h3 className={styles.eventItemTitle}>
             {event.title}
-            <Pill style={{ marginLeft: 10 }}>
-              {attendanceMessage}
-            </Pill>
+            <Attendance
+              registrationCount={event.registrationCount}
+              totalCapacity={event.totalCapacity}
+            />
           </h3>
         </Link>
 
@@ -60,10 +68,7 @@ export function EventItem({ event }) {
         </div>
 
         <div className={styles.eventTime}>
-          <Time
-            time={event.startTime}
-            format='ll HH:mm'
-          />
+          <Time time={event.startTime} format="ll HH:mm" />
           {` • ${event.location}`}
         </div>
 
@@ -83,12 +88,7 @@ function EventListGroup({ name, events = [] }) {
   return (
     <div className={styles.eventGroup}>
       <h2 className={styles.heading}>{name}</h2>
-      {events.map((event, i) => (
-        <EventItem
-          key={i}
-          event={event}
-        />
-      ))}
+      {events.map((event, i) => <EventItem key={i} event={event} />)}
     </div>
   );
 }
@@ -100,20 +100,11 @@ class EventList extends Component {
       <div className={styles.root}>
         <Toolbar />
 
-        <EventListGroup
-          name='Denne uken'
-          events={events.currentWeek}
-        />
+        <EventListGroup name="Denne uken" events={events.currentWeek} />
 
-        <EventListGroup
-          name='Neste uke'
-          events={events.nextWeek}
-        />
+        <EventListGroup name="Neste uke" events={events.nextWeek} />
 
-        <EventListGroup
-          name='Senere'
-          events={events.later}
-        />
+        <EventListGroup name="Senere" events={events.later} />
       </div>
     );
   }

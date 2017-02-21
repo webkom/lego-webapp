@@ -1,5 +1,6 @@
 import React from 'react';
 import LoginForm from '../LoginForm';
+import TextInput from '../Form/TextInput';
 import { shallow } from 'enzyme';
 
 describe('components', () => {
@@ -13,9 +14,9 @@ describe('components', () => {
       const password = wrapper.childAt(1);
       const submit = wrapper.childAt(2);
 
-      expect(username.type()).toEqual('input');
+      expect(username.type()).toEqual(TextInput);
       expect(username.prop('autoFocus')).toEqual(true);
-      expect(password.type()).toEqual('input');
+      expect(password.type()).toEqual(TextInput);
       expect(password.prop('type')).toEqual('password');
       expect(submit.prop('submit')).toEqual(true);
     });

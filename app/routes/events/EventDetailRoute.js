@@ -16,30 +16,36 @@ import {
 } from 'app/reducers/events';
 
 function loadData({ eventId }, props) {
-  props.fetchEvent(Number(eventId));
+  return props.fetchEvent(Number(eventId));
 }
 
-function selectRegistrations(pools) {
-  return (pools || [])
-    .reduce((users, pool) => (
-      [...users, ...pool.registrations]
-    ), []);
+function getRegistrationsFromPools(pools = []) {
+  return pools.reduce((users, pool) => [...users, ...pool.registrations], []);
 }
 
-function selectCurrentRegistration(registrations, currentUser) {
-  return registrations.find((reg) => (
-    reg.user.id === currentUser.id
-  ));
+function findCurrentRegistration(registrations, currentUser) {
+  return registrations.find(
+    registration => registration.user.id === currentUser.id
+  );
 }
 
 function mapStateToProps(state, props) {
-  const { eventId } = props.params;
+  const {
+    params: {
+      eventId
+    },
+    currentUser
+  } = props;
+
   const event = selectEventById(state, { eventId });
   const comments = selectCommentsForEvent(state, { eventId });
   const pools = selectPoolsWithRegistrationsForEvent(state, { eventId });
 
-  const registrations = selectRegistrations(pools);
-  const currentRegistration = selectCurrentRegistration(registrations, props.currentUser);
+  const registrations = getRegistrationsFromPools(pools);
+  const currentRegistration = findCurrentRegistration(
+    registrations,
+    currentUser
+  );
 
   return {
     comments,
@@ -51,9 +57,15 @@ function mapStateToProps(state, props) {
   };
 }
 
-const mapDispatchToProps = { fetchEvent, register, unregister, payment, updateFeedback };
+const mapDispatchToProps = {
+  fetchEvent,
+  register,
+  unregister,
+  payment,
+  updateFeedback
+};
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['eventId', 'loggedIn'], loadData),
+  fetchOnUpdate(['eventId', 'loggedIn'], loadData)
 )(EventDetail);

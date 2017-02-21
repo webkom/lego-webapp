@@ -7,12 +7,14 @@ import styles from './TextInput.css';
 
 type Props = {
   type?: string,
-  className?: string
+  className?: string,
+  inputRef?: any
 };
 
-function TextInput({ type = 'text', className, ...props }: Props) {
+function TextInput({ type = 'text', className, inputRef, ...props }: Props) {
   return (
     <input
+      ref={inputRef}
       type={type}
       className={cx(styles.input, className)}
       {...props}
