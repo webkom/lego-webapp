@@ -18,6 +18,9 @@ import comments from './comments';
 import pages from './pages';
 import interestGroups from './interestGroups';
 import joblistings from './joblistings';
+import feedActivities from './feedActivities';
+import feeds from './feeds';
+
 
 export default combineReducers({
   companies,
@@ -37,7 +40,9 @@ export default combineReducers({
   pages,
   notifications,
   routing,
-  joblistings
+  joblistings,
+  feedActivities,
+  feeds
 });
 
 export const articleSchema = new Schema('articles', { idAttribute: 'id' });
@@ -53,6 +58,8 @@ export const pageSchema = new Schema('pages', { idAttribute: 'slug' });
 export const interestGroupSchema = new Schema('interestGroups', { idAttribute: 'id' });
 export const companySchema = new Schema('companies', { idAttribute: 'id' });
 export const joblistingsSchema = new Schema('joblistings', { idAttribute: 'id' });
+export const feedActivitySchema = new Schema('feedActivities', { idAttribute: 'id' });
+
 
 companySchema.define({
   studentContact: userSchema

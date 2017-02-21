@@ -8,6 +8,7 @@ import Card from 'app/components/Card';
 import { FlexRow, FlexItem } from 'app/components/FlexBox';
 import styles from './UserProfile.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import Feed from 'app/components/Feed';
 
 const fieldTranslations = {
   username: 'brukernavn',
@@ -16,7 +17,9 @@ const fieldTranslations = {
 
 type Props = {
   user: any,
-  isMe: boolean
+  isMe: boolean,
+  feedItems: array,
+  feed: Object
 };
 
 export default class UserProfile extends Component {
@@ -42,7 +45,7 @@ export default class UserProfile extends Component {
   }
 
   render() {
-    const { user, isMe } = this.props;
+    const { user, isMe, feedItems, feed } = this.props;
     if (!user) {
       return <LoadingIndicator loading />;
     }
@@ -69,7 +72,12 @@ export default class UserProfile extends Component {
 
           <FlexItem flex={2}>
             <div style={{ padding: 20 }}>
-              Feed
+              <h2> User feed </h2>
+              {
+                feed ?
+                  <Feed items={feedItems} feed={feed} /> :
+                  <LoadingIndicator loading />
+              }
             </div>
           </FlexItem>
         </FlexRow>
