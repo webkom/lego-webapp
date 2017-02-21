@@ -1,0 +1,28 @@
+
+h2 {
+  display: flex;
+  justify-content: space-between;
+}
+
+h2 i {
+  color: green;
+  order: 2;
+  transition: color 0.3s ease;
+  align-self: flex-end;
+
+  &:hover {
+    cursor: pointer;
+    color: #7AF252;
+  }
+}
+
+.quoteSource,
+.quoteText {
+  display: block;
+  font-style: italic;
+  line-height: 20px;
+}
+
+.quoteSource {
+  margin-top: 5px;
+}

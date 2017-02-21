@@ -1,233 +1,181 @@
 /* eslint-disable react/no-find-dom-node */
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { connect } from 'react-redux';
-import { debounce } from 'lodash';
-import 'draft-js/dist/Draft.css';
-import 'draft-js-emoji-plugin/lib/plugin.css';
-import 'draft-js-mention-plugin/lib/plugin.css';
-import isSoftNewlineEvent from 'draft-js/lib/isSoftNewlineEvent';
-import Editor from 'draft-js-plugins-editor';
-import { RichUtils } from 'draft-js';
-import createEmojiPlugin from 'draft-js-emoji-plugin';
-import createMentionPlugin from 'draft-js-mention-plugin';
-import { getMentions } from 'app/reducers/search';
-import { mention } from 'app/actions/SearchActions';
-import { Block, customStyleMap } from './constants';
-import * as utils from './utils';
-import Tooltip from './Tooltip';
+import { Editor, Html } from 'slate';
+import { insertParagraph, getPlugins, getSchema } from './utils';
+import rules from './serializer';
 import Toolbar from './Toolbar';
-import RenderMap from './RenderMap';
-import customRenderer from './CustomRenderer';
+import Tooltip from './Tooltip';
 import styles from './Editor.css';
+import { Blocks } from './constants';
 
-const mentionPlugin = createMentionPlugin();
-const emojiPlugin = createEmojiPlugin();
-const { EmojiSuggestions } = emojiPlugin;
-const { MentionSuggestions } = mentionPlugin;
+
+const html = new Html({ rules });
 
 export type Props = {
-  content: string,
-  autoFocus: boolean,
+  content?: string,
+  uploadFile?: (Object) => void,
+  simple?: boolean,
+  autoFocus?: boolean,
   placeholder?: string,
   onChange?: func,
   onFocus?: func,
-  onBlur?: func
+  onBlur?: func,
+  disableBlocks: boolean
 };
 
-class EditorComponent extends Component {
+export default class CustomEditor extends Component {
+
   props: Props;
 
-  static defaultProps = {
-    onChange: () => {},
-    onFocus: () => {},
-    onBlur: () => {}
-  }
+  state = {
+    editorState: html.deserialize(this.content || '<p></p>'),
+    focus: false
+  };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      editorState: utils.createEditorState(props.content),
-      active: false
-    };
-
-    this.customRenderer = customRenderer(this.onChange, this.state.editorState);
-  }
-
-  componentDidMount = () => {
-    if (this.props.autoFocus) this.focus();
-    document.body.addEventListener('click', this.handleClick);
-  }
-
-  componentWillUnmount = () => {
-    document.body.addEventListener('click', this.handleClick);
-  }
-
-  handleClick = (e) => {
-    const editorWrapper = ReactDOM.findDOMNode(this.editorWrapper);
-
-    if (editorWrapper && !editorWrapper.contains(e.target)) {
-      this.setState({ active: false });
-    }
-
-    if (editorWrapper && editorWrapper.contains(e.target)) {
-      this.setState({ active: true });
-    }
-  }
+  wrapperElement = undefined;
 
   onChange = (editorState) => {
-    this.setState(
-      { editorState },
-      this.props.onChange(utils.toHTML(editorState.getCurrentContent()))
-    );
-  }
+    const hasFocus = !editorState.isBlurred;
+    let focus = this.state.focus;
 
-  toggleBlockType = (blockType) => {
-    this.onChange(RichUtils.toggleBlockType(this.state.editorState, blockType));
-  }
-
-  toggleInlineStyle = (inlineStyle) => {
-    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, inlineStyle));
-  }
-
-  toggleLink = (selection, entityKey) => {
-    this.onChange(RichUtils.toggleLink(this.state.editorState, selection, entityKey));
-    setTimeout(() => this.focus(), 1); // HACK for resetting focus after links
-  }
-
-  handleReturn = (e) => {
-    const { editorState } = this.state;
-
-    if (isSoftNewlineEvent(e)) {
-      this.onChange(RichUtils.insertSoftNewline(editorState));
-      return true;
+    if (hasFocus && !focus) {
+      this.onFocus();
+      focus = true;
+    } else if (!hasFocus && focus) {
+      this.onBlur();
+      focus = false;
     }
 
-    if (!e.altKey && !e.metaKey && !e.ctrlKey) {
-      const selection = editorState.getSelection();
-      const currentBlockKey = selection.getAnchorKey();
-      const currentBlock = editorState.getCurrentContent().getBlockForKey(currentBlockKey);
-      const blockType = currentBlock.getType();
-
-      if (blockType.indexOf('atomic') === 0) {
-        this.onChange(utils.addNewBlockAt(editorState, currentBlock.getKey()));
-        return true;
-      }
-
-      if (currentBlock.getLength() === 0) {
-        switch (blockType) {
-          case Block.UL:
-          case Block.OL:
-          case Block.BLOCKQUOTE:
-          case Block.BLOCKQUOTE_CAPTION:
-          case Block.CAPTION:
-          case Block.TODO:
-          case Block.H2:
-          case Block.H3:
-          case Block.H1:
-            this.onChange(utils.resetBlockWithType(editorState, Block.UNSTYLED));
-            return true;
-          default:
-            return false;
-        }
-      }
-
-      if (selection.isCollapsed() && currentBlock.getLength() === selection.getStartOffset()) {
-        return false;
-      }
-
-      return false;
-    }
-
-    return false;
+    this.setState({ editorState, focus });
   }
-
 
   onFocus = () => {
-    this.setState({ active: true });
     this.props.onFocus();
   }
 
-  onBlur = (e) => {
-    this.props.onBlur(e);
+  onBlur = () => {
+    this.props.onBlur();
   }
 
-  focus = () => this.editorRoot.focus();
+  onDocumentChange = (document, state) => {
+    const content = html.serialize(state);
+    this.props.onChange(content);
 
-  render() {
+    if (state.isCollapsed && state.startBlock.isVoid) {
+      const transformed = insertParagraph(state);
+      this.onChange(transformed);
+    }
+  }
+
+  insertBlock = (properties) => {
+    if (this.props.disableBlocks) {
+      return;
+    }
+    const transformed = insertParagraph(
+      this.state.editorState
+        .transform()
+        .setBlock(properties)
+        .collapseToStartOfNextBlock()
+        .apply({
+          save: false
+        })
+    );
+
+    this.onChange(transformed);
+  }
+
+  hasBlock = (type) => {
     const { editorState } = this.state;
-    const currentBlockKey = editorState.getSelection().getAnchorKey();
-    const blockLength = editorState.getCurrentContent().getBlockForKey(currentBlockKey).getLength();
+    return editorState.blocks.some((node) => node.type === type);
+  }
 
+  setBlockType = (type) => {
+    if (this.props.disableBlocks) {
+      return;
+    }
+    const { editorState } = this.state;
+    const transfrom = editorState.transform();
+    const isActive = this.hasBlock(type);
+    const isList = this.hasBlock(Blocks.LI);
+
+    if (type !== Blocks.OL && type !== Blocks.UL) {
+      if (isList) {
+        transfrom
+          .setBlock(isActive ? Blocks.Paragraph : type)
+          .unwrapBlock(Blocks.UL)
+          .unwrapBlock(Blocks.OL);
+      } else {
+        transfrom.setBlock(isActive ? Blocks.Paragraph : type);
+      }
+    } else {
+      const isType = editorState.blocks
+        .some((block) => !!editorState.document.getClosest(block.key, (par) => par.type === type));
+
+      if (isList && isType) {
+        transfrom
+            .setBlock(Blocks.Paragraph)
+            .unwrapBlock(Blocks.UL)
+            .unwrapBlock(Blocks.OL);
+      } else if (isList) {
+        transfrom
+          .unwrapBlock(type === Blocks.UL ? Blocks.OL : Blocks.UL)
+          .wrapBlock(type);
+      } else {
+        transfrom
+          .setBlock(Blocks.LI)
+          .wrapBlock(type);
+      }
+    }
+
+    this.onChange(transfrom.apply({ save: false }));
+  }
+
+  setInlineStyle = (type) => {
+    const { editorState } = this.state;
+
+    const transformed = editorState
+      .transform()
+      .toggleMark(type)
+      .apply({ save: false });
+
+    this.onChange(transformed);
+  }
+
+  render = () => {
+    const { editorState } = this.state;
     return (
       <div
-        className={styles.editorRoot}
-        ref={(node) => { this.editorWrapper = node; }}
-        id='editor'
+        ref={(c) => { this.wrapperElement = c; }}
+        className={styles.EditorWrapper}
       >
-
         <Editor
-          plugins={[emojiPlugin, mentionPlugin]}
-          stripPastedStyles
-          decorators={utils.customDecorators}
-          ref={(node) => { this.editorRoot = node; }}
-          handleReturn={this.handleReturn}
-          editorState={editorState}
-          customStyleMap={customStyleMap}
-          blockRenderMap={RenderMap}
-          blockRendererFn={this.customRenderer}
-          placeholder={this.props.placeholder}
+          state={editorState}
+          placeholder={this.props.placeholder || 'Default placeholder'}
           onChange={this.onChange}
-          onFocus={this.onFocus}
-          onBlur={this.onBlur}
+          plugins={getPlugins(!this.props.disableBlocks)}
+          schema={getSchema(!this.props.disableBlocks)}
+          onDocumentChange={this.onDocumentChange}
+          className={styles.Editor}
         />
 
-        {this.state.active &&
-          <EmojiSuggestions />
-        }
-
-        {this.state.active &&
-          <MentionSuggestions
-            onSearchChange={this.props.onMention}
-            suggestions={this.props.mentions}
+        {
+          !this.props.disableBlocks &&
+          <Toolbar
+            editorState={editorState}
+            insertBlock={this.insertBlock}
+            wrapperElement={this.wrapperElement}
           />
         }
 
-        {blockLength === 0 && this.state.active && !this.props.simpleEditor ?
-          <Toolbar
-            editorState={editorState}
-            editorRoot={this.editorRoot}
-            active={this.state.active}
-            onChange={this.onChange}
-          /> : null
-        }
-
-        {!editorState.getSelection().isCollapsed() && this.state.active ?
-          <Tooltip
-            editorState={editorState}
-            simpleEditor={this.props.simpleEditor}
-            focus={this.focus}
-            editorRoot={this.editorRoot}
-            toggleLink={this.toggleLink}
-            toggleInlineStyle={this.toggleInlineStyle}
-            toggleBlockType={this.toggleBlockType}
-          /> : null
-        }
+        <Tooltip
+          disableBlocks={this.props.disableBlocks}
+          setBlockType={this.setBlockType}
+          setInlineStyle={this.setInlineStyle}
+          editorState={editorState}
+          wrapperElement={this.wrapperElement}
+        />
 
       </div>
     );
   }
 }
-
-const mapStateToProps = (state) => ({
-  mentions: getMentions(state)
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  onMention: debounce((query) => dispatch(mention(query.value)), 300)
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EditorComponent);

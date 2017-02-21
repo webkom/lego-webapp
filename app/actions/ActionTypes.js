@@ -13,9 +13,11 @@ export const Event = {
   FETCH: generateStatuses('Event.FETCH'),
   REGISTER: generateStatuses('Event.REGISTER'),
   UNREGISTER: generateStatuses('Event.UNREGISTER'),
-  PAYMENT: generateStatuses('Event.PAYMENT'),
-  SOCKET_REGISTRATION: 'SOCKET_REGISTRATION',
-  SOCKET_UNREGISTRATION: 'SOCKET_UNREGISTRATION'
+  PAYMENT_QUEUE: generateStatuses('Event.PAYMENT_QUEUE'),
+  UPDATE_REGISTRATION: generateStatuses('Event.UPDATE_REGISTRATION'),
+  SOCKET_REGISTRATION: generateStatuses('Event.SOCKET_REGISTRATION'),
+  SOCKET_UNREGISTRATION: generateStatuses('Event.SOCKET_UNREGISTRATION'),
+  SOCKET_PAYMENT: generateStatuses('Event.SOCKET_PAYMENT')
 };
 
 /**
@@ -24,6 +26,22 @@ export const Event = {
 export const Article = {
   FETCH: generateStatuses('Article.FETCH')
 };
+/**
+ *
+ */
+export const Joblistings = {
+  FETCH: generateStatuses('Joblistings.FETCH')
+};
+
+/**
+ *
+ */
+export const Meeting = {
+  FETCH: generateStatuses('Meeting.FETCH'),
+  SET_INVITATION_STATUS: generateStatuses('Meeting.SET_INVITATION_STATUS'),
+  CREATE: generateStatuses('Meeting.CREATE'),
+  EDIT: generateStatuses('Meeting.EDIT')
+};
 
 /**
  *
@@ -31,6 +49,14 @@ export const Article = {
 export const Group = {
   FETCH: generateStatuses('Group.FETCH'),
   UPDATE: generateStatuses('Group.UPDATE')
+};
+
+export const InterestGroup = {
+  FETCH_ALL: generateStatuses('InterestGroup.FETCH_ALL'),
+  FETCH: generateStatuses('InterestGroup.FETCH'),
+  CREATE: generateStatuses('InterestGroup.CREATE'),
+  REMOVE: generateStatuses('InterestGroup.REMOVE'),
+  UPDATE: generateStatuses('InterestGroup.UPDATE')
 };
 
 /**
@@ -68,7 +94,7 @@ export const Quote = {
  */
 export const Search = {
   SEARCH: generateStatuses('Search.SEARCH'),
-  MENTION: generateStatuses('Search.MENTION'),
+  AUTOCOMPLETE: generateStatuses('Search.AUTOCOMPLETE'),
   RESULTS_RECEIVED: 'Search.RESULTS_RECEIVED',
   TOGGLE_OPEN: 'Search.TOGGLE_OPEN'
 };
@@ -96,6 +122,14 @@ export const Page = {
   FETCH: generateStatuses('Page.FETCH'),
   UPDATE: generateStatuses('Page.UPDATE')
 };
+
+/**
+ *
+ */
+export const Bdb = {
+  FETCH: generateStatuses('Bdb.FETCH')
+};
+
 /**
  *
  */

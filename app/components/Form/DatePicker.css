@@ -15,6 +15,10 @@
   padding: 0 20px;
 }
 
+.inputField {
+  cursor: pointer;
+}
+
 .header {
   display: flex;
   flex-direction: row;

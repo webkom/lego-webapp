@@ -44,13 +44,3 @@ export function generateTreeStructure<T: {
     return roots;
   }, []);
 }
-
-let id = 0;
-export function getRandomImage(width: number, height: number) {
-  const heightOrWidth = height || width;
-  return `http://unsplash.it/${width}/${heightOrWidth}/?random&pleasedontcacheme=${id++}`;
-}
-
-export function getImage(id: number, width: number = 320, height: number = 240) {
-  return `http://unsplash.it/${width}/${height}/?image=${id}`;
-}

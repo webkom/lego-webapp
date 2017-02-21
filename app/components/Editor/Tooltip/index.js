@@ -1,175 +1,108 @@
-/* eslint-disable react/no-find-dom-node */
+/* eslint-disable no-mixed-operators */
 import React, { Component } from 'react';
-import { Entity } from 'draft-js';
-import { BlockButtons, InlineButtons, Entity as EntityConstants } from '../constants';
-import ReactDOM from 'react-dom';
+import Portal from 'react-portal';
 import TooltipButton from './TooltipButton';
+import { Inline, Blocks } from '../constants';
 import styles from './Tooltip.css';
-import Icon from 'app/components/Icon';
-
-const Keyboard = {
-  ENTER: 13,
-  ESC: 13
-};
 
 export type Props = {
-  editorState: Object,
-  toggleLink: () => void,
-  toggleInlineStyle: () => void,
-  toggleBlockType: () => void
+ editorState: object,
+ disableBlocks: boolean,
+ setInlineStyle: (String) => void,
+ setBlockType: (String) => void,
+ wrapperElement: object
 };
+
 
 export default class Tooltip extends Component {
 
   state = {
-    position: null,
-    showUrlInput: false,
-    urlInputValue: ''
+    menu: null
   }
+
+  props: Props
 
   componentDidMount = () => {
-    this.calculatePositionOffset();
+    this.updateMenu();
   }
 
-  componentWillReceiveProps = () => {
-    console.log('new');
-    this.calculatePositionOffset();
+  componentDidUpdate = () => {
+    this.updateMenu();
   }
 
-  calculatePositionOffset = () => {
+  onOpen = (portal) => {
+    this.setState({ menu: portal.firstChild });
+  }
+
+  updateMenu = () => {
+    const { editorState } = this.props;
+    const { menu } = this.state;
+    if (!menu) return;
+
+    if (editorState.isBlurred || editorState.isCollapsed) {
+      menu.style.display = 'none';
+      // menu.removeAttribute('style');
+      return;
+    }
+
     const selection = window.getSelection();
-    const position = {};
-    if (!selection.isCollapsed) {
-      const range = selection.getRangeAt(0);
-      const selectionRect = range.getBoundingClientRect();
-      const elementRect = ReactDOM
-        .findDOMNode(this.props.editorRoot).getBoundingClientRect();
+    if (!selection.rangeCount) return;
 
-      position.top = selectionRect.top - elementRect.top - 60;
-      const right = elementRect.right - selectionRect.right;
-      const left = selectionRect.left - elementRect.left;
+    const range = selection.getRangeAt(0);
 
-      // if center of tooltip is on left side of window
-      if (left < window.innerWidth / 2) {
-        position.left = left;
-      } else {
-        position.right = right;
-      }
-      this.setState({ position });
-    }
+    const rect = range.getBoundingClientRect();
+    menu.style.display = 'initial';
+    menu.style.top = `${rect.top + window.scrollY - menu.offsetHeight}px`;
+    menu.style.left = `${rect.left + window.scrollX - menu.offsetWidth / 2 + rect.width / 2}px`;
   }
 
-  setLink = (url) => {
-    const { editorState, toggleLink } = this.props;
-    const selection = editorState.getSelection();
-    let entityKey = null;
-    let newUrl = url;
-    if (url !== '') {
-      if (url.indexOf('@') >= 0) {
-        newUrl = `mailto:${newUrl}`;
-      } else if (url.indexOf('http') === -1) {
-        newUrl = `http://${newUrl}`;
-      }
-      entityKey = Entity.create(EntityConstants.LINK, 'IMMUTABLE ', { url: newUrl });
-    }
-    toggleLink(selection, entityKey);
+  hasStyle = (type) => {
+    const { editorState } = this.props;
+    return editorState.marks.some((mark) => mark.type === type);
   }
 
-  onChange = (e) => {
-    this.setState({ urlInputValue: e.target.value });
-  }
-
-  handleBlur = () => {
-    this.setState({
-      showUrlInput: false,
-      urlInputValue: ''
-    });
-  }
-
-  handleKeyDown = (e) => {
-    switch (e.which) {
-      case Keyboard.ENTER:
-        this.setLink(this.state.urlInputValue);
-        this.setState({
-          showUrlInput: false,
-          urlInputValue: ''
-        });
-        break;
-      default:
-
-    }
+  hasBlock = (type) => {
+    const { editorState } = this.props;
+    return editorState.blocks.some((node) => node.type === type);
   }
 
   render() {
-    const { editorState, toggleInlineStyle, toggleBlockType } = this.props;
+    const { setInlineStyle, setBlockType } = this.props;
+
     return (
-      <div
-        className={styles.tooltip}
-        style={{ ...this.state.position }}
-        onMouseDown={(e) => { e.preventDefault(); }}
-      >
-
-        {this.state.showUrlInput ?
-
-          <div>
-
-            <input
-              autoFocus
-              type='text'
-              className={styles.urlInput}
-              placeholder='Paste or type a link'
-              onChange={this.onChange}
-              onKeyDown={this.handleKeyDown}
-              onBlur={this.handleBlur}
-              value={this.state.urlInputValue}
-            />
-            <Icon
-              name='close'
-              className={styles.urlInputIcon}
-              onMouseDown={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                this.setState({ showUrlInput: false }, this.props.focus());
-              }}
-            />
-
-          </div> : <div>
-
-            {BlockButtons.map((button, key) =>
+      <Portal isOpened onOpen={this.onOpen}>
+        <div className={styles.tooltip}>
+          {
+            [Inline.Bold, Inline.Italic, Inline.Underline, Inline.Code, Inline.Striketrough]
+            .map((type) => (
               <TooltipButton
-                key={key}
-                editorState={editorState}
-                onClick={toggleBlockType}
-                type='block'
-                {...button}
+                key={type}
+                type={type}
+                icon={type}
+                isActive={this.hasStyle(type)}
+                onClick={setInlineStyle}
               />
-            )}
-
+            ))
+          }
+          {
+            !this.props.disableBlocks &&
             <span className={styles.tooltipSeperator} />
-
-            {InlineButtons.map((button, key) =>
+          }
+          {
+            !this.props.disableBlocks &&
+            [Blocks.H1, Blocks.H2, Blocks.Blockquote, Blocks.Cite, Blocks.UL, Blocks.OL]
+            .map((type) => (
               <TooltipButton
-                key={key}
-                onClick={toggleInlineStyle}
-                editorState={editorState}
-                type='inline'
-                {...button}
+                key={type}
+                type={type}
+                icon={type}
+                isActive={this.hasBlock(type)}
+                onClick={setBlockType}
               />
-            )}
-
-            <TooltipButton
-              type='block'
-              editorState={editorState}
-              label='Link'
-              icon='link'
-              onClick={() => { this.setState({ showUrlInput: true }); }}
-              description='Hyperlink'
-            />
-
-          </div>
-        }
-
-      </div>
+            ))
+          }
+        </div>
+      </Portal>
     );
   }
 }

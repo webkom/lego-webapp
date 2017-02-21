@@ -9,12 +9,11 @@ import Image from 'app/components/Image';
 import Tag from 'app/components/Tag';
 import Toolbar from './Toolbar';
 import colorForEvent from '../colorForEvent';
-import { getImage } from 'app/utils';
 import styles from './EventList.css';
 
 // Kinda works
 function groupEvents(events) {
-  const now = moment().subtract(30, 'weeks');
+  const now = moment();
   const nextWeek = now.clone().add(1, 'week');
 
   const groupers = {
@@ -39,7 +38,7 @@ function getAttendanceMessage({ registrationCount, totalCapacity }) {
   return `${registrationCount} / ${totalCapacity}`;
 }
 
-function EventItem({ event }) {
+export function EventItem({ event }) {
   const attendanceMessage = getAttendanceMessage(event);
   return (
     <div
@@ -74,7 +73,7 @@ function EventItem({ event }) {
       </div>
 
       <div className={styles.companyLogo}>
-        <Image src={getImage(event.id)} />
+        <Image src={event.cover} />
       </div>
     </div>
   );
@@ -119,5 +118,4 @@ class EventList extends Component {
     );
   }
 }
-
 export default EventList;

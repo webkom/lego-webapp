@@ -97,6 +97,7 @@ class CommentForm extends Component {
             name='text'
             component={EditorField}
             simpleEditor
+            disableBlocks
           />
 
           {active &&

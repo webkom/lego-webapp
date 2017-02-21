@@ -1,92 +1,115 @@
 /* eslint-disable react/no-find-dom-node */
 import React, { Component } from 'react';
 import Icon from 'app/components/Icon';
-import ReactDOM from 'react-dom';
+import { ImageUpload } from 'app/components/Upload';
 import styles from './Toolbar.css';
-import Break from './Break';
-import Embed from './Embed';
-import Image from './Image';
+import { Blocks } from '../constants';
+import ToolbarButton from './ToolbarButton';
+import { findDOMNode } from 'slate';
 
 export type Props = {
-  active: boolean,
-  onChange: () => void,
-  editorState: Object
+  editorState: object,
+  insertBlock: (properties) => void,
+  wrapperElement: object
 };
 
 export default class Toolbar extends Component {
-
-  props: Props;
-
   state = {
     open: false,
-    top: 0
+    openUpload: false
+  }
+  props: Props;
+
+  container = undefined;
+
+  componentDidUpdate = () => {
+    this.updatePosition();
   }
 
   componentDidMount = () => {
-    this.calculateHeightOffset(this.props);
+    this.updatePosition();
   }
 
-  componentWillReceiveProps = (nextProps) => {
-    this.calculateHeightOffset(nextProps);
-  }
+  updatePosition = () => {
+    const { editorState } = this.props;
+    if (!this.container) return;
 
-  handleClose = () => {
-    this.setState({ open: false });
-  }
-
-  calculateHeightOffset = (props) => {
-    if (props.editorRoot) {
-      const contentBlocks = ReactDOM
-        .findDOMNode(props.editorRoot)
-        .getElementsByClassName('public-DraftEditor-content')[0]
-        .firstChild
-        .children;
-
-      const currentBlockKey = props.editorState.getSelection().getAnchorKey();
-
-      let top = 0;
-      for (let i = 0; i < contentBlocks.length; i++) {
-        const block = contentBlocks[i];
-        if (block.getAttribute('data-offset-key').includes(currentBlockKey)) break;
-        top += block.clientHeight;
-      }
-
-      this.setState({ top });
+    const visible = editorState.isCollapsed &&
+                    editorState.startBlock.type === 'paragraph' &&
+                    editorState.startText.text === '' &&
+                    !editorState.isBlurred;
+    if (!visible) {
+      this.container.style.display = 'none';
+      return;
     }
+    this.container.style.display = 'initial';
+
+    const rect = findDOMNode(editorState.startText).getBoundingClientRect();
+    const offset = this.props.wrapperElement.getBoundingClientRect();
+    this.container.style.top = `${rect.top - offset.top}px`;
+  }
+
+  insertBreak = () => {
+    this.props.insertBlock({
+      type: Blocks.Break,
+      isVoid: true,
+      data: {}
+    });
+  }
+
+  insertImage = (image, src) => {
+    const { uploadFile } = this.props;
+    this.props.insertBlock({
+      type: Blocks.Image,
+      isVoid: true,
+      data: { uploadFile, image, src }
+    });
+  }
+
+  toggleImage = () => {
+    this.setState({ ...this.state, openUpload: !this.state.openUpload });
+  }
+
+  toggle = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.setState({ open: !this.state.open });
   }
 
   render() {
     return (
-      <div className={styles.toolbar} style={{ top: this.state.top }}>
-
+      <div
+        className={styles.toolbar}
+        ref={(c) => { this.container = c; }}
+      >
         <Icon
-          onMouseDown={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            this.setState({ open: !this.state.open });
-          }}
+          onMouseDown={this.toggle}
           name='plus'
           className={this.state.open ? styles.activeButton : ''}
         />
 
-        {this.state.open && <div className={styles.toolbarButtons}>
-          <Break
-            onChange={this.props.onChange}
-            onClose={this.handleClose}
-            editorState={this.props.editorState}
-          />
-          <Embed
-            onChange={this.props.onChange}
-            onClose={this.handleClose}
-            editorState={this.props.editorState}
-          />
-          <Image
-            onChange={this.props.onChange}
-            onClose={this.handleClose}
-            editorState={this.props.editorState}
-          />
-        </div>}
+        {this.state.open &&
+          <div className={styles.toolbarButtons}>
+            <ToolbarButton
+              icon='minus'
+              onClick={this.insertBreak}
+            />
+            <ToolbarButton
+              icon='picture-o'
+              onClick={this.toggleImage}
+            />
+          </div>
+        }
 
-      </div>);
+        {this.state.openUpload &&
+          <ImageUpload
+            inModal
+            onClose={this.toggleImage}
+            onSubmit={this.insertImage}
+          />
+        }
+
+      </div>
+    );
   }
 }

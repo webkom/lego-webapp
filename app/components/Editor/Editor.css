@@ -1,20 +1,17 @@
-.editorRoot {
-  background: #fff;
-  box-sizing: border-box;
+.EditorWrapper {
   position: relative;
-  line-height: 1.4em;
-  padding: 15px 0;
 }
 
-.editorRoot div {
+.Editor {
   font-weight: 400;
+  margin: 0 25px;
   font-style: normal;
   font-size: 18px;
   line-height: 1.6;
   letter-spacing: -0.003em;
 }
 
-.editorRoot blockquote div {
+.Editor blockquote {
   border-left: 3px solid rgba(0, 0, 0, 0.8);
   padding-left: 10px;
   margin-left: -13px;
@@ -26,9 +23,14 @@
   letter-spacing: -0.003em;
 }
 
-.editorRoot h3 div {
+.Editor h1 {
   font-size: 24px;
   font-weight: 700;
 }
 
-.editorRoot ::selection { background: rgba(178, 34, 34, 0.26); }
+.Editor h2 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.Editor ::selection { background: rgba(178, 34, 34, 0.26); }
