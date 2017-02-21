@@ -50,9 +50,12 @@ export default function callAPI({
     }
 
     function normalizeJsonResponse(jsonResponse = {}) {
-      const { results } = jsonResponse;
+      const { results, actionGrant } = jsonResponse;
       const payload = Array.isArray(results) ? results : jsonResponse;
-      return schema ? normalize(payload, schema) : payload;
+      return schema ? {
+        ...normalize(payload, schema),
+        actionGrant
+      } : payload;
     }
 
     // @todo: better id gen (cuid or something)

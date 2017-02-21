@@ -86,7 +86,7 @@ export default class Header extends Component {
 
           <div className={styles.navigation}>
             <Link to='/events' activeClassName={styles.activeItem}>Arrangementer</Link>
-            <Link to='/career' activeClassName={styles.activeItem}>Karriere</Link>
+            <Link to='/joblistings' activeClassName={styles.activeItem}>Karriere</Link>
             <Link
               to='/readme'
               activeClassName={styles.activeItem}

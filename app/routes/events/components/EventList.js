@@ -12,7 +12,7 @@ import styles from './EventList.css';
 
 // Kinda works
 function groupEvents(events) {
-  const now = moment().subtract(30, 'weeks');
+  const now = moment();
   const nextWeek = now.clone().add(1, 'week');
 
   const groupers = {
@@ -37,7 +37,7 @@ function getAttendanceMessage({ registrationCount, totalCapacity }) {
   return `${registrationCount} / ${totalCapacity}`;
 }
 
-function EventItem({ event }) {
+export function EventItem({ event }) {
   const attendanceMessage = getAttendanceMessage(event);
   return (
     <div
@@ -113,5 +113,4 @@ class EventList extends Component {
     );
   }
 }
-
 export default EventList;

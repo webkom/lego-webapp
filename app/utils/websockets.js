@@ -1,6 +1,7 @@
 import WebSocketClient from 'websocket.js';
 import config from '../config';
 import createQueryString from './createQueryString';
+import { addNotification } from 'app/actions/NotificationActions';
 
 let socket;
 
@@ -25,7 +26,11 @@ export function connectWebsockets(dispatch, jwt) {
     const data = JSON.parse(event.data);
     dispatch({
       type: data.type,
-      payload: data.payload
+      payload: data.payload,
+      meta: data.meta
     });
+    if (data.meta.errorMessage) {
+      dispatch(addNotification({ message: data.meta.errorMessage }));
+    }
   };
 }

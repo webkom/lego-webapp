@@ -9,7 +9,11 @@ import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 
 function loadData(params, props) {
   const { year, month } = params;
-  props.fetchAll({ year, month });
+  const dateAfter = moment([parseInt(year, 10), parseInt(month, 10) - 1]).startOf('month');
+  const dateBefore = dateAfter.clone().add(1, 'months').startOf('month');
+  props.fetchAll({
+    dateAfter: dateAfter.format('YYYY-MM-DD'),
+    dateBefore: dateBefore.format('YYYY-MM-DD') });
 }
 
 function mapStateToProps(state, ownProps) {

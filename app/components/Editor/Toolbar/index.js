@@ -9,7 +9,8 @@ import { findDOMNode } from 'slate';
 
 export type Props = {
   editorState: object,
-  insertBlock: (properties) => void
+  insertBlock: (properties) => void,
+  wrapperElement: object
 };
 
 export default class Toolbar extends Component {
@@ -22,6 +23,14 @@ export default class Toolbar extends Component {
   container = undefined;
 
   componentDidUpdate = () => {
+    this.updatePosition();
+  }
+
+  componentDidMount = () => {
+    this.updatePosition();
+  }
+
+  updatePosition = () => {
     const { editorState } = this.props;
     if (!this.container) return;
 
@@ -34,8 +43,10 @@ export default class Toolbar extends Component {
       return;
     }
     this.container.style.display = 'initial';
+
     const rect = findDOMNode(editorState.startText).getBoundingClientRect();
-    this.container.style.top = `${rect.top + window.scrollY}px`;
+    const offset = this.props.wrapperElement.getBoundingClientRect();
+    this.container.style.top = `${rect.top - offset.top}px`;
   }
 
   insertBreak = () => {
@@ -69,7 +80,6 @@ export default class Toolbar extends Component {
     return (
       <div
         className={styles.toolbar}
-        style={{ top: '500px', left: '100px' }}
         ref={(c) => { this.container = c; }}
       >
         <Icon

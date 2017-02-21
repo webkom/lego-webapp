@@ -2,6 +2,7 @@
 
 import React from 'react';
 import styles from './Footer.css';
+import RandomQuote from '../RandomQuote';
 
 function Footer() {
   return (
@@ -13,9 +14,7 @@ function Footer() {
           Fusce semper nunc at ex consequat ultricies.
         </div>
         <div className={styles.section}>
-          <h2>Tilfeldig sitat</h2>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Fusce semper nunc at ex consequat ultricies.
+          <RandomQuote />
         </div>
         <div className={styles.section}>
           <h2>Kontakt oss</h2>
