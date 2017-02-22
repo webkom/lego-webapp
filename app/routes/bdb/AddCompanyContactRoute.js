@@ -1,8 +1,13 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
-import { fetch, editCompanyContact } from '../../actions/CompanyActions';
+import { fetch, addCompanyContact } from '../../actions/CompanyActions';
 import AddCompanyContact from './components/AddCompanyContact';
+import fetchOnUpdate from 'app/utils/fetchOnUpdate';
+
+function loadData({ companyId }, props) {
+  props.fetch(Number(companyId));
+}
 
 function validateCompanyContact(data) {
   const errors = {};
@@ -14,12 +19,16 @@ function validateCompanyContact(data) {
 }
 
 function mapStateToProps(state, props) {
+  const companyId = props.params.companyId;
+  const company = state.companies.byId[companyId];
+
   return {
-    companyId: props.params.companyId
+    company,
+    companyId
   };
 }
 
-const mapDispatchToProps = { fetch, editCompanyContact };
+const mapDispatchToProps = { fetch, addCompanyContact };
 
 export default compose(
   connect(
@@ -29,5 +38,6 @@ export default compose(
   reduxForm({
     form: 'addCompanyContact',
     validate: validateCompanyContact
-  })
+  }),
+  fetchOnUpdate(['companyId', 'loggedIn'], loadData)
 )(AddCompanyContact);

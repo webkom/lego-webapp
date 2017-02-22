@@ -54,6 +54,13 @@ export default class CompanyList extends Component {
   render() {
     const { companies, changeSemesters, startYear, startSem } = this.props;
 
+    /*
+    **
+    Could possibly move this constant to utils.js, but I didn't because it's dependent
+    on the findTitle() function, which in turns needs the props in this file. Would have
+    to send a lot of props to the utils file.
+    **
+    */
     const HEADER_ITEMS = [
       {
         title: 'Bedrifter',
@@ -93,10 +100,10 @@ export default class CompanyList extends Component {
         </Link>
       </th>
     ));
+
     return (
 
       <div className={styles.companyList}>
-
         <table>
           <thead>
 

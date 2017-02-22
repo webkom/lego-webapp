@@ -14,7 +14,6 @@ function validateCompany(data) {
   if (!data.name) {
     errors.name = 'Vennligst fyll ut dette feltet';
   }
-
   return errors;
 }
 
@@ -24,16 +23,18 @@ function mapStateToProps(state, props) {
 
   return {
     company,
+    companyId,
     initialValues: company ? {
       name: company.name,
-      studentContact: company.studentContact,
-      adminComment: company.adminComment,
-      active: company.active,
-      jobOfferOnly: company.jobOfferOnly,
-      bedex: company.bedex,
       description: company.description,
+      adminComment: company.adminComment,
+      website: company.website,
+      studentContact: company.studentContact,
+      active: company.active,
       phone: company.phone,
-      website: company.website
+      companyType: company.companyType,
+      paymentMail: company.paymentMail,
+      address: company.address
     } : null
   };
 }

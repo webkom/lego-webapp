@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styles from './optionsBox.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import { Link } from 'react-router';
 
 type Props = {
   companies: Array<Object>,
@@ -48,7 +49,9 @@ export default class OptionsBox extends Component {
 
     return (
       <div className={styles.optionsBox} style={this.toggleDisplay(this.props.display)}>
-        Filtrer basert på om bedriften... <br />
+        <Link to='/bdb/add' style={{ display: 'block' }}>Legg til bedrift</Link>
+        <span style={{ display: 'block' }}>Filtrer basert på om bedriften...</span>
+
         <div style={{ display: 'flex' }}>
           <div className={styles.section} style={{ order: 0 }}>
             <input
@@ -57,6 +60,7 @@ export default class OptionsBox extends Component {
               onChange={this.toggleSection.bind(this, 'active')}
               id='active'
             /><label htmlFor='active'>Er aktiv</label>
+
             <div
               className={styles.options}
               style={{ display: this.state.active ? 'block' : 'none' }}
@@ -127,6 +131,7 @@ export default class OptionsBox extends Component {
               className={styles.options}
               style={{ display: this.state.jobOfferOnly ? 'block' : 'none' }}
             >
+
               <div className={styles.option}>
                 <input
                   type='radio'

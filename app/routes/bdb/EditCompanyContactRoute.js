@@ -14,7 +14,6 @@ function validateCompanyContact(data) {
   if (!data.name) {
     errors.name = 'Vennligst fyll ut dette feltet';
   }
-
   return errors;
 }
 
@@ -30,6 +29,7 @@ function mapStateToProps(state, props) {
 
   return {
     company,
+    companyId,
     companyContact,
     initialValues: companyContact ? {
       name: companyContact.name,

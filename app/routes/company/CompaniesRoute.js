@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { fetchAll } from 'app/actions/BdbActions';
+import { fetchAll } from 'app/actions/CompanyActions';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import CompaniesPage from './components/CompaniesPage';
 import React, { Component } from 'react';

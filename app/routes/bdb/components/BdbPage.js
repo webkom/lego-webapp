@@ -151,6 +151,7 @@ export default class BdbPage extends Component {
     }
     const { filters } = this.state;
     return companies.filter((company) => {
+      // Using 'for of' here. Probably a cleaner way to do it, but I couldn't think of one
       for (const key of Object.keys(filters)) {
         if (filters[key] !== undefined && company[key] !== filters[key]) {
           return false;
@@ -182,10 +183,11 @@ export default class BdbPage extends Component {
         <h2
           onClick={this.toggleDisplay}
           className={styles.optionsHeader}
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: 'pointer', margin: '15px 0' }}
         >Valg {this.state.displayOptions ?
           (<i className='fa fa-caret-down' />) : (<i className='fa fa-caret-right' />)}
         </h2>
+
         <OptionsBox
           companies={this.props.companies}
           updateFilters={this.updateFilters}

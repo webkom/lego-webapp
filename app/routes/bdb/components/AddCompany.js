@@ -5,6 +5,7 @@ import BdbRightNav from './BdbRightNav';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextEditor, TextInput } from 'app/components/Form';
+import { httpCheck } from '../utils';
 
 type Props = {
   addCompany: () => void,
@@ -15,18 +16,24 @@ type Props = {
 
 export default class AddCompany extends Component {
 
-  onSubmit({ name, studentContact, adminComment, active, description,
-    phone, website, companyType, paymentMail }) {
+  state = {
+    active: true
+  }
+
+  onSubmit({ name, description = '', adminComment = '', website = '', studentContact = '',
+      phone = '', companyType = '', paymentMail = '', address = '' }) {
+    const { active } = this.state;
     this.props.addCompany({
       name,
-      studentContact,
-      adminComment,
-      active: active || true,
       description,
+      adminComment,
+      website: httpCheck(website),
+      studentContact,
+      active,
       phone,
-      website,
       companyType,
-      paymentMail
+      paymentMail,
+      address
     });
   }
 
@@ -78,6 +85,7 @@ export default class AddCompany extends Component {
                   meta={'Telefon'}
                   style={{ order: 0 }}
                 />
+
                 <InfoBubble
                   icon={'user'}
                   data={
@@ -92,6 +100,7 @@ export default class AddCompany extends Component {
                   meta={'Studentkontakt'}
                   style={{ order: 1 }}
                 />
+
                 <InfoBubble
                   icon={'briefcase'}
                   data={
@@ -123,13 +132,14 @@ export default class AddCompany extends Component {
                   meta={'Nettside'}
                   style={{ order: 0 }}
                 />
+
                 <InfoBubble
                   icon={'building'}
                   data={
                     <Field
                       placeholder={'Adresse'}
                       autoFocus={autoFocus}
-                      name='adress'
+                      name='address'
                       component={TextInput.Field}
                       className={styles.editBubble}
                     />
@@ -137,13 +147,14 @@ export default class AddCompany extends Component {
                   meta={'Adresse'}
                   style={{ order: 1 }}
                 />
+
                 <InfoBubble
                   icon={'envelope'}
                   data={
                     <Field
                       placeholder={'Fakturamail'}
                       autoFocus={autoFocus}
-                      name='companyMail'
+                      name='paymentMail'
                       component={TextInput.Field}
                       className={styles.editBubble}
                     />
