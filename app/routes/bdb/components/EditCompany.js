@@ -1,6 +1,6 @@
 import styles from './bdb.css';
 import React, { Component } from 'react';
-import { trueIcon, falseIcon } from '../utils.js';
+import { trueIcon, falseIcon, httpCheck } from '../utils.js';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import InfoBubble from 'app/components/InfoBubble';
 import BdbRightNav from './BdbRightNav';
@@ -10,7 +10,6 @@ import { TextEditor, TextInput } from 'app/components/Form';
 
 type Props = {
   editCompany: () => void,
-  fields: any,
   company: Object,
   submitting: boolean,
   handleSubmit: () => void,
@@ -19,30 +18,35 @@ type Props = {
 
 export default class EditCompany extends Component {
 
-  onSubmit({ name, adminComment, description, phone, website, companyType, paymentMail }) {
+  constructor(props) {
+    super();
+    if (props.company) {
+      this.state = {
+        active: props.company.active
+      };
+    }
+  }
+
+  state = {
+    active: true
+  }
+
+  onSubmit({ name, description = '', adminComment = '', website = '', studentContact = '',
+      phone = '', companyType = '', paymentMail = '', address = '' }) {
     const { active } = this.state;
     this.props.editCompany({
       companyId: this.props.company.id,
       name,
       description,
       adminComment,
-      website,
+      website: httpCheck(website),
+      studentContact,
       active,
       phone,
       companyType,
-      paymentMail
+      paymentMail,
+      address
     });
-  }
-
-  constructor(props) {
-    super();
-    this.state = {
-      active: props.company && props.company.active
-    };
-  }
-
-  componentWillReceiveProps(newProps) {
-    this.setState({ active: newProps.company.active });
   }
 
   props: Props;
@@ -63,6 +67,7 @@ export default class EditCompany extends Component {
         <LoadingIndicator />
       );
     }
+
     return (
       <div className={styles.root}>
 
@@ -103,6 +108,7 @@ export default class EditCompany extends Component {
                   meta={'Telefon'}
                   style={{ order: 0 }}
                 />
+
                 <InfoBubble
                   icon={'user'}
                   data={
@@ -117,6 +123,7 @@ export default class EditCompany extends Component {
                   meta={'Studentkontakt'}
                   style={{ order: 1 }}
                 />
+
                 <InfoBubble
                   icon={'briefcase'}
                   data={
@@ -148,13 +155,14 @@ export default class EditCompany extends Component {
                   meta={'Nettside'}
                   style={{ order: 0 }}
                 />
+
                 <InfoBubble
                   icon={'building'}
                   data={
                     <Field
                       placeholder={'Adresse'}
                       autoFocus={autoFocus}
-                      name='adress'
+                      name='address'
                       component={TextInput.Field}
                       className={styles.editBubble}
                     />
@@ -162,13 +170,14 @@ export default class EditCompany extends Component {
                   meta={'Adresse'}
                   style={{ order: 1 }}
                 />
+
                 <InfoBubble
                   icon={'envelope'}
                   data={
                     <Field
                       placeholder={'Fakturamail'}
                       autoFocus={autoFocus}
-                      name='companyMail'
+                      name='paymentMail'
                       component={TextInput.Field}
                       className={styles.editBubble}
                     />
@@ -189,7 +198,7 @@ export default class EditCompany extends Component {
                       checked={this.state.active}
                       onChange={this.toggleActive.bind(this, true)}
                       id='active'
-                    /><label htmlFor='active'>{trueIcon}<br /></label>
+                    /><label htmlFor='active' style={{ display: 'block' }}>{trueIcon}</label>
                   </div>
                   <div className={styles.editInfo}>
                     <input
@@ -199,7 +208,7 @@ export default class EditCompany extends Component {
                       checked={!this.state.active}
                       onChange={this.toggleActive.bind(this, false)}
                       id='inactive'
-                    /><label htmlFor='inactive'>{falseIcon}<br /></label>
+                    /><label htmlFor='inactive' style={{ display: 'block' }}>{falseIcon}</label>
                   </div>
                 </div>
               </div>

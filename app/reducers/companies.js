@@ -10,6 +10,14 @@ export default createEntityReducer({
   mutate(state, action) {
     switch (action.type) {
 
+      case Company.DELETE_FAILURE: {
+        const byId = state.byId.filter((company) => company.id !== action.meta.companyId);
+        return {
+          ...state,
+          byId
+        };
+      }
+
       case Company.DELETE_SEMESTER_FAILURE: {
         const byId = state.byId;
         byId[action.meta.companyId].semesterStatuses = byId[action.meta.companyId]

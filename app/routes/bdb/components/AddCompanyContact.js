@@ -4,21 +4,23 @@ import BdbRightNav from './BdbRightNav';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextInput } from 'app/components/Form';
+import { Link } from 'react-router';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
   addCompanyContact: () => void,
   handleSubmit: () => void,
-  companyId: string,
+  company: Object,
   submitting: boolean,
   autoFocus: any
 };
 
 export default class AddCompanyContact extends Component {
 
-  onSubmit({ name, role, mail, phone }) {
-    const companyId = this.props.companyId;
+  onSubmit({ name, role = '', mail = '', phone = '' }) {
+    const { company } = this.props;
     this.props.addCompanyContact({
-      companyId,
+      companyId: company.id,
       name,
       role,
       mail,
@@ -30,15 +32,21 @@ export default class AddCompanyContact extends Component {
 
   render() {
     const {
-      companyId,
+      company,
       submitting,
       autoFocus
     } = this.props;
+
+    if (!company) {
+      return <LoadingIndicator />;
+    }
 
     return (
       <div className={styles.root}>
 
         <h1>Legg til bedriftskontakt</h1>
+
+        <h3>For bedriften <Link to={`/bdb/${company.id}`}>{company.name}</Link></h3>
 
         <div className={styles.detail}>
           <div className={styles.leftSection}>
@@ -90,7 +98,7 @@ export default class AddCompanyContact extends Component {
 
           <BdbRightNav
             {...this.props}
-            companyId={companyId}
+            companyId={company.id}
           />
 
         </div>

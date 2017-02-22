@@ -22,7 +22,7 @@ export default class AddSemester extends Component {
     contactedStatus: 6,
   }
 
-  onSubmit({ year, contract }) {
+  onSubmit({ year, contract = '' }) {
     const companyId = this.props.companyId;
     this.props.addSemesterStatus({
       companyId,
@@ -38,9 +38,7 @@ export default class AddSemester extends Component {
   };
 
   setContactedStatus = (event) => {
-    this.setState({
-      contactedStatus: event.target.value
-    });
+    this.setState({ contactedStatus: event.target.value });
   }
 
   props: Props;
@@ -59,6 +57,8 @@ export default class AddSemester extends Component {
 
         <div className={styles.detail}>
           <div className={styles.leftSection}>
+
+            <i style={{ display: 'block', marginBottom: '10px' }}>Hint: du kan legge til status for flere semestere samtidig på Bdb-forsiden!</i>
 
             <form onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}>
 
@@ -79,7 +79,7 @@ export default class AddSemester extends Component {
                   checked={this.state.semester === 0}
                   onChange={this.setSemester.bind(this, 0)}
                   id='var'
-                /><label htmlFor='var'>Vår<br /></label>
+                /><label htmlFor='var' style={{ display: 'block' }}>Vår</label>
                 <input
                   type='radio'
                   value={false}
@@ -87,7 +87,7 @@ export default class AddSemester extends Component {
                   checked={this.state.semester === 1}
                   onChange={this.setSemester.bind(this, 1)}
                   id='host'
-                /><label htmlFor='host'>Høst<br /></label>
+                /><label htmlFor='host' style={{ display: 'block' }}>Høst</label>
               </div>
 
               <select

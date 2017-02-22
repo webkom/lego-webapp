@@ -39,7 +39,7 @@ export function fetch(companyId) {
 }
 
 export function addCompany({ name, studentContact, adminComment, active,
-  description, phone, website, companyType, paymentMail }) {
+  description, phone, website, companyType, paymentMail, address }) {
   return (dispatch) => {
     dispatch(startSubmit('company'));
 
@@ -56,29 +56,23 @@ export function addCompany({ name, studentContact, adminComment, active,
         phone,
         website,
         companyType,
-        paymentMail
+        paymentMail,
+        address
       },
       schema: companySchema,
       meta: {
         errorMessage: 'Adding company failed'
       }
-    })).then(
-      (callback) => {
-        let company = {};
-        for (const prop in callback.payload.entities.companies) {
-          if (prop) {
-            company = prop;
-          }
-        }
-        dispatch(stopSubmit('company'));
-        dispatch(push(`/bdb/${company}`));
-      }
-    );
+    })).then((callback) => {
+      const id = callback.payload.result;
+      dispatch(stopSubmit('company'));
+      dispatch(push(`/bdb/${id}`));
+    });
   };
 }
 
 export function editCompany({ companyId, name, description, adminComment, website,
-   phone, active, companyType, paymentMail }) {
+   studentContact, phone, active, companyType, paymentMail, address }) {
   return (dispatch) => {
     dispatch(startSubmit('company'));
 
@@ -91,10 +85,12 @@ export function editCompany({ companyId, name, description, adminComment, websit
         description,
         adminComment,
         website,
+        studentContact,
         active,
         phone,
         companyType,
-        paymentMail
+        paymentMail,
+        address
       },
       schema: companySchema,
       meta: {
@@ -103,6 +99,26 @@ export function editCompany({ companyId, name, description, adminComment, websit
     })).then(() => {
       dispatch(stopSubmit('company'));
       dispatch(push(`/bdb/${companyId}/`));
+    });
+  };
+}
+
+export function deleteCompany(companyId) {
+  return (dispatch) => {
+    dispatch(startSubmit('company'));
+
+    dispatch(callAPI({
+      types: Company.DELETE,
+      endpoint: `/companies/${companyId}/`,
+      method: 'delete',
+      meta: {
+        companyId,
+        errorMessage: 'Deleting company failed'
+      },
+      schema: companySchema
+    })).then(() => {
+      dispatch(stopSubmit('company'));
+      dispatch(push('/bdb/'));
     });
   };
 }
@@ -120,7 +136,7 @@ export function addSemesterStatus({ companyId, year, semester, contactedStatus, 
         year,
         semester,
         contactedStatus,
-        contract: contract || ''
+        contract
       },
       meta: {
         errorMessage: 'Adding semester status failed'
@@ -128,7 +144,7 @@ export function addSemesterStatus({ companyId, year, semester, contactedStatus, 
     })).then(() => {
       dispatch(stopSubmit('company'));
       if (detail) {
-        dispatch(push(`/bdb/${companyId}`));
+        dispatch(push(`/bdb/${companyId}/`));
       } else {
         dispatch(push('/bdb/'));
       }
@@ -147,7 +163,7 @@ export function editSemesterStatus({ companyId, semesterId, contactedStatus, con
       method: 'PATCH',
       body: {
         contactedStatus,
-        contract: contract || ''
+        contract
       },
       meta: {
         errorMessage: 'Editing semester status failed'
@@ -155,7 +171,7 @@ export function editSemesterStatus({ companyId, semesterId, contactedStatus, con
     })).then(() => {
       dispatch(stopSubmit('company'));
       if (detail) {
-        dispatch(push(`bdb/${companyId}`));
+        dispatch(push(`/bdb/${companyId}/`));
       } else {
         dispatch(push('/bdb/'));
       }
@@ -202,7 +218,7 @@ export function addCompanyContact({ companyId, name, role, mail, phone }) {
       }
     })).then(() => {
       dispatch(stopSubmit('company'));
-      dispatch(push(`bdb/${companyId}`));
+      dispatch(push(`/bdb/${companyId}/`));
     });
   };
 }
@@ -213,7 +229,7 @@ export function editCompanyContact({ companyId, companyContactId, name, role, ma
 
     dispatch(callAPI({
       types: Company.EDIT_COMPANY_CONTACT,
-      endpoint: `/companies/${companyId}/company-contacts/${companyContactId}`,
+      endpoint: `/companies/${companyId}/company-contacts/${companyContactId}/`,
       method: 'PATCH',
       body: {
         name,
@@ -232,13 +248,13 @@ export function editCompanyContact({ companyId, companyContactId, name, role, ma
 }
 
 
-export function deleteCompanyContact({ companyId, companyContactId }) {
+export function deleteCompanyContact(companyId, companyContactId) {
   return (dispatch) => {
     dispatch(startSubmit('company'));
 
     dispatch(callAPI({
       types: Company.DELETE_COMPANY_CONTACT,
-      endpoint: `/companies/${companyId}/company-contacts/${companyContactId}`,
+      endpoint: `/companies/${companyId}/company-contacts/${companyContactId}/`,
       method: 'delete',
       meta: {
         companyId,
@@ -248,7 +264,7 @@ export function deleteCompanyContact({ companyId, companyContactId }) {
       schema: companySchema
     })).then(() => {
       dispatch(stopSubmit('company'));
-      dispatch(push(`bdb/${companyId}`));
+      dispatch(push(`/bdb/${companyId}/`));
     });
   };
 }

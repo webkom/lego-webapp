@@ -20,6 +20,16 @@ type Props = {
 
 export default class EditSemester extends Component {
 
+  constructor(props) {
+    super();
+    if (props.company && props.semesterStatus) {
+      this.state = {
+        contactedStatus: props.company.semesterStatuses.find((semester) =>
+          semester.id === props.semesterStatus.id).contactedStatus
+      };
+    }
+  }
+
   state = {
     contactedStatus: -1
   }
@@ -32,21 +42,19 @@ export default class EditSemester extends Component {
     }
   }
 
-  onSubmit({ contract }) {
+  onSubmit({ contract = '' }) {
     const { company, semesterStatus } = this.props;
     const { contactedStatus } = this.state;
     this.props.editSemesterStatus({
       companyId: company.id,
       semesterId: semesterStatus.id,
       contactedStatus,
-      contract: contract || ''
+      contract
     }, true);
   }
 
   setContactedStatus = (event) => {
-    this.setState({
-      contactedStatus: event.target.value
-    });
+    this.setState({ contactedStatus: event.target.value });
   }
 
   props: Props;
@@ -70,6 +78,8 @@ export default class EditSemester extends Component {
         <i><Link to={`/bdb/${company.id}`}>{company.name}</Link> sin status for
           <b>{semesterStatus.semester === 0 ? ' Vår' : ' Høst'} {semesterStatus.year}</b>
         </i>
+
+        <i style={{ display: 'block', marginBottom: '10px' }}>Hint: du kan endre status for flere semestere samtidig på Bdb-forsiden!</i>
 
         <div className={styles.detail}>
           <div className={styles.leftSection}>

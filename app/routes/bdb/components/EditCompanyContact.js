@@ -18,7 +18,7 @@ type Props = {
 
 export default class EditCompanyContact extends Component {
 
-  onSubmit({ name, role, mail, phone }) {
+  onSubmit({ name, role = '', mail = '', phone = '' }) {
     const { company, companyContact } = this.props;
     this.props.editCompanyContact({
       companyId: company.id,
@@ -48,7 +48,7 @@ export default class EditCompanyContact extends Component {
       <div className={styles.root}>
 
         <h1>Endre bedriftskontakt</h1>
-        <i><Link to={`/bdb/${company.id}`}>{company.name}</Link> sin bedriftskontakt</i>
+        <h3><Link to={`/bdb/${company.id}`}>{company.name}</Link> sin bedriftskontakt</h3>
 
         <div className={styles.detail}>
           <div className={styles.leftSection}>

@@ -13,8 +13,7 @@ type Props = {
   comments?: Array<Object>,
   companyEvents: Array<Object>,
   currentUser: any,
-  deleteSemesterStatus: () => void,
-  push: () => void
+  deleteSemesterStatus: () => void
 };
 
 export default class BdbDetail extends Component {
@@ -22,10 +21,11 @@ export default class BdbDetail extends Component {
   props: Props;
 
   deleteSemesterStatus = (semesterId) => {
-    this.props.deleteSemesterStatus(this.props.company.id, semesterId)
-      .then(() => {
-        this.props.push(`/bdb/${this.props.company.id}`);
-      });
+    this.props.deleteSemesterStatus(this.props.company.id, semesterId);
+  }
+
+  deleteCompanyContact = (companyContactId) => {
+    this.props.deleteCompanyContact(this.props.company.id, companyContactId);
   }
 
   semesterIdToText = (id) => {
@@ -40,7 +40,7 @@ export default class BdbDetail extends Component {
   render() {
     const { company, comments, companyEvents, currentUser, loggedIn } = this.props;
 
-    if (!company) {
+    if (!company || !company.semesterStatuses) {
       return <LoadingIndicator />;
     }
 
@@ -49,23 +49,28 @@ export default class BdbDetail extends Component {
       .map((status, i) => (
         <tr key={i}>
           <td>{status.year} {this.semesterIdToText(status.semester)}</td>
+
           <td
             className={status.semester === 2 ? styles.bedex :
             styles[selectColorCode(status.contactedStatus)]}
           >
             {status.semester === 2 ? 'Bedex' : statusStrings[status.contactedStatus] || 6}
           </td>
+
           <td style={{ display: 'flex', justifyContent: 'space-between' }}>
             <span>{status.contract || '-'}</span>
             <span style={{ display: 'flex', flexDirection: 'row' }}>
+
               <Link to={`/bdb/${company.id}/semesters/${status.id}`}>
                 <i className='fa fa-pencil' style={{ marginRight: '5px', color: 'orange' }} />
               </Link>
               <a onClick={this.deleteSemesterStatus.bind(this, status.id)}>
                 <i className='fa fa-times' style={{ color: '#d13c32' }} />
               </a>
+
             </span>
           </td>
+
         </tr>
       )
     );
@@ -74,10 +79,22 @@ export default class BdbDetail extends Component {
     if (company.companyContacts) {
       companyContacts = company.companyContacts.map((contact, i) => (
         <tr key={i}>
-          <td>{contact.name}</td>
-          <td>{contact.role}</td>
-          <td>{contact.mail}</td>
-          <td>{contact.phone}</td>
+          <td>{contact.name || '-'}</td>
+          <td>{contact.role || '-'}</td>
+          <td>{contact.mail || '-'}</td>
+          <td style={{ display: 'flex', justifyContent: 'space-between' }}>
+            {contact.phone || '-'}
+            <span style={{ display: 'flex', flexDirection: 'row' }}>
+
+              <Link to={`/bdb/${company.id}/company-contacts/${contact.id}`}>
+                <i className='fa fa-pencil' style={{ marginRight: '5px', color: 'orange' }} />
+              </Link>
+              <a onClick={this.deleteCompanyContact.bind(this, contact.id)}>
+                <i className='fa fa-times' style={{ color: '#d13c32' }} />
+              </a>
+
+            </span>
+          </td>
         </tr>
       ));
     }
@@ -94,9 +111,7 @@ export default class BdbDetail extends Component {
 
     return (
       <div className={styles.root}>
-        <h1>
-          {company.name} {!company.active && ('Inaktiv')}
-        </h1>
+        <h1>{company.name} {!company.active && ('Inaktiv')}</h1>
 
         <div className={styles.detail}>
           <div className={styles.leftSection}>
@@ -142,8 +157,9 @@ export default class BdbDetail extends Component {
                     {companyContacts}
                   </tbody>
                 </table>
-              </div>) : (<i>Ingen bedriftskontakter registrert.<br /></i>)}
-            <Link to={`/bdb/${this.props.company.id}/company-contact/add`} style={{ marginTop: '10px' }}>
+              </div>) : (<i style={{ display: 'block' }}>Ingen bedriftskontakter registrert.</i>)}
+
+            <Link to={`/bdb/${this.props.company.id}/company-contacts/add`} style={{ marginTop: '10px' }}>
               <i className='fa fa-plus-circle' /> Legg til bedriftskontakt
             </Link>
 
@@ -164,13 +180,13 @@ export default class BdbDetail extends Component {
                     {semesters}
                   </tbody>
                 </table>
-              </div>) : (<i>Ingen sememsterstatuser.</i>)}
-            <Link to={`/bdb/${company.id}/semesters/add`}>
+              </div>) : (<i style={{ display: 'block' }}>Ingen sememsterstatuser.</i>)}
+
+            <Link to={`/bdb/${company.id}/semesters/add`} style={{ display: 'block' }}>
               <i className='fa fa-plus-circle' /> Legg til nytt semester
             </Link>
-            <br />
-            <Link to={`/bdb/${company.id}/semesters/add`}>
-              <i className='fa fa-plus-circle' /> Legg til bedex
+            <Link to={`/bdb/${company.id}/semesters/add`} style={{ display: 'block' }}>
+              <i className='fa fa-plus-circle' /> Legg til bedex (TODO)
             </Link>
 
             <div className={styles.infoBubbles}>

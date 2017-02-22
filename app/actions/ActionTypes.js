@@ -81,6 +81,7 @@ export const Company = {
   FETCH: generateStatuses('Company.FETCH'),
   ADD: generateStatuses('Company.ADD'),
   EDIT: generateStatuses('Company.EDIT'),
+  DELETE: generateStatuses('Company.DELETE'),
   ADD_SEMESTER: generateStatuses('Company.ADD_SEMESTER'),
   EDIT_SEMESTER: generateStatuses('Company.EDIT_SEMESTER'),
   DELETE_SEMESTER: generateStatuses('Company.DELETE_SEMESTER'),

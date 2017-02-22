@@ -1,29 +1,13 @@
-import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {
   fetchAll, addSemesterStatus, editSemesterStatus
 } from '../../actions/CompanyActions';
 import BdbPage from './components/BdbPage';
+import { compose } from 'redux';
+import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 
-type Props = {
-  fetchAll: () => {}
-};
-
-class BdbRoute extends Component {
-
-  componentWillMount() {
-    this.props.fetchAll();
-  }
-
-  props: Props;
-
-  render() {
-    return (
-      <BdbPage
-        {...this.props}
-      />
-    );
-  }
+function loadData(params, props) {
+  props.fetchAll();
 }
 
 function mapStateToProps(state, props) {
@@ -43,7 +27,10 @@ function mapStateToProps(state, props) {
 
 const mapDispatchToProps = { fetchAll, editSemesterStatus, addSemesterStatus };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(BdbRoute);
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  fetchOnUpdate(['loggedIn'], loadData)
+)(BdbPage);

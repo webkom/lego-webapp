@@ -12,9 +12,9 @@ export const statusStrings = {
 
 export const selectColorCode = (status) => {
   const statusToClass = {
-    0: 'bedpres',
-    1: 'bedpresKurs',
-    2: 'kurs',
+    0: 'companyPresentation',
+    1: 'companyPresentationAndCourse',
+    2: 'course',
     3: 'notOffered',
     4: 'notInterested',
     5: 'contacted',
@@ -49,3 +49,8 @@ export const trueIcon = (
 export const falseIcon = (
   <i className='fa fa-times' style={{ color: '#d13c32', fontSize: '25px' }} />
 );
+
+export const httpCheck = (link) => {
+  const httpLink = link.startsWith('http://') ? link : `http://${link}`;
+  return link === '' ? link : httpLink;
+};

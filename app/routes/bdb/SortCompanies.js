@@ -56,7 +56,7 @@ const sortCompanies = (companies, query, startYear, startSem) => {
   const sortTypeName = Object.keys(sortTypeToFunction).find((sortTypeName) =>
     sortTypeName === sortType);
   const sortFunction = sortTypeName ? sortTypeToFunction[sortTypeName](ascending) :
-    sortTypeToFunction.name(true)
+    sortTypeToFunction.name(true);
   return companies.sort(sortFunction);
 };
 

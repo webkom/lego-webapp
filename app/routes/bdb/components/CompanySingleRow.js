@@ -35,6 +35,7 @@ export default class CompanySingleRow extends Component {
     if (!company) {
       return <LoadingIndicator loading />;
     }
+
     const semesters = [
       this.semesterElement(0),
       this.semesterElement(1),
