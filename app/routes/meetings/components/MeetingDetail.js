@@ -91,6 +91,7 @@ class MeetingDetails extends Component {
     const createdBy = meeting.invitations.filter(
       (invitation) => (invitation.user.id === meeting.createdBy))[0];
 
+    const canDelete = (this.props.userMe.id === this.props.meeting.createdBy);
     return (
       <div className={styles.root}>
         <FlexRow className={styles.heading}>
@@ -113,6 +114,17 @@ class MeetingDetails extends Component {
               Endre møte
             </Button>
           </Link>
+
+          { canDelete  &&
+              (
+                <div>
+                  <Button onClick={()=>{this.props.deleteMeeting(meeting.id)}}>
+                    <Icon name='trash' />
+                    Slett møte
+                  </Button>
+                </div>
+              )
+          }
         </FlexRow>
         <div className={styles.mainContent}>
           <FlexItem className={styles.statusContent} flex={1}>

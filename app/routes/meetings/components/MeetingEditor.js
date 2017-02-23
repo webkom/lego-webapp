@@ -52,7 +52,6 @@ function MeetingEditor({ handleSubmit, handleSubmitCallback, meetingId, meeting,
         <Field
           name='report'
           rows='15'
-          style={{ display: 'none' }}
           component={TextEditor.Field}
         />
         <h3>Start- og sluttidspunkt</h3>

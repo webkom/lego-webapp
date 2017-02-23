@@ -5,6 +5,12 @@ export default {
     path: 'create',
     component: require('./MeetingCreateRoute').default
   }, {
+    path: 'answer/result',
+    component: require('./MeetingAnswerResultRoute').default
+  }, {
+    path: 'answer/:action',
+    component: require('./MeetingAnswerRoute').default
+  }, {
     path: ':meetingId',
     component: require('./MeetingDetailRoute').default
   }, {
