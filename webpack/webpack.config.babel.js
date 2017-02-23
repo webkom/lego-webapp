@@ -39,7 +39,7 @@ module.exports = {
     }),
 
     !isProduction && new webpack.HotModuleReplacementPlugin(),
-    !isProduction && new webpack.NoErrorsPlugin(),
+    !isProduction && new webpack.NoEmitOnErrorsPlugin(),
 
     // Only include the Norwegian moment locale:
     new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /nb-NO/),
