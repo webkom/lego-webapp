@@ -27,13 +27,13 @@ function mutateEvent(state: any, action: any) {
         }
       };
     }
-    case Event.REGISTER.SUCCESS: {
+    case Event.SOCKET_REGISTRATION.SUCCESS: {
       return {
         ...state,
         byId: {
           ...state.byId,
-          [action.meta.id]: {
-            ...state.byId[action.meta.id],
+          [action.meta.eventId]: {
+            ...state.byId[action.meta.eventId],
             loading: false
           }
         }

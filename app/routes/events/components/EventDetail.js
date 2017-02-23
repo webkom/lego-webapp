@@ -90,17 +90,16 @@ export default class EventDetail extends Component {
 
   render() {
     const {
-      event,
-      loggedIn,
-      currentUser,
-      comments,
-      pools,
-      registrations,
-      currentRegistration
+      event, loggedIn, currentUser, comments, error,
+      loading, pools, registrations, currentRegistration
     } = this.props;
 
-    if (!event.id) {
-      return null;
+    if (loading) {
+      return <LoadingIndicator loading />;
+    }
+
+    if (error) {
+      return <div>{error.message}</div>;
     }
 
     return (
@@ -123,6 +122,9 @@ export default class EventDetail extends Component {
           </FlexColumn>
           <FlexColumn className={styles.meta}>
             <ul>
+              {event.company && (
+                <li>Arrangerende bedrift <strong>{event.company.name}</strong></li>
+              )}
               <li>
                 Starter{' '}
                 <strong>
@@ -133,8 +135,10 @@ export default class EventDetail extends Component {
               {event.activationTime && (
                 <li>Påmelding åpner <strong><Time time={event.activationTime} format='DD.MM.YYYY HH:mm' /></strong></li>
               )}
+              {event.isPriced && (<li>Dette er et betalt arrangement</li>)}
+              {event.price > 0 && (<li>Pris: <strong>{event.price},-</strong></li>)}
             </ul>
-            {loggedIn &&
+            {loggedIn && (
               <FlexItem>
                 <h3>Påmeldte:</h3>
                 <FlexRow className={styles.registeredThumbnails}>
@@ -147,12 +151,17 @@ export default class EventDetail extends Component {
                 <RegisteredSummary registrations={registrations} />
                 <AttendanceStatus title='Påmeldte' pools={pools} />
                 {!currentRegistration ? (
-                  <div><i className='fa fa-exclamation-circle' /> Du er ikke registrert</div>
-                ) : (<div><i className='fa fa-check-circle' /> Du er registrert</div>)}
-                {(event.isPriced && (!currentRegistration.chargeStatus ? (
-                  <div><i className='fa fa-exclamation-circle' /> Du har ikke betalt</div>
-                ) : (<div><i className='fa fa-check-circle' /> Du har betalt</div>))
-                )}
+                  <div>
+                    <i className='fa fa-exclamation-circle' /> Du er ikke registrert
+                  </div>
+                ) : (
+                  <div>
+                    <i className='fa fa-check-circle' /> Du er registrert
+                    {(event.isPriced && (currentRegistration.chargeStatus === 'succeeded' ? (
+                      <div><i className='fa fa-check-circle' /> Du har betalt</div>
+                    ) : (<div><i className='fa fa-exclamation-circle' /> Du har ikke betalt</div>))
+                    )}
+                  </div>)}
               </FlexItem>
             )}
           </FlexColumn>

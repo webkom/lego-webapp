@@ -34,11 +34,15 @@ class JoinEventForm extends Component {
 
   componentDidMount() {
     if (this.props.registration) {
-      this.setState({
-        formOpen: true,
-        captchaOpen: true,
-        buttonOpen: true
-      });
+      if (moment().isAfter(this.props.event.startTime)) {
+        // asd
+      } else {
+        this.setState({
+          formOpen: true,
+          captchaOpen: true,
+          buttonOpen: true
+        });
+      }
     } else {
       this.parseEventTimes(this.props.event);
     }
@@ -140,12 +144,15 @@ class JoinEventForm extends Component {
     const joinTitle = !registration ? 'MELD DEG PÅ' : 'AVREGISTRER';
     const registrationType = !registration ? 'register' : 'unregister';
     const feedbackName = getFeedbackName(event.feedbackRequired);
+    const showStripe = (
+      event.isPriced &&
+      registration &&
+      !['pending', 'succeeded'].includes(registration.chargeStatus)
+    );
     return (
       <div>
         {!this.state.formOpen && this.state.time && (
-          <div>
-            Åpner <Time time={this.state.time} format='nowToTimeInWords' />
-          </div>
+          <div>Åpner <Time time={this.state.time} format='nowToTimeInWords' /></div>
         )}
         {!this.state.formOpen && !this.state.time && (
           <div>Det går ikke lenger å melde seg på.</div>
@@ -177,10 +184,10 @@ class JoinEventForm extends Component {
             )}
             {this.state.buttonOpen && !event.loading && (
               <div>
-                {event.spotsLeft === 0 && (
+                {!registration && event.spotsLeft === 0 && (
                   <div>Det 0 plasser igjen, du blir registrert til venteliste</div>
                 )}
-                {event.spotsLeft > 0 && (
+                {!registration && event.spotsLeft > 0 && (
                   <div>Det er {event.spotsLeft} plasser igjen.</div>
                 )}
                 <Button type='submit' disabled={disabledButton}>
@@ -191,7 +198,7 @@ class JoinEventForm extends Component {
             {event.loading && (<LoadingIndicator loading loadingStyle={{ margin: '5px auto' }} />)}
           </form>
         )}
-        {registration && !registration.chargeStatus && event.isPriced && (
+        {showStripe && (
           <StripeCheckout
             name='Abakus Linjeforening'
             description={event.title}
@@ -232,6 +239,7 @@ function validateEventForm(data) {
 
 function mapStateToProps(state, props) {
   if (props.registration) {
+    console.log('props', props.registration);
     const feedbackName = getFeedbackName(props.event.feedbackRequired);
     return {
       initialValues: {
