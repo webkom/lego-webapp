@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { FlexRow } from 'app/components/FlexBox';
+import Button from 'app/components/Button';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import styles from './ArticleEditor.css';
-import { EditorField, TextInput } from 'app/components/Form';
+import { EditorField, TextInput, SelectInput } from 'app/components/Form';
 import { ImageUpload } from 'app/components/Upload';
 import { Field } from 'redux-form';
 
@@ -38,10 +39,12 @@ export default class ArticleEditor extends Component {
   };
 
   onSubmit = (data) => {
+    console.log(data);
     if (this.props.isNew) {
       this.props.createArticle({
         title: data.title,
-        content: data.content
+        content: data.content,
+        tags: data.tags
       });
     } else {
       this.props.editArticle({
@@ -62,9 +65,7 @@ export default class ArticleEditor extends Component {
 
     return (
       <div className={styles.root}>
-        <form
-          onSubmit={handleSubmit(this.onSubmit)}
-        >
+        <form onSubmit={handleSubmit(this.onSubmit)}>
           <div className={styles.coverImage}>
             <ImageUpload
               aspectRatio={16 / 6}
@@ -75,15 +76,25 @@ export default class ArticleEditor extends Component {
             <div className={styles.coverImageOverlay} />
           </div>
 
-          <FlexRow alignItems='left'>
-            <label htmlFor='article-title'>Title: </label>
+          <FlexRow alignItems='baseline'>
             <Field
               placeholder='Title'
               name='title'
               component={TextInput.Field}
               id='article-title'
             />
+
+            <Button className={styles.submitButton} type='submit'>
+              {isNew ? 'Create' : 'Save'}
+            </Button>
           </FlexRow>
+          <Field
+            placeholder='Tags'
+            name='tags'
+            tags
+            component={SelectInput}
+            id='article-tags'
+          />
 
           <Field
             placeholder='Write your article here...'
@@ -91,8 +102,6 @@ export default class ArticleEditor extends Component {
             component={EditorField}
             uploadFile={uploadFile}
           />
-
-          <input type='submit' value={isNew ? 'Create' : 'Save'} />
         </form>
       </div>
     );

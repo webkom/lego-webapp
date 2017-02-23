@@ -1,12 +1,49 @@
 
-.img {
+.wrapper {
+  position: relative;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  background: rgba(0,0,0,0.6);
+  border-radius: 8px;
+  padding: 2px 10px;
+}
+
+.tooltipButton {
+  padding: 0 5px;
+}
+
+.tooltipIcon {
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.activeTooltipIcon,
+.tooltipIcon:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+.blockLayoutRight {
+  width: 50%;
+  float: right;
+}
+
+.blockLayoutLeft {
+  width: 50%;
+  float: left;
+}
+
+.blockLayoutFull {
   width: 100%;
 }
 
 .loader {
   height: 2px;
   width: 100%;
-  position: relative;
+  position: absolute;
   overflow: hidden;
   background-color: #ddd;
 }

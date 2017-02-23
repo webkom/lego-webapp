@@ -81,7 +81,7 @@ export default [
       const data = object.data.toJS();
       switch (object.type) {
         case Blocks.Image: return (
-          <div data-block-type='image'>
+          <div data-block-type='image' data-block-layout={data.blockLayout}>
             <img data-file-key={data.fileKey} src={data.src} />
           </div>
         );
