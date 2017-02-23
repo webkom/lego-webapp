@@ -69,7 +69,7 @@ export function EventItem({ event }: any) {
         </div>
 
         <div className={styles.eventTime}>
-          <Time time={event.startTime} format="ll HH:mm" />
+          <Time time={event.startTime} format='ll HH:mm' />
           {` • ${event.location}`}
         </div>
 
