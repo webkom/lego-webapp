@@ -21,7 +21,7 @@ describe('components', () => {
       );
       const likeButton = wrapper.find('.quote-likes');
 
-      expect(likeButton.isEmpty()).toBe(false);
+      expect(likeButton.exists()).toBe(true);
       likeButton.simulate('click');
       // Will fail if the id of the first fixture quote is changed
       expect(like).toBeCalledWith(quotes[0].id);
