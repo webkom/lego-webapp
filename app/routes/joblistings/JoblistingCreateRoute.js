@@ -1,12 +1,10 @@
 // @flow
-import moment from 'moment';
 import { connect } from 'react-redux';
 import { createJoblisting } from 'app/actions/JoblistingActions';
-import CreateJoblisting from 'app/routes/joblistings/components/CreateJoblisting';
+import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
+import { reduxForm } from 'redux-form';
+import { compose } from 'redux';
 
-const mapDispatchToProps = { createJoblisting };
+const mapDispatchToProps = { handleSubmitCallback: createJoblisting };
 
-connect(
-  null,
-  mapDispatchToProps
-)(CreateJoblisting);
+export default connect(null, mapDispatchToProps)(JoblistingEditor);
