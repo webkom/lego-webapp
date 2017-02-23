@@ -96,4 +96,10 @@ button {
   .u-text-muted {
     color: #999;
   }
+
+  @media (max-width: 400px) {
+    .u-hide-on-mobile {
+      display: none !important;
+    }
+  }
 }

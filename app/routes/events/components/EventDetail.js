@@ -123,7 +123,7 @@ export default class EventDetail extends Component {
           <FlexColumn className={styles.description}>
             <Markdown>{event.text}</Markdown>
             <FlexRow className={styles.tagRow}>
-              {event.tags.map(tag => <Tag tag={tag} />)}
+              {event.tags.map((tag, i) => <Tag key={i} tag={tag} />)}
             </FlexRow>
           </FlexColumn>
           <FlexColumn className={styles.meta}>

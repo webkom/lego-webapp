@@ -73,7 +73,7 @@ export function EventItem({ event }: any) {
         </div>
 
         <div className={styles.tagList}>
-          {event.tags.map((tag) => <Tag tag={tag} small />)}
+          {event.tags.map((tag, index) => <Tag key={index} tag={tag} small />)}
         </div>
       </div>
 

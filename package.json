@@ -25,9 +25,6 @@
   "dependencies": {
     "animate.css": "3.5.2",
     "classnames": "2.2.5",
-    "draft-js-emoji-plugin": "2.0.0-beta5",
-    "draft-js-mention-plugin": "2.0.0-beta5",
-    "draft-js-plugins-editor": "2.0.0-beta5",
     "isomorphic-fetch": "2.2.1",
     "jwt-decode": "2.1.0",
     "lodash": "^4.17.2",

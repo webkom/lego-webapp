@@ -36,7 +36,6 @@ export default class Quote extends Component {
 
         <div className={styles.rightQuote}>
           <a
-            dataQuote-id={quote.id}
             className={`${quote.hasLiked ? 'quote-unlikes' : 'quote-likes'}`}
             onClick={() => (quote.hasLiked ? unlike(quote.id) : like(quote.id))}
           >
@@ -63,7 +62,6 @@ export default class Quote extends Component {
           {quote.permissions && quote.permissions.indexOf('can_approve') !== -1 && (
           <div className={styles.quoteAdmin}>
             <a
-              dataQuote-id={quote.id}
               className='approveQuote'
               onClick={() => (quote.approved ? unapprove(quote.id) :
                 approve(quote.id))}
