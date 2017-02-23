@@ -46,6 +46,30 @@ export function setInvitationStatus(meetingId, status, user) {
   });
 }
 
+export function deleteMeeting(id) {
+  return (dispatch) => {
+    dispatch(startSubmit('deleteMeeting'));
+
+    dispatch(callAPI({
+      types: Meeting.EDIT,
+      endpoint: `/meetings/${id}/`,
+      method: 'DELETE',
+      schema: meetingSchema,
+      meta: {
+        errorMessage: 'Delete meeting failed'
+      }
+    })).then((result) => {
+      dispatch(stopSubmit('deleteMeeting'));
+      dispatch(push(`/meetings/`));
+    }).catch((action) => {
+      const errors = { ...action.error.response.jsonData };
+      dispatch(stopSubmit('deleteMeeting', errors));
+    });
+  };
+}
+
+
+
 export function createMeeting({
   title,
   report,
@@ -77,7 +101,7 @@ export function createMeeting({
       }
     })).then((result) => {
       const id = result.payload.result;
-      if (!groups || !users) {
+      if (groups !== undefined || users !== undefined) {
         dispatch(inviteUsersAndGroups({ id, users, groups })).then(() => {
           dispatch(stopSubmit('meetingEditor'));
           dispatch(push(`/meetings/${id}`));
@@ -109,6 +133,28 @@ export function inviteUsersAndGroups({ id, users, groups }) {
       errorMessage: 'Error inviting users/groups'
     }
   });
+}
+
+export function answerMeetingInvitation(action, token) {
+  return (dispatch) => {
+    dispatch(startSubmit('ansewerMeetingInvitation'));
+
+    dispatch(callAPI({
+      types: Meeting.CREATE,
+      endpoint: `/meeting-token/${action}/?token=${token}`,
+      method: 'GET',
+      meta: {
+        errorMessage: 'Answer invitation failed'
+      }
+    })).then((result) => {
+      const { status, meeting, user } = result.payload;
+      dispatch(stopSubmit('answerMeetingInvitation'));
+      dispatch(push(`?status=good&meeting=${meeting}&answer=${status}&user=${user.firstname}`));
+    }).catch(() => {
+      dispatch(stopSubmit('ansewerMeetingInvitation', null));
+      dispatch(push('?status=bad'));
+    });
+  };
 }
 
 export function editMeeting({
