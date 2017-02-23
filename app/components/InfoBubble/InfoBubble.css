@@ -29,15 +29,23 @@
   margin: 0 auto;
 }
 
+.iconLink {
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+
 .data {
   order: 1;
   font-size: 25px;
+  align-self: center;
 }
 
 .meta {
   order: 2;
   font-size: 20px;
   font-weight: 200;
+  align-self: center;
 }
 
 .smallBubble {
@@ -46,14 +54,14 @@
   flex-direction: column;
   justify-content: center;
   order: 0;
-  width: 50px;
-  height: 50px;
-  border-radius: 25px;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
   background-color: #d13c32;
 }
 
 .smallIcon {
-  font-size: 25px;
+  font-size: 27px;
   color: white;
   margin: 0 auto;
 }
@@ -62,10 +70,14 @@
   order: 1;
   line-height: 20px;
   font-size: 15px;
+  display: flex;
+  justify-content: center;
 }
 
 .smallMeta {
   order: 2;
   font-size: 20px;
   font-weight: 200;
+  display: flex;
+  justify-content: center;
 }

@@ -25,7 +25,7 @@ function insertInfoBubbles(company) {
             icon={info[0]}
             data={info[1]}
             style={{ order: i }}
-            link={info[1] && info[1].includes('/') ? info[1] : undefined}
+            link={info[1] && info[1].includes('.') ? info[1] : undefined}
             small
             iconClass={styles.icon}
             dataClass={styles.data}
