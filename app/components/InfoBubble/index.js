@@ -11,23 +11,35 @@ type Props = {
 
 const httpCheck = (link) => (link.startsWith('http://') ? link : `http://${link}`);
 
-const noLinkIcon = (icon, bubbleClass, iconClass) => (
-  <div className={cx(styles.bubble, bubbleClass)}>
-    <Icon name={icon} className={cx(styles.icon, iconClass)} />
-  </div>
-);
+const iconComponent = (icon, bubbleClass, iconClass, link = undefined) => {
+  if (link) {
+    return (
+      <div className={bubbleClass}>
+        <a href={httpCheck(link)} className={styles.iconLink}>
+          <Icon name={icon} className={iconClass} />
+        </a>
+      </div>
+    );
+  }
+  return (
+    <div className={bubbleClass}>
+      <Icon name={icon} className={iconClass} />
+    </div>
+  );
+};
 
-const withLinkIcon = (link, icon, bubbleClass, iconClass) => (
-  <a href={httpCheck(link)}>{noLinkIcon(icon, bubbleClass, iconClass)}</a>
-);
-
-const noLinkData = (dataClass, data) => (
-  <span className={cx(styles.data, dataClass)}>{data || '-'}</span>
-);
-
-const withLinkData = (link, dataClass, data) => (
-  <a href={httpCheck(link)} style={{ margin: '0 auto' }}>{noLinkData(dataClass, data)}</a>
-);
+const dataComponent = (dataClass, data, link = undefined) => {
+  if (link) {
+    return (
+      <a href={httpCheck(link)}>
+        <span className={dataClass}>{data || '-'}</span>
+      </a>
+    );
+  }
+  return (
+    <span className={dataClass}>{data || '-'}</span>
+  );
+};
 
 function InfoBubble({ icon, data, meta, className, small = false,
   link, ...props }: Props) {
@@ -36,17 +48,14 @@ function InfoBubble({ icon, data, meta, className, small = false,
   const dataClass = small ? styles.smallData : styles.data;
   const metaClass = small ? styles.smallMeta : styles.meta;
 
-  // const Component = link ? 'a' : 'span';
-
   return (
     <div
       className={cx(styles.infoBubble, className)}
       {...props}
     >
-      {link ? withLinkIcon(link, icon, bubbleClass, iconClass) :
-        noLinkIcon(icon, bubbleClass, iconClass)}
-      {link ? withLinkData(link, dataClass, data) : noLinkData(dataClass, data)}
-      {meta && <span className={cx(styles.meta, metaClass)}>{data || '-'}</span>}
+      {iconComponent(icon, bubbleClass, iconClass, link)}
+      {dataComponent(dataClass, data, link)}
+      {meta && dataComponent(metaClass, meta)}
     </div>
   );
 }
