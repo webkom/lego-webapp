@@ -16,7 +16,10 @@ global.log = function log(self = this) {
   return this;
 };
 
-const store = configureStore();
+const preloadedState = window.__PRELOADED_STATE__;
+delete window.__PRELOADED_STATE__;
+
+const store = configureStore(preloadedState);
 const history = syncHistoryWithStore(browserHistory, store);
 
 const rootElement = document.getElementById('root');

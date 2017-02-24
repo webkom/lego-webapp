@@ -6,30 +6,43 @@ import Helmet from 'react-helmet';
 import routes from '../app/routes';
 import configureStore from '../app/utils/configureStore';
 
-function render(req, res) {
+function render(req, res, next) {
   match({ routes, location: req.url }, (err, redirect, renderProps) => {
     if (err) {
-      res.status(500).send(err.message);
-    } else if (redirect) {
-      res.redirect(redirect.pathname + redirect.search);
-    } else if (renderProps) {
-      const store = configureStore();
-      const appHtml = renderToString(
-        <Provider store={store}>
-          <RouterContext {...renderProps} />
-        </Provider>
-      );
-      res.send(renderPage(appHtml, store.getState(), Helmet.rewind()));
-    } else {
-      res.status(404).send('Not Found');
+      return next(err);
     }
+
+    if (redirect) {
+      return res.redirect(`${redirect.pathname}${redirect.search}`);
+    }
+
+    if (!renderProps) {
+      return next();
+    }
+
+    const store = configureStore();
+    const body = renderToString(
+      <Provider store={store}>
+        <RouterContext {...renderProps} />
+      </Provider>
+    );
+
+    res.send(renderPage({
+      body,
+      reduxState: store.getState(),
+      helmet: Helmet.rewind()
+    }));
   });
 }
 
 
-function renderPage(appHtml, preloadedState, helmet) {
+function renderPage({ body, reduxState, helmet }) {
   const appJs = 'app.js';
   const vendorJs = process.env.NODE_ENV === 'production' ? 'vendor.js' : 'vendors.dll.js';
+
+  const styles = [
+    process.env.NODE_ENV === 'production' && 'app.css'
+  ].filter(Boolean);
 
   return `
     <!DOCTYPE html>
@@ -42,15 +55,21 @@ function renderPage(appHtml, preloadedState, helmet) {
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <link rel="shortcut icon" href="/favicon.png" type="image/png">
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+        ${styles.map((style) => `<link rel="stylesheet" href="/${style}">`)}
       </head>
       <body>
-        <div id="root">${appHtml}</div>
+        <div id="root">${body}</div>
         <script>
-           window.__PRELOADED_STATE__ = ${JSON.stringify(preloadedState).replace(/</g, '\\u003c')}
+           window.__PRELOADED_STATE__ = ${JSON.stringify(reduxState).replace(/</g, '\\u003c')}
         </script>
 
-        <script src="${vendorJs}"></script>
-        <script src="${appJs}"></script>
+        <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+        <script src="https://use.typekit.net/rtr2iog.js"></script>
+        <script src="//cdn.iframe.ly/embed.js" async></script>
+        <script>try{Typekit.load({ async: true });}catch(e){}</script>
+        <script src="/${vendorJs}"></script>
+        <script src="/${appJs}"></script>
       </body>
     </html>
    `;

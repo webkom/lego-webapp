@@ -14,7 +14,7 @@ class RandomQuote extends Component {
     currentQuote: {}
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.refreshQuote();
   }
 

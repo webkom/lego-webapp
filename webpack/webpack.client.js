@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const packageJson = require('../package.json');
 
 const root = path.resolve(__dirname, '..');
@@ -68,6 +69,13 @@ module.exports = {
         }
       }
     }),
+
+    new ExtractTextPlugin({
+      //filename: '[name].[contenthash:8].css',
+      filename: '[name].css',
+      allChunks: true,
+      disable: !isProduction
+    }),
   ])),
 
   resolve: {
@@ -89,21 +97,24 @@ module.exports = {
     }, {
       test: /\.css$/,
       include: /node_modules/,
-      loaders: ['style-loader', 'css-loader']
+      use: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: 'css-loader'
+      })
     }, {
       test: /\.css$/,
       exclude: /node_modules/,
-      loaders: [
-        'style-loader', {
+      loaders: ExtractTextPlugin.extract({
+        fallback: 'style-loader',
+        use: [{
           loader: 'css-loader',
-          query: {
+          options: {
             modules: true,
             importLoaders: 1,
             localIdentName: '[name]__[local]___[hash:base64:5]'
           }
-        },
-        'postcss-loader'
-      ]
+        }, 'postcss-loader']
+      })
     }, {
       test: /\.(png|jpg|jpeg|gif|woff|woff2|ttf|mp4|webm)/,
       loader: 'url-loader',
