@@ -3,6 +3,7 @@
 import styles from './AppRoute.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Helmet from 'react-helmet';
 import { loginAutomaticallyIfPossible, logout, login } from 'app/actions/UserActions';
 import { toggleSearch } from 'app/actions/SearchActions';
 import Header from 'app/components/Header';
@@ -34,6 +35,11 @@ class App extends Component {
         style={this.props.searchOpen ? { WebkitFilter: 'blur(10px)' } : null}
         className={styles.AppRoute}
       >
+        <Helmet
+          defaultTitle='Abakus.no'
+          titleTemplate='%s | Abakus.no'
+        />
+
         <Header
           searchOpen={this.props.searchOpen}
           toggleSearch={this.props.toggleSearch}

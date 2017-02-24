@@ -7,9 +7,7 @@
 }
 
 .inner {
-  border: 1px solid rgba(0, 0, 0, 0.09);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-  border-radius: 5px;
+  composes: withShadow from 'app/styles/utilities.css';
   flex: 1;
 }
 
@@ -24,9 +22,7 @@
 }
 
 .innerPrimaryItem {
-  border: 1px solid rgba(0, 0, 0, 0.09);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-  border-radius: 5px;
+  composes: withShadow from 'app/styles/utilities.css';
 }
 
 .item:hover .itemInfo {

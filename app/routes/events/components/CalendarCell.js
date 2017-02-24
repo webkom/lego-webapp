@@ -7,7 +7,6 @@ import { Link } from 'react-router';
 import { createSelector } from 'reselect';
 import Circle from 'app/components/Circle';
 import Popover from 'app/components/Popover';
-import truncateString from 'app/utils/truncateString';
 import colorForEvent from '../colorForEvent';
 import styles from './Calendar.css';
 import Pill from 'app/components/Pill';
@@ -16,14 +15,14 @@ const Event = ({ id, title, description, eventType, registrationCount, totalCapa
   <Popover
     key={id}
     render={() => (
-      <div style={{ whiteSpace: 'nowrap' }}>
+      <div className={styles.cell}>
         <Circle color={colorForEvent(eventType)} />
         {' '}
         <Link
           to={`/events/${id}`}
           title={title}
         >
-          {truncateString(title, 10)}
+          {title}
         </Link>
       </div>
     )}

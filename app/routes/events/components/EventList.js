@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import Helmet from 'react-helmet';
 import moment from 'moment';
 import Time from 'app/components/Time';
 import Pill from 'app/components/Pill';
@@ -98,13 +99,14 @@ class EventList extends Component {
     const events = groupEvents(this.props.events);
     return (
       <div className={styles.root}>
+        <Helmet title='Arrangementer' />
         <Toolbar />
 
-        <EventListGroup name="Denne uken" events={events.currentWeek} />
+        <EventListGroup name='Denne uken' events={events.currentWeek} />
 
-        <EventListGroup name="Neste uke" events={events.nextWeek} />
+        <EventListGroup name='Neste uke' events={events.nextWeek} />
 
-        <EventListGroup name="Senere" events={events.later} />
+        <EventListGroup name='Senere' events={events.later} />
       </div>
     );
   }

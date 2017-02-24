@@ -58,3 +58,7 @@
 .prevNextMonthDay {
   color: #bbb;
 }
+
+.cell {
+  composes: truncateString from 'app/styles/utilities.css';
+}
