@@ -19,9 +19,8 @@ export type Props = {
   registration: Object,
   currentUser: Object,
   onSubmit: void,
-  onToken: void,
-}
-
+  onToken: void
+};
 
 class JoinEventForm extends Component {
   state = {
@@ -29,23 +28,11 @@ class JoinEventForm extends Component {
     formOpen: false,
     captchaOpen: false,
     buttonOpen: false
-  }
+  };
   counter = undefined;
 
   componentDidMount() {
-    if (this.props.registration) {
-      if (moment().isAfter(this.props.event.startTime)) {
-        // asd
-      } else {
-        this.setState({
-          formOpen: true,
-          captchaOpen: true,
-          buttonOpen: true
-        });
-      }
-    } else {
-      this.parseEventTimes(this.props.event);
-    }
+    this.parseEventTimes(this.props.event);
   }
 
   componentWillUnmount() {
@@ -59,7 +46,9 @@ class JoinEventForm extends Component {
     let duration = moment.duration(diffTime, 'milliseconds');
     if (currentTime.isAfter(moment(startTime))) {
       // Do nothing
-    } else if (poolActivationTime.isBefore(currentTime)) {
+    } else if (
+      poolActivationTime.isBefore(currentTime) || this.props.registration
+    ) {
       this.setState({
         formOpen: true,
         captchaOpen: true,
@@ -74,14 +63,17 @@ class JoinEventForm extends Component {
         time: poolActivationTime
       });
       const interval = 10000;
-      this.counter = setInterval(() => {
-        const diff = duration - interval;
-        duration = moment.duration(diff, 'milliseconds');
-        if (diff < 600000) {
-          clearInterval(this.counter);
-          this.initiateCountdown(duration);
-        }
-      }, interval);
+      this.counter = setInterval(
+        () => {
+          const diff = duration - interval;
+          duration = moment.duration(diff, 'milliseconds');
+          if (diff < 600000) {
+            clearInterval(this.counter);
+            this.initiateCountdown(duration);
+          }
+        },
+        interval
+      );
     } else {
       this.initiateCountdown(duration);
     }
@@ -90,25 +82,28 @@ class JoinEventForm extends Component {
   initiateCountdown(duration) {
     const interval = 1000;
     duration += 1000;
-    this.counter = setInterval(() => {
-      duration = moment.duration(duration, 'milliseconds') - interval;
-      if (duration <= 1000) {
-        clearInterval(this.counter);
+    this.counter = setInterval(
+      () => {
+        duration = moment.duration(duration, 'milliseconds') - interval;
+        if (duration <= 1000) {
+          clearInterval(this.counter);
+          this.setState({
+            time: null,
+            buttonOpen: true
+          });
+          return;
+        }
+        if (duration < 60000) {
+          this.setState({
+            captchaOpen: true
+          });
+        }
         this.setState({
-          time: null,
-          buttonOpen: true
+          time: moment(duration).format('mm:ss')
         });
-        return;
-      }
-      if (duration < 60000) {
-        this.setState({
-          captchaOpen: true
-        });
-      }
-      this.setState({
-        time: moment(duration).format('mm:ss')
-      });
-    }, interval);
+      },
+      interval
+    );
     this.setState({
       formOpen: true
     });
@@ -116,104 +111,122 @@ class JoinEventForm extends Component {
 
   submitWithType = (handleSubmit, feedbackName, type = null) => {
     if (type === 'unregister') {
-      return handleSubmit(() => (
+      return handleSubmit(() =>
         this.props.onSubmit({
           type
-        })
-      ));
+        }));
     }
-    return handleSubmit((values) => (
+    return handleSubmit(values =>
       this.props.onSubmit({
         captchaResponse: values.captchaResponse,
         feedback: values[feedbackName],
-        type,
-      })
-    ));
+        type
+      }));
   };
 
   render() {
     const {
-      title, event, registration, currentUser,
-      handleSubmit, onToken,
-      invalid, pristine, submitting
+      title,
+      event,
+      registration,
+      currentUser,
+      handleSubmit,
+      onToken,
+      invalid,
+      pristine,
+      submitting
     } = this.props;
 
-    const disabledButton = !registration ?
-      (invalid || pristine || submitting) :
-      null;
+    const disabledButton = !registration
+      ? invalid || pristine || submitting
+      : null;
     const joinTitle = !registration ? 'MELD DEG PÅ' : 'AVREGISTRER';
     const registrationType = !registration ? 'register' : 'unregister';
     const feedbackName = getFeedbackName(event.feedbackRequired);
-    const showStripe = (
-      event.isPriced &&
+    const showStripe = event.isPriced &&
       registration &&
-      !['pending', 'succeeded'].includes(registration.chargeStatus)
-    );
+      !['pending', 'succeeded'].includes(registration.chargeStatus);
     return (
       <div>
-        {!this.state.formOpen && this.state.time && (
-          <div>Åpner <Time time={this.state.time} format='nowToTimeInWords' /></div>
-        )}
-        {!this.state.formOpen && !this.state.time && (
-          <div>Det går ikke lenger å melde seg på.</div>
-        )}
-        {this.state.formOpen && (
-          <form onSubmit={this.submitWithType(handleSubmit, feedbackName, registrationType)}>
+        {!this.state.formOpen &&
+          this.state.time &&
+          <div>
+            Åpner <Time time={this.state.time} format="nowToTimeInWords" />
+          </div>}
+        {!this.state.formOpen &&
+          !this.state.time &&
+          <div>Det går ikke lenger å melde seg på.</div>}
+        {this.state.formOpen &&
+          <form
+            onSubmit={this.submitWithType(
+              handleSubmit,
+              feedbackName,
+              registrationType
+            )}
+          >
             <Field
-              placeholder='Melding til arrangører (allergier etc)'
+              placeholder="Melding til arrangører (allergier etc)"
               name={feedbackName}
               component={TextEditor.Field}
             />
-            {registration && (
+            {registration &&
               <Button
-                type='button'
-                onClick={this.submitWithType(handleSubmit, feedbackName, 'feedback')}
+                type="button"
+                onClick={this.submitWithType(
+                  handleSubmit,
+                  feedbackName,
+                  'feedback'
+                )}
               >
                 Oppdater feedback
-              </Button>
-            )}
-            {!registration && this.state.captchaOpen && (
+              </Button>}
+            {!registration &&
+              this.state.captchaOpen &&
               <Field
-                name='captchaResponse'
+                name="captchaResponse"
                 fieldStyle={{ width: 304 }}
                 component={Captcha.Field}
-              />
-            )}
-            {this.state.time && (
-              <Button disabled={disabledButton}>{`Åpner om ${this.state.time}`}</Button>
-            )}
-            {this.state.buttonOpen && !event.loading && (
+              />}
+            {this.state.time &&
+              <Button disabled={disabledButton}>
+                {`Åpner om ${this.state.time}`}
+              </Button>}
+            {this.state.buttonOpen &&
+              !event.loading &&
               <div>
-                {!registration && event.spotsLeft === 0 && (
-                  <div>Det 0 plasser igjen, du blir registrert til venteliste</div>
-                )}
-                {!registration && event.spotsLeft > 0 && (
-                  <div>Det er {event.spotsLeft} plasser igjen.</div>
-                )}
-                <Button type='submit' disabled={disabledButton}>
+                {!registration &&
+                  event.spotsLeft === 0 &&
+                  <div>
+                    Det 0 plasser igjen, du blir registrert til venteliste
+                  </div>}
+                {!registration &&
+                  event.spotsLeft > 0 &&
+                  <div>Det er {event.spotsLeft} plasser igjen.</div>}
+                <Button type="submit" disabled={disabledButton}>
                   {title || joinTitle}
                 </Button>
-              </div>
-            )}
-            {event.loading && (<LoadingIndicator loading loadingStyle={{ margin: '5px auto' }} />)}
-          </form>
-        )}
-        {showStripe && (
+              </div>}
+            {event.loading &&
+              <LoadingIndicator
+                loading
+                loadingStyle={{ margin: '5px auto' }}
+              />}
+          </form>}
+        {showStripe &&
           <StripeCheckout
-            name='Abakus Linjeforening'
+            name="Abakus Linjeforening"
             description={event.title}
             image={logoImage}
-            currency='NOK'
+            currency="NOK"
             allowRememberMe={false}
-            locale='no'
+            locale="no"
             token={onToken}
             stripeKey={config.stripeKey}
             amount={event.price}
             email={currentUser.email}
           >
             <Button>Betal nå</Button>
-          </StripeCheckout>
-        )}
+          </StripeCheckout>}
       </div>
     );
   }
@@ -239,7 +252,6 @@ function validateEventForm(data) {
 
 function mapStateToProps(state, props) {
   if (props.registration) {
-    console.log('props', props.registration);
     const feedbackName = getFeedbackName(props.event.feedbackRequired);
     return {
       initialValues: {
@@ -255,4 +267,5 @@ export default compose(
   reduxForm({
     form: 'joinEvent',
     validate: validateEventForm
-  }))(JoinEventForm);
+  })
+)(JoinEventForm);

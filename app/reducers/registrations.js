@@ -11,6 +11,7 @@ export default createEntityReducer({
     switch (action.type) {
       case Event.SOCKET_REGISTRATION.SUCCESS:
       case Event.PAYMENT_QUEUE.SUCCESS:
+      case Event.SOCKET_PAYMENT.SUCCESS:
       case Event.SOCKET_PAYMENT.FAILURE: {
         return {
           ...state,
