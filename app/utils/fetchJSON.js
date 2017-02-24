@@ -70,19 +70,22 @@ export default function fetchJSON(path, requestOptions = {}) {
     ? makeFormData(files, options.body)
     : stringifyBody(options);
 
-  const request = new Request(path, {
+  const createRequest = () => new Request(path, {
     ...options,
     body,
     headers: new Headers({
       'Accept': 'application/json',
+      'Content-Type': 'application/json',
       ...options.headers
     })
   });
+
 
   return new Promise((resolve, reject) => {
     let requestsAttempted = 0;
 
     const wrappedFetch = () => {
+      const request = createRequest();
       requestsAttempted++;
       return Promise.race([
         timeoutPromise(timeout),
@@ -97,7 +100,6 @@ export default function fetchJSON(path, requestOptions = {}) {
           }
 
           setTimeout(() => {
-            __DEV__ && console.warn('Retrying HTTP Request', request); // eslint-disable-line
             wrappedFetch();
           }, retryDelays[requestsAttempted - 1]);
         });
