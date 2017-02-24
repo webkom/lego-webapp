@@ -1,5 +1,28 @@
 import 'isomorphic-fetch';
 
+function parseResponseBody(response) {
+  return response.text().then((textString) => {
+    const contentType = response.headers.get('content-type') || 'application/json';
+
+    if (contentType.includes('application/json') && textString) {
+      response.jsonData = JSON.parse(textString);
+    }
+
+    response.textString = textString;
+    return response;
+  });
+}
+
+function rejectOnHttpErrors(response) {
+  if (response.ok) {
+    return response;
+  }
+
+  const error = new Error(`HTTP ${response.status}`);
+  error.response = response;
+  throw error;
+};
+
 export function stringifyBody(requestOptions: Object) {
   const { body, json } = requestOptions;
 
@@ -14,31 +37,29 @@ export function stringifyBody(requestOptions: Object) {
   return null;
 }
 
-/**
- *
- */
-export default function fetchJSON(path, options = {}) {
-  const filesToUpload = options.files ? options.files : [];
-  delete options.files;
+function makeFormData(files, rawBody) {
+  const body = new FormData();
 
-  let body;
-  if (filesToUpload.length > 0) {
-    body = new FormData();
-
-    const rawBody = options.body;
-
-    if (rawBody != null) {
-      Object.keys(rawBody).forEach((prop) => {
-        body.append(prop, rawBody[prop]);
-      });
-    }
-
-    body.append('file', filesToUpload[0]);
-  } else {
-    options.headers = options.headers || {};
-    options.headers['Content-Type'] = options.headers['Content-Type'] || 'application/json';
-    body = stringifyBody(options);
+  if (rawBody) {
+    Object.keys(rawBody).forEach((prop) => {
+      body.append(prop, rawBody[prop]);
+    });
   }
+
+  body.append('file', files[0]);
+  return body;
+}
+
+export default function fetchJSON(path, requestOptions = {}) {
+  const {
+    files = [],
+    retryDelays = [1000, 3000],
+    ...options
+   } = requestOptions;
+
+  const body = files.length > 0
+    ? makeFormData(files, options.body)
+    : stringifyBody(options);
 
   const request = new Request(path, {
     ...options,
@@ -49,18 +70,27 @@ export default function fetchJSON(path, options = {}) {
     })
   });
 
-  return fetch(request).then((response) =>
-    response.json().then((json) => {
-      response.jsonData = json;
-      return response;
-    })
-  ).then((response) => {
-    if (response.ok) {
-      return response;
-    }
+  return new Promise((resolve, reject) => {
+    let requestsAttempted = 0;
 
-    const error = new Error(`${response.status} ${response.statusText}`);
-    error.response = response;
-    throw error;
+    const _fetch = () => {
+      requestsAttempted++;
+      return fetch(request)
+        .then(parseResponseBody)
+        .then(rejectOnHttpErrors)
+        .then(resolve)
+        .catch((error) => {
+          if (!retryDelays || requestsAttempted > retryDelays.length) {
+            return reject(error);
+          }
+
+          setTimeout(() => {
+            console.warn('Retrying HTTP Request', request);
+            _fetch();
+          }, retryDelays[requestsAttempted - 1]);
+        });
+    };
+
+    _fetch();
   });
 }
