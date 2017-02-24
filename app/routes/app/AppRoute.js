@@ -14,7 +14,7 @@ import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 
 class App extends Component {
   state = {
-    ready: false
+    ready: !__CLIENT__
   };
 
   componentDidMount() {

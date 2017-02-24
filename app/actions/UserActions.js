@@ -12,13 +12,13 @@ const USER_STORAGE_KEY = 'user';
 
 function putInLocalStorage(key) {
   return (action) => {
-    window.localStorage.setItem(key, JSON.stringify(action.payload));
+    global.localStorage.setItem(key, JSON.stringify(action.payload));
     return action;
   };
 }
 
 function clearLocalStorage(key) {
-  window.localStorage.removeItem(key);
+  global.localStorage.removeItem(key);
 }
 
 export function login(username, password) {
@@ -48,7 +48,7 @@ export function login(username, password) {
 
 export function logout() {
   return (dispatch) => {
-    window.localStorage.removeItem(USER_STORAGE_KEY);
+    global.localStorage.removeItem(USER_STORAGE_KEY);
     connectWebsockets(dispatch);
     dispatch({ type: User.LOGOUT });
     dispatch(replace('/'));
@@ -166,7 +166,7 @@ export function loginWithExistingToken(user, token) {
 export function loginAutomaticallyIfPossible() {
   return (dispatch) => {
     const { user, token } = JSON.parse(
-      window.localStorage.getItem(USER_STORAGE_KEY)
+      global.localStorage.getItem(USER_STORAGE_KEY)
     ) || {};
 
     if (token) {

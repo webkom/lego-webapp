@@ -1,4 +1,3 @@
-import WebSocketClient from 'websocket.js';
 import config from '../config';
 import createQueryString from './createQueryString';
 import { addNotification } from 'app/actions/NotificationActions';
@@ -19,6 +18,12 @@ export function sendMessage(type, payload) {
 
 
 export function connectWebsockets(dispatch, jwt) {
+  if (!__CLIENT__) {
+    return;
+  }
+
+  const WebSocketClient = require('websocket.js').default;
+
   const qs = createQueryString({ jwt });
   if (socket) socket.close();
   socket = new WebSocketClient(`${config.wsServerUrl}/${qs}`);

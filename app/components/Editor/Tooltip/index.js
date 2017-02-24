@@ -45,15 +45,15 @@ export default class Tooltip extends Component {
       return;
     }
 
-    const selection = window.getSelection();
+    const selection = global.getSelection();
     if (!selection.rangeCount) return;
 
     const range = selection.getRangeAt(0);
 
     const rect = range.getBoundingClientRect();
     menu.style.display = 'initial';
-    menu.style.top = `${rect.top + window.scrollY - menu.offsetHeight}px`;
-    menu.style.left = `${rect.left + window.scrollX - menu.offsetWidth / 2 + rect.width / 2}px`;
+    menu.style.top = `${rect.top + global.scrollY - menu.offsetHeight}px`;
+    menu.style.left = `${rect.left + global.scrollX - menu.offsetWidth / 2 + rect.width / 2}px`;
   }
 
   hasStyle = (type) => {

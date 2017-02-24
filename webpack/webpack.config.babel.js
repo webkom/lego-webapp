@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const packageJson = require('../package.json');
 
 const root = path.resolve(__dirname, '..');
@@ -31,6 +30,7 @@ module.exports = {
   plugins: getDependencyHandlers().concat(compact([
     new webpack.DefinePlugin({
       __DEV__: JSON.stringify(!isProduction),
+      __CLIENT__: true,
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'process.env.API_URL': JSON.stringify(process.env.API_URL) || JSON.stringify('http://127.0.0.1:8000/api/v1'),
       'process.env.WS_URL': JSON.stringify(process.env.WS_URL) || JSON.stringify('ws://127.0.0.1:8000'),
@@ -68,15 +68,6 @@ module.exports = {
         }
       }
     }),
-
-    new HtmlWebpackPlugin({
-      template: 'app/index.html',
-      inject: true,
-      hash: true,
-      favicon: 'app/assets/favicon.png',
-      appName: packageJson.name,
-      dllScriptTag: getDllScriptTag()
-    })
   ])),
 
   resolve: {
@@ -123,15 +114,6 @@ module.exports = {
   }
 };
 
-function getDllScriptTag() {
-  if (isProduction) {
-    return '';
-  }
-
-  return '<script type="text/javascript" src="/vendors.dll.js"></script>';
-}
-
-
 function getDependencyHandlers() {
   if (isProduction) {
     return [new webpack.optimize.CommonsChunkPlugin({
@@ -152,7 +134,7 @@ function getDependencyHandlers() {
   return [
     new webpack.DllReferencePlugin({
       context: root,
-      manifest: require(manifestPath)
+      manifest: JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
     })
   ];
 }

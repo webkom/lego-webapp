@@ -2,11 +2,12 @@ import 'babel-polyfill';
 import React from 'react';
 import moment from 'moment';
 import { render } from 'react-dom';
-import { browserHistory } from 'react-router';
+import { browserHistory, match } from 'react-router';
 import { AppContainer } from 'react-hot-loader';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from 'app/utils/configureStore';
 import Root from './Root';
+import routes from 'app/routes';
 
 moment.locale('nb-NO');
 
@@ -20,20 +21,21 @@ const history = syncHistoryWithStore(browserHistory, store);
 
 const rootElement = document.getElementById('root');
 
-render(
-  <AppContainer>
-    <Root {...{ store, history }} />
-  </AppContainer>,
-  rootElement
+const renderApp = () => (
+  match({ history, routes }, (error, redirectLocation, renderProps) => {
+    render(
+      <AppContainer>
+        <Root {...{ store, history, routes }} {...renderProps} />
+      </AppContainer>,
+      rootElement
+    );
+  })
 );
 
 if (module.hot) {
   module.hot.accept('./Root', () => {
-    render(
-      <AppContainer>
-        <Root {...{ store, history }} />
-      </AppContainer>,
-      rootElement
-    );
+    renderApp();
   });
 }
+
+renderApp();

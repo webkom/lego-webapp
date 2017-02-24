@@ -33,7 +33,7 @@ export default class ArticleEditor extends Component {
       .then((action) => {
         const fileToken = action.meta.fileToken;
         this.setState({
-          images: { ...this.state.images, [fileToken]: window.URL.createObjectURL(picture) },
+          images: { ...this.state.images, [fileToken]: global.URL.createObjectURL(picture) },
           article: { ...this.state.article, cover: fileToken }
         });
       });

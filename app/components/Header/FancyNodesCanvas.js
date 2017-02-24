@@ -17,7 +17,7 @@ class FancyNodesCanvas extends Component {
   };
 
   state = {
-    width: window.innerWidth
+    width: global.innerWidth
   };
 
   _canvas: any;
@@ -29,7 +29,7 @@ class FancyNodesCanvas extends Component {
   }, 70);
 
   componentDidMount() {
-    window.addEventListener('resize', this.handleResize);
+    global.addEventListener('resize', this.handleResize);
     this.drawGraphics();
   }
 
@@ -42,7 +42,7 @@ class FancyNodesCanvas extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
+    global.removeEventListener('resize', this.handleResize);
   }
 
   render() {
