@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'app/components/Image';
 
 type Props = {
-  user: number,
+  user: any,
   size: number,
   style?: Object
 };
@@ -12,7 +12,7 @@ type Props = {
 function ProfilePicture({ user, size = 100, style, ...props }: Props) {
   return (
     <Image
-      src={user.picture}
+      src={user.profilePicture}
       style={{
         width: size,
         height: size,

@@ -7,6 +7,8 @@ type Props = {
   children?: any
 };
 
+// DO NOT USE
+
 function RequireLogin({ loggedIn, children }: Props) {
   if (!loggedIn) {
     return null;

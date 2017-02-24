@@ -10,3 +10,17 @@
   border-bottom: 1px solid #ddd;
   padding: 20px;
 }
+
+.content {
+  display: flex;
+  flex-direction: row;
+  padding-top: 20px;
+}
+
+.sidebar {
+  width: 320px;
+}
+
+.feed {
+  padding-left: 30px;
+}
