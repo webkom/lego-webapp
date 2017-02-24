@@ -13,22 +13,11 @@ import NotificationContainer from 'app/components/NotificationContainer';
 import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 
 class App extends Component {
-  state = {
-    ready: !__CLIENT__
-  };
-
   componentDidMount() {
-    this.props.loginAutomaticallyIfPossible()
-      .then(
-        () => this.setState({ ready: true }),
-        () => this.setState({ ready: true })
-      );
+    this.props.loginAutomaticallyIfPossible();
   }
 
   render() {
-    if (!this.state.ready) {
-      return <LoadingIndicator loading />;
-    }
 
     return (
       <div

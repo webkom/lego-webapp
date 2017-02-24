@@ -1,13 +1,16 @@
 const fs = require('fs');
 const path = require('path');
-const { LoaderOptionsPlugin, DefinePlugin } = require('webpack');
+const webpack = require('webpack');
 
 const root = path.resolve(__dirname, '..');
 
 module.exports = {
 
   entry: {
-    server: path.resolve(__dirname, 'server.js')
+    server: [
+      'webpack/hot/poll?1000',
+      path.resolve(__dirname, 'server.js')
+    ]
   },
 
   output: {
@@ -33,11 +36,12 @@ module.exports = {
   },
 
   plugins: [
-    new DefinePlugin({
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.DefinePlugin({
       __CLIENT__: false,
       __DEV__: true
     }),
-    new LoaderOptionsPlugin({
+    new webpack.LoaderOptionsPlugin({
       options: {
         context: __dirname,
         postcss() {
