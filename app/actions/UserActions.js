@@ -56,19 +56,20 @@ export function logout() {
 }
 
 export function updateUser(user, options = { noRedirect: false }) {
-  const { username, firstName, lastName, email, picture } = user;
+  const { username, firstName, lastName, email, picture, gender } = user;
   return (dispatch, getState) => {
     const token = getState().auth.token;
     return dispatch(callAPI({
       types: User.UPDATE,
       endpoint: `/users/${username}/`,
-      method: 'put',
+      method: 'PATCH',
       body: {
         username,
         first_name: firstName,
         last_name: lastName,
         email,
-        picture
+        picture,
+        gender
       },
       schema: userSchema,
       meta: {

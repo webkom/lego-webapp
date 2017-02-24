@@ -19,7 +19,7 @@
 }
 
 .hiddenOnMobile {
-  @media (max-width: 400px) {
+  @media (--small-viewport) {
     display: none !important;
   }
 }
