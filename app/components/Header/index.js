@@ -155,9 +155,9 @@ export default class Header extends Component {
                             this.setState({ shake: false, accountOpen: false });
                             return res;
                           },
-                          (err) => {
+                          (error) => {
                             this.setState({ shake: true });
-                            throw err;
+                            throw error;
                           }
                         );
                     }}

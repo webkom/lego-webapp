@@ -45,7 +45,7 @@
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  height: 96px;
+  height: var(--lego-header-height);
   padding: 0 20px;
 }
 
@@ -66,14 +66,14 @@
   line-height: 60px;
   flex: 2;
 
-  @media only screen and (max-width: 768px) {
+  @media (--small-viewport) {
     display: none;
   }
 }
 
 .navigation a {
   font-size: 1.4rem;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 1px;
   padding: 0 1rem;
   height: 100%;

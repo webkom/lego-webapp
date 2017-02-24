@@ -28,7 +28,7 @@ function renderErrorMessage(error: Array<string> | string) {
 export function createField(Component: any) {
   return (field: any) => {
     const { input, meta, label, fieldStyle, fieldClassName, ...props } = field;
-    const hasError = meta.touched && meta.error;
+    const hasError = meta.touched && meta.error && meta.error.length > 0;
 
     return (
       <div
