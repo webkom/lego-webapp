@@ -1,3 +1,5 @@
+import fs from 'fs';
+import path from 'path';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
@@ -37,12 +39,20 @@ function render(req, res, next) {
 
 
 function renderPage({ body, reduxState, helmet }) {
-  const appJs = 'app.js';
-  const vendorJs = process.env.NODE_ENV === 'production' ? 'vendor.js' : 'vendors.dll.js';
+  const dllPlugin = process.env.NODE_ENV !== 'production'
+    ? '<script src="/vendors.dll.js"></script>'
+    : '';
 
-  const styles = [
-    process.env.NODE_ENV === 'production' && 'app.css'
-  ].filter(Boolean);
+  const map = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'dist', 'webpack-assets.json')));
+
+  const assets = Object.values(map).reduce((result, chunk) => {
+    chunk.css && result.css.push(chunk.css);
+    chunk.js && result.js.push(chunk.js);
+    return result;
+  }, { js: [], css: [] });
+
+  const styles = assets.css.map((css) => `<link rel="stylesheet" href="${css}">`).join('\n');
+  const scripts = assets.js.map((js) => `<script src="${js}"></script>`).join('\n');
 
   return `
     <!DOCTYPE html>
@@ -56,7 +66,7 @@ function renderPage({ body, reduxState, helmet }) {
         <link rel="shortcut icon" href="/favicon.png" type="image/png">
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
-        ${styles.map((style) => `<link rel="stylesheet" href="/${style}">`)}
+        ${styles}
       </head>
       <body>
         <div id="root">${body}</div>
@@ -68,8 +78,8 @@ function renderPage({ body, reduxState, helmet }) {
         <script src="https://use.typekit.net/rtr2iog.js"></script>
         <script src="//cdn.iframe.ly/embed.js" async></script>
         <script>try{Typekit.load({ async: true });}catch(e){}</script>
-        <script src="/${vendorJs}"></script>
-        <script src="/${appJs}"></script>
+        ${dllPlugin}
+        ${scripts}
       </body>
     </html>
    `;

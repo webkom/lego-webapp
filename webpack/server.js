@@ -2,7 +2,6 @@ const express = require('express');
 const chalk = require('chalk');
 const moment = require('moment');
 const formatMessage = require('react-dev-utils/formatWebpackMessages');
-const clearConsole = require('react-dev-utils/clearConsole');
 const render = require('./render').default;
 
 const app = express();
@@ -12,37 +11,13 @@ moment.locale('nb-NO');
 app.set('host', process.env.HOST || '0.0.0.0');
 app.set('port', process.env.PORT || 3000);
 
-function printMessage(message) {
-  if (process.env.NODE_ENV !== 'development') {
-    console.log(message);
-    return;
-  }
-
-  clearConsole();
-  console.log(`
-   ___      _______  _______  _______
-  |   |    |       ||       ||       |
-  |   |    |    ___||    ___||   _   |
-  |   |    |   |___ |   | __ |  | |  |
-  |   |___ |    ___||   ||  ||  |_|  |
-  |       ||   |___ |   |_| ||       |
-  |_______||_______||_______||_______|
-
-
-  The app is running at ${chalk.blue(`http://${app.get('host')}:${app.get('port')}`)}!
-  NODE_ENV=${chalk.green(process.env.NODE_ENV)}
-
-  ${message}
-  `);
-}
-//
-
 const config = require('./webpack.client.js');
+
 if (process.env.NODE_ENV !== 'production') {
   const compiler = require('webpack')(config);
 
   compiler.plugin('invalid', () => {
-    printMessage(chalk.yellow('Compiling assets...'));
+    console.error(chalk.yellow('Compiling assets...'));
   });
 
   compiler.plugin('done', (stats) => {
@@ -51,13 +26,13 @@ if (process.env.NODE_ENV !== 'production') {
     const hasWarnings = messages.warnings.length;
 
     if (!hasErrors && !hasWarnings) {
-      printMessage(
+      console.error(
         chalk.green(`Assets compiled successfully in ${stats.endTime - stats.startTime} ms :-)`)
       );
       return;
     }
     if (hasErrors) {
-      printMessage(chalk.red('Failed to compile assets :-('));
+      console.error(chalk.red('Failed to compile assets :-('));
       messages.errors.forEach((message) => {
         console.log(message);
         console.log();
@@ -66,7 +41,7 @@ if (process.env.NODE_ENV !== 'production') {
     }
 
     if (hasWarnings) {
-      printMessage(chalk.yellow(`Compiled assets with warnings in ${stats.endTime - stats.startTime} ms :/`));
+      console.error(chalk.yellow(`Compiled assets with warnings in ${stats.endTime - stats.startTime} ms :/`));
       messages.warnings.forEach((message) => {
         console.log(message);
         console.log();
@@ -108,10 +83,9 @@ app.listen(app.get('port'), app.get('host'), (err) => {
   if (err) {
     console.error(err);
   } else {
-    printMessage(chalk.green('Go to your browser :-)'));
-
+    console.log(chalk.green(`App is running on localhost:${app.get('port')}`));
     if (!process.env.NODE_ENV) {
-      printMessage(
+      console.error(
         chalk.red(`NODE_ENV is not set. Please put ${chalk.cyan('export NODE_ENV=development')} in your shell config.`) // eslint-disable-line
       );
     }
