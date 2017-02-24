@@ -21,7 +21,7 @@ export default class ImageUpload extends Component {
   onCrop = () => {
     this.crop.cropper.getCroppedCanvas().toBlob((image) => {
       image.name = this.state.file.name;
-      this.props.onSubmit(image, window.URL.createObjectURL(image));
+      this.props.onSubmit(image, global.URL.createObjectURL(image));
       this.closeModal(image);
     });
   }

@@ -1,9 +1,9 @@
-const path = require('path');
 const express = require('express');
 const chalk = require('chalk');
-const config = require('./webpack.config.babel.js');
+//const config = require('./webpack.config.babel.js');
 const formatMessage = require('react-dev-utils/formatWebpackMessages');
 const clearConsole = require('react-dev-utils/clearConsole');
+const render = require('./render').default;
 
 const app = express();
 
@@ -33,7 +33,9 @@ function printMessage(message) {
   ${message}
   `);
 }
+//
 
+const config = require('./webpack.config.babel.js');
 if (process.env.NODE_ENV !== 'production') {
   const compiler = require('webpack')(config);
 
@@ -78,26 +80,10 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(require('webpack-hot-middleware')(compiler, {
     log: false
   }));
-
-  app.use(express.static(config.output.path));
-  app.use((req, res, next) => {
-    const filename = path.join(compiler.outputPath, 'index.html');
-    compiler.outputFileSystem.readFile(filename, (err, result) => {
-      if (err) {
-        next(err);
-        return;
-      }
-
-      res.set('Content-Type', 'text/html');
-      res.send(result);
-    });
-  });
-} else {
-  app.use(express.static(config.output.path));
-  app.use((req, res) => {
-    res.sendFile(`${config.output.path}/index.html`);
-  });
 }
+
+app.use(express.static(config.output.path));
+app.use(render);
 
 app.listen(app.get('port'), app.get('host'), (err) => {
   if (err) {

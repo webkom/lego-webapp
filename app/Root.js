@@ -5,14 +5,13 @@ import 'app/styles/globals.css';
 import React, { Component } from 'react';
 import { Router } from 'react-router';
 import { Provider } from 'react-redux';
-import routes from 'app/routes';
 
 export default class Root extends Component {
   render() {
-    const { store, history } = this.props;
+    const { store, ...props } = this.props;
     return (
       <Provider {...{ store }}>
-        <Router {...{ history, routes }} />
+        <Router {...props} />
       </Provider>
     );
   }

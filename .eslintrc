@@ -12,7 +12,8 @@
     "log": true,
     "expect": true,
     "jest": true,
-    "__DEV__": true
+    "__DEV__": true,
+    "__CLIENT__": true
   },
   "rules": {
     "arrow-parens": 0,

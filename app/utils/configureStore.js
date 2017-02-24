@@ -22,7 +22,7 @@ export default function configureStore(initialState = {}) {
     errorMiddleware
   ];
 
-  if (__DEV__) {
+  if (__DEV__ && __CLIENT__) {
     middlewares.push(loggerMiddleware);
   }
 
@@ -31,7 +31,7 @@ export default function configureStore(initialState = {}) {
     initialState,
     compose(
       applyMiddleware(...middlewares),
-      window.devToolsExtension ? window.devToolsExtension() : (f) => f
+      global.devToolsExtension ? global.devToolsExtension() : (f) => f
     )
   );
 

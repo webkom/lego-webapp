@@ -8,6 +8,7 @@
   "scripts": {
     "start": "node webpack/server",
     "build": "NODE_ENV=production webpack --config webpack/webpack.config.babel.js -p --progress --color",
+    "build:server": "NODE_ENV=production webpack --config webpack/webpack.server.js --watch",
     "build:dll": "BUILDING_DLL=true webpack --display-chunks --color --config webpack/webpack.dll.babel.js",
     "postinstall": "yarn run build:dll",
     "test": "NODE_ENV=test jest",
