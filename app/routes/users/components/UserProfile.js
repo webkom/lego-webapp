@@ -18,7 +18,7 @@ const fieldTranslations = {
 type Props = {
   user: any,
   isMe: boolean,
-  feedItems: array,
+  feedItems: Array<any>,
   feed: Object
 };
 
@@ -50,7 +50,7 @@ export default class UserProfile extends Component {
       return <LoadingIndicator loading />;
     }
     return (
-      <section className='u-container'>
+      <section className={styles.root}>
         <FlexRow className={styles.header}>
           <ProfilePicture
             user={user}

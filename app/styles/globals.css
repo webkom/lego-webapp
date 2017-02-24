@@ -1,11 +1,10 @@
-@import 'minireset.css/minireset.css';
 @import url('https://fonts.googleapis.com/css?family=Lato:400,700');
 @import url('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
 @import './variables.css';
 
 @font-face {
   font-family: 'OCR A Extended';
-  src: url('./assets/fonts/ocraext.ttf') format('truetype');
+  src: url('app/assets/fonts/ocraext.ttf') format('truetype');
 }
 
 * {
@@ -67,23 +66,7 @@ button {
   outline: none;
 }
 
-.container {
-  max-width: var(--lego-max-width);
-  margin: 0 auto;
-}
-
 :global {
-  .u-container {
-    max-width: var(--lego-max-width);
-    margin: 0 auto;
-  }
-
-  .u-shadow-border {
-    border: 1px solid rgba(0, 0, 0, 0.09);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-    border-radius: 5px;
-  }
-
   .u-ui-heading {
     color: #666;
     text-transform: uppercase;
@@ -91,15 +74,5 @@ button {
     font-size: 18px;
     font-weight: 400;
     letter-spacing: 1px;
-  }
-
-  .u-text-muted {
-    color: #999;
-  }
-
-  @media (max-width: 400px) {
-    .u-hide-on-mobile {
-      display: none !important;
-    }
   }
 }

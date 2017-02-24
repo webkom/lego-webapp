@@ -36,7 +36,7 @@ class RandomQuote extends Component {
           <span>Tilfelding sitat</span>
           <i
             onClick={this.refreshQuote}
-            className="fa fa-refresh u-text-muted"
+            className="fa fa-refresh"
           />
         </h2>
         <div className={styles.quoteText}>{currentQuote.text}</div>

@@ -14,7 +14,7 @@
 }
 
 .footerContent {
-  composes: container from '../../Root.css';
+  composes: container from 'app/styles/utilities.css';
   display: flex;
   padding: 20px 0;
 }

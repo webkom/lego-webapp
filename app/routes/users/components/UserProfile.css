@@ -1,3 +1,7 @@
+.root {
+  composes: container from 'app/styles/utilities.css';
+}
+
 .header {
   display: flex;
   flex-direction: row;

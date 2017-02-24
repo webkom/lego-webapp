@@ -1,4 +1,4 @@
-@import '../../variables.css';
+@import 'app/styles/variables.css';
 
 .header {
   background: linear-gradient(#ddd, #eee);
@@ -39,7 +39,7 @@
 }
 
 .content {
-  composes: container from '../../Root.css';
+  composes: container from 'app/styles/utilities.css';
   position: relative;
   display: flex;
   justify-content: space-between;

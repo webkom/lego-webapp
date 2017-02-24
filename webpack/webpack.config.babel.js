@@ -59,7 +59,9 @@ module.exports = {
         minimize: isProduction,
         postcss() {
           return [
-            require('postcss-import')(),
+            require('postcss-import')({
+              path: [root]
+            }),
             require('postcss-cssnext'),
             require('postcss-nested')
           ];

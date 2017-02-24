@@ -1,6 +1,5 @@
 // @flow
 
-import '../../Root.css';
 import styles from './AppRoute.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';

@@ -1,6 +1,6 @@
 
 .root {
-  composes: container from '../../../Root.css';
+  composes: container from 'app/styles/utilities.css';
 }
 
 .singleQuote {
