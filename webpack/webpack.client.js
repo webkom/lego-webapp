@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const AssetsPlugin = require('assets-webpack-plugin')
 const packageJson = require('../package.json');
 
 const root = path.resolve(__dirname, '..');
@@ -12,13 +13,16 @@ const isProduction = process.env.NODE_ENV === 'production';
 module.exports = {
   cache: true,
   devtool: !isProduction && 'cheap-module-eval-source-map',
-  entry: {
-    app: compact([
-      !isProduction && 'webpack-hot-middleware/client',
-      !isProduction && 'react-hot-loader/patch',
-      './app/index.js'
-    ]),
+
+  entry: isProduction ? {
+    app: ['./app/index.js'],
     vendor: ['react', 'react-dom', 'react-router', 'moment', 'moment-timezone']
+  } : {
+    app: [
+      'webpack-hot-middleware/client',
+      'react-hot-loader/patch',
+      './app/index.js'
+    ]
   },
 
   output: {
@@ -71,11 +75,14 @@ module.exports = {
     }),
 
     new ExtractTextPlugin({
-      //filename: '[name].[contenthash:8].css',
-      filename: '[name].css',
+      filename: '[name].[contenthash:8].css',
       allChunks: true,
       disable: !isProduction
     }),
+
+    new AssetsPlugin({
+      path: path.join(root, 'dist')
+    })
   ])),
 
   resolve: {
