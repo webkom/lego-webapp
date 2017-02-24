@@ -15,7 +15,13 @@ export default ({
       import('./CalendarRoute')
         .then(loadRoute(cb))
         .catch(loadingError);
-    }
+    },
+    childRoutes: [{
+      path: ':year',
+      childRoutes: [{
+        path: ':month'
+      }]
+    }]
   }, {
     path: ':eventId',
     getComponent(location, cb) {

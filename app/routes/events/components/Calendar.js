@@ -16,15 +16,14 @@ type Props = {
   month: string;
 };
 
-function queryForPrevMonth(date: moment) {
-  // moment objects are mutated
+function pathForPrevMonth(date: moment) {
   const newDate = date.clone().subtract(1, 'months');
-  return { year: newDate.year(), month: newDate.month() + 1 };
+  return `${newDate.year()}/${newDate.month() + 1}`;
 }
 
-function queryForNextMonth(date: moment) {
+function pathForNextMonth(date: moment) {
   const newDate = date.clone().add(1, 'months');
-  return { year: newDate.year(), month: newDate.month() + 1 };
+  return `${newDate.year()}/${newDate.month() + 1}`;
 }
 
 export default class Calendar extends Component {
@@ -43,11 +42,11 @@ export default class Calendar extends Component {
         <Toolbar />
 
         <h2 className={styles.header}>
-          <Link to={{ pathname: '/events/calendar', query: queryForPrevMonth(date) }}>
+          <Link to={`/events/calendar/${pathForPrevMonth(date)}`}>
             &laquo;
           </Link>
           <span>{date.format('MMMM YYYY')}</span>
-          <Link to={{ pathname: '/events/calendar', query: queryForNextMonth(date) }}>
+          <Link to={`/events/calendar/${pathForNextMonth(date)}`}>
             &raquo;
           </Link>
         </h2>

@@ -11,16 +11,18 @@ function loadData(params, props) {
   const { year, month } = params;
   const dateAfter = moment([parseInt(year, 10), parseInt(month, 10) - 1]).startOf('month');
   const dateBefore = dateAfter.clone().add(1, 'months').startOf('month');
-  props.fetchAll({
+
+  return props.fetchAll({
     dateAfter: dateAfter.format('YYYY-MM-DD'),
-    dateBefore: dateBefore.format('YYYY-MM-DD') });
+    dateBefore: dateBefore.format('YYYY-MM-DD')
+  });
 }
 
 function mapStateToProps(state, ownProps) {
   const {
     year = moment().year(),
     month = moment().month() + 1
-  } = ownProps.location.query;
+  } = ownProps.params;
 
   return {
     year,
