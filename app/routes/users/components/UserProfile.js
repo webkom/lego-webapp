@@ -5,10 +5,10 @@ import { Link } from 'react-router';
 import { capitalize } from 'lodash';
 import ProfilePicture from 'app/components/ProfilePicture';
 import Card from 'app/components/Card';
-import { FlexRow, FlexItem } from 'app/components/FlexBox';
-import styles from './UserProfile.css';
+import Pill from 'app/components/Pill';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Feed from 'app/components/Feed';
+import styles from './UserProfile.css';
 
 const fieldTranslations = {
   username: 'brukernavn',
@@ -49,9 +49,10 @@ export default class UserProfile extends Component {
     if (!user) {
       return <LoadingIndicator loading />;
     }
+
     return (
-      <section className={styles.root}>
-        <FlexRow className={styles.header}>
+      <div className={styles.root}>
+        <div className={styles.header}>
           <ProfilePicture
             user={user}
             size={150}
@@ -59,29 +60,27 @@ export default class UserProfile extends Component {
 
           <h2>{user.fullName}</h2>
 
-          <div>5. Datateknikk</div>
-        </FlexRow>
+          <Pill>5. Datateknikk</Pill>
+        </div>
 
-        <FlexRow style={{ padding: 20 }}>
-          <FlexItem flex={1}>
+        <div className={styles.content}>
+          <div className={styles.sidebar}>
             <Card>
               {this.renderFields()}
               {isMe ? <Link to='/users/me/settings'>Settings</Link> : ''}
             </Card>
-          </FlexItem>
+          </div>
 
-          <FlexItem flex={2}>
-            <div style={{ padding: 20 }}>
-              <h2> User feed </h2>
-              {
-                feed ?
-                  <Feed items={feedItems} feed={feed} /> :
-                  <LoadingIndicator loading />
-              }
-            </div>
-          </FlexItem>
-        </FlexRow>
-      </section>
+          <div className={styles.feed}>
+            <h2>Recent Activity</h2>
+            {
+              feed ?
+                <Feed items={feedItems} feed={feed} /> :
+                <LoadingIndicator loading />
+            }
+          </div>
+        </div>
+      </div>
     );
   }
 }

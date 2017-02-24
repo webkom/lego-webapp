@@ -1,10 +1,8 @@
 // @flow
 
-import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import UserProfile from './components/UserProfile';
-import RequireLogin from 'app/components/RequireLogin';
 import { fetchUser } from 'app/actions/UserActions';
 import { fetchUserFeed } from 'app/actions/FeedActions';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
@@ -17,32 +15,6 @@ function loadData(params, props) {
   }
   if (!props.feed) {
     props.fetchUserFeed(username);
-  }
-}
-
-type Props = {
-  loggedIn: boolean,
-  user: Object,
-  feedItems: array,
-  isMe: boolean
-};
-
-class UserProfileRoute extends Component {
-  props: Props;
-
-  render() {
-    const { user, isMe, feedItems, feed } = this.props;
-
-    return (
-      <RequireLogin loggedIn={this.props.loggedIn}>
-        <UserProfile
-          user={user}
-          isMe={isMe}
-          feed={feed}
-          feedItems={feedItems}
-        />
-      </RequireLogin>
-    );
   }
 }
 
@@ -68,4 +40,4 @@ const mapDispatchToProps = { fetchUser, fetchUserFeed };
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   fetchOnUpdate(['username'], loadData)
-)(UserProfileRoute);
+)(UserProfile);
