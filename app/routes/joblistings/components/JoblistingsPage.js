@@ -1,4 +1,5 @@
 import React from 'react';
+import Helmet from 'react-helmet';
 import styles from './JoblistingsPage.css';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
 import JoblistingsList from './JoblistingsList';
@@ -11,6 +12,7 @@ const JoblistingsPage = ({ joblistings, query }) => {
   }
   return (
     <div className={styles.root}>
+      <Helmet title='Karriere' />
       <FlexRow className={styles.page} >
         <FlexColumn className={styles.list}>
           <JoblistingsList

@@ -1,5 +1,6 @@
 import styles from './Overview.css';
 import React, { Component } from 'react';
+import Helmet from 'react-helmet';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import Image from 'app/components/Image';
@@ -98,6 +99,7 @@ export default class Overview extends Component {
 
     return (
       <Content>
+        <Helmet title='Hjem' />
         <Flex>
           <PrimaryItem
             event={events[0]}

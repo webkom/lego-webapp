@@ -18,6 +18,12 @@
   border-radius: 5px;
 }
 
+.truncateString {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .hiddenOnMobile {
   @media (--small-viewport) {
     display: none !important;

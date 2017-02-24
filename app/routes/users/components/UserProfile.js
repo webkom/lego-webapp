@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import Helmet from 'react-helmet';
 import { capitalize } from 'lodash';
 import ProfilePicture from 'app/components/ProfilePicture';
 import Card from 'app/components/Card';
@@ -52,6 +53,8 @@ export default class UserProfile extends Component {
 
     return (
       <div className={styles.root}>
+        <Helmet title={`${user.firstName} ${user.lastName}`} />
+
         <div className={styles.header}>
           <ProfilePicture
             user={user}

@@ -2,6 +2,7 @@
 
 import styles from './Calendar.css';
 import React, { Component } from 'react';
+import Helmet from 'react-helmet';
 import moment from 'moment';
 import { Link } from 'react-router';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
@@ -39,6 +40,7 @@ export default class Calendar extends Component {
 
     return (
       <div className={styles.root}>
+        <Helmet title='Kalender' />
         <Toolbar />
 
         <h2 className={styles.header}>
