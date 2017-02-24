@@ -32,7 +32,7 @@ class JoinEventForm extends Component {
   }
   counter = undefined;
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.registration) {
       this.setState({
         formOpen: true,

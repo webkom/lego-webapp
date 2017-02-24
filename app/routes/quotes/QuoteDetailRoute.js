@@ -22,7 +22,7 @@ export class QuotesDetailRoute extends Component {
     location: PropTypes.object.isRequired
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.fetchQuote(this.props.params.quoteId);
   }
 

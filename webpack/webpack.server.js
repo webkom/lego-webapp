@@ -3,14 +3,15 @@ const path = require('path');
 const webpack = require('webpack');
 
 const root = path.resolve(__dirname, '..');
+const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
 
   entry: {
     server: [
-      'webpack/hot/poll?1000',
+      !isProduction && 'webpack/hot/poll?1000',
       path.resolve(__dirname, 'server.js')
-    ]
+    ].filter(Boolean)
   },
 
   output: {
@@ -36,7 +37,7 @@ module.exports = {
   },
 
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    !isProduction && new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       __CLIENT__: false,
       __DEV__: true
@@ -55,7 +56,7 @@ module.exports = {
         }
       }
     }),
-  ],
+  ].filter(Boolean),
 
   resolve: {
     modules: [
@@ -74,11 +75,21 @@ module.exports = {
       }, {
         test: /\.css$/,
         include: /node_modules/,
-        loaders: ['null-loader']
+        loaders: ['css-loader/locals']
       }, {
         test: /\.css$/,
         exclude: /node_modules/,
-        loader: 'null-loader'
+        loaders: [
+          {
+            loader: 'css-loader/locals',
+            query: {
+              modules: true,
+              importLoaders: 1,
+              localIdentName: '[name]__[local]___[hash:base64:5]'
+            }
+          },
+          'postcss-loader'
+        ]
       },
       {
         test: /\.(png|jpg|jpeg|gif|woff|woff2|ttf|mp4|webm)/,

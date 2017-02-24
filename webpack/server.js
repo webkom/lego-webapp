@@ -1,11 +1,13 @@
 const express = require('express');
 const chalk = require('chalk');
-//const config = require('./webpack.config.babel.js');
+const moment = require('moment');
 const formatMessage = require('react-dev-utils/formatWebpackMessages');
 const clearConsole = require('react-dev-utils/clearConsole');
 const render = require('./render').default;
 
 const app = express();
+
+moment.locale('nb-NO');
 
 app.set('host', process.env.HOST || '0.0.0.0');
 app.set('port', process.env.PORT || 3000);
@@ -35,7 +37,7 @@ function printMessage(message) {
 }
 //
 
-const config = require('./webpack.config.babel.js');
+const config = require('./webpack.client.js');
 if (process.env.NODE_ENV !== 'production') {
   const compiler = require('webpack')(config);
 
@@ -84,6 +86,23 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.use(express.static(config.output.path));
 app.use(render);
+
+app.use((req, res) => {
+  res.status(404).send({
+    message: 'Not Found'
+  });
+});
+
+app.use((err, req, res, next) => {
+  if (process.env.NODE_ENV !== 'production') {
+    console.error(err.stack);
+  }
+
+  console.error(err);
+  res.status(err.status || 500).send({
+    message: 'Internal Server Error'
+  });
+});
 
 app.listen(app.get('port'), app.get('host'), (err) => {
   if (err) {

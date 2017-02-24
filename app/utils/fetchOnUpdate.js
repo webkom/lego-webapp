@@ -30,7 +30,7 @@ function fetchOnUpdate<Props: Object>(
       loading: true
     };
 
-    componentWillMount() {
+    componentDidMount() {
       this.fetchData(extractWatchedProps(watchProps, this.props), this.props);
     }
 
