@@ -21,7 +21,7 @@ function rejectOnHttpErrors(response) {
   const error = new Error(`HTTP ${response.status}`);
   error.response = response;
   throw error;
-};
+}
 
 export function stringifyBody(requestOptions: Object) {
   const { body, json } = requestOptions;
@@ -51,7 +51,7 @@ function makeFormData(files, rawBody) {
 }
 
 function timeoutPromise(ms = 0) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     setTimeout(resolve, ms);
   }).then(() => {
     throw new Error('HTTP request timed out.');
@@ -82,7 +82,7 @@ export default function fetchJSON(path, requestOptions = {}) {
   return new Promise((resolve, reject) => {
     let requestsAttempted = 0;
 
-    const _fetch = () => {
+    const wrappedFetch = () => {
       requestsAttempted++;
       return Promise.race([
         timeoutPromise(timeout),
@@ -97,12 +97,12 @@ export default function fetchJSON(path, requestOptions = {}) {
           }
 
           setTimeout(() => {
-            console.warn('Retrying HTTP Request', request);
-            _fetch();
+            __DEV__ && console.warn('Retrying HTTP Request', request); // eslint-disable-line
+            wrappedFetch();
           }, retryDelays[requestsAttempted - 1]);
         });
     };
 
-    _fetch();
+    wrappedFetch();
   });
 }
