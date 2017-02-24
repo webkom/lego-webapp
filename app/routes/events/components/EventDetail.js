@@ -10,6 +10,7 @@ import JoinEventForm from './JoinEventForm';
 import RegisteredCell from './RegisteredCell';
 import RegisteredSummary from './RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import Tag from 'app/components/Tag';
 import Time from 'app/components/Time';
 
@@ -90,8 +91,15 @@ export default class EventDetail extends Component {
 
   render() {
     const {
-      event, loggedIn, currentUser, comments, error,
-      loading, pools, registrations, currentRegistration
+      event,
+      loggedIn,
+      currentUser,
+      comments,
+      error,
+      loading,
+      pools,
+      registrations,
+      currentRegistration
     } = this.props;
 
     if (loading) {
@@ -108,7 +116,7 @@ export default class EventDetail extends Component {
           <Image src={event.cover} />
         </div>
 
-        <FlexRow alignItems='center' justifyContent='space-between'>
+        <FlexRow alignItems="center" justifyContent="space-between">
           <h2>{event.title}</h2>
           <InterestedButton value={this.props.isUserInterested} />
         </FlexRow>
@@ -122,23 +130,33 @@ export default class EventDetail extends Component {
           </FlexColumn>
           <FlexColumn className={styles.meta}>
             <ul>
-              {event.company && (
-                <li>Arrangerende bedrift <strong>{event.company.name}</strong></li>
-              )}
+              {event.company &&
+                <li>
+                  Arrangerende bedrift <strong>{event.company.name}</strong>
+                </li>}
               <li>
                 Starter{' '}
                 <strong>
-                  <Time time={event.startTime} format='DD.MM.YYYY HH:mm' />
+                  <Time time={event.startTime} format="DD.MM.YYYY HH:mm" />
                 </strong>
               </li>
               <li>Finner sted i <strong>{event.location}</strong></li>
-              {event.activationTime && (
-                <li>Påmelding åpner <strong><Time time={event.activationTime} format='DD.MM.YYYY HH:mm' /></strong></li>
-              )}
-              {event.isPriced && (<li>Dette er et betalt arrangement</li>)}
-              {event.price > 0 && (<li>Pris: <strong>{event.price},-</strong></li>)}
+              {event.activationTime &&
+                <li>
+                  Påmelding åpner
+                  {' '}
+                  <strong>
+                    <Time
+                      time={event.activationTime}
+                      format="DD.MM.YYYY HH:mm"
+                    />
+                  </strong>
+                </li>}
+              {event.isPriced && <li>Dette er et betalt arrangement</li>}
+              {event.price > 0 &&
+                <li>Pris: <strong>{event.price / 100},-</strong></li>}
             </ul>
-            {loggedIn && (
+            {loggedIn &&
               <FlexItem>
                 <h3>Påmeldte:</h3>
                 <FlexRow className={styles.registeredThumbnails}>
@@ -149,21 +167,27 @@ export default class EventDetail extends Component {
                     ))}
                 </FlexRow>
                 <RegisteredSummary registrations={registrations} />
-                <AttendanceStatus title='Påmeldte' pools={pools} />
-                {!currentRegistration ? (
-                  <div>
-                    <i className='fa fa-exclamation-circle' /> Du er ikke registrert
-                  </div>
-                ) : (
-                  <div>
-                    <i className='fa fa-check-circle' /> Du er registrert
-                    {(event.isPriced && (currentRegistration.chargeStatus === 'succeeded' ? (
-                      <div><i className='fa fa-check-circle' /> Du har betalt</div>
-                    ) : (<div><i className='fa fa-exclamation-circle' /> Du har ikke betalt</div>))
-                    )}
-                  </div>)}
-              </FlexItem>
-            )}
+                <AttendanceStatus title="Påmeldte" pools={pools} />
+                {!currentRegistration
+                  ? <div>
+                      <i className="fa fa-exclamation-circle" />
+                      {' '}
+                      Du er ikke registrert
+                    </div>
+                  : <div>
+                      <i className="fa fa-check-circle" /> Du er registrert
+                      {event.isPriced &&
+                        (currentRegistration.chargeStatus === 'succeeded'
+                          ? <div>
+                              <i className="fa fa-check-circle" /> Du har betalt
+                            </div>
+                          : <div>
+                              <i className="fa fa-exclamation-circle" />
+                              {' '}
+                              Du har ikke betalt
+                            </div>)}
+                    </div>}
+              </FlexItem>}
           </FlexColumn>
         </FlexRow>
 
@@ -196,10 +220,11 @@ export default class EventDetail extends Component {
           <FlexColumn className={styles.openFor}>
             <strong>Åpent for</strong>
             <ul>
-              {(pools || []).map(pool =>
-                pool.permissionGroups.map(group => (
-                  <li key={group.id}>{group.name}</li>
-                )))}
+              {(pools || [])
+                .map(pool =>
+                  pool.permissionGroups.map(group => (
+                    <li key={group.id}>{group.name}</li>
+                  )))}
             </ul>
           </FlexColumn>
         </FlexRow>
