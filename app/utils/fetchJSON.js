@@ -50,10 +50,19 @@ function makeFormData(files, rawBody) {
   return body;
 }
 
+function timeoutPromise(ms = 0) {
+  return new Promise((resolve, reject) => {
+    setTimeout(resolve, ms);
+  }).then(() => {
+    throw new Error('HTTP request timed out.');
+  });
+}
+
 export default function fetchJSON(path, requestOptions = {}) {
   const {
     files = [],
     retryDelays = [1000, 3000],
+    timeout = 15000,
     ...options
    } = requestOptions;
 
@@ -75,10 +84,13 @@ export default function fetchJSON(path, requestOptions = {}) {
 
     const _fetch = () => {
       requestsAttempted++;
-      return fetch(request)
-        .then(parseResponseBody)
-        .then(rejectOnHttpErrors)
-        .then(resolve)
+      return Promise.race([
+        timeoutPromise(timeout),
+        fetch(request)
+          .then(parseResponseBody)
+          .then(rejectOnHttpErrors)
+          .then(resolve)
+      ])
         .catch((error) => {
           if (!retryDelays || requestsAttempted > retryDelays.length) {
             return reject(error);
