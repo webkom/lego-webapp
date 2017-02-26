@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const AssetsPlugin = require('assets-webpack-plugin')
+const AssetsPlugin = require('assets-webpack-plugin');
 const packageJson = require('../package.json');
 
 const root = path.resolve(__dirname, '..');
@@ -118,7 +118,7 @@ module.exports = {
           options: {
             modules: true,
             importLoaders: 1,
-            localIdentName: '[name]__[local]___[hash:base64:5]'
+            localIdentName: isProduction ? '[hash:base64:5]' : '[name]__[local]___[hash:base64:5]'
           }
         }, 'postcss-loader']
       })

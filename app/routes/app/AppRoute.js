@@ -2,7 +2,9 @@
 
 import styles from './AppRoute.css';
 import React, { Component } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { dispatched } from 'react-prepare';
 import Helmet from 'react-helmet';
 import { loginAutomaticallyIfPossible, logout, login } from 'app/actions/UserActions';
 import { toggleSearch } from 'app/actions/SearchActions';
@@ -60,7 +62,12 @@ const mapDispatchToProps = {
   login
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default compose(
+  dispatched(({}, dispatch) => dispatch(loginAutomaticallyIfPossible()), {
+    componentDidMount: false
+  }),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(App);
