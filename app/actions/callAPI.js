@@ -5,7 +5,7 @@ import config from '../config';
 function urlFor(resource) {
   if (resource.match(/^\/\//)) {
     return config.baseUrl + resource.replace(/^\//, '');
-  } else if (resource.match(/^http:/) || resource.match(/^https:/)) {
+  } else if (resource.match(/^http?:/) || resource.match(/^https:/)) {
     return resource;
   }
   return config.serverUrl + resource;

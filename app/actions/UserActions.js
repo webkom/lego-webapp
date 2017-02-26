@@ -1,5 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import { normalize } from 'normalizr';
+import cookie from 'react-cookie';
 import moment from 'moment';
 import { push, replace } from 'react-router-redux';
 import { userSchema } from 'app/reducers';
@@ -8,17 +9,18 @@ import { User } from './ActionTypes';
 import { connectWebsockets } from '../utils/websockets';
 import { uploadFile } from './FileActions';
 
-const USER_STORAGE_KEY = 'user';
+const USER_STORAGE_KEY = 'lego.auth';
 
-function putInLocalStorage(key) {
-  return (action) => {
-    global.localStorage.setItem(key, JSON.stringify(action.payload));
-    return action;
-  };
+function loadToken() {
+  return cookie.load(USER_STORAGE_KEY);
 }
 
-function clearLocalStorage(key) {
-  global.localStorage.removeItem(key);
+function saveToken(token) {
+  return cookie.save(USER_STORAGE_KEY, token, { path: '/' });
+}
+
+function removeToken() {
+  return cookie.remove(USER_STORAGE_KEY, { path: '/' });
 }
 
 export function login(username, password) {
@@ -35,12 +37,16 @@ export function login(username, password) {
         errorMessage: 'Login failed'
       }
     }))
-      .then(putInLocalStorage(USER_STORAGE_KEY))
       .then((action) => {
-        const { user } = action.payload;
+        const { user, token } = action.payload;
+        saveToken(token);
+
         return dispatch({
           type: User.FETCH.SUCCESS,
-          payload: normalize(user, userSchema)
+          payload: normalize(user, userSchema),
+          meta: {
+            isCurrentUser: true
+          }
         });
       })
     );
@@ -48,7 +54,7 @@ export function login(username, password) {
 
 export function logout() {
   return (dispatch) => {
-    global.localStorage.removeItem(USER_STORAGE_KEY);
+    removeToken();
     connectWebsockets(dispatch);
     dispatch({ type: User.LOGOUT });
     dispatch(replace('/'));
@@ -57,39 +63,28 @@ export function logout() {
 
 export function updateUser(user, options = { noRedirect: false }) {
   const { username, firstName, lastName, email, picture, gender } = user;
-  return (dispatch, getState) => {
-    const token = getState().auth.token;
-    return dispatch(callAPI({
-      types: User.UPDATE,
-      endpoint: `/users/${username}/`,
-      method: 'PATCH',
-      body: {
-        username,
-        first_name: firstName,
-        last_name: lastName,
-        email,
-        picture,
-        gender
-      },
-      schema: userSchema,
-      meta: {
-        errorMessage: 'Updating user failed'
+  return (dispatch) => dispatch(callAPI({
+    types: User.UPDATE,
+    endpoint: `/users/${username}/`,
+    method: 'PATCH',
+    body: {
+      username,
+      first_name: firstName,
+      last_name: lastName,
+      email,
+      picture,
+      gender
+    },
+    schema: userSchema,
+    meta: {
+      errorMessage: 'Updating user failed'
+    }
+  }))
+    .then((action) => {
+      if (!options.noRedirect) {
+        dispatch(push(`/users/${action.payload.result || 'me'}`));
       }
-    }))
-      .then((action) => {
-        if (!options.noRedirect) {
-          dispatch(push(`/users/${action.payload.result || 'me'}`));
-        }
-        if (getState().auth.username === username) {
-          putInLocalStorage(USER_STORAGE_KEY)({
-            payload: {
-              token,
-              user: action.payload.entities.users[action.payload.result]
-            }
-          });
-        }
-      });
-  };
+    });
 }
 
 export function updatePicture({ picture }) {
@@ -101,13 +96,14 @@ export function updatePicture({ picture }) {
   };
 }
 
-export function fetchUser(username) {
+export function fetchUser(username = 'me') {
   return callAPI({
     types: User.FETCH,
     endpoint: `/users/${username}/`,
     schema: userSchema,
     meta: {
-      errorMessage: 'Fetching user failed'
+      errorMessage: 'Fetching user failed',
+      isCurrentUser: username === 'me'
     }
   });
 }
@@ -126,37 +122,34 @@ export function refreshToken(token) {
   });
 }
 
-export function loginWithExistingToken(user, token) {
+export function loginWithExistingToken(token) {
   return (dispatch) => {
     const expirationDate = getExpirationDate(token);
     const now = moment();
 
     if (expirationDate.isSame(now, 'day')) {
       return dispatch(refreshToken(token))
-        .then(putInLocalStorage(USER_STORAGE_KEY))
+        .then((action) => saveToken(action.payload))
         .catch((err) => {
-          clearLocalStorage(USER_STORAGE_KEY);
+          removeToken();
           throw err;
         });
     }
 
     if (now.isAfter(expirationDate)) {
-      clearLocalStorage(USER_STORAGE_KEY);
+      removeToken();
       return Promise.resolve();
     }
 
     dispatch({
       type: User.LOGIN.SUCCESS,
-      payload: { user, token }
+      payload: { token }
     });
+
+    // Todo: Move this to middleware
     connectWebsockets(dispatch, token);
 
-    dispatch({
-      type: User.FETCH.SUCCESS,
-      payload: normalize(user, userSchema)
-    });
-
-    return Promise.resolve();
+    return dispatch(fetchUser());
   };
 }
 
@@ -165,12 +158,10 @@ export function loginWithExistingToken(user, token) {
  */
 export function loginAutomaticallyIfPossible() {
   return (dispatch) => {
-    const { user, token } = JSON.parse(
-      global.localStorage.getItem(USER_STORAGE_KEY)
-    ) || {};
+    const token = loadToken();
 
     if (token) {
-      return dispatch(loginWithExistingToken(user, token));
+      return dispatch(loginWithExistingToken(token));
     }
 
     return Promise.resolve();

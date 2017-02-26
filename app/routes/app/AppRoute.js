@@ -8,17 +8,11 @@ import { loginAutomaticallyIfPossible, logout, login } from 'app/actions/UserAct
 import { toggleSearch } from 'app/actions/SearchActions';
 import Header from 'app/components/Header';
 import Footer from 'app/components/Footer';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import NotificationContainer from 'app/components/NotificationContainer';
 import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 
 class App extends Component {
-  componentDidMount() {
-    this.props.loginAutomaticallyIfPossible();
-  }
-
   render() {
-
     return (
       <div
         style={this.props.searchOpen ? { WebkitFilter: 'blur(10px)' } : null}
@@ -61,7 +55,6 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  loginAutomaticallyIfPossible,
   toggleSearch,
   logout,
   login

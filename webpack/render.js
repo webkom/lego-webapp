@@ -4,11 +4,14 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import { Provider } from 'react-redux';
+import cookie from 'react-cookie';
 import Helmet from 'react-helmet';
 import routes from '../app/routes';
 import configureStore from '../app/utils/configureStore';
+import { loginAutomaticallyIfPossible } from '../app/actions/UserActions';
 
 function render(req, res, next) {
+  cookie.plugToRequest(req, res);
   match({ routes, location: req.url }, (err, redirect, renderProps) => {
     if (err) {
       return next(err);
@@ -23,17 +26,19 @@ function render(req, res, next) {
     }
 
     const store = configureStore();
-    const body = renderToString(
-      <Provider store={store}>
-        <RouterContext {...renderProps} />
-      </Provider>
-    );
+    store.dispatch(loginAutomaticallyIfPossible()).then(() => {
+      const body = renderToString(
+        <Provider store={store}>
+          <RouterContext {...renderProps} />
+        </Provider>
+      );
 
-    res.send(renderPage({
-      body,
-      reduxState: store.getState(),
-      helmet: Helmet.rewind()
-    }));
+      res.send(renderPage({
+        body,
+        reduxState: store.getState(),
+        helmet: Helmet.rewind()
+      }));
+    }, (error) => console.error(error));
   });
 }
 

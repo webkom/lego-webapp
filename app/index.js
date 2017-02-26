@@ -8,6 +8,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from 'app/utils/configureStore';
 import Root from './Root';
 import routes from 'app/routes';
+import { loginAutomaticallyIfPossible } from 'app/actions/UserActions';
 
 moment.locale('nb-NO');
 
