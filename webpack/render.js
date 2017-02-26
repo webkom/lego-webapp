@@ -5,10 +5,10 @@ import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import { Provider } from 'react-redux';
 import cookie from 'react-cookie';
+import { prepare } from 'react-prepare';
 import Helmet from 'react-helmet';
 import routes from '../app/routes';
 import configureStore from '../app/utils/configureStore';
-import { loginAutomaticallyIfPossible } from '../app/actions/UserActions';
 
 function render(req, res, next) {
   cookie.plugToRequest(req, res);
@@ -25,39 +25,45 @@ function render(req, res, next) {
       return next();
     }
 
+    // Todo: render on errors as well
     const store = configureStore();
-    store.dispatch(loginAutomaticallyIfPossible()).then(() => {
+    const app = (
+      <Provider store={store}>
+        <RouterContext {...renderProps} />
+      </Provider>
+    );
+
+    const respond = () => {
       const body = renderToString(
-        <Provider store={store}>
-          <RouterContext {...renderProps} />
-        </Provider>
+        app
       );
 
       res.send(renderPage({
         body,
-        reduxState: store.getState(),
+        state: store.getState(),
         helmet: Helmet.rewind()
       }));
-    }, (error) => console.error(error));
+    };
+
+    prepare(app).then(respond).catch((error) => {
+      console.error(error);
+      respond();
+    });
   });
 }
 
 
-function renderPage({ body, reduxState, helmet }) {
+function renderPage({ body, state, helmet }) {
   const dllPlugin = process.env.NODE_ENV !== 'production'
     ? '<script src="/vendors.dll.js"></script>'
     : '';
 
-  const map = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'dist', 'webpack-assets.json')));
+  const assets = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'dist', 'webpack-assets.json')));
 
-  const assets = Object.values(map).reduce((result, chunk) => {
-    chunk.css && result.css.push(chunk.css);
-    chunk.js && result.js.push(chunk.js);
-    return result;
-  }, { js: [], css: [] });
+  const { app, vendor } = assets;
 
-  const styles = assets.css.map((css) => `<link rel="stylesheet" href="${css}">`).join('\n');
-  const scripts = assets.js.map((js) => `<script src="${js}"></script>`).join('\n');
+  const styles = [app && app.css].filter(Boolean).map((css) => `<link rel="stylesheet" href="${css}">`).join('\n');
+  const scripts = [vendor && vendor.js, app && app.js].filter(Boolean).map((js) => `<script src="${js}"></script>`).join('\n');
 
   return `
     <!DOCTYPE html>
@@ -76,7 +82,7 @@ function renderPage({ body, reduxState, helmet }) {
       <body>
         <div id="root">${body}</div>
         <script>
-           window.__PRELOADED_STATE__ = ${JSON.stringify(reduxState).replace(/</g, '\\u003c')}
+           window.__PRELOADED_STATE__ = ${JSON.stringify(state).replace(/</g, '\\u003c')}
         </script>
 
         <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
