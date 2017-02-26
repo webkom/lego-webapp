@@ -38,8 +38,17 @@ export default function auth(state: State = initialState, action: Action): State
       return {
         ...state,
         loggingIn: false,
-        username: action.payload.user.username,
         token: action.payload.token
+      };
+
+    case User.FETCH.SUCCESS:
+      if (!action.meta.isCurrentUser) {
+        return state;
+      }
+
+      return {
+        ...state,
+        username: action.payload.result
       };
 
     case User.LOGOUT:

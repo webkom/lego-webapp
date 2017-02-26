@@ -37,6 +37,7 @@
     "normalizr": "^2.3.1",
     "react": "^15.4.1",
     "react-addons-css-transition-group": "^15.4.1",
+    "react-cookie": "^1.0.4",
     "react-cropper": "^0.10.0",
     "react-dom": "^15.4.1",
     "react-dropzone": "^3.10.0",

@@ -1501,7 +1501,7 @@ cookie-signature@1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
 
-cookie@0.3.1:
+cookie@0.3.1, cookie@^0.3.1:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.3.1.tgz#e7e0a1f9ef43b4c8ba925c5c5a96e806d16873bb"
 
@@ -5232,6 +5232,13 @@ react-async-script@~0.5.0:
   resolved "https://registry.yarnpkg.com/react-async-script/-/react-async-script-0.5.1.tgz#e25d1a3fd8b52e5852ad9a1d6f7c19c50426fee2"
   dependencies:
     babel-runtime "^5.8.0"
+
+react-cookie@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-cookie/-/react-cookie-1.0.4.tgz#4fe715d4c0abbcd18b671df5752c43d3109836c9"
+  dependencies:
+    cookie "^0.3.1"
+    object-assign "^4.1.0"
 
 react-cropper@^0.10.0:
   version "0.10.0"
