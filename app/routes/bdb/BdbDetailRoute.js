@@ -5,20 +5,17 @@ import {
 import BdbDetail from './components/BdbDetail';
 import { compose } from 'redux';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
+import {
+  selectCompanyById,
+  selectEventsForCompany,
+  selectCommentsForCompany
+} from 'app/reducers/companies';
 
 function mapStateToProps(state, props) {
   const companyId = props.params.companyId;
-  const company = state.companies.byId[companyId];
-  let comments = [];
-  if (company) {
-    if (company.comments) {
-      comments = company.comments.map((comment) => state.comments.byId[comment]);
-    }
-  }
-  const companyEvents = state.events.items
-    .map((id) => state.events.byId[id])
-    .filter((event) => event.company && event.company.id === Number(companyId));
-
+  const company = selectCompanyById(state, { companyId });
+  const comments = selectCommentsForCompany(state, { companyId });
+  const companyEvents = selectEventsForCompany(state, { companyId });
   return {
     company,
     companyId,

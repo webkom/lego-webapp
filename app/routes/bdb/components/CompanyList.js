@@ -52,7 +52,8 @@ export default class CompanyList extends Component {
   };
 
   render() {
-    const { companies, changeSemesters, startYear, startSem } = this.props;
+    const { companies, changeSemesters, startYear, startSem, editSemester,
+      changedStatuses } = this.props;
 
     /*
     **
@@ -109,10 +110,10 @@ export default class CompanyList extends Component {
 
             <tr className={styles.invisRow}>
               <td /><td>
-                <i onClick={changeSemesters.bind(this, false)}className='fa fa-arrow-left' />
+                <i onClick={() => changeSemesters(false)}className='fa fa-arrow-left' />
               </td><td />
               <td className={styles.rightArrow}>
-                <i onClick={changeSemesters.bind(this, true)} className='fa fa-arrow-right' />
+                <i onClick={() => changeSemesters(true)} className='fa fa-arrow-right' />
               </td>
             </tr>
 
@@ -130,8 +131,8 @@ export default class CompanyList extends Component {
                 startSem={startSem}
                 changeSemesters={this.changeSemesters}
                 key={i}
-                handleChange={this.props.handleChange}
-                changedStatuses={this.props.changedStatuses}
+                editSemester={editSemester}
+                changedStatuses={changedStatuses}
               />
             )}
           </tbody>

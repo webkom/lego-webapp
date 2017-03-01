@@ -6,6 +6,7 @@ import { indexToSemester, trueIcon } from '../utils.js';
 import Button from 'app/components/Button';
 import OptionsBox from './OptionsBox';
 import TextInput from 'app/components/Form/TextInput';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
   companies: Array<Object>,
@@ -49,7 +50,7 @@ export default class BdbPage extends Component {
     this.setState({ ...this.state, startYear: newYear, startSem: newSem });
   };
 
-  handleChange = (event, index) => {
+  editSemester = (event, index) => {
     // Update state whenever a semesterStatus is graphically changed by the user
     const { changedStatuses, companies, startYear, startSem } = this.state;
     const data = event.target.value.split('-');
@@ -118,11 +119,12 @@ export default class BdbPage extends Component {
   };
 
   submitChange = () => {
+    const { addSemesterStatus, editSemesterStatus } = this.props;
     this.state.changedStatuses.forEach((status) => {
       if (status.semesterId === 'undefined') {
-        this.props.addSemesterStatus(status);
+        addSemesterStatus(status);
       } else {
-        this.props.editSemesterStatus(status);
+        editSemesterStatus(status);
       }
     });
     this.setState({ changedStatuses: [], submitted: true });
@@ -166,7 +168,14 @@ export default class BdbPage extends Component {
   }
 
   render() {
-    const { query } = this.props;
+    const { query, companies } = this.props;
+    console.log('companies:');
+    console.log(companies);
+    if (!companies) {
+      console.log('Skar seg i bdbPage');
+      return <LoadingIndicator loading />;
+    }
+
     const sortedCompanies = sortCompanies(this.state.companies, query, this.state.startYear,
       this.state.startSem);
 
@@ -189,7 +198,7 @@ export default class BdbPage extends Component {
         </h2>
 
         <OptionsBox
-          companies={this.props.companies}
+          companies={companies}
           updateFilters={this.updateFilters}
           display={this.state.displayOptions}
           filters={this.state.filters}
@@ -211,7 +220,7 @@ export default class BdbPage extends Component {
           startSem={this.state.startSem}
           companies={this.filterCompanies(sortedCompanies)}
           changeSemesters={this.changeSemesters}
-          handleChange={this.handleChange}
+          editSemester={this.editSemester}
           removeChangedStatus={this.removeChangedStatus}
           changedStatuses={this.state.changedStatuses}
         />

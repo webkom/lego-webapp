@@ -17,16 +17,16 @@ type Props = {
 
 export default class AddCompanyContact extends Component {
 
-  onSubmit({ name, role = '', mail = '', phone = '' }) {
-    const { company } = this.props;
-    this.props.addCompanyContact({
+  onSubmit = ({ name, role = '', mail = '', phone = '' }) => {
+    const { company, addCompanyContact } = this.props;
+    addCompanyContact({
       companyId: company.id,
       name,
       role,
       mail,
       phone
     }, true);
-  }
+  };
 
   props: Props;
 
@@ -34,7 +34,8 @@ export default class AddCompanyContact extends Component {
     const {
       company,
       submitting,
-      autoFocus
+      autoFocus,
+      handleSubmit
     } = this.props;
 
     if (!company) {
@@ -51,7 +52,7 @@ export default class AddCompanyContact extends Component {
         <div className={styles.detail}>
           <div className={styles.leftSection}>
 
-            <form onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}>
+            <form onSubmit={handleSubmit(this.onSubmit)}>
 
               <Field
                 placeholder={'Navn'}
