@@ -16,7 +16,7 @@ function BdbRightNav({ companyId, deleteCompany }: Props) {
         <div>
           <Link to={`/bdb/${companyId}`}>Til bedriftens side</Link>
           <Link to={`/bdb/${companyId}/edit`}>Endre bedrift</Link>
-          <a onClick={deleteCompany.bind(this, companyId)}>Slett bedrift</a>
+          <a onClick={() => deleteCompany(companyId)}>Slett bedrift</a>
         </div>
       )}
       <Link to='/bdb/add'>Legg til bedrift</Link>

@@ -20,8 +20,8 @@ export default class AddCompany extends Component {
     active: true
   }
 
-  onSubmit({ name, description = '', adminComment = '', website = '', studentContact = '',
-      phone = '', companyType = '', paymentMail = '', address = '' }) {
+  onSubmit = ({ name, description = '', adminComment = '', website = '', studentContact = '',
+      phone = '', companyType = '', paymentMail = '', address = '' }) => {
     const { active } = this.state;
     this.props.addCompany({
       name,
@@ -35,14 +35,15 @@ export default class AddCompany extends Component {
       paymentMail,
       address
     });
-  }
+  };
 
   props: Props;
 
   render() {
     const {
       submitting,
-      autoFocus
+      autoFocus,
+      handleSubmit
     } = this.props;
 
     return (
@@ -59,7 +60,7 @@ export default class AddCompany extends Component {
         <div className={styles.detail}>
           <div className={styles.leftSection}>
 
-            <form onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}>
+            <form onSubmit={handleSubmit(this.onSubmit)}>
 
               <div className={styles.description}>
                 <Field

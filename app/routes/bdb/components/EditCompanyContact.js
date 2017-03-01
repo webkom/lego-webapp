@@ -18,9 +18,9 @@ type Props = {
 
 export default class EditCompanyContact extends Component {
 
-  onSubmit({ name, role = '', mail = '', phone = '' }) {
-    const { company, companyContact } = this.props;
-    this.props.editCompanyContact({
+  onSubmit = ({ name, role = '', mail = '', phone = '' }) => {
+    const { company, companyContact, editCompanyContact } = this.props;
+    editCompanyContact({
       companyId: company.id,
       companyContactId: companyContact.id,
       name,
@@ -28,7 +28,7 @@ export default class EditCompanyContact extends Component {
       mail,
       phone
     }, true);
-  }
+  };
 
   props: Props;
 
@@ -37,7 +37,8 @@ export default class EditCompanyContact extends Component {
       company,
       companyContact,
       submitting,
-      autoFocus
+      autoFocus,
+      handleSubmit
     } = this.props;
 
     if (!company || !companyContact) {
@@ -53,7 +54,7 @@ export default class EditCompanyContact extends Component {
         <div className={styles.detail}>
           <div className={styles.leftSection}>
 
-            <form onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}>
+            <form onSubmit={handleSubmit(this.onSubmit)}>
 
               <Field
                 placeholder={'Navn'}
@@ -98,7 +99,7 @@ export default class EditCompanyContact extends Component {
 
           <BdbRightNav
             {...this.props}
-            companyId={this.props.companyId}
+            companyId={company.id}
           />
 
         </div>

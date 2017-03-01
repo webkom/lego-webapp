@@ -3,13 +3,12 @@ import { Link } from 'react-router';
 import { indexToSemester } from '../utils.js';
 import SemesterStatus from './SemesterStatus';
 import styles from './bdb.css';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
   company: Object,
   startYear: number,
   startSem: number,
-  handleChange: () => void,
+  editSemester: () => void,
   changedStatuses: Array<Object>
 };
 
@@ -18,9 +17,9 @@ export default class CompanySingleRow extends Component {
   props: Props;
 
   semesterElement = (index) => {
-    const { startYear, startSem } = this.props;
+    const { startYear, startSem, company } = this.props;
     const result = indexToSemester(index, startYear, startSem);
-    const statuses = this.props.company.semesterStatuses;
+    const statuses = company.semesterStatuses;
     if (statuses) {
       return statuses.find((status) =>
         status.year === result.year &&
@@ -31,10 +30,7 @@ export default class CompanySingleRow extends Component {
   };
 
   render() {
-    const { company } = this.props;
-    if (!company) {
-      return <LoadingIndicator loading />;
-    }
+    const { company, editSemester, changedStatuses, startYear, startSem } = this.props;
 
     const semesters = [
       this.semesterElement(0),
@@ -45,11 +41,11 @@ export default class CompanySingleRow extends Component {
         key={i}
         semIndex={i}
         semesterStatus={status}
-        handleChange={this.props.handleChange}
-        companyId={this.props.company.id}
-        changedStatuses={this.props.changedStatuses}
-        startYear={this.props.startYear}
-        startSem={this.props.startSem}
+        editSemester={editSemester}
+        companyId={company.id}
+        changedStatuses={changedStatuses}
+        startYear={startYear}
+        startSem={startSem}
       />
     ));
 

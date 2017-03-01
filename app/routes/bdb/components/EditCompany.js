@@ -31,11 +31,12 @@ export default class EditCompany extends Component {
     active: true
   }
 
-  onSubmit({ name, description = '', adminComment = '', website = '', studentContact = '',
-      phone = '', companyType = '', paymentMail = '', address = '' }) {
+  onSubmit = ({ name, description = '', adminComment = '', website = '', studentContact = '',
+      phone = '', companyType = '', paymentMail = '', address = '' }) => {
     const { active } = this.state;
-    this.props.editCompany({
-      companyId: this.props.company.id,
+    const { editCompany, company } = this.props;
+    editCompany({
+      companyId: company.id,
       name,
       description,
       adminComment,
@@ -47,7 +48,7 @@ export default class EditCompany extends Component {
       paymentMail,
       address
     });
-  }
+  };
 
   props: Props;
 
@@ -59,7 +60,8 @@ export default class EditCompany extends Component {
     const {
       company,
       submitting,
-      autoFocus
+      autoFocus,
+      handleSubmit
     } = this.props;
 
     if (!company) {
@@ -82,7 +84,7 @@ export default class EditCompany extends Component {
         <div className={styles.detail}>
           <div className={styles.leftSection}>
 
-            <form onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}>
+            <form onSubmit={handleSubmit(this.onSubmit)}>
 
               <div className={styles.description}>
                 <Field
@@ -196,7 +198,7 @@ export default class EditCompany extends Component {
                       value
                       name='active'
                       checked={this.state.active}
-                      onChange={this.toggleActive.bind(this, true)}
+                      onChange={() => this.toggleActive(true)}
                       id='active'
                     /><label htmlFor='active' style={{ display: 'block' }}>{trueIcon}</label>
                   </div>
@@ -206,7 +208,7 @@ export default class EditCompany extends Component {
                       value={false}
                       name='active'
                       checked={!this.state.active}
-                      onChange={this.toggleActive.bind(this, false)}
+                      onChange={() => this.toggleActive(false)}
                       id='inactive'
                     /><label htmlFor='inactive' style={{ display: 'block' }}>{falseIcon}</label>
                   </div>

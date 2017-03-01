@@ -4,7 +4,7 @@ import { selectColorCode, statusStrings, indexToSemester } from '../utils.js';
 
 type Props = {
   semesterStatus: Object,
-  handleChange: () => void,
+  editSemester: () => void,
   companyId: number,
   semIndex: number,
   changedStatuses: Array<any>,
@@ -16,9 +16,9 @@ export default class SemesterStatus extends Component {
 
   props: Props;
 
-  handleChange = (event) => {
+  editSemester = (event) => {
     const data = event.target.value.split('-');
-    this.props.handleChange(event, Number(data[1]));
+    this.props.editSemester(event, Number(data[1]));
   }
 
   render() {
@@ -35,7 +35,7 @@ export default class SemesterStatus extends Component {
       <td className={styles[selectColorCode(semesterStatus.contactedStatus)]}>
 
         <select
-          onChange={this.handleChange} value={
+          onChange={this.editSemester} value={
             `${companyId}-${semIndex}-${semesterStatus.id}-${semesterStatus.contactedStatus}`
           }
         >

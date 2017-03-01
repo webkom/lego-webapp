@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import styles from './optionsBox.css';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Link } from 'react-router';
 
 type Props = {
@@ -24,10 +23,11 @@ export default class OptionsBox extends Component {
   toggleDisplay = (display) => ({ display: display ? 'block' : 'none' });
 
   toggleSection = (section) => {
-    if (this.props.filters[section] === undefined) {
-      this.props.updateFilters(section, this.state.values[section]);
+    const { filters, updateFilters } = this.props;
+    if (filters[section] === undefined) {
+      updateFilters(section, this.state.values[section]);
     } else {
-      this.props.updateFilters(section, undefined);
+      updateFilters(section, undefined);
     }
     const state = this.state;
     state[section] = !this.state[section];
@@ -35,20 +35,18 @@ export default class OptionsBox extends Component {
   }
 
   updateFilters = (name, value) => {
-    const values = this.state.values;
+    const { values } = this.state;
+    const { updateFilters } = this.props;
     values[name] = value;
     this.setState({ values });
-    this.props.updateFilters(name, value);
+    updateFilters(name, value);
   }
 
   render() {
-    const { companies } = this.props;
-    if (companies.length === 0) {
-      return <LoadingIndicator loading />;
-    }
+    const { display } = this.props;
 
     return (
-      <div className={styles.optionsBox} style={this.toggleDisplay(this.props.display)}>
+      <div className={styles.optionsBox} style={this.toggleDisplay(display)}>
         <Link to='/bdb/add' style={{ display: 'block' }}>Legg til bedrift</Link>
         <span style={{ display: 'block' }}>Filtrer basert på om bedriften...</span>
 
@@ -57,7 +55,7 @@ export default class OptionsBox extends Component {
             <input
               type='checkBox'
               value
-              onChange={this.toggleSection.bind(this, 'active')}
+              onChange={() => this.toggleSection('active')}
               id='active'
             /><label htmlFor='active'>Er aktiv</label>
 
@@ -70,7 +68,7 @@ export default class OptionsBox extends Component {
                   type='radio'
                   name='active'
                   value
-                  onChange={this.updateFilters.bind(this, 'active', true)}
+                  onChange={() => this.updateFilters('active', true)}
                   id='showActive'
                 /><label htmlFor='showActive'>Vis bare aktive bedrifter</label>
               </div>
@@ -80,7 +78,7 @@ export default class OptionsBox extends Component {
                   type='radio'
                   name='active'
                   value
-                  onChange={this.updateFilters.bind(this, 'active', false)}
+                  onChange={() => this.updateFilters('active', false)}
                   id='hideActive'
                 /><label htmlFor='hideActive'>Vis bare inaktive bedrifter</label>
               </div>
@@ -91,7 +89,7 @@ export default class OptionsBox extends Component {
             <input
               type='checkBox'
               value
-              onChange={this.toggleSection.bind(this, 'bedex')}
+              onChange={() => this.toggleSection('bedex')}
               id='bedex'
             /><label htmlFor='bedex'>Har bedex</label>
             <div
@@ -103,7 +101,7 @@ export default class OptionsBox extends Component {
                   type='radio'
                   name='bedex'
                   value
-                  onChange={this.updateFilters.bind(this, 'bedex', true)}
+                  onChange={() => this.updateFilters('bedex', true)}
                   id='showBedex'
                 /><label htmlFor='showBedex'>Vis bedrifter med bedex</label>
               </div>
@@ -113,7 +111,7 @@ export default class OptionsBox extends Component {
                   type='radio'
                   name='bedex'
                   value
-                  onChange={this.updateFilters.bind(this, 'bedex', false)}
+                  onChange={() => this.updateFilters('bedex', false)}
                   id='hideBedex'
                 /><label htmlFor='hideBedex'>Vis bedrifter uten bedex</label>
               </div>
@@ -124,7 +122,7 @@ export default class OptionsBox extends Component {
             <input
               type='checkBox'
               value
-              onChange={this.toggleSection.bind(this, 'jobOfferOnly')}
+              onChange={() => this.toggleSection('jobOfferOnly')}
               id='jobOfferOnly'
             /><label htmlFor='jobOfferOnly'>Kun er opprettet for jobbtilbud</label>
             <div
@@ -137,7 +135,7 @@ export default class OptionsBox extends Component {
                   type='radio'
                   name='jobOfferOnly'
                   value
-                  onChange={this.updateFilters.bind(this, 'jobOfferOnly', true)}
+                  onChange={() => this.updateFilters('jobOfferOnly', true)}
                   id='showJobOfferOnly'
                 /><label htmlFor='showJobOfferOnly'>
                   Vis kun bedrifter opprettet for jobbtilbud
@@ -149,7 +147,7 @@ export default class OptionsBox extends Component {
                   type='radio'
                   name='jobOfferOnly'
                   value
-                  onChange={this.updateFilters.bind(this, 'jobOfferOnly', false)}
+                  onChange={() => this.updateFilters('jobOfferOnly', false)}
                   id='hideJobOfferOnly'
                 /><label htmlFor='hideJobOfferOnly'>
                   Skjul bedrifter kun opprettet for jobbtilbud

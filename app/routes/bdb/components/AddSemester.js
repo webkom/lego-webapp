@@ -22,16 +22,16 @@ export default class AddSemester extends Component {
     contactedStatus: 6,
   }
 
-  onSubmit({ year, contract = '' }) {
-    const companyId = this.props.companyId;
-    this.props.addSemesterStatus({
+  onSubmit = ({ year, contract = '' }) => {
+    const { companyId, addSemesterStatus } = this.props;
+    addSemesterStatus({
       companyId,
       year,
       semester: this.state.semester,
       contactedStatus: this.state.contactedStatus,
       contract
     }, true);
-  }
+  };
 
   setSemester = (semester) => {
     this.setState({ semester });
@@ -47,7 +47,8 @@ export default class AddSemester extends Component {
     const {
       companyId,
       submitting,
-      autoFocus
+      autoFocus,
+      handleSubmit
     } = this.props;
 
     return (
@@ -60,7 +61,7 @@ export default class AddSemester extends Component {
 
             <i style={{ display: 'block', marginBottom: '10px' }}>Hint: du kan legge til status for flere semestere samtidig på Bdb-forsiden!</i>
 
-            <form onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}>
+            <form onSubmit={handleSubmit(this.onSubmit)}>
 
               <Field
                 placeholder={'År'}
@@ -77,7 +78,7 @@ export default class AddSemester extends Component {
                   value
                   name='semester'
                   checked={this.state.semester === 0}
-                  onChange={this.setSemester.bind(this, 0)}
+                  onChange={() => this.setSemester(0)}
                   id='var'
                 /><label htmlFor='var' style={{ display: 'block' }}>Vår</label>
                 <input
@@ -85,7 +86,7 @@ export default class AddSemester extends Component {
                   value={false}
                   name='semester'
                   checked={this.state.semester === 1}
-                  onChange={this.setSemester.bind(this, 1)}
+                  onChange={() => this.setSemester(1)}
                   id='host'
                 /><label htmlFor='host' style={{ display: 'block' }}>Høst</label>
               </div>

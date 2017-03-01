@@ -42,16 +42,16 @@ export default class EditSemester extends Component {
     }
   }
 
-  onSubmit({ contract = '' }) {
-    const { company, semesterStatus } = this.props;
+  onSubmit = ({ contract = '' }) => {
+    const { company, semesterStatus, editSemesterStatus } = this.props;
     const { contactedStatus } = this.state;
-    this.props.editSemesterStatus({
+    editSemesterStatus({
       companyId: company.id,
       semesterId: semesterStatus.id,
       contactedStatus,
       contract
     }, true);
-  }
+  };
 
   setContactedStatus = (event) => {
     this.setState({ contactedStatus: event.target.value });
@@ -64,7 +64,8 @@ export default class EditSemester extends Component {
       company,
       semesterStatus,
       submitting,
-      autoFocus
+      autoFocus,
+      handleSubmit
     } = this.props;
 
     if (!company || !semesterStatus) {
@@ -84,7 +85,7 @@ export default class EditSemester extends Component {
         <div className={styles.detail}>
           <div className={styles.leftSection}>
 
-            <form onSubmit={this.props.handleSubmit(this.onSubmit.bind(this))}>
+            <form onSubmit={handleSubmit(this.onSubmit)}>
 
               <Field
                 placeholder={'Kontrakt for dette semesteret'}
@@ -121,7 +122,7 @@ export default class EditSemester extends Component {
 
           <BdbRightNav
             {...this.props}
-            companyId={this.props.company.id}
+            companyId={company.id}
           />
 
         </div>

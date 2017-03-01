@@ -21,11 +21,13 @@ export default class BdbDetail extends Component {
   props: Props;
 
   deleteSemesterStatus = (semesterId) => {
-    this.props.deleteSemesterStatus(this.props.company.id, semesterId);
+    const { deleteSemesterStatus, company } = this.props;
+    deleteSemesterStatus(company.id, semesterId);
   }
 
   deleteCompanyContact = (companyContactId) => {
-    this.props.deleteCompanyContact(this.props.company.id, companyContactId);
+    const { deleteCompanyContact, company } = this.props;
+    deleteCompanyContact(company.id, companyContactId);
   }
 
   semesterIdToText = (id) => {
@@ -64,7 +66,7 @@ export default class BdbDetail extends Component {
               <Link to={`/bdb/${company.id}/semesters/${status.id}`}>
                 <i className='fa fa-pencil' style={{ marginRight: '5px', color: 'orange' }} />
               </Link>
-              <a onClick={this.deleteSemesterStatus.bind(this, status.id)}>
+              <a onClick={() => this.deleteSemesterStatus(status.id)}>
                 <i className='fa fa-times' style={{ color: '#d13c32' }} />
               </a>
 
@@ -89,7 +91,7 @@ export default class BdbDetail extends Component {
               <Link to={`/bdb/${company.id}/company-contacts/${contact.id}`}>
                 <i className='fa fa-pencil' style={{ marginRight: '5px', color: 'orange' }} />
               </Link>
-              <a onClick={this.deleteCompanyContact.bind(this, contact.id)}>
+              <a onClick={() => this.deleteCompanyContact(contact.id)}>
                 <i className='fa fa-times' style={{ color: '#d13c32' }} />
               </a>
 
@@ -159,7 +161,7 @@ export default class BdbDetail extends Component {
                 </table>
               </div>) : (<i style={{ display: 'block' }}>Ingen bedriftskontakter registrert.</i>)}
 
-            <Link to={`/bdb/${this.props.company.id}/company-contacts/add`} style={{ marginTop: '10px' }}>
+            <Link to={`/bdb/${company.id}/company-contacts/add`} style={{ marginTop: '10px' }}>
               <i className='fa fa-plus-circle' /> Legg til bedriftskontakt
             </Link>
 
