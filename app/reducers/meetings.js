@@ -11,6 +11,17 @@ export default createEntityReducer({
   },
   mutate(state, action) {
     switch (action.type) {
+      case Meeting.CREATE.SUCCESS:
+        return {
+          ...state,
+          items: state.items.filter((id) => action.meta.optimisticId !== id)
+          // Remove the item with the optimisticId
+        };
+      case Meeting.DELETE.SUCCESS:
+        return {
+          ...state,
+          items: state.items.filter((id) => action.meta.meetingId !== id)
+        };
       case Meeting.SET_INVITATION_STATUS.SUCCESS: {
         const { meetingId, status, user } = action.meta;
         return {

@@ -127,6 +127,7 @@ export default class MeetingList extends Component {
       return <LoadingIndicator loading />;
     }
     const pools = this.sortMeetings(meetings);
+    const isEmpty = !meetings.length;
     return (
       <div className={styles.root}>
         <Toolbar />
@@ -139,6 +140,11 @@ export default class MeetingList extends Component {
             ))}
           </div>
         ))}
+        { isEmpty && (
+          <h2 style={{ textAlign: 'center' }}> Ingen møter å vise</h2>
+        )
+
+        }
       </div>
     );
   }

@@ -1,4 +1,3 @@
-// import { compose } from 'redux';
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -6,8 +5,8 @@ import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { answerMeetingInvitation } from 'app/actions/MeetingActions';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 
-function loadData({ action, token }, props) {
-  props.answerMeetingInvitation(action, token);
+function loadData({ action, token, loggedIn }, props) {
+  props.answerMeetingInvitation(action, token, loggedIn);
 }
 
 function mapStateToProps(state, props) {
@@ -15,17 +14,18 @@ function mapStateToProps(state, props) {
   const { token } = props.location.query;
   return {
     action,
-    token
+    token,
+    loggedIn: state.auth.token !== null
   };
 }
 
 const mapDispatchToProps = { answerMeetingInvitation };
 
-function returnWait() {
+function WaitingIndicator() {
   return <LoadingIndicator loading />;
 }
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['action', 'token'], loadData),
-)(returnWait);
+  fetchOnUpdate(['action', 'token', 'loggedIn'], loadData),
+)(WaitingIndicator);

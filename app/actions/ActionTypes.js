@@ -40,7 +40,9 @@ export const Meeting = {
   FETCH: generateStatuses('Meeting.FETCH'),
   SET_INVITATION_STATUS: generateStatuses('Meeting.SET_INVITATION_STATUS'),
   CREATE: generateStatuses('Meeting.CREATE'),
-  EDIT: generateStatuses('Meeting.EDIT')
+  EDIT: generateStatuses('Meeting.EDIT'),
+  DELETE: generateStatuses('Meeting.DELETE'),
+  ANSWER_INVITATION_TOKEN: generateStatuses('Meeting.ANSWER_INVITATION_TOKEN')
 };
 
 /**

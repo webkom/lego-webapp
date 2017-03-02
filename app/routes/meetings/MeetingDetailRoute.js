@@ -21,7 +21,7 @@ function mapStateToProps(state, props) {
   };
 }
 
-const mapDispatchToProps = { fetchMeeting, setInvitationStatus, deleteMeeting};
+const mapDispatchToProps = { fetchMeeting, setInvitationStatus, deleteMeeting };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
