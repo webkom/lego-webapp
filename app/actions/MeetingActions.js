@@ -51,23 +51,22 @@ export function deleteMeeting(id) {
     dispatch(startSubmit('deleteMeeting'));
 
     dispatch(callAPI({
-      types: Meeting.EDIT,
+      types: Meeting.DELETE,
       endpoint: `/meetings/${id}/`,
       method: 'DELETE',
-      schema: meetingSchema,
       meta: {
+        meetingId: id,
         errorMessage: 'Delete meeting failed'
       }
-    })).then((result) => {
+    })).then(() => {
       dispatch(stopSubmit('deleteMeeting'));
-      dispatch(push(`/meetings/`));
+      dispatch(push('/meetings/'));
     }).catch((action) => {
       const errors = { ...action.error.response.jsonData };
       dispatch(stopSubmit('deleteMeeting', errors));
     });
   };
 }
-
 
 
 export function createMeeting({
@@ -82,7 +81,6 @@ export function createMeeting({
 }) {
   return (dispatch) => {
     dispatch(startSubmit('meetingEditor'));
-
     dispatch(callAPI({
       types: Meeting.CREATE,
       endpoint: '/meetings/',
@@ -135,12 +133,12 @@ export function inviteUsersAndGroups({ id, users, groups }) {
   });
 }
 
-export function answerMeetingInvitation(action, token) {
+export function answerMeetingInvitation(action, token, loggedIn) {
   return (dispatch) => {
     dispatch(startSubmit('ansewerMeetingInvitation'));
 
     dispatch(callAPI({
-      types: Meeting.CREATE,
+      types: Meeting.ANSWER_INVITATION_TOKEN,
       endpoint: `/meeting-token/${action}/?token=${token}`,
       method: 'GET',
       meta: {
@@ -149,10 +147,14 @@ export function answerMeetingInvitation(action, token) {
     })).then((result) => {
       const { status, meeting, user } = result.payload;
       dispatch(stopSubmit('answerMeetingInvitation'));
-      dispatch(push(`?status=good&meeting=${meeting}&answer=${status}&user=${user.firstname}`));
+      if (loggedIn) {
+        dispatch(push(`/meetings/${meeting}/`));
+      } else {
+        dispatch(push(`/meetings/answer/result/?status=good&meeting=${meeting}&answer=${status}&user=${user.firstName}`));
+      }
     }).catch(() => {
       dispatch(stopSubmit('ansewerMeetingInvitation', null));
-      dispatch(push('?status=bad'));
+      dispatch(push('/meetings/answer/result/?status=bad'));
     });
   };
 }

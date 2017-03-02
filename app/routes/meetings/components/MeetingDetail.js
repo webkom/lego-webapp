@@ -108,23 +108,26 @@ class MeetingDetails extends Component {
             </h3>
           </div>
 
-          <Link to={`/meetings/${meeting.id}/edit`}>
-            <Button>
-              <Icon name='pencil' />
-              Endre møte
-            </Button>
-          </Link>
+          <div>
+            <Link to={`/meetings/${meeting.id}/edit`}>
+              <Button>
+                <Icon name='pencil' />
+                Endre møte
+              </Button>
+            </Link>
 
-          { canDelete  &&
+            { canDelete &&
               (
-                <div>
-                  <Button onClick={()=>{this.props.deleteMeeting(meeting.id)}}>
-                    <Icon name='trash' />
-                    Slett møte
-                  </Button>
-                </div>
+                <Button
+                  style={{ backgroundColor: 'pink' }}
+                  onClick={() => { this.props.deleteMeeting(meeting.id); }}
+                >
+                  <Icon name='trash' />
+                  Slett møte
+                </Button>
               )
-          }
+            }
+          </div>
         </FlexRow>
         <div className={styles.mainContent}>
           <FlexItem className={styles.statusContent} flex={1}>

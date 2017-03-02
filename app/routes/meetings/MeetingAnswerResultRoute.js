@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 
 function mapStateToProps(state, props) {
@@ -15,11 +14,26 @@ function mapStateToProps(state, props) {
 }
 
 
-function returnWait({status}) {
+function returnStatus({ status, user, meeting, answer }) {
+  if (!status) {
+    return (<LoadingIndicator loading />);
+  }
+
+  if (status === 'good') {
+    const answerText = ['', 'Delta', 'Ikke delta'][answer];
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <h1> Du har nå svart på invitasjonen 😃 </h1>
+        <p> {user} skal nå {answerText} på møtet!</p>
+        <p> Link: <a href={`/meetings/${meeting}/`}> her </a> </p>
+      </div>
+
+    );
+  }
   return (
-    <div>
-      Fuuu
-      {status}
+    <div style={{ textAlign: 'center' }}>
+      <h1> Det har skjedd en feil :( </h1>
+      <p> Prøv å logg inn for å svare på invitasjonen </p>
     </div>
 
   );
@@ -27,5 +41,4 @@ function returnWait({status}) {
 
 export default compose(
   connect(mapStateToProps, null),
-  //fetchOnUpdate(['status', 'token'], loadData),
-)(returnWait);
+)(returnStatus);
