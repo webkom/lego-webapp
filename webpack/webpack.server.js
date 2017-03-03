@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
+const StartServerPlugin = require('start-server-webpack-plugin');
 
 const root = path.resolve(__dirname, '..');
 const isProduction = process.env.NODE_ENV === 'production';
@@ -9,7 +10,7 @@ module.exports = {
 
   entry: {
     server: [
-      !isProduction && 'webpack/hot/poll?1000',
+      //!isProduction && 'webpack/hot/poll?1000',
       path.resolve(__dirname, 'server.js')
     ].filter(Boolean)
   },
@@ -37,7 +38,8 @@ module.exports = {
   },
 
   plugins: [
-    !isProduction && new webpack.HotModuleReplacementPlugin(),
+    !isProduction && new StartServerPlugin('server.js'),
+    //!isProduction && new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       __CLIENT__: false,
       __DEV__: true
