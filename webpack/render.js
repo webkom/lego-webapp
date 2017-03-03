@@ -74,8 +74,10 @@ function renderPage({ body, state, helmet }) {
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <link rel="shortcut icon" href="/favicon.png" type="image/png">
+        <link rel="icon" href="/favicon.png">
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+        ${helmet.meta.toString()}
 
         ${styles}
       </head>
@@ -85,10 +87,11 @@ function renderPage({ body, state, helmet }) {
            window.__PRELOADED_STATE__ = ${JSON.stringify(state).replace(/</g, '\\u003c')}
         </script>
 
-        <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+        <script src="https://js.stripe.com/v2/"></script>
         <script src="https://use.typekit.net/rtr2iog.js"></script>
         <script src="//cdn.iframe.ly/embed.js" async></script>
         <script>try{Typekit.load({ async: true });}catch(e){}</script>
+
         ${dllPlugin}
         ${scripts}
       </body>
