@@ -64,7 +64,8 @@ const mapDispatchToProps = {
 
 export default compose(
   dispatched(({}, dispatch) => dispatch(loginAutomaticallyIfPossible()), {
-    componentDidMount: false
+    componentDidMount: false,
+    componentWillReceiveProps: false
   }),
   connect(
     mapStateToProps,

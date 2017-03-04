@@ -21,6 +21,8 @@ delete window.__PRELOADED_STATE__;
 const store = configureStore(preloadedState);
 const history = syncHistoryWithStore(browserHistory, store);
 
+store.dispatch({ type: 'REHYDRATED' });
+
 renderApp(store, history);
 
 if (module.hot) {
