@@ -100,12 +100,8 @@ export default class EventDetail extends Component {
       currentRegistration
     } = this.props;
 
-    if (this.props.loading) {
-      return <LoadingIndicator loading />;
-    }
-
-    if (this.props.error) {
-      return <div>{this.props.error.message}</div>;
+    if (!event.id) {
+      return null;
     }
 
     return (
