@@ -51,7 +51,7 @@
   "settings": {
     "import/resolver": {
       "webpack": {
-        "config": "webpack/webpack.client.js"
+        "config": "config/webpack.client.js"
       }
     }
   },
