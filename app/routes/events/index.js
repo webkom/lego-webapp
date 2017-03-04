@@ -1,6 +1,6 @@
 import { loadRoute, loadingError } from 'app/routes';
 
-export default ({
+export default {
   path: 'events',
   indexRoute: {
     getComponent(location, cb) {
@@ -30,4 +30,4 @@ export default ({
         .catch(loadingError);
     }
   }]
-});
+};
