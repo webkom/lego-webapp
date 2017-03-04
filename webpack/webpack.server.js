@@ -17,9 +17,7 @@ module.exports = {
 
   output: {
     path: path.join(root, 'dist'),
-    filename: '[name].js',
-    chunkFilename: '[name].chunk.js',
-    publicPath: '/'
+    filename: '[name].js'
   },
 
   target: 'node',
@@ -42,7 +40,7 @@ module.exports = {
     //!isProduction && new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       __CLIENT__: false,
-      __DEV__: true
+      __DEV__: JSON.stringify(process.env.NODE_ENV !== 'production')
     }),
     new webpack.LoaderOptionsPlugin({
       options: {
@@ -87,7 +85,7 @@ module.exports = {
             query: {
               modules: true,
               importLoaders: 1,
-              localIdentName: '[name]__[local]___[hash:base64:5]'
+              localIdentName: isProduction ? '[hash:base64:5]' : '[name]__[local]___[hash:base64:5]'
             }
           },
           'postcss-loader'
