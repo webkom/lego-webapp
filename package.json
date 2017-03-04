@@ -9,7 +9,7 @@
     "start": "webpack --config webpack/webpack.server.js",
     "build": "concurrently \"yarn run build:server\" \"yarn run build:client\"",
     "build:client": "NODE_ENV=production webpack --config webpack/webpack.client.js",
-    "build:server": "NODE_ENV=production webpack --config webpack/webpack.server.js",
+    "build:server": "NODE_ENV=production webpack --config webpack/webpack.server.js -p",
     "build:dll": "BUILDING_DLL=true webpack --display-chunks --color --config webpack/webpack.dll.js",
     "postinstall": "yarn run build:dll",
     "test": "NODE_ENV=test jest",

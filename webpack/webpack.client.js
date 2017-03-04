@@ -27,8 +27,8 @@ module.exports = {
 
   output: {
     path: path.join(root, 'dist'),
-    filename: '[name].js',
-    chunkFilename: '[name].chunk.js',
+    filename: isProduction ? '[name].[chunkhash:8].js' : '[name].js',
+    chunkFilename: isProduction ? '[name].chunk.[chunkhash:8].js' : '[name].chunk.js',
     publicPath: '/'
   },
 
@@ -137,7 +137,7 @@ function getDependencyHandlers() {
     return [new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: Infinity,
-      filename: '[name].js'
+      filename: '[name].[chunkhash:8].js'
     })];
   }
 
