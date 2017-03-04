@@ -1,41 +1,61 @@
+import WebSocketClient from 'websocket.js';
 import config from '../config';
 import createQueryString from './createQueryString';
 import { addNotification } from 'app/actions/NotificationActions';
+import { User } from 'app/actions/ActionTypes';
 
-let socket;
 
-export function sendMessage(type, payload) {
-  if (socket) {
-    if (socket.ws.readyState === 0) {
-      socket.onopen = () => {
-        socket.send(`${type}:${payload}`);
+export default function createWebSocketMiddleware() {
+  let socket = null;
+
+  return (store) => {
+    const makeSocket = (jwt) => {
+      if (socket || !jwt) return;
+
+      const qs = createQueryString({ jwt });
+      socket = new WebSocketClient(`${config.wsServerUrl}/${qs}`);
+
+      socket.onmessage = (event) => {
+        const { type, payload, meta } = JSON.parse(event.data);
+        store.dispatch({ type, payload, meta });
       };
-    } else if (socket.ws.readyState === 1) {
-      socket.send(`${type}:${payload}`);
-    }
-  }
-}
+
+      socket.onopen = () => {
+        store.dispatch({ type: 'WS_CONNECTED' });
+      };
+
+      socket.onclose = () => {
+        store.dispatch({ type: 'WS_CLOSED' });
+      };
+
+      socket.onerror = () => {
+        store.dispatch({ type: 'WS_ERROR' });
+      };
+    };
 
 
-export function connectWebsockets(dispatch, jwt) {
-  if (!__CLIENT__) {
-    return;
-  }
+    return (next) => (action) => {
+      if (action.type === 'REHYDRATED') {
+        makeSocket(store.getState().auth.token);
+        return next(action);
+      }
 
-  const WebSocketClient = require('websocket.js').default;
+      if (action.type === User.LOGIN.SUCCESS) {
+        makeSocket(action.payload.token);
+        return next(action);
+      }
 
-  const qs = createQueryString({ jwt });
-  if (socket) socket.close();
-  socket = new WebSocketClient(`${config.wsServerUrl}/${qs}`);
-  socket.onmessage = (event) => {
-    const data = JSON.parse(event.data);
-    dispatch({
-      type: data.type,
-      payload: data.payload,
-      meta: data.meta
-    });
-    if (data.meta.errorMessage) {
-      dispatch(addNotification({ message: data.meta.errorMessage }));
-    }
+      if (action.type === User.LOGOUT) {
+        if (socket) {
+          socket.close();
+        }
+
+        socket = null;
+
+        return next(action);
+      }
+
+      return next(action);
+    };
   };
 }

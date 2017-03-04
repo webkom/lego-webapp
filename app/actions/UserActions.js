@@ -6,7 +6,6 @@ import { push, replace } from 'react-router-redux';
 import { userSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { User } from './ActionTypes';
-import { connectWebsockets } from '../utils/websockets';
 import { uploadFile } from './FileActions';
 
 const USER_STORAGE_KEY = 'lego.auth';
@@ -55,7 +54,6 @@ export function login(username, password) {
 export function logout() {
   return (dispatch) => {
     removeToken();
-    connectWebsockets(dispatch);
     dispatch({ type: User.LOGOUT });
     dispatch(replace('/'));
   };
@@ -145,9 +143,6 @@ export function loginWithExistingToken(token) {
       type: User.LOGIN.SUCCESS,
       payload: { token }
     });
-
-    // Todo: Move this to middleware
-    connectWebsockets(dispatch, token);
 
     return dispatch(fetchUser());
   };

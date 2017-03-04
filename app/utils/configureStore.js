@@ -22,6 +22,11 @@ export default function configureStore(initialState = {}) {
     errorMiddleware
   ];
 
+  if (__CLIENT__) {
+    const createWebSocketMiddleware = require('./websockets').default;
+    middlewares.push(createWebSocketMiddleware());
+  }
+
   if (__DEV__ && __CLIENT__) {
     middlewares.push(loggerMiddleware);
   }
