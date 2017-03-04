@@ -1,6 +1,5 @@
 import styles from './EventDetail.css';
 import React, { Component } from 'react';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import Image from 'app/components/Image';
 import CommentView from 'app/components/Comments/CommentView';
 import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
@@ -110,7 +109,7 @@ export default class EventDetail extends Component {
           <Image src={event.cover} />
         </div>
 
-        <FlexRow alignItems="center" justifyContent="space-between">
+        <FlexRow alignItems='center' justifyContent='space-between'>
           <h2>{event.title}</h2>
           <InterestedButton value={this.props.isUserInterested} />
         </FlexRow>
@@ -127,7 +126,7 @@ export default class EventDetail extends Component {
               <li>
                 Starter{' '}
                 <strong>
-                  <Time time={event.startTime} format="DD.MM.YYYY HH:mm" />
+                  <Time time={event.startTime} format='DD.MM.YYYY HH:mm' />
                 </strong>
               </li>
               <li>Finner sted i <strong>{event.location}</strong></li>
@@ -143,7 +142,7 @@ export default class EventDetail extends Component {
                     ))}
                 </FlexRow>
                 <RegisteredSummary registrations={registrations} />
-                <AttendanceStatus title="Påmeldte" pools={pools} />
+                <AttendanceStatus title='Påmeldte' pools={pools} />
               </FlexItem>}
           </FlexColumn>
         </FlexRow>

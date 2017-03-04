@@ -14,6 +14,6 @@ const renderApp = (store, history) => {
       document.getElementById('root')
     );
   });
-}
+};
 
 export default renderApp;

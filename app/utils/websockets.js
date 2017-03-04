@@ -1,7 +1,6 @@
 import WebSocketClient from 'websocket.js';
 import config from '../config';
 import createQueryString from './createQueryString';
-import { addNotification } from 'app/actions/NotificationActions';
 import { User } from 'app/actions/ActionTypes';
 
 
@@ -25,7 +24,7 @@ export default function createWebSocketMiddleware() {
       };
 
       socket.onclose = () => {
-        store.dispatch({ type: 'WS_CLOSED' });
+        store.dispatch({ type: 'WS_CLOSED' });
       };
 
       socket.onerror = () => {
