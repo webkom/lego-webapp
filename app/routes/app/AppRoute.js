@@ -63,7 +63,7 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  dispatched(({}, dispatch) => dispatch(loginAutomaticallyIfPossible()), {
+  dispatched((props, dispatch) => dispatch(loginAutomaticallyIfPossible()), {
     componentDidMount: false,
     componentWillReceiveProps: false
   }),

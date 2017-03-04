@@ -1,9 +1,6 @@
 import 'babel-polyfill';
-import React from 'react';
 import moment from 'moment';
-import { render } from 'react-dom';
 import { browserHistory } from 'react-router';
-import { AppContainer } from 'react-hot-loader';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from 'app/utils/configureStore';
 import renderApp from './render';

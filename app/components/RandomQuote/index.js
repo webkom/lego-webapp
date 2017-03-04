@@ -23,7 +23,7 @@ class RandomQuote extends Component {
       this.setState({
         currentQuote: action.payload.entities.quotes[action.payload.result]
       });
-    })
+    });
   };
 
   render() {
@@ -35,7 +35,7 @@ class RandomQuote extends Component {
           <span>Tilfelding sitat</span>
           <i
             onClick={this.refreshQuote}
-            className="fa fa-refresh"
+            className='fa fa-refresh'
           />
         </h2>
         <div className={styles.quoteText}>{currentQuote.text}</div>
