@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
+import { dispatched } from 'react-prepare';
 import {
   fetchEvent,
   register,
@@ -14,10 +14,6 @@ import {
   selectCommentsForEvent,
   selectPoolsWithRegistrationsForEvent
 } from 'app/reducers/events';
-
-function loadData({ eventId }, props) {
-  return props.fetchEvent(Number(eventId));
-}
 
 function getRegistrationsFromPools(pools = []) {
   return pools.reduce((users, pool) => [...users, ...pool.registrations], []);
@@ -66,6 +62,8 @@ const mapDispatchToProps = {
 };
 
 export default compose(
+  dispatched(({ params: { eventId } }, dispatch) => dispatch(fetchEvent(Number(eventId))), {
+    componentWillReceiveProps: false
+  }),
   connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['eventId', 'loggedIn'], loadData)
 )(EventDetail);

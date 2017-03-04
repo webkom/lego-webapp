@@ -10,14 +10,15 @@ module.exports = {
 
   entry: {
     server: [
-      //!isProduction && 'webpack/hot/poll?1000',
+      !isProduction && 'webpack/hot/poll?1000',
       path.resolve(__dirname, 'server.js')
     ].filter(Boolean)
   },
 
   output: {
     path: path.join(root, 'dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+    publicPath: '/'
   },
 
   target: 'node',
@@ -37,7 +38,7 @@ module.exports = {
 
   plugins: [
     !isProduction && new StartServerPlugin('server.js'),
-    //!isProduction && new webpack.HotModuleReplacementPlugin(),
+    !isProduction && new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       __CLIENT__: false,
       __DEV__: JSON.stringify(process.env.NODE_ENV !== 'production')
