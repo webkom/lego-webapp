@@ -11,7 +11,7 @@ module.exports = {
   entry: {
     server: [
       !isProduction && 'webpack/hot/poll?1000',
-      path.resolve(__dirname, 'server.js')
+      path.resolve(__dirname, '..', 'server/index.js')
     ].filter(Boolean)
   },
 
