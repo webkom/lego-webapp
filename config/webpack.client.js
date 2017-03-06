@@ -37,9 +37,9 @@ module.exports = {
       __DEV__: JSON.stringify(!isProduction),
       __CLIENT__: true,
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      'process.env.API_URL': JSON.stringify(process.env.API_URL) || JSON.stringify('http://127.0.0.1:8000/api/v1'),
-      'process.env.WS_URL': JSON.stringify(process.env.WS_URL) || JSON.stringify('ws://127.0.0.1:8000'),
-      'process.env.BASE_URL': JSON.stringify(process.env.BASE_URL) || JSON.stringify('http://127.0.0.1:8000'),
+      'process.env.API_URL': JSON.stringify(process.env.API_URL),
+      'process.env.WS_URL': JSON.stringify(process.env.WS_URL),
+      'process.env.BASE_URL': JSON.stringify(process.env.BASE_URL),
       'process.env.CAPTCHA_KEY': JSON.stringify(process.env.CAPTCHA_KEY)
     }),
 
