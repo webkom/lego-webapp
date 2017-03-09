@@ -1,13 +1,21 @@
 // @flow
-
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetchJoblisting, editJoblisting } from 'app/actions/JoblistingActions';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
 import { selectJoblistingById } from 'app/reducers/joblistings';
+import { autocomplete } from 'app/actions/SearchActions';
+import { selectAutocomplete } from 'app/reducers/search';
+import { debounce } from 'lodash';
 
-const mapDispatchToProps = { handleSubmitCallback: editJoblisting, fetchJoblisting };
+function mapDispatchToProps(dispatch) {
+  return {
+    handleSubmitCallback: (joblisting) => dispatch(editJoblisting(joblisting)),
+    fetchJoblisting: (id) => dispatch(fetchJoblisting(id)),
+    onQueryChanged: debounce((query) => dispatch(autocomplete(query, ['companies.company'])), 30)
+  };
+}
 
 function loadData({ joblistingId }, props) {
   props.fetchJoblisting(joblistingId);
@@ -19,7 +27,8 @@ function mapStateToProps(state, props) {
   return {
     joblisting,
     initialValues: joblisting,
-    joblistingId
+    joblistingId,
+    results: selectAutocomplete(state)
   };
 }
 
