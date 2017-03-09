@@ -28,7 +28,7 @@ const InterestGroupForm = ({ handleSubmit, buttonText, header }) => (
       component={TextEditor.Field}
     />
     <div className={styles.content}>
-      <div>
+      <div className={styles.Upload}>
         <Upload>Last opp bilde</Upload>
       </div>
       <Button type="submit">{buttonText}</Button>

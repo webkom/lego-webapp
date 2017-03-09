@@ -21,6 +21,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-bottom: 200px;
 }
 
 h1 {
@@ -94,4 +95,8 @@ h1 {
 
 .paragraphDetail {
   margin-top: 20px;
+}
+
+.upload {
+  width: 400px;
 }
