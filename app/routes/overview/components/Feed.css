@@ -1,0 +1,27 @@
+.root {
+  padding: 10px;
+  flex: 0.5;
+}
+
+.content {
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  border-radius: 3px;
+  padding: 20px;
+  max-height: 250px;
+  overflow-y: scroll;
+}
+
+.heading {
+  margin: 0;
+  padding: 0 20px;
+}
+
+.item {
+  border-bottom: 1px solid #eee;
+  padding: 5px 0;
+}
+
+.item a {
+  color: #555;
+}

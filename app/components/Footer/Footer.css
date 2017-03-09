@@ -1,13 +1,10 @@
+
 .footer {
   width: 100%;
   background-color: #1b1a1a;
   color: white;
   margin-top: 50px;
-  padding: 40px 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
 }
 
 .footer h2 {
@@ -17,28 +14,13 @@
 }
 
 .footerContent {
-  max-width: 970px;
+  composes: container from 'app/styles/utilities.css';
   display: flex;
-  flex-wrap: wrap;
-  margin-right: -1px;
+  padding: 20px 0;
 }
 
 .section {
-  width: 100%;
-  border-right: 1px solid #eee;
-  padding-right: 25px;
-  padding-left: 25px;
-  min-width: 300px;
   flex: 1;
-  order: 1;
-
-  &:first-child {
-    order: 0;
-  }
-
-  &:last-child {
-    order: 2;
-    margin-right: 0;
-    border-right: none;
-  }
+  text-align: center;
+  padding: 20px;
 }

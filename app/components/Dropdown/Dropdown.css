@@ -1,13 +1,14 @@
-@import '../../variables.css';
+@import 'app/styles/variables.css';
 
 .content {
   background: #fff;
-  border-radius: 5px;
+  border-radius: 3px;
   border: 1px solid #ccc;
-  box-shadow: 0 4px 2px #eee;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   position: absolute;
-  width: 220px;
-  padding: 5px 0;
+  width: 250px;
+  padding: 10px 0;
+  margin-top: 10px;
 
   @media (--small-viewport) {
     width: 100%;
@@ -27,7 +28,7 @@
   height: 0;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent;
-  border-bottom: 8px solid #bbb;
+  border-bottom: 8px solid #ccc;
   margin: 0 auto;
   left: 0;
   right: 0;

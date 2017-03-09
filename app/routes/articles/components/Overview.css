@@ -1,4 +1,5 @@
 .frontpage {
+  composes: container from 'app/styles/utilities.css';
   margin-top: 20px;
   display: flex;
   flex-direction: row;

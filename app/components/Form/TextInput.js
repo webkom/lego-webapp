@@ -7,14 +7,17 @@ import styles from './TextInput.css';
 
 type Props = {
   type?: string,
-  className?: string
+  className?: string,
+  inputRef?: any,
+  readOnly?: boolean
 };
 
-function TextInput({ type = 'text', className, ...props }: Props) {
+function TextInput({ type = 'text', className, inputRef, readOnly, ...props }: Props) {
   return (
     <input
+      ref={inputRef}
       type={type}
-      className={cx(styles.input, className)}
+      className={cx(styles.input, readOnly && styles.disabled, className)}
       {...props}
     />
   );

@@ -25,7 +25,7 @@ function urlFor(resource) {
  */
 export default function callAPI({
   types,
-  method = 'get',
+  method = 'GET',
   headers = {},
   json = true,
   endpoint,
@@ -67,6 +67,7 @@ export default function callAPI({
         ...body
       })
       : null;
+
 
     return dispatch({
       types,

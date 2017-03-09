@@ -1,5 +1,5 @@
 .root {
-  composes: container from '../../../Root.css';
+  composes: container from 'app/styles/utilities.css';
 }
 
 .meta {
@@ -13,18 +13,6 @@
   background: #fff;
   padding: 20px;
   flex: 2.5;
-}
-
-h1 {
-  font-size: 30px;
-  display: block;
-  margin: 15px 0;
-  letter-spacing: 2px;
-  padding-left: 18px;
-}
-
-h3 {
-  border-bottom: 1px solid #FFF;
 }
 
 .applicationUrl {

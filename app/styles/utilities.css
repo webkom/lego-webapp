@@ -1,0 +1,31 @@
+@import './variables.css';
+
+/**
+ * Utility classes for use by other classes.
+ *
+ * Usage:
+ * `composes: className from 'app/styles/utilities.css'`
+ */
+
+.container {
+  max-width: var(--lego-max-width);
+  margin: 0 auto;
+}
+
+.withShadow {
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  border-radius: 5px;
+}
+
+.truncateString {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hiddenOnMobile {
+  @media (--small-viewport) {
+    display: none !important;
+  }
+}

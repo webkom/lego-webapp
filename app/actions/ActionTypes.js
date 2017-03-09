@@ -53,6 +53,14 @@ export const Group = {
   UPDATE: generateStatuses('Group.UPDATE')
 };
 
+export const InterestGroup = {
+  FETCH_ALL: generateStatuses('InterestGroup.FETCH_ALL'),
+  FETCH: generateStatuses('InterestGroup.FETCH'),
+  CREATE: generateStatuses('InterestGroup.CREATE'),
+  REMOVE: generateStatuses('InterestGroup.REMOVE'),
+  UPDATE: generateStatuses('InterestGroup.UPDATE')
+};
+
 /**
  *
  */
@@ -116,10 +124,25 @@ export const Page = {
   FETCH: generateStatuses('Page.FETCH'),
   UPDATE: generateStatuses('Page.UPDATE')
 };
+
+/**
+ *
+ */
+export const Bdb = {
+  FETCH: generateStatuses('Bdb.FETCH')
+};
+
 /**
  *
  */
 export const File = {
   FETCH_SIGNED_POST: generateStatuses('File.FETCH_SIGNED_POST'),
   UPLOAD: generateStatuses('File.UPLOAD')
+};
+
+/**
+ *
+ */
+export const Feed = {
+  FETCH: generateStatuses('Feed.FETCH')
 };

@@ -1,0 +1,33 @@
+.linkSpacing {
+  margin-right: 8px;
+  display: inline;
+}
+
+.tagLink {
+  color: #555;
+  border-radius: 4px;
+  padding: 2px 8px;
+  background: #f0f0f0;
+  transition: 0.1s;
+}
+
+.tagLink:hover {
+  background: #ba1414;
+  color: #fff;
+  transition: 0.2s;
+}
+
+.tagLink a,
+.tagLinkSmall a {
+  color: inherit;
+}
+
+.tagLinkSmall {
+  color: #555;
+  transition: 0.1s;
+}
+
+.tagLinkSmall:hover {
+  color: #ba1414;
+  transition: 0.2s;
+}

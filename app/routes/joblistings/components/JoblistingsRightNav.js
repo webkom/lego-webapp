@@ -5,7 +5,6 @@ import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 import CheckBox from 'app/components/Form/CheckBox';
 
 export default class JoblistingsRightNav extends Component {
-
   static propTypes = {
     query: PropTypes.object.isRequired
   };
@@ -16,15 +15,15 @@ export default class JoblistingsRightNav extends Component {
       jobtypes: [],
       workplaces: []
     }
-  }
+  };
 
   componentWillReceiveProps(newProps) {
     const query = newProps.query;
     this.setState({
       filters: {
-        class: query.class.split(',') || [],
-        jobtypes: query.jobtypes.split(',') || [],
-        workplaces: query.workplaces.split(',') || [],
+        class: (query.class || '').split(','),
+        jobtypes: (query.jobtypes || '').split(','),
+        workplaces: (query.workplaces || '').split(',')
       }
     });
   }
@@ -45,17 +44,12 @@ export default class JoblistingsRightNav extends Component {
     if (filters[type].includes(value)) {
       newFilter = {
         ...filters,
-        [type]: [
-          ...filters[type].filter((x) => x !== value)
-        ]
+        [type]: [...filters[type].filter(x => x !== value)]
       };
     } else {
       newFilter = {
         ...filters,
-        [type]: [
-          ...filters[type],
-          value
-        ]
+        [type]: [...filters[type], value]
       };
     }
     const filterString = {
@@ -64,10 +58,13 @@ export default class JoblistingsRightNav extends Component {
       workplaces: newFilter.workplaces.toString()
     };
     return filterString;
-  }
+  };
 
   filterLinkto = (type, value, label) => (
-    <Link to={{ pathname: '/joblistings', query: this.updateFilters(type, value) }}>
+    <Link
+      to={{ pathname: '/joblistings', query: this.updateFilters(type, value) }}
+      key={value}
+    >
       <CheckBox
         label={label}
         checked={this.state.filters[type].includes(value)}
@@ -81,19 +78,39 @@ export default class JoblistingsRightNav extends Component {
       <FlexColumn className={styles.box}>
         <h3>Sorter etter:</h3>
         <FlexRow className={styles.sort}>
-          <Link to={{ pathname: '/joblistings', query: this.handleQuery('sort', 'company') }}>Bedrift </Link>
-          <Link to={{ pathname: '/joblistings', query: this.handleQuery('sort', 'deadline') }}>Frist</Link>
+          <Link
+            to={{
+              pathname: '/joblistings',
+              query: this.handleQuery('sort', 'company')
+            }}
+          >
+            Bedrift{' '}
+          </Link>
+          <Link
+            to={{
+              pathname: '/joblistings',
+              query: this.handleQuery('sort', 'deadline')
+            }}
+          >
+            Frist
+          </Link>
         </FlexRow>
         <FlexColumn className={styles.filters}>
           <h3>Klassetrinn:</h3>
-          {['1', '2', '3', '4', '5'].map((element) => this.filterLinkto('class', element, `${element}. klasse`))}
+          {['1', '2', '3', '4', '5'].map(element =>
+            this.filterLinkto('class', element, `${element}. klasse`))}
           <h3>Jobbtype:</h3>
           {this.filterLinkto('jobtypes', 'summer_job', 'Sommerjobb')}
           {this.filterLinkto('jobtypes', 'part_time', 'Deltid')}
           {this.filterLinkto('jobtypes', 'full_time', 'Fulltid')}
           <h3>Sted:</h3>
-          {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map((element) =>
-            this.filterLinkto('workplaces', element, element))}
+          {[
+            'Oslo',
+            'Trondheim',
+            'Bergen',
+            'Tromsø',
+            'Annet'
+          ].map(element => this.filterLinkto('workplaces', element, element))}
         </FlexColumn>
       </FlexColumn>
     );

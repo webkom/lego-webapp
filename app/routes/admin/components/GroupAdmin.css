@@ -1,4 +1,4 @@
-@import '../../../variables.css';
+@import 'app/styles/variables.css';
 
 .GroupPage {
   margin-top: 5em;

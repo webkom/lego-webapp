@@ -41,7 +41,7 @@ export default class Overview extends Component {
     const normalEvents = articles.slice(HEADLINE_EVENTS, FRONT_EVENTS);
 
     return (
-      <section className={`u-container ${styles.frontpage}`}>
+      <section className={styles.frontpage}>
         <div className={styles.overview}>
           <div className={styles.headline}>
             {headlineEvents.map((article) => <OverviewItem key={article.id} article={article} />)}

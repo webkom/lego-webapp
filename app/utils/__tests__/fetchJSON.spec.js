@@ -1,26 +1,18 @@
 import 'isomorphic-fetch';
-import sinon from 'sinon';
 import fetchJSON from '../fetchJSON';
 
 describe('fetchJSON', () => {
-  beforeEach(() => {
-    sinon.stub(global, 'fetch');
-  });
-
-  afterEach(() => {
-    global.fetch.restore();
-  });
-
   describe('successful response', () => {
     beforeEach(() => {
-      const res = new Response('{"hello":"world"}', {
-        status: 200,
-        headers: {
-          'Content-type': 'application/json'
-        }
+      global.fetch = jest.fn().mockImplementation(() => {
+        const res = new Response('{"hello":"world"}', {
+          status: 200,
+          headers: {
+            'Content-type': 'application/json'
+          }
+        });
+        return Promise.resolve(res);
       });
-
-      global.fetch.returns(Promise.resolve(res));
     });
 
     it('should format the response correctly', () =>
@@ -33,15 +25,17 @@ describe('fetchJSON', () => {
 
   describe('response with error', () => {
     beforeEach(() => {
-      const res = new Response('{}', {
-        status: 401,
-        statusText: 'Unauthorized',
-        headers: {
-          'Content-type': 'application/json'
-        }
-      });
+      global.fetch = jest.fn().mockImplementation(() => {
+        const response = new Response('{}', {
+          status: 401,
+          statusText: 'Unauthorized',
+          headers: {
+            'Content-type': 'application/json'
+          }
+        });
 
-      global.fetch.returns(Promise.resolve(res));
+        return Promise.resolve(response);
+      });
     });
 
     it('should catch errors', () =>

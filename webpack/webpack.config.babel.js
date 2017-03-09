@@ -39,7 +39,7 @@ module.exports = {
     }),
 
     !isProduction && new webpack.HotModuleReplacementPlugin(),
-    !isProduction && new webpack.NoErrorsPlugin(),
+    !isProduction && new webpack.NoEmitOnErrorsPlugin(),
 
     // Only include the Norwegian moment locale:
     new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /nb-NO/),
@@ -59,7 +59,9 @@ module.exports = {
         minimize: isProduction,
         postcss() {
           return [
-            require('postcss-import')(),
+            require('postcss-import')({
+              path: [root]
+            }),
             require('postcss-cssnext'),
             require('postcss-nested')
           ];

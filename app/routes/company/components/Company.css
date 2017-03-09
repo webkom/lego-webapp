@@ -1,0 +1,100 @@
+.root {
+  composes: container from 'app/styles/utilities.css';
+}
+
+.picture {
+  background-color: ghostwhite;
+}
+
+.titleFlex {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  border-bottom: 1px solid #aaa;
+  background-color: ghostwhite;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 200%;
+  margin-left: 0.5em;
+}
+
+.button {
+  font-size: 1em;
+}
+
+.infoBubbles {
+  margin-top: 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.editLink {
+  margin-top: 0.2em;
+  margin-right: 0.5em;
+}
+
+.inactiveLink {
+  pointer-events: none;
+  cursor: default;
+}
+
+.bubble {
+  width: 50px !important;
+  height: 50px !important;
+  border-radius: 25px !important;
+}
+
+.icon {
+  font-size: 25px !important;
+}
+
+.data {
+  line-height: 20px !important;
+  font-size: 15px !important;
+}
+
+.description {
+  margin: 15px;
+  margin-bottom: 35px;
+  margin-left: 0;
+  padding-top: 6px;
+  padding-left: 20px;
+  border-left: 4px solid #999;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.headings {
+  color: #777;
+  letter-spacing: 2px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 20px;
+  border-bottom: 1px solid #ddd;
+  margin-top: 25px;
+  margin-bottom: 10px;
+}
+
+.eventItem {
+  padding-left: 20px;
+  border-left: 4px solid transparent;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.coverImage {
+  width: 100%;
+  height: 300px;
+  overflow: hidden;
+}
+
+.image {
+  display: block;
+  margin: auto;
+}

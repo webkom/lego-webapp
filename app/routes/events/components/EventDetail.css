@@ -1,5 +1,5 @@
 .root {
-  composes: container from '../../../Root.css';
+  composes: container from 'app/styles/utilities.css';
 }
 
 .registeredThumbnails {
@@ -44,4 +44,12 @@
   color: #333;
   text-transform: uppercase;
   letter-spacing: 1px;
+}
+
+.summary {
+  flex-wrap: wrap;
+}
+
+.tagRow {
+  margin-top: 16px;
 }

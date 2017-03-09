@@ -1,9 +1,9 @@
-@import '../../variables.css';
+@import 'app/styles/variables.css';
 
 .header {
   background: linear-gradient(#ddd, #eee);
-  border-bottom: 1px solid #ccc;
-  box-shadow: 0 5px 30px #efefef;
+  border-bottom: 2px solid #ddd;
+  box-shadow: 0 5px 40px #eee;
 }
 
 .backdrop {
@@ -22,7 +22,8 @@
 }
 
 .buttonGroup button,
-.buttonGroup i {
+.buttonGroup i,
+.buttonGroup img {
   border: 0;
   color: var(--lego-text-gray);
   font-size: 1.8rem;
@@ -38,17 +39,14 @@
 }
 
 .content {
-  composes: container from '../../Root.css';
+  composes: container from 'app/styles/utilities.css';
   position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
-  height: 96px;
-
-  @media (--small-viewport) {
-    padding: 0 20px;
-  }
+  height: var(--lego-header-height);
+  padding: 0 20px;
 }
 
 .logo {
@@ -68,13 +66,14 @@
   line-height: 60px;
   flex: 2;
 
-  @media only screen and (max-width: 768px) {
+  @media (--small-viewport) {
     display: none;
   }
 }
 
 .navigation a {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
+  font-weight: 400;
   letter-spacing: 1px;
   padding: 0 1rem;
   height: 100%;
@@ -102,7 +101,6 @@
   &:hover,
   &.activeItem {
     color: #000;
-    text-shadow: 0 0 5px #ccc;
   }
 
   &:hover::after,

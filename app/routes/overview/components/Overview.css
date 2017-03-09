@@ -1,74 +1,62 @@
-.frontpage {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-}
-
-.overview {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  border-right: 1px solid #ddd;
-}
-
-.headline,
-.normal {
-  display: flex;
-  flex-direction: row;
-  border-bottom: 1px solid #ddd;
-  margin: 0 30px;
-}
-
-.rest {
-  flex-direction: column;
-}
-
 .item {
-  text-align: center;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  flex-direction: column;
-  margin: 30px 0;
-  padding: 0 20px;
+  text-align: justify;
+  flex: 1 0 33.3333%;
+  min-width: 320px;
+  padding: 10px;
+  transition: opacity 0.2s;
 }
 
-.headline > .item {
-  width: 50%;
+.inner {
+  composes: withShadow from 'app/styles/utilities.css';
+  flex: 1;
 }
 
-.normal > .item {
-  width: 33%;
+.item:hover {
+  opacity: 0.9;
+}
+
+.primaryItem {
+  padding: 10px;
+  flex: 1;
+  width: 100%;
+}
+
+.innerPrimaryItem {
+  composes: withShadow from 'app/styles/utilities.css';
 }
 
 .item:hover .itemInfo {
   color: black;
 }
 
-.item:not(:last-child) {
-  border-right: 1px solid #ddd;
+.pinnedHeading {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: rgba(242, 241, 237, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  align-items: center;
 }
 
-.itemType {
-  margin: 0;
-  font-size: 1rem;
-  line-height: 1;
+.heading {
+  text-align: center;
+  background: rgba(242, 241, 237, 0.8);
+  padding: 20px;
+}
+
+.image {
+  border-radius: 3px 3px 0 0;
+  object-fit: cover;
 }
 
 .itemTitle {
   margin: 0;
-  padding-top: 10px;
   line-height: 1.1;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
   text-transform: uppercase;
   word-break: break-all;
-}
-
-.normal .itemTitle {
-  font-size: 1.2rem;
 }
 
 .itemTitle > a {
@@ -83,20 +71,16 @@
 }
 
 .itemDescription {
-  padding-top: 10px;
   margin: 0;
   font-family: 'skolar-latin';
   font-size: 1.1rem;
   -webkit-font-smoothing: initial;
+  word-break: break-all;
+  background: rgba(242, 241, 237, 0.3);
+  padding: 20px;
+  flex: 1;
 }
 
 .normal .itemDescription {
   font-size: 1rem;
-}
-
-.sidebar {
-  display: flex;
-  flex-basis: 27%;
-  flex-shrink: 0;
-  flex-direction: column;
 }

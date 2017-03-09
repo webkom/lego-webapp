@@ -2,6 +2,7 @@
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 import { fetchAll } from 'app/actions/EventActions';
 import EventList from './components/EventList';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
@@ -9,15 +10,12 @@ import { selectEvents } from 'app/reducers/events';
 import moment from 'moment';
 
 function loadData(params, props) {
-  props.fetchAll({ dateAfter: moment().format('YYYY-MM-DD') });
+  return props.fetchAll({ dateAfter: moment().format('YYYY-MM-DD') });
 }
 
-function mapStateToProps(state) {
-  const events = selectEvents(state);
-  return {
-    events
-  };
-}
+const mapStateToProps = createStructuredSelector({
+  events: selectEvents
+});
 
 const mapDispatchToProps = { fetchAll };
 

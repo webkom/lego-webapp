@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
+import debounce from 'lodash/debounce';
 import drawFancyNodes from './drawFancyNodes';
 import styles from './FancyNodesCanvas.css';
 
@@ -21,11 +22,11 @@ class FancyNodesCanvas extends Component {
 
   _canvas: any;
 
-  handleResize = (e: any) => {
+  handleResize = debounce((e: any) => {
     this.setState({
       width: e.target.innerWidth
     }, () => this.drawGraphics());
-  }
+  }, 70);
 
   componentDidMount() {
     window.addEventListener('resize', this.handleResize);
