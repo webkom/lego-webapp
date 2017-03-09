@@ -15,6 +15,8 @@ import interestGroups from './interestgroups';
 import joblistings from './joblistings';
 import HTTPError from './errors';
 import announcements from './announcements';
+import companyInterest from './companyInterest';
+import NotFound from './errors/NotFound';
 import bdb from './bdb';
 import contact from './contact';
 import timeline from './timeline';
@@ -41,6 +43,7 @@ export default {
     email,
     contact,
     timeline,
+    companyInterest,
     {
       path: '*',
       component: HTTPError
