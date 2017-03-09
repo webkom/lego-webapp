@@ -73,7 +73,7 @@ export default class Toolbar extends Component {
       isVoid: true,
       data: {
         setBlockData,
-        blockLayout: 'right',
+        blockLayout: 'full',
         uploadFile,
         image,
         src
