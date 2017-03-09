@@ -9,6 +9,7 @@ import admin from './admin';
 import quotes from './quotes';
 import pages from './pages';
 import search from './search';
+import slack from './slack';
 import interestGroups from './interestgroups';
 import joblistings from './joblistings';
 import NotFound from './errors/NotFound';
@@ -35,6 +36,7 @@ export default {
     pages,
     company,
     search,
+    slack,
     interestGroups,
     joblistings,
     {

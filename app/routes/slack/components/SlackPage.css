@@ -1,0 +1,7 @@
+.root {
+  composes: container from 'app/styles/utilities.css';
+}
+
+.form {
+  width: 220px;
+}

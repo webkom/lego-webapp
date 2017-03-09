@@ -17,11 +17,14 @@ export function createValidator(fieldValidators) {
   return function validate(input) {
     return Object.keys(fieldValidators).reduce((errors, field) => {
       const validators = fieldValidators[field];
-      errors[field] = validators
+      const error = validators
         .map((validator) => validator(input[field], input))
         .filter(([isValid]) => !isValid)
         .map(([, message]) => message || 'not valid');
 
+      if (error.length) {
+        errors[field] = error;
+      }
       return errors;
     }, {});
   };

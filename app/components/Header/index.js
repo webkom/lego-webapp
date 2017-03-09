@@ -52,6 +52,12 @@ function AccountDropdownItems({ logout, onClose, username }) {
         </Link>
       </Dropdown.ListItem>
       <Dropdown.ListItem>
+        <Link to='/slack' onClick={onClose}>
+          Slack
+          <Icon name='slack' />
+        </Link>
+      </Dropdown.ListItem>
+      <Dropdown.ListItem>
         <Link to='/meetings/' onClick={onClose}>
           Møteinnkallinger
           <Icon name='calendar' />
