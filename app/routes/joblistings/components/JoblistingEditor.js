@@ -2,20 +2,23 @@ import React from 'react';
 import styles from './JoblistingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field } from 'redux-form';
-import { Form, TextEditor, TextInput, DatePicker } from 'app/components/Form';
+import { Form, TextEditor, TextInput, DatePicker, SelectInput } from 'app/components/Form';
 import Button from 'app/components/Button';
 import moment from 'moment';
 import config from 'app/config';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
+import { autocomplete } from 'app/actions/SearchActions';
+import { selectAutocomplete } from 'app/reducers/search';
 
 type Props = {
   handleSubmitCallback: () => void,
   joblistingId?: string,
   joblisting?: Object,
   handleSubmit: () => void,
+  onQueryChanged: () => void
 };
 
-function JoblistingEditor({ handleSubmit, handleSubmitCallback, joblistingId, joblisting }: Props) {
+function JoblistingEditor({ handleSubmit, results, handleSubmitCallback, joblistingId, joblisting, onQueryChanged }: Props) {
   const isEditPage = (joblistingId !== undefined);
   if (isEditPage && !joblisting) {
     return <LoadingIndicator loading />;
@@ -43,7 +46,11 @@ function JoblistingEditor({ handleSubmit, handleSubmitCallback, joblistingId, jo
             <Field
               placeholder={'Bedrift'}
               name='company.name'
-              component={TextInput.Field} // Get companies from backend, fix later
+              component={SelectInput}
+              options={results}
+              optionValue='param'
+              optionLabel='title'
+              onSearch={(query) => onQueryChanged(query)}
             />
           </FlexColumn>
         </FlexRow>
@@ -89,6 +96,15 @@ function JoblistingEditor({ handleSubmit, handleSubmitCallback, joblistingId, jo
               <option value='partTime'>Deltid</option>
               <option value='fullTime'>Fulltid</option>
             </select>
+            <Field
+              placeholder={'Jobbtype'}
+              name='company.name'
+              component={SelectInput}
+              options={results}
+              optionValue='param'
+              optionLabel='title'
+              onSearch={(query) => onQueryChanged(query)}
+            />
           </FlexColumn>
         </FlexRow>
 
@@ -190,8 +206,10 @@ function JoblistingEditor({ handleSubmit, handleSubmitCallback, joblistingId, jo
   );
 }
 
+
 export default reduxForm({
   form: 'joblistingEditor',
+  pure: false,
   validate(values) {
     const errors = {};
     if (!values.title) {
