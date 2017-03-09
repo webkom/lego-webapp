@@ -12,6 +12,7 @@
     "build:server": "NODE_ENV=production webpack --config config/webpack.server.js -p",
     "build:dll": "BUILDING_DLL=true webpack --display-chunks --color --config config/webpack.dll.js",
     "postinstall": "yarn run build:dll",
+    "precommit": "lint-staged",
     "test": "NODE_ENV=test jest",
     "test:coverage": "yarn run test -- --coverage",
     "test:watch": "yarn run test -- --watch",
@@ -91,9 +92,11 @@
     "extract-text-webpack-plugin": "^2.0.0",
     "file-loader": "0.9.0",
     "flow-bin": "^0.37.4",
+    "husky": "^0.13.2",
     "identity-obj-proxy": "3.0.0",
     "jest": "^19.0.2",
     "json-loader": "0.5.4",
+    "lint-staged": "^3.3.1",
     "null-loader": "0.1.1",
     "postcss-cssnext": "^2.9.0",
     "postcss-import": "^9.0.0",
@@ -131,6 +134,12 @@
         }
       ]
     }
+  },
+  "lint-staged": {
+    "*.js": [
+      "yarn run lint:js -- --fix",
+      "git add"
+    ]
   },
   "jest": {
     "globals": {
