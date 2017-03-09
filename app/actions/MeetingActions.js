@@ -32,7 +32,7 @@ export function setInvitationStatus(meetingId, status, user) {
   return callAPI({
     types: Meeting.SET_INVITATION_STATUS,
     endpoint: `/meetings/${meetingId}/invitations/${user}/`,
-    method: 'put',
+    method: 'post',
     body: {
       user,
       status
@@ -53,7 +53,7 @@ export function deleteMeeting(id) {
     dispatch(callAPI({
       types: Meeting.DELETE,
       endpoint: `/meetings/${id}/`,
-      method: 'DELETE',
+      method: 'delete',
       meta: {
         meetingId: id,
         errorMessage: 'Delete meeting failed'
@@ -140,7 +140,7 @@ export function answerMeetingInvitation(action, token, loggedIn) {
     dispatch(callAPI({
       types: Meeting.ANSWER_INVITATION_TOKEN,
       endpoint: `/meeting-token/${action}/?token=${token}`,
-      method: 'GET',
+      method: 'post',
       meta: {
         errorMessage: 'Answer invitation failed'
       }
