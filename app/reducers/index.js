@@ -29,6 +29,7 @@ import galleries from './galleries';
 import comments from './comments';
 import pages from './pages';
 import interestGroups from './interestGroups';
+import companyInterest from './companyInterest';
 import joblistings from './joblistings';
 import announcements from './announcements';
 import feedActivities from './feedActivities';
@@ -51,6 +52,7 @@ const reducers = {
   meetingsToken,
   meetings,
   memberships,
+  companyInterest,
   interestGroups,
   search,
   comments,
@@ -125,6 +127,8 @@ export const pageSchema = new schema.Entity(
   {},
   { idAttribute: 'slug' }
 );
+export const companyInterestSchema = new schema.Entity('companyInterest');
+export const interestGroupSchema = new schema.Entity('interestGroups');
 export const companySchema = new schema.Entity('companies', {
   studentContact: userSchema,
   comments: [commentSchema]
