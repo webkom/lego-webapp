@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { fetchCompany } from 'app/actions/CompanyActions';
+import { fetch as fetchCompany } from 'app/actions/CompanyActions';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import CompanyDetail from './components/CompanyDetail';
 import React, { Component } from 'react';
@@ -17,14 +17,9 @@ class CompanyDetailRoute extends Component {
   props: Props;
 
   render() {
-    return (
-      <CompanyDetail
-        {...this.props}
-      />
-    );
+    return <CompanyDetail {...this.props} />;
   }
 }
-
 
 function mapStateToProps(state, props) {
   const companyId = props.params.companyId;
@@ -41,9 +36,6 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = { fetchCompany };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   fetchOnUpdate(['companyId', 'loggedIn'], loadData)
 )(CompanyDetailRoute);

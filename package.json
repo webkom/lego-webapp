@@ -6,7 +6,7 @@
   "author": "webkom",
   "license": "MIT",
   "scripts": {
-    "start": "webpack --config config/webpack.server.js --watch",
+    "start": "webpack --config config/webpack.server.js",
     "build": "concurrently \"yarn run build:server\" \"yarn run build:client\"",
     "build:client": "NODE_ENV=production webpack --config config/webpack.client.js",
     "build:server": "NODE_ENV=production webpack --config config/webpack.server.js -p",
@@ -92,6 +92,7 @@
     "extract-text-webpack-plugin": "^2.0.0",
     "file-loader": "0.9.0",
     "flow-bin": "^0.41.0",
+    "friendly-errors-webpack-plugin": "^1.6.1",
     "husky": "^0.13.2",
     "identity-obj-proxy": "3.0.0",
     "jest": "^19.0.2",

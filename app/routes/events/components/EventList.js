@@ -69,7 +69,7 @@ export function EventItem({ event }: any) {
         </div>
 
         <div className={styles.eventTime}>
-          <Time time={event.startTime} format='ll HH:mm' />
+          <Time time={event.startTime} format="ll HH:mm" />
           {` • ${event.location}`}
         </div>
 
@@ -99,14 +99,14 @@ class EventList extends Component {
     const events = groupEvents(this.props.events);
     return (
       <div className={styles.root}>
-        <Helmet title='Arrangementer' />
+        <Helmet title="Arrangementer" />
         <Toolbar />
 
-        <EventListGroup name='Denne uken' events={events.currentWeek} />
+        <EventListGroup name="Denne uken" events={events.currentWeek} />
 
-        <EventListGroup name='Neste uke' events={events.nextWeek} />
+        <EventListGroup name="Neste uke" events={events.nextWeek} />
 
-        <EventListGroup name='Senere' events={events.later} />
+        <EventListGroup name="Senere" events={events.later} />
       </div>
     );
   }

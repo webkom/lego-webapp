@@ -12,7 +12,8 @@ const loggerMiddleware = createLogger({
   collapsed: true
 });
 
-const errorMiddleware = createErrorMiddleware((message) => addNotification({ message }));
+const errorMiddleware = createErrorMiddleware(message =>
+  addNotification({ message }));
 
 export default function configureStore(initialState = {}) {
   const middlewares = [
@@ -36,7 +37,7 @@ export default function configureStore(initialState = {}) {
     initialState,
     compose(
       applyMiddleware(...middlewares),
-      global.devToolsExtension ? global.devToolsExtension() : (f) => f
+      global.devToolsExtension ? global.devToolsExtension() : f => f
     )
   );
 
