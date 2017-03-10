@@ -1,27 +1,22 @@
-import { loadRoute, loadingError } from 'app/routes';
+import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default ({
   path: 'quotes',
-  indexRoute: {
-    getComponent(location, cb) {
-      import('./QuotesRoute')
-        .then(loadRoute(cb))
-        .catch(loadingError);
-    }
-  },
+  indexRoute: resolveAsyncRoute(
+    () => import('./QuotesRoute'),
+    () => require('./QuotesRoute')
+  ),
   childRoutes: [{
     path: 'add',
-    getComponent(location, cb) {
-      import('./QuoteEditorRoute')
-        .then(loadRoute(cb))
-        .catch(loadingError);
-    }
+    ...resolveAsyncRoute(
+      () => import('./QuoteEditorRoute'),
+      () => require('./QuoteEditorRoute')
+    )
   }, {
     path: ':quoteId',
-    getComponent(location, cb) {
-      import('./QuoteDetailRoute')
-        .then(loadRoute(cb))
-        .catch(loadingError);
-    }
+    ...resolveAsyncRoute(
+      () => import('./QuoteDetailRoute'),
+      () => require('./QuoteDetailRoute')
+    )
   }]
 });

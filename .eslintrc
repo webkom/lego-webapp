@@ -20,7 +20,7 @@
     "__CLIENT__": true
   },
   "rules": {
-    "prettier/prettier": ["error", { "singleQuote": true }],
+    "prettier/prettier": [1, { "singleQuote": true }],
     "react/prop-types": 1
   },
   "settings": {

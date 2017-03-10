@@ -14,14 +14,6 @@ import joblistings from './joblistings';
 import NotFound from './errors/NotFound';
 import bdb from './bdb';
 
-export function loadRoute(callback) {
-  return (module) => callback(null, module.default);
-}
-
-export function loadingError(err) {
-  console.error('Loading error', err); // eslint-disable-line
-}
-
 export default {
   path: '/',
   component: AppRoute,

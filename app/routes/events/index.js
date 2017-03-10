@@ -1,21 +1,17 @@
-import { loadRoute, loadingError } from 'app/routes';
+import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
   path: 'events',
-  indexRoute: {
-    getComponent(location, cb) {
-      import('./EventListRoute')
-        .then(loadRoute(cb))
-        .catch(loadingError);
-    }
-  },
+  indexRoute: resolveAsyncRoute(
+    () => import('./EventListRoute'),
+    () => require('./EventListRoute')
+  ),
   childRoutes: [{
     path: 'calendar',
-    getComponent(location, cb) {
-      import('./CalendarRoute')
-        .then(loadRoute(cb))
-        .catch(loadingError);
-    },
+    ...resolveAsyncRoute(
+      () => import('./CalendarRoute'),
+      () => require('./CalendarRoute')
+    ),
     childRoutes: [{
       path: ':year',
       childRoutes: [{
@@ -24,10 +20,9 @@ export default {
     }]
   }, {
     path: ':eventId',
-    getComponent(location, cb) {
-      import('./EventDetailRoute')
-        .then(loadRoute(cb))
-        .catch(loadingError);
-    }
+    ...resolveAsyncRoute(
+      () => import('./EventDetailRoute'),
+      () => require('./EventDetailRoute')
+    ),
   }]
 };

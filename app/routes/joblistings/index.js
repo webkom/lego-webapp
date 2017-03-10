@@ -1,20 +1,16 @@
-import { loadRoute, loadingError } from 'app/routes';
+import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
   path: 'joblistings',
-  indexRoute: {
-    getComponent(location, cb) {
-      import('./JoblistingsRoute')
-        .then(loadRoute(cb))
-        .catch(loadingError);
-    },
-  },
+  indexRoute: resolveAsyncRoute(
+    () => import('./JoblistingsRoute'),
+    () => require('./JoblistingsRoute')
+  ),
   childRoutes: [{
     path: ':joblistingId',
-    getComponent(location, cb) {
-      import('./JoblistingsDetailedRoute')
-        .then(loadRoute(cb))
-        .catch(loadingError);
-    }
+    ...resolveAsyncRoute(
+      () => import('./JoblistingsDetailedRoute'),
+      () => require('./JoblistingsDetailedRoute')
+    )
   }]
 };
