@@ -91,7 +91,7 @@
     "express": "^4.14.1",
     "extract-text-webpack-plugin": "^2.0.0",
     "file-loader": "0.9.0",
-    "flow-bin": "^0.37.4",
+    "flow-bin": "^0.41.0",
     "husky": "^0.13.2",
     "identity-obj-proxy": "3.0.0",
     "jest": "^19.0.2",
