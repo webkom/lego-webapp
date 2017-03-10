@@ -16,5 +16,10 @@ pipeline:
     registry: https://registry.abakus.no
     repo: registry.abakus.no/webkom/lego/lego-webapp
     tags:
-      - ${DRONE_TAG##v}
       - latest
+      - ${DRONE_TAG##v}
+    build_args:
+      - API_URL=${API_URL}
+      - WS_URL=${WS_URL}
+      - BASE_URL=${BASE_URL}
+      - CAPTCHA_KEY=${CAPTCHA_KEY}
