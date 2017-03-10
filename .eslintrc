@@ -1,12 +1,16 @@
 {
   "extends": [
-    "airbnb",
-    "plugin:flowtype/recommended"
+    "react-app",
+    "plugin:flowtype/recommended",
+    "plugin:react/recommended",
+    "prettier",
+    "prettier/flowtype",
+    "prettier/react"
   ],
-  "parser": "babel-eslint",
   "plugins": [
     "react",
-    "flowtype"
+    "flowtype",
+    "prettier"
   ],
   "globals": {
     "log": true,
@@ -16,37 +20,8 @@
     "__CLIENT__": true
   },
   "rules": {
-    "arrow-parens": 0,
-    "consistent-return": 0,
-    "global-require": 0,
-    "import/no-extraneous-dependencies": 0,
-    "import/prefer-default-export": 0,
-    "import/first": 0,
-    "import/no-dynamic-require": 0,
-    "import/extensions": 0,
-    "jsx-quotes": [1, "prefer-single"],
-    "jsx-a11y/no-static-element-interactions": 1,
-    "jsx-a11y/tabindex-no-positive": 1,
-    "jsx-a11y/img-has-alt": 1,
-    "quote-props": 0,
-    "no-duplicate-imports": 0,
-    "no-shadow": 0,
-    "no-plusplus": 0,
-    "no-param-reassign": 0,
-    "no-underscore-dangle": 0,
-    "no-use-before-define": 0,
-    "no-sequences": 0,
-    "no-restricted-syntax": 1,
-    "react/jsx-no-bind": 1,
-    "react/sort-comp": 0,
-    "react/forbid-prop-types": 1,
-    "react/no-unused-prop-types": 1,
-    "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
-    "react/prop-types": 0,
-    "react/prefer-stateless-function": 0,
-    "react/no-did-mount-set-state": 0,
-    "comma-dangle": 0,
-    "sort-comp": 0
+    "react/prop-types": 1,
+    "react/display-name": 1
   },
   "settings": {
     "import/resolver": {

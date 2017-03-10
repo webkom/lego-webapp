@@ -16,14 +16,18 @@ const config = require('../config/webpack.client.js');
 if (process.env.NODE_ENV !== 'production') {
   const compiler = require('webpack')(config);
 
-  app.use(require('webpack-dev-middleware')(compiler, {
-    publicPath: config.output.publicPath,
-    quiet: true
-  }));
+  app.use(
+    require('webpack-dev-middleware')(compiler, {
+      publicPath: config.output.publicPath,
+      quiet: true
+    })
+  );
 
-  app.use(require('webpack-hot-middleware')(compiler, {
-    log: false
-  }));
+  app.use(
+    require('webpack-hot-middleware')(compiler, {
+      log: false
+    })
+  );
 }
 
 app.use(express.static(config.output.path));
@@ -35,7 +39,8 @@ app.use((req, res) => {
   });
 });
 
-app.use((err, req, res, next) => { // eslint-disable-line
+app.use((err, req, res, next) => {
+  // eslint-disable-line
   if (process.env.NODE_ENV !== 'production') {
     console.error(err.stack);
   }

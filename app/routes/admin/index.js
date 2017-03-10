@@ -1,42 +1,35 @@
-import { loadRoute, loadingError } from 'app/routes';
+import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
   path: 'admin', // admin
-  indexRoute: {
-    getComponent(location, cb) {
-      import('./OverviewRoute')
-        .then(loadRoute(cb))
-        .catch(loadingError);
-    }
-  },
+  indexRoute: resolveAsyncRoute(
+    () => import('./OverviewRoute'),
+    () => require('./OverviewRoute')
+  ),
   childRoutes: [{
     path: 'groups', // admin/groups
-    getComponent(location, cb) {
-      import('./GroupsRoute')
-        .then(loadRoute(cb))
-        .catch(loadingError);
-    },
+    ...resolveAsyncRoute(
+      () => import('./GroupsRoute'),
+      () => require('./GroupsRoute')
+    ),
     childRoutes: [{
       path: ':groupId', // admin/groups/123
-      getComponent(location, cb) {
-        import('./GroupDetailRoute')
-          .then(loadRoute(cb))
-          .catch(loadingError);
-      },
+      ...resolveAsyncRoute(
+        () => import('./GroupDetailRoute'),
+        () => require('./GroupDetailRoute')
+      ),
       childRoutes: [{
         path: 'settings', // admin/groups/123/settings
-        getComponent(location, cb) {
-          import('./GroupSettingsRoute')
-            .then(loadRoute(cb))
-            .catch(loadingError);
-        }
+        ...resolveAsyncRoute(
+          () => import('./GroupSettingsRoute'),
+          () => require('./GroupSettingsRoute')
+        )
       }, {
         path: 'members', // admin/groups/123/members
-        getComponent(location, cb) {
-          import('./GroupMembersRoute')
-            .then(loadRoute(cb))
-            .catch(loadingError);
-        }
+        ...resolveAsyncRoute(
+          () => import('./GroupMembersRoute'),
+          () => require('./GroupMembersRoute')
+        )
       }]
     }]
   }]
