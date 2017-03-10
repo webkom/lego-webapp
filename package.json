@@ -137,8 +137,6 @@
   },
   "lint-staged": {
     "*.js": [
-      "yarn run lint:js -- --fix",
-      "git add"
     ]
   },
   "jest": {

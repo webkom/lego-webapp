@@ -1,8 +1,9 @@
 [ignore]
 .*/node_modules/babel.*
+.*/node_modules/stylelint*
+.*/node_modules/fbjs*
 
 [libs]
-./interfaces/
 
 [options]
 module.name_mapper='.*\(.css\)' -> 'empty/object'
