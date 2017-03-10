@@ -6,7 +6,11 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import Helmet from 'react-helmet';
-import { loginAutomaticallyIfPossible, logout, login } from 'app/actions/UserActions';
+import {
+  loginAutomaticallyIfPossible,
+  logout,
+  login
+} from 'app/actions/UserActions';
 import { toggleSearch } from 'app/actions/SearchActions';
 import Header from 'app/components/Header';
 import Footer from 'app/components/Footer';
@@ -17,13 +21,10 @@ class App extends Component {
   render() {
     return (
       <div
-        style={this.props.searchOpen ? { WebkitFilter: 'blur(10px)' } : null}
+        style={this.props.searchOpen ? { WebkitFilter: 'blur(40px)' } : null}
         className={styles.AppRoute}
       >
-        <Helmet
-          defaultTitle='Abakus.no'
-          titleTemplate='%s | Abakus.no'
-        />
+        <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no" />
 
         <Header
           searchOpen={this.props.searchOpen}
@@ -67,8 +68,5 @@ export default compose(
     componentDidMount: false,
     componentWillReceiveProps: false
   }),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
+  connect(mapStateToProps, mapDispatchToProps)
 )(App);
