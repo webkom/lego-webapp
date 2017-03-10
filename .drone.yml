@@ -1,16 +1,10 @@
 pipeline:
   tests:
-    image: node:6
+    image: node:7-alpine
     when:
       event: push
-    environment:
-      - API_URL=https://lego.abakus.no/api/v1
-      - WS_URL=wss://ws.abakus.no
-      - BASE_URL=https://lego.abakus.no
     commands:
-      - npm install -g yarn
       - yarn
-      - yarn run build:dll
       - yarn test
       - yarn run lint
       - yarn run build
@@ -18,8 +12,9 @@ pipeline:
   docker:
     image: plugins/docker
     when:
-      branch: master
-      event: push
+      event: tag
     registry: https://registry.abakus.no
     repo: registry.abakus.no/webkom/lego/lego-webapp
-    tag: latest
+    tags:
+      - ${DRONE_TAG##v}
+      - latest
