@@ -20,8 +20,8 @@
     "__CLIENT__": true
   },
   "rules": {
-    "prettier/prettier": [1, { "singleQuote": true }],
-    "react/prop-types": 1
+    "react/prop-types": 1,
+    "react/display-name": 1
   },
   "settings": {
     "import/resolver": {
