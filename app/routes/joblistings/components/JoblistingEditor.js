@@ -2,7 +2,13 @@ import React from 'react';
 import styles from './JoblistingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field } from 'redux-form';
-import { Form, TextEditor, TextInput, DatePicker, SelectInput } from 'app/components/Form';
+import {
+  Form,
+  TextEditor,
+  TextInput,
+  DatePicker,
+  SelectInput
+} from 'app/components/Form';
 import Button from 'app/components/Button';
 import moment from 'moment';
 import config from 'app/config';
@@ -18,8 +24,17 @@ type Props = {
   onQueryChanged: () => void
 };
 
-function JoblistingEditor({ handleSubmit, results, handleSubmitCallback, joblistingId, joblisting, onQueryChanged }: Props) {
-  const isEditPage = (joblistingId !== undefined);
+function JoblistingEditor(
+  {
+    handleSubmit,
+    results,
+    handleSubmitCallback,
+    joblistingId,
+    joblisting,
+    onQueryChanged
+  }: Props
+) {
+  const isEditPage = joblistingId !== undefined;
   if (isEditPage && !joblisting) {
     return <LoadingIndicator loading />;
   }
@@ -34,7 +49,7 @@ function JoblistingEditor({ handleSubmit, results, handleSubmitCallback, joblist
           <FlexColumn className={styles.textfield}>
             <Field
               placeholder={'Tittel'}
-              name='title'
+              name="title"
               component={TextInput.Field}
             />
           </FlexColumn>
@@ -45,12 +60,12 @@ function JoblistingEditor({ handleSubmit, results, handleSubmitCallback, joblist
           <FlexColumn className={styles.textfield}>
             <Field
               placeholder={'Bedrift'}
-              name='company.name'
+              name="company.name"
               component={SelectInput}
               options={results}
-              optionValue='param'
-              optionLabel='title'
-              onSearch={(query) => onQueryChanged(query)}
+              optionValue="param"
+              optionLabel="title"
+              onSearch={query => onQueryChanged(query)}
             />
           </FlexColumn>
         </FlexRow>
@@ -58,53 +73,32 @@ function JoblistingEditor({ handleSubmit, results, handleSubmitCallback, joblist
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Deadline: </FlexColumn>
           <FlexColumn className={styles.textfield}>
-            <Field
-              name='deadline'
-              component={DatePicker.Field}
-            />
+            <Field name="deadline" component={DatePicker.Field} />
           </FlexColumn>
         </FlexRow>
 
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Synlig fra: </FlexColumn>
           <FlexColumn className={styles.textfield}>
-            <Field
-              name='visibleFrom'
-              component={DatePicker.Field}
-            />
+            <Field name="visibleFrom" component={DatePicker.Field} />
           </FlexColumn>
         </FlexRow>
 
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Synlig til: </FlexColumn>
           <FlexColumn className={styles.textfield}>
-            <Field
-              name='visibleTo'
-              component={DatePicker.Field}
-            />
+            <Field name="visibleTo" component={DatePicker.Field} />
           </FlexColumn>
         </FlexRow>
 
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Jobbtype: </FlexColumn>
           <FlexColumn className={styles.textfield}>
-            <select
-              name='jobType'
-              defaultValue='summerJob'
-            >
-              <option value='summerJob'>Sommerjobb</option>
-              <option value='partTime'>Deltid</option>
-              <option value='fullTime'>Fulltid</option>
-            </select>
-            <Field
-              placeholder={'Jobbtype'}
-              name='company.name'
-              component={SelectInput}
-              options={results}
-              optionValue='param'
-              optionLabel='title'
-              onSearch={(query) => onQueryChanged(query)}
-            />
+            <Field name="jobType" component="select">
+              <option value="summer_job">Sommerjobb</option>
+              <option value="part_time">Deltid</option>
+              <option value="full_time">Fulltid</option>
+            </Field>
           </FlexColumn>
         </FlexRow>
 
@@ -113,7 +107,7 @@ function JoblistingEditor({ handleSubmit, results, handleSubmitCallback, joblist
           <FlexColumn className={styles.textfield}>
             <Field
               placeholder={'Arbeidssteder'}
-              name='workplaces'
+              name="workplaces"
               component={TextInput.Field}
             />
           </FlexColumn>
@@ -122,32 +116,26 @@ function JoblistingEditor({ handleSubmit, results, handleSubmitCallback, joblist
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Fra år: </FlexColumn>
           <FlexColumn className={styles.textfield}>
-            <select
-              name='fromYear'
-              defaultValue='1'
-            >
-              <option value='1'>1</option>
-              <option value='2'>2</option>
-              <option value='3'>3</option>
-              <option value='4'>4</option>
-              <option value='5'>5</option>
-            </select>
+            <Field name="fromYear" component="select">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </Field>
           </FlexColumn>
         </FlexRow>
 
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Til år: </FlexColumn>
           <FlexColumn className={styles.textfield}>
-            <select
-              name='toYear'
-              defaultValue='5'
-            >
-              <option value='1'>1</option>
-              <option value='2'>2</option>
-              <option value='3'>3</option>
-              <option value='4'>4</option>
-              <option value='5'>5</option>
-            </select>
+            <Field name="toYear" component="select">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+            </Field>
           </FlexColumn>
         </FlexRow>
 
@@ -156,7 +144,7 @@ function JoblistingEditor({ handleSubmit, results, handleSubmitCallback, joblist
           <FlexColumn className={styles.textfield}>
             <Field
               placeholder={'Søknadslenke'}
-              name='applicationUrl'
+              name="applicationUrl"
               component={TextInput.Field}
             />
           </FlexColumn>
@@ -167,8 +155,8 @@ function JoblistingEditor({ handleSubmit, results, handleSubmitCallback, joblist
           <FlexColumn className={styles.textfield}>
             <Field
               placeholder={'Søknadsintro'}
-              name='description'
-              rows='7'
+              name="description"
+              rows="7"
               component={TextEditor.Field}
             />
           </FlexColumn>
@@ -179,8 +167,8 @@ function JoblistingEditor({ handleSubmit, results, handleSubmitCallback, joblist
           <FlexColumn className={styles.textfield}>
             <Field
               placeholder={'Søknadstekst'}
-              name='text'
-              rows='15'
+              name="text"
+              rows="15"
               component={TextEditor.Field}
             />
           </FlexColumn>
@@ -191,7 +179,7 @@ function JoblistingEditor({ handleSubmit, results, handleSubmitCallback, joblist
           <FlexColumn className={styles.textfield}>
             <Field
               placeholder={'Kontaktperson'}
-              name='responsible.name'
+              name="responsible"
               component={TextInput.Field} // Get list of current, possible to create new, fix later
             />
           </FlexColumn>
@@ -206,11 +194,17 @@ function JoblistingEditor({ handleSubmit, results, handleSubmitCallback, joblist
   );
 }
 
-
 export default reduxForm({
   form: 'joblistingEditor',
   pure: false,
   validate(values) {
+    values.workplaces = [
+      {
+        id: 1,
+        town: 'Oslo'
+      }
+    ];
+    values.company = 1;
     const errors = {};
     if (!values.title) {
       errors.title = 'Du må gi jobbannonsen en tittel';
