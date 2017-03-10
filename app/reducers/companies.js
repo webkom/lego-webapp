@@ -1,6 +1,7 @@
 import { Company } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
+import { selectEvents } from './events';
 
 export default createEntityReducer({
   key: 'companies',
@@ -10,11 +11,12 @@ export default createEntityReducer({
   },
   mutate(state, action) {
     switch (action.type) {
-
       case Company.DELETE_FAILURE: {
         return {
           ...state,
-          byId: state.byId.filter((company) => company.id !== action.meta.companyId)
+          byId: state.byId.filter(
+            company => company.id !== action.meta.companyId
+          )
         };
       }
 
@@ -25,8 +27,11 @@ export default createEntityReducer({
             ...state.byId,
             [action.meta.companyId]: {
               ...state.byId[action.meta.companyId],
-              semesterStatuses: state.byId[action.meta.companyId].semesterStatuses
-                .filter((status) => status.id !== action.meta.semesterId)
+              semesterStatuses: state.byId[
+                action.meta.companyId
+              ].semesterStatuses.filter(
+                status => status.id !== action.meta.semesterId
+              )
             }
           }
         };
@@ -39,30 +44,31 @@ export default createEntityReducer({
 });
 
 export const selectCompanies = createSelector(
-  (state) => state.companies.items,
-  (state) => state.companies.byId,
-  (state) => state.users.byId,
-  (companyIds, companiesById, usersById) => (
-    companyIds.map((companyId) => ({
+  state => state.companies.items,
+  state => state.companies.byId,
+  state => state.users.byId,
+  (companyIds, companiesById, usersById) =>
+    companyIds.map(companyId => ({
       ...companiesById[companyId],
-      studentContact: usersById ?
-        usersById[companiesById[companyId].studentContact] : {}
+      studentContact: usersById
+        ? usersById[companiesById[companyId].studentContact]
+        : {}
     }))
-  )
 );
 
 export const selectCompanyById = createSelector(
   selectCompanies,
   (state, props) => props.companyId,
-  (companies, companyId) => companies.find((company) => company.id === companyId) || {}
+  (companies, companyId) =>
+    companies.find(company => company.id === Number(companyId)) || {}
 );
 
 export const selectEventsForCompany = createSelector(
   selectCompanyById,
-  (state) => state.events.byId,
-  (company, eventsById) => {
-    if (!company) return [];
-    return eventsById.filter((event) => event.company === company.id);
+  selectEvents,
+  (company, events) => {
+    if (!company || events) return [];
+    return events.filter(event => event.company === company.id);
   }
 );
 
@@ -71,15 +77,17 @@ export const selectCompanyContact = createSelector(
   (state, props) => props.companyContactId,
   (company, companyContactId) => {
     if (!company) return [];
-    return company.companyContacts.filter((contact) => contact.id === companyContactId);
+    return company.companyContacts.filter(
+      contact => contact.id === companyContactId
+    );
   }
 );
 
 export const selectCommentsForCompany = createSelector(
   selectCompanyById,
-  (state) => state.comments.byId,
+  state => state.comments.byId,
   (company, commentsById) => {
     if (!company || !commentsById) return [];
-    return (company.comments || []).map((commentId) => commentsById[commentId]);
+    return (company.comments || []).map(commentId => commentsById[commentId]);
   }
 );

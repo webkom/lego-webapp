@@ -16,7 +16,6 @@ type Props = {
 };
 
 export default class BdbPage extends Component {
-
   state = {
     companies: [],
     startYear: 2016,
@@ -26,7 +25,7 @@ export default class BdbPage extends Component {
     displayOptions: false,
     filters: {},
     searchQuery: ''
-  }
+  };
 
   componentWillReceiveProps(newProps) {
     this.setState({
@@ -36,7 +35,7 @@ export default class BdbPage extends Component {
 
   props: Props;
 
-  changeSemesters = (forward) => {
+  changeSemesters = forward => {
     // Change which three semesters are displayed (move ahead or back in time)
     const { startSem, startYear } = this.state;
     const newSem = (startSem + 1) % 2;
@@ -54,22 +53,29 @@ export default class BdbPage extends Component {
     // Update state whenever a semesterStatus is graphically changed by the user
     const { changedStatuses, companies, startYear, startSem } = this.state;
     const data = event.target.value.split('-');
-    const yearAndSemester = indexToSemester(Number(data[1]), startYear, startSem);
-
-    const matchSemester = (status) => (
-      status.year === yearAndSemester.year &&
-      status.semester === yearAndSemester.semester &&
-      status.companyId === Number(data[0])
+    const yearAndSemester = indexToSemester(
+      Number(data[1]),
+      startYear,
+      startSem
     );
 
+    const matchSemester = status =>
+      status.year === yearAndSemester.year &&
+      status.semester === yearAndSemester.semester &&
+      status.companyId === Number(data[0]);
+
     // Find which semester has been changed
-    const changedCompanyIndex = companies.indexOf(companies.filter(
-      (company) => company.id === Number(data[0])
-    )[0]);
-    const changedCompanyStatuses = companies[changedCompanyIndex].semesterStatuses;
+    const changedCompanyIndex = companies.indexOf(
+      companies.filter(company => company.id === Number(data[0]))[0]
+    );
+    const changedCompanyStatuses = companies[
+      changedCompanyIndex
+    ].semesterStatuses;
     const changedSemesterIndex = changedCompanyStatuses.indexOf(
-      changedCompanyStatuses.filter((status) => (
-        status.year === yearAndSemester.year && status.semester === yearAndSemester.semester)
+      changedCompanyStatuses.filter(
+        status =>
+          status.year === yearAndSemester.year &&
+          status.semester === yearAndSemester.semester
       )[0]
     );
 
@@ -77,34 +83,35 @@ export default class BdbPage extends Component {
     // First in state.companies
     if (changedSemesterIndex === -1) {
       // We have to add a new semester to state.companies
-      companies[changedCompanyIndex].semesterStatuses.push(
-        {
-          id: data[2],
-          contactedStatus: Number(data[3]),
-          year: Number(indexToSemester(index, startYear, startSem).year),
-          semester: Number(indexToSemester(index, startYear, startSem).semester)
-        }
-      );
+      companies[changedCompanyIndex].semesterStatuses.push({
+        id: data[2],
+        contactedStatus: Number(data[3]),
+        year: Number(indexToSemester(index, startYear, startSem).year),
+        semester: Number(indexToSemester(index, startYear, startSem).semester)
+      });
     } else {
       // We're changing an existing semesterStatus in state.companies
-      companies[changedCompanyIndex].semesterStatuses[changedSemesterIndex].contactedStatus
-      = Number(data[3]);
+      companies[changedCompanyIndex].semesterStatuses[
+        changedSemesterIndex
+      ].contactedStatus = Number(data[3]);
     }
 
     // Then in state.changedStatuses
     if (typeof changedStatuses.find(matchSemester) === 'undefined') {
       // We have to add a new semester to state.changedStatuses
-      changedStatuses.push(
-        {
-          companyId: Number(data[0]),
-          semesterId: data[2],
-          contactedStatus: Number(data[3]),
-          year: Number(indexToSemester(index, startYear, startSem).year),
-          semester: Number(indexToSemester(index, startYear, startSem).semester)
-        }
-      );
-    } else if (changedStatuses.find(matchSemester).contactedStatus ===
-      this.props.companies[changedCompanyIndex].semesterStatuses[changedSemesterIndex]) {
+      changedStatuses.push({
+        companyId: Number(data[0]),
+        semesterId: data[2],
+        contactedStatus: Number(data[3]),
+        year: Number(indexToSemester(index, startYear, startSem).year),
+        semester: Number(indexToSemester(index, startYear, startSem).semester)
+      });
+    } else if (
+      changedStatuses.find(matchSemester).contactedStatus ===
+      this.props.companies[changedCompanyIndex].semesterStatuses[
+        changedSemesterIndex
+      ]
+    ) {
       // The status was changed back to it's original value and should be removed
       changedStatuses.splice(changedStatuses.indexOf(status), 1);
     } else {
@@ -120,7 +127,7 @@ export default class BdbPage extends Component {
 
   submitChange = () => {
     const { addSemesterStatus, editSemesterStatus } = this.props;
-    this.state.changedStatuses.forEach((status) => {
+    this.state.changedStatuses.forEach(status => {
       if (status.semesterId === 'undefined') {
         addSemesterStatus(status);
       } else {
@@ -135,49 +142,54 @@ export default class BdbPage extends Component {
     const filters = this.state.filters;
     filters[name] = value;
     this.setState({ filters });
-  }
+  };
 
   toggleDisplay = () => {
     this.setState({
       displayOptions: !this.state.displayOptions
     });
-  }
+  };
 
-  companySearch = (companies) => (companies.filter((company) =>
-    company.name.toLowerCase().includes(this.state.searchQuery.toLowerCase())
-  ));
+  companySearch = companies =>
+    companies.filter(company =>
+      company.name
+        .toLowerCase()
+        .includes(this.state.searchQuery.toLowerCase()));
 
-  filterCompanies = (companies) => {
+  filterCompanies = companies => {
     if (this.state.searchQuery !== '') {
       companies = this.companySearch(companies);
     }
     const { filters } = this.state;
-    return companies.filter((company) => {
+    return companies.filter(company => {
       // Using 'for of' here. Probably a cleaner way to do it, but I couldn't think of one
       for (const key of Object.keys(filters)) {
         if (filters[key] !== undefined && company[key] !== filters[key]) {
           return false;
         }
-      } return true;
+      }
+      return true;
     });
-  }
+  };
 
-  updateSearchQuery = (event) => {
+  updateSearchQuery = event => {
     const searchQuery = event.target.value;
     this.setState({ searchQuery });
-  }
+  };
 
   render() {
     const { query, companies } = this.props;
-    console.log('companies:');
-    console.log(companies);
+
     if (!companies) {
-      console.log('Skar seg i bdbPage');
       return <LoadingIndicator loading />;
     }
 
-    const sortedCompanies = sortCompanies(this.state.companies, query, this.state.startYear,
-      this.state.startSem);
+    const sortedCompanies = sortCompanies(
+      this.state.companies,
+      query,
+      this.state.startYear,
+      this.state.startSem
+    );
 
     return (
       <div className={styles.root}>
@@ -193,8 +205,12 @@ export default class BdbPage extends Component {
           onClick={this.toggleDisplay}
           className={styles.optionsHeader}
           style={{ cursor: 'pointer', margin: '15px 0' }}
-        >Valg {this.state.displayOptions ?
-          (<i className='fa fa-caret-down' />) : (<i className='fa fa-caret-right' />)}
+        >
+          Valg
+          {' '}
+          {this.state.displayOptions
+            ? <i className="fa fa-caret-down" />
+            : <i className="fa fa-caret-right" />}
         </h2>
 
         <OptionsBox
@@ -204,13 +220,15 @@ export default class BdbPage extends Component {
           filters={this.state.filters}
         />
 
-        {this.state.changedStatuses.length > 0 ? (
-          <Button onClick={this.submitChange} dark>Lagre endringer</Button>
-        ) : ''}
+        {this.state.changedStatuses.length > 0
+          ? <Button onClick={this.submitChange} dark>Lagre endringer</Button>
+          : ''}
         {this.state.submitted && `${trueIcon} Lagret!`}
 
         <i style={{ display: 'block' }}>
-          <b>Tips:</b> Du kan endre semestere ved å trykke på dem i listen! Semestere merket med *
+          <b>Tips:</b>
+          {' '}
+          Du kan endre semestere ved å trykke på dem i listen! Semestere merket med *
           er endringer klare for lagring.
         </i>
 
