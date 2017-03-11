@@ -4,9 +4,6 @@ import { createSelector } from 'reselect';
 import {
   fetchAllApproved,
   fetchAllUnapproved,
-  fetchQuote,
-  like,
-  unlike,
   approve,
   unapprove,
   deleteQuote
@@ -32,19 +29,15 @@ const compareByDate = (a, b) => {
   return date2.getTime() - date1.getTime();
 };
 
-const compareByLikes = (a, b) => b.likes - a.likes;
-
 const selectSortedQuotes = createSelector(
   state => state.quotes.byId,
   state => state.quotes.items,
   (state, props) => props.location.query || {},
   (byId, ids, query) => {
-    const compare = query.sort === 'likes' ? compareByLikes : compareByDate;
-
     return ids
       .map(id => byId[id])
       .filter(quote => quote.approved === (query.filter !== 'unapproved'))
-      .sort(compare);
+      .sort(compareByDate);
   }
 );
 
@@ -60,9 +53,6 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = {
   fetchAllApproved,
   fetchAllUnapproved,
-  fetchQuote,
-  like,
-  unlike,
   approve,
   unapprove,
   deleteQuote

@@ -48,30 +48,6 @@ export function fetchRandomQuote() {
   });
 }
 
-export function like(quoteId) {
-  return callAPI({
-    types: Quote.LIKE,
-    endpoint: `/quotes/${quoteId}/like/`,
-    method: 'post',
-    schema: quoteSchema,
-    meta: {
-      errorMessage: 'Liking quote failed'
-    }
-  });
-}
-
-export function unlike(quoteId) {
-  return callAPI({
-    types: Quote.UNLIKE,
-    endpoint: `/quotes/${quoteId}/unlike/`,
-    method: 'post',
-    schema: quoteSchema,
-    meta: {
-      errorMessage: 'Unliking quote failed'
-    }
-  });
-}
-
 export function approve(quoteId) {
   return callAPI({
     types: Quote.APPROVE,
