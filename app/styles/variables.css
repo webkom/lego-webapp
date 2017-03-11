@@ -1,7 +1,7 @@
 @custom-media --small-viewport (max-width: 30em);
 
 :root {
-  --lego-background-color: #ededed;
+  --lego-background-color: linear-gradient(0deg, #F4F4F4, #eae9e8);
   --lego-font-color: #394B59;
   --lego-link-color: #c0392b;
   --lego-max-width: 1100px;

@@ -1,5 +1,7 @@
+@import 'app/styles/variables.css';
+
 .root {
-  composes: container from 'app/styles/utilities.css';
+  composes: contentContainer from 'app/styles/utilities.css';
 }
 
 .registeredThumbnails {

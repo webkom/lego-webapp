@@ -38,10 +38,10 @@
 
 .searchIcon {
   color: #777;
-  font-size: 1.8rem;
   width: 30px;
   display: flex;
   align-items: center;
+  justify-content: center;
 }
 
 .searchResultItemIcon {
@@ -56,7 +56,6 @@
   border: 0;
   background: transparent;
   color: #333;
-  font-size: 2rem;
   cursor: pointer;
 }
 

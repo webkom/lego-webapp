@@ -35,33 +35,33 @@ function AccountDropdownItems({ logout, onClose, username }) {
       <Dropdown.ListItem>
         <Link to="/users/me" onClick={onClose}>
           <strong style={{ color: '#333' }}>{username}</strong>
-          <Icon name="user" />
+          <Icon name="user" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.Divider />
       <Dropdown.ListItem>
         <Link to="/users/me/settings" onClick={onClose}>
           Innstillinger
-          <Icon name="cog" />
+          <Icon name="cog" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.ListItem>
         <Link to="/users/me/settings" onClick={onClose}>
           Abacash
-          <Icon name="money" />
+          <Icon name="card" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.ListItem>
         <Link to="/meetings/" onClick={onClose}>
           Møteinnkallinger
-          <Icon name="calendar" />
+          <Icon name="calendar" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.Divider />
       <Dropdown.ListItem>
         <a onClick={() => (logout(), onClose())}>
           Logg ut
-          <Icon name="sign-out" />
+          <Icon name="log-out" size={24} />
         </a>
       </Dropdown.ListItem>
     </Dropdown.List>
@@ -82,7 +82,7 @@ export default class Header extends Component {
 
     return (
       <header className={styles.header}>
-        <FancyNodesCanvas height={156} />
+        <FancyNodesCanvas height={300} />
         <div className={styles.content}>
           <IndexLink to="/" className={styles.logo}>
             <img src={logoImage} alt="" />
@@ -116,7 +116,9 @@ export default class Header extends Component {
                   this.setState({
                     notificationsOpen: !this.state.notificationsOpen
                   })}
-                triggerComponent={<Icon.Badge name="bell" badgeCount={1} />}
+                triggerComponent={
+                  <Icon.Badge name="notifications" badgeCount={1} />
+                }
               >
                 <div style={{ padding: 15 }}>
                   <h2>Ingen nye varslinger</h2>
@@ -152,7 +154,7 @@ export default class Header extends Component {
                     shake: false
                   })}
                 contentClassName={this.state.shake && 'animated shake'}
-                triggerComponent={<Icon name="user" />}
+                triggerComponent={<Icon name="contact" />}
               >
                 <div style={{ padding: 10 }}>
                   <LoginForm
@@ -174,7 +176,7 @@ export default class Header extends Component {
               </Dropdown>}
 
             <button onClick={this.props.toggleSearch}>
-              <Icon name="search" style={{ color: '#C24538' }} />
+              <Icon name="search" style={{ color: '#C24538' }} size={44} />
             </button>
           </div>
 

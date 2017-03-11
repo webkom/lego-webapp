@@ -10,6 +10,7 @@
   padding: 20px;
   max-height: 250px;
   overflow-y: scroll;
+  background: #fff;
 }
 
 .heading {

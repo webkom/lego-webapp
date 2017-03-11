@@ -3,12 +3,12 @@
 .button {
   font-weight: 700;
   cursor: pointer;
-  background: #eee;
+  background: linear-gradient(#eee, #ddd);
   text-transform: uppercase;
   padding: 10px 20px;
   color: var(--color-dark-gray-3);
   outline: none;
-  border: 1px solid var(--color-gray-5);
+  border: 1px solid var(--color-gray-4);
   letter-spacing: 1px;
   border-radius: 4px;
 

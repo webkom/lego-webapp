@@ -1,5 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:400,700');
-@import url('https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css');
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css?family=Lato');
+@import url('https://unpkg.com/ionicons@3.0.0/dist/css/ionicons.min.css');
 @import './variables.css';
 
 @font-face {
@@ -10,7 +11,6 @@
 * {
   box-sizing: border-box;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
 
 html {
@@ -19,7 +19,7 @@ html {
 
 body {
   line-height: 1.8;
-  font-family: 'proxima-nova', 'Helvetica Neue', Arial, sans-serif;
+  font-family: Raleway, 'Helvetica Neue', Arial, sans-serif;
   background: var(--lego-background-color);
   background-attachment: fixed;
   color: var(--lego-font-color);
@@ -65,6 +65,10 @@ button {
   border: 0;
   cursor: pointer;
   outline: none;
+}
+
+i.fa {
+  -webkit-font-smoothing: none;
 }
 
 :global {

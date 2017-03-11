@@ -18,34 +18,35 @@ const Keyboard = {
   DOWN: 40
 };
 
-const quickLinks = [
-  ['', 'Interessegrupper'],
-  ['', 'Butikk'],
-  ['', 'Kontakt']
-];
+const quickLinks = [['', 'Interessegrupper'], ['', 'Butikk'], ['', 'Kontakt']];
 
 const SearchResultItem = ({ result, isSelected }) => (
   <Link to={result.link}>
     <li className={cx(isSelected && styles.isSelected)}>
-      {result.icon && <Icon className={styles.searchResultItemIcon} name={result.icon} />}
-      {!result.icon && <ProfilePicture size={30} user={result} style={{ margin: '0px 10px 0px 0px' }} />}
+      {result.icon &&
+        <Icon className={styles.searchResultItemIcon} name={result.icon} />}
+      {!result.icon &&
+        <ProfilePicture
+          size={30}
+          user={result}
+          style={{ margin: '0px 10px 0px 0px' }}
+        />}
       {result.title}
     </li>
   </Link>
 );
 
-
 type Props = {
-  results: Array<any>;
-  onCloseSearch: () => any;
-  onQueryChanged: (value: string) => any;
-  openSearchRoute: (query: string) => any;
-  searching: boolean;
+  results: Array<any>,
+  onCloseSearch: () => any,
+  onQueryChanged: (value: string) => any,
+  openSearchRoute: (query: string) => any,
+  searching: boolean
 };
 
 type State = {
-  query: string;
-  selectedIndex: number;
+  query: string,
+  selectedIndex: number
 };
 
 class Search extends Component {
@@ -56,7 +57,7 @@ class Search extends Component {
     selectedIndex: 0
   };
 
-  handleKeyDown = (e) => {
+  handleKeyDown = e => {
     switch (e.which) {
       case Keyboard.UP:
         e.preventDefault();
@@ -90,14 +91,13 @@ class Search extends Component {
         break;
 
       default:
-
     }
   };
 
-  onQueryChanged = (query) => {
+  onQueryChanged = query => {
     this.setState({ query });
     this.props.onQueryChanged(query);
-  }
+  };
 
   render() {
     const { results, onCloseSearch, searching } = this.props;
@@ -106,23 +106,23 @@ class Search extends Component {
         <div className={styles.overlay}>
           <div className={styles.inputContainer}>
             <div className={styles.searchIcon}>
-              <Icon name='search' />
+              <Icon name="search" />
             </div>
 
             <input
-              onChange={(e) => this.onQueryChanged(e.target.value)}
+              onChange={e => this.onQueryChanged(e.target.value)}
               value={this.state.query}
-              type='search'
-              placeholder='Hva leter du etter?'
+              type="search"
+              placeholder="Hva leter du etter?"
               autoFocus
             />
 
             <button
-              type='button'
+              type="button"
               className={styles.closeButton}
               onClick={onCloseSearch}
             >
-              <Icon name={searching ? 'spinner fa-spin' : 'close'} />
+              <Icon name={searching ? 'spinner fa-spin' : 'close'} size={60} />
             </button>
           </div>
 
@@ -162,13 +162,10 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    onQueryChanged: debounce((query) => dispatch(autocomplete(query)), 300),
-    openSearchRoute: (query) => dispatch(push(`/search?q=${query}`)),
-    push: (uri) => dispatch(push(uri))
+    onQueryChanged: debounce(query => dispatch(autocomplete(query)), 300),
+    openSearchRoute: query => dispatch(push(`/search?q=${query}`)),
+    push: uri => dispatch(push(uri))
   };
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Search);
+export default connect(mapStateToProps, mapDispatchToProps)(Search);
