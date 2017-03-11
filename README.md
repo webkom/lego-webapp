@@ -21,6 +21,13 @@ $ yarn run build
 $ NODE_ENV=production node dist/server.js
 ```
 
+### Environment Variables
+* NODE_ENV
+* API_URL
+* WS_URL
+* BASE_URL
+* CAPTCHA_KEY
+
 ## Text Editor
 [Atom](https://atom.io) with these plugins installed provides the best developer experience:
 ```bash
