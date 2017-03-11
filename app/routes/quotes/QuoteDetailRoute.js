@@ -11,33 +11,22 @@ import {
   deleteQuote
 } from '../../actions/QuoteActions';
 import QuoteDetail from './components/QuoteDetail';
+import { compose } from 'redux';
+import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 
-export class QuotesDetailRoute extends Component {
-
-  static propTypes = {
-    params: PropTypes.object.isRequired,
-    quote: PropTypes.object.isRequired,
-    fetchQuote: PropTypes.func.isRequired,
-    query: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired
-  };
-
-  componentDidMount() {
-    this.props.fetchQuote(this.props.params.quoteId);
-  }
-
-  render() {
-    return <QuoteDetail {...this.props} />;
-  }
+function loadData(params, props) {
+  props.fetchQuote(props.quote.id);
 }
 
 function mapStateToProps(state, props) {
-  const quotes = state.quotes.items.map((id) => state.quotes.byId[id]);
+  const quotes = state.quotes.items.map(id => state.quotes.byId[id]);
   const query = props.location.query;
+  const comments = selectCommentsForQuote(state, props);
 
   return {
     quote: quotes[0],
-    query
+    query,
+    comments
   };
 }
 
@@ -52,6 +41,7 @@ const mapDispatchToProps = {
   deleteQuote
 };
 
-export default connect(
-  mapStateToProps, mapDispatchToProps
-)(QuotesDetailRoute);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  fetchOnUpdate(['quote', 'loggedIn'], loadData)
+)(QuoteDetail);

@@ -1,6 +1,7 @@
 import styles from './Quotes.css';
 import Time from 'app/components/Time';
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 
 export default class Quote extends Component {
   static propTypes = {
@@ -42,6 +43,12 @@ export default class Quote extends Component {
 
           <div className={styles.quoteDate}>
             {<Time time={quote.createdAt} wordsAgo />}
+          </div>
+
+          <div className={styles.commentCount}>
+            <Link to={`/quotes/${quote.id}`}>
+              <i className="fa fa-comment-o" /> {(quote.comments || []).length}
+            </Link>
           </div>
 
           {quote.permissions &&

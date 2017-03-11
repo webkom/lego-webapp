@@ -1,5 +1,6 @@
 import { Quote } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import { createSelector } from 'reselect';
 
 export default createEntityReducer({
   key: 'quotes',
@@ -12,7 +13,7 @@ export default createEntityReducer({
       case Quote.DELETE.SUCCESS:
         return {
           ...state,
-          items: state.items.filter((id) => action.meta.quoteId !== id)
+          items: state.items.filter(id => action.meta.quoteId !== id)
         };
 
       default:
@@ -20,3 +21,24 @@ export default createEntityReducer({
     }
   }
 });
+
+export const selectQuotes = createSelector(
+  state => state.quotes.items,
+  state => state.quotes.byId,
+  (quoteIds, quotesById) => quoteIds.map(quoteId => quotesById[quoteId])
+);
+
+export const selectQuote = createSelector(
+  selectQuotes,
+  (state, props) => Number(props.quoteId),
+  (quotes, quoteId) => quotes.find(quote => quote.id === quoteId)
+);
+
+export const selectCommentsForQuote = createSelector(
+  selectQuote,
+  state => state.comments.byId,
+  (quote, commentsById) => {
+    if (!quote || !commentsById) return [];
+    return (quote.comments || []).map(commentId => commentsById[commentId]);
+  }
+);

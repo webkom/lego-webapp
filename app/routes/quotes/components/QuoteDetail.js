@@ -1,17 +1,19 @@
 import React, { Component, PropTypes } from 'react';
 import styles from './QuoteDetail.css';
 import Quote from './Quote';
+import CommentView from 'app/components/Comments/CommentView';
+
+type Props = {
+  quote: Object,
+  comments?: Array<Object>,
+  currentUser: any,
+  deleteQuote: () => void,
+  approve: () => void,
+  unapprove: () => void
+};
 
 export default class QuoteDetail extends Component {
-
-  static propTypes = {
-    quote: PropTypes.object.isRequired,
-    like: PropTypes.func.isRequired,
-    unlike: PropTypes.func.isRequired,
-    approve: PropTypes.func.isRequired,
-    unapprove: PropTypes.func.isRequired,
-    deleteQuote: PropTypes.func.isRequired
-  };
+  props: Props;
 
   render() {
     const { quote } = this.props;
@@ -27,6 +29,13 @@ export default class QuoteDetail extends Component {
 
           <Quote {...this.props} quote={quote} />
 
+          <CommentView
+            formEnabled
+            user={currentUser}
+            commentTarget={quote.commentTarget}
+            loggedIn={loggedIn}
+            comments={comments}
+          />
         </div>
       </div>
     );
