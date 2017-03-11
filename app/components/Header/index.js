@@ -7,7 +7,7 @@ import logoImage from 'app/assets/logo-dark.png';
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';
 import Search from '../Search';
-import LoginForm from '../LoginForm';
+import LoginForm from '../LoginForm/LoginForm';
 import ProfilePicture from '../ProfilePicture';
 import FancyNodesCanvas from './FancyNodesCanvas';
 import styles from './Header.css';

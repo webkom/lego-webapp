@@ -37,3 +37,13 @@
     display: none !important;
   }
 }
+
+:global {
+  .u-small {
+    font-size: 14px;
+  }
+
+  .u-mb {
+    margin-bottom: 15px;
+  }
+}
