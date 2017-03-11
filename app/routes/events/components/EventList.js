@@ -11,6 +11,7 @@ import Tag from 'app/components/Tag';
 import Toolbar from './Toolbar';
 import colorForEvent from '../colorForEvent';
 import styles from './EventList.css';
+import EventFooter from './EventFooter';
 
 // Kinda works
 function groupEvents(events) {
@@ -97,6 +98,7 @@ function EventListGroup({ name, events = [] }) {
 class EventList extends Component {
   render() {
     const events = groupEvents(this.props.events);
+    const { icalToken } = this.props;
     return (
       <div className={styles.root}>
         <Helmet title="Arrangementer" />
@@ -107,6 +109,7 @@ class EventList extends Component {
         <EventListGroup name="Neste uke" events={events.nextWeek} />
 
         <EventListGroup name="Senere" events={events.later} />
+        <EventFooter icalToken={icalToken} />
       </div>
     );
   }

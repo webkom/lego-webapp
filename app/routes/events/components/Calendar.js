@@ -8,13 +8,15 @@ import { Link } from 'react-router';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import CalendarCell from './CalendarCell';
 import Toolbar from './Toolbar';
+import EventFooter from './EventFooter';
 
 const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
 
 type Props = {
   weekOffset: number,
   year: string,
-  month: string
+  month: string,
+  icalToken: string
 };
 
 function pathForPrevMonth(date: moment) {
@@ -35,7 +37,7 @@ export default class Calendar extends Component {
   };
 
   render() {
-    const { year, month, actionGrant } = this.props;
+    const { year, month, actionGrant, icalToken } = this.props;
     const date = moment([parseInt(year, 10), parseInt(month, 10) - 1]);
 
     return (
@@ -62,6 +64,7 @@ export default class Calendar extends Component {
             this.props.weekOffset
           ).map((dateProps, i) => <CalendarCell key={i} {...dateProps} />)}
         </div>
+        <EventFooter icalToken={icalToken} />
       </div>
     );
   }

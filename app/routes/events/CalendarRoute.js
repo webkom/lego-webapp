@@ -14,10 +14,15 @@ const mapStateToProps = (state, ownProps) => {
   } = ownProps.params;
   const actionGrant = state.events.actionGrant;
 
+  const icalToken = state.auth
+    ? state.users.byId[state.auth.username].icalToken
+    : null;
+
   return {
     year,
     month,
-    actionGrant
+    actionGrant,
+    icalToken
   };
 };
 
