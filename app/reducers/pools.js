@@ -8,7 +8,7 @@ export default createEntityReducer({
   },
   mutate(state, action) {
     switch (action.type) {
-      case Event.SOCKET_REGISTRATION: {
+      case Event.SOCKET_REGISTRATION.SUCCESS: {
         const registration = action.payload;
         if (!registration.pool) {
           return state;
@@ -27,14 +27,14 @@ export default createEntityReducer({
           }
         };
       }
-      case Event.SOCKET_UNREGISTRATION: {
+      case Event.SOCKET_UNREGISTRATION.SUCCESS: {
         const registration = action.payload;
         if (!registration.fromPool) {
           return state;
         }
-        const registrations = state.byId[registration.fromPool].registrations.filter((reg) => (
-          reg !== registration.id
-        ));
+        const registrations = state.byId[
+          registration.fromPool
+        ].registrations.filter(reg => reg !== registration.id);
         return {
           ...state,
           byId: {
