@@ -1,20 +1,20 @@
 import styles from './Quotes.css';
 import Time from 'app/components/Time';
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { Link } from 'react-router';
+
+type Props = {
+  quote: Object,
+  deleteQuote: () => void,
+  approve: () => void,
+  unapprove: () => void
+};
 
 export default class Quote extends Component {
-  static propTypes = {
-    quote: PropTypes.object.isRequired,
-    like: PropTypes.func.isRequired,
-    unlike: PropTypes.func.isRequired,
-    approve: PropTypes.func.isRequired,
-    unapprove: PropTypes.func.isRequired,
-    deleteQuote: PropTypes.func.isRequired
-  };
+  props: Props;
 
   render() {
-    const { quote, like, unlike, approve, unapprove, deleteQuote } = this.props;
+    const { quote, approve, unapprove, deleteQuote } = this.props;
 
     return (
       <li className={styles.singleQuote}>
@@ -43,6 +43,12 @@ export default class Quote extends Component {
 
           <div className={styles.quoteDate}>
             {<Time time={quote.createdAt} wordsAgo />}
+          </div>
+
+          <div className={styles.commentCount}>
+            <Link to={`/quotes/${quote.id}`}>
+              <i className="fa fa-comment-o" /> {(quote.comments || []).length}
+            </Link>
           </div>
 
           {quote.permissions &&

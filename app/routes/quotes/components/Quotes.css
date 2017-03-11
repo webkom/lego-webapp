@@ -132,14 +132,6 @@
   margin-left: 20px;
 }
 
-.singleQuote .likeCount {
-  order: 2;
-  font-size: 30px;
-  color: orange;
-  margin-top: -7px;
-  padding-bottom: 15px;
-}
-
 .singleQuote h3 {
   font-weight: 300;
   font-size: 30px;
@@ -155,13 +147,6 @@
   color: orange;
 }
 
-.singleQuote .likes,
-.singleQuote .unlikes {
-  width: 50px;
-  height: 50px;
-  order: 1;
-}
-
 .singleQuote .fa-thumbs-up {
   padding-top: 5px;
   font-size: 35px;
@@ -170,10 +155,6 @@
 
 .singleQuote .quoteDefault {
   color: gray;
-}
-
-.singleQuote .quoteLiked {
-  color: orange;
 }
 
 .singleQuote .fa-thumbs-up:hover {
@@ -214,7 +195,12 @@
   font-size: 13px;
   order: 2;
   align-self: auto;
-  margin-top: 1px;
+  margin-top: 3px;
+}
+
+.singleQuote .commentCount {
+  order: 3;
+  margin-left: 20px;
 }
 
 .singleQuote .quoteAdmin {
