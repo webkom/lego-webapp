@@ -13,27 +13,21 @@ type Props = {
 };
 
 /**
- * Render a Font-Awesome icon.
+ * Render an Icon
+ *
+ * http://ionicframework.com/docs/v2/ionicons/
  */
 function Icon(
   {
     name = 'star',
     scaleOnHover = false,
     className,
-    style,
-    size = 36,
+    size,
     ...props
   }: Props
 ) {
   return (
-    <i
-      className={cx(`ion-ios-${name}`, styles.icon, className)}
-      style={{
-        fontSize: `${size}px`,
-        ...style
-      }}
-      {...props}
-    />
+    <i className={cx(`ion-ios-${name}`, styles.icon, className)} {...props} />
   );
 }
 

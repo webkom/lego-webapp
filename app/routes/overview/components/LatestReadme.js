@@ -12,29 +12,37 @@ class LatestReadme extends Component {
 
   render() {
     const { expanded } = this.state;
-    const toggle = () => this.setState((state) => ({ expanded: !state.expanded }));
+    const toggle = () =>
+      this.setState(state => ({ expanded: !state.expanded }));
 
     return (
       <Flex column className={styles.latestReadme}>
         <button className={styles.heading} onClick={toggle}>
           <span><ReadmeLogo />-utgaver</span>
           <Icon
-            name={expanded ? 'close' : 'chevron-down'}
+            name={expanded ? 'close' : 'arrow-down'}
             style={{ color: '#fff' }}
           />
         </button>
 
-        {expanded && (
-          <Flex wrap row justifyContent='space-between' style={{ paddingTop: 20 }}>
-            {[1, 2, 3, 4, 5, 6].map((issue) => (
-              <a href={`http://readme.abakus.no/utgaver/2016/2016-0${issue}.pdf`} className={styles.thumb}>
+        {expanded &&
+          <Flex
+            wrap
+            row
+            justifyContent="space-between"
+            style={{ paddingTop: 20 }}
+          >
+            {[1, 2, 3, 4, 5, 6].map(issue => (
+              <a
+                href={`http://readme.abakus.no/utgaver/2016/2016-0${issue}.pdf`}
+                className={styles.thumb}
+              >
                 <Image
                   src={`http://readme.abakus.no/bilder/16/2016-0${issue}.jpg`}
                 />
               </a>
             ))}
-          </Flex>
-        )}
+          </Flex>}
       </Flex>
     );
   }

@@ -122,7 +122,7 @@ class Search extends Component {
               className={styles.closeButton}
               onClick={onCloseSearch}
             >
-              <Icon name={searching ? 'spinner fa-spin' : 'close'} size={60} />
+              <Icon name={searching ? 'spinner fa-spin' : 'close'} />
             </button>
           </div>
 

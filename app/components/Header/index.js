@@ -33,9 +33,9 @@ function AccountDropdownItems({ logout, onClose, username }) {
   return (
     <Dropdown.List>
       <Dropdown.ListItem>
-        <Link to="/users/me" onClick={onClose}>
-          <strong style={{ color: '#333' }}>{username}</strong>
-          <Icon name="user" size={24} />
+        <Link to="/users/me" onClick={onClose} style={{ color: '#333' }}>
+          <strong>{username}</strong>
+          <Icon name="contact" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.Divider />
@@ -176,7 +176,7 @@ export default class Header extends Component {
               </Dropdown>}
 
             <button onClick={this.props.toggleSearch}>
-              <Icon name="search" style={{ color: '#C24538' }} size={44} />
+              <Icon name="search" style={{ color: '#C24538' }} />
             </button>
           </div>
 

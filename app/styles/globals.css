@@ -67,8 +67,8 @@ button {
   outline: none;
 }
 
-i.fa {
-  -webkit-font-smoothing: none;
+i {
+  display: inline;
 }
 
 :global {

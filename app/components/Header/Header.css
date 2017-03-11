@@ -20,7 +20,7 @@
 .buttonGroup img {
   border: 0;
   color: var(--lego-text-gray);
-  font-size: 1.8rem;
+  font-size: 40px;
   cursor: pointer;
 }
 
