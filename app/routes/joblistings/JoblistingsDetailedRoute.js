@@ -1,5 +1,8 @@
 import { connect } from 'react-redux';
-import { fetchJoblisting } from 'app/actions/JoblistingActions';
+import {
+  fetchJoblisting,
+  deleteJoblisting
+} from 'app/actions/JoblistingActions';
 import JoblistingDetail from './components/JoblistingDetail';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { compose } from 'redux';
@@ -18,12 +21,9 @@ function mapStateToProps(state, props) {
   };
 }
 
-const mapDispatchToProps = { fetchJoblisting };
+const mapDispatchToProps = { fetchJoblisting, deleteJoblisting };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   fetchOnUpdate(['joblistingId'], loadData)
 )(JoblistingDetail);

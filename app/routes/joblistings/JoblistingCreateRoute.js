@@ -13,7 +13,7 @@ import moment from 'moment';
 
 function mapDispatchToProps(dispatch) {
   return {
-    handleSubmitCallback: joblisting => dispatch(createJoblisting(joblisting)),
+    submitJoblisting: joblisting => dispatch(createJoblisting(joblisting)),
     onQueryChanged: debounce(
       query => dispatch(autocomplete(query, ['companies.company'])),
       30
