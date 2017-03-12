@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
 import Image from 'app/components/Image';
 import styles from './JoblistingDetail.css';
@@ -7,8 +8,9 @@ import Markdown from 'app/components/Markdown';
 import { Jobtype, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
 
-const JoblistingDetail = ({ joblisting }) => {
+const JoblistingDetail = ({ joblisting, deleteJoblisting }) => {
   let contactTitle = '';
+  let applicationUrl = '';
   if (!joblisting) {
     return <LoadingIndicator loading />;
   }
@@ -30,14 +32,37 @@ const JoblistingDetail = ({ joblisting }) => {
       </div>
     );
   }
+
+  if (joblisting.applicationUrl) {
+    applicationUrl = (
+      <li>
+        Søk her:
+        {' '}
+        <a
+          href={`${joblisting.applicationUrl}`}
+          className={styles.applicationUrl}
+        >
+          {joblisting.applicationUrl}
+        </a>
+      </li>
+    );
+  }
   return (
     <div className={styles.root}>
       <div className={styles.coverImage}>
         <Image src="http://placehold.it/1000x300" />
       </div>
-      <h1>
-        {joblisting.title}
-      </h1>
+      <FlexRow alignItems="center" justifyContent="space-between">
+        <h1>{joblisting.title}</h1>
+        <div>
+          <Link to={`/joblistings/${joblisting.id}/edit`}>
+            <button className={styles.editButton}> Rediger </button>
+          </Link>
+          <Link onClick={() => deleteJoblisting(joblisting.id)}>
+            <button className={styles.editButton}> Slett </button>
+          </Link>
+        </div>
+      </FlexRow>
       <FlexRow>
         <FlexColumn className={styles.description}>
           <Markdown>
@@ -53,7 +78,19 @@ const JoblistingDetail = ({ joblisting }) => {
               <h3>Generell info:</h3>
             </li>
             <li>
-              Søknadsfrist:{' '}
+
+              Bedrift:
+              {' '}
+              <Link
+                to={`/companies/${joblisting.company.id}`}
+                className={styles.company}
+              >
+                {joblisting.company.name}
+              </Link>
+            </li>
+            <li>
+              Søknadsfrist:
+              {' '}
               <strong>
                 <Time time={joblisting.deadline} format="ll HH:mm" />
               </strong>
