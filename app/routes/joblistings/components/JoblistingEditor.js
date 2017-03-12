@@ -17,33 +17,44 @@ import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocomplete } from 'app/reducers/search';
 
 type Props = {
-  handleSubmitCallback: () => void,
   joblistingId?: string,
   joblisting?: Object,
   handleSubmit: () => void,
-  onQueryChanged: () => void
+  onQueryChanged: () => void,
+  submitJoblisting: () => void
 };
 
 function JoblistingEditor(
   {
     handleSubmit,
     results,
-    handleSubmitCallback,
     joblistingId,
     joblisting,
-    onQueryChanged
+    onQueryChanged,
+    submitJoblisting
   }: Props
 ) {
   const isEditPage = joblistingId !== undefined;
   if (isEditPage && !joblisting) {
     return <LoadingIndicator loading />;
   }
+  const onSubmit2 = newJoblisting => {
+    const workplaces = newJoblisting.workplaces
+      ? newJoblisting.workplaces.split(',').map(town2 => ({ town: town2 }))
+      : null;
+    const company = newJoblisting.company.name;
+    submitJoblisting({
+      ...newJoblisting,
+      company,
+      workplaces
+    });
+  };
   return (
     <div className={styles.root}>
       <h1 className={styles.heading}>
         {isEditPage ? 'Rediger jobbannonse' : 'Legg til jobbannonse'}
       </h1>
-      <Form onSubmit={handleSubmit(handleSubmitCallback)}>
+      <Form onSubmit={handleSubmit(onSubmit2)}>
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Tittel: </FlexColumn>
           <FlexColumn className={styles.textfield}>
@@ -198,13 +209,6 @@ export default reduxForm({
   form: 'joblistingEditor',
   pure: false,
   validate(values) {
-    values.workplaces = [
-      {
-        id: 1,
-        town: 'Oslo'
-      }
-    ];
-    values.company = 1;
     const errors = {};
     if (!values.title) {
       errors.title = 'Du må gi jobbannonsen en tittel';
