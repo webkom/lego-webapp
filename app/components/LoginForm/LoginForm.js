@@ -69,7 +69,7 @@ export default class LoginForm extends Component {
           inputRef={ref => {
             this.usernameRef = ref;
           }}
-          placeholder="Username"
+          placeholder="Brukernavn"
           value={this.state.username}
           onChange={e => this.setState({ username: e.target.value })}
           autoFocus
@@ -83,12 +83,12 @@ export default class LoginForm extends Component {
           type="password"
           value={this.state.password}
           onChange={e => this.setState({ password: e.target.value })}
-          placeholder="Password"
+          placeholder="Passord"
           style={{ marginBottom: 10 }}
         />
 
         <Button submit dark>
-          Login
+          Logg inn
           {'  '}
           <Icon
             style={{ fontSize: 14, paddingTop: 3 }}

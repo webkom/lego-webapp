@@ -15,8 +15,8 @@ function PublicFrontpage() {
   return (
     <Content>
       <Flex justifyContent="space-between" className={styles.root}>
-        <div className={styles.welcomeBox}>
-          <h2 className="u-mb">Ny i Abakus</h2>
+        <div className={styles.bigWelcomeBox}>
+          <h2 className="u-mb">Velkommen til Abakus</h2>
           <p>
             Abakus er linjeforeningen for studentene ved Datateknologi og Kommunikasjonsteknologi på NTNU, og drives av studenter ved disse studiene.
           </p>
@@ -31,7 +31,7 @@ function PublicFrontpage() {
             alignItems="center"
             className="u-mb"
           >
-            Logg inn <a href="" className="u-small">Jeg har ingen bruker</a>
+            Logg inn <a href="" className="u-small">Jeg er ny →</a>
           </Flex>
           <LoginForm />
         </div>

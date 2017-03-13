@@ -1,10 +1,17 @@
+@import 'app/styles/variables.css';
+
 .root {
-  composes: withShadow from 'app/styles/utilities.css';
-  padding: 20px;
-  background: #fff;
 }
 
 .welcomeBox {
   flex: 1;
-  padding: 20px;
+  composes: withShadow from 'app/styles/utilities.css';
+  padding: 40px;
+  background: #fff;
+}
+
+.bigWelcomeBox {
+  composes: welcomeBox;
+  transform: scale(1.06);
+  background: #f9f9f9;
 }
