@@ -5,9 +5,7 @@ import cx from 'classnames';
 import styles from './Field.css';
 
 function FieldError({ error }) {
-  return (
-    <div className={styles.fieldError}>{error}</div>
-  );
+  return <div className={styles.fieldError}>{error}</div>;
 }
 
 function renderErrorMessage(error: Array<string> | string) {
@@ -18,6 +16,25 @@ function renderErrorMessage(error: Array<string> | string) {
   return <FieldError error={error} key={error} />;
 }
 
+export default function Field(
+  {
+    component: Component,
+    fieldClassName,
+    fieldStyle,
+    label,
+    meta,
+    ...props
+  }: any
+) {
+  const hasError = meta.touched && meta.error && meta.error.length > 0;
+  return (
+    <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
+      {label && <label>{label}</label>}
+      <Component {...props} />
+      {hasError && renderErrorMessage(meta.error)}
+    </div>
+  );
+}
 
 /**
  * Wraps Component so it works with redux-form and add some default
@@ -31,21 +48,12 @@ export function createField(Component: any) {
     const hasError = meta.touched && meta.error && meta.error.length > 0;
 
     return (
-      <div
-        className={cx(
-          styles.field,
-          fieldClassName
-        )}
-        style={fieldStyle}
-      >
+      <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
         {label && <div>{label}</div>}
         <Component
           {...input}
           {...props}
-          className={cx(
-            props.className,
-            hasError && styles.inputWithError
-          )}
+          className={cx(props.className, hasError && styles.inputWithError)}
         />
         {hasError && renderErrorMessage(meta.error)}
       </div>

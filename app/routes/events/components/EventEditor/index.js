@@ -1,68 +1,76 @@
 // @flow
 
 import React from 'react';
-import { reduxForm, Field } from 'redux-form';
 import {
   Form,
+  Field,
   TextInput,
-  TextEditor,
   Button,
-  DatePicker
+  DatePicker,
+  Select,
+  createFormContainer
 } from 'app/components/Form';
+import { createEvent } from 'app/actions/EventActions';
+import { createValidator, required } from 'app/utils/validation';
 
-function EventEditor({ handleSubmit }) {
+const validate = createValidator({
+  title: [required()],
+  description: [required()]
+});
+
+const EventTypes = [
+  { label: 'Bedpress', value: 'company_presentation' },
+  { label: 'Kurs', value: 'course' }
+];
+
+function EventEditor({ handleSubmit, isValid, fields, meta, saving }: any) {
   return (
     <div>
       <h2>Create an event</h2>
-      <Form onSubmit={handleSubmit(() => {})}>
-        <Field
-          placeholder='Title'
-          name='title'
-          component={TextInput.Field}
-          autoFocus
-        />
+      <Form onSubmit={handleSubmit}>
+        <Field component={TextInput} {...fields.title} autoFocus />
+        <Field component={TextInput} {...fields.description} />
 
         <Field
-          placeholder='Description'
-          name='description'
-          component={TextEditor.Field}
+          component={Select}
+          {...fields.eventType}
+          onChange={option =>
+            fields.eventType.onChange({
+              target: { name: fields.eventType.name, value: option.value }
+            })}
+          options={EventTypes}
         />
 
-        <div style={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
-          <Field
-            name='startTime'
-            component={DatePicker.Field}
-            fieldStyle={{ flex: '0 0 49%' }}
-          />
-
-          <Field
-            name='endTime'
-            component={DatePicker.Field}
-            fieldStyle={{ flex: '0 0 49%' }}
-          />
+        <div
+          style={{
+            flexDirection: 'row',
+            display: 'flex'
+          }}
+        >
+          <Field component={DatePicker} {...fields.startTime} />
+          <Field component={DatePicker} {...fields.endTime} />
         </div>
 
-        <Field
-          placeholder='Location'
-          name='location'
-          component={TextInput.Field}
-          type='password'
-        />
+        <Field component={TextInput} {...fields.location} />
 
-        <Button submit>Save Event</Button>
+        <Button submit disabled={!isValid}>{saving ? '...' : 'Save'}</Button>
       </Form>
     </div>
   );
 }
 
-export default reduxForm({
-  form: 'eventEditor',
-  validate(values) {
-    const errors = {};
-    if (!values.description) {
-      errors.description = ['required', 'yolo'];
-    }
-
-    return errors;
+export default createFormContainer({
+  validate,
+  onSubmit: (state, props) =>
+    props.dispatch(createEvent(state.values)).then(props.onClose),
+  getInitialValues(props) {
+    return {
+      title: props.title || '',
+      description: props.description || '',
+      location: props.location || '',
+      startTime: props.startTime || new Date(),
+      endTime: props.endTime || new Date(),
+      eventType: props.eventType || 'company_presentation'
+    };
   }
 })(EventEditor);

@@ -1,7 +1,6 @@
 import {
   eventSchema,
   eventAdministrateSchema,
-  registrationSchema
 } from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import callAPI from 'app/actions/callAPI';
@@ -157,4 +156,14 @@ export function updatePayment(eventId, registrationId, chargeStatus) {
       })
     ).then(() => dispatch(addNotification({ message: 'Payment updated' })));
   };
+}
+
+export function createEvent(body) {
+  return callAPI({
+    types: Event.CREATE,
+    endpoint: '/events/',
+    method: 'POST',
+    schema: eventSchema,
+    body
+  });
 }

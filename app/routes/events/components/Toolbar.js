@@ -53,7 +53,7 @@ class Toolbar extends Component {
           onHide={() => this.setState({ editorOpen: false })}
           closeOnBackdropClick={false}
         >
-          <EventEditor />
+          <EventEditor onClose={() => this.setState({ editorOpen: false })} />
         </Modal>
       </div>
     );

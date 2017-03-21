@@ -19,7 +19,8 @@ export const Event = {
   UPDATE_REGISTRATION: generateStatuses('Event.UPDATE_REGISTRATION'),
   SOCKET_REGISTRATION: generateStatuses('Event.SOCKET_REGISTRATION'),
   SOCKET_UNREGISTRATION: generateStatuses('Event.SOCKET_UNREGISTRATION'),
-  SOCKET_PAYMENT: generateStatuses('Event.SOCKET_PAYMENT')
+  SOCKET_PAYMENT: generateStatuses('Event.SOCKET_PAYMENT'),
+  CREATE: generateStatuses('Event.CREATE')
 };
 
 /**
