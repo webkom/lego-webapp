@@ -12,6 +12,14 @@
   margin: 0 auto;
 }
 
+.contentContainer {
+  composes: container;
+  background: var(--color-white);
+  padding: 40px;
+  box-shadow: 0 1px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+}
+
 .withShadow {
   border: 1px solid rgba(0, 0, 0, 0.09);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
@@ -27,5 +35,15 @@
 .hiddenOnMobile {
   @media (--small-viewport) {
     display: none !important;
+  }
+}
+
+:global {
+  .u-small {
+    font-size: 14px;
+  }
+
+  .u-mb {
+    margin-bottom: 15px;
   }
 }

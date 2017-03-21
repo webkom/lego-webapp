@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginForm from '../LoginForm';
+import LoginForm from './LoginForm';
 import TextInput from '../Form/TextInput';
 import { shallow } from 'enzyme';
 
@@ -7,7 +7,9 @@ describe('components', () => {
   describe('LoginForm', () => {
     it('should render correctly', () => {
       const login = () => {};
-      const wrapper = shallow(<LoginForm login={login} className='LoginForm' />);
+      const wrapper = shallow(
+        <LoginForm login={login} className="LoginForm" />
+      );
       expect(wrapper.hasClass('LoginForm')).toEqual(true);
 
       const username = wrapper.childAt(0);

@@ -15,9 +15,9 @@ class Toolbar extends Component {
         </div>
 
         <div className={styles.section}>
-          <Link to='/meetings/create/'>
+          <Link to="/meetings/create/">
             <Button>
-              <Icon name='plus' />
+              <Icon name="add" />
               Nytt møte
             </Button>
           </Link>
