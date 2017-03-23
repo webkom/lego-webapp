@@ -2,6 +2,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetchJoblisting, editJoblisting } from 'app/actions/JoblistingActions';
+import { dispatched } from 'react-prepare';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import JoblistingEditor
   from 'app/routes/joblistings/components/JoblistingEditor';
@@ -30,13 +31,25 @@ function mapStateToProps(state, props) {
   const joblisting = selectJoblistingById(state, { joblistingId });
   return {
     joblisting,
-    initialValues: joblisting,
+    initialValues: {
+      ...joblisting,
+      responsible: joblisting.responsible ? joblisting.responsible.id : null,
+      workplaces: joblisting.workplaces
+        .map(workplace => workplace.town)
+        .join(',')
+    },
     joblistingId,
     results: selectAutocomplete(state)
   };
 }
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['joblistingId', 'loggedIn'], loadData)
+  dispatched(
+    ({ params: { joblistingId } }, dispatch) =>
+      dispatch(fetchJoblisting(Number(joblistingId))),
+    {
+      componentWillReceiveProps: false
+    }
+  ),
+  connect(mapStateToProps, mapDispatchToProps)
 )(JoblistingEditor);
