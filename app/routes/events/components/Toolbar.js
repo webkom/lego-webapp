@@ -6,7 +6,10 @@ import Modal from 'app/components/Modal';
 import Time from 'app/components/Time';
 import Button from 'app/components/Button';
 import EventEditor from './EventEditor';
+import { FlexRow, Flex } from 'app/components/FlexBox';
 import styles from './Toolbar.css';
+import cx from 'classnames';
+import { hiddenOnMobile } from 'app/styles/utilities.css';
 
 class Toolbar extends Component {
   state = {

@@ -1,20 +1,25 @@
 .eventFooter {
-  display: flex;
   width: 100%;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-top: 30px;
-  border-top: 1px solid #ddd;
-  composes: container from 'app/styles/utilities.css';
+  padding-top: 20px;
 
   h3 {
     margin: 0;
   }
 }
 
+.eventFooterSections {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 .section {
-  flex: 1;
-  padding: 20px;
+  flex: 2;
+  padding: 0 20px;
+
+  &:last-of-type {
+    flex: 1;
+  }
 }
 
 .eventType {

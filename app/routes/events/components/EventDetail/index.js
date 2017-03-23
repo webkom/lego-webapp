@@ -117,12 +117,16 @@ export default class EventDetail extends Component {
           <Image src={event.cover} />
         </div>
 
-        <FlexRow alignItems="center" justifyContent="space-between">
+        <FlexRow
+          alignItems="center"
+          flexWrap="wrap"
+          justifyContent="space-between"
+        >
           <h2>{event.title}</h2>
           <InterestedButton value={this.props.isUserInterested} />
         </FlexRow>
 
-        <FlexRow>
+        <FlexRow flexWrap="wrap">
           <FlexColumn className={styles.description}>
             <Markdown>{event.text}</Markdown>
             <FlexRow className={styles.tagRow}>
@@ -216,7 +220,7 @@ export default class EventDetail extends Component {
           </FlexColumn>
         </FlexRow>
 
-        <FlexRow>
+        <FlexRow flexWrap="wrap-reverse">
           {loggedIn &&
             <FlexColumn className={styles.join}>
               <div className={styles.joinHeader}>

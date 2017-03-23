@@ -19,6 +19,12 @@ const eventTypes = [
   { eventType: 'other', name: 'Annet' }
 ];
 
+const icalTypes = [
+  { name: 'events', title: 'Alle arrangementer' },
+  { name: 'registrations', title: 'Registreringstidspunkt' },
+  { name: 'personal', title: 'Mine møter og arrangementer' }
+];
+
 const getIcalUrl = (icalToken, icalType) =>
   `${config.serverUrl}/calendar/ical/${icalType}/?token=${icalToken}`;
 const getIcalUrlGoogle = (icalToken, icalType) =>
@@ -30,56 +36,46 @@ type Props = {
 
 const EventFooter = ({ icalToken }: Props) => (
   <div className={styles.eventFooter}>
-    {icalToken &&
-      <div className={cx(styles.section, hiddenOnMobile)}>
-        <h3>Google kalender</h3>
+    <p className={cx(styles.section, hiddenOnMobile)}>
+      Her kan du importere arrangementer og møter til din favorittkalender! For innstillinger se
+      <Link to="/users/me/settings"> her</Link>.
+    </p>
+    <div className={styles.eventFooterSections}>
+      {icalToken &&
+        <div className={cx(styles.section, hiddenOnMobile)}>
+          <h3>Google kalender</h3>
+          <ul>
+            {icalTypes.map((type, key) => (
+              <li key={key}>
+                <a href={getIcalUrlGoogle(icalToken, type.name)}>
+                  {type.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>}
+      {icalToken &&
+        <div className={cx(styles.section, hiddenOnMobile)}>
+          <h3>ICalendar</h3>
+          <ul>
+            {icalTypes.map((type, key) => (
+              <li key={key}>
+                <a href={getIcalUrl(icalToken, type.name)}>{type.title}</a>
+              </li>
+            ))}
+          </ul>
+        </div>}
+      <div className={styles.section}>
+        <h3>Fargekoder</h3>
         <ul>
-          <li>
-            <Link to={getIcalUrlGoogle(icalToken, 'events')}>
-              Alle arrangementer
-            </Link>
-          </li>
-          <li>
-            <Link to={getIcalUrlGoogle(icalToken, 'registration')}>
-              Registreringstidspunkt
-            </Link>
-          </li>
-          <li>
-            <Link to={getIcalUrlGoogle(icalToken, 'personal')}>
-              Mine møter og arrangementer
-            </Link>
-          </li>
+          {eventTypes.map(({ eventType, name }, id) => (
+            <li key={id}>
+              <Circle color={colorForEvent(eventType)} />
+              <span className={styles.eventType}>{name}</span>
+            </li>
+          ))}
         </ul>
-      </div>}
-    {icalToken &&
-      <div className={cx(styles.section, hiddenOnMobile)}>
-        <h3>ICalendar</h3>
-        <ul>
-          <li>
-            <Link to={getIcalUrl(icalToken, 'events')}>Alle arrangementer</Link>
-          </li>
-          <li>
-            <Link to={getIcalUrl(icalToken, 'registration')}>
-              Registreringstidspunkt
-            </Link>
-          </li>
-          <li>
-            <Link to={getIcalUrl(icalToken, 'personal')}>
-              Mine møter og arrangementer
-            </Link>
-          </li>
-        </ul>
-      </div>}
-    <div className={styles.section}>
-      <h3>Fargekoder</h3>
-      <ul>
-        {eventTypes.map(({ eventType, name }, id) => (
-          <li key={id}>
-            <Circle color={colorForEvent(eventType)} />
-            <span className={styles.eventType}>{name}</span>
-          </li>
-        ))}
-      </ul>
+      </div>
     </div>
   </div>
 );
