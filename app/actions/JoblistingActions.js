@@ -34,7 +34,6 @@ export function deleteJoblisting(id) {
         types: Joblistings.DELETE,
         endpoint: `/joblistings/${id}/`,
         method: 'DELETE',
-        schema: joblistingsSchema,
         meta: {
           id,
           errorMessage: 'Deleting joblisting failed'
@@ -131,8 +130,9 @@ export function editJoblisting(
       callAPI({
         types: Joblistings.EDIT,
         endpoint: `/joblistings/${id}/`,
-        method: 'PATCH',
+        method: 'put',
         body: {
+          id,
           title,
           text,
           company,

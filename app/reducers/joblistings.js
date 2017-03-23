@@ -13,6 +13,7 @@ export default createEntityReducer({
       case Joblistings.DELETE.SUCCESS: {
         return {
           ...state,
+          items: state.items.filter(id => id !== action.meta.id),
           byId: {
             ...omit(state.byId, action.meta.id)
           }
@@ -27,5 +28,5 @@ export default createEntityReducer({
 export const selectJoblistingById = createSelector(
   state => state.joblistings.byId,
   (state, props) => props.joblistingId,
-  (joblistingsById, joblistingId) => joblistingsById[joblistingId]
+  (joblistingsById, joblistingId) => joblistingsById[joblistingId] || {}
 );
