@@ -12,6 +12,10 @@
   height: 300px;
   overflow: hidden;
   position: relative;
+
+  img {
+    object-fit: cover;
+  }
 }
 
 .description {
@@ -31,6 +35,7 @@
   background: #CACACA;
   flex: 1;
   padding: 20px;
+  min-width: 340px;
 }
 
 .join {
@@ -52,4 +57,12 @@
 
 .tagRow {
   margin-top: 16px;
+}
+
+.mainSections {
+  flex-wrap: wrap;
+}
+
+.registrationSection {
+  flex-wrap: wrap-reverse;
 }

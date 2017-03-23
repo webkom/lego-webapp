@@ -109,6 +109,7 @@ class EventList extends Component {
         <EventListGroup name="Neste uke" events={events.nextWeek} />
 
         <EventListGroup name="Senere" events={events.later} />
+        <div className={styles.bottomBorder} />
         <EventFooter icalToken={icalToken} />
       </div>
     );
