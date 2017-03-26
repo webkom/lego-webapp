@@ -1,7 +1,7 @@
 import { Company, Event } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
 import { companySchema, eventSchema } from 'app/reducers';
-import { arrayOf } from 'normalizr';
+
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 
@@ -9,7 +9,7 @@ export function fetchAll() {
   return callAPI({
     types: Company.FETCH,
     endpoint: '/companies/',
-    schema: arrayOf(companySchema),
+    schema: [companySchema],
     meta: {
       errorMessage: 'Fetching companies failed'
     }
@@ -32,7 +32,7 @@ export function fetch(companyId) {
       callAPI({
         types: Event.FETCH,
         endpoint: `/events/?company=${companyId}`,
-        schema: arrayOf(eventSchema),
+        schema: [eventSchema],
         meta: {
           errorMessage: 'Fetching assosiated events failed'
         }

@@ -1,4 +1,3 @@
-import { arrayOf } from 'normalizr';
 import { Meeting } from './ActionTypes';
 import { meetingSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
@@ -21,7 +20,7 @@ export function fetchAll() {
   return callAPI({
     types: Meeting.FETCH,
     endpoint: '/meetings/',
-    schema: arrayOf(meetingSchema),
+    schema: [meetingSchema],
     meta: {
       errorMessage: 'Fetching meetings failed'
     }

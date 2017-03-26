@@ -1,4 +1,3 @@
-import { arrayOf } from 'normalizr';
 import { groupSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Group } from './ActionTypes';
@@ -18,7 +17,7 @@ export function fetchAll() {
   return callAPI({
     types: Group.FETCH,
     endpoint: '/groups/',
-    schema: arrayOf(groupSchema),
+    schema: [groupSchema],
     meta: {
       errorMessage: 'Fetching groups failed'
     }

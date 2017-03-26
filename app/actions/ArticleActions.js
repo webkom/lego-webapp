@@ -1,4 +1,3 @@
-import { arrayOf } from 'normalizr';
 import { Article } from './ActionTypes';
 import { articleSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
@@ -23,7 +22,7 @@ export function fetchAll({ year, month } = {}) {
   return callAPI({
     types: Article.FETCH,
     endpoint: `/articles/${createQueryString({ year, month })}`,
-    schema: arrayOf(articleSchema),
+    schema: [articleSchema],
     meta: {
       errorMessage: 'Fetching articles failed'
     }

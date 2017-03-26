@@ -1,4 +1,3 @@
-import { arrayOf } from 'normalizr';
 import { joblistingsSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Joblistings } from './ActionTypes';
@@ -7,7 +6,7 @@ export function fetchAll() {
   return callAPI({
     types: Joblistings.FETCH,
     endpoint: '/joblistings/',
-    schema: arrayOf(joblistingsSchema),
+    schema: [joblistingsSchema],
     meta: {
       errorMessage: 'Fetching joblistings failed'
     }
