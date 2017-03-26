@@ -31,7 +31,7 @@ class JoinEventForm extends Component {
   };
   counter = undefined;
 
-  componentDidMount() {
+  componentWillMount() {
     this.parseEventTimes(this.props.event);
   }
 
@@ -145,6 +145,7 @@ class JoinEventForm extends Component {
     const feedbackName = getFeedbackName(event.feedbackRequired);
     const showStripe = event.isPriced &&
       registration &&
+      registration.pool &&
       !['pending', 'succeeded'].includes(registration.chargeStatus);
     return (
       <div>
