@@ -64,12 +64,12 @@ export const registrationSchema = new schema.Entity('registrations', {
 export const poolSchema = new schema.Entity('pools', {
   registrations: [registrationSchema]
 });
+export const commentSchema = new schema.Entity('comments');
 export const eventSchema = new schema.Entity('events', {
   pools: [poolSchema],
   comments: [commentSchema]
 });
 export const meetingSchema = new schema.Entity('meetings');
-export const commentSchema = new schema.Entity('comments');
 export const groupSchema = new schema.Entity('groups', { users: [userSchema] });
 export const quoteSchema = new schema.Entity('quotes');
 export const pageSchema = new schema.Entity(
