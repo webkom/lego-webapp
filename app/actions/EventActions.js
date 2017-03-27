@@ -1,4 +1,4 @@
-import { eventSchema } from 'app/reducers';
+import { eventSchema, registrationSchema } from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';
@@ -29,6 +29,17 @@ export function fetchAll({ dateAfter, dateBefore } = {}) {
   });
 }
 
+export function fetchRegistrationList(eventId) {
+  return callAPI({
+    types: Event.FETCH,
+    endpoint: `/events/${eventId}/registrations/`,
+    schema: [registrationSchema],
+    meta: {
+      errorMessage: 'Fetching registrations failed'
+    }
+  });
+}
+
 export function register(eventId, captchaResponse, feedback) {
   return callAPI({
     types: Event.REGISTER,
@@ -45,13 +56,16 @@ export function register(eventId, captchaResponse, feedback) {
   });
 }
 
-export function unregister(eventId, registrationId) {
+export function unregister(eventId, registrationId, admin = false) {
   return callAPI({
     types: Event.UNREGISTER,
     endpoint: `/events/${eventId}/registrations/${registrationId}/`,
     method: 'delete',
+    body: {},
     meta: {
-      errorMessage: 'Unregistering from event failed'
+      errorMessage: 'Unregistering from event failed',
+      admin,
+      id: Number(registrationId)
     }
   });
 }
