@@ -1,7 +1,10 @@
-import createEntityReducer, { fetching, entities } from '../createEntityReducer';
+import createEntityReducer, {
+  fetching,
+  entities
+} from '../createEntityReducer';
 import joinReducers from '../joinReducers';
 import { eventSchema } from 'app/reducers';
-import { normalize, arrayOf } from 'normalizr';
+import { normalize } from 'normalizr';
 
 const FETCH = {
   BEGIN: 'FETCH_BEGIN',
@@ -36,17 +39,19 @@ describe('createEntityReducer', () => {
   });
 
   it('should pick up entities from actions', () => {
-    expect(reducer(undefined, {
-      type: 'SUCCESS',
-      payload: {
-        entities: {
-          events: {
-            1: { name: 'Hello' }
-          }
-        },
-        result: [1]
-      }
-    })).toEqual({
+    expect(
+      reducer(undefined, {
+        type: 'SUCCESS',
+        payload: {
+          entities: {
+            events: {
+              1: { name: 'Hello' }
+            }
+          },
+          result: [1]
+        }
+      })
+    ).toEqual({
       byId: {
         1: { name: 'Hello' }
       },
@@ -91,10 +96,7 @@ describe('createEntityReducer', () => {
       types: {
         fetch: FETCH
       },
-      mutate: joinReducers(
-        customFlag,
-        customFlag2
-      )
+      mutate: joinReducers(customFlag, customFlag2)
     });
 
     expect(reducer(undefined, { type: FETCH.BEGIN })).toEqual({
@@ -124,7 +126,6 @@ describe('fetching()', () => {
     });
   });
 });
-
 
 describe('entities()', () => {
   it('store entities', () => {
@@ -162,39 +163,55 @@ describe('entities()', () => {
 
   it('should merge carefully', () => {
     const reducer = entities('events');
-    const events = [{
-      id: 1,
-      title: 'First Event',
-      comments: [{
+    const events = [
+      {
+        id: 1,
+        title: 'First Event',
+        comments: [
+          {
+            id: 2,
+            author: 'Orhan'
+          }
+        ]
+      },
+      {
         id: 2,
-        author: 'Orhan',
-      }]
-    }, {
-      id: 2,
-      title: 'Second Event',
-      comments: []
-    }];
-
-    const actions = [{
-      type: 'FETCH_ALL',
-      payload: normalize(events, arrayOf(eventSchema))
-    }, {
-      type: 'FETCH_SINGLE',
-      payload: normalize({
-        ...events[0],
-        title: 'First Event Updated',
-        extra: 'Foo'
-      }, eventSchema)
-    }, {
-      type: 'FETCH_ALL',
-      payload: normalize(events.map((event) => ({
-        ...event,
+        title: 'Second Event',
         comments: []
-      })), arrayOf(eventSchema))
-    }, {
-      type: 'ADD_COMMENT',
-      payload: {}
-    }];
+      }
+    ];
+
+    const actions = [
+      {
+        type: 'FETCH_ALL',
+        payload: normalize(events, [eventSchema])
+      },
+      {
+        type: 'FETCH_SINGLE',
+        payload: normalize(
+          {
+            ...events[0],
+            title: 'First Event Updated',
+            extra: 'Foo'
+          },
+          eventSchema
+        )
+      },
+      {
+        type: 'FETCH_ALL',
+        payload: normalize(
+          events.map(event => ({
+            ...event,
+            comments: []
+          })),
+          [eventSchema]
+        )
+      },
+      {
+        type: 'ADD_COMMENT',
+        payload: {}
+      }
+    ];
 
     expect(actions.reduce(reducer, undefined)).toEqual({
       byId: {

@@ -1,4 +1,4 @@
-import { Schema, arrayOf } from 'normalizr';
+import { schema } from 'normalizr';
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
 import form from './forms';
@@ -52,46 +52,34 @@ export default function rootReducer(state, action) {
   return appReducer(state, action);
 }
 
-export const articleSchema = new Schema('articles', { idAttribute: 'id' });
-export const eventSchema = new Schema('events', { idAttribute: 'id' });
-export const poolSchema = new Schema('pools', { idAttribute: 'id' });
-export const registrationSchema = new Schema('registrations', {
-  idAttribute: 'id'
-});
-export const meetingSchema = new Schema('meetings', { idAttribute: 'id' });
-export const commentSchema = new Schema('comments', { idAttribute: 'id' });
-export const groupSchema = new Schema('groups', { idAttribute: 'id' });
-export const userSchema = new Schema('users', { idAttribute: 'username' });
-export const quoteSchema = new Schema('quotes', { idAttribute: 'id' });
-export const pageSchema = new Schema('pages', { idAttribute: 'slug' });
-export const interestGroupSchema = new Schema('interestGroups', {
-  idAttribute: 'id'
-});
-export const companySchema = new Schema('companies', { idAttribute: 'id' });
-export const joblistingsSchema = new Schema('joblistings', {
-  idAttribute: 'id'
-});
-export const feedActivitySchema = new Schema('feedActivities', {
-  idAttribute: 'id'
-});
-
-companySchema.define({
-  studentContact: userSchema
-});
-
-eventSchema.define({
-  pools: arrayOf(poolSchema),
-  comments: arrayOf(commentSchema)
-});
-
-poolSchema.define({
-  registrations: arrayOf(registrationSchema)
-});
-
-registrationSchema.define({
+export const articleSchema = new schema.Entity('articles');
+export const userSchema = new schema.Entity(
+  'users',
+  {},
+  { idAttribute: 'username' }
+);
+export const registrationSchema = new schema.Entity('registrations', {
   users: userSchema
 });
-
-groupSchema.define({
-  users: arrayOf(userSchema)
+export const poolSchema = new schema.Entity('pools', {
+  registrations: [registrationSchema]
 });
+export const commentSchema = new schema.Entity('comments');
+export const eventSchema = new schema.Entity('events', {
+  pools: [poolSchema],
+  comments: [commentSchema]
+});
+export const meetingSchema = new schema.Entity('meetings');
+export const groupSchema = new schema.Entity('groups', { users: [userSchema] });
+export const quoteSchema = new schema.Entity('quotes');
+export const pageSchema = new schema.Entity(
+  'pages',
+  {},
+  { idAttribute: 'slug' }
+);
+export const interestGroupSchema = new schema.Entity('interestGroups');
+export const companySchema = new schema.Entity('companies', {
+  studentContact: userSchema
+});
+export const joblistingsSchema = new schema.Entity('joblistings');
+export const feedActivitySchema = new schema.Entity('feedActivities');

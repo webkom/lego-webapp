@@ -9,7 +9,7 @@ type EntityReducerOptions = {
   key: string,
   types: {
     fetch: ActionTypeObject,
-    mutate?: ActionTypeObject,
+    mutate?: ActionTypeObject
   },
   mutate?: () => void,
   initialState?: Object
@@ -37,16 +37,22 @@ function arrayOf(value) {
 }
 
 function merge(old, updated) {
-  return mergeWith({}, old, updated, (oldValue, newValue) =>
-    (Array.isArray(oldValue) ? newValue : undefined
-  ));
+  return mergeWith(
+    {},
+    old,
+    updated,
+    (oldValue, newValue) => Array.isArray(oldValue) ? newValue : undefined
+  );
 }
 
 export function entities(key: string) {
-  return (state: any = {
-    byId: {},
-    items: []
-  }, action: any) => {
+  return (
+    state: any = {
+      byId: {},
+      items: []
+    },
+    action: any
+  ) => {
     const result = get(action, ['payload', 'entities', key]);
     if (!result) {
       return state;
@@ -55,7 +61,7 @@ export function entities(key: string) {
     return {
       ...state,
       byId: merge(state.byId, result),
-      items: union(state.items, arrayOf(action.payload.result)),
+      items: union(state.items, arrayOf(Object.keys(result).map(Number))),
       actionGrant: action.payload.actionGrant
     };
   };
@@ -65,7 +71,8 @@ export function optimistic(mutateType: ActionTypeObject) {
   return (state: any, action: any) => {
     if (
       !mutateType ||
-        ![mutateType.FAILURE, mutateType.SUCCESS].includes(action.type)) {
+      ![mutateType.FAILURE, mutateType.SUCCESS].includes(action.type)
+    ) {
       return state;
     }
 
@@ -75,7 +82,7 @@ export function optimistic(mutateType: ActionTypeObject) {
 
     return {
       ...state,
-      items: state.items.filter((item) => item !== action.meta.optimisticId)
+      items: state.items.filter(item => item !== action.meta.optimisticId)
     };
   };
 }
@@ -83,12 +90,14 @@ export function optimistic(mutateType: ActionTypeObject) {
 /**
  * Create reducers for common crud actions
  */
-export default function createEntityReducer({
-  key,
-  types,
-  mutate,
-  initialState = {}
-}: EntityReducerOptions) {
+export default function createEntityReducer(
+  {
+    key,
+    types,
+    mutate,
+    initialState = {}
+  }: EntityReducerOptions
+) {
   const {
     fetch: fetchType,
     mutate: mutateType

@@ -1,4 +1,3 @@
-import { arrayOf } from 'normalizr';
 import { Page } from './ActionTypes';
 import { pageSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
@@ -18,7 +17,7 @@ export function fetchAll() {
   return callAPI({
     types: Page.FETCH,
     endpoint: '/pages/',
-    schema: arrayOf(pageSchema),
+    schema: [pageSchema],
     meta: {
       errorMessage: 'Fetching pages failed'
     }

@@ -1,4 +1,3 @@
-import { arrayOf } from 'normalizr';
 import { push } from 'react-router-redux';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { quoteSchema } from 'app/reducers';
@@ -9,7 +8,7 @@ export function fetchAll({ approved = true }) {
   return callAPI({
     types: Quote.FETCH,
     endpoint: `/quotes/?approved=${approved}`,
-    schema: arrayOf(quoteSchema),
+    schema: [quoteSchema],
     meta: {
       errorMessage: `Fetching ${approved ? '' : 'un'}approved quotes failed`
     }
@@ -98,30 +97,34 @@ export function unapprove(quoteId) {
 }
 
 export function addQuotes({ text, source }) {
-  return (dispatch) => {
+  return dispatch => {
     dispatch(startSubmit('addQuote'));
 
-    dispatch(callAPI({
-      types: Quote.ADD,
-      endpoint: '/quotes/',
-      method: 'post',
-      body: {
-        title: 'Tittel',
-        text,
-        source,
-        approved: false
-      },
-      schema: quoteSchema,
-      meta: {
-        errorMessage: 'Adding quote failed'
-      }
-    })).then(() => {
-      dispatch(stopSubmit('addQuote'));
-      dispatch(push('/quotes'));
-    }).catch((action) => {
-      const errors = { ...action.error.response.jsonData };
-      dispatch(stopSubmit('addQuote', errors));
-    });
+    dispatch(
+      callAPI({
+        types: Quote.ADD,
+        endpoint: '/quotes/',
+        method: 'post',
+        body: {
+          title: 'Tittel',
+          text,
+          source,
+          approved: false
+        },
+        schema: quoteSchema,
+        meta: {
+          errorMessage: 'Adding quote failed'
+        }
+      })
+    )
+      .then(() => {
+        dispatch(stopSubmit('addQuote'));
+        dispatch(push('/quotes'));
+      })
+      .catch(action => {
+        const errors = { ...action.error.response.jsonData };
+        dispatch(stopSubmit('addQuote', errors));
+      });
   };
 }
 
