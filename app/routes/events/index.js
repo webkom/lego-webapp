@@ -30,6 +30,13 @@ export default {
         () => import('./EventDetailRoute'),
         () => require('./EventDetailRoute')
       )
+    },
+    {
+      path: ':eventId/administrate',
+      ...resolveAsyncRoute(
+        () => import('./EventAdministrateRoute'),
+        () => require('./EventAdministrateRoute')
+      )
     }
   ]
 };

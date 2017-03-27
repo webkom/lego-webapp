@@ -1,0 +1,74 @@
+.root {
+  composes: container from 'app/styles/utilities.css';
+}
+
+.content {
+  flex-direction: column;
+}
+
+.element {
+  display: flex;
+  flex: 1;
+  flex-direction: 'row';
+}
+
+.faSize {
+  font-size: 1.5em;
+}
+
+.col {
+  display: flex;
+  align-items: center;
+  width: 12.5%;
+}
+
+.col2 {
+  display: flex;
+  align-items: center;
+  width: 25%;
+  word-wrap: break-word;
+}
+
+.green {
+  color: 'green';
+}
+
+.transparent {
+  opacity: 0.5;
+}
+
+.transparent:hover {
+  opacity: 1;
+}
+
+.administrate {
+  display: flex;
+  align-items: center;
+}
+
+.list {
+  display: flex;
+  width: 800px;
+  flex-direction: column;
+  align-items: 'center';
+  justify-content: 'center';
+}
+
+.list > li {
+  border-bottom: 1px solid #CCC;
+}
+
+.list2 > li:last-child {
+  border-bottom: none;
+}
+
+.presenceIcons {
+  display: flex;
+  flex-direction: row;
+  align-content: space-around;
+  margin: 5px;
+}
+
+.cell {
+  margin: 2px;
+}

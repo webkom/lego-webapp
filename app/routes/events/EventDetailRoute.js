@@ -12,7 +12,8 @@ import EventDetail from './components/EventDetail';
 import {
   selectEventById,
   selectCommentsForEvent,
-  selectPoolsWithRegistrationsForEvent
+  selectPoolsWithRegistrationsForEvent,
+  selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
 
 function getRegistrationsFromPools(pools = []) {
@@ -38,8 +39,20 @@ function mapStateToProps(state, props) {
   const pools = selectPoolsWithRegistrationsForEvent(state, { eventId });
 
   const registrations = getRegistrationsFromPools(pools);
+  const waitingRegistrations = selectWaitingRegistrationsForEvent(state, {
+    eventId
+  });
+  const poolsWithWaitingRegistrations = waitingRegistrations.length > 0
+    ? [
+        ...pools,
+        {
+          name: 'Venteliste',
+          registrations: waitingRegistrations
+        }
+      ]
+    : pools;
   const currentRegistration = findCurrentRegistration(
-    registrations,
+    registrations.concat(waitingRegistrations),
     currentUser
   );
 
@@ -49,7 +62,9 @@ function mapStateToProps(state, props) {
     eventId,
     pools,
     registrations,
-    currentRegistration
+    currentRegistration,
+    waitingRegistrations,
+    poolsWithWaitingRegistrations
   };
 }
 

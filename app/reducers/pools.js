@@ -29,7 +29,7 @@ export default createEntityReducer({
       }
       case Event.SOCKET_UNREGISTRATION.SUCCESS: {
         const registration = action.payload;
-        if (!registration.fromPool) {
+        if (!registration.fromPool || !state.byId[registration.fromPool]) {
           return state;
         }
         const registrations = state.byId[
