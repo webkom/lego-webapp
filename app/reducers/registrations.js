@@ -49,6 +49,18 @@ export default createEntityReducer({
         }
         return state;
       }
+      case Event.UPDATE_REGISTRATION.SUCCESS: {
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [action.payload.id]: {
+              ...state.byId[action.payload.id],
+              ...action.payload
+            }
+          }
+        };
+      }
       default:
         return state;
     }

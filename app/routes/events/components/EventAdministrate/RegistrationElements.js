@@ -25,10 +25,9 @@ export class RegisteredElement extends Component {
   };
 
   render() {
-    const { registration } = this.props;
-    const present = 1;
-    const transparency = value =>
-      present === value ? { opacity: 1 } : { opacity: 0.35 };
+    const { registration, handlePresence, handlePayment } = this.props;
+    const transparency = (variable, value) =>
+      variable === value ? { opacity: 1 } : { opacity: 0.30 };
 
     return (
       <li className={styles.element}>
@@ -56,26 +55,35 @@ export class RegisteredElement extends Component {
         <div className={styles.col}>
           <FlexRow className={styles.presenceIcons}>
             <Tooltip className={styles.cell} content="Til stede">
-              <a onClick={() => setAdmitted(1)}>
+              <a onClick={() => handlePresence(registration.id, 1)}>
                 <i
-                  className={cx('fa fa-check-circle', styles.faSize)}
-                  style={{ color: 'green', ...transparency(1) }}
+                  className={cx('fa fa-check', styles.faSize)}
+                  style={{
+                    color: 'green',
+                    ...transparency(registration.presence, 1)
+                  }}
                 />
               </a>
             </Tooltip>
             <Tooltip className={styles.cell} content="Ukjent">
-              <a onClick={() => setAdmitted(0)}>
+              <a onClick={() => handlePresence(registration.id, 0)}>
                 <i
                   className={cx('fa fa-question-circle', styles.faSize)}
-                  style={{ color: 'blue', ...transparency(0) }}
+                  style={{
+                    color: 'blue',
+                    ...transparency(registration.presence, 0)
+                  }}
                 />
               </a>
             </Tooltip>
             <Tooltip className={styles.cell} content="Ikke til stede">
-              <a onClick={() => setAdmitted(2)}>
+              <a onClick={() => handlePresence(registration.id, 2)}>
                 <i
-                  className={cx('fa fa-minus-circle', styles.faSize)}
-                  style={{ color: '#C24538', ...transparency(2) }}
+                  className={cx('fa fa-times', styles.faSize)}
+                  style={{
+                    color: '#C24538',
+                    ...transparency(registration.presence, 2)
+                  }}
                 />
               </a>
             </Tooltip>
@@ -96,6 +104,48 @@ export class RegisteredElement extends Component {
         <div className={styles.col}>
           {'5. Data'}
         </div>
+        <div className={styles.col}>
+          <FlexRow className={styles.presenceIcons}>
+            <Tooltip className={styles.cell} content="Betalt stripe">
+              <a onClick={() => handlePayment(registration.id, 1)}>
+                <i
+                  className={cx('fa fa-cc-stripe', styles.faSize)}
+                  style={{
+                    color: 'green',
+                    ...transparency(registration.chargeStatus, 'succeeded')
+                  }}
+                />
+              </a>
+            </Tooltip>
+            <Tooltip className={styles.cell} content="Betalt cash">
+              <a onClick={() => handlePayment(registration.id, 2)}>
+                <i
+                  className={cx('fa fa-money', styles.faSize)}
+                  style={{
+                    color: 'green',
+                    ...transparency(registration.chargeStatus, 'cash')
+                  }}
+                />
+              </a>
+            </Tooltip>
+            <Tooltip className={styles.cell} content="Ikke betalt">
+              <a onClick={() => handlePayment(registration.id, 2)}>
+                <i
+                  className={cx('fa fa-times', styles.faSize)}
+                  style={{
+                    color: '#C24538',
+                    ...transparency(
+                      !['cash', 'succeeded'].includes(
+                        registration.chargeStatus
+                      ),
+                      true
+                    )
+                  }}
+                />
+              </a>
+            </Tooltip>
+          </FlexRow>
+        </div>
         <div className={styles.col2}>
           {'Tilbakemelding kan være lang, Tilbakemelding kan være lang'}
         </div>
@@ -103,7 +153,7 @@ export class RegisteredElement extends Component {
           <a onClick={() => this.checkUnregister(registration.id)}>
             <i
               className="fa fa-minus-circle"
-              style={{ color: '#C24538', ...transparency(2) }}
+              style={{ color: '#C24538', marginRight: '5px' }}
             />
             {this.state.unregister === registration.id
               ? 'Er du sikker?'

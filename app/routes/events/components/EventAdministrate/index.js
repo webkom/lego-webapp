@@ -36,6 +36,14 @@ export default class EventAdministrate extends Component {
     this.props.unregister(this.props.eventId, registrationId, true);
   };
 
+  handlePresence = (registrationId, presence) => {
+    this.props.updatePresence(this.props.eventId, registrationId, presence);
+  };
+
+  handlePayment = (registrationId, chargeStatus) => {
+    console.log(registrationId, chargeStatus);
+  };
+
   render() {
     const {
       eventId,
@@ -68,6 +76,7 @@ export default class EventAdministrate extends Component {
                 <FlexItem className={styles.col}>Til stede:</FlexItem>
                 <FlexItem className={styles.col}>Dato:</FlexItem>
                 <FlexItem className={styles.col}>Klassetrinn:</FlexItem>
+                <FlexItem className={styles.col}>Betaling:</FlexItem>
                 <FlexItem className={styles.col2}>Tilbakemelding:</FlexItem>
                 <FlexItem className={styles.col}>Administrer:</FlexItem>
               </FlexRow>
@@ -79,6 +88,8 @@ export default class EventAdministrate extends Component {
                 registration={reg}
                 setAdmitted={this.setAdmitted}
                 unregister={this.handleUnregister}
+                handlePresence={this.handlePresence}
+                handlePayment={this.handlePayment}
               />
             ))}
           </ul>

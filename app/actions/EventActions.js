@@ -90,7 +90,7 @@ export function updateFeedback(eventId, registrationId, feedback) {
       callAPI({
         types: Event.UPDATE_REGISTRATION,
         endpoint: `/events/${eventId}/registrations/${registrationId}/`,
-        method: 'put',
+        method: 'PATCH',
         body: {
           feedback
         },
@@ -99,5 +99,23 @@ export function updateFeedback(eventId, registrationId, feedback) {
         }
       })
     ).then(() => dispatch(addNotification({ message: 'Feedback updated' })));
+  };
+}
+
+export function updatePresence(eventId, registrationId, presence) {
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: Event.UPDATE_REGISTRATION,
+        endpoint: `/events/${eventId}/registrations/${registrationId}/`,
+        method: 'PATCH',
+        body: {
+          presence
+        },
+        meta: {
+          errorMessage: 'Presence update failed'
+        }
+      })
+    ).then(() => dispatch(addNotification({ message: 'Presence updated' })));
   };
 }

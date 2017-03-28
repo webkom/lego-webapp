@@ -1,7 +1,11 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
-import { fetchRegistrationList, unregister } from 'app/actions/EventActions';
+import {
+  fetchRegistrationList,
+  unregister,
+  updatePresence
+} from 'app/actions/EventActions';
 import EventAdministrate from './components/EventAdministrate';
 import { selectAllRegistrationsForEvent } from 'app/reducers/events';
 import { groupBy, sortBy } from 'lodash';
@@ -32,7 +36,8 @@ function mapStateToProps(state, props) {
 }
 
 const mapDispatchToProps = {
-  unregister
+  unregister,
+  updatePresence
 };
 
 export default compose(
