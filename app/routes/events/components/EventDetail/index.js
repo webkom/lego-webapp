@@ -14,6 +14,7 @@ import { AttendanceStatus } from 'app/components/UserAttendance';
 import Tag from 'app/components/Tag';
 import Time from 'app/components/Time';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import { Flex } from 'app/components/Layout';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -117,23 +118,19 @@ export default class EventDetail extends Component {
           <Image src={event.cover} />
         </div>
 
-        <FlexRow
-          alignItems="center"
-          flexWrap="wrap"
-          justifyContent="space-between"
-        >
+        <Flex wrap alignItems="center" justifyContent="space-between">
           <h2>{event.title}</h2>
           <InterestedButton value={this.props.isUserInterested} />
-        </FlexRow>
+        </Flex>
 
-        <FlexRow flexWrap="wrap">
-          <FlexColumn className={styles.description}>
+        <Flex wrap>
+          <Flex column className={styles.description}>
             <Markdown>{event.text}</Markdown>
-            <FlexRow className={styles.tagRow}>
+            <Flex className={styles.tagRow}>
               {event.tags.map((tag, i) => <Tag key={i} tag={tag} />)}
-            </FlexRow>
-          </FlexColumn>
-          <FlexColumn className={styles.meta}>
+            </Flex>
+          </Flex>
+          <Flex column className={styles.meta}>
             <ul>
               {event.company &&
                 <li>
@@ -217,10 +214,10 @@ export default class EventDetail extends Component {
                     </li>
                   </ul>}
               </FlexItem>}
-          </FlexColumn>
-        </FlexRow>
+          </Flex>
+        </Flex>
 
-        <FlexRow flexWrap="wrap-reverse">
+        <Flex wrapReverse>
           {loggedIn &&
             <FlexColumn className={styles.join}>
               <div className={styles.joinHeader}>
@@ -238,7 +235,7 @@ export default class EventDetail extends Component {
               </div>
             </FlexColumn>}
 
-          <FlexColumn className={styles.openFor}>
+          <Flex column className={styles.openFor}>
             <strong>Åpent for</strong>
             <ul>
               {(pools || [])
@@ -247,16 +244,16 @@ export default class EventDetail extends Component {
                     <li key={group.id}>{group.name}</li>
                   )))}
             </ul>
-          </FlexColumn>
-        </FlexRow>
+          </Flex>
+        </Flex>
         {event.commentTarget &&
-          <CommentView
-            formEnabled
-            user={currentUser}
-            commentTarget={event.commentTarget}
-            loggedIn={loggedIn}
-            comments={comments}
-          />}
+        <CommentView
+          formEnabled
+          user={currentUser}
+          commentTarget={event.commentTarget}
+          loggedIn={loggedIn}
+          comments={comments}
+        />}
       </div>
     );
   }

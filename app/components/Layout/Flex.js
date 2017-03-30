@@ -9,31 +9,42 @@ type Props = {
   className: ?string,
   column: boolean,
   component: any,
-  wrap: any,
-  justifyContent: 'flex-start' | 'flex-end' | 'center' | 'space-between' | 'space-around',
+  wrap: boolean,
+  wrapReverse: boolean,
+  justifyContent:
+    | 'flex-start'
+    | 'flex-end'
+    | 'center'
+    | 'space-between'
+    | 'space-around',
   alignItems: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
 };
 
-function Flex({
-  children,
-  className,
-  column = false,
-  component: Component = 'div',
-  wrap = false,
-  justifyContent = 'flex-start',
-  alignItems = 'stretch',
-  padding,
-  margin,
-  width,
-  style,
-  ...htmlAttributes
-}: Props) {
+function Flex(
+  {
+    children,
+    className,
+    column = false,
+    component: Component = 'div',
+    wrap = false,
+    wrapReverse = false,
+    justifyContent = 'flex-start',
+    alignItems = 'stretch',
+    flexWrap,
+    padding,
+    margin,
+    width,
+    style,
+    ...htmlAttributes
+  }: Props
+) {
   return (
     <Component
       className={cx(
         styles.flex,
-        column ? styles.column : styles.row,
         wrap && styles.wrap,
+        wrapReverse && styles.wrapReverse,
+        column ? styles.column : styles.row,
         styles[`justifyContent__${justifyContent}`],
         styles[`alignItems__${alignItems}`],
         className

@@ -1,13 +1,18 @@
+@import 'app/styles/variables.css';
+
 .root {
   composes: contentContainer from 'app/styles/utilities.css';
 }
 
 .header {
-  display: flex;
-  flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding: 20px;
+
+  @media (--small-viewport) {
+    justify-content: space-around;
+    flex-direction: column;
+  }
 }
 
 .content {
@@ -17,10 +22,13 @@
 }
 
 .sidebar {
-  width: 320px;
+  flex: 1;
+  min-width: 320px;
 }
 
 .feed {
+  flex: 3;
+  min-width: 320px;
   padding-left: 30px;
   width: 100%;
 }

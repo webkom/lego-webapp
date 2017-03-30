@@ -8,10 +8,15 @@
   composes: withShadow from 'app/styles/utilities.css';
   padding: 40px;
   background: #fff;
+  margin: 15px 0;
+  border-width: 1px 0;
+  border-radius: 0 10px 10px 0;
 }
 
 .bigWelcomeBox {
   composes: welcomeBox;
-  transform: scale(1.06);
   background: #f9f9f9;
+  margin: 0;
+  border-width: 1px;
+  border-radius: 10px;
 }

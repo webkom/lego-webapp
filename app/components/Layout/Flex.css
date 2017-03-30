@@ -22,6 +22,10 @@
   flex-wrap: wrap;
 }
 
+.wrapReverse {
+  flex-wrap: wrap-reverse;
+}
+
 .justifyContent__flex-start {
   justify-content: flex-start;
 }

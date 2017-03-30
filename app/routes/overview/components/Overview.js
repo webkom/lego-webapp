@@ -16,16 +16,13 @@ const IMAGE_HEIGHT = 180;
 function PrimaryItem({ event }) {
   return (
     <Flex column className={styles.primaryItem}>
-      <h2 className='u-ui-heading'>Pinned Event</h2>
+      <h2 className="u-ui-heading">Pinned Event</h2>
       <Flex column className={styles.innerPrimaryItem}>
         <Link
           to={`/events/${event.id}`}
           style={{ height: IMAGE_HEIGHT, display: 'block' }}
         >
-          <Image
-            className={styles.image}
-            src={event.cover}
-          />
+          <Image className={styles.image} src={event.cover} />
         </Link>
         <div className={styles.pinnedHeading}>
           <h2 className={styles.itemTitle}>
@@ -35,7 +32,7 @@ function PrimaryItem({ event }) {
           </h2>
 
           <span className={styles.itemInfo}>
-            <Time time={event.startTime} format='DD.MM HH:mm' />
+            <Time time={event.startTime} format="DD.MM HH:mm" />
             <span> · </span>
             <span>{event.location}</span>
           </span>
@@ -46,22 +43,15 @@ function PrimaryItem({ event }) {
 }
 
 const OverviewItem = ({ event, showImage }) => (
-  <Flex
-    column
-    className={styles.item}
-  >
+  <Flex column className={styles.item}>
     <Flex column className={styles.inner}>
-      {showImage && (
+      {showImage &&
         <Link
           to={`/events/${event.id}`}
           style={{ height: IMAGE_HEIGHT, display: 'block' }}
         >
-          <Image
-            className={styles.image}
-            src={event.cover}
-          />
-        </Link>
-      )}
+          <Image className={styles.image} src={event.cover} />
+        </Link>}
 
       <div className={styles.heading}>
         <h2 className={styles.itemTitle}>
@@ -71,7 +61,7 @@ const OverviewItem = ({ event, showImage }) => (
         </h2>
 
         <span className={styles.itemInfo}>
-          <Time time={event.startTime} format='DD.MM HH:mm' />
+          <Time time={event.startTime} format="DD.MM HH:mm" />
           <span> · </span>
           <span>{event.location}</span>
         </span>
@@ -80,7 +70,7 @@ const OverviewItem = ({ event, showImage }) => (
       <p
         className={styles.itemDescription}
         style={{
-          borderTop: `3px solid ${colorForEvent(event.eventType)}`,
+          borderTop: `3px solid ${colorForEvent(event.eventType)}`
         }}
       >
         {truncateString(event.description, DESCRIPTION_MAX_LENGTH)}
@@ -99,24 +89,20 @@ export default class Overview extends Component {
 
     return (
       <Content>
-        <Helmet title='Hjem' />
-        <Flex>
-          <PrimaryItem
-            event={events[0]}
-          />
+        <Helmet title="Hjem" />
+        <Flex wrap>
+          <PrimaryItem event={events[0]} />
           <Feed />
         </Flex>
         <Flex padding={10}>
           <LatestReadme />
         </Flex>
         <Flex wrap>
-          {events.slice(1).map((event) => (
-            <OverviewItem
-              key={event.id}
-              event={event}
-              showImage
-            />
-          ))}
+          {events
+            .slice(1)
+            .map(event => (
+              <OverviewItem key={event.id} event={event} showImage />
+            ))}
         </Flex>
       </Content>
     );
