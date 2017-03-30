@@ -7,14 +7,15 @@ type Props = {
   quote: Object,
   deleteQuote: () => void,
   approve: () => void,
-  unapprove: () => void
+  unapprove: () => void,
+  style?: Object
 };
 
 export default class Quote extends Component {
   props: Props;
 
   render() {
-    const { quote, approve, unapprove, deleteQuote } = this.props;
+    const { quote, approve, unapprove, deleteQuote, style } = this.props;
 
     return (
       <li className={styles.singleQuote}>
@@ -29,8 +30,8 @@ export default class Quote extends Component {
               height: '0'
             }}
           />
-          <h3 className={styles.theQuote}>
-            <a href={`/quotes/${quote.id}`}>{quote.text}</a>
+          <h3 className={styles.theQuote} style={style}>
+            <Link to={`/quotes/${quote.id}`}>{quote.text}</Link>
           </h3>
 
         </div>
@@ -41,14 +42,20 @@ export default class Quote extends Component {
             <i>- {quote.source}</i>
           </span>
 
-          <div className={styles.quoteDate}>
-            {<Time time={quote.createdAt} wordsAgo />}
-          </div>
+          <div className={styles.bottomRight}>
 
-          <div className={styles.commentCount}>
-            <Link to={`/quotes/${quote.id}`}>
-              <i className="fa fa-comment-o" /> {(quote.comments || []).length}
-            </Link>
+            <div className={styles.quoteDate}>
+              {<Time time={quote.createdAt} wordsAgo />}
+            </div>
+
+            <div className={styles.commentCount}>
+              <Link to={`/quotes/${quote.id}`}>
+                <i className="fa fa-comment-o" />
+                {' '}
+                {(quote.comments || []).length}
+              </Link>
+            </div>
+
           </div>
 
           {quote.permissions &&
