@@ -4,6 +4,7 @@ import React from 'react';
 import styles from './MeetingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field } from 'redux-form';
+import { Flex } from 'app/components/Layout';
 import {
   Form,
   TextInput,

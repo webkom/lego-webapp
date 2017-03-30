@@ -1,5 +1,17 @@
 .root {
-  composes: container from 'app/styles/utilities.css';
+  composes: contentContainer from 'app/styles/utilities.css';
+
+  @media (--small-viewport) {
+    padding: 0;
+
+    .coverImage {
+      padding: 0;
+    }
+
+    > div {
+      padding: 0 10px;
+    }
+  }
 }
 
 .registeredThumbnails {

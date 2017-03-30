@@ -12,6 +12,7 @@ import Toolbar from './Toolbar';
 import colorForEvent from '../colorForEvent';
 import styles from './EventList.css';
 import EventFooter from './EventFooter';
+import { Flex } from 'app/components/Layout';
 
 // Kinda works
 function groupEvents(events) {
@@ -42,7 +43,7 @@ function groupEvents(events) {
 function Attendance({ registrationCount, totalCapacity }) {
   // @todo choose pill color based on capacity
   return (
-    <Pill style={{ marginLeft: 10 }}>
+    <Pill style={{ whiteSpace: 'nowrap' }}>
       {`${registrationCount} / ${totalCapacity}`}
     </Pill>
   );
@@ -57,7 +58,7 @@ export function EventItem({ event }: any) {
       <div>
         <Link to={`/events/${event.id}`}>
           <h3 className={styles.eventItemTitle}>
-            {event.title}
+            {event.title} {' '}
             <Attendance
               registrationCount={event.registrationCount}
               totalCapacity={event.totalCapacity}
@@ -74,9 +75,9 @@ export function EventItem({ event }: any) {
           {` • ${event.location}`}
         </div>
 
-        <div className={styles.tagList}>
+        <Flex wrap className={styles.tagList}>
           {event.tags.map((tag, index) => <Tag key={index} tag={tag} small />)}
-        </div>
+        </Flex>
       </div>
 
       <div className={styles.companyLogo}>

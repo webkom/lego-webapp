@@ -10,6 +10,7 @@ import Pill from 'app/components/Pill';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Feed from 'app/components/Feed';
 import styles from './UserProfile.css';
+import { Flex } from 'app/components/Layout';
 
 const fieldTranslations = {
   username: 'brukernavn',
@@ -28,8 +29,8 @@ export default class UserProfile extends Component {
 
   renderFields() {
     const { user } = this.props;
-    const fields = Object.keys(fieldTranslations).filter((field) => user[field]);
-    const tags = fields.map((field) => {
+    const fields = Object.keys(fieldTranslations).filter(field => user[field]);
+    const tags = fields.map(field => {
       const translation = capitalize(fieldTranslations[field]);
       return (
         <li key={field}>
@@ -55,34 +56,29 @@ export default class UserProfile extends Component {
       <div className={styles.root}>
         <Helmet title={`${user.firstName} ${user.lastName}`} />
 
-        <div className={styles.header}>
-          <ProfilePicture
-            user={user}
-            size={150}
-          />
+        <Flex wrap className={styles.header}>
+          <ProfilePicture user={user} size={150} />
 
           <h2>{user.fullName}</h2>
 
           <Pill>5. Datateknikk</Pill>
-        </div>
+        </Flex>
 
-        <div className={styles.content}>
+        <Flex wrap className={styles.content}>
           <div className={styles.sidebar}>
             <Card>
               {this.renderFields()}
-              {isMe ? <Link to='/users/me/settings'>Settings</Link> : ''}
+              {isMe ? <Link to="/users/me/settings">Settings</Link> : ''}
             </Card>
           </div>
 
           <div className={styles.feed}>
             <h2>Recent Activity</h2>
-            {
-              feed ?
-                <Feed items={feedItems} feed={feed} /> :
-                <LoadingIndicator loading />
-            }
+            {feed
+              ? <Feed items={feedItems} feed={feed} />
+              : <LoadingIndicator loading />}
           </div>
-        </div>
+        </Flex>
       </div>
     );
   }

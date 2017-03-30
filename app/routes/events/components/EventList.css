@@ -26,6 +26,7 @@
   color: #333;
   font-weight: 700;
   margin: 0;
+  word-break: break-word;
 }
 
 .eventGroup {
@@ -38,8 +39,16 @@
 
 .companyLogo {
   width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.companyLogo img {
+  min-width: 120px;
   height: 80px;
-  background: #eee;
+  object-fit: cover;
 }
 
 .bottomBorder {

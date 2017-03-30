@@ -6,7 +6,7 @@ import Modal from 'app/components/Modal';
 import Time from 'app/components/Time';
 import Button from 'app/components/Button';
 import EventEditor from './EventEditor';
-import { FlexRow, Flex } from 'app/components/FlexBox';
+import { Flex } from 'app/components/Layout';
 import styles from './Toolbar.css';
 import cx from 'classnames';
 import { hiddenOnMobile } from 'app/styles/utilities.css';
@@ -19,7 +19,7 @@ class Toolbar extends Component {
   render() {
     const { actionGrant } = this.props;
     return (
-      <div className={styles.root}>
+      <Flex wrap className={styles.root}>
         <div className={styles.section}>
           <Time format="ll" className={styles.timeNow} />
         </div>
@@ -58,7 +58,7 @@ class Toolbar extends Component {
         >
           <EventEditor />
         </Modal>
-      </div>
+      </Flex>
     );
   }
 }

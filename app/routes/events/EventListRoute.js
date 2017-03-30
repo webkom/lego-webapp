@@ -10,7 +10,7 @@ import { selectEvents } from 'app/reducers/events';
 import moment from 'moment';
 
 const mapStateToProps = (state, ownProps) => {
-  const icalToken = state.auth
+  const icalToken = state.auth && state.users.byId[state.auth.username]
     ? state.users.byId[state.auth.username].icalToken
     : null;
   const actionGrant = state => state.events.actionGrant;
