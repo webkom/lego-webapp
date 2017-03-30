@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './JoblistingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, FieldArray, change } from 'redux-form';
 import {
   Form,
   TextEditor,
@@ -21,7 +21,9 @@ type Props = {
   joblisting?: Object,
   handleSubmit: () => void,
   onQueryChanged: () => void,
-  submitJoblisting: () => void
+  submitJoblisting: () => void,
+  fetchCompany: () => void,
+  company?: Object
 };
 
 function JoblistingEditor(
@@ -31,9 +33,22 @@ function JoblistingEditor(
     joblistingId,
     joblisting,
     onQueryChanged,
-    submitJoblisting
+    submitJoblisting,
+    company,
+    fetchCompany,
+    dispatch
   }: Props
 ) {
+  const renderField = ({ input, label, type, meta: { touched, error } }) => (
+    <div>
+      <label>{label}</label>
+      <div>
+        <input {...input} type={type} placeholder={label} />
+        {touched && error && <span>{error}</span>}
+      </div>
+    </div>
+  );
+
   const isEditPage = joblistingId !== undefined;
   if (isEditPage && !joblisting) {
     return <LoadingIndicator loading />;
@@ -42,11 +57,17 @@ function JoblistingEditor(
     const workplaces = newJoblisting.workplaces
       ? newJoblisting.workplaces.split(',').map(town2 => ({ town: town2 }))
       : null;
-    const company = newJoblisting.company.name;
+    const responsible = newJoblisting.responsible &&
+      (newJoblisting.responsible === 'Ingen' ||
+        newJoblisting.responsible.id === -1)
+      ? null
+      : newJoblisting.responsible ? newJoblisting.responsible.id : null;
+    const company = newJoblisting.company.id;
     submitJoblisting({
       ...newJoblisting,
       company,
-      workplaces
+      workplaces,
+      responsible
     });
   };
   return (
@@ -71,12 +92,23 @@ function JoblistingEditor(
           <FlexColumn className={styles.textfield}>
             <Field
               placeholder={'Bedrift'}
-              name="company.name"
+              name="company"
               component={SelectInput}
               options={results}
               optionValue="param"
               optionLabel="title"
+              displayValue="name"
               onSearch={query => onQueryChanged(query)}
+              valueMapping={{
+                id: 'param',
+                name: 'title'
+              }}
+              onChange={newValue => {
+                if (!company || Number(newValue.id) !== company.id) {
+                  fetchCompany(newValue.id);
+                  dispatch(change('joblistingEditor', 'responsible', 'Ingen'));
+                }
+              }}
             />
           </FlexColumn>
         </FlexRow>
@@ -116,6 +148,8 @@ function JoblistingEditor(
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Arbeidssteder: </FlexColumn>
           <FlexColumn className={styles.textfield}>
+            {/*<FieldArray name="workplaces" component={renderWorkplaces}/>*/}
+
             <Field
               placeholder={'Arbeidssteder'}
               name="workplaces"
@@ -191,7 +225,19 @@ function JoblistingEditor(
             <Field
               placeholder={'Kontaktperson'}
               name="responsible"
-              component={TextInput.Field} // Get list of current, possible to create new, fix later
+              component={SelectInput}
+              options={
+                company
+                  ? [{ id: -1, name: 'Ingen' }].concat(company.companyContacts)
+                  : [{ id: -1, name: 'Ingen' }]
+              }
+              optionValue="id"
+              optionLabel="name"
+              displayValue="name"
+              valueMapping={{
+                id: 'id',
+                name: 'name'
+              }}
             />
           </FlexColumn>
         </FlexRow>
