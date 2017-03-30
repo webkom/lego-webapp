@@ -1,21 +1,16 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import Quote from './Quote';
 
-export default class QuoteList extends Component {
-  static propTypes = {
-    quotes: PropTypes.array.isRequired,
-    sortType: PropTypes.string.isRequired,
-    routeParams: PropTypes.object.isRequired
-  };
+type Props = {
+  quotes: Array<Object>
+};
 
-  render() {
-    return (
-      <ul>
-        {this.props.quotes.map(quote => (
-          <Quote {...this.props} quote={quote} key={quote.id} />
-        ))}
-      </ul>
-    );
-  }
+export default function QuoteList({ quotes, ...props }: Props) {
+  return (
+    <ul>
+      {quotes.map(quote => (
+        <Quote {...this.props} quote={quote} key={quote.id} />
+      ))}
+    </ul>
+  );
 }

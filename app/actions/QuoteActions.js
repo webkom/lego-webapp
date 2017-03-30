@@ -82,10 +82,8 @@ export function addQuotes({ text, source }) {
         endpoint: '/quotes/',
         method: 'post',
         body: {
-          title: 'Tittel',
           text,
-          source,
-          approved: false
+          source
         },
         schema: quoteSchema,
         meta: {

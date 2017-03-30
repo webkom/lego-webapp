@@ -1,57 +1,48 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { Link } from 'react-router';
 import styles from './Quotes.css';
 
-export default class QuoteTopNav extends Component {
-  static propTypes = {
-    routeParams: PropTypes.object.isRequired,
-    sortType: PropTypes.string.isRequired,
-    query: PropTypes.object.isRequired
-  };
+type Props = {
+  sortType: String,
+  query: Object
+};
 
-  render() {
-    return (
-      <div className={styles.root}>
-        <div className={styles.quoteTop}>
-          <h1>Sitater!</h1>
-          <div className={styles.sortQuote}>
-            Sorter etter:
+export default function QuoteTopNav({ sortType, query, ...props }: Props) {
+  return (
+    <div>
+      <div className={styles.quoteTop}>
+        <h1>Sitater!</h1>
+        <div className={styles.sortQuote}>
+          Sorter etter:
 
-            <Link
-              to={
-                this.props.query.filter === 'unapproved'
-                  ? '/quotes?filter=unapproved'
-                  : '/quotes'
-              }
-              className={
-                this.props.sortType === 'date'
-                  ? 'selectedQuoteSort'
-                  : 'unselectedQuoteSort'
-              }
-            >
-              Dato
-            </Link>
+          <Link
+            to={
+              query.filter === 'unapproved'
+                ? '/quotes?filter=unapproved'
+                : '/quotes'
+            }
+            className={
+              sortType === 'date' ? 'selectedQuoteSort' : 'unselectedQuoteSort'
+            }
+          >
+            Dato
+          </Link>
 
-            <Link
-              to={
-                this.props.query.filter === 'unapproved'
-                  ? '/quotes?filter=unapproved&sort=likes'
-                  : '/quotes?sort=likes'
-              }
-              className={
-                this.props.sortType === 'likes'
-                  ? 'selectedQuoteSort'
-                  : 'unselectedQuoteSort'
-              }
-            >
-              Likes
-            </Link>
-
-          </div>
+          <Link
+            to={
+              query.filter === 'unapproved'
+                ? '/quotes?filter=unapproved&sort=likes'
+                : '/quotes?sort=likes'
+            }
+            className={
+              sortType === 'likes' ? 'selectedQuoteSort' : 'unselectedQuoteSort'
+            }
+          >
+            Likes
+          </Link>
         </div>
-        <div className={styles.clear} />
       </div>
-    );
-  }
+      <div className={styles.clear} />
+    </div>
+  );
 }

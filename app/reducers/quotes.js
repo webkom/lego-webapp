@@ -22,20 +22,11 @@ export default createEntityReducer({
   }
 });
 
-export const selectQuotes = createSelector(
-  state => state.quotes.items,
-  state => state.quotes.byId,
-  (quoteIds, quotesById) => quoteIds.map(quoteId => quotesById[quoteId])
-);
-
-export const selectQuote = createSelector(
-  selectQuotes,
-  (state, props) => props.quoteId,
-  (quotes, quoteId) => quotes.find(quote => quote.id === Number(quoteId)) || {}
-);
-
 export const selectCommentsForQuote = createSelector(
-  selectQuote,
+  (state, quoteId) =>
+    state.quotes.byId.length === 0
+      ? state.quotes.byId.find(quote => quote.id === Number(quoteId))
+      : {},
   state => state.comments.byId,
   (quote, commentsById) => {
     if (!quote || !commentsById) return [];

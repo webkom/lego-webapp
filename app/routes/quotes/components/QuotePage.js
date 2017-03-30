@@ -4,15 +4,11 @@ import QuoteTopNav from './QuoteTopNav';
 import QuoteList from './QuoteList';
 import styles from './Quotes.css';
 import cx from 'classnames';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
-  params: Object,
-  fetchAllApproved: () => void,
-  fetchAllUnapproved: () => void,
-  fetchQuote: () => void,
-  query: Object,
-  location: Object,
   sortType: String,
+  query: Object,
   quotes: Array<Object>
 };
 
@@ -20,15 +16,16 @@ export default class QuotePage extends Component {
   props: Props;
 
   render() {
-    const { sortType } = this.props;
-    const empty = this.props.quotes.length === 0 ? 'Ingen sitater.' : '';
+    const { sortType, quotes } = this.props;
+    if (quotes.length === 0) {
+      return <LoadingIndicator loading />;
+    }
+
     return (
       <div className={cx(styles.root, styles.quoteContainer)}>
         <div className={styles.quotepageLeft}>
+
           <QuoteTopNav {...this.props} sortType={sortType} />
-
-          {empty}
-
           <QuoteList {...this.props} sortType={sortType} />
 
         </div>
