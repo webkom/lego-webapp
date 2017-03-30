@@ -9,6 +9,9 @@ import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocomplete } from 'app/reducers/search';
 import { compose } from 'redux';
 import { debounce } from 'lodash';
+import { formValueSelector } from 'redux-form';
+import { selectCompanyById } from 'app/reducers/companies';
+import { fetch } from 'app/actions/companyActions';
 import moment from 'moment';
 
 function mapDispatchToProps(dispatch) {
@@ -17,13 +20,15 @@ function mapDispatchToProps(dispatch) {
     onQueryChanged: debounce(
       query => dispatch(autocomplete(query, ['companies.company'])),
       30
-    )
+    ),
+    fetchCompany: id => dispatch(fetch(id))
   };
 }
 
 function mapStateToProps(state, props) {
+  const formSelector = formValueSelector('joblistingEditor');
+  const company = formSelector(state, 'company');
   return {
-    results: selectAutocomplete(state),
     initialValues: {
       fromYear: 1,
       toYear: 5,
@@ -34,7 +39,11 @@ function mapStateToProps(state, props) {
         .add(2, 'months')
         .utc()
         .format('YYYY-MM-DD[T]HH:MM:SS[Z]')
-    }
+    },
+    results: selectAutocomplete(state),
+    company: company
+      ? selectCompanyById(state, { companyId: company.id })
+      : null
   };
 }
 
