@@ -16,9 +16,13 @@
 .quotepageRight {
   min-height: 300px;
   padding: 20px 0 0 30px;
-  margin: 120px 0 0 60px;
+  margin-left: 60px;
   border-left: 1px solid #CCC;
   order: 2;
+}
+
+.quotepageRight a {
+  display: block;
 }
 
 .sortQuote {
@@ -177,7 +181,7 @@
   font-size: 20px;
   order: 1;
   margin-top: -5px;
-  width: 76%;
+  width: 70%;
   line-height: 25px;
 }
 
@@ -190,17 +194,23 @@
   margin-top: 50px;
 }
 
+.singleQuote .bottomRight {
+  display: flex;
+  justify-content: space-between;
+  width: 25%;
+  min-width: 140px;
+  order: 2
+}
+
 .singleQuote .quoteDate {
   color: #666;
   font-size: 13px;
-  order: 2;
-  align-self: auto;
+  order: 3;
   margin-top: 3px;
 }
 
 .singleQuote .commentCount {
-  order: 3;
-  margin-left: 20px;
+  order: 4;
 }
 
 .singleQuote .quoteAdmin {
@@ -265,7 +275,7 @@
   .singleQuote .quoteBottom {
     width: 100%;
     margin: 15px 0 0;
-    padding-bottom: 50px;
+    padding: 0 0 50px 130px;
   }
 
   .singleQuote .quoteAdmin {

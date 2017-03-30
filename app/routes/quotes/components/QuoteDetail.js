@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import styles from './QuoteDetail.css';
+import styles from './Quotes.css';
 import Quote from './Quote';
 import CommentView from 'app/components/Comments/CommentView';
+import QuoteRightNav from './QuoteRightNav';
+import cx from 'classnames';
 
 type Props = {
   quote: Object,
@@ -11,7 +12,8 @@ type Props = {
   loggedIn: boolean,
   deleteQuote: () => void,
   approve: () => void,
-  unapprove: () => void
+  unapprove: () => void,
+  query: Object
 };
 
 export default class QuoteDetail extends Component {
@@ -29,12 +31,19 @@ export default class QuoteDetail extends Component {
       return null;
     }
     return (
-      <div className={styles.root}>
-        <div className={styles.quoteSingleroute}>
+      <div
+        className={cx(
+          styles.root,
+          styles.quoteContainer,
+          styles.quoteSingleroute
+        )}
+      >
+
+        <div className={styles.quotepageLeft}>
 
           <h1>Enkelt sitat!</h1>
 
-          <Quote {...this.props} quote={quote} />
+          <Quote {...this.props} quote={quote} style={{}} />
 
           <CommentView
             formEnabled
@@ -43,7 +52,11 @@ export default class QuoteDetail extends Component {
             loggedIn={loggedIn}
             comments={comments}
           />
+
         </div>
+
+        <QuoteRightNav query={this.props.query} detail={true} />
+
       </div>
     );
   }

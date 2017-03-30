@@ -11,7 +11,9 @@ type Props = {
   fetchAllUnapproved: () => void,
   fetchQuote: () => void,
   query: Object,
-  location: Object
+  location: Object,
+  sortType: String,
+  quotes: Array<Object>
 };
 
 export default class QuotePage extends Component {
