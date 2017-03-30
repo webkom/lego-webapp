@@ -8,7 +8,7 @@ import {
 import QuoteDetail from './components/QuoteDetail';
 import { compose } from 'redux';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
-import { selectQuote, selectCommentsForQuote } from 'app/reducers/quotes';
+import { selectCommentsForQuote } from 'app/reducers/quotes';
 
 function loadData(params, props) {
   props.fetchQuote(props.quoteId);
@@ -17,8 +17,8 @@ function loadData(params, props) {
 function mapStateToProps(state, props) {
   const query = props.location.query;
   const quoteId = props.params.quoteId;
-  const quote = selectQuote(state, { quoteId });
-  const comments = selectCommentsForQuote(state, props);
+  const quote = state.quotes.byId[quoteId];
+  const comments = selectCommentsForQuote(state, quoteId);
 
   return {
     query,

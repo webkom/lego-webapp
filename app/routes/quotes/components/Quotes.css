@@ -1,6 +1,6 @@
 
 .root {
-  composes: container from 'app/styles/utilities.css';
+  composes: contentContainer from 'app/styles/utilities.css';
 }
 
 .quoteContainer {
@@ -189,15 +189,10 @@
   font-size: 20px !important;
 }
 
-.singleQuote .quoteAuthor {
-  font-size: 15px;
-  margin-top: 50px;
-}
-
 .singleQuote .bottomRight {
   display: flex;
   justify-content: space-between;
-  width: 25%;
+  width: 30%;
   min-width: 140px;
   order: 2
 }
