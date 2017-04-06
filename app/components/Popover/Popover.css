@@ -3,7 +3,7 @@
   border-radius: 5px;
   border: 1px solid #ccc;
   box-shadow: 0 4px 2px #eee;
-  position: fixed;
+  position: absolute;
   max-width: 500px;
   padding: 20px;
   z-index: 1000;

@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Position } from 'react-overlays';
+import { Overlay } from 'react-overlays';
 import cx from 'classnames';
 import styles from './Popover.css';
 
@@ -9,14 +9,15 @@ type Props = {
   render: () => React.Element<*>,
   children: any,
   placement: 'top' | 'bottom' | 'left' | 'right',
-  contentClassName?: string;
+  contentClassName?: string
 };
 
 class Popover extends Component {
   props: Props;
 
   state = {
-    hovered: false
+    contentHovered: false,
+    overlayHovered: false
   };
 
   target: any;
@@ -25,34 +26,49 @@ class Popover extends Component {
     placement: 'bottom'
   };
 
-  onMouseEnter = () => {
-    this.setState({ hovered: true });
+  onMouseEnterContent = () => {
+    this.setState({ contentHovered: true });
   };
 
-  onMouseLeave = () => {
-    this.setState({ hovered: false });
+  onMouseLeaveContent = () => {
+    this.setState({ contentHovered: false });
+  };
+
+  onMouseEnterOverlay = () => {
+    this.setState({ overlayHovered: true });
+  };
+
+  onMouseLeaveOverlay = () => {
+    this.setState({ overlayHovered: false });
+  };
+
+  showOverlay = () => {
+    return this.state.contentHovered || this.state.overlayHovered;
   };
 
   render() {
     const { children, placement, contentClassName } = this.props;
+
     return (
       <div
-        onMouseEnter={this.onMouseEnter}
-        onMouseLeave={this.onMouseLeave}
-        ref={(target) => { this.target = target; }}
+        onMouseEnter={this.onMouseEnterContent}
+        onMouseLeave={this.onMouseLeaveContent}
+        ref={target => {
+          this.target = target;
+        }}
       >
         {this.props.render && this.props.render()}
 
-        {this.state.hovered && (
-          <Position
-            placement={placement}
-            target={this.target}
-          >
-            <div className={cx(styles.content, contentClassName)}>
+        {this.showOverlay() &&
+          <Overlay show placement={placement} target={this.target}>
+            <div
+              onMouseEnter={this.onMouseEnterOverlay}
+              onMouseLeave={this.onMouseLeaveOverlay}
+              className={cx(styles.content, contentClassName)}
+            >
               {children}
             </div>
-          </Position>
-        )}
+          </Overlay>}
       </div>
     );
   }
