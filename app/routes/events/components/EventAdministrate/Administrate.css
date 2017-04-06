@@ -2,48 +2,52 @@
   composes: container from 'app/styles/utilities.css';
 }
 
-.content {
-  flex-direction: column;
+.grid {
+  display: grid;
+  grid-gap: 5px;
+  max-width: 800px;
+  align-items: center;
 }
 
-.element {
-  display: flex;
-  flex: 1;
-  flex-direction: 'row';
+.registeredList {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 10% 8% 12% 10% 12% 14% 18% 16%;
 }
 
-.faSize {
+.unregisteredList {
+  display: grid;
+  max-width: 500px;
+  align-items: center;
+  grid-template-columns: repeat(5, 20%);
+}
+
+.greenIcon {
   font-size: 1.5em;
+  color: green;
 }
 
-.col {
-  display: flex;
-  align-items: center;
-  width: 12.5%;
+.questionIcon {
+  font-size: 1.5em;
+  color: blue;
 }
 
-.col2 {
-  display: flex;
-  align-items: center;
-  width: 25%;
-  word-wrap: break-word;
+.crossIcon {
+  font-size: 1.5em;
+  color: '#C24538';
 }
 
-.green {
-  color: 'green';
+.center {
+  flex: 1;
+  justify-self: center;
 }
 
 .transparent {
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
-.transparent:hover {
+a.transparent:hover {
   opacity: 1;
-}
-
-.administrate {
-  display: flex;
-  align-items: center;
 }
 
 .list {
@@ -54,12 +58,9 @@
   justify-content: 'center';
 }
 
-.list > li {
+.grid > li {
+  padding-bottom: 5px;
   border-bottom: 1px solid #CCC;
-}
-
-.list2 > li:last-child {
-  border-bottom: none;
 }
 
 .presenceIcons {

@@ -119,3 +119,21 @@ export function updatePresence(eventId, registrationId, presence) {
     ).then(() => dispatch(addNotification({ message: 'Presence updated' })));
   };
 }
+
+export function updatePayment(eventId, registrationId, chargeStatus) {
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: Event.UPDATE_REGISTRATION,
+        endpoint: `/events/${eventId}/registrations/${registrationId}/`,
+        method: 'PATCH',
+        body: {
+          chargeStatus
+        },
+        meta: {
+          errorMessage: 'Presence update failed'
+        }
+      })
+    ).then(() => dispatch(addNotification({ message: 'Payment updated' })));
+  };
+}

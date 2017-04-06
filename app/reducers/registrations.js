@@ -24,27 +24,17 @@ export default createEntityReducer({
           }
         };
       }
-      case Event.SOCKET_UNREGISTRATION.SUCCESS: {
-        return {
-          ...state,
-          byId: {
-            ...omit(state.byId, action.payload.id)
-          },
-          items: state.items.filter(item => item !== action.payload.id)
-        };
-      }
       case Event.UNREGISTER.SUCCESS: {
         if (action.meta.admin) {
           return {
             ...state,
             byId: {
               ...state.byId,
-              [action.meta.optimisticId]: {
-                ...state.byId[action.meta.id],
+              [action.payload.id]: {
+                ...state.byId[action.payload.id],
                 unregistrationDate: moment()
               }
-            },
-            items: [...state.items, action.meta.optimisticId]
+            }
           };
         }
         return state;

@@ -42,6 +42,7 @@ export default class EventAdministrate extends Component {
 
   handlePayment = (registrationId, chargeStatus) => {
     console.log(registrationId, chargeStatus);
+    this.props.updatePayment(this.props.eventId, registrationId, chargeStatus);
   };
 
   render() {
@@ -68,20 +69,18 @@ export default class EventAdministrate extends Component {
       <div className={styles.root}>
         <h2>{`Event: ${eventId}`}</h2>
         <FlexColumn alignItems="center">
-          <ul className={styles.list}>
-            <li className={styles.element}>
-              <FlexRow className={styles.element}>
-                <FlexItem className={styles.col}>Bruker:</FlexItem>
-                <FlexItem className={styles.col}>Status:</FlexItem>
-                <FlexItem className={styles.col}>Til stede:</FlexItem>
-                <FlexItem className={styles.col}>Dato:</FlexItem>
-                <FlexItem className={styles.col}>Klassetrinn:</FlexItem>
-                <FlexItem className={styles.col}>Betaling:</FlexItem>
-                <FlexItem className={styles.col2}>Tilbakemelding:</FlexItem>
-                <FlexItem className={styles.col}>Administrer:</FlexItem>
-              </FlexRow>
+          <ul className={styles.grid}>
+            <li className={styles.registeredList}>
+              <div>Bruker:</div>
+              <div className={styles.center}>Status:</div>
+              <div className={styles.center}>Til stede:</div>
+              <div>Dato:</div>
+              <div className={styles.center}>Klassetrinn:</div>
+              <div className={styles.center}>Betaling:</div>
+              <div>Tilbakemelding:</div>
+              <div>Administrer:</div>
             </li>
-            {registered.length === 0 && <div>Ingen påmeldte</div>}
+            {registered.length === 0 && <li>Ingen påmeldte</li>}
             {registered.map((reg, i) => (
               <RegisteredElement
                 key={i}
@@ -95,15 +94,13 @@ export default class EventAdministrate extends Component {
           </ul>
           <div className={styles.list} style={{ paddingTop: '1em' }}>
             <strong>Avmeldte:</strong>
-            <ul className={styles.list}>
-              <li>
-                <FlexRow className={styles.element}>
-                  <FlexItem className={styles.col}>Bruker:</FlexItem>
-                  <FlexItem className={styles.col}>Status:</FlexItem>
-                  <FlexItem className={styles.col}>Påmeldt:</FlexItem>
-                  <FlexItem className={styles.col}>Avmeldt:</FlexItem>
-                  <FlexItem className={styles.col}>Klassetrinn:</FlexItem>
-                </FlexRow>
+            <ul className={styles.grid}>
+              <li className={styles.unregisteredList}>
+                <div>Bruker:</div>
+                <div>Status:</div>
+                <div>Påmeldt:</div>
+                <div>Avmeldt:</div>
+                <div>Klassetrinn:</div>
               </li>
               {unregistered.length === 0 && <div>Ingen avmeldte</div>}
               {unregistered.map((reg, i) => (

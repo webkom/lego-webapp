@@ -4,7 +4,8 @@ import { dispatched } from 'react-prepare';
 import {
   fetchRegistrationList,
   unregister,
-  updatePresence
+  updatePresence,
+  updatePayment
 } from 'app/actions/EventActions';
 import EventAdministrate from './components/EventAdministrate';
 import { selectAllRegistrationsForEvent } from 'app/reducers/events';
@@ -37,7 +38,8 @@ function mapStateToProps(state, props) {
 
 const mapDispatchToProps = {
   unregister,
-  updatePresence
+  updatePresence,
+  updatePayment
 };
 
 export default compose(
