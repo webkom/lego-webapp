@@ -32,12 +32,9 @@ function mapStateToProps(state, props) {
       fromYear: 1,
       toYear: 5,
       jobType: 'summer_job',
-      deadline: moment().utc().format('YYYY-MM-DD[T]HH:MM:SS[Z]'),
-      visibleFrom: moment().utc().format('YYYY-MM-DD[T]HH:MM:SS[Z]'),
-      visibleTo: moment()
-        .add(2, 'months')
-        .utc()
-        .format('YYYY-MM-DD[T]HH:MM:SS[Z]')
+      deadline: moment().toISOString(),
+      visibleFrom: moment().toISOString(),
+      visibleTo: moment().add(2, 'months').toISOString()
     },
     results: selectAutocomplete(state),
     company: company
