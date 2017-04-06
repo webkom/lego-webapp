@@ -8,7 +8,8 @@ import Icon from 'app/components/Icon';
 
 export default class JoblistingsRightNav extends Component {
   static propTypes = {
-    query: PropTypes.object.isRequired
+    query: PropTypes.object.isRequired,
+    actionGrant: PropTypes.array
   };
 
   state = {
@@ -75,9 +76,9 @@ export default class JoblistingsRightNav extends Component {
       </div>
     </Link>;
 
-  render() {
-    return (
-      <FlexColumn>
+  createButton = () => {
+    if (this.props.actionGrant && this.props.actionGrant.includes('create')) {
+      return (
         <FlexRow justifyContent="flex-end" alignItems="center">
           <Link to={`/joblistings/create`}>
             <button className={styles.createButton}>
@@ -87,6 +88,14 @@ export default class JoblistingsRightNav extends Component {
             </button>
           </Link>
         </FlexRow>
+      );
+    }
+  };
+
+  render() {
+    return (
+      <FlexColumn>
+        {this.createButton()}
         <FlexRow className={styles.box}>
           <FlexColumn>
             <h3>Sorter etter:</h3>
