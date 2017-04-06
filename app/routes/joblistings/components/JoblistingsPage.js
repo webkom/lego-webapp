@@ -6,7 +6,7 @@ import JoblistingsList from './JoblistingsList';
 import JoblistingsRightNav from './JoblistingsRightNav';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 
-const JoblistingsPage = ({ joblistings, query }) => {
+const JoblistingsPage = ({ joblistings, query, actionGrant }) => {
   if (!joblistings) {
     return <LoadingIndicator loading />;
   }
@@ -18,7 +18,7 @@ const JoblistingsPage = ({ joblistings, query }) => {
           <JoblistingsList joblistings={joblistings} />
         </FlexColumn>
         <FlexColumn className={styles.rightNav}>
-          <JoblistingsRightNav query={query} />
+          <JoblistingsRightNav query={query} actionGrant={actionGrant} />
         </FlexColumn>
       </FlexRow>
     </div>

@@ -10,10 +10,12 @@ import { compose } from 'redux';
 const mapStateToProps = (state, props) => {
   const { joblistingId } = props.params;
   const joblisting = state.joblistings.byId[joblistingId];
+  const actionGrant = state.joblistings.actionGrant;
 
   return {
     joblisting,
-    joblistingId
+    joblistingId,
+    actionGrant
   };
 };
 

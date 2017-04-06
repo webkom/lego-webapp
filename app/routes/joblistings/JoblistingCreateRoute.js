@@ -4,14 +4,13 @@ import { createJoblisting } from 'app/actions/JoblistingActions';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import JoblistingEditor
   from 'app/routes/joblistings/components/JoblistingEditor';
-import { reduxForm } from 'redux-form';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocomplete } from 'app/reducers/search';
 import { compose } from 'redux';
 import { debounce } from 'lodash';
 import { formValueSelector } from 'redux-form';
 import { selectCompanyById } from 'app/reducers/companies';
-import { fetch } from 'app/actions/companyActions';
+import { fetch } from 'app/actions/CompanyActions';
 import moment from 'moment';
 
 function mapDispatchToProps(dispatch) {

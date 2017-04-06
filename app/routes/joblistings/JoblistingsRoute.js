@@ -26,8 +26,11 @@ function filterJoblistings(joblistings, classes, jobtypes, workplaces) {
       workplacesBoolean = true;
     } else {
       workplacesBoolean = joblisting.workplaces.some(w =>
-        workplaces.includes(w.town)
-      );
+        workplaces.includes(w.town)) ||
+        (workplaces.includes('Annet') &&
+          joblisting.workplaces.some(
+            w => !['Oslo', 'Trondheim', 'Bergen', 'Tromsø'].includes(w.town)
+          ));
     }
     return classBoolean && jobtypesBoolean && workplacesBoolean;
   });
@@ -63,9 +66,12 @@ const mapStateToProps = (state, props) => {
   );
   const sortedJoblistings = sortJoblistings(filteredJoblistings, sortType);
 
+  const actionGrant = state.joblistings.actionGrant;
+
   return {
     joblistings: sortedJoblistings,
-    query
+    query,
+    actionGrant
   };
 };
 

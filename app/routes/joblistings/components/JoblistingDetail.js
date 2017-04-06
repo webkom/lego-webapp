@@ -8,9 +8,10 @@ import Markdown from 'app/components/Markdown';
 import { Jobtype, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
 
-const JoblistingDetail = ({ joblisting, deleteJoblisting }) => {
+const JoblistingDetail = ({ joblisting, deleteJoblisting, actionGrant }) => {
   let contactTitle = '';
   let applicationUrl = '';
+  let buttons = '';
   if (!joblisting) {
     return <LoadingIndicator loading />;
   }
@@ -47,11 +48,9 @@ const JoblistingDetail = ({ joblisting, deleteJoblisting }) => {
       </li>
     );
   }
-  return (
-    <div className={styles.root}>
-      <div className={styles.coverImage}>
-        <Image src="http://placehold.it/1000x300" />
-      </div>
+
+  if (actionGrant.includes('update')) {
+    buttons = (
       <FlexRow alignItems="center" justifyContent="space-between">
         <h1>{joblisting.title}</h1>
         <div>
@@ -63,6 +62,15 @@ const JoblistingDetail = ({ joblisting, deleteJoblisting }) => {
           </Link>
         </div>
       </FlexRow>
+    );
+  }
+
+  return (
+    <div className={styles.root}>
+      <div className={styles.coverImage}>
+        <Image src="http://placehold.it/1000x300" />
+      </div>
+      {buttons}
       <FlexRow>
         <FlexColumn className={styles.description}>
           <Markdown>
