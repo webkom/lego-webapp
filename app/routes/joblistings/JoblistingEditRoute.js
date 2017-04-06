@@ -3,7 +3,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetchJoblisting, editJoblisting } from 'app/actions/JoblistingActions';
 import { dispatched } from 'react-prepare';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import JoblistingEditor
   from 'app/routes/joblistings/components/JoblistingEditor';
 import { selectJoblistingById } from 'app/reducers/joblistings';
@@ -12,7 +11,7 @@ import { selectAutocomplete } from 'app/reducers/search';
 import { debounce } from 'lodash';
 import { formValueSelector } from 'redux-form';
 import { selectCompanyById } from 'app/reducers/companies';
-import { fetch } from 'app/actions/companyActions';
+import { fetch } from 'app/actions/CompanyActions';
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -26,10 +25,6 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-function loadData({ joblistingId }, props) {
-  props.fetchJoblisting(joblistingId);
-}
-
 function mapStateToProps(state, props) {
   const { joblistingId } = props.params;
   const formSelector = formValueSelector('joblistingEditor');
@@ -39,7 +34,6 @@ function mapStateToProps(state, props) {
     joblisting,
     initialValues: {
       ...joblisting,
-      responsible: joblisting.responsible,
       workplaces: joblisting.workplaces
         .map(workplace => workplace.town)
         .join(',')

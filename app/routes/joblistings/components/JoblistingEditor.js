@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './JoblistingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { reduxForm, Field, FieldArray, change } from 'redux-form';
+import { reduxForm, Field, change } from 'redux-form';
 import {
   Form,
   TextEditor,
@@ -13,8 +13,6 @@ import Button from 'app/components/Button';
 import moment from 'moment';
 import config from 'app/config';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
-import { autocomplete } from 'app/actions/SearchActions';
-import { selectAutocomplete } from 'app/reducers/search';
 
 type Props = {
   joblistingId?: string,
@@ -23,7 +21,9 @@ type Props = {
   onQueryChanged: () => void,
   submitJoblisting: () => void,
   fetchCompany: () => void,
-  company?: Object
+  company?: Object,
+  results: Array,
+  dispatch: () => void
 };
 
 function JoblistingEditor(
@@ -39,16 +39,6 @@ function JoblistingEditor(
     dispatch
   }: Props
 ) {
-  const renderField = ({ input, label, type, meta: { touched, error } }) => (
-    <div>
-      <label>{label}</label>
-      <div>
-        <input {...input} type={type} placeholder={label} />
-        {touched && error && <span>{error}</span>}
-      </div>
-    </div>
-  );
-
   const isEditPage = joblistingId !== undefined;
   if (isEditPage && !joblisting) {
     return <LoadingIndicator loading />;
@@ -148,8 +138,6 @@ function JoblistingEditor(
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Arbeidssteder: </FlexColumn>
           <FlexColumn className={styles.textfield}>
-            {/*<FieldArray name="workplaces" component={renderWorkplaces}/>*/}
-
             <Field
               placeholder={'Arbeidssteder'}
               name="workplaces"
