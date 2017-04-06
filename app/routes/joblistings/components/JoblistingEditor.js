@@ -43,9 +43,9 @@ function JoblistingEditor(
   if (isEditPage && !joblisting) {
     return <LoadingIndicator loading />;
   }
-  const onSubmit2 = newJoblisting => {
+  const onSubmit = newJoblisting => {
     const workplaces = newJoblisting.workplaces
-      ? newJoblisting.workplaces.split(',').map(town2 => ({ town: town2 }))
+      ? newJoblisting.workplaces.split(',').map(town => ({ town }))
       : null;
     const responsible = newJoblisting.responsible &&
       (newJoblisting.responsible === 'Ingen' ||
@@ -60,22 +60,65 @@ function JoblistingEditor(
       responsible
     });
   };
+
+  const datePickerComponent = (text, name) => (
+    <FlexRow className={styles.row}>
+      <FlexColumn className={styles.des}>{text}</FlexColumn>
+      <FlexColumn className={styles.textfield}>
+        <Field name={name} component={DatePicker.Field} />
+      </FlexColumn>
+    </FlexRow>
+  );
+
+  const yearPickerComponent = (text, name) => (
+    <FlexRow className={styles.row}>
+      <FlexColumn className={styles.des}>{text}</FlexColumn>
+      <FlexColumn className={styles.textfield}>
+        <Field name={name} component="select">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+        </Field>
+      </FlexColumn>
+    </FlexRow>
+  );
+
+  const fieldComponent = (text, name, placeholder) => (
+    <FlexRow className={styles.row}>
+      <FlexColumn className={styles.des}>{text}</FlexColumn>
+      <FlexColumn className={styles.textfield}>
+        <Field
+          placeholder={placeholder}
+          name={name}
+          component={TextInput.Field}
+        />
+      </FlexColumn>
+    </FlexRow>
+  );
+
+  const textEditorComponent = (text, name, placeholder, rows) => (
+    <FlexRow className={styles.row}>
+      <FlexColumn className={styles.des}>{text} </FlexColumn>
+      <FlexColumn className={styles.textfield}>
+        <Field
+          placeholder={placeholder}
+          name={name}
+          rows={rows}
+          component={TextEditor.Field}
+        />
+      </FlexColumn>
+    </FlexRow>
+  );
+
   return (
     <div className={styles.root}>
       <h1 className={styles.heading}>
         {isEditPage ? 'Rediger jobbannonse' : 'Legg til jobbannonse'}
       </h1>
-      <Form onSubmit={handleSubmit(onSubmit2)}>
-        <FlexRow className={styles.row}>
-          <FlexColumn className={styles.des}>Tittel: </FlexColumn>
-          <FlexColumn className={styles.textfield}>
-            <Field
-              placeholder={'Tittel'}
-              name="title"
-              component={TextInput.Field}
-            />
-          </FlexColumn>
-        </FlexRow>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        {fieldComponent('Tittel: ', 'title', 'Tittel')}
 
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Bedrift: </FlexColumn>
@@ -103,26 +146,9 @@ function JoblistingEditor(
           </FlexColumn>
         </FlexRow>
 
-        <FlexRow className={styles.row}>
-          <FlexColumn className={styles.des}>Deadline: </FlexColumn>
-          <FlexColumn className={styles.textfield}>
-            <Field name="deadline" component={DatePicker.Field} />
-          </FlexColumn>
-        </FlexRow>
-
-        <FlexRow className={styles.row}>
-          <FlexColumn className={styles.des}>Synlig fra: </FlexColumn>
-          <FlexColumn className={styles.textfield}>
-            <Field name="visibleFrom" component={DatePicker.Field} />
-          </FlexColumn>
-        </FlexRow>
-
-        <FlexRow className={styles.row}>
-          <FlexColumn className={styles.des}>Synlig til: </FlexColumn>
-          <FlexColumn className={styles.textfield}>
-            <Field name="visibleTo" component={DatePicker.Field} />
-          </FlexColumn>
-        </FlexRow>
+        {datePickerComponent('Deadline: ', 'deadline')}
+        {datePickerComponent('Synlig fra: ', 'visibleFrom')}
+        {datePickerComponent('Synlig til: ', 'visibleTo')}
 
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Jobbtype: </FlexColumn>
@@ -135,77 +161,20 @@ function JoblistingEditor(
           </FlexColumn>
         </FlexRow>
 
-        <FlexRow className={styles.row}>
-          <FlexColumn className={styles.des}>Arbeidssteder: </FlexColumn>
-          <FlexColumn className={styles.textfield}>
-            <Field
-              placeholder={'Arbeidssteder'}
-              name="workplaces"
-              component={TextInput.Field}
-            />
-          </FlexColumn>
-        </FlexRow>
+        {fieldComponent('Arbeidssteder: ', 'workplaces', 'Arbeidssteder')}
 
-        <FlexRow className={styles.row}>
-          <FlexColumn className={styles.des}>Fra år: </FlexColumn>
-          <FlexColumn className={styles.textfield}>
-            <Field name="fromYear" component="select">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </Field>
-          </FlexColumn>
-        </FlexRow>
+        {yearPickerComponent('Fra år: ', 'fromYear')}
+        {yearPickerComponent('Til år: ', 'toYear')}
 
-        <FlexRow className={styles.row}>
-          <FlexColumn className={styles.des}>Til år: </FlexColumn>
-          <FlexColumn className={styles.textfield}>
-            <Field name="toYear" component="select">
-              <option value="1">1</option>
-              <option value="2">2</option>
-              <option value="3">3</option>
-              <option value="4">4</option>
-              <option value="5">5</option>
-            </Field>
-          </FlexColumn>
-        </FlexRow>
+        {fieldComponent('Søknadslenke: ', 'applicationUrl', 'Søknadslenke')}
 
-        <FlexRow className={styles.row}>
-          <FlexColumn className={styles.des}>Søknadslenke: </FlexColumn>
-          <FlexColumn className={styles.textfield}>
-            <Field
-              placeholder={'Søknadslenke'}
-              name="applicationUrl"
-              component={TextInput.Field}
-            />
-          </FlexColumn>
-        </FlexRow>
-
-        <FlexRow className={styles.row}>
-          <FlexColumn className={styles.des}>Søknadsintro: </FlexColumn>
-          <FlexColumn className={styles.textfield}>
-            <Field
-              placeholder={'Søknadsintro'}
-              name="description"
-              rows="7"
-              component={TextEditor.Field}
-            />
-          </FlexColumn>
-        </FlexRow>
-
-        <FlexRow className={styles.row}>
-          <FlexColumn className={styles.des}>Søknadstekst: </FlexColumn>
-          <FlexColumn className={styles.textfield}>
-            <Field
-              placeholder={'Søknadstekst'}
-              name="text"
-              rows="15"
-              component={TextEditor.Field}
-            />
-          </FlexColumn>
-        </FlexRow>
+        {textEditorComponent(
+          'Søknadsintro: ',
+          'description',
+          'Søknadsintro',
+          '7'
+        )}
+        {textEditorComponent('Søknadstekst: ', 'text', 'Søknadstekst', '15')}
 
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Kontaktperson: </FlexColumn>
