@@ -13,6 +13,7 @@ import RegisteredSummary from './RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import Tag from 'app/components/Tag';
 import Time from 'app/components/Time';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -95,6 +96,7 @@ export default class EventDetail extends Component {
       event,
       loggedIn,
       currentUser,
+      actionGrant,
       comments,
       error,
       loading,
@@ -105,7 +107,7 @@ export default class EventDetail extends Component {
       waitingRegistrations
     } = this.props;
 
-    if (loading) {
+    if (loading || Object.keys(event).length === 0) {
       return <LoadingIndicator loading />;
     }
 
@@ -202,12 +204,18 @@ export default class EventDetail extends Component {
                             Du har ikke betalt
                           </div>)}
                   </div>}
-                <Link
-                  to={`/events/${event.id}/administrate`}
-                  style={{ color: 'white' }}
-                >
-                  Påmeldinger
-                </Link>
+                {actionGrant.includes('update') &&
+                  <ul>
+                    <li><strong>Admin</strong></li>
+                    <li>
+                      <Link
+                        to={`/events/${event.id}/administrate`}
+                        style={{ color: 'white' }}
+                      >
+                        Påmeldinger
+                      </Link>
+                    </li>
+                  </ul>}
               </FlexItem>}
           </FlexColumn>
         </FlexRow>

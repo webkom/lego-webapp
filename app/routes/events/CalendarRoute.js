@@ -12,10 +12,12 @@ function mapStateToProps(state, ownProps) {
     year = moment().year(),
     month = moment().month() + 1
   } = ownProps.params;
+  const actionGrant = state.events.actionGrant;
 
   return {
     year,
-    month
+    month,
+    actionGrant
   };
 }
 

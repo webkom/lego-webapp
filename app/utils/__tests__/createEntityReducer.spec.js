@@ -52,6 +52,7 @@ describe('createEntityReducer', () => {
         }
       })
     ).toEqual({
+      actionGrant: [],
       byId: {
         1: { name: 'Hello' }
       },
@@ -154,6 +155,7 @@ describe('entities()', () => {
     };
 
     expect(reducer(state, action)).toEqual({
+      actionGrant: [],
       byId: {
         1: user
       },
@@ -214,6 +216,7 @@ describe('entities()', () => {
     ];
 
     expect(actions.reduce(reducer, undefined)).toEqual({
+      actionGrant: [],
       byId: {
         1: {
           id: 1,

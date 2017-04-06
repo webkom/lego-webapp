@@ -35,6 +35,7 @@ function mapStateToProps(state, props) {
   } = props;
 
   const event = selectEventById(state, { eventId });
+  const actionGrant = state.events.actionGrant;
   const comments = selectCommentsForEvent(state, { eventId });
   const pools = selectPoolsWithRegistrationsForEvent(state, { eventId });
 
@@ -58,6 +59,7 @@ function mapStateToProps(state, props) {
 
   return {
     comments,
+    actionGrant,
     event,
     eventId,
     pools,

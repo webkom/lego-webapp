@@ -1,5 +1,6 @@
 import styles from './Administrate.css';
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import Image from 'app/components/Image';
 import CommentView from 'app/components/Comments/CommentView';
 import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
@@ -10,6 +11,7 @@ import { AttendanceStatus } from 'app/components/UserAttendance';
 import Tag from 'app/components/Tag';
 import Time from 'app/components/Time';
 import { RegisteredElement, UnregisteredElement } from './RegistrationElements';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 /**
  *
@@ -27,10 +29,6 @@ export type Props = {
  */
 export default class EventAdministrate extends Component {
   props: Props;
-
-  setAdmitted = status => {
-    console.log('ADMIT', status);
-  };
 
   handleUnregister = registrationId => {
     this.props.unregister(this.props.eventId, registrationId, true);
@@ -67,9 +65,15 @@ export default class EventAdministrate extends Component {
 
     return (
       <div className={styles.root}>
-        <h2>{`Event: ${eventId}`}</h2>
+        <h2>
+          <Link to={`/events/${eventId}`}>
+            <i className="fa fa-angle-left" />
+            {` Event: ${eventId}`}
+          </Link>
+        </h2>
         <FlexColumn alignItems="center">
           <ul className={styles.grid}>
+            <strong>Påmeldte:</strong>
             <li className={styles.registeredList}>
               <div>Bruker:</div>
               <div className={styles.center}>Status:</div>
@@ -85,7 +89,6 @@ export default class EventAdministrate extends Component {
               <RegisteredElement
                 key={i}
                 registration={reg}
-                setAdmitted={this.setAdmitted}
                 unregister={this.handleUnregister}
                 handlePresence={this.handlePresence}
                 handlePayment={this.handlePayment}

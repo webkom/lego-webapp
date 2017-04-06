@@ -100,7 +100,7 @@ class EventList extends Component {
     return (
       <div className={styles.root}>
         <Helmet title="Arrangementer" />
-        <Toolbar />
+        <Toolbar actionGrant={this.props.actionGrant} />
 
         <EventListGroup name="Denne uken" events={events.currentWeek} />
 
