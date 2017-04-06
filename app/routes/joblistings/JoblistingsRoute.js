@@ -70,7 +70,7 @@ function mapStateToProps(state, props) {
   );
   const sortedJoblistings = sortJoblistings(filteredJoblistings, sortType);
 
-  const actionGrant = state.joblistings.actionGrant;
+  const actionGrant = state.joblistings.actionGrant || [];
 
   return {
     joblistings: sortedJoblistings,

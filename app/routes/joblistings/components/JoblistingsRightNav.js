@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 import CheckBox from 'app/components/Form/CheckBox';
-import Icon from 'app/components/Icon';
 
 export default class JoblistingsRightNav extends Component {
   static propTypes = {
@@ -77,13 +76,11 @@ export default class JoblistingsRightNav extends Component {
     </Link>;
 
   createButton = () => {
-    if (this.props.actionGrant && this.props.actionGrant.includes('create')) {
+    if (this.props.actionGrant.includes('create')) {
       return (
         <FlexRow justifyContent="flex-end" alignItems="center">
           <Link to={`/joblistings/create`}>
             <button className={styles.createButton}>
-              <Icon name="plus" />
-              {' '}{' '}
               Ny jobbannonse
             </button>
           </Link>
