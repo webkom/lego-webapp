@@ -12,6 +12,7 @@ function generateStatuses(name) {
 export const Event = {
   FETCH: generateStatuses('Event.FETCH'),
   REGISTER: generateStatuses('Event.REGISTER'),
+  ADMIN_REGISTER: generateStatuses('Event.ADMIN_REGISTER'),
   UNREGISTER: generateStatuses('Event.UNREGISTER'),
   PAYMENT_QUEUE: generateStatuses('Event.PAYMENT_QUEUE'),
   UPDATE_REGISTRATION: generateStatuses('Event.UPDATE_REGISTRATION'),

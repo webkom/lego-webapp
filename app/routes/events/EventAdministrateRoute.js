@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import {
   fetchRegistrationList,
+  adminRegister,
   unregister,
   updatePresence,
   updatePayment
@@ -38,6 +39,7 @@ function mapStateToProps(state, props) {
 
 const mapDispatchToProps = {
   unregister,
+  adminRegister,
   updatePresence,
   updatePayment
 };

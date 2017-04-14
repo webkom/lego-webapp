@@ -70,6 +70,23 @@ export function unregister(eventId, registrationId, admin = false) {
   });
 }
 
+export function adminRegister(eventId, user, pool, feedback, reason) {
+  return callAPI({
+    types: Event.ADMIN_REGISTER,
+    endpoint: `/events/${eventId}/registrations/admin_register/`,
+    method: 'post',
+    body: {
+      user,
+      pool,
+      feedback,
+      admin_reason: reason
+    },
+    meta: {
+      errorMessage: 'Admin register failed'
+    }
+  });
+}
+
 export function payment(eventId, token) {
   return callAPI({
     types: Event.PAYMENT_QUEUE,

@@ -12,6 +12,7 @@ import Tag from 'app/components/Tag';
 import Time from 'app/components/Time';
 import { RegisteredElement, UnregisteredElement } from './RegistrationElements';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import AdminRegisterForm from './AdminRegisterForm';
 
 /**
  *
@@ -39,8 +40,12 @@ export default class EventAdministrate extends Component {
   };
 
   handlePayment = (registrationId, chargeStatus) => {
-    console.log(registrationId, chargeStatus);
     this.props.updatePayment(this.props.eventId, registrationId, chargeStatus);
+  };
+
+  handleAdminRegistration = ({ user, pool, feedback, reason }) => {
+    console.log('admin', user, pool, feedback, reason);
+    this.props.adminRegister(this.props.eventId, user, pool, feedback, reason);
   };
 
   render() {
@@ -73,6 +78,8 @@ export default class EventAdministrate extends Component {
         </h2>
         <FlexColumn alignItems="center">
           <ul className={styles.grid}>
+            <strong>Adminpåmelding:</strong>
+            <AdminRegisterForm onSubmit={this.handleAdminRegistration} />
             <strong>Påmeldte:</strong>
             <li className={styles.registeredList}>
               <div>Bruker:</div>
