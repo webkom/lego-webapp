@@ -31,6 +31,7 @@ const reducer = createEntityReducer({
 describe('createEntityReducer', () => {
   it('should reduce', () => {
     expect(reducer(undefined, { type: 'SMASH' })).toEqual({
+      actionGrant: [],
       byId: {},
       items: [],
       fetching: false,
@@ -43,6 +44,7 @@ describe('createEntityReducer', () => {
       reducer(undefined, {
         type: 'SUCCESS',
         payload: {
+          actionGrant: ['list'],
           entities: {
             events: {
               1: { name: 'Hello' }
@@ -52,7 +54,7 @@ describe('createEntityReducer', () => {
         }
       })
     ).toEqual({
-      actionGrant: [],
+      actionGrant: ['list'],
       byId: {
         1: { name: 'Hello' }
       },
@@ -104,6 +106,7 @@ describe('createEntityReducer', () => {
       fetching: true,
       customFlag: false,
       customFlag2: false,
+      actionGrant: [],
       byId: {},
       items: []
     });
@@ -131,6 +134,7 @@ describe('fetching()', () => {
 describe('entities()', () => {
   it('store entities', () => {
     const state = {
+      actionGrant: [],
       byId: {},
       items: []
     };

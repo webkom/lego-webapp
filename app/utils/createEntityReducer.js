@@ -63,7 +63,7 @@ export function entities(key: string) {
       ...state,
       byId: merge(state.byId, result),
       items: union(state.items, arrayOf(Object.keys(result).map(Number))),
-      actionGrant: action.payload.actionGrant
+      actionGrant: action.payload.actionGrant || []
     };
   };
 }
