@@ -14,7 +14,7 @@ pipeline:
     when:
       event: tag
     registry: https://registry.abakus.no
-    repo: registry.abakus.no/webkom/lego/lego-webapp
+    repo: registry.abakus.no/webkom/lego-webapp
     tags:
       - latest
       - ${DRONE_TAG##v}
