@@ -12,14 +12,26 @@ pipeline:
   docker:
     image: plugins/docker
     when:
-      event: tag
+      branch:
+        - prod
     registry: https://registry.abakus.no
     repo: registry.abakus.no/webkom/lego-webapp
     tags:
       - latest
-      - ${DRONE_TAG##v}
+      - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
     build_args:
       - API_URL=${API_URL}
       - WS_URL=${WS_URL}
       - BASE_URL=${BASE_URL}
       - CAPTCHA_KEY=${CAPTCHA_KEY}
+
+  deploy:
+    image: quay.io/ipedrazas/drone-helm
+    when:
+      branch:
+        - prod
+    skip_tls_verify: true
+    chart: ./charts/lego-webapp
+    release: lego-webapp-prod
+    namespace: lego-prod
+    values: backend.image.tag=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
