@@ -1,6 +1,5 @@
 import styles from './EventDetail.css';
 import React, { Component } from 'react';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import Image from 'app/components/Image';
 import CommentView from 'app/components/Comments/CommentView';
 import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
@@ -11,6 +10,7 @@ import JoinEventForm from './JoinEventForm';
 import RegisteredCell from './RegisteredCell';
 import RegisteredSummary from './RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import Tag from 'app/components/Tag';
 import Time from 'app/components/Time';
 
@@ -95,17 +95,19 @@ export default class EventDetail extends Component {
       loggedIn,
       currentUser,
       comments,
+      error,
+      loading,
       pools,
       registrations,
       currentRegistration
     } = this.props;
 
-    if (this.props.loading) {
+    if (loading) {
       return <LoadingIndicator loading />;
     }
 
-    if (this.props.error) {
-      return <div>{this.props.error.message}</div>;
+    if (error) {
+      return <div>{error.message}</div>;
     }
 
     return (
@@ -128,6 +130,10 @@ export default class EventDetail extends Component {
           </FlexColumn>
           <FlexColumn className={styles.meta}>
             <ul>
+              {event.company &&
+                <li>
+                  Arrangerende bedrift <strong>{event.company.name}</strong>
+                </li>}
               <li>
                 Starter{' '}
                 <strong>
@@ -135,6 +141,20 @@ export default class EventDetail extends Component {
                 </strong>
               </li>
               <li>Finner sted i <strong>{event.location}</strong></li>
+              {event.activationTime &&
+                <li>
+                  Påmelding åpner
+                  {' '}
+                  <strong>
+                    <Time
+                      time={event.activationTime}
+                      format="DD.MM.YYYY HH:mm"
+                    />
+                  </strong>
+                </li>}
+              {event.isPriced && <li>Dette er et betalt arrangement</li>}
+              {event.price > 0 &&
+                <li>Pris: <strong>{event.price / 100},-</strong></li>}
             </ul>
             {loggedIn &&
               <FlexItem>
@@ -148,6 +168,25 @@ export default class EventDetail extends Component {
                 </FlexRow>
                 <RegisteredSummary registrations={registrations} />
                 <AttendanceStatus title="Påmeldte" pools={pools} />
+                {!currentRegistration
+                  ? <div>
+                      <i className="fa fa-exclamation-circle" />
+                      {' '}
+                      Du er ikke registrert
+                    </div>
+                  : <div>
+                      <i className="fa fa-check-circle" /> Du er registrert
+                      {event.isPriced &&
+                        (currentRegistration.chargeStatus === 'succeeded'
+                          ? <div>
+                              <i className="fa fa-check-circle" /> Du har betalt
+                            </div>
+                          : <div>
+                              <i className="fa fa-exclamation-circle" />
+                              {' '}
+                              Du har ikke betalt
+                            </div>)}
+                    </div>}
               </FlexItem>}
           </FlexColumn>
         </FlexRow>
@@ -181,10 +220,11 @@ export default class EventDetail extends Component {
           <FlexColumn className={styles.openFor}>
             <strong>Åpent for</strong>
             <ul>
-              {(pools || []).map(pool =>
-                pool.permissionGroups.map(group => (
-                  <li key={group.id}>{group.name}</li>
-                )))}
+              {(pools || [])
+                .map(pool =>
+                  pool.permissionGroups.map(group => (
+                    <li key={group.id}>{group.name}</li>
+                  )))}
             </ul>
           </FlexColumn>
         </FlexRow>

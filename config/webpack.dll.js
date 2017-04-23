@@ -14,7 +14,7 @@ module.exports = () => ({
   context: root,
   devtool: 'eval',
   entry: {
-    vendors: pullAll(vendors, dllConfig.exclude),
+    vendors: pullAll(vendors, dllConfig.exclude)
   },
   output: {
     filename: '[name].dll.js',
@@ -28,8 +28,8 @@ module.exports = () => ({
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
-      },
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+      }
     })
   ]
 });

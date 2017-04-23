@@ -11,6 +11,17 @@ export default createEntityReducer({
   },
   mutate(state, action) {
     switch (action.type) {
+      case Meeting.CREATE.SUCCESS:
+        return {
+          ...state,
+          items: state.items.filter(id => action.meta.optimisticId !== id)
+          // Remove the item with the optimisticId
+        };
+      case Meeting.DELETE.SUCCESS:
+        return {
+          ...state,
+          items: state.items.filter(id => action.meta.meetingId !== id)
+        };
       case Meeting.SET_INVITATION_STATUS.SUCCESS: {
         const { meetingId, status, user } = action.meta;
         return {
@@ -19,13 +30,12 @@ export default createEntityReducer({
             ...state.byId,
             [meetingId]: {
               ...state.byId[meetingId],
-              invitations: state.byId[meetingId].invitations.map(
-                (invitation) => {
-                  if (invitation.user.id === user) {
-                    invitation.status = status;
-                  }
-                  return invitation;
-                })
+              invitations: state.byId[meetingId].invitations.map(invitation => {
+                if (invitation.user.id === user) {
+                  invitation.status = status;
+                }
+                return invitation;
+              })
             }
           }
         };
@@ -37,14 +47,13 @@ export default createEntityReducer({
 });
 
 export const selectMeetings = createSelector(
-  (state) => state.meetings.byId,
-  (state) => state.meetings.items,
-  (meetingsById, meetingIds) => meetingIds.map((id) => meetingsById[id])
+  state => state.meetings.byId,
+  state => state.meetings.items,
+  (meetingsById, meetingIds) => meetingIds.map(id => meetingsById[id])
 );
 
 export const selectMeetingById = createSelector(
-  (state) => state.meetings.byId,
+  state => state.meetings.byId,
   (state, props) => props.meetingId,
   (meetingsById, meetingId) => meetingsById[meetingId]
 );
-

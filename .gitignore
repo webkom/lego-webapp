@@ -7,3 +7,4 @@ compiler.jar
 tiny-lr.pid
 coverage
 dist
+.env

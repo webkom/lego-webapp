@@ -14,15 +14,14 @@ class RandomQuote extends Component {
     currentQuote: {}
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.refreshQuote();
   }
 
   refreshQuote = () => {
     this.props.fetchRandomQuote().then(action => {
-      const payloadId = Object.keys(action.payload.entities.quotes)[0];
       this.setState({
-        currentQuote: action.payload.entities.quotes[payloadId]
+        currentQuote: action.payload.entities.quotes[action.payload.result]
       });
     });
   };
@@ -34,10 +33,7 @@ class RandomQuote extends Component {
       <div>
         <h2 className={styles.heading}>
           <span>Tilfelding sitat</span>
-          <i
-            onClick={this.refreshQuote}
-            className="fa fa-refresh"
-          />
+          <i onClick={this.refreshQuote} className="fa fa-refresh" />
         </h2>
         <div className={styles.quoteText}>{currentQuote.text}</div>
         <div className={styles.quoteSource}>-{currentQuote.source}</div>

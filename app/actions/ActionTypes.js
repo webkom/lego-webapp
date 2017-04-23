@@ -1,8 +1,8 @@
 function generateStatuses(name) {
   return {
-    'BEGIN': `${name}.BEGIN`,
-    'SUCCESS': `${name}.SUCCESS`,
-    'FAILURE': `${name}.FAILURE`
+    BEGIN: `${name}.BEGIN`,
+    SUCCESS: `${name}.SUCCESS`,
+    FAILURE: `${name}.FAILURE`
   };
 }
 
@@ -42,7 +42,9 @@ export const Meeting = {
   FETCH: generateStatuses('Meeting.FETCH'),
   SET_INVITATION_STATUS: generateStatuses('Meeting.SET_INVITATION_STATUS'),
   CREATE: generateStatuses('Meeting.CREATE'),
-  EDIT: generateStatuses('Meeting.EDIT')
+  EDIT: generateStatuses('Meeting.EDIT'),
+  DELETE: generateStatuses('Meeting.DELETE'),
+  ANSWER_INVITATION_TOKEN: generateStatuses('Meeting.ANSWER_INVITATION_TOKEN')
 };
 
 /**
@@ -74,6 +76,22 @@ export const Favorite = {
 export const Comment = {
   FETCH: generateStatuses('Comment.FETCH'),
   ADD: generateStatuses('Comment.ADD')
+};
+
+/**
+ *
+ */
+export const Company = {
+  FETCH: generateStatuses('Company.FETCH'),
+  ADD: generateStatuses('Company.ADD'),
+  EDIT: generateStatuses('Company.EDIT'),
+  DELETE: generateStatuses('Company.DELETE'),
+  ADD_SEMESTER: generateStatuses('Company.ADD_SEMESTER'),
+  EDIT_SEMESTER: generateStatuses('Company.EDIT_SEMESTER'),
+  DELETE_SEMESTER: generateStatuses('Company.DELETE_SEMESTER'),
+  ADD_COMPANY_CONTACT: generateStatuses('Company.ADD_COMPANY_CONTACT'),
+  EDIT_COMPANY_CONTACT: generateStatuses('Company.EDIT_COMPANY_CONTACT'),
+  DELETE_COMPANY_CONTACT: generateStatuses('Company.DELETE_COMPANY_CONTACT')
 };
 
 /**

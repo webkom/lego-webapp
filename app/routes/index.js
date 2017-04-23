@@ -12,14 +12,7 @@ import search from './search';
 import interestGroups from './interestgroups';
 import joblistings from './joblistings';
 import NotFound from './errors/NotFound';
-
-export function loadRoute(callback) {
-  return (module) => callback(null, module.default);
-}
-
-export function loadingError(err) {
-  console.error('Loading error', err); // eslint-disable-line
-}
+import bdb from './bdb';
 
 export default {
   path: '/',
@@ -37,6 +30,7 @@ export default {
     search,
     interestGroups,
     joblistings,
+    bdb,
     {
       path: '*',
       component: NotFound

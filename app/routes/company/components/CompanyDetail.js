@@ -14,22 +14,26 @@ type Props = {
 };
 
 function insertInfoBubbles(company) {
-  const infos = [['phone', company.phone], ['home', company.website],
-  ['twitter', company.twitter], ['facebook', company.facebook], ['github', company.github]];
+  const infos = [
+    ['phone', company.phone],
+    ['home', company.website],
+    ['twitter', company.twitter],
+    ['facebook', company.facebook],
+    ['github', company.github]
+  ];
 
   return (
     <div className={styles.infoBubbles}>
-      {infos
-        .map((info, i) => (
-          <InfoBubble
-            icon={info[0]}
-            data={info[1]}
-            style={{ order: i }}
-            link={info[1] && info[1].includes('/') ? info[1] : undefined}
-            bubbleClass={styles.bubble}
-            iconClass={styles.icon}
-            dataClass={styles.data}
-          />
+      {infos.map((info, i) => (
+        <InfoBubble
+          icon={info[0]}
+          data={info[1]}
+          style={{ order: i }}
+          link={info[1] && info[1].includes('.') ? info[1] : undefined}
+          small
+          iconClass={styles.icon}
+          dataClass={styles.data}
+        />
       ))}
     </div>
   );
@@ -48,9 +52,13 @@ const CompanyDetail = ({ company }: Props) => {
 
       <div className={styles.titleFlex}>
         <h1 className={styles.title} style={{ order: 1 }}>{company.name}</h1>
-        <Link to={'/companies'} className={styles.editLink} style={{ order: 2 }}>
-          <Button >
-            <Icon name='pencil' />
+        <Link
+          to={'/companies'}
+          className={styles.editLink}
+          style={{ order: 2 }}
+        >
+          <Button>
+            <Icon name="pencil" />
             Endre
           </Button>
         </Link>

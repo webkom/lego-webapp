@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { fetchAll } from 'app/actions/BdbActions';
+import { fetchAll } from 'app/actions/CompanyActions';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import CompaniesPage from './components/CompaniesPage';
 import React, { Component } from 'react';
@@ -17,19 +17,14 @@ class CompaniesRoute extends Component {
   props: Props;
 
   render() {
-    return (
-      <CompaniesPage
-        {...this.props}
-      />
-    );
+    return <CompaniesPage {...this.props} />;
   }
 }
-
 
 function mapStateToProps(state, props) {
   const { query } = props.location;
   const companies = state.companies.items.map(
-    (item) => (state.companies.byId[item])
+    item => state.companies.byId[item]
   );
   return {
     companies,
@@ -41,9 +36,6 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = { fetchAll };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   fetchOnUpdate(['loggedIn'], loadData)
 )(CompaniesRoute);

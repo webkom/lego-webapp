@@ -1,8 +1,7 @@
 @import 'app/styles/variables.css';
 
 .root {
-  composes: container from 'app/styles/utilities.css';
-  margin-top: 2rem;
+  composes: contentContainer from 'app/styles/utilities.css';
 }
 
 .heading {

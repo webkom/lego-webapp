@@ -1,11 +1,5 @@
 @import 'app/styles/variables.css';
 
-.header {
-  background: linear-gradient(#ddd, #eee);
-  border-bottom: 2px solid #ddd;
-  box-shadow: 0 5px 40px #eee;
-}
-
 .backdrop {
   background: rgba(255, 255, 255, 0.5);
   top: 0;
@@ -26,7 +20,7 @@
 .buttonGroup img {
   border: 0;
   color: var(--lego-text-gray);
-  font-size: 1.8rem;
+  font-size: 40px;
   cursor: pointer;
 }
 
@@ -54,7 +48,7 @@
 }
 
 .logo > img {
-  max-width: 120px;
+  max-width: 160px;
 }
 
 .navigation {
@@ -72,12 +66,10 @@
 }
 
 .navigation a {
-  font-size: 1.4rem;
-  font-weight: 400;
-  letter-spacing: 1px;
+  font-size: 1.35rem;
   padding: 0 1rem;
   height: 100%;
-  color: #444;
+  color: var(--color-dark-gray-5);
   text-transform: uppercase;
   display: flex;
   align-items: center;

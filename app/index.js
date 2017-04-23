@@ -1,12 +1,9 @@
 import 'babel-polyfill';
-import React from 'react';
 import moment from 'moment';
-import { render } from 'react-dom';
 import { browserHistory } from 'react-router';
-import { AppContainer } from 'react-hot-loader';
 import { syncHistoryWithStore } from 'react-router-redux';
 import configureStore from 'app/utils/configureStore';
-import Root from './Root';
+import renderApp from './render';
 
 moment.locale('nb-NO');
 
@@ -15,25 +12,18 @@ global.log = function log(self = this) {
   return this;
 };
 
-const store = configureStore();
+const preloadedState = window.__PRELOADED_STATE__;
+delete window.__PRELOADED_STATE__;
+
+const store = configureStore(preloadedState);
 const history = syncHistoryWithStore(browserHistory, store);
 
-const rootElement = document.getElementById('root');
+store.dispatch({ type: 'REHYDRATED' });
 
-render(
-  <AppContainer>
-    <Root {...{ store, history }} />
-  </AppContainer>,
-  rootElement
-);
+renderApp(store, history);
 
 if (module.hot) {
-  module.hot.accept('./Root', () => {
-    render(
-      <AppContainer>
-        <Root {...{ store, history }} />
-      </AppContainer>,
-      rootElement
-    );
+  module.hot.accept('./render', () => {
+    renderApp(store, history);
   });
 }

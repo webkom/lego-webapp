@@ -7,7 +7,7 @@ import logoImage from 'app/assets/logo-dark.png';
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';
 import Search from '../Search';
-import LoginForm from '../LoginForm';
+import LoginForm from '../LoginForm/LoginForm';
 import ProfilePicture from '../ProfilePicture';
 import FancyNodesCanvas from './FancyNodesCanvas';
 import styles from './Header.css';
@@ -24,7 +24,7 @@ type Props = {
 };
 
 type State = {
-  accountOpen: boolean;
+  accountOpen: boolean,
   notificationsOpen: boolean,
   shake: boolean
 };
@@ -33,35 +33,35 @@ function AccountDropdownItems({ logout, onClose, username }) {
   return (
     <Dropdown.List>
       <Dropdown.ListItem>
-        <Link to='/users/me' onClick={onClose}>
-          <strong style={{ color: '#333' }}>{username}</strong>
-          <Icon name='user' />
+        <Link to="/users/me" onClick={onClose} style={{ color: '#333' }}>
+          <strong>{username}</strong>
+          <Icon name="contact" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.Divider />
       <Dropdown.ListItem>
-        <Link to='/users/me/settings' onClick={onClose}>
+        <Link to="/users/me/settings" onClick={onClose}>
           Innstillinger
-          <Icon name='cog' />
+          <Icon name="cog" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.ListItem>
-        <Link to='/users/me/settings' onClick={onClose}>
+        <Link to="/users/me/settings" onClick={onClose}>
           Abacash
-          <Icon name='money' />
+          <Icon name="card" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.ListItem>
-        <Link to='/meetings/' onClick={onClose}>
+        <Link to="/meetings/" onClick={onClose}>
           Møteinnkallinger
-          <Icon name='calendar' />
+          <Icon name="calendar" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.Divider />
       <Dropdown.ListItem>
         <a onClick={() => (logout(), onClose())}>
           Logg ut
-          <Icon name='sign-out' />
+          <Icon name="log-out" size={24} />
         </a>
       </Dropdown.ListItem>
     </Dropdown.List>
@@ -82,94 +82,101 @@ export default class Header extends Component {
 
     return (
       <header className={styles.header}>
-        <FancyNodesCanvas height={96} />
+        <FancyNodesCanvas height={300} />
         <div className={styles.content}>
-          <IndexLink to='/' className={styles.logo}>
-            <img src={logoImage} role='presentation' />
+          <IndexLink to="/" className={styles.logo}>
+            <img src={logoImage} alt="" />
           </IndexLink>
 
           <div className={styles.navigation}>
-            <Link to='/events' activeClassName={styles.activeItem}>Arrangementer</Link>
-            <Link to='/joblistings' activeClassName={styles.activeItem}>Karriere</Link>
+            <Link to="/events" activeClassName={styles.activeItem}>
+              Arrangementer
+            </Link>
+            <Link to="/joblistings" activeClassName={styles.activeItem}>
+              Karriere
+            </Link>
+            <Link to="/bdb" activeClassName={styles.activeItem}>BDB</Link>
             <Link
-              to='/readme'
+              to="/readme"
               activeClassName={styles.activeItem}
               className={styles.readmeLink}
             >
               readme
             </Link>
-            <Link to='/quotes' activeClassName={styles.activeItem}>Sitater</Link>
+            <Link to="/quotes" activeClassName={styles.activeItem}>
+              Sitater
+            </Link>
           </div>
 
           <div className={styles.buttonGroup}>
-            {loggedIn && (
+            {loggedIn &&
               <Dropdown
                 show={this.state.notificationsOpen}
-                toggle={() => this.setState({ notificationsOpen: !this.state.notificationsOpen })}
-                triggerComponent={(
-                  <Icon.Badge name='bell' badgeCount={1} />
-                )}
+                toggle={() =>
+                  this.setState({
+                    notificationsOpen: !this.state.notificationsOpen
+                  })}
+                triggerComponent={
+                  <Icon.Badge name="notifications" badgeCount={1} />
+                }
               >
                 <div style={{ padding: 15 }}>
                   <h2>Ingen nye varslinger</h2>
                 </div>
-              </Dropdown>
-            )}
+              </Dropdown>}
 
-            {loggedIn && (
+            {loggedIn &&
               <Dropdown
                 show={this.state.accountOpen}
-                toggle={() => this.setState({ accountOpen: !this.state.accountOpen })}
-                triggerComponent={(
+                toggle={() =>
+                  this.setState({ accountOpen: !this.state.accountOpen })}
+                triggerComponent={
                   <ProfilePicture
                     size={24}
                     user={this.props.currentUser}
                     style={{ verticalAlign: 'middle', marginTop: -8 }}
                   />
-                )}
+                }
               >
                 <AccountDropdownItems
                   onClose={() => this.setState({ accountOpen: false })}
                   username={this.props.currentUser.username}
                   logout={this.props.logout}
                 />
-              </Dropdown>
-            )}
+              </Dropdown>}
 
-            {!loggedIn && (
+            {!loggedIn &&
               <Dropdown
                 show={this.state.accountOpen}
-                toggle={() => this.setState({ accountOpen: !this.state.accountOpen, shake: false })}
+                toggle={() =>
+                  this.setState({
+                    accountOpen: !this.state.accountOpen,
+                    shake: false
+                  })}
                 contentClassName={this.state.shake && 'animated shake'}
-                triggerComponent={(
-                  <Icon name='user' />
-                )}
+                triggerComponent={<Icon name="contact" />}
               >
                 <div style={{ padding: 10 }}>
                   <LoginForm
                     login={(...creds) => {
                       this.setState({ shake: false });
-                      return this.props.login(...creds)
-                        .then(
-                          (res) => {
-                            this.setState({ shake: false, accountOpen: false });
-                            return res;
-                          },
-                          (error) => {
-                            this.setState({ shake: true });
-                            throw error;
-                          }
-                        );
+                      return this.props.login(...creds).then(
+                        res => {
+                          this.setState({ shake: false, accountOpen: false });
+                          return res;
+                        },
+                        error => {
+                          this.setState({ shake: true });
+                          throw error;
+                        }
+                      );
                     }}
                   />
                 </div>
-              </Dropdown>
-            )}
+              </Dropdown>}
 
-            <button
-              onClick={this.props.toggleSearch}
-            >
-              <Icon name='search' style={{ color: '#C24538' }} />
+            <button onClick={this.props.toggleSearch}>
+              <Icon name="search" style={{ color: '#C24538' }} />
             </button>
           </div>
 

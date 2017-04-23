@@ -9,37 +9,57 @@ type Props = {
   meta: string
 };
 
-const httpCheck = (link) => (link.startsWith('http://') ? link : `http://${link}`);
+const httpCheck = link => link.startsWith('http://') ? link : `http://${link}`;
 
-const noLinkIcon = (icon, bubbleClass, iconClass) => (
-  <div className={cx(styles.bubble, bubbleClass)}>
-    <Icon name={icon} className={cx(styles.icon, iconClass)} />
-  </div>
-);
-
-const withLinkIcon = (link, icon, bubbleClass, iconClass) => (
-  <a href={httpCheck(link)}>{noLinkIcon(icon, bubbleClass, iconClass)}</a>
-);
-
-const noLinkData = (dataClass, data, isMeta = false) => (
-  <span className={cx(isMeta ? styles.meta : styles.data, dataClass)}>{data || '-'}</span>
-);
-
-const withLinkData = (link, dataClass, data) => (
-  <a href={httpCheck(link)} style={{ margin: '0 auto' }}>{noLinkData(dataClass, data)}</a>
-);
-
-function InfoBubble({ icon, data, meta, className, bubbleClass, dataClass,
-  metaClass, iconClass, link, ...props }: Props) {
+const iconComponent = (icon, bubbleClass, iconClass, link = undefined) => {
+  if (link) {
+    return (
+      <div className={bubbleClass}>
+        <a href={httpCheck(link)} className={styles.iconLink}>
+          <Icon name={icon} className={iconClass} />
+        </a>
+      </div>
+    );
+  }
   return (
-    <div
-      className={cx(styles.infoBubble, className)}
-      {...props}
-    >
-      {link ? withLinkIcon(link, icon, bubbleClass, iconClass) :
-        noLinkIcon(icon, bubbleClass, iconClass)}
-      {link ? withLinkData(link, dataClass, data) : noLinkData(dataClass, data)}
-      {meta && noLinkData(metaClass, meta, true)}
+    <div className={bubbleClass}>
+      <Icon name={icon} className={iconClass} />
+    </div>
+  );
+};
+
+const dataComponent = (dataClass, data, link = undefined) => {
+  if (link) {
+    return (
+      <a href={httpCheck(link)}>
+        <span className={dataClass}>{data || '-'}</span>
+      </a>
+    );
+  }
+  return <span className={dataClass}>{data || '-'}</span>;
+};
+
+function InfoBubble(
+  {
+    icon,
+    data,
+    meta,
+    className,
+    small = false,
+    link,
+    ...props
+  }: Props
+) {
+  const bubbleClass = small ? styles.smallBubble : styles.bubble;
+  const iconClass = small ? styles.smallIcon : styles.icon;
+  const dataClass = small ? styles.smallData : styles.data;
+  const metaClass = small ? styles.smallMeta : styles.meta;
+
+  return (
+    <div className={cx(styles.infoBubble, className)} {...props}>
+      {iconComponent(icon, bubbleClass, iconClass, link)}
+      {dataComponent(dataClass, data, link)}
+      {meta && dataComponent(metaClass, meta)}
     </div>
   );
 }

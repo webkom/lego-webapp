@@ -1,3 +1,5 @@
+// @flow
+
 import 'animate.css/animate.css';
 import 'minireset.css/minireset.css';
 import 'app/styles/globals.css';
@@ -5,14 +7,19 @@ import 'app/styles/globals.css';
 import React, { Component } from 'react';
 import { Router } from 'react-router';
 import { Provider } from 'react-redux';
-import routes from 'app/routes';
+
+type Props = {
+  store: Object
+};
 
 export default class Root extends Component {
+  props: Props;
+
   render() {
-    const { store, history } = this.props;
+    const { store, ...props } = this.props;
     return (
       <Provider {...{ store }}>
-        <Router {...{ history, routes }} />
+        <Router {...props} />
       </Provider>
     );
   }

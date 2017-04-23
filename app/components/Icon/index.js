@@ -7,29 +7,27 @@ import styles from './Icon.css';
 type Props = {
   name: string,
   scaleOnHover?: boolean,
-  className?: string
+  className?: string,
+  size?: number,
+  style?: Object
 };
 
 /**
- * Render a Font-Awesome icon.
+ * Render an Icon
+ *
+ * http://ionicframework.com/docs/v2/ionicons/
  */
-function Icon({
-  name = 'star',
-  scaleOnHover = false,
-  className,
-  ...props
-}: Props) {
+function Icon(
+  {
+    name = 'star',
+    scaleOnHover = false,
+    className,
+    size,
+    ...props
+  }: Props
+) {
   return (
-    <i
-      className={cx(
-        'fa',
-        `fa-${name}`,
-        scaleOnHover && 'u-scale-on-hover',
-        styles.icon,
-        className
-      )}
-      {...props}
-    />
+    <i className={cx(`ion-ios-${name}`, styles.icon, className)} {...props} />
   );
 }
 

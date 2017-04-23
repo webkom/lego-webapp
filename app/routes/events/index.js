@@ -1,33 +1,35 @@
-import { loadRoute, loadingError } from 'app/routes';
+import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
-export default ({
+export default {
   path: 'events',
-  indexRoute: {
-    getComponent(location, cb) {
-      import('./EventListRoute')
-        .then(loadRoute(cb))
-        .catch(loadingError);
-    }
-  },
-  childRoutes: [{
-    path: 'calendar',
-    getComponent(location, cb) {
-      import('./CalendarRoute')
-        .then(loadRoute(cb))
-        .catch(loadingError);
+  indexRoute: resolveAsyncRoute(
+    () => import('./EventListRoute'),
+    () => require('./EventListRoute')
+  ),
+  childRoutes: [
+    {
+      path: 'calendar',
+      ...resolveAsyncRoute(
+        () => import('./CalendarRoute'),
+        () => require('./CalendarRoute')
+      ),
+      childRoutes: [
+        {
+          path: ':year',
+          childRoutes: [
+            {
+              path: ':month'
+            }
+          ]
+        }
+      ]
     },
-    childRoutes: [{
-      path: ':year',
-      childRoutes: [{
-        path: ':month'
-      }]
-    }]
-  }, {
-    path: ':eventId',
-    getComponent(location, cb) {
-      import('./EventDetailRoute')
-        .then(loadRoute(cb))
-        .catch(loadingError);
+    {
+      path: ':eventId',
+      ...resolveAsyncRoute(
+        () => import('./EventDetailRoute'),
+        () => require('./EventDetailRoute')
+      )
     }
-  }]
-});
+  ]
+};

@@ -1,16 +1,10 @@
 pipeline:
   tests:
-    image: node:6
+    image: node:7-alpine
     when:
       event: push
-    environment:
-      - API_URL=https://lego.abakus.no/api/v1
-      - WS_URL=wss://ws.abakus.no
-      - BASE_URL=https://lego.abakus.no
     commands:
-      - npm install -g yarn
       - yarn
-      - yarn run build:dll
       - yarn test
       - yarn run lint
       - yarn run build
@@ -18,8 +12,26 @@ pipeline:
   docker:
     image: plugins/docker
     when:
-      branch: master
-      event: push
+      branch:
+        - prod
     registry: https://registry.abakus.no
-    repo: registry.abakus.no/webkom/lego/lego-webapp
-    tag: latest
+    repo: registry.abakus.no/webkom/lego-webapp
+    tags:
+      - latest
+      - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+    build_args:
+      - API_URL=${API_URL}
+      - WS_URL=${WS_URL}
+      - BASE_URL=${BASE_URL}
+      - CAPTCHA_KEY=${CAPTCHA_KEY}
+
+  deploy:
+    image: quay.io/ipedrazas/drone-helm
+    when:
+      branch:
+        - prod
+    skip_tls_verify: true
+    chart: ./charts/lego-webapp
+    release: lego-webapp-prod
+    namespace: lego-prod
+    values: backend.image.tag=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}

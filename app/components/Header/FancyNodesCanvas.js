@@ -17,20 +17,26 @@ class FancyNodesCanvas extends Component {
   };
 
   state = {
-    width: window.innerWidth
+    width: 0
   };
 
   _canvas: any;
 
-  handleResize = debounce((e: any) => {
-    this.setState({
-      width: e.target.innerWidth
-    }, () => this.drawGraphics());
-  }, 70);
+  handleResize = debounce(
+    (e: any) => {
+      this.setState(
+        {
+          width: e.target.innerWidth
+        },
+        () => this.drawGraphics()
+      );
+    },
+    70
+  );
 
   componentDidMount() {
-    window.addEventListener('resize', this.handleResize);
-    this.drawGraphics();
+    this.setState({ width: global.innerWidth }, () => this.drawGraphics());
+    global.addEventListener('resize', this.handleResize);
   }
 
   drawGraphics() {
@@ -42,13 +48,15 @@ class FancyNodesCanvas extends Component {
   }
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
+    global.removeEventListener('resize', this.handleResize);
   }
 
   render() {
     return (
       <canvas
-        ref={(ref) => { this._canvas = ref; }}
+        ref={ref => {
+          this._canvas = ref;
+        }}
         className={styles.root}
         width={this.state.width}
         height={this.props.height}

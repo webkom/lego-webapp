@@ -21,7 +21,7 @@ class Image extends Component {
 
   componentDidMount() {
     this._isMounted = true;
-    const image = new window.Image();
+    const image = new global.Image();
     image.src = this.props.src;
     image.onload = () => this._isMounted && this.setState({ loaded: true });
   }

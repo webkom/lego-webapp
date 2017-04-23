@@ -1,12 +1,9 @@
-import { loadRoute, loadingError } from 'app/routes';
+import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
-export default ({
+export default {
   path: 'search',
-  indexRoute: {
-    getComponent(location, cb) {
-      import('./SearchRoute')
-        .then(loadRoute(cb))
-        .catch(loadingError);
-    }
-  }
-});
+  indexRoute: resolveAsyncRoute(
+    () => import('./SearchRoute'),
+    () => require('./SearchRoute')
+  )
+};

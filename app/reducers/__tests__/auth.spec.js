@@ -41,7 +41,7 @@ describe('reducers', () => {
         }
       };
       expect(auth(prevState, action)).toEqual({
-        username: action.payload.user.username,
+        username: null,
         token: action.payload.token,
         loginFailed: false,
         loggingIn: false

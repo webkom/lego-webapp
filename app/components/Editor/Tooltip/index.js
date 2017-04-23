@@ -6,33 +6,31 @@ import { Inline, Blocks } from '../constants';
 import styles from './Tooltip.css';
 
 export type Props = {
- editorState: object,
- disableBlocks: boolean,
- setInlineStyle: (String) => void,
- setBlockType: (String) => void,
- wrapperElement: object
+  editorState: object,
+  disableBlocks: boolean,
+  setInlineStyle: (String) => void,
+  setBlockType: (String) => void,
+  wrapperElement: object
 };
 
-
 export default class Tooltip extends Component {
-
   state = {
     menu: null
-  }
+  };
 
-  props: Props
+  props: Props;
 
   componentDidMount = () => {
     this.updateMenu();
-  }
+  };
 
   componentDidUpdate = () => {
     this.updateMenu();
-  }
+  };
 
-  onOpen = (portal) => {
+  onOpen = portal => {
     this.setState({ menu: portal.firstChild });
-  }
+  };
 
   updateMenu = () => {
     const { editorState } = this.props;
@@ -45,26 +43,26 @@ export default class Tooltip extends Component {
       return;
     }
 
-    const selection = window.getSelection();
+    const selection = global.getSelection();
     if (!selection.rangeCount) return;
 
     const range = selection.getRangeAt(0);
 
     const rect = range.getBoundingClientRect();
     menu.style.display = 'initial';
-    menu.style.top = `${rect.top + window.scrollY - menu.offsetHeight}px`;
-    menu.style.left = `${rect.left + window.scrollX - menu.offsetWidth / 2 + rect.width / 2}px`;
-  }
+    menu.style.top = `${rect.top + global.scrollY - menu.offsetHeight}px`;
+    menu.style.left = `${rect.left + global.scrollX - menu.offsetWidth / 2 + rect.width / 2}px`;
+  };
 
-  hasStyle = (type) => {
+  hasStyle = type => {
     const { editorState } = this.props;
-    return editorState.marks.some((mark) => mark.type === type);
-  }
+    return editorState.marks.some(mark => mark.type === type);
+  };
 
-  hasBlock = (type) => {
+  hasBlock = type => {
     const { editorState } = this.props;
-    return editorState.blocks.some((node) => node.type === type);
-  }
+    return editorState.blocks.some(node => node.type === type);
+  };
 
   render() {
     const { setInlineStyle, setBlockType } = this.props;
@@ -72,26 +70,32 @@ export default class Tooltip extends Component {
     return (
       <Portal isOpened onOpen={this.onOpen}>
         <div className={styles.tooltip}>
-          {
-            [Inline.Bold, Inline.Italic, Inline.Underline, Inline.Code, Inline.Striketrough]
-            .map((type) => (
-              <TooltipButton
-                key={type}
-                type={type}
-                icon={type}
-                isActive={this.hasStyle(type)}
-                onClick={setInlineStyle}
-              />
-            ))
-          }
-          {
-            !this.props.disableBlocks &&
-            <span className={styles.tooltipSeperator} />
-          }
-          {
-            !this.props.disableBlocks &&
-            [Blocks.H1, Blocks.H2, Blocks.Blockquote, Blocks.Cite, Blocks.UL, Blocks.OL]
-            .map((type) => (
+          {[
+            Inline.Bold,
+            Inline.Italic,
+            Inline.Underline,
+            Inline.Code,
+            Inline.Striketrough
+          ].map(type => (
+            <TooltipButton
+              key={type}
+              type={type}
+              icon={type}
+              isActive={this.hasStyle(type)}
+              onClick={setInlineStyle}
+            />
+          ))}
+          {!this.props.disableBlocks &&
+            <span className={styles.tooltipSeperator} />}
+          {!this.props.disableBlocks &&
+            [
+              Blocks.H1,
+              Blocks.H2,
+              Blocks.Blockquote,
+              Blocks.Cite,
+              Blocks.UL,
+              Blocks.OL
+            ].map(type => (
               <TooltipButton
                 key={type}
                 type={type}
@@ -99,8 +103,7 @@ export default class Tooltip extends Component {
                 isActive={this.hasBlock(type)}
                 onClick={setBlockType}
               />
-            ))
-          }
+            ))}
         </div>
       </Portal>
     );

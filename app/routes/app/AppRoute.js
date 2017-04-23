@@ -2,43 +2,29 @@
 
 import styles from './AppRoute.css';
 import React, { Component } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { dispatched } from 'react-prepare';
 import Helmet from 'react-helmet';
-import { loginAutomaticallyIfPossible, logout, login } from 'app/actions/UserActions';
+import {
+  loginAutomaticallyIfPossible,
+  logout,
+  login
+} from 'app/actions/UserActions';
 import { toggleSearch } from 'app/actions/SearchActions';
 import Header from 'app/components/Header';
 import Footer from 'app/components/Footer';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import NotificationContainer from 'app/components/NotificationContainer';
 import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 
 class App extends Component {
-  state = {
-    ready: false
-  };
-
-  componentDidMount() {
-    this.props.loginAutomaticallyIfPossible()
-      .then(
-        () => this.setState({ ready: true }),
-        () => this.setState({ ready: true })
-      );
-  }
-
   render() {
-    if (!this.state.ready) {
-      return <LoadingIndicator loading />;
-    }
-
     return (
       <div
-        style={this.props.searchOpen ? { WebkitFilter: 'blur(10px)' } : null}
+        style={this.props.searchOpen ? { WebkitFilter: 'blur(40px)' } : null}
         className={styles.AppRoute}
       >
-        <Helmet
-          defaultTitle='Abakus.no'
-          titleTemplate='%s | Abakus.no'
-        />
+        <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no" />
 
         <Header
           searchOpen={this.props.searchOpen}
@@ -72,13 +58,15 @@ function mapStateToProps(state) {
 }
 
 const mapDispatchToProps = {
-  loginAutomaticallyIfPossible,
   toggleSearch,
   logout,
   login
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default compose(
+  dispatched((props, dispatch) => dispatch(loginAutomaticallyIfPossible()), {
+    componentDidMount: false,
+    componentWillReceiveProps: false
+  }),
+  connect(mapStateToProps, mapDispatchToProps)
 )(App);

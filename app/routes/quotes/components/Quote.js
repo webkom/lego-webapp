@@ -19,7 +19,7 @@ export default class Quote extends Component {
       <li className={styles.singleQuote}>
         <div className={styles.leftQuote}>
           <i
-            className='fa fa-quote-right'
+            className="fa fa-quote-right"
             style={{
               fontSize: '100px',
               color: '#dbdbdb',
@@ -34,21 +34,6 @@ export default class Quote extends Component {
 
         </div>
 
-        <div className={styles.rightQuote}>
-          <a
-            className={`${quote.hasLiked ? 'quote-unlikes' : 'quote-likes'}`}
-            onClick={() => (quote.hasLiked ? unlike(quote.id) : like(quote.id))}
-          >
-            <i
-              className={`fa fa-thumbs-up ${quote.hasLiked ? styles.quoteLiked :
-                styles.quoteDefault}`}
-              style={{ paddingTop: '5px', fontSize: '35px', order: '0' }}
-            />
-          </a>
-          <br />
-
-          <span className={styles.likeCount}> {quote.likes}</span>
-        </div>
         <div className={styles.quoteBottom}>
 
           <span className={styles.quoteSource}>
@@ -59,19 +44,23 @@ export default class Quote extends Component {
             {<Time time={quote.createdAt} wordsAgo />}
           </div>
 
-          {quote.permissions && quote.permissions.indexOf('can_approve') !== -1 && (
-          <div className={styles.quoteAdmin}>
-            <a
-              className='approveQuote'
-              onClick={() => (quote.approved ? unapprove(quote.id) :
-                approve(quote.id))}
-            > {(quote.approved ? 'Fjern Godkjenning' : 'Godkjenn')}</a>
-            <a
-              className={styles.deleteQuote}
-              onClick={() => deleteQuote(quote.id)}
-            >Slett</a>
-          </div>
-          )}
+          {quote.permissions &&
+            quote.permissions.indexOf('can_approve') !== -1 &&
+            <div className={styles.quoteAdmin}>
+              <a
+                className="approveQuote"
+                onClick={() =>
+                  quote.approved ? unapprove(quote.id) : approve(quote.id)}
+              >
+                {' '}{quote.approved ? 'Fjern Godkjenning' : 'Godkjenn'}
+              </a>
+              <a
+                className={styles.deleteQuote}
+                onClick={() => deleteQuote(quote.id)}
+              >
+                Slett
+              </a>
+            </div>}
         </div>
       </li>
     );

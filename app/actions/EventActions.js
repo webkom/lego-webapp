@@ -1,4 +1,3 @@
-import { arrayOf } from 'normalizr';
 import { eventSchema } from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import callAPI from 'app/actions/callAPI';
@@ -23,7 +22,7 @@ export function fetchAll({ dateAfter, dateBefore } = {}) {
       date_after: dateAfter,
       date_before: dateBefore
     })}`,
-    schema: arrayOf(eventSchema),
+    schema: [eventSchema],
     meta: {
       errorMessage: 'Fetching events failed'
     }
@@ -63,7 +62,7 @@ export function payment(eventId, token) {
     endpoint: `/events/${eventId}/payment/`,
     method: 'post',
     body: {
-      token,
+      token
     },
     meta: {
       errorMessage: 'Payment failed'
@@ -72,17 +71,19 @@ export function payment(eventId, token) {
 }
 
 export function updateFeedback(eventId, registrationId, feedback) {
-  return (dispatch) => {
-    dispatch(callAPI({
-      types: Event.UPDATE_REGISTRATION,
-      endpoint: `/events/${eventId}/registrations/${registrationId}/`,
-      method: 'put',
-      body: {
-        feedback
-      },
-      meta: {
-        errorMessage: 'Feedback update failed'
-      }
-    })).then(() => dispatch(addNotification({ message: 'Feedback updated' })));
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: Event.UPDATE_REGISTRATION,
+        endpoint: `/events/${eventId}/registrations/${registrationId}/`,
+        method: 'put',
+        body: {
+          feedback
+        },
+        meta: {
+          errorMessage: 'Feedback update failed'
+        }
+      })
+    ).then(() => dispatch(addNotification({ message: 'Feedback updated' })));
   };
 }

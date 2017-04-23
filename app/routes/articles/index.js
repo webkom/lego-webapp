@@ -1,34 +1,32 @@
-import { loadRoute, loadingError } from 'app/routes';
+import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
   path: 'articles',
-  indexRoute: {
-    getComponent(location, cb) {
-      import('./ArticleListRoute')
-        .then(loadRoute(cb))
-        .catch(loadingError);
+  indexRoute: resolveAsyncRoute(
+    () => import('./ArticleListRoute'),
+    () => require('./ArticleListRoute')
+  ),
+  childRoutes: [
+    {
+      path: 'new',
+      ...resolveAsyncRoute(
+        () => import('./ArticleCreateRoute'),
+        () => require('./ArticleCreateRoute')
+      )
+    },
+    {
+      path: ':articleId',
+      ...resolveAsyncRoute(
+        () => import('./ArticleDetailRoute'),
+        () => require('./ArticleDetailRoute')
+      )
+    },
+    {
+      path: ':articleId/edit',
+      ...resolveAsyncRoute(
+        () => import('./ArticleEditRoute'),
+        () => require('./ArticleEditRoute')
+      )
     }
-  },
-  childRoutes: [{
-    path: 'new',
-    getComponent(location, cb) {
-      import('./ArticleCreateRoute')
-        .then(loadRoute(cb))
-        .catch(loadingError);
-    }
-  }, {
-    path: ':articleId',
-    getComponent(location, cb) {
-      import('./ArticleDetailRoute')
-        .then(loadRoute(cb))
-        .catch(loadingError);
-    }
-  }, {
-    path: ':articleId/edit',
-    getComponent(location, cb) {
-      import('./ArticleEditRoute')
-        .then(loadRoute(cb))
-        .catch(loadingError);
-    }
-  }]
+  ]
 };
