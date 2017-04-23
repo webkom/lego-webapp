@@ -20,8 +20,8 @@ const Keyboard = {
 
 const quickLinks = [['', 'Interessegrupper'], ['', 'Butikk'], ['', 'Kontakt']];
 
-const SearchResultItem = ({ result, isSelected }) => (
-  <Link to={result.link}>
+const SearchResultItem = ({ result, isSelected, onCloseSearch }) => (
+  <Link to={result.link} onClick={onCloseSearch}>
     <li className={cx(isSelected && styles.isSelected)}>
       {result.icon &&
         <Icon className={styles.searchResultItemIcon} name={result.icon} />}
@@ -78,13 +78,10 @@ class Search extends Component {
 
       case Keyboard.ENTER:
         e.preventDefault();
-        console.log(this.state);
-        console.log(this.props);
         if (this.state.selectedIndex === 0) {
           this.props.openSearchRoute(this.state.query);
         } else {
           const result = this.props.results[this.state.selectedIndex - 1];
-          console.log(result);
           this.props.push(result.link);
         }
         this.props.onCloseSearch();
@@ -132,6 +129,7 @@ class Search extends Component {
                 <SearchResultItem
                   key={i}
                   result={result}
+                  onCloseSearch={onCloseSearch}
                   isSelected={i === this.state.selectedIndex - 1}
                 />
               ))}

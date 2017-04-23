@@ -14,8 +14,8 @@ const searchMapping = {
     title: 'fullName',
     color: '#A1C34A',
     path: '/users/',
-    param: 'id',
-    picture: 'picture'
+    param: 'username',
+    profilePicture: 'profilePicture'
   },
   'articles.article': {
     icon: 'newspaper-o',
@@ -36,11 +36,11 @@ const searchMapping = {
     content: 'description'
   },
   'flatpages.page': {
-    icon: 'file-text',
+    profilePicture: 'picture',
     title: 'title',
     color: '#E8953A',
     path: '/pages/',
-    param: 'slugField',
+    param: 'slug',
     content: 'content'
   }
 };
@@ -48,11 +48,11 @@ const searchMapping = {
 export default function search(state = initialState, action) {
   switch (action.type) {
     case Search.SEARCH.BEGIN:
-      return ({
+      return {
         ...state,
         query: action.meta.query,
         searching: true
-      });
+      };
 
     case Search.AUTOCOMPLETE.BEGIN:
       return {
@@ -107,11 +107,11 @@ export default function search(state = initialState, action) {
   }
 }
 
-const transformResult = (result) => {
+const transformResult = result => {
   const fields = searchMapping[result.contentType];
   const item = {};
 
-  Object.keys(fields).forEach((field) => {
+  Object.keys(fields).forEach(field => {
     item[field] = result[fields[field]] || fields[field];
   });
 
@@ -121,11 +121,11 @@ const transformResult = (result) => {
 };
 
 export const selectAutocomplete = createSelector(
-  (state) => state.search.autocomplete,
-  (autocomplete) => autocomplete.map((result) => transformResult(result))
+  state => state.search.autocomplete,
+  autocomplete => autocomplete.map(result => transformResult(result))
 );
 
 export const selectResult = createSelector(
-  (state) => state.search.results,
-  (results) => results.map((result) => transformResult(result))
+  state => state.search.results,
+  results => results.map(result => transformResult(result))
 );
