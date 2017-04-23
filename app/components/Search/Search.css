@@ -46,8 +46,7 @@
 }
 
 .searchResultItemIcon {
-  font-size: 24px;
-  padding: 2px;
+  font-size: 40px;
   margin-right: 10px;
 }
 
@@ -103,7 +102,9 @@
 .results li {
   border-bottom: 1px solid #ddd;
   padding: 0.5rem;
+  height: 64px;
   display: flex;
+  align-items: center;
 }
 
 .isSelected {
