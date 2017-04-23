@@ -6,16 +6,15 @@ import { FlexRow } from 'app/components/FlexBox';
 import Editor from 'app/components/Editor';
 import { Link } from 'react-router';
 
-
 /**
  *
  */
 export type Props = {
-  article: Object;
-  comments: Array;
-  loggedIn: boolean;
-  isUserInterested: boolean;
-  currentUser: any;
+  article: Object,
+  comments: Array,
+  loggedIn: boolean,
+  isUserInterested: boolean,
+  currentUser: any
 };
 
 /**
@@ -34,32 +33,29 @@ export default class ArticleDetail extends Component {
     return (
       <div className={styles.root}>
         <div className={styles.coverImage}>
-          <img src='https://www.gochile.cl/fotos/overview-full/2348-img_8707.jpg' />
+          <img
+            src="https://www.gochile.cl/fotos/overview-full/2348-img_8707.jpg"
+          />
           <div className={styles.coverImageOverlay} />
         </div>
 
-        <FlexRow alignItems='center' justifyContent='space-between'>
+        <FlexRow alignItems="center" justifyContent="space-between">
           <h2>{article.title}</h2>
-          {
-            article.actionGrant.includes('update') &&
+          {article.actionGrant.includes('update') &&
             <span>
               <Link to={`/articles/${article.id}/edit`}>Edit</Link>
-            </span>
-          }
+            </span>}
         </FlexRow>
 
-        <Editor
-          readOnly
-          value={article.content}
-        />
-
-        <CommentView
-          formEnabled
-          user={currentUser}
-          commentTarget={article.commentTarget}
-          loggedIn={loggedIn}
-          comments={comments}
-        />
+        <Editor readOnly value={article.content} />
+        {article.commentTarget &&
+          <CommentView
+            formEnabled
+            user={currentUser}
+            commentTarget={article.commentTarget}
+            loggedIn={loggedIn}
+            comments={comments}
+          />}
       </div>
     );
   }
