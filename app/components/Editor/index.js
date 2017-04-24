@@ -8,7 +8,6 @@ import Tooltip from './Tooltip';
 import styles from './Editor.css';
 import { Blocks } from './constants';
 
-
 const html = new Html({ rules });
 
 export type Props = {
@@ -17,6 +16,7 @@ export type Props = {
   autoFocus?: boolean,
   placeholder?: string,
   onChange?: func,
+  isPublic?: boolean,
   onFocus?: func,
   onBlur?: func,
   disableBlocks?: boolean,
@@ -24,7 +24,6 @@ export type Props = {
 };
 
 export default class CustomEditor extends Component {
-
   props: Props;
 
   wrapperElement = undefined;
@@ -34,7 +33,9 @@ export default class CustomEditor extends Component {
   constructor(props) {
     super(props);
     if (!props.value) {
-      throw Error('You must pass an initial value to the editor. You can pass "<p></p>" if there is no content.');
+      throw Error(
+        'You must pass an initial value to the editor. You can pass "<p></p>" if there is no content.'
+      );
     }
     this.state = {
       editorState: html.deserialize(props.value),
@@ -43,7 +44,7 @@ export default class CustomEditor extends Component {
     this.lastSerializedState = props.value;
   }
 
-  onChange = (editorState) => {
+  onChange = editorState => {
     if (this.props.readOnly) {
       return;
     }
@@ -59,28 +60,28 @@ export default class CustomEditor extends Component {
     }
 
     this.setState({ editorState, focus });
-  }
+  };
 
   onFocus = () => {
     if (this.props.onFocus) {
       this.props.onFocus();
     }
-  }
+  };
 
   onBlur = () => {
     if (this.props.onBlur) {
       this.props.onBlur();
     }
-  }
+  };
 
-  componentWillReceiveProps = (newProps) => {
+  componentWillReceiveProps = newProps => {
     if (newProps.value !== this.lastSerializedState) {
       this.setState({
         editorState: html.deserialize(newProps.value)
       });
       this.lastSerializedState = newProps.value;
     }
-  }
+  };
 
   onDocumentChange = (document, state) => {
     const content = html.serialize(state);
@@ -93,9 +94,9 @@ export default class CustomEditor extends Component {
       const transformed = insertParagraph(state);
       this.onChange(transformed);
     }
-  }
+  };
 
-  insertBlock = (properties) => {
+  insertBlock = properties => {
     if (this.props.disableBlocks) {
       return;
     }
@@ -110,14 +111,14 @@ export default class CustomEditor extends Component {
     );
 
     this.onChange(transformed);
-  }
+  };
 
-  hasBlock = (type) => {
+  hasBlock = type => {
     const { editorState } = this.state;
-    return editorState.blocks.some((node) => node.type === type);
-  }
+    return editorState.blocks.some(node => node.type === type);
+  };
 
-  setBlockType = (type) => {
+  setBlockType = type => {
     if (this.props.disableBlocks) {
       return;
     }
@@ -136,27 +137,27 @@ export default class CustomEditor extends Component {
         transfrom.setBlock(isActive ? Blocks.Paragraph : type);
       }
     } else {
-      const isType = editorState.blocks
-        .some((block) => !!editorState.document.getClosest(block.key, (par) => par.type === type));
+      const isType = editorState.blocks.some(
+        block =>
+          !!editorState.document.getClosest(block.key, par => par.type === type)
+      );
 
       if (isList && isType) {
         transfrom
-            .setBlock(Blocks.Paragraph)
-            .unwrapBlock(Blocks.UL)
-            .unwrapBlock(Blocks.OL);
+          .setBlock(Blocks.Paragraph)
+          .unwrapBlock(Blocks.UL)
+          .unwrapBlock(Blocks.OL);
       } else if (isList) {
         transfrom
           .unwrapBlock(type === Blocks.UL ? Blocks.OL : Blocks.UL)
           .wrapBlock(type);
       } else {
-        transfrom
-          .setBlock(Blocks.LI)
-          .wrapBlock(type);
+        transfrom.setBlock(Blocks.LI).wrapBlock(type);
       }
     }
 
     this.onChange(transfrom.apply({ save: false }));
-  }
+  };
 
   setBlockData = (key, data) => {
     const { editorState } = this.state;
@@ -167,9 +168,9 @@ export default class CustomEditor extends Component {
       .apply({ save: false });
 
     this.onChange(transformed);
-  }
+  };
 
-  setInlineStyle = (type) => {
+  setInlineStyle = type => {
     const { editorState } = this.state;
 
     const transformed = editorState
@@ -178,13 +179,16 @@ export default class CustomEditor extends Component {
       .apply({ save: false });
 
     this.onChange(transformed);
-  }
+  };
 
   render = () => {
     const { editorState } = this.state;
+    console.log(this.props);
     return (
       <div
-        ref={(c) => { this.wrapperElement = c; }}
+        ref={c => {
+          this.wrapperElement = c;
+        }}
         className={styles.EditorWrapper}
       >
         <Editor
@@ -198,27 +202,25 @@ export default class CustomEditor extends Component {
           className={styles.Editor}
         />
 
-        {
-          !this.props.disableBlocks && !this.props.readOnly &&
+        {!this.props.disableBlocks &&
+          !this.props.readOnly &&
           <Toolbar
             editorState={editorState}
             insertBlock={this.insertBlock}
             wrapperElement={this.wrapperElement}
             uploadFile={this.props.uploadFile}
+            isPublic
             setBlockData={this.setBlockData}
-          />
-        }
-        {
-          !this.props.readOnly &&
+          />}
+        {!this.props.readOnly &&
           <Tooltip
             disableBlocks={this.props.disableBlocks}
             setBlockType={this.setBlockType}
             setInlineStyle={this.setInlineStyle}
             editorState={editorState}
             wrapperElement={this.wrapperElement}
-          />
-        }
+          />}
       </div>
     );
-  }
+  };
 }

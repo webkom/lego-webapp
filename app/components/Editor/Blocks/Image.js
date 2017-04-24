@@ -19,16 +19,15 @@ const tooltipButtons = [
 ];
 
 export default class ImageBlock extends Component {
-
   state = {
     fileKey: null,
     uploading: false,
     error: false
-  }
+  };
 
   componentDidMount = () => {
     this.uploadImage();
-  }
+  };
 
   uploadImage = () => {
     const { node } = this.props;
@@ -43,7 +42,8 @@ export default class ImageBlock extends Component {
       uploading: true
     });
 
-    data.uploadFile(data.image)
+    data
+      .uploadFile({ file: data.image, isPublic: data.isPublic })
       .then(({ meta }) => {
         this.setState({
           ...this.state,
@@ -62,14 +62,14 @@ export default class ImageBlock extends Component {
           error: true
         });
       });
-  }
+  };
 
-  retry = (e) => {
+  retry = e => {
     e.preventDefault();
     this.uploadImage();
-  }
+  };
 
-  setBlockType = (blockLayout) => {
+  setBlockType = blockLayout => {
     const { node } = this.props;
     const { data, key } = node.toJS();
 
@@ -77,7 +77,7 @@ export default class ImageBlock extends Component {
       ...data,
       blockLayout
     });
-  }
+  };
 
   render() {
     const { node, state, attributes } = this.props;
@@ -95,13 +95,14 @@ export default class ImageBlock extends Component {
       >
         {uploading && <div className={styles.loader} />}
 
-        {isFocused && !uploading &&
+        {isFocused &&
+          !uploading &&
           <div className={styles.tooltip}>
-            {tooltipButtons.map((button) =>
+            {tooltipButtons.map(button => (
               <span
                 key={button.blockLayout}
                 className={styles.tooltipButton}
-                onMouseDown={(e) => {
+                onMouseDown={e => {
                   e.stopPropagation();
                   e.preventDefault();
                   this.setBlockType(button.blockLayout);
@@ -110,14 +111,14 @@ export default class ImageBlock extends Component {
                 <Icon
                   className={cx(
                     styles.tooltipIcon,
-                    button.blockLayout === data.blockLayout && styles.activeTooltipIcon
+                    button.blockLayout === data.blockLayout &&
+                      styles.activeTooltipIcon
                   )}
                   name={button.icon}
                 />
               </span>
-            )}
-          </div>
-        }
+            ))}
+          </div>}
 
         <img
           src={data.src}
@@ -125,19 +126,21 @@ export default class ImageBlock extends Component {
           className={styles.image}
           style={style}
         />
-        {(!uploading && error) &&
+        {!uploading &&
+          error &&
           <div className={styles.overlay}>
             <span>
               There was an error uploading the image:
               <br />
               {error}
               <br />
-              <b><a onClick={this.retry}>
-                Retry?
-              </a></b>
+              <b>
+                <a onClick={this.retry}>
+                  Retry?
+                </a>
+              </b>
             </span>
-          </div>
-        }
+          </div>}
       </div>
     );
   }

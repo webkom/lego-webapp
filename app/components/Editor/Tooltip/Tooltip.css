@@ -1,16 +1,18 @@
 /* stylelint-disable shorthand-property-no-redundant-values */
+@import 'app/styles/variables.css';
+
 .tooltip {
-  background: #eff1f4;
+  background: var(--color-black);
   text-transform: uppercase;
   margin: 2px 0;
   padding: 6px 12px;
   font-size: 18px;
-  color: #333;
+  color: var(--color-white);
   outline: none;
   display: inline-block;
-  border: 1px solid #ccc;
   letter-spacing: 1px;
-  border-radius: 999em;
+  border-radius: 5px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
   position: absolute;
   z-index: 500;
 }
@@ -21,7 +23,7 @@
   width: 1px;
   margin: 5px 6px 0 6px;
   height: 32px;
-  background: rgba(5, 5, 5, 0.9);
+  background: var(--color-white);
 }
 
 .tooltipButton {
@@ -30,12 +32,8 @@
   vertical-align: -webkit-baseline-middle;
 }
 
-.activeTooltipButton {
-  border: 1px dotted gray;
-}
-
-.activeTooltipButton > i {
-  color: #C24538;
+.activeTooltipButton > span {
+  color: var(--color-red-5);
 }
 
 input.urlInput {

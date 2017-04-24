@@ -71,16 +71,16 @@ export default class Tooltip extends Component {
       <Portal isOpened onOpen={this.onOpen}>
         <div className={styles.tooltip}>
           {[
-            Inline.Bold,
-            Inline.Italic,
-            Inline.Underline,
-            Inline.Code,
-            Inline.Striketrough
-          ].map(type => (
+            { type: Inline.Bold, icon: 'bold' },
+            { type: Inline.Italic, icon: 'underline' },
+            { type: Inline.Underline, icon: 'italic' },
+            { type: Inline.Code, icon: 'embed2' },
+            { type: Inline.Striketroug, icon: 'strikethrough' }
+          ].map(({ type, icon }) => (
             <TooltipButton
               key={type}
               type={type}
-              icon={type}
+              icon={icon}
               isActive={this.hasStyle(type)}
               onClick={setInlineStyle}
             />
@@ -89,17 +89,17 @@ export default class Tooltip extends Component {
             <span className={styles.tooltipSeperator} />}
           {!this.props.disableBlocks &&
             [
-              Blocks.H1,
-              Blocks.H2,
-              Blocks.Blockquote,
-              Blocks.Cite,
-              Blocks.UL,
-              Blocks.OL
-            ].map(type => (
+              { type: Blocks.H1, icon: 'font' },
+              { type: Blocks.H2, icon: 'text-color' },
+              { type: Blocks.Blockquote, icon: 'quotes-left' },
+              { type: Blocks.Cite, icon: 'quotes-right' },
+              { type: Blocks.UL, icon: 'list' },
+              { type: Blocks.O, icon: 'list-numbered' }
+            ].map(({ type, icon }) => (
               <TooltipButton
                 key={type}
                 type={type}
-                icon={type}
+                icon={icon}
                 isActive={this.hasBlock(type)}
                 onClick={setBlockType}
               />

@@ -1,5 +1,9 @@
 .EditorWrapper {
   position: relative;
+  background: white;
+  margin: 10px 0px;
+  padding: 20px 0px;
+  border-radius: 5px;
 }
 
 .Editor {
