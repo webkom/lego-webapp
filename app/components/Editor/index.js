@@ -8,33 +8,46 @@ import Tooltip from './Tooltip';
 import styles from './Editor.css';
 import { Blocks } from './constants';
 
-
 const html = new Html({ rules });
 
 export type Props = {
   content?: string,
   uploadFile?: (Object) => void,
-  simple?: boolean,
   autoFocus?: boolean,
   placeholder?: string,
   onChange?: func,
+  isPublic?: boolean,
   onFocus?: func,
   onBlur?: func,
-  disableBlocks: boolean
+  disableBlocks?: boolean,
+  readOnly?: boolean
 };
 
 export default class CustomEditor extends Component {
-
   props: Props;
-
-  state = {
-    editorState: html.deserialize(this.content || '<p></p>'),
-    focus: false
-  };
 
   wrapperElement = undefined;
 
-  onChange = (editorState) => {
+  lastSerializedState = undefined;
+
+  constructor(props) {
+    super(props);
+    if (!props.value) {
+      throw Error(
+        'You must pass an initial value to the editor. You can pass "<p></p>" if there is no content.'
+      );
+    }
+    this.state = {
+      editorState: html.deserialize(props.value),
+      focus: false
+    };
+    this.lastSerializedState = props.value;
+  }
+
+  onChange = editorState => {
+    if (this.props.readOnly) {
+      return;
+    }
     const hasFocus = !editorState.isBlurred;
     let focus = this.state.focus;
 
@@ -47,27 +60,43 @@ export default class CustomEditor extends Component {
     }
 
     this.setState({ editorState, focus });
-  }
+  };
 
   onFocus = () => {
-    this.props.onFocus();
-  }
+    if (this.props.onFocus) {
+      this.props.onFocus();
+    }
+  };
 
   onBlur = () => {
-    this.props.onBlur();
-  }
+    if (this.props.onBlur) {
+      this.props.onBlur();
+    }
+  };
+
+  componentWillReceiveProps = newProps => {
+    if (newProps.value !== this.lastSerializedState) {
+      this.setState({
+        editorState: html.deserialize(newProps.value)
+      });
+      this.lastSerializedState = newProps.value;
+    }
+  };
 
   onDocumentChange = (document, state) => {
     const content = html.serialize(state);
-    this.props.onChange(content);
+    if (this.props.onChange) {
+      this.props.onChange(content);
+      this.lastSerializedState = content;
+    }
 
     if (state.isCollapsed && state.startBlock.isVoid) {
       const transformed = insertParagraph(state);
       this.onChange(transformed);
     }
-  }
+  };
 
-  insertBlock = (properties) => {
+  insertBlock = properties => {
     if (this.props.disableBlocks) {
       return;
     }
@@ -82,14 +111,14 @@ export default class CustomEditor extends Component {
     );
 
     this.onChange(transformed);
-  }
+  };
 
-  hasBlock = (type) => {
+  hasBlock = type => {
     const { editorState } = this.state;
-    return editorState.blocks.some((node) => node.type === type);
-  }
+    return editorState.blocks.some(node => node.type === type);
+  };
 
-  setBlockType = (type) => {
+  setBlockType = type => {
     if (this.props.disableBlocks) {
       return;
     }
@@ -108,29 +137,40 @@ export default class CustomEditor extends Component {
         transfrom.setBlock(isActive ? Blocks.Paragraph : type);
       }
     } else {
-      const isType = editorState.blocks
-        .some((block) => !!editorState.document.getClosest(block.key, (par) => par.type === type));
+      const isType = editorState.blocks.some(
+        block =>
+          !!editorState.document.getClosest(block.key, par => par.type === type)
+      );
 
       if (isList && isType) {
         transfrom
-            .setBlock(Blocks.Paragraph)
-            .unwrapBlock(Blocks.UL)
-            .unwrapBlock(Blocks.OL);
+          .setBlock(Blocks.Paragraph)
+          .unwrapBlock(Blocks.UL)
+          .unwrapBlock(Blocks.OL);
       } else if (isList) {
         transfrom
           .unwrapBlock(type === Blocks.UL ? Blocks.OL : Blocks.UL)
           .wrapBlock(type);
       } else {
-        transfrom
-          .setBlock(Blocks.LI)
-          .wrapBlock(type);
+        transfrom.setBlock(Blocks.LI).wrapBlock(type);
       }
     }
 
     this.onChange(transfrom.apply({ save: false }));
-  }
+  };
 
-  setInlineStyle = (type) => {
+  setBlockData = (key, data) => {
+    const { editorState } = this.state;
+
+    const transformed = editorState
+      .transform()
+      .setNodeByKey(key, { data })
+      .apply({ save: false });
+
+    this.onChange(transformed);
+  };
+
+  setInlineStyle = type => {
     const { editorState } = this.state;
 
     const transformed = editorState
@@ -139,16 +179,20 @@ export default class CustomEditor extends Component {
       .apply({ save: false });
 
     this.onChange(transformed);
-  }
+  };
 
   render = () => {
     const { editorState } = this.state;
+
     return (
       <div
-        ref={(c) => { this.wrapperElement = c; }}
+        ref={c => {
+          this.wrapperElement = c;
+        }}
         className={styles.EditorWrapper}
       >
         <Editor
+          readOnly={this.props.readOnly}
           state={editorState}
           placeholder={this.props.placeholder || 'Default placeholder'}
           onChange={this.onChange}
@@ -158,24 +202,25 @@ export default class CustomEditor extends Component {
           className={styles.Editor}
         />
 
-        {
-          !this.props.disableBlocks &&
+        {!this.props.disableBlocks &&
+          !this.props.readOnly &&
           <Toolbar
             editorState={editorState}
             insertBlock={this.insertBlock}
             wrapperElement={this.wrapperElement}
-          />
-        }
-
-        <Tooltip
-          disableBlocks={this.props.disableBlocks}
-          setBlockType={this.setBlockType}
-          setInlineStyle={this.setInlineStyle}
-          editorState={editorState}
-          wrapperElement={this.wrapperElement}
-        />
-
+            uploadFile={this.props.uploadFile}
+            isPublic
+            setBlockData={this.setBlockData}
+          />}
+        {!this.props.readOnly &&
+          <Tooltip
+            disableBlocks={this.props.disableBlocks}
+            setBlockType={this.setBlockType}
+            setInlineStyle={this.setInlineStyle}
+            editorState={editorState}
+            wrapperElement={this.wrapperElement}
+          />}
       </div>
     );
-  }
+  };
 }

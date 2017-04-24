@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
 import {
-  fetch, deleteSemesterStatus, deleteCompanyContact
+  fetch,
+  deleteSemesterStatus,
+  deleteCompanyContact
 } from '../../actions/CompanyActions';
 import BdbDetail from './components/BdbDetail';
 import { compose } from 'redux';
@@ -23,7 +25,11 @@ function mapStateToProps(state, props) {
     comments
   };
 }
-const mapDispatchToProps = { fetch, deleteSemesterStatus, deleteCompanyContact };
+const mapDispatchToProps = {
+  fetch,
+  deleteSemesterStatus,
+  deleteCompanyContact
+};
 
 function loadData(params, props) {
   props.fetch(props.companyId);

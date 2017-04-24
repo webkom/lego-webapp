@@ -11,7 +11,7 @@ import ProfilePicture from 'app/components/ProfilePicture';
 import { addComment } from 'app/actions/CommentActions';
 import styles from './CommentForm.css';
 
-const validate = (values) => {
+const validate = values => {
   const errors = {};
   if (!values.text) {
     errors.text = 'Required';
@@ -54,13 +54,15 @@ class CommentForm extends Component {
       handleSubmit,
       pristine,
       submitting,
+      dirty,
+      active,
       user,
       loggedIn,
       submitText,
       inlineMode,
       autoFocus
     } = this.props;
-    const active = autoFocus || !pristine;
+    const formActive = autoFocus || (active || !pristine);
     const className = inlineMode ? styles.inlineForm : styles.form;
 
     if (!loggedIn) {
@@ -74,55 +76,52 @@ class CommentForm extends Component {
     return (
       <form
         onSubmit={handleSubmit(this.onSubmit)}
-        className={cx(className, active && styles.activeForm)}
+        className={cx(className, formActive && styles.activeForm)}
       >
         <div className={styles.header}>
           <ProfilePicture
             size={40}
             user={user}
-            style={{ margin: '9px 20px 9px 0px' }}
+            style={{ margin: '0px 0px 0px 25px' }}
           />
 
-          {active &&
+          {formActive &&
             <div className={styles.author}>
               {this.props.user.fullName}
-            </div>
-          }
+            </div>}
         </div>
 
-        <div className={styles.active ? styles.activeFields : styles.fields}>
+        <div className={cx(styles.fields, formActive && styles.activeFields)}>
           <Field
             placeholder={submitText}
             autoFocus={autoFocus}
-            name='text'
+            name="text"
             component={EditorField}
-            simpleEditor
             disableBlocks
           />
 
-          {active &&
+          {formActive &&
             <Button
               className={styles.submit}
               disabled={pristine || submitting}
               submit
             >
               {submitText}
-            </Button>
-          }
+            </Button>}
         </div>
       </form>
     );
   }
 }
 
-const mapDispatchToProps = {
-  addComment
-};
-
 export default compose(
   connect(
-    null,
-    mapDispatchToProps
+    () => ({
+      initialValues: {
+        text: '<p></p>'
+      }
+    }),
+    { addComment }
   ),
   reduxForm({
     validate,

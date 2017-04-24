@@ -24,19 +24,18 @@ function validateSemesterStatus(data) {
 function mapStateToProps(state, props) {
   return {
     companyId: props.params.companyId,
-    initialValues: props.params.companyId ? {
-      bedex: false
-    } : null
+    initialValues: props.params.companyId
+      ? {
+          bedex: false
+        }
+      : null
   };
 }
 
 const mapDispatchToProps = { addSemesterStatus };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'addSemester',
     validate: validateSemesterStatus

@@ -6,23 +6,30 @@ export default {
     () => import('./EventListRoute'),
     () => require('./EventListRoute')
   ),
-  childRoutes: [{
-    path: 'calendar',
-    ...resolveAsyncRoute(
-      () => import('./CalendarRoute'),
-      () => require('./CalendarRoute')
-    ),
-    childRoutes: [{
-      path: ':year',
-      childRoutes: [{
-        path: ':month'
-      }]
-    }]
-  }, {
-    path: ':eventId',
-    ...resolveAsyncRoute(
-      () => import('./EventDetailRoute'),
-      () => require('./EventDetailRoute')
-    ),
-  }]
+  childRoutes: [
+    {
+      path: 'calendar',
+      ...resolveAsyncRoute(
+        () => import('./CalendarRoute'),
+        () => require('./CalendarRoute')
+      ),
+      childRoutes: [
+        {
+          path: ':year',
+          childRoutes: [
+            {
+              path: ':month'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      path: ':eventId',
+      ...resolveAsyncRoute(
+        () => import('./EventDetailRoute'),
+        () => require('./EventDetailRoute')
+      )
+    }
+  ]
 };

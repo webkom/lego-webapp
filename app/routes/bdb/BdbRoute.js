@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
 import {
-  fetchAll, addSemesterStatus, editSemesterStatus
+  fetchAll,
+  addSemesterStatus,
+  editSemesterStatus
 } from '../../actions/CompanyActions';
 import BdbPage from './components/BdbPage';
 import { compose } from 'redux';
@@ -23,9 +25,6 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = { fetchAll, editSemesterStatus, addSemesterStatus };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   fetchOnUpdate(['loggedIn'], loadData)
 )(BdbPage);

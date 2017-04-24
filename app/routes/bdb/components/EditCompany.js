@@ -17,7 +17,6 @@ type Props = {
 };
 
 export default class EditCompany extends Component {
-
   constructor(props) {
     super();
     if (props.company) {
@@ -29,10 +28,21 @@ export default class EditCompany extends Component {
 
   state = {
     active: true
-  }
+  };
 
-  onSubmit = ({ name, description = '', adminComment = '', website = '', studentContact = '',
-      phone = '', companyType = '', paymentMail = '', address = '' }) => {
+  onSubmit = (
+    {
+      name,
+      description = '',
+      adminComment = '',
+      website = '',
+      studentContact = '',
+      phone = '',
+      companyType = '',
+      paymentMail = '',
+      address = ''
+    }
+  ) => {
     const { active } = this.state;
     const { editCompany, company } = this.props;
     editCompany({
@@ -52,7 +62,7 @@ export default class EditCompany extends Component {
 
   props: Props;
 
-  toggleActive = (active) => {
+  toggleActive = active => {
     this.setState({ active });
   };
 
@@ -65,9 +75,7 @@ export default class EditCompany extends Component {
     } = this.props;
 
     if (!company) {
-      return (
-        <LoadingIndicator />
-      );
+      return <LoadingIndicator />;
     }
 
     return (
@@ -76,7 +84,7 @@ export default class EditCompany extends Component {
         <Field
           placeholder={'Bedriftens navn'}
           autoFocus={autoFocus}
-          name='name'
+          name="name"
           component={TextInput.Field}
           className={styles.editTitle}
         />
@@ -90,7 +98,7 @@ export default class EditCompany extends Component {
                 <Field
                   placeholder={'Beskrivelse av bedriften'}
                   autoFocus={autoFocus}
-                  name='description'
+                  name="description"
                   component={TextEditor.Field}
                 />
               </div>
@@ -102,7 +110,7 @@ export default class EditCompany extends Component {
                     <Field
                       placeholder={'Telefonnummer'}
                       autoFocus={autoFocus}
-                      name='phone'
+                      name="phone"
                       component={TextInput.Field}
                       className={styles.editBubble}
                     />
@@ -117,7 +125,7 @@ export default class EditCompany extends Component {
                     <Field
                       placeholder={'Studentkontakt'}
                       autoFocus={autoFocus}
-                      name='studentContact'
+                      name="studentContact"
                       component={TextInput.Field}
                       className={styles.editBubble}
                     />
@@ -132,7 +140,7 @@ export default class EditCompany extends Component {
                     <Field
                       placeholder={'Type bedrift'}
                       autoFocus={autoFocus}
-                      name='companyType'
+                      name="companyType"
                       component={TextInput.Field}
                       className={styles.editBubble}
                     />
@@ -149,7 +157,7 @@ export default class EditCompany extends Component {
                     <Field
                       placeholder={'Nettside'}
                       autoFocus={autoFocus}
-                      name='website'
+                      name="website"
                       component={TextInput.Field}
                       className={styles.editBubble}
                     />
@@ -164,7 +172,7 @@ export default class EditCompany extends Component {
                     <Field
                       placeholder={'Adresse'}
                       autoFocus={autoFocus}
-                      name='address'
+                      name="address"
                       component={TextInput.Field}
                       className={styles.editBubble}
                     />
@@ -179,7 +187,7 @@ export default class EditCompany extends Component {
                     <Field
                       placeholder={'Fakturamail'}
                       autoFocus={autoFocus}
-                      name='paymentMail'
+                      name="paymentMail"
                       component={TextInput.Field}
                       className={styles.editBubble}
                     />
@@ -194,23 +202,29 @@ export default class EditCompany extends Component {
                   <h3>Aktiv bedrift?</h3>
                   <div className={styles.editInfo}>
                     <input
-                      type='radio'
+                      type="radio"
                       value
-                      name='active'
+                      name="active"
                       checked={this.state.active}
                       onChange={() => this.toggleActive(true)}
-                      id='active'
-                    /><label htmlFor='active' style={{ display: 'block' }}>{trueIcon}</label>
+                      id="active"
+                    />
+                    <label htmlFor="active" style={{ display: 'block' }}>
+                      {trueIcon}
+                    </label>
                   </div>
                   <div className={styles.editInfo}>
                     <input
-                      type='radio'
+                      type="radio"
                       value={false}
-                      name='active'
+                      name="active"
                       checked={!this.state.active}
                       onChange={() => this.toggleActive(false)}
-                      id='inactive'
-                    /><label htmlFor='inactive' style={{ display: 'block' }}>{falseIcon}</label>
+                      id="inactive"
+                    />
+                    <label htmlFor="inactive" style={{ display: 'block' }}>
+                      {falseIcon}
+                    </label>
                   </div>
                 </div>
               </div>
@@ -220,26 +234,20 @@ export default class EditCompany extends Component {
                 <Field
                   placeholder={company.adminComment}
                   autoFocus={autoFocus}
-                  name='adminComment'
+                  name="adminComment"
                   component={TextEditor.Field}
                 />
               </div>
 
               <div className={styles.clear} />
-              <Button
-                className={styles.submit}
-                disabled={submitting}
-                submit
-              >
+              <Button className={styles.submit} disabled={submitting} submit>
                 Lagre
               </Button>
 
             </form>
           </div>
 
-          <BdbRightNav
-            {...this.props}
-          />
+          <BdbRightNav {...this.props} />
 
         </div>
       </div>

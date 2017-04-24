@@ -14,17 +14,16 @@ type Props = {
 };
 
 export default class CompanyList extends Component {
-
   props: Props;
 
-  findTitle = (index) => {
+  findTitle = index => {
     const { startYear, startSem } = this.props;
     const result = indexToSemester(index, startYear, startSem);
     const sem = result.semester === 0 ? 'Vår' : 'Høst';
     return `${sem} ${result.year}`;
   };
 
-  findSortLink = (sortType) => {
+  findSortLink = sortType => {
     const { query } = this.props;
     const ascending = query.ascending === 'true';
     // Seperate sorting for name because the url for default sorting is just /bdb/
@@ -36,10 +35,11 @@ export default class CompanyList extends Component {
     } // The rest
     if (query.sortBy === sortType) {
       return `/bdb?sortBy=${sortType}&ascending=${!ascending}`;
-    } return `/bdb?sortBy=${sortType}&ascending=true`;
+    }
+    return `/bdb?sortBy=${sortType}&ascending=true`;
   };
 
-  showOrHideSortIcon = (sortType) => {
+  showOrHideSortIcon = sortType => {
     const { query } = this.props;
     const ascending = query.ascending === 'true';
     // Special treatment for name sorting
@@ -48,12 +48,19 @@ export default class CompanyList extends Component {
     } // The rest
     if (sortType === query.sortBy) {
       return ascending ? 'showAscending' : 'showDescending';
-    } return 'hidden';
+    }
+    return 'hidden';
   };
 
   render() {
-    const { companies, changeSemesters, startYear, startSem, editSemester,
-      changedStatuses } = this.props;
+    const {
+      companies,
+      changeSemesters,
+      startYear,
+      startSem,
+      editSemester,
+      changedStatuses
+    } = this.props;
 
     /*
     **
@@ -66,19 +73,24 @@ export default class CompanyList extends Component {
       {
         title: 'Bedrifter',
         sortLink: 'name'
-      }, {
+      },
+      {
         title: this.findTitle(0),
         sortLink: 'sem0'
-      }, {
+      },
+      {
         title: this.findTitle(1),
         sortLink: 'sem1'
-      }, {
+      },
+      {
         title: this.findTitle(2),
         sortLink: 'sem2'
-      }, {
+      },
+      {
         title: 'Studentkontakt',
         sortLink: 'studentContact'
-      }, {
+      },
+      {
         title: 'Kommentar',
         sortLink: 'comment'
       }
@@ -91,10 +103,10 @@ export default class CompanyList extends Component {
 
           <div className={styles[this.showOrHideSortIcon(item.sortLink)]}>
             <div className={styles.upArrow}>
-              <i className='fa fa-caret-up' aria-hidden='true' />
+              <i className="fa fa-caret-up" aria-hidden="true" />
             </div>
             <div className={styles.downArrow}>
-              <i className='fa fa-caret-down' aria-hidden='true' />
+              <i className="fa fa-caret-down" aria-hidden="true" />
             </div>
           </div>
 
@@ -103,17 +115,22 @@ export default class CompanyList extends Component {
     ));
 
     return (
-
       <div className={styles.companyList}>
         <table>
           <thead>
 
             <tr className={styles.invisRow}>
               <td /><td>
-                <i onClick={() => changeSemesters(false)}className='fa fa-arrow-left' />
+                <i
+                  onClick={() => changeSemesters(false)}
+                  className="fa fa-arrow-left"
+                />
               </td><td />
               <td className={styles.rightArrow}>
-                <i onClick={() => changeSemesters(true)} className='fa fa-arrow-right' />
+                <i
+                  onClick={() => changeSemesters(true)}
+                  className="fa fa-arrow-right"
+                />
               </td>
             </tr>
 
@@ -124,7 +141,7 @@ export default class CompanyList extends Component {
           </thead>
 
           <tbody>
-            {companies.map((company, i) =>
+            {companies.map((company, i) => (
               <CompanySingleRow
                 company={company}
                 startYear={startYear}
@@ -134,7 +151,7 @@ export default class CompanyList extends Component {
                 editSemester={editSemester}
                 changedStatuses={changedStatuses}
               />
-            )}
+            ))}
           </tbody>
 
         </table>

@@ -19,25 +19,27 @@ type Props = {
 };
 
 export default class EditSemester extends Component {
-
   constructor(props) {
     super();
     if (props.company && props.semesterStatus) {
       this.state = {
-        contactedStatus: props.company.semesterStatuses.find((semester) =>
-          semester.id === props.semesterStatus.id).contactedStatus
+        contactedStatus: props.company.semesterStatuses.find(
+          semester => semester.id === props.semesterStatus.id
+        ).contactedStatus
       };
     }
   }
 
   state = {
     contactedStatus: -1
-  }
+  };
 
   componentWillReceiveProps(newProps) {
     if (newProps) {
       if (this.state.contactedStatus === -1) {
-        this.setState({ contactedStatus: newProps.semesterStatus.contactedStatus });
+        this.setState({
+          contactedStatus: newProps.semesterStatus.contactedStatus
+        });
       }
     }
   }
@@ -45,17 +47,20 @@ export default class EditSemester extends Component {
   onSubmit = ({ contract = '' }) => {
     const { company, semesterStatus, editSemesterStatus } = this.props;
     const { contactedStatus } = this.state;
-    editSemesterStatus({
-      companyId: company.id,
-      semesterId: semesterStatus.id,
-      contactedStatus,
-      contract
-    }, true);
+    editSemesterStatus(
+      {
+        companyId: company.id,
+        semesterId: semesterStatus.id,
+        contactedStatus,
+        contract
+      },
+      true
+    );
   };
 
-  setContactedStatus = (event) => {
+  setContactedStatus = event => {
     this.setState({ contactedStatus: event.target.value });
-  }
+  };
 
   props: Props;
 
@@ -76,11 +81,18 @@ export default class EditSemester extends Component {
       <div className={styles.root}>
 
         <h1>Endre semester</h1>
-        <i><Link to={`/bdb/${company.id}`}>{company.name}</Link> sin status for
-          <b>{semesterStatus.semester === 0 ? ' Vår' : ' Høst'} {semesterStatus.year}</b>
+        <i>
+          <Link to={`/bdb/${company.id}`}>{company.name}</Link> sin status for
+          <b>
+            {semesterStatus.semester === 0 ? ' Vår' : ' Høst'}
+            {' '}
+            {semesterStatus.year}
+          </b>
         </i>
 
-        <i style={{ display: 'block', marginBottom: '10px' }}>Hint: du kan endre status for flere semestere samtidig på Bdb-forsiden!</i>
+        <i style={{ display: 'block', marginBottom: '10px' }}>
+          Hint: du kan endre status for flere semestere samtidig på Bdb-forsiden!
+        </i>
 
         <div className={styles.detail}>
           <div className={styles.leftSection}>
@@ -90,7 +102,7 @@ export default class EditSemester extends Component {
               <Field
                 placeholder={'Kontrakt for dette semesteret'}
                 autoFocus={autoFocus}
-                name='contract'
+                name="contract"
                 component={TextInput.Field}
                 className={styles.contractForm}
               />
@@ -99,11 +111,15 @@ export default class EditSemester extends Component {
                 name={'contactedStatus'}
                 value={this.state.contactedStatus}
                 onChange={this.setContactedStatus}
-                className={cx(styles[selectColorCode(this.state.contactedStatus)],
-                styles.contactedStatusForm)}
+                className={cx(
+                  styles[selectColorCode(this.state.contactedStatus)],
+                  styles.contactedStatusForm
+                )}
               >
                 {Object.keys(statusStrings).map((statusString, j) => (
-                  <option key={j} value={statusString}>{statusStrings[j]}</option>
+                  <option key={j} value={statusString}>
+                    {statusStrings[j]}
+                  </option>
                 ))}
               </select>
 
@@ -120,10 +136,7 @@ export default class EditSemester extends Component {
             </form>
           </div>
 
-          <BdbRightNav
-            {...this.props}
-            companyId={company.id}
-          />
+          <BdbRightNav {...this.props} companyId={company.id} />
 
         </div>
       </div>

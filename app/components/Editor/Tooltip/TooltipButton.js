@@ -16,12 +16,12 @@ export default (props: Props) => (
       styles.tooltipButton,
       props.isActive && styles.activeTooltipButton
     )}
-    onMouseDown={(e) => {
+    onMouseDown={e => {
       e.stopPropagation();
       e.preventDefault();
       props.onClick(props.type);
     }}
   >
-    <Icon name={props.icon} />
+    <span className={`icon-${props.icon}`} />
   </span>
-  );
+);

@@ -4,9 +4,7 @@ import { reduxForm } from 'redux-form';
 import { fetch, addCompanyContact } from '../../actions/CompanyActions';
 import AddCompanyContact from './components/AddCompanyContact';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
-import {
-  selectCompanyById
-} from 'app/reducers/companies';
+import { selectCompanyById } from 'app/reducers/companies';
 
 function loadData({ companyId }, props) {
   props.fetch(Number(companyId));
@@ -34,10 +32,7 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = { fetch, addCompanyContact };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'addCompanyContact',
     validate: validateCompanyContact

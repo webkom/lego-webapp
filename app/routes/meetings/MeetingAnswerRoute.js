@@ -27,5 +27,5 @@ function WaitingIndicator() {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['action', 'token', 'loggedIn'], loadData),
+  fetchOnUpdate(['action', 'token', 'loggedIn'], loadData)
 )(WaitingIndicator);

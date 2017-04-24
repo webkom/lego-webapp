@@ -16,30 +16,32 @@ type Props = {
 };
 
 export default class AddSemester extends Component {
-
   state = {
     semester: 0,
-    contactedStatus: 6,
-  }
+    contactedStatus: 6
+  };
 
   onSubmit = ({ year, contract = '' }) => {
     const { companyId, addSemesterStatus } = this.props;
-    addSemesterStatus({
-      companyId,
-      year,
-      semester: this.state.semester,
-      contactedStatus: this.state.contactedStatus,
-      contract
-    }, true);
+    addSemesterStatus(
+      {
+        companyId,
+        year,
+        semester: this.state.semester,
+        contactedStatus: this.state.contactedStatus,
+        contract
+      },
+      true
+    );
   };
 
-  setSemester = (semester) => {
+  setSemester = semester => {
     this.setState({ semester });
   };
 
-  setContactedStatus = (event) => {
+  setContactedStatus = event => {
     this.setState({ contactedStatus: event.target.value });
-  }
+  };
 
   props: Props;
 
@@ -59,14 +61,16 @@ export default class AddSemester extends Component {
         <div className={styles.detail}>
           <div className={styles.leftSection}>
 
-            <i style={{ display: 'block', marginBottom: '10px' }}>Hint: du kan legge til status for flere semestere samtidig på Bdb-forsiden!</i>
+            <i style={{ display: 'block', marginBottom: '10px' }}>
+              Hint: du kan legge til status for flere semestere samtidig på Bdb-forsiden!
+            </i>
 
             <form onSubmit={handleSubmit(this.onSubmit)}>
 
               <Field
                 placeholder={'År'}
                 autoFocus={autoFocus}
-                name='year'
+                name="year"
                 component={TextInput.Field}
                 className={styles.yearForm}
               />
@@ -74,39 +78,45 @@ export default class AddSemester extends Component {
               <div className={styles.choices}>
                 <h3>Semester</h3>
                 <input
-                  type='radio'
+                  type="radio"
                   value
-                  name='semester'
+                  name="semester"
                   checked={this.state.semester === 0}
                   onChange={() => this.setSemester(0)}
-                  id='var'
-                /><label htmlFor='var' style={{ display: 'block' }}>Vår</label>
+                  id="var"
+                />
+                <label htmlFor="var" style={{ display: 'block' }}>Vår</label>
                 <input
-                  type='radio'
+                  type="radio"
                   value={false}
-                  name='semester'
+                  name="semester"
                   checked={this.state.semester === 1}
                   onChange={() => this.setSemester(1)}
-                  id='host'
-                /><label htmlFor='host' style={{ display: 'block' }}>Høst</label>
+                  id="host"
+                />
+                <label htmlFor="host" style={{ display: 'block' }}>Høst</label>
               </div>
 
               <select
                 name={'contactedStatus'}
                 value={this.state.contactedStatus}
                 onChange={this.setContactedStatus}
-                className={cx(styles[selectColorCode(this.state.contactedStatus)],
-                styles.contactedStatusForm)}
+                className={cx(
+                  styles[selectColorCode(this.state.contactedStatus)],
+                  styles.contactedStatusForm
+                )}
               >
                 {Object.keys(statusStrings).map((statusString, j) => (
-                  <option key={j} value={statusString}>{statusStrings[j]}</option>
+                  <option key={j} value={statusString}>
+                    {statusStrings[j]}
+                  </option>
                 ))}
               </select>
 
               <Field
                 placeholder={'Kontrakt for dette semesteret'}
                 autoFocus={autoFocus}
-                name='contract'
+                name="contract"
                 component={TextInput.Field}
                 className={styles.contractForm}
               />
@@ -126,10 +136,7 @@ export default class AddSemester extends Component {
 
           </div>
 
-          <BdbRightNav
-            {...this.props}
-            companyId={companyId}
-          />
+          <BdbRightNav {...this.props} companyId={companyId} />
 
         </div>
       </div>

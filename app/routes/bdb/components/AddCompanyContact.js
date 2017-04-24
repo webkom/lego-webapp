@@ -16,16 +16,18 @@ type Props = {
 };
 
 export default class AddCompanyContact extends Component {
-
   onSubmit = ({ name, role = '', mail = '', phone = '' }) => {
     const { company, addCompanyContact } = this.props;
-    addCompanyContact({
-      companyId: company.id,
-      name,
-      role,
-      mail,
-      phone
-    }, true);
+    addCompanyContact(
+      {
+        companyId: company.id,
+        name,
+        role,
+        mail,
+        phone
+      },
+      true
+    );
   };
 
   props: Props;
@@ -47,7 +49,9 @@ export default class AddCompanyContact extends Component {
 
         <h1>Legg til bedriftskontakt</h1>
 
-        <h3>For bedriften <Link to={`/bdb/${company.id}`}>{company.name}</Link></h3>
+        <h3>
+          For bedriften <Link to={`/bdb/${company.id}`}>{company.name}</Link>
+        </h3>
 
         <div className={styles.detail}>
           <div className={styles.leftSection}>
@@ -57,28 +61,28 @@ export default class AddCompanyContact extends Component {
               <Field
                 placeholder={'Navn'}
                 autoFocus={autoFocus}
-                name='name'
+                name="name"
                 component={TextInput.Field}
               />
 
               <Field
                 placeholder={'Rolle'}
                 autoFocus={autoFocus}
-                name='role'
+                name="role"
                 component={TextInput.Field}
               />
 
               <Field
                 placeholder={'E-mail'}
                 autoFocus={autoFocus}
-                name='mail'
+                name="mail"
                 component={TextInput.Field}
               />
 
               <Field
                 placeholder={'Telefonnummer'}
                 autoFocus={autoFocus}
-                name='phone'
+                name="phone"
                 component={TextInput.Field}
               />
 
@@ -97,10 +101,7 @@ export default class AddCompanyContact extends Component {
 
           </div>
 
-          <BdbRightNav
-            {...this.props}
-            companyId={company.id}
-          />
+          <BdbRightNav {...this.props} companyId={company.id} />
 
         </div>
       </div>

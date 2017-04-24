@@ -1,7 +1,8 @@
 // @flow
 
 const entityTypeMappings = {
-  'events.event': 'events'
+  'events.event': 'events',
+  'articles.article': 'articles'
 };
 
 type ServerName = $Enum<typeof entityTypeMappings>;

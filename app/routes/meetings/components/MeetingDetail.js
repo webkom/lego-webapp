@@ -10,55 +10,59 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import moment from 'moment';
 
-
 type Props = {
   meeting: object,
   userMe: object
-}
+};
 
 function UserLink({ user }) {
   if (user === undefined) {
-    return (<span> Ikke valgt </span>);
+    return <span> Ikke valgt </span>;
   }
-  return (<Link to={`/users/${user.user.username}`}> {user.user.fullName} </Link>);
+  return (
+    <Link to={`/users/${user.user.username}`}> {user.user.fullName} </Link>
+  );
 }
 
 class MeetingDetails extends Component {
   props: Props;
 
-  setInvitationStatus = (newStatus) => {
+  setInvitationStatus = newStatus => {
     const { meeting, userMe } = this.props;
     this.props.setInvitationStatus(meeting.id, newStatus, userMe.id);
-  }
-
+  };
 
   acceptInvitation = () => {
     this.setInvitationStatus(1);
-  }
+  };
 
   rejectInvitation = () => {
     this.setInvitationStatus(2);
-  }
+  };
 
   sortInvitations = () => {
     const { invitations } = this.props.meeting;
-    const pools = [{
-      'name': 'Ikke svart',
-      'capacity': invitations.length,
-      'registrations': []
-    }, {
-      'name': 'Deltar',
-      'capacity': invitations.length,
-      'registrations': []
-    }, {
-      'name': 'Deltar ikke',
-      'capacity': invitations.length,
-      'registrations': []
-    }];
+    const pools = [
+      {
+        name: 'Ikke svart',
+        capacity: invitations.length,
+        registrations: []
+      },
+      {
+        name: 'Deltar',
+        capacity: invitations.length,
+        registrations: []
+      },
+      {
+        name: 'Deltar ikke',
+        capacity: invitations.length,
+        registrations: []
+      }
+    ];
 
-    invitations.forEach((item) => (pools[item.status].registrations.push(item)));
-    return pools.filter((pool) => (pool.registrations.length !== 0));
-  }
+    invitations.forEach(item => pools[item.status].registrations.push(item));
+    return pools.filter(pool => pool.registrations.length !== 0);
+  };
 
   attendanceButtons = (statusMe, startTime) => {
     if (moment(startTime) < moment()) {
@@ -74,7 +78,7 @@ class MeetingDetails extends Component {
         </Button>
       </li>
     );
-  }
+  };
 
   render() {
     const { meeting, userMe } = this.props;
@@ -83,15 +87,18 @@ class MeetingDetails extends Component {
     if (meeting === undefined || userMe === undefined) {
       return <LoadingIndicator loading />;
     }
-    const statusMe = meeting.invitations.filter((item) =>
-      (item.user.username === userMe.username))[0].status;
+    const statusMe = meeting.invitations.filter(
+      item => item.user.username === userMe.username
+    )[0].status;
 
     const reportAuthor = meeting.invitations.filter(
-      (invitation) => (invitation.user.id === meeting.reportAuthor))[0];
+      invitation => invitation.user.id === meeting.reportAuthor
+    )[0];
     const createdBy = meeting.invitations.filter(
-      (invitation) => (invitation.user.id === meeting.createdBy))[0];
+      invitation => invitation.user.id === meeting.createdBy
+    )[0];
 
-    const canDelete = (this.props.userMe.id === this.props.meeting.createdBy);
+    const canDelete = this.props.userMe.id === this.props.meeting.createdBy;
     return (
       <div className={styles.root}>
         <FlexRow className={styles.heading}>
@@ -103,7 +110,7 @@ class MeetingDetails extends Component {
               <Time
                 style={{ color: 'grey' }}
                 time={meeting.startTime}
-                format='ll [-] HH:mm'
+                format="ll [-] HH:mm"
               />
             </h3>
           </div>
@@ -111,22 +118,21 @@ class MeetingDetails extends Component {
           <div>
             <Link to={`/meetings/${meeting.id}/edit`}>
               <Button>
-                <Icon name='pencil' />
+                <Icon name="pencil" />
                 Endre møte
               </Button>
             </Link>
 
-            { canDelete &&
-              (
-                <Button
-                  style={{ backgroundColor: 'pink' }}
-                  onClick={() => { this.props.deleteMeeting(meeting.id); }}
-                >
-                  <Icon name='trash' />
-                  Slett møte
-                </Button>
-              )
-            }
+            {canDelete &&
+              <Button
+                style={{ backgroundColor: 'pink' }}
+                onClick={() => {
+                  this.props.deleteMeeting(meeting.id);
+                }}
+              >
+                <Icon name="trash" />
+                Slett møte
+              </Button>}
           </div>
         </FlexRow>
         <div className={styles.mainContent}>
@@ -138,13 +144,16 @@ class MeetingDetails extends Component {
                   {STATUS_MESSAGES[statusMe]}
                 </li>
                 {this.attendanceButtons(statusMe, meeting.startTime)}
-                <li style={{ height: '1px', width: '100%', backgroundColor: '#ccc' }} />
+                <li
+                  style={{
+                    height: '1px',
+                    width: '100%',
+                    backgroundColor: '#ccc'
+                  }}
+                />
                 <li>
                   <strong> Slutt </strong>
-                  <Time
-                    time={meeting.endTime}
-                    format='ll HH:mm'
-                  />
+                  <Time time={meeting.endTime} format="ll HH:mm" />
                 </li>
                 <li>
                   <strong> Lokasjon: </strong>

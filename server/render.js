@@ -34,36 +34,43 @@ function render(req, res, next) {
     );
 
     const respond = () => {
-      const body = renderToString(
-        app
-      );
+      const body = renderToString(app);
 
-      res.send(renderPage({
-        body,
-        state: store.getState(),
-        helmet: Helmet.rewind()
-      }));
+      res.send(
+        renderPage({
+          body,
+          state: store.getState(),
+          helmet: Helmet.rewind()
+        })
+      );
     };
 
-    prepare(app).then(respond).catch((error) => {
+    prepare(app).then(respond).catch(error => {
       console.error(error);
       respond();
     });
   });
 }
 
-
 function renderPage({ body, state, helmet }) {
   const dllPlugin = process.env.NODE_ENV !== 'production'
     ? '<script src="/vendors.dll.js"></script>'
     : '';
 
-  const assets = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'dist', 'webpack-assets.json')));
+  const assets = JSON.parse(
+    fs.readFileSync(path.join(__dirname, '..', 'dist', 'webpack-assets.json'))
+  );
 
   const { app, vendor } = assets;
 
-  const styles = [app && app.css].filter(Boolean).map((css) => `<link rel="stylesheet" href="${css}">`).join('\n');
-  const scripts = [vendor && vendor.js, app && app.js].filter(Boolean).map((js) => `<script src="${js}"></script>`).join('\n');
+  const styles = [app && app.css]
+    .filter(Boolean)
+    .map(css => `<link rel="stylesheet" href="${css}">`)
+    .join('\n');
+  const scripts = [vendor && vendor.js, app && app.js]
+    .filter(Boolean)
+    .map(js => `<script src="${js}"></script>`)
+    .join('\n');
 
   return `
     <!DOCTYPE html>
@@ -98,6 +105,5 @@ function renderPage({ body, state, helmet }) {
     </html>
    `;
 }
-
 
 export default render;

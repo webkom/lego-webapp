@@ -23,36 +23,36 @@ function removeToken() {
 }
 
 export function login(username, password) {
-  return (dispatch) => (
-    dispatch(callAPI({
-      types: User.LOGIN,
-      endpoint: '//authorization/token-auth/',
-      method: 'post',
-      body: {
-        username,
-        password
-      },
-      meta: {
-        errorMessage: 'Login failed'
-      }
-    }))
-      .then((action) => {
-        const { user, token } = action.payload;
-        saveToken(token);
-
-        return dispatch({
-          type: User.FETCH.SUCCESS,
-          payload: normalize(user, userSchema),
-          meta: {
-            isCurrentUser: true
-          }
-        });
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: User.LOGIN,
+        endpoint: '//authorization/token-auth/',
+        method: 'post',
+        body: {
+          username,
+          password
+        },
+        meta: {
+          errorMessage: 'Login failed'
+        }
       })
-    );
+    ).then(action => {
+      const { user, token } = action.payload;
+      saveToken(token);
+
+      return dispatch({
+        type: User.FETCH.SUCCESS,
+        payload: normalize(user, userSchema),
+        meta: {
+          isCurrentUser: true
+        }
+      });
+    });
 }
 
 export function logout() {
-  return (dispatch) => {
+  return dispatch => {
     removeToken();
     dispatch({ type: User.LOGOUT });
     dispatch(replace('/'));
@@ -61,24 +61,26 @@ export function logout() {
 
 export function updateUser(user, options = { noRedirect: false }) {
   const { username, firstName, lastName, email, picture, gender } = user;
-  return (dispatch) => dispatch(callAPI({
-    types: User.UPDATE,
-    endpoint: `/users/${username}/`,
-    method: 'PATCH',
-    body: {
-      username,
-      first_name: firstName,
-      last_name: lastName,
-      email,
-      picture,
-      gender
-    },
-    schema: userSchema,
-    meta: {
-      errorMessage: 'Updating user failed'
-    }
-  }))
-    .then((action) => {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: User.UPDATE,
+        endpoint: `/users/${username}/`,
+        method: 'PATCH',
+        body: {
+          username,
+          first_name: firstName,
+          last_name: lastName,
+          email,
+          picture,
+          gender
+        },
+        schema: userSchema,
+        meta: {
+          errorMessage: 'Updating user failed'
+        }
+      })
+    ).then(action => {
       if (!options.noRedirect) {
         dispatch(push(`/users/${action.payload.result || 'me'}`));
       }
@@ -88,9 +90,13 @@ export function updateUser(user, options = { noRedirect: false }) {
 export function updatePicture({ picture }) {
   return (dispatch, getState) => {
     const username = getState().auth.username;
-    return dispatch(uploadFile(picture))
-      .then((action) =>
-        dispatch(updateUser({ username, picture: action.meta.fileToken }, { noRedirect: true })));
+    return dispatch(uploadFile({ file: picture })).then(action =>
+      dispatch(
+        updateUser(
+          { username, picture: action.meta.fileToken },
+          { noRedirect: true }
+        )
+      ));
   };
 }
 
@@ -121,14 +127,14 @@ export function refreshToken(token) {
 }
 
 export function loginWithExistingToken(token) {
-  return (dispatch) => {
+  return dispatch => {
     const expirationDate = getExpirationDate(token);
     const now = moment();
 
     if (expirationDate.isSame(now, 'day')) {
       return dispatch(refreshToken(token))
-        .then((action) => saveToken(action.payload))
-        .catch((err) => {
+        .then(action => saveToken(action.payload))
+        .catch(err => {
           removeToken();
           throw err;
         });
@@ -152,7 +158,7 @@ export function loginWithExistingToken(token) {
  * Dispatch a login success if a token exists in local storage.
  */
 export function loginAutomaticallyIfPossible() {
-  return (dispatch) => {
+  return dispatch => {
     const token = loadToken();
 
     if (token) {

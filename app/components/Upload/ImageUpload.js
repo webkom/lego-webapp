@@ -8,42 +8,42 @@ import Upload from './index';
 import styles from './UploadImage.css';
 
 export default class ImageUpload extends Component {
-
   state = {
     cropOpen: this.props.inModal || false,
     file: {}
-  }
+  };
 
-  onFile = (file) => {
+  onFile = file => {
     this.setState({ file, cropOpen: true });
-  }
+  };
 
   onCrop = () => {
-    this.crop.cropper.getCroppedCanvas().toBlob((image) => {
+    this.crop.cropper.getCroppedCanvas().toBlob(image => {
       image.name = this.state.file.name;
       this.props.onSubmit(image, global.URL.createObjectURL(image));
       this.closeModal(image);
     });
-  }
+  };
 
-  closeModal = (blob) => {
+  closeModal = blob => {
     this.setState({ cropOpen: false });
     this.props.onClose(blob);
-  }
+  };
 
   createUploadArea = () => (
-    <Upload
-      onDrop={this.onFile}
-      accept='image/*'
-      img={this.props.img}
-    >
+    <Upload onDrop={this.onFile} accept="image/*" img={this.props.img}>
       <div className={styles.placeholderContainer}>
-        <Icon name='picture-o' className={styles.placeholderIcon} />
+        <Icon name="picture-o" className={styles.placeholderIcon} />
         <h1 className={styles.placeholdeTitle}>
           Drop image to upload or click to select from file
         </h1>
       </div>
-      {this.props.img && <img className={styles.image} src={this.props.img} role='presentation' />}
+      {this.props.img &&
+        <img
+          className={styles.image}
+          src={this.props.img}
+          role="presentation"
+        />}
     </Upload>
   );
 
@@ -57,25 +57,23 @@ export default class ImageUpload extends Component {
           backdropClassName={styles.backdrop}
           backdrop
         >
-          {this.props.inModal && !this.state.file.preview &&
+          {this.props.inModal &&
+            !this.state.file.preview &&
             <div className={styles.inModalUpload}>
               {this.createUploadArea()}
-            </div>
-          }
+            </div>}
           {this.state.file.preview &&
             <Cropper
-              ref={(node) => { this.crop = node; }}
+              ref={node => {
+                this.crop = node;
+              }}
               src={this.state.file.preview}
               className={styles.cropper}
               aspectRatio={this.props.aspectRatio}
               guides={false}
-            />
-          }
+            />}
           <div className={styles.buttons}>
-            <Button
-              onClick={this.onCrop}
-              className={styles.saveButton}
-            >
+            <Button onClick={this.onCrop} className={styles.saveButton}>
               Lagre
             </Button>
             <Button

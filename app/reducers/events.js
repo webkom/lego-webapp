@@ -8,9 +8,9 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 
 export type EventEntity = {
-  id: number;
-  name: string;
-  comments: Array<number>;
+  id: number,
+  name: string,
+  comments: Array<number>
 };
 
 function mutateEvent(state: any, action: any) {
@@ -75,13 +75,13 @@ function transformEvent(event) {
 }
 
 export const selectEvents = createSelector(
-  (state) => state.events.byId,
-  (state) => state.events.items,
-  (eventsById, eventIds) => eventIds.map((id) => transformEvent(eventsById[id]))
+  state => state.events.byId,
+  state => state.events.items,
+  (eventsById, eventIds) => eventIds.map(id => transformEvent(eventsById[id]))
 );
 
 export const selectEventById = createSelector(
-  (state) => state.events.byId,
+  state => state.events.byId,
   (state, props) => props.eventId,
   (eventsById, eventId) => {
     const event = eventsById[eventId];
@@ -94,29 +94,28 @@ export const selectEventById = createSelector(
 
 export const selectPoolsForEvent = createSelector(
   selectEventById,
-  (state) => state.pools.byId,
+  state => state.pools.byId,
   (event, poolsById) => {
     if (!event) return [];
-    return (event.pools || []).map((poolId) => (poolsById[poolId]));
+    return (event.pools || []).map(poolId => poolsById[poolId]);
   }
 );
 
 export const selectPoolsWithRegistrationsForEvent = createSelector(
   selectPoolsForEvent,
-  (state) => state.registrations.byId,
-  (pools, registrationsById) => (
-    pools.map((pool) => ({
+  state => state.registrations.byId,
+  (pools, registrationsById) =>
+    pools.map(pool => ({
       ...pool,
-      registrations: pool.registrations.map((regId) => registrationsById[regId])
+      registrations: pool.registrations.map(regId => registrationsById[regId])
     }))
-  )
 );
 
 export const selectCommentsForEvent = createSelector(
   selectEventById,
-  (state) => state.comments.byId,
+  state => state.comments.byId,
   (event, commentsById) => {
     if (!event) return [];
-    return (event.comments || []).map((commentId) => commentsById[commentId]);
+    return (event.comments || []).map(commentId => commentsById[commentId]);
   }
 );

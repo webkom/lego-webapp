@@ -52,7 +52,6 @@ export default function rootReducer(state, action) {
   return appReducer(state, action);
 }
 
-export const articleSchema = new schema.Entity('articles');
 export const userSchema = new schema.Entity(
   'users',
   {},
@@ -67,6 +66,9 @@ export const poolSchema = new schema.Entity('pools', {
 export const commentSchema = new schema.Entity('comments');
 export const eventSchema = new schema.Entity('events', {
   pools: [poolSchema],
+  comments: [commentSchema]
+});
+export const articleSchema = new schema.Entity('articles', {
   comments: [commentSchema]
 });
 export const meetingSchema = new schema.Entity('meetings');

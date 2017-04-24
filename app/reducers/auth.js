@@ -5,10 +5,10 @@ import { User } from '../actions/ActionTypes';
 import type { Action } from '../actions/ActionTypes';
 
 type State = {
-  username: ?string;
-  token: ?string;
-  loginFailed: boolean;
-  loggingIn: boolean;
+  username: ?string,
+  token: ?string,
+  loginFailed: boolean,
+  loggingIn: boolean
 };
 
 const initialState = {
@@ -18,7 +18,10 @@ const initialState = {
   loggingIn: false
 };
 
-export default function auth(state: State = initialState, action: Action): State {
+export default function auth(
+  state: State = initialState,
+  action: Action
+): State {
   switch (action.type) {
     case User.LOGIN.BEGIN:
       return {
@@ -64,7 +67,7 @@ export function selectIsLoggedIn(state: any) {
 }
 
 export const selectCurrentUser = createSelector(
-  (state) => state.users.byId,
-  (state) => state.auth.username,
+  state => state.users.byId,
+  state => state.auth.username,
   (usersById, userId) => usersById[userId] || {}
 );

@@ -22,11 +22,17 @@ class FancyNodesCanvas extends Component {
 
   _canvas: any;
 
-  handleResize = debounce((e: any) => {
-    this.setState({
-      width: e.target.innerWidth
-    }, () => this.drawGraphics());
-  }, 70);
+  handleResize = debounce(
+    (e: any) => {
+      this.setState(
+        {
+          width: e.target.innerWidth
+        },
+        () => this.drawGraphics()
+      );
+    },
+    70
+  );
 
   componentDidMount() {
     this.setState({ width: global.innerWidth }, () => this.drawGraphics());
@@ -48,7 +54,9 @@ class FancyNodesCanvas extends Component {
   render() {
     return (
       <canvas
-        ref={(ref) => { this._canvas = ref; }}
+        ref={ref => {
+          this._canvas = ref;
+        }}
         className={styles.root}
         width={this.state.width}
         height={this.props.height}

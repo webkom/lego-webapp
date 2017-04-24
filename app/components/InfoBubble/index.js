@@ -9,7 +9,7 @@ type Props = {
   meta: string
 };
 
-const httpCheck = (link) => (link.startsWith('http://') ? link : `http://${link}`);
+const httpCheck = link => link.startsWith('http://') ? link : `http://${link}`;
 
 const iconComponent = (icon, bubbleClass, iconClass, link = undefined) => {
   if (link) {
@@ -36,23 +36,27 @@ const dataComponent = (dataClass, data, link = undefined) => {
       </a>
     );
   }
-  return (
-    <span className={dataClass}>{data || '-'}</span>
-  );
+  return <span className={dataClass}>{data || '-'}</span>;
 };
 
-function InfoBubble({ icon, data, meta, className, small = false,
-  link, ...props }: Props) {
+function InfoBubble(
+  {
+    icon,
+    data,
+    meta,
+    className,
+    small = false,
+    link,
+    ...props
+  }: Props
+) {
   const bubbleClass = small ? styles.smallBubble : styles.bubble;
   const iconClass = small ? styles.smallIcon : styles.icon;
   const dataClass = small ? styles.smallData : styles.data;
   const metaClass = small ? styles.smallMeta : styles.meta;
 
   return (
-    <div
-      className={cx(styles.infoBubble, className)}
-      {...props}
-    >
+    <div className={cx(styles.infoBubble, className)} {...props}>
       {iconComponent(icon, bubbleClass, iconClass, link)}
       {dataComponent(dataClass, data, link)}
       {meta && dataComponent(metaClass, meta)}

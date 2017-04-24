@@ -1,8 +1,9 @@
 import 'isomorphic-fetch';
 
 function parseResponseBody(response) {
-  return response.text().then((textString) => {
-    const contentType = response.headers.get('content-type') || 'application/json';
+  return response.text().then(textString => {
+    const contentType = response.headers.get('content-type') ||
+      'application/json';
 
     if (contentType.includes('application/json') && textString) {
       response.jsonData = JSON.parse(textString);
@@ -41,7 +42,7 @@ function makeFormData(files, rawBody) {
   const body = new FormData();
 
   if (rawBody) {
-    Object.keys(rawBody).forEach((prop) => {
+    Object.keys(rawBody).forEach(prop => {
       body.append(prop, rawBody[prop]);
     });
   }
@@ -51,35 +52,38 @@ function makeFormData(files, rawBody) {
 }
 
 function timeoutPromise(ms = 0) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(resolve, ms);
   }).then(() => {
     throw new Error('HTTP request timed out.');
   });
 }
 
-export default function fetchJSON(path, requestOptions = {}) {
+export default function fetchJSON(path, requestOptions = { headers: [] }) {
   const {
     files = [],
     retryDelays = [1000, 3000],
     timeout = 15000,
     ...options
-   } = requestOptions;
+  } = requestOptions;
 
-  const body = files.length > 0
-    ? makeFormData(files, options.body)
-    : stringifyBody(options);
+  let body;
+  if (files.length > 0) {
+    body = makeFormData(files, options.body);
+  } else {
+    body = stringifyBody(options);
+    options.headers['Content-Type'] = 'application/json';
+  }
 
-  const createRequest = () => new Request(path, {
-    ...options,
-    body,
-    headers: new Headers({
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      ...options.headers
-    })
-  });
-
+  const createRequest = () =>
+    new Request(path, {
+      ...options,
+      body,
+      headers: new Headers({
+        Accept: 'application/json',
+        ...options.headers
+      })
+    });
 
   return new Promise((resolve, reject) => {
     let requestsAttempted = 0;
@@ -93,16 +97,18 @@ export default function fetchJSON(path, requestOptions = {}) {
           .then(parseResponseBody)
           .then(rejectOnHttpErrors)
           .then(resolve)
-      ])
-        .catch((error) => {
-          if (!retryDelays || requestsAttempted > retryDelays.length) {
-            return reject(error);
-          }
+      ]).catch(error => {
+        if (!retryDelays || requestsAttempted > retryDelays.length) {
+          return reject(error);
+        }
 
-          setTimeout(() => {
+        setTimeout(
+          () => {
             wrappedFetch();
-          }, retryDelays[requestsAttempted - 1]);
-        });
+          },
+          retryDelays[requestsAttempted - 1]
+        );
+      });
     };
 
     wrappedFetch();

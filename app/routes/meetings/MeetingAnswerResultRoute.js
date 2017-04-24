@@ -13,10 +13,9 @@ function mapStateToProps(state, props) {
   };
 }
 
-
 function returnStatus({ status, user, meeting, answer }) {
   if (!status) {
-    return (<LoadingIndicator loading />);
+    return <LoadingIndicator loading />;
   }
 
   if (status === 'good') {
@@ -27,7 +26,6 @@ function returnStatus({ status, user, meeting, answer }) {
         <p> {user} skal nå {answerText} på møtet!</p>
         <p> Link: <a href={`/meetings/${meeting}/`}> her </a> </p>
       </div>
-
     );
   }
   return (
@@ -35,10 +33,7 @@ function returnStatus({ status, user, meeting, answer }) {
       <h1> Det har skjedd en feil :( </h1>
       <p> Prøv å logg inn for å svare på invitasjonen </p>
     </div>
-
   );
 }
 
-export default compose(
-  connect(mapStateToProps, null),
-)(returnStatus);
+export default compose(connect(mapStateToProps, null))(returnStatus);

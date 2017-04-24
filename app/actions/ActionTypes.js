@@ -1,8 +1,8 @@
 function generateStatuses(name) {
   return {
-    'BEGIN': `${name}.BEGIN`,
-    'SUCCESS': `${name}.SUCCESS`,
-    'FAILURE': `${name}.FAILURE`
+    BEGIN: `${name}.BEGIN`,
+    SUCCESS: `${name}.SUCCESS`,
+    FAILURE: `${name}.FAILURE`
   };
 }
 
@@ -24,7 +24,9 @@ export const Event = {
  *
  */
 export const Article = {
-  FETCH: generateStatuses('Article.FETCH')
+  FETCH: generateStatuses('Article.FETCH'),
+  CREATE: generateStatuses('Article.CREATE'),
+  EDIT: generateStatuses('Article.EDIT')
 };
 /**
  *

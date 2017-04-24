@@ -15,13 +15,23 @@ type Props = {
 };
 
 export default class AddCompany extends Component {
-
   state = {
     active: true
-  }
+  };
 
-  onSubmit = ({ name, description = '', adminComment = '', website = '', studentContact = '',
-      phone = '', companyType = '', paymentMail = '', address = '' }) => {
+  onSubmit = (
+    {
+      name,
+      description = '',
+      adminComment = '',
+      website = '',
+      studentContact = '',
+      phone = '',
+      companyType = '',
+      paymentMail = '',
+      address = ''
+    }
+  ) => {
     const { active } = this.state;
     this.props.addCompany({
       name,
@@ -52,7 +62,7 @@ export default class AddCompany extends Component {
         <Field
           placeholder={'Bedriftens navn'}
           autoFocus={autoFocus}
-          name='name'
+          name="name"
           component={TextInput.Field}
           className={styles.editTitle}
         />
@@ -66,7 +76,7 @@ export default class AddCompany extends Component {
                 <Field
                   placeholder={'Beskrivelse av bedriften'}
                   autoFocus={autoFocus}
-                  name='description'
+                  name="description"
                   component={TextEditor.Field}
                 />
               </div>
@@ -78,7 +88,7 @@ export default class AddCompany extends Component {
                     <Field
                       placeholder={'Telefonnummer'}
                       autoFocus={autoFocus}
-                      name='phone'
+                      name="phone"
                       component={TextInput.Field}
                       className={styles.editBubble}
                     />
@@ -93,7 +103,7 @@ export default class AddCompany extends Component {
                     <Field
                       placeholder={'Studentkontakt'}
                       autoFocus={autoFocus}
-                      name='studentContact'
+                      name="studentContact"
                       component={TextInput.Field}
                       className={styles.editBubble}
                     />
@@ -108,7 +118,7 @@ export default class AddCompany extends Component {
                     <Field
                       placeholder={'Type bedrift'}
                       autoFocus={autoFocus}
-                      name='companyType'
+                      name="companyType"
                       component={TextInput.Field}
                       className={styles.editBubble}
                     />
@@ -125,7 +135,7 @@ export default class AddCompany extends Component {
                     <Field
                       placeholder={'Nettside'}
                       autoFocus={autoFocus}
-                      name='website'
+                      name="website"
                       component={TextInput.Field}
                       className={styles.editBubble}
                     />
@@ -140,7 +150,7 @@ export default class AddCompany extends Component {
                     <Field
                       placeholder={'Adresse'}
                       autoFocus={autoFocus}
-                      name='address'
+                      name="address"
                       component={TextInput.Field}
                       className={styles.editBubble}
                     />
@@ -155,7 +165,7 @@ export default class AddCompany extends Component {
                     <Field
                       placeholder={'Fakturamail'}
                       autoFocus={autoFocus}
-                      name='paymentMail'
+                      name="paymentMail"
                       component={TextInput.Field}
                       className={styles.editBubble}
                     />
@@ -170,26 +180,20 @@ export default class AddCompany extends Component {
                 <Field
                   placeholder={'Kort notat som vises på hovedsiden til bdb'}
                   autoFocus={autoFocus}
-                  name='adminComment'
+                  name="adminComment"
                   component={TextEditor.Field}
                 />
               </div>
 
               <div className={styles.clear} />
-              <Button
-                className={styles.submit}
-                disabled={submitting}
-                submit
-              >
+              <Button className={styles.submit} disabled={submitting} submit>
                 Lagre
               </Button>
 
             </form>
           </div>
 
-          <BdbRightNav
-            {...this.props}
-          />
+          <BdbRightNav {...this.props} />
 
         </div>
       </div>

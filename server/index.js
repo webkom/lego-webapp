@@ -7,7 +7,7 @@ const server = http.createServer(app);
 
 let currentApp = app;
 
-app.listen(app.get('port'), app.get('host'), (err) => {
+app.listen(app.get('port'), app.get('host'), err => {
   if (err) {
     console.log(err);
   }

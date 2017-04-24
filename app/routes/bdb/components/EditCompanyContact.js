@@ -17,17 +17,19 @@ type Props = {
 };
 
 export default class EditCompanyContact extends Component {
-
   onSubmit = ({ name, role = '', mail = '', phone = '' }) => {
     const { company, companyContact, editCompanyContact } = this.props;
-    editCompanyContact({
-      companyId: company.id,
-      companyContactId: companyContact.id,
-      name,
-      role,
-      mail,
-      phone
-    }, true);
+    editCompanyContact(
+      {
+        companyId: company.id,
+        companyContactId: companyContact.id,
+        name,
+        role,
+        mail,
+        phone
+      },
+      true
+    );
   };
 
   props: Props;
@@ -49,7 +51,11 @@ export default class EditCompanyContact extends Component {
       <div className={styles.root}>
 
         <h1>Endre bedriftskontakt</h1>
-        <h3><Link to={`/bdb/${company.id}`}>{company.name}</Link> sin bedriftskontakt</h3>
+        <h3>
+          <Link to={`/bdb/${company.id}`}>{company.name}</Link>
+          {' '}
+          sin bedriftskontakt
+        </h3>
 
         <div className={styles.detail}>
           <div className={styles.leftSection}>
@@ -59,28 +65,28 @@ export default class EditCompanyContact extends Component {
               <Field
                 placeholder={'Navn'}
                 autoFocus={autoFocus}
-                name='name'
+                name="name"
                 component={TextInput.Field}
               />
 
               <Field
                 placeholder={'Rolle'}
                 autoFocus={autoFocus}
-                name='role'
+                name="role"
                 component={TextInput.Field}
               />
 
               <Field
                 placeholder={'E-mail'}
                 autoFocus={autoFocus}
-                name='mail'
+                name="mail"
                 component={TextInput.Field}
               />
 
               <Field
                 placeholder={'Telefonnummer'}
                 autoFocus={autoFocus}
-                name='phone'
+                name="phone"
                 component={TextInput.Field}
               />
 
@@ -97,10 +103,7 @@ export default class EditCompanyContact extends Component {
             </form>
           </div>
 
-          <BdbRightNav
-            {...this.props}
-            companyId={company.id}
-          />
+          <BdbRightNav {...this.props} companyId={company.id} />
 
         </div>
       </div>

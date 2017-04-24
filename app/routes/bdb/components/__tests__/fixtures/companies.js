@@ -2,9 +2,7 @@ export default [
   {
     name: 'BEKK',
     id: 1,
-    contacted: [
-      'Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs'
-    ],
+    contacted: ['Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs'],
     studentContact: 'Marius Kotlarz',
     comment: 'Partner',
     jobOfferOnly: false
@@ -12,9 +10,7 @@ export default [
   {
     name: 'Facebook',
     id: 2,
-    contacted: [
-      'Kontaktet', 'Kontaktet', 'Ikke interessert', 'Bedpres'
-    ],
+    contacted: ['Kontaktet', 'Kontaktet', 'Ikke interessert', 'Bedpres'],
     studentContact: 'Finn Smith',
     comment: 'Se mail',
     jobOfferOnly: false
@@ -23,7 +19,10 @@ export default [
     name: 'Itera',
     id: 3,
     contacted: [
-      'Interessert, ikke tilbudt', 'Bedpres & kurs', 'Kurs', 'Ikke kontaktet'
+      'Interessert, ikke tilbudt',
+      'Bedpres & kurs',
+      'Kurs',
+      'Ikke kontaktet'
     ],
     studentContact: 'Ingen',
     comment: '',

@@ -14,8 +14,15 @@ const enterOnVoidBlock = {
   }
 };
 
+const copyPastePlugin = {
+  onCopy(e, data, state) {
+    console.log(e, data, state);
+  }
+};
+
 const base = [
   enterOnVoidBlock,
+  copyPastePlugin,
   AutoReplaceText('(c)', '©'),
   InlineStylesKeybindings
 ];

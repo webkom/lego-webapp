@@ -13,7 +13,6 @@ import {
 import QuoteDetail from './components/QuoteDetail';
 
 export class QuotesDetailRoute extends Component {
-
   static propTypes = {
     params: PropTypes.object.isRequired,
     quote: PropTypes.object.isRequired,
@@ -32,7 +31,7 @@ export class QuotesDetailRoute extends Component {
 }
 
 function mapStateToProps(state, props) {
-  const quotes = state.quotes.items.map((id) => state.quotes.byId[id]);
+  const quotes = state.quotes.items.map(id => state.quotes.byId[id]);
   const query = props.location.query;
 
   return {
@@ -52,6 +51,4 @@ const mapDispatchToProps = {
   deleteQuote
 };
 
-export default connect(
-  mapStateToProps, mapDispatchToProps
-)(QuotesDetailRoute);
+export default connect(mapStateToProps, mapDispatchToProps)(QuotesDetailRoute);

@@ -24,13 +24,21 @@ const mapDispatchToProps = { fetchAll };
 // Todo: send PR to react-prepare with cwrp compare function
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  dispatched(({ year, month }, dispatch) => {
-    const dateAfter = moment([parseInt(year, 10), parseInt(month, 10) - 1]).startOf('month');
-    const dateBefore = dateAfter.clone().add(1, 'months').startOf('month');
+  dispatched(
+    ({ year, month }, dispatch) => {
+      const dateAfter = moment([
+        parseInt(year, 10),
+        parseInt(month, 10) - 1
+      ]).startOf('month');
+      const dateBefore = dateAfter.clone().add(1, 'months').startOf('month');
 
-    return dispatch(fetchAll({
-      dateAfter: dateAfter.format('YYYY-MM-DD'),
-      dateBefore: dateBefore.format('YYYY-MM-DD')
-    }));
-  }, { componentWillReceiveProps: false })
+      return dispatch(
+        fetchAll({
+          dateAfter: dateAfter.format('YYYY-MM-DD'),
+          dateBefore: dateBefore.format('YYYY-MM-DD')
+        })
+      );
+    },
+    { componentWillReceiveProps: false }
+  )
 )(Calendar);

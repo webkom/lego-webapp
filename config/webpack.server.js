@@ -7,7 +7,6 @@ const root = path.resolve(__dirname, '..');
 const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
-
   entry: {
     server: [
       !isProduction && 'webpack/hot/poll?1000',
@@ -24,12 +23,16 @@ module.exports = {
   target: 'node',
 
   // keep node_module paths out of the bundle
-  externals: fs.readdirSync(path.resolve('node_modules')).concat([
-    'react-dom/server', 'react/addons',
-  ]).reduce((ext, mod) => {
-    ext[mod] = `commonjs ${mod}`;
-    return ext;
-  }, {}),
+  externals: fs
+    .readdirSync(path.resolve('node_modules'))
+    .concat(['react-dom/server', 'react/addons'])
+    .reduce(
+      (ext, mod) => {
+        ext[mod] = `commonjs ${mod}`;
+        return ext;
+      },
+      {}
+    ),
 
   node: {
     __filename: true,
@@ -56,14 +59,11 @@ module.exports = {
           ];
         }
       }
-    }),
+    })
   ].filter(Boolean),
 
   resolve: {
-    modules: [
-      root,
-      'node_modules'
-    ],
+    modules: [root, 'node_modules'],
     extensions: ['.js', '.jsx']
   },
 
@@ -73,11 +73,13 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader'
-      }, {
+      },
+      {
         test: /\.css$/,
         include: /node_modules/,
         loaders: ['css-loader/locals']
-      }, {
+      },
+      {
         test: /\.css$/,
         exclude: /node_modules/,
         loaders: [
@@ -86,7 +88,9 @@ module.exports = {
             query: {
               modules: true,
               importLoaders: 1,
-              localIdentName: isProduction ? '[hash:base64:5]' : '[name]__[local]___[hash:base64:5]'
+              localIdentName: isProduction
+                ? '[hash:base64:5]'
+                : '[name]__[local]___[hash:base64:5]'
             }
           },
           'postcss-loader'
@@ -100,5 +104,5 @@ module.exports = {
         }
       }
     ]
-  },
+  }
 };

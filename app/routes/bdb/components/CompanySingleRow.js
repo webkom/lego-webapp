@@ -13,24 +13,29 @@ type Props = {
 };
 
 export default class CompanySingleRow extends Component {
-
   props: Props;
 
-  semesterElement = (index) => {
+  semesterElement = index => {
     const { startYear, startSem, company } = this.props;
     const result = indexToSemester(index, startYear, startSem);
     const statuses = company.semesterStatuses;
     if (statuses) {
-      return statuses.find((status) =>
-        status.year === result.year &&
-        status.semester === result.semester
+      return statuses.find(
+        status =>
+          status.year === result.year && status.semester === result.semester
       ) || { contactedStatus: 6 };
     }
     return { contactedStatus: 6 };
   };
 
   render() {
-    const { company, editSemester, changedStatuses, startYear, startSem } = this.props;
+    const {
+      company,
+      editSemester,
+      changedStatuses,
+      startYear,
+      startSem
+    } = this.props;
 
     const semesters = [
       this.semesterElement(0),

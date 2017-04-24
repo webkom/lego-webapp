@@ -10,7 +10,7 @@ export const statusStrings = {
   6: 'Ikke kontaktet'
 };
 
-export const selectColorCode = (status) => {
+export const selectColorCode = status => {
   const statusToClass = {
     0: 'companyPresentation',
     1: 'companyPresentationAndCourse',
@@ -24,7 +24,7 @@ export const selectColorCode = (status) => {
 };
 
 export const indexToSemester = (index, startYear, startSem) => {
-  const semester = ((index % 2) + startSem) % 2;
+  const semester = (index % 2 + startSem) % 2;
 
   let year = 0;
   if (startSem === 0) {
@@ -44,13 +44,15 @@ export const indexToSemester = (index, startYear, startSem) => {
 };
 
 export const trueIcon = (
-  <i className='fa fa-check' style={{ color: 'green', fontSize: '25px' }} />
+  <i className="fa fa-check" style={{ color: 'green', fontSize: '25px' }} />
 );
 export const falseIcon = (
-  <i className='fa fa-times' style={{ color: '#d13c32', fontSize: '25px' }} />
+  <i className="fa fa-times" style={{ color: '#d13c32', fontSize: '25px' }} />
 );
 
-export const httpCheck = (link) => {
-  const httpLink = link.startsWith('http://') || link.startsWith('https://') ? link : `http://${link}`;
+export const httpCheck = link => {
+  const httpLink = link.startsWith('http://') || link.startsWith('https://')
+    ? link
+    : `http://${link}`;
   return link === '' ? link : httpLink;
 };

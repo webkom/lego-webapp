@@ -62,8 +62,12 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  dispatched(({ params: { eventId } }, dispatch) => dispatch(fetchEvent(Number(eventId))), {
-    componentWillReceiveProps: false
-  }),
-  connect(mapStateToProps, mapDispatchToProps),
+  dispatched(
+    ({ params: { eventId } }, dispatch) =>
+      dispatch(fetchEvent(Number(eventId))),
+    {
+      componentWillReceiveProps: false
+    }
+  ),
+  connect(mapStateToProps, mapDispatchToProps)
 )(EventDetail);

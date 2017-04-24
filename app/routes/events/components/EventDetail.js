@@ -228,14 +228,14 @@ export default class EventDetail extends Component {
             </ul>
           </FlexColumn>
         </FlexRow>
-
-        <CommentView
-          formEnabled
-          user={currentUser}
-          commentTarget={event.commentTarget}
-          loggedIn={loggedIn}
-          comments={comments}
-        />
+        {event.commentTarget &&
+          <CommentView
+            formEnabled
+            user={currentUser}
+            commentTarget={event.commentTarget}
+            loggedIn={loggedIn}
+            comments={comments}
+          />}
       </div>
     );
   }

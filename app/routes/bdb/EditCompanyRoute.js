@@ -24,31 +24,30 @@ function mapStateToProps(state, props) {
   return {
     company,
     companyId,
-    initialValues: company ? {
-      name: company.name,
-      description: company.description,
-      adminComment: company.adminComment,
-      website: company.website,
-      studentContact: company.studentContact,
-      active: company.active,
-      phone: company.phone,
-      companyType: company.companyType,
-      paymentMail: company.paymentMail,
-      address: company.address
-    } : null
+    initialValues: company
+      ? {
+          name: company.name,
+          description: company.description,
+          adminComment: company.adminComment,
+          website: company.website,
+          studentContact: company.studentContact,
+          active: company.active,
+          phone: company.phone,
+          companyType: company.companyType,
+          paymentMail: company.paymentMail,
+          address: company.address
+        }
+      : null
   };
 }
 
 const mapDispatchToProps = { editCompany, fetch };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'editCompany',
     validate: validateCompany
   }),
-  fetchOnUpdate(['companyId', 'loggedIn'], loadData),
+  fetchOnUpdate(['companyId', 'loggedIn'], loadData)
 )(EditCompany);

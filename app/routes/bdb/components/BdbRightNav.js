@@ -12,21 +12,17 @@ type Props = {
 function BdbRightNav({ companyId, deleteCompany }: Props) {
   return (
     <div className={styles.rightSection}>
-      {companyId && (
+      {companyId &&
         <div>
           <Link to={`/bdb/${companyId}`}>Til bedriftens side</Link>
           <Link to={`/bdb/${companyId}/edit`}>Endre bedrift</Link>
           <a onClick={() => deleteCompany(companyId)}>Slett bedrift</a>
-        </div>
-      )}
-      <Link to='/bdb/add'>Legg til bedrift</Link>
+        </div>}
+      <Link to="/bdb/add">Legg til bedrift</Link>
     </div>
   );
 }
 
 const mapDispatchToProps = { deleteCompany };
 
-export default connect(
-  null,
-  mapDispatchToProps
-)(BdbRightNav);
+export default connect(null, mapDispatchToProps)(BdbRightNav);

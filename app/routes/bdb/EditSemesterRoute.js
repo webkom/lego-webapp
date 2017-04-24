@@ -32,30 +32,31 @@ function mapStateToProps(state, props) {
   const semesterId = props.params.semesterId;
   let semesterStatus = null;
   if (company) {
-    semesterStatus = company.semesterStatuses.find((status) => status.id === Number(semesterId));
+    semesterStatus = company.semesterStatuses.find(
+      status => status.id === Number(semesterId)
+    );
   }
 
   return {
     company,
     companyId,
     semesterStatus,
-    initialValues: semesterStatus ? {
-      contactedStatus: semesterStatus.contactedStatus,
-      contract: semesterStatus.contract
-    } : null
+    initialValues: semesterStatus
+      ? {
+          contactedStatus: semesterStatus.contactedStatus,
+          contract: semesterStatus.contract
+        }
+      : null
   };
 }
 
 const mapDispatchToProps = { fetch, editSemesterStatus };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'editSemester',
     validate: validateSemesterStatus
   }),
-  fetchOnUpdate(['companyId', 'loggedIn'], loadData),
+  fetchOnUpdate(['companyId', 'loggedIn'], loadData)
 )(EditSemester);

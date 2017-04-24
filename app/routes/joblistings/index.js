@@ -6,11 +6,13 @@ export default {
     () => import('./JoblistingsRoute'),
     () => require('./JoblistingsRoute')
   ),
-  childRoutes: [{
-    path: ':joblistingId',
-    ...resolveAsyncRoute(
-      () => import('./JoblistingsDetailedRoute'),
-      () => require('./JoblistingsDetailedRoute')
-    )
-  }]
+  childRoutes: [
+    {
+      path: ':joblistingId',
+      ...resolveAsyncRoute(
+        () => import('./JoblistingsDetailedRoute'),
+        () => require('./JoblistingsDetailedRoute')
+      )
+    }
+  ]
 };

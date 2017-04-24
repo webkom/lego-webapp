@@ -20,7 +20,5 @@ export default compose(
     form: 'addCompany',
     validate: validateCompany
   }),
-  connect(
-    null,
-    mapDispatchToProps
-))(AddCompany);
+  connect(null, mapDispatchToProps)
+)(AddCompany);

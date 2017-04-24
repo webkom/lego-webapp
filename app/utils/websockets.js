@@ -3,18 +3,17 @@ import config from '../config';
 import createQueryString from './createQueryString';
 import { User } from 'app/actions/ActionTypes';
 
-
 export default function createWebSocketMiddleware() {
   let socket = null;
 
-  return (store) => {
-    const makeSocket = (jwt) => {
+  return store => {
+    const makeSocket = jwt => {
       if (socket || !jwt) return;
 
       const qs = createQueryString({ jwt });
       socket = new WebSocketClient(`${config.wsServerUrl}/${qs}`);
 
-      socket.onmessage = (event) => {
+      socket.onmessage = event => {
         const { type, payload, meta } = JSON.parse(event.data);
         store.dispatch({ type, payload, meta });
       };
@@ -32,29 +31,29 @@ export default function createWebSocketMiddleware() {
       };
     };
 
-
-    return (next) => (action) => {
-      if (action.type === 'REHYDRATED') {
-        makeSocket(store.getState().auth.token);
-        return next(action);
-      }
-
-      if (action.type === User.LOGIN.SUCCESS) {
-        makeSocket(action.payload.token);
-        return next(action);
-      }
-
-      if (action.type === User.LOGOUT) {
-        if (socket) {
-          socket.close();
+    return next =>
+      action => {
+        if (action.type === 'REHYDRATED') {
+          makeSocket(store.getState().auth.token);
+          return next(action);
         }
 
-        socket = null;
+        if (action.type === User.LOGIN.SUCCESS) {
+          makeSocket(action.payload.token);
+          return next(action);
+        }
+
+        if (action.type === User.LOGOUT) {
+          if (socket) {
+            socket.close();
+          }
+
+          socket = null;
+
+          return next(action);
+        }
 
         return next(action);
-      }
-
-      return next(action);
-    };
+      };
   };
 }
