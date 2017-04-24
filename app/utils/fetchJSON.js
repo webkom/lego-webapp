@@ -59,7 +59,7 @@ function timeoutPromise(ms = 0) {
   });
 }
 
-export default function fetchJSON(path, requestOptions = {}) {
+export default function fetchJSON(path, requestOptions = { headers: [] }) {
   const {
     files = [],
     retryDelays = [1000, 3000],
