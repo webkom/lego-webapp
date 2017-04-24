@@ -34,4 +34,4 @@ pipeline:
     chart: ./charts/lego-webapp
     release: lego-webapp-prod
     namespace: lego-prod
-    values: backend.image.tag=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+    values: webapp.image.tag=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
