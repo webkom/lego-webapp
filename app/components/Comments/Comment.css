@@ -4,7 +4,8 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
   border: 1px solid rgba(0, 0, 0, 0.04);
   margin-bottom: 1em;
-  padding: 20px;
+  padding: 25px;
+  align-items: center;
   display: flex;
   flex-direction: column;
 }
@@ -13,6 +14,7 @@
   display: flex;
   align-items: flex-start;
   flex-direction: column;
+  width: 100%;
 }
 
 .content {
@@ -25,6 +27,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  font-size: 18px;
   flex-direction: row;
 }
 

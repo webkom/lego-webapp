@@ -90,7 +90,7 @@ export function updateUser(user, options = { noRedirect: false }) {
 export function updatePicture({ picture }) {
   return (dispatch, getState) => {
     const username = getState().auth.username;
-    return dispatch(uploadFile(picture)).then(action =>
+    return dispatch(uploadFile({ file: picture })).then(action =>
       dispatch(
         updateUser(
           { username, picture: action.meta.fileToken },

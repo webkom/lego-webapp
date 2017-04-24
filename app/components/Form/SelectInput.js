@@ -1,36 +1,48 @@
 // @flow
 
 import React from 'react';
-import Select, { Option } from 'rc-select';
+import Select, { Creatable } from 'react-select';
 import { createField } from './Field';
-import 'rc-select/assets/index.css';
-import styles from './SelectInput.css';
+import style from './SelectInput.css';
+import 'react-select/dist/react-select.css';
 
 type Props = {
-  notFound?: React.ReactNode | string | null,
   placeholder?: string,
   value?: SelectValue,
-  defaultValue?: SelectValue,
   multiple?: boolean,
   tags?: boolean,
-  defaultActiveFirstOption?: boolean,
-  labelInValue?: boolean,
-  options?: string[]
+  options?: {}[]
 };
 
-function SelectInput({ notFound = 'Not Found', options = [], ...props }: Props) {
+function render(selectProps) {
+  return <Creatable {...selectProps} />;
+}
+
+function SelectInput({ options = [], ...props }: Props) {
+  if (props.tags) {
+    return (
+      <div className={style.field}>
+        <Select.Creatable
+          {...props}
+          {...props.input}
+          {...props.meta}
+          multi
+          options={options}
+        />
+      </div>
+    );
+  }
+
   return (
-    <Select
-      {...props}
-      {...props.input}
-      {...props.meta}
-      className='lego-select'
-      placeholder={<span>Select option</span>}
-      dropdownClassName={styles.dropdown}
-      notFoundContent={notFound}
-    >
-      {options.map((option) => <Option className={styles.dropdown} value={option}>option</Option>)}
-    </Select>
+    <div className={style.field}>
+      <Select
+        {...props}
+        {...props.input}
+        {...props.meta}
+        options={options}
+        render={render}
+      />
+    </div>
   );
 }
 

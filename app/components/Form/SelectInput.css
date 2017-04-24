@@ -1,6 +1,5 @@
 
-:global{
-  .lego-select {
-    width: 100%;
-  }
+.field {
+  width: 100%;
+  margin-bottom: 20px;
 }

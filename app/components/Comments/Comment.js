@@ -9,7 +9,7 @@ import styles from './Comment.css';
 
 type Props = {
   comment: Object,
-  commentFormProps: Object,
+  commentFormProps: Object
 };
 
 export default class Comment extends Component {
@@ -24,7 +24,7 @@ export default class Comment extends Component {
   };
 
   toggleReply = () => {
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       replyOpen: !prevState.replyOpen
     }));
   };
@@ -41,7 +41,7 @@ export default class Comment extends Component {
             <ProfilePicture
               size={40}
               user={author}
-              style={{ marginRight: 20 }}
+              style={{ marginRight: 25 }}
             />
 
             <Link to={`/users/${author.username}`}>
@@ -57,7 +57,7 @@ export default class Comment extends Component {
 
           <div className={styles.content}>
             <div
-              id='comment-text'
+              id="comment-text"
               className={styles.text}
               style={{ fontStyle: this.state.replyOpen && 'italic' }}
               dangerouslySetInnerHTML={{ __html: text }}
@@ -65,16 +65,15 @@ export default class Comment extends Component {
           </div>
         </div>
 
-        {replyOpen && (
+        {replyOpen &&
           <CommentForm
             form={`comment.${commentFormProps.commentTarget}-${comment.id}`}
             parent={comment.id}
-            submitText='Send svar'
+            submitText="Send svar"
             inlineMode
             autoFocus
             {...commentFormProps}
-          />
-        )}
+          />}
       </div>
     );
   }

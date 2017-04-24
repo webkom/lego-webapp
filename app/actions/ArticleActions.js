@@ -14,7 +14,7 @@ export function fetchArticle(articleId) {
   });
 }
 
-export function createArticle({ title, content, tags }) {
+export function createArticle({ title, content, tags, cover }) {
   return callAPI({
     types: Article.CREATE,
     endpoint: '/articles/',
@@ -24,6 +24,7 @@ export function createArticle({ title, content, tags }) {
       title,
       content,
       tags,
+      cover,
       author: 1,
       description: 'nice article'
     },

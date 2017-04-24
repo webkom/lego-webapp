@@ -33,9 +33,7 @@ export default class ArticleDetail extends Component {
     return (
       <div className={styles.root}>
         <div className={styles.coverImage}>
-          <img
-            src="https://www.gochile.cl/fotos/overview-full/2348-img_8707.jpg"
-          />
+          <img alt="presentation" src={article.cover} />
           <div className={styles.coverImageOverlay} />
         </div>
 

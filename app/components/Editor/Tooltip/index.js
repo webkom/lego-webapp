@@ -76,9 +76,9 @@ export default class Tooltip extends Component {
             { type: Inline.Underline, icon: 'italic' },
             { type: Inline.Code, icon: 'embed2' },
             { type: Inline.Striketroug, icon: 'strikethrough' }
-          ].map(({ type, icon }) => (
+          ].map(({ type, icon }, i) => (
             <TooltipButton
-              key={type}
+              key={`${i}-${type}`}
               type={type}
               icon={icon}
               isActive={this.hasStyle(type)}
@@ -95,9 +95,9 @@ export default class Tooltip extends Component {
               { type: Blocks.Cite, icon: 'quotes-right' },
               { type: Blocks.UL, icon: 'list' },
               { type: Blocks.O, icon: 'list-numbered' }
-            ].map(({ type, icon }) => (
+            ].map(({ type, icon }, i) => (
               <TooltipButton
-                key={type}
+                key={`${i}-${type}`}
                 type={type}
                 icon={icon}
                 isActive={this.hasBlock(type)}
