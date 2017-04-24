@@ -72,7 +72,7 @@ export function updateUser(user, options = { noRedirect: false }) {
           first_name: firstName,
           last_name: lastName,
           email,
-          picture,
+          profilePicture: picture,
           gender
         },
         schema: userSchema,
