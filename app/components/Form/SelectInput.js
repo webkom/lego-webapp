@@ -25,8 +25,9 @@ function SelectInput({ options = [], ...props }: Props) {
         <Select.Creatable
           {...props}
           {...props.input}
-          {...props.meta}
           multi
+          onBlurResetsInput={false}
+          onBlur={() => props.input.onBlur(props.input.value)}
           options={options}
         />
       </div>

@@ -23,7 +23,7 @@ export function createArticle({ title, content, tags, cover }) {
     body: {
       title,
       content,
-      tags,
+      tags: tags.map(tag => tag.value),
       cover,
       author: 1,
       description: 'nice article'

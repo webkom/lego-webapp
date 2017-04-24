@@ -183,7 +183,7 @@ export default class CustomEditor extends Component {
 
   render = () => {
     const { editorState } = this.state;
-    console.log(this.props);
+
     return (
       <div
         ref={c => {

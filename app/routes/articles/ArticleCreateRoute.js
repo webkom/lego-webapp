@@ -19,6 +19,6 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     destroyOnUnmount: false,
-    form: 'article',
+    form: 'article'
   })
 )(ArticleEditor);
