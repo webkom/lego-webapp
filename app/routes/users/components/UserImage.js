@@ -7,8 +7,7 @@ import { ImageUpload } from 'app/components/Upload';
 type Props = {
   updatePicture: () => void,
   user: Object
-}
-
+};
 
 function UploadPage({ updatePicture, user }: Props) {
   return (
@@ -20,9 +19,9 @@ function UploadPage({ updatePicture, user }: Props) {
       }}
     >
       <ImageUpload
-        onSubmit={(file) => updatePicture({ picture: file })}
+        onSubmit={file => updatePicture({ picture: file })}
         aspectRatio={1}
-        img={user.picture}
+        img={user.profilePicture}
       />
     </div>
   );

@@ -1,5 +1,5 @@
 .root {
-  composes: container from 'app/styles/utilities.css';
+  composes: contentContainer from 'app/styles/utilities.css';
 }
 
 .header {
@@ -7,7 +7,6 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #ddd;
   padding: 20px;
 }
 
@@ -23,4 +22,5 @@
 
 .feed {
   padding-left: 30px;
+  width: 100%;
 }

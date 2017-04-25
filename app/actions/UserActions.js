@@ -60,7 +60,7 @@ export function logout() {
 }
 
 export function updateUser(user, options = { noRedirect: false }) {
-  const { username, firstName, lastName, email, picture, gender } = user;
+  const { username, firstName, lastName, email, profilePicture, gender } = user;
   return dispatch =>
     dispatch(
       callAPI({
@@ -69,10 +69,10 @@ export function updateUser(user, options = { noRedirect: false }) {
         method: 'PATCH',
         body: {
           username,
-          first_name: firstName,
-          last_name: lastName,
+          firstName,
+          lastName,
           email,
-          profilePicture: picture,
+          profilePicture,
           gender
         },
         schema: userSchema,
@@ -93,7 +93,7 @@ export function updatePicture({ picture }) {
     return dispatch(uploadFile({ file: picture })).then(action =>
       dispatch(
         updateUser(
-          { username, picture: action.meta.fileToken },
+          { username, profilePicture: action.meta.fileToken },
           { noRedirect: true }
         )
       ));
