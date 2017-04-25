@@ -1,0 +1,37 @@
+.activities {
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  padding: 10px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+}
+
+.activityHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 10px 20px;
+}
+
+.activityHeaderItem {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.activityContent {
+  padding: 0px 20px 0px 20px;
+}
+
+.activityFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  padding: 10px 20px;
+  border-top: 1px solid rgba(0, 0, 0, 0.09);
+}
