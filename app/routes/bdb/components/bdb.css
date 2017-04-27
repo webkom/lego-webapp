@@ -1,12 +1,12 @@
 .root {
-  composes: container from 'app/styles/utilities.css';
+  composes: contentContainer from 'app/styles/utilities.css';
 }
 
 .root h1 {
   font-size: 30px;
   font-weight: bold;
   display: block;
-  margin: 15px 0;
+  margin: 0 0 15px;
   padding-left: 0;
 }
 
@@ -85,7 +85,7 @@
 
 .categoryHeader {
   font-weight: bold;
-  background-color: #eee;
+  background-color: #ddd;
 }
 
 .title {
@@ -223,6 +223,10 @@
   margin: 30px 0;
 }
 
+.invisRow {
+  background-color: white;
+}
+
 .invisRow i {
   transition: color 0.3s ease;
 
@@ -336,7 +340,7 @@ option {
 .editTitle {
   width: 250px !important;
   font-size: 30px !important;
-  margin: 30px 0 10px;
+  margin: 0 0 10px;
   font-weight: bold;
 }
 
