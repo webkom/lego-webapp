@@ -8,7 +8,6 @@ import 'react-select/dist/react-select.css';
 
 type Props = {
   placeholder?: string,
-  value?: SelectValue,
   multiple?: boolean,
   tags?: boolean,
   fetching: boolean,
@@ -29,14 +28,14 @@ function SelectInput({ fetching, options = [], ...props }: Props) {
       </div>
     );
   }
-
   return (
     <div className={style.field}>
       <Select
         {...props}
         options={options}
         onBlurResetsInput={false}
-        onBlur={() => props.onBlur(props.value)}
+        onBlur={null}
+        simpleValue
         isLoading={fetching}
         onInputChange={value => {
           if (props.onSearch) {
