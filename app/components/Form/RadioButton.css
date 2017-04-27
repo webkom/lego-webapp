@@ -42,11 +42,11 @@
 [type='radio']:checked + label::after {
   content: '\2022';
   position: absolute;
-  top: -7px;
-  left: 3px;
-  font-size: 35px;
+  top: -25px;
+  left: -6px;
+  font-size: 88px;
   line-height: 0.8;
-  color: #c0392b;
+  color: #d13c32;
   transition: all 0.2s;
 }
 
