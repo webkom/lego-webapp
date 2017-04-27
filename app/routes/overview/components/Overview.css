@@ -1,14 +1,18 @@
 .item {
   text-align: justify;
-  flex: 1 0 33.3333%;
+  flex: 1 0 100%;
   min-width: 320px;
-  padding: 10px;
+  padding: 20px 10px;
   transition: opacity 0.2s;
 }
 
 .inner {
   composes: withShadow from 'app/styles/utilities.css';
   flex: 1;
+}
+
+.innerRight {
+  width: 100%;
 }
 
 .item:hover {
@@ -75,7 +79,7 @@
   font-family: 'skolar-latin';
   font-size: 1.1rem;
   -webkit-font-smoothing: initial;
-  word-break: break-all;
+  text-align: left;
   background: #fff;
   padding: 20px;
   flex: 1;
@@ -83,4 +87,8 @@
 
 .normal .itemDescription {
   font-size: 1rem;
+}
+
+.dot {
+  margin: 0 5px;
 }
