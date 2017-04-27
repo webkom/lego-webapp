@@ -11,23 +11,19 @@ type Props = {
   value?: SelectValue,
   multiple?: boolean,
   tags?: boolean,
+  fetching: boolean,
   options?: {}[]
 };
 
-function render(selectProps) {
-  return <Creatable {...selectProps} />;
-}
-
-function SelectInput({ options = [], ...props }: Props) {
+function SelectInput({ fetching, options = [], ...props }: Props) {
   if (props.tags) {
     return (
       <div className={style.field}>
         <Select.Creatable
           {...props}
-          {...props.input}
           multi
           onBlurResetsInput={false}
-          onBlur={() => props.input.onBlur(props.input.value)}
+          onBlur={() => props.onBlur(props.value)}
           options={options}
         />
       </div>
@@ -38,10 +34,17 @@ function SelectInput({ options = [], ...props }: Props) {
     <div className={style.field}>
       <Select
         {...props}
-        {...props.input}
-        {...props.meta}
         options={options}
-        render={render}
+        onBlurResetsInput={false}
+        onBlur={() => props.onBlur(props.value)}
+        isLoading={fetching}
+        onInputChange={value => {
+          if (props.onSearch) {
+            props.onSearch(value);
+          }
+          return value;
+        }}
+        render={props => <Creatable {...props} />}
       />
     </div>
   );

@@ -9,8 +9,10 @@ import EventList from './components/EventList';
 import { selectEvents } from 'app/reducers/events';
 import moment from 'moment';
 
+const actionGrant = state => state.events.actionGrant;
 const mapStateToProps = createStructuredSelector({
-  events: selectEvents
+  events: selectEvents,
+  actionGrant: actionGrant
 });
 
 export default compose(

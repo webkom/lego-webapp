@@ -1,4 +1,8 @@
-import { eventSchema } from 'app/reducers';
+import {
+  eventSchema,
+  eventAdministrateSchema,
+  registrationSchema
+} from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';
@@ -29,6 +33,17 @@ export function fetchAll({ dateAfter, dateBefore } = {}) {
   });
 }
 
+export function fetchAdministrate(eventId) {
+  return callAPI({
+    types: Event.ADMINISTRATE_FETCH,
+    endpoint: `/events/${eventId}/administrate/`,
+    schema: eventAdministrateSchema,
+    meta: {
+      errorMessage: 'Fetching registrations failed'
+    }
+  });
+}
+
 export function register(eventId, captchaResponse, feedback) {
   return callAPI({
     types: Event.REGISTER,
@@ -45,13 +60,33 @@ export function register(eventId, captchaResponse, feedback) {
   });
 }
 
-export function unregister(eventId, registrationId) {
+export function unregister(eventId, registrationId, admin = false) {
   return callAPI({
     types: Event.UNREGISTER,
     endpoint: `/events/${eventId}/registrations/${registrationId}/`,
     method: 'delete',
+    body: {},
     meta: {
-      errorMessage: 'Unregistering from event failed'
+      errorMessage: 'Unregistering from event failed',
+      admin,
+      id: Number(registrationId)
+    }
+  });
+}
+
+export function adminRegister(eventId, user, pool, feedback, reason) {
+  return callAPI({
+    types: Event.ADMIN_REGISTER,
+    endpoint: `/events/${eventId}/registrations/admin_register/`,
+    method: 'post',
+    body: {
+      user,
+      pool,
+      feedback,
+      admin_reason: reason
+    },
+    meta: {
+      errorMessage: 'Admin register failed'
     }
   });
 }
@@ -76,7 +111,7 @@ export function updateFeedback(eventId, registrationId, feedback) {
       callAPI({
         types: Event.UPDATE_REGISTRATION,
         endpoint: `/events/${eventId}/registrations/${registrationId}/`,
-        method: 'put',
+        method: 'PATCH',
         body: {
           feedback
         },
@@ -85,5 +120,41 @@ export function updateFeedback(eventId, registrationId, feedback) {
         }
       })
     ).then(() => dispatch(addNotification({ message: 'Feedback updated' })));
+  };
+}
+
+export function updatePresence(eventId, registrationId, presence) {
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: Event.UPDATE_REGISTRATION,
+        endpoint: `/events/${eventId}/registrations/${registrationId}/`,
+        method: 'PATCH',
+        body: {
+          presence
+        },
+        meta: {
+          errorMessage: 'Presence update failed'
+        }
+      })
+    ).then(() => dispatch(addNotification({ message: 'Presence updated' })));
+  };
+}
+
+export function updatePayment(eventId, registrationId, chargeStatus) {
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: Event.UPDATE_REGISTRATION,
+        endpoint: `/events/${eventId}/registrations/${registrationId}/`,
+        method: 'PATCH',
+        body: {
+          chargeStatus
+        },
+        meta: {
+          errorMessage: 'Presence update failed'
+        }
+      })
+    ).then(() => dispatch(addNotification({ message: 'Payment updated' })));
   };
 }

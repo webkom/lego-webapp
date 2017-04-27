@@ -48,6 +48,7 @@ function merge(old, updated) {
 export function entities(key: string) {
   return (
     state: any = {
+      actionGrant: [],
       byId: {},
       items: []
     },
@@ -62,7 +63,7 @@ export function entities(key: string) {
       ...state,
       byId: merge(state.byId, result),
       items: union(state.items, arrayOf(Object.keys(result).map(Number))),
-      actionGrant: action.payload.actionGrant
+      actionGrant: action.payload.actionGrant || []
     };
   };
 }
@@ -104,6 +105,7 @@ export default function createEntityReducer(
   } = types;
 
   const finalInitialState = {
+    actionGrant: [],
     byId: {},
     items: [],
     fetching: false,

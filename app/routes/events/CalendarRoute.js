@@ -7,17 +7,19 @@ import { connect } from 'react-redux';
 import { fetchAll } from 'app/actions/EventActions';
 import Calendar from './components/Calendar';
 
-function mapStateToProps(state, ownProps) {
+const mapStateToProps = (state, ownProps) => {
   const {
     year = moment().year(),
     month = moment().month() + 1
   } = ownProps.params;
+  const actionGrant = state.events.actionGrant;
 
   return {
     year,
-    month
+    month,
+    actionGrant
   };
-}
+};
 
 const mapDispatchToProps = { fetchAll };
 

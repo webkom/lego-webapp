@@ -1,5 +1,6 @@
 import styles from './EventDetail.css';
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import Image from 'app/components/Image';
 import CommentView from 'app/components/Comments/CommentView';
 import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
@@ -10,9 +11,9 @@ import JoinEventForm from './JoinEventForm';
 import RegisteredCell from './RegisteredCell';
 import RegisteredSummary from './RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import Tag from 'app/components/Tag';
 import Time from 'app/components/Time';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -37,6 +38,7 @@ export type Props = {
   comments: Array,
   pools: Array,
   registrations: Array,
+  waitingRegistrations: Array,
   currentRegistration: Object,
   loggedIn: boolean,
   isUserInterested: boolean,
@@ -94,15 +96,22 @@ export default class EventDetail extends Component {
       event,
       loggedIn,
       currentUser,
+      actionGrant,
       comments,
       error,
       loading,
       pools,
       registrations,
-      currentRegistration
+      currentRegistration,
+      poolsWithWaitingRegistrations,
+      waitingRegistrations
     } = this.props;
 
-    if (loading) {
+    if (!event.id) {
+      return null;
+    }
+
+    if (loading || Object.keys(event).length === 0) {
       return <LoadingIndicator loading />;
     }
 
@@ -167,26 +176,50 @@ export default class EventDetail extends Component {
                     ))}
                 </FlexRow>
                 <RegisteredSummary registrations={registrations} />
-                <AttendanceStatus title="Påmeldte" pools={pools} />
-                {!currentRegistration
-                  ? <div>
-                      <i className="fa fa-exclamation-circle" />
-                      {' '}
-                      Du er ikke registrert
-                    </div>
-                  : <div>
-                      <i className="fa fa-check-circle" /> Du er registrert
-                      {event.isPriced &&
-                        (currentRegistration.chargeStatus === 'succeeded'
-                          ? <div>
-                              <i className="fa fa-check-circle" /> Du har betalt
-                            </div>
-                          : <div>
-                              <i className="fa fa-exclamation-circle" />
-                              {' '}
-                              Du har ikke betalt
-                            </div>)}
-                    </div>}
+                <AttendanceStatus
+                  title="Påmeldte"
+                  pools={poolsWithWaitingRegistrations}
+                />
+                {!currentRegistration &&
+                  <div>
+                    <i className="fa fa-exclamation-circle" />
+                    {' '}
+                    Du er ikke registrert
+                  </div>}
+                {currentRegistration &&
+                  <div>
+                    {currentRegistration.pool
+                      ? <div>
+                          <i className="fa fa-check-circle" /> Du er registrert
+                        </div>
+                      : <div>
+                          <i className="fa fa-pause-circle" />
+                          {' '}
+                          Du er i venteliste
+                        </div>}
+                    {event.isPriced &&
+                      (currentRegistration.chargeStatus === 'succeeded'
+                        ? <div>
+                            <i className="fa fa-check-circle" /> Du har betalt
+                          </div>
+                        : <div>
+                            <i className="fa fa-exclamation-circle" />
+                            {' '}
+                            Du har ikke betalt
+                          </div>)}
+                  </div>}
+                {actionGrant.includes('update') &&
+                  <ul>
+                    <li><strong>Admin</strong></li>
+                    <li>
+                      <Link
+                        to={`/events/${event.id}/administrate`}
+                        style={{ color: 'white' }}
+                      >
+                        Påmeldinger
+                      </Link>
+                    </li>
+                  </ul>}
               </FlexItem>}
           </FlexColumn>
         </FlexRow>

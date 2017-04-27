@@ -6,15 +6,18 @@ import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
 
 const Registration = ({ registration }) => (
   <Tooltip content={registration.user.fullName}>
-    <Link to={`/users/${registration.user.username}`} style={{ color: 'white' }}>
+    <Link
+      to={`/users/${registration.user.username}`}
+      style={{ color: 'white' }}
+    >
       {registration.user.firstName.split(' ')[0]}
     </Link>
   </Tooltip>
 );
 
-const renderNameList = (registrations) => (
+const renderNameList = registrations => (
   <FlexColumn>
-    {registrations.map((reg) => (
+    {registrations.map(reg => (
       <FlexItem key={reg.id}>{reg.user.fullName}</FlexItem>
     ))}
   </FlexColumn>
@@ -22,7 +25,9 @@ const renderNameList = (registrations) => (
 
 const RegistrationList = ({ registrations }) => (
   <Tooltip content={renderNameList(registrations)} list>
-    {`${registrations.length} ${registrations.length === 1 ? 'annen' : 'andre'}`}
+    {
+      `${registrations.length} ${registrations.length === 1 ? 'annen' : 'andre'}`
+    }
   </Tooltip>
 );
 

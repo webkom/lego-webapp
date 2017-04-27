@@ -14,15 +14,16 @@ class Toolbar extends Component {
   };
 
   render() {
+    const { actionGrant } = this.props;
     return (
       <div className={styles.root}>
         <div className={styles.section}>
-          <Time format='ll' className={styles.timeNow} />
+          <Time format="ll" className={styles.timeNow} />
         </div>
 
         <div className={styles.buttons}>
           <IndexLink
-            to='/events'
+            to="/events"
             activeClassName={styles.active}
             className={styles.pickerItem}
           >
@@ -30,7 +31,7 @@ class Toolbar extends Component {
           </IndexLink>
 
           <Link
-            to='/events/calendar'
+            to="/events/calendar"
             activeClassName={styles.active}
             className={styles.pickerItem}
           >
@@ -39,7 +40,11 @@ class Toolbar extends Component {
         </div>
 
         <div className={styles.section}>
-          <Button onClick={() => this.setState({ editorOpen: true })}>Create Event</Button>
+          {actionGrant &&
+            actionGrant.includes('create') &&
+            <Button onClick={() => this.setState({ editorOpen: true })}>
+              Create Event
+            </Button>}
         </div>
 
         <Modal

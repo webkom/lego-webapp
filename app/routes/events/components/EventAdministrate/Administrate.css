@@ -1,0 +1,75 @@
+.root {
+  composes: container from 'app/styles/utilities.css';
+}
+
+.grid {
+  display: grid;
+  grid-gap: 5px;
+  width: 800px;
+  align-items: center;
+}
+
+.registeredList {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 10% 8% 12% 10% 14% 14% 18% 14%;
+}
+
+.unregisteredList {
+  display: grid;
+  max-width: 500px;
+  align-items: center;
+  grid-template-columns: repeat(5, 20%);
+}
+
+.greenIcon {
+  font-size: 1.5em;
+  color: green;
+}
+
+.questionIcon {
+  font-size: 1.5em;
+  color: blue;
+}
+
+.crossIcon {
+  font-size: 1.5em;
+  color: '#C24538';
+}
+
+.center {
+  flex: 1;
+  justify-self: center;
+}
+
+.transparent {
+  opacity: 0.3;
+}
+
+a.transparent:hover {
+  opacity: 1;
+}
+
+.list {
+  display: flex;
+  width: 800px;
+  flex-direction: column;
+  align-items: 'center';
+  justify-content: 'center';
+}
+
+.grid > li {
+  padding-bottom: 5px;
+  border-bottom: 1px solid #CCC;
+}
+
+.presenceIcons {
+  display: flex;
+  flex-direction: row;
+  align-content: space-around;
+  margin: 5px;
+}
+
+.cell {
+  margin: 2px;
+}

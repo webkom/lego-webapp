@@ -12,9 +12,9 @@ import Toolbar from './Toolbar';
 const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
 
 type Props = {
-  weekOffset: number;
-  year: string;
-  month: string;
+  weekOffset: number,
+  year: string,
+  month: string
 };
 
 function pathForPrevMonth(date: moment) {
@@ -35,35 +35,32 @@ export default class Calendar extends Component {
   };
 
   render() {
-    const { year, month } = this.props;
+    const { year, month, actionGrant } = this.props;
     const date = moment([parseInt(year, 10), parseInt(month, 10) - 1]);
 
     return (
       <div className={styles.root}>
-        <Helmet title='Kalender' />
-        <Toolbar />
+        <Helmet title="Kalender" />
+        <Toolbar actionGrant={actionGrant} />
 
         <h2 className={styles.header}>
           <Link to={`/events/calendar/${pathForPrevMonth(date)}`}>
-            &laquo;
+            «
           </Link>
           <span>{date.format('MMMM YYYY')}</span>
           <Link to={`/events/calendar/${pathForNextMonth(date)}`}>
-            &raquo;
+            »
           </Link>
         </h2>
 
         <div className={styles.grid}>
-          {WEEKDAYS.map((d) => <div key={d} className={styles.headingItem}>{d}</div>)}
+          {WEEKDAYS.map(d => (
+            <div key={d} className={styles.headingItem}>{d}</div>
+          ))}
           {createMonthlyCalendar(
             date,
             this.props.weekOffset
-          ).map((dateProps, i) => (
-            <CalendarCell
-              key={i}
-              {...dateProps}
-            />
-          ))}
+          ).map((dateProps, i) => <CalendarCell key={i} {...dateProps} />)}
         </div>
       </div>
     );

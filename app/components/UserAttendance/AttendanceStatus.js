@@ -17,7 +17,7 @@ class AttendanceStatus extends Component {
     selectedPool: 0
   };
 
-  toggleModal = (key) => {
+  toggleModal = key => {
     this.setState({
       modalOpen: !this.state.modalOpen,
       selectedPool: key
@@ -29,8 +29,12 @@ class AttendanceStatus extends Component {
     const lists = (pools || []).map((pool, i) => (
       <div key={i} className={styles.poolBox}>
         <strong>{pool.name}</strong>
-        <a onClick={() => (this.toggleModal(i))}>
-          <strong>{pool.registrations.length}/{pool.capacity}</strong>
+        <a onClick={() => this.toggleModal(i)}>
+          <strong>
+            {pool.capacity
+              ? `${pool.registrations.length}/${pool.capacity}`
+              : pool.registrations.length}
+          </strong>
         </a>
       </div>
     ));
@@ -38,11 +42,12 @@ class AttendanceStatus extends Component {
     return (
       <div className={styles.attendanceBox}>
         {lists}
-        <Modal
-          show={this.state.modalOpen}
-          onHide={() => (this.toggleModal(0))}
-        >
-          <RegistrationModal {...this.props} selectedPool={this.state.selectedPool} pools={pools} />
+        <Modal show={this.state.modalOpen} onHide={() => this.toggleModal(0)}>
+          <RegistrationModal
+            {...this.props}
+            selectedPool={this.state.selectedPool}
+            pools={pools}
+          />
         </Modal>
       </div>
     );

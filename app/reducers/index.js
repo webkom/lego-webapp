@@ -68,6 +68,11 @@ export const eventSchema = new schema.Entity('events', {
   pools: [poolSchema],
   comments: [commentSchema]
 });
+export const eventAdministrateSchema = new schema.Entity('events', {
+  pools: [poolSchema],
+  unregistered: [registrationSchema],
+  waitingRegistrations: [registrationSchema]
+});
 export const articleSchema = new schema.Entity('articles', {
   comments: [commentSchema]
 });

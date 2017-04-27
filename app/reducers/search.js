@@ -11,36 +11,36 @@ const initialState = {
 
 const searchMapping = {
   'users.user': {
-    title: 'fullName',
+    label: 'fullName',
     color: '#A1C34A',
     path: '/users/',
-    param: 'username',
+    value: 'username',
     profilePicture: 'profilePicture'
   },
   'articles.article': {
     icon: 'newspaper-o',
-    title: 'title',
+    label: 'title',
     picture: 'cover',
     color: '#52B0EC',
     path: '/articles/',
-    param: 'id',
+    value: 'id',
     content: 'text'
   },
   'events.event': {
     icon: 'calendar',
-    title: 'title',
+    value: 'title',
     color: '#E8953A',
     picture: 'cover',
     path: '/events/',
-    param: 'id',
+    value: 'id',
     content: 'description'
   },
   'flatpages.page': {
     profilePicture: 'picture',
-    title: 'title',
+    value: 'title',
     color: '#E8953A',
     path: '/pages/',
-    param: 'slug',
+    value: 'slug',
     content: 'content'
   }
 };
@@ -115,7 +115,7 @@ const transformResult = result => {
     item[field] = result[fields[field]] || fields[field];
   });
 
-  item.link = item.path + item.param;
+  item.link = item.path + item.value;
 
   return item;
 };

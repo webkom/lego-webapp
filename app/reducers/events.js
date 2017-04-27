@@ -74,6 +74,14 @@ function transformEvent(event) {
   };
 }
 
+function transformRegistration(registration) {
+  return {
+    ...registration,
+    registrationDate: moment(registration.registrationDate),
+    unregistrationDate: moment(registration.unregistrationDate)
+  };
+}
+
 export const selectEvents = createSelector(
   state => state.events.byId,
   state => state.events.items,
@@ -109,6 +117,26 @@ export const selectPoolsWithRegistrationsForEvent = createSelector(
       ...pool,
       registrations: pool.registrations.map(regId => registrationsById[regId])
     }))
+);
+
+export const selectAllRegistrationsForEvent = createSelector(
+  state => state.registrations.byId,
+  state => state.registrations.items,
+  (state, props) => props.eventId,
+  (registrationsById, registrationItems, eventId) =>
+    registrationItems
+      .map((regId, i) => transformRegistration(registrationsById[regId]))
+      .filter(reg => reg.event == eventId)
+);
+
+export const selectWaitingRegistrationsForEvent = createSelector(
+  selectEventById,
+  state => state.registrations.byId,
+  (event, registrationsById) => {
+    if (!event) return [];
+    return (event.waitingRegistrations || [])
+      .map(regId => registrationsById[regId]);
+  }
 );
 
 export const selectCommentsForEvent = createSelector(

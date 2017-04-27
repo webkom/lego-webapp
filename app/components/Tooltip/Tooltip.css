@@ -6,6 +6,7 @@
   display: block;
   position: absolute;
   background: #333;
+  color: #FFF;
   border-radius: 5px;
   padding: 5px 15px;
 }

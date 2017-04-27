@@ -1,6 +1,7 @@
 import { omit } from 'lodash';
 import { Event } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import moment from 'moment';
 
 export default createEntityReducer({
   key: 'registrations',
@@ -23,11 +24,31 @@ export default createEntityReducer({
           }
         };
       }
+      case Event.UNREGISTER.SUCCESS: {
+        if (action.meta.admin) {
+          return {
+            ...state,
+            byId: {
+              ...state.byId,
+              [action.payload.id]: {
+                ...state.byId[action.payload.id],
+                unregistrationDate: moment()
+              }
+            }
+          };
+        }
+        return state;
+      }
+      case Event.UPDATE_REGISTRATION.SUCCESS:
       case Event.SOCKET_UNREGISTRATION.SUCCESS: {
         return {
           ...state,
           byId: {
-            ...omit(state.byId, action.payload.id)
+            ...state.byId,
+            [action.payload.id]: {
+              ...state.byId[action.payload.id],
+              ...action.payload
+            }
           }
         };
       }
