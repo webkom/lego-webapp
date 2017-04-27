@@ -1,8 +1,7 @@
 import { NotificationsFeed, Feed } from './ActionTypes';
 import callAPI from './callAPI';
 import { feedActivitySchema } from 'app/reducers';
-
-import { feedIdByUsername } from 'app/reducers/feeds';
+import { selectIsLoggedIn } from 'app/reducers/auth';
 
 export function fetchNotificationFeed() {
   return callAPI({
@@ -16,10 +15,16 @@ export function fetchNotificationFeed() {
 }
 
 export function fetchNotificationData() {
-  return callAPI({
-    types: NotificationsFeed.FETCH_DATA,
-    endpoint: '/feed/notifications/notification_data/'
-  });
+  return (dispatch, getState) => {
+    if (selectIsLoggedIn(getState())) {
+      dispatch(
+        callAPI({
+          types: NotificationsFeed.FETCH_DATA,
+          endpoint: '/feed/notifications/notification_data/'
+        })
+      );
+    }
+  };
 }
 
 export function markAllNotifications() {

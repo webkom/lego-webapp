@@ -12,6 +12,11 @@ export function activityHeader(aggregatedActivity) {
   const actor = lookupContext(aggregatedActivity, latestActivity.actor);
   const meetings = aggregatedActivity.activities.map(activity =>
     lookupContext(aggregatedActivity, activity.object));
+
+  if (!(actor && meetings)) {
+    return null;
+  }
+
   return (
     <b>
       {contextRender[actor.contentType](actor)}
