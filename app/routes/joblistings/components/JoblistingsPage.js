@@ -6,7 +6,13 @@ import JoblistingsList from './JoblistingsList';
 import JoblistingsRightNav from './JoblistingsRightNav';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 
-const JoblistingsPage = ({ joblistings, query, actionGrant }) => {
+type Props = {
+  joblistings: Array,
+  query: Object,
+  actionGrant: Array
+};
+
+const JoblistingsPage = ({ joblistings, query, actionGrant }: Props) => {
   if (!joblistings) {
     return <LoadingIndicator loading />;
   }

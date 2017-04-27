@@ -6,13 +6,21 @@ import Time from 'app/components/Time';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 import { Year, Jobtype, Workplaces } from './Items';
 
-function JoblistingItem({ joblisting }) {
+type Props = {
+  joblisting: Object,
+  joblistings: Array
+};
+
+function JoblistingItem({ joblisting }: Props) {
   return (
     <FlexRow className={styles.joblistingItem}>
       <FlexRow>
         <FlexColumn>
           <Link to={`/joblistings/${joblisting.id}/`}>
-            <Image src='http://placehold.it/120x80' className={styles.companyLogo} />
+            <Image
+              src="http://placehold.it/120x80"
+              className={styles.companyLogo}
+            />
           </Link>
         </FlexColumn>
         <FlexColumn>
@@ -28,17 +36,14 @@ function JoblistingItem({ joblisting }) {
       </FlexRow>
       <FlexColumn className={styles.deadLine}>
         <div>
-          <Time
-            time={joblisting.deadline}
-            format='ll HH:mm'
-          />
+          <Time time={joblisting.deadline} format="ll HH:mm" />
         </div>
       </FlexColumn>
     </FlexRow>
   );
 }
 
-function JoblistingListGroup({ joblistings = [] }) {
+function JoblistingListGroup({ joblistings = [] }: Props) {
   return (
     <div>
       <FlexRow className={styles.heading}>
@@ -50,20 +55,14 @@ function JoblistingListGroup({ joblistings = [] }) {
         </FlexColumn>
       </FlexRow>
       {joblistings.map((joblisting, i) => (
-        <JoblistingItem
-          key={i}
-          joblisting={joblisting}
-        />
-        )
-      )}
+        <JoblistingItem key={i} joblisting={joblisting} />
+      ))}
     </div>
   );
 }
 
-const JoblistingsList = ({ joblistings }) => (
-  <JoblistingListGroup
-    joblistings={joblistings}
-  />
+const JoblistingsList = ({ joblistings }: Props) => (
+  <JoblistingListGroup joblistings={joblistings} />
 );
 
 export default JoblistingsList;
