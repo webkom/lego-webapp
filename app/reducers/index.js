@@ -98,5 +98,7 @@ export const interestGroupSchema = new schema.Entity('interestGroups');
 export const companySchema = new schema.Entity('companies', {
   studentContact: userSchema
 });
-export const joblistingsSchema = new schema.Entity('joblistings');
+export const joblistingsSchema = new schema.Entity('joblistings', {
+  company: companySchema
+});
 export const feedActivitySchema = new schema.Entity('feedActivities');
