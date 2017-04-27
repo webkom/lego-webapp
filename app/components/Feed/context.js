@@ -13,5 +13,8 @@ export const contextRender = {
   ),
   'events.event': context => (
     <Link to={`/events/${context.id}/`}>{`${context.title}`}</Link>
+  ),
+  'meetings.meetinginvitation': context => (
+    <Link to={`/meetings/${context.meeting.id}`}>{context.meeting.title}</Link>
   )
 };

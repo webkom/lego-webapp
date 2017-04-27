@@ -11,6 +11,13 @@ import {
   logout,
   login
 } from 'app/actions/UserActions';
+import {
+  fetchNotificationData,
+  fetchNotificationFeed,
+  markAllNotifications,
+  markNotification
+} from 'app/actions/NotificationsFeedActions';
+import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
 import { toggleSearch } from 'app/actions/SearchActions';
 import Header from 'app/components/Header';
 import Footer from 'app/components/Footer';
@@ -33,6 +40,12 @@ class App extends Component {
           loggedIn={this.props.loggedIn}
           logout={this.props.logout}
           login={this.props.login}
+          notificationsData={this.props.notificationsData}
+          fetchNotifications={this.props.fetchNotificationFeed}
+          notifications={this.props.notifications}
+          markNotification={this.props.markNotification}
+          markAllNotifications={this.props.markAllNotifications}
+          fetchNotificationData={this.props.fetchNotificationData}
         />
 
         <div style={{ flex: 1 }}>
@@ -53,14 +66,22 @@ function mapStateToProps(state) {
   return {
     searchOpen: state.search.open,
     currentUser: selectCurrentUser(state),
-    loggedIn: selectIsLoggedIn(state)
+    loggedIn: selectIsLoggedIn(state),
+    notificationsData: state.notificationsFeed,
+    notifications: selectFeedActivitesByFeedId(state, {
+      feedId: 'notifications'
+    })
   };
 }
 
 const mapDispatchToProps = {
   toggleSearch,
   logout,
-  login
+  login,
+  fetchNotificationFeed,
+  markNotification,
+  markAllNotifications,
+  fetchNotificationData
 };
 
 export default compose(
@@ -68,5 +89,6 @@ export default compose(
     componentDidMount: false,
     componentWillReceiveProps: false
   }),
+  dispatched((props, dispatch) => dispatch(fetchNotificationData())),
   connect(mapStateToProps, mapDispatchToProps)
 )(App);

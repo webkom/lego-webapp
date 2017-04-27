@@ -126,6 +126,12 @@ export const Notifications = {
   NOTIFICATION_REMOVED: 'Notification.REMOVED'
 };
 
+export const NotificationsFeed = {
+  FETCH_DATA: generateStatuses('NotificationsFeed.FETCH_DATA'),
+  MARK_ALL: generateStatuses('NotificationsFeed.MARK_ALL'),
+  MARK: generateStatuses('NotificationsFeed.MARK')
+};
+
 /**
  *
  */

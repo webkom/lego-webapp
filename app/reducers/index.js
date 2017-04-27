@@ -14,6 +14,7 @@ import auth from './auth';
 import users from './users';
 import groups from './groups';
 import notifications from './notifications';
+import notificationsFeed from './notificationsFeed';
 import comments from './comments';
 import pages from './pages';
 import interestGroups from './interestGroups';
@@ -38,6 +39,7 @@ const appReducer = combineReducers({
   groups,
   pages,
   notifications,
+  notificationsFeed,
   routing,
   joblistings,
   feedActivities,

@@ -10,6 +10,7 @@ import Search from '../Search';
 import LoginForm from '../LoginForm/LoginForm';
 import ProfilePicture from '../ProfilePicture';
 import FancyNodesCanvas from './FancyNodesCanvas';
+import NotificationsDropdown from '../HeaderNotifications';
 import styles from './Header.css';
 
 import type { UserEntity } from 'app/reducers/users';
@@ -20,12 +21,17 @@ type Props = {
   currentUser: UserEntity,
   loggedIn: boolean,
   login: () => void,
-  logout: () => void
+  logout: () => void,
+  notificationsData: Object,
+  fetchNotifications: () => void,
+  notifications: Array<Object>,
+  markAllNotifications: () => void,
+  markNotification: (string) => void,
+  fetchNotificationData: () => void
 };
 
 type State = {
   accountOpen: boolean,
-  notificationsOpen: boolean,
   shake: boolean
 };
 
@@ -73,12 +79,13 @@ export default class Header extends Component {
 
   state: State = {
     accountOpen: false,
-    notificationsOpen: false,
     shake: false
   };
 
   render() {
-    const { loggedIn } = this.props;
+    const {
+      loggedIn
+    } = this.props;
 
     return (
       <header className={styles.header}>
@@ -110,20 +117,14 @@ export default class Header extends Component {
 
           <div className={styles.buttonGroup}>
             {loggedIn &&
-              <Dropdown
-                show={this.state.notificationsOpen}
-                toggle={() =>
-                  this.setState({
-                    notificationsOpen: !this.state.notificationsOpen
-                  })}
-                triggerComponent={
-                  <Icon.Badge name="notifications" badgeCount={1} />
-                }
-              >
-                <div style={{ padding: 15 }}>
-                  <h2>Ingen nye varslinger</h2>
-                </div>
-              </Dropdown>}
+              <NotificationsDropdown
+                notificationsData={this.props.notificationsData}
+                fetchNotifications={this.props.fetchNotifications}
+                notifications={this.props.notifications}
+                markAllNotifications={this.props.markAllNotifications}
+                markNotification={this.props.markNotification}
+                fetchNotificationData={this.props.fetchNotificationData}
+              />}
 
             {loggedIn &&
               <Dropdown

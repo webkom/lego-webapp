@@ -43,7 +43,7 @@ function MeetingEditor(
         <h3>Møteinkalling / referat</h3>
         <div className={styles.editors}>
           <Editor
-            content={meeting ? meeting.report : ''}
+            value={meeting ? meeting.report : '<p></p>'}
             onChange={data => {
               change('report', data);
             }}

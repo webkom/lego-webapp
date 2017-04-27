@@ -1,8 +1,9 @@
 import React from 'react';
 import Activty from './activity';
 
-const activityRenderers = {
-  comment: require('./renders/comment')
+export const activityRenderers = {
+  comment: require('./renders/comment'),
+  meeting_invitation: require('./renders/meetingInvitation')
 };
 
 const Feed = ({ items }) => (
