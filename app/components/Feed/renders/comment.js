@@ -4,11 +4,12 @@ import { Link } from 'react-router';
 import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import Time from 'app/components/Time';
+import Icon from 'app/components/Icon';
 import ProfilePicture from 'app/components/ProfilePicture';
 import { lookupContext, contextRender } from '../context';
 
 /**
- * Comments are grouped by the user and comment target.
+ * Comments are grouped by the comment target and date.
  * This makes it possible to use the latest activity to generate the header.
  */
 export function activityHeader(aggregatedActivity) {
@@ -30,4 +31,8 @@ export function activityContent(activity) {
   return (
     <div dangerouslySetInnerHTML={{ __html: activity.extraContext.content }} />
   );
+}
+
+export function icon(aggregatedActivity) {
+  return <Icon name="text" />;
 }
