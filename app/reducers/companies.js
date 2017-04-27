@@ -61,7 +61,7 @@ export default createEntityReducer({
 });
 
 export const selectCompanies = createSelector(
-  state => state.companies.items,
+  state => state.companies.items.map(Number),
   state => state.companies.byId,
   state => state.users.byId,
   (companyIds, companiesById, usersById) =>
@@ -94,6 +94,12 @@ export const selectCompanyContact = createSelector(
   (state, props) => props.companyContactId,
   (company, companyContactId) => {
     if (!company) return [];
+    console.log('ey');
+    console.log(company);
+    console.log(companyContactId);
+    console.log(
+      company.companyContacts.filter(contact => contact.id === companyContactId)
+    );
     return company.companyContacts.filter(
       contact => contact.id === companyContactId
     );

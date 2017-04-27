@@ -11,10 +11,13 @@ import { selectCompanies } from 'app/reducers/companies';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
-const mapStateToProps = (state, props) => ({
-  companies: selectCompanies(state, props),
-  query: props.location
-});
+const mapStateToProps = (state, props) => {
+  console.log(selectCompanies(state, props));
+  return {
+    companies: selectCompanies(state, props),
+    query: props.location
+  };
+};
 
 const mapDispatchToProps = { fetchAll, editSemesterStatus, addSemesterStatus };
 

@@ -7,13 +7,16 @@ import CommentView from 'app/components/Comments/CommentView';
 import Time from 'app/components/Time';
 import { Link } from 'react-router';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import { Flex } from 'app/components/Layout';
 
 type Props = {
   company: Object,
   comments?: Array<Object>,
   companyEvents: Array<Object>,
   currentUser: any,
-  deleteSemesterStatus: () => void
+  deleteSemesterStatus: () => void,
+  deleteCompanyContact: () => void,
+  loggedIn: boolean
 };
 
 export default class BdbDetail extends Component {
@@ -219,18 +222,17 @@ export default class BdbDetail extends Component {
               <i style={{ display: 'block' }}>Ingen sememsterstatuser.</i>
             )}
 
-            <Link
-              to={`/bdb/${company.id}/semesters/add`}
-              style={{ display: 'block' }}
-            >
-              <i className="fa fa-plus-circle" /> Legg til nytt semester
-            </Link>
-            <Link
-              to={`/bdb/${company.id}/semesters/add`}
-              style={{ display: 'block' }}
-            >
-              <i className="fa fa-plus-circle" /> Legg til bedex (TODO)
-            </Link>
+            <Flex justifyContent="space-between">
+              <Link to={`/bdb/${company.id}/semesters/add`}>
+                <i className="fa fa-plus-circle" /> Legg til nytt semester
+              </Link>
+              <Link
+                to={`/bdb/${company.id}/semesters/add`}
+                style={{ paddingRight: '30px' }}
+              >
+                <i className="fa fa-plus-circle" /> Legg til bedex (TODO)
+              </Link>
+            </Flex>
 
             <div className={styles.infoBubbles}>
               <InfoBubble

@@ -5,7 +5,8 @@ export default [
     contacted: ['Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs'],
     studentContact: 'Marius Kotlarz',
     comment: 'Partner',
-    jobOfferOnly: false
+    jobOfferOnly: false,
+    adminComment: 'Husk logo på alle sider'
   },
   {
     name: 'Facebook',

@@ -63,7 +63,8 @@ export default class BdbPage extends Component {
       status.semester === yearAndSemester.semester &&
       status.companyId === companyId;
 
-    // Find which semester has been changed
+    // Find which semester has been changed. Split into several variables
+    // for readability.
     const changedCompanyIndex = companies.indexOf(
       companies.filter(company => company.id === companyId)[0]
     );
@@ -126,7 +127,7 @@ export default class BdbPage extends Component {
     });
   };
 
-  submitChange = () => {
+  submitSemesters = () => {
     const { addSemesterStatus, editSemesterStatus } = this.props;
     this.state.changedStatuses.forEach(status => {
       if (status.semesterId === 'undefined') {
@@ -179,6 +180,8 @@ export default class BdbPage extends Component {
 
   render() {
     const { query, companies } = this.props;
+    console.log('companies i BdbPage:');
+    console.log(companies);
 
     if (!companies) {
       return <LoadingIndicator loading />;
@@ -206,11 +209,9 @@ export default class BdbPage extends Component {
           style={{ cursor: 'pointer', margin: '15px 0' }}
         >
           Valg{' '}
-          {this.state.displayOptions ? (
-            <i className="fa fa-caret-down" />
-          ) : (
-            <i className="fa fa-caret-right" />
-          )}
+          {this.state.displayOptions
+            ? <i className="fa fa-caret-down" />
+            : <i className="fa fa-caret-right" />}
         </h2>
 
         <OptionsBox
@@ -220,13 +221,11 @@ export default class BdbPage extends Component {
           filters={this.state.filters}
         />
 
-        {this.state.changedStatuses.length > 0 ? (
-          <Button onClick={this.submitChange} dark>
-            Lagre endringer
-          </Button>
-        ) : (
-          ''
-        )}
+        {this.state.changedStatuses.length > 0
+          ? <Button onClick={this.submitSemesters} dark>
+              Lagre endringer
+            </Button>
+          : ''}
         {this.state.submitted && `${trueIcon} Lagret!`}
 
         <i style={{ display: 'block' }}>
