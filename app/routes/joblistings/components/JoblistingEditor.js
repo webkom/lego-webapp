@@ -43,19 +43,46 @@ function JoblistingEditor(
     dispatch
   }: Props
 ) {
+  const places = [
+    { label: 'Oslo', value: 'Oslo' },
+    { label: 'Bergen', value: 'Bergen' },
+    { label: 'Stavanger', value: 'Stavanger' },
+    { label: 'Trondheim', value: 'Trondheim' },
+    { label: 'Drammen', value: 'Drammen' },
+    { label: 'Fredrikstad', value: 'Fredrikstad' },
+    { label: 'Sarpsborg', value: 'Sarpsborg' },
+    { label: 'Kristiansand', value: 'Kristiansand' },
+    { label: 'Ålesund', value: 'Ålesund' },
+    { label: 'Tønsberg', value: 'Tønsberg' },
+    { label: 'Moss', value: 'Moss' },
+    { label: 'Haugesund', value: 'Haugesund' },
+    { label: 'Sandefjord', value: 'Sandefjord' },
+    { label: 'Arendal', value: 'Arendal' },
+    { label: 'Bodø', value: 'Bodø' },
+    { label: 'Tromsø', value: 'Tromsø' },
+    { label: 'Hamar', value: 'Hamar' },
+    { label: 'Larvik', value: 'Larvik' },
+    { label: 'Kongsberg', value: 'Kongsberg' },
+    { label: 'Molde', value: 'Molde' },
+    { label: 'Lillehammer', value: 'Lillehammer' },
+    { label: 'Drøbak', value: 'Drøbak' },
+    { label: 'Hønefoss', value: 'Hønefoss' },
+    { label: 'Elverum', value: 'Elverum' },
+    { label: 'Kongsvinger', value: 'Kongsvinger' }
+  ];
+
   const isEditPage = joblistingId !== undefined;
   if (isEditPage && !joblisting) {
     return <LoadingIndicator loading />;
   }
   const onSubmit = newJoblisting => {
+    console.log('workplaces', newJoblisting.workplaces);
     const workplaces = newJoblisting.workplaces
-      ? newJoblisting.workplaces.split(',').map(town => ({ town }))
+      ? newJoblisting.workplaces.map(obj => ({ town: obj.value }))
       : null;
-    const responsible = newJoblisting.responsible &&
-      (newJoblisting.responsible === 'Ingen' ||
-        newJoblisting.responsible.id === -1)
+    const responsible = newJoblisting.responsible.id === -1
       ? null
-      : newJoblisting.responsible ? newJoblisting.responsible.id : null;
+      : newJoblisting.responsible.id;
     submitJoblisting({
       ...newJoblisting,
       workplaces,
@@ -114,6 +141,7 @@ function JoblistingEditor(
     </FlexRow>
   );
 
+  console.log('asd', company);
   return (
     <div className={styles.root}>
       <h1 className={styles.heading}>
@@ -132,6 +160,10 @@ function JoblistingEditor(
               options={results}
               fetching={searching}
               onSearch={query => onQueryChanged(query)}
+              onChange={val => {
+                fetchCompany(val[0]);
+              }}
+              simpleValue={false}
             />
           </FlexColumn>
         </FlexRow>
@@ -150,14 +182,22 @@ function JoblistingEditor(
             </Field>
           </FlexColumn>
         </FlexRow>
-
-        {fieldComponent('Arbeidssteder: ', 'workplaces', 'Arbeidssteder')}
+        <FlexRow className={styles.row}>
+          <FlexColumn className={styles.des}>Arbeidssteder: </FlexColumn>
+          <FlexColumn className={styles.textfield}>
+            <Field
+              placeholder={'Arbeidssteder'}
+              name="workplaces"
+              component={SelectInput.Field}
+              options={places}
+              tags
+            />
+          </FlexColumn>
+        </FlexRow>
 
         {yearPickerComponent('Fra år: ', 'fromYear')}
         {yearPickerComponent('Til år: ', 'toYear')}
-
         {fieldComponent('Søknadslenke: ', 'applicationUrl', 'Søknadslenke')}
-
         {textEditorComponent(
           'Søknadsintro: ',
           'description',
@@ -172,19 +212,18 @@ function JoblistingEditor(
             <Field
               placeholder={'Kontaktperson'}
               name="responsible"
-              component={SelectInput}
+              component={SelectInput.Field}
               options={
                 company
-                  ? [{ id: -1, name: 'Ingen' }].concat(company.companyContacts)
-                  : [{ id: -1, name: 'Ingen' }]
+                  ? [{ label: 'Ingen', value: -1 }].concat(
+                      (company.companyContacts || [])
+                        .map(contact => ({
+                          label: contact.name,
+                          value: contact.id
+                        }))
+                    )
+                  : [{ label: 'Ingen', value: -1 }]
               }
-              optionValue="id"
-              optionLabel="name"
-              displayValue="name"
-              valueMapping={{
-                id: 'id',
-                name: 'name'
-              }}
             />
           </FlexColumn>
         </FlexRow>
