@@ -30,6 +30,7 @@ function mapStateToProps(state, props) {
   const formSelector = formValueSelector('joblistingEditor');
   const company = formSelector(state, 'company');
   const joblisting = selectJoblistingById(state, { joblistingId });
+  console.log('comp', company);
   return {
     joblisting,
     initialValues: {
@@ -41,9 +42,7 @@ function mapStateToProps(state, props) {
     joblistingId,
     results: selectAutocomplete(state),
     searching: state.search.searching,
-    company: company
-      ? selectCompanyById(state, { companyId: company.id })
-      : null
+    company: company ? selectCompanyById(state, { companyId: company }) : null
   };
 }
 
