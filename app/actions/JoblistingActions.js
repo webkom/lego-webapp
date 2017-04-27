@@ -136,11 +136,9 @@ export function editJoblisting(
           company,
           responsible,
           description,
-          deadline: moment(deadline).utc().format('YYYY-MM-DD[T]HH:MM:SS[Z]'),
-          visibleFrom: moment(visibleFrom)
-            .utc()
-            .format('YYYY-MM-DD[T]HH:MM:SS[Z]'),
-          visibleTo: moment(visibleTo).utc().format('YYYY-MM-DD[T]HH:MM:SS[Z]'),
+          deadline: moment(deadline).toISOString(),
+          visibleFrom: moment(visibleFrom).toISOString(),
+          visibleTo: moment(visibleTo).toISOString(),
           jobType,
           workplaces,
           fromYear,
