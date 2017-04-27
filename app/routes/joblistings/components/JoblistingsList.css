@@ -42,6 +42,10 @@
   height: 80px;
   background: #eee;
   margin-right: 20px;
+
+  @media (--small-viewport) {
+    display: none;
+  }
 }
 
 .joblistingItemTitle {
