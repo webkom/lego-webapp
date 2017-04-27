@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import { Link } from 'react-router';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
@@ -8,7 +10,15 @@ import Markdown from 'app/components/Markdown';
 import { Jobtype, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
 
-const JoblistingDetail = ({ joblisting, deleteJoblisting, actionGrant }) => {
+type Props = {
+  joblisting: Object,
+  deleteJoblisting: () => void,
+  actionGrant: Array
+};
+
+const JoblistingDetail = (
+  { joblisting, deleteJoblisting, actionGrant }: Props
+) => {
   let contactTitle = '';
   let applicationUrl = '';
   let buttons = '';
@@ -21,15 +31,9 @@ const JoblistingDetail = ({ joblisting, deleteJoblisting, actionGrant }) => {
         <li>
           <h3>Kontaktinfo:</h3>
         </li>
-        <li>
-          Navn: {joblisting.responsible.name || 'Ikke oppgitt.'}
-        </li>
-        <li>
-          Mail: {joblisting.responsible.mail || 'Ikke oppgitt.'}
-        </li>
-        <li>
-          Telefon: {joblisting.responsible.phone || 'Ikke oppgitt.'}
-        </li>
+        <li>Navn: {joblisting.responsible.name || 'Ikke oppgitt.'}</li>
+        <li>Mail: {joblisting.responsible.mail || 'Ikke oppgitt.'}</li>
+        <li>Telefon: {joblisting.responsible.phone || 'Ikke oppgitt.'}</li>
       </div>
     );
   }
@@ -51,17 +55,16 @@ const JoblistingDetail = ({ joblisting, deleteJoblisting, actionGrant }) => {
 
   if (actionGrant.includes('update')) {
     buttons = (
-      <FlexRow alignItems="center" justifyContent="space-between">
-        <h1>{joblisting.title}</h1>
-        <div>
+      <FlexColumn>
+        <FlexRow>
           <Link to={`/joblistings/${joblisting.id}/edit`}>
             <button className={styles.editButton}> Rediger </button>
           </Link>
           <Link onClick={() => deleteJoblisting(joblisting.id)}>
             <button className={styles.editButton}> Slett </button>
           </Link>
-        </div>
-      </FlexRow>
+        </FlexRow>
+      </FlexColumn>
     );
   }
 
@@ -70,23 +73,17 @@ const JoblistingDetail = ({ joblisting, deleteJoblisting, actionGrant }) => {
       <div className={styles.coverImage}>
         <Image src="http://placehold.it/1000x300" />
       </div>
-      {buttons}
-      <FlexRow>
-        <FlexColumn className={styles.description}>
-          <Markdown>
-            {joblisting.description || ''}
-          </Markdown>
-          <Markdown>
-            {joblisting.text || ''}
-          </Markdown>
-        </FlexColumn>
+      <FlexRow className={styles.title}>
+        {buttons}
+        <FlexColumn><h1>{joblisting.title}</h1></FlexColumn>
+      </FlexRow>
+      <FlexRow className={styles.textbody}>
         <FlexColumn className={styles.meta}>
           <ul>
             <li>
               <h3>Generell info:</h3>
             </li>
             <li>
-
               Bedrift:
               {' '}
               <Link
@@ -103,23 +100,17 @@ const JoblistingDetail = ({ joblisting, deleteJoblisting, actionGrant }) => {
                 <Time time={joblisting.deadline} format="ll HH:mm" />
               </strong>
             </li>
-            <li>
-              Søk her:{' '}
-              <a
-                href={`${joblisting.applicationUrl}`}
-                className={styles.applicationUrl}
-              >
-                {joblisting.applicationUrl}
-              </a>
-            </li>
+            {applicationUrl}
             <br />
-            <li>
-              {Jobtype(joblisting.jobType)}
-            </li>
+            <li>{Jobtype(joblisting.jobType)}</li>
             <Year {...joblisting} />
             <Workplaces places={joblisting.workplaces} />
             {contactTitle}
           </ul>
+        </FlexColumn>
+        <FlexColumn className={styles.description}>
+          <div dangerouslySetInnerHTML={{ __html: joblisting.description }} />
+          <div dangerouslySetInnerHTML={{ __html: joblisting.text }} />
         </FlexColumn>
       </FlexRow>
     </div>
