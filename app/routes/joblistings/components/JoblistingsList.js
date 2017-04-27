@@ -6,7 +6,12 @@ import Time from 'app/components/Time';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 import { Year, Jobtype, Workplaces } from './Items';
 
-function JoblistingItem({ joblisting }) {
+type Props = {
+  joblisting: Object,
+  joblistings: Array
+};
+
+function JoblistingItem({ joblisting }: Props) {
   return (
     <FlexRow className={styles.joblistingItem}>
       <FlexRow>
@@ -40,7 +45,7 @@ function JoblistingItem({ joblisting }) {
   );
 }
 
-function JoblistingListGroup({ joblistings = [] }) {
+function JoblistingListGroup({ joblistings = [] }: Props) {
   return (
     <div>
       <FlexRow className={styles.heading}>
@@ -56,7 +61,8 @@ function JoblistingListGroup({ joblistings = [] }) {
   );
 }
 
-const JoblistingsList = ({ joblistings }) =>
-  <JoblistingListGroup joblistings={joblistings} />;
+const JoblistingsList = ({ joblistings }: Props) => (
+  <JoblistingListGroup joblistings={joblistings} />
+);
 
 export default JoblistingsList;
