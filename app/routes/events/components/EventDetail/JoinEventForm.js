@@ -35,6 +35,13 @@ class JoinEventForm extends Component {
     this.parseEventTimes(this.props.event);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.event.activationTime && !this.props.event.activationTime) {
+      this.setState({ formOpen: false });
+      this.parseEventTimes(nextProps.event);
+    }
+  }
+
   componentWillUnmount() {
     clearInterval(this.counter);
   }
