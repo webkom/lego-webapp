@@ -19,6 +19,7 @@ type Props = {
   joblisting?: Object,
   handleSubmit: () => void,
   onQueryChanged: () => void,
+  searching: boolean,
   submitJoblisting: () => void,
   fetchCompany: () => void,
   company?: Object,
@@ -33,6 +34,7 @@ function JoblistingEditor(
     joblistingId,
     joblisting,
     onQueryChanged,
+    searching,
     submitJoblisting,
     company,
     fetchCompany,
@@ -52,10 +54,8 @@ function JoblistingEditor(
         newJoblisting.responsible.id === -1)
       ? null
       : newJoblisting.responsible ? newJoblisting.responsible.id : null;
-    const company = newJoblisting.company.id;
     submitJoblisting({
       ...newJoblisting,
-      company,
       workplaces,
       responsible
     });
@@ -126,22 +126,10 @@ function JoblistingEditor(
             <Field
               placeholder={'Bedrift'}
               name="company"
-              component={SelectInput}
+              component={SelectInput.Field}
               options={results}
-              optionValue="param"
-              optionLabel="title"
-              displayValue="name"
+              fetching={searching}
               onSearch={query => onQueryChanged(query)}
-              valueMapping={{
-                id: 'param',
-                name: 'title'
-              }}
-              onChange={newValue => {
-                if (!company || Number(newValue.id) !== company.id) {
-                  fetchCompany(newValue.id);
-                  dispatch(change('joblistingEditor', 'responsible', 'Ingen'));
-                }
-              }}
             />
           </FlexColumn>
         </FlexRow>
