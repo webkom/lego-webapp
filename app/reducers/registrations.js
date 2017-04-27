@@ -39,7 +39,8 @@ export default createEntityReducer({
         }
         return state;
       }
-      case Event.UPDATE_REGISTRATION.SUCCESS: {
+      case Event.UPDATE_REGISTRATION.SUCCESS:
+      case Event.SOCKET_UNREGISTRATION.SUCCESS: {
         return {
           ...state,
           byId: {

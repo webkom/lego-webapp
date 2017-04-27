@@ -1,4 +1,8 @@
-import { eventSchema, registrationSchema } from 'app/reducers';
+import {
+  eventSchema,
+  eventAdministrateSchema,
+  registrationSchema
+} from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';
@@ -29,11 +33,11 @@ export function fetchAll({ dateAfter, dateBefore } = {}) {
   });
 }
 
-export function fetchRegistrationList(eventId) {
+export function fetchAdministrate(eventId) {
   return callAPI({
-    types: Event.FETCH,
-    endpoint: `/events/${eventId}/registrations/`,
-    schema: [registrationSchema],
+    types: Event.ADMINISTRATE_FETCH,
+    endpoint: `/events/${eventId}/administrate/`,
+    schema: eventAdministrateSchema,
     meta: {
       errorMessage: 'Fetching registrations failed'
     }

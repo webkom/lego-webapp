@@ -26,7 +26,7 @@ function findCurrentRegistration(registrations, currentUser) {
   );
 }
 
-function mapStateToProps(state, props) {
+const mapStateToProps = (state, props) => {
   const {
     params: {
       eventId
@@ -68,7 +68,7 @@ function mapStateToProps(state, props) {
     waitingRegistrations,
     poolsWithWaitingRegistrations
   };
-}
+};
 
 const mapDispatchToProps = {
   fetchEvent,

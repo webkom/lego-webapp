@@ -1,9 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { reduxForm, Field } from 'redux-form';
-import { TextEditor } from 'app/components/Form';
+import { Form, TextEditor, SelectInput } from 'app/components/Form';
 import Button from 'app/components/Button';
 
-const AdminRegister = ({ handleSubmit, invalid, pristine, submitting }) => {
+const AdminRegister = (
+  {
+    pools,
+    usersResult,
+    onQueryChanged,
+    searching,
+    handleSubmit,
+    invalid,
+    pristine,
+    submitting
+  }
+) => {
   return (
     <div style={{ width: '400px' }}>
       <form onSubmit={handleSubmit}>
@@ -17,8 +28,20 @@ const AdminRegister = ({ handleSubmit, invalid, pristine, submitting }) => {
           name="feedback"
           component={TextEditor.Field}
         />
-        <Field placeholder="Pool" name="pool" component={TextEditor.Field} />
-        <Field placeholder="Bruker" name="user" component={TextEditor.Field} />
+        <Field
+          name="pool"
+          component={SelectInput.Field}
+          placeholder="Pool"
+          options={pools.map(pool => ({ value: pool.id, label: pool.name }))}
+        />
+        <Field
+          name="user"
+          component={SelectInput.Field}
+          options={usersResult}
+          onSearch={query => onQueryChanged(query)}
+          placeholder="Bruker"
+          fetching={searching}
+        />
         <Button type="submit" disabled={invalid || pristine || submitting}>
           Registrer
         </Button>

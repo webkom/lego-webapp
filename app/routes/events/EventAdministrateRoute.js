@@ -1,18 +1,24 @@
-import { compose } from 'redux';
+import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import {
-  fetchRegistrationList,
+  fetchAdministrate,
   adminRegister,
   unregister,
   updatePresence,
   updatePayment
 } from 'app/actions/EventActions';
 import EventAdministrate from './components/EventAdministrate';
-import { selectAllRegistrationsForEvent } from 'app/reducers/events';
-import { groupBy, sortBy } from 'lodash';
+import {
+  selectEventById,
+  selectPoolsForEvent,
+  selectAllRegistrationsForEvent
+} from 'app/reducers/events';
+import { autocomplete } from 'app/actions/SearchActions';
+import { selectAutocomplete } from 'app/reducers/search';
+import { groupBy, sortBy, debounce } from 'lodash';
 
-function mapStateToProps(state, props) {
+const mapStateToProps = (state, props) => {
   const {
     params: {
       eventId
@@ -20,6 +26,8 @@ function mapStateToProps(state, props) {
     currentUser
   } = props;
 
+  const event = selectEventById(state, { eventId });
+  const pools = selectPoolsForEvent(state, { eventId });
   const registrations = selectAllRegistrationsForEvent(state, { eventId });
   const grouped = groupBy(
     registrations,
@@ -32,22 +40,37 @@ function mapStateToProps(state, props) {
 
   return {
     eventId,
+    event,
+    pools,
     registered,
-    unregistered
+    unregistered,
+    searching: state.search.searching,
+    usersResult: selectAutocomplete(state)
   };
-}
+};
 
-const mapDispatchToProps = {
-  unregister,
-  adminRegister,
-  updatePresence,
-  updatePayment
+const mapDispatchToProps = dispatch => {
+  return {
+    ...bindActionCreators(
+      {
+        unregister,
+        adminRegister,
+        updatePresence,
+        updatePayment
+      },
+      dispatch
+    ),
+    onQueryChanged: debounce(
+      query => dispatch(autocomplete(query, ['users.user'])),
+      30
+    )
+  };
 };
 
 export default compose(
   dispatched(
     ({ params: { eventId } }, dispatch) =>
-      dispatch(fetchRegistrationList(Number(eventId))),
+      dispatch(fetchAdministrate(Number(eventId))),
     {
       componentWillReceiveProps: false
     }

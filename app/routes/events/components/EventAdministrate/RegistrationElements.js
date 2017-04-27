@@ -32,9 +32,11 @@ export class RegisteredElement extends Component {
     return (
       <li className={styles.registeredList}>
         <div className={styles.one}>
-          <Link to={`/users/${registration.user.username}`}>
-            {registration.user.username}
-          </Link>
+          <Tooltip content={registration.user.fullName}>
+            <Link to={`/users/${registration.user.username}`}>
+              {registration.user.username}
+            </Link>
+          </Tooltip>
         </div>
         <div className={styles.center}>
           <Tooltip
@@ -50,16 +52,16 @@ export class RegisteredElement extends Component {
           <FlexRow className={styles.presenceIcons}>
             <Tooltip className={styles.cell} content="Til stede">
               <a
-                className={transparency(registration.presence, 1)}
-                onClick={() => handlePresence(registration.id, 1)}
+                className={transparency(registration.presence, 'PRESENT')}
+                onClick={() => handlePresence(registration.id, 'PRESENT')}
               >
                 <i className={cx('fa fa-check', styles.greenIcon)} />
               </a>
             </Tooltip>
             <Tooltip className={styles.cell} content="Ukjent">
               <a
-                className={transparency(registration.presence, 0)}
-                onClick={() => handlePresence(registration.id, 0)}
+                className={transparency(registration.presence, 'UNKNOWN')}
+                onClick={() => handlePresence(registration.id, 'UNKNOWN')}
               >
                 <i
                   className={cx('fa fa-question-circle', styles.questionIcon)}
@@ -68,8 +70,8 @@ export class RegisteredElement extends Component {
             </Tooltip>
             <Tooltip className={styles.cell} content="Ikke til stede">
               <a
-                className={transparency(registration.presence, 2)}
-                onClick={() => handlePresence(registration.id, 2)}
+                className={transparency(registration.presence, 'NOT_PRESENT')}
+                onClick={() => handlePresence(registration.id, 'NOT_PRESENT')}
               >
                 <i className={cx('fa fa-times', styles.crossIcon)} />
               </a>
@@ -89,7 +91,7 @@ export class RegisteredElement extends Component {
           </Tooltip>
         </div>
         <div className={styles.center}>
-          {'5. Data'}
+          {registration.user.grade ? registration.user.grade.name : ''}
         </div>
         <div className={styles.center}>
           <FlexRow className={styles.presenceIcons}>
@@ -144,9 +146,11 @@ export const UnregisteredElement = ({ registration }) => {
   return (
     <li className={styles.unregisteredList}>
       <div className={styles.col}>
-        <Link to={`/users/${registration.user.username}`}>
-          {registration.user.username}
-        </Link>
+        <Tooltip content={registration.user.fullName}>
+          <Link to={`/users/${registration.user.username}`}>
+            {registration.user.username}
+          </Link>
+        </Tooltip>
       </div>
       <div className={styles.col}>Avmeldt</div>
       <div className={styles.col}>

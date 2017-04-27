@@ -107,6 +107,10 @@ export default class EventDetail extends Component {
       waitingRegistrations
     } = this.props;
 
+    if (!event.id) {
+      return null;
+    }
+
     if (loading || Object.keys(event).length === 0) {
       return <LoadingIndicator loading />;
     }

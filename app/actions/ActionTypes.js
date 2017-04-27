@@ -11,6 +11,7 @@ function generateStatuses(name) {
  */
 export const Event = {
   FETCH: generateStatuses('Event.FETCH'),
+  ADMINISTRATE_FETCH: generateStatuses('Event.ADMINISTRATE_FETCH'),
   REGISTER: generateStatuses('Event.REGISTER'),
   ADMIN_REGISTER: generateStatuses('Event.ADMIN_REGISTER'),
   UNREGISTER: generateStatuses('Event.UNREGISTER'),

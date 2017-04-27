@@ -18,11 +18,18 @@ import AdminRegisterForm from './AdminRegisterForm';
  *
  */
 export type Props = {
-  event: Event,
   eventId: Number,
+  event: Event,
   comments: Array,
   pools: Array,
-  registered: Array
+  loggedIn: boolean,
+  currentUser: Object,
+  error: Object,
+  loading: boolean,
+  registered: Array,
+  unregistered: Array,
+  unregister: () => Promise<*>,
+  usersResult: Array
 };
 
 /**
@@ -51,13 +58,18 @@ export default class EventAdministrate extends Component {
   render() {
     const {
       eventId,
+      event,
+      pools,
       loggedIn,
       currentUser,
       error,
       loading,
       registered,
       unregistered,
-      unregister
+      unregister,
+      usersResult,
+      onQueryChanged,
+      searching
     } = this.props;
 
     if (loading) {
@@ -73,13 +85,20 @@ export default class EventAdministrate extends Component {
         <h2>
           <Link to={`/events/${eventId}`}>
             <i className="fa fa-angle-left" />
-            {` Event: ${eventId}`}
+            {` ${event.title}`}
           </Link>
         </h2>
         <FlexColumn alignItems="center">
           <ul className={styles.grid}>
             <strong>Adminpåmelding:</strong>
-            <AdminRegisterForm onSubmit={this.handleAdminRegistration} />
+            <AdminRegisterForm
+              {...this.props}
+              usersResult={usersResult}
+              onQueryChanged={onQueryChanged}
+              onSubmit={this.handleAdminRegistration}
+              pools={pools}
+              searching={searching}
+            />
             <strong>Påmeldte:</strong>
             <li className={styles.registeredList}>
               <div>Bruker:</div>

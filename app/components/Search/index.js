@@ -31,7 +31,7 @@ const SearchResultItem = ({ result, isSelected, onCloseSearch }) => (
           user={result}
           style={{ margin: '0px 10px 0px 0px' }}
         />}
-      {result.title}
+      {result.label}
     </li>
   </Link>
 );
