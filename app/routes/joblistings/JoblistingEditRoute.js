@@ -40,6 +40,7 @@ function mapStateToProps(state, props) {
     },
     joblistingId,
     results: selectAutocomplete(state),
+    searching: state.search.searching,
     company: company
       ? selectCompanyById(state, { companyId: company.id })
       : null

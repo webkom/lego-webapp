@@ -33,6 +33,10 @@ const searchMapping = {
   'events.event': {
     label: 'title',
     icon: 'calendar',
+<<<<<<< HEAD
+=======
+    label: 'title',
+>>>>>>> c12dc3a... Fix SelectInput
     color: '#E8953A',
     picture: 'cover',
     path: '/events/',
@@ -42,6 +46,10 @@ const searchMapping = {
   'flatpages.page': {
     label: 'title',
     profilePicture: 'picture',
+<<<<<<< HEAD
+=======
+    label: 'title',
+>>>>>>> c12dc3a... Fix SelectInput
     color: '#E8953A',
     path: '/pages/',
     value: 'slug',
