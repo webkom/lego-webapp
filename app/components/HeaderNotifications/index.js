@@ -36,7 +36,7 @@ const NotificationElement = (
           styles.notification,
           !notification.read ? styles.unRead : null
         )}
-        onClick={() => markNotification(notification)}
+        onClick={() => markNotification(notification.id)}
       >
         <div className={styles.innerNotification}>
           <div className={styles.icon}>
