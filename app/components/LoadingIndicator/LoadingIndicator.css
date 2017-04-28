@@ -5,6 +5,13 @@
   margin: 100px auto;
 }
 
+.small {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  margin: 10px auto;
+}
+
 .bounce1,
 .bounce2 {
   width: 100%;
