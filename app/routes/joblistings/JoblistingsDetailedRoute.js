@@ -1,5 +1,8 @@
 import { connect } from 'react-redux';
-import { fetchJoblisting } from 'app/actions/JoblistingActions';
+import {
+  fetchJoblisting,
+  deleteJoblisting
+} from 'app/actions/JoblistingActions';
 import JoblistingDetail from './components/JoblistingDetail';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { compose } from 'redux';
@@ -11,19 +14,18 @@ function loadData({ joblistingId }, props) {
 function mapStateToProps(state, props) {
   const { joblistingId } = props.params;
   const joblisting = state.joblistings.byId[joblistingId];
+  const actionGrant = state.joblistings.actionGrant;
 
   return {
     joblisting,
-    joblistingId
+    joblistingId,
+    actionGrant
   };
 }
 
-const mapDispatchToProps = { fetchJoblisting };
+const mapDispatchToProps = { fetchJoblisting, deleteJoblisting };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   fetchOnUpdate(['joblistingId'], loadData)
 )(JoblistingDetail);

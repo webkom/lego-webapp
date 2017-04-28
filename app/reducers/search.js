@@ -28,7 +28,7 @@ const searchMapping = {
   },
   'events.event': {
     icon: 'calendar',
-    value: 'title',
+    label: 'title',
     color: '#E8953A',
     picture: 'cover',
     path: '/events/',
@@ -37,10 +37,18 @@ const searchMapping = {
   },
   'flatpages.page': {
     profilePicture: 'picture',
-    value: 'title',
+    label: 'title',
     color: '#E8953A',
     path: '/pages/',
     value: 'slug',
+    content: 'content'
+  },
+  'companies.company': {
+    icon: 'file-text',
+    label: 'name',
+    color: '#E8953A',
+    path: '/company/',
+    value: 'id',
     content: 'content'
   }
 };

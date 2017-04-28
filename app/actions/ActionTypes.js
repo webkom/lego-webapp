@@ -34,7 +34,10 @@ export const Article = {
  *
  */
 export const Joblistings = {
-  FETCH: generateStatuses('Joblistings.FETCH')
+  FETCH: generateStatuses('Joblistings.FETCH'),
+  CREATE: generateStatuses('Joblistings.CREATE'),
+  EDIT: generateStatuses('Joblistings.EDIT'),
+  DELETE: generateStatuses('Joblistings.DELETE')
 };
 
 /**
