@@ -5,6 +5,7 @@ import { FlexRow, FlexItem } from 'app/components/FlexBox';
 import Tooltip from 'app/components/Tooltip';
 import Time from 'app/components/Time';
 import cx from 'classnames';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 export class RegisteredElement extends Component {
   state = {
@@ -25,7 +26,12 @@ export class RegisteredElement extends Component {
   };
 
   render() {
-    const { registration, handlePresence, handlePayment } = this.props;
+    const {
+      registration,
+      handlePresence,
+      handlePayment,
+      showUnregister
+    } = this.props;
     const transparency = (variable, value) =>
       variable !== value && styles.transparent;
 
@@ -127,15 +133,18 @@ export class RegisteredElement extends Component {
           {'Tilbakemelding kan være lang, Tilbakemelding kan være lang'}
         </div>
         <div className={styles.one}>
-          <a onClick={() => this.checkUnregister(registration.id)}>
-            <i
-              className="fa fa-minus-circle"
-              style={{ color: '#C24538', marginRight: '5px' }}
-            />
-            {this.state.unregister === registration.id
-              ? 'Er du sikker?'
-              : 'Meld av'}
-          </a>
+          {showUnregister &&
+            (registration.fetching
+              ? <LoadingIndicator loading={true} small />
+              : <a onClick={() => this.checkUnregister(registration.id)}>
+                  <i
+                    className="fa fa-minus-circle"
+                    style={{ color: '#C24538', marginRight: '5px' }}
+                  />
+                  {this.state.unregister === registration.id
+                    ? 'Er du sikker?'
+                    : 'Meld av'}
+                </a>)}
         </div>
       </li>
     );

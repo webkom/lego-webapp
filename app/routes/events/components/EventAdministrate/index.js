@@ -13,6 +13,7 @@ import Time from 'app/components/Time';
 import { RegisteredElement, UnregisteredElement } from './RegistrationElements';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import AdminRegisterForm from './AdminRegisterForm';
+import moment from 'moment';
 
 /**
  *
@@ -79,6 +80,7 @@ export default class EventAdministrate extends Component {
     if (error) {
       return <div>{error.message}</div>;
     }
+    const showUnregister = moment().isBefore(event.startTime);
 
     return (
       <div className={styles.root}>
@@ -118,6 +120,7 @@ export default class EventAdministrate extends Component {
                 unregister={this.handleUnregister}
                 handlePresence={this.handlePresence}
                 handlePayment={this.handlePayment}
+                showUnregister={showUnregister}
               />
             ))}
           </ul>
