@@ -16,6 +16,11 @@ export function activityHeader(aggregatedActivity) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actor = lookupContext(aggregatedActivity, latestActivity.actor);
   const target = lookupContext(aggregatedActivity, latestActivity.target);
+
+  if (!(actor && target)) {
+    return null;
+  }
+
   return (
     <b>
       {contextRender[actor.contentType](actor)}
