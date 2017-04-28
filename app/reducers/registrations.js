@@ -1,4 +1,4 @@
-import { omit } from 'lodash';
+import { omit, union } from 'lodash';
 import { Event } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import moment from 'moment';
@@ -24,23 +24,31 @@ export default createEntityReducer({
           }
         };
       }
-      case Event.UNREGISTER.SUCCESS: {
-        if (action.meta.admin) {
-          return {
-            ...state,
-            byId: {
-              ...state.byId,
-              [action.payload.id]: {
-                ...state.byId[action.payload.id],
-                unregistrationDate: moment()
-              }
+      case Event.UNREGISTER.BEGIN: {
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [action.meta.id]: {
+              ...state.byId[action.meta.id],
+              fetching: true
             }
-          };
-        }
-        return state;
+          }
+        };
       }
-      case Event.UPDATE_REGISTRATION.SUCCESS:
-      case Event.SOCKET_UNREGISTRATION.SUCCESS: {
+      case Event.UNREGISTER.FAILURE: {
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [action.meta.id]: {
+              ...state.byId[action.meta.id],
+              fetching: false
+            }
+          }
+        };
+      }
+      case Event.UPDATE_REGISTRATION.SUCCESS: {
         return {
           ...state,
           byId: {
@@ -50,6 +58,30 @@ export default createEntityReducer({
               ...action.payload
             }
           }
+        };
+      }
+      case Event.SOCKET_UNREGISTRATION.SUCCESS: {
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [action.payload.id]: {
+              ...state.byId[action.payload.id],
+              ...action.payload,
+              fetching: false,
+              unregistrationDate: moment()
+            }
+          }
+        };
+      }
+      case Event.ADMIN_REGISTER.SUCCESS: {
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [action.payload.id]: action.payload
+          },
+          items: union(state.items, [action.payload.id])
         };
       }
       default:
