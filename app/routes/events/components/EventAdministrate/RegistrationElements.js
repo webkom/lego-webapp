@@ -8,28 +8,13 @@ import cx from 'classnames';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 
 export class RegisteredElement extends Component {
-  state = {
-    unregister: 0
-  };
-
-  checkUnregister = id => {
-    if (this.state.unregister === id) {
-      this.props.unregister(id);
-      this.setState({
-        unregister: 0
-      });
-    } else {
-      this.setState({
-        unregister: id
-      });
-    }
-  };
-
   render() {
     const {
       registration,
       handlePresence,
       handlePayment,
+      handleUnregister,
+      clickedUnregister,
       showUnregister
     } = this.props;
     const transparency = (variable, value) =>
@@ -130,18 +115,18 @@ export class RegisteredElement extends Component {
           </FlexRow>
         </div>
         <div className={styles.one}>
-          {'Tilbakemelding kan være lang, Tilbakemelding kan være lang'}
+          {registration.feedback || '-'}
         </div>
         <div className={styles.one}>
           {showUnregister &&
             (registration.fetching
               ? <LoadingIndicator loading={true} small />
-              : <a onClick={() => this.checkUnregister(registration.id)}>
+              : <a onClick={() => handleUnregister(registration.id)}>
                   <i
                     className="fa fa-minus-circle"
                     style={{ color: '#C24538', marginRight: '5px' }}
                   />
-                  {this.state.unregister === registration.id
+                  {clickedUnregister === registration.id
                     ? 'Er du sikker?'
                     : 'Meld av'}
                 </a>)}

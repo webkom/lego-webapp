@@ -39,8 +39,21 @@ export type Props = {
 export default class EventAdministrate extends Component {
   props: Props;
 
+  state = {
+    clickedUnregister: 0
+  };
+
   handleUnregister = registrationId => {
-    this.props.unregister(this.props.eventId, registrationId, true);
+    if (this.state.clickedUnregister === registrationId) {
+      this.props.unregister(this.props.eventId, registrationId, true);
+      this.setState({
+        clickedUnregister: 0
+      });
+    } else {
+      this.setState({
+        clickedUnregister: registrationId
+      });
+    }
   };
 
   handlePresence = (registrationId, presence) => {
@@ -90,7 +103,7 @@ export default class EventAdministrate extends Component {
           </Link>
         </h2>
         <FlexColumn alignItems="center">
-          <ul className={styles.grid}>
+          <div className={styles.list}>
             <strong>Adminpåmelding:</strong>
             <AdminRegisterForm
               {...this.props}
@@ -101,28 +114,31 @@ export default class EventAdministrate extends Component {
               searching={searching}
             />
             <strong>Påmeldte:</strong>
-            <li className={styles.registeredList}>
-              <div>Bruker:</div>
-              <div className={styles.center}>Status:</div>
-              <div className={styles.center}>Til stede:</div>
-              <div>Dato:</div>
-              <div className={styles.center}>Klassetrinn:</div>
-              <div className={styles.center}>Betaling:</div>
-              <div>Tilbakemelding:</div>
-              <div>Administrer:</div>
-            </li>
-            {registered.length === 0 && <li>Ingen påmeldte</li>}
-            {registered.map((reg, i) => (
-              <RegisteredElement
-                key={i}
-                registration={reg}
-                unregister={this.handleUnregister}
-                handlePresence={this.handlePresence}
-                handlePayment={this.handlePayment}
-                showUnregister={showUnregister}
-              />
-            ))}
-          </ul>
+            <ul className={styles.grid}>
+              <li className={styles.registeredList}>
+                <div>Bruker:</div>
+                <div className={styles.center}>Status:</div>
+                <div className={styles.center}>Til stede:</div>
+                <div>Dato:</div>
+                <div className={styles.center}>Klassetrinn:</div>
+                <div className={styles.center}>Betaling:</div>
+                <div>Tilbakemelding:</div>
+                <div>Administrer:</div>
+              </li>
+              {registered.length === 0 && <li>Ingen påmeldte</li>}
+              {registered.map((reg, i) => (
+                <RegisteredElement
+                  key={i}
+                  registration={reg}
+                  handlePresence={this.handlePresence}
+                  handlePayment={this.handlePayment}
+                  handleUnregister={this.handleUnregister}
+                  clickedUnregister={this.state.clickedUnregister}
+                  showUnregister={showUnregister}
+                />
+              ))}
+            </ul>
+          </div>
           <div className={styles.list} style={{ paddingTop: '1em' }}>
             <strong>Avmeldte:</strong>
             <ul className={styles.grid}>
