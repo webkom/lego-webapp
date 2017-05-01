@@ -57,10 +57,6 @@ export type Props = {
  *
  */
 export default class EventDetail extends Component {
-  state = {
-    joinFormOpen: false
-  };
-
   props: Props;
 
   handleRegistration = ({ captchaResponse, feedback, type }) => {
@@ -81,10 +77,6 @@ export default class EventDetail extends Component {
       default:
         return undefined;
     }
-  };
-
-  toggleJoinFormOpen = () => {
-    this.setState({ joinFormOpen: !this.state.joinFormOpen });
   };
 
   handleToken = token => {
@@ -227,27 +219,19 @@ export default class EventDetail extends Component {
         <FlexRow>
           {loggedIn &&
             <FlexColumn className={styles.join}>
-              <a
-                onClick={this.toggleJoinFormOpen}
-                className={styles.joinToggle}
-              >
+              <div className={styles.joinHeader}>
                 Bli med på dette arrangementet
-                {' '}
-                <Icon
-                  name={this.state.joinFormOpen ? 'angle-up' : 'angle-right'}
-                />
-              </a>
+              </div>
 
-              {this.state.joinFormOpen &&
-                <div>
-                  <JoinEventForm
-                    event={event}
-                    registration={currentRegistration}
-                    currentUser={currentUser}
-                    onToken={this.handleToken}
-                    onSubmit={this.handleRegistration}
-                  />
-                </div>}
+              <div>
+                <JoinEventForm
+                  event={event}
+                  registration={currentRegistration}
+                  currentUser={currentUser}
+                  onToken={this.handleToken}
+                  onSubmit={this.handleRegistration}
+                />
+              </div>
             </FlexColumn>}
 
           <FlexColumn className={styles.openFor}>
