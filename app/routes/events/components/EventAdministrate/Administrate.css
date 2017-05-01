@@ -5,14 +5,16 @@
 .grid {
   display: grid;
   grid-gap: 5px;
-  width: 800px;
-  align-items: center;
 }
 
 .registeredList {
   display: grid;
   align-items: center;
-  grid-template-columns: 10% 8% 12% 10% 14% 14% 18% 14%;
+  grid-template-columns: 10% 6% 12% 12% 14% 14% 17% 15%;
+}
+
+.registeredList > div {
+  word-wrap: break-word;
 }
 
 .unregisteredList {
