@@ -1,6 +1,7 @@
 import WebSocketClient from 'websocket.js';
 import config from '../config';
 import createQueryString from './createQueryString';
+import { addNotification } from 'app/actions/NotificationActions';
 import { User } from 'app/actions/ActionTypes';
 
 export default function createWebSocketMiddleware() {
@@ -16,6 +17,9 @@ export default function createWebSocketMiddleware() {
       socket.onmessage = event => {
         const { type, payload, meta } = JSON.parse(event.data);
         store.dispatch({ type, payload, meta });
+        if (meta.errorMessage) {
+          store.dispatch(addNotification({ message: meta.errorMessage }));
+        }
       };
 
       socket.onopen = () => {
