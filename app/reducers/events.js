@@ -6,6 +6,8 @@ import { Event } from '../actions/ActionTypes';
 import { mutateComments } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
+import { normalize } from 'normalizr';
+import { eventSchema } from 'app/reducers';
 
 export type EventEntity = {
   id: number,
@@ -15,6 +17,16 @@ export type EventEntity = {
 
 function mutateEvent(state: any, action: any) {
   switch (action.type) {
+    case Event.SOCKET_EVENT_UPDATED: {
+      const events = normalize(action.payload, eventSchema).entities.events;
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          ...events
+        }
+      };
+    }
     case Event.REGISTER.BEGIN: {
       return {
         ...state,
@@ -93,6 +105,7 @@ export const selectEventById = createSelector(
   (state, props) => props.eventId,
   (eventsById, eventId) => {
     const event = eventsById[eventId];
+    console.log('wat', eventsById);
     if (event) {
       return transformEvent(event);
     }
