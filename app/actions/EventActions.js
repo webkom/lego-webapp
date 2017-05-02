@@ -94,19 +94,6 @@ export function editEvent(
     tags
   }
 ) {
-  console.log(
-    'alt',
-    id,
-    title,
-    startTime,
-    endTime,
-    description,
-    text,
-    eventType,
-    location,
-    mergeTime,
-    tags
-  );
   return callAPI({
     types: Event.EDIT,
     endpoint: `/events/${id}/`,

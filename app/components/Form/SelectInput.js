@@ -11,41 +11,40 @@ type Props = {
   multiple?: boolean,
   tags?: boolean,
   fetching: boolean,
+  className?: string,
+  selectStyle?: string,
   options?: {}[]
 };
 
-function SelectInput({ fetching, options = [], ...props }: Props) {
+function SelectInput({ fetching, selectStyle, options = [], ...props }: Props) {
   if (props.tags) {
     return (
-      <div className={style.field}>
-        <Select.Creatable
-          {...props}
-          multi
-          onBlurResetsInput={false}
-          onBlur={() => props.onBlur(props.value)}
-          options={options}
-        />
-      </div>
+      <Select.Creatable
+        {...props}
+        multi
+        onBlurResetsInput={false}
+        onBlur={() => props.onBlur(props.value)}
+        options={options}
+      />
     );
   }
   return (
-    <div className={style.field}>
-      <Select
-        {...props}
-        options={options}
-        onBlurResetsInput={false}
-        onBlur={null}
-        simpleValue
-        isLoading={fetching}
-        onInputChange={value => {
-          if (props.onSearch) {
-            props.onSearch(value);
-          }
-          return value;
-        }}
-        render={props => <Creatable {...props} />}
-      />
-    </div>
+    <Select
+      {...props}
+      style={selectStyle}
+      options={options}
+      onBlurResetsInput={false}
+      onBlur={null}
+      simpleValue
+      isLoading={fetching}
+      onInputChange={value => {
+        if (props.onSearch) {
+          props.onSearch(value);
+        }
+        return value;
+      }}
+      render={props => <Creatable {...props} />}
+    />
   );
 }
 

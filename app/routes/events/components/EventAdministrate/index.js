@@ -75,6 +75,7 @@ export default class EventAdministrate extends Component {
       pools,
       loggedIn,
       currentUser,
+      actionGrant,
       error,
       loading,
       registered,
@@ -84,6 +85,10 @@ export default class EventAdministrate extends Component {
       onQueryChanged,
       searching
     } = this.props;
+
+    if (!actionGrant.includes('update')) {
+      return null;
+    }
 
     if (loading) {
       return <LoadingIndicator loading />;

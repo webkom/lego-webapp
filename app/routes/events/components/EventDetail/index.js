@@ -1,3 +1,5 @@
+// @flow
+
 import styles from './EventDetail.css';
 import React, { Component } from 'react';
 import { Link } from 'react-router';
@@ -16,6 +18,7 @@ import Tag from 'app/components/Tag';
 import Time from 'app/components/Time';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Flex } from 'app/components/Layout';
+import { EVENT_TYPE_TO_STRING } from '../../utils.js';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -34,17 +37,21 @@ const InterestedButton = ({ value, onClick }) => {
 /**
  *
  */
-export type Props = {
-  event: Event,
+type Props = {
   eventId: Number,
-  comments: Array,
-  pools: Array,
-  registrations: Array,
-  waitingRegistrations: Array,
-  currentRegistration: Object,
+  event: Object,
   loggedIn: boolean,
-  isUserInterested: boolean,
   currentUser: Object,
+  actionGrant: Array<any>,
+  comments: Array<any>,
+  error?: Object,
+  loading: boolean,
+  pools: Array<any>,
+  registrations: Array<any>,
+  currentRegistration: Object,
+  poolsWithWaitingRegistrations: Array<any>,
+  waitingRegistrations: Array<any>,
+  isUserInterested: boolean,
   register: (eventId: Number) => Promise<*>,
   unregister: (eventId: Number, registrationId: Number) => Promise<*>,
   payment: (eventId: Number, token: string) => Promise<*>,
@@ -61,7 +68,7 @@ export type Props = {
 export default class EventDetail extends Component {
   props: Props;
 
-  handleRegistration = ({ captchaResponse, feedback, type }) => {
+  handleRegistration = ({ captchaResponse, feedback, type }: Object) => {
     const {
       eventId,
       currentRegistration,
@@ -81,7 +88,7 @@ export default class EventDetail extends Component {
     }
   };
 
-  handleToken = token => {
+  handleToken = (token: Object) => {
     this.props.payment(this.props.event.id, token.id);
   };
 
@@ -112,7 +119,7 @@ export default class EventDetail extends Component {
     if (error) {
       return <div>{error.message}</div>;
     }
-    const metaColor = colorForEvent(event.eventType) || '#ba1414';
+    const metaColor = colorForEvent(event.eventType);
 
     return (
       <div className={styles.root}>
@@ -127,7 +134,7 @@ export default class EventDetail extends Component {
 
         <Flex wrap>
           <Flex column className={styles.description}>
-            <Markdown>{event.text}</Markdown>
+            <div dangerouslySetInnerHTML={{ __html: event.text }} />
             <Flex className={styles.tagRow}>
               {event.tags.map((tag, i) => <Tag key={i} tag={tag} />)}
             </Flex>
@@ -139,9 +146,19 @@ export default class EventDetail extends Component {
                   Arrangerende bedrift <strong>{event.company.name}</strong>
                 </li>}
               <li>
+                <span>Hva </span>
+                <strong>{EVENT_TYPE_TO_STRING(event.eventType)}</strong>
+              </li>
+              <li>
                 Starter{' '}
                 <strong>
                   <Time time={event.startTime} format="DD.MM.YYYY HH:mm" />
+                </strong>
+              </li>
+              <li>
+                Slutter{' '}
+                <strong>
+                  <Time time={event.endTime} format="DD.MM.YYYY HH:mm" />
                 </strong>
               </li>
               <li>Finner sted i <strong>{event.location}</strong></li>
@@ -212,6 +229,14 @@ export default class EventDetail extends Component {
                         style={{ color: 'white' }}
                       >
                         Påmeldinger
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to={`/events/${event.id}/edit`}
+                        style={{ color: 'white' }}
+                      >
+                        Rediger
                       </Link>
                     </li>
                   </ul>}

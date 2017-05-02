@@ -22,6 +22,7 @@ const mapStateToProps = (state, props) => {
   const { params: { eventId }, currentUser } = props;
 
   const event = selectEventById(state, { eventId });
+  const actionGrant = state.events.actionGrant;
   const pools = selectPoolsForEvent(state, { eventId });
   const registrations = selectAllRegistrationsForEvent(state, { eventId });
   const grouped = groupBy(
@@ -35,6 +36,7 @@ const mapStateToProps = (state, props) => {
 
   return {
     eventId,
+    actionGrant,
     event,
     pools,
     registered,

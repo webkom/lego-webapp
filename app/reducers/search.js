@@ -43,6 +43,14 @@ const searchMapping = {
     path: '/pages/',
     value: 'slug',
     content: 'content'
+  },
+  'companies.company': {
+    icon: 'file-text',
+    label: 'name',
+    color: '#E8953A',
+    path: '/company/',
+    value: 'id',
+    content: 'content'
   }
 };
 

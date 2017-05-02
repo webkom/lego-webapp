@@ -32,6 +32,13 @@ export default {
       )
     },
     {
+      path: ':eventId/edit',
+      ...resolveAsyncRoute(
+        () => import('./EventEditRoute'),
+        () => require('./EventEditRoute')
+      )
+    },
+    {
       path: ':eventId/administrate',
       ...resolveAsyncRoute(
         () => import('./EventAdministrateRoute'),
