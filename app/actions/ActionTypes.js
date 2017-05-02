@@ -13,6 +13,8 @@ function generateStatuses(name) {
  */
 export const Event = {
   FETCH: generateStatuses('Event.FETCH'),
+  CREATE: generateStatuses('Event.CREATE'),
+  EDIT: generateStatuses('Event.EDIT'),
   ADMINISTRATE_FETCH: generateStatuses('Event.ADMINISTRATE_FETCH'),
   REGISTER: generateStatuses('Event.REGISTER'),
   ADMIN_REGISTER: generateStatuses('Event.ADMIN_REGISTER'),
@@ -21,7 +23,8 @@ export const Event = {
   UPDATE_REGISTRATION: generateStatuses('Event.UPDATE_REGISTRATION'),
   SOCKET_REGISTRATION: generateStatuses('Event.SOCKET_REGISTRATION'),
   SOCKET_UNREGISTRATION: generateStatuses('Event.SOCKET_UNREGISTRATION'),
-  SOCKET_PAYMENT: generateStatuses('Event.SOCKET_PAYMENT')
+  SOCKET_PAYMENT: generateStatuses('Event.SOCKET_PAYMENT'),
+  SOCKET_EVENT_UPDATED: 'SOCKET_EVENT_UPDATED'
 };
 
 /**

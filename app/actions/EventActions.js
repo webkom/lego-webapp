@@ -5,6 +5,7 @@ import createQueryString from 'app/utils/createQueryString';
 import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';
 import { addNotification } from 'app/actions/NotificationActions';
+import moment from 'moment';
 
 export function fetchEvent(eventId) {
   return callAPI({
@@ -38,6 +39,93 @@ export function fetchAdministrate(eventId) {
     schema: eventAdministrateSchema,
     meta: {
       errorMessage: 'Fetching registrations failed'
+    }
+  });
+}
+
+export function createEvent(
+  {
+    id,
+    title,
+    startTime,
+    endTime,
+    description,
+    text,
+    eventType,
+    location,
+    mergeTime,
+    tags
+  }
+) {
+  return callAPI({
+    types: Event.CREATE,
+    endpoint: '/events/',
+    method: 'POST',
+    body: {
+      id,
+      title,
+      startTime: moment(startTime).toISOString(),
+      endTime: moment(endTime).toISOString(),
+      description,
+      text,
+      eventType,
+      location,
+      mergeTime: moment(mergeTime).toISOString(),
+      tags
+    },
+    schema: eventSchema,
+    meta: {
+      errorMessage: 'Creating event failed'
+    }
+  });
+}
+
+export function editEvent(
+  {
+    id,
+    title,
+    startTime,
+    endTime,
+    description,
+    text,
+    eventType,
+    location,
+    mergeTime,
+    tags
+  }
+) {
+  console.log(
+    'alt',
+    id,
+    title,
+    startTime,
+    endTime,
+    description,
+    text,
+    eventType,
+    location,
+    mergeTime,
+    tags
+  );
+  return callAPI({
+    types: Event.EDIT,
+    endpoint: `/events/${id}/`,
+    method: 'PUT',
+    body: {
+      id,
+      title,
+      startTime: moment(startTime).toISOString(),
+      endTime: moment(endTime).toISOString(),
+      description,
+      text,
+      eventType,
+      location,
+      mergeTime: moment(mergeTime).toISOString(),
+      tags
+    },
+    schema: eventSchema,
+    meta: {
+      errorMessage: 'Editing event failed'
     }
   });
 }
