@@ -10,6 +10,7 @@ import Markdown from 'app/components/Markdown';
 import JoinEventForm from '../JoinEventForm';
 import RegisteredCell from '../RegisteredCell';
 import RegisteredSummary from '../RegisteredSummary';
+import colorForEvent from '../../colorForEvent';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import Tag from 'app/components/Tag';
 import Time from 'app/components/Time';
@@ -111,6 +112,7 @@ export default class EventDetail extends Component {
     if (error) {
       return <div>{error.message}</div>;
     }
+    const metaColor = colorForEvent(event.eventType) || '#ba1414';
 
     return (
       <div className={styles.root}>
@@ -130,7 +132,7 @@ export default class EventDetail extends Component {
               {event.tags.map((tag, i) => <Tag key={i} tag={tag} />)}
             </Flex>
           </Flex>
-          <Flex column className={styles.meta}>
+          <Flex column className={styles.meta} style={{ background: metaColor }}>
             <ul>
               {event.company &&
                 <li>
