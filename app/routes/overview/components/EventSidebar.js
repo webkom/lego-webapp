@@ -3,7 +3,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import Octagon from 'app/components/Octagon';
 import Image from 'app/components/Image';
-import colorForEvent from 'app/routes/events/colorForEvent';
+import { colorForEvent } from 'app/routes/events/utils';
 
 const EventItem = ({ event, imageSize }) => (
   <Link to={`/events/${event.id}`}>

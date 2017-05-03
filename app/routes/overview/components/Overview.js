@@ -4,7 +4,7 @@ import Helmet from 'react-helmet';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import Image from 'app/components/Image';
-import colorForEvent from 'app/routes/events/colorForEvent';
+import { colorForEvent } from 'app/routes/events/utils';
 import truncateString from 'app/utils/truncateString';
 import { Content, Flex } from 'app/components/Layout';
 import LatestReadme from './LatestReadme';

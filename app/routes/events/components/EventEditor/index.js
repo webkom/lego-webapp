@@ -10,7 +10,6 @@ import Markdown from 'app/components/Markdown';
 import JoinEventForm from '../JoinEventForm';
 import RegisteredCell from '../RegisteredCell';
 import RegisteredSummary from '../RegisteredSummary';
-import colorForEvent from '../../colorForEvent';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import Tag from 'app/components/Tag';
 import Time from 'app/components/Time';
@@ -25,7 +24,7 @@ import {
   Button,
   DatePicker
 } from 'app/components/Form';
-import { eventTypes } from '../../utils.js';
+import { eventTypes, colorForEvent } from '../../utils.js';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -68,6 +67,7 @@ type Props = {
   ) => Promise<*>,
   handleSubmit: void,
   handleSubmitCallback: void,
+  companyResult: Object,
   onQueryChanged: (query: string) => void,
   searching: boolean
 };
@@ -113,6 +113,12 @@ function EventEditor(
 
   return (
     <div className={styles.root}>
+      <h2>
+        <Link to={`/events/${eventId}`}>
+          <i className="fa fa-angle-left" />
+          {` ${event.title}`}
+        </Link>
+      </h2>
       <div className={styles.coverImage}>
         <Image src={event.cover} />
       </div>
@@ -124,7 +130,7 @@ function EventEditor(
             component={TextInput.Field}
           />
         </FlexRow>
-        <FlexRow>
+        <FlexRow className={styles.mainRow}>
           <FlexColumn className={styles.description}>
             <Markdown>{event.text}</Markdown>
             <Field
@@ -200,17 +206,6 @@ function EventEditor(
               </li>
               <li style={{ display: 'flex' }}>
                 <span style={{ display: 'flex', alignItems: 'center' }}>
-                  Merge time{' '}
-                </span>
-                <Field
-                  name="mergeTime"
-                  fieldClassName={styles.metaField}
-                  className={styles.company}
-                  component={DatePicker.Field}
-                />
-              </li>
-              <li style={{ display: 'flex' }}>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
                   Finner sted i{' '}
                 </span>
                 <Field
@@ -250,12 +245,27 @@ function EventEditor(
                   title="Påmeldte"
                   pools={poolsWithWaitingRegistrations}
                 />
+                <div style={{ display: 'flex' }}>
+                  <span style={{ display: 'flex', alignItems: 'center' }}>
+                    Merge time{' '}
+                  </span>
+                  <Field
+                    name="mergeTime"
+                    fieldClassName={styles.metaField}
+                    className={styles.company}
+                    component={DatePicker.Field}
+                  />
+                </div>
               </FlexItem>}
           </FlexColumn>
         </FlexRow>
         <FlexRow>
           <FlexColumn className={styles.join}>
             <Button submit>LAGRE</Button>
+
+            <Link to={`/events/${event.id}`}>
+              <Button>TILBAKE</Button>
+            </Link>
           </FlexColumn>
 
           <FlexColumn className={styles.openFor}>

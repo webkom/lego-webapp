@@ -30,9 +30,15 @@
   }
 }
 
+.mainRow {
+  margin-bottom: 1em;
+  margin-top: 0.5em;
+}
+
 .description {
   background: #fff;
   padding: 20px;
+  border-radius: 5px;
   flex: 2;
 }
 
@@ -40,20 +46,25 @@
   flex: 1;
   background: #ba1414;
   padding: 20px;
+  border-radius: 5px;
+  margin-left: 1em;
   color: #fff;
 }
 
 .openFor {
   background: #CACACA;
-  flex: 1;
   padding: 20px;
   min-width: 340px;
+  border-radius: 5px;
+  margin-left: 1em;
+  flex: 1;
 }
 
 .join {
   background: #AAA;
-  flex: 2;
   padding: 20px;
+  border-radius: 5px;
+  flex: 2;
 }
 
 .joinHeader {

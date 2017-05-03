@@ -12,13 +12,12 @@ import Markdown from 'app/components/Markdown';
 import JoinEventForm from '../JoinEventForm';
 import RegisteredCell from '../RegisteredCell';
 import RegisteredSummary from '../RegisteredSummary';
-import colorForEvent from '../../colorForEvent';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import Tag from 'app/components/Tag';
 import Time from 'app/components/Time';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Flex } from 'app/components/Layout';
-import { EVENT_TYPE_TO_STRING } from '../../utils.js';
+import { EVENT_TYPE_TO_STRING, colorForEvent } from '../../utils.js';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -132,7 +131,7 @@ export default class EventDetail extends Component {
           <InterestedButton value={this.props.isUserInterested} />
         </Flex>
 
-        <Flex wrap>
+        <Flex wrap className={styles.mainRow}>
           <Flex column className={styles.description}>
             <div dangerouslySetInnerHTML={{ __html: event.text }} />
             <Flex className={styles.tagRow}>
