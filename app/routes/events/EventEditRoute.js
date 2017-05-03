@@ -5,6 +5,7 @@ import { formValueSelector } from 'redux-form';
 import {
   fetchEvent,
   editEvent,
+  deleteEvent,
   register,
   unregister,
   payment,
@@ -51,7 +52,15 @@ const mapStateToProps = (state, props) => {
     : pools;
   const eventType = formValueSelector('eventEditor')(state, 'eventType');
   return {
-    initialValues: event,
+    initialValues: {
+      ...event,
+      company: event.company
+        ? {
+            label: event.company.name,
+            value: event.company.id
+          }
+        : {}
+    },
     actionGrant,
     event: {
       ...event,
@@ -72,6 +81,7 @@ const mapDispatchToProps = dispatch => {
     ...bindActionCreators(
       {
         fetchEvent,
+        deleteEvent,
         handleSubmitCallback: editEvent
       },
       dispatch

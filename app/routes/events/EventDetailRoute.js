@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import {
   fetchEvent,
+  deleteEvent,
   register,
   unregister,
   payment,
@@ -67,6 +68,7 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
   fetchEvent,
+  deleteEvent,
   register,
   unregister,
   payment,

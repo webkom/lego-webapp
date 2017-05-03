@@ -4,6 +4,7 @@ import { eventSchema, eventAdministrateSchema } from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';
+import { push } from 'react-router-redux';
 import { addNotification } from 'app/actions/NotificationActions';
 import moment from 'moment';
 
@@ -115,6 +116,25 @@ export function editEvent(
       errorMessage: 'Editing event failed'
     }
   });
+}
+
+export function deleteEvent(eventId) {
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: Event.DELETE,
+        endpoint: `/events/${eventId}/`,
+        method: 'DELETE',
+        meta: {
+          id: eventId,
+          errorMessage: 'Deleting event failed'
+        }
+      })
+    ).then(() => {
+      dispatch(addNotification({ message: 'Deleted' }));
+      dispatch(push('/events'));
+    });
+  };
 }
 
 export function register(eventId, captchaResponse, feedback) {

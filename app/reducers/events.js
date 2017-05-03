@@ -8,6 +8,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
+import { omit } from 'lodash';
 
 export type EventEntity = {
   id: number,
@@ -17,6 +18,13 @@ export type EventEntity = {
 
 function mutateEvent(state: any, action: any) {
   switch (action.type) {
+    case Event.DELETE.SUCCESS: {
+      return {
+        ...state,
+        byId: omit(state.byId, action.meta.id),
+        items: state.items.filter(id => id !== action.meta.id)
+      };
+    }
     case Event.SOCKET_EVENT_UPDATED: {
       const events = normalize(action.payload, eventSchema).entities.events;
       return {

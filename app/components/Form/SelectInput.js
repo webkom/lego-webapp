@@ -13,17 +13,21 @@ type Props = {
   fetching: boolean,
   className?: string,
   selectStyle?: string,
+  onBlur: (any) => void,
+  value: any,
   options?: {}[]
 };
 
-function SelectInput({ fetching, selectStyle, options = [], ...props }: Props) {
+function SelectInput(
+  { fetching, selectStyle, onBlur, value, options = [], ...props }: Props
+) {
   if (props.tags) {
     return (
       <Select.Creatable
         {...props}
         multi
         onBlurResetsInput={false}
-        onBlur={() => props.onBlur(props.value)}
+        onBlur={() => onBlur(value)}
         options={options}
       />
     );
@@ -34,8 +38,7 @@ function SelectInput({ fetching, selectStyle, options = [], ...props }: Props) {
       style={selectStyle}
       options={options}
       onBlurResetsInput={false}
-      onBlur={null}
-      simpleValue
+      onBlur={() => onBlur(value)}
       isLoading={fetching}
       onInputChange={value => {
         if (props.onSearch) {

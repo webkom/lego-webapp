@@ -15,6 +15,7 @@ export const Event = {
   FETCH: generateStatuses('Event.FETCH'),
   CREATE: generateStatuses('Event.CREATE'),
   EDIT: generateStatuses('Event.EDIT'),
+  DELETE: generateStatuses('Event.DELETE'),
   ADMINISTRATE_FETCH: generateStatuses('Event.ADMINISTRATE_FETCH'),
   REGISTER: generateStatuses('Event.REGISTER'),
   ADMIN_REGISTER: generateStatuses('Event.ADMIN_REGISTER'),

@@ -18,6 +18,8 @@ import Time from 'app/components/Time';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Flex } from 'app/components/Layout';
 import { EVENT_TYPE_TO_STRING, colorForEvent } from '../../utils.js';
+import Admin from '../Admin';
+import RegistrationMeta from '../RegistrationMeta';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -58,7 +60,8 @@ type Props = {
     eventId: string,
     registrationId: number,
     feedback: string
-  ) => Promise<*>
+  ) => Promise<*>,
+  deleteEvent: (eventId: string) => Promise<*>
 };
 
 /**
@@ -104,7 +107,8 @@ export default class EventDetail extends Component {
       registrations,
       currentRegistration,
       poolsWithWaitingRegistrations,
-      waitingRegistrations
+      waitingRegistrations,
+      deleteEvent
     } = this.props;
 
     if (!event.id) {
@@ -191,54 +195,15 @@ export default class EventDetail extends Component {
                   title="Påmeldte"
                   pools={poolsWithWaitingRegistrations}
                 />
-                {!currentRegistration &&
-                  <div>
-                    <i className="fa fa-exclamation-circle" />
-                    {' '}
-                    Du er ikke registrert
-                  </div>}
-                {currentRegistration &&
-                  <div>
-                    {currentRegistration.pool
-                      ? <div>
-                          <i className="fa fa-check-circle" /> Du er registrert
-                        </div>
-                      : <div>
-                          <i className="fa fa-pause-circle" />
-                          {' '}
-                          Du er i venteliste
-                        </div>}
-                    {event.isPriced &&
-                      (currentRegistration.chargeStatus === 'succeeded'
-                        ? <div>
-                            <i className="fa fa-check-circle" /> Du har betalt
-                          </div>
-                        : <div>
-                            <i className="fa fa-exclamation-circle" />
-                            {' '}
-                            Du har ikke betalt
-                          </div>)}
-                  </div>}
-                {actionGrant.includes('update') &&
-                  <ul>
-                    <li><strong>Admin</strong></li>
-                    <li>
-                      <Link
-                        to={`/events/${event.id}/administrate`}
-                        style={{ color: 'white' }}
-                      >
-                        Påmeldinger
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to={`/events/${event.id}/edit`}
-                        style={{ color: 'white' }}
-                      >
-                        Rediger
-                      </Link>
-                    </li>
-                  </ul>}
+                <RegistrationMeta
+                  registration={currentRegistration}
+                  inPriced={event.isPriced}
+                />
+                <Admin
+                  actionGrant={actionGrant}
+                  event={event}
+                  deleteEvent={deleteEvent}
+                />
               </FlexItem>}
           </Flex>
         </Flex>

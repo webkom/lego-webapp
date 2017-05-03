@@ -25,20 +25,7 @@ import {
   DatePicker
 } from 'app/components/Form';
 import { eventTypes, colorForEvent } from '../../utils.js';
-
-const InterestedButton = ({ value, onClick }) => {
-  const [icon, text] = value
-    ? ['check', 'Du er interessert']
-    : ['plus', 'Jeg er interessert'];
-
-  return (
-    <Button onClick={onClick}>
-      <Icon name={icon} />
-      {' '}
-      {text}
-    </Button>
-  );
-};
+import Admin from '../Admin';
 
 /**
  *
@@ -60,7 +47,8 @@ type Props = {
   handleSubmitCallback: void,
   companyResult: Object,
   onQueryChanged: (query: string) => void,
-  searching: boolean
+  searching: boolean,
+  deleteEvent: (eventId: string) => Promise<*>
 };
 
 /**
@@ -84,7 +72,8 @@ function EventEditor(
     handleSubmitCallback,
     companyResult,
     onQueryChanged,
-    searching
+    searching,
+    deleteEvent
   }: Props
 ) {
   const isEditPage = eventId !== undefined;
@@ -145,12 +134,13 @@ function EventEditor(
                     marginLeft: 5,
                     boxShadow: '0 0 10px #394B59'
                   }}
+                  simpleValue
                   component={SelectInput.Field}
                   options={Object.keys(eventTypes).map(type => ({
                     label: eventTypes[type],
                     value: type
                   }))}
-                  placeholder="Bedrift"
+                  placeholder="Arrangementstype"
                 />
               </li>
               <li style={{ display: 'flex' }}>
@@ -246,6 +236,11 @@ function EventEditor(
                     component={DatePicker.Field}
                   />
                 </div>
+                <Admin
+                  actionGrant={actionGrant}
+                  event={event}
+                  deleteEvent={deleteEvent}
+                />
               </FlexItem>}
           </FlexColumn>
         </FlexRow>
@@ -278,8 +273,11 @@ function EventEditor(
 export default reduxForm({
   form: 'eventEditor',
   enableReinitialize: true,
-  validate(values) {
+  validate(data) {
     const errors = {};
+    if (!data.eventType) {
+      errors.eventType = 'Arrangementstype er påkrevet';
+    }
     return errors;
   }
 })(EventEditor);
