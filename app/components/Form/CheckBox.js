@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { createField } from './Field';
-import './CheckBox.css';
+import styles from './CheckBox.css';
 
 type Props = {
   type?: string,
@@ -12,12 +12,8 @@ type Props = {
 
 function CheckBox({ id, label, className, ...props }: Props) {
   return (
-    <div className={className}>
-      <input
-        type='checkbox'
-        id={id}
-        {...props}
-      />
+    <div className={styles.box}>
+      <input type="checkbox" id={id} {...props} />
       <label htmlFor={id}>{label}</label>
     </div>
   );

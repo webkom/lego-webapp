@@ -65,11 +65,10 @@ export default class JoblistingsRightNav extends Component {
       to={{ pathname: '/joblistings', query: this.updateFilters(type, value) }}
       key={value}
     >
-      <CheckBox
-        label={label}
-        checked={this.state.filters[type].includes(value)}
-        readOnly
-      />
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <CheckBox checked={this.state.filters[type].includes(value)} readOnly />
+        <span style={{ marginLeft: '5px' }}>{label}</span>
+      </div>
     </Link>
   );
 
@@ -104,13 +103,8 @@ export default class JoblistingsRightNav extends Component {
           {this.filterLinkto('jobtypes', 'part_time', 'Deltid')}
           {this.filterLinkto('jobtypes', 'full_time', 'Fulltid')}
           <h3>Sted:</h3>
-          {[
-            'Oslo',
-            'Trondheim',
-            'Bergen',
-            'Tromsø',
-            'Annet'
-          ].map(element => this.filterLinkto('workplaces', element, element))}
+          {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map(element =>
+            this.filterLinkto('workplaces', element, element))}
         </FlexColumn>
       </FlexColumn>
     );

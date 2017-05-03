@@ -1,3 +1,8 @@
+.box {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+}
 
 .label {
   display: inline-block;
@@ -12,13 +17,16 @@
 [type='checkbox']:not(:checked),
 [type='checkbox']:checked {
   position: absolute;
-  left: -9999px;
+  margin-top: 4px;
+  margin-left: 2px;
+  z-index: 1;
+  transform: scale(1.5);
+  opacity: 0;
 }
 
 [type='checkbox']:not(:checked) + label,
 [type='checkbox']:checked + label {
   position: relative;
-  padding-left: 25px;
   cursor: pointer;
 }
 
