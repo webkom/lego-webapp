@@ -20,6 +20,7 @@ import {
   EditorField,
   SelectInput,
   TextInput,
+  CheckBox,
   TextEditor,
   Button,
   DatePicker
@@ -195,20 +196,30 @@ function EventEditor(
                   component={TextInput.Field}
                 />
               </li>
-              {event.activationTime &&
-                <li>
-                  Påmelding åpner
-                  {' '}
-                  <strong>
-                    <Time
-                      time={event.activationTime}
-                      format="DD.MM.YYYY HH:mm"
-                    />
-                  </strong>
+              <li style={{ display: 'flex' }}>
+                <span style={{ display: 'flex', alignItems: 'center' }}>
+                  Betalt arrangement
+                </span>
+                <Field
+                  name="isPriced"
+                  checked={event.isPriced}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                  component={CheckBox.Field}
+                />
+              </li>
+              {event.isPriced &&
+                <li style={{ display: 'flex' }}>
+                  <span style={{ display: 'flex', alignItems: 'center' }}>
+                    Pris medlem
+                  </span>
+                  <Field
+                    name="priceMember"
+                    fieldClassName={styles.metaField}
+                    className={styles.formField}
+                    component={TextInput.Field}
+                  />
                 </li>}
-              {event.isPriced && <li>Dette er et betalt arrangement</li>}
-              {event.price > 0 &&
-                <li>Pris: <strong>{event.price / 100},-</strong></li>}
             </ul>
             {loggedIn &&
               <FlexItem>

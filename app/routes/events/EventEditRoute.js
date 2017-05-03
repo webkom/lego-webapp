@@ -50,7 +50,7 @@ const mapStateToProps = (state, props) => {
         }
       ]
     : pools;
-  const eventType = formValueSelector('eventEditor')(state, 'eventType');
+  const valueSelector = formValueSelector('eventEditor');
   return {
     initialValues: {
       ...event,
@@ -64,7 +64,8 @@ const mapStateToProps = (state, props) => {
     actionGrant,
     event: {
       ...event,
-      eventType
+      isPriced: valueSelector(state, 'isPriced'),
+      eventType: valueSelector(state, 'eventType')
     },
     eventId,
     pools,

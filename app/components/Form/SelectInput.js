@@ -3,7 +3,7 @@
 import React from 'react';
 import Select, { Creatable } from 'react-select';
 import { createField } from './Field';
-import style from './SelectInput.css';
+import styles from './SelectInput.css';
 import 'react-select/dist/react-select.css';
 
 type Props = {
@@ -37,6 +37,7 @@ function SelectInput(
       {...props}
       style={selectStyle}
       options={options}
+      value={value}
       onBlurResetsInput={false}
       onBlur={() => onBlur(value)}
       isLoading={fetching}

@@ -53,7 +53,10 @@ export function createEvent(
     description,
     text,
     eventType,
+    company,
     location,
+    isPriced,
+    priceMember,
     mergeTime,
     tags
   }
@@ -70,7 +73,10 @@ export function createEvent(
       description,
       text,
       eventType,
+      company: company.value,
       location,
+      isPriced,
+      priceMember,
       mergeTime: moment(mergeTime).toISOString(),
       tags
     },
@@ -90,7 +96,10 @@ export function editEvent(
     description,
     text,
     eventType,
+    company,
     location,
+    isPriced,
+    priceMember,
     mergeTime,
     tags
   }
@@ -107,7 +116,10 @@ export function editEvent(
       description,
       text,
       eventType,
+      company: company.value,
       location,
+      isPriced,
+      priceMember,
       mergeTime: moment(mergeTime).toISOString(),
       tags
     },
