@@ -44,28 +44,19 @@ const InterestedButton = ({ value, onClick }) => {
  *
  */
 type Props = {
-  eventId: Number,
+  eventId: string,
   event: Object,
   loggedIn: boolean,
   currentUser: Object,
-  actionGrant: Array<any>,
-  comments: Array<any>,
+  actionGrant: Array<string>,
   error?: Object,
   loading: boolean,
-  pools: Array<any>,
-  registrations: Array<any>,
-  poolsWithWaitingRegistrations: Array<any>,
-  waitingRegistrations: Array<any>,
+  pools: Array<Object>,
+  registrations: Array<Object>,
+  poolsWithWaitingRegistrations: Array<Object>,
+  waitingRegistrations: Array<Object>,
   isUserInterested: boolean,
-  register: (eventId: Number) => Promise<*>,
-  unregister: (eventId: Number, registrationId: Number) => Promise<*>,
-  payment: (eventId: Number, token: string) => Promise<*>,
-  updateFeedback: (
-    eventId: Number,
-    registrationId: Number,
-    feedback: string
-  ) => Promise<*>,
-  handleSubmit: void,
+  handleSubmit: (void) => void,
   handleSubmitCallback: void,
   companyResult: Object,
   onQueryChanged: (query: string) => void,
@@ -109,7 +100,6 @@ function EventEditor(
     return <div>{error.message}</div>;
   }
   const metaColor = colorForEvent(event.eventType);
-  console.log('asd', styles.company);
 
   return (
     <div className={styles.root}>
@@ -189,7 +179,7 @@ function EventEditor(
                 <Field
                   name="startTime"
                   fieldClassName={styles.metaField}
-                  className={styles.company}
+                  className={styles.formField}
                   component={DatePicker.Field}
                 />
               </li>
@@ -200,7 +190,7 @@ function EventEditor(
                 <Field
                   name="endTime"
                   fieldClassName={styles.metaField}
-                  className={styles.company}
+                  className={styles.formField}
                   component={DatePicker.Field}
                 />
               </li>
@@ -211,7 +201,7 @@ function EventEditor(
                 <Field
                   name="location"
                   fieldClassName={styles.metaField}
-                  className={styles.company}
+                  className={styles.formField}
                   component={TextInput.Field}
                 />
               </li>
@@ -252,7 +242,7 @@ function EventEditor(
                   <Field
                     name="mergeTime"
                     fieldClassName={styles.metaField}
-                    className={styles.company}
+                    className={styles.formField}
                     component={DatePicker.Field}
                   />
                 </div>

@@ -37,26 +37,26 @@ const InterestedButton = ({ value, onClick }) => {
  *
  */
 type Props = {
-  eventId: Number,
+  eventId: string,
   event: Object,
   loggedIn: boolean,
   currentUser: Object,
-  actionGrant: Array<any>,
-  comments: Array<any>,
+  actionGrant: Array<string>,
+  comments: Array<Object>,
   error?: Object,
   loading: boolean,
-  pools: Array<any>,
-  registrations: Array<any>,
+  pools: Array<Object>,
+  registrations: Array<Object>,
   currentRegistration: Object,
-  poolsWithWaitingRegistrations: Array<any>,
-  waitingRegistrations: Array<any>,
+  poolsWithWaitingRegistrations: Array<Object>,
+  waitingRegistrations: Array<Object>,
   isUserInterested: boolean,
-  register: (eventId: Number) => Promise<*>,
-  unregister: (eventId: Number, registrationId: Number) => Promise<*>,
-  payment: (eventId: Number, token: string) => Promise<*>,
+  register: (eventId: string) => Promise<*>,
+  unregister: (eventId: string, registrationId: number) => Promise<*>,
+  payment: (eventId: string, token: string) => Promise<*>,
   updateFeedback: (
-    eventId: Number,
-    registrationId: Number,
+    eventId: string,
+    registrationId: number,
     feedback: string
   ) => Promise<*>
 };

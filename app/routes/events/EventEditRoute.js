@@ -1,6 +1,7 @@
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
+import { formValueSelector } from 'redux-form';
 import {
   fetchEvent,
   editEvent,
@@ -48,10 +49,14 @@ const mapStateToProps = (state, props) => {
         }
       ]
     : pools;
+  const eventType = formValueSelector('eventEditor')(state, 'eventType');
   return {
     initialValues: event,
     actionGrant,
-    event,
+    event: {
+      ...event,
+      eventType
+    },
     eventId,
     pools,
     registrations,
