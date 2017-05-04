@@ -83,12 +83,16 @@ export default class CustomEditor extends Component {
     }
   };
 
-  onDocumentChange = (document, state) => {
+  onContentChange = state => {
     const content = html.serialize(state);
     if (this.props.onChange) {
       this.props.onChange(content);
       this.lastSerializedState = content;
     }
+  };
+
+  onDocumentChange = (document, state) => {
+    this.onContentChange(state);
 
     if (state.isCollapsed && state.startBlock.isVoid) {
       const transformed = insertParagraph(state);
@@ -111,6 +115,7 @@ export default class CustomEditor extends Component {
     );
 
     this.onChange(transformed);
+    this.onContentChange(transformed);
   };
 
   hasBlock = type => {
@@ -156,7 +161,9 @@ export default class CustomEditor extends Component {
       }
     }
 
-    this.onChange(transfrom.apply({ save: false }));
+    const newState = transfrom.apply({ save: false });
+    this.onChange(newState);
+    this.onContentChange(newState);
   };
 
   setBlockData = (key, data) => {
@@ -168,6 +175,7 @@ export default class CustomEditor extends Component {
       .apply({ save: false });
 
     this.onChange(transformed);
+    this.onContentChange(transformed);
   };
 
   setInlineStyle = type => {
@@ -179,6 +187,7 @@ export default class CustomEditor extends Component {
       .apply({ save: false });
 
     this.onChange(transformed);
+    this.onContentChange(transformed);
   };
 
   render = () => {
