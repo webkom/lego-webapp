@@ -1,3 +1,5 @@
+// @flow
+
 import 'babel-polyfill';
 import moment from 'moment';
 import { browserHistory } from 'react-router';

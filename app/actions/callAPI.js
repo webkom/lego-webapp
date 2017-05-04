@@ -3,6 +3,7 @@
 import { normalize } from 'normalizr';
 import fetchJSON from 'app/utils/fetchJSON';
 import config from '../config';
+import type { Thunk } from 'app/types';
 
 function urlFor(resource) {
   if (resource.match(/^\/\//)) {
@@ -36,7 +37,7 @@ export default function callAPI({
   meta,
   schema,
   requiresAuthentication = true
-}) {
+}: Object): Thunk<*, *> {
   return (dispatch, getState) => {
     const options = {
       method,

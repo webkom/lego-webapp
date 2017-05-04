@@ -3,7 +3,7 @@
 import { File } from './ActionTypes';
 import callAPI from './callAPI';
 
-export function fetchSignedPost(key, isPublic) {
+export function fetchSignedPost(key: string, isPublic: boolean) {
   return callAPI({
     types: File.FETCH_SIGNED_POST,
     method: 'post',
