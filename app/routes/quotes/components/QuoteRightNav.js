@@ -1,9 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import styles from './Quotes.css';
 
 export default class QuoteRightNav extends Component {
-
   static propTypes = {
     query: PropTypes.object.isRequired
   };
@@ -13,13 +13,14 @@ export default class QuoteRightNav extends Component {
     return (
       <div className={styles.quotepageRight}>
         <Link
-          to={path === 'unapproved' ?
-          '/quotes' : '/quotes?filter=unapproved'}
+          to={path === 'unapproved' ? '/quotes' : '/quotes?filter=unapproved'}
         >
-          {path === 'unapproved' ? 'Godkjente sitater' : 'Ikke godkjente sitater'}
+          {path === 'unapproved'
+            ? 'Godkjente sitater'
+            : 'Ikke godkjente sitater'}
         </Link>
         <br />
-        <Link to='/quotes/add'>Legg til nytt sitat!</Link>
+        <Link to="/quotes/add">Legg til nytt sitat!</Link>
       </div>
     );
   }

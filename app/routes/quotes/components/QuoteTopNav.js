@@ -1,9 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import styles from './Quotes.css';
 
 export default class QuoteTopNav extends Component {
-
   static propTypes = {
     routeParams: PropTypes.object.isRequired,
     sortType: PropTypes.string.isRequired,
@@ -19,18 +19,34 @@ export default class QuoteTopNav extends Component {
             Sorter etter:
 
             <Link
-              to={this.props.query.filter === 'unapproved' ?
-              '/quotes?filter=unapproved' : '/quotes'}
-              className={(this.props.sortType === 'date') ?
-                'selectedQuoteSort' : 'unselectedQuoteSort'}
-            >Dato</Link>
+              to={
+                this.props.query.filter === 'unapproved'
+                  ? '/quotes?filter=unapproved'
+                  : '/quotes'
+              }
+              className={
+                this.props.sortType === 'date'
+                  ? 'selectedQuoteSort'
+                  : 'unselectedQuoteSort'
+              }
+            >
+              Dato
+            </Link>
 
             <Link
-              to={this.props.query.filter === 'unapproved' ?
-              '/quotes?filter=unapproved&sort=likes' : '/quotes?sort=likes'}
-              className={(this.props.sortType === 'likes') ?
-              'selectedQuoteSort' : 'unselectedQuoteSort'}
-            >Likes</Link>
+              to={
+                this.props.query.filter === 'unapproved'
+                  ? '/quotes?filter=unapproved&sort=likes'
+                  : '/quotes?sort=likes'
+              }
+              className={
+                this.props.sortType === 'likes'
+                  ? 'selectedQuoteSort'
+                  : 'unselectedQuoteSort'
+              }
+            >
+              Likes
+            </Link>
 
           </div>
         </div>

@@ -1,5 +1,6 @@
 import styles from './JoblistingsRightNav.css';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 import CheckBox from 'app/components/Form/CheckBox';
@@ -97,14 +98,16 @@ export default class JoblistingsRightNav extends Component {
         <FlexColumn className={styles.filters}>
           <h3>Klassetrinn:</h3>
           {['1', '2', '3', '4', '5'].map(element =>
-            this.filterLinkto('class', element, `${element}. klasse`))}
+            this.filterLinkto('class', element, `${element}. klasse`)
+          )}
           <h3>Jobbtype:</h3>
           {this.filterLinkto('jobtypes', 'summer_job', 'Sommerjobb')}
           {this.filterLinkto('jobtypes', 'part_time', 'Deltid')}
           {this.filterLinkto('jobtypes', 'full_time', 'Fulltid')}
           <h3>Sted:</h3>
           {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map(element =>
-            this.filterLinkto('workplaces', element, element))}
+            this.filterLinkto('workplaces', element, element)
+          )}
         </FlexColumn>
       </FlexColumn>
     );

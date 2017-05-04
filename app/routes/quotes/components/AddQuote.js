@@ -1,10 +1,10 @@
 import styles from './Quotes.css';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { reduxForm, Field } from 'redux-form';
 import { TextEditor, Button } from 'app/components/Form';
 
 class AddQuote extends Component {
-
   static propTypes = {
     addQuotes: PropTypes.func.isRequired,
     invalid: PropTypes.bool.isRequired,
@@ -33,30 +33,30 @@ class AddQuote extends Component {
         <div className={styles.addQuote}>
           <form onSubmit={handleSubmit(addQuotes)}>
 
-            <label htmlFor='addQuoteContent' style={{ fontSize: 30 }}>
+            <label htmlFor="addQuoteContent" style={{ fontSize: 30 }}>
               Selve sitatet <b>*</b>
             </label>
 
             <Field
-              placeholder='Det gjør seg ikke sjæl'
-              name='text'
+              placeholder="Det gjør seg ikke sjæl"
+              name="text"
               component={TextEditor.Field}
             />
 
-            <label htmlFor='addQuoteSource' style={{ fontSize: 20 }}>
+            <label htmlFor="addQuoteSource" style={{ fontSize: 20 }}>
               Hvor sitatet kommer fra (sleng gjerne med noe snaks!) <b>*</b>
             </label>
             <Field
-              placeholder='Harald Rex'
-              name='source'
+              placeholder="Harald Rex"
+              name="source"
               component={TextEditor.Field}
-              type='text'
+              type="text"
             />
 
             <div className={styles.clear} />
 
             <Button
-              type='submit'
+              type="submit"
               className={styles.submitQuote}
               disabled={disabledButton}
             >

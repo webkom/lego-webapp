@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import GroupMembersList from './components/GroupMembersList';
 
