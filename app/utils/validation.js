@@ -25,7 +25,11 @@ export function createValidator(fieldValidators) {
           .map(validator => validator(input[field], input))
           .filter(([isValid]) => !isValid)
           .map(([, message]) => message || 'not valid') || 0;
-        if (fieldErrors.length) errors[field] = fieldErrors;
+
+        if (fieldErrors.length) {
+          errors[field] = fieldErrors;
+        }
+
         return errors;
       },
       {}

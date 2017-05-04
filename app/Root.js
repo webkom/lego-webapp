@@ -2,6 +2,7 @@
 
 import 'animate.css/animate.css';
 import 'minireset.css/minireset.css';
+import 'react-select/dist/react-select.css';
 import 'app/styles/globals.css';
 import 'app/styles/icomoon.css';
 

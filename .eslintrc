@@ -21,7 +21,8 @@
   },
   "rules": {
     "react/prop-types": 1,
-    "react/display-name": 1
+    "react/display-name": 1,
+    "flowtype/no-types-missing-file-annotation": 0
   },
   "settings": {
     "import/resolver": {
