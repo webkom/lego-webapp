@@ -37,13 +37,8 @@ function mapStateToProps(state, props) {
       visibleTo: moment().add(2, 'months').toISOString()
     },
     results: selectAutocomplete(state),
-    company: company
-      ? selectCompanyById(state, { companyId: company.id })
-      : null
+    company: company ? selectCompanyById(state, { companyId: company }) : null
   };
 }
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['loggedIn'])
-)(JoblistingEditor);
+export default connect(mapStateToProps, mapDispatchToProps)(JoblistingEditor);

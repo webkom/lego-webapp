@@ -3,7 +3,7 @@
 import React from 'react';
 import styles from './JoblistingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, change } from 'redux-form';
 import {
   Form,
   TextEditor,
@@ -76,13 +76,14 @@ function JoblistingEditor(
     return <LoadingIndicator loading />;
   }
   const onSubmit = newJoblisting => {
-    console.log('workplaces', newJoblisting.workplaces);
     const workplaces = newJoblisting.workplaces
       ? newJoblisting.workplaces.map(obj => ({ town: obj.value }))
       : null;
-    const responsible = newJoblisting.responsible.id === -1
+    const responsible = newJoblisting.responsible &&
+      (newJoblisting.responsible === 'Ingen' ||
+        newJoblisting.responsible.id === -1)
       ? null
-      : newJoblisting.responsible.id;
+      : newJoblisting.responsible ? newJoblisting.responsible.id : null;
     submitJoblisting({
       ...newJoblisting,
       workplaces,
@@ -141,7 +142,6 @@ function JoblistingEditor(
     </FlexRow>
   );
 
-  console.log('asd', company);
   return (
     <div className={styles.root}>
       <h1 className={styles.heading}>
@@ -160,10 +160,19 @@ function JoblistingEditor(
               options={results}
               fetching={searching}
               onSearch={query => onQueryChanged(query)}
-              onChange={val => {
-                fetchCompany(val[0]);
+              simpleValue
+              onChange={newValue => {
+                if (!company || Number(newValue[0]) !== company.id) {
+                  fetchCompany(newValue[0]).then(() => {
+                    dispatch(
+                      change('joblistingEditor', 'responsible', {
+                        label: 'Ingen',
+                        value: -1
+                      })
+                    );
+                  });
+                }
               }}
-              simpleValue={false}
             />
           </FlexColumn>
         </FlexRow>
@@ -182,6 +191,7 @@ function JoblistingEditor(
             </Field>
           </FlexColumn>
         </FlexRow>
+
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Arbeidssteder: </FlexColumn>
           <FlexColumn className={styles.textfield}>
@@ -197,7 +207,9 @@ function JoblistingEditor(
 
         {yearPickerComponent('Fra år: ', 'fromYear')}
         {yearPickerComponent('Til år: ', 'toYear')}
+
         {fieldComponent('Søknadslenke: ', 'applicationUrl', 'Søknadslenke')}
+
         {textEditorComponent(
           'Søknadsintro: ',
           'description',
@@ -224,6 +236,7 @@ function JoblistingEditor(
                     )
                   : [{ label: 'Ingen', value: -1 }]
               }
+              simpleValue
             />
           </FlexColumn>
         </FlexRow>
