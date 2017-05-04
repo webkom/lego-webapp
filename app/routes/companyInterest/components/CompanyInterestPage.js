@@ -19,22 +19,6 @@ const ACTIVITY_TYPES = [
   { label: 'Ønsker stand på itDAGENE', name: 'itdagene' }
 ];
 
-// let { id, label } = { id: "dsadsa" , label: "bar" , foo: "bar" };
-// <=>
-// let { id , label } = props;
-/*
-const Checkbox = ({ id, name, label }) => (
-  <div>
-    <Field
-      id={id}
-      name={name}
-      component={CheckBox.Field}
-    />
-    <span>{label}</span>
-  </div>
-);
-*/
-
 const isFirstSemester = () => new Date().getMonth() + 1 < 6;
 
 const getInputField = (label, placeholder, name) => (
@@ -71,19 +55,26 @@ const getSemesterBoxes = () => {
       ];
 
   return labels.map((item, index) => (
-    <CheckBox
-      id={`semester-${index}`}
-      key={`semester-${index}`}
-      label={item}
-      name={`semester-${index}`}
-    />
+    <div className={companyStyle.checkbox}>
+      <Field
+        key={`semester-${index}`}
+        id={`semester-${index}`}
+        name={`semester-${index}`}
+        component={CheckBox.Field}
+      />
+      <span>{item}</span>
+    </div>
   ));
 };
 
 const getEventBoxes = () =>
   EVENT_TYPES.map((item, index) => (
-    <div>
-      <Field key={index} name={item.name} component={CheckBox.Field} />
+    <div className={companyStyle.checkbox}>
+      <Field
+        key={`event-${index}`}
+        name={item.name}
+        component={CheckBox.Field}
+      />
       <span>{item.label}</span>
     </div>
   ));
@@ -92,8 +83,12 @@ const getEventBoxes = () =>
 
 const getActivityBoxes = () =>
   ACTIVITY_TYPES.map((item, index) => (
-    <div>
-      <Field key={index} name={item.name} component={CheckBox.Field} />
+    <div className={companyStyle.checkbox}>
+      <Field
+        key={`activity-${index}`}
+        name={item.name}
+        component={CheckBox.Field}
+      />
       <span>{item.label}</span>
     </div>
   ));

@@ -20,3 +20,12 @@
   font-size: 25px;
   font-weight: bold;
 }
+
+.checkbox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  width: 200px;
+  height: 100px;
+}
