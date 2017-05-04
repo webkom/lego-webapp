@@ -1,3 +1,5 @@
+// @flow
+
 import styles from './JoblistingsRightNav.css';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -95,7 +97,7 @@ export default class JoblistingsRightNav extends Component {
         {this.createButton()}
         <FlexRow className={styles.box}>
           <FlexColumn>
-            <h3>Sorter etter:</h3>
+            <h3 className={styles.rightHeader}>Sorter etter:</h3>
             <FlexRow className={styles.sort}>
               <Link
                 to={{
@@ -115,14 +117,14 @@ export default class JoblistingsRightNav extends Component {
               </Link>
             </FlexRow>
             <FlexColumn className={styles.filters}>
-              <h3>Klassetrinn:</h3>
+              <h3 className={styles.rightHeader}>Klassetrinn:</h3>
               {['1', '2', '3', '4', '5'].map(element =>
                 this.filterLinkto('class', element, `${element}. klasse`))}
-              <h3>Jobbtype:</h3>
+              <h3 className={styles.rightHeader}>Jobbtype:</h3>
               {this.filterLinkto('jobtypes', 'summer_job', 'Sommerjobb')}
               {this.filterLinkto('jobtypes', 'part_time', 'Deltid')}
               {this.filterLinkto('jobtypes', 'full_time', 'Fulltid')}
-              <h3>Sted:</h3>
+              <h3 className={styles.rightHeader}>Sted:</h3>
               {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map(element =>
                 this.filterLinkto('workplaces', element, element))}
             </FlexColumn>

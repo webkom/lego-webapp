@@ -20,7 +20,7 @@ export function fetchAll() {
 
 export function fetch(companyId) {
   return dispatch => {
-    dispatch(
+    return dispatch(
       callAPI({
         types: Company.FETCH,
         endpoint: `/companies/${companyId}/`,
