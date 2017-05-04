@@ -4,6 +4,7 @@ import { fetchAll } from 'app/actions/JoblistingActions';
 import JoblistingsPage from './components/JoblistingsPage';
 import { compose } from 'redux';
 import moment from 'moment';
+import { selectCompanyById } from 'app/reducers/companies';
 
 function filterJoblistings(joblistings, classes, jobtypes, workplaces) {
   return joblistings.filter(joblisting => {
@@ -65,7 +66,6 @@ const mapStateToProps = (state, props) => {
     filterWorkplaces
   );
   const sortedJoblistings = sortJoblistings(filteredJoblistings, sortType);
-
   const actionGrant = state.joblistings.actionGrant || [];
 
   return {

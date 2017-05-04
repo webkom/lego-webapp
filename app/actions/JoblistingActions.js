@@ -75,7 +75,7 @@ export function createJoblisting(
         body: {
           title,
           text,
-          company,
+          company: company && company.value,
           responsible,
           description,
           deadline: moment(deadline).toISOString(),
@@ -135,7 +135,7 @@ export function editJoblisting(
           id,
           title,
           text,
-          company,
+          company: company && company.value,
           responsible,
           description,
           deadline: moment(deadline).toISOString(),

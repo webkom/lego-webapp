@@ -17,7 +17,7 @@
   justify-content: space-around;
 }
 
-h3 {
+.rightHeader {
   text-transform: uppercase;
   font-weight: 400;
   font-size: 15px;

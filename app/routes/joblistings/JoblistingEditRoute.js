@@ -30,11 +30,14 @@ function mapStateToProps(state, props) {
   const formSelector = formValueSelector('joblistingEditor');
   const company = formSelector(state, 'company');
   const joblisting = selectJoblistingById(state, { joblistingId });
-  console.log('comp', company);
   return {
     joblisting,
     initialValues: {
       ...joblisting,
+      company: joblisting.company && {
+        label: joblisting.company.name,
+        value: joblisting.company.id
+      },
       workplaces: joblisting.workplaces
         .map(workplace => workplace.town)
         .join(',')
