@@ -1,3 +1,5 @@
+// @flow
+
 import { Quote } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 
@@ -12,7 +14,7 @@ export default createEntityReducer({
       case Quote.DELETE.SUCCESS:
         return {
           ...state,
-          items: state.items.filter((id) => action.meta.quoteId !== id)
+          items: state.items.filter(id => action.meta.quoteId !== id)
         };
 
       default:

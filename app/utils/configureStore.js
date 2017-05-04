@@ -1,3 +1,5 @@
+// @flow
+
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
@@ -6,6 +8,7 @@ import { routerMiddleware } from 'react-router-redux';
 import { addNotification } from 'app/actions/NotificationActions';
 import promiseMiddleware from './promiseMiddleware';
 import createErrorMiddleware from './errorMiddleware';
+import type { State, Store } from 'app/types';
 
 const loggerMiddleware = createLogger({
   level: 'info',
@@ -16,7 +19,7 @@ const errorMiddleware = createErrorMiddleware(message =>
   addNotification({ message })
 );
 
-export default function configureStore(initialState = {}) {
+export default function configureStore(initialState: State): Store {
   const middlewares = [
     routerMiddleware(browserHistory),
     thunkMiddleware,

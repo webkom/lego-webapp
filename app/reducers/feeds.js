@@ -1,8 +1,9 @@
+// @flow
+
 import { Feed } from '../actions/ActionTypes';
 import { createSelector } from 'reselect';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { union } from 'lodash';
-
 
 function arrayOf(value) {
   if (Array.isArray(value)) return value;
@@ -43,27 +44,27 @@ export default createEntityReducer({
   }
 });
 
-export const feedIdByUsername = (username) => `user-${username}`;
+export const feedIdByUsername = username => `user-${username}`;
 
 export const selectFeeds = createSelector(
-  (state) => state.feeds.byId,
-  (state) => state.feeds.items,
-  (feedsById, feedIds) => feedIds.map((id) => feedsById[id])
+  state => state.feeds.byId,
+  state => state.feeds.items,
+  (feedsById, feedIds) => feedIds.map(id => feedsById[id])
 );
 
 export const selectFeedById = createSelector(
-  (state) => state.feeds.byId,
+  state => state.feeds.byId,
   (state, props) => props.feedId,
   (feedsById, feedId) => feedsById[feedId]
 );
 
 export const selectFeedActivitesByFeedId = createSelector(
   selectFeedById,
-  (state) => state.feedActivities.byId,
+  state => state.feedActivities.byId,
   (feed, activiesById) => {
     if (!feed) {
       return [];
     }
-    return feed.activities.map((id) => activiesById[id]);
+    return feed.activities.map(id => activiesById[id]);
   }
 );

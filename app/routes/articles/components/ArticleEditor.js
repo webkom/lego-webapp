@@ -47,7 +47,7 @@ export default class ArticleEditor extends Component {
     const body = {
       title: data.title,
       content: data.content,
-      tags: data.tags
+      tags: data.tags.map(tag => tag.value)
     };
 
     if (this.state.article.cover) {

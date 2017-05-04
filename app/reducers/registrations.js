@@ -1,13 +1,13 @@
-import { omit, union } from 'lodash';
+// @flow
+
+import { union } from 'lodash';
 import { Event } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import moment from 'moment';
 
 export default createEntityReducer({
   key: 'registrations',
-  types: {
-    fetch: false
-  },
+  types: {},
   mutate(state, action) {
     switch (action.type) {
       case Event.SOCKET_REGISTRATION.SUCCESS:

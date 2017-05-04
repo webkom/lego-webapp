@@ -1,3 +1,5 @@
+// @flow
+
 import { schema } from 'normalizr';
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
@@ -22,8 +24,9 @@ import joblistings from './joblistings';
 import feedActivities from './feedActivities';
 import feeds from './feeds';
 import { User } from '../actions/ActionTypes';
+import type { State, Action } from 'app/types';
 
-const appReducer = combineReducers({
+const reducers = {
   quotes,
   events,
   articles,
@@ -45,11 +48,15 @@ const appReducer = combineReducers({
   feedActivities,
   feeds,
   companies
-});
+};
 
-export default function rootReducer(state, action) {
+export type Reducers = typeof reducers;
+
+const appReducer = combineReducers(reducers);
+
+export default function rootReducer(state: State, action: Action) {
   if (action.type === User.LOGOUT) {
-    state = undefined;
+    return appReducer(undefined, action);
   }
   return appReducer(state, action);
 }

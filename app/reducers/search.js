@@ -1,5 +1,8 @@
+// @flow
+
 import { createSelector } from 'reselect';
 import { Search } from '../actions/ActionTypes';
+import type { Action } from 'app/types';
 
 const initialState = {
   results: [],
@@ -28,7 +31,6 @@ const searchMapping = {
   },
   'events.event': {
     icon: 'calendar',
-    value: 'title',
     color: '#E8953A',
     picture: 'cover',
     path: '/events/',
@@ -37,7 +39,6 @@ const searchMapping = {
   },
   'flatpages.page': {
     profilePicture: 'picture',
-    value: 'title',
     color: '#E8953A',
     path: '/pages/',
     value: 'slug',
@@ -45,7 +46,9 @@ const searchMapping = {
   }
 };
 
-export default function search(state = initialState, action) {
+type State = typeof initialState;
+
+export default function search(state: State = initialState, action: Action) {
   switch (action.type) {
     case Search.SEARCH.BEGIN:
       return {

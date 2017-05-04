@@ -1,24 +1,29 @@
+// @flow
+
 import { Notifications } from '../actions/ActionTypes';
+import type { Action } from 'app/types';
 
 const initialState = {
   items: []
 };
 
-export default function notifications(state = initialState, action) {
+type State = typeof initialState;
+
+export default function notifications(
+  state: State = initialState,
+  action: Action
+) {
   switch (action.type) {
     case Notifications.NOTIFICATION_ADDED:
       return {
         ...state,
-        items: [
-          ...state.items,
-          action.payload
-        ]
+        items: [...state.items, action.payload]
       };
 
     case Notifications.NOTIFICATION_REMOVED:
       return {
         ...state,
-        items: state.items.map((notification) => {
+        items: state.items.map(notification => {
           if (notification.id === action.payload.id) {
             notification.removed = true;
           }

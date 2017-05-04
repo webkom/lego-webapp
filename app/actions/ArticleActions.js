@@ -4,8 +4,9 @@ import { Article } from './ActionTypes';
 import { articleSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import createQueryString from 'app/utils/createQueryString';
+import type { EntityID, ArticleEntity } from 'app/types';
 
-export function fetchArticle(articleId) {
+export function fetchArticle(articleId: EntityID) {
   return callAPI({
     types: Article.FETCH,
     endpoint: `/articles/${articleId}/`,
@@ -16,7 +17,7 @@ export function fetchArticle(articleId) {
   });
 }
 
-export function createArticle({ title, content, tags, cover }) {
+export function createArticle({ title, content, tags, cover }: ArticleEntity) {
   return callAPI({
     types: Article.CREATE,
     endpoint: '/articles/',
@@ -25,7 +26,7 @@ export function createArticle({ title, content, tags, cover }) {
     body: {
       title,
       content,
-      tags: tags.map(tag => tag.value),
+      tags,
       cover,
       author: 1,
       description: 'nice article'
@@ -36,7 +37,7 @@ export function createArticle({ title, content, tags, cover }) {
   });
 }
 
-export function editArticle({ id, title, content }) {
+export function editArticle({ id, title, content }: ArticleEntity) {
   return callAPI({
     types: Article.EDIT,
     endpoint: `/articles/${id}/`,
@@ -54,7 +55,9 @@ export function editArticle({ id, title, content }) {
   });
 }
 
-export function fetchAll({ year, month } = {}) {
+export function fetchAll(
+  { year, month }: { year: string, month: string } = {}
+) {
   return callAPI({
     types: Article.FETCH,
     endpoint: `/articles/${createQueryString({ year, month })}`,

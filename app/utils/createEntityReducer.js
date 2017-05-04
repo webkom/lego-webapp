@@ -4,19 +4,24 @@ import { get, union, mergeWith } from 'lodash';
 import joinReducers from 'app/utils/joinReducers';
 
 import type { ActionTypeObject } from 'app/utils/promiseMiddleware';
+import type { Reducer } from 'app/types';
 
 type EntityReducerOptions = {
   key: string,
   types: {
-    fetch: ActionTypeObject,
+    fetch?: ActionTypeObject,
     mutate?: ActionTypeObject
   },
-  mutate?: () => void,
+  mutate?: Reducer<*, *>,
   initialState?: Object
 };
 
-export function fetching(fetchType: ActionTypeObject) {
+export function fetching(fetchType?: ActionTypeObject) {
   return (state: any, action: any) => {
+    if (!fetchType) {
+      return state;
+    }
+
     switch (action.type) {
       case fetchType.BEGIN:
         return { ...state, fetching: true };
@@ -41,7 +46,7 @@ function merge(old, updated) {
     {},
     old,
     updated,
-    (oldValue, newValue) => Array.isArray(oldValue) ? newValue : undefined
+    (oldValue, newValue) => (Array.isArray(oldValue) ? newValue : undefined)
   );
 }
 
@@ -68,7 +73,7 @@ export function entities(key: string) {
   };
 }
 
-export function optimistic(mutateType: ActionTypeObject) {
+export function optimistic(mutateType?: ActionTypeObject) {
   return (state: any, action: any) => {
     if (
       !mutateType ||
@@ -91,18 +96,13 @@ export function optimistic(mutateType: ActionTypeObject) {
 /**
  * Create reducers for common crud actions
  */
-export default function createEntityReducer(
-  {
-    key,
-    types,
-    mutate,
-    initialState = {}
-  }: EntityReducerOptions
-) {
-  const {
-    fetch: fetchType,
-    mutate: mutateType
-  } = types;
+export default function createEntityReducer({
+  key,
+  types,
+  mutate,
+  initialState = {}
+}: EntityReducerOptions) {
+  const { fetch: fetchType, mutate: mutateType } = types;
 
   const finalInitialState = {
     actionGrant: [],

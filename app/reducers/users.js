@@ -1,3 +1,5 @@
+// @flow
+
 import { User } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 
