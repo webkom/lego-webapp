@@ -1,3 +1,5 @@
+// @flow
+
 import { Meeting } from './ActionTypes';
 import { meetingSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
@@ -71,18 +73,16 @@ export function deleteMeeting(id) {
   };
 }
 
-export function createMeeting(
-  {
-    title,
-    report,
-    location,
-    startTime,
-    endTime,
-    reportAuthor,
-    users,
-    groups
-  }
-) {
+export function createMeeting({
+  title,
+  report,
+  location,
+  startTime,
+  endTime,
+  reportAuthor,
+  users,
+  groups
+}) {
   return dispatch => {
     dispatch(startSubmit('meetingEditor'));
     dispatch(
@@ -177,19 +177,17 @@ export function answerMeetingInvitation(action, token, loggedIn) {
   };
 }
 
-export function editMeeting(
-  {
-    title,
-    report,
-    location,
-    startTime,
-    endTime,
-    reportAuthor,
-    id,
-    users,
-    groups
-  }
-) {
+export function editMeeting({
+  title,
+  report,
+  location,
+  startTime,
+  endTime,
+  reportAuthor,
+  id,
+  users,
+  groups
+}) {
   return dispatch => {
     dispatch(startSubmit('meetingEditor'));
 

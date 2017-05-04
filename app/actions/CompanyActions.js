@@ -1,3 +1,5 @@
+// @flow
+
 import { Company, Event } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
 import { companySchema, eventSchema } from 'app/reducers';
@@ -41,20 +43,18 @@ export function fetch(companyId) {
   };
 }
 
-export function addCompany(
-  {
-    name,
-    studentContact,
-    adminComment,
-    active,
-    description,
-    phone,
-    website,
-    companyType,
-    paymentMail,
-    address
-  }
-) {
+export function addCompany({
+  name,
+  studentContact,
+  adminComment,
+  active,
+  description,
+  phone,
+  website,
+  companyType,
+  paymentMail,
+  address
+}) {
   return dispatch => {
     dispatch(startSubmit('company'));
 
@@ -88,21 +88,19 @@ export function addCompany(
   };
 }
 
-export function editCompany(
-  {
-    companyId,
-    name,
-    description,
-    adminComment,
-    website,
-    studentContact,
-    phone,
-    active,
-    companyType,
-    paymentMail,
-    address
-  }
-) {
+export function editCompany({
+  companyId,
+  name,
+  description,
+  adminComment,
+  website,
+  studentContact,
+  phone,
+  active,
+  companyType,
+  paymentMail,
+  address
+}) {
   return dispatch => {
     dispatch(startSubmit('company'));
 
@@ -270,9 +268,14 @@ export function addCompanyContact({ companyId, name, role, mail, phone }) {
   };
 }
 
-export function editCompanyContact(
-  { companyId, companyContactId, name, role, mail, phone }
-) {
+export function editCompanyContact({
+  companyId,
+  companyContactId,
+  name,
+  role,
+  mail,
+  phone
+}) {
   return dispatch => {
     dispatch(startSubmit('company'));
 

@@ -1,3 +1,5 @@
+// @flow
+
 import jwtDecode from 'jwt-decode';
 import { normalize } from 'normalizr';
 import cookie from 'react-cookie';
@@ -96,7 +98,8 @@ export function updatePicture({ picture }) {
           { username, profilePicture: action.meta.fileToken },
           { noRedirect: true }
         )
-      ));
+      )
+    );
   };
 }
 

@@ -1,3 +1,5 @@
+// @flow
+
 import { Feed } from './ActionTypes';
 import callAPI from './callAPI';
 import { feedActivitySchema } from 'app/reducers';

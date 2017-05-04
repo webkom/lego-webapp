@@ -1,3 +1,5 @@
+// @flow
+
 import { normalize } from 'normalizr';
 import fetchJSON from 'app/utils/fetchJSON';
 import config from '../config';
@@ -23,20 +25,18 @@ function urlFor(resource) {
  * }))
  * ```
  */
-export default function callAPI(
-  {
-    types,
-    method = 'GET',
-    headers = {},
-    json = true,
-    endpoint,
-    body,
-    files,
-    meta,
-    schema,
-    requiresAuthentication = true
-  }
-) {
+export default function callAPI({
+  types,
+  method = 'GET',
+  headers = {},
+  json = true,
+  endpoint,
+  body,
+  files,
+  meta,
+  schema,
+  requiresAuthentication = true
+}) {
   return (dispatch, getState) => {
     const options = {
       method,
@@ -81,7 +81,8 @@ export default function callAPI(
         body
       },
       promise: fetchJSON(urlFor(endpoint), options).then(response =>
-        normalizeJsonResponse(response.jsonData))
+        normalizeJsonResponse(response.jsonData)
+      )
     });
   };
 }

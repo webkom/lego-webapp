@@ -70,7 +70,7 @@
     "babel-core": "^6.23.1",
     "babel-eslint": "^7.0.0",
     "babel-jest": "^19.0.0",
-    "babel-loader": "^6.3.2",
+    "babel-loader": "^7.0.0",
     "babel-plugin-lodash": "^3.2.11",
     "babel-polyfill": "^6.23.0",
     "babel-preset-latest": "^6.22.0",
@@ -91,7 +91,7 @@
     "express": "^4.14.1",
     "extract-text-webpack-plugin": "^2.0.0",
     "file-loader": "0.11.1",
-    "flow-bin": "^0.44.2",
+    "flow-bin": "^0.45.0",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "identity-obj-proxy": "3.0.0",
     "jest": "^19.0.2",
@@ -105,7 +105,7 @@
     "react-hot-loader": "3.0.0-beta.4",
     "redux-mock-store": "^1.2.2",
     "start-server-webpack-plugin": "^2.1.2",
-    "style-loader": "0.16.1",
+    "style-loader": "^0.17.0",
     "stylelint": "^7.7.0",
     "stylelint-config-standard": "^16.0.0",
     "url-loader": "0.5.8",
@@ -132,7 +132,7 @@
     }
   },
   "lint-staged": {
-    "*.js": [
+    "app/**/*.js": [
       "prettier --write --single-quote",
       "git add"
     ]

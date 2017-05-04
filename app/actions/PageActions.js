@@ -1,3 +1,5 @@
+// @flow
+
 import { Page } from './ActionTypes';
 import { pageSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';

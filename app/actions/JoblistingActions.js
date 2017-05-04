@@ -1,3 +1,5 @@
+// @flow
+
 import { joblistingsSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Joblistings } from './ActionTypes';
