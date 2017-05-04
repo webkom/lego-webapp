@@ -5,8 +5,8 @@ import styles from './PublicFrontpage.css';
 
 function PublicFrontpage() {
   return (
-    <Content>
-      <Flex wrap justifyContent="space-between" className={styles.root}>
+    <Content style={{ paddingBottom: '20px' }}>
+      <Flex justifyContent="space-between" className={styles.root}>
         <div className={styles.bigWelcomeBox}>
           <h2 className="u-mb">Velkommen til Abakus</h2>
           <p>
@@ -21,7 +21,7 @@ function PublicFrontpage() {
             fremme kontakten med næringslivet og bidra med sosiale aktiviteter.
           </p>
         </div>
-        <div className={styles.welcomeBox}>
+        <div className={styles.smallWelcomeBox}>
           <Flex
             component="h2"
             justifyContent="space-between"
@@ -38,20 +38,6 @@ function PublicFrontpage() {
         </div>
       </Flex>
 
-      <Flex padding={40}>
-        <iframe
-          src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAbakusNTNU%2F&amp;tabs=timeline&amp;width=420&amp;small_header=true&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true&amp;appId=1717809791769695"
-          style={{
-            border: 'none',
-            overflow: 'hidden',
-            height: '500px',
-            width: '100%'
-          }}
-          scrolling="no"
-          frameBorder="0"
-          allowTransparency="true"
-        />
-      </Flex>
     </Content>
   );
 }
