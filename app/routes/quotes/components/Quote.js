@@ -1,6 +1,7 @@
 import styles from './Quotes.css';
 import Time from 'app/components/Time';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class Quote extends Component {
   static propTypes = {

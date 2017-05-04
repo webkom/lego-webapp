@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 
 export default class OverviewRoute extends Component {
@@ -12,7 +13,7 @@ export default class OverviewRoute extends Component {
         <h1>Admin</h1>
         <ul>
           <li>
-            <Link to='/admin/groups'>Groups</Link>
+            <Link to="/admin/groups">Groups</Link>
           </li>
         </ul>
       </div>

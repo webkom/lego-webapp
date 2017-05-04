@@ -1,6 +1,7 @@
 // @flow
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import moment from 'moment-timezone';
 import config from 'app/config';
@@ -81,7 +82,9 @@ export default class MeetingList extends Component {
       const week = startTime.week();
       const quarter = startTime.quarter();
       if (
-        year === currentYear && week === currentWeek && moment() < startTime
+        year === currentYear &&
+        week === currentWeek &&
+        moment() < startTime
       ) {
         pools[0].meetings.push(meeting);
       } else if (year === currentYear && week === currentWeek + 1) {
@@ -90,8 +93,8 @@ export default class MeetingList extends Component {
         pools[2].meetings.push(meeting);
       } else {
         // Sort other meetings with their semester-code. eg V2017
-        const title = (Math.ceil(quarter / 2) - 1 ? 'H' : 'V') +
-          year.toString();
+        const title =
+          (Math.ceil(quarter / 2) - 1 ? 'H' : 'V') + year.toString();
         fields[title] = fields[title] || { title, meetings: [] };
         fields[title].meetings.push(meeting);
       }

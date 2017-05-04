@@ -1,14 +1,17 @@
 /* eslint-disable react/prop-types */
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 
-const Group = (props) => {
+const Group = props => {
   const { description } = props.group;
-  const descriptionText = description && description.length ? `(${description})` : '';
+  const descriptionText = description && description.length
+    ? `(${description})`
+    : '';
 
   return (
     <div>
-      <header className='GroupPage__header'>
+      <header className="GroupPage__header">
         <h2>{props.group.name}</h2>
         <span>{descriptionText}</span>
       </header>
@@ -27,9 +30,9 @@ export default class GroupView extends Component {
   render() {
     const { group } = this.props;
     return (
-      <section className='GroupPage__content'>
+      <section className="GroupPage__content">
         <LoadingIndicator loading={!group}>
-          <section className='content event-page'>
+          <section className="content event-page">
             {group && <Group {...this.props} />}
           </section>
         </LoadingIndicator>

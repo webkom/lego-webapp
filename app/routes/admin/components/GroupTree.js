@@ -1,12 +1,15 @@
 import './GroupTree.css';
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import TreeView from 'react-treeview';
 import { Link } from 'react-router';
 import { generateTreeStructure } from 'app/utils';
 
 function generateTreeView(groups) {
-  return groups.map((group) => {
-    const nodeLabel = <Link to={`/admin/groups/${group.id}/settings`}>{group.name}</Link>;
+  return groups.map(group => {
+    const nodeLabel = (
+      <Link to={`/admin/groups/${group.id}/settings`}>{group.name}</Link>
+    );
     if (group.children.length) {
       return (
         <TreeView key={group.id} nodeLabel={nodeLabel} defaultCollapsed={false}>
@@ -16,7 +19,7 @@ function generateTreeView(groups) {
     }
 
     return (
-      <div key={group.id} className='GroupTree__sidebar__info'>
+      <div key={group.id} className="GroupTree__sidebar__info">
         {nodeLabel}
       </div>
     );
@@ -24,7 +27,6 @@ function generateTreeView(groups) {
 }
 
 export default class GroupTree extends Component {
-
   static propTypes = {
     groups: PropTypes.array
   };
@@ -34,7 +36,7 @@ export default class GroupTree extends Component {
     const tree = generateTreeStructure(groups);
 
     return (
-      <div className='GroupTree__sidebar'>
+      <div className="GroupTree__sidebar">
         <h3>Groups</h3>
         {generateTreeView(tree)}
       </div>

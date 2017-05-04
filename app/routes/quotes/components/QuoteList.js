@@ -1,8 +1,8 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Quote from './Quote';
 
 export default class QuoteList extends Component {
-
   static propTypes = {
     quotes: PropTypes.array.isRequired,
     sortType: PropTypes.string.isRequired,
@@ -12,13 +12,9 @@ export default class QuoteList extends Component {
   render() {
     return (
       <ul>
-        {this.props.quotes.map((quote) =>
-          <Quote
-            {...this.props}
-            quote={quote}
-            key={quote.id}
-          />
-        )}
+        {this.props.quotes.map(quote => (
+          <Quote {...this.props} quote={quote} key={quote.id} />
+        ))}
       </ul>
     );
   }

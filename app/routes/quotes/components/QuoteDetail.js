@@ -1,9 +1,9 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import styles from './QuoteDetail.css';
 import Quote from './Quote';
 
 export default class QuoteDetail extends Component {
-
   static propTypes = {
     quote: PropTypes.object.isRequired,
     like: PropTypes.func.isRequired,
