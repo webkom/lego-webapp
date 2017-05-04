@@ -27,6 +27,7 @@ import {
 } from 'app/components/Form';
 import { eventTypes, colorForEvent } from '../../utils.js';
 import Admin from '../Admin';
+import Tooltip from 'app/components/Tooltip';
 
 /**
  *
@@ -110,9 +111,13 @@ function EventEditor(
             component={TextInput.Field}
           />
         </FlexRow>
+        <Field
+          name="description"
+          className={styles.description}
+          component={TextInput.Field}
+        />
         <FlexRow className={styles.mainRow}>
           <FlexColumn className={styles.description}>
-            <Markdown>{event.text}</Markdown>
             <Field
               name="text"
               component={EditorField}
@@ -124,10 +129,8 @@ function EventEditor(
           </FlexColumn>
           <FlexColumn className={styles.meta} style={{ background: metaColor }}>
             <ul>
-              <li style={{ display: 'flex' }}>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  Hva{' '}
-                </span>
+              <li className={styles.metaList}>
+                <span style={{ display: 'flex' }}>Hva</span>
                 <Field
                   name="eventType"
                   fieldStyle={{
@@ -144,10 +147,8 @@ function EventEditor(
                   placeholder="Arrangementstype"
                 />
               </li>
-              <li style={{ display: 'flex' }}>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  Arrangerende bedrift
-                </span>
+              <li className={styles.metaList}>
+                <span style={{ display: 'flex' }}>Arrangerende bedrift</span>
                 <Field
                   name="company"
                   fieldStyle={{
@@ -163,10 +164,8 @@ function EventEditor(
                   fetching={searching}
                 />
               </li>
-              <li style={{ display: 'flex' }}>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  Starter{' '}
-                </span>
+              <li className={styles.metaList}>
+                <span style={{ display: 'flex' }}>Starter</span>
                 <Field
                   name="startTime"
                   fieldClassName={styles.metaField}
@@ -174,10 +173,8 @@ function EventEditor(
                   component={DatePicker.Field}
                 />
               </li>
-              <li style={{ display: 'flex' }}>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  Slutter{' '}
-                </span>
+              <li className={styles.metaList}>
+                <span style={{ display: 'flex' }}>Slutter</span>
                 <Field
                   name="endTime"
                   fieldClassName={styles.metaField}
@@ -185,10 +182,8 @@ function EventEditor(
                   component={DatePicker.Field}
                 />
               </li>
-              <li style={{ display: 'flex' }}>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
-                  Finner sted i{' '}
-                </span>
+              <li className={styles.metaList}>
+                <span style={{ display: 'flex' }}>Finner sted i</span>
                 <Field
                   name="location"
                   fieldClassName={styles.metaField}
@@ -196,30 +191,47 @@ function EventEditor(
                   component={TextInput.Field}
                 />
               </li>
-              <li style={{ display: 'flex' }}>
-                <span style={{ display: 'flex', alignItems: 'center' }}>
+              <li className={styles.metaList}>
+                <span style={{ display: 'flex' }}>
                   Betalt arrangement
                 </span>
                 <Field
                   name="isPriced"
-                  checked={event.isPriced}
+                  checked={event.isPriced && true}
                   fieldClassName={styles.metaField}
                   className={styles.formField}
                   component={CheckBox.Field}
                 />
               </li>
               {event.isPriced &&
-                <li style={{ display: 'flex' }}>
-                  <span style={{ display: 'flex', alignItems: 'center' }}>
-                    Pris medlem
-                  </span>
-                  <Field
-                    name="priceMember"
-                    fieldClassName={styles.metaField}
-                    className={styles.formField}
-                    component={TextInput.Field}
-                  />
-                </li>}
+                <div>
+                  <li className={styles.metaList}>
+                    <span style={{ display: 'flex' }}>
+                      <Tooltip
+                        content="Manuell betaling kan også hukes av i etterkant"
+                      >
+                        Betaling igjennom Abakus.no
+                      </Tooltip>
+                    </span>
+                    <Field
+                      name="useStripe"
+                      checked={event.useStripe && true}
+                      fieldClassName={styles.metaField}
+                      className={styles.formField}
+                      component={CheckBox.Field}
+                    />
+                  </li>
+                  <li className={styles.metaList}>
+                    <span style={{ display: 'flex' }}>Pris medlem</span>
+                    <Field
+                      name="priceMember"
+                      type="number"
+                      fieldClassName={styles.metaField}
+                      className={styles.formField}
+                      component={TextInput.Field}
+                    />
+                  </li>
+                </div>}
             </ul>
             {loggedIn &&
               <FlexItem>
@@ -236,15 +248,27 @@ function EventEditor(
                   title="Påmeldte"
                   pools={poolsWithWaitingRegistrations}
                 />
-                <div style={{ display: 'flex' }}>
-                  <span style={{ display: 'flex', alignItems: 'center' }}>
-                    Merge time{' '}
+                <div className={styles.metaList}>
+                  <span style={{ display: 'flex' }}>
+                    Merge time
                   </span>
                   <Field
                     name="mergeTime"
                     fieldClassName={styles.metaField}
                     className={styles.formField}
                     component={DatePicker.Field}
+                  />
+                </div>
+                <div className={styles.metaList}>
+                  <span style={{ display: 'flex' }}>
+                    Bruk Captcha ved påmelding
+                  </span>
+                  <Field
+                    name="useCaptcha"
+                    checked={event.useCaptcha && true}
+                    fieldClassName={styles.metaField}
+                    className={styles.formField}
+                    component={CheckBox.Field}
                   />
                 </div>
                 <Admin

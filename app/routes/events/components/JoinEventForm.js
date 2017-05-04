@@ -192,6 +192,7 @@ class JoinEventForm extends Component {
               </Button>}
             {!registration &&
               this.state.captchaOpen &&
+              event.useCaptcha &&
               <Field
                 name="captchaResponse"
                 fieldStyle={{ width: 304 }}

@@ -176,9 +176,11 @@ export default class EventDetail extends Component {
                     />
                   </strong>
                 </li>}
-              {event.isPriced && <li>Dette er et betalt arrangement</li>}
-              {event.price > 0 &&
-                <li>Pris: <strong>{event.price / 100},-</strong></li>}
+              {event.isPriced &&
+                <div>
+                  <li>Dette er et betalt arrangement</li>
+                  <li>Pris: <strong>{event.price / 100},-</strong></li>
+                </div>}
             </ul>
             {loggedIn &&
               <FlexItem>

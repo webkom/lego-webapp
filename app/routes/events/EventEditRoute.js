@@ -65,6 +65,8 @@ const mapStateToProps = (state, props) => {
     event: {
       ...event,
       isPriced: valueSelector(state, 'isPriced'),
+      useStripe: valueSelector(state, 'useStripe'),
+      useCaptcha: valueSelector(state, 'useCaptcha'),
       eventType: valueSelector(state, 'eventType')
     },
     eventId,

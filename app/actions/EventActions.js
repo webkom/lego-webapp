@@ -56,8 +56,10 @@ export function createEvent(
     company,
     location,
     isPriced,
+    useStripe,
     priceMember,
     mergeTime,
+    useCaptcha,
     tags
   }
 ) {
@@ -76,8 +78,10 @@ export function createEvent(
       company: company.value,
       location,
       isPriced,
+      useStripe,
       priceMember,
       mergeTime: moment(mergeTime).toISOString(),
+      useCaptcha,
       tags
     },
     schema: eventSchema,
@@ -99,35 +103,42 @@ export function editEvent(
     company,
     location,
     isPriced,
+    useStripe,
     priceMember,
     mergeTime,
+    useCaptcha,
     tags
   }
 ) {
-  return callAPI({
-    types: Event.EDIT,
-    endpoint: `/events/${id}/`,
-    method: 'PUT',
-    body: {
-      id,
-      title,
-      startTime: moment(startTime).toISOString(),
-      endTime: moment(endTime).toISOString(),
-      description,
-      text,
-      eventType,
-      company: company.value,
-      location,
-      isPriced,
-      priceMember,
-      mergeTime: moment(mergeTime).toISOString(),
-      tags
-    },
-    schema: eventSchema,
-    meta: {
-      errorMessage: 'Editing event failed'
-    }
-  });
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: Event.EDIT,
+        endpoint: `/events/${id}/`,
+        method: 'PUT',
+        body: {
+          id,
+          title,
+          startTime: moment(startTime).toISOString(),
+          endTime: moment(endTime).toISOString(),
+          description,
+          text,
+          eventType,
+          company: company.value,
+          location,
+          isPriced,
+          useStripe,
+          priceMember: isPriced ? priceMember : 0,
+          mergeTime: moment(mergeTime).toISOString(),
+          useCaptcha,
+          tags
+        },
+        schema: eventSchema,
+        meta: {
+          errorMessage: 'Editing event failed'
+        }
+      })
+    ).then(() => dispatch(push(`/events/${id}`)));
 }
 
 export function deleteEvent(eventId) {
