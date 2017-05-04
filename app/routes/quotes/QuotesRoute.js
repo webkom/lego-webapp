@@ -43,10 +43,12 @@ const selectSortedQuotes = createSelector(
 
 function mapStateToProps(state, props) {
   const { query } = props.location;
+  const actionGrant = state.quotes.actionGrant;
   return {
     quotes: selectSortedQuotes(state, props),
     query,
-    sortType: query.sort === 'likes' ? 'likes' : 'date'
+    sortType: query.sort === 'likes' ? 'likes' : 'date',
+    actionGrant
   };
 }
 

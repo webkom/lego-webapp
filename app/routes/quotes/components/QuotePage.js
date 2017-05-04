@@ -12,26 +12,25 @@ type Props = {
   quotes: Array<Object>
 };
 
-export default class QuotePage extends Component {
-  props: Props;
-
-  render() {
-    const { sortType, quotes } = this.props;
-    if (quotes.length === 0) {
-      return <LoadingIndicator loading />;
-    }
-
-    return (
-      <div className={cx(styles.root, styles.quoteContainer)}>
-        <div className={styles.quotepageLeft}>
-
-          <QuoteTopNav {...this.props} sortType={sortType} />
-          <QuoteList {...this.props} sortType={sortType} />
-
-        </div>
-
-        <QuoteRightNav query={this.props.query} />
-      </div>
-    );
+export default function QuotePage({
+  sortType,
+  query,
+  quotes,
+  ...props
+}: Props) {
+  if (quotes.length === 0) {
+    return <LoadingIndicator loading />;
   }
+  return (
+    <div className={cx(styles.root, styles.quoteContainer)}>
+      <div className={styles.quotepageLeft}>
+
+        <QuoteTopNav {...props} query={query} sortType={sortType} />
+        <QuoteList {...props} quotes={quotes} sortType={sortType} />
+
+      </div>
+
+      <QuoteRightNav query={query} />
+    </div>
+  );
 }

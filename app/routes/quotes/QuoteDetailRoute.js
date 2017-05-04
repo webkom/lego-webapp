@@ -19,12 +19,14 @@ function mapStateToProps(state, props) {
   const quoteId = props.params.quoteId;
   const quote = state.quotes.byId[quoteId];
   const comments = selectCommentsForQuote(state, quoteId);
+  const actionGrant = state.quotes.actionGrant;
 
   return {
     query,
     quote,
     quoteId,
-    comments
+    comments,
+    actionGrant
   };
 }
 
