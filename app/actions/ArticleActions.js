@@ -1,3 +1,5 @@
+// @flow
+
 import { Article } from './ActionTypes';
 import { articleSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';

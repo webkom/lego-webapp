@@ -1,3 +1,5 @@
+// @flow
+
 import { File } from './ActionTypes';
 import callAPI from './callAPI';
 
@@ -34,5 +36,6 @@ export function uploadFile({ file, fileName, isPublic = false }) {
             fileToken: action.payload.file_token
           }
         })
-      ));
+      )
+    );
 }

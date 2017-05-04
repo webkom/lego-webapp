@@ -1,3 +1,5 @@
+// @flow
+
 import { interestGroupSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { InterestGroup } from './ActionTypes';

@@ -1,3 +1,5 @@
+// @flow
+
 import { groupSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Group } from './ActionTypes';

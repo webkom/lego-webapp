@@ -1,3 +1,5 @@
+// @flow
+
 import { Notifications } from './ActionTypes';
 
 export function removeNotification({ id }) {

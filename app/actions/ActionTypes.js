@@ -1,3 +1,5 @@
+// @flow
+
 function generateStatuses(name) {
   return {
     BEGIN: `${name}.BEGIN`,

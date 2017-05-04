@@ -1,3 +1,5 @@
+// @flow
+
 import { push } from 'react-router-redux';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { quoteSchema } from 'app/reducers';
