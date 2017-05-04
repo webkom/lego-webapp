@@ -72,10 +72,10 @@ export default class Tooltip extends Component {
         <div className={styles.tooltip}>
           {[
             { type: Inline.Bold, icon: 'bold' },
-            { type: Inline.Italic, icon: 'underline' },
-            { type: Inline.Underline, icon: 'italic' },
+            { type: Inline.Italic, icon: 'italic' },
+            { type: Inline.Underline, icon: 'underline' },
             { type: Inline.Code, icon: 'embed2' },
-            { type: Inline.Striketroug, icon: 'strikethrough' }
+            { type: Inline.Striketrough, icon: 'strikethrough' }
           ].map(({ type, icon }, i) => (
             <TooltipButton
               key={`${i}-${type}`}
