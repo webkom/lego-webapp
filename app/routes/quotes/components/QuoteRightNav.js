@@ -4,17 +4,23 @@ import styles from './Quotes.css';
 
 type Props = {
   query: Object,
-  detail: Boolean
+  detail: Boolean,
+  actionGrant: Array<string>
 };
 
-export default function QuoteRightNav({ query, detail, ...props }: Props) {
+export default function QuoteRightNav({
+  query,
+  detail,
+  actionGrant,
+  ...props
+}: Props) {
   const path = query.filter;
   return (
     <div
       className={styles.quotepageRight}
       style={{ marginTop: detail ? '50px' : '120px' }}
     >
-      {!detail
+      {!detail && actionGrant && actionGrant.includes('approve')
         ? <Link
             to={path === 'unapproved' ? '/quotes' : '/quotes?filter=unapproved'}
           >

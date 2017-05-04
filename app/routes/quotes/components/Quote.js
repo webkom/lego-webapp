@@ -7,12 +7,17 @@ type Props = {
   quote: Object,
   deleteQuote: () => void,
   approve: () => void,
-  unapprove: () => void
+  unapprove: () => void,
+  actionGrant: Array<string>
 };
 
-export default function Quote(
-  { quote, approve, unapprove, deleteQuote }: Props
-) {
+export default function Quote({
+  quote,
+  approve,
+  unapprove,
+  deleteQuote,
+  actionGrant
+}: Props) {
   return (
     <li className={styles.singleQuote}>
       <div className={styles.leftQuote}>
@@ -54,8 +59,8 @@ export default function Quote(
 
         </div>
 
-        {quote.permissions &&
-          quote.permissions.indexOf('can_approve') !== -1 &&
+        {actionGrant &&
+          actionGrant.includes('approve') &&
           <div className={styles.quoteAdmin}>
             <a
               className="approveQuote"

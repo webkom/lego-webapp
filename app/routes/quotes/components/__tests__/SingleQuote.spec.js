@@ -12,6 +12,8 @@ const emptyProps = () => ({
   deleteQuote: () => ({})
 });
 
+const actionGrant = ['approve'];
+
 describe('components', () => {
   describe('SingleQuote', () => {
     it('should notice that approve is clicked and recieve correct quoteId', () => {
@@ -21,6 +23,7 @@ describe('components', () => {
           {...emptyProps()}
           approve={approve}
           quote={singleQuote(false, false)}
+          actionGrant={actionGrant}
         />
       );
       const approveButton = wrapper.find('.quoteAdmin').children().at(0);
@@ -35,6 +38,7 @@ describe('components', () => {
           {...emptyProps()}
           unapprove={unapprove}
           quote={singleQuote(false, true, 1)}
+          actionGrant={actionGrant}
         />
       );
       const approveButton = wrapper.find('.quoteAdmin').children().at(0);
@@ -49,6 +53,7 @@ describe('components', () => {
           {...emptyProps()}
           deleteQuote={deleteQuote}
           quote={singleQuote()}
+          actionGrant={actionGrant}
         />
       );
       const deleteButton = wrapper.find('.quoteAdmin').children().at(1);

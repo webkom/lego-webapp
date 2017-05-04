@@ -8,9 +8,7 @@ type Props = {
 export default function QuoteList({ quotes, ...props }: Props) {
   return (
     <ul>
-      {quotes.map(quote => (
-        <Quote {...this.props} quote={quote} key={quote.id} />
-      ))}
+      {quotes.map(quote => <Quote {...props} quote={quote} key={quote.id} />)}
     </ul>
   );
 }

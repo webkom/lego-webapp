@@ -12,12 +12,19 @@ type Props = {
   comments?: Array<Object>,
   currentUser: any,
   loggedIn: boolean,
-  query: Object
+  query: Object,
+  actionGrant: Array<string>
 };
 
-export default function QuoteDetail(
-  { quote, comments, currentUser, loggedIn, query, ...props }: Props
-) {
+export default function QuoteDetail({
+  quote,
+  comments,
+  currentUser,
+  loggedIn,
+  query,
+  actionGrant,
+  ...props
+}: Props) {
   if (isEmpty(quote)) {
     return <LoadingIndicator loading />;
   }
@@ -34,7 +41,7 @@ export default function QuoteDetail(
 
         <h1>Enkelt sitat!</h1>
 
-        <Quote {...this.props} quote={quote} />
+        <Quote {...props} quote={quote} actionGrant={actionGrant} />
 
         <CommentView
           formEnabled
@@ -46,7 +53,7 @@ export default function QuoteDetail(
 
       </div>
 
-      <QuoteRightNav query={query} detail={true} />
+      <QuoteRightNav query={query} detail={true} actionGrant={actionGrant} />
 
     </div>
   );
