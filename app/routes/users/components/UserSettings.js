@@ -54,6 +54,11 @@ export default class UserSettings extends Component {
           />
 
           <Field label="Kjønn" name="gender" component={TextInput.Field} />
+          <Field
+            label="Allergier"
+            name="allergies"
+            component={TextInput.Field}
+          />
 
           <Field
             placeholder="abc@stud.ntnu.no"
