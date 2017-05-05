@@ -51,6 +51,11 @@ const searchMapping = {
     path: '/company/',
     value: 'id',
     content: 'content'
+  },
+  'users.abakusgroup': {
+    label: 'name',
+    path: '/groups/',
+    value: 'id'
   }
 };
 

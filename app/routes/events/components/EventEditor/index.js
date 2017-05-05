@@ -10,7 +10,7 @@ import RegisteredSummary from '../RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import Tag from 'app/components/Tag';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, FieldArray } from 'redux-form';
 import {
   Form,
   EditorField,
@@ -37,14 +37,14 @@ type Props = {
   loading: boolean,
   pools: Array<Object>,
   registrations: Array<Object>,
-  poolsWithWaitingRegistrations: Array<Object>,
   waitingRegistrations: Array<Object>,
   change: void,
   isUserInterested: boolean,
   handleSubmit: void => void,
   handleSubmitCallback: void,
-  companyResult: Object,
-  onQueryChanged: (query: string) => void,
+  autocompleteResult: Object,
+  companyQueryChanged: (query: string) => void,
+  groupQueryChanged: (query: string) => void,
   searching: boolean,
   deleteEvent: (eventId: string) => Promise<*>
 };
@@ -52,6 +52,48 @@ type Props = {
 /**
  *
  */
+
+const renderPools = ({
+  fields,
+  autocompleteResult,
+  groupQueryChanged,
+  searching
+}) => (
+  <ul>
+    {fields.map((pool, index) => (
+      <li key={index}>
+        <h4>Pool #{index + 1}</h4>
+        <Field name={`${pool}.name`} component={TextInput.Field} />
+        <Field
+          name={`${pool}.capacity`}
+          type="number"
+          component={TextInput.Field}
+        />
+        <Field
+          name={`${pool}.permissionGroups`}
+          component={SelectInput.Field}
+          options={autocompleteResult}
+          onSearch={query => groupQueryChanged(query)}
+          fetching={searching}
+          multi
+        />
+        <Button onClick={() => fields.remove(index)}>Remove pool</Button>
+      </li>
+    ))}
+    <li>
+      <Button
+        onClick={() =>
+          fields.push({
+            name: '',
+            registrations: [],
+            permissionGroups: []
+          })}
+      >
+        Add pool
+      </Button>
+    </li>
+  </ul>
+);
 function EventEditor({
   event,
   eventId,
@@ -62,13 +104,13 @@ function EventEditor({
   loading,
   pools,
   registrations,
-  poolsWithWaitingRegistrations,
   waitingRegistrations,
   change,
   handleSubmit,
   handleSubmitCallback,
-  companyResult,
-  onQueryChanged,
+  autocompleteResult,
+  companyQueryChanged,
+  groupQueryChanged,
   searching,
   deleteEvent
 }: Props) {
@@ -149,8 +191,8 @@ function EventEditor({
                     boxShadow: '0 0 10px #394B59'
                   }}
                   component={SelectInput.Field}
-                  options={companyResult}
-                  onSearch={query => onQueryChanged(query)}
+                  options={autocompleteResult}
+                  onSearch={query => companyQueryChanged(query)}
                   placeholder="Bedrift"
                   fetching={searching}
                 />
@@ -229,10 +271,15 @@ function EventEditor({
                     ))}
                 </FlexRow>
                 <RegisteredSummary registrations={registrations} />
-                <AttendanceStatus
-                  title="Påmeldte"
-                  pools={poolsWithWaitingRegistrations}
-                />
+                <AttendanceStatus title="Påmeldte" pools={pools} />
+                <div className={styles.metaList}>
+                  <FieldArray
+                    name="pools"
+                    component={renderPools}
+                    autocompleteResult={autocompleteResult}
+                    groupQueryChanged={groupQueryChanged}
+                  />
+                </div>
                 <div className={styles.metaList}>
                   <span>Merge time</span>
                   <Field
@@ -273,9 +320,8 @@ function EventEditor({
             <ul>
               {(pools || [])
                 .map(pool =>
-                  pool.permissionGroups.map(group => (
-                    <li key={group.id}>{group.name}</li>
-                  ))
+                  (pool.permissionGroups || [])
+                    .map(group => <li key={group.id}>{group.name}</li>)
                 )}
             </ul>
           </FlexColumn>

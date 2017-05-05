@@ -50,7 +50,6 @@ type Props = {
   pools: Array<Object>,
   registrations: Array<Object>,
   currentRegistration: Object,
-  poolsWithWaitingRegistrations: Array<Object>,
   waitingRegistrations: Array<Object>,
   isUserInterested: boolean,
   register: (eventId: string) => Promise<*>,
@@ -106,7 +105,6 @@ export default class EventDetail extends Component {
       pools,
       registrations,
       currentRegistration,
-      poolsWithWaitingRegistrations,
       waitingRegistrations,
       deleteEvent
     } = this.props;
@@ -197,10 +195,7 @@ export default class EventDetail extends Component {
                     ))}
                 </FlexRow>
                 <RegisteredSummary registrations={registrations} />
-                <AttendanceStatus
-                  title="Påmeldte"
-                  pools={poolsWithWaitingRegistrations}
-                />
+                <AttendanceStatus title="Påmeldte" pools={pools} />
                 <RegistrationMeta
                   registration={currentRegistration}
                   inPriced={event.isPriced}

@@ -26,19 +26,21 @@ const mapStateToProps = (state, props) => {
   const waitingRegistrations = selectWaitingRegistrationsForEvent(state, {
     eventId
   });
-  const poolsWithWaitingRegistrations = waitingRegistrations.length > 0
-    ? [
-        ...pools,
-        {
-          name: 'Venteliste',
-          registrations: waitingRegistrations
-        }
-      ]
-    : pools;
+  if (waitingRegistrations.length > 0) {
+    pools.push({
+      name: 'Venteliste',
+      registrations: waitingRegistrations
+    });
+  }
   const valueSelector = formValueSelector('eventEditor');
   return {
     initialValues: {
       ...event,
+      pools: pools.map(pool => ({
+        ...pool,
+        permissionGroups: (pool.permissionGroups || [])
+          .map(group => ({ label: group.name, value: group.id }))
+      })),
       company: event.company
         ? {
             label: event.company.name,
@@ -53,12 +55,11 @@ const mapStateToProps = (state, props) => {
       eventType: valueSelector(state, 'eventType')
     },
     eventId,
-    pools,
+    pools: valueSelector(state, 'pools'),
     registrations,
     waitingRegistrations,
-    poolsWithWaitingRegistrations,
     searching: state.search.searching,
-    companyResult: selectAutocomplete(state)
+    autocompleteResult: selectAutocomplete(state)
   };
 };
 
@@ -72,8 +73,12 @@ const mapDispatchToProps = dispatch => {
       },
       dispatch
     ),
-    onQueryChanged: debounce(
+    companyQueryChanged: debounce(
       query => dispatch(autocomplete(query, ['companies.company'])),
+      30
+    ),
+    groupQueryChanged: debounce(
+      query => dispatch(autocomplete(query, ['users.abakusgroup'])),
       30
     )
   };

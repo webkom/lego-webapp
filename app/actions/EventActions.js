@@ -104,7 +104,8 @@ export function editEvent({
   priceMember,
   mergeTime,
   useCaptcha,
-  tags
+  tags,
+  pools
 }) {
   return dispatch =>
     dispatch(
@@ -127,9 +128,12 @@ export function editEvent({
           priceMember: isPriced ? priceMember : 0,
           mergeTime: moment(mergeTime).toISOString(),
           useCaptcha,
-          tags
+          tags,
+          pools: pools.map(pool => ({
+            ...pool,
+            permissionGroups: pool.permissionGroups.map(group => group.value)
+          }))
         },
-        schema: eventSchema,
         meta: {
           errorMessage: 'Editing event failed'
         }

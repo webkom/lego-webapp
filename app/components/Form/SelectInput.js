@@ -33,6 +33,7 @@ function SelectInput({
         multi
         onBlurResetsInput={false}
         onBlur={() => onBlur(value)}
+        value={value}
         options={options}
       />
     );
