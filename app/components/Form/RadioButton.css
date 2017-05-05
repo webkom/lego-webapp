@@ -1,3 +1,8 @@
+.box {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+}
 
 .label {
   display: inline-block;
@@ -12,13 +17,16 @@
 [type='radio']:not(:checked),
 [type='radio']:checked {
   position: absolute;
-  left: -9999px;
+  z-index: 1;
+  transform: scale(1.6);
+  margin-top: 8px;
+  margin-left: 4px;
+  opacity: 0;
 }
 
 [type='radio']:not(:checked) + label,
 [type='radio']:checked + label {
   position: relative;
-  padding-left: 25px;
   cursor: pointer;
 }
 
@@ -29,8 +37,8 @@
   position: absolute;
   left: 0;
   top: 0;
-  width: 19px;
-  height: 19px;
+  width: 21px;
+  height: 21px;
   border: 1px solid #aaa;
   background: #f8f8f8;
   border-radius: 9.5px;
@@ -42,8 +50,10 @@
 [type='radio']:checked + label::after {
   content: '\2022';
   position: absolute;
-  top: -25px;
-  left: -6px;
+  top: -21px;
+  left: -5px;
+  width: 20px;
+  height: 20px;
   font-size: 88px;
   line-height: 0.8;
   color: #d13c32;

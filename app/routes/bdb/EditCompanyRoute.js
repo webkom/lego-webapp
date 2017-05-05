@@ -4,6 +4,7 @@ import { reduxForm } from 'redux-form';
 import { editCompany, fetch } from '../../actions/CompanyActions';
 import EditCompany from './components/EditCompany';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
+import { formValueSelector } from 'redux-form';
 
 function loadData({ companyId }, props) {
   props.fetch(Number(companyId));
@@ -21,8 +22,13 @@ function mapStateToProps(state, props) {
   const companyId = props.params.companyId;
   const company = state.companies.byId[companyId];
 
+  const valueSelector = formValueSelector('editCompany');
+
   return {
-    company,
+    company: {
+      ...company,
+      active: valueSelector(state, 'active')
+    },
     companyId,
     initialValues: company
       ? {
@@ -31,7 +37,7 @@ function mapStateToProps(state, props) {
           adminComment: company.adminComment,
           website: company.website,
           studentContact: company.studentContact,
-          active: company.active,
+          active: company.active ? 'true' : 'false',
           phone: company.phone,
           companyType: company.companyType,
           paymentMail: company.paymentMail,
