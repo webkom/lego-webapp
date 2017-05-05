@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import { compose } from 'redux';
 import { reduxForm, Field } from 'redux-form';
 import moment from 'moment';
@@ -170,8 +171,11 @@ class JoinEventForm extends Component {
               registrationType
             )}
           >
+            <Link to={'/users/me/settings'} style={{ color: '#333' }}>
+              Oppdater allergier her
+            </Link>
             <Field
-              placeholder="Melding til arrangører (allergier etc)"
+              placeholder="Melding til arrangører"
               name={feedbackName}
               component={TextEditor.Field}
             />
