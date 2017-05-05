@@ -6,7 +6,7 @@ import InfoBubble from 'app/components/InfoBubble';
 import BdbRightNav from './BdbRightNav';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
-import { TextEditor, TextInput } from 'app/components/Form';
+import { TextEditor, TextInput, RadioButton } from 'app/components/Form';
 
 type Props = {
   editCompany: () => void,
@@ -17,33 +17,19 @@ type Props = {
 };
 
 export default class EditCompany extends Component {
-  constructor(props) {
-    super();
-    if (props.company) {
-      this.state = {
-        active: props.company.active
-      };
-    }
-  }
-
-  state = {
-    active: true
-  };
-
-  onSubmit = (
-    {
-      name,
-      description = '',
-      adminComment = '',
-      website = '',
-      studentContact = '',
-      phone = '',
-      companyType = '',
-      paymentMail = '',
-      address = ''
-    }
-  ) => {
-    const { active } = this.state;
+  onSubmit = ({
+    name,
+    description = '',
+    adminComment = '',
+    website = '',
+    studentContact = '',
+    active = '',
+    phone = '',
+    companyType = '',
+    paymentMail = '',
+    address = ''
+  }) => {
+    console.log('stud', studentContact);
     const { editCompany, company } = this.props;
     editCompany({
       companyId: company.id,
@@ -67,12 +53,7 @@ export default class EditCompany extends Component {
   };
 
   render() {
-    const {
-      company,
-      submitting,
-      autoFocus,
-      handleSubmit
-    } = this.props;
+    const { company, submitting, autoFocus, handleSubmit } = this.props;
 
     if (!company) {
       return <LoadingIndicator />;
@@ -201,28 +182,26 @@ export default class EditCompany extends Component {
                 <div style={{ order: 0 }}>
                   <h3>Aktiv bedrift?</h3>
                   <div className={styles.editInfo}>
-                    <input
-                      type="radio"
-                      value
-                      name="active"
-                      checked={this.state.active}
-                      onChange={() => this.toggleActive(true)}
-                      id="active"
-                    />
-                    <label htmlFor="active" style={{ display: 'block' }}>
+                    <label>
+                      <Field
+                        name="active"
+                        component={RadioButton.Field}
+                        fieldStyle={{ width: '24px', marginBottom: 0 }}
+                        checked={company.active === 'true'}
+                        inputValue="true"
+                      />
                       {trueIcon}
                     </label>
                   </div>
                   <div className={styles.editInfo}>
-                    <input
-                      type="radio"
-                      value={false}
-                      name="active"
-                      checked={!this.state.active}
-                      onChange={() => this.toggleActive(false)}
-                      id="inactive"
-                    />
-                    <label htmlFor="inactive" style={{ display: 'block' }}>
+                    <label>
+                      <Field
+                        name="active"
+                        component={RadioButton.Field}
+                        fieldStyle={{ width: '24px', marginBottom: 0 }}
+                        checked={company.active === 'false'}
+                        inputValue="false"
+                      />
                       {falseIcon}
                     </label>
                   </div>

@@ -44,10 +44,16 @@ export const indexToSemester = (index, startYear, startSem) => {
 };
 
 export const trueIcon = (
-  <i className="fa fa-check" style={{ color: 'green', fontSize: '25px' }} />
+  <i
+    className="fa fa-check"
+    style={{ color: 'green', fontSize: '25px', marginLeft: '5px' }}
+  />
 );
 export const falseIcon = (
-  <i className="fa fa-times" style={{ color: '#d13c32', fontSize: '25px' }} />
+  <i
+    className="fa fa-times"
+    style={{ color: '#d13c32', fontSize: '25px', marginLeft: '5px' }}
+  />
 );
 
 export const httpCheck = link => {
