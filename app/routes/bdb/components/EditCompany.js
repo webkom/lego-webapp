@@ -48,10 +48,6 @@ export default class EditCompany extends Component {
 
   props: Props;
 
-  toggleActive = active => {
-    this.setState({ active });
-  };
-
   render() {
     const { company, submitting, autoFocus, handleSubmit } = this.props;
 
@@ -187,7 +183,6 @@ export default class EditCompany extends Component {
                         name="active"
                         component={RadioButton.Field}
                         fieldStyle={{ width: '24px', marginBottom: 0 }}
-                        checked={company.active === 'true'}
                         inputValue="true"
                       />
                       {trueIcon}
@@ -199,7 +194,6 @@ export default class EditCompany extends Component {
                         name="active"
                         component={RadioButton.Field}
                         fieldStyle={{ width: '24px', marginBottom: 0 }}
-                        checked={company.active === 'false'}
                         inputValue="false"
                       />
                       {falseIcon}
