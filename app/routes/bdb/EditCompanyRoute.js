@@ -22,13 +22,8 @@ function mapStateToProps(state, props) {
   const companyId = props.params.companyId;
   const company = state.companies.byId[companyId];
 
-  const valueSelector = formValueSelector('editCompany');
-
   return {
-    company: {
-      ...company,
-      active: valueSelector(state, 'active')
-    },
+    company,
     companyId,
     initialValues: company
       ? {

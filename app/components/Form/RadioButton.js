@@ -13,7 +13,13 @@ type Props = {
 function RadioButton({ id, label, inputValue, className, ...props }: Props) {
   return (
     <div className={styles.box}>
-      <input {...props} type="radio" id={id} value={inputValue} />
+      <input
+        {...props}
+        checked={inputValue === props.value}
+        type="radio"
+        id={id}
+        value={inputValue}
+      />
       <label htmlFor={id}>{label}</label>
     </div>
   );
