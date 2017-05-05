@@ -124,12 +124,11 @@ function EventEditor({
           <FlexColumn className={styles.meta} style={{ background: metaColor }}>
             <ul>
               <li className={styles.metaList}>
-                <span style={{ display: 'flex' }}>Hva</span>
+                <span>Hva</span>
                 <Field
                   name="eventType"
+                  fieldClassName={styles.metaField}
                   fieldStyle={{
-                    margin: 0,
-                    marginLeft: 5,
                     boxShadow: '0 0 10px #394B59'
                   }}
                   simpleValue
@@ -142,13 +141,11 @@ function EventEditor({
                 />
               </li>
               <li className={styles.metaList}>
-                <span style={{ display: 'flex' }}>Arrangerende bedrift</span>
+                <span>Arrangerende bedrift</span>
                 <Field
                   name="company"
+                  fieldClassName={styles.metaField}
                   fieldStyle={{
-                    flex: 1,
-                    margin: 0,
-                    marginLeft: 5,
                     boxShadow: '0 0 10px #394B59'
                   }}
                   component={SelectInput.Field}
@@ -159,7 +156,7 @@ function EventEditor({
                 />
               </li>
               <li className={styles.metaList}>
-                <span style={{ display: 'flex' }}>Starter</span>
+                <span>Starter</span>
                 <Field
                   name="startTime"
                   fieldClassName={styles.metaField}
@@ -168,7 +165,7 @@ function EventEditor({
                 />
               </li>
               <li className={styles.metaList}>
-                <span style={{ display: 'flex' }}>Slutter</span>
+                <span>Slutter</span>
                 <Field
                   name="endTime"
                   fieldClassName={styles.metaField}
@@ -177,7 +174,7 @@ function EventEditor({
                 />
               </li>
               <li className={styles.metaList}>
-                <span style={{ display: 'flex' }}>Finner sted i</span>
+                <span>Finner sted i</span>
                 <Field
                   name="location"
                   fieldClassName={styles.metaField}
@@ -186,9 +183,7 @@ function EventEditor({
                 />
               </li>
               <li className={styles.metaList}>
-                <span style={{ display: 'flex' }}>
-                  Betalt arrangement
-                </span>
+                <span>Betalt arrangement</span>
                 <Field
                   name="isPriced"
                   fieldClassName={styles.metaField}
@@ -199,7 +194,7 @@ function EventEditor({
               {event.isPriced &&
                 <div>
                   <li className={styles.metaList}>
-                    <span style={{ display: 'flex' }}>
+                    <span>
                       <Tooltip content="Manuell betaling kan også hukes av i etterkant">
                         Betaling igjennom Abakus.no
                       </Tooltip>
@@ -212,7 +207,7 @@ function EventEditor({
                     />
                   </li>
                   <li className={styles.metaList}>
-                    <span style={{ display: 'flex' }}>Pris medlem</span>
+                    <span>Pris medlem</span>
                     <Field
                       name="priceMember"
                       type="number"
@@ -239,9 +234,7 @@ function EventEditor({
                   pools={poolsWithWaitingRegistrations}
                 />
                 <div className={styles.metaList}>
-                  <span style={{ display: 'flex' }}>
-                    Merge time
-                  </span>
+                  <span>Merge time</span>
                   <Field
                     name="mergeTime"
                     fieldClassName={styles.metaField}
@@ -250,9 +243,7 @@ function EventEditor({
                   />
                 </div>
                 <div className={styles.metaList}>
-                  <span style={{ display: 'flex' }}>
-                    Bruk Captcha ved påmelding
-                  </span>
+                  <span>Bruk Captcha ved påmelding</span>
                   <Field
                     name="useCaptcha"
                     fieldClassName={styles.metaField}

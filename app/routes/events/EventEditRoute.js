@@ -13,9 +13,8 @@ import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocomplete } from 'app/reducers/search';
 import { debounce } from 'lodash';
 
-function getRegistrationsFromPools(pools = []) {
-  return pools.reduce((users, pool) => [...users, ...pool.registrations], []);
-}
+const getRegistrationsFromPools = (pools = []) =>
+  pools.reduce((users, pool) => [...users, ...pool.registrations], []);
 
 const mapStateToProps = (state, props) => {
   const { params: { eventId } } = props;

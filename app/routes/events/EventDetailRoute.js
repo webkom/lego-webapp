@@ -17,15 +17,11 @@ import {
   selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
 
-function getRegistrationsFromPools(pools = []) {
-  return pools.reduce((users, pool) => [...users, ...pool.registrations], []);
-}
+const getRegistrationsFromPools = (pools = []) =>
+  pools.reduce((users, pool) => [...users, ...pool.registrations], []);
 
-function findCurrentRegistration(registrations, currentUser) {
-  return registrations.find(
-    registration => registration.user.id === currentUser.id
-  );
-}
+const findCurrentRegistration = (registrations, currentUser) =>
+  registrations.find(registration => registration.user.id === currentUser.id);
 
 const mapStateToProps = (state, props) => {
   const { params: { eventId }, currentUser } = props;
