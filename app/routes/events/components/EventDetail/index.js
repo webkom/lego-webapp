@@ -242,18 +242,19 @@ export default class EventDetail extends Component {
                 .map(pool =>
                   pool.permissionGroups.map(group => (
                     <li key={group.id}>{group.name}</li>
-                  )))}
+                  ))
+                )}
             </ul>
           </Flex>
         </Flex>
         {event.commentTarget &&
-        <CommentView
-          formEnabled
-          user={currentUser}
-          commentTarget={event.commentTarget}
-          loggedIn={loggedIn}
-          comments={comments}
-        />}
+          <CommentView
+            formEnabled
+            user={currentUser}
+            commentTarget={event.commentTarget}
+            loggedIn={loggedIn}
+            comments={comments}
+          />}
       </div>
     );
   }

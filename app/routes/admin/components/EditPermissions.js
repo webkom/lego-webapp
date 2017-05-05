@@ -28,7 +28,7 @@ export default class EditPermissions extends Component {
   }
 
   del(perm) {
-    const permissions = this.state.permissions.filter((p) => p !== perm);
+    const permissions = this.state.permissions.filter(p => p !== perm);
     this.setState({
       permissions
     });
@@ -43,13 +43,16 @@ export default class EditPermissions extends Component {
     });
   };
 
-  add = (e) => {
+  add = e => {
     e.preventDefault();
     if (!this.newPermissionRef.value) {
       return;
     }
 
-    const permissions = [...this.state.permissions, this.newPermissionRef.value];
+    const permissions = [
+      ...this.state.permissions,
+      this.newPermissionRef.value
+    ];
     this.newPermissionRef.value = '';
     this.setState({
       permissions
@@ -63,18 +66,20 @@ export default class EditPermissions extends Component {
     return (
       <div>
         <ul>
-          {permissions.map((p) =>
+          {permissions.map(p => (
             <li key={p}>
               {p} <button onClick={this.del.bind(this, p)}>X</button>
             </li>
-          )}
+          ))}
         </ul>
         <form onSubmit={this.add}>
           <input
-            type='text'
-            ref={(ref) => { this.newPermissionRef = ref; }}
+            type="text"
+            ref={ref => {
+              this.newPermissionRef = ref;
+            }}
           />
-          <input type='submit' value='+' />
+          <input type="submit" value="+" />
         </form>
         <br />
         <button

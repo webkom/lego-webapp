@@ -16,37 +16,43 @@ function EventEditor({ handleSubmit }) {
       <h2>Create an event</h2>
       <Form onSubmit={handleSubmit(() => {})}>
         <Field
-          placeholder='Title'
-          name='title'
+          placeholder="Title"
+          name="title"
           component={TextInput.Field}
           autoFocus
         />
 
         <Field
-          placeholder='Description'
-          name='description'
+          placeholder="Description"
+          name="description"
           component={TextEditor.Field}
         />
 
-        <div style={{ flexDirection: 'row', display: 'flex', justifyContent: 'space-between' }}>
+        <div
+          style={{
+            flexDirection: 'row',
+            display: 'flex',
+            justifyContent: 'space-between'
+          }}
+        >
           <Field
-            name='startTime'
+            name="startTime"
             component={DatePicker.Field}
             fieldStyle={{ flex: '0 0 49%' }}
           />
 
           <Field
-            name='endTime'
+            name="endTime"
             component={DatePicker.Field}
             fieldStyle={{ flex: '0 0 49%' }}
           />
         </div>
 
         <Field
-          placeholder='Location'
-          name='location'
+          placeholder="Location"
+          name="location"
           component={TextInput.Field}
-          type='password'
+          type="password"
         />
 
         <Button submit>Save Event</Button>

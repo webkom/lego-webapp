@@ -10,31 +10,30 @@ function loadData(params, props) {
 }
 
 function filterJoblistings(joblistings, classes, jobtypes, workplaces) {
-  return joblistings.filter((joblisting) => {
+  return joblistings.filter(joblisting => {
     let classBoolean = false;
     let jobtypesBoolean = false;
     let workplacesBoolean = false;
     if (classes.length === 0) {
       classBoolean = true;
     } else {
-      classBoolean = classes.find((c) => (
-        joblisting.fromYear <= Number(c)
-       && joblisting.toYear >= Number(c)
-     ));
+      classBoolean = classes.find(
+        c => joblisting.fromYear <= Number(c) && joblisting.toYear >= Number(c)
+      );
     }
     if (jobtypes.length === 0) {
       jobtypesBoolean = true;
     } else {
-      jobtypesBoolean = jobtypes.find((j) => (
-        j === joblisting.jobType
-      ));
+      jobtypesBoolean = jobtypes.find(j => j === joblisting.jobType);
     }
     if (workplaces.length === 0) {
       workplacesBoolean = true;
     } else {
-      workplacesBoolean = joblisting.workplaces.some((w) => (workplaces.includes(w.town)));
+      workplacesBoolean = joblisting.workplaces.some(w =>
+        workplaces.includes(w.town)
+      );
     }
-    return (classBoolean && jobtypesBoolean && workplacesBoolean);
+    return classBoolean && jobtypesBoolean && workplacesBoolean;
   });
 }
 
@@ -52,15 +51,20 @@ function sortJoblistings(joblistings, sortType) {
 
 function mapStateToProps(state, props) {
   const { query } = props.location;
-  const joblistings = state.joblistings.items
-    .map((id) => state.joblistings.byId[id]);
+  const joblistings = state.joblistings.items.map(
+    id => state.joblistings.byId[id]
+  );
   const sortType = query.sort === 'company' ? 'company' : 'deadline';
   const filterClass = query.class ? query.class.split(',') : [];
   const filterJobType = query.jobtypes ? query.jobtypes.split(',') : [];
   const filterWorkplaces = query.workplaces ? query.workplaces.split(',') : [];
 
-  const filteredJoblistings = filterJoblistings(joblistings, filterClass,
-    filterJobType, filterWorkplaces);
+  const filteredJoblistings = filterJoblistings(
+    joblistings,
+    filterClass,
+    filterJobType,
+    filterWorkplaces
+  );
   const sortedJoblistings = sortJoblistings(filteredJoblistings, sortType);
 
   return {
@@ -72,9 +76,6 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = { fetchAll };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   fetchOnUpdate([], loadData)
 )(JoblistingsPage);

@@ -16,7 +16,10 @@ const InterestGroup = ({ group }) => (
         </p>
       </div>
       <Link to={`/interestgroups/${group.id}`}>
-        <Image className={styles.interestPic} src={'https://i.redd.it/dz8mwvl4dgdy.jpg'} />
+        <Image
+          className={styles.interestPic}
+          src={'https://i.redd.it/dz8mwvl4dgdy.jpg'}
+        />
       </Link>
     </div>
   </div>

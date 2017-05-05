@@ -1,8 +1,10 @@
 // @flow
 
-type Tree<T: Object> = Array<T & {
-  children: Tree<*>
-}>;
+type Tree<T: Object> = Array<
+  T & {
+    children: Tree<*>
+  }
+>;
 
 /**
  * Generates a tree structure on the form of
@@ -19,18 +21,23 @@ type Tree<T: Object> = Array<T & {
  * @param  {Object[]} nodes
  * @return {Object[]} tree
  */
-export function generateTreeStructure<T: {
-  id: string,
-  parent: string
-}>(nodes: Array<T>): Tree<T> {
+export function generateTreeStructure<
+  T: {
+    id: string,
+    parent: string
+  }
+>(nodes: Array<T>): Tree<T> {
   // Create a map of id -> node for retrievals later:
-  const tree = nodes.reduce((acc, node) => ({
-    ...acc,
-    [node.id]: {
-      ...node,
-      children: []
-    }
-  }), {});
+  const tree = nodes.reduce(
+    (acc, node) => ({
+      ...acc,
+      [node.id]: {
+        ...node,
+        children: []
+      }
+    }),
+    {}
+  );
 
   return nodes.reduce((roots, { id }) => {
     const node = tree[id];

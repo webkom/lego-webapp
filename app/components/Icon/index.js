@@ -17,15 +17,13 @@ type Props = {
  *
  * http://ionicframework.com/docs/v2/ionicons/
  */
-function Icon(
-  {
-    name = 'star',
-    scaleOnHover = false,
-    className,
-    size,
-    ...props
-  }: Props
-) {
+function Icon({
+  name = 'star',
+  scaleOnHover = false,
+  className,
+  size,
+  ...props
+}: Props) {
   return (
     <i className={cx(`ion-ios-${name}`, styles.icon, className)} {...props} />
   );

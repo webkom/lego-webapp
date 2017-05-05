@@ -17,12 +17,7 @@ type Props = {
  * but for now it is only a textarea.
  */
 function TextEditor({ className, ...props }: Props) {
-  return (
-    <textarea
-      className={cx(styles.input, className)}
-      {...props}
-    />
-  );
+  return <textarea className={cx(styles.input, className)} {...props} />;
 }
 
 TextEditor.Field = createField(TextEditor);

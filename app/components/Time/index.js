@@ -24,7 +24,12 @@ function getFormattedDateTime(time: moment, format: string): string {
  * that automatically adds the datetime attribute and formats
  * the content according to the given props.
  */
-function Time({ format = 'YYYY-MM-d', time, wordsAgo = false, ...props }: Props) {
+function Time({
+  format = 'YYYY-MM-d',
+  time,
+  wordsAgo = false,
+  ...props
+}: Props) {
   const formatted = getFormattedDateTime(
     moment.tz(time || moment(), config.timezone),
     wordsAgo ? 'timeAgoInWords' : format

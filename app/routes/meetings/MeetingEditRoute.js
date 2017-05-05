@@ -24,5 +24,5 @@ function mapStateToProps(state, props) {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['meetingId', 'loggedIn'], loadData),
+  fetchOnUpdate(['meetingId', 'loggedIn'], loadData)
 )(MeetingEditor);

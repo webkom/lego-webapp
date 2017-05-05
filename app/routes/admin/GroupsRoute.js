@@ -35,7 +35,4 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = { fetchAll };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(GroupsRoute);
+export default connect(mapStateToProps, mapDispatchToProps)(GroupsRoute);

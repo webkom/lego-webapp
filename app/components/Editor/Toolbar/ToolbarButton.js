@@ -3,10 +3,13 @@ import cx from 'classnames';
 import Icon from 'app/components/Icon';
 import styles from './Toolbar.css';
 
-export default (props) => (
+export default props => (
   <span
-    className={cx(styles.toolbarButton, styles.toolbarButtonActive && props.active)}
-    onMouseDown={(e) => {
+    className={cx(
+      styles.toolbarButton,
+      styles.toolbarButtonActive && props.active
+    )}
+    onMouseDown={e => {
       e.preventDefault();
       e.stopPropagation();
       props.onClick();
@@ -14,4 +17,4 @@ export default (props) => (
   >
     <Icon name={props.icon} />
   </span>
-  );
+);

@@ -6,11 +6,11 @@ import { Page } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 
 export type PageEntity = {
-  id: number;
-  title: string;
-  slug: string;
-  content: string;
-  comments: Array<number>;
+  id: number,
+  title: string,
+  slug: string,
+  content: string,
+  comments: Array<number>
 };
 
 export default createEntityReducer({
@@ -21,7 +21,7 @@ export default createEntityReducer({
 });
 
 export const selectPageBySlug = createSelector(
-  (state) => state.pages.byId,
+  state => state.pages.byId,
   (state, props) => props.pageSlug,
   (pagesBySlug, pageSlug) => pagesBySlug[pageSlug] || {}
 );
@@ -31,17 +31,18 @@ const rootKey = 'root';
  * Maps parent PKs to a list of their children:
  */
 const selectParents = createSelector(
-  (state) => state.pages.byId,
-  (pagesBySlug) => Object.keys(pagesBySlug)
-    .map((key) => pagesBySlug[key])
-    .reduce((total, page) => {
-      const parent = page.parent || rootKey;
-      const existing = total[parent] || [];
-      return {
-        ...total,
-        [parent]: [...existing, page]
-      };
-    }, {})
+  state => state.pages.byId,
+  pagesBySlug =>
+    Object.keys(pagesBySlug)
+      .map(key => pagesBySlug[key])
+      .reduce((total, page) => {
+        const parent = page.parent || rootKey;
+        const existing = total[parent] || [];
+        return {
+          ...total,
+          [parent]: [...existing, page]
+        };
+      }, {})
 );
 
 /**
@@ -58,7 +59,7 @@ export const selectSiblings = createSelector(
  * Finds the page with the given parent PK.
  */
 export const selectParent = createSelector(
-  (state) => values(state.pages.byId),
+  state => values(state.pages.byId),
   (state, props) => props.parentPk,
-  (pages, parentPk) => pages.find((page) => page.pk === parentPk)
+  (pages, parentPk) => pages.find(page => page.pk === parentPk)
 );

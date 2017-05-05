@@ -33,12 +33,7 @@ export default class AddCompanyContact extends Component {
   props: Props;
 
   render() {
-    const {
-      company,
-      submitting,
-      autoFocus,
-      handleSubmit
-    } = this.props;
+    const { company, submitting, autoFocus, handleSubmit } = this.props;
 
     if (!company) {
       return <LoadingIndicator />;

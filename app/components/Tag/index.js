@@ -5,9 +5,9 @@ import { Link } from 'react-router';
 import styles from './Tag.css';
 
 type Props = {
-  tag: string;
+  tag: string,
   small?: boolean
-}
+};
 
 function Tag({ tag, small }: Props) {
   const className = small ? styles.tagLinkSmall : styles.tagLink;

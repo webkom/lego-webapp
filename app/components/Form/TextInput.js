@@ -12,7 +12,13 @@ type Props = {
   readOnly?: boolean
 };
 
-function TextInput({ type = 'text', className, inputRef, readOnly, ...props }: Props) {
+function TextInput({
+  type = 'text',
+  className,
+  inputRef,
+  readOnly,
+  ...props
+}: Props) {
   return (
     <input
       ref={inputRef}

@@ -68,9 +68,8 @@ export default class BdbPage extends Component {
     const changedCompanyIndex = companies.indexOf(
       companies.filter(company => company.id === Number(data[0]))[0]
     );
-    const changedCompanyStatuses = companies[
-      changedCompanyIndex
-    ].semesterStatuses;
+    const changedCompanyStatuses =
+      companies[changedCompanyIndex].semesterStatuses;
     const changedSemesterIndex = changedCompanyStatuses.indexOf(
       changedCompanyStatuses.filter(
         status =>
@@ -152,9 +151,8 @@ export default class BdbPage extends Component {
 
   companySearch = companies =>
     companies.filter(company =>
-      company.name
-        .toLowerCase()
-        .includes(this.state.searchQuery.toLowerCase()));
+      company.name.toLowerCase().includes(this.state.searchQuery.toLowerCase())
+    );
 
   filterCompanies = companies => {
     if (this.state.searchQuery !== '') {

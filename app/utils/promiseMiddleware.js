@@ -1,9 +1,15 @@
 // @flow
 
-export type ActionTypeObject = {|BEGIN: string, SUCCESS: string, FAILURE: string|};
+export type ActionTypeObject = {|
+  BEGIN: string,
+  SUCCESS: string,
+  FAILURE: string
+|};
 export type ActionTypeArray = [string, string, string];
 
-function extractTypes(types: ActionTypeArray | ActionTypeObject): ActionTypeArray {
+function extractTypes(
+  types: ActionTypeArray | ActionTypeObject
+): ActionTypeArray {
   if (Array.isArray(types)) {
     return types;
   }
@@ -12,13 +18,12 @@ function extractTypes(types: ActionTypeArray | ActionTypeObject): ActionTypeArra
 }
 
 export default function promiseMiddleware(): any {
-  return (next) => (action) => {
+  return next => action => {
     if (!action.promise) {
       return next(action);
     }
 
     const { types, meta, payload, promise } = action;
-
 
     const [PENDING, SUCCESS, FAILURE] = extractTypes(types);
 
@@ -30,17 +35,23 @@ export default function promiseMiddleware(): any {
 
     return new Promise((resolve, reject) => {
       promise.then(
-        (payload) => resolve(next({
-          type: SUCCESS,
-          payload,
-          meta
-        })),
-        (error) => reject(next({
-          type: FAILURE,
-          payload: error,
-          error: true,
-          meta
-        }))
+        payload =>
+          resolve(
+            next({
+              type: SUCCESS,
+              payload,
+              meta
+            })
+          ),
+        error =>
+          reject(
+            next({
+              type: FAILURE,
+              payload: error,
+              error: true,
+              meta
+            })
+          )
       );
     });
   };

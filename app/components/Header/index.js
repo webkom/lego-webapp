@@ -26,7 +26,7 @@ type Props = {
   fetchNotifications: () => void,
   notifications: Array<Object>,
   markAllNotifications: () => void,
-  markNotification: (string) => void,
+  markNotification: string => void,
   fetchNotificationData: () => void
 };
 
@@ -83,9 +83,7 @@ export default class Header extends Component {
   };
 
   render() {
-    const {
-      loggedIn
-    } = this.props;
+    const { loggedIn } = this.props;
 
     return (
       <header className={styles.header}>

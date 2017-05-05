@@ -10,21 +10,21 @@ const Dropdown = ({ login, logout, user }) => {
     return (
       <ul className={styles.dropdownList}>
         <li>
-          <Link to='/users/me'>
+          <Link to="/users/me">
             Min profil
-            <Icon name='user' />
+            <Icon name="user" />
           </Link>
         </li>
         <li>
-          <Link to='/users/me/settings'>
+          <Link to="/users/me/settings">
             Instillinger
-            <Icon name='cog' />
+            <Icon name="cog" />
           </Link>
         </li>
         <li>
           <a onClick={logout}>
             Logg ut
-            <Icon name='sign-out' />
+            <Icon name="sign-out" />
           </a>
         </li>
       </ul>
@@ -57,25 +57,18 @@ export default class ProfileBox extends Component {
     return (
       <div className={styles.profile}>
         <div className={styles.bar}>
-          <ProfilePicture
-            user={currentUser}
-            size={50}
-          />
-          <a
-            className={styles.user}
-            onClick={() => this.toggleOpen()}
-          >
+          <ProfilePicture user={currentUser} size={50} />
+          <a className={styles.user} onClick={() => this.toggleOpen()}>
             <h3>{nameOrLogin}</h3>
             <Icon className={styles.arrow} name={icon} />
           </a>
         </div>
-        {this.state.open && (
+        {this.state.open &&
           <Dropdown
             login={this.props.login}
             logout={this.props.logout}
             user={loggedIn ? currentUser : null}
-          />
-        )}
+          />}
       </div>
     );
   }

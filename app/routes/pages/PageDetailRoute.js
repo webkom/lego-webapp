@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { fetchAll, fetchPage, updatePage } from 'app/actions/PageActions';
 import PageDetail from './components/PageDetail';
-import { selectSiblings, selectParent, selectPageBySlug } from 'app/reducers/pages';
+import {
+  selectSiblings,
+  selectParent,
+  selectPageBySlug
+} from 'app/reducers/pages';
 
 function loadData({ pageSlug }, props) {
   props.fetchPage(pageSlug);
@@ -32,5 +36,5 @@ const mapDispatchToProps = { fetchAll, fetchPage, updatePage };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['pageSlug', 'loggedIn'], loadData),
+  fetchOnUpdate(['pageSlug', 'loggedIn'], loadData)
 )(PageDetail);

@@ -8,7 +8,7 @@ import InterestGroupForm from './InterestGroupForm';
 
 class InterestGroupDetail extends Component {
   state = {
-    editorOpen: false,
+    editorOpen: false
   };
 
   removeId = () => {
@@ -16,7 +16,12 @@ class InterestGroupDetail extends Component {
   };
 
   updateId = ({ name, description, text }) => {
-    this.props.updateInterestGroup(this.props.group.id, name, description, text);
+    this.props.updateInterestGroup(
+      this.props.group.id,
+      name,
+      description,
+      text
+    );
   };
 
   render() {
@@ -27,7 +32,10 @@ class InterestGroupDetail extends Component {
           <h1 className={styles.detail}>{group.name}</h1>
           <div className={styles.content}>
             <p className={styles.paragraphDetail}>{group.text}</p>
-            <Image className={styles.interestPicDetail} src={'https://i.redd.it/dz8mwvl4dgdy.jpg'} />
+            <Image
+              className={styles.interestPicDetail}
+              src={'https://i.redd.it/dz8mwvl4dgdy.jpg'}
+            />
           </div>
         </div>
         <h2 className={styles.heading}>Kontaktinformasjon</h2>
@@ -40,11 +48,13 @@ class InterestGroupDetail extends Component {
           </p>
           <FlexColumn>
             <div className={styles.button}>
-              <Button onClick={() => this.setState({ editorOpen: true })}>Rediger interessegruppe
+              <Button onClick={() => this.setState({ editorOpen: true })}>
+                Rediger interessegruppe
               </Button>
             </div>
             <div className={styles.button}>
-              <Button onClick={this.removeId}>Slett interressegruppe
+              <Button onClick={this.removeId}>
+                Slett interressegruppe
               </Button>
             </div>
           </FlexColumn>
@@ -52,13 +62,13 @@ class InterestGroupDetail extends Component {
 
         <FlexRow>
           <div className={styles.button}>
-            <Button onClick=''>Bli medlem!</Button>
+            <Button onClick="">Bli medlem!</Button>
           </div>
           <div className={styles.button}>
-            <Button onClick=''>Kontakt oss</Button>
+            <Button onClick="">Kontakt oss</Button>
           </div>
           <div className={styles.button}>
-            <Button onClick=''>Facebookgruppe</Button>
+            <Button onClick="">Facebookgruppe</Button>
           </div>
         </FlexRow>
         <Modal
@@ -69,8 +79,8 @@ class InterestGroupDetail extends Component {
         >
           <InterestGroupForm
             onSubmit={this.updateId}
-            buttonText='Rediger interessegruppe'
-            header='Rediger interessegruppe'
+            buttonText="Rediger interessegruppe"
+            header="Rediger interessegruppe"
             group={group}
           />
         </Modal>

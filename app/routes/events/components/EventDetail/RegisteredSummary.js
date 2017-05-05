@@ -25,9 +25,7 @@ const renderNameList = registrations => (
 
 const RegistrationList = ({ registrations }) => (
   <Tooltip content={renderNameList(registrations)} list>
-    {
-      `${registrations.length} ${registrations.length === 1 ? 'annen' : 'andre'}`
-    }
+    {`${registrations.length} ${registrations.length === 1 ? 'annen' : 'andre'}`}
   </Tooltip>
 );
 

@@ -11,10 +11,7 @@ type Props = {
 function Captcha({ className, onChange }: Props) {
   return (
     <div className={className}>
-      <ReCAPTCHA
-        sitekey={config.captchaKey}
-        onChange={onChange}
-      />
+      <ReCAPTCHA sitekey={config.captchaKey} onChange={onChange} />
     </div>
   );
 }

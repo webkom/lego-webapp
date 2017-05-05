@@ -12,19 +12,13 @@ type Props = {
 
 const PageButtons = ({ isEditing, toggleEditing, handleSave }: Props) => (
   <div>
-    <Button
-      size='small'
-      onClick={toggleEditing}
-    >
+    <Button size="small" onClick={toggleEditing}>
       {isEditing ? 'Avbryt' : 'Rediger'}
     </Button>
-    {isEditing && <Button
-      size='small'
-      onClick={handleSave}
-      className={styles.last}
-    >
-      Lagre
-    </Button>}
+    {isEditing &&
+      <Button size="small" onClick={handleSave} className={styles.last}>
+        Lagre
+      </Button>}
   </div>
 );
 

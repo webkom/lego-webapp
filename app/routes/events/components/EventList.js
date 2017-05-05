@@ -25,19 +25,16 @@ function groupEvents(events) {
     later: event => event.startTime.isAfter(nextWeek)
   };
 
-  return events.reduce(
-    (result, event) => {
-      for (const groupName in groupers) {
-        if (groupers[groupName](event)) {
-          result[groupName] = (result[groupName] || []).concat([event]);
-          return result;
-        }
+  return events.reduce((result, event) => {
+    for (const groupName in groupers) {
+      if (groupers[groupName](event)) {
+        result[groupName] = (result[groupName] || []).concat([event]);
+        return result;
       }
+    }
 
-      return result;
-    },
-    {}
-  );
+    return result;
+  }, {});
 }
 
 function Attendance({ registrationCount, totalCapacity }) {

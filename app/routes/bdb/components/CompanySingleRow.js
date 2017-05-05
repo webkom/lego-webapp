@@ -20,10 +20,12 @@ export default class CompanySingleRow extends Component {
     const result = indexToSemester(index, startYear, startSem);
     const statuses = company.semesterStatuses;
     if (statuses) {
-      return statuses.find(
-        status =>
-          status.year === result.year && status.semester === result.semester
-      ) || { contactedStatus: 6 };
+      return (
+        statuses.find(
+          status =>
+            status.year === result.year && status.semester === result.semester
+        ) || { contactedStatus: 6 }
+      );
     }
     return { contactedStatus: 6 };
   };

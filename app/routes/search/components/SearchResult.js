@@ -3,14 +3,11 @@ import { Link } from 'react-router';
 import truncateString from 'app/utils/truncateString';
 import styles from './SearchPage.css';
 
-export default (props) => {
+export default props => {
   const { result } = props;
 
   return (
-    <div
-      style={{ borderColor: result.color }}
-      className={styles.searchResult}
-    >
+    <div style={{ borderColor: result.color }} className={styles.searchResult}>
       <div>
         <Link to={result.link}>
           <h3 className={result.searchResultTitle}>
@@ -20,17 +17,17 @@ export default (props) => {
 
         {result.content &&
           <div className={styles.content}>
-            <span>{truncateString(result.content.replace(/(<([^>]+)>)/ig, ''), 250)}</span>
-          </div>
-        }
+            <span>
+              {truncateString(result.content.replace(/(<([^>]+)>)/gi, ''), 250)}
+            </span>
+          </div>}
 
       </div>
 
       {result.picture &&
         <div className={styles.picture}>
-          <img src={result.picture} role='presentation' />
-        </div>
-      }
+          <img src={result.picture} role="presentation" />
+        </div>}
     </div>
   );
 };

@@ -13,14 +13,14 @@ type Props = {
 class NotificationContainer extends Component {
   props: Props;
 
-  onClick = (notification) => {
+  onClick = notification => {
     // For now, we assume the action is "close". In the future, this might be a
     // link to a resource instead
     this.props.removeNotification({ id: notification.id });
   };
 
   render() {
-    const notifications = this.props.notifications.map((n) => {
+    const notifications = this.props.notifications.map(n => {
       n.key = n.id;
       // onClick has to be implemented on each object because NotificationStack
       // does not support onClick like it supports onDismiss (see below)
@@ -32,7 +32,8 @@ class NotificationContainer extends Component {
       <NotificationStack
         dismissAfter={5000}
         notifications={notifications}
-        onDismiss={(notification) => this.props.removeNotification({ id: notification.id })}
+        onDismiss={notification =>
+          this.props.removeNotification({ id: notification.id })}
       />
     );
   }
@@ -40,13 +41,12 @@ class NotificationContainer extends Component {
 
 function mapStateToProps(state) {
   return {
-    notifications: state.notifications.items.filter((n) => !n.removed)
+    notifications: state.notifications.items.filter(n => !n.removed)
   };
 }
 
 const mapDispatchToProps = { removeNotification };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(NotificationContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  NotificationContainer
+);

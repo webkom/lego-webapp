@@ -5,7 +5,7 @@ const byId = {
     pk: 1
   },
   first: {
-    parent: 1,
+    parent: 1
   },
   second: {
     parent: 1

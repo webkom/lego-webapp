@@ -21,7 +21,7 @@ export default class PageDetail extends Component {
 
   props: Props;
 
-  handleEditorChange = (content) => {
+  handleEditorChange = content => {
     this.setState({
       ...this.state,
       content
@@ -33,7 +33,7 @@ export default class PageDetail extends Component {
     this.props.updatePage(this.props.page.slug, {
       content: this.state.content
     });
-  }
+  };
 
   toggleEditing = () => {
     this.setState({
@@ -56,24 +56,22 @@ export default class PageDetail extends Component {
               <h2 className={styles.title}>
                 {page.title}
               </h2>
-              {canEdit && <PageButtons
-                isEditing={this.state.isEditing}
-                toggleEditing={this.toggleEditing}
-                handleSave={this.handleSave}
-              />}
+              {canEdit &&
+                <PageButtons
+                  isEditing={this.state.isEditing}
+                  toggleEditing={this.toggleEditing}
+                  handleSave={this.handleSave}
+                />}
             </div>
-            {this.state.isEditing ?
-              <Editor
-                content={page.content}
-                onChange={this.handleEditorChange}
-              /> :
-              <div dangerouslySetInnerHTML={{ __html: page.content }} />}
+            {this.state.isEditing
+              ? <Editor
+                  content={page.content}
+                  onChange={this.handleEditorChange}
+                />
+              : <div dangerouslySetInnerHTML={{ __html: page.content }} />}
           </article>
           <aside className={styles.sidebar}>
-            <PageHierarchy
-              {...this.props}
-              selectedSlug={page.slug}
-            />
+            <PageHierarchy {...this.props} selectedSlug={page.slug} />
           </aside>
         </div>
       </div>

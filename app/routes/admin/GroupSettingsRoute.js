@@ -9,11 +9,11 @@ const Permissions = ({ permissions }) => {
 
   return (
     <ul>
-      {permissions.map((permission) =>
+      {permissions.map(permission => (
         <li key={permission}>
           {permission}
         </li>
-      )}
+      ))}
     </ul>
   );
 };
@@ -37,13 +37,23 @@ export default class GroupSettings extends Component {
     let display;
     if (permissions) {
       display = editing
-        ? <EditPermissions permissions={permissions} groupId={id} updateGroup={updateGroup} />
+        ? <EditPermissions
+            permissions={permissions}
+            groupId={id}
+            updateGroup={updateGroup}
+          />
         : <Permissions permissions={permissions} />;
     }
 
     return (
       <div>
-        <h4>Permissions: (<button onClick={this.toggleEditing}>{editing ? 'Cancel' : 'Edit'}</button>)</h4>
+        <h4>
+          Permissions: (
+          <button onClick={this.toggleEditing}>
+            {editing ? 'Cancel' : 'Edit'}
+          </button>
+          )
+        </h4>
         <LoadingIndicator loading={!permissions}>
           {display}
 

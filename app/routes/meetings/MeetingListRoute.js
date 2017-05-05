@@ -11,11 +11,11 @@ function loadData(params, props) {
 }
 
 function mapStateToProps(state) {
-  const meetings = state.meetings.items.map((id) => state.meetings.byId[id]);
+  const meetings = state.meetings.items.map(id => state.meetings.byId[id]);
   const userMe = state.users.byId[state.auth.username];
   return {
     meetings,
-    userMe,
+    userMe
   };
 }
 

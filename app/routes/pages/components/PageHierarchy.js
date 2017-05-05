@@ -18,15 +18,12 @@ const PageHierarchy = ({ parent, siblings, selectedSlug }: Props) => {
     <div className={styles.sidebar}>
       <ul className={styles.pageList}>
         <li>
-          <Link
-            className={styles.back}
-            to={`/pages/${parent.slug}`}
-          >
-            <Icon name='chevron-left' />
+          <Link className={styles.back} to={`/pages/${parent.slug}`}>
+            <Icon name="chevron-left" />
             {parent.title}
           </Link>
         </li>
-        {siblings.map((page) =>
+        {siblings.map(page => (
           <li
             key={page.pk}
             className={classNames(styles.sibling, {
@@ -37,7 +34,7 @@ const PageHierarchy = ({ parent, siblings, selectedSlug }: Props) => {
               {page.title}
             </Link>
           </li>
-        )}
+        ))}
       </ul>
     </div>
   );

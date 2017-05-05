@@ -26,13 +26,17 @@ const groups = [
 describe('<GroupTree />', () => {
   it('should render the child nodes as links', () => {
     const wrapper = shallow(<GroupTree groups={groups} />);
-    expect(wrapper.containsMatchingElement(
-      <Link to='/admin/groups/2/settings'>Dog</Link>)
+    expect(
+      wrapper.containsMatchingElement(
+        <Link to="/admin/groups/2/settings">Dog</Link>
+      )
     ).toEqual(true);
 
-    expect(wrapper.containsMatchingElement(
-      <Link to='/admin/groups/3/settings'>Bird</Link>
-    )).toEqual(true);
+    expect(
+      wrapper.containsMatchingElement(
+        <Link to="/admin/groups/3/settings">Bird</Link>
+      )
+    ).toEqual(true);
   });
 
   it('should render the root nodes correctly', () => {
@@ -42,9 +46,7 @@ describe('<GroupTree />', () => {
 
   it('should work with no groups', () => {
     const children = shallow(<GroupTree groups={[]} />).children();
-    expect(children.containsMatchingElement(
-      <h3>Groups</h3>
-    )).toEqual(true);
+    expect(children.containsMatchingElement(<h3>Groups</h3>)).toEqual(true);
   });
 
   it('should work with only root groups', () => {

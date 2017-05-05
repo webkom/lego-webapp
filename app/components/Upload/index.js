@@ -9,7 +9,6 @@ type Props = {
   accept?: String
 };
 
-
 class Upload extends Component {
   props: Props;
 
@@ -18,11 +17,13 @@ class Upload extends Component {
     files: []
   };
 
-  onDrop = (acceptedFiles) => {
+  onDrop = acceptedFiles => {
     if (!this.props.mutiple) {
-      this.setState({ file: acceptedFiles[0] }, () => this.props.onDrop(this.state.file));
+      this.setState({ file: acceptedFiles[0] }, () =>
+        this.props.onDrop(this.state.file)
+      );
     }
-  }
+  };
 
   render() {
     return (

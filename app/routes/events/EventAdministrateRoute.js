@@ -19,19 +19,14 @@ import { selectAutocomplete } from 'app/reducers/search';
 import { groupBy, sortBy, debounce } from 'lodash';
 
 const mapStateToProps = (state, props) => {
-  const {
-    params: {
-      eventId
-    },
-    currentUser
-  } = props;
+  const { params: { eventId }, currentUser } = props;
 
   const event = selectEventById(state, { eventId });
   const pools = selectPoolsForEvent(state, { eventId });
   const registrations = selectAllRegistrationsForEvent(state, { eventId });
   const grouped = groupBy(
     registrations,
-    obj => obj.unregistrationDate.isValid() ? 'unregistered' : 'registered'
+    obj => (obj.unregistrationDate.isValid() ? 'unregistered' : 'registered')
   );
   const registered = (grouped['registered'] || [])
     .sort((a, b) => a.registrationDate.isAfter(b.registrationDate));

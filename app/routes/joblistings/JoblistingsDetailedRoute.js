@@ -21,9 +21,6 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = { fetchJoblisting };
 
 export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
+  connect(mapStateToProps, mapDispatchToProps),
   fetchOnUpdate(['joblistingId'], loadData)
 )(JoblistingDetail);

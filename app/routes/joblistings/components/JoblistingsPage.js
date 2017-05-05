@@ -12,17 +12,13 @@ const JoblistingsPage = ({ joblistings, query }) => {
   }
   return (
     <div className={styles.root}>
-      <Helmet title='Karriere' />
-      <FlexRow className={styles.page} >
+      <Helmet title="Karriere" />
+      <FlexRow className={styles.page}>
         <FlexColumn className={styles.list}>
-          <JoblistingsList
-            joblistings={joblistings}
-          />
+          <JoblistingsList joblistings={joblistings} />
         </FlexColumn>
         <FlexColumn className={styles.rightNav}>
-          <JoblistingsRightNav
-            query={query}
-          />
+          <JoblistingsRightNav query={query} />
         </FlexColumn>
       </FlexRow>
     </div>

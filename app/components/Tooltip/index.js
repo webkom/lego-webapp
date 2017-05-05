@@ -3,7 +3,6 @@ import cx from 'classnames';
 import styles from './Tooltip.css';
 
 export default class Tooltip extends Component {
-
   state = {
     hovered: false
   };
@@ -12,30 +11,26 @@ export default class Tooltip extends Component {
     this.setState({
       hovered: true
     });
-  }
+  };
 
   onMouseLeave = () => {
     this.setState({
       hovered: false
     });
-  }
+  };
 
   render() {
     const { content, children, className, list, style } = this.props;
-    const tooltipClass = this.state.hovered ? styles.baseTooltipHover : styles.tooltip;
+    const tooltipClass = this.state.hovered
+      ? styles.baseTooltipHover
+      : styles.tooltip;
     const tooltip = list ? styles.listTooltip : styles.showTooltip;
     return (
-      <div
-        className={className}
-        style={style}
-      >
+      <div className={className} style={style}>
         <div className={cx(tooltipClass, tooltip)}>
           {content}
         </div>
-        <div
-          onMouseEnter={this.onMouseEnter}
-          onMouseLeave={this.onMouseLeave}
-        >
+        <div onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
           {children}
         </div>
       </div>

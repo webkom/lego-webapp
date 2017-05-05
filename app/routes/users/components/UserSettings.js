@@ -20,11 +20,7 @@ export default class UserSettings extends Component {
   props: Props;
 
   render() {
-    const {
-      invalid,
-      pristine,
-      submitting
-    } = this.props;
+    const { invalid, pristine, submitting } = this.props;
 
     const disabledButton = invalid || pristine || submitting;
 
@@ -33,9 +29,9 @@ export default class UserSettings extends Component {
         <UserImage user={this.props.user} />
         <Form onSubmit={this.props.handleSubmit(this.props.updateUser)}>
           <Field
-            placeholder='Brukernavn'
-            label='Username'
-            name='username'
+            placeholder="Brukernavn"
+            label="Username"
+            name="username"
             readOnly
             component={TextInput.Field}
             props={{
@@ -44,36 +40,29 @@ export default class UserSettings extends Component {
           />
 
           <Field
-            placeholder='Fornavn'
-            label='First name'
-            name='firstName'
+            placeholder="Fornavn"
+            label="First name"
+            name="firstName"
             component={TextInput.Field}
           />
 
           <Field
-            placeholder='Etternavn'
-            label='Last name'
-            name='lastName'
+            placeholder="Etternavn"
+            label="Last name"
+            name="lastName"
             component={TextInput.Field}
           />
+
+          <Field label="Kjønn" name="gender" component={TextInput.Field} />
 
           <Field
-            label='Kjønn'
-            name='gender'
+            placeholder="abc@stud.ntnu.no"
+            label="email"
+            name="email"
             component={TextInput.Field}
           />
 
-          <Field
-            placeholder='abc@stud.ntnu.no'
-            label='email'
-            name='email'
-            component={TextInput.Field}
-          />
-
-          <Button
-            disabled={disabledButton}
-            submit
-          >
+          <Button disabled={disabledButton} submit>
             Submit
           </Button>
         </Form>

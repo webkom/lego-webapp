@@ -11,14 +11,15 @@ type Props = {
 };
 
 function EditorField({ className, ...props }: Props) {
-  return (<Editor
-    className={cx(styles.textField, className)}
-    {...props}
-    {...props.input}
-    {...props.meta}
-  />);
+  return (
+    <Editor
+      className={cx(styles.textField, className)}
+      {...props}
+      {...props.input}
+      {...props.meta}
+    />
+  );
 }
-
 
 EditorField.Field = createField(EditorField);
 export default EditorField;

@@ -16,11 +16,9 @@ describe('fetchJSON', () => {
     });
 
     it('should format the response correctly', () =>
-      fetchJSON('https://abakus.no')
-        .then((response) => {
-          expect(response.jsonData).toEqual({ hello: 'world' });
-        })
-    );
+      fetchJSON('https://abakus.no').then(response => {
+        expect(response.jsonData).toEqual({ hello: 'world' });
+      }));
   });
 
   describe('response with error', () => {
@@ -39,10 +37,11 @@ describe('fetchJSON', () => {
     });
 
     it('should catch errors', () =>
-      fetchJSON('https://abakus.no')
-        .then(() => {}, (error) => {
+      fetchJSON('https://abakus.no').then(
+        () => {},
+        error => {
           expect(error.response.statusText).toEqual('Unauthorized');
-        })
-    );
+        }
+      ));
   });
 });
