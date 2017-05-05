@@ -116,6 +116,8 @@ export class RegisteredElement extends Component {
         </div>
         <div className={styles.one}>
           {registration.feedback || '-'}
+          <br />
+          {`Allergier: ${registration.user.allergies || '-'}`}
         </div>
         <div className={styles.one}>
           {showUnregister &&
