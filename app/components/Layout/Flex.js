@@ -20,24 +20,22 @@ type Props = {
   alignItems: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
 };
 
-function Flex(
-  {
-    children,
-    className,
-    column = false,
-    component: Component = 'div',
-    wrap = false,
-    wrapReverse = false,
-    justifyContent = 'flex-start',
-    alignItems = 'stretch',
-    flexWrap,
-    padding,
-    margin,
-    width,
-    style,
-    ...htmlAttributes
-  }: Props
-) {
+function Flex({
+  children,
+  className,
+  column = false,
+  component: Component = 'div',
+  wrap = false,
+  wrapReverse = false,
+  justifyContent = 'flex-start',
+  alignItems = 'stretch',
+  flexWrap,
+  padding,
+  margin,
+  width,
+  style,
+  ...htmlAttributes
+}: Props) {
   return (
     <Component
       className={cx(

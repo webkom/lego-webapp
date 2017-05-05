@@ -11,10 +11,7 @@ type Props = {
 
 function Form({ children, className, ...props }: Props) {
   return (
-    <form
-      className={cx(styles.form, className)}
-      {...props}
-    >
+    <form className={cx(styles.form, className)} {...props}>
       {children}
     </form>
   );

@@ -22,10 +22,10 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  onQueryChanged: debounce((query) => dispatch(search(query)), 300),
-  push: (uri) => dispatch(push(uri)),
-  search: (query) => dispatch(search(query))
+const mapDispatchToProps = dispatch => ({
+  onQueryChanged: debounce(query => dispatch(search(query)), 300),
+  push: uri => dispatch(push(uri)),
+  search: query => dispatch(search(query))
 });
 
 export default compose(

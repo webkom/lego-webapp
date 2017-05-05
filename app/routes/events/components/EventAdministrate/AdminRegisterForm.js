@@ -3,18 +3,16 @@ import { reduxForm, Field } from 'redux-form';
 import { Form, TextEditor, SelectInput } from 'app/components/Form';
 import Button from 'app/components/Button';
 
-const AdminRegister = (
-  {
-    pools,
-    usersResult,
-    onQueryChanged,
-    searching,
-    handleSubmit,
-    invalid,
-    pristine,
-    submitting
-  }
-) => {
+const AdminRegister = ({
+  pools,
+  usersResult,
+  onQueryChanged,
+  searching,
+  handleSubmit,
+  invalid,
+  pristine,
+  submitting
+}) => {
   return (
     <div style={{ width: '400px' }}>
       <form onSubmit={handleSubmit}>

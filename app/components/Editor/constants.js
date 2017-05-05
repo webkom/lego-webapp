@@ -1,4 +1,3 @@
-
 export const Blocks = {
   Image: 'image',
   Paragraph: 'paragraph',
@@ -10,7 +9,7 @@ export const Blocks = {
   H2: 'font',
   OL: 'list-ol',
   UL: 'list-ul',
-  LI: 'list-item',
+  LI: 'list-item'
 };
 
 export const Inline = {

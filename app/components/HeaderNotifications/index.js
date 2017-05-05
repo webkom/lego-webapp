@@ -13,7 +13,7 @@ type Props = {
   fetchNotifications: () => void,
   notifications: Array<Object>,
   markAllNotifications: () => void,
-  markNotification: (string) => void,
+  markNotification: string => void,
   fetchNotificationData: () => void
 };
 
@@ -21,12 +21,13 @@ type State = {
   notificationsOpen: boolean
 };
 
-const NotificationElement = (
-  {
-    notification,
-    markNotification
-  }: { notification: Object, markNotification: (string) => void }
-) => {
+const NotificationElement = ({
+  notification,
+  markNotification
+}: {
+  notification: Object,
+  markNotification: string => void
+}) => {
   const renders = activityRenderers[notification.verb];
 
   if (renders) {
@@ -94,11 +95,7 @@ export default class NotificationsDropdown extends Component {
   };
 
   render() {
-    const {
-      notificationsData,
-      fetchNotifications,
-      notifications
-    } = this.props;
+    const { notificationsData, fetchNotifications, notifications } = this.props;
     const { unreadCount } = notificationsData;
 
     return (
@@ -109,7 +106,7 @@ export default class NotificationsDropdown extends Component {
             {
               notificationsOpen: !this.state.notificationsOpen
             },
-            () => this.state.notificationsOpen ? fetchNotifications() : null
+            () => (this.state.notificationsOpen ? fetchNotifications() : null)
           )}
         triggerComponent={
           <Icon.Badge name="notifications" badgeCount={unreadCount} />

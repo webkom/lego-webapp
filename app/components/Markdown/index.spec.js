@@ -11,9 +11,9 @@ describe('<Markdown />', () => {
       </Markdown>
     );
 
-    expect(
-      wrapper.html()
-    ).toEqual('<div><p><strong>Hello World</strong></p>\n</div>');
+    expect(wrapper.html()).toEqual(
+      '<div><p><strong>Hello World</strong></p>\n</div>'
+    );
   });
 
   it('should throw on invalid children', () => {

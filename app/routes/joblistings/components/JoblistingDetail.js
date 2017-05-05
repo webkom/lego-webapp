@@ -27,7 +27,7 @@ const JoblistingDetail = ({ joblisting }) => {
   return (
     <div className={styles.root}>
       <div className={styles.coverImage}>
-        <Image src='http://placehold.it/1000x300' />
+        <Image src="http://placehold.it/1000x300" />
       </div>
       <h1>{joblisting.title}</h1>
       <FlexRow>
@@ -44,16 +44,16 @@ const JoblistingDetail = ({ joblisting }) => {
               Søknadsfrist:
               {' '}
               <strong>
-                <Time
-                  time={joblisting.deadline}
-                  format='ll HH:mm'
-                />
+                <Time time={joblisting.deadline} format="ll HH:mm" />
               </strong>
             </li>
             <li>
               Søk her:
               {' '}
-              <a href={`${joblisting.applicationUrl}`} className={styles.applicationUrl}>
+              <a
+                href={`${joblisting.applicationUrl}`}
+                className={styles.applicationUrl}
+              >
                 {joblisting.applicationUrl}
               </a>
             </li>

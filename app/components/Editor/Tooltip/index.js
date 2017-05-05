@@ -8,8 +8,8 @@ import styles from './Tooltip.css';
 export type Props = {
   editorState: object,
   disableBlocks: boolean,
-  setInlineStyle: (String) => void,
-  setBlockType: (String) => void,
+  setInlineStyle: String => void,
+  setBlockType: String => void,
   wrapperElement: object
 };
 

@@ -15,7 +15,7 @@ type Props = {
   onChange: () => void,
   value: ?string,
   showTimePicker?: boolean,
-  format: string,
+  format: string
 };
 
 function parseDateValue(value) {
@@ -41,20 +41,21 @@ class DatePicker extends Component {
   };
 
   onNext = () => {
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       date: prevState.date.clone().add(1, 'month')
     }));
   };
 
   onPrev = () => {
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       date: prevState.date.clone().subtract(1, 'month')
     }));
   };
 
   onChange = (day: moment) => {
-    this.setState((prevState) => {
-      const value = day.clone()
+    this.setState(prevState => {
+      const value = day
+        .clone()
         .hour(prevState.value.hour())
         .minute(prevState.value.minute());
 
@@ -66,8 +67,9 @@ class DatePicker extends Component {
   };
 
   onChangeTime = (time: moment) => {
-    this.setState((prevState) => {
-      const value = prevState.value.clone()
+    this.setState(prevState => {
+      const value = prevState.value
+        .clone()
         .hour(time.hour())
         .minute(time.minute());
 
@@ -80,7 +82,7 @@ class DatePicker extends Component {
   _notifyParent = () => this.props.onChange(this.state.value.toString());
 
   toggleDropdown = () => {
-    this.setState((prevState) => ({
+    this.setState(prevState => ({
       pickerOpen: !prevState.pickerOpen
     }));
   };
@@ -93,22 +95,22 @@ class DatePicker extends Component {
       <Dropdown
         show={this.state.pickerOpen}
         toggle={this.toggleDropdown}
-        triggerComponent={(
+        triggerComponent={
           <TextInput
             className={styles.inputField}
             disabled
             value={this.state.value.format(this.props.format)}
           />
-        )}
-        componentClass='div'
+        }
+        componentClass="div"
         contentClassName={styles.dropdown}
         style={{ flex: 1 }}
       >
         <div className={styles.datePicker}>
           <div className={styles.header}>
-            <button onClick={this.onPrev}><Icon name='angle-left' /></button>
+            <button onClick={this.onPrev}><Icon name="angle-left" /></button>
             <h3>{date.format('MMMM YYYY')}</h3>
-            <button onClick={this.onNext}><Icon name='angle-right' /></button>
+            <button onClick={this.onNext}><Icon name="angle-right" /></button>
           </div>
 
           <div className={styles.calendar}>
@@ -118,7 +120,8 @@ class DatePicker extends Component {
                 className={cx(
                   styles.calendarItem,
                   dateProps.prevOrNextMonth && styles.prevOrNextMonth,
-                  dateProps.day.isSame(this.state.value, 'day') && styles.selectedDate
+                  dateProps.day.isSame(this.state.value, 'day') &&
+                    styles.selectedDate
                 )}
                 onClick={() => this.onChange(dateProps.day)}
                 disabled={dateProps.prevOrNextMonth}
@@ -128,12 +131,11 @@ class DatePicker extends Component {
             ))}
           </div>
 
-          {showTimePicker && (
+          {showTimePicker &&
             <TimePicker
               value={this.state.value}
               onChange={this.onChangeTime}
-            />
-          )}
+            />}
         </div>
       </Dropdown>
     );

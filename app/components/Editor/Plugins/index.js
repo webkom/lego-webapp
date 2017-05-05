@@ -33,7 +33,8 @@ const blocks = [
     trigger: '-',
     before: /^(--)$/,
     after: /^$/,
-    transform: (transform) => transform
+    transform: transform =>
+      transform
         .setBlock({ type: Blocks.Break, isVoid: true })
         .collapseToStartOfNextBlock()
   })

@@ -7,13 +7,10 @@ function extractWatchedProps<Props: Object>(
   watchProps: Array<$Enum<Props>>,
   props: Props
 ): $Shape<Props> {
-  return watchProps.reduce(
-    (total, key) => {
-      total[key] = props[key];
-      return total;
-    },
-    {}
-  );
+  return watchProps.reduce((total, key) => {
+    total[key] = props[key];
+    return total;
+  }, {});
 }
 
 /**

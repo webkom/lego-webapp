@@ -22,7 +22,7 @@ function Footer() {
         </div>
         <div className={styles.section}>
           <h2>Kontakt oss</h2>
-          <a href='mailto:abakus@abakus.no'>abakus@abakus.no</a><br />
+          <a href="mailto:abakus@abakus.no">abakus@abakus.no</a><br />
           7491 Trondheim<br />
         </div>
       </div>

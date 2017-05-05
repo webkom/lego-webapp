@@ -11,27 +11,27 @@ const InterestGroupForm = ({ handleSubmit, buttonText, header }) => (
     <h1>{header}</h1>
     <Field
       className={styles.textInput}
-      placeholder='Name'
-      name='name'
+      placeholder="Name"
+      name="name"
       component={TextInput.Field}
     />
     <Field
       className={styles.textEditor}
-      placeholder='Description'
-      name='description'
+      placeholder="Description"
+      name="description"
       component={TextEditor.Field}
     />
     <Field
       className={styles.textEditor}
-      placeholder='Text'
-      name='text'
+      placeholder="Text"
+      name="text"
       component={TextEditor.Field}
     />
     <div className={styles.content}>
       <div>
         <Upload>Last opp bilde</Upload>
       </div>
-      <Button type='submit'>{buttonText}</Button>
+      <Button type="submit">{buttonText}</Button>
     </div>
   </form>
 );
@@ -56,9 +56,9 @@ function mapStateToProps(state, props) {
   if (props.group) {
     return {
       initialValues: {
-        'name': props.group.name || '',
-        'description': props.group.description || '',
-        'text': props.group.text || ''
+        name: props.group.name || '',
+        description: props.group.description || '',
+        text: props.group.text || ''
       }
     };
   }
@@ -70,4 +70,5 @@ export default compose(
   reduxForm({
     form: 'interestGroupForm',
     validate: validateInterestGroup
-  }))(InterestGroupForm);
+  })
+)(InterestGroupForm);

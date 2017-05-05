@@ -10,9 +10,7 @@ export const quotes = [
     createdAt: '2015-11-07T22:05:36.881015Z',
     id: 1,
     likes: 1,
-    permissions: [
-      'can_approve'
-    ],
+    permissions: ['can_approve'],
     source: 'kotlarz',
     text: 'test quote 1',
     title: 'test title 1',
@@ -30,9 +28,7 @@ export const quotes = [
     createdAt: '2015-11-08T22:05:36.881015Z',
     id: 2,
     likes: 0,
-    permissions: [
-      'can_approve'
-    ],
+    permissions: ['can_approve'],
     source: 'finn',
     text: 'test quote 2',
     title: 'test title 2',

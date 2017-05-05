@@ -12,7 +12,10 @@ function JoblistingItem({ joblisting }) {
       <FlexRow>
         <FlexColumn>
           <Link to={`/joblistings/${joblisting.id}/`}>
-            <Image src='http://placehold.it/120x80' className={styles.companyLogo} />
+            <Image
+              src="http://placehold.it/120x80"
+              className={styles.companyLogo}
+            />
           </Link>
         </FlexColumn>
         <FlexColumn>
@@ -28,10 +31,7 @@ function JoblistingItem({ joblisting }) {
       </FlexRow>
       <FlexColumn className={styles.deadLine}>
         <div>
-          <Time
-            time={joblisting.deadline}
-            format='ll HH:mm'
-          />
+          <Time time={joblisting.deadline} format="ll HH:mm" />
         </div>
       </FlexColumn>
     </FlexRow>
@@ -50,20 +50,14 @@ function JoblistingListGroup({ joblistings = [] }) {
         </FlexColumn>
       </FlexRow>
       {joblistings.map((joblisting, i) => (
-        <JoblistingItem
-          key={i}
-          joblisting={joblisting}
-        />
-        )
-      )}
+        <JoblistingItem key={i} joblisting={joblisting} />
+      ))}
     </div>
   );
 }
 
 const JoblistingsList = ({ joblistings }) => (
-  <JoblistingListGroup
-    joblistings={joblistings}
-  />
+  <JoblistingListGroup joblistings={joblistings} />
 );
 
 export default JoblistingsList;

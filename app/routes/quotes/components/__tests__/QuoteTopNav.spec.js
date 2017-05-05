@@ -3,14 +3,14 @@ import QuoteTopNav from '../QuoteTopNav';
 import { shallow } from 'enzyme';
 import { createQuotes } from './fixtures/quotes';
 
-const props = ({
+const props = {
   routeParams: {
     filter: undefined
   },
   route: {
     path: 'quotes'
   }
-});
+};
 
 const emptyProps = () => ({
   // Just to remove warnings from npm test
@@ -21,7 +21,9 @@ const emptyProps = () => ({
 describe('components', () => {
   describe('QuoteTopNav', () => {
     it('should show sort icons if page is a list of approved/unapproved quotes', () => {
-      const wrapper = shallow(<QuoteTopNav {...emptyProps()} {...props} quotes={createQuotes} />);
+      const wrapper = shallow(
+        <QuoteTopNav {...emptyProps()} {...props} quotes={createQuotes} />
+      );
       expect(wrapper.find('.sortQuote').exists()).toBe(true);
     });
   });

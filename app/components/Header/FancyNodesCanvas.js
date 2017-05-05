@@ -22,17 +22,14 @@ class FancyNodesCanvas extends Component {
 
   _canvas: any;
 
-  handleResize = debounce(
-    (e: any) => {
-      this.setState(
-        {
-          width: e.target.innerWidth
-        },
-        () => this.drawGraphics()
-      );
-    },
-    70
-  );
+  handleResize = debounce((e: any) => {
+    this.setState(
+      {
+        width: e.target.innerWidth
+      },
+      () => this.drawGraphics()
+    );
+  }, 70);
 
   componentDidMount() {
     this.setState({ width: global.innerWidth }, () => this.drawGraphics());

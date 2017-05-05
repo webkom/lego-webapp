@@ -6,14 +6,11 @@ import { Link } from 'react-router';
 
 export type Props = {
   interestGroups: Array
-}
+};
 
 const InterestGroupList = (props: Props) => {
   const groups = props.interestGroups.map((group, key) => (
-    <InterestGroup
-      group={group}
-      key={key}
-    />
+    <InterestGroup group={group} key={key} />
   ));
   return (
     <div className={styles.root}>
@@ -21,7 +18,9 @@ const InterestGroupList = (props: Props) => {
         <div>
           <h1>Interessegrupper</h1>
           <p>
-            <strong>Her</strong> finner du all praktisk informasjon knyttet til våre
+            <strong>Her</strong>
+            {' '}
+            finner du all praktisk informasjon knyttet til våre
             interessegrupper.
           </p>
         </div>
@@ -29,7 +28,7 @@ const InterestGroupList = (props: Props) => {
           <Button>Lag ny interessegruppe</Button>
         </Link>
       </div>
-      <div className='groups'>
+      <div className="groups">
         {groups}
       </div>
     </div>

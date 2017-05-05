@@ -20,6 +20,7 @@ const mapDispatchToProps = { fetchAll, login, logout };
 export default compose(
   replaceUnlessLoggedIn(PublicFrontpage),
   dispatched(({ loggedIn }, dispatch) =>
-    dispatch(fetchAll({ dateAfter: moment().format('YYYY-MM-DD') }))),
+    dispatch(fetchAll({ dateAfter: moment().format('YYYY-MM-DD') }))
+  ),
   connect(mapStateToProps, mapDispatchToProps)
 )(Overview);

@@ -35,29 +35,28 @@ export default function createWebSocketMiddleware() {
       };
     };
 
-    return next =>
-      action => {
-        if (action.type === 'REHYDRATED') {
-          makeSocket(store.getState().auth.token);
-          return next(action);
+    return next => action => {
+      if (action.type === 'REHYDRATED') {
+        makeSocket(store.getState().auth.token);
+        return next(action);
+      }
+
+      if (action.type === User.LOGIN.SUCCESS) {
+        makeSocket(action.payload.token);
+        return next(action);
+      }
+
+      if (action.type === User.LOGOUT) {
+        if (socket) {
+          socket.close();
         }
 
-        if (action.type === User.LOGIN.SUCCESS) {
-          makeSocket(action.payload.token);
-          return next(action);
-        }
-
-        if (action.type === User.LOGOUT) {
-          if (socket) {
-            socket.close();
-          }
-
-          socket = null;
-
-          return next(action);
-        }
+        socket = null;
 
         return next(action);
-      };
+      }
+
+      return next(action);
+    };
   };
 }

@@ -24,9 +24,13 @@ type Props = {
   change: func
 };
 
-function MeetingEditor(
-  { handleSubmit, handleSubmitCallback, meetingId, meeting, change }: Props
-) {
+function MeetingEditor({
+  handleSubmit,
+  handleSubmitCallback,
+  meetingId,
+  meeting,
+  change
+}: Props) {
   const isEditPage = meetingId !== undefined;
   if (isEditPage && !meeting) {
     return <LoadingIndicator loading />;

@@ -10,9 +10,9 @@ import styles from './TimePicker.css';
 function TimePickerInput({ onNext, onPrev, ...props }) {
   return (
     <div className={styles.timePickerInput}>
-      <button type='button' onClick={onNext}><Icon name='angle-up' /></button>
+      <button type="button" onClick={onNext}><Icon name="angle-up" /></button>
       <TextInput {...props} />
-      <button type='button' onClick={onPrev}><Icon name='angle-down' /></button>
+      <button type="button" onClick={onPrev}><Icon name="angle-down" /></button>
     </div>
   );
 }
@@ -41,27 +41,36 @@ class TimePicker extends Component {
   };
 
   onNext = (unit: string) => () => {
-    this.setState((prevState) => ({
-      value: prevState.value.clone().add(1, unit)
-    }), this.commit);
+    this.setState(
+      prevState => ({
+        value: prevState.value.clone().add(1, unit)
+      }),
+      this.commit
+    );
   };
 
   onNextHour = this.onNext('hour');
   onNextMinute = this.onNext('minute');
 
   onPrev = (unit: string) => () => {
-    this.setState((prevState) => ({
-      value: prevState.value.clone().subtract(1, unit)
-    }), this.commit);
+    this.setState(
+      prevState => ({
+        value: prevState.value.clone().subtract(1, unit)
+      }),
+      this.commit
+    );
   };
 
   onPrevHour = this.onPrev('hour');
   onPrevMinute = this.onPrev('minute');
 
   onChange = (unit: 'hour' | 'minute') => () => {
-    this.setState({
-      value: this.state.value.clone()[unit].call(null, 1)
-    }, this.commit);
+    this.setState(
+      {
+        value: this.state.value.clone()[unit].call(null, 1)
+      },
+      this.commit
+    );
   };
 
   commit = () => this.props.onChange(this.state.value);

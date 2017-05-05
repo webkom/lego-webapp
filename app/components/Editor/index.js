@@ -12,7 +12,7 @@ const html = new Html({ rules });
 
 export type Props = {
   content?: string,
-  uploadFile?: (Object) => void,
+  uploadFile?: Object => void,
   autoFocus?: boolean,
   placeholder?: string,
   onChange?: func,

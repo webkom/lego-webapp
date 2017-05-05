@@ -3,7 +3,10 @@ import { connect } from 'react-redux';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { fetchArticle } from 'app/actions/ArticleActions';
 import ArticleDetail from './components/ArticleDetail';
-import { selectArticleById, selectCommentsForArticle } from 'app/reducers/articles';
+import {
+  selectArticleById,
+  selectCommentsForArticle
+} from 'app/reducers/articles';
 
 function loadData({ articleId }, props) {
   props.fetchArticle(Number(articleId));
@@ -25,5 +28,5 @@ const mapDispatchToProps = { fetchArticle };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['articleId', 'loggedIn'], loadData),
+  fetchOnUpdate(['articleId', 'loggedIn'], loadData)
 )(ArticleDetail);

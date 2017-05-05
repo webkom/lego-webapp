@@ -54,7 +54,8 @@ class JoinEventForm extends Component {
     if (currentTime.isAfter(moment(startTime))) {
       // Do nothing
     } else if (
-      poolActivationTime.isBefore(currentTime) || this.props.registration
+      poolActivationTime.isBefore(currentTime) ||
+      this.props.registration
     ) {
       this.setState({
         formOpen: true,
@@ -70,17 +71,14 @@ class JoinEventForm extends Component {
         time: poolActivationTime
       });
       const interval = 10000;
-      this.counter = setInterval(
-        () => {
-          const diff = duration - interval;
-          duration = moment.duration(diff, 'milliseconds');
-          if (diff < 600000) {
-            clearInterval(this.counter);
-            this.initiateCountdown(duration);
-          }
-        },
-        interval
-      );
+      this.counter = setInterval(() => {
+        const diff = duration - interval;
+        duration = moment.duration(diff, 'milliseconds');
+        if (diff < 600000) {
+          clearInterval(this.counter);
+          this.initiateCountdown(duration);
+        }
+      }, interval);
     } else {
       this.initiateCountdown(duration);
     }
@@ -89,28 +87,25 @@ class JoinEventForm extends Component {
   initiateCountdown(duration) {
     const interval = 1000;
     duration += 1000;
-    this.counter = setInterval(
-      () => {
-        duration = moment.duration(duration, 'milliseconds') - interval;
-        if (duration <= 1000) {
-          clearInterval(this.counter);
-          this.setState({
-            time: null,
-            buttonOpen: true
-          });
-          return;
-        }
-        if (duration < 60000) {
-          this.setState({
-            captchaOpen: true
-          });
-        }
+    this.counter = setInterval(() => {
+      duration = moment.duration(duration, 'milliseconds') - interval;
+      if (duration <= 1000) {
+        clearInterval(this.counter);
         this.setState({
-          time: moment(duration).format('mm:ss')
+          time: null,
+          buttonOpen: true
         });
-      },
-      interval
-    );
+        return;
+      }
+      if (duration < 60000) {
+        this.setState({
+          captchaOpen: true
+        });
+      }
+      this.setState({
+        time: moment(duration).format('mm:ss')
+      });
+    }, interval);
     this.setState({
       formOpen: true
     });
@@ -121,14 +116,16 @@ class JoinEventForm extends Component {
       return handleSubmit(() =>
         this.props.onSubmit({
           type
-        }));
+        })
+      );
     }
     return handleSubmit(values =>
       this.props.onSubmit({
         captchaResponse: values.captchaResponse,
         feedback: values[feedbackName],
         type
-      }));
+      })
+    );
   };
 
   render() {
@@ -150,7 +147,8 @@ class JoinEventForm extends Component {
     const joinTitle = !registration ? 'MELD DEG PÅ' : 'AVREGISTRER';
     const registrationType = !registration ? 'register' : 'unregister';
     const feedbackName = getFeedbackName(event.feedbackRequired);
-    const showStripe = event.isPriced &&
+    const showStripe =
+      event.isPriced &&
       registration &&
       registration.pool &&
       !['pending', 'succeeded'].includes(registration.chargeStatus);
@@ -248,7 +246,8 @@ function validateEventForm(data) {
   const errors = {};
 
   if (!data.feedbackRequired) {
-    errors.feedbackRequired = 'Tilbakemelding er påkrevet for dette arrangementet';
+    errors.feedbackRequired =
+      'Tilbakemelding er påkrevet for dette arrangementet';
   }
 
   if (!data.captchaResponse) {

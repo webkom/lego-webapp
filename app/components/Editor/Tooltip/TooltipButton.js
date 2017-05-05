@@ -7,7 +7,7 @@ export type Props = {
   isActive: boolean,
   type: string,
   icon: string,
-  onClick: (e) => 'string'
+  onClick: e => 'string'
 };
 
 export default (props: Props) => (

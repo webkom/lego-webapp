@@ -20,19 +20,20 @@ const BLOCK_TAGS = {
   hr: Blocks.Break
 };
 
-const getBlockType = (el) => {
+const getBlockType = el => {
   const type = BLOCK_TAGS[el.tagName];
   if (type) {
     return type;
   }
   if (el.tagName === 'div' && el.attribs['data-block-type']) {
     switch (el.attribs['data-block-type']) {
-      case 'image': return Blocks.Image;
+      case 'image':
+        return Blocks.Image;
     }
   }
 };
 
-const isVoid = (type) => {
+const isVoid = type => {
   if (type === Blocks.Image || type === Blocks.Break) {
     return true;
   }
@@ -80,20 +81,30 @@ export default [
       if (object.kind !== 'block') return;
       const data = object.data.toJS();
       switch (object.type) {
-        case Blocks.Image: return (
-          <div data-block-type='image' data-block-layout={data.blockLayout}>
-            <img data-file-key={data.fileKey} src={data.src} />
-          </div>
-        );
-        case Blocks.Break: return <hr />;
-        case Blocks.Paragraph: return object.text !== '' ? <p>{children}</p> : <br />;
-        case Blocks.Blockquote: return <blockquote>{children}</blockquote>;
-        case Blocks.Cite: return <cite>{children}</cite>;
-        case Blocks.H1: return <h1>{children}</h1>;
-        case Blocks.H2: return <h2>{children}</h2>;
-        case Blocks.OL: return <ol>{children}</ol>;
-        case Blocks.UL: return <ul>{children}</ul>;
-        case Blocks.LI: return <li>{children}</li>;
+        case Blocks.Image:
+          return (
+            <div data-block-type="image" data-block-layout={data.blockLayout}>
+              <img data-file-key={data.fileKey} src={data.src} />
+            </div>
+          );
+        case Blocks.Break:
+          return <hr />;
+        case Blocks.Paragraph:
+          return object.text !== '' ? <p>{children}</p> : <br />;
+        case Blocks.Blockquote:
+          return <blockquote>{children}</blockquote>;
+        case Blocks.Cite:
+          return <cite>{children}</cite>;
+        case Blocks.H1:
+          return <h1>{children}</h1>;
+        case Blocks.H2:
+          return <h2>{children}</h2>;
+        case Blocks.OL:
+          return <ol>{children}</ol>;
+        case Blocks.UL:
+          return <ul>{children}</ul>;
+        case Blocks.LI:
+          return <li>{children}</li>;
       }
     }
   },
@@ -111,11 +122,16 @@ export default [
     serialize(object, children) {
       if (object.kind !== 'mark') return;
       switch (object.type) {
-        case Inline.Bold: return <strong>{children}</strong>;
-        case Inline.Code: return <code>{children}</code>;
-        case Inline.Italic: return <em>{children}</em>;
-        case Inline.Underline: return <u>{children}</u>;
-        case Inline.Striketrough: return <strike>{children}</strike>;
+        case Inline.Bold:
+          return <strong>{children}</strong>;
+        case Inline.Code:
+          return <code>{children}</code>;
+        case Inline.Italic:
+          return <em>{children}</em>;
+        case Inline.Underline:
+          return <u>{children}</u>;
+        case Inline.Striketrough:
+          return <strike>{children}</strike>;
       }
     }
   }

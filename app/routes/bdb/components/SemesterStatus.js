@@ -41,9 +41,7 @@ export default class SemesterStatus extends Component {
 
         <select
           onChange={this.editSemester}
-          value={
-            `${companyId}-${semIndex}-${semesterStatus.id}-${semesterStatus.contactedStatus}`
-          }
+          value={`${companyId}-${semIndex}-${semesterStatus.id}-${semesterStatus.contactedStatus}`}
         >
           {Object.keys(statusStrings).map((statusString, j) => (
             <option

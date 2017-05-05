@@ -24,7 +24,6 @@ class AttendanceModal extends Component {
     activePoolIndex: 0
   };
 
-
   togglePool = (index: number) => {
     this.setState({
       activePoolIndex: index

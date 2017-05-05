@@ -53,7 +53,8 @@ export default class BdbDetail extends Component {
 
     const semesters = company.semesterStatuses
       .sort(
-        (a, b) => a.year === b.year ? a.semester - b.semester : b.year - a.year
+        (a, b) =>
+          a.year === b.year ? a.semester - b.semester : b.year - a.year
       )
       .map((status, i) => (
         <tr key={i}>
@@ -242,9 +243,7 @@ export default class BdbDetail extends Component {
               />
               <InfoBubble
                 icon={'user'}
-                data={
-                  `${company.studentContact.firstName} ${company.studentContact.lastName}`
-                }
+                data={`${company.studentContact.firstName} ${company.studentContact.lastName}`}
                 meta={'Studentkontakt'}
                 style={{ order: 2 }}
               />

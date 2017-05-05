@@ -7,16 +7,16 @@ import Icon from 'app/components/Icon';
 import styles from './Dropdown.css';
 
 type Props = {
-  iconName: string;
-  toggle: () => any;
-  className?: string;
-  contentClassName?: string | boolean;
-  componentClass: any;
-  triggerComponent?: React.Element<*>;
-  show: boolean;
-  children?: any;
-  style?: any;
-  placement: 'top' | 'bottom' | 'left' | 'right';
+  iconName: string,
+  toggle: () => any,
+  className?: string,
+  contentClassName?: string | boolean,
+  componentClass: any,
+  triggerComponent?: React.Element<*>,
+  show: boolean,
+  children?: any,
+  style?: any,
+  placement: 'top' | 'bottom' | 'left' | 'right'
 };
 
 class Dropdown extends Component {
@@ -57,7 +57,9 @@ class Dropdown extends Component {
     return (
       <ComponentClass
         onClick={toggle}
-        ref={(target) => { this.target = target; }}
+        ref={target => {
+          this.target = target;
+        }}
         className={className}
         style={style}
       >

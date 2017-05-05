@@ -4,10 +4,7 @@ import styles from './Content.css';
 
 function Content({ children, className, ...htmlAttributes }) {
   return (
-    <div
-      className={cx(styles.content, className)}
-      {...htmlAttributes}
-    >
+    <div className={cx(styles.content, className)} {...htmlAttributes}>
       {children}
     </div>
   );

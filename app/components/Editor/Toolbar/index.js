@@ -10,7 +10,7 @@ import { findDOMNode } from 'slate';
 export type Props = {
   editorState: object,
   isPublic: boolean,
-  insertBlock: (properties) => void,
+  insertBlock: properties => void,
   setBlockData: (key, data) => void,
   wrapperElement: object
 };
@@ -36,7 +36,8 @@ export default class Toolbar extends Component {
     const { editorState } = this.props;
     if (!this.container) return;
 
-    const visible = editorState.isCollapsed &&
+    const visible =
+      editorState.isCollapsed &&
       editorState.startBlock.type === 'paragraph' &&
       editorState.startText.text === '' &&
       !editorState.isBlurred;

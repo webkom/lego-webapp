@@ -4,16 +4,20 @@ import { reduxForm, Field } from 'redux-form';
 import { TextEditor, Button } from 'app/components/Form';
 
 type Props = {
-  addQuotes: (Object) => void,
+  addQuotes: Object => void,
   invalid: boolean,
   pristine: boolean,
   submitting: boolean,
   handleSubmit: () => void
 };
 
-const AddQuote = (
-  { addQuotes, invalid, pristine, submitting, handleSubmit }: Props
-) => {
+const AddQuote = ({
+  addQuotes,
+  invalid,
+  pristine,
+  submitting,
+  handleSubmit
+}: Props) => {
   const disabledButton = invalid || pristine || submitting;
 
   return (

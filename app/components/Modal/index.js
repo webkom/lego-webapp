@@ -20,10 +20,18 @@ class Modal extends Component {
   modal: ReactModal;
 
   render() {
-    const { children, onHide, closeOnBackdropClick, backdrop, ...props } = this.props;
+    const {
+      children,
+      onHide,
+      closeOnBackdropClick,
+      backdrop,
+      ...props
+    } = this.props;
     return (
       <ReactModal
-        ref={(ref) => { this.modal = ref; }}
+        ref={ref => {
+          this.modal = ref;
+        }}
         className={styles.modal}
         backdropClassName={styles.backdrop}
         onHide={onHide}
@@ -34,7 +42,7 @@ class Modal extends Component {
           {!closeOnBackdropClick && this.modal && this.modal.renderBackdrop()}
           <div className={cx(styles.content, props.contentClassName)}>
             <button onClick={onHide} className={styles.closeButton}>
-              <Icon name='close' />
+              <Icon name="close" />
             </button>
             {children}
           </div>

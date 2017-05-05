@@ -46,12 +46,7 @@ export default class AddSemester extends Component {
   props: Props;
 
   render() {
-    const {
-      companyId,
-      submitting,
-      autoFocus,
-      handleSubmit
-    } = this.props;
+    const { companyId, submitting, autoFocus, handleSubmit } = this.props;
 
     return (
       <div className={styles.root}>

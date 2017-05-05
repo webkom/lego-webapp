@@ -21,10 +21,7 @@ const onKeyDown = (e, data, state) => {
       return;
   }
 
-  state = state
-    .transform()
-    .toggleMark(mark)
-    .apply();
+  state = state.transform().toggleMark(mark).apply();
 
   e.preventDefault();
   return state;

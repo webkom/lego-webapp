@@ -19,19 +19,17 @@ export default class AddCompany extends Component {
     active: true
   };
 
-  onSubmit = (
-    {
-      name,
-      description = '',
-      adminComment = '',
-      website = '',
-      studentContact = '',
-      phone = '',
-      companyType = '',
-      paymentMail = '',
-      address = ''
-    }
-  ) => {
+  onSubmit = ({
+    name,
+    description = '',
+    adminComment = '',
+    website = '',
+    studentContact = '',
+    phone = '',
+    companyType = '',
+    paymentMail = '',
+    address = ''
+  }) => {
     const { active } = this.state;
     this.props.addCompany({
       name,
@@ -50,11 +48,7 @@ export default class AddCompany extends Component {
   props: Props;
 
   render() {
-    const {
-      submitting,
-      autoFocus,
-      handleSubmit
-    } = this.props;
+    const { submitting, autoFocus, handleSubmit } = this.props;
 
     return (
       <div className={styles.root}>
