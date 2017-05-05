@@ -1,16 +1,7 @@
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
 import { formValueSelector } from 'redux-form';
-import {
-  fetchEvent,
-  editEvent,
-  deleteEvent,
-  register,
-  unregister,
-  payment,
-  updateFeedback
-} from 'app/actions/EventActions';
+import { fetchEvent, editEvent, deleteEvent } from 'app/actions/EventActions';
 import EventEditor from './components/EventEditor';
 import {
   selectEventById,
@@ -27,7 +18,7 @@ function getRegistrationsFromPools(pools = []) {
 }
 
 const mapStateToProps = (state, props) => {
-  const { params: { eventId }, currentUser } = props;
+  const { params: { eventId } } = props;
   const event = selectEventById(state, { eventId });
   const actionGrant = state.events.actionGrant;
   const pools = selectPoolsWithRegistrationsForEvent(state, { eventId });
@@ -60,8 +51,6 @@ const mapStateToProps = (state, props) => {
     event: {
       ...event,
       isPriced: valueSelector(state, 'isPriced'),
-      useStripe: valueSelector(state, 'useStripe'),
-      useCaptcha: valueSelector(state, 'useCaptcha'),
       eventType: valueSelector(state, 'eventType')
     },
     eventId,

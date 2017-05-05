@@ -1,18 +1,14 @@
 // @flow
 
 import styles from './EventEditor.css';
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import Image from 'app/components/Image';
 import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
-import Icon from 'app/components/Icon';
-import Markdown from 'app/components/Markdown';
-import JoinEventForm from '../JoinEventForm';
 import RegisteredCell from '../RegisteredCell';
 import RegisteredSummary from '../RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import Tag from 'app/components/Tag';
-import Time from 'app/components/Time';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field } from 'redux-form';
 import {
@@ -21,7 +17,6 @@ import {
   SelectInput,
   TextInput,
   CheckBox,
-  TextEditor,
   Button,
   DatePicker
 } from 'app/components/Form';
@@ -44,6 +39,7 @@ type Props = {
   registrations: Array<Object>,
   poolsWithWaitingRegistrations: Array<Object>,
   waitingRegistrations: Array<Object>,
+  change: void,
   isUserInterested: boolean,
   handleSubmit: void => void,
   handleSubmitCallback: void,
@@ -195,7 +191,6 @@ function EventEditor({
                 </span>
                 <Field
                   name="isPriced"
-                  checked={event.isPriced && true}
                   fieldClassName={styles.metaField}
                   className={styles.formField}
                   component={CheckBox.Field}
@@ -211,7 +206,6 @@ function EventEditor({
                     </span>
                     <Field
                       name="useStripe"
-                      checked={event.useStripe && true}
                       fieldClassName={styles.metaField}
                       className={styles.formField}
                       component={CheckBox.Field}
@@ -261,7 +255,6 @@ function EventEditor({
                   </span>
                   <Field
                     name="useCaptcha"
-                    checked={event.useCaptcha && true}
                     fieldClassName={styles.metaField}
                     className={styles.formField}
                     component={CheckBox.Field}
