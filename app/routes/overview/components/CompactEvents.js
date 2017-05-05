@@ -68,7 +68,7 @@ export default class CompactEvents extends Component {
     }
     return (
       <Flex column>
-        <Flex row className={styles.compactEvents}>
+        <Flex className={styles.compactEvents}>
           <Flex column className={styles.compactLeft}>
             <h3 className="u-ui-heading">Bedriftspresentasjoner</h3>
             <ul

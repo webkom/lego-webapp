@@ -142,7 +142,11 @@ export default class EventDetail extends Component {
               {event.tags.map((tag, i) => <Tag key={i} tag={tag} />)}
             </Flex>
           </Flex>
-          <Flex column className={styles.meta} style={{ background: metaColor }}>
+          <Flex
+            column
+            className={styles.meta}
+            style={{ background: metaColor }}
+          >
             <ul>
               {event.company &&
                 <li>

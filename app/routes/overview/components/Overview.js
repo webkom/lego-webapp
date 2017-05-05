@@ -58,7 +58,7 @@ function PrimaryItem({ event }) {
 
 const OverviewItem = ({ event, showImage }) => (
   <Flex column className={styles.item}>
-    <Flex row className={styles.inner}>
+    <Flex className={styles.inner}>
       <Flex column>
         {showImage &&
           <Link
@@ -128,7 +128,7 @@ export default class Overview extends Component {
     return (
       <Content>
         <Helmet title="Hjem" />
-        <Flex row style={{ justifyContent: 'space-between' }}>
+        <Flex style={{ justifyContent: 'space-between' }}>
           <Flex column style={{ width: '65%' }}>
             <CompactEvents events={events} />
             <PrimaryItem event={events[0]} />

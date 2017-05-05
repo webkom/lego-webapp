@@ -44,25 +44,23 @@ export function fetchAdministrate(eventId) {
   });
 }
 
-export function createEvent(
-  {
-    id,
-    title,
-    startTime,
-    endTime,
-    description,
-    text,
-    eventType,
-    company,
-    location,
-    isPriced,
-    useStripe,
-    priceMember,
-    mergeTime,
-    useCaptcha,
-    tags
-  }
-) {
+export function createEvent({
+  id,
+  title,
+  startTime,
+  endTime,
+  description,
+  text,
+  eventType,
+  company,
+  location,
+  isPriced,
+  useStripe,
+  priceMember,
+  mergeTime,
+  useCaptcha,
+  tags
+}) {
   return callAPI({
     types: Event.CREATE,
     endpoint: '/events/',
@@ -91,25 +89,23 @@ export function createEvent(
   });
 }
 
-export function editEvent(
-  {
-    id,
-    title,
-    startTime,
-    endTime,
-    description,
-    text,
-    eventType,
-    company,
-    location,
-    isPriced,
-    useStripe,
-    priceMember,
-    mergeTime,
-    useCaptcha,
-    tags
-  }
-) {
+export function editEvent({
+  id,
+  title,
+  startTime,
+  endTime,
+  description,
+  text,
+  eventType,
+  company,
+  location,
+  isPriced,
+  useStripe,
+  priceMember,
+  mergeTime,
+  useCaptcha,
+  tags
+}) {
   return dispatch =>
     dispatch(
       callAPI({

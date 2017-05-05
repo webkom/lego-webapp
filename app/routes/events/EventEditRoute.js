@@ -27,12 +27,7 @@ function getRegistrationsFromPools(pools = []) {
 }
 
 const mapStateToProps = (state, props) => {
-  const {
-    params: {
-      eventId
-    },
-    currentUser
-  } = props;
+  const { params: { eventId }, currentUser } = props;
   const event = selectEventById(state, { eventId });
   const actionGrant = state.events.actionGrant;
   const pools = selectPoolsWithRegistrationsForEvent(state, { eventId });

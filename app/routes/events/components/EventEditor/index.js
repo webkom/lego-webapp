@@ -45,7 +45,7 @@ type Props = {
   poolsWithWaitingRegistrations: Array<Object>,
   waitingRegistrations: Array<Object>,
   isUserInterested: boolean,
-  handleSubmit: (void) => void,
+  handleSubmit: void => void,
   handleSubmitCallback: void,
   companyResult: Object,
   onQueryChanged: (query: string) => void,
@@ -56,28 +56,26 @@ type Props = {
 /**
  *
  */
-function EventEditor(
-  {
-    event,
-    eventId,
-    loggedIn,
-    currentUser,
-    actionGrant,
-    error,
-    loading,
-    pools,
-    registrations,
-    poolsWithWaitingRegistrations,
-    waitingRegistrations,
-    change,
-    handleSubmit,
-    handleSubmitCallback,
-    companyResult,
-    onQueryChanged,
-    searching,
-    deleteEvent
-  }: Props
-) {
+function EventEditor({
+  event,
+  eventId,
+  loggedIn,
+  currentUser,
+  actionGrant,
+  error,
+  loading,
+  pools,
+  registrations,
+  poolsWithWaitingRegistrations,
+  waitingRegistrations,
+  change,
+  handleSubmit,
+  handleSubmitCallback,
+  companyResult,
+  onQueryChanged,
+  searching,
+  deleteEvent
+}: Props) {
   const isEditPage = eventId !== undefined;
   if (!actionGrant.includes('update')) {
     return null;
@@ -207,9 +205,7 @@ function EventEditor(
                 <div>
                   <li className={styles.metaList}>
                     <span style={{ display: 'flex' }}>
-                      <Tooltip
-                        content="Manuell betaling kan også hukes av i etterkant"
-                      >
+                      <Tooltip content="Manuell betaling kan også hukes av i etterkant">
                         Betaling igjennom Abakus.no
                       </Tooltip>
                     </span>
@@ -295,7 +291,8 @@ function EventEditor(
                 .map(pool =>
                   pool.permissionGroups.map(group => (
                     <li key={group.id}>{group.name}</li>
-                  )))}
+                  ))
+                )}
             </ul>
           </FlexColumn>
 

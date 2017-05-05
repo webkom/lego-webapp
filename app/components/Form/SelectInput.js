@@ -13,14 +13,19 @@ type Props = {
   fetching: boolean,
   className?: string,
   selectStyle?: string,
-  onBlur: (any) => void,
+  onBlur: any => void,
   value: any,
   options?: {}[]
 };
 
-function SelectInput(
-  { fetching, selectStyle, onBlur, value, options = [], ...props }: Props
-) {
+function SelectInput({
+  fetching,
+  selectStyle,
+  onBlur,
+  value,
+  options = [],
+  ...props
+}: Props) {
   if (props.tags) {
     return (
       <Select.Creatable
