@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
 import CompanyInterestPage from './components/CompanyInterestPage';
 
-const mapDispatchToProps = { createCompanyInterest };
+const mapDispatchToProps = { onSubmit: createCompanyInterest };
 
 export default compose(
   connect(null, mapDispatchToProps),

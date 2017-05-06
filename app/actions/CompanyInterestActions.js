@@ -2,14 +2,23 @@ import { CompanyInterestForm } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
 import { addNotification } from 'app/actions/NotificationActions';
 
-export default function createCompanyInterest(
+export default function createCompanyInterest({
   companyName,
-  personName,
+  contactPerson,
   mail,
   comment,
-  semesterList,
-  eventList
-) {
+  semester0,
+  semester1,
+  semester2,
+  semester3,
+  companyPresentation,
+  course,
+  lunchPresentation,
+  readme,
+  collaboration,
+  bedex,
+  itdagene
+}) {
   return dispatch => {
     dispatch(
       callAPI({
@@ -18,11 +27,20 @@ export default function createCompanyInterest(
         method: 'POST',
         body: {
           companyName,
-          personName,
+          contactPerson,
           mail,
           comment,
-          semesterList,
-          eventList
+          semester0,
+          semester1,
+          semester2,
+          semester3,
+          companyPresentation,
+          course,
+          lunchPresentation,
+          readme,
+          collaboration,
+          bedex,
+          itdagene
         },
         meta: {
           errorMessage: 'Creating CompanyInterestForm failed'

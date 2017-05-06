@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
-import styles from 'app/routes/interestgroups/components/InterestGroup.css';
-import companyStyle
-  from 'app/routes/companyInterest/components/CompanyInterest.css';
+import styles from 'app/routes/companyInterest/components/CompanyInterest.css';
 import { TextEditor, TextInput, Button, CheckBox } from 'app/components/Form';
 import { Field } from 'redux-form';
 import { ImageUpload } from 'app/components/Upload';
 
 const EVENT_TYPES = [
-  { label: 'Bedriftspresentasjon', name: 'bedpres' },
+  { label: 'Bedriftspresentasjon', name: 'companyPresentation' },
   { label: 'Kurs', name: 'course' },
-  { label: 'Lunsjpresentasjon', name: 'lunch' }
+  { label: 'Lunsjpresentasjon', name: 'lunchPresentation' }
 ];
 
 const ACTIVITY_TYPES = [
@@ -24,17 +22,19 @@ const isFirstSemester = () => new Date().getMonth() + 1 < 6;
 const getInputField = (label, placeholder, name) => (
   <div>
     <b className="smallHeading">
-      <label htmlFor={name} className={companyStyle.smallHeading}>
+      <label htmlFor={name} className={styles.smallHeading}>
         {label}
       </label>
     </b>
 
-    <Field
-      className={styles.textInput}
-      placeholder={placeholder}
-      name={name}
-      component={TextInput.Field}
-    />
+    <div className={styles.inputField}>
+      <Field
+        className={styles.textInput}
+        placeholder={placeholder}
+        name={name}
+        component={TextInput.Field}
+      />
+    </div>
   </div>
 );
 
@@ -55,41 +55,47 @@ const getSemesterBoxes = () => {
       ];
 
   return labels.map((item, index) => (
-    <div className={companyStyle.checkbox}>
-      <Field
-        key={`semester-${index}`}
-        id={`semester-${index}`}
-        name={`semester-${index}`}
-        component={CheckBox.Field}
-      />
-      <span>{item}</span>
+    <div className={styles.checkbox}>
+      <div className={styles.checkboxField}>
+        <Field
+          key={`semester${index}`}
+          id={`semester${index}`}
+          name={`semester${index}`}
+          component={CheckBox.Field}
+        />
+      </div>
+      <span className={styles.checkboxSpan}>{item}</span>
     </div>
   ));
 };
 
 const getEventBoxes = () =>
   EVENT_TYPES.map((item, index) => (
-    <div className={companyStyle.checkbox}>
-      <Field
-        key={`event-${index}`}
-        name={item.name}
-        component={CheckBox.Field}
-      />
-      <span>{item.label}</span>
+    <div className={styles.checkbox}>
+      <div className={styles.checkboxField}>
+        <Field
+          id={`event-${index}`}
+          key={`event-${index}`}
+          name={item.name}
+          component={CheckBox.Field}
+        />
+      </div>
+      <span className={styles.checkboxSpan}>{item.label}</span>
     </div>
   ));
 
-// React.createElement(Checkbox, { id: 'dsadsa', label: item })
-
 const getActivityBoxes = () =>
   ACTIVITY_TYPES.map((item, index) => (
-    <div className={companyStyle.checkbox}>
-      <Field
-        key={`activity-${index}`}
-        name={item.name}
-        component={CheckBox.Field}
-      />
-      <span>{item.label}</span>
+    <div className={styles.checkbox}>
+      <div className={styles.checkboxField}>
+        <Field
+          id={`event-${index}`}
+          key={`activity-${index}`}
+          name={item.name}
+          component={CheckBox.Field}
+        />
+      </div>
+      <span className={styles.checkboxActivitySpan}>{item.label}</span>
     </div>
   ));
 
@@ -107,29 +113,20 @@ export default class CompanyInterestPage extends Component {
       activities: getActivityBoxes()
     };
   }
-
-  onSubmit = ({ companyName, personName, mail, comment }) =>
-    this.props.createCompanyInterest(
-      companyName,
-      personName,
-      mail,
-      comment,
-      this.state.semesterList,
-      this.state.eventList
-    );
-
   props: Props;
 
   render() {
     const { handleSubmit } = this.props;
     return (
       <div className={styles.root}>
-        <form onSubmit={handleSubmit(this.onSubmit)}>
-          <h1 className={companyStyle.mainHeading}>{'Meld interesse'}</h1>
-          {getInputField('Navn på bedrift', 'Bedriftsnavn', 'companyName')}
-          {getInputField('Kontaktperson', 'Martin Mc Kulesen', 'contactPerson')}
-          {getInputField('E-post', 'example@domain.com', 'contactPerson')}
-          <div className={companyStyle.checkboxWrapper}>
+        <form onSubmit={handleSubmit}>
+          <h1 className={styles.mainHeading}>{'Meld interesse'}</h1>
+          <div className={styles.nameField}>
+            {getInputField('Navn på bedrift', 'Bedriftsnavn', 'companyName')}
+            {getInputField('Kontaktperson', 'Ola Nordmann', 'contactPerson')}
+          </div>
+          {getInputField('E-post', 'example@domain.com', 'mail')}
+          <div className={styles.checkboxWrapper}>
 
             <div id="semester">
               <b className="smallHeading">
@@ -158,22 +155,24 @@ export default class CompanyInterestPage extends Component {
           </div>
 
           <b className="smallHeading">
-            <label htmlFor="comment" className={companyStyle.smallHeading}>
+            <label htmlFor="comment" className={styles.smallHeading}>
               Kommentar
             </label>
           </b>
-          <Field
-            className={styles.textEditor}
-            placeholder="Skriv eventuell kommentar"
-            name="comment"
-            component={TextEditor.Field}
-          />
+
+          <div className={styles.textEditor}>
+            <Field
+              placeholder="Skriv eventuell kommentar"
+              name="comment"
+              component={TextEditor.Field}
+            />
+          </div>
 
           <div className={styles.content}>
             <div className={styles.upload}>
               <ImageUpload>Last opp bilde</ImageUpload>
             </div>
-            <Button type="submit" className={companyStyle.smallHeading}>
+            <Button type="submit" className={styles.smallHeading}>
               {'Opprett bedriftsinteresse'}
             </Button>
           </div>

@@ -1,7 +1,28 @@
+.root {
+  composes: container from 'app/styles/utilities.css';
+}
+
 .checkboxWrapper {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin-right: 250px;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 200px;
+  width: 900px;
+}
+
+.upload {
+  width: 400px;
+}
+
+.textEditor {
+  width: 900px;
 }
 
 .smallHeading {
@@ -24,8 +45,39 @@
 .checkbox {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
+  justify-content: space-between;
+  margin-right: 30px;
+}
+
+.checkboxSpan {
+  width: 140px;
+}
+
+.heading {
+  color: #777;
+  letter-spacing: 2px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.checkboxActivitySpan {
   width: 200px;
-  height: 100px;
+}
+
+.checkboxField {
+  width: 30px;
+  margin-top: 4px;
+}
+
+.inputField {
+  width: 410px;
+}
+
+.nameField {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-right: 200px;
 }
