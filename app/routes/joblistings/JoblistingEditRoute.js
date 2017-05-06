@@ -30,17 +30,21 @@ function mapStateToProps(state, props) {
   const formSelector = formValueSelector('joblistingEditor');
   const company = formSelector(state, 'company');
   const joblisting = selectJoblistingById(state, { joblistingId });
+  console.log('company22', selectCompanyById(state, { companyId: company }));
   return {
     joblisting,
     initialValues: {
       ...joblisting,
+      text: joblisting.text || '<p></p>',
+      description: joblisting.description || '<p></p>',
       company: joblisting.company && {
         label: joblisting.company.name,
         value: joblisting.company.id
       },
-      workplaces: joblisting.workplaces
-        .map(workplace => workplace.town)
-        .join(',')
+      workplaces: joblisting.workplaces.map(workplace => ({
+        label: workplace.town,
+        value: workplace.town
+      }))
     },
     joblistingId,
     results: selectAutocomplete(state),
