@@ -334,10 +334,6 @@ option {
   width: 30px;
 }
 
-.editInfo label::before {
-  top: 4px !important;
-}
-
 .editTitle {
   width: 250px !important;
   font-size: 30px !important;
