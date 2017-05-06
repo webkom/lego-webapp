@@ -12,6 +12,7 @@ import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocomplete } from 'app/reducers/search';
 import { debounce } from 'lodash';
+import moment from 'moment';
 
 const getRegistrationsFromPools = (pools = []) =>
   pools.reduce((users, pool) => [...users, ...pool.registrations], []);

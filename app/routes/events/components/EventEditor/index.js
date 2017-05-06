@@ -23,6 +23,7 @@ import {
 import { eventTypes, colorForEvent } from '../../utils.js';
 import Admin from '../Admin';
 import Tooltip from 'app/components/Tooltip';
+import moment from 'moment';
 
 /**
  *
@@ -63,14 +64,28 @@ const renderPools = ({
     {fields.map((pool, index) => (
       <li key={index}>
         <h4>Pool #{index + 1}</h4>
-        <Field name={`${pool}.name`} component={TextInput.Field} />
         <Field
-          name={`${pool}.capacity`}
-          type="number"
+          name={`${pool}.name`}
+          fieldClassName={styles.poolField}
           component={TextInput.Field}
         />
         <Field
+          label="Kapasitet"
+          name={`${pool}.capacity`}
+          type="number"
+          fieldClassName={styles.poolField}
+          component={TextInput.Field}
+        />
+        <Field
+          label="Aktiveringstidspunkt"
+          name="activationDate"
+          fieldClassName={styles.poolField}
+          component={DatePicker.Field}
+        />
+        <Field
+          label="Grupper med rettighet"
           name={`${pool}.permissionGroups`}
+          fieldClassName={styles.poolField}
           component={SelectInput.Field}
           options={autocompleteResult}
           onSearch={query => groupQueryChanged(query)}
@@ -86,6 +101,7 @@ const renderPools = ({
           fields.push({
             name: '',
             registrations: [],
+            activationDate: moment().toISOString(),
             permissionGroups: []
           })}
       >
@@ -289,15 +305,6 @@ function EventEditor({
                     component={DatePicker.Field}
                   />
                 </div>
-                <div className={styles.metaList}>
-                  <span>Bruk Captcha ved påmelding</span>
-                  <Field
-                    name="useCaptcha"
-                    fieldClassName={styles.metaField}
-                    className={styles.formField}
-                    component={CheckBox.Field}
-                  />
-                </div>
                 <Admin
                   actionGrant={actionGrant}
                   event={event}
@@ -308,6 +315,15 @@ function EventEditor({
         </FlexRow>
         <FlexRow>
           <FlexColumn className={styles.join}>
+            <div className={styles.metaList}>
+              <span>Bruk Captcha ved påmelding</span>
+              <Field
+                name="useCaptcha"
+                fieldClassName={styles.metaField}
+                className={styles.formField}
+                component={CheckBox.Field}
+              />
+            </div>
             <Button submit>LAGRE</Button>
 
             <Link to={`/events/${event.id}`}>
@@ -321,7 +337,7 @@ function EventEditor({
               {(pools || [])
                 .map(pool =>
                   (pool.permissionGroups || [])
-                    .map(group => <li key={group.id}>{group.name}</li>)
+                    .map(group => <li key={group.value}>{group.label}</li>)
                 )}
             </ul>
           </FlexColumn>

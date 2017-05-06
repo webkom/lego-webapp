@@ -92,6 +92,14 @@
   display: flex;
 }
 
+.poolField {
+  margin-bottom: 0;
+}
+
+.poolField input {
+  padding: 5px;
+}
+
 .joinHeader {
   font-size: 20px;
   color: #333;
