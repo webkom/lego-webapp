@@ -9,7 +9,8 @@ import {
   TextEditor,
   TextInput,
   DatePicker,
-  SelectInput
+  SelectInput,
+  EditorField
 } from 'app/components/Form';
 import Button from 'app/components/Button';
 import moment from 'moment';
@@ -128,16 +129,11 @@ function JoblistingEditor(
     </FlexRow>
   );
 
-  const textEditorComponent = (text, name, placeholder, rows) => (
+  const textEditorComponent = (text, name, placeholder) => (
     <FlexRow className={styles.row}>
       <FlexColumn className={styles.des}>{text} </FlexColumn>
       <FlexColumn className={styles.textfield}>
-        <Field
-          placeholder={placeholder}
-          name={name}
-          rows={rows}
-          component={TextEditor.Field}
-        />
+        <Field name={name} component={EditorField} placeholder={placeholder} />
       </FlexColumn>
     </FlexRow>
   );
@@ -160,10 +156,12 @@ function JoblistingEditor(
               options={results}
               fetching={searching}
               onSearch={query => onQueryChanged(query)}
-              simpleValue
               onChange={newValue => {
-                if (!company || Number(newValue[0]) !== company.id) {
-                  fetchCompany(newValue[0]).then(() => {
+                console.log('asd', newValue, company);
+                if (
+                  !company || Number(newValue.value) !== joblisting.company.id
+                ) {
+                  fetchCompany(newValue.value).then(() => {
                     dispatch(
                       change('joblistingEditor', 'responsible', {
                         label: 'Ingen',
@@ -210,13 +208,9 @@ function JoblistingEditor(
 
         {fieldComponent('Søknadslenke: ', 'applicationUrl', 'Søknadslenke')}
 
-        {textEditorComponent(
-          'Søknadsintro: ',
-          'description',
-          'Søknadsintro',
-          '7'
-        )}
-        {textEditorComponent('Søknadstekst: ', 'text', 'Søknadstekst', '15')}
+        {textEditorComponent('Søknadsintro: ', 'description', 'Søknadsintro')}
+
+        {textEditorComponent('Søknadstekst: ', 'text', 'Søknadstekst')}
 
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Kontaktperson: </FlexColumn>

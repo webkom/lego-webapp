@@ -125,7 +125,7 @@ export function editJoblisting(
 ) {
   return dispatch => {
     dispatch(startSubmit('joblistingEditor'));
-
+    console.log('responsible', responsible);
     dispatch(
       callAPI({
         types: Joblistings.EDIT,
