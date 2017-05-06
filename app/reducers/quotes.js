@@ -7,15 +7,16 @@ import { createSelector } from 'reselect';
 export default createEntityReducer({
   key: 'quotes',
   types: {
-    fetch: Quote.FETCH,
-    mutate: Quote.ADD
+    fetch: Quote.FETCH
   },
   mutate(state, action) {
     switch (action.type) {
       case Quote.DELETE.SUCCESS:
+      case Quote.UNAPPROVE.SUCCESS:
+      case Quote.APPROVE.SUCCESS:
         return {
           ...state,
-          items: state.items.filter(id => action.meta.quoteId !== id)
+          items: state.items.filter(id => id !== action.meta.quoteId)
         };
 
       default:
