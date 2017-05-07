@@ -12,7 +12,6 @@ import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocomplete } from 'app/reducers/search';
 import { debounce } from 'lodash';
-import moment from 'moment';
 
 const getRegistrationsFromPools = (pools = []) =>
   pools.reduce((users, pool) => [...users, ...pool.registrations], []);
@@ -27,12 +26,6 @@ const mapStateToProps = (state, props) => {
   const waitingRegistrations = selectWaitingRegistrationsForEvent(state, {
     eventId
   });
-  if (waitingRegistrations.length > 0) {
-    pools.push({
-      name: 'Venteliste',
-      registrations: waitingRegistrations
-    });
-  }
   const valueSelector = formValueSelector('eventEditor');
   return {
     initialValues: {
@@ -42,12 +35,7 @@ const mapStateToProps = (state, props) => {
         permissionGroups: (pool.permissionGroups || [])
           .map(group => ({ label: group.name, value: group.id }))
       })),
-      company: event.company
-        ? {
-            label: event.company.name,
-            value: event.company.id
-          }
-        : {}
+      company: {}
     },
     actionGrant,
     event: {

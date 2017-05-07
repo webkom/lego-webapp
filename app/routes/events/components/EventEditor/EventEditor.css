@@ -60,6 +60,10 @@
   color: #fff;
 }
 
+.fieldShadow {
+  box-shadow: 0 0 10px #394B59;
+}
+
 .openFor {
   background: #CACACA;
   padding: 20px;

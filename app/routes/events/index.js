@@ -25,6 +25,13 @@ export default {
       ]
     },
     {
+      path: 'create',
+      ...resolveAsyncRoute(
+        () => import('./EventCreateRoute'),
+        () => require('./EventCreateRoute')
+      )
+    },
+    {
       path: ':eventId',
       ...resolveAsyncRoute(
         () => import('./EventDetailRoute'),

@@ -23,6 +23,7 @@ import {
 import { eventTypes, colorForEvent } from '../../utils.js';
 import Admin from '../Admin';
 import Tooltip from 'app/components/Tooltip';
+import cx from 'classnames';
 import moment from 'moment';
 
 /**
@@ -53,6 +54,21 @@ type Props = {
 /**
  *
  */
+
+const FieldElement = ({ text, name, component, ...props }) => {
+  return (
+    <div className={styles.metaList}>
+      <span>{text}</span>
+      <Field
+        {...props}
+        name={name}
+        fieldClassName={styles.metaField}
+        className={styles.formField}
+        component={component}
+      />
+    </div>
+  );
+};
 
 const renderPools = ({
   fields,
@@ -131,7 +147,7 @@ function EventEditor({
   deleteEvent
 }: Props) {
   const isEditPage = eventId !== undefined;
-  if (!actionGrant.includes('update')) {
+  if (isEditPage && !actionGrant.includes('update')) {
     return null;
   }
 
@@ -146,12 +162,13 @@ function EventEditor({
 
   return (
     <div className={styles.root}>
-      <h2>
-        <Link to={`/events/${eventId}`}>
-          <i className="fa fa-angle-left" />
-          {` ${event.title}`}
-        </Link>
-      </h2>
+      {isEditPage &&
+        <h2>
+          <Link to={`/events/${eventId}`}>
+            <i className="fa fa-angle-left" />
+            {` ${event.title}`}
+          </Link>
+        </h2>}
       <div className={styles.coverImage}>
         <Image src={event.cover} />
       </div>
@@ -159,12 +176,14 @@ function EventEditor({
         <FlexRow alignItems="center" justifyContent="space-between">
           <Field
             name="title"
+            placeholder="Tittel"
             className={styles.title}
             component={TextInput.Field}
           />
         </FlexRow>
         <Field
           name="description"
+          placeholder="Beskrivelse"
           className={styles.description}
           component={TextInput.Field}
         />
@@ -176,7 +195,7 @@ function EventEditor({
               placeholder="Write your event here..."
             />
             <FlexRow className={styles.tagRow}>
-              {event.tags.map((tag, i) => <Tag key={i} tag={tag} />)}
+              {(event.tags || []).map((tag, i) => <Tag key={i} tag={tag} />)}
             </FlexRow>
           </FlexColumn>
           <FlexColumn className={styles.meta} style={{ background: metaColor }}>
@@ -185,10 +204,7 @@ function EventEditor({
                 <span>Hva</span>
                 <Field
                   name="eventType"
-                  fieldClassName={styles.metaField}
-                  fieldStyle={{
-                    boxShadow: '0 0 10px #394B59'
-                  }}
+                  fieldClassName={cx(styles.metaField, styles.fieldShadow)}
                   simpleValue
                   component={SelectInput.Field}
                   options={Object.keys(eventTypes).map(type => ({
@@ -202,10 +218,7 @@ function EventEditor({
                 <span>Arrangerende bedrift</span>
                 <Field
                   name="company"
-                  fieldClassName={styles.metaField}
-                  fieldStyle={{
-                    boxShadow: '0 0 10px #394B59'
-                  }}
+                  fieldClassName={cx(styles.metaField, styles.fieldShadow)}
                   component={SelectInput.Field}
                   options={autocompleteResult}
                   onSearch={query => companyQueryChanged(query)}
@@ -213,80 +226,57 @@ function EventEditor({
                   fetching={searching}
                 />
               </li>
-              <li className={styles.metaList}>
-                <span>Starter</span>
-                <Field
-                  name="startTime"
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                  component={DatePicker.Field}
-                />
-              </li>
-              <li className={styles.metaList}>
-                <span>Slutter</span>
-                <Field
-                  name="endTime"
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                  component={DatePicker.Field}
-                />
-              </li>
-              <li className={styles.metaList}>
-                <span>Finner sted i</span>
-                <Field
-                  name="location"
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                  component={TextInput.Field}
-                />
-              </li>
-              <li className={styles.metaList}>
-                <span>Betalt arrangement</span>
-                <Field
-                  name="isPriced"
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                  component={CheckBox.Field}
-                />
-              </li>
+              <FieldElement
+                text="Starter"
+                name="startTime"
+                component={DatePicker.Field}
+              />
+              <FieldElement
+                text="Slutter"
+                name="endTime"
+                component={DatePicker.Field}
+              />
+              <FieldElement
+                text="Finner sted i"
+                name="location"
+                component={TextInput.Field}
+              />
+              <FieldElement
+                text="Betalt arrangement"
+                name="isPriced"
+                component={CheckBox.Field}
+              />
               {event.isPriced &&
                 <div>
-                  <li className={styles.metaList}>
-                    <span>
+                  <FieldElement
+                    text={
                       <Tooltip content="Manuell betaling kan også hukes av i etterkant">
                         Betaling igjennom Abakus.no
                       </Tooltip>
-                    </span>
-                    <Field
-                      name="useStripe"
-                      fieldClassName={styles.metaField}
-                      className={styles.formField}
-                      component={CheckBox.Field}
-                    />
-                  </li>
-                  <li className={styles.metaList}>
-                    <span>Pris medlem</span>
-                    <Field
-                      name="priceMember"
-                      type="number"
-                      fieldClassName={styles.metaField}
-                      className={styles.formField}
-                      component={TextInput.Field}
-                    />
-                  </li>
+                    }
+                    name="useStripe"
+                    component={CheckBox.Field}
+                  />
+                  <FieldElement
+                    text="Pris medlem"
+                    name="priceMember"
+                    type="number"
+                    component={TextInput.Field}
+                  />
                 </div>}
             </ul>
             {loggedIn &&
               <FlexItem>
                 <h3>Påmeldte:</h3>
                 <FlexRow className={styles.registeredThumbnails}>
-                  {registrations
-                    .slice(0, 10)
-                    .map(reg => (
-                      <RegisteredCell key={reg.user.id} user={reg.user} />
-                    ))}
+                  {registrations &&
+                    registrations
+                      .slice(0, 10)
+                      .map(reg => (
+                        <RegisteredCell key={reg.user.id} user={reg.user} />
+                      ))}
                 </FlexRow>
-                <RegisteredSummary registrations={registrations} />
+                <RegisteredSummary registrations={[]} />
                 <AttendanceStatus title="Påmeldte" pools={pools} />
                 <div className={styles.metaList}>
                   <FieldArray
@@ -296,15 +286,11 @@ function EventEditor({
                     groupQueryChanged={groupQueryChanged}
                   />
                 </div>
-                <div className={styles.metaList}>
-                  <span>Merge time</span>
-                  <Field
-                    name="mergeTime"
-                    fieldClassName={styles.metaField}
-                    className={styles.formField}
-                    component={DatePicker.Field}
-                  />
-                </div>
+                <FieldElement
+                  text="Merge time"
+                  name="mergeTime"
+                  component={DatePicker.Field}
+                />
                 <Admin
                   actionGrant={actionGrant}
                   event={event}
@@ -315,20 +301,17 @@ function EventEditor({
         </FlexRow>
         <FlexRow>
           <FlexColumn className={styles.join}>
-            <div className={styles.metaList}>
-              <span>Bruk Captcha ved påmelding</span>
-              <Field
-                name="useCaptcha"
-                fieldClassName={styles.metaField}
-                className={styles.formField}
-                component={CheckBox.Field}
-              />
-            </div>
+            <FieldElement
+              text="Bruk Captcha ved påmelding"
+              name="useCaptcha"
+              component={CheckBox.Field}
+            />
             <Button submit>LAGRE</Button>
 
-            <Link to={`/events/${event.id}`}>
-              <Button>TILBAKE</Button>
-            </Link>
+            {isEditPage &&
+              <Link to={`/events/${event.id}`}>
+                <Button>TILBAKE</Button>
+              </Link>}
           </FlexColumn>
 
           <FlexColumn className={styles.openFor}>
@@ -341,7 +324,6 @@ function EventEditor({
                 )}
             </ul>
           </FlexColumn>
-
         </FlexRow>
       </Form>
     </div>

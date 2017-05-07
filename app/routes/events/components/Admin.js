@@ -19,33 +19,37 @@ export default class Admin extends Component {
     const { actionGrant, event } = this.props;
     return (
       <div>
-        <ul>
-          <li><strong>Admin</strong></li>
-          {actionGrant.includes('update') &&
-            <li>
-              <Link
-                to={`/events/${event.id}/administrate`}
-                style={{ color: 'white' }}
-              >
-                Påmeldinger
-              </Link>
-            </li>}
-          {actionGrant.includes('update') &&
-            <li>
-              <Link to={`/events/${event.id}/edit`} style={{ color: 'white' }}>
-                Rediger
-              </Link>
-            </li>}
-          {actionGrant.includes('destroy') &&
-            <li>
-              <a
-                onClick={() => this.handleDelete(event.id)}
-                style={{ color: 'white' }}
-              >
-                {this.state.verifyDelete ? 'Er du sikker?' : 'Slett'}
-              </a>
-            </li>}
-        </ul>
+        {actionGrant.length > 0 &&
+          <ul>
+            <li><strong>Admin</strong></li>
+            {actionGrant.includes('update') &&
+              <li>
+                <Link
+                  to={`/events/${event.id}/administrate`}
+                  style={{ color: 'white' }}
+                >
+                  Påmeldinger
+                </Link>
+              </li>}
+            {actionGrant.includes('update') &&
+              <li>
+                <Link
+                  to={`/events/${event.id}/edit`}
+                  style={{ color: 'white' }}
+                >
+                  Rediger
+                </Link>
+              </li>}
+            {actionGrant.includes('destroy') &&
+              <li>
+                <a
+                  onClick={() => this.handleDelete(event.id)}
+                  style={{ color: 'white' }}
+                >
+                  {this.state.verifyDelete ? 'Er du sikker?' : 'Slett'}
+                </a>
+              </li>}
+          </ul>}
       </div>
     );
   }
