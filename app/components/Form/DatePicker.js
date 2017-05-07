@@ -108,9 +108,13 @@ class DatePicker extends Component {
       >
         <div className={styles.datePicker}>
           <div className={styles.header}>
-            <button onClick={this.onPrev}><Icon name="angle-left" /></button>
+            <button onClick={this.onPrev}>
+              <Icon name="arrow-back" />
+            </button>
             <h3>{date.format('MMMM YYYY')}</h3>
-            <button onClick={this.onNext}><Icon name="angle-right" /></button>
+            <button onClick={this.onNext}>
+              <Icon name="arrow-forward" />
+            </button>
           </div>
 
           <div className={styles.calendar}>
