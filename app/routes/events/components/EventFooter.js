@@ -1,3 +1,4 @@
+//@flow
 import React from 'react';
 import { Link } from 'react-router';
 import styles from './EventFooter.css';
@@ -27,9 +28,10 @@ const icalTypes = [
 
 const getIcalUrl = (icalToken, icalType) =>
   `${config.serverUrl}/calendar/ical/${icalType}/?token=${icalToken}`;
-const getIcalUrlGoogle = (icalToken, icalType) =>
-  `https://www.google.com/calendar/render?cid=${getIcalUrl(icalToken, icalType)}`;
-
+const getIcalUrlGoogle = (icalToken, icalType) => {
+  const icalUrl = getIcalUrl(icalToken, icalType).replace(/^https/i, 'http');
+  return `https://www.google.com/calendar/render?cid=${icalUrl}`;
+};
 type Props = {
   icalToken: string
 };
