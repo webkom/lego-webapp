@@ -45,7 +45,6 @@ export function fetchAdministrate(eventId) {
 }
 
 export function createEvent({
-  id,
   title,
   startTime,
   endTime,
@@ -61,32 +60,34 @@ export function createEvent({
   useCaptcha,
   tags
 }) {
-  return callAPI({
-    types: Event.CREATE,
-    endpoint: '/events/',
-    method: 'POST',
-    body: {
-      id,
-      title,
-      startTime: moment(startTime).toISOString(),
-      endTime: moment(endTime).toISOString(),
-      description,
-      text,
-      eventType,
-      company: company.value,
-      location,
-      isPriced,
-      useStripe,
-      priceMember,
-      mergeTime: moment(mergeTime).toISOString(),
-      useCaptcha,
-      tags
-    },
-    schema: eventSchema,
-    meta: {
-      errorMessage: 'Creating event failed'
-    }
-  });
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: Event.CREATE,
+        endpoint: '/events/',
+        method: 'POST',
+        body: {
+          title,
+          startTime: moment(startTime).toISOString(),
+          endTime: moment(endTime).toISOString(),
+          description,
+          text,
+          eventType,
+          company: company.value,
+          location,
+          isPriced,
+          useStripe,
+          priceMember,
+          mergeTime: moment(mergeTime).toISOString(),
+          useCaptcha,
+          tags
+        },
+        schema: eventSchema,
+        meta: {
+          errorMessage: 'Creating event failed'
+        }
+      })
+    ).then(res => dispatch(push(`/events/${res.payload.result}/`)));
 }
 
 export function editEvent({

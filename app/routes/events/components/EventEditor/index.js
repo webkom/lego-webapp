@@ -144,7 +144,9 @@ function EventEditor({
   companyQueryChanged,
   groupQueryChanged,
   searching,
-  deleteEvent
+  deleteEvent,
+  submitting,
+  pristine
 }: Props) {
   const isEditPage = eventId !== undefined;
   if (isEditPage && !actionGrant.includes('update')) {
@@ -306,7 +308,7 @@ function EventEditor({
               name="useCaptcha"
               component={CheckBox.Field}
             />
-            <Button submit>LAGRE</Button>
+            <Button disabled={pristine || submitting} submit>LAGRE</Button>
 
             {isEditPage &&
               <Link to={`/events/${event.id}`}>
@@ -335,6 +337,12 @@ export default reduxForm({
   enableReinitialize: true,
   validate(data) {
     const errors = {};
+    if (!data.title) {
+      errors.title = 'Tittel er påkrevet';
+    }
+    if (!data.description) {
+      errors.description = 'Kalenderbeskrivelse er påkrevet';
+    }
     if (!data.eventType) {
       errors.eventType = 'Arrangementstype er påkrevet';
     }

@@ -18,6 +18,13 @@ export type EventEntity = {
 
 function mutateEvent(state: any, action: any) {
   switch (action.type) {
+    case Event.CREATE.SUCCESS: {
+      return {
+        ...state,
+        byId: omit(state.byId, action.meta.optimisticId),
+        items: state.items.filter(item => item !== action.meta.optimisticId)
+      };
+    }
     case Event.DELETE.SUCCESS: {
       return {
         ...state,
