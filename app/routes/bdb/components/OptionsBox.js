@@ -63,7 +63,7 @@ export default class OptionsBox extends Component {
               className={styles.options}
               style={{ display: this.state.active ? 'block' : 'none' }}
             >
-              <label style={{ display: 'block' }}>
+              <label>
                 <RadioButton
                   name="active"
                   id="active"
@@ -74,7 +74,7 @@ export default class OptionsBox extends Component {
                   Vis bare aktive bedrifter
                 </span>
               </label>
-              <label style={{ display: 'block' }}>
+              <label>
                 <RadioButton
                   name="active"
                   id="inactive"
@@ -100,7 +100,7 @@ export default class OptionsBox extends Component {
               className={styles.options}
               style={{ display: this.state.bedex ? 'block' : 'none' }}
             >
-              <label style={{ display: 'block' }}>
+              <label>
                 <RadioButton
                   name="bedex"
                   id="showBedex"
@@ -111,7 +111,7 @@ export default class OptionsBox extends Component {
                   Vis bedrifter med bedex
                 </span>
               </label>
-              <label style={{ display: 'block' }}>
+              <label>
                 <RadioButton
                   name="bedex"
                   id="hideBedex"
@@ -139,7 +139,7 @@ export default class OptionsBox extends Component {
               className={styles.options}
               style={{ display: this.state.jobOfferOnly ? 'block' : 'none' }}
             >
-              <label style={{ display: 'block' }}>
+              <label>
                 <RadioButton
                   name="jobOfferOnly"
                   id="showJobOfferOnly"
@@ -150,7 +150,7 @@ export default class OptionsBox extends Component {
                   Vis kun bedrifter opprettet for jobbtilbud
                 </span>
               </label>
-              <label style={{ display: 'block' }}>
+              <label>
                 <RadioButton
                   name="jobOfferOnly"
                   id="hideJobOfferOnly"

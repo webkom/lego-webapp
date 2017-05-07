@@ -35,38 +35,35 @@
 [type='radio']:checked + label::before {
   content: '';
   position: absolute;
-  width: 21px;
-  height: 21px;
+  width: 22px;
+  height: 22px;
   border: 1px solid #aaa;
   background: #f8f8f8;
-  border-radius: 9.5px;
+  border-radius: 11px;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 
 /* checked mark aspect */
 [type='radio']:not(:checked) + label::after,
 [type='radio']:checked + label::after {
-  content: '\2022';
+  content: '';
   position: absolute;
-  top: -25px;
-  left: -5px;
-  width: 20px;
-  height: 20px;
-  font-size: 88px;
-  line-height: 0.8;
-  color: #d13c32;
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  background: #d13c32;
   transition: all 0.2s;
 }
 
 /* checked mark aspect changes */
 [type='radio']:not(:checked) + label::after {
   opacity: 0;
-  transform: scale(0);
+  transform: scale(0) translate(-10px, -25px);
 }
 
 [type='radio']:checked + label::after {
   opacity: 1;
-  transform: scale(1);
+  transform: scale(1) translate(3px, 3px);
 }
 
 /* disabled radio */

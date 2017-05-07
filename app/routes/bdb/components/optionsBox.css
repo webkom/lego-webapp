@@ -31,6 +31,10 @@ input {
   margin-left: 20px;
 }
 
+.options > label {
+  display: block;
+}
+
 label {
   display: inline;
   cursor: pointer;
