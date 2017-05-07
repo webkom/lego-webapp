@@ -21,11 +21,9 @@ const isFirstSemester = () => new Date().getMonth() + 1 < 6;
 
 const getInputField = (label, placeholder, name) => (
   <div>
-    <b className="smallHeading">
-      <label htmlFor={name} className={styles.smallHeading}>
-        {label}
-      </label>
-    </b>
+    <label htmlFor={name} className={styles.smallHeading}>
+      {label}
+    </label>
 
     <div className={styles.inputField}>
       <Field
@@ -58,9 +56,9 @@ const getSemesterBoxes = () => {
     <div className={styles.checkbox}>
       <div className={styles.checkboxField}>
         <Field
-          key={`semester${index}`}
-          id={`semester${index}`}
-          name={`semester${index}`}
+          key={`semester-${index}`}
+          id={`semester-${index}`}
+          name={`semester-${index}`}
           component={CheckBox.Field}
         />
       </div>
@@ -89,7 +87,7 @@ const getActivityBoxes = () =>
     <div className={styles.checkbox}>
       <div className={styles.checkboxField}>
         <Field
-          id={`event-${index}`}
+          id={`activity-${index}`}
           key={`activity-${index}`}
           name={item.name}
           component={CheckBox.Field}
@@ -129,36 +127,28 @@ export default class CompanyInterestPage extends Component {
           <div className={styles.checkboxWrapper}>
 
             <div id="semester">
-              <b className="smallHeading">
-                <label htmlFor="semester" className={styles.heading}>
-                  Semester
-                </label>
-              </b>
+              <label htmlFor="semester" className={styles.heading}>
+                Semester
+              </label>
               {this.state.semesters}
             </div>
 
             <div id="arrangementer">
-              <b className="smallHeading">
-                <label htmlFor="arrangementer" className={styles.heading}>
-                  Arrangementer
-                </label>
-              </b>
+              <label htmlFor="arrangementer" className={styles.heading}>
+                Arrangementer
+              </label>
               {this.state.events}
             </div>
 
             <div id="extra">
-              <b className="smallHeading">
-                <label htmlFor="extra" className={styles.heading}>Annet</label>
-              </b>
+              <label htmlFor="extra" className={styles.heading}>Annet</label>
               {this.state.activities}
             </div>
           </div>
 
-          <b className="smallHeading">
-            <label htmlFor="comment" className={styles.smallHeading}>
-              Kommentar
-            </label>
-          </b>
+          <label htmlFor="comment" className={styles.smallHeading}>
+            Kommentar
+          </label>
 
           <div className={styles.textEditor}>
             <Field
@@ -172,7 +162,11 @@ export default class CompanyInterestPage extends Component {
             <div className={styles.upload}>
               <ImageUpload>Last opp bilde</ImageUpload>
             </div>
-            <Button type="submit" className={styles.smallHeading}>
+            <Button
+              type="submit"
+              onSubmit={this.props.createCompanyInterest}
+              className={styles.smallHeading}
+            >
               {'Opprett bedriftsinteresse'}
             </Button>
           </div>
