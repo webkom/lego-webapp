@@ -55,7 +55,6 @@ export function approve(quoteId) {
     types: Quote.APPROVE,
     endpoint: `/quotes/${quoteId}/approve/`,
     method: 'put',
-    schema: quoteSchema,
     meta: {
       errorMessage: 'Approving quote failed',
       quoteId: Number(quoteId)
@@ -68,7 +67,6 @@ export function unapprove(quoteId) {
     types: Quote.UNAPPROVE,
     endpoint: `/quotes/${quoteId}/unapprove/`,
     method: 'put',
-    schema: quoteSchema,
     meta: {
       errorMessage: 'Unapproving quote failed',
       quoteId: Number(quoteId)
