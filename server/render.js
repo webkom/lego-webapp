@@ -46,7 +46,7 @@ function render(req, res, next) {
     );
 
     const respond = () => {
-      const body = renderToString(app);
+      const body = renderToString(app).catch(err);
 
       return res.send(
         renderPage({
@@ -58,8 +58,8 @@ function render(req, res, next) {
     };
 
     prepare(app).then(respond).catch(error => {
-      const err = error.error ? error.payload : error;
-      log.error(err, 'render_error');
+      const err = error.error ? error.payload : error
+      log.error(err, 'render_error')
       Raven.captureException(err);
       respond();
     });
