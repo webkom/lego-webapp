@@ -115,10 +115,10 @@ export default class NotificationsDropdown extends Component {
       >
         {notifications.length
           ? <div>
-              <div style={{ maxHeight: '300px', overflowY: 'scroll' }}>
+              <div style={{ maxHeight: '300px', overflowY: 'overlay' }}>
                 {this.renderNotifications(notifications)}
               </div>
-              <div style={{ textAlign: 'center', padding: '10px' }}>
+              <div className={styles.seeAllWrapper}>
                 <Link onClick={this.seeAll} className={styles.seeAll}>
                   Marker alle som sett
                 </Link>

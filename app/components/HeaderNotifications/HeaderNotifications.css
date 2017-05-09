@@ -6,6 +6,12 @@
   padding: 0;
 }
 
+.seeAllWrapper {
+  text-align: center;
+  padding: 10px;
+  border-top: 1px solid lightgray;
+}
+
 .seeAll {
   align-self: center;
 }
@@ -16,6 +22,10 @@
   padding: 15px;
   display: flex;
   flex-direction: row;
+
+  &:last-child {
+    border-bottom: none;
+  }
 }
 
 .innerNotification {
