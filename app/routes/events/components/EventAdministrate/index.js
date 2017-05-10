@@ -1,19 +1,11 @@
 import styles from './Administrate.css';
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import Image from 'app/components/Image';
-import CommentView from 'app/components/Comments/CommentView';
-import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
-import Button from 'app/components/Button';
-import Icon from 'app/components/Icon';
-import Markdown from 'app/components/Markdown';
-import { AttendanceStatus } from 'app/components/UserAttendance';
-import Tag from 'app/components/Tag';
-import Time from 'app/components/Time';
 import { RegisteredElement, UnregisteredElement } from './RegistrationElements';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import AdminRegisterForm from './AdminRegisterForm';
 import moment from 'moment';
+import { Flex } from 'app/components/Layout';
 
 /**
  *
@@ -30,7 +22,13 @@ export type Props = {
   registered: Array,
   unregistered: Array,
   unregister: () => Promise<*>,
-  usersResult: Array
+  updatePresence: (Number, Number, string) => Promise<*>,
+  updatePayment: (Number, Number, string) => Promise<*>,
+  adminRegister: (Number, Number, Number, string, string) => Promise<*>,
+  usersResult: Array,
+  actionGrant: Array<string>,
+  onQueryChanged: (value: string) => any,
+  searching: boolean
 };
 
 /**
@@ -73,14 +71,11 @@ export default class EventAdministrate extends Component {
       eventId,
       event,
       pools,
-      loggedIn,
-      currentUser,
       actionGrant,
       error,
       loading,
       registered,
       unregistered,
-      unregister,
       usersResult,
       onQueryChanged,
       searching
@@ -107,7 +102,7 @@ export default class EventAdministrate extends Component {
             {` ${event.title}`}
           </Link>
         </h2>
-        <FlexColumn alignItems="center">
+        <Flex column alignItems="center">
           <div className={styles.list}>
             <strong>Adminpåmelding:</strong>
             <AdminRegisterForm
@@ -160,7 +155,7 @@ export default class EventAdministrate extends Component {
               ))}
             </ul>
           </div>
-        </FlexColumn>
+        </Flex>
       </div>
     );
   }

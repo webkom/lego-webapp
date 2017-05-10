@@ -1,6 +1,4 @@
-.root {
-  composes: container from 'app/styles/utilities.css';
-}
+@import '../Event.css';
 
 .title {
   font-size: 24px;
@@ -27,57 +25,8 @@
   box-shadow: 0 0 10px #808080;
 }
 
-.registeredThumbnails {
-  flex-wrap: wrap;
-  width: 300px;
-}
-
-.coverImage {
-  width: 100%;
-  height: 300px;
-  overflow: hidden;
-  position: relative;
-}
-
-.mainRow {
-  margin-bottom: 1em;
-  margin-top: 0.5em;
-}
-
-.description {
-  background: #fff;
-  padding: 20px;
-  border-radius: 5px;
-  flex: 2;
-}
-
-.meta {
-  flex: 1;
-  background: #ba1414;
-  padding: 20px;
-  border-radius: 5px;
-  margin-left: 1em;
-  color: #fff;
-}
-
 .fieldShadow {
   box-shadow: 0 0 10px #394B59;
-}
-
-.openFor {
-  background: #CACACA;
-  padding: 20px;
-  min-width: 340px;
-  border-radius: 5px;
-  margin-left: 1em;
-  flex: 1;
-}
-
-.join {
-  background: #AAA;
-  padding: 20px;
-  border-radius: 5px;
-  flex: 2;
 }
 
 .metaField {
@@ -102,19 +51,4 @@
 
 .poolField input {
   padding: 5px;
-}
-
-.joinHeader {
-  font-size: 20px;
-  color: #333;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.summary {
-  flex-wrap: wrap;
-}
-
-.tagRow {
-  margin-top: 16px;
 }

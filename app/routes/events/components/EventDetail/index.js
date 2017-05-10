@@ -2,13 +2,10 @@
 
 import styles from './EventDetail.css';
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import Image from 'app/components/Image';
 import CommentView from 'app/components/Comments/CommentView';
-import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
-import Markdown from 'app/components/Markdown';
 import JoinEventForm from '../JoinEventForm';
 import RegisteredCell from '../RegisteredCell';
 import RegisteredSummary from '../RegisteredSummary';
@@ -105,7 +102,6 @@ export default class EventDetail extends Component {
       pools,
       registrations,
       currentRegistration,
-      waitingRegistrations,
       deleteEvent
     } = this.props;
 
@@ -185,15 +181,15 @@ export default class EventDetail extends Component {
                 </div>}
             </ul>
             {loggedIn &&
-              <FlexItem>
+              <Flex column>
                 <h3>Påmeldte:</h3>
-                <FlexRow className={styles.registeredThumbnails}>
+                <Flex className={styles.registeredThumbnails}>
                   {registrations
                     .slice(0, 10)
                     .map(reg => (
                       <RegisteredCell key={reg.user.id} user={reg.user} />
                     ))}
-                </FlexRow>
+                </Flex>
                 <RegisteredSummary registrations={registrations} />
                 <AttendanceStatus title="Påmeldte" pools={pools} />
                 <RegistrationMeta
@@ -205,13 +201,13 @@ export default class EventDetail extends Component {
                   event={event}
                   deleteEvent={deleteEvent}
                 />
-              </FlexItem>}
+              </Flex>}
           </Flex>
         </Flex>
 
         <Flex wrapReverse>
           {loggedIn &&
-            <FlexColumn className={styles.join}>
+            <Flex column className={styles.join}>
               <div className={styles.joinHeader}>
                 Bli med på dette arrangementet
               </div>
@@ -225,7 +221,7 @@ export default class EventDetail extends Component {
                   onSubmit={this.handleRegistration}
                 />
               </div>
-            </FlexColumn>}
+            </Flex>}
 
           <Flex column className={styles.openFor}>
             <strong>Åpent for</strong>

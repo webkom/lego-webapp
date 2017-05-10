@@ -53,8 +53,7 @@ const mapStateToProps = (state, props) => {
     eventId,
     pools,
     registrations,
-    currentRegistration,
-    waitingRegistrations
+    currentRegistration
   };
 };
 
