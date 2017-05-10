@@ -3,7 +3,8 @@ import Activty from './activity';
 
 export const activityRenderers = {
   comment: require('./renders/comment'),
-  meeting_invitation: require('./renders/meetingInvitation')
+  meeting_invitation: require('./renders/meetingInvitation'),
+  restricted_mail_sent: require('./renders/restrictedMail')
 };
 
 const Feed = ({ items }) => (
