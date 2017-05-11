@@ -29,7 +29,6 @@ export default class EditCompany extends Component {
     paymentMail = '',
     address = ''
   }) => {
-    console.log('stud', studentContact);
     const { editCompany, company } = this.props;
     editCompany({
       companyId: company.id,

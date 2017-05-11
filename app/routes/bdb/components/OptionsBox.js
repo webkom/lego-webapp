@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styles from './optionsBox.css';
 import { Link } from 'react-router';
+import { CheckBox, RadioButton } from 'app/components/Form';
 
 type Props = {
   companies: Array<Object>,
@@ -53,121 +54,115 @@ export default class OptionsBox extends Component {
 
         <div style={{ display: 'flex' }}>
           <div className={styles.section} style={{ order: 0 }}>
-            <input
-              type="checkBox"
-              value
-              onChange={() => this.toggleSection('active')}
-              id="active"
-            />
-            <label htmlFor="active">Er aktiv</label>
+            <label>
+              <CheckBox onChange={() => this.toggleSection('active')} />
+              <span style={{ marginLeft: '5px' }}>Er aktiv</span>
+            </label>
 
             <div
               className={styles.options}
               style={{ display: this.state.active ? 'block' : 'none' }}
             >
-              <div className={styles.option}>
-                <input
-                  type="radio"
+              <label>
+                <RadioButton
                   name="active"
-                  value
+                  id="active"
+                  inputValue="true"
                   onChange={() => this.updateFilters('active', true)}
-                  id="showActive"
                 />
-                <label htmlFor="showActive">Vis bare aktive bedrifter</label>
-              </div>
-
-              <div className={styles.option}>
-                <input
-                  type="radio"
+                <span style={{ marginLeft: '5px' }}>
+                  Vis bare aktive bedrifter
+                </span>
+              </label>
+              <label>
+                <RadioButton
                   name="active"
-                  value
+                  id="inactive"
+                  inputValue="false"
                   onChange={() => this.updateFilters('active', false)}
-                  id="hideActive"
                 />
-                <label htmlFor="hideActive">Vis bare inaktive bedrifter</label>
-              </div>
+                <span style={{ marginLeft: '5px' }}>
+                  Vis bare inaktive bedrifter
+                </span>
+              </label>
             </div>
           </div>
 
           <div className={styles.section} style={{ order: 0 }}>
-            <input
-              type="checkBox"
-              value
-              onChange={() => this.toggleSection('bedex')}
-              id="bedex"
-            />
-            <label htmlFor="bedex">Har bedex</label>
+            <label>
+              <CheckBox
+                id="bedex"
+                onChange={() => this.toggleSection('bedex')}
+              />
+              <span style={{ marginLeft: '5px' }}>Har bedex</span>
+            </label>
             <div
               className={styles.options}
               style={{ display: this.state.bedex ? 'block' : 'none' }}
             >
-              <div className={styles.option}>
-                <input
-                  type="radio"
+              <label>
+                <RadioButton
                   name="bedex"
-                  value
-                  onChange={() => this.updateFilters('bedex', true)}
                   id="showBedex"
+                  inputValue="true"
+                  onChange={() => this.updateFilters('bedex', true)}
                 />
-                <label htmlFor="showBedex">Vis bedrifter med bedex</label>
-              </div>
-
-              <div className={styles.option}>
-                <input
-                  type="radio"
+                <span style={{ marginLeft: '5px' }}>
+                  Vis bedrifter med bedex
+                </span>
+              </label>
+              <label>
+                <RadioButton
                   name="bedex"
-                  value
-                  onChange={() => this.updateFilters('bedex', false)}
                   id="hideBedex"
+                  inputValue="false"
+                  onChange={() => this.updateFilters('bedex', false)}
                 />
-                <label htmlFor="hideBedex">Vis bedrifter uten bedex</label>
-              </div>
+                <span style={{ marginLeft: '5px' }}>
+                  Vis bedrifter uten bedex
+                </span>
+              </label>
             </div>
           </div>
 
           <div className={styles.section} style={{ order: 0 }}>
-            <input
-              type="checkBox"
-              value
-              onChange={() => this.toggleSection('jobOfferOnly')}
-              id="jobOfferOnly"
-            />
-            <label htmlFor="jobOfferOnly">
-              Kun er opprettet for jobbtilbud
+            <label>
+              <CheckBox
+                id="jobOfferOnly"
+                onChange={() => this.toggleSection('jobOfferOnly')}
+              />
+              <span style={{ marginLeft: '5px' }}>
+                Kun er opprettet for jobbtilbud
+              </span>
             </label>
             <div
               className={styles.options}
               style={{ display: this.state.jobOfferOnly ? 'block' : 'none' }}
             >
-
-              <div className={styles.option}>
-                <input
-                  type="radio"
+              <label>
+                <RadioButton
                   name="jobOfferOnly"
-                  value
-                  onChange={() => this.updateFilters('jobOfferOnly', true)}
                   id="showJobOfferOnly"
+                  inputValue="true"
+                  onChange={() => this.updateFilters('jobOfferOnly', true)}
                 />
-                <label htmlFor="showJobOfferOnly">
+                <span style={{ marginLeft: '5px' }}>
                   Vis kun bedrifter opprettet for jobbtilbud
-                </label>
-              </div>
-
-              <div className={styles.option}>
-                <input
-                  type="radio"
+                </span>
+              </label>
+              <label>
+                <RadioButton
                   name="jobOfferOnly"
-                  value
-                  onChange={() => this.updateFilters('jobOfferOnly', false)}
                   id="hideJobOfferOnly"
+                  inputValue="false"
+                  onChange={() => this.updateFilters('jobOfferOnly', false)}
                 />
-                <label htmlFor="hideJobOfferOnly">
+                <span style={{ marginLeft: '5px' }}>
                   Skjul bedrifter kun opprettet for jobbtilbud
-                </label>
-              </div>
+                </span>
+              </label>
             </div>
           </div>
-
         </div>
       </div>
     );
