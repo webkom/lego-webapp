@@ -47,6 +47,15 @@
   }
 }
 
+.sidebar {
+  /* TODO: Make this proper CSS for a general sidebar */
+  min-height: 300px;
+  padding: 20px 0 0 30px;
+  margin: 0 0 0 60px;
+  border-left: 1px solid #ccc;
+  align-self: flex-end;
+}
+
 :global {
   .u-small {
     font-size: 14px;
@@ -54,5 +63,14 @@
 
   .u-mb {
     margin-bottom: 15px;
+  }
+
+  .u-ui-heading {
+    color: #666;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: 400;
+    letter-spacing: 1px;
   }
 }
