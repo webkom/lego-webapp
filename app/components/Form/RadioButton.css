@@ -47,8 +47,6 @@
 [type='radio']:not(:checked) + label::after,
 [type='radio']:checked + label::after {
   content: '';
-  top: 3px;
-  left: 3px;
   position: absolute;
   width: 16px;
   height: 16px;
@@ -60,12 +58,12 @@
 /* checked mark aspect changes */
 [type='radio']:not(:checked) + label::after {
   opacity: 0;
-  transform: scale(0);
+  transform: scale(0) translate(11px, 11px);
 }
 
 [type='radio']:checked + label::after {
   opacity: 1;
-  transform: scale(1);
+  transform: scale(1) translate(3px, 3px);
 }
 
 /* disabled radio */
