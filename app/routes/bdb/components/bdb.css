@@ -323,7 +323,6 @@ option {
 .editInfo {
   margin: 0 auto 10px;
   display: flex !important;
-  flex-direction: row !important;
 }
 
 .editInfo > label {
@@ -407,7 +406,5 @@ option {
 }
 
 .contactedStatusForm {
-  padding: 10px;
   width: 240px;
-  margin-bottom: 10px;
 }
