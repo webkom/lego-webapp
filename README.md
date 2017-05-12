@@ -31,9 +31,15 @@ $ NODE_ENV=production node dist/server.js
 ## Documentation
 For simple component documentation we use [react-docgen](https://github.com/reactjs/react-docgen), with [react-styleguidist](https://github.com/styleguidist/react-styleguidist) for easy style guide generation.
 
-Run `npm styleguide` to start dev server, and go to [localhost:6060](http://localhost:6060/).
+Start dev server (with hot reload), and go to [localhost:6060](http://localhost:6060/).
+```bash
+$ yarn styleguide
+```
 
-Run `yarn styleguide:build` to build a static version.
+To build a static version of the documentation, run:
+```bash
+$ yarn styleguide:build
+```
 
 
 ## Text Editor

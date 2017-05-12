@@ -4,9 +4,16 @@ import Icon from 'app/components/Icon';
 import cx from 'classnames';
 
 type Props = {
+  /** Icon name */
   icon: string,
+  /** Text under icon */
   data: string,
-  meta: string
+  /** Small text below main text */
+  meta?: string,
+  /** Size of button */
+  small?: boolean,
+  /** Make link a clickable link - url */
+  link?: string
 };
 
 const httpCheck = link =>

@@ -3,6 +3,7 @@
   width: 200px;
   display: flex;
   flex-direction: column;
+  text-align: center;
 }
 
 .bubble {
@@ -39,6 +40,7 @@
   order: 1;
   font-size: 25px;
   align-self: center;
+  text-align: center;
 }
 
 .meta {
