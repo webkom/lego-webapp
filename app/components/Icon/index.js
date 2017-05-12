@@ -5,15 +5,24 @@ import cx from 'classnames';
 import styles from './Icon.css';
 
 type Props = {
+  /** Name of the icon can be found on the webpage*/
   name: string,
+  /** Name of the icon can be found on the webpage*/
   scaleOnHover?: boolean,
+  /** Name of the icon can be found on the webpage*/
   className?: string,
+  /** Name of the icon can be found on the webpage*/
   size?: number,
+  /** Name of the icon can be found on the webpage*/
   style?: Object
 };
 
 /**
  * Render an Icon
+ *
+ * <Icon name="add" > </Icon>
+ *
+ * Just like this...
  *
  * http://ionicframework.com/docs/v2/ionicons/
  */

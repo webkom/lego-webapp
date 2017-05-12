@@ -162,7 +162,7 @@ function getDependencyHandlers() {
       new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
         minChunks: Infinity,
-        filename: '[name].[chunkhash:8].js'
+        filename: '[name].[hash:8].js'
       })
     ];
   }

@@ -16,7 +16,7 @@ https://github.com/webkom/lego/wiki/Noob-Guide
 
 
 ## Build for production
-```
+```bash
 $ yarn run build
 $ NODE_ENV=production node dist/server.js
 ```
@@ -27,6 +27,14 @@ $ NODE_ENV=production node dist/server.js
 * WS_URL
 * BASE_URL
 * CAPTCHA_KEY
+
+## Documentation
+For simple component documentation we use [react-docgen](https://github.com/reactjs/react-docgen), with [react-styleguidist](https://github.com/styleguidist/react-styleguidist) for easy style guide generation.
+
+Run `npm styleguide` to start dev server, and go to [localhost:6060](http://localhost:6060/).
+
+Run `yarn styleguide:build` to build a static version.
+
 
 ## Text Editor
 [Atom](https://atom.io) with these plugins installed provides the best developer experience:
@@ -39,12 +47,12 @@ We use [prettier](https://github.com/prettier/prettier) for JS auto-formatting. 
 
 ## Tests
 Run all the tests and check for lint errors with the command:
-```
+```bash
 $ yarn test
 ```
 
 For development you can run the tests continuously by using:
-```
+```bash
 $ yarn run test:watch
 ```
 
