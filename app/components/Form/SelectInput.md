@@ -1,33 +1,23 @@
 Example usage of `SelectInput` in redux form:
 
+```
+const { Field } = require( 'redux-form');
+const ReduxForm = require('ReduxFormExample').default;
 
-    const { Provider } = require('react-redux');
-    const configureStore = require('app/utils/configureStore').default;
-    const initialState = {
-      app: {
-        name: 'Pizza Delivery'
-      }
-    };
-    const store = configureStore({ initialState });
-    const options = [{ value: 0, label: 'Ingen' },{ value: 2, label: 'Test' }];
-    const React = require( 'react');
-    const { Field, reduxForm } = require( 'redux-form');
+const options = [
+  { value: 0, label: 'This' },
+  { value: 1, label: 'Is' },
+  { value: 2, label: 'A' },
+  { value: 3, label: 'Nice' },
+  { value: 4, label: 'Field' }
+];
 
-    const MyForm = ({handleSubmit}) => (
-          <form onSubmit={handleSubmit}>
-
-          <Field
-            name="select"
-            component={SelectInput.Field}
-            placeholder="Select stuff"
-            options={options}
-          />
-          </form>
-        );
-
-    MyReduxForm = reduxForm({
-      form: 'myForm'
-    })(MyForm);
-    <Provider store={store}>
-      <MyReduxForm onSubmit={()=>{}} />
-    </Provider>
+<ReduxForm name="SelectInputform">
+  <Field
+  name="select"
+  component={SelectInput.Field}
+  placeholder="Select stuff"
+  options={options}
+  />
+</ReduxForm>
+```

@@ -1,25 +1,52 @@
 const path = require('path');
+
+const root = path.resolve(__dirname, '.');
+
+const webpackConfig = require('./config/webpack.client.js');
+webpackConfig.resolve.modules.push('lib');
+webpackConfig.module.rules.push(
+  {
+    include: path.resolve(root, 'lib'),
+    loader: 'babel-loader'
+  }
+);
+
 module.exports = {
   sections: [
     {
-      name: 'Lego-Webap README',
+      name: 'Lego-Webapp README',
       content: 'README.md'
     },
     {
       name: 'Components',
-      components: 'app/components/**/*.js'
+      components: 'app/components/*/*.js'
+    },
+    {
+      name: 'Style guidelines',
+      sections: [
+        {
+          name: 'Layout',
+          content: 'docs/layout.md'
+        },
+        {
+          name: 'Styles',
+          content: 'app/styles/README.md'
+        }
+      ]
     }
   ],
-  defaultExample: true,
+  context: {
+    state: 'lib/state_example.js'
+  },
+  defaultExample: false,
   require: [
-    'babel-polyfill',
     'app/styles/icomoon.css',
     'app/styles/variables.css',
     'app/styles/globals.css'
   ],
-  webpackConfig: require('./config/webpack.client.js'),
+  webpackConfig,
 
-  // Add proper import statements
+  // Show the import statements we use in this project
   getComponentPathLine(componentPath) {
     const name = path.basename(componentPath, '.js');
     const dir = path.dirname(componentPath);
