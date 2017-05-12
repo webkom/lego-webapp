@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
 import { addSemesterStatus } from '../../actions/CompanyActions';
 import AddSemester from './components/AddSemester';
+import moment from 'moment';
 
 function validateSemesterStatus(data) {
   const errors = {};
@@ -24,11 +25,12 @@ function validateSemesterStatus(data) {
 function mapStateToProps(state, props) {
   return {
     companyId: props.params.companyId,
-    initialValues: props.params.companyId
-      ? {
-          bedex: false
-        }
-      : null
+    initialValues: props.params.companyId && {
+      bedex: false,
+      year: moment().year(),
+      semester: 0,
+      contactedStatus: 6
+    }
   };
 }
 
@@ -38,6 +40,7 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'addSemester',
-    validate: validateSemesterStatus
+    validate: validateSemesterStatus,
+    enableReinitialize: true
   })
 )(AddSemester);

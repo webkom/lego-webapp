@@ -41,12 +41,10 @@ function mapStateToProps(state, props) {
     company,
     companyId,
     semesterStatus,
-    initialValues: semesterStatus
-      ? {
-          contactedStatus: semesterStatus.contactedStatus,
-          contract: semesterStatus.contract
-        }
-      : null
+    initialValues: semesterStatus && {
+      contactedStatus: semesterStatus.contactedStatus,
+      contract: semesterStatus.contract
+    }
   };
 }
 
