@@ -6,6 +6,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import Helmet from 'react-helmet';
+import Raven from 'raven-js';
 import {
   loginAutomaticallyIfPossible,
   logout,
@@ -26,6 +27,8 @@ import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 
 class App extends Component {
   render() {
+    Raven.setUserContext(this.props.currentUser);
+
     return (
       <div
         style={this.props.searchOpen ? { WebkitFilter: 'blur(40px)' } : null}
