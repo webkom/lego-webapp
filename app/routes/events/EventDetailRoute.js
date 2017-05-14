@@ -14,11 +14,9 @@ import {
   selectEventById,
   selectCommentsForEvent,
   selectPoolsWithRegistrationsForEvent,
+  selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
-
-const getRegistrationsFromPools = (pools = []) =>
-  pools.reduce((users, pool) => [...users, ...pool.registrations], []);
 
 const findCurrentRegistration = (registrations, currentUser) =>
   registrations.find(registration => registration.user.id === currentUser.id);
@@ -29,18 +27,24 @@ const mapStateToProps = (state, props) => {
   const event = selectEventById(state, { eventId });
   const actionGrant = state.events.actionGrant;
   const comments = selectCommentsForEvent(state, { eventId });
-  const pools = selectPoolsWithRegistrationsForEvent(state, { eventId });
+  const poolsWithRegistrations = selectPoolsWithRegistrationsForEvent(state, {
+    eventId
+  });
+  const registrations = selectRegistrationsFromPools(state, { eventId });
 
-  const registrations = getRegistrationsFromPools(pools);
   const waitingRegistrations = selectWaitingRegistrationsForEvent(state, {
     eventId
   });
-  if (waitingRegistrations.length > 0) {
-    pools.push({
-      name: 'Venteliste',
-      registrations: waitingRegistrations
-    });
-  }
+  let pools = waitingRegistrations.length > 0
+    ? [
+        ...poolsWithRegistrations,
+        {
+          name: 'Venteliste',
+          registrations: waitingRegistrations,
+          permissionGroups: []
+        }
+      ]
+    : poolsWithRegistrations;
   const currentRegistration = findCurrentRegistration(
     registrations.concat(waitingRegistrations),
     currentUser

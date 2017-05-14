@@ -22,7 +22,7 @@ function mutateEvent(state: any, action: any) {
       return {
         ...state,
         byId: omit(state.byId, action.meta.optimisticId),
-        items: state.items.filter(item => item !== action.meta.optimisticId)
+        items: state.items.filter(id => id !== action.meta.optimisticId)
       };
     }
     case Event.DELETE.SUCCESS: {
@@ -55,13 +55,35 @@ function mutateEvent(state: any, action: any) {
       };
     }
     case Event.SOCKET_REGISTRATION.SUCCESS: {
+      const eventId = action.meta.eventId;
+      let waitingRegistrations = state.byId[eventId].waitingRegistrations;
+      if (!action.payload.pool) {
+        waitingRegistrations = [...waitingRegistrations, action.payload.id];
+      }
       return {
         ...state,
         byId: {
           ...state.byId,
-          [action.meta.eventId]: {
-            ...state.byId[action.meta.eventId],
-            loading: false
+          [eventId]: {
+            ...state.byId[eventId],
+            loading: false,
+            waitingRegistrations
+          }
+        }
+      };
+    }
+    case Event.SOCKET_UNREGISTRATION.SUCCESS: {
+      const eventId = action.meta.eventId;
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [eventId]: {
+            ...state.byId[eventId],
+            loading: false,
+            waitingRegistrations: state.byId[
+              eventId
+            ].waitingRegistrations.filter(id => id !== action.payload.id)
           }
         }
       };
@@ -173,4 +195,9 @@ export const selectCommentsForEvent = createSelector(
     if (!event) return [];
     return (event.comments || []).map(commentId => commentsById[commentId]);
   }
+);
+
+export const selectRegistrationsFromPools = createSelector(
+  selectPoolsWithRegistrationsForEvent,
+  pools => pools.reduce((users, pool) => users.concat(pool.registrations), [])
 );

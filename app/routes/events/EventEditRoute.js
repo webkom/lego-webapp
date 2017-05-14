@@ -6,6 +6,7 @@ import EventEditor from './components/EventEditor';
 import {
   selectEventById,
   selectPoolsWithRegistrationsForEvent,
+  selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
@@ -13,16 +14,13 @@ import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocomplete } from 'app/reducers/search';
 import { debounce } from 'lodash';
 
-const getRegistrationsFromPools = (pools = []) =>
-  pools.reduce((users, pool) => [...users, ...pool.registrations], []);
-
 const mapStateToProps = (state, props) => {
-  const { params: { eventId } } = props;
+  const eventId = props.params.eventId;
   const event = selectEventById(state, { eventId });
   const actionGrant = state.events.actionGrant;
   const pools = selectPoolsWithRegistrationsForEvent(state, { eventId });
 
-  const registrations = getRegistrationsFromPools(pools);
+  const registrations = selectRegistrationsFromPools(state, { eventId });
   const waitingRegistrations = selectWaitingRegistrationsForEvent(state, {
     eventId
   });

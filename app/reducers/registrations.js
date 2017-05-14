@@ -21,7 +21,8 @@ export default createEntityReducer({
             [action.payload.id]: {
               ...action.payload
             }
-          }
+          },
+          items: [...state.items, action.payload.id]
         };
       }
       case Event.UNREGISTER.BEGIN: {
