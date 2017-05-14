@@ -52,7 +52,10 @@ module.exports = {
         'process.env.API_URL': JSON.stringify(process.env.API_URL),
         'process.env.WS_URL': JSON.stringify(process.env.WS_URL),
         'process.env.BASE_URL': JSON.stringify(process.env.BASE_URL),
-        'process.env.CAPTCHA_KEY': JSON.stringify(process.env.CAPTCHA_KEY)
+        'process.env.CAPTCHA_KEY': JSON.stringify(process.env.CAPTCHA_KEY),
+        'process.env.STRIPE_KEY': JSON.stringify(process.env.STRIPE_KEY),
+        'process.env.RAVEN_DSN': JSON.stringify(process.env.RAVEN_DSN),
+        'process.env.RELEASE': JSON.stringify(process.env.RELEASE),
       }),
 
       !isProduction && new FriendlyErrorsPlugin(),
