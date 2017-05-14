@@ -32,14 +32,17 @@ class JoinEventForm extends Component {
   };
   counter = undefined;
 
-  componentWillMount() {
+  componentDidMount() {
     this.parseEventTimes(this.props.event, this.props.registration);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.event.activationTime && !this.props.event.activationTime) {
+    if (
+      (nextProps.event.activationTime && !this.props.event.activationTime) ||
+      nextProps.registration !== this.props.registration
+    ) {
       this.setState({ formOpen: false });
-      this.parseEventTimes(nextProps.event);
+      this.parseEventTimes(nextProps.event, nextProps.registration);
     }
   }
 
@@ -47,7 +50,7 @@ class JoinEventForm extends Component {
     clearInterval(this.counter);
   }
 
-  parseEventTimes = ({ activationTime, startTime, registration }) => {
+  parseEventTimes = ({ activationTime, startTime }, registration) => {
     const poolActivationTime = moment(activationTime);
     const currentTime = moment();
     const diffTime = poolActivationTime.diff(currentTime);

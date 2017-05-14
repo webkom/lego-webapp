@@ -31,6 +31,7 @@ const AdminRegister = ({
           component={SelectInput.Field}
           placeholder="Pool"
           options={pools.map(pool => ({ value: pool.id, label: pool.name }))}
+          simpleValue
         />
         <Field
           name="user"
@@ -39,6 +40,7 @@ const AdminRegister = ({
           onSearch={query => onQueryChanged(query)}
           placeholder="Bruker"
           fetching={searching}
+          simpleValue
         />
         <Button type="submit" disabled={invalid || pristine || submitting}>
           Registrer
