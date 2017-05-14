@@ -13,6 +13,7 @@ import styles from './DatePicker.css';
 
 type Props = {
   onChange: () => void,
+  className?: string,
   value: ?string,
   showTimePicker?: boolean,
   format: string
@@ -88,7 +89,7 @@ class DatePicker extends Component {
   };
 
   render() {
-    const { showTimePicker } = this.props;
+    const { showTimePicker, className } = this.props;
     const { date } = this.state;
 
     return (
@@ -97,7 +98,7 @@ class DatePicker extends Component {
         toggle={this.toggleDropdown}
         triggerComponent={
           <TextInput
-            className={styles.inputField}
+            className={cx(styles.inputField, className)}
             disabled
             value={this.state.value.format(this.props.format)}
           />

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import {
   fetchEvent,
+  deleteEvent,
   register,
   unregister,
   payment,
@@ -13,18 +14,12 @@ import {
   selectEventById,
   selectCommentsForEvent,
   selectPoolsWithRegistrationsForEvent,
+  selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
 
-function getRegistrationsFromPools(pools = []) {
-  return pools.reduce((users, pool) => [...users, ...pool.registrations], []);
-}
-
-function findCurrentRegistration(registrations, currentUser) {
-  return registrations.find(
-    registration => registration.user.id === currentUser.id
-  );
-}
+const findCurrentRegistration = (registrations, currentUser) =>
+  registrations.find(registration => registration.user.id === currentUser.id);
 
 const mapStateToProps = (state, props) => {
   const { params: { eventId }, currentUser } = props;
@@ -32,21 +27,24 @@ const mapStateToProps = (state, props) => {
   const event = selectEventById(state, { eventId });
   const actionGrant = state.events.actionGrant;
   const comments = selectCommentsForEvent(state, { eventId });
-  const pools = selectPoolsWithRegistrationsForEvent(state, { eventId });
+  const poolsWithRegistrations = selectPoolsWithRegistrationsForEvent(state, {
+    eventId
+  });
+  const registrations = selectRegistrationsFromPools(state, { eventId });
 
-  const registrations = getRegistrationsFromPools(pools);
   const waitingRegistrations = selectWaitingRegistrationsForEvent(state, {
     eventId
   });
-  const poolsWithWaitingRegistrations = waitingRegistrations.length > 0
+  let pools = waitingRegistrations.length > 0
     ? [
-        ...pools,
+        ...poolsWithRegistrations,
         {
           name: 'Venteliste',
-          registrations: waitingRegistrations
+          registrations: waitingRegistrations,
+          permissionGroups: []
         }
       ]
-    : pools;
+    : poolsWithRegistrations;
   const currentRegistration = findCurrentRegistration(
     registrations.concat(waitingRegistrations),
     currentUser
@@ -59,14 +57,13 @@ const mapStateToProps = (state, props) => {
     eventId,
     pools,
     registrations,
-    currentRegistration,
-    waitingRegistrations,
-    poolsWithWaitingRegistrations
+    currentRegistration
   };
 };
 
 const mapDispatchToProps = {
   fetchEvent,
+  deleteEvent,
   register,
   unregister,
   payment,

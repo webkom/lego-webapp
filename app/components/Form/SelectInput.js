@@ -3,7 +3,7 @@
 import React from 'react';
 import Select, { Creatable } from 'react-select';
 import { createField } from './Field';
-import style from './SelectInput.css';
+import styles from './SelectInput.css';
 import 'react-select/dist/react-select.css';
 
 type Props = {
@@ -11,41 +11,50 @@ type Props = {
   multiple?: boolean,
   tags?: boolean,
   fetching: boolean,
+  className?: string,
+  selectStyle?: string,
+  onBlur: any => void,
+  value: any,
   options?: {}[]
 };
 
-function SelectInput({ fetching, options = [], ...props }: Props) {
+function SelectInput({
+  fetching,
+  selectStyle,
+  onBlur,
+  value,
+  options = [],
+  ...props
+}: Props) {
   if (props.tags) {
     return (
-      <div className={style.field}>
-        <Select.Creatable
-          {...props}
-          multi
-          onBlurResetsInput={false}
-          onBlur={() => props.onBlur(props.value)}
-          options={options}
-        />
-      </div>
+      <Select.Creatable
+        {...props}
+        multi
+        onBlurResetsInput={false}
+        onBlur={() => onBlur(value)}
+        value={value}
+        options={options}
+      />
     );
   }
   return (
-    <div className={style.field}>
-      <Select
-        {...props}
-        options={options}
-        onBlurResetsInput={false}
-        onBlur={null}
-        simpleValue
-        isLoading={fetching}
-        onInputChange={value => {
-          if (props.onSearch) {
-            props.onSearch(value);
-          }
-          return value;
-        }}
-        render={props => <Creatable {...props} />}
-      />
-    </div>
+    <Select
+      {...props}
+      style={selectStyle}
+      options={options}
+      value={value}
+      onBlurResetsInput={false}
+      onBlur={() => onBlur(value)}
+      isLoading={fetching}
+      onInputChange={value => {
+        if (props.onSearch) {
+          props.onSearch(value);
+        }
+        return value;
+      }}
+      render={props => <Creatable {...props} />}
+    />
   );
 }
 

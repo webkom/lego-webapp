@@ -33,7 +33,7 @@ class JoinEventForm extends Component {
   counter = undefined;
 
   componentWillMount() {
-    this.parseEventTimes(this.props.event);
+    this.parseEventTimes(this.props.event, this.props.registration);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -47,17 +47,17 @@ class JoinEventForm extends Component {
     clearInterval(this.counter);
   }
 
-  parseEventTimes = ({ activationTime, startTime }) => {
+  parseEventTimes = ({ activationTime, startTime, registration }) => {
     const poolActivationTime = moment(activationTime);
     const currentTime = moment();
     const diffTime = poolActivationTime.diff(currentTime);
     let duration = moment.duration(diffTime, 'milliseconds');
-    if (currentTime.isAfter(moment(startTime))) {
-      // Do nothing
-    } else if (
-      poolActivationTime.isBefore(currentTime) ||
-      this.props.registration
+    if (
+      (!registration && !activationTime) ||
+      currentTime.isAfter(moment(startTime))
     ) {
+      // Do nothing
+    } else if (poolActivationTime.isBefore(currentTime) || registration) {
       this.setState({
         formOpen: true,
         captchaOpen: true,
@@ -162,7 +162,7 @@ class JoinEventForm extends Component {
           </div>}
         {!this.state.formOpen &&
           !this.state.time &&
-          <div>Det går ikke lenger å melde seg på.</div>}
+          <div>Du kan ikke melde deg på dette arrangementet.</div>}
         {this.state.formOpen &&
           <form
             onSubmit={this.submitWithType(
@@ -192,6 +192,7 @@ class JoinEventForm extends Component {
               </Button>}
             {!registration &&
               this.state.captchaOpen &&
+              event.useCaptcha &&
               <Field
                 name="captchaResponse"
                 fieldStyle={{ width: 304 }}

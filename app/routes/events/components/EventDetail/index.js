@@ -1,20 +1,22 @@
+// @flow
+
 import styles from './EventDetail.css';
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import Image from 'app/components/Image';
 import CommentView from 'app/components/Comments/CommentView';
-import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
-import Markdown from 'app/components/Markdown';
-import JoinEventForm from './JoinEventForm';
-import RegisteredCell from './RegisteredCell';
-import RegisteredSummary from './RegisteredSummary';
+import JoinEventForm from '../JoinEventForm';
+import RegisteredCell from '../RegisteredCell';
+import RegisteredSummary from '../RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import Tag from 'app/components/Tag';
 import Time from 'app/components/Time';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Flex } from 'app/components/Layout';
+import { EVENT_TYPE_TO_STRING, colorForEvent } from '../../utils.js';
+import Admin from '../Admin';
+import RegistrationMeta from '../RegistrationMeta';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -33,25 +35,29 @@ const InterestedButton = ({ value, onClick }) => {
 /**
  *
  */
-export type Props = {
-  event: Event,
-  eventId: Number,
-  comments: Array,
-  pools: Array,
-  registrations: Array,
-  waitingRegistrations: Array,
-  currentRegistration: Object,
+type Props = {
+  eventId: string,
+  event: Object,
   loggedIn: boolean,
-  isUserInterested: boolean,
   currentUser: Object,
-  register: (eventId: Number) => Promise<*>,
-  unregister: (eventId: Number, registrationId: Number) => Promise<*>,
-  payment: (eventId: Number, token: string) => Promise<*>,
+  actionGrant: Array<string>,
+  comments: Array<Object>,
+  error?: Object,
+  loading: boolean,
+  pools: Array<Object>,
+  registrations: Array<Object>,
+  currentRegistration: Object,
+  waitingRegistrations: Array<Object>,
+  isUserInterested: boolean,
+  register: (eventId: string) => Promise<*>,
+  unregister: (eventId: string, registrationId: number) => Promise<*>,
+  payment: (eventId: string, token: string) => Promise<*>,
   updateFeedback: (
-    eventId: Number,
-    registrationId: Number,
+    eventId: string,
+    registrationId: number,
     feedback: string
-  ) => Promise<*>
+  ) => Promise<*>,
+  deleteEvent: (eventId: string) => Promise<*>
 };
 
 /**
@@ -60,7 +66,7 @@ export type Props = {
 export default class EventDetail extends Component {
   props: Props;
 
-  handleRegistration = ({ captchaResponse, feedback, type }) => {
+  handleRegistration = ({ captchaResponse, feedback, type }: Object) => {
     const {
       eventId,
       currentRegistration,
@@ -80,7 +86,7 @@ export default class EventDetail extends Component {
     }
   };
 
-  handleToken = token => {
+  handleToken = (token: Object) => {
     this.props.payment(this.props.event.id, token.id);
   };
 
@@ -96,8 +102,7 @@ export default class EventDetail extends Component {
       pools,
       registrations,
       currentRegistration,
-      poolsWithWaitingRegistrations,
-      waitingRegistrations
+      deleteEvent
     } = this.props;
 
     if (!event.id) {
@@ -111,6 +116,7 @@ export default class EventDetail extends Component {
     if (error) {
       return <div>{error.message}</div>;
     }
+    const metaColor = colorForEvent(event.eventType);
 
     return (
       <div className={styles.root}>
@@ -123,23 +129,37 @@ export default class EventDetail extends Component {
           <InterestedButton value={this.props.isUserInterested} />
         </Flex>
 
-        <Flex wrap>
+        <Flex wrap className={styles.mainRow}>
           <Flex column className={styles.description}>
-            <Markdown>{event.text}</Markdown>
+            <div dangerouslySetInnerHTML={{ __html: event.text }} />
             <Flex className={styles.tagRow}>
               {event.tags.map((tag, i) => <Tag key={i} tag={tag} />)}
             </Flex>
           </Flex>
-          <Flex column className={styles.meta}>
+          <Flex
+            column
+            className={styles.meta}
+            style={{ background: metaColor }}
+          >
             <ul>
               {event.company &&
                 <li>
                   Arrangerende bedrift <strong>{event.company.name}</strong>
                 </li>}
               <li>
+                <span>Hva </span>
+                <strong>{EVENT_TYPE_TO_STRING(event.eventType)}</strong>
+              </li>
+              <li>
                 Starter{' '}
                 <strong>
                   <Time time={event.startTime} format="DD.MM.YYYY HH:mm" />
+                </strong>
+              </li>
+              <li>
+                Slutter{' '}
+                <strong>
+                  <Time time={event.endTime} format="DD.MM.YYYY HH:mm" />
                 </strong>
               </li>
               <li>Finner sted i <strong>{event.location}</strong></li>
@@ -154,72 +174,40 @@ export default class EventDetail extends Component {
                     />
                   </strong>
                 </li>}
-              {event.isPriced && <li>Dette er et betalt arrangement</li>}
-              {event.price > 0 &&
-                <li>Pris: <strong>{event.price / 100},-</strong></li>}
+              {event.isPriced &&
+                <div>
+                  <li>Dette er et betalt arrangement</li>
+                  <li>Pris: <strong>{event.price / 100},-</strong></li>
+                </div>}
             </ul>
             {loggedIn &&
-              <FlexItem>
+              <Flex column>
                 <h3>Påmeldte:</h3>
-                <FlexRow className={styles.registeredThumbnails}>
+                <Flex className={styles.registeredThumbnails}>
                   {registrations
                     .slice(0, 10)
                     .map(reg => (
                       <RegisteredCell key={reg.user.id} user={reg.user} />
                     ))}
-                </FlexRow>
+                </Flex>
                 <RegisteredSummary registrations={registrations} />
-                <AttendanceStatus
-                  title="Påmeldte"
-                  pools={poolsWithWaitingRegistrations}
+                <AttendanceStatus title="Påmeldte" pools={pools} />
+                <RegistrationMeta
+                  registration={currentRegistration}
+                  inPriced={event.isPriced}
                 />
-                {!currentRegistration &&
-                  <div>
-                    <i className="fa fa-exclamation-circle" />
-                    {' '}
-                    Du er ikke registrert
-                  </div>}
-                {currentRegistration &&
-                  <div>
-                    {currentRegistration.pool
-                      ? <div>
-                          <i className="fa fa-check-circle" /> Du er registrert
-                        </div>
-                      : <div>
-                          <i className="fa fa-pause-circle" />
-                          {' '}
-                          Du er i venteliste
-                        </div>}
-                    {event.isPriced &&
-                      (currentRegistration.chargeStatus === 'succeeded'
-                        ? <div>
-                            <i className="fa fa-check-circle" /> Du har betalt
-                          </div>
-                        : <div>
-                            <i className="fa fa-exclamation-circle" />
-                            {' '}
-                            Du har ikke betalt
-                          </div>)}
-                  </div>}
-                {actionGrant.includes('update') &&
-                  <ul>
-                    <li><strong>Admin</strong></li>
-                    <li>
-                      <Link
-                        to={`/events/${event.id}/administrate`}
-                        style={{ color: 'white' }}
-                      >
-                        Påmeldinger
-                      </Link>
-                    </li>
-                  </ul>}
-              </FlexItem>}
+                <Admin
+                  actionGrant={actionGrant}
+                  event={event}
+                  deleteEvent={deleteEvent}
+                />
+              </Flex>}
           </Flex>
         </Flex>
 
         <Flex wrapReverse>
           {loggedIn &&
-            <FlexColumn className={styles.join}>
+            <Flex column className={styles.join}>
               <div className={styles.joinHeader}>
                 Bli med på dette arrangementet
               </div>
@@ -233,7 +221,7 @@ export default class EventDetail extends Component {
                   onSubmit={this.handleRegistration}
                 />
               </div>
-            </FlexColumn>}
+            </Flex>}
 
           <Flex column className={styles.openFor}>
             <strong>Åpent for</strong>

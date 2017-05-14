@@ -16,12 +16,13 @@ import {
 } from 'app/reducers/events';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocomplete } from 'app/reducers/search';
-import { groupBy, sortBy, debounce } from 'lodash';
+import { groupBy, debounce } from 'lodash';
 
 const mapStateToProps = (state, props) => {
-  const { params: { eventId }, currentUser } = props;
+  const eventId = props.params.eventId;
 
   const event = selectEventById(state, { eventId });
+  const actionGrant = state.events.actionGrant;
   const pools = selectPoolsForEvent(state, { eventId });
   const registrations = selectAllRegistrationsForEvent(state, { eventId });
   const grouped = groupBy(
@@ -35,6 +36,7 @@ const mapStateToProps = (state, props) => {
 
   return {
     eventId,
+    actionGrant,
     event,
     pools,
     registered,

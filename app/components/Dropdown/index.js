@@ -10,7 +10,7 @@ type Props = {
   iconName: string,
   toggle: () => any,
   className?: string,
-  contentClassName?: string | boolean,
+  contentClassName?: string,
   componentClass: any,
   triggerComponent?: React.Element<*>,
   show: boolean,
@@ -82,7 +82,7 @@ class Dropdown extends Component {
   }
 }
 
-function List({ children }) {
+function List({ children }: { children: any }) {
   return (
     <ul className={styles.dropdownList}>
       {children}

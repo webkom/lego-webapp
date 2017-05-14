@@ -5,12 +5,12 @@ import { createField } from './Field';
 import styles from './RadioButton.css';
 
 type Props = {
+  id: string,
   type?: string,
   label?: string,
   className?: string,
   inputValue?: string,
-  value?: string,
-  checked?: boolean
+  value?: string
 };
 
 function RadioButton({
@@ -18,7 +18,6 @@ function RadioButton({
   label,
   inputValue,
   value,
-  checked,
   className,
   ...props
 }: Props) {
@@ -26,7 +25,7 @@ function RadioButton({
     <div className={styles.box}>
       <input
         {...props}
-        checked={inputValue === value || checked}
+        checked={inputValue === value}
         type="radio"
         id={id}
         value={inputValue}

@@ -4,7 +4,9 @@ import { eventSchema, eventAdministrateSchema } from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';
+import { push } from 'react-router-redux';
 import { addNotification } from 'app/actions/NotificationActions';
+import moment from 'moment';
 
 export function fetchEvent(eventId) {
   return callAPI({
@@ -40,6 +42,123 @@ export function fetchAdministrate(eventId) {
       errorMessage: 'Fetching registrations failed'
     }
   });
+}
+
+export function createEvent({
+  title,
+  startTime,
+  endTime,
+  description,
+  text,
+  eventType,
+  company,
+  location,
+  isPriced,
+  useStripe,
+  priceMember,
+  mergeTime,
+  useCaptcha,
+  tags
+}) {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: Event.CREATE,
+        endpoint: '/events/',
+        method: 'POST',
+        body: {
+          title,
+          startTime: moment(startTime).toISOString(),
+          endTime: moment(endTime).toISOString(),
+          description,
+          text,
+          eventType,
+          company: company.value,
+          location,
+          isPriced,
+          useStripe,
+          priceMember,
+          mergeTime: moment(mergeTime).toISOString(),
+          useCaptcha,
+          tags
+        },
+        schema: eventSchema,
+        meta: {
+          errorMessage: 'Creating event failed'
+        }
+      })
+    ).then(res => dispatch(push(`/events/${res.payload.result}/`)));
+}
+
+export function editEvent({
+  id,
+  title,
+  startTime,
+  endTime,
+  description,
+  text,
+  eventType,
+  company,
+  location,
+  isPriced,
+  useStripe,
+  priceMember,
+  mergeTime,
+  useCaptcha,
+  tags,
+  pools
+}) {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: Event.EDIT,
+        endpoint: `/events/${id}/`,
+        method: 'PUT',
+        body: {
+          id,
+          title,
+          startTime: moment(startTime).toISOString(),
+          endTime: moment(endTime).toISOString(),
+          description,
+          text,
+          eventType,
+          company: company.value,
+          location,
+          isPriced,
+          useStripe,
+          priceMember: isPriced ? priceMember : 0,
+          mergeTime: moment(mergeTime).toISOString(),
+          useCaptcha,
+          tags,
+          pools: pools.map(pool => ({
+            ...pool,
+            permissionGroups: pool.permissionGroups.map(group => group.value)
+          }))
+        },
+        meta: {
+          errorMessage: 'Editing event failed'
+        }
+      })
+    ).then(() => dispatch(push(`/events/${id}`)));
+}
+
+export function deleteEvent(eventId) {
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: Event.DELETE,
+        endpoint: `/events/${eventId}/`,
+        method: 'DELETE',
+        meta: {
+          id: eventId,
+          errorMessage: 'Deleting event failed'
+        }
+      })
+    ).then(() => {
+      dispatch(addNotification({ message: 'Deleted' }));
+      dispatch(push('/events'));
+    });
+  };
 }
 
 export function register(eventId, captchaResponse, feedback) {

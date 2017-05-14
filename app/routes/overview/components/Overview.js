@@ -4,7 +4,7 @@ import Helmet from 'react-helmet';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import Image from 'app/components/Image';
-import colorForEvent from 'app/routes/events/colorForEvent';
+import { colorForEvent } from 'app/routes/events/utils';
 import truncateString from 'app/utils/truncateString';
 import { Content, Flex } from 'app/components/Layout';
 import LatestReadme from './LatestReadme';
@@ -58,7 +58,7 @@ function PrimaryItem({ event }) {
 
 const OverviewItem = ({ event, showImage }) => (
   <Flex column className={styles.item}>
-    <Flex row className={styles.inner}>
+    <Flex className={styles.inner}>
       <Flex column>
         {showImage &&
           <Link
@@ -128,7 +128,7 @@ export default class Overview extends Component {
     return (
       <Content>
         <Helmet title="Hjem" />
-        <Flex row style={{ justifyContent: 'space-between' }}>
+        <Flex style={{ justifyContent: 'space-between' }}>
           <Flex column style={{ width: '65%' }}>
             <CompactEvents events={events} />
             <PrimaryItem event={events[0]} />

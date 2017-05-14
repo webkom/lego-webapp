@@ -9,7 +9,7 @@ import Pill from 'app/components/Pill';
 import Image from 'app/components/Image';
 import Tag from 'app/components/Tag';
 import Toolbar from './Toolbar';
-import colorForEvent from '../colorForEvent';
+import { colorForEvent } from '../utils';
 import styles from './EventList.css';
 import EventFooter from './EventFooter';
 import { Flex } from 'app/components/Layout';

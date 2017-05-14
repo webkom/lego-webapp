@@ -25,10 +25,24 @@ export default {
       ]
     },
     {
+      path: 'create',
+      ...resolveAsyncRoute(
+        () => import('./EventCreateRoute'),
+        () => require('./EventCreateRoute')
+      )
+    },
+    {
       path: ':eventId',
       ...resolveAsyncRoute(
         () => import('./EventDetailRoute'),
         () => require('./EventDetailRoute')
+      )
+    },
+    {
+      path: ':eventId/edit',
+      ...resolveAsyncRoute(
+        () => import('./EventEditRoute'),
+        () => require('./EventEditRoute')
       )
     },
     {

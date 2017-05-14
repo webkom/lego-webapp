@@ -75,7 +75,8 @@ export const poolSchema = new schema.Entity('pools', {
 export const commentSchema = new schema.Entity('comments');
 export const eventSchema = new schema.Entity('events', {
   pools: [poolSchema],
-  comments: [commentSchema]
+  comments: [commentSchema],
+  waitingRegistrations: [registrationSchema]
 });
 export const eventAdministrateSchema = new schema.Entity('events', {
   pools: [poolSchema],

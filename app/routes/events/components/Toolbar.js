@@ -45,9 +45,11 @@ class Toolbar extends Component {
         <div className={styles.section}>
           {actionGrant &&
             actionGrant.includes('create') &&
-            <Button onClick={() => this.setState({ editorOpen: true })}>
-              Create Event
-            </Button>}
+            <Link to={'/events/create'}>
+              <Button>
+                Lag nytt arrangement
+              </Button>
+            </Link>}
         </div>
 
         <Modal

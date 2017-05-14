@@ -1,5 +1,7 @@
 import { Event } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import { normalize } from 'normalizr';
+import { eventSchema } from 'app/reducers';
 
 export default createEntityReducer({
   key: 'pools',
@@ -8,6 +10,14 @@ export default createEntityReducer({
   },
   mutate(state, action) {
     switch (action.type) {
+      case Event.SOCKET_EVENT_UPDATED: {
+        const pools = normalize(action.payload, eventSchema).entities.pools;
+        return {
+          ...state,
+          byId: pools,
+          items: Object.keys(pools).map(Number)
+        };
+      }
       case Event.SOCKET_REGISTRATION.SUCCESS: {
         const registration = action.payload;
         if (!registration.pool) {

@@ -6,7 +6,7 @@ import { Link } from 'react-router';
 import { createSelector } from 'reselect';
 import Circle from 'app/components/Circle';
 import Popover from 'app/components/Popover';
-import colorForEvent from '../colorForEvent';
+import { colorForEvent } from '../utils';
 import styles from './Calendar.css';
 import Pill from 'app/components/Pill';
 

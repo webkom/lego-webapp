@@ -1,0 +1,54 @@
+@import '../Event.css';
+
+.title {
+  font-size: 24px;
+  color: #394B59;
+  font-family: Raleway, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 700;
+  border: 0;
+  margin-top: 1em;
+  padding-left: 0;
+  box-shadow: 0 0 10px #808080;
+}
+
+.editors {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 10px;
+}
+
+.formField {
+  border: 0;
+  padding: 1px;
+  padding-left: 5px;
+  box-shadow: 0 0 10px #808080;
+}
+
+.fieldShadow {
+  box-shadow: 0 0 10px #394B59;
+}
+
+.metaField {
+  flex: 1;
+  margin: 0;
+  margin-left: 5px;
+}
+
+.metaList {
+  display: flex;
+  align-items: center;
+  margin: 5px 5px 0;
+}
+
+.metaList > span {
+  display: flex;
+}
+
+.poolField {
+  margin-bottom: 0;
+}
+
+.poolField input {
+  padding: 5px;
+}
