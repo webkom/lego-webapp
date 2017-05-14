@@ -4,5 +4,7 @@ export default {
   baseUrl: process.env.BASE_URL || 'http://127.0.0.1:8000',
   captchaKey: process.env.CAPTCHA_KEY,
   stripeKey: process.env.STRIPE_KEY || 'pk_test_VWJmJ3yOunhMBkG71SXyjdqk',
+  ravenDSN: process.env.RAVEN_DSN,
+  release: process.env.RELEASE,
   timezone: 'Europe/Oslo'
 };
