@@ -27,7 +27,7 @@ const icalTypes = [
 ];
 
 const getIcalUrl = (icalToken, icalType) =>
-  `${config.serverUrl}/calendar/ical/${icalType}/?token=${icalToken}`;
+  `${config.serverUrl}/calendar-ical/${icalType}/?token=${icalToken}`;
 const getIcalUrlGoogle = (icalToken, icalType) => {
   const icalUrl = getIcalUrl(icalToken, icalType).replace(/^https/i, 'http');
   return `https://www.google.com/calendar/render?cid=${icalUrl}`;

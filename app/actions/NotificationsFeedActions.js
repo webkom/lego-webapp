@@ -8,7 +8,7 @@ import { selectIsLoggedIn } from 'app/reducers/auth';
 export function fetchNotificationFeed() {
   return callAPI({
     types: Feed.FETCH,
-    endpoint: '/feed/notifications/',
+    endpoint: '/feed-notifications/',
     schema: [feedActivitySchema],
     meta: {
       feedId: 'notifications'
@@ -22,7 +22,7 @@ export function fetchNotificationData() {
       dispatch(
         callAPI({
           types: NotificationsFeed.FETCH_DATA,
-          endpoint: '/feed/notifications/notification_data/'
+          endpoint: '/feed-notifications/notification_data/'
         })
       );
     }
@@ -32,7 +32,7 @@ export function fetchNotificationData() {
 export function markAllNotifications() {
   return callAPI({
     types: NotificationsFeed.MARK_ALL,
-    endpoint: '/feed/notifications/mark_all/',
+    endpoint: '/feed-notifications/mark_all/',
     method: 'POST',
     body: {
       read: true,
@@ -44,7 +44,7 @@ export function markAllNotifications() {
 export function markNotification(notificationId) {
   return callAPI({
     types: NotificationsFeed.MARK,
-    endpoint: `/feed/notifications/${notificationId}/mark/`,
+    endpoint: `/feed-notifications/${notificationId}/mark/`,
     method: 'POST',
     body: {
       read: true,

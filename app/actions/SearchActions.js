@@ -17,7 +17,7 @@ export function autocomplete(query, filter) {
 
     return dispatch(
       callAPI({
-        endpoint: '/search/autocomplete/',
+        endpoint: '/search-autocomplete/',
         types: Search.AUTOCOMPLETE,
         method: 'post',
         body: {
@@ -41,7 +41,7 @@ export function search(query, types) {
 
     return dispatch(
       callAPI({
-        endpoint: '/search/search/',
+        endpoint: '/search-search/',
         types: Search.SEARCH,
         method: 'post',
         body: {
@@ -65,7 +65,7 @@ export function mention(query) {
 
     return dispatch(
       callAPI({
-        endpoint: '/search/autocomplete/',
+        endpoint: '/search-autocomplete/',
         types: Search.MENTION,
         method: 'post',
         body: {
