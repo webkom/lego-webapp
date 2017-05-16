@@ -77,7 +77,7 @@ export function createEvent({
           location,
           isPriced,
           useStripe,
-          priceMember,
+          priceMember: isPriced && priceMember * 100,
           mergeTime: moment(mergeTime).toISOString(),
           useCaptcha,
           tags
@@ -126,7 +126,7 @@ export function editEvent({
           location,
           isPriced,
           useStripe,
-          priceMember: isPriced ? priceMember : 0,
+          priceMember: isPriced && priceMember * 100,
           mergeTime: moment(mergeTime).toISOString(),
           useCaptcha,
           tags,

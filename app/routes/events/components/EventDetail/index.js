@@ -194,7 +194,7 @@ export default class EventDetail extends Component {
                 <AttendanceStatus title="Påmeldte" pools={pools} />
                 <RegistrationMeta
                   registration={currentRegistration}
-                  inPriced={event.isPriced}
+                  isPriced={event.isPriced}
                 />
                 <Admin
                   actionGrant={actionGrant}

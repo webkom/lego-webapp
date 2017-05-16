@@ -73,7 +73,7 @@ function mutateEvent(state: any, action: any) {
       };
     }
     case Event.SOCKET_UNREGISTRATION.SUCCESS: {
-      const eventId = action.meta.eventId;
+      const { eventId, activationTime } = action.meta;
       return {
         ...state,
         byId: {
@@ -81,6 +81,7 @@ function mutateEvent(state: any, action: any) {
           [eventId]: {
             ...state.byId[eventId],
             loading: false,
+            activationTime,
             waitingRegistrations: state.byId[
               eventId
             ].waitingRegistrations.filter(id => id !== action.payload.id)

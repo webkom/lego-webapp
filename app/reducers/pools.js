@@ -38,20 +38,20 @@ export default createEntityReducer({
         };
       }
       case Event.SOCKET_UNREGISTRATION.SUCCESS: {
-        const registration = action.payload;
-        if (!registration.fromPool || !state.byId[registration.fromPool]) {
+        const { meta: { fromPool }, payload } = action;
+        const pool = state.byId[fromPool];
+        if (!fromPool || !pool) {
           return state;
         }
-        const registrations = state.byId[
-          registration.fromPool
-        ].registrations.filter(reg => reg !== registration.id);
         return {
           ...state,
           byId: {
             ...state.byId,
-            [registration.fromPool]: {
-              ...state.byId[registration.fromPool],
-              registrations
+            [fromPool]: {
+              ...pool,
+              registrations: pool.registrations.filter(
+                reg => reg !== payload.id
+              )
             }
           }
         };
