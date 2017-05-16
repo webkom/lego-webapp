@@ -39,7 +39,7 @@ const GroupPage = ({
   location: Object
 }) => {
   return (
-    <div className={styles.GroupPage}>
+    <div className={styles.groupPage}>
       <section className={styles.sidebar}>
         <GroupTree groups={groups} />
       </section>
