@@ -16,7 +16,9 @@ const mapStateToProps = (state, props) => {
     articleId,
     isNew: false,
     initialValues: {
-      ...article,
+      title: article.title,
+      cover: article.cover,
+      tags: article.tags,
       content: article.content || '<p></p>'
     }
   };

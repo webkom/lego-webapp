@@ -5,6 +5,7 @@ import { articleSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import createQueryString from 'app/utils/createQueryString';
 import type { EntityID, ArticleEntity } from 'app/types';
+import { push } from 'react-router-redux';
 
 export function fetchArticle(articleId: EntityID) {
   return callAPI({
@@ -19,42 +20,47 @@ export function fetchArticle(articleId: EntityID) {
 }
 
 export function createArticle({ title, content, tags, cover }: ArticleEntity) {
-  return callAPI({
-    types: Article.CREATE,
-    endpoint: '/articles/',
-    method: 'POST',
-    schema: articleSchema,
-    body: {
-      title,
-      content,
-      tags,
-      cover,
-      author: 1,
-      description: 'nice article'
-    },
-    meta: {
-      errorMessage: 'Creating article failed'
-    }
-  });
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: Article.CREATE,
+        endpoint: '/articles/',
+        method: 'POST',
+        schema: articleSchema,
+        body: {
+          title,
+          content,
+          tags,
+          cover,
+          author: 1,
+          description: 'nice article'
+        },
+        meta: {
+          errorMessage: 'Creating article failed'
+        }
+      })
+    ).then(res => dispatch(push(`/articles/${res.payload.result}/`)));
 }
 
-export function editArticle({ id, title, content, tags }: ArticleEntity) {
-  return callAPI({
-    types: Article.EDIT,
-    endpoint: `/articles/${id}/`,
-    method: 'PUT',
-    schema: articleSchema,
-    body: {
-      title,
-      content,
-      tags,
-      author: 1,
-      description: 'nice article'
-    },
-    meta: {
-      errorMessage: 'Editing article failed'
-    }
-  });
+export function editArticle({ id, title, content }: ArticleEntity) {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: Article.EDIT,
+        endpoint: `/articles/${id}/`,
+        method: 'PUT',
+        schema: articleSchema,
+        body: {
+          title,
+          content,
+          author: 1,
+          description: 'nice article'
+        },
+        meta: {
+          errorMessage: 'Editing article failed'
+        }
+      })
+    ).then(res => dispatch(push(`/articles/${id}/`)));
 }
 
 export function fetchAll(

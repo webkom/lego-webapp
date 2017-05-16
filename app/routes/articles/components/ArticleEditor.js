@@ -26,7 +26,24 @@ export default class ArticleEditor extends Component {
   props: Props;
 
   state = {
-    uploadOpen: true
+    uploadOpen: true,
+    article: {
+      cover: null
+    },
+    images: {}
+  };
+
+  setCover = image => {
+    this.props.uploadFile({ file: image, isPublic: true }).then(action => {
+      const file = action.meta.fileToken;
+      this.setState({
+        images: {
+          ...this.state.images,
+          [file]: window.URL.createObjectURL(image)
+        },
+        article: { cover: file }
+      });
+    });
   };
 
   onSubmit = data => {
@@ -34,14 +51,16 @@ export default class ArticleEditor extends Component {
       ...(!this.props.isNew && { id: this.props.articleId }),
       title: data.title,
       content: data.content,
-      cover: data.cover,
-      tags: data.tags.map(tag => tag.value)
+      tags: (data.tags || []).map(tag => tag.value)
     };
 
     if (this.props.isNew) {
       this.props.createArticle(body);
     } else {
-      this.props.editArticle(body);
+      this.props.editArticle({
+        id: this.props.article.id,
+        ...body
+      });
     }
   };
 

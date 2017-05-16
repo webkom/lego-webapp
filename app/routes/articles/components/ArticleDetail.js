@@ -44,16 +44,24 @@ const ArticleDetail = (props: Props) => {
           </span>}
       </FlexRow>
 
-      <Editor readOnly value={article.content} />
-      {article.commentTarget &&
-        <CommentView
-          user={currentUser}
-          commentTarget={article.commentTarget}
-          loggedIn={loggedIn}
-          comments={comments}
-        />}
-    </div>
-  );
-};
-
-export default ArticleDetail;
+        <FlexRow alignItems="center" justifyContent="space-between">
+          <h2>{article.title}</h2>
+          {article.actionGrant &&
+            article.actionGrant.includes('update') &&
+            <span>
+              <Link to={`/articles/${article.id}/edit`}>Edit</Link>
+            </span>}
+        </FlexRow>
+        <Editor readOnly value={article.content} />
+        {article.commentTarget &&
+          <CommentView
+            formEnabled
+            user={currentUser}
+            commentTarget={article.commentTarget}
+            loggedIn={loggedIn}
+            comments={comments}
+          />}
+      </div>
+    );
+  }
+}

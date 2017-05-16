@@ -31,9 +31,7 @@ export default class ImageUpload extends Component {
 
   closeModal = blob => {
     this.setState({ cropOpen: false });
-    if (this.props.onClose) {
-      this.props.onClose(blob);
-    }
+    this.props.onClose && this.props.onClose(blob);
   };
 
   createUploadArea = () =>
