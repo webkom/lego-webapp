@@ -11,7 +11,6 @@ type Props = {
 };
 
 const PageList = ({ pages }: Props) => {
-  console.log('render PageList', pages);
   return (
     <ul>
       {Object.values(pages).map(page => (

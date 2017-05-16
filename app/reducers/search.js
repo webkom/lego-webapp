@@ -17,7 +17,8 @@ const searchMapping = {
     label: 'fullName',
     color: '#A1C34A',
     path: '/users/',
-    value: 'username',
+    value: 'id',
+    link: user => `/users/${user.username}`,
     profilePicture: 'profilePicture'
   },
   'articles.article': {
@@ -135,7 +136,11 @@ const transformResult = result => {
     item[field] = result[fields[field]] || fields[field];
   });
 
-  item.link = item.path + item.value;
+  if (fields.link) {
+    item.link = fields.link(result);
+  } else {
+    item.link = item.path + item.value;
+  }
 
   return item;
 };
