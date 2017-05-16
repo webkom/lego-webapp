@@ -17,8 +17,7 @@ const searchMapping = {
     label: 'fullName',
     color: '#A1C34A',
     path: '/users/',
-    value: 'id',
-    link: user => `/users/${user.username}`,
+    value: 'username',
     profilePicture: 'profilePicture'
   },
   'articles.article': {
@@ -31,6 +30,7 @@ const searchMapping = {
     content: 'text'
   },
   'events.event': {
+    label: 'title',
     icon: 'calendar',
     label: 'title',
     color: '#E8953A',
@@ -40,6 +40,7 @@ const searchMapping = {
     content: 'description'
   },
   'flatpages.page': {
+    label: 'title',
     profilePicture: 'picture',
     label: 'title',
     color: '#E8953A',

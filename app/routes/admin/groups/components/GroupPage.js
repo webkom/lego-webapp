@@ -1,5 +1,4 @@
-// @flow
-
+import './GroupAdmin.css';
 import React from 'react';
 import { Link } from 'react-router';
 import GroupTree from './GroupTree';
@@ -7,14 +6,15 @@ import styles from './GroupAdmin.css';
 
 const tabNames = ['Settings', 'Members'];
 
-const Tab = ({ base, name }) =>
+const Tab = ({ base, name }) => (
   <Link
     className={styles.tab}
     to={`${base}/${name.toLowerCase()}`}
     activeClassName="active"
   >
     {name}
-  </Link>;
+  </Link>
+);
 
 const Tabs = ({ location }: { location: Object }) => {
   const { pathname } = location;
@@ -38,7 +38,7 @@ const GroupPage = ({
   location: Object
 }) => {
   return (
-    <div className={styles.groupPage}>
+    <div className={styles.GroupPage}>
       <section className={styles.sidebar}>
         <GroupTree groups={groups} />
       </section>
