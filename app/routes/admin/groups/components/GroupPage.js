@@ -1,4 +1,5 @@
-import './GroupAdmin.css';
+// @flow
+
 import React from 'react';
 import { Link } from 'react-router';
 import GroupTree from './GroupTree';
