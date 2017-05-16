@@ -5,18 +5,18 @@
   display: flex;
 }
 
-.GroupPage__sidebar {
+.sidebar {
   flex: 0 0 15em;
   order: -1;
 }
 
-.GroupPage__main {
+.main {
   display: flex;
   flex-direction: column;
   flex: 1;
 }
 
-.GroupPage__header {
+.header {
   text-align: center;
   border-bottom: 2px solid var(--lego-link-color);
   display: flex;
@@ -38,7 +38,7 @@
   }
 }
 
-.GroupPage__tabs {
+.tabs {
   height: 40px;
   display: flex;
   border-bottom: 2px solid #ddd;
@@ -46,7 +46,7 @@
   width: 100%;
 }
 
-.GroupPage__tabs__tab {
+.tab {
   border-left: 4px solid var(--lego-link-color);
   width: 100%;
   font-size: 20px;

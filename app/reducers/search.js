@@ -17,7 +17,7 @@ const searchMapping = {
     label: 'fullName',
     color: '#A1C34A',
     path: '/users/',
-    value: 'id',
+    value: 'username',
     profilePicture: 'profilePicture'
   },
   'articles.article': {
@@ -30,6 +30,7 @@ const searchMapping = {
     content: 'text'
   },
   'events.event': {
+    label: 'title',
     icon: 'calendar',
     color: '#E8953A',
     picture: 'cover',
@@ -38,6 +39,7 @@ const searchMapping = {
     content: 'description'
   },
   'flatpages.page': {
+    label: 'title',
     profilePicture: 'picture',
     color: '#E8953A',
     path: '/pages/',
@@ -55,7 +57,9 @@ const searchMapping = {
   'users.abakusgroup': {
     label: 'name',
     path: '/groups/',
-    value: 'id'
+    value: 'id',
+    icon: 'people',
+    color: '#000000'
   }
 };
 

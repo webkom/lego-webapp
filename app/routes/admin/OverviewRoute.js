@@ -1,22 +1,22 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
 import { Link } from 'react-router';
+import styles from './Overview.css';
 
-export default class OverviewRoute extends Component {
-  static propTypes = {
-    children: PropTypes.any
-  };
-
-  render() {
-    return (
-      <div>
-        <h1>Admin</h1>
+const OverviewRoute = ({ children }: { children: any }) => {
+  return (
+    <div className={styles.root}>
+      <div className={styles.sidebar}>
         <ul>
           <li>
             <Link to="/admin/groups">Groups</Link>
           </li>
         </ul>
       </div>
-    );
-  }
-}
+      <div className={styles.main}>
+        {children}
+      </div>
+    </div>
+  );
+};
+
+export default OverviewRoute;
