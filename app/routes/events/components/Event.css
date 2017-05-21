@@ -38,19 +38,16 @@
 }
 
 .description {
-  background: #fff;
-  padding: 20px;
   border-radius: 5px;
   flex: 2;
+  background: var(--lego-color-gray-light);
 }
 
 .meta {
   flex: 1;
-  background: #ba1414;
   padding: 20px;
   border-radius: 5px;
   margin-left: 1em;
-  color: #fff;
 
   @media (--small-viewport) {
     margin-left: 0;
@@ -58,7 +55,7 @@
 }
 
 .openFor {
-  background: #CACACA;
+  background: var(--color-gray-5);
   padding: 20px;
   min-width: 340px;
   border-radius: 5px;
@@ -71,15 +68,22 @@
 }
 
 .join {
-  background: #AAA;
-  padding: 20px;
+  background: var(--lego-color-gray-light);
   border-radius: 5px;
   flex: 2;
 }
 
+.join > * {
+  margin: 20px 20px 0;
+}
+
+.join > *:last-child {
+  margin-bottom: 20px;
+}
+
 .joinHeader {
   font-size: 20px;
-  color: #333;
+  color: var(--lego-color-gray);
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -98,4 +102,39 @@
 
 .registrationSection {
   flex-wrap: wrap-reverse;
+}
+
+.companyPresentation {
+  background: var(--color-company-presentation);
+  color: var(--color-black);
+}
+
+.lunchPresentation {
+  background: var(--color-lunch-presentation);
+  color: var(--color-black);
+}
+
+.course {
+  background: var(--color-course);
+  color: var(--color-black);
+}
+
+.party {
+  background: var(--color-party);
+  color: var(--color-black);
+}
+
+.social {
+  background: var(--color-social);
+  color: var(--color-white);
+}
+
+.event {
+  background: var(--color-event);
+  color: var(--color-white);
+}
+
+.other {
+  background: var(--color-other);
+  color: var(--color-white);
 }

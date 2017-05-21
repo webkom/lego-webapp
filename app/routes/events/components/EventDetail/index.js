@@ -14,9 +14,10 @@ import Tag from 'app/components/Tag';
 import Time from 'app/components/Time';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Flex } from 'app/components/Layout';
-import { EVENT_TYPE_TO_STRING, colorForEvent } from '../../utils.js';
+import { EVENT_TYPE_TO_STRING, styleForEvent } from '../../utils.js';
 import Admin from '../Admin';
 import RegistrationMeta from '../RegistrationMeta';
+import cx from 'classnames';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
@@ -116,7 +117,7 @@ export default class EventDetail extends Component {
     if (error) {
       return <div>{error.message}</div>;
     }
-    const metaColor = colorForEvent(event.eventType);
+    const styleType = styleForEvent(event.eventType);
 
     return (
       <div className={styles.root}>
@@ -131,16 +132,15 @@ export default class EventDetail extends Component {
 
         <Flex wrap className={styles.mainRow}>
           <Flex column className={styles.description}>
-            <div dangerouslySetInnerHTML={{ __html: event.text }} />
+            <div
+              className={styles.text}
+              dangerouslySetInnerHTML={{ __html: event.text }}
+            />
             <Flex className={styles.tagRow}>
               {event.tags.map((tag, i) => <Tag key={i} tag={tag} />)}
             </Flex>
           </Flex>
-          <Flex
-            column
-            className={styles.meta}
-            style={{ background: metaColor }}
-          >
+          <Flex column className={cx(styles.meta, styleType)}>
             <ul>
               {event.company &&
                 <li>
@@ -207,21 +207,13 @@ export default class EventDetail extends Component {
 
         <Flex wrapReverse>
           {loggedIn &&
-            <Flex column className={styles.join}>
-              <div className={styles.joinHeader}>
-                Bli med på dette arrangementet
-              </div>
-
-              <div>
-                <JoinEventForm
-                  event={event}
-                  registration={currentRegistration}
-                  currentUser={currentUser}
-                  onToken={this.handleToken}
-                  onSubmit={this.handleRegistration}
-                />
-              </div>
-            </Flex>}
+            <JoinEventForm
+              event={event}
+              registration={currentRegistration}
+              currentUser={currentUser}
+              onToken={this.handleToken}
+              onSubmit={this.handleRegistration}
+            />}
 
           <Flex column className={styles.openFor}>
             <strong>Åpent for</strong>

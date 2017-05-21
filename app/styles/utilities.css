@@ -30,6 +30,11 @@
   border-radius: 5px;
 }
 
+.editShadow {
+  composes: withShadow;
+  box-shadow: 0 0 5px var(--color-dark-gray-2);
+}
+
 .truncateString {
   white-space: nowrap;
   overflow: hidden;

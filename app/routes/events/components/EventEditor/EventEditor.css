@@ -1,32 +1,38 @@
 @import '../Event.css';
 
+.fieldShadow {
+  box-shadow: 0 0 10px var(--color-dark-gray-1);
+}
+
 .title {
   font-size: 24px;
-  color: #394B59;
+  color: var(--lego-font-color);
   font-family: Raleway, 'Helvetica Neue', Arial, sans-serif;
   font-weight: 700;
-  border: 0;
   margin-top: 1em;
   padding-left: 0;
-  box-shadow: 0 0 10px #808080;
+  composes: editShadow from 'app/styles/utilities.css';
 }
 
 .editors {
-  background: white;
-  border: 1px solid #ccc;
+  border: 1px solid var(--color-light-gray-1);
   border-radius: 3px;
   padding: 10px;
 }
 
-.formField {
-  border: 0;
-  padding: 1px;
-  padding-left: 5px;
-  box-shadow: 0 0 10px #808080;
+.descriptionEditor {
+  background: inherit;
 }
 
-.fieldShadow {
-  box-shadow: 0 0 10px #394B59;
+.formField {
+  padding: 1px;
+  padding-left: 5px;
+  composes: editShadow from 'app/styles/utilities.css';
+}
+
+.description {
+  composes: description;
+  composes: editShadow from 'app/styles/utilities.css';
 }
 
 .metaField {

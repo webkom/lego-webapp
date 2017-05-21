@@ -56,7 +56,12 @@ const renderPools = ({
           fetching={searching}
           multi
         />
-        <Button onClick={() => fields.remove(index)}>Remove pool</Button>
+        <Button
+          disabled={fields.get(index).registrations.length > 0}
+          onClick={() => fields.remove(index)}
+        >
+          Fjern pool
+        </Button>
       </li>
     ))}
     <li>
@@ -69,7 +74,7 @@ const renderPools = ({
             permissionGroups: []
           })}
       >
-        Add pool
+        Legg til pool
       </Button>
     </li>
   </ul>

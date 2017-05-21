@@ -1,3 +1,5 @@
+import styles from './components/Event.css';
+
 export const eventTypes = {
   company_presentation: 'Bedriftspresentasjon',
   lunch_presentation: 'Lunsjpresentasjon',
@@ -13,16 +15,16 @@ export const EVENT_TYPE_TO_STRING = eventType => {
   return eventTypes[eventType] || eventTypes['other'];
 };
 
-const colors = {
-  company_presentation: '#A1C34A',
-  lunch_presentation: '#A1C34A',
-  course: '#52B0EC',
-  party: '#FCD748',
-  social: '#B11C11',
-  event: '#B11C11',
-  other: '#111111'
+const typeStyles = {
+  company_presentation: styles.companyPresentation,
+  lunch_presentation: styles.lunchPresentation,
+  course: styles.course,
+  party: styles.party,
+  social: styles.social,
+  event: styles.event,
+  other: styles.other
 };
 
-export const colorForEvent = eventType => {
-  return colors[eventType] || colors['other'];
+export const styleForEvent = eventType => {
+  return typeStyles[eventType] || typeStyles['other'];
 };

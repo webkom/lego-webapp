@@ -30,12 +30,10 @@ class ImageUploadField extends Component {
           token,
           tempImg: window.URL.createObjectURL(image)
         }),
-        this.commit
+        this.props.onChange(this.state.token)
       );
     });
   };
-
-  commit = () => this.props.onChange(this.state.token);
 
   render() {
     const { className, ...props } = this.props;
