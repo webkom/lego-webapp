@@ -14,14 +14,6 @@ export default class ImageUpload extends Component {
     img: this.props.img
   };
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.tempImg) {
-      this.setState({
-        img: nextProps.tempImg
-      });
-    }
-  }
-
   onFile = file => {
     this.setState({ file, cropOpen: true });
   };
@@ -30,13 +22,18 @@ export default class ImageUpload extends Component {
     this.crop.cropper.getCroppedCanvas().toBlob(image => {
       image.name = this.state.file.name;
       this.props.onSubmit(image, global.URL.createObjectURL(image));
+      this.setState(state => ({
+        img: window.URL.createObjectURL(image)
+      }));
       this.closeModal(image);
     });
   };
 
   closeModal = blob => {
     this.setState({ cropOpen: false });
-    this.props.onClose(blob);
+    if (this.props.onClose) {
+      this.props.onClose(blob);
+    }
   };
 
   createUploadArea = () => (

@@ -28,3 +28,17 @@ const typeStyles = {
 export const styleForEvent = eventType => {
   return typeStyles[eventType] || typeStyles['other'];
 };
+
+export const colorType = {
+  company_presentation: styles.colorCompanyPresentation,
+  lunch_presentation: styles.colorLunchPresentation,
+  course: styles.colorCourse,
+  party: styles.colorParty,
+  social: styles.colorSocial,
+  event: styles.colorEvent,
+  other: styles.colorOther
+};
+
+export const colorForEvent = eventType => {
+  return colorType[eventType] || colorType['other'];
+};

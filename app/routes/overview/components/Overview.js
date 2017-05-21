@@ -4,13 +4,12 @@ import Helmet from 'react-helmet';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import Image from 'app/components/Image';
-import { colorForEvent } from 'app/routes/events/utils';
 import truncateString from 'app/utils/truncateString';
 import { Content, Flex } from 'app/components/Layout';
 import LatestReadme from './LatestReadme';
 import Feed from './Feed';
 import CompactEvents from './CompactEvents';
-import { EVENT_TYPE_TO_STRING } from 'app/routes/events/utils';
+import { EVENT_TYPE_TO_STRING, colorForEvent } from 'app/routes/events/utils';
 import Button from 'app/components/Button';
 
 const TITLE_MAX_LENGTH = 50;

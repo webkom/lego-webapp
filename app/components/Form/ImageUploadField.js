@@ -9,40 +9,34 @@ type Props = {
   type?: string,
   className?: string,
   uploadFile: () => Promise<*>,
-  onChange: () => void
+  onChange: () => void,
+  edit: () => Promise<*>
 };
 
 class ImageUploadField extends Component {
   props: Props;
-
-  state = {
-    tempImg: null,
-    token: ''
-  };
 
   static Field: any;
 
   setValue = (image: File) => {
     this.props.uploadFile({ file: image, isPublic: true }).then(action => {
       const token = action.meta.fileToken;
-      this.setState(
-        state => ({
-          token,
-          tempImg: window.URL.createObjectURL(image)
-        }),
-        this.props.onChange(this.state.token)
-      );
+      if (this.props.edit) {
+        this.props.edit(token);
+      } else {
+        this.props.onChange(token);
+      }
     });
   };
 
   render() {
-    const { className, ...props } = this.props;
+    const { className, style, ...props } = this.props;
+    const imageClass = className ? className : styles.coverImage;
     return (
-      <div className={styles.coverImage}>
+      <div className={cx(styles.base, imageClass)} style={style}>
         <ImageUpload
-          className={cx(styles.textField, className)}
+          className={styles.textField}
           onSubmit={this.setValue}
-          tempImg={this.state.tempImg}
           {...props}
           {...props.input}
           {...props.meta}

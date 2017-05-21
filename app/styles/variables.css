@@ -59,15 +59,15 @@
   --color-red-4: #f55656;
   --color-red-5: #ff7373;
 
-  --color-company-presentation: #A1C34A;
-  --color-lunch-presentation: #A1C34A;
-  --color-course: #52B0EC;
-  --color-party: #FCD748;
-  --color-social: #B11C11;
-  --color-event: #B11C11;
-  --color-other: #111;
-
   --font-size: 16px;
   --font-size-small: 12px;
   --font-size-large: 18px;
 }
+
+@value colorCompanyPresentation: #A1C34A;
+@value colorLunchPresentation: #A1C34A;
+@value colorCourse: #52B0EC;
+@value colorParty: #FCD748;
+@value colorSocial: #B11C11;
+@value colorEvent: #B11C11;
+@value colorOther: #111;

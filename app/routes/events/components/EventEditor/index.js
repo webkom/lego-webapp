@@ -89,6 +89,7 @@ function EventEditor({
   handleSubmit,
   handleSubmitCallback,
   uploadFile,
+  setCoverPhoto,
   autocompleteResult,
   companyQueryChanged,
   groupQueryChanged,
@@ -125,6 +126,7 @@ function EventEditor({
           name="cover"
           component={ImageUploadField.Field}
           uploadFile={uploadFile}
+          edit={isEditPage && (token => setCoverPhoto(eventId, token))}
           aspectRatio={20 / 6}
           img={event.cover}
         />

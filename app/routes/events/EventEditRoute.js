@@ -1,7 +1,12 @@
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
-import { fetchEvent, editEvent, deleteEvent } from 'app/actions/EventActions';
+import {
+  fetchEvent,
+  editEvent,
+  deleteEvent,
+  setCoverPhoto
+} from 'app/actions/EventActions';
 import { uploadFile } from 'app/actions/FileActions';
 import EventEditor from './components/EventEditor';
 import {
@@ -58,7 +63,8 @@ const mapDispatchToProps = dispatch => {
         fetchEvent,
         deleteEvent,
         handleSubmitCallback: editEvent,
-        uploadFile
+        uploadFile,
+        setCoverPhoto
       },
       dispatch
     ),

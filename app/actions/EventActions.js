@@ -95,7 +95,6 @@ export function createEvent({
 export function editEvent({
   id,
   title,
-  cover,
   startTime,
   endTime,
   description,
@@ -120,7 +119,6 @@ export function editEvent({
         body: {
           id,
           title,
-          cover,
           startTime: moment(startTime).toISOString(),
           endTime: moment(endTime).toISOString(),
           description,
@@ -163,6 +161,21 @@ export function deleteEvent(eventId) {
       dispatch(push('/events'));
     });
   };
+}
+
+export function setCoverPhoto(id, token) {
+  return callAPI({
+    types: Event.EDIT,
+    endpoint: `/events/${id}/`,
+    method: 'PATCH',
+    body: {
+      id,
+      cover: token
+    },
+    meta: {
+      errorMessage: 'Editing cover photo failed'
+    }
+  });
 }
 
 export function register(eventId, captchaResponse, feedback) {
