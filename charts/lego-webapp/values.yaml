@@ -1,5 +1,0 @@
-webapp:
-  image:
-    repository: registry.abakus.no/webkom/lego-webapp
-    tag: latest
-  replica_count: 2
