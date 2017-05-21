@@ -18,7 +18,16 @@ const Keyboard = {
   DOWN: 40
 };
 
-const quickLinks = [['', 'Interessegrupper'], ['', 'Butikk'], ['', 'Kontakt']];
+const quickLinks = [
+  ['/admin', 'Admin'],
+  ['/bdb', 'BDB'],
+  ['/interestgroups', 'Interessegrupper'],
+  ['/meetings', 'Møter'],
+  ['/quotes', 'Sitater'],
+  ['/users/me', 'Profil']
+];
+
+const externalLinks = [['https://shop.abakus.no/', 'Butikk']];
 
 const SearchResultItem = ({ result, isSelected, onCloseSearch }) =>
   <Link to={result.link} onClick={onCloseSearch}>
@@ -137,10 +146,17 @@ class Search extends Component {
             <div className={styles.quickLinks}>
               <ul>
                 {quickLinks.map(([href, name]) =>
-                  <li key={name}>
+                  <li key={name} onClick={onCloseSearch}>
                     <Link to={href}>
                       {name}
                     </Link>
+                  </li>
+                )}
+                {externalLinks.map(([href, name]) =>
+                  <li key={name} onClick={onCloseSearch}>
+                    <a href={href}>
+                      {name}
+                    </a>
                   </li>
                 )}
               </ul>

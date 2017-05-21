@@ -20,7 +20,7 @@ type Props = {
   toggleSearch: () => any,
   currentUser: UserEntity,
   loggedIn: boolean,
-  login: () => void,
+  login: () => Promise<*>,
   logout: () => void,
   notificationsData: Object,
   fetchNotifications: () => void,
@@ -102,15 +102,18 @@ class Header extends Component {
             <Link to="/joblistings" activeClassName={styles.activeItem}>
               Karriere
             </Link>
-            <Link
-              to="/readme"
+            <a
+              href="http://readme.abakus.no"
               activeClassName={styles.activeItem}
               className={styles.readmeLink}
             >
               readme
-            </Link>
+            </a>
             <Link to="/about" activeClassName={styles.activeItem}>
               Om Abakus
+            </Link>
+            <Link onClick={this.props.toggleSearch}>
+              <Icon name="menu" scaleOnHover style={{ fontSize: 30 }} />
             </Link>
           </div>
 
