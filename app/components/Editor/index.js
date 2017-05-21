@@ -7,6 +7,7 @@ import Toolbar from './Toolbar';
 import Tooltip from './Tooltip';
 import styles from './Editor.css';
 import { Blocks } from './constants';
+import cx from 'classnames';
 
 const html = new Html({ rules });
 
@@ -192,21 +193,22 @@ export default class CustomEditor extends Component {
 
   render = () => {
     const { editorState } = this.state;
+    const { className, uploadFile, placeholder, disableBlocks } = this.props;
 
     return (
       <div
         ref={c => {
           this.wrapperElement = c;
         }}
-        className={styles.EditorWrapper}
+        className={cx(styles.EditorWrapper, className)}
       >
         <Editor
           readOnly={this.props.readOnly}
           state={editorState}
-          placeholder={this.props.placeholder || 'Default placeholder'}
+          placeholder={placeholder || 'Default placeholder'}
           onChange={this.onChange}
-          plugins={getPlugins(!this.props.disableBlocks)}
-          schema={getSchema(!this.props.disableBlocks)}
+          plugins={getPlugins(!disableBlocks)}
+          schema={getSchema(!disableBlocks)}
           onDocumentChange={this.onDocumentChange}
           className={styles.Editor}
         />
@@ -217,7 +219,7 @@ export default class CustomEditor extends Component {
             editorState={editorState}
             insertBlock={this.insertBlock}
             wrapperElement={this.wrapperElement}
-            uploadFile={this.props.uploadFile}
+            uploadFile={uploadFile}
             isPublic
             setBlockData={this.setBlockData}
           />}

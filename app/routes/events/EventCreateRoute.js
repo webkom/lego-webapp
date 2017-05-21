@@ -2,6 +2,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 import { createEvent } from 'app/actions/EventActions';
+import { uploadFile } from 'app/actions/FileActions';
 import EventEditor from './components/EventEditor';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocomplete } from 'app/reducers/search';
@@ -22,7 +23,7 @@ const mapStateToProps = (state, props) => {
       text: '<p></p>',
       eventType: '',
       company: {},
-      location: '',
+      location: 'TBA',
       isPriced: false,
       useStripe: false,
       priceMember: 0,
@@ -45,7 +46,8 @@ const mapDispatchToProps = dispatch => {
   return {
     ...bindActionCreators(
       {
-        handleSubmitCallback: createEvent
+        handleSubmitCallback: createEvent,
+        uploadFile
       },
       dispatch
     ),

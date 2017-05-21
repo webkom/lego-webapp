@@ -46,6 +46,7 @@ export function fetchAdministrate(eventId) {
 
 export function createEvent({
   title,
+  cover,
   startTime,
   endTime,
   description,
@@ -68,6 +69,7 @@ export function createEvent({
         method: 'POST',
         body: {
           title,
+          cover,
           startTime: moment(startTime).toISOString(),
           endTime: moment(endTime).toISOString(),
           description,
@@ -77,7 +79,7 @@ export function createEvent({
           location,
           isPriced,
           useStripe,
-          priceMember: isPriced && priceMember * 100,
+          priceMember: isPriced ? priceMember * 100 : 0,
           mergeTime: moment(mergeTime).toISOString(),
           useCaptcha,
           tags
@@ -93,6 +95,7 @@ export function createEvent({
 export function editEvent({
   id,
   title,
+  cover,
   startTime,
   endTime,
   description,
@@ -117,6 +120,7 @@ export function editEvent({
         body: {
           id,
           title,
+          cover,
           startTime: moment(startTime).toISOString(),
           endTime: moment(endTime).toISOString(),
           description,
@@ -126,7 +130,7 @@ export function editEvent({
           location,
           isPriced,
           useStripe,
-          priceMember: isPriced && priceMember * 100,
+          priceMember: isPriced ? priceMember * 100 : 0,
           mergeTime: moment(mergeTime).toISOString(),
           useCaptcha,
           tags,

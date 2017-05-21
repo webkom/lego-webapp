@@ -1,24 +1,26 @@
+// @flow
+
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import styles from './UploadImage.css';
 
 type Props = {
   onSubmit: () => void,
-  onDrop?: () => void,
+  onDrop: () => void,
   multiple?: Boolean,
-  accept?: String
+  accept?: String,
+  children?: any
 };
 
 class Upload extends Component {
   props: Props;
 
   state = {
-    file: null,
-    files: []
+    file: undefined
   };
 
-  onDrop = acceptedFiles => {
-    if (!this.props.mutiple) {
+  onDrop = (acceptedFiles: Array<File>) => {
+    if (!this.props.multiple) {
       this.setState({ file: acceptedFiles[0] }, () =>
         this.props.onDrop(this.state.file)
       );
@@ -26,15 +28,16 @@ class Upload extends Component {
   };
 
   render() {
+    const { multiple, accept, children } = this.props;
     return (
       <Dropzone
         className={styles.dropArea}
         activeClassName={styles.activeDropArea}
         onDrop={this.onDrop}
-        multiple={this.props.mutiple}
-        accept={this.props.accept}
+        multiple={multiple}
+        accept={accept}
       >
-        {this.props.children}
+        {children}
       </Dropzone>
     );
   }

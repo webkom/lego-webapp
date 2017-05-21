@@ -12,7 +12,8 @@ export type Props = {
   isPublic: boolean,
   insertBlock: properties => void,
   setBlockData: (key, data) => void,
-  wrapperElement: object
+  wrapperElement: object,
+  uploadFile: () => Promise
 };
 
 export default class Toolbar extends Component {

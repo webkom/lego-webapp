@@ -10,8 +10,17 @@ import styles from './UploadImage.css';
 export default class ImageUpload extends Component {
   state = {
     cropOpen: this.props.inModal || false,
-    file: {}
+    file: {},
+    img: this.props.img
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.tempImg) {
+      this.setState({
+        img: nextProps.tempImg
+      });
+    }
+  }
 
   onFile = file => {
     this.setState({ file, cropOpen: true });
@@ -31,45 +40,47 @@ export default class ImageUpload extends Component {
   };
 
   createUploadArea = () => (
-    <Upload onDrop={this.onFile} accept="image/*" img={this.props.img}>
+    <Upload onDrop={this.onFile} accept="image/*" img={this.state.img}>
       <div className={styles.placeholderContainer}>
         <Icon name="picture-o" className={styles.placeholderIcon} />
         <h1 className={styles.placeholdeTitle}>
           Drop image to upload or click to select from file
         </h1>
       </div>
-      {this.props.img &&
+      {this.state.img &&
         <img
           className={styles.image}
-          src={this.props.img}
+          src={this.state.img}
           role="presentation"
         />}
     </Upload>
   );
 
   render() {
+    const { inModal, aspectRatio } = this.props;
+    const { cropOpen, file: { preview } } = this.state;
     return (
       <div className={styles.container}>
-        {!this.props.inModal && this.createUploadArea()}
+        {!inModal && this.createUploadArea()}
         <Modal
-          show={this.state.cropOpen}
+          show={cropOpen}
           onHide={this.closeModal}
           backdropClassName={styles.backdrop}
           backdrop
         >
-          {this.props.inModal &&
-            !this.state.file.preview &&
+          {inModal &&
+            !preview &&
             <div className={styles.inModalUpload}>
               {this.createUploadArea()}
             </div>}
-          {this.state.file.preview &&
+          {preview &&
             <Cropper
               ref={node => {
                 this.crop = node;
               }}
-              src={this.state.file.preview}
+              src={preview}
               className={styles.cropper}
-              aspectRatio={this.props.aspectRatio}
+              aspectRatio={aspectRatio}
               guides={false}
             />}
           <div className={styles.buttons}>
