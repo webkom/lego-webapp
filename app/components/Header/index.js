@@ -99,9 +99,16 @@ class Header extends Component {
             <Link to="/events" activeClassName={styles.activeItem}>
               Arrangementer
             </Link>
-            <Link to="/joblistings" activeClassName={styles.activeItem}>
-              Karriere
-            </Link>
+            {!loggedIn
+              ? <Link
+                  to="/pages/for-companies"
+                  activeClassName={styles.activeItem}
+                >
+                  For bedrifter
+                </Link>
+              : <Link to="/joblistings" activeClassName={styles.activeItem}>
+                  Karriere
+                </Link>}
             <a
               href="http://readme.abakus.no"
               activeClassName={styles.activeItem}
