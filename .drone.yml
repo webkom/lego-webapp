@@ -28,13 +28,10 @@ pipeline:
       - RAVEN_DSN=${RAVEN_DSN}
       - RELEASE=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
 
-  deploy:
-    image: quay.io/ipedrazas/drone-helm
+  deployment:
+    image: appropriate/curl
     when:
       branch:
         - prod
-    skip_tls_verify: true
-    chart: ./charts/lego-webapp
-    release: lego-webapp-prod
-    namespace: lego-prod
-    values: webapp.image.tag=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+    commands:
+      - "curl -X POST -u ${ACCESS_KEY_ID}:${ACCESS_KEY_SECRET} -H 'Content-Type: application/json' ${API_URL}/deployments -d '{\"release\": ${RELEASE_ID}, \"value_overrides\": {\"webapp.image.tag\": \"${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}\"}}'"
