@@ -34,4 +34,4 @@ pipeline:
       branch:
         - prod
     commands:
-      - "curl -X POST -u ${ACCESS_KEY_ID}:${ACCESS_KEY_SECRET} -H 'Content-Type: application/json' ${API_URL}/deployments -d '{\"release\": ${RELEASE_ID}, \"value_overrides\": {\"webapp.image.tag\": \"${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}\"}'"
+      - "curl -X POST -u ${ACCESS_KEY_ID}:${ACCESS_KEY_SECRET} -H 'Content-Type: application/json' ${API_URL}/deployments -d '{\"release\": ${RELEASE_ID}, \"value_overrides\": {\"webapp.image.tag\": \"${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}\"}}'"
