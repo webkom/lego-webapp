@@ -1,4 +1,4 @@
-import './GroupTree.css';
+import styles from './GroupTree.css';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import TreeView from 'react-treeview';
@@ -36,7 +36,7 @@ export default class GroupTree extends Component {
     const tree = generateTreeStructure(groups);
 
     return (
-      <div className="GroupTree__sidebar">
+      <div className={styles.tree}>
         <h3>Groups</h3>
         {generateTreeView(tree)}
       </div>

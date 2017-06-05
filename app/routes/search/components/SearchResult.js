@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 import truncateString from 'app/utils/truncateString';
 import styles from './SearchPage.css';
+import Icon from 'app/components/Icon';
+import ProfilePicture from 'app/components/ProfilePicture';
 
 export default props => {
   const { result } = props;
@@ -10,8 +12,20 @@ export default props => {
     <div style={{ borderColor: result.color }} className={styles.searchResult}>
       <div>
         <Link to={result.link}>
-          <h3 className={result.searchResultTitle}>
-            {result.title}
+          <h3 className={styles.searchResultTitle}>
+            {result.label}
+            {' '}
+            {result.icon &&
+              <Icon
+                className={styles.searchResultItemIcon}
+                name={result.icon}
+              />}
+            {!result.icon &&
+              <ProfilePicture
+                size={20}
+                user={result}
+                style={{ margin: '0px 10px 0px 0px' }}
+              />}
           </h3>
         </Link>
 
