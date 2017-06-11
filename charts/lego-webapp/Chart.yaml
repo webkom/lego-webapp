@@ -1,4 +1,0 @@
-apiVersion: v1
-description: Deploy lego-webapp to Kubernetes
-name: lego-webapp
-version: 0.0.1
