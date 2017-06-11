@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
 import UserSettings from './components/UserSettings';
-import { updateUser } from 'app/actions/UserActions';
+import { updateUser, updatePicture } from 'app/actions/UserActions';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 
 const validate = createValidator({
@@ -23,7 +23,7 @@ function mapStateToProps(state) {
   };
 }
 
-const mapDispatchToProps = { updateUser };
+const mapDispatchToProps = { updateUser, updatePicture };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

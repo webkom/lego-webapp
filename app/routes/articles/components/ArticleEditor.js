@@ -3,9 +3,13 @@ import { FlexRow } from 'app/components/FlexBox';
 import Button from 'app/components/Button';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import styles from './ArticleEditor.css';
-import { EditorField, TextInput, SelectInput } from 'app/components/Form';
-import { ImageUpload } from 'app/components/Upload';
-import { Field } from 'redux-form';
+import {
+  EditorField,
+  TextInput,
+  SelectInput,
+  ImageUploadField
+} from 'app/components/Form';
+import { Form, Field } from 'redux-form';
 
 /**
  *
@@ -22,37 +26,16 @@ export default class ArticleEditor extends Component {
   props: Props;
 
   state = {
-    uploadOpen: true,
-    article: {
-      cover: null,
-      content: '<p></p>'
-    },
-    images: {}
-  };
-
-  setCover = image => {
-    this.props.uploadFile({ file: image, isPublic: true }).then(action => {
-      const file = action.meta.fileToken;
-      this.setState({
-        images: {
-          ...this.state.images,
-          [file]: window.URL.createObjectURL(image)
-        },
-        article: { ...this.state.article, cover: file }
-      });
-    });
+    uploadOpen: true
   };
 
   onSubmit = data => {
     const body = {
       title: data.title,
       content: data.content,
+      cover: data.cover,
       tags: data.tags.map(tag => tag.value)
     };
-
-    if (this.state.article.cover) {
-      body.cover = this.state.article.cover;
-    }
 
     if (this.props.isNew) {
       this.props.createArticle(body);
@@ -63,7 +46,6 @@ export default class ArticleEditor extends Component {
 
   render() {
     const { isNew, uploadFile, handleSubmit, article } = this.props;
-    const { images } = this.state;
 
     if (!isNew && !article.content) {
       return <LoadingIndicator loading />;
@@ -71,16 +53,14 @@ export default class ArticleEditor extends Component {
 
     return (
       <div className={styles.root}>
-        <form onSubmit={handleSubmit(this.onSubmit)}>
-          <div className={styles.coverImage}>
-            <ImageUpload
-              aspectRatio={20 / 6}
-              onSubmit={this.setCover}
-              img={isNew ? images[this.state.article.cover] : article.cover}
-            />
-
-            <div className={styles.coverImageOverlay} />
-          </div>
+        <Form onSubmit={handleSubmit(this.onSubmit)}>
+          <Field
+            name="cover"
+            component={ImageUploadField.Field}
+            uploadFile={uploadFile}
+            aspectRatio={20 / 6}
+            img={article.cover}
+          />
 
           <FlexRow alignItems="baseline">
             <Field
@@ -108,7 +88,7 @@ export default class ArticleEditor extends Component {
             component={EditorField}
             uploadFile={uploadFile}
           />
-        </form>
+        </Form>
       </div>
     );
   }

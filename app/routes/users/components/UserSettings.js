@@ -13,20 +13,21 @@ type Props = {
   invalid: boolean,
   pristine: boolean,
   submitting: boolean,
-  user: any
+  user: any,
+  updatePicture: () => void
 };
 
 export default class UserSettings extends Component {
   props: Props;
 
   render() {
-    const { invalid, pristine, submitting } = this.props;
+    const { invalid, pristine, submitting, updatePicture } = this.props;
 
     const disabledButton = invalid || pristine || submitting;
 
     return (
       <div className={styles.root}>
-        <UserImage user={this.props.user} />
+        <UserImage user={this.props.user} updatePicture={updatePicture} />
         <Form onSubmit={this.props.handleSubmit(this.props.updateUser)}>
           <Field
             placeholder="Brukernavn"

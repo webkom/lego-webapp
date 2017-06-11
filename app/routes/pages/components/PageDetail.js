@@ -10,7 +10,12 @@ import PageHierarchy from './PageHierarchy';
 
 type Props = {
   updatePage: (string, Object) => void,
-  page: Object
+  page: {
+    title: string,
+    slug: string,
+    content: string,
+    permissions: Array<string>
+  }
 };
 
 export default class PageDetail extends Component {
@@ -21,7 +26,7 @@ export default class PageDetail extends Component {
 
   props: Props;
 
-  handleEditorChange = content => {
+  handleEditorChange = (content: string) => {
     this.setState({
       ...this.state,
       content

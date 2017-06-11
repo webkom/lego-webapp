@@ -26,7 +26,7 @@ export default class Admin extends Component {
               <li>
                 <Link
                   to={`/events/${event.id}/administrate`}
-                  style={{ color: 'white' }}
+                  style={{ color: 'inherit' }}
                 >
                   Påmeldinger
                 </Link>
@@ -35,7 +35,7 @@ export default class Admin extends Component {
               <li>
                 <Link
                   to={`/events/${event.id}/edit`}
-                  style={{ color: 'white' }}
+                  style={{ color: 'inherit' }}
                 >
                   Rediger
                 </Link>
@@ -44,7 +44,7 @@ export default class Admin extends Component {
               <li>
                 <a
                   onClick={() => this.handleDelete(event.id)}
-                  style={{ color: 'white' }}
+                  style={{ color: 'inherit' }}
                 >
                   {this.state.verifyDelete ? 'Er du sikker?' : 'Slett'}
                 </a>

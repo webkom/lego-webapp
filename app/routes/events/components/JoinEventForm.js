@@ -1,5 +1,6 @@
 // @flow
 
+import styles from './Event.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
@@ -12,6 +13,7 @@ import StripeCheckout from 'react-stripe-checkout';
 import logoImage from 'app/assets/kule.png';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Time from 'app/components/Time';
+import { Flex } from 'app/components/Layout';
 import config from 'app/config';
 
 export type Props = {
@@ -157,7 +159,10 @@ class JoinEventForm extends Component {
       registration.pool &&
       !['pending', 'succeeded'].includes(registration.chargeStatus);
     return (
-      <div>
+      <Flex column className={styles.join}>
+        <div className={styles.joinHeader}>
+          Bli med på dette arrangementet
+        </div>
         {!this.state.formOpen &&
           this.state.time &&
           <div>
@@ -241,7 +246,7 @@ class JoinEventForm extends Component {
           >
             <Button>Betal nå</Button>
           </StripeCheckout>}
-      </div>
+      </Flex>
     );
   }
 }

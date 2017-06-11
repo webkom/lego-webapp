@@ -1,1 +1,9 @@
 @import '../Event.css';
+
+.description > * {
+  margin: 20px 20px 0;
+}
+
+.description > *:last-child {
+  margin-bottom: 20px;
+}

@@ -19,10 +19,11 @@ import {
   TextEditor,
   CheckBox,
   Button,
-  DatePicker
+  DatePicker,
+  ImageUploadField
 } from 'app/components/Form';
 import { Flex } from 'app/components/Layout';
-import { eventTypes, colorForEvent } from '../../utils.js';
+import { eventTypes, styleForEvent } from '../../utils.js';
 import Admin from '../Admin';
 import Tooltip from 'app/components/Tooltip';
 import cx from 'classnames';
@@ -42,6 +43,7 @@ type Props = {
   isUserInterested: boolean,
   handleSubmit: void => void,
   handleSubmitCallback: void,
+  uploadFile: () => Promise<*>,
   autocompleteResult: Object,
   companyQueryChanged: (query: string) => void,
   groupQueryChanged: (query: string) => void,
@@ -86,6 +88,8 @@ function EventEditor({
   change,
   handleSubmit,
   handleSubmitCallback,
+  uploadFile,
+  setCoverPhoto,
   autocompleteResult,
   companyQueryChanged,
   groupQueryChanged,
@@ -106,7 +110,7 @@ function EventEditor({
   if (error) {
     return <div>{error.message}</div>;
   }
-  const metaColor = colorForEvent(event.eventType);
+  const styleType = styleForEvent(event.eventType);
 
   return (
     <div className={styles.root}>
@@ -117,10 +121,15 @@ function EventEditor({
             {` ${event.title}`}
           </Link>
         </h2>}
-      <div className={styles.coverImage}>
-        <Image src={event.cover} />
-      </div>
       <Form onSubmit={handleSubmit(handleSubmitCallback)}>
+        <Field
+          name="cover"
+          component={ImageUploadField.Field}
+          uploadFile={uploadFile}
+          edit={isEditPage && (token => setCoverPhoto(eventId, token))}
+          aspectRatio={20 / 6}
+          img={event.cover}
+        />
         <Flex wrap alignItems="center" justifyContent="space-between">
           <Field
             name="title"
@@ -141,16 +150,14 @@ function EventEditor({
               name="text"
               component={EditorField}
               placeholder="Write your event here..."
+              className={styles.descriptionEditor}
+              uploadFile={uploadFile}
             />
             <Flex className={styles.tagRow}>
               {(event.tags || []).map((tag, i) => <Tag key={i} tag={tag} />)}
             </Flex>
           </Flex>
-          <Flex
-            column
-            className={styles.meta}
-            style={{ background: metaColor }}
-          >
+          <Flex column className={cx(styles.meta, styleType)}>
             <ul>
               <li className={styles.metaList}>
                 <span>Hva</span>
@@ -254,11 +261,15 @@ function EventEditor({
 
         <Flex wrapReverse>
           <Flex column className={styles.join}>
-            <FieldElement
-              text="Bruk Captcha ved påmelding"
-              name="useCaptcha"
-              component={CheckBox.Field}
-            />
+            <Flex alignItems="center">
+              <span>Bruk Captcha ved påmelding</span>
+              <Field
+                name="useCaptcha"
+                fieldClassName={styles.metaField}
+                className={styles.formField}
+                component={CheckBox.Field}
+              />
+            </Flex>
             <Button disabled={pristine || submitting} submit>LAGRE</Button>
 
             {isEditPage &&
@@ -296,6 +307,9 @@ export default reduxForm({
     }
     if (!data.eventType) {
       errors.eventType = 'Arrangementstype er påkrevet';
+    }
+    if (!data.location) {
+      errors.location = 'Lokasjon er påkrevet';
     }
     return errors;
   }

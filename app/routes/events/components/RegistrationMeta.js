@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 
-const RegistrationMeta = ({ registration, isPriced }) => (
+type Props = {
+  registration: Object,
+  isPriced: boolean
+};
+
+const RegistrationMeta = ({ registration, isPriced }: Props) => (
   <div>
     {!registration &&
       <div>

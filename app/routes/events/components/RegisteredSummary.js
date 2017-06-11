@@ -8,7 +8,7 @@ const Registration = ({ registration }) => (
   <Tooltip content={registration.user.fullName}>
     <Link
       to={`/users/${registration.user.username}`}
-      style={{ color: 'white' }}
+      style={{ color: 'inherit' }}
     >
       {registration.user.firstName.split(' ')[0]}
     </Link>

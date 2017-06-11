@@ -1,0 +1,10 @@
+.base {
+  position: relative;
+  overflow: hidden;
+}
+
+.coverImage {
+  width: 100%;
+  height: 300px;
+  background: #000;
+}

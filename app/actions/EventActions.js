@@ -46,6 +46,7 @@ export function fetchAdministrate(eventId) {
 
 export function createEvent({
   title,
+  cover,
   startTime,
   endTime,
   description,
@@ -68,6 +69,7 @@ export function createEvent({
         method: 'POST',
         body: {
           title,
+          cover,
           startTime: moment(startTime).toISOString(),
           endTime: moment(endTime).toISOString(),
           description,
@@ -77,7 +79,7 @@ export function createEvent({
           location,
           isPriced,
           useStripe,
-          priceMember,
+          priceMember: isPriced ? priceMember * 100 : 0,
           mergeTime: moment(mergeTime).toISOString(),
           useCaptcha,
           tags
@@ -126,7 +128,7 @@ export function editEvent({
           location,
           isPriced,
           useStripe,
-          priceMember: isPriced ? priceMember : 0,
+          priceMember: isPriced ? priceMember * 100 : 0,
           mergeTime: moment(mergeTime).toISOString(),
           useCaptcha,
           tags,
@@ -159,6 +161,21 @@ export function deleteEvent(eventId) {
       dispatch(push('/events'));
     });
   };
+}
+
+export function setCoverPhoto(id, token) {
+  return callAPI({
+    types: Event.EDIT,
+    endpoint: `/events/${id}/`,
+    method: 'PATCH',
+    body: {
+      id,
+      cover: token
+    },
+    meta: {
+      errorMessage: 'Editing cover photo failed'
+    }
+  });
 }
 
 export function register(eventId, captchaResponse, feedback) {

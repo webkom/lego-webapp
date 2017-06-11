@@ -1,7 +1,5 @@
 // @flow
 import React from 'react';
-import { connect } from 'react-redux';
-import { updatePicture } from 'app/actions/UserActions';
 import { ImageUpload } from 'app/components/Upload';
 
 type Props = {
@@ -27,8 +25,4 @@ function UploadPage({ updatePicture, user }: Props) {
   );
 }
 
-const mapDispatchToProps = {
-  updatePicture
-};
-
-export default connect(null, mapDispatchToProps)(UploadPage);
+export default UploadPage;

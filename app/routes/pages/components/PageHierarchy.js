@@ -7,7 +7,7 @@ import styles from './PageHierarchy.css';
 import Icon from 'app/components/Icon';
 
 type Props = {
-  parent: Object,
+  parent?: { slug: string, title: string },
   siblings: Object[],
   selectedSlug: string
 };

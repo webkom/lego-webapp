@@ -63,3 +63,11 @@
   --font-size-small: 12px;
   --font-size-large: 18px;
 }
+
+@value colorCompanyPresentation: #A1C34A;
+@value colorLunchPresentation: #A1C34A;
+@value colorCourse: #52B0EC;
+@value colorParty: #FCD748;
+@value colorSocial: #B11C11;
+@value colorEvent: #B11C11;
+@value colorOther: #111;
