@@ -17,7 +17,6 @@ pipeline:
     registry: https://registry.abakus.no
     repo: registry.abakus.no/webkom/lego-webapp
     tags:
-      - latest
       - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
     build_args:
       - API_URL=${API_URL}
@@ -27,11 +26,3 @@ pipeline:
       - STRIPE_KEY=${STRIPE_KEY}
       - RAVEN_DSN=${RAVEN_DSN}
       - RELEASE=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
-
-  deployment:
-    image: appropriate/curl
-    when:
-      branch:
-        - prod
-    commands:
-      - "curl -X POST -u ${ACCESS_KEY_ID}:${ACCESS_KEY_SECRET} -H 'Content-Type: application/json' ${DEPLOY_URL}/deployments -d '{\"release\": ${RELEASE_ID}, \"value_overrides\": {\"webapp.image.tag\": \"${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}\"}}'"
