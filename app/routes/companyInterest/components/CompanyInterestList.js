@@ -9,9 +9,9 @@ export type Props = {
 };
 
 const CompanyInterestList = (props: Props) => {
-  const groups = props.CompanyInterestList.map((group, key) => (
+  const groups = props.CompanyInterestList.map((group, key) =>
     <CompanyInterest group={group} key={key} />
-  ));
+  );
   return (
     <div className={styles.root}>
       <div className={styles.section}>
