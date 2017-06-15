@@ -60,7 +60,8 @@ export const Group = {
 };
 
 export const CompanyInterestForm = {
-  CREATE: generateStatuses('CompanyInterestForm.CREATE')
+  CREATE: generateStatuses('CompanyInterestForm.CREATE'),
+  FETCH_ALL: generateStatuses('CompanyInterestForm.FETCH_ALL')
 };
 
 export const InterestGroup = {

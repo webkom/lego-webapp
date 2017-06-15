@@ -81,3 +81,47 @@
   justify-content: space-between;
   margin-right: 200px;
 }
+
+.companyInterest {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.interestPic {
+  width: 200px;
+  max-height: 200px;
+  border-style: solid;
+  margin-left: 20px;
+  -moz-box-shadow: 0 0 3px #000;
+  -webkit-box-shadow: 0 0 3px #000;
+  box-shadow: 0 0 3px #000;
+  color: #000;
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 200px;
+}
+
+.heading {
+  color: #777;
+  letter-spacing: 2px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.paragraph {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.bold {
+  font-weight: bold;
+}

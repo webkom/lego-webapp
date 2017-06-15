@@ -1,4 +1,10 @@
 export default {
   path: 'companyInterest',
-  indexRoute: { component: require('./CompanyInterestRoute').default }
+  indexRoute: { component: require('./CompanyInterestListRoute').default },
+  childRoutes: [
+    {
+      path: 'createCompanyInterest',
+      component: require('./CompanyInterestRoute').default
+    }
+  ]
 };

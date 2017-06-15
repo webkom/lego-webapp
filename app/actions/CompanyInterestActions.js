@@ -1,8 +1,42 @@
 import { CompanyInterestForm } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
 import { addNotification } from 'app/actions/NotificationActions';
+import { companyInterestSchema } from 'app/reducers';
+import { CompanyInterest } from './ActionTypes';
+import createEntityReducer from 'app/utils/createEntityReducer';
 
-export default function createCompanyInterest({
+export type CompanyInterestEntity = {
+  id: number,
+  name: string,
+  mail: string,
+  contactPerson: string
+};
+
+export default createEntityReducer({
+  key: 'companyInterestList',
+  types: {
+    fetch: CompanyInterest.FETCH_ALL
+  },
+  mutate(state, action) {
+    switch (action.type) {
+      default:
+        return state;
+    }
+  }
+});
+
+export function fetchAll() {
+  return callAPI({
+    types: CompanyInterest.FETCH_ALL,
+    endpoint: '/companyInterestList/',
+    schema: [companyInterestSchema],
+    meta: {
+      errorMessage: 'Fetching companyInterest failed'
+    }
+  });
+}
+
+export function createCompanyInterest({
   companyName,
   contactPerson,
   mail,
@@ -25,6 +59,7 @@ export default function createCompanyInterest({
         types: CompanyInterestForm.CREATE,
         endpoint: '/company-interests/',
         method: 'POST',
+        schema: [companyInterestSchema],
         body: {
           companyName,
           contactPerson,
