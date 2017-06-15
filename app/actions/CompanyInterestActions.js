@@ -2,6 +2,7 @@ import { CompanyInterestForm } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
 import { addNotification } from 'app/actions/NotificationActions';
 import { companyInterestSchema } from 'app/reducers';
+import createEntityReducer from 'app/utils/createEntityReducer';
 
 export function fetchAll() {
   return callAPI({
@@ -14,7 +15,27 @@ export function fetchAll() {
   });
 }
 
-export default function createCompanyInterest({
+export type CompanyInterestEntity = {
+  id: number,
+  name: string,
+  mail: string,
+  contactPerson: string
+};
+
+export default createEntityReducer({
+  key: 'companyInterestList',
+  types: {
+    fetch: CompanyInterestForm.FETCH_ALL
+  },
+  mutate(state, action) {
+    switch (action.type) {
+      default:
+        return state;
+    }
+  }
+});
+
+export function createCompanyInterest({
   companyName,
   contactPerson,
   mail,
