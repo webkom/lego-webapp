@@ -15,7 +15,7 @@ export type CompanyInterestEntity = {
 export default createEntityReducer({
   key: 'companyInterestList',
   types: {
-    fetch: CompanyInterest.FETCH_ALL
+    fetch: CompanyInterestForm.FETCH_ALL
   },
   mutate(state, action) {
     switch (action.type) {
