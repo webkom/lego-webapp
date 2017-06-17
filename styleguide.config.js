@@ -29,8 +29,16 @@ module.exports = {
           content: 'docs/layout.md'
         },
         {
-          name: 'Styles',
-          content: 'app/styles/README.md'
+          name: 'Styling',
+          sections: [
+            {
+              content: 'app/styles/README.md'
+            },
+            {
+              name: 'CSS Files',
+              content: '.css.tmp.md'
+            }
+          ]
         }
       ]
     }

@@ -20,8 +20,8 @@
     "lint:js": "eslint app --ignore-path .gitignore",
     "lint:css": "stylelint ./app/**/*.css",
     "flow": "flow",
-    "styleguide": "NODE_ENV=production styleguidist server",
-    "styleguide:build": "NODE_ENV=production styleguidist build"
+    "styleguide": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist server",
+    "styleguide:build": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist build"
   },
   "repository": {
     "type": "git",
