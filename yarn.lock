@@ -6235,7 +6235,7 @@ react-docgen@^2.15.0:
     node-dir "^0.1.10"
     recast "^0.11.5"
 
-react-dom@^15.4.1:
+react-dom@^15.6.1:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-15.6.1.tgz#2cb0ed4191038e53c209eb3a79a23e2a4cf99470"
   dependencies:
@@ -6442,11 +6442,18 @@ react-styleguidist@^5.2.1:
     webpack-dev-server "^1.16.3"
     webpack-merge "^4.1.0"
 
+react-test-renderer@^15.6.0:
+  version "15.6.1"
+  resolved "https://registry.yarnpkg.com/react-test-renderer/-/react-test-renderer-15.6.1.tgz#026f4a5bb5552661fd2cc4bbcd0d4bc8a35ebf7e"
+  dependencies:
+    fbjs "^0.8.9"
+    object-assign "^4.1.0"
+
 react-treeview@^0.4.6:
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/react-treeview/-/react-treeview-0.4.6.tgz#c4e5d209ab6dc736c4e8c51410d37821c41ce061"
 
-react@^15.4.1:
+react@^15.6.1:
   version "15.6.1"
   resolved "https://registry.yarnpkg.com/react/-/react-15.6.1.tgz#baa8434ec6780bde997cdc380b79cd33b96393df"
   dependencies:
