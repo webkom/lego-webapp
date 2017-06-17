@@ -9,3 +9,4 @@ coverage
 dist
 .env
 styleguide
+.css.tmp.md
