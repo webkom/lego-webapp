@@ -13,7 +13,7 @@ type Props = {
   fetching: boolean,
   className?: string,
   selectStyle?: string,
-  onBlur: any => void,
+  onBlur: () => void,
   value: any,
   options?: {}[]
 };

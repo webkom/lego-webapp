@@ -5,17 +5,22 @@ import cx from 'classnames';
 import styles from './Button.css';
 
 type Props = {
+  /** content inside */
   children?: any,
+  /** className for styling */
   className?: string,
+  /** 'small', 'normal' or 'large' */
   size?: 'small' | 'normal' | 'large',
+  /** Is the button a submit button? */
   submit?: boolean,
+  /** Dark background (red button)*/
   dark?: boolean
 };
 
 /**
- * A basic <Button /> component
+ * A basic Button component
  *
- * # Example Usage
+ * ### Example Usage
  * ```js
  * <Button size='large' submit>Save</Button>
  * ```

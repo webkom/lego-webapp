@@ -15,6 +15,7 @@ marked.setOptions({
 });
 
 type Props = {
+  /** Markdown content that will be rendered */
   children: string
 };
 

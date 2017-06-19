@@ -74,7 +74,7 @@ function AccountDropdownItems({ logout, onClose, username }) {
   );
 }
 
-export default class Header extends Component {
+class Header extends Component {
   props: Props;
 
   state: State = {
@@ -195,3 +195,4 @@ export default class Header extends Component {
     );
   }
 }
+export default Header;
