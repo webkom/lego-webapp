@@ -3,11 +3,18 @@
 import React from 'react';
 
 type Props = {
+  /** Radius of circle in px */
   size?: number,
+  /** Circle color */
   color?: string,
+  /** Extra css */
   style?: any
 };
 
+/**
+ * A basic Cirlce component
+ *
+ */
 function Circle({ size = 10, color = '#ddd', style }: Props) {
   return (
     <span
