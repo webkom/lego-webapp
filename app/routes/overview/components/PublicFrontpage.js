@@ -2,6 +2,7 @@ import React from 'react';
 import { Content, Flex } from 'app/components/Layout';
 import LoginForm from 'app/components/LoginForm';
 import styles from './PublicFrontpage.css';
+import { Link } from 'react-router';
 
 function PublicFrontpage() {
   return (
@@ -15,7 +16,10 @@ function PublicFrontpage() {
             className="u-mb"
             style={{ whiteSpace: 'nowrap' }}
           >
-            Logg inn <a href="" className="u-small">Jeg er ny →</a>
+            Logg inn{' '}
+            <a href="" className="u-small">
+              Jeg er ny →
+            </a>
           </Flex>
           <LoginForm />
         </div>
@@ -44,7 +48,9 @@ function PublicFrontpage() {
                 <i className="fa fa-caret-right" /> innsida
               </a>
               <div className={styles.linkDescription}>
-                Innsida er kjappeste vei inn til andre system og tjenester. Logger man seg på Innsida, blir man samtidig pålogget andre system.
+                Innsida er kjappeste vei inn til andre system og tjenester.
+                Logger man seg på Innsida, blir man samtidig pålogget andre
+                system.
               </div>
             </li>
             <li>
@@ -52,7 +58,9 @@ function PublicFrontpage() {
                 <i className="fa fa-caret-right" /> Om Datateknikk
               </a>
               <div className={styles.linkDescription}>
-                Datateknologi er en helt sentral del av alle fremtidsrettede teknologier, som for eksempel kunstig intelligens, medisinsk teknologi og søkemotorteknologi.
+                Datateknologi er en helt sentral del av alle fremtidsrettede
+                teknologier, som for eksempel kunstig intelligens, medisinsk
+                teknologi og søkemotorteknologi.
               </div>
             </li>
             <li>
@@ -60,7 +68,19 @@ function PublicFrontpage() {
                 <i className="fa fa-caret-right" /> Om Kommunikasjonsteknologi
               </a>
               <div className={styles.linkDescription}>
-                Vi bruker stadig mer av livene våre på nett, på jobb som i fritid. Kommunikasjonsteknologi brukes etter hvert av alle og overalt.
+                Vi bruker stadig mer av livene våre på nett, på jobb som i
+                fritid. Kommunikasjonsteknologi brukes etter hvert av alle og
+                overalt.
+              </div>
+            </li>
+            <li>
+              <Link to="/pages/for-companies">
+                <i className="fa fa-caret-right" /> For bedrifter
+              </Link>
+              <div className={styles.linkDescription}>
+                Her finner du som bedriftsrepresentant informasjon om Abakus
+                {"'"}
+                {} prosedyrer for bedriftspresentasjoner og andre nyttige fakta.
               </div>
             </li>
           </ul>
@@ -79,7 +99,6 @@ function PublicFrontpage() {
           allowTransparency="true"
         />
       </Flex>
-
     </Content>
   );
 }
