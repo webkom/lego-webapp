@@ -4,12 +4,10 @@ const root = path.resolve(__dirname, '.');
 
 const webpackConfig = require('./config/webpack.client.js');
 webpackConfig.resolve.modules.push('lib');
-webpackConfig.module.rules.push(
-  {
-    include: path.resolve(root, 'lib'),
-    loader: 'babel-loader'
-  }
-);
+webpackConfig.module.rules.push({
+  include: path.resolve(root, 'lib'),
+  loader: 'babel-loader'
+});
 
 module.exports = {
   sections: [
@@ -25,7 +23,7 @@ module.exports = {
       name: 'Style guidelines',
       sections: [
         {
-          name: 'Layout',
+          name: 'Content layout',
           content: 'docs/layout.md'
         },
         {
@@ -39,6 +37,30 @@ module.exports = {
               content: '.css.tmp.md'
             }
           ]
+        },
+        {
+          name: 'Headers',
+          content: 'docs/headers.md'
+        },
+        {
+          name: 'Sidebars',
+          content: 'docs/sidebars.md'
+        },
+        {
+          name: 'Tables',
+          content: 'docs/tables.md'
+        },
+        {
+          name: 'Mobile',
+          content: 'docs/mobile.md'
+        },
+        {
+          name: 'Backgrounds',
+          content: 'docs/backgrounds.md'
+        },
+        {
+          name: 'List items',
+          content: 'docs/list-items.md'
         }
       ]
     }
