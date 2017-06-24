@@ -123,3 +123,11 @@
   align-items: center;
   margin: 30px auto;
 }
+
+.tableRow {
+  margin: 10px;
+}
+
+.tableColumn {
+  margin: 50px;
+}
