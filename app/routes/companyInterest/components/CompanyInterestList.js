@@ -22,12 +22,8 @@ const eventTypes = group => {
       label: 'Mail'
     },
     {
-      value: group.comment,
-      label: 'Kommentar'
-    },
-    {
       value: group.companyPresentation,
-      label: 'Bedriftspresentasjon'
+      label: 'Bedrifts-presentasjon'
     },
     {
       value: group.course,
@@ -35,7 +31,7 @@ const eventTypes = group => {
     },
     {
       value: group.lunchPresentation,
-      label: 'Lunsjpresentasjon'
+      label: 'Lunsj-presentasjon'
     },
     {
       value: group.readme,
@@ -48,6 +44,10 @@ const eventTypes = group => {
     {
       value: group.itdagene,
       label: 'Ønsker stand på itDAGENE'
+    },
+    {
+      value: group.comment,
+      label: 'Kommentar'
     }
   ];
 };
@@ -55,7 +55,7 @@ const eventTypes = group => {
 const CompanyInterestList = (props: Props) => {
   const generateLabels = group => {
     return eventTypes(group).map((event, key) => {
-      return <td className={styles.tableColumn}>{event.label}</td>;
+      return <th className={styles.tableColumn}>{event.label}</th>;
     });
   };
 
@@ -64,7 +64,7 @@ const CompanyInterestList = (props: Props) => {
       let value;
       switch (typeof event.value) {
         case 'boolean':
-          value = event.value ? 'Ja' : '';
+          value = event.value ? 'Ja' : 'Nei';
           break;
         case 'string':
           value = event.value;
@@ -76,7 +76,7 @@ const CompanyInterestList = (props: Props) => {
   };
 
   const interests = props.CompanyInterestList.map((group, id) =>
-    <tr>{generateValues(group)}</tr>
+    <tr className={styles.companyList}>{generateValues(group)}</tr>
   );
 
   return (
@@ -89,7 +89,6 @@ const CompanyInterestList = (props: Props) => {
             {' '}
             finner du all praktisk informasjon knyttet til
             bedriftsinteresser.
-            {console.log()}
           </p>
         </div>
         <Link
@@ -99,8 +98,8 @@ const CompanyInterestList = (props: Props) => {
           <Button>Opprett ny bedriftsinteresse</Button>
         </Link>
       </div>
-      <table className="groups">
-        <tr className={styles.tableRow}>
+      <table className={styles.companyList}>
+        <tr className={styles.companyList}>
           {generateLabels(props.CompanyInterestList[0])}
         </tr>
         {interests}

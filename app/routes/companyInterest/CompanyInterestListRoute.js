@@ -27,7 +27,8 @@ function mapStateToProps(state) {
         lunchPresentation: false,
         readme: true,
         collaboration: false,
-        itdagene: true
+        itdagene: true,
+        comment: 'kommentar'
       },
       {
         name: 'testerino',
@@ -40,7 +41,8 @@ function mapStateToProps(state) {
         lunchPresentation: false,
         readme: true,
         collaboration: false,
-        itdagene: true
+        itdagene: true,
+        comment: 'kommentar'
       },
       {
         name: 'testerano',
@@ -53,7 +55,8 @@ function mapStateToProps(state) {
         lunchPresentation: false,
         readme: true,
         collaboration: false,
-        itdagene: true
+        itdagene: true,
+        comment: 'kommentar'
       }
     ]
   };
