@@ -7,7 +7,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 export function fetchAll() {
   return callAPI({
     types: CompanyInterestForm.FETCH_ALL,
-    endpoint: '/companyInterestList/',
+    endpoint: '/company_interest/',
     schema: [companyInterestSchema],
     meta: {
       errorMessage: 'Fetching companyInterest failed'
@@ -56,7 +56,7 @@ export function createCompanyInterest({
     dispatch(
       callAPI({
         types: CompanyInterestForm.CREATE,
-        endpoint: '/company-interests/',
+        endpoint: '/company_interest/',
         method: 'POST',
         schema: [companyInterestSchema],
         body: {

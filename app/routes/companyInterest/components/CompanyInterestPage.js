@@ -3,6 +3,7 @@ import styles from 'app/routes/companyInterest/components/CompanyInterest.css';
 import { TextEditor, TextInput, Button, CheckBox } from 'app/components/Form';
 import { Field } from 'redux-form';
 import { ImageUpload } from 'app/components/Upload';
+import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
 
 const EVENT_TYPES = [
   { label: 'Bedriftspresentasjon', name: 'companyPresentation' },
@@ -123,27 +124,27 @@ export default class CompanyInterestPage extends Component {
             {getInputField('Kontaktperson', 'Ola Nordmann', 'contactPerson')}
           </div>
           {getInputField('E-post', 'example@domain.com', 'mail')}
-          <div className={styles.checkboxWrapper}>
 
-            <div id="semester">
+          <FlexRow className={styles.checkboxWrapper}>
+            <FlexItem className={styles.semesters}>
               <label htmlFor="semester" className={styles.heading}>
                 Semester
               </label>
               {this.state.semesters}
-            </div>
+            </FlexItem>
 
-            <div id="arrangementer">
+            <FlexItem className={styles.events}>
               <label htmlFor="arrangementer" className={styles.heading}>
                 Arrangementer
               </label>
               {this.state.events}
-            </div>
+            </FlexItem>
 
-            <div id="extra">
+            <FlexItem className={styles.extra}>
               <label htmlFor="extra" className={styles.heading}>Annet</label>
               {this.state.activities}
-            </div>
-          </div>
+            </FlexItem>
+          </FlexRow>
 
           <label htmlFor="comment" className={styles.smallHeading}>
             Kommentar
@@ -157,18 +158,22 @@ export default class CompanyInterestPage extends Component {
             />
           </div>
 
-          <div className={styles.content}>
-            <div className={styles.upload}>
+          <FlexColumn className={styles.content}>
+
+            <FlexItem className={styles.upload}>
               <ImageUpload>Last opp bilde</ImageUpload>
-            </div>
-            <Button
-              type="submit"
-              onSubmit={this.props.createCompanyInterest}
-              className={styles.smallHeading}
-            >
-              {'Opprett bedriftsinteresse'}
-            </Button>
-          </div>
+            </FlexItem>
+            <FlexItem>
+              <Button
+                type="submit"
+                onSubmit={this.props.createCompanyInterest}
+                className={styles.createButton}
+              >
+                {'Opprett bedriftsinteresse'}
+              </Button>
+            </FlexItem>
+
+          </FlexColumn>
         </form>
       </div>
     );

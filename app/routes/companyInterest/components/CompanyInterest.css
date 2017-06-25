@@ -1,28 +1,45 @@
+@import 'app/styles/variables.css';
+
 .root {
   composes: container from 'app/styles/utilities.css';
 }
 
 .checkboxWrapper {
-  display: flex;
-  flex-direction: row;
   justify-content: space-between;
   margin-right: 250px;
+
+  @media (--small-viewport) {
+    flex-direction: column;
+  }
+
 }
 
-.content {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  margin-bottom: 200px;
-  width: 900px;
+.semesters {
+  width: 200px;
+}
+
+.events {
+  width: 204px;
+}
+
+.extra {
+  width: 260px;
 }
 
 .upload {
   width: 400px;
+
+  @media (--small-viewport) {
+    width: 300px;
+  }
 }
 
 .textEditor {
   width: 900px;
+
+  @media (--small-viewport) {
+    width: 300px;
+  }
 }
 
 .smallHeading {
@@ -31,6 +48,19 @@
   font-weight: 400;
   text-transform: uppercase;
   font-size: 16px;
+}
+
+.createButton {
+  color: #777;
+  letter-spacing: 2px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 16px;
+  width: 332px;
+
+  @media (--small-viewport) {
+    margin-top: 180px;
+  }
 }
 
 .mainHeading {
@@ -73,6 +103,10 @@
 
 .inputField {
   width: 410px;
+
+  @media (--small-viewport) {
+    width: 300px;
+  }
 }
 
 .nameField {
@@ -80,6 +114,10 @@
   flex-direction: row;
   justify-content: space-between;
   margin-right: 200px;
+
+  @media (--small-viewport) {
+    flex-direction: column;
+  }
 }
 
 .companyInterest {
@@ -89,22 +127,16 @@
   margin-bottom: 40px;
 }
 
-.interestPic {
-  width: 200px;
-  max-height: 200px;
-  border-style: solid;
-  margin-left: 20px;
-  -moz-box-shadow: 0 0 3px #000;
-  -webkit-box-shadow: 0 0 3px #000;
-  box-shadow: 0 0 3px #000;
-  color: #000;
-}
-
 .content {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   margin-bottom: 200px;
+  width: 900px;
+  justify-content: space-between;
+
+  @media (--small-viewport) {
+    flex-direction: column;
+  }
 }
 
 .paragraph {
@@ -119,9 +151,15 @@
 
 .section {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   margin: 30px auto;
+
+  @media (--small-viewport) {
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
 }
 
 .companyList table {
@@ -148,14 +186,14 @@
   display: table-cell;
 
   &:first-child {
-    width: 180px;
+    width: 120px;
   }
 
-  &:nth-child(5) {
-    width: 190px;
+  &:nth-child(2), &:nth-child(5) {
+    width: 100px;
   }
 
-  &:nth-child(6) {
-    width: 180px;
+  &:nth-child(10) {
+    width: 170px;
   }
 }

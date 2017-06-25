@@ -6,60 +6,15 @@ import {
 } from 'app/actions/CompanyInterestActions';
 import CompanyInterestList from './components/CompanyInterestList';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
-//import { selectCompanyInterestList } from 'app/reducers/companyInterest';
+import { selectCompanyInterestList } from 'app/reducers/companyInterest';
 
 function loadData(params, props) {
-  //props.fetchAll();
+  props.fetchAll();
 }
 
 function mapStateToProps(state) {
-  //const companyInterestList = selectCompanyInterestList(state);
-  return {
-    CompanyInterestList: [
-      {
-        name: 'test',
-        id: 1,
-        contactPerson: 'martin',
-        mail: 'martin@kul.no',
-        interestPic: 'https://i.redd.it/dz8mwvl4dgdy.jpg',
-        companyPresentation: true,
-        course: false,
-        lunchPresentation: false,
-        readme: true,
-        collaboration: false,
-        itdagene: true,
-        comment: 'kommentar'
-      },
-      {
-        name: 'testerino',
-        id: 1,
-        contactPerson: 'martin',
-        mail: 'martin@kul.no',
-        interestPic: 'https://i.redd.it/dz8mwvl4dgdy.jpg',
-        companyPresentation: true,
-        course: false,
-        lunchPresentation: false,
-        readme: true,
-        collaboration: false,
-        itdagene: true,
-        comment: 'kommentar'
-      },
-      {
-        name: 'testerano',
-        id: 1,
-        contactPerson: 'martin',
-        mail: 'martin@kul.no',
-        interestPic: 'https://i.redd.it/dz8mwvl4dgdy.jpg',
-        companyPresentation: true,
-        course: false,
-        lunchPresentation: false,
-        readme: true,
-        collaboration: false,
-        itdagene: true,
-        comment: 'kommentar'
-      }
-    ]
-  };
+  const companyInterestList = selectCompanyInterestList(state);
+  return companyInterestList;
 }
 
 const mapDispatchToProps = { fetchAll, createCompanyInterest };
