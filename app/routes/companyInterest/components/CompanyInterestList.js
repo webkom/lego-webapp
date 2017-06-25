@@ -75,9 +75,22 @@ const CompanyInterestList = (props: Props) => {
     });
   };
 
-  const interests = props.CompanyInterestList.map((group, id) =>
-    <tr className={styles.companyList}>{generateValues(group)}</tr>
-  );
+  const interests = props.CompanyInterestList.map((group, id) => (
+    <tr className={styles.companyInterestList}>{generateValues(group)}</tr>
+  ));
+
+  const interestsMobile = props.CompanyInterestList.map((group, id) => (
+    <table className={styles.companyInterestListMobile}>
+      <thead>
+        <tr>
+          <h3 className={styles.companyInterestListMobile}>{group.name}</h3>
+        </tr>
+      </thead>
+      <tbody className={styles.companyInterestListMobile}>
+        {generateMobileValues(group)}
+      </tbody>
+    </table>
+  ));
 
   return (
     <div className={styles.root}>
@@ -85,9 +98,7 @@ const CompanyInterestList = (props: Props) => {
         <div>
           <h1>Bedriftsinteresser</h1>
           <p>
-            <strong>Her</strong>
-            {' '}
-            finner du all praktisk informasjon knyttet til
+            <strong>Her</strong> finner du all praktisk informasjon knyttet til
             bedriftsinteresser.
           </p>
         </div>
