@@ -30,20 +30,18 @@ type Props = {
   dispatch: () => void
 };
 
-function JoblistingEditor(
-  {
-    handleSubmit,
-    results,
-    joblistingId,
-    joblisting,
-    onQueryChanged,
-    searching,
-    submitJoblisting,
-    company,
-    fetchCompany,
-    dispatch
-  }: Props
-) {
+function JoblistingEditor({
+  handleSubmit,
+  results,
+  joblistingId,
+  joblisting,
+  onQueryChanged,
+  searching,
+  submitJoblisting,
+  company,
+  fetchCompany,
+  dispatch
+}: Props) {
   const places = [
     { label: 'Oslo', value: 'Oslo' },
     { label: 'Bergen', value: 'Bergen' },
@@ -92,16 +90,15 @@ function JoblistingEditor(
     });
   };
 
-  const datePickerComponent = (text, name) => (
+  const datePickerComponent = (text, name) =>
     <FlexRow className={styles.row}>
       <FlexColumn className={styles.des}>{text}</FlexColumn>
       <FlexColumn className={styles.textfield}>
         <Field name={name} component={DatePicker.Field} />
       </FlexColumn>
-    </FlexRow>
-  );
+    </FlexRow>;
 
-  const yearPickerComponent = (text, name) => (
+  const yearPickerComponent = (text, name) =>
     <FlexRow className={styles.row}>
       <FlexColumn className={styles.des}>{text}</FlexColumn>
       <FlexColumn className={styles.textfield}>
@@ -113,10 +110,9 @@ function JoblistingEditor(
           <option value="5">5</option>
         </Field>
       </FlexColumn>
-    </FlexRow>
-  );
+    </FlexRow>;
 
-  const fieldComponent = (text, name, placeholder) => (
+  const fieldComponent = (text, name, placeholder) =>
     <FlexRow className={styles.row}>
       <FlexColumn className={styles.des}>{text}</FlexColumn>
       <FlexColumn className={styles.textfield}>
@@ -126,17 +122,15 @@ function JoblistingEditor(
           component={TextInput.Field}
         />
       </FlexColumn>
-    </FlexRow>
-  );
+    </FlexRow>;
 
-  const textEditorComponent = (text, name, placeholder) => (
+  const textEditorComponent = (text, name, placeholder) =>
     <FlexRow className={styles.row}>
       <FlexColumn className={styles.des}>{text} </FlexColumn>
       <FlexColumn className={styles.textfield}>
         <Field name={name} component={EditorField} placeholder={placeholder} />
       </FlexColumn>
-    </FlexRow>
-  );
+    </FlexRow>;
 
   return (
     <div className={styles.root}>
@@ -159,7 +153,8 @@ function JoblistingEditor(
               onChange={newValue => {
                 console.log('asd', newValue, company);
                 if (
-                  !company || Number(newValue.value) !== joblisting.company.id
+                  !company ||
+                  Number(newValue.value) !== joblisting.company.id
                 ) {
                   fetchCompany(newValue.value).then(() => {
                     dispatch(
@@ -215,6 +210,7 @@ function JoblistingEditor(
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Kontaktperson: </FlexColumn>
           <FlexColumn className={styles.textfield}>
+            {console.log(company)}
             <Field
               placeholder={'Kontaktperson'}
               name="responsible"
@@ -222,11 +218,10 @@ function JoblistingEditor(
               options={
                 company
                   ? [{ label: 'Ingen', value: -1 }].concat(
-                      (company.companyContacts || [])
-                        .map(contact => ({
-                          label: contact.name,
-                          value: contact.id
-                        }))
+                      (company.companyContacts || []).map(contact => ({
+                        label: contact.name,
+                        value: contact.id
+                      }))
                     )
                   : [{ label: 'Ingen', value: -1 }]
               }

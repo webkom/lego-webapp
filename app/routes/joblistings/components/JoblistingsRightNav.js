@@ -70,10 +70,8 @@ export default class JoblistingsRightNav extends Component {
       key={value}
     >
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <CheckBox checked={this.state.filters[type].includes(value)} readOnly />
-        <span style={{ marginLeft: '5px' }}>
-          {label}
-        </span>
+        <CheckBox value={this.state.filters[type].includes(value)} readOnly />
+        <span style={{ marginLeft: '5px' }}>{label}</span>
       </div>
     </Link>;
 
@@ -119,14 +117,16 @@ export default class JoblistingsRightNav extends Component {
             <FlexColumn className={styles.filters}>
               <h3 className={styles.rightHeader}>Klassetrinn:</h3>
               {['1', '2', '3', '4', '5'].map(element =>
-                this.filterLinkto('class', element, `${element}. klasse`))}
+                this.filterLinkto('class', element, `${element}. klasse`)
+              )}
               <h3 className={styles.rightHeader}>Jobbtype:</h3>
               {this.filterLinkto('jobtypes', 'summer_job', 'Sommerjobb')}
               {this.filterLinkto('jobtypes', 'part_time', 'Deltid')}
               {this.filterLinkto('jobtypes', 'full_time', 'Fulltid')}
               <h3 className={styles.rightHeader}>Sted:</h3>
               {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map(element =>
-                this.filterLinkto('workplaces', element, element))}
+                this.filterLinkto('workplaces', element, element)
+              )}
             </FlexColumn>
           </FlexColumn>
         </FlexRow>
