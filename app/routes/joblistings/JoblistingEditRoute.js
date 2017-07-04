@@ -3,8 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetchJoblisting, editJoblisting } from 'app/actions/JoblistingActions';
 import { dispatched } from 'react-prepare';
-import JoblistingEditor
-  from 'app/routes/joblistings/components/JoblistingEditor';
+import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
 import { selectJoblistingById } from 'app/reducers/joblistings';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocomplete } from 'app/reducers/search';
@@ -29,8 +28,10 @@ function mapStateToProps(state, props) {
   const { joblistingId } = props.params;
   const formSelector = formValueSelector('joblistingEditor');
   const company = formSelector(state, 'company');
+  console.log('company', company, company.value);
+  const companyId = company.value;
   const joblisting = selectJoblistingById(state, { joblistingId });
-  console.log('company22', selectCompanyById(state, { companyId: company }));
+  console.log('company22', selectCompanyById(state, { companyId }));
   return {
     joblisting,
     initialValues: {

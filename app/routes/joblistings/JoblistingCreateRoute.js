@@ -2,8 +2,7 @@
 import { connect } from 'react-redux';
 import { createJoblisting } from 'app/actions/JoblistingActions';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
-import JoblistingEditor
-  from 'app/routes/joblistings/components/JoblistingEditor';
+import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocomplete } from 'app/reducers/search';
 import { compose } from 'redux';
@@ -29,6 +28,8 @@ function mapStateToProps(state, props) {
   const company = formSelector(state, 'company');
   return {
     initialValues: {
+      text: '<p></p>',
+      description: '<p></p>',
       fromYear: 1,
       toYear: 5,
       jobType: 'summer_job',
