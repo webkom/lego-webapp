@@ -9,11 +9,11 @@ const Permissions = ({ permissions }) => {
 
   return (
     <ul>
-      {permissions.map(permission => (
+      {permissions.map(permission =>
         <li key={permission}>
           {permission}
         </li>
-      ))}
+      )}
     </ul>
   );
 };
@@ -56,7 +56,6 @@ export default class GroupSettings extends Component {
         </h4>
         <LoadingIndicator loading={!permissions}>
           {display}
-
         </LoadingIndicator>
       </div>
     );

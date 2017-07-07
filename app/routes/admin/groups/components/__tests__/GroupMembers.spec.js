@@ -70,7 +70,11 @@ describe('GroupMembersList', () => {
     const wrapper = shallow(<GroupMembersList users={users} />);
     const children = wrapper.children();
     users.forEach(({ username }, i) => {
-      const link = <Link to={`/users/${username}`}>{username}</Link>;
+      const link = (
+        <Link to={`/users/${username}`}>
+          {username}
+        </Link>
+      );
       expect(children.at(i).containsMatchingElement(link)).toEqual(true);
     });
   });

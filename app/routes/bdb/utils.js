@@ -57,8 +57,9 @@ export const falseIcon = (
 );
 
 export const httpCheck = link => {
-  const httpLink = link.startsWith('http://') || link.startsWith('https://')
-    ? link
-    : `http://${link}`;
+  const httpLink =
+    link.startsWith('http://') || link.startsWith('https://')
+      ? link
+      : `http://${link}`;
   return link === '' ? link : httpLink;
 };

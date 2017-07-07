@@ -7,7 +7,7 @@ export const activityRenderers = {
   restricted_mail_sent: require('./renders/restrictedMail')
 };
 
-const Feed = ({ items }) => (
+const Feed = ({ items }) =>
   <div style={{ width: '100%' }}>
     {items.length
       ? items.map((item, i) => {
@@ -17,7 +17,6 @@ const Feed = ({ items }) => (
             : null;
         })
       : <p>No activities...</p>}
-  </div>
-);
+  </div>;
 
 export default Feed;

@@ -24,7 +24,7 @@ function insertInfoBubbles(company) {
 
   return (
     <div className={styles.infoBubbles}>
-      {infos.map((info, i) => (
+      {infos.map((info, i) =>
         <InfoBubble
           icon={info[0]}
           data={info[1]}
@@ -34,7 +34,7 @@ function insertInfoBubbles(company) {
           iconClass={styles.icon}
           dataClass={styles.data}
         />
-      ))}
+      )}
     </div>
   );
 }
@@ -51,7 +51,9 @@ const CompanyDetail = ({ company }: Props) => {
       </div>
 
       <div className={styles.titleFlex}>
-        <h1 className={styles.title} style={{ order: 1 }}>{company.name}</h1>
+        <h1 className={styles.title} style={{ order: 1 }}>
+          {company.name}
+        </h1>
         <Link
           to={'/companies'}
           className={styles.editLink}
@@ -67,7 +69,9 @@ const CompanyDetail = ({ company }: Props) => {
       {insertInfoBubbles(company)}
 
       <div className={styles.description}>
-        <p>{company.description}</p>
+        <p>
+          {company.description}
+        </p>
       </div>
     </div>
   );

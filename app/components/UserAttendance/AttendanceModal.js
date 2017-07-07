@@ -33,7 +33,7 @@ class AttendanceModal extends Component {
   render() {
     const { pools, title } = this.props;
 
-    const tabs = pools.map((pool, i) => (
+    const tabs = pools.map((pool, i) =>
       <a
         key={i}
         className={cx(
@@ -44,15 +44,17 @@ class AttendanceModal extends Component {
       >
         {pool.name}
       </a>
-    ));
+    );
 
     const activePool = pools[this.state.activePoolIndex];
     const statusTitle = title || 'Status';
     return (
       <div>
-        <h2>{statusTitle}</h2>
+        <h2>
+          {statusTitle}
+        </h2>
         <ul className={styles.list}>
-          {activePool.registrations.map((registration, i) => (
+          {activePool.registrations.map((registration, i) =>
             <li key={i}>
               <div className={styles.row}>
                 <ProfilePicture size={30} user={registration.user} />
@@ -61,7 +63,7 @@ class AttendanceModal extends Component {
                 </Link>
               </div>
             </li>
-          ))}
+          )}
         </ul>
 
         <div className={styles.nav}>

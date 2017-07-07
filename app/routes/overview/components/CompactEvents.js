@@ -32,7 +32,7 @@ export default class CompactEvents extends Component {
             eventTypes.indexOf(event.eventType) !== -1
         )
         .slice(0, this.state.eventsToShow)
-        .map((event, key) => (
+        .map((event, key) =>
           <li key={key}>
             <span>
               <span
@@ -51,9 +51,11 @@ export default class CompactEvents extends Component {
                 </Link>
               </span>
             </span>
-            <span>{Time({ format: 'dd d.MM', time: event.startTime._i })}</span>
+            <span>
+              {Time({ format: 'dd d.MM', time: event.startTime._i })}
+            </span>
           </li>
-        ));
+        );
     };
 
     const leftEvents = mapEvents([
@@ -97,7 +99,6 @@ export default class CompactEvents extends Component {
             <a onClick={() => this.setState({ eventsToShow: 5 })}>
               Vis færre <i className="fa fa-angle-double-up " />
             </a>}
-
         </div>
       </Flex>
     );

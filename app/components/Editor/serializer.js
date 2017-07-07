@@ -90,21 +90,53 @@ export default [
         case Blocks.Break:
           return <hr />;
         case Blocks.Paragraph:
-          return object.text !== '' ? <p>{children}</p> : <br />;
+          return object.text !== ''
+            ? <p>
+                {children}
+              </p>
+            : <br />;
         case Blocks.Blockquote:
-          return <blockquote>{children}</blockquote>;
+          return (
+            <blockquote>
+              {children}
+            </blockquote>
+          );
         case Blocks.Cite:
-          return <cite>{children}</cite>;
+          return (
+            <cite>
+              {children}
+            </cite>
+          );
         case Blocks.H1:
-          return <h1>{children}</h1>;
+          return (
+            <h1>
+              {children}
+            </h1>
+          );
         case Blocks.H2:
-          return <h2>{children}</h2>;
+          return (
+            <h2>
+              {children}
+            </h2>
+          );
         case Blocks.OL:
-          return <ol>{children}</ol>;
+          return (
+            <ol>
+              {children}
+            </ol>
+          );
         case Blocks.UL:
-          return <ul>{children}</ul>;
+          return (
+            <ul>
+              {children}
+            </ul>
+          );
         case Blocks.LI:
-          return <li>{children}</li>;
+          return (
+            <li>
+              {children}
+            </li>
+          );
       }
     }
   },
@@ -123,15 +155,35 @@ export default [
       if (object.kind !== 'mark') return;
       switch (object.type) {
         case Inline.Bold:
-          return <strong>{children}</strong>;
+          return (
+            <strong>
+              {children}
+            </strong>
+          );
         case Inline.Code:
-          return <code>{children}</code>;
+          return (
+            <code>
+              {children}
+            </code>
+          );
         case Inline.Italic:
-          return <em>{children}</em>;
+          return (
+            <em>
+              {children}
+            </em>
+          );
         case Inline.Underline:
-          return <u>{children}</u>;
+          return (
+            <u>
+              {children}
+            </u>
+          );
         case Inline.Striketrough:
-          return <strike>{children}</strike>;
+          return (
+            <strike>
+              {children}
+            </strike>
+          );
       }
     }
   }

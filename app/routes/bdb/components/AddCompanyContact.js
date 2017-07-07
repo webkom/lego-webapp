@@ -41,7 +41,6 @@ export default class AddCompanyContact extends Component {
 
     return (
       <div className={styles.root}>
-
         <h1>Legg til bedriftskontakt</h1>
 
         <h3>
@@ -50,9 +49,7 @@ export default class AddCompanyContact extends Component {
 
         <div className={styles.detail}>
           <div className={styles.leftSection}>
-
             <form onSubmit={handleSubmit(this.onSubmit)}>
-
               <Field
                 placeholder={'Navn'}
                 autoFocus={autoFocus}
@@ -91,13 +88,10 @@ export default class AddCompanyContact extends Component {
               >
                 Lagre
               </Button>
-
             </form>
-
           </div>
 
           <BdbRightNav {...this.props} companyId={company.id} />
-
         </div>
       </div>
     );

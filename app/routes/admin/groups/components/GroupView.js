@@ -5,15 +5,18 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 
 const Group = props => {
   const { description } = props.group;
-  const descriptionText = description && description.length
-    ? `(${description})`
-    : '';
+  const descriptionText =
+    description && description.length ? `(${description})` : '';
 
   return (
     <div>
       <header className="GroupPage__header">
-        <h2>{props.group.name}</h2>
-        <span>{descriptionText}</span>
+        <h2>
+          {props.group.name}
+        </h2>
+        <span>
+          {descriptionText}
+        </span>
       </header>
 
       {React.cloneElement(props.children, props)}

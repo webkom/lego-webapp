@@ -4,9 +4,10 @@ export default function createErrorMiddleware(actionToDispatch) {
       return next(action);
     }
 
-    const errorMessage = typeof action.meta.errorMessage === 'function'
-      ? action.meta.errorMessage(action.error)
-      : action.meta.errorMessage;
+    const errorMessage =
+      typeof action.meta.errorMessage === 'function'
+        ? action.meta.errorMessage(action.error)
+        : action.meta.errorMessage;
 
     store.dispatch(actionToDispatch(errorMessage));
     return next(action);

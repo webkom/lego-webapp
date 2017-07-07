@@ -98,7 +98,7 @@ export default class ImageBlock extends Component {
         {isFocused &&
           !uploading &&
           <div className={styles.tooltip}>
-            {tooltipButtons.map(button => (
+            {tooltipButtons.map(button =>
               <span
                 key={button.blockLayout}
                 className={styles.tooltipButton}
@@ -117,7 +117,7 @@ export default class ImageBlock extends Component {
                   name={button.icon}
                 />
               </span>
-            ))}
+            )}
           </div>}
 
         <img
@@ -135,9 +135,7 @@ export default class ImageBlock extends Component {
               {error}
               <br />
               <b>
-                <a onClick={this.retry}>
-                  Retry?
-                </a>
+                <a onClick={this.retry}>Retry?</a>
               </b>
             </span>
           </div>}

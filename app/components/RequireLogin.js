@@ -14,7 +14,11 @@ function RequireLogin({ loggedIn, children }: Props) {
     return null;
   }
 
-  return <div>{children}</div>;
+  return (
+    <div>
+      {children}
+    </div>
+  );
 }
 
 export default RequireLogin;

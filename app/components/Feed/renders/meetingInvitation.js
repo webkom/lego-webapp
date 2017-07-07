@@ -20,10 +20,7 @@ export function activityHeader(aggregatedActivity) {
 
   return (
     <b>
-      {contextRender[actor.contentType](actor)}
-      {' '}
-      inviterte deg til
-      {' '}
+      {contextRender[actor.contentType](actor)} inviterte deg til{' '}
       {joinValues(
         meetings.map(meeting => contextRender[meeting.contentType](meeting))
       )}

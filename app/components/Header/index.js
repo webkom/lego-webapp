@@ -40,7 +40,9 @@ function AccountDropdownItems({ logout, onClose, username }) {
     <Dropdown.List>
       <Dropdown.ListItem>
         <Link to="/users/me" onClick={onClose} style={{ color: '#333' }}>
-          <strong>{username}</strong>
+          <strong>
+            {username}
+          </strong>
           <Icon name="contact" size={24} />
         </Link>
       </Dropdown.ListItem>
@@ -100,7 +102,9 @@ class Header extends Component {
             <Link to="/joblistings" activeClassName={styles.activeItem}>
               Karriere
             </Link>
-            <Link to="/bdb" activeClassName={styles.activeItem}>BDB</Link>
+            <Link to="/bdb" activeClassName={styles.activeItem}>
+              BDB
+            </Link>
             <Link
               to="/readme"
               activeClassName={styles.activeItem}

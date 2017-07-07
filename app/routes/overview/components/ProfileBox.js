@@ -59,7 +59,9 @@ export default class ProfileBox extends Component {
         <div className={styles.bar}>
           <ProfilePicture user={currentUser} size={50} />
           <a className={styles.user} onClick={() => this.toggleOpen()}>
-            <h3>{nameOrLogin}</h3>
+            <h3>
+              {nameOrLogin}
+            </h3>
             <Icon className={styles.arrow} name={icon} />
           </a>
         </div>

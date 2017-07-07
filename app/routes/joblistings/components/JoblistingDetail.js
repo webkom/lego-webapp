@@ -18,9 +18,15 @@ const JoblistingDetail = ({ joblisting }) => {
         <li>
           <h3>Kontaktinfo:</h3>
         </li>
-        <li>Navn: {joblisting.responsible.name || 'Ikke oppgitt.'}</li>
-        <li>Mail: {joblisting.responsible.mail || 'Ikke oppgitt.'}</li>
-        <li>Telefon: {joblisting.responsible.phone || 'Ikke oppgitt.'}</li>
+        <li>
+          Navn: {joblisting.responsible.name || 'Ikke oppgitt.'}
+        </li>
+        <li>
+          Mail: {joblisting.responsible.mail || 'Ikke oppgitt.'}
+        </li>
+        <li>
+          Telefon: {joblisting.responsible.phone || 'Ikke oppgitt.'}
+        </li>
       </div>
     );
   }
@@ -29,11 +35,17 @@ const JoblistingDetail = ({ joblisting }) => {
       <div className={styles.coverImage}>
         <Image src="http://placehold.it/1000x300" />
       </div>
-      <h1>{joblisting.title}</h1>
+      <h1>
+        {joblisting.title}
+      </h1>
       <FlexRow>
         <FlexColumn className={styles.description}>
-          <Markdown>{joblisting.description || ''}</Markdown>
-          <Markdown>{joblisting.text || ''}</Markdown>
+          <Markdown>
+            {joblisting.description || ''}
+          </Markdown>
+          <Markdown>
+            {joblisting.text || ''}
+          </Markdown>
         </FlexColumn>
         <FlexColumn className={styles.meta}>
           <ul>
@@ -41,15 +53,13 @@ const JoblistingDetail = ({ joblisting }) => {
               <h3>Generell info:</h3>
             </li>
             <li>
-              Søknadsfrist:
-              {' '}
+              Søknadsfrist:{' '}
               <strong>
                 <Time time={joblisting.deadline} format="ll HH:mm" />
               </strong>
             </li>
             <li>
-              Søk her:
-              {' '}
+              Søk her:{' '}
               <a
                 href={`${joblisting.applicationUrl}`}
                 className={styles.applicationUrl}
@@ -58,7 +68,9 @@ const JoblistingDetail = ({ joblisting }) => {
               </a>
             </li>
             <br />
-            <li>{Jobtype(joblisting.jobType)}</li>
+            <li>
+              {Jobtype(joblisting.jobType)}
+            </li>
             <Year {...joblisting} />
             <Workplaces places={joblisting.workplaces} />
             {contactTitle}

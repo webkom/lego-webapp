@@ -24,10 +24,8 @@ export default function QuotePage({
   return (
     <div className={cx(styles.root, styles.quoteContainer)}>
       <div className={styles.quotepageLeft}>
-
         <QuoteTopNav {...props} query={query} sortType={sortType} />
         <QuoteList {...props} quotes={quotes} sortType={sortType} />
-
       </div>
 
       <QuoteRightNav query={query} />
