@@ -69,9 +69,13 @@ h1 {
   margin-bottom: 10px;
 }
 
-.textEditor { height: 250px; }
+.textEditor {
+  height: 250px;
+}
 
-.button { font-size: 12px; }
+.button {
+  font-size: 12px;
+}
 
 .detail {
   font-size: 30px;
