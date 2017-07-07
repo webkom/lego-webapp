@@ -1,4 +1,3 @@
-
 .heading {
   position: relative;
   display: flex;
@@ -14,7 +13,7 @@
 
   &:hover {
     cursor: pointer;
-    color: #7AF252;
+    color: #7af252;
   }
 }
 
