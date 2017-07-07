@@ -14,7 +14,6 @@ export default function QuoteTopNav({ sortType, query, ...props }: Props) {
         <h1>Sitater!</h1>
         <div className={styles.sortQuote}>
           Sorter etter:
-
           <Link
             to={
               query.filter === 'unapproved'
@@ -27,7 +26,6 @@ export default function QuoteTopNav({ sortType, query, ...props }: Props) {
           >
             Dato
           </Link>
-
           <Link
             to={
               query.filter === 'unapproved'

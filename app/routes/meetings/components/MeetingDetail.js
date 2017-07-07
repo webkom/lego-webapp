@@ -20,7 +20,9 @@ function UserLink({ user }) {
     return <span> Ikke valgt </span>;
   }
   return (
-    <Link to={`/users/${user.user.username}`}> {user.user.fullName} </Link>
+    <Link to={`/users/${user.user.username}`}>
+      {' '}{user.user.fullName}{' '}
+    </Link>
   );
 }
 
@@ -157,7 +159,9 @@ class MeetingDetails extends Component {
                 </li>
                 <li>
                   <strong> Lokasjon: </strong>
-                  <span> {meeting.location} </span>
+                  <span>
+                    {' '}{meeting.location}{' '}
+                  </span>
                 </li>
                 <li>
                   <strong> Forfatter: </strong>
@@ -179,7 +183,6 @@ class MeetingDetails extends Component {
             <div dangerouslySetInnerHTML={{ __html: meeting.report }} />
           </FlexItem>
         </div>
-
       </div>
     );
   }

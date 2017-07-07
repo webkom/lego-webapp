@@ -20,7 +20,7 @@ const Keyboard = {
 
 const quickLinks = [['', 'Interessegrupper'], ['', 'Butikk'], ['', 'Kontakt']];
 
-const SearchResultItem = ({ result, isSelected, onCloseSearch }) => (
+const SearchResultItem = ({ result, isSelected, onCloseSearch }) =>
   <Link to={result.link} onClick={onCloseSearch}>
     <li className={cx(isSelected && styles.isSelected)}>
       {result.icon &&
@@ -33,8 +33,7 @@ const SearchResultItem = ({ result, isSelected, onCloseSearch }) => (
         />}
       {result.label}
     </li>
-  </Link>
-);
+  </Link>;
 
 type Props = {
   results: Array<any>,
@@ -125,23 +124,25 @@ class Search extends Component {
 
           <div className={styles.resultsContainer}>
             <ul className={styles.results}>
-              {results.map((result, i) => (
+              {results.map((result, i) =>
                 <SearchResultItem
                   key={i}
                   result={result}
                   onCloseSearch={onCloseSearch}
                   isSelected={i === this.state.selectedIndex - 1}
                 />
-              ))}
+              )}
             </ul>
 
             <div className={styles.quickLinks}>
               <ul>
-                {quickLinks.map(([href, name]) => (
+                {quickLinks.map(([href, name]) =>
                   <li key={name}>
-                    <Link to={href}>{name}</Link>
+                    <Link to={href}>
+                      {name}
+                    </Link>
                   </li>
-                ))}
+                )}
               </ul>
             </div>
           </div>

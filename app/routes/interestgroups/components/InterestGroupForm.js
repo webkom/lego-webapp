@@ -6,9 +6,11 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Upload from 'app/components/Upload';
 
-const InterestGroupForm = ({ handleSubmit, buttonText, header }) => (
+const InterestGroupForm = ({ handleSubmit, buttonText, header }) =>
   <form onSubmit={handleSubmit}>
-    <h1>{header}</h1>
+    <h1>
+      {header}
+    </h1>
     <Field
       className={styles.textInput}
       placeholder="Name"
@@ -31,10 +33,11 @@ const InterestGroupForm = ({ handleSubmit, buttonText, header }) => (
       <div>
         <Upload>Last opp bilde</Upload>
       </div>
-      <Button type="submit">{buttonText}</Button>
+      <Button type="submit">
+        {buttonText}
+      </Button>
     </div>
-  </form>
-);
+  </form>;
 
 function validateInterestGroup(data) {
   const errors = {};

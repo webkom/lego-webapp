@@ -38,7 +38,9 @@ export default class ArticleDetail extends Component {
         </div>
 
         <FlexRow alignItems="center" justifyContent="space-between">
-          <h2>{article.title}</h2>
+          <h2>
+            {article.title}
+          </h2>
           {article.actionGrant.includes('update') &&
             <span>
               <Link to={`/articles/${article.id}/edit`}>Edit</Link>

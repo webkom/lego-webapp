@@ -23,10 +23,7 @@ export function activityHeader(aggregatedActivity) {
 
   return (
     <b>
-      {contextRender[actor.contentType](actor)}
-      {' '}
-      kommenterte på
-      {' '}
+      {contextRender[actor.contentType](actor)} kommenterte på{' '}
       {contextRender[target.contentType](target)}
     </b>
   );

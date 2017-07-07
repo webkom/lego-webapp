@@ -43,7 +43,7 @@ export default class CompanySingleRow extends Component {
       this.semesterElement(0),
       this.semesterElement(1),
       this.semesterElement(2)
-    ].map((status, i) => (
+    ].map((status, i) =>
       <SemesterStatus
         key={i}
         semIndex={i}
@@ -54,16 +54,22 @@ export default class CompanySingleRow extends Component {
         startYear={startYear}
         startSem={startSem}
       />
-    ));
+    );
 
     return (
       <tr>
-        <td><Link to={`/bdb/${company.id}`}>{company.name}</Link></td>
+        <td>
+          <Link to={`/bdb/${company.id}`}>
+            {company.name}
+          </Link>
+        </td>
         {semesters}
         <td>
           {company.studentContact ? company.studentContact.fullName : ''}
         </td>
-        <td className={styles.adminComment}>{company.adminComment}</td>
+        <td className={styles.adminComment}>
+          {company.adminComment}
+        </td>
       </tr>
     );
   }

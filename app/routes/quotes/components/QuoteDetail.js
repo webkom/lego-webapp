@@ -36,9 +36,7 @@ export default function QuoteDetail({
         styles.quoteSingleroute
       )}
     >
-
       <div className={styles.quotepageLeft}>
-
         <h1>Enkelt sitat!</h1>
 
         <Quote {...props} quote={quote} actionGrant={actionGrant} />
@@ -50,11 +48,9 @@ export default function QuoteDetail({
           loggedIn={loggedIn}
           comments={comments}
         />
-
       </div>
 
       <QuoteRightNav query={query} detail={true} actionGrant={actionGrant} />
-
     </div>
   );
 }

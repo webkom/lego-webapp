@@ -26,9 +26,11 @@ class AttendanceStatus extends Component {
 
   render() {
     const { pools } = this.props;
-    const lists = (pools || []).map((pool, i) => (
+    const lists = (pools || []).map((pool, i) =>
       <div key={i} className={styles.poolBox}>
-        <strong>{pool.name}</strong>
+        <strong>
+          {pool.name}
+        </strong>
         <a onClick={() => this.toggleModal(i)}>
           <strong>
             {pool.capacity
@@ -37,7 +39,7 @@ class AttendanceStatus extends Component {
           </strong>
         </a>
       </div>
-    ));
+    );
 
     return (
       <div className={styles.attendanceBox}>

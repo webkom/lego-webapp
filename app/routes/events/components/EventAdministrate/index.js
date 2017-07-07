@@ -90,7 +90,11 @@ export default class EventAdministrate extends Component {
     }
 
     if (error) {
-      return <div>{error.message}</div>;
+      return (
+        <div>
+          {error.message}
+        </div>
+      );
     }
     const showUnregister = moment().isBefore(event.startTime);
 
@@ -126,7 +130,7 @@ export default class EventAdministrate extends Component {
                 <div>Administrer:</div>
               </li>
               {registered.length === 0 && <li>Ingen påmeldte</li>}
-              {registered.map((reg, i) => (
+              {registered.map((reg, i) =>
                 <RegisteredElement
                   key={i}
                   registration={reg}
@@ -136,7 +140,7 @@ export default class EventAdministrate extends Component {
                   clickedUnregister={this.state.clickedUnregister}
                   showUnregister={showUnregister}
                 />
-              ))}
+              )}
             </ul>
           </div>
           <div className={styles.list} style={{ paddingTop: '1em' }}>
@@ -150,9 +154,9 @@ export default class EventAdministrate extends Component {
                 <div>Klassetrinn:</div>
               </li>
               {unregistered.length === 0 && <div>Ingen avmeldte</div>}
-              {unregistered.map((reg, i) => (
+              {unregistered.map((reg, i) =>
                 <UnregisteredElement key={i} registration={reg} />
-              ))}
+              )}
             </ul>
           </div>
         </Flex>

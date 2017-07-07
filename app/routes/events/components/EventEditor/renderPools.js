@@ -23,11 +23,13 @@ const renderPools = ({
   autocompleteResult,
   groupQueryChanged,
   searching
-}: poolProps) => (
+}: poolProps) =>
   <ul>
-    {fields.map((pool, index) => (
+    {fields.map((pool, index) =>
       <li key={index}>
-        <h4>Pool #{index + 1}</h4>
+        <h4>
+          Pool #{index + 1}
+        </h4>
         <Field
           name={`pools[${index}].name`}
           fieldClassName={styles.poolField}
@@ -63,7 +65,7 @@ const renderPools = ({
           Fjern pool
         </Button>
       </li>
-    ))}
+    )}
     <li>
       <Button
         onClick={() =>
@@ -77,7 +79,6 @@ const renderPools = ({
         Legg til pool
       </Button>
     </li>
-  </ul>
-);
+  </ul>;
 
 export default renderPools;

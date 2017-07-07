@@ -59,7 +59,9 @@ export default class UserProfile extends Component {
         <Flex wrap className={styles.header}>
           <ProfilePicture user={user} size={150} />
 
-          <h2>{user.fullName}</h2>
+          <h2>
+            {user.fullName}
+          </h2>
 
           <Pill>5. Datateknikk</Pill>
         </Flex>

@@ -18,13 +18,15 @@ function PublicFrontpage() {
         <div className={styles.bigWelcomeBox}>
           <h2 className="u-mb">Velkommen til Abakus</h2>
           <p>
-            Abakus er linjeforeningen for studentene ved Datateknologi og Kommunikasjonsteknologi på NTNU, og drives av studenter ved disse studiene.
+            Abakus er linjeforeningen for studentene ved Datateknologi og
+            Kommunikasjonsteknologi på NTNU, og drives av studenter ved disse
+            studiene.
           </p>
           <p>
             Abakus
-            {"'"}
-            {' '}
-            formål er å gi disse studentene veiledning i studiesituasjonen, arrangere kurs som utfyller fagtilbudet ved NTNU, fremme kontakten med næringslivet og bidra med sosiale aktiviteter.
+            {"'"} formål er å gi disse studentene veiledning i
+            studiesituasjonen, arrangere kurs som utfyller fagtilbudet ved NTNU,
+            fremme kontakten med næringslivet og bidra med sosiale aktiviteter.
           </p>
         </div>
         <div className={styles.welcomeBox}>
@@ -35,7 +37,10 @@ function PublicFrontpage() {
             className="u-mb"
             style={{ whiteSpace: 'nowrap' }}
           >
-            Logg inn <a href="" className="u-small">Jeg er ny →</a>
+            Logg inn{' '}
+            <a href="" className="u-small">
+              Jeg er ny →
+            </a>
           </Flex>
           <LoginForm />
         </div>

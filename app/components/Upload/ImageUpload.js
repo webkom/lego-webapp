@@ -36,7 +36,7 @@ export default class ImageUpload extends Component {
     }
   };
 
-  createUploadArea = () => (
+  createUploadArea = () =>
     <Upload onDrop={this.onFile} accept="image/*" img={this.state.img}>
       <div className={styles.placeholderContainer}>
         <Icon name="picture-o" className={styles.placeholderIcon} />
@@ -50,8 +50,7 @@ export default class ImageUpload extends Component {
           src={this.state.img}
           role="presentation"
         />}
-    </Upload>
-  );
+    </Upload>;
 
   render() {
     const { inModal, aspectRatio } = this.props;

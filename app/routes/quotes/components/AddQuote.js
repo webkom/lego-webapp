@@ -22,14 +22,12 @@ const AddQuote = ({
 
   return (
     <div className={styles.root}>
-
       <div className={styles.quoteTop}>
         <h1>Legg til sitat</h1>
       </div>
 
       <div className={styles.addQuote}>
         <form onSubmit={handleSubmit(addQuotes)}>
-
           <label htmlFor="addQuoteContent" style={{ fontSize: 30 }}>
             Selve sitatet <b>*</b>
           </label>

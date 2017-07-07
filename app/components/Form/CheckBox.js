@@ -16,7 +16,9 @@ function CheckBox({ id, label, value, className, ...props }: Props) {
   return (
     <div className={styles.box}>
       <input {...props} type="checkbox" id={id} checked={value} />
-      <label htmlFor={id}>{label}</label>
+      <label htmlFor={id}>
+        {label}
+      </label>
     </div>
   );
 }

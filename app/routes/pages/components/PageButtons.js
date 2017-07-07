@@ -10,7 +10,7 @@ type Props = {
   handleSave: () => void
 };
 
-const PageButtons = ({ isEditing, toggleEditing, handleSave }: Props) => (
+const PageButtons = ({ isEditing, toggleEditing, handleSave }: Props) =>
   <div>
     <Button size="small" onClick={toggleEditing}>
       {isEditing ? 'Avbryt' : 'Rediger'}
@@ -19,7 +19,6 @@ const PageButtons = ({ isEditing, toggleEditing, handleSave }: Props) => (
       <Button size="small" onClick={handleSave} className={styles.last}>
         Lagre
       </Button>}
-  </div>
-);
+  </div>;
 
 export default PageButtons;

@@ -8,11 +8,13 @@ const Members = ({ users }) => {
 
   return (
     <ul>
-      {users.map(({ username }) => (
+      {users.map(({ username }) =>
         <li key={username}>
-          <Link to={`/users/${username}`}>{username}</Link>
+          <Link to={`/users/${username}`}>
+            {username}
+          </Link>
         </li>
-      ))}
+      )}
     </ul>
   );
 };
