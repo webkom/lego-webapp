@@ -10,6 +10,13 @@ import Helmet from 'react-helmet';
 import routes from '../app/routes';
 import configureStore from '../app/utils/configureStore';
 
+import manifest from '../app/assets/manifest.json';
+require('../app/assets/favicon.png');
+require('../app/assets/icon-192x192.png');
+require('../app/assets/icon-256x256.png');
+require('../app/assets/icon-384x384.png');
+require('../app/assets/icon-512x512.png');
+
 function render(req, res, next) {
   cookie.plugToRequest(req, res);
   match({ routes, location: req.url }, (err, redirect, renderProps) => {
@@ -80,9 +87,18 @@ function renderPage({ body, state, helmet }) {
         <meta charset="utf-8">
         ${helmet.title.toString()}
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <link rel="icon" href="/favicon.png">
+
+        <link rel="manifest" href="${manifest}">
+        <link rel="icon" sizes="192x192" href="/favicon.png">
+
+        <link rel="apple-touch-icon" href="/favicon.png">
+        <link rel="apple-touch-startup-image" href="/favicon.png">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+
+        <meta name="theme-color" content="#f2f2f1">
+
+
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
         ${helmet.meta.toString()}

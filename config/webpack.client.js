@@ -146,12 +146,16 @@ module.exports = {
         })
       },
       {
-        test: /\.(png|jpg|jpeg|gif|eot|svg|woff|woff2|ttf|mp4|webm)/,
+        test: /\.(png|jpg|jpeg|gif|eot|svg|woff|woff2|ttf|mp4|webm)$/,
         loader: 'url-loader',
         query: {
           limit: 8192
         }
-      }
+      },
+      {
+        test: /((manifest\.json|favicon\.png)$|icon-)/,
+        loader: 'file-loader?name=[name].[ext]'
+      },
     ]
   }
 };
