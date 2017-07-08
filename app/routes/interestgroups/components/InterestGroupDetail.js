@@ -29,9 +29,13 @@ class InterestGroupDetail extends Component {
     return (
       <div className={styles.root}>
         <div className={styles.wrapper}>
-          <h1 className={styles.detail}>{group.name}</h1>
+          <h1 className={styles.detail}>
+            {group.name}
+          </h1>
           <div className={styles.content}>
-            <p className={styles.paragraphDetail}>{group.text}</p>
+            <p className={styles.paragraphDetail}>
+              {group.text}
+            </p>
             <Image
               className={styles.interestPicDetail}
               src={'https://i.redd.it/dz8mwvl4dgdy.jpg'}
@@ -42,7 +46,8 @@ class InterestGroupDetail extends Component {
         <div className={styles.content}>
           <p>
             Martin<br />
-            Call me anytime bby gurl, love you long time (30 s confirmed, can provide evidence)
+            Call me anytime bby gurl, love you long time (30 s confirmed, can
+            provide evidence)
             <br />
             martyboy@alphamale.com
           </p>
@@ -53,9 +58,7 @@ class InterestGroupDetail extends Component {
               </Button>
             </div>
             <div className={styles.button}>
-              <Button onClick={this.removeId}>
-                Slett interressegruppe
-              </Button>
+              <Button onClick={this.removeId}>Slett interressegruppe</Button>
             </div>
           </FlexColumn>
         </div>

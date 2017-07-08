@@ -79,26 +79,23 @@ export default class EditSemester extends Component {
 
     return (
       <div className={styles.root}>
-
         <h1>Endre semester</h1>
         <i>
           <Link to={`/bdb/${company.id}`}>{company.name}</Link> sin status for
           <b>
-            {semesterStatus.semester === 0 ? ' Vår' : ' Høst'}
-            {' '}
+            {semesterStatus.semester === 0 ? ' Vår' : ' Høst'}{' '}
             {semesterStatus.year}
           </b>
         </i>
 
         <i style={{ display: 'block', marginBottom: '10px' }}>
-          Hint: du kan endre status for flere semestere samtidig på Bdb-forsiden!
+          Hint: du kan endre status for flere semestere samtidig på
+          Bdb-forsiden!
         </i>
 
         <div className={styles.detail}>
           <div className={styles.leftSection}>
-
             <form onSubmit={handleSubmit(this.onSubmit)}>
-
               <Field
                 placeholder={'Kontrakt for dette semesteret'}
                 autoFocus={autoFocus}
@@ -116,11 +113,11 @@ export default class EditSemester extends Component {
                   styles.contactedStatusForm
                 )}
               >
-                {Object.keys(statusStrings).map((statusString, j) => (
+                {Object.keys(statusStrings).map((statusString, j) =>
                   <option key={j} value={statusString}>
                     {statusStrings[j]}
                   </option>
-                ))}
+                )}
               </select>
 
               <div className={styles.clear} />
@@ -132,12 +129,10 @@ export default class EditSemester extends Component {
               >
                 Lagre
               </Button>
-
             </form>
           </div>
 
           <BdbRightNav {...this.props} companyId={company.id} />
-
         </div>
       </div>
     );

@@ -96,10 +96,12 @@ export default class CompanyList extends Component {
       }
     ];
 
-    const headers = HEADER_ITEMS.map((item, i) => (
+    const headers = HEADER_ITEMS.map((item, i) =>
       <th key={i}>
         <Link to={this.findSortLink(item.sortLink)}>
-          <div className={styles.title}>{item.title}</div>
+          <div className={styles.title}>
+            {item.title}
+          </div>
 
           <div className={styles[this.showOrHideSortIcon(item.sortLink)]}>
             <div className={styles.upArrow}>
@@ -109,23 +111,23 @@ export default class CompanyList extends Component {
               <i className="fa fa-caret-down" aria-hidden="true" />
             </div>
           </div>
-
         </Link>
       </th>
-    ));
+    );
 
     return (
       <div className={styles.companyList}>
         <table>
           <thead>
-
             <tr className={styles.invisRow}>
-              <td /><td>
+              <td />
+              <td>
                 <i
                   onClick={() => changeSemesters(false)}
                   className="fa fa-arrow-left"
                 />
-              </td><td />
+              </td>
+              <td />
               <td className={styles.rightArrow}>
                 <i
                   onClick={() => changeSemesters(true)}
@@ -137,11 +139,10 @@ export default class CompanyList extends Component {
             <tr className={styles.categoryHeader}>
               {headers}
             </tr>
-
           </thead>
 
           <tbody>
-            {companies.map((company, i) => (
+            {companies.map((company, i) =>
               <CompanySingleRow
                 company={company}
                 startYear={startYear}
@@ -151,11 +152,9 @@ export default class CompanyList extends Component {
                 editSemester={editSemester}
                 changedStatuses={changedStatuses}
               />
-            ))}
+            )}
           </tbody>
-
         </table>
-
       </div>
     );
   }

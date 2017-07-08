@@ -10,7 +10,7 @@ export type Props = {
   onClick: e => 'string'
 };
 
-export default (props: Props) => (
+export default (props: Props) =>
   <span
     className={cx(
       styles.tooltipButton,
@@ -23,5 +23,4 @@ export default (props: Props) => (
     }}
   >
     <span className={`icon-${props.icon}`} />
-  </span>
-);
+  </span>;

@@ -46,9 +46,7 @@ class Toolbar extends Component {
           {actionGrant &&
             actionGrant.includes('create') &&
             <Link to={'/events/create'}>
-              <Button>
-                Lag nytt arrangement
-              </Button>
+              <Button>Lag nytt arrangement</Button>
             </Link>}
         </div>
 

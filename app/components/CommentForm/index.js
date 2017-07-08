@@ -66,11 +66,7 @@ class CommentForm extends Component {
     const className = inlineMode ? styles.inlineForm : styles.form;
 
     if (!loggedIn) {
-      return (
-        <div>
-          Please log in.
-        </div>
-      );
+      return <div>Please log in.</div>;
     }
 
     return (

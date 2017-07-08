@@ -21,7 +21,9 @@ export default class Admin extends Component {
       <div>
         {actionGrant.length > 0 &&
           <ul>
-            <li><strong>Admin</strong></li>
+            <li>
+              <strong>Admin</strong>
+            </li>
             {actionGrant.includes('update') &&
               <li>
                 <Link

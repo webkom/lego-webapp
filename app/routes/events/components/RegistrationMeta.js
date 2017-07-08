@@ -6,13 +6,11 @@ type Props = {
   isPriced: boolean
 };
 
-const RegistrationMeta = ({ registration, isPriced }: Props) => (
+const RegistrationMeta = ({ registration, isPriced }: Props) =>
   <div>
     {!registration &&
       <div>
-        <i className="fa fa-exclamation-circle" />
-        {' '}
-        Du er ikke registrert
+        <i className="fa fa-exclamation-circle" /> Du er ikke registrert
       </div>}
     {registration &&
       <div>
@@ -21,9 +19,7 @@ const RegistrationMeta = ({ registration, isPriced }: Props) => (
               <i className="fa fa-check-circle" /> Du er registrert
             </div>
           : <div>
-              <i className="fa fa-pause-circle" />
-              {' '}
-              Du er i venteliste
+              <i className="fa fa-pause-circle" /> Du er i venteliste
             </div>}
         {isPriced &&
           (registration.chargeStatus === 'succeeded'
@@ -31,12 +27,9 @@ const RegistrationMeta = ({ registration, isPriced }: Props) => (
                 <i className="fa fa-check-circle" /> Du har betalt
               </div>
             : <div>
-                <i className="fa fa-exclamation-circle" />
-                {' '}
-                Du har ikke betalt
+                <i className="fa fa-exclamation-circle" /> Du har ikke betalt
               </div>)}
       </div>}
-  </div>
-);
+  </div>;
 
 export default RegistrationMeta;

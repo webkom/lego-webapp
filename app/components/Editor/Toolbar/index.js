@@ -121,7 +121,6 @@ export default class Toolbar extends Component {
             onClose={this.toggleImage}
             onSubmit={this.insertImage}
           />}
-
       </div>
     );
   }

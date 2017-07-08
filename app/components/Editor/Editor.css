@@ -38,14 +38,17 @@
   font-weight: 700;
 }
 
-.Editor ::selection { background: rgba(178, 34, 34, 0.26); }
+.Editor ::selection {
+  background: rgba(178, 34, 34, 0.26);
+}
 
-.Editor ul,ol {
+.Editor ul,
+ol {
   list-style-position: inside;
 }
 
 .Editor ul {
-  list-style-type: disc
+  list-style-type: disc;
 }
 
 .Editor ol > li {

@@ -56,7 +56,6 @@ export default class EditCompany extends Component {
 
     return (
       <div className={styles.root}>
-
         <Field
           placeholder={'Bedriftens navn'}
           autoFocus={autoFocus}
@@ -67,9 +66,7 @@ export default class EditCompany extends Component {
 
         <div className={styles.detail}>
           <div className={styles.leftSection}>
-
             <form onSubmit={handleSubmit(this.onSubmit)}>
-
               <div className={styles.description}>
                 <Field
                   placeholder={'Beskrivelse av bedriften'}
@@ -215,12 +212,10 @@ export default class EditCompany extends Component {
               <Button className={styles.submit} disabled={submitting} submit>
                 Lagre
               </Button>
-
             </form>
           </div>
 
           <BdbRightNav {...this.props} />
-
         </div>
       </div>
     );

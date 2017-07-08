@@ -20,7 +20,9 @@ function JoblistingItem({ joblisting }) {
         </FlexColumn>
         <FlexColumn>
           <Link to={`/joblistings/${joblisting.id}/`}>
-            <h3 className={styles.joblistingItemTitle}>{joblisting.title}</h3>
+            <h3 className={styles.joblistingItemTitle}>
+              {joblisting.title}
+            </h3>
           </Link>
           <div className={styles.companyJobtype}>
             {joblisting.company.name} • {Jobtype(joblisting.jobType)}
@@ -45,19 +47,16 @@ function JoblistingListGroup({ joblistings = [] }) {
         <FlexColumn>
           <h2 className={styles.headingText}>Jobbannonser</h2>
         </FlexColumn>
-        <FlexColumn className={styles.headingDeadline}>
-          Deadline:
-        </FlexColumn>
+        <FlexColumn className={styles.headingDeadline}>Deadline:</FlexColumn>
       </FlexRow>
-      {joblistings.map((joblisting, i) => (
+      {joblistings.map((joblisting, i) =>
         <JoblistingItem key={i} joblisting={joblisting} />
-      ))}
+      )}
     </div>
   );
 }
 
-const JoblistingsList = ({ joblistings }) => (
-  <JoblistingListGroup joblistings={joblistings} />
-);
+const JoblistingsList = ({ joblistings }) =>
+  <JoblistingListGroup joblistings={joblistings} />;
 
 export default JoblistingsList;

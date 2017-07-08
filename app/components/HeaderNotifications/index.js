@@ -83,13 +83,13 @@ export default class NotificationsDropdown extends Component {
   renderNotifications = notifications => {
     return (
       <div className={styles.notifications}>
-        {notifications.map((notification, i) => (
+        {notifications.map((notification, i) =>
           <NotificationElement
             key={i}
             notification={notification}
             markNotification={this.markNotification}
           />
-        ))}
+        )}
       </div>
     );
   };

@@ -5,7 +5,7 @@ import Octagon from 'app/components/Octagon';
 import Image from 'app/components/Image';
 import { colorForEvent } from 'app/routes/events/utils';
 
-const EventItem = ({ event, imageSize }) => (
+const EventItem = ({ event, imageSize }) =>
   <Link to={`/events/${event.id}`}>
     <li className={styles.item} key={event.id}>
       <Octagon size={imageSize}>
@@ -25,22 +25,20 @@ const EventItem = ({ event, imageSize }) => (
         </h3>
       </div>
     </li>
-  </Link>
-);
+  </Link>;
 
 // TODO: Only show events from the next 14 days under "Kommende"
-const EventSidebar = ({ events }) => (
+const EventSidebar = ({ events }) =>
   <div className={styles.eventSidebar}>
     <h2>Arrangementer</h2>
     <div className={`${styles.events}`}>
       <h3>Kommende</h3>
       {events
         .slice(0, 3)
-        .map(event => (
+        .map(event =>
           <EventItem key={event.id} imageSize="30px" event={event} />
-        ))}
+        )}
     </div>
-  </div>
-);
+  </div>;
 
 export default EventSidebar;

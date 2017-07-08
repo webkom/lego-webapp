@@ -10,7 +10,7 @@ export const FlexRow = ({
   flexWrap,
   style,
   ...rest
-}) => (
+}) =>
   <div
     className={cx(styles.row, className)}
     style={{
@@ -22,8 +22,7 @@ export const FlexRow = ({
     {...rest}
   >
     {children}
-  </div>
-);
+  </div>;
 
 export const FlexColumn = ({
   children,
@@ -33,7 +32,7 @@ export const FlexColumn = ({
   flexWrap,
   style,
   ...rest
-}) => (
+}) =>
   <div
     className={cx(styles.column, className)}
     style={{
@@ -45,8 +44,7 @@ export const FlexColumn = ({
     {...rest}
   >
     {children}
-  </div>
-);
+  </div>;
 
 export const FlexItem = ({
   children,
@@ -54,7 +52,7 @@ export const FlexItem = ({
   flex,
   container = false, // Add display: flex;
   ...rest
-}) => (
+}) =>
   <div
     className={className}
     style={{
@@ -64,5 +62,4 @@ export const FlexItem = ({
     {...rest}
   >
     {children}
-  </div>
-);
+  </div>;

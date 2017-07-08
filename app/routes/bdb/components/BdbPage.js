@@ -190,7 +190,6 @@ export default class BdbPage extends Component {
 
     return (
       <div className={styles.root}>
-
         <h1>Bedriftsdatabase</h1>
 
         <div className={styles.search}>
@@ -203,8 +202,7 @@ export default class BdbPage extends Component {
           className={styles.optionsHeader}
           style={{ cursor: 'pointer', margin: '15px 0' }}
         >
-          Valg
-          {' '}
+          Valg{' '}
           {this.state.displayOptions
             ? <i className="fa fa-caret-down" />
             : <i className="fa fa-caret-right" />}
@@ -218,15 +216,15 @@ export default class BdbPage extends Component {
         />
 
         {this.state.changedStatuses.length > 0
-          ? <Button onClick={this.submitChange} dark>Lagre endringer</Button>
+          ? <Button onClick={this.submitChange} dark>
+              Lagre endringer
+            </Button>
           : ''}
         {this.state.submitted && `${trueIcon} Lagret!`}
 
         <i style={{ display: 'block' }}>
-          <b>Tips:</b>
-          {' '}
-          Du kan endre semestere ved å trykke på dem i listen! Semestere merket med *
-          er endringer klare for lagring.
+          <b>Tips:</b> Du kan endre semestere ved å trykke på dem i listen!
+          Semestere merket med * er endringer klare for lagring.
         </i>
 
         <CompanyList
@@ -239,7 +237,6 @@ export default class BdbPage extends Component {
           removeChangedStatus={this.removeChangedStatus}
           changedStatuses={this.state.changedStatuses}
         />
-
       </div>
     );
   }

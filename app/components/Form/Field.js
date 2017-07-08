@@ -5,7 +5,11 @@ import cx from 'classnames';
 import styles from './Field.css';
 
 function FieldError({ error }) {
-  return <div className={styles.fieldError}>{error}</div>;
+  return (
+    <div className={styles.fieldError}>
+      {error}
+    </div>
+  );
 }
 
 function renderErrorMessage(error: Array<string> | string) {
@@ -28,7 +32,10 @@ export function createField(Component: any) {
     const hasError = meta.touched && meta.error && meta.error.length > 0;
     return (
       <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
-        {label && <div>{label}</div>}
+        {label &&
+          <div>
+            {label}
+          </div>}
         <Component
           {...input}
           {...props}

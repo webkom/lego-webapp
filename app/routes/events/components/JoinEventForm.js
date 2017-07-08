@@ -160,9 +160,7 @@ class JoinEventForm extends Component {
       !['pending', 'succeeded'].includes(registration.chargeStatus);
     return (
       <Flex column className={styles.join}>
-        <div className={styles.joinHeader}>
-          Bli med på dette arrangementet
-        </div>
+        <div className={styles.joinHeader}>Bli med på dette arrangementet</div>
         {!this.state.formOpen &&
           this.state.time &&
           <div>
@@ -220,7 +218,9 @@ class JoinEventForm extends Component {
                   </div>}
                 {!registration &&
                   event.spotsLeft > 0 &&
-                  <div>Det er {event.spotsLeft} plasser igjen.</div>}
+                  <div>
+                    Det er {event.spotsLeft} plasser igjen.
+                  </div>}
                 <Button type="submit" disabled={disabledButton}>
                   {title || joinTitle}
                 </Button>
