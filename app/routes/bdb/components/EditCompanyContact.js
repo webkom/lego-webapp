@@ -49,19 +49,15 @@ export default class EditCompanyContact extends Component {
 
     return (
       <div className={styles.root}>
-
         <h1>Endre bedriftskontakt</h1>
         <h3>
-          <Link to={`/bdb/${company.id}`}>{company.name}</Link>
-          {' '}
-          sin bedriftskontakt
+          <Link to={`/bdb/${company.id}`}>{company.name}</Link> sin
+          bedriftskontakt
         </h3>
 
         <div className={styles.detail}>
           <div className={styles.leftSection}>
-
             <form onSubmit={handleSubmit(this.onSubmit)}>
-
               <Field
                 placeholder={'Navn'}
                 autoFocus={autoFocus}
@@ -99,12 +95,10 @@ export default class EditCompanyContact extends Component {
               >
                 Lagre
               </Button>
-
             </form>
           </div>
 
           <BdbRightNav {...this.props} companyId={company.id} />
-
         </div>
       </div>
     );

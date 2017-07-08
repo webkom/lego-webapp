@@ -47,7 +47,9 @@ export default class OptionsBox extends Component {
 
     return (
       <div className={styles.optionsBox} style={this.toggleDisplay(display)}>
-        <Link to="/bdb/add" style={{ display: 'block' }}>Legg til bedrift</Link>
+        <Link to="/bdb/add" style={{ display: 'block' }}>
+          Legg til bedrift
+        </Link>
         <span style={{ display: 'block' }}>
           Filtrer basert på om bedriften...
         </span>

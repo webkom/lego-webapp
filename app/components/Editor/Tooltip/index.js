@@ -51,7 +51,10 @@ export default class Tooltip extends Component {
     const rect = range.getBoundingClientRect();
     menu.style.display = 'initial';
     menu.style.top = `${rect.top + global.scrollY - menu.offsetHeight}px`;
-    menu.style.left = `${rect.left + global.scrollX - menu.offsetWidth / 2 + rect.width / 2}px`;
+    menu.style.left = `${rect.left +
+      global.scrollX -
+      menu.offsetWidth / 2 +
+      rect.width / 2}px`;
   };
 
   hasStyle = type => {
@@ -76,7 +79,7 @@ export default class Tooltip extends Component {
             { type: Inline.Underline, icon: 'underline' },
             { type: Inline.Code, icon: 'embed2' },
             { type: Inline.Striketrough, icon: 'strikethrough' }
-          ].map(({ type, icon }, i) => (
+          ].map(({ type, icon }, i) =>
             <TooltipButton
               key={`${i}-${type}`}
               type={type}
@@ -84,7 +87,7 @@ export default class Tooltip extends Component {
               isActive={this.hasStyle(type)}
               onClick={setInlineStyle}
             />
-          ))}
+          )}
           {!this.props.disableBlocks &&
             <span className={styles.tooltipSeperator} />}
           {!this.props.disableBlocks &&
@@ -95,7 +98,7 @@ export default class Tooltip extends Component {
               { type: Blocks.Cite, icon: 'quotes-right' },
               { type: Blocks.UL, icon: 'list' },
               { type: Blocks.O, icon: 'list-numbered' }
-            ].map(({ type, icon }, i) => (
+            ].map(({ type, icon }, i) =>
               <TooltipButton
                 key={`${i}-${type}`}
                 type={type}
@@ -103,7 +106,7 @@ export default class Tooltip extends Component {
                 isActive={this.hasBlock(type)}
                 onClick={setBlockType}
               />
-            ))}
+            )}
         </div>
       </Portal>
     );

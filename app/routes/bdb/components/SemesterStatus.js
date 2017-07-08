@@ -38,23 +38,22 @@ export default class SemesterStatus extends Component {
 
     return (
       <td className={styles[selectColorCode(semesterStatus.contactedStatus)]}>
-
         <select
           onChange={this.editSemester}
           value={`${companyId}-${semIndex}-${semesterStatus.id}-${semesterStatus.contactedStatus}`}
         >
-          {Object.keys(statusStrings).map((statusString, j) => (
+          {Object.keys(statusStrings).map((statusString, j) =>
             <option
               key={j}
               value={`${companyId}-${semIndex}-${semesterStatus.id}-${j}`}
             >
               {statusStrings[j]}
               {changedStatuses.find(matchSemester) &&
-                Number(semesterStatus.contactedStatus) === j
+              Number(semesterStatus.contactedStatus) === j
                 ? ' *'
                 : ''}
             </option>
-          ))}
+          )}
         </select>
       </td>
     );

@@ -46,19 +46,19 @@ export default class Calendar extends Component {
         <Toolbar actionGrant={actionGrant} />
 
         <h2 className={styles.header}>
-          <Link to={`/events/calendar/${pathForPrevMonth(date)}`}>
-            «
-          </Link>
-          <span>{date.format('MMMM YYYY')}</span>
-          <Link to={`/events/calendar/${pathForNextMonth(date)}`}>
-            »
-          </Link>
+          <Link to={`/events/calendar/${pathForPrevMonth(date)}`}>«</Link>
+          <span>
+            {date.format('MMMM YYYY')}
+          </span>
+          <Link to={`/events/calendar/${pathForNextMonth(date)}`}>»</Link>
         </h2>
 
         <div className={styles.grid}>
-          {WEEKDAYS.map(d => (
-            <div key={d} className={styles.headingItem}>{d}</div>
-          ))}
+          {WEEKDAYS.map(d =>
+            <div key={d} className={styles.headingItem}>
+              {d}
+            </div>
+          )}
           {createMonthlyCalendar(
             date,
             this.props.weekOffset

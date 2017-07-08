@@ -47,7 +47,9 @@ Icon.Badge = ({ badgeCount, ...props }) => {
 
   return (
     <div style={{ position: 'relative' }}>
-      <span className={styles.badge}>{badgeCount}</span>
+      <span className={styles.badge}>
+        {badgeCount}
+      </span>
       {icon}
     </div>
   );

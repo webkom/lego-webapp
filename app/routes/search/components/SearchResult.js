@@ -13,8 +13,7 @@ export default props => {
       <div>
         <Link to={result.link}>
           <h3 className={styles.searchResultTitle}>
-            {result.label}
-            {' '}
+            {result.label}{' '}
             {result.icon &&
               <Icon
                 className={styles.searchResultItemIcon}
@@ -35,7 +34,6 @@ export default props => {
               {truncateString(result.content.replace(/(<([^>]+)>)/gi, ''), 250)}
             </span>
           </div>}
-
       </div>
 
       {result.picture &&

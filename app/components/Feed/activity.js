@@ -40,7 +40,9 @@ export default class CommentRendrer extends Component {
               {actor.firstName} {actor.lastName}
             </Link>
           </div>
-          <i className={styles.time}><Time time={activity.time} wordsAgo /></i>
+          <i className={styles.time}>
+            <Time time={activity.time} wordsAgo />
+          </i>
         </div>
       );
     }
@@ -57,17 +59,17 @@ export default class CommentRendrer extends Component {
         <div className={styles.header}>
           {renders.activityHeader(aggregatedActivity)}
         </div>
-        {activities.map((activity, i) => (
+        {activities.map((activity, i) =>
           <div key={i}>
             {this.renderHeader(activity, aggregatedActivity)}
             <div className={styles.activityContent}>
               {renders.activityContent(activity)}
             </div>
           </div>
-        ))}
+        )}
         {(aggregatedActivity.activityCount > 3 && !this.state.expanded) ||
-          (aggregatedActivity.activityCount > activities.length &&
-            this.state.expanded)
+        (aggregatedActivity.activityCount > activities.length &&
+          this.state.expanded)
           ? <div className={styles.activityFooter}>
               {aggregatedActivity.activities.length > 3 &&
                 !this.state.expanded &&
@@ -80,7 +82,8 @@ export default class CommentRendrer extends Component {
                 </Button>}
               {aggregatedActivity.activityCount > activities.length &&
                 this.state.expanded &&
-                `og ${aggregatedActivity.activityCount - activities.length} skjulte aktiviteter...`}
+                `og ${aggregatedActivity.activityCount -
+                  activities.length} skjulte aktiviteter...`}
             </div>
           : null}
       </Card>

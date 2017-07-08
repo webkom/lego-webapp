@@ -6,11 +6,11 @@
 }
 
 .inputWithError {
-  border: 1px solid #C24538 !important;
+  border: 1px solid #c24538 !important;
 }
 
 .fieldError {
-  background: #C24538;
+  background: #c24538;
   color: #fff;
   padding: 5px 10px;
   margin-top: 3px;

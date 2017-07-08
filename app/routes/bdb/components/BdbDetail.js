@@ -56,9 +56,11 @@ export default class BdbDetail extends Component {
         (a, b) =>
           a.year === b.year ? a.semester - b.semester : b.year - a.year
       )
-      .map((status, i) => (
+      .map((status, i) =>
         <tr key={i}>
-          <td>{status.year} {this.semesterIdToText(status.semester)}</td>
+          <td>
+            {status.year} {this.semesterIdToText(status.semester)}
+          </td>
 
           <td
             className={
@@ -73,9 +75,10 @@ export default class BdbDetail extends Component {
           </td>
 
           <td style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span>{status.contract || '-'}</span>
+            <span>
+              {status.contract || '-'}
+            </span>
             <span style={{ display: 'flex', flexDirection: 'row' }}>
-
               <Link to={`/bdb/${company.id}/semesters/${status.id}`}>
                 <i
                   className="fa fa-pencil"
@@ -85,24 +88,27 @@ export default class BdbDetail extends Component {
               <a onClick={() => this.deleteSemesterStatus(status.id)}>
                 <i className="fa fa-times" style={{ color: '#d13c32' }} />
               </a>
-
             </span>
           </td>
-
         </tr>
-      ));
+      );
 
     let companyContacts = [];
     if (company.companyContacts) {
-      companyContacts = company.companyContacts.map((contact, i) => (
+      companyContacts = company.companyContacts.map((contact, i) =>
         <tr key={i}>
-          <td>{contact.name || '-'}</td>
-          <td>{contact.role || '-'}</td>
-          <td>{contact.mail || '-'}</td>
+          <td>
+            {contact.name || '-'}
+          </td>
+          <td>
+            {contact.role || '-'}
+          </td>
+          <td>
+            {contact.mail || '-'}
+          </td>
           <td style={{ display: 'flex', justifyContent: 'space-between' }}>
             {contact.phone || '-'}
             <span style={{ display: 'flex', flexDirection: 'row' }}>
-
               <Link to={`/bdb/${company.id}/company-contacts/${contact.id}`}>
                 <i
                   className="fa fa-pencil"
@@ -112,30 +118,36 @@ export default class BdbDetail extends Component {
               <a onClick={() => this.deleteCompanyContact(contact.id)}>
                 <i className="fa fa-times" style={{ color: '#d13c32' }} />
               </a>
-
             </span>
           </td>
         </tr>
-      ));
+      );
     }
 
     const events = companyEvents
       .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
-      .map((event, i) => (
+      .map((event, i) =>
         <tr key={i}>
-          <td>{event.title}</td>
-          <td>{event.eventType}</td>
-          <td><Time time={event.startTime} format="DD.MM.YYYY" /></td>
+          <td>
+            {event.title}
+          </td>
+          <td>
+            {event.eventType}
+          </td>
+          <td>
+            <Time time={event.startTime} format="DD.MM.YYYY" />
+          </td>
         </tr>
-      ));
+      );
 
     return (
       <div className={styles.root}>
-        <h1>{company.name} {!company.active && 'Inaktiv'}</h1>
+        <h1>
+          {company.name} {!company.active && 'Inaktiv'}
+        </h1>
 
         <div className={styles.detail}>
           <div className={styles.leftSection}>
-
             <div className={styles.description}>
               {company.description || 'Ingen beskrivelse tilgjengelig.'}
             </div>
@@ -243,7 +255,8 @@ export default class BdbDetail extends Component {
               />
               <InfoBubble
                 icon={'user'}
-                data={`${company.studentContact.firstName} ${company.studentContact.lastName}`}
+                data={`${company.studentContact.firstName} ${company
+                  .studentContact.lastName}`}
                 meta={'Studentkontakt'}
                 style={{ order: 2 }}
               />

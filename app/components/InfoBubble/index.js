@@ -40,11 +40,17 @@ const dataComponent = (dataClass, data, link = undefined) => {
   if (link) {
     return (
       <a href={httpCheck(link)}>
-        <span className={dataClass}>{data || '-'}</span>
+        <span className={dataClass}>
+          {data || '-'}
+        </span>
       </a>
     );
   }
-  return <span className={dataClass}>{data || '-'}</span>;
+  return (
+    <span className={dataClass}>
+      {data || '-'}
+    </span>
+  );
 };
 
 function InfoBubble({

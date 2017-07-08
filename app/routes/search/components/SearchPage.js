@@ -37,9 +37,9 @@ class SearchPage extends Component {
             </div>}
         </div>
         <div className={styles.searchResults}>
-          {results.map((result, id) => (
+          {results.map((result, id) =>
             <SearchResult key={id} result={result} />
-          ))}
+          )}
         </div>
       </div>
     );

@@ -3,7 +3,7 @@ import cx from 'classnames';
 import Icon from 'app/components/Icon';
 import styles from './Toolbar.css';
 
-export default props => (
+export default props =>
   <span
     className={cx(
       styles.toolbarButton,
@@ -16,5 +16,4 @@ export default props => (
     }}
   >
     <Icon name={props.icon} />
-  </span>
-);
+  </span>;

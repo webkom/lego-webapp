@@ -3,14 +3,18 @@ import React from 'react';
 import Image from 'app/components/Image';
 import { Link } from 'react-router';
 
-const InterestGroup = ({ group }) => (
+const InterestGroup = ({ group }) =>
   <div className={styles.interestGroup}>
     <Link to={`/interestgroups/${group.id}`} className={styles.link}>
-      <h2 className={styles.heading}>{group.name}</h2>
+      <h2 className={styles.heading}>
+        {group.name}
+      </h2>
     </Link>
     <div className={styles.content}>
       <div className={styles.paragraph}>
-        <p>{group.description}</p>
+        <p>
+          {group.description}
+        </p>
         <p className={styles.bold}>
           Antall medlemmer i {group.name}: {group.numberOfUsers}
         </p>
@@ -22,7 +26,6 @@ const InterestGroup = ({ group }) => (
         />
       </Link>
     </div>
-  </div>
-);
+  </div>;
 
 export default InterestGroup;

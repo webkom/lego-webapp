@@ -62,7 +62,9 @@ type fieldProps = {
 const FieldElement = ({ text, name, component, ...props }: fieldProps) => {
   return (
     <div className={styles.metaList}>
-      <span>{text}</span>
+      <span>
+        {text}
+      </span>
       <Field
         {...props}
         name={name}
@@ -108,7 +110,11 @@ function EventEditor({
   }
 
   if (error) {
-    return <div>{error.message}</div>;
+    return (
+      <div>
+        {error.message}
+      </div>
+    );
   }
   const styleType = styleForEvent(event.eventType);
 
@@ -231,9 +237,9 @@ function EventEditor({
                   {registrations &&
                     registrations
                       .slice(0, 10)
-                      .map(reg => (
+                      .map(reg =>
                         <RegisteredCell key={reg.user.id} user={reg.user} />
-                      ))}
+                      )}
                 </Flex>
                 <RegisteredSummary registrations={[]} />
                 <AttendanceStatus title="Påmeldte" pools={pools} />
@@ -270,7 +276,9 @@ function EventEditor({
                 component={CheckBox.Field}
               />
             </Flex>
-            <Button disabled={pristine || submitting} submit>LAGRE</Button>
+            <Button disabled={pristine || submitting} submit>
+              LAGRE
+            </Button>
 
             {isEditPage &&
               <Link to={`/events/${event.id}`}>
@@ -281,11 +289,13 @@ function EventEditor({
           <Flex column className={styles.openFor}>
             <strong>Åpent for</strong>
             <ul>
-              {(pools || [])
-                .map(pool =>
-                  (pool.permissionGroups || [])
-                    .map(group => <li key={group.value}>{group.label}</li>)
-                )}
+              {(pools || []).map(pool =>
+                (pool.permissionGroups || []).map(group =>
+                  <li key={group.value}>
+                    {group.label}
+                  </li>
+                )
+              )}
             </ul>
           </Flex>
         </Flex>

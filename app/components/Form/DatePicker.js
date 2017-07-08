@@ -112,14 +112,16 @@ class DatePicker extends Component {
             <button onClick={this.onPrev}>
               <Icon name="arrow-back" />
             </button>
-            <h3>{date.format('MMMM YYYY')}</h3>
+            <h3>
+              {date.format('MMMM YYYY')}
+            </h3>
             <button onClick={this.onNext}>
               <Icon name="arrow-forward" />
             </button>
           </div>
 
           <div className={styles.calendar}>
-            {createMonthlyCalendar(date).map((dateProps, i) => (
+            {createMonthlyCalendar(date).map((dateProps, i) =>
               <button
                 key={i}
                 className={cx(
@@ -133,7 +135,7 @@ class DatePicker extends Component {
               >
                 {dateProps.day.date()}
               </button>
-            ))}
+            )}
           </div>
 
           {showTimePicker &&

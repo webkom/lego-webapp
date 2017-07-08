@@ -45,8 +45,12 @@ class RandomQuote extends Component {
         </h2>
         {this.props.loggedIn
           ? <div>
-              <div className={styles.quoteText}>{currentQuote.text}</div>
-              <div className={styles.quoteSource}>-{currentQuote.source}</div>
+              <div className={styles.quoteText}>
+                {currentQuote.text}
+              </div>
+              <div className={styles.quoteSource}>
+                -{currentQuote.source}
+              </div>
             </div>
           : 'Logg inn for å se sitater.'}
       </div>

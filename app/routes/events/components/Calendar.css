@@ -45,11 +45,11 @@
   padding: 20px 10px;
   overflow-x: hidden;
 
-  &:nth-child(7n+1) {
+  &:nth-child(7n + 1) {
     border-left: var(--calendar-border);
   }
 
-  &:nth-child(-n+7) {
+  &:nth-child(-n + 7) {
     border-top: var(--calendar-border);
   }
 }

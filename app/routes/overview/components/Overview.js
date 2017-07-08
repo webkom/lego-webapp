@@ -41,12 +41,16 @@ function PrimaryItem({ event }) {
             {event.location !== '-' &&
               <span>
                 <span className={styles.dot}> · </span>
-                <span>{event.location}</span>
+                <span>
+                  {event.location}
+                </span>
               </span>}
             {event.eventType &&
               <span>
                 <span className={styles.dot}> · </span>
-                <span>{EVENT_TYPE_TO_STRING(event.eventType)}</span>
+                <span>
+                  {EVENT_TYPE_TO_STRING(event.eventType)}
+                </span>
               </span>}
           </span>
         </div>
@@ -55,7 +59,7 @@ function PrimaryItem({ event }) {
   );
 }
 
-const OverviewItem = ({ event, showImage }) => (
+const OverviewItem = ({ event, showImage }) =>
   <Flex column className={styles.item}>
     <Flex className={styles.inner}>
       <Flex column>
@@ -85,12 +89,16 @@ const OverviewItem = ({ event, showImage }) => (
             {event.location !== '-' &&
               <span>
                 <span className={styles.dot}> · </span>
-                <span>{event.location}</span>
+                <span>
+                  {event.location}
+                </span>
               </span>}
             {event.eventType &&
               <span>
                 <span className={styles.dot}> · </span>
-                <span>{EVENT_TYPE_TO_STRING(event.eventType)}</span>
+                <span>
+                  {EVENT_TYPE_TO_STRING(event.eventType)}
+                </span>
               </span>}
           </span>
         </div>
@@ -105,8 +113,7 @@ const OverviewItem = ({ event, showImage }) => (
         </p>
       </Flex>
     </Flex>
-  </Flex>
-);
+  </Flex>;
 
 export default class Overview extends Component {
   state = {
@@ -141,14 +148,14 @@ export default class Overview extends Component {
         <Flex wrap>
           {events
             .slice(1, this.state.eventsToShow)
-            .map(event => (
+            .map(event =>
               <OverviewItem
                 key={event.id}
                 event={event}
                 showImage
                 increaseEventsToShow={this.increaseEventsToShow}
               />
-            ))}
+            )}
           <Button
             style={{ width: '100%', marginTop: '10px' }}
             onClick={() =>

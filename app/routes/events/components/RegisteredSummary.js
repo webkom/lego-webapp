@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
 import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
 
-const Registration = ({ registration }) => (
+const Registration = ({ registration }) =>
   <Tooltip content={registration.user.fullName}>
     <Link
       to={`/users/${registration.user.username}`}
@@ -12,22 +12,23 @@ const Registration = ({ registration }) => (
     >
       {registration.user.firstName.split(' ')[0]}
     </Link>
-  </Tooltip>
-);
+  </Tooltip>;
 
-const renderNameList = registrations => (
+const renderNameList = registrations =>
   <FlexColumn>
-    {registrations.map(reg => (
-      <FlexItem key={reg.id}>{reg.user.fullName}</FlexItem>
-    ))}
-  </FlexColumn>
-);
+    {registrations.map(reg =>
+      <FlexItem key={reg.id}>
+        {reg.user.fullName}
+      </FlexItem>
+    )}
+  </FlexColumn>;
 
-const RegistrationList = ({ registrations }) => (
+const RegistrationList = ({ registrations }) =>
   <Tooltip content={renderNameList(registrations)} list>
-    {`${registrations.length} ${registrations.length === 1 ? 'annen' : 'andre'}`}
-  </Tooltip>
-);
+    {`${registrations.length} ${registrations.length === 1
+      ? 'annen'
+      : 'andre'}`}
+  </Tooltip>;
 
 const RegisteredSummary = ({ registrations }) => {
   const summary = [];

@@ -19,7 +19,8 @@
   }
 }
 
-.compactLeft, .compactRight {
+.compactLeft,
+.compactRight {
   width: 50%;
   padding: 10px;
 }

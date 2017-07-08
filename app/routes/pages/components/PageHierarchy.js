@@ -23,7 +23,7 @@ const PageHierarchy = ({ parent, siblings, selectedSlug }: Props) => {
             {parent.title}
           </Link>
         </li>
-        {siblings.map(page => (
+        {siblings.map(page =>
           <li
             key={page.pk}
             className={classNames(styles.sibling, {
@@ -34,7 +34,7 @@ const PageHierarchy = ({ parent, siblings, selectedSlug }: Props) => {
               {page.title}
             </Link>
           </li>
-        ))}
+        )}
       </ul>
     </div>
   );

@@ -106,11 +106,11 @@ select {
 }
 
 .notOffered {
-  background-color: #F5F5D5;
+  background-color: #f5f5d5;
 }
 
 .notInterested {
-  background-color: #F00;
+  background-color: #f00;
 }
 
 .contacted {

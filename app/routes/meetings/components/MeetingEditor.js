@@ -104,10 +104,14 @@ function MeetingEditor({
         </div>
         {isEditPage && <h3> Allerede inviterte </h3>}
         {isEditPage &&
-          meeting.invitations.map(invite => (
-            <span>{invite.user.fullName}</span>
-          ))}
-        <Button submit>{isEditPage ? 'Save event' : 'Create event'} </Button>
+          meeting.invitations.map(invite =>
+            <span>
+              {invite.user.fullName}
+            </span>
+          )}
+        <Button submit>
+          {isEditPage ? 'Save event' : 'Create event'}{' '}
+        </Button>
       </Form>
     </div>
   );

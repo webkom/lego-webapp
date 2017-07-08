@@ -32,31 +32,29 @@ export default function Quote({
           }}
         />
         <h3 className={styles.theQuote}>
-          <Link to={`/quotes/${quote.id}`}>{quote.text}</Link>
+          <Link to={`/quotes/${quote.id}`}>
+            {quote.text}
+          </Link>
         </h3>
-
       </div>
 
       <div className={styles.quoteBottom}>
-
         <span className={styles.quoteSource}>
-          <i>- {quote.source}</i>
+          <i>
+            - {quote.source}
+          </i>
         </span>
 
         <div className={styles.bottomRight}>
-
           <div className={styles.quoteDate}>
             {<Time time={quote.createdAt} wordsAgo />}
           </div>
 
           <div className={styles.commentCount}>
             <Link to={`/quotes/${quote.id}`}>
-              <i className="fa fa-comment-o" />
-              {' '}
-              {(quote.comments || []).length}
+              <i className="fa fa-comment-o" /> {(quote.comments || []).length}
             </Link>
           </div>
-
         </div>
 
         {actionGrant &&

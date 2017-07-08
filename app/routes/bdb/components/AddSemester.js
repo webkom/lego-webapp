@@ -44,18 +44,16 @@ export default class AddSemester extends Component {
     const { companyId, submitting, autoFocus, handleSubmit } = this.props;
     return (
       <div className={styles.root}>
-
         <h1>Legg til semester</h1>
 
         <div className={styles.detail}>
           <div className={styles.leftSection}>
-
             <i style={{ display: 'block', marginBottom: '10px' }}>
-              Hint: du kan legge til status for flere semestere samtidig på Bdb-forsiden!
+              Hint: du kan legge til status for flere semestere samtidig på
+              Bdb-forsiden!
             </i>
 
             <form onSubmit={handleSubmit(this.onSubmit)}>
-
               <Field
                 autoFocus={autoFocus}
                 placeholder="År"
@@ -121,13 +119,10 @@ export default class AddSemester extends Component {
               >
                 Lagre
               </Button>
-
             </form>
-
           </div>
 
           <BdbRightNav {...this.props} companyId={companyId} />
-
         </div>
       </div>
     );

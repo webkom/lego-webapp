@@ -23,8 +23,12 @@ function returnStatus({ status, user, meeting, answer }) {
     return (
       <div style={{ textAlign: 'center' }}>
         <h1> Du har nå svart på invitasjonen 😃 </h1>
-        <p> {user} skal nå {answerText} på møtet!</p>
-        <p> Link: <a href={`/meetings/${meeting}/`}> her </a> </p>
+        <p>
+          {' '}{user} skal nå {answerText} på møtet!
+        </p>
+        <p>
+          {' '}Link: <a href={`/meetings/${meeting}/`}> her </a>{' '}
+        </p>
       </div>
     );
   }
