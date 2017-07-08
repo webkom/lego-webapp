@@ -27,18 +27,6 @@ module.exports = {
           content: 'docs/layout.md'
         },
         {
-          name: 'Styling',
-          sections: [
-            {
-              content: 'app/styles/README.md'
-            },
-            {
-              name: 'CSS Files',
-              content: '.css.tmp.md'
-            }
-          ]
-        },
-        {
           name: 'Headers',
           content: 'docs/headers.md'
         },
@@ -61,7 +49,19 @@ module.exports = {
         {
           name: 'List items',
           content: 'docs/list-items.md'
-        }
+        },
+        {
+          name: 'Styling',
+          sections: [
+            {
+              content: 'app/styles/README.md'
+            },
+            {
+              name: 'CSS Files',
+              content: '.css.tmp.md'
+            }
+          ]
+        },
       ]
     }
   ],
