@@ -4,6 +4,7 @@ import { normalize } from 'normalizr';
 import fetchJSON from 'app/utils/fetchJSON';
 import config from '../config';
 import type { Thunk } from 'app/types';
+import { logout } from 'app/actions/UserActions';
 
 function urlFor(resource) {
   if (resource.match(/^\/\//)) {
@@ -12,6 +13,15 @@ function urlFor(resource) {
     return resource;
   }
   return config.serverUrl + resource;
+}
+
+function handleError(error) {
+  return dispatch => {
+    if (error.response.status === 401) {
+      dispatch(logout());
+    }
+    throw error;
+  };
 }
 
 /**
@@ -81,9 +91,9 @@ export default function callAPI({
         optimisticId: body ? optimisticId : undefined,
         body
       },
-      promise: fetchJSON(urlFor(endpoint), options).then(response =>
-        normalizeJsonResponse(response.jsonData)
-      )
+      promise: fetchJSON(urlFor(endpoint), options)
+        .then(response => normalizeJsonResponse(response.jsonData))
+        .catch(error => dispatch(handleError(error)))
     });
   };
 }
