@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 export default function replaceUnlessLoggedIn(ReplacementComponent) {
   return ActualComponent => {
-    class Replacement extends Component {
+    class Replacement extends PureComponent {
       render() {
         if (this.props.loggedIn) {
           return <ActualComponent {...this.props} />;
