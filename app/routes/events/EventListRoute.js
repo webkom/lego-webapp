@@ -3,7 +3,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
-import { dispatched } from 'react-prepare';
+import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { fetchAll } from 'app/actions/EventActions';
 import EventList from './components/EventList';
 import { selectEvents } from 'app/reducers/events';
@@ -24,9 +24,14 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
+
+function loadData(params, props) {
+  props.fetchAll({ dateAfter: moment().format('YYYY-MM-DD') });
+}
+
+const mapDispatchToProps = { fetchAll };
+
 export default compose(
-  dispatched((props, dispatch) =>
-    dispatch(fetchAll({ dateAfter: moment().format('YYYY-MM-DD') }))
-  ),
-  connect(mapStateToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  fetchOnUpdate(['loggedIn'], loadData)
 )(EventList);
