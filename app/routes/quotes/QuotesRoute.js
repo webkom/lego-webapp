@@ -36,7 +36,11 @@ const selectSortedQuotes = createSelector(
   (byId, ids, query) => {
     return ids
       .map(id => byId[id])
-      .filter(quote => quote.approved === (query.filter !== 'unapproved'))
+      .filter(
+        quote =>
+          quote !== undefined &&
+          quote.approved === (query.filter !== 'unapproved')
+      )
       .sort(compareByDate);
   }
 );
@@ -47,7 +51,6 @@ function mapStateToProps(state, props) {
   return {
     quotes: selectSortedQuotes(state, props),
     query,
-    sortType: query.sort === 'likes' ? 'likes' : 'date',
     actionGrant
   };
 }

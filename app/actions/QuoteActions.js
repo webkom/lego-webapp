@@ -55,9 +55,9 @@ export function approve(quoteId) {
     types: Quote.APPROVE,
     endpoint: `/quotes/${quoteId}/approve/`,
     method: 'put',
-    schema: quoteSchema,
     meta: {
-      errorMessage: 'Approving quote failed'
+      errorMessage: 'Approving quote failed',
+      quoteId: Number(quoteId)
     }
   });
 }
@@ -67,9 +67,9 @@ export function unapprove(quoteId) {
     types: Quote.UNAPPROVE,
     endpoint: `/quotes/${quoteId}/unapprove/`,
     method: 'put',
-    schema: quoteSchema,
     meta: {
-      errorMessage: 'Unapproving quote failed'
+      errorMessage: 'Unapproving quote failed',
+      quoteId: Number(quoteId)
     }
   });
 }
@@ -110,7 +110,7 @@ export function deleteQuote(quoteId) {
     endpoint: `/quotes/${quoteId}/`,
     method: 'delete',
     meta: {
-      quoteId,
+      quoteId: Number(quoteId),
       errorMessage: 'Deleting quote failed'
     },
     schema: quoteSchema
