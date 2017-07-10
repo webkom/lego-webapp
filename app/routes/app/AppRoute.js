@@ -1,7 +1,7 @@
 // @flow
 
 import styles from './AppRoute.css';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
@@ -25,7 +25,21 @@ import Footer from 'app/components/Footer';
 import NotificationContainer from 'app/components/NotificationContainer';
 import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 
-class App extends Component {
+class AppChildren extends PureComponent {
+  render() {
+    return (
+      <div style={{ flex: 1 }}>
+        <NotificationContainer />
+        {React.cloneElement(this.props.children, {
+          currentUser: this.props.currentUser,
+          loggedIn: this.props.loggedIn
+        })}
+      </div>
+    );
+  }
+}
+
+class App extends PureComponent {
   render() {
     Raven.setUserContext(this.props.currentUser);
 
@@ -51,13 +65,11 @@ class App extends Component {
           fetchNotificationData={this.props.fetchNotificationData}
         />
 
-        <div style={{ flex: 1 }}>
-          <NotificationContainer />
-          {React.cloneElement(this.props.children, {
-            currentUser: this.props.currentUser,
-            loggedIn: this.props.loggedIn
-          })}
-        </div>
+        <AppChildren
+          children={this.props.children}
+          currentUser={this.props.currentUser}
+          loggedIn={this.props.loggedIn}
+        />
 
         <Footer />
       </div>
