@@ -8,7 +8,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 type Props = {
   query: Object,
   quotes: Array<Object>,
-  actionGrant: Array<Object>
+  actionGrant: Array<String>
 };
 
 export default function QuotePage({ query, quotes, ...props }: Props) {
