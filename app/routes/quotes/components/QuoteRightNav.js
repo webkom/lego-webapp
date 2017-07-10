@@ -20,17 +20,23 @@ export default function QuoteRightNav({
       className={styles.quotepageRight}
       style={{ marginTop: detail ? '50px' : '120px' }}
     >
-      {!detail && actionGrant && actionGrant.includes('approve')
-        ? <Link
-            to={path === 'unapproved' ? '/quotes' : '/quotes?filter=unapproved'}
-          >
-            {path === 'unapproved'
-              ? 'Godkjente sitater'
-              : 'Ikke godkjente sitater'}
-          </Link>
-        : <Link to="/quotes">
+
+      {detail
+        ? <Link to="/quotes">
             <i className="fa fa-arrow-circle-left" /> Tilbake til sitater
-          </Link>}
+          </Link>
+        : actionGrant &&
+            actionGrant.includes('approve') &&
+            <Link
+              to={
+                path === 'unapproved' ? '/quotes' : '/quotes?filter=unapproved'
+              }
+            >
+              {path === 'unapproved'
+                ? 'Godkjente sitater'
+                : 'Ikke godkjente sitater'}
+            </Link>}
+
       <Link to="/quotes/add">Legg til nytt sitat!</Link>
     </div>
   );
