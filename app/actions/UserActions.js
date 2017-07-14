@@ -62,7 +62,7 @@ export function logout() {
 }
 
 export function updateUser(user, options = { noRedirect: false }) {
-  const { username, firstName, lastName, email, gender, allergies } = user;
+  const { username, firstName, lastName, email, gender, allergies, profilePicture } = user;
   return dispatch =>
     dispatch(
       callAPI({
@@ -75,7 +75,8 @@ export function updateUser(user, options = { noRedirect: false }) {
           lastName,
           email,
           gender,
-          allergies
+          allergies,
+          profilePicture
         },
         schema: userSchema,
         meta: {
