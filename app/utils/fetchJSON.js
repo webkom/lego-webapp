@@ -98,7 +98,11 @@ export default function fetchJSON(path, requestOptions = { headers: [] }) {
           .then(rejectOnHttpErrors)
           .then(resolve)
       ]).catch(error => {
-        if (!retryDelays || requestsAttempted > retryDelays.length) {
+        if (
+          (error.response && error.response.status < 500) ||
+          !retryDelays ||
+          requestsAttempted > retryDelays.length
+        ) {
           return reject(error);
         }
 
