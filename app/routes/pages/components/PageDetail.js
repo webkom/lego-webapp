@@ -5,8 +5,6 @@ import React, { Component } from 'react';
 import styles from './PageDetail.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Editor from 'app/components/Editor';
-import { Content } from 'app/components/Layout';
-import PageButtons from './PageButtons';
 import PageHierarchy from './PageHierarchy';
 
 type Props = {
@@ -55,33 +53,37 @@ export default class PageDetail extends Component {
 
     const canEdit = page.permissions && page.permissions.includes('edit');
     return (
-      <Content>
-        <div className={styles.root}>
-          <div className={styles.page}>
-            <article className={styles.detail}>
-              <div className={styles.header}>
-                <h2 className={styles.title}>{page.title}</h2>
-                {canEdit && (
-                  <PageButtons
-                    isEditing={this.state.isEditing}
-                    toggleEditing={this.toggleEditing}
-                    handleSave={this.handleSave}
-                  />
-                )}
-              </div>
-              {this.state.isEditing ? (
-                <Editor
-                  content={page.content}
-                  onChange={this.handleEditorChange}
-                />
-              ) : (
-                <div dangerouslySetInnerHTML={{ __html: page.content }} />
-              )}
-            </article>
-            <aside className={styles.sidebar}>
-              <PageHierarchy {...this.props} selectedSlug={page.slug} />
-            </aside>
-          </div>
+      <div className={styles.root}>
+        <div className={styles.page}>
+          <article className={styles.detail}>
+            <div className={styles.header}>
+              <h2 className={styles.title}>
+                {page.title}
+              </h2>
+              {canEdit &&
+                <PageButtons
+                  isEditing={this.state.isEditing}
+                  toggleEditing={this.toggleEditing}
+                  handleSave={this.handleSave}
+                />}
+            </div>
+            {page.cover &&
+              <div className={styles.coverImage}>
+                <img alt="presentation" src={page.cover} />
+              </div>}
+            <Editor
+              content={page.content}
+              readOnly={this.props.isEditing}
+              onChange={this.handleEditorChange}
+            />
+          </article>
+          <aside className={styles.sidebar}>
+            <PageHierarchy
+              {...this.props}
+              selectedSlug={page.slug}
+              actionGrant={page.actionGrant}
+            />
+          </aside>
         </div>
       </Content>
     );
