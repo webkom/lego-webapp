@@ -40,3 +40,16 @@ export function updatePage(slug: string, body: Object) {
     }
   });
 }
+
+export function createPage(body) {
+  return callAPI({
+    types: Page.CREATE,
+    endpoint: `/pages/`,
+    method: 'POST',
+    body,
+    schema: pageSchema,
+    meta: {
+      errorMessage: 'Creating page failed'
+    }
+  });
+}

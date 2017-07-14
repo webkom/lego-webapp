@@ -1,8 +1,9 @@
 // @flow
 
 import React from 'react';
-import Select, { Creatable } from 'react-select';
+import Select from 'react-select';
 import { createField } from './Field';
+import style from 'SelectInput.css';
 import withAutocomplete from '../Search/withAutocomplete';
 import 'react-select/dist/react-select.css';
 
@@ -33,7 +34,22 @@ function SelectInput({
 }: Props) {
   if (props.tags) {
     return (
-      <Select.Creatable
+      <div className={style.field}>
+        <Select.Creatable
+          {...props}
+          instanceId={name}
+          multi
+          onBlurResetsInput={false}
+          onBlur={() => onBlur(value)}
+          value={value}
+          options={options}
+        />
+      </div>
+    );
+  }
+  return (
+    <div className={style.field}>
+      <Select
         {...props}
         instanceId={name}
         multi
@@ -50,26 +66,7 @@ function SelectInput({
           return value;
         }}
       />
-    );
-  }
-  return (
-    <Select
-      {...props}
-      instanceId={name}
-      style={selectStyle}
-      options={options}
-      value={value}
-      onBlurResetsInput={false}
-      onBlur={() => onBlur(value)}
-      isLoading={fetching}
-      onInputChange={value => {
-        if (props.onSearch) {
-          props.onSearch(value);
-        }
-        return value;
-      }}
-      render={props => <Creatable {...props} />}
-    />
+    </div>
   );
 }
 
