@@ -47,6 +47,7 @@ export default function QuoteDetail({
           commentTarget={quote.commentTarget}
           loggedIn={loggedIn}
           comments={comments}
+          active
         />
       </div>
 
