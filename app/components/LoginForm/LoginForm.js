@@ -74,6 +74,7 @@ export default class LoginForm extends Component {
           onChange={e => this.setState({ username: e.target.value })}
           autoFocus
           style={{ marginBottom: 10 }}
+          disabled={this.state.submitting}
         />
 
         <TextInput
@@ -85,15 +86,11 @@ export default class LoginForm extends Component {
           onChange={e => this.setState({ password: e.target.value })}
           placeholder="Passord"
           style={{ marginBottom: 10 }}
+          disabled={this.state.submitting}
         />
 
-        <Button submit dark>
+        <Button submit disabled={this.state.submitting} dark>
           Logg inn
-          {'  '}
-          <Icon
-            style={{ fontSize: 14, paddingTop: 3 }}
-            name={this.state.submitting ? 'spinner spin' : 'chevron-right'}
-          />
         </Button>
       </Form>
     );
