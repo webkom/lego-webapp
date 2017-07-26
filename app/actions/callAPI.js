@@ -17,7 +17,7 @@ function urlFor(resource) {
 
 function handleError(error) {
   return dispatch => {
-    if (error.response.status === 401) {
+    if (error.response && error.response.status === 401) {
       dispatch(logout());
     }
     throw error;
