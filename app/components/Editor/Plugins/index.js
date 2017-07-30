@@ -1,4 +1,3 @@
-import AutoReplaceText from 'slate-auto-replace-text';
 import AutoReplace from 'slate-auto-replace';
 import { insertParagraph } from '../utils';
 import { Blocks } from '../constants';
@@ -23,7 +22,11 @@ const copyPastePlugin = {
 const base = [
   enterOnVoidBlock,
   copyPastePlugin,
-  AutoReplaceText('(c)', '©'),
+  AutoReplace({
+    trigger: ')',
+    before: /(\(c)$/i,
+    transform: transform => transform.insertText('©')
+  }),
   InlineStylesKeybindings
 ];
 
