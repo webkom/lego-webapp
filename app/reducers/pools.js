@@ -11,7 +11,8 @@ export default createEntityReducer({
   mutate(state, action) {
     switch (action.type) {
       case Event.SOCKET_EVENT_UPDATED: {
-        const pools = normalize(action.payload, eventSchema).entities.pools;
+        const pools =
+          normalize(action.payload, eventSchema).entities.pools || {};
         return {
           ...state,
           byId: pools,
