@@ -19,7 +19,7 @@ export function fetchEvent(eventId) {
   });
 }
 
-export function fetchAll({ dateAfter, dateBefore } = {}) {
+export function fetchAll({ dateAfter, dateBefore }: Object = {}) {
   return callAPI({
     types: Event.FETCH,
     endpoint: `/events/${createQueryString({
@@ -60,7 +60,7 @@ export function createEvent({
   mergeTime,
   useCaptcha,
   tags
-}) {
+}: Object) {
   return dispatch =>
     dispatch(
       callAPI({
@@ -109,7 +109,7 @@ export function editEvent({
   useCaptcha,
   tags,
   pools
-}) {
+}: Object) {
   return dispatch =>
     dispatch(
       callAPI({
