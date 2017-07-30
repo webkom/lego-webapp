@@ -9,7 +9,8 @@ import { selectAutocomplete } from 'app/reducers/search';
 import { debounce } from 'lodash';
 import moment from 'moment';
 
-const time = moment().toISOString();
+const time = (hours, minutes) =>
+  moment().startOf('day').add({ hours, minutes }).toISOString();
 
 const mapStateToProps = (state, props) => {
   const actionGrant = state.events.actionGrant;
@@ -17,8 +18,8 @@ const mapStateToProps = (state, props) => {
   return {
     initialValues: {
       title: '',
-      startTime: time,
-      endTime: time,
+      startTime: time(17, 15),
+      endTime: time(20),
       description: '',
       text: '<p></p>',
       eventType: '',
@@ -27,7 +28,7 @@ const mapStateToProps = (state, props) => {
       isPriced: false,
       useStripe: false,
       priceMember: 0,
-      mergeTime: time,
+      mergeTime: time(12),
       useCaptcha: false,
       pools: []
     },
@@ -42,24 +43,22 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    ...bindActionCreators(
-      {
-        handleSubmitCallback: createEvent,
-        uploadFile
-      },
-      dispatch
-    ),
-    companyQueryChanged: debounce(
-      query => dispatch(autocomplete(query, ['companies.company'])),
-      30
-    ),
-    groupQueryChanged: debounce(
-      query => dispatch(autocomplete(query, ['users.abakusgroup'])),
-      30
-    )
-  };
-};
+const mapDispatchToProps = dispatch => ({
+  ...bindActionCreators(
+    {
+      handleSubmitCallback: createEvent,
+      uploadFile
+    },
+    dispatch
+  ),
+  companyQueryChanged: debounce(
+    query => dispatch(autocomplete(query, ['companies.company'])),
+    30
+  ),
+  groupQueryChanged: debounce(
+    query => dispatch(autocomplete(query, ['users.abakusgroup'])),
+    30
+  )
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventEditor);
