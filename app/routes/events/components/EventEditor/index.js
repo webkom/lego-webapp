@@ -256,11 +256,12 @@ function EventEditor({
                   name="mergeTime"
                   component={DatePicker.Field}
                 />
-                <Admin
-                  actionGrant={actionGrant}
-                  event={event}
-                  deleteEvent={deleteEvent}
-                />
+                {isEditPage &&
+                  <Admin
+                    actionGrant={actionGrant}
+                    event={event}
+                    deleteEvent={deleteEvent}
+                  />}
               </Flex>}
           </Flex>
         </Flex>
