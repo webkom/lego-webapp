@@ -1,6 +1,6 @@
 /* eslint-disable react/no-find-dom-node */
 import React, { Component } from 'react';
-import { Editor, Html } from 'slate';
+import { Editor, Html, resetKeyGenerator } from 'slate';
 import { insertParagraph, getPlugins, getSchema } from './utils';
 import rules from './serializer';
 import Toolbar from './Toolbar';
@@ -43,6 +43,7 @@ export default class CustomEditor extends Component {
       focus: false
     };
     this.lastSerializedState = props.value;
+    resetKeyGenerator();
   }
 
   onChange = editorState => {
@@ -191,7 +192,7 @@ export default class CustomEditor extends Component {
     this.onContentChange(transformed);
   };
 
-  render = () => {
+  render() {
     const { editorState } = this.state;
     const { className, uploadFile, placeholder, disableBlocks } = this.props;
 
@@ -233,5 +234,5 @@ export default class CustomEditor extends Component {
           />}
       </div>
     );
-  };
+  }
 }

@@ -48,7 +48,11 @@ type Props = {
   currentRegistration: Object,
   waitingRegistrations: Array<Object>,
   isUserInterested: boolean,
-  register: (eventId: string) => Promise<*>,
+  register: (
+    eventId: string,
+    captchaResponse: string,
+    feedback: string
+  ) => Promise<*>,
   unregister: (eventId: string, registrationId: number) => Promise<*>,
   payment: (eventId: string, token: string) => Promise<*>,
   updateFeedback: (
