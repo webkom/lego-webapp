@@ -17,6 +17,7 @@ import search from './search';
 import auth from './auth';
 import users from './users';
 import groups from './groups';
+import { oauth2Applications, oauth2Grants } from './oauth2';
 import notifications from './notifications';
 import notificationsFeed from './notificationsFeed';
 import comments from './comments';
@@ -47,6 +48,8 @@ const reducers = {
   form,
   users,
   groups,
+  oauth2Applications,
+  oauth2Grants,
   pages,
   notifications,
   notificationsFeed,
@@ -108,3 +111,5 @@ export const companySchema = new schema.Entity('companies', {
 });
 export const joblistingsSchema = new schema.Entity('joblistings');
 export const feedActivitySchema = new schema.Entity('feedActivities');
+export const oauth2ApplicationSchema = new schema.Entity('oauth2Application');
+export const oauth2GrantSchema = new schema.Entity('oauth2Grant');

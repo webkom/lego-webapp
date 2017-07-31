@@ -180,6 +180,17 @@ export const Feed = {
   FETCH: generateStatuses('Feed.FETCH')
 };
 
+/**
+ *
+ */
 export const Routing = {
   SET_STATUS_CODE: 'Routing.SET_STATUS_CODE'
+};
+
+/**
+ *
+ */
+export const OAuth2 = {
+  FETCH_APPLICATIONS: generateStatuses('OAuth2.FETCH_APPLICATIONS'),
+  FETCH_GRANTS: generateStatuses('OAuth2.FETCH_GRANTS')
 };
