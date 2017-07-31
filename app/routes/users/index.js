@@ -1,25 +1,42 @@
+import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+
 export default {
   path: 'users',
   childRoutes: [
     {
       path: 'me',
-      component: require('./UserProfileRoute').default
+      ...resolveAsyncRoute(
+        () => import('./UserProfileRoute'),
+        () => require('./UserProfileRoute')
+      )
     },
     {
       path: 'me/settings',
-      component: require('./UserSettingsRoute').default
+      ...resolveAsyncRoute(
+        () => import('./UserSettingsRoute'),
+        () => require('./UserSettingsRoute')
+      )
     },
     {
       path: 'me/settings/notifications',
-      component: require('./UserSettingsNotificationsRoute').default
+      ...resolveAsyncRoute(
+        () => import('./UserSettingsNotificationsRoute'),
+        () => require('./UserSettingsNotificationsRoute')
+      )
     },
     {
       path: 'me/settings/oauth2',
-      component: require('./UserSettingsOAuth2Route').default
+      ...resolveAsyncRoute(
+        () => import('./UserSettingsOAuth2Route'),
+        () => require('./UserSettingsOAuth2Route')
+      )
     },
     {
       path: ':username',
-      component: require('./UserProfileRoute').default
+      ...resolveAsyncRoute(
+        () => import('./UserProfileRoute'),
+        () => require('./UserProfileRoute')
+      )
     }
   ]
 };
