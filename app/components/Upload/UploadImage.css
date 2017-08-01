@@ -22,7 +22,7 @@
 }
 
 .inModalUpload {
-  height: 400px;
+  height: 320px;
   width: 600px;
 }
 
@@ -70,10 +70,26 @@
   width: 100%;
 }
 
-.buttons {
+.footer {
   margin-top: 20px;
 }
 
 .saveButton {
   margin-right: 10px;
+}
+
+.previewRow {
+  height: 52px;
+  margin: 5px 0px;
+}
+
+.previewRowImage {
+  height: 50px;
+      width: 80px;
+      object-fit: cover;
+    }
+
+.removeIcon {
+  font-size: 48px;
+  cursor: pointer;
 }

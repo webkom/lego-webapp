@@ -1,0 +1,17 @@
+.gallery {
+  display: 'flex'
+}
+
+.galleryContainer {
+  width: 100%;
+}
+
+.galleryRow {
+  display: flex;
+  margin-bottom: -9px;
+  justify-content: center;
+}
+
+.galleryPhoto {
+  cursor: pointer;
+}

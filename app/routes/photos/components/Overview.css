@@ -1,0 +1,57 @@
+@import 'app/styles/variables.css';
+
+.root {
+  composes: contentContainer from 'app/styles/utilities.css';
+
+  @media (--small-viewport) {
+    padding: 0;
+
+    .coverImage {
+      padding: 0;
+    }
+
+    > div {
+      padding: 0 10px;
+    }
+  }
+}
+
+.gallery {
+  width: 220px;
+}
+
+.headerDetail {
+  font-size: 18px;
+  font-weight: 100;
+  color: gray;
+  margin-left: 15px;
+}
+
+.header {
+  margin-bottom: 0px;
+}
+
+.galleryInfo {
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+
+.galleryTitle {
+  font-weight: bold;
+}
+
+.galleryDescription {
+  font-size: 14px;
+}
+
+.descriptionRow {
+  padding-bottom: 20px;
+}
+
+.galleryActions {
+  display: inline-flex;
+}
+
+.galleryActions > button {
+  margin-left: 10px;
+}

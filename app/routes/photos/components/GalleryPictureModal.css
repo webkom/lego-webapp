@@ -1,0 +1,51 @@
+.modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  right: 0;
+}
+
+.backdrop {
+  position: fixed;
+  background: rgba(0, 0, 0, 0.8);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.content {
+  max-width: none;
+  padding: 0;
+  background: none;
+}
+
+.pictureContainer {
+  background: black;
+  max-width: calc(100% - 400px);
+}
+
+.picture {
+  max-width: 100%;
+  max-height: 100%;
+  vertical-align: middle;
+}
+
+.contentContainer {
+  width: 400px;
+  padding: 8px;
+  background-color: white;
+}
+
+.pictureDescription {
+  margin: 25px 0;
+}
+
+.galleryThumbnail {
+  width: 60px;
+  margin-right: 10px;
+  height: 60px;
+  border-radius: 50%;
+}
