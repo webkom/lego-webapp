@@ -1,5 +1,5 @@
 import styles from './ArticleDetail.css';
-import React, { Component } from 'react';
+import React from 'react';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import CommentView from 'app/components/Comments/CommentView';
 import { FlexRow } from 'app/components/FlexBox';

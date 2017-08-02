@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
 import Button from 'app/components/Button';
 import styles from './Toolbar.css';

@@ -243,7 +243,6 @@ export default class EventDetail extends Component {
         </Flex>
         {event.commentTarget &&
           <CommentView
-            formEnabled
             user={currentUser}
             commentTarget={event.commentTarget}
             loggedIn={loggedIn}

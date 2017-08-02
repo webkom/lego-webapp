@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React from 'react';
 import { generateTreeStructure } from 'app/utils';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import CommentForm from 'app/components/CommentForm';
@@ -11,14 +11,20 @@ type Props = {
     id: string,
     parent: string
   }>,
-  formDisabled: boolean,
+  formDisabled?: boolean,
   commentTarget: string,
   user: Object,
   loggedIn: boolean
 };
 
 const CommentView = (props: Props) => {
-  const { comments, formDisabled, commentTarget, user, loggedIn } = props;
+  const {
+    comments,
+    formDisabled = false,
+    commentTarget,
+    user,
+    loggedIn
+  } = props;
   const commentFormProps = { commentTarget, user, loggedIn };
   const tree = generateTreeStructure(comments);
 

@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React from 'react';
 import Button from 'app/components/Button';
 import { Form, TextInput } from 'app/components/Form';
 import { Field } from 'redux-form';

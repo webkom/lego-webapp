@@ -8,7 +8,6 @@ import Button from 'app/components/Button';
 import EventEditor from './EventEditor';
 import { Flex } from 'app/components/Layout';
 import styles from './Toolbar.css';
-import { hiddenOnMobile } from 'app/styles/utilities.css';
 
 class Toolbar extends Component {
   state = {

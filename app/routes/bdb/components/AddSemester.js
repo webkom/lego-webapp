@@ -4,7 +4,7 @@ import BdbRightNav from './BdbRightNav';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextInput, RadioButton, SelectInput } from 'app/components/Form';
-import { selectColorCode, statusStrings } from '../utils.js';
+import { statusStrings } from '../utils.js';
 
 type Props = {
   addSemesterStatus: () => void,
