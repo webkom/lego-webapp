@@ -5,7 +5,7 @@ import 'minireset.css/minireset.css';
 import 'app/styles/globals.css';
 import 'app/styles/icomoon.css';
 
-import React, { Component } from 'react';
+import React from 'react';
 import { Router } from 'react-router';
 import { Provider } from 'react-redux';
 
@@ -14,10 +14,10 @@ type Props = {
 };
 
 const Root = (props: Props) => {
-  const { store, ...props } = props;
+  const { store, ...restProps } = props;
   return (
     <Provider {...{ store }}>
-      <Router {...props} />
+      <Router {...restProps} />
     </Provider>
   );
 };
