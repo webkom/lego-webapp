@@ -17,62 +17,56 @@ type Props = {
   updatePicture: () => void
 };
 
-export default class UserSettings extends Component {
-  props: Props;
+const UserSettings = (props: Props) => {
+  const { invalid, pristine, submitting, updatePicture } = props;
 
-  render() {
-    const { invalid, pristine, submitting, updatePicture } = this.props;
+  const disabledButton = invalid || pristine || submitting;
 
-    const disabledButton = invalid || pristine || submitting;
+  return (
+    <div className={styles.root}>
+      <UserImage user={props.user} updatePicture={updatePicture} />
+      <Form onSubmit={props.handleSubmit(props.updateUser)}>
+        <Field
+          placeholder="Brukernavn"
+          label="Username"
+          name="username"
+          readOnly
+          component={TextInput.Field}
+          props={{
+            disabled: true
+          }}
+        />
 
-    return (
-      <div className={styles.root}>
-        <UserImage user={this.props.user} updatePicture={updatePicture} />
-        <Form onSubmit={this.props.handleSubmit(this.props.updateUser)}>
-          <Field
-            placeholder="Brukernavn"
-            label="Username"
-            name="username"
-            readOnly
-            component={TextInput.Field}
-            props={{
-              disabled: true
-            }}
-          />
+        <Field
+          placeholder="Fornavn"
+          label="First name"
+          name="firstName"
+          component={TextInput.Field}
+        />
 
-          <Field
-            placeholder="Fornavn"
-            label="First name"
-            name="firstName"
-            component={TextInput.Field}
-          />
+        <Field
+          placeholder="Etternavn"
+          label="Last name"
+          name="lastName"
+          component={TextInput.Field}
+        />
 
-          <Field
-            placeholder="Etternavn"
-            label="Last name"
-            name="lastName"
-            component={TextInput.Field}
-          />
+        <Field label="Kjønn" name="gender" component={TextInput.Field} />
+        <Field label="Allergier" name="allergies" component={TextInput.Field} />
 
-          <Field label="Kjønn" name="gender" component={TextInput.Field} />
-          <Field
-            label="Allergier"
-            name="allergies"
-            component={TextInput.Field}
-          />
+        <Field
+          placeholder="abc@stud.ntnu.no"
+          label="email"
+          name="email"
+          component={TextInput.Field}
+        />
 
-          <Field
-            placeholder="abc@stud.ntnu.no"
-            label="email"
-            name="email"
-            component={TextInput.Field}
-          />
+        <Button disabled={disabledButton} submit>
+          Submit
+        </Button>
+      </Form>
+    </div>
+  );
+};
 
-          <Button disabled={disabledButton} submit>
-            Submit
-          </Button>
-        </Form>
-      </div>
-    );
-  }
-}
+export default UserSettings;

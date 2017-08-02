@@ -13,15 +13,13 @@ type Props = {
   store: Object
 };
 
-export default class Root extends Component {
-  props: Props;
+const Root = (props: Props) => {
+  const { store, ...props } = props;
+  return (
+    <Provider {...{ store }}>
+      <Router {...props} />
+    </Provider>
+  );
+};
 
-  render() {
-    const { store, ...props } = this.props;
-    return (
-      <Provider {...{ store }}>
-        <Router {...props} />
-      </Provider>
-    );
-  }
-}
+export default Root;

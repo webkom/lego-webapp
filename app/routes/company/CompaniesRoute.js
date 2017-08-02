@@ -13,13 +13,9 @@ type Props = {
   fetchAll: () => {}
 };
 
-class CompaniesRoute extends Component {
-  props: Props;
-
-  render() {
-    return <CompaniesPage {...this.props} />;
-  }
-}
+const CompaniesRoute = (props: Props) => {
+  return <CompaniesPage {...props} />;
+};
 
 function mapStateToProps(state, props) {
   const { query } = props.location;
