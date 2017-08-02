@@ -95,24 +95,23 @@ function EventListGroup({ name, events = [] }) {
   );
 }
 
-class EventList extends Component {
-  render() {
-    const events = groupEvents(this.props.events);
-    const { icalToken } = this.props;
-    return (
-      <div className={styles.root}>
-        <Helmet title="Arrangementer" />
-        <Toolbar actionGrant={this.props.actionGrant} />
+const EventList = props => {
+  const events = groupEvents(props.events);
+  const { icalToken } = props;
+  return (
+    <div className={styles.root}>
+      <Helmet title="Arrangementer" />
+      <Toolbar actionGrant={props.actionGrant} />
 
-        <EventListGroup name="Denne uken" events={events.currentWeek} />
+      <EventListGroup name="Denne uken" events={events.currentWeek} />
 
-        <EventListGroup name="Neste uke" events={events.nextWeek} />
+      <EventListGroup name="Neste uke" events={events.nextWeek} />
 
-        <EventListGroup name="Senere" events={events.later} />
-        <div className={styles.bottomBorder} />
-        <EventFooter icalToken={icalToken} />
-      </div>
-    );
-  }
-}
+      <EventListGroup name="Senere" events={events.later} />
+      <div className={styles.bottomBorder} />
+      <EventFooter icalToken={icalToken} />
+    </div>
+  );
+};
+
 export default EventList;

@@ -13,13 +13,9 @@ type Props = {
   fetchCompany: () => {}
 };
 
-class CompanyDetailRoute extends Component {
-  props: Props;
-
-  render() {
-    return <CompanyDetail {...this.props} />;
-  }
-}
+const CompanyDetailRoute = (props: Props) => {
+  return <CompanyDetail {...props} />;
+};
 
 function mapStateToProps(state, props) {
   const companyId = props.params.companyId;

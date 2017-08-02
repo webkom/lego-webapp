@@ -20,43 +20,41 @@ export type Props = {
 /**
  *
  */
-export default class ArticleDetail extends Component {
-  props: Props;
+const ArticleDetail = (props: Props) => {
+  const { article, loggedIn, currentUser, comments } = props;
 
-  render() {
-    const { article, loggedIn, currentUser, comments } = this.props;
-
-    if (!article.content) {
-      return <LoadingIndicator loading />;
-    }
-
-    return (
-      <div className={styles.root}>
-        <div className={styles.coverImage}>
-          <img alt="presentation" src={article.cover} />
-          <div className={styles.coverImageOverlay} />
-        </div>
-
-        <FlexRow alignItems="center" justifyContent="space-between">
-          <h2>
-            {article.title}
-          </h2>
-          {article.actionGrant.includes('update') &&
-            <span>
-              <Link to={`/articles/${article.id}/edit`}>Edit</Link>
-            </span>}
-        </FlexRow>
-
-        <Editor readOnly value={article.content} />
-        {article.commentTarget &&
-          <CommentView
-            formEnabled
-            user={currentUser}
-            commentTarget={article.commentTarget}
-            loggedIn={loggedIn}
-            comments={comments}
-          />}
-      </div>
-    );
+  if (!article.content) {
+    return <LoadingIndicator loading />;
   }
-}
+
+  return (
+    <div className={styles.root}>
+      <div className={styles.coverImage}>
+        <img alt="presentation" src={article.cover} />
+        <div className={styles.coverImageOverlay} />
+      </div>
+
+      <FlexRow alignItems="center" justifyContent="space-between">
+        <h2>
+          {article.title}
+        </h2>
+        {article.actionGrant.includes('update') &&
+          <span>
+            <Link to={`/articles/${article.id}/edit`}>Edit</Link>
+          </span>}
+      </FlexRow>
+
+      <Editor readOnly value={article.content} />
+      {article.commentTarget &&
+        <CommentView
+          formEnabled
+          user={currentUser}
+          commentTarget={article.commentTarget}
+          loggedIn={loggedIn}
+          comments={comments}
+        />}
+    </div>
+  );
+};
+
+export default ArticleDetail;

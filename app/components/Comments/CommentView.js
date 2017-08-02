@@ -17,42 +17,34 @@ type Props = {
   loggedIn: boolean
 };
 
-export default class CommentView extends Component {
-  props: Props;
+const CommentView = (props: Props) => {
+  const { comments, formDisabled, commentTarget, user, loggedIn } = props;
+  const commentFormProps = { commentTarget, user, loggedIn };
+  const tree = generateTreeStructure(comments);
 
-  render() {
-    const {
-      comments,
-      formDisabled,
-      commentTarget,
-      user,
-      loggedIn
-    } = this.props;
-    const commentFormProps = { commentTarget, user, loggedIn };
-    const tree = generateTreeStructure(comments);
+  return (
+    <div>
+      {comments.length > 0 && <h3>Diskusjon</h3>}
+      <LoadingIndicator loading={!comments}>
+        {comments &&
+          <CommentTree comments={tree} commentFormProps={commentFormProps} />}
+      </LoadingIndicator>
 
-    return (
-      <div>
-        {comments.length > 0 && <h3>Diskusjon</h3>}
-        <LoadingIndicator loading={!comments}>
-          {comments &&
-            <CommentTree comments={tree} commentFormProps={commentFormProps} />}
-        </LoadingIndicator>
+      {!formDisabled &&
+        <div>
+          <h3>
+            {comments.length
+              ? 'Ta del i diskusjonen eller få svar på dine spørsmål'
+              : 'Start en diskusjon eller still et spørsmål'}
+          </h3>
 
-        {!formDisabled &&
-          <div>
-            <h3>
-              {comments.length
-                ? 'Ta del i diskusjonen eller få svar på dine spørsmål'
-                : 'Start en diskusjon eller still et spørsmål'}
-            </h3>
+          <CommentForm
+            form={`comment.${commentFormProps.commentTarget}`}
+            {...commentFormProps}
+          />
+        </div>}
+    </div>
+  );
+};
 
-            <CommentForm
-              form={`comment.${commentFormProps.commentTarget}`}
-              {...commentFormProps}
-            />
-          </div>}
-      </div>
-    );
-  }
-}
+export default CommentView;
