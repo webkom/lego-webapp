@@ -1,6 +1,5 @@
 import React from 'react';
 import Icon from 'app/components/Icon';
-import joinValues from 'app/utils/joinValues';
 import { lookupContext, contextRender } from '../context';
 
 /**
