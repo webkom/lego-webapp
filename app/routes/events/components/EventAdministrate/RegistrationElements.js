@@ -1,7 +1,7 @@
 import styles from './Administrate.css';
-import React, { Component } from 'react';
+import React from 'react';
 import { Link } from 'react-router';
-import { FlexRow, FlexItem } from 'app/components/FlexBox';
+import { FlexRow } from 'app/components/FlexBox';
 import Tooltip from 'app/components/Tooltip';
 import Time from 'app/components/Time';
 import cx from 'classnames';

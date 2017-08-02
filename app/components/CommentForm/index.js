@@ -54,7 +54,6 @@ class CommentForm extends Component {
       handleSubmit,
       pristine,
       submitting,
-      dirty,
       active,
       user,
       loggedIn,

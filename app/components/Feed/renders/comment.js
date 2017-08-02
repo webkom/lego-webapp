@@ -1,6 +1,5 @@
 // @flow
-import React, { Component } from 'react';
-import { Link } from 'react-router';
+import React from 'react';
 import Icon from 'app/components/Icon';
 import { lookupContext, contextRender } from '../context';
 
