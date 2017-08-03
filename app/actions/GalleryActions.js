@@ -147,6 +147,19 @@ export function deletePicture({ galleryId, pictureId }: GalleryPictureEntity) {
   });
 }
 
+export function editPicture({ galleryId, pictureId }: GalleryPictureEntity) {
+  return callAPI({
+    types: Gallery.DELETE_PICTURE,
+    endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
+    method: 'DELETE',
+    schema: galleryPictureSchema,
+    meta: {
+      galleryId,
+      errorMessage: 'Deleting picture belonging gallery failed'
+    }
+  });
+}
+
 export function addPictures(galleryId: number, files: []) {
   return dispatch =>
     Promise.map(files, file =>

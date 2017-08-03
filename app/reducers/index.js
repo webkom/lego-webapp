@@ -104,7 +104,9 @@ export const articleSchema = new schema.Entity('articles', {
   comments: [commentSchema]
 });
 export const meetingSchema = new schema.Entity('meetings');
-export const galleryPictureSchema = new schema.Entity('pictures');
+export const galleryPictureSchema = new schema.Entity('pictures', {
+  comments: [commentSchema]
+});
 export const gallerySchema = new schema.Entity('galleries', {
   pictures: [galleryPictureSchema]
 });

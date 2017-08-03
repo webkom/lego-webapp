@@ -102,7 +102,11 @@ export default class GalleryPictureModal extends Component {
         show
         contentClassName={styles.content}
       >
-        <Flex justifyContent="center" alignItems="center">
+        <Flex
+          className={styles.container}
+          justifyContent="flex-start"
+          alignItems="center"
+        >
           <Flex className={styles.pictureContainer}>
             <div className={styles.picture}>
               <img src={picture.file} alt="some alt" />

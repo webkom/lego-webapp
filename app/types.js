@@ -22,17 +22,18 @@ export type Action = {
 };
 
 export type GalleryPictureEntity = {
-  type: string,
-  payload?: any,
-  meta?: any,
-  error?: boolean
+  description?: string,
+  active: boolean,
+  file: string
 };
 
 export type GalleryEntity = {
-  type: string,
-  payload?: any,
-  meta?: any,
-  error?: boolean
+  title: string,
+  description?: string,
+  location?: string,
+  takenAt?: Date,
+  photographers?: EntityID[],
+  event?: EntityID
 };
 
 type $ExtractFunctionReturn = <V>(v: (...args: any) => V) => V;

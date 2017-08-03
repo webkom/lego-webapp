@@ -2,18 +2,6 @@
 
 .root {
   composes: contentContainer from 'app/styles/utilities.css';
-
-  @media (--small-viewport) {
-    padding: 0;
-
-    .coverImage {
-      padding: 0;
-    }
-
-    > div {
-      padding: 0 10px;
-    }
-  }
 }
 
 .gallery {
@@ -54,4 +42,41 @@
 
 .galleryActions > button {
   margin-left: 10px;
+}
+
+.overlay {
+  padding: 0px 16px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+}
+
+.overlay:hover {
+  background: linear-gradient(rgba(99,99,99,0.8),rgba(1,130,170,0));
+}
+
+.overlaySelected {
+  background: linear-gradient(rgba(99,99,99,0.8),rgba(1,130,170,0));
+}
+
+.icon {
+  font-size: 32px;
+}
+
+.iconSelected {
+  color: green;
+}
+
+.createState {
+  width: 100%;
+  text-align: center;
+}
+
+.createStateIcon {
+  font-size: 120px;
+}
+
+.form {
+  width: 100%;
 }

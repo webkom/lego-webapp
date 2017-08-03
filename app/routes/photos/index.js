@@ -15,6 +15,13 @@ export default {
       )
     },
     {
+      path: ':galleryId/edit',
+      ...resolveAsyncRoute(
+        () => import('./GalleryEditRoute'),
+        () => require('./GalleryEditRoute')
+      )
+    },
+    {
       path: ':galleryId',
       ...resolveAsyncRoute(
         () => import('./GalleryDetailRoute'),

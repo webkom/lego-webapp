@@ -1,16 +1,17 @@
-import { connect } from 'react-redux';
-import GalleryEditor from './components/GalleryEditor';
-import { createGallery } from 'app/actions/GalleryActions';
-import { uploadFile } from 'app/actions/FileActions';
-import { reduxForm } from 'redux-form';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { createGallery } from 'app/actions/GalleryActions';
+import { push } from 'react-router-redux';
+import GalleryEditor from './components/GalleryEditor';
+import { reduxForm } from 'redux-form';
 
-const mapStateToProps = () => ({
-  isNew: true,
-  gallery: {}
-});
+function mapStateToProps(state, props) {
+  return {
+    isNew: true
+  };
+}
 
-const mapDispatchToProps = { createGallery, uploadFile };
+const mapDispatchToProps = { createGallery, push };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

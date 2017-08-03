@@ -1,32 +1,56 @@
-import React, { Component } from 'react';
-import { FlexRow } from 'app/components/FlexBox';
-import Button from 'app/components/Button';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import styles from './GalleryEditor.css';
-import {
-  EditorField,
-  TextInput,
-  SelectInput,
-  ImageUploadField
-} from 'app/components/Form';
-import { Form, Field } from 'redux-form';
+// @flow
 
-/**
- *
- */
-export type Props = {
-  article: ?Object,
+import React, { Component } from 'react';
+import moment from 'moment';
+import cx from 'classnames';
+import Button from 'app/components/Button';
+import { Link } from 'react-router';
+import {
+  TextInput,
+  Form,
+  TextArea,
+  DatePicker,
+  SelectInput
+} from 'app/components/Form';
+import { Field } from 'redux-form';
+import { Flex } from 'app/components/Layout';
+import Icon from 'app/components/Icon';
+import Gallery from 'app/components/Gallery';
+import styles from './Overview.css';
+
+type Props = {
   isNew: boolean,
-  loggedIn: boolean,
-  currentUser: any,
-  uploadFile: () => Promise
+  gallery: Object,
+  pictures: [],
+  handleSubmit: () => void,
+  createGallery: () => Promise,
+  push: string => Promise,
+  editGallery: () => Promise
 };
 
-export default class ArticleEditor extends Component {
+type State = {
+  selected: [],
+  loading: boolean
+};
+
+export default class GalleryEditor extends Component {
   props: Props;
 
-  state = {
-    uploadOpen: true
+  state: State = {
+    loading: false,
+    selected: []
+  };
+
+  handleClick = (picture: Object) => {
+    const index = this.state.selected.indexOf(picture.id);
+
+    if (index === -1) {
+      this.setState({ selected: this.state.selected.concat([picture.id]) });
+    } else {
+      const selected = this.state.selected;
+      selected.splice(index, 1);
+      this.setState({ selected });
+    }
   };
 
   onSubmit = data => {
@@ -38,58 +62,107 @@ export default class ArticleEditor extends Component {
     };
 
     if (this.props.isNew) {
-      this.props.createArticle(body);
+      this.props.createGallery(body);
     } else {
-      this.props.editArticle(body);
+      this.props.editGallery(body);
     }
   };
 
   render() {
-    const { isNew, uploadFile, handleSubmit, article } = this.props;
-
-    if (!isNew && !article.content) {
-      return <LoadingIndicator loading />;
-    }
+    const { pictures, isNew, handleSubmit } = this.props;
+    const { loading, selected } = this.state;
 
     return (
-      <div className={styles.root}>
-        <Form onSubmit={handleSubmit(this.onSubmit)}>
-          <Field
-            name="cover"
-            component={ImageUploadField.Field}
-            uploadFile={uploadFile}
-            aspectRatio={20 / 6}
-            img={article.cover}
-          />
+      <section className={styles.root}>
+        <Flex>
+          <Form className={styles.form} onSubmit={handleSubmit(this.onSubmit)}>
+            <Flex alignItems="baseline">
+              <Field
+                placeholder="Title"
+                name="title"
+                component={TextInput.Field}
+                id="gallery-title"
+              />
 
-          <FlexRow alignItems="baseline">
-            <Field
-              placeholder="Title"
-              name="title"
-              component={TextInput.Field}
-              id="article-title"
-            />
+              <Button className={styles.submitButton} type="submit">
+                {isNew ? 'Create' : 'Save'}
+              </Button>
+              {!isNew &&
+                <Button className={styles.deleteButton}>Delete</Button>}
+            </Flex>
+            <Flex>
+              <Field
+                text="Ablum dato"
+                name="takenAt"
+                id="gallery-takenAt"
+                component={DatePicker.Field}
+              />
 
-            <Button className={styles.submitButton} type="submit">
-              {isNew ? 'Create' : 'Save'}
-            </Button>
-          </FlexRow>
-          <Field
-            placeholder="Tags"
-            name="tags"
-            tags
-            component={SelectInput}
-            id="article-tags"
-          />
-
-          <Field
-            placeholder="Write your article here..."
-            name="content"
-            component={EditorField}
-            uploadFile={uploadFile}
-          />
-        </Form>
-      </div>
+              <Field
+                placeholder="Sted"
+                name="location"
+                component={TextInput.Field}
+                id="gallery-location"
+              />
+            </Flex>
+            <Flex>
+              <Field
+                placeholder="Fotografer"
+                name="photographers"
+                tags
+                component={SelectInput.Field}
+                id="gallery-photographers"
+              />
+              <Field
+                placeholder="Event"
+                name="event"
+                component={SelectInput.Field}
+                id="gallery-tags"
+              />
+            </Flex>
+            <Flex>
+              <Field
+                placeholder="Album beskrivelse.."
+                name="description"
+                component={TextArea.Field}
+                id="gallery-description"
+              />
+            </Flex>
+          </Form>
+        </Flex>
+        <Flex>
+          {isNew
+            ? <div className={styles.createState}>
+                <Icon
+                  className={styles.createStateIcon}
+                  name="photos-outline"
+                />
+                <h1>Du må lage albumet for å legge inn bilder!</h1>
+              </div>
+            : <Gallery
+                photos={pictures}
+                renderOverlay={photo =>
+                  <div
+                    className={cx(
+                      styles.overlay,
+                      selected.includes(photo.id) && styles.overlaySelected
+                    )}
+                  >
+                    <Icon
+                      className={cx(
+                        styles.icon,
+                        selected.includes(photo.id) && styles.iconSelected
+                      )}
+                      name="checkmark"
+                      size={32}
+                    />
+                  </div>}
+                loading={loading}
+                onClick={this.handleClick}
+                srcKey="file"
+              />}
+        </Flex>
+      </section>
     );
   }
 }

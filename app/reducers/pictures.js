@@ -2,11 +2,15 @@
 
 import { Gallery } from '../actions/ActionTypes';
 import { createSelector } from 'reselect';
+import { mutateComments } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
 
 /**
  * Used by the individual entity reducers
  */
+
+const mutate = mutateComments('pictures');
+
 export function mutatePictures() {
   return (state: any, action: any) => {
     switch (action.type) {
@@ -41,7 +45,8 @@ export default createEntityReducer({
   key: 'pictures',
   types: {
     fetch: Gallery.FETCH
-  }
+  },
+  mutate
 });
 
 export const selectPictureById = createSelector(
@@ -54,6 +59,7 @@ export const selectCommentsForPicture = createSelector(
   selectPictureById,
   state => state.comments.byId,
   (picture, commentsById) => {
+    console.log(picture);
     if (!picture) return [];
     return (picture.comments || []).map(commentId => commentsById[commentId]);
   }
