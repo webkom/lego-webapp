@@ -46,16 +46,17 @@ function render(req, res, next) {
     };
 
     prepare(app).then(respond).catch(error => {
-      console.error(error);
+      console.error('Error raised when preparing server rendering:', error);
       respond();
     });
   });
 }
 
 function renderPage({ body, state, helmet }) {
-  const dllPlugin = process.env.NODE_ENV !== 'production'
-    ? '<script src="/vendors.dll.js"></script>'
-    : '';
+  const dllPlugin =
+    process.env.NODE_ENV !== 'production'
+      ? '<script src="/vendors.dll.js"></script>'
+      : '';
 
   const assets = JSON.parse(
     fs.readFileSync(path.join(__dirname, '..', 'dist', 'webpack-assets.json'))
@@ -91,7 +92,10 @@ function renderPage({ body, state, helmet }) {
       <body>
         <div id="root">${body}</div>
         <script>
-           window.__PRELOADED_STATE__ = ${JSON.stringify(state).replace(/</g, '\\u003c')}
+           window.__PRELOADED_STATE__ = ${JSON.stringify(state).replace(
+             /</g,
+             '\\u003c'
+           )}
         </script>
 
         <script src="https://js.stripe.com/v2/"></script>

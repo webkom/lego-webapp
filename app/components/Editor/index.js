@@ -9,7 +9,9 @@ import styles from './Editor.css';
 import { Blocks } from './constants';
 import cx from 'classnames';
 
-const html = new Html({ rules });
+const parseHtml =
+  typeof DOMParser === 'undefined' && require('parse5').parseFragment;
+const html = new Html({ rules, parseHtml });
 
 export type Props = {
   content?: string,
