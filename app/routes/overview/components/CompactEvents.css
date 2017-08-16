@@ -1,7 +1,7 @@
 .compactEvents {
   display: flex;
   justify-content: space-between;
-  padding: 10px 10px 0;
+  white-space: nowrap;
   width: 100%;
   text-align: left;
 }
@@ -21,21 +21,13 @@
 
 .compactLeft,
 .compactRight {
-  width: 50%;
-  padding: 10px;
+  flex: 1;
+  padding: 5px 20px;
 }
 
 .compactEvents li {
   display: flex;
   justify-content: space-between;
-}
-
-.compactLeft .innerList {
-  padding-right: 30px;
-}
-
-.compactRight {
-  padding-left: 20px;
 }
 
 .showMoreLink {

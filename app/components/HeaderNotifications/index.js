@@ -82,7 +82,7 @@ export default class NotificationsDropdown extends Component {
 
   renderNotifications = notifications => {
     return (
-      <div className={styles.notifications}>
+      <div>
         {notifications.map((notification, i) =>
           <NotificationElement
             key={i}
@@ -113,8 +113,9 @@ export default class NotificationsDropdown extends Component {
         }
         contentClassName={styles.notifications}
       >
+      {/* TODO FIXME - do same as the menu element*/}
         {notifications.length
-          ? <div>
+          ? <div style={{ width: '100%'}}>
               <div style={{ maxHeight: '300px', overflowY: 'overlay' }}>
                 {this.renderNotifications(notifications)}
               </div>

@@ -69,14 +69,11 @@ export default class CompactEvents extends Component {
       return null;
     }
     return (
-      <Flex column>
-        <Flex className={styles.compactEvents}>
+      <Flex wrap column>
+        <Flex wrap className={styles.compactEvents}>
           <Flex column className={styles.compactLeft}>
             <h3 className="u-ui-heading">Bedriftspresentasjoner</h3>
-            <ul
-              className={styles.innerList}
-              style={{ borderRight: '1px solid #aaa' }}
-            >
+            <ul className={styles.innerList}>
               {leftEvents}
             </ul>
           </Flex>

@@ -1,3 +1,5 @@
+@import 'app/styles/variables.css';
+
 .item {
   text-align: justify;
   flex: 1 0 100%;
@@ -9,6 +11,10 @@
 .inner {
   composes: withShadow from 'app/styles/utilities.css';
   flex: 1;
+
+  @media (--mobile-device) {
+    flex-wrap: wrap;
+  }
 }
 
 .innerRight {
@@ -35,7 +41,7 @@
 
 .pinnedHeading {
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   justify-content: space-between;
   background: rgba(242, 241, 237, 0.2);
   padding: 20px;
@@ -52,6 +58,17 @@
 .image {
   border-radius: 3px 3px 0 0;
   object-fit: cover;
+}
+
+.imageContainer {
+  display: 'block';
+  width: 350px;
+  height: 192px;
+
+  @media (--mobile-device) {
+    width: auto;
+    max-height: 192px;
+  }
 }
 
 .itemTitle {
