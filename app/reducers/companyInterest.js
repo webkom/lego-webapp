@@ -10,7 +10,7 @@ export type CompanyInterestEntity = {
 };
 
 export default createEntityReducer({
-  key: 'companyInterestList',
+  key: 'companyInterest',
   types: {
     fetch: CompanyInterestForm.FETCH_ALL
   },
@@ -23,8 +23,8 @@ export default createEntityReducer({
 });
 
 export const selectCompanyInterestList = createSelector(
-  state => state.companyInterestList.byId,
-  state => state.companyInterestList.items,
+  state => state.companyInterest.byId,
+  state => state.companyInterest.items,
   (companyInterestById, companyInterestIds) =>
     companyInterestIds.map(id => companyInterestById[id])
 );

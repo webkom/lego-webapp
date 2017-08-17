@@ -14,7 +14,9 @@ function loadData(params, props) {
 
 function mapStateToProps(state) {
   const companyInterestList = selectCompanyInterestList(state);
-  return companyInterestList;
+  return {
+    companyInterestList
+  };
 }
 
 const mapDispatchToProps = { fetchAll, createCompanyInterest };
