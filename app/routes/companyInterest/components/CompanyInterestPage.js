@@ -53,7 +53,7 @@ const getSemesterBoxes = () => {
       ];
 
   return labels.map((item, index) =>
-    <div className={styles.checkbox}>
+    <div key={index} className={styles.checkbox}>
       <div className={styles.checkboxField}>
         <Field
           key={`semester-${index}`}
@@ -69,7 +69,7 @@ const getSemesterBoxes = () => {
 
 const getEventBoxes = () =>
   EVENT_TYPES.map((item, index) =>
-    <div className={styles.checkbox}>
+    <div key={index} className={styles.checkbox}>
       <div className={styles.checkboxField}>
         <Field
           id={`event-${index}`}
@@ -84,7 +84,7 @@ const getEventBoxes = () =>
 
 const getActivityBoxes = () =>
   ACTIVITY_TYPES.map((item, index) =>
-    <div className={styles.checkbox}>
+    <div key={index} className={styles.checkbox}>
       <div className={styles.checkboxField}>
         <Field
           id={`activity-${index}`}

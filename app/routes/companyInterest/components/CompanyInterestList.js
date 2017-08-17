@@ -4,58 +4,54 @@ import Button from 'app/components/Button';
 import { Link } from 'react-router';
 
 export type Props = {
-  CompanyInterestList: Array
+  companyInterestList: Array
 };
 
 const eventTypes = group => {
   return [
     {
-      value: group.name,
-      label: 'Bedriftsnavn'
+      value: group.companyName
     },
     {
-      value: group.contactPerson,
-      label: 'Kontaktperson'
+      value: group.contactName
     },
     {
-      value: group.mail,
-      label: 'Mail'
+      value: group.mail
     },
     {
-      value: group.companyPresentation,
-      label: 'Bedrifts-presentasjon'
+      value: group.companyPresentation
     },
     {
-      value: group.course,
-      label: 'Kurs'
+      value: group.course
     },
     {
-      value: group.lunchPresentation,
-      label: 'Lunsj-presentasjon'
+      value: group.lunchPresentation
     },
     {
-      value: group.readme,
-      label: 'Annonsere i readme'
+      value: group.readme
     },
     {
-      value: group.collaboration,
-      label: 'Samarbeid med andre linjeforeninger'
+      value: group.collaboration
     },
     {
-      value: group.itdagene,
-      label: 'Ønsker stand på itDAGENE'
+      value: group.itdagene
     },
     {
-      value: group.comment,
-      label: 'Kommentar'
+      value: group.comment
     }
   ];
 };
 
 const CompanyInterestList = (props: Props) => {
+  console.log('comp Props', props.companyInterestList);
+
   const generateLabels = group => {
     return eventTypes(group).map((event, key) => {
-      return <th className={styles.tableColumn}>{event.label}</th>;
+      return (
+        <th key={key} className={styles.tableColumn}>
+          {event.label}
+        </th>
+      );
     });
   };
 
@@ -75,12 +71,37 @@ const CompanyInterestList = (props: Props) => {
     });
   };
 
-  const interests = props.CompanyInterestList.map((group, id) => (
-    <tr className={styles.companyInterestList}>{generateValues(group)}</tr>
+  const generateMobileValues = group => {
+    return eventTypes(group).map((event, key) => {
+      let value;
+      switch (typeof event.value) {
+        case 'boolean':
+          value = event.value ? 'Ja' : 'Nei';
+          break;
+        case 'string':
+          value = event.value;
+          break;
+        default:
+      }
+      return (
+        <tr className={styles.tableColumn}>
+          <td>{event.label}:</td>
+          <td>
+            <b>{value}</b>
+          </td>
+        </tr>
+      );
+    });
+  };
+
+  const interests = props.companyInterestList.map((group, key) => (
+    <tr key={key} className={styles.companyInterestList}>
+      {generateValues(group)}
+    </tr>
   ));
 
-  const interestsMobile = props.CompanyInterestList.map((group, id) => (
-    <table className={styles.companyInterestListMobile}>
+  const interestsMobile = props.companyInterestList.map((group, key) => (
+    <table key={key} className={styles.companyInterestListMobile}>
       <thead>
         <tr>
           <h3 className={styles.companyInterestListMobile}>{group.name}</h3>
@@ -109,11 +130,24 @@ const CompanyInterestList = (props: Props) => {
           <Button>Opprett ny bedriftsinteresse</Button>
         </Link>
       </div>
-      <table className={styles.companyList}>
-        <tr className={styles.companyList}>
-          {generateLabels(props.CompanyInterestList[0])}
-        </tr>
-        {interests}
+      <table className={styles.companyInterestList}>
+        <thead>
+          <tr className={styles.companyInterestList}>
+            <th className={styles.tableColumn}>Bedriftsnavn</th>
+            <th className={styles.tableColumn}>Kontaktperson</th>
+            <th className={styles.tableColumn}>Mail</th>
+            <th className={styles.tableColumn}>Bedrifts-presentasjon</th>
+            <th className={styles.tableColumn}>Kurs</th>
+            <th className={styles.tableColumn}>Lunch-presentasjon</th>
+            <th className={styles.tableColumn}>Annonsere i readme</th>
+            <th className={styles.tableColumn}>
+              Samarbeid med andre linjeforeninger
+            </th>
+            <th className={styles.tableColumn}>Ønsker stand på itDAGENE</th>
+            <th className={styles.tableColumn}>Kommentar</th>
+          </tr>
+        </thead>
+        <tbody>{interests}</tbody>
       </table>
     </div>
   );
