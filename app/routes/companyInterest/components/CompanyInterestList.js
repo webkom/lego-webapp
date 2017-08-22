@@ -7,56 +7,54 @@ export type Props = {
   companyInterestList: Array
 };
 
-const eventTypes = group => {
+const eventTypes = company => {
   return [
     {
-      value: group.companyName
+      value: company.companyName,
+      label: 'Bedriftsnavn'
     },
     {
-      value: group.contactName
+      value: company.contactName,
+      label: 'Kontaktperson'
     },
     {
-      value: group.mail
+      value: company.mail,
+      label: 'Mail'
     },
     {
-      value: group.companyPresentation
+      value: company.companyPresentation,
+      label: 'Bedriftspresentasjon'
     },
     {
-      value: group.course
+      value: company.course,
+      label: 'Kurs'
     },
     {
-      value: group.lunchPresentation
+      value: company.lunchPresentation,
+      label: 'Lunsjpresentasjon'
     },
     {
-      value: group.readme
+      value: company.readme,
+      label: 'readme'
     },
     {
-      value: group.collaboration
+      value: company.collaboration,
+      label: 'Samardbeid med andre linjeforeninger'
     },
     {
-      value: group.itdagene
+      value: company.itdagene,
+      label: 'itDAGENE'
     },
     {
-      value: group.comment
+      value: company.comment,
+      label: 'Kommentar'
     }
   ];
 };
 
 const CompanyInterestList = (props: Props) => {
-  console.log('comp Props', props.companyInterestList);
-
-  const generateLabels = group => {
-    return eventTypes(group).map((event, key) => {
-      return (
-        <th key={key} className={styles.tableColumn}>
-          {event.label}
-        </th>
-      );
-    });
-  };
-
-  const generateValues = group => {
-    return eventTypes(group).map((event, key) => {
+  const generateValues = company => {
+    return eventTypes(company).map((event, key) => {
       let value;
       switch (typeof event.value) {
         case 'boolean':
@@ -71,8 +69,8 @@ const CompanyInterestList = (props: Props) => {
     });
   };
 
-  const generateMobileValues = group => {
-    return eventTypes(group).map((event, key) => {
+  const generateMobileValues = company => {
+    return eventTypes(company).map((event, key) => {
       let value;
       switch (typeof event.value) {
         case 'boolean':
@@ -94,21 +92,33 @@ const CompanyInterestList = (props: Props) => {
     });
   };
 
-  const interests = props.companyInterestList.map((group, key) => (
+  const interests = props.companyInterestList.map((company, key) => (
     <tr key={key} className={styles.companyInterestList}>
-      {generateValues(group)}
+      {generateValues(company)}
+      <td>
+        <a onClick={() => props.removeCompanyInterest(company.id)}>
+          <i className="fa fa-times" style={{ color: '#d13c32' }} />
+        </a>
+      </td>
     </tr>
   ));
 
-  const interestsMobile = props.companyInterestList.map((group, key) => (
+  const interestsMobile = props.companyInterestList.map((company, key) => (
     <table key={key} className={styles.companyInterestListMobile}>
       <thead>
         <tr>
-          <h3 className={styles.companyInterestListMobile}>{group.name}</h3>
+          <h3 className={styles.companyInterestListMobile}>
+            {company.companyName}
+          </h3>
         </tr>
       </thead>
       <tbody className={styles.companyInterestListMobile}>
-        {generateMobileValues(group)}
+        {generateMobileValues(company)}
+        <td>
+          <a onClick={() => props.removeCompanyInterest(company.id)}>
+            <i className="fa fa-times" style={{ color: '#d13c32' }} />
+          </a>
+        </td>
       </tbody>
     </table>
   ));
@@ -145,6 +155,7 @@ const CompanyInterestList = (props: Props) => {
             </th>
             <th className={styles.tableColumn}>Ønsker stand på itDAGENE</th>
             <th className={styles.tableColumn}>Kommentar</th>
+            <th className={styles.tableColumn} />
           </tr>
         </thead>
         <tbody>{interests}</tbody>

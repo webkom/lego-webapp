@@ -6,7 +6,7 @@ import { companyInterestSchema } from 'app/reducers';
 export function fetchAll() {
   return callAPI({
     types: CompanyInterestForm.FETCH_ALL,
-    endpoint: '/company_interest/',
+    endpoint: '/company-interest/',
     schema: [companyInterestSchema],
     meta: {
       errorMessage: 'Fetching companyInterest failed'
@@ -42,7 +42,7 @@ export function createCompanyInterest({
     dispatch(
       callAPI({
         types: CompanyInterestForm.CREATE,
-        endpoint: '/company_interest/',
+        endpoint: '/company-interest/',
         method: 'POST',
         schema: [companyInterestSchema],
         body: {
@@ -69,5 +69,21 @@ export function createCompanyInterest({
     ).then(() => {
       dispatch(addNotification('SUCCESS'));
     });
+  };
+}
+
+export function removeCompanyInterest(id) {
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: CompanyInterestForm.REMOVE,
+        endpoint: `/company-interest/${id}/`,
+        method: 'DELETE',
+        meta: {
+          companyInterestId: id,
+          errorMessage: 'Removing companyInterest failed'
+        }
+      })
+    ).then(() => dispatch(addNotification('SUCCESS')));
   };
 }

@@ -94,7 +94,8 @@ export const Group = {
 
 export const CompanyInterestForm = {
   CREATE: generateStatuses('CompanyInterestForm.CREATE'),
-  FETCH_ALL: generateStatuses('CompanyInterestForm.FETCH_ALL')
+  FETCH_ALL: generateStatuses('CompanyInterestForm.FETCH_ALL'),
+  REMOVE: generateStatuses('CompanyInterestForm.REMOVE')
 };
 
 export const InterestGroup = {

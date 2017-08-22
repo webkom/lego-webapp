@@ -4,9 +4,16 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 
 export type CompanyInterestEntity = {
   id: number,
-  name: string,
+  companyName: string,
   mail: string,
-  contactPerson: string
+  contactPerson: string,
+  companyPresentation: boolean,
+  course: boolean,
+  lunchPresentation: boolean,
+  readme: boolean,
+  collaboration: boolean,
+  itdagene: boolean,
+  comment: boolean
 };
 
 export default createEntityReducer({
@@ -16,6 +23,11 @@ export default createEntityReducer({
   },
   mutate(state, action) {
     switch (action.type) {
+      case CompanyInterestForm.REMOVE.SUCCESS:
+        return {
+          ...state,
+          items: state.items.filter(id => action.meta.companyInterestId !== id)
+        };
       default:
         return state;
     }
