@@ -171,6 +171,7 @@ function EventEditor({
                   fieldClassName={cx(styles.metaField, styles.fieldShadow)}
                   simpleValue
                   component={SelectInput.Field}
+                  fetching={searching}
                   options={Object.keys(eventTypes).map(type => ({
                     label: eventTypes[type],
                     value: type
@@ -246,6 +247,7 @@ function EventEditor({
                   <FieldArray
                     name="pools"
                     component={renderPools}
+                    searching={searching}
                     autocompleteResult={autocompleteResult}
                     groupQueryChanged={groupQueryChanged}
                   />

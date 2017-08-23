@@ -8,6 +8,7 @@ import 'react-select/dist/react-select.css';
 type Props = {
   placeholder?: string,
   multiple?: boolean,
+  meta?: any,
   tags?: boolean,
   fetching: boolean,
   className?: string,
@@ -19,6 +20,7 @@ type Props = {
 
 function SelectInput({
   fetching,
+  meta,
   selectStyle,
   onBlur,
   value,
@@ -45,7 +47,7 @@ function SelectInput({
       value={value}
       onBlurResetsInput={false}
       onBlur={() => onBlur(value)}
-      isLoading={fetching}
+      isLoading={meta && meta.active && fetching}
       onInputChange={value => {
         if (props.onSearch) {
           props.onSearch(value);
