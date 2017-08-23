@@ -4,7 +4,6 @@ import { reduxForm } from 'redux-form';
 import { editCompany, fetch } from '../../actions/CompanyActions';
 import EditCompany from './components/EditCompany';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
-import { formValueSelector } from 'redux-form';
 
 function loadData({ companyId }, props) {
   props.fetch(Number(companyId));

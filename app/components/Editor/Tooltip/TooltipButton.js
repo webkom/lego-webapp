@@ -1,6 +1,5 @@
 import React from 'react';
 import cx from 'classnames';
-import Icon from 'app/components/Icon';
 import styles from './Tooltip.css';
 
 export type Props = {

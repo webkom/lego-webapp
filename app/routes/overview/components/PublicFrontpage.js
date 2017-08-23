@@ -3,14 +3,6 @@ import { Content, Flex } from 'app/components/Layout';
 import LoginForm from 'app/components/LoginForm';
 import styles from './PublicFrontpage.css';
 
-function InfoBox({ children }) {
-  return (
-    <div className={styles.root}>
-      {children}
-    </div>
-  );
-}
-
 function PublicFrontpage() {
   return (
     <Content>

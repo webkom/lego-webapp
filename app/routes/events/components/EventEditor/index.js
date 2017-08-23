@@ -3,7 +3,6 @@
 import styles from './EventEditor.css';
 import React from 'react';
 import { Link } from 'react-router';
-import Image from 'app/components/Image';
 import renderPools from './renderPools';
 import RegisteredCell from '../RegisteredCell';
 import RegisteredSummary from '../RegisteredSummary';

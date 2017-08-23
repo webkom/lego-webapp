@@ -1,9 +1,9 @@
+import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetch as fetchCompany } from 'app/actions/CompanyActions';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import CompanyDetail from './components/CompanyDetail';
-import React, { Component } from 'react';
 
 function loadData({ companyId }, props) {
   props.fetchCompany(Number(companyId));
@@ -13,13 +13,9 @@ type Props = {
   fetchCompany: () => {}
 };
 
-class CompanyDetailRoute extends Component {
-  props: Props;
-
-  render() {
-    return <CompanyDetail {...this.props} />;
-  }
-}
+const CompanyDetailRoute = (props: Props) => {
+  return <CompanyDetail {...props} />;
+};
 
 function mapStateToProps(state, props) {
   const companyId = props.params.companyId;
