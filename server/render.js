@@ -10,6 +10,15 @@ import Helmet from 'react-helmet';
 import routes from '../app/routes';
 import configureStore from '../app/utils/configureStore';
 
+import manifest from '../app/assets/manifest.json';
+require('../app/assets/favicon.png');
+require('../app/assets/icon-48x48.png');
+require('../app/assets/icon-96x96.png');
+require('../app/assets/icon-192x192.png');
+require('../app/assets/icon-256x256.png');
+require('../app/assets/icon-384x384.png');
+require('../app/assets/icon-512x512.png');
+
 function render(req, res, next) {
   cookie.plugToRequest(req, res);
   match({ routes, location: req.url }, (err, redirect, renderProps) => {
@@ -80,9 +89,28 @@ function renderPage({ body, state, helmet }) {
         <meta charset="utf-8">
         ${helmet.title.toString()}
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <link rel="icon" href="/favicon.png">
+
+        <link rel="manifest" href="${manifest}">
+        <meta name="theme-color" content="#f2f2f1">
+
+        <link rel="icon" href="/icon-512x512.png" sizes="512x512"/>
+        <link rel="apple-touch-icon" href="/icon-512x512.png" sizes="512x512"/>
+        <link rel="icon" href="/icon-384x384.png" sizes="384x384"/>
+        <link rel="apple-touch-icon" href="/icon-384x384.png" sizes="384x384"/>
+        <link rel="icon" href="/icon-256x256.png" sizes="256x256"/>
+        <link rel="apple-touch-icon" href="/icon-256x256.png" sizes="256x256"/>
+        <link rel="icon" href="/icon-192x192.png" sizes="192x192"/>
+        <link rel="apple-touch-icon" href="/icon-192x192.png" sizes="192x192"/>
+        <link rel="icon" href="/icon-96x96.png" sizes="96x96"/>
+        <link rel="apple-touch-icon" href="/icon-96x96.png" sizes="96x96"/>
+        <link rel="icon" href="/icon-48x48.png" sizes="48x48"/>
+        <link rel="apple-touch-icon" href="/icon-48x48.png" sizes="48x48"/>
+
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <meta name="mobile-web-app-capable" content="yes"/>
+        <meta name="apple-mobile-web-app-title" content="Abakus"/>
+
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
         ${helmet.meta.toString()}
