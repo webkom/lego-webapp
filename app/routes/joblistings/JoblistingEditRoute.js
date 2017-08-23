@@ -7,10 +7,15 @@ import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor
 import { selectJoblistingById } from 'app/reducers/joblistings';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocomplete } from 'app/reducers/search';
+import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { debounce } from 'lodash';
 import { formValueSelector } from 'redux-form';
 import { selectCompanyById } from 'app/reducers/companies';
 import { fetch } from 'app/actions/CompanyActions';
+
+function loadData({ joblistingId }, props) {
+  props.fetchJoblisting(joblistingId);
+}
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -28,10 +33,14 @@ function mapStateToProps(state, props) {
   const { joblistingId } = props.params;
   const formSelector = formValueSelector('joblistingEditor');
   const company = formSelector(state, 'company');
-  console.log('company', company, company.value);
-  const companyId = company.value;
-  const joblisting = selectJoblistingById(state, { joblistingId });
-  console.log('company22', selectCompanyById(state, { companyId }));
+  let joblisting = selectJoblistingById(state, { joblistingId });
+  if (!joblisting.company) {
+    joblisting = {
+      company: {},
+      workplaces: []
+    };
+  }
+
   return {
     joblisting,
     initialValues: {
@@ -48,6 +57,7 @@ function mapStateToProps(state, props) {
       }))
     },
     joblistingId,
+    isNew: false,
     results: selectAutocomplete(state),
     searching: state.search.searching,
     company: company ? selectCompanyById(state, { companyId: company }) : null
@@ -55,12 +65,6 @@ function mapStateToProps(state, props) {
 }
 
 export default compose(
-  dispatched(
-    ({ params: { joblistingId } }, dispatch) =>
-      dispatch(fetchJoblisting(Number(joblistingId))),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  fetchOnUpdate(['joblistingId'], loadData)
 )(JoblistingEditor);

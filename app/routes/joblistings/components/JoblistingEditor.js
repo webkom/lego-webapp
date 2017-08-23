@@ -37,6 +37,7 @@ function JoblistingEditor({
   joblisting,
   onQueryChanged,
   searching,
+  isNew,
   submitJoblisting,
   company,
   fetchCompany,
@@ -78,21 +79,26 @@ function JoblistingEditor({
     const workplaces = newJoblisting.workplaces
       ? newJoblisting.workplaces.map(obj => ({ town: obj.value }))
       : null;
-    const responsible = newJoblisting.responsible &&
-      (newJoblisting.responsible === 'Ingen' ||
-        newJoblisting.responsible.id === -1)
-      ? null
-      : newJoblisting.responsible ? newJoblisting.responsible.id : null;
+    const responsible = newJoblisting.responsible
+      ? newJoblisting.responsible
+      : null;
+    const responsibleId =
+      newJoblisting.responsible && newJoblisting.responsible !== -1
+        ? responsible
+        : null;
+
     submitJoblisting({
       ...newJoblisting,
       workplaces,
-      responsible
+      responsible: responsibleId
     });
   };
 
   const datePickerComponent = (text, name) =>
     <FlexRow className={styles.row}>
-      <FlexColumn className={styles.des}>{text}</FlexColumn>
+      <FlexColumn className={styles.des}>
+        {text}
+      </FlexColumn>
       <FlexColumn className={styles.textfield}>
         <Field name={name} component={DatePicker.Field} />
       </FlexColumn>
@@ -100,7 +106,9 @@ function JoblistingEditor({
 
   const yearPickerComponent = (text, name) =>
     <FlexRow className={styles.row}>
-      <FlexColumn className={styles.des}>{text}</FlexColumn>
+      <FlexColumn className={styles.des}>
+        {text}
+      </FlexColumn>
       <FlexColumn className={styles.textfield}>
         <Field name={name} component="select">
           <option value="1">1</option>
@@ -114,7 +122,9 @@ function JoblistingEditor({
 
   const fieldComponent = (text, name, placeholder) =>
     <FlexRow className={styles.row}>
-      <FlexColumn className={styles.des}>{text}</FlexColumn>
+      <FlexColumn className={styles.des}>
+        {text}
+      </FlexColumn>
       <FlexColumn className={styles.textfield}>
         <Field
           placeholder={placeholder}
@@ -126,11 +136,17 @@ function JoblistingEditor({
 
   const textEditorComponent = (text, name, placeholder) =>
     <FlexRow className={styles.row}>
-      <FlexColumn className={styles.des}>{text} </FlexColumn>
+      <FlexColumn className={styles.des}>
+        {text}{' '}
+      </FlexColumn>
       <FlexColumn className={styles.textfield}>
         <Field name={name} component={EditorField} placeholder={placeholder} />
       </FlexColumn>
     </FlexRow>;
+
+  if (!isNew && !joblisting.company.id) {
+    return <LoadingIndicator loading />;
+  }
 
   return (
     <div className={styles.root}>
@@ -151,9 +167,9 @@ function JoblistingEditor({
               fetching={searching}
               onSearch={query => onQueryChanged(query)}
               onChange={newValue => {
-                console.log('asd', newValue, company);
                 if (
                   !company ||
+                  isNew ||
                   Number(newValue.value) !== joblisting.company.id
                 ) {
                   fetchCompany(newValue.value).then(() => {
@@ -210,19 +226,19 @@ function JoblistingEditor({
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Kontaktperson: </FlexColumn>
           <FlexColumn className={styles.textfield}>
-            {console.log(company)}
             <Field
               placeholder={'Kontaktperson'}
               name="responsible"
               component={SelectInput.Field}
               options={
                 company
-                  ? [{ label: 'Ingen', value: -1 }].concat(
-                      (company.companyContacts || []).map(contact => ({
+                  ? [
+                      { label: 'Ingen', value: -1 },
+                      ...(company.companyContacts || []).map(contact => ({
                         label: contact.name,
                         value: contact.id
                       }))
-                    )
+                    ]
                   : [{ label: 'Ingen', value: -1 }]
               }
               simpleValue
@@ -233,7 +249,6 @@ function JoblistingEditor({
         <Button className={styles.submit} submit>
           Lagre
         </Button>
-
       </Form>
     </div>
   );
@@ -241,7 +256,7 @@ function JoblistingEditor({
 
 export default reduxForm({
   form: 'joblistingEditor',
-  pure: false,
+  enableReinitialize: true,
   validate(values) {
     const errors = {};
     if (!values.title) {

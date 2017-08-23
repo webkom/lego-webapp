@@ -25,20 +25,17 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state, props) {
   const formSelector = formValueSelector('joblistingEditor');
-  const company = formSelector(state, 'company');
+
   return {
     initialValues: {
       text: '<p></p>',
       description: '<p></p>',
       fromYear: 1,
       toYear: 5,
-      jobType: 'summer_job',
-      deadline: moment().toISOString(),
-      visibleFrom: moment().toISOString(),
-      visibleTo: moment().add(2, 'months').toISOString()
+      jobType: 'summer_job'
     },
-    results: selectAutocomplete(state),
-    company: company ? selectCompanyById(state, { companyId: company }) : null
+    isNew: true,
+    results: selectAutocomplete(state)
   };
 }
 
