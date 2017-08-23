@@ -2,12 +2,24 @@ import { CompanyInterestForm } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
 import { addNotification } from 'app/actions/NotificationActions';
 import { companyInterestSchema } from 'app/reducers';
+import { push } from 'react-router-redux';
 
 export function fetchAll() {
   return callAPI({
     types: CompanyInterestForm.FETCH_ALL,
-    endpoint: '/company-interest/',
+    endpoint: '/company-interests/',
     schema: [companyInterestSchema],
+    meta: {
+      errorMessage: 'Fetching companyInterest failed'
+    }
+  });
+}
+
+export function fetchCompanyInterest(companyInterestId) {
+  return callAPI({
+    types: CompanyInterestForm.FETCH,
+    endpoint: `/company-interests/${companyInterestId}/`,
+    schema: companyInterestSchema,
     meta: {
       errorMessage: 'Fetching companyInterest failed'
     }
@@ -16,58 +28,57 @@ export function fetchAll() {
 
 export type CompanyInterestEntity = {
   id: number,
-  name: string,
+  companyName: string,
+  contactPerson: string,
   mail: string,
-  contactPerson: string
+  semesters: array,
+  events: array,
+  readme: boolean,
+  collaboration: boolean,
+  bedex: boolean,
+  itdagene: boolean,
+  comment: string
 };
 
 export function createCompanyInterest({
   companyName,
   contactPerson,
   mail,
-  comment,
-  semester0,
-  semester1,
-  semester2,
-  semester3,
-  companyPresentation,
-  course,
-  lunchPresentation,
+  semesters,
+  events,
   readme,
   collaboration,
   bedex,
-  itdagene
+  itdagene,
+  comment
 }) {
   return dispatch => {
-    dispatch(
+    return dispatch(
       callAPI({
         types: CompanyInterestForm.CREATE,
-        endpoint: '/company-interest/',
+        endpoint: '/company-interests/',
         method: 'POST',
         schema: [companyInterestSchema],
         body: {
           companyName,
           contactPerson,
           mail,
-          comment,
-          semester0,
-          semester1,
-          semester2,
-          semester3,
-          companyPresentation,
-          course,
-          lunchPresentation,
+          semesters,
+          events,
           readme,
           collaboration,
           bedex,
-          itdagene
+          itdagene,
+          comment
         },
         meta: {
           errorMessage: 'Creating CompanyInterestForm failed'
         }
       })
     ).then(() => {
-      dispatch(addNotification('SUCCESS'));
+      dispatch(
+        addNotification({ message: 'Company interest successfully created!' })
+      );
     });
   };
 }
@@ -77,13 +88,64 @@ export function removeCompanyInterest(id) {
     dispatch(
       callAPI({
         types: CompanyInterestForm.REMOVE,
-        endpoint: `/company-interest/${id}/`,
+        endpoint: `/company-interests/${id}/`,
         method: 'DELETE',
         meta: {
           companyInterestId: id,
           errorMessage: 'Removing companyInterest failed'
         }
       })
-    ).then(() => dispatch(addNotification('SUCCESS')));
+    ).then(() => {
+      dispatch(
+        addNotification({ message: 'Company interest successfully removed!' })
+      );
+      dispatch(push('/companyInterest/'));
+    });
+  };
+}
+
+export function updateCompanyInterest({
+  id,
+  companyName,
+  contactPerson,
+  mail,
+  semesters,
+  events,
+  readme,
+  collaboration,
+  bedex,
+  itdagene,
+  comment
+}) {
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: CompanyInterestForm.UPDATE,
+        endpoint: `/company-interests/${id}/`,
+        method: 'PATCH',
+        body: {
+          id,
+          companyName,
+          contactPerson,
+          mail,
+          semesters,
+          events,
+          readme,
+          collaboration,
+          bedex,
+          itdagene,
+          comment
+        },
+        meta: {
+          interestGroupId: id,
+          errorMessage: 'Editing companyInterest failed'
+        }
+      })
+    ).then(() => {
+      dispatch(
+        addNotification({ message: 'Company interest successfully updated!' })
+      );
+      dispatch(push('/companyInterest/'));
+    });
   };
 }

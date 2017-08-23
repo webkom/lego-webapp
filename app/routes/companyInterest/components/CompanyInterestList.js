@@ -14,40 +14,12 @@ const eventTypes = company => {
       label: 'Bedriftsnavn'
     },
     {
-      value: company.contactName,
+      value: company.contactPerson,
       label: 'Kontaktperson'
     },
     {
       value: company.mail,
       label: 'Mail'
-    },
-    {
-      value: company.companyPresentation,
-      label: 'Bedriftspresentasjon'
-    },
-    {
-      value: company.course,
-      label: 'Kurs'
-    },
-    {
-      value: company.lunchPresentation,
-      label: 'Lunsjpresentasjon'
-    },
-    {
-      value: company.readme,
-      label: 'readme'
-    },
-    {
-      value: company.collaboration,
-      label: 'Samardbeid med andre linjeforeninger'
-    },
-    {
-      value: company.itdagene,
-      label: 'itDAGENE'
-    },
-    {
-      value: company.comment,
-      label: 'Kommentar'
     }
   ];
 };
@@ -55,37 +27,39 @@ const eventTypes = company => {
 const CompanyInterestList = (props: Props) => {
   const generateValues = company => {
     return eventTypes(company).map((event, key) => {
-      let value;
-      switch (typeof event.value) {
-        case 'boolean':
-          value = event.value ? 'Ja' : 'Nei';
-          break;
-        case 'string':
-          value = event.value;
-          break;
-        default:
-      }
-      return <td className={styles.tableColumn}>{value}</td>;
+      return (
+        <td key={key} className={styles.tableColumn}>
+          <Link to={`/companyInterest/${company.id}`}>
+            {event.value}
+          </Link>
+        </td>
+      );
     });
   };
 
   const generateMobileValues = company => {
     return eventTypes(company).map((event, key) => {
-      let value;
-      switch (typeof event.value) {
-        case 'boolean':
-          value = event.value ? 'Ja' : 'Nei';
-          break;
-        case 'string':
-          value = event.value;
-          break;
-        default:
-      }
       return (
-        <tr className={styles.tableColumn}>
-          <td>{event.label}:</td>
+        <tr key={key} className={styles.tableColumn}>
           <td>
-            <b>{value}</b>
+            {event.label}:
+          </td>
+          <td>
+            <b>
+              <Link to={`/companyInterest/${company.id}`}>
+                {event.value}
+              </Link>
+            </b>
+          </td>
+          <td>
+            <Link to={`/companyInterest/${company.id}/edit`}>
+              <i className="fa fa-pencil" style={{ color: 'orange' }} />
+            </Link>
+          </td>
+          <td>
+            <a onClick={() => props.removeCompanyInterest(company.id)}>
+              <i className="fa fa-times" style={{ color: '#d13c32' }} />
+            </a>
           </td>
         </tr>
       );
@@ -95,8 +69,15 @@ const CompanyInterestList = (props: Props) => {
   const interests = props.companyInterestList.map((company, key) => (
     <tr key={key} className={styles.companyInterestList}>
       {generateValues(company)}
-      <td>
-        <a onClick={() => props.removeCompanyInterest(company.id)}>
+      <td className={styles.toolContainer}>
+        <Link to={`/companyInterest/${company.id}`} className={styles.tools}>
+          <i className="fa fa-pencil" style={{ color: 'orange' }} />
+        </Link>
+        <a
+          onClick={() => props.removeCompanyInterest(company.id)}
+          className={styles.tools}
+        >
+          <div />
           <i className="fa fa-times" style={{ color: '#d13c32' }} />
         </a>
       </td>
@@ -107,18 +88,15 @@ const CompanyInterestList = (props: Props) => {
     <table key={key} className={styles.companyInterestListMobile}>
       <thead>
         <tr>
-          <h3 className={styles.companyInterestListMobile}>
-            {company.companyName}
-          </h3>
+          <td>
+            <h3 className={styles.companyInterestListMobile}>
+              {company.companyName}
+            </h3>
+          </td>
         </tr>
       </thead>
       <tbody className={styles.companyInterestListMobile}>
         {generateMobileValues(company)}
-        <td>
-          <a onClick={() => props.removeCompanyInterest(company.id)}>
-            <i className="fa fa-times" style={{ color: '#d13c32' }} />
-          </a>
-        </td>
       </tbody>
     </table>
   ));
@@ -133,10 +111,7 @@ const CompanyInterestList = (props: Props) => {
             bedriftsinteresser.
           </p>
         </div>
-        <Link
-          to={'/companyInterest/createCompanyInterest'}
-          className={styles.link}
-        >
+        <Link to={'/companyInterest/create'} className={styles.link}>
           <Button>Opprett ny bedriftsinteresse</Button>
         </Link>
       </div>
@@ -146,15 +121,6 @@ const CompanyInterestList = (props: Props) => {
             <th className={styles.tableColumn}>Bedriftsnavn</th>
             <th className={styles.tableColumn}>Kontaktperson</th>
             <th className={styles.tableColumn}>Mail</th>
-            <th className={styles.tableColumn}>Bedrifts-presentasjon</th>
-            <th className={styles.tableColumn}>Kurs</th>
-            <th className={styles.tableColumn}>Lunch-presentasjon</th>
-            <th className={styles.tableColumn}>Annonsere i readme</th>
-            <th className={styles.tableColumn}>
-              Samarbeid med andre linjeforeninger
-            </th>
-            <th className={styles.tableColumn}>Ønsker stand på itDAGENE</th>
-            <th className={styles.tableColumn}>Kommentar</th>
             <th className={styles.tableColumn} />
           </tr>
         </thead>
