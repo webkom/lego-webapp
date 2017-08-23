@@ -3,27 +3,29 @@ import { connect } from 'react-redux';
 import {
   fetchAll,
   createCompanyInterest,
-  removeCompanyInterest
+  removeCompanyInterest,
+  updateCompanyInterest
 } from 'app/actions/CompanyInterestActions';
 import CompanyInterestList from './components/CompanyInterestList';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { selectCompanyInterestList } from 'app/reducers/companyInterest';
 
-function loadData(params, props) {
+const loadData = (params, props) => {
   props.fetchAll();
-}
+};
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   const companyInterestList = selectCompanyInterestList(state);
   return {
     companyInterestList
   };
-}
+};
 
 const mapDispatchToProps = {
   fetchAll,
   createCompanyInterest,
-  removeCompanyInterest
+  removeCompanyInterest,
+  updateCompanyInterest
 };
 
 export default compose(

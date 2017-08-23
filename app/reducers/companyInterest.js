@@ -40,3 +40,15 @@ export const selectCompanyInterestList = createSelector(
   (companyInterestById, companyInterestIds) =>
     companyInterestIds.map(id => companyInterestById[id])
 );
+
+export const selectCompanyInterestById = createSelector(
+  state => state.companyInterest.byId,
+  (state, props) => props.companyInterestId,
+  (companyInterestById, companyInterestId) => {
+    const companyInterest = companyInterestById[companyInterestId];
+    if (companyInterest) {
+      return companyInterest;
+    }
+    return {};
+  }
+);

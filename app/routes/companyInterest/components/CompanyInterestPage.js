@@ -5,22 +5,28 @@ import { Field } from 'redux-form';
 import { ImageUpload } from 'app/components/Upload';
 import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
 
-const EVENT_TYPES = [
-  { label: 'Bedriftspresentasjon', name: 'companyPresentation' },
-  { label: 'Kurs', name: 'course' },
-  { label: 'Lunsjpresentasjon', name: 'lunchPresentation' }
-];
+export const EVENT_TYPES = {
+  company_presentation: 'Bedriftspresentasjon',
+  lunch_presentation: 'Lunsjpresentasjon',
+  course: 'Kurs',
+  bedex: 'Bedex',
+  anniversary: 'Anniversary',
+  other: 'Annet'
+};
 
 const ACTIVITY_TYPES = [
-  { label: 'Annonsere i readme', name: 'readme' },
+  { label: 'Annonsere i readme', name: 'read_me' },
   { label: 'Samarbeid med andre linjeforeninger', name: 'collaboration' },
-  { label: 'Bedex', name: 'bedex' },
   { label: 'Ønsker stand på itDAGENE', name: 'itdagene' }
 ];
 
-const isFirstSemester = () => new Date().getMonth() + 1 < 6;
+type InputFieldProps = {
+  label: string,
+  placeholder: string,
+  name: string
+};
 
-const getInputField = (label, placeholder, name) =>
+const InputField = ({ label, placeholder, name }: InputFieldProps) =>
   <div>
     <label htmlFor={name} className={styles.smallHeading}>
       {label}
@@ -36,49 +42,39 @@ const getInputField = (label, placeholder, name) =>
     </div>
   </div>;
 
-const getSemesterBoxes = () => {
-  const currentYear = new Date().getFullYear();
-  const labels = isFirstSemester
-    ? [
-        `Høst ${currentYear}`,
-        `Vår ${currentYear + 1}`,
-        `Høst ${currentYear + 1}`,
-        `Vår ${currentYear + 2}`
-      ]
-    : [
-        `Vår ${currentYear + 1}`,
-        `Høst ${currentYear + 1}`,
-        `Vår ${currentYear + 2}`,
-        `Høst ${currentYear + 2}`
-      ];
-
-  return labels.map((item, index) =>
+const getSemesterBoxes = semesters => {
+  return semesters.map((item, index) =>
     <div key={index} className={styles.checkbox}>
       <div className={styles.checkboxField}>
         <Field
-          key={`semester-${index}`}
-          id={`semester-${index}`}
-          name={`semester-${index}`}
+          key={`semester${index}`}
+          id={`semester${index}`}
+          name={`semester${index}`}
           component={CheckBox.Field}
         />
       </div>
-      <span className={styles.checkboxSpan}>{item}</span>
+      <span className={styles.checkboxSpan}>
+        {item.semester + ' ' + item.year}
+      </span>
     </div>
   );
 };
 
 const getEventBoxes = () =>
-  EVENT_TYPES.map((item, index) =>
+  Object.keys(EVENT_TYPES).map((key, index) =>
     <div key={index} className={styles.checkbox}>
       <div className={styles.checkboxField}>
         <Field
-          id={`event-${index}`}
-          key={`event-${index}`}
-          name={item.name}
+          id={`event${index}`}
+          key={`event${index}`}
+          value={key}
+          name={key}
           component={CheckBox.Field}
         />
       </div>
-      <span className={styles.checkboxSpan}>{item.label}</span>
+      <span className={styles.checkboxSpan}>
+        {EVENT_TYPES[key]}
+      </span>
     </div>
   );
 
@@ -87,95 +83,119 @@ const getActivityBoxes = () =>
     <div key={index} className={styles.checkbox}>
       <div className={styles.checkboxField}>
         <Field
-          id={`activity-${index}`}
-          key={`activity-${index}`}
+          id={`activity${index}`}
+          key={`activity${index}`}
           name={item.name}
           component={CheckBox.Field}
         />
       </div>
-      <span className={styles.checkboxActivitySpan}>{item.label}</span>
+      <span className={styles.checkboxActivitySpan}>
+        {item.label}
+      </span>
     </div>
   );
 
 type Props = {
   createCompanyInterest: () => void,
-  handleSubmit: () => void
+  handleSubmit: () => void,
+  events: Array,
+  semesters: Array
 };
 
-export default class CompanyInterestPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      semesters: getSemesterBoxes(),
-      events: getEventBoxes(),
-      activities: getActivityBoxes()
+const CompanyInterestPage = (props: Props) => {
+  const onSubmit = data => {
+    const newData = {
+      companyName: data.companyName,
+      contactPerson: data.contactPerson,
+      mail: data.mail,
+      semesters: Object.keys(props.semesters).filter(
+        semester => data[`semester${semester.id}`]
+      ),
+      events: Object.keys(EVENT_TYPES).filter(eventType => data[eventType]),
+      read_me: data.read_me,
+      collaboration: data.collaboration,
+      bedex: data.bedex,
+      itdagene: data.itdagene,
+      comment: data.comment
     };
-  }
-  props: Props;
 
-  render() {
-    const { handleSubmit } = this.props;
-    return (
-      <div className={styles.root}>
-        <form onSubmit={handleSubmit}>
-          <h1 className={styles.mainHeading}>{'Meld interesse'}</h1>
-          <div className={styles.nameField}>
-            {getInputField('Navn på bedrift', 'Bedriftsnavn', 'companyName')}
-            {getInputField('Kontaktperson', 'Ola Nordmann', 'contactPerson')}
-          </div>
-          {getInputField('E-post', 'example@domain.com', 'mail')}
+    props.createCompanyInterest(newData).then(() => {
+      props.push('/companyInterest');
+    });
+  };
 
-          <FlexRow className={styles.checkboxWrapper}>
-            <FlexItem className={styles.semesters}>
-              <label htmlFor="semester" className={styles.heading}>
-                Semester
-              </label>
-              {this.state.semesters}
-            </FlexItem>
+  return (
+    <div className={styles.root}>
+      <form onSubmit={props.handleSubmit(onSubmit)}>
+        <h1 className={styles.mainHeading}>
+          {'Meld interesse'}
+        </h1>
+        <div className={styles.nameField}>
+          <InputField
+            label="Navn på bedrift"
+            placeholder="Bedriftsnavn"
+            name="companyName"
+          />
+          <InputField
+            label="Kontaktperson"
+            placeholder="Ola Nordmann"
+            name="contactPerson"
+          />
+        </div>
+        <InputField
+          label="E-post"
+          placeholder="example@domain.com"
+          name="mail"
+        />
 
-            <FlexItem className={styles.events}>
-              <label htmlFor="arrangementer" className={styles.heading}>
-                Arrangementer
-              </label>
-              {this.state.events}
-            </FlexItem>
+        <FlexRow className={styles.checkboxWrapper}>
+          <FlexItem className={styles.semesters}>
+            <label htmlFor="semester" className={styles.heading}>
+              Semester
+            </label>
+            {getSemesterBoxes(props.semesters)}
+          </FlexItem>
 
-            <FlexItem className={styles.extra}>
-              <label htmlFor="extra" className={styles.heading}>Annet</label>
-              {this.state.activities}
-            </FlexItem>
-          </FlexRow>
+          <FlexItem className={styles.events}>
+            <label htmlFor="arrangementer" className={styles.heading}>
+              Arrangementer
+            </label>
+            {getEventBoxes()}
+          </FlexItem>
 
-          <label htmlFor="comment" className={styles.smallHeading}>
-            Kommentar
-          </label>
+          <FlexItem className={styles.extra}>
+            <label htmlFor="extra" className={styles.heading}>
+              Annet
+            </label>
+            {getActivityBoxes()}
+          </FlexItem>
+        </FlexRow>
 
-          <div className={styles.textEditor}>
-            <Field
-              placeholder="Skriv eventuell kommentar"
-              name="comment"
-              component={TextEditor.Field}
-            />
-          </div>
+        <label htmlFor="comment" className={styles.smallHeading}>
+          Kommentar
+        </label>
 
-          <FlexColumn className={styles.content}>
+        <div className={styles.textEditor}>
+          <Field
+            placeholder="Skriv eventuell kommentar"
+            name="comment"
+            component={TextEditor.Field}
+          />
+        </div>
 
-            <FlexItem className={styles.upload}>
-              <ImageUpload>Last opp bilde</ImageUpload>
-            </FlexItem>
-            <FlexItem>
-              <Button
-                type="submit"
-                onSubmit={this.props.createCompanyInterest}
-                className={styles.createButton}
-              >
-                {'Opprett bedriftsinteresse'}
-              </Button>
-            </FlexItem>
+        <FlexColumn className={styles.content}>
+          <FlexItem className={styles.upload}>
+            <ImageUpload>Last opp bilde</ImageUpload>
+          </FlexItem>
+          <FlexItem>
+            <Button type="submit" submit className={styles.createButton}>
+              {'Opprett bedriftsinteresse'}
+            </Button>
+          </FlexItem>
+        </FlexColumn>
+      </form>
+    </div>
+  );
+};
 
-          </FlexColumn>
-        </form>
-      </div>
-    );
-  }
-}
+export default CompanyInterestPage;

@@ -21,7 +21,7 @@ const InterestGroupForm = ({
   updateInterestGroupPicture
 }) =>
   <form onSubmit={handleSubmit}>
-    <h1>
+    <h1 className={styles.mainHeader}>
       {header}
     </h1>
     <Field
@@ -52,9 +52,6 @@ const InterestGroupForm = ({
       <div className={styles.Upload}>
         <Upload>Last opp bilde</Upload>
       </div>
-      <Button type="submit">
-        {buttonText}
-      </Button>
     </div>
   </form>;
 
