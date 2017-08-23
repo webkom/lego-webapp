@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
 import debounce from 'lodash/debounce';
-import Icon from 'app/components/Icon';
 import { Form, TextInput } from '../Form';
 import Button from '../Button';
 

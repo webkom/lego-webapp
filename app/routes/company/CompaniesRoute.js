@@ -1,9 +1,9 @@
+import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetchAll } from 'app/actions/CompanyActions';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import CompaniesPage from './components/CompaniesPage';
-import React, { Component } from 'react';
 
 function loadData(watched, props) {
   props.fetchAll();
@@ -13,13 +13,9 @@ type Props = {
   fetchAll: () => {}
 };
 
-class CompaniesRoute extends Component {
-  props: Props;
-
-  render() {
-    return <CompaniesPage {...this.props} />;
-  }
-}
+const CompaniesRoute = (props: Props) => {
+  return <CompaniesPage {...props} />;
+};
 
 function mapStateToProps(state, props) {
   const { query } = props.location;

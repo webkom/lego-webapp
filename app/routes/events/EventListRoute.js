@@ -18,7 +18,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     ...createStructuredSelector({
       events: selectEvents,
-      actionGrant: actionGrant
+      actionGrant
     })(state, ownProps),
     icalToken
   };

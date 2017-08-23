@@ -3,7 +3,6 @@
 import React from 'react';
 import Select, { Creatable } from 'react-select';
 import { createField } from './Field';
-import styles from './SelectInput.css';
 import 'react-select/dist/react-select.css';
 
 type Props = {

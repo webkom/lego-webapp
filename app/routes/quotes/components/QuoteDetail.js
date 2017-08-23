@@ -42,7 +42,6 @@ export default function QuoteDetail({
         <Quote {...props} quote={quote} actionGrant={actionGrant} />
 
         <CommentView
-          formEnabled
           user={currentUser}
           commentTarget={quote.commentTarget}
           loggedIn={loggedIn}

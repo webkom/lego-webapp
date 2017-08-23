@@ -288,7 +288,6 @@ export default class BdbDetail extends Component {
             <div style={{ clear: 'both', marginBottom: '30px' }} />
 
             <CommentView
-              formEnabled
               user={currentUser}
               commentTarget={company.commentTarget}
               loggedIn={loggedIn}

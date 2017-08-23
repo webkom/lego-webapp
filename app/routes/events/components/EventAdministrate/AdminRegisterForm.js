@@ -1,6 +1,6 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
-import { Form, TextEditor, SelectInput } from 'app/components/Form';
+import { TextEditor, SelectInput } from 'app/components/Form';
 import Button from 'app/components/Button';
 
 const AdminRegister = ({

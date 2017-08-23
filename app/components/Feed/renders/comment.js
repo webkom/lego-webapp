@@ -1,11 +1,6 @@
 // @flow
-import React, { Component } from 'react';
-import { Link } from 'react-router';
-import Button from 'app/components/Button';
-import Card from 'app/components/Card';
-import Time from 'app/components/Time';
+import React from 'react';
 import Icon from 'app/components/Icon';
-import ProfilePicture from 'app/components/ProfilePicture';
 import { lookupContext, contextRender } from '../context';
 
 /**
