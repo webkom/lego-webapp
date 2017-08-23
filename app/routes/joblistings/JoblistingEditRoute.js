@@ -1,8 +1,8 @@
 // @flow
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { fetchJoblisting, editJoblisting } from 'app/actions/JoblistingActions';
 import { dispatched } from 'react-prepare';
+import { fetchJoblisting, editJoblisting } from 'app/actions/JoblistingActions';
 import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
 import { selectJoblistingById } from 'app/reducers/joblistings';
 import { autocomplete } from 'app/actions/SearchActions';
@@ -13,16 +13,12 @@ import { formValueSelector } from 'redux-form';
 import { selectCompanyById } from 'app/reducers/companies';
 import { fetch } from 'app/actions/CompanyActions';
 
-function loadData({ joblistingId }, props) {
-  props.fetchJoblisting(joblistingId);
-}
-
 function mapDispatchToProps(dispatch) {
   return {
     submitJoblisting: joblisting => dispatch(editJoblisting(joblisting)),
     fetchJoblisting: id => dispatch(fetchJoblisting(id)),
-    onQueryChanged: debounce(
-      query => dispatch(autocomplete(query, ['companies.company'])),
+    autocomplete: debounce(
+      (query, filter) => dispatch(autocomplete(query, filter)),
       30
     ),
     fetchCompany: id => dispatch(fetch(id))
@@ -48,24 +44,36 @@ function mapStateToProps(state, props) {
       ...joblisting,
       text: joblisting.text || '<p></p>',
       description: joblisting.description || '<p></p>',
-      company: joblisting.company && {
-        label: joblisting.company.name,
-        value: joblisting.company.id
+      company: joblisting.company
+        ? {
+            label: joblisting.company.name,
+            value: joblisting.company.id
+          }
+        : {},
+      responsible: joblisting.responsible && {
+        label: joblisting.responsible.name,
+        value: joblisting.responsible.id
       },
-      workplaces: joblisting.workplaces.map(workplace => ({
+      workplaces: (joblisting.workplaces || []).map(workplace => ({
         label: workplace.town,
         value: workplace.town
       }))
     },
     joblistingId,
     isNew: false,
-    results: selectAutocomplete(state),
+    autocompleteResults: selectAutocomplete(state),
     searching: state.search.searching,
-    company: company ? selectCompanyById(state, { companyId: company }) : null
+    company: company ? company : {}
   };
 }
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['joblistingId'], loadData)
+  dispatched(
+    ({ params: { joblistingId } }, dispatch) =>
+      dispatch(fetchJoblisting(joblistingId)),
+    {
+      componentWillReceiveProps: false
+    }
+  ),
+  connect(mapStateToProps, mapDispatchToProps)
 )(JoblistingEditor);

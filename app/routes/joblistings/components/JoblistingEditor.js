@@ -21,21 +21,22 @@ type Props = {
   joblistingId?: string,
   joblisting?: Object,
   handleSubmit: () => void,
-  onQueryChanged: () => void,
+  autocomplete: () => void,
   searching: boolean,
   submitJoblisting: () => void,
   fetchCompany: () => void,
   company?: Object,
-  results: Array,
-  dispatch: () => void
+  autocompleteResults: Array,
+  dispatch: () => void,
+  isNew: boolean
 };
 
 function JoblistingEditor({
   handleSubmit,
-  results,
+  autocompleteResults,
   joblistingId,
   joblisting,
-  onQueryChanged,
+  autocomplete,
   searching,
   isNew,
   submitJoblisting,
@@ -71,10 +72,10 @@ function JoblistingEditor({
     { label: 'Kongsvinger', value: 'Kongsvinger' }
   ];
 
-  const isEditPage = joblistingId !== undefined;
-  if (isEditPage && !joblisting) {
+  if (isNew && !joblisting) {
     return <LoadingIndicator loading />;
   }
+
   const onSubmit = newJoblisting => {
     const workplaces = newJoblisting.workplaces
       ? newJoblisting.workplaces.map(obj => ({ town: obj.value }))
@@ -86,8 +87,6 @@ function JoblistingEditor({
       newJoblisting.responsible && newJoblisting.responsible !== -1
         ? responsible
         : null;
-
-    console.log(newJoblisting);
 
     submitJoblisting({
       ...newJoblisting,
@@ -150,10 +149,12 @@ function JoblistingEditor({
     return <LoadingIndicator loading />;
   }
 
+  console.log(company);
+
   return (
     <div className={styles.root}>
       <h1 className={styles.heading}>
-        {isEditPage ? 'Rediger jobbannonse' : 'Legg til jobbannonse'}
+        {!isNew ? 'Rediger jobbannonse' : 'Legg til jobbannonse'}
       </h1>
       <Form onSubmit={handleSubmit(onSubmit)}>
         {fieldComponent('Tittel: ', 'title', 'Tittel')}
@@ -165,26 +166,16 @@ function JoblistingEditor({
               placeholder={'Bedrift'}
               name="company"
               component={SelectInput.Field}
-              options={results}
+              options={autocompleteResults}
               fetching={searching}
-              onSearch={query => onQueryChanged(query)}
-              onChange={newValue => {
-                console.log('asd', newValue, company);
-                if (
-                  !company ||
-                  isNew ||
-                  Number(newValue.value) !== joblisting.company.id
-                ) {
-                  fetchCompany(newValue.value).then(() => {
-                    dispatch(
-                      change('joblistingEditor', 'responsible', {
-                        label: 'Ingen',
-                        value: -1
-                      })
-                    );
-                  });
-                }
-              }}
+              onSearch={query => autocomplete(query, ['companies.company'])}
+              onChange={() =>
+                dispatch(
+                  change('joblistingEditor', 'responsible', {
+                    label: 'Ingen',
+                    value: -1
+                  })
+                )}
             />
           </FlexColumn>
         </FlexRow>
@@ -229,22 +220,15 @@ function JoblistingEditor({
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Kontaktperson: </FlexColumn>
           <FlexColumn className={styles.textfield}>
-            {console.log(company)}
             <Field
               placeholder={'Kontaktperson'}
               name="responsible"
               component={SelectInput.Field}
-              options={
-                company
-                  ? [
-                      { label: 'Ingen', value: -1 },
-                      ...(company.companyContacts || []).map(contact => ({
-                        label: contact.name,
-                        value: contact.id
-                      }))
-                    ]
-                  : [{ label: 'Ingen', value: -1 }]
-              }
+              onSearch={query =>
+                autocomplete(query, ['companies.companycontact'])}
+              options={autocompleteResults.filter(
+                contact => company && contact.company === Number(company.value)
+              )}
               simpleValue
             />
           </FlexColumn>

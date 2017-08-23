@@ -243,6 +243,17 @@ export function deleteSemesterStatus(companyId, semesterId) {
   };
 }
 
+export function fetchCompanyContact({ companyId }) {
+  return callAPI({
+    types: Company.FETCH_COMPANY_CONTACT,
+    endpoint: `/companies/${companyId}/company-contacts/`,
+    method: 'GET',
+    meta: {
+      errorMessage: 'Fetching company contact failed'
+    }
+  });
+}
+
 export function addCompanyContact({ companyId, name, role, mail, phone }) {
   return dispatch => {
     dispatch(startSubmit('company'));
