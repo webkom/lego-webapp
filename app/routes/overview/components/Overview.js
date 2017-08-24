@@ -13,7 +13,7 @@ import { EVENT_TYPE_TO_STRING, colorForEvent } from 'app/routes/events/utils';
 import Button from 'app/components/Button';
 
 const TITLE_MAX_LENGTH = 50;
-const DESCRIPTION_MAX_LENGTH = 150;
+const DESCRIPTION_MAX_LENGTH = 140;
 const IMAGE_HEIGHT = 192;
 const IMAGE_WIDTH = 350;
 
@@ -64,14 +64,7 @@ const OverviewItem = ({ event, showImage }) =>
     <Flex className={styles.inner}>
       <Flex column>
         {showImage &&
-          <Link
-            to={`/events/${event.id}`}
-            style={{
-              width: IMAGE_WIDTH,
-              height: IMAGE_HEIGHT,
-              display: 'block'
-            }}
-          >
+          <Link to={`/events/${event.id}`} className={styles.imageContainer}>
             <Image className={styles.image} src={event.cover} />
           </Link>}
       </Flex>
@@ -134,12 +127,12 @@ export default class Overview extends Component {
     return (
       <Content>
         <Helmet title="Hjem" />
-        <Flex style={{ justifyContent: 'space-between' }}>
-          <Flex column style={{ width: '65%' }}>
+        <Flex wrap style={{ justifyContent: 'space-between' }}>
+          <Flex column style={{ flex: 2 }}>
             <CompactEvents events={events} />
             <PrimaryItem event={events[0]} />
           </Flex>
-          <Feed />
+          <Feed style={{ flex: 2 }} />
         </Flex>
         <Flex />
         <Flex padding={10}>

@@ -59,8 +59,9 @@
   height: 60px;
   line-height: 60px;
   flex: 2;
+  white-space: nowrap;
 
-  @media (--small-viewport) {
+  @media (--mobile-device) {
     display: none;
   }
 }

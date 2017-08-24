@@ -40,7 +40,7 @@ class LatestReadme extends Component {
                 className={styles.thumb}
               >
                 <Image
-                  src={`http://readme.abakus.no/bilder/16/2016-0${issue}.jpg`}
+                  src={`http://readme.abakus.no/bilder/2016/2016-0${issue}.jpg`}
                 />
               </a>
             )}

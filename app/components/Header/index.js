@@ -102,9 +102,6 @@ class Header extends Component {
             <Link to="/joblistings" activeClassName={styles.activeItem}>
               Karriere
             </Link>
-            <Link to="/bdb" activeClassName={styles.activeItem}>
-              BDB
-            </Link>
             <Link
               to="/readme"
               activeClassName={styles.activeItem}
@@ -112,8 +109,8 @@ class Header extends Component {
             >
               readme
             </Link>
-            <Link to="/quotes" activeClassName={styles.activeItem}>
-              Sitater
+            <Link to="/about" activeClassName={styles.activeItem}>
+              Om Abakus
             </Link>
           </div>
 

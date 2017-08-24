@@ -1,3 +1,5 @@
+@import 'app/styles/variables.css';
+
 .root {
   composes: contentContainer from 'app/styles/utilities.css';
 }
@@ -229,7 +231,7 @@
   border-bottom: none;
 }
 
-@media (max-width: 480px) {
+@media (--small-viewport) {
   .quoteContainer {
     margin: 0 15px;
     width: 100%;
