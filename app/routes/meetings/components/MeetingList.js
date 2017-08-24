@@ -124,7 +124,7 @@ export default class MeetingList extends Component {
 
   render() {
     const { meetings, userMe } = this.props;
-    if (meetings === undefined) {
+    if (!meetings) {
       return <LoadingIndicator loading />;
     }
     const pools = this.sortMeetings(meetings);

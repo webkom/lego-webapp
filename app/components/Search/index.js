@@ -104,11 +104,11 @@ class Search extends Component {
             <div className={styles.searchIcon}>
               <Icon name="search" />
             </div>
-
             <input
               onChange={e => this.onQueryChanged(e.target.value)}
               value={this.state.query}
               type="search"
+              size="1"
               placeholder="Hva leter du etter?"
               autoFocus
             />
@@ -118,7 +118,7 @@ class Search extends Component {
               className={styles.closeButton}
               onClick={onCloseSearch}
             >
-              <Icon name={searching ? 'spinner fa-spin' : 'close'} />
+              <Icon name={searching ? 'refresh' : 'close'} />
             </button>
           </div>
 

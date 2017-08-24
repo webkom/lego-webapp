@@ -1,6 +1,8 @@
 .root {
   padding: 10px;
-  flex: 0.95;
+  flex: 1;
+  min-width: 20em;
+  whitespace: no-wrap;
 }
 
 .content {

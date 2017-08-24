@@ -1,9 +1,18 @@
+@import 'app/styles/variables.css';
+
 .notifications {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 400px;
-  padding: 0;
+  @media (--small-viewport) {
+    width: 100%;
+
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
 }
 
 .seeAllWrapper {
@@ -18,7 +27,6 @@
 
 .notification {
   border-bottom: 1px solid lightgray;
-  width: 100%;
   padding: 15px;
   display: flex;
   flex-direction: row;

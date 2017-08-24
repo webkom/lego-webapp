@@ -12,13 +12,8 @@
   display: flex;
   justify-content: space-between;
   height: 120px;
-  padding-top: 40px;
   border-bottom: 1px solid #ccc;
-
-  @media (--small-viewport) {
-    padding: 0 20px;
-    height: 96px;
-  }
+  padding: 0 20px;
 }
 
 .inputContainer input {
@@ -26,7 +21,7 @@
   outline: none;
   border: 0;
   padding: 0 1rem;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   font-weight: 400;
   color: #333;
   background: transparent;
@@ -51,20 +46,20 @@
 }
 
 .closeButton {
-  width: 60px;
+  width: 40px;
   outline: none;
   border: 0;
   background: transparent;
   color: #333;
   cursor: pointer;
-  font-size: 50px;
+  font-size: 40px;
 }
 
 .resultsContainer {
   display: flex;
   background: rgba(255, 255, 255, 0.8);
 
-  @media (--small-viewport) {
+  @media (--mobile-device) {
     flex-direction: column;
   }
 }
