@@ -2,6 +2,7 @@
 
 import callAPI from 'app/actions/callAPI';
 import { Search } from './ActionTypes';
+import { selectAutocomplete } from 'app/reducers/search';
 
 export function toggleSearch() {
   return {
@@ -29,7 +30,7 @@ export function autocomplete(query, filter) {
           errorMessage: 'Autocomplete failed'
         }
       })
-    );
+    ).then(res => selectAutocomplete(res.payload));
   };
 }
 

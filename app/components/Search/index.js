@@ -9,7 +9,7 @@ import { debounce } from 'lodash';
 import Icon from '../Icon';
 import ProfilePicture from '../ProfilePicture';
 import { autocomplete } from 'app/actions/SearchActions';
-import { selectAutocomplete } from 'app/reducers/search';
+import { selectAutocompleteDeprecated } from 'app/reducers/search';
 import { push } from 'react-router-redux';
 
 const Keyboard = {
@@ -154,7 +154,7 @@ class Search extends Component {
 
 function mapStateToProps(state) {
   return {
-    results: selectAutocomplete(state),
+    results: selectAutocompleteDeprecated(state),
     searching: state.search.searching
   };
 }
