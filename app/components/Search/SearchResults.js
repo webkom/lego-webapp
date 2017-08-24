@@ -44,7 +44,7 @@ const SearchResults = ({
       </ul>}
     <div className={styles.quickLinks}>
       <h2 className={styles.navigationHeader}>Sider</h2>
-      <ul className={cx({ [styles.navigationFlex]: !query })}>
+      <ul className={styles.navigationFlex}>
         {navigationLinks.map((link, i) =>
           <li
             className={styles.navigationLink}
@@ -57,7 +57,7 @@ const SearchResults = ({
       </ul>
       {adminLinks.length > 0 &&
         <h2 className={styles.navigationHeader}>Admin</h2>}
-      <ul className={cx({ [styles.navigationFlex]: !query })}>
+      <ul className={styles.navigationFlex}>
         {adminLinks.map((link, i) =>
           <li
             className={styles.navigationLink}
