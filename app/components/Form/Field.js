@@ -39,6 +39,7 @@ export function createField(Component: any) {
         <Component
           {...input}
           {...props}
+          meta={meta}
           className={cx(props.className, hasError && styles.inputWithError)}
         />
         {hasError && renderErrorMessage(meta.error)}
