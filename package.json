@@ -102,7 +102,7 @@
     "lint-staged": "^3.3.1",
     "postcss-cssnext": "^2.9.0",
     "postcss-import": "^9.0.0",
-    "postcss-loader": "^1.2.1",
+    "postcss-loader": "^2.0.6",
     "postcss-nested": "1.0.1",
     "prettier": "^1.5.3",
     "react-hot-loader": "3.0.0-beta.4",
