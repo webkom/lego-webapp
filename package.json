@@ -61,7 +61,7 @@
     "react-stripe-checkout": "^2.4.0",
     "react-treeview": "^0.4.6",
     "redux": "^3.7.2",
-    "redux-form": "^6.5.0",
+    "redux-form": "^7.0.3",
     "redux-logger": "^3.0.1",
     "redux-thunk": "^2.2.0",
     "reselect": "2.5.4",
