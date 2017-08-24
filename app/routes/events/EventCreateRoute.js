@@ -23,7 +23,7 @@ const mapStateToProps = (state, props) => {
       description: '',
       text: '<p></p>',
       eventType: '',
-      company: {},
+      company: null,
       location: 'TBA',
       isPriced: false,
       useStripe: false,

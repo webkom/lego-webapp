@@ -39,7 +39,10 @@ const mapStateToProps = (state, props) => {
         permissionGroups: (pool.permissionGroups || [])
           .map(group => ({ label: group.name, value: group.id }))
       })),
-      company: {}
+      company: event.company && {
+        label: event.company.name,
+        value: event.company.id
+      }
     },
     actionGrant,
     event: {
