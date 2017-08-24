@@ -6,6 +6,7 @@ import { createField } from './Field';
 import 'react-select/dist/react-select.css';
 
 type Props = {
+  name: string,
   placeholder?: string,
   multiple?: boolean,
   tags?: boolean,
@@ -18,6 +19,7 @@ type Props = {
 };
 
 function SelectInput({
+  name,
   fetching,
   selectStyle,
   onBlur,
@@ -29,6 +31,7 @@ function SelectInput({
     return (
       <Select.Creatable
         {...props}
+        instanceId={name}
         multi
         onBlurResetsInput={false}
         onBlur={() => onBlur(value)}
@@ -40,6 +43,7 @@ function SelectInput({
   return (
     <Select
       {...props}
+      instanceId={name}
       style={selectStyle}
       options={options}
       value={value}
