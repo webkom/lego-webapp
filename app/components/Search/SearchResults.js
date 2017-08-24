@@ -30,44 +30,48 @@ const SearchResults = ({
   selectedIndex
 }: Object) =>
   <div className={styles.resultsContainer}>
-    {query &&
-      <ul className={styles.results}>
-        {results.length === 0 && <li>Ingen treff</li>}
-        {results.map((result, i) =>
-          <SearchResultItem
-            key={i}
-            result={result}
-            onCloseSearch={onCloseSearch}
-            isSelected={i === selectedIndex - 1}
-          />
-        )}
-      </ul>}
-    <div className={styles.quickLinks}>
-      <h2 className={styles.navigationHeader}>Sider</h2>
-      <ul className={styles.navigationFlex}>
-        {navigationLinks.map((link, i) =>
-          <li
-            className={styles.navigationLink}
-            key={`navigationLink-${i}`}
-            onClick={onCloseSearch}
-          >
-            <ResolveLink link={link} />
-          </li>
-        )}
-      </ul>
-      {adminLinks.length > 0 &&
-        <h2 className={styles.navigationHeader}>Admin</h2>}
-      <ul className={styles.navigationFlex}>
-        {adminLinks.map((link, i) =>
-          <li
-            className={styles.navigationLink}
-            key={`adminLink-${i}`}
-            onClick={onCloseSearch}
-          >
-            <ResolveLink link={link} />
-          </li>
-        )}
-      </ul>
+    <div>
+      <div className={styles.scrollAble}>
+        {query &&
+          <ul className={styles.results}>
+            {results.length === 0 && <li>Ingen treff</li>}
+            {results.map((result, i) =>
+              <SearchResultItem
+                key={i}
+                result={result}
+                onCloseSearch={onCloseSearch}
+                isSelected={i === selectedIndex - 1}
+              />
+            )}
+          </ul>}
+        <div className={styles.quickLinks}>
+          <h2 className={styles.navigationHeader}>Sider</h2>
+          <ul className={styles.navigationFlex}>
+            {navigationLinks.map((link, i) =>
+              <li
+                className={styles.navigationLink}
+                key={`navigationLink-${i}`}
+                onClick={onCloseSearch}
+              >
+                <ResolveLink link={link} />
+              </li>
+            )}
+          </ul>
+          {adminLinks.length > 0 &&
+            <h2 className={styles.navigationHeader}>Admin</h2>}
+          <ul className={styles.navigationFlex}>
+            {adminLinks.map((link, i) =>
+              <li
+                className={styles.navigationLink}
+                key={`adminLink-${i}`}
+                onClick={onCloseSearch}
+              >
+                <ResolveLink link={link} />
+              </li>
+            )}
+          </ul>
+        </div>
+      </div>
     </div>
   </div>;
 

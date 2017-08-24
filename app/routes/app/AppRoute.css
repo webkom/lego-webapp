@@ -1,5 +1,3 @@
-@import 'app/styles/variables.css';
-
 .appRoute {
   display: flex;
   flex-direction: column;
@@ -8,8 +6,4 @@
 
 .searchOpen {
   -webkit-filter: blur(40px);
-
-  @media (--mobile-device) {
-    overflow: hidden;
-  }
 }

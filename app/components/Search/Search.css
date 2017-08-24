@@ -56,13 +56,20 @@
 }
 
 .resultsContainer {
-  display: flex;
   background: rgba(255, 255, 255, 0.8);
+  overflow-y: scroll;
+  height: calc(100vh - 120px);
 
-  @media (--mobile-device) {
+  @media (--small-viewport) {
     flex-direction: column;
-    overflow-y: scroll;
-    height: calc(100vh - 120px);
+  }
+}
+
+.scrollAble {
+  display: flex;
+
+  @media (--small-viewport) {
+    flex-direction: column;
   }
 }
 
@@ -93,6 +100,13 @@
   flex: 1;
   color: #fff;
   padding: 2rem;
+}
+
+.quickLinks::after {
+  content: '';
+  display: block;
+  height: 2rem;
+  width: 100%;
 }
 
 .quickLinks li {
