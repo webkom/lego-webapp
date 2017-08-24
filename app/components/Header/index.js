@@ -109,11 +109,7 @@ class Header extends Component {
               : <Link to="/joblistings" activeClassName={styles.activeItem}>
                   Karriere
                 </Link>}
-            <a
-              href="http://readme.abakus.no"
-              activeClassName={styles.activeItem}
-              className={styles.readmeLink}
-            >
+            <a href="http://readme.abakus.no" className={styles.readmeLink}>
               readme
             </a>
             <Link to="/about" activeClassName={styles.activeItem}>
