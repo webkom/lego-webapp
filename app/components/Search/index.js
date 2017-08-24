@@ -2,12 +2,10 @@
 
 import styles from './Search.css';
 import React, { Component } from 'react';
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
-import cx from 'classnames';
 import { debounce } from 'lodash';
 import Icon from '../Icon';
-import ProfilePicture from '../ProfilePicture';
+import SearchResults from './SearchResults';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocomplete } from 'app/reducers/search';
 import { push } from 'react-router-redux';
@@ -18,31 +16,18 @@ const Keyboard = {
   DOWN: 40
 };
 
-const quickLinks = [
-  ['/admin', 'Admin'],
+const navigationLinks = [
+  ['/announcements', 'Kunngjøringer'],
   ['/bdb', 'BDB'],
+  ['/readme', 'readme'],
   ['/interestgroups', 'Interessegrupper'],
   ['/meetings', 'Møter'],
   ['/quotes', 'Sitater'],
-  ['/users/me', 'Profil']
+  ['/users/me', 'Profil'],
+  ['https://shop.abakus.no/', 'Abashop']
 ];
 
-const externalLinks = [['https://shop.abakus.no/', 'Butikk']];
-
-const SearchResultItem = ({ result, isSelected, onCloseSearch }) =>
-  <Link to={result.link} onClick={onCloseSearch}>
-    <li className={cx(isSelected && styles.isSelected)}>
-      {result.icon &&
-        <Icon className={styles.searchResultItemIcon} name={result.icon} />}
-      {!result.icon &&
-        <ProfilePicture
-          size={30}
-          user={result}
-          style={{ margin: '0px 10px 0px 0px' }}
-        />}
-      {result.label}
-    </li>
-  </Link>;
+const adminLinks = [['/admin/groups', 'Grupper'], ['/admin/email', 'E-post']];
 
 type Props = {
   results: Array<any>,
@@ -106,6 +91,7 @@ class Search extends Component {
 
   render() {
     const { results, onCloseSearch, searching } = this.props;
+    const { query, selectedIndex } = this.state;
     return (
       <div onKeyDown={this.handleKeyDown} tabIndex={-1}>
         <div className={styles.overlay}>
@@ -131,37 +117,14 @@ class Search extends Component {
             </button>
           </div>
 
-          <div className={styles.resultsContainer}>
-            <ul className={styles.results}>
-              {results.map((result, i) =>
-                <SearchResultItem
-                  key={i}
-                  result={result}
-                  onCloseSearch={onCloseSearch}
-                  isSelected={i === this.state.selectedIndex - 1}
-                />
-              )}
-            </ul>
-
-            <div className={styles.quickLinks}>
-              <ul>
-                {quickLinks.map(([href, name]) =>
-                  <li key={name} onClick={onCloseSearch}>
-                    <Link to={href}>
-                      {name}
-                    </Link>
-                  </li>
-                )}
-                {externalLinks.map(([href, name]) =>
-                  <li key={name} onClick={onCloseSearch}>
-                    <a href={href}>
-                      {name}
-                    </a>
-                  </li>
-                )}
-              </ul>
-            </div>
-          </div>
+          <SearchResults
+            query={query}
+            results={results}
+            navigationLinks={navigationLinks}
+            adminLinks={adminLinks}
+            onCloseSearch={onCloseSearch}
+            selectedIndex={selectedIndex}
+          />
         </div>
       </div>
     );

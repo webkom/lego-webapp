@@ -59,8 +59,32 @@
   display: flex;
   background: rgba(255, 255, 255, 0.8);
 
+  @media (--small-viewport) {
+    overflow-y: scroll;
+    height: calc(100vh - 120px);
+  }
+
   @media (--mobile-device) {
     flex-direction: column;
+  }
+}
+
+.navigationHeader {
+  color: var(--lego-font-color);
+}
+
+.navigationFlex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.navigationLink {
+  flex-basis: 33%;
+  min-width: 225px;
+  max-width: 100%;
+
+  @media (--small-viewport) {
+    flex: 1;
   }
 }
 
