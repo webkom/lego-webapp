@@ -2,12 +2,10 @@ import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { TextEditor, SelectInput } from 'app/components/Form';
 import Button from 'app/components/Button';
+import AutocompleteField from 'app/components/Search/AutocompleteField';
 
 const AdminRegister = ({
   pools,
-  usersResult,
-  onQueryChanged,
-  searching,
   handleSubmit,
   invalid,
   pristine,
@@ -33,13 +31,11 @@ const AdminRegister = ({
           options={pools.map(pool => ({ value: pool.id, label: pool.name }))}
           simpleValue
         />
-        <Field
+        <AutocompleteField
           name="user"
           component={SelectInput.Field}
-          options={usersResult}
-          onSearch={query => onQueryChanged(query)}
+          filter={['users.user']}
           placeholder="Bruker"
-          fetching={searching}
           simpleValue
         />
         <Button type="submit" disabled={invalid || pristine || submitting}>
