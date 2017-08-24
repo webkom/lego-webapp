@@ -6363,9 +6363,9 @@ react-portal@^3.0.0, react-portal@^3.1.0:
   dependencies:
     prop-types "^15.5.8"
 
-react-prepare@^0.3.6:
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/react-prepare/-/react-prepare-0.3.6.tgz#7b0690db4934d0b74e488c7a2e08369655cfa713"
+react-prepare@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/react-prepare/-/react-prepare-0.4.0.tgz#8404560e49f601dba6dc4f75661bc0fbb9eda612"
   dependencies:
     babel-runtime "^6.11.6"
 
