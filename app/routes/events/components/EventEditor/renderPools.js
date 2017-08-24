@@ -8,6 +8,7 @@ import {
   SelectInput,
   Button
 } from 'app/components/Form';
+import AutocompleteField from 'app/components/Search/AutocompleteField';
 
 import moment from 'moment';
 
@@ -48,14 +49,12 @@ const renderPools = ({
           fieldClassName={styles.poolField}
           component={DatePicker.Field}
         />
-        <Field
+        <AutocompleteField
           label="Grupper med rettighet"
           name={`pools[${index}].permissionGroups`}
           fieldClassName={styles.poolField}
+          filter={['users.abakusgroup']}
           component={SelectInput.Field}
-          options={autocompleteResult}
-          onSearch={query => groupQueryChanged(query)}
-          fetching={searching}
           multi
         />
         <Button

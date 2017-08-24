@@ -4,9 +4,6 @@ import { formValueSelector } from 'redux-form';
 import { createEvent } from 'app/actions/EventActions';
 import { uploadFile } from 'app/actions/FileActions';
 import EventEditor from './components/EventEditor';
-import { autocomplete } from 'app/actions/SearchActions';
-import { selectAutocomplete } from 'app/reducers/search';
-import { debounce } from 'lodash';
 import moment from 'moment';
 
 const time = (hours, minutes) =>
@@ -37,9 +34,7 @@ const mapStateToProps = (state, props) => {
       isPriced: valueSelector(state, 'isPriced'),
       eventType: valueSelector(state, 'eventType')
     },
-    pools: valueSelector(state, 'pools'),
-    searching: state.search.searching,
-    autocompleteResult: selectAutocomplete(state)
+    pools: valueSelector(state, 'pools')
   };
 };
 
@@ -50,14 +45,6 @@ const mapDispatchToProps = dispatch => ({
       uploadFile
     },
     dispatch
-  ),
-  companyQueryChanged: debounce(
-    query => dispatch(autocomplete(query, ['companies.company'])),
-    30
-  ),
-  groupQueryChanged: debounce(
-    query => dispatch(autocomplete(query, ['users.abakusgroup'])),
-    30
   )
 });
 
