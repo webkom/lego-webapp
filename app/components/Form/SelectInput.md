@@ -1,5 +1,7 @@
 Example usage of `SelectInput` in redux form:
 
+Note that SelectInput requires a unique name as string to be set to make server-side-rendering work.
+
 ```
 const { Field } = require( 'redux-form');
 const ReduxForm = require('ReduxFormExample').default;
@@ -14,10 +16,10 @@ const options = [
 
 <ReduxForm name="SelectInputform">
   <Field
-  name="select"
-  component={SelectInput.Field}
-  placeholder="Select stuff"
-  options={options}
+    name="select"
+    component={SelectInput.Field}
+    placeholder="Select stuff"
+    options={options}
   />
 </ReduxForm>
 ```
