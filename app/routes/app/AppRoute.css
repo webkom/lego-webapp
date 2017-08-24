@@ -1,5 +1,15 @@
-.AppRoute {
+@import 'app/styles/variables.css';
+
+.appRoute {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+}
+
+.searchOpen {
+  -webkit-filter: blur(40px);
+
+  @media (--mobile-device) {
+    overflow: hidden;
+  }
 }
