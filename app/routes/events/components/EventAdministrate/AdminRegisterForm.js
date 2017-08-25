@@ -2,7 +2,6 @@ import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { TextEditor, SelectInput } from 'app/components/Form';
 import Button from 'app/components/Button';
-import AutocompleteField from 'app/components/Search/AutocompleteField';
 
 const AdminRegister = ({
   pools,
@@ -31,9 +30,9 @@ const AdminRegister = ({
           options={pools.map(pool => ({ value: pool.id, label: pool.name }))}
           simpleValue
         />
-        <AutocompleteField
+        <Field
           name="user"
-          component={SelectInput.Field}
+          component={SelectInput.AutocompleteField}
           filter={['users.user']}
           placeholder="Bruker"
           simpleValue

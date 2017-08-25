@@ -26,7 +26,6 @@ import { eventTypes, styleForEvent } from '../../utils.js';
 import Admin from '../Admin';
 import Tooltip from 'app/components/Tooltip';
 import cx from 'classnames';
-import AutocompleteField from 'app/components/Search/AutocompleteField';
 
 type Props = {
   eventId: string,
@@ -181,11 +180,11 @@ function EventEditor({
               </li>
               <li className={styles.metaList}>
                 <span>Arrangerende bedrift</span>
-                <AutocompleteField
+                <Field
                   name="company"
                   filter={['companies.company']}
                   fieldClassName={cx(styles.metaField, styles.fieldShadow)}
-                  component={SelectInput.Field}
+                  component={SelectInput.AutocompleteField}
                   placeholder="Bedrift"
                 />
               </li>

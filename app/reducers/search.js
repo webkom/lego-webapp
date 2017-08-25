@@ -148,7 +148,7 @@ const transformResult = result => {
 export const selectAutocomplete = autocomplete =>
   autocomplete.map(result => transformResult(result));
 
-export const selectAutocompleteDeprecated = createSelector(
+export const selectAutocompleteRedux = createSelector(
   state => state.search.autocomplete,
   autocomplete => autocomplete.map(result => transformResult(result))
 );
