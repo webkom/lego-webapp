@@ -39,9 +39,9 @@ function withAutocomplete(WrappedComponent) {
   };
 }
 
-const mapDispatchToProps = dispatch => ({
-  autocomplete: (query, filter) => dispatch(autocomplete(query, filter))
-});
+const mapDispatchToProps = {
+  autocomplete
+};
 
 export default WrappedComponent =>
   connect(null, mapDispatchToProps)(withAutocomplete(WrappedComponent));
