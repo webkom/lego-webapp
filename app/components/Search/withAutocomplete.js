@@ -1,16 +1,22 @@
+// @flow
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { autocomplete } from 'app/actions/SearchActions';
 import { debounce } from 'lodash';
 
-function withAutocomplete(WrappedComponent) {
+type Props = {
+  filter: Array<string>
+};
+
+function withAutocomplete(WrappedComponent: any) {
   return class extends Component {
     state = {
       searching: false,
       result: []
     };
 
-    handleSearch = (query, filter) => {
+    handleSearch = (query: string, filter): void => {
       this.setState({
         searching: true
       });
@@ -26,7 +32,7 @@ function withAutocomplete(WrappedComponent) {
     };
 
     render() {
-      const { filter, ...restProps } = this.props;
+      const { filter, ...restProps }: Props = this.props;
       return (
         <WrappedComponent
           {...restProps}
@@ -43,5 +49,5 @@ const mapDispatchToProps = {
   autocomplete
 };
 
-export default WrappedComponent =>
+export default (WrappedComponent: any) =>
   connect(null, mapDispatchToProps)(withAutocomplete(WrappedComponent));
