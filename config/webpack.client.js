@@ -55,7 +55,7 @@ module.exports = {
         'process.env.CAPTCHA_KEY': JSON.stringify(process.env.CAPTCHA_KEY),
         'process.env.STRIPE_KEY': JSON.stringify(process.env.STRIPE_KEY),
         'process.env.RAVEN_DSN': JSON.stringify(process.env.RAVEN_DSN),
-        'process.env.RELEASE': JSON.stringify(process.env.RELEASE),
+        'process.env.RELEASE': JSON.stringify(process.env.RELEASE)
       }),
 
       !isProduction && new FriendlyErrorsPlugin(),
@@ -77,16 +77,7 @@ module.exports = {
       new webpack.LoaderOptionsPlugin({
         options: {
           context: __dirname,
-          minimize: isProduction,
-          postcss() {
-            return [
-              require('postcss-import')({
-                path: [root]
-              }),
-              require('postcss-cssnext'),
-              require('postcss-nested')
-            ];
-          }
+          minimize: isProduction
         }
       }),
 
@@ -141,7 +132,19 @@ module.exports = {
                   : '[name]__[local]___[hash:base64:5]'
               }
             },
-            'postcss-loader'
+            {
+              loader: 'postcss-loader',
+              options: {
+                ident: 'postcss',
+                plugins: () => [
+                  require('postcss-import')({
+                    path: [root]
+                  }),
+                  require('postcss-cssnext'),
+                  require('postcss-nested')
+                ]
+              }
+            }
           ]
         })
       },

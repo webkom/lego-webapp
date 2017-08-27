@@ -41,7 +41,8 @@
     "parse5": "^3.0.2",
     "prop-types": "^15.5.8",
     "raven-for-redux": "^1.0.0",
-    "raven-js": "^3.15.0",
+    "raven-js": "^3.17.0",
+    "rc-select": "^6.7.3",
     "react": "^15.6.1",
     "react-async-script": "^0.9.1",
     "react-cookie": "^1.0.4",
@@ -80,9 +81,9 @@
     "babel-preset-latest": "^6.22.0",
     "babel-preset-react": "^6.23.0",
     "babel-preset-stage-2": "^6.22.0",
-    "concurrently": "^3.3.0",
+    "concurrently": "^3.5.0",
     "css-loader": "^0.28.0",
-    "enzyme": "^2.7.0",
+    "enzyme": "^2.9.1",
     "eslint": "^3.17.1",
     "eslint-config-prettier": "^1.5.0",
     "eslint-config-react-app": "^0.6.1",
@@ -99,11 +100,12 @@
     "friendly-errors-webpack-plugin": "^1.6.1",
     "identity-obj-proxy": "3.0.0",
     "jest": "^20.0.4",
-    "lint-staged": "^3.3.1",
-    "postcss-cssnext": "^2.9.0",
-    "postcss-import": "^9.0.0",
-    "postcss-loader": "^1.2.1",
-    "postcss-nested": "1.0.1",
+    "json-loader": "^0.5.7",
+    "lint-staged": "^4.0.2",
+    "postcss-cssnext": "^3.0.2",
+    "postcss-import": "^10.0.0",
+    "postcss-loader": "^2.0.6",
+    "postcss-nested": "^2.1.0",
     "prettier": "^1.5.3",
     "react-hot-loader": "3.0.0-beta.4",
     "react-styleguidist": "^5.5.4",
@@ -114,8 +116,8 @@
     "stylelint": "^7.7.0",
     "stylelint-config-standard": "^16.0.0",
     "url-loader": "^0.5.9",
-    "webpack": "^3.4.1",
-    "webpack-dev-middleware": "^1.11.0",
+    "webpack": "^3.5.5",
+    "webpack-dev-middleware": "^1.12.0",
     "webpack-hot-middleware": "^2.18.2"
   },
   "stylelint": {
@@ -129,28 +131,20 @@
       "selector-pseudo-class-no-unknown": [
         true,
         {
-          "ignorePseudoClasses": [
-            "global"
-          ]
+          "ignorePseudoClasses": ["global"]
         }
       ]
     }
   },
   "lint-staged": {
-    "app/**/*.js": [
-      "prettier --write --single-quote",
-      "git add"
-    ]
+    "app/**/*.js": ["prettier --write --single-quote", "git add"]
   },
   "jest": {
     "globals": {
       "__DEV__": false,
       "__CLIENT__": true
     },
-    "moduleDirectories": [
-      "<rootDir>",
-      "node_modules"
-    ],
+    "moduleDirectories": ["<rootDir>", "node_modules"],
     "moduleNameMapper": {
       "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm)$": "<rootDir>/testing/FileStub.js",
       "^.+\\.css$": "<rootDir>/testing/CSSStub.js"
@@ -159,9 +153,6 @@
   },
   "dllPlugin": {
     "path": "dist",
-    "exclude": [
-      "animate.css",
-      "minireset.css"
-    ]
+    "exclude": ["animate.css", "minireset.css"]
   }
 }
