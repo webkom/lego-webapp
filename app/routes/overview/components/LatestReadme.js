@@ -36,6 +36,7 @@ class LatestReadme extends Component {
           >
             {[1, 2, 3, 4, 5, 6].map(issue =>
               <a
+                key={issue}
                 href={`http://readme.abakus.no/utgaver/2016/2016-0${issue}.pdf`}
                 className={styles.thumb}
               >

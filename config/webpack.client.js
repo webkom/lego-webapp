@@ -61,6 +61,7 @@ module.exports = {
       !isProduction && new FriendlyErrorsPlugin(),
       !isProduction && new webpack.HotModuleReplacementPlugin(),
       !isProduction && new webpack.NoEmitOnErrorsPlugin(),
+      new webpack.optimize.ModuleConcatenationPlugin(),
 
       // Only include the Norwegian moment locale:
       new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /nb-NO/),
@@ -158,7 +159,7 @@ module.exports = {
       {
         test: /((manifest\.json|favicon\.png)$|icon-)/,
         loader: 'file-loader?name=[name].[ext]'
-      },
+      }
     ]
   }
 };
