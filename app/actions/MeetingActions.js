@@ -94,8 +94,8 @@ export function createMeeting({
           title,
           report,
           location,
-          endTime: moment(endTime).utc().format('YYYY-MM-DD[T]HH:MM:SS[Z]'),
-          startTime: moment(startTime).utc().format('YYYY-MM-DD[T]HH:MM:SS[Z]'),
+          endTime: moment(endTime).toISOString(),
+          startTime: moment(startTime).toISOString(),
           reportAuthor
         },
         schema: meetingSchema,
@@ -129,13 +129,18 @@ export function createMeeting({
 }
 
 export function inviteUsersAndGroups({ id, users, groups }) {
+  console.log('users: ');
+  console.log(users);
+
+  console.log('groups ');
+  console.log(groups);
   return callAPI({
     types: Meeting.EDIT,
     endpoint: `/meetings/${id}/bulk_invite/`,
     method: 'post',
     body: {
-      users: users ? users.replace(',', '').split(' ') : [],
-      groups: groups ? groups.replace(',', '').split(' ') : []
+      users: users ? users.map(user => user.value) : [],
+      groups: groups ? groups.map(group => group.value) : []
     },
     meta: {
       errorMessage: 'Error inviting users/groups'
@@ -201,8 +206,8 @@ export function editMeeting({
           id,
           report,
           location,
-          endTime: moment(endTime).utc().format('YYYY-MM-DD[T]HH:MM:SS[Z]'),
-          startTime: moment(startTime).utc().format('YYYY-MM-DD[T]HH:MM:SS[Z]'),
+          endTime: moment(endTime).toISOString(),
+          startTime: moment(startTime).toISOString(),
           reportAuthor
         },
         schema: meetingSchema,
