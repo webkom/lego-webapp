@@ -4,17 +4,9 @@ import { NotificationsFeed, Feed } from './ActionTypes';
 import callAPI from './callAPI';
 import { feedActivitySchema } from 'app/reducers';
 import { selectIsLoggedIn } from 'app/reducers/auth';
+import isRequestNeeded from 'app/utils/isRequestNeeded';
 
-export function fetchNotificationFeed() {
-  return callAPI({
-    types: Feed.FETCH,
-    endpoint: '/feed-notifications/',
-    schema: [feedActivitySchema],
-    meta: {
-      feedId: 'notifications'
-    }
-  });
-}
+const reducerKey = 'notificationsFeed';
 
 export function fetchNotificationData() {
   return (dispatch, getState) => {
@@ -22,7 +14,8 @@ export function fetchNotificationData() {
       dispatch(
         callAPI({
           types: NotificationsFeed.FETCH_DATA,
-          endpoint: '/feed-notifications/notification_data/'
+          endpoint: '/feed-notifications/notification_data/',
+          isRequestNeeded: state => isRequestNeeded(state, reducerKey)
         })
       );
     }
