@@ -46,6 +46,7 @@ export default function callAPI({
   files,
   meta,
   schema,
+  isRequestNeeded = state => true,
   requiresAuthentication = true
 }: Object): Thunk<*, *> {
   return (dispatch, getState) => {
@@ -57,7 +58,12 @@ export default function callAPI({
       json
     };
 
-    const jwt = getState().auth.token;
+    const state = getState();
+    if (isRequestNeeded && isRequestNeeded(state) === false) {
+      return Promise.resolve('Request skipped');
+    }
+
+    const jwt = state.auth.token;
     if (jwt && requiresAuthentication) {
       options.headers.Authorization = `JWT ${jwt}`;
     }
