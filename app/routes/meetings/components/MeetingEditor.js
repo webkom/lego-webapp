@@ -7,16 +7,20 @@ import { reduxForm, Field } from 'redux-form';
 import {
   Form,
   TextInput,
-  TextEditor,
+  EditorField,
+  SelectInput,
   Button,
   DatePicker
 } from 'app/components/Form';
 import moment from 'moment';
 import config from 'app/config';
-import Editor from 'app/components/Editor';
 
 type Props = {
   handleSubmit: func,
+  searching: boolean,
+  autocompleteResult: Object,
+  onUserQueryChanged: func,
+  onGroupQueryChanged: func,
   handleSubmitCallback: func,
   meetingId?: string,
   meeting?: Object,
@@ -25,6 +29,10 @@ type Props = {
 
 function MeetingEditor({
   handleSubmit,
+  searching,
+  autocompleteResult,
+  onUserQueryChanged,
+  onGroupQueryChanged,
   handleSubmitCallback,
   meetingId,
   meeting,
@@ -43,17 +51,10 @@ function MeetingEditor({
       <Form onSubmit={handleSubmit(handleSubmitCallback)}>
         <h2> Tittel </h2>
         <Field name="title" component={TextInput.Field} />
-        <Field name="id" readOnly hidden="true" component={TextInput.Field} />
         <h3>Møteinkalling / referat</h3>
         <div className={styles.editors}>
-          <Editor
-            value={meeting ? meeting.report : '<p></p>'}
-            onChange={data => {
-              change('report', data);
-            }}
-          />
+          <Field name="report" component={EditorField} />
         </div>
-        <Field name="report" rows="15" component={TextEditor.Field} />
         <h3>Start- og sluttidspunkt</h3>
         <div
           style={{
@@ -76,28 +77,41 @@ function MeetingEditor({
 
         <h3>Sted</h3>
         <Field name="location" component={TextInput.Field} />
-        <h3>Referent (ID)</h3>
+        <h3>Referent</h3>
         <Field
           name="reportAuthor"
-          type="number"
+          component={SelectInput.Field}
+          options={autocompleteResult}
+          onFocus={event => {}}
           placeholder="La denne stå åpen for å velge (semi)tilfeldig"
-          component={TextInput.Field}
+          onSearch={query => onUserQueryChanged(query)}
+          multi
+          simpleValue
+          fetching={searching}
         />
         <div style={{ display: 'flex' }}>
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
             <h3>Inviter brukere</h3>
             <Field
               name="users"
+              component={SelectInput.Field}
+              options={autocompleteResult}
               placeholder="Skriv inn brukernavn på de du vil invitere"
-              component={TextInput.Field}
+              onSearch={query => onUserQueryChanged(query)}
+              multi
+              fetching={searching}
             />
           </div>
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
             <h3>Inviter grupper</h3>
             <Field
               name="groups"
-              placeholder="Skriv inn navn på gruppene du vil invitere"
-              component={TextInput.Field}
+              component={SelectInput.Field}
+              options={autocompleteResult}
+              placeholder="Skriv inn brukernavn på de du vil invitere"
+              onSearch={query => onGroupQueryChanged(query)}
+              multi
+              fetching={searching}
             />
           </div>
         </div>
