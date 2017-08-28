@@ -1,12 +1,15 @@
 // @flow
 
 import { eventSchema, eventAdministrateSchema } from 'app/reducers';
+import isRequestNeeded from 'app/utils/isRequestNeeded';
 import createQueryString from 'app/utils/createQueryString';
 import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';
 import { push } from 'react-router-redux';
 import { addNotification } from 'app/actions/NotificationActions';
 import moment from 'moment';
+
+const reducerKey = 'events';
 
 export function fetchEvent(eventId: string) {
   return callAPI({
@@ -15,7 +18,8 @@ export function fetchEvent(eventId: string) {
     schema: eventSchema,
     meta: {
       errorMessage: 'Fetching event failed'
-    }
+    },
+    isRequestNeeded: state => isRequestNeeded(state, reducerKey, eventId)
   });
 }
 
@@ -29,18 +33,20 @@ export function fetchAll({ dateAfter, dateBefore }: Object = {}) {
     schema: [eventSchema],
     meta: {
       errorMessage: 'Fetching events failed'
-    }
+    },
+    isRequestNeeded: state => isRequestNeeded(state, reducerKey)
   });
 }
 
-export function fetchAdministrate(eventId) {
+export function fetchAdministrate(eventId: string) {
   return callAPI({
     types: Event.ADMINISTRATE_FETCH,
     endpoint: `/events/${eventId}/administrate/`,
     schema: eventAdministrateSchema,
     meta: {
       errorMessage: 'Fetching registrations failed'
-    }
+    },
+    isRequestNeeded: state => isRequestNeeded(state, reducerKey, eventId)
   });
 }
 

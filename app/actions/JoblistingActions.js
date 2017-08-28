@@ -3,6 +3,9 @@
 import { joblistingsSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Joblistings } from './ActionTypes';
+import isRequestNeeded from 'app/utils/isRequestNeeded';
+
+const reducerKey = 'joblistings';
 
 export function fetchAll() {
   return callAPI({
@@ -11,7 +14,8 @@ export function fetchAll() {
     schema: [joblistingsSchema],
     meta: {
       errorMessage: 'Fetching joblistings failed'
-    }
+    },
+    isRequestNeeded: state => isRequestNeeded(state, reducerKey)
   });
 }
 
@@ -23,6 +27,7 @@ export function fetchJoblisting(joblistingId) {
     meta: {
       joblistingId,
       errorMessage: 'Fetching joblisting failed'
-    }
+    },
+    isRequestNeeded: state => isRequestNeeded(state, reducerKey, joblistingId)
   });
 }

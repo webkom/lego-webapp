@@ -3,15 +3,19 @@
 import { Page } from './ActionTypes';
 import { pageSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
+import isRequestNeeded from 'app/utils/isRequestNeeded';
 
-export function fetchPage(pageSlug) {
+const reducerKey = 'pages';
+
+export function fetchPage(pageSlug: string) {
   return callAPI({
     types: Page.FETCH,
     endpoint: `/pages/${pageSlug}/`,
     schema: pageSchema,
     meta: {
       errorMessage: 'Fetching page failed'
-    }
+    },
+    isRequestNeeded: state => isRequestNeeded(state, reducerKey, pageSlug)
   });
 }
 
@@ -22,11 +26,12 @@ export function fetchAll() {
     schema: [pageSchema],
     meta: {
       errorMessage: 'Fetching pages failed'
-    }
+    },
+    isRequestNeeded: state => isRequestNeeded(state, reducerKey)
   });
 }
 
-export function updatePage(slug, body) {
+export function updatePage(slug: string, body: Object) {
   return callAPI({
     types: Page.UPDATE,
     endpoint: `/pages/${slug}/`,
