@@ -2,11 +2,11 @@
 
 import React from 'react';
 import { Link } from 'react-router';
-import styles from './JoblistingsList.css';
+import styles from './JoblistingList.css';
 import Image from 'app/components/Image';
 import Time from 'app/components/Time';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
-import { Year, Jobtype, Workplaces } from './Items';
+import { Year, jobType, Workplaces } from './Items';
 
 type Props = {
   joblisting: Object,
@@ -32,9 +32,9 @@ function JoblistingItem({ joblisting }: Props) {
             </h3>
           </Link>
           <div className={styles.companyJobtype}>
-            {joblisting.company.name} • {Jobtype(joblisting.jobType)}
+            {joblisting.company.name} • {jobType(joblisting.jobType)}
           </div>
-          <Year {...joblisting} />
+          <Year joblisting={joblisting} />
           <Workplaces places={joblisting.workplaces} />
         </FlexColumn>
       </FlexRow>
@@ -63,8 +63,7 @@ function JoblistingListGroup({ joblistings = [] }: Props) {
   );
 }
 
-const JoblistingsList = ({ joblistings }: Props) => (
-  <JoblistingListGroup joblistings={joblistings} />
-);
+const JoblistingsList = ({ joblistings }: Props) =>
+  <JoblistingListGroup joblistings={joblistings} />;
 
 export default JoblistingsList;

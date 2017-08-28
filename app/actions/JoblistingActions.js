@@ -47,23 +47,21 @@ export function deleteJoblisting(id) {
   };
 }
 
-export function createJoblisting(
-  {
-    title,
-    text,
-    company,
-    responsible,
-    description,
-    deadline,
-    visibleFrom,
-    visibleTo,
-    jobType,
-    workplaces,
-    fromYear,
-    toYear,
-    applicationUrl
-  }
-) {
+export function createJoblisting({
+  title,
+  text,
+  company,
+  responsible,
+  description,
+  deadline,
+  visibleFrom,
+  visibleTo,
+  jobType,
+  workplaces,
+  fromYear,
+  toYear,
+  applicationUrl
+}) {
   return dispatch => {
     dispatch(startSubmit('joblistingEditor'));
 
@@ -105,27 +103,24 @@ export function createJoblisting(
   };
 }
 
-export function editJoblisting(
-  {
-    id,
-    title,
-    text,
-    company,
-    responsible,
-    description,
-    deadline,
-    visibleFrom,
-    visibleTo,
-    jobType,
-    workplaces,
-    fromYear,
-    toYear,
-    applicationUrl
-  }
-) {
+export function editJoblisting({
+  id,
+  title,
+  text,
+  company,
+  responsible,
+  description,
+  deadline,
+  visibleFrom,
+  visibleTo,
+  jobType,
+  workplaces,
+  fromYear,
+  toYear,
+  applicationUrl
+}) {
   return dispatch => {
     dispatch(startSubmit('joblistingEditor'));
-    console.log('responsible', responsible);
     dispatch(
       callAPI({
         types: Joblistings.EDIT,
