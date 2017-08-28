@@ -1,10 +1,9 @@
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import { fetchAll } from 'app/actions/JoblistingActions';
-import JoblistingsPage from './components/JoblistingsPage';
+import JoblistingPage from './components/JoblistingPage';
 import { compose } from 'redux';
 import moment from 'moment';
-import { selectCompanyById } from 'app/reducers/companies';
 
 function filterJoblistings(joblistings, classes, jobtypes, workplaces) {
   return joblistings.filter(joblisting => {
@@ -26,8 +25,8 @@ function filterJoblistings(joblistings, classes, jobtypes, workplaces) {
     if (workplaces.length === 0) {
       workplacesBoolean = true;
     } else {
-      workplacesBoolean = joblisting.workplaces.some(w =>
-        workplaces.includes(w.town)) ||
+      workplacesBoolean =
+        joblisting.workplaces.some(w => workplaces.includes(w.town)) ||
         (workplaces.includes('Annet') &&
           joblisting.workplaces.some(
             w => !['Oslo', 'Trondheim', 'Bergen', 'Tromsø'].includes(w.town)
@@ -82,4 +81,4 @@ export default compose(
     componentWillReceiveProps: false
   }),
   connect(mapStateToProps, mapDispatchToProps)
-)(JoblistingsPage);
+)(JoblistingPage);

@@ -1,6 +1,6 @@
 // @flow
 
-import styles from './JoblistingsRightNav.css';
+import styles from './JoblistingRightNav.css';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
@@ -71,7 +71,9 @@ export default class JoblistingsRightNav extends Component {
     >
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <CheckBox value={this.state.filters[type].includes(value)} readOnly />
-        <span style={{ marginLeft: '5px' }}>{label}</span>
+        <span style={{ marginLeft: '5px' }}>
+          {label}
+        </span>
       </div>
     </Link>;
 
@@ -80,9 +82,7 @@ export default class JoblistingsRightNav extends Component {
       return (
         <FlexRow justifyContent="flex-end" alignItems="center">
           <Link to={`/joblistings/create`}>
-            <button className={styles.createButton}>
-              Ny jobbannonse
-            </button>
+            <button className={styles.createButton}>Ny jobbannonse</button>
           </Link>
         </FlexRow>
       );

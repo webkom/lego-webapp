@@ -1,11 +1,9 @@
 import React from 'react';
 import joinValues from 'app/utils/joinValues';
 
-const sameYear = joblisting => joblisting.fromYear === joblisting.toYear;
-
-export const Year = joblisting =>
+export const Year = ({ joblisting }) =>
   <div>
-    {sameYear(joblisting)
+    {joblisting.fromYear === joblisting.toYear
       ? `${joblisting.fromYear}.`
       : `${joblisting.fromYear}. - ${joblisting.toYear}.`}{' '}
     klasse
@@ -16,12 +14,12 @@ export const Workplaces = ({ places }) =>
     {joinValues(places.map(place => place.town))}
   </div>;
 
-export const Jobtype = status => {
-  const jobtype = {
+export const jobType = status => {
+  const types = {
     full_time: 'Fulltid',
     part_time: 'Deltid',
     summer_job: 'Sommerjobb',
     other: 'Annet'
   };
-  return jobtype[status];
+  return types[status];
 };

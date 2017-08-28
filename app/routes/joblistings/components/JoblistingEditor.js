@@ -4,18 +4,17 @@ import React from 'react';
 import styles from './JoblistingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field, change } from 'redux-form';
-import {
-  Form,
-  TextEditor,
-  TextInput,
-  DatePicker,
-  SelectInput,
-  EditorField
-} from 'app/components/Form';
+import { Form, SelectInput } from 'app/components/Form';
 import Button from 'app/components/Button';
 import moment from 'moment';
 import config from 'app/config';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
+import {
+  DatePickerComponent,
+  YearPickerComponent,
+  FieldComponent,
+  TextEditorComponent
+} from './JoblistingEditorItems';
 
 type Props = {
   joblistingId?: string,
@@ -95,61 +94,9 @@ function JoblistingEditor({
     });
   };
 
-  const datePickerComponent = (text, name) =>
-    <FlexRow className={styles.row}>
-      <FlexColumn className={styles.des}>
-        {text}
-      </FlexColumn>
-      <FlexColumn className={styles.textfield}>
-        <Field name={name} component={DatePicker.Field} />
-      </FlexColumn>
-    </FlexRow>;
-
-  const yearPickerComponent = (text, name) =>
-    <FlexRow className={styles.row}>
-      <FlexColumn className={styles.des}>
-        {text}
-      </FlexColumn>
-      <FlexColumn className={styles.textfield}>
-        <Field name={name} component="select">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5">5</option>
-        </Field>
-      </FlexColumn>
-    </FlexRow>;
-
-  const fieldComponent = (text, name, placeholder) =>
-    <FlexRow className={styles.row}>
-      <FlexColumn className={styles.des}>
-        {text}
-      </FlexColumn>
-      <FlexColumn className={styles.textfield}>
-        <Field
-          placeholder={placeholder}
-          name={name}
-          component={TextInput.Field}
-        />
-      </FlexColumn>
-    </FlexRow>;
-
-  const textEditorComponent = (text, name, placeholder) =>
-    <FlexRow className={styles.row}>
-      <FlexColumn className={styles.des}>
-        {text}{' '}
-      </FlexColumn>
-      <FlexColumn className={styles.textfield}>
-        <Field name={name} component={EditorField} placeholder={placeholder} />
-      </FlexColumn>
-    </FlexRow>;
-
   if (!isNew && !joblisting.company.id) {
     return <LoadingIndicator loading />;
   }
-
-  console.log(company);
 
   return (
     <div className={styles.root}>
@@ -157,8 +104,7 @@ function JoblistingEditor({
         {!isNew ? 'Rediger jobbannonse' : 'Legg til jobbannonse'}
       </h1>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        {fieldComponent('Tittel: ', 'title', 'Tittel')}
-
+        <FieldComponent text="Tittel: " name="title" placeholder="Tittel" />
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Bedrift: </FlexColumn>
           <FlexColumn className={styles.textfield}>
@@ -180,9 +126,9 @@ function JoblistingEditor({
           </FlexColumn>
         </FlexRow>
 
-        {datePickerComponent('Deadline: ', 'deadline')}
-        {datePickerComponent('Synlig fra: ', 'visibleFrom')}
-        {datePickerComponent('Synlig til: ', 'visibleTo')}
+        <DatePickerComponent text="Deadline:" name="deadline" />
+        <DatePickerComponent text="Synlig fra:" name="visibleFrom" />
+        <DatePickerComponent text="Synlig til:" name="visibleTo" />
 
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Jobbtype: </FlexColumn>
@@ -208,14 +154,25 @@ function JoblistingEditor({
           </FlexColumn>
         </FlexRow>
 
-        {yearPickerComponent('Fra år: ', 'fromYear')}
-        {yearPickerComponent('Til år: ', 'toYear')}
+        <YearPickerComponent text="Fra år: " name="fromYear" />
+        <YearPickerComponent text="Til år: " name="toYear" />
 
-        {fieldComponent('Søknadslenke: ', 'applicationUrl', 'Søknadslenke')}
+        <FieldComponent
+          text="Søknadslenke: "
+          name="applicationUrl"
+          placeholder="Søknadslenke"
+        />
 
-        {textEditorComponent('Søknadsintro: ', 'description', 'Søknadsintro')}
-
-        {textEditorComponent('Søknadstekst: ', 'text', 'Søknadstekst')}
+        <TextEditorComponent
+          text="Søknadsintro: "
+          name="description"
+          placeholder="Søknadsintro"
+        />
+        <TextEditorComponent
+          text="Søknadstekst: "
+          name="text"
+          placeholder="Søknadstekst"
+        />
 
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Kontaktperson: </FlexColumn>

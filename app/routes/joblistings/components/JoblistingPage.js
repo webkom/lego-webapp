@@ -2,10 +2,10 @@
 
 import React from 'react';
 import Helmet from 'react-helmet';
-import styles from './JoblistingsPage.css';
+import styles from './JoblistingPage.css';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
-import JoblistingsList from './JoblistingsList';
-import JoblistingsRightNav from './JoblistingsRightNav';
+import JoblistingsList from './JoblistingList';
+import JoblistingsRightNav from './JoblistingRightNav';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 
 type Props = {
