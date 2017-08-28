@@ -14,10 +14,10 @@ import {
 } from 'app/actions/UserActions';
 import {
   fetchNotificationData,
-  fetchNotificationFeed,
   markAllNotifications,
   markNotification
 } from 'app/actions/NotificationsFeedActions';
+import { fetchNotificationFeed } from 'app/actions/FeedActions';
 import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
 import { toggleSearch } from 'app/actions/SearchActions';
 import Header from 'app/components/Header';
