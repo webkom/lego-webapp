@@ -71,10 +71,6 @@ function JoblistingEditor({
     { label: 'Kongsvinger', value: 'Kongsvinger' }
   ];
 
-  if (isNew && !joblisting) {
-    return <LoadingIndicator loading />;
-  }
-
   const onSubmit = newJoblisting => {
     const workplaces = newJoblisting.workplaces
       ? newJoblisting.workplaces.map(obj => ({ town: obj.value }))
