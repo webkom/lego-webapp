@@ -1,13 +1,9 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import GroupView from './components/GroupView';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
+import { dispatched } from 'react-prepare';
 import { fetchGroup, updateGroup } from 'app/actions/GroupActions';
 import { selectGroup } from 'app/reducers/groups';
-
-function loadData(params, props) {
-  props.fetchGroup(Number(params.groupId));
-}
 
 function mapStateToProps(state, props) {
   const { groupId } = props.routeParams;
@@ -21,6 +17,11 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = { fetchGroup, updateGroup };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['groupId'], loadData)
+  dispatched(
+    ({ params: { groupId } }, dispatch) => dispatch(fetchGroup(groupId)),
+    {
+      componentWillReceiveProps: false
+    }
+  ),
+  connect(mapStateToProps, mapDispatchToProps)
 )(GroupView);
