@@ -4,17 +4,21 @@ import { Meeting } from './ActionTypes';
 import { meetingSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { push } from 'react-router-redux';
+import isRequestNeeded from 'app/utils/isRequestNeeded';
 import { startSubmit, stopSubmit } from 'redux-form';
 import moment from 'moment';
 
-export function fetchMeeting(meetingId) {
+const reducerKey = 'meetings';
+
+export function fetchMeeting(meetingId: string) {
   return callAPI({
     types: Meeting.FETCH,
     endpoint: `/meetings/${meetingId}/`,
     schema: meetingSchema,
     meta: {
       errorMessage: `Fetching meeting ${meetingId} failed`
-    }
+    },
+    isRequestNeeded: state => isRequestNeeded(state, reducerKey, meetingId)
   });
 }
 
@@ -25,7 +29,8 @@ export function fetchAll() {
     schema: [meetingSchema],
     meta: {
       errorMessage: 'Fetching meetings failed'
-    }
+    },
+    isRequestNeeded: state => isRequestNeeded(state, reducerKey)
   });
 }
 

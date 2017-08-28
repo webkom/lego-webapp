@@ -9,8 +9,10 @@ import { userSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { User } from './ActionTypes';
 import { uploadFile } from './FileActions';
+import isRequestNeeded from 'app/utils/isRequestNeeded';
 
 const USER_STORAGE_KEY = 'lego.auth';
+const reducerKey = 'users';
 
 function loadToken() {
   return cookie.load(USER_STORAGE_KEY);
@@ -62,7 +64,15 @@ export function logout() {
 }
 
 export function updateUser(user, options = { noRedirect: false }) {
-  const { username, firstName, lastName, email, gender, allergies, profilePicture } = user;
+  const {
+    username,
+    firstName,
+    lastName,
+    email,
+    gender,
+    allergies,
+    profilePicture
+  } = user;
   return dispatch =>
     dispatch(
       callAPI({
@@ -112,7 +122,8 @@ export function fetchUser(username = 'me') {
     meta: {
       errorMessage: 'Fetching user failed',
       isCurrentUser: username === 'me'
-    }
+    },
+    isRequestNeeded: state => isRequestNeeded(state, reducerKey, username)
   });
 }
 

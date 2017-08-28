@@ -4,15 +4,20 @@ import { interestGroupSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { InterestGroup } from './ActionTypes';
 import { push } from 'react-router-redux';
+import isRequestNeeded from 'app/utils/isRequestNeeded';
 
-export function fetchInterestGroup(interestGroupId) {
+const reducerKey = 'interestGroups';
+
+export function fetchInterestGroup(interestGroupId: string) {
   return callAPI({
     types: InterestGroup.FETCH,
     endpoint: `/interest-groups/${interestGroupId}/`,
     schema: interestGroupSchema,
     meta: {
       errorMessage: 'Fetching interestGroup failed'
-    }
+    },
+    isRequestNeeded: state =>
+      isRequestNeeded(state, reducerKey, interestGroupId)
   });
 }
 
@@ -23,11 +28,16 @@ export function fetchAll() {
     schema: [interestGroupSchema],
     meta: {
       errorMessage: 'Fetching interestGroups failed'
-    }
+    },
+    isRequestNeeded: state => isRequestNeeded(state, reducerKey)
   });
 }
 
-export function createInterestGroup(name, description, text) {
+export function createInterestGroup(
+  name: string,
+  description: string,
+  text: string
+) {
   return callAPI({
     types: InterestGroup.CREATE,
     endpoint: '/interest-groups/',
@@ -44,7 +54,7 @@ export function createInterestGroup(name, description, text) {
   });
 }
 
-export function removeInterestGroup(id) {
+export function removeInterestGroup(id: string) {
   return dispatch => {
     dispatch(
       callAPI({
@@ -60,7 +70,12 @@ export function removeInterestGroup(id) {
   };
 }
 
-export function updateInterestGroup(id, name, description, text) {
+export function updateInterestGroup(
+  id: string,
+  name: string,
+  description: string,
+  text: string
+) {
   return dispatch => {
     dispatch(
       callAPI({

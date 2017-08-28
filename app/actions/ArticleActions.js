@@ -4,7 +4,10 @@ import { Article } from './ActionTypes';
 import { articleSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import createQueryString from 'app/utils/createQueryString';
+import isRequestNeeded from 'app/utils/isRequestNeeded';
 import type { EntityID, ArticleEntity } from 'app/types';
+
+const reducerKey = 'articles';
 
 export function fetchArticle(articleId: EntityID) {
   return callAPI({
@@ -13,7 +16,8 @@ export function fetchArticle(articleId: EntityID) {
     schema: articleSchema,
     meta: {
       errorMessage: 'Fetching article failed'
-    }
+    },
+    isRequestNeeded: state => isRequestNeeded(state, reducerKey, articleId)
   });
 }
 
@@ -64,6 +68,7 @@ export function fetchAll(
     schema: [articleSchema],
     meta: {
       errorMessage: 'Fetching articles failed'
-    }
+    },
+    isRequestNeeded: state => isRequestNeeded(state, reducerKey)
   });
 }

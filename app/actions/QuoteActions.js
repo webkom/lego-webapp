@@ -3,8 +3,11 @@
 import { push } from 'react-router-redux';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { quoteSchema } from 'app/reducers';
+import isRequestNeeded from 'app/utils/isRequestNeeded';
 import callAPI from 'app/actions/callAPI';
 import { Quote } from './ActionTypes';
+
+const reducerKey = 'quotes';
 
 export function fetchAll({ approved = true }) {
   return callAPI({
@@ -13,7 +16,8 @@ export function fetchAll({ approved = true }) {
     schema: [quoteSchema],
     meta: {
       errorMessage: `Fetching ${approved ? '' : 'un'}approved quotes failed`
-    }
+    },
+    isRequestNeeded: state => isRequestNeeded(state, reducerKey)
   });
 }
 
@@ -34,7 +38,8 @@ export function fetchQuote(quoteId) {
       quoteId,
       errorMessage: 'Fetching quote failed'
     },
-    schema: quoteSchema
+    schema: quoteSchema,
+    isRequestNeeded: state => isRequestNeeded(state, reducerKey, quoteId)
   });
 }
 

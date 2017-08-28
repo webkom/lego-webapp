@@ -3,6 +3,9 @@
 import { groupSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Group } from './ActionTypes';
+import isRequestNeeded from 'app/utils/isRequestNeeded';
+
+const reducerKey = 'groups';
 
 export function fetchGroup(groupId) {
   return callAPI({
@@ -11,7 +14,8 @@ export function fetchGroup(groupId) {
     schema: groupSchema,
     meta: {
       errorMessage: 'Fetching group failed'
-    }
+    },
+    isRequestNeeded: state => isRequestNeeded(state, reducerKey, groupId)
   });
 }
 
@@ -22,7 +26,8 @@ export function fetchAll() {
     schema: [groupSchema],
     meta: {
       errorMessage: 'Fetching groups failed'
-    }
+    },
+    isRequestNeeded: state => isRequestNeeded(state, reducerKey)
   });
 }
 
