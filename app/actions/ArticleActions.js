@@ -37,7 +37,7 @@ export function createArticle({ title, content, tags, cover }: ArticleEntity) {
   });
 }
 
-export function editArticle({ id, title, content }: ArticleEntity) {
+export function editArticle({ id, title, content, tags }: ArticleEntity) {
   return callAPI({
     types: Article.EDIT,
     endpoint: `/articles/${id}/`,
@@ -46,6 +46,7 @@ export function editArticle({ id, title, content }: ArticleEntity) {
     body: {
       title,
       content,
+      tags,
       author: 1,
       description: 'nice article'
     },
