@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import styles from './RandomQuote.css';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
 import { connect } from 'react-redux';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
-import { compose } from 'redux';
 
 type Props = {
   fetchRandomQuote: () => void,
@@ -66,7 +64,4 @@ function mapStateToProps(state, props) {
 
 const mapDispatchToProps = { fetchRandomQuote };
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['loggedIn'], () => null)
-)(RandomQuote);
+export default connect(mapStateToProps, mapDispatchToProps)(RandomQuote);
