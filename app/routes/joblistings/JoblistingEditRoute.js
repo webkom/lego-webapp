@@ -7,10 +7,8 @@ import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor
 import { selectJoblistingById } from 'app/reducers/joblistings';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocomplete } from 'app/reducers/search';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { debounce } from 'lodash';
 import { formValueSelector } from 'redux-form';
-import { selectCompanyById } from 'app/reducers/companies';
 import { fetch } from 'app/actions/CompanyActions';
 
 function mapDispatchToProps(dispatch) {
