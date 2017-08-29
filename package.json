@@ -111,7 +111,7 @@
     "redux-mock-store": "^1.2.2",
     "start-server-webpack-plugin": "^2.1.2",
     "style-loader": "^0.18.2",
-    "stylelint": "^7.7.0",
+    "stylelint": "^8.0.0",
     "stylelint-config-standard": "^16.0.0",
     "url-loader": "^0.5.9",
     "webpack": "^3.4.1",
