@@ -49,13 +49,13 @@ class InterestGroupDetail extends Component {
     const { group: { memberships = []}} = this.props;
     const user = this.props.currentUser.id;
     const membership = memberships.find(m => m.user.id === user);
-    this.props.leaveInterestGroup(membership)
+    this.props.leaveInterestGroup(membership);
   };
 
   render() {
     const { group, group: { memberships = []}} = this.props;
-    const user = this.props.currentUser.id;
-    const isMember = memberships.find(m => m.user.id === user);
+    const userId = this.props.currentUser.id;
+    const isMember = memberships.find(m => m.user.id === userId);
     return (
       <div className={styles.root}>
         <div className={styles.wrapper}>
