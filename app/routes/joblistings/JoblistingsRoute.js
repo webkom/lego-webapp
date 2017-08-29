@@ -1,13 +1,9 @@
 import { connect } from 'react-redux';
+import { dispatched } from 'react-prepare';
 import { fetchAll } from 'app/actions/JoblistingActions';
 import JoblistingsPage from './components/JoblistingsPage';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { compose } from 'redux';
 import moment from 'moment';
-
-function loadData(params, props) {
-  props.fetchAll();
-}
 
 function filterJoblistings(joblistings, classes, jobtypes, workplaces) {
   return joblistings.filter(joblisting => {
@@ -49,7 +45,7 @@ function sortJoblistings(joblistings, sortType) {
   return joblistings.sort(sortType === 'company' ? companySort : dateSort);
 }
 
-function mapStateToProps(state, props) {
+const mapStateToProps = (state, props) => {
   const { query } = props.location;
   const joblistings = state.joblistings.items.map(
     id => state.joblistings.byId[id]
@@ -71,11 +67,13 @@ function mapStateToProps(state, props) {
     joblistings: sortedJoblistings,
     query
   };
-}
+};
 
 const mapDispatchToProps = { fetchAll };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate([], loadData)
+  dispatched((props, dispatch) => dispatch(fetchAll()), {
+    componentWillReceiveProps: false
+  }),
+  connect(mapStateToProps, mapDispatchToProps)
 )(JoblistingsPage);
