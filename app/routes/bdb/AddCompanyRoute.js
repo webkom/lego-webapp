@@ -16,9 +16,9 @@ function validateCompany(data) {
 const mapDispatchToProps = { addCompany };
 
 export default compose(
+  connect(null, mapDispatchToProps),
   reduxForm({
     form: 'addCompany',
     validate: validateCompany
-  }),
-  connect(null, mapDispatchToProps)
+  })
 )(AddCompany);

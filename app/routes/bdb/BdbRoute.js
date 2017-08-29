@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { dispatched } from 'react-prepare';
 import {
   fetchAll,
   addSemesterStatus,
@@ -6,25 +7,21 @@ import {
 } from '../../actions/CompanyActions';
 import BdbPage from './components/BdbPage';
 import { compose } from 'redux';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { selectCompanies } from 'app/reducers/companies';
 
-function loadData(params, props) {
-  props.fetchAll();
-}
-
-function mapStateToProps(state, props) {
-  const companies = selectCompanies(state, props);
-  const { query } = props.location;
+const mapStateToProps = (state, props) => {
+  console.log('companies', selectCompanies(state, props));
   return {
-    companies,
-    query
+    companies: selectCompanies(state, props),
+    query: props.location
   };
-}
+};
 
 const mapDispatchToProps = { fetchAll, editSemesterStatus, addSemesterStatus };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['loggedIn'], loadData)
+  dispatched((props, dispatch) => dispatch(fetchAll()), {
+    componentWillReceiveProps: false
+  }),
+  connect(mapStateToProps, mapDispatchToProps)
 )(BdbPage);

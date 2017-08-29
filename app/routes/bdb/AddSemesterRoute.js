@@ -22,17 +22,15 @@ function validateSemesterStatus(data) {
   return errors;
 }
 
-function mapStateToProps(state, props) {
-  return {
-    companyId: props.params.companyId,
-    initialValues: props.params.companyId && {
-      bedex: false,
-      year: moment().year(),
-      semester: 0,
-      contactedStatus: 6
-    }
-  };
-}
+const mapStateToProps = (state, props) => ({
+  companyId: props.params.companyId,
+  initialValues: props.params.companyId && {
+    bedex: false,
+    year: moment().year(),
+    semester: 0,
+    contactedStatus: 6
+  }
+});
 
 const mapDispatchToProps = { addSemesterStatus };
 
