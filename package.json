@@ -34,7 +34,7 @@
     "jwt-decode": "2.2.0",
     "lodash": "^4.17.2",
     "marked": "0.3.6",
-    "minireset.css": "0.0.2",
+    "minireset.css": "0.0.3",
     "moment": "^2.17.1",
     "moment-timezone": "^0.5.10",
     "normalizr": "^3.2.2",
