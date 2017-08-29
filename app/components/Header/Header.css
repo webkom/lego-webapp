@@ -77,6 +77,7 @@
   justify-content: center;
   position: relative;
   transition: color 0.2s;
+  white-space: nowrap;
 
   &::after {
     content: '';
