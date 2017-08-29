@@ -51,8 +51,9 @@ export default function callAPI({
   requiresAuthentication = true
 }: Object): Thunk<*, *> {
   return (dispatch, getState) => {
+    const methodUpperCase = method.toUpperCase();
     const options = {
-      method,
+      method: methodUpperCase,
       body,
       files,
       headers,
@@ -97,7 +98,7 @@ export default function callAPI({
         ...meta,
         optimisticId: body ? optimisticId : undefined,
         endpoint,
-        success: method.toUpperCase() === 'GET' && types.SUCCESS,
+        success: methodUpperCase === 'GET' && types.SUCCESS,
         body
       },
       promise: fetchJSON(urlFor(endpoint), options)
