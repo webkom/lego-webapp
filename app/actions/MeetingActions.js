@@ -129,11 +129,6 @@ export function createMeeting({
 }
 
 export function inviteUsersAndGroups({ id, users, groups }) {
-  console.log('users: ');
-  console.log(users);
-
-  console.log('groups ');
-  console.log(groups);
   return callAPI({
     types: Meeting.EDIT,
     endpoint: `/meetings/${id}/bulk_invite/`,
