@@ -12,7 +12,8 @@ import moment from 'moment';
 
 type Props = {
   meeting: object,
-  userMe: object
+  userMe: object,
+  showAnswer: Boolean
 };
 
 function UserLink({ user }) {
@@ -83,7 +84,7 @@ class MeetingDetails extends Component {
   };
 
   render() {
-    const { meeting, userMe } = this.props;
+    const { meeting, userMe, showAnswer } = this.props;
     const STATUS_MESSAGES = ['Ikke svart', 'Deltar', 'Deltar ikke'];
 
     if (meeting === undefined || userMe === undefined) {
@@ -103,6 +104,7 @@ class MeetingDetails extends Component {
     const canDelete = this.props.userMe.id === this.props.meeting.createdBy;
     return (
       <div className={styles.root}>
+        {showAnswer && <h2> Du har nå svart på invitasjonen 😃 </h2>}
         <h2>
           <Link to="/meetings/">
             <i className="fa fa-angle-left" /> Mine møter
