@@ -2,13 +2,17 @@ import styles from './Quotes.css';
 import Time from 'app/components/Time';
 import React from 'react';
 import { Link } from 'react-router';
+import Dropdown from 'app/components/Dropdown';
+import Icon from 'app/components//Icon';
 
 type Props = {
   quote: Object,
   deleteQuote: () => void,
   approve: () => void,
   unapprove: () => void,
-  actionGrant: Array<string>
+  actionGrant: Array<string>,
+  setDisplayAdmin: () => void,
+  displayAdmin: boolean
 };
 
 export default function Quote({
@@ -16,7 +20,9 @@ export default function Quote({
   approve,
   unapprove,
   deleteQuote,
-  actionGrant
+  actionGrant,
+  setDisplayAdmin,
+  displayAdmin
 }: Props) {
   return (
     <li className={styles.singleQuote}>
@@ -45,35 +51,59 @@ export default function Quote({
           </i>
         </span>
 
-        <div className={styles.bottomRight}>
+        <div className={styles.bottomRow}>
           <div className={styles.quoteDate}>
             {<Time time={quote.createdAt} wordsAgo />}
           </div>
 
-          <div className={styles.commentCount}>
-            <Link to={`/quotes/${quote.id}`}>
-              <i className="fa fa-comment-o" /> {(quote.comments || []).length}
-            </Link>
+          <div className={styles.bottomRight}>
+            <div className={styles.commentCount}>
+              <Link to={`/quotes/${quote.id}`}>
+                <i className="fa fa-comment-o" />{' '}
+                {(quote.comments || []).length}
+              </Link>
+            </div>
+
+            {actionGrant &&
+              actionGrant.includes('approve') &&
+              <div className={styles.quoteAdmin}>
+                <Dropdown
+                  show={displayAdmin}
+                  toggle={() => setDisplayAdmin(quote.id)}
+                  contentClassName={'adminDropdown2'}
+                  triggerComponent={
+                    <Icon
+                      name="arrow-dropdown"
+                      className={styles.dropdownIcon}
+                    />
+                  }
+                >
+                  <Dropdown.List>
+                    <Dropdown.ListItem>
+                      <a
+                        className="approveQuote"
+                        onClick={() =>
+                          quote.approved
+                            ? unapprove(quote.id)
+                            : approve(quote.id)}
+                      >
+                        {' '}{quote.approved ? 'Fjern Godkjenning' : 'Godkjenn'}
+                      </a>
+                    </Dropdown.ListItem>
+                    <Dropdown.Divider />
+                    <Dropdown.ListItem>
+                      <a
+                        className={styles.deleteQuote}
+                        onClick={() => deleteQuote(quote.id)}
+                      >
+                        Slett
+                      </a>
+                    </Dropdown.ListItem>
+                  </Dropdown.List>
+                </Dropdown>
+              </div>}
           </div>
         </div>
-
-        {actionGrant &&
-          actionGrant.includes('approve') &&
-          <div className={styles.quoteAdmin}>
-            <a
-              className="approveQuote"
-              onClick={() =>
-                quote.approved ? unapprove(quote.id) : approve(quote.id)}
-            >
-              {' '}{quote.approved ? 'Fjern Godkjenning' : 'Godkjenn'}
-            </a>
-            <a
-              className={styles.deleteQuote}
-              onClick={() => deleteQuote(quote.id)}
-            >
-              Slett
-            </a>
-          </div>}
       </div>
     </li>
   );
