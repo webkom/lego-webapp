@@ -13,8 +13,21 @@ function withAutocomplete(WrappedComponent: any) {
   return class extends Component {
     state = {
       searching: false,
-      result: []
+      result: [],
+      _isMounted: false
     };
+
+    componentDidMount() {
+      this.setState({
+        _isMounted: true
+      });
+    }
+
+    componentWillUnmount() {
+      this.setState({
+        _isMounted: false
+      });
+    }
 
     handleSearch = (query: string, filter): void => {
       this.setState({
@@ -22,13 +35,19 @@ function withAutocomplete(WrappedComponent: any) {
       });
       this.props
         .autocomplete(query, filter)
-        .then(result =>
-          this.setState({
-            result,
-            searching: false
-          })
-        )
-        .catch(() => this.setState({ searching: false }));
+        .then(result => {
+          if (this.state._isMounted) {
+            this.setState({
+              result,
+              searching: false
+            });
+          }
+        })
+        .catch(() => {
+          if (this.state._isMounted) {
+            this.setState({ searching: false });
+          }
+        });
     };
 
     render() {
