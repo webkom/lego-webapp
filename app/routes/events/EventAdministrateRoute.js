@@ -14,9 +14,7 @@ import {
   selectPoolsForEvent,
   selectAllRegistrationsForEvent
 } from 'app/reducers/events';
-import { autocomplete } from 'app/actions/SearchActions';
-import { selectAutocomplete } from 'app/reducers/search';
-import { groupBy, debounce } from 'lodash';
+import { groupBy } from 'lodash';
 
 const mapStateToProps = (state, props) => {
   const eventId = props.params.eventId;
@@ -40,9 +38,7 @@ const mapStateToProps = (state, props) => {
     event,
     pools,
     registered,
-    unregistered,
-    searching: state.search.searching,
-    usersResult: selectAutocomplete(state)
+    unregistered
   };
 };
 
@@ -56,10 +52,6 @@ const mapDispatchToProps = dispatch => {
         updatePayment
       },
       dispatch
-    ),
-    onQueryChanged: debounce(
-      query => dispatch(autocomplete(query, ['users.user'])),
-      30
     )
   };
 };

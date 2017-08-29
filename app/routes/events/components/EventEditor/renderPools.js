@@ -52,10 +52,8 @@ const renderPools = ({
           label="Grupper med rettighet"
           name={`pools[${index}].permissionGroups`}
           fieldClassName={styles.poolField}
-          component={SelectInput.Field}
-          options={autocompleteResult}
-          onSearch={query => groupQueryChanged(query)}
-          fetching={searching}
+          filter={['users.abakusgroup']}
+          component={SelectInput.AutocompleteField}
           multi
         />
         <Button

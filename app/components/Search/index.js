@@ -7,7 +7,7 @@ import { debounce } from 'lodash';
 import Icon from '../Icon';
 import SearchResults from './SearchResults';
 import { autocomplete } from 'app/actions/SearchActions';
-import { selectAutocomplete } from 'app/reducers/search';
+import { selectAutocompleteRedux } from 'app/reducers/search';
 import { push } from 'react-router-redux';
 
 const Keyboard = {
@@ -133,7 +133,7 @@ class Search extends Component {
 
 function mapStateToProps(state) {
   return {
-    results: selectAutocomplete(state),
+    results: selectAutocompleteRedux(state),
     searching: state.search.searching
   };
 }

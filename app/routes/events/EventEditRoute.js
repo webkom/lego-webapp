@@ -16,9 +16,6 @@ import {
   selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
-import { autocomplete } from 'app/actions/SearchActions';
-import { selectAutocomplete } from 'app/reducers/search';
-import { debounce } from 'lodash';
 
 const mapStateToProps = (state, props) => {
   const eventId = props.params.eventId;
@@ -39,7 +36,10 @@ const mapStateToProps = (state, props) => {
         permissionGroups: (pool.permissionGroups || [])
           .map(group => ({ label: group.name, value: group.id }))
       })),
-      company: {}
+      company: event.company && {
+        label: event.company.name,
+        value: event.company.id
+      }
     },
     actionGrant,
     event: {
@@ -50,9 +50,7 @@ const mapStateToProps = (state, props) => {
     eventId,
     pools: valueSelector(state, 'pools'),
     registrations,
-    waitingRegistrations,
-    searching: state.search.searching,
-    autocompleteResult: selectAutocomplete(state)
+    waitingRegistrations
   };
 };
 
@@ -67,14 +65,6 @@ const mapDispatchToProps = dispatch => {
         setCoverPhoto
       },
       dispatch
-    ),
-    companyQueryChanged: debounce(
-      query => dispatch(autocomplete(query, ['companies.company'])),
-      30
-    ),
-    groupQueryChanged: debounce(
-      query => dispatch(autocomplete(query, ['users.abakusgroup'])),
-      30
     )
   };
 };
