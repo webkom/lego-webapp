@@ -1,8 +1,8 @@
 // @flow
 
-import { interestGroupSchema } from 'app/reducers';
+import { interestGroupSchema, membershipSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
-import { InterestGroup } from './ActionTypes';
+import { InterestGroup, Membership } from './ActionTypes';
 import { push } from 'react-router-redux';
 
 export function fetchInterestGroup(interestGroupId: string) {
@@ -88,4 +88,20 @@ export function updateInterestGroup(
       })
     ).then(() => dispatch(push(`/interestgroups/${id}`)));
   };
+}
+
+export function joinInterestGroup(id, userId) {
+  return callAPI({
+    types: Membership.CREATE,
+    endpoint: '/memberships/',
+    schema: membershipSchema,
+    method: 'POST',
+    body: {
+      abakus_group: id,
+      user: userId
+    },
+    meta: {
+      errorMessage: 'Joining the interest group failed.'
+    }
+  });
 }

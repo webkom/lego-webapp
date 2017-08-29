@@ -4,7 +4,8 @@ import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import {
   fetchInterestGroup,
   updateInterestGroup,
-  removeInterestGroup
+  removeInterestGroup,
+  joinInterestGroup
 } from 'app/actions/InterestGroupActions';
 import InterestGroupDetail from './components/InterestGroupDetail';
 import { selectInterestGroupById } from 'app/reducers/interestGroups';
@@ -26,7 +27,8 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = {
   fetchInterestGroup,
   updateInterestGroup,
-  removeInterestGroup
+  removeInterestGroup,
+  joinInterestGroup
 };
 
 export default compose(
