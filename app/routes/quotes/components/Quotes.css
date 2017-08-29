@@ -9,6 +9,10 @@
   flex-direction: row;
 }
 
+.quoteContainer h1 {
+  margin: 0 0 20px 0;
+}
+
 .quotepageLeft {
   width: 68%;
   order: 1;
@@ -32,21 +36,6 @@
   margin-top: 40px;
 }
 
-.quoteTop .sortQuote a {
-  margin-left: 20px;
-}
-
-.quoteTop {
-  margin-bottom: 30px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.quoteTop h1 {
-  margin-top: 0;
-  order: 1;
-}
-
 .selectedQuoteSort {
   font-weight: 600;
 }
@@ -59,10 +48,6 @@
 
 .submitQuote:disabled {
   color: #ccc;
-}
-
-.addQuoteTop {
-  margin-bottom: 0;
 }
 
 .addQuote label {
@@ -250,15 +235,6 @@
     margin: 0 15px;
     width: 100%;
     flex-direction: column;
-  }
-
-  .quoteTop {
-    height: 150px;
-    flex-direction: column;
-  }
-
-  .quoteTop h1 {
-    margin-bottom: 0;
   }
 
   .sortQuote {

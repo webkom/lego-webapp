@@ -19,10 +19,9 @@ export default function QuotePage({ query, quotes, ...props }: Props) {
     <div className={cx(styles.root, styles.quoteContainer)}>
       <div className={styles.quotepageLeft}>
         <div className={styles.quoteTop}>
-          <h1>Sitater!</h1>
+          <h1>Sitater</h1>
         </div>
         <QuoteList {...props} quotes={quotes} />
-
       </div>
 
       <QuoteRightNav query={query} actionGrant={props.actionGrant} />

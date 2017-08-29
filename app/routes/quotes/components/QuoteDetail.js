@@ -49,7 +49,7 @@ export default class QuoteDetail extends Component {
         )}
       >
         <div className={styles.quotepageLeft}>
-          <h1>Enkelt sitat!</h1>
+          <h1>Enkelt sitat</h1>
 
           <Quote
             {...this.props}

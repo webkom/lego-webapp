@@ -9,7 +9,9 @@ const emptyProps = () => ({
   unlike: () => ({}),
   approve: () => ({}),
   unapprove: () => ({}),
-  deleteQuote: () => ({})
+  deleteQuote: () => ({}),
+  setDisplayAdmin: () => ({}),
+  displayAdmin: false
 });
 
 const actionGrant = ['approve'];

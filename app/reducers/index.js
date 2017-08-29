@@ -101,7 +101,9 @@ export const articleSchema = new schema.Entity('articles', {
 });
 export const meetingSchema = new schema.Entity('meetings');
 export const groupSchema = new schema.Entity('groups', { users: [userSchema] });
-export const quoteSchema = new schema.Entity('quotes');
+export const quoteSchema = new schema.Entity('quotes', {
+  comments: [commentSchema]
+});
 export const pageSchema = new schema.Entity(
   'pages',
   {},
