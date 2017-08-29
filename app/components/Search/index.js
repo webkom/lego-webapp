@@ -17,6 +17,7 @@ const Keyboard = {
 };
 
 const navigationLinks = [
+  ['/articles', 'Artikler'],
   ['/announcements', 'Kunngjøringer'],
   ['/bdb', 'BDB'],
   ['/readme', 'readme'],

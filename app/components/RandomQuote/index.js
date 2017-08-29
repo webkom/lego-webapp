@@ -15,8 +15,15 @@ class RandomQuote extends Component {
     currentQuote: {}
   };
 
+  _isMounted = false;
+
   componentDidMount() {
+    this._isMounted = true;
     if (this.props.loggedIn) this.refreshQuote();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   componentWillReceiveProps(newProps) {
@@ -25,9 +32,11 @@ class RandomQuote extends Component {
 
   refreshQuote = () => {
     this.props.fetchRandomQuote().then(action => {
-      this.setState({
-        currentQuote: action.payload.entities.quotes[action.payload.result]
-      });
+      if (this._isMounted && action.payload) {
+        this.setState({
+          currentQuote: action.payload.entities.quotes[action.payload.result]
+        });
+      }
     });
   };
 
