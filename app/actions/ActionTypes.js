@@ -176,3 +176,7 @@ export const File = {
 export const Feed = {
   FETCH: generateStatuses('Feed.FETCH')
 };
+
+export const Membership = {
+  CREATE: generateStatuses('Membership.CREATE')
+}

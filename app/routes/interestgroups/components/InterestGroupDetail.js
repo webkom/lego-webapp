@@ -24,6 +24,13 @@ class InterestGroupDetail extends Component {
     );
   };
 
+  joinGroup = () => {
+    this.props.joinInterestGroup(
+      this.props.group.id,
+      this.props.currentUser.id
+    );
+  };
+
   render() {
     const { group } = this.props;
     return (
@@ -65,7 +72,7 @@ class InterestGroupDetail extends Component {
 
         <FlexRow>
           <div className={styles.button}>
-            <Button onClick="">Bli medlem!</Button>
+            <Button onClick={this.joinGroup}>Bli medlem!</Button>
           </div>
           <div className={styles.button}>
             <Button onClick="">Kontakt oss</Button>
