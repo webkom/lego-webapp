@@ -53,20 +53,19 @@ export default class BdbPage extends Component {
     // Update state whenever a semesterStatus is graphically changed by the user
     const { changedStatuses, companies, startYear, startSem } = this.state;
     const data = event.target.value.split('-');
-    const yearAndSemester = indexToSemester(
-      Number(data[1]),
-      startYear,
-      startSem
+    const [companyId, tableIndex, semesterId, contactedStatus] = data.map(
+      Number
     );
+    const yearAndSemester = indexToSemester(tableIndex, startYear, startSem);
 
     const matchSemester = status =>
       status.year === yearAndSemester.year &&
       status.semester === yearAndSemester.semester &&
-      status.companyId === Number(data[0]);
+      status.companyId === companyId;
 
     // Find which semester has been changed
     const changedCompanyIndex = companies.indexOf(
-      companies.filter(company => company.id === Number(data[0]))[0]
+      companies.filter(company => company.id === companyId)[0]
     );
     const changedCompanyStatuses =
       companies[changedCompanyIndex].semesterStatuses;
@@ -83,8 +82,8 @@ export default class BdbPage extends Component {
     if (changedSemesterIndex === -1) {
       // We have to add a new semester to state.companies
       companies[changedCompanyIndex].semesterStatuses.push({
-        id: data[2],
-        contactedStatus: Number(data[3]),
+        id: semesterId,
+        contactedStatus,
         year: Number(indexToSemester(index, startYear, startSem).year),
         semester: Number(indexToSemester(index, startYear, startSem).semester)
       });
@@ -92,30 +91,33 @@ export default class BdbPage extends Component {
       // We're changing an existing semesterStatus in state.companies
       companies[changedCompanyIndex].semesterStatuses[
         changedSemesterIndex
-      ].contactedStatus = Number(data[3]);
+      ].contactedStatus = contactedStatus;
     }
 
     // Then in state.changedStatuses
     if (typeof changedStatuses.find(matchSemester) === 'undefined') {
       // We have to add a new semester to state.changedStatuses
       changedStatuses.push({
-        companyId: Number(data[0]),
-        semesterId: data[2],
-        contactedStatus: Number(data[3]),
+        companyId,
+        semesterId,
+        contactedStatus,
         year: Number(indexToSemester(index, startYear, startSem).year),
         semester: Number(indexToSemester(index, startYear, startSem).semester)
       });
     } else if (
-      changedStatuses.find(matchSemester).contactedStatus ===
+      contactedStatus ===
       this.props.companies[changedCompanyIndex].semesterStatuses[
         changedSemesterIndex
-      ]
+      ].contactedStatus
     ) {
       // The status was changed back to it's original value and should be removed
-      changedStatuses.splice(changedStatuses.indexOf(status), 1);
+      changedStatuses.splice(
+        changedStatuses.indexOf(changedStatuses.find(matchSemester)),
+        1
+      );
     } else {
       // We're changing an existing entry in state.changedStatuses
-      changedStatuses.find(matchSemester).contactedStatus = Number(data[3]);
+      changedStatuses.find(matchSemester).contactedStatus = contactedStatus;
     }
 
     this.setState({
