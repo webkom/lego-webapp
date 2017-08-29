@@ -1,6 +1,8 @@
 // @flow
 
 import React from 'react';
+
+import { Link } from 'react-router';
 import styles from './MeetingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field } from 'redux-form';
@@ -57,34 +59,30 @@ function MeetingEditor({
   return (
     <div className={styles.root}>
       <h2>
-        {isEditPage ? 'Endre møte' : 'Nytt møte'}
+        <Link to={isEditPage ? `/meetings/${meeting.id}` : `/meetings/`}>
+          <i className="fa fa-angle-left" />
+          {isEditPage ? ` ${meeting.title}` : ' Mine møter'}
+        </Link>
       </h2>
-      <br />
+      <h1>
+        {isEditPage ? 'Endre møte' : 'Nytt møte'}{' '}
+      </h1>
       <Form onSubmit={handleSubmit(handleSubmitCallback)}>
         <h2> Tittel </h2>
         <Field name="title" component={TextInput.Field} />
-        <h3>Møteinkalling / referat</h3>
+        <h3>Møteinnkalling / referat</h3>
         <div className={styles.editors}>
           <Field name="report" component={EditorField} />
         </div>
-        <h3>Start- og sluttidspunkt</h3>
-        <div
-          style={{
-            flexDirection: 'row',
-            display: 'flex',
-            justifyContent: 'space-between'
-          }}
-        >
-          <Field
-            name="startTime"
-            component={DatePicker.Field}
-            fieldStyle={{ flex: '0 0 49%' }}
-          />
-          <Field
-            name="endTime"
-            component={DatePicker.Field}
-            fieldStyle={{ flex: '0 0 49%' }}
-          />
+        <div className={styles.sideBySideBoxes}>
+          <div>
+            <h3>Starttidspunkt</h3>
+            <Field name="startTime" component={DatePicker.Field} />
+          </div>
+          <div>
+            <h3>Sluttidspunkt</h3>
+            <Field name="endTime" component={DatePicker.Field} />
+          </div>
         </div>
 
         <h3>Sted</h3>
@@ -98,8 +96,8 @@ function MeetingEditor({
           component={SelectInput.Field}
           simpleValue
         />
-        <div style={{ display: 'flex' }}>
-          <div style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
+        <div className={styles.sideBySideBoxes}>
+          <div>
             <h3>Inviter brukere</h3>
             <Field
               name="users"
@@ -109,7 +107,7 @@ function MeetingEditor({
               multi
             />
           </div>
-          <div style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
+          <div>
             <h3>Inviter grupper</h3>
             <Field
               name="groups"
