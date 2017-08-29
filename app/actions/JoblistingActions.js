@@ -5,8 +5,6 @@ import callAPI from 'app/actions/callAPI';
 import { Joblistings } from './ActionTypes';
 import isRequestNeeded from 'app/utils/isRequestNeeded';
 
-const reducerKey = 'joblistings';
-
 export function fetchAll() {
   return callAPI({
     types: Joblistings.FETCH,

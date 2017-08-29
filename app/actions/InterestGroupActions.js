@@ -6,8 +6,6 @@ import { InterestGroup } from './ActionTypes';
 import { push } from 'react-router-redux';
 import isRequestNeeded from 'app/utils/isRequestNeeded';
 
-const reducerKey = 'interestGroups';
-
 export function fetchInterestGroup(interestGroupId: string) {
   return callAPI({
     types: InterestGroup.FETCH,

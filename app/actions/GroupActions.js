@@ -5,8 +5,6 @@ import callAPI from 'app/actions/callAPI';
 import { Group } from './ActionTypes';
 import isRequestNeeded from 'app/utils/isRequestNeeded';
 
-const reducerKey = 'groups';
-
 export function fetchGroup(groupId) {
   return callAPI({
     types: Group.FETCH,

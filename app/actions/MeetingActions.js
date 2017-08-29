@@ -8,8 +8,6 @@ import isRequestNeeded from 'app/utils/isRequestNeeded';
 import { startSubmit, stopSubmit } from 'redux-form';
 import moment from 'moment';
 
-const reducerKey = 'meetings';
-
 export function fetchMeeting(meetingId: string) {
   return callAPI({
     types: Meeting.FETCH,

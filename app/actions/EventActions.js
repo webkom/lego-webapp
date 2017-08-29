@@ -9,8 +9,6 @@ import { push } from 'react-router-redux';
 import { addNotification } from 'app/actions/NotificationActions';
 import moment from 'moment';
 
-const reducerKey = 'events';
-
 export function fetchEvent(eventId: string) {
   return callAPI({
     types: Event.FETCH,

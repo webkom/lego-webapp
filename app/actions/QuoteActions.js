@@ -7,8 +7,6 @@ import isRequestNeeded from 'app/utils/isRequestNeeded';
 import callAPI from 'app/actions/callAPI';
 import { Quote } from './ActionTypes';
 
-const reducerKey = 'quotes';
-
 export function fetchAll({ approved = true }) {
   return callAPI({
     types: Quote.FETCH,
