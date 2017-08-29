@@ -5,7 +5,7 @@ import fetchJSON from 'app/utils/fetchJSON';
 import config from '../config';
 import type { Thunk } from 'app/types';
 import { logout } from 'app/actions/UserActions';
-import { isRequestNeeded } from 'app/utils/isRequestNeeded';
+import isRequestNeeded from 'app/utils/isRequestNeeded';
 
 function urlFor(resource) {
   if (resource.match(/^\/\//)) {
