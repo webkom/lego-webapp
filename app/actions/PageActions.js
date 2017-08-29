@@ -14,8 +14,7 @@ export function fetchPage(pageSlug: string) {
     schema: pageSchema,
     meta: {
       errorMessage: 'Fetching page failed'
-    },
-    isRequestNeeded: state => isRequestNeeded(state, reducerKey, pageSlug)
+    }
   });
 }
 
@@ -26,8 +25,7 @@ export function fetchAll() {
     schema: [pageSchema],
     meta: {
       errorMessage: 'Fetching pages failed'
-    },
-    isRequestNeeded: state => isRequestNeeded(state, reducerKey)
+    }
   });
 }
 

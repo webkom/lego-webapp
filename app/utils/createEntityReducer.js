@@ -64,22 +64,12 @@ export function entities(key: string) {
       return state;
     }
     const keys = Object.keys(result);
-    const item =
-      keys.length === 1
-        ? {
-            [keys[0]]: {
-              ...result[keys[0]],
-              lastFetched: Date.now()
-            }
-          }
-        : result;
 
     return {
       ...state,
-      byId: merge(state.byId, item),
+      byId: merge(state.byId, result),
       items: union(state.items, keys),
-      actionGrant: union(state.actionGrant, action.payload.actionGrant || []),
-      ...(keys.length > 1 && { lastFetched: Date.now() })
+      actionGrant: union(state.actionGrant, action.payload.actionGrant || [])
     };
   };
 }
@@ -120,7 +110,6 @@ export default function createEntityReducer({
     byId: {},
     items: [],
     fetching: false,
-    lastFetched: null,
     ...initialState
   };
 

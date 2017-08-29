@@ -16,8 +16,7 @@ export function fetchArticle(articleId: EntityID) {
     schema: articleSchema,
     meta: {
       errorMessage: 'Fetching article failed'
-    },
-    isRequestNeeded: state => isRequestNeeded(state, reducerKey, articleId)
+    }
   });
 }
 
@@ -68,7 +67,6 @@ export function fetchAll(
     schema: [articleSchema],
     meta: {
       errorMessage: 'Fetching articles failed'
-    },
-    isRequestNeeded: state => isRequestNeeded(state, reducerKey)
+    }
   });
 }
