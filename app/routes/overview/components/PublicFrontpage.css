@@ -1,22 +1,50 @@
 @import 'app/styles/variables.css';
 
 .root {
+  flex-direction: row-reverse;
+  align-items: center;
+  padding-bottom: 75px;
 }
 
 .welcomeBox {
   flex: 1;
   composes: withShadow from 'app/styles/utilities.css';
   padding: 40px;
-  background: #fff;
-  margin: 15px 0;
-  border-width: 1px 0;
-  border-radius: 0 10px 10px 0;
+  background: #f9f9f9;
 }
 
 .bigWelcomeBox {
   composes: welcomeBox;
-  background: #f9f9f9;
-  margin: 0;
-  border-width: 1px;
-  border-radius: 10px;
+  background: #fff;
+  flex: 1.55;
+}
+
+.smallWelcomeBox {
+  composes: welcomeBox;
+  box-shadow: inset 5px 0 5px #eee;
+  padding: 30px 40px 40px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.bottomContainer {
+  justify-content: space-between;
+}
+
+.usefulLinks {
+  composes: contentContainer from 'app/styles/utilities.css';
+  width: calc(100% - 450px);
+  margin-right: 30px;
+}
+
+.usefulLinks a {
+  font-size: 20px;
+}
+
+.usefulLinks li {
+  margin-bottom: 15px;
+}
+
+.linkDescription {
+  margin-left: 30px;
 }
