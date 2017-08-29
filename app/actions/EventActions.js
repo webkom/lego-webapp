@@ -18,8 +18,7 @@ export function fetchEvent(eventId: string) {
     schema: eventSchema,
     meta: {
       errorMessage: 'Fetching event failed'
-    },
-    isRequestNeeded: state => isRequestNeeded(state, reducerKey, eventId)
+    }
   });
 }
 
@@ -33,8 +32,7 @@ export function fetchAll({ dateAfter, dateBefore }: Object = {}) {
     schema: [eventSchema],
     meta: {
       errorMessage: 'Fetching events failed'
-    },
-    isRequestNeeded: state => isRequestNeeded(state, reducerKey)
+    }
   });
 }
 
@@ -45,8 +43,7 @@ export function fetchAdministrate(eventId: string) {
     schema: eventAdministrateSchema,
     meta: {
       errorMessage: 'Fetching registrations failed'
-    },
-    isRequestNeeded: state => isRequestNeeded(state, reducerKey, eventId)
+    }
   });
 }
 

@@ -17,8 +17,7 @@ export function fetchMeeting(meetingId: string) {
     schema: meetingSchema,
     meta: {
       errorMessage: `Fetching meeting ${meetingId} failed`
-    },
-    isRequestNeeded: state => isRequestNeeded(state, reducerKey, meetingId)
+    }
   });
 }
 
@@ -29,8 +28,7 @@ export function fetchAll() {
     schema: [meetingSchema],
     meta: {
       errorMessage: 'Fetching meetings failed'
-    },
-    isRequestNeeded: state => isRequestNeeded(state, reducerKey)
+    }
   });
 }
 

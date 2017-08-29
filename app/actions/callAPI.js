@@ -5,6 +5,7 @@ import fetchJSON from 'app/utils/fetchJSON';
 import config from '../config';
 import type { Thunk } from 'app/types';
 import { logout } from 'app/actions/UserActions';
+import { isRequestNeeded } from 'app/utils/isRequestNeeded';
 
 function urlFor(resource) {
   if (resource.match(/^\/\//)) {
@@ -46,7 +47,7 @@ export default function callAPI({
   files,
   meta,
   schema,
-  isRequestNeeded = state => true,
+  force = false,
   requiresAuthentication = true
 }: Object): Thunk<*, *> {
   return (dispatch, getState) => {
@@ -59,7 +60,7 @@ export default function callAPI({
     };
 
     const state = getState();
-    if (isRequestNeeded && isRequestNeeded(state) === false) {
+    if (!force && isRequestNeeded(state, endpoint) === false) {
       return Promise.resolve('Request skipped');
     }
 
@@ -95,6 +96,8 @@ export default function callAPI({
       meta: {
         ...meta,
         optimisticId: body ? optimisticId : undefined,
+        endpoint,
+        success: method.toUpperCase() === 'GET' && types.SUCCESS,
         body
       },
       promise: fetchJSON(urlFor(endpoint), options)

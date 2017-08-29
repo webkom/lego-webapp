@@ -14,8 +14,7 @@ export function fetchAll() {
     schema: [joblistingsSchema],
     meta: {
       errorMessage: 'Fetching joblistings failed'
-    },
-    isRequestNeeded: state => isRequestNeeded(state, reducerKey)
+    }
   });
 }
 
@@ -27,7 +26,6 @@ export function fetchJoblisting(joblistingId) {
     meta: {
       joblistingId,
       errorMessage: 'Fetching joblisting failed'
-    },
-    isRequestNeeded: state => isRequestNeeded(state, reducerKey, joblistingId)
+    }
   });
 }

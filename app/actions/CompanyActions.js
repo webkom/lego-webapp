@@ -17,8 +17,7 @@ export function fetchAll() {
     schema: [companySchema],
     meta: {
       errorMessage: 'Fetching companies failed'
-    },
-    isRequestNeeded: state => isRequestNeeded(state, reducerKey)
+    }
   });
 }
 
@@ -31,8 +30,7 @@ export function fetch(companyId) {
         schema: companySchema,
         meta: {
           errorMessage: 'Fetching single company failed'
-        },
-        isRequestNeeded: state => isRequestNeeded(state, reducerKey, companyId)
+        }
       })
     ).then(() =>
       dispatch(

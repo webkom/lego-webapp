@@ -14,8 +14,7 @@ export function fetchGroup(groupId) {
     schema: groupSchema,
     meta: {
       errorMessage: 'Fetching group failed'
-    },
-    isRequestNeeded: state => isRequestNeeded(state, reducerKey, groupId)
+    }
   });
 }
 
@@ -26,8 +25,7 @@ export function fetchAll() {
     schema: [groupSchema],
     meta: {
       errorMessage: 'Fetching groups failed'
-    },
-    isRequestNeeded: state => isRequestNeeded(state, reducerKey)
+    }
   });
 }
 

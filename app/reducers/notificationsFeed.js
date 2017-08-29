@@ -5,8 +5,7 @@ import type { Action } from 'app/types';
 
 const initialState = {
   unreadCount: 0,
-  unseenCount: 0,
-  lastFetched: null
+  unseenCount: 0
 };
 
 type State = typeof initialState;
@@ -19,8 +18,7 @@ export default function notificationsFeed(
     case NotificationsFeed.FETCH_DATA.SUCCESS:
       return {
         ...state,
-        ...action.payload,
-        lastFetched: Date.now()
+        ...action.payload
       };
     default: {
       return state;

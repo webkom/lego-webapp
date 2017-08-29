@@ -14,8 +14,7 @@ export function fetchNotificationData() {
       dispatch(
         callAPI({
           types: NotificationsFeed.FETCH_DATA,
-          endpoint: '/feed-notifications/notification_data/',
-          isRequestNeeded: state => isRequestNeeded(state, reducerKey)
+          endpoint: '/feed-notifications/notification_data/'
         })
       );
     }

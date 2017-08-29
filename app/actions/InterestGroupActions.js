@@ -15,9 +15,7 @@ export function fetchInterestGroup(interestGroupId: string) {
     schema: interestGroupSchema,
     meta: {
       errorMessage: 'Fetching interestGroup failed'
-    },
-    isRequestNeeded: state =>
-      isRequestNeeded(state, reducerKey, interestGroupId)
+    }
   });
 }
 
@@ -28,8 +26,7 @@ export function fetchAll() {
     schema: [interestGroupSchema],
     meta: {
       errorMessage: 'Fetching interestGroups failed'
-    },
-    isRequestNeeded: state => isRequestNeeded(state, reducerKey)
+    }
   });
 }
 

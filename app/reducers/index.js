@@ -23,6 +23,7 @@ import interestGroups from './interestGroups';
 import joblistings from './joblistings';
 import feedActivities from './feedActivities';
 import feeds from './feeds';
+import fetchHistory from './fetchHistory';
 import { User } from '../actions/ActionTypes';
 import type { State, Action } from 'app/types';
 
@@ -47,6 +48,7 @@ const reducers = {
   joblistings,
   feedActivities,
   feeds,
+  fetchHistory,
   companies
 };
 
