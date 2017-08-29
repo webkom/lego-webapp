@@ -47,7 +47,7 @@
     "react-cookie": "^1.0.4",
     "react-cropper": "^0.12.0",
     "react-dom": "^15.6.1",
-    "react-dropzone": "^3.10.0",
+    "react-dropzone": "^4.1.0",
     "react-google-recaptcha": "^0.9.6",
     "react-helmet": "^5.1.3",
     "react-notification": "^6.6.0",
