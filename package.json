@@ -106,7 +106,7 @@
     "postcss-nested": "1.0.1",
     "prettier": "^1.5.3",
     "react-hot-loader": "3.0.0-beta.4",
-    "react-styleguidist": "^5.5.4",
+    "react-styleguidist": "^6.0.21",
     "react-test-renderer": "^15.6.0",
     "redux-mock-store": "^1.2.2",
     "start-server-webpack-plugin": "^2.1.2",
