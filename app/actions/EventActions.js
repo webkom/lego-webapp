@@ -1,7 +1,6 @@
 // @flow
 
 import { eventSchema, eventAdministrateSchema } from 'app/reducers';
-import isRequestNeeded from 'app/utils/isRequestNeeded';
 import createQueryString from 'app/utils/createQueryString';
 import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';

@@ -4,7 +4,6 @@ import { NotificationsFeed, Feed } from './ActionTypes';
 import callAPI from './callAPI';
 import { feedActivitySchema } from 'app/reducers';
 import { selectIsLoggedIn } from 'app/reducers/auth';
-import isRequestNeeded from 'app/utils/isRequestNeeded';
 
 export function fetchNotificationData() {
   return (dispatch, getState) => {
