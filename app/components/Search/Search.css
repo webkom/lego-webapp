@@ -6,6 +6,7 @@
   top: 0;
   left: 0;
   right: 0;
+  max-width: 900px;
 }
 
 .inputContainer {
@@ -58,7 +59,8 @@
 .resultsContainer {
   background: rgba(255, 255, 255, 0.8);
   overflow-y: scroll;
-  height: calc(100vh - 120px);
+  height: 100%;
+  border-radius: 0 0 7px 7px;
 
   @media (--small-viewport) {
     flex-direction: column;

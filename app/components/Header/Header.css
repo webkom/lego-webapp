@@ -22,14 +22,25 @@
   color: var(--lego-text-gray);
   font-size: 40px;
   cursor: pointer;
+  transition: color 0.3s;
+
+  &:hover,
+  &.activeItem {
+    color: #000;
+  }
 }
 
 .buttonGroup button:focus {
   outline: none;
 }
 
-.buttonGroup button:hover {
-  color: #1d1d1d;
+.searchIcon {
+  color: var(--lego-link-color)!important;
+
+  &:hover,
+  &.activeItem {
+    color: var(--color-red-1)!important;
+  }
 }
 
 .content {
@@ -51,15 +62,19 @@
   max-width: 160px;
 }
 
+.menu {
+  display: flex;
+  flex-direction: row;
+}
+
 .navigation {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
-  height: 60px;
-  line-height: 60px;
   flex: 2;
   white-space: nowrap;
+  margin-right: 5px;
 
   @media (--mobile-device) {
     display: none;
