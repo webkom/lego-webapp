@@ -102,7 +102,7 @@ export function joinInterestGroup(id, user) {
     meta: {
       errorMessage: 'Joining the interest group failed.',
       groupId: id,
-      user: user,
+      user,
     }
   });
 }
