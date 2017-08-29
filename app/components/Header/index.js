@@ -120,7 +120,11 @@ class Header extends Component {
                 <Icon
                   name="menu"
                   scaleOnHover
-                  style={{ fontSize: 30, lineHeight: '60px' }}
+                  style={{
+                    fontSize: 30,
+                    lineHeight: '60px',
+                    marginRight: '20px'
+                  }}
                 />
               </button>
 
