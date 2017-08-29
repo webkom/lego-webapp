@@ -15,60 +15,27 @@ import {
   FieldComponent,
   TextEditorComponent
 } from './JoblistingEditorItems';
+import { places } from '../constants';
 
 type Props = {
   joblistingId?: string,
   joblisting?: Object,
   handleSubmit: () => void,
-  autocomplete: () => void,
-  searching: boolean,
   submitJoblisting: () => void,
   company?: Object,
-  autocompleteResults: Array,
   dispatch: () => void,
   isNew: boolean
 };
 
 function JoblistingEditor({
   handleSubmit,
-  autocompleteResults,
   joblistingId,
   joblisting,
-  autocomplete,
-  searching,
   isNew,
   submitJoblisting,
   company,
   dispatch
 }: Props) {
-  const places = [
-    { label: 'Oslo', value: 'Oslo' },
-    { label: 'Bergen', value: 'Bergen' },
-    { label: 'Stavanger', value: 'Stavanger' },
-    { label: 'Trondheim', value: 'Trondheim' },
-    { label: 'Drammen', value: 'Drammen' },
-    { label: 'Fredrikstad', value: 'Fredrikstad' },
-    { label: 'Sarpsborg', value: 'Sarpsborg' },
-    { label: 'Kristiansand', value: 'Kristiansand' },
-    { label: 'Ålesund', value: 'Ålesund' },
-    { label: 'Tønsberg', value: 'Tønsberg' },
-    { label: 'Moss', value: 'Moss' },
-    { label: 'Haugesund', value: 'Haugesund' },
-    { label: 'Sandefjord', value: 'Sandefjord' },
-    { label: 'Arendal', value: 'Arendal' },
-    { label: 'Bodø', value: 'Bodø' },
-    { label: 'Tromsø', value: 'Tromsø' },
-    { label: 'Hamar', value: 'Hamar' },
-    { label: 'Larvik', value: 'Larvik' },
-    { label: 'Kongsberg', value: 'Kongsberg' },
-    { label: 'Molde', value: 'Molde' },
-    { label: 'Lillehammer', value: 'Lillehammer' },
-    { label: 'Drøbak', value: 'Drøbak' },
-    { label: 'Hønefoss', value: 'Hønefoss' },
-    { label: 'Elverum', value: 'Elverum' },
-    { label: 'Kongsvinger', value: 'Kongsvinger' }
-  ];
-
   const onSubmit = newJoblisting => {
     const workplaces = newJoblisting.workplaces
       ? newJoblisting.workplaces.map(obj => ({ town: obj.value }))
@@ -96,10 +63,8 @@ function JoblistingEditor({
             <Field
               placeholder={'Bedrift'}
               name="company"
-              component={SelectInput.Field}
-              options={autocompleteResults}
-              fetching={searching}
-              onSearch={query => autocomplete(query, ['companies.company'])}
+              component={SelectInput.AutocompleteField}
+              filter={['companies.company']}
               onChange={() =>
                 dispatch(
                   change('joblistingEditor', 'responsible', {
@@ -163,25 +128,13 @@ function JoblistingEditor({
           <FlexColumn className={styles.des}>Kontaktperson: </FlexColumn>
           <FlexColumn className={styles.textfield}>
             <Field
-              placeholder={'Kontaktperson'}
+              placeholder="Kontaktperson"
               name="responsible"
-              component={SelectInput.Field}
-              onSearch={query =>
-                autocomplete(query, ['companies.companycontact'])}
-              options={[
-                {
-                  label: 'Ingen',
-                  value: null
-                },
-                ...autocompleteResults.filter(
-                  contact =>
-                    company && contact.company === Number(company.value)
-                )
-              ]}
+              component={SelectInput.AutocompleteField}
+              filter={['companies.companycontact']}
             />
           </FlexColumn>
         </FlexRow>
-
         <Button className={styles.submit} submit>
           Lagre
         </Button>
@@ -198,7 +151,7 @@ export default reduxForm({
     if (!values.title) {
       errors.title = 'Du må gi jobbannonsen en tittel';
     }
-    if (!values.company) {
+    if (!values.company || values.company.value == null) {
       errors.company = 'Du må angi en bedrift for jobbannonsen';
     }
     if (parseInt(values.fromYear, 10) > parseInt(values.toYear, 10)) {
