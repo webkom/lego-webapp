@@ -63,16 +63,18 @@ class InterestGroupDetail extends Component {
             {group.name}
           </h1>
           <div className={styles.content}>
-            <Flex className={styles.registeredThumbnails}>
-              {memberships && memberships
-                .slice(0, 10)
-                .map(reg =>
-                  <RegisteredCell key={reg.user.id} user={reg.user} />
-                )}
-            </Flex>
-            <p className={styles.paragraphDetail}>
-              {group.text}
-            </p>
+            <div>
+                <Flex className={styles.registeredThumbnails}>
+                  {memberships && memberships
+                    .slice(0, 10)
+                    .map(reg =>
+                      <RegisteredCell key={reg.user.id} user={reg.user} />
+                    )}
+                </Flex>
+                <p className={styles.paragraphDetail}>
+                  {group.descriptionLong}
+                </p>
+            </div>
             <Image
               className={styles.interestPicDetail}
               src={'https://i.redd.it/dz8mwvl4dgdy.jpg'}
