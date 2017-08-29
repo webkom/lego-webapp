@@ -45,7 +45,7 @@
     "react": "^15.6.1",
     "react-async-script": "^0.9.1",
     "react-cookie": "^1.0.4",
-    "react-cropper": "^0.12.0",
+    "react-cropper": "^1.0.0",
     "react-dom": "^15.6.1",
     "react-dropzone": "^3.10.0",
     "react-google-recaptcha": "^0.9.6",
