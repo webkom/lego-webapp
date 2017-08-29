@@ -2,24 +2,14 @@
 import { connect } from 'react-redux';
 import { createJoblisting } from 'app/actions/JoblistingActions';
 import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
-import { autocomplete } from 'app/actions/SearchActions';
-import { selectAutocomplete } from 'app/reducers/search';
-import { debounce } from 'lodash';
-import { formValueSelector } from 'redux-form';
 
 function mapDispatchToProps(dispatch) {
   return {
-    submitJoblisting: joblisting => dispatch(createJoblisting(joblisting)),
-    autocomplete: debounce(
-      (query, filter) => dispatch(autocomplete(query, filter)),
-      30
-    )
+    submitJoblisting: joblisting => dispatch(createJoblisting(joblisting))
   };
 }
 
 function mapStateToProps(state, props) {
-  const formSelector = formValueSelector('joblistingEditor');
-
   return {
     initialValues: {
       text: '<p></p>',
@@ -28,8 +18,7 @@ function mapStateToProps(state, props) {
       toYear: 5,
       jobType: 'summer_job'
     },
-    isNew: true,
-    autocompleteResults: selectAutocomplete(state)
+    isNew: true
   };
 }
 

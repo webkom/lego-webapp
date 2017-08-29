@@ -5,19 +5,12 @@ import { dispatched } from 'react-prepare';
 import { fetchJoblisting, editJoblisting } from 'app/actions/JoblistingActions';
 import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
 import { selectJoblistingById } from 'app/reducers/joblistings';
-import { autocomplete } from 'app/actions/SearchActions';
-import { selectAutocomplete } from 'app/reducers/search';
-import { debounce } from 'lodash';
 import { formValueSelector } from 'redux-form';
 
 function mapDispatchToProps(dispatch) {
   return {
     submitJoblisting: joblisting => dispatch(editJoblisting(joblisting)),
-    fetchJoblisting: id => dispatch(fetchJoblisting(id)),
-    autocomplete: debounce(
-      (query, filter) => dispatch(autocomplete(query, filter)),
-      30
-    )
+    fetchJoblisting: id => dispatch(fetchJoblisting(id))
   };
 }
 
@@ -25,13 +18,7 @@ function mapStateToProps(state, props) {
   const { joblistingId } = props.params;
   const formSelector = formValueSelector('joblistingEditor');
   const company = formSelector(state, 'company');
-  let joblisting = selectJoblistingById(state, { joblistingId });
-  if (!joblisting.company) {
-    joblisting = {
-      company: {},
-      workplaces: []
-    };
-  }
+  const joblisting = selectJoblistingById(state, { joblistingId });
 
   return {
     joblisting,
@@ -58,8 +45,6 @@ function mapStateToProps(state, props) {
     },
     joblistingId,
     isNew: false,
-    autocompleteResults: selectAutocomplete(state),
-    searching: state.search.searching,
     company: company ? company : {}
   };
 }
