@@ -24,6 +24,7 @@ import Header from 'app/components/Header';
 import Footer from 'app/components/Footer';
 import NotificationContainer from 'app/components/NotificationContainer';
 import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
+import cx from 'classnames';
 
 class AppChildren extends PureComponent {
   render() {
@@ -45,8 +46,9 @@ class App extends PureComponent {
 
     return (
       <div
-        style={this.props.searchOpen ? { WebkitFilter: 'blur(40px)' } : null}
-        className={styles.AppRoute}
+        className={cx(styles.appRoute, {
+          [styles.searchOpen]: this.props.searchOpen
+        })}
       >
         <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no" />
 

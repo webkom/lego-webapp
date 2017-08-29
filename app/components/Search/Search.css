@@ -56,11 +56,43 @@
 }
 
 .resultsContainer {
-  display: flex;
   background: rgba(255, 255, 255, 0.8);
+  overflow-y: scroll;
+  height: calc(100vh - 120px);
+
+  @media (--small-viewport) {
+    flex-direction: column;
+  }
+}
+
+.scrollAble {
+  display: flex;
+
+  @media (--small-viewport) {
+    flex-direction: column;
+  }
+}
+
+.navigationHeader {
+  color: var(--lego-font-color);
+}
+
+.navigationFlex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.navigationLink {
+  flex-basis: 33%;
+  min-width: 225px;
+  max-width: 100%;
 
   @media (--mobile-device) {
-    flex-direction: column;
+    flex-basis: 50%;
+  }
+
+  @media (--small-viewport) {
+    flex: 1;
   }
 }
 
@@ -68,6 +100,13 @@
   flex: 1;
   color: #fff;
   padding: 2rem;
+}
+
+.quickLinks::after {
+  content: '';
+  display: block;
+  height: 2rem;
+  width: 100%;
 }
 
 .quickLinks li {
