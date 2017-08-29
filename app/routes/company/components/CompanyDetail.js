@@ -26,6 +26,7 @@ function insertInfoBubbles(company) {
     <div className={styles.infoBubbles}>
       {infos.map((info, i) =>
         <InfoBubble
+          key={info[0]}
           icon={info[0]}
           data={info[1]}
           style={{ order: i }}

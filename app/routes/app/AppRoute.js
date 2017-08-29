@@ -68,10 +68,11 @@ class App extends PureComponent {
         />
 
         <AppChildren
-          children={this.props.children}
           currentUser={this.props.currentUser}
           loggedIn={this.props.loggedIn}
-        />
+        >
+          {this.props.children}
+        </AppChildren>
 
         <Footer />
       </div>
