@@ -122,14 +122,18 @@ function MeetingEditor({
         </div>
         {isEditPage && <h3> Allerede inviterte </h3>}
         {isEditPage &&
-          <AttendanceStatus
-            pools={[
-              {
-                name: 'Inviterte brukere',
-                registrations: meeting.invitations
-              }
-            ]}
-          />}
+          <div>
+            <AttendanceStatus
+              pools={[
+                {
+                  name: 'Inviterte brukere',
+                  registrations: meeting.invitations
+                }
+              ]}
+            />
+            <br />
+          </div>}
+
         <Button disabled={pristine || submitting} submit>
           {isEditPage ? 'Lagre møte' : 'Lag møte'}{' '}
         </Button>
