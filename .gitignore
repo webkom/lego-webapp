@@ -10,3 +10,4 @@ dist
 .env
 styleguide
 .css.tmp.md
+*.log

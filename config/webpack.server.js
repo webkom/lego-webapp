@@ -26,13 +26,10 @@ module.exports = {
   externals: fs
     .readdirSync(path.resolve('node_modules'))
     .concat(['react-dom/server', 'react/addons'])
-    .reduce(
-      (ext, mod) => {
-        ext[mod] = `commonjs ${mod}`;
-        return ext;
-      },
-      {}
-    ),
+    .reduce((ext, mod) => {
+      ext[mod] = `commonjs ${mod}`;
+      return ext;
+    }, {}),
 
   node: {
     __filename: true,
@@ -48,16 +45,7 @@ module.exports = {
     }),
     new webpack.LoaderOptionsPlugin({
       options: {
-        context: __dirname,
-        postcss() {
-          return [
-            require('postcss-import')({
-              path: [root]
-            }),
-            require('postcss-cssnext'),
-            require('postcss-nested')
-          ];
-        }
+        context: __dirname
       }
     })
   ].filter(Boolean),
@@ -85,7 +73,7 @@ module.exports = {
         loaders: [
           {
             loader: 'css-loader/locals',
-            query: {
+            options: {
               modules: true,
               importLoaders: 1,
               localIdentName: isProduction
@@ -93,7 +81,18 @@ module.exports = {
                 : '[name]__[local]___[hash:base64:5]'
             }
           },
-          'postcss-loader'
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: () => [
+                require('postcss-import')({
+                  path: [root]
+                }),
+                require('postcss-cssnext'),
+                require('postcss-nested')
+              ]
+            }
+          }
         ]
       },
       {

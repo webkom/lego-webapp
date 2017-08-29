@@ -104,7 +104,7 @@ function MeetingEditor({
         {isEditPage && <h3> Allerede inviterte </h3>}
         {isEditPage &&
           meeting.invitations.map(invite =>
-            <span>
+            <span key={invite.id}>
               {invite.user.fullName}
             </span>
           )}
