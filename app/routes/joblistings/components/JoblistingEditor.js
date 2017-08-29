@@ -23,7 +23,6 @@ type Props = {
   autocomplete: () => void,
   searching: boolean,
   submitJoblisting: () => void,
-  fetchCompany: () => void,
   company?: Object,
   autocompleteResults: Array,
   dispatch: () => void,
@@ -40,7 +39,6 @@ function JoblistingEditor({
   isNew,
   submitJoblisting,
   company,
-  fetchCompany,
   dispatch
 }: Props) {
   const places = [
@@ -75,18 +73,9 @@ function JoblistingEditor({
     const workplaces = newJoblisting.workplaces
       ? newJoblisting.workplaces.map(obj => ({ town: obj.value }))
       : null;
-    const responsible = newJoblisting.responsible
-      ? newJoblisting.responsible
-      : null;
-    const responsibleId =
-      newJoblisting.responsible && newJoblisting.responsible !== -1
-        ? responsible
-        : null;
-
     submitJoblisting({
       ...newJoblisting,
-      workplaces,
-      responsible: responsibleId
+      workplaces
     });
   };
 
@@ -115,7 +104,7 @@ function JoblistingEditor({
                 dispatch(
                   change('joblistingEditor', 'responsible', {
                     label: 'Ingen',
-                    value: -1
+                    value: null
                   })
                 )}
             />
@@ -179,10 +168,16 @@ function JoblistingEditor({
               component={SelectInput.Field}
               onSearch={query =>
                 autocomplete(query, ['companies.companycontact'])}
-              options={autocompleteResults.filter(
-                contact => company && contact.company === Number(company.value)
-              )}
-              simpleValue
+              options={[
+                {
+                  label: 'Ingen',
+                  value: null
+                },
+                ...autocompleteResults.filter(
+                  contact =>
+                    company && contact.company === Number(company.value)
+                )
+              ]}
             />
           </FlexColumn>
         </FlexRow>

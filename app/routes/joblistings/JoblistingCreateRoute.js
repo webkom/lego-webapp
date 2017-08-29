@@ -6,7 +6,6 @@ import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocomplete } from 'app/reducers/search';
 import { debounce } from 'lodash';
 import { formValueSelector } from 'redux-form';
-import { fetch } from 'app/actions/CompanyActions';
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -14,8 +13,7 @@ function mapDispatchToProps(dispatch) {
     autocomplete: debounce(
       (query, filter) => dispatch(autocomplete(query, filter)),
       30
-    ),
-    fetchCompany: id => dispatch(fetch(id))
+    )
   };
 }
 
