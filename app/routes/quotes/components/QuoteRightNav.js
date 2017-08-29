@@ -16,10 +16,7 @@ export default function QuoteRightNav({
 }: Props) {
   const path = query.filter;
   return (
-    <div
-      className={styles.quotepageRight}
-      style={{ marginTop: detail ? '50px' : '10px' }}
-    >
+    <div className={styles.quotepageRight} style={{ marginTop: '15px' }}>
       {detail
         ? <Link to="/quotes">
             <i className="fa fa-arrow-circle-left" /> Tilbake til sitater

@@ -48,10 +48,7 @@ export const selectSortedQuotes = createSelector(
 );
 
 export const selectCommentsForQuote = createSelector(
-  (state, quoteId) =>
-    state.quotes.byId.length === 0
-      ? state.quotes.byId.find(quote => quote.id === Number(quoteId))
-      : {},
+  (state, quoteId) => state.quotes.byId[quoteId],
   state => state.comments.byId,
   (quote, commentsById) => {
     if (!quote || !commentsById) return [];
