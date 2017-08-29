@@ -88,7 +88,6 @@ export const eventAdministrateSchema = new schema.Entity('events', {
 export const articleSchema = new schema.Entity('articles', {
   comments: [commentSchema]
 });
-export const membershipSchema = new schema.Entity('memberships');
 export const meetingSchema = new schema.Entity('meetings');
 export const groupSchema = new schema.Entity('groups', { users: [userSchema] });
 export const quoteSchema = new schema.Entity('quotes');

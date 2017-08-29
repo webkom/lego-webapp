@@ -17,11 +17,42 @@ export default createEntityReducer({
   },
   mutate(state, action) {
     switch (action.type) {
-      case InterestGroup.REMOVE.SUCCESS:
+      case InterestGroup.REMOVE.SUCCESS: {
         return {
           ...state,
           items: state.items.filter(id => action.meta.interestGroupId !== id)
         };
+      }
+      case InterestGroup.JOIN.SUCCESS: {
+        const { user, groupId } = action.meta;
+        const membership = {...action.payload, user};
+        const memberships = [membership].concat(state.byId[groupId].memberships);
+        return {
+            ...state,
+            byId: {
+              ...state.byId,
+              [groupId]: {
+                ...state.byId[groupId],
+                memberships,
+              },
+            },
+        };
+      }
+      case InterestGroup.LEAVE.SUCCESS: {
+        const { user, groupId } = action.meta;
+        return {
+            ...state,
+            byId: {
+              ...state.byId,
+              [groupId]: {
+                ...state.byId[groupId],
+                memberships: state.byId[groupId].memberships.filter(
+                  m => m.user.id !== user.id
+                ),
+              },
+            },
+        };
+      }
 
       default:
         return state;
