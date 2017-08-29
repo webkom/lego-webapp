@@ -24,7 +24,9 @@ type Props = {
   meetingId?: string,
   meeting?: Object,
   change: func,
-  invitingUsers: array
+  invitingUsers: array,
+  pristine: boolean,
+  submitting: boolean
 };
 
 function MeetingEditor({
@@ -33,7 +35,9 @@ function MeetingEditor({
   meetingId,
   meeting,
   change,
-  invitingUsers = []
+  invitingUsers = [],
+  submitting,
+  pristine
 }: Props) {
   const isEditPage = meetingId !== undefined;
   if (isEditPage && !meeting) {
@@ -118,13 +122,6 @@ function MeetingEditor({
         </div>
         {isEditPage && <h3> Allerede inviterte </h3>}
         {isEditPage &&
-<<<<<<< HEAD
-          meeting.invitations.map(invite =>
-            <span key={invite.id}>
-              {invite.user.fullName}
-            </span>
-          )}
-=======
           <AttendanceStatus
             pools={[
               {
@@ -133,8 +130,7 @@ function MeetingEditor({
               }
             ]}
           />}
->>>>>>> Add autocomplete to meetingEditor
-        <Button submit>
+        <Button disabled={pristine || submitting} submit>
           {isEditPage ? 'Lagre møte' : 'Lag møte'}{' '}
         </Button>
       </Form>
