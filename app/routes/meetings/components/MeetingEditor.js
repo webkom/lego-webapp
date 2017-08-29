@@ -4,6 +4,8 @@ import React from 'react';
 import styles from './MeetingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field } from 'redux-form';
+import { AttendanceStatus } from 'app/components/UserAttendance';
+
 import {
   Form,
   TextInput,
@@ -14,34 +16,40 @@ import {
 } from 'app/components/Form';
 import moment from 'moment';
 import config from 'app/config';
+import lodash from 'lodash';
 
 type Props = {
   handleSubmit: func,
-  searching: boolean,
-  autocompleteResult: Object,
-  onUserQueryChanged: func,
-  onGroupQueryChanged: func,
   handleSubmitCallback: func,
   meetingId?: string,
   meeting?: Object,
-  change: func
+  change: func,
+  invitingUsers: array
 };
 
 function MeetingEditor({
   handleSubmit,
-  searching,
-  autocompleteResult,
-  onUserQueryChanged,
-  onGroupQueryChanged,
   handleSubmitCallback,
   meetingId,
   meeting,
-  change
+  change,
+  invitingUsers = []
 }: Props) {
   const isEditPage = meetingId !== undefined;
   if (isEditPage && !meeting) {
     return <LoadingIndicator loading />;
   }
+
+  const possibleReportAuthors = lodash.unionBy(
+    meeting
+      ? meeting.invitations.map(invite => ({
+          value: invite.user.id,
+          label: invite.user.fullName
+        }))
+      : [],
+    invitingUsers,
+    'value'
+  );
   return (
     <div className={styles.root}>
       <h2>
@@ -78,52 +86,56 @@ function MeetingEditor({
         <h3>Sted</h3>
         <Field name="location" component={TextInput.Field} />
         <h3>Referent</h3>
+
         <Field
           name="reportAuthor"
+          placeholder="La denne stå åpen for å velge deg selv"
+          options={possibleReportAuthors}
           component={SelectInput.Field}
-          options={autocompleteResult}
-          onFocus={event => {}}
-          placeholder="La denne stå åpen for å velge (semi)tilfeldig"
-          onSearch={query => onUserQueryChanged(query)}
-          multi
           simpleValue
-          fetching={searching}
         />
         <div style={{ display: 'flex' }}>
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
             <h3>Inviter brukere</h3>
             <Field
               name="users"
-              component={SelectInput.Field}
-              options={autocompleteResult}
+              filter={['users.user']}
               placeholder="Skriv inn brukernavn på de du vil invitere"
-              onSearch={query => onUserQueryChanged(query)}
+              component={SelectInput.AutocompleteField}
               multi
-              fetching={searching}
             />
           </div>
           <div style={{ flex: '1', display: 'flex', flexDirection: 'column' }}>
             <h3>Inviter grupper</h3>
             <Field
               name="groups"
-              component={SelectInput.Field}
-              options={autocompleteResult}
-              placeholder="Skriv inn brukernavn på de du vil invitere"
-              onSearch={query => onGroupQueryChanged(query)}
+              filter={['users.abakusgroup']}
+              placeholder="Skriv inn gruppene du vil invitere"
+              component={SelectInput.AutocompleteField}
               multi
-              fetching={searching}
             />
           </div>
         </div>
         {isEditPage && <h3> Allerede inviterte </h3>}
         {isEditPage &&
+<<<<<<< HEAD
           meeting.invitations.map(invite =>
             <span key={invite.id}>
               {invite.user.fullName}
             </span>
           )}
+=======
+          <AttendanceStatus
+            pools={[
+              {
+                name: 'Inviterte brukere',
+                registrations: meeting.invitations
+              }
+            ]}
+          />}
+>>>>>>> Add autocomplete to meetingEditor
         <Button submit>
-          {isEditPage ? 'Save event' : 'Create event'}{' '}
+          {isEditPage ? 'Lagre møte' : 'Lag møte'}{' '}
         </Button>
       </Form>
     </div>
@@ -149,6 +161,7 @@ export default reduxForm({
     if (!values.startTime) {
       errors.startTime = 'Du må velge sluttidspunkt';
     }
+
     const startTime = moment.tz(values.startTime, config.timezone);
     const endTime = moment.tz(values.endTime, config.timezone);
     if (startTime > endTime) {
