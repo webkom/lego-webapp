@@ -95,95 +95,99 @@ class Header extends Component {
             <img src={logoImage} alt="" />
           </IndexLink>
 
-          <div className={styles.navigation}>
-            <Link to="/events" activeClassName={styles.activeItem}>
-              Arrangementer
-            </Link>
-            {!loggedIn
-              ? <Link
-                  to="/pages/for-companies"
-                  activeClassName={styles.activeItem}
-                >
-                  For bedrifter
-                </Link>
-              : <Link to="/joblistings" activeClassName={styles.activeItem}>
-                  Karriere
-                </Link>}
-            <a href="http://readme.abakus.no" className={styles.readmeLink}>
-              readme
-            </a>
-            <Link to="/pages/om-oss" activeClassName={styles.activeItem}>
-              Om Abakus
-            </Link>
-            <Link onClick={this.props.toggleSearch}>
-              <Icon name="menu" scaleOnHover style={{ fontSize: 30 }} />
-            </Link>
-          </div>
+          <div className={styles.menu}>
+            <div className={styles.navigation}>
+              <Link to="/events" activeClassName={styles.activeItem}>
+                Arrangementer
+              </Link>
+              {!loggedIn
+                ? <Link
+                    to="/pages/for-companies"
+                    activeClassName={styles.activeItem}
+                  >
+                    For bedrifter
+                  </Link>
+                : <Link to="/joblistings" activeClassName={styles.activeItem}>
+                    Karriere
+                  </Link>}
+              <Link to="/pages/om-oss" activeClassName={styles.activeItem}>
+                Om Abakus
+              </Link>
+            </div>
 
-          <div className={styles.buttonGroup}>
-            {loggedIn &&
-              <NotificationsDropdown
-                notificationsData={this.props.notificationsData}
-                fetchNotifications={this.props.fetchNotifications}
-                notifications={this.props.notifications}
-                markAllNotifications={this.props.markAllNotifications}
-                markNotification={this.props.markNotification}
-                fetchNotificationData={this.props.fetchNotificationData}
-              />}
-
-            {loggedIn &&
-              <Dropdown
-                show={this.state.accountOpen}
-                toggle={() =>
-                  this.setState({ accountOpen: !this.state.accountOpen })}
-                triggerComponent={
-                  <ProfilePicture
-                    size={24}
-                    user={this.props.currentUser}
-                    style={{ verticalAlign: 'middle', marginTop: -8 }}
-                  />
-                }
-              >
-                <AccountDropdownItems
-                  onClose={() => this.setState({ accountOpen: false })}
-                  username={this.props.currentUser.username}
-                  logout={this.props.logout}
+            <div className={styles.buttonGroup}>
+              <button onClick={this.props.toggleSearch}>
+                <Icon
+                  name="menu"
+                  scaleOnHover
+                  style={{ fontSize: 30, lineHeight: '60px' }}
                 />
-              </Dropdown>}
+              </button>
 
-            {!loggedIn &&
-              <Dropdown
-                show={this.state.accountOpen}
-                toggle={() =>
-                  this.setState({
-                    accountOpen: !this.state.accountOpen,
-                    shake: false
-                  })}
-                contentClassName={this.state.shake && 'animated shake'}
-                triggerComponent={<Icon name="contact" />}
-              >
-                <div style={{ padding: 10 }}>
-                  <LoginForm
-                    login={(...creds) => {
-                      this.setState({ shake: false });
-                      return this.props.login(...creds).then(
-                        res => {
-                          this.setState({ shake: false, accountOpen: false });
-                          return res;
-                        },
-                        error => {
-                          this.setState({ shake: true });
-                          throw error;
-                        }
-                      );
-                    }}
+              {loggedIn &&
+                <NotificationsDropdown
+                  notificationsData={this.props.notificationsData}
+                  fetchNotifications={this.props.fetchNotifications}
+                  notifications={this.props.notifications}
+                  markAllNotifications={this.props.markAllNotifications}
+                  markNotification={this.props.markNotification}
+                  fetchNotificationData={this.props.fetchNotificationData}
+                />}
+
+              {loggedIn &&
+                <Dropdown
+                  show={this.state.accountOpen}
+                  toggle={() =>
+                    this.setState({ accountOpen: !this.state.accountOpen })}
+                  triggerComponent={
+                    <ProfilePicture
+                      size={24}
+                      user={this.props.currentUser}
+                      style={{ verticalAlign: 'middle', marginTop: -8 }}
+                    />
+                  }
+                >
+                  <AccountDropdownItems
+                    onClose={() => this.setState({ accountOpen: false })}
+                    username={this.props.currentUser.username}
+                    logout={this.props.logout}
                   />
-                </div>
-              </Dropdown>}
+                </Dropdown>}
 
-            <button onClick={this.props.toggleSearch}>
-              <Icon name="search" style={{ color: '#C24538' }} />
-            </button>
+              {!loggedIn &&
+                <Dropdown
+                  show={this.state.accountOpen}
+                  toggle={() =>
+                    this.setState({
+                      accountOpen: !this.state.accountOpen,
+                      shake: false
+                    })}
+                  contentClassName={this.state.shake && 'animated shake'}
+                  triggerComponent={<Icon name="contact" />}
+                >
+                  <div style={{ padding: 10 }}>
+                    <LoginForm
+                      login={(...creds) => {
+                        this.setState({ shake: false });
+                        return this.props.login(...creds).then(
+                          res => {
+                            this.setState({ shake: false, accountOpen: false });
+                            return res;
+                          },
+                          error => {
+                            this.setState({ shake: true });
+                            throw error;
+                          }
+                        );
+                      }}
+                    />
+                  </div>
+                </Dropdown>}
+
+              <button onClick={this.props.toggleSearch}>
+                <Icon name="search" className={styles.searchIcon} />
+              </button>
+            </div>
           </div>
 
           <Modal
