@@ -4,7 +4,6 @@ import { Article } from './ActionTypes';
 import { articleSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import createQueryString from 'app/utils/createQueryString';
-import isRequestNeeded from 'app/utils/isRequestNeeded';
 import type { EntityID, ArticleEntity } from 'app/types';
 
 export function fetchArticle(articleId: EntityID) {

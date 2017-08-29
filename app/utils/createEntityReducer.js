@@ -63,12 +63,11 @@ export function entities(key: string) {
     if (!result) {
       return state;
     }
-    const keys = Object.keys(result);
 
     return {
       ...state,
       byId: merge(state.byId, result),
-      items: union(state.items, keys),
+      items: union(state.items, Object.keys(result)),
       actionGrant: union(state.actionGrant, action.payload.actionGrant || [])
     };
   };

@@ -9,7 +9,6 @@ import { userSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { User } from './ActionTypes';
 import { uploadFile } from './FileActions';
-import isRequestNeeded from 'app/utils/isRequestNeeded';
 
 const USER_STORAGE_KEY = 'lego.auth';
 

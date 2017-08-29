@@ -3,8 +3,6 @@
 import { Company, Event } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
 import { companySchema, eventSchema } from 'app/reducers';
-import isRequestNeeded from 'app/utils/isRequestNeeded';
-
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 

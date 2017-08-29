@@ -3,7 +3,6 @@
 import { push } from 'react-router-redux';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { quoteSchema } from 'app/reducers';
-import isRequestNeeded from 'app/utils/isRequestNeeded';
 import callAPI from 'app/actions/callAPI';
 import { Quote } from './ActionTypes';
 

@@ -4,7 +4,6 @@ import { Meeting } from './ActionTypes';
 import { meetingSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { push } from 'react-router-redux';
-import isRequestNeeded from 'app/utils/isRequestNeeded';
 import { startSubmit, stopSubmit } from 'redux-form';
 import moment from 'moment';
 

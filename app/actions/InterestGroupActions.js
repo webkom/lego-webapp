@@ -4,7 +4,6 @@ import { interestGroupSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { InterestGroup } from './ActionTypes';
 import { push } from 'react-router-redux';
-import isRequestNeeded from 'app/utils/isRequestNeeded';
 
 export function fetchInterestGroup(interestGroupId: string) {
   return callAPI({

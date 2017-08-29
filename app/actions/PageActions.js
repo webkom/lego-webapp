@@ -3,7 +3,6 @@
 import { Page } from './ActionTypes';
 import { pageSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
-import isRequestNeeded from 'app/utils/isRequestNeeded';
 
 export function fetchPage(pageSlug: string) {
   return callAPI({

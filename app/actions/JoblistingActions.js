@@ -3,7 +3,6 @@
 import { joblistingsSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Joblistings } from './ActionTypes';
-import isRequestNeeded from 'app/utils/isRequestNeeded';
 
 export function fetchAll() {
   return callAPI({

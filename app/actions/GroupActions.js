@@ -3,7 +3,6 @@
 import { groupSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Group } from './ActionTypes';
-import isRequestNeeded from 'app/utils/isRequestNeeded';
 
 export function fetchGroup(groupId) {
   return callAPI({
