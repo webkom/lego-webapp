@@ -44,7 +44,7 @@
     "raven-js": "^3.15.0",
     "react": "^15.6.1",
     "react-async-script": "^0.9.1",
-    "react-cookie": "^1.0.4",
+    "react-cookie": "^2.0.8",
     "react-cropper": "^0.12.0",
     "react-dom": "^15.6.1",
     "react-dropzone": "^3.10.0",
