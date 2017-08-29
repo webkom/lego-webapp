@@ -1,8 +1,8 @@
 // @flow
 
-import { interestGroupSchema, membershipSchema } from 'app/reducers';
+import { interestGroupSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
-import { InterestGroup, Membership } from './ActionTypes';
+import { InterestGroup } from './ActionTypes';
 import { push } from 'react-router-redux';
 
 export function fetchInterestGroup(interestGroupId: string) {
@@ -90,18 +90,32 @@ export function updateInterestGroup(
   };
 }
 
-export function joinInterestGroup(id, userId) {
+export function joinInterestGroup(id, user) {
   return callAPI({
-    types: Membership.CREATE,
+    types: InterestGroup.JOIN,
     endpoint: '/memberships/',
-    schema: membershipSchema,
     method: 'POST',
     body: {
       abakus_group: id,
-      user: userId
+      user: user.id
     },
     meta: {
-      errorMessage: 'Joining the interest group failed.'
+      errorMessage: 'Joining the interest group failed.',
+      groupId: id,
+      user: user,
+    }
+  });
+}
+
+export function leaveInterestGroup(membership) {
+  return callAPI({
+    types: InterestGroup.LEAVE,
+    endpoint: `/memberships/${membership.id}/`,
+    method: 'DELETE',
+    meta: {
+      user: membership.user,
+      groupId: membership.abakusGroup,
+      errorMessage: 'Leaving the interest group failed.'
     }
   });
 }

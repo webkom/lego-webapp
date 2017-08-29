@@ -5,7 +5,8 @@ import {
   fetchInterestGroup,
   updateInterestGroup,
   removeInterestGroup,
-  joinInterestGroup
+  joinInterestGroup,
+  leaveInterestGroup,
 } from 'app/actions/InterestGroupActions';
 import InterestGroupDetail from './components/InterestGroupDetail';
 import { selectInterestGroupById } from 'app/reducers/interestGroups';
@@ -28,7 +29,8 @@ const mapDispatchToProps = {
   fetchInterestGroup,
   updateInterestGroup,
   removeInterestGroup,
-  joinInterestGroup
+  joinInterestGroup,
+  leaveInterestGroup,
 };
 
 export default compose(
