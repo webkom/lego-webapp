@@ -26,9 +26,12 @@ const navigationLinks = [
   ['/quotes', 'Sitater'],
   ['/users/me', 'Profil'],
   ['https://shop.abakus.no/', 'Abashop']
-];
+].sort((a, b) => a[1].localeCompare(b[1]));
 
-const adminLinks = [['/admin/groups', 'Grupper'], ['/admin/email', 'E-post']];
+const adminLinks = [
+  ['/admin/groups', 'Grupper'],
+  ['/admin/email', 'E-post']
+].sort((a, b) => a[1].localeCompare(b[1]));
 
 type Props = {
   results: Array<any>,
