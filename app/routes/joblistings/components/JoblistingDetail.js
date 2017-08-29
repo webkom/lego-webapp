@@ -8,6 +8,7 @@ import styles from './JoblistingDetail.css';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 import { jobType, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
+import Editor from 'app/components/Editor';
 
 type Props = {
   joblisting: Object,
@@ -105,8 +106,18 @@ const JoblistingDetail = ({
           </ul>
         </FlexColumn>
         <FlexColumn className={styles.description}>
-          <div dangerouslySetInnerHTML={{ __html: joblisting.description }} />
-          <div dangerouslySetInnerHTML={{ __html: joblisting.text }} />
+          <Editor
+            readOnly
+            value={`<div>
+                ${joblisting.description}
+              </div>`}
+          />
+          <Editor
+            readOnly
+            value={`<div>
+                ${joblisting.text}
+              </div>`}
+          />
         </FlexColumn>
       </FlexRow>
     </div>
