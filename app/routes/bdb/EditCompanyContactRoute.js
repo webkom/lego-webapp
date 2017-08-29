@@ -1,14 +1,10 @@
 import { connect } from 'react-redux';
+import { dispatched } from 'react-prepare';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
 import { fetch, editCompanyContact } from '../../actions/CompanyActions';
 import EditCompanyContact from './components/EditCompanyContact';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { selectCompanyById } from 'app/reducers/companies';
-
-function loadData({ companyId }, props) {
-  props.fetch(Number(companyId));
-}
 
 function validateCompanyContact(data) {
   const errors = {};
@@ -18,9 +14,11 @@ function validateCompanyContact(data) {
   return errors;
 }
 
-function mapStateToProps(state, props) {
+const mapStateToProps = (state, props) => {
   const { companyId, companyContactId } = props.params;
   const company = selectCompanyById(state, { companyId });
+
+  // TODO: Create selector for companyContact
   let companyContact = null;
   if (company) {
     companyContact = company.companyContacts.find(
@@ -41,15 +39,20 @@ function mapStateToProps(state, props) {
         }
       : null
   };
-}
+};
 
 const mapDispatchToProps = { fetch, editCompanyContact };
 
 export default compose(
+  dispatched(
+    ({ params: { companyId } }, dispatch) => dispatch(fetch(companyId)),
+    {
+      componentWillReceiveProps: false
+    }
+  ),
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'editCompanyContact',
     validate: validateCompanyContact
-  }),
-  fetchOnUpdate(['companyId', 'loggedIn'], loadData)
+  })
 )(EditCompanyContact);

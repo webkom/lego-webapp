@@ -1,13 +1,9 @@
 import { connect } from 'react-redux';
+import { dispatched } from 'react-prepare';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
 import { fetch, editSemesterStatus } from '../../actions/CompanyActions';
 import EditSemester from './components/EditSemester';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
-
-function loadData({ companyId }, props) {
-  props.fetch(Number(companyId));
-}
 
 function validateSemesterStatus(data) {
   const errors = {};
@@ -26,7 +22,7 @@ function validateSemesterStatus(data) {
   return errors;
 }
 
-function mapStateToProps(state, props) {
+const mapStateToProps = (state, props) => {
   const companyId = props.params.companyId;
   const company = state.companies.byId[companyId];
   const semesterId = props.params.semesterId;
@@ -46,15 +42,20 @@ function mapStateToProps(state, props) {
       contract: semesterStatus.contract
     }
   };
-}
+};
 
 const mapDispatchToProps = { fetch, editSemesterStatus };
 
 export default compose(
+  dispatched(
+    ({ params: { companyId } }, dispatch) => dispatch(fetch(companyId)),
+    {
+      componentWillReceiveProps: false
+    }
+  ),
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'editSemester',
     validate: validateSemesterStatus
-  }),
-  fetchOnUpdate(['companyId', 'loggedIn'], loadData)
+  })
 )(EditSemester);
