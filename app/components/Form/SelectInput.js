@@ -3,6 +3,7 @@
 import React from 'react';
 import Select, { Creatable } from 'react-select';
 import { createField } from './Field';
+import withAutocomplete from '../Search/withAutocomplete';
 import 'react-select/dist/react-select.css';
 
 type Props = {
@@ -13,7 +14,7 @@ type Props = {
   fetching: boolean,
   className?: string,
   selectStyle?: string,
-  onBlur: () => void,
+  onBlur: value => void,
   value: any,
   options?: {}[]
 };
@@ -62,4 +63,5 @@ function SelectInput({
 }
 
 SelectInput.Field = createField(SelectInput);
+SelectInput.AutocompleteField = withAutocomplete(SelectInput.Field);
 export default SelectInput;

@@ -5,9 +5,6 @@ import Button from 'app/components/Button';
 
 const AdminRegister = ({
   pools,
-  usersResult,
-  onQueryChanged,
-  searching,
   handleSubmit,
   invalid,
   pristine,
@@ -35,11 +32,9 @@ const AdminRegister = ({
         />
         <Field
           name="user"
-          component={SelectInput.Field}
-          options={usersResult}
-          onSearch={query => onQueryChanged(query)}
+          component={SelectInput.AutocompleteField}
+          filter={['users.user']}
           placeholder="Bruker"
-          fetching={searching}
           simpleValue
         />
         <Button type="submit" disabled={invalid || pristine || submitting}>

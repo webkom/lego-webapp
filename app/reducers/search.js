@@ -145,7 +145,10 @@ const transformResult = result => {
   return item;
 };
 
-export const selectAutocomplete = createSelector(
+export const selectAutocomplete = autocomplete =>
+  autocomplete.map(result => transformResult(result));
+
+export const selectAutocompleteRedux = createSelector(
   state => state.search.autocomplete,
   autocomplete => autocomplete.map(result => transformResult(result))
 );

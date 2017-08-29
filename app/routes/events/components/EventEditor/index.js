@@ -182,12 +182,10 @@ function EventEditor({
                 <span>Arrangerende bedrift</span>
                 <Field
                   name="company"
+                  filter={['companies.company']}
                   fieldClassName={cx(styles.metaField, styles.fieldShadow)}
-                  component={SelectInput.Field}
-                  options={autocompleteResult}
-                  onSearch={query => companyQueryChanged(query)}
+                  component={SelectInput.AutocompleteField}
                   placeholder="Bedrift"
-                  fetching={searching}
                 />
               </li>
               <FieldElement
