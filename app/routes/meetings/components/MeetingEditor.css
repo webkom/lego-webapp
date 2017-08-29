@@ -1,3 +1,5 @@
+@import 'app/styles/variables.css';
+
 .root {
   composes: contentContainer from 'app/styles/utilities.css';
   margin-top: 2rem;
@@ -17,4 +19,17 @@
   text-transform: uppercase;
   font-size: 20px;
   border-bottom: 1px solid #ddd;
+}
+
+.sideBySideBoxes {
+  display: flex;
+  justify-content: space-between;
+
+  @media (--small-viewport) {
+    flex-direction: column;
+  }
+
+  > div {
+    flex: 0 0 49%;
+  }
 }
