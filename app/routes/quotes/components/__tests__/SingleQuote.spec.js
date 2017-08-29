@@ -11,7 +11,7 @@ const emptyProps = () => ({
   unapprove: () => ({}),
   deleteQuote: () => ({}),
   setDisplayAdmin: () => ({}),
-  displayAdmin: false
+  displayAdmin: true
 });
 
 const actionGrant = ['approve'];
@@ -28,7 +28,7 @@ describe('components', () => {
           actionGrant={actionGrant}
         />
       );
-      const approveButton = wrapper.find('.quoteAdmin').children().at(0);
+      const approveButton = wrapper.find('.approveQuote');
       approveButton.simulate('click');
       expect(approve).toBeCalledWith(quotes[0].id);
     });
@@ -43,7 +43,7 @@ describe('components', () => {
           actionGrant={actionGrant}
         />
       );
-      const approveButton = wrapper.find('.quoteAdmin').children().at(0);
+      const approveButton = wrapper.find('.approveQuote');
       approveButton.simulate('click');
       expect(unapprove).toBeCalledWith(quotes[1].id);
     });
@@ -58,7 +58,7 @@ describe('components', () => {
           actionGrant={actionGrant}
         />
       );
-      const deleteButton = wrapper.find('.quoteAdmin').children().at(1);
+      const deleteButton = wrapper.find('.deleteQuote');
       deleteButton.simulate('click');
       expect(deleteQuote).toBeCalledWith(quotes[0].id);
     });
