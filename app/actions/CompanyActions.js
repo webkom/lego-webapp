@@ -8,8 +8,6 @@ import isRequestNeeded from 'app/utils/isRequestNeeded';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 
-const reducerKey = 'companies';
-
 export function fetchAll() {
   return callAPI({
     types: Company.FETCH,

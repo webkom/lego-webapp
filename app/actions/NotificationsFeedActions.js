@@ -6,8 +6,6 @@ import { feedActivitySchema } from 'app/reducers';
 import { selectIsLoggedIn } from 'app/reducers/auth';
 import isRequestNeeded from 'app/utils/isRequestNeeded';
 
-const reducerKey = 'notificationsFeed';
-
 export function fetchNotificationData() {
   return (dispatch, getState) => {
     if (selectIsLoggedIn(getState())) {

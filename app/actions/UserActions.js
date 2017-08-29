@@ -12,7 +12,6 @@ import { uploadFile } from './FileActions';
 import isRequestNeeded from 'app/utils/isRequestNeeded';
 
 const USER_STORAGE_KEY = 'lego.auth';
-const reducerKey = 'users';
 
 function loadToken() {
   return cookie.load(USER_STORAGE_KEY);

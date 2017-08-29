@@ -7,8 +7,6 @@ import createQueryString from 'app/utils/createQueryString';
 import isRequestNeeded from 'app/utils/isRequestNeeded';
 import type { EntityID, ArticleEntity } from 'app/types';
 
-const reducerKey = 'articles';
-
 export function fetchArticle(articleId: EntityID) {
   return callAPI({
     types: Article.FETCH,
