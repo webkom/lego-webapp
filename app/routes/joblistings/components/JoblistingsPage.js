@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import Helmet from 'react-helmet';
 import styles from './JoblistingsPage.css';
@@ -6,7 +8,13 @@ import JoblistingsList from './JoblistingsList';
 import JoblistingsRightNav from './JoblistingsRightNav';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 
-const JoblistingsPage = ({ joblistings, query }) => {
+type Props = {
+  joblistings: Array,
+  query: Object,
+  actionGrant: Array
+};
+
+const JoblistingsPage = ({ joblistings, query, actionGrant }: Props) => {
   if (!joblistings) {
     return <LoadingIndicator loading />;
   }
@@ -18,7 +26,7 @@ const JoblistingsPage = ({ joblistings, query }) => {
           <JoblistingsList joblistings={joblistings} />
         </FlexColumn>
         <FlexColumn className={styles.rightNav}>
-          <JoblistingsRightNav query={query} />
+          <JoblistingsRightNav query={query} actionGrant={actionGrant} />
         </FlexColumn>
       </FlexRow>
     </div>

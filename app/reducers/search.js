@@ -31,8 +31,8 @@ const searchMapping = {
     content: 'text'
   },
   'events.event': {
-    label: 'title',
     icon: 'calendar',
+    label: 'title',
     color: '#E8953A',
     picture: 'cover',
     path: '/events/',
@@ -40,8 +40,8 @@ const searchMapping = {
     content: 'description'
   },
   'flatpages.page': {
-    label: 'title',
     profilePicture: 'picture',
+    label: 'title',
     color: '#E8953A',
     path: '/pages/',
     value: 'slug',

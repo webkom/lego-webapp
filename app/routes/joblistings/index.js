@@ -8,6 +8,18 @@ export default {
   ),
   childRoutes: [
     {
+      path: 'create',
+      ...resolveAsyncRoute(
+        () => import('./JoblistingCreateRoute'),
+        () => require('./JoblistingCreateRoute')
+      )
+    }, {
+      path: ':joblistingId/edit',
+      ...resolveAsyncRoute(
+        () => import('./JoblistingEditRoute'),
+        () => require('./JoblistingEditRoute')
+      )
+    }, {
       path: ':joblistingId',
       ...resolveAsyncRoute(
         () => import('./JoblistingsDetailedRoute'),

@@ -4,6 +4,7 @@ import JoblistingsPage from './components/JoblistingsPage';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { compose } from 'redux';
 import moment from 'moment';
+import { selectCompanyById } from 'app/reducers/companies';
 
 function loadData(params, props) {
   props.fetchAll();
@@ -30,8 +31,11 @@ function filterJoblistings(joblistings, classes, jobtypes, workplaces) {
       workplacesBoolean = true;
     } else {
       workplacesBoolean = joblisting.workplaces.some(w =>
-        workplaces.includes(w.town)
-      );
+        workplaces.includes(w.town)) ||
+        (workplaces.includes('Annet') &&
+          joblisting.workplaces.some(
+            w => !['Oslo', 'Trondheim', 'Bergen', 'Tromsø'].includes(w.town)
+          ));
     }
     return classBoolean && jobtypesBoolean && workplacesBoolean;
   });
@@ -66,10 +70,12 @@ function mapStateToProps(state, props) {
     filterWorkplaces
   );
   const sortedJoblistings = sortJoblistings(filteredJoblistings, sortType);
+  const actionGrant = state.joblistings.actionGrant || [];
 
   return {
     joblistings: sortedJoblistings,
-    query
+    query,
+    actionGrant
   };
 }
 

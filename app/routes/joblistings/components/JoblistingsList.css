@@ -10,6 +10,7 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   margin-bottom: 12px;
+  margin-top: 8px;
   border-bottom: 1px solid #ddd;
   display: flex;
   justify-content: space-between;
@@ -41,6 +42,10 @@
   height: 80px;
   background: #eee;
   margin-right: 20px;
+
+  @media (--small-viewport) {
+    display: none;
+  }
 }
 
 .joblistingItemTitle {
