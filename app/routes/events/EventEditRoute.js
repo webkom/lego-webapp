@@ -1,5 +1,6 @@
 import { compose, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { dispatched } from 'react-prepare';
 import { formValueSelector } from 'redux-form';
 import {
   fetchEvent,
@@ -15,7 +16,6 @@ import {
   selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 
 const mapStateToProps = (state, props) => {
   const eventId = props.params.eventId;
@@ -69,11 +69,12 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const loadData = ({ eventId }, props) => {
-  props.fetchEvent(eventId);
-};
-
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['eventId', 'loggedIn'], loadData)
+  dispatched(
+    ({ params: { eventId } }, dispatch) => dispatch(fetchEvent(eventId)),
+    {
+      componentWillReceiveProps: false
+    }
+  ),
+  connect(mapStateToProps, mapDispatchToProps)
 )(EventEditor);
