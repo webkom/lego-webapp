@@ -18,7 +18,7 @@ import {
 } from 'app/components/Form';
 import moment from 'moment';
 import config from 'app/config';
-import lodash from 'lodash';
+import { unionBy } from 'lodash';
 
 type Props = {
   handleSubmit: func,
@@ -46,10 +46,10 @@ function MeetingEditor({
     return <LoadingIndicator loading />;
   }
 
-  const possibleReportAuthors = lodash.unionBy(
+  const possibleReportAuthors = unionBy(
     meeting
       ? meeting.invitations.map(invite => ({
-          value: invite.user.id,
+          value: `${invite.user.id}`,
           label: invite.user.fullName
         }))
       : [],
