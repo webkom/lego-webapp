@@ -25,6 +25,28 @@ export default createEntityReducer({
   }
 });
 
+const compareByDate = (a, b) => {
+  const date1 = new Date(a.createdAt);
+  const date2 = new Date(b.createdAt);
+  return date2.getTime() - date1.getTime();
+};
+
+export const selectSortedQuotes = createSelector(
+  state => state.quotes.byId,
+  state => state.quotes.items,
+  (state, props) => props.query || {},
+  (byId, ids, query) => {
+    return ids
+      .map(id => byId[id])
+      .filter(
+        quote =>
+          quote !== undefined &&
+          quote.approved === (query.filter !== 'unapproved')
+      )
+      .sort(compareByDate);
+  }
+);
+
 export const selectCommentsForQuote = createSelector(
   (state, quoteId) =>
     state.quotes.byId.length === 0
