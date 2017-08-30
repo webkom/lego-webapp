@@ -112,7 +112,7 @@ class Header extends Component {
             <a href="http://readme.abakus.no" className={styles.readmeLink}>
               readme
             </a>
-            <Link to="/about" activeClassName={styles.activeItem}>
+            <Link to="/pages/om-oss" activeClassName={styles.activeItem}>
               Om Abakus
             </Link>
             <Link onClick={this.props.toggleSearch}>

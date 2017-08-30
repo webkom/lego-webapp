@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import styles from './RandomQuote.css';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
 import { connect } from 'react-redux';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
-import { compose } from 'redux';
 
 type Props = {
   fetchRandomQuote: () => void,
@@ -17,8 +15,15 @@ class RandomQuote extends Component {
     currentQuote: {}
   };
 
+  _isMounted = false;
+
   componentDidMount() {
+    this._isMounted = true;
     if (this.props.loggedIn) this.refreshQuote();
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
   }
 
   componentWillReceiveProps(newProps) {
@@ -27,9 +32,11 @@ class RandomQuote extends Component {
 
   refreshQuote = () => {
     this.props.fetchRandomQuote().then(action => {
-      this.setState({
-        currentQuote: action.payload.entities.quotes[action.payload.result]
-      });
+      if (this._isMounted && action.payload) {
+        this.setState({
+          currentQuote: action.payload.entities.quotes[action.payload.result]
+        });
+      }
     });
   };
 
@@ -66,7 +73,4 @@ function mapStateToProps(state, props) {
 
 const mapDispatchToProps = { fetchRandomQuote };
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['loggedIn'], () => null)
-)(RandomQuote);
+export default connect(mapStateToProps, mapDispatchToProps)(RandomQuote);

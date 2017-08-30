@@ -5,7 +5,7 @@ import callAPI from 'app/actions/callAPI';
 import { InterestGroup } from './ActionTypes';
 import { push } from 'react-router-redux';
 
-export function fetchInterestGroup(interestGroupId) {
+export function fetchInterestGroup(interestGroupId: string) {
   return callAPI({
     types: InterestGroup.FETCH,
     endpoint: `/interest-groups/${interestGroupId}/`,
@@ -27,7 +27,11 @@ export function fetchAll() {
   });
 }
 
-export function createInterestGroup(name, description, text) {
+export function createInterestGroup(
+  name: string,
+  description: string,
+  text: string
+) {
   return callAPI({
     types: InterestGroup.CREATE,
     endpoint: '/interest-groups/',
@@ -44,7 +48,7 @@ export function createInterestGroup(name, description, text) {
   });
 }
 
-export function removeInterestGroup(id) {
+export function removeInterestGroup(id: string) {
   return dispatch => {
     dispatch(
       callAPI({
@@ -60,7 +64,12 @@ export function removeInterestGroup(id) {
   };
 }
 
-export function updateInterestGroup(id, name, description, text) {
+export function updateInterestGroup(
+  id: string,
+  name: string,
+  description: string,
+  text: string
+) {
   return dispatch => {
     dispatch(
       callAPI({

@@ -115,6 +115,7 @@
     "style-loader": "^0.18.2",
     "stylelint": "^7.7.0",
     "stylelint-config-standard": "^16.0.0",
+    "timekeeper": "^1.0.0",
     "url-loader": "^0.5.9",
     "webpack": "^3.5.5",
     "webpack-dev-middleware": "^1.12.0",
