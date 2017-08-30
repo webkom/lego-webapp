@@ -103,11 +103,16 @@ class MeetingDetails extends Component {
     const canDelete = this.props.userMe.id === this.props.meeting.createdBy;
     return (
       <div className={styles.root}>
+        <h2>
+          <Link to="/meetings/">
+            <i className="fa fa-angle-left" /> Mine møter
+          </Link>
+        </h2>
         <FlexRow className={styles.heading}>
           <div style={{ flex: 1 }}>
-            <h2 className={styles.title}>
+            <h1 className={styles.title}>
               {meeting.title}
-            </h2>
+            </h1>
             <h3>
               <Time
                 style={{ color: 'grey' }}

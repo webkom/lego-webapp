@@ -1,26 +1,46 @@
+import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+
 export default {
   path: 'meetings',
-  indexRoute: { component: require('./MeetingListRoute').default },
+  indexRoute: resolveAsyncRoute(
+    () => import('./MeetingListRoute'),
+    () => require('./MeetingListRoute')
+  ),
   childRoutes: [
     {
       path: 'create',
-      component: require('./MeetingCreateRoute').default
+      ...resolveAsyncRoute(
+        () => import('./MeetingCreateRoute'),
+        () => require('./MeetingCreateRoute')
+      )
     },
     {
       path: 'answer/result',
-      component: require('./MeetingAnswerResultRoute').default
+      ...resolveAsyncRoute(
+        () => import('./MeetingAnswerRoute'),
+        () => require('./MeetingAnswerRoute')
+      )
     },
     {
       path: 'answer/:action',
-      component: require('./MeetingAnswerRoute').default
+      ...resolveAsyncRoute(
+        () => import('./MeetingAnswerRoute'),
+        () => require('./MeetingAnswerRoute')
+      )
     },
     {
       path: ':meetingId',
-      component: require('./MeetingDetailRoute').default
+      ...resolveAsyncRoute(
+        () => import('./MeetingDetailRoute'),
+        () => require('./MeetingDetailRoute')
+      )
     },
     {
       path: ':meetingId/edit',
-      component: require('./MeetingEditRoute').default
+      ...resolveAsyncRoute(
+        () => import('./MeetingEditRoute'),
+        () => require('./MeetingEditRoute')
+      )
     }
   ]
 };
