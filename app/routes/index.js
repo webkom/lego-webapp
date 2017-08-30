@@ -11,6 +11,7 @@ import pages from './pages';
 import search from './search';
 import interestGroups from './interestgroups';
 import joblistings from './joblistings';
+import companyInterest from './companyInterest';
 import NotFound from './errors/NotFound';
 import bdb from './bdb';
 
@@ -31,6 +32,7 @@ export default {
     interestGroups,
     joblistings,
     bdb,
+    companyInterest,
     {
       path: '*',
       component: NotFound
