@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
+import { dispatched } from 'react-prepare';
 import { fetchAll, fetchPage, updatePage } from 'app/actions/PageActions';
 import PageDetail from './components/PageDetail';
 import {
@@ -9,16 +9,18 @@ import {
   selectPageBySlug
 } from 'app/reducers/pages';
 
-function loadData({ pageSlug }, props) {
-  props.fetchPage(pageSlug);
-  // We only need to fetch the title list once
-  // to show the page hierarchy:
-  if (!props.pages[pageSlug]) {
-    props.fetchAll(pageSlug);
+const loadData = (props, dispatch) => {
+  if (!props.pages || !props.page) {
+    // We only need to fetch the title list once
+    // to show the page hierarchy:
+    return dispatch(fetchAll()).then(() =>
+      dispatch(fetchPage(props.params.pageSlug))
+    );
   }
-}
+  return dispatch(fetchPage(props.params.pageSlug));
+};
 
-function mapStateToProps(state, props) {
+const mapStateToProps = (state, props) => {
   const { pageSlug } = props.params;
   const page = selectPageBySlug(state, { pageSlug });
   const siblings = selectSiblings(state, { parentPk: page.parent });
@@ -30,11 +32,13 @@ function mapStateToProps(state, props) {
     parent,
     pages: state.pages.byId
   };
-}
+};
 
 const mapDispatchToProps = { fetchAll, fetchPage, updatePage };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['pageSlug', 'loggedIn'], loadData)
+  dispatched(loadData, {
+    componentWillReceiveProps: false
+  })
 )(PageDetail);
