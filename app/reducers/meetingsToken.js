@@ -18,7 +18,6 @@ export default function meetingsToken(
       return { status: 'bad' };
     }
     case Meeting.ANSWER_INVITATION_TOKEN.SUCCESS: {
-      console.log('meetingtokenreducer', action.payload);
       const { meeting, user, status } = action.payload;
 
       return {

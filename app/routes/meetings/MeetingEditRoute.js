@@ -1,20 +1,15 @@
 // @flow
 import { connect } from 'react-redux';
+import { dispatched } from 'react-prepare';
 import { compose } from 'redux';
 import MeetingEditor from './components/MeetingEditor';
 import { editMeeting, fetchMeeting } from 'app/actions/MeetingActions';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
-
 import { formValueSelector } from 'redux-form';
 import { selectMeetingById } from 'app/reducers/meetings';
 
 const mapDispatchToProps = { handleSubmitCallback: editMeeting, fetchMeeting };
 
-function loadData({ meetingId }, props) {
-  props.fetchMeeting(meetingId);
-}
-
-function mapStateToProps(state, props) {
+const mapStateToProps = (state, props) => {
   const { meetingId } = props.params;
   const meeting = selectMeetingById(state, { meetingId });
   const valueSelector = formValueSelector('meetingEditor');
@@ -24,9 +19,14 @@ function mapStateToProps(state, props) {
     invitingUsers: valueSelector(state, 'users') || [],
     meetingId
   };
-}
+};
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['meetingId', 'loggedIn'], loadData)
+  dispatched(
+    ({ params: { meetingId } }, dispatch) => dispatch(fetchMeeting(meetingId)),
+    {
+      componentWillReceiveProps: false
+    }
+  ),
+  connect(mapStateToProps, mapDispatchToProps)
 )(MeetingEditor);
