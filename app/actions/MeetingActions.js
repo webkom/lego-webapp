@@ -154,8 +154,7 @@ export function answerMeetingInvitation(action, token, loggedIn) {
         method: 'post',
         meta: {
           errorMessage: 'Answer invitation failed'
-        },
-        isRequestNeeded: state => isRequestNeeded(state, 'meetingsToken')
+        }
       })
     )
       .then(() => {
