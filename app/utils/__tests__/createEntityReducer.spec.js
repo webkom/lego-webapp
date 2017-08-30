@@ -58,7 +58,7 @@ describe('createEntityReducer', () => {
       byId: {
         1: { name: 'Hello' }
       },
-      items: [1],
+      items: ['1'],
       fetching: false,
       smashed: false
     });
@@ -163,7 +163,7 @@ describe('entities()', () => {
       byId: {
         1: user
       },
-      items: [1]
+      items: ['1']
     });
   });
 
@@ -234,7 +234,7 @@ describe('entities()', () => {
           comments: []
         }
       },
-      items: [1, 2]
+      items: ['1', '2']
     });
   });
 });
