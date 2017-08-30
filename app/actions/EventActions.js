@@ -33,7 +33,7 @@ export function fetchAll({ dateAfter, dateBefore }: Object = {}) {
   });
 }
 
-export function fetchAdministrate(eventId) {
+export function fetchAdministrate(eventId: string) {
   return callAPI({
     types: Event.ADMINISTRATE_FETCH,
     endpoint: `/events/${eventId}/administrate/`,

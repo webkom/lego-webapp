@@ -62,7 +62,15 @@ export function logout() {
 }
 
 export function updateUser(user, options = { noRedirect: false }) {
-  const { username, firstName, lastName, email, gender, allergies, profilePicture } = user;
+  const {
+    username,
+    firstName,
+    lastName,
+    email,
+    gender,
+    allergies,
+    profilePicture
+  } = user;
   return dispatch =>
     dispatch(
       callAPI({

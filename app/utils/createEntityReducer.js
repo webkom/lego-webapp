@@ -67,7 +67,7 @@ export function entities(key: string) {
     return {
       ...state,
       byId: merge(state.byId, result),
-      items: union(state.items, arrayOf(Object.keys(result).map(Number))),
+      items: union(state.items, Object.keys(result)),
       actionGrant: union(state.actionGrant, action.payload.actionGrant || [])
     };
   };

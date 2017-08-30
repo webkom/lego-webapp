@@ -4,7 +4,7 @@ import { Page } from './ActionTypes';
 import { pageSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 
-export function fetchPage(pageSlug) {
+export function fetchPage(pageSlug: string) {
   return callAPI({
     types: Page.FETCH,
     endpoint: `/pages/${pageSlug}/`,
@@ -26,7 +26,7 @@ export function fetchAll() {
   });
 }
 
-export function updatePage(slug, body) {
+export function updatePage(slug: string, body: Object) {
   return callAPI({
     types: Page.UPDATE,
     endpoint: `/pages/${slug}/`,

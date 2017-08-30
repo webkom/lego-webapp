@@ -3,7 +3,6 @@
 import { Company, Event } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
 import { companySchema, eventSchema } from 'app/reducers';
-
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 
@@ -29,16 +28,17 @@ export function fetch(companyId) {
           errorMessage: 'Fetching single company failed'
         }
       })
-    );
-    dispatch(
-      callAPI({
-        types: Event.FETCH,
-        endpoint: `/events/?company=${companyId}`,
-        schema: [eventSchema],
-        meta: {
-          errorMessage: 'Fetching assosiated events failed'
-        }
-      })
+    ).then(() =>
+      dispatch(
+        callAPI({
+          types: Event.FETCH,
+          endpoint: `/events/?company=${companyId}`,
+          schema: [eventSchema],
+          meta: {
+            errorMessage: 'Fetching assosiated events failed'
+          }
+        })
+      )
     );
   };
 }
@@ -80,11 +80,13 @@ export function addCompany({
           errorMessage: 'Adding company failed'
         }
       })
-    ).then(action => {
-      const id = action.payload.result;
-      dispatch(stopSubmit('company'));
-      dispatch(push(`/bdb/${id}`));
-    });
+    )
+      .then(action => {
+        const id = action.payload.result;
+        dispatch(stopSubmit('company'));
+        dispatch(push(`/bdb/${id}`));
+      })
+      .catch();
   };
 }
 

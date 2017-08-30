@@ -5,17 +5,6 @@ import callAPI from './callAPI';
 import { feedActivitySchema } from 'app/reducers';
 import { selectIsLoggedIn } from 'app/reducers/auth';
 
-export function fetchNotificationFeed() {
-  return callAPI({
-    types: Feed.FETCH,
-    endpoint: '/feed-notifications/',
-    schema: [feedActivitySchema],
-    meta: {
-      feedId: 'notifications'
-    }
-  });
-}
-
 export function fetchNotificationData() {
   return (dispatch, getState) => {
     if (selectIsLoggedIn(getState())) {

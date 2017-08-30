@@ -7,7 +7,7 @@ import { push } from 'react-router-redux';
 import { startSubmit, stopSubmit } from 'redux-form';
 import moment from 'moment';
 
-export function fetchMeeting(meetingId) {
+export function fetchMeeting(meetingId: string) {
   return callAPI({
     types: Meeting.FETCH,
     endpoint: `/meetings/${meetingId}/`,
