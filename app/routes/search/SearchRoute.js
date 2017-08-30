@@ -1,21 +1,23 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { dispatched } from 'react-prepare';
 import { search } from 'app/actions/SearchActions';
 import SearchPage from './components/SearchPage';
 import { push } from 'react-router-redux';
 import { debounce } from 'lodash';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { selectResult } from 'app/reducers/search';
 
-function loadData(params, props) {
-  const { query } = props.location;
-  props.search(query.q);
-}
+const loadData = ({ results = [], query, prevQuery }, dispatch) => {
+  if (results.length === 0 || query !== prevQuery) {
+    return dispatch(search(query));
+  }
+};
 
 const mapStateToProps = (state, props) => {
   const { query } = props.location;
   const results = selectResult(state);
   return {
+    prevQuery: state.search.query,
     query: query.q,
     searching: state.search.searching,
     results
@@ -30,5 +32,7 @@ const mapDispatchToProps = dispatch => ({
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['loggedIn'], loadData)
+  dispatched(loadData, {
+    componentWillReceiveProps: false
+  })
 )(SearchPage);
