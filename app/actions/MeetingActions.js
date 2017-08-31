@@ -154,7 +154,8 @@ export function answerMeetingInvitation(action, token, loggedIn) {
         method: 'post',
         meta: {
           errorMessage: 'Answer invitation failed'
-        }
+        },
+        useCache: true
       })
     )
       .then(() => {
