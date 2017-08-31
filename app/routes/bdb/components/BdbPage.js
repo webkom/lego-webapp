@@ -179,7 +179,7 @@ export default class BdbPage extends Component {
 
   render() {
     const { query, companies } = this.props;
-    console.log('state', this.state);
+
     if (!companies) {
       return <LoadingIndicator loading />;
     }
