@@ -20,10 +20,4 @@ pipeline:
     tags:
       - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
     build_args:
-      - API_URL=${API_URL}
-      - WS_URL=${WS_URL}
-      - BASE_URL=${BASE_URL}
-      - CAPTCHA_KEY=${CAPTCHA_KEY}
-      - STRIPE_KEY=${STRIPE_KEY}
-      - RAVEN_DSN=${RAVEN_DSN}
       - RELEASE=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
