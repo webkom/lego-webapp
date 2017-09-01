@@ -6,5 +6,6 @@ module.exports = {
   stripeKey: process.env.STRIPE_KEY || 'pk_test_VWJmJ3yOunhMBkG71SXyjdqk',
   ravenDSN: process.env.RAVEN_DSN,
   release: process.env.RELEASE,
+  environment: process.env.ENVIRONMENT,
   timezone: 'Europe/Oslo'
 };

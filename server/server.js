@@ -1,24 +1,34 @@
 import express from 'express';
+import morgan from 'morgan';
 import moment from 'moment';
+import bunyan from 'bunyan';
+import Raven from 'raven';
 import render from './render';
-
-const app = express();
-
-export default app;
+import config from './env';
 
 moment.locale('nb-NO');
+const app = express();
 
-app.set('host', process.env.HOST || '0.0.0.0');
-app.set('port', process.env.PORT || 3000);
+app.use(Raven.requestHandler());
 
-const config = require('../config/webpack.client.js');
+const log = bunyan.createLogger({
+  name: 'lego-webapp',
+  release: config.release,
+  environment: config.environment,
+});
+
+app.set('host', config.host || '0.0.0.0');
+app.set('port', config.port || 3000);
+app.set('log', log);
+
+const webpackClient = require('../config/webpack.client.js');
 
 if (process.env.NODE_ENV !== 'production') {
-  const compiler = require('webpack')(config);
+  const compiler = require('webpack')(webpackClient);
 
   app.use(
     require('webpack-dev-middleware')(compiler, {
-      publicPath: config.output.publicPath,
+      publicPath: webpackClient.output.publicPath,
       quiet: true
     })
   );
@@ -30,7 +40,19 @@ if (process.env.NODE_ENV !== 'production') {
   );
 }
 
-app.use(express.static(config.output.path));
+app.use(express.static(webpackClient.output.path));
+app.use(
+  morgan((tokens, req, res) => {
+    log.info({
+      method: tokens.method(req, res),
+      url: tokens.url(req, res),
+      status: tokens.status(req, res),
+      'content-length': tokens.res(req, res, 'content-length'),
+      'response-time': tokens['response-time'](req, res),
+    }, 'request');
+  })
+);
+
 app.use(render);
 
 app.use((req, res) => {
@@ -39,14 +61,12 @@ app.use((req, res) => {
   });
 });
 
-app.use((err, req, res, next) => {
-  // eslint-disable-line
-  if (process.env.NODE_ENV !== 'production') {
-    console.error(err.stack);
-  }
+app.use(Raven.errorHandler());
 
-  console.error(err);
-  res.status(err.status || 500).send({
-    message: 'Internal Server Error'
-  });
+app.use((err, req, res, next) => {
+  log.error(err, 'internal_error')
+  res.statusCode = 500;
+  res.end('Internal Error')
 });
+
+export default app;

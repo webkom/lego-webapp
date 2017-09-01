@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import cookie from 'react-cookie';
 import { prepare } from 'react-prepare';
 import Helmet from 'react-helmet';
+import Raven from 'raven';
 import routes from '../app/routes';
 import configureStore from '../app/utils/configureStore';
 import config from '../config/env';
@@ -21,6 +22,7 @@ require('../app/assets/icon-384x384.png');
 require('../app/assets/icon-512x512.png');
 
 function render(req, res, next) {
+  const log = req.app.get('log');
   cookie.plugToRequest(req, res);
   match({ routes, location: req.url }, (err, redirect, renderProps) => {
     if (err) {
@@ -56,7 +58,9 @@ function render(req, res, next) {
     };
 
     prepare(app).then(respond).catch(error => {
-      console.error('Error raised when preparing server rendering:', error);
+      const err = error.error ? error.payload : error
+      log.error(err, 'render_error')
+      Raven.captureException(err);
       respond();
     });
   });
