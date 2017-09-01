@@ -9,6 +9,7 @@ import { prepare } from 'react-prepare';
 import Helmet from 'react-helmet';
 import routes from '../app/routes';
 import configureStore from '../app/utils/configureStore';
+import config from '../config/env';
 
 import manifest from '../app/assets/manifest.json';
 require('../app/assets/favicon.png');
@@ -120,6 +121,10 @@ function renderPage({ body, state, helmet }) {
       <body>
         <div id="root">${body}</div>
         <script>
+           window.__CONFIG__ = ${JSON.stringify(config).replace(
+             /</g,
+             '\\u003c'
+           )}
            window.__PRELOADED_STATE__ = ${JSON.stringify(state).replace(
              /</g,
              '\\u003c'
