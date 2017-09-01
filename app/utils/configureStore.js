@@ -14,7 +14,8 @@ import type { State, Store } from 'app/types';
 import config from 'app/config';
 
 Raven.config(config.ravenDSN, {
-  release: config.release
+  release: config.release,
+  environment: config.environment
 }).install();
 
 const loggerMiddleware = createLogger({

@@ -2,17 +2,20 @@
 
 import http from 'http';
 import app from './server';
+import Raven from 'raven';
+import config from './env';
+
+Raven.config(config.ravenDsn).install();
 
 const server = http.createServer(app);
-
 let currentApp = app;
+const log = app.get('log');
 
 app.listen(app.get('port'), app.get('host'), err => {
   if (err) {
-    console.log(err);
+    log.error(err, 'could_not_start_server')
   }
-
-  console.log(`App is running on port ${app.get('port')}`);
+  log.info({ port: app.get('port'), host: app.get('host')}, 'app_stated')
 });
 
 if (module.hot) {
