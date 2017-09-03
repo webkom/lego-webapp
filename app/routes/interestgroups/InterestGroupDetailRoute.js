@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
+import { dispatched } from 'react-prepare';
 import {
   fetchInterestGroup,
   updateInterestGroup,
@@ -9,19 +9,10 @@ import {
 import InterestGroupDetail from './components/InterestGroupDetail';
 import { selectInterestGroupById } from 'app/reducers/interestGroups';
 
-function loadData({ interestGroupId }, props) {
-  props.fetchInterestGroup(Number(interestGroupId));
-}
-
-function mapStateToProps(state, props) {
-  const { interestGroupId } = props.params;
-  const group = selectInterestGroupById(state, { interestGroupId });
-
-  return {
-    group,
-    interestGroupId
-  };
-}
+const mapStateToProps = (state, { params: interestGroupId }) => ({
+  group: selectInterestGroupById(state, { interestGroupId }),
+  interestGroupId
+});
 
 const mapDispatchToProps = {
   fetchInterestGroup,
@@ -30,6 +21,12 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['interestGroupId', 'loggedIn'], loadData)
+  dispatched(
+    ({ params: { interestGroupId } }, dispatch) =>
+      dispatch(fetchInterestGroup(interestGroupId)),
+    {
+      componentWillReceiveProps: false
+    }
+  ),
+  connect(mapStateToProps, mapDispatchToProps)
 )(InterestGroupDetail);

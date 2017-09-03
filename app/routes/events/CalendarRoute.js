@@ -7,6 +7,20 @@ import { connect } from 'react-redux';
 import { fetchAll } from 'app/actions/EventActions';
 import Calendar from './components/Calendar';
 
+const loadData = ({ year, month }, dispatch) => {
+  const date = moment([parseInt(year, 10), parseInt(month, 10) - 1]);
+  if (date.isValid()) {
+    const dateAfter = date.clone().startOf('month').startOf('week');
+    const dateBefore = date.clone().endOf('month').endOf('week');
+    return dispatch(
+      fetchAll({
+        dateAfter: dateAfter.format('YYYY-MM-DD'),
+        dateBefore: dateBefore.format('YYYY-MM-DD')
+      })
+    );
+  }
+};
+
 const mapStateToProps = (state, ownProps) => {
   const {
     year = moment().year(),
@@ -31,21 +45,5 @@ const mapDispatchToProps = { fetchAll };
 // Todo: send PR to react-prepare with cwrp compare function
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  dispatched(
-    ({ year, month }, dispatch) => {
-      const dateAfter = moment([
-        parseInt(year, 10),
-        parseInt(month, 10) - 1
-      ]).startOf('month');
-      const dateBefore = dateAfter.clone().add(1, 'months').startOf('month');
-
-      return dispatch(
-        fetchAll({
-          dateAfter: dateAfter.format('YYYY-MM-DD'),
-          dateBefore: dateBefore.format('YYYY-MM-DD')
-        })
-      );
-    },
-    { componentWillReceiveProps: false }
-  )
+  dispatched(loadData)
 )(Calendar);

@@ -18,7 +18,7 @@ export function fetchAll() {
 }
 
 export function fetch(companyId) {
-  return dispatch => {
+  return dispatch =>
     dispatch(
       callAPI({
         types: Company.FETCH,
@@ -40,7 +40,6 @@ export function fetch(companyId) {
         })
       )
     );
-  };
 }
 
 export function addCompany({
@@ -58,7 +57,7 @@ export function addCompany({
   return dispatch => {
     dispatch(startSubmit('company'));
 
-    dispatch(
+    return dispatch(
       callAPI({
         types: Company.ADD,
         endpoint: '/companies/',
@@ -106,7 +105,7 @@ export function editCompany({
   return dispatch => {
     dispatch(startSubmit('company'));
 
-    dispatch(
+    return dispatch(
       callAPI({
         types: Company.EDIT,
         endpoint: `/companies/${companyId}/`,
@@ -139,7 +138,7 @@ export function deleteCompany(companyId) {
   return dispatch => {
     dispatch(startSubmit('company'));
 
-    dispatch(
+    return dispatch(
       callAPI({
         types: Company.DELETE,
         endpoint: `/companies/${companyId}/`,
@@ -164,7 +163,7 @@ export function addSemesterStatus(
   return dispatch => {
     dispatch(startSubmit('company'));
 
-    dispatch(
+    return dispatch(
       callAPI({
         types: Company.ADD_SEMESTER,
         endpoint: `/companies/${companyId}/semester-statuses/`,
@@ -197,7 +196,7 @@ export function editSemesterStatus(
   return dispatch => {
     dispatch(startSubmit('company'));
 
-    dispatch(
+    return dispatch(
       callAPI({
         types: Company.EDIT_SEMESTER,
         endpoint: `/companies/${companyId}/semester-statuses/${semesterId}/`,
@@ -225,7 +224,7 @@ export function deleteSemesterStatus(companyId, semesterId) {
   return dispatch => {
     dispatch(startSubmit('company'));
 
-    dispatch(
+    return dispatch(
       callAPI({
         types: Company.DELETE_SEMESTER,
         endpoint: `/companies/${companyId}/semester-statuses/${semesterId}/`,
@@ -248,7 +247,7 @@ export function addCompanyContact({ companyId, name, role, mail, phone }) {
   return dispatch => {
     dispatch(startSubmit('company'));
 
-    dispatch(
+    return dispatch(
       callAPI({
         types: Company.ADD_COMPANY_CONTACT,
         endpoint: `/companies/${companyId}/company-contacts/`,
@@ -281,7 +280,7 @@ export function editCompanyContact({
   return dispatch => {
     dispatch(startSubmit('company'));
 
-    dispatch(
+    return dispatch(
       callAPI({
         types: Company.EDIT_COMPANY_CONTACT,
         endpoint: `/companies/${companyId}/company-contacts/${companyContactId}/`,
@@ -307,7 +306,7 @@ export function deleteCompanyContact(companyId, companyContactId) {
   return dispatch => {
     dispatch(startSubmit('company'));
 
-    dispatch(
+    return dispatch(
       callAPI({
         types: Company.DELETE_COMPANY_CONTACT,
         endpoint: `/companies/${companyId}/company-contacts/${companyContactId}/`,

@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
+import { dispatched } from 'react-prepare';
 import { fetchArticle } from 'app/actions/ArticleActions';
 import ArticleDetail from './components/ArticleDetail';
 import {
@@ -8,11 +8,7 @@ import {
   selectCommentsForArticle
 } from 'app/reducers/articles';
 
-function loadData({ articleId }, props) {
-  props.fetchArticle(Number(articleId));
-}
-
-function mapStateToProps(state, props) {
+const mapStateToProps = (state, props) => {
   const { articleId } = props.params;
   const article = selectArticleById(state, { articleId });
   const comments = selectCommentsForArticle(state, { articleId });
@@ -22,11 +18,16 @@ function mapStateToProps(state, props) {
     article,
     articleId
   };
-}
+};
 
 const mapDispatchToProps = { fetchArticle };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['articleId', 'loggedIn'], loadData)
+  dispatched(
+    ({ params: { articleId } }, dispatch) => dispatch(fetchArticle(articleId)),
+    {
+      componentWillReceiveProps: false
+    }
+  ),
+  connect(mapStateToProps, mapDispatchToProps)
 )(ArticleDetail);
