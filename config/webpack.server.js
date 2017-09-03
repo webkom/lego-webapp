@@ -18,8 +18,11 @@ module.exports = {
   output: {
     path: path.join(root, 'dist'),
     filename: '[name].js',
-    publicPath: '/'
+    publicPath: '/',
+    sourceMapFilename: "[file].map",
   },
+
+  devtool: 'source-map',
 
   target: 'node',
 
