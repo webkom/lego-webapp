@@ -1,13 +1,9 @@
 import { connect } from 'react-redux';
+import { dispatched } from 'react-prepare';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
 import { editCompany, fetch } from '../../actions/CompanyActions';
 import EditCompany from './components/EditCompany';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
-
-function loadData({ companyId }, props) {
-  props.fetch(Number(companyId));
-}
 
 function validateCompany(data) {
   const errors = {};
@@ -17,7 +13,7 @@ function validateCompany(data) {
   return errors;
 }
 
-function mapStateToProps(state, props) {
+const mapStateToProps = (state, props) => {
   const companyId = props.params.companyId;
   const company = state.companies.byId[companyId];
 
@@ -39,15 +35,20 @@ function mapStateToProps(state, props) {
         }
       : null
   };
-}
+};
 
 const mapDispatchToProps = { editCompany, fetch };
 
 export default compose(
+  dispatched(
+    ({ params: { companyId } }, dispatch) => dispatch(fetch(companyId)),
+    {
+      componentWillReceiveProps: false
+    }
+  ),
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'editCompany',
     validate: validateCompany
-  }),
-  fetchOnUpdate(['companyId', 'loggedIn'], loadData)
+  })
 )(EditCompany);

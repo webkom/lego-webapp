@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { dispatched } from 'react-prepare';
 import {
   fetchQuote,
   approve,
@@ -7,14 +8,9 @@ import {
 } from '../../actions/QuoteActions';
 import QuoteDetail from './components/QuoteDetail';
 import { compose } from 'redux';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { selectCommentsForQuote } from 'app/reducers/quotes';
 
-function loadData(params, props) {
-  props.fetchQuote(props.quoteId);
-}
-
-function mapStateToProps(state, props) {
+const mapStateToProps = (state, props) => {
   const query = props.location.query;
   const quoteId = props.params.quoteId;
   const quote = state.quotes.byId[quoteId];
@@ -28,7 +24,7 @@ function mapStateToProps(state, props) {
     comments,
     actionGrant
   };
-}
+};
 
 const mapDispatchToProps = {
   fetchQuote,
@@ -38,6 +34,9 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['quoteId', 'loggedIn'], loadData)
+  dispatched(
+    ({ params: { quoteId } }, dispatch) => dispatch(fetchQuote(quoteId)),
+    { componentWillReceiveProps: false }
+  ),
+  connect(mapStateToProps, mapDispatchToProps)
 )(QuoteDetail);

@@ -8,7 +8,7 @@ import { selectIsLoggedIn } from 'app/reducers/auth';
 export function fetchNotificationData() {
   return (dispatch, getState) => {
     if (selectIsLoggedIn(getState())) {
-      dispatch(
+      return dispatch(
         callAPI({
           types: NotificationsFeed.FETCH_DATA,
           endpoint: '/feed-notifications/notification_data/'

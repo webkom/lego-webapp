@@ -27,9 +27,9 @@ export default class BdbPage extends Component {
     searchQuery: ''
   };
 
-  componentWillReceiveProps(newProps) {
+  componentWillMount() {
     this.setState({
-      companies: newProps.companies
+      companies: this.props.companies
     });
   }
 
@@ -179,6 +179,7 @@ export default class BdbPage extends Component {
 
   render() {
     const { query, companies } = this.props;
+
     if (!companies) {
       return <LoadingIndicator loading />;
     }

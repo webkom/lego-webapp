@@ -31,6 +31,7 @@ export default class ArticleEditor extends Component {
 
   onSubmit = data => {
     const body = {
+      ...(!this.props.isNew && { id: this.props.articleId }),
       title: data.title,
       content: data.content,
       cover: data.cover,
@@ -78,7 +79,7 @@ export default class ArticleEditor extends Component {
             placeholder="Tags"
             name="tags"
             tags
-            component={SelectInput}
+            component={SelectInput.Field}
             id="article-tags"
           />
 

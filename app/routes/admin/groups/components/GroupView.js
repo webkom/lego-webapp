@@ -19,7 +19,7 @@ const Group = props => {
         </span>
       </header>
 
-      {React.cloneElement(props.children, props)}
+      {props.children && React.cloneElement(props.children, props)}
     </div>
   );
 };
