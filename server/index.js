@@ -5,7 +5,10 @@ import app from './server';
 import Raven from 'raven';
 import config from './env';
 
-Raven.config(config.ravenDsn).install();
+Raven.config(config.ravenDsn, {
+  release: config.release,
+  environment: config.environment
+}).install();
 
 const server = http.createServer(app);
 let currentApp = app;

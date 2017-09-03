@@ -30,11 +30,14 @@
   "dependencies": {
     "animate.css": "3.5.2",
     "bunyan": "^1.8.12",
+    "chalk": "^2.1.0",
+    "child-process-promise": "^2.2.1",
     "classnames": "2.2.5",
     "isomorphic-fetch": "2.2.1",
     "jwt-decode": "2.2.0",
     "lodash": "^4.17.2",
     "marked": "0.3.6",
+    "meow": "^3.7.0",
     "minireset.css": "^0.0.3",
     "moment": "^2.17.1",
     "moment-timezone": "^0.5.10",
@@ -169,7 +172,10 @@
       "animate.css",
       "minireset.css",
       "bunyan",
-      "raven"
+      "raven",
+      "child-process-promise",
+      "chalk",
+      "meow"
     ]
   }
 }
