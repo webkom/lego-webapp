@@ -10,6 +10,7 @@ import events from './events';
 import articles from './articles';
 import pools from './pools';
 import registrations from './registrations';
+import meetingsToken from './meetingsToken';
 import meetings from './meetings';
 import search from './search';
 import auth from './auth';
@@ -33,6 +34,7 @@ const reducers = {
   articles,
   pools,
   registrations,
+  meetingsToken,
   meetings,
   interestGroups,
   search,
