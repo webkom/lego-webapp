@@ -6,6 +6,7 @@
   top: 0;
   left: 0;
   right: 0;
+  max-width: 900px;
 }
 
 .inputContainer {
@@ -58,7 +59,9 @@
 .resultsContainer {
   background: rgba(255, 255, 255, 0.8);
   overflow-y: scroll;
-  height: calc(100vh - 120px);
+  height: 100%;
+  max-height: calc(100vh - 120px);
+  border-radius: 0 0 7px 7px;
 
   @media (--small-viewport) {
     flex-direction: column;
@@ -115,16 +118,18 @@
 
 .quickLinks a {
   display: block;
-  color: #a0261b;
-  line-height: 2;
-  padding: 0 1rem;
+  color: var(--lego-link-color);
+  padding: 4px 15px;
   font-size: 1.2rem;
   text-transform: uppercase;
+  transition: 0.1s background-color;
 }
 
 .quickLinks a:hover {
-  letter-spacing: 1px;
-  color: #333;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 3px 14px;
 }
 
 .results {
