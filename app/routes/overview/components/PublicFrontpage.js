@@ -55,7 +55,7 @@ function PublicFrontpage() {
             </li>
             <li>
               <a href="https://www.ntnu.no/studier/mtdt">
-                <i className="fa fa-caret-right" /> Om Datateknikk
+                <i className="fa fa-caret-right" /> Om Datateknologi
               </a>
               <div className={styles.linkDescription}>
                 Datateknologi er en helt sentral del av alle fremtidsrettede
@@ -86,18 +86,20 @@ function PublicFrontpage() {
           </ul>
         </div>
 
-        <iframe
-          src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAbakusNTNU%2F&amp;tabs=timeline&amp;width=420&amp;small_header=true&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true&amp;appId=1717809791769695"
-          style={{
-            border: 'none',
-            overflow: 'hidden',
-            height: '500px',
-            width: '420px'
-          }}
-          scrolling="no"
-          frameBorder="0"
-          allowTransparency="true"
-        />
+        <div className={styles.facebook}>
+          <iframe
+            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAbakusNTNU%2F&amp;tabs=timeline&amp;width=420&amp;small_header=true&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true&amp;appId=1717809791769695"
+            style={{
+              border: 'none',
+              overflow: 'hidden',
+              height: '500px',
+              width: '420px'
+            }}
+            scrolling="no"
+            frameBorder="0"
+            allowTransparency="true"
+          />
+        </div>
       </Flex>
     </Content>
   );
