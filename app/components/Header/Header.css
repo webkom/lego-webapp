@@ -36,10 +36,40 @@
 .searchIcon {
   color: var(--lego-link-color);
 
+  @media (--mobile-device) {
+    display: none;
+  }
+
   &:hover,
   &.activeItem {
     color: var(--color-red-1);
   }
+}
+
+.burger {
+
+  @media (--mobile-device) {
+    order: 4;
+  }
+}
+
+.burger i {
+  font-size: 30px;
+  line-height: 60px;
+  margin-right: 20px;
+
+  @media (--mobile-device) {
+    margin-right: 0;
+  }
+
+}
+
+.hideOnMobile {
+
+  @media (--mobile-device) {
+    display: none;
+  }
+
 }
 
 .content {
