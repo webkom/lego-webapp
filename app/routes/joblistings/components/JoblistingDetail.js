@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
 import Image from 'app/components/Image';
 import styles from './JoblistingDetail.css';
-import { FlexRow, FlexColumn } from 'app/components/FlexBox';
+import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
 import { jobType, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
 import Editor from 'app/components/Editor';
@@ -17,16 +17,14 @@ type Props = {
 };
 
 const Buttons = ({ id, deleteJoblisting }) =>
-  <FlexColumn>
-    <FlexRow>
-      <Link to={`/joblistings/${id}/edit`}>
-        <button className={styles.editButton}> Rediger </button>
-      </Link>
-      <Link onClick={() => deleteJoblisting(id)}>
-        <button className={styles.editButton}> Slett </button>
-      </Link>
-    </FlexRow>
-  </FlexColumn>;
+  <FlexRow alignItems="center">
+    <Link to={`/joblistings/${id}/edit`}>
+      <button className={styles.editButton}> Rediger </button>
+    </Link>
+    <Link onClick={() => deleteJoblisting(id)}>
+      <button className={styles.editButton}> Slett </button>
+    </Link>
+  </FlexRow>;
 
 const JoblistingDetail = ({
   joblisting,
@@ -43,13 +41,13 @@ const JoblistingDetail = ({
         <Image src="http://placehold.it/1000x300" />
       </div>
       <FlexRow className={styles.title}>
-        {actionGrant.includes('update') &&
-          <Buttons id={joblisting.id} deleteJoblisting={deleteJoblisting} />}
-        <FlexColumn>
+        <FlexItem>
           <h1>
             {joblisting.title}
           </h1>
-        </FlexColumn>
+        </FlexItem>
+        {actionGrant.includes('update') &&
+          <Buttons id={joblisting.id} deleteJoblisting={deleteJoblisting} />}
       </FlexRow>
       <FlexRow className={styles.textbody}>
         <FlexColumn className={styles.meta}>
