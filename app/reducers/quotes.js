@@ -10,7 +10,9 @@ export type QuoteEntity = {
   id: number,
   text: string,
   source: string,
-  comments: Array<number>
+  approved: boolean,
+  comments: Array<number>,
+  commentCount: string
 };
 
 function mutateQuote(state: any, action: any) {
@@ -44,13 +46,29 @@ const compareByDate = (a, b) => {
   return date2.getTime() - date1.getTime();
 };
 
-export const selectSortedQuotes = createSelector(
+export const selectQuotes = createSelector(
   state => state.quotes.byId,
   state => state.quotes.items,
-  (state, props) => props.query || {},
-  (byId, ids, query) => {
-    return ids
-      .map(id => byId[id])
+  (quotesById, ids) => {
+    if (!quotesById || !ids) return [];
+    return ids.map(quoteId => quotesById[quoteId]);
+  }
+);
+
+export const selectQuoteById = createSelector(
+  selectQuotes,
+  (state, quoteId) => quoteId,
+  (quotes, quoteId) => {
+    if (!quotes || !quoteId) return {};
+    return quotes.find(quote => Number(quote.id) === Number(quoteId));
+  }
+);
+
+export const selectSortedQuotes = createSelector(
+  selectQuotes,
+  (state, props) => props.location.query || {},
+  (quotes, query) => {
+    return quotes
       .filter(
         quote =>
           quote !== undefined &&
@@ -61,7 +79,7 @@ export const selectSortedQuotes = createSelector(
 );
 
 export const selectCommentsForQuote = createSelector(
-  (state, quoteId) => state.quotes.byId[quoteId],
+  selectQuoteById,
   state => state.comments.byId,
   (quote, commentsById) => {
     if (!quote || !commentsById) return [];

@@ -3,7 +3,7 @@ import Time from 'app/components/Time';
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Dropdown from 'app/components/Dropdown';
-import Icon from 'app/components//Icon';
+import Icon from 'app/components/Icon';
 
 type Props = {
   quote: Object,

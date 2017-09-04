@@ -23,9 +23,9 @@ const loadData = (props, dispatch) => {
   return dispatch(fetchAllApproved());
 };
 
-const mapStateToProps = (state, { location: { query } }) => ({
-  quotes: selectSortedQuotes(state, { query }),
-  query,
+const mapStateToProps = (state, props) => ({
+  quotes: selectSortedQuotes(state, props.location.query),
+  query: props.location.query,
   actionGrant: state.quotes.actionGrant
 });
 

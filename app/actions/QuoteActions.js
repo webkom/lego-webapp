@@ -5,6 +5,7 @@ import { startSubmit, stopSubmit } from 'redux-form';
 import { quoteSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Quote } from './ActionTypes';
+import { addNotification } from 'app/actions/NotificationActions';
 
 export function fetchAll({ approved = true }) {
   return callAPI({
@@ -98,6 +99,13 @@ export function addQuotes({ text, source }) {
       .then(() => {
         dispatch(stopSubmit('addQuote'));
         dispatch(push('/quotes'));
+        dispatch(
+          addNotification({
+            message:
+              'Sitat sendt inn. Hvis det blir godkjent vil det dukke opp her!',
+            dismissAfter: 10000
+          })
+        );
       })
       .catch(action => {
         const errors = { ...action.error.response.jsonData };
