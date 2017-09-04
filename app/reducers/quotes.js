@@ -3,26 +3,39 @@
 import { Quote } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
+import { mutateComments } from 'app/reducers/comments';
+import joinReducers from 'app/utils/joinReducers';
+
+export type QuoteEntity = {
+  id: number,
+  text: string,
+  source: string,
+  comments: Array<number>
+};
+
+function mutateQuote(state: any, action: any) {
+  switch (action.type) {
+    case Quote.DELETE.SUCCESS:
+    case Quote.UNAPPROVE.SUCCESS:
+    case Quote.APPROVE.SUCCESS:
+      return {
+        ...state,
+        items: state.items.filter(id => id !== action.meta.quoteId)
+      };
+
+    default:
+      return state;
+  }
+}
+
+const mutate = joinReducers(mutateComments('quotes'), mutateQuote);
 
 export default createEntityReducer({
   key: 'quotes',
   types: {
     fetch: Quote.FETCH
   },
-  mutate(state, action) {
-    switch (action.type) {
-      case Quote.DELETE.SUCCESS:
-      case Quote.UNAPPROVE.SUCCESS:
-      case Quote.APPROVE.SUCCESS:
-        return {
-          ...state,
-          items: state.items.filter(id => id !== action.meta.quoteId)
-        };
-
-      default:
-        return state;
-    }
-  }
+  mutate
 });
 
 const compareByDate = (a, b) => {
