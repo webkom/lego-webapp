@@ -13,7 +13,6 @@ export default class QuoteList extends Component {
   };
 
   componentWillReceiveProps(newProps) {
-    console.log('Got new props!');
     this.setState({ displayAdminId: -1 });
   }
 
