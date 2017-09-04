@@ -6,7 +6,7 @@ export const MeetingAnswer = ({ response, user, meeting, status }) => {
     return <LoadingIndicator loading />;
   }
 
-  if (response === 'good') {
+  if (response === 'SUCCESS') {
     const statusText = ['', 'Delta', 'Ikke delta'][status];
     return (
       <div style={{ textAlign: 'center' }}>

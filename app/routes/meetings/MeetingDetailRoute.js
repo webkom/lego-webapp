@@ -30,9 +30,11 @@ const loadData = (props, dispatch) => {
 const mapStateToProps = (state, props) => {
   const { meetingId } = props.params;
   const { action, token } = props.location.query;
-  const showAnswer = Boolean(action && token);
   const meeting = selectMeetingById(state, { meetingId });
   const meetingsToken = state.meetingsToken;
+  const showAnswer = Boolean(
+    meetingsToken.response === 'SUCCESS' && action && token
+  );
   const userMe = state.auth.username
     ? state.users.byId[state.auth.username]
     : {};

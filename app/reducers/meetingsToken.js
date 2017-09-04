@@ -3,8 +3,7 @@ const initialState = {
   response: '',
   user: {},
   meeting: null,
-  status: '',
-  lastFetched: null
+  status: ''
 };
 
 type State = typeof initialState;
@@ -15,18 +14,16 @@ export default function meetingsToken(
 ) {
   switch (action.type) {
     case Meeting.ANSWER_INVITATION_TOKEN.FAILURE: {
-      return { status: 'bad' };
+      return { ...initialState, status: 'FAILURE' };
     }
     case Meeting.ANSWER_INVITATION_TOKEN.SUCCESS: {
       const { meeting, user, status } = action.payload;
 
       return {
-        ...action.payload,
-        response: 'good',
+        response: 'SUCCESS',
         user,
         meeting,
-        status,
-        lastFetched: Date.now()
+        status
       };
     }
     default:
