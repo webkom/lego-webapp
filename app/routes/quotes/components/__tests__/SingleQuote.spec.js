@@ -60,6 +60,8 @@ describe('components', () => {
       );
       const deleteButton = wrapper.find('.deleteQuote');
       deleteButton.simulate('click');
+      const confirmDeleteButton = wrapper.find('.deleteQuote');
+      confirmDeleteButton.simulate('click');
       expect(deleteQuote).toBeCalledWith(quotes[0].id);
     });
   });
