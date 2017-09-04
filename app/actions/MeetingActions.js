@@ -145,34 +145,24 @@ export function inviteUsersAndGroups({ id, users, groups }) {
 
 export function answerMeetingInvitation(action, token, loggedIn) {
   return dispatch => {
-    dispatch(startSubmit('ansewerMeetingInvitation'));
+    dispatch(startSubmit('answerMeetingInvitation'));
 
-    dispatch(
+    return dispatch(
       callAPI({
         types: Meeting.ANSWER_INVITATION_TOKEN,
         endpoint: `/meeting-token/${action}/?token=${token}`,
         method: 'post',
         meta: {
           errorMessage: 'Answer invitation failed'
-        }
+        },
+        useCache: true
       })
     )
-      .then(result => {
-        const { status, meeting, user } = result.payload;
+      .then(() => {
         dispatch(stopSubmit('answerMeetingInvitation'));
-        if (loggedIn) {
-          dispatch(push(`/meetings/${meeting}/`));
-        } else {
-          dispatch(
-            push(
-              `/meetings/answer/result/?status=good&meeting=${meeting}&answer=${status}&user=${user.firstName}`
-            )
-          );
-        }
       })
       .catch(() => {
-        dispatch(stopSubmit('ansewerMeetingInvitation', null));
-        dispatch(push('/meetings/answer/result/?status=bad'));
+        dispatch(stopSubmit('answerMeetingInvitation', null));
       });
   };
 }

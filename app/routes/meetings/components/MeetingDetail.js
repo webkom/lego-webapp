@@ -12,7 +12,8 @@ import moment from 'moment';
 
 type Props = {
   meeting: object,
-  userMe: object
+  userMe: object,
+  showAnswer: Boolean
 };
 
 function UserLink({ user }) {
@@ -35,35 +36,35 @@ class MeetingDetails extends Component {
   };
 
   acceptInvitation = () => {
-    this.setInvitationStatus(1);
+    this.setInvitationStatus('ATTENDING');
   };
 
   rejectInvitation = () => {
-    this.setInvitationStatus(2);
+    this.setInvitationStatus('NOT_ATTENDING');
   };
 
   sortInvitations = () => {
     const { invitations } = this.props.meeting;
-    const pools = [
-      {
+    const pools = {
+      NO_ANSWER: {
         name: 'Ikke svart',
         capacity: invitations.length,
         registrations: []
       },
-      {
+      ATTENDING: {
         name: 'Deltar',
         capacity: invitations.length,
         registrations: []
       },
-      {
+      NOT_ATTENDING: {
         name: 'Deltar ikke',
         capacity: invitations.length,
         registrations: []
       }
-    ];
+    };
 
     invitations.forEach(item => pools[item.status].registrations.push(item));
-    return pools.filter(pool => pool.registrations.length !== 0);
+    return Object.values(pools).filter(pool => pool.registrations.length !== 0);
   };
 
   attendanceButtons = (statusMe, startTime) => {
@@ -72,10 +73,16 @@ class MeetingDetails extends Component {
     }
     return (
       <li className={styles.statusButtons}>
-        <Button onClick={this.acceptInvitation} disabled={statusMe === 1}>
+        <Button
+          onClick={this.acceptInvitation}
+          disabled={statusMe === 'ATTENDING'}
+        >
           Delta
         </Button>
-        <Button onClick={this.rejectInvitation} disabled={statusMe === 2}>
+        <Button
+          onClick={this.rejectInvitation}
+          disabled={statusMe === 'NOT_ATTENDING'}
+        >
           Avslå
         </Button>
       </li>
@@ -83,8 +90,12 @@ class MeetingDetails extends Component {
   };
 
   render() {
-    const { meeting, userMe } = this.props;
-    const STATUS_MESSAGES = ['Ikke svart', 'Deltar', 'Deltar ikke'];
+    const { meeting, userMe, showAnswer } = this.props;
+    const STATUS_MESSAGES = {
+      NO_ANSWER: 'Ikke svart',
+      ATTENDING: 'Deltar',
+      NOT_ATTENDING: 'Deltar ikke'
+    };
 
     if (meeting === undefined || userMe === undefined) {
       return <LoadingIndicator loading />;
@@ -103,6 +114,7 @@ class MeetingDetails extends Component {
     const canDelete = this.props.userMe.id === this.props.meeting.createdBy;
     return (
       <div className={styles.root}>
+        {showAnswer && <h2> Du har nå svart på invitasjonen 😃 </h2>}
         <h2>
           <Link to="/meetings/">
             <i className="fa fa-angle-left" /> Mine møter

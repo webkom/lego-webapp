@@ -48,12 +48,13 @@ export default function callAPI({
   meta,
   schema,
   force = false,
+  useCache,
   cacheSeconds = 10,
   requiresAuthentication = true
 }: Object): Thunk<*, *> {
   return (dispatch, getState) => {
     const methodUpperCase = method.toUpperCase();
-    const methodIsGet = methodUpperCase === 'GET';
+    const shouldUseCache = methodUpperCase === 'GET' || useCache;
     const options = {
       method: methodUpperCase,
       body,
@@ -65,7 +66,7 @@ export default function callAPI({
     const state = getState();
     if (
       !force &&
-      methodIsGet &&
+      shouldUseCache &&
       !isRequestNeeded(state, endpoint, cacheSeconds)
     ) {
       return Promise.resolve('Request skipped');
@@ -104,7 +105,7 @@ export default function callAPI({
         ...meta,
         optimisticId: body ? optimisticId : undefined,
         endpoint,
-        success: methodIsGet && types.SUCCESS,
+        success: shouldUseCache && types.SUCCESS,
         body
       },
       promise: fetchJSON(urlFor(endpoint), options)

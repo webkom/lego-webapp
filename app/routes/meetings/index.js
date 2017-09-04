@@ -15,20 +15,6 @@ export default {
       )
     },
     {
-      path: 'answer/result',
-      ...resolveAsyncRoute(
-        () => import('./MeetingAnswerRoute'),
-        () => require('./MeetingAnswerRoute')
-      )
-    },
-    {
-      path: 'answer/:action',
-      ...resolveAsyncRoute(
-        () => import('./MeetingAnswerRoute'),
-        () => require('./MeetingAnswerRoute')
-      )
-    },
-    {
       path: ':meetingId',
       ...resolveAsyncRoute(
         () => import('./MeetingDetailRoute'),
