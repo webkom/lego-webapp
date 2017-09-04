@@ -5,9 +5,8 @@
 }
 
 .title {
-  align-items: center;
+  flex-wrap: wrap;
   justify-content: space-between;
-  flex-direction: row-reverse;
 
   @media (--small-viewport) {
     margin: auto 10px;
@@ -38,8 +37,9 @@
   flex: 2.5;
 }
 
-.applicationUrl, .company {
-  color: #FFF;
+.applicationUrl,
+.company {
+  color: #fff;
   text-decoration: underline;
 }
 
