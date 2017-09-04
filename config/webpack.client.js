@@ -13,7 +13,7 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 module.exports = {
   cache: true,
-  devtool: !isProduction && 'cheap-module-eval-source-map',
+  devtool: isProduction ? 'source-map' : 'cheap-module-eval-source-map',
 
   entry: isProduction
     ? {
@@ -40,7 +40,8 @@ module.exports = {
     chunkFilename: isProduction
       ? '[name].chunk.[chunkhash:8].js'
       : '[name].chunk.js',
-    publicPath: '/'
+    publicPath: '/',
+    sourceMapFilename: '[file].map',
   },
 
   plugins: getDependencyHandlers().concat(
@@ -65,7 +66,8 @@ module.exports = {
         },
         output: {
           comments: false
-        }
+        },
+        sourceMap: true,
       }),
 
       new webpack.LoaderOptionsPlugin({
@@ -107,7 +109,7 @@ module.exports = {
         include: /node_modules/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: 'css-loader'
+          use: isProduction ? 'css-loader' : 'css-loader?sourceMap'
         })
       },
       {
