@@ -49,9 +49,9 @@ export function createGallery({
       title,
       description,
       location,
+      event,
       takenAt,
-      photographers,
-      event
+      photographers: photographers || []
     },
     meta: {
       errorMessage: 'Creating gallery failed'
@@ -59,16 +59,10 @@ export function createGallery({
   });
 }
 
-export function editGallery({
-  id,
-  title,
-  description,
-  location,
-  takenAt,
-  photographers,
-  event,
-  cover
-}: GalleryEntity) {
+export function updateGallery(
+  id: EntityID,
+  { title, description, location, takenAt, photographers, event }: GalleryEntity
+) {
   return callAPI({
     types: Gallery.EDIT,
     endpoint: `/galleries/${id}/`,
@@ -80,11 +74,25 @@ export function editGallery({
       location,
       takenAt,
       photographers,
-      event,
-      cover
+      event
     },
     meta: {
       errorMessage: 'Editing gallery failed'
+    }
+  });
+}
+
+export function updateGalleryCover(id: EntityID, cover: EntityID) {
+  return callAPI({
+    types: Gallery.EDIT,
+    endpoint: `/galleries/${id}/`,
+    method: 'PATCH',
+    schema: gallerySchema,
+    body: {
+      cover
+    },
+    meta: {
+      errorMessage: 'Updating gallery cover failed'
     }
   });
 }
@@ -107,6 +115,19 @@ export function updatePicture({
     meta: {
       galleryId,
       errorMessage: 'Updating picture belonging gallery failed'
+    }
+  });
+}
+
+export function deleteGallery(id: EntityID) {
+  return callAPI({
+    types: Gallery.DELETE,
+    endpoint: `/galleries/${id}/`,
+    method: 'DELETE',
+    schema: gallerySchema,
+    meta: {
+      galleryId: id,
+      errorMessage: 'Deleting gallery failed'
     }
   });
 }
@@ -134,27 +155,27 @@ export function addPicture({
   });
 }
 
-export function deletePicture({ galleryId, pictureId }: GalleryPictureEntity) {
+export function deletePicture(gallery: EntityID, picture: EntityID) {
   return callAPI({
     types: Gallery.DELETE_PICTURE,
-    endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
+    endpoint: `/galleries/${gallery}/pictures/${picture}/`,
     method: 'DELETE',
     schema: galleryPictureSchema,
     meta: {
-      galleryId,
+      galleryId: gallery,
       errorMessage: 'Deleting picture belonging gallery failed'
     }
   });
 }
 
-export function editPicture({ galleryId, pictureId }: GalleryPictureEntity) {
+export function editPicture(gallery: EntityID, picture: EntityID) {
   return callAPI({
     types: Gallery.DELETE_PICTURE,
-    endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
+    endpoint: `/galleries/${gallery}/pictures/${picture}/`,
     method: 'DELETE',
     schema: galleryPictureSchema,
     meta: {
-      galleryId,
+      galleryId: gallery,
       errorMessage: 'Deleting picture belonging gallery failed'
     }
   });

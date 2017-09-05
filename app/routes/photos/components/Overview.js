@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import Button from 'app/components/Button';
 import { Flex } from 'app/components/Layout';
+import { Link } from 'react-router';
 import Gallery from 'app/components/Gallery';
 import styles from './Overview.css';
 
@@ -22,7 +23,9 @@ export default class Overview extends Component {
       <section className={styles.root}>
         <Flex wrap alignItems="center" justifyContent="space-between">
           <h1>Alle albumer</h1>
-          <Button>Nytt Album</Button>
+          <Button>
+            <Link to={'/photos/new'}>Nytt Album</Link>
+          </Button>
         </Flex>
 
         <Flex>

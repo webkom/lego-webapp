@@ -1,9 +1,12 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import {
+  updateGallery,
   fetchGallery,
   deletePicture,
-  editPicture
+  deleteGallery,
+  editPicture,
+  updateGalleryCover
 } from 'app/actions/GalleryActions';
 import { push } from 'react-router-redux';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
@@ -30,7 +33,15 @@ function mapStateToProps(state, props) {
   };
 }
 
-const mapDispatchToProps = { fetchGallery, push, deletePicture, editPicture };
+const mapDispatchToProps = {
+  fetchGallery,
+  deleteGallery,
+  updateGallery,
+  push,
+  deletePicture,
+  editPicture,
+  updateGalleryCover
+};
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

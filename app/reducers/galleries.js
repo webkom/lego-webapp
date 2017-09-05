@@ -23,7 +23,11 @@ export default createEntityReducer({
 
 function transformGallery(gallery) {
   return {
-    ...gallery
+    ...gallery,
+    cover: gallery.cover || {
+      file:
+        'https://static01-prd-us-east-1-colaboradora.s3.amazonaws.com/images/default_cover.jpg'
+    }
   };
 }
 

@@ -1,10 +1,9 @@
 // @flow
 
 import React, { Component } from 'react';
-import moment from 'moment';
 import cx from 'classnames';
+import moment from 'moment';
 import Button from 'app/components/Button';
-import { Link } from 'react-router';
 import {
   TextInput,
   Form,
@@ -25,7 +24,8 @@ type Props = {
   handleSubmit: () => void,
   createGallery: () => Promise,
   push: string => Promise,
-  editGallery: () => Promise
+  updateGallery: () => Promise,
+  deleteGallery: () => Promise
 };
 
 type State = {
@@ -56,16 +56,26 @@ export default class GalleryEditor extends Component {
   onSubmit = data => {
     const body = {
       title: data.title,
-      content: data.content,
-      cover: data.cover,
-      tags: data.tags.map(tag => tag.value)
+      description: data.description,
+      takenAt: moment(data.takenAt).format('YYYY-MM-DD'),
+      location: data.location,
+      event: data.event && data.event.value,
+      photographers: data.photographers && data.photographers.map(p => p.value)
     };
 
     if (this.props.isNew) {
-      this.props.createGallery(body);
+      this.props.createGallery(body).then(({ payload }) => {
+        this.props.push(`/photos/${payload.result}`);
+      });
     } else {
-      this.props.editGallery(body);
+      this.props.updateGallery(this.props.gallery.id, body);
     }
+  };
+
+  onDelete = () => {
+    this.props.deleteGallery(this.props.gallery.id).then(() => {
+      this.props.push('/photos');
+    });
   };
 
   render() {
@@ -88,7 +98,9 @@ export default class GalleryEditor extends Component {
                 {isNew ? 'Create' : 'Save'}
               </Button>
               {!isNew &&
-                <Button className={styles.deleteButton}>Delete</Button>}
+                <Button onClick={this.onDelete} className={styles.deleteButton}>
+                  Delete
+                </Button>}
             </Flex>
             <Flex>
               <Field
@@ -130,6 +142,7 @@ export default class GalleryEditor extends Component {
             </Flex>
           </Form>
         </Flex>
+        {selected.length > 0 && <div className={styles.selectedRow} />}
         <Flex>
           {isNew
             ? <div className={styles.createState}>
@@ -137,7 +150,7 @@ export default class GalleryEditor extends Component {
                   className={styles.createStateIcon}
                   name="photos-outline"
                 />
-                <h1>Du må lage albumet for å legge inn bilder!</h1>
+                <h1>For å legge inn bilder må du først lage albumet!</h1>
               </div>
             : <Gallery
                 photos={pictures}

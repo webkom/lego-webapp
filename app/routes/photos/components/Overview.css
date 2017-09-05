@@ -80,3 +80,9 @@
 .form {
   width: 100%;
 }
+
+.selectedRow {
+  height: 50px;
+  background: dimgray;
+  margin-bottom: 15px;
+}
