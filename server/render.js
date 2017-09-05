@@ -48,7 +48,7 @@ function render(req, res, next) {
     const respond = () => {
       const body = renderToString(app);
 
-      res.send(
+      return res.send(
         renderPage({
           body,
           state: store.getState(),
@@ -58,8 +58,8 @@ function render(req, res, next) {
     };
 
     prepare(app).then(respond).catch(error => {
-      const err = error.error ? error.payload : error
-      log.error(err, 'render_error')
+      const err = error.error ? error.payload : error;
+      log.error(err, 'render_error');
       Raven.captureException(err);
       respond();
     });
