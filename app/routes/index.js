@@ -11,7 +11,7 @@ import pages from './pages';
 import search from './search';
 import interestGroups from './interestgroups';
 import joblistings from './joblistings';
-import NotFound from './errors/NotFound';
+import HTTPError from './errors/HTTPError';
 import bdb from './bdb';
 
 export default {
@@ -33,7 +33,7 @@ export default {
     bdb,
     {
       path: '*',
-      component: NotFound
+      component: HTTPError
     }
   ]
 };

@@ -176,3 +176,7 @@ export const File = {
 export const Feed = {
   FETCH: generateStatuses('Feed.FETCH')
 };
+
+export const Routing = {
+  SET_STATUS_CODE: 'Routing.SET_STATUS_CODE'
+};
