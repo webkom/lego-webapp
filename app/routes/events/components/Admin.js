@@ -24,7 +24,7 @@ export default class Admin extends Component {
             <li>
               <strong>Admin</strong>
             </li>
-            {actionGrant.includes('update') &&
+            {actionGrant.includes('edit') &&
               <li>
                 <Link
                   to={`/events/${event.id}/administrate`}
@@ -33,7 +33,7 @@ export default class Admin extends Component {
                   Påmeldinger
                 </Link>
               </li>}
-            {actionGrant.includes('update') &&
+            {actionGrant.includes('edit') &&
               <li>
                 <Link
                   to={`/events/${event.id}/edit`}
