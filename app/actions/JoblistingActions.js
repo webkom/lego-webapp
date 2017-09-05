@@ -11,7 +11,8 @@ export function fetchAll() {
     schema: [joblistingsSchema],
     meta: {
       errorMessage: 'Fetching joblistings failed'
-    }
+    },
+    propagateError: true
   });
 }
 
@@ -23,6 +24,7 @@ export function fetchJoblisting(joblistingId) {
     meta: {
       joblistingId,
       errorMessage: 'Fetching joblisting failed'
-    }
+    },
+    propagateError: true
   });
 }

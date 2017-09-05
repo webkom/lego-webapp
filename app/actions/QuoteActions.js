@@ -13,7 +13,8 @@ export function fetchAll({ approved = true }) {
     schema: [quoteSchema],
     meta: {
       errorMessage: `Fetching ${approved ? '' : 'un'}approved quotes failed`
-    }
+    },
+    propagateError: true
   });
 }
 
@@ -34,7 +35,8 @@ export function fetchQuote(quoteId) {
       quoteId,
       errorMessage: 'Fetching quote failed'
     },
-    schema: quoteSchema
+    schema: quoteSchema,
+    propagateError: true
   });
 }
 

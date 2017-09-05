@@ -12,7 +12,8 @@ export function fetchInterestGroup(interestGroupId: string) {
     schema: interestGroupSchema,
     meta: {
       errorMessage: 'Fetching interestGroup failed'
-    }
+    },
+    propagateError: true
   });
 }
 
@@ -23,7 +24,8 @@ export function fetchAll() {
     schema: [interestGroupSchema],
     meta: {
       errorMessage: 'Fetching interestGroups failed'
-    }
+    },
+    propagateError: true
   });
 }
 
