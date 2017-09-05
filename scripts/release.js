@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+/* eslint no-console: 0 */
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
@@ -98,7 +98,7 @@ async function main(flags) {
 
   await task(uploadProjectToSentry(release, sentryProject));
 
-  if (!!flags.delete) {
+  if (flags.delete) {
     // Delete sourcemaps if the --delete flag exists.
     await task(deleteSourceMaps());
   }
