@@ -42,7 +42,7 @@ export default class Admin extends Component {
                   Rediger
                 </Link>
               </li>}
-            {actionGrant.includes('destroy') &&
+            {actionGrant.includes('delete') &&
               <li>
                 <a
                   onClick={() => this.handleDelete(event.id)}

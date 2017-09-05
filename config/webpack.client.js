@@ -42,7 +42,7 @@ module.exports = {
       ? '[name].chunk.[chunkhash:8].js'
       : '[name].chunk.js',
     publicPath: '/',
-    sourceMapFilename: '[file].map',
+    sourceMapFilename: '[file].map'
   },
 
   plugins: getDependencyHandlers().concat(
@@ -50,7 +50,7 @@ module.exports = {
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(!isProduction),
         __CLIENT__: true,
-        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
       }),
 
       !isProduction && new FriendlyErrorsPlugin(),
@@ -68,7 +68,7 @@ module.exports = {
         output: {
           comments: false
         },
-        sourceMap: true,
+        sourceMap: true
       }),
 
       new webpack.LoaderOptionsPlugin({
@@ -146,7 +146,7 @@ module.exports = {
         })
       },
       {
-        test: /\.(png|jpg|jpeg|gif|eot|svg|woff|woff2|ttf|mp4|webm)$/,
+        test: /\.(png|jpg|jpeg|gif|bdf|eot|svg|woff|woff2|ttf|mp4|webm)$/,
         loader: 'url-loader',
         query: {
           limit: 8192

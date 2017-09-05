@@ -14,7 +14,8 @@ export function fetchMeeting(meetingId: string) {
     schema: meetingSchema,
     meta: {
       errorMessage: `Fetching meeting ${meetingId} failed`
-    }
+    },
+    propagateError: true
   });
 }
 
@@ -25,7 +26,8 @@ export function fetchAll() {
     schema: [meetingSchema],
     meta: {
       errorMessage: 'Fetching meetings failed'
-    }
+    },
+    propagateError: true
   });
 }
 
