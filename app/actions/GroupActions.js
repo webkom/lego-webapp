@@ -11,7 +11,8 @@ export function fetchGroup(groupId) {
     schema: groupSchema,
     meta: {
       errorMessage: 'Fetching group failed'
-    }
+    },
+    propagateError: true
   });
 }
 
@@ -22,7 +23,8 @@ export function fetchAll() {
     schema: [groupSchema],
     meta: {
       errorMessage: 'Fetching groups failed'
-    }
+    },
+    propagateError: true
   });
 }
 

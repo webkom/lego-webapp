@@ -13,7 +13,8 @@ export function fetchAll() {
     schema: [companySchema],
     meta: {
       errorMessage: 'Fetching companies failed'
-    }
+    },
+    propagateError: true
   });
 }
 
@@ -26,7 +27,8 @@ export function fetch(companyId) {
         schema: companySchema,
         meta: {
           errorMessage: 'Fetching single company failed'
-        }
+        },
+        propagateError: true
       })
     ).then(() =>
       dispatch(

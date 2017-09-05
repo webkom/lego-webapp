@@ -15,7 +15,8 @@ export function fetchEvent(eventId: string) {
     schema: eventSchema,
     meta: {
       errorMessage: 'Fetching event failed'
-    }
+    },
+    propagateError: true
   });
 }
 
@@ -29,7 +30,8 @@ export function fetchAll({ dateAfter, dateBefore }: Object = {}) {
     schema: [eventSchema],
     meta: {
       errorMessage: 'Fetching events failed'
-    }
+    },
+    propagateError: true
   });
 }
 

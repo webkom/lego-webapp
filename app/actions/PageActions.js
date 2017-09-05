@@ -11,7 +11,8 @@ export function fetchPage(pageSlug: string) {
     schema: pageSchema,
     meta: {
       errorMessage: 'Fetching page failed'
-    }
+    },
+    propagateError: true
   });
 }
 
@@ -22,7 +23,8 @@ export function fetchAll() {
     schema: [pageSchema],
     meta: {
       errorMessage: 'Fetching pages failed'
-    }
+    },
+    propagateError: true
   });
 }
 
