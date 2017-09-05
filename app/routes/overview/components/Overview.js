@@ -15,7 +15,6 @@ import Button from 'app/components/Button';
 const TITLE_MAX_LENGTH = 50;
 const DESCRIPTION_MAX_LENGTH = 140;
 const IMAGE_HEIGHT = 192;
-const IMAGE_WIDTH = 350;
 
 function PrimaryItem({ event }) {
   return (

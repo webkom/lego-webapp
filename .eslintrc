@@ -1,6 +1,7 @@
 {
   "extends": [
     "react-app",
+    "eslint:recommended",
     "plugin:flowtype/recommended",
     "plugin:react/recommended",
     "prettier",
