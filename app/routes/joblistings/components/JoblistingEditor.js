@@ -157,6 +157,9 @@ export default reduxForm({
     if (parseInt(values.fromYear, 10) > parseInt(values.toYear, 10)) {
       errors.toYear = "'Til år' kan ikke være lavere enn 'Fra år'";
     }
+    if (!values.workplaces) {
+      errors.workplaces = 'Arbeidssteder kan ikke være tom';
+    }
     const visibleFrom = moment.tz(values.visibleFrom, config.timezone);
     const visibleTo = moment.tz(values.visibleTo, config.timezone);
     if (visibleFrom > visibleTo) {
