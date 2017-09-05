@@ -1,4 +1,5 @@
 // @flow
+/* eslint no-console: 0 */
 
 import 'babel-polyfill';
 import moment from 'moment';

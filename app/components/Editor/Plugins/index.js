@@ -14,9 +14,7 @@ const enterOnVoidBlock = {
 };
 
 const copyPastePlugin = {
-  onCopy(e, data, state) {
-    console.log(e, data, state);
-  }
+  onCopy(e, data, state) {}
 };
 
 const base = [
