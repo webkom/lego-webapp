@@ -100,7 +100,7 @@ function EventEditor({
   pristine
 }: Props) {
   const isEditPage = eventId !== undefined;
-  if (isEditPage && !actionGrant.includes('update')) {
+  if (isEditPage && !actionGrant.includes('edit')) {
     return null;
   }
 

@@ -52,7 +52,7 @@ export default class PageDetail extends Component {
       return <LoadingIndicator loading />;
     }
 
-    const canEdit = page.permissions && page.permissions.includes('update');
+    const canEdit = page.permissions && page.permissions.includes('edit');
     return (
       <div className={styles.root}>
         <div className={styles.page}>

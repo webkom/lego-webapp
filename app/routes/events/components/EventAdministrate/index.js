@@ -81,7 +81,7 @@ export default class EventAdministrate extends Component {
       searching
     } = this.props;
 
-    if (!actionGrant.includes('update')) {
+    if (!actionGrant.includes('edit')) {
       return null;
     }
 

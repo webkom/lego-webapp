@@ -38,7 +38,7 @@ const ArticleDetail = (props: Props) => {
         <h2>
           {article.title}
         </h2>
-        {article.actionGrant.includes('update') &&
+        {article.actionGrant.includes('edit') &&
           <span>
             <Link to={`/articles/${article.id}/edit`}>Edit</Link>
           </span>}
