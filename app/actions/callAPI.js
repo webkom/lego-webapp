@@ -6,6 +6,7 @@ import config from '../config';
 import type { Thunk } from 'app/types';
 import { logout } from 'app/actions/UserActions';
 import isRequestNeeded from 'app/utils/isRequestNeeded';
+import { Routing } from './ActionTypes';
 
 function urlFor(resource) {
   if (resource.match(/^\/\//)) {
@@ -16,10 +17,18 @@ function urlFor(resource) {
   return config.serverUrl + resource;
 }
 
-function handleError(error) {
+function handleError(error, propagateError) {
   return dispatch => {
-    if (error.response && error.response.status === 401) {
-      dispatch(logout());
+    if (error.response && error.response.status) {
+      if (error.response.status === 401) {
+        dispatch(logout());
+      }
+      if (propagateError) {
+        dispatch({
+          type: Routing.SET_STATUS_CODE,
+          payload: error.response.status
+        });
+      }
     }
     throw error;
   };
@@ -50,6 +59,7 @@ export default function callAPI({
   force = false,
   useCache,
   cacheSeconds = 10,
+  propagateError = false,
   requiresAuthentication = true
 }: Object): Thunk<*, *> {
   return (dispatch, getState) => {
@@ -112,7 +122,7 @@ export default function callAPI({
       },
       promise: fetchJSON(urlFor(endpoint), options)
         .then(response => normalizeJsonResponse(response.jsonData))
-        .catch(error => dispatch(handleError(error)))
+        .catch(error => dispatch(handleError(error, propagateError)))
     });
   };
 }

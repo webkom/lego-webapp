@@ -2,7 +2,8 @@
 
 import { schema } from 'normalizr';
 import { combineReducers } from 'redux';
-import { routerReducer as routing } from 'react-router-redux';
+import { routerReducer } from 'react-router-redux';
+import routing from './routing';
 import form from './forms';
 import companies from './companies';
 import quotes from './quotes';
@@ -28,6 +29,9 @@ import fetchHistory from './fetchHistory';
 import { User } from '../actions/ActionTypes';
 import type { State, Action } from 'app/types';
 
+const reduceReducers = (...reducers) => (prev, curr) =>
+  reducers.reduce((p, r) => r(p, curr), prev);
+
 const reducers = {
   quotes,
   events,
@@ -46,7 +50,7 @@ const reducers = {
   pages,
   notifications,
   notificationsFeed,
-  routing,
+  routing: reduceReducers(routing, routerReducer),
   joblistings,
   feedActivities,
   feeds,
