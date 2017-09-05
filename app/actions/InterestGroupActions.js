@@ -30,7 +30,7 @@ export function fetchAll() {
 export function createInterestGroup(
   name: string,
   description: string,
-  text: string
+  descriptionLong: string
 ) {
   return callAPI({
     types: InterestGroup.CREATE,
@@ -40,7 +40,7 @@ export function createInterestGroup(
     body: {
       name,
       description,
-      text
+      descriptionLong
     },
     meta: {
       errorMessage: 'Creating interestGroup failed'
@@ -66,10 +66,9 @@ export function removeInterestGroup(id: string) {
 
 export function updateInterestGroup(
   id: string,
-  name: string,
-  description: string,
-  text: string
+  args: object,
 ) {
+  const { name, description, descriptionLong } = args;
   return dispatch => {
     dispatch(
       callAPI({
@@ -79,7 +78,30 @@ export function updateInterestGroup(
         body: {
           name,
           description,
-          text
+          descriptionLong,
+        },
+        meta: {
+          interestGroupId: id,
+          errorMessage: 'Editing interestGroup failed'
+        }
+      })
+    ).then(() => dispatch(push(`/interestgroups/${id}`)));
+  };
+}
+
+export function updateInterestGroupPicture(
+  id: string,
+  token: token,
+) {
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: InterestGroup.UPDATE,
+        endpoint: `/interest-groups/${id}/`,
+        method: 'PATCH',
+        body: {
+          id: id,
+          picture: token
         },
         meta: {
           interestGroupId: id,

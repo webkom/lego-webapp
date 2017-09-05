@@ -1,12 +1,20 @@
 import React from 'react';
 import styles from './InterestGroup.css';
-import { TextEditor, TextInput, Button } from 'app/components/Form';
+import { TextEditor, TextInput, Button, ImageUploadField } from 'app/components/Form';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
+import { compose, bindActionCreators } from 'redux';
 import Upload from 'app/components/Upload';
+import { uploadFile} from 'app/actions/FileActions';
+import { updateInterestGroupPicture } from 'app/actions/InterestGroupActions';
 
-const InterestGroupForm = ({ handleSubmit, buttonText, header }) =>
+const InterestGroupForm = ({
+    groupId,
+    handleSubmit,
+    buttonText,
+    header,
+    uploadFile,
+    updateInterestGroupPicture }) =>
   <form onSubmit={handleSubmit}>
     <h1>
       {header}
@@ -26,13 +34,16 @@ const InterestGroupForm = ({ handleSubmit, buttonText, header }) =>
     <Field
       className={styles.textEditor}
       placeholder="Text"
-      name="text"
+      name="descriptionLong"
       component={TextEditor.Field}
     />
+    <Field
+      name="picture"
+      component={ImageUploadField}
+      uploadFile={uploadFile}
+      edit={ token => updateInterestGroupPicture(groupId, token) }
+    />
     <div className={styles.content}>
-      <div>
-        <Upload>Last opp bilde</Upload>
-      </div>
       <Button type="submit">
         {buttonText}
       </Button>
@@ -61,15 +72,27 @@ function mapStateToProps(state, props) {
       initialValues: {
         name: props.group.name || '',
         description: props.group.description || '',
-        text: props.group.text || ''
+        descriptionLong: props.group.descriptionLong || '',
       }
     };
   }
   return {};
 }
 
+const mapDispatchToProps = dispatch => {
+    return {
+        ...bindActionCreators(
+            {
+                uploadFile,
+                updateInterestGroupPicture,
+            },
+            dispatch
+        )
+    }
+}
+
 export default compose(
-  connect(mapStateToProps, null),
+  connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'interestGroupForm',
     validate: validateInterestGroup

@@ -29,12 +29,10 @@ class InterestGroupDetail extends Component {
     this.props.removeInterestGroup(this.props.group.id);
   };
 
-  updateId = ({ name, description, text }) => {
+  updateId = args => {
     this.props.updateInterestGroup(
       this.props.group.id,
-      name,
-      description,
-      text
+      args
     );
   };
 
@@ -77,7 +75,7 @@ class InterestGroupDetail extends Component {
             </div>
             <Image
               className={styles.interestPicDetail}
-              src={'https://i.redd.it/dz8mwvl4dgdy.jpg'}
+              src={group.picture || 'https://i.redd.it/dz8mwvl4dgdy.jpg'}
             />
           </div>
         </div>
@@ -126,6 +124,7 @@ class InterestGroupDetail extends Component {
           closeOnBackdropClick={false}
         >
           <InterestGroupForm
+            groupId={group.id}
             onSubmit={this.updateId}
             buttonText="Rediger interessegruppe"
             header="Rediger interessegruppe"
