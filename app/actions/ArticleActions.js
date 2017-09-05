@@ -13,7 +13,8 @@ export function fetchArticle(articleId: EntityID) {
     schema: articleSchema,
     meta: {
       errorMessage: 'Fetching article failed'
-    }
+    },
+    propagateError: true
   });
 }
 
@@ -65,6 +66,7 @@ export function fetchAll(
     schema: [articleSchema],
     meta: {
       errorMessage: 'Fetching articles failed'
-    }
+    },
+    propagateError: true
   });
 }

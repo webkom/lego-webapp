@@ -120,7 +120,8 @@ export function fetchUser(username = 'me') {
     meta: {
       errorMessage: 'Fetching user failed',
       isCurrentUser: username === 'me'
-    }
+    },
+    propagateError: true
   });
 }
 

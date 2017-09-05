@@ -25,16 +25,19 @@ import Footer from 'app/components/Footer';
 import NotificationContainer from 'app/components/NotificationContainer';
 import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 import cx from 'classnames';
+import HTTPError from '../errors/HTTPError';
 
 class AppChildren extends PureComponent {
   render() {
     return (
       <div style={{ flex: 1 }}>
         <NotificationContainer />
-        {React.cloneElement(this.props.children, {
-          currentUser: this.props.currentUser,
-          loggedIn: this.props.loggedIn
-        })}
+        {this.props.statusCode
+          ? <HTTPError statusCode={this.props.statusCode} />
+          : React.cloneElement(this.props.children, {
+              currentUser: this.props.currentUser,
+              loggedIn: this.props.loggedIn
+            })}
       </div>
     );
   }
@@ -70,6 +73,7 @@ class App extends PureComponent {
         <AppChildren
           currentUser={this.props.currentUser}
           loggedIn={this.props.loggedIn}
+          statusCode={this.props.statusCode}
         >
           {this.props.children}
         </AppChildren>
@@ -88,7 +92,8 @@ function mapStateToProps(state) {
     notificationsData: state.notificationsFeed,
     notifications: selectFeedActivitesByFeedId(state, {
       feedId: 'notifications'
-    })
+    }),
+    statusCode: state.routing.statusCode
   };
 }
 

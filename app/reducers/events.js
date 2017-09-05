@@ -29,7 +29,7 @@ function mutateEvent(state: any, action: any) {
       return {
         ...state,
         byId: omit(state.byId, action.meta.id),
-        items: state.items.filter(id => id !== action.meta.id)
+        items: state.items.filter(id => id !== action.meta.id.toString())
       };
     }
     case Event.SOCKET_EVENT_UPDATED: {
