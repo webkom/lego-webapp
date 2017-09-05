@@ -11,7 +11,7 @@ const HTTPMapping = {
   500: 'Noe gikk veldig galt, Webkom er på saken!'
 };
 const getHTTPError = statusCode => {
-  let error = HTTPMapping[statusCode];
+  const error = HTTPMapping[statusCode];
   return error ? error : HTTPMapping[404];
 };
 

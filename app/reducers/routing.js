@@ -17,7 +17,8 @@ export default function routing(state = initialState, action) {
       const { locationBeforeTransitions } = state;
       if (
         locationBeforeTransitions &&
-        locationBeforeTransitions.pathname !== action.payload.pathname
+        (locationBeforeTransitions.pathname !== action.payload.pathname ||
+          locationBeforeTransitions.key !== action.payload.key)
       ) {
         return {
           ...state,
