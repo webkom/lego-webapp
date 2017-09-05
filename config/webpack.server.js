@@ -19,7 +19,7 @@ module.exports = {
     path: path.join(root, 'dist'),
     filename: '[name].js',
     publicPath: '/',
-    sourceMapFilename: "[file].map",
+    sourceMapFilename: '[file].map'
   },
 
   devtool: 'source-map',
@@ -100,7 +100,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|jpg|jpeg|gif|woff|woff2|ttf|mp4|webm)$/,
+        test: /\.(png|jpg|jpeg|gif|bdf|woff|woff2|ttf|mp4|webm)$/,
         loader: 'url-loader',
         query: {
           limit: 8192
@@ -109,7 +109,7 @@ module.exports = {
       {
         test: /((manifest\.json|favicon\.png)$|icon-)/,
         loader: 'file-loader?name=[name].[ext]'
-      },
+      }
     ]
   }
 };
