@@ -36,11 +36,6 @@ export function fetching(fetchType?: ActionTypeObject) {
   };
 }
 
-function arrayOf(value) {
-  if (Array.isArray(value)) return value;
-  return [value];
-}
-
 function merge(old, updated) {
   return mergeWith(
     {},

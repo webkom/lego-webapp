@@ -5,7 +5,6 @@ const StartServerPlugin = require('start-server-webpack-plugin');
 
 const root = path.resolve(__dirname, '..');
 const isProduction = process.env.NODE_ENV === 'production';
-const config = require('./env');
 
 module.exports = {
   entry: {

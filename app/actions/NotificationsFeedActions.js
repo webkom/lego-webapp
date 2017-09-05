@@ -1,8 +1,7 @@
 // @flow
 
-import { NotificationsFeed, Feed } from './ActionTypes';
+import { NotificationsFeed } from './ActionTypes';
 import callAPI from './callAPI';
-import { feedActivitySchema } from 'app/reducers';
 import { selectIsLoggedIn } from 'app/reducers/auth';
 
 export function fetchNotificationData() {
