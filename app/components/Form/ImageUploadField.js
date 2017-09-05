@@ -18,9 +18,15 @@ class ImageUploadField extends Component {
 
   static Field: any;
 
+  getValue = () => {
+      console.log('heh')
+      return 123;
+  }
+
   setValue = (image: File) => {
     this.props.uploadFile({ file: image, isPublic: true }).then(action => {
       const token = action.meta.fileToken;
+      // this.setState({ token });
       if (this.props.edit) {
         this.props.edit(token);
       } else {
