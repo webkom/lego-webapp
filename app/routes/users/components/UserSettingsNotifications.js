@@ -1,11 +1,9 @@
 // @flow
 
-import React, { Component } from 'react';
+type Props = {};
 
-class UserSettingsNotifications extends Component {
-  render() {
-    return null;
-  }
-}
+const UserSettingsNotifications = (props: Props) => {
+  return null;
+};
 
 export default UserSettingsNotifications;

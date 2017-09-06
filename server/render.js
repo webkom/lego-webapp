@@ -46,7 +46,7 @@ function render(req, res, next) {
     );
 
     const respond = () => {
-      const body = renderToString(app).catch(err);
+      const body = renderToString(app);
 
       return res.send(
         renderPage({

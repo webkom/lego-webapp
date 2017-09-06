@@ -35,6 +35,20 @@ export const oauth2Grants = createEntityReducer({
   key: 'oauth2Grant',
   types: {
     fetch: OAuth2.FETCH_GRANTS
+  },
+  mutate(state, action) {
+    switch (action.type) {
+      case OAuth2.DELETE_GRANT.SUCCESS: {
+        return {
+          ...state,
+          items: state.items.filter(
+            grant => Number(grant) !== Number(action.meta.grantId)
+          )
+        };
+      }
+      default:
+        return state;
+    }
   }
 });
 
@@ -43,6 +57,15 @@ export const selectOAuth2Applications = createSelector(
   state => state.oauth2Applications.items,
   (oauth2ApplicationsById, oauth2ApplicationIds) =>
     oauth2ApplicationIds.map(id => oauth2ApplicationsById[id])
+);
+
+export const selectOAuth2ApplicationById = createSelector(
+  state => state.oauth2Applications.byId,
+  (state, props) => props.applicationId,
+  (applicationsById, applicationId) => {
+    const application = applicationsById[applicationId];
+    return application || {};
+  }
 );
 
 export const selectOAuth2Grants = createSelector(
