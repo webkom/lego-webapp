@@ -35,7 +35,7 @@ const UserSettingsOAuth2Form = (props: Props) => {
   return (
     <div className={styles.root}>
       <h1>
-        {props.create ? 'Create' : 'Edit'} Application
+        {props.create ? 'Opprett' : 'Endre'} Applikasjon
       </h1>
 
       <Form onSubmit={props.handleSubmit(submit)}>

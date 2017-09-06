@@ -198,3 +198,14 @@ export const OAuth2 = {
   FETCH_GRANTS: generateStatuses('OAuth2.FETCH_GRANTS'),
   DELETE_GRANT: generateStatuses('OAuth2.DELETE_GRANT')
 };
+
+/**
+ *
+ */
+export const NotificationSettings = {
+  FETCH_ALTERNATIVES: generateStatuses(
+    'NotificationSettings.FETCH_ALTERNATIVES'
+  ),
+  FETCH: generateStatuses('NotificationSettings.FETCH'),
+  UPDATE: generateStatuses('NotificationSettings.UPDATE')
+};

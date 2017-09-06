@@ -56,6 +56,8 @@ const UserSettingsOAuth2 = (props: Props) => {
         </li>
       </ul>
 
+      <br />
+
       <h3>Applikasjoner</h3>
       {props.actionGrant.includes('create') &&
         <Link to="/users/me/settings/oauth2/new">Ny Applikasjon</Link>}
@@ -83,8 +85,14 @@ const UserSettingsOAuth2 = (props: Props) => {
               </td>
             </tr>
           )}
+          {props.applications.length === 0 &&
+            <tr>
+              <td colSpan="3">Du har ingen applikasjoner.</td>
+            </tr>}
         </tbody>
       </table>
+
+      <br />
 
       <h3>Akseptere Applikasjoner</h3>
       <table className={styles.table}>
@@ -125,6 +133,10 @@ const UserSettingsOAuth2 = (props: Props) => {
                   </tr>
                 : null
           )}
+          {props.grants.length === 0 &&
+            <tr>
+              <td colSpan="5">Du har ikke logget logget på en app enda.</td>
+            </tr>}
         </tbody>
       </table>
     </div>
