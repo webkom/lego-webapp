@@ -147,7 +147,8 @@ export const User = {
   UPDATE: generateStatuses('User.UPDATE'),
   LOGIN: generateStatuses('User.LOGIN'),
   LOGOUT: 'User.LOGOUT',
-  SOCKET: generateStatuses('User.SOCKET')
+  SOCKET: generateStatuses('User.SOCKET'),
+  SEND_REGISTRATION_TOKEN: generateStatuses('User.SEND_REGISTRATION_TOKEN')
 };
 
 /**

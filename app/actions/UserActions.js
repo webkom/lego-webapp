@@ -181,3 +181,18 @@ export function loginAutomaticallyIfPossible() {
     return Promise.resolve();
   };
 }
+
+export function sendRegistrationEmail({ email, captchaResponse }) {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: User.SEND_REGISTRATION_TOKEN,
+        endpoint: '/users-registration/',
+        method: 'POST',
+        body: {
+          email,
+          captchaResponse
+        }
+      })
+    );
+}
