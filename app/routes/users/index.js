@@ -32,6 +32,20 @@ export default {
       )
     },
     {
+      path: 'me/settings/oauth2/new',
+      ...resolveAsyncRoute(
+        () => import('./UserSettingsOAuth2CreateRoute'),
+        () => require('./UserSettingsOAuth2CreateRoute')
+      )
+    },
+    {
+      path: 'me/settings/oauth2/:applicationId',
+      ...resolveAsyncRoute(
+        () => import('./UserSettingsOAuth2EditRoute'),
+        () => require('./UserSettingsOAuth2EditRoute')
+      )
+    },
+    {
       path: ':username',
       ...resolveAsyncRoute(
         () => import('./UserProfileRoute'),

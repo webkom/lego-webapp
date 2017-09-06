@@ -1,0 +1,7 @@
+.root {
+  composes: contentContainer from 'app/styles/utilities.css';
+}
+
+.table {
+  width: 100%
+}
