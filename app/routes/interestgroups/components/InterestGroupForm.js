@@ -1,20 +1,26 @@
 import React from 'react';
 import styles from './InterestGroup.css';
-import { TextEditor, TextInput, Button, ImageUploadField } from 'app/components/Form';
+import {
+  TextEditor,
+  TextInput,
+  Button,
+  ImageUploadField
+} from 'app/components/Form';
 import { reduxForm, Field } from 'redux-form';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
 import Upload from 'app/components/Upload';
-import { uploadFile} from 'app/actions/FileActions';
+import { uploadFile } from 'app/actions/FileActions';
 import { updateInterestGroupPicture } from 'app/actions/InterestGroupActions';
 
 const InterestGroupForm = ({
-    groupId,
-    handleSubmit,
-    buttonText,
-    header,
-    uploadFile,
-    updateInterestGroupPicture }) =>
+  groupId,
+  handleSubmit,
+  buttonText,
+  header,
+  uploadFile,
+  updateInterestGroupPicture
+}) =>
   <form onSubmit={handleSubmit}>
     <h1>
       {header}
@@ -39,9 +45,9 @@ const InterestGroupForm = ({
     />
     <Field
       name="picture"
-      component={ImageUploadField}
+      component={ImageUploadField.Field}
       uploadFile={uploadFile}
-      edit={ token => updateInterestGroupPicture(groupId, token) }
+      edit={token => updateInterestGroupPicture(groupId, token)}
     />
     <div className={styles.content}>
       <Button type="submit">
@@ -72,24 +78,17 @@ function mapStateToProps(state, props) {
       initialValues: {
         name: props.group.name || '',
         description: props.group.description || '',
-        descriptionLong: props.group.descriptionLong || '',
+        descriptionLong: props.group.descriptionLong || ''
       }
     };
   }
   return {};
 }
 
-const mapDispatchToProps = dispatch => {
-    return {
-        ...bindActionCreators(
-            {
-                uploadFile,
-                updateInterestGroupPicture,
-            },
-            dispatch
-        )
-    }
-}
+const mapDispatchToProps = {
+  uploadFile,
+  updateInterestGroupPicture
+};
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
