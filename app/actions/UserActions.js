@@ -187,7 +187,7 @@ export function sendRegistrationEmail({ email, captchaResponse }) {
     dispatch(
       callAPI({
         types: User.SEND_REGISTRATION_TOKEN,
-        endpoint: '/users-registration/',
+        endpoint: '/users-registration-request/',
         method: 'POST',
         body: {
           email,
@@ -195,4 +195,40 @@ export function sendRegistrationEmail({ email, captchaResponse }) {
         }
       })
     );
+}
+
+export function validateRegistrationToken({ token }) {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: User.VALIDATE_REGISTRATION_TOKEN,
+        endpoint: `/users-registration-request/?token=${token}`,
+        meta: {
+          token
+        }
+      })
+    );
+}
+
+export function createUser(token, user) {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: User.CREATE_USER,
+        endpoint: `/users/?token=${token}`,
+        method: 'POST',
+        body: user
+      })
+    ).then(action => {
+      const { user, token } = action.payload;
+      saveToken(token);
+
+      return dispatch({
+        type: User.FETCH.SUCCESS,
+        payload: normalize(user, userSchema),
+        meta: {
+          isCurrentUser: true
+        }
+      });
+    });
 }

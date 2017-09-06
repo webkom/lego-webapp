@@ -46,6 +46,13 @@ export default {
       )
     },
     {
+      path: 'registration',
+      ...resolveAsyncRoute(
+        () => import('./UserConfirmationRoute'),
+        () => require('./UserConfirmationRoute')
+      )
+    },
+    {
       path: ':username',
       ...resolveAsyncRoute(
         () => import('./UserProfileRoute'),

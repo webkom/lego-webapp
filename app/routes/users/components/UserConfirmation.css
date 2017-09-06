@@ -1,0 +1,16 @@
+@import 'app/styles/variables.css';
+
+.root {
+  composes: contentContainer from 'app/styles/utilities.css';
+  max-width: 500px;
+
+  @media (--mobile-device) {
+    padding: 20px;
+  }
+}
+
+.radioButton {
+  display: inline-flex;
+  margin-right: 10px;
+  width: auto;
+}
