@@ -16,7 +16,7 @@ https://github.com/webkom/lego/wiki/Noob-Guide
 
 
 ## Build for production
-```bash67
+```bash
 $ yarn run build
 $ NODE_ENV=production node dist/server.js
 ```
