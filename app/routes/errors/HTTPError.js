@@ -17,7 +17,10 @@ const getHTTPError = statusCode => {
 
 class HTTPError extends Component {
   componentDidMount() {
-    renderAbakus(this.props.statusCode.toString(), this.canvas);
+    const statusCode = this.props.statusCode
+      ? this.props.statusCode.toString()
+      : '404';
+    renderAbakus(statusCode, this.canvas);
   }
 
   render() {
