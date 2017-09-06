@@ -1,4 +1,4 @@
-import { compose, bindActionCreators } from 'redux';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import { formValueSelector } from 'redux-form';
@@ -54,19 +54,12 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    ...bindActionCreators(
-      {
-        fetchEvent,
-        deleteEvent,
-        handleSubmitCallback: editEvent,
-        uploadFile,
-        setCoverPhoto
-      },
-      dispatch
-    )
-  };
+const mapDispatchToProps = {
+  fetchEvent,
+  deleteEvent,
+  handleSubmitCallback: editEvent,
+  uploadFile,
+  setCoverPhoto
 };
 
 export default compose(
