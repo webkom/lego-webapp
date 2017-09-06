@@ -20,6 +20,7 @@ import groups from './groups';
 import { oauth2Applications, oauth2Grants } from './oauth2';
 import notifications from './notifications';
 import notificationsFeed from './notificationsFeed';
+import notificationSettings from './notificationSettings';
 import comments from './comments';
 import pages from './pages';
 import interestGroups from './interestGroups';
@@ -53,6 +54,7 @@ const reducers = {
   pages,
   notifications,
   notificationsFeed,
+  notificationSettings,
   routing: reduceReducers(routing, routerReducer),
   joblistings,
   feedActivities,
