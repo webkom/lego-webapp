@@ -16,7 +16,7 @@ https://github.com/webkom/lego/wiki/Noob-Guide
 
 
 ## Build for production
-```bash
+```bash67
 $ yarn run build
 $ NODE_ENV=production node dist/server.js
 ```
@@ -50,6 +50,8 @@ $ apm install nuclide pigments linter-eslint linter-stylelint prettier-atom
 
 ## Prettier
 We use [prettier](https://github.com/prettier/prettier) for JS auto-formatting. It will run as a git pre-commit hook, but you can also install the [prettier-atom](https://atom.io/packages/prettier-atom) Atom plugin.
+
+To run this automatically on each commit, install `husky` globally using `yarn global add lint-staged husky --dev`.
 
 ## Tests
 Run all the tests and check for lint errors with the command:
