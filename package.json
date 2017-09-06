@@ -177,5 +177,6 @@
       "chalk",
       "meow"
     ]
-  }
+  },
+  "moduleRoots": ["./"]
 }
