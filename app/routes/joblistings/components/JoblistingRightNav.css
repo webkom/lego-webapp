@@ -1,0 +1,64 @@
+@import 'app/styles/variables.css';
+
+.box {
+  margin-left: 2rem;
+  margin-top: 1rem;
+  min-height: 350px;
+  background: #f2ece8;
+  border: 1px solid #ddd;
+  padding: 5% 10%;
+
+  @media (--small-viewport) {
+    display: none;
+  }
+}
+
+.sort {
+  justify-content: space-around;
+}
+
+.rightHeader {
+  text-transform: uppercase;
+  font-weight: 400;
+  font-size: 15px;
+  border-bottom: 1px solid #999;
+  letter-spacing: 2px;
+  margin-bottom: 2%;
+  margin-top: 8%;
+  padding-left: 0;
+}
+
+[type='checkbox']:checked + label::before {
+  border: none;
+  background: #a59a9a;
+}
+
+.createButton {
+  font-weight: 700;
+  cursor: pointer;
+  background: #eff1f4;
+  text-transform: uppercase;
+  padding: 10px 20px;
+  color: #333;
+  outline: none;
+  border: 1px solid #ccc;
+  letter-spacing: 1px;
+  border-radius: 4px;
+
+  @media (--small-viewport) {
+    display: block;
+  }
+
+  &:hover {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  }
+
+  &:active {
+    color: #555;
+    transform: translateY(1px);
+  }
+
+  &:disabled {
+    color: #888;
+  }
+}

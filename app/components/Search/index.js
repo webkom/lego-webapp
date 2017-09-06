@@ -25,7 +25,8 @@ const navigationLinks = [
   ['/meetings', 'Møter'],
   ['/quotes', 'Sitater'],
   ['/users/me', 'Profil'],
-  ['https://shop.abakus.no/', 'Abashop']
+  ['https://shop.abakus.no/', 'Abashop'],
+  ['/joblistings', 'Jobbannonser']
 ].sort((a, b) => a[1].localeCompare(b[1]));
 
 const adminLinks = [

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import { fetchAll } from 'app/actions/JoblistingActions';
-import JoblistingsPage from './components/JoblistingsPage';
+import JoblistingPage from './components/JoblistingPage';
 import { compose } from 'redux';
 import moment from 'moment';
 
@@ -25,9 +25,12 @@ function filterJoblistings(joblistings, classes, jobtypes, workplaces) {
     if (workplaces.length === 0) {
       workplacesBoolean = true;
     } else {
-      workplacesBoolean = joblisting.workplaces.some(w =>
-        workplaces.includes(w.town)
-      );
+      workplacesBoolean =
+        joblisting.workplaces.some(w => workplaces.includes(w.town)) ||
+        (workplaces.includes('Annet') &&
+          joblisting.workplaces.some(
+            w => !['Oslo', 'Trondheim', 'Bergen', 'Tromsø'].includes(w.town)
+          ));
     }
     return classBoolean && jobtypesBoolean && workplacesBoolean;
   });
@@ -62,10 +65,12 @@ const mapStateToProps = (state, props) => {
     filterWorkplaces
   );
   const sortedJoblistings = sortJoblistings(filteredJoblistings, sortType);
+  const actionGrant = state.joblistings.actionGrant || [];
 
   return {
     joblistings: sortedJoblistings,
-    query
+    query,
+    actionGrant
   };
 };
 
@@ -76,4 +81,4 @@ export default compose(
     componentWillReceiveProps: false
   }),
   connect(mapStateToProps, mapDispatchToProps)
-)(JoblistingsPage);
+)(JoblistingPage);

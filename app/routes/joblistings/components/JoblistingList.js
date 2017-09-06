@@ -1,12 +1,19 @@
+// @flow
+
 import React from 'react';
 import { Link } from 'react-router';
-import styles from './JoblistingsList.css';
+import styles from './JoblistingList.css';
 import Image from 'app/components/Image';
 import Time from 'app/components/Time';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
-import { Year, Jobtype, Workplaces } from './Items';
+import { Year, jobType, Workplaces } from './Items';
 
-function JoblistingItem({ joblisting }) {
+type Props = {
+  joblisting: Object,
+  joblistings: Array
+};
+
+function JoblistingItem({ joblisting }: Props) {
   return (
     <FlexRow className={styles.joblistingItem}>
       <FlexRow>
@@ -25,9 +32,9 @@ function JoblistingItem({ joblisting }) {
             </h3>
           </Link>
           <div className={styles.companyJobtype}>
-            {joblisting.company.name} • {Jobtype(joblisting.jobType)}
+            {joblisting.company.name} • {jobType(joblisting.jobType)}
           </div>
-          <Year {...joblisting} />
+          <Year joblisting={joblisting} />
           <Workplaces places={joblisting.workplaces} />
         </FlexColumn>
       </FlexRow>
@@ -40,7 +47,7 @@ function JoblistingItem({ joblisting }) {
   );
 }
 
-function JoblistingListGroup({ joblistings = [] }) {
+function JoblistingListGroup({ joblistings = [] }: Props) {
   return (
     <div>
       <FlexRow className={styles.heading}>
@@ -56,7 +63,7 @@ function JoblistingListGroup({ joblistings = [] }) {
   );
 }
 
-const JoblistingsList = ({ joblistings }) =>
+const JoblistingsList = ({ joblistings }: Props) =>
   <JoblistingListGroup joblistings={joblistings} />;
 
 export default JoblistingsList;
