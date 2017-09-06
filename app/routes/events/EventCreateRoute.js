@@ -1,4 +1,3 @@
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 import { createEvent } from 'app/actions/EventActions';
@@ -38,14 +37,9 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = dispatch => ({
-  ...bindActionCreators(
-    {
-      handleSubmitCallback: createEvent,
-      uploadFile
-    },
-    dispatch
-  )
-});
+const mapDispatchToProps = {
+  handleSubmitCallback: createEvent,
+  uploadFile
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventEditor);
