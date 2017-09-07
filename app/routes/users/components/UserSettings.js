@@ -24,6 +24,7 @@ const UserSettings = (props: Props) => {
   const {
     handleSubmit,
     updateUser,
+    changePassword,
     invalid,
     pristine,
     submitting,
@@ -99,6 +100,30 @@ const UserSettings = (props: Props) => {
         <Button disabled={disabledButton} submit>
           Submit
         </Button>
+      </Form>
+      <br />
+      <hr />
+      <br />
+      <Form onSubmit={handleSubmit(changePassword)}>
+        <Field
+          label="Gammelt passord"
+          name="old_password"
+          type="password"
+          component={TextInput.Field}
+        />
+        <Field
+          label="Nytt passord"
+          name="new_password"
+          type="password"
+          component={TextInput.Field}
+        />
+        <Field
+          label="Nytt passord (gjenta)"
+          name="new_password_repeat"
+          type="password"
+          component={TextInput.Field}
+        />
+        <Button submit>Change Password</Button>
       </Form>
     </div>
   );
