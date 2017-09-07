@@ -18,6 +18,8 @@ export const Event = {
   DELETE: generateStatuses('Event.DELETE'),
   ADMINISTRATE_FETCH: generateStatuses('Event.ADMINISTRATE_FETCH'),
   REGISTER: generateStatuses('Event.REGISTER'),
+  REGISTERINTEREST: generateStatuses('Event.REGISTERINTEREST'),
+  UNREGISTERINTEREST: generateStatuses('Event.UNREGISTERINTEREST'),
   ADMIN_REGISTER: generateStatuses('Event.ADMIN_REGISTER'),
   UNREGISTER: generateStatuses('Event.UNREGISTER'),
   PAYMENT_QUEUE: generateStatuses('Event.PAYMENT_QUEUE'),
@@ -25,7 +27,8 @@ export const Event = {
   SOCKET_REGISTRATION: generateStatuses('Event.SOCKET_REGISTRATION'),
   SOCKET_UNREGISTRATION: generateStatuses('Event.SOCKET_UNREGISTRATION'),
   SOCKET_PAYMENT: generateStatuses('Event.SOCKET_PAYMENT'),
-  SOCKET_EVENT_UPDATED: 'SOCKET_EVENT_UPDATED'
+  SOCKET_EVENT_UPDATED: 'SOCKET_EVENT_UPDATED',
+  ISUSERFOLLOWING: generateStatuses('Event.ISUSERFOLLOWING')
 };
 
 /**
