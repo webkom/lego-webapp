@@ -5,10 +5,11 @@ import {
   fetchEvent,
   deleteEvent,
   register,
-  registerInterest,
   unregister,
   payment,
   updateFeedback,
+  follow,
+  unfollow,
   isUserFollowing
 } from 'app/actions/EventActions';
 import EventDetail from './components/EventDetail';
@@ -68,10 +69,11 @@ const mapDispatchToProps = {
   fetchEvent,
   deleteEvent,
   register,
-  registerInterest,
   unregister,
   payment,
   updateFeedback,
+  follow,
+  unfollow,
   isUserFollowing
 };
 
