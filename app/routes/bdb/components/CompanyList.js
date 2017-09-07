@@ -5,12 +5,13 @@ import CompanySingleRow from './CompanySingleRow';
 import { indexToSemester } from '../utils.js';
 
 type Props = {
-  companies: Array<any>,
+  companies: Array<Object>,
   query: Object,
   startYear: number,
   startSem: number,
   changeSemesters: () => void,
-  changedStatuses: Array<any>
+  changedStatuses: Array<any>,
+  companySemesters: Array<Object>
 };
 
 export default class CompanyList extends Component {
@@ -59,8 +60,12 @@ export default class CompanyList extends Component {
       startYear,
       startSem,
       editSemester,
-      changedStatuses
+      changedStatuses,
+      companySemesters
     } = this.props;
+    console.log('i list');
+    console.log(companies);
+    console.log(companySemesters);
 
     /*
     **

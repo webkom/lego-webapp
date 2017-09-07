@@ -304,3 +304,15 @@ export function deleteCompanyContact(
     });
   };
 }
+
+export function fetchSemesters() {
+  return callAPI({
+    types: Company.FETCH_SEMESTERS,
+    endpoint: '/company-semesters/',
+    schema: [companySchema],
+    meta: {
+      errorMessage: 'Fetching company semesters failed'
+    },
+    propagateError: true
+  });
+}
