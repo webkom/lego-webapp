@@ -7,7 +7,10 @@ import {
   register,
   unregister,
   payment,
-  updateFeedback
+  updateFeedback,
+  follow,
+  unfollow,
+  isUserFollowing
 } from 'app/actions/EventActions';
 import EventDetail from './components/EventDetail';
 import {
@@ -68,12 +71,19 @@ const mapDispatchToProps = {
   register,
   unregister,
   payment,
-  updateFeedback
+  updateFeedback,
+  follow,
+  unfollow,
+  isUserFollowing
 };
 
 export default compose(
   dispatched(
-    ({ params: { eventId } }, dispatch) => dispatch(fetchEvent(eventId)),
+    ({ params: { eventId }, currentUser }, dispatch) => {
+      const userId = currentUser.id;
+      dispatch(fetchEvent(eventId));
+      dispatch(isUserFollowing(eventId, userId));
+    },
     {
       componentWillReceiveProps: false
     }
