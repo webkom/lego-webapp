@@ -37,7 +37,7 @@ const UserSettings = (props: Props) => {
       <UserImage user={user} updatePicture={updatePicture} />
 
       <Flex>
-        {user.isStudent &&
+        {!user.isStudent &&
           <Link
             className={styles.navigationLink}
             to="/users/student-confirmation"
