@@ -24,6 +24,14 @@
   }
 }
 
+.page {
+  min-width: 75%;
+}
+
+.sidebar {
+  min-width: 25%;
+}
+
 .withShadow {
   border: 1px solid rgba(0, 0, 0, 0.09);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
