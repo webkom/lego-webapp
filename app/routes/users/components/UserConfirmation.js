@@ -1,17 +1,34 @@
 import styles from './UserConfirmation.css';
 import React from 'react';
-import { Content, Flex } from 'app/components/Layout';
+import { Content } from 'app/components/Layout';
 import { reduxForm } from 'redux-form';
 import { Form, TextInput, RadioButton, Button } from 'app/components/Form';
 import { Field } from 'redux-form';
+import { Link } from 'react-router';
 
 const UserConfirmation = ({
   token,
   handleSubmit,
   createUser,
   router,
+  submitSucceeded,
   ...props
 }) => {
+  const onSubmit = data => createUser(token, data);
+
+  if (submitSucceeded) {
+    return (
+      <Content>
+        <div className={styles.root}>
+          <h2>Du er nå registrert!</h2>
+          <h3>Er du student?</h3>
+          <Link to="/users/student-confirmation/">
+            <Button>Verifiser din studentepost</Button>
+          </Link>
+        </div>
+      </Content>
+    );
+  }
   if (!token) {
     return (
       <Content>
@@ -21,12 +38,6 @@ const UserConfirmation = ({
       </Content>
     );
   }
-
-  const onSubmit = data =>
-    createUser(token, data).then(() => {
-      router.push('/');
-    });
-
   return (
     <Content>
       <div className={styles.root}>

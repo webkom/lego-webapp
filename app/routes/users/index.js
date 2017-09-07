@@ -53,6 +53,13 @@ export default {
       )
     },
     {
+      path: 'student-confirmation',
+      ...resolveAsyncRoute(
+        () => import('./StudentConfirmationRoute'),
+        () => require('./StudentConfirmationRoute')
+      )
+    },
+    {
       path: ':username',
       ...resolveAsyncRoute(
         () => import('./UserProfileRoute'),

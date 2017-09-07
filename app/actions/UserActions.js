@@ -232,3 +232,24 @@ export function createUser(token, user) {
       });
     });
 }
+
+export function sendStudentConfirmationEmail(user) {
+  return callAPI({
+    types: User.SEND_STUDENT_CONFIRMATION_TOKEN,
+    endpoint: `/users-student-confirmation-request/`,
+    method: 'POST',
+    body: user
+  });
+}
+
+export function confirmStudentUser(token) {
+  return callAPI({
+    types: User.CONFIRM_STUDENT_USER,
+    endpoint: `/users-student-confirmation-perform/?token=${token}`,
+    method: 'POST',
+    meta: {
+      errorMessage: 'Student confirmation failed'
+    },
+    useCache: true
+  });
+}

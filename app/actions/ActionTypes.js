@@ -152,7 +152,11 @@ export const User = {
   VALIDATE_REGISTRATION_TOKEN: generateStatuses(
     'User.VALIDATE_REGISTRATION_TOKEN'
   ),
-  CREATE_USER: generateStatuses('User.CREATE_USER')
+  CREATE_USER: generateStatuses('User.CREATE_USER'),
+  SEND_STUDENT_CONFIRMATION_TOKEN: generateStatuses(
+    'User.SEND_STUDENT_CONFIRMATION_TOKEN'
+  ),
+  CONFIRM_STUDENT_USER: generateStatuses('User.CONFIRM_STUDENT_USER')
 };
 
 /**

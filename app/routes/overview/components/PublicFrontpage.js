@@ -28,7 +28,7 @@ class PublicFrontpage extends Component {
               className="u-mb"
               style={{ whiteSpace: 'nowrap' }}
             >
-              {registerUser ? 'Register bruker' : 'Logg inn'}
+              {registerUser ? 'Registrer bruker' : 'Logg inn'}
               <button
                 onClick={this.toggleRegisterUser}
                 className={styles.toggleButton}
