@@ -8,6 +8,7 @@ import { Flex } from 'app/components/Layout';
 import { Field } from 'redux-form';
 import UserImage from './UserImage';
 import styles from './UserSettings.css';
+import { omit } from 'lodash';
 
 type Props = {
   handleSubmit: () => void,
@@ -55,7 +56,11 @@ const UserSettings = (props: Props) => {
         </Link>
       </Flex>
 
-      <Form onSubmit={handleSubmit(updateUser)}>
+      <Form
+        onSubmit={handleSubmit(props => {
+          updateUser(omit(props, 'profilePicture'));
+        })}
+      >
         <Field
           placeholder="Brukernavn"
           label="Username"
