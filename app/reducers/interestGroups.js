@@ -3,6 +3,7 @@
 import { createSelector } from 'reselect';
 import { InterestGroup } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import { omit } from 'lodash';
 
 export type InterestGroupEntity = {
   id: number,
@@ -13,44 +14,49 @@ export type InterestGroupEntity = {
 export default createEntityReducer({
   key: 'interestGroups',
   types: {
-    fetch: InterestGroup.FETCH_ALL
+    fetch: InterestGroup.FETCH_ALL,
+    mutate: InterestGroup.CREATE
   },
   mutate(state, action) {
     switch (action.type) {
       case InterestGroup.REMOVE.SUCCESS: {
+        const removedId = action.meta.groupId;
         return {
           ...state,
-          items: state.items.filter(id => action.meta.interestGroupId !== id)
+          items: state.items.filter(g => g !== removedId),
+          byId: omit(state.byId, removedId)
         };
       }
       case InterestGroup.JOIN.SUCCESS: {
         const { user, groupId } = action.meta;
-        const membership = {...action.payload, user};
-        const memberships = [membership].concat(state.byId[groupId].memberships);
+        const membership = { ...action.payload, user };
+        const memberships = [membership].concat(
+          state.byId[groupId].memberships
+        );
         return {
-            ...state,
-            byId: {
-              ...state.byId,
-              [groupId]: {
-                ...state.byId[groupId],
-                memberships,
-              },
-            },
+          ...state,
+          byId: {
+            ...state.byId,
+            [groupId]: {
+              ...state.byId[groupId],
+              memberships
+            }
+          }
         };
       }
       case InterestGroup.LEAVE.SUCCESS: {
         const { user, groupId } = action.meta;
         return {
-            ...state,
-            byId: {
-              ...state.byId,
-              [groupId]: {
-                ...state.byId[groupId],
-                memberships: state.byId[groupId].memberships.filter(
-                  m => m.user.id !== user.id
-                ),
-              },
-            },
+          ...state,
+          byId: {
+            ...state.byId,
+            [groupId]: {
+              ...state.byId[groupId],
+              memberships: state.byId[groupId].memberships.filter(
+                m => m.user.id !== user.id
+              )
+            }
+          }
         };
       }
 
