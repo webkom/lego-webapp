@@ -20,7 +20,9 @@ export function fetchEvent(eventId: string) {
   });
 }
 
-export function fetchAll({ dateAfter, dateBefore, nextPage }: Object = {}) {
+export function fetchAll(
+  { dateAfter, dateBefore, nextPage, force = false }: Object = {}
+) {
   const query = {};
 
   if (dateBefore) {
@@ -39,6 +41,8 @@ export function fetchAll({ dateAfter, dateBefore, nextPage }: Object = {}) {
     meta: {
       errorMessage: 'Fetching events failed'
     },
+    force,
+    cacheSeconds: Infinity, // don't expire cache unless user explicitly wants to refresh
     propagateError: true
   });
 }
