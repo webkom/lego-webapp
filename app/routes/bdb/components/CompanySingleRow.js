@@ -9,25 +9,30 @@ type Props = {
   startYear: number,
   startSem: number,
   editSemester: () => void,
-  changedStatuses: Array<Object>
+  changedStatuses: Array<Object>,
+  companySemesters: Array<Object>
 };
 
 export default class CompanySingleRow extends Component {
   props: Props;
 
   semesterElement = index => {
-    const { startYear, startSem, company } = this.props;
+    const { startYear, startSem, company, companySemesters } = this.props;
     const result = indexToSemester(index, startYear, startSem);
-    const statuses = company.semesterStatuses;
-    if (statuses) {
-      return (
-        statuses.find(
-          status =>
-            status.year === result.year && status.semester === result.semester
-        ) || { contactedStatus: 6 }
-      );
-    }
-    return { contactedStatus: 6 };
+    console.log('result');
+    console.log(result);
+
+    return (
+      (company.semesterStatuses || []).find(status => {
+        const companySemester = (companySemesters || [])
+          .find(semester => semester.id === status.semester);
+
+        return companySemester === undefined
+          ? { contactedStatus: ['not_contacted'] }
+          : companySemester.year === result.year &&
+            companySemester.semester === result.semester;
+      }) || { contactedStatus: ['not_contacted'] }
+    );
   };
 
   render() {
@@ -38,6 +43,8 @@ export default class CompanySingleRow extends Component {
       startYear,
       startSem
     } = this.props;
+    console.log(this.semesterElement(0));
+    console.log('#');
 
     const semesters = [
       this.semesterElement(0),

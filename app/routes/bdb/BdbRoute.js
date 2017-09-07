@@ -28,8 +28,14 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched((props, dispatch) => dispatch(fetchAll()), {
-    componentWillReceiveProps: false
-  }),
+  dispatched(
+    (props, dispatch) => {
+      dispatch(fetchAll());
+      dispatch(fetchSemesters());
+    },
+    {
+      componentWillReceiveProps: false
+    }
+  ),
   connect(mapStateToProps, mapDispatchToProps)
 )(BdbPage);

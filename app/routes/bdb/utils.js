@@ -1,30 +1,47 @@
 import React from 'react';
 
 export const statusStrings = {
-  0: 'Bedpres',
-  1: 'Bedpres & kurs',
-  2: 'Kurs',
-  3: 'Interessert',
-  4: 'Ikke interessert',
-  5: 'Kontaktet',
-  6: 'Ikke kontaktet'
+  company_presentation: 'Bedpres',
+  course: 'Kurs',
+  lunch_presentation: 'Lunsjpresentasjon',
+  interested: 'Interessert',
+  bedex: 'Bedex',
+  anniversary: 'Jubileum',
+  not_interested: 'Ikke interessert',
+  contacted: 'Kontaktet',
+  not_contacted: 'Ikke kontaktet',
+  other: 'Annet'
 };
+
+export const getStatusString = status =>
+  statusStrings[status] || (status || 'Ikke kontaktet');
 
 export const selectColorCode = status => {
   const statusToClass = {
-    0: 'companyPresentation',
-    1: 'companyPresentationAndCourse',
-    2: 'course',
-    3: 'notOffered',
-    4: 'notInterested',
-    5: 'contacted',
-    6: 'notContacted'
+    bedex: 'bedex',
+    company_presentation: 'companyPresentation',
+    course: 'course',
+    lunch_presentation: 'other',
+    anniversary: 'other',
+    interested: 'interested',
+    not_interested: 'notInterested',
+    contacted: 'contacted',
+    not_contacted: 'notContacted',
+    other: 'other'
   };
   return statusToClass[status] || 'notContacted';
 };
 
+export const semesterNameOf = index => {
+  const indexToSemesterName = {
+    0: 'spring',
+    1: 'autumn'
+  };
+  return indexToSemesterName[index] || 'spring';
+};
+
 export const indexToSemester = (index, startYear, startSem) => {
-  const semester = (index % 2 + startSem) % 2;
+  const semester = semesterNameOf((index % 2 + startSem) % 2);
 
   let year = 0;
   if (startSem === 0) {

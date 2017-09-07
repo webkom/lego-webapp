@@ -94,7 +94,7 @@ export default class AddSemester extends Component {
                 className={styles.contactedStatusForm}
                 component={SelectInput.Field}
                 options={Object.keys(statusStrings).map(index => ({
-                  label: statusStrings[index],
+                  label: statusStrings(index),
                   value: Number(index)
                 }))}
                 placeholder="Status"
