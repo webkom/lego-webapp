@@ -76,7 +76,7 @@ export const InterestGroup = {
   REMOVE: generateStatuses('InterestGroup.REMOVE'),
   UPDATE: generateStatuses('InterestGroup.UPDATE'),
   JOIN: generateStatuses('InterestGroup.JOIN'),
-  LEAVE: generateStatuses('InterestGroup.LEAVE'),
+  LEAVE: generateStatuses('InterestGroup.LEAVE')
 };
 
 /**
@@ -150,6 +150,7 @@ export const NotificationsFeed = {
 export const User = {
   FETCH: generateStatuses('User.FETCH'),
   UPDATE: generateStatuses('User.UPDATE'),
+  PASSWORD_CHANGE: generateStatuses('User.PASSWORD_CHANGE'),
   LOGIN: generateStatuses('User.LOGIN'),
   LOGOUT: 'User.LOGOUT',
   SOCKET: generateStatuses('User.SOCKET'),
