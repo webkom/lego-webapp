@@ -192,6 +192,9 @@ export function sendRegistrationEmail({ email, captchaResponse }) {
         body: {
           email,
           captchaResponse
+        },
+        meta: {
+          errorMessage: 'Sending registration mail failed'
         }
       })
     );
@@ -204,6 +207,7 @@ export function validateRegistrationToken({ token }) {
         types: User.VALIDATE_REGISTRATION_TOKEN,
         endpoint: `/users-registration-request/?token=${token}`,
         meta: {
+          errorMessage: 'Validating registration token failed',
           token
         }
       })
@@ -217,7 +221,10 @@ export function createUser(token, user) {
         types: User.CREATE_USER,
         endpoint: `/users/?token=${token}`,
         method: 'POST',
-        body: user
+        body: user,
+        meta: {
+          errorMessage: 'Creating user failed'
+        }
       })
     ).then(action => {
       const { user, token } = action.payload;
@@ -238,7 +245,10 @@ export function sendStudentConfirmationEmail(user) {
     types: User.SEND_STUDENT_CONFIRMATION_TOKEN,
     endpoint: `/users-student-confirmation-request/`,
     method: 'POST',
-    body: user
+    body: user,
+    meta: {
+      errorMessage: 'Sending student confirmation mail failed'
+    }
   });
 }
 
