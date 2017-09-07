@@ -32,7 +32,7 @@ export function fetchAll() {
 export function createInterestGroup(
   name: string,
   description: string,
-  text: string
+  descriptionLong: string
 ) {
   return callAPI({
     types: InterestGroup.CREATE,
@@ -42,7 +42,7 @@ export function createInterestGroup(
     body: {
       name,
       description,
-      text
+      descriptionLong
     },
     meta: {
       errorMessage: 'Creating interestGroup failed'
@@ -68,10 +68,9 @@ export function removeInterestGroup(id: string) {
 
 export function updateInterestGroup(
   id: string,
-  name: string,
-  description: string,
-  text: string
+  args: object,
 ) {
+  const { name, description, descriptionLong } = args;
   return dispatch => {
     dispatch(
       callAPI({
@@ -81,7 +80,7 @@ export function updateInterestGroup(
         body: {
           name,
           description,
-          text
+          descriptionLong,
         },
         meta: {
           interestGroupId: id,
@@ -90,4 +89,57 @@ export function updateInterestGroup(
       })
     ).then(() => dispatch(push(`/interestgroups/${id}`)));
   };
+}
+
+export function updateInterestGroupPicture(
+  id: string,
+  token: token,
+) {
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: InterestGroup.UPDATE,
+        endpoint: `/interest-groups/${id}/`,
+        method: 'PATCH',
+        body: {
+          id: id,
+          picture: token
+        },
+        meta: {
+          interestGroupId: id,
+          errorMessage: 'Editing interestGroup failed'
+        }
+      })
+    ).then(() => dispatch(push(`/interestgroups/${id}`)));
+  };
+}
+
+export function joinInterestGroup(id, user) {
+  return callAPI({
+    types: InterestGroup.JOIN,
+    endpoint: '/memberships/',
+    method: 'POST',
+    body: {
+      abakus_group: id,
+      user: user.id
+    },
+    meta: {
+      errorMessage: 'Joining the interest group failed.',
+      groupId: id,
+      user,
+    }
+  });
+}
+
+export function leaveInterestGroup(membership) {
+  return callAPI({
+    types: InterestGroup.LEAVE,
+    endpoint: `/memberships/${membership.id}/`,
+    method: 'DELETE',
+    meta: {
+      user: membership.user,
+      groupId: membership.abakusGroup,
+      errorMessage: 'Leaving the interest group failed.'
+    }
+  });
 }

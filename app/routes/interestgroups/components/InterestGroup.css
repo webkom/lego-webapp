@@ -2,6 +2,10 @@
   composes: container from 'app/styles/utilities.css';
 }
 
+.summary {
+  flex-wrap: wrap;
+}
+
 .interestGroup {
   display: flex;
   flex-direction: column;

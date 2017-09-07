@@ -4,7 +4,9 @@ import { dispatched } from 'react-prepare';
 import {
   fetchInterestGroup,
   updateInterestGroup,
-  removeInterestGroup
+  removeInterestGroup,
+  joinInterestGroup,
+  leaveInterestGroup,
 } from 'app/actions/InterestGroupActions';
 import InterestGroupDetail from './components/InterestGroupDetail';
 import { selectInterestGroupById } from 'app/reducers/interestGroups';
@@ -17,7 +19,9 @@ const mapStateToProps = (state, { params: interestGroupId }) => ({
 const mapDispatchToProps = {
   fetchInterestGroup,
   updateInterestGroup,
-  removeInterestGroup
+  removeInterestGroup,
+  joinInterestGroup,
+  leaveInterestGroup,
 };
 
 export default compose(

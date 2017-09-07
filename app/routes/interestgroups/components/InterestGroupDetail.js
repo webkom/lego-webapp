@@ -3,8 +3,22 @@ import React, { Component } from 'react';
 import Image from 'app/components/Image';
 import Modal from 'app/components/Modal';
 import { Button } from 'app/components/Form';
+import { Flex } from 'app/components/Layout';
 import { FlexColumn, FlexRow } from 'app/components/FlexBox';
 import InterestGroupForm from './InterestGroupForm';
+
+import { Link } from 'react-router';
+import Tooltip from 'app/components/Tooltip';
+import ProfilePicture from 'app/components/ProfilePicture';
+
+// TODO: this is from the event detail page.
+// We can probably move this out to somewhere common.
+const RegisteredCell = ({ user }) =>
+  <Tooltip content={user.fullName}>
+    <Link to={`/users/${user.username}`}>
+      <ProfilePicture size={60} user={user} />
+    </Link>
+  </Tooltip>;
 
 class InterestGroupDetail extends Component {
   state = {
@@ -15,17 +29,31 @@ class InterestGroupDetail extends Component {
     this.props.removeInterestGroup(this.props.group.id);
   };
 
-  updateId = ({ name, description, text }) => {
+  updateId = args => {
     this.props.updateInterestGroup(
       this.props.group.id,
-      name,
-      description,
-      text
+      args
     );
   };
 
+  joinGroup = () => {
+    this.props.joinInterestGroup(
+      this.props.group.id,
+      this.props.currentUser
+    )
+  };
+
+  leaveGroup = () => {
+    const { group: { memberships = []}} = this.props;
+    const user = this.props.currentUser.id;
+    const membership = memberships.find(m => m.user.id === user);
+    this.props.leaveInterestGroup(membership);
+  };
+
   render() {
-    const { group } = this.props;
+    const { group, group: { memberships = []}} = this.props;
+    const userId = this.props.currentUser.id;
+    const isMember = memberships.find(m => m.user.id === userId);
     return (
       <div className={styles.root}>
         <div className={styles.wrapper}>
@@ -33,12 +61,21 @@ class InterestGroupDetail extends Component {
             {group.name}
           </h1>
           <div className={styles.content}>
-            <p className={styles.paragraphDetail}>
-              {group.text}
-            </p>
+            <div>
+                <Flex className={styles.registeredThumbnails}>
+                  {memberships && memberships
+                    .slice(0, 10)
+                    .map(reg =>
+                      <RegisteredCell key={reg.user.id} user={reg.user} />
+                    )}
+                </Flex>
+                <p className={styles.paragraphDetail}>
+                  {group.descriptionLong}
+                </p>
+            </div>
             <Image
               className={styles.interestPicDetail}
-              src={'https://i.redd.it/dz8mwvl4dgdy.jpg'}
+              src={group.picture || 'https://i.redd.it/dz8mwvl4dgdy.jpg'}
             />
           </div>
         </div>
@@ -64,9 +101,15 @@ class InterestGroupDetail extends Component {
         </div>
 
         <FlexRow>
-          <div className={styles.button}>
-            <Button onClick="">Bli medlem!</Button>
-          </div>
+          {isMember ?
+              (<div className={styles.button}>
+                <Button onClick={this.leaveGroup}>Forlat gruppen</Button>
+              </div>
+              ) :
+              (<div className={styles.button}>
+                <Button onClick={this.joinGroup}>Bli medlem!</Button>
+              </div>
+          )}
           <div className={styles.button}>
             <Button onClick="">Kontakt oss</Button>
           </div>
@@ -81,6 +124,7 @@ class InterestGroupDetail extends Component {
           closeOnBackdropClick={false}
         >
           <InterestGroupForm
+            groupId={group.id}
             onSubmit={this.updateId}
             buttonText="Rediger interessegruppe"
             header="Rediger interessegruppe"
