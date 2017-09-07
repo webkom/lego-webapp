@@ -66,7 +66,7 @@ export const selectQuoteById = createSelector(
 
 export const selectSortedQuotes = createSelector(
   selectQuotes,
-  (state, props) => props.location.query || {},
+  (state, props) => (props.location ? props.location.query : {}),
   (quotes, query) => {
     return quotes
       .filter(
