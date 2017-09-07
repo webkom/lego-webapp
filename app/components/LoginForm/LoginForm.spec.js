@@ -1,20 +1,27 @@
 import React from 'react';
 import LoginForm from './LoginForm';
 import TextInput from '../Form/TextInput';
-import { shallow } from 'enzyme';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import { shallow, mount } from 'enzyme';
 
 describe('components', () => {
   describe('LoginForm', () => {
     it('should render correctly', () => {
       const login = () => {};
-      const wrapper = shallow(
-        <LoginForm login={login} className="LoginForm" />
+      const mockStore = configureStore();
+      const store = mockStore();
+      const wrapper = mount(
+        <Provider {...{ store }}>
+          <LoginForm login={login} className="LoginForm" />
+        </Provider>
       );
-      expect(wrapper.hasClass('LoginForm')).toEqual(true);
+      const form = wrapper.find('Form');
+      expect(form.hasClass('LoginForm')).toEqual(true);
 
-      const username = wrapper.childAt(0);
-      const password = wrapper.childAt(1);
-      const submit = wrapper.childAt(2);
+      const username = form.childAt(0);
+      const password = form.childAt(1);
+      const submit = form.childAt(2);
 
       expect(username.type()).toEqual(TextInput);
       expect(username.prop('autoFocus')).toEqual(true);
