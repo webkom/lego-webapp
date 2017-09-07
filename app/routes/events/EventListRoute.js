@@ -15,18 +15,22 @@ const mapStateToProps = (state, ownProps) => {
       ? state.users.byId[state.auth.username].icalToken
       : null;
   const actionGrant = state => state.events.actionGrant;
+  const nextPage = state => state.events.next;
   return {
     ...createStructuredSelector({
       events: selectEvents,
-      actionGrant
+      actionGrant,
+      nextPage
     })(state, ownProps),
     icalToken
   };
 };
 
+const mapDispatchToProps = { fetchAll };
+
 export default compose(
   dispatched((props, dispatch) =>
     dispatch(fetchAll({ dateAfter: moment().format('YYYY-MM-DD') }))
   ),
-  connect(mapStateToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )(EventList);

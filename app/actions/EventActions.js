@@ -20,13 +20,21 @@ export function fetchEvent(eventId: string) {
   });
 }
 
-export function fetchAll({ dateAfter, dateBefore }: Object = {}) {
+export function fetchAll({ dateAfter, dateBefore, nextPage }: Object = {}) {
+  const query = {};
+
+  if (dateBefore) {
+    query.date_before = dateBefore;
+  }
+  if (dateAfter) {
+    query.date_after = dateAfter;
+  }
+  if (dateBefore && dateAfter) {
+    query.page_size = 60;
+  }
   return callAPI({
     types: Event.FETCH,
-    endpoint: `/events/${createQueryString({
-      date_after: dateAfter,
-      date_before: dateBefore
-    })}`,
+    endpoint: nextPage || `/events/${createQueryString(query)}`,
     schema: [eventSchema],
     meta: {
       errorMessage: 'Fetching events failed'

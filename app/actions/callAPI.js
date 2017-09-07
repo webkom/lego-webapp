@@ -88,12 +88,13 @@ export default function callAPI({
     }
 
     function normalizeJsonResponse(jsonResponse = {}) {
-      const { results, actionGrant } = jsonResponse;
+      const { results, actionGrant, next } = jsonResponse;
       const payload = Array.isArray(results) ? results : jsonResponse;
       return schema
         ? {
             ...normalize(payload, schema),
-            actionGrant
+            actionGrant,
+            next
           }
         : payload;
     }
