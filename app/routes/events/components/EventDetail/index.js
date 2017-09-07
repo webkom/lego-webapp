@@ -21,7 +21,7 @@ import cx from 'classnames';
 
 const InterestedButton = ({ value, onClick }) => {
   const [icon, text] = value
-    ? ['check', 'Du er interessert']
+    ? ['check', 'Ikke lengre interessert?']
     : ['plus', 'Jeg er interessert'];
 
   return (
@@ -47,12 +47,13 @@ type Props = {
   registrations: Array<Object>,
   currentRegistration: Object,
   waitingRegistrations: Array<Object>,
-  isUserInterested: boolean,
   register: (
     eventId: string,
     captchaResponse: string,
     feedback: string
   ) => Promise<*>,
+  follow: (eventId: string, userId: string) => Promise<*>,
+  unfollow: (eventId: string, userId: string) => Promise<*>,
   unregister: (eventId: string, registrationId: number) => Promise<*>,
   payment: (eventId: string, token: string) => Promise<*>,
   updateFeedback: (
@@ -105,7 +106,9 @@ export default class EventDetail extends Component {
       pools,
       registrations,
       currentRegistration,
-      deleteEvent
+      deleteEvent,
+      follow,
+      unfollow
     } = this.props;
 
     if (!event.id) {
@@ -125,6 +128,10 @@ export default class EventDetail extends Component {
     }
     const styleType = styleForEvent(event.eventType);
 
+    const onRegisterClick = event.isUserFollowing
+      ? () => unfollow(event.isUserFollowing.id, event.id)
+      : () => follow(currentUser.id, event.id);
+
     return (
       <div className={styles.root}>
         <div className={styles.coverImage}>
@@ -135,7 +142,10 @@ export default class EventDetail extends Component {
           <h2>
             {event.title}
           </h2>
-          <InterestedButton value={this.props.isUserInterested} />
+          <InterestedButton
+            value={event.isUserFollowing}
+            onClick={onRegisterClick}
+          />
         </Flex>
 
         <Flex wrap className={styles.mainRow}>

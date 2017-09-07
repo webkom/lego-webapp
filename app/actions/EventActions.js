@@ -294,3 +294,53 @@ export function updatePayment(eventId, registrationId, chargeStatus) {
     ).then(() => dispatch(addNotification({ message: 'Payment updated' })));
   };
 }
+
+export function follow(userId, eventId) {
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: Event.FOLLOW,
+        endpoint: `/followers-event/`,
+        method: 'POST',
+        body: {
+          target: eventId,
+          follower: userId
+        },
+        meta: {
+          errorMessage: 'Failed to register interest'
+        }
+      })
+    );
+  };
+}
+
+export function unfollow(followId, eventId) {
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: Event.UNFOLLOW,
+        endpoint: `/followers-event/${followId}/`,
+        method: 'DELETE',
+        meta: {
+          eventId,
+          errorMessage: 'Failed to unregister interest'
+        }
+      })
+    );
+  };
+}
+
+export function isUserFollowing(eventId, userId) {
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: Event.IS_USER_FOLLOWING,
+        endpoint: `/followers-event/?target=${eventId}&follower=${userId}`,
+        method: 'GET',
+        meta: {
+          errorMessage: 'Failed to get event followers'
+        }
+      })
+    );
+  };
+}
