@@ -4,6 +4,58 @@ import { Company } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
 import { selectEvents } from './events';
+import { mutateComments } from 'app/reducers/comments';
+import joinReducers from 'app/utils/joinReducers';
+
+function mutateCompanies(state, action) {
+  switch (action.type) {
+    case Company.DELETE.SUCCESS: {
+      return {
+        ...state,
+        byId: state.byId.filter(
+          company => company.id !== Number(action.meta.companyId)
+        )
+      };
+    }
+
+    case Company.DELETE_SEMESTER.SUCCESS: {
+      const companyId = Number(action.meta.companyId);
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [companyId]: {
+            ...state.byId[companyId],
+            semesterStatuses: state.byId[companyId].semesterStatuses.filter(
+              status => status.id !== Number(action.meta.semesterId)
+            )
+          }
+        }
+      };
+    }
+
+    case Company.DELETE_COMPANY_CONTACT.SUCCESS: {
+      const companyId = Number(action.meta.companyId);
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [companyId]: {
+            ...state.byId[companyId],
+            companyContacts: state.byId[companyId].companyContacts.filter(
+              contact => contact.id !== Number(action.meta.companyContactId)
+            )
+          }
+        }
+      };
+    }
+
+    default:
+      return state;
+  }
+}
+
+const mutate = joinReducers(mutateComments('companies'), mutateCompanies);
 
 export default createEntityReducer({
   key: 'companies',
@@ -11,53 +63,7 @@ export default createEntityReducer({
     fetch: Company.FETCH,
     mutate: Company.ADD
   },
-  mutate(state, action) {
-    switch (action.type) {
-      case Company.DELETE.SUCCESS: {
-        return {
-          ...state,
-          byId: state.byId.filter(
-            company => company.id !== Number(action.meta.companyId)
-          )
-        };
-      }
-
-      case Company.DELETE_SEMESTER.SUCCESS: {
-        const companyId = Number(action.meta.companyId);
-        return {
-          ...state,
-          byId: {
-            ...state.byId,
-            [companyId]: {
-              ...state.byId[companyId],
-              semesterStatuses: state.byId[companyId].semesterStatuses.filter(
-                status => status.id !== Number(action.meta.semesterId)
-              )
-            }
-          }
-        };
-      }
-
-      case Company.DELETE_COMPANY_CONTACT.SUCCESS: {
-        const companyId = Number(action.meta.companyId);
-        return {
-          ...state,
-          byId: {
-            ...state.byId,
-            [companyId]: {
-              ...state.byId[companyId],
-              companyContacts: state.byId[companyId].companyContacts.filter(
-                contact => contact.id !== Number(action.meta.companyContactId)
-              )
-            }
-          }
-        };
-      }
-
-      default:
-        return state;
-    }
-  }
+  mutate
 });
 
 export const selectCompanies = createSelector(

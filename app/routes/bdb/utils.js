@@ -19,9 +19,9 @@ export const getStatusString = status =>
 export const selectColorCode = status => {
   const statusToClass = {
     bedex: 'bedex',
-    company_presentation: 'companyPresentation',
+    bedpress: 'companyPresentation',
     course: 'course',
-    lunch_presentation: 'other',
+    lunch_presentation: 'lunchPresentation',
     anniversary: 'other',
     interested: 'interested',
     not_interested: 'notInterested',

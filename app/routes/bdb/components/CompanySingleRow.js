@@ -19,8 +19,6 @@ export default class CompanySingleRow extends Component {
   semesterElement = index => {
     const { startYear, startSem, company, companySemesters } = this.props;
     const result = indexToSemester(index, startYear, startSem);
-    console.log('result');
-    console.log(result);
 
     return (
       (company.semesterStatuses || []).find(status => {
@@ -43,8 +41,6 @@ export default class CompanySingleRow extends Component {
       startYear,
       startSem
     } = this.props;
-    console.log(this.semesterElement(0));
-    console.log('#');
 
     const semesters = [
       this.semesterElement(0),
