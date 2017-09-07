@@ -3,23 +3,28 @@ import { dispatched } from 'react-prepare';
 import {
   fetchAll,
   addSemesterStatus,
-  editSemesterStatus
+  editSemesterStatus,
+  fetchSemesters
 } from '../../actions/CompanyActions';
 import BdbPage from './components/BdbPage';
 import { compose } from 'redux';
 import { selectCompanies } from 'app/reducers/companies';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { selectCompanySemesters } from 'app/reducers/companySemesters';
 
-const mapStateToProps = (state, props) => {
-  console.log(selectCompanies(state, props));
-  return {
-    companies: selectCompanies(state, props),
-    query: props.location
-  };
+const mapStateToProps = (state, props) => ({
+  companies: selectCompanies(state, props),
+  companySemesters: selectCompanySemesters(state, props),
+  query: props.location
+});
+
+const mapDispatchToProps = {
+  fetchAll,
+  fetchSemesters,
+  editSemesterStatus,
+  addSemesterStatus
 };
-
-const mapDispatchToProps = { fetchAll, editSemesterStatus, addSemesterStatus };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),

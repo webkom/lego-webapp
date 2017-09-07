@@ -6,6 +6,7 @@ import { routerReducer } from 'react-router-redux';
 import routing from './routing';
 import form from './forms';
 import companies from './companies';
+import companySemesters from './companySemesters';
 import quotes from './quotes';
 import pictures from './pictures';
 import events from './events';
@@ -66,7 +67,8 @@ const reducers = {
   feedActivities,
   feeds,
   fetchHistory,
-  companies
+  companies,
+  companySemesters
 };
 
 export type Reducers = typeof reducers;
@@ -123,6 +125,7 @@ export const pageSchema = new schema.Entity(
 export const companySchema = new schema.Entity('companies', {
   studentContact: userSchema
 });
+export const companySemesterSchema = new schema.Entity('companySemesters');
 export const joblistingsSchema = new schema.Entity('joblistings');
 export const feedActivitySchema = new schema.Entity('feedActivities');
 export const oauth2ApplicationSchema = new schema.Entity('oauth2Application');

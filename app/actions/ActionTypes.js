@@ -127,7 +127,8 @@ export const Company = {
   DELETE_SEMESTER: generateStatuses('Company.DELETE_SEMESTER'),
   ADD_COMPANY_CONTACT: generateStatuses('Company.ADD_COMPANY_CONTACT'),
   EDIT_COMPANY_CONTACT: generateStatuses('Company.EDIT_COMPANY_CONTACT'),
-  DELETE_COMPANY_CONTACT: generateStatuses('Company.DELETE_COMPANY_CONTACT')
+  DELETE_COMPANY_CONTACT: generateStatuses('Company.DELETE_COMPANY_CONTACT'),
+  FETCH_SEMESTERS: generateStatuses('Company.FETCH_SEMESTERS')
 };
 
 /**
