@@ -12,9 +12,9 @@ type Props = {
 };
 
 export default function QuotePage({ query, quotes, ...props }: Props) {
-  if (quotes.length === 0) {
-    return <LoadingIndicator loading />;
-  }
+  // if (quotes.length === 0) {
+  //   return <LoadingIndicator loading />;
+  // }
   return (
     <div className={cx(styles.root, styles.quoteContainer)}>
       <div className={styles.quotepageLeft}>

@@ -17,14 +17,43 @@ export type QuoteEntity = {
 
 function mutateQuote(state: any, action: any) {
   switch (action.type) {
-    case Quote.DELETE.SUCCESS:
-    case Quote.UNAPPROVE.SUCCESS:
-    case Quote.APPROVE.SUCCESS:
+    case Quote.DELETE.SUCCESS: {
+      const { quoteId } = action.meta;
       return {
         ...state,
-        items: state.items.filter(id => id !== action.meta.quoteId)
+        byId: {
+          ...state.byId,
+          [quoteId]: undefined
+        },
+        items: state.items.filter(id => id != quoteId)
       };
-
+    }
+    case Quote.UNAPPROVE.SUCCESS: {
+      const { quoteId } = action.meta;
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [quoteId]: {
+            ...state.byId[quoteId],
+            approved: false
+          }
+        }
+      };
+    }
+    case Quote.APPROVE.SUCCESS: {
+      const { quoteId } = action.meta;
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [quoteId]: {
+            ...state.byId[quoteId],
+            approved: true
+          }
+        }
+      };
+    }
     default:
       return state;
   }
@@ -66,7 +95,7 @@ export const selectQuoteById = createSelector(
 
 export const selectSortedQuotes = createSelector(
   selectQuotes,
-  (state, props) => (props.location ? props.location.query : {}),
+  (state, props) => ({ filter: props.filter }),
   (quotes, query) => {
     return quotes
       .filter(
