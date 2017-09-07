@@ -70,7 +70,9 @@ export default class UserProfile extends Component {
           <div className={styles.sidebar}>
             <Card>
               {this.renderFields()}
-              {isMe ? <Link to="/users/me/settings">Settings</Link> : ''}
+              {isMe
+                ? <Link to="/users/me/settings/profile">Settings</Link>
+                : ''}
             </Card>
           </div>
 

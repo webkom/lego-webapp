@@ -17,7 +17,7 @@ type Props = {
 
 const UserSettingsOAuth2 = (props: Props) => {
   return (
-    <div className={styles.root}>
+    <div>
       <h1>OAuth2</h1>
       <p>
         Denne nettsiden benytter seg av et API som også er tiljengelig for andre
