@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import styles from './bdb.css';
-import { selectColorCode, statusStrings, indexToSemester } from '../utils.js';
+import {
+  selectColorCode,
+  statusStrings,
+  getStatusString,
+  indexToSemester
+} from '../utils.js';
 
 type Props = {
   semesterStatus: Object,
@@ -29,6 +34,7 @@ export default class SemesterStatus extends Component {
       startYear,
       startSem
     } = this.props;
+    console.log(this.props);
 
     const yearAndSemester = indexToSemester(semIndex, startYear, startSem);
     const matchSemester = status =>
@@ -37,25 +43,26 @@ export default class SemesterStatus extends Component {
       status.companyId === companyId;
 
     return (
-      <td className={styles[selectColorCode(semesterStatus.contactedStatus)]}>
+      <td
+        className={styles[selectColorCode(semesterStatus.contactedStatus[0])]}
+      >
         <select
           onChange={this.editSemester}
-          value={`${companyId}-${semIndex}-${semesterStatus.id}-${semesterStatus.contactedStatus}`}
+          value={`${companyId}-${semIndex}-${semesterStatus.id}-${semesterStatus
+            .contactedStatus[0]}`}
         >
-          {Object.keys(statusStrings).map((statusString, j) => (
+          {Object.keys(statusStrings).map((statusString, j) =>
             <option
               key={j}
-              value={`${companyId}-${semIndex}-${semesterStatus.id}-${j}`}
+              value={`${companyId}-${semIndex}-${semesterStatus.id}-${statusString}`}
             >
-              {statusStrings[j]}
+              {getStatusString(statusString)}
               {changedStatuses.find(matchSemester) &&
-              Number(semesterStatus.contactedStatus) === j ? (
-                ' *'
-              ) : (
-                ''
-              )}
+              Number(semesterStatus.contactedStatus[0]) === j
+                ? ' *'
+                : ''}
             </option>
-          ))}
+          )}
         </select>
       </td>
     );

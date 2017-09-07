@@ -27,9 +27,12 @@ export default class BdbPage extends Component {
     searchQuery: ''
   };
 
-  componentWillMount() {
+  componentDidMount() {
+    const date = new Date();
     this.setState({
-      companies: this.props.companies
+      companies: this.props.companies,
+      startYear: date.getFullYear(),
+      startSem: date.getMonth() > 6 ? 1 : 0
     });
   }
 
@@ -188,7 +191,7 @@ export default class BdbPage extends Component {
     }
 
     const sortedCompanies = sortCompanies(
-      this.state.companies,
+      this.state.companies.length > 0 ? this.state.companies : companies,
       query,
       this.state.startYear,
       this.state.startSem

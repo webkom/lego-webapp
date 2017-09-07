@@ -20,7 +20,7 @@ export default class CompanyList extends Component {
   findTitle = index => {
     const { startYear, startSem } = this.props;
     const result = indexToSemester(index, startYear, startSem);
-    const sem = result.semester === 0 ? 'Vår' : 'Høst';
+    const sem = result.semester === 'spring' ? 'Vår' : 'Høst';
     return `${sem} ${result.year}`;
   };
 
@@ -152,6 +152,7 @@ export default class CompanyList extends Component {
                 key={i}
                 editSemester={editSemester}
                 changedStatuses={changedStatuses}
+                companySemesters={companySemesters}
               />
             ))}
           </tbody>

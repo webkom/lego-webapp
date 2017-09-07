@@ -4,7 +4,7 @@ import BdbRightNav from './BdbRightNav';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextInput } from 'app/components/Form';
-import { selectColorCode, statusStrings } from '../utils.js';
+import { selectColorCode, statusStrings, getStatusString } from '../utils.js';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import cx from 'classnames';
 import { Link } from 'react-router';
@@ -115,7 +115,7 @@ export default class EditSemester extends Component {
               >
                 {Object.keys(statusStrings).map((statusString, j) => (
                   <option key={j} value={statusString}>
-                    {statusStrings[j]}
+                    {getStatusString(j)}
                   </option>
                 ))}
               </select>

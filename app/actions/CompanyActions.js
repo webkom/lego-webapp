@@ -2,7 +2,11 @@
 
 import { Company, Event } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
-import { companySchema, eventSchema } from 'app/reducers';
+import {
+  companySchema,
+  eventSchema,
+  companySemesterSchema
+} from 'app/reducers';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 import type { Thunk } from 'app/types';
@@ -309,7 +313,7 @@ export function fetchSemesters() {
   return callAPI({
     types: Company.FETCH_SEMESTERS,
     endpoint: '/company-semesters/',
-    schema: [companySchema],
+    schema: [companySemesterSchema],
     meta: {
       errorMessage: 'Fetching company semesters failed'
     },
