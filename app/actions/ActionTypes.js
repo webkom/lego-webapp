@@ -74,7 +74,9 @@ export const InterestGroup = {
   FETCH: generateStatuses('InterestGroup.FETCH'),
   CREATE: generateStatuses('InterestGroup.CREATE'),
   REMOVE: generateStatuses('InterestGroup.REMOVE'),
-  UPDATE: generateStatuses('InterestGroup.UPDATE')
+  UPDATE: generateStatuses('InterestGroup.UPDATE'),
+  JOIN: generateStatuses('InterestGroup.JOIN'),
+  LEAVE: generateStatuses('InterestGroup.LEAVE'),
 };
 
 /**
