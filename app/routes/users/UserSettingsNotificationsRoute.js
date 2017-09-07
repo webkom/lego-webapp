@@ -13,7 +13,7 @@ import {
 import {
   selectNotificationSettingsAlternatives,
   selectNotificationSettings
-} from 'app/reducers/NotificationSettings';
+} from 'app/reducers/notificationSettings';
 
 const loadData = (props, dispatch) => {
   return Promise.all([

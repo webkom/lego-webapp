@@ -15,7 +15,9 @@ const initialState = {
   username: null,
   token: null,
   loginFailed: false,
-  loggingIn: false
+  loggingIn: false,
+  registrationToken: null,
+  studentConfirmed: null
 };
 
 export default function auth(
@@ -37,11 +39,13 @@ export default function auth(
         loginFailed: true
       };
 
+    case User.CREATE_USER.SUCCESS:
     case User.LOGIN.SUCCESS:
       return {
         ...state,
         loggingIn: false,
-        token: action.payload.token
+        token: action.payload.token,
+        registrationToken: null
       };
 
     case User.FETCH.SUCCESS:
@@ -57,6 +61,21 @@ export default function auth(
     case User.LOGOUT:
       return initialState;
 
+    case User.VALIDATE_REGISTRATION_TOKEN.SUCCESS:
+      return {
+        ...state,
+        registrationToken: action.meta.token
+      };
+    case User.CONFIRM_STUDENT_USER.FAILURE:
+      return {
+        ...state,
+        studentConfirmed: false
+      };
+    case User.CONFIRM_STUDENT_USER.SUCCESS:
+      return {
+        ...state,
+        studentConfirmed: true
+      };
     default:
       return state;
   }
