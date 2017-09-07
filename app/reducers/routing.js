@@ -13,7 +13,6 @@ export default function routing(state = initialState, action) {
       };
     }
     case '@@router/LOCATION_CHANGE': {
-      console.log('asd', state.locationBeforeTransitions, action.payload);
       const { locationBeforeTransitions } = state;
       if (
         locationBeforeTransitions &&

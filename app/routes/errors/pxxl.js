@@ -1,3 +1,4 @@
+/* eslint-disable */
 // Copyright (C) 2007 Chris Double.
 //
 // Redistribution and use in source and binary forms, with or without
