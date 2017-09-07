@@ -2,7 +2,8 @@
 
 const entityTypeMappings = {
   'events.event': 'events',
-  'articles.article': 'articles'
+  'articles.article': 'articles',
+  'quotes.quote': 'quotes'
 };
 
 type ServerName = $Enum<typeof entityTypeMappings>;
