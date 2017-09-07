@@ -101,7 +101,33 @@ function mutateEvent(state: any, action: any) {
         }
       };
     }
-    case Event.ISUSERFOLLOWING.SUCCESS: {
+    case Event.FOLLOW.SUCCESS: {
+      const eventId = action.payload.target;
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [eventId]: {
+            ...state.byId[eventId],
+            isUserFollowing: action.payload
+          }
+        }
+      };
+    }
+    case Event.UNFOLLOW.SUCCESS: {
+      const eventId = action.meta.eventId;
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [eventId]: {
+            ...state.byId[eventId],
+            isUserFollowing: undefined
+          }
+        }
+      };
+    }
+    case Event.IS_USER_FOLLOWING.SUCCESS: {
       // NOTE: assume we've only asked for a single event.
       if (action.payload.length > 0) {
         const eventId = action.payload[0].target;
@@ -111,7 +137,7 @@ function mutateEvent(state: any, action: any) {
             ...state.byId,
             [eventId]: {
               ...state.byId[eventId],
-              isUserFollowing: true
+              isUserFollowing: action.payload[0]
             }
           }
         };
