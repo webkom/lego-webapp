@@ -294,3 +294,37 @@ export function updatePayment(eventId, registrationId, chargeStatus) {
     ).then(() => dispatch(addNotification({ message: 'Payment updated' })));
   };
 }
+
+export function registerInterest(eventId, userId) {
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: Event.REGISTERINTEREST,
+        endpoint: `/followers-event/`,
+        method: 'POST',
+        body: {
+          target: eventId,
+          follower: userId
+        },
+        meta: {
+          errorMessage: 'Failed to register interest'
+        }
+      })
+    );
+  };
+}
+
+export function isUserFollowing(eventId, userId) {
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: Event.ISUSERFOLLOWING,
+        endpoint: `/followers-event/?target=${eventId}&follower=${userId}`,
+        method: 'GET',
+        meta: {
+          errorMessage: 'Failed to get event followers'
+        }
+      })
+    );
+  };
+}

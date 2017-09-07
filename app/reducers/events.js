@@ -101,6 +101,25 @@ function mutateEvent(state: any, action: any) {
         }
       };
     }
+    case Event.ISUSERFOLLOWING.SUCCESS: {
+      // NOTE: assume we've only asked for a single event.
+      if (action.payload.length > 0) {
+        const eventId = action.payload[0].target;
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [eventId]: {
+              ...state.byId[eventId],
+              isUserFollowing: true
+            }
+          }
+        };
+      } else {
+        // leave undefined to be false.
+        return state;
+      }
+    }
     default:
       return state;
   }
