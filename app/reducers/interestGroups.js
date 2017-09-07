@@ -24,7 +24,7 @@ export default createEntityReducer({
         return {
           ...state,
           items: state.items.filter(g => g !== removedId),
-          byId: omit(state, removedId)
+          byId: omit(state.byId, removedId)
         };
       }
       case InterestGroup.JOIN.SUCCESS: {
