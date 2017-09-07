@@ -20,7 +20,7 @@ const navigationLinks = [
   ['/articles', 'Artikler'],
   ['/announcements', 'Kunngjøringer'],
   ['/bdb', 'BDB'],
-  ['/readme', 'readme'],
+  ['http://readme.abakus.no', 'readme'],
   ['/interestgroups', 'Interessegrupper'],
   ['/meetings', 'Møter'],
   ['/quotes', 'Sitater'],
