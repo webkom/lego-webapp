@@ -34,7 +34,6 @@ export default class SemesterStatus extends Component {
       startYear,
       startSem
     } = this.props;
-    console.log(this.props);
 
     const yearAndSemester = indexToSemester(semIndex, startYear, startSem);
     const matchSemester = status =>

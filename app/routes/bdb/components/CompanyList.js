@@ -63,9 +63,6 @@ export default class CompanyList extends Component {
       changedStatuses,
       companySemesters
     } = this.props;
-    console.log('i list');
-    console.log(companies);
-    console.log(companySemesters);
 
     /*
     **
