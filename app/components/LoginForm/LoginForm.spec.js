@@ -3,7 +3,7 @@ import LoginForm from './LoginForm';
 import TextInput from '../Form/TextInput';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 
 describe('components', () => {
   describe('LoginForm', () => {
