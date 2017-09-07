@@ -27,13 +27,20 @@ class RegisterForm extends Component {
   }
 
   onSubmit = data => {
-    this.props.sendRegistrationEmail(data).then(() => {
-      if (this.mounted) {
-        this.setState({
-          submitted: true
-        });
-      }
-    });
+    this.props
+      .sendRegistrationEmail(data)
+      .then(() => {
+        if (this.mounted) {
+          this.setState({
+            submitted: true
+          });
+        }
+      })
+      .catch(err => {
+        if (this.mounted) {
+          this.props.reset();
+        }
+      });
   };
 
   render() {

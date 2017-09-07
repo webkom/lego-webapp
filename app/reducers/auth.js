@@ -16,7 +16,8 @@ const initialState = {
   token: null,
   loginFailed: false,
   loggingIn: false,
-  registrationToken: null
+  registrationToken: null,
+  studentConfirmed: null
 };
 
 export default function auth(
@@ -64,6 +65,16 @@ export default function auth(
       return {
         ...state,
         registrationToken: action.meta.token
+      };
+    case User.CONFIRM_STUDENT_USER.FAILURE:
+      return {
+        ...state,
+        studentConfirmed: false
+      };
+    case User.CONFIRM_STUDENT_USER.SUCCESS:
+      return {
+        ...state,
+        studentConfirmed: true
       };
     default:
       return state;
