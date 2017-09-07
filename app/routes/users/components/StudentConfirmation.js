@@ -22,12 +22,13 @@ const StudentConfirmation = ({
   isStudent
 }) => {
   if (!loggedIn) {
-    return router.push('/');
+    router.push('/');
+    return null;
   }
   if (isStudent) {
     return (
       <Content>
-        <div>
+        <div className={styles.root}>
           <h2>Du er allerede verifisert!</h2>
         </div>
       </Content>
