@@ -48,15 +48,9 @@ function AccountDropdownItems({ logout, onClose, username }) {
       </Dropdown.ListItem>
       <Dropdown.Divider />
       <Dropdown.ListItem>
-        <Link to="/users/me/settings" onClick={onClose}>
+        <Link to="/users/me/settings/profile" onClick={onClose}>
           Innstillinger
           <Icon name="cog" size={24} />
-        </Link>
-      </Dropdown.ListItem>
-      <Dropdown.ListItem>
-        <Link to="/users/me/settings" onClick={onClose}>
-          Abacash
-          <Icon name="card" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.ListItem>

@@ -2,6 +2,7 @@ import { AppRoute } from './app';
 import overview from './overview';
 import events from './events';
 import company from './company';
+import email from './email';
 import users from './users';
 import articles from './articles';
 import meetings from './meetings';
@@ -31,6 +32,7 @@ export default {
     interestGroups,
     joblistings,
     bdb,
+    email,
     {
       path: '*',
       component: HTTPError

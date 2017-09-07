@@ -1,14 +1,13 @@
 // @flow
 
 import React from 'react';
-import { Link } from 'react-router';
+import { Field } from 'redux-form';
+import { omit } from 'lodash';
+
 import Button from 'app/components/Button';
 import { Form, TextInput } from 'app/components/Form';
-import { Flex } from 'app/components/Layout';
-import { Field } from 'redux-form';
+import { FlexRow } from 'app/components/FlexBox';
 import UserImage from './UserImage';
-import styles from './UserSettings.css';
-import { omit } from 'lodash';
 
 type Props = {
   handleSubmit: () => void,
@@ -35,27 +34,10 @@ const UserSettings = (props: Props) => {
   const disabledButton = invalid || pristine || submitting;
 
   return (
-    <div className={styles.root}>
-      <UserImage user={user} updatePicture={updatePicture} />
-
-      <Flex>
-        {!user.isStudent &&
-          <Link
-            className={styles.navigationLink}
-            to="/users/student-confirmation"
-          >
-            Verifiser studentepost
-          </Link>}
-        <Link
-          className={styles.navigationLink}
-          to="/users/me/settings/notifications"
-        >
-          Notification settings
-        </Link>
-        <Link className={styles.navigationLink} to="/users/me/settings/oauth2">
-          OAuth2 Applications And Grants
-        </Link>
-      </Flex>
+    <div>
+      <FlexRow justifyContent="center">
+        <UserImage user={user} updatePicture={updatePicture} />
+      </FlexRow>
 
       <Form
         onSubmit={handleSubmit(props => {

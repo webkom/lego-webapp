@@ -1,0 +1,29 @@
+@import 'app/styles/variables.css';
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.header {
+  display: inline;
+}
+
+.navigator {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+@media (--small-viewport) {
+  .container {
+    flex-direction: column;
+  }
+  .navigator {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

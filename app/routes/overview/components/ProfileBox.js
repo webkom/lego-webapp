@@ -16,7 +16,7 @@ const Dropdown = ({ login, logout, user }) => {
           </Link>
         </li>
         <li>
-          <Link to="/users/me/settings">
+          <Link to="/users/me/settings/profile">
             Instillinger
             <Icon name="cog" />
           </Link>
