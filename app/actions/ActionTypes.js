@@ -180,6 +180,32 @@ export const Feed = {
   FETCH: generateStatuses('Feed.FETCH')
 };
 
+/**
+ *
+ */
 export const Routing = {
   SET_STATUS_CODE: 'Routing.SET_STATUS_CODE'
+};
+
+/**
+ *
+ */
+export const OAuth2 = {
+  FETCH_APPLICATIONS: generateStatuses('OAuth2.FETCH_APPLICATIONS'),
+  FETCH_APPLICATION: generateStatuses('OAuth2.FETCH_APPLICATION'),
+  UPDATE_APPLICATION: generateStatuses('OAuth2.UPDATE_APPLICATION'),
+  CREATE_APPLICATION: generateStatuses('OAuth2.CREATE_APPLICATION'),
+  FETCH_GRANTS: generateStatuses('OAuth2.FETCH_GRANTS'),
+  DELETE_GRANT: generateStatuses('OAuth2.DELETE_GRANT')
+};
+
+/**
+ *
+ */
+export const NotificationSettings = {
+  FETCH_ALTERNATIVES: generateStatuses(
+    'NotificationSettings.FETCH_ALTERNATIVES'
+  ),
+  FETCH: generateStatuses('NotificationSettings.FETCH'),
+  UPDATE: generateStatuses('NotificationSettings.UPDATE')
 };
