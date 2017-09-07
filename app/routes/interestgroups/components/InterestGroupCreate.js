@@ -8,7 +8,10 @@ class InterestGroupCreate extends Component {
   };
 
   handleCreation = ({ name, description, text }) => {
-    this.props.createInterestGroup(name, description, text);
+    this.props.createInterestGroup(name, description, text).then(group => {
+      const groupId = group.payload.result;
+      this.props.router.push(`/interestgroups/${groupId}`);
+    });
   };
 
   render() {

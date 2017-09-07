@@ -58,7 +58,7 @@ export function removeInterestGroup(id: string) {
         endpoint: `/interest-groups/${id}/`,
         method: 'DELETE',
         meta: {
-          interestGroupId: id,
+          groupId: id,
           errorMessage: 'Removing interestGroup failed'
         }
       })
@@ -66,10 +66,7 @@ export function removeInterestGroup(id: string) {
   };
 }
 
-export function updateInterestGroup(
-  id: string,
-  args: object,
-) {
+export function updateInterestGroup(id: string, args: object) {
   const { name, description, descriptionLong } = args;
   return dispatch => {
     dispatch(
@@ -80,7 +77,7 @@ export function updateInterestGroup(
         body: {
           name,
           description,
-          descriptionLong,
+          descriptionLong
         },
         meta: {
           interestGroupId: id,
@@ -91,10 +88,7 @@ export function updateInterestGroup(
   };
 }
 
-export function updateInterestGroupPicture(
-  id: string,
-  token: token,
-) {
+export function updateInterestGroupPicture(id: string, token: token) {
   return dispatch => {
     dispatch(
       callAPI({
@@ -126,7 +120,7 @@ export function joinInterestGroup(id, user) {
     meta: {
       errorMessage: 'Joining the interest group failed.',
       groupId: id,
-      user,
+      user
     }
   });
 }
