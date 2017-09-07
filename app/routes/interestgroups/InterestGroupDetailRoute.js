@@ -6,12 +6,12 @@ import {
   updateInterestGroup,
   removeInterestGroup,
   joinInterestGroup,
-  leaveInterestGroup,
+  leaveInterestGroup
 } from 'app/actions/InterestGroupActions';
 import InterestGroupDetail from './components/InterestGroupDetail';
 import { selectInterestGroupById } from 'app/reducers/interestGroups';
 
-const mapStateToProps = (state, { params: interestGroupId }) => ({
+const mapStateToProps = (state, { params: { interestGroupId } }) => ({
   group: selectInterestGroupById(state, { interestGroupId }),
   interestGroupId
 });
@@ -21,7 +21,7 @@ const mapDispatchToProps = {
   updateInterestGroup,
   removeInterestGroup,
   joinInterestGroup,
-  leaveInterestGroup,
+  leaveInterestGroup
 };
 
 export default compose(
