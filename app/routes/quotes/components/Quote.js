@@ -69,7 +69,7 @@ export default class Quote extends Component {
               <div className={styles.commentCount}>
                 <Link to={`/quotes/${quote.id}`}>
                   <i className="fa fa-comment-o" />{' '}
-                  {(quote.comments || []).length}
+                  {quote.comments ? quote.comments.length : quote.commentCount}
                 </Link>
               </div>
 
