@@ -58,7 +58,7 @@ const StudentConfirmation = ({
 
   return (
     <Content>
-      <div className={styles.root}>
+      <div>
         <h2>Verifiser studentepost</h2>
         <Form onSubmit={handleSubmit(sendStudentConfirmationEmail)}>
           <Field
@@ -67,6 +67,7 @@ const StudentConfirmation = ({
             component={TextInput.Field}
           />
           <div>
+            <p>Hvilken linje tilhører du?</p>
             <Field
               fieldClassName={styles.radioButton}
               name="course"
@@ -83,7 +84,7 @@ const StudentConfirmation = ({
             />
           </div>
           <div>
-            <div>Vil du bli medlem i Abakus?</div>
+            <p>Vil du bli medlem i Abakus?</p>
             <Field
               fieldClassName={styles.radioButton}
               name="member"

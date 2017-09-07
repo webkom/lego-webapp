@@ -19,7 +19,7 @@ describe('<UserProfile />', () => {
     const wrapper = shallow(<UserProfile user={user} isMe />);
     expect(
       wrapper.containsMatchingElement(
-        <Link to="/users/me/settings">Settings</Link>
+        <Link to="/users/me/settings/profile">Settings</Link>
       )
     ).toEqual(true);
   });
@@ -28,7 +28,7 @@ describe('<UserProfile />', () => {
     const wrapper = shallow(<UserProfile user={user} isMe={false} />);
     expect(
       wrapper.containsMatchingElement(
-        <Link to="/users/me/settings">Settings</Link>
+        <Link to="/users/me/settings/profile">Settings</Link>
       )
     ).toEqual(false);
   });

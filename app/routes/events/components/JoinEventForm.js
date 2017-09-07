@@ -177,7 +177,7 @@ class JoinEventForm extends Component {
               registrationType
             )}
           >
-            <Link to={'/users/me/settings'} style={{ color: '#333' }}>
+            <Link to={'/users/me/settings/profile'} style={{ color: '#333' }}>
               Oppdater allergier her
             </Link>
             <Field

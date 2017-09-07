@@ -31,7 +31,7 @@ const navigationLinks = [
 
 const adminLinks = [
   ['/admin/groups', 'Grupper'],
-  ['/admin/email', 'E-post']
+  ['/email', 'E-post']
 ].sort((a, b) => a[1].localeCompare(b[1]));
 
 type Props = {

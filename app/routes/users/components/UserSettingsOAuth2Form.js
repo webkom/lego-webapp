@@ -5,7 +5,6 @@ import { Field } from 'redux-form';
 
 import Button from 'app/components/Button';
 import { Form, TextInput } from 'app/components/Form';
-import styles from './UserSettingsOAuth2.css';
 
 type Props = {
   create: boolean,
@@ -33,7 +32,7 @@ const UserSettingsOAuth2Form = (props: Props) => {
   };
 
   return (
-    <div className={styles.root}>
+    <div>
       <h1>
         {props.create ? 'Opprett' : 'Endre'} Applikasjon
       </h1>

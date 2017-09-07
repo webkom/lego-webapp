@@ -25,7 +25,7 @@ const UserSettingsNotifications = (props: Props) => {
   });
 
   return (
-    <div className={styles.root}>
+    <div>
       <h1>Notifikasjoner</h1>
 
       <p>
