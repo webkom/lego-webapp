@@ -147,7 +147,16 @@ export const User = {
   UPDATE: generateStatuses('User.UPDATE'),
   LOGIN: generateStatuses('User.LOGIN'),
   LOGOUT: 'User.LOGOUT',
-  SOCKET: generateStatuses('User.SOCKET')
+  SOCKET: generateStatuses('User.SOCKET'),
+  SEND_REGISTRATION_TOKEN: generateStatuses('User.SEND_REGISTRATION_TOKEN'),
+  VALIDATE_REGISTRATION_TOKEN: generateStatuses(
+    'User.VALIDATE_REGISTRATION_TOKEN'
+  ),
+  CREATE_USER: generateStatuses('User.CREATE_USER'),
+  SEND_STUDENT_CONFIRMATION_TOKEN: generateStatuses(
+    'User.SEND_STUDENT_CONFIRMATION_TOKEN'
+  ),
+  CONFIRM_STUDENT_USER: generateStatuses('User.CONFIRM_STUDENT_USER')
 };
 
 /**

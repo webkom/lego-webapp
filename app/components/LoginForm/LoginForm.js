@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
-import debounce from 'lodash/debounce';
+import { debounce } from 'lodash';
 import { Form, TextInput } from '../Form';
 import Button from '../Button';
+import { login } from 'app/actions/UserActions';
+import { connect } from 'react-redux';
 
 type Props = {
   login: (username: string, password: string) => any
 };
 
-export default class LoginForm extends Component {
+class LoginForm extends Component {
   state = {
     username: '',
     password: '',
@@ -95,3 +97,5 @@ export default class LoginForm extends Component {
     );
   }
 }
+
+export default connect(null, { login })(LoginForm);

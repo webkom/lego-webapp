@@ -9,7 +9,9 @@ describe('reducers', () => {
         username: null,
         token: null,
         loginFailed: false,
-        loggingIn: false
+        loggingIn: false,
+        registrationToken: null,
+        studentConfirmed: null
       });
     });
 
@@ -44,7 +46,9 @@ describe('reducers', () => {
         username: null,
         token: action.payload.token,
         loginFailed: false,
-        loggingIn: false
+        loggingIn: false,
+        registrationToken: null,
+        studentConfirmed: null
       });
     });
 
@@ -66,7 +70,9 @@ describe('reducers', () => {
         username: null,
         token: null,
         loginFailed: false,
-        loggingIn: false
+        loggingIn: false,
+        registrationToken: null,
+        studentConfirmed: null
       });
     });
   });

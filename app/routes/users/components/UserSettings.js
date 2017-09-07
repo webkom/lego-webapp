@@ -20,15 +20,30 @@ type Props = {
 };
 
 const UserSettings = (props: Props) => {
-  const { invalid, pristine, submitting, updatePicture } = props;
+  const {
+    handleSubmit,
+    updateUser,
+    invalid,
+    pristine,
+    submitting,
+    updatePicture,
+    user
+  } = props;
 
   const disabledButton = invalid || pristine || submitting;
 
   return (
     <div className={styles.root}>
-      <UserImage user={props.user} updatePicture={updatePicture} />
+      <UserImage user={user} updatePicture={updatePicture} />
 
       <Flex>
+        {!user.isStudent &&
+          <Link
+            className={styles.navigationLink}
+            to="/users/student-confirmation"
+          >
+            Verifiser studentepost
+          </Link>}
         <Link
           className={styles.navigationLink}
           to="/users/me/settings/notifications"
@@ -40,7 +55,7 @@ const UserSettings = (props: Props) => {
         </Link>
       </Flex>
 
-      <Form onSubmit={props.handleSubmit(props.updateUser)}>
+      <Form onSubmit={handleSubmit(updateUser)}>
         <Field
           placeholder="Brukernavn"
           label="Username"

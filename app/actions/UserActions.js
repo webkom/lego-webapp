@@ -181,3 +181,85 @@ export function loginAutomaticallyIfPossible() {
     return Promise.resolve();
   };
 }
+
+export function sendRegistrationEmail({ email, captchaResponse }) {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: User.SEND_REGISTRATION_TOKEN,
+        endpoint: '/users-registration-request/',
+        method: 'POST',
+        body: {
+          email,
+          captchaResponse
+        },
+        meta: {
+          errorMessage: 'Sending registration mail failed'
+        }
+      })
+    );
+}
+
+export function validateRegistrationToken({ token }) {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: User.VALIDATE_REGISTRATION_TOKEN,
+        endpoint: `/users-registration-request/?token=${token}`,
+        meta: {
+          errorMessage: 'Validating registration token failed',
+          token
+        }
+      })
+    );
+}
+
+export function createUser(token, user) {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: User.CREATE_USER,
+        endpoint: `/users/?token=${token}`,
+        method: 'POST',
+        body: user,
+        meta: {
+          errorMessage: 'Creating user failed'
+        }
+      })
+    ).then(action => {
+      const { user, token } = action.payload;
+      saveToken(token);
+
+      return dispatch({
+        type: User.FETCH.SUCCESS,
+        payload: normalize(user, userSchema),
+        meta: {
+          isCurrentUser: true
+        }
+      });
+    });
+}
+
+export function sendStudentConfirmationEmail(user) {
+  return callAPI({
+    types: User.SEND_STUDENT_CONFIRMATION_TOKEN,
+    endpoint: `/users-student-confirmation-request/`,
+    method: 'POST',
+    body: user,
+    meta: {
+      errorMessage: 'Sending student confirmation mail failed'
+    }
+  });
+}
+
+export function confirmStudentUser(token) {
+  return callAPI({
+    types: User.CONFIRM_STUDENT_USER,
+    endpoint: `/users-student-confirmation-perform/?token=${token}`,
+    method: 'POST',
+    meta: {
+      errorMessage: 'Student confirmation failed'
+    },
+    useCache: true
+  });
+}

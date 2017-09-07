@@ -10,6 +10,10 @@
   }
 }
 
+.toggleButton {
+  color: var(--lego-link-color);
+  font-size: 14px;
+}
 .welcomeBox {
   flex: 1;
   composes: withShadow from 'app/styles/utilities.css';
