@@ -9,6 +9,7 @@ import { userSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { User } from './ActionTypes';
 import { uploadFile } from './FileActions';
+import { addNotification } from 'app/actions/NotificationActions';
 
 const USER_STORAGE_KEY = 'lego.auth';
 
@@ -95,6 +96,35 @@ export function updateUser(user, options = { noRedirect: false }) {
       if (!options.noRedirect) {
         dispatch(push(`/users/${action.payload.result || 'me'}`));
       }
+    });
+}
+
+export function changePassword(props) {
+  const { old_password, new_password, new_password_repeat } = props;
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: User.PASSWORD_CHANGE,
+        endpoint: '/password-change/',
+        method: 'POST',
+        body: {
+          password: old_password,
+          newPassword: new_password,
+          retypeNewPassword: new_password_repeat
+        },
+        schema: userSchema,
+        meta: {
+          errorMessage: 'Updating password failed'
+        }
+      })
+    ).then(action => {
+      dispatch(push(`/users/${action.payload.result || 'me'}`));
+      dispatch(
+        addNotification({
+          message: 'Passordet ble endret',
+          dismissAfter: 5000
+        })
+      );
     });
 }
 
