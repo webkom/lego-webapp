@@ -50,6 +50,8 @@ const searchMapping = {
     content: 'description'
   },
   'flatpages.page': {
+    profilePicture: 'picture',
+    icon: 'paper-outline',
     label: 'title',
     profilePicture: 'picture',
     color: '#E8953A',
