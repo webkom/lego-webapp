@@ -7,7 +7,22 @@
     max-width: 400px;
 }
 
+.logoSmall {
+    max-height: 150px;
+    max-width: 150px;
+}
+
 .description {
     font-size: 18px;
     font-style: italic;
+}
+
+.listItem {
+    margin: 8px;
+    padding-left: 4px;
+    background: white;
+}
+
+.listItemContent {
+    padding: 4px;
 }

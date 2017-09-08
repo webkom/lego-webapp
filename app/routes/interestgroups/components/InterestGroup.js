@@ -1,28 +1,31 @@
 import styles from './InterestGroup.css';
 import React from 'react';
 import Image from 'app/components/Image';
+import { Flex } from 'app/components/Layout';
 import { Link } from 'react-router';
 
-const InterestGroup = ({ group }) => (
-  <div className={styles.interestGroup}>
-    <Link to={`/interestgroups/${group.id}`} className={styles.link}>
-      <h2 className={styles.heading}>{group.name}</h2>
-    </Link>
-    <div className={styles.content}>
-      <div className={styles.paragraph}>
-        <p>{group.description}</p>
-        <p className={styles.bold}>
-          Antall medlemmer i {group.name}: {group.numberOfUsers}
-        </p>
-      </div>
-      <Link to={`/interestgroups/${group.id}`}>
-        <Image
-          className={styles.interestPic}
-          src={'https://i.redd.it/dz8mwvl4dgdy.jpg'}
-        />
+const InterestGroup = ({ group }) =>
+  <Flex className={styles.listItem}>
+    <Flex column className={styles.listItemContent} style={{ flex: '1' }}>
+      <Link to={`/interestgroups/${group.id}`} className={styles.link}>
+        <h2>
+          {group.name}
+        </h2>
       </Link>
-    </div>
-  </div>
-);
+      <div>
+        {group.description}
+      </div>
+      <div>
+        {group.memberships.length} medlemmer
+      </div>
+    </Flex>
+    <Image
+      className={styles.logoSmall}
+      src={
+        group.logo ||
+        'https://vignette1.wikia.nocookie.net/prettylittleliars/images/6/68/-zYsvq3G_400x400.jpeg/revision/latest?cb=20150121220317'
+      }
+    />
+  </Flex>;
 
 export default InterestGroup;
