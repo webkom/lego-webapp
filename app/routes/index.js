@@ -12,7 +12,7 @@ import pages from './pages';
 import search from './search';
 import interestGroups from './interestgroups';
 import joblistings from './joblistings';
-import HTTPError from './errors/HTTPError';
+import HTTPError from './errors';
 import bdb from './bdb';
 
 export default {
