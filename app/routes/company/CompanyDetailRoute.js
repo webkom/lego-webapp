@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import { fetch as fetchCompany } from 'app/actions/CompanyActions';
 import CompanyDetail from './components/CompanyDetail';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 type Props = {
   fetchCompany: () => {}
@@ -28,6 +30,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = { fetchCompany };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   dispatched(
     ({ params: { companyId } }, dispatch) => dispatch(fetchCompany(companyId)),
     {
