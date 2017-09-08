@@ -10,6 +10,12 @@ class LatestReadme extends Component {
     expanded: false
   };
 
+  componentWillMount() {
+    this.setState({
+      expanded: this.props.expanded || false
+    });
+  }
+
   render() {
     const { expanded } = this.state;
     const toggle = () =>

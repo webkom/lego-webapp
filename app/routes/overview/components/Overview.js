@@ -17,6 +17,23 @@ const DESCRIPTION_MAX_LENGTH = 140;
 const IMAGE_HEIGHT = 192;
 
 function PrimaryItem({ event }) {
+  if (!event) {
+    return (
+      <Flex column className={styles.primaryItem}>
+        <h2 className="u-ui-heading">Pinned event</h2>
+        <Flex column className={styles.innerPrimaryItem}>
+          <Image
+            style={{ height: IMAGE_HEIGHT, display: 'block' }}
+            className={styles.image}
+            src={'https://i.redd.it/dz8mwvl4dgdy.jpg'}
+          />
+          <div className={styles.pinnedHeading}>
+            <h2 className={styles.itemTitle}>Ingen arrangementer</h2>
+          </div>
+        </Flex>
+      </Flex>
+    );
+  }
   return (
     <Flex column className={styles.primaryItem}>
       <h2 className="u-ui-heading">Pinned Event</h2>
@@ -119,10 +136,6 @@ export default class Overview extends Component {
   render() {
     const { events } = this.props;
 
-    if (!events.length) {
-      return null;
-    }
-
     return (
       <Content>
         <Helmet title="Hjem" />
@@ -135,7 +148,7 @@ export default class Overview extends Component {
         </Flex>
         <Flex />
         <Flex padding={10}>
-          <LatestReadme />
+          <LatestReadme expanded={events.length === 0} />
         </Flex>
         <Flex wrap>
           {events
@@ -148,14 +161,15 @@ export default class Overview extends Component {
                 increaseEventsToShow={this.increaseEventsToShow}
               />
             )}
-          <Button
-            style={{ width: '100%', marginTop: '10px' }}
-            onClick={() =>
-              this.setState({ eventsToShow: this.state.eventsToShow ** 2 })}
-          >
-            Vis flere arrangementer&nbsp;
-            <i className="fa fa-angle-double-down " />
-          </Button>
+          {events.length > 0 &&
+            <Button
+              style={{ width: '100%', marginTop: '10px' }}
+              onClick={() =>
+                this.setState({ eventsToShow: this.state.eventsToShow ** 2 })}
+            >
+              Vis flere arrangementer&nbsp;
+              <i className="fa fa-angle-double-down " />
+            </Button>}
         </Flex>
       </Content>
     );
