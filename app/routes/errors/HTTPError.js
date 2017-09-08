@@ -15,7 +15,7 @@ const getHTTPError = statusCode => {
   return error ? error : HTTPMapping[404];
 };
 
-class HTTPError extends Component {
+export default class HTTPError extends Component {
   componentDidMount() {
     const statusCode = this.props.statusCode
       ? this.props.statusCode.toString()
@@ -23,8 +23,13 @@ class HTTPError extends Component {
     renderAbakus(statusCode, this.canvas);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location !== nextProps.location) {
+      this.props.setStatusCode(null);
+    }
+  }
+
   render() {
-    const { statusCode } = this.props;
     return (
       <Content>
         <Flex column alignItems="center" justifyContent="center">
@@ -37,11 +42,10 @@ class HTTPError extends Component {
             />
           </Link>
           <h1>
-            {getHTTPError(statusCode)}
+            {getHTTPError(this.props.statusCode)}
           </h1>
         </Flex>
       </Content>
     );
   }
 }
-export default HTTPError;

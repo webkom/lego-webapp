@@ -26,6 +26,7 @@ import NotificationContainer from 'app/components/NotificationContainer';
 import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 import cx from 'classnames';
 import HTTPError from '../errors/HTTPError';
+import { setStatusCode } from 'app/actions/RoutingActions';
 
 class AppChildren extends PureComponent {
   render() {
@@ -33,7 +34,11 @@ class AppChildren extends PureComponent {
       <div style={{ flex: 1 }}>
         <NotificationContainer />
         {this.props.statusCode
-          ? <HTTPError statusCode={this.props.statusCode} />
+          ? <HTTPError
+              statusCode={this.props.statusCode}
+              setStatusCode={this.props.setStatusCode}
+              location={this.props.location}
+            />
           : React.cloneElement(this.props.children, {
               currentUser: this.props.currentUser,
               loggedIn: this.props.loggedIn
@@ -74,6 +79,8 @@ class App extends PureComponent {
           currentUser={this.props.currentUser}
           loggedIn={this.props.loggedIn}
           statusCode={this.props.statusCode}
+          setStatusCode={this.props.setStatusCode}
+          location={this.props.location}
         >
           {this.props.children}
         </AppChildren>
@@ -104,7 +111,8 @@ const mapDispatchToProps = {
   fetchNotificationFeed,
   markNotification,
   markAllNotifications,
-  fetchNotificationData
+  fetchNotificationData,
+  setStatusCode
 };
 
 export default compose(
