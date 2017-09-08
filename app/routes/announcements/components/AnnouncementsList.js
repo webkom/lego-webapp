@@ -16,9 +16,13 @@ const AnnouncementsList = ({ announcements, actionGrant }: Props) => {
   return (
     <div>
       <Helmet title="Kunngjøringer" />
+<<<<<<< HEAD
       <FlexRow>
         <FlexColumn> Hei </FlexColumn>
       </FlexRow>
+=======
+      <FlexRow>hei</FlexRow>
+>>>>>>> b319fe7... Route to /announcements, fetch from backend
     </div>
   );
 };
