@@ -10,6 +10,8 @@ import {
 import QuotePage from './components/QuotePage';
 import { dispatched } from 'react-prepare';
 import { selectSortedQuotes } from 'app/reducers/quotes';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const loadData = (props, dispatch) => {
   const { location: { query } } = props;
@@ -36,6 +38,7 @@ const mapDispatchToProps = {
 };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   dispatched(loadData, { componentWillReceiveProps: false }),
   connect(mapStateToProps, mapDispatchToProps)
 )(QuotePage);

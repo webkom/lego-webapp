@@ -9,11 +9,9 @@ import { selectEvents } from 'app/reducers/events';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import PublicFrontpage from './components/PublicFrontpage';
 
-function mapStateToProps(state) {
-  return {
-    events: selectEvents(state)
-  };
-}
+const mapStateToProps = state => ({
+  events: selectEvents(state)
+});
 
 const mapDispatchToProps = { fetchAll, login, logout };
 
