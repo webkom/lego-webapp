@@ -4,6 +4,8 @@ import React from 'react';
 
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import styles from './UserSettingsIndex.css';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { LoginPage } from 'app/components/LoginForm';
 
 type Props = {
   children: React$Element<*>,
@@ -32,4 +34,4 @@ const UserSettingsIndex = (props: Props) => {
   );
 };
 
-export default UserSettingsIndex;
+export default replaceUnlessLoggedIn(LoginPage)(UserSettingsIndex);
