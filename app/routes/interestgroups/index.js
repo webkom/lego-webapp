@@ -10,7 +10,13 @@ export default {
     },
     {
       path: ':interestGroupId',
-      ...resolveAsyncRoute(() => import('./InterestGroupCreateRoute'))
+      component: require('./InterestGroupDetailRoute').default,
+      childRoutes: [
+        {
+          path: 'edit',
+          component: require('./InterestGroupEditRoute').default
+        }
+      ]
     }
   ]
 };

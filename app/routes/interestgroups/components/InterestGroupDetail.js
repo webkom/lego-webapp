@@ -53,7 +53,7 @@ const SidebarHeader = ({ text }) =>
 
 const Members = ({ members, name }) =>
   <Flex column>
-    <SidebarHeader text="Medlemmer" />
+    <SidebarHeader text={`Medlemmer (${members.length})`} />
     <Flex>
       {members &&
         members
