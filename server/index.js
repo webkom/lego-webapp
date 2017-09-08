@@ -16,9 +16,9 @@ const log = app.get('log');
 
 app.listen(app.get('port'), app.get('host'), err => {
   if (err) {
-    log.error(err, 'could_not_start_server')
+    log.error(err, 'could_not_start_server');
   }
-  log.info({ port: app.get('port'), host: app.get('host')}, 'app_stated')
+  log.info({ port: app.get('port'), host: app.get('host') }, 'app_started');
 });
 
 if (module.hot) {

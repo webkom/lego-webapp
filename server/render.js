@@ -24,6 +24,13 @@ require('../app/assets/icon-512x512.png');
 function render(req, res, next) {
   const log = req.app.get('log');
   cookie.plugToRequest(req, res);
+
+  if (process.env.NODE_ENV !== 'production') {
+    return res.send(
+      renderPage({ body: '', state: {}, helmet: Helmet.rewind() })
+    );
+  }
+
   match({ routes, location: req.url }, (err, redirect, renderProps) => {
     if (err) {
       return next(err);
@@ -58,8 +65,8 @@ function render(req, res, next) {
     };
 
     prepare(app).then(respond).catch(error => {
-      const err = error.error ? error.payload : error
-      log.error(err, 'render_error')
+      const err = error.error ? error.payload : error;
+      log.error(err, 'render_error');
       Raven.captureException(err);
       respond();
     });
