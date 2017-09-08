@@ -41,7 +41,7 @@ const Description = ({ description }) =>
 
 const Sidebar = ({ group }) =>
   <Flex column style={{ margin: '15px', width: '300px' }}>
-    <Logo logo="https://i.redd.it/dz8mwvl4dgdy.jpg" />
+    <Logo logo="https://vignette1.wikia.nocookie.net/prettylittleliars/images/6/68/-zYsvq3G_400x400.jpeg/revision/latest?cb=20150121220317" />
     <Members name={group.name} members={group.memberships} />
     <Contact group={group} />
   </Flex>;
@@ -64,9 +64,16 @@ const Members = ({ members, name }) =>
 
 const Logo = ({ logo }) => <Image className={styles.logo} src={logo} />;
 
+const Content = ({ group }) =>
+  <Flex>
+    <Text text={group.descriptionLong} />
+  </Flex>;
+
 const Text = ({ text }) =>
   <Flex style={{ margin: '1em' }}>
-    {text}
+    <div>
+      {text}
+    </div>
   </Flex>;
 
 const Contact = ({ group }) =>
@@ -119,10 +126,9 @@ class InterestGroupDetail extends Component {
         <Title group={group} showEdit={canEdit} />
         <Description description={group.description} />
         <Flex style={{ background: 'white' }}>
-          <Text text={group.descriptionLong} />
+          <Content group={group} />
           <Sidebar group={group} />
         </Flex>
-        <Contact />
       </Flex>
     );
   }
