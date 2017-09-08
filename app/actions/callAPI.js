@@ -6,7 +6,7 @@ import config from '../config';
 import type { Thunk } from 'app/types';
 import { logout } from 'app/actions/UserActions';
 import isRequestNeeded from 'app/utils/isRequestNeeded';
-import { Routing } from './ActionTypes';
+import { setStatusCode } from 'app/actions/RoutingActions';
 
 function urlFor(resource) {
   if (resource.match(/^\/\//)) {
@@ -24,10 +24,7 @@ function handleError(error, propagateError) {
         dispatch(logout());
       }
       if (propagateError) {
-        dispatch({
-          type: Routing.SET_STATUS_CODE,
-          payload: error.response.status
-        });
+        dispatch(setStatusCode(error.response.status));
       }
     }
     throw error;
