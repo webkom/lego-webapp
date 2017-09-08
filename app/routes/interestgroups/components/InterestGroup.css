@@ -3,13 +3,13 @@
 }
 
 .logo {
-    max-height: 400px;
-    max-width: 400px;
+    max-height: 250px;
+    max-width: 250px;
 }
 
 .logoSmall {
-    max-height: 150px;
-    max-width: 150px;
+    max-height: 100px;
+    max-width: 100px;
 }
 
 .description {
@@ -24,5 +24,13 @@
 }
 
 .listItemContent {
+    padding: 4px;
+}
+
+.textEdit {
+    background: none;
+    border: none;
+    border-bottom: 1px solid #888;
+    margin: 8px;
     padding: 4px;
 }

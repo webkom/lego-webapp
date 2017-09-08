@@ -7,7 +7,13 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapDispatchToProps = { createInterestGroup };
 
+const mapStateToProps = (state, props) => ({
+  initialValues: {
+    descriptionLong: '<p></p>'
+  }
+});
+
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  connect(null, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps)
 )(InterestGroupCreate);
