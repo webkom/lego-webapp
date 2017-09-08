@@ -58,7 +58,8 @@ export const Meeting = {
   CREATE: generateStatuses('Meeting.CREATE'),
   EDIT: generateStatuses('Meeting.EDIT'),
   DELETE: generateStatuses('Meeting.DELETE'),
-  ANSWER_INVITATION_TOKEN: generateStatuses('Meeting.ANSWER_INVITATION_TOKEN')
+  ANSWER_INVITATION_TOKEN: generateStatuses('Meeting.ANSWER_INVITATION_TOKEN'),
+  RESET_MEETINGS_TOKEN: 'Meeting.RESET_MEETINGS_TOKEN'
 };
 
 /**
