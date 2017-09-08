@@ -19,13 +19,12 @@ const InterestGroup = ({ group }) =>
         {group.memberships.length} medlemmer
       </div>
     </Flex>
-    <Image
-      className={styles.logoSmall}
-      src={
-        group.logo ||
-        'https://vignette1.wikia.nocookie.net/prettylittleliars/images/6/68/-zYsvq3G_400x400.jpeg/revision/latest?cb=20150121220317'
-      }
-    />
+    <Flex justifyContent="center" column>
+      <Image
+        className={styles.logoSmall}
+        src={group.logo || 'https://i.imgur.com/Is9VKjb.jpg'}
+      />
+    </Flex>
   </Flex>;
 
 export default InterestGroup;

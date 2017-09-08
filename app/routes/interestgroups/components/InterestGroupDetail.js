@@ -4,7 +4,6 @@ import Image from 'app/components/Image';
 import Editor from 'app/components/Editor';
 import { Button } from 'app/components/Form';
 import { Flex } from 'app/components/Layout';
-import { FlexColumn, FlexRow, FlexItem } from 'app/components/FlexBox';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 
 import { Link } from 'react-router';
@@ -21,11 +20,6 @@ const RegisteredCell = ({ user }) => (
   </Tooltip>
 );
 
-const ToggleLink = ({ text, onClick }) =>
-  <button onClick={onClick} style={{ color: '#2284ba', 'font-size': '16px' }}>
-    {text}
-  </button>;
-
 const Title = ({ group: { name, id }, showEdit, editClick }) =>
   <NavigationTab title={name}>
     {showEdit &&
@@ -41,7 +35,7 @@ const Description = ({ description }) =>
 
 const Sidebar = ({ group }) =>
   <Flex column style={{ margin: '15px', width: '300px' }}>
-    <Logo logo="https://vignette1.wikia.nocookie.net/prettylittleliars/images/6/68/-zYsvq3G_400x400.jpeg/revision/latest?cb=20150121220317" />
+    <Logo logo="https://i.imgur.com/Is9VKjb.jpg" />
     <Members name={group.name} members={group.memberships} />
     <Contact group={group} />
   </Flex>;
@@ -62,10 +56,13 @@ const Members = ({ members, name }) =>
     </Flex>
   </Flex>;
 
-const Logo = ({ logo }) => <Image className={styles.logo} src={logo} />;
+const Logo = ({ logo }) =>
+  <Flex justifyContent="center">
+    <Image className={styles.logo} src={logo} />
+  </Flex>;
 
 const Content = ({ group }) =>
-  <Flex>
+  <Flex justifyContent="space-between">
     <Text text={group.descriptionLong} />
   </Flex>;
 
