@@ -1,36 +1,31 @@
-import { compose } from 'redux';
+// @flow
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import { formValueSelector } from 'redux-form';
 import {
-  fetchInterestGroup,
   updateInterestGroup,
-  removeInterestGroup,
-  joinInterestGroup,
-  leaveInterestGroup
+  joinInterestGroup
 } from 'app/actions/InterestGroupActions';
-import InterestGroupDetail from './components/InterestGroupDetail';
-import { selectInterestGroupById } from 'app/reducers/interestGroups';
-
-const mapStateToProps = (state, { params: { interestGroupId } }) => ({
-  group: selectInterestGroupById(state, { interestGroupId }),
-  interestGroupId
-});
+import InterestGroupEdit from './components/InterestGroupEdit';
+import { uploadFile } from 'app/actions/FileActions';
 
 const mapDispatchToProps = {
-  fetchInterestGroup,
   updateInterestGroup,
-  removeInterestGroup,
   joinInterestGroup,
-  leaveInterestGroup
+  uploadFile
 };
 
-export default compose(
-  dispatched(
-    ({ params: { interestGroupId } }, dispatch) =>
-      dispatch(fetchInterestGroup(interestGroupId)),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
-  connect(mapStateToProps, mapDispatchToProps)
-)(InterestGroupDetail);
+const mapStateToProps = (state, props) => {
+  const valueSelector = formValueSelector('interestGroupEdit');
+  const interestGroup = state.interestGroups.byId[props.params.interestGroupId];
+  console.log(state.interestGroups);
+  return {
+    group: interestGroup,
+    initialValues: {
+      descriptionLong: '<p></p>'
+      // ...interestGroup
+    },
+    invitedMembers: valueSelector(state, 'members') || []
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(InterestGroupEdit);
