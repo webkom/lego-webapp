@@ -6,10 +6,10 @@ import {
   fetchMeeting,
   setInvitationStatus,
   deleteMeeting,
-  answerMeetingInvitation
+  answerMeetingInvitation,
+  resetMeetingsToken
 } from 'app/actions/MeetingActions';
-import { selectMeetingById } from 'app/reducers/meetings';
-import MeetingDetail from './components/MeetingDetail';
+import MeetingDetailLoginRoute from './MeetingDetailLoginRoute';
 import MeetingAnswer from './components/MeetingAnswer';
 
 const loadData = (props, dispatch) => {
@@ -24,13 +24,10 @@ const loadData = (props, dispatch) => {
       dispatch(fetchMeeting(meetingId))
     );
   }
-  return dispatch(fetchMeeting(meetingId));
 };
 
 const mapStateToProps = (state, props) => {
-  const { meetingId } = props.params;
   const { action, token } = props.location.query;
-  const meeting = selectMeetingById(state, { meetingId });
   const meetingsToken = state.meetingsToken;
   const showAnswer = Boolean(
     meetingsToken.response === 'SUCCESS' && action && token
@@ -39,27 +36,34 @@ const mapStateToProps = (state, props) => {
     ? state.users.byId[state.auth.username]
     : {};
   return {
-    meeting,
     meetingsToken,
-    meetingId,
     userMe,
     showAnswer
   };
 };
 
 const MeetingComponent = props => {
-  const { loggedIn, meetingsToken } = props;
-  if (!loggedIn) {
-    return <MeetingAnswer {...meetingsToken} />;
+  const { loggedIn, meetingsToken, router, resetMeetingsToken } = props;
+  if (!loggedIn && meetingsToken.meeting) {
+    return (
+      <MeetingAnswer
+        {...meetingsToken}
+        router={router}
+        resetMeetingsToken={resetMeetingsToken}
+      />
+    );
   }
-  return <MeetingDetail {...props} />;
+  return <MeetingDetailLoginRoute {...props} />;
 };
 
-const mapDispatchToProps = { fetchMeeting, setInvitationStatus, deleteMeeting };
+const mapDispatchToProps = {
+  fetchMeeting,
+  setInvitationStatus,
+  deleteMeeting,
+  resetMeetingsToken
+};
 
 export default compose(
-  dispatched(loadData, {
-    componentWillReceiveProps: false
-  }),
+  dispatched(loadData, { componentWillReceiveProps: false }),
   connect(mapStateToProps, mapDispatchToProps)
 )(MeetingComponent);
