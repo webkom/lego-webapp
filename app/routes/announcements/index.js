@@ -5,14 +5,5 @@ export default {
   indexRoute: resolveAsyncRoute(
     () => import('./AnnouncementsRoute'),
     () => require('./AnnouncementsRoute')
-  ),
-  childRoutes: [
-    {
-      path: 'create',
-      ...resolveAsyncRoute(
-        () => import('./AnnouncementsCreateRoute'),
-        () => require('./AnnouncementsCreateRoute')
-      )
-    }
-  ]
+  )
 };
