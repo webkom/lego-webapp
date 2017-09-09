@@ -4,24 +4,29 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import AnnouncementsList from './components/AnnouncementsList';
-import { fetchAll } from 'app/actions/AnnouncementsActions';
+import { fetchAll, createAnnouncement } from 'app/actions/AnnouncementsActions';
 
 const mapStateToProps = (state, props) => {
-  const announcements = state.announcements;
-<<<<<<< HEAD
-=======
-  console.log('hei');
->>>>>>> b319fe7... Route to /announcements, fetch from backend
+  const announcements = state.announcements.byId;
+  console.log('hei', announcements);
+  const actionGrant = state.announcements.actionGrant;
   return {
-    announcements
+    announcements,
+    actionGrant,
+    initialValues: {
+      message: '<p></p>'
+    }
   };
 };
 
-const mapDispatchToProps = { fetchAll };
-<<<<<<< HEAD
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchAll,
+    submitAnnouncement: announcement =>
+      dispatch(createAnnouncement(announcement))
+  };
+};
 
-=======
->>>>>>> b319fe7... Route to /announcements, fetch from backend
 export default compose(
   dispatched((props, dispatch) => dispatch(fetchAll()), {
     componentWillReceiveProps: false

@@ -66,7 +66,7 @@ export const Joblistings = {
  *
  */
 export const Announcements = {
-  FETCH_ALL: generateStatuses('Announcements.FETCH_ALL'),
+  FETCH: generateStatuses('Announcements.FETCH'),
   CREATE: generateStatuses('Announcements.CREATE')
 };
 /**
