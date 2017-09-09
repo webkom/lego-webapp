@@ -2,6 +2,10 @@ import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
   path: 'users',
+  indexRoute: resolveAsyncRoute(
+    () => import('../errors'),
+    () => require('../errors')
+  ),
   childRoutes: [
     {
       path: 'me',

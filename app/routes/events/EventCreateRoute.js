@@ -1,9 +1,12 @@
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { formValueSelector } from 'redux-form';
 import { createEvent } from 'app/actions/EventActions';
 import { uploadFile } from 'app/actions/FileActions';
 import EventEditor from './components/EventEditor';
 import moment from 'moment';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const time = (hours, minutes) =>
   moment().startOf('day').add({ hours, minutes }).toISOString();
@@ -42,4 +45,7 @@ const mapDispatchToProps = {
   uploadFile
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventEditor);
+export default compose(
+  replaceUnlessLoggedIn(LoginPage),
+  connect(mapStateToProps, mapDispatchToProps)
+)(EventEditor);

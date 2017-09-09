@@ -9,6 +9,8 @@ import {
 import QuoteDetail from './components/QuoteDetail';
 import { compose } from 'redux';
 import { selectCommentsForQuote } from 'app/reducers/quotes';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = (state, props) => {
   const query = props.location.query;
@@ -34,6 +36,7 @@ const mapDispatchToProps = {
 };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   dispatched(
     ({ params: { quoteId } }, dispatch) => dispatch(fetchQuote(quoteId)),
     { componentWillReceiveProps: false }

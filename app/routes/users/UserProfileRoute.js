@@ -11,6 +11,8 @@ import {
   selectFeedActivitesByFeedId,
   feedIdByUsername
 } from 'app/reducers/feeds';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { LoginPage } from 'app/components/LoginForm';
 
 const loadData = ({ currentUser, params: { username } }, dispatch) => {
   if (username) {
@@ -44,6 +46,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = { fetchUser, fetchUserFeed };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   dispatched(loadData, {
     componentWillReceiveProps: false
   }),

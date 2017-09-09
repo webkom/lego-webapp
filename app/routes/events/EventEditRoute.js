@@ -16,6 +16,8 @@ import {
   selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = (state, props) => {
   const eventId = props.params.eventId;
@@ -63,6 +65,7 @@ const mapDispatchToProps = {
 };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   dispatched(
     ({ params: { eventId } }, dispatch) => dispatch(fetchEvent(eventId)),
     {

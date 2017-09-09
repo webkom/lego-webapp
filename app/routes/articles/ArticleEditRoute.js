@@ -6,6 +6,8 @@ import ArticleEditor from './components/ArticleEditor';
 import { selectArticleById } from 'app/reducers/articles';
 import { reduxForm } from 'redux-form';
 import { uploadFile } from 'app/actions/FileActions';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = (state, props) => {
   const { articleId } = props.params;
@@ -25,6 +27,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = { fetchArticle, editArticle, uploadFile };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   dispatched(
     ({ params: { articleId } }, dispatch) => dispatch(fetchArticle(articleId)),
     {
