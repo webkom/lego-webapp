@@ -4,6 +4,8 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import CommentView from 'app/components/Comments/CommentView';
 import { FlexRow } from 'app/components/FlexBox';
 import Editor from 'app/components/Editor';
+import Tag from 'app/components/Tag';
+import { Flex } from 'app/components/Layout';
 import { Link } from 'react-router';
 
 /**
@@ -34,7 +36,7 @@ const ArticleDetail = (props: Props) => {
         <div className={styles.coverImageOverlay} />
       </div>
 
-      <FlexRow alignItems="center" justifyContent="space-between">
+      <Flex alignItems="center" justifyContent="space-between">
         <h2>
           {article.title}
         </h2>
@@ -42,26 +44,26 @@ const ArticleDetail = (props: Props) => {
           <span>
             <Link to={`/articles/${article.id}/edit`}>Edit</Link>
           </span>}
-      </FlexRow>
+      </Flex>
 
-        <FlexRow alignItems="center" justifyContent="space-between">
-          <h2>{article.title}</h2>
-          {article.actionGrant &&
-            article.actionGrant.includes('update') &&
-            <span>
-              <Link to={`/articles/${article.id}/edit`}>Edit</Link>
-            </span>}
-        </FlexRow>
+      <Flex className={styles.tagRow}>
+        {article.tags.map((tag, i) => <Tag key={i} tag={tag} />)}
+      </Flex>
+
+      <Flex>
         <Editor readOnly value={article.content} />
-        {article.commentTarget &&
-          <CommentView
-            formEnabled
-            user={currentUser}
-            commentTarget={article.commentTarget}
-            loggedIn={loggedIn}
-            comments={comments}
-          />}
-      </div>
-    );
-  }
-}
+      </Flex>
+
+      {article.commentTarget &&
+        <CommentView
+          formEnabled
+          user={currentUser}
+          commentTarget={article.commentTarget}
+          loggedIn={loggedIn}
+          comments={comments}
+        />}
+    </div>
+  );
+};
+
+export default ArticleDetail;

@@ -63,6 +63,8 @@
 .image {
   border-radius: inherit;
   height: inherit;
+  width: 100%;
+  object-fit: cover;
 }
 
 .cropper {

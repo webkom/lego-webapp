@@ -42,7 +42,13 @@ export function createArticle({ title, content, tags, cover }: ArticleEntity) {
     ).then(res => dispatch(push(`/articles/${res.payload.result}/`)));
 }
 
-export function editArticle({ id, title, content }: ArticleEntity) {
+export function editArticle({
+  id,
+  title,
+  content,
+  tags,
+  cover
+}: ArticleEntity) {
   return dispatch =>
     dispatch(
       callAPI({
@@ -52,6 +58,8 @@ export function editArticle({ id, title, content }: ArticleEntity) {
         schema: articleSchema,
         body: {
           title,
+          cover,
+          tags,
           content,
           author: 1,
           description: 'nice article'

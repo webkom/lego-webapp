@@ -18,6 +18,7 @@ export type Props = {
   uploadFile?: Object => void,
   autoFocus?: boolean,
   placeholder?: string,
+  className?: string,
   onChange?: func,
   isPublic?: boolean,
   onFocus?: func,
@@ -35,15 +36,18 @@ export default class CustomEditor extends Component {
 
   constructor(props) {
     super(props);
+
     if (!props.value) {
       throw Error(
         'You must pass an initial value to the editor. You can pass "<p></p>" if there is no content.'
       );
     }
+
     this.state = {
       editorState: html.deserialize(props.value),
       focus: false
     };
+
     this.lastSerializedState = props.value;
     resetKeyGenerator();
   }
@@ -83,6 +87,7 @@ export default class CustomEditor extends Component {
       this.setState({
         editorState: html.deserialize(newProps.value)
       });
+
       this.lastSerializedState = newProps.value;
     }
   };
@@ -98,7 +103,7 @@ export default class CustomEditor extends Component {
   onDocumentChange = (document, state) => {
     this.onContentChange(state);
 
-    if (state.isCollapsed && state.startBlock.isVoid) {
+    if (state.isCollapsed && state.startBlock && state.startBlock.isVoid) {
       const transformed = insertParagraph(state);
       this.onChange(transformed);
     }
@@ -108,6 +113,7 @@ export default class CustomEditor extends Component {
     if (this.props.disableBlocks) {
       return;
     }
+
     const transformed = insertParagraph(
       this.state.editorState
         .transform()
@@ -124,6 +130,7 @@ export default class CustomEditor extends Component {
 
   hasBlock = type => {
     const { editorState } = this.state;
+    console.log(editorState.blocks);
     return editorState.blocks.some(node => node.type === type);
   };
 
@@ -213,7 +220,9 @@ export default class CustomEditor extends Component {
           plugins={getPlugins(!disableBlocks)}
           schema={getSchema(!disableBlocks)}
           onDocumentChange={this.onDocumentChange}
-          className={styles.Editor}
+          className={cx(styles.Editor, {
+            [styles.readOnly]: this.props.readOnly
+          })}
         />
 
         {!this.props.disableBlocks &&

@@ -21,12 +21,18 @@ const BLOCK_TAGS = {
 };
 
 const getBlockType = el => {
-  const type = BLOCK_TAGS[el.tagName];
+  const type = BLOCK_TAGS[el.tagName.toLowerCase()];
+  console.log(type);
   if (type) {
     return type;
   }
-  if (el.tagName === 'div' && el.attribs['data-block-type']) {
-    switch (el.attribs['data-block-type']) {
+  console.log(el.tagName.toLowerCase());
+  console.log(el.attributes.getNamedItem('data-block-type'));
+  if (
+    el.tagName.toLowerCase() === 'div' &&
+    Array.from(el.attributes).includes('data-block-type')
+  ) {
+    switch (Array.from(el.attributes).includes('data-block-type')) {
       case 'image':
         return Blocks.Image;
     }
@@ -53,20 +59,19 @@ export default [
   {
     deserialize(el, next) {
       const type = getBlockType(el);
+
       if (!type) return;
 
-      const children = isVoid(type) ? null : next(el.children);
-
+      const children = isVoid(type) ? null : next(el.childNodes);
       if (type === Blocks.Image) {
-        el = el.children[0];
         return {
           kind: 'block',
           type,
           isVoid: true,
           nodes: children,
           data: {
-            src: el.attribs.src,
-            fileKey: el.attribs['data-file-key']
+            src: el.attributes.getNamedItem('src'),
+            fileKey: el.attributes.getNamedItem('data-file-key')
           }
         };
       }
@@ -143,12 +148,12 @@ export default [
   // Add a new rule that handles marks...
   {
     deserialize(el, next) {
-      const type = MARK_TAGS[el.tagName];
+      const type = MARK_TAGS[el.tagName.toLowerCase()];
       if (!type) return;
       return {
         kind: 'mark',
         type,
-        nodes: next(el.children)
+        nodes: next(el.childNodes)
       };
     },
     serialize(object, children) {

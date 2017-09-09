@@ -20,6 +20,12 @@ const searchMapping = {
     value: 'username',
     profilePicture: 'profilePicture'
   },
+  'tags.tag': {
+    label: 'text',
+    color: '#A1C34A',
+    path: '/tags/',
+    value: 'id'
+  },
   'articles.article': {
     icon: 'newspaper-o',
     label: 'title',

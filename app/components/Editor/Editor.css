@@ -16,6 +16,10 @@
   letter-spacing: -0.003em;
 }
 
+.readOnly {
+  margin: 0;
+}
+
 .Editor blockquote {
   border-left: 3px solid rgba(0, 0, 0, 0.8);
   padding-left: 10px;

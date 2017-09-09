@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { uploadFile } from 'app/actions/FileActions';
 import Icon from 'app/components/Icon';
 import cx from 'classnames';
 import styles from './Image.css';
@@ -18,35 +20,36 @@ const tooltipButtons = [
   }
 ];
 
-export default class ImageBlock extends Component {
+class ImageBlock extends Component {
   state = {
     fileKey: null,
     uploading: false,
     error: false
   };
 
-  componentDidMount = () => {
-    this.uploadImage();
-  };
+  componentDidMount() {
+    const { node } = this.props;
+    const { data } = node.toJS();
+
+    if (!data.fileKey && data.image) {
+      this.uploadImage();
+    }
+  }
 
   uploadImage = () => {
-    const { node } = this.props;
+    const { node, uploadFile } = this.props;
     const { data, key } = node.toJS();
-
-    if (data.fileKey) {
-      return;
-    }
 
     this.setState({
       ...this.state,
       uploading: true
     });
 
-    data
-      .uploadFile({ file: data.image, isPublic: data.isPublic })
+    uploadFile({ file: data.image, isPublic: data.isPublic })
       .then(({ meta }) => {
         this.setState({
-          ...this.state,
+          fileToken: meta.fileToken,
+          fileKey: meta.fileKey,
           uploading: false,
           error: null
         });
@@ -143,3 +146,9 @@ export default class ImageBlock extends Component {
     );
   }
 }
+
+const mapDispatchToProps = {
+  uploadFile
+};
+
+export default connect(null, mapDispatchToProps)(ImageBlock);
