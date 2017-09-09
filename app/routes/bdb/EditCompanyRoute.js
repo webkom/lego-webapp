@@ -4,6 +4,8 @@ import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
 import { editCompany, fetch } from '../../actions/CompanyActions';
 import EditCompany from './components/EditCompany';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 function validateCompany(data) {
   const errors = {};
@@ -40,6 +42,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = { editCompany, fetch };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   dispatched(
     ({ params: { companyId } }, dispatch) => dispatch(fetch(companyId)),
     {

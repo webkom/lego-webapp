@@ -230,7 +230,7 @@ export function sendRegistrationEmail({ email, captchaResponse }) {
     );
 }
 
-export function validateRegistrationToken({ token }) {
+export function validateRegistrationToken(token) {
   return dispatch =>
     dispatch(
       callAPI({

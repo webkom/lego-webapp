@@ -4,6 +4,8 @@ import { reduxForm } from 'redux-form';
 import { addSemesterStatus } from '../../actions/CompanyActions';
 import AddSemester from './components/AddSemester';
 import moment from 'moment';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 function validateSemesterStatus(data) {
   const errors = {};
@@ -35,6 +37,7 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = { addSemesterStatus };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'addSemester',

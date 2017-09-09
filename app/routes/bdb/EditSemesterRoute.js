@@ -4,6 +4,8 @@ import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
 import { fetch, editSemesterStatus } from '../../actions/CompanyActions';
 import EditSemester from './components/EditSemester';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 function validateSemesterStatus(data) {
   const errors = {};
@@ -47,6 +49,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = { fetch, editSemesterStatus };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   dispatched(
     ({ params: { companyId } }, dispatch) => dispatch(fetch(companyId)),
     {

@@ -12,6 +12,8 @@ import {
   selectEventsForCompany,
   selectCommentsForCompany
 } from 'app/reducers/companies';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = (state, props) => {
   const companyId = props.params.companyId;
@@ -33,6 +35,7 @@ const mapDispatchToProps = {
 };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   dispatched(
     ({ params: { companyId } }, dispatch) => dispatch(fetch(companyId)),
     {
