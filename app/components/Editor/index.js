@@ -196,13 +196,7 @@ export default class CustomEditor extends Component {
 
   render() {
     const { editorState } = this.state;
-    const {
-      className,
-      uploadFile,
-      placeholder,
-      disableBlocks,
-      style
-    } = this.props;
+    const { className, uploadFile, placeholder, disableBlocks } = this.props;
 
     return (
       <div

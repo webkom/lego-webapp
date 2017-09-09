@@ -1,8 +1,6 @@
 import styles from './InterestGroup.css';
 import React, { Component } from 'react';
 import Image from 'app/components/Image';
-import Editor from 'app/components/Editor';
-import { Button } from 'app/components/Form';
 import { Flex } from 'app/components/Layout';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 
@@ -73,32 +71,28 @@ const Text = ({ text }) =>
     </div>
   </Flex>;
 
-const Contact = ({ group }) =>
-  <Flex column>
-    <SidebarHeader text="Leder" />
-    <ul>
-      <li>Gamle Mannen</li>
-      <li>+47 1234 5678</li>
-      <li>martyboy@alphamale.com</li>
-    </ul>
-  </Flex>;
+const Contact = ({ group }) => {
+  const leaders = group.memberships.filter(m => m.role === 'leader');
+  if (leaders.length == 0) {
+    return (
+      <Flex column>
+        <SidebarHeader text="Leder" />
+        Gruppen har ingen leder!
+      </Flex>
+    );
+  }
+  const leader = leaders[0];
+  return (
+    <Flex column>
+      <SidebarHeader text="Leder" />
+      {leader.user.fullName}
+    </Flex>
+  );
+};
 
 class InterestGroupDetail extends Component {
   state = {
     editorOpen: false
-  };
-
-  removeId = () => {
-    console.log('remove');
-    // this.props.removeInterestGroup(this.props.group.id);
-  };
-
-  updateId = args => {
-    console.log('update');
-    // this.props.updateInterestGroup(
-    //   this.props.group.id,
-    //   args
-    // );
   };
 
   joinGroup = () => {
@@ -113,9 +107,7 @@ class InterestGroupDetail extends Component {
   };
 
   render() {
-    const { group, group: { memberships = [] } } = this.props;
-    const userId = this.props.currentUser.id;
-    const isMember = memberships.find(m => m.user.id === userId);
+    const { group } = this.props;
     const canEdit = true;
 
     return (
