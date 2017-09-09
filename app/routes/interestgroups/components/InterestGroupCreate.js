@@ -1,7 +1,5 @@
 import styles from './InterestGroup.css';
 import React, { Component } from 'react';
-import Image from 'app/components/Image';
-import Editor from 'app/components/Editor';
 import { Flex } from 'app/components/Layout';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { reduxForm, Field } from 'redux-form';
@@ -138,7 +136,6 @@ class InterestGroupCreate extends Component {
 
   render() {
     const { handleSubmit, invitedMembers, uploadFile } = this.props;
-    const userId = this.props.currentUser.id;
 
     return (
       <Flex column className={styles.root}>
