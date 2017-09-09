@@ -29,11 +29,8 @@ export function fetchAll() {
   });
 }
 
-export function createInterestGroup(
-  name: string,
-  description: string,
-  descriptionLong: string
-) {
+export function createInterestGroup(group: object) {
+  const { name, description, descriptionLong, logo } = group;
   return callAPI({
     types: InterestGroup.CREATE,
     endpoint: '/interest-groups/',
@@ -42,7 +39,8 @@ export function createInterestGroup(
     body: {
       name,
       description,
-      descriptionLong
+      descriptionLong,
+      logo
     },
     meta: {
       errorMessage: 'Creating interestGroup failed'
@@ -67,7 +65,7 @@ export function removeInterestGroup(id: string) {
 }
 
 export function updateInterestGroup(id: string, args: object) {
-  const { name, description, descriptionLong } = args;
+  const { name, description, descriptionLong, memberships } = args;
   return dispatch => {
     dispatch(
       callAPI({
@@ -77,7 +75,8 @@ export function updateInterestGroup(id: string, args: object) {
         body: {
           name,
           description,
-          descriptionLong
+          descriptionLong,
+          memberships
         },
         meta: {
           interestGroupId: id,
@@ -108,14 +107,15 @@ export function updateInterestGroupPicture(id: string, token: token) {
   };
 }
 
-export function joinInterestGroup(id, user) {
+export function joinInterestGroup(id, user, role = 'member') {
   return callAPI({
     types: InterestGroup.JOIN,
     endpoint: '/memberships/',
     method: 'POST',
     body: {
       abakus_group: id,
-      user: user.id
+      user: user.id,
+      role
     },
     meta: {
       errorMessage: 'Joining the interest group failed.',

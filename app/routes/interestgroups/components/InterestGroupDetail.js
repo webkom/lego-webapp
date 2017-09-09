@@ -75,7 +75,7 @@ const Text = ({ text }) =>
 
 const Contact = ({ group }) =>
   <Flex column>
-    <SidebarHeader text="Kontaktinformasjon" />
+    <SidebarHeader text="Leder" />
     <ul>
       <li>Gamle Mannen</li>
       <li>+47 1234 5678</li>

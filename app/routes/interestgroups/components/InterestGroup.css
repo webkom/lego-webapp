@@ -1,5 +1,5 @@
 .root {
-  composes: container from 'app/styles/utilities.css';
+  composes: contentContainer from 'app/styles/utilities.css';
 }
 
 .logo {
@@ -33,4 +33,9 @@
     border-bottom: 1px solid #888;
     margin: 8px;
     padding: 4px;
+}
+
+.sideBar {
+    padding: 15px;
+    width: 350px;
 }

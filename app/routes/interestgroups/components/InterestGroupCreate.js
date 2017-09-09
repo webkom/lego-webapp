@@ -10,7 +10,8 @@ import {
   EditorField,
   TextInput,
   Button,
-  ImageUploadField
+  ImageUploadField,
+  SelectInput
 } from 'app/components/Form';
 
 const Title = () =>
@@ -31,10 +32,10 @@ const Description = () =>
     />
   </Flex>;
 
-const Sidebar = ({ group }) =>
-  <Flex column style={{ margin: '15px', width: '300px' }}>
-    <Logo logo="https://i.imgur.com/Is9VKjb.jpg" />
-    <Contact />
+const Sidebar = ({ currentUser, invitedMembers, uploadFile }) =>
+  <Flex column className={styles.sideBar}>
+    <Logo logo="https://i.imgur.com/Is9VKjb.jpg" uploadFile={uploadFile} />
+    <Contact currentUser={currentUser} invitedMembers={invitedMembers} />
   </Flex>;
 
 const SidebarHeader = ({ text }) =>
@@ -42,10 +43,18 @@ const SidebarHeader = ({ text }) =>
     {text}
   </div>;
 
-const Logo = ({ logo }) => <Image className={styles.logo} src={logo} />;
+const Logo = ({ logo, uploadFile }) =>
+  <Field
+    name="logo"
+    component={ImageUploadField.Field}
+    uploadFile={uploadFile}
+    aspectRatio={1}
+    img={logo}
+  />;
 
 const Content = () =>
-  <Flex style={{ flex: '1' }}>
+  <Flex column style={{ flex: '1' }}>
+    <Description />
     <Text />
   </Flex>;
 
@@ -53,62 +62,99 @@ const Text = () =>
   <Flex style={{ margin: '1em', flex: '1', width: '100%' }}>
     <Field
       name="descriptionLong"
-      placeholder="Her kan du skrive mer om gruppen"
+      // placeholder="Her kan du skrive mer om gruppen"
+      placeholder="hue"
       initialValue="<p></p>"
       component={EditorField}
     />
   </Flex>;
 
-const Contact = () =>
-  <Flex column>
-    <SidebarHeader text="Kontaktinformasjon" />
-    <ul>
-      <li>
-        <Field
-          name="contact-name"
-          placeholder="Navn"
-          component={TextInput.Field}
-        />
-      </li>
-      <li>
-        <Field
-          name="contact-phone"
-          placeholder="Telefon"
-          component={TextInput.Field}
-        />
-      </li>
-      <li>
-        <Field
-          name="contact-email"
-          placeholder="E-post"
-          component={TextInput.Field}
-        />
-      </li>
-    </ul>
-  </Flex>;
+const Contact = ({ currentUser, invitedMembers }) => {
+  return (
+    <Flex column>
+      <SidebarHeader text="Medlemmer" />
+      <Field
+        name="members"
+        filter={['users.user']}
+        component={SelectInput.AutocompleteField}
+        multi
+      />
+      <SidebarHeader text="Leder" />
+      <Field
+        name="leader"
+        component={SelectInput.Field}
+        options={invitedMembers}
+        simpleValue
+      />
+    </Flex>
+  );
+};
+
+// const Contact = ({group}) => {
+//   const leader = group.memberships.filter(m => m.role === 'leader');
+//   if (leader.length === 0) {
+//     return (
+//       <Flex column>
+//         <SidebarHeader text="Leder" />
+//         Gruppen har ingen leder.
+//       </Flex>
+//     );
+//   }
+//   return (
+//     <Flex column>
+//       <SidebarHeader text="Leder" />
+//       <div>{ group}</div>
+//       <ul>
+//         <li> <Field name="contact-name" placeholder="Navn" component={TextInput.Field}/> </li>
+//         <li> <Field name="contact-phone" placeholder="Telefon" component={TextInput.Field}/> </li>
+//         <li> <Field name="contact-email" placeholder="E-post" component={TextInput.Field}/> </li>
+//       </ul>
+//     </Flex>
+//   );
+// }
 
 class InterestGroupCreate extends Component {
-  create = (a, b, c) => {
-    console.log('InterestGroupCreate.create');
-    console.log(a);
-    console.log(b);
-    console.log(c);
+  create = data => {
+    const groupData = {
+      name: data.name,
+      description: data.description,
+      descriptionLong: data.descriptionLong,
+      logo: data.logo
+    };
+
+    this.props.createInterestGroup(groupData).then(res => {
+      const groupId = res.payload.result;
+      const members = data.members || [];
+      const memberships = members.map(m => ({
+        id: m.value,
+        role: m.value === data.leader ? 'leader' : 'member'
+      }));
+      // TODO: bulk add?
+      memberships.map(m =>
+        this.props.joinInterestGroup(groupId, { id: m.id }, m.role)
+      );
+    });
   };
 
   render() {
-    const { onSumit, handleSubmit } = this.props;
+    const { handleSubmit, invitedMembers, uploadFile } = this.props;
     const userId = this.props.currentUser.id;
 
     return (
       <Flex column className={styles.root}>
         <Form onSubmit={handleSubmit(this.create)}>
           <Title />
-          <Description />
           <Flex style={{ background: 'white' }} justifyContent="space-between">
             <Content />
-            <Sidebar />
+            <Sidebar
+              currentUser={this.props.currentUser}
+              invitedMembers={invitedMembers}
+              uploadFile={uploadFile}
+            />
           </Flex>
-          <Button submit>Lag en interessegruppe</Button>
+          <Button style={{ 'max-width': '350px' }} submit>
+            Lag en interessegruppe
+          </Button>
         </Form>
       </Flex>
     );
