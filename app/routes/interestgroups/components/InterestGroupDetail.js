@@ -32,9 +32,9 @@ const Description = ({ description }) =>
   </Flex>;
 
 const Sidebar = ({ group }) =>
-  <Flex column style={{ margin: '15px', width: '300px' }}>
-    <Logo logo="https://i.imgur.com/Is9VKjb.jpg" />
-    <Members name={group.name} members={group.memberships} />
+  <Flex column className={styles.sideBar}>
+    <Logo logo={group.logo || 'https://i.imgur.com/Is9VKjb.jpg'} />
+    <Members name={group.name} members={group.memberships || []} />
     <Contact group={group} />
   </Flex>;
 
@@ -60,7 +60,7 @@ const Logo = ({ logo }) =>
   </Flex>;
 
 const Content = ({ group }) =>
-  <Flex justifyContent="space-between">
+  <Flex column style={{ flex: '1' }}>
     <Text text={group.descriptionLong} />
   </Flex>;
 

@@ -64,8 +64,8 @@ export function removeInterestGroup(id: string) {
   };
 }
 
-export function updateInterestGroup(id: string, args: object) {
-  const { name, description, descriptionLong, memberships } = args;
+export function updateInterestGroup(group: object) {
+  const { id } = group;
   return dispatch => {
     dispatch(
       callAPI({
@@ -73,10 +73,7 @@ export function updateInterestGroup(id: string, args: object) {
         endpoint: `/interest-groups/${id}/`,
         method: 'PATCH',
         body: {
-          name,
-          description,
-          descriptionLong,
-          memberships
+          ...group
         },
         meta: {
           interestGroupId: id,
