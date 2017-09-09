@@ -1,10 +1,22 @@
 import React from 'react';
+import { Link } from 'react-router';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 
-export const MeetingAnswer = ({ response, user, meeting, status }) => {
+export const MeetingAnswer = ({
+  response,
+  user,
+  meeting,
+  status,
+  router,
+  resetMeetingsToken
+}) => {
   if (!response) {
     return <LoadingIndicator loading />;
   }
+  const handleLink = () => {
+    router.push(`/meetings/${meeting}`);
+    resetMeetingsToken();
+  };
 
   if (response === 'SUCCESS') {
     const statusText = ['', 'Delta', 'Ikke delta'][status];
@@ -15,7 +27,7 @@ export const MeetingAnswer = ({ response, user, meeting, status }) => {
           {' '}{user.firstName} skal nå {statusText} på møtet!
         </p>
         <p>
-          Logg inn og sjekk møtet <a href={`/meetings/${meeting}/`}> her</a>
+          Logg inn og sjekk møtet <Link onClick={handleLink}> her</Link>
         </p>
       </div>
     );

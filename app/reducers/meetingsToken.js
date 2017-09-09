@@ -26,6 +26,9 @@ export default function meetingsToken(
         status
       };
     }
+    case Meeting.RESET_MEETINGS_TOKEN: {
+      return initialState;
+    }
     default:
       return state;
   }
