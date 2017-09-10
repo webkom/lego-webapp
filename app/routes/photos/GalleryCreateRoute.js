@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { createGallery } from 'app/actions/GalleryActions';
 import { push } from 'react-router-redux';
 import GalleryEditor from './components/GalleryEditor';
-import { reduxForm } from 'redux-form';
 
 function mapStateToProps(state, props) {
   return {
@@ -13,10 +12,6 @@ function mapStateToProps(state, props) {
 
 const mapDispatchToProps = { createGallery, push };
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  reduxForm({
-    destroyOnUnmount: false,
-    form: 'gallery'
-  })
-)(GalleryEditor);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(
+  GalleryEditor
+);

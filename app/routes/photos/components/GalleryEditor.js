@@ -14,6 +14,7 @@ import {
 import { Field } from 'redux-form';
 import { Flex } from 'app/components/Layout';
 import Icon from 'app/components/Icon';
+import { reduxForm } from 'redux-form';
 import Gallery from 'app/components/Gallery';
 import styles from './Overview.css';
 
@@ -33,7 +34,7 @@ type State = {
   loading: boolean
 };
 
-export default class GalleryEditor extends Component {
+class GalleryEditor extends Component {
   props: Props;
 
   state: State = {
@@ -59,7 +60,7 @@ export default class GalleryEditor extends Component {
       description: data.description,
       takenAt: moment(data.takenAt).format('YYYY-MM-DD'),
       location: data.location,
-      event: data.event && data.event.value,
+      event: data.event && parseInt(data.event.value, 10),
       photographers: data.photographers && data.photographers.map(p => p.value)
     };
 
@@ -86,96 +87,122 @@ export default class GalleryEditor extends Component {
       <section className={styles.root}>
         <Flex>
           <Form className={styles.form} onSubmit={handleSubmit(this.onSubmit)}>
-            <Flex alignItems="baseline">
-              <Field
-                placeholder="Title"
-                name="title"
-                component={TextInput.Field}
-                id="gallery-title"
-              />
+            <Field
+              placeholder="Title"
+              name="title"
+              component={TextInput.Field}
+              id="gallery-title"
+              required
+            />
+            <Field
+              placeholder="Dato"
+              dateFormat="ll"
+              showTimePicker={false}
+              name="takenAt"
+              id="gallery-takenAt"
+              component={DatePicker.Field}
+            />
+            <Field
+              placeholder="Sted"
+              name="location"
+              component={TextInput.Field}
+              id="gallery-location"
+            />
+            <Field
+              label="Fotografer"
+              name="photographers"
+              id="gallery-photographers"
+              filter={['users.user']}
+              placeholder="Skriv inn navn på fotografer"
+              component={SelectInput.AutocompleteField}
+              multi
+            />
+            <Field
+              name="event"
+              filter={['events.event']}
+              label="Event"
+              placeholder="Skriv inn navn på eventet"
+              component={SelectInput.AutocompleteField}
+            />
+            <Field
+              placeholder="Album beskrivelse"
+              name="description"
+              required
+              component={TextArea.Field}
+              id="gallery-description"
+            />
 
+            <Flex alignItems="baseline">
               <Button className={styles.submitButton} type="submit">
                 {isNew ? 'Create' : 'Save'}
               </Button>
-              {!isNew &&
+              {!isNew && (
                 <Button onClick={this.onDelete} className={styles.deleteButton}>
                   Delete
-                </Button>}
-            </Flex>
-            <Flex>
-              <Field
-                text="Ablum dato"
-                name="takenAt"
-                id="gallery-takenAt"
-                component={DatePicker.Field}
-              />
-
-              <Field
-                placeholder="Sted"
-                name="location"
-                component={TextInput.Field}
-                id="gallery-location"
-              />
-            </Flex>
-            <Flex>
-              <Field
-                placeholder="Fotografer"
-                name="photographers"
-                tags
-                component={SelectInput.Field}
-                id="gallery-photographers"
-              />
-              <Field
-                placeholder="Event"
-                name="event"
-                component={SelectInput.Field}
-                id="gallery-tags"
-              />
-            </Flex>
-            <Flex>
-              <Field
-                placeholder="Album beskrivelse.."
-                name="description"
-                component={TextArea.Field}
-                id="gallery-description"
-              />
+                </Button>
+              )}
             </Flex>
           </Form>
         </Flex>
         {selected.length > 0 && <div className={styles.selectedRow} />}
         <Flex>
-          {isNew
-            ? <div className={styles.createState}>
-                <Icon
-                  className={styles.createStateIcon}
-                  name="photos-outline"
-                />
-                <h1>For å legge inn bilder må du først lage albumet!</h1>
-              </div>
-            : <Gallery
-                photos={pictures}
-                renderOverlay={photo =>
-                  <div
+          {isNew ? (
+            <div className={styles.createState}>
+              <Icon className={styles.createStateIcon} name="photos-outline" />
+              <h1>For å legge inn bilder må du først lage albumet!</h1>
+            </div>
+          ) : (
+            <Gallery
+              photos={pictures}
+              renderOverlay={photo => (
+                <div
+                  className={cx(
+                    styles.overlay,
+                    selected.includes(photo.id) && styles.overlaySelected
+                  )}
+                >
+                  <Icon
                     className={cx(
-                      styles.overlay,
-                      selected.includes(photo.id) && styles.overlaySelected
+                      styles.icon,
+                      selected.includes(photo.id) && styles.iconSelected
                     )}
-                  >
-                    <Icon
-                      className={cx(
-                        styles.icon,
-                        selected.includes(photo.id) && styles.iconSelected
-                      )}
-                      name="checkmark"
-                      size={32}
-                    />
-                  </div>}
-                loading={loading}
-                onClick={this.handleClick}
-                srcKey="file"
-              />}
+                    name="checkmark"
+                    size={32}
+                  />
+                </div>
+              )}
+              loading={loading}
+              onClick={this.handleClick}
+              srcKey="file"
+            />
+          )}
         </Flex>
       </section>
     );
   }
 }
+
+export default reduxForm({
+  form: 'galleryEditor',
+  validate(values) {
+    const errors = {};
+
+    if (!values.title) {
+      errors.title = 'Du må gi møtet en tittel';
+    }
+    if (!values.report) {
+      errors.report = 'Referatet kan ikke være tomt';
+    }
+    if (!values.location) {
+      errors.location = 'Du må velge en lokasjon for møtet';
+    }
+    if (!values.endTime) {
+      errors.endTime = 'Du må velge starttidspunkt';
+    }
+    if (!values.startTime) {
+      errors.startTime = 'Du må velge sluttidspunkt';
+    }
+
+    return errors;
+  }
+})(GalleryEditor);

@@ -29,7 +29,17 @@ function mapStateToProps(state, props) {
     isNew: false,
     gallery,
     pictures: selectPicturesForGallery(state, { galleryId }),
-    initialValues: gallery
+    initialValues: {
+      ...gallery,
+      photographers: gallery.photographers.map(photographer => ({
+        label: photographer.fullName,
+        value: photographer.id
+      })),
+      event: gallery.event && {
+        label: gallery.event.title,
+        value: gallery.event.id
+      }
+    }
   };
 }
 
