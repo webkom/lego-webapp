@@ -27,6 +27,7 @@ type Props = {
   meeting?: Object,
   change: func,
   invitingUsers: array,
+  user: object,
   pristine: boolean,
   submitting: boolean
 };
@@ -38,6 +39,7 @@ function MeetingEditor({
   meeting,
   change,
   invitingUsers = [],
+  user,
   submitting,
   pristine
 }: Props) {
@@ -46,13 +48,21 @@ function MeetingEditor({
     return <LoadingIndicator loading />;
   }
 
+  const userSearchable = {
+    value: user.id.toString(),
+    label: user.fullName
+  };
+
+  const invitedUsersSearchable = meeting
+    ? meeting.invitations.map(invite => ({
+        value: invite.user.id.toString(),
+        label: invite.user.fullName
+      }))
+    : [];
+
   const possibleReportAuthors = unionBy(
-    meeting
-      ? meeting.invitations.map(invite => ({
-          value: `${invite.user.id}`,
-          label: invite.user.fullName
-        }))
-      : [],
+    [userSearchable],
+    invitedUsersSearchable,
     invitingUsers,
     'value'
   );

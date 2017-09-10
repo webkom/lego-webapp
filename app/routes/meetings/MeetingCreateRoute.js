@@ -13,12 +13,14 @@ const time = (hours, minutes) =>
 
 const mapStateToProps = state => {
   const valueSelector = formValueSelector('meetingEditor');
+  const user = state.auth.username ? state.users.byId[state.auth.username] : {};
   return {
     initialValues: {
       startTime: time(17, 15),
       endTime: time(20),
       report: '<p></p>'
     },
+    user,
     invitingUsers: valueSelector(state, 'users') || []
   };
 };
