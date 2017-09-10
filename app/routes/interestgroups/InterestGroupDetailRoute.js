@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import {
   fetchInterestGroup,
-  updateInterestGroup,
-  removeInterestGroup,
   joinInterestGroup,
   leaveInterestGroup
 } from 'app/actions/InterestGroupActions';
@@ -18,8 +16,6 @@ const mapStateToProps = (state, { params: { interestGroupId } }) => ({
 
 const mapDispatchToProps = {
   fetchInterestGroup,
-  updateInterestGroup,
-  removeInterestGroup,
   joinInterestGroup,
   leaveInterestGroup
 };
