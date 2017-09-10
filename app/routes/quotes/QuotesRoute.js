@@ -13,19 +13,9 @@ import { selectSortedQuotes } from 'app/reducers/quotes';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
-const loadData = (props, dispatch) => {
-  const { location: { query } } = props;
-
-  if (query.filter === 'unapproved') {
-    return dispatch(fetchAllUnapproved());
-  }
-
-  return dispatch(fetchAllApproved());
-};
-
-const mapStateToProps = (state, { location: { query } }) => ({
-  quotes: selectSortedQuotes(state, { query }),
-  query,
+const mapStateToProps = (state, props) => ({
+  quotes: selectSortedQuotes(state, props.location.query),
+  query: props.location.query,
   actionGrant: state.quotes.actionGrant
 });
 
@@ -39,6 +29,15 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(loadData, { componentWillReceiveProps: false }),
+  dispatched(
+    (props, dispatch) => {
+      const { location: { query } } = props;
+      if (query.filter === 'unapproved') {
+        return dispatch(fetchAllUnapproved());
+      }
+      return dispatch(fetchAllApproved());
+    },
+    { componentWillReceiveProps: false }
+  ),
   connect(mapStateToProps, mapDispatchToProps)
 )(QuotePage);

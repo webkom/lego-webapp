@@ -8,14 +8,14 @@ import {
 } from '../../actions/QuoteActions';
 import QuoteDetail from './components/QuoteDetail';
 import { compose } from 'redux';
-import { selectCommentsForQuote } from 'app/reducers/quotes';
+import { selectQuoteById, selectCommentsForQuote } from 'app/reducers/quotes';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = (state, props) => {
   const query = props.location.query;
   const quoteId = props.params.quoteId;
-  const quote = state.quotes.byId[quoteId];
+  const quote = selectQuoteById(state, quoteId);
   const comments = selectCommentsForQuote(state, quoteId);
   const actionGrant = state.quotes.actionGrant;
 
