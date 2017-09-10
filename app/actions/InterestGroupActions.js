@@ -45,10 +45,24 @@ export function createInterestGroup(group: object) {
           logo
         },
         meta: {
+          group: group,
           errorMessage: 'Creating interestGroup failed'
         }
       })
-    );
+    ).then(res => {
+      // We cannot use the group from res.payload,
+      // since we need the memberships from the form.
+      const groupId = res.payload.result;
+      const group = res.meta.group;
+      const members = group.members || [];
+      const leaderId = group.leader.value;
+      members.map(m => {
+        const id = m.value;
+        const role = m.value === leaderId ? 'leader' : 'member';
+        joinInterestGroup(groupId, id, role)(dispatch);
+      });
+      dispatch(push(`/interestgroups/${groupId}`));
+    });
   };
 }
 
@@ -70,6 +84,9 @@ export function removeInterestGroup(id: string) {
 
 export function editInterestGroup(group: object) {
   const { id } = group;
+  if (!group.logo) {
+    delete group.logo;
+  }
   return dispatch => {
     dispatch(
       callAPI({
@@ -88,42 +105,26 @@ export function editInterestGroup(group: object) {
   };
 }
 
-export function updateInterestGroupPicture(id: string, token: token) {
+export function joinInterestGroup(groupId, userId, role = 'member') {
   return dispatch => {
     dispatch(
       callAPI({
-        types: InterestGroup.UPDATE,
-        endpoint: `/interest-groups/${id}/`,
-        method: 'PATCH',
+        types: InterestGroup.JOIN,
+        endpoint: '/memberships/',
+        method: 'POST',
         body: {
-          id: id,
-          picture: token
+          abakus_group: groupId,
+          user: userId,
+          role
         },
         meta: {
-          interestGroupId: id,
-          errorMessage: 'Editing interestGroup failed'
+          errorMessage: 'Joining the interest group failed.',
+          groupId: groupId,
+          userId
         }
       })
-    ).then(() => dispatch(push(`/interestgroups/${id}`)));
+    );
   };
-}
-
-export function joinInterestGroup(id, user, role = 'member') {
-  return callAPI({
-    types: InterestGroup.JOIN,
-    endpoint: '/memberships/',
-    method: 'POST',
-    body: {
-      abakus_group: id,
-      user: user.id,
-      role
-    },
-    meta: {
-      errorMessage: 'Joining the interest group failed.',
-      groupId: id,
-      user
-    }
-  });
 }
 
 export function leaveInterestGroup(membership) {

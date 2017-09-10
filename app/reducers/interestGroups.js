@@ -26,8 +26,8 @@ export default createEntityReducer({
         };
       }
       case InterestGroup.JOIN.SUCCESS: {
-        const { user, groupId } = action.meta;
-        const membership = { ...action.payload, user };
+        const { groupId } = action.meta;
+        const membership = action.payload;
         const memberships = [membership].concat(
           state.byId[groupId].memberships
         );

@@ -21,7 +21,14 @@ const mapStateToProps = (state, props) => {
   return {
     interestGroup,
     initialValues: {
-      ...interestGroup
+      ...interestGroup,
+      members: interestGroup.memberships.map(({ user }) => ({
+        value: user.id,
+        label: user.fullName
+      })),
+      leader: interestGroup.memberships
+        .filter(m => m.role === 'leader')
+        .map(({ user }) => ({ value: user.id, label: user.fullName }))[0]
     },
     groupMembers: valueSelector(state, 'members') || []
   };
