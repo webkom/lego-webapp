@@ -7,16 +7,11 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 export default createEntityReducer({
   key: 'meetings',
   types: {
-    fetch: Meeting.FETCH
+    fetch: Meeting.FETCH,
+    mutate: Meeting.CREATE
   },
   mutate(state, action) {
     switch (action.type) {
-      case Meeting.CREATE.SUCCESS:
-        return {
-          ...state,
-          items: state.items.filter(id => action.meta.optimisticId !== id)
-          // Remove the item with the optimisticId
-        };
       case Meeting.DELETE.SUCCESS:
         return {
           ...state,

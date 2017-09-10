@@ -5,7 +5,6 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
 import { mutateComments } from 'app/reducers/comments';
 import joinReducers from 'app/utils/joinReducers';
-import { omit } from 'lodash';
 
 export type QuoteEntity = {
   id: number,
@@ -22,7 +21,6 @@ function mutateQuote(state: any, action: any) {
       const { quoteId } = action.meta;
       return {
         ...state,
-        byId: omit(state.byId, quoteId),
         items: state.items.filter(id => id != quoteId)
       };
     }
@@ -62,7 +60,8 @@ const mutate = joinReducers(mutateComments('quotes'), mutateQuote);
 export default createEntityReducer({
   key: 'quotes',
   types: {
-    fetch: Quote.FETCH
+    fetch: Quote.FETCH,
+    mutate: Quote.ADD
   },
   mutate
 });
