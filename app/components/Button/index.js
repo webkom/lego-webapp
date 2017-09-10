@@ -14,7 +14,11 @@ type Props = {
   /** Is the button a submit button? */
   submit?: boolean,
   /** Dark background (red button)*/
-  dark?: boolean
+  dark?: boolean,
+  /** Primary button styling */
+  primary?: boolean,
+  /** Danger button styling */
+  danger?: boolean
 };
 
 /**

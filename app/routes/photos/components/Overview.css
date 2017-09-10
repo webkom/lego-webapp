@@ -53,11 +53,11 @@
 }
 
 .overlay:hover {
-  background: linear-gradient(rgba(99,99,99,0.8),rgba(1,130,170,0));
+  background: linear-gradient(rgba(99,99,99,0.9),rgba(1,130,170,0.1));
 }
 
 .overlaySelected {
-  background: linear-gradient(rgba(99,99,99,0.8),rgba(1,130,170,0));
+  background: linear-gradient(rgba(99,99,99,0.9),rgba(1,130,170,0.1));
 }
 
 .icon {
@@ -81,8 +81,45 @@
   width: 100%;
 }
 
-.selectedRow {
-  height: 50px;
+.actions {
+  height: 66px;
   background: dimgray;
-  margin-bottom: 15px;
+  padding: 0px 20px;
+}
+
+.actionsContainer {
+  padding-bottom: 10px;
+  height: 88px;
+  color: white;
+}
+
+.deselectIcon {
+  font-size: 40px;
+  cursor: pointer;
+  vertical-align: middle;
+  margin-right: 20px;
+}
+
+.actionIcon {
+  font-size: 40px;
+  vertical-align: middle;
+}
+
+.actionBar {
+  padding: 20px 0;
+}
+
+.action {
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.infoOverlay {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.buttonRow {
+  padding-bottom: 20px;
 }

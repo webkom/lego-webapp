@@ -13,10 +13,14 @@ import {
 } from 'app/components/Form';
 import { Field } from 'redux-form';
 import { Flex } from 'app/components/Layout';
+import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
+import EmptyState from 'app/components/EmptyState';
 import { reduxForm } from 'redux-form';
+import GalleryEditorActions from './GalleryEditorActions';
 import Gallery from 'app/components/Gallery';
 import styles from './Overview.css';
+import { pull, find } from 'lodash';
 
 type Props = {
   isNew: boolean,
@@ -26,31 +30,28 @@ type Props = {
   createGallery: () => Promise,
   push: string => Promise,
   updateGallery: () => Promise,
-  deleteGallery: () => Promise
+  deleteGallery: () => Promise,
+  updateGalleryCover: () => Promise,
+  updatePicture: () => Promise,
+  deletePicture: () => Promise
 };
 
 type State = {
-  selected: [],
-  loading: boolean
+  selected: []
 };
 
 class GalleryEditor extends Component {
   props: Props;
 
   state: State = {
-    loading: false,
     selected: []
   };
 
   handleClick = (picture: Object) => {
-    const index = this.state.selected.indexOf(picture.id);
-
-    if (index === -1) {
+    if (this.state.selected.indexOf(picture.id) === -1) {
       this.setState({ selected: this.state.selected.concat([picture.id]) });
     } else {
-      const selected = this.state.selected;
-      selected.splice(index, 1);
-      this.setState({ selected });
+      this.setState(state => ({ selected: pull(state.selected, picture.id) }));
     }
   };
 
@@ -73,15 +74,64 @@ class GalleryEditor extends Component {
     }
   };
 
-  onDelete = () => {
+  onDeleteGallery = () => {
     this.props.deleteGallery(this.props.gallery.id).then(() => {
       this.props.push('/photos');
     });
   };
 
+  onUpdateGalleryCover = () => {
+    this.props.updateGalleryCover(
+      this.props.gallery.id,
+      this.state.selected[0]
+    );
+
+    this.setState({ selected: [] });
+  };
+
+  onDeletePictures = () => {
+    this.state.selected.forEach(photo => {
+      this.props.deletePicture(this.props.gallery.id, photo);
+    });
+
+    this.setState({ selected: [] });
+  };
+
+  onTogglePicturesStatus = active => {
+    this.state.selected.forEach(photo => {
+      this.props.updatePicture(this.props.gallery.id, photo, { active });
+    });
+
+    this.setState({ selected: [] });
+  };
+
+  pictureStatus = () => {
+    const activePictures = this.state.selected
+      .map(id => find(this.props.pictures, ['id', id]))
+      .filter(picture => picture.active);
+
+    const inactivePictures = this.state.selected
+      .map(id => find(this.props.pictures, ['id', id]))
+      .filter(picture => !picture.active);
+
+    if (activePictures.length === this.state.selected.length) {
+      return 0;
+    }
+
+    if (inactivePictures.length === this.state.selected.length) {
+      return 1;
+    }
+
+    return -1;
+  };
+
+  onDeselect = () => {
+    this.setState({ selected: [] });
+  };
+
   render() {
-    const { pictures, isNew, handleSubmit } = this.props;
-    const { loading, selected } = this.state;
+    const { pictures, isNew, handleSubmit, gallery } = this.props;
+    const { selected } = this.state;
 
     return (
       <section className={styles.root}>
@@ -132,25 +182,40 @@ class GalleryEditor extends Component {
               id="gallery-description"
             />
 
-            <Flex alignItems="baseline">
-              <Button className={styles.submitButton} type="submit">
-                {isNew ? 'Create' : 'Save'}
-              </Button>
+            <Flex
+              className={styles.buttonRow}
+              alignItems="baseline"
+              justifyContent="flex-end"
+            >
               {!isNew && (
-                <Button onClick={this.onDelete} className={styles.deleteButton}>
+                <Button
+                  danger
+                  secondary
+                  onClick={this.onDeleteGallery}
+                  className={styles.deleteButton}
+                >
                   Delete
                 </Button>
               )}
+              <Button className={styles.submitButton} type="submit" primary>
+                {isNew ? 'Create' : 'Save'}
+              </Button>
             </Flex>
           </Form>
         </Flex>
-        {selected.length > 0 && <div className={styles.selectedRow} />}
+        <GalleryEditorActions
+          selectedCount={selected.length}
+          newPicutureStatus={this.pictureStatus()}
+          onUpdateGalleryCover={this.onUpdateGalleryCover}
+          onDeselect={this.onDeselect}
+          onTogglePicturesStatus={this.onTogglePicturesStatus}
+          onDeletePictures={this.onDeletePictures}
+        />
         <Flex>
           {isNew ? (
-            <div className={styles.createState}>
-              <Icon className={styles.createStateIcon} name="photos-outline" />
+            <EmptyState icon="photos-outline">
               <h1>For å legge inn bilder må du først lage albumet!</h1>
-            </div>
+            </EmptyState>
           ) : (
             <Gallery
               photos={pictures}
@@ -171,7 +236,26 @@ class GalleryEditor extends Component {
                   />
                 </div>
               )}
-              loading={loading}
+              renderBottom={photo => (
+                <Flex
+                  className={styles.infoOverlay}
+                  justifyContent="space-between"
+                >
+                  <span>
+                    {photo.active ? 'Synlig for brukere' : 'Skjult for brukere'}
+                  </span>
+                  {photo.id === gallery.cover.id && <span>Cover</span>}
+                </Flex>
+              )}
+              renderEmpty={
+                <EmptyState icon="photos-outline">
+                  <h1>Ingen bilder å redigere</h1>
+                  <h4>
+                    Gå <Link to={`/photos/${gallery.id}`}>hit</Link> for å legge
+                    inn bilder
+                  </h4>
+                </EmptyState>
+              }
               onClick={this.handleClick}
               srcKey="file"
             />

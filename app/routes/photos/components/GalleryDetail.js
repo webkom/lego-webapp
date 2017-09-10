@@ -3,6 +3,7 @@
 import React, { Component, cloneElement } from 'react';
 import moment from 'moment';
 import Button from 'app/components/Button';
+import EmptyState from 'app/components/EmptyState';
 import { Link } from 'react-router';
 import { ImageUpload } from 'app/components/Upload';
 import { Flex } from 'app/components/Layout';
@@ -68,7 +69,9 @@ export default class GalleryDetail extends Component {
           <h1 className={styles.header}>
             {gallery.title}
             <span className={styles.headerDetail}>
-              {moment(gallery.takenAt).utc().format('YYYY-MM-DD')}
+              {moment(gallery.takenAt)
+                .utc()
+                .format('YYYY-MM-DD')}
             </span>
           </h1>
 
@@ -80,9 +83,7 @@ export default class GalleryDetail extends Component {
           </div>
         </Flex>
         <Flex className={styles.descriptionRow}>
-          <span>
-            {gallery.description}
-          </span>
+          <span>{gallery.description}</span>
         </Flex>
         <Flex>
           <Gallery
@@ -90,17 +91,27 @@ export default class GalleryDetail extends Component {
             loading={loading}
             onClick={this.handleClick}
             srcKey="file"
+            renderEmpty={
+              <EmptyState icon="photos-outline">
+                <h1>Ingen bilder</h1>
+                <h4>
+                  Trykk <a onClick={() => this.toggleUpload()}>her</a> for å
+                  legge inn bilder
+                </h4>
+              </EmptyState>
+            }
           />
         </Flex>
 
-        {upload &&
+        {upload && (
           <ImageUpload
             inModal
             multiple
             crop={false}
             onClose={this.toggleUpload}
             onSubmit={this.toggleUpload}
-          />}
+          />
+        )}
 
         {children &&
           cloneElement(children, { gallery, push, loggedIn, currentUser })}

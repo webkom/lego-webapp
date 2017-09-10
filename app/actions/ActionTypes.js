@@ -50,7 +50,7 @@ export const Gallery = {
   DELETE: generateStatuses('Gallery.DELETE'),
   ADD_PICTURE: generateStatuses('Gallery.ADD_PICTURE'),
   EDIT_PICTURE: generateStatuses('Gallery.EDIT_PICTURE'),
-  DELETE_PICTURE: generateStatuses('Gallery.ADD_PICTURE')
+  DELETE_PICTURE: generateStatuses('Gallery.DELETE_PICTURE')
 };
 
 /**

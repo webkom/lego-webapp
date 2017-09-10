@@ -10,6 +10,7 @@ type Props = {
   renderOverlay?: () => void,
   renderTop?: () => void,
   renderBottom?: () => void,
+  renderEmpty?: ReactElement,
   margin?: number,
   loading: boolean,
   srcKey: string,
@@ -64,6 +65,7 @@ export default class Gallery extends Component {
       srcKey,
       renderOverlay,
       renderTop,
+      renderEmpty,
       renderBottom
     } = this.props;
     const { containerWidth } = this.state;
@@ -77,7 +79,7 @@ export default class Gallery extends Component {
       cols = 1;
     }
 
-    const photoNodes = chunk(photos, cols).map((column, columnIndex) =>
+    const photoNodes = chunk(photos, cols).map((column, columnIndex) => (
       <div key={columnIndex} className={styles.galleryRow}>
         {column.map((photo, rowIndex) => {
           let overlay;
@@ -108,21 +110,15 @@ export default class Gallery extends Component {
               onClick={() => this.onClick(photo)}
               className={styles.galleryPhoto}
             >
-              <div className={styles.top}>
-                {top}
-              </div>
+              <div className={styles.top}>{top}</div>
               <img src={src} alt={photo.alt} />
-              <div className={styles.overlay}>
-                {overlay}
-              </div>
-              <div className={styles.bottom}>
-                {bottom}
-              </div>
+              <div className={styles.overlay}>{overlay}</div>
+              <div className={styles.bottom}>{bottom}</div>
             </div>
           );
         })}
       </div>
-    );
+    ));
 
     return (
       <div
@@ -136,6 +132,7 @@ export default class Gallery extends Component {
           }}
         >
           {photoNodes}
+          {!photos.length && renderEmpty}
         </div>
         <LoadingIndicator loading={loading} />
       </div>

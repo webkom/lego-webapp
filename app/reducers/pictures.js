@@ -34,6 +34,21 @@ export function mutatePictures() {
         };
       }
 
+      case Gallery.DELETE_PICTURE.SUCCESS: {
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [action.meta.galleryId]: {
+              ...state.byId[action.meta.galleryId],
+              pictures: state.byId[action.meta.galleryId].pictures.filter(
+                picture => picture !== action.meta.pictureId
+              )
+            }
+          }
+        };
+      }
+
       default: {
         return state;
       }
@@ -59,7 +74,6 @@ export const selectCommentsForPicture = createSelector(
   selectPictureById,
   state => state.comments.byId,
   (picture, commentsById) => {
-    console.log(picture);
     if (!picture) return [];
     return (picture.comments || []).map(commentId => commentsById[commentId]);
   }

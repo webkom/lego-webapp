@@ -5,7 +5,7 @@ import {
   fetchGallery,
   deletePicture,
   deleteGallery,
-  editPicture,
+  updatePicture,
   updateGalleryCover
 } from 'app/actions/GalleryActions';
 import { push } from 'react-router-redux';
@@ -49,7 +49,7 @@ const mapDispatchToProps = {
   updateGallery,
   push,
   deletePicture,
-  editPicture,
+  updatePicture,
   updateGalleryCover
 };
 
