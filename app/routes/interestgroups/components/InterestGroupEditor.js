@@ -6,7 +6,6 @@ import { Link } from 'react-router';
 import styles from './InterestGroupEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field } from 'redux-form';
-import { AttendanceStatus } from 'app/components/UserAttendance';
 
 import {
   Form,
@@ -14,11 +13,8 @@ import {
   EditorField,
   SelectInput,
   Button,
-  DatePicker
+  ImageUploadField
 } from 'app/components/Form';
-import moment from 'moment';
-import config from 'app/config';
-import { unionBy } from 'lodash';
 
 type Props = {
   handleSubmit: func,
@@ -38,7 +34,8 @@ function InterestGroupEditor({
   change,
   groupMembers = [],
   submitting,
-  pristine
+  pristine,
+  uploadFile
 }: Props) {
   const isEditPage = interestGroup !== undefined;
   if (isEditPage && !interestGroup) {
@@ -98,6 +95,15 @@ function InterestGroupEditor({
           options={groupMembers}
           component={SelectInput.Field}
           required
+        />
+        <Field
+          name="logo"
+          component={ImageUploadField.Field}
+          label="Gruppelogo"
+          uploadFile={uploadFile}
+          aspectRatio={1}
+          img={interestGroup && interestGroup.logo}
+          className={styles.logo}
         />
         <Button disabled={pristine || submitting} submit>
           {isEditPage ? 'Lagre gruppe' : 'Lag interessegruppe'}{' '}
