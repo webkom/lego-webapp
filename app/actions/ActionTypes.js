@@ -196,6 +196,10 @@ export const Feed = {
   FETCH: generateStatuses('Feed.FETCH')
 };
 
+export const FetchHistory = {
+  SET_HISTORY: 'FetchHistory.SET_HISTORY'
+};
+
 /**
  *
  */
