@@ -17,9 +17,9 @@ export default class QuoteList extends Component {
   }
 
   setDisplayAdmin = id => {
-    this.setState({
-      displayAdminId: this.state.displayAdminId === id ? -1 : id
-    });
+    this.setState(state => ({
+      displayAdminId: state.displayAdminId === id ? -1 : id
+    }));
   };
 
   render() {

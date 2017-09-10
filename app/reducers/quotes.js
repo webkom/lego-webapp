@@ -5,6 +5,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
 import { mutateComments } from 'app/reducers/comments';
 import joinReducers from 'app/utils/joinReducers';
+import { omit } from 'lodash';
 
 export type QuoteEntity = {
   id: number,
@@ -21,10 +22,7 @@ function mutateQuote(state: any, action: any) {
       const { quoteId } = action.meta;
       return {
         ...state,
-        byId: {
-          ...state.byId,
-          [quoteId]: undefined
-        },
+        byId: omit(state.byId, quoteId),
         items: state.items.filter(id => id != quoteId)
       };
     }
@@ -100,7 +98,7 @@ export const selectSortedQuotes = createSelector(
     return quotes
       .filter(
         quote =>
-          quote !== undefined &&
+          typeof quote !== 'undefined' &&
           quote.approved === (query.filter !== 'unapproved')
       )
       .sort(compareByDate);

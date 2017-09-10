@@ -23,8 +23,8 @@ export default class QuoteDetail extends Component {
     displayAdmin: false
   };
 
-  setDisplayAdmin = a => {
-    this.setState({ displayAdmin: !this.state.displayAdmin });
+  setDisplayAdmin = () => {
+    this.setState(state => ({ displayAdmin: !state.displayAdmin }));
   };
 
   render() {
