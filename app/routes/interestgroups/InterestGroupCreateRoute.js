@@ -6,28 +6,29 @@ import {
   createInterestGroup,
   joinInterestGroup
 } from 'app/actions/InterestGroupActions';
-import InterestGroupCreate from './components/InterestGroupCreate';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import InterestGroupCreate from './components/InterestGroupEditor';
 import { uploadFile } from 'app/actions/FileActions';
 
 const mapDispatchToProps = {
   createInterestGroup,
   joinInterestGroup,
-  uploadFile
+  uploadFile,
+  handleSubmitCallback: createInterestGroup
 };
 
 const mapStateToProps = (state, props) => {
-  const valueSelector = formValueSelector('interestGroupCreate');
+  const valueSelector = formValueSelector('interestGroupEditor');
   return {
     initialValues: {
       descriptionLong: '<p></p>'
     },
-    invitedMembers: valueSelector(state, 'members') || []
+    groupMembers: valueSelector(state, 'members') || []
   };
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   connect(mapStateToProps, mapDispatchToProps)
-)(InterestGroupCreate);
+)(InterestGroupEditor);

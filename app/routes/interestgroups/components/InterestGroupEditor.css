@@ -1,0 +1,5 @@
+.root {
+  composes: contentContainer from 'app/styles/utilities.css';
+}
+
+

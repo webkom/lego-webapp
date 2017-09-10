@@ -2,29 +2,28 @@
 import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 import {
-  updateInterestGroup,
+  editInterestGroup,
   joinInterestGroup
 } from 'app/actions/InterestGroupActions';
-import InterestGroupEdit from './components/InterestGroupEdit';
+import InterestGroupEdit from './components/InterestGroupEditor';
 import { uploadFile } from 'app/actions/FileActions';
 
 const mapDispatchToProps = {
-  updateInterestGroup,
+  editInterestGroup,
   joinInterestGroup,
-  uploadFile
+  uploadFile,
+  handleSubmitCallback: editInterestGroup
 };
 
 const mapStateToProps = (state, props) => {
-  const valueSelector = formValueSelector('interestGroupEdit');
+  const valueSelector = formValueSelector('interestGroupEditor');
   const interestGroup = state.interestGroups.byId[props.params.interestGroupId];
-  console.log(state.interestGroups);
   return {
-    group: interestGroup,
+    interestGroup,
     initialValues: {
-      descriptionLong: '<p></p>'
-      // ...interestGroup
+      ...interestGroup
     },
-    invitedMembers: valueSelector(state, 'members') || []
+    groupMembers: valueSelector(state, 'members') || []
   };
 };
 
