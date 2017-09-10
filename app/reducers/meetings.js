@@ -15,7 +15,7 @@ export default createEntityReducer({
       case Meeting.DELETE.SUCCESS:
         return {
           ...state,
-          items: state.items.filter(id => action.meta.meetingId !== id)
+          items: state.items.filter(id => action.meta.meetingId != id)
         };
       case Meeting.SET_INVITATION_STATUS.SUCCESS: {
         const { meetingId, status, user } = action.meta;
