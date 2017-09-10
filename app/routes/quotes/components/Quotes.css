@@ -9,6 +9,10 @@
   flex-direction: row;
 }
 
+.quoteContainer h1 {
+  margin: 0 0 20px 0;
+}
+
 .quotepageLeft {
   width: 68%;
   order: 1;
@@ -32,22 +36,6 @@
   margin-top: 40px;
 }
 
-.quoteTop .sortQuote a {
-  margin-left: 20px;
-}
-
-.quoteTop {
-  height: 100px;
-  margin-bottom: 30px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.quoteTop h1 {
-  width: 200px;
-  order: 1;
-}
-
 .selectedQuoteSort {
   font-weight: 600;
 }
@@ -60,10 +48,6 @@
 
 .submitQuote:disabled {
   color: #ccc;
-}
-
-.addQuoteTop {
-  margin-bottom: 0;
 }
 
 .addQuote label {
@@ -190,33 +174,44 @@
   font-size: 20px !important;
 }
 
-.singleQuote .bottomRight {
+.bottomRow {
   display: flex;
   justify-content: space-between;
-  width: 30%;
+  width: 100%;
   min-width: 140px;
   order: 2;
 }
 
-.singleQuote .quoteDate {
+.bottomRight {
+  order: 2;
+  display: flex;
+  flex-direction: row;
+}
+
+.bottomRight div {
+  margin-left: 10px;
+}
+
+.quoteDate {
   color: #666;
   font-size: 13px;
-  order: 3;
+  order: 1;
   margin-top: 3px;
 }
 
+.dropdownIcon {
+  color: var(--lego-link-color);
+  font-size: 18px;
+  margin: 0;
+  padding: 0;
+}
+
 .singleQuote .commentCount {
-  order: 4;
+  order: 1;
 }
 
 .singleQuote .quoteAdmin {
-  margin: 20px auto 0;
-  width: 200px;
-  order: 3;
-}
-
-.deleteQuote {
-  margin-left: 20px;
+  order: 2;
 }
 
 .singleQuote .faQuote-right {
@@ -231,20 +226,15 @@
   border-bottom: none;
 }
 
+.adminDropdown {
+  position: absolute;
+}
+
 @media (--small-viewport) {
   .quoteContainer {
     margin: 0 15px;
     width: 100%;
     flex-direction: column;
-  }
-
-  .quoteTop {
-    height: 150px;
-    flex-direction: column;
-  }
-
-  .quoteTop h1 {
-    margin-bottom: 0;
   }
 
   .sortQuote {
