@@ -1,7 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styles from 'app/routes/companyInterest/components/CompanyInterest.css';
-import { TextEditor, TextInput, Button, CheckBox } from 'app/components/Form';
-import { Field } from 'redux-form';
+import {
+  TextEditor,
+  TextInput,
+  Button,
+  CheckBox,
+  Form
+} from 'app/components/Form';
+import { Field, FieldArray } from 'redux-form';
 import { ImageUpload } from 'app/components/Upload';
 import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
 
@@ -20,43 +26,33 @@ const ACTIVITY_TYPES = [
   { label: 'Ønsker stand på itDAGENE', name: 'itdagene' }
 ];
 
-type InputFieldProps = {
-  label: string,
-  placeholder: string,
-  name: string
+const SEMESTER_TRANSLATION = {
+  spring: 'Vår',
+  autumn: 'Høst'
 };
 
-const InputField = ({ label, placeholder, name }: InputFieldProps) =>
-  <div>
-    <label htmlFor={name} className={styles.smallHeading}>
-      {label}
-    </label>
+const semesterToText = semesterObject =>
+  `${SEMESTER_TRANSLATION[semesterObject.semester]} ${semesterObject.year}`;
 
-    <div className={styles.inputField}>
-      <Field
-        className={styles.textInput}
-        placeholder={placeholder}
-        name={name}
-        component={TextInput.Field}
-      />
-    </div>
-  </div>;
-
-const getSemesterBoxes = semesters => {
-  return semesters.map((item, index) =>
-    <div key={index} className={styles.checkbox}>
-      <div className={styles.checkboxField}>
-        <Field
-          key={`semester${index}`}
-          id={`semester${index}`}
-          name={`semester${index}`}
-          component={CheckBox.Field}
-        />
-      </div>
-      <span className={styles.checkboxSpan}>
-        {item.semester + ' ' + item.year}
-      </span>
-    </div>
+const getSemesterBoxes = ({ fields }) => {
+  return (
+    <FlexRow>
+      {fields.map((item, index) =>
+        <div key={index} className={styles.checkbox}>
+          <div className={styles.checkboxField}>
+            <Field
+              key={`semester${index}`}
+              id={`semester${index}`}
+              name={`semesters[${index}].checked`}
+              component={CheckBox.Field}
+            />
+          </div>
+          <span className={styles.checkboxSpan}>
+            {semesterToText(fields.get(index))}
+          </span>
+        </div>
+      )}
+    </FlexRow>
   );
 };
 
@@ -87,9 +83,10 @@ const getActivityBoxes = () =>
           key={`activity${index}`}
           name={item.name}
           component={CheckBox.Field}
+          value={item}
         />
       </div>
-      <span className={styles.checkboxActivitySpan}>
+      <span className={styles.checkboxSpan}>
         {item.label}
       </span>
     </div>
@@ -108,9 +105,9 @@ const CompanyInterestPage = (props: Props) => {
       companyName: data.companyName,
       contactPerson: data.contactPerson,
       mail: data.mail,
-      semesters: Object.keys(props.semesters).filter(
-        semester => data[`semester${semester.id}`]
-      ),
+      semesters: data.semesters
+        .filter(semester => semester.checked)
+        .map(semester => semester.id),
       events: Object.keys(EVENT_TYPES).filter(eventType => data[eventType]),
       read_me: data.read_me,
       collaboration: data.collaboration,
@@ -118,7 +115,6 @@ const CompanyInterestPage = (props: Props) => {
       itdagene: data.itdagene,
       comment: data.comment
     };
-
     props.createCompanyInterest(newData).then(() => {
       props.push('/companyInterest');
     });
@@ -126,62 +122,62 @@ const CompanyInterestPage = (props: Props) => {
 
   return (
     <div className={styles.root}>
-      <form onSubmit={props.handleSubmit(onSubmit)}>
+      <Form onSubmit={props.handleSubmit(onSubmit)}>
         <h1 className={styles.mainHeading}>
           {'Meld interesse'}
         </h1>
-        <div className={styles.nameField}>
-          <InputField
-            label="Navn på bedrift"
-            placeholder="Bedriftsnavn"
-            name="companyName"
-          />
-          <InputField
-            label="Kontaktperson"
-            placeholder="Ola Nordmann"
-            name="contactPerson"
-          />
-        </div>
-        <InputField
-          label="E-post"
-          placeholder="example@domain.com"
+        <Field
+          label="Navn på bedrift"
+          placeholder="Bedriftsnavn"
+          name="companyName"
+          component={TextInput.Field}
+        />
+        <Field
+          label="Kontaktperson"
+          placeholder="Ola Nordmann"
+          name="contactPerson"
+          component={TextInput.Field}
+        />
+        <Field
+          label="Mail"
+          placeholder="example@gmail.com"
           name="mail"
+          component={TextInput.Field}
         />
 
-        <FlexRow className={styles.checkboxWrapper}>
-          <FlexItem className={styles.semesters}>
-            <label htmlFor="semester" className={styles.heading}>
-              Semester
-            </label>
-            {getSemesterBoxes(props.semesters)}
-          </FlexItem>
+        <FlexColumn className={styles.checkboxWrapper}>
+          <label htmlFor="semester" className={styles.heading}>
+            Semester
+          </label>
 
-          <FlexItem className={styles.events}>
-            <label htmlFor="arrangementer" className={styles.heading}>
-              Arrangementer
-            </label>
-            {getEventBoxes()}
-          </FlexItem>
-
-          <FlexItem className={styles.extra}>
-            <label htmlFor="extra" className={styles.heading}>
-              Annet
-            </label>
-            {getActivityBoxes()}
-          </FlexItem>
-        </FlexRow>
-
-        <label htmlFor="comment" className={styles.smallHeading}>
-          Kommentar
-        </label>
-
-        <div className={styles.textEditor}>
-          <Field
-            placeholder="Skriv eventuell kommentar"
-            name="comment"
-            component={TextEditor.Field}
+          <FieldArray
+            name="semesters"
+            component={getSemesterBoxes}
+            className={styles.checkboxWrapper}
           />
-        </div>
+
+          <label htmlFor="arrangementer" className={styles.heading}>
+            Arrangementer
+          </label>
+          <FlexRow>
+            {getEventBoxes()}
+          </FlexRow>
+
+          <label htmlFor="extra" className={styles.heading}>
+            Annet
+          </label>
+          <FlexRow>
+            {getActivityBoxes()}
+          </FlexRow>
+        </FlexColumn>
+
+        <Field
+          placeholder="Skriv eventuell kommentar"
+          name="comment"
+          component={TextEditor.Field}
+          className={styles.textEditor}
+          label="Kommentar"
+        />
 
         <FlexColumn className={styles.content}>
           <FlexItem className={styles.upload}>
@@ -193,7 +189,7 @@ const CompanyInterestPage = (props: Props) => {
             </Button>
           </FlexItem>
         </FlexColumn>
-      </form>
+      </Form>
     </div>
   );
 };

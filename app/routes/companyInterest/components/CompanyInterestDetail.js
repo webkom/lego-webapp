@@ -13,6 +13,13 @@ type Props = {
   company: Object
 };
 
+const getSemesters = semesters =>
+  semesters.map((item, index) =>
+    <div key={index} className={styles.detailList}>
+      {item}
+    </div>
+  );
+
 const CompanyInterestDetail = ({ company, ...props }: Props) => {
   return (
     <div className={styles.root}>
@@ -24,6 +31,8 @@ const CompanyInterestDetail = ({ company, ...props }: Props) => {
           <p className={styles.paragraphDetail}>
             {company.contactPerson}
           </p>
+          {console.log(company)}
+          {/*getSemesters(company.semesters)*/}
           <Image
             className={styles.companyDetailPic}
             src={'https://i.redd.it/dz8mwvl4dgdy.jpg'}
@@ -32,22 +41,11 @@ const CompanyInterestDetail = ({ company, ...props }: Props) => {
       </div>
       <h2 className={styles.heading}>Kommentar</h2>
       <div className={styles.content}>
-        <FlexColumn>
-          <div className={styles.button} />
-          <FlexRow>
-            <Link
-              to={`/companyInterest/${company.id}/edit`}
-              className={styles.delete}
-            >
-              <Icon name={'settings'} className={styles.settings} />
-            </Link>
-            <Icon
-              name={'remove-circle'}
-              onClick={() => props.removeCompanyInterest(company.id)}
-              className={styles.delete}
-            />
-          </FlexRow>
-        </FlexColumn>
+        <Icon
+          name={'remove-circle'}
+          onClick={() => props.removeCompanyInterest(company.id)}
+          className={styles.delete}
+        />
       </div>
     </div>
   );

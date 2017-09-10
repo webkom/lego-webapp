@@ -31,7 +31,18 @@ const mapDispatchToProps = {
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
-    form: 'CompanyInterestForm'
+    form: 'CompanyInterestForm',
+    validate(values) {
+      const errors = {};
+      if (!values.companyName) {
+        errors.companyName = 'Du må gi møtet en tittel';
+      }
+      if (!values.contactPerson) {
+        errors.contactPerson = 'Skriv noe dritt';
+      }
+
+      return errors;
+    }
   }),
   fetchOnUpdate(['companyInterestId', 'loggedIn'], loadData)
 )(CompanyInterestPage);

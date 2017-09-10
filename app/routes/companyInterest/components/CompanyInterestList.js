@@ -2,6 +2,8 @@ import styles from './CompanyInterest.css';
 import React from 'react';
 import Button from 'app/components/Button';
 import { Link } from 'react-router';
+import { FlexRow, FlexItem } from 'app/components/FlexBox';
+import Icon from 'app/components/Icon';
 
 export type Props = {
   companyInterestList: Array
@@ -52,14 +54,11 @@ const CompanyInterestList = (props: Props) => {
             </b>
           </td>
           <td>
-            <Link to={`/companyInterest/${company.id}/edit`}>
-              <i className="fa fa-pencil" style={{ color: 'orange' }} />
-            </Link>
-          </td>
-          <td>
-            <a onClick={() => props.removeCompanyInterest(company.id)}>
-              <i className="fa fa-times" style={{ color: '#d13c32' }} />
-            </a>
+            <Icon
+              name="close-circle"
+              onClick={() => props.removeCompanyInterest(company.id)}
+              className={styles.remove}
+            />
           </td>
         </tr>
       );
@@ -70,16 +69,11 @@ const CompanyInterestList = (props: Props) => {
     <tr key={key} className={styles.companyInterestList}>
       {generateValues(company)}
       <td className={styles.toolContainer}>
-        <Link to={`/companyInterest/${company.id}`} className={styles.tools}>
-          <i className="fa fa-pencil" style={{ color: 'orange' }} />
-        </Link>
-        <a
+        <Icon
+          name="close-circle"
           onClick={() => props.removeCompanyInterest(company.id)}
-          className={styles.tools}
-        >
-          <div />
-          <i className="fa fa-times" style={{ color: '#d13c32' }} />
-        </a>
+          className={styles.remove}
+        />
       </td>
     </tr>
   ));

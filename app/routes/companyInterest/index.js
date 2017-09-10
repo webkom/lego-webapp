@@ -9,10 +9,6 @@ export default {
     {
       path: ':companyInterestId',
       component: require('./CompanyInterestDetailRoute').default
-    },
-    {
-      path: ':companyInterestId/edit',
-      component: require('./CompanyInterestEditRoute').default
     }
   ]
 };
