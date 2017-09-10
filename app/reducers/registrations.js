@@ -22,7 +22,7 @@ export default createEntityReducer({
               ...action.payload
             }
           },
-          items: [...state.items, action.payload.id]
+          items: union(state.items, [action.payload.id])
         };
       }
       case Event.UNREGISTER.BEGIN: {

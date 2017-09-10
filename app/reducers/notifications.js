@@ -1,6 +1,7 @@
 // @flow
 
 import { Notifications } from '../actions/ActionTypes';
+import { union } from 'lodash';
 import type { Action } from 'app/types';
 
 const initialState = {
@@ -17,7 +18,7 @@ export default function notifications(
     case Notifications.NOTIFICATION_ADDED:
       return {
         ...state,
-        items: [...state.items, action.payload]
+        items: union(state.items, [action.payload])
       };
 
     case Notifications.NOTIFICATION_REMOVED:
