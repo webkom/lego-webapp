@@ -35,13 +35,21 @@
   width: 260px;
 }
 
-.tools {
+.tableColumn {
+  width: 200px;
+}
+
+.remove {
+  font-size: 30px;
+  margin: 0 5px;
   display: flex;
   justify-content: flex-end;
 }
 
 .toolContainer {
-  flex-direction: row;
+  margin: 10 0;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .upload {
@@ -53,7 +61,7 @@
 }
 
 .textEditor {
-  width: 900px;
+  width: 1100px;
 
   @media (--small-viewport) {
     width: 300px;
@@ -66,6 +74,7 @@
   font-weight: 400;
   text-transform: uppercase;
   font-size: 16px;
+  width: 1100px;
 }
 
 .createButton {
@@ -93,8 +102,8 @@
 .checkbox {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   margin-right: 30px;
+  margin-top: 20px;
 }
 
 .checkboxSpan {
@@ -108,10 +117,7 @@
   text-transform: uppercase;
   font-size: 20px;
   border-bottom: 1px solid #ddd;
-}
-
-.checkboxActivitySpan {
-  width: 200px;
+  width: 1100px;
 }
 
 .checkboxField {
@@ -149,7 +155,7 @@
   display: flex;
   flex-direction: row;
   margin-bottom: 200px;
-  width: 900px;
+  width: 1100px;
   justify-content: space-between;
 
   @media (--small-viewport) {
@@ -198,23 +204,10 @@
 .companyList th,
 .companyList td {
   padding-left: 7px;
-  width: 140px;
+  width: 275px;
   border-bottom: 1px dashed #aaa;
   text-align: left;
   display: table-cell;
-
-  &:first-child {
-    width: 120px;
-  }
-
-  &:nth-child(2),
-  &:nth-child(5) {
-    width: 100px;
-  }
-
-  &:nth-child(10) {
-    width: 170px;
-  }
 }
 <<<<<<< HEAD
 =======
