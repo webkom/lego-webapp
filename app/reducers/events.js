@@ -8,7 +8,6 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
-import { omit } from 'lodash';
 
 export type EventEntity = {
   id: number,
@@ -18,17 +17,9 @@ export type EventEntity = {
 
 function mutateEvent(state: any, action: any) {
   switch (action.type) {
-    case Event.CREATE.SUCCESS: {
-      return {
-        ...state,
-        byId: omit(state.byId, action.meta.optimisticId),
-        items: state.items.filter(id => id !== action.meta.optimisticId)
-      };
-    }
     case Event.DELETE.SUCCESS: {
       return {
         ...state,
-        byId: omit(state.byId, action.meta.id),
         items: state.items.filter(id => id !== action.meta.id.toString())
       };
     }
@@ -156,7 +147,8 @@ const mutate = joinReducers(mutateComments('events'), mutateEvent);
 export default createEntityReducer({
   key: 'events',
   types: {
-    fetch: Event.FETCH
+    fetch: Event.FETCH,
+    mutate: Event.CREATE
   },
   mutate
 });

@@ -3,7 +3,6 @@
 import { createSelector } from 'reselect';
 import { InterestGroup } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import { omit } from 'lodash';
 
 export type InterestGroupEntity = {
   id: number,
@@ -23,8 +22,7 @@ export default createEntityReducer({
         const removedId = action.meta.groupId;
         return {
           ...state,
-          items: state.items.filter(g => g !== removedId),
-          byId: omit(state.byId, removedId)
+          items: state.items.filter(g => g !== removedId)
         };
       }
       case InterestGroup.JOIN.SUCCESS: {
