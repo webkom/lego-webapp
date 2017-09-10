@@ -77,16 +77,16 @@ const mapDispatchToProps = {
   isUserFollowing
 };
 
+const loadData = ({ params: { eventId }, currentUser }, dispatch) => {
+  const userId = currentUser.id;
+  return dispatch(fetchEvent(eventId)).then(() =>
+    dispatch(isUserFollowing(eventId, userId))
+  );
+};
+
 export default compose(
-  dispatched(
-    ({ params: { eventId }, currentUser }, dispatch) => {
-      const userId = currentUser.id;
-      dispatch(fetchEvent(eventId));
-      dispatch(isUserFollowing(eventId, userId));
-    },
-    {
-      componentWillReceiveProps: false
-    }
-  ),
+  dispatched(loadData, {
+    componentWillReceiveProps: false
+  }),
   connect(mapStateToProps, mapDispatchToProps)
 )(EventDetail);

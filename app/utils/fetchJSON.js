@@ -101,7 +101,8 @@ export default function fetchJSON(path, requestOptions = { headers: [] }) {
         if (
           (error.response && error.response.status < 500) ||
           !retryDelays ||
-          requestsAttempted > retryDelays.length
+          requestsAttempted > retryDelays.length ||
+          typeof window === 'undefined'
         ) {
           return reject(error);
         }

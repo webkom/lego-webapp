@@ -6,7 +6,8 @@ import config from '../config';
 import type { Thunk } from 'app/types';
 import { logout } from 'app/actions/UserActions';
 import isRequestNeeded from 'app/utils/isRequestNeeded';
-import { setStatusCode } from 'app/actions/RoutingActions';
+import { setStatusCode } from './RoutingActions';
+import { FetchHistory } from './ActionTypes';
 
 function urlFor(resource) {
   if (resource.match(/^\/\//)) {
@@ -17,14 +18,24 @@ function urlFor(resource) {
   return config.serverUrl + resource;
 }
 
-function handleError(error, propagateError) {
+function handleError(error, propagateError, endpoint) {
   return dispatch => {
-    if (error.response && error.response.status) {
-      if (error.response.status === 401) {
+    const statusCode = error.response && error.response.status;
+    if (statusCode) {
+      if (statusCode === 401) {
         dispatch(logout());
       }
+      if (statusCode < 500) {
+        dispatch({
+          type: FetchHistory.SET_HISTORY,
+          payload: endpoint
+        });
+      }
       if (propagateError) {
-        dispatch(setStatusCode(error.response.status));
+        const serverRenderer = typeof window === 'undefined';
+        if ((serverRenderer && statusCode < 500) || !serverRenderer) {
+          dispatch(setStatusCode(statusCode));
+        }
       }
     }
     throw error;
@@ -119,7 +130,7 @@ export default function callAPI({
       },
       promise: fetchJSON(urlFor(endpoint), options)
         .then(response => normalizeJsonResponse(response.jsonData))
-        .catch(error => dispatch(handleError(error, propagateError)))
+        .catch(error => dispatch(handleError(error, propagateError, endpoint)))
     });
   };
 }
