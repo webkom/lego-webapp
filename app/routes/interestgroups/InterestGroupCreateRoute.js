@@ -8,7 +8,7 @@ import {
 } from 'app/actions/InterestGroupActions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import InterestGroupCreate from './components/InterestGroupEditor';
+import InterestGroupEditor from './components/InterestGroupEditor';
 import { uploadFile } from 'app/actions/FileActions';
 
 const mapDispatchToProps = {
