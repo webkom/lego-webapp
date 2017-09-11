@@ -125,6 +125,8 @@ export default reduxForm({
     }
     if (!values.leader) {
       errors.leader = 'Du må velge en leder';
+    } else if (!values.members.includes(values.leader)) {
+      errors.leader = 'Lederen må være medlem';
     }
 
     return errors;

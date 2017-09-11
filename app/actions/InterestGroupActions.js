@@ -4,6 +4,7 @@ import { interestGroupSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { InterestGroup } from './ActionTypes';
 import { push } from 'react-router-redux';
+import { differenceWith } from 'lodash';
 
 export function fetchInterestGroup(interestGroupId: string) {
   return callAPI({
@@ -85,7 +86,7 @@ export function removeInterestGroup(id: string) {
 export function editInterestGroup(group: object) {
   const { id } = group;
   if (!group.logo) {
-    delete group.logo;
+    delete group.logo; // lol
   }
   return dispatch => {
     dispatch(
@@ -97,11 +98,43 @@ export function editInterestGroup(group: object) {
           ...group
         },
         meta: {
-          interestGroupId: id,
+          group: group,
           errorMessage: 'Editing interestGroup failed'
         }
       })
-    ).then(() => dispatch(push(`/interestgroups/${id}`)));
+    ).then(res => {
+      // We cannot use the group from res.payload,
+      // since we need the memberships from the form.
+      const groupId = res.payload.id;
+      const group = res.meta.group;
+      const members = group.members || [];
+      const currentMembers = res.payload.memberships.map(m => m.user.id);
+      const leaderId = group.leader.value;
+
+      const toAdd = differenceWith(
+        members,
+        currentMembers,
+        (m, i) => m.value === i
+      );
+      const toRemove = differenceWith(
+        currentMembers,
+        members,
+        (i, m) => m.value === i
+      );
+
+      toAdd.map(m => {
+        const id = m.value;
+        const role = m.value === leaderId ? 'leader' : 'member';
+        joinInterestGroup(groupId, id, role)(dispatch);
+      });
+      toRemove.map(userId => {
+        const membership = res.payload.memberships.filter(
+          m => m.user.id == userId
+        )[0];
+        leaveInterestGroup(membership)(dispatch);
+      });
+      dispatch(push(`/interestgroups/${groupId}`));
+    });
   };
 }
 
@@ -128,14 +161,18 @@ export function joinInterestGroup(groupId, userId, role = 'member') {
 }
 
 export function leaveInterestGroup(membership) {
-  return callAPI({
-    types: InterestGroup.LEAVE,
-    endpoint: `/memberships/${membership.id}/`,
-    method: 'DELETE',
-    meta: {
-      user: membership.user,
-      groupId: membership.abakusGroup,
-      errorMessage: 'Leaving the interest group failed.'
-    }
-  });
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: InterestGroup.LEAVE,
+        endpoint: `/memberships/${membership.id}/`,
+        method: 'DELETE',
+        meta: {
+          user: membership.user,
+          groupId: membership.abakusGroup,
+          errorMessage: 'Leaving the interest group failed.'
+        }
+      })
+    );
+  };
 }
