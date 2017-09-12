@@ -6,7 +6,6 @@ import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';
 import { push } from 'react-router-redux';
 import { addNotification } from 'app/actions/NotificationActions';
-import { omit } from 'lodash';
 
 export function fetchEvent(eventId: string) {
   return callAPI({
@@ -70,7 +69,7 @@ export function editEvent(event: Object) {
         types: Event.EDIT,
         endpoint: `/events/${event.id}/`,
         method: 'PUT',
-        body: omit(event, 'cover'),
+        body: event,
         meta: {
           errorMessage: 'Editing event failed'
         }

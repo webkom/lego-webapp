@@ -59,15 +59,13 @@ const renderPools = ({ fields }: poolProps) =>
     )}
     <li>
       <Button
-        onClick={() => {
-          console.log('fiedls', fields);
-          return fields.push({
+        onClick={() =>
+          fields.push({
             name: `Pool #${fields.length + 1}`,
             registrations: [],
             activationDate: moment().toISOString(),
             permissionGroups: []
-          });
-        }}
+          })}
       >
         Legg til pool
       </Button>
