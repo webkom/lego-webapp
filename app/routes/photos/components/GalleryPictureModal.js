@@ -9,12 +9,7 @@ import { Link } from 'react-router';
 import CommentView from 'app/components/Comments/CommentView';
 import Modal from 'app/components/Modal';
 import styles from './GalleryPictureModal.css';
-
-const Keyboard = {
-  ESCAPE: 27,
-  RIGHT: 39,
-  LEFT: 37
-};
+import { Keyboard } from 'app/utils/constants';
 
 type Props = {
   picture: Object,
