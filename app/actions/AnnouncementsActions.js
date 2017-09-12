@@ -5,6 +5,7 @@ import { Announcements } from './ActionTypes';
 import { announcementsSchema } from 'app/reducers';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
+import { reset } from 'redux-form';
 
 export function fetchAll() {
   return callAPI({
@@ -26,6 +27,12 @@ export function createAnnouncement({
   meetings
 }) {
   return dispatch => {
+    console.log('Action');
+    console.log(message);
+    console.log(users);
+    console.log(groups);
+    console.log(events);
+    console.log(meetings);
     dispatch(startSubmit('AnnouncementsCreate'));
 
     dispatch(
@@ -49,7 +56,7 @@ export function createAnnouncement({
       .then(result => {
         const id = result.payload.result;
         dispatch(stopSubmit('AnnouncementsCreate'));
-        dispatch(push(`/announcements/${id}`));
+        dispatch(reset('announcementsList'));
       })
       .catch(action => {
         const errors = { ...action.error.response.jsonData };
