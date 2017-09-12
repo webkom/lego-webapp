@@ -7,6 +7,7 @@ import routing from './routing';
 import form from './forms';
 import companies from './companies';
 import quotes from './quotes';
+import pictures from './pictures';
 import events from './events';
 import articles from './articles';
 import pools from './pools';
@@ -21,6 +22,7 @@ import { oauth2Applications, oauth2Grants } from './oauth2';
 import notifications from './notifications';
 import notificationsFeed from './notificationsFeed';
 import notificationSettings from './notificationSettings';
+import galleries from './galleries';
 import comments from './comments';
 import pages from './pages';
 import interestGroups from './interestGroups';
@@ -37,6 +39,7 @@ const reduceReducers = (...reducers) => (prev, curr) =>
 const reducers = {
   quotes,
   events,
+  pictures,
   articles,
   pools,
   registrations,
@@ -52,6 +55,7 @@ const reducers = {
   oauth2Applications,
   oauth2Grants,
   pages,
+  galleries,
   notifications,
   notificationsFeed,
   notificationSettings,
@@ -100,6 +104,12 @@ export const articleSchema = new schema.Entity('articles', {
   comments: [commentSchema]
 });
 export const meetingSchema = new schema.Entity('meetings');
+export const galleryPictureSchema = new schema.Entity('pictures', {
+  comments: [commentSchema]
+});
+export const gallerySchema = new schema.Entity('galleries', {
+  pictures: [galleryPictureSchema]
+});
 export const groupSchema = new schema.Entity('groups', { users: [userSchema] });
 export const quoteSchema = new schema.Entity('quotes', {
   comments: [commentSchema]

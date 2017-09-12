@@ -8,6 +8,7 @@ import articles from './articles';
 import meetings from './meetings';
 import admin from './admin';
 import quotes from './quotes';
+import photos from './photos';
 import pages from './pages';
 import search from './search';
 import interestGroups from './interestgroups';
@@ -23,6 +24,7 @@ export default {
     events,
     users,
     articles,
+    photos,
     meetings,
     admin,
     quotes,

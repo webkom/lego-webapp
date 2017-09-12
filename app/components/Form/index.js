@@ -1,4 +1,5 @@
 export { default as TextInput } from './TextInput';
+export { default as TextArea } from './TextArea';
 export { default as TextEditor } from './TextEditor';
 export { default as EditorField } from './EditorField';
 export { default as DatePicker } from './DatePicker';
