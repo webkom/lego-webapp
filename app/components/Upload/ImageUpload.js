@@ -29,6 +29,32 @@ type State = {
   img: string
 };
 
+const FilePreview = ({ file, index }: { file: Object }) => (
+  <Flex
+    wrap
+    className={styles.previewRow}
+    alignItems="center"
+    justifyContent="space-between"
+  >
+    <img
+      alt="presentation"
+      src={file.preview}
+      className={styles.previewRowImage}
+    />
+    <TextInput
+      disabled
+      value={file.name}
+      onChange={({ target }) => this.onNameChange(index, target.value)}
+      style={{ width: 'calc(100% - 140px)', height: 50 }}
+    />
+    <Icon
+      name="close"
+      onClick={() => this.onRemove(index)}
+      className={styles.removeIcon}
+    />
+  </Flex>
+);
+
 export default class ImageUpload extends Component {
   props: Props;
 
@@ -87,9 +113,15 @@ export default class ImageUpload extends Component {
 
   onNameChange = (index, name) => {
     if (this.props.multiple) {
-      const files = this.state.files;
-      files[index].name = name;
-      this.setState({ files });
+      this.setState(state => ({
+        files: {
+          ...state.files,
+          [index]: {
+            ...state.files[index],
+            name
+          }
+        }
+      }));
     }
   };
 
@@ -101,7 +133,7 @@ export default class ImageUpload extends Component {
     }
   };
 
-  createUploadArea = () =>
+  createUploadArea = () => (
     <Upload
       multiple={this.props.multiple}
       onDrop={this.onDrop}
@@ -114,13 +146,11 @@ export default class ImageUpload extends Component {
           Drop image to upload or click to select from file
         </h1>
       </div>
-      {this.state.img &&
-        <img
-          alt="presentation"
-          className={styles.image}
-          src={this.state.img}
-        />}
-    </Upload>;
+      {this.state.img && (
+        <img alt="presentation" className={styles.image} src={this.state.img} />
+      )}
+    </Upload>
+  );
 
   render() {
     const { inModal, aspectRatio, multiple, crop } = this.props;
@@ -136,11 +166,12 @@ export default class ImageUpload extends Component {
           backdrop
         >
           {inModal &&
-            !preview &&
+          !preview && (
             <div className={styles.inModalUpload}>
               {this.createUploadArea()}
-            </div>}
-          {preview &&
+            </div>
+          )}
+          {preview && (
             <Cropper
               ref={node => {
                 this.crop = node;
@@ -149,37 +180,16 @@ export default class ImageUpload extends Component {
               className={styles.cropper}
               aspectRatio={aspectRatio}
               guides={false}
-            />}
+            />
+          )}
           {multiple &&
-            !crop &&
+          !crop && (
             <Flex wrap column>
-              {files.map((file, index) =>
-                <Flex
-                  wrap
-                  className={styles.previewRow}
-                  alignItems="center"
-                  justifyContent="space-between"
-                >
-                  <img
-                    alt="presentation"
-                    src={file.preview}
-                    className={styles.previewRowImage}
-                  />
-                  <TextInput
-                    disabled
-                    value={file.name}
-                    onChange={({ target }) =>
-                      this.onNameChange(index, target.value)}
-                    style={{ width: 'calc(100% - 140px)', height: 50 }}
-                  />
-                  <Icon
-                    name="close"
-                    onClick={() => this.onRemove(index)}
-                    className={styles.removeIcon}
-                  />
-                </Flex>
-              )}
-            </Flex>}
+              {files.map((file, index) => (
+                <FilePreview file={file} index={index} key={index} />
+              ))}
+            </Flex>
+          )}
           <Flex
             wrap
             className={styles.footer}

@@ -15,6 +15,7 @@ type Props = {
   loggedIn: Object,
   currentUser: boolean,
   pictures: [],
+  loading: boolean,
   children: ReactElement,
   fetchAll: () => Promise,
   push: string => Promise,
@@ -22,29 +23,19 @@ type Props = {
 };
 
 type State = {
-  upload: boolean,
-  loading: boolean
+  upload: boolean
 };
 
 export default class GalleryDetail extends Component {
   props: Props;
 
   state: State = {
-    upload: false,
-    loading: false
+    upload: false
   };
 
   toggleUpload = response => {
     if (response) {
-      this.setState({ loading: true });
-      this.props
-        .addPictures(this.props.gallery.id, response)
-        .then(() => {
-          this.setState({ loading: false });
-        })
-        .catch(() => {
-          this.setState({ loading: false });
-        });
+      this.props.addPictures(this.props.gallery.id, response);
     }
 
     this.setState({ upload: !this.state.upload });
@@ -63,7 +54,7 @@ export default class GalleryDetail extends Component {
       loggedIn,
       currentUser
     } = this.props;
-    const { upload, loading } = this.state;
+    const { upload } = this.state;
 
     return (
       <section className={styles.root}>
@@ -81,7 +72,6 @@ export default class GalleryDetail extends Component {
         <Flex>
           <Gallery
             photos={pictures}
-            loading={loading}
             onClick={this.handleClick}
             srcKey="file"
             renderEmpty={

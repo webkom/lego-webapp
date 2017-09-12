@@ -1,6 +1,5 @@
 // @flow
 
-import Promise from 'bluebird';
 import { Gallery } from './ActionTypes';
 import { gallerySchema, galleryPictureSchema } from 'app/reducers';
 import { uploadFile } from './FileActions';
@@ -185,7 +184,7 @@ export function editPicture(galleryId: EntityID, pictureId: EntityID) {
 
 export function addPictures(galleryId: number, files: []) {
   return dispatch =>
-    Promise.map(files, file =>
+    Promise.all(files, file =>
       dispatch(uploadFile({ file })).then(action =>
         dispatch(
           addPicture({ galleryId, file: action.meta.fileToken, active: true })

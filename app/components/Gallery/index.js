@@ -1,6 +1,6 @@
 //@flow
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { chunk, get } from 'lodash';
 import LoadingIndicator from '../LoadingIndicator';
 import styles from './Gallery.css';
@@ -21,7 +21,7 @@ type State = {
   containerWidth: number
 };
 
-export default class Gallery extends Component {
+export default class Gallery extends PureComponent {
   props: Props;
 
   static defaultProps = {
