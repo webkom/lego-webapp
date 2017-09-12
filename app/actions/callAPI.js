@@ -107,9 +107,7 @@ export default function callAPI({
     }
 
     // @todo: better id gen (cuid or something)
-    const optimisticId = Math.floor(
-      Date.now() * Math.random() * 1000
-    ).toString();
+    const optimisticId = Math.floor(Date.now() * Math.random() * 1000);
     const optimisticPayload = body
       ? normalizeJsonResponse({
           id: optimisticId,
