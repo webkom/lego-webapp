@@ -20,7 +20,7 @@ function mutateEvent(state: any, action: any) {
     case Event.DELETE.SUCCESS: {
       return {
         ...state,
-        items: state.items.filter(id => id !== action.meta.id.toString())
+        items: state.items.filter(id => id !== action.meta.id)
       };
     }
     case Event.SOCKET_EVENT_UPDATED: {

@@ -21,7 +21,7 @@ function mutateQuote(state: any, action: any) {
       const { quoteId } = action.meta;
       return {
         ...state,
-        items: state.items.filter(id => id != quoteId)
+        items: state.items.filter(id => id !== quoteId)
       };
     }
     case Quote.UNAPPROVE.SUCCESS: {

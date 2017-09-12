@@ -122,7 +122,6 @@ export function deleteQuote(quoteId) {
     meta: {
       quoteId: Number(quoteId),
       errorMessage: 'Deleting quote failed'
-    },
-    schema: quoteSchema
+    }
   });
 }
