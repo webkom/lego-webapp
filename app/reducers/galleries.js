@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 import { Gallery } from '../actions/ActionTypes';
 import { mutatePictures } from 'app/reducers/pictures';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import defaultAlbumCover from 'app/assets/default-album-cover.jpg';
 
 export type GalleryEntity = {
   id: number,
@@ -21,15 +22,13 @@ export default createEntityReducer({
   mutate: mutatePictures()
 });
 
-function transformGallery(gallery) {
-  return {
-    ...gallery,
-    cover: gallery.cover || {
-      file:
-        'https://static01-prd-us-east-1-colaboradora.s3.amazonaws.com/images/default_cover.jpg'
-    }
-  };
-}
+const transformGallery = gallery => ({
+  ...gallery,
+  cover: gallery.cover || {
+    file: defaultAlbumCover,
+    thumbnail: defaultAlbumCover
+  }
+});
 
 export const selectGalleries = createSelector(
   state => state.galleries.byId,

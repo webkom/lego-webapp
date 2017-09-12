@@ -1,17 +1,13 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { dispatched } from 'react-prepare';
 import { fetchGallery, addPictures } from 'app/actions/GalleryActions';
 import { push } from 'react-router-redux';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import GalleryDetail from './components/GalleryDetail';
 import {
   selectGalleryById,
   selectPicturesForGallery
 } from 'app/reducers/galleries';
-
-function loadData({ galleryId }, props) {
-  props.fetchGallery(props.params.galleryId);
-}
 
 function mapStateToProps(state, props) {
   const { galleryId } = props.params;
@@ -22,9 +18,14 @@ function mapStateToProps(state, props) {
   };
 }
 
-const mapDispatchToProps = { fetchGallery, push, addPictures };
+const mapDispatchToProps = { push, addPictures };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['loggedIn'], loadData)
+  dispatched(
+    ({ params: { galleryId } }, dispatch) => dispatch(fetchGallery(galleryId)),
+    {
+      componentWillReceiveProps: false
+    }
+  ),
+  connect(mapStateToProps, mapDispatchToProps)
 )(GalleryDetail);

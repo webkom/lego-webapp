@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component, cloneElement } from 'react';
-import moment from 'moment';
+import GalleryDetailsRow from './GalleryDetailsRow';
 import Button from 'app/components/Button';
 import EmptyState from 'app/components/EmptyState';
 import { Link } from 'react-router';
@@ -12,6 +12,8 @@ import styles from './Overview.css';
 
 type Props = {
   gallery: Object,
+  loggedIn: Object,
+  currentUser: boolean,
   pictures: [],
   children: ReactElement,
   fetchAll: () => Promise,
@@ -66,14 +68,7 @@ export default class GalleryDetail extends Component {
     return (
       <section className={styles.root}>
         <Flex wrap alignItems="center" justifyContent="space-between">
-          <h1 className={styles.header}>
-            {gallery.title}
-            <span className={styles.headerDetail}>
-              {moment(gallery.takenAt)
-                .utc()
-                .format('YYYY-MM-DD')}
-            </span>
-          </h1>
+          <h1 className={styles.header}>{gallery.title}</h1>
 
           <div className={styles.galleryActions}>
             <Button onClick={() => this.toggleUpload()}>Last opp bilder</Button>
@@ -82,9 +77,7 @@ export default class GalleryDetail extends Component {
             </Button>
           </div>
         </Flex>
-        <Flex className={styles.descriptionRow}>
-          <span>{gallery.description}</span>
-        </Flex>
+        <GalleryDetailsRow gallery={gallery} showDescription />
         <Flex>
           <Gallery
             photos={pictures}

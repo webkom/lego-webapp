@@ -1,14 +1,10 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { dispatched } from 'react-prepare';
 import { fetchAll } from 'app/actions/GalleryActions';
 import { push } from 'react-router-redux';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import Overview from './components/Overview';
 import { selectGalleries } from 'app/reducers/galleries';
-
-function loadData(params, props) {
-  props.fetchAll();
-}
 
 function mapStateToProps(state) {
   return {
@@ -19,6 +15,8 @@ function mapStateToProps(state) {
 const mapDispatchToProps = { fetchAll, push };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['loggedIn'], loadData)
+  dispatched((params, dispatch) => dispatch(fetchAll()), {
+    componentWillReceiveProps: false
+  }),
+  connect(mapStateToProps, mapDispatchToProps)
 )(Overview);

@@ -1,5 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { dispatched } from 'react-prepare';
 import {
   updateGallery,
   fetchGallery,
@@ -9,17 +10,11 @@ import {
   updateGalleryCover
 } from 'app/actions/GalleryActions';
 import { push } from 'react-router-redux';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import GalleryEditor from './components/GalleryEditor';
-import { reduxForm } from 'redux-form';
 import {
   selectGalleryById,
   selectPicturesForGallery
 } from 'app/reducers/galleries';
-
-function loadData({ galleryId }, props) {
-  props.fetchGallery(props.params.galleryId);
-}
 
 function mapStateToProps(state, props) {
   const { galleryId } = props.params;
@@ -54,11 +49,11 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['galleryId', 'loggedIn'], loadData),
-  reduxForm({
-    destroyOnUnmount: false,
-    form: 'gallery',
-    enableReinitialize: true
-  })
+  dispatched(
+    ({ params: { galleryId } }, dispatch) => dispatch(fetchGallery(galleryId)),
+    {
+      componentWillReceiveProps: false
+    }
+  ),
+  connect(mapStateToProps, mapDispatchToProps)
 )(GalleryEditor);

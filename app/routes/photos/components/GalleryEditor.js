@@ -11,12 +11,11 @@ import {
   DatePicker,
   SelectInput
 } from 'app/components/Form';
-import { Field } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import { Flex } from 'app/components/Layout';
 import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
 import EmptyState from 'app/components/EmptyState';
-import { reduxForm } from 'redux-form';
 import GalleryEditorActions from './GalleryEditorActions';
 import Gallery from 'app/components/Gallery';
 import styles from './Overview.css';
@@ -268,6 +267,7 @@ class GalleryEditor extends Component {
 
 export default reduxForm({
   form: 'galleryEditor',
+  enableReinitialize: true,
   validate(values) {
     const errors = {};
 

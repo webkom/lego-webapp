@@ -29,6 +29,13 @@ export default {
       ),
       childRoutes: [
         {
+          path: 'picture/:pictureId/edit',
+          ...resolveAsyncRoute(
+            () => import('./GalleryPictureEditRoute'),
+            () => require('./GalleryPictureEditRoute')
+          )
+        },
+        {
           path: 'picture/:pictureId',
           ...resolveAsyncRoute(
             () => import('./GalleryPictureRoute'),

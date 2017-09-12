@@ -1,9 +1,8 @@
 // @flow
 
 import React, { Component } from 'react';
-import moment from 'moment';
+import GalleryDetailsRow from './GalleryDetailsRow';
 import { Flex } from 'app/components/Layout';
-import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import Dropdown from 'app/components/Dropdown';
 import { Link } from 'react-router';
@@ -19,8 +18,12 @@ const Keyboard = {
 
 type Props = {
   picture: Object,
+  currentUser: Object,
+  loggedIn: boolean,
   gallery: Object,
   push: () => void,
+  updateGalleryCover: () => Promise,
+  deletePicture: () => Promise,
   comments: []
 };
 
@@ -28,33 +31,36 @@ export default class GalleryPictureModal extends Component {
   props: Props;
 
   state: State = {
-    showMore: false,
-    edit: false,
-    loading: false
+    showMore: false
   };
 
   toggleDropdown = () => {
     this.setState({ showMore: !this.state.showMore });
   };
 
-  edit = () => {
-    this.toggleDropdown();
-    this.setState({ edit: true });
+  onUpdate = () => {
+    this.props.push(
+      `/photos/${this.props.gallery.id}/picture/${this.props.picture.id}/edit`
+    );
   };
 
-  cover = () => {
+  onUpdateGalleryCover = () => {
+    this.props.updateGalleryCover(this.props.gallery.id, this.props.picture.id);
+
     this.toggleDropdown();
   };
 
-  delete = () => {
-    this.toggleDropdown();
+  onDeletePicture = () => {
+    this.props.deletePicture(this.props.gallery.id, this.props.picture.id);
+
+    this.props.push(`/photos/${this.props.gallery.id}`);
   };
 
   handleKeyDown = (e: Event) => {
     const { gallery, picture, push } = this.props;
 
     switch (e.which) {
-      case Keyboard.LEFT:
+      case Keyboard.LEFT: {
         e.preventDefault();
         const previousPicture =
           gallery.pictures[gallery.pictures.indexOf(picture.id) - 1];
@@ -63,8 +69,8 @@ export default class GalleryPictureModal extends Component {
           push(`/photos/${gallery.id}/picture/${previousPicture}`);
         }
         break;
-
-      case Keyboard.RIGHT:
+      }
+      case Keyboard.RIGHT: {
         e.preventDefault();
         const nextPicture =
           gallery.pictures[gallery.pictures.indexOf(picture.id) + 1];
@@ -73,12 +79,12 @@ export default class GalleryPictureModal extends Component {
           push(`/photos/${gallery.id}/picture/${nextPicture}`);
         }
         break;
-
-      case Keyboard.ESCAPE:
+      }
+      case Keyboard.ESCAPE: {
         e.preventDefault();
         push(`/photos/${gallery.id}`);
         break;
-
+      }
       default:
     }
   };
@@ -121,25 +127,23 @@ export default class GalleryPictureModal extends Component {
               <Flex justifyContent="space-between">
                 <img
                   className={styles.galleryThumbnail}
+                  alt="some alt"
                   src={gallery.cover.thumbnail}
                 />
 
-                <div>
+                <Flex column justifyContent="space-around">
                   <h5 className={styles.header}>
-                    <Link to={`/photos/${gallery.id}`}>
-                      {gallery.title}
-                    </Link>
+                    <Link to={`/photos/${gallery.id}`}>{gallery.title}</Link>
                   </h5>
-                  <h5 className={styles.header}>
-                    {moment(gallery.takenAt).utc().format('YYYY-MM-DD')}
-                  </h5>
-                </div>
+                  <GalleryDetailsRow size="small" gallery={gallery} />
+                </Flex>
               </Flex>
 
               <Dropdown
                 show={showMore}
-                placement="bottom"
+                placement="left"
                 toggle={this.toggleDropdown}
+                className={styles.dropdown}
                 iconName="more"
               >
                 <Dropdown.List>
@@ -155,20 +159,23 @@ export default class GalleryPictureModal extends Component {
                     </Link>
                   </Dropdown.ListItem>
                   <Dropdown.ListItem>
-                    <Link onClick={this.edit} style={{ color: '#333' }}>
+                    <Link onClick={this.onUpdate} style={{ color: '#333' }}>
                       <strong>Rediger</strong>
                       <Icon name="gear" size={24} />
                     </Link>
                   </Dropdown.ListItem>
                   <Dropdown.ListItem>
-                    <Link onClick={this.cover} style={{ color: '#333' }}>
+                    <Link
+                      onClick={this.onUpdateGalleryCover}
+                      style={{ color: '#333' }}
+                    >
                       <strong>Sett som album cover</strong>
                       <Icon name="image" size={24} />
                     </Link>
                   </Dropdown.ListItem>
                   <Dropdown.Divider />
                   <Dropdown.ListItem>
-                    <Link onClick={this.delete}>
+                    <Link onClick={this.onDeletePicture}>
                       Slett
                       <Icon name="trash-outline" size={44} />
                     </Link>
@@ -180,10 +187,24 @@ export default class GalleryPictureModal extends Component {
             <Flex className={styles.pictureDescription} width="100%">
               <p>
                 {picture.description}
+                {picture.taggees.length > 0 && (
+                  <span>
+                    <br />
+                    <i>
+                      med{' '}
+                      {picture.taggees.map(taggee => (
+                        <Link key={taggee.id} to={`/users/${taggee.username}`}>
+                          {' '}
+                          {taggee.fullName}{' '}
+                        </Link>
+                      ))}
+                    </i>
+                  </span>
+                )}
               </p>
             </Flex>
 
-            {picture.commentTarget &&
+            {picture.commentTarget && (
               <Flex className={styles.pictureDescription} width="100%">
                 <CommentView
                   formEnabled
@@ -192,7 +213,8 @@ export default class GalleryPictureModal extends Component {
                   loggedIn={loggedIn}
                   comments={comments}
                 />
-              </Flex>}
+              </Flex>
+            )}
           </div>
         </Flex>
       </Modal>

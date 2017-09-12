@@ -1,11 +1,10 @@
 import { connect } from 'react-redux';
-import GalleryPictureModal from './components/GalleryPictureModal';
+import GalleryPictureEditModal from './components/GalleryPictureEditModal';
+import { deletePicture, updatePicture } from 'app/actions/GalleryActions';
 import {
   selectPictureById,
   selectCommentsForPicture
 } from 'app/reducers/pictures';
-import { deletePicture, updateGalleryCover } from 'app/actions/GalleryActions';
-import { push } from 'react-router-redux';
 
 function mapStateToProps(state, props) {
   const { pictureId } = props.params;
@@ -15,16 +14,21 @@ function mapStateToProps(state, props) {
   return {
     comments,
     picture,
-    pictureId
+    initialValues: {
+      ...picture,
+      taggees: picture.taggees.map(taggee => ({
+        value: taggee.id,
+        label: taggee.fullName
+      }))
+    }
   };
 }
 
 const mapDispatchToProps = {
-  push,
   deletePicture,
-  updateGalleryCover
+  updatePicture
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(
-  GalleryPictureModal
+  GalleryPictureEditModal
 );

@@ -18,6 +18,10 @@
   right: 0;
 }
 
+.header {
+  font-size: 18px;
+}
+
 .content {
   max-width: none;
   padding: 0;
@@ -86,4 +90,14 @@
   margin-right: 10px;
   height: 60px;
   border-radius: 50%;
+}
+
+.dropdown {
+  margin-top: 20px;
+  font-size: 27px;
+  padding: 0 1px;
+}
+
+.form {
+  width: 100%;
 }
