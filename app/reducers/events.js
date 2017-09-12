@@ -147,8 +147,7 @@ const mutate = joinReducers(mutateComments('events'), mutateEvent);
 export default createEntityReducer({
   key: 'events',
   types: {
-    fetch: Event.FETCH,
-    mutate: Event.CREATE
+    fetch: Event.FETCH
   },
   mutate
 });
@@ -202,7 +201,8 @@ export const selectPoolsWithRegistrationsForEvent = createSelector(
   (pools, registrationsById) =>
     pools.map(pool => ({
       ...pool,
-      registrations: pool.registrations.map(regId => registrationsById[regId])
+      registrations: (pool.registrations || [])
+        .map(regId => registrationsById[regId])
     }))
 );
 

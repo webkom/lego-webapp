@@ -26,20 +26,23 @@ class AttendanceStatus extends Component {
 
   render() {
     const { pools } = this.props;
-    const lists = (pools || []).map((pool, i) =>
-      <div key={i} className={styles.poolBox}>
-        <strong>
-          {pool.name}
-        </strong>
-        <a onClick={() => this.toggleModal(i)}>
+    const lists = (pools || []).map((pool, i) => {
+      const capacity = pool.capacity ? pool.capacity : '∞';
+      return (
+        <div key={i} className={styles.poolBox}>
           <strong>
-            {pool.capacity
-              ? `${pool.registrations.length}/${pool.capacity}`
-              : pool.registrations.length}
+            {pool.name}
           </strong>
-        </a>
-      </div>
-    );
+          <a onClick={() => this.toggleModal(i)}>
+            <strong>
+              {pool.registrations && pool.registrations.length > 0
+                ? `${pool.registrations.length}/${capacity}`
+                : capacity}
+            </strong>
+          </a>
+        </div>
+      );
+    });
 
     return (
       <div className={styles.attendanceBox}>

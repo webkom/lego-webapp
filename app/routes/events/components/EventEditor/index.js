@@ -3,7 +3,7 @@
 import styles from './EventEditor.css';
 import React from 'react';
 import { Link } from 'react-router';
-import renderPools from './renderPools';
+import renderPools, { validatePools } from './renderPools';
 import RegisteredCell from '../RegisteredCell';
 import RegisteredSummary from '../RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
@@ -241,12 +241,7 @@ function EventEditor({
                 <RegisteredSummary registrations={[]} />
                 <AttendanceStatus title="Påmeldte" pools={pools} />
                 <div className={styles.metaList}>
-                  <FieldArray
-                    name="pools"
-                    component={renderPools}
-                    autocompleteResult={autocompleteResult}
-                    groupQueryChanged={groupQueryChanged}
-                  />
+                  <FieldArray name="pools" component={renderPools} />
                 </div>
                 <FieldElement
                   text="Merge time"
@@ -319,6 +314,7 @@ export default reduxForm({
     if (!data.location) {
       errors.location = 'Lokasjon er påkrevet';
     }
+    errors.pools = validatePools(data.pools);
     return errors;
   }
 })(EventEditor);

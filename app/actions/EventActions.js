@@ -6,7 +6,6 @@ import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';
 import { push } from 'react-router-redux';
 import { addNotification } from 'app/actions/NotificationActions';
-import moment from 'moment';
 
 export function fetchEvent(eventId: string) {
   return callAPI({
@@ -46,47 +45,16 @@ export function fetchAdministrate(eventId: string) {
   });
 }
 
-export function createEvent({
-  title,
-  cover,
-  startTime,
-  endTime,
-  description,
-  text,
-  eventType,
-  company,
-  location,
-  isPriced,
-  useStripe,
-  priceMember,
-  mergeTime,
-  useCaptcha,
-  tags
-}: Object) {
+export function createEvent(event: Object) {
   return dispatch =>
     dispatch(
       callAPI({
         types: Event.CREATE,
         endpoint: '/events/',
         method: 'POST',
-        body: {
-          title,
-          cover,
-          startTime: moment(startTime).toISOString(),
-          endTime: moment(endTime).toISOString(),
-          description,
-          text,
-          eventType,
-          company: company.value,
-          location,
-          isPriced,
-          useStripe,
-          priceMember: isPriced ? priceMember * 100 : 0,
-          mergeTime: moment(mergeTime).toISOString(),
-          useCaptcha,
-          tags
-        },
+        body: event,
         schema: eventSchema,
+        disableOptimistic: true,
         meta: {
           errorMessage: 'Creating event failed'
         }
@@ -94,56 +62,19 @@ export function createEvent({
     ).then(res => dispatch(push(`/events/${res.payload.result}/`)));
 }
 
-export function editEvent({
-  id,
-  title,
-  startTime,
-  endTime,
-  description,
-  text,
-  eventType,
-  company,
-  location,
-  isPriced,
-  useStripe,
-  priceMember,
-  mergeTime,
-  useCaptcha,
-  tags,
-  pools
-}: Object) {
+export function editEvent(event: Object) {
   return dispatch =>
     dispatch(
       callAPI({
         types: Event.EDIT,
-        endpoint: `/events/${id}/`,
+        endpoint: `/events/${event.id}/`,
         method: 'PUT',
-        body: {
-          id,
-          title,
-          startTime: moment(startTime).toISOString(),
-          endTime: moment(endTime).toISOString(),
-          description,
-          text,
-          eventType,
-          company: company.value,
-          location,
-          isPriced,
-          useStripe,
-          priceMember: isPriced ? priceMember * 100 : 0,
-          mergeTime: moment(mergeTime).toISOString(),
-          useCaptcha,
-          tags,
-          pools: pools.map(pool => ({
-            ...pool,
-            permissionGroups: pool.permissionGroups.map(group => group.value)
-          }))
-        },
+        body: event,
         meta: {
           errorMessage: 'Editing event failed'
         }
       })
-    ).then(() => dispatch(push(`/events/${id}`)));
+    ).then(() => dispatch(push(`/events/${event.id}`)));
 }
 
 export function deleteEvent(eventId) {

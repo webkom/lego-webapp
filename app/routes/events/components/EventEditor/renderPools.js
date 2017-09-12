@@ -12,18 +12,10 @@ import {
 import moment from 'moment';
 
 type poolProps = {
-  fields: Object,
-  autocompleteResult: Object,
-  groupQueryChanged: (query: string) => void,
-  searching: boolean
+  fields: Object
 };
 
-const renderPools = ({
-  fields,
-  autocompleteResult,
-  groupQueryChanged,
-  searching
-}: poolProps) =>
+const renderPools = ({ fields }: poolProps) =>
   <ul>
     {fields.map((pool, index) =>
       <li key={index}>
@@ -39,6 +31,7 @@ const renderPools = ({
           label="Kapasitet"
           name={`pools[${index}].capacity`}
           type="number"
+          placeholder="0 er ubegrenset"
           fieldClassName={styles.poolField}
           component={TextInput.Field}
         />
@@ -68,7 +61,7 @@ const renderPools = ({
       <Button
         onClick={() =>
           fields.push({
-            name: '',
+            name: `Pool #${fields.length + 1}`,
             registrations: [],
             activationDate: moment().toISOString(),
             permissionGroups: []
@@ -79,4 +72,24 @@ const renderPools = ({
     </li>
   </ul>;
 
+export const validatePools = pools => {
+  const capacity = pools.reduce((a, b) => a + b.capacity, 0);
+  const errors = pools.map((pool, i) => {
+    const poolError = {};
+    if (!pool.name) {
+      poolError.name = 'Navn påkrevet';
+    }
+    if (isNaN(parseInt(pool.capacity, 10))) {
+      poolError.capacity = 'Kapasitet påkrevet';
+    }
+    if (Number(pool.capacity) === 0 && (capacity > 0 || pools.length > 1)) {
+      poolError.capacity = 'Kun en pool kan være ubegrenset';
+    }
+    if (pool.permissionGroups.length === 0) {
+      poolError.permissionGroups = 'Rettighetsgruppe er påkrevet';
+    }
+    return poolError;
+  });
+  return errors;
+};
 export default renderPools;

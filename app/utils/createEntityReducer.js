@@ -62,7 +62,10 @@ export function entities(key: string) {
     return {
       ...state,
       byId: merge(state.byId, result),
-      items: union(state.items, Object.keys(result).map(i => parseInt(i) || i)),
+      items: union(
+        state.items,
+        Object.keys(result).map(i => parseInt(i, 10) || i)
+      ),
       actionGrant: union(state.actionGrant, action.payload.actionGrant || [])
     };
   };
