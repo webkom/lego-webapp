@@ -9,12 +9,7 @@ import SearchResults from './SearchResults';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocompleteRedux } from 'app/reducers/search';
 import { push } from 'react-router-redux';
-
-const Keyboard = {
-  ENTER: 13,
-  UP: 38,
-  DOWN: 40
-};
+import { Keyboard } from 'app/utils/constants';
 
 const navigationLinks = [
   ['/articles', 'Artikler'],

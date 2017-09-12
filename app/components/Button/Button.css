@@ -33,6 +33,9 @@
   }
 }
 
+.button + .button {
+  margin-left: 16px;
+}
 .dark {
   background: var(--color-red-3);
   color: var(--color-white);

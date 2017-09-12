@@ -33,7 +33,8 @@
 
 .closeButton {
   position: absolute;
-  top: 10px;
+  top: -7px;
   right: 10px;
-  font-size: 30px;
+  font-size: 42px;
+  padding: 0px;
 }

@@ -73,7 +73,7 @@ class Dropdown extends Component {
           rootClose
           shouldUpdatePosition
         >
-          <div className={cx(styles.content, contentClassName)}>
+          <div className={cx(styles.content, contentClassName || null)}>
             {children}
           </div>
         </Overlay>

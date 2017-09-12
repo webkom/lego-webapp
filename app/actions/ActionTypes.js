@@ -39,6 +39,20 @@ export const Article = {
   CREATE: generateStatuses('Article.CREATE'),
   EDIT: generateStatuses('Article.EDIT')
 };
+
+/**
+ *
+ */
+export const Gallery = {
+  FETCH: generateStatuses('Gallery.FETCH'),
+  CREATE: generateStatuses('Gallery.CREATE'),
+  EDIT: generateStatuses('Gallery.EDIT'),
+  DELETE: generateStatuses('Gallery.DELETE'),
+  ADD_PICTURE: generateStatuses('Gallery.ADD_PICTURE'),
+  EDIT_PICTURE: generateStatuses('Gallery.EDIT_PICTURE'),
+  DELETE_PICTURE: generateStatuses('Gallery.DELETE_PICTURE')
+};
+
 /**
  *
  */

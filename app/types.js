@@ -21,6 +21,21 @@ export type Action = {
   error?: boolean
 };
 
+export type GalleryPictureEntity = {
+  description?: string,
+  active: boolean,
+  file: string
+};
+
+export type GalleryEntity = {
+  title: string,
+  description?: string,
+  location?: string,
+  takenAt?: Date,
+  photographers?: EntityID[],
+  event?: EntityID
+};
+
 type $ExtractFunctionReturn = <V>(v: (...args: any) => V) => V;
 
 export type State = $ObjMap<Reducers, $ExtractFunctionReturn>;
