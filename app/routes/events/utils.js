@@ -45,10 +45,10 @@ export const colorForEvent = eventType => {
   return colorType[eventType] || colorType['other'];
 };
 
-export const transformEvent = (event, edit = false) => {
-  const newEvent = edit ? omit(event, 'cover') : event;
+export const transformEvent = (data, edit = false) => {
+  const event = edit ? omit(data, 'cover') : data;
   return {
-    ...newEvent,
+    ...event,
     startTime: moment(event.startTime).toISOString(),
     endTime: moment(event.endTime).toISOString(),
     mergeTime: moment(event.mergeTime).toISOString(),

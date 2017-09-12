@@ -201,7 +201,8 @@ export const selectPoolsWithRegistrationsForEvent = createSelector(
   (pools, registrationsById) =>
     pools.map(pool => ({
       ...pool,
-      registrations: pool.registrations.map(regId => registrationsById[regId])
+      registrations: (pool.registrations || [])
+        .map(regId => registrationsById[regId])
     }))
 );
 
