@@ -58,7 +58,34 @@ describe('createEntityReducer', () => {
       byId: {
         1: { name: 'Hello' }
       },
-      items: ['1'],
+      items: [1],
+      fetching: false,
+      smashed: false
+    });
+  });
+
+  it('should handle items as strings gracefully', () => {
+    expect(
+      reducer(undefined, {
+        type: 'SUCCESS',
+        payload: {
+          actionGrant: ['list'],
+          entities: {
+            events: {
+              1: { name: '1' },
+              warlo: { name: 'warlo' }
+            }
+          },
+          result: [1, 'warlo']
+        }
+      })
+    ).toEqual({
+      actionGrant: ['list'],
+      byId: {
+        1: { name: '1' },
+        warlo: { name: 'warlo' }
+      },
+      items: [1, 'warlo'],
       fetching: false,
       smashed: false
     });
@@ -163,7 +190,7 @@ describe('entities()', () => {
       byId: {
         1: user
       },
-      items: ['1']
+      items: [1]
     });
   });
 
@@ -234,7 +261,7 @@ describe('entities()', () => {
           comments: []
         }
       },
-      items: ['1', '2']
+      items: [1, 2]
     });
   });
 });
