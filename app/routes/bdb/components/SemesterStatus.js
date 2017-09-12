@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import styles from './bdb.css';
-import {
-  selectColorCode,
-  statusStrings,
-  getStatusString,
-  indexToSemester
-} from '../utils.js';
+import { selectColorCode, statusStrings, getStatusString } from '../utils.js';
+import Dropdown from 'app/components/Dropdown';
+import Icon from 'app/components/Icon';
+import cx from 'classnames';
 
 type Props = {
   semesterStatus: Object,
@@ -14,55 +12,102 @@ type Props = {
   semIndex: number,
   changedStatuses: Array<any>,
   startYear: number,
-  startSem: number
+  startSem: number,
+  companySemesters: Array<Object>
 };
 
 export default class SemesterStatus extends Component {
   props: Props;
 
-  editSemester = event => {
-    const data = event.target.value.split('-');
-    this.props.editSemester(event, Number(data[1]));
+  state = {
+    displayDropdown: false
   };
 
   render() {
-    const {
-      semesterStatus,
-      companyId,
-      semIndex,
-      changedStatuses,
-      startYear,
-      startSem
-    } = this.props;
+    const { semesterStatus, companyId, semIndex } = this.props;
 
-    const yearAndSemester = indexToSemester(semIndex, startYear, startSem);
-    const matchSemester = status =>
-      status.year === yearAndSemester.year &&
-      status.semester === yearAndSemester.semester &&
-      status.companyId === companyId;
+    const getContactedStatuses = statusString => {
+      const contactedStatuses = semesterStatus.contactedStatus;
+
+      const statusIsAlreadySelected =
+        contactedStatuses.indexOf(statusString) !== -1;
+
+      if (statusIsAlreadySelected) {
+        contactedStatuses.splice(contactedStatuses.indexOf(statusString), 1);
+      } else {
+        contactedStatuses.push(statusString);
+      }
+
+      return contactedStatuses;
+    };
+
+    const dropDownItems = (
+      <Dropdown.List style={{ overflow: 'scroll' }}>
+        {Object.keys(statusStrings).map((statusString, j) =>
+          <a
+            key={j}
+            onClick={() =>
+              this.props.editSemester(
+                companyId,
+                semIndex,
+                semesterStatus.id,
+                getContactedStatuses(statusString)
+              )}
+          >
+            <Dropdown.ListItem className={styles.dropDownItem}>
+              <div>
+                {semesterStatus.contactedStatus.indexOf(statusString) !== -1 &&
+                  <Icon
+                    name="checkmark"
+                    style={{
+                      color: 'green',
+                      marginRight: '5px'
+                    }}
+                    size={300}
+                  />}
+                {getStatusString(statusString)}
+              </div>
+              <div
+                className={cx(
+                  styles[selectColorCode(statusString)],
+                  styles.lazyCircle
+                )}
+              />
+            </Dropdown.ListItem>
+            <Dropdown.Divider />
+          </a>
+        )}
+      </Dropdown.List>
+    );
+
+    const statusesToRender = (
+      <div style={{ width: '100%' }}>
+        {semesterStatus.contactedStatus.length > 0
+          ? semesterStatus.contactedStatus.map(
+              (status, i) =>
+                getStatusString(status) +
+                (i !== semesterStatus.contactedStatus.length - 1 ? ', ' : '')
+            )
+          : getStatusString('not_contacted')}
+      </div>
+    );
 
     return (
       <td
         className={styles[selectColorCode(semesterStatus.contactedStatus[0])]}
+        style={{ padding: 0 }}
       >
-        <select
-          onChange={this.editSemester}
-          value={`${companyId}-${semIndex}-${semesterStatus.id}-${semesterStatus
-            .contactedStatus[0]}`}
+        <Dropdown
+          show={this.state.displayDropdown}
+          toggle={() =>
+            this.setState(state => ({
+              displayDropdown: !state.displayDropdown
+            }))}
+          style={{ width: '100%', textAlign: 'left' }}
+          triggerComponent={statusesToRender}
         >
-          {Object.keys(statusStrings).map((statusString, j) =>
-            <option
-              key={j}
-              value={`${companyId}-${semIndex}-${semesterStatus.id}-${statusString}`}
-            >
-              {getStatusString(statusString)}
-              {changedStatuses.find(matchSemester) &&
-              Number(semesterStatus.contactedStatus[0]) === j
-                ? ' *'
-                : ''}
-            </option>
-          )}
-        </select>
+          {dropDownItems}
+        </Dropdown>
       </td>
     );
   }

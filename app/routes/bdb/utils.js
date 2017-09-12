@@ -19,7 +19,7 @@ export const getStatusString = status =>
 export const selectColorCode = status => {
   const statusToClass = {
     bedex: 'bedex',
-    bedpress: 'companyPresentation',
+    company_presentation: 'companyPresentation',
     course: 'course',
     lunch_presentation: 'lunchPresentation',
     anniversary: 'other',
@@ -40,7 +40,12 @@ export const semesterNameOf = index => {
   return indexToSemesterName[index] || 'spring';
 };
 
-export const indexToSemester = (index, startYear, startSem) => {
+export const indexToSemester = (
+  index,
+  startYear,
+  startSem,
+  companySemesters
+) => {
   const semester = semesterNameOf((index % 2 + startSem) % 2);
 
   let year = 0;
@@ -54,10 +59,12 @@ export const indexToSemester = (index, startYear, startSem) => {
     year = startYear + 1;
   }
 
-  return {
-    year,
-    semester
-  };
+  return companySemesters
+    ? companySemesters.find(
+        companySemester =>
+          companySemester.year === year && companySemester.semester === semester
+      ) || { year, semester }
+    : { year, semester };
 };
 
 export const trueIcon = (

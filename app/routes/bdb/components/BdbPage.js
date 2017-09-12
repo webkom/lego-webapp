@@ -2,17 +2,20 @@ import React, { Component } from 'react';
 import CompanyList from './CompanyList';
 import styles from './bdb.css';
 import sortCompanies from '../SortCompanies.js';
-import { indexToSemester, trueIcon } from '../utils.js';
+import { indexToSemester } from '../utils.js';
 import Button from 'app/components/Button';
 import OptionsBox from './OptionsBox';
 import TextInput from 'app/components/Form/TextInput';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import Icon from 'app/components/Icon';
 
 type Props = {
   companies: Array<Object>,
   query: Object,
   editSemesterStatus: () => void,
-  addSemesterStatus: () => void
+  addSemesterStatus: () => void,
+  addSemester: () => void,
+  companySemesters: {}
 };
 
 export default class BdbPage extends Component {
@@ -29,10 +32,20 @@ export default class BdbPage extends Component {
 
   componentDidMount() {
     const date = new Date();
+    console.log('mounted');
+    console.log(this.props);
     this.setState({
       companies: this.props.companies,
       startYear: date.getFullYear(),
       startSem: date.getMonth() > 6 ? 1 : 0
+    });
+  }
+
+  componentWillReceiveProps(newProps) {
+    console.log('got new props');
+    console.log(newProps);
+    this.setState({
+      companies: newProps.companies
     });
   }
 
@@ -52,77 +65,117 @@ export default class BdbPage extends Component {
     this.setState({ ...this.state, startYear: newYear, startSem: newSem });
   };
 
-  editSemester = (event, index) => {
+  editSemester = (companyId, tableIndex, semesterId, contactedStatus) => {
     // Update state whenever a semesterStatus is graphically changed by the user
+    const { addSemester, companySemesters } = this.props;
     const { changedStatuses, companies, startYear, startSem } = this.state;
-    const data = event.target.value.split('-');
-    const [companyId, tableIndex, semesterId, contactedStatus] = data.map(
-      Number
+    const globalSemester = indexToSemester(
+      tableIndex,
+      startYear,
+      startSem,
+      companySemesters
     );
-    const yearAndSemester = indexToSemester(tableIndex, startYear, startSem);
 
+    // If the semester doesn't exist yet, make it before continuing
+    if (!globalSemester.id) {
+      addSemester(globalSemester.year, globalSemester.semester).then(response =>
+        this.editSemesterSupportFunction(
+          companyId,
+          tableIndex,
+          semesterId,
+          contactedStatus,
+          addSemester,
+          companySemesters,
+          changedStatuses,
+          companies,
+          startYear,
+          startSem,
+          indexToSemester(tableIndex, startYear, startSem, companySemesters)
+        )
+      );
+    } else {
+      this.editSemesterSupportFunction(
+        companyId,
+        tableIndex,
+        semesterId,
+        contactedStatus,
+        addSemester,
+        companySemesters,
+        changedStatuses,
+        companies,
+        startYear,
+        startSem,
+        globalSemester
+      );
+    }
+  };
+
+  editSemesterSupportFunction = (
+    companyId,
+    tableIndex,
+    semesterStatusId,
+    contactedStatus,
+    addSemester,
+    companySemesters,
+    changedStatuses,
+    companies,
+    startYear,
+    startSem,
+    globalSemester
+  ) => {
     const matchSemester = status =>
-      status.year === yearAndSemester.year &&
-      status.semester === yearAndSemester.semester &&
-      status.companyId === companyId;
+      status.semester === globalSemester.id && status.companyId === companyId;
 
-    // Find which semester has been changed. Split into several variables
-    // for readability.
+    // Find which semester has been changed.
     const changedCompanyIndex = companies.indexOf(
-      companies.filter(company => company.id === companyId)[0]
+      companies.find(company => company.id === companyId)
     );
+    console.log('asd');
+    console.log(companies);
+    console.log(changedCompanyIndex);
+    console.log(companies[changedCompanyIndex]);
     const changedCompanyStatuses =
       companies[changedCompanyIndex].semesterStatuses;
     const changedSemesterIndex = changedCompanyStatuses.indexOf(
-      changedCompanyStatuses.filter(
-        status =>
-          status.year === yearAndSemester.year &&
-          status.semester === yearAndSemester.semester
-      )[0]
+      changedCompanyStatuses.find(
+        status => status.semester === globalSemester.id
+      )
     );
 
-    // If the semester doesn't exist yet, make it. Otherwise, update it.
-    // First in state.companies
+    // Check if we've already edited this semester. First checking in
+    // state.companies
     if (changedSemesterIndex === -1) {
       // We have to add a new semester to state.companies
       companies[changedCompanyIndex].semesterStatuses.push({
-        id: semesterId,
+        semesterId: semesterStatusId,
         contactedStatus,
-        year: Number(indexToSemester(index, startYear, startSem).year),
-        semester: Number(indexToSemester(index, startYear, startSem).semester)
+        semester: Number(globalSemester.id)
       });
     } else {
-      // We're changing an existing semesterStatus in state.companies
+      // We're changing an existing semesterStatus in state.companies.
+      // We have to check if the semesterStatus already has this contactedStatus
+      // (since each semester can have several values in contactedStatus):
       companies[changedCompanyIndex].semesterStatuses[
         changedSemesterIndex
       ].contactedStatus = contactedStatus;
     }
 
-    // Then in state.changedStatuses
+    // Then in state.changedStatuses.
     if (typeof changedStatuses.find(matchSemester) === 'undefined') {
       // We have to add a new semester to state.changedStatuses
       changedStatuses.push({
         companyId,
-        semesterId,
+        semesterId: semesterStatusId,
         contactedStatus,
-        year: Number(indexToSemester(index, startYear, startSem).year),
-        semester: Number(indexToSemester(index, startYear, startSem).semester)
+        semester: Number(globalSemester.id)
       });
-    } else if (
-      contactedStatus ===
-      this.props.companies[changedCompanyIndex].semesterStatuses[
-        changedSemesterIndex
-      ].contactedStatus
-    ) {
-      // The status was changed back to it's original value and should be removed
-      changedStatuses.splice(
-        changedStatuses.indexOf(changedStatuses.find(matchSemester)),
-        1
-      );
     } else {
       // We're changing an existing entry in state.changedStatuses
       changedStatuses.find(matchSemester).contactedStatus = contactedStatus;
     }
+
+    console.log('next changedStatuses');
+    console.log(changedStatuses);
 
     this.setState({
       companies,
@@ -133,7 +186,9 @@ export default class BdbPage extends Component {
   submitSemesters = () => {
     const { addSemesterStatus, editSemesterStatus } = this.props;
     this.state.changedStatuses.forEach(status => {
-      if (status.semesterId === 'undefined') {
+      console.log('status');
+      console.log(status);
+      if (typeof status.semesterId === 'undefined') {
         addSemesterStatus(status);
       } else {
         editSemesterStatus(status);
@@ -183,8 +238,6 @@ export default class BdbPage extends Component {
 
   render() {
     const { query, companies } = this.props;
-    console.log('companies i BdbPage:');
-    console.log(companies);
 
     if (!companies) {
       return <LoadingIndicator loading />;
@@ -212,9 +265,11 @@ export default class BdbPage extends Component {
           style={{ cursor: 'pointer', margin: '15px 0' }}
         >
           Valg{' '}
-          {this.state.displayOptions
-            ? <i className="fa fa-caret-down" />
-            : <i className="fa fa-caret-right" />}
+          {this.state.displayOptions ? (
+            <i className="fa fa-caret-down" />
+          ) : (
+            <i className="fa fa-caret-right" />
+          )}
         </h2>
 
         <OptionsBox
@@ -224,12 +279,15 @@ export default class BdbPage extends Component {
           filters={this.state.filters}
         />
 
-        {this.state.changedStatuses.length > 0
-          ? <Button onClick={this.submitSemesters} dark>
-              Lagre endringer
-            </Button>
-          : ''}
-        {this.state.submitted && `${trueIcon} Lagret!`}
+        {this.state.changedStatuses.length > 0 ? (
+          <Button onClick={this.submitSemesters} dark>
+            Lagre endringer
+          </Button>
+        ) : (
+          ''
+        )}
+        {this.state.submitted &&
+          <Icon name="checkmark" size={30} /> + 'Lagret!'}
 
         <i style={{ display: 'block' }}>
           <b>Tips:</b> Du kan endre semestere ved å trykke på dem i listen!
