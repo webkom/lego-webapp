@@ -73,13 +73,17 @@ const renderPools = ({ fields }: poolProps) =>
   </ul>;
 
 export const validatePools = pools => {
+  const capacity = pools.reduce((a, b) => a + b.capacity, 0);
   const errors = pools.map((pool, i) => {
     const poolError = {};
     if (!pool.name) {
       poolError.name = 'Navn påkrevet';
     }
-    if (!pool.capacity) {
+    if (isNaN(parseInt(pool.capacity, 10))) {
       poolError.capacity = 'Kapasitet påkrevet';
+    }
+    if (Number(pool.capacity) === 0 && (capacity > 0 || pools.length > 1)) {
+      poolError.capacity = 'Kun en pool kan være ubegrenset';
     }
     if (pool.permissionGroups.length === 0) {
       poolError.permissionGroups = 'Rettighetsgruppe er påkrevet';

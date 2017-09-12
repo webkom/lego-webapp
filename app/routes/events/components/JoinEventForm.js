@@ -213,6 +213,7 @@ class JoinEventForm extends Component {
               <div>
                 {!registration &&
                   event.spotsLeft === 0 &&
+                  event.activeCapacity > 0 &&
                   <div>
                     Det 0 plasser igjen, du blir registrert til venteliste
                   </div>}
