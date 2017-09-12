@@ -54,6 +54,8 @@ export default class BdbDetail extends Component {
       return <LoadingIndicator />;
     }
 
+    console.log('asd');
+    console.log(company.semesterStatuses);
     const semesters = company.semesterStatuses
       .sort(
         (a, b) =>
@@ -65,16 +67,8 @@ export default class BdbDetail extends Component {
             {status.year} {this.semesterIdToText(status.semester)}
           </td>
 
-          <td
-            className={
-              status.semester === 2
-                ? styles.bedex
-                : styles[selectColorCode(status.contactedStatus)]
-            }
-          >
-            {status.semester === 2
-              ? 'Bedex'
-              : getStatusString(status.contactedStatus)}
+          <td className={styles[selectColorCode(status.contactedStatus)]}>
+            {getStatusString(status.contactedStatus)}
           </td>
 
           <td style={{ display: 'flex', justifyContent: 'space-between' }}>
@@ -163,13 +157,13 @@ export default class BdbDetail extends Component {
                 style={{ order: 0 }}
               />
               <InfoBubble
-                icon={'envelope'}
+                icon={'mail'}
                 data={company.paymentMail}
                 meta={'Fakturamail'}
                 style={{ order: 1 }}
               />
               <InfoBubble
-                icon={'phone'}
+                icon={'call'}
                 data={company.phone}
                 meta={'Telefon'}
                 style={{ order: 2 }}
@@ -234,29 +228,23 @@ export default class BdbDetail extends Component {
               <Link to={`/bdb/${company.id}/semesters/add`}>
                 <i className="fa fa-plus-circle" /> Legg til nytt semester
               </Link>
-              <Link
-                to={`/bdb/${company.id}/semesters/add`}
-                style={{ paddingRight: '30px' }}
-              >
-                <i className="fa fa-plus-circle" /> Legg til bedex (TODO)
-              </Link>
             </Flex>
 
             <div className={styles.infoBubbles}>
               <InfoBubble
-                icon={'home'}
+                icon={'at'}
                 data={company.website}
                 meta={'Nettside'}
                 style={{ order: 0 }}
               />
               <InfoBubble
-                icon={'building'}
+                icon={'home'}
                 data={company.address}
                 meta={'Adresse'}
                 style={{ order: 1 }}
               />
               <InfoBubble
-                icon={'user'}
+                icon={'person'}
                 data={`${company.studentContact.firstName} ${company
                   .studentContact.lastName}`}
                 meta={'Studentkontakt'}

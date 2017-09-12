@@ -144,6 +144,24 @@
   display: none !important;
 }
 
+.dropDownItem {
+  padding: 5px 10px;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+}
+
+/* We have a seperate component for circles, but it takes a color code while
+the function from utils I use to choose color just adds a class with
+background-color. By making it this way I don't have to rewrite it 🤷 */
+.lazyCircle {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
+}
+
 /* Semesters in detailroute */
 
 .detailTable thead th:nth-child(1),

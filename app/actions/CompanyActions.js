@@ -129,7 +129,7 @@ export function addSemesterStatus(
 
     return dispatch(
       callAPI({
-        types: Company.ADD_SEMESTER,
+        types: Company.ADD_SEMESTER_STATUS,
         endpoint: `/companies/${companyId}/semester-statuses/`,
         method: 'post',
         body: data,
@@ -159,7 +159,7 @@ export function editSemesterStatus(
 
     return dispatch(
       callAPI({
-        types: Company.EDIT_SEMESTER,
+        types: Company.EDIT_SEMESTER_STATUS,
         endpoint: `/companies/${companyId}/semester-statuses/${semesterId}/`,
         method: 'PATCH',
         body: {
@@ -190,7 +190,7 @@ export function deleteSemesterStatus(
 
     return dispatch(
       callAPI({
-        types: Company.DELETE_SEMESTER,
+        types: Company.DELETE_SEMESTER_STATUS,
         endpoint: `/companies/${companyId}/semester-statuses/${semesterId}/`,
         method: 'delete',
         meta: {
@@ -319,4 +319,27 @@ export function fetchSemesters() {
     },
     propagateError: true
   });
+}
+
+export function addSemester(year, semester) {
+  return dispatch => {
+    dispatch(startSubmit('companySemester'));
+
+    return dispatch(
+      callAPI({
+        types: Company.ADD_SEMESTER,
+        endpoint: `/company-semesters/`,
+        method: 'post',
+        body: {
+          year,
+          semester
+        },
+        meta: {
+          errorMessage: 'Adding semester failed'
+        }
+      })
+    ).then(() => {
+      dispatch(stopSubmit('companySemester'));
+    });
+  };
 }

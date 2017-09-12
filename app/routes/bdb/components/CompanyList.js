@@ -11,7 +11,8 @@ type Props = {
   startSem: number,
   changeSemesters: () => void,
   changedStatuses: Array<any>,
-  companySemesters: Array<Object>
+  companySemesters: Array<Object>,
+  editSemester: () => void
 };
 
 export default class CompanyList extends Component {

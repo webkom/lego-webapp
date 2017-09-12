@@ -54,8 +54,6 @@ export default class CompanySingleRow extends Component {
         editSemester={editSemester}
         companyId={company.id}
         changedStatuses={changedStatuses}
-        startYear={startYear}
-        startSem={startSem}
       />
     ));
 

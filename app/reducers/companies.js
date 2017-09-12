@@ -18,7 +18,7 @@ function mutateCompanies(state, action) {
       };
     }
 
-    case Company.DELETE_SEMESTER.SUCCESS: {
+    case Company.DELETE_SEMESTER_STATUS.SUCCESS: {
       const companyId = Number(action.meta.companyId);
       return {
         ...state,
@@ -99,13 +99,7 @@ export const selectCompanyContact = createSelector(
   selectCompanyById,
   (state, props) => props.companyContactId,
   (company, companyContactId) => {
-    if (!company) return [];
-    console.log('ey');
-    console.log(company);
-    console.log(companyContactId);
-    console.log(
-      company.companyContacts.filter(contact => contact.id === companyContactId)
-    );
+    if (!company) return {};
     return company.companyContacts.filter(
       contact => contact.id === companyContactId
     );

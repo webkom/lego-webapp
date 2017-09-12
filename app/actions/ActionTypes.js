@@ -122,13 +122,14 @@ export const Company = {
   ADD: generateStatuses('Company.ADD'),
   EDIT: generateStatuses('Company.EDIT'),
   DELETE: generateStatuses('Company.DELETE'),
-  ADD_SEMESTER: generateStatuses('Company.ADD_SEMESTER'),
-  EDIT_SEMESTER: generateStatuses('Company.EDIT_SEMESTER'),
-  DELETE_SEMESTER: generateStatuses('Company.DELETE_SEMESTER'),
+  ADD_SEMESTER_STATUS: generateStatuses('Company.ADD_SEMESTER_STATUS'),
+  EDIT_SEMESTER_STATUS: generateStatuses('Company.EDIT_SEMESTER_STATUS'),
+  DELETE_SEMESTER_STATUS: generateStatuses('Company.DELETE_SEMESTER_STATUS'),
   ADD_COMPANY_CONTACT: generateStatuses('Company.ADD_COMPANY_CONTACT'),
   EDIT_COMPANY_CONTACT: generateStatuses('Company.EDIT_COMPANY_CONTACT'),
   DELETE_COMPANY_CONTACT: generateStatuses('Company.DELETE_COMPANY_CONTACT'),
-  FETCH_SEMESTERS: generateStatuses('Company.FETCH_SEMESTERS')
+  FETCH_SEMESTERS: generateStatuses('Company.FETCH_SEMESTERS'),
+  ADD_SEMESTER: generateStatuses('Company.ADD_SEMESTER')
 };
 
 /**
