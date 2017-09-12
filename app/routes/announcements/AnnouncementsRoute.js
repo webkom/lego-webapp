@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import AnnouncementsList from './components/AnnouncementsList';
 import { fetchAll, createAnnouncement } from 'app/actions/AnnouncementsActions';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = (state, props) => {
   const announcements = state.announcements.byId;
@@ -28,6 +30,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   dispatched((props, dispatch) => dispatch(fetchAll()), {
     componentWillReceiveProps: false
   }),

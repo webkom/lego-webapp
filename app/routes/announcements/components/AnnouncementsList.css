@@ -1,8 +1,22 @@
 @import 'app/styles/variables.css';
 
 .root {
-  composes: container from 'app/styles/utilities.css';
-  margin-top: 2rem;
+  composes: contentContainer from 'app/styles/utilities.css';
+
+  @media (--small-viewport) {
+    padding: 0;
+
+    .coverImage {
+      padding: 0;
+    }
+
+    > div {
+      padding: 0 10px;
+    }
+  }
+  @media (--mobile-device) {
+    margin: auto 10px;
+  }
 }
 
 .header {
@@ -15,25 +29,57 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  font-size: 30px;
+}
+
+.form {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.rowRec {
+  @media (--mobile-device) {
+    flex-direction: column;
+  }
+}
+
+.recField {
+  margin-right: 4px;
+}
+
+.msgField {
+  border: 1px solid #ccc;
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.list {
+  flex-direction: column-reverse;
 }
 
 .date {
   font-weight: bold;
   text-decoration: underline;
+  margin-top: 5px;
 }
 
-.msg, .date {
+.msg, .date, .recHeader {
   font-size: 120%;
 }
 
-.form {
-  width: 50%;
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 8px;
+.recHeader {
+  margin-top: 8px;
 }
 
-.msgField {
-  border: 1px solid #aaa;
-  width: 100%;
+.recepients:after {
+  content:',\0000a0';
+}
+
+.recepients:first-child:before {
+    content: '\0000a0';
+}
+
+.recepients:last-child:after {
+    content: normal;
 }
