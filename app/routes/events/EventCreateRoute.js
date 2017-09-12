@@ -6,6 +6,7 @@ import { uploadFile } from 'app/actions/FileActions';
 import EventEditor from './components/EventEditor';
 import moment from 'moment';
 import { LoginPage } from 'app/components/LoginForm';
+import { transformEvent } from './utils';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const time = (hours, minutes) =>
@@ -28,7 +29,7 @@ const mapStateToProps = (state, props) => {
       useStripe: false,
       priceMember: 0,
       mergeTime: time(12),
-      useCaptcha: false,
+      useCaptcha: true,
       pools: []
     },
     actionGrant,
@@ -41,7 +42,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
-  handleSubmitCallback: createEvent,
+  handleSubmitCallback: event => createEvent(transformEvent(event)),
   uploadFile
 };
 

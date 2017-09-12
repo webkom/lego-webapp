@@ -147,8 +147,7 @@ const mutate = joinReducers(mutateComments('events'), mutateEvent);
 export default createEntityReducer({
   key: 'events',
   types: {
-    fetch: Event.FETCH,
-    mutate: Event.CREATE
+    fetch: Event.FETCH
   },
   mutate
 });

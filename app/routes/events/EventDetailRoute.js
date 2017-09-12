@@ -38,16 +38,13 @@ const mapStateToProps = (state, props) => {
   const waitingRegistrations = selectWaitingRegistrationsForEvent(state, {
     eventId
   });
-  let pools =
+  const pools =
     waitingRegistrations.length > 0
-      ? [
-          ...poolsWithRegistrations,
-          {
-            name: 'Venteliste',
-            registrations: waitingRegistrations,
-            permissionGroups: []
-          }
-        ]
+      ? poolsWithRegistrations.concat({
+          name: 'Venteliste',
+          registrations: waitingRegistrations,
+          permissionGroups: []
+        })
       : poolsWithRegistrations;
   const currentRegistration = findCurrentRegistration(
     registrations.concat(waitingRegistrations),

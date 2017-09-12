@@ -68,6 +68,7 @@ export default function callAPI({
   useCache,
   cacheSeconds = 10,
   propagateError = false,
+  disableOptimistic = false,
   requiresAuthentication = true
 }: Object): Thunk<*, *> {
   return (dispatch, getState) => {
@@ -108,20 +109,21 @@ export default function callAPI({
 
     // @todo: better id gen (cuid or something)
     const optimisticId = Math.floor(Date.now() * Math.random() * 1000);
-    const optimisticPayload = body
-      ? normalizeJsonResponse({
-          id: optimisticId,
-          __persisted: false,
-          ...body
-        })
-      : null;
+    const optimisticPayload =
+      !disableOptimistic && body
+        ? normalizeJsonResponse({
+            id: optimisticId,
+            __persisted: false,
+            ...body
+          })
+        : null;
 
     return dispatch({
       types,
       payload: optimisticPayload,
       meta: {
         ...meta,
-        optimisticId: body ? optimisticId : undefined,
+        optimisticId: optimisticPayload ? optimisticId : undefined,
         endpoint,
         success: shouldUseCache && types.SUCCESS,
         body
