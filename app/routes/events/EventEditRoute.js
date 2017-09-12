@@ -17,6 +17,7 @@ import {
   selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
 import { LoginPage } from 'app/components/LoginForm';
+import { transformEvent } from './utils';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = (state, props) => {
@@ -59,7 +60,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = {
   fetchEvent,
   deleteEvent,
-  handleSubmitCallback: editEvent,
+  handleSubmitCallback: event => editEvent(transformEvent(event, true)),
   uploadFile,
   setCoverPhoto
 };
