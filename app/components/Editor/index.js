@@ -204,7 +204,6 @@ export default class CustomEditor extends Component {
           this.wrapperElement = c;
         }}
         className={cx(styles.EditorWrapper, className)}
-        style={{ display: 'flex', flex: '1' }}
       >
         <Editor
           readOnly={this.props.readOnly}
@@ -215,7 +214,6 @@ export default class CustomEditor extends Component {
           schema={getSchema(!disableBlocks)}
           onDocumentChange={this.onDocumentChange}
           className={styles.Editor}
-          style={{ display: 'flex', flex: '1' }}
         />
 
         {!this.props.disableBlocks &&

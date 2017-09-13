@@ -14,6 +14,7 @@ import pools from './pools';
 import registrations from './registrations';
 import meetingsToken from './meetingsToken';
 import meetings from './meetings';
+import memberships from './memberships';
 import search from './search';
 import auth from './auth';
 import users from './users';
@@ -45,6 +46,7 @@ const reducers = {
   registrations,
   meetingsToken,
   meetings,
+  memberships,
   interestGroups,
   search,
   comments,
@@ -103,7 +105,6 @@ export const eventAdministrateSchema = new schema.Entity('events', {
 export const articleSchema = new schema.Entity('articles', {
   comments: [commentSchema]
 });
-export const meetingSchema = new schema.Entity('meetings');
 export const galleryPictureSchema = new schema.Entity('pictures', {
   comments: [commentSchema]
 });
@@ -119,7 +120,6 @@ export const pageSchema = new schema.Entity(
   {},
   { idAttribute: 'slug' }
 );
-export const interestGroupSchema = new schema.Entity('interestGroups');
 export const companySchema = new schema.Entity('companies', {
   studentContact: userSchema
 });
@@ -127,3 +127,13 @@ export const joblistingsSchema = new schema.Entity('joblistings');
 export const feedActivitySchema = new schema.Entity('feedActivities');
 export const oauth2ApplicationSchema = new schema.Entity('oauth2Application');
 export const oauth2GrantSchema = new schema.Entity('oauth2Grant');
+export const membershipSchema = new schema.Entity('memberships', {
+  abakusGroup: groupSchema,
+  user: userSchema
+});
+export const meetingSchema = new schema.Entity('meetings', {
+  memberships: [membershipSchema]
+});
+export const interestGroupSchema = new schema.Entity('interestGroups', {
+  memberships: [membershipSchema]
+});

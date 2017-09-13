@@ -7,6 +7,7 @@ import Button from 'app/components/Button';
 import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
 import ProfilePicture from 'app/components/ProfilePicture';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 // TODO: this is from the event detail page.
 // We can probably move this out to somewhere common.
@@ -18,32 +19,33 @@ const RegisteredCell = ({ user }) => (
   </Tooltip>
 );
 
-const Title = ({ group: { name, id }, showEdit, editClick }) =>
+const Title = ({ group: { name, id }, showEdit, editClick }) => (
   <NavigationTab title={name}>
-    {showEdit &&
+    {showEdit && (
       <NavigationLink to={`/interestgroups/${id}/edit`}>
         [Rediger]
-      </NavigationLink>}
-  </NavigationTab>;
+      </NavigationLink>
+    )}
+  </NavigationTab>
+);
 
-const Description = ({ description }) =>
-  <Flex className={styles.description}>
-    {description}
-  </Flex>;
+const Description = ({ description }) => (
+  <Flex className={styles.description}>{description}</Flex>
+);
 
-const Sidebar = ({ group }) =>
+const Sidebar = ({ group }) => (
   <Flex column className={styles.sideBar}>
     <Logo logo={group.logo || 'https://i.imgur.com/Is9VKjb.jpg'} />
-    <Members name={group.name} members={group.memberships || []} />
+    <Members name={group.name} members={group.memberships} />
     <Contact group={group} />
-  </Flex>;
+  </Flex>
+);
 
-const SidebarHeader = ({ text }) =>
-  <div style={{ 'font-weight': 'bold' }}>
-    {text}
-  </div>;
+const SidebarHeader = ({ text }) => (
+  <div style={{ 'font-weight': 'bold' }}>{text}</div>
+);
 
-const Members = ({ members, name }) =>
+const Members = ({ members, name }) => (
   <Flex column>
     <SidebarHeader text={`Medlemmer (${members.length})`} />
     <Flex wrap>
@@ -52,24 +54,26 @@ const Members = ({ members, name }) =>
           .slice(0, 10)
           .map(reg => <RegisteredCell key={reg.user.id} user={reg.user} />)}
     </Flex>
-  </Flex>;
+  </Flex>
+);
 
-const Logo = ({ logo }) =>
+const Logo = ({ logo }) => (
   <Flex justifyContent="center">
     <Image className={styles.logo} src={logo} />
-  </Flex>;
+  </Flex>
+);
 
-const Content = ({ group }) =>
+const Content = ({ group }) => (
   <Flex column style={{ flex: '1' }}>
     <Text text={group.descriptionLong} />
-  </Flex>;
+  </Flex>
+);
 
-const Text = ({ text }) =>
+const Text = ({ text }) => (
   <Flex style={{ margin: '1em' }}>
-    <div>
-      {text}
-    </div>
-  </Flex>;
+    <div>{text}</div>
+  </Flex>
+);
 
 const ButtonRow = ({
   group,
@@ -82,7 +86,7 @@ const ButtonRow = ({
   )[0];
   const onClick = membership
     ? () => leaveInterestGroup(membership)
-    : () => joinInterestGroup(group.id, currentUser.id);
+    : () => joinInterestGroup(group.id, currentUser);
   return (
     <Flex>
       <Button onClick={onClick}>
@@ -130,6 +134,10 @@ class InterestGroupDetail extends Component {
   render() {
     const { group } = this.props;
     const canEdit = true;
+
+    if (!group) {
+      return <LoadingIndicator />;
+    }
 
     return (
       <Flex column className={styles.root}>
