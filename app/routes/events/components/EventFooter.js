@@ -38,11 +38,12 @@ type Props = {
 
 const EventFooter = ({ icalToken }: Props) =>
   <div className={styles.eventFooter}>
-    <p className={cx(styles.section, hiddenOnMobile)}>
-      Her kan du importere arrangementer og møter til din favorittkalender! For
-      innstillinger se
-      <Link to="/users/me/settings"> her</Link>.
-    </p>
+    {icalToken &&
+      <p className={cx(styles.section, hiddenOnMobile)}>
+        Her kan du importere arrangementer og møter til din favorittkalender!
+        For innstillinger se
+        <Link to="/users/me/settings"> her</Link>.
+      </p>}
     <div className={styles.eventFooterSections}>
       {icalToken &&
         <div className={cx(styles.section, hiddenOnMobile)}>

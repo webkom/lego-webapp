@@ -23,7 +23,7 @@ const mapStateToProps = (state, props) => {
     company,
     query,
     companyId,
-    loggedIn: state.auth.token !== null
+    loggedIn: props.currentUser
   };
 };
 
