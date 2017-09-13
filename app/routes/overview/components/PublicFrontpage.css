@@ -6,7 +6,7 @@
   padding-bottom: 75px;
 
   @media (--mobile-device) {
-    flex-wrap: wrap;
+    padding-bottom: 25px;
   }
 }
 
@@ -14,8 +14,8 @@
   color: var(--lego-link-color);
   font-size: 14px;
 }
+
 .welcomeBox {
-  flex: 1;
   composes: withShadow from 'app/styles/utilities.css';
   padding: 40px;
   background: #f9f9f9;
@@ -24,11 +24,12 @@
 .bigWelcomeBox {
   composes: welcomeBox;
   background: #fff;
-  flex: 1.55;
+  flex: 1.55 1 20em;
 }
 
 .smallWelcomeBox {
   composes: welcomeBox;
+  flex: 1 1 20em;
   box-shadow: inset 5px 0 5px #eee;
   padding: 30px 40px 40px;
   border-top-left-radius: 0;
@@ -53,11 +54,10 @@
 
 .usefulLinks {
   composes: contentContainer from 'app/styles/utilities.css';
-  width: calc(100% - 450px);
+  flex: 1;
   margin-right: 30px;
 
   @media (--mobile-device) {
-    width: 90%;
     margin: 0 auto;
     padding: 20px 30px;
   }

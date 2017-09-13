@@ -138,11 +138,11 @@ export default class Overview extends Component {
       <Content>
         <Helmet title="Hjem" />
         <Flex wrap style={{ justifyContent: 'space-between' }}>
-          <Flex column style={{ flex: 2 }}>
+          <Flex column style={{ flex: '2 1 15em' }}>
             <CompactEvents events={events} />
             <PrimaryItem event={events[0]} />
           </Flex>
-          <Feed style={{ flex: 2 }} />
+          <Feed style={{ flex: '2 1 15em' }} />
         </Flex>
         <Flex />
         <Flex padding={10}>
