@@ -1,0 +1,11 @@
+export const INVITATION_STATUSES_TEXT = {
+  NO_ANSWER: 'Ikke svart',
+  ATTENDING: 'Deltar',
+  NOT_ATTENDING: 'Deltar ikke'
+};
+
+export const INVITATION_STATUSES = {
+  NO_ANSWER: 'NO_ANSWER',
+  ATTENDING: 'ATTENDING',
+  NOT_ATTENDING: 'NOT_ATTENDING'
+};
