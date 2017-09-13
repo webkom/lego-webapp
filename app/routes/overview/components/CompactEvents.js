@@ -67,7 +67,7 @@ export default class CompactEvents extends Component {
       return null;
     }
     return (
-      <Flex wrap column>
+      <Flex column>
         <Flex wrap className={styles.compactEvents}>
           <Flex column className={styles.compactLeft}>
             <h3 className="u-ui-heading">Bedriftspresentasjoner</h3>
@@ -78,7 +78,7 @@ export default class CompactEvents extends Component {
             <ul className={styles.innerList}>{rightEvents}</ul>
           </Flex>
         </Flex>
-        <div style={{ margin: '0 auto' }}>
+        <Flex style={{ alignSelf: 'center' }}>
           <a
             style={{ marginRight: '10px' }}
             onClick={() =>
@@ -91,7 +91,7 @@ export default class CompactEvents extends Component {
               Vis færre <i className="fa fa-angle-double-up " />
             </a>
           )}
-        </div>
+        </Flex>
       </Flex>
     );
   }

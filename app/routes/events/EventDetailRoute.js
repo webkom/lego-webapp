@@ -54,6 +54,7 @@ const mapStateToProps = (state, props) => {
   return {
     comments,
     actionGrant,
+    loading: state.events.fetching,
     event,
     eventId,
     pools,

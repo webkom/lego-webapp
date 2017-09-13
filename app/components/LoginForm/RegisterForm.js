@@ -27,7 +27,7 @@ class RegisterForm extends Component {
   }
 
   onSubmit = data => {
-    this.props
+    return this.props
       .sendRegistrationEmail(data)
       .then(() => {
         if (this.mounted) {

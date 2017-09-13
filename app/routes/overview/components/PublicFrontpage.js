@@ -55,7 +55,7 @@ class PublicFrontpage extends Component {
           </div>
         </Flex>
 
-        <Flex className={styles.bottomContainer}>
+        <Flex wrap className={styles.bottomContainer}>
           <div className={styles.usefulLinks}>
             <h2 className="u-mb">Nyttige linker</h2>
             <ul>

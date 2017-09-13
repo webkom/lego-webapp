@@ -1,5 +1,5 @@
 import React from 'react';
-import Activty from './activity';
+import Activity from './activity';
 
 export const activityRenderers = {
   comment: require('./renders/comment'),
@@ -13,7 +13,7 @@ const Feed = ({ items }) => (
       items.map((item, i) => {
         const renders = activityRenderers[item.verb];
         return renders ? (
-          <Activty aggregatedActivity={item} key={i} renders={renders} />
+          <Activity aggregatedActivity={item} key={i} renders={renders} />
         ) : null;
       })
     ) : (
