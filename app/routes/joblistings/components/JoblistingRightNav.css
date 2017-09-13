@@ -1,20 +1,11 @@
 @import 'app/styles/variables.css';
 
 .box {
-  margin-left: 2rem;
-  margin-top: 1rem;
   min-height: 350px;
   background: #f2ece8;
   border: 1px solid #ddd;
-  padding: 5% 10%;
-
-  @media (--small-viewport) {
-    display: none;
-  }
-}
-
-.sort {
-  justify-content: space-around;
+  flex: 1;
+  margin: auto 40px;
 }
 
 .rightHeader {

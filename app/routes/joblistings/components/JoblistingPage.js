@@ -7,7 +7,7 @@ import { Content } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
 import JoblistingsList from './JoblistingList';
 import JoblistingsRightNav from './JoblistingRightNav';
-import { FlexRow, FlexColumn } from 'app/components/FlexBox';
+import { Flex } from 'app/components/Layout';
 
 type Props = {
   joblistings: Array</*TODO: JobListing*/ any>,
@@ -20,19 +20,17 @@ const JoblistingsPage = ({ joblistings, query, actionGrant }: Props) => {
     return <LoadingIndicator loading />;
   }
   return (
-    <Content>
-      <div className={styles.root}>
-        <Helmet title="Karriere" />
-        <FlexRow className={styles.page}>
-          <FlexColumn className={styles.list}>
-            <JoblistingsList joblistings={joblistings} />
-          </FlexColumn>
-          <FlexColumn className={styles.rightNav}>
-            <JoblistingsRightNav query={query} actionGrant={actionGrant} />
-          </FlexColumn>
-        </FlexRow>
-      </div>
-    </Content>
+    <div className={styles.root}>
+      <Helmet title="Karriere" />
+      <Flex wrapReverse className={styles.page}>
+        <JoblistingsList joblistings={joblistings} className={styles.list} />
+        <JoblistingsRightNav
+          query={query}
+          actionGrant={actionGrant}
+          className={styles.rightNav}
+        />
+      </Flex>
+    </div>
   );
 };
 

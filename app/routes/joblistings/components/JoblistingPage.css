@@ -6,31 +6,26 @@
 
 .page {
   margin-top: 2rem;
-
-  @media (--small-viewport) {
-    flex-direction: column-reverse;
-    margin: auto 10px;
-  }
+  justify-content: space-around;
 }
 
 h1 {
   font-size: 30px;
   font-weight: bold;
-  display: block;
   margin: 15px 0;
 }
 
 .list {
   min-width: 75%;
+  flex: 3;
 }
 
 .rightNav {
   min-width: 25%;
-  width: 25px;
+  flex: 1;
 
   @media (--small-viewport) {
     align-items: center;
     justify-content: space-around;
-    width: 100%;
   }
 }

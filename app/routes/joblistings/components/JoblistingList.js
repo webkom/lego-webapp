@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import styles from './JoblistingList.css';
 import { Image } from 'app/components/Image';
 import Time from 'app/components/Time';
-import { FlexRow, FlexColumn } from 'app/components/FlexBox';
+import { Flex } from 'app/components/Layout';
 import { Year, jobType, Workplaces } from './Items';
 
 type JobListingItemProps = {
@@ -14,17 +14,17 @@ type JobListingItemProps = {
 
 function JoblistingItem({ joblisting }: JobListingItemProps) {
   return (
-    <FlexRow className={styles.joblistingItem}>
-      <FlexRow>
-        <FlexColumn>
-          <Link to={`/joblistings/${joblisting.id}/`}>
-            <Image
-              src="http://placehold.it/120x80"
-              className={styles.companyLogo}
-            />
-          </Link>
-        </FlexColumn>
-        <FlexColumn>
+    <Flex row className={styles.joblistingItem}>
+      <Flex alignItems="center">
+        <Link to={`/joblistings/${joblisting.id}/`}>
+          <Image
+            src="http://placehold.it/120x80"
+            className={styles.companyLogo}
+          />
+        </Link>
+      </Flex>
+      <Flex row justifyContent="space-between" style={{ flex: 1 }}>
+        <div>
           <Link to={`/joblistings/${joblisting.id}/`}>
             <h3 className={styles.joblistingItemTitle}>{joblisting.title}</h3>
           </Link>
@@ -33,43 +33,25 @@ function JoblistingItem({ joblisting }: JobListingItemProps) {
           </div>
           <Year joblisting={joblisting} />
           <Workplaces places={joblisting.workplaces} />
-        </FlexColumn>
-      </FlexRow>
-      <FlexColumn className={styles.deadLine}>
-        <div>
+        </div>
+        <div className={styles.deadLine}>
           <Time time={joblisting.deadline} format="ll HH:mm" />
         </div>
-      </FlexColumn>
-    </FlexRow>
+      </Flex>
+    </Flex>
   );
 }
 
-type JoblistingListGroupProps = {
-  joblistings: Array</*TODO: JobListing*/ any>
-};
-
-function JoblistingListGroup({ joblistings = [] }: JoblistingListGroupProps) {
-  return (
-    <div>
-      <FlexRow className={styles.heading}>
-        <FlexColumn>
-          <h2 className={styles.headingText}>Jobbannonser</h2>
-        </FlexColumn>
-        <FlexColumn className={styles.headingDeadline}>Deadline:</FlexColumn>
-      </FlexRow>
-      {joblistings.map((joblisting, i) => (
-        <JoblistingItem key={i} joblisting={joblisting} />
-      ))}
-    </div>
-  );
-}
-
-type JoblistingsListProps = {
-  joblistings: Array</*TODO: JobListing*/ any>
-};
-
-const JoblistingsList = ({ joblistings }: JoblistingsListProps) => (
-  <JoblistingListGroup joblistings={joblistings} />
+const JoblistingsList = ({ joblistings }: Props) => (
+  <Flex column style={{ flex: 3 }}>
+    <Flex row className={styles.heading}>
+      <h2 className={styles.headingText}>Jobbannonser</h2>
+      <h4 className={styles.headingDeadline}>Deadline:</h4>
+    </Flex>
+    {joblistings.map((joblisting, i) => (
+      <JoblistingItem key={i} joblisting={joblisting} />
+    ))}
+  </Flex>
 );
 
 export default JoblistingsList;
