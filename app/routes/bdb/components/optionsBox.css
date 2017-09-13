@@ -35,7 +35,7 @@ input {
   display: block;
 }
 
-label {
+.optionsBox + label {
   display: inline;
   cursor: pointer;
 }
