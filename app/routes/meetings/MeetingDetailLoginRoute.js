@@ -19,11 +19,10 @@ const loadData = (props, dispatch) => {
 const mapStateToProps = (state, props) => {
   const { meetingId } = props.params;
   const meeting = selectMeetingById(state, { meetingId });
-  const user = state.auth.username ? state.users.byId[state.auth.username] : {};
   return {
     meeting,
     meetingId,
-    user
+    user: props.currentUser
   };
 };
 

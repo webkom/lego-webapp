@@ -15,9 +15,8 @@ const mapStateToProps = (state, props) => {
   const { meetingId } = props.params;
   const meeting = selectMeetingById(state, { meetingId });
   const valueSelector = formValueSelector('meetingEditor');
-  const user = state.auth.username ? state.users.byId[state.auth.username] : {};
   return {
-    user,
+    user: props.currentUser,
     meeting,
     initialValues: meeting,
     invitingUsers: valueSelector(state, 'users') || [],
