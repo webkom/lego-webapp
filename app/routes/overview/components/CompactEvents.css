@@ -23,7 +23,7 @@
 
 .compactLeft,
 .compactRight {
-  flex: 1 1 15em;
+  flex: 1;
   padding: 5px 20px;
 
   @media (--mobile-device) {

@@ -36,12 +36,7 @@ class LatestReadme extends Component {
         </button>
 
         {expanded && (
-          <Flex
-            wrap
-            row
-            justifyContent="space-between"
-            style={{ paddingTop: 20 }}
-          >
+          <Flex wrap justifyContent="space-between" style={{ paddingTop: 20 }}>
             {[1, 2, 3, 4, 5, 6].map(issue => (
               <a
                 key={issue}

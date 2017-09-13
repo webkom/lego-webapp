@@ -24,7 +24,7 @@
   flex-wrap: wrap;
 }
 
-.wrap > * {
+.wrap > .flex {
   @media (--mobile-device) {
     flex-basis: 15em !important;
   }
@@ -34,7 +34,7 @@
   flex-wrap: wrap-reverse;
 }
 
-.wrapReverse > * {
+.wrapReverse > .flex {
   @media (--mobile-device) {
     flex-basis: 15em !important;
   }

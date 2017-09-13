@@ -32,16 +32,24 @@ export default class HTTPError extends Component {
   render() {
     return (
       <Content>
-        <Flex column alignItems="center" justifyContent="center">
+        <Flex
+          column
+          alignItems="center"
+          justifyContent="center"
+          style={{ padding: '10px' }}
+        >
           <Link to="/">
             <canvas
               id="canvas"
               ref={canvas => {
                 this.canvas = canvas;
               }}
+              style={{ width: '100%' }}
             />
           </Link>
-          <h1>{getHTTPError(this.props.statusCode)}</h1>
+          <h1 style={{ textAlign: 'center' }}>
+            {getHTTPError(this.props.statusCode)}
+          </h1>
         </Flex>
       </Content>
     );

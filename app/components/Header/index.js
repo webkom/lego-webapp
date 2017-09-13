@@ -132,7 +132,9 @@ class Header extends Component {
                 <Dropdown
                   show={this.state.accountOpen}
                   toggle={() =>
-                    this.setState({ accountOpen: !this.state.accountOpen })}
+                    this.setState(state => ({
+                      accountOpen: !state.accountOpen
+                    }))}
                   triggerComponent={
                     <ProfilePicture
                       size={24}
@@ -153,10 +155,10 @@ class Header extends Component {
                 <Dropdown
                   show={this.state.accountOpen}
                   toggle={() =>
-                    this.setState({
-                      accountOpen: !this.state.accountOpen,
+                    this.setState(state => ({
+                      accountOpen: !state.accountOpen,
                       shake: false
-                    })}
+                    }))}
                   contentClassName={this.state.shake && 'animated shake'}
                   triggerComponent={<Icon name="contact" />}
                 >

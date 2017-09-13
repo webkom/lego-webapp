@@ -24,16 +24,24 @@
 .bigWelcomeBox {
   composes: welcomeBox;
   background: #fff;
-  flex: 1.55 1 20em;
+  flex: 1.55;
+
+  @media (--mobile-device) {
+    flex-basis: 20em;
+  }
 }
 
 .smallWelcomeBox {
   composes: welcomeBox;
-  flex: 1 1 20em;
+  flex: 1;
   box-shadow: inset 5px 0 5px #eee;
   padding: 30px 40px 40px;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+
+  @media (--mobile-device) {
+    flex-basis: 20em;
+  }
 }
 
 .facebook {
