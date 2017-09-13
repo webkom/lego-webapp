@@ -1,8 +1,9 @@
 // @flow
 
 import { createSelector } from 'reselect';
-import { InterestGroup } from '../actions/ActionTypes';
+import { InterestGroup, Membership } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import { without } from 'lodash';
 
 export type InterestGroupEntity = {
   id: number,
@@ -18,6 +19,36 @@ export default createEntityReducer({
   },
   mutate(state, action) {
     switch (action.type) {
+      case Membership.JOIN_GROUP.SUCCESS: {
+        const list = state.byId[action.meta.groupId].memberships.concat(
+          action.payload.result
+        );
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [action.meta.groupId]: {
+              ...state.byId[action.meta.groupId],
+              memberships: list
+            }
+          }
+        };
+      }
+      case Membership.LEAVE_GROUP.SUCCESS: {
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [action.meta.groupId]: {
+              ...state.byId[action.meta.groupId],
+              memberships: without(
+                state.byId[action.meta.groupId].memberships,
+                action.meta.id
+              )
+            }
+          }
+        };
+      }
       case InterestGroup.REMOVE.SUCCESS: {
         const removedId = action.meta.groupId;
         return {
@@ -25,39 +56,18 @@ export default createEntityReducer({
           items: state.items.filter(g => g !== removedId)
         };
       }
-      case InterestGroup.JOIN.SUCCESS: {
-        const { groupId } = action.meta;
-        const membership = action.payload;
-        const memberships = [membership].concat(
-          state.byId[groupId].memberships
-        );
+      case Membership.MEMBER_SET.SUCCESS: {
         return {
           ...state,
           byId: {
             ...state.byId,
-            [groupId]: {
-              ...state.byId[groupId],
-              memberships
+            [action.meta.id]: {
+              ...state.byId[action.meta.id],
+              memberships: action.payload.result
             }
           }
         };
       }
-      case InterestGroup.LEAVE.SUCCESS: {
-        const { user, groupId } = action.meta;
-        return {
-          ...state,
-          byId: {
-            ...state.byId,
-            [groupId]: {
-              ...state.byId[groupId],
-              memberships: state.byId[groupId].memberships.filter(
-                m => m.user.id !== user.id
-              )
-            }
-          }
-        };
-      }
-
       default:
         return state;
     }
