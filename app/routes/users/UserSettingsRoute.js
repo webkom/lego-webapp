@@ -20,7 +20,7 @@ const validate = createValidator({
 });
 
 function mapStateToProps(state) {
-  const user = state.auth.username ? state.users.byId[state.auth.username] : {};
+  const user = state.currentUser;
   return {
     user,
     initialValues: user

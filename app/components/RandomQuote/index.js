@@ -67,7 +67,7 @@ class RandomQuote extends Component {
 
 function mapStateToProps(state, props) {
   return {
-    loggedIn: state.auth.token !== null
+    loggedIn: props.loggedIn
   };
 }
 
