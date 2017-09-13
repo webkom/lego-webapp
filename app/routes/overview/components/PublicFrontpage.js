@@ -19,7 +19,7 @@ class PublicFrontpage extends Component {
     const { registerUser } = this.state;
     return (
       <Content>
-        <Flex justifyContent="space-between" className={styles.root}>
+        <Flex wrap justifyContent="space-between" className={styles.root}>
           <div className={styles.smallWelcomeBox}>
             <Flex
               component="h2"

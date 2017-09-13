@@ -24,13 +24,15 @@ class LatestReadme extends Component {
     return (
       <Flex column className={styles.latestReadme}>
         <button className={styles.heading} onClick={toggle}>
-          <span>
-            <ReadmeLogo />-utgaver
-          </span>
-          <Icon
-            name={expanded ? 'close' : 'arrow-down'}
-            style={{ color: '#fff' }}
-          />
+          <Flex justifyContent="space-between">
+            <span>
+              <ReadmeLogo />-utgaver
+            </span>
+            <Icon
+              name={expanded ? 'close' : 'arrow-down'}
+              style={{ color: '#fff' }}
+            />
+          </Flex>
         </button>
 
         {expanded && (
