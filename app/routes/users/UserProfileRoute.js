@@ -37,7 +37,7 @@ const mapStateToProps = (state, props) => {
       !props.params.username || props.params.username === state.auth.username,
     auth: state.auth,
     user: state.users.byId[username],
-    loggedIn: state.auth.token !== null,
+    loggedIn: props.loggedIn,
     feed,
     feedItems
   };

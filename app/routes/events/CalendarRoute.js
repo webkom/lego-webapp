@@ -26,11 +26,10 @@ const mapStateToProps = (state, ownProps) => {
     year = moment().year(),
     month = moment().month() + 1
   } = ownProps.params;
-  const actionGrant = state.events.actionGrant;
-  const icalToken = state.auth.username
-    ? state.users.byId[state.auth.username].icalToken
-    : null;
+  const user = ownProps.currentUser;
+  const icalToken = user ? user.icalToken : null;
 
+  const actionGrant = state.events.actionGrant;
   return {
     year,
     month,
