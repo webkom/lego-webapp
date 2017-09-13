@@ -3,25 +3,50 @@
 import styles from './JoblistingRightNav.css';
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { FlexRow, FlexColumn } from 'app/components/FlexBox';
+import { Flex } from 'app/components/Layout';
 import CheckBox from 'app/components/Form/CheckBox';
 
-type Props = {
-  query: {
-    class: ?string,
-    jobtypes: ?string,
-    workplaces: ?string
-  },
-  actionGrant: /*TODO: ActionGrant*/ any
+const updateFilters = (type, value, filters) => {
+  const newFilter = {
+    ...filters,
+    [type]: filters[type].includes(value)
+      ? filters[type].filter(x => x !== value)
+      : filters[type].concat(value)
+  };
+  return {
+    ...(newFilter.classNumber.length > 0 && {
+      classNumber: newFilter.classNumber.toString()
+    }),
+    ...(newFilter.jobTypes.length > 0 && {
+      jobTypes: newFilter.jobTypes.toString()
+    }),
+    ...(newFilter.workplaces.length > 0 && {
+      workplaces: newFilter.workplaces.toString()
+    })
+  };
 };
+
+const FilterLink = ({ type, label, value, filters }: Object) => (
+  <Link
+    to={{
+      pathname: '/joblistings',
+      query: updateFilters(type, value, filters)
+    }}
+    style={{ display: 'flex', flex: 1, 'align-items': 'center' }}
+  >
+    <CheckBox id={label} value={filters[type].includes(value)} readOnly />
+
+    <span style={{ marginLeft: '5px' }}> {label}</span>
+  </Link>
+);
 
 export default class JoblistingsRightNav extends Component {
   props: Props;
 
   state = {
     filters: {
-      class: [],
-      jobtypes: [],
+      classNumber: [],
+      jobTypes: [],
       workplaces: []
     }
   };
@@ -30,9 +55,9 @@ export default class JoblistingsRightNav extends Component {
     const query = nextProps.query;
     this.setState({
       filters: {
-        class: (query.class || '').split(','),
-        jobtypes: (query.jobtypes || '').split(','),
-        workplaces: (query.workplaces || '').split(',')
+        classNumber: query.classNumber ? query.classNumber.split(',') : [],
+        jobTypes: query.jobTypes ? query.jobTypes.split(',') : [],
+        workplaces: query.workplaces ? query.workplaces.split(',') : []
       }
     });
   }
@@ -48,96 +73,83 @@ export default class JoblistingsRightNav extends Component {
     return query;
   };
 
-  // $FlowFixMe
-  updateFilters = (type, value) => {
-    const filters = this.state.filters;
-    let newFilter = {};
-    if (filters[type].includes(value)) {
-      newFilter = {
-        ...filters,
-        [type]: [...filters[type].filter(x => x !== value)]
-      };
-    } else {
-      newFilter = {
-        ...filters,
-        [type]: [...filters[type], value]
-      };
-    }
-    const filterString = {
-      class: newFilter.class.toString(),
-      jobtypes: newFilter.jobtypes.toString(),
-      workplaces: newFilter.workplaces.toString()
-    };
-    return filterString;
-  };
-
-  // $FlowFixMe
-  filterLinkto = (type, value, label) => (
-    <Link
-      to={{ pathname: '/joblistings', query: this.updateFilters(type, value) }}
-      key={value}
-    >
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <CheckBox value={this.state.filters[type].includes(value)} readOnly />
-        <span style={{ marginLeft: '5px' }}>{label}</span>
-      </div>
-    </Link>
-  );
-
   createButton = () => {
     if (this.props.actionGrant.includes('create')) {
       return (
-        <FlexRow justifyContent="flex-end" alignItems="center">
+        <Flex row justifyContent="flex-end" alignItems="center">
           <Link to={`/joblistings/create`}>
             <button className={styles.createButton}>Ny jobbannonse</button>
           </Link>
-        </FlexRow>
+        </Flex>
       );
     }
   };
 
   render() {
     return (
-      <FlexColumn>
+      <Flex column className={styles.box}>
         {this.createButton()}
-        <FlexRow className={styles.box}>
-          <FlexColumn>
-            <h3 className={styles.rightHeader}>Sorter etter:</h3>
-            <FlexRow className={styles.sort}>
-              <Link
-                to={{
-                  pathname: '/joblistings',
-                  query: this.handleQuery('sort', 'company')
-                }}
-              >
-                Bedrift
-              </Link>
-              <Link
-                to={{
-                  pathname: '/joblistings',
-                  query: this.handleQuery('sort', 'deadline')
-                }}
-              >
-                Frist
-              </Link>
-            </FlexRow>
-            <FlexColumn className={styles.filters}>
-              <h3 className={styles.rightHeader}>Klassetrinn:</h3>
-              {['1', '2', '3', '4', '5'].map(element =>
-                this.filterLinkto('class', element, `${element}. klasse`)
-              )}
-              <h3 className={styles.rightHeader}>Jobbtype:</h3>
-              {this.filterLinkto('jobtypes', 'summer_job', 'Sommerjobb')}
-              {this.filterLinkto('jobtypes', 'part_time', 'Deltid')}
-              {this.filterLinkto('jobtypes', 'full_time', 'Fulltid')}
-              <h3 className={styles.rightHeader}>Sted:</h3>
-              {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map(element =>
-                this.filterLinkto('workplaces', element, element)
-              )}
-            </FlexColumn>
-          </FlexColumn>
-        </FlexRow>
-      </FlexColumn>
+        <h3 className={styles.rightHeader}>Sorter etter:</h3>
+        <Flex row justifyContent="space-around" className={styles.sortNav}>
+          <Link
+            to={{
+              pathname: '/joblistings',
+              query: this.handleQuery('sort', 'company')
+            }}
+          >
+            Bedrift{' '}
+          </Link>
+          <Link
+            to={{
+              pathname: '/joblistings',
+              query: this.handleQuery('sort', 'deadline')
+            }}
+          >
+            Frist
+          </Link>
+        </Flex>
+        <Flex column>
+          <h3 className={styles.rightHeader}>Klassetrinn:</h3>
+          {['1', '2', '3', '4', '5'].map(element => (
+            <FilterLink
+              key={element}
+              type="classNumber"
+              label={`${element}. klasse`}
+              value={element}
+              filters={this.state.filters}
+            />
+          ))}
+          <h3 className={styles.rightHeader}>Jobbtype:</h3>
+          <FilterLink
+            type="jobTypes"
+            label="Sommerjobb"
+            value="summer_job"
+            filters={this.state.filters}
+          />
+          <FilterLink
+            type="jobTypes"
+            value="part_time"
+            label="Deltid"
+            filters={this.state.filters}
+          />
+          <FilterLink
+            type="jobTypes"
+            value="full_time"
+            label="Fulltid"
+            filters={this.state.filters}
+          />
+          <h3 className={styles.rightHeader}>Sted:</h3>
+          {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map(element => (
+            <FilterLink
+              type="workplaces"
+              key={element}
+              value={element}
+              label={element}
+              filters={this.state.filters}
+            />
+          ))}
+        </Flex>
+      </Flex>
     );
   }
 }
