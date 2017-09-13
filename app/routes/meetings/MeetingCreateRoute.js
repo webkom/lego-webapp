@@ -11,7 +11,7 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 const time = (hours, minutes) =>
   moment().startOf('day').add({ hours, minutes }).toISOString();
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   const valueSelector = formValueSelector('meetingEditor');
   return {
     initialValues: {
@@ -19,6 +19,7 @@ const mapStateToProps = state => {
       endTime: time(20),
       report: '<p></p>'
     },
+    user: props.currentUser,
     invitingUsers: valueSelector(state, 'users') || []
   };
 };

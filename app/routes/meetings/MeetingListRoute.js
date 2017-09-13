@@ -8,9 +8,9 @@ import { selectMeetings } from 'app/reducers/meetings';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import MeetingList from './components/MeetingList';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, props) => ({
   meetings: selectMeetings(state),
-  user: state.auth.username ? state.users.byId[state.auth.username] : {}
+  user: props.currentUser
 });
 
 const mapDispatchToProps = { fetchAll };

@@ -32,12 +32,9 @@ const mapStateToProps = (state, props) => {
   const showAnswer = Boolean(
     meetingsToken.response === 'SUCCESS' && action && token
   );
-  const userMe = state.auth.username
-    ? state.users.byId[state.auth.username]
-    : {};
   return {
     meetingsToken,
-    userMe,
+    user: props.currentUser,
     showAnswer
   };
 };
