@@ -11,6 +11,7 @@ import Icon from 'app/components/Icon';
 type Props = {
   parent?: { slug: string, title: string },
   siblings: Object[],
+  children: Object[],
   actionGrant: string[],
   selectedSlug: string
 };
@@ -27,7 +28,13 @@ class PageHierarchy extends Component {
   };
 
   render() {
-    const { parent, siblings, selectedSlug, actionGrant } = this.props;
+    const {
+      parent,
+      siblings,
+      selectedSlug,
+      actionGrant,
+      children
+    } = this.props;
 
     return (
       <div className={styles.sidebar}>
@@ -75,6 +82,9 @@ class PageHierarchy extends Component {
               })}
             >
               <Link to={`/pages/${page.slug}`}>{page.title}</Link>
+
+              {page.slug == selectedSlug &&
+                children.map((page, key) => <p key={key}>{page.title}</p>)}
             </li>
           ))}
         </ul>

@@ -6,7 +6,8 @@ import prepare from 'app/utils/prepare';
 import {
   selectSiblings,
   selectParent,
-  selectPageBySlug
+  selectPageBySlug,
+  selectChildren
 } from 'app/reducers/pages';
 
 const loadData = (props, dispatch) => {
@@ -22,12 +23,14 @@ const mapStateToProps = (state, props) => {
   const { pageSlug } = props.params;
   const page = selectPageBySlug(state, { pageSlug });
   const siblings = selectSiblings(state, { parentPk: page.parent });
+  const children = selectChildren(state, { parentPk: page.pk });
   const parent = selectParent(state, { parentPk: page.parent });
   return {
     page,
     pageSlug,
     siblings,
     parent,
+    children,
     pages: state.pages.byId
   };
 };
