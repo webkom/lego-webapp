@@ -10,9 +10,10 @@ import { lookupContext, contextRender } from '../context';
 export function activityHeader(aggregatedActivity) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actor = lookupContext(aggregatedActivity, latestActivity.actor);
-  const meetings = aggregatedActivity.activities.map(activity =>
-    lookupContext(aggregatedActivity, activity.object)
-  );
+  const meetings = aggregatedActivity.activities.reduce((acc, activity) => {
+    const context = lookupContext(aggregatedActivity, activity.object);
+    return context ? acc.concat(context) : acc;
+  }, []);
 
   if (!(actor && meetings)) {
     return null;

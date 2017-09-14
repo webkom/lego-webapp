@@ -115,7 +115,7 @@ export default class EventDetail extends Component {
       return null;
     }
 
-    if (loading || Object.keys(event).length === 0) {
+    if (loading) {
       return <LoadingIndicator loading />;
     }
 
