@@ -19,13 +19,13 @@ const validate = createValidator({
   email: [required(), isEmail()]
 });
 
-function mapStateToProps(state) {
-  const user = state.currentUser;
+const mapStateToProps = (state, props) => {
+  const user = props.currentUser;
   return {
     user,
     initialValues: user
   };
-}
+};
 
 const mapDispatchToProps = { updateUser, updatePicture, changePassword };
 
