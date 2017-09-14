@@ -32,7 +32,9 @@ export default function createMonthlyCalendar(
     range(1, 7),
     n => (daysAdded + n) % 7 !== 0
   ).map(n => ({
-    day: last(currentMonthDays).day.clone().add(n, 'days'),
+    day: last(currentMonthDays)
+      .day.clone()
+      .add(n, 'days'),
     prevOrNextMonth: true
   }));
 

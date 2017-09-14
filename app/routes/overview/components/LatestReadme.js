@@ -33,14 +33,14 @@ class LatestReadme extends Component {
           />
         </button>
 
-        {expanded &&
+        {expanded && (
           <Flex
             wrap
             row
             justifyContent="space-between"
             style={{ paddingTop: 20 }}
           >
-            {[1, 2, 3, 4, 5, 6].map(issue =>
+            {[1, 2, 3, 4, 5, 6].map(issue => (
               <a
                 key={issue}
                 href={`http://readme.abakus.no/utgaver/2016/2016-0${issue}.pdf`}
@@ -50,8 +50,9 @@ class LatestReadme extends Component {
                   src={`http://readme.abakus.no/bilder/2016/2016-0${issue}.jpg`}
                 />
               </a>
-            )}
-          </Flex>}
+            ))}
+          </Flex>
+        )}
       </Flex>
     );
   }

@@ -31,15 +31,14 @@ export default class Overview extends Component {
         <Flex>
           <Gallery
             onClick={gallery => push(`/photos/${gallery.id}`)}
-            renderBottom={photo =>
+            renderBottom={photo => (
               <div className={styles.galleryInfo}>
-                <h4 className={styles.galleryTitle}>
-                  {photo.title}
-                </h4>
+                <h4 className={styles.galleryTitle}>{photo.title}</h4>
                 <span
                   className={styles.galleryDescription}
                 >{`${photo.pictureCount} - bilder`}</span>
-              </div>}
+              </div>
+            )}
             photos={galleries}
             srcKey="cover.file"
           />

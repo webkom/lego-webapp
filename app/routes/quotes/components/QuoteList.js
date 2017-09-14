@@ -26,7 +26,7 @@ export default class QuoteList extends Component {
     const { quotes } = this.props;
     return (
       <ul>
-        {quotes.map(quote =>
+        {quotes.map(quote => (
           <Quote
             {...this.props}
             quote={quote}
@@ -34,7 +34,7 @@ export default class QuoteList extends Component {
             setDisplayAdmin={this.setDisplayAdmin}
             displayAdmin={quote.id === this.state.displayAdminId}
           />
-        )}
+        ))}
       </ul>
     );
   }

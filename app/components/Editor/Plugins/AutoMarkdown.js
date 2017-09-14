@@ -51,7 +51,10 @@ const onSpace = (e, state) => {
     transform = transform.wrapBlock(outerType);
   }
 
-  transform = transform.extendToStartOf(startBlock).delete().apply();
+  transform = transform
+    .extendToStartOf(startBlock)
+    .delete()
+    .apply();
 
   return transform;
 };
@@ -121,7 +124,11 @@ const onEnter = (e, state) => {
   }
 
   e.preventDefault();
-  return state.transform().splitBlock().setBlock(Blocks.Paragraph).apply();
+  return state
+    .transform()
+    .splitBlock()
+    .setBlock(Blocks.Paragraph)
+    .apply();
 };
 
 const onKeyDown = (e, data, state) => {

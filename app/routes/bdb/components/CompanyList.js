@@ -96,12 +96,10 @@ export default class CompanyList extends Component {
       }
     ];
 
-    const headers = HEADER_ITEMS.map((item, i) =>
+    const headers = HEADER_ITEMS.map((item, i) => (
       <th key={i}>
         <Link to={this.findSortLink(item.sortLink)}>
-          <div className={styles.title}>
-            {item.title}
-          </div>
+          <div className={styles.title}>{item.title}</div>
 
           <div className={styles[this.showOrHideSortIcon(item.sortLink)]}>
             <div className={styles.upArrow}>
@@ -113,7 +111,7 @@ export default class CompanyList extends Component {
           </div>
         </Link>
       </th>
-    );
+    ));
 
     return (
       <div className={styles.companyList}>
@@ -136,13 +134,11 @@ export default class CompanyList extends Component {
               </td>
             </tr>
 
-            <tr className={styles.categoryHeader}>
-              {headers}
-            </tr>
+            <tr className={styles.categoryHeader}>{headers}</tr>
           </thead>
 
           <tbody>
-            {companies.map((company, i) =>
+            {companies.map((company, i) => (
               <CompanySingleRow
                 company={company}
                 startYear={startYear}
@@ -152,7 +148,7 @@ export default class CompanyList extends Component {
                 editSemester={editSemester}
                 changedStatuses={changedStatuses}
               />
-            )}
+            ))}
           </tbody>
         </table>
       </div>

@@ -33,9 +33,11 @@ export const RegisteredElement = props => {
           className={styles.cell}
           content={registration.pool ? 'Påmeldt' : 'Venteliste'}
         >
-          {registration.pool
-            ? <i className={cx('fa fa-check-circle', styles.greenIcon)} />
-            : <i className={cx('fa fa-clock-o fa-2x', styles.greenIcon)} />}
+          {registration.pool ? (
+            <i className={cx('fa fa-check-circle', styles.greenIcon)} />
+          ) : (
+            <i className={cx('fa fa-clock-o fa-2x', styles.greenIcon)} />
+          )}
         </Tooltip>
       </div>
       <div className={styles.center}>
@@ -118,17 +120,21 @@ export const RegisteredElement = props => {
       </div>
       <div className={styles.one}>
         {showUnregister &&
-          (registration.fetching
-            ? <LoadingIndicator loading={true} small />
-            : <a onClick={() => handleUnregister(registration.id)}>
-                <i
-                  className="fa fa-minus-circle"
-                  style={{ color: '#C24538', marginRight: '5px' }}
-                />
-                {clickedUnregister === registration.id
-                  ? 'Er du sikker?'
-                  : 'Meld av'}
-              </a>)}
+          (registration.fetching ? (
+            <LoadingIndicator loading={true} small />
+          ) : (
+            <a onClick={() => handleUnregister(registration.id)}>
+              <i
+                className="fa fa-minus-circle"
+                style={{ color: '#C24538', marginRight: '5px' }}
+              />
+              {clickedUnregister === registration.id ? (
+                'Er du sikker?'
+              ) : (
+                'Meld av'
+              )}
+            </a>
+          ))}
       </div>
     </li>
   );

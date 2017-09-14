@@ -79,7 +79,7 @@ export default class Tooltip extends Component {
             { type: Inline.Underline, icon: 'underline' },
             { type: Inline.Code, icon: 'embed2' },
             { type: Inline.Striketrough, icon: 'strikethrough' }
-          ].map(({ type, icon }, i) =>
+          ].map(({ type, icon }, i) => (
             <TooltipButton
               key={`${i}-${type}`}
               type={type}
@@ -87,9 +87,10 @@ export default class Tooltip extends Component {
               isActive={this.hasStyle(type)}
               onClick={setInlineStyle}
             />
+          ))}
+          {!this.props.disableBlocks && (
+            <span className={styles.tooltipSeperator} />
           )}
-          {!this.props.disableBlocks &&
-            <span className={styles.tooltipSeperator} />}
           {!this.props.disableBlocks &&
             [
               { type: Blocks.H1, icon: 'font' },
@@ -98,7 +99,7 @@ export default class Tooltip extends Component {
               { type: Blocks.Cite, icon: 'quotes-right' },
               { type: Blocks.UL, icon: 'list' },
               { type: Blocks.O, icon: 'list-numbered' }
-            ].map(({ type, icon }, i) =>
+            ].map(({ type, icon }, i) => (
               <TooltipButton
                 key={`${i}-${type}`}
                 type={type}
@@ -106,7 +107,7 @@ export default class Tooltip extends Component {
                 isActive={this.hasBlock(type)}
                 onClick={setBlockType}
               />
-            )}
+            ))}
         </div>
       </Portal>
     );

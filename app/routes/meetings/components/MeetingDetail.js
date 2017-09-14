@@ -19,11 +19,11 @@ type Props = {
 };
 
 const UserLink = ({ user }: object) =>
-  user
-    ? <Link to={`/users/${user.username}`}>
-        {' '}{user.fullName}{' '}
-      </Link>
-    : <span> Ikke valgt </span>;
+  user ? (
+    <Link to={`/users/${user.username}`}> {user.fullName} </Link>
+  ) : (
+    <span> Ikke valgt </span>
+  );
 
 class MeetingDetails extends Component {
   props: Props;
@@ -52,21 +52,22 @@ class MeetingDetails extends Component {
   };
 
   attendanceButtons = (statusMe, startTime) =>
-    moment(startTime) > moment() &&
-    <li className={styles.statusButtons}>
-      <Button
-        onClick={this.acceptInvitation}
-        disabled={statusMe === INVITATION_STATUSES.ATTENDING}
-      >
-        Delta
-      </Button>
-      <Button
-        onClick={this.rejectInvitation}
-        disabled={statusMe === INVITATION_STATUSES.NOT_ATTENDING}
-      >
-        Avslå
-      </Button>
-    </li>;
+    moment(startTime) > moment() && (
+      <li className={styles.statusButtons}>
+        <Button
+          onClick={this.acceptInvitation}
+          disabled={statusMe === INVITATION_STATUSES.ATTENDING}
+        >
+          Delta
+        </Button>
+        <Button
+          onClick={this.rejectInvitation}
+          disabled={statusMe === INVITATION_STATUSES.NOT_ATTENDING}
+        >
+          Avslå
+        </Button>
+      </li>
+    );
 
   render() {
     const { meeting, user, showAnswer } = this.props;
@@ -96,9 +97,7 @@ class MeetingDetails extends Component {
         </h2>
         <FlexRow className={styles.heading}>
           <div style={{ flex: 1 }}>
-            <h1 className={styles.title}>
-              {meeting.title}
-            </h1>
+            <h1 className={styles.title}>{meeting.title}</h1>
             <h3>
               <Time
                 style={{ color: 'grey' }}
@@ -116,7 +115,7 @@ class MeetingDetails extends Component {
               </Button>
             </Link>
 
-            {canDelete &&
+            {canDelete && (
               <Button
                 style={{ backgroundColor: 'pink' }}
                 onClick={() => {
@@ -125,7 +124,8 @@ class MeetingDetails extends Component {
               >
                 <Icon name="trash" />
                 Slett møte
-              </Button>}
+              </Button>
+            )}
           </div>
         </FlexRow>
         <div className={styles.mainContent}>
@@ -150,9 +150,7 @@ class MeetingDetails extends Component {
                 </li>
                 <li>
                   <strong> Lokasjon: </strong>
-                  <span>
-                    {' '}{meeting.location}{' '}
-                  </span>
+                  <span> {meeting.location} </span>
                 </li>
                 <li>
                   <strong> Forfatter: </strong>

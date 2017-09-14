@@ -33,9 +33,7 @@ const UserSettingsOAuth2Form = (props: Props) => {
 
   return (
     <div>
-      <h1>
-        {props.create ? 'Opprett' : 'Endre'} Applikasjon
-      </h1>
+      <h1>{props.create ? 'Opprett' : 'Endre'} Applikasjon</h1>
 
       <Form onSubmit={props.handleSubmit(submit)}>
         <Field
@@ -59,7 +57,7 @@ const UserSettingsOAuth2Form = (props: Props) => {
           component={TextInput.Field}
         />
 
-        {!props.create &&
+        {!props.create && (
           <Field
             placeholder="Client ID"
             label="Client ID"
@@ -69,9 +67,10 @@ const UserSettingsOAuth2Form = (props: Props) => {
             props={{
               disabled: true
             }}
-          />}
+          />
+        )}
 
-        {!props.create &&
+        {!props.create && (
           <Field
             placeholder="Client Secret"
             label="Client Secret"
@@ -81,7 +80,8 @@ const UserSettingsOAuth2Form = (props: Props) => {
             props={{
               disabled: true
             }}
-          />}
+          />
+        )}
 
         <Button disabled={disabledButton} submit>
           Submit

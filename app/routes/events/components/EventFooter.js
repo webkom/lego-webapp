@@ -36,55 +36,55 @@ type Props = {
   icalToken: string
 };
 
-const EventFooter = ({ icalToken }: Props) =>
+const EventFooter = ({ icalToken }: Props) => (
   <div className={styles.eventFooter}>
-    {icalToken &&
+    {icalToken && (
       <p className={cx(styles.section, hiddenOnMobile)}>
         Her kan du importere arrangementer og møter til din favorittkalender!
         For innstillinger se
         <Link to="/users/me/settings"> her</Link>.
-      </p>}
+      </p>
+    )}
     <div className={styles.eventFooterSections}>
-      {icalToken &&
+      {icalToken && (
         <div className={cx(styles.section, hiddenOnMobile)}>
           <h3>Google kalender</h3>
           <ul>
-            {icalTypes.map((type, key) =>
+            {icalTypes.map((type, key) => (
               <li key={key}>
                 <a href={getIcalUrlGoogle(icalToken, type.name)}>
                   {type.title}
                 </a>
               </li>
-            )}
+            ))}
           </ul>
-        </div>}
-      {icalToken &&
+        </div>
+      )}
+      {icalToken && (
         <div className={cx(styles.section, hiddenOnMobile)}>
           <h3>ICalendar</h3>
           <ul>
-            {icalTypes.map((type, key) =>
+            {icalTypes.map((type, key) => (
               <li key={key}>
-                <a href={getIcalUrl(icalToken, type.name)}>
-                  {type.title}
-                </a>
+                <a href={getIcalUrl(icalToken, type.name)}>{type.title}</a>
               </li>
-            )}
+            ))}
           </ul>
-        </div>}
+        </div>
+      )}
       <div className={styles.section}>
         <h3>Fargekoder</h3>
         <ul>
-          {eventTypes.map(({ eventType, name }, id) =>
+          {eventTypes.map(({ eventType, name }, id) => (
             <li key={id}>
               <Circle color={colorForEvent(eventType)} />
-              <span className={styles.eventType}>
-                {name}
-              </span>
+              <span className={styles.eventType}>{name}</span>
             </li>
-          )}
+          ))}
         </ul>
       </div>
     </div>
-  </div>;
+  </div>
+);
 
 export default EventFooter;

@@ -7,13 +7,13 @@ export default function joinValues(values) {
 
   return (
     <div>
-      {values.map((el, i) =>
+      {values.map((el, i) => (
         <span key={i}>
           {i > 0 && i !== values.length - 1 && ', '}
           {i === values.length - 1 && ' og '}
           {el}
         </span>
-      )}
+      ))}
     </div>
   );
 }

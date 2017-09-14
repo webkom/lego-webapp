@@ -8,9 +8,7 @@ import { generateTreeStructure } from 'app/utils';
 function generateTreeView(groups) {
   return groups.map(group => {
     const nodeLabel = (
-      <Link to={`/admin/groups/${group.id}/settings`}>
-        {group.name}
-      </Link>
+      <Link to={`/admin/groups/${group.id}/settings`}>{group.name}</Link>
     );
     if (group.children.length) {
       return (

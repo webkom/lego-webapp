@@ -58,22 +58,23 @@ export default class PageDetail extends Component {
         <div className={styles.page}>
           <article className={styles.detail}>
             <div className={styles.header}>
-              <h2 className={styles.title}>
-                {page.title}
-              </h2>
-              {canEdit &&
+              <h2 className={styles.title}>{page.title}</h2>
+              {canEdit && (
                 <PageButtons
                   isEditing={this.state.isEditing}
                   toggleEditing={this.toggleEditing}
                   handleSave={this.handleSave}
-                />}
-            </div>
-            {this.state.isEditing
-              ? <Editor
-                  content={page.content}
-                  onChange={this.handleEditorChange}
                 />
-              : <div dangerouslySetInnerHTML={{ __html: page.content }} />}
+              )}
+            </div>
+            {this.state.isEditing ? (
+              <Editor
+                content={page.content}
+                onChange={this.handleEditorChange}
+              />
+            ) : (
+              <div dangerouslySetInnerHTML={{ __html: page.content }} />
+            )}
           </article>
           <aside className={styles.sidebar}>
             <PageHierarchy {...this.props} selectedSlug={page.slug} />

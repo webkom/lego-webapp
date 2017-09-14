@@ -47,7 +47,6 @@
 }
 
 .burger {
-
   @media (--mobile-device) {
     order: 4;
   }
@@ -61,15 +60,12 @@
   @media (--mobile-device) {
     margin-right: 0;
   }
-
 }
 
 .hideOnMobile {
-
   @media (--mobile-device) {
     display: none;
   }
-
 }
 
 .content {

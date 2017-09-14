@@ -47,17 +47,13 @@ export default class Quote extends Component {
             }}
           />
           <h3 className={styles.theQuote}>
-            <Link to={`/quotes/${quote.id}`}>
-              {quote.text}
-            </Link>
+            <Link to={`/quotes/${quote.id}`}>{quote.text}</Link>
           </h3>
         </div>
 
         <div className={styles.quoteBottom}>
           <span className={styles.quoteSource}>
-            <i>
-              - {quote.source}
-            </i>
+            <i>- {quote.source}</i>
           </span>
 
           <div className={styles.bottomRow}>
@@ -74,7 +70,7 @@ export default class Quote extends Component {
               </div>
 
               {actionGrant &&
-                actionGrant.includes('approve') &&
+              actionGrant.includes('approve') && (
                 <div className={styles.quoteAdmin}>
                   <Dropdown
                     show={displayAdmin}
@@ -96,33 +92,35 @@ export default class Quote extends Component {
                               ? unapprove(quote.id)
                               : approve(quote.id)}
                         >
-                          {' '}{quote.approved
-                            ? 'Fjern Godkjenning'
-                            : 'Godkjenn'}
+                          {' '}
+                          {quote.approved ? 'Fjern Godkjenning' : 'Godkjenn'}
                         </a>
                       </Dropdown.ListItem>
                       <Dropdown.Divider />
-                      {!this.state.deleting
-                        ? <Dropdown.ListItem>
-                            <a
-                              className={styles.deleteQuote}
-                              onClick={() => this.setState({ deleting: true })}
-                            >
-                              Slett
-                            </a>
-                          </Dropdown.ListItem>
-                        : <Dropdown.ListItem>
-                            <a
-                              className={styles.deleteQuote}
-                              onClick={() => deleteQuote(quote.id)}
-                              style={{ fontWeight: 600 }}
-                            >
-                              Er du sikker?
-                            </a>
-                          </Dropdown.ListItem>}
+                      {!this.state.deleting ? (
+                        <Dropdown.ListItem>
+                          <a
+                            className={styles.deleteQuote}
+                            onClick={() => this.setState({ deleting: true })}
+                          >
+                            Slett
+                          </a>
+                        </Dropdown.ListItem>
+                      ) : (
+                        <Dropdown.ListItem>
+                          <a
+                            className={styles.deleteQuote}
+                            onClick={() => deleteQuote(quote.id)}
+                            style={{ fontWeight: 600 }}
+                          >
+                            Er du sikker?
+                          </a>
+                        </Dropdown.ListItem>
+                      )}
                     </Dropdown.List>
                   </Dropdown>
-                </div>}
+                </div>
+              )}
             </div>
           </div>
         </div>

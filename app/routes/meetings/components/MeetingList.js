@@ -22,10 +22,12 @@ function MeetingListItem({ meeting, userId }) {
         <Link to={`/meetings/${meeting.id}`}>
           <h3 className={styles.meetingItemTitle}>
             {meeting.title}
-            {userId === meeting.createdBy &&
-              <Pill style={{ marginLeft: 10 }}>Eier</Pill>}
-            {userId === meeting.reportAuthor &&
-              <Pill style={{ marginLeft: 10 }}>Referent</Pill>}
+            {userId === meeting.createdBy && (
+              <Pill style={{ marginLeft: 10 }}>Eier</Pill>
+            )}
+            {userId === meeting.reportAuthor && (
+              <Pill style={{ marginLeft: 10 }}>Referent</Pill>
+            )}
           </h3>
         </Link>
 
@@ -133,18 +135,17 @@ export default class MeetingList extends Component {
       <div className={styles.root}>
         <Toolbar />
 
-        {pools.map((item, key) =>
+        {pools.map((item, key) => (
           <div key={key}>
-            <h2 className={styles.heading}>
-              {item.title}
-            </h2>
-            {item.meetings.map((item, key) =>
+            <h2 className={styles.heading}>{item.title}</h2>
+            {item.meetings.map((item, key) => (
               <MeetingListItem key={key} userId={user.id} meeting={item} />
-            )}
+            ))}
           </div>
+        ))}
+        {isEmpty && (
+          <h2 style={{ textAlign: 'center' }}> Ingen møter å vise</h2>
         )}
-        {isEmpty &&
-          <h2 style={{ textAlign: 'center' }}> Ingen møter å vise</h2>}
       </div>
     );
   }
