@@ -55,6 +55,15 @@ export const selectSiblings = createSelector(
   (pagesByParent, parentPk) => pagesByParent[parentPk] || []
 );
 
+/**
+ * Finds the children of the given PK
+ */
+export const selectChildren = createSelector(
+  state => values(state.pages.byId),
+  (state, props) => props.parentPk,
+  (pages, parentPk) => pages.filter(page => page.parent === parentPk) || {}
+);
+
 export const selectPages = createSelector(
   state => state.pages.byId,
   (pagesBySlug, pageSlug) =>
