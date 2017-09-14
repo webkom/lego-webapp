@@ -50,7 +50,7 @@ class AttendanceStatus extends Component {
         <Modal show={this.state.modalOpen} onHide={() => this.toggleModal(0)}>
           <RegistrationModal
             {...this.props}
-            selectedPool={this.state.selectedPool}
+            selectedPool={this.state.selectedPool + 1}
             pools={pools}
           />
         </Modal>

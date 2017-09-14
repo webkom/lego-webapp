@@ -18,7 +18,7 @@ export default class Admin extends Component {
   render() {
     const { actionGrant, event } = this.props;
     return (
-      <div>
+      <div style={{ marginTop: '10px' }}>
         {actionGrant.length > 0 && (
           <ul>
             <li>
