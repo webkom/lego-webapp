@@ -21,15 +21,17 @@ const UserSettingsIndex = (props: Props) => {
           Notifikasjoner
         </NavigationLink>
         <NavigationLink to="/users/me/settings/oauth2">OAuth2</NavigationLink>
-        {!props.currentUser.isStudent &&
+        {!props.currentUser.isStudent && (
           <NavigationLink to="/users/me/settings/student-confirmation">
             Verifiser studentstatus
-          </NavigationLink>}
+          </NavigationLink>
+        )}
       </NavigationTab>
-      {React.cloneElement(props.children, {
-        ...props,
-        children: undefined
-      })}
+      {props.children &&
+        React.cloneElement(props.children, {
+          ...props,
+          children: undefined
+        })}
     </div>
   );
 };

@@ -40,9 +40,9 @@ const UserSettings = (props: Props) => {
       </FlexRow>
 
       <Form
-        onSubmit={handleSubmit(props => {
-          updateUser(omit(props, 'profilePicture'));
-        })}
+        onSubmit={handleSubmit(data =>
+          updateUser(omit(data, 'profilePicture'))
+        )}
       >
         <Field
           placeholder="Brukernavn"
