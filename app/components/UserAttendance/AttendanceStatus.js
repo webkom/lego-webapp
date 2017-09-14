@@ -33,10 +33,10 @@ class AttendanceStatus extends Component {
           <strong>{pool.name}</strong>
           <a onClick={() => this.toggleModal(i)}>
             <strong>
-              {pool.registrations && pool.registrations.length > 0 ? (
+              {pool.registrations ? (
                 `${pool.registrations.length}/${capacity}`
               ) : (
-                capacity
+                `0/${capacity}`
               )}
             </strong>
           </a>
