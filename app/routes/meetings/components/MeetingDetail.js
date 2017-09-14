@@ -75,16 +75,18 @@ class MeetingDetails extends Component {
     if (!meeting || !user) {
       return <LoadingIndicator loading />;
     }
-    const statusMe = meeting.invitations.filter(
+    const statusMe = meeting.invitations.find(
       item => item.user.username === user.username
-    )[0].status;
+    ).status;
 
-    const reportAuthor = meeting.invitations.filter(
-      invitation => invitation.user.id === meeting.reportAuthor
-    )[0].user;
-    const createdBy = meeting.invitations.filter(
-      invitation => invitation.user.id === meeting.createdBy
-    )[0].user;
+    const reportAuthorInvite = meeting.invitations.find(
+      invite => invite.user.id === meeting.reportAuthor
+    );
+    const reportAuthor = reportAuthorInvite ? reportAuthorInvite.user : null;
+
+    const createdBy = meeting.invitations.find(
+      invite => invite.user.id === meeting.createdBy
+    ).user;
 
     const canDelete = user.id === meeting.createdBy;
     return (
