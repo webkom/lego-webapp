@@ -26,13 +26,13 @@ const Feed = props => {
       <h2 className="u-ui-heading">Live updates</h2>
       <div className={styles.content}>
         <ul>
-          {items.map((item, index) =>
+          {items.map((item, index) => (
             <li className={styles.item} key={index}>
               <a href="">
                 <strong>{item.who}</strong> {item.what}
               </a>
             </li>
-          )}
+          ))}
         </ul>
       </div>
     </div>

@@ -59,8 +59,9 @@ const UserSettingsOAuth2 = (props: Props) => {
       <br />
 
       <h3>Applikasjoner</h3>
-      {props.actionGrant.includes('create') &&
-        <Link to="/users/me/settings/oauth2/new">Ny Applikasjon</Link>}
+      {props.actionGrant.includes('create') && (
+        <Link to="/users/me/settings/oauth2/new">Ny Applikasjon</Link>
+      )}
       <table className={styles.table}>
         <thead>
           <tr>
@@ -70,25 +71,22 @@ const UserSettingsOAuth2 = (props: Props) => {
           </tr>
         </thead>
         <tbody>
-          {props.applications.map((application, key) =>
+          {props.applications.map((application, key) => (
             <tr key={key}>
               <td>
                 <Link to={`/users/me/settings/oauth2/${application.id}`}>
                   {application.name}
                 </Link>
               </td>
-              <td>
-                {application.description}
-              </td>
-              <td>
-                {application.clientId}
-              </td>
+              <td>{application.description}</td>
+              <td>{application.clientId}</td>
             </tr>
-          )}
-          {props.applications.length === 0 &&
+          ))}
+          {props.applications.length === 0 && (
             <tr>
               <td colSpan="3">Du har ingen applikasjoner.</td>
-            </tr>}
+            </tr>
+          )}
         </tbody>
       </table>
 
@@ -108,35 +106,30 @@ const UserSettingsOAuth2 = (props: Props) => {
         <tbody>
           {props.grants.map(
             (grant, key) =>
-              grant.id
-                ? <tr key={key}>
-                    <td>
-                      {grant.application.name}
-                    </td>
-                    <td>
-                      <Time time={grant.expires} format="LLL" />
-                    </td>
-                    <td>
-                      {grant.token}
-                    </td>
-                    <td>
-                      {keys(grant.scopes).join(', ')}
-                    </td>
-                    <td>
-                      <Button
-                        size="small"
-                        onClick={() => props.deleteOAuth2Grant(grant.id)}
-                      >
-                        Fjern
-                      </Button>
-                    </td>
-                  </tr>
-                : null
+              grant.id ? (
+                <tr key={key}>
+                  <td>{grant.application.name}</td>
+                  <td>
+                    <Time time={grant.expires} format="LLL" />
+                  </td>
+                  <td>{grant.token}</td>
+                  <td>{keys(grant.scopes).join(', ')}</td>
+                  <td>
+                    <Button
+                      size="small"
+                      onClick={() => props.deleteOAuth2Grant(grant.id)}
+                    >
+                      Fjern
+                    </Button>
+                  </td>
+                </tr>
+              ) : null
           )}
-          {props.grants.length === 0 &&
+          {props.grants.length === 0 && (
             <tr>
               <td colSpan="5">Du har ikke logget logget på en app enda.</td>
-            </tr>}
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

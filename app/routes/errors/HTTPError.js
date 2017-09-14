@@ -41,9 +41,7 @@ export default class HTTPError extends Component {
               }}
             />
           </Link>
-          <h1>
-            {getHTTPError(this.props.statusCode)}
-          </h1>
+          <h1>{getHTTPError(this.props.statusCode)}</h1>
         </Flex>
       </Content>
     );

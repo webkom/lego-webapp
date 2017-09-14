@@ -61,9 +61,7 @@ type fieldProps = {
 const FieldElement = ({ text, name, component, ...props }: fieldProps) => {
   return (
     <div className={styles.metaList}>
-      <span>
-        {text}
-      </span>
+      <span>{text}</span>
       <Field
         {...props}
         name={name}
@@ -109,23 +107,20 @@ function EventEditor({
   }
 
   if (error) {
-    return (
-      <div>
-        {error.message}
-      </div>
-    );
+    return <div>{error.message}</div>;
   }
   const styleType = styleForEvent(event.eventType);
 
   return (
     <div className={styles.root}>
-      {isEditPage &&
+      {isEditPage && (
         <h2>
           <Link to={`/events/${eventId}`}>
             <i className="fa fa-angle-left" />
             {` ${event.title}`}
           </Link>
-        </h2>}
+        </h2>
+      )}
       <Form onSubmit={handleSubmit(handleSubmitCallback)}>
         <Field
           name="cover"
@@ -208,7 +203,7 @@ function EventEditor({
                 name="isPriced"
                 component={CheckBox.Field}
               />
-              {event.isPriced &&
+              {event.isPriced && (
                 <div>
                   <FieldElement
                     text={
@@ -225,18 +220,19 @@ function EventEditor({
                     type="number"
                     component={TextInput.Field}
                   />
-                </div>}
+                </div>
+              )}
             </ul>
-            {loggedIn &&
+            {loggedIn && (
               <Flex column>
                 <h3>Påmeldte:</h3>
                 <Flex className={styles.registeredThumbnails}>
                   {registrations &&
                     registrations
                       .slice(0, 10)
-                      .map(reg =>
+                      .map(reg => (
                         <RegisteredCell key={reg.user.id} user={reg.user} />
-                      )}
+                      ))}
                 </Flex>
                 <RegisteredSummary registrations={[]} />
                 <AttendanceStatus title="Påmeldte" pools={pools} />
@@ -248,13 +244,15 @@ function EventEditor({
                   name="mergeTime"
                   component={DatePicker.Field}
                 />
-                {isEditPage &&
+                {isEditPage && (
                   <Admin
                     actionGrant={actionGrant}
                     event={event}
                     deleteEvent={deleteEvent}
-                  />}
-              </Flex>}
+                  />
+                )}
+              </Flex>
+            )}
           </Flex>
         </Flex>
 
@@ -273,22 +271,21 @@ function EventEditor({
               LAGRE
             </Button>
 
-            {isEditPage &&
+            {isEditPage && (
               <Link to={`/events/${event.id}`}>
                 <Button>TILBAKE</Button>
-              </Link>}
+              </Link>
+            )}
           </Flex>
 
           <Flex column className={styles.openFor}>
             <strong>Åpent for</strong>
             <ul>
-              {(pools || []).map(pool =>
-                (pool.permissionGroups || []).map(group =>
-                  <li key={group.value}>
-                    {group.label}
-                  </li>
-                )
-              )}
+              {(pools || [])
+                .map(pool =>
+                  (pool.permissionGroups || [])
+                    .map(group => <li key={group.value}>{group.label}</li>)
+                )}
             </ul>
           </Flex>
         </Flex>

@@ -40,9 +40,7 @@ function AccountDropdownItems({ logout, onClose, username }) {
     <Dropdown.List>
       <Dropdown.ListItem>
         <Link to="/users/me" onClick={onClose} style={{ color: '#333' }}>
-          <strong>
-            {username}
-          </strong>
+          <strong>{username}</strong>
           <Icon name="contact" size={24} />
         </Link>
       </Dropdown.ListItem>
@@ -94,16 +92,18 @@ class Header extends Component {
               <Link to="/events" activeClassName={styles.activeItem}>
                 Arrangementer
               </Link>
-              {!loggedIn
-                ? <Link
-                    to="/pages/for-companies"
-                    activeClassName={styles.activeItem}
-                  >
-                    For bedrifter
-                  </Link>
-                : <Link to="/joblistings" activeClassName={styles.activeItem}>
-                    Karriere
-                  </Link>}
+              {!loggedIn ? (
+                <Link
+                  to="/pages/for-companies"
+                  activeClassName={styles.activeItem}
+                >
+                  For bedrifter
+                </Link>
+              ) : (
+                <Link to="/joblistings" activeClassName={styles.activeItem}>
+                  Karriere
+                </Link>
+              )}
               <Link to="/pages/om-oss" activeClassName={styles.activeItem}>
                 Om Abakus
               </Link>
@@ -117,7 +117,7 @@ class Header extends Component {
                 <Icon name="menu" scaleOnHover />
               </button>
 
-              {loggedIn &&
+              {loggedIn && (
                 <NotificationsDropdown
                   notificationsData={this.props.notificationsData}
                   fetchNotifications={this.props.fetchNotifications}
@@ -125,9 +125,10 @@ class Header extends Component {
                   markAllNotifications={this.props.markAllNotifications}
                   markNotification={this.props.markNotification}
                   fetchNotificationData={this.props.fetchNotificationData}
-                />}
+                />
+              )}
 
-              {loggedIn &&
+              {loggedIn && (
                 <Dropdown
                   show={this.state.accountOpen}
                   toggle={() =>
@@ -145,9 +146,10 @@ class Header extends Component {
                     username={this.props.currentUser.username}
                     logout={this.props.logout}
                   />
-                </Dropdown>}
+                </Dropdown>
+              )}
 
-              {!loggedIn &&
+              {!loggedIn && (
                 <Dropdown
                   show={this.state.accountOpen}
                   toggle={() =>
@@ -175,7 +177,8 @@ class Header extends Component {
                       }}
                     />
                   </div>
-                </Dropdown>}
+                </Dropdown>
+              )}
 
               <button
                 onClick={this.props.toggleSearch}

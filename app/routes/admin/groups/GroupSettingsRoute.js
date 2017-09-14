@@ -9,11 +9,7 @@ const Permissions = ({ permissions }) => {
 
   return (
     <ul>
-      {permissions.map(permission =>
-        <li key={permission}>
-          {permission}
-        </li>
-      )}
+      {permissions.map(permission => <li key={permission}>{permission}</li>)}
     </ul>
   );
 };
@@ -36,13 +32,15 @@ export default class GroupSettings extends Component {
 
     let display;
     if (permissions) {
-      display = editing
-        ? <EditPermissions
-            permissions={permissions}
-            groupId={id}
-            updateGroup={updateGroup}
-          />
-        : <Permissions permissions={permissions} />;
+      display = editing ? (
+        <EditPermissions
+          permissions={permissions}
+          groupId={id}
+          updateGroup={updateGroup}
+        />
+      ) : (
+        <Permissions permissions={permissions} />
+      );
     }
 
     return (
@@ -54,9 +52,7 @@ export default class GroupSettings extends Component {
           </button>
           )
         </h4>
-        <LoadingIndicator loading={!permissions}>
-          {display}
-        </LoadingIndicator>
+        <LoadingIndicator loading={!permissions}>{display}</LoadingIndicator>
       </div>
     );
   }

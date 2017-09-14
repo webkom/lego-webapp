@@ -24,7 +24,8 @@ export const MeetingAnswer = ({
       <div style={{ textAlign: 'center' }}>
         <h1> Du har nå svart på invitasjonen 😃 </h1>
         <p>
-          {' '}{user.firstName} skal nå {statusText} på møtet!
+          {' '}
+          {user.firstName} skal nå {statusText} på møtet!
         </p>
         <p>
           Logg inn og sjekk møtet <Link onClick={handleLink}> her</Link>

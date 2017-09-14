@@ -44,9 +44,7 @@ export default class Comment extends Component {
               style={{ marginRight: 25 }}
             />
 
-            <Link to={`/users/${author.username}`}>
-              {author.username}
-            </Link>
+            <Link to={`/users/${author.username}`}>{author.username}</Link>
             <span className={styles.bullet}>•</span>
             <Time className={styles.timestamp} time={createdAt} wordsAgo />
             <span className={styles.bullet}>•</span>
@@ -65,7 +63,7 @@ export default class Comment extends Component {
           </div>
         </div>
 
-        {replyOpen &&
+        {replyOpen && (
           <CommentForm
             form={`comment.${commentFormProps.commentTarget}-${comment.id}`}
             parent={comment.id}
@@ -73,7 +71,8 @@ export default class Comment extends Component {
             inlineMode
             autoFocus
             {...commentFormProps}
-          />}
+          />
+        )}
       </div>
     );
   }

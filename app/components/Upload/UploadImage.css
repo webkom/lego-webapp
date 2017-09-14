@@ -85,9 +85,9 @@
 
 .previewRowImage {
   height: 50px;
-      width: 80px;
-      object-fit: cover;
-    }
+  width: 80px;
+  object-fit: cover;
+}
 
 .removeIcon {
   font-size: 48px;

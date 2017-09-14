@@ -40,9 +40,7 @@ const NotificationElement = ({
         onClick={() => markNotification(notification.id)}
       >
         <div className={styles.innerNotification}>
-          <div className={styles.icon}>
-            {renders.icon(notification)}
-          </div>
+          <div className={styles.icon}>{renders.icon(notification)}</div>
           <div>
             {renders.activityHeader(notification)}
             <Time
@@ -83,13 +81,13 @@ export default class NotificationsDropdown extends Component {
   renderNotifications = notifications => {
     return (
       <div>
-        {notifications.map((notification, i) =>
+        {notifications.map((notification, i) => (
           <NotificationElement
             key={i}
             notification={notification}
             markNotification={this.markNotification}
           />
-        )}
+        ))}
       </div>
     );
   };
@@ -114,18 +112,20 @@ export default class NotificationsDropdown extends Component {
         contentClassName={styles.notifications}
       >
         {/* TODO FIXME - do same as the menu element*/}
-        {notifications.length
-          ? <div style={{ width: '100%' }}>
-              <div style={{ maxHeight: '300px', overflowY: 'overlay' }}>
-                {this.renderNotifications(notifications)}
-              </div>
-              <div className={styles.seeAllWrapper}>
-                <Link onClick={this.seeAll} className={styles.seeAll}>
-                  Marker alle som sett
-                </Link>
-              </div>
+        {notifications.length ? (
+          <div style={{ width: '100%' }}>
+            <div style={{ maxHeight: '300px', overflowY: 'overlay' }}>
+              {this.renderNotifications(notifications)}
             </div>
-          : <h2 style={{ padding: '10px' }}>Ingen varslinger</h2>}
+            <div className={styles.seeAllWrapper}>
+              <Link onClick={this.seeAll} className={styles.seeAll}>
+                Marker alle som sett
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <h2 style={{ padding: '10px' }}>Ingen varslinger</h2>
+        )}
       </Dropdown>
     );
   }

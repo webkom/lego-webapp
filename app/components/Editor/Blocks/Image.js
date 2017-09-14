@@ -96,9 +96,9 @@ export default class ImageBlock extends Component {
         {uploading && <div className={styles.loader} />}
 
         {isFocused &&
-          !uploading &&
+        !uploading && (
           <div className={styles.tooltip}>
-            {tooltipButtons.map(button =>
+            {tooltipButtons.map(button => (
               <span
                 key={button.blockLayout}
                 className={styles.tooltipButton}
@@ -117,8 +117,9 @@ export default class ImageBlock extends Component {
                   name={button.icon}
                 />
               </span>
-            )}
-          </div>}
+            ))}
+          </div>
+        )}
 
         <img
           src={data.src}
@@ -127,7 +128,7 @@ export default class ImageBlock extends Component {
           style={style}
         />
         {!uploading &&
-          error &&
+        error && (
           <div className={styles.overlay}>
             <span>
               There was an error uploading the image:
@@ -138,7 +139,8 @@ export default class ImageBlock extends Component {
                 <a onClick={this.retry}>Retry?</a>
               </b>
             </span>
-          </div>}
+          </div>
+        )}
       </div>
     );
   }

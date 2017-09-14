@@ -59,13 +59,14 @@ export default class QuoteDetail extends Component {
             setDisplayAdmin={this.setDisplayAdmin}
           />
 
-          {quote.commentTarget &&
+          {quote.commentTarget && (
             <CommentView
               user={currentUser}
               commentTarget={quote.commentTarget}
               loggedIn={loggedIn}
               comments={comments}
-            />}
+            />
+          )}
         </div>
 
         <QuoteRightNav query={query} detail={true} actionGrant={actionGrant} />

@@ -7,16 +7,19 @@ export const activityRenderers = {
   restricted_mail_sent: require('./renders/restrictedMail')
 };
 
-const Feed = ({ items }) =>
+const Feed = ({ items }) => (
   <div style={{ width: '100%' }}>
-    {items.length
-      ? items.map((item, i) => {
-          const renders = activityRenderers[item.verb];
-          return renders
-            ? <Activty aggregatedActivity={item} key={i} renders={renders} />
-            : null;
-        })
-      : <p>No activities...</p>}
-  </div>;
+    {items.length ? (
+      items.map((item, i) => {
+        const renders = activityRenderers[item.verb];
+        return renders ? (
+          <Activty aggregatedActivity={item} key={i} renders={renders} />
+        ) : null;
+      })
+    ) : (
+      <p>No activities...</p>
+    )}
+  </div>
+);
 
 export default Feed;

@@ -39,11 +39,7 @@ export default class UserProfile extends Component {
       );
     });
 
-    return (
-      <ul>
-        {tags}
-      </ul>
-    );
+    return <ul>{tags}</ul>;
   }
 
   render() {
@@ -59,9 +55,7 @@ export default class UserProfile extends Component {
         <Flex wrap className={styles.header}>
           <ProfilePicture user={user} size={150} />
 
-          <h2>
-            {user.fullName}
-          </h2>
+          <h2>{user.fullName}</h2>
 
           <Pill>5. Datateknikk</Pill>
         </Flex>
@@ -70,17 +64,21 @@ export default class UserProfile extends Component {
           <div className={styles.sidebar}>
             <Card>
               {this.renderFields()}
-              {isMe
-                ? <Link to="/users/me/settings/profile">Settings</Link>
-                : ''}
+              {isMe ? (
+                <Link to="/users/me/settings/profile">Settings</Link>
+              ) : (
+                ''
+              )}
             </Card>
           </div>
 
           <div className={styles.feed}>
             <h2>Recent Activity</h2>
-            {feed
-              ? <Feed items={feedItems} feed={feed} />
-              : <LoadingIndicator loading />}
+            {feed ? (
+              <Feed items={feedItems} feed={feed} />
+            ) : (
+              <LoadingIndicator loading />
+            )}
           </div>
         </Flex>
       </div>

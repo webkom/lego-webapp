@@ -64,7 +64,9 @@ export default function resolveAsyncRoute(
 
   return {
     getComponent(location, cb) {
-      codeSplitted().then(loadRoute(cb)).catch(loadingError);
+      codeSplitted()
+        .then(loadRoute(cb))
+        .catch(loadingError);
     }
   };
 }

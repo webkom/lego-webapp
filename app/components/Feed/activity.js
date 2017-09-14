@@ -59,33 +59,34 @@ export default class CommentRendrer extends Component {
         <div className={styles.header}>
           {renders.activityHeader(aggregatedActivity)}
         </div>
-        {activities.map((activity, i) =>
+        {activities.map((activity, i) => (
           <div key={i}>
             {this.renderHeader(activity, aggregatedActivity)}
             <div className={styles.activityContent}>
               {renders.activityContent(activity)}
             </div>
           </div>
-        )}
+        ))}
         {(aggregatedActivity.activityCount > 3 && !this.state.expanded) ||
         (aggregatedActivity.activityCount > activities.length &&
-          this.state.expanded)
-          ? <div className={styles.activityFooter}>
-              {aggregatedActivity.activities.length > 3 &&
-                !this.state.expanded &&
-                <Button
-                  size="small"
-                  submit={false}
-                  onClick={() => this.setState({ expanded: true })}
-                >
-                  Vis mer
-                </Button>}
-              {aggregatedActivity.activityCount > activities.length &&
-                this.state.expanded &&
-                `og ${aggregatedActivity.activityCount -
-                  activities.length} skjulte aktiviteter...`}
-            </div>
-          : null}
+          this.state.expanded) ? (
+          <div className={styles.activityFooter}>
+            {aggregatedActivity.activities.length > 3 &&
+            !this.state.expanded && (
+              <Button
+                size="small"
+                submit={false}
+                onClick={() => this.setState({ expanded: true })}
+              >
+                Vis mer
+              </Button>
+            )}
+            {aggregatedActivity.activityCount > activities.length &&
+              this.state.expanded &&
+              `og ${aggregatedActivity.activityCount -
+                activities.length} skjulte aktiviteter...`}
+          </div>
+        ) : null}
       </Card>
     );
   }

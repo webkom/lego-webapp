@@ -217,7 +217,7 @@ export default class CustomEditor extends Component {
         />
 
         {!this.props.disableBlocks &&
-          !this.props.readOnly &&
+        !this.props.readOnly && (
           <Toolbar
             editorState={editorState}
             insertBlock={this.insertBlock}
@@ -225,15 +225,17 @@ export default class CustomEditor extends Component {
             uploadFile={uploadFile}
             isPublic
             setBlockData={this.setBlockData}
-          />}
-        {!this.props.readOnly &&
+          />
+        )}
+        {!this.props.readOnly && (
           <Tooltip
             disableBlocks={this.props.disableBlocks}
             setBlockType={this.setBlockType}
             setInlineStyle={this.setInlineStyle}
             editorState={editorState}
             wrapperElement={this.wrapperElement}
-          />}
+          />
+        )}
       </div>
     );
   }

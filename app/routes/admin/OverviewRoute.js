@@ -16,9 +16,7 @@ const OverviewRoute = ({ children }: { children: any }) => {
           </li>
         </ul>
       </div>
-      <div className={styles.main}>
-        {children}
-      </div>
+      <div className={styles.main}>{children}</div>
     </div>
   );
 };

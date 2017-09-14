@@ -47,9 +47,7 @@ const StudentConfirmation = ({
     return (
       <Content>
         <div className={styles.root}>
-          <h2>
-            {studentConfirmed ? 'Du er nå verifisert!' : 'Ugyldig token'}
-          </h2>
+          <h2>{studentConfirmed ? 'Du er nå verifisert!' : 'Ugyldig token'}</h2>
           <Link to="/">Gå tilbake til hovedsiden</Link>
         </div>
       </Content>

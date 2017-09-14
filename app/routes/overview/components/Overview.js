@@ -46,28 +46,25 @@ function PrimaryItem({ event }) {
         </Link>
         <div className={styles.pinnedHeading}>
           <h2 className={styles.itemTitle}>
-            <Link to={`/events/${event.id}`}>
-              {event.title}
-            </Link>
+            <Link to={`/events/${event.id}`}>{event.title}</Link>
           </h2>
 
           <span className={styles.itemInfo}>
-            {event.startTime &&
-              <Time time={event.startTime} format="DD.MM HH:mm" />}
-            {event.location !== '-' &&
+            {event.startTime && (
+              <Time time={event.startTime} format="DD.MM HH:mm" />
+            )}
+            {event.location !== '-' && (
               <span>
                 <span className={styles.dot}> · </span>
-                <span>
-                  {event.location}
-                </span>
-              </span>}
-            {event.eventType &&
+                <span>{event.location}</span>
+              </span>
+            )}
+            {event.eventType && (
               <span>
                 <span className={styles.dot}> · </span>
-                <span>
-                  {EVENT_TYPE_TO_STRING(event.eventType)}
-                </span>
-              </span>}
+                <span>{EVENT_TYPE_TO_STRING(event.eventType)}</span>
+              </span>
+            )}
           </span>
         </div>
       </Flex>
@@ -75,14 +72,15 @@ function PrimaryItem({ event }) {
   );
 }
 
-const OverviewItem = ({ event, showImage }) =>
+const OverviewItem = ({ event, showImage }) => (
   <Flex column className={styles.item}>
     <Flex className={styles.inner}>
       <Flex column>
-        {showImage &&
+        {showImage && (
           <Link to={`/events/${event.id}`} className={styles.imageContainer}>
             <Image className={styles.image} src={event.cover} />
-          </Link>}
+          </Link>
+        )}
       </Flex>
       <Flex column className={styles.innerRight}>
         <div className={styles.heading}>
@@ -93,22 +91,21 @@ const OverviewItem = ({ event, showImage }) =>
           </h2>
 
           <span className={styles.itemInfo}>
-            {event.startTime &&
-              <Time time={event.startTime} format="DD.MM HH:mm" />}
-            {event.location !== '-' &&
+            {event.startTime && (
+              <Time time={event.startTime} format="DD.MM HH:mm" />
+            )}
+            {event.location !== '-' && (
               <span>
                 <span className={styles.dot}> · </span>
-                <span>
-                  {event.location}
-                </span>
-              </span>}
-            {event.eventType &&
+                <span>{event.location}</span>
+              </span>
+            )}
+            {event.eventType && (
               <span>
                 <span className={styles.dot}> · </span>
-                <span>
-                  {EVENT_TYPE_TO_STRING(event.eventType)}
-                </span>
-              </span>}
+                <span>{EVENT_TYPE_TO_STRING(event.eventType)}</span>
+              </span>
+            )}
           </span>
         </div>
 
@@ -122,7 +119,8 @@ const OverviewItem = ({ event, showImage }) =>
         </p>
       </Flex>
     </Flex>
-  </Flex>;
+  </Flex>
+);
 
 export default class Overview extends Component {
   state = {
@@ -153,15 +151,15 @@ export default class Overview extends Component {
         <Flex wrap>
           {events
             .slice(1, this.state.eventsToShow)
-            .map(event =>
+            .map(event => (
               <OverviewItem
                 key={event.id}
                 event={event}
                 showImage
                 increaseEventsToShow={this.increaseEventsToShow}
               />
-            )}
-          {events.length > 0 &&
+            ))}
+          {events.length > 0 && (
             <Button
               style={{ width: '100%', marginTop: '10px' }}
               onClick={() =>
@@ -169,7 +167,8 @@ export default class Overview extends Component {
             >
               Vis flere arrangementer&nbsp;
               <i className="fa fa-angle-double-down " />
-            </Button>}
+            </Button>
+          )}
         </Flex>
       </Content>
     );

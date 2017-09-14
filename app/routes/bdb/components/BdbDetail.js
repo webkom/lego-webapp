@@ -56,7 +56,7 @@ export default class BdbDetail extends Component {
         (a, b) =>
           a.year === b.year ? a.semester - b.semester : b.year - a.year
       )
-      .map((status, i) =>
+      .map((status, i) => (
         <tr key={i}>
           <td>
             {status.year} {this.semesterIdToText(status.semester)}
@@ -64,20 +64,22 @@ export default class BdbDetail extends Component {
 
           <td
             className={
-              status.semester === 2
-                ? styles.bedex
-                : styles[selectColorCode(status.contactedStatus)]
+              status.semester === 2 ? (
+                styles.bedex
+              ) : (
+                styles[selectColorCode(status.contactedStatus)]
+              )
             }
           >
-            {status.semester === 2
-              ? 'Bedex'
-              : statusStrings[status.contactedStatus] || 6}
+            {status.semester === 2 ? (
+              'Bedex'
+            ) : (
+              statusStrings[status.contactedStatus] || 6
+            )}
           </td>
 
           <td style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span>
-              {status.contract || '-'}
-            </span>
+            <span>{status.contract || '-'}</span>
             <span style={{ display: 'flex', flexDirection: 'row' }}>
               <Link to={`/bdb/${company.id}/semesters/${status.id}`}>
                 <i
@@ -91,21 +93,15 @@ export default class BdbDetail extends Component {
             </span>
           </td>
         </tr>
-      );
+      ));
 
     let companyContacts = [];
     if (company.companyContacts) {
-      companyContacts = company.companyContacts.map((contact, i) =>
+      companyContacts = company.companyContacts.map((contact, i) => (
         <tr key={i}>
-          <td>
-            {contact.name || '-'}
-          </td>
-          <td>
-            {contact.role || '-'}
-          </td>
-          <td>
-            {contact.mail || '-'}
-          </td>
+          <td>{contact.name || '-'}</td>
+          <td>{contact.role || '-'}</td>
+          <td>{contact.mail || '-'}</td>
           <td style={{ display: 'flex', justifyContent: 'space-between' }}>
             {contact.phone || '-'}
             <span style={{ display: 'flex', flexDirection: 'row' }}>
@@ -121,24 +117,20 @@ export default class BdbDetail extends Component {
             </span>
           </td>
         </tr>
-      );
+      ));
     }
 
     const events = companyEvents
       .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
-      .map((event, i) =>
+      .map((event, i) => (
         <tr key={i}>
-          <td>
-            {event.title}
-          </td>
-          <td>
-            {event.eventType}
-          </td>
+          <td>{event.title}</td>
+          <td>{event.eventType}</td>
           <td>
             <Time time={event.startTime} format="DD.MM.YYYY" />
           </td>
         </tr>
-      );
+      ));
 
     return (
       <div className={styles.root}>
@@ -174,28 +166,28 @@ export default class BdbDetail extends Component {
             </div>
 
             <h3>Bedriftskontakter</h3>
-            {companyContacts.length > 0
-              ? <div
-                  className={styles.companyList}
-                  style={{ marginBottom: '10px' }}
-                >
-                  <table className={styles.contactTable}>
-                    <thead className={styles.categoryHeader}>
-                      <tr>
-                        <th>Navn</th>
-                        <th>Rolle</th>
-                        <th>E-post</th>
-                        <th>Tlf</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {companyContacts}
-                    </tbody>
-                  </table>
-                </div>
-              : <i style={{ display: 'block' }}>
-                  Ingen bedriftskontakter registrert.
-                </i>}
+            {companyContacts.length > 0 ? (
+              <div
+                className={styles.companyList}
+                style={{ marginBottom: '10px' }}
+              >
+                <table className={styles.contactTable}>
+                  <thead className={styles.categoryHeader}>
+                    <tr>
+                      <th>Navn</th>
+                      <th>Rolle</th>
+                      <th>E-post</th>
+                      <th>Tlf</th>
+                    </tr>
+                  </thead>
+                  <tbody>{companyContacts}</tbody>
+                </table>
+              </div>
+            ) : (
+              <i style={{ display: 'block' }}>
+                Ingen bedriftskontakter registrert.
+              </i>
+            )}
 
             <Link
               to={`/bdb/${company.id}/company-contacts/add`}
@@ -207,25 +199,25 @@ export default class BdbDetail extends Component {
             <div style={{ clear: 'both', marginBottom: '30px' }} />
 
             <h3>Semesterstatuser</h3>
-            {semesters.length > 0
-              ? <div
-                  className={styles.companyList}
-                  style={{ marginBottom: '10px' }}
-                >
-                  <table className={styles.detailTable}>
-                    <thead className={styles.categoryHeader}>
-                      <tr>
-                        <th>Semester</th>
-                        <th>Status</th>
-                        <th>Kontrakt</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {semesters}
-                    </tbody>
-                  </table>
-                </div>
-              : <i style={{ display: 'block' }}>Ingen sememsterstatuser.</i>}
+            {semesters.length > 0 ? (
+              <div
+                className={styles.companyList}
+                style={{ marginBottom: '10px' }}
+              >
+                <table className={styles.detailTable}>
+                  <thead className={styles.categoryHeader}>
+                    <tr>
+                      <th>Semester</th>
+                      <th>Status</th>
+                      <th>Kontrakt</th>
+                    </tr>
+                  </thead>
+                  <tbody>{semesters}</tbody>
+                </table>
+              </div>
+            ) : (
+              <i style={{ display: 'block' }}>Ingen sememsterstatuser.</i>
+            )}
 
             <Link
               to={`/bdb/${company.id}/semesters/add`}
@@ -268,22 +260,22 @@ export default class BdbDetail extends Component {
             </div>
 
             <h3>Bedriftens arrangementer</h3>
-            {events.length > 0
-              ? <div className={styles.companyList}>
-                  <table className={styles.eventsTable}>
-                    <thead className={styles.categoryHeader}>
-                      <tr>
-                        <th>Tittel</th>
-                        <th>Arrangementstype</th>
-                        <th>Når</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {events}
-                    </tbody>
-                  </table>
-                </div>
-              : <i>Ingen arrangementer.</i>}
+            {events.length > 0 ? (
+              <div className={styles.companyList}>
+                <table className={styles.eventsTable}>
+                  <thead className={styles.categoryHeader}>
+                    <tr>
+                      <th>Tittel</th>
+                      <th>Arrangementstype</th>
+                      <th>Når</th>
+                    </tr>
+                  </thead>
+                  <tbody>{events}</tbody>
+                </table>
+              </div>
+            ) : (
+              <i>Ingen arrangementer.</i>
+            )}
 
             <div style={{ clear: 'both', marginBottom: '30px' }} />
 
