@@ -1,7 +1,7 @@
 .list {
   width: 100%;
   min-height: 200px;
-  max-height: 400px;
+  max-height: calc(100vh - 210px);
   padding: 0 30px;
   margin-bottom: 5px;
   overflow-y: scroll;

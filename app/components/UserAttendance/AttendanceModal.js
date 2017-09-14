@@ -33,7 +33,17 @@ class AttendanceModal extends Component {
   render() {
     const { pools, title } = this.props;
 
-    const tabs = pools.map((pool, i) => (
+    const allRegistrations = pools.reduce(
+      (a, b) => a.concat(b.registrations),
+      []
+    );
+    const summaryPool = {
+      name: 'Alle',
+      registrations: allRegistrations
+    };
+    const amendedPools = [summaryPool, ...pools];
+
+    const tabs = amendedPools.map((pool, i) => (
       <a
         key={i}
         className={cx(
@@ -46,7 +56,7 @@ class AttendanceModal extends Component {
       </a>
     ));
 
-    const activePool = pools[this.state.activePoolIndex];
+    const activePool = amendedPools[this.state.activePoolIndex];
     const statusTitle = title || 'Status';
     return (
       <div>

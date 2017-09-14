@@ -105,36 +105,36 @@
 }
 
 .companyPresentation {
-  background: colorCompanyPresentation;
+  border-bottom: 2px solid colorCompanyPresentation;
   color: var(--color-black);
 }
 
 .lunchPresentation {
-  background: colorLunchPresentation;
+  border-bottom: 2px solid colorLunchPresentation;
   color: var(--color-black);
 }
 
 .course {
-  background: colorCourse;
+  border-bottom: 2px solid colorCourse;
   color: var(--color-black);
 }
 
 .party {
-  background: colorParty;
+  border-bottom: 2px solid colorParty;
   color: var(--color-black);
 }
 
 .social {
-  background: colorSocial;
+  border-bottom: 2px solid colorSocial;
   color: var(--color-white);
 }
 
 .event {
-  background: colorEvent;
+  border-bottom: 2px solid colorEvent;
   color: var(--color-white);
 }
 
 .other {
-  background: colorOther;
+  border-bottom: 2px solid colorOther;
   color: var(--color-white);
 }

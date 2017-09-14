@@ -134,16 +134,16 @@ export default class EventDetail extends Component {
           <Image src={event.cover} />
         </div>
 
-        <Flex wrap alignItems="center" justifyContent="space-between">
-          <h2>{event.title}</h2>
-          <InterestedButton
-            value={event.isUserFollowing}
-            onClick={onRegisterClick}
-          />
-        </Flex>
-
         <Flex wrap className={styles.mainRow}>
           <Flex column className={styles.description}>
+            <Flex wrap alignItems="center" justifyContent="space-between">
+              <h2 className={styleType}>{event.title}</h2>
+              <InterestedButton
+                value={event.isUserFollowing}
+                onClick={onRegisterClick}
+              />
+            </Flex>
+
             <div
               className={styles.text}
               dangerouslySetInnerHTML={{ __html: event.text }}
@@ -152,7 +152,7 @@ export default class EventDetail extends Component {
               {event.tags.map((tag, i) => <Tag key={i} tag={tag} />)}
             </Flex>
           </Flex>
-          <Flex column className={cx(styles.meta, styleType)}>
+          <Flex column className={cx(styles.meta)}>
             <ul>
               {event.company && (
                 <li>
@@ -208,7 +208,11 @@ export default class EventDetail extends Component {
                       <RegisteredCell key={reg.user.id} user={reg.user} />
                     ))}
                 </Flex>
-                <RegisteredSummary registrations={registrations} />
+                <RegisteredSummary
+                  registrations={registrations}
+                  pools={pools}
+                  title="Påmeldte"
+                />
                 <AttendanceStatus title="Påmeldte" pools={pools} />
                 <RegistrationMeta
                   registration={currentRegistration}
@@ -224,7 +228,7 @@ export default class EventDetail extends Component {
           </Flex>
         </Flex>
 
-        <Flex wrapReverse>
+        <Flex wrapReverse style={{ marginBottom: '10px' }}>
           {loggedIn && (
             <JoinEventForm
               event={event}
