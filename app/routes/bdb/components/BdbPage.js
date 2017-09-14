@@ -206,9 +206,11 @@ export default class BdbPage extends Component {
           style={{ cursor: 'pointer', margin: '15px 0' }}
         >
           Valg{' '}
-          {this.state.displayOptions
-            ? <i className="fa fa-caret-down" />
-            : <i className="fa fa-caret-right" />}
+          {this.state.displayOptions ? (
+            <i className="fa fa-caret-down" />
+          ) : (
+            <i className="fa fa-caret-right" />
+          )}
         </h2>
 
         <OptionsBox
@@ -218,11 +220,13 @@ export default class BdbPage extends Component {
           filters={this.state.filters}
         />
 
-        {this.state.changedStatuses.length > 0
-          ? <Button onClick={this.submitChange} dark>
-              Lagre endringer
-            </Button>
-          : ''}
+        {this.state.changedStatuses.length > 0 ? (
+          <Button onClick={this.submitChange} dark>
+            Lagre endringer
+          </Button>
+        ) : (
+          ''
+        )}
         {this.state.submitted && `${trueIcon} Lagret!`}
 
         <i style={{ display: 'block' }}>

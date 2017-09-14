@@ -74,9 +74,7 @@ function MeetingEditor({
           {isEditPage ? ` ${meeting.title}` : ' Mine møter'}
         </Link>
       </h2>
-      <h1>
-        {isEditPage ? 'Endre møte' : 'Nytt møte'}{' '}
-      </h1>
+      <h1>{isEditPage ? 'Endre møte' : 'Nytt møte'} </h1>
       <Form onSubmit={handleSubmit(handleSubmitCallback)}>
         <h2> Tittel </h2>
         <Field name="title" component={TextInput.Field} />
@@ -129,7 +127,7 @@ function MeetingEditor({
           </div>
         </div>
         {isEditPage && <h3> Allerede inviterte </h3>}
-        {isEditPage &&
+        {isEditPage && (
           <div>
             <AttendanceStatus
               pools={[
@@ -140,7 +138,8 @@ function MeetingEditor({
               ]}
             />
             <br />
-          </div>}
+          </div>
+        )}
 
         <Button disabled={pristine || submitting} submit>
           {isEditPage ? 'Lagre møte' : 'Lag møte'}{' '}

@@ -59,7 +59,7 @@ class Popover extends Component {
       >
         {this.props.render && this.props.render()}
 
-        {this.showOverlay() &&
+        {this.showOverlay() && (
           <Overlay show placement={placement} target={this.target}>
             <div
               onMouseEnter={this.onMouseEnterOverlay}
@@ -68,7 +68,8 @@ class Popover extends Component {
             >
               {children}
             </div>
-          </Overlay>}
+          </Overlay>
+        )}
       </div>
     );
   }

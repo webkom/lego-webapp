@@ -87,9 +87,7 @@ export function EventItem({ event }: any) {
 function EventListGroup({ name, events = [] }) {
   return (
     <div className={styles.eventGroup}>
-      <h2 className={styles.heading}>
-        {name}
-      </h2>
+      <h2 className={styles.heading}>{name}</h2>
       {events.map((event, i) => <EventItem key={i} event={event} />)}
     </div>
   );

@@ -11,12 +11,8 @@ const Group = props => {
   return (
     <div>
       <header className="GroupPage__header">
-        <h2>
-          {props.group.name}
-        </h2>
-        <span>
-          {descriptionText}
-        </span>
+        <h2>{props.group.name}</h2>
+        <span>{descriptionText}</span>
       </header>
 
       {props.children && React.cloneElement(props.children, props)}

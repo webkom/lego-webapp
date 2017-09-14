@@ -19,12 +19,12 @@ export default class Admin extends Component {
     const { actionGrant, event } = this.props;
     return (
       <div>
-        {actionGrant.length > 0 &&
+        {actionGrant.length > 0 && (
           <ul>
             <li>
               <strong>Admin</strong>
             </li>
-            {actionGrant.includes('edit') &&
+            {actionGrant.includes('edit') && (
               <li>
                 <Link
                   to={`/events/${event.id}/administrate`}
@@ -32,8 +32,9 @@ export default class Admin extends Component {
                 >
                   Påmeldinger
                 </Link>
-              </li>}
-            {actionGrant.includes('edit') &&
+              </li>
+            )}
+            {actionGrant.includes('edit') && (
               <li>
                 <Link
                   to={`/events/${event.id}/edit`}
@@ -41,8 +42,9 @@ export default class Admin extends Component {
                 >
                   Rediger
                 </Link>
-              </li>}
-            {actionGrant.includes('delete') &&
+              </li>
+            )}
+            {actionGrant.includes('delete') && (
               <li>
                 <a
                   onClick={() => this.handleDelete(event.id)}
@@ -50,8 +52,10 @@ export default class Admin extends Component {
                 >
                   {this.state.verifyDelete ? 'Er du sikker?' : 'Slett'}
                 </a>
-              </li>}
-          </ul>}
+              </li>
+            )}
+          </ul>
+        )}
       </div>
     );
   }

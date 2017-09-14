@@ -33,16 +33,18 @@ class AppChildren extends PureComponent {
     return (
       <div style={{ flex: 1 }}>
         <NotificationContainer />
-        {this.props.statusCode
-          ? <HTTPError
-              statusCode={this.props.statusCode}
-              setStatusCode={this.props.setStatusCode}
-              location={this.props.location}
-            />
-          : React.cloneElement(this.props.children, {
-              currentUser: this.props.currentUser,
-              loggedIn: this.props.loggedIn
-            })}
+        {this.props.statusCode ? (
+          <HTTPError
+            statusCode={this.props.statusCode}
+            setStatusCode={this.props.setStatusCode}
+            location={this.props.location}
+          />
+        ) : (
+          React.cloneElement(this.props.children, {
+            currentUser: this.props.currentUser,
+            loggedIn: this.props.loggedIn
+          })
+        )}
       </div>
     );
   }

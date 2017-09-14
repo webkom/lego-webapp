@@ -10,13 +10,11 @@ type Props = {
 const PageList = ({ pages }: Props) => {
   return (
     <ul>
-      {Object.values(pages).map(page =>
+      {Object.values(pages).map(page => (
         <li key={page.pk}>
-          <Link to={`/pages/${page.slug}`}>
-            {page.title}
-          </Link>
+          <Link to={`/pages/${page.slug}`}>{page.title}</Link>
         </li>
-      )}
+      ))}
     </ul>
   );
 };

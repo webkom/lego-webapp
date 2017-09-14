@@ -162,14 +162,16 @@ class JoinEventForm extends Component {
       <Flex column className={styles.join}>
         <div className={styles.joinHeader}>Bli med på dette arrangementet</div>
         {!this.state.formOpen &&
-          this.state.time &&
+        this.state.time && (
           <div>
             Åpner <Time time={this.state.time} format="nowToTimeInWords" />
-          </div>}
+          </div>
+        )}
         {!this.state.formOpen &&
-          !this.state.time &&
-          <div>Du kan ikke melde deg på dette arrangementet.</div>}
-        {this.state.formOpen &&
+        !this.state.time && (
+          <div>Du kan ikke melde deg på dette arrangementet.</div>
+        )}
+        {this.state.formOpen && (
           <form
             onSubmit={this.submitWithType(
               handleSubmit,
@@ -185,7 +187,7 @@ class JoinEventForm extends Component {
               name={feedbackName}
               component={TextEditor.Field}
             />
-            {registration &&
+            {registration && (
               <Button
                 type="button"
                 onClick={this.submitWithType(
@@ -195,44 +197,47 @@ class JoinEventForm extends Component {
                 )}
               >
                 Oppdater feedback
-              </Button>}
+              </Button>
+            )}
             {!registration &&
-              this.state.captchaOpen &&
-              event.useCaptcha &&
+            this.state.captchaOpen &&
+            event.useCaptcha && (
               <Field
                 name="captchaResponse"
                 fieldStyle={{ width: 304 }}
                 component={Captcha.Field}
-              />}
-            {this.state.time &&
+              />
+            )}
+            {this.state.time && (
               <Button disabled={disabledButton}>
                 {`Åpner om ${this.state.time}`}
-              </Button>}
+              </Button>
+            )}
             {this.state.buttonOpen &&
-              !event.loading &&
+            !event.loading && (
               <div>
                 {!registration &&
-                  event.spotsLeft === 0 &&
-                  event.activeCapacity > 0 &&
+                event.spotsLeft === 0 &&
+                event.activeCapacity > 0 && (
                   <div>
                     Det 0 plasser igjen, du blir registrert til venteliste
-                  </div>}
+                  </div>
+                )}
                 {!registration &&
-                  event.spotsLeft > 0 &&
-                  <div>
-                    Det er {event.spotsLeft} plasser igjen.
-                  </div>}
+                event.spotsLeft > 0 && (
+                  <div>Det er {event.spotsLeft} plasser igjen.</div>
+                )}
                 <Button type="submit" disabled={disabledButton}>
                   {title || joinTitle}
                 </Button>
-              </div>}
-            {event.loading &&
-              <LoadingIndicator
-                loading
-                loadingStyle={{ margin: '5px auto' }}
-              />}
-          </form>}
-        {showStripe &&
+              </div>
+            )}
+            {event.loading && (
+              <LoadingIndicator loading loadingStyle={{ margin: '5px auto' }} />
+            )}
+          </form>
+        )}
+        {showStripe && (
           <StripeCheckout
             name="Abakus Linjeforening"
             description={event.title}
@@ -246,7 +251,8 @@ class JoinEventForm extends Component {
             email={currentUser.email}
           >
             <Button>Betal nå</Button>
-          </StripeCheckout>}
+          </StripeCheckout>
+        )}
       </Flex>
     );
   }

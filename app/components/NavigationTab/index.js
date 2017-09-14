@@ -13,12 +13,8 @@ type Props = {
 const NavigationTab = (props: Props) => {
   return (
     <div className={styles.container}>
-      <h1 className={styles.header}>
-        {props.title}
-      </h1>
-      <div className={styles.navigator}>
-        {props.children}
-      </div>
+      <h1 className={styles.header}>{props.title}</h1>
+      <div className={styles.navigator}>{props.children}</div>
     </div>
   );
 };

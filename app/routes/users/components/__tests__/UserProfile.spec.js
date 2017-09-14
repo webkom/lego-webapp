@@ -35,13 +35,9 @@ describe('<UserProfile />', () => {
 
   it('should render user info', () => {
     const wrapper = shallow(<UserProfile user={user} isMe={false} />);
-    expect(
-      wrapper.containsMatchingElement(
-        <h2>
-          {user.fullName}
-        </h2>
-      )
-    ).toEqual(true);
+    expect(wrapper.containsMatchingElement(<h2>{user.fullName}</h2>)).toEqual(
+      true
+    );
     expect(wrapper.html()).toContain(user.email);
     expect(wrapper.html()).toContain(user.username);
   });

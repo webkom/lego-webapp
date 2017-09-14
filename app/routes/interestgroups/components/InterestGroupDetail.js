@@ -13,12 +13,13 @@ import ProfilePicture from 'app/components/ProfilePicture';
 
 // TODO: this is from the event detail page.
 // We can probably move this out to somewhere common.
-const RegisteredCell = ({ user }) =>
+const RegisteredCell = ({ user }) => (
   <Tooltip content={user.fullName}>
     <Link to={`/users/${user.username}`}>
       <ProfilePicture size={60} user={user} />
     </Link>
-  </Tooltip>;
+  </Tooltip>
+);
 
 class InterestGroupDetail extends Component {
   state = {
@@ -30,48 +31,39 @@ class InterestGroupDetail extends Component {
   };
 
   updateId = args => {
-    this.props.updateInterestGroup(
-      this.props.group.id,
-      args
-    );
+    this.props.updateInterestGroup(this.props.group.id, args);
   };
 
   joinGroup = () => {
-    this.props.joinInterestGroup(
-      this.props.group.id,
-      this.props.currentUser
-    )
+    this.props.joinInterestGroup(this.props.group.id, this.props.currentUser);
   };
 
   leaveGroup = () => {
-    const { group: { memberships = []}} = this.props;
+    const { group: { memberships = [] } } = this.props;
     const user = this.props.currentUser.id;
     const membership = memberships.find(m => m.user.id === user);
     this.props.leaveInterestGroup(membership);
   };
 
   render() {
-    const { group, group: { memberships = []}} = this.props;
+    const { group, group: { memberships = [] } } = this.props;
     const userId = this.props.currentUser.id;
     const isMember = memberships.find(m => m.user.id === userId);
     return (
       <div className={styles.root}>
         <div className={styles.wrapper}>
-          <h1 className={styles.detail}>
-            {group.name}
-          </h1>
+          <h1 className={styles.detail}>{group.name}</h1>
           <div className={styles.content}>
             <div>
-                <Flex className={styles.registeredThumbnails}>
-                  {memberships && memberships
+              <Flex className={styles.registeredThumbnails}>
+                {memberships &&
+                  memberships
                     .slice(0, 10)
-                    .map(reg =>
+                    .map(reg => (
                       <RegisteredCell key={reg.user.id} user={reg.user} />
-                    )}
-                </Flex>
-                <p className={styles.paragraphDetail}>
-                  {group.descriptionLong}
-                </p>
+                    ))}
+              </Flex>
+              <p className={styles.paragraphDetail}>{group.descriptionLong}</p>
             </div>
             <Image
               className={styles.interestPicDetail}
@@ -101,14 +93,14 @@ class InterestGroupDetail extends Component {
         </div>
 
         <FlexRow>
-          {isMember ?
-              (<div className={styles.button}>
-                <Button onClick={this.leaveGroup}>Forlat gruppen</Button>
-              </div>
-              ) :
-              (<div className={styles.button}>
-                <Button onClick={this.joinGroup}>Bli medlem!</Button>
-              </div>
+          {isMember ? (
+            <div className={styles.button}>
+              <Button onClick={this.leaveGroup}>Forlat gruppen</Button>
+            </div>
+          ) : (
+            <div className={styles.button}>
+              <Button onClick={this.joinGroup}>Bli medlem!</Button>
+            </div>
           )}
           <div className={styles.button}>
             <Button onClick="">Kontakt oss</Button>

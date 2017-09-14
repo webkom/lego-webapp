@@ -66,11 +66,11 @@ export default class EditPermissions extends Component {
     return (
       <div>
         <ul>
-          {permissions.map(p =>
+          {permissions.map(p => (
             <li key={p}>
               {p} <button onClick={this.del.bind(this, p)}>X</button>
             </li>
-          )}
+          ))}
         </ul>
         <form onSubmit={this.add}>
           <input
