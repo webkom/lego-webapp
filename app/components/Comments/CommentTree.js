@@ -50,11 +50,7 @@ function CommentTree({
     );
   });
 
-  return (
-    <div>
-      {tree}
-    </div>
-  );
+  return <div>{tree}</div>;
 }
 
 export default CommentTree;

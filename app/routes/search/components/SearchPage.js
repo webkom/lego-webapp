@@ -31,15 +31,16 @@ class SearchPage extends Component {
             value={this.state.query}
           />
 
-          {searching &&
+          {searching && (
             <div className={styles.loadingIcon}>
               <Icon name="spinner fa-spin" />
-            </div>}
+            </div>
+          )}
         </div>
         <div className={styles.searchResults}>
-          {results.map((result, id) =>
+          {results.map((result, id) => (
             <SearchResult key={id} result={result} />
-          )}
+          ))}
         </div>
       </div>
     );

@@ -16,7 +16,7 @@ type Props = {
   actionGrant: Array
 };
 
-const Buttons = ({ id, deleteJoblisting }) =>
+const Buttons = ({ id, deleteJoblisting }) => (
   <FlexRow alignItems="center">
     <Link to={`/joblistings/${id}/edit`}>
       <button className={styles.editButton}> Rediger </button>
@@ -24,7 +24,8 @@ const Buttons = ({ id, deleteJoblisting }) =>
     <Link onClick={() => deleteJoblisting(id)}>
       <button className={styles.editButton}> Slett </button>
     </Link>
-  </FlexRow>;
+  </FlexRow>
+);
 
 const JoblistingDetail = ({
   joblisting,
@@ -42,12 +43,11 @@ const JoblistingDetail = ({
       </div>
       <FlexRow className={styles.title}>
         <FlexItem>
-          <h1>
-            {joblisting.title}
-          </h1>
+          <h1>{joblisting.title}</h1>
         </FlexItem>
-        {actionGrant.includes('update') &&
-          <Buttons id={joblisting.id} deleteJoblisting={deleteJoblisting} />}
+        {actionGrant.includes('update') && (
+          <Buttons id={joblisting.id} deleteJoblisting={deleteJoblisting} />
+        )}
       </FlexRow>
       <FlexRow className={styles.textbody}>
         <FlexColumn className={styles.meta}>
@@ -70,7 +70,7 @@ const JoblistingDetail = ({
                 <Time time={joblisting.deadline} format="ll HH:mm" />
               </strong>
             </li>
-            {joblisting.applicationUrl &&
+            {joblisting.applicationUrl && (
               <li>
                 Søk her:{' '}
                 <a
@@ -79,28 +79,24 @@ const JoblistingDetail = ({
                 >
                   {joblisting.applicationUrl}
                 </a>
-              </li>}
+              </li>
+            )}
             <br />
-            <li>
-              {jobType(joblisting.jobType)}
-            </li>
+            <li>{jobType(joblisting.jobType)}</li>
             <Year joblisting={joblisting} />
             <Workplaces places={joblisting.workplaces} />
-            {joblisting.responsible &&
+            {joblisting.responsible && (
               <div>
                 <li>
                   <h3>Kontaktinfo:</h3>
                 </li>
-                <li>
-                  Navn: {joblisting.responsible.name || 'Ikke oppgitt.'}
-                </li>
-                <li>
-                  Mail: {joblisting.responsible.mail || 'Ikke oppgitt.'}
-                </li>
+                <li>Navn: {joblisting.responsible.name || 'Ikke oppgitt.'}</li>
+                <li>Mail: {joblisting.responsible.mail || 'Ikke oppgitt.'}</li>
                 <li>
                   Telefon: {joblisting.responsible.phone || 'Ikke oppgitt.'}
                 </li>
-              </div>}
+              </div>
+            )}
           </ul>
         </FlexColumn>
         <FlexColumn className={styles.description}>

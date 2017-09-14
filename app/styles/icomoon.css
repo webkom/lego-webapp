@@ -11,8 +11,8 @@
   font-style: normal;
 }
 
-[class^="icon-"],
-[class*=" icon-"] {
+[class^='icon-'],
+[class*=' icon-'] {
   font-family: 'icomoon' !important;
   speak: none;
   font-style: normal;
@@ -25,234 +25,234 @@
 }
 :global {
   .icon-pencil:before {
-    content: "\e905";
+    content: '\e905';
   }
   .icon-eyedropper:before {
-    content: "\e90a";
+    content: '\e90a';
   }
   .icon-droplet:before {
-    content: "\e90b";
+    content: '\e90b';
   }
   .icon-paint-format:before {
-    content: "\e90c";
+    content: '\e90c';
   }
   .icon-image:before {
-    content: "\e90d";
+    content: '\e90d';
   }
   .icon-images:before {
-    content: "\e90e";
+    content: '\e90e';
   }
   .icon-camera:before {
-    content: "\e90f";
+    content: '\e90f';
   }
   .icon-film:before {
-    content: "\e913";
+    content: '\e913';
   }
   .icon-video-camera:before {
-    content: "\e914";
+    content: '\e914';
   }
   .icon-file-picture:before {
-    content: "\e927";
+    content: '\e927';
   }
   .icon-address-book:before {
-    content: "\e944";
+    content: '\e944';
   }
   .icon-envelop:before {
-    content: "\e945";
+    content: '\e945';
   }
   .icon-compass:before {
-    content: "\e949";
+    content: '\e949';
   }
   .icon-user:before {
-    content: "\e971";
+    content: '\e971';
   }
   .icon-users:before {
-    content: "\e972";
+    content: '\e972';
   }
   .icon-user-plus:before {
-    content: "\e973";
+    content: '\e973';
   }
   .icon-user-minus:before {
-    content: "\e974";
+    content: '\e974';
   }
   .icon-user-check:before {
-    content: "\e975";
+    content: '\e975';
   }
   .icon-quotes-left:before {
-    content: "\e977";
+    content: '\e977';
   }
   .icon-quotes-right:before {
-    content: "\e978";
+    content: '\e978';
   }
   .icon-equalizer:before {
-    content: "\e992";
+    content: '\e992';
   }
   .icon-equalizer2:before {
-    content: "\e993";
+    content: '\e993';
   }
   .icon-cog:before {
-    content: "\e994";
+    content: '\e994';
   }
   .icon-cogs:before {
-    content: "\e995";
+    content: '\e995';
   }
   .icon-pie-chart:before {
-    content: "\e99a";
+    content: '\e99a';
   }
   .icon-stats-dots:before {
-    content: "\e99b";
+    content: '\e99b';
   }
   .icon-stats-bars:before {
-    content: "\e99c";
+    content: '\e99c';
   }
   .icon-stats-bars2:before {
-    content: "\e99d";
+    content: '\e99d';
   }
   .icon-clipboard:before {
-    content: "\e9b8";
+    content: '\e9b8';
   }
   .icon-list-numbered:before {
-    content: "\e9b9";
+    content: '\e9b9';
   }
   .icon-list:before {
-    content: "\e9ba";
+    content: '\e9ba';
   }
   .icon-menu2:before {
-    content: "\e9be";
+    content: '\e9be';
   }
   .icon-menu3:before {
-    content: "\e9bf";
+    content: '\e9bf';
   }
   .icon-menu4:before {
-    content: "\e9c0";
+    content: '\e9c0';
   }
   .icon-link:before {
-    content: "\e9cb";
+    content: '\e9cb';
   }
   .icon-attachment:before {
-    content: "\e9cd";
+    content: '\e9cd';
   }
   .icon-eye-blocked:before {
-    content: "\e9d1";
+    content: '\e9d1';
   }
   .icon-plus:before {
-    content: "\ea0a";
+    content: '\ea0a';
   }
   .icon-minus:before {
-    content: "\ea0b";
+    content: '\ea0b';
   }
   .icon-cross:before {
-    content: "\ea0f";
+    content: '\ea0f';
   }
   .icon-checkmark:before {
-    content: "\ea10";
+    content: '\ea10';
   }
   .icon-sort-alpha-asc:before {
-    content: "\ea48";
+    content: '\ea48';
   }
   .icon-sort-alpha-desc:before {
-    content: "\ea49";
+    content: '\ea49';
   }
   .icon-sort-numeric-asc:before {
-    content: "\ea4a";
+    content: '\ea4a';
   }
   .icon-sort-numberic-desc:before {
-    content: "\ea4b";
+    content: '\ea4b';
   }
   .icon-sort-amount-asc:before {
-    content: "\ea4c";
+    content: '\ea4c';
   }
   .icon-sort-amount-desc:before {
-    content: "\ea4d";
+    content: '\ea4d';
   }
   .icon-font:before {
-    content: "\ea5c";
+    content: '\ea5c';
   }
   .icon-ligature:before {
-    content: "\ea5d";
+    content: '\ea5d';
   }
   .icon-ligature2:before {
-    content: "\ea5e";
+    content: '\ea5e';
   }
   .icon-text-height:before {
-    content: "\ea5f";
+    content: '\ea5f';
   }
   .icon-text-width:before {
-    content: "\ea60";
+    content: '\ea60';
   }
   .icon-font-size:before {
-    content: "\ea61";
+    content: '\ea61';
   }
   .icon-bold:before {
-    content: "\ea62";
+    content: '\ea62';
   }
   .icon-underline:before {
-    content: "\ea63";
+    content: '\ea63';
   }
   .icon-italic:before {
-    content: "\ea64";
+    content: '\ea64';
   }
   .icon-strikethrough:before {
-    content: "\ea65";
+    content: '\ea65';
   }
   .icon-superscript:before {
-    content: "\ea69";
+    content: '\ea69';
   }
   .icon-subscript:before {
-    content: "\ea6a";
+    content: '\ea6a';
   }
   .icon-superscript2:before {
-    content: "\ea6b";
+    content: '\ea6b';
   }
   .icon-subscript2:before {
-    content: "\ea6c";
+    content: '\ea6c';
   }
   .icon-text-color:before {
-    content: "\ea6d";
+    content: '\ea6d';
   }
   .icon-clear-formatting:before {
-    content: "\ea6f";
+    content: '\ea6f';
   }
   .icon-table:before {
-    content: "\ea70";
+    content: '\ea70';
   }
   .icon-table2:before {
-    content: "\ea71";
+    content: '\ea71';
   }
   .icon-insert-template:before {
-    content: "\ea72";
+    content: '\ea72';
   }
   .icon-pilcrow:before {
-    content: "\ea73";
+    content: '\ea73';
   }
   .icon-ltr:before {
-    content: "\ea74";
+    content: '\ea74';
   }
   .icon-rtl:before {
-    content: "\ea75";
+    content: '\ea75';
   }
   .icon-paragraph-left:before {
-    content: "\ea77";
+    content: '\ea77';
   }
   .icon-paragraph-center:before {
-    content: "\ea78";
+    content: '\ea78';
   }
   .icon-paragraph-right:before {
-    content: "\ea79";
+    content: '\ea79';
   }
   .icon-paragraph-justify:before {
-    content: "\ea7a";
+    content: '\ea7a';
   }
   .icon-indent-increase:before {
-    content: "\ea7b";
+    content: '\ea7b';
   }
   .icon-indent-decrease:before {
-    content: "\ea7c";
+    content: '\ea7c';
   }
   .icon-embed:before {
-    content: "\ea7f";
+    content: '\ea7f';
   }
   .icon-embed2:before {
-    content: "\ea80";
+    content: '\ea80';
   }
 }

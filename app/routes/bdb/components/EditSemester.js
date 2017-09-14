@@ -113,11 +113,11 @@ export default class EditSemester extends Component {
                   styles.contactedStatusForm
                 )}
               >
-                {Object.keys(statusStrings).map((statusString, j) =>
+                {Object.keys(statusStrings).map((statusString, j) => (
                   <option key={j} value={statusString}>
                     {statusStrings[j]}
                   </option>
-                )}
+                ))}
               </select>
 
               <div className={styles.clear} />

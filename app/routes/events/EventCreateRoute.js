@@ -10,7 +10,10 @@ import { transformEvent } from './utils';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const time = (hours, minutes) =>
-  moment().startOf('day').add({ hours, minutes }).toISOString();
+  moment()
+    .startOf('day')
+    .add({ hours, minutes })
+    .toISOString();
 
 const mapStateToProps = (state, props) => {
   const actionGrant = state.events.actionGrant;

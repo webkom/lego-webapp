@@ -28,10 +28,6 @@ export default class LoadingIndicator extends Component {
       );
     }
 
-    return this.props.children
-      ? <div>
-          {this.props.children}
-        </div>
-      : null;
+    return this.props.children ? <div>{this.props.children}</div> : null;
   }
 }

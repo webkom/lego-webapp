@@ -19,11 +19,9 @@ const InterestGroupForm = ({
   header,
   uploadFile,
   updateInterestGroupPicture
-}) =>
+}) => (
   <form onSubmit={handleSubmit}>
-    <h1>
-      {header}
-    </h1>
+    <h1>{header}</h1>
     <Field
       className={styles.textInput}
       placeholder="Name"
@@ -49,11 +47,10 @@ const InterestGroupForm = ({
       edit={token => updateInterestGroupPicture(groupId, token)}
     />
     <div className={styles.content}>
-      <Button type="submit">
-        {buttonText}
-      </Button>
+      <Button type="submit">{buttonText}</Button>
     </div>
-  </form>;
+  </form>
+);
 
 function validateInterestGroup(data) {
   const errors = {};

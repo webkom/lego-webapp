@@ -15,13 +15,11 @@ type poolProps = {
   fields: Object
 };
 
-const renderPools = ({ fields }: poolProps) =>
+const renderPools = ({ fields }: poolProps) => (
   <ul>
-    {fields.map((pool, index) =>
+    {fields.map((pool, index) => (
       <li key={index}>
-        <h4>
-          Pool #{index + 1}
-        </h4>
+        <h4>Pool #{index + 1}</h4>
         <Field
           name={`pools[${index}].name`}
           fieldClassName={styles.poolField}
@@ -56,7 +54,7 @@ const renderPools = ({ fields }: poolProps) =>
           Fjern pool
         </Button>
       </li>
-    )}
+    ))}
     <li>
       <Button
         onClick={() =>
@@ -70,7 +68,8 @@ const renderPools = ({ fields }: poolProps) =>
         Legg til pool
       </Button>
     </li>
-  </ul>;
+  </ul>
+);
 
 export const validatePools = pools => {
   const capacity = pools.reduce((a, b) => a + b.capacity, 0);

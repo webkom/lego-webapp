@@ -30,14 +30,14 @@ class AttendanceStatus extends Component {
       const capacity = pool.capacity ? pool.capacity : '∞';
       return (
         <div key={i} className={styles.poolBox}>
-          <strong>
-            {pool.name}
-          </strong>
+          <strong>{pool.name}</strong>
           <a onClick={() => this.toggleModal(i)}>
             <strong>
-              {pool.registrations && pool.registrations.length > 0
-                ? `${pool.registrations.length}/${capacity}`
-                : capacity}
+              {pool.registrations && pool.registrations.length > 0 ? (
+                `${pool.registrations.length}/${capacity}`
+              ) : (
+                capacity
+              )}
             </strong>
           </a>
         </div>

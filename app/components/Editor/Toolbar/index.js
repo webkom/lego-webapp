@@ -109,18 +109,20 @@ export default class Toolbar extends Component {
           className={this.state.open ? styles.activeButton : ''}
         />
 
-        {this.state.open &&
+        {this.state.open && (
           <div className={styles.toolbarButtons}>
             <ToolbarButton icon="remove" onClick={this.insertBreak} />
             <ToolbarButton icon="image" onClick={this.toggleImage} />
-          </div>}
+          </div>
+        )}
 
-        {this.state.openUpload &&
+        {this.state.openUpload && (
           <ImageUpload
             inModal
             onClose={this.toggleImage}
             onSubmit={this.insertImage}
-          />}
+          />
+        )}
       </div>
     );
   }

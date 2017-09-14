@@ -32,7 +32,7 @@ export default class CompactEvents extends Component {
             eventTypes.indexOf(event.eventType) !== -1
         )
         .slice(0, this.state.eventsToShow)
-        .map((event, key) =>
+        .map((event, key) => (
           <li key={key}>
             <span>
               <span
@@ -51,11 +51,9 @@ export default class CompactEvents extends Component {
                 </Link>
               </span>
             </span>
-            <span>
-              {Time({ format: 'dd d.MM', time: event.startTime._i })}
-            </span>
+            <span>{Time({ format: 'dd d.MM', time: event.startTime._i })}</span>
           </li>
-        );
+        ));
     };
 
     const leftEvents = mapEvents([
@@ -73,15 +71,11 @@ export default class CompactEvents extends Component {
         <Flex wrap className={styles.compactEvents}>
           <Flex column className={styles.compactLeft}>
             <h3 className="u-ui-heading">Bedriftspresentasjoner</h3>
-            <ul className={styles.innerList}>
-              {leftEvents}
-            </ul>
+            <ul className={styles.innerList}>{leftEvents}</ul>
           </Flex>
           <Flex column className={styles.compactRight}>
             <h3 className="u-ui-heading">Arrangementer</h3>
-            <ul className={styles.innerList}>
-              {rightEvents}
-            </ul>
+            <ul className={styles.innerList}>{rightEvents}</ul>
           </Flex>
         </Flex>
         <div style={{ margin: '0 auto' }}>
@@ -92,10 +86,11 @@ export default class CompactEvents extends Component {
           >
             Vis flere <i className="fa fa-angle-double-down " />
           </a>
-          {this.state.eventsToShow > 5 &&
+          {this.state.eventsToShow > 5 && (
             <a onClick={() => this.setState({ eventsToShow: 5 })}>
               Vis færre <i className="fa fa-angle-double-up " />
-            </a>}
+            </a>
+          )}
         </div>
       </Flex>
     );

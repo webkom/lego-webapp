@@ -37,7 +37,7 @@ const Flex = ({
   width,
   style,
   ...htmlAttributes
-}: Props) =>
+}: Props) => (
   <Component
     className={cx(
       styles.flex,
@@ -57,6 +57,7 @@ const Flex = ({
     {...htmlAttributes}
   >
     {children}
-  </Component>;
+  </Component>
+);
 
 export default Flex;

@@ -18,11 +18,11 @@ const CompaniesPage = ({ companies }: Props) => {
     <div className={styles.root}>
       <h1>Companies</h1>
       <p>
-        {companies.map((company, id) =>
+        {companies.map((company, id) => (
           <Link key={id} to={`/companies/${company.id}`}>
             {company.name}{' '}
           </Link>
-        )}
+        ))}
       </p>
     </div>
   );
