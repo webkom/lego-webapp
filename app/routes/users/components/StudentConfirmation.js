@@ -6,6 +6,7 @@ import {
   Form,
   TextInput,
   RadioButton,
+  RadioButtonGroup,
   Button,
   Captcha
 } from 'app/components/Form';
@@ -19,7 +20,10 @@ const StudentConfirmation = ({
   router,
   loggedIn,
   submitSucceeded,
-  isStudent
+  isStudent,
+  invalid,
+  pristine,
+  submitting
 }) => {
   if (!loggedIn) {
     router.push('/');
@@ -54,6 +58,7 @@ const StudentConfirmation = ({
     );
   }
 
+  const disabledButton = invalid | pristine | submitting;
   return (
     <Content>
       <div>
@@ -64,46 +69,38 @@ const StudentConfirmation = ({
             placeholder="NTNU Brukernavn"
             component={TextInput.Field}
           />
-          <div>
-            <p>Hvilken linje tilhører du?</p>
+          <RadioButtonGroup name="course" label="Hvilken linje tilhører du?">
             <Field
-              fieldClassName={styles.radioButton}
-              name="course"
               label="Datateknologi"
               component={RadioButton.Field}
               inputValue={'data'}
             />
             <Field
-              fieldClassName={styles.radioButton}
-              name="course"
               label="Kommunikasjonsteknologi"
               component={RadioButton.Field}
               inputValue={'komtek'}
             />
-          </div>
-          <div>
-            <p>Vil du bli medlem i Abakus?</p>
+          </RadioButtonGroup>
+          <RadioButtonGroup name="member" label="Vil du bli medlem i Abakus?">
             <Field
-              fieldClassName={styles.radioButton}
-              name="member"
               label="Ja"
               component={RadioButton.Field}
               inputValue={'true'}
             />
             <Field
-              fieldClassName={styles.radioButton}
-              name="member"
               label="Nei"
               component={RadioButton.Field}
               inputValue={'false'}
             />
-          </div>
+          </RadioButtonGroup>
           <Field
             name="captchaResponse"
             fieldStyle={{ width: 304 }}
             component={Captcha.Field}
           />
-          <Button submit>Verifiser</Button>
+          <Button submit disabled={disabledButton}>
+            Verifiser
+          </Button>
         </Form>
       </div>
     </Content>
@@ -121,6 +118,9 @@ const validate = data => {
   }
   if (!data.member) {
     errors.member = 'Feltet er påkrevet';
+  }
+  if (!data.captchaResponse) {
+    errors.captchaResponse = 'Captcha er ikke validert';
   }
 
   return errors;

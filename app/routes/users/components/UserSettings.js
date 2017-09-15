@@ -5,7 +5,12 @@ import { Field } from 'redux-form';
 import { omit } from 'lodash';
 
 import Button from 'app/components/Button';
-import { Form, TextInput } from 'app/components/Form';
+import {
+  Form,
+  TextInput,
+  RadioButtonGroup,
+  RadioButton
+} from 'app/components/Form';
 import { FlexRow } from 'app/components/FlexBox';
 import UserImage from './UserImage';
 
@@ -69,7 +74,23 @@ const UserSettings = (props: Props) => {
           component={TextInput.Field}
         />
 
-        <Field label="Kjønn" name="gender" component={TextInput.Field} />
+        <RadioButtonGroup name="gender">
+          <Field
+            label="Mann"
+            component={RadioButton.Field}
+            inputValue={'male'}
+          />
+          <Field
+            label="Kvinne"
+            component={RadioButton.Field}
+            inputValue={'female'}
+          />
+          <Field
+            label="Annet"
+            component={RadioButton.Field}
+            inputValue={'other'}
+          />
+        </RadioButtonGroup>
         <Field label="Allergier" name="allergies" component={TextInput.Field} />
 
         <Field
@@ -79,9 +100,7 @@ const UserSettings = (props: Props) => {
           component={TextInput.Field}
         />
 
-        <Button disabled={disabledButton} submit>
-          Submit
-        </Button>
+        <Button submit>Submit</Button>
       </Form>
       <br />
       <hr />
