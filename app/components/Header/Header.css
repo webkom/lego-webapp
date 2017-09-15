@@ -19,7 +19,6 @@
 .buttonGroup img {
   border: 0;
   color: var(--lego-text-gray);
-  font-size: 40px;
   cursor: pointer;
   transition: color 0.3s;
 

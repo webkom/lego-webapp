@@ -97,7 +97,7 @@ class Search extends Component {
         <div className={styles.overlay}>
           <div className={styles.inputContainer}>
             <div className={styles.searchIcon}>
-              <Icon name="search" />
+              <Icon name="search" size={30} />
             </div>
             <input
               onChange={e => this.onQueryChanged(e.target.value)}
@@ -113,7 +113,7 @@ class Search extends Component {
               className={styles.closeButton}
               onClick={onCloseSearch}
             >
-              <Icon name={searching ? 'refresh' : 'close'} />
+              <Icon name={searching ? 'refresh' : 'close'} size={30} />
             </button>
           </div>
 
