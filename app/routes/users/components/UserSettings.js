@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Field } from 'redux-form';
+import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { omit } from 'lodash';
 
 import Button from 'app/components/Button';
@@ -13,6 +13,8 @@ import {
 } from 'app/components/Form';
 import { FlexRow } from 'app/components/FlexBox';
 import UserImage from './UserImage';
+import ChangePassword from './ChangePassword';
+import { createValidator, required, isEmail } from 'app/utils/validation';
 
 type Props = {
   handleSubmit: () => void,
@@ -38,17 +40,19 @@ const UserSettings = (props: Props) => {
 
   const disabledButton = invalid || pristine || submitting;
 
+  const onSubmit = data =>
+    updateUser(omit(data, 'profilePicture')).catch(err => {
+      if (err.payload && err.payload.response) {
+        throw new SubmissionError(err.payload.response.jsonData);
+      }
+    });
   return (
     <div>
       <FlexRow justifyContent="center">
         <UserImage user={user} updatePicture={updatePicture} />
       </FlexRow>
 
-      <Form
-        onSubmit={handleSubmit(data =>
-          updateUser(omit(data, 'profilePicture'))
-        )}
-      >
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <Field
           placeholder="Brukernavn"
           label="Username"
@@ -100,34 +104,28 @@ const UserSettings = (props: Props) => {
           component={TextInput.Field}
         />
 
-        <Button submit>Submit</Button>
+        <Button disabled={disabledButton} submit>
+          Submit
+        </Button>
       </Form>
       <br />
       <hr />
       <br />
-      <Form onSubmit={handleSubmit(changePassword)}>
-        <Field
-          label="Gammelt passord"
-          name="old_password"
-          type="password"
-          component={TextInput.Field}
-        />
-        <Field
-          label="Nytt passord"
-          name="new_password"
-          type="password"
-          component={TextInput.Field}
-        />
-        <Field
-          label="Nytt passord (gjenta)"
-          name="new_password_repeat"
-          type="password"
-          component={TextInput.Field}
-        />
-        <Button submit>Change Password</Button>
-      </Form>
+      <ChangePassword changePassword={changePassword} />
     </div>
   );
 };
 
-export default UserSettings;
+const validate = createValidator({
+  username: [required()],
+  firstName: [required()],
+  lastName: [required()],
+  gender: [required()],
+  email: [required(), isEmail()]
+});
+
+export default reduxForm({
+  form: 'userSettings',
+  validate,
+  enableReinitialize: true
+})(UserSettings);
