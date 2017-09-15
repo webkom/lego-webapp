@@ -114,7 +114,7 @@ class Header extends Component {
                 onClick={this.props.toggleSearch}
                 className={styles.burger}
               >
-                <Icon name="menu" scaleOnHover />
+                <Icon name="menu" size={30} scaleOnHover />
               </button>
 
               {loggedIn && (
@@ -137,9 +137,9 @@ class Header extends Component {
                     }))}
                   triggerComponent={
                     <ProfilePicture
-                      size={24}
+                      size={30}
                       user={this.props.currentUser}
-                      style={{ verticalAlign: 'middle', marginTop: -8 }}
+                      style={{ verticalAlign: 'middle' }}
                     />
                   }
                 >
@@ -160,7 +160,7 @@ class Header extends Component {
                       shake: false
                     }))}
                   contentClassName={this.state.shake && 'animated shake'}
-                  triggerComponent={<Icon name="contact" />}
+                  triggerComponent={<Icon name="contact" size={30} />}
                 >
                   <div style={{ padding: 10 }}>
                     <LoginForm
@@ -186,7 +186,7 @@ class Header extends Component {
                 onClick={this.props.toggleSearch}
                 className={styles.hideOnMobile}
               >
-                <Icon name="search" className={styles.searchIcon} />
+                <Icon name="search" size={30} className={styles.searchIcon} />
               </button>
             </div>
           </div>
