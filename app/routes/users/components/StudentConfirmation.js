@@ -12,6 +12,7 @@ import {
 } from 'app/components/Form';
 import { Link } from 'react-router';
 import { Field } from 'redux-form';
+import { createValidator, required } from 'app/utils/validation';
 
 const StudentConfirmation = ({
   studentConfirmed,
@@ -107,24 +108,12 @@ const StudentConfirmation = ({
   );
 };
 
-const validate = data => {
-  const errors = {};
-
-  if (!data.studentUsername) {
-    errors.studentUsername = 'Vennligst fyll inn brukernavn';
-  }
-  if (!data.course) {
-    errors.course = 'Feltet er påkrevet';
-  }
-  if (!data.member) {
-    errors.member = 'Feltet er påkrevet';
-  }
-  if (!data.captchaResponse) {
-    errors.captchaResponse = 'Captcha er ikke validert';
-  }
-
-  return errors;
-};
+const validate = createValidator({
+  studentUsername: [required()],
+  course: [required()],
+  member: [required()],
+  captchaResponse: [required('Captcha er ikke validert')]
+});
 
 export default reduxForm({
   form: 'ConfirmationForm',

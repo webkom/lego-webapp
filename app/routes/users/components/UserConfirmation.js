@@ -11,6 +11,7 @@ import {
 } from 'app/components/Form';
 import { Field } from 'redux-form';
 import { Link } from 'react-router';
+import { createValidator, required, validPassword } from 'app/utils/validation';
 
 const UserConfirmation = ({
   token,
@@ -111,22 +112,12 @@ const UserConfirmation = ({
     </Content>
   );
 };
-const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,72}$/;
-const validate = data => {
-  const errors = {};
 
-  if (!data.username) {
-    errors.username = 'Brukernavn er ikke fylt ut';
-  }
-  if (!passwordRegex.test(data.password)) {
-    errors.password = 'Passordet må inneholde store og små bokstaver og tall';
-  }
-  if (!data.gender) {
-    errors.gender = 'Vennligst velg et kjønn';
-  }
-
-  return errors;
-};
+const validate = createValidator({
+  username: [required()],
+  password: [required(), validPassword()],
+  gender: [required()]
+});
 
 export default reduxForm({
   form: 'ConfirmationForm',
