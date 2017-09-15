@@ -1,195 +1,77 @@
-/* eslint-disable consistent-return */
-/* eslint-disable default-case */
-/* eslint-disable jsx-a11y/img-has-alt */
-
-import { Blocks, Inline } from './constants';
-
 import React from 'react';
+import { BLOCK_TAGS, MARK_TAGS } from './constants';
 
-const BLOCK_TAGS = {
-  img: Blocks.Image,
-  blockquote: Blocks.Blockquote,
-  cite: Blocks.Cite,
-  br: Blocks.Paragraph,
-  p: Blocks.Paragraph,
-  h1: Blocks.H1,
-  h2: Blocks.H2,
-  ol: Blocks.OL,
-  ul: Blocks.UL,
-  li: Blocks.LI,
-  hr: Blocks.Break
-};
-
-const getBlockType = el => {
-  const type = BLOCK_TAGS[el.tagName.toLowerCase()];
-  console.log(type);
-  if (type) {
-    return type;
-  }
-  console.log(el.tagName.toLowerCase());
-  console.log(el.attributes.getNamedItem('data-block-type'));
-  if (
-    el.tagName.toLowerCase() === 'div' &&
-    Array.from(el.attributes).includes('data-block-type')
-  ) {
-    switch (Array.from(el.attributes).includes('data-block-type')) {
-      case 'image':
-        return Blocks.Image;
-    }
-  }
-};
-
-const isVoid = type => {
-  if (type === Blocks.Image || type === Blocks.Break) {
-    return true;
-  }
-  return false;
-};
-
-// Add a dictionary of mark tags.
-const MARK_TAGS = {
-  em: Inline.Italic,
-  strong: Inline.Bold,
-  u: Inline.Underline,
-  strike: Inline.Striketrough,
-  code: Inline.Code
-};
-
-export default [
+const rules = [
   {
     deserialize(el, next) {
-      const type = getBlockType(el);
-
+      const type = BLOCK_TAGS[el.tagName.toLowerCase()];
       if (!type) return;
-
-      const children = isVoid(type) ? null : next(el.childNodes);
-      if (type === Blocks.Image) {
-        return {
-          kind: 'block',
-          type,
-          isVoid: true,
-          nodes: children,
-          data: {
-            src: el.attributes.getNamedItem('src'),
-            fileKey: el.attributes.getNamedItem('data-file-key')
-          }
-        };
-      }
-
       return {
         kind: 'block',
-        type,
-        nodes: children
+        type: type,
+        nodes: next(el.childNodes)
       };
     },
     serialize(object, children) {
-      if (object.kind !== 'block') return;
-      const data = object.data.toJS();
+      if (object.kind != 'block') return;
       switch (object.type) {
-        case Blocks.Image:
+        case 'code':
           return (
-            <div data-block-type="image" data-block-layout={data.blockLayout}>
-              <img data-file-key={data.fileKey} src={data.src} />
-            </div>
-          );
-        case Blocks.Break:
-          return <hr />;
-        case Blocks.Paragraph:
-          return object.text !== ''
-            ? <p>
+            <pre>
+              <code>
                 {children}
-              </p>
-            : <br />;
-        case Blocks.Blockquote:
+              </code>
+            </pre>
+          );
+        case 'paragraph':
+          return (
+            <p>
+              {children}
+            </p>
+          );
+        case 'quote':
           return (
             <blockquote>
               {children}
             </blockquote>
           );
-        case Blocks.Cite:
-          return (
-            <cite>
-              {children}
-            </cite>
-          );
-        case Blocks.H1:
-          return (
-            <h1>
-              {children}
-            </h1>
-          );
-        case Blocks.H2:
-          return (
-            <h2>
-              {children}
-            </h2>
-          );
-        case Blocks.OL:
-          return (
-            <ol>
-              {children}
-            </ol>
-          );
-        case Blocks.UL:
-          return (
-            <ul>
-              {children}
-            </ul>
-          );
-        case Blocks.LI:
-          return (
-            <li>
-              {children}
-            </li>
-          );
       }
     }
   },
-  // Add a new rule that handles marks...
   {
     deserialize(el, next) {
       const type = MARK_TAGS[el.tagName.toLowerCase()];
       if (!type) return;
       return {
         kind: 'mark',
-        type,
+        type: type,
         nodes: next(el.childNodes)
       };
     },
     serialize(object, children) {
-      if (object.kind !== 'mark') return;
+      if (object.kind != 'mark') return;
       switch (object.type) {
-        case Inline.Bold:
+        case 'bold':
           return (
             <strong>
               {children}
             </strong>
           );
-        case Inline.Code:
-          return (
-            <code>
-              {children}
-            </code>
-          );
-        case Inline.Italic:
+        case 'italic':
           return (
             <em>
               {children}
             </em>
           );
-        case Inline.Underline:
+        case 'underline':
           return (
             <u>
               {children}
             </u>
           );
-        case Inline.Striketrough:
-          return (
-            <strike>
-              {children}
-            </strike>
-          );
       }
     }
   }
 ];
+
+export default rules;

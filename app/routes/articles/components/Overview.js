@@ -41,6 +41,7 @@ export default class Overview extends Component {
     return (
       <section className={styles.frontpage}>
         <div className={styles.overview}>
+          <Link to={`/articles/new`}>NY</Link>
           <div className={styles.headline}>
             {headlineEvents.map(article =>
               <OverviewItem key={article.id} article={article} />
