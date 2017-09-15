@@ -10,7 +10,6 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = (state, props) => {
   const announcements = state.announcements.byId;
-  console.log('hei', announcements);
   const actionGrant = state.announcements.actionGrant;
   return {
     announcements,

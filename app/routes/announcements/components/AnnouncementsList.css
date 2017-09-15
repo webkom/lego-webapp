@@ -38,20 +38,24 @@
   margin-bottom: 20px;
 }
 
-.rowRec {
-  @media (--mobile-device) {
-    flex-direction: column;
-  }
+.msgField {
+  border: 1px solid #ccc;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.formHeaders {
+  font-size: 18px;
 }
 
 .recField {
   margin-right: 4px;
 }
 
-.msgField {
-  border: 1px solid #ccc;
-  width: 100%;
-  margin-bottom: 8px;
+.rowRec {
+  @media (--mobile-device) {
+    flex-direction: column;
+  }
 }
 
 .list {
@@ -72,14 +76,14 @@
   margin-top: 8px;
 }
 
-.recepients:after {
+.recipients:after {
   content:',\0000a0';
 }
 
-.recepients:first-child:before {
+.recipients:first-child:before {
     content: '\0000a0';
 }
 
-.recepients:last-child:after {
+.recipients:last-child:after {
     content: normal;
 }

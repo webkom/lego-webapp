@@ -24,50 +24,48 @@ function AnnouncementItem({ announcement }: Props) {
       <Flex className={styles.date}>
         {announcement.sent || 'Fant ingen dato'}
       </Flex>
-      <Flex className={styles.msg}>
-        {announcement.message}
-      </Flex>
+      <Flex className={styles.msg}>{announcement.message}</Flex>
       <Flex column>
         <span className={styles.recHeader}>Mottakere:</span>
         <Flex wrap>
           {announcement.events.length > 0 ? 'Arrangementer: ' : ''}
-          {announcement.events.map((e, i) =>
-            <Link key={i} className={styles.recepients} to={`/events/${e.id}/`}>
+          {announcement.events.map((e, i) => (
+            <Link key={i} className={styles.recipients} to={`/events/${e.id}/`}>
               {e.title}
             </Link>
-          )}
+          ))}
         </Flex>
         <Flex wrap>
           {announcement.meetings.length > 0 ? 'Møter: ' : ''}
-          {announcement.meetings.map((m, i) =>
+          {announcement.meetings.map((m, i) => (
             <Link
               key={i}
-              className={styles.recepients}
+              className={styles.recipients}
               to={`/meetings/${m.id}/`}
             >
               {m.title}
             </Link>
-          )}
+          ))}
         </Flex>
         <Flex wrap>
           {announcement.groups.length > 0 ? 'Grupper: ' : ''}
-          {announcement.groups.map((g, i) =>
-            <Link key={i} className={styles.recepients} to={`/groups/${g.id}/`}>
+          {announcement.groups.map((g, i) => (
+            <Link key={i} className={styles.recipients} to={`/groups/${g.id}/`}>
               {g.name}
             </Link>
-          )}
+          ))}
         </Flex>
         <Flex wrap>
           {announcement.users.length > 0 ? 'Brukere: ' : ''}
-          {announcement.users.map((u, i) =>
+          {announcement.users.map((u, i) => (
             <Link
               key={i}
-              className={styles.recepients}
+              className={styles.recipients}
               to={`/users/${u.username}/`}
             >
               {u.fullName}
             </Link>
-          )}
+          ))}
         </Flex>
       </Flex>
     </Flex>
@@ -85,8 +83,6 @@ const AnnouncementsList = ({
   }
 
   function onSubmit(announcement) {
-    console.log('Submit: ');
-    console.log(announcement);
     announcement.users = announcement.users
       ? announcement.users.map(u => u.value)
       : [];
@@ -99,8 +95,6 @@ const AnnouncementsList = ({
     announcement.events = announcement.events
       ? announcement.events.map(u => u.value)
       : [];
-    console.log('Submit2: ');
-    console.log(announcement);
     submitAnnouncement(announcement);
   }
 
@@ -110,14 +104,14 @@ const AnnouncementsList = ({
       <Flex column>
         <h2 className={styles.header}>Ny kunngjøring</h2>
         <Form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-          Kunngjøring:
+          <span className={styles.formHeaders}>Kunngjøring:</span>
           <Field
             className={styles.msgField}
             name="message"
             component={EditorField}
             placeholder="Skriv din melding her..."
           />
-          Mottakere:
+          <span className={styles.formHeaders}>Mottakere:</span>
           <Flex className={styles.rowRec}>
             <Field
               className={styles.recField}
@@ -160,9 +154,9 @@ const AnnouncementsList = ({
         <h1 className={styles.header}> Mine kunngjøringer </h1>
       </Flex>
       <Flex column className={styles.list}>
-        {Object.values(announcements).map((a, i) =>
+        {Object.values(announcements).map((a, i) => (
           <AnnouncementItem key={i} announcement={a} />
-        )}
+        ))}
       </Flex>
     </div>
   );
@@ -171,10 +165,12 @@ const AnnouncementsList = ({
 export default reduxForm({
   form: 'announcementsList',
   validate(values) {
-    console.log(values);
     const errors = {};
-    if (!values.message) {
+    if (!values.message || values.message.trim() === '<p></p>') {
       errors.message = 'Du må skrive en melding';
+    }
+    if (!values.groups && !values.meetings && !values.events && !values.users) {
+      errors.users = 'Du må velge minst én mottaker';
     }
     return errors;
   }
