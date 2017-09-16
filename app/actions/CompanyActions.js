@@ -149,18 +149,24 @@ export function addSemesterStatus(
 }
 
 export function editSemesterStatus(
+<<<<<<< HEAD
   { companyId, semesterId, contactedStatus, contract }: Object,
   // TODO: change this to take in an object,
   // editSemesterStatus(something, false) really doesn't say much
   detail: boolean = false
 ): Thunk<*> {
+=======
+  { companyId, semesterStatusId, contactedStatus, contract },
+  detail = false
+) {
+>>>>>>> Select most prominent status when deciding which color each semesterstatus should be
   return dispatch => {
     dispatch(startSubmit('company'));
 
     return dispatch(
       callAPI({
         types: Company.EDIT_SEMESTER_STATUS,
-        endpoint: `/companies/${companyId}/semester-statuses/${semesterId}/`,
+        endpoint: `/companies/${companyId}/semester-statuses/${semesterStatusId}/`,
         method: 'PATCH',
         body: {
           contactedStatus,

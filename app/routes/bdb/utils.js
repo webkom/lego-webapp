@@ -9,8 +9,7 @@ export const statusStrings = {
   anniversary: 'Jubileum',
   not_interested: 'Ikke interessert',
   contacted: 'Kontaktet',
-  not_contacted: 'Ikke kontaktet',
-  other: 'Annet'
+  not_contacted: 'Ikke kontaktet'
 };
 
 export const getStatusString = status =>
@@ -22,14 +21,32 @@ export const selectColorCode = status => {
     company_presentation: 'companyPresentation',
     course: 'course',
     lunch_presentation: 'lunchPresentation',
-    anniversary: 'other',
+    anniversary: 'anniversary',
     interested: 'interested',
     not_interested: 'notInterested',
     contacted: 'contacted',
-    not_contacted: 'notContacted',
-    other: 'other'
+    not_contacted: 'notContacted'
   };
   return statusToClass[status] || 'notContacted';
+};
+
+export const sortStatusesByProminence = (a, b) => {
+  const priority = {
+    bedex: 0,
+    company_presentation: 1,
+    course: 2,
+    lunch_presentation: 3,
+    anniversary: 4,
+    interested: 5,
+    not_interested: 6,
+    contacted: 7,
+    not_contacted: 8
+  };
+  return priority[a] - priority[b];
+};
+
+export const selectMostProminentStatus = statuses => {
+  return statuses.sort(sortStatusesByProminence)[0];
 };
 
 export const semesterNameOf = index => {

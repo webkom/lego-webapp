@@ -6,6 +6,7 @@ import { createSelector } from 'reselect';
 import { selectEvents } from './events';
 import { mutateComments } from 'app/reducers/comments';
 import joinReducers from 'app/utils/joinReducers';
+import { selectCompanySemesters } from './companySemesters';
 
 function mutateCompanies(state, action) {
   switch (action.type) {
@@ -70,14 +71,35 @@ export const selectCompanies = createSelector(
   state => state.companies.items.map(Number),
   state => state.companies.byId,
   state => state.users.byId,
-  (companyIds, companiesById, usersById) =>
-    companyIds.map(companyId => ({
+  state => state,
+  (companyIds, companiesById, usersById, state) => {
+    const companySemesters = selectCompanySemesters(state);
+    return companyIds.map(companyId => ({
       ...companiesById[companyId],
       studentContact: usersById
         ? usersById[companiesById[companyId].studentContact]
-        : {}
-    }))
+        : {},
+      semesterStatuses: selectSemesterStatuses(
+        companiesById[companyId].semesterStatuses,
+        companySemesters
+      )
+    }));
+  }
 );
+
+const selectSemesterStatuses = (semesterStatuses, companySemesters) =>
+  semesterStatuses.map(semester => {
+    const companySemester = companySemesters.find(
+      companySemester => companySemester.id === semester.semester
+    );
+    return companySemester
+      ? {
+          ...semester,
+          year: companySemester.year,
+          semester: companySemester.semester
+        }
+      : semester;
+  });
 
 export const selectCompanyById = createSelector(
   selectCompanies,

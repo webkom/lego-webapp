@@ -17,30 +17,20 @@ export default class CompanySingleRow extends Component {
   props: Props;
 
   semesterElement = index => {
-    const { startYear, startSem, company, companySemesters } = this.props;
+    const { startYear, startSem, company } = this.props;
     const result = indexToSemester(index, startYear, startSem);
 
     return (
-      (company.semesterStatuses || []).find(status => {
-        const companySemester = (companySemesters || [])
-          .find(semester => semester.id === status.semester);
-
-        return companySemester === undefined
-          ? { contactedStatus: ['not_contacted'] }
-          : companySemester.year === result.year &&
-            companySemester.semester === result.semester;
-      }) || { contactedStatus: ['not_contacted'] }
+      (company.semesterStatuses || [])
+        .find(
+          status =>
+            status.year === result.year && status.semester === result.semester
+        ) || { contactedStatus: ['not_contacted'] }
     );
   };
 
   render() {
-    const {
-      company,
-      editSemester,
-      changedStatuses,
-      startYear,
-      startSem
-    } = this.props;
+    const { company, editSemester, changedStatuses } = this.props;
 
     const semesters = [
       this.semesterElement(0),

@@ -1,6 +1,12 @@
 import React, { Component } from 'react';
 import styles from './bdb.css';
-import { selectColorCode, statusStrings, getStatusString } from '../utils.js';
+import {
+  selectColorCode,
+  statusStrings,
+  getStatusString,
+  selectMostProminentStatus,
+  sortStatusesByProminence
+} from '../utils.js';
 import Dropdown from 'app/components/Dropdown';
 import Icon from 'app/components/Icon';
 import cx from 'classnames';
@@ -38,12 +44,36 @@ export default class SemesterStatus extends Component {
         contactedStatuses.push(statusString);
       }
 
+      // Remove 'not contacted' if anything else is selected
+      if (
+        contactedStatuses.length > 1 &&
+        contactedStatuses.indexOf('not_contacted') !== -1
+      ) {
+        contactedStatuses.splice(contactedStatuses.indexOf('not_contacted'), 1);
+      }
+
+      // Remove 'contacted', 'not_interested and 'interested'
+      // as a statuses if any the others in that list are selected
+      ['contacted', 'not_interested', 'interested'].map(status => {
+        if (
+          contactedStatuses.length > 1 &&
+          contactedStatuses.indexOf(status) !== -1 &&
+          status !== statusString
+        ) {
+          contactedStatuses.splice(contactedStatuses.indexOf(status), 1);
+        }
+      });
+
       return contactedStatuses;
     };
 
+    const statusCodes = Object.keys(statusStrings)
+      .sort(sortStatusesByProminence)
+      .filter(code => code !== 'not_contacted');
+
     const dropDownItems = (
       <Dropdown.List style={{ overflow: 'scroll' }}>
-        {Object.keys(statusStrings).map((statusString, j) =>
+        {statusCodes.map((statusString, j) => (
           <a
             key={j}
             onClick={() =>
@@ -56,7 +86,7 @@ export default class SemesterStatus extends Component {
           >
             <Dropdown.ListItem className={styles.dropDownItem}>
               <div>
-                {semesterStatus.contactedStatus.indexOf(statusString) !== -1 &&
+                {semesterStatus.contactedStatus.indexOf(statusString) !== -1 ? (
                   <Icon
                     name="checkmark"
                     style={{
@@ -64,7 +94,18 @@ export default class SemesterStatus extends Component {
                       marginRight: '5px'
                     }}
                     size={300}
-                  />}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      width: '10px',
+                      height: '1px',
+                      display: 'inline-block'
+                    }}
+                  >
+                    {' '}
+                  </div>
+                )}
                 {getStatusString(statusString)}
               </div>
               <div
@@ -74,27 +115,37 @@ export default class SemesterStatus extends Component {
                 )}
               />
             </Dropdown.ListItem>
-            <Dropdown.Divider />
+            {j !== statusCodes.length - 1 && <Dropdown.Divider />}
           </a>
-        )}
+        ))}
       </Dropdown.List>
     );
 
     const statusesToRender = (
       <div style={{ width: '100%' }}>
-        {semesterStatus.contactedStatus.length > 0
-          ? semesterStatus.contactedStatus.map(
+        {semesterStatus.contactedStatus.length > 0 ? (
+          semesterStatus.contactedStatus
+            .sort(sortStatusesByProminence)
+            .map(
               (status, i) =>
                 getStatusString(status) +
                 (i !== semesterStatus.contactedStatus.length - 1 ? ', ' : '')
             )
-          : getStatusString('not_contacted')}
+        ) : (
+          getStatusString('not_contacted')
+        )}
       </div>
     );
 
     return (
       <td
-        className={styles[selectColorCode(semesterStatus.contactedStatus[0])]}
+        className={
+          styles[
+            selectColorCode(
+              selectMostProminentStatus(semesterStatus.contactedStatus)
+            )
+          ]
+        }
         style={{ padding: 0 }}
       >
         <Dropdown

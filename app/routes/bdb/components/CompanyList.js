@@ -61,8 +61,7 @@ export default class CompanyList extends Component {
       startYear,
       startSem,
       editSemester,
-      changedStatuses,
-      companySemesters
+      changedStatuses
     } = this.props;
 
     /*
@@ -150,7 +149,6 @@ export default class CompanyList extends Component {
                 key={i}
                 editSemester={editSemester}
                 changedStatuses={changedStatuses}
-                companySemesters={companySemesters}
               />
             ))}
           </tbody>
