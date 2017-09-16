@@ -10,7 +10,20 @@ export default createEntityReducer({
     fetch: Company.FETCH_SEMESTERS
   },
   mutate(state, action) {
-    return state;
+    switch (action.type) {
+      case Company.ADD_SEMESTER.SUCCESS: {
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [action.payload.id]: action.payload
+          },
+          items: state.items.concat(action.payload.id)
+        };
+      }
+      default:
+        return state;
+    }
   }
 });
 

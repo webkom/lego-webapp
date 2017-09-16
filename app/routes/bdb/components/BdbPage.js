@@ -30,25 +30,21 @@ export default class BdbPage extends Component {
     searchQuery: ''
   };
 
-  componentDidMount() {
+  componentWillMount() {
     const date = new Date();
-    console.log('mounted');
-    console.log(this.props);
     this.setState({
-      companies: this.props.companies,
       startYear: date.getFullYear(),
       startSem: date.getMonth() > 6 ? 1 : 0
     });
   }
 
   componentWillReceiveProps(newProps) {
-    console.log('got new props');
-    console.log(newProps);
-    this.setState({
-      companies: newProps.companies
-    });
+    if (this.state.companies.length === 0) {
+      this.setState({
+        companies: newProps.companies
+      });
+    }
   }
-
   props: Props;
 
   changeSemesters = forward => {
@@ -65,9 +61,9 @@ export default class BdbPage extends Component {
     this.setState({ ...this.state, startYear: newYear, startSem: newSem });
   };
 
-  editSemester = (companyId, tableIndex, semesterId, contactedStatus) => {
+  editSemester = (companyId, tableIndex, semesterStatusId, contactedStatus) => {
     // Update state whenever a semesterStatus is graphically changed by the user
-    const { addSemester, companySemesters } = this.props;
+    const { companySemesters } = this.props;
     const { changedStatuses, companies, startYear, startSem } = this.state;
     const globalSemester = indexToSemester(
       tableIndex,
@@ -76,66 +72,18 @@ export default class BdbPage extends Component {
       companySemesters
     );
 
-    // If the semester doesn't exist yet, make it before continuing
-    if (!globalSemester.id) {
-      addSemester(globalSemester.year, globalSemester.semester).then(response =>
-        this.editSemesterSupportFunction(
-          companyId,
-          tableIndex,
-          semesterId,
-          contactedStatus,
-          addSemester,
-          companySemesters,
-          changedStatuses,
-          companies,
-          startYear,
-          startSem,
-          indexToSemester(tableIndex, startYear, startSem, companySemesters)
-        )
-      );
-    } else {
-      this.editSemesterSupportFunction(
-        companyId,
-        tableIndex,
-        semesterId,
-        contactedStatus,
-        addSemester,
-        companySemesters,
-        changedStatuses,
-        companies,
-        startYear,
-        startSem,
-        globalSemester
-      );
-    }
-  };
-
-  editSemesterSupportFunction = (
-    companyId,
-    tableIndex,
-    semesterStatusId,
-    contactedStatus,
-    addSemester,
-    companySemesters,
-    changedStatuses,
-    companies,
-    startYear,
-    startSem,
-    globalSemester
-  ) => {
     const matchSemester = status =>
-      status.semester === globalSemester.id && status.companyId === companyId;
+      status.semester.year === globalSemester.year &&
+      status.semester.semester === globalSemester.semester &&
+      status.companyId === companyId;
 
     // Find which semester has been changed.
     const changedCompanyIndex = companies.indexOf(
       companies.find(company => company.id === companyId)
     );
-    console.log('asd');
-    console.log(companies);
-    console.log(changedCompanyIndex);
-    console.log(companies[changedCompanyIndex]);
-    const changedCompanyStatuses =
-      companies[changedCompanyIndex].semesterStatuses;
+    const changedCompanyStatuses = (companies[changedCompanyIndex] || {
+      semesterStatuses: []
+    }).semesterStatuses;
     const changedSemesterIndex = changedCompanyStatuses.indexOf(
       changedCompanyStatuses.find(
         status => status.semester === globalSemester.id
@@ -147,9 +95,10 @@ export default class BdbPage extends Component {
     if (changedSemesterIndex === -1) {
       // We have to add a new semester to state.companies
       companies[changedCompanyIndex].semesterStatuses.push({
-        semesterId: semesterStatusId,
+        semesterStatusId,
         contactedStatus,
-        semester: Number(globalSemester.id)
+        semester: globalSemester.semester,
+        year: globalSemester.year
       });
     } else {
       // We're changing an existing semesterStatus in state.companies.
@@ -165,32 +114,63 @@ export default class BdbPage extends Component {
       // We have to add a new semester to state.changedStatuses
       changedStatuses.push({
         companyId,
-        semesterId: semesterStatusId,
+        semesterStatusId,
         contactedStatus,
-        semester: Number(globalSemester.id)
+        semester: globalSemester
       });
     } else {
       // We're changing an existing entry in state.changedStatuses
       changedStatuses.find(matchSemester).contactedStatus = contactedStatus;
     }
 
-    console.log('next changedStatuses');
-    console.log(changedStatuses);
-
     this.setState({
       companies,
-      changedStatuses
+      changedStatuses,
+      submitted: false
     });
   };
 
   submitSemesters = () => {
-    const { addSemesterStatus, editSemesterStatus } = this.props;
-    this.state.changedStatuses.forEach(status => {
-      console.log('status');
-      console.log(status);
-      if (typeof status.semesterId === 'undefined') {
-        addSemesterStatus(status);
+    const {
+      addSemester,
+      addSemesterStatus,
+      editSemesterStatus,
+      companySemesters
+    } = this.props;
+    this.state.changedStatuses.map(status => {
+      const companySemesterId = status.semester.id;
+
+      if (typeof companySemesterId === 'undefined') {
+        // This semesterStatus had no companySemester when it was created.
+        // The companySemester might have been created since then:
+        const foundCompanySemester = companySemesters.find(
+          semester =>
+            semester.year === status.semester.year &&
+            semester.semester === status.semester.semester
+        );
+        if (foundCompanySemester) {
+          // the semester has already been created
+          addSemesterStatus({ ...status, semester: foundCompanySemester.id });
+        } else {
+          // We have to add the companySemester
+          addSemester(
+            status.semester.year,
+            status.semester.semester
+          ).then(() => {
+            const newlyCreatedId = this.props.companySemesters.find(
+              companySemester =>
+                companySemester.year === status.semester.year &&
+                companySemester.semester === status.semester.semester
+            ).id;
+            addSemesterStatus({ ...status, semester: newlyCreatedId });
+          });
+        }
+      } else if (typeof status.semesterStatusId === 'undefined') {
+        // The companySemester was already nicely in place, but this company
+        // had no semesterStatus created here
+        addSemesterStatus({ ...status, semester: companySemesterId });
       } else {
+        // The company already had a semesterStatus tied to this companySemester
         editSemesterStatus(status);
       }
     });
@@ -286,12 +266,14 @@ export default class BdbPage extends Component {
         ) : (
           ''
         )}
-        {this.state.submitted &&
-          <Icon name="checkmark" size={30} /> + 'Lagret!'}
+        {this.state.submitted && (
+          <div>
+            <Icon name="checkmark" size={30} /> Lagret!
+          </div>
+        )}
 
         <i style={{ display: 'block' }}>
           <b>Tips:</b> Du kan endre semestere ved å trykke på dem i listen!
-          Semestere merket med * er endringer klare for lagring.
         </i>
 
         <CompanyList

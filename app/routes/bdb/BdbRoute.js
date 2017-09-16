@@ -15,7 +15,7 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 
 const loadData = (props, dispatch) =>
-  Promise.all([dispatch(fetchAll()), dispatch(fetchSemesters())]);
+  dispatch(fetchSemesters()).then(() => dispatch(fetchAll()));
 
 const mapStateToProps = (state, props) => ({
   companies: selectCompanies(state, props),
