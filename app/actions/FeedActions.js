@@ -3,15 +3,15 @@
 import { Feed } from './ActionTypes';
 import callAPI from './callAPI';
 import { feedActivitySchema } from 'app/reducers';
-import { feedIdByUsername } from 'app/reducers/feeds';
+import { feedIdByUserId } from 'app/reducers/feeds';
 
-export function fetchUserFeed(username) {
+export function fetchUserFeed(userId: string) {
   return callAPI({
     types: Feed.FETCH,
-    endpoint: `/feed-user/${username}/`,
+    endpoint: `/feed-user/${userId}/`,
     schema: [feedActivitySchema],
     meta: {
-      feedId: feedIdByUsername(username)
+      feedId: feedIdByUserId(userId)
     }
   });
 }
