@@ -10,6 +10,7 @@ import Icon from 'app/components/Icon';
 
 type Props = {
   parent?: { slug: string, title: string },
+  selectedPage: Object,
   siblings: Object[],
   children: Object[],
   actionGrant: string[],
@@ -29,13 +30,14 @@ class PageHierarchy extends Component {
 
   render() {
     const {
+      selectedPage,
       parent,
       siblings,
-      selectedSlug,
-      actionGrant,
-      children
+      children,
+      actionGrant
     } = this.props;
 
+    const selectedSlug = selectedPage.slug;
     return (
       <div className={styles.sidebar}>
         {intersection(actionGrant, ['update', 'destroy', 'create']).length >
@@ -45,7 +47,7 @@ class PageHierarchy extends Component {
               <li className={styles.sibling}>
                 <Link
                   className={styles.action}
-                  to={`/pages/${selectedSlug}/edit?parent=${parent.slug}`}
+                  to={`/pages/${selectedPage.slug}/edit?parent=${parent.slug}`}
                 >
                   Edit
                 </Link>
@@ -68,12 +70,14 @@ class PageHierarchy extends Component {
           </ul>
         )}
         <ul className={styles.pageList}>
-          <li>
-            <Link className={styles.back} to={`/pages/${parent.slug}`}>
-              <Icon name="chevron-left" />
-              {parent.title}
-            </Link>
-          </li>
+          {selectedPage.parent && (
+            <li>
+              <Link className={styles.back} to={`/pages/${parent.slug}`}>
+                <Icon name="fa fa-angle-left" />
+                {parent.title}
+              </Link>
+            </li>
+          )}
           {siblings.map(page => (
             <li
               key={page.pk}
@@ -81,10 +85,30 @@ class PageHierarchy extends Component {
                 selected: page.slug === selectedSlug
               })}
             >
-              <Link to={`/pages/${page.slug}`}>{page.title}</Link>
+              <Link
+                style={{
+                  fontWeight: page.slug == selectedSlug ? 'bold' : 'normal'
+                }}
+                to={`/pages/${page.slug}`}
+              >
+                {page.title}
+              </Link>
 
-              {page.slug == selectedSlug &&
-                children.map((page, key) => <p key={key}>{page.title}</p>)}
+              {page.slug == selectedSlug && (
+                <ul>
+                  {children.map((page, key) => (
+                    <li key={key}>
+                      <Link
+                        style={{ fontSize: '16px' }}
+                        to={`/pages/${page.slug}`}
+                      >
+                        {'- '}
+                        {page.title}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
         </ul>
