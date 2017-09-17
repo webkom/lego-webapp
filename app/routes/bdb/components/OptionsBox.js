@@ -57,7 +57,10 @@ export default class OptionsBox extends Component {
         <div style={{ display: 'flex' }}>
           <div className={styles.section} style={{ order: 0 }}>
             <label>
-              <CheckBox onChange={() => this.toggleSection('active')} />
+              <CheckBox
+                value={this.state.active}
+                onChange={() => this.toggleSection('active')}
+              />
               <span style={{ marginLeft: '5px' }}>Er aktiv</span>
             </label>
 
@@ -94,6 +97,7 @@ export default class OptionsBox extends Component {
             <label>
               <CheckBox
                 id="bedex"
+                value={this.state.bedex}
                 onChange={() => this.toggleSection('bedex')}
               />
               <span style={{ marginLeft: '5px' }}>Har bedex</span>
@@ -131,6 +135,7 @@ export default class OptionsBox extends Component {
             <label>
               <CheckBox
                 id="jobOfferOnly"
+                value={this.state.jobOfferOnly}
                 onChange={() => this.toggleSection('jobOfferOnly')}
               />
               <span style={{ marginLeft: '5px' }}>

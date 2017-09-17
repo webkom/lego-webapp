@@ -28,11 +28,6 @@
   padding-left: 0;
 }
 
-[type='checkbox']:checked + label::before {
-  border: none;
-  background: #a59a9a;
-}
-
 .createButton {
   font-weight: 700;
   cursor: pointer;
