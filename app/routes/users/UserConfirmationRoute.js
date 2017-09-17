@@ -6,7 +6,7 @@ import { createUser, validateRegistrationToken } from 'app/actions/UserActions';
 
 const loadData = ({ location: { query: { token } } }, dispatch) => {
   if (token) {
-    dispatch(validateRegistrationToken(token));
+    return dispatch(validateRegistrationToken(token));
   }
 };
 

@@ -99,8 +99,7 @@ export function updateUser(user, options = { noRedirect: false }) {
     });
 }
 
-export function changePassword(props) {
-  const { old_password, new_password, new_password_repeat } = props;
+export function changePassword({ password, newPassword, retypeNewPassword }) {
   return dispatch =>
     dispatch(
       callAPI({
@@ -108,9 +107,9 @@ export function changePassword(props) {
         endpoint: '/password-change/',
         method: 'POST',
         body: {
-          password: old_password,
-          newPassword: new_password,
-          retypeNewPassword: new_password_repeat
+          password,
+          newPassword,
+          retypeNewPassword
         },
         schema: userSchema,
         meta: {

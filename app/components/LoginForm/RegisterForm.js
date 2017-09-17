@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { sendRegistrationEmail } from 'app/actions/UserActions';
 import { Form, TextInput, Captcha } from '../Form';
 import Button from '../Button';
+import { createValidator, required, isEmail } from 'app/utils/validation';
 
 type Props = {
   login: (username: string, password: string) => any
@@ -37,8 +38,8 @@ class RegisterForm extends Component {
         }
       })
       .catch(err => {
-        if (this.mounted) {
-          this.props.reset();
+        if (this.mounted && err.payload && err.payload.response) {
+          throw new SubmissionError(err.payload.response.jsonData);
         }
       });
   };
@@ -65,19 +66,10 @@ class RegisterForm extends Component {
   }
 }
 
-const validate = data => {
-  const errors = {};
-
-  if (!data.email) {
-    errors.email = 'Ingen epost';
-  }
-
-  if (!data.captchaResponse) {
-    errors.captchaResponse = 'Captcha er ikke validert';
-  }
-
-  return errors;
-};
+const validate = createValidator({
+  email: [required(), isEmail()],
+  captchaResponse: [required('Captcha er ikke validert')]
+});
 
 export default compose(
   connect(null, { sendRegistrationEmail }),
