@@ -3,6 +3,7 @@
 
 import React, { Component } from 'react';
 import styles from './PageDetail.css';
+import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Editor from 'app/components/Editor';
 import PageHierarchy from './PageHierarchy';
@@ -54,38 +55,41 @@ export default class PageDetail extends Component {
     const canEdit = page.permissions && page.permissions.includes('edit');
     return (
       <div className={styles.root}>
-        <div className={styles.page}>
+        <Flex className={styles.page}>
           <article className={styles.detail}>
             <div className={styles.header}>
-              <h2 className={styles.title}>
-                {page.title}
-              </h2>
-              {canEdit &&
+              <h2 className={styles.title}>{page.title}</h2>
+              {canEdit && (
                 <PageButtons
                   isEditing={this.state.isEditing}
                   toggleEditing={this.toggleEditing}
                   handleSave={this.handleSave}
-                />}
+                />
+              )}
             </div>
-            {page.cover &&
+            {page.cover && (
               <div className={styles.coverImage}>
                 <img alt="presentation" src={page.cover} />
-              </div>}
-            <Editor
-              content={page.content}
-              readOnly={this.props.isEditing}
-              onChange={this.handleEditorChange}
-            />
+              </div>
+            )}
+            {this.state.isEditing ? (
+              <Editor
+                content={page.content}
+                onChange={this.handleEditorChange}
+              />
+            ) : (
+              <div dangerouslySetInnerHTML={{ __html: page.content }} />
+            )}
           </article>
           <aside className={styles.sidebar}>
             <PageHierarchy
               {...this.props}
-              selectedSlug={page.slug}
+              selectedPage={page}
               actionGrant={page.actionGrant}
             />
           </aside>
-        </div>
-      </Content>
+        </Flex>
+      </div>
     );
   }
 }

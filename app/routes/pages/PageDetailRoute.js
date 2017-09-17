@@ -1,6 +1,11 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+<<<<<<< HEAD
 import { fetchAll, fetchPage, updatePage } from 'app/actions/PageActions';
+=======
+import { dispatched } from 'react-prepare';
+import { fetchPage, updatePage } from 'app/actions/PageActions';
+>>>>>>> More work
 import PageDetail from './components/PageDetail';
 import prepare from 'app/utils/prepare';
 import {
@@ -35,9 +40,11 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { fetchAll, fetchPage, updatePage };
+const mapDispatchToProps = { updatePage };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  prepare(loadData, ['pageSlug'])
+  prepare(({ params: { pageSlug } }, dispatch) =>
+    dispatch(fetchPage(pageSlug))
+  ),
+  connect(mapStateToProps, mapDispatchToProps)
 )(PageDetail);
