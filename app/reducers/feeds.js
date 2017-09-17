@@ -44,7 +44,7 @@ export default createEntityReducer({
   }
 });
 
-export const feedIdByUsername = username => `user-${username}`;
+export const feedIdByUserId = (userId: string) => `user-${userId}`;
 
 export const selectFeeds = createSelector(
   state => state.feeds.byId,

@@ -142,11 +142,12 @@ export function updatePicture({ picture }) {
   };
 }
 
-export function fetchUser(username = 'me') {
+export function fetchUser(username: string = 'me') {
   return callAPI({
     types: User.FETCH,
     endpoint: `/users/${username}/`,
     schema: userSchema,
+    force: true,
     meta: {
       errorMessage: 'Fetching user failed',
       isCurrentUser: username === 'me'
