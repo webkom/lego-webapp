@@ -26,16 +26,17 @@
 }
 
 .bounce2 {
-  animation-delay: -1s;
+  animation-delay: -0.4s;
 }
 
 @keyframes bounce {
   0%,
+  70%,
   100% {
-    transform: scale(0);
+    transform: scale(0.5);
   }
 
-  50% {
+  40% {
     transform: scale(1);
   }
 }
