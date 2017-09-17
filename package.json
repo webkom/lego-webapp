@@ -8,9 +8,12 @@
   "scripts": {
     "start": "webpack --config config/webpack.server.js",
     "build": "concurrently \"yarn run build:server\" \"yarn run build:client\"",
-    "build:client": "NODE_ENV=production webpack --config config/webpack.client.js",
-    "build:server": "NODE_ENV=production webpack --config config/webpack.server.js -p",
-    "build:dll": "BUILDING_DLL=true webpack --display-chunks --color --config config/webpack.dll.js",
+    "build:client":
+      "NODE_ENV=production webpack --config config/webpack.client.js",
+    "build:server":
+      "NODE_ENV=production webpack --config config/webpack.server.js -p",
+    "build:dll":
+      "BUILDING_DLL=true webpack --display-chunks --color --config config/webpack.dll.js",
     "postinstall": "yarn run build:dll",
     "precommit": "lint-staged",
     "test": "NODE_ENV=test jest",
@@ -20,8 +23,10 @@
     "lint:js": "eslint app scripts server config --ignore-path .gitignore",
     "lint:css": "stylelint ./app/**/*.css",
     "flow": "flow",
-    "styleguide": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist server",
-    "styleguide:build": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist build"
+    "styleguide":
+      "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist server",
+    "styleguide:build":
+      "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist build"
   },
   "repository": {
     "type": "git",
@@ -90,6 +95,7 @@
     "babel-jest": "^20.0.3",
     "babel-loader": "^7.1.1",
     "babel-plugin-lodash": "^3.2.11",
+    "babel-plugin-transform-import-to-require": "^1.0.0",
     "babel-polyfill": "^6.23.0",
     "babel-preset-latest": "^6.22.0",
     "babel-preset-react": "^6.23.0",
@@ -145,30 +151,23 @@
       "selector-pseudo-class-no-unknown": [
         true,
         {
-          "ignorePseudoClasses": [
-            "global"
-          ]
+          "ignorePseudoClasses": ["global"]
         }
       ]
     }
   },
   "lint-staged": {
-    "app/**/*.{js,css}": [
-      "prettier --write --single-quote",
-      "git add"
-    ]
+    "app/**/*.{js,css}": ["prettier --write --single-quote", "git add"]
   },
   "jest": {
     "globals": {
       "__DEV__": false,
       "__CLIENT__": true
     },
-    "moduleDirectories": [
-      "<rootDir>",
-      "node_modules"
-    ],
+    "moduleDirectories": ["<rootDir>", "node_modules"],
     "moduleNameMapper": {
-      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm)$": "<rootDir>/testing/FileStub.js",
+      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm)$":
+        "<rootDir>/testing/FileStub.js",
       "^.+\\.css$": "<rootDir>/testing/CSSStub.js"
     },
     "testRegex": "\\.spec\\.(js|jsx)$"
@@ -185,7 +184,5 @@
       "meow"
     ]
   },
-  "moduleRoots": [
-    "./"
-  ]
+  "moduleRoots": ["./"]
 }
