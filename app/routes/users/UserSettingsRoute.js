@@ -1,23 +1,12 @@
 // @flow
 
 import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { reduxForm } from 'redux-form';
 import UserSettings from './components/UserSettings';
 import {
   updateUser,
   updatePicture,
   changePassword
 } from 'app/actions/UserActions';
-import { createValidator, required, isEmail } from 'app/utils/validation';
-
-const validate = createValidator({
-  username: [required()],
-  firstName: [required()],
-  lastName: [required()],
-  gender: [required()],
-  email: [required(), isEmail()]
-});
 
 const mapStateToProps = (state, props) => {
   const user = props.currentUser;
@@ -29,11 +18,4 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = { updateUser, updatePicture, changePassword };
 
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  reduxForm({
-    form: 'contact',
-    validate,
-    enableReinitialize: true
-  })
-)(UserSettings);
+export default connect(mapStateToProps, mapDispatchToProps)(UserSettings);
