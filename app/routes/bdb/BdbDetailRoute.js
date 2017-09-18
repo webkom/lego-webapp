@@ -18,10 +18,10 @@ import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const loadData = ({ params: { companyId } }, dispatch) =>
-  Promise.all([dispatch(fetch(companyId)), dispatch(fetchSemesters())]);
+  dispatch(fetchSemesters()).then(() => dispatch(fetch(companyId)));
 
 const mapStateToProps = (state, props) => {
-  const companyId = props.params.companyId;
+  const companyId = Number(props.params.companyId);
   const company = selectCompanyById(state, { companyId });
   const comments = selectCommentsForCompany(state, { companyId });
   const companyEvents = selectEventsForCompany(state, { companyId });
