@@ -57,6 +57,28 @@ export const semesterNameOf = index => {
   return indexToSemesterName[index] || 'spring';
 };
 
+export const semesterCodeToName = code => {
+  const codeToName = {
+    spring: 'Vår',
+    autumn: 'Høst'
+  };
+  return codeToName[code] || '-';
+};
+
+export const sortByYearThenSemester = semesterStatuses => {
+  const semesterCodeToPriority = {
+    spring: 0,
+    autumn: 1
+  };
+  return semesterStatuses.sort(
+    (a, b) =>
+      a.year !== b.year
+        ? b.year - a.year
+        : semesterCodeToPriority[b.semester] -
+          semesterCodeToPriority[a.semester]
+  );
+};
+
 export const indexToSemester = (
   index,
   startYear,

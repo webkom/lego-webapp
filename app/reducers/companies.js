@@ -13,14 +13,12 @@ function mutateCompanies(state, action) {
     case Company.DELETE.SUCCESS: {
       return {
         ...state,
-        byId: state.byId.filter(
-          company => company.id !== Number(action.meta.companyId)
-        )
+        byId: state.byId.filter(company => company.id !== action.meta.companyId)
       };
     }
 
     case Company.DELETE_SEMESTER_STATUS.SUCCESS: {
-      const companyId = Number(action.meta.companyId);
+      const companyId = action.meta.companyId;
       return {
         ...state,
         byId: {
@@ -28,7 +26,7 @@ function mutateCompanies(state, action) {
           [companyId]: {
             ...state.byId[companyId],
             semesterStatuses: state.byId[companyId].semesterStatuses.filter(
-              status => status.id !== Number(action.meta.semesterId)
+              status => status.id !== action.meta.semesterId
             )
           }
         }
@@ -36,7 +34,7 @@ function mutateCompanies(state, action) {
     }
 
     case Company.DELETE_COMPANY_CONTACT.SUCCESS: {
-      const companyId = Number(action.meta.companyId);
+      const companyId = action.meta.companyId;
       return {
         ...state,
         byId: {
@@ -44,7 +42,7 @@ function mutateCompanies(state, action) {
           [companyId]: {
             ...state.byId[companyId],
             companyContacts: state.byId[companyId].companyContacts.filter(
-              contact => contact.id !== Number(action.meta.companyContactId)
+              contact => contact.id !== action.meta.companyContactId
             )
           }
         }
@@ -68,7 +66,7 @@ export default createEntityReducer({
 });
 
 export const selectCompanies = createSelector(
-  state => state.companies.items.map(Number),
+  state => state.companies.items,
   state => state.companies.byId,
   state => state.users.byId,
   state => state,
@@ -88,10 +86,9 @@ export const selectCompanies = createSelector(
 );
 
 const selectSemesterStatuses = (semesterStatuses, companySemesters) =>
-  semesterStatuses.map(semester => {
-    const companySemester = companySemesters.find(
-      companySemester => companySemester.id === semester.semester
-    );
+  (semesterStatuses || []).map(semester => {
+    const companySemester = (companySemesters || [])
+      .find(companySemester => companySemester.id === semester.semester);
     return companySemester
       ? {
           ...semester,
@@ -105,7 +102,7 @@ export const selectCompanyById = createSelector(
   selectCompanies,
   (state, props) => props.companyId,
   (companies, companyId) =>
-    companies.find(company => company.id === Number(companyId)) || {}
+    companies.find(company => company.id === companyId) || {}
 );
 
 export const selectEventsForCompany = createSelector(
