@@ -78,21 +78,24 @@ const UserSettings = (props: Props) => {
           component={TextInput.Field}
         />
 
-        <RadioButtonGroup name="gender">
+        <RadioButtonGroup label="Kjønn" name="gender">
           <Field
+            name="gender"
             label="Mann"
+            inputValue="male"
             component={RadioButton.Field}
-            inputValue={'male'}
           />
           <Field
+            name="gender"
             label="Kvinne"
+            inputValue="female"
             component={RadioButton.Field}
-            inputValue={'female'}
           />
           <Field
+            name="gender"
             label="Annet"
+            inputValue="other"
             component={RadioButton.Field}
-            inputValue={'other'}
           />
         </RadioButtonGroup>
         <Field label="Allergier" name="allergies" component={TextInput.Field} />

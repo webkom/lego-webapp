@@ -31,20 +31,21 @@ export function createField(Component: any) {
       label,
       fieldStyle,
       fieldClassName,
+      labelClassName,
       ...props
     } = field;
     const hasError = meta.touched && meta.error && meta.error.length > 0;
     return (
       <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
-        <div className={styles.label}>
-          {label || field.placeholder}
+        <label className={cx(styles.label, labelClassName)}>
+          <span>{label || field.placeholder}</span>
           {required && <span className={styles.required}>*</span>}
-        </div>
-        <Component
-          {...input}
-          {...props}
-          className={cx(props.className, hasError && styles.inputWithError)}
-        />
+          <Component
+            {...input}
+            {...props}
+            className={cx(props.className, hasError && styles.inputWithError)}
+          />
+        </label>
         {hasError && renderErrorMessage(meta.error)}
       </div>
     );
