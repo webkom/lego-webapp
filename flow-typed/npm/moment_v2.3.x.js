@@ -1,5 +1,5 @@
-// flow-typed signature: d44388f51527a2bb754e547cfd25ae85
-// flow-typed version: 0f1bb24013/moment_v2.x.x/flow_>=v0.34.x
+// flow-typed signature: 26bc11f41d632999f598d1576a6cdb59
+// flow-typed version: f3b9c89b85/moment_v2.3.x/flow_>=v0.34.x
 
 type moment$MomentOptions = {
   y?: number|string,
@@ -110,7 +110,11 @@ declare class moment$Moment {
   static utc(str: string, str2?: string|Array<string>, str3?: string): moment$Moment;
   static utc(moment: moment$Moment): moment$Moment;
   static utc(date: Date): moment$Moment;
+  static parseZone(): moment$Moment;
   static parseZone(rawDate: string): moment$Moment;
+  static parseZone(rawDate: string, format: string | Array<string>): moment$Moment;
+  static parseZone(rawDate: string, format: string, strict: boolean): moment$Moment;
+  static parseZone(rawDate: string, format: string, locale: string, strict: boolean): moment$Moment;
   isValid(): bool;
   invalidAt(): 0|1|2|3|4|5|6;
   creationData(): moment$MomentCreationData;
@@ -198,11 +202,11 @@ declare class moment$Moment {
   toJSON(): string;
   toISOString(): string;
   toObject(): moment$MomentObject;
-  isBefore(date?: moment$Moment|string|number|Date|Array<number>): bool;
-  isSame(date?: moment$Moment|string|number|Date|Array<number>): bool;
-  isAfter(date?: moment$Moment|string|number|Date|Array<number>): bool;
-  isSameOrBefore(date?: moment$Moment|string|number|Date|Array<number>): bool;
-  isSameOrAfter(date?: moment$Moment|string|number|Date|Array<number>): bool;
+  isBefore(date?: moment$Moment|string|number|Date|Array<number>, units?: ?string): bool;
+  isSame(date?: moment$Moment|string|number|Date|Array<number>, units?: ?string): bool;
+  isAfter(date?: moment$Moment|string|number|Date|Array<number>, units?: ?string): bool;
+  isSameOrBefore(date?: moment$Moment|string|number|Date|Array<number>, units?: ?string): bool;
+  isSameOrAfter(date?: moment$Moment|string|number|Date|Array<number>, units?: ?string): bool;
   isBetween(date: moment$Moment|string|number|Date|Array<number>): bool;
   isDST(): bool;
   isDSTShifted(): bool;
