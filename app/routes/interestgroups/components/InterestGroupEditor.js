@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 import styles from './InterestGroupEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field } from 'redux-form';
+import { map, countBy } from 'lodash';
 
 import {
   Form,
@@ -56,9 +57,7 @@ function InterestGroupEditor({
           {isEditPage ? ` ${interestGroup.name}` : 'Tilbake'}
         </Link>
       </h2>
-      <h1>
-        {isEditPage ? 'Endre gruppe' : 'Ny gruppe'}{' '}
-      </h1>
+      <h1>{isEditPage ? 'Endre gruppe' : 'Ny gruppe'} </h1>
       <Form onSubmit={handleSubmit(handleSubmitCallback)}>
         <Field
           label="Gruppenavn"
@@ -76,7 +75,7 @@ function InterestGroupEditor({
         />
         <Field
           label="Beskrivelse"
-          placeholder="😂"
+          placeholder="Her kan du skrive litt mer om hva gruppen handler om. Hva gjør dere? Møtes dere ofte?"
           name="descriptionLong"
           component={EditorField.Field}
         />
@@ -117,6 +116,12 @@ export default reduxForm({
   form: 'interestGroupEditor',
   validate(values) {
     const errors = {};
+    const labels = values.members.map(o => o.label);
+    const counts = countBy(labels);
+    map(counts, (c, l) => {
+      if (c > 1) errors.members = `'${l}' er valgt flere ganger`;
+    });
+
     if (!values.name) {
       errors.name = 'Du må gi møtet en tittel';
     }

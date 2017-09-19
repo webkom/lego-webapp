@@ -5,6 +5,7 @@ import callAPI from 'app/actions/callAPI';
 import { InterestGroup, Membership } from './ActionTypes';
 import { push } from 'react-router-redux';
 import { setGroupMembers } from './MembershipActions';
+import { omit } from 'lodash';
 
 export function fetchInterestGroup(interestGroupId: string) {
   return callAPI({
@@ -46,7 +47,7 @@ export function createInterestGroup(group: object) {
           logo
         },
         meta: {
-          group: group,
+          group,
           errorMessage: 'Creating interestGroup failed'
         }
       })
@@ -86,9 +87,6 @@ export function removeInterestGroup(id: string) {
 
 export function editInterestGroup(group: object) {
   const { id } = group;
-  if (!group.logo) {
-    delete group.logo; // lol
-  }
   return dispatch => {
     dispatch(
       callAPI({
@@ -96,11 +94,9 @@ export function editInterestGroup(group: object) {
         endpoint: `/interest-groups/${id}/`,
         schema: interestGroupSchema,
         method: 'PATCH',
-        body: {
-          ...group
-        },
+        body: group.logo ? group : omit(group, 'logo'),
         meta: {
-          group: group,
+          group,
           errorMessage: 'Editing interestGroup failed'
         }
       })
