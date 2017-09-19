@@ -11,10 +11,10 @@ type HttpResponse<T> = {
   textString?: string
 } & Response;
 
-type HttpRequestOptions = {
+export type HttpRequestOptions = {
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE',
   headers: { [key: string]: string },
-  body?: null | string | { [key: string]: string },
+  body?: Object,
   json?: boolean,
   files?: Array<string>,
   timeout?: number,
@@ -63,7 +63,7 @@ function makeFormData(files, rawBody) {
   const body = new FormData();
 
   if (rawBody && typeof rawBody === 'object') {
-    const object = rawBody;
+    const object: { [key: string]: string } = rawBody;
     Object.keys(object).forEach(prop => {
       body.append(prop, object[prop]);
     });

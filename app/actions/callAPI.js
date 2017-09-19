@@ -1,14 +1,15 @@
 // @flow
 
-import { normalize } from 'normalizr';
-import fetchJSON from 'app/utils/fetchJSON';
+import { normalize, Schema } from 'normalizr';
+import fetchJSON, { type HttpRequestOptions } from 'app/utils/fetchJSON';
 import config from '../config';
 import type { Thunk } from 'app/types';
 import { logout } from 'app/actions/UserActions';
 import isRequestNeeded from 'app/utils/isRequestNeeded';
 import { setStatusCode } from './RoutingActions';
+import type { AsyncActionType } from 'app/types';
 
-function urlFor(resource) {
+function urlFor(resource: string) {
   if (resource.match(/^\/\//)) {
     return config.baseUrl + resource.replace(/^\//, '');
   } else if (resource.match(/^http?:/) || resource.match(/^https:/)) {
@@ -25,7 +26,7 @@ function handleError(error, propagateError, endpoint) {
         dispatch(logout());
       }
       if (propagateError) {
-        const serverRenderer = typeof window === 'undefined';
+        const serverRenderer = !__CLIENT__;
         if ((serverRenderer && statusCode < 500) || !serverRenderer) {
           dispatch(setStatusCode(statusCode));
         }
@@ -35,18 +36,36 @@ function handleError(error, propagateError, endpoint) {
   };
 }
 
-/**
- * Action creator for calling the API.
- *
- * It will automatically append the auth token if one exists.
- *
- * ```js
- * dispatch(callAPI({
- *   types: Post.FETCH
- *   endpoint: `/posts`
- * }))
- * ```
- */
+type CallAPIOptions = {
+  types: AsyncActionType,
+  endpoint: string,
+  method?: 'GET' | 'POST' | 'PUT' | 'DELETE',
+  headers?: { [key: string]: string },
+  schema?: Schema,
+  body?: Object,
+  json?: boolean,
+  meta?: { [key: string]: mixed },
+  files?: Array<string>,
+  force?: boolean,
+  useCache?: boolean,
+  cacheSeconds?: number,
+  propagateError?: boolean,
+  disableOptimistic?: boolean,
+  requiresAuthentication?: boolean
+};
+
+function toHttpRequestOptions(
+  options: $Shape<CallAPIOptions>
+): HttpRequestOptions {
+  return {
+    method: options.method,
+    headers: options.headers || {},
+    body: options.body,
+    json: options.json,
+    files: options.files
+  };
+}
+
 export default function callAPI({
   types,
   method = 'GET',
@@ -63,17 +82,18 @@ export default function callAPI({
   propagateError = false,
   disableOptimistic = false,
   requiresAuthentication = true
-}: Object): Thunk<*> {
+}: CallAPIOptions): Thunk<*, *> {
   return (dispatch, getState) => {
     const methodUpperCase = method.toUpperCase();
     const shouldUseCache = methodUpperCase === 'GET' || useCache;
-    const options = {
-      method: methodUpperCase,
+
+    const requestOptions = toHttpRequestOptions({
+      method,
       body,
       files,
       headers,
       json
-    };
+    });
 
     const state = getState();
     if (
@@ -86,7 +106,7 @@ export default function callAPI({
 
     const jwt = state.auth.token;
     if (jwt && requiresAuthentication) {
-      options.headers.Authorization = `JWT ${jwt}`;
+      requestOptions.headers.Authorization = `JWT ${jwt}`;
     }
 
     function normalizeJsonResponse(jsonResponse = {}) {
@@ -121,7 +141,7 @@ export default function callAPI({
         success: shouldUseCache && types.SUCCESS,
         body
       },
-      promise: fetchJSON(urlFor(endpoint), options)
+      promise: fetchJSON(urlFor(endpoint), requestOptions)
         .then(response => normalizeJsonResponse(response.jsonData))
         .catch(error => dispatch(handleError(error, propagateError, endpoint)))
     });

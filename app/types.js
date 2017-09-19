@@ -3,6 +3,12 @@
 import type { Store as ReduxStore, Reducer as ReduxReducer } from 'redux';
 import type { Reducers } from 'app/reducers';
 
+export type AsyncActionType = {
+  BEGIN: string,
+  SUCCESS: string,
+  FAILURE: string
+};
+
 export type EntityID = number;
 
 export type ArticleEntity = {
