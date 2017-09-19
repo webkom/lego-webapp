@@ -65,18 +65,14 @@ export const semesterCodeToName = code => {
   return codeToName[code] || '-';
 };
 
-export const sortByYearThenSemester = semesterStatuses => {
+export const sortByYearThenSemester = (a, b) => {
   const semesterCodeToPriority = {
     spring: 0,
     autumn: 1
   };
-  return semesterStatuses.sort(
-    (a, b) =>
-      a.year !== b.year
-        ? b.year - a.year
-        : semesterCodeToPriority[b.semester] -
-          semesterCodeToPriority[a.semester]
-  );
+  return a.year !== b.year
+    ? b.year - a.year
+    : semesterCodeToPriority[b.semester] - semesterCodeToPriority[a.semester];
 };
 
 export const indexToSemester = (
@@ -105,19 +101,6 @@ export const indexToSemester = (
       ) || { year, semester }
     : { year, semester };
 };
-
-export const trueIcon = (
-  <i
-    className="fa fa-check"
-    style={{ color: 'green', fontSize: '25px', marginLeft: '5px' }}
-  />
-);
-export const falseIcon = (
-  <i
-    className="fa fa-times"
-    style={{ color: '#d13c32', fontSize: '25px', marginLeft: '5px' }}
-  />
-);
 
 export const httpCheck = link => {
   const httpLink =

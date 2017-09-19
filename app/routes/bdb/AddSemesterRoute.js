@@ -6,6 +6,7 @@ import AddSemester from './components/AddSemester';
 import moment from 'moment';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { uploadFile } from 'app/actions/FileActions';
 
 function validateSemesterStatus(data) {
   const errors = {};
@@ -34,7 +35,7 @@ const mapStateToProps = (state, props) => ({
   }
 });
 
-const mapDispatchToProps = { addSemesterStatus };
+const mapDispatchToProps = { addSemesterStatus, uploadFile };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),

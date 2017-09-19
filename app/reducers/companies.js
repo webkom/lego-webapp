@@ -13,7 +13,9 @@ function mutateCompanies(state, action) {
     case Company.DELETE.SUCCESS: {
       return {
         ...state,
-        byId: state.byId.filter(company => company.id !== action.meta.companyId)
+        items: state.items.filter(
+          company => company.id !== action.meta.companyId
+        )
       };
     }
 
@@ -59,8 +61,7 @@ const mutate = joinReducers(mutateComments('companies'), mutateCompanies);
 export default createEntityReducer({
   key: 'companies',
   types: {
-    fetch: Company.FETCH,
-    mutate: Company.ADD
+    fetch: Company.FETCH
   },
   mutate
 });
@@ -87,8 +88,9 @@ export const selectCompanies = createSelector(
 
 const selectSemesterStatuses = (semesterStatuses, companySemesters) =>
   (semesterStatuses || []).map(semester => {
-    const companySemester = (companySemesters || [])
-      .find(companySemester => companySemester.id === semester.semester);
+    const companySemester = (companySemesters || []).find(
+      companySemester => companySemester.id === semester.semester
+    );
     return companySemester
       ? {
           ...semester,

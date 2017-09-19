@@ -1,3 +1,5 @@
+@import 'app/styles/variables.css';
+
 .root {
   composes: contentContainer from 'app/styles/utilities.css';
 }
@@ -129,6 +131,10 @@
   background-color: #00fff6;
 }
 
+.files {
+  margin-top: 20px;
+}
+
 .showAscending .upArrow,
 .showDescending .downArrow {
   display: block !important;
@@ -235,6 +241,7 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
   justify-content: space-between;
   margin: 30px 0;
   text-align: center;
+  flex-wrap: wrap;
 }
 
 .editBubbles {
@@ -266,6 +273,10 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
   display: flex;
   width: 100%;
   padding-bottom: 50px;
+
+  @media (--small-viewport) {
+    flex-direction: column;
+  }
 }
 
 .leftSection {
@@ -279,6 +290,11 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
   margin: 0 0 0 60px;
   border-left: 1px solid #ccc;
   order: 2;
+
+  @media (--small-viewport) {
+    margin: 0;
+    border: none;
+  }
 }
 
 .rightSection a {
