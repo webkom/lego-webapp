@@ -4,7 +4,7 @@ import { BLOCK_TAGS, MARK_TAGS } from './constants';
 const rules = [
   {
     deserialize(el, next) {
-      const type = BLOCK_TAGS[el.tagName.toLowerCase()];
+      const type = BLOCK_TAGS[el.tagName.toLowerCase()].name;
       if (!type) return;
       return {
         kind: 'block',
@@ -40,7 +40,7 @@ const rules = [
   },
   {
     deserialize(el, next) {
-      const type = MARK_TAGS[el.tagName.toLowerCase()];
+      const type = MARK_TAGS[el.tagName.toLowerCase()].name;
       if (!type) return;
       return {
         kind: 'mark',

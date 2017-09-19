@@ -2,16 +2,88 @@
 
 import React from 'react';
 
+/**
+ * Block tags
+ *
+ * @type {Object}
+ */
 export const BLOCK_TAGS = {
-  blockquote: 'quote',
-  p: 'paragraph',
-  pre: 'code'
+  blockquote: {
+    name: 'quote',
+    icon: '😎'
+  },
+  p: {
+    name: 'paragraph',
+    icon: '😎'
+  },
+  pre: {
+    name: 'code',
+    icon: '😎'
+  },
+  h1: {
+    name: 'header-one',
+    icon: '😎'
+  },
+  h2: {
+    name: 'header-two',
+    icon: '😎'
+  },
+  img: {
+    name: 'image',
+    icon: '😎'
+  },
+  hr: {
+    name: 'separator',
+    icon: '😎'
+  },
+  todo: {
+    name: 'todo',
+    icon: '😎'
+  },
+  ol: {
+    name: 'list-ol',
+    icon: '😎'
+  },
+  ul: {
+    name: 'list-ul',
+    icon: '😎'
+  },
+  li: {
+    name: 'list-item',
+    icon: '😎'
+  }
 };
 
+/**
+ * Mark tags
+ *
+ * @type {Object}
+ */
 export const MARK_TAGS = {
-  em: 'italic',
-  strong: 'bold',
-  u: 'underline'
+  em: {
+    name: 'italic',
+    icon: '😎'
+  },
+  strong: {
+    name: 'bold',
+    icon: '😎'
+  },
+  u: {
+    name: 'underline',
+    icon: '😎'
+  },
+  code: {
+    name: 'code',
+    icon: '😎'
+  },
+  href: {
+    name: 'link',
+    icon: '😎'
+  },
+  strike: {
+    name: 'strikethrough',
+    icon: '😎'
+  }
 };
 
 /**

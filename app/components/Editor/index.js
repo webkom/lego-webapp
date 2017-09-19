@@ -1,12 +1,13 @@
 // @flow
 
+import React, { Component } from 'react';
 import { Editor } from 'slate-react';
 import { resetKeyGenerator } from 'slate';
 import Html from 'slate-html-serializer';
 import { schema } from './constants';
-import Portal from 'react-portal';
-import React from 'react';
+import HoverMenu from './HoverMenu';
 import rules from './serializer';
+import styles from './Editor.css';
 
 const parseHtml =
   typeof DOMParser === 'undefined' && require('parse5').parseFragment;
@@ -22,51 +23,42 @@ const html = new Html(htmlArgs);
 */
 
 type Props = {
-  value?: 'string'
+  value?: 'string',
+  onChange: string => void
 };
 
 type State = {
-  value: 'string'
+  value: 'string',
+  menu?: ReactElement
 };
 
-resetKeyGenerator();
-
-class CustomEditor extends React.Component {
+class CustomEditor extends Component {
   props: Props;
 
   state: State;
 
   constructor(props) {
     super(props);
+    resetKeyGenerator();
+
     this.state = {
       state: html.deserialize(this.props.value || '<p></p>'),
       schema
     };
-    resetKeyGenerator();
   }
 
   componentDidMount = () => {
-    this.updateMenu();
+    this.updateHoverMenu();
   };
 
   componentDidUpdate = () => {
-    this.updateMenu();
-  };
-
-  hasMark = type => {
-    const { state } = this.state;
-
-    if (!state.activeMarks) {
-      return false;
-    }
-
-    return state.activeMarks.some(mark => mark.type == type);
+    this.updateHoverMenu();
   };
 
   onChange = ({ state }) => {
-    /*if (state.document != this.state.state.document) {
+    if (state.document != this.state.state.document) {
       this.props.onChange(html.serialize(state));
-    }*/
+    }
 
     this.setState({ state });
   };
@@ -81,37 +73,10 @@ class CustomEditor extends React.Component {
     this.setState({ menu: portal.firstChild });
   };
 
-  renderMenu = () => {
-    return (
-      <Portal isOpened onOpen={this.onOpen}>
-        <div className="menu hover-menu">
-          {this.renderMarkButton('bold', 'format_bold')}
-          {this.renderMarkButton('italic', 'format_italic')}
-          {this.renderMarkButton('underlined', 'format_underlined')}
-          {this.renderMarkButton('code', 'code')}
-        </div>
-      </Portal>
-    );
-  };
-
-  renderMarkButton = (type, icon) => {
-    const isActive = this.hasMark(type);
-    const onMouseDown = e => this.onClickMark(e, type);
-
-    return (
-      <span className="button" onMouseDown={onMouseDown} data-active={isActive}>
-        <span className="material-icons">
-          {icon}
-        </span>
-      </span>
-    );
-  };
-
-  updateMenu = () => {
+  updateHoverMenu = () => {
     const { menu, state } = this.state;
     if (!menu) return;
 
-    console.log(state.isBlurred, state.isEmpty);
     if (state.isBlurred || state.isEmpty) {
       menu.removeAttribute('style');
       return;
@@ -129,15 +94,17 @@ class CustomEditor extends React.Component {
   };
 
   render() {
+    const { state } = this.state;
+
     return (
       <div>
-        <div className="editor">
-          {/*this.renderMenu()*/}
-          <Editor
-            schema={schema}
-            state={this.state.state}
-            onChange={this.onChange}
+        <div className={styles.editor}>
+          <HoverMenu
+            onOpen={this.onOpen}
+            state={state}
+            onClickMark={this.onClickMark}
           />
+          <Editor schema={schema} state={state} onChange={this.onChange} />
         </div>
       </div>
     );
