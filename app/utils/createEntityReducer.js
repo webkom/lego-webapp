@@ -57,7 +57,10 @@ export function entities(key: string, fetchType?: ActionTypeObject) {
     const result = get(action, ['payload', 'entities', key], {});
     const actionGrant = get(action, ['payload', 'actionGrant'], []);
 
-    if (!action.payload || action.type !== get(fetchType, 'SUCCESS'))
+    if (
+      !action.payload ||
+      action.type !== get(fetchType, 'SUCCESS', action.type)
+    )
       return state;
 
     return {
