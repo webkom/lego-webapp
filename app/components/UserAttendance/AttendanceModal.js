@@ -35,16 +35,15 @@ class AttendanceModal extends Component {
   };
 
   generateAmendedPools = pools => {
-    if (pools.length > 1) {
-      const allRegistrations = flatMap(pools, pool => pool.registrations);
-      const summaryPool = {
-        name: 'Alle',
-        registrations: allRegistrations
-      };
-      this.setState({ includeSummaryPool: true });
-      return pools.length > 1 ? [summaryPool, ...pools] : pools;
-    }
-    return pools;
+    if (pools.length === 1) return pools;
+
+    const allRegistrations = flatMap(pools, pool => pool.registrations);
+    const summaryPool = {
+      name: 'Alle',
+      registrations: allRegistrations
+    };
+    this.setState({ includeSummaryPool: true });
+    return [summaryPool, ...pools];
   };
 
   render() {
