@@ -21,7 +21,7 @@ type HoverMenuButtonProps = {
 
 const HoverMenuButton = ({ tag, onClick, state }: HoverMenuButtonProps) => {
   const active = state.activeMarks.some(mark => mark.type == tag.name);
-  console.log(tag);
+
   return (
     <span
       className={cx(styles.hoverMenuButton, {

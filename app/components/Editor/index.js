@@ -33,9 +33,8 @@ type State = {
 };
 
 class CustomEditor extends Component {
-  props: Props;
-
   state: State;
+  props: Props;
 
   constructor(props) {
     super(props);
@@ -69,7 +68,29 @@ class CustomEditor extends Component {
     this.onChange(change);
   };
 
-  onOpen = portal => {
+  onClickBlock = (e, type) => {
+    e.preventDefault();
+    const { state } = this.state;
+    const change = state.change();
+    const { document } = state;
+
+    // Handle everything but list buttons.
+    if (type != 'bulleted-list' && type != 'numbered-list') {
+      const isActive = this.hasBlock(type);
+      const isList = this.hasBlock('list-item');
+
+      if (isList) {
+        change
+          .setBlock(isActive ? DEFAULT_NODE : type)
+          .unwrapBlock('bulleted-list')
+          .unwrapBlock('numbered-list');
+      } else {
+        change.setBlock(isActive ? DEFAULT_NODE : type);
+      }
+    }
+  };
+
+  onOpenHoverMenu = portal => {
     this.setState({ menu: portal.firstChild });
   };
 
@@ -100,8 +121,9 @@ class CustomEditor extends Component {
       <div>
         <div className={styles.editor}>
           <HoverMenu
-            onOpen={this.onOpen}
+            onOpen={this.onOpenHoverMenu}
             state={state}
+            onClickBlock={this.onClickBlock}
             onClickMark={this.onClickMark}
           />
           <Editor schema={schema} state={state} onChange={this.onChange} />
