@@ -13,12 +13,16 @@ const mapStateToProps = state => ({
   events: selectEvents(state)
 });
 
-const mapDispatchToProps = { fetchAll, login, logout };
+const mapDispatchToProps = { login, logout };
 
 export default compose(
   replaceUnlessLoggedIn(PublicFrontpage),
-  dispatched(({ loggedIn }, dispatch) =>
-    dispatch(fetchAll({ dateAfter: moment().format('YYYY-MM-DD') }))
+  dispatched(
+    ({ loggedIn }, dispatch) =>
+      dispatch(fetchAll({ dateAfter: moment().format('YYYY-MM-DD') })),
+    {
+      componentWillReceiveProps: false
+    }
   ),
   connect(mapStateToProps, mapDispatchToProps)
 )(Overview);

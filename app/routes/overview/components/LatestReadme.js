@@ -10,10 +10,12 @@ class LatestReadme extends Component {
     expanded: false
   };
 
-  componentWillMount() {
-    this.setState({
-      expanded: this.props.expanded || false
-    });
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.expanded !== this.state.expanded) {
+      this.setState({
+        expanded: nextProps.expanded || false
+      });
+    }
   }
 
   render() {
