@@ -2,31 +2,19 @@ import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
   path: 'groups', // admin/groups
-  ...resolveAsyncRoute(
-    () => import('./GroupsRoute'),
-    () => require('./GroupsRoute')
-  ),
+  ...resolveAsyncRoute(() => import('./GroupsRoute')),
   childRoutes: [
     {
       path: ':groupId', // admin/groups/123
-      ...resolveAsyncRoute(
-        () => import('./GroupDetailRoute'),
-        () => require('./GroupDetailRoute')
-      ),
+      ...resolveAsyncRoute(() => import('./GroupDetailRoute')),
       childRoutes: [
         {
           path: 'settings', // admin/groups/123/settings
-          ...resolveAsyncRoute(
-            () => import('./GroupSettingsRoute'),
-            () => require('./GroupSettingsRoute')
-          )
+          ...resolveAsyncRoute(() => import('./GroupSettingsRoute'))
         },
         {
           path: 'members', // admin/groups/123/members
-          ...resolveAsyncRoute(
-            () => import('./GroupMembersRoute'),
-            () => require('./GroupMembersRoute')
-          )
+          ...resolveAsyncRoute(() => import('./GroupMembersRoute'))
         }
       ]
     }

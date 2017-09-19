@@ -2,82 +2,49 @@ import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
   path: 'users',
-  indexRoute: resolveAsyncRoute(
-    () => import('../errors'),
-    () => require('../errors')
-  ),
+  indexRoute: resolveAsyncRoute(() => import('../errors')),
   childRoutes: [
     {
       path: 'me',
-      ...resolveAsyncRoute(
-        () => import('./UserProfileRoute'),
-        () => require('./UserProfileRoute')
-      )
+      ...resolveAsyncRoute(() => import('./UserProfileRoute'))
     },
     {
       path: 'me/settings',
-      ...resolveAsyncRoute(
-        () => import('./components/UserSettingsIndex'),
-        () => require('./components/UserSettingsIndex')
-      ),
+      ...resolveAsyncRoute(() => import('./components/UserSettingsIndex')),
       childRoutes: [
         {
           path: 'profile',
-          ...resolveAsyncRoute(
-            () => import('./UserSettingsRoute'),
-            () => require('./UserSettingsRoute')
-          )
+          ...resolveAsyncRoute(() => import('./UserSettingsRoute'))
         },
         {
           path: 'notifications',
-          ...resolveAsyncRoute(
-            () => import('./UserSettingsNotificationsRoute'),
-            () => require('./UserSettingsNotificationsRoute')
-          )
+          ...resolveAsyncRoute(() => import('./UserSettingsNotificationsRoute'))
         },
         {
           path: 'oauth2',
-          ...resolveAsyncRoute(
-            () => import('./UserSettingsOAuth2Route'),
-            () => require('./UserSettingsOAuth2Route')
-          )
+          ...resolveAsyncRoute(() => import('./UserSettingsOAuth2Route'))
         },
         {
           path: 'oauth2/new',
-          ...resolveAsyncRoute(
-            () => import('./UserSettingsOAuth2CreateRoute'),
-            () => require('./UserSettingsOAuth2CreateRoute')
-          )
+          ...resolveAsyncRoute(() => import('./UserSettingsOAuth2CreateRoute'))
         },
         {
           path: 'oauth2/:applicationId',
-          ...resolveAsyncRoute(
-            () => import('./UserSettingsOAuth2EditRoute'),
-            () => require('./UserSettingsOAuth2EditRoute')
-          )
+          ...resolveAsyncRoute(() => import('./UserSettingsOAuth2EditRoute'))
         },
         {
           path: 'student-confirmation',
-          ...resolveAsyncRoute(
-            () => import('./StudentConfirmationRoute'),
-            () => require('./StudentConfirmationRoute')
-          )
+          ...resolveAsyncRoute(() => import('./StudentConfirmationRoute'))
         }
       ]
     },
     {
       path: 'registration',
-      ...resolveAsyncRoute(
-        () => import('./UserConfirmationRoute'),
-        () => require('./UserConfirmationRoute')
-      )
+      ...resolveAsyncRoute(() => import('./UserConfirmationRoute'))
     },
     {
       path: ':username',
-      ...resolveAsyncRoute(
-        () => import('./UserProfileRoute'),
-        () => require('./UserProfileRoute')
-      )
+      ...resolveAsyncRoute(() => import('./UserProfileRoute'))
     }
   ]
 };

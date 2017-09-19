@@ -2,17 +2,11 @@ import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
   path: 'events',
-  indexRoute: resolveAsyncRoute(
-    () => import('./EventListRoute'),
-    () => require('./EventListRoute')
-  ),
+  indexRoute: resolveAsyncRoute(() => import('./EventListRoute')),
   childRoutes: [
     {
       path: 'calendar',
-      ...resolveAsyncRoute(
-        () => import('./CalendarRoute'),
-        () => require('./CalendarRoute')
-      ),
+      ...resolveAsyncRoute(() => import('./CalendarRoute')),
       childRoutes: [
         {
           path: ':year',
@@ -26,31 +20,19 @@ export default {
     },
     {
       path: 'create',
-      ...resolveAsyncRoute(
-        () => import('./EventCreateRoute'),
-        () => require('./EventCreateRoute')
-      )
+      ...resolveAsyncRoute(() => import('./EventCreateRoute'))
     },
     {
       path: ':eventId',
-      ...resolveAsyncRoute(
-        () => import('./EventDetailRoute'),
-        () => require('./EventDetailRoute')
-      )
+      ...resolveAsyncRoute(() => import('./EventDetailRoute'))
     },
     {
       path: ':eventId/edit',
-      ...resolveAsyncRoute(
-        () => import('./EventEditRoute'),
-        () => require('./EventEditRoute')
-      )
+      ...resolveAsyncRoute(() => import('./EventEditRoute'))
     },
     {
       path: ':eventId/administrate',
-      ...resolveAsyncRoute(
-        () => import('./EventAdministrateRoute'),
-        () => require('./EventAdministrateRoute')
-      )
+      ...resolveAsyncRoute(() => import('./EventAdministrateRoute'))
     }
   ]
 };
