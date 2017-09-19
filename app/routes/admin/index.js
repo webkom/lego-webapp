@@ -3,9 +3,6 @@ import groups from './groups';
 
 export default {
   path: 'admin', // admin
-  ...resolveAsyncRoute(
-    () => import('./OverviewRoute'),
-    () => require('./OverviewRoute')
-  ),
+  ...resolveAsyncRoute(() => import('./OverviewRoute')),
   childRoutes: [groups]
 };

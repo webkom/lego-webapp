@@ -2,24 +2,15 @@ import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
   path: 'quotes',
-  indexRoute: resolveAsyncRoute(
-    () => import('./QuotesRoute'),
-    () => require('./QuotesRoute')
-  ),
+  indexRoute: resolveAsyncRoute(() => import('./QuotesRoute')),
   childRoutes: [
     {
       path: 'add',
-      ...resolveAsyncRoute(
-        () => import('./QuoteEditorRoute'),
-        () => require('./QuoteEditorRoute')
-      )
+      ...resolveAsyncRoute(() => import('./QuoteEditorRoute'))
     },
     {
       path: ':quoteId',
-      ...resolveAsyncRoute(
-        () => import('./QuoteDetailRoute'),
-        () => require('./QuoteDetailRoute')
-      )
+      ...resolveAsyncRoute(() => import('./QuoteDetailRoute'))
     }
   ]
 };

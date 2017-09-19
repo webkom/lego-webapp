@@ -2,31 +2,19 @@ import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
   path: 'meetings',
-  indexRoute: resolveAsyncRoute(
-    () => import('./MeetingListRoute'),
-    () => require('./MeetingListRoute')
-  ),
+  indexRoute: resolveAsyncRoute(() => import('./MeetingListRoute')),
   childRoutes: [
     {
       path: 'create',
-      ...resolveAsyncRoute(
-        () => import('./MeetingCreateRoute'),
-        () => require('./MeetingCreateRoute')
-      )
+      ...resolveAsyncRoute(() => import('./MeetingCreateRoute'))
     },
     {
       path: ':meetingId',
-      ...resolveAsyncRoute(
-        () => import('./MeetingDetailRoute'),
-        () => require('./MeetingDetailRoute')
-      )
+      ...resolveAsyncRoute(() => import('./MeetingDetailRoute'))
     },
     {
       path: ':meetingId/edit',
-      ...resolveAsyncRoute(
-        () => import('./MeetingEditRoute'),
-        () => require('./MeetingEditRoute')
-      )
+      ...resolveAsyncRoute(() => import('./MeetingEditRoute'))
     }
   ]
 };

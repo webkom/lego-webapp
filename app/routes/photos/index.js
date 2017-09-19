@@ -2,45 +2,27 @@ import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
   path: 'photos',
-  indexRoute: resolveAsyncRoute(
-    () => import('./GalleryListRoute'),
-    () => require('./GalleryListRoute')
-  ),
+  indexRoute: resolveAsyncRoute(() => import('./GalleryListRoute')),
   childRoutes: [
     {
       path: 'new',
-      ...resolveAsyncRoute(
-        () => import('./GalleryCreateRoute'),
-        () => require('./GalleryCreateRoute')
-      )
+      ...resolveAsyncRoute(() => import('./GalleryCreateRoute'))
     },
     {
       path: ':galleryId/edit',
-      ...resolveAsyncRoute(
-        () => import('./GalleryEditRoute'),
-        () => require('./GalleryEditRoute')
-      )
+      ...resolveAsyncRoute(() => import('./GalleryEditRoute'))
     },
     {
       path: ':galleryId',
-      ...resolveAsyncRoute(
-        () => import('./GalleryDetailRoute'),
-        () => require('./GalleryDetailRoute')
-      ),
+      ...resolveAsyncRoute(() => import('./GalleryDetailRoute')),
       childRoutes: [
         {
           path: 'picture/:pictureId/edit',
-          ...resolveAsyncRoute(
-            () => import('./GalleryPictureEditRoute'),
-            () => require('./GalleryPictureEditRoute')
-          )
+          ...resolveAsyncRoute(() => import('./GalleryPictureEditRoute'))
         },
         {
           path: 'picture/:pictureId',
-          ...resolveAsyncRoute(
-            () => import('./GalleryPictureRoute'),
-            () => require('./GalleryPictureRoute')
-          )
+          ...resolveAsyncRoute(() => import('./GalleryPictureRoute'))
         }
       ]
     }

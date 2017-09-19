@@ -2,31 +2,19 @@ import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
   path: 'joblistings',
-  indexRoute: resolveAsyncRoute(
-    () => import('./JoblistingRoute'),
-    () => require('./JoblistingRoute')
-  ),
+  indexRoute: resolveAsyncRoute(() => import('./JoblistingRoute')),
   childRoutes: [
     {
       path: 'create',
-      ...resolveAsyncRoute(
-        () => import('./JoblistingCreateRoute'),
-        () => require('./JoblistingCreateRoute')
-      )
+      ...resolveAsyncRoute(() => import('./JoblistingCreateRoute'))
     },
     {
       path: ':joblistingId/edit',
-      ...resolveAsyncRoute(
-        () => import('./JoblistingEditRoute'),
-        () => require('./JoblistingEditRoute')
-      )
+      ...resolveAsyncRoute(() => import('./JoblistingEditRoute'))
     },
     {
       path: ':joblistingId',
-      ...resolveAsyncRoute(
-        () => import('./JoblistingDetailedRoute'),
-        () => require('./JoblistingDetailedRoute')
-      )
+      ...resolveAsyncRoute(() => import('./JoblistingDetailedRoute'))
     }
   ]
 };
