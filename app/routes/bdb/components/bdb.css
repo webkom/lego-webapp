@@ -2,7 +2,7 @@
   composes: container from 'app/styles/utilities.css';
 }
 
-h1 {
+.root h1 {
   font-size: 30px;
   font-weight: bold;
   display: block;
@@ -10,11 +10,11 @@ h1 {
   padding-left: 0;
 }
 
-h3 {
+.root h3 {
   margin: 5px 0 25px;
 }
 
-select {
+.root select {
   font-size: 100%;
   font-family: 'proxima-nova', 'Helvetica Neue', Arial, sans-serif;
   cursor: pointer;

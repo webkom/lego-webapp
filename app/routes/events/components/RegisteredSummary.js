@@ -23,15 +23,20 @@ const renderNameList = registrations => (
   </FlexColumn>
 );
 
-const RegistrationList = ({ registrations }) => (
-  <Tooltip content={renderNameList(registrations)} list>
+const RegistrationList = ({ registrations, onClick }) => (
+  <Tooltip
+    content={renderNameList(registrations)}
+    list
+    className={styles.registrationList}
+    onClick={onClick}
+  >
     {`${registrations.length} ${registrations.length === 1
       ? 'annen'
       : 'andre'}`}
   </Tooltip>
 );
 
-const RegisteredSummary = ({ registrations }) => {
+const RegisteredSummary = ({ registrations, pools, title, toggleModal }) => {
   const summary = [];
 
   if (registrations.length === 0) {
@@ -50,7 +55,11 @@ const RegisteredSummary = ({ registrations }) => {
       ',\u00A0',
       <Registration key={1} registration={registrations[1]} />,
       '\u00A0og\u00A0',
-      <RegistrationList key={2} registrations={registrations.slice(2)} />
+      <RegistrationList
+        key={2}
+        registrations={registrations.slice(2)}
+        onClick={() => toggleModal(0)}
+      />
     );
   }
 

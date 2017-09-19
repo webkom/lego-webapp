@@ -9,7 +9,10 @@ import Icon from 'app/components/Icon';
 import JoinEventForm from '../JoinEventForm';
 import RegisteredCell from '../RegisteredCell';
 import RegisteredSummary from '../RegisteredSummary';
-import { AttendanceStatus } from 'app/components/UserAttendance';
+import {
+  AttendanceStatus,
+  ModalParentComponent
+} from 'app/components/UserAttendance';
 import Tag from 'app/components/Tag';
 import Time from 'app/components/Time';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -134,16 +137,16 @@ export default class EventDetail extends Component {
           <Image src={event.cover} />
         </div>
 
-        <Flex wrap alignItems="center" justifyContent="space-between">
-          <h2>{event.title}</h2>
-          <InterestedButton
-            value={event.isUserFollowing}
-            onClick={onRegisterClick}
-          />
-        </Flex>
-
         <Flex wrap className={styles.mainRow}>
           <Flex column className={styles.description}>
+            <Flex wrap alignItems="center" justifyContent="space-between">
+              <h2 className={styleType}>{event.title}</h2>
+              <InterestedButton
+                value={event.isUserFollowing}
+                onClick={onRegisterClick}
+              />
+            </Flex>
+
             <div
               className={styles.text}
               dangerouslySetInnerHTML={{ __html: event.text }}
@@ -152,7 +155,7 @@ export default class EventDetail extends Component {
               {event.tags.map((tag, i) => <Tag key={i} tag={tag} />)}
             </Flex>
           </Flex>
-          <Flex column className={cx(styles.meta, styleType)}>
+          <Flex column className={cx(styles.meta)}>
             <ul>
               {event.company && (
                 <li>
@@ -208,8 +211,11 @@ export default class EventDetail extends Component {
                       <RegisteredCell key={reg.user.id} user={reg.user} />
                     ))}
                 </Flex>
-                <RegisteredSummary registrations={registrations} />
-                <AttendanceStatus title="Påmeldte" pools={pools} />
+                <ModalParentComponent pools={pools} title="Påmeldte">
+                  <RegisteredSummary registrations={registrations} />
+                  <AttendanceStatus />
+                </ModalParentComponent>
+
                 <RegistrationMeta
                   registration={currentRegistration}
                   isPriced={event.isPriced}
@@ -224,7 +230,7 @@ export default class EventDetail extends Component {
           </Flex>
         </Flex>
 
-        <Flex wrapReverse>
+        <Flex wrapReverse style={{ marginBottom: '10px' }}>
           {loggedIn && (
             <JoinEventForm
               event={event}
@@ -238,12 +244,11 @@ export default class EventDetail extends Component {
           <Flex column className={styles.openFor}>
             <strong>Åpent for</strong>
             <ul>
-              {(pools || [])
-                .map(pool =>
-                  pool.permissionGroups.map(group => (
-                    <li key={group.id}>{group.name}</li>
-                  ))
-                )}
+              {(pools || []).map(pool =>
+                pool.permissionGroups.map(group => (
+                  <li key={group.id}>{group.name}</li>
+                ))
+              )}
             </ul>
           </Flex>
         </Flex>

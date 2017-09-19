@@ -129,7 +129,7 @@ function MeetingEditor({
         {isEditPage && <h3> Allerede inviterte </h3>}
         {isEditPage && (
           <div>
-            <AttendanceStatus
+            <AttendanceStatus.Modal
               pools={[
                 {
                   name: 'Inviterte brukere',

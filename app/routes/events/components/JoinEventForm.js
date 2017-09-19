@@ -195,6 +195,7 @@ class JoinEventForm extends Component {
                   feedbackName,
                   'feedback'
                 )}
+                style={{ marginBottom: '5px' }}
               >
                 Oppdater feedback
               </Button>
