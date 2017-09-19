@@ -41,7 +41,8 @@
 .msgField {
   border: 1px solid #ccc;
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
+  font-family: raleway, 'Helvetica Neue', Arial, sans-serif;
 }
 
 .formHeaders {
@@ -68,7 +69,9 @@
   margin-top: 5px;
 }
 
-.msg, .date, .recHeader {
+.msg,
+.date,
+.recHeader {
   font-size: 120%;
 }
 
@@ -76,14 +79,24 @@
   margin-top: 8px;
 }
 
+.sendButton {
+  height: 50px;
+}
+
+.wrapperSendButton {
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+
 .recipients:after {
-  content:',\0000a0';
+  content: ',\0000a0';
 }
 
 .recipients:first-child:before {
-    content: '\0000a0';
+  content: '\0000a0';
 }
 
 .recipients:last-child:after {
-    content: normal;
+  content: normal;
 }

@@ -5,86 +5,26 @@ import Helmet from 'react-helmet';
 import styles from './AnnouncementsList.css';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
 import Flex from 'app/components/Layout/Flex';
-import { Form, SelectInput, EditorField } from 'app/components/Form';
+import { Form, SelectInput, TextArea } from 'app/components/Form';
 import { reduxForm, Field } from 'redux-form';
 import Button from 'app/components/Button';
-import { Link } from 'react-router';
+import AnnouncementItem from './AnnouncementItem';
 
 type Props = {
   announcement: Object,
   announcements: Array,
   actionGrant: Array,
-  submitAnnouncement: () => void,
+  sendAnnouncement: () => void,
+  createAnnouncement: () => void,
   handleSubmit: () => void,
   invalid: string,
   pristine: string,
   submitting: string
 };
 
-function AnnouncementItem({ announcement }: Props) {
-  return (
-    <Flex column padding="10px 0">
-      <Flex className={styles.date}>
-        {announcement.sent || 'Fant ingen dato'}
-      </Flex>
-      <Flex className={styles.msg}>{announcement.message}</Flex>
-      <Flex column>
-        <span className={styles.recHeader}>Mottakere:</span>
-        <Flex wrap>
-          {announcement.events.length > 0 && 'Arrangementer: '}
-          {announcement.events.map((event, i) => (
-            <Link
-              key={i}
-              className={styles.recipients}
-              to={`/events/${event.id}/`}
-            >
-              {event.title}
-            </Link>
-          ))}
-        </Flex>
-        <Flex wrap>
-          {announcement.meetings.length > 0 && 'Møter: '}
-          {announcement.meetings.map((meeting, i) => (
-            <Link
-              key={i}
-              className={styles.recipients}
-              to={`/meetings/${meeting.id}/`}
-            >
-              {meeting.title}
-            </Link>
-          ))}
-        </Flex>
-        <Flex wrap>
-          {announcement.groups.length > 0 && 'Grupper: '}
-          {announcement.groups.map((group, i) => (
-            <Link
-              key={i}
-              className={styles.recipients}
-              to={`/groups/${group.id}/`}
-            >
-              {group.name}
-            </Link>
-          ))}
-        </Flex>
-        <Flex wrap>
-          {announcement.users.length > 0 && 'Brukere: '}
-          {announcement.users.map((user, i) => (
-            <Link
-              key={i}
-              className={styles.recipients}
-              to={`/users/${user.username}/`}
-            >
-              {user.fullName}
-            </Link>
-          ))}
-        </Flex>
-      </Flex>
-    </Flex>
-  );
-}
-
 const AnnouncementsList = ({
-  submitAnnouncement,
+  createAnnouncement,
+  sendAnnouncement,
   announcements,
   actionGrant,
   handleSubmit,
@@ -95,9 +35,9 @@ const AnnouncementsList = ({
   if (announcements.fetching) {
     return <LoadingIndicator loading />;
   }
-
-  const onSubmit = announcement =>
-    submitAnnouncement({
+  const disabledButton = invalid | pristine | submitting;
+  const onSubmit = (announcement, send = false) => {
+    return createAnnouncement({
       ...announcement,
       users: announcement.users
         ? announcement.users.map(user => user.value)
@@ -110,10 +50,10 @@ const AnnouncementsList = ({
         : [],
       events: announcement.events
         ? announcement.events.map(event => event.value)
-        : []
+        : [],
+      send
     });
-
-  const disabledButton = invalid | pristine | submitting;
+  };
 
   return (
     <div className={styles.root}>
@@ -121,13 +61,13 @@ const AnnouncementsList = ({
       {actionGrant.includes('create') && (
         <Flex column>
           <h2 className={styles.header}>Ny kunngjøring</h2>
-          <Form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-            <span className={styles.formHeaders}>Kunngjøring:</span>
+          <Form className={styles.form}>
             <Field
               className={styles.msgField}
               name="message"
-              component={EditorField}
+              component={TextArea.Field}
               placeholder="Skriv din melding her..."
+              label="Kunngjøring:"
             />
             <span className={styles.formHeaders}>Mottakere:</span>
             <Flex className={styles.rowRec}>
@@ -142,7 +82,7 @@ const AnnouncementsList = ({
               <Field
                 name="groups"
                 placeholder="Grupper"
-                filter={['users.group']}
+                filter={['users.abakusgroup']}
                 multi
                 component={SelectInput.AutocompleteField}
               />
@@ -165,9 +105,20 @@ const AnnouncementsList = ({
                 component={SelectInput.AutocompleteField}
               />
             </Flex>
-            <Button submit disabled={disabledButton}>
-              Send
-            </Button>
+            <Flex>
+              <Button
+                onClick={handleSubmit(values => onSubmit(values, false))}
+                disabled={disabledButton}
+              >
+                Opprett
+              </Button>
+              <Button
+                onClick={handleSubmit(values => onSubmit(values, true))}
+                disabled={disabledButton}
+              >
+                Opprett og send
+              </Button>
+            </Flex>
           </Form>
         </Flex>
       )}
@@ -176,7 +127,12 @@ const AnnouncementsList = ({
           <h1 className={styles.header}> Mine kunngjøringer </h1>
           <Flex column className={styles.list}>
             {announcements.map((a, i) => (
-              <AnnouncementItem key={i} announcement={a} />
+              <AnnouncementItem
+                key={i}
+                announcement={a}
+                sendAnnouncement={sendAnnouncement}
+                actionGrant={actionGrant}
+              />
             ))}
           </Flex>
         </Flex>
