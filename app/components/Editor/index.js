@@ -1,7 +1,8 @@
 // @flow
 
 import { Editor } from 'slate-react';
-import { Html } from 'slate';
+import { resetKeyGenerator } from 'slate';
+import Html from 'slate-html-serializer';
 import { schema } from './constants';
 import Portal from 'react-portal';
 import React from 'react';
@@ -9,7 +10,16 @@ import rules from './serializer';
 
 const parseHtml =
   typeof DOMParser === 'undefined' && require('parse5').parseFragment;
-const html = new Html({ rules, parseHtml });
+const htmlArgs = { rules };
+if (parseHtml) htmlArgs.parseHtml = parseHtml;
+const html = new Html(htmlArgs);
+
+/*
+- lists (ol, ul)
+- block and inline styling
+- "---" for hr
+- image
+*/
 
 type Props = {
   value?: 'string'
@@ -19,13 +29,21 @@ type State = {
   value: 'string'
 };
 
+resetKeyGenerator();
+
 class CustomEditor extends React.Component {
   props: Props;
 
-  state: State = {
-    state: html.deserialize(this.props.value || '<p></p>'),
-    schema
-  };
+  state: State;
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      state: html.deserialize(this.props.value || '<p></p>'),
+      schema
+    };
+    resetKeyGenerator();
+  }
 
   componentDidMount = () => {
     this.updateMenu();
@@ -46,9 +64,9 @@ class CustomEditor extends React.Component {
   };
 
   onChange = ({ state }) => {
-    if (state.document != this.state.state.document) {
+    /*if (state.document != this.state.state.document) {
       this.props.onChange(html.serialize(state));
-    }
+    }*/
 
     this.setState({ state });
   };
@@ -93,6 +111,7 @@ class CustomEditor extends React.Component {
     const { menu, state } = this.state;
     if (!menu) return;
 
+    console.log(state.isBlurred, state.isEmpty);
     if (state.isBlurred || state.isEmpty) {
       menu.removeAttribute('style');
       return;
@@ -112,8 +131,8 @@ class CustomEditor extends React.Component {
   render() {
     return (
       <div>
-        {this.renderMenu()}
         <div className="editor">
+          {/*this.renderMenu()*/}
           <Editor
             schema={schema}
             state={this.state.state}
