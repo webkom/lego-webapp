@@ -41,6 +41,10 @@
   border-radius: 5px;
   flex: 2;
   background: var(--lego-color-gray-light);
+
+  @media (--medium-viewport) {
+    margin-bottom: 1em;
+  }
 }
 
 .meta {
@@ -57,13 +61,13 @@
 .openFor {
   background: var(--color-gray-5);
   padding: 20px;
-  min-width: 340px;
   border-radius: 5px;
   margin-left: 1em;
   flex: 1;
 
   @media (--small-viewport) {
     margin-left: 0;
+    margin-bottom: 1em;
   }
 }
 
