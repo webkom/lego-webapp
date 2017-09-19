@@ -18,14 +18,19 @@ class ImageUploadField extends Component {
 
   static Field: any;
 
+  componentWillMount() {
+    if (this.props.value) {
+      this.props.onChange(null);
+    }
+  }
+
   setValue = (image: File) => {
     this.props.uploadFile({ file: image, isPublic: true }).then(action => {
       const token = action.meta.fileToken;
       if (this.props.edit) {
         this.props.edit(token);
-      } else {
-        this.props.onChange(token);
       }
+      this.props.onChange(token);
     });
   };
 

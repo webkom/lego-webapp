@@ -1,5 +1,6 @@
 // @flow
 
+import { createSelector } from 'reselect';
 import { User } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 
@@ -28,3 +29,15 @@ export default createEntityReducer({
     }
   }
 });
+
+export const selectUserById = createSelector(
+  state => state.users.byId,
+  (state, props) => props.userId,
+  (usersById, userId) => {
+    const user = usersById[userId];
+    if (user) {
+      return user;
+    }
+    return {};
+  }
+);

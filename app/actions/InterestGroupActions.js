@@ -1,9 +1,11 @@
 // @flow
 
-import { interestGroupSchema } from 'app/reducers';
+import { interestGroupSchema, membershipSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
-import { InterestGroup } from './ActionTypes';
+import { InterestGroup, Membership } from './ActionTypes';
 import { push } from 'react-router-redux';
+import { setGroupMembers } from './MembershipActions';
+import { omit } from 'lodash';
 
 export function fetchInterestGroup(interestGroupId: string) {
   return callAPI({
@@ -29,25 +31,41 @@ export function fetchAll() {
   });
 }
 
-export function createInterestGroup(
-  name: string,
-  description: string,
-  descriptionLong: string
-) {
-  return callAPI({
-    types: InterestGroup.CREATE,
-    endpoint: '/interest-groups/',
-    schema: interestGroupSchema,
-    method: 'POST',
-    body: {
-      name,
-      description,
-      descriptionLong
-    },
-    meta: {
-      errorMessage: 'Creating interestGroup failed'
-    }
-  });
+export function createInterestGroup(group: object) {
+  return dispatch => {
+    const { name, description, descriptionLong, logo } = group;
+    dispatch(
+      callAPI({
+        types: InterestGroup.CREATE,
+        endpoint: '/interest-groups/',
+        schema: interestGroupSchema,
+        method: 'POST',
+        body: {
+          name,
+          description,
+          descriptionLong,
+          logo
+        },
+        meta: {
+          group,
+          errorMessage: 'Creating interestGroup failed'
+        }
+      })
+    ).then(res => {
+      const groupId =
+        res.payload.entities.interestGroups[res.payload.result].id;
+      const leaderId = Number(group.leader.value);
+      const memberships = group.members.map(m => {
+        const id = Number(m.value);
+        return {
+          user: id,
+          role: id == leaderId ? 'leader' : 'member'
+        };
+      });
+      dispatch(setGroupMembers(groupId, memberships));
+      dispatch(push(`/interestgroups/${groupId}`));
+    });
+  };
 }
 
 export function removeInterestGroup(id: string) {
@@ -56,6 +74,7 @@ export function removeInterestGroup(id: string) {
       callAPI({
         types: InterestGroup.REMOVE,
         endpoint: `/interest-groups/${id}/`,
+        schema: interestGroupSchema,
         method: 'DELETE',
         meta: {
           groupId: id,
@@ -66,74 +85,71 @@ export function removeInterestGroup(id: string) {
   };
 }
 
-export function updateInterestGroup(id: string, args: object) {
-  const { name, description, descriptionLong } = args;
+export function editInterestGroup(group: object) {
+  const { id } = group;
   return dispatch => {
     dispatch(
       callAPI({
         types: InterestGroup.UPDATE,
         endpoint: `/interest-groups/${id}/`,
+        schema: interestGroupSchema,
         method: 'PATCH',
-        body: {
-          name,
-          description,
-          descriptionLong
-        },
+        body: group.logo ? group : omit(group, 'logo'),
         meta: {
-          interestGroupId: id,
+          group,
           errorMessage: 'Editing interestGroup failed'
         }
       })
-    ).then(() => dispatch(push(`/interestgroups/${id}`)));
+    ).then(res => {
+      const leaderId = group.leader.value;
+      const memberships = group.members.map(m => ({
+        user: Number(m.value),
+        role: m.value == leaderId ? 'leader' : 'member'
+      }));
+      dispatch(setGroupMembers(group.id, memberships)).then(_ =>
+        dispatch(push(`/interestgroups/${group.id}`))
+      );
+    });
   };
 }
 
-export function updateInterestGroupPicture(id: string, token: token) {
+export function joinInterestGroup(groupId, user, role = 'member') {
   return dispatch => {
     dispatch(
       callAPI({
-        types: InterestGroup.UPDATE,
-        endpoint: `/interest-groups/${id}/`,
-        method: 'PATCH',
+        types: Membership.JOIN_GROUP,
+        endpoint: '/memberships/',
+        schema: membershipSchema,
+        method: 'POST',
         body: {
-          id: id,
-          picture: token
+          abakus_group: groupId,
+          user: user.id,
+          role
         },
         meta: {
-          interestGroupId: id,
-          errorMessage: 'Editing interestGroup failed'
+          errorMessage: 'Joining the interest group failed.',
+          groupId: groupId,
+          username: user.username
         }
       })
-    ).then(() => dispatch(push(`/interestgroups/${id}`)));
+    );
   };
-}
-
-export function joinInterestGroup(id, user) {
-  return callAPI({
-    types: InterestGroup.JOIN,
-    endpoint: '/memberships/',
-    method: 'POST',
-    body: {
-      abakus_group: id,
-      user: user.id
-    },
-    meta: {
-      errorMessage: 'Joining the interest group failed.',
-      groupId: id,
-      user
-    }
-  });
 }
 
 export function leaveInterestGroup(membership) {
-  return callAPI({
-    types: InterestGroup.LEAVE,
-    endpoint: `/memberships/${membership.id}/`,
-    method: 'DELETE',
-    meta: {
-      user: membership.user,
-      groupId: membership.abakusGroup,
-      errorMessage: 'Leaving the interest group failed.'
-    }
-  });
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: Membership.LEAVE_GROUP,
+        endpoint: `/memberships/${membership.id}/`,
+        method: 'DELETE',
+        meta: {
+          id: membership.id,
+          username: membership.user.username,
+          groupId: membership.abakusGroup,
+          errorMessage: 'Leaving the interest group failed.'
+        }
+      })
+    );
+  };
 }
