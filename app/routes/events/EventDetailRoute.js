@@ -18,6 +18,7 @@ import {
   selectCommentsForEvent,
   selectPoolsWithRegistrationsForEvent,
   selectRegistrationsFromPools,
+  selectMergedPoolWithRegistrations,
   selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
 
@@ -30,9 +31,11 @@ const mapStateToProps = (state, props) => {
   const event = selectEventById(state, { eventId });
   const actionGrant = state.events.actionGrant;
   const comments = selectCommentsForEvent(state, { eventId });
-  const poolsWithRegistrations = selectPoolsWithRegistrationsForEvent(state, {
-    eventId
-  });
+  const poolsWithRegistrations = event.isMerged
+    ? selectMergedPoolWithRegistrations(state, { eventId })
+    : selectPoolsWithRegistrationsForEvent(state, {
+        eventId
+      });
   const registrations = selectRegistrationsFromPools(state, { eventId });
 
   const waitingRegistrations = selectWaitingRegistrationsForEvent(state, {
