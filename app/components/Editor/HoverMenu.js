@@ -20,13 +20,17 @@ type HoverMenuButtonProps = {
 };
 
 const HoverMenuButton = ({ tag, onClick, state }: HoverMenuButtonProps) => {
-  const active = state.activeMarks.some(mark => mark.type == tag.name);
+  const active =
+    tag.type === 'mark'
+      ? state.activeMarks.some(mark => mark.type == tag.name)
+      : state.blocks.some(node => node.type == tag.name);
 
   return (
     <span
-      className={cx(styles.hoverMenuButton, {
-        [styles.activeHoverMenuButton]: active
-      })}
+      className={cx(
+        styles.hoverMenuButton,
+        active && styles.activeHoverMenuButton
+      )}
       onMouseDown={e => onClick(e, tag.name)}
       data-active={active}
     >
