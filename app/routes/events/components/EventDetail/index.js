@@ -193,7 +193,7 @@ export default class EventDetail extends Component {
                 <div>
                   <li>Dette er et betalt arrangement</li>
                   <li>
-                    Pris: <strong>{event.price / 100},-</strong>
+                    Pris: <strong>{event.priceMember / 100},-</strong>
                   </li>
                 </div>
               )}
@@ -238,12 +238,11 @@ export default class EventDetail extends Component {
           <Flex column className={styles.openFor}>
             <strong>Åpent for</strong>
             <ul>
-              {(pools || [])
-                .map(pool =>
-                  pool.permissionGroups.map(group => (
-                    <li key={group.id}>{group.name}</li>
-                  ))
-                )}
+              {(pools || []).map(pool =>
+                pool.permissionGroups.map(group => (
+                  <li key={group.id}>{group.name}</li>
+                ))
+              )}
             </ul>
           </Flex>
         </Flex>

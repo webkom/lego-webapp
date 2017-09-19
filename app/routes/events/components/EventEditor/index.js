@@ -280,11 +280,17 @@ export default reduxForm({
     if (!data.title) {
       errors.title = 'Tittel er påkrevet';
     }
-    if (!data.description) {
+    if (!data.description || data.description.trim() === '') {
       errors.description = 'Kalenderbeskrivelse er påkrevet';
     }
     if (!data.eventType) {
       errors.eventType = 'Arrangementstype er påkrevet';
+    }
+    if (data.priceMember > 10000) {
+      errors.priceMember = 'Prisen er for høy';
+    }
+    if (Number(data.priceMember) <= 0) {
+      errors.priceMember = 'Prisen må være større enn 0';
     }
     if (!data.location) {
       errors.location = 'Lokasjon er påkrevet';
