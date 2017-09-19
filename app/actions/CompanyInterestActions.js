@@ -75,17 +75,17 @@ export function createCompanyInterest({
           errorMessage: 'Creating CompanyInterestForm failed'
         }
       })
-    ).then(() => {
+    ).then(() =>
       dispatch(
         addNotification({ message: 'Company interest successfully created!' })
-      );
-    });
+      )
+    );
   };
 }
 
 export function removeCompanyInterest(id) {
   return dispatch => {
-    dispatch(
+    return dispatch(
       callAPI({
         types: CompanyInterestForm.REMOVE,
         endpoint: `/company-interests/${id}/`,
@@ -95,12 +95,11 @@ export function removeCompanyInterest(id) {
           errorMessage: 'Removing companyInterest failed'
         }
       })
-    ).then(() => {
+    ).then(() =>
       dispatch(
         addNotification({ message: 'Company interest successfully removed!' })
-      );
-      dispatch(push('/companyInterest/'));
-    });
+      )
+    );
   };
 }
 
@@ -118,7 +117,7 @@ export function updateCompanyInterest({
   comment
 }) {
   return dispatch => {
-    dispatch(
+    return dispatch(
       callAPI({
         types: CompanyInterestForm.UPDATE,
         endpoint: `/company-interests/${id}/`,
@@ -141,11 +140,10 @@ export function updateCompanyInterest({
           errorMessage: 'Editing companyInterest failed'
         }
       })
-    ).then(() => {
+    ).then(() =>
       dispatch(
         addNotification({ message: 'Company interest successfully updated!' })
-      );
-      dispatch(push('/companyInterest/'));
-    });
+      )
+    );
   };
 }

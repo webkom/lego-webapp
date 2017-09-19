@@ -1,14 +1,25 @@
+import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+
 export default {
   path: 'companyInterest',
-  indexRoute: { component: require('./CompanyInterestListRoute').default },
+  indexRoute: resolveAsyncRoute(
+    () => import('./CompanyInterestListRoute'),
+    () => require('./CompanyInterestListRoute')
+  ),
   childRoutes: [
     {
       path: 'create',
-      component: require('./CompanyInterestRoute').default
+      ...resolveAsyncRoute(
+        () => import('./CompanyInterestRoute'),
+        () => require('./CompanyInterestRoute')
+      )
     },
     {
-      path: ':companyInterestId',
-      component: require('./CompanyInterestDetailRoute').default
+      path: ':companyInterestId/edit',
+      ...resolveAsyncRoute(
+        () => import('./CompanyInterestEditRoute'),
+        () => require('./CompanyInterestEditRoute')
+      )
     }
   ]
 };
