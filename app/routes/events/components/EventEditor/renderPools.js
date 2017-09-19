@@ -85,7 +85,7 @@ export const validatePools = pools => {
       poolError.capacity = 'Kapasitet påkrevet';
     }
     if (Number(pool.capacity) === 0 && (capacity > 0 || pools.length > 1)) {
-      poolError.capacity = 'Kun en pool kan være ubegrenset';
+      poolError.capacity = 'En ubegrenset pool kan kun eksistere alene';
     }
     if (pool.permissionGroups.length === 0) {
       poolError.permissionGroups = 'Rettighetsgruppe er påkrevet';
