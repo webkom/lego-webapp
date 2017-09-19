@@ -7,9 +7,10 @@ import AnnouncementsList from './components/AnnouncementsList';
 import { fetchAll, createAnnouncement } from 'app/actions/AnnouncementsActions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { selectAnnouncements } from 'app/reducers/announcements';
 
 const mapStateToProps = (state, props) => {
-  const announcements = state.announcements.byId;
+  const announcements = selectAnnouncements(state);
   const actionGrant = state.announcements.actionGrant;
   return {
     announcements,
@@ -20,12 +21,8 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    fetchAll,
-    submitAnnouncement: announcement =>
-      dispatch(createAnnouncement(announcement))
-  };
+const mapDispatchToProps = {
+  submitAnnouncement: createAnnouncement
 };
 
 export default compose(

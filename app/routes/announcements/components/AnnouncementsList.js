@@ -15,7 +15,10 @@ type Props = {
   announcements: Array,
   actionGrant: Array,
   submitAnnouncement: () => void,
-  handleSubmit: () => void
+  handleSubmit: () => void,
+  invalid: string,
+  pristine: string,
+  submitting: string
 };
 
 function AnnouncementItem({ announcement }: Props) {
@@ -28,42 +31,50 @@ function AnnouncementItem({ announcement }: Props) {
       <Flex column>
         <span className={styles.recHeader}>Mottakere:</span>
         <Flex wrap>
-          {announcement.events.length > 0 ? 'Arrangementer: ' : ''}
-          {announcement.events.map((e, i) => (
-            <Link key={i} className={styles.recipients} to={`/events/${e.id}/`}>
-              {e.title}
-            </Link>
-          ))}
-        </Flex>
-        <Flex wrap>
-          {announcement.meetings.length > 0 ? 'Møter: ' : ''}
-          {announcement.meetings.map((m, i) => (
+          {announcement.events.length > 0 && 'Arrangementer: '}
+          {announcement.events.map((event, i) => (
             <Link
               key={i}
               className={styles.recipients}
-              to={`/meetings/${m.id}/`}
+              to={`/events/${event.id}/`}
             >
-              {m.title}
+              {event.title}
             </Link>
           ))}
         </Flex>
         <Flex wrap>
-          {announcement.groups.length > 0 ? 'Grupper: ' : ''}
-          {announcement.groups.map((g, i) => (
-            <Link key={i} className={styles.recipients} to={`/groups/${g.id}/`}>
-              {g.name}
-            </Link>
-          ))}
-        </Flex>
-        <Flex wrap>
-          {announcement.users.length > 0 ? 'Brukere: ' : ''}
-          {announcement.users.map((u, i) => (
+          {announcement.meetings.length > 0 && 'Møter: '}
+          {announcement.meetings.map((meeting, i) => (
             <Link
               key={i}
               className={styles.recipients}
-              to={`/users/${u.username}/`}
+              to={`/meetings/${meeting.id}/`}
             >
-              {u.fullName}
+              {meeting.title}
+            </Link>
+          ))}
+        </Flex>
+        <Flex wrap>
+          {announcement.groups.length > 0 && 'Grupper: '}
+          {announcement.groups.map((group, i) => (
+            <Link
+              key={i}
+              className={styles.recipients}
+              to={`/groups/${group.id}/`}
+            >
+              {group.name}
+            </Link>
+          ))}
+        </Flex>
+        <Flex wrap>
+          {announcement.users.length > 0 && 'Brukere: '}
+          {announcement.users.map((user, i) => (
+            <Link
+              key={i}
+              className={styles.recipients}
+              to={`/users/${user.username}/`}
+            >
+              {user.fullName}
             </Link>
           ))}
         </Flex>
@@ -76,88 +87,100 @@ const AnnouncementsList = ({
   submitAnnouncement,
   announcements,
   actionGrant,
-  handleSubmit
+  handleSubmit,
+  invalid,
+  pristine,
+  submitting
 }: Props) => {
-  if (!announcements) {
+  if (announcements.fetching) {
     return <LoadingIndicator loading />;
   }
 
-  function onSubmit(announcement) {
-    announcement.users = announcement.users
-      ? announcement.users.map(u => u.value)
-      : [];
-    announcement.groups = announcement.groups
-      ? announcement.groups.map(u => u.value)
-      : [];
-    announcement.meetings = announcement.meetings
-      ? announcement.meetings.map(u => u.value)
-      : [];
-    announcement.events = announcement.events
-      ? announcement.events.map(u => u.value)
-      : [];
-    submitAnnouncement(announcement);
-  }
+  const onSubmit = announcement =>
+    submitAnnouncement({
+      ...announcement,
+      users: announcement.users
+        ? announcement.users.map(user => user.value)
+        : [],
+      groups: announcement.groups
+        ? announcement.groups.map(group => group.value)
+        : [],
+      meetings: announcement.meetings
+        ? announcement.meetings.map(meeting => meeting.value)
+        : [],
+      events: announcement.events
+        ? announcement.events.map(event => event.value)
+        : []
+    });
+
+  const disabledButton = invalid | pristine | submitting;
 
   return (
     <div className={styles.root}>
       <Helmet title="Kunngjøringer" />
-      <Flex column>
-        <h2 className={styles.header}>Ny kunngjøring</h2>
-        <Form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-          <span className={styles.formHeaders}>Kunngjøring:</span>
-          <Field
-            className={styles.msgField}
-            name="message"
-            component={EditorField}
-            placeholder="Skriv din melding her..."
-          />
-          <span className={styles.formHeaders}>Mottakere:</span>
-          <Flex className={styles.rowRec}>
+      {actionGrant.includes('create') && (
+        <Flex column>
+          <h2 className={styles.header}>Ny kunngjøring</h2>
+          <Form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+            <span className={styles.formHeaders}>Kunngjøring:</span>
             <Field
-              className={styles.recField}
-              name="users"
-              placeholder="Brukere"
-              filter={['users.user']}
-              multi
-              component={SelectInput.AutocompleteField}
+              className={styles.msgField}
+              name="message"
+              component={EditorField}
+              placeholder="Skriv din melding her..."
             />
-            <Field
-              name="groups"
-              placeholder="Grupper"
-              filter={['users.group']}
-              multi
-              component={SelectInput.AutocompleteField}
-            />
+            <span className={styles.formHeaders}>Mottakere:</span>
+            <Flex className={styles.rowRec}>
+              <Field
+                className={styles.recField}
+                name="users"
+                placeholder="Brukere"
+                filter={['users.user']}
+                multi
+                component={SelectInput.AutocompleteField}
+              />
+              <Field
+                name="groups"
+                placeholder="Grupper"
+                filter={['users.group']}
+                multi
+                component={SelectInput.AutocompleteField}
+              />
+            </Flex>
+            <Flex className={styles.rowRec}>
+              <Field
+                className={styles.recField}
+                name="events"
+                placeholder="Arrangementer"
+                filter={['events.event']}
+                multi
+                component={SelectInput.AutocompleteField}
+              />
+              <Field
+                text="Møter:"
+                name="meetings"
+                placeholder="Møter"
+                filter={['meetings.meeting']}
+                multi
+                component={SelectInput.AutocompleteField}
+              />
+            </Flex>
+            <Button submit disabled={disabledButton}>
+              Send
+            </Button>
+          </Form>
+        </Flex>
+      )}
+      {actionGrant.includes('list') && (
+        <Flex column>
+          <h1 className={styles.header}> Mine kunngjøringer </h1>
+          <Flex column className={styles.list}>
+            {announcements.map((a, i) => (
+              <AnnouncementItem key={i} announcement={a} />
+            ))}
           </Flex>
-          <Flex className={styles.rowRec}>
-            <Field
-              className={styles.recField}
-              name="events"
-              placeholder="Arrangementer"
-              filter={['events.event']}
-              multi
-              component={SelectInput.AutocompleteField}
-            />
-            <Field
-              text="Møter:"
-              name="meetings"
-              placeholder="Møter"
-              filter={['meetings.meeting']}
-              multi
-              component={SelectInput.AutocompleteField}
-            />
-          </Flex>
-          <Button submit>Send</Button>
-        </Form>
-      </Flex>
-      <Flex>
-        <h1 className={styles.header}> Mine kunngjøringer </h1>
-      </Flex>
-      <Flex column className={styles.list}>
-        {Object.values(announcements).map((a, i) => (
-          <AnnouncementItem key={i} announcement={a} />
-        ))}
-      </Flex>
+        </Flex>
+      )}
     </div>
   );
 };

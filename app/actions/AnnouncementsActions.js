@@ -8,7 +8,7 @@ import { reset } from 'redux-form';
 
 export function fetchAll() {
   return callAPI({
-    types: Announcements.FETCH,
+    types: Announcements.FETCH_ALL,
     endpoint: '/announcements/',
     schema: [announcementsSchema],
     meta: {
