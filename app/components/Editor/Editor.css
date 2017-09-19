@@ -20,6 +20,7 @@
 .hoverMenuButton {
   color: #aaa;
   cursor: pointer;
+  padding: 1px;
 }
 
 .hoverMenuButton:hover {

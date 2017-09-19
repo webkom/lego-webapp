@@ -8,6 +8,7 @@ import { schema } from './constants';
 import HoverMenu from './HoverMenu';
 import rules from './serializer';
 import styles from './Editor.css';
+import SideMenu from './SideMenu';
 
 const parseHtml =
   typeof DOMParser === 'undefined' && require('parse5').parseFragment;
@@ -39,7 +40,6 @@ class CustomEditor extends Component {
   constructor(props) {
     super(props);
     resetKeyGenerator();
-
     this.state = {
       state: html.deserialize(this.props.value || '<p></p>'),
       schema
@@ -62,13 +62,18 @@ class CustomEditor extends Component {
     this.setState({ state });
   };
 
-  onClickMark = (e, type) => {
+  onToggleMark = (e, type) => {
     e.preventDefault();
     const change = this.state.state.change().toggleMark(type);
     this.onChange(change);
   };
 
-  onClickBlock = (e, type) => {
+  hasBlock = type => {
+    const { state } = this.state;
+    return state.blocks.some(node => node.type == type);
+  };
+
+  onToggleBlock = (e, type) => {
     e.preventDefault();
     const { state } = this.state;
     const change = state.change();
@@ -81,13 +86,14 @@ class CustomEditor extends Component {
 
       if (isList) {
         change
-          .setBlock(isActive ? DEFAULT_NODE : type)
+          .setBlock(isActive ? 'paragraph' : type)
           .unwrapBlock('bulleted-list')
           .unwrapBlock('numbered-list');
       } else {
-        change.setBlock(isActive ? DEFAULT_NODE : type);
+        change.setBlock(isActive ? 'paragraph' : type);
       }
     }
+    this.onChange(change);
   };
 
   onOpenHoverMenu = portal => {
@@ -123,10 +129,15 @@ class CustomEditor extends Component {
           <HoverMenu
             onOpen={this.onOpenHoverMenu}
             state={state}
-            onClickBlock={this.onClickBlock}
-            onClickMark={this.onClickMark}
+            onToggleBlock={this.onToggleBlock}
+            onToggleMark={this.onToggleMark}
           />
-          <Editor schema={schema} state={state} onChange={this.onChange} />
+          <SideMenu state={this.state.state} />
+          <Editor
+            schema={schema}
+            state={this.state.state}
+            onChange={this.onChange}
+          />
         </div>
       </div>
     );

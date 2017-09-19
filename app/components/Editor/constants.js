@@ -2,89 +2,130 @@
 
 import React from 'react';
 
-/**
+const deserialize = (tagName, type, kind) => (el, next) => {
+  if (el.tagName.toLowerCase() == tagName) {
+    return {
+      kind,
+      type,
+      nodes: next(el.childNodes)
+    };
+  }
+};
+
+const serialize = (type, kind, serializer) => (object, children) => {
+  if (object.kind == kind && object.type == type) {
+    return serializer({ object, children });
+  }
+};
+
+const genericRender = tagName => ({ children, attributes }) =>
+  React.createElement(tagName, attributes, children);
+
+const createMarkTag = (type, icon, tagName) => ({
+  type,
+  icon,
+  tag: tagName,
+  render: genericRender(tagName),
+  deserialize: deserialize(tagName, type, 'mark'),
+  serialize: serialize(type, 'mark', genericRender(tagName))
+});
+
+export const MARK_TAGS = [
+  createMarkTag('italic', 'italic', 'em'),
+  createMarkTag('bold', 'bold', 'strong'),
+  createMarkTag('underline', 'underline', 'u'),
+  createMarkTag('code', 'code', 'code'),
+  createMarkTag('link', 'link', 'a'),
+  createMarkTag('strikethrough', 'strikethrough', 'strike')
+];
+
+/*/**
  * Block tags
  *
  * @type {Object}
  */
-export const BLOCK_TAGS = {
-  blockquote: {
-    name: 'quote',
-    icon: '😎'
+export const BLOCK_TAGS = [
+  {
+    type: 'quote',
+    icon: 'quote-left',
+    render: ({ children }) =>
+      <quote>
+        {children}
+      </quote>
   },
-  p: {
-    name: 'paragraph',
-    icon: '😎'
+  {
+    type: 'paragraph',
+    render: ({ children }) =>
+      <p>
+        {children}
+      </p>
   },
-  pre: {
-    name: 'code',
-    icon: '😎'
+  {
+    type: 'code',
+    icon: 'code',
+    render: ({ children }) =>
+      <code>
+        {children}
+      </code>
   },
-  h1: {
-    name: 'header-one',
-    icon: '😎'
+  {
+    type: 'header-one',
+    icon: 'header',
+    render: ({ children }) =>
+      <h1>
+        {children}
+      </h1>
   },
-  h2: {
-    name: 'header-two',
-    icon: '😎'
+  {
+    type: 'header-two',
+    icon: 'font',
+    render: ({ children }) =>
+      <h2>
+        {children}
+      </h2>
   },
-  img: {
-    name: 'image',
-    icon: '😎'
+  {
+    type: 'image',
+    icon: 'image',
+    render: ({ children }) => <img />
   },
-  hr: {
-    name: 'separator',
-    icon: '😎'
+  {
+    type: 'separator',
+    icon: 'minus',
+    render: ({ children }) => <hr />
   },
-  todo: {
-    name: 'todo',
-    icon: '😎'
+  {
+    type: 'todo',
+    icon: 'check-square-o',
+    render: ({ children }) =>
+      <p>
+        {children}
+      </p>
   },
-  ol: {
-    name: 'list-ol',
-    icon: '😎'
+  {
+    type: 'list-ol',
+    icon: 'list-ol',
+    render: ({ children }) =>
+      <ol>
+        {children}
+      </ol>
   },
-  ul: {
-    name: 'list-ul',
-    icon: '😎'
+  {
+    type: 'list-ul',
+    icon: 'list-ul',
+    render: ({ children }) =>
+      <ul>
+        {children}
+      </ul>
   },
-  li: {
-    name: 'list-item',
-    icon: '😎'
+  {
+    type: 'list-item',
+    render: ({ children }) =>
+      <li>
+        {children}
+      </li>
   }
-};
-
-/**
- * Mark tags
- *
- * @type {Object}
- */
-export const MARK_TAGS = {
-  em: {
-    name: 'italic',
-    icon: '😎'
-  },
-  strong: {
-    name: 'bold',
-    icon: '😎'
-  },
-  u: {
-    name: 'underline',
-    icon: '😎'
-  },
-  code: {
-    name: 'code',
-    icon: '😎'
-  },
-  href: {
-    name: 'link',
-    icon: '😎'
-  },
-  strike: {
-    name: 'strikethrough',
-    icon: '😎'
-  }
-};
+];
 
 /**
  * Define a schema.
@@ -92,23 +133,11 @@ export const MARK_TAGS = {
  * @type {Object}
  */
 
+const marks = MARK_TAGS.reduce((acc, tag) => {
+  acc[tag.type] = tag.render;
+  return acc;
+}, {});
+
 export const schema = {
-  marks: {
-    bold: ({ children }: { children: ReactElement }) =>
-      <strong>
-        {children}
-      </strong>,
-    code: ({ children }: { children: ReactElement }) =>
-      <code>
-        {children}
-      </code>,
-    italic: ({ children }: { children: ReactElement }) =>
-      <em>
-        {children}
-      </em>,
-    underlined: ({ children }: { children: ReactElement }) =>
-      <u>
-        {children}
-      </u>
-  }
+  marks
 };

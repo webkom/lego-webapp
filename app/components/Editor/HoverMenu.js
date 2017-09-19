@@ -3,14 +3,15 @@
 import React from 'react';
 import Portal from 'react-portal';
 import cx from 'classnames';
+import { without } from 'lodash';
 import styles from './Editor.css';
 import { BLOCK_TAGS, MARK_TAGS } from './constants';
 
 type Props = {
   state: Object,
   onOpen: boolean,
-  onClickMark: () => void,
-  onClickBlock: () => void
+  onToggleMark: () => void,
+  onToggleBlock: () => void
 };
 
 type HoverMenuButtonProps = {
@@ -19,11 +20,16 @@ type HoverMenuButtonProps = {
   state: Object
 };
 
-const HoverMenuButton = ({ tag, onClick, state }: HoverMenuButtonProps) => {
+const HoverMenuButton = ({
+  tag,
+  onClick,
+  state,
+  tagType
+}: HoverMenuButtonProps) => {
   const active =
-    tag.type === 'mark'
-      ? state.activeMarks.some(mark => mark.type == tag.name)
-      : state.blocks.some(node => node.type == tag.name);
+    tagType === 'mark'
+      ? state.activeMarks.some(mark => mark.type == tag.type)
+      : state.blocks.some(node => node.type == tag.type);
 
   return (
     <span
@@ -31,30 +37,32 @@ const HoverMenuButton = ({ tag, onClick, state }: HoverMenuButtonProps) => {
         styles.hoverMenuButton,
         active && styles.activeHoverMenuButton
       )}
-      onMouseDown={e => onClick(e, tag.name)}
+      onMouseDown={e => onClick(e, tag.type)}
       data-active={active}
     >
-      {tag.icon}
+      <i className={`fa fa-${tag.icon}`} />
     </span>
   );
 };
 
-const HoverMenu = ({ state, onClickMark, onClickBlock, onOpen }: Props) =>
+const HoverMenu = ({ state, onToggleMark, onToggleBlock, onOpen }: Props) =>
   <Portal isOpened onOpen={onOpen}>
     <div className={styles.hoverMenu}>
-      {Object.keys(BLOCK_TAGS).map((tag, index) =>
+      {BLOCK_TAGS.map(tag =>
         <HoverMenuButton
-          key={`block-${index}`}
+          key={tag.type}
+          type="block"
           state={state}
-          onClick={onClickBlock}
-          tag={BLOCK_TAGS[tag]}
+          onClick={onToggleBlock}
+          tag={tag}
         />
       )}
-      {Object.keys(MARK_TAGS).map((tag, index) =>
+      {Object.keys(MARK_TAGS).map(tag =>
         <HoverMenuButton
-          key={`mark-${index}`}
+          key={tag}
+          type="mark"
           state={state}
-          onClick={onClickMark}
+          onClick={onToggleMark}
           tag={MARK_TAGS[tag]}
         />
       )}
