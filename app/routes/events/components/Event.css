@@ -126,15 +126,15 @@
 
 .social {
   border-bottom: 2px solid colorSocial;
-  color: var(--color-white);
+  color: var(--color-black);
 }
 
 .event {
   border-bottom: 2px solid colorEvent;
-  color: var(--color-white);
+  color: var(--color-black);
 }
 
 .other {
   border-bottom: 2px solid colorOther;
-  color: var(--color-white);
+  color: var(--color-black);
 }
