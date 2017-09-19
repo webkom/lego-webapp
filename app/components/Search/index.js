@@ -14,13 +14,15 @@ import { Keyboard } from 'app/utils/constants';
 const navigationLinks = [
   ['/articles', 'Artikler'],
   ['/announcements', 'Kunngjøringer'],
+  ['/events', 'Arrangementer'],
+  ['/pages/om-oss', 'Om Abakus'],
   ['/bdb', 'BDB'],
   ['http://readme.abakus.no', 'readme'],
   ['/interestgroups', 'Interessegrupper'],
   ['/meetings', 'Møter'],
   ['/quotes', 'Sitater'],
   ['/users/me', 'Profil'],
-  ['https://shop.abakus.no/', 'Abashop'],
+  ['https://shop.abakus.no/', 'Butikk'],
   ['/joblistings', 'Jobbannonser']
 ].sort((a, b) => a[1].localeCompare(b[1]));
 
