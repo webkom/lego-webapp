@@ -1,3 +1,5 @@
+import path from 'path';
+import fs from 'fs';
 import express from 'express';
 import morgan from 'morgan';
 import moment from 'moment';
@@ -38,6 +40,11 @@ if (process.env.NODE_ENV !== 'production') {
       log: false
     })
   );
+}
+
+const styleguide = path.join(__dirname, '../styleguide');
+if (fs.existsSync(styleguide)) {
+  app.use('/styleguide', express.static(styleguide));
 }
 
 app.use(express.static(webpackClient.output.path));

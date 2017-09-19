@@ -10,3 +10,6 @@ tiny-lr.pid
 coverage
 dist
 .env
+styleguide
+.css.tmp.md
+*.log
