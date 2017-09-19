@@ -16,13 +16,14 @@ type poolProps = {
 };
 
 const renderPools = ({ fields }: poolProps) => (
-  <ul>
+  <ul style={{ flex: 1 }}>
     {fields.map((pool, index) => (
       <li key={index}>
         <h4>Pool #{index + 1}</h4>
         <Field
           name={`pools[${index}].name`}
-          fieldClassName={styles.poolField}
+          fieldClassName={styles.metaField}
+          className={styles.formField}
           component={TextInput.Field}
         />
         <Field
@@ -30,19 +31,21 @@ const renderPools = ({ fields }: poolProps) => (
           name={`pools[${index}].capacity`}
           type="number"
           placeholder="0 er ubegrenset"
-          fieldClassName={styles.poolField}
+          fieldClassName={styles.metaField}
+          className={styles.formField}
           component={TextInput.Field}
         />
         <Field
           label="Aktiveringstidspunkt"
           name={`pools[${index}].activationDate`}
-          fieldClassName={styles.poolField}
+          fieldClassName={styles.metaField}
+          className={styles.formField}
           component={DatePicker.Field}
         />
         <Field
           label="Grupper med rettighet"
           name={`pools[${index}].permissionGroups`}
-          fieldClassName={styles.poolField}
+          fieldClassName={styles.metaField}
           filter={['users.abakusgroup']}
           component={SelectInput.AutocompleteField}
           multi
