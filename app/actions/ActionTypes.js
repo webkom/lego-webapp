@@ -12,6 +12,7 @@ function generateStatuses(name) {
  *
  */
 export const Event = {
+  CLEAR: 'Event.CLEAR',
   FETCH: generateStatuses('Event.FETCH'),
   CREATE: generateStatuses('Event.CREATE'),
   EDIT: generateStatuses('Event.EDIT'),
