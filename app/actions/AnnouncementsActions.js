@@ -23,7 +23,8 @@ export function createAnnouncement({
   users,
   groups,
   events,
-  meetings
+  meetings,
+  send
 }) {
   return dispatch => {
     dispatch(startSubmit('AnnouncementsCreate'));
@@ -49,10 +50,25 @@ export function createAnnouncement({
       .then(result => {
         dispatch(stopSubmit('AnnouncementsCreate'));
         dispatch(reset('announcementsList'));
+        if (send) {
+          dispatch(sendAnnouncement(result.payload.result));
+        }
       })
       .catch(action => {
         const errors = { ...action.error.response.jsonData };
         dispatch(stopSubmit('AnnouncementsCreate', errors));
       });
   };
+}
+
+export function sendAnnouncement(announcementId) {
+  return callAPI({
+    types: Announcements.SEND,
+    endpoint: `/announcements/${announcementId}/send/`,
+    method: 'POST',
+    meta: {
+      errorMessage: 'Sending announcement failed',
+      announcementId
+    }
+  });
 }
