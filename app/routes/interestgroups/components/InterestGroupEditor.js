@@ -116,7 +116,7 @@ export default reduxForm({
   form: 'interestGroupEditor',
   validate(values) {
     const errors = {};
-    const labels = values.members.map(o => o.label);
+    const labels = (values.members || []).map(o => o.label);
     const counts = countBy(labels);
     map(counts, (c, l) => {
       if (c > 1) errors.members = `'${l}' er valgt flere ganger`;
