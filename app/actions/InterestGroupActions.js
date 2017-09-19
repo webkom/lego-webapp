@@ -74,7 +74,6 @@ export function removeInterestGroup(id: string) {
       callAPI({
         types: InterestGroup.REMOVE,
         endpoint: `/interest-groups/${id}/`,
-        schema: interestGroupSchema,
         method: 'DELETE',
         meta: {
           groupId: id,

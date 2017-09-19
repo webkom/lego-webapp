@@ -7,7 +7,7 @@ import styles from './InterestGroupEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field } from 'redux-form';
 import { map, countBy } from 'lodash';
-
+import { Flex } from 'app/components/Layout';
 import {
   Form,
   TextInput,
@@ -32,6 +32,7 @@ function InterestGroupEditor({
   handleSubmit,
   handleSubmitCallback,
   interestGroup,
+  removeInterestGroup,
   change,
   groupMembers = [],
   submitting,
@@ -57,7 +58,12 @@ function InterestGroupEditor({
           {isEditPage ? ` ${interestGroup.name}` : 'Tilbake'}
         </Link>
       </h2>
-      <h1>{isEditPage ? 'Endre gruppe' : 'Ny gruppe'} </h1>
+      <Flex justifyContent="space-between" alignItems="baseline">
+        <h1>{isEditPage ? 'Endre gruppe' : 'Ny gruppe'}</h1>
+        <a onClick={() => removeInterestGroup(interestGroup.id)}>
+          Slett gruppen
+        </a>
+      </Flex>
       <Form onSubmit={handleSubmit(handleSubmitCallback)}>
         <Field
           label="Gruppenavn"
