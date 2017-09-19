@@ -1,3 +1,10 @@
 .summary {
   flex-wrap: wrap;
 }
+
+.registrationList {
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+}
