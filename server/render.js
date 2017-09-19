@@ -64,12 +64,14 @@ function render(req, res, next) {
       );
     };
 
-    prepare(app).then(respond).catch(error => {
-      const err = error.error ? error.payload : error;
-      log.error(err, 'render_error');
-      Raven.captureException(err);
-      respond();
-    });
+    prepare(app)
+      .then(respond)
+      .catch(error => {
+        const err = error.error ? error.payload : error;
+        log.error(err, 'render_error');
+        Raven.captureException(err);
+        respond();
+      });
   });
 }
 
