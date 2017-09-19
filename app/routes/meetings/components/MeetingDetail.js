@@ -164,7 +164,7 @@ class MeetingDetails extends Component {
                   <UserLink user={reportAuthor} />
                 </li>
                 <li>
-                  <AttendanceStatus pools={this.sortInvitations()} />
+                  <AttendanceStatus.Modal pools={this.sortInvitations()} />
                 </li>
               </ul>
             </Card>
