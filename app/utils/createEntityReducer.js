@@ -49,7 +49,7 @@ export function entities(key: string) {
   return (
     state: any = {
       actionGrant: [],
-      next: null,
+      pagination: {},
       byId: {},
       items: []
     },
@@ -59,13 +59,20 @@ export function entities(key: string) {
     if (!result) {
       return state;
     }
+    let pagination = state.pagination;
+    if (action.meta.queryString) {
+      pagination = {
+        queryString: action.meta.queryString,
+        nextPage: action.payload.next
+      };
+    }
 
     return {
       ...state,
       byId: merge(state.byId, result),
       items: union(state.items, Object.keys(result)),
       actionGrant: union(state.actionGrant, action.payload.actionGrant || []),
-      next: action.payload.next
+      pagination
     };
   };
 }
@@ -103,7 +110,7 @@ export default function createEntityReducer({
 
   const finalInitialState = {
     actionGrant: [],
-    next: null,
+    pagination: {},
     byId: {},
     items: [],
     fetching: false,

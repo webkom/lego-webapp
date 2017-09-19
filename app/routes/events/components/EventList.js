@@ -98,19 +98,18 @@ function EventListGroup({ name, events = [] }) {
 
 const EventList = props => {
   const events = groupEvents(props.events);
-  const { icalToken, nextPage, fetchAll } = props;
+  const { icalToken, hasMore, fetchMore, reload } = props;
   return (
     <div className={styles.root}>
       <Helmet title="Arrangementer" />
       <Toolbar actionGrant={props.actionGrant} />
-
+      <Button onClick={reload}>Refresh</Button>
       <EventListGroup name="Denne uken" events={events.currentWeek} />
 
       <EventListGroup name="Neste uke" events={events.nextWeek} />
 
       <EventListGroup name="Senere" events={events.later} />
-      {nextPage &&
-        <Button onClick={() => fetchAll({ nextPage })}>Last inn mer</Button>}
+      {hasMore && <Button onClick={fetchMore}>Last inn mer</Button>}
       <div className={styles.bottomBorder} />
       <EventFooter icalToken={icalToken} />
     </div>

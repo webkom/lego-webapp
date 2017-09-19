@@ -20,6 +20,48 @@ export function fetchEvent(eventId: string) {
   });
 }
 
+const getEndpoint = (state, loadNextPage, queryString) => {
+  const pagination = state.events.pagination;
+  let endpoint = `/events/${queryString}`;
+  if (loadNextPage && pagination.queryString === queryString) {
+    endpoint = pagination.nextPage;
+  }
+  return endpoint;
+};
+
+export const fetchList = (
+  { dateAfter, dateBefore, refresh = false, loadNextPage = false }: Object = {}
+) => (dispatch, getState) => {
+  const query = { dateAfter, dateBefore };
+  if (query.dateBefore && query.dateAfter) {
+    query.page_size = 60;
+  }
+  const queryString = createQueryString(query);
+  const endpoint = getEndpoint(getState(), loadNextPage, queryString);
+  if (!endpoint) {
+    return;
+  }
+  if (refresh && !loadNextPage) {
+    dispatch({
+      type: Event.CLEAR
+    });
+  }
+  return dispatch(
+    callAPI({
+      types: Event.FETCH,
+      endpoint: endpoint,
+      schema: [eventSchema],
+      meta: {
+        errorMessage: 'Fetching events failed',
+        queryString
+      },
+      force: refresh,
+      cacheSeconds: Infinity, // don't expire cache unless we pass force
+      propagateError: true
+    })
+  );
+};
+
 export function fetchAll(
   { dateAfter, dateBefore, nextPage, force = false }: Object = {}
 ) {
