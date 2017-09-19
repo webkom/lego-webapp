@@ -44,9 +44,10 @@
 
 .meta {
   order: 2;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 200;
   align-self: center;
+  margin-top: 5px;
 }
 
 .smallBubble {
@@ -77,8 +78,9 @@
 
 .smallMeta {
   order: 2;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 200;
   display: flex;
   justify-content: center;
+  margin-top: 5px;
 }

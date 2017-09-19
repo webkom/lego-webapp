@@ -1,63 +1,74 @@
 import styles from './bdb.css';
 import React, { Component } from 'react';
-import { trueIcon, falseIcon, httpCheck } from '../utils.js';
+import { httpCheck } from '../utils.js';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import InfoBubble from 'app/components/InfoBubble';
 import BdbRightNav from './BdbRightNav';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
-import { TextEditor, TextInput, RadioButton } from 'app/components/Form';
+import {
+  TextEditor,
+  TextInput,
+  RadioButton,
+  ImageUploadField
+} from 'app/components/Form';
 
 type Props = {
+  addCompany: () => void,
   editCompany: () => void,
+  uploadFile: () => void,
   company: Object,
   submitting: boolean,
   handleSubmit: () => void,
-  autoFocus: any
+  autoFocus: any,
+  isEditPage: boolean
 };
 
-export default class EditCompany extends Component {
-  onSubmit = ({
-    name,
-    description = '',
-    adminComment = '',
-    website = '',
-    studentContact = '',
-    active = '',
-    phone = '',
-    companyType = '',
-    paymentMail = '',
-    address = ''
-  }) => {
-    const { editCompany, company } = this.props;
-    editCompany({
-      companyId: company.id,
-      name,
-      description,
-      adminComment,
-      website: httpCheck(website),
-      studentContact,
-      active,
-      phone,
-      companyType,
-      paymentMail,
-      address
-    });
+export default class CompanyEditor extends Component {
+  onSubmit = formContent => {
+    const { addCompany, editCompany, company, isEditPage } = this.props;
+    if (isEditPage) {
+      editCompany({
+        ...formContent,
+        companyId: company.id,
+        website: httpCheck(formContent.website)
+      });
+    } else {
+      addCompany({
+        ...formContent,
+        website: httpCheck(formContent.website)
+      });
+    }
   };
 
   props: Props;
 
   render() {
-    const { company, submitting, autoFocus, handleSubmit } = this.props;
+    const {
+      company,
+      submitting,
+      autoFocus,
+      handleSubmit,
+      uploadFile,
+      isEditPage
+    } = this.props;
 
-    if (!company) {
+    if (isEditPage && !company) {
       return <LoadingIndicator />;
     }
 
     return (
       <div className={styles.root}>
         <Field
+          name="logo"
+          component={ImageUploadField.Field}
+          uploadFile={uploadFile}
+          aspectRatio={20 / 6}
+          img={isEditPage && company.logo}
+        />
+        <Field
           placeholder={'Bedriftens navn'}
+          label={' '}
           autoFocus={autoFocus}
           name="name"
           component={TextInput.Field}
@@ -70,6 +81,7 @@ export default class EditCompany extends Component {
               <div className={styles.description}>
                 <Field
                   placeholder={'Beskrivelse av bedriften'}
+                  label={' '}
                   autoFocus={autoFocus}
                   name="description"
                   component={TextEditor.Field}
@@ -78,40 +90,11 @@ export default class EditCompany extends Component {
 
               <div className={styles.infoBubbles}>
                 <InfoBubble
-                  icon={'phone'}
-                  data={
-                    <Field
-                      placeholder={'Telefonnummer'}
-                      autoFocus={autoFocus}
-                      name="phone"
-                      component={TextInput.Field}
-                      className={styles.editBubble}
-                    />
-                  }
-                  meta={'Telefon'}
-                  style={{ order: 0 }}
-                />
-
-                <InfoBubble
-                  icon={'user'}
-                  data={
-                    <Field
-                      placeholder={'Studentkontakt'}
-                      autoFocus={autoFocus}
-                      name="studentContact"
-                      component={TextInput.Field}
-                      className={styles.editBubble}
-                    />
-                  }
-                  meta={'Studentkontakt'}
-                  style={{ order: 1 }}
-                />
-
-                <InfoBubble
                   icon={'briefcase'}
                   data={
                     <Field
                       placeholder={'Type bedrift'}
+                      label={' '}
                       autoFocus={autoFocus}
                       name="companyType"
                       component={TextInput.Field}
@@ -119,16 +102,47 @@ export default class EditCompany extends Component {
                     />
                   }
                   meta={'Type bedrift'}
+                  style={{ order: 0 }}
+                />
+                <InfoBubble
+                  icon={'mail'}
+                  data={
+                    <Field
+                      placeholder={'Fakturamail'}
+                      label={' '}
+                      autoFocus={autoFocus}
+                      name="paymentMail"
+                      component={TextInput.Field}
+                      className={styles.editBubble}
+                    />
+                  }
+                  meta={'Fakturamail'}
+                  style={{ order: 1 }}
+                />
+                <InfoBubble
+                  icon={'call'}
+                  data={
+                    <Field
+                      placeholder={'Telefonnummer'}
+                      label={' '}
+                      autoFocus={autoFocus}
+                      name="phone"
+                      component={TextInput.Field}
+                      className={styles.editBubble}
+                    />
+                  }
+                  meta={'Telefon'}
                   style={{ order: 2 }}
                 />
               </div>
 
               <div className={styles.infoBubbles}>
                 <InfoBubble
-                  icon={'home'}
+                  icon={'at'}
                   data={
                     <Field
                       placeholder={'Nettside'}
+                      label={' '}
                       autoFocus={autoFocus}
                       name="website"
                       component={TextInput.Field}
@@ -140,10 +154,11 @@ export default class EditCompany extends Component {
                 />
 
                 <InfoBubble
-                  icon={'building'}
+                  icon={'home'}
                   data={
                     <Field
                       placeholder={'Adresse'}
+                      label={' '}
                       autoFocus={autoFocus}
                       name="address"
                       component={TextInput.Field}
@@ -153,19 +168,19 @@ export default class EditCompany extends Component {
                   meta={'Adresse'}
                   style={{ order: 1 }}
                 />
-
                 <InfoBubble
-                  icon={'envelope'}
+                  icon={'person'}
                   data={
                     <Field
-                      placeholder={'Fakturamail'}
+                      placeholder={'Studentkontakt'}
+                      label={' '}
                       autoFocus={autoFocus}
-                      name="paymentMail"
+                      name="studentContact"
                       component={TextInput.Field}
                       className={styles.editBubble}
                     />
                   }
-                  meta={'Fakturamail'}
+                  meta={'Studentkontakt'}
                   style={{ order: 2 }}
                 />
               </div>
@@ -181,7 +196,7 @@ export default class EditCompany extends Component {
                         fieldStyle={{ width: '24px', marginBottom: 0 }}
                         inputValue="true"
                       />
-                      {trueIcon}
+                      Ja
                     </label>
                   </div>
                   <div className={styles.editInfo}>
@@ -192,7 +207,7 @@ export default class EditCompany extends Component {
                         fieldStyle={{ width: '24px', marginBottom: 0 }}
                         inputValue="false"
                       />
-                      {falseIcon}
+                      Nei
                     </label>
                   </div>
                 </div>
@@ -201,7 +216,8 @@ export default class EditCompany extends Component {
               <div className={styles.adminNote}>
                 <h3>Notat fra Bedkom</h3>
                 <Field
-                  placeholder={company.adminComment}
+                  placeholder={'Notat fra bedkom'}
+                  label={' '}
                   autoFocus={autoFocus}
                   name="adminComment"
                   component={TextEditor.Field}

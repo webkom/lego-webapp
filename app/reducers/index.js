@@ -123,7 +123,8 @@ export const pageSchema = new schema.Entity(
   { idAttribute: 'slug' }
 );
 export const companySchema = new schema.Entity('companies', {
-  studentContact: userSchema
+  studentContact: userSchema,
+  comments: [commentSchema]
 });
 export const companySemesterSchema = new schema.Entity('companySemesters');
 export const joblistingsSchema = new schema.Entity('joblistings');

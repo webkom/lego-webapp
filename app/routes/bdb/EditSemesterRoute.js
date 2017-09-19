@@ -6,6 +6,7 @@ import { fetch, editSemesterStatus } from '../../actions/CompanyActions';
 import EditSemester from './components/EditSemester';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { uploadFile } from 'app/actions/FileActions';
 
 function validateSemesterStatus(data) {
   const errors = {};

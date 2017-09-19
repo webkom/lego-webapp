@@ -3,9 +3,10 @@ import { dispatched } from 'react-prepare';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
 import { editCompany, fetch } from '../../actions/CompanyActions';
-import EditCompany from './components/EditCompany';
+import CompanyEditor from './components/CompanyEditor';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { uploadFile } from 'app/actions/FileActions';
 
 function validateCompany(data) {
   const errors = {};
@@ -22,6 +23,7 @@ const mapStateToProps = (state, props) => {
   return {
     company,
     companyId,
+    isEditPage: true,
     initialValues: company
       ? {
           name: company.name,
@@ -39,7 +41,7 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { editCompany, fetch };
+const mapDispatchToProps = { editCompany, fetch, uploadFile };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
@@ -54,4 +56,4 @@ export default compose(
     form: 'editCompany',
     validate: validateCompany
   })
-)(EditCompany);
+)(CompanyEditor);

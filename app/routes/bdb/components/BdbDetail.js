@@ -5,7 +5,8 @@ import {
   selectColorCode,
   semesterCodeToName,
   sortStatusesByProminence,
-  sortByYearThenSemester
+  sortByYearThenSemester,
+  selectMostProminentStatus
 } from '../utils.js';
 import BdbRightNav from './BdbRightNav';
 import InfoBubble from 'app/components/InfoBubble';
@@ -13,7 +14,6 @@ import CommentView from 'app/components/Comments/CommentView';
 import Time from 'app/components/Time';
 import { Link } from 'react-router';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { Flex } from 'app/components/Layout';
 
 type Props = {
   company: Object,
@@ -39,8 +39,6 @@ export default class BdbDetail extends Component {
   };
 
   render() {
-    console.log('hallo?');
-    console.log(this.props);
     const {
       company,
       comments,
@@ -49,14 +47,11 @@ export default class BdbDetail extends Component {
       loggedIn
     } = this.props;
 
-    if (!company || !company.semesterStatuses) {
+    if (!company.semesterStatuses) {
       return <LoadingIndicator loading />;
     }
 
-    console.log('asd');
-    console.log(company.semesterStatuses);
-    console.log(company.semesterStatuses.sort(sortByYearThenSemester));
-    const semesters = company.semesterStatuses
+    const semesters = (company.semesterStatuses || [])
       .sort(sortByYearThenSemester)
       .map((status, i) => (
         <tr key={i}>
@@ -64,29 +59,40 @@ export default class BdbDetail extends Component {
             {status.year} {semesterCodeToName(status.semester)}
           </td>
 
-          <td className={styles[selectColorCode(status.contactedStatus)]}>
+          <td
+            className={
+              styles[
+                selectColorCode(
+                  selectMostProminentStatus(status.contactedStatus)
+                )
+              ]
+            }
+            style={{ padding: '5px', lineHeight: '18px' }}
+          >
             {status.contactedStatus
               .sort(sortStatusesByProminence)
               .map(
-                (status, i) =>
-                  getStatusString(status) +
+                (statusCode, i) =>
+                  getStatusString(statusCode) +
                   (i !== status.contactedStatus.length - 1 ? ', ' : '')
               )}
           </td>
 
-          <td style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span>{status.contract || '-'}</span>
-            <span style={{ display: 'flex', flexDirection: 'row' }}>
-              <Link to={`/bdb/${company.id}/semesters/${status.id}`}>
-                <i
-                  className="fa fa-pencil"
-                  style={{ marginRight: '5px', color: 'orange' }}
-                />
-              </Link>
-              <a onClick={() => this.deleteSemesterStatus(status.id)}>
-                <i className="fa fa-times" style={{ color: '#d13c32' }} />
-              </a>
-            </span>
+          <td>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <span>{status.contract || '-'}</span>
+              <span style={{ display: 'flex', flexDirection: 'row' }}>
+                <Link to={`/bdb/${company.id}/semesters/${status.id}`}>
+                  <i
+                    className="fa fa-pencil"
+                    style={{ marginRight: '5px', color: 'orange' }}
+                  />
+                </Link>
+                <a onClick={() => this.deleteSemesterStatus(status.id)}>
+                  <i className="fa fa-times" style={{ color: '#d13c32' }} />
+                </a>
+              </span>
+            </div>
           </td>
         </tr>
       ));
@@ -161,6 +167,31 @@ export default class BdbDetail extends Component {
               />
             </div>
 
+            <div className={styles.infoBubbles}>
+              <InfoBubble
+                icon={'at'}
+                data={company.website}
+                meta={'Nettside'}
+                style={{ order: 0 }}
+              />
+              <InfoBubble
+                icon={'home'}
+                data={company.address}
+                meta={'Adresse'}
+                style={{ order: 1 }}
+              />
+              <InfoBubble
+                icon={'person'}
+                data={`${company.studentContact
+                  ? company.studentContact.firstName
+                  : ''} ${company.studentContact
+                  ? company.studentContact.lastName
+                  : ''}`}
+                meta={'Studentkontakt'}
+                style={{ order: 2 }}
+              />
+            </div>
+
             <h3>Bedriftskontakter</h3>
             {companyContacts.length > 0 ? (
               <div
@@ -215,32 +246,25 @@ export default class BdbDetail extends Component {
               <i style={{ display: 'block' }}>Ingen sememsterstatuser.</i>
             )}
 
-            <Flex justifyContent="space-between">
+            <div>
               <Link to={`/bdb/${company.id}/semesters/add`}>
                 <i className="fa fa-plus-circle" /> Legg til nytt semester
               </Link>
-            </Flex>
+            </div>
 
-            <div className={styles.infoBubbles}>
-              <InfoBubble
-                icon={'at'}
-                data={company.website}
-                meta={'Nettside'}
-                style={{ order: 0 }}
-              />
-              <InfoBubble
-                icon={'home'}
-                data={company.address}
-                meta={'Adresse'}
-                style={{ order: 1 }}
-              />
-              <InfoBubble
-                icon={'person'}
-                data={`${company.studentContact.firstName} ${company
-                  .studentContact.lastName}`}
-                meta={'Studentkontakt'}
-                style={{ order: 2 }}
-              />
+            <div className={styles.files}>
+              <h3>Filer</h3>
+              <ul>
+                {company.files ||
+                (company.files && company.files.length === 0) ? (
+                  <i>Ingen filer.</i>
+                ) : (
+                  company.files.map((file, i) => <li key={i}>{file}</li>)
+                )}
+              </ul>
+              <Link to={`/bdb/${company.id}/semesters/add`}>
+                <i className="fa fa-plus-circle" /> Legg til fil
+              </Link>
             </div>
 
             <div className={styles.adminNote}>

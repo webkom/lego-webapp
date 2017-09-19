@@ -245,11 +245,9 @@ export default class BdbPage extends Component {
           style={{ cursor: 'pointer', margin: '15px 0' }}
         >
           Valg{' '}
-          {this.state.displayOptions ? (
-            <i className="fa fa-caret-down" />
-          ) : (
-            <i className="fa fa-caret-right" />
-          )}
+          {this.state.displayOptions
+            ? <i className="fa fa-caret-down" />
+            : <i className="fa fa-caret-right" />}
         </h2>
 
         <OptionsBox
@@ -259,18 +257,20 @@ export default class BdbPage extends Component {
           filters={this.state.filters}
         />
 
-        {this.state.changedStatuses.length > 0 ? (
-          <Button onClick={this.submitSemesters} dark>
-            Lagre endringer
-          </Button>
-        ) : (
-          ''
-        )}
-        {this.state.submitted && (
+        {this.state.changedStatuses.length > 0
+          ? <Button onClick={this.submitSemesters} dark>
+              Lagre endringer
+            </Button>
+          : ''}
+        {this.state.submitted &&
           <div>
-            <Icon name="checkmark" size={30} /> Lagret!
-          </div>
-        )}
+            <Icon
+              name="checkmark"
+              size={30}
+              style={{ color: 'green', marginBottom: '-10px' }}
+            />{' '}
+            Lagret!
+          </div>}
 
         <i style={{ display: 'block' }}>
           <b>Tips:</b> Du kan endre semestere ved å trykke på dem i listen!
