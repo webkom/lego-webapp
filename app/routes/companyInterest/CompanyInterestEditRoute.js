@@ -1,31 +1,51 @@
-import { connect } from 'react-redux';
-import {
-  updateCompanyInterest,
-  fetchCompanyInterest
-} from 'app/actions/CompanyInterestActions';
 import { compose } from 'redux';
-import { reduxForm } from 'redux-form';
-import CompanyInterestPage from './components/CompanyInterestPage';
+import { connect } from 'react-redux';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
+import { fetchAll } from 'app/actions/SemesterActions';
+import {
+  fetchCompanyInterest,
+  updateCompanyInterest
+} from 'app/actions/CompanyInterestActions';
+import { CompanyInterestEdit, EVENT_TYPES } from './components/CompanyInterestEdit';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
+import { selectSemesters } from 'app/reducers/semesters';
+import { reduxForm } from 'redux-form';
+import { push } from 'react-router-redux';
 
-function loadData({ companyInterestId }, props) {
-  props.fetchCompanyInterest(Number(companyInterestId));
-}
+const loadData = ({ companyInterestId }, props) =>
+  props
+    .fetchAll()
+    .then(() => props.fetchCompanyInterest(Number(companyInterestId)));
 
-function mapStateToProps(state, props) {
+const mapStateToProps = (state, props) => {
   const { companyInterestId } = props.params;
   const company = selectCompanyInterestById(state, { companyInterestId });
-
+  const semesters = selectSemesters(state);
+  const events = company.events;
+  const allEvents = Object.keys(EVENT_TYPES);
+  console.log('company',company);
+  console.log('company.events',company.events);
   return {
-    initialValues: company,
+    initialValues: {
+      ...company,
+      events: allEvents.map(event => ({
+        name: event,
+        checked: company.events && company.events.includes(event)
+      })),
+      semesters: semesters.map(semester => ({
+        ...semester,
+        checked: company.semesters && company.semesters.includes(semester.id)
+      }))
+    },
     companyInterestId
   };
-}
+};
 
 const mapDispatchToProps = {
-  onSubmit: updateCompanyInterest,
-  fetchCompanyInterest
+  updateCompanyInterest,
+  fetchCompanyInterest,
+  fetchAll,
+  push
 };
 
 export default compose(
@@ -38,11 +58,15 @@ export default compose(
         errors.companyName = 'Du må gi møtet en tittel';
       }
       if (!values.contactPerson) {
-        errors.contactPerson = 'Skriv noe dritt';
+        errors.contactPerson = 'Du må oppgi en kontaktperson!';
+      }
+      if (!values.mail) {
+        errors.mail = 'Du må oppgi mail!';
       }
 
       return errors;
-    }
+    },
+    enableReinitialize: true
   }),
   fetchOnUpdate(['companyInterestId', 'loggedIn'], loadData)
-)(CompanyInterestPage);
+)(CompanyInterestEdit);

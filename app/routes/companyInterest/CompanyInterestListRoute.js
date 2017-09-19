@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import {
   fetchAll,
   createCompanyInterest,
-  removeCompanyInterest,
-  updateCompanyInterest
+  removeCompanyInterest
 } from 'app/actions/CompanyInterestActions';
 import CompanyInterestList from './components/CompanyInterestList';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
@@ -24,8 +23,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   fetchAll,
   createCompanyInterest,
-  removeCompanyInterest,
-  updateCompanyInterest
+  removeCompanyInterest
 };
 
 export default compose(

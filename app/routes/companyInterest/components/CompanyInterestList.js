@@ -31,7 +31,7 @@ const CompanyInterestList = (props: Props) => {
     return eventTypes(company).map((event, key) => {
       return (
         <td key={key} className={styles.tableColumn}>
-          <Link to={`/companyInterest/${company.id}`}>
+          <Link to={`/companyInterest/${company.id}/edit`}>
             {event.value}
           </Link>
         </td>
@@ -48,7 +48,7 @@ const CompanyInterestList = (props: Props) => {
           </td>
           <td>
             <b>
-              <Link to={`/companyInterest/${company.id}`}>
+              <Link to={`/companyInterest/${company.id}/edit`}>
                 {event.value}
               </Link>
             </b>

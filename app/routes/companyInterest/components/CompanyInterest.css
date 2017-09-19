@@ -209,8 +209,6 @@
   text-align: left;
   display: table-cell;
 }
-<<<<<<< HEAD
-=======
 
 .companyInterestListMobile {
   display: none;
@@ -237,4 +235,3 @@
   -webkit-box-shadow: 0 0 5px #000;
   box-shadow: 0 0 5px #000;
 }
->>>>>>> need to fix fetching and detail compontent

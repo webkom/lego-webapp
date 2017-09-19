@@ -15,9 +15,13 @@ export const EVENT_TYPES = {
   lunch_presentation: 'Lunsjpresentasjon',
   course: 'Kurs',
   bedex: 'Bedex',
-  anniversary: 'Anniversary',
   other: 'Annet'
 };
+
+const chooseEventType = event => {
+  const number = event.slice(-2);
+  return Object.keys(EVENT_TYPES)[number]
+}
 
 const ACTIVITY_TYPES = [
   { label: 'Annonsere i readme', name: 'readme' },
@@ -56,17 +60,19 @@ const getSemesterBoxes = ({ fields }) => {
 
 const getEventBoxes = ({ fields }) => (
   <FlexRow>
-    {Object.keys(EVENT_TYPES).map((key, index) => (
+    {fields.map((key, index) => (
       <div key={index} className={styles.checkbox}>
+      {console.log('key',key)}
         <div className={styles.checkboxField}>
           <Field
-            key={`event${index}`}
-            name={key}
+            key={`events[${index}]`}
+            name={`events[${index}].checked`}
             component={CheckBox.Field}
-            checked={fields.get(index) ? true : false}
           />
         </div>
-        <span className={styles.checkboxSpan}>{EVENT_TYPES[key]}</span>
+        <span className={styles.checkboxSpan}>
+          {EVENT_TYPES[chooseEventType(key)]}
+        </span>
       </div>
     ))}
   </FlexRow>
@@ -77,11 +83,9 @@ const getActivityBoxes = () =>
     <div key={index} className={styles.checkbox}>
       <div className={styles.checkboxField}>
         <Field
-          id={`activity${index}`}
           key={`activity${index}`}
           name={item.name}
           component={CheckBox.Field}
-          value={item}
         />
       </div>
       <span className={styles.checkboxSpan}>{item.label}</span>
@@ -89,15 +93,18 @@ const getActivityBoxes = () =>
   ));
 
 type Props = {
-  createCompanyInterest: () => void,
+  updateCompanyInterest: () => void,
   handleSubmit: () => void,
-  events: Array,
+  company: Array,
   semesters: Array
 };
 
-const CompanyInterestPage = (props: Props) => {
+export const CompanyInterestEdit = (props: Props) => {
+  console.log('props',props);
+  console.log('events',props.initialValues.events);
   const onSubmit = data => {
     const newData = {
+      id: data.id,
       companyName: data.companyName,
       contactPerson: data.contactPerson,
       mail: data.mail,
@@ -111,11 +118,10 @@ const CompanyInterestPage = (props: Props) => {
       itdagene: data.itdagene,
       comment: data.comment
     };
-    props.createCompanyInterest(newData).then(() => {
-      props.push('/companyInterest');
-    });
+    props
+      .updateCompanyInterest(newData)
+      .then(() => props.push('/companyInterest'));
   };
-
   return (
     <div className={styles.root}>
       <Form onSubmit={props.handleSubmit(onSubmit)}>
@@ -140,7 +146,7 @@ const CompanyInterestPage = (props: Props) => {
         />
 
         <FlexColumn className={styles.checkboxWrapper}>
-          <label htmlFor="semester" className={styles.heading}>
+          <label htmlFor="semesters" className={styles.heading}>
             Semester
           </label>
 
@@ -150,11 +156,9 @@ const CompanyInterestPage = (props: Props) => {
             className={styles.checkboxWrapper}
           />
 
-          <FlexColumn className={styles.checkboxWrapper}>
-            <label htmlFor="events" className={styles.heading}>
-              Events
-            </label>
-          </FlexColumn>
+          <label htmlFor="events" className={styles.heading}>
+            Arrangementer
+          </label>
 
           <FieldArray
             name="events"
@@ -180,7 +184,7 @@ const CompanyInterestPage = (props: Props) => {
           <FlexItem />
           <FlexItem>
             <Button type="submit" submit className={styles.createButton}>
-              {'Opprett bedriftsinteresse'}
+              {'Oppdater bedriftsinteresse'}
             </Button>
           </FlexItem>
         </FlexColumn>
@@ -189,4 +193,4 @@ const CompanyInterestPage = (props: Props) => {
   );
 };
 
-export default CompanyInterestPage;
+export default CompanyInterestEdit;

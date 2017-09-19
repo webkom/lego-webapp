@@ -15,8 +15,7 @@ const mapStateToProps = state => {
   return {
     initialValues: {
       semesters
-    },
-    semesters
+    }
   };
 };
 
