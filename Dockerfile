@@ -17,6 +17,6 @@ ENV RELEASE ${RELEASE}
 RUN yarn run build
 RUN yarn run styleguide:build
 
-RUN SENTRY_AUTH_KEY=${SENTRY_AUTH_KEY} node scripts/release.js --delete
+# RUN SENTRY_AUTH_KEY=${SENTRY_AUTH_KEY} node scripts/release.js --delete
 
 ENTRYPOINT ["node", "dist/server.js"]
