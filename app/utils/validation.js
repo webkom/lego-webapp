@@ -15,7 +15,7 @@ export const isEmail = (message = 'Ugyldig e-post') =>
   matchesRegex(EMAIL_REGEX, message);
 
 export const validPassword = (
-  message = 'Passordet må inneholde store og små bokstaver og tall'
+  message = 'Passordet må inneholde store og små bokstaver og tall, samt være minst 8 tegn langt.'
 ) => matchesRegex(PASSWORD_REGEX, message);
 
 export const whenPresent = validator => (value, context) =>
