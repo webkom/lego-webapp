@@ -202,9 +202,7 @@ export const selectPoolsWithRegistrationsForEvent = createSelector(
   (pools, registrationsById) =>
     pools.map(pool => ({
       ...pool,
-      registrations: (pool.registrations || []).map(
-        regId => registrationsById[regId]
-      )
+      registrations: pool.registrations.map(regId => registrationsById[regId])
     }))
 );
 
@@ -217,15 +215,20 @@ export const selectMergedPoolWithRegistrations = createSelector(
       {
         name: 'Deltakere',
         ...pools.reduce(
-          (acc, pool) => ({
-            capacity: acc.capacity + pool.capacity,
-            permissionGroups: acc.permissionGroups.concat(
+          (total, pool) => {
+            const capacity = total.capacity + pool.capacity;
+            const permissionGroups = total.permissionGroups.concat(
               pool.permissionGroups
-            ),
-            registrations: acc.registrations.concat(
-              (pool.registrations || []).map(regId => registrationsById[regId])
-            )
-          }),
+            );
+            const registrations = total.registrations.concat(
+              pool.registrations.map(regId => registrationsById[regId])
+            );
+            return {
+              capacity,
+              permissionGroups,
+              registrations
+            };
+          },
           { capacity: 0, permissionGroups: [], registrations: [] }
         )
       }
