@@ -45,7 +45,7 @@ function merge(old, updated) {
   );
 }
 
-export function entities(key: string) {
+export function entities(key: string, fetchType?: ActionTypeObject) {
   return (
     state: any = {
       actionGrant: [],
@@ -54,10 +54,14 @@ export function entities(key: string) {
     },
     action: any
   ) => {
-    const result = get(action, ['payload', 'entities', key]);
-    if (!result) {
+    const result = get(action, ['payload', 'entities', key], {});
+    const actionGrant = get(action, ['payload', 'actionGrant'], []);
+
+    if (
+      !action.payload ||
+      action.type !== get(fetchType, 'SUCCESS', action.type)
+    )
       return state;
-    }
 
     return {
       ...state,
@@ -66,7 +70,7 @@ export function entities(key: string) {
         state.items,
         Object.keys(result).map(i => parseInt(i, 10) || i)
       ),
-      actionGrant: union(state.actionGrant, action.payload.actionGrant || [])
+      actionGrant: union(state.actionGrant, actionGrant)
     };
   };
 }
@@ -112,7 +116,7 @@ export default function createEntityReducer({
 
   const reduce = joinReducers(
     fetching(fetchType),
-    entities(key),
+    entities(key, fetchType),
     optimistic(mutateType),
     mutate
   );

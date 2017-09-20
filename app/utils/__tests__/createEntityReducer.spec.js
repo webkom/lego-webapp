@@ -42,7 +42,7 @@ describe('createEntityReducer', () => {
   it('should pick up entities from actions', () => {
     expect(
       reducer(undefined, {
-        type: 'SUCCESS',
+        type: FETCH.SUCCESS,
         payload: {
           actionGrant: ['list'],
           entities: {
@@ -67,7 +67,7 @@ describe('createEntityReducer', () => {
   it('should handle items as strings gracefully', () => {
     expect(
       reducer(undefined, {
-        type: 'SUCCESS',
+        type: FETCH.SUCCESS,
         payload: {
           actionGrant: ['list'],
           entities: {
