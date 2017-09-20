@@ -5,9 +5,18 @@ import {
 } from './utils';
 
 const sortByAttribute = attribute => ascending => (a, b) => {
-  if (a[attribute] === b[attribute]) {
-    return a.name.localeCompare(b.name);
+  if ((!a[attribute] && !b[attribute]) || a[attribute] === b[attribute]) {
+    return ascending
+      ? a.name.localeCompare(b.name)
+      : b.name.localeCompare(a.name);
   }
+  if (!a[attribute]) {
+    return ascending ? 1 : -1;
+  }
+  if (!b[attribute]) {
+    return ascending ? -1 : 1;
+  }
+
   if (a[attribute].fullName) {
     return ascending
       ? a[attribute].fullName.localeCompare(b[attribute].fullName)

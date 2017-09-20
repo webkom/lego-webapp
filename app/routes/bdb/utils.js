@@ -1,5 +1,3 @@
-import React from 'react';
-
 export const statusStrings = {
   company_presentation: 'Bedpres',
   course: 'Kurs',
@@ -108,4 +106,37 @@ export const httpCheck = link => {
       ? link
       : `http://${link}`;
   return link === '' ? link : httpLink;
+};
+
+export const getContactedStatuses = (contactedStatuses, statusString) => {
+  const statusIsAlreadySelected =
+    contactedStatuses.indexOf(statusString) !== -1;
+
+  if (statusIsAlreadySelected) {
+    contactedStatuses.splice(contactedStatuses.indexOf(statusString), 1);
+  } else {
+    contactedStatuses.push(statusString);
+  }
+
+  // Remove 'not contacted' if anything else is selected
+  if (
+    contactedStatuses.length > 1 &&
+    contactedStatuses.indexOf('not_contacted') !== -1
+  ) {
+    contactedStatuses.splice(contactedStatuses.indexOf('not_contacted'), 1);
+  }
+
+  // Remove 'contacted', 'not_interested and 'interested'
+  // as a statuses if any the others in that list are selected
+  ['contacted', 'not_interested', 'interested'].map(status => {
+    if (
+      contactedStatuses.length > 1 &&
+      contactedStatuses.indexOf(status) !== -1 &&
+      status !== statusString
+    ) {
+      contactedStatuses.splice(contactedStatuses.indexOf(status), 1);
+    }
+  });
+
+  return contactedStatuses;
 };

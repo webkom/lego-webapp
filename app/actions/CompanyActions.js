@@ -10,6 +10,7 @@ import {
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 import type { Thunk } from 'app/types';
+import { addNotification } from 'app/actions/NotificationActions';
 
 export function fetchAll() {
   return callAPI({
@@ -68,6 +69,7 @@ export function addCompany(data: Object): Thunk<*> {
       .then(action => {
         const id = action.payload.result;
         dispatch(stopSubmit('company'));
+        dispatch(addNotification({ message: 'Bedrift lagt til.' }));
         dispatch(push(`/bdb/${id}`));
       })
       .catch();
@@ -91,6 +93,7 @@ export function editCompany({ companyId, ...data }: Object): Thunk<*> {
       })
     ).then(() => {
       dispatch(stopSubmit('company'));
+      dispatch(addNotification({ message: 'Bedrift endret.' }));
       dispatch(push(`/bdb/${companyId}/`));
     });
   };
@@ -98,21 +101,18 @@ export function editCompany({ companyId, ...data }: Object): Thunk<*> {
 
 export function deleteCompany(companyId: number): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
         types: Company.DELETE,
         endpoint: `/companies/${companyId}/`,
-        method: 'delete',
+        method: 'DELETE',
         meta: {
-          companyId,
+          id: Number(companyId),
           errorMessage: 'Deleting company failed'
-        },
-        schema: companySchema
+        }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
+      dispatch(addNotification({ message: 'Bedrift slettet.' }));
       dispatch(push('/bdb/'));
     });
   };
@@ -125,8 +125,6 @@ export function addSemesterStatus(
   detail: boolean = false
 ): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
         types: Company.ADD_SEMESTER_STATUS,
@@ -138,7 +136,6 @@ export function addSemesterStatus(
         }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
       if (detail) {
         dispatch(push(`/bdb/${companyId}/`));
       } else {
@@ -149,35 +146,23 @@ export function addSemesterStatus(
 }
 
 export function editSemesterStatus(
-<<<<<<< HEAD
-  { companyId, semesterId, contactedStatus, contract }: Object,
+  { companyId, semesterStatusId, ...data }: Object,
   // TODO: change this to take in an object,
   // editSemesterStatus(something, false) really doesn't say much
   detail: boolean = false
 ): Thunk<*> {
-=======
-  { companyId, semesterStatusId, contactedStatus, contract },
-  detail = false
-) {
->>>>>>> Select most prominent status when deciding which color each semesterstatus should be
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
         types: Company.EDIT_SEMESTER_STATUS,
         endpoint: `/companies/${companyId}/semester-statuses/${semesterStatusId}/`,
         method: 'PATCH',
-        body: {
-          contactedStatus,
-          contract
-        },
+        body: data,
         meta: {
           errorMessage: 'Editing semester status failed'
         }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
       if (detail) {
         dispatch(push(`/bdb/${companyId}/`));
       } else {
@@ -192,8 +177,6 @@ export function deleteSemesterStatus(
   semesterId: number
 ): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
         types: Company.DELETE_SEMESTER_STATUS,
@@ -203,11 +186,10 @@ export function deleteSemesterStatus(
           companyId,
           semesterId,
           errorMessage: 'Deleting semester status failed'
-        },
-        schema: companySchema
+        }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
+      dispatch(addNotification({ message: 'Semester Status slettet' }));
       dispatch(push(`/bdb/${companyId}/`));
     });
   };
@@ -232,8 +214,6 @@ export function addCompanyContact({
   phone
 }: Object): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
         types: Company.ADD_COMPANY_CONTACT,
@@ -250,7 +230,6 @@ export function addCompanyContact({
         }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
       dispatch(push(`/bdb/${companyId}/`));
     });
   };
@@ -265,8 +244,6 @@ export function editCompanyContact({
   phone
 }: Object): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
         types: Company.EDIT_COMPANY_CONTACT,
@@ -283,7 +260,6 @@ export function editCompanyContact({
         }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
       dispatch(push(`bdb/${companyId}`));
     });
   };
@@ -294,22 +270,18 @@ export function deleteCompanyContact(
   companyContactId: number
 ): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
         types: Company.DELETE_COMPANY_CONTACT,
         endpoint: `/companies/${companyId}/company-contacts/${companyContactId}/`,
-        method: 'delete',
+        method: 'DELETE',
         meta: {
           companyId,
           companyContactId,
           errorMessage: 'Deleting company contact failed'
-        },
-        schema: companySchema
+        }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
       dispatch(push(`/bdb/${companyId}/`));
     });
   };
@@ -329,8 +301,6 @@ export function fetchSemesters() {
 
 export function addSemester(year, semester) {
   return dispatch => {
-    dispatch(startSubmit('companySemester'));
-
     return dispatch(
       callAPI({
         types: Company.ADD_SEMESTER,
@@ -344,8 +314,6 @@ export function addSemester(year, semester) {
           errorMessage: 'Adding semester failed'
         }
       })
-    ).then(() => {
-      dispatch(stopSubmit('companySemester'));
-    });
+    );
   };
 }

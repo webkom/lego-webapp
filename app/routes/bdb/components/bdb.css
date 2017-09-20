@@ -80,6 +80,20 @@
   }
 }
 
+.yearNavigator {
+  margin-bottom: -5px;
+  transition: color 0.3s ease;
+
+  &:hover {
+    cursor: pointer;
+    color: var(--lego-link-color);
+  }
+
+  &:focus {
+    background: none;
+  }
+}
+
 .adminComment {
   padding: 5px 0;
   line-height: 17px;
@@ -254,15 +268,6 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 
 .invisRow {
   background-color: white;
-}
-
-.invisRow i {
-  transition: color 0.3s ease;
-
-  &:hover {
-    color: red;
-    cursor: pointer;
-  }
 }
 
 .rightArrow {
