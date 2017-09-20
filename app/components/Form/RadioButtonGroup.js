@@ -1,19 +1,27 @@
+// @flow
 import React from 'react';
+import styles from './RadioButtonGroup.css';
+import type RadioButton from './RadioButton';
 
-const RadioButtonGroup = ({ name, label, children }) => {
+type Props = {
+  name: string,
+  label: string,
+  children: Array<RadioButton>
+};
+
+const RadioButtonGroup = ({ name, label, children }: Props) => {
   return (
     <div>
-      <p>{label}</p>
-      {React.Children.map(children, child =>
-        React.cloneElement(child, {
-          name,
-          fieldStyle: {
-            display: 'inline-flex',
-            marginRight: '10px',
-            width: 'auto'
-          }
-        })
-      )}
+      <label className={styles.groupLabel}>{label}</label>
+      <div className={styles.group}>
+        {React.Children.map(children, child =>
+          React.cloneElement(child, {
+            name,
+            fieldClassName: styles.radioField,
+            labelClassName: styles.radioLabel
+          })
+        )}
+      </div>
     </div>
   );
 };
