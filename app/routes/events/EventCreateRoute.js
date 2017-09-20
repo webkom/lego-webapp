@@ -29,7 +29,7 @@ const mapStateToProps = (state, props) => {
       company: null,
       location: 'TBA',
       isPriced: false,
-      useStripe: false,
+      useStripe: true,
       priceMember: 0,
       mergeTime: time(12),
       useCaptcha: true,

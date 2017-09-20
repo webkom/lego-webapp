@@ -196,7 +196,7 @@ export default class EventDetail extends Component {
                 <div>
                   <li>Dette er et betalt arrangement</li>
                   <li>
-                    Pris: <strong>{event.price / 100},-</strong>
+                    Pris: <strong>{event.priceMember / 100},-</strong>
                   </li>
                 </div>
               )}
