@@ -17,6 +17,13 @@ function mutateCompanies(state, action) {
       };
     }
 
+    case Company.EDIT.SUCCESS: {
+      return {
+        ...state,
+        items: state.items.filter(id => id !== action.meta.optimisticId)
+      };
+    }
+
     case Company.DELETE_SEMESTER_STATUS.SUCCESS: {
       const companyId = action.meta.companyId;
       return {

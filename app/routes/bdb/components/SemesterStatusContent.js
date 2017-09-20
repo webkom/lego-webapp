@@ -12,7 +12,8 @@ import {
 
 type Props = {
   semesterStatus: Object,
-  editFunction: () => void
+  editFunction: () => void,
+  style?: Object
 };
 
 export default class SemesterStatusContent extends Component {
@@ -23,10 +24,10 @@ export default class SemesterStatusContent extends Component {
   };
 
   render() {
-    const { semesterStatus, editFunction } = this.props;
+    const { semesterStatus, editFunction, style } = this.props;
 
     const statusesToRender = (
-      <div style={{ width: '100%' }}>
+      <div style={{ width: '100%', ...style }}>
         {semesterStatus.contactedStatus.length > 0
           ? semesterStatus.contactedStatus
               .sort(sortStatusesByProminence)
@@ -46,7 +47,7 @@ export default class SemesterStatusContent extends Component {
     const dropDownItems = (
       <Dropdown.List>
         {statusCodes.map((statusString, j) => (
-          <a key={j} onClick={() => editFunction(statusString)}>
+          <a key={j} onClick={e => editFunction(statusString)}>
             <Dropdown.ListItem className={styles.dropDownItem}>
               <div>
                 {semesterStatus.contactedStatus.indexOf(statusString) !== -1 ? (
