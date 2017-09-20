@@ -14,11 +14,19 @@ import {
 import { FlexRow } from 'app/components/FlexBox';
 import UserImage from './UserImage';
 import ChangePassword from './ChangePassword';
+import styles from './UserSettings.css';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 
+export type PasswordPayload = {
+  newPassword: string,
+  password: string,
+  retype_new_password: string
+};
+
 type Props = {
-  handleSubmit: () => void,
-  updateUser: () => void,
+  changePassword: PasswordPayload => Promise<void>,
+  handleSubmit: ((Object) => Promise<void>) => Promise<void>,
+  updateUser: Object => Promise<void>,
   invalid: boolean,
   pristine: boolean,
   submitting: boolean,
@@ -46,6 +54,7 @@ const UserSettings = (props: Props) => {
         throw new SubmissionError(err.payload.response.jsonData);
       }
     });
+
   return (
     <div>
       <FlexRow justifyContent="center">
@@ -102,7 +111,7 @@ const UserSettings = (props: Props) => {
 
         <Field
           placeholder="abc@stud.ntnu.no"
-          label="email"
+          label="Epost"
           name="email"
           component={TextInput.Field}
         />
@@ -111,10 +120,11 @@ const UserSettings = (props: Props) => {
           Submit
         </Button>
       </Form>
-      <br />
-      <hr />
-      <br />
-      <ChangePassword changePassword={changePassword} />
+
+      <div className={styles.changePassword}>
+        <h2>Endre passord</h2>
+        <ChangePassword changePassword={changePassword} />
+      </div>
     </div>
   );
 };

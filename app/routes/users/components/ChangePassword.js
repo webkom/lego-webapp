@@ -9,6 +9,14 @@ import {
   sameAs
 } from 'app/utils/validation';
 
+type Props = {
+  invalid: boolean,
+  pristine: boolean,
+  submitting: boolean,
+  handleSubmit: Event => Promise<void>,
+  changePassword: Object => Promise<void>
+};
+
 const ChangePassword = ({
   handleSubmit,
   invalid,
@@ -16,7 +24,7 @@ const ChangePassword = ({
   submitting,
   changePassword,
   ...props
-}) => {
+}: Props) => {
   const disabledButton = invalid || pristine || submitting;
   const onSubmit = data =>
     changePassword(data).catch(err => {
