@@ -11,6 +11,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import Feed from 'app/components/Feed';
 import styles from './UserProfile.css';
 import { Flex } from 'app/components/Layout';
+import Button from 'app/components/Button';
 
 const fieldTranslations = {
   username: 'brukernavn',
@@ -22,6 +23,18 @@ type Props = {
   isMe: boolean,
   feedItems: Array<any>,
   feed: Object
+};
+
+const FollowButton = ({ user, isFollowing, followUser, unfollowUser }) => {
+  const label = isFollowing ? 'Slutt å følge ' : 'Følg ';
+  const onClick = isFollowing ? unfollowUser : followUser;
+
+  return (
+    <Button onClick={onClick}>
+      {label}
+      {user.firstName}
+    </Button>
+  );
 };
 
 export default class UserProfile extends Component {
@@ -43,10 +56,19 @@ export default class UserProfile extends Component {
   }
 
   render() {
-    const { user, isMe, feedItems, feed } = this.props;
+    const {
+      user,
+      currentUser,
+      isMe,
+      feedItems,
+      feed,
+      followUser,
+      unfollowUser
+    } = this.props;
     if (!user) {
       return <LoadingIndicator loading />;
     }
+    const isFollowing = (currentUser.following || []).includes(user.id);
 
     return (
       <div className={styles.root}>
@@ -67,7 +89,12 @@ export default class UserProfile extends Component {
               {isMe ? (
                 <Link to="/users/me/settings/profile">Settings</Link>
               ) : (
-                ''
+                <FollowButton
+                  user={user}
+                  isFollowing={isFollowing}
+                  followUser={() => followUser(currentUser, user)}
+                  unfollowUser={() => unfollowUser(currentUser, user)}
+                />
               )}
             </Card>
           </div>

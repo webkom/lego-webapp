@@ -181,7 +181,11 @@ export const User = {
   SEND_STUDENT_CONFIRMATION_TOKEN: generateStatuses(
     'User.SEND_STUDENT_CONFIRMATION_TOKEN'
   ),
-  CONFIRM_STUDENT_USER: generateStatuses('User.CONFIRM_STUDENT_USER')
+  CONFIRM_STUDENT_USER: generateStatuses('User.CONFIRM_STUDENT_USER'),
+  FOLLOW_USER: generateStatuses('User.FOLLOW_USER'),
+  UNFOLLOW_USER: generateStatuses('User.UNFOLLOW_USER'),
+  FETCH_USER_FOLLOWINGS: generateStatuses('User.FETCH_USER_FOLLOWINGS'),
+  GET_FOLLOW: generateStatuses('User.GET_FOLLOW')
 };
 
 /**
