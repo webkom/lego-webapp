@@ -34,10 +34,13 @@ const mapStateToProps = (state, props) => {
   return {
     initialValues: {
       ...event,
+      priceMember: event.priceMember / 100,
       pools: pools.map(pool => ({
         ...pool,
-        permissionGroups: (pool.permissionGroups || [])
-          .map(group => ({ label: group.name, value: group.id }))
+        permissionGroups: (pool.permissionGroups || []).map(group => ({
+          label: group.name,
+          value: group.id
+        }))
       })),
       company: event.company && {
         label: event.company.name,
