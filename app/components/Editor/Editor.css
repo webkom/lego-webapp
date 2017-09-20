@@ -26,3 +26,38 @@
 .hoverMenuButton:hover {
   color: #fff;
 }
+
+.sideMenu {
+  line-height: 1;
+  position: absolute;
+  margin: 0 2px;
+  user-select: none;
+  font-size: 22px;
+  margin-left: -20px;
+}
+
+.toggleSideMenuButton {
+  display: inline-block;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.activeToggleSideMenuButton {
+  transform: rotate(45deg);
+}
+
+.sideMenuButtons {
+  display: inline-flex;
+  margin-left: 10px;
+}
+
+.sideMenuButton {
+  margin: 0 6px;
+  z-index: 300;
+  cursor: pointer;
+  vertical-align: -webkit-baseline-middle;
+}
+
+.activeSideMenuButton {
+
+}

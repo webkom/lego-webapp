@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import Icon from 'app/components/Icon/index';
 import { ImageUpload } from 'app/components/Upload/index';
-import styles from './sideMenu.css';
+import styles from './Editor.css';
 import { findDOMNode } from 'slate-react';
 import cx from 'classnames';
 
@@ -14,9 +14,18 @@ export type Props = {
   uploadFile: () => Promise
 };
 
-const SideMenuButton = ({ onClick, active, icon }) =>
+export type SideMenuButtonProps = {
+  icon: string,
+  active: boolean,
+  onClick: properties => void
+};
+
+const SideMenuButton = ({ onClick, active, icon }: SideMenuButtonProps) =>
   <span
-    className={cx(styles.toolbarButton, styles.toolbarButtonActive && active)}
+    className={cx(
+      styles.sideMenuButton,
+      styles.activeSideMenuButtons && active
+    )}
     onMouseDown={e => {
       e.preventDefault();
       e.stopPropagation();
@@ -105,22 +114,22 @@ export default class SideMenu extends Component {
   render() {
     return (
       <div
-        className={styles.toolbar}
+        className={styles.sideMenu}
         ref={c => {
           this.container = c;
         }}
       >
         <div
           className={cx(
-            this.state.open ? styles.activeButton : '',
-            styles.initButton
+            this.state.open ? styles.activeToggleSideMenuButton : '',
+            styles.toggleSideMenuButton
           )}
         >
           <Icon onMouseDown={this.toggle} name="add" />
         </div>
 
         {this.state.open &&
-          <div className={styles.toolbarButtons}>
+          <div className={styles.sideMenuButtons}>
             <SideMenuButton icon="remove" onClick={this.insertSeparator} />
             <SideMenuButton icon="image" onClick={this.toggleImage} />
           </div>}

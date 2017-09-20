@@ -16,13 +16,6 @@ const htmlArgs = { rules };
 if (parseHtml) htmlArgs.parseHtml = parseHtml;
 const html = new Html(htmlArgs);
 
-/*
-- lists (ol, ul)
-- block and inline styling
-- "---" for hr
-- image
-*/
-
 type Props = {
   value?: 'string',
   onChange: string => void
