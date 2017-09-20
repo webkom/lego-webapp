@@ -136,6 +136,7 @@ export function addSemesterStatus(
         }
       })
     ).then(() => {
+      dispatch(addNotification({ message: 'Semester status lagt til.' }));
       if (detail) {
         dispatch(push(`/bdb/${companyId}/`));
       } else {
@@ -163,6 +164,7 @@ export function editSemesterStatus(
         }
       })
     ).then(() => {
+      dispatch(addNotification({ message: 'Semester status endret.' }));
       if (detail) {
         dispatch(push(`/bdb/${companyId}/`));
       } else {

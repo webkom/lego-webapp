@@ -1,12 +1,18 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
-import { addSemesterStatus } from '../../actions/CompanyActions';
+import {
+  addSemesterStatus,
+  fetchSemesters,
+  addSemester
+} from '../../actions/CompanyActions';
 import AddSemester from './components/AddSemester';
 import moment from 'moment';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { uploadFile } from 'app/actions/FileActions';
+import { dispatched } from 'react-prepare';
+import { selectCompanySemesters } from 'app/reducers/companySemesters';
 
 function validateSemesterStatus(data) {
   const errors = {};
@@ -28,17 +34,20 @@ function validateSemesterStatus(data) {
 const mapStateToProps = (state, props) => ({
   companyId: props.params.companyId,
   initialValues: props.params.companyId && {
-    bedex: false,
     year: moment().year(),
     semester: 0,
-    contactedStatus: 6
-  }
+    contactedStatus: 'not_contacted'
+  },
+  companySemesters: selectCompanySemesters()
 });
 
-const mapDispatchToProps = { addSemesterStatus, uploadFile };
+const mapDispatchToProps = { addSemesterStatus, uploadFile, addSemester };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
+  dispatched((props, dispatch) => dispatch(fetchSemesters()), {
+    componentWillReceiveProps: false
+  }),
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'addSemester',

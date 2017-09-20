@@ -1,19 +1,15 @@
 import React, { Component } from 'react';
 import styles from './bdb.css';
-import {
-  getStatusString,
-  selectColorCode,
-  semesterCodeToName,
-  sortStatusesByProminence,
-  sortByYearThenSemester,
-  selectMostProminentStatus
-} from '../utils.js';
+import { sortByYearThenSemester, getContactedStatuses } from '../utils.js';
 import BdbRightNav from './BdbRightNav';
 import InfoBubble from 'app/components/InfoBubble';
 import CommentView from 'app/components/Comments/CommentView';
 import Time from 'app/components/Time';
 import { Link } from 'react-router';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import Image from 'app/components/Image';
+import SemesterStatusDetail from './SemesterStatusDetail';
+import Button from 'app/components/Button';
 
 type Props = {
   company: Object,
@@ -22,11 +18,74 @@ type Props = {
   currentUser: any,
   deleteSemesterStatus: () => void,
   deleteCompanyContact: () => void,
-  loggedIn: boolean
+  loggedIn: boolean,
+  companySemesters: Array<Object>,
+  editSemesterStatus: () => void
 };
 
 export default class BdbDetail extends Component {
   props: Props;
+
+  state = {
+    addingFiles: false,
+    changedSemesters: [],
+    changedFiles: []
+  };
+
+  semesterStatusOnChange = (semesterStatus, statusString) => {
+    console.log('semesterStatusOnChange');
+    console.log(semesterStatus);
+    console.log(statusString);
+
+    const { changedSemesters } = this.state;
+
+    const newSemesterStatus = {
+      ...semesterStatus,
+      contactedStatus: getContactedStatuses(
+        semesterStatus.contactedStatus,
+        statusString
+      )
+    };
+    const oldSemester = changedSemesters.find(
+      status => status.id === semesterStatus.id
+    );
+
+    if (oldSemester) {
+      const newSemesters = changedSemesters.map(
+        status => (status.id === semesterStatus.id ? newSemesterStatus : status)
+      );
+      this.setState({ semesterStatuses: newSemesters });
+    } else {
+      this.setState(state => ({
+        changedSemesters: state.changedSemesters.concat(newSemesterStatus)
+      }));
+    }
+  };
+
+  submitSemesters = () => {
+    const { companySemesters, editSemesterStatus, company } = this.props;
+
+    const { changedSemesters } = this.state;
+
+    changedSemesters.map(semesterStatus => {
+      const globalSemester = companySemesters.find(
+        companySemester =>
+          companySemester.year === semesterStatus.year &&
+          companySemester.semester === semesterStatus.semester
+      );
+      const sendableSemester = {
+        contactedStatus: semesterStatus.contactedStatus,
+        contract: semesterStatus.contract,
+        semesterStatusId: semesterStatus.id,
+        semester: globalSemester.id,
+        companyId: company.id
+      };
+
+      editSemesterStatus(sendableSemester, true);
+
+      this.setState({ changedSemesters: [] });
+    });
+  };
 
   deleteSemesterStatus = semesterId => {
     const { deleteSemesterStatus, company } = this.props;
@@ -39,6 +98,8 @@ export default class BdbDetail extends Component {
   };
 
   render() {
+    console.log('rendering...');
+    console.log(this.state.changedSemesters);
     const {
       company,
       comments,
@@ -51,51 +112,22 @@ export default class BdbDetail extends Component {
       return <LoadingIndicator loading />;
     }
 
-    const semesters = (company.semesterStatuses || [])
+    const mergedSemesters = company.semesterStatuses.map(
+      status =>
+        this.state.changedSemesters.find(changed => changed.id === status.id) ||
+        status
+    );
+
+    const semesters = (mergedSemesters || [])
       .sort(sortByYearThenSemester)
       .map((status, i) => (
-        <tr key={i}>
-          <td>
-            {status.year} {semesterCodeToName(status.semester)}
-          </td>
-
-          <td
-            className={
-              styles[
-                selectColorCode(
-                  selectMostProminentStatus(status.contactedStatus)
-                )
-              ]
-            }
-            style={{ padding: '5px', lineHeight: '18px' }}
-          >
-            {status.contactedStatus
-              .sort(sortStatusesByProminence)
-              .map(
-                (statusCode, i) =>
-                  getStatusString(statusCode) +
-                  (i !== status.contactedStatus.length - 1 ? ', ' : '')
-              )}
-          </td>
-
-          <td>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span>{status.contract || '-'}</span>
-              <span style={{ display: 'flex', flexDirection: 'row' }}>
-                <Link to={`/bdb/${company.id}/semesters/${status.id}`}>
-                  <i
-                    className="fa fa-pencil"
-                    style={{ marginRight: '5px', color: 'orange' }}
-                  />{' '}
-                  e
-                </Link>
-                <a onClick={() => this.deleteSemesterStatus(status.id)}>
-                  <i className="fa fa-times" style={{ color: '#d13c32' }} /> d
-                </a>
-              </span>
-            </div>
-          </td>
-        </tr>
+        <SemesterStatusDetail
+          status={status}
+          key={i}
+          companyId={company.id}
+          deleteSemesterStatus={this.deleteSemesterStatus}
+          editFunction={this.semesterStatusOnChange}
+        />
       ));
 
     let companyContacts = [];
@@ -139,6 +171,12 @@ export default class BdbDetail extends Component {
       <div className={styles.root}>
         <div className={styles.detail}>
           <div className={styles.leftSection}>
+            {company.logo && (
+              <Image
+                src={company.logo}
+                style={{ height: 'inherit', border: '1px solid #ccc' }}
+              />
+            )}
             <h1>
               {company.name} {!company.active && 'Inaktiv'}
             </h1>
@@ -246,6 +284,13 @@ export default class BdbDetail extends Component {
               <i style={{ display: 'block' }}>Ingen sememsterstatuser.</i>
             )}
 
+            {this.state.changedSemesters &&
+              this.state.changedSemesters.length > 0 && (
+                <Button dark onClick={this.submitSemesters}>
+                  Lagre semestere
+                </Button>
+              )}
+
             <div>
               <Link to={`/bdb/${company.id}/semesters/add`}>
                 <i className="fa fa-plus-circle" /> Legg til nytt semester
@@ -255,11 +300,10 @@ export default class BdbDetail extends Component {
             <div className={styles.files}>
               <h3>Filer</h3>
               <ul>
-                {!company.files ||
-                (company.files && company.files.length === 0) ? (
+                {!this.state.files || this.state.files.length === 0 ? (
                   <i>Ingen filer.</i>
                 ) : (
-                  company.files.map((file, i) => <li key={i}>{file}</li>)
+                  this.state.files.map((file, i) => <li key={i}>{file}</li>)
                 )}
               </ul>
               <Link to={`/bdb/${company.id}/semesters/add`}>

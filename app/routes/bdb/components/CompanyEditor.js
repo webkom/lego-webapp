@@ -28,11 +28,13 @@ export default class CompanyEditor extends Component {
   onSubmit = formContent => {
     const { addCompany, editCompany, company, isEditPage } = this.props;
     if (isEditPage) {
-      editCompany({
-        ...formContent,
-        companyId: company.id,
-        website: httpCheck(formContent.website)
-      });
+      editCompany(
+        {
+          ...formContent,
+          website: httpCheck(formContent.website)
+        },
+        company.id
+      );
     } else {
       addCompany({
         ...formContent,

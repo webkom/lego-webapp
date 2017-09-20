@@ -21,10 +21,6 @@ export default {
       ...resolveAsyncRoute(() => import('./AddSemesterRoute'))
     },
     {
-      path: ':companyId/semesters/:semesterId',
-      ...resolveAsyncRoute(() => import('./EditSemesterRoute'))
-    },
-    {
       path: ':companyId/company-contacts/add',
       ...resolveAsyncRoute(() => import('./AddCompanyContactRoute'))
     },
