@@ -3,6 +3,8 @@ import styles from './bdb.css';
 import { Link } from 'react-router';
 import CompanySingleRow from './CompanySingleRow';
 import { indexToSemester } from '../utils.js';
+import Icon from 'app/components/Icon';
+import cx from 'classnames';
 
 type Props = {
   companies: Array<Object>,
@@ -105,10 +107,10 @@ export default class CompanyList extends Component {
 
           <div className={styles[this.showOrHideSortIcon(item.sortLink)]}>
             <div className={styles.upArrow}>
-              <i className="fa fa-caret-up" aria-hidden="true" />
+              <Icon name="arrow-up" size={16} />
             </div>
             <div className={styles.downArrow}>
-              <i className="fa fa-caret-down" aria-hidden="true" />
+              <Icon name="arrow-down" size={16} />
             </div>
           </div>
         </Link>
@@ -121,17 +123,29 @@ export default class CompanyList extends Component {
           <thead>
             <tr className={styles.invisRow}>
               <td />
-              <td>
-                <i
-                  onClick={() => changeSemesters(false)}
-                  className="fa fa-arrow-left"
-                />
+              <td
+                className={styles.yearNavigator}
+                id="fuckyou"
+                onClick={() => changeSemesters(false)}
+              >
+                <Icon
+                  name="arrow-back"
+                  style={{ marginRight: '5px' }}
+                  size={16}
+                />{' '}
+                Forrige år
               </td>
               <td />
-              <td className={styles.rightArrow}>
-                <i
-                  onClick={() => changeSemesters(true)}
-                  className="fa fa-arrow-right"
+              <td
+                className={cx(styles.rightArrow, styles.yearNavigator)}
+                id="fuckyou2"
+                onClick={() => changeSemesters(true)}
+              >
+                Neste år
+                <Icon
+                  name="arrow-forward"
+                  style={{ marginLeft: '5px' }}
+                  size={16}
                 />
               </td>
             </tr>

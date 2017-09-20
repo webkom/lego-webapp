@@ -86,10 +86,11 @@ export default class BdbDetail extends Component {
                   <i
                     className="fa fa-pencil"
                     style={{ marginRight: '5px', color: 'orange' }}
-                  />
+                  />{' '}
+                  e
                 </Link>
                 <a onClick={() => this.deleteSemesterStatus(status.id)}>
-                  <i className="fa fa-times" style={{ color: '#d13c32' }} />
+                  <i className="fa fa-times" style={{ color: '#d13c32' }} /> d
                 </a>
               </span>
             </div>
@@ -136,12 +137,11 @@ export default class BdbDetail extends Component {
 
     return (
       <div className={styles.root}>
-        <h1>
-          {company.name} {!company.active && 'Inaktiv'}
-        </h1>
-
         <div className={styles.detail}>
           <div className={styles.leftSection}>
+            <h1>
+              {company.name} {!company.active && 'Inaktiv'}
+            </h1>
             <div className={styles.description}>
               {company.description || 'Ingen beskrivelse tilgjengelig.'}
             </div>
@@ -255,7 +255,7 @@ export default class BdbDetail extends Component {
             <div className={styles.files}>
               <h3>Filer</h3>
               <ul>
-                {company.files ||
+                {!company.files ||
                 (company.files && company.files.length === 0) ? (
                   <i>Ingen filer.</i>
                 ) : (

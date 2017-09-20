@@ -13,9 +13,7 @@ function mutateCompanies(state, action) {
     case Company.DELETE.SUCCESS: {
       return {
         ...state,
-        items: state.items.filter(
-          company => company.id !== action.meta.companyId
-        )
+        items: state.items.filter(id => id !== action.meta.id)
       };
     }
 
@@ -61,7 +59,8 @@ const mutate = joinReducers(mutateComments('companies'), mutateCompanies);
 export default createEntityReducer({
   key: 'companies',
   types: {
-    fetch: Company.FETCH
+    fetch: Company.FETCH,
+    mutate: Company.ADD
   },
   mutate
 });

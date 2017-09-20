@@ -34,7 +34,7 @@ const mapDispatchToProps = {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   dispatched(loadData, {
-    componentWillReceiveProps: false
+    componentWillReceiveProps: true
   }),
   connect(mapStateToProps, mapDispatchToProps)
 )(BdbPage);

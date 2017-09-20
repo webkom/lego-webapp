@@ -59,25 +59,24 @@ export default class CompanyEditor extends Component {
 
     return (
       <div className={styles.root}>
-        <Field
-          name="logo"
-          component={ImageUploadField.Field}
-          uploadFile={uploadFile}
-          aspectRatio={20 / 6}
-          img={isEditPage && company.logo}
-        />
-        <Field
-          placeholder={'Bedriftens navn'}
-          label={' '}
-          autoFocus={autoFocus}
-          name="name"
-          component={TextInput.Field}
-          className={styles.editTitle}
-        />
-
         <div className={styles.detail}>
           <div className={styles.leftSection}>
             <form onSubmit={handleSubmit(this.onSubmit)}>
+              <Field
+                name="logo"
+                component={ImageUploadField.Field}
+                uploadFile={uploadFile}
+                aspectRatio={20 / 6}
+                img={isEditPage && company.logo}
+              />
+              <Field
+                placeholder={'Bedriftens navn'}
+                label={' '}
+                autoFocus={autoFocus}
+                name="name"
+                component={TextInput.Field}
+                className={styles.editTitle}
+              />
               <div className={styles.description}>
                 <Field
                   placeholder={'Beskrivelse av bedriften'}
