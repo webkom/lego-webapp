@@ -16,15 +16,12 @@ type Props = {
 };
 
 export default class AddCompanyContact extends Component {
-  onSubmit = ({ name, role = '', mail = '', phone = '' }) => {
+  onSubmit = formContent => {
     const { company, addCompanyContact } = this.props;
     addCompanyContact(
       {
-        companyId: company.id,
-        name,
-        role,
-        mail,
-        phone
+        ...formContent,
+        companyId: company.id
       },
       true
     );

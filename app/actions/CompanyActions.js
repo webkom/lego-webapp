@@ -1,12 +1,8 @@
 // @flow
 
-import { Company, Event } from './ActionTypes';
+import { Company } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
-import {
-  companySchema,
-  eventSchema,
-  companySemesterSchema
-} from 'app/reducers';
+import { companySchema, companySemesterSchema } from 'app/reducers';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 import type { Thunk } from 'app/types';
@@ -36,17 +32,6 @@ export function fetch(companyId: number): Thunk<*> {
         },
         propagateError: true
       })
-    ).then(() =>
-      dispatch(
-        callAPI({
-          types: Event.FETCH,
-          endpoint: `/events/?company=${companyId}`,
-          schema: [eventSchema],
-          meta: {
-            errorMessage: 'Fetching assosiated events failed'
-          }
-        })
-      )
     );
 }
 
@@ -232,6 +217,7 @@ export function addCompanyContact({
         }
       })
     ).then(() => {
+      dispatch(addNotification({ message: 'Bedriftskontakt lagt til.' }));
       dispatch(push(`/bdb/${companyId}/`));
     });
   };
@@ -262,6 +248,7 @@ export function editCompanyContact({
         }
       })
     ).then(() => {
+      dispatch(addNotification({ message: 'Bedriftskontakt endret.' }));
       dispatch(push(`bdb/${companyId}`));
     });
   };
@@ -284,6 +271,7 @@ export function deleteCompanyContact(
         }
       })
     ).then(() => {
+      dispatch(addNotification({ message: 'Bedriftskontakt slettet.' }));
       dispatch(push(`/bdb/${companyId}/`));
     });
   };

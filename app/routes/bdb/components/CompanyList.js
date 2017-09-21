@@ -11,7 +11,7 @@ type Props = {
   query: Object,
   startYear: number,
   startSem: number,
-  changeSemesters: () => void,
+  navigateThroughTime: () => void,
   changedStatuses: Array<any>,
   companySemesters: Array<Object>,
   editSemester: () => void
@@ -59,7 +59,7 @@ export default class CompanyList extends Component {
   render() {
     const {
       companies,
-      changeSemesters,
+      navigateThroughTime,
       startYear,
       startSem,
       editSemester,
@@ -126,7 +126,7 @@ export default class CompanyList extends Component {
               <td
                 className={styles.yearNavigator}
                 id="fuckyou"
-                onClick={() => changeSemesters(false)}
+                onClick={() => navigateThroughTime(false)}
               >
                 <Icon
                   name="arrow-back"
@@ -139,7 +139,7 @@ export default class CompanyList extends Component {
               <td
                 className={cx(styles.rightArrow, styles.yearNavigator)}
                 id="fuckyou2"
-                onClick={() => changeSemesters(true)}
+                onClick={() => navigateThroughTime(true)}
               >
                 Neste år
                 <Icon
@@ -159,7 +159,7 @@ export default class CompanyList extends Component {
                 company={company}
                 startYear={startYear}
                 startSem={startSem}
-                changeSemesters={this.changeSemesters}
+                navigateThroughTime={this.navigateThroughTime}
                 key={i}
                 editSemester={editSemester}
                 changedStatuses={changedStatuses}

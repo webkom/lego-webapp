@@ -19,11 +19,12 @@ type Props = {
 };
 
 export default class BdbPage extends Component {
+  props: Props;
+
   state = {
-    companies: [],
     startYear: 2016,
     startSem: 0,
-    changedStatuses: [],
+    changedSemesters: [],
     submitted: false,
     displayOptions: false,
     filters: {},
@@ -38,16 +39,7 @@ export default class BdbPage extends Component {
     });
   }
 
-  componentWillReceiveProps(newProps) {
-    if (this.state.companies.length < 2) {
-      this.setState({
-        companies: newProps.companies
-      });
-    }
-  }
-  props: Props;
-
-  changeSemesters = forward => {
+  navigateThroughTime = forward => {
     // Change which three semesters are displayed (move ahead or back in time)
     const { startSem, startYear } = this.state;
     const newSem = (startSem + 1) % 2;
@@ -64,7 +56,8 @@ export default class BdbPage extends Component {
   editSemester = (companyId, tableIndex, semesterStatusId, contactedStatus) => {
     // Update state whenever a semesterStatus is graphically changed by the user
     const { companySemesters } = this.props;
-    const { changedStatuses, companies, startYear, startSem } = this.state;
+    const { changedSemesters, startYear, startSem } = this.state;
+
     const globalSemester = indexToSemester(
       tableIndex,
       startYear,
@@ -77,55 +70,27 @@ export default class BdbPage extends Component {
       status.semester.semester === globalSemester.semester &&
       status.companyId === companyId;
 
-    // Find which semester has been changed.
-    const changedCompanyIndex = companies.indexOf(
-      companies.find(company => company.id === companyId)
-    );
-    const changedCompanyStatuses = (companies[changedCompanyIndex] || {
-      semesterStatuses: []
-    }).semesterStatuses;
-    const changedSemesterIndex = changedCompanyStatuses.indexOf(
-      changedCompanyStatuses.find(
-        status => status.semester === globalSemester.id
-      )
-    );
+    const semesterIsAlreadyChanged =
+      typeof changedSemesters.find(matchSemester) !== 'undefined';
 
-    // Check if we've already edited this semester. First checking in
-    // state.companies
-    if (changedSemesterIndex === -1) {
-      // We have to add a new semester to state.companies
-      companies[changedCompanyIndex].semesterStatuses.push({
-        semesterStatusId,
-        contactedStatus,
-        semester: globalSemester.semester,
-        year: globalSemester.year
-      });
-    } else {
-      // We're changing an existing semesterStatus in state.companies.
-      // We have to check if the semesterStatus already has this contactedStatus
-      // (since each semester can have several values in contactedStatus):
-      companies[changedCompanyIndex].semesterStatuses[
-        changedSemesterIndex
-      ].contactedStatus = contactedStatus;
-    }
-
-    // Then in state.changedStatuses.
-    if (typeof changedStatuses.find(matchSemester) === 'undefined') {
-      // We have to add a new semester to state.changedStatuses
-      changedStatuses.push({
-        companyId,
-        semesterStatusId,
-        contactedStatus,
-        semester: globalSemester
-      });
-    } else {
-      // We're changing an existing entry in state.changedStatuses
-      changedStatuses.find(matchSemester).contactedStatus = contactedStatus;
-    }
+    // Change the "changedSemester" if it's already in state, ie this
+    // semesterStatus has been changed since last save. Otherwise, add it.
+    const newChangedSemesters = semesterIsAlreadyChanged
+      ? changedSemesters.map(
+          changedSemester =>
+            matchSemester(changedSemester)
+              ? { ...changedSemester, contactedStatus }
+              : changedSemester
+        )
+      : changedSemesters.concat({
+          companyId,
+          contactedStatus,
+          semesterStatusId,
+          semester: globalSemester
+        });
 
     this.setState({
-      companies,
-      changedStatuses,
+      changedSemesters: newChangedSemesters,
       submitted: false
     });
   };
@@ -137,7 +102,8 @@ export default class BdbPage extends Component {
       editSemesterStatus,
       companySemesters
     } = this.props;
-    this.state.changedStatuses.map(status => {
+
+    this.state.changedSemesters.map(status => {
       const companySemesterId = status.semester.id;
 
       if (typeof companySemesterId === 'undefined') {
@@ -156,13 +122,8 @@ export default class BdbPage extends Component {
           addSemester(
             status.semester.year,
             status.semester.semester
-          ).then(() => {
-            const newlyCreatedId = this.props.companySemesters.find(
-              companySemester =>
-                companySemester.year === status.semester.year &&
-                companySemester.semester === status.semester.semester
-            ).id;
-            addSemesterStatus({ ...status, semester: newlyCreatedId });
+          ).then(response => {
+            addSemesterStatus({ ...status, semester: response.payload.id });
           });
         }
       } else if (typeof status.semesterStatusId === 'undefined') {
@@ -174,7 +135,7 @@ export default class BdbPage extends Component {
         editSemesterStatus(status);
       }
     });
-    this.setState({ changedStatuses: [], submitted: true });
+    this.setState({ changedSemesters: [], submitted: true });
   };
 
   updateFilters = (name, value) => {
@@ -223,8 +184,36 @@ export default class BdbPage extends Component {
       return <LoadingIndicator loading />;
     }
 
+    const mergedCompaniesWithState = companies.map(company => {
+      const updatedSemesterStatuses = company.semesterStatuses.map(status => {
+        const changedSemester = this.state.changedSemesters.find(
+          changed => changed.semesterStatusId === status.id
+        );
+
+        return changedSemester
+          ? { ...status, contactedStatus: changedSemester.contactedStatus }
+          : status;
+      });
+
+      const newSemesterStatuses = updatedSemesterStatuses.concat(
+        this.state.changedSemesters
+          .filter(
+            changed =>
+              changed.companyId === company.id &&
+              typeof changed.semesterStatusId === 'undefined'
+          )
+          .map(changed => ({
+            contactedStatus: changed.contactedStatus,
+            year: changed.semester.year,
+            semester: changed.semester.semester
+          }))
+      );
+
+      return { ...company, semesterStatuses: newSemesterStatuses };
+    });
+
     const sortedCompanies = sortCompanies(
-      this.state.companies.length > 0 ? this.state.companies : companies,
+      mergedCompaniesWithState,
       query,
       this.state.startYear,
       this.state.startSem
@@ -259,7 +248,7 @@ export default class BdbPage extends Component {
           filters={this.state.filters}
         />
 
-        {this.state.changedStatuses.length > 0 ? (
+        {this.state.changedSemesters.length > 0 ? (
           <Button onClick={this.submitSemesters} dark>
             Lagre endringer
           </Button>
@@ -286,10 +275,10 @@ export default class BdbPage extends Component {
           startYear={this.state.startYear}
           startSem={this.state.startSem}
           companies={this.filterCompanies(sortedCompanies)}
-          changeSemesters={this.changeSemesters}
+          navigateThroughTime={this.navigateThroughTime}
           editSemester={this.editSemester}
           removeChangedStatus={this.removeChangedStatus}
-          changedStatuses={this.state.changedStatuses}
+          changedSemesters={this.state.changedSemesters}
         />
       </div>
     );

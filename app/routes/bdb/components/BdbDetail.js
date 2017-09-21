@@ -10,6 +10,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import Image from 'app/components/Image';
 import SemesterStatusDetail from './SemesterStatusDetail';
 import Button from 'app/components/Button';
+import { eventTypes } from 'app/routes/events/utils';
 
 type Props = {
   company: Object,
@@ -33,10 +34,6 @@ export default class BdbDetail extends Component {
   };
 
   semesterStatusOnChange = (semesterStatus, statusString) => {
-    console.log('semesterStatusOnChange');
-    console.log(semesterStatus);
-    console.log(statusString);
-
     const { changedSemesters } = this.state;
 
     const newSemesterStatus = {
@@ -46,20 +43,29 @@ export default class BdbDetail extends Component {
         statusString
       )
     };
-    const oldSemester = changedSemesters.find(
-      status => status.id === semesterStatus.id
-    );
+    const semesterIsAlreadyChanged =
+      typeof changedSemesters.find(
+        status => status.id === semesterStatus.id
+      ) !== 'undefined';
 
-    if (oldSemester) {
-      const newSemesters = changedSemesters.map(
-        status => (status.id === semesterStatus.id ? newSemesterStatus : status)
-      );
-      this.setState({ semesterStatuses: newSemesters });
-    } else {
-      this.setState(state => ({
-        changedSemesters: state.changedSemesters.concat(newSemesterStatus)
-      }));
-    }
+    const newChangedSemesters = semesterIsAlreadyChanged
+      ? changedSemesters.map(
+          status =>
+            status.id === semesterStatus.id
+              ? {
+                  ...semesterStatus,
+                  contactedStatus: getContactedStatuses(
+                    semesterStatus.contactedStatus,
+                    statusString
+                  )
+                }
+              : status
+        )
+      : changedSemesters.concat(newSemesterStatus);
+
+    this.setState(state => ({
+      changedSemesters: newChangedSemesters
+    }));
   };
 
   submitSemesters = () => {
@@ -98,15 +104,7 @@ export default class BdbDetail extends Component {
   };
 
   render() {
-    console.log('rendering...');
-    console.log(this.state.changedSemesters);
-    const {
-      company,
-      comments,
-      companyEvents,
-      currentUser,
-      loggedIn
-    } = this.props;
+    const { company, comments, currentUser, loggedIn } = this.props;
 
     if (!company.semesterStatuses) {
       return <LoadingIndicator loading />;
@@ -137,30 +135,34 @@ export default class BdbDetail extends Component {
           <td>{contact.name || '-'}</td>
           <td>{contact.role || '-'}</td>
           <td>{contact.mail || '-'}</td>
-          <td style={{ display: 'flex', justifyContent: 'space-between' }}>
-            {contact.phone || '-'}
-            <span style={{ display: 'flex', flexDirection: 'row' }}>
-              <Link to={`/bdb/${company.id}/company-contacts/${contact.id}`}>
-                <i
-                  className="fa fa-pencil"
-                  style={{ marginRight: '5px', color: 'orange' }}
-                />
-              </Link>
-              <a onClick={() => this.deleteCompanyContact(contact.id)}>
-                <i className="fa fa-times" style={{ color: '#d13c32' }} />
-              </a>
-            </span>
+          <td>
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              {contact.phone || '-'}
+              <span style={{ display: 'flex', flexDirection: 'row' }}>
+                <Link to={`/bdb/${company.id}/company-contacts/${contact.id}`}>
+                  <i
+                    className="fa fa-pencil"
+                    style={{ marginRight: '5px', color: 'orange' }}
+                  />
+                </Link>
+                <a onClick={() => this.deleteCompanyContact(contact.id)}>
+                  <i className="fa fa-times" style={{ color: '#d13c32' }} />
+                </a>
+              </span>
+            </div>
           </td>
         </tr>
       ));
     }
 
-    const events = companyEvents
+    const events = (company.events || [])
       .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
       .map((event, i) => (
         <tr key={i}>
-          <td>{event.title}</td>
-          <td>{event.eventType}</td>
+          <td>
+            <Link to={`events/${event.id}`}>{event.title}</Link>
+          </td>
+          <td>{eventTypes[event.eventType]}</td>
           <td>
             <Time time={event.startTime} format="DD.MM.YYYY" />
           </td>
@@ -220,11 +222,9 @@ export default class BdbDetail extends Component {
               />
               <InfoBubble
                 icon={'person'}
-                data={`${company.studentContact
-                  ? company.studentContact.firstName
-                  : ''} ${company.studentContact
-                  ? company.studentContact.lastName
-                  : ''}`}
+                data={`${(company.studentContact &&
+                  company.studentContact.fullName) ||
+                  '-'}`}
                 meta={'Studentkontakt'}
                 style={{ order: 2 }}
               />

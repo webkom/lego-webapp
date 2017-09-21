@@ -121,6 +121,8 @@ function renderPage({ body, state, helmet }) {
         <link rel="icon" href="/icon-48x48.png" sizes="48x48"/>
         <link rel="apple-touch-icon" href="/icon-48x48.png" sizes="48x48"/>
 
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         <meta name="mobile-web-app-capable" content="yes"/>
         <meta name="apple-mobile-web-app-title" content="Abakus"/>

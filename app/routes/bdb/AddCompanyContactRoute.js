@@ -18,7 +18,7 @@ function validateCompanyContact(data) {
 }
 
 const mapStateToProps = (state, props) => {
-  const companyId = props.params.companyId;
+  const companyId = Number(props.params.companyId);
   const company = selectCompanyById(state, { companyId });
 
   return {

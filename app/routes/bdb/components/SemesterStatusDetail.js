@@ -57,11 +57,10 @@ export default class SemesterStatusDetail extends Component {
                 <i
                   className="fa fa-pencil"
                   style={{ marginRight: '5px', color: 'orange' }}
-                />{' '}
-                e
+                />
               </a>
               <a onClick={() => deleteSemesterStatus(status.id)}>
-                <i className="fa fa-times" style={{ color: '#d13c32' }} /> d
+                <i className="fa fa-times" style={{ color: '#d13c32' }} />
               </a>
             </span>
           </div>
