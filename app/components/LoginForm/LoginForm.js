@@ -1,94 +1,53 @@
+// @flow
+
 import React, { Component } from 'react';
 import cx from 'classnames';
-import { debounce } from 'lodash';
-import { Form, TextInput } from '../Form';
-import Button from '../Button';
-import { login } from 'app/actions/UserActions';
+import { Form, Button, TextInput } from '../Form';
 import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
+import type { FieldProps } from 'redux-form';
+import { login } from 'app/actions/UserActions';
+import { createValidator, required } from 'app/utils/validation';
 
-type Props = {
-  login: (username: string, password: string) => any
+type ConnectedProps = {
+  login: (username: string, password: string) => Promise<void>
 };
 
+type OwnProps = {
+  className?: string
+};
+
+type Props = ConnectedProps & OwnProps & FieldProps;
+
 class LoginForm extends Component {
-  state = {
-    submitted: false,
-    submitting: false,
-    error: false
-  };
-
   props: Props;
-
-  usernameRef: any;
-  passwordRef: any;
-  mounted = false;
-
-  componentDidMount() {
-    this.mounted = true;
-  }
-
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  login = debounce(
-    () => {
-      const username = this.usernameRef.value.trim();
-      const password = this.passwordRef.value;
-      if (username === '') {
-        this.usernameRef.focus();
-        return;
-      }
-
-      if (password.trim() === '') {
-        this.passwordRef.focus();
-        return;
-      }
-
-      this.setState({ submitting: true, error: false });
-      this.props
-        .login(username, password)
-        .then(
-          () => this.mounted && this.setState({ submitting: false }),
-          () =>
-            this.mounted && this.setState({ submitting: false, error: true })
-        );
-    },
-    500,
-    { leading: true }
-  );
-
-  handleSubmit = e => {
-    e.preventDefault();
-    this.login();
-  };
+  login = ({ username, password }) => this.props.login(username, password);
 
   render() {
+    const { invalid, submitting, handleSubmit } = this.props;
+    const style = { marginBottom: 10 };
+    const disabled = invalid || submitting;
     return (
-      <Form onSubmit={this.handleSubmit} className={cx(this.props.className)}>
-        <TextInput
-          inputRef={ref => {
-            this.usernameRef = ref;
-          }}
+      <Form
+        onSubmit={handleSubmit(this.login)}
+        className={cx(this.props.className)}
+      >
+        <Field
           name="username"
           placeholder="Brukernavn"
-          autoFocus
-          style={{ marginBottom: 10 }}
-          disabled={this.state.submitting}
+          fieldStyle={style}
+          showErrors={false}
+          component={TextInput.Field}
         />
-
-        <TextInput
-          inputRef={ref => {
-            this.passwordRef = ref;
-          }}
+        <Field
           name="password"
           type="password"
           placeholder="Passord"
-          style={{ marginBottom: 10 }}
-          disabled={this.state.submitting}
+          fieldStyle={style}
+          showErrors={false}
+          component={TextInput.Field}
         />
-
-        <Button submit disabled={this.state.submitting} dark>
+        <Button submit dark disabled={disabled}>
           Logg inn
         </Button>
       </Form>
@@ -96,4 +55,11 @@ class LoginForm extends Component {
   }
 }
 
-export default connect(null, { login })(LoginForm);
+const validate = createValidator({
+  username: [required()],
+  password: [required()]
+});
+
+export default reduxForm({ validate, form: 'LoginForm' })(
+  connect(null, { login })(LoginForm)
+);

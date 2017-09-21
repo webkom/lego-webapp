@@ -1,6 +1,6 @@
 import React from 'react';
 import LoginForm from './LoginForm';
-import TextInput from '../Form/TextInput';
+import { Field } from 'redux-form';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { mount } from 'enzyme';
@@ -16,16 +16,15 @@ describe('components', () => {
           <LoginForm login={login} className="LoginForm" />
         </Provider>
       );
-      const form = wrapper.find('Form');
+      const form = wrapper.find('form');
       expect(form.hasClass('LoginForm')).toEqual(true);
 
       const username = form.childAt(0);
       const password = form.childAt(1);
       const submit = form.childAt(2);
 
-      expect(username.type()).toEqual(TextInput);
-      expect(username.prop('autoFocus')).toEqual(true);
-      expect(password.type()).toEqual(TextInput);
+      expect(username.type()).toEqual(Field);
+      expect(password.type()).toEqual(Field);
       expect(password.prop('type')).toEqual('password');
       expect(submit.prop('submit')).toEqual(true);
     });
