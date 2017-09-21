@@ -156,7 +156,8 @@ function transformEvent(event) {
   return {
     ...event,
     startTime: moment(event.startTime),
-    endTime: moment(event.endTime)
+    endTime: moment(event.endTime),
+    mergeTime: moment(event.mergeTime)
   };
 }
 
@@ -201,9 +202,38 @@ export const selectPoolsWithRegistrationsForEvent = createSelector(
   (pools, registrationsById) =>
     pools.map(pool => ({
       ...pool,
-      registrations: (pool.registrations || [])
-        .map(regId => registrationsById[regId])
+      registrations: pool.registrations.map(regId => registrationsById[regId])
     }))
+);
+
+export const selectMergedPoolWithRegistrations = createSelector(
+  selectPoolsForEvent,
+  state => state.registrations.byId,
+  (pools, registrationsById) => {
+    if (pools.length === 0) return [];
+    return [
+      {
+        name: 'Deltakere',
+        ...pools.reduce(
+          (total, pool) => {
+            const capacity = total.capacity + pool.capacity;
+            const permissionGroups = total.permissionGroups.concat(
+              pool.permissionGroups
+            );
+            const registrations = total.registrations.concat(
+              pool.registrations.map(regId => registrationsById[regId])
+            );
+            return {
+              capacity,
+              permissionGroups,
+              registrations
+            };
+          },
+          { capacity: 0, permissionGroups: [], registrations: [] }
+        )
+      }
+    ];
+  }
 );
 
 export const selectAllRegistrationsForEvent = createSelector(
@@ -221,8 +251,9 @@ export const selectWaitingRegistrationsForEvent = createSelector(
   state => state.registrations.byId,
   (event, registrationsById) => {
     if (!event) return [];
-    return (event.waitingRegistrations || [])
-      .map(regId => registrationsById[regId]);
+    return (event.waitingRegistrations || []).map(
+      regId => registrationsById[regId]
+    );
   }
 );
 
