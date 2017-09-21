@@ -17,14 +17,15 @@ function validateCompanyContact(data) {
 }
 
 const mapStateToProps = (state, props) => {
-  const { companyId, companyContactId } = props.params;
+  const companyId = Number(props.params.companyId);
+  const companyContactId = Number(props.params.companyContactId);
   const company = selectCompanyById(state, { companyId });
 
   // TODO: Create selector for companyContact
   let companyContact = null;
   if (company) {
-    companyContact = company.companyContacts.find(
-      contact => contact.id === Number(companyContactId)
+    companyContact = (company.companyContacts || []).find(
+      contact => contact.id === companyContactId
     );
   }
 

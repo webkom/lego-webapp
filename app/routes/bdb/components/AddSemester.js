@@ -37,12 +37,15 @@ export default class AddSemester extends Component {
       companySemesters,
       addSemester
     } = this.props;
+
     const { contactedStatus } = this.state;
 
-    const globalSemester = companySemesters.find(
-      companySemester =>
-        companySemester.year === year && companySemester.semester === semester
-    );
+    const globalSemester = companySemesters.find(companySemester => {
+      return (
+        companySemester.year === Number(year) &&
+        companySemester.semester === semester
+      );
+    });
 
     if (globalSemester) {
       addSemesterStatus(
@@ -56,15 +59,10 @@ export default class AddSemester extends Component {
       );
     } else {
       addSemester(year, semester).then(response => {
-        const newlyCreatedId = this.props.companySemesters.find(
-          companySemester =>
-            companySemester.year === status.semester.year &&
-            companySemester.semester === status.semester.semester
-        ).id;
         addSemesterStatus(
           {
             companyId,
-            semester: newlyCreatedId,
+            semester: response.payload.id,
             contactedStatus,
             contract
           },
@@ -79,7 +77,6 @@ export default class AddSemester extends Component {
   };
 
   editFunction = statusString => {
-    console.log('woop');
     this.setState({
       contactedStatus: getContactedStatuses(
         this.state.contactedStatus,

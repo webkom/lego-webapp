@@ -2,31 +2,41 @@ export default [
   {
     name: 'BEKK',
     id: 1,
-    contacted: ['Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs'],
+    semesterStatuses: [
+      {
+        id: 1,
+        year: 2017,
+        semester: 'spring',
+        contactedStatus: ['Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs']
+      }
+    ],
     studentContact: 'Marius Kotlarz',
-    comment: 'Partner',
-    jobOfferOnly: false,
     adminComment: 'Husk logo på alle sider'
   },
   {
     name: 'Facebook',
     id: 2,
-    contacted: ['Kontaktet', 'Kontaktet', 'Ikke interessert', 'Bedpres'],
-    studentContact: 'Finn Smith',
-    comment: 'Se mail',
-    jobOfferOnly: false
+    semesterStatuses: [
+      {
+        id: 2,
+        year: 2017,
+        semester: 'autumn',
+        contactedStatus: ['Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs']
+      }
+    ],
+    studentContact: 'Finn Smith'
   },
   {
     name: 'Itera',
     id: 3,
-    contacted: [
-      'Interessert, ikke tilbudt',
-      'Bedpres & kurs',
-      'Kurs',
-      'Ikke kontaktet'
+    semesterStatuses: [
+      {
+        id: 3,
+        year: 2027,
+        semester: 'spring',
+        contactedStatus: ['Kontaktet', 'Ikke kontaktet', 'Bedpres', 'Kurs']
+      }
     ],
-    studentContact: 'Ingen',
-    comment: '',
-    jobOfferOnly: false
+    studentContact: 'Ingen'
   }
 ];
