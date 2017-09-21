@@ -32,13 +32,15 @@ export function createField(Component: any) {
       fieldStyle,
       fieldClassName,
       labelClassName,
+      showErrors = true,
       ...props
     } = field;
-    const hasError = meta.touched && meta.error && meta.error.length > 0;
+    const { error, touched } = meta;
+    const hasError = showErrors && touched && error && error.length > 0;
     return (
       <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
         <label className={cx(styles.label, labelClassName)}>
-          <span>{label || field.placeholder}</span>
+          {label && <span>{label}</span>}
           {required && <span className={styles.required}>*</span>}
           <Component
             {...input}
