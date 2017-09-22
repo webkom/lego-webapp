@@ -27,8 +27,22 @@ const Error = ({ error }: ErrorProps) => (
 
 class LoginForm extends Component {
   props: Props;
-  login = ({ username, password }) =>
-    this.props.login(username, password).catch(err => {
+  usernameRef: Field;
+  passwordRef: Field;
+
+  componentDidMount() {
+    // Trigger onChange of the fields in case the inputs
+    // were initialized with data from e.g. a mobile phone's autofill:
+    this.props.change('username', this.usernameRef.value);
+    this.props.change('password', this.passwordRef.value);
+  }
+
+  login = values => {
+    // Autofill in some mobile browsers doesn't trigger onChange,
+    // so use the direct values if redux-form won't give us anything:
+    const username = values.username || this.usernameRef.value;
+    const password = values.password || this.passwordRef.value;
+    return this.props.login(username, password).catch(err => {
       // Throw a SubmissionError to show validation errors with redux-form:
       if (err.payload.response.status === 400) {
         throw new SubmissionError({
@@ -38,10 +52,18 @@ class LoginForm extends Component {
 
       throw new SubmissionError({ _error: err.meta.errorMessage });
     });
+  };
 
   render() {
-    const { error, invalid, submitting, handleSubmit } = this.props;
+    const { error, submitting, handleSubmit } = this.props;
     const style = { marginBottom: 10 };
+    let invalid = this.props.invalid;
+    // Autofill in some mobile browsers doesn't trigger onChange,
+    // so we manually check to see if the values exist:
+    if (this.usernameRef && this.passwordRef) {
+      invalid = !this.usernameRef.value || !this.passwordRef.value;
+    }
+
     const disabled = invalid || submitting;
     return (
       <Form
@@ -53,6 +75,9 @@ class LoginForm extends Component {
           placeholder="Brukernavn"
           fieldStyle={style}
           showErrors={false}
+          inputRef={node => {
+            this.usernameRef = node;
+          }}
           component={TextInput.Field}
         />
         <Field
@@ -61,6 +86,9 @@ class LoginForm extends Component {
           placeholder="Passord"
           fieldStyle={style}
           showErrors={false}
+          inputRef={node => {
+            this.passwordRef = node;
+          }}
           component={TextInput.Field}
         />
         {error && <Error error={error} />}
