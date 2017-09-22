@@ -34,11 +34,7 @@ class Image extends Component {
     const { src, className, ...props } = this.props;
     return (
       <img
-        className={cx(
-          styles.image,
-          this.state.loaded && styles.loaded,
-          className
-        )}
+        className={cx(styles.image, this.state.loaded && styles.loaded, className)}
         src={src}
         {...props}
       />

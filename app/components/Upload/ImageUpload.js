@@ -30,28 +30,15 @@ type State = {
 };
 
 const FilePreview = ({ file, index }: { file: Object }) => (
-  <Flex
-    wrap
-    className={styles.previewRow}
-    alignItems="center"
-    justifyContent="space-between"
-  >
-    <img
-      alt="presentation"
-      src={file.preview}
-      className={styles.previewRowImage}
-    />
+  <Flex wrap className={styles.previewRow} alignItems="center" justifyContent="space-between">
+    <img alt="presentation" src={file.preview} className={styles.previewRowImage} />
     <TextInput
       disabled
       value={file.name}
       onChange={({ target }) => this.onNameChange(index, target.value)}
       style={{ width: 'calc(100% - 140px)', height: 50 }}
     />
-    <Icon
-      name="close"
-      onClick={() => this.onRemove(index)}
-      className={styles.removeIcon}
-    />
+    <Icon name="close" onClick={() => this.onRemove(index)} className={styles.removeIcon} />
   </Flex>
 );
 
@@ -146,9 +133,7 @@ export default class ImageUpload extends Component {
           Drop image to upload or click to select from file
         </h1>
       </div>
-      {this.state.img && (
-        <img alt="presentation" className={styles.image} src={this.state.img} />
-      )}
+      {this.state.img && <img alt="presentation" className={styles.image} src={this.state.img} />}
     </Upload>
   );
 
@@ -166,11 +151,7 @@ export default class ImageUpload extends Component {
           backdrop
         >
           {inModal &&
-            !preview && (
-              <div className={styles.inModalUpload}>
-                {this.createUploadArea()}
-              </div>
-            )}
+            !preview && <div className={styles.inModalUpload}>{this.createUploadArea()}</div>}
           {preview && (
             <Cropper
               ref={node => {
@@ -185,24 +166,14 @@ export default class ImageUpload extends Component {
           {multiple &&
             !crop && (
               <Flex wrap column>
-                {files.map((file, index) => (
-                  <FilePreview file={file} index={index} key={index} />
-                ))}
+                {files.map((file, index) => <FilePreview file={file} index={index} key={index} />)}
               </Flex>
             )}
-          <Flex
-            wrap
-            className={styles.footer}
-            alignItems="center"
-            justifyContent="space-around"
-          >
+          <Flex wrap className={styles.footer} alignItems="center" justifyContent="space-around">
             <Button onClick={this.onSubmit} className={styles.saveButton}>
               Last opp
             </Button>
-            <Button
-              onClick={() => this.closeModal()}
-              className={styles.cancelButton}
-            >
+            <Button onClick={() => this.closeModal()} className={styles.cancelButton}>
               Avbryt
             </Button>
           </Flex>

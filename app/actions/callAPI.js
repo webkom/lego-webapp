@@ -76,11 +76,7 @@ export default function callAPI({
     };
 
     const state = getState();
-    if (
-      !force &&
-      shouldUseCache &&
-      !isRequestNeeded(state, endpoint, cacheSeconds)
-    ) {
+    if (!force && shouldUseCache && !isRequestNeeded(state, endpoint, cacheSeconds)) {
       return Promise.resolve('Request skipped');
     }
 

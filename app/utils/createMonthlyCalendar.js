@@ -8,10 +8,7 @@ import { range, takeWhile, last } from 'lodash';
  *
  * @TODO: memoize
  */
-export default function createMonthlyCalendar(
-  date: moment,
-  weekOffset: number = 0
-) {
+export default function createMonthlyCalendar(date: moment, weekOffset: number = 0) {
   const startOfMonth = date.startOf('month');
 
   let diff = startOfMonth.weekday() - weekOffset;
@@ -28,10 +25,7 @@ export default function createMonthlyCalendar(
   }));
 
   const daysAdded = prevMonthDays.length + currentMonthDays.length - 1;
-  const nextMonthDays = takeWhile(
-    range(1, 7),
-    n => (daysAdded + n) % 7 !== 0
-  ).map(n => ({
+  const nextMonthDays = takeWhile(range(1, 7), n => (daysAdded + n) % 7 !== 0).map(n => ({
     day: last(currentMonthDays)
       .day.clone()
       .add(n, 'days'),

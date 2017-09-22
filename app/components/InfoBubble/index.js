@@ -16,8 +16,7 @@ type Props = {
   link?: string
 };
 
-const httpCheck = link =>
-  link.startsWith('http://') ? link : `http://${link}`;
+const httpCheck = link => (link.startsWith('http://') ? link : `http://${link}`);
 
 const iconComponent = (icon, bubbleClass, iconClass, link = undefined) => {
   if (link) {
@@ -47,15 +46,7 @@ const dataComponent = (dataClass, data, link = undefined) => {
   return <span className={dataClass}>{data || '-'}</span>;
 };
 
-function InfoBubble({
-  icon,
-  data,
-  meta,
-  className,
-  small = false,
-  link,
-  ...props
-}: Props) {
+function InfoBubble({ icon, data, meta, className, small = false, link, ...props }: Props) {
   const bubbleClass = small ? styles.smallBubble : styles.bubble;
   const iconClass = small ? styles.smallIcon : styles.icon;
   const dataClass = small ? styles.smallData : styles.data;

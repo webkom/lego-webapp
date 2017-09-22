@@ -29,12 +29,7 @@ function animateAbakus(
 
     for (let i = 0; i < 7; i++) {
       context.fillStyle = 'rgba(0, 0, 0, .3)';
-      context.fillRect(
-        0,
-        offsetY + i * (2 * radius + padding + lineSpacing),
-        width,
-        2
-      );
+      context.fillRect(0, offsetY + i * (2 * radius + padding + lineSpacing), width, 2);
     }
 
     context.fillStyle = 'rgba(186, 115, 50, 0.9)';

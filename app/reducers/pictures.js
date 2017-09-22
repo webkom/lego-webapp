@@ -25,10 +25,7 @@ export function mutatePictures() {
             ...state.byId,
             [action.meta.galleryId]: {
               ...state.byId[action.meta.galleryId],
-              pictures: [
-                ...state.byId[action.meta.galleryId].pictures,
-                action.payload.result
-              ]
+              pictures: [...state.byId[action.meta.galleryId].pictures, action.payload.result]
             }
           }
         };

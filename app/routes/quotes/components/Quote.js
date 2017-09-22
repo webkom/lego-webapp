@@ -57,9 +57,7 @@ export default class Quote extends Component {
           </span>
 
           <div className={styles.bottomRow}>
-            <div className={styles.quoteDate}>
-              {<Time time={quote.createdAt} wordsAgo />}
-            </div>
+            <div className={styles.quoteDate}>{<Time time={quote.createdAt} wordsAgo />}</div>
 
             <div className={styles.bottomRight}>
               <div className={styles.commentCount}>
@@ -77,10 +75,7 @@ export default class Quote extends Component {
                       toggle={() => setDisplayAdmin(quote.id)}
                       contentClassName={'adminDropdown2'}
                       triggerComponent={
-                        <Icon
-                          name="arrow-dropdown"
-                          className={styles.dropdownIcon}
-                        />
+                        <Icon name="arrow-dropdown" className={styles.dropdownIcon} />
                       }
                     >
                       <Dropdown.List>
@@ -88,9 +83,7 @@ export default class Quote extends Component {
                           <a
                             className="approveQuote"
                             onClick={() =>
-                              quote.approved
-                                ? unapprove(quote.id)
-                                : approve(quote.id)}
+                              quote.approved ? unapprove(quote.id) : approve(quote.id)}
                           >
                             {' '}
                             {quote.approved ? 'Fjern Godkjenning' : 'Godkjenn'}

@@ -14,30 +14,20 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 function MeetingListItem({ meeting, userId }) {
   const isDone = moment(meeting.startTime) < moment();
   return (
-    <div
-      style={{ borderColor: isDone ? 'gray' : 'red' }}
-      className={styles.meetingItem}
-    >
+    <div style={{ borderColor: isDone ? 'gray' : 'red' }} className={styles.meetingItem}>
       <div>
         <Link to={`/meetings/${meeting.id}`}>
           <h3 className={styles.meetingItemTitle}>
             {meeting.title}
-            {userId === meeting.createdBy && (
-              <Pill style={{ marginLeft: 10 }}>Eier</Pill>
-            )}
-            {userId === meeting.reportAuthor && (
-              <Pill style={{ marginLeft: 10 }}>Referent</Pill>
-            )}
+            {userId === meeting.createdBy && <Pill style={{ marginLeft: 10 }}>Eier</Pill>}
+            {userId === meeting.reportAuthor && <Pill style={{ marginLeft: 10 }}>Referent</Pill>}
           </h3>
         </Link>
 
         <div>
           <span>
             Deltakere:&nbsp;
-            {
-              meeting.invitations.filter(invite => invite.status === 1).length
-            }{' '}
-            av&nbsp;
+            {meeting.invitations.filter(invite => invite.status === 1).length} av&nbsp;
             {meeting.invitations.length} personer deltar
           </span>
         </div>
@@ -80,11 +70,7 @@ export default class MeetingList extends Component {
       const year = startTime.year();
       const week = startTime.week();
       const quarter = startTime.quarter();
-      if (
-        year === currentYear &&
-        week === currentWeek &&
-        moment() < startTime
-      ) {
+      if (year === currentYear && week === currentWeek && moment() < startTime) {
         pools[0].meetings.push(meeting);
       } else if (year === currentYear && week === currentWeek + 1) {
         pools[1].meetings.push(meeting);
@@ -92,8 +78,7 @@ export default class MeetingList extends Component {
         pools[2].meetings.push(meeting);
       } else {
         // Sort other meetings with their semester-code. eg V2017
-        const title =
-          (Math.ceil(quarter / 2) - 1 ? 'H' : 'V') + year.toString();
+        const title = (Math.ceil(quarter / 2) - 1 ? 'H' : 'V') + year.toString();
         fields[title] = fields[title] || { title, meetings: [] };
         fields[title].meetings.push(meeting);
       }
@@ -143,9 +128,7 @@ export default class MeetingList extends Component {
             ))}
           </div>
         ))}
-        {isEmpty && (
-          <h2 style={{ textAlign: 'center' }}> Ingen møter å vise</h2>
-        )}
+        {isEmpty && <h2 style={{ textAlign: 'center' }}> Ingen møter å vise</h2>}
       </div>
     );
   }

@@ -12,6 +12,4 @@ function mapStateToProps(state, props) {
 
 const mapDispatchToProps = { createGallery, push };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps))(
-  GalleryEditor
-);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(GalleryEditor);

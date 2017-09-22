@@ -12,9 +12,7 @@ const Feed = ({ items }) => (
     {items.length ? (
       items.map((item, i) => {
         const renders = activityRenderers[item.verb];
-        return renders ? (
-          <Activity aggregatedActivity={item} key={i} renders={renders} />
-        ) : null;
+        return renders ? <Activity aggregatedActivity={item} key={i} renders={renders} /> : null;
       })
     ) : (
       <p>No activities...</p>

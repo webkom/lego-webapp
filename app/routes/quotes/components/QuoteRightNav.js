@@ -8,12 +8,7 @@ type Props = {
   actionGrant: Array<string>
 };
 
-export default function QuoteRightNav({
-  query,
-  detail,
-  actionGrant,
-  ...props
-}: Props) {
+export default function QuoteRightNav({ query, detail, actionGrant, ...props }: Props) {
   const path = query.filter;
   return (
     <div className={styles.quotepageRight} style={{ marginTop: '15px' }}>
@@ -24,12 +19,8 @@ export default function QuoteRightNav({
       ) : (
         actionGrant &&
         actionGrant.includes('approve') && (
-          <Link
-            to={path === 'unapproved' ? '/quotes' : '/quotes?filter=unapproved'}
-          >
-            {path === 'unapproved'
-              ? 'Godkjente sitater'
-              : 'Ikke godkjente sitater'}
+          <Link to={path === 'unapproved' ? '/quotes' : '/quotes?filter=unapproved'}>
+            {path === 'unapproved' ? 'Godkjente sitater' : 'Ikke godkjente sitater'}
           </Link>
         )
       )}

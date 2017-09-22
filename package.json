@@ -150,7 +150,7 @@
   },
   "lint-staged": {
     "app/**/*.{js,css}": [
-      "prettier --write --single-quote",
+      "prettier --write --single-quote --print-width 100",
       "git add"
     ]
   },

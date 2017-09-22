@@ -68,10 +68,7 @@ export default class PageDetail extends Component {
               )}
             </div>
             {this.state.isEditing ? (
-              <Editor
-                content={page.content}
-                onChange={this.handleEditorChange}
-              />
+              <Editor content={page.content} onChange={this.handleEditorChange} />
             ) : (
               <div dangerouslySetInnerHTML={{ __html: page.content }} />
             )}

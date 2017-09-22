@@ -17,9 +17,7 @@ const CompaniesRoute = (props: Props) => {
 
 const mapStateToProps = (state, props) => {
   const { query } = props.location;
-  const companies = state.companies.items.map(
-    item => state.companies.byId[item]
-  );
+  const companies = state.companies.items.map(item => state.companies.byId[item]);
   return {
     companies,
     query,

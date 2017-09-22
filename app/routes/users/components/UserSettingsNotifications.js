@@ -11,10 +11,7 @@ type Props = {
     notificationTypes: Array<string>
   },
   settings: Object,
-  updateNotificationSetting: (
-    notificationType: string,
-    channels: Array<*>
-  ) => void
+  updateNotificationSetting: (notificationType: string, channels: Array<*>) => void
 };
 
 const UserSettingsNotifications = (props: Props) => {
@@ -29,32 +26,28 @@ const UserSettingsNotifications = (props: Props) => {
       <h1>Notifikasjoner</h1>
 
       <p>
-        Abakus sender ut notifikasjoner for forskjellige hendleser som skjer.
-        Her kan du selv velge hva du vil motta og på hvilken kanal.
+        Abakus sender ut notifikasjoner for forskjellige hendleser som skjer. Her kan du selv velge
+        hva du vil motta og på hvilken kanal.
       </p>
 
       <table className={styles.table}>
         <thead>
           <tr>
             <th>Type</th>
-            {props.alternatives.channels.map((channel, key) => (
-              <th key={key}>{channel}</th>
-            ))}
+            {props.alternatives.channels.map((channel, key) => <th key={key}>{channel}</th>)}
           </tr>
         </thead>
         <tbody>
           {props.alternatives.notificationTypes.map((notificationType, key) => {
             const setting =
-              props.settings[notificationType] ||
-              defaultNotificationSetting(notificationType);
+              props.settings[notificationType] || defaultNotificationSetting(notificationType);
             const channnelSetting = channel =>
               setting.channels.includes(channel) && setting.enabled;
             const changeSetting = (changeChannel, value) => {
               props.updateNotificationSetting(
                 notificationType,
                 props.alternatives.channels.filter(
-                  channel =>
-                    changeChannel === channel ? value : channnelSetting(channel)
+                  channel => (changeChannel === channel ? value : channnelSetting(channel))
                 )
               );
             };

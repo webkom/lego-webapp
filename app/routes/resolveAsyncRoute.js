@@ -32,9 +32,7 @@ type AsyncOrSyncRouteConfig =
  * )
  * ```
  */
-export default function resolveAsyncRoute(
-  componentFn: ComponentFn
-): AsyncOrSyncRouteConfig {
+export default function resolveAsyncRoute(componentFn: ComponentFn): AsyncOrSyncRouteConfig {
   if (typeof componentFn !== 'function') {
     throw new TypeError(
       'The first argument of resolveAsyncRoute() must be a function returning an import()-promise'

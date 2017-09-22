@@ -10,9 +10,7 @@ export const Year = ({ joblisting }) => (
   </div>
 );
 
-export const Workplaces = ({ places }) => (
-  <div>{joinValues(places.map(place => place.town))}</div>
-);
+export const Workplaces = ({ places }) => <div>{joinValues(places.map(place => place.town))}</div>;
 
 export const jobType = status => {
   const types = {

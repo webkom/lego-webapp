@@ -31,11 +31,7 @@ export default class CommentRendrer extends Component {
       return (
         <div className={styles.activityHeader}>
           <div className={styles.activityHeaderItem}>
-            <ProfilePicture
-              size={40}
-              user={actor}
-              style={{ marginRight: 25 }}
-            />
+            <ProfilePicture size={40} user={actor} style={{ marginRight: 25 }} />
             <Link to={`/users/${actor.username}/`}>
               {actor.firstName} {actor.lastName}
             </Link>
@@ -56,20 +52,15 @@ export default class CommentRendrer extends Component {
       : aggregatedActivity.activities.slice(0, 3);
     return (
       <Card style={{ padding: '0', margin: '20px 0 20px 0' }}>
-        <div className={styles.header}>
-          {renders.activityHeader(aggregatedActivity)}
-        </div>
+        <div className={styles.header}>{renders.activityHeader(aggregatedActivity)}</div>
         {activities.map((activity, i) => (
           <div key={i}>
             {this.renderHeader(activity, aggregatedActivity)}
-            <div className={styles.activityContent}>
-              {renders.activityContent(activity)}
-            </div>
+            <div className={styles.activityContent}>{renders.activityContent(activity)}</div>
           </div>
         ))}
         {(aggregatedActivity.activityCount > 3 && !this.state.expanded) ||
-        (aggregatedActivity.activityCount > activities.length &&
-          this.state.expanded) ? (
+        (aggregatedActivity.activityCount > activities.length && this.state.expanded) ? (
           <div className={styles.activityFooter}>
             {aggregatedActivity.activities.length > 3 &&
               !this.state.expanded && (
@@ -83,8 +74,7 @@ export default class CommentRendrer extends Component {
               )}
             {aggregatedActivity.activityCount > activities.length &&
               this.state.expanded &&
-              `og ${aggregatedActivity.activityCount -
-                activities.length} skjulte aktiviteter...`}
+              `og ${aggregatedActivity.activityCount - activities.length} skjulte aktiviteter...`}
           </div>
         ) : null}
       </Card>

@@ -1,10 +1,6 @@
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
-import {
-  fetchAll,
-  addSemesterStatus,
-  editSemesterStatus
-} from '../../actions/CompanyActions';
+import { fetchAll, addSemesterStatus, editSemesterStatus } from '../../actions/CompanyActions';
 import BdbPage from './components/BdbPage';
 import { compose } from 'redux';
 import { selectCompanies } from 'app/reducers/companies';

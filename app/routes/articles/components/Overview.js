@@ -39,14 +39,10 @@ export default class Overview extends Component {
       <section className={styles.frontpage}>
         <div className={styles.overview}>
           <div className={styles.headline}>
-            {headlineEvents.map(article => (
-              <OverviewItem key={article.id} article={article} />
-            ))}
+            {headlineEvents.map(article => <OverviewItem key={article.id} article={article} />)}
           </div>
           <div className={styles.normal}>
-            {normalEvents.map(article => (
-              <OverviewItem key={article.id} article={article} />
-            ))}
+            {normalEvents.map(article => <OverviewItem key={article.id} article={article} />)}
           </div>
         </div>
 

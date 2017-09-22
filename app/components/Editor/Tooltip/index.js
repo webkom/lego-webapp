@@ -51,10 +51,7 @@ export default class Tooltip extends Component {
     const rect = range.getBoundingClientRect();
     menu.style.display = 'initial';
     menu.style.top = `${rect.top + global.scrollY - menu.offsetHeight}px`;
-    menu.style.left = `${rect.left +
-      global.scrollX -
-      menu.offsetWidth / 2 +
-      rect.width / 2}px`;
+    menu.style.left = `${rect.left + global.scrollX - menu.offsetWidth / 2 + rect.width / 2}px`;
   };
 
   hasStyle = type => {
@@ -88,9 +85,7 @@ export default class Tooltip extends Component {
               onClick={setInlineStyle}
             />
           ))}
-          {!this.props.disableBlocks && (
-            <span className={styles.tooltipSeperator} />
-          )}
+          {!this.props.disableBlocks && <span className={styles.tooltipSeperator} />}
           {!this.props.disableBlocks &&
             [
               { type: Blocks.H1, icon: 'font' },

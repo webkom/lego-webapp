@@ -111,8 +111,7 @@ export default class ImageBlock extends Component {
                   <Icon
                     className={cx(
                       styles.tooltipIcon,
-                      button.blockLayout === data.blockLayout &&
-                        styles.activeTooltipIcon
+                      button.blockLayout === data.blockLayout && styles.activeTooltipIcon
                     )}
                     name={button.icon}
                   />
@@ -121,12 +120,7 @@ export default class ImageBlock extends Component {
             </div>
           )}
 
-        <img
-          src={data.src}
-          {...attributes}
-          className={styles.image}
-          style={style}
-        />
+        <img src={data.src} {...attributes} className={styles.image} style={style} />
         {!uploading &&
           error && (
             <div className={styles.overlay}>

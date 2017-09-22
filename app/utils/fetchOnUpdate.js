@@ -21,9 +21,7 @@ function fetchOnUpdate<Props: Object>(
   watchProps: Array<$Enum<Props>>,
   fetchData: (params: $Shape<Props>, props: Props) => void
 ): (DecoratedComponent: ReactClass<*>) => ReactClass<*> {
-  console.warn(
-    'fetchOnUpdate is deprecated in favor of dispatched from "react-prepare"'
-  );
+  console.warn('fetchOnUpdate is deprecated in favor of dispatched from "react-prepare"');
   return DecoratedComponent =>
     class extends Component {
       state = {

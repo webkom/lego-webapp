@@ -44,10 +44,7 @@ export default function drawFancyNodes(context, { width, height }) {
 
   const graph = createErdosRenyi(25, 0.1);
 
-  const leftNodes = graph.nodes.map(() => [
-    width * Math.random() / 3,
-    Math.random() * height
-  ]);
+  const leftNodes = graph.nodes.map(() => [width * Math.random() / 3, Math.random() * height]);
 
   const rightNodes = graph.nodes.map(() => [
     width - width * Math.random() / 3,

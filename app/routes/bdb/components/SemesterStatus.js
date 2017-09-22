@@ -43,13 +43,9 @@ export default class SemesterStatus extends Component {
           value={`${companyId}-${semIndex}-${semesterStatus.id}-${semesterStatus.contactedStatus}`}
         >
           {Object.keys(statusStrings).map((statusString, j) => (
-            <option
-              key={j}
-              value={`${companyId}-${semIndex}-${semesterStatus.id}-${j}`}
-            >
+            <option key={j} value={`${companyId}-${semIndex}-${semesterStatus.id}-${j}`}>
               {statusStrings[j]}
-              {changedStatuses.find(matchSemester) &&
-              Number(semesterStatus.contactedStatus) === j
+              {changedStatuses.find(matchSemester) && Number(semesterStatus.contactedStatus) === j
                 ? ' *'
                 : ''}
             </option>

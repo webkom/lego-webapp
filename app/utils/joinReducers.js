@@ -7,9 +7,7 @@ type Reducer<S, A> = (state: S, action: A) => S;
  * in sequence with the nextState being the value of a
  * reduced prevState.
  */
-export default function joinReducers<S, A>(
-  ...reducers: Array<?Reducer<S, A>>
-): Reducer<S, A> {
+export default function joinReducers<S, A>(...reducers: Array<?Reducer<S, A>>): Reducer<S, A> {
   return (state, action) =>
     reducers.reduce((nextState, reducer) => {
       if (typeof reducer !== 'function') {

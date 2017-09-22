@@ -10,14 +10,7 @@ import { colorForEvent } from '../utils';
 import styles from './Calendar.css';
 import Pill from 'app/components/Pill';
 
-const Event = ({
-  id,
-  title,
-  description,
-  eventType,
-  registrationCount,
-  totalCapacity
-}) => (
+const Event = ({ id, title, description, eventType, registrationCount, totalCapacity }) => (
   <Popover
     key={id}
     render={() => (
@@ -32,9 +25,7 @@ const Event = ({
     <div>
       <h3 className={styles.eventItemTitle}>
         {title}
-        <Pill style={{ marginLeft: 10 }}>
-          {`${registrationCount} / ${totalCapacity}`}
-        </Pill>
+        <Pill style={{ marginLeft: 10 }}>{`${registrationCount} / ${totalCapacity}`}</Pill>
       </h3>
 
       {description}
@@ -46,13 +37,7 @@ const Event = ({
  * Represents a cell in the calendar
  */
 const CalendarCell = ({ day, className, prevOrNextMonth, events = [] }) => (
-  <div
-    className={cx(
-      styles.day,
-      prevOrNextMonth && styles.prevNextMonthDay,
-      className
-    )}
-  >
+  <div className={cx(styles.day, prevOrNextMonth && styles.prevNextMonthDay, className)}>
     <strong className={styles.dayNumber}>{day.date()}</strong>
     {events.map(Event)}
   </div>
@@ -63,9 +48,7 @@ const selectEvents = createSelector(
   state => state.events.byId,
   (state, props) => props.day,
   (eventIds, eventsById, day) =>
-    eventIds
-      .map(id => eventsById[id])
-      .filter(event => moment(event.startTime).isSame(day, 'day'))
+    eventIds.map(id => eventsById[id]).filter(event => moment(event.startTime).isSame(day, 'day'))
 );
 
 function mapStateToProps(state, ownProps) {

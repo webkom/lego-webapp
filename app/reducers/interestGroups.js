@@ -20,9 +20,7 @@ export default createEntityReducer({
   mutate(state, action) {
     switch (action.type) {
       case Membership.JOIN_GROUP.SUCCESS: {
-        const list = state.byId[action.meta.groupId].memberships.concat(
-          action.payload.result
-        );
+        const list = state.byId[action.meta.groupId].memberships.concat(action.payload.result);
         return {
           ...state,
           byId: {
@@ -41,10 +39,7 @@ export default createEntityReducer({
             ...state.byId,
             [action.meta.groupId]: {
               ...state.byId[action.meta.groupId],
-              memberships: without(
-                state.byId[action.meta.groupId].memberships,
-                action.meta.id
-              )
+              memberships: without(state.byId[action.meta.groupId].memberships, action.meta.id)
             }
           }
         };
@@ -77,8 +72,7 @@ export default createEntityReducer({
 export const selectInterestGroups = createSelector(
   state => state.interestGroups.byId,
   state => state.interestGroups.items,
-  (interestGroupById, interestGroupIds) =>
-    interestGroupIds.map(id => interestGroupById[id])
+  (interestGroupById, interestGroupIds) => interestGroupIds.map(id => interestGroupById[id])
 );
 
 export const selectInterestGroupById = createSelector(

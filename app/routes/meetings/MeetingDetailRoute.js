@@ -29,9 +29,7 @@ const loadData = (props, dispatch) => {
 const mapStateToProps = (state, props) => {
   const { action, token } = props.location.query;
   const meetingsToken = state.meetingsToken;
-  const showAnswer = Boolean(
-    meetingsToken.response === 'SUCCESS' && action && token
-  );
+  const showAnswer = Boolean(meetingsToken.response === 'SUCCESS' && action && token);
   return {
     meetingsToken,
     user: props.currentUser,
@@ -43,11 +41,7 @@ const MeetingComponent = props => {
   const { loggedIn, meetingsToken, router, resetMeetingsToken } = props;
   if (!loggedIn && meetingsToken.meeting) {
     return (
-      <MeetingAnswer
-        {...meetingsToken}
-        router={router}
-        resetMeetingsToken={resetMeetingsToken}
-      />
+      <MeetingAnswer {...meetingsToken} router={router} resetMeetingsToken={resetMeetingsToken} />
     );
   }
   return <MeetingDetailLoginRoute {...props} />;

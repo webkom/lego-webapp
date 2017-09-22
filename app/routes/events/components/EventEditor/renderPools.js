@@ -2,12 +2,7 @@
 import React from 'react';
 import styles from './EventEditor.css';
 import { Field } from 'redux-form';
-import {
-  TextInput,
-  DatePicker,
-  SelectInput,
-  Button
-} from 'app/components/Form';
+import { TextInput, DatePicker, SelectInput, Button } from 'app/components/Form';
 
 import moment from 'moment';
 

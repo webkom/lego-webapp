@@ -46,10 +46,7 @@ ParseState.prototype.from = function(index) {
 };
 
 ParseState.prototype.substring = function(start, end) {
-  return this.input.substring(
-    start + this.index,
-    (end || this.length) + this.index
-  );
+  return this.input.substring(start + this.index, (end || this.length) + this.index);
 };
 
 ParseState.prototype.trimLeft = function() {
@@ -145,8 +142,7 @@ function range(lower, upper) {
     if (state.length < 1) cached = false;
     else {
       var ch = state.at(0);
-      if (ch >= lower && ch <= upper)
-        cached = { remaining: state.from(1), matched: ch, ast: ch };
+      if (ch >= lower && ch <= upper) cached = { remaining: state.from(1), matched: ch, ast: ch };
       else cached = false;
     }
     savedState.putCached(pid, cached);
@@ -270,8 +266,7 @@ function nothing_p(state) {
 // returns succeeds if all the parsers in the sequence succeeds. It fails if any of them fail.
 function sequence() {
   var parsers = [];
-  for (var i = 0; i < arguments.length; ++i)
-    parsers.push(toParser(arguments[i]));
+  for (var i = 0; i < arguments.length; ++i) parsers.push(toParser(arguments[i]));
   var pid = parser_id++;
   return function(state) {
     var savedState = state;
@@ -319,8 +314,7 @@ function wsequence() {
 // successfull parse. It fails if all parsers fail.
 function choice() {
   var parsers = [];
-  for (var i = 0; i < arguments.length; ++i)
-    parsers.push(toParser(arguments[i]));
+  for (var i = 0; i < arguments.length; ++i) parsers.push(toParser(arguments[i]));
   var pid = parser_id++;
   return function(state) {
     var savedState = state;
@@ -861,11 +855,7 @@ Pxxl.Glyph.prototype = {
 
   var QUOTED_STRING = pick(
     1,
-    sequence(
-      DOUBLE_QUOTE,
-      flatten(repeat1(butnot(Char, DOUBLE_QUOTE))),
-      DOUBLE_QUOTE
-    )
+    sequence(DOUBLE_QUOTE, flatten(repeat1(butnot(Char, DOUBLE_QUOTE))), DOUBLE_QUOTE)
   );
 
   var HexDigit = choice(range('a', 'f'), range('A', 'F'), Digit);
@@ -881,15 +871,9 @@ Pxxl.Glyph.prototype = {
 
   //var PropName = flatten(sequence(Alpha, flatten(repeat0(choice(Alpha, UNDERSCORE)))));
   var PropName = flatten(repeat1(choice(Alpha, UNDERSCORE)));
-  var Prop1 = action(
-    sequence(PropName, repeat1(pick(1, sequence(Spaces, Integer)))),
-    MakeProp1
-  );
+  var Prop1 = action(sequence(PropName, repeat1(pick(1, sequence(Spaces, Integer)))), MakeProp1);
   var Prop2 = action(sequence(PropName, Spaces, QUOTED_STRING), MakeProp2);
-  var Prop3 = action(
-    sequence(PropName, Spaces, flatten(repeat1(NoSpaceChar))),
-    MakeProp2
-  );
+  var Prop3 = action(sequence(PropName, Spaces, flatten(repeat1(NoSpaceChar))), MakeProp2);
   var ENDPROPERTIES = token('ENDPROPERTIES');
   var Prop = trace(choice(Prop1, Prop2, Prop3, ENDPROPERTIES), 'prop');
   var PropRow = pick(0, sequence(Prop, EOL));
@@ -897,17 +881,11 @@ Pxxl.Glyph.prototype = {
   var BitmapRow = pick(0, sequence(ByteArray, EOL));
   var BITMAP = token('BITMAP');
   var BitmapStart = sequence(BITMAP, EOL);
-  var Bitmap = trace(
-    pick(1, sequence(BitmapStart, repeat0(BitmapRow))),
-    'bitmap'
-  );
+  var Bitmap = trace(pick(1, sequence(BitmapStart, repeat0(BitmapRow))), 'bitmap');
 
   var STARTCHAR = token('STARTCHAR');
   var ENDCHAR = token('ENDCHAR');
-  var GlyphStart = trace(
-    pick(2, sequence(STARTCHAR, Space, Text, EOL)),
-    'glyphstart'
-  );
+  var GlyphStart = trace(pick(2, sequence(STARTCHAR, Space, Text, EOL)), 'glyphstart');
   var GlyphEnd = sequence(ENDCHAR, EOL);
   var Glyph = trace(
     action(sequence(GlyphStart, repeat0(PropRow), Bitmap, GlyphEnd), MakeGlyph),
@@ -919,10 +897,7 @@ Pxxl.Glyph.prototype = {
   var STARTFONT = token('STARTFONT');
   var ENDFONT = token('ENDFONT');
   var Version = flatten(sequence(Natural, PERIOD, Natural));
-  var FontStart = trace(
-    pick(2, sequence(STARTFONT, Spaces, Version, EOL)),
-    'fontstart'
-  );
+  var FontStart = trace(pick(2, sequence(STARTFONT, Spaces, Version, EOL)), 'fontstart');
   var FontEnd = trace(sequence(ENDFONT, optional(EOL)), 'fontend'); // EOL optional for now
   var COMMENT = token('COMMENT');
   var Comment = pick(2, sequence(COMMENT, optional(Space), optional(Text)));
@@ -1088,8 +1063,7 @@ Pxxl.Font.ParseJSON = function(obj) {
   f.glyphs = {};
   for (var g in obj.glyphs) {
     //console.log(g);
-    if (obj.glyphs.hasOwnProperty(g))
-      f.glyphs[g] = Pxxl.Glyph.ParseJSON(obj.glyphs[g]);
+    if (obj.glyphs.hasOwnProperty(g)) f.glyphs[g] = Pxxl.Glyph.ParseJSON(obj.glyphs[g]);
   }
   return f;
 };
@@ -1101,8 +1075,7 @@ Pxxl.Font.ParseJSON = function(obj) {
     var method = postData ? 'POST' : 'GET';
     req.open(method, url, true);
     //req.setRequestHeader('User-Agent','XMLHTTP/1.0');
-    if (postData)
-      req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    if (postData) req.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
     req.onreadystatechange = function() {
       if (req.readyState != 4) return;
       if (req.status != 200 && req.status != 304) {

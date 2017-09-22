@@ -53,11 +53,7 @@ class RegisterForm extends Component {
     return (
       <Form onSubmit={handleSubmit(this.onSubmit)}>
         <Field name="email" component={TextInput.Field} placeholder="E-post" />
-        <Field
-          name="captchaResponse"
-          fieldStyle={{ width: 304 }}
-          component={Captcha.Field}
-        />
+        <Field name="captchaResponse" fieldStyle={{ width: 304 }} component={Captcha.Field} />
         <Button submit disabled={invalid | pristine | submitting} dark>
           Registrer deg
         </Button>

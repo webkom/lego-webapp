@@ -8,16 +8,10 @@ import {
   fetchOAuth2Grants,
   deleteOAuth2Grant
 } from 'app/actions/OAuth2Actions';
-import {
-  selectOAuth2Applications,
-  selectOAuth2Grants
-} from 'app/reducers/oauth2';
+import { selectOAuth2Applications, selectOAuth2Grants } from 'app/reducers/oauth2';
 
 const loadData = (props, dispatch) => {
-  return Promise.all([
-    dispatch(fetchOAuth2Applications()),
-    dispatch(fetchOAuth2Grants())
-  ]);
+  return Promise.all([dispatch(fetchOAuth2Applications()), dispatch(fetchOAuth2Grants())]);
 };
 
 const mapStateToProps = state => {

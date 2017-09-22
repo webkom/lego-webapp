@@ -55,12 +55,8 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { eventId } }, dispatch) =>
-      dispatch(fetchAdministrate(Number(eventId))),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
+  dispatched(({ params: { eventId } }, dispatch) => dispatch(fetchAdministrate(Number(eventId))), {
+    componentWillReceiveProps: false
+  }),
   connect(mapStateToProps, mapDispatchToProps)
 )(EventAdministrate);

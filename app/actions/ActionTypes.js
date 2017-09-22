@@ -176,13 +176,9 @@ export const User = {
   LOGOUT: 'User.LOGOUT',
   SOCKET: generateStatuses('User.SOCKET'),
   SEND_REGISTRATION_TOKEN: generateStatuses('User.SEND_REGISTRATION_TOKEN'),
-  VALIDATE_REGISTRATION_TOKEN: generateStatuses(
-    'User.VALIDATE_REGISTRATION_TOKEN'
-  ),
+  VALIDATE_REGISTRATION_TOKEN: generateStatuses('User.VALIDATE_REGISTRATION_TOKEN'),
   CREATE_USER: generateStatuses('User.CREATE_USER'),
-  SEND_STUDENT_CONFIRMATION_TOKEN: generateStatuses(
-    'User.SEND_STUDENT_CONFIRMATION_TOKEN'
-  ),
+  SEND_STUDENT_CONFIRMATION_TOKEN: generateStatuses('User.SEND_STUDENT_CONFIRMATION_TOKEN'),
   CONFIRM_STUDENT_USER: generateStatuses('User.CONFIRM_STUDENT_USER')
 };
 
@@ -243,9 +239,7 @@ export const OAuth2 = {
  *
  */
 export const NotificationSettings = {
-  FETCH_ALTERNATIVES: generateStatuses(
-    'NotificationSettings.FETCH_ALTERNATIVES'
-  ),
+  FETCH_ALTERNATIVES: generateStatuses('NotificationSettings.FETCH_ALTERNATIVES'),
   FETCH: generateStatuses('NotificationSettings.FETCH'),
   UPDATE: generateStatuses('NotificationSettings.UPDATE')
 };

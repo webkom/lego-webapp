@@ -27,11 +27,7 @@ const Buttons = ({ id, deleteJoblisting }) => (
   </FlexRow>
 );
 
-const JoblistingDetail = ({
-  joblisting,
-  deleteJoblisting,
-  actionGrant
-}: Props) => {
+const JoblistingDetail = ({ joblisting, deleteJoblisting, actionGrant }: Props) => {
   if (!joblisting) {
     return <LoadingIndicator loading />;
   }
@@ -57,10 +53,7 @@ const JoblistingDetail = ({
             </li>
             <li>
               Bedrift:{' '}
-              <Link
-                to={`/companies/${joblisting.company.id}`}
-                className={styles.company}
-              >
+              <Link to={`/companies/${joblisting.company.id}`} className={styles.company}>
                 {joblisting.company.name}
               </Link>
             </li>
@@ -73,10 +66,7 @@ const JoblistingDetail = ({
             {joblisting.applicationUrl && (
               <li>
                 Søk her:{' '}
-                <a
-                  href={`${joblisting.applicationUrl}`}
-                  className={styles.applicationUrl}
-                >
+                <a href={`${joblisting.applicationUrl}`} className={styles.applicationUrl}>
                   {joblisting.applicationUrl}
                 </a>
               </li>
@@ -92,9 +82,7 @@ const JoblistingDetail = ({
                 </li>
                 <li>Navn: {joblisting.responsible.name || 'Ikke oppgitt.'}</li>
                 <li>Mail: {joblisting.responsible.mail || 'Ikke oppgitt.'}</li>
-                <li>
-                  Telefon: {joblisting.responsible.phone || 'Ikke oppgitt.'}
-                </li>
+                <li>Telefon: {joblisting.responsible.phone || 'Ikke oppgitt.'}</li>
               </div>
             )}
           </ul>

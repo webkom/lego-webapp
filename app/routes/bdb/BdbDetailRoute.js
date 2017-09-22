@@ -1,10 +1,6 @@
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
-import {
-  fetch,
-  deleteSemesterStatus,
-  deleteCompanyContact
-} from 'app/actions/CompanyActions';
+import { fetch, deleteSemesterStatus, deleteCompanyContact } from 'app/actions/CompanyActions';
 import BdbDetail from './components/BdbDetail';
 import { compose } from 'redux';
 import {
@@ -36,11 +32,8 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { companyId } }, dispatch) => dispatch(fetch(companyId)),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
+  dispatched(({ params: { companyId } }, dispatch) => dispatch(fetch(companyId)), {
+    componentWillReceiveProps: false
+  }),
   connect(mapStateToProps, mapDispatchToProps)
 )(BdbDetail);

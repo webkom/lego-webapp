@@ -29,11 +29,7 @@ const GalleryEditorActions = ({
       <div className={styles.actionsContainer}>
         <Flex className={styles.actions} justifyContent="space-between">
           <span>
-            <Icon
-              className={styles.deselectIcon}
-              onClick={onDeselect}
-              name="close"
-            />
+            <Icon className={styles.deselectIcon} onClick={onDeselect} name="close" />
             {selectedCount} Selected
           </span>
           <div className={styles.actionBar}>

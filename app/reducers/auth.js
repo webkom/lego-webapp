@@ -20,10 +20,7 @@ const initialState = {
   studentConfirmed: null
 };
 
-export default function auth(
-  state: State = initialState,
-  action: Action
-): State {
+export default function auth(state: State = initialState, action: Action): State {
   switch (action.type) {
     case User.LOGIN.BEGIN:
       return {

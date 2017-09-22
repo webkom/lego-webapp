@@ -3,10 +3,7 @@ import { dispatched } from 'react-prepare';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import StudentConfirmation from './components/StudentConfirmation';
-import {
-  sendStudentConfirmationEmail,
-  confirmStudentUser
-} from 'app/actions/UserActions';
+import { sendStudentConfirmationEmail, confirmStudentUser } from 'app/actions/UserActions';
 
 const loadData = ({ location: { query: token } }, dispatch) => {
   if (token && token.token) {

@@ -64,21 +64,13 @@ export default class UserProfile extends Component {
           <div className={styles.sidebar}>
             <Card>
               {this.renderFields()}
-              {isMe ? (
-                <Link to="/users/me/settings/profile">Settings</Link>
-              ) : (
-                ''
-              )}
+              {isMe ? <Link to="/users/me/settings/profile">Settings</Link> : ''}
             </Card>
           </div>
 
           <div className={styles.feed}>
             <h2>Recent Activity</h2>
-            {feed ? (
-              <Feed items={feedItems} feed={feed} />
-            ) : (
-              <LoadingIndicator loading />
-            )}
+            {feed ? <Feed items={feedItems} feed={feed} /> : <LoadingIndicator loading />}
           </div>
         </Flex>
       </div>

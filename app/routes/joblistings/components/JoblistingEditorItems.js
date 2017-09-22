@@ -32,11 +32,7 @@ export const FieldComponent = ({ text, name, placeholder }) => (
   <FlexRow className={styles.row}>
     <FlexColumn className={styles.des}>{text}</FlexColumn>
     <FlexColumn className={styles.textfield}>
-      <Field
-        placeholder={placeholder}
-        name={name}
-        component={TextInput.Field}
-      />
+      <Field placeholder={placeholder} name={name} component={TextInput.Field} />
     </FlexColumn>
   </FlexRow>
 );

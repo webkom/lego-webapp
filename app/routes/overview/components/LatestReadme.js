@@ -20,8 +20,7 @@ class LatestReadme extends Component {
 
   render() {
     const { expanded } = this.state;
-    const toggle = () =>
-      this.setState(state => ({ expanded: !state.expanded }));
+    const toggle = () => this.setState(state => ({ expanded: !state.expanded }));
 
     return (
       <Flex column className={styles.latestReadme}>
@@ -30,10 +29,7 @@ class LatestReadme extends Component {
             <span>
               <ReadmeLogo />-utgaver
             </span>
-            <Icon
-              name={expanded ? 'close' : 'arrow-down'}
-              style={{ color: '#fff' }}
-            />
+            <Icon name={expanded ? 'close' : 'arrow-down'} style={{ color: '#fff' }} />
           </Flex>
         </button>
 
@@ -45,9 +41,7 @@ class LatestReadme extends Component {
                 href={`http://readme.abakus.no/utgaver/2016/2016-0${issue}.pdf`}
                 className={styles.thumb}
               >
-                <Image
-                  src={`http://readme.abakus.no/bilder/2016/2016-0${issue}.jpg`}
-                />
+                <Image src={`http://readme.abakus.no/bilder/2016/2016-0${issue}.jpg`} />
               </a>
             ))}
           </Flex>

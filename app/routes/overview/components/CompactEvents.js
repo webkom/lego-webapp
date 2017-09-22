@@ -27,9 +27,7 @@ export default class CompactEvents extends Component {
       return events
         .sort((a, b) => a.startTime - b.startTime)
         .filter(
-          event =>
-            event.startTime > moment.now() &&
-            eventTypes.indexOf(event.eventType) !== -1
+          event => event.startTime > moment.now() && eventTypes.indexOf(event.eventType) !== -1
         )
         .slice(0, this.state.eventsToShow)
         .map((event, key) => (
@@ -56,10 +54,7 @@ export default class CompactEvents extends Component {
         ));
     };
 
-    const leftEvents = mapEvents([
-      'company_presentation',
-      'lunch_presentation'
-    ]);
+    const leftEvents = mapEvents(['company_presentation', 'lunch_presentation']);
 
     const rightEvents = mapEvents(['other', 'event']);
 
@@ -81,8 +76,7 @@ export default class CompactEvents extends Component {
         <Flex style={{ alignSelf: 'center' }}>
           <a
             style={{ marginRight: '10px' }}
-            onClick={() =>
-              this.setState({ eventsToShow: this.state.eventsToShow + 5 })}
+            onClick={() => this.setState({ eventsToShow: this.state.eventsToShow + 5 })}
           >
             Vis flere <i className="fa fa-angle-double-down " />
           </a>

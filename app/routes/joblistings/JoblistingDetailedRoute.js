@@ -1,9 +1,6 @@
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
-import {
-  fetchJoblisting,
-  deleteJoblisting
-} from 'app/actions/JoblistingActions';
+import { fetchJoblisting, deleteJoblisting } from 'app/actions/JoblistingActions';
 import JoblistingDetail from './components/JoblistingDetail';
 import { compose } from 'redux';
 
@@ -22,12 +19,8 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = { fetchJoblisting, deleteJoblisting };
 
 export default compose(
-  dispatched(
-    ({ params: { joblistingId } }, dispatch) =>
-      dispatch(fetchJoblisting(joblistingId)),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
+  dispatched(({ params: { joblistingId } }, dispatch) => dispatch(fetchJoblisting(joblistingId)), {
+    componentWillReceiveProps: false
+  }),
   connect(mapStateToProps, mapDispatchToProps)
 )(JoblistingDetail);

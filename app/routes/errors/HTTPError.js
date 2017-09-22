@@ -17,9 +17,7 @@ const getHTTPError = statusCode => {
 
 export default class HTTPError extends Component {
   componentDidMount() {
-    const statusCode = this.props.statusCode
-      ? this.props.statusCode.toString()
-      : '404';
+    const statusCode = this.props.statusCode ? this.props.statusCode.toString() : '404';
     renderAbakus(statusCode, this.canvas);
   }
 
@@ -32,12 +30,7 @@ export default class HTTPError extends Component {
   render() {
     return (
       <Content>
-        <Flex
-          column
-          alignItems="center"
-          justifyContent="center"
-          style={{ padding: '10px' }}
-        >
+        <Flex column alignItems="center" justifyContent="center" style={{ padding: '10px' }}>
           <Link to="/">
             <canvas
               id="canvas"
@@ -47,9 +40,7 @@ export default class HTTPError extends Component {
               style={{ width: '100%' }}
             />
           </Link>
-          <h1 style={{ textAlign: 'center' }}>
-            {getHTTPError(this.props.statusCode)}
-          </h1>
+          <h1 style={{ textAlign: 'center' }}>{getHTTPError(this.props.statusCode)}</h1>
         </Flex>
       </Content>
     );

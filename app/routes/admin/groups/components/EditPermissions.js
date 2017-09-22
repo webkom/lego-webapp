@@ -49,10 +49,7 @@ export default class EditPermissions extends Component {
       return;
     }
 
-    const permissions = [
-      ...this.state.permissions,
-      this.newPermissionRef.value
-    ];
+    const permissions = [...this.state.permissions, this.newPermissionRef.value];
     this.newPermissionRef.value = '';
     this.setState({
       permissions
@@ -82,10 +79,7 @@ export default class EditPermissions extends Component {
           <input type="submit" value="+" />
         </form>
         <br />
-        <button
-          onClick={this.save}
-          style={{ display: edited ? 'block' : 'none' }}
-        >
+        <button onClick={this.save} style={{ display: edited ? 'block' : 'none' }}>
           Save
         </button>
       </div>

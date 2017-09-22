@@ -7,9 +7,7 @@ export type ActionTypeObject = {|
 |};
 export type ActionTypeArray = [string, string, string];
 
-function extractTypes(
-  types: ActionTypeArray | ActionTypeObject
-): ActionTypeArray {
+function extractTypes(types: ActionTypeArray | ActionTypeObject): ActionTypeArray {
   if (Array.isArray(types)) {
     return types;
   }

@@ -1,11 +1,6 @@
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
-import {
-  fetchQuote,
-  approve,
-  unapprove,
-  deleteQuote
-} from '../../actions/QuoteActions';
+import { fetchQuote, approve, unapprove, deleteQuote } from '../../actions/QuoteActions';
 import QuoteDetail from './components/QuoteDetail';
 import { compose } from 'redux';
 import { selectQuoteById, selectCommentsForQuote } from 'app/reducers/quotes';
@@ -37,9 +32,8 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { quoteId } }, dispatch) => dispatch(fetchQuote(quoteId)),
-    { componentWillReceiveProps: false }
-  ),
+  dispatched(({ params: { quoteId } }, dispatch) => dispatch(fetchQuote(quoteId)), {
+    componentWillReceiveProps: false
+  }),
   connect(mapStateToProps, mapDispatchToProps)
 )(QuoteDetail);

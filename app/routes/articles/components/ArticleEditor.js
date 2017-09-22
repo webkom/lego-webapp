@@ -3,12 +3,7 @@ import { FlexRow } from 'app/components/FlexBox';
 import Button from 'app/components/Button';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import styles from './ArticleEditor.css';
-import {
-  EditorField,
-  TextInput,
-  SelectInput,
-  ImageUploadField
-} from 'app/components/Form';
+import { EditorField, TextInput, SelectInput, ImageUploadField } from 'app/components/Form';
 import { Form, Field } from 'redux-form';
 
 /**

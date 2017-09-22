@@ -35,9 +35,7 @@ const blocks = [
     before: /^(--)$/,
     after: /^$/,
     transform: transform =>
-      transform
-        .setBlock({ type: Blocks.Break, isVoid: true })
-        .collapseToStartOfNextBlock()
+      transform.setBlock({ type: Blocks.Break, isVoid: true }).collapseToStartOfNextBlock()
   })
 ];
 

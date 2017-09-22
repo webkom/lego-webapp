@@ -35,13 +35,7 @@ export default class EditCompanyContact extends Component {
   props: Props;
 
   render() {
-    const {
-      company,
-      companyContact,
-      submitting,
-      autoFocus,
-      handleSubmit
-    } = this.props;
+    const { company, companyContact, submitting, autoFocus, handleSubmit } = this.props;
 
     if (!company || !companyContact) {
       return <LoadingIndicator />;
@@ -51,8 +45,7 @@ export default class EditCompanyContact extends Component {
       <div className={styles.root}>
         <h1>Endre bedriftskontakt</h1>
         <h3>
-          <Link to={`/bdb/${company.id}`}>{company.name}</Link> sin
-          bedriftskontakt
+          <Link to={`/bdb/${company.id}`}>{company.name}</Link> sin bedriftskontakt
         </h3>
 
         <div className={styles.detail}>

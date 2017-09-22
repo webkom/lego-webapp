@@ -12,11 +12,7 @@ type CommentEntity = {
   parent: string
 };
 
-export function addComment({
-  text,
-  commentTarget,
-  parent
-}: CommentEntity): Thunk<*> {
+export function addComment({ text, commentTarget, parent }: CommentEntity): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('comment'));
 

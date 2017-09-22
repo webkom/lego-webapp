@@ -1,10 +1,7 @@
 const EMAIL_REGEX = /.+@.+\..+/;
 const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,72}$/;
 
-export const required = (message = 'Feltet må fylles ut') => value => [
-  !!value,
-  message
-];
+export const required = (message = 'Feltet må fylles ut') => value => [!!value, message];
 
 export const matchesRegex = (regex, message) => value => [
   // Ignore empty values here, since we want to validate
@@ -13,8 +10,7 @@ export const matchesRegex = (regex, message) => value => [
   message || `Not matching pattern ${regex.toString()}`
 ];
 
-export const isEmail = (message = 'Ugyldig e-post') =>
-  matchesRegex(EMAIL_REGEX, message);
+export const isEmail = (message = 'Ugyldig e-post') => matchesRegex(EMAIL_REGEX, message);
 
 export const validPassword = (
   message = 'Passordet må inneholde store og små bokstaver og tall, samt være minst 8 tegn langt.'

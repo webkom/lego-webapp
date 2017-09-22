@@ -16,10 +16,7 @@ export type Props = {
 
 const Tab = ({ name, index, activePoolIndex, togglePool }) => (
   <a
-    className={cx(
-      styles.navButton,
-      activePoolIndex === index && styles.activeItem
-    )}
+    className={cx(styles.navButton, activePoolIndex === index && styles.activeItem)}
     onClick={() => togglePool(index)}
   >
     {name}

@@ -26,16 +26,12 @@ const groups = [
 describe('<GroupTree />', () => {
   it('should render the child nodes as links', () => {
     const wrapper = shallow(<GroupTree groups={groups} />);
-    expect(
-      wrapper.containsMatchingElement(
-        <Link to="/admin/groups/2/settings">Dog</Link>
-      )
-    ).toEqual(true);
+    expect(wrapper.containsMatchingElement(<Link to="/admin/groups/2/settings">Dog</Link>)).toEqual(
+      true
+    );
 
     expect(
-      wrapper.containsMatchingElement(
-        <Link to="/admin/groups/3/settings">Bird</Link>
-      )
+      wrapper.containsMatchingElement(<Link to="/admin/groups/3/settings">Bird</Link>)
     ).toEqual(true);
   });
 

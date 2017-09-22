@@ -12,15 +12,9 @@ type Props = {
   size?: 'small' | 'large'
 };
 
-const GalleryDetailsRow = ({
-  gallery,
-  showDescription = false,
-  size = 'large'
-}: Props) => (
+const GalleryDetailsRow = ({ gallery, showDescription = false, size = 'large' }: Props) => (
   <Flex className={styles.details} column>
-    <div
-      className={size === 'small' ? styles.smallDetails : styles.largeDetails}
-    >
+    <div className={size === 'small' ? styles.smallDetails : styles.largeDetails}>
       {gallery.event && (
         <span className={styles.detail}>
           <Link to={`/events/${gallery.event.id}`}>{gallery.event.title}</Link>
@@ -35,14 +29,10 @@ const GalleryDetailsRow = ({
         </span>
       )}
 
-      {gallery.location && (
-        <span className={styles.detail}>{gallery.location}</span>
-      )}
+      {gallery.location && <span className={styles.detail}>{gallery.location}</span>}
     </div>
 
-    {showDescription && (
-      <p className={styles.description}>{gallery.description}</p>
-    )}
+    {showDescription && <p className={styles.description}>{gallery.description}</p>}
   </Flex>
 );
 

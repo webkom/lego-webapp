@@ -13,12 +13,7 @@ type Props = {
   tight?: boolean
 };
 
-function Card({
-  children,
-  dark = false,
-  tight = false,
-  ...htmlAttributes
-}: Props) {
+function Card({ children, dark = false, tight = false, ...htmlAttributes }: Props) {
   return (
     <div
       className={cx(styles.card, dark && styles.dark, tight && styles.tight)}

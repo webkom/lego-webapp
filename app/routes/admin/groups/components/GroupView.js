@@ -5,8 +5,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 
 const Group = props => {
   const { description } = props.group;
-  const descriptionText =
-    description && description.length ? `(${description})` : '';
+  const descriptionText = description && description.length ? `(${description})` : '';
 
   return (
     <div>
@@ -31,9 +30,7 @@ export default class GroupView extends Component {
     return (
       <section className="GroupPage__content">
         <LoadingIndicator loading={!group}>
-          <section className="content event-page">
-            {group && <Group {...this.props} />}
-          </section>
+          <section className="content event-page">{group && <Group {...this.props} />}</section>
         </LoadingIndicator>
       </section>
     );

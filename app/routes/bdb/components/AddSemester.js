@@ -48,8 +48,7 @@ export default class AddSemester extends Component {
         <div className={styles.detail}>
           <div className={styles.leftSection}>
             <i style={{ display: 'block', marginBottom: '10px' }}>
-              Hint: du kan legge til status for flere semestere samtidig på
-              Bdb-forsiden!
+              Hint: du kan legge til status for flere semestere samtidig på Bdb-forsiden!
             </i>
 
             <form onSubmit={handleSubmit(this.onSubmit)}>

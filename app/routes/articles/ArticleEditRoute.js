@@ -28,12 +28,9 @@ const mapDispatchToProps = { fetchArticle, editArticle, uploadFile };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { articleId } }, dispatch) => dispatch(fetchArticle(articleId)),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
+  dispatched(({ params: { articleId } }, dispatch) => dispatch(fetchArticle(articleId)), {
+    componentWillReceiveProps: false
+  }),
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     destroyOnUnmount: false,

@@ -21,17 +21,11 @@ const RegisteredCell = ({ user }) => (
 
 const Title = ({ group: { name, id }, showEdit, editClick }) => (
   <NavigationTab title={name}>
-    {showEdit && (
-      <NavigationLink to={`/interestgroups/${id}/edit`}>
-        [Rediger]
-      </NavigationLink>
-    )}
+    {showEdit && <NavigationLink to={`/interestgroups/${id}/edit`}>[Rediger]</NavigationLink>}
   </NavigationTab>
 );
 
-const Description = ({ description }) => (
-  <Flex className={styles.description}>{description}</Flex>
-);
+const Description = ({ description }) => <Flex className={styles.description}>{description}</Flex>;
 
 const Sidebar = ({ group }) => (
   <Flex column className={styles.sideBar}>
@@ -41,18 +35,14 @@ const Sidebar = ({ group }) => (
   </Flex>
 );
 
-const SidebarHeader = ({ text }) => (
-  <div style={{ 'font-weight': 'bold' }}>{text}</div>
-);
+const SidebarHeader = ({ text }) => <div style={{ 'font-weight': 'bold' }}>{text}</div>;
 
 const Members = ({ members, name }) => (
   <Flex column>
     <SidebarHeader text={`Medlemmer (${members.length})`} />
     <Flex wrap>
       {members &&
-        members
-          .slice(0, 10)
-          .map(reg => <RegisteredCell key={reg.user.id} user={reg.user} />)}
+        members.slice(0, 10).map(reg => <RegisteredCell key={reg.user.id} user={reg.user} />)}
     </Flex>
   </Flex>
 );
@@ -75,23 +65,14 @@ const Text = ({ text }) => (
   </Flex>
 );
 
-const ButtonRow = ({
-  group,
-  currentUser,
-  joinInterestGroup,
-  leaveInterestGroup
-}) => {
-  const membership = group.memberships.filter(
-    m => m.user.id === currentUser.id
-  )[0];
+const ButtonRow = ({ group, currentUser, joinInterestGroup, leaveInterestGroup }) => {
+  const membership = group.memberships.filter(m => m.user.id === currentUser.id)[0];
   const onClick = membership
     ? () => leaveInterestGroup(membership)
     : () => joinInterestGroup(group.id, currentUser);
   return (
     <Flex>
-      <Button onClick={onClick}>
-        {membership ? 'Forlat Gruppen' : 'Bli med i gruppen'}
-      </Button>
+      <Button onClick={onClick}>{membership ? 'Forlat Gruppen' : 'Bli med i gruppen'}</Button>
     </Flex>
   );
 };

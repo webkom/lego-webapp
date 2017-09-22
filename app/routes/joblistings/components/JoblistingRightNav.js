@@ -65,10 +65,7 @@ export default class JoblistingsRightNav extends Component {
   };
 
   filterLinkto = (type, value, label) => (
-    <Link
-      to={{ pathname: '/joblistings', query: this.updateFilters(type, value) }}
-      key={value}
-    >
+    <Link to={{ pathname: '/joblistings', query: this.updateFilters(type, value) }} key={value}>
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <CheckBox value={this.state.filters[type].includes(value)} readOnly />
         <span style={{ marginLeft: '5px' }}>{label}</span>
