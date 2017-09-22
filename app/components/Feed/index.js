@@ -8,7 +8,8 @@ export const activityRenderers = {
   meeting_invitation: require('./renders/meetingInvitation'),
   restricted_mail_sent: require('./renders/restrictedMail'),
   registration_bump: require('./renders/registrationBump'),
-  admin_registration: require('./renders/adminRegistration')
+  admin_registration: require('./renders/adminRegistration'),
+  announcement: require('./renders/announcement')
 };
 
 const Feed = ({ items }: { items: Array<AggregatedActivity> }) => (
