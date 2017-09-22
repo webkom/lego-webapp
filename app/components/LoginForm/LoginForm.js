@@ -50,8 +50,7 @@ class LoginForm extends Component {
         .login(username, password)
         .then(
           () => this.mounted && this.setState({ submitting: false }),
-          () =>
-            this.mounted && this.setState({ submitting: false, error: true })
+          () => this.mounted && this.setState({ submitting: false, error: true })
         );
     },
     500,

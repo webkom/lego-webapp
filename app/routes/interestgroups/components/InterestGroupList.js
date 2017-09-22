@@ -18,8 +18,8 @@ const InterestGroupList = (props: Props) => {
         <div>
           <h1>Interessegrupper</h1>
           <p>
-            <strong>Her</strong> finner du all praktisk informasjon knyttet til
-            våre interessegrupper.
+            <strong>Her</strong> finner du all praktisk informasjon knyttet til våre
+            interessegrupper.
           </p>
         </div>
         <Link to={'/interestgroups/create'} className={styles.link}>

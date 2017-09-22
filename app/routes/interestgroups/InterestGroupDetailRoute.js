@@ -33,8 +33,7 @@ const mapDispatchToProps = {
 
 export default compose(
   dispatched(
-    ({ params: { interestGroupId } }, dispatch) =>
-      dispatch(fetchInterestGroup(interestGroupId)),
+    ({ params: { interestGroupId } }, dispatch) => dispatch(fetchInterestGroup(interestGroupId)),
     {
       componentWillReceiveProps: false
     }

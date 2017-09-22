@@ -57,9 +57,7 @@ export default class Quote extends Component {
           </span>
 
           <div className={styles.bottomRow}>
-            <div className={styles.quoteDate}>
-              {<Time time={quote.createdAt} wordsAgo />}
-            </div>
+            <div className={styles.quoteDate}>{<Time time={quote.createdAt} wordsAgo />}</div>
 
             <div className={styles.bottomRight}>
               <div className={styles.commentCount}>
@@ -70,57 +68,52 @@ export default class Quote extends Component {
               </div>
 
               {actionGrant &&
-              actionGrant.includes('approve') && (
-                <div className={styles.quoteAdmin}>
-                  <Dropdown
-                    show={displayAdmin}
-                    toggle={() => setDisplayAdmin(quote.id)}
-                    contentClassName={'adminDropdown2'}
-                    triggerComponent={
-                      <Icon
-                        name="arrow-dropdown"
-                        className={styles.dropdownIcon}
-                      />
-                    }
-                  >
-                    <Dropdown.List>
-                      <Dropdown.ListItem>
-                        <a
-                          className="approveQuote"
-                          onClick={() =>
-                            quote.approved
-                              ? unapprove(quote.id)
-                              : approve(quote.id)}
-                        >
-                          {' '}
-                          {quote.approved ? 'Fjern Godkjenning' : 'Godkjenn'}
-                        </a>
-                      </Dropdown.ListItem>
-                      <Dropdown.Divider />
-                      {!this.state.deleting ? (
+                actionGrant.includes('approve') && (
+                  <div className={styles.quoteAdmin}>
+                    <Dropdown
+                      show={displayAdmin}
+                      toggle={() => setDisplayAdmin(quote.id)}
+                      contentClassName={'adminDropdown2'}
+                      triggerComponent={
+                        <Icon name="arrow-dropdown" className={styles.dropdownIcon} />
+                      }
+                    >
+                      <Dropdown.List>
                         <Dropdown.ListItem>
                           <a
-                            className={styles.deleteQuote}
-                            onClick={() => this.setState({ deleting: true })}
+                            className="approveQuote"
+                            onClick={() =>
+                              quote.approved ? unapprove(quote.id) : approve(quote.id)}
                           >
-                            Slett
+                            {' '}
+                            {quote.approved ? 'Fjern Godkjenning' : 'Godkjenn'}
                           </a>
                         </Dropdown.ListItem>
-                      ) : (
-                        <Dropdown.ListItem>
-                          <a
-                            className={styles.deleteQuote}
-                            onClick={() => deleteQuote(quote.id)}
-                            style={{ fontWeight: 600 }}
-                          >
-                            Er du sikker?
-                          </a>
-                        </Dropdown.ListItem>
-                      )}
-                    </Dropdown.List>
-                  </Dropdown>
-                </div>
-              )}
+                        <Dropdown.Divider />
+                        {!this.state.deleting ? (
+                          <Dropdown.ListItem>
+                            <a
+                              className={styles.deleteQuote}
+                              onClick={() => this.setState({ deleting: true })}
+                            >
+                              Slett
+                            </a>
+                          </Dropdown.ListItem>
+                        ) : (
+                          <Dropdown.ListItem>
+                            <a
+                              className={styles.deleteQuote}
+                              onClick={() => deleteQuote(quote.id)}
+                              style={{ fontWeight: 600 }}
+                            >
+                              Er du sikker?
+                            </a>
+                          </Dropdown.ListItem>
+                        )}
+                      </Dropdown.List>
+                    </Dropdown>
+                  </div>
+                )}
             </div>
           </div>
         </div>

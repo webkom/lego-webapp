@@ -6,10 +6,7 @@ import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
 
 const Registration = ({ registration }) => (
   <Tooltip content={registration.user.fullName}>
-    <Link
-      to={`/users/${registration.user.username}`}
-      style={{ color: 'inherit' }}
-    >
+    <Link to={`/users/${registration.user.username}`} style={{ color: 'inherit' }}>
       {registration.user.firstName.split(' ')[0]}
     </Link>
   </Tooltip>
@@ -17,9 +14,7 @@ const Registration = ({ registration }) => (
 
 const renderNameList = registrations => (
   <FlexColumn>
-    {registrations.map(reg => (
-      <FlexItem key={reg.id}>{reg.user.fullName}</FlexItem>
-    ))}
+    {registrations.map(reg => <FlexItem key={reg.id}>{reg.user.fullName}</FlexItem>)}
   </FlexColumn>
 );
 
@@ -30,9 +25,7 @@ const RegistrationList = ({ registrations, onClick }) => (
     className={styles.registrationList}
     onClick={onClick}
   >
-    {`${registrations.length} ${registrations.length === 1
-      ? 'annen'
-      : 'andre'}`}
+    {`${registrations.length} ${registrations.length === 1 ? 'annen' : 'andre'}`}
   </Tooltip>
 );
 
@@ -46,10 +39,7 @@ const RegisteredSummary = ({ registrations, pools, title, toggleModal }) => {
   }
 
   if (registrations.length === 2) {
-    summary.push(
-      '\u00A0og\u00A0',
-      <Registration key={1} registration={registrations[1]} />
-    );
+    summary.push('\u00A0og\u00A0', <Registration key={1} registration={registrations[1]} />);
   } else if (registrations.length >= 3) {
     summary.push(
       ',\u00A0',

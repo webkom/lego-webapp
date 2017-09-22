@@ -57,19 +57,12 @@ export function entities(key: string, fetchType?: ActionTypeObject) {
     const result = get(action, ['payload', 'entities', key], {});
     const actionGrant = get(action, ['payload', 'actionGrant'], []);
 
-    if (
-      !action.payload ||
-      action.type !== get(fetchType, 'SUCCESS', action.type)
-    )
-      return state;
+    if (!action.payload || action.type !== get(fetchType, 'SUCCESS', action.type)) return state;
 
     return {
       ...state,
       byId: merge(state.byId, result),
-      items: union(
-        state.items,
-        Object.keys(result).map(i => parseInt(i, 10) || i)
-      ),
+      items: union(state.items, Object.keys(result).map(i => parseInt(i, 10) || i)),
       actionGrant: union(state.actionGrant, actionGrant)
     };
   };
@@ -77,10 +70,7 @@ export function entities(key: string, fetchType?: ActionTypeObject) {
 
 export function optimistic(mutateType?: ActionTypeObject) {
   return (state: any, action: any) => {
-    if (
-      !mutateType ||
-      ![mutateType.FAILURE, mutateType.SUCCESS].includes(action.type)
-    ) {
+    if (!mutateType || ![mutateType.FAILURE, mutateType.SUCCESS].includes(action.type)) {
       return state;
     }
 

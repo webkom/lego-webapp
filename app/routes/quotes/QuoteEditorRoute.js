@@ -7,7 +7,6 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapDispatchToProps = { addQuotes };
 
-export default compose(
-  replaceUnlessLoggedIn(LoginPage),
-  connect(null, mapDispatchToProps)
-)(AddQuote);
+export default compose(replaceUnlessLoggedIn(LoginPage), connect(null, mapDispatchToProps))(
+  AddQuote
+);

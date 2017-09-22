@@ -21,9 +21,7 @@ class Upload extends Component {
 
   onDrop = (acceptedFiles: Array<File>) => {
     if (!this.props.multiple) {
-      this.setState({ file: acceptedFiles[0] }, () =>
-        this.props.onDrop(this.state.file)
-      );
+      this.setState({ file: acceptedFiles[0] }, () => this.props.onDrop(this.state.file));
     } else {
       this.setState(
         state => ({ file: state.file.concat(acceptedFiles) }),

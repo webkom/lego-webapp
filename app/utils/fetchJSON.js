@@ -2,8 +2,7 @@ import 'isomorphic-fetch';
 
 function parseResponseBody(response) {
   return response.text().then(textString => {
-    const contentType =
-      response.headers.get('content-type') || 'application/json';
+    const contentType = response.headers.get('content-type') || 'application/json';
 
     if (contentType.includes('application/json') && textString) {
       response.jsonData = JSON.parse(textString);
@@ -60,12 +59,7 @@ function timeoutPromise(ms = 0) {
 }
 
 export default function fetchJSON(path, requestOptions = { headers: [] }) {
-  const {
-    files = [],
-    retryDelays = [1000, 3000],
-    timeout = 15000,
-    ...options
-  } = requestOptions;
+  const { files = [], retryDelays = [1000, 3000], timeout = 15000, ...options } = requestOptions;
 
   let body;
   if (files.length > 0) {

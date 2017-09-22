@@ -110,8 +110,7 @@ const onBackspace = (e, state) => {
 const onEnter = (e, state) => {
   if (state.isExpanded) return;
   const { startBlock, startOffset, endOffset } = state;
-  if (startOffset === 0 && startBlock.length === 0)
-    return onBackspace(e, state);
+  if (startOffset === 0 && startBlock.length === 0) return onBackspace(e, state);
   if (endOffset !== startBlock.length) return;
 
   if (

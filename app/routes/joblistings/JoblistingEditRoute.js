@@ -50,12 +50,8 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { joblistingId } }, dispatch) =>
-      dispatch(fetchJoblisting(joblistingId)),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
+  dispatched(({ params: { joblistingId } }, dispatch) => dispatch(fetchJoblisting(joblistingId)), {
+    componentWillReceiveProps: false
+  }),
   connect(mapStateToProps, mapDispatchToProps)
 )(JoblistingEditor);

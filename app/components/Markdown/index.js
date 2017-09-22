@@ -23,9 +23,7 @@ function Markdown({ children, ...rest }: Props) {
   if (typeof children !== 'string') {
     throw new Error('<Markdown /> expects its child to be a string.');
   }
-  return (
-    <div {...rest} dangerouslySetInnerHTML={{ __html: marked(children) }} />
-  );
+  return <div {...rest} dangerouslySetInnerHTML={{ __html: marked(children) }} />;
 }
 
 export default Markdown;

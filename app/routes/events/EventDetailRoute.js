@@ -80,9 +80,7 @@ const mapDispatchToProps = {
 
 const loadData = ({ params: { eventId }, currentUser }, dispatch) => {
   const userId = currentUser.id;
-  return dispatch(fetchEvent(eventId)).then(() =>
-    dispatch(isUserFollowing(eventId, userId))
-  );
+  return dispatch(fetchEvent(eventId)).then(() => dispatch(isUserFollowing(eventId, userId)));
 };
 
 export default compose(

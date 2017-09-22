@@ -65,13 +65,7 @@ export default class EditSemester extends Component {
   props: Props;
 
   render() {
-    const {
-      company,
-      semesterStatus,
-      submitting,
-      autoFocus,
-      handleSubmit
-    } = this.props;
+    const { company, semesterStatus, submitting, autoFocus, handleSubmit } = this.props;
 
     if (!company || !semesterStatus) {
       return <LoadingIndicator />;
@@ -83,14 +77,12 @@ export default class EditSemester extends Component {
         <i>
           <Link to={`/bdb/${company.id}`}>{company.name}</Link> sin status for
           <b>
-            {semesterStatus.semester === 0 ? ' Vår' : ' Høst'}{' '}
-            {semesterStatus.year}
+            {semesterStatus.semester === 0 ? ' Vår' : ' Høst'} {semesterStatus.year}
           </b>
         </i>
 
         <i style={{ display: 'block', marginBottom: '10px' }}>
-          Hint: du kan endre status for flere semestere samtidig på
-          Bdb-forsiden!
+          Hint: du kan endre status for flere semestere samtidig på Bdb-forsiden!
         </i>
 
         <div className={styles.detail}>

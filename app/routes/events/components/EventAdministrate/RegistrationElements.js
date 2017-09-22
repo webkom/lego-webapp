@@ -16,23 +16,17 @@ export const RegisteredElement = props => {
     clickedUnregister,
     showUnregister
   } = props;
-  const transparency = (variable, value) =>
-    variable !== value && styles.transparent;
+  const transparency = (variable, value) => variable !== value && styles.transparent;
 
   return (
     <li className={styles.registeredList}>
       <div className={styles.one}>
         <Tooltip content={registration.user.fullName}>
-          <Link to={`/users/${registration.user.username}`}>
-            {registration.user.username}
-          </Link>
+          <Link to={`/users/${registration.user.username}`}>{registration.user.username}</Link>
         </Tooltip>
       </div>
       <div className={styles.center}>
-        <Tooltip
-          className={styles.cell}
-          content={registration.pool ? 'Påmeldt' : 'Venteliste'}
-        >
+        <Tooltip className={styles.cell} content={registration.pool ? 'Påmeldt' : 'Venteliste'}>
           {registration.pool ? (
             <i className={cx('fa fa-check-circle', styles.greenIcon)} />
           ) : (
@@ -69,14 +63,7 @@ export const RegisteredElement = props => {
         </FlexRow>
       </div>
       <div className={styles.one}>
-        <Tooltip
-          content={
-            <Time
-              time={registration.registrationDate}
-              format="DD.MM.YYYY HH:mm"
-            />
-          }
-        >
+        <Tooltip content={<Time time={registration.registrationDate} format="DD.MM.YYYY HH:mm" />}>
           <Time time={registration.registrationDate} format="DD.MM.YYYY" />
         </Tooltip>
       </div>
@@ -86,9 +73,7 @@ export const RegisteredElement = props => {
       <div className={styles.center}>
         <FlexRow className={styles.presenceIcons}>
           <Tooltip className={styles.cell} content="Betalt stripe">
-            <div
-              className={transparency(registration.chargeStatus, 'succeeded')}
-            >
+            <div className={transparency(registration.chargeStatus, 'succeeded')}>
               <i className={cx('fa fa-cc-stripe', styles.greenIcon)} />
             </div>
           </Tooltip>
@@ -124,15 +109,8 @@ export const RegisteredElement = props => {
             <LoadingIndicator loading={true} small />
           ) : (
             <a onClick={() => handleUnregister(registration.id)}>
-              <i
-                className="fa fa-minus-circle"
-                style={{ color: '#C24538', marginRight: '5px' }}
-              />
-              {clickedUnregister === registration.id ? (
-                'Er du sikker?'
-              ) : (
-                'Meld av'
-              )}
+              <i className="fa fa-minus-circle" style={{ color: '#C24538', marginRight: '5px' }} />
+              {clickedUnregister === registration.id ? 'Er du sikker?' : 'Meld av'}
             </a>
           ))}
       </div>
@@ -145,32 +123,18 @@ export const UnregisteredElement = ({ registration }) => {
     <li className={styles.unregisteredList}>
       <div className={styles.col}>
         <Tooltip content={registration.user.fullName}>
-          <Link to={`/users/${registration.user.username}`}>
-            {registration.user.username}
-          </Link>
+          <Link to={`/users/${registration.user.username}`}>{registration.user.username}</Link>
         </Tooltip>
       </div>
       <div className={styles.col}>Avmeldt</div>
       <div className={styles.col}>
-        <Tooltip
-          content={
-            <Time
-              time={registration.registrationDate}
-              format="DD.MM.YYYY HH:mm"
-            />
-          }
-        >
+        <Tooltip content={<Time time={registration.registrationDate} format="DD.MM.YYYY HH:mm" />}>
           <Time time={registration.registrationDate} format="DD.MM.YYYY" />
         </Tooltip>
       </div>
       <div className={styles.col}>
         <Tooltip
-          content={
-            <Time
-              time={registration.unregistrationDate}
-              format="DD.MM.YYYY HH:mm"
-            />
-          }
+          content={<Time time={registration.unregistrationDate} format="DD.MM.YYYY HH:mm" />}
         >
           <Time time={registration.unregistrationDate} format="DD.MM.YYYY" />
         </Tooltip>

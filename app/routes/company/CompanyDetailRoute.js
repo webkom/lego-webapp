@@ -31,11 +31,8 @@ const mapDispatchToProps = { fetchCompany };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { companyId } }, dispatch) => dispatch(fetchCompany(companyId)),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
+  dispatched(({ params: { companyId } }, dispatch) => dispatch(fetchCompany(companyId)), {
+    componentWillReceiveProps: false
+  }),
   connect(mapStateToProps, mapDispatchToProps)
 )(CompanyDetailRoute);

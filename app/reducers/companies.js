@@ -16,9 +16,7 @@ export default createEntityReducer({
       case Company.DELETE.SUCCESS: {
         return {
           ...state,
-          byId: state.byId.filter(
-            company => company.id !== Number(action.meta.companyId)
-          )
+          byId: state.byId.filter(company => company.id !== Number(action.meta.companyId))
         };
       }
 
@@ -67,17 +65,14 @@ export const selectCompanies = createSelector(
   (companyIds, companiesById, usersById) =>
     companyIds.map(companyId => ({
       ...companiesById[companyId],
-      studentContact: usersById
-        ? usersById[companiesById[companyId].studentContact]
-        : {}
+      studentContact: usersById ? usersById[companiesById[companyId].studentContact] : {}
     }))
 );
 
 export const selectCompanyById = createSelector(
   selectCompanies,
   (state, props) => props.companyId,
-  (companies, companyId) =>
-    companies.find(company => company.id === Number(companyId)) || {}
+  (companies, companyId) => companies.find(company => company.id === Number(companyId)) || {}
 );
 
 export const selectEventsForCompany = createSelector(
@@ -94,9 +89,7 @@ export const selectCompanyContact = createSelector(
   (state, props) => props.companyContactId,
   (company, companyContactId) => {
     if (!company) return [];
-    return company.companyContacts.filter(
-      contact => contact.id === companyContactId
-    );
+    return company.companyContacts.filter(contact => contact.id === companyContactId);
   }
 );
 

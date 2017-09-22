@@ -46,14 +46,7 @@ export default class GalleryDetail extends Component {
   };
 
   render() {
-    const {
-      gallery,
-      pictures,
-      children,
-      push,
-      loggedIn,
-      currentUser
-    } = this.props;
+    const { gallery, pictures, children, push, loggedIn, currentUser } = this.props;
     const { upload } = this.state;
 
     return (
@@ -78,8 +71,7 @@ export default class GalleryDetail extends Component {
               <EmptyState icon="photos-outline">
                 <h1>Ingen bilder</h1>
                 <h4>
-                  Trykk <a onClick={() => this.toggleUpload()}>her</a> for å
-                  legge inn bilder
+                  Trykk <a onClick={() => this.toggleUpload()}>her</a> for å legge inn bilder
                 </h4>
               </EmptyState>
             }
@@ -96,8 +88,7 @@ export default class GalleryDetail extends Component {
           />
         )}
 
-        {children &&
-          cloneElement(children, { gallery, push, loggedIn, currentUser })}
+        {children && cloneElement(children, { gallery, push, loggedIn, currentUser })}
       </section>
     );
   }

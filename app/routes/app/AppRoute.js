@@ -7,11 +7,7 @@ import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import Helmet from 'react-helmet';
 import Raven from 'raven-js';
-import {
-  loginAutomaticallyIfPossible,
-  logout,
-  login
-} from 'app/actions/UserActions';
+import { loginAutomaticallyIfPossible, logout, login } from 'app/actions/UserActions';
 import {
   fetchNotificationData,
   markAllNotifications,

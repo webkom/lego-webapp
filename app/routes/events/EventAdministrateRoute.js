@@ -29,10 +29,12 @@ const mapStateToProps = (state, props) => {
     registrations,
     obj => (obj.unregistrationDate.isValid() ? 'unregistered' : 'registered')
   );
-  const registered = (grouped['registered'] || [])
-    .sort((a, b) => a.registrationDate.isAfter(b.registrationDate));
-  const unregistered = (grouped['unregistered'] || [])
-    .sort((a, b) => a.unregistrationDate.isAfter(b.unregistrationDate));
+  const registered = (grouped['registered'] || []).sort((a, b) =>
+    a.registrationDate.isAfter(b.registrationDate)
+  );
+  const unregistered = (grouped['unregistered'] || []).sort((a, b) =>
+    a.unregistrationDate.isAfter(b.unregistrationDate)
+  );
 
   return {
     eventId,
@@ -53,12 +55,8 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { eventId } }, dispatch) =>
-      dispatch(fetchAdministrate(Number(eventId))),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
+  dispatched(({ params: { eventId } }, dispatch) => dispatch(fetchAdministrate(Number(eventId))), {
+    componentWillReceiveProps: false
+  }),
   connect(mapStateToProps, mapDispatchToProps)
 )(EventAdministrate);

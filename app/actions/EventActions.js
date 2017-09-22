@@ -111,11 +111,7 @@ export function setCoverPhoto(id: number, token: string): Thunk<*> {
   });
 }
 
-export function register(
-  eventId: number,
-  captchaResponse: string,
-  feedback: string
-) {
+export function register(eventId: number, captchaResponse: string, feedback: string) {
   return callAPI({
     types: Event.REGISTER,
     endpoint: `/events/${eventId}/registrations/`,
@@ -131,11 +127,7 @@ export function register(
   });
 }
 
-export function unregister(
-  eventId: number,
-  registrationId: number,
-  admin: boolean = false
-) {
+export function unregister(eventId: number, registrationId: number, admin: boolean = false) {
   return callAPI({
     types: Event.UNREGISTER,
     endpoint: `/events/${eventId}/registrations/${registrationId}/`,

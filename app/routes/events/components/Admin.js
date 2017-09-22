@@ -26,30 +26,21 @@ export default class Admin extends Component {
             </li>
             {actionGrant.includes('edit') && (
               <li>
-                <Link
-                  to={`/events/${event.id}/administrate`}
-                  style={{ color: 'inherit' }}
-                >
+                <Link to={`/events/${event.id}/administrate`} style={{ color: 'inherit' }}>
                   Påmeldinger
                 </Link>
               </li>
             )}
             {actionGrant.includes('edit') && (
               <li>
-                <Link
-                  to={`/events/${event.id}/edit`}
-                  style={{ color: 'inherit' }}
-                >
+                <Link to={`/events/${event.id}/edit`} style={{ color: 'inherit' }}>
                   Rediger
                 </Link>
               </li>
             )}
             {actionGrant.includes('delete') && (
               <li>
-                <a
-                  onClick={() => this.handleDelete(event.id)}
-                  style={{ color: 'inherit' }}
-                >
+                <a onClick={() => this.handleDelete(event.id)} style={{ color: 'inherit' }}>
                   {this.state.verifyDelete ? 'Er du sikker?' : 'Slett'}
                 </a>
               </li>

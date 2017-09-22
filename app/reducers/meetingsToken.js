@@ -8,10 +8,7 @@ const initialState = {
 
 type State = typeof initialState;
 
-export default function meetingsToken(
-  state: State = initialState,
-  action: Action
-) {
+export default function meetingsToken(state: State = initialState, action: Action) {
   switch (action.type) {
     case Meeting.ANSWER_INVITATION_TOKEN.FAILURE: {
       return { ...initialState, status: 'FAILURE' };

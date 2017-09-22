@@ -22,8 +22,7 @@ export default class CompanySingleRow extends Component {
     if (statuses) {
       return (
         statuses.find(
-          status =>
-            status.year === result.year && status.semester === result.semester
+          status => status.year === result.year && status.semester === result.semester
         ) || { contactedStatus: 6 }
       );
     }
@@ -31,13 +30,7 @@ export default class CompanySingleRow extends Component {
   };
 
   render() {
-    const {
-      company,
-      editSemester,
-      changedStatuses,
-      startYear,
-      startSem
-    } = this.props;
+    const { company, editSemester, changedStatuses, startYear, startSem } = this.props;
 
     const semesters = [
       this.semesterElement(0),

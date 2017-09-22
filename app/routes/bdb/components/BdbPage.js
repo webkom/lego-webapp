@@ -53,9 +53,7 @@ export default class BdbPage extends Component {
     // Update state whenever a semesterStatus is graphically changed by the user
     const { changedStatuses, companies, startYear, startSem } = this.state;
     const data = event.target.value.split('-');
-    const [companyId, tableIndex, semesterId, contactedStatus] = data.map(
-      Number
-    );
+    const [companyId, tableIndex, semesterId, contactedStatus] = data.map(Number);
     const yearAndSemester = indexToSemester(tableIndex, startYear, startSem);
 
     const matchSemester = status =>
@@ -67,13 +65,11 @@ export default class BdbPage extends Component {
     const changedCompanyIndex = companies.indexOf(
       companies.filter(company => company.id === companyId)[0]
     );
-    const changedCompanyStatuses =
-      companies[changedCompanyIndex].semesterStatuses;
+    const changedCompanyStatuses = companies[changedCompanyIndex].semesterStatuses;
     const changedSemesterIndex = changedCompanyStatuses.indexOf(
       changedCompanyStatuses.filter(
         status =>
-          status.year === yearAndSemester.year &&
-          status.semester === yearAndSemester.semester
+          status.year === yearAndSemester.year && status.semester === yearAndSemester.semester
       )[0]
     );
 
@@ -106,15 +102,11 @@ export default class BdbPage extends Component {
       });
     } else if (
       contactedStatus ===
-      this.props.companies[changedCompanyIndex].semesterStatuses[
-        changedSemesterIndex
-      ].contactedStatus
+      this.props.companies[changedCompanyIndex].semesterStatuses[changedSemesterIndex]
+        .contactedStatus
     ) {
       // The status was changed back to it's original value and should be removed
-      changedStatuses.splice(
-        changedStatuses.indexOf(changedStatuses.find(matchSemester)),
-        1
-      );
+      changedStatuses.splice(changedStatuses.indexOf(changedStatuses.find(matchSemester)), 1);
     } else {
       // We're changing an existing entry in state.changedStatuses
       changedStatuses.find(matchSemester).contactedStatus = contactedStatus;
@@ -230,8 +222,8 @@ export default class BdbPage extends Component {
         {this.state.submitted && `${trueIcon} Lagret!`}
 
         <i style={{ display: 'block' }}>
-          <b>Tips:</b> Du kan endre semestere ved å trykke på dem i listen!
-          Semestere merket med * er endringer klare for lagring.
+          <b>Tips:</b> Du kan endre semestere ved å trykke på dem i listen! Semestere merket med *
+          er endringer klare for lagring.
         </i>
 
         <CompanyList

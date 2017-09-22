@@ -117,11 +117,7 @@ export default class Toolbar extends Component {
         )}
 
         {this.state.openUpload && (
-          <ImageUpload
-            inModal
-            onClose={this.toggleImage}
-            onSubmit={this.insertImage}
-          />
+          <ImageUpload inModal onClose={this.toggleImage} onSubmit={this.insertImage} />
         )}
       </div>
     );

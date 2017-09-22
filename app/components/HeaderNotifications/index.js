@@ -33,10 +33,7 @@ const NotificationElement = ({
   if (renders) {
     return (
       <div
-        className={cx(
-          styles.notification,
-          !notification.read ? styles.unRead : null
-        )}
+        className={cx(styles.notification, !notification.read ? styles.unRead : null)}
         onClick={() => markNotification(notification.id)}
       >
         <div className={styles.innerNotification}>
@@ -106,9 +103,7 @@ export default class NotificationsDropdown extends Component {
             },
             () => (this.state.notificationsOpen ? fetchNotifications() : null)
           )}
-        triggerComponent={
-          <Icon.Badge name="notifications" size={30} badgeCount={unreadCount} />
-        }
+        triggerComponent={<Icon.Badge name="notifications" size={30} badgeCount={unreadCount} />}
         contentClassName={styles.notifications}
       >
         {/* TODO FIXME - do same as the menu element*/}

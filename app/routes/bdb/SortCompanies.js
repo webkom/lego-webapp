@@ -12,10 +12,7 @@ const sortByAttribute = attribute => ascending => (a, b) => {
     : b[attribute].localeCompare(a[attribute]);
 };
 
-const sortByContactStatus = (index, startYear, startSem) => ascending => (
-  a,
-  b
-) => {
+const sortByContactStatus = (index, startYear, startSem) => ascending => (a, b) => {
   // Index is either 0, 1 or 2: it's displayed left, middle or right in the table
   // startYear and startSem is the year and semester of the leftmost status
   const semester = (index % 2 + startSem) % 2;
@@ -29,14 +26,10 @@ const sortByContactStatus = (index, startYear, startSem) => ascending => (
     year = startYear + 1;
   }
 
-  const semesterA = a.semesterStatuses.find(
-    obj => obj.year === year && obj.semester === semester
-  );
+  const semesterA = a.semesterStatuses.find(obj => obj.year === year && obj.semester === semester);
   const statusA = semesterA ? semesterA.contactedStatus : 6;
 
-  const semesterB = b.semesterStatuses.find(
-    obj => obj.year === year && obj.semester === semester
-  );
+  const semesterB = b.semesterStatuses.find(obj => obj.year === year && obj.semester === semester);
   const statusB = semesterB ? semesterB.contactedStatus : 6;
 
   if (statusA === statusB) {

@@ -53,8 +53,7 @@ export function createInterestGroup(group: Object): Thunk<*> {
         }
       })
     ).then(res => {
-      const groupId =
-        res.payload.entities.interestGroups[res.payload.result].id;
+      const groupId = res.payload.entities.interestGroups[res.payload.result].id;
       const leaderId = Number(group.leader.value);
       const memberships = group.members.map(m => {
         const id = Number(m.value);

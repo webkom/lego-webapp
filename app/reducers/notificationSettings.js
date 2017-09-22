@@ -17,10 +17,7 @@ const initialState = {
   settings: {}
 };
 
-export default function notificationSettings(
-  state: State = initialState,
-  action: Action
-): State {
+export default function notificationSettings(state: State = initialState, action: Action): State {
   switch (action.type) {
     case NotificationSettings.FETCH_ALTERNATIVES.SUCCESS: {
       return {

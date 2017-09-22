@@ -23,9 +23,7 @@ const loggerMiddleware = createLogger({
   collapsed: true
 });
 
-const errorMiddleware = createErrorMiddleware(message =>
-  addNotification({ message })
-);
+const errorMiddleware = createErrorMiddleware(message => addNotification({ message }));
 
 export default function configureStore(initialState: State): Store {
   const middlewares = [

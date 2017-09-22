@@ -206,9 +206,7 @@ function EventEditor({
                   {registrations &&
                     registrations
                       .slice(0, 10)
-                      .map(reg => (
-                        <RegisteredCell key={reg.user.id} user={reg.user} />
-                      ))}
+                      .map(reg => <RegisteredCell key={reg.user.id} user={reg.user} />)}
                 </Flex>
                 <RegisteredSummary registrations={[]} />
                 <AttendanceStatus title="Påmeldte" pools={pools} />
@@ -223,11 +221,7 @@ function EventEditor({
                   className={styles.formField}
                 />
                 {isEditPage && (
-                  <Admin
-                    actionGrant={actionGrant}
-                    event={event}
-                    deleteEvent={deleteEvent}
-                  />
+                  <Admin actionGrant={actionGrant} event={event} deleteEvent={deleteEvent} />
                 )}
               </Flex>
             )}
@@ -260,9 +254,7 @@ function EventEditor({
             <strong>Åpent for</strong>
             <ul>
               {(pools || []).map(pool =>
-                (pool.permissionGroups || []).map(group => (
-                  <li key={group.value}>{group.label}</li>
-                ))
+                (pool.permissionGroups || []).map(group => <li key={group.value}>{group.label}</li>)
               )}
             </ul>
           </Flex>

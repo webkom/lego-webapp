@@ -25,10 +25,7 @@ export function fetchNotificationSettings() {
   });
 }
 
-export function updateNotificationSetting(
-  notificationType: string,
-  channels: Array<string>
-) {
+export function updateNotificationSetting(notificationType: string, channels: Array<string>) {
   return callAPI({
     types: NotificationSettings.UPDATE,
     endpoint: '/notification-settings/',

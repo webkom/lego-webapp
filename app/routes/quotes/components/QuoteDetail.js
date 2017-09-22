@@ -28,26 +28,13 @@ export default class QuoteDetail extends Component {
   };
 
   render() {
-    const {
-      quote,
-      comments,
-      currentUser,
-      loggedIn,
-      query,
-      actionGrant
-    } = this.props;
+    const { quote, comments, currentUser, loggedIn, query, actionGrant } = this.props;
 
     if (isEmpty(quote)) {
       return <LoadingIndicator loading />;
     }
     return (
-      <div
-        className={cx(
-          styles.root,
-          styles.quoteContainer,
-          styles.quoteSingleroute
-        )}
-      >
+      <div className={cx(styles.root, styles.quoteContainer, styles.quoteSingleroute)}>
         <div className={styles.quotepageLeft}>
           <h1>Enkelt sitat</h1>
 

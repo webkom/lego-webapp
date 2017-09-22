@@ -9,8 +9,7 @@ import styles from './Editor.css';
 import { Blocks } from './constants';
 import cx from 'classnames';
 
-const parseHtml =
-  typeof DOMParser === 'undefined' && require('parse5').parseFragment;
+const parseHtml = typeof DOMParser === 'undefined' && require('parse5').parseFragment;
 const html = new Html({ rules, parseHtml });
 
 export type Props = {
@@ -147,8 +146,7 @@ export default class CustomEditor extends Component {
       }
     } else {
       const isType = editorState.blocks.some(
-        block =>
-          !!editorState.document.getClosest(block.key, par => par.type === type)
+        block => !!editorState.document.getClosest(block.key, par => par.type === type)
       );
 
       if (isList && isType) {
@@ -157,9 +155,7 @@ export default class CustomEditor extends Component {
           .unwrapBlock(Blocks.UL)
           .unwrapBlock(Blocks.OL);
       } else if (isList) {
-        transfrom
-          .unwrapBlock(type === Blocks.UL ? Blocks.OL : Blocks.UL)
-          .wrapBlock(type);
+        transfrom.unwrapBlock(type === Blocks.UL ? Blocks.OL : Blocks.UL).wrapBlock(type);
       } else {
         transfrom.setBlock(Blocks.LI).wrapBlock(type);
       }
@@ -217,16 +213,16 @@ export default class CustomEditor extends Component {
         />
 
         {!this.props.disableBlocks &&
-        !this.props.readOnly && (
-          <Toolbar
-            editorState={editorState}
-            insertBlock={this.insertBlock}
-            wrapperElement={this.wrapperElement}
-            uploadFile={uploadFile}
-            isPublic
-            setBlockData={this.setBlockData}
-          />
-        )}
+          !this.props.readOnly && (
+            <Toolbar
+              editorState={editorState}
+              insertBlock={this.insertBlock}
+              wrapperElement={this.wrapperElement}
+              uploadFile={uploadFile}
+              isPublic
+              setBlockData={this.setBlockData}
+            />
+          )}
         {!this.props.readOnly && (
           <Tooltip
             disableBlocks={this.props.disableBlocks}

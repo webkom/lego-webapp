@@ -40,8 +40,7 @@ const EventFooter = ({ icalToken }: Props) => (
   <div className={styles.eventFooter}>
     {icalToken && (
       <p className={cx(styles.section, hiddenOnMobile)}>
-        Her kan du importere arrangementer og møter til din favorittkalender!
-        For innstillinger se
+        Her kan du importere arrangementer og møter til din favorittkalender! For innstillinger se
         <Link to="/users/me/settings"> her</Link>.
       </p>
     )}
@@ -52,9 +51,7 @@ const EventFooter = ({ icalToken }: Props) => (
           <ul>
             {icalTypes.map((type, key) => (
               <li key={key}>
-                <a href={getIcalUrlGoogle(icalToken, type.name)}>
-                  {type.title}
-                </a>
+                <a href={getIcalUrlGoogle(icalToken, type.name)}>{type.title}</a>
               </li>
             ))}
           </ul>

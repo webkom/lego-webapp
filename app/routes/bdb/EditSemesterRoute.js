@@ -30,9 +30,7 @@ const mapStateToProps = (state, props) => {
   const semesterId = props.params.semesterId;
   let semesterStatus = null;
   if (company) {
-    semesterStatus = company.semesterStatuses.find(
-      status => status.id === Number(semesterId)
-    );
+    semesterStatus = company.semesterStatuses.find(status => status.id === Number(semesterId));
   }
 
   return {
@@ -50,12 +48,9 @@ const mapDispatchToProps = { fetch, editSemesterStatus };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { companyId } }, dispatch) => dispatch(fetch(companyId)),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
+  dispatched(({ params: { companyId } }, dispatch) => dispatch(fetch(companyId)), {
+    componentWillReceiveProps: false
+  }),
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'editSemester',

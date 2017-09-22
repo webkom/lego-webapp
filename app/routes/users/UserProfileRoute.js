@@ -6,11 +6,7 @@ import { dispatched } from 'react-prepare';
 import UserProfile from './components/UserProfile';
 import { fetchUser } from 'app/actions/UserActions';
 import { fetchUserFeed } from 'app/actions/FeedActions';
-import {
-  selectFeedById,
-  selectFeedActivitesByFeedId,
-  feedIdByUserId
-} from 'app/reducers/feeds';
+import { selectFeedById, selectFeedActivitesByFeedId, feedIdByUserId } from 'app/reducers/feeds';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
 
@@ -32,9 +28,7 @@ const mapStateToProps = (state, props) => {
   const username = props.params.username || state.auth.username;
   const user = state.users.byId[username];
 
-  const feed = user
-    ? selectFeedById(state, { feedId: feedIdByUserId(user.id) })
-    : undefined;
+  const feed = user ? selectFeedById(state, { feedId: feedIdByUserId(user.id) }) : undefined;
   const feedItems = user
     ? selectFeedActivitesByFeedId(state, {
         feedId: feedIdByUserId(user.id)
@@ -43,8 +37,7 @@ const mapStateToProps = (state, props) => {
 
   return {
     username,
-    isMe:
-      !props.params.username || props.params.username === state.auth.username,
+    isMe: !props.params.username || props.params.username === state.auth.username,
     auth: state.auth,
     loggedIn: props.loggedIn,
     user,

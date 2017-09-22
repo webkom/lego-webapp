@@ -2,13 +2,7 @@ import styles from './UserConfirmation.css';
 import React from 'react';
 import { Content, Flex } from 'app/components/Layout';
 import { reduxForm } from 'redux-form';
-import {
-  Form,
-  TextInput,
-  RadioButtonGroup,
-  RadioButton,
-  Button
-} from 'app/components/Form';
+import { Form, TextInput, RadioButtonGroup, RadioButton, Button } from 'app/components/Form';
 import { Field } from 'redux-form';
 import { Link } from 'react-router';
 import { createValidator, required, validPassword } from 'app/utils/validation';
@@ -61,49 +55,21 @@ const UserConfirmation = ({
       <div className={styles.root}>
         <h2>Registrer bruker</h2>
         <Form onSubmit={handleSubmit(onSubmit)}>
-          <Field
-            name="username"
-            placeholder="Brukernavn"
-            component={TextInput.Field}
-          />
+          <Field name="username" placeholder="Brukernavn" component={TextInput.Field} />
           <Field
             name="password"
             type="password"
             placeholder="Passord"
             component={TextInput.Field}
           />
-          <Field
-            name="firstName"
-            placeholder="Fornavn"
-            component={TextInput.Field}
-          />
-          <Field
-            name="lastName"
-            placeholder="Etternavn"
-            component={TextInput.Field}
-          />
+          <Field name="firstName" placeholder="Fornavn" component={TextInput.Field} />
+          <Field name="lastName" placeholder="Etternavn" component={TextInput.Field} />
           <RadioButtonGroup name="gender">
-            <Field
-              label="Mann"
-              component={RadioButton.Field}
-              inputValue={'male'}
-            />
-            <Field
-              label="Kvinne"
-              component={RadioButton.Field}
-              inputValue={'female'}
-            />
-            <Field
-              label="Annet"
-              component={RadioButton.Field}
-              inputValue={'other'}
-            />
+            <Field label="Mann" component={RadioButton.Field} inputValue={'male'} />
+            <Field label="Kvinne" component={RadioButton.Field} inputValue={'female'} />
+            <Field label="Annet" component={RadioButton.Field} inputValue={'other'} />
           </RadioButtonGroup>
-          <Field
-            name="allergies"
-            placeholder="Allergier"
-            component={TextInput.Field}
-          />
+          <Field name="allergies" placeholder="Allergier" component={TextInput.Field} />
           <Button submit dark>
             Registrer bruker
           </Button>

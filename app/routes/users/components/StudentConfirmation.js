@@ -65,17 +65,9 @@ const StudentConfirmation = ({
       <div>
         <h2>Verifiser studentepost</h2>
         <Form onSubmit={handleSubmit(sendStudentConfirmationEmail)}>
-          <Field
-            name="studentUsername"
-            placeholder="NTNU Brukernavn"
-            component={TextInput.Field}
-          />
+          <Field name="studentUsername" placeholder="NTNU Brukernavn" component={TextInput.Field} />
           <RadioButtonGroup name="course" label="Hvilken linje tilhører du?">
-            <Field
-              label="Datateknologi"
-              component={RadioButton.Field}
-              inputValue={'data'}
-            />
+            <Field label="Datateknologi" component={RadioButton.Field} inputValue={'data'} />
             <Field
               label="Kommunikasjonsteknologi"
               component={RadioButton.Field}
@@ -83,22 +75,10 @@ const StudentConfirmation = ({
             />
           </RadioButtonGroup>
           <RadioButtonGroup name="member" label="Vil du bli medlem i Abakus?">
-            <Field
-              label="Ja"
-              component={RadioButton.Field}
-              inputValue={'true'}
-            />
-            <Field
-              label="Nei"
-              component={RadioButton.Field}
-              inputValue={'false'}
-            />
+            <Field label="Ja" component={RadioButton.Field} inputValue={'true'} />
+            <Field label="Nei" component={RadioButton.Field} inputValue={'false'} />
           </RadioButtonGroup>
-          <Field
-            name="captchaResponse"
-            fieldStyle={{ width: 304 }}
-            component={Captcha.Field}
-          />
+          <Field name="captchaResponse" fieldStyle={{ width: 304 }} component={Captcha.Field} />
           <Button submit disabled={disabledButton}>
             Verifiser
           </Button>

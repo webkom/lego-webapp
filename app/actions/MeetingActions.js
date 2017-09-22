@@ -32,11 +32,7 @@ export function fetchAll() {
   });
 }
 
-export function setInvitationStatus(
-  meetingId: number,
-  status: string,
-  userId: number
-) {
+export function setInvitationStatus(meetingId: number, status: string, userId: number) {
   return callAPI({
     types: Meeting.SET_INVITATION_STATUS,
     endpoint: `/meetings/${meetingId}/invitations/${userId}/`,

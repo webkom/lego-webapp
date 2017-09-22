@@ -4,10 +4,7 @@ import { dispatched } from 'react-prepare';
 import { fetchGallery, addPictures } from 'app/actions/GalleryActions';
 import { push } from 'react-router-redux';
 import GalleryDetail from './components/GalleryDetail';
-import {
-  selectGalleryById,
-  selectPicturesForGallery
-} from 'app/reducers/galleries';
+import { selectGalleryById, selectPicturesForGallery } from 'app/reducers/galleries';
 
 function mapStateToProps(state, props) {
   const { galleryId } = props.params;
@@ -21,11 +18,8 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = { push, addPictures };
 
 export default compose(
-  dispatched(
-    ({ params: { galleryId } }, dispatch) => dispatch(fetchGallery(galleryId)),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
+  dispatched(({ params: { galleryId } }, dispatch) => dispatch(fetchGallery(galleryId)), {
+    componentWillReceiveProps: false
+  }),
   connect(mapStateToProps, mapDispatchToProps)
 )(GalleryDetail);

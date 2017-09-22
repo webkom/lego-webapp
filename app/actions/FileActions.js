@@ -22,11 +22,7 @@ type UploadArgs = {
   isPublic?: boolean
 };
 
-export function uploadFile({
-  file,
-  fileName,
-  isPublic = false
-}: UploadArgs): Thunk<*> {
+export function uploadFile({ file, fileName, isPublic = false }: UploadArgs): Thunk<*> {
   return dispatch =>
     dispatch(fetchSignedPost(fileName || file.name, isPublic)).then(action =>
       dispatch(

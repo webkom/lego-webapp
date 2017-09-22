@@ -19,10 +19,7 @@ function JoblistingItem({ joblisting }: Props) {
       <FlexRow>
         <FlexColumn>
           <Link to={`/joblistings/${joblisting.id}/`}>
-            <Image
-              src="http://placehold.it/120x80"
-              className={styles.companyLogo}
-            />
+            <Image src="http://placehold.it/120x80" className={styles.companyLogo} />
           </Link>
         </FlexColumn>
         <FlexColumn>
@@ -54,9 +51,7 @@ function JoblistingListGroup({ joblistings = [] }: Props) {
         </FlexColumn>
         <FlexColumn className={styles.headingDeadline}>Deadline:</FlexColumn>
       </FlexRow>
-      {joblistings.map((joblisting, i) => (
-        <JoblistingItem key={i} joblisting={joblisting} />
-      ))}
+      {joblistings.map((joblisting, i) => <JoblistingItem key={i} joblisting={joblisting} />)}
     </div>
   );
 }

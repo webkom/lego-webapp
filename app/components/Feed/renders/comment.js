@@ -25,9 +25,7 @@ export function activityHeader(aggregatedActivity) {
 }
 
 export function activityContent(activity) {
-  return (
-    <div dangerouslySetInnerHTML={{ __html: activity.extraContext.content }} />
-  );
+  return <div dangerouslySetInnerHTML={{ __html: activity.extraContext.content }} />;
 }
 
 export function icon(aggregatedActivity) {

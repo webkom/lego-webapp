@@ -17,9 +17,7 @@ const UserSettingsIndex = (props: Props) => {
     <div className={styles.root}>
       <NavigationTab title="Innstillinger">
         <NavigationLink to="/users/me/settings/profile">Profil</NavigationLink>
-        <NavigationLink to="/users/me/settings/notifications">
-          Notifikasjoner
-        </NavigationLink>
+        <NavigationLink to="/users/me/settings/notifications">Notifikasjoner</NavigationLink>
         <NavigationLink to="/users/me/settings/oauth2">OAuth2</NavigationLink>
         {!props.currentUser.isStudent && (
           <NavigationLink to="/users/me/settings/student-confirmation">

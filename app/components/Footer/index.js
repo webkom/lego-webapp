@@ -14,8 +14,8 @@ function Footer() {
       <div className={styles.footerContent}>
         <div className={cx(styles.section, hiddenOnMobile)}>
           <h2>README</h2>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper
-          nunc at ex consequat ultricies.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper nunc at ex consequat
+          ultricies.
         </div>
         <div className={cx(styles.section, hiddenOnMobile)}>
           <RandomQuote />

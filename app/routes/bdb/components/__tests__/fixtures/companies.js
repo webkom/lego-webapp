@@ -18,12 +18,7 @@ export default [
   {
     name: 'Itera',
     id: 3,
-    contacted: [
-      'Interessert, ikke tilbudt',
-      'Bedpres & kurs',
-      'Kurs',
-      'Ikke kontaktet'
-    ],
+    contacted: ['Interessert, ikke tilbudt', 'Bedpres & kurs', 'Kurs', 'Ikke kontaktet'],
     studentContact: 'Ingen',
     comment: '',
     jobOfferOnly: false

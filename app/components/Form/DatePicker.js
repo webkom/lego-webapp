@@ -125,8 +125,7 @@ class DatePicker extends Component {
                 className={cx(
                   styles.calendarItem,
                   dateProps.prevOrNextMonth && styles.prevOrNextMonth,
-                  dateProps.day.isSame(this.state.value, 'day') &&
-                    styles.selectedDate
+                  dateProps.day.isSame(this.state.value, 'day') && styles.selectedDate
                 )}
                 onClick={() => this.onChange(dateProps.day)}
                 disabled={dateProps.prevOrNextMonth}
@@ -136,9 +135,7 @@ class DatePicker extends Component {
             ))}
           </div>
 
-          {showTimePicker && (
-            <TimePicker value={this.state.value} onChange={this.onChangeTime} />
-          )}
+          {showTimePicker && <TimePicker value={this.state.value} onChange={this.onChangeTime} />}
         </div>
       </Dropdown>
     );

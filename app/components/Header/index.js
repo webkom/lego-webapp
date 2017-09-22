@@ -93,10 +93,7 @@ class Header extends Component {
                 Arrangementer
               </Link>
               {!loggedIn ? (
-                <Link
-                  to="/pages/for-companies"
-                  activeClassName={styles.activeItem}
-                >
+                <Link to="/pages/for-companies" activeClassName={styles.activeItem}>
                   For bedrifter
                 </Link>
               ) : (
@@ -110,10 +107,7 @@ class Header extends Component {
             </div>
 
             <div className={styles.buttonGroup}>
-              <button
-                onClick={this.props.toggleSearch}
-                className={styles.burger}
-              >
+              <button onClick={this.props.toggleSearch} className={styles.burger}>
                 <Icon name="menu" size={30} scaleOnHover />
               </button>
 
@@ -182,10 +176,7 @@ class Header extends Component {
                 </Dropdown>
               )}
 
-              <button
-                onClick={this.props.toggleSearch}
-                className={styles.hideOnMobile}
-              >
+              <button onClick={this.props.toggleSearch} className={styles.hideOnMobile}>
                 <Icon name="search" size={30} className={styles.searchIcon} />
               </button>
             </div>
@@ -197,10 +188,7 @@ class Header extends Component {
             backdropClassName={styles.backdrop}
             backdrop
           >
-            <Search
-              isOpen={this.props.searchOpen}
-              onCloseSearch={this.props.toggleSearch}
-            />
+            <Search isOpen={this.props.searchOpen} onCloseSearch={this.props.toggleSearch} />
           </Modal>
         </div>
       </header>

@@ -10,10 +10,7 @@ const initialState = {
 
 type State = typeof initialState;
 
-export default function notifications(
-  state: State = initialState,
-  action: Action
-) {
+export default function notifications(state: State = initialState, action: Action) {
   switch (action.type) {
     case Notifications.NOTIFICATION_ADDED:
       return {

@@ -1,7 +1,4 @@
-import createEntityReducer, {
-  fetching,
-  entities
-} from '../createEntityReducer';
+import createEntityReducer, { fetching, entities } from '../createEntityReducer';
 import joinReducers from '../joinReducers';
 import { eventSchema } from 'app/reducers';
 import { normalize } from 'normalizr';

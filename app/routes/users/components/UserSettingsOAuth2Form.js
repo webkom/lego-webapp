@@ -26,9 +26,7 @@ const UserSettingsOAuth2Form = (props: Props) => {
     const handleSubmit = props.create
       ? props.createOAuth2Application
       : props.updateOAuth2Application;
-    return handleSubmit(data).then(() =>
-      props.router.push('/users/me/settings/oauth2')
-    );
+    return handleSubmit(data).then(() => props.router.push('/users/me/settings/oauth2'));
   };
 
   return (
@@ -36,12 +34,7 @@ const UserSettingsOAuth2Form = (props: Props) => {
       <h1>{props.create ? 'Opprett' : 'Endre'} Applikasjon</h1>
 
       <Form onSubmit={props.handleSubmit(submit)}>
-        <Field
-          placeholder="Navn"
-          label="Navn"
-          name="name"
-          component={TextInput.Field}
-        />
+        <Field placeholder="Navn" label="Navn" name="name" component={TextInput.Field} />
 
         <Field
           placeholder="Beskrivelse"

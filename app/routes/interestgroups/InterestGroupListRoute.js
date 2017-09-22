@@ -3,10 +3,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
-import {
-  fetchAll,
-  createInterestGroup
-} from 'app/actions/InterestGroupActions';
+import { fetchAll, createInterestGroup } from 'app/actions/InterestGroupActions';
 import InterestGroupList from './components/InterestGroupList';
 import { selectInterestGroups } from 'app/reducers/interestGroups';
 

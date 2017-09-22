@@ -26,9 +26,7 @@ function render(req, res, next) {
   cookie.plugToRequest(req, res);
 
   if (process.env.NODE_ENV !== 'production') {
-    return res.send(
-      renderPage({ body: '', state: {}, helmet: Helmet.rewind() })
-    );
+    return res.send(renderPage({ body: '', state: {}, helmet: Helmet.rewind() }));
   }
 
   match({ routes, location: req.url }, (err, redirect, renderProps) => {
@@ -77,9 +75,7 @@ function render(req, res, next) {
 
 function renderPage({ body, state, helmet }) {
   const dllPlugin =
-    process.env.NODE_ENV !== 'production'
-      ? '<script src="/vendors.dll.js"></script>'
-      : '';
+    process.env.NODE_ENV !== 'production' ? '<script src="/vendors.dll.js"></script>' : '';
 
   const assets = JSON.parse(
     fs.readFileSync(path.join(__dirname, '..', 'dist', 'webpack-assets.json'))
@@ -134,14 +130,8 @@ function renderPage({ body, state, helmet }) {
       <body>
         <div id="root">${body}</div>
         <script>
-           window.__CONFIG__ = ${JSON.stringify(config).replace(
-             /</g,
-             '\\u003c'
-           )}
-           window.__PRELOADED_STATE__ = ${JSON.stringify(state).replace(
-             /</g,
-             '\\u003c'
-           )}
+           window.__CONFIG__ = ${JSON.stringify(config).replace(/</g, '\\u003c')}
+           window.__PRELOADED_STATE__ = ${JSON.stringify(state).replace(/</g, '\\u003c')}
         </script>
 
         <script src="https://js.stripe.com/v2/"></script>

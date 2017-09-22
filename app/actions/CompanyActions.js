@@ -176,10 +176,7 @@ export function editSemesterStatus(
   };
 }
 
-export function deleteSemesterStatus(
-  companyId: number,
-  semesterId: number
-): Thunk<*> {
+export function deleteSemesterStatus(companyId: number, semesterId: number): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('company'));
 
@@ -213,13 +210,7 @@ export function fetchCompanyContact({ companyId }: { companyId: number }) {
   });
 }
 
-export function addCompanyContact({
-  companyId,
-  name,
-  role,
-  mail,
-  phone
-}: Object): Thunk<*> {
+export function addCompanyContact({ companyId, name, role, mail, phone }: Object): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('company'));
 
@@ -278,10 +269,7 @@ export function editCompanyContact({
   };
 }
 
-export function deleteCompanyContact(
-  companyId: number,
-  companyContactId: number
-): Thunk<*> {
+export function deleteCompanyContact(companyId: number, companyContactId: number): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('company'));
 

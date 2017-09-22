@@ -23,30 +23,22 @@ class Toolbar extends Component {
         </div>
 
         <div className={styles.buttons}>
-          <IndexLink
-            to="/events"
-            activeClassName={styles.active}
-            className={styles.pickerItem}
-          >
+          <IndexLink to="/events" activeClassName={styles.active} className={styles.pickerItem}>
             List View
           </IndexLink>
 
-          <Link
-            to="/events/calendar"
-            activeClassName={styles.active}
-            className={styles.pickerItem}
-          >
+          <Link to="/events/calendar" activeClassName={styles.active} className={styles.pickerItem}>
             Calendar
           </Link>
         </div>
 
         <div className={styles.section}>
           {actionGrant &&
-          actionGrant.includes('create') && (
-            <Link to={'/events/create'}>
-              <Button>Lag nytt arrangement</Button>
-            </Link>
-          )}
+            actionGrant.includes('create') && (
+              <Link to={'/events/create'}>
+                <Button>Lag nytt arrangement</Button>
+              </Link>
+            )}
         </div>
 
         <Modal

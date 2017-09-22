@@ -52,9 +52,7 @@ function JoblistingEditor({
 
   return (
     <div className={styles.root}>
-      <h1 className={styles.heading}>
-        {!isNew ? 'Rediger jobbannonse' : 'Legg til jobbannonse'}
-      </h1>
+      <h1 className={styles.heading}>{!isNew ? 'Rediger jobbannonse' : 'Legg til jobbannonse'}</h1>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <FieldComponent text="Tittel: " name="title" placeholder="Tittel" />
         <FlexRow className={styles.row}>
@@ -107,22 +105,10 @@ function JoblistingEditor({
         <YearPickerComponent text="Fra år: " name="fromYear" />
         <YearPickerComponent text="Til år: " name="toYear" />
 
-        <FieldComponent
-          text="Søknadslenke: "
-          name="applicationUrl"
-          placeholder="Søknadslenke"
-        />
+        <FieldComponent text="Søknadslenke: " name="applicationUrl" placeholder="Søknadslenke" />
 
-        <TextEditorComponent
-          text="Søknadsintro: "
-          name="description"
-          placeholder="Søknadsintro"
-        />
-        <TextEditorComponent
-          text="Søknadstekst: "
-          name="text"
-          placeholder="Søknadstekst"
-        />
+        <TextEditorComponent text="Søknadsintro: " name="description" placeholder="Søknadsintro" />
+        <TextEditorComponent text="Søknadstekst: " name="text" placeholder="Søknadstekst" />
 
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Kontaktperson: </FlexColumn>

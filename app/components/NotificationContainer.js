@@ -34,8 +34,7 @@ class NotificationContainer extends Component {
         notifications={notifications}
         barStyleFactory={notificationStyleFactory}
         activeBarStyleFactory={notificationStyleFactory}
-        onDismiss={notification =>
-          this.props.removeNotification({ id: notification.id })}
+        onDismiss={notification => this.props.removeNotification({ id: notification.id })}
       />
     );
   }
@@ -56,6 +55,4 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = { removeNotification };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  NotificationContainer
-);
+export default connect(mapStateToProps, mapDispatchToProps)(NotificationContainer);

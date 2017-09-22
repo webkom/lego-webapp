@@ -74,15 +74,9 @@ class CommentForm extends Component {
         className={cx(className, formActive && styles.activeForm)}
       >
         <div className={styles.header}>
-          <ProfilePicture
-            size={40}
-            user={user}
-            style={{ margin: '0px 0px 0px 25px' }}
-          />
+          <ProfilePicture size={40} user={user} style={{ margin: '0px 0px 0px 25px' }} />
 
-          {formActive && (
-            <div className={styles.author}>{this.props.user.fullName}</div>
-          )}
+          {formActive && <div className={styles.author}>{this.props.user.fullName}</div>}
         </div>
 
         <div className={cx(styles.fields, formActive && styles.activeFields)}>
@@ -95,11 +89,7 @@ class CommentForm extends Component {
           />
 
           {formActive && (
-            <Button
-              className={styles.submit}
-              disabled={pristine || submitting}
-              submit
-            >
+            <Button className={styles.submit} disabled={pristine || submitting} submit>
               {submitText}
             </Button>
           )}

@@ -4,13 +4,7 @@ import React, { Component } from 'react';
 import cx from 'classnames';
 import moment from 'moment';
 import Button from 'app/components/Button';
-import {
-  TextInput,
-  Form,
-  TextArea,
-  DatePicker,
-  SelectInput
-} from 'app/components/Form';
+import { TextInput, Form, TextArea, DatePicker, SelectInput } from 'app/components/Form';
 import { Field, reduxForm } from 'redux-form';
 import { Flex } from 'app/components/Layout';
 import { Link } from 'react-router';
@@ -80,10 +74,7 @@ class GalleryEditor extends Component {
   };
 
   onUpdateGalleryCover = () => {
-    this.props.updateGalleryCover(
-      this.props.gallery.id,
-      this.state.selected[0]
-    );
+    this.props.updateGalleryCover(this.props.gallery.id, this.state.selected[0]);
 
     this.setState({ selected: [] });
   };
@@ -181,11 +172,7 @@ class GalleryEditor extends Component {
               id="gallery-description"
             />
 
-            <Flex
-              className={styles.buttonRow}
-              alignItems="baseline"
-              justifyContent="flex-end"
-            >
+            <Flex className={styles.buttonRow} alignItems="baseline" justifyContent="flex-end">
               {!isNew && (
                 <Button
                   danger
@@ -226,23 +213,15 @@ class GalleryEditor extends Component {
                   )}
                 >
                   <Icon
-                    className={cx(
-                      styles.icon,
-                      selected.includes(photo.id) && styles.iconSelected
-                    )}
+                    className={cx(styles.icon, selected.includes(photo.id) && styles.iconSelected)}
                     name="checkmark"
                     size={32}
                   />
                 </div>
               )}
               renderBottom={photo => (
-                <Flex
-                  className={styles.infoOverlay}
-                  justifyContent="space-between"
-                >
-                  <span>
-                    {photo.active ? 'Synlig for brukere' : 'Skjult for brukere'}
-                  </span>
+                <Flex className={styles.infoOverlay} justifyContent="space-between">
+                  <span>{photo.active ? 'Synlig for brukere' : 'Skjult for brukere'}</span>
                   {photo.id === gallery.cover.id && <span>Cover</span>}
                 </Flex>
               )}
@@ -250,8 +229,7 @@ class GalleryEditor extends Component {
                 <EmptyState icon="photos-outline">
                   <h1>Ingen bilder å redigere</h1>
                   <h4>
-                    Gå <Link to={`/photos/${gallery.id}`}>hit</Link> for å legge
-                    inn bilder
+                    Gå <Link to={`/photos/${gallery.id}`}>hit</Link> for å legge inn bilder
                   </h4>
                 </EmptyState>
               }

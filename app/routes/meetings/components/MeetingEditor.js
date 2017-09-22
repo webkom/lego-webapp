@@ -8,14 +8,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field } from 'redux-form';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 
-import {
-  Form,
-  TextInput,
-  EditorField,
-  SelectInput,
-  Button,
-  DatePicker
-} from 'app/components/Form';
+import { Form, TextInput, EditorField, SelectInput, Button, DatePicker } from 'app/components/Form';
 import moment from 'moment';
 import config from 'app/config';
 import { unionBy } from 'lodash';

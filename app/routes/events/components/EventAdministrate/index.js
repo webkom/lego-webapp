@@ -150,9 +150,7 @@ export default class EventAdministrate extends Component {
                 <div>Klassetrinn:</div>
               </li>
               {unregistered.length === 0 && <div>Ingen avmeldte</div>}
-              {unregistered.map((reg, i) => (
-                <UnregisteredElement key={i} registration={reg} />
-              ))}
+              {unregistered.map((reg, i) => <UnregisteredElement key={i} registration={reg} />)}
             </ul>
           </div>
         </Flex>

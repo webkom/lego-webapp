@@ -3,10 +3,7 @@ import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import { fetchArticle } from 'app/actions/ArticleActions';
 import ArticleDetail from './components/ArticleDetail';
-import {
-  selectArticleById,
-  selectCommentsForArticle
-} from 'app/reducers/articles';
+import { selectArticleById, selectCommentsForArticle } from 'app/reducers/articles';
 
 const mapStateToProps = (state, props) => {
   const { articleId } = props.params;
@@ -23,11 +20,8 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = { fetchArticle };
 
 export default compose(
-  dispatched(
-    ({ params: { articleId } }, dispatch) => dispatch(fetchArticle(articleId)),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
+  dispatched(({ params: { articleId } }, dispatch) => dispatch(fetchArticle(articleId)), {
+    componentWillReceiveProps: false
+  }),
   connect(mapStateToProps, mapDispatchToProps)
 )(ArticleDetail);

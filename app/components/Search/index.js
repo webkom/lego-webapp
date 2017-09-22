@@ -26,10 +26,9 @@ const navigationLinks = [
   ['/joblistings', 'Jobbannonser']
 ].sort((a, b) => a[1].localeCompare(b[1]));
 
-const adminLinks = [
-  ['/admin/groups', 'Grupper'],
-  ['/email', 'E-post']
-].sort((a, b) => a[1].localeCompare(b[1]));
+const adminLinks = [['/admin/groups', 'Grupper'], ['/email', 'E-post']].sort((a, b) =>
+  a[1].localeCompare(b[1])
+);
 
 type Props = {
   results: Array<any>,
@@ -64,10 +63,7 @@ class Search extends Component {
       case Keyboard.DOWN:
         e.preventDefault();
         this.setState({
-          selectedIndex: Math.min(
-            this.props.results.length,
-            this.state.selectedIndex + 1
-          )
+          selectedIndex: Math.min(this.props.results.length, this.state.selectedIndex + 1)
         });
         break;
 
@@ -110,11 +106,7 @@ class Search extends Component {
               autoFocus
             />
 
-            <button
-              type="button"
-              className={styles.closeButton}
-              onClick={onCloseSearch}
-            >
+            <button type="button" className={styles.closeButton} onClick={onCloseSearch}>
               <Icon name={searching ? 'refresh' : 'close'} size={30} />
             </button>
           </div>

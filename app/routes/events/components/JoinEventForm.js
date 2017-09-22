@@ -57,10 +57,7 @@ class JoinEventForm extends Component {
     const currentTime = moment();
     const diffTime = poolActivationTime.diff(currentTime);
     let duration = moment.duration(diffTime, 'milliseconds');
-    if (
-      (!registration && !activationTime) ||
-      currentTime.isAfter(moment(startTime))
-    ) {
+    if ((!registration && !activationTime) || currentTime.isAfter(moment(startTime))) {
       // Do nothing
     } else if (poolActivationTime.isBefore(currentTime) || registration) {
       this.setState({
@@ -147,9 +144,7 @@ class JoinEventForm extends Component {
       submitting
     } = this.props;
 
-    const disabledButton = !registration
-      ? invalid || pristine || submitting
-      : null;
+    const disabledButton = !registration ? invalid || pristine || submitting : null;
     const joinTitle = !registration ? 'MELD DEG PÅ' : 'AVREGISTRER';
     const registrationType = !registration ? 'register' : 'unregister';
     const feedbackName = getFeedbackName(event.feedbackRequired);
@@ -168,17 +163,9 @@ class JoinEventForm extends Component {
             </div>
           )}
         {!this.state.formOpen &&
-          !this.state.time && (
-            <div>Du kan ikke melde deg på dette arrangementet.</div>
-          )}
+          !this.state.time && <div>Du kan ikke melde deg på dette arrangementet.</div>}
         {this.state.formOpen && (
-          <form
-            onSubmit={this.submitWithType(
-              handleSubmit,
-              feedbackName,
-              registrationType
-            )}
-          >
+          <form onSubmit={this.submitWithType(handleSubmit, feedbackName, registrationType)}>
             <Link to={'/users/me/settings/profile'} style={{ color: '#333' }}>
               Oppdater allergier her
             </Link>
@@ -190,11 +177,7 @@ class JoinEventForm extends Component {
             {registration && (
               <Button
                 type="button"
-                onClick={this.submitWithType(
-                  handleSubmit,
-                  feedbackName,
-                  'feedback'
-                )}
+                onClick={this.submitWithType(handleSubmit, feedbackName, 'feedback')}
                 style={{ marginBottom: '5px' }}
               >
                 Oppdater feedback
@@ -210,9 +193,7 @@ class JoinEventForm extends Component {
                 />
               )}
             {this.state.time && (
-              <Button disabled={disabledButton}>
-                {`Åpner om ${this.state.time}`}
-              </Button>
+              <Button disabled={disabledButton}>{`Åpner om ${this.state.time}`}</Button>
             )}
             {this.state.buttonOpen &&
               !event.loading && (
@@ -220,24 +201,17 @@ class JoinEventForm extends Component {
                   {!registration &&
                     event.spotsLeft === 0 &&
                     event.activeCapacity > 0 && (
-                      <div>
-                        Det 0 plasser igjen, du blir registrert til venteliste.
-                      </div>
+                      <div>Det 0 plasser igjen, du blir registrert til venteliste.</div>
                     )}
+                  {!registration && event.spotsLeft === 1 && <div>Det er 1 plass igjen.</div>}
                   {!registration &&
-                    event.spotsLeft === 1 && <div>Det er 1 plass igjen.</div>}
-                  {!registration &&
-                    event.spotsLeft > 0 && (
-                      <div>Det er {event.spotsLeft} plasser igjen.</div>
-                    )}
+                    event.spotsLeft > 0 && <div>Det er {event.spotsLeft} plasser igjen.</div>}
                   <Button type="submit" disabled={disabledButton}>
                     {title || joinTitle}
                   </Button>
                 </div>
               )}
-            {event.loading && (
-              <LoadingIndicator loading loadingStyle={{ margin: '5px auto' }} />
-            )}
+            {event.loading && <LoadingIndicator loading loadingStyle={{ margin: '5px auto' }} />}
           </form>
         )}
         {showStripe &&
@@ -270,8 +244,7 @@ function validateEventForm(data) {
   const errors = {};
 
   if (!data.feedbackRequired) {
-    errors.feedbackRequired =
-      'Tilbakemelding er påkrevet for dette arrangementet';
+    errors.feedbackRequired = 'Tilbakemelding er påkrevet for dette arrangementet';
   }
 
   if (!data.captchaResponse) {

@@ -29,22 +29,10 @@ type Props = {
  * <Button size='large' submit>Save</Button>
  * ```
  */
-function Button({
-  children,
-  className,
-  size = 'normal',
-  submit,
-  dark = false,
-  ...rest
-}: Props) {
+function Button({ children, className, size = 'normal', submit, dark = false, ...rest }: Props) {
   return (
     <button
-      className={cx(
-        styles.button,
-        styles[size],
-        dark && styles.dark,
-        className
-      )}
+      className={cx(styles.button, styles[size], dark && styles.dark, className)}
       type={submit ? 'submit' : 'button'}
       {...rest}
     >

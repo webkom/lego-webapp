@@ -1,10 +1,7 @@
 import { connect } from 'react-redux';
 import GalleryPictureEditModal from './components/GalleryPictureEditModal';
 import { deletePicture, updatePicture } from 'app/actions/GalleryActions';
-import {
-  selectPictureById,
-  selectCommentsForPicture
-} from 'app/reducers/pictures';
+import { selectPictureById, selectCommentsForPicture } from 'app/reducers/pictures';
 
 function mapStateToProps(state, props) {
   const { pictureId } = props.params;
@@ -29,6 +26,4 @@ const mapDispatchToProps = {
   updatePicture
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  GalleryPictureEditModal
-);
+export default connect(mapStateToProps, mapDispatchToProps)(GalleryPictureEditModal);

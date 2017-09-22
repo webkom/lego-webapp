@@ -2,14 +2,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 
-export const MeetingAnswer = ({
-  response,
-  user,
-  meeting,
-  status,
-  router,
-  resetMeetingsToken
-}) => {
+export const MeetingAnswer = ({ response, user, meeting, status, router, resetMeetingsToken }) => {
   if (!response) {
     return <LoadingIndicator loading />;
   }

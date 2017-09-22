@@ -12,12 +12,7 @@ type Props = {
   level?: number
 };
 
-function CommentTree({
-  comments,
-  isChild = false,
-  commentFormProps,
-  level = 0
-}: Props) {
+function CommentTree({ comments, isChild = false, commentFormProps, level = 0 }: Props) {
   const tree = comments.map(comment => {
     const className = cx(
       isChild && level < 4 && styles.nested,
@@ -41,11 +36,7 @@ function CommentTree({
 
     return (
       <div key={comment.id} className={className}>
-        <Comment
-          key={comment.id}
-          comment={comment}
-          commentFormProps={commentFormProps}
-        />
+        <Comment key={comment.id} comment={comment} commentFormProps={commentFormProps} />
       </div>
     );
   });

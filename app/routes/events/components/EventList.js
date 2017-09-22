@@ -39,19 +39,12 @@ function groupEvents(events) {
 
 function Attendance({ registrationCount, totalCapacity }) {
   // @todo choose pill color based on capacity
-  return (
-    <Pill style={{ whiteSpace: 'nowrap' }}>
-      {`${registrationCount} / ${totalCapacity}`}
-    </Pill>
-  );
+  return <Pill style={{ whiteSpace: 'nowrap' }}>{`${registrationCount} / ${totalCapacity}`}</Pill>;
 }
 
 export function EventItem({ event }: any) {
   return (
-    <div
-      style={{ borderColor: colorForEvent(event.eventType) }}
-      className={styles.eventItem}
-    >
+    <div style={{ borderColor: colorForEvent(event.eventType) }} className={styles.eventItem}>
       <div>
         <Link to={`/events/${event.id}`}>
           <h3 className={styles.eventItemTitle}>

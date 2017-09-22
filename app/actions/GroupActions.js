@@ -28,13 +28,7 @@ export function fetchAll() {
   });
 }
 
-export function updateGroup({
-  groupId,
-  updates
-}: {
-  groupId: number,
-  updates: Array<Object>
-}) {
+export function updateGroup({ groupId, updates }: { groupId: number, updates: Array<Object> }) {
   return callAPI({
     types: Group.UPDATE,
     endpoint: `/groups/${groupId}/`,
