@@ -10,6 +10,7 @@ import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocompleteRedux } from 'app/reducers/search';
 import { push } from 'react-router-redux';
 import { Keyboard } from 'app/utils/constants';
+import type { State as ReducerState } from 'app/types';
 
 const navigationLinks = [
   ['/articles', 'Artikler'],
@@ -31,13 +32,20 @@ const adminLinks = [
   ['/email', 'E-post']
 ].sort((a, b) => a[1].localeCompare(b[1]));
 
-type Props = {
-  results: Array<any>,
-  onCloseSearch: () => any,
+type StateProps = {};
+
+type DispatchProps = {
   onQueryChanged: (value: string) => any,
   openSearchRoute: (query: string) => any,
-  searching: boolean
+  push: string => void
 };
+
+type Props = StateProps &
+  DispatchProps & {
+    results: Array<any>,
+    onCloseSearch: () => any,
+    searching: boolean
+  };
 
 type State = {
   query: string,
@@ -133,14 +141,14 @@ class Search extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: ReducerState): StateProps {
   return {
     results: selectAutocompleteRedux(state),
     searching: state.search.searching
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: $FlowFixMe): DispatchProps {
   return {
     onQueryChanged: debounce(query => dispatch(autocomplete(query)), 300),
     openSearchRoute: query => dispatch(push(`/search?q=${query}`)),

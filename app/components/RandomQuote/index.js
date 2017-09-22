@@ -1,10 +1,12 @@
+// @flow
+
 import React, { Component } from 'react';
 import styles from './RandomQuote.css';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
 import { connect } from 'react-redux';
 
 type Props = {
-  fetchRandomQuote: () => void,
+  fetchRandomQuote: () => Promise<Object>,
   loggedIn: boolean
 };
 

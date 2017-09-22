@@ -5,16 +5,17 @@ import { chunk, get } from 'lodash';
 import LoadingIndicator from '../LoadingIndicator';
 import styles from './Gallery.css';
 
+type Photo = Object;
 type Props = {
-  onClick?: (object, event) => void,
-  renderOverlay?: () => void,
-  renderTop?: () => void,
-  renderBottom?: () => void,
-  renderEmpty?: ReactElement,
+  onClick?: Photo => void,
+  renderOverlay?: Photo => void,
+  renderTop?: Photo => void,
+  renderBottom?: Photo => void,
+  renderEmpty?: React.Element<*>,
   margin?: number,
   loading: boolean,
   srcKey: string,
-  photos: []
+  photos: Array<Photo>
 };
 
 type State = {
@@ -23,6 +24,7 @@ type State = {
 
 export default class Gallery extends PureComponent {
   props: Props;
+  gallery: HTMLDivElement;
 
   static defaultProps = {
     margin: 3
@@ -51,7 +53,7 @@ export default class Gallery extends PureComponent {
     this.setState({ containerWidth: Math.floor(this.gallery.clientWidth) });
   };
 
-  onClick = photo => {
+  onClick = (photo: File) => {
     if (this.props.onClick) {
       this.props.onClick(photo);
     }
@@ -123,7 +125,10 @@ export default class Gallery extends PureComponent {
     return (
       <div
         className={styles.galleryContainer}
-        style={{ margin: `-${margin}px`, width: `calc(100% + ${6 * 2}px)` }}
+        style={{
+          margin: `-${String(margin)}px`,
+          width: `calc(100% + ${6 * 2}px)`
+        }}
       >
         <div
           className={styles.gallery}
