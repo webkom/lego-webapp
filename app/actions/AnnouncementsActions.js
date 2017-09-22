@@ -72,3 +72,19 @@ export function sendAnnouncement(announcementId) {
     }
   });
 }
+
+export function deleteAnnouncement(announcementId) {
+  return dispatch => {
+    dispatch(
+      callAPI({
+        types: Announcements.DELETE,
+        endpoint: `/announcements/${announcementId}/`,
+        method: 'DELETE',
+        meta: {
+          announcementId,
+          errorMessage: 'Deleting announcement failed'
+        }
+      })
+    );
+  };
+}
