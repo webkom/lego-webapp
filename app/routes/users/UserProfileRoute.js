@@ -4,7 +4,12 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import UserProfile from './components/UserProfile';
-import { fetchUser } from 'app/actions/UserActions';
+import {
+  fetchUser,
+  followUser,
+  unfollowUser,
+  fetchUserFollowings
+} from 'app/actions/UserActions';
 import { fetchUserFeed } from 'app/actions/FeedActions';
 import {
   selectFeedById,
@@ -14,8 +19,9 @@ import {
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
 
-const loadData = ({ params: { username } }, dispatch) => {
+const loadData = ({ params: { username }, currentUser }, dispatch) => {
   return dispatch(fetchUser(username)).then(action => {
+    dispatch(fetchUserFollowings(currentUser));
     /**
      * /users/me has no username property and the application fetches "me"
      * when that happens. Extract the current username from the fetch response
@@ -53,7 +59,12 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { fetchUser, fetchUserFeed };
+const mapDispatchToProps = {
+  fetchUser,
+  fetchUserFeed,
+  followUser,
+  unfollowUser
+};
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),

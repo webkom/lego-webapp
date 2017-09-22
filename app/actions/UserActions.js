@@ -293,3 +293,64 @@ export function confirmStudentUser(token) {
     useCache: true
   });
 }
+
+export function followUser(me: object, user: object) {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: User.FOLLOW_USER,
+        endpoint: `/followers-user/`,
+        method: 'POST',
+        body: {
+          target: user.id
+        },
+        meta: {
+          follower: me,
+          user,
+          errorMessage: 'Kunne ikke følge brukeren.'
+        }
+      })
+    );
+}
+
+export function unfollowUser(me: object, user: object) {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: User.GET_FOLLOW,
+        endpoint: `/followers-user/?following=${me.id}&target=${user.id}`,
+        method: 'GET',
+        meta: {
+          errorMessage: 'Kunne ikke hente følgen.'
+        }
+      })
+    ).then(res => {
+      return dispatch(
+        callAPI({
+          types: User.UNFOLLOW_USER,
+          endpoint: `/followers-user/${res.payload[0].id}/`,
+          method: 'DELETE',
+          meta: {
+            follower: me,
+            user,
+            errorMessage: 'Kunne ikke slutte å følge brukeren.'
+          }
+        })
+      );
+    });
+}
+
+export function fetchUserFollowings(me: object) {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: User.FETCH_USER_FOLLOWINGS,
+        endpoint: `/followers-user/?follower=${me.id}`,
+        method: 'GET',
+        meta: {
+          currentUser: me,
+          errorMessage: 'Fant ikke ut hvilke brukere du følger'
+        }
+      })
+    );
+}

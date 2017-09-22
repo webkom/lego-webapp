@@ -262,16 +262,12 @@ export function unfollow(followId, eventId) {
 }
 
 export function isUserFollowing(eventId, userId) {
-  return dispatch => {
-    dispatch(
-      callAPI({
-        types: Event.IS_USER_FOLLOWING,
-        endpoint: `/followers-event/?target=${eventId}&follower=${userId}`,
-        method: 'GET',
-        meta: {
-          errorMessage: 'Failed to get event followers'
-        }
-      })
-    );
-  };
+  return callAPI({
+    types: Event.IS_USER_FOLLOWING,
+    endpoint: `/followers-event/?target=${eventId}&follower=${userId}`,
+    method: 'GET',
+    meta: {
+      errorMessage: 'Failed to get event followers'
+    }
+  });
 }
