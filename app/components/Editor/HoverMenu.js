@@ -5,6 +5,7 @@ import Portal from 'react-portal';
 import cx from 'classnames';
 import styles from './Editor.css';
 import { BLOCK_TAGS, MARK_TAGS } from './constants';
+import type { TagKind, MarkType, BlockType } from './constants';
 
 type Props = {
   state: Object,
@@ -15,19 +16,19 @@ type Props = {
 
 type HoverMenuButtonProps = {
   tag: Object,
-  onClick: () => void,
+  onClick: (SyntheticInputEvent, MarkType | BlockType) => void,
   state: Object,
-  tagType: 'mark' | 'block'
+  kind: TagKind
 };
 
 const HoverMenuButton = ({
   tag,
   onClick,
   state,
-  tagType
+  kind
 }: HoverMenuButtonProps) => {
   const active =
-    tagType === 'mark'
+    kind === 'mark'
       ? state.activeMarks.some(mark => mark.type == tag.type)
       : state.blocks.some(node => node.type == tag.type);
 
@@ -51,7 +52,7 @@ const HoverMenu = ({ state, onToggleMark, onToggleBlock, onOpen }: Props) =>
       {BLOCK_TAGS.map(tag =>
         <HoverMenuButton
           key={tag.type}
-          tagType="block"
+          kind="block"
           state={state}
           onClick={onToggleBlock}
           tag={tag}
@@ -60,7 +61,7 @@ const HoverMenu = ({ state, onToggleMark, onToggleBlock, onOpen }: Props) =>
       {Object.keys(MARK_TAGS).map(tag =>
         <HoverMenuButton
           key={tag}
-          tagType="mark"
+          kind="mark"
           state={state}
           onClick={onToggleMark}
           tag={MARK_TAGS[tag]}

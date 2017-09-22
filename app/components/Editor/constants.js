@@ -1,6 +1,28 @@
 /* eslint-disable react/display-name */
+// @flow
 
 import React from 'react';
+
+export type TagKind = 'mark' | 'block';
+export type MarkType =
+  | 'italic'
+  | 'bold'
+  | 'underline'
+  | 'code'
+  | 'link'
+  | 'strikethrough';
+export type BlockType =
+  | 'quote'
+  | 'paragraph'
+  | 'code'
+  | 'header-one'
+  | 'header-two'
+  | 'image'
+  | 'separator'
+  | 'todo'
+  | 'list-ol'
+  | 'list-ul'
+  | 'list-item';
 
 const deserialize = (tagName, type, kind) => (el, next) => {
   if (el.tagName.toLowerCase() == tagName) {
@@ -12,7 +34,7 @@ const deserialize = (tagName, type, kind) => (el, next) => {
   }
 };
 
-const serialize = (type, kind, serializer) => (object, children) => {
+const serialize = (type, kind: TagKind, serializer) => (object, children) => {
   if (object.kind == kind && object.type == type) {
     return serializer({ object, children });
   }
