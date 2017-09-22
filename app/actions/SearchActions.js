@@ -3,6 +3,7 @@
 import callAPI from 'app/actions/callAPI';
 import { Search } from './ActionTypes';
 import { selectAutocomplete } from 'app/reducers/search';
+import type { Thunk } from 'app/types';
 
 export function toggleSearch() {
   return {
@@ -10,8 +11,8 @@ export function toggleSearch() {
   };
 }
 
-export function autocomplete(query: string, filter?: Array<string>) {
-  return (dispatch: $FlowFixMe) => {
+export function autocomplete(query: string, filter?: Array<string>): Thunk<*> {
+  return dispatch => {
     if (!query) {
       return Promise.resolve();
     }
@@ -34,8 +35,8 @@ export function autocomplete(query: string, filter?: Array<string>) {
   };
 }
 
-export function search(query: string, types?: Array<string>) {
-  return (dispatch: $FlowFixMe) => {
+export function search(query: string, types?: Array<string>): Thunk<*> {
+  return dispatch => {
     if (!query) {
       return Promise.resolve();
     }
@@ -58,8 +59,8 @@ export function search(query: string, types?: Array<string>) {
   };
 }
 
-export function mention(query: string) {
-  return (dispatch: $FlowFixMe) => {
+export function mention(query: string): Thunk<*> {
+  return dispatch => {
     if (!query) {
       return Promise.resolve();
     }

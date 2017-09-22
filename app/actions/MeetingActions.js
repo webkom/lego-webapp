@@ -6,6 +6,7 @@ import callAPI from 'app/actions/callAPI';
 import { push } from 'react-router-redux';
 import { startSubmit, stopSubmit } from 'redux-form';
 import moment from 'moment';
+import type { Thunk } from 'app/types';
 
 export function fetchMeeting(meetingId: string) {
   return callAPI({
@@ -53,8 +54,8 @@ export function setInvitationStatus(
   });
 }
 
-export function deleteMeeting(id: number) {
-  return (dispatch: $FlowFixMe) => {
+export function deleteMeeting(id: number): Thunk<*> {
+  return dispatch => {
     dispatch(startSubmit('deleteMeeting'));
 
     dispatch(
@@ -88,8 +89,8 @@ export function createMeeting({
   reportAuthor,
   users,
   groups
-}: Object) {
-  return (dispatch: $FlowFixMe) => {
+}: Object): Thunk<*> {
+  return dispatch => {
     dispatch(startSubmit('meetingEditor'));
     dispatch(
       callAPI({
@@ -153,8 +154,8 @@ export function answerMeetingInvitation(
   action: string,
   token: string,
   loggedIn: boolean
-) {
-  return (dispatch: $FlowFixMe) => {
+): Thunk<*> {
+  return dispatch => {
     dispatch(startSubmit('answerMeetingInvitation'));
 
     return dispatch(
@@ -187,8 +188,8 @@ export function editMeeting({
   id,
   users,
   groups
-}: Object) {
-  return (dispatch: $FlowFixMe) => {
+}: Object): Thunk<*> {
+  return dispatch => {
     dispatch(startSubmit('meetingEditor'));
 
     dispatch(

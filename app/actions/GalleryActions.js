@@ -6,6 +6,7 @@ import { uploadFile } from './FileActions';
 import callAPI from 'app/actions/callAPI';
 import createQueryString from 'app/utils/createQueryString';
 import type { EntityID, GalleryEntity, GalleryPictureEntity } from 'app/types';
+import type { Thunk } from 'app/types';
 
 export function fetchAll(
   { year, month }: { year: string, month: string } = {}
@@ -182,8 +183,8 @@ export function editPicture(galleryId: EntityID, pictureId: EntityID) {
   });
 }
 
-export function addPictures(galleryId: number, files: []) {
-  return (dispatch: $FlowFixMe) =>
+export function addPictures(galleryId: number, files: []): Thunk<*> {
+  return dispatch =>
     Promise.all(
       files.map(file =>
         dispatch(uploadFile({ file })).then(action =>

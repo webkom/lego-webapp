@@ -6,6 +6,7 @@ import { InterestGroup, Membership } from './ActionTypes';
 import { push } from 'react-router-redux';
 import { setGroupMembers } from './MembershipActions';
 import { omit } from 'lodash';
+import type { Thunk } from 'app/types';
 
 export function fetchInterestGroup(interestGroupId: string) {
   return callAPI({
@@ -31,8 +32,8 @@ export function fetchAll() {
   });
 }
 
-export function createInterestGroup(group: Object) {
-  return (dispatch: $FlowFixMe) => {
+export function createInterestGroup(group: Object): Thunk<*> {
+  return dispatch => {
     const { name, description, descriptionLong, logo } = group;
     dispatch(
       callAPI({
@@ -68,8 +69,8 @@ export function createInterestGroup(group: Object) {
   };
 }
 
-export function removeInterestGroup(id: string) {
-  return (dispatch: $FlowFixMe) => {
+export function removeInterestGroup(id: string): Thunk<*> {
+  return dispatch => {
     dispatch(
       callAPI({
         types: InterestGroup.REMOVE,
@@ -84,9 +85,9 @@ export function removeInterestGroup(id: string) {
   };
 }
 
-export function editInterestGroup(group: Object) {
+export function editInterestGroup(group: Object): Thunk<*> {
   const { id } = group;
-  return (dispatch: $FlowFixMe) => {
+  return dispatch => {
     dispatch(
       callAPI({
         types: InterestGroup.UPDATE,
@@ -116,8 +117,8 @@ export function joinInterestGroup(
   groupId: number,
   user: Object,
   role: string = 'member'
-) {
-  return (dispatch: $FlowFixMe) => {
+): Thunk<*> {
+  return dispatch => {
     dispatch(
       callAPI({
         types: Membership.JOIN_GROUP,
@@ -139,8 +140,8 @@ export function joinInterestGroup(
   };
 }
 
-export function leaveInterestGroup(membership: Object) {
-  return (dispatch: $FlowFixMe) => {
+export function leaveInterestGroup(membership: Object): Thunk<*> {
+  return dispatch => {
     dispatch(
       callAPI({
         types: Membership.LEAVE_GROUP,

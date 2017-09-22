@@ -1,9 +1,12 @@
-import { File } from './ActionTypes';
+// @flow
+
+import { File as FileType } from './ActionTypes';
 import callAPI from './callAPI';
+import type { Thunk } from 'app/types';
 
 export function fetchSignedPost(key: string, isPublic: boolean) {
   return callAPI({
-    types: File.FETCH_SIGNED_POST,
+    types: FileType.FETCH_SIGNED_POST,
     method: 'post',
     endpoint: '/files/',
     body: {
@@ -13,12 +16,22 @@ export function fetchSignedPost(key: string, isPublic: boolean) {
   });
 }
 
-export function uploadFile({ file, fileName, isPublic = false }) {
+type UploadArgs = {
+  file: File,
+  fileName?: string,
+  isPublic?: boolean
+};
+
+export function uploadFile({
+  file,
+  fileName,
+  isPublic = false
+}: UploadArgs): Thunk<*> {
   return dispatch =>
     dispatch(fetchSignedPost(fileName || file.name, isPublic)).then(action =>
       dispatch(
         callAPI({
-          types: File.UPLOAD,
+          types: FileType.UPLOAD,
           method: 'post',
           endpoint: action.payload.url,
           body: action.payload.fields,

@@ -45,8 +45,8 @@ export function fetchAdministrate(eventId: string) {
   });
 }
 
-export function createEvent(event: Object) {
-  return (dispatch: $FlowFixMe) =>
+export function createEvent(event: Object): Thunk<*> {
+  return dispatch =>
     dispatch(
       callAPI({
         types: Event.CREATE,
@@ -62,8 +62,8 @@ export function createEvent(event: Object) {
     ).then(res => dispatch(push(`/events/${res.payload.result}/`)));
 }
 
-export function editEvent(event: Object) {
-  return (dispatch: $FlowFixMe) =>
+export function editEvent(event: Object): Thunk<*> {
+  return dispatch =>
     dispatch(
       callAPI({
         types: Event.EDIT,
@@ -77,8 +77,8 @@ export function editEvent(event: Object) {
     ).then(() => dispatch(push(`/events/${event.id}`)));
 }
 
-export function deleteEvent(eventId: number) {
-  return (dispatch: $FlowFixMe) => {
+export function deleteEvent(eventId: number): Thunk<*> {
+  return dispatch => {
     dispatch(
       callAPI({
         types: Event.DELETE,
@@ -96,7 +96,7 @@ export function deleteEvent(eventId: number) {
   };
 }
 
-export function setCoverPhoto(id: number, token: string) {
+export function setCoverPhoto(id: number, token: string): Thunk<*> {
   return callAPI({
     types: Event.EDIT,
     endpoint: `/events/${id}/`,
@@ -190,8 +190,8 @@ export function updateFeedback(
   eventId: number,
   registrationId: number,
   feedback: string
-) {
-  return (dispatch: $FlowFixMe) => {
+): Thunk<*> {
+  return dispatch => {
     dispatch(
       callAPI({
         types: Event.UPDATE_REGISTRATION,
@@ -212,8 +212,8 @@ export function updatePresence(
   eventId: number,
   registrationId: number,
   presence: string
-) {
-  return (dispatch: $FlowFixMe) => {
+): Thunk<*> {
+  return dispatch => {
     dispatch(
       callAPI({
         types: Event.UPDATE_REGISTRATION,
@@ -234,8 +234,8 @@ export function updatePayment(
   eventId: number,
   registrationId: number,
   chargeStatus: string
-) {
-  return (dispatch: $FlowFixMe) => {
+): Thunk<*> {
+  return dispatch => {
     dispatch(
       callAPI({
         types: Event.UPDATE_REGISTRATION,
@@ -252,8 +252,8 @@ export function updatePayment(
   };
 }
 
-export function follow(userId: number, eventId: number) {
-  return (dispatch: $FlowFixMe) => {
+export function follow(userId: number, eventId: number): Thunk<*> {
+  return dispatch => {
     dispatch(
       callAPI({
         types: Event.FOLLOW,
@@ -271,8 +271,8 @@ export function follow(userId: number, eventId: number) {
   };
 }
 
-export function unfollow(followId: number, eventId: number) {
-  return (dispatch: $FlowFixMe) => {
+export function unfollow(followId: number, eventId: number): Thunk<*> {
+  return dispatch => {
     dispatch(
       callAPI({
         types: Event.UNFOLLOW,
@@ -287,8 +287,8 @@ export function unfollow(followId: number, eventId: number) {
   };
 }
 
-export function isUserFollowing(eventId: number, userId: number) {
-  return (dispatch: $FlowFixMe) => {
+export function isUserFollowing(eventId: number, userId: number): Thunk<*> {
+  return dispatch => {
     dispatch(
       callAPI({
         types: Event.IS_USER_FOLLOWING,
