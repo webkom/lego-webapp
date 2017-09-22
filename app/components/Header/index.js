@@ -164,6 +164,7 @@ class Header extends Component {
                 >
                   <div style={{ padding: 10 }}>
                     <LoginForm
+                      form="HeaderLoginForm"
                       login={(...creds) => {
                         this.setState({ shake: false });
                         return this.props.login(...creds).then(

@@ -10,6 +10,7 @@
       "plugins": ["transform-import-to-require"]
     },
     "test": {
+      "plugins": ["transform-import-to-require"],
       "presets": ["latest", "react", "stage-2"]
     }
   }
