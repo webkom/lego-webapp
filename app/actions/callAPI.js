@@ -63,7 +63,7 @@ export default function callAPI({
   propagateError = false,
   disableOptimistic = false,
   requiresAuthentication = true
-}: Object): Thunk<*, *> {
+}: Object): Thunk<*> {
   return (dispatch, getState) => {
     const methodUpperCase = method.toUpperCase();
     const shouldUseCache = methodUpperCase === 'GET' || useCache;

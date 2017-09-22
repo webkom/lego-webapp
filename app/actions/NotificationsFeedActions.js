@@ -3,9 +3,10 @@
 import { NotificationsFeed } from './ActionTypes';
 import callAPI from './callAPI';
 import { selectIsLoggedIn } from 'app/reducers/auth';
+import type { Thunk } from 'app/types';
 
-export function fetchNotificationData() {
-  return (dispatch: $FlowFixMe, getState: $FlowFixMe) => {
+export function fetchNotificationData(): Thunk<*> {
+  return (dispatch, getState) => {
     if (selectIsLoggedIn(getState())) {
       return dispatch(
         callAPI({

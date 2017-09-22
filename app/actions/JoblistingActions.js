@@ -6,6 +6,7 @@ import { Joblistings } from './ActionTypes';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 import moment from 'moment';
+import type { Thunk } from 'app/types';
 
 export function fetchAll() {
   return callAPI({
@@ -31,8 +32,8 @@ export function fetchJoblisting(id: number) {
   });
 }
 
-export function deleteJoblisting(id: number) {
-  return (dispatch: $FlowFixMe) => {
+export function deleteJoblisting(id: number): Thunk<*> {
+  return dispatch => {
     dispatch(
       callAPI({
         types: Joblistings.DELETE,
@@ -63,8 +64,8 @@ export function createJoblisting({
   fromYear,
   toYear,
   applicationUrl
-}: Object) {
-  return (dispatch: $FlowFixMe) => {
+}: Object): Thunk<*> {
+  return dispatch => {
     dispatch(startSubmit('joblistingEditor'));
 
     dispatch(
@@ -120,8 +121,8 @@ export function editJoblisting({
   fromYear,
   toYear,
   applicationUrl
-}: Object) {
-  return (dispatch: $FlowFixMe) => {
+}: Object): Thunk<*> {
+  return dispatch => {
     dispatch(startSubmit('joblistingEditor'));
     dispatch(
       callAPI({
