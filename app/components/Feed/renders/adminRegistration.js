@@ -6,27 +6,23 @@ import { lookupContext, contextRender } from '../context';
 import type { AggregatedActivity } from '../types';
 
 /**
- * Group by actor
- * actor -> meeting1, meeting2
+ * Normal grouping by target and date
  */
 export function activityHeader(aggregatedActivity: AggregatedActivity) {
-  const latestActivity = aggregatedActivity.lastActivity;
-  const actor = lookupContext(aggregatedActivity, latestActivity.actor);
-  const meetings = aggregatedActivity.activities.reduce((acc, activity) => {
-    const context = lookupContext(aggregatedActivity, activity.object);
+  const events = aggregatedActivity.activities.reduce((acc, activity) => {
+    const context = lookupContext(aggregatedActivity, activity.actor);
     return context ? acc.concat(context) : acc;
   }, []);
 
-  if (!(actor && meetings)) {
+  if (events.length === 0) {
     return null;
   }
 
   return (
     <b>
-      {contextRender[actor.contentType](actor)} inviterte deg til{' '}
-      {joinValues(
-        meetings.map(meeting => contextRender[meeting.contentType](meeting))
-      )}
+      {'Du har blitt påmeldt på '}
+      {joinValues(events.map(event => contextRender[event.contentType](event)))}
+      {' av en administrator'}
     </b>
   );
 }
