@@ -10,6 +10,7 @@ import callAPI from 'app/actions/callAPI';
 import { User } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { addNotification } from 'app/actions/NotificationActions';
+import type { Thunk } from 'app/types';
 
 const USER_STORAGE_KEY = 'lego.auth';
 
@@ -25,8 +26,8 @@ function removeToken() {
   return cookie.remove(USER_STORAGE_KEY, { path: '/' });
 }
 
-export function login(username: string, password: string) {
-  return (dispatch: $FlowFixMe) =>
+export function login(username: string, password: string): Thunk<*> {
+  return dispatch =>
     dispatch(
       callAPI({
         types: User.LOGIN,
@@ -54,8 +55,8 @@ export function login(username: string, password: string) {
     });
 }
 
-export function logout() {
-  return (dispatch: $FlowFixMe) => {
+export function logout(): Thunk<*> {
+  return dispatch => {
     removeToken();
     dispatch({ type: User.LOGOUT });
     dispatch(replace('/'));
@@ -65,7 +66,7 @@ export function logout() {
 export function updateUser(
   user: Object,
   options: Object = { noRedirect: false }
-) {
+): Thunk<*> {
   const {
     username,
     firstName,
@@ -75,7 +76,7 @@ export function updateUser(
     allergies,
     profilePicture
   } = user;
-  return (dispatch: $FlowFixMe) =>
+  return dispatch =>
     dispatch(
       callAPI({
         types: User.UPDATE,
@@ -112,8 +113,8 @@ export function changePassword({
   password,
   newPassword,
   retypeNewPassword
-}: PasswordPayload) {
-  return (dispatch: $FlowFixMe) =>
+}: PasswordPayload): Thunk<*> {
+  return dispatch =>
     dispatch(
       callAPI({
         types: User.PASSWORD_CHANGE,
@@ -140,8 +141,8 @@ export function changePassword({
     });
 }
 
-export function updatePicture({ picture }: { picture: string }) {
-  return (dispatch: $FlowFixMe, getState: $FlowFixMe) => {
+export function updatePicture({ picture }: { picture: File }): Thunk<*> {
+  return (dispatch, getState) => {
     const username = getState().auth.username;
     return dispatch(uploadFile({ file: picture })).then(action =>
       dispatch(
@@ -182,8 +183,8 @@ export function refreshToken(token: string) {
   });
 }
 
-export function loginWithExistingToken(token: string) {
-  return (dispatch: $FlowFixMe) => {
+export function loginWithExistingToken(token: string): Thunk<*> {
+  return dispatch => {
     // TODO(ek): Remove $FlowFixMe when we use a flow-typed version
     // that has correct types for isSame
     // (fixed in https://github.com/flowtype/flow-typed/commit/f3b9c89b85cdb463edeb707866a764508626cef1).
@@ -216,8 +217,8 @@ export function loginWithExistingToken(token: string) {
 /**
  * Dispatch a login success if a token exists in local storage.
  */
-export function loginAutomaticallyIfPossible() {
-  return (dispatch: $FlowFixMe) => {
+export function loginAutomaticallyIfPossible(): Thunk<*> {
+  return dispatch => {
     const token = loadToken();
 
     if (token) {
@@ -229,8 +230,11 @@ export function loginAutomaticallyIfPossible() {
 }
 
 type EmailArgs = { email: string, captchaResponse: string };
-export function sendRegistrationEmail({ email, captchaResponse }: EmailArgs) {
-  return (dispatch: $FlowFixMe) =>
+export function sendRegistrationEmail({
+  email,
+  captchaResponse
+}: EmailArgs): Thunk<*> {
+  return dispatch =>
     dispatch(
       callAPI({
         types: User.SEND_REGISTRATION_TOKEN,
@@ -247,8 +251,8 @@ export function sendRegistrationEmail({ email, captchaResponse }: EmailArgs) {
     );
 }
 
-export function validateRegistrationToken(token: string) {
-  return (dispatch: $FlowFixMe) =>
+export function validateRegistrationToken(token: string): Thunk<*> {
+  return dispatch =>
     dispatch(
       callAPI({
         types: User.VALIDATE_REGISTRATION_TOKEN,
@@ -261,8 +265,8 @@ export function validateRegistrationToken(token: string) {
     );
 }
 
-export function createUser(token: string, user: string) {
-  return (dispatch: $FlowFixMe) =>
+export function createUser(token: string, user: string): Thunk<*> {
+  return dispatch =>
     dispatch(
       callAPI({
         types: User.CREATE_USER,
