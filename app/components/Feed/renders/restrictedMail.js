@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import Icon from 'app/components/Icon';
 
@@ -6,14 +7,14 @@ import Icon from 'app/components/Icon';
  * One element for each sent restricted mail
  * No extra information in the feed element
  */
-export function activityHeader(aggregatedActivity) {
+export function activityHeader() {
   return <b>Begrenset epost sent ut til alle mottakere</b>;
 }
 
-export function activityContent(activity) {
+export function activityContent() {
   return null;
 }
 
-export function icon(aggregatedActivity) {
+export function icon() {
   return <Icon name="at" />;
 }
