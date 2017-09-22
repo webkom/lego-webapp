@@ -183,11 +183,13 @@ export function editPicture(galleryId: EntityID, pictureId: EntityID) {
 }
 
 export function addPictures(galleryId: number, files: []) {
-  return dispatch =>
-    Promise.all(files, file =>
-      dispatch(uploadFile({ file })).then(action =>
-        dispatch(
-          addPicture({ galleryId, file: action.meta.fileToken, active: true })
+  return (dispatch: $FlowFixMe) =>
+    Promise.all(
+      files.map(file =>
+        dispatch(uploadFile({ file })).then(action =>
+          dispatch(
+            addPicture({ galleryId, file: action.meta.fileToken, active: true })
+          )
         )
       )
     );

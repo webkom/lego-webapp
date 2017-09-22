@@ -118,6 +118,7 @@ export const Comment = {
  */
 export const Company = {
   FETCH: generateStatuses('Company.FETCH'),
+  FETCH_COMPANY_CONTACT: generateStatuses('Company.FETCH_COMPANY_CONTACT'),
   ADD: generateStatuses('Company.ADD'),
   EDIT: generateStatuses('Company.EDIT'),
   DELETE: generateStatuses('Company.DELETE'),
@@ -149,7 +150,8 @@ export const Search = {
   SEARCH: generateStatuses('Search.SEARCH'),
   AUTOCOMPLETE: generateStatuses('Search.AUTOCOMPLETE'),
   RESULTS_RECEIVED: 'Search.RESULTS_RECEIVED',
-  TOGGLE_OPEN: 'Search.TOGGLE_OPEN'
+  TOGGLE_OPEN: 'Search.TOGGLE_OPEN',
+  MENTION: 'Search.MENTION'
 };
 
 export const Notifications = {

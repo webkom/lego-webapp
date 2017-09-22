@@ -1,8 +1,10 @@
+// @flow
+
 import { membershipSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Membership } from './ActionTypes';
 
-export function setGroupMembers(groupId, memberships) {
+export function setGroupMembers(groupId: number, memberships: Array<Object>) {
   return callAPI({
     types: Membership.MEMBER_SET,
     endpoint: `/memberships/${groupId}/set-all/`,

@@ -19,7 +19,7 @@ export function fetchAll() {
   });
 }
 
-export function fetchJoblisting(id) {
+export function fetchJoblisting(id: number) {
   return callAPI({
     types: Joblistings.FETCH,
     endpoint: `/joblistings/${id}/`,
@@ -31,8 +31,8 @@ export function fetchJoblisting(id) {
   });
 }
 
-export function deleteJoblisting(id) {
-  return dispatch => {
+export function deleteJoblisting(id: number) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(
       callAPI({
         types: Joblistings.DELETE,
@@ -63,8 +63,8 @@ export function createJoblisting({
   fromYear,
   toYear,
   applicationUrl
-}) {
-  return dispatch => {
+}: Object) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(startSubmit('joblistingEditor'));
 
     dispatch(
@@ -120,8 +120,8 @@ export function editJoblisting({
   fromYear,
   toYear,
   applicationUrl
-}) {
-  return dispatch => {
+}: Object) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(startSubmit('joblistingEditor'));
     dispatch(
       callAPI({

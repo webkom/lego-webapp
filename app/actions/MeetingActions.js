@@ -31,26 +31,30 @@ export function fetchAll() {
   });
 }
 
-export function setInvitationStatus(meetingId, status, user) {
+export function setInvitationStatus(
+  meetingId: number,
+  status: string,
+  userId: number
+) {
   return callAPI({
     types: Meeting.SET_INVITATION_STATUS,
-    endpoint: `/meetings/${meetingId}/invitations/${user}/`,
+    endpoint: `/meetings/${meetingId}/invitations/${userId}/`,
     method: 'put',
     body: {
-      user,
+      user: userId,
       status
     },
     meta: {
       errorMessage: 'Set invitation status failed',
       meetingId,
       status,
-      user
+      user: userId
     }
   });
 }
 
-export function deleteMeeting(id) {
-  return dispatch => {
+export function deleteMeeting(id: number) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(startSubmit('deleteMeeting'));
 
     dispatch(
@@ -84,8 +88,8 @@ export function createMeeting({
   reportAuthor,
   users,
   groups
-}) {
-  return dispatch => {
+}: Object) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(startSubmit('meetingEditor'));
     dispatch(
       callAPI({
@@ -130,7 +134,7 @@ export function createMeeting({
   };
 }
 
-export function inviteUsersAndGroups({ id, users, groups }) {
+export function inviteUsersAndGroups({ id, users, groups }: Object) {
   return callAPI({
     types: Meeting.EDIT,
     endpoint: `/meetings/${id}/bulk_invite/`,
@@ -145,8 +149,12 @@ export function inviteUsersAndGroups({ id, users, groups }) {
   });
 }
 
-export function answerMeetingInvitation(action, token, loggedIn) {
-  return dispatch => {
+export function answerMeetingInvitation(
+  action: string,
+  token: string,
+  loggedIn: boolean
+) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(startSubmit('answerMeetingInvitation'));
 
     return dispatch(
@@ -179,8 +187,8 @@ export function editMeeting({
   id,
   users,
   groups
-}) {
-  return dispatch => {
+}: Object) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(startSubmit('meetingEditor'));
 
     dispatch(
