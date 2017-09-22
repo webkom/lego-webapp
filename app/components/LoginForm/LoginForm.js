@@ -57,14 +57,6 @@ class LoginForm extends Component {
   render() {
     const { error, submitting, handleSubmit } = this.props;
     const style = { marginBottom: 10 };
-    let invalid = this.props.invalid;
-    // Autofill in some mobile browsers doesn't trigger onChange,
-    // so we manually check to see if the values exist:
-    if (this.usernameRef && this.passwordRef) {
-      invalid = !this.usernameRef.value || !this.passwordRef.value;
-    }
-
-    const disabled = invalid || submitting;
     return (
       <Form
         onSubmit={handleSubmit(this.login)}
@@ -92,7 +84,7 @@ class LoginForm extends Component {
           component={TextInput.Field}
         />
         {error && <Error error={error} />}
-        <Button submit dark disabled={disabled}>
+        <Button submit dark disabled={submitting}>
           Logg inn
         </Button>
       </Form>
