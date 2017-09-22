@@ -2,6 +2,9 @@
 .*/node_modules/babel.*
 .*/node_modules/stylelint*
 .*/node_modules/fbjs*
+.*/node_modules/react-motion*
+.*/node_modules/jss/*
+.*/node_modules/findup/*
 
 [libs]
 
