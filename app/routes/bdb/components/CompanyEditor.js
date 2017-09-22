@@ -29,16 +29,13 @@ type Props = {
 class CompanyEditor extends Component {
   onSubmit = formContent => {
     const { company, submitFunction } = this.props;
-    return submitFunction(
-      {
-        ...formContent,
-        studentContact:
-          formContent.studentContact &&
-          Number(formContent.studentContact.value),
-        website: httpCheck(formContent.website)
-      },
-      company && company.id
-    );
+    return submitFunction({
+      ...formContent,
+      studentContact:
+        formContent.studentContact && Number(formContent.studentContact.value),
+      website: httpCheck(formContent.website),
+      companyId: company && company.id
+    });
   };
 
   props: Props;
