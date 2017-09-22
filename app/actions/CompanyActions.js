@@ -39,6 +39,7 @@ export function fetch(companyId: number): Thunk<*> {
       })
     ).then(response => {
       response.payload &&
+        response.payload.entities.companies[companyId].studentContact &&
         dispatch(
           fetchUser(
             response.payload.entities.companies[companyId].studentContact
@@ -143,7 +144,8 @@ export function addSemesterStatus(
         method: 'post',
         body: data,
         meta: {
-          errorMessage: 'Adding semester status failed'
+          errorMessage: 'Adding semester status failed',
+          companyId
         }
       })
     ).then(() => {

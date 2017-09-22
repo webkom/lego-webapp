@@ -4,7 +4,6 @@ export const statusStrings = {
   lunch_presentation: 'Lunsjpresentasjon',
   interested: 'Interessert',
   bedex: 'Bedex',
-  anniversary: 'Jubileum',
   not_interested: 'Ikke interessert',
   contacted: 'Kontaktet',
   not_contacted: 'Ikke kontaktet'
@@ -19,7 +18,6 @@ export const selectColorCode = status => {
     company_presentation: 'companyPresentation',
     course: 'course',
     lunch_presentation: 'lunchPresentation',
-    anniversary: 'anniversary',
     interested: 'interested',
     not_interested: 'notInterested',
     contacted: 'contacted',
@@ -34,11 +32,10 @@ export const sortStatusesByProminence = (a, b) => {
     company_presentation: 1,
     course: 2,
     lunch_presentation: 3,
-    anniversary: 4,
-    interested: 5,
-    not_interested: 6,
-    contacted: 7,
-    not_contacted: 8
+    interested: 4,
+    not_interested: 5,
+    contacted: 6,
+    not_contacted: 7
   };
   return priority[a] - priority[b];
 };
@@ -92,12 +89,13 @@ export const indexToSemester = (
     year = startYear + 1;
   }
 
-  return companySemesters
-    ? companySemesters.find(
+  return (
+    (companySemesters &&
+      companySemesters.find(
         companySemester =>
           companySemester.year === year && companySemester.semester === semester
-      ) || { year, semester }
-    : { year, semester };
+      )) || { year, semester }
+  );
 };
 
 export const httpCheck = link => {
@@ -127,7 +125,7 @@ export const getContactedStatuses = (contactedStatuses, statusString) => {
   }
 
   // Remove 'contacted', 'not_interested and 'interested'
-  // as a statuses if any the others in that list are selected
+  // as a statuses if any the other statuses are selected
   ['contacted', 'not_interested', 'interested'].map(status => {
     if (
       contactedStatuses.length > 1 &&
