@@ -18,8 +18,8 @@ export function fetchAll() {
   });
 }
 
-export function fetch(companyId) {
-  return dispatch =>
+export function fetch(companyId: number) {
+  return (dispatch: $FlowFixMe) =>
     dispatch(
       callAPI({
         types: Company.FETCH,
@@ -44,19 +44,8 @@ export function fetch(companyId) {
     );
 }
 
-export function addCompany({
-  name,
-  studentContact,
-  adminComment,
-  active,
-  description,
-  phone,
-  website,
-  companyType,
-  paymentMail,
-  address
-}) {
-  return dispatch => {
+export function addCompany(data: Object) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(startSubmit('company'));
 
     return dispatch(
@@ -64,18 +53,7 @@ export function addCompany({
         types: Company.ADD,
         endpoint: '/companies/',
         method: 'post',
-        body: {
-          name,
-          studentContact,
-          adminComment,
-          active,
-          description,
-          phone,
-          website,
-          companyType,
-          paymentMail,
-          address
-        },
+        body: data,
         schema: companySchema,
         meta: {
           errorMessage: 'Adding company failed'
@@ -91,20 +69,8 @@ export function addCompany({
   };
 }
 
-export function editCompany({
-  companyId,
-  name,
-  description,
-  adminComment,
-  website,
-  studentContact,
-  phone,
-  active,
-  companyType,
-  paymentMail,
-  address
-}) {
-  return dispatch => {
+export function editCompany({ companyId, ...data }: Object) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(startSubmit('company'));
 
     return dispatch(
@@ -112,18 +78,7 @@ export function editCompany({
         types: Company.EDIT,
         endpoint: `/companies/${companyId}/`,
         method: 'PATCH',
-        body: {
-          name,
-          description,
-          adminComment,
-          website,
-          studentContact,
-          active,
-          phone,
-          companyType,
-          paymentMail,
-          address
-        },
+        body: data,
         schema: companySchema,
         meta: {
           errorMessage: 'Editing company failed'
@@ -136,8 +91,8 @@ export function editCompany({
   };
 }
 
-export function deleteCompany(companyId) {
-  return dispatch => {
+export function deleteCompany(companyId: number) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(startSubmit('company'));
 
     return dispatch(
@@ -159,10 +114,12 @@ export function deleteCompany(companyId) {
 }
 
 export function addSemesterStatus(
-  { companyId, year, semester, contactedStatus, contract },
-  detail = false
+  { companyId, ...data }: Object,
+  // TODO: change this to take in an object,
+  // addSemesterStatus(something, false) really doesn't say much
+  detail: boolean = false
 ) {
-  return dispatch => {
+  return (dispatch: $FlowFixMe) => {
     dispatch(startSubmit('company'));
 
     return dispatch(
@@ -170,12 +127,7 @@ export function addSemesterStatus(
         types: Company.ADD_SEMESTER,
         endpoint: `/companies/${companyId}/semester-statuses/`,
         method: 'post',
-        body: {
-          year,
-          semester,
-          contactedStatus,
-          contract
-        },
+        body: data,
         meta: {
           errorMessage: 'Adding semester status failed'
         }
@@ -192,10 +144,12 @@ export function addSemesterStatus(
 }
 
 export function editSemesterStatus(
-  { companyId, semesterId, contactedStatus, contract },
-  detail = false
+  { companyId, semesterId, contactedStatus, contract }: Object,
+  // TODO: change this to take in an object,
+  // editSemesterStatus(something, false) really doesn't say much
+  detail: boolean = false
 ) {
-  return dispatch => {
+  return (dispatch: $FlowFixMe) => {
     dispatch(startSubmit('company'));
 
     return dispatch(
@@ -222,8 +176,8 @@ export function editSemesterStatus(
   };
 }
 
-export function deleteSemesterStatus(companyId, semesterId) {
-  return dispatch => {
+export function deleteSemesterStatus(companyId: number, semesterId: number) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(startSubmit('company'));
 
     return dispatch(
@@ -245,7 +199,7 @@ export function deleteSemesterStatus(companyId, semesterId) {
   };
 }
 
-export function fetchCompanyContact({ companyId }) {
+export function fetchCompanyContact({ companyId }: { companyId: number }) {
   return callAPI({
     types: Company.FETCH_COMPANY_CONTACT,
     endpoint: `/companies/${companyId}/company-contacts/`,
@@ -256,8 +210,14 @@ export function fetchCompanyContact({ companyId }) {
   });
 }
 
-export function addCompanyContact({ companyId, name, role, mail, phone }) {
-  return dispatch => {
+export function addCompanyContact({
+  companyId,
+  name,
+  role,
+  mail,
+  phone
+}: Object) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(startSubmit('company'));
 
     return dispatch(
@@ -289,8 +249,8 @@ export function editCompanyContact({
   role,
   mail,
   phone
-}) {
-  return dispatch => {
+}: Object) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(startSubmit('company'));
 
     return dispatch(
@@ -315,8 +275,11 @@ export function editCompanyContact({
   };
 }
 
-export function deleteCompanyContact(companyId, companyContactId) {
-  return dispatch => {
+export function deleteCompanyContact(
+  companyId: number,
+  companyContactId: number
+) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(startSubmit('company'));
 
     return dispatch(
