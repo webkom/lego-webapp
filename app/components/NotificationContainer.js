@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { removeNotification } from 'app/actions/NotificationActions';
 
 type Props = {
-  removeNotification: () => void,
+  removeNotification: ({ id: string }) => void,
   notifications: Array<any>
 };
 
@@ -20,23 +20,32 @@ class NotificationContainer extends Component {
   };
 
   render() {
-    const notifications = this.props.notifications.map(n => {
-      n.key = n.id;
+    const notifications = this.props.notifications.map(notification => ({
+      ...notification,
+      key: notification.id,
       // onClick has to be implemented on each object because NotificationStack
       // does not support onClick like it supports onDismiss (see below)
-      n.onClick = this.onClick.bind(this, n);
-      return n;
-    });
+      onClick: this.onClick.bind(this, notification),
+      dismissAfter: 5000
+    }));
 
     return (
       <NotificationStack
-        dismissAfter={5000}
         notifications={notifications}
+        barStyleFactory={notificationStyleFactory}
+        activeBarStyleFactory={notificationStyleFactory}
         onDismiss={notification =>
           this.props.removeNotification({ id: notification.id })}
       />
     );
   }
+}
+
+function notificationStyleFactory(index, style) {
+  return {
+    ...style,
+    bottom: `${8 + index * 4}rem`
+  };
 }
 
 function mapStateToProps(state) {
