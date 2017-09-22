@@ -7,10 +7,11 @@ import Time from 'app/components/Time';
 import ProfilePicture from 'app/components/ProfilePicture';
 import styles from './activity.css';
 import { lookupContext } from './context';
+import type { AggregatedActivity, Activity } from './types';
 
 type Props = {
-  aggregatedActivity: Object,
-  activity: Object,
+  aggregatedActivity: AggregatedActivity,
+  activity: Activity,
   key: any,
   renders: Object
 };
@@ -26,7 +27,7 @@ export default class CommentRendrer extends Component {
     expanded: false
   };
 
-  renderHeader(activity: Object, aggregatedActivity: Object) {
+  renderHeader(activity: Activity, aggregatedActivity: AggregatedActivity) {
     const actor = lookupContext(aggregatedActivity, activity.actor);
     if (actor.contentType !== 'users.user') return null;
     return (
