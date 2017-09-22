@@ -29,26 +29,20 @@ export default class CommentRendrer extends Component {
 
   renderHeader(activity: Activity, aggregatedActivity: AggregatedActivity) {
     const actor = lookupContext(aggregatedActivity, activity.actor);
-    if (actor.contentType == 'users.user') {
-      return (
-        <div className={styles.activityHeader}>
-          <div className={styles.activityHeaderItem}>
-            <ProfilePicture
-              size={40}
-              user={actor}
-              style={{ marginRight: 25 }}
-            />
-            <Link to={`/users/${actor.username}/`}>
-              {actor.firstName} {actor.lastName}
-            </Link>
-          </div>
-          <i className={styles.time}>
-            <Time time={activity.time} wordsAgo />
-          </i>
+    if (actor.contentType !== 'users.user') return null;
+    return (
+      <div className={styles.activityHeader}>
+        <div className={styles.activityHeaderItem}>
+          <ProfilePicture size={40} user={actor} style={{ marginRight: 25 }} />
+          <Link to={`/users/${actor.username}/`}>
+            {actor.firstName} {actor.lastName}
+          </Link>
         </div>
-      );
-    }
-    return null;
+        <i className={styles.time}>
+          <Time time={activity.time} wordsAgo />
+        </i>
+      </div>
+    );
   }
 
   render() {

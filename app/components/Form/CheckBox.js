@@ -9,6 +9,7 @@ type Props = {
   id: string,
   type?: string,
   label?: string,
+  labelStyle?: string,
   value?: boolean,
   className?: string
 };
@@ -30,7 +31,7 @@ function CheckBox({
         id={id}
         checked={value}
       />
-      <label htmlFor={id} className={styles.label}>
+      <label htmlFor={id} style={labelStyle} className={styles.label}>
         {label}
       </label>
     </div>

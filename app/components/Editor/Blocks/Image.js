@@ -96,30 +96,30 @@ export default class ImageBlock extends Component {
         {uploading && <div className={styles.loader} />}
 
         {isFocused &&
-        !uploading && (
-          <div className={styles.tooltip}>
-            {tooltipButtons.map(button => (
-              <span
-                key={button.blockLayout}
-                className={styles.tooltipButton}
-                onMouseDown={e => {
-                  e.stopPropagation();
-                  e.preventDefault();
-                  this.setBlockType(button.blockLayout);
-                }}
-              >
-                <Icon
-                  className={cx(
-                    styles.tooltipIcon,
-                    button.blockLayout === data.blockLayout &&
-                      styles.activeTooltipIcon
-                  )}
-                  name={button.icon}
-                />
-              </span>
-            ))}
-          </div>
-        )}
+          !uploading && (
+            <div className={styles.tooltip}>
+              {tooltipButtons.map(button => (
+                <span
+                  key={button.blockLayout}
+                  className={styles.tooltipButton}
+                  onMouseDown={e => {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    this.setBlockType(button.blockLayout);
+                  }}
+                >
+                  <Icon
+                    className={cx(
+                      styles.tooltipIcon,
+                      button.blockLayout === data.blockLayout &&
+                        styles.activeTooltipIcon
+                    )}
+                    name={button.icon}
+                  />
+                </span>
+              ))}
+            </div>
+          )}
 
         <img
           src={data.src}
@@ -128,19 +128,19 @@ export default class ImageBlock extends Component {
           style={style}
         />
         {!uploading &&
-        error && (
-          <div className={styles.overlay}>
-            <span>
-              There was an error uploading the image:
-              <br />
-              {error}
-              <br />
-              <b>
-                <a onClick={this.retry}>Retry?</a>
-              </b>
-            </span>
-          </div>
-        )}
+          error && (
+            <div className={styles.overlay}>
+              <span>
+                There was an error uploading the image:
+                <br />
+                {error}
+                <br />
+                <b>
+                  <a onClick={this.retry}>Retry?</a>
+                </b>
+              </span>
+            </div>
+          )}
       </div>
     );
   }
