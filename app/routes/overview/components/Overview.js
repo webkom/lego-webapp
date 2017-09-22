@@ -38,10 +38,7 @@ function PrimaryItem({ event }) {
     <Flex column className={styles.primaryItem}>
       <h2 className="u-ui-heading">Pinned Event</h2>
       <Flex column className={styles.innerPrimaryItem}>
-        <Link
-          to={`/events/${event.id}`}
-          style={{ height: IMAGE_HEIGHT, display: 'block' }}
-        >
+        <Link to={`/events/${event.id}`} style={{ height: IMAGE_HEIGHT, display: 'block' }}>
           <Image className={styles.image} src={event.cover} />
         </Link>
         <div className={styles.pinnedHeading}>
@@ -50,9 +47,7 @@ function PrimaryItem({ event }) {
           </h2>
 
           <span className={styles.itemInfo}>
-            {event.startTime && (
-              <Time time={event.startTime} format="DD.MM HH:mm" />
-            )}
+            {event.startTime && <Time time={event.startTime} format="DD.MM HH:mm" />}
             {event.location !== '-' && (
               <span>
                 <span className={styles.dot}> · </span>
@@ -85,15 +80,11 @@ const OverviewItem = ({ event, showImage }) => (
       <Flex column className={styles.innerRight}>
         <div className={styles.heading}>
           <h2 className={styles.itemTitle}>
-            <Link to={`/events/${event.id}`}>
-              {truncateString(event.title, TITLE_MAX_LENGTH)}
-            </Link>
+            <Link to={`/events/${event.id}`}>{truncateString(event.title, TITLE_MAX_LENGTH)}</Link>
           </h2>
 
           <span className={styles.itemInfo}>
-            {event.startTime && (
-              <Time time={event.startTime} format="DD.MM HH:mm" />
-            )}
+            {event.startTime && <Time time={event.startTime} format="DD.MM HH:mm" />}
             {event.location !== '-' && (
               <span>
                 <span className={styles.dot}> · </span>
@@ -162,8 +153,7 @@ export default class Overview extends Component {
           {events.length > 0 && (
             <Button
               style={{ width: '100%', marginTop: '10px' }}
-              onClick={() =>
-                this.setState({ eventsToShow: this.state.eventsToShow ** 2 })}
+              onClick={() => this.setState({ eventsToShow: this.state.eventsToShow ** 2 })}
             >
               Vis flere arrangementer&nbsp;
               <i className="fa fa-angle-double-down " />

@@ -7,10 +7,7 @@ import { dispatched } from 'react-prepare';
 
 import { createValidator, required } from 'app/utils/validation';
 import UserSettingsOAuth2Form from './components/UserSettingsOAuth2Form';
-import {
-  fetchOAuth2Application,
-  updateOAuth2Application
-} from 'app/actions/OAuth2Actions';
+import { fetchOAuth2Application, updateOAuth2Application } from 'app/actions/OAuth2Actions';
 import { selectOAuth2ApplicationById } from 'app/reducers/oauth2';
 
 const validate = createValidator({

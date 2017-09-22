@@ -73,9 +73,9 @@ function mutateEvent(state: any, action: any) {
             ...state.byId[eventId],
             loading: false,
             activationTime,
-            waitingRegistrations: state.byId[
-              eventId
-            ].waitingRegistrations.filter(id => id !== action.payload.id)
+            waitingRegistrations: state.byId[eventId].waitingRegistrations.filter(
+              id => id !== action.payload.id
+            )
           }
         }
       };
@@ -217,9 +217,7 @@ export const selectMergedPoolWithRegistrations = createSelector(
         ...pools.reduce(
           (total, pool) => {
             const capacity = total.capacity + pool.capacity;
-            const permissionGroups = total.permissionGroups.concat(
-              pool.permissionGroups
-            );
+            const permissionGroups = total.permissionGroups.concat(pool.permissionGroups);
             const registrations = total.registrations.concat(
               pool.registrations.map(regId => registrationsById[regId])
             );
@@ -251,9 +249,7 @@ export const selectWaitingRegistrationsForEvent = createSelector(
   state => state.registrations.byId,
   (event, registrationsById) => {
     if (!event) return [];
-    return (event.waitingRegistrations || []).map(
-      regId => registrationsById[regId]
-    );
+    return (event.waitingRegistrations || []).map(regId => registrationsById[regId]);
   }
 );
 

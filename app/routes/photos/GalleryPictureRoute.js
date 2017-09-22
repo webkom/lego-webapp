@@ -1,9 +1,6 @@
 import { connect } from 'react-redux';
 import GalleryPictureModal from './components/GalleryPictureModal';
-import {
-  selectPictureById,
-  selectCommentsForPicture
-} from 'app/reducers/pictures';
+import { selectPictureById, selectCommentsForPicture } from 'app/reducers/pictures';
 import { deletePicture, updateGalleryCover } from 'app/actions/GalleryActions';
 import { push } from 'react-router-redux';
 
@@ -25,6 +22,4 @@ const mapDispatchToProps = {
   updateGalleryCover
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  GalleryPictureModal
-);
+export default connect(mapStateToProps, mapDispatchToProps)(GalleryPictureModal);

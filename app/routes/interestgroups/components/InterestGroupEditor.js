@@ -47,22 +47,14 @@ function InterestGroupEditor({
   return (
     <div className={styles.root}>
       <h2>
-        <Link
-          to={
-            isEditPage
-              ? `/interestGroups/${interestGroup.id}`
-              : `/interestGroups/`
-          }
-        >
+        <Link to={isEditPage ? `/interestGroups/${interestGroup.id}` : `/interestGroups/`}>
           <i className="fa fa-angle-left" />
           {isEditPage ? ` ${interestGroup.name}` : 'Tilbake'}
         </Link>
       </h2>
       <Flex justifyContent="space-between" alignItems="baseline">
         <h1>{isEditPage ? 'Endre gruppe' : 'Ny gruppe'}</h1>
-        <a onClick={() => removeInterestGroup(interestGroup.id)}>
-          Slett gruppen
-        </a>
+        <a onClick={() => removeInterestGroup(interestGroup.id)}>Slett gruppen</a>
       </Flex>
       <Form onSubmit={handleSubmit(handleSubmitCallback)}>
         <Field
@@ -136,9 +128,7 @@ export default reduxForm({
     }
     if (!values.leader) {
       errors.leader = 'Du må velge en leder';
-    } else if (
-      !values.members.map(m => m.value).includes(values.leader.value)
-    ) {
+    } else if (!values.members.map(m => m.value).includes(values.leader.value)) {
       errors.leader = 'Lederen må være medlem';
     }
 

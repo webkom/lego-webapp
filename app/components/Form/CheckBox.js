@@ -13,14 +13,7 @@ type Props = {
   className?: string
 };
 
-function CheckBox({
-  id,
-  label,
-  value,
-  labelStyle,
-  className,
-  ...props
-}: Props) {
+function CheckBox({ id, label, value, labelStyle, className, ...props }: Props) {
   return (
     <div className={styles.box}>
       <input

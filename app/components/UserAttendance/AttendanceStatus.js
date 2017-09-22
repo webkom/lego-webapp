@@ -16,9 +16,7 @@ const AttendanceElement = ({ pool, i, toggleModal }) => {
       <strong>{pool.name}</strong>
       <a onClick={() => toggleModal(i)}>
         <strong>
-          {pool.registrations
-            ? `${pool.registrations.length}/${capacity}`
-            : `0/${capacity}`}
+          {pool.registrations ? `${pool.registrations.length}/${capacity}` : `0/${capacity}`}
         </strong>
       </a>
     </div>

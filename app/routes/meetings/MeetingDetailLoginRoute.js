@@ -1,11 +1,7 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { dispatched } from 'react-prepare';
-import {
-  fetchMeeting,
-  setInvitationStatus,
-  deleteMeeting
-} from 'app/actions/MeetingActions';
+import { fetchMeeting, setInvitationStatus, deleteMeeting } from 'app/actions/MeetingActions';
 import { selectMeetingById } from 'app/reducers/meetings';
 import MeetingDetail from './components/MeetingDetail';
 import { LoginPage } from 'app/components/LoginForm';

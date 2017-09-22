@@ -18,26 +18,20 @@ describe('<UserProfile />', () => {
   it('should show a settings link if the user is me', () => {
     const wrapper = shallow(<UserProfile user={user} isMe />);
     expect(
-      wrapper.containsMatchingElement(
-        <Link to="/users/me/settings/profile">Settings</Link>
-      )
+      wrapper.containsMatchingElement(<Link to="/users/me/settings/profile">Settings</Link>)
     ).toEqual(true);
   });
 
   it('should not show a settings link for other users', () => {
     const wrapper = shallow(<UserProfile user={user} isMe={false} />);
     expect(
-      wrapper.containsMatchingElement(
-        <Link to="/users/me/settings/profile">Settings</Link>
-      )
+      wrapper.containsMatchingElement(<Link to="/users/me/settings/profile">Settings</Link>)
     ).toEqual(false);
   });
 
   it('should render user info', () => {
     const wrapper = shallow(<UserProfile user={user} isMe={false} />);
-    expect(wrapper.containsMatchingElement(<h2>{user.fullName}</h2>)).toEqual(
-      true
-    );
+    expect(wrapper.containsMatchingElement(<h2>{user.fullName}</h2>)).toEqual(true);
     expect(wrapper.html()).toContain(user.email);
     expect(wrapper.html()).toContain(user.username);
   });

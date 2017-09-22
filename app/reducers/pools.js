@@ -11,8 +11,7 @@ export default createEntityReducer({
   mutate(state, action) {
     switch (action.type) {
       case Event.SOCKET_EVENT_UPDATED: {
-        const pools =
-          normalize(action.payload, eventSchema).entities.pools || {};
+        const pools = normalize(action.payload, eventSchema).entities.pools || {};
         return {
           ...state,
           byId: pools,
@@ -30,10 +29,7 @@ export default createEntityReducer({
             ...state.byId,
             [registration.pool]: {
               ...state.byId[registration.pool],
-              registrations: [
-                ...state.byId[registration.pool].registrations,
-                registration.id
-              ]
+              registrations: [...state.byId[registration.pool].registrations, registration.id]
             }
           }
         };
@@ -50,9 +46,7 @@ export default createEntityReducer({
             ...state.byId,
             [fromPool]: {
               ...pool,
-              registrations: pool.registrations.filter(
-                reg => reg !== payload.id
-              )
+              registrations: pool.registrations.filter(reg => reg !== payload.id)
             }
           }
         };

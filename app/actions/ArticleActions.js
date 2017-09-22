@@ -57,9 +57,7 @@ export function editArticle({ id, title, content, tags }: ArticleEntity) {
   });
 }
 
-export function fetchAll(
-  { year, month }: { year: string, month: string } = {}
-) {
+export function fetchAll({ year, month }: { year: string, month: string } = {}) {
   return callAPI({
     types: Article.FETCH,
     endpoint: `/articles/${createQueryString({ year, month })}`,

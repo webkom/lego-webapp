@@ -19,11 +19,7 @@ type Props = {
 };
 
 const UserLink = ({ user }: object) =>
-  user ? (
-    <Link to={`/users/${user.username}`}> {user.fullName} </Link>
-  ) : (
-    <span> Ikke valgt </span>
-  );
+  user ? <Link to={`/users/${user.username}`}> {user.fullName} </Link> : <span> Ikke valgt </span>;
 
 class MeetingDetails extends Component {
   props: Props;
@@ -33,11 +29,9 @@ class MeetingDetails extends Component {
     this.props.setInvitationStatus(meeting.id, newStatus, user.id);
   };
 
-  acceptInvitation = () =>
-    this.setInvitationStatus(INVITATION_STATUSES.ATTENDING);
+  acceptInvitation = () => this.setInvitationStatus(INVITATION_STATUSES.ATTENDING);
 
-  rejectInvitation = () =>
-    this.setInvitationStatus(INVITATION_STATUSES.NOT_ATTENDING);
+  rejectInvitation = () => this.setInvitationStatus(INVITATION_STATUSES.NOT_ATTENDING);
 
   sortInvitations = () => {
     const { invitations } = this.props.meeting;
@@ -45,9 +39,7 @@ class MeetingDetails extends Component {
     return Object.keys(INVITATION_STATUSES).map(invitationStatus => ({
       name: INVITATION_STATUSES_TEXT[invitationStatus],
       capacity: invitations.length,
-      registrations: invitations.filter(
-        invite => invite.status === invitationStatus
-      )
+      registrations: invitations.filter(invite => invite.status === invitationStatus)
     }));
   };
 
@@ -75,18 +67,14 @@ class MeetingDetails extends Component {
     if (!meeting || !user) {
       return <LoadingIndicator loading />;
     }
-    const statusMe = meeting.invitations.find(
-      item => item.user.username === user.username
-    ).status;
+    const statusMe = meeting.invitations.find(item => item.user.username === user.username).status;
 
     const reportAuthorInvite = meeting.invitations.find(
       invite => invite.user.id === meeting.reportAuthor
     );
     const reportAuthor = reportAuthorInvite ? reportAuthorInvite.user : null;
 
-    const createdBy = meeting.invitations.find(
-      invite => invite.user.id === meeting.createdBy
-    ).user;
+    const createdBy = meeting.invitations.find(invite => invite.user.id === meeting.createdBy).user;
 
     const canDelete = user.id === meeting.createdBy;
     return (
@@ -101,11 +89,7 @@ class MeetingDetails extends Component {
           <div style={{ flex: 1 }}>
             <h1 className={styles.title}>{meeting.title}</h1>
             <h3>
-              <Time
-                style={{ color: 'grey' }}
-                time={meeting.startTime}
-                format="ll [-] HH:mm"
-              />
+              <Time style={{ color: 'grey' }} time={meeting.startTime} format="ll [-] HH:mm" />
             </h3>
           </div>
 
@@ -178,5 +162,4 @@ class MeetingDetails extends Component {
     );
   }
 }
-
 export default MeetingDetails;

@@ -13,13 +13,7 @@ type Props = {
   readOnly?: boolean
 };
 
-function TextArea({
-  type = 'text',
-  className,
-  inputRef,
-  readOnly,
-  ...props
-}: Props) {
+function TextArea({ type = 'text', className, inputRef, readOnly, ...props }: Props) {
   return (
     <Textarea
       ref={inputRef}

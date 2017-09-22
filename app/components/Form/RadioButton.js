@@ -13,23 +13,10 @@ type Props = {
   value?: string
 };
 
-function RadioButton({
-  id,
-  label,
-  inputValue,
-  value,
-  className,
-  ...props
-}: Props) {
+function RadioButton({ id, label, inputValue, value, className, ...props }: Props) {
   return (
     <div className={styles.box}>
-      <input
-        {...props}
-        checked={inputValue === value}
-        type="radio"
-        id={id}
-        value={inputValue}
-      />
+      <input {...props} checked={inputValue === value} type="radio" id={id} value={inputValue} />
       <span>{label}</span>
     </div>
   );

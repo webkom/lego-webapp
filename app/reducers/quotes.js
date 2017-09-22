@@ -96,9 +96,7 @@ export const selectSortedQuotes = createSelector(
   (quotes, query) => {
     return quotes
       .filter(
-        quote =>
-          typeof quote !== 'undefined' &&
-          quote.approved === (query.filter !== 'unapproved')
+        quote => typeof quote !== 'undefined' && quote.approved === (query.filter !== 'unapproved')
       )
       .sort(compareByDate);
   }

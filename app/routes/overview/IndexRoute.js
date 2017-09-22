@@ -18,8 +18,7 @@ const mapDispatchToProps = { login, logout };
 export default compose(
   replaceUnlessLoggedIn(PublicFrontpage),
   dispatched(
-    ({ loggedIn }, dispatch) =>
-      dispatch(fetchAll({ dateAfter: moment().format('YYYY-MM-DD') })),
+    ({ loggedIn }, dispatch) => dispatch(fetchAll({ dateAfter: moment().format('YYYY-MM-DD') })),
     {
       componentWillReceiveProps: false
     }

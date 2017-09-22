@@ -34,8 +34,7 @@ import fetchHistory from './fetchHistory';
 import { User } from '../actions/ActionTypes';
 import type { State, Action } from 'app/types';
 
-const reduceReducers = (...reducers) => (prev, curr) =>
-  reducers.reduce((p, r) => r(p, curr), prev);
+const reduceReducers = (...reducers) => (prev, curr) => reducers.reduce((p, r) => r(p, curr), prev);
 
 const reducers = {
   quotes,
@@ -80,11 +79,7 @@ export default function rootReducer(state: State, action: Action) {
   return appReducer(state, action);
 }
 
-export const userSchema = new schema.Entity(
-  'users',
-  {},
-  { idAttribute: 'username' }
-);
+export const userSchema = new schema.Entity('users', {}, { idAttribute: 'username' });
 export const registrationSchema = new schema.Entity('registrations', {
   users: userSchema
 });
@@ -115,11 +110,7 @@ export const groupSchema = new schema.Entity('groups', { users: [userSchema] });
 export const quoteSchema = new schema.Entity('quotes', {
   comments: [commentSchema]
 });
-export const pageSchema = new schema.Entity(
-  'pages',
-  {},
-  { idAttribute: 'slug' }
-);
+export const pageSchema = new schema.Entity('pages', {}, { idAttribute: 'slug' });
 export const companySchema = new schema.Entity('companies', {
   studentContact: userSchema
 });

@@ -8,9 +8,7 @@ import createQueryString from 'app/utils/createQueryString';
 import type { EntityID, GalleryEntity, GalleryPictureEntity } from 'app/types';
 import type { Thunk } from 'app/types';
 
-export function fetchAll(
-  { year, month }: { year: string, month: string } = {}
-) {
+export function fetchAll({ year, month }: { year: string, month: string } = {}) {
   return callAPI({
     types: Gallery.FETCH,
     endpoint: `/galleries/${createQueryString({ year, month })}`,
@@ -133,12 +131,7 @@ export function deleteGallery(galleryId: EntityID) {
   });
 }
 
-export function addPicture({
-  galleryId,
-  active,
-  file,
-  description
-}: GalleryPictureEntity) {
+export function addPicture({ galleryId, active, file, description }: GalleryPictureEntity) {
   return callAPI({
     types: Gallery.ADD_PICTURE,
     endpoint: `/galleries/${galleryId}/pictures/`,
@@ -188,9 +181,7 @@ export function addPictures(galleryId: number, files: []): Thunk<*> {
     Promise.all(
       files.map(file =>
         dispatch(uploadFile({ file })).then(action =>
-          dispatch(
-            addPicture({ galleryId, file: action.meta.fileToken, active: true })
-          )
+          dispatch(addPicture({ galleryId, file: action.meta.fileToken, active: true }))
         )
       )
     );

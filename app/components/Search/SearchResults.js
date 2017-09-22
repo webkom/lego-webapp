@@ -9,15 +9,9 @@ import ResolveLink from 'app/components/ResolveLink';
 const SearchResultItem = ({ result, isSelected, onCloseSearch }: Object) => (
   <Link to={result.link} onClick={onCloseSearch}>
     <li className={cx(isSelected && styles.isSelected)}>
-      {result.icon && (
-        <Icon className={styles.searchResultItemIcon} name={result.icon} />
-      )}
+      {result.icon && <Icon className={styles.searchResultItemIcon} name={result.icon} />}
       {!result.icon && (
-        <ProfilePicture
-          size={30}
-          user={result}
-          style={{ margin: '0px 10px 0px 0px' }}
-        />
+        <ProfilePicture size={30} user={result} style={{ margin: '0px 10px 0px 0px' }} />
       )}
       {result.label}
     </li>
@@ -61,16 +55,10 @@ const SearchResults = ({
               </li>
             ))}
           </ul>
-          {adminLinks.length > 0 && (
-            <h2 className={styles.navigationHeader}>Admin</h2>
-          )}
+          {adminLinks.length > 0 && <h2 className={styles.navigationHeader}>Admin</h2>}
           <ul className={styles.navigationFlex}>
             {adminLinks.map((link, i) => (
-              <li
-                className={styles.navigationLink}
-                key={`adminLink-${i}`}
-                onClick={onCloseSearch}
-              >
+              <li className={styles.navigationLink} key={`adminLink-${i}`} onClick={onCloseSearch}>
                 <ResolveLink link={link} />
               </li>
             ))}

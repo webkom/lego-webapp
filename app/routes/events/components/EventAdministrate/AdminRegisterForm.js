@@ -3,26 +3,12 @@ import { reduxForm, Field } from 'redux-form';
 import { TextEditor, SelectInput } from 'app/components/Form';
 import Button from 'app/components/Button';
 
-const AdminRegister = ({
-  pools,
-  handleSubmit,
-  invalid,
-  pristine,
-  submitting
-}) => {
+const AdminRegister = ({ pools, handleSubmit, invalid, pristine, submitting }) => {
   return (
     <div style={{ width: '400px' }}>
       <form onSubmit={handleSubmit}>
-        <Field
-          placeholder="Begrunnelse"
-          name="reason"
-          component={TextEditor.Field}
-        />
-        <Field
-          placeholder="Tilbakemelding"
-          name="feedback"
-          component={TextEditor.Field}
-        />
+        <Field placeholder="Begrunnelse" name="reason" component={TextEditor.Field} />
+        <Field placeholder="Tilbakemelding" name="feedback" component={TextEditor.Field} />
         <Field
           name="pool"
           component={SelectInput.Field}

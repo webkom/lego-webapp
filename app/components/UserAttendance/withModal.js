@@ -23,10 +23,7 @@ export default function withModal(WrappedComponent) {
       return (
         <div>
           <WrappedComponent {...this.props} toggleModal={this.toggleModal} />
-          <Modal
-            show={this.state.modalVisible}
-            onHide={() => this.toggleModal(0)}
-          >
+          <Modal show={this.state.modalVisible} onHide={() => this.toggleModal(0)}>
             <AttendanceModal
               selectedPool={this.state.selectedTab}
               togglePool={this.toggleTab}
@@ -40,10 +37,6 @@ export default function withModal(WrappedComponent) {
 }
 
 const ChildrenWithProps = ({ children, ...restProps }) => (
-  <div>
-    {React.Children.map(children, child =>
-      React.cloneElement(child, { ...restProps })
-    )}
-  </div>
+  <div>{React.Children.map(children, child => React.cloneElement(child, { ...restProps }))}</div>
 );
 export const ModalParentComponent = withModal(ChildrenWithProps);

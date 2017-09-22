@@ -11,13 +11,7 @@ type Props = {
   handleSubmit: () => void
 };
 
-const AddQuote = ({
-  addQuotes,
-  invalid,
-  pristine,
-  submitting,
-  handleSubmit
-}: Props) => {
+const AddQuote = ({ addQuotes, invalid, pristine, submitting, handleSubmit }: Props) => {
   const disabledButton = invalid || pristine || submitting;
 
   return (
@@ -32,29 +26,16 @@ const AddQuote = ({
             Selve sitatet <b>*</b>
           </label>
 
-          <Field
-            placeholder="Det gjør seg ikke sjæl"
-            name="text"
-            component={TextEditor.Field}
-          />
+          <Field placeholder="Det gjør seg ikke sjæl" name="text" component={TextEditor.Field} />
 
           <label htmlFor="addQuoteSource" style={{ fontSize: 20 }}>
             Hvor sitatet kommer fra (sleng gjerne med noe snaks!) <b>*</b>
           </label>
-          <Field
-            placeholder="Harald Rex"
-            name="source"
-            component={TextEditor.Field}
-            type="text"
-          />
+          <Field placeholder="Harald Rex" name="source" component={TextEditor.Field} type="text" />
 
           <div className={styles.clear} />
 
-          <Button
-            type="submit"
-            className={styles.submitQuote}
-            disabled={disabledButton}
-          >
+          <Button type="submit" className={styles.submitQuote} disabled={disabledButton}>
             Send inn sitat
           </Button>
         </form>

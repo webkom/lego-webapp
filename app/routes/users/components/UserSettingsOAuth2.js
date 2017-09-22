@@ -20,22 +20,17 @@ const UserSettingsOAuth2 = (props: Props) => {
     <div>
       <h1>OAuth2</h1>
       <p>
-        Denne nettsiden benytter seg av et API som også er tiljengelig for andre
-        applikasjoner. OAuth2 er samme metode som GitHub og andre benytter seg
-        av for pålogging. Du kan lese mer i{' '}
-        <a href={`${config.baseUrl}/docs/authentication.html#oauth2`}>
-          dokumentasjonen
-        </a>{' '}
-        til APIet. Kontakt{' '}
-        <a href="mailto:webkom@abakus.no">webkom@abakus.no</a> hvis du ønsker å
-        slette en Applikasjon du har opprettet.
+        Denne nettsiden benytter seg av et API som også er tiljengelig for andre applikasjoner.
+        OAuth2 er samme metode som GitHub og andre benytter seg av for pålogging. Du kan lese mer i{' '}
+        <a href={`${config.baseUrl}/docs/authentication.html#oauth2`}>dokumentasjonen</a> til APIet.
+        Kontakt <a href="mailto:webkom@abakus.no">webkom@abakus.no</a> hvis du ønsker å slette en
+        Applikasjon du har opprettet.
       </p>
 
       <p>
         <b>
-          Client ID og Client Secret ansees om hemmelig og må ikke inkluderes i
-          kode som gjøres tiljengelig for sluttbrukere, typisk en webapp eller
-          en mobilapplikasjon.
+          Client ID og Client Secret ansees om hemmelig og må ikke inkluderes i kode som gjøres
+          tiljengelig for sluttbrukere, typisk en webapp eller en mobilapplikasjon.
         </b>
       </p>
 
@@ -74,9 +69,7 @@ const UserSettingsOAuth2 = (props: Props) => {
           {props.applications.map((application, key) => (
             <tr key={key}>
               <td>
-                <Link to={`/users/me/settings/oauth2/${application.id}`}>
-                  {application.name}
-                </Link>
+                <Link to={`/users/me/settings/oauth2/${application.id}`}>{application.name}</Link>
               </td>
               <td>{application.description}</td>
               <td>{application.clientId}</td>
@@ -115,10 +108,7 @@ const UserSettingsOAuth2 = (props: Props) => {
                   <td>{grant.token}</td>
                   <td>{keys(grant.scopes).join(', ')}</td>
                   <td>
-                    <Button
-                      size="small"
-                      onClick={() => props.deleteOAuth2Grant(grant.id)}
-                    >
+                    <Button size="small" onClick={() => props.deleteOAuth2Grant(grant.id)}>
                       Fjern
                     </Button>
                   </td>

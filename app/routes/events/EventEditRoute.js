@@ -2,12 +2,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import { formValueSelector } from 'redux-form';
-import {
-  fetchEvent,
-  editEvent,
-  deleteEvent,
-  setCoverPhoto
-} from 'app/actions/EventActions';
+import { fetchEvent, editEvent, deleteEvent, setCoverPhoto } from 'app/actions/EventActions';
 import { uploadFile } from 'app/actions/FileActions';
 import EventEditor from './components/EventEditor';
 import {
@@ -70,11 +65,8 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { eventId } }, dispatch) => dispatch(fetchEvent(eventId)),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
+  dispatched(({ params: { eventId } }, dispatch) => dispatch(fetchEvent(eventId)), {
+    componentWillReceiveProps: false
+  }),
   connect(mapStateToProps, mapDispatchToProps)
 )(EventEditor);

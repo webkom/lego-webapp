@@ -78,13 +78,7 @@ export function unapprove(quoteId: number) {
   });
 }
 
-export function addQuotes({
-  text,
-  source
-}: {
-  text: string,
-  source: string
-}): Thunk<*> {
+export function addQuotes({ text, source }: { text: string, source: string }): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('addQuote'));
 
@@ -108,8 +102,7 @@ export function addQuotes({
         dispatch(push('/quotes'));
         dispatch(
           addNotification({
-            message:
-              'Sitat sendt inn. Hvis det blir godkjent vil det dukke opp her!',
+            message: 'Sitat sendt inn. Hvis det blir godkjent vil det dukke opp her!',
             dismissAfter: 10000
           })
         );

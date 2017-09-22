@@ -5,12 +5,7 @@ import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { omit } from 'lodash';
 
 import Button from 'app/components/Button';
-import {
-  Form,
-  TextInput,
-  RadioButtonGroup,
-  RadioButton
-} from 'app/components/Form';
+import { Form, TextInput, RadioButtonGroup, RadioButton } from 'app/components/Form';
 import { FlexRow } from 'app/components/FlexBox';
 import UserImage from './UserImage';
 import ChangePassword from './ChangePassword';
@@ -88,24 +83,9 @@ const UserSettings = (props: Props) => {
         />
 
         <RadioButtonGroup label="Kjønn" name="gender">
-          <Field
-            name="gender"
-            label="Mann"
-            inputValue="male"
-            component={RadioButton.Field}
-          />
-          <Field
-            name="gender"
-            label="Kvinne"
-            inputValue="female"
-            component={RadioButton.Field}
-          />
-          <Field
-            name="gender"
-            label="Annet"
-            inputValue="other"
-            component={RadioButton.Field}
-          />
+          <Field name="gender" label="Mann" inputValue="male" component={RadioButton.Field} />
+          <Field name="gender" label="Kvinne" inputValue="female" component={RadioButton.Field} />
+          <Field name="gender" label="Annet" inputValue="other" component={RadioButton.Field} />
         </RadioButtonGroup>
         <Field label="Allergier" name="allergies" component={TextInput.Field} />
 

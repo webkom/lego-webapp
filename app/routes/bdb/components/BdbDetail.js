@@ -39,23 +39,14 @@ export default class BdbDetail extends Component {
   };
 
   render() {
-    const {
-      company,
-      comments,
-      companyEvents,
-      currentUser,
-      loggedIn
-    } = this.props;
+    const { company, comments, companyEvents, currentUser, loggedIn } = this.props;
 
     if (!company || !company.semesterStatuses) {
       return <LoadingIndicator />;
     }
 
     const semesters = company.semesterStatuses
-      .sort(
-        (a, b) =>
-          a.year === b.year ? a.semester - b.semester : b.year - a.year
-      )
+      .sort((a, b) => (a.year === b.year ? a.semester - b.semester : b.year - a.year))
       .map((status, i) => (
         <tr key={i}>
           <td>
@@ -64,28 +55,17 @@ export default class BdbDetail extends Component {
 
           <td
             className={
-              status.semester === 2 ? (
-                styles.bedex
-              ) : (
-                styles[selectColorCode(status.contactedStatus)]
-              )
+              status.semester === 2 ? styles.bedex : styles[selectColorCode(status.contactedStatus)]
             }
           >
-            {status.semester === 2 ? (
-              'Bedex'
-            ) : (
-              statusStrings[status.contactedStatus] || 6
-            )}
+            {status.semester === 2 ? 'Bedex' : statusStrings[status.contactedStatus] || 6}
           </td>
 
           <td style={{ display: 'flex', justifyContent: 'space-between' }}>
             <span>{status.contract || '-'}</span>
             <span style={{ display: 'flex', flexDirection: 'row' }}>
               <Link to={`/bdb/${company.id}/semesters/${status.id}`}>
-                <i
-                  className="fa fa-pencil"
-                  style={{ marginRight: '5px', color: 'orange' }}
-                />
+                <i className="fa fa-pencil" style={{ marginRight: '5px', color: 'orange' }} />
               </Link>
               <a onClick={() => this.deleteSemesterStatus(status.id)}>
                 <i className="fa fa-times" style={{ color: '#d13c32' }} />
@@ -106,10 +86,7 @@ export default class BdbDetail extends Component {
             {contact.phone || '-'}
             <span style={{ display: 'flex', flexDirection: 'row' }}>
               <Link to={`/bdb/${company.id}/company-contacts/${contact.id}`}>
-                <i
-                  className="fa fa-pencil"
-                  style={{ marginRight: '5px', color: 'orange' }}
-                />
+                <i className="fa fa-pencil" style={{ marginRight: '5px', color: 'orange' }} />
               </Link>
               <a onClick={() => this.deleteCompanyContact(contact.id)}>
                 <i className="fa fa-times" style={{ color: '#d13c32' }} />
@@ -167,10 +144,7 @@ export default class BdbDetail extends Component {
 
             <h3>Bedriftskontakter</h3>
             {companyContacts.length > 0 ? (
-              <div
-                className={styles.companyList}
-                style={{ marginBottom: '10px' }}
-              >
+              <div className={styles.companyList} style={{ marginBottom: '10px' }}>
                 <table className={styles.contactTable}>
                   <thead className={styles.categoryHeader}>
                     <tr>
@@ -184,15 +158,10 @@ export default class BdbDetail extends Component {
                 </table>
               </div>
             ) : (
-              <i style={{ display: 'block' }}>
-                Ingen bedriftskontakter registrert.
-              </i>
+              <i style={{ display: 'block' }}>Ingen bedriftskontakter registrert.</i>
             )}
 
-            <Link
-              to={`/bdb/${company.id}/company-contacts/add`}
-              style={{ marginTop: '10px' }}
-            >
+            <Link to={`/bdb/${company.id}/company-contacts/add`} style={{ marginTop: '10px' }}>
               <i className="fa fa-plus-circle" /> Legg til bedriftskontakt
             </Link>
 
@@ -200,10 +169,7 @@ export default class BdbDetail extends Component {
 
             <h3>Semesterstatuser</h3>
             {semesters.length > 0 ? (
-              <div
-                className={styles.companyList}
-                style={{ marginBottom: '10px' }}
-              >
+              <div className={styles.companyList} style={{ marginBottom: '10px' }}>
                 <table className={styles.detailTable}>
                   <thead className={styles.categoryHeader}>
                     <tr>
@@ -219,16 +185,10 @@ export default class BdbDetail extends Component {
               <i style={{ display: 'block' }}>Ingen sememsterstatuser.</i>
             )}
 
-            <Link
-              to={`/bdb/${company.id}/semesters/add`}
-              style={{ display: 'block' }}
-            >
+            <Link to={`/bdb/${company.id}/semesters/add`} style={{ display: 'block' }}>
               <i className="fa fa-plus-circle" /> Legg til nytt semester
             </Link>
-            <Link
-              to={`/bdb/${company.id}/semesters/add`}
-              style={{ display: 'block' }}
-            >
+            <Link to={`/bdb/${company.id}/semesters/add`} style={{ display: 'block' }}>
               <i className="fa fa-plus-circle" /> Legg til bedex (TODO)
             </Link>
 
@@ -247,8 +207,7 @@ export default class BdbDetail extends Component {
               />
               <InfoBubble
                 icon={'user'}
-                data={`${company.studentContact.firstName} ${company
-                  .studentContact.lastName}`}
+                data={`${company.studentContact.firstName} ${company.studentContact.lastName}`}
                 meta={'Studentkontakt'}
                 style={{ order: 2 }}
               />

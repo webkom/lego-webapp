@@ -11,10 +11,7 @@ export type Props = {
 
 export default (props: Props) => (
   <span
-    className={cx(
-      styles.tooltipButton,
-      props.isActive && styles.activeTooltipButton
-    )}
+    className={cx(styles.tooltipButton, props.isActive && styles.activeTooltipButton)}
     onMouseDown={e => {
       e.stopPropagation();
       e.preventDefault();

@@ -120,17 +120,11 @@ export default class CompanyList extends Component {
             <tr className={styles.invisRow}>
               <td />
               <td>
-                <i
-                  onClick={() => changeSemesters(false)}
-                  className="fa fa-arrow-left"
-                />
+                <i onClick={() => changeSemesters(false)} className="fa fa-arrow-left" />
               </td>
               <td />
               <td className={styles.rightArrow}>
-                <i
-                  onClick={() => changeSemesters(true)}
-                  className="fa fa-arrow-right"
-                />
+                <i onClick={() => changeSemesters(true)} className="fa fa-arrow-right" />
               </td>
             </tr>
 

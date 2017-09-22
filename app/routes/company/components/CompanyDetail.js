@@ -55,11 +55,7 @@ const CompanyDetail = ({ company }: Props) => {
         <h1 className={styles.title} style={{ order: 1 }}>
           {company.name}
         </h1>
-        <Link
-          to={'/companies'}
-          className={styles.editLink}
-          style={{ order: 2 }}
-        >
+        <Link to={'/companies'} className={styles.editLink} style={{ order: 2 }}>
           <Button>
             <Icon name="pencil" />
             Endre

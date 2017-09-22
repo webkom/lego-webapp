@@ -8,11 +8,7 @@ import styles from './GroupAdmin.css';
 const tabNames = ['Settings', 'Members'];
 
 const Tab = ({ base, name }) => (
-  <Link
-    className={styles.tab}
-    to={`${base}/${name.toLowerCase()}`}
-    activeClassName="active"
-  >
+  <Link className={styles.tab} to={`${base}/${name.toLowerCase()}`} activeClassName="active">
     {name}
   </Link>
 );

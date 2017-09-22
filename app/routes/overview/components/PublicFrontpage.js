@@ -29,10 +29,7 @@ class PublicFrontpage extends Component {
               style={{ whiteSpace: 'nowrap' }}
             >
               {registerUser ? 'Registrer bruker' : 'Logg inn'}
-              <button
-                onClick={this.toggleRegisterUser}
-                className={styles.toggleButton}
-              >
+              <button onClick={this.toggleRegisterUser} className={styles.toggleButton}>
                 {registerUser ? '← Jeg har bruker' : 'Jeg er ny →'}
               </button>
             </Flex>
@@ -41,16 +38,14 @@ class PublicFrontpage extends Component {
           <div className={styles.bigWelcomeBox}>
             <h2 className="u-mb">Velkommen til Abakus</h2>
             <p>
-              Abakus er linjeforeningen for studentene ved Datateknologi og
-              Kommunikasjonsteknologi på NTNU, og drives av studenter ved disse
-              studiene.
+              Abakus er linjeforeningen for studentene ved Datateknologi og Kommunikasjonsteknologi
+              på NTNU, og drives av studenter ved disse studiene.
             </p>
             <p>
               Abakus
-              {"'"} formål er å gi disse studentene veiledning i
-              studiesituasjonen, arrangere kurs som utfyller fagtilbudet ved
-              NTNU, fremme kontakten med næringslivet og bidra med sosiale
-              aktiviteter.
+              {"'"} formål er å gi disse studentene veiledning i studiesituasjonen, arrangere kurs
+              som utfyller fagtilbudet ved NTNU, fremme kontakten med næringslivet og bidra med
+              sosiale aktiviteter.
             </p>
           </div>
         </Flex>
@@ -64,9 +59,8 @@ class PublicFrontpage extends Component {
                   <i className="fa fa-caret-right" /> innsida
                 </a>
                 <div className={styles.linkDescription}>
-                  Innsida er kjappeste vei inn til andre system og tjenester.
-                  Logger man seg på Innsida, blir man samtidig pålogget andre
-                  system.
+                  Innsida er kjappeste vei inn til andre system og tjenester. Logger man seg på
+                  Innsida, blir man samtidig pålogget andre system.
                 </div>
               </li>
               <li>
@@ -74,9 +68,8 @@ class PublicFrontpage extends Component {
                   <i className="fa fa-caret-right" /> Om Datateknologi
                 </a>
                 <div className={styles.linkDescription}>
-                  Datateknologi er en helt sentral del av alle fremtidsrettede
-                  teknologier, som for eksempel kunstig intelligens, medisinsk
-                  teknologi og søkemotorteknologi.
+                  Datateknologi er en helt sentral del av alle fremtidsrettede teknologier, som for
+                  eksempel kunstig intelligens, medisinsk teknologi og søkemotorteknologi.
                 </div>
               </li>
               <li>
@@ -84,9 +77,8 @@ class PublicFrontpage extends Component {
                   <i className="fa fa-caret-right" /> Om Kommunikasjonsteknologi
                 </a>
                 <div className={styles.linkDescription}>
-                  Vi bruker stadig mer av livene våre på nett, på jobb som i
-                  fritid. Kommunikasjonsteknologi brukes etter hvert av alle og
-                  overalt.
+                  Vi bruker stadig mer av livene våre på nett, på jobb som i fritid.
+                  Kommunikasjonsteknologi brukes etter hvert av alle og overalt.
                 </div>
               </li>
               <li>
@@ -96,8 +88,7 @@ class PublicFrontpage extends Component {
                 <div className={styles.linkDescription}>
                   Her finner du som bedriftsrepresentant informasjon om Abakus
                   {"'"}
-                  {} prosedyrer for bedriftspresentasjoner og andre nyttige
-                  fakta.
+                  {} prosedyrer for bedriftspresentasjoner og andre nyttige fakta.
                 </div>
               </li>
             </ul>

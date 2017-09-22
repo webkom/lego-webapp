@@ -41,12 +41,8 @@ export const getSchema = blocksEnabled => {
     schema.nodes = {
       [Blocks.Break]: Break,
       [Blocks.Image]: Image,
-      [Blocks.Blockquote]: props => (
-        <blockquote {...props.attributes}>{props.children}</blockquote>
-      ),
-      [Blocks.Cite]: props => (
-        <cite {...props.attributes}>{props.children}</cite>
-      ),
+      [Blocks.Blockquote]: props => <blockquote {...props.attributes}>{props.children}</blockquote>,
+      [Blocks.Cite]: props => <cite {...props.attributes}>{props.children}</cite>,
       [Blocks.UL]: props => <ul {...props.attributes}>{props.children}</ul>,
       [Blocks.H1]: props => <h1 {...props.attributes}>{props.children}</h1>,
       [Blocks.H2]: props => <h2 {...props.attributes}>{props.children}</h2>,

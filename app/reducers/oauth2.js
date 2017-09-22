@@ -41,9 +41,7 @@ export const oauth2Grants = createEntityReducer({
       case OAuth2.DELETE_GRANT.SUCCESS: {
         return {
           ...state,
-          items: state.items.filter(
-            grant => Number(grant) !== Number(action.meta.grantId)
-          )
+          items: state.items.filter(grant => Number(grant) !== Number(action.meta.grantId))
         };
       }
       default:
@@ -71,6 +69,5 @@ export const selectOAuth2ApplicationById = createSelector(
 export const selectOAuth2Grants = createSelector(
   state => state.oauth2Grants.byId,
   state => state.oauth2Grants.items,
-  (oauth2GrantsById, oauth2GrantIds) =>
-    oauth2GrantIds.map(id => oauth2GrantsById[id])
+  (oauth2GrantsById, oauth2GrantIds) => oauth2GrantIds.map(id => oauth2GrantsById[id])
 );

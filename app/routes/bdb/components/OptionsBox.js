@@ -50,17 +50,12 @@ export default class OptionsBox extends Component {
         <Link to="/bdb/add" style={{ display: 'block' }}>
           Legg til bedrift
         </Link>
-        <span style={{ display: 'block' }}>
-          Filtrer basert på om bedriften...
-        </span>
+        <span style={{ display: 'block' }}>Filtrer basert på om bedriften...</span>
 
         <div style={{ display: 'flex' }}>
           <div className={styles.section} style={{ order: 0 }}>
             <label>
-              <CheckBox
-                value={this.state.active}
-                onChange={() => this.toggleSection('active')}
-              />
+              <CheckBox value={this.state.active} onChange={() => this.toggleSection('active')} />
               <span style={{ marginLeft: '5px' }}>Er aktiv</span>
             </label>
 
@@ -75,9 +70,7 @@ export default class OptionsBox extends Component {
                   inputValue="true"
                   onChange={() => this.updateFilters('active', true)}
                 />
-                <span style={{ marginLeft: '5px' }}>
-                  Vis bare aktive bedrifter
-                </span>
+                <span style={{ marginLeft: '5px' }}>Vis bare aktive bedrifter</span>
               </label>
               <label>
                 <RadioButton
@@ -86,9 +79,7 @@ export default class OptionsBox extends Component {
                   inputValue="false"
                   onChange={() => this.updateFilters('active', false)}
                 />
-                <span style={{ marginLeft: '5px' }}>
-                  Vis bare inaktive bedrifter
-                </span>
+                <span style={{ marginLeft: '5px' }}>Vis bare inaktive bedrifter</span>
               </label>
             </div>
           </div>
@@ -113,9 +104,7 @@ export default class OptionsBox extends Component {
                   inputValue="true"
                   onChange={() => this.updateFilters('bedex', true)}
                 />
-                <span style={{ marginLeft: '5px' }}>
-                  Vis bedrifter med bedex
-                </span>
+                <span style={{ marginLeft: '5px' }}>Vis bedrifter med bedex</span>
               </label>
               <label>
                 <RadioButton
@@ -124,9 +113,7 @@ export default class OptionsBox extends Component {
                   inputValue="false"
                   onChange={() => this.updateFilters('bedex', false)}
                 />
-                <span style={{ marginLeft: '5px' }}>
-                  Vis bedrifter uten bedex
-                </span>
+                <span style={{ marginLeft: '5px' }}>Vis bedrifter uten bedex</span>
               </label>
             </div>
           </div>
@@ -138,9 +125,7 @@ export default class OptionsBox extends Component {
                 value={this.state.jobOfferOnly}
                 onChange={() => this.toggleSection('jobOfferOnly')}
               />
-              <span style={{ marginLeft: '5px' }}>
-                Kun er opprettet for jobbtilbud
-              </span>
+              <span style={{ marginLeft: '5px' }}>Kun er opprettet for jobbtilbud</span>
             </label>
             <div
               className={styles.options}

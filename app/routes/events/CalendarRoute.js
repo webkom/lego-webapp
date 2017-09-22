@@ -28,10 +28,7 @@ const loadData = ({ year, month }, dispatch) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const {
-    year = moment().year(),
-    month = moment().month() + 1
-  } = ownProps.params;
+  const { year = moment().year(), month = moment().month() + 1 } = ownProps.params;
   const user = ownProps.currentUser;
   const icalToken = user ? user.icalToken : null;
 
@@ -47,7 +44,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = { fetchAll };
 
 // Todo: send PR to react-prepare with cwrp compare function
-export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  dispatched(loadData)
-)(Calendar);
+export default compose(connect(mapStateToProps, mapDispatchToProps), dispatched(loadData))(
+  Calendar
+);

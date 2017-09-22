@@ -43,12 +43,9 @@ const mapDispatchToProps = { editCompany, fetch };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { companyId } }, dispatch) => dispatch(fetch(companyId)),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
+  dispatched(({ params: { companyId } }, dispatch) => dispatch(fetch(companyId)), {
+    componentWillReceiveProps: false
+  }),
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'editCompany',

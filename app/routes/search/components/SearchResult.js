@@ -14,27 +14,16 @@ export default props => {
         <Link to={result.link}>
           <h3 className={styles.searchResultTitle}>
             {result.label}{' '}
-            {result.icon && (
-              <Icon
-                className={styles.searchResultItemIcon}
-                name={result.icon}
-              />
-            )}
+            {result.icon && <Icon className={styles.searchResultItemIcon} name={result.icon} />}
             {!result.icon && (
-              <ProfilePicture
-                size={20}
-                user={result}
-                style={{ margin: '0px 10px 0px 0px' }}
-              />
+              <ProfilePicture size={20} user={result} style={{ margin: '0px 10px 0px 0px' }} />
             )}
           </h3>
         </Link>
 
         {result.content && (
           <div className={styles.content}>
-            <span>
-              {truncateString(result.content.replace(/(<([^>]+)>)/gi, ''), 250)}
-            </span>
+            <span>{truncateString(result.content.replace(/(<([^>]+)>)/gi, ''), 250)}</span>
           </div>
         )}
       </div>

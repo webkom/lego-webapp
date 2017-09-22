@@ -33,8 +33,7 @@ function transformArticle(article) {
 export const selectArticles = createSelector(
   state => state.articles.byId,
   state => state.articles.items,
-  (articlesById, articleIds) =>
-    articleIds.map(id => transformArticle(articlesById[id]))
+  (articlesById, articleIds) => articleIds.map(id => transformArticle(articlesById[id]))
 );
 
 export const selectArticleById = createSelector(

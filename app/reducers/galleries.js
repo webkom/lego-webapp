@@ -33,8 +33,7 @@ const transformGallery = gallery => ({
 export const selectGalleries = createSelector(
   state => state.galleries.byId,
   state => state.galleries.items,
-  (galleriesById, galleryIds) =>
-    galleryIds.map(id => transformGallery(galleriesById[id]))
+  (galleriesById, galleryIds) => galleryIds.map(id => transformGallery(galleriesById[id]))
 );
 
 export const selectGalleryById = createSelector(

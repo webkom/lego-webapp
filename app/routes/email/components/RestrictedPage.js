@@ -10,10 +10,10 @@ const RestricedPage = (props: Props) => {
   return (
     <div>
       <p>
-        Begrenset e-post benyttes når man ønsker å sende en engangspost til en
-        kombinasjon av grupper, brukere, eventer osv. Dette benyttes når det
-        ikke allerede finnes en liste eller andresse på ønskede mottakere. Dette
-        benyttes f.eks. ved utsending av ukesmail til alle våre medlemmer.
+        Begrenset e-post benyttes når man ønsker å sende en engangspost til en kombinasjon av
+        grupper, brukere, eventer osv. Dette benyttes når det ikke allerede finnes en liste eller
+        andresse på ønskede mottakere. Dette benyttes f.eks. ved utsending av ukesmail til alle våre
+        medlemmer.
       </p>
 
       <FlexRow flexWrap="wrap">

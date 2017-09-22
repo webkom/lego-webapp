@@ -63,19 +63,8 @@ export function logout(): Thunk<*> {
   };
 }
 
-export function updateUser(
-  user: Object,
-  options: Object = { noRedirect: false }
-): Thunk<*> {
-  const {
-    username,
-    firstName,
-    lastName,
-    email,
-    gender,
-    allergies,
-    profilePicture
-  } = user;
+export function updateUser(user: Object, options: Object = { noRedirect: false }): Thunk<*> {
+  const { username, firstName, lastName, email, gender, allergies, profilePicture } = user;
   return dispatch =>
     dispatch(
       callAPI({
@@ -146,10 +135,7 @@ export function updatePicture({ picture }: { picture: File }): Thunk<*> {
     const username = getState().auth.username;
     return dispatch(uploadFile({ file: picture })).then(action =>
       dispatch(
-        updateUser(
-          { username, profilePicture: action.meta.fileToken },
-          { noRedirect: true }
-        )
+        updateUser({ username, profilePicture: action.meta.fileToken }, { noRedirect: true })
       )
     );
   };
@@ -230,10 +216,7 @@ export function loginAutomaticallyIfPossible(): Thunk<*> {
 }
 
 type EmailArgs = { email: string, captchaResponse: string };
-export function sendRegistrationEmail({
-  email,
-  captchaResponse
-}: EmailArgs): Thunk<*> {
+export function sendRegistrationEmail({ email, captchaResponse }: EmailArgs): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({

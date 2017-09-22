@@ -20,13 +20,7 @@ class Modal extends Component {
   modal: ReactModal;
 
   render() {
-    const {
-      children,
-      onHide,
-      closeOnBackdropClick,
-      backdrop,
-      ...props
-    } = this.props;
+    const { children, onHide, closeOnBackdropClick, backdrop, ...props } = this.props;
     return (
       <ReactModal
         ref={ref => {

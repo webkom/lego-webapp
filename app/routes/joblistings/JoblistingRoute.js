@@ -50,9 +50,7 @@ function sortJoblistings(joblistings, sortType) {
 
 const mapStateToProps = (state, props) => {
   const { query } = props.location;
-  const joblistings = state.joblistings.items.map(
-    id => state.joblistings.byId[id]
-  );
+  const joblistings = state.joblistings.items.map(id => state.joblistings.byId[id]);
   const sortType = query.sort === 'company' ? 'company' : 'deadline';
   const filterClass = query.class ? query.class.split(',') : [];
   const filterJobType = query.jobtypes ? query.jobtypes.split(',') : [];

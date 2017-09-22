@@ -34,9 +34,7 @@ export default class GalleryPictureModal extends Component {
   };
 
   onUpdate = () => {
-    this.props.push(
-      `/photos/${this.props.gallery.id}/picture/${this.props.picture.id}/edit`
-    );
+    this.props.push(`/photos/${this.props.gallery.id}/picture/${this.props.picture.id}/edit`);
   };
 
   onUpdateGalleryCover = () => {
@@ -57,8 +55,7 @@ export default class GalleryPictureModal extends Component {
     switch (e.which) {
       case Keyboard.LEFT: {
         e.preventDefault();
-        const previousPicture =
-          gallery.pictures[gallery.pictures.indexOf(picture.id) - 1];
+        const previousPicture = gallery.pictures[gallery.pictures.indexOf(picture.id) - 1];
 
         if (previousPicture) {
           push(`/photos/${gallery.id}/picture/${previousPicture}`);
@@ -67,8 +64,7 @@ export default class GalleryPictureModal extends Component {
       }
       case Keyboard.RIGHT: {
         e.preventDefault();
-        const nextPicture =
-          gallery.pictures[gallery.pictures.indexOf(picture.id) + 1];
+        const nextPicture = gallery.pictures[gallery.pictures.indexOf(picture.id) + 1];
 
         if (nextPicture) {
           push(`/photos/${gallery.id}/picture/${nextPicture}`);
@@ -85,14 +81,7 @@ export default class GalleryPictureModal extends Component {
   };
 
   render() {
-    const {
-      picture,
-      comments,
-      currentUser,
-      loggedIn,
-      push,
-      gallery
-    } = this.props;
+    const { picture, comments, currentUser, loggedIn, push, gallery } = this.props;
     const { showMore } = this.state;
 
     return (
@@ -103,22 +92,14 @@ export default class GalleryPictureModal extends Component {
         show
         contentClassName={styles.content}
       >
-        <Flex
-          className={styles.container}
-          justifyContent="flex-start"
-          alignItems="center"
-        >
+        <Flex className={styles.container} justifyContent="flex-start" alignItems="center">
           <Flex className={styles.pictureContainer}>
             <div className={styles.picture}>
               <img src={picture.file} alt="some alt" />
             </div>
           </Flex>
           <div className={styles.contentContainer}>
-            <Flex
-              width="100%"
-              justifyContent="space-between"
-              alignItems="center"
-            >
+            <Flex width="100%" justifyContent="space-between" alignItems="center">
               <Flex justifyContent="space-between">
                 <img
                   className={styles.galleryThumbnail}
@@ -160,10 +141,7 @@ export default class GalleryPictureModal extends Component {
                     </Link>
                   </Dropdown.ListItem>
                   <Dropdown.ListItem>
-                    <Link
-                      onClick={this.onUpdateGalleryCover}
-                      style={{ color: '#333' }}
-                    >
+                    <Link onClick={this.onUpdateGalleryCover} style={{ color: '#333' }}>
                       <strong>Sett som album cover</strong>
                       <Icon name="image" size={24} />
                     </Link>
