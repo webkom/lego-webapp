@@ -11,7 +11,7 @@ export type Props = {
   pools: Array<Object>,
   title: string,
   togglePool: number => void,
-  selectedPool: Number
+  selectedPool: number
 };
 
 const Tab = ({ name, index, activePoolIndex, togglePool }) => (
@@ -37,7 +37,7 @@ class AttendanceModal extends Component {
     this.generateAmendedPools(this.props.pools);
   }
 
-  generateAmendedPools = pools => {
+  generateAmendedPools = (pools: Array<Object>) => {
     if (pools.length === 1) return this.setState({ pools });
 
     const allRegistrations = flatMap(pools, pool => pool.registrations);

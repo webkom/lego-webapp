@@ -5,6 +5,7 @@ import callAPI from 'app/actions/callAPI';
 import { companySchema, eventSchema } from 'app/reducers';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
+import type { Thunk } from 'app/types';
 
 export function fetchAll() {
   return callAPI({
