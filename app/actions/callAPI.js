@@ -7,7 +7,6 @@ import type { Thunk } from 'app/types';
 import { logout } from 'app/actions/UserActions';
 import isRequestNeeded from 'app/utils/isRequestNeeded';
 import { setStatusCode } from './RoutingActions';
-import { FetchHistory } from './ActionTypes';
 
 function urlFor(resource) {
   if (resource.match(/^\/\//)) {
@@ -24,12 +23,6 @@ function handleError(error, propagateError, endpoint) {
     if (statusCode) {
       if (statusCode === 401) {
         dispatch(logout());
-      }
-      if (statusCode < 500) {
-        dispatch({
-          type: FetchHistory.SET_HISTORY,
-          payload: endpoint
-        });
       }
       if (propagateError) {
         const serverRenderer = typeof window === 'undefined';
