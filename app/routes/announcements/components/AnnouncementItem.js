@@ -10,12 +10,14 @@ import Time from 'app/components/Time';
 type Props = {
   announcement: Object,
   sendAnnouncement: () => void,
+  deleteAnnouncement: () => void,
   actionGrant: Array<string>
 };
 
 const AnnouncementItem = ({
   announcement,
   sendAnnouncement,
+  deleteAnnouncement,
   actionGrant
 }: Props) => {
   return (
@@ -84,6 +86,13 @@ const AnnouncementItem = ({
       {!announcement.sent &&
       actionGrant.includes('send') && (
         <Flex className={styles.wrapperSendButton}>
+          <Button
+            className={styles.sendButton}
+            onClick={() => deleteAnnouncement(announcement.id)}
+          >
+            {' '}
+            Slett{' '}
+          </Button>
           <Button
             className={styles.sendButton}
             onClick={() => sendAnnouncement(announcement.id)}

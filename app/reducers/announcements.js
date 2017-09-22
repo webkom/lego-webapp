@@ -26,6 +26,11 @@ export default createEntityReducer({
           }
         };
       }
+      case Announcements.DELETE.SUCCESS:
+        return {
+          ...state,
+          items: state.items.filter(id => action.meta.announcementId !== id)
+        };
       default:
         return state;
     }

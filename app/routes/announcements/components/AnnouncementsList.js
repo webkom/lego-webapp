@@ -16,6 +16,7 @@ type Props = {
   actionGrant: Array,
   sendAnnouncement: () => void,
   createAnnouncement: () => void,
+  deleteAnnouncement: () => void,
   handleSubmit: () => void,
   invalid: string,
   pristine: string,
@@ -25,6 +26,7 @@ type Props = {
 const AnnouncementsList = ({
   createAnnouncement,
   sendAnnouncement,
+  deleteAnnouncement,
   announcements,
   actionGrant,
   handleSubmit,
@@ -97,7 +99,6 @@ const AnnouncementsList = ({
                 component={SelectInput.AutocompleteField}
               />
               <Field
-                text="Møter:"
                 name="meetings"
                 placeholder="Møter"
                 filter={['meetings.meeting']}
@@ -131,6 +132,7 @@ const AnnouncementsList = ({
                 key={i}
                 announcement={a}
                 sendAnnouncement={sendAnnouncement}
+                deleteAnnouncement={deleteAnnouncement}
                 actionGrant={actionGrant}
               />
             ))}
@@ -145,7 +147,7 @@ export default reduxForm({
   form: 'announcementsList',
   validate(values) {
     const errors = {};
-    if (!values.message || values.message.trim() === '<p></p>') {
+    if (!values.message) {
       errors.message = 'Du må skrive en melding';
     }
     if (!values.groups && !values.meetings && !values.events && !values.users) {

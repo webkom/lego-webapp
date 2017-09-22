@@ -7,7 +7,8 @@ import AnnouncementsList from './components/AnnouncementsList';
 import {
   fetchAll,
   createAnnouncement,
-  sendAnnouncement
+  sendAnnouncement,
+  deleteAnnouncement
 } from 'app/actions/AnnouncementsActions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
@@ -24,7 +25,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
   sendAnnouncement,
-  createAnnouncement
+  createAnnouncement,
+  deleteAnnouncement
 };
 
 export default compose(
