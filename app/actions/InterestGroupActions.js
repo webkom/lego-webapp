@@ -31,8 +31,8 @@ export function fetchAll() {
   });
 }
 
-export function createInterestGroup(group: object) {
-  return dispatch => {
+export function createInterestGroup(group: Object) {
+  return (dispatch: $FlowFixMe) => {
     const { name, description, descriptionLong, logo } = group;
     dispatch(
       callAPI({
@@ -69,7 +69,7 @@ export function createInterestGroup(group: object) {
 }
 
 export function removeInterestGroup(id: string) {
-  return dispatch => {
+  return (dispatch: $FlowFixMe) => {
     dispatch(
       callAPI({
         types: InterestGroup.REMOVE,
@@ -84,9 +84,9 @@ export function removeInterestGroup(id: string) {
   };
 }
 
-export function editInterestGroup(group: object) {
+export function editInterestGroup(group: Object) {
   const { id } = group;
-  return dispatch => {
+  return (dispatch: $FlowFixMe) => {
     dispatch(
       callAPI({
         types: InterestGroup.UPDATE,
@@ -112,8 +112,12 @@ export function editInterestGroup(group: object) {
   };
 }
 
-export function joinInterestGroup(groupId, user, role = 'member') {
-  return dispatch => {
+export function joinInterestGroup(
+  groupId: number,
+  user: Object,
+  role: string = 'member'
+) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(
       callAPI({
         types: Membership.JOIN_GROUP,
@@ -135,8 +139,8 @@ export function joinInterestGroup(groupId, user, role = 'member') {
   };
 }
 
-export function leaveInterestGroup(membership) {
-  return dispatch => {
+export function leaveInterestGroup(membership: Object) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(
       callAPI({
         types: Membership.LEAVE_GROUP,

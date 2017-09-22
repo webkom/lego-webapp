@@ -46,7 +46,7 @@ export function fetchAdministrate(eventId: string) {
 }
 
 export function createEvent(event: Object) {
-  return dispatch =>
+  return (dispatch: $FlowFixMe) =>
     dispatch(
       callAPI({
         types: Event.CREATE,
@@ -63,7 +63,7 @@ export function createEvent(event: Object) {
 }
 
 export function editEvent(event: Object) {
-  return dispatch =>
+  return (dispatch: $FlowFixMe) =>
     dispatch(
       callAPI({
         types: Event.EDIT,
@@ -77,8 +77,8 @@ export function editEvent(event: Object) {
     ).then(() => dispatch(push(`/events/${event.id}`)));
 }
 
-export function deleteEvent(eventId) {
-  return dispatch => {
+export function deleteEvent(eventId: number) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(
       callAPI({
         types: Event.DELETE,
@@ -96,7 +96,7 @@ export function deleteEvent(eventId) {
   };
 }
 
-export function setCoverPhoto(id, token) {
+export function setCoverPhoto(id: number, token: string) {
   return callAPI({
     types: Event.EDIT,
     endpoint: `/events/${id}/`,
@@ -111,7 +111,11 @@ export function setCoverPhoto(id, token) {
   });
 }
 
-export function register(eventId, captchaResponse, feedback) {
+export function register(
+  eventId: number,
+  captchaResponse: string,
+  feedback: string
+) {
   return callAPI({
     types: Event.REGISTER,
     endpoint: `/events/${eventId}/registrations/`,
@@ -127,7 +131,11 @@ export function register(eventId, captchaResponse, feedback) {
   });
 }
 
-export function unregister(eventId, registrationId, admin = false) {
+export function unregister(
+  eventId: number,
+  registrationId: number,
+  admin: boolean = false
+) {
   return callAPI({
     types: Event.UNREGISTER,
     endpoint: `/events/${eventId}/registrations/${registrationId}/`,
@@ -141,14 +149,20 @@ export function unregister(eventId, registrationId, admin = false) {
   });
 }
 
-export function adminRegister(eventId, user, pool, feedback, reason) {
+export function adminRegister(
+  eventId: number,
+  userId: number,
+  poolId: number,
+  feedback: string,
+  reason: string
+) {
   return callAPI({
     types: Event.ADMIN_REGISTER,
     endpoint: `/events/${eventId}/registrations/admin_register/`,
     method: 'post',
     body: {
-      user,
-      pool,
+      user: userId,
+      pool: poolId,
       feedback,
       admin_reason: reason
     },
@@ -158,7 +172,7 @@ export function adminRegister(eventId, user, pool, feedback, reason) {
   });
 }
 
-export function payment(eventId, token) {
+export function payment(eventId: number, token: string) {
   return callAPI({
     types: Event.PAYMENT_QUEUE,
     endpoint: `/events/${eventId}/payment/`,
@@ -172,8 +186,12 @@ export function payment(eventId, token) {
   });
 }
 
-export function updateFeedback(eventId, registrationId, feedback) {
-  return dispatch => {
+export function updateFeedback(
+  eventId: number,
+  registrationId: number,
+  feedback: string
+) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(
       callAPI({
         types: Event.UPDATE_REGISTRATION,
@@ -190,8 +208,12 @@ export function updateFeedback(eventId, registrationId, feedback) {
   };
 }
 
-export function updatePresence(eventId, registrationId, presence) {
-  return dispatch => {
+export function updatePresence(
+  eventId: number,
+  registrationId: number,
+  presence: string
+) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(
       callAPI({
         types: Event.UPDATE_REGISTRATION,
@@ -208,8 +230,12 @@ export function updatePresence(eventId, registrationId, presence) {
   };
 }
 
-export function updatePayment(eventId, registrationId, chargeStatus) {
-  return dispatch => {
+export function updatePayment(
+  eventId: number,
+  registrationId: number,
+  chargeStatus: string
+) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(
       callAPI({
         types: Event.UPDATE_REGISTRATION,
@@ -226,8 +252,8 @@ export function updatePayment(eventId, registrationId, chargeStatus) {
   };
 }
 
-export function follow(userId, eventId) {
-  return dispatch => {
+export function follow(userId: number, eventId: number) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(
       callAPI({
         types: Event.FOLLOW,
@@ -245,8 +271,8 @@ export function follow(userId, eventId) {
   };
 }
 
-export function unfollow(followId, eventId) {
-  return dispatch => {
+export function unfollow(followId: number, eventId: number) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(
       callAPI({
         types: Event.UNFOLLOW,
@@ -261,8 +287,8 @@ export function unfollow(followId, eventId) {
   };
 }
 
-export function isUserFollowing(eventId, userId) {
-  return dispatch => {
+export function isUserFollowing(eventId: number, userId: number) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(
       callAPI({
         types: Event.IS_USER_FOLLOWING,

@@ -7,10 +7,10 @@ import callAPI from 'app/actions/callAPI';
 import { Quote } from './ActionTypes';
 import { addNotification } from 'app/actions/NotificationActions';
 
-export function fetchAll({ approved = true }) {
+export function fetchAll({ approved = true }: { approved: boolean }) {
   return callAPI({
     types: Quote.FETCH,
-    endpoint: `/quotes/?approved=${approved}`,
+    endpoint: `/quotes/?approved=${String(approved)}`,
     schema: [quoteSchema],
     meta: {
       errorMessage: `Fetching ${approved ? '' : 'un'}approved quotes failed`
@@ -27,7 +27,7 @@ export function fetchAllUnapproved() {
   return fetchAll({ approved: false });
 }
 
-export function fetchQuote(quoteId) {
+export function fetchQuote(quoteId: number) {
   return callAPI({
     types: Quote.FETCH,
     endpoint: `/quotes/${quoteId}/`,
@@ -53,7 +53,7 @@ export function fetchRandomQuote() {
   });
 }
 
-export function approve(quoteId) {
+export function approve(quoteId: number) {
   return callAPI({
     types: Quote.APPROVE,
     endpoint: `/quotes/${quoteId}/approve/`,
@@ -65,7 +65,7 @@ export function approve(quoteId) {
   });
 }
 
-export function unapprove(quoteId) {
+export function unapprove(quoteId: number) {
   return callAPI({
     types: Quote.UNAPPROVE,
     endpoint: `/quotes/${quoteId}/unapprove/`,
@@ -77,8 +77,8 @@ export function unapprove(quoteId) {
   });
 }
 
-export function addQuotes({ text, source }) {
-  return dispatch => {
+export function addQuotes({ text, source }: { text: string, source: string }) {
+  return (dispatch: $FlowFixMe) => {
     dispatch(startSubmit('addQuote'));
 
     dispatch(
@@ -114,7 +114,7 @@ export function addQuotes({ text, source }) {
   };
 }
 
-export function deleteQuote(quoteId) {
+export function deleteQuote(quoteId: number) {
   return callAPI({
     types: Quote.DELETE,
     endpoint: `/quotes/${quoteId}/`,

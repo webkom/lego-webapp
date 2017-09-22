@@ -24,7 +24,9 @@ export type Action = {
 export type GalleryPictureEntity = {
   description?: string,
   active: boolean,
-  file: string
+  file: string,
+  galleryId: number,
+  taggees?: Array<Object>
 };
 
 export type GalleryEntity = {
