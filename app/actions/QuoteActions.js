@@ -6,6 +6,7 @@ import { quoteSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Quote } from './ActionTypes';
 import { addNotification } from 'app/actions/NotificationActions';
+import type { Thunk } from 'app/types';
 
 export function fetchAll({ approved = true }: { approved: boolean }) {
   return callAPI({
@@ -77,8 +78,14 @@ export function unapprove(quoteId: number) {
   });
 }
 
-export function addQuotes({ text, source }: { text: string, source: string }) {
-  return (dispatch: $FlowFixMe) => {
+export function addQuotes({
+  text,
+  source
+}: {
+  text: string,
+  source: string
+}): Thunk<*> {
+  return dispatch => {
     dispatch(startSubmit('addQuote'));
 
     dispatch(

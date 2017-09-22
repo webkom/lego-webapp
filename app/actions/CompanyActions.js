@@ -18,8 +18,8 @@ export function fetchAll() {
   });
 }
 
-export function fetch(companyId: number) {
-  return (dispatch: $FlowFixMe) =>
+export function fetch(companyId: number): Thunk<*> {
+  return dispatch =>
     dispatch(
       callAPI({
         types: Company.FETCH,
@@ -44,8 +44,8 @@ export function fetch(companyId: number) {
     );
 }
 
-export function addCompany(data: Object) {
-  return (dispatch: $FlowFixMe) => {
+export function addCompany(data: Object): Thunk<*> {
+  return dispatch => {
     dispatch(startSubmit('company'));
 
     return dispatch(
@@ -69,8 +69,8 @@ export function addCompany(data: Object) {
   };
 }
 
-export function editCompany({ companyId, ...data }: Object) {
-  return (dispatch: $FlowFixMe) => {
+export function editCompany({ companyId, ...data }: Object): Thunk<*> {
+  return dispatch => {
     dispatch(startSubmit('company'));
 
     return dispatch(
@@ -91,8 +91,8 @@ export function editCompany({ companyId, ...data }: Object) {
   };
 }
 
-export function deleteCompany(companyId: number) {
-  return (dispatch: $FlowFixMe) => {
+export function deleteCompany(companyId: number): Thunk<*> {
+  return dispatch => {
     dispatch(startSubmit('company'));
 
     return dispatch(
@@ -118,8 +118,8 @@ export function addSemesterStatus(
   // TODO: change this to take in an object,
   // addSemesterStatus(something, false) really doesn't say much
   detail: boolean = false
-) {
-  return (dispatch: $FlowFixMe) => {
+): Thunk<*> {
+  return dispatch => {
     dispatch(startSubmit('company'));
 
     return dispatch(
@@ -148,8 +148,8 @@ export function editSemesterStatus(
   // TODO: change this to take in an object,
   // editSemesterStatus(something, false) really doesn't say much
   detail: boolean = false
-) {
-  return (dispatch: $FlowFixMe) => {
+): Thunk<*> {
+  return dispatch => {
     dispatch(startSubmit('company'));
 
     return dispatch(
@@ -176,8 +176,11 @@ export function editSemesterStatus(
   };
 }
 
-export function deleteSemesterStatus(companyId: number, semesterId: number) {
-  return (dispatch: $FlowFixMe) => {
+export function deleteSemesterStatus(
+  companyId: number,
+  semesterId: number
+): Thunk<*> {
+  return dispatch => {
     dispatch(startSubmit('company'));
 
     return dispatch(
@@ -216,8 +219,8 @@ export function addCompanyContact({
   role,
   mail,
   phone
-}: Object) {
-  return (dispatch: $FlowFixMe) => {
+}: Object): Thunk<*> {
+  return dispatch => {
     dispatch(startSubmit('company'));
 
     return dispatch(
@@ -249,8 +252,8 @@ export function editCompanyContact({
   role,
   mail,
   phone
-}: Object) {
-  return (dispatch: $FlowFixMe) => {
+}: Object): Thunk<*> {
+  return dispatch => {
     dispatch(startSubmit('company'));
 
     return dispatch(
@@ -278,8 +281,8 @@ export function editCompanyContact({
 export function deleteCompanyContact(
   companyId: number,
   companyContactId: number
-) {
-  return (dispatch: $FlowFixMe) => {
+): Thunk<*> {
+  return dispatch => {
     dispatch(startSubmit('company'));
 
     return dispatch(
