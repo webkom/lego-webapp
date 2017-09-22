@@ -54,15 +54,17 @@ export function entities(key: string, fetchType?: ActionTypeObject) {
     },
     action: any
   ) => {
-    const result = get(action, ['payload', 'entities', key], {});
-    const actionGrant = get(action, ['payload', 'actionGrant'], []);
+    let result = get(action, ['payload', 'entities', key]);
+    let actionGrant = get(action, ['payload', 'actionGrant']);
 
     if (
       !action.payload ||
-      action.type !== get(fetchType, 'SUCCESS', action.type)
+      (!result && actionGrant && action.type !== get(fetchType, 'SUCCESS'))
     )
       return state;
 
+    result = result || {};
+    actionGrant = actionGrant || [];
     return {
       ...state,
       byId: merge(state.byId, result),
