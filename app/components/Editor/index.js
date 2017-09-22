@@ -217,16 +217,16 @@ export default class CustomEditor extends Component {
         />
 
         {!this.props.disableBlocks &&
-        !this.props.readOnly && (
-          <Toolbar
-            editorState={editorState}
-            insertBlock={this.insertBlock}
-            wrapperElement={this.wrapperElement}
-            uploadFile={uploadFile}
-            isPublic
-            setBlockData={this.setBlockData}
-          />
-        )}
+          !this.props.readOnly && (
+            <Toolbar
+              editorState={editorState}
+              insertBlock={this.insertBlock}
+              wrapperElement={this.wrapperElement}
+              uploadFile={uploadFile}
+              isPublic
+              setBlockData={this.setBlockData}
+            />
+          )}
         {!this.props.readOnly && (
           <Tooltip
             disableBlocks={this.props.disableBlocks}

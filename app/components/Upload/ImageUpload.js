@@ -166,11 +166,11 @@ export default class ImageUpload extends Component {
           backdrop
         >
           {inModal &&
-          !preview && (
-            <div className={styles.inModalUpload}>
-              {this.createUploadArea()}
-            </div>
-          )}
+            !preview && (
+              <div className={styles.inModalUpload}>
+                {this.createUploadArea()}
+              </div>
+            )}
           {preview && (
             <Cropper
               ref={node => {
@@ -183,13 +183,13 @@ export default class ImageUpload extends Component {
             />
           )}
           {multiple &&
-          !crop && (
-            <Flex wrap column>
-              {files.map((file, index) => (
-                <FilePreview file={file} index={index} key={index} />
-              ))}
-            </Flex>
-          )}
+            !crop && (
+              <Flex wrap column>
+                {files.map((file, index) => (
+                  <FilePreview file={file} index={index} key={index} />
+                ))}
+              </Flex>
+            )}
           <Flex
             wrap
             className={styles.footer}

@@ -16,7 +16,7 @@ app.use(Raven.requestHandler());
 const log = bunyan.createLogger({
   name: 'lego-webapp',
   release: config.release,
-  environment: config.environment,
+  environment: config.environment
 });
 
 app.set('host', config.host || '0.0.0.0');
@@ -50,13 +50,16 @@ if (fs.existsSync(styleguide)) {
 app.use(express.static(webpackClient.output.path));
 app.use(
   morgan((tokens, req, res) => {
-    log.info({
-      method: tokens.method(req, res),
-      url: tokens.url(req, res),
-      status: tokens.status(req, res),
-      'content-length': tokens.res(req, res, 'content-length'),
-      'response-time': tokens['response-time'](req, res),
-    }, 'request');
+    log.info(
+      {
+        method: tokens.method(req, res),
+        url: tokens.url(req, res),
+        status: tokens.status(req, res),
+        'content-length': tokens.res(req, res, 'content-length'),
+        'response-time': tokens['response-time'](req, res)
+      },
+      'request'
+    );
   })
 );
 
@@ -71,9 +74,9 @@ app.use((req, res) => {
 app.use(Raven.errorHandler());
 
 app.use((err, req, res, next) => {
-  log.error(err, 'internal_error')
+  log.error(err, 'internal_error');
   res.statusCode = 500;
-  res.end('Internal Error')
+  res.end('Internal Error');
 });
 
 export default app;

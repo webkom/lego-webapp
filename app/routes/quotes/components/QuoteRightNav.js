@@ -27,11 +27,9 @@ export default function QuoteRightNav({
           <Link
             to={path === 'unapproved' ? '/quotes' : '/quotes?filter=unapproved'}
           >
-            {path === 'unapproved' ? (
-              'Godkjente sitater'
-            ) : (
-              'Ikke godkjente sitater'
-            )}
+            {path === 'unapproved'
+              ? 'Godkjente sitater'
+              : 'Ikke godkjente sitater'}
           </Link>
         )
       )}

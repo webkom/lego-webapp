@@ -72,15 +72,15 @@ export default class CommentRendrer extends Component {
           this.state.expanded) ? (
           <div className={styles.activityFooter}>
             {aggregatedActivity.activities.length > 3 &&
-            !this.state.expanded && (
-              <Button
-                size="small"
-                submit={false}
-                onClick={() => this.setState({ expanded: true })}
-              >
-                Vis mer
-              </Button>
-            )}
+              !this.state.expanded && (
+                <Button
+                  size="small"
+                  submit={false}
+                  onClick={() => this.setState({ expanded: true })}
+                >
+                  Vis mer
+                </Button>
+              )}
             {aggregatedActivity.activityCount > activities.length &&
               this.state.expanded &&
               `og ${aggregatedActivity.activityCount -

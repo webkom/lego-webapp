@@ -178,5 +178,4 @@ class MeetingDetails extends Component {
     );
   }
 }
-
 export default MeetingDetails;

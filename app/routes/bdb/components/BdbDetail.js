@@ -64,18 +64,14 @@ export default class BdbDetail extends Component {
 
           <td
             className={
-              status.semester === 2 ? (
-                styles.bedex
-              ) : (
-                styles[selectColorCode(status.contactedStatus)]
-              )
+              status.semester === 2
+                ? styles.bedex
+                : styles[selectColorCode(status.contactedStatus)]
             }
           >
-            {status.semester === 2 ? (
-              'Bedex'
-            ) : (
-              statusStrings[status.contactedStatus] || 6
-            )}
+            {status.semester === 2
+              ? 'Bedex'
+              : statusStrings[status.contactedStatus] || 6}
           </td>
 
           <td style={{ display: 'flex', justifyContent: 'space-between' }}>

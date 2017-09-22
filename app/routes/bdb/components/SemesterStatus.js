@@ -49,11 +49,9 @@ export default class SemesterStatus extends Component {
             >
               {statusStrings[j]}
               {changedStatuses.find(matchSemester) &&
-              Number(semesterStatus.contactedStatus) === j ? (
-                ' *'
-              ) : (
-                ''
-              )}
+              Number(semesterStatus.contactedStatus) === j
+                ? ' *'
+                : ''}
             </option>
           ))}
         </select>
