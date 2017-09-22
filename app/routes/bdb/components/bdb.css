@@ -92,6 +92,10 @@
   &:focus {
     background: none;
   }
+
+  &::selection {
+    background: none;
+  }
 }
 
 .adminComment {
@@ -388,7 +392,6 @@ option {
 }
 
 .editBubble {
-  width: 150px !important;
   text-align: center;
   margin-bottom: 0 !important;
   font-weight: bold;

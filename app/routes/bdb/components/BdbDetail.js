@@ -21,7 +21,8 @@ type Props = {
   deleteCompanyContact: () => void,
   loggedIn: boolean,
   companySemesters: Array<Object>,
-  editSemesterStatus: () => void
+  editSemesterStatus: () => void,
+  companyEvents: Array<Object>
 };
 
 export default class BdbDetail extends Component {
@@ -44,6 +45,7 @@ export default class BdbDetail extends Component {
       )
     };
     const semesterIsAlreadyChanged =
+      changedSemesters &&
       typeof changedSemesters.find(
         status => status.id === semesterStatus.id
       ) !== 'undefined';
@@ -51,21 +53,13 @@ export default class BdbDetail extends Component {
     const newChangedSemesters = semesterIsAlreadyChanged
       ? changedSemesters.map(
           status =>
-            status.id === semesterStatus.id
-              ? {
-                  ...semesterStatus,
-                  contactedStatus: getContactedStatuses(
-                    semesterStatus.contactedStatus,
-                    statusString
-                  )
-                }
-              : status
+            status.id === semesterStatus.id ? newSemesterStatus : status
         )
       : changedSemesters.concat(newSemesterStatus);
 
-    this.setState(state => ({
+    this.setState({
       changedSemesters: newChangedSemesters
-    }));
+    });
   };
 
   submitSemesters = () => {
@@ -87,9 +81,9 @@ export default class BdbDetail extends Component {
         companyId: company.id
       };
 
-      editSemesterStatus(sendableSemester, true);
-
-      this.setState({ changedSemesters: [] });
+      return editSemesterStatus(sendableSemester, true).then(() =>
+        this.setState({ changedSemesters: [] })
+      );
     });
   };
 
@@ -104,9 +98,15 @@ export default class BdbDetail extends Component {
   };
 
   render() {
-    const { company, comments, currentUser, loggedIn } = this.props;
+    const {
+      company,
+      comments,
+      currentUser,
+      loggedIn,
+      companyEvents
+    } = this.props;
 
-    if (!company.semesterStatuses) {
+    if (!company || !company.semesterStatuses) {
       return <LoadingIndicator loading />;
     }
 
@@ -116,7 +116,7 @@ export default class BdbDetail extends Component {
         status
     );
 
-    const semesters = (mergedSemesters || [])
+    const semesters = mergedSemesters
       .sort(sortByYearThenSemester)
       .map((status, i) => (
         <SemesterStatusDetail
@@ -128,9 +128,9 @@ export default class BdbDetail extends Component {
         />
       ));
 
-    let companyContacts = [];
-    if (company.companyContacts) {
-      companyContacts = company.companyContacts.map((contact, i) => (
+    const companyContacts =
+      company.companyContacts &&
+      company.companyContacts.map((contact, i) => (
         <tr key={i}>
           <td>{contact.name || '-'}</td>
           <td>{contact.role || '-'}</td>
@@ -153,21 +153,22 @@ export default class BdbDetail extends Component {
           </td>
         </tr>
       ));
-    }
 
-    const events = (company.events || [])
-      .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
-      .map((event, i) => (
-        <tr key={i}>
-          <td>
-            <Link to={`events/${event.id}`}>{event.title}</Link>
-          </td>
-          <td>{eventTypes[event.eventType]}</td>
-          <td>
-            <Time time={event.startTime} format="DD.MM.YYYY" />
-          </td>
-        </tr>
-      ));
+    const events =
+      companyEvents &&
+      companyEvents
+        .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
+        .map((event, i) => (
+          <tr key={i}>
+            <td>
+              <Link to={`events/${event.id}`}>{event.title}</Link>
+            </td>
+            <td>{eventTypes[event.eventType]}</td>
+            <td>
+              <Time time={event.startTime} format="DD.MM.YYYY" />
+            </td>
+          </tr>
+        ));
 
     return (
       <div className={styles.root}>
@@ -213,6 +214,7 @@ export default class BdbDetail extends Component {
                 data={company.website}
                 meta={'Nettside'}
                 style={{ order: 0 }}
+                link={company.website}
               />
               <InfoBubble
                 icon={'home'}
@@ -231,7 +233,7 @@ export default class BdbDetail extends Component {
             </div>
 
             <h3>Bedriftskontakter</h3>
-            {companyContacts.length > 0 ? (
+            {companyContacts && companyContacts.length > 0 ? (
               <div
                 className={styles.companyList}
                 style={{ marginBottom: '10px' }}

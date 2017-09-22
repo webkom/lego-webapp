@@ -21,11 +21,10 @@ export default class CompanySingleRow extends Component {
     const result = indexToSemester(index, startYear, startSem);
 
     return (
-      (company.semesterStatuses || [])
-        .find(
-          status =>
-            status.year === result.year && status.semester === result.semester
-        ) || { contactedStatus: ['not_contacted'] }
+      (company.semesterStatuses || []).find(
+        status =>
+          status.year === result.year && status.semester === result.semester
+      ) || { contactedStatus: ['not_contacted'] }
     );
   };
 
@@ -53,7 +52,12 @@ export default class CompanySingleRow extends Component {
           <Link to={`/bdb/${company.id}`}>{company.name}</Link>
         </td>
         {semesters}
-        <td>{company.studentContact ? company.studentContact.fullName : ''}</td>
+        <td>
+          {company.studentContact &&
+            (typeof company.studentContact === 'string'
+              ? company.studentContact
+              : company.studentContact.fullName)}
+        </td>
         <td className={styles.adminComment}>{company.adminComment}</td>
       </tr>
     );

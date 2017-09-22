@@ -5,7 +5,8 @@ import {
   deleteSemesterStatus,
   deleteCompanyContact,
   fetchSemesters,
-  editSemesterStatus
+  editSemesterStatus,
+  fetchEventsForCompany
 } from 'app/actions/CompanyActions';
 import BdbDetail from './components/BdbDetail';
 import { compose } from 'redux';
@@ -19,7 +20,10 @@ import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const loadData = ({ params: { companyId } }, dispatch) =>
-  dispatch(fetchSemesters()).then(() => dispatch(fetch(companyId)));
+  Promise.all([
+    dispatch(fetchSemesters()).then(() => dispatch(fetch(companyId))),
+    dispatch(fetchEventsForCompany(companyId))
+  ]);
 
 const mapStateToProps = (state, props) => {
   const companyId = Number(props.params.companyId);
@@ -37,10 +41,8 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
-  fetch,
   deleteSemesterStatus,
   deleteCompanyContact,
-  fetchSemesters,
   editSemesterStatus
 };
 

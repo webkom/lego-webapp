@@ -6,27 +6,27 @@ import Button from 'app/components/Button';
 import { TextInput } from 'app/components/Form';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Link } from 'react-router';
+import { createValidator, required, isEmail } from 'app/utils/validation';
+import { reduxForm } from 'redux-form';
 
 type Props = {
-  editCompanyContact: () => void,
+  submitFunction: () => void,
   handleSubmit: () => void,
   company: Object,
-  companyContact: Object,
+  companyContact?: Object,
   submitting: boolean,
-  autoFocus: any
+  autoFocus: any,
+  fetching: boolean
 };
 
-export default class EditCompanyContact extends Component {
-  onSubmit = ({ name, role = '', mail = '', phone = '' }) => {
-    const { company, companyContact, editCompanyContact } = this.props;
-    editCompanyContact(
+class CompanyContactEditor extends Component {
+  onSubmit = formContent => {
+    const { company, companyContact, submitFunction } = this.props;
+    submitFunction(
       {
+        ...formContent,
         companyId: company.id,
-        companyContactId: companyContact.id,
-        name,
-        role,
-        mail,
-        phone
+        companyContactId: companyContact && companyContact.id
       },
       true
     );
@@ -37,22 +37,22 @@ export default class EditCompanyContact extends Component {
   render() {
     const {
       company,
-      companyContact,
+      fetching,
       submitting,
       autoFocus,
       handleSubmit
     } = this.props;
 
-    if (!company || !companyContact) {
+    if (fetching) {
       return <LoadingIndicator />;
     }
 
     return (
       <div className={styles.root}>
-        <h1>Endre bedriftskontakt</h1>
+        <h1>Bedriftskontakt</h1>
         <h3>
           <Link to={`/bdb/${company.id}`}>{company.name}</Link> sin
-          bedriftskontakt
+          bedriftskontakt.
         </h3>
 
         <div className={styles.detail}>
@@ -104,3 +104,14 @@ export default class EditCompanyContact extends Component {
     );
   }
 }
+
+const validate = createValidator({
+  name: [required()],
+  mail: [isEmail()]
+});
+
+export default reduxForm({
+  form: 'companyContactEditor',
+  validate,
+  enableReinitialize: true
+})(CompanyContactEditor);

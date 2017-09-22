@@ -10,37 +10,35 @@ import {
   TextEditor,
   TextInput,
   RadioButton,
+  SelectInput,
   ImageUploadField
 } from 'app/components/Form';
+import { createValidator, required, isEmail } from 'app/utils/validation';
+import { reduxForm } from 'redux-form';
 
 type Props = {
-  addCompany: () => void,
-  editCompany: () => void,
   uploadFile: () => void,
   company: Object,
   submitting: boolean,
   handleSubmit: () => void,
   autoFocus: any,
-  isEditPage: boolean
+  fetching: boolean,
+  submitFunction: (Object, ?number) => void
 };
 
-export default class CompanyEditor extends Component {
+class CompanyEditor extends Component {
   onSubmit = formContent => {
-    const { addCompany, editCompany, company, isEditPage } = this.props;
-    if (isEditPage) {
-      editCompany(
-        {
-          ...formContent,
-          website: httpCheck(formContent.website)
-        },
-        company.id
-      );
-    } else {
-      addCompany({
+    const { company, submitFunction } = this.props;
+    return submitFunction(
+      {
         ...formContent,
+        studentContact:
+          formContent.studentContact &&
+          Number(formContent.studentContact.value),
         website: httpCheck(formContent.website)
-      });
-    }
+      },
+      company && company.id
+    );
   };
 
   props: Props;
@@ -52,10 +50,10 @@ export default class CompanyEditor extends Component {
       autoFocus,
       handleSubmit,
       uploadFile,
-      isEditPage
+      fetching
     } = this.props;
 
-    if (isEditPage && !company) {
+    if (fetching) {
       return <LoadingIndicator />;
     }
 
@@ -69,7 +67,7 @@ export default class CompanyEditor extends Component {
                 component={ImageUploadField.Field}
                 uploadFile={uploadFile}
                 aspectRatio={20 / 6}
-                img={isEditPage && company.logo}
+                img={company && company.logo}
               />
               <Field
                 placeholder={'Bedriftens navn'}
@@ -177,8 +175,9 @@ export default class CompanyEditor extends Component {
                       label={' '}
                       autoFocus={autoFocus}
                       name="studentContact"
-                      component={TextInput.Field}
+                      component={SelectInput.AutocompleteField}
                       className={styles.editBubble}
+                      filter={['users.user']}
                     />
                   }
                   meta={'Studentkontakt'}
@@ -238,3 +237,14 @@ export default class CompanyEditor extends Component {
     );
   }
 }
+
+const validate = createValidator({
+  name: [required()],
+  paymentMail: [isEmail()]
+});
+
+export default reduxForm({
+  form: 'companyEditor',
+  validate,
+  enableReinitialize: true
+})(CompanyEditor);

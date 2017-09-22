@@ -33,22 +33,19 @@ const validateSemesterStatus = (data, props) => {
     errors.studentContact = 'Vennligst fyll ut dette feltet';
   }
 
-  if (company && year && semester) {
-    const foundSemesterStatus = company.semesterStatuses.find(
-      semesterStatus => {
-        return (
-          semesterStatus.year === year && semesterStatus.semester === semester
-        );
-      }
-    );
-    if (foundSemesterStatus) {
-      const semesterFoundError = `Denne bedriften har allerede en registrert semester status for
+  const foundSemesterStatus =
+    company &&
+    company.semesterStatuses.find(semesterStatus => {
+      return (
+        semesterStatus.year === year && semesterStatus.semester === semester
+      );
+    });
+  if (foundSemesterStatus) {
+    const semesterFoundError = `Denne bedriften har allerede en registrert semester status for
       ${semesterCodeToName(
         semester
       )} ${year}. Du kan endre den på bedriftens side.`;
-      errors.year = semesterFoundError;
-      // errors.semester = semesterFoundError;
-    }
+    errors.year = semesterFoundError;
   }
 
   return errors;

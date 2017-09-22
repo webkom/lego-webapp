@@ -125,7 +125,6 @@ export default class CompanyList extends Component {
               <td />
               <td
                 className={styles.yearNavigator}
-                id="fuckyou"
                 onClick={() => navigateThroughTime(false)}
               >
                 <Icon
@@ -138,7 +137,6 @@ export default class CompanyList extends Component {
               <td />
               <td
                 className={cx(styles.rightArrow, styles.yearNavigator)}
-                id="fuckyou2"
                 onClick={() => navigateThroughTime(true)}
               >
                 Neste år

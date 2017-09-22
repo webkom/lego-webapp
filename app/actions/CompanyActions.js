@@ -1,12 +1,17 @@
 // @flow
 
-import { Company } from './ActionTypes';
+import { Company, Event } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
-import { companySchema, companySemesterSchema } from 'app/reducers';
+import {
+  companySchema,
+  companySemesterSchema,
+  eventSchema
+} from 'app/reducers';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 import type { Thunk } from 'app/types';
 import { addNotification } from 'app/actions/NotificationActions';
+import { fetchUser } from './UserActions';
 
 export function fetchAll() {
   return callAPI({
@@ -31,6 +36,27 @@ export function fetch(companyId: number): Thunk<*> {
           errorMessage: 'Fetching single company failed'
         },
         propagateError: true
+      })
+    ).then(response => {
+      response.payload &&
+        dispatch(
+          fetchUser(
+            response.payload.entities.companies[companyId].studentContact
+          )
+        );
+    });
+}
+
+export function fetchEventsForCompany(companyId) {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: Event.FETCH,
+        endpoint: `/events/?company=${companyId}`,
+        schema: [eventSchema],
+        meta: {
+          errorMessage: 'Fetching assosiated events failed'
+        }
       })
     );
 }
@@ -249,7 +275,7 @@ export function editCompanyContact({
       })
     ).then(() => {
       dispatch(addNotification({ message: 'Bedriftskontakt endret.' }));
-      dispatch(push(`bdb/${companyId}`));
+      dispatch(push(`/bdb/${companyId}`));
     });
   };
 }
