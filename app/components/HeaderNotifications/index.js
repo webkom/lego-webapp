@@ -12,9 +12,9 @@ type Props = {
   notificationsData: Object,
   fetchNotifications: () => void,
   notifications: Array<Object>,
-  markAllNotifications: () => void,
-  markNotification: string => void,
-  fetchNotificationData: () => void
+  markAllNotifications: () => Promise<void>,
+  markNotification: number => Promise<void>,
+  fetchNotificationData: () => Promise<void>
 };
 
 type State = {
@@ -26,7 +26,7 @@ const NotificationElement = ({
   markNotification
 }: {
   notification: Object,
-  markNotification: string => void
+  markNotification: number => void
 }) => {
   const renders = activityRenderers[notification.verb];
 
@@ -68,7 +68,7 @@ export default class NotificationsDropdown extends Component {
     this.props.markAllNotifications().then(this.fetch);
   };
 
-  markNotification = notificationId => {
+  markNotification = (notificationId: number) => {
     this.setState({ notificationsOpen: false });
     this.props.markNotification(notificationId).then(this.fetch);
   };
@@ -78,7 +78,7 @@ export default class NotificationsDropdown extends Component {
     this.props.fetchNotificationData();
   };
 
-  renderNotifications = notifications => {
+  renderNotifications = (notifications: Array<Object>) => {
     return (
       <div>
         {notifications.map((notification, i) => (

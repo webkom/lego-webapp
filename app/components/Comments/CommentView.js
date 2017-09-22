@@ -40,11 +40,9 @@ const CommentView = (props: Props) => {
       {!formDisabled && (
         <div>
           <h3>
-            {comments.length ? (
-              'Ta del i diskusjonen eller få svar på dine spørsmål'
-            ) : (
-              'Start en diskusjon eller still et spørsmål'
-            )}
+            {comments.length
+              ? 'Ta del i diskusjonen eller få svar på dine spørsmål'
+              : 'Start en diskusjon eller still et spørsmål'}
           </h3>
 
           <CommentForm
