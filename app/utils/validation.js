@@ -7,7 +7,9 @@ export const required = (message = 'Feltet må fylles ut') => value => [
 ];
 
 export const matchesRegex = (regex, message) => value => [
-  regex.test(value),
+  // Ignore empty values here, since we want to validate
+  // that separately with e.g. required:
+  !value || regex.test(value),
   message || `Not matching pattern ${regex.toString()}`
 ];
 
