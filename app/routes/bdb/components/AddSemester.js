@@ -48,7 +48,7 @@ export default class AddSemester extends Component {
     });
 
     if (globalSemester) {
-      addSemesterStatus(
+      return addSemesterStatus(
         {
           companyId,
           semester: globalSemester.id,
@@ -58,7 +58,7 @@ export default class AddSemester extends Component {
         true
       );
     } else {
-      addSemester(year, semester).then(response => {
+      return addSemester(year, semester).then(response => {
         addSemesterStatus(
           {
             companyId,

@@ -24,8 +24,6 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = {
-  fetchAll,
-  fetchSemesters,
   editSemesterStatus,
   addSemesterStatus,
   addSemester
@@ -33,8 +31,6 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(loadData, {
-    componentWillReceiveProps: true
-  }),
+  dispatched(loadData),
   connect(mapStateToProps, mapDispatchToProps)
 )(BdbPage);

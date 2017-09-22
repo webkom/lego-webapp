@@ -121,12 +121,12 @@ export default class EditSemester extends Component {
                 <SemesterStatusContent
                   semesterStatus={semesterStatus}
                   editFunction={statusString =>
-                    this.setState(state => ({
+                    this.setState({
                       contactedStatus: getContactedStatuses(
                         semesterStatus,
                         statusString
                       )
-                    }))}
+                    })}
                 />
               </div>
 

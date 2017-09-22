@@ -1,21 +1,11 @@
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import { compose } from 'redux';
-import { reduxForm } from 'redux-form';
 import { fetch, addCompanyContact } from '../../actions/CompanyActions';
-import AddCompanyContact from './components/AddCompanyContact';
+import CompanyContactEditor from './components/CompanyContactEditor';
 import { selectCompanyById } from 'app/reducers/companies';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-
-function validateCompanyContact(data) {
-  const errors = {};
-  if (!data.name) {
-    errors.name = 'Vennligst fyll ut dette feltet';
-  }
-
-  return errors;
-}
 
 const mapStateToProps = (state, props) => {
   const companyId = Number(props.params.companyId);
@@ -27,7 +17,7 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { fetch, addCompanyContact };
+const mapDispatchToProps = { submitFunction: addCompanyContact };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
@@ -37,9 +27,5 @@ export default compose(
       componentWillReceiveProps: false
     }
   ),
-  connect(mapStateToProps, mapDispatchToProps),
-  reduxForm({
-    form: 'addCompanyContact',
-    validate: validateCompanyContact
-  })
-)(AddCompanyContact);
+  connect(mapStateToProps, mapDispatchToProps)
+)(CompanyContactEditor);
