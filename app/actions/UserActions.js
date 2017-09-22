@@ -25,8 +25,8 @@ function removeToken() {
   return cookie.remove(USER_STORAGE_KEY, { path: '/' });
 }
 
-export function login(username, password) {
-  return dispatch =>
+export function login(username: string, password: string) {
+  return (dispatch: $FlowFixMe) =>
     dispatch(
       callAPI({
         types: User.LOGIN,
@@ -55,14 +55,17 @@ export function login(username, password) {
 }
 
 export function logout() {
-  return dispatch => {
+  return (dispatch: $FlowFixMe) => {
     removeToken();
     dispatch({ type: User.LOGOUT });
     dispatch(replace('/'));
   };
 }
 
-export function updateUser(user, options = { noRedirect: false }) {
+export function updateUser(
+  user: Object,
+  options: Object = { noRedirect: false }
+) {
   const {
     username,
     firstName,
@@ -72,7 +75,7 @@ export function updateUser(user, options = { noRedirect: false }) {
     allergies,
     profilePicture
   } = user;
-  return dispatch =>
+  return (dispatch: $FlowFixMe) =>
     dispatch(
       callAPI({
         types: User.UPDATE,
@@ -99,8 +102,18 @@ export function updateUser(user, options = { noRedirect: false }) {
     });
 }
 
-export function changePassword({ password, newPassword, retypeNewPassword }) {
-  return dispatch =>
+type PasswordPayload = {
+  password: string,
+  newPassword: string,
+  retypeNewPassword: string
+};
+
+export function changePassword({
+  password,
+  newPassword,
+  retypeNewPassword
+}: PasswordPayload) {
+  return (dispatch: $FlowFixMe) =>
     dispatch(
       callAPI({
         types: User.PASSWORD_CHANGE,
@@ -127,8 +140,8 @@ export function changePassword({ password, newPassword, retypeNewPassword }) {
     });
 }
 
-export function updatePicture({ picture }) {
-  return (dispatch, getState) => {
+export function updatePicture({ picture }: { picture: string }) {
+  return (dispatch: $FlowFixMe, getState: $FlowFixMe) => {
     const username = getState().auth.username;
     return dispatch(uploadFile({ file: picture })).then(action =>
       dispatch(
@@ -160,7 +173,7 @@ function getExpirationDate(token) {
   return moment(decodedToken.exp * 1000);
 }
 
-export function refreshToken(token) {
+export function refreshToken(token: string) {
   return callAPI({
     types: User.LOGIN,
     endpoint: '//authorization/token-auth/refresh/',
@@ -169,9 +182,12 @@ export function refreshToken(token) {
   });
 }
 
-export function loginWithExistingToken(token) {
-  return dispatch => {
-    const expirationDate = getExpirationDate(token);
+export function loginWithExistingToken(token: string) {
+  return (dispatch: $FlowFixMe) => {
+    // TODO(ek): Remove $FlowFixMe when we use a flow-typed version
+    // that has correct types for isSame
+    // (fixed in https://github.com/flowtype/flow-typed/commit/f3b9c89b85cdb463edeb707866a764508626cef1).
+    const expirationDate: $FlowFixMe = getExpirationDate(token);
     const now = moment();
 
     if (expirationDate.isSame(now, 'day')) {
@@ -201,7 +217,7 @@ export function loginWithExistingToken(token) {
  * Dispatch a login success if a token exists in local storage.
  */
 export function loginAutomaticallyIfPossible() {
-  return dispatch => {
+  return (dispatch: $FlowFixMe) => {
     const token = loadToken();
 
     if (token) {
@@ -212,8 +228,9 @@ export function loginAutomaticallyIfPossible() {
   };
 }
 
-export function sendRegistrationEmail({ email, captchaResponse }) {
-  return dispatch =>
+type EmailArgs = { email: string, captchaResponse: string };
+export function sendRegistrationEmail({ email, captchaResponse }: EmailArgs) {
+  return (dispatch: $FlowFixMe) =>
     dispatch(
       callAPI({
         types: User.SEND_REGISTRATION_TOKEN,
@@ -230,8 +247,8 @@ export function sendRegistrationEmail({ email, captchaResponse }) {
     );
 }
 
-export function validateRegistrationToken(token) {
-  return dispatch =>
+export function validateRegistrationToken(token: string) {
+  return (dispatch: $FlowFixMe) =>
     dispatch(
       callAPI({
         types: User.VALIDATE_REGISTRATION_TOKEN,
@@ -244,8 +261,8 @@ export function validateRegistrationToken(token) {
     );
 }
 
-export function createUser(token, user) {
-  return dispatch =>
+export function createUser(token: string, user: string) {
+  return (dispatch: $FlowFixMe) =>
     dispatch(
       callAPI({
         types: User.CREATE_USER,
@@ -270,7 +287,7 @@ export function createUser(token, user) {
     });
 }
 
-export function sendStudentConfirmationEmail(user) {
+export function sendStudentConfirmationEmail(user: string) {
   return callAPI({
     types: User.SEND_STUDENT_CONFIRMATION_TOKEN,
     endpoint: `/users-student-confirmation-request/`,
@@ -282,7 +299,7 @@ export function sendStudentConfirmationEmail(user) {
   });
 }
 
-export function confirmStudentUser(token) {
+export function confirmStudentUser(token: string) {
   return callAPI({
     types: User.CONFIRM_STUDENT_USER,
     endpoint: `/users-student-confirmation-perform/?token=${token}`,

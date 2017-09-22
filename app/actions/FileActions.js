@@ -1,5 +1,3 @@
-// @flow
-
 import { File } from './ActionTypes';
 import callAPI from './callAPI';
 

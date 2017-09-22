@@ -10,8 +10,8 @@ export function toggleSearch() {
   };
 }
 
-export function autocomplete(query, filter) {
-  return dispatch => {
+export function autocomplete(query: string, filter?: Array<string>) {
+  return (dispatch: $FlowFixMe) => {
     if (!query) {
       return Promise.resolve();
     }
@@ -34,8 +34,8 @@ export function autocomplete(query, filter) {
   };
 }
 
-export function search(query, types) {
-  return dispatch => {
+export function search(query: string, types?: Array<string>) {
+  return (dispatch: $FlowFixMe) => {
     if (!query) {
       return Promise.resolve();
     }
@@ -58,8 +58,8 @@ export function search(query, types) {
   };
 }
 
-export function mention(query) {
-  return dispatch => {
+export function mention(query: string) {
+  return (dispatch: $FlowFixMe) => {
     if (!query) {
       return Promise.resolve();
     }

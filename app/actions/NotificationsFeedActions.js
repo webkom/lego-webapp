@@ -5,7 +5,7 @@ import callAPI from './callAPI';
 import { selectIsLoggedIn } from 'app/reducers/auth';
 
 export function fetchNotificationData() {
-  return (dispatch, getState) => {
+  return (dispatch: $FlowFixMe, getState: $FlowFixMe) => {
     if (selectIsLoggedIn(getState())) {
       return dispatch(
         callAPI({
@@ -29,7 +29,7 @@ export function markAllNotifications() {
   });
 }
 
-export function markNotification(notificationId) {
+export function markNotification(notificationId: number) {
   return callAPI({
     types: NotificationsFeed.MARK,
     endpoint: `/feed-notifications/${notificationId}/mark/`,
