@@ -1,59 +1,28 @@
 import React, { Component } from 'react';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import EditPermissions from './components/EditPermissions';
+import { connect } from 'react-redux';
+import GroupForm from 'app/components/GroupForm';
+import { updateGroup } from 'app/actions/GroupActions';
 
-const Permissions = ({ permissions }) => {
-  if (!permissions.length) {
-    return <div>No power</div>;
-  }
+type Props = {
+  group: Object,
+  updateGroup: (number, Object) => Promise<*>
+};
 
+const GroupSettings = ({ group, updateGroup }: Props) => {
   return (
-    <ul>
-      {permissions.map(permission => <li key={permission}>{permission}</li>)}
-    </ul>
+    <GroupForm
+      group={group}
+      handleSubmitCallback={values => {
+        // TODO(mht): Fix this
+        // updateGroup(123, values);
+        console.log('dispatch your action');
+      }}
+    />
   );
 };
 
-export default class GroupSettings extends Component {
-  state = {
-    editing: true
-  };
+const mapDispatchToProps = {
+  updateGroup
+};
 
-  toggleEditing = () => {
-    this.setState({
-      editing: !this.state.editing
-    });
-  };
-
-  render() {
-    const { permissions, id } = this.props.group;
-    const { updateGroup } = this.props;
-    const { editing } = this.state;
-
-    let display;
-    if (permissions) {
-      display = editing ? (
-        <EditPermissions
-          permissions={permissions}
-          groupId={id}
-          updateGroup={updateGroup}
-        />
-      ) : (
-        <Permissions permissions={permissions} />
-      );
-    }
-
-    return (
-      <div>
-        <h4>
-          Permissions: (
-          <button onClick={this.toggleEditing}>
-            {editing ? 'Cancel' : 'Edit'}
-          </button>
-          )
-        </h4>
-        <LoadingIndicator loading={!permissions}>{display}</LoadingIndicator>
-      </div>
-    );
-  }
-}
+export default connect(null, mapDispatchToProps)(GroupSettings);
