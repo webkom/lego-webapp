@@ -1,7 +1,7 @@
 /* eslint-disable react/no-find-dom-node */
 import React, { Component } from 'react';
 import Icon from 'app/components/Icon';
-import { ImageUpload } from 'app/components/Upload';
+import ImageUpload from 'app/components/Upload/ImageUpload';
 import styles from './Toolbar.css';
 import { Blocks } from '../constants';
 import ToolbarButton from './ToolbarButton';
