@@ -8,16 +8,11 @@ import { createValidator, required, maxLength } from 'app/utils/validation';
 import { sendContactMessage } from 'app/actions/ContactActions';
 import { addNotification } from 'app/actions/NotificationActions';
 import Contact from './components/Contact';
-import { selectIsLoggedIn } from 'app/reducers/auth';
 
 const validate = createValidator({
   title: [required(), maxLength(80)],
   message: [required()],
   captchaResponse: [required('Captcha er ikke validert')]
-});
-
-const mapStateToProps = (state: Object) => ({
-  loggedIn: selectIsLoggedIn(state)
 });
 
 const mapDispatchToProps = {
@@ -28,7 +23,7 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(null, mapDispatchToProps),
   reduxForm({
     form: 'contactForm',
     validate,
