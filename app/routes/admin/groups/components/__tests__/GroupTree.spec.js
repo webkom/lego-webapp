@@ -41,12 +41,7 @@ describe('<GroupTree />', () => {
 
   it('should render the root nodes correctly', () => {
     const children = shallow(<GroupTree groups={groups} />).children();
-    expect(children.at(1).is(TreeView)).toEqual(true);
-  });
-
-  it('should work with no groups', () => {
-    const children = shallow(<GroupTree groups={[]} />).children();
-    expect(children.containsMatchingElement(<h3>Groups</h3>)).toEqual(true);
+    expect(children.at(0).is(TreeView)).toEqual(true);
   });
 
   it('should work with only root groups', () => {
