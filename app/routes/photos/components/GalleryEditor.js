@@ -26,17 +26,17 @@ type Props = {
   gallery: Object,
   pictures: [],
   handleSubmit: () => void,
-  createGallery: () => Promise,
-  push: string => Promise,
-  updateGallery: () => Promise,
-  deleteGallery: () => Promise,
-  updateGalleryCover: () => Promise,
-  updatePicture: () => Promise,
-  deletePicture: () => Promise
+  createGallery: () => Promise<*>,
+  push: string => Promise<*>,
+  updateGallery: () => Promise<*>,
+  deleteGallery: () => Promise<*>,
+  updateGalleryCover: () => Promise<*>,
+  updatePicture: () => Promise<*>,
+  deletePicture: () => Promise<*>
 };
 
 type State = {
-  selected: []
+  selected: Array<number>
 };
 
 class GalleryEditor extends Component {
@@ -138,6 +138,7 @@ class GalleryEditor extends Component {
           <Form className={styles.form} onSubmit={handleSubmit(this.onSubmit)}>
             <Field
               placeholder="Title"
+              label="Title"
               name="title"
               component={TextInput.Field}
               id="gallery-title"
@@ -146,6 +147,7 @@ class GalleryEditor extends Component {
             <Field
               placeholder="Dato"
               dateFormat="ll"
+              label="Dato"
               showTimePicker={false}
               name="takenAt"
               id="gallery-takenAt"
@@ -154,6 +156,7 @@ class GalleryEditor extends Component {
             <Field
               placeholder="Sted"
               name="location"
+              label="Sted"
               component={TextInput.Field}
               id="gallery-location"
             />
@@ -175,6 +178,7 @@ class GalleryEditor extends Component {
             />
             <Field
               placeholder="Album beskrivelse"
+              label="Beskrivelse"
               name="description"
               required
               component={TextArea.Field}
