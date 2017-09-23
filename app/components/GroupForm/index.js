@@ -69,5 +69,8 @@ function GroupForm({
 }
 
 export default reduxForm({
-  form: 'groupForm'
+  form: 'groupForm',
+  initialValues: {
+    descriptionLong: '<p></p>'
+  }
 })(GroupForm);
