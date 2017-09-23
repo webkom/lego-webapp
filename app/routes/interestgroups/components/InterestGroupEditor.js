@@ -6,34 +6,29 @@ import { Link } from 'react-router';
 import styles from './InterestGroupEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field } from 'redux-form';
-import { map, countBy } from 'lodash';
+import type { FieldProps } from 'redux-form';
 import { Flex } from 'app/components/Layout';
 import {
   Form,
   TextInput,
   EditorField,
-  SelectInput,
   Button,
   ImageUploadField
 } from 'app/components/Form';
 
-type Props = {
-  handleSubmit: func,
-  handleSubmitCallback: func,
+type OwnProps = {
+  handleSubmitCallback: Object => Promise<*>,
   interestGroupId?: string,
-  interestGroup?: Object,
-  change: func,
-  groupMembers: array,
-  pristine: boolean,
-  submitting: boolean
+  groupMembers: Array<Object>
 };
+
+type Props = OwnProps & FieldProps;
 
 function InterestGroupEditor({
   handleSubmit,
   handleSubmitCallback,
   interestGroup,
   removeInterestGroup,
-  change,
   groupMembers = [],
   submitting,
   pristine,
@@ -46,7 +41,9 @@ function InterestGroupEditor({
 
   return (
     <div className={styles.root}>
+      {' '}
       <h2>
+        {' '}
         <Link
           to={
             isEditPage
@@ -56,13 +53,21 @@ function InterestGroupEditor({
         >
           <i className="fa fa-angle-left" />
           {isEditPage ? ` ${interestGroup.name}` : 'Tilbake'}
-        </Link>
+        </Link>{' '}
       </h2>
       <Flex justifyContent="space-between" alignItems="baseline">
-        <h1>{isEditPage ? 'Endre gruppe' : 'Ny gruppe'}</h1>
-        <a onClick={() => removeInterestGroup(interestGroup.id)}>
-          Slett gruppen
-        </a>
+        {isEditPage ? (
+          <div>
+            {' '}
+            <h1>Endre gruppe</h1>{' '}
+            <a onClick={() => removeInterestGroup(interestGroup.id)}>
+              Slett gruppen
+            </a>{' '}
+            {' '}
+          </div>
+        ) : (
+          <h1>Ny gruppe</h1>
+        )}
       </Flex>
       <Form onSubmit={handleSubmit(handleSubmitCallback)}>
         <Field
@@ -86,22 +91,6 @@ function InterestGroupEditor({
           component={EditorField.Field}
         />
         <Field
-          name="members"
-          filter={['users.user']}
-          label="Medlemmer"
-          placeholder="Skriv inn brukere du vil ha med"
-          component={SelectInput.AutocompleteField}
-          multi
-        />
-        <Field
-          name="leader"
-          label="Leder"
-          placeholder="Hvem er leder?"
-          options={groupMembers}
-          component={SelectInput.Field}
-          required
-        />
-        <Field
           name="logo"
           component={ImageUploadField.Field}
           label="Gruppelogo"
@@ -122,24 +111,12 @@ export default reduxForm({
   form: 'interestGroupEditor',
   validate(values) {
     const errors = {};
-    const labels = (values.members || []).map(o => o.label);
-    const counts = countBy(labels);
-    map(counts, (c, l) => {
-      if (c > 1) errors.members = `'${l}' er valgt flere ganger`;
-    });
 
     if (!values.name) {
       errors.name = 'Du må gi møtet en tittel';
     }
     if (!values.description) {
       errors.description = 'Skriv noe dritt';
-    }
-    if (!values.leader) {
-      errors.leader = 'Du må velge en leder';
-    } else if (
-      !values.members.map(m => m.value).includes(values.leader.value)
-    ) {
-      errors.leader = 'Lederen må være medlem';
     }
 
     return errors;
