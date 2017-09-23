@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import GroupForm from 'app/components/GroupForm';
 import styles from './InterestGroup.css';
-import { Flex } from 'app/components/Layout';
+import { Flex, Content } from 'app/components/Layout';
 import { Link } from 'react-router';
 import Button from 'app/components/Button';
 
@@ -25,7 +25,7 @@ export default class InterestGroupEdit extends Component {
     } = this.props;
 
     return (
-      <div className={styles.root}>
+      <Content>
         <h2>
           <Link to={`/interestGroups/${interestGroup.id}`}>
             <i className="fa fa-angle-left" />
@@ -49,7 +49,7 @@ export default class InterestGroupEdit extends Component {
           uploadFile={uploadFile}
           initialValues={initialValues}
         />
-      </div>
+      </Content>
     );
   }
 }
