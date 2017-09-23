@@ -6,9 +6,9 @@ import {
   joinInterestGroup,
   removeInterestGroup
 } from 'app/actions/InterestGroupActions';
-import InterestGroupEdit from 'app/components/GroupForm';
 import { uploadFile } from 'app/actions/FileActions';
 import { selectMembershipsForInterestGroup } from 'app/reducers/memberships';
+import InterestGroupEdit from './components/InterestGroupEdit';
 
 const mapDispatchToProps = {
   editInterestGroup,
