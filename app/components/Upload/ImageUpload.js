@@ -18,7 +18,7 @@ type Props = {
   multiple?: boolean,
   img?: string,
   aspectRatio: number,
-  onSubmit: () => void,
+  onSubmit: (Image | Array<DropFile>) => void,
   onDrop: () => void,
   onClose?: () => void
 };
@@ -107,10 +107,11 @@ export default class ImageUpload extends Component {
   };
 
   onSubmit = () => {
-    if (this.props.crop) {
+    if (this.props.crop && this.state.file) {
+      const { name } = this.state.file;
       this.crop.cropper.getCroppedCanvas().toBlob(image => {
-        image.name = this.state.file.name;
-        this.props.onSubmit(image, URL.createObjectURL(image));
+        image.name = name;
+        this.props.onSubmit(image);
         this.setState(state => ({
           img: window.URL.createObjectURL(image)
         }));
