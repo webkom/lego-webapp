@@ -6,6 +6,11 @@ export const required = (message = 'Feltet må fylles ut') => value => [
   message
 ];
 
+export const maxLength = (
+  length,
+  message = `Kan ikke være lengre enn ${length} tegn`
+) => value => [!value || value.length < length, message];
+
 export const matchesRegex = (regex, message) => value => [
   // Ignore empty values here, since we want to validate
   // that separately with e.g. required:

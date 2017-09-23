@@ -15,6 +15,7 @@ import interestGroups from './interestgroups';
 import joblistings from './joblistings';
 import HTTPError from './errors';
 import bdb from './bdb';
+import contact from './contact';
 
 export default {
   path: '/',
@@ -35,6 +36,7 @@ export default {
     joblistings,
     bdb,
     email,
+    contact,
     {
       path: '*',
       component: HTTPError
