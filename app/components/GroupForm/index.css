@@ -8,3 +8,7 @@
   min-width: 200px;
   min-height: 200px;
 }
+
+.deleteButton {
+  margin-bottom: 16px;
+}

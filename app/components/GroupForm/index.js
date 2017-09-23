@@ -57,9 +57,12 @@ function InterestGroupEditor({
         {isEditPage ? (
           <div>
             <h1>Endre gruppe</h1>
-            <a onClick={() => removeInterestGroup(interestGroup.id)}>
+            <Button
+              onClick={() => removeInterestGroup(interestGroup.id)}
+              className={styles.deleteButton}
+            >
               Slett gruppen
-            </a>
+            </Button>
           </div>
         ) : (
           <h1>Ny gruppe</h1>
