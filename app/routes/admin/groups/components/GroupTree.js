@@ -10,6 +10,7 @@ function generateTreeView(groups) {
     const nodeLabel = (
       <Link to={`/admin/groups/${group.id}/settings`}>{group.name}</Link>
     );
+
     if (group.children.length) {
       return (
         <TreeView key={group.id} nodeLabel={nodeLabel} defaultCollapsed={false}>
@@ -35,11 +36,6 @@ export default class GroupTree extends Component {
     const { groups } = this.props;
     const tree = generateTreeStructure(groups);
 
-    return (
-      <div className={styles.tree}>
-        <h3>Groups</h3>
-        {generateTreeView(tree)}
-      </div>
-    );
+    return <div className={styles.tree}>{generateTreeView(tree)}</div>;
   }
 }
