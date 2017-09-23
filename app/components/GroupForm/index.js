@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { Link } from 'react-router';
-import styles from './InterestGroupEditor.css';
+import styles from './index.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field } from 'redux-form';
 import type { FieldProps } from 'redux-form';
@@ -41,9 +41,7 @@ function InterestGroupEditor({
 
   return (
     <div className={styles.root}>
-      {' '}
       <h2>
-        {' '}
         <Link
           to={
             isEditPage
@@ -53,17 +51,15 @@ function InterestGroupEditor({
         >
           <i className="fa fa-angle-left" />
           {isEditPage ? ` ${interestGroup.name}` : 'Tilbake'}
-        </Link>{' '}
+        </Link>
       </h2>
       <Flex justifyContent="space-between" alignItems="baseline">
         {isEditPage ? (
           <div>
-            {' '}
-            <h1>Endre gruppe</h1>{' '}
+            <h1>Endre gruppe</h1>
             <a onClick={() => removeInterestGroup(interestGroup.id)}>
               Slett gruppen
-            </a>{' '}
-            {' '}
+            </a>
           </div>
         ) : (
           <h1>Ny gruppe</h1>
@@ -100,7 +96,7 @@ function InterestGroupEditor({
           className={styles.logo}
         />
         <Button disabled={pristine || submitting} submit>
-          {isEditPage ? 'Lagre gruppe' : 'Lag interessegruppe'}{' '}
+          {isEditPage ? 'Lagre gruppe' : 'Lag interessegruppe'}
         </Button>
       </Form>
     </div>
