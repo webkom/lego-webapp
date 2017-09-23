@@ -62,7 +62,7 @@ function GroupForm({
         className={styles.logo}
       />
       <Button disabled={pristine || submitting} submit>
-        {isNew ? 'Lagre gruppe' : 'Lag interessegruppe'}
+        {isNew ? 'Lag gruppe' : 'Lagre gruppe'}
       </Button>
     </Form>
   );
