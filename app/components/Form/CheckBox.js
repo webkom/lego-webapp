@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import { Field } from 'redux-form';
 import { createField } from './Field';
 import styles from './CheckBox.css';
 import cx from 'classnames';
@@ -24,12 +25,12 @@ function CheckBox({
 }: Props) {
   return (
     <div className={styles.box}>
-      <input
+      <Field
         {...props}
         className={cx(value ? styles.checked : styles.unchecked)}
+        component="input"
         type="checkbox"
-        id={id}
-        checked={value}
+        normalize={v => !!v}
       />
       <label htmlFor={id} style={labelStyle} className={styles.label}>
         {label}
