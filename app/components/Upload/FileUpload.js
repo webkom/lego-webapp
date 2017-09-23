@@ -12,7 +12,7 @@ type State = {
 
 type Props = {
   uploadFile: ({ file: File }) => Promise<*>,
-  onChange?: string => void
+  onChange: string => void
 };
 
 class FileUpload extends React.Component {
@@ -37,12 +37,11 @@ class FileUpload extends React.Component {
       .then(({ meta }) => {
         this.setState({ pending: false });
 
-        if (this.props.onChange) {
-          this.props.onChange(meta.fileKey);
-        }
+        this.props.onChange(meta.fileKey);
       })
-      .catch(() => {
+      .catch(error => {
         this.setState({ pending: false });
+        throw error;
       });
   };
 
