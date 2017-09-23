@@ -8,7 +8,7 @@ type Props = {
   /** name of icon */
   icon: string,
   /** html to display in an EmptyState */
-  children: ReactElement
+  children: React.Element<*>
 };
 
 /**

@@ -25,9 +25,9 @@ type Props = {
   notificationsData: Object,
   fetchNotifications: () => void,
   notifications: Array<Object>,
-  markAllNotifications: () => void,
-  markNotification: string => void,
-  fetchNotificationData: () => void
+  markAllNotifications: () => Promise<void>,
+  markNotification: number => Promise<void>,
+  fetchNotificationData: () => Promise<void>
 };
 
 type State = {
@@ -159,11 +159,12 @@ class Header extends Component {
                       accountOpen: !state.accountOpen,
                       shake: false
                     }))}
-                  contentClassName={this.state.shake && 'animated shake'}
+                  contentClassName={this.state.shake ? 'animated shake' : ''}
                   triggerComponent={<Icon name="contact" size={30} />}
                 >
                   <div style={{ padding: 10 }}>
                     <LoginForm
+                      form="HeaderLoginForm"
                       login={(...creds) => {
                         this.setState({ shake: false });
                         return this.props.login(...creds).then(

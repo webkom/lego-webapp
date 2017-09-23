@@ -63,8 +63,12 @@ h3 {
 button {
   background-color: transparent;
   border: 0;
-  cursor: pointer;
   outline: none;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: initial;
+  }
 }
 
 i {

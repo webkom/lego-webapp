@@ -185,7 +185,7 @@ export function refreshToken(token: string) {
 
 export function loginWithExistingToken(token: string): Thunk<*> {
   return dispatch => {
-    // TODO(ek): Remove $FlowFixMe when we use a flow-typed version
+    // TODO(ek): Remove FlowFixMe when we use a flow-typed version
     // that has correct types for isSame
     // (fixed in https://github.com/flowtype/flow-typed/commit/f3b9c89b85cdb463edeb707866a764508626cef1).
     const expirationDate: $FlowFixMe = getExpirationDate(token);

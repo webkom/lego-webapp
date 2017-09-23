@@ -6,6 +6,7 @@ import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';
 import { push } from 'react-router-redux';
 import { addNotification } from 'app/actions/NotificationActions';
+import type { Thunk } from 'app/types';
 
 export function fetchEvent(eventId: string) {
   return callAPI({

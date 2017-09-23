@@ -7,9 +7,11 @@ import Time from 'app/components/Time';
 import ProfilePicture from 'app/components/ProfilePicture';
 import styles from './activity.css';
 import { lookupContext } from './context';
+import type { AggregatedActivity, Activity } from './types';
 
 type Props = {
-  activity: Object,
+  aggregatedActivity: AggregatedActivity,
+  activity: Activity,
   key: any,
   renders: Object
 };
@@ -25,28 +27,22 @@ export default class CommentRendrer extends Component {
     expanded: false
   };
 
-  renderHeader(activity, aggregatedActivity) {
+  renderHeader(activity: Activity, aggregatedActivity: AggregatedActivity) {
     const actor = lookupContext(aggregatedActivity, activity.actor);
-    if (actor.contentType == 'users.user') {
-      return (
-        <div className={styles.activityHeader}>
-          <div className={styles.activityHeaderItem}>
-            <ProfilePicture
-              size={40}
-              user={actor}
-              style={{ marginRight: 25 }}
-            />
-            <Link to={`/users/${actor.username}/`}>
-              {actor.firstName} {actor.lastName}
-            </Link>
-          </div>
-          <i className={styles.time}>
-            <Time time={activity.time} wordsAgo />
-          </i>
+    if (actor.contentType !== 'users.user') return null;
+    return (
+      <div className={styles.activityHeader}>
+        <div className={styles.activityHeaderItem}>
+          <ProfilePicture size={40} user={actor} style={{ marginRight: 25 }} />
+          <Link to={`/users/${actor.username}/`}>
+            {actor.firstName} {actor.lastName}
+          </Link>
         </div>
-      );
-    }
-    return null;
+        <i className={styles.time}>
+          <Time time={activity.time} wordsAgo />
+        </i>
+      </div>
+    );
   }
 
   render() {
@@ -72,15 +68,15 @@ export default class CommentRendrer extends Component {
           this.state.expanded) ? (
           <div className={styles.activityFooter}>
             {aggregatedActivity.activities.length > 3 &&
-            !this.state.expanded && (
-              <Button
-                size="small"
-                submit={false}
-                onClick={() => this.setState({ expanded: true })}
-              >
-                Vis mer
-              </Button>
-            )}
+              !this.state.expanded && (
+                <Button
+                  size="small"
+                  submit={false}
+                  onClick={() => this.setState({ expanded: true })}
+                >
+                  Vis mer
+                </Button>
+              )}
             {aggregatedActivity.activityCount > activities.length &&
               this.state.expanded &&
               `og ${aggregatedActivity.activityCount -
