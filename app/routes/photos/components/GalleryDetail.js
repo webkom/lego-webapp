@@ -5,7 +5,7 @@ import GalleryDetailsRow from './GalleryDetailsRow';
 import Button from 'app/components/Button';
 import EmptyState from 'app/components/EmptyState';
 import { Link } from 'react-router';
-import { ImageUpload } from 'app/components/Upload';
+import ImageUpload from 'app/components/Upload/ImageUpload';
 import { Flex } from 'app/components/Layout';
 import Gallery from 'app/components/Gallery';
 import styles from './Overview.css';

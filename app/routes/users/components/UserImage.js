@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { ImageUpload } from 'app/components/Upload';
+import ImageUpload from 'app/components/Upload/ImageUpload';
 
 type Props = {
   updatePicture: () => void,
