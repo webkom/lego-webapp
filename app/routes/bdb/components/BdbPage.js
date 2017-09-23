@@ -24,7 +24,7 @@ export default class BdbPage extends Component {
   state = {
     startYear: 2016,
     startSem: 0,
-    changedSemesters: [],
+    changedStatses: [],
     submitted: false,
     displayOptions: false,
     filters: {},
@@ -56,7 +56,7 @@ export default class BdbPage extends Component {
   editSemester = (companyId, tableIndex, semesterStatusId, contactedStatus) => {
     // Update state whenever a semesterStatus is graphically changed by the user
     const { companySemesters } = this.props;
-    const { changedSemesters, startYear, startSem } = this.state;
+    const { changedStatses, startYear, startSem } = this.state;
 
     const globalSemester = indexToSemester(
       tableIndex,
@@ -71,18 +71,18 @@ export default class BdbPage extends Component {
       status.companyId === companyId;
 
     const semesterIsAlreadyChanged =
-      typeof changedSemesters.find(matchSemester) !== 'undefined';
+      typeof changedStatses.find(matchSemester) !== 'undefined';
 
     // Change the "changedSemester" if it's already in state, ie this
     // semesterStatus has been changed since last save. Otherwise, add it.
-    const newChangedSemesters = semesterIsAlreadyChanged
-      ? changedSemesters.map(
+    const newchangedStatses = semesterIsAlreadyChanged
+      ? changedStatses.map(
           changedSemester =>
             matchSemester(changedSemester)
               ? { ...changedSemester, contactedStatus }
               : changedSemester
         )
-      : changedSemesters.concat({
+      : changedStatses.concat({
           companyId,
           contactedStatus,
           semesterStatusId,
@@ -90,52 +90,58 @@ export default class BdbPage extends Component {
         });
 
     this.setState({
-      changedSemesters: newChangedSemesters,
+      changedStatses: newchangedStatses,
       submitted: false
     });
   };
 
   submitSemesters = () => {
-    const {
-      addSemester,
-      addSemesterStatus,
-      editSemesterStatus,
-      companySemesters
-    } = this.props;
+    const { addSemester, addSemesterStatus, editSemesterStatus } = this.props;
+    const { changedStatses } = this.state;
 
-    this.state.changedSemesters.map(status => {
-      const companySemesterId = status.semester.id;
-
-      if (typeof companySemesterId === 'undefined') {
-        // This semesterStatus had no companySemester when it was created.
-        // The companySemester might have been created since then:
-        const foundCompanySemester = companySemesters.find(
-          semester =>
-            semester.year === status.semester.year &&
-            semester.semester === status.semester.semester
+    const semestersToAdd = changedStatses
+      .filter(status => typeof status.semester.id === 'undefined')
+      .map(status => status.semester)
+      .filter((semester, index, arraySoFar) => {
+        return (
+          arraySoFar.indexOf(
+            arraySoFar.find(
+              alreadyAdded =>
+                alreadyAdded.year === semester.year &&
+                alreadyAdded.semester === semester.semester
+            )
+          ) === index
         );
-        if (foundCompanySemester) {
-          // the semester has already been created
-          addSemesterStatus({ ...status, semester: foundCompanySemester.id });
-        } else {
-          // We have to add the companySemester
-          addSemester(
-            status.semester.year,
-            status.semester.semester
-          ).then(response => {
-            addSemesterStatus({ ...status, semester: response.payload.id });
-          });
-        }
-      } else if (typeof status.semesterStatusId === 'undefined') {
-        // The companySemester was already nicely in place, but this company
-        // had no semesterStatus created here
-        addSemesterStatus({ ...status, semester: companySemesterId });
-      } else {
-        // The company already had a semesterStatus tied to this companySemester
-        editSemesterStatus(status);
-      }
+      });
+
+    const semesterPromises = semestersToAdd.map((toAdd, i) =>
+      addSemester(semestersToAdd[i])
+    );
+
+    Promise.all(semesterPromises).then(responses => {
+      const changedStatsesWithCompanySemesters = changedStatses.map(status => {
+        const relevantResponse = responses.find(
+          response =>
+            response.payload.year === status.semester.year &&
+            response.payload.semester === status.semester.semester
+        );
+        const newlyMadeSemester = relevantResponse && relevantResponse.payload;
+
+        return {
+          ...status,
+          semester: status.semester.id || newlyMadeSemester.id
+        };
+      });
+
+      changedStatsesWithCompanySemesters.map(
+        status =>
+          typeof status.semesterStatusId === 'undefined'
+            ? addSemesterStatus(status)
+            : editSemesterStatus(status)
+      );
     });
-    this.setState({ changedSemesters: [], submitted: true });
+
+    this.setState({ changedStatses: [], submitted: true });
   };
 
   updateFilters = (name, value) => {
@@ -186,7 +192,7 @@ export default class BdbPage extends Component {
 
     const mergedCompaniesWithState = companies.map(company => {
       const updatedSemesterStatuses = company.semesterStatuses.map(status => {
-        const changedSemester = this.state.changedSemesters.find(
+        const changedSemester = this.state.changedStatses.find(
           changed => changed.semesterStatusId === status.id
         );
 
@@ -196,7 +202,7 @@ export default class BdbPage extends Component {
       });
 
       const newSemesterStatuses = updatedSemesterStatuses.concat(
-        this.state.changedSemesters
+        this.state.changedStatses
           .filter(
             changed =>
               changed.companyId === company.id &&
@@ -248,7 +254,7 @@ export default class BdbPage extends Component {
           filters={this.state.filters}
         />
 
-        {this.state.changedSemesters.length > 0 ? (
+        {this.state.changedStatses.length > 0 ? (
           <Button onClick={this.submitSemesters} dark>
             Lagre endringer
           </Button>
@@ -278,7 +284,7 @@ export default class BdbPage extends Component {
           navigateThroughTime={this.navigateThroughTime}
           editSemester={this.editSemester}
           removeChangedStatus={this.removeChangedStatus}
-          changedSemesters={this.state.changedSemesters}
+          changedStatses={this.state.changedStatses}
         />
       </div>
     );

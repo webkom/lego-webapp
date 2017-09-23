@@ -317,7 +317,7 @@ export function fetchSemesters() {
   });
 }
 
-export function addSemester(year, semester) {
+export function addSemester({ year, semester }) {
   return dispatch => {
     return dispatch(
       callAPI({

@@ -58,7 +58,7 @@ export default class AddSemester extends Component {
         true
       );
     } else {
-      return addSemester(year, semester).then(response => {
+      return addSemester({ year, semester }).then(response => {
         addSemesterStatus(
           {
             companyId,
