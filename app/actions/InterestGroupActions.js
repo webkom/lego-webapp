@@ -4,7 +4,6 @@ import { interestGroupSchema, membershipSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { InterestGroup, Membership } from './ActionTypes';
 import { push } from 'react-router-redux';
-import { setGroupMembers } from './MembershipActions';
 import { omit } from 'lodash';
 import type { Thunk } from 'app/types';
 
@@ -53,18 +52,8 @@ export function createInterestGroup(group: Object): Thunk<*> {
         }
       })
     ).then(res => {
-      const groupId =
-        res.payload.entities.interestGroups[res.payload.result].id;
-      const leaderId = Number(group.leader.value);
-      const memberships = group.members.map(m => {
-        const id = Number(m.value);
-        return {
-          user: id,
-          role: id == leaderId ? 'leader' : 'member'
-        };
-      });
-      dispatch(setGroupMembers(groupId, memberships));
-      dispatch(push(`/interestgroups/${groupId}`));
+      const group = res.payload.entities.interestGroups[res.payload.result];
+      dispatch(push(`/interestgroups/${group.id}`));
     });
   };
 }
@@ -100,16 +89,7 @@ export function editInterestGroup(group: Object): Thunk<*> {
           errorMessage: 'Editing interestGroup failed'
         }
       })
-    ).then(res => {
-      const leaderId = group.leader.value;
-      const memberships = group.members.map(m => ({
-        user: Number(m.value),
-        role: m.value == leaderId ? 'leader' : 'member'
-      }));
-      dispatch(setGroupMembers(group.id, memberships)).then(_ =>
-        dispatch(push(`/interestgroups/${group.id}`))
-      );
-    });
+    ).then(_ => dispatch(push(`/interestgroups/${group.id}`)));
   };
 }
 
