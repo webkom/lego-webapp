@@ -1,54 +1,41 @@
 // @flow
 
 import React from 'react';
-import { Link } from 'react-router';
+import NavigationTab from 'app/components/NavigationTab';
+import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import Content from 'app/components/Layout/Content';
 import GroupTree from './GroupTree';
 import styles from './GroupAdmin.css';
 
-const tabNames = ['Settings', 'Members'];
+type Props = {
+  children: React.Element<*>,
+  groups: Array<Object>,
+  params: { groupId: string }
+};
 
-const Tab = ({ base, name }) => (
-  <Link
-    className={styles.tab}
-    to={`${base}/${name.toLowerCase()}`}
-    activeClassName="active"
-  >
-    {name}
-  </Link>
-);
-
-const Tabs = ({ location }: { location: Object }) => {
-  const { pathname } = location;
-  const baseParts = pathname.split('/');
-  const base = baseParts.slice(0, baseParts.length - 1).join('/');
-
+const GroupPageNavigation = ({ groupId }: { groupId: string }) => {
+  const baseUrl = `/admin/groups/${groupId}`;
   return (
-    <header className={styles.tabs}>
-      {tabNames.map(name => <Tab key={name} base={base} name={name} />)}
-    </header>
+    <NavigationTab title="Grupper">
+      <NavigationLink to={`${baseUrl}/settings`}>Rediger</NavigationLink>
+      <NavigationLink to={`${baseUrl}/members`}>Medlemmer</NavigationLink>
+      <NavigationLink to={`${baseUrl}/permissions`}>Rettigheter</NavigationLink>
+    </NavigationTab>
   );
 };
 
-const GroupPage = ({
-  groups,
-  children,
-  location
-}: {
-  groups: Object[],
-  children: any,
-  location: Object
-}) => {
+const GroupPage = ({ groups, children, params }: Props) => {
   return (
-    <div className={styles.groupPage}>
-      <section className={styles.sidebar}>
-        <GroupTree groups={groups} />
-      </section>
+    <Content>
+      {params.groupId && <GroupPageNavigation groupId={params.groupId} />}
+      <div className={styles.groupPage}>
+        <section className={styles.sidebar}>
+          <GroupTree groups={groups} />
+        </section>
 
-      <section className={styles.main}>
-        <Tabs location={location} />
-        {children}
-      </section>
-    </div>
+        <section className={styles.main}>{children}</section>
+      </div>
+    </Content>
   );
 };
 
