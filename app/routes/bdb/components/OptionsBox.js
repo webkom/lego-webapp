@@ -68,6 +68,7 @@ export default class OptionsBox extends Component {
             <label>
               <CheckBox
                 value={this.state.active}
+                name="active"
                 onChange={() => this.toggleSection('active')}
               />
               <span style={{ marginLeft: '5px' }}>Er aktiv</span>
@@ -95,7 +96,6 @@ export default class OptionsBox extends Component {
                   id="inactive"
                   inputValue={false}
                   value={this.state.values.active}
-                  checked={false}
                   onChange={() => this.updateFilters('active', false)}
                 />
                 <span style={{ marginLeft: '5px' }}>
@@ -107,6 +107,7 @@ export default class OptionsBox extends Component {
             <label>
               <CheckBox
                 value={this.state.studentContact}
+                name="studentContact"
                 onChange={() => this.toggleSection('studentContact')}
               />
               <span style={{ marginLeft: '5px' }}>Har studentkontakt...</span>
@@ -125,8 +126,8 @@ export default class OptionsBox extends Component {
                     this.state.values.studentContact &&
                     this.state.values.studentContact.fullName
                 }}
-                placeholder={'Studentkontakt'}
-                name={'studentContact'}
+                placeholder="Studentkontakt"
+                name="studentContact"
                 filter={['users.user']}
                 onChange={user =>
                   this.updateFilters(
@@ -134,8 +135,7 @@ export default class OptionsBox extends Component {
                     user
                       ? {
                           id: Number(user.value),
-                          fullName: user.label,
-                          fullInfo: user
+                          fullName: user.label
                         }
                       : undefined
                   )}

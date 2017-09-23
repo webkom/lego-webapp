@@ -7,7 +7,6 @@ import { selectEvents } from './events';
 import { mutateComments } from 'app/reducers/comments';
 import joinReducers from 'app/utils/joinReducers';
 import { selectCompanySemesters } from './companySemesters';
-import { selectUserById } from './users';
 
 function mutateCompanies(state, action) {
   switch (action.type) {
@@ -18,14 +17,47 @@ function mutateCompanies(state, action) {
       };
     }
 
-    case Company.EDIT.SUCCESS: {
+    case Company.FETCH_ALL.SUCCESS: {
+      const items = action.payload.result;
+      const users = action.payload.entities.users;
       return {
         ...state,
-        items: state.items.filter(id => id !== action.meta.optimisticId),
+        items,
+        byId: items.reduce((byId, id) => {
+          const company = action.payload.entities.companies[id];
+          byId[id] = {
+            ...company,
+            studentContact: users
+              ? users[company.studentContact]
+              : company.studentContact
+          };
+          return byId;
+        }, {})
+      };
+    }
+
+    case Company.FETCH.SUCCESS:
+    case Company.ADD.SUCCESS:
+    case Company.EDIT.SUCCESS: {
+      const company = action.payload.entities.companies[action.payload.result];
+      const id = action.payload.result;
+
+      return {
+        ...state,
+        items: state.items
+          .filter(
+            item =>
+              !action.meta.optimisticId || item !== action.meta.optimisticId
+          )
+          .concat(state.items.indexOf(id) === -1 ? id : []),
         byId: {
           ...state.byId,
-          [action.payload.result]:
-            action.payload.entities.companies[action.payload.result]
+          [id]: {
+            ...company,
+            studentContact: action.payload.entities.users
+              ? action.payload.entities.users[company.studentContact]
+              : company.studentContact
+          }
         }
       };
     }
@@ -56,6 +88,25 @@ function mutateCompanies(state, action) {
             ...state.byId[companyId],
             semesterStatuses: state.byId[companyId].semesterStatuses.filter(
               status => status.id !== action.meta.semesterId
+            )
+          }
+        }
+      };
+    }
+
+    case Company.EDIT_COMPANY_CONTACT.SUCCESS: {
+      const companyId = action.meta.companyId;
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [companyId]: {
+            ...state.byId[companyId],
+            companyContacts: state.byId[companyId].companyContacts.map(
+              companyContact =>
+                companyContact.id === action.payload.id
+                  ? action.payload
+                  : companyContact
             )
           }
         }
@@ -133,15 +184,7 @@ export const selectCompanyById = createSelector(
   (state, props) => state.users,
   (companies, companyId, users) => {
     const company = companies.find(company => company.id === companyId);
-    return company
-      ? {
-          ...company,
-          studentContact: selectUserById(
-            { users },
-            { userId: company.studentContact }
-          )
-        }
-      : {};
+    return company || {};
   }
 );
 

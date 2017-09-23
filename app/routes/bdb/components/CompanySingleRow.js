@@ -54,9 +54,13 @@ export default class CompanySingleRow extends Component {
         {semesters}
         <td>
           {company.studentContact &&
-            (typeof company.studentContact === 'string'
-              ? company.studentContact
-              : company.studentContact.fullName)}
+            (typeof company.studentContact === 'string' ? (
+              company.studentContact
+            ) : (
+              <Link to={`/users/${company.studentContact.username}`}>
+                {company.studentContact.fullName}
+              </Link>
+            ))}
         </td>
         <td className={styles.adminComment}>{company.adminComment}</td>
       </tr>

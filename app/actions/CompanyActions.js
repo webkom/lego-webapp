@@ -11,11 +11,10 @@ import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 import type { Thunk } from 'app/types';
 import { addNotification } from 'app/actions/NotificationActions';
-import { fetchUser } from './UserActions';
 
 export function fetchAll() {
   return callAPI({
-    types: Company.FETCH,
+    types: Company.FETCH_ALL,
     endpoint: '/companies/',
     schema: [companySchema],
     meta: {
@@ -37,15 +36,7 @@ export function fetch(companyId: number): Thunk<*> {
         },
         propagateError: true
       })
-    ).then(response => {
-      response.payload &&
-        response.payload.entities.companies[companyId].studentContact &&
-        dispatch(
-          fetchUser(
-            response.payload.entities.companies[companyId].studentContact
-          )
-        );
-    });
+    );
 }
 
 export function fetchEventsForCompany(companyId) {
@@ -272,7 +263,8 @@ export function editCompanyContact({
           phone
         },
         meta: {
-          errorMessage: 'Editing company contact failed'
+          errorMessage: 'Editing company contact failed',
+          companyId
         }
       })
     ).then(() => {
