@@ -22,13 +22,21 @@ export default createEntityReducer({
   mutate: mutatePictures()
 });
 
-const transformGallery = gallery => ({
-  ...gallery,
-  cover: gallery.cover || {
-    file: defaultAlbumCover,
-    thumbnail: defaultAlbumCover
+const transformGallery = gallery => {
+  if (!gallery) {
+    return {
+      photographers: []
+    };
   }
-});
+
+  return {
+    ...gallery,
+    cover: gallery.cover || {
+      file: defaultAlbumCover,
+      thumbnail: defaultAlbumCover
+    }
+  };
+};
 
 export const selectGalleries = createSelector(
   state => state.galleries.byId,

@@ -165,6 +165,7 @@ export default class ImageUpload extends Component {
     const { inModal, aspectRatio, multiple, crop } = this.props;
     const { cropOpen, file, files } = this.state;
     const preview = file && file.preview;
+
     return (
       <div className={styles.container}>
         {!inModal && (
@@ -175,6 +176,7 @@ export default class ImageUpload extends Component {
           />
         )}
         <Modal
+          contentClassName={styles.modal}
           show={cropOpen}
           onHide={this.closeModal}
           backdropClassName={styles.backdrop}

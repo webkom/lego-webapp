@@ -3,6 +3,7 @@
 import React from 'react';
 import cx from 'classnames';
 import styles from './Button.css';
+import LoadingIndicator from '../LoadingIndicator';
 
 type Props = {
   /** content inside */
@@ -13,6 +14,8 @@ type Props = {
   size?: 'small' | 'normal' | 'large',
   /** Is the button a submit button? */
   submit?: boolean,
+  /** is the button action pending? */
+  pending?: boolean,
   /** Dark background (red button)*/
   dark?: boolean,
   /** Primary button styling */
@@ -34,6 +37,7 @@ function Button({
   className,
   size = 'normal',
   submit,
+  pending = false,
   dark = false,
   ...rest
 }: Props) {
@@ -48,7 +52,9 @@ function Button({
       type={submit ? 'submit' : 'button'}
       {...rest}
     >
-      {children}
+      <LoadingIndicator small margin={0} loading={pending} />
+      {pending && <span className={styles.loading}>Laster</span>}
+      {!pending && children}
     </button>
   );
 }

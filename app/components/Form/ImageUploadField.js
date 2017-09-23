@@ -8,6 +8,7 @@ import styles from './ImageUploadField.css';
 type Props = {
   type?: string,
   className?: string,
+  style: Object,
   uploadFile: () => Promise<*>,
   onChange: () => void,
   edit: () => Promise<*>
