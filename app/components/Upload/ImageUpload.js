@@ -67,17 +67,20 @@ const FilePreview = ({ file, onRemove, index }: FilePreviewProps) => (
   </Flex>
 );
 
-const UploadArea = ({ multiple, onDrop, image }: UploadAreaProps) => (
-  <Upload multiple={multiple} onDrop={onDrop} accept="image/*">
-    <div className={styles.placeholderContainer}>
-      <Icon name="image" className={styles.placeholderIcon} />
-      <h1 className={styles.placeholdeTitle}>
-        Drop image to upload or click to select from file
-      </h1>
-    </div>
-    {image && <img alt="presentation" className={styles.image} src={image} />}
-  </Upload>
-);
+const UploadArea = ({ multiple, onDrop, image }: UploadAreaProps) => {
+  const word = multiple ? 'bilder' : 'bilde';
+  return (
+    <Upload multiple={multiple} onDrop={onDrop} accept="image/*">
+      <div className={styles.placeholderContainer}>
+        <Icon size={82} name="image" className={styles.placeholderIcon} />
+        <h1 className={styles.placeholdeTitle}>
+          {`Dropp ${word} her eller trykk for å velge fra fil`}
+        </h1>
+      </div>
+      {image && <img alt="presentation" className={styles.image} src={image} />}
+    </Upload>
+  );
+};
 
 export default class ImageUpload extends Component {
   props: Props;
@@ -161,7 +164,7 @@ export default class ImageUpload extends Component {
   render() {
     const { inModal, aspectRatio, multiple, crop } = this.props;
     const { cropOpen, file, files } = this.state;
-
+    const preview = file && file.preview;
     return (
       <div className={styles.container}>
         {!inModal && (
@@ -178,8 +181,7 @@ export default class ImageUpload extends Component {
           backdrop
         >
           {inModal &&
-            file &&
-            !file.preview && (
+            !preview && (
               <div className={styles.inModalUpload}>
                 <UploadArea
                   onDrop={this.onDrop}
@@ -188,18 +190,17 @@ export default class ImageUpload extends Component {
                 />
               </div>
             )}
-          {file &&
-            file.preview && (
-              <Cropper
-                ref={node => {
-                  this.crop = node;
-                }}
-                src={file.preview}
-                className={styles.cropper}
-                aspectRatio={aspectRatio}
-                guides={false}
-              />
-            )}
+          {preview && (
+            <Cropper
+              ref={node => {
+                this.crop = node;
+              }}
+              src={preview}
+              className={styles.cropper}
+              aspectRatio={aspectRatio}
+              guides={false}
+            />
+          )}
           {multiple &&
             !crop && (
               <Flex wrap column>

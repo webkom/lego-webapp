@@ -33,7 +33,7 @@ class Upload extends Component {
       );
     } else {
       this.setState(
-        state => ({ files: state.file.concat(acceptedFiles) }),
+        state => ({ files: state.files.concat(acceptedFiles) }),
         () => this.props.onDrop(acceptedFiles)
       );
     }
