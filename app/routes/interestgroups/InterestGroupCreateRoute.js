@@ -8,7 +8,7 @@ import {
 } from 'app/actions/InterestGroupActions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import InterestGroupEditor from 'app/components/GroupForm';
+import InterestGroupCreate from './components/InterestGroupCreate';
 import { uploadFile } from 'app/actions/FileActions';
 
 const mapDispatchToProps = {
@@ -31,4 +31,4 @@ const mapStateToProps = (state, props) => {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   connect(mapStateToProps, mapDispatchToProps)
-)(InterestGroupEditor);
+)(InterestGroupCreate);
