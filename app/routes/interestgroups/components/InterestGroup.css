@@ -3,39 +3,43 @@
 }
 
 .logo {
-    max-height: 250px;
-    max-width: 250px;
+  max-height: 250px;
+  max-width: 250px;
 }
 
 .logoSmall {
-    max-height: 100px;
-    max-width: 100px;
+  max-height: 100px;
+  max-width: 100px;
 }
 
 .description {
-    font-size: 18px;
-    font-style: italic;
+  font-size: 18px;
+  font-style: italic;
 }
 
 .listItem {
-    margin: 8px;
-    padding-left: 4px;
-    background: white;
+  margin: 8px;
+  padding-left: 4px;
+  background: white;
 }
 
 .listItemContent {
-    padding: 4px;
+  padding: 4px;
 }
 
 .textEdit {
-    background: none;
-    border: none;
-    border-bottom: 1px solid #888;
-    margin: 8px;
-    padding: 4px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #888;
+  margin: 8px;
+  padding: 4px;
 }
 
 .sideBar {
-    padding: 15px;
-    width: 350px;
+  padding: 15px;
+  width: 350px;
+}
+
+.deleteButton {
+  margin-bottom: 16px;
 }
