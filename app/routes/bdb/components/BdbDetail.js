@@ -181,7 +181,10 @@ export default class BdbDetail extends Component {
               />
             )}
             <h1>
-              {company.name} {!company.active && 'Inaktiv'}
+              {company.name}{' '}
+              {!company.active && (
+                <span style={{ color: 'red' }}> (Inaktiv bedrift)</span>
+              )}
             </h1>
             <div className={styles.description}>
               {company.description || 'Ingen beskrivelse tilgjengelig.'}
@@ -271,6 +274,9 @@ export default class BdbDetail extends Component {
                 className={styles.companyList}
                 style={{ marginBottom: '10px' }}
               >
+                <p>
+                  Tips: Du kan endre semestere ved å trykke på dem i listen!
+                </p>
                 <table className={styles.detailTable}>
                   <thead className={styles.categoryHeader}>
                     <tr>

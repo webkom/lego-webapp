@@ -114,7 +114,7 @@ export const selectCompanies = createSelector(
 );
 
 const selectSemesterStatuses = (semesterStatuses, companySemesters) =>
-  semesterStatuses.map(semester => {
+  (semesterStatuses || []).map(semester => {
     const companySemester = companySemesters.find(
       companySemester => companySemester.id === semester.semester
     );
