@@ -1,13 +1,17 @@
+// @flow
+
 import React from 'react';
 import cx from 'classnames';
 import styles from './Content.css';
 
-function Content({ children, className, ...htmlAttributes }) {
-  return (
-    <div className={cx(styles.content, className)} {...htmlAttributes}>
-      {children}
-    </div>
-  );
+type Props = {
+  className?: string,
+  children: React.Element<*>,
+  hasNavigation?: boolean
+};
+
+function Content({ children, className }: Props) {
+  return <div className={cx(styles.content, className)}>{children}</div>;
 }
 
 export default Content;
