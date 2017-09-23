@@ -6,7 +6,7 @@ import {
   joinInterestGroup,
   removeInterestGroup
 } from 'app/actions/InterestGroupActions';
-import InterestGroupEdit from './components/InterestGroupEditor';
+import InterestGroupEdit from 'app/components/GroupForm';
 import { uploadFile } from 'app/actions/FileActions';
 import { selectMembershipsForInterestGroup } from 'app/reducers/memberships';
 
