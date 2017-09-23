@@ -249,3 +249,10 @@ export const NotificationSettings = {
   FETCH: generateStatuses('NotificationSettings.FETCH'),
   UPDATE: generateStatuses('NotificationSettings.UPDATE')
 };
+
+/**
+ *
+ */
+export const Contact = {
+  SEND_MESSAGE: generateStatuses('Contact.SEND_MESSAGE')
+};

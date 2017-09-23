@@ -17,6 +17,7 @@ const navigationLinks = [
   ['/announcements', 'Kunngjøringer'],
   ['/events', 'Arrangementer'],
   ['/pages/om-oss', 'Om Abakus'],
+  ['/contact', 'Kontakt HS'],
   ['/bdb', 'BDB'],
   ['http://readme.abakus.no', 'readme'],
   ['/interestgroups', 'Interessegrupper'],
