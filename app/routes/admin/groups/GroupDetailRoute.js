@@ -17,11 +17,8 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = { fetchGroup, updateGroup };
 
 export default compose(
-  dispatched(
-    ({ params: { groupId } }, dispatch) => dispatch(fetchGroup(groupId)),
-    {
-      componentWillReceiveProps: false
-    }
+  dispatched(({ params: { groupId } }, dispatch) =>
+    dispatch(fetchGroup(groupId))
   ),
   connect(mapStateToProps, mapDispatchToProps)
 )(GroupView);
