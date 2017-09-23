@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import styles from './optionsBox.css';
 import { Link } from 'react-router';
 import { CheckBox, RadioButton } from 'app/components/Form';
+import Button from 'app/components/Button';
+import { SelectInput } from 'app/components/Form';
 
 type Props = {
   companies: Array<Object>,
@@ -13,9 +15,10 @@ type Props = {
 export default class OptionsBox extends Component {
   state = {
     active: false,
-    bedex: false,
-    jobOfferOnly: false,
-    values: {}
+    studentContact: false,
+    values: {
+      active: true
+    }
   };
 
   props: Props;
@@ -37,8 +40,10 @@ export default class OptionsBox extends Component {
   updateFilters = (name, value) => {
     const { values } = this.state;
     const { updateFilters } = this.props;
-    values[name] = value;
-    this.setState({ values });
+    this.setState(state => ({
+      ...state,
+      values: { ...values, [name]: value }
+    }));
     updateFilters(name, value);
   };
 
@@ -47,14 +52,18 @@ export default class OptionsBox extends Component {
 
     return (
       <div className={styles.optionsBox} style={this.toggleDisplay(display)}>
-        <Link to="/bdb/add" style={{ display: 'block' }}>
-          Legg til bedrift
-        </Link>
-        <span style={{ display: 'block' }}>
+        <Button style={{ marginBottom: '15px' }}>
+          <Link to="/bdb/add" style={{ display: 'block' }}>
+            Legg til bedrift
+          </Link>
+        </Button>
+        <span
+          style={{ display: 'block', fontSize: '18px', marginBottom: '5px' }}
+        >
           Filtrer basert på om bedriften...
         </span>
 
-        <div style={{ display: 'flex' }}>
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div className={styles.section} style={{ order: 0 }}>
             <label>
               <CheckBox
@@ -72,7 +81,8 @@ export default class OptionsBox extends Component {
                 <RadioButton
                   name="active"
                   id="active"
-                  inputValue="true"
+                  inputValue={true}
+                  value={this.state.values.active}
                   onChange={() => this.updateFilters('active', true)}
                 />
                 <span style={{ marginLeft: '5px' }}>
@@ -83,13 +93,54 @@ export default class OptionsBox extends Component {
                 <RadioButton
                   name="active"
                   id="inactive"
-                  inputValue="false"
+                  inputValue={false}
+                  value={this.state.values.active}
+                  checked={false}
                   onChange={() => this.updateFilters('active', false)}
                 />
                 <span style={{ marginLeft: '5px' }}>
                   Vis bare inaktive bedrifter
                 </span>
               </label>
+            </div>
+
+            <label>
+              <CheckBox
+                value={this.state.studentContact}
+                onChange={() => this.toggleSection('studentContact')}
+              />
+              <span style={{ marginLeft: '5px' }}>Har studentkontakt...</span>
+            </label>
+
+            <div
+              className={styles.options}
+              style={{ display: this.state.studentContact ? 'block' : 'none' }}
+            >
+              <SelectInput.withAutocomplete
+                value={{
+                  id:
+                    this.state.values.studentContact &&
+                    Number(this.state.values.studentContact.value),
+                  label:
+                    this.state.values.studentContact &&
+                    this.state.values.studentContact.fullName
+                }}
+                placeholder={'Studentkontakt'}
+                name={'studentContact'}
+                filter={['users.user']}
+                onChange={user =>
+                  this.updateFilters(
+                    'studentContact',
+                    user
+                      ? {
+                          id: Number(user.value),
+                          fullName: user.label,
+                          fullInfo: user
+                        }
+                      : undefined
+                  )}
+                onBlur={() => null}
+              />
             </div>
           </div>
         </div>

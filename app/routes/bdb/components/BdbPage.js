@@ -170,7 +170,11 @@ export default class BdbPage extends Component {
     return companies.filter(company => {
       // Using 'for of' here. Probably a cleaner way to do it, but I couldn't think of one
       for (const key of Object.keys(filters)) {
-        if (filters[key] !== undefined && company[key] !== filters[key]) {
+        if (
+          filters[key] !== undefined &&
+          (company[key] !== filters[key] ||
+            (company[key].id && company[key].id !== filters[key].id))
+        ) {
           return false;
         }
       }
