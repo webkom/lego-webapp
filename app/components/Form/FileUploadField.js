@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import cx from 'classnames';
+import type { FieldProps } from 'redux-form';
 import { Flex } from '../Layout';
 import { createField } from './Field';
 import Icon from '../Icon';
@@ -10,11 +11,11 @@ import styles from './FileUploadField.css';
 type Props = {
   className?: string,
   style?: Object,
-  onChange: () => void
+  onChange: string => void
 };
 
 class ImageUploadField extends Component {
-  props: Props;
+  props: Props & FieldProps;
 
   static Field: any;
 
