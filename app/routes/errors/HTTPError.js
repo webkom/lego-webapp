@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Content, Flex } from 'app/components/Layout';
+import { Container, Flex } from 'app/components/Layout';
 import { Link } from 'react-router';
 import renderAbakus from './renderAbakus';
 
@@ -31,7 +31,7 @@ export default class HTTPError extends Component {
 
   render() {
     return (
-      <Content>
+      <Container>
         <Flex
           column
           alignItems="center"
@@ -51,7 +51,7 @@ export default class HTTPError extends Component {
             {getHTTPError(this.props.statusCode)}
           </h1>
         </Flex>
-      </Content>
+      </Container>
     );
   }
 }
