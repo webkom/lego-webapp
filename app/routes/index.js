@@ -14,6 +14,7 @@ import search from './search';
 import interestGroups from './interestgroups';
 import joblistings from './joblistings';
 import HTTPError from './errors';
+import announcements from './announcements';
 import bdb from './bdb';
 import contact from './contact';
 
@@ -34,6 +35,7 @@ export default {
     search,
     interestGroups,
     joblistings,
+    announcements,
     bdb,
     email,
     contact,
