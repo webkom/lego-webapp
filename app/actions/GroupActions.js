@@ -1,21 +1,43 @@
 // @flow
 
-import { groupSchema } from 'app/reducers';
+import { groupSchema, membershipSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
-import { Group } from './ActionTypes';
+import { Group, Membership } from './ActionTypes';
 
 type AddMemberArgs = {
   groupId: number,
-  userId: number
+  userId: number,
+  role: string
 };
 
-export function addMember({ groupId, userId }: AddMemberArgs) {
+export function addMember({ groupId, userId, role }: AddMemberArgs) {
   return callAPI({
-    types: Group.ADD_MEMBER,
-    endpoint: `/memberships`,
-    schema: groupSchema,
+    types: Membership.CREATE,
+    endpoint: '/memberships/',
+    method: 'POST',
+    body: {
+      role,
+      user: userId,
+      abakusGroup: groupId
+    },
+    schema: membershipSchema,
     meta: {
+      groupId,
       errorMessage: 'Innmelding av bruker feilet'
+    }
+  });
+}
+
+export function removeMember(membership: Object) {
+  return callAPI({
+    types: Membership.REMOVE,
+    endpoint: `/memberships/${membership.id}/`,
+    method: 'DELETE',
+    schema: membershipSchema,
+    meta: {
+      id: membership.id,
+      groupId: membership.abakusGroup,
+      errorMessage: 'Utmelding av bruker feilet'
     }
   });
 }
