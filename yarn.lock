@@ -2130,6 +2130,10 @@ date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
 
+debounce-promise@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/debounce-promise/-/debounce-promise-3.0.1.tgz#051b18aad87d54998c1393ddbd109c92b9c2306a"
+
 debug@2.6.8, debug@^2.1.0, debug@^2.2.0, debug@^2.3.2, debug@^2.6.0, debug@^2.6.3, debug@^2.6.6, debug@^2.6.8:
   version "2.6.8"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.8.tgz#e731531ca2ede27d188222427da17821d68ff4fc"
@@ -6389,6 +6393,10 @@ process@~0.5.1:
 progress@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.0.tgz#8a1be366bf8fc23db2bd23f10c6fe920b4389d1f"
+
+promise-debounce@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/promise-debounce/-/promise-debounce-1.0.1.tgz#6ed76f8f79d0144fdbd01cc15589ce57f9d71e78"
 
 promise-polyfill@^6.0.1:
   version "6.0.2"
