@@ -2,14 +2,7 @@ import { createSelector } from 'reselect';
 import { Group, Membership } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import without from 'lodash/without';
-import mergeWith from 'lodash/mergeWith';
-
-function customMerge(newValue, oldValue) {
-  // Always override when merging arrays:
-  if (Array.isArray(newValue)) {
-    return newValue;
-  }
-}
+import mergeObjects from 'app/utils/mergeObjects';
 
 export default createEntityReducer({
   key: 'groups',
@@ -18,15 +11,11 @@ export default createEntityReducer({
   },
   mutate(state, action) {
     const replaceMemberships = memberships => {
-      return mergeWith(
-        state,
-        {
-          byId: {
-            [action.meta.groupId]: { memberships }
-          }
-        },
-        customMerge
-      );
+      return mergeObjects(state, {
+        byId: {
+          [action.meta.groupId]: { memberships }
+        }
+      });
     };
 
     switch (action.type) {
