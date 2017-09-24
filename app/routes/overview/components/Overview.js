@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import Image from 'app/components/Image';
 import truncateString from 'app/utils/truncateString';
-import { Content, Flex } from 'app/components/Layout';
+import { Container, Flex } from 'app/components/Layout';
 import LatestReadme from './LatestReadme';
 import Feed from './Feed';
 import CompactEvents from './CompactEvents';
@@ -135,7 +135,7 @@ export default class Overview extends Component {
     const { events } = this.props;
 
     return (
-      <Content>
+      <Container>
         <Helmet title="Hjem" />
         <Flex wrap style={{ justifyContent: 'space-between' }}>
           <Flex column style={{ flex: 2 }}>
@@ -170,7 +170,7 @@ export default class Overview extends Component {
             </Button>
           )}
         </Flex>
-      </Content>
+      </Container>
     );
   }
 }
