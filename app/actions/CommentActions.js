@@ -32,7 +32,7 @@ export function addComment({
         },
         meta: {
           commentTarget,
-          errorMessage: 'Posting comment failed'
+          errorMessage: 'Legg til kommentar feilet'
         },
         schema: commentSchema
       })

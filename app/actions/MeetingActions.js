@@ -14,7 +14,7 @@ export function fetchMeeting(meetingId: string) {
     endpoint: `/meetings/${meetingId}/`,
     schema: meetingSchema,
     meta: {
-      errorMessage: `Fetching meeting ${meetingId} failed`
+      errorMessage: `Henting av møte ${meetingId} feilet`
     },
     propagateError: true
   });
@@ -26,7 +26,7 @@ export function fetchAll() {
     endpoint: '/meetings/',
     schema: [meetingSchema],
     meta: {
-      errorMessage: 'Fetching meetings failed'
+      errorMessage: 'Henting av møter feilet'
     },
     propagateError: true
   });
@@ -46,7 +46,7 @@ export function setInvitationStatus(
       status
     },
     meta: {
-      errorMessage: 'Set invitation status failed',
+      errorMessage: 'Endring av invitasjonstatus feilet',
       meetingId,
       status,
       user: userId
@@ -65,7 +65,7 @@ export function deleteMeeting(id: number): Thunk<*> {
         method: 'delete',
         meta: {
           meetingId: id,
-          errorMessage: 'Delete meeting failed'
+          errorMessage: 'Sletting av møte feilet'
         }
       })
     )
@@ -107,7 +107,7 @@ export function createMeeting({
         },
         schema: meetingSchema,
         meta: {
-          errorMessage: 'Creating meeting failed'
+          errorMessage: 'Opprettelse av møte feilet'
         }
       })
     )
@@ -145,7 +145,7 @@ export function inviteUsersAndGroups({ id, users, groups }: Object) {
       groups: groups ? groups.map(group => group.value) : []
     },
     meta: {
-      errorMessage: 'Error inviting users/groups'
+      errorMessage: 'Feil ved invitering av brukere/grupper'
     }
   });
 }
@@ -164,7 +164,7 @@ export function answerMeetingInvitation(
         endpoint: `/meeting-token/${action}/?token=${token}`,
         method: 'post',
         meta: {
-          errorMessage: 'Answer invitation failed'
+          errorMessage: 'Svar på invitasjon feilet'
         },
         useCache: true
       })
@@ -208,7 +208,7 @@ export function editMeeting({
         },
         schema: meetingSchema,
         meta: {
-          errorMessage: 'editing meeting failed'
+          errorMessage: 'Endring av møte feilet'
         }
       })
     )

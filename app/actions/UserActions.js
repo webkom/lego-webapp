@@ -38,7 +38,7 @@ export function login(username: string, password: string): Thunk<*> {
           password
         },
         meta: {
-          errorMessage: 'Login failed'
+          errorMessage: 'Inlogging feilet'
         }
       })
     ).then(action => {
@@ -93,7 +93,7 @@ export function updateUser(
         },
         schema: userSchema,
         meta: {
-          errorMessage: 'Updating user failed'
+          errorMessage: 'Oppdatering av bruker feilet'
         }
       })
     ).then(action => {
@@ -127,7 +127,7 @@ export function changePassword({
         },
         schema: userSchema,
         meta: {
-          errorMessage: 'Updating password failed'
+          errorMessage: 'Oppdatering av passord feilet'
         }
       })
     ).then(action => {
@@ -162,7 +162,7 @@ export function fetchUser(username: string = 'me') {
     schema: userSchema,
     force: true,
     meta: {
-      errorMessage: 'Fetching user failed',
+      errorMessage: 'Henting av bruker feilet',
       isCurrentUser: username === 'me'
     },
     propagateError: true
@@ -245,7 +245,7 @@ export function sendRegistrationEmail({
           captchaResponse
         },
         meta: {
-          errorMessage: 'Sending registration mail failed'
+          errorMessage: 'Sending av registrerings-epost feilet'
         }
       })
     );
@@ -258,7 +258,7 @@ export function validateRegistrationToken(token: string): Thunk<*> {
         types: User.VALIDATE_REGISTRATION_TOKEN,
         endpoint: `/users-registration-request/?token=${token}`,
         meta: {
-          errorMessage: 'Validating registration token failed',
+          errorMessage: 'Validering av registrerings-token feilet',
           token
         }
       })
@@ -274,7 +274,7 @@ export function createUser(token: string, user: string): Thunk<*> {
         method: 'POST',
         body: user,
         meta: {
-          errorMessage: 'Creating user failed'
+          errorMessage: 'Opprettelse av bruker feilet'
         }
       })
     ).then(action => {
@@ -298,7 +298,7 @@ export function sendStudentConfirmationEmail(user: string) {
     method: 'POST',
     body: user,
     meta: {
-      errorMessage: 'Sending student confirmation mail failed'
+      errorMessage: 'Sending av student bekreftelsesepost feilet'
     }
   });
 }
@@ -309,7 +309,7 @@ export function confirmStudentUser(token: string) {
     endpoint: `/users-student-confirmation-perform/?token=${token}`,
     method: 'POST',
     meta: {
-      errorMessage: 'Student confirmation failed'
+      errorMessage: 'Student bekreftelse feilet'
     },
     useCache: true
   });

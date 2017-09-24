@@ -11,7 +11,7 @@ export function fetchOAuth2Applications() {
     endpoint: '/oauth2-applications/',
     schema: [oauth2ApplicationSchema],
     meta: {
-      errorMessage: 'Fetching OAuth2 applications failed.'
+      errorMessage: 'Henting av OAuth2 applikasjoner feilet'
     },
     propagateError: true
   });
@@ -23,7 +23,7 @@ export function fetchOAuth2Application(applicationId: number) {
     endpoint: `/oauth2-applications/${applicationId}/`,
     schema: oauth2ApplicationSchema,
     meta: {
-      errorMessage: 'Fetching OAuth2 application failed.'
+      errorMessage: 'Henting av OAuth2 applikasjon feilet'
     },
     propagateError: true
   });
@@ -37,7 +37,7 @@ export function updateOAuth2Application(application: Object) {
     schema: oauth2ApplicationSchema,
     body: application,
     meta: {
-      errorMessage: 'Updating OAuth2 application failed.'
+      errorMessage: 'Oppdatering av OAuth2 applikasjon feilet'
     },
     propagateError: true
   });
@@ -51,7 +51,7 @@ export function createOAuth2Application(application: Object) {
     schema: oauth2ApplicationSchema,
     body: application,
     meta: {
-      errorMessage: 'Creating OAuth2 application failed.'
+      errorMessage: 'Opprettelse av OAuth2 applikasjon feilet'
     },
     propagateError: true
   });
@@ -63,7 +63,7 @@ export function fetchOAuth2Grants() {
     endpoint: '/oauth2-access-tokens/',
     schema: [oauth2GrantSchema],
     meta: {
-      errorMessage: 'Fetching OAuth2 grants failed.'
+      errorMessage: 'Henting av OAuth2 stipend feilet'
     },
     propagateError: true
   });
@@ -76,7 +76,7 @@ export function deleteOAuth2Grant(grantId: number) {
     endpoint: `/oauth2-access-tokens/${grantId}/`,
     schema: oauth2GrantSchema,
     meta: {
-      errorMessage: 'Deleting OAuth2 grant failed.',
+      errorMessage: 'Sletting av OAuth2 stipend feilet.',
       grantId
     },
     propagateError: true
