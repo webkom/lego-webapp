@@ -10,6 +10,7 @@ import styles from './GroupPage.css';
 type Props = {
   children: React.Element<*>,
   groups: Array<Object>,
+  location: { pathname: string },
   params: { groupId: string }
 };
 
@@ -24,13 +25,13 @@ const GroupPageNavigation = ({ groupId }: { groupId: string }) => {
   );
 };
 
-const GroupPage = ({ groups, children, params }: Props) => {
+const GroupPage = ({ groups, children, location, params }: Props) => {
   return (
     <Content>
       {params.groupId && <GroupPageNavigation groupId={params.groupId} />}
       <div className={styles.groupPage}>
         <section className={styles.sidebar}>
-          <GroupTree groups={groups} />
+          <GroupTree groups={groups} pathname={location.pathname} />
         </section>
 
         <section className={styles.main}>{children}</section>
