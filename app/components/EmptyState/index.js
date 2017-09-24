@@ -8,7 +8,7 @@ type Props = {
   /** name of icon */
   icon: string,
   /** html to display in an EmptyState */
-  children: React.Element<*>
+  children: any
 };
 
 /**
@@ -17,7 +17,7 @@ type Props = {
  */
 const EmptyState = ({ icon, children }: Props) => (
   <div className={styles.container}>
-    <Icon className={styles.icon} name={icon} />
+    <Icon className={styles.icon} size={88} name={icon} />
     {children}
   </div>
 );
