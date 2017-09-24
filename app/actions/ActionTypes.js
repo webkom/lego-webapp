@@ -80,7 +80,6 @@ export const Meeting = {
  *
  */
 export const Group = {
-  ADD_MEMBER: generateStatuses('Group.ADD_MEMBER'),
   FETCH: generateStatuses('Group.FETCH'),
   UPDATE: generateStatuses('Group.UPDATE')
 };
@@ -94,6 +93,11 @@ export const InterestGroup = {
 };
 
 export const Membership = {
+  CREATE: generateStatuses('Membership.CREATE'),
+  REMOVE: generateStatuses('Membership.REMOVE'),
+
+  // TODO (ek): Remove these when the interest group
+  // reducer has been replaced by the group reducer:
   MEMBER_SET: generateStatuses('Membership.MEMBER_SET'),
   JOIN_GROUP: generateStatuses('Membership.JOIN_GROUP'),
   LEAVE_GROUP: generateStatuses('Membership.LEAVE_GROUP')

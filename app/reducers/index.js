@@ -111,7 +111,6 @@ export const galleryPictureSchema = new schema.Entity('pictures', {
 export const gallerySchema = new schema.Entity('galleries', {
   pictures: [galleryPictureSchema]
 });
-export const groupSchema = new schema.Entity('groups', { users: [userSchema] });
 export const quoteSchema = new schema.Entity('quotes', {
   comments: [commentSchema]
 });
@@ -128,8 +127,11 @@ export const feedActivitySchema = new schema.Entity('feedActivities');
 export const oauth2ApplicationSchema = new schema.Entity('oauth2Application');
 export const oauth2GrantSchema = new schema.Entity('oauth2Grant');
 export const membershipSchema = new schema.Entity('memberships', {
-  abakusGroup: groupSchema,
   user: userSchema
+});
+export const groupSchema = new schema.Entity('groups', {
+  users: [userSchema],
+  memberships: [membershipSchema]
 });
 export const meetingSchema = new schema.Entity('meetings', {
   memberships: [membershipSchema]
