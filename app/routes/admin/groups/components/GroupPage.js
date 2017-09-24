@@ -5,7 +5,7 @@ import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import Content from 'app/components/Layout/Content';
 import GroupTree from './GroupTree';
-import styles from './GroupAdmin.css';
+import styles from './GroupPage.css';
 
 type Props = {
   children: React.Element<*>,

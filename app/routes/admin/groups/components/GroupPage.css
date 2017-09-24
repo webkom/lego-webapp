@@ -8,6 +8,9 @@
 .sidebar {
   flex: 0 0 15em;
   order: -1;
+  margin-right: 40px;
+  padding-right: 40px;
+  border-right: 1px solid ghostwhite;
 }
 
 .main {
