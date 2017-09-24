@@ -4,7 +4,7 @@ import { groupSchema, membershipSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Group, Membership } from './ActionTypes';
 
-type AddMemberArgs = {
+export type AddMemberArgs = {
   groupId: number,
   userId: number,
   role: string
