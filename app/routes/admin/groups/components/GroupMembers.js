@@ -15,7 +15,7 @@ type Props = {
   removeMember: Object => Promise<*>
 };
 
-const GroupMembers = ({ addMember, removeMember, group }: Props) => {
+export const GroupMembers = ({ addMember, removeMember, group }: Props) => {
   const { memberships } = group;
   return (
     <div className={styles.groupMembers}>
