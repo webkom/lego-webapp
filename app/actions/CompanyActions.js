@@ -18,7 +18,7 @@ export function fetchAll() {
     endpoint: '/companies/',
     schema: [companySchema],
     meta: {
-      errorMessage: 'Fetching companies failed'
+      errorMessage: 'Henting av bedrifter feilet'
     },
     propagateError: true
   });
@@ -32,22 +32,22 @@ export function fetch(companyId: number): Thunk<*> {
         endpoint: `/companies/${companyId}/`,
         schema: companySchema,
         meta: {
-          errorMessage: 'Fetching single company failed'
+          errorMessage: 'Henting av en bedrift feilet'
         },
         propagateError: true
       })
     );
 }
 
-export function fetchEventsForCompany(companyId) {
-  return dispatch =>
+export function fetchEventsForCompany(companyId: string) {
+  return (dispatch: Dispatch) =>
     dispatch(
       callAPI({
         types: Event.FETCH,
         endpoint: `/events/?company=${companyId}`,
         schema: [eventSchema],
         meta: {
-          errorMessage: 'Fetching assosiated events failed'
+          errorMessage: 'Henting av tilknyttede arrangementer feilet'
         }
       })
     );
@@ -65,7 +65,7 @@ export function addCompany(data: Object): Thunk<*> {
         body: data,
         schema: companySchema,
         meta: {
-          errorMessage: 'Adding company failed'
+          errorMessage: 'Legg til bedrift feilet'
         }
       })
     )
@@ -91,7 +91,7 @@ export function editCompany({ companyId, ...data }: Object): Thunk<*> {
         body: data,
         schema: companySchema,
         meta: {
-          errorMessage: 'Editing company failed'
+          errorMessage: 'Endring av bedrift feilet'
         }
       })
     ).then(() => {
@@ -111,7 +111,7 @@ export function deleteCompany(companyId: number): Thunk<*> {
         method: 'DELETE',
         meta: {
           id: Number(companyId),
-          errorMessage: 'Deleting company failed'
+          errorMessage: 'Sletting av bedrift feilet'
         }
       })
     ).then(() => {
@@ -135,7 +135,7 @@ export function addSemesterStatus(
         method: 'post',
         body: data,
         meta: {
-          errorMessage: 'Adding semester status failed',
+          errorMessage: 'Legg til semester status feilet',
           companyId
         }
       })
@@ -164,7 +164,7 @@ export function editSemesterStatus(
         method: 'PATCH',
         body: data,
         meta: {
-          errorMessage: 'Editing semester status failed'
+          errorMessage: 'Endring av semester status feilet'
         }
       })
     ).then(() => {
@@ -191,7 +191,7 @@ export function deleteSemesterStatus(
         meta: {
           companyId,
           semesterId,
-          errorMessage: 'Deleting semester status failed'
+          errorMessage: 'Sletting av semester status feilet'
         }
       })
     ).then(() => {
@@ -207,7 +207,7 @@ export function fetchCompanyContact({ companyId }: { companyId: number }) {
     endpoint: `/companies/${companyId}/company-contacts/`,
     method: 'GET',
     meta: {
-      errorMessage: 'Fetching company contact failed'
+      errorMessage: 'Henting av bedriftkontakt feilet'
     }
   });
 }
@@ -232,7 +232,7 @@ export function addCompanyContact({
           phone
         },
         meta: {
-          errorMessage: 'Adding company contact failed'
+          errorMessage: 'Legg til bedriftkontakt feilet'
         }
       })
     ).then(() => {
@@ -263,7 +263,7 @@ export function editCompanyContact({
           phone
         },
         meta: {
-          errorMessage: 'Editing company contact failed',
+          errorMessage: 'Endring av bedriftkontakt feilet',
           companyId
         }
       })
@@ -287,8 +287,8 @@ export function deleteCompanyContact(
         meta: {
           companyId,
           companyContactId,
-          errorMessage: 'Deleting company contact failed'
-        }
+          errorMessage: 'Sletting av bedriftkontakt feilet'
+        },
       })
     ).then(() => {
       dispatch(addNotification({ message: 'Bedriftskontakt slettet.' }));

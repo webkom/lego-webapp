@@ -13,7 +13,7 @@ export function fetchInterestGroup(interestGroupId: string) {
     endpoint: `/interest-groups/${interestGroupId}/`,
     schema: interestGroupSchema,
     meta: {
-      errorMessage: 'Fetching interestGroup failed'
+      errorMessage: 'Henting av interessegruppe feilet'
     },
     propagateError: true
   });
@@ -25,7 +25,7 @@ export function fetchAll() {
     endpoint: '/interest-groups/',
     schema: [interestGroupSchema],
     meta: {
-      errorMessage: 'Fetching interestGroups failed'
+      errorMessage: 'Henting av interessegrupper feilet'
     },
     propagateError: true
   });
@@ -48,7 +48,7 @@ export function createInterestGroup(group: Object): Thunk<*> {
         },
         meta: {
           group,
-          errorMessage: 'Creating interestGroup failed'
+          errorMessage: 'Opprettelse av interessegruppe feilet'
         }
       })
     ).then(res => {
@@ -67,7 +67,7 @@ export function removeInterestGroup(id: string): Thunk<*> {
         method: 'DELETE',
         meta: {
           groupId: id,
-          errorMessage: 'Removing interestGroup failed'
+          errorMessage: 'Sletting av interessegruppe feilet'
         }
       })
     ).then(() => dispatch(push('/interestgroups/')));
@@ -86,7 +86,7 @@ export function editInterestGroup(group: Object): Thunk<*> {
         body: group.logo ? group : omit(group, 'logo'),
         meta: {
           group,
-          errorMessage: 'Editing interestGroup failed'
+          errorMessage: 'Endring av interessegruppe feilet'
         }
       })
     ).then(_ => dispatch(push(`/interestgroups/${group.id}`)));
@@ -111,7 +111,7 @@ export function joinInterestGroup(
           role
         },
         meta: {
-          errorMessage: 'Joining the interest group failed.',
+          errorMessage: 'Sammenslåing av interessegruppen feilet',
           groupId: groupId,
           username: user.username
         }
@@ -131,7 +131,7 @@ export function leaveInterestGroup(membership: Object): Thunk<*> {
           id: membership.id,
           username: membership.user.username,
           groupId: membership.abakusGroup,
-          errorMessage: 'Leaving the interest group failed.'
+          errorMessage: 'Utmelding av interessegruppen failet'
         }
       })
     );
