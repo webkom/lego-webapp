@@ -1,6 +1,6 @@
 import styles from './UserConfirmation.css';
 import React from 'react';
-import { Content, Flex } from 'app/components/Layout';
+import { Container, Flex } from 'app/components/Layout';
 import { reduxForm } from 'redux-form';
 import {
   Form,
@@ -25,7 +25,7 @@ const UserConfirmation = ({
 
   if (submitSucceeded) {
     return (
-      <Content>
+      <Container>
         <div className={styles.root}>
           <Flex wrap justifyContent="center">
             <div>
@@ -44,20 +44,20 @@ const UserConfirmation = ({
             </div>
           </Flex>
         </div>
-      </Content>
+      </Container>
     );
   }
   if (!token) {
     return (
-      <Content>
+      <Container>
         <div className={styles.root}>
           <h2>Token ikke gyldig</h2>
         </div>
-      </Content>
+      </Container>
     );
   }
   return (
-    <Content>
+    <Container>
       <div className={styles.root}>
         <h2>Registrer bruker</h2>
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -109,7 +109,7 @@ const UserConfirmation = ({
           </Button>
         </Form>
       </div>
-    </Content>
+    </Container>
   );
 };
 

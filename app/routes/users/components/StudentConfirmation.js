@@ -1,6 +1,6 @@
 import styles from './UserConfirmation.css';
 import React from 'react';
-import { Content } from 'app/components/Layout';
+import { Container } from 'app/components/Layout';
 import { reduxForm } from 'redux-form';
 import {
   Form,
@@ -32,36 +32,36 @@ const StudentConfirmation = ({
   }
   if (isStudent) {
     return (
-      <Content>
+      <Container>
         <div className={styles.root}>
           <h2>Du er allerede verifisert!</h2>
         </div>
-      </Content>
+      </Container>
     );
   }
   if (submitSucceeded) {
     return (
-      <Content>
+      <Container>
         <div className={styles.root}>
           <h2>Sjekk eposten din!</h2>
         </div>
-      </Content>
+      </Container>
     );
   }
   if (studentConfirmed !== null) {
     return (
-      <Content>
+      <Container>
         <div className={styles.root}>
           <h2>{studentConfirmed ? 'Du er nå verifisert!' : 'Ugyldig token'}</h2>
           <Link to="/">Gå tilbake til hovedsiden</Link>
         </div>
-      </Content>
+      </Container>
     );
   }
 
   const disabledButton = invalid | pristine | submitting;
   return (
-    <Content>
+    <Container>
       <div>
         <h2>Verifiser studentepost</h2>
         <Form onSubmit={handleSubmit(sendStudentConfirmationEmail)}>
@@ -104,7 +104,7 @@ const StudentConfirmation = ({
           </Button>
         </Form>
       </div>
-    </Content>
+    </Container>
   );
 };
 

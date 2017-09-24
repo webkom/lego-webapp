@@ -1,15 +1,15 @@
 import React from 'react';
 import styles from './Login.css';
-import { Content } from '../Layout';
+import { Container } from '../Layout';
 import LoginForm from './LoginForm';
 
 const LoginPage = props => (
-  <Content>
+  <Container>
     <div className={styles.root}>
       <h2>Logg inn</h2>
       <LoginForm />
     </div>
-  </Content>
+  </Container>
 );
 
 export default LoginPage;
