@@ -1,7 +1,8 @@
 // @flow
 
-import { get, union, mergeWith } from 'lodash';
+import { get, union } from 'lodash';
 import joinReducers from 'app/utils/joinReducers';
+import mergeObjects from 'app/utils/mergeObjects';
 
 import type { ActionTypeObject } from 'app/utils/promiseMiddleware';
 import type { Reducer } from 'app/types';
@@ -36,15 +37,6 @@ export function fetching(fetchType?: ActionTypeObject) {
   };
 }
 
-function merge(old, updated) {
-  return mergeWith(
-    {},
-    old,
-    updated,
-    (oldValue, newValue) => (Array.isArray(oldValue) ? newValue : undefined)
-  );
-}
-
 export function entities(key: string, fetchType?: ActionTypeObject) {
   return (
     state: any = {
@@ -67,7 +59,7 @@ export function entities(key: string, fetchType?: ActionTypeObject) {
     actionGrant = actionGrant || [];
     return {
       ...state,
-      byId: merge(state.byId, result),
+      byId: mergeObjects(state.byId, result),
       items: union(
         state.items,
         Object.keys(result).map(i => parseInt(i, 10) || i)
