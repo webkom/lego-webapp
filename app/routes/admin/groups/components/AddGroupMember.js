@@ -2,12 +2,9 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import type { FieldProps } from 'redux-form';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
 import { Button, Form } from 'app/components/Form';
 import SelectInput from 'app/components/Form/SelectInput';
 import { createValidator, required } from 'app/utils/validation';
-import { addMember } from 'app/actions/GroupActions';
 import { ROLES } from '../utils';
 
 type Props = FieldProps & {
@@ -67,11 +64,7 @@ const validate = createValidator({
   role: [required()]
 });
 
-const mapDispatchToProps = { addMember };
-export default compose(
-  reduxForm({
-    form: 'add-user',
-    validate
-  }),
-  connect(null, mapDispatchToProps)
-)(AddGroupMember);
+export default reduxForm({
+  form: 'add-user',
+  validate
+})(AddGroupMember);

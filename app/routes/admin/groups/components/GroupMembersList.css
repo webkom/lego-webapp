@@ -1,0 +1,9 @@
+.removeIcon {
+  cursor: pointer;
+  padding-right: 10px;
+  color: #bbb;
+
+  &:hover {
+    color: #aaa;
+  }
+}
