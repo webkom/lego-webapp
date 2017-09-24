@@ -24,7 +24,7 @@ const GroupMembersList = ({ memberships }: Props) => {
         <li key={user.username}>
           {role !== 'member' && <span>{ROLES[role]}: </span>}
           <Link to={`/users/${user.username}`}>
-            {user.firstName} {user.lastName} ({user.username})
+            {user.fullName} ({user.username})
           </Link>
         </li>
       ))}
