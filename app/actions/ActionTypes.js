@@ -62,7 +62,15 @@ export const Joblistings = {
   EDIT: generateStatuses('Joblistings.EDIT'),
   DELETE: generateStatuses('Joblistings.DELETE')
 };
-
+/**
+ *
+ */
+export const Announcements = {
+  FETCH_ALL: generateStatuses('Announcements.FETCH_ALL'),
+  CREATE: generateStatuses('Announcements.CREATE'),
+  SEND: generateStatuses('Announcements.SEND'),
+  DELETE: generateStatuses('Announcements.DELETE')
+};
 /**
  *
  */

@@ -1,0 +1,101 @@
+@import 'app/styles/variables.css';
+
+.root {
+  composes: contentContainer from 'app/styles/utilities.css';
+
+  @media (--small-viewport) {
+    padding: 0;
+
+    .coverImage {
+      padding: 0;
+    }
+
+    > div {
+      padding: 0 10px;
+    }
+  }
+  @media (--mobile-device) {
+    margin: auto 10px;
+  }
+}
+
+.header {
+  color: #777;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  margin-top: 8px;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  font-size: 30px;
+}
+
+.form {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.msgField {
+  border: 1px solid #ccc;
+  width: 100%;
+  margin-bottom: 10px;
+  font-family: raleway, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.formHeaders {
+  font-size: 18px;
+}
+
+.recField {
+  margin-right: 4px;
+}
+
+.rowRec {
+  @media (--mobile-device) {
+    flex-direction: column;
+  }
+}
+
+.list {
+  flex-direction: column-reverse;
+}
+
+.date {
+  font-weight: bold;
+  text-decoration: underline;
+  margin-top: 5px;
+}
+
+.msg,
+.date,
+.recHeader {
+  font-size: 120%;
+}
+
+.recHeader {
+  margin-top: 8px;
+}
+
+.sendButton {
+  height: 50px;
+}
+
+.wrapperSendButton {
+  justify-content: space-around;
+  align-items: center;
+}
+
+.recipients:after {
+  content: ',\0000a0';
+}
+
+.recipients:first-child:before {
+  content: '\0000a0';
+}
+
+.recipients:last-child:after {
+  content: normal;
+}
