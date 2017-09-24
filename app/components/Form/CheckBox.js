@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import { Field } from 'redux-form';
 import { createField } from './Field';
 import styles from './CheckBox.css';
 import cx from 'classnames';
@@ -15,6 +14,23 @@ type Props = {
   className?: string
 };
 
+/*
+
+When using this component as a Field in redux-form, you have to include
+normalize={v => !!v}. This makes the value always end up in redux-form as
+true or false, while otherwise it can end up as an empty string or left
+out of the firn values altogether.
+
+Example:
+<Field
+  name="name"
+  // label, placeholder, etc...
+  component={CheckBox.Field}
+  normalize={v => !!v} // <--
+/>
+
+*/
+
 function CheckBox({
   id,
   label,
@@ -25,12 +41,10 @@ function CheckBox({
 }: Props) {
   return (
     <div className={styles.box}>
-      <Field
+      <input
         {...props}
         className={cx(value ? styles.checked : styles.unchecked)}
-        component="input"
         type="checkbox"
-        normalize={v => !!v}
       />
       <label htmlFor={id} style={labelStyle} className={styles.label}>
         {label}
