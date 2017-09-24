@@ -80,6 +80,7 @@ export const Meeting = {
  *
  */
 export const Group = {
+  ADD_MEMBER: generateStatuses('Group.ADD_MEMBER'),
   FETCH: generateStatuses('Group.FETCH'),
   UPDATE: generateStatuses('Group.UPDATE')
 };
