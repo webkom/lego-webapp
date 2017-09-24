@@ -4,6 +4,22 @@ import { groupSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Group } from './ActionTypes';
 
+type AddMemberArgs = {
+  groupId: number,
+  userId: number
+};
+
+export function addMember({ groupId, userId }: AddMemberArgs) {
+  return callAPI({
+    types: Group.ADD_MEMBER,
+    endpoint: `/memberships`,
+    schema: groupSchema,
+    meta: {
+      errorMessage: 'Innmelding av bruker feilet'
+    }
+  });
+}
+
 export function fetchGroup(groupId: number) {
   return callAPI({
     types: Group.FETCH,
