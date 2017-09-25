@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
 import { Image } from 'app/components/Image';
 import styles from './JoblistingDetail.css';
-import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
+import { Flex } from 'app/components/Layout';
 import { jobType, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
 import Editor from 'app/components/Editor';
@@ -15,15 +15,15 @@ type ButtonsProps = {
   deleteJoblisting: number => void
 };
 
-const Buttons = ({ id, deleteJoblisting }: ButtonsProps) => (
-  <FlexRow alignItems="center">
+const Buttons = ({ id, deleteJoblisting }) => (
+  <Flex alignItems="center">
     <Link to={`/joblistings/${id}/edit`}>
       <button className={styles.editButton}> Rediger </button>
     </Link>
     <Link onClick={() => deleteJoblisting(id)}>
       <button className={styles.editButton}> Slett </button>
     </Link>
-  </FlexRow>
+  </Flex>
 );
 
 type Props = {
@@ -66,16 +66,28 @@ const JoblistingDetail = ({
       <div className={styles.coverImage}>
         <Image src="http://placehold.it/1000x300" />
       </div>
-      <FlexRow className={styles.title}>
-        <FlexItem>
-          <h1>{joblisting.title}</h1>
-        </FlexItem>
+      <Flex className={styles.title}>
+        <h1>{joblisting.title}</h1>
         {actionGrant.includes('edit') && (
           <Buttons id={joblisting.id} deleteJoblisting={deleteJoblisting} />
         )}
-      </FlexRow>
-      <FlexRow className={styles.textbody}>
-        <FlexColumn className={styles.meta}>
+      </Flex>
+      <Flex className={styles.textbody}>
+        <Flex column className={styles.description}>
+          <Editor
+            readOnly
+            value={`<div>
+                ${joblisting.description}
+              </div>`}
+          />
+          <Editor
+            readOnly
+            value={`<div>
+                ${joblisting.text}
+              </div>`}
+          />
+        </Flex>
+        <Flex column className={styles.meta}>
           <ul>
             <li>
               <h3>Generell info:</h3>
@@ -100,12 +112,8 @@ const JoblistingDetail = ({
               </div>
             )}
           </ul>
-        </FlexColumn>
-        <FlexColumn className={styles.description}>
-          <Editor readOnly value={joblisting.description} />
-          <Editor readOnly value={joblisting.text} />
-        </FlexColumn>
-      </FlexRow>
+        </Flex>
+      </Flex>
     </div>
   );
 };
