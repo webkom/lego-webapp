@@ -7,6 +7,7 @@ import { Image } from 'app/components/Image';
 import Time from 'app/components/Time';
 import { Flex } from 'app/components/Layout';
 import { Year, jobType, Workplaces } from './Items';
+import truncateString from 'app/utils/truncateString';
 
 type JobListingItemProps = {
   joblisting: /*TODO: JobListing*/ Object
@@ -14,7 +15,7 @@ type JobListingItemProps = {
 
 function JoblistingItem({ joblisting }: JobListingItemProps) {
   return (
-    <Flex row className={styles.joblistingItem}>
+    <Flex className={styles.joblistingItem}>
       <Flex alignItems="center">
         <Link to={`/joblistings/${joblisting.id}/`}>
           <Image
@@ -23,10 +24,12 @@ function JoblistingItem({ joblisting }: JobListingItemProps) {
           />
         </Link>
       </Flex>
-      <Flex row justifyContent="space-between" style={{ flex: 1 }}>
+      <Flex className={styles.listItem}>
         <div>
           <Link to={`/joblistings/${joblisting.id}/`}>
-            <h3 className={styles.joblistingItemTitle}>{joblisting.title}</h3>
+            <h3 className={styles.joblistingItemTitle}>
+              {truncateString(joblisting.title, 25)}
+            </h3>
           </Link>
           <div className={styles.companyJobtype}>
             {joblisting.company.name} • {jobType(joblisting.jobType)}
@@ -43,8 +46,8 @@ function JoblistingItem({ joblisting }: JobListingItemProps) {
 }
 
 const JoblistingsList = ({ joblistings }: Props) => (
-  <Flex column style={{ flex: 3 }}>
-    <Flex row className={styles.heading}>
+  <Flex column className={styles.joblistingList}>
+    <Flex className={styles.heading}>
       <h2 className={styles.headingText}>Jobbannonser</h2>
       <h4 className={styles.headingDeadline}>Deadline:</h4>
     </Flex>

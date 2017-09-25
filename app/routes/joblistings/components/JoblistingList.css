@@ -11,8 +11,8 @@
   text-transform: uppercase;
   margin-bottom: 12px;
   margin-top: 8px;
-  border-bottom: 1px solid #ddd;
   display: flex;
+  border-bottom: 1px solid #ddd;
   justify-content: space-between;
   align-items: flex-end;
 }
@@ -26,8 +26,18 @@
 .headingDeadline {
   font-size: 16px;
 
-  @media (max-width: 550px) {
+  @media (max-width: 850px) {
     display: none;
+  }
+}
+
+.joblistingList {
+  flex: 3;
+  margin-left: 30px;
+
+  @media (max-width: 321px) {
+    margin-left: 10px;
+    margin-right: 10px;
   }
 }
 
@@ -46,13 +56,18 @@
   background: #eee;
   margin-right: 20px;
 
-  @media (--small-viewport) {
+  @media (max-width: 670px) {
     display: none;
   }
 }
 
 .listItem {
   flex: 1;
+  justify-content: space-between;
+
+  @media (max-width: 850px) {
+    flex-direction: column;
+  }
 }
 
 .joblistingItemTitle {
@@ -61,7 +76,6 @@
   margin: 0;
   text-transform: uppercase;
   font-size: 15px;
-  border-bottom: 1px solid #999;
   letter-spacing: 2px;
 }
 
@@ -72,7 +86,7 @@
 .deadLine {
   align-self: center;
 
-  @media (max-width: 550px) {
+  @media (max-width: 850px) {
     align-self: flex-start;
   }
 }
