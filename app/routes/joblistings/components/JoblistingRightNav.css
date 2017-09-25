@@ -1,11 +1,18 @@
 @import 'app/styles/variables.css';
 
 .box {
+  display: flex;
+  justify-content: center;
   min-height: 350px;
-  background: #f2ece8;
-  border: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
   flex: 1;
-  margin: auto 40px;
+  margin: 30px;
+  padding: 30px;
+  padding-top: 0;
+  margin-right: 0;
+  min-width: 150px;
+  max-width: 250px;
 }
 
 .rightHeader {
@@ -20,20 +27,18 @@
 }
 
 .createButton {
-  font-weight: 700;
+  flex: 1;
+  align-self: center;
+  justify-content: center;
   cursor: pointer;
   background: #eff1f4;
   text-transform: uppercase;
-  padding: 10px 20px;
+  padding: 5px 10px;
   color: #333;
   outline: none;
   border: 1px solid #ccc;
   letter-spacing: 1px;
   border-radius: 4px;
-
-  @media (--small-viewport) {
-    display: block;
-  }
 
   &:hover {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);

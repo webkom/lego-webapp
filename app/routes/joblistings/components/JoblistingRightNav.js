@@ -4,7 +4,8 @@ import styles from './JoblistingRightNav.css';
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { Flex } from 'app/components/Layout';
-import CheckBox from 'app/components/Form/CheckBox';
+import { CheckBox, RadioButton } from 'app/components/Form/';
+import Button from 'app/components/Button';
 
 const updateFilters = (type, value, filters) => {
   const newFilter = {
@@ -48,6 +49,10 @@ export default class JoblistingsRightNav extends Component {
       classNumber: [],
       jobTypes: [],
       workplaces: []
+    },
+    order: {
+      deadline: true,
+      company: false
     }
   };
 
@@ -58,6 +63,10 @@ export default class JoblistingsRightNav extends Component {
         classNumber: query.classNumber ? query.classNumber.split(',') : [],
         jobTypes: query.jobTypes ? query.jobTypes.split(',') : [],
         workplaces: query.workplaces ? query.workplaces.split(',') : []
+      },
+      order: {
+        deadline: query['order'] === 'deadline',
+        company: query['order'] === 'company'
       }
     });
   }
@@ -73,40 +82,42 @@ export default class JoblistingsRightNav extends Component {
     return query;
   };
 
-  createButton = () => {
-    if (this.props.actionGrant.includes('create')) {
-      return (
-        <Flex row justifyContent="flex-end" alignItems="center">
-          <Link to={`/joblistings/create`}>
-            <button className={styles.createButton}>Ny jobbannonse</button>
-          </Link>
-        </Flex>
-      );
-    }
-  };
-
   render() {
     return (
       <Flex column className={styles.box}>
-        {this.createButton()}
+        {this.props.actionGrant.includes('create') && (
+          <Link to={`/joblistings/create`}>
+            <Button className={styles.createButton}>Ny jobbannonse</Button>
+          </Link>
+        )}
         <h3 className={styles.rightHeader}>Sorter etter:</h3>
-        <Flex row justifyContent="space-around" className={styles.sortNav}>
-          <Link
-            to={{
-              pathname: '/joblistings',
-              query: this.handleQuery('sort', 'company')
-            }}
-          >
-            Bedrift{' '}
-          </Link>
-          <Link
-            to={{
-              pathname: '/joblistings',
-              query: this.handleQuery('sort', 'deadline')
-            }}
-          >
-            Frist
-          </Link>
+        <Flex justifyContent="space-around" className={styles.sortNav}>
+          <Flex>
+            <RadioButton
+              name="active"
+              id="active"
+              inputValue={this.state.order.deadline}
+              onChange={() =>
+                this.props.router.push({
+                  pathname: '/joblistings',
+                  query: this.handleQuery('order', 'deadline')
+                })}
+            />
+            <span style={{ marginLeft: '5px' }}>Frist</span>
+          </Flex>
+          <Flex>
+            <RadioButton
+              name="active"
+              id="inactive"
+              inputValue={this.state.order.company}
+              onChange={() =>
+                this.props.router.push({
+                  pathname: '/joblistings',
+                  query: this.handleQuery('order', 'company')
+                })}
+            />
+            <span style={{ marginLeft: '5px' }}>Bedrift</span>
+          </Flex>
         </Flex>
         <Flex column>
           <h3 className={styles.rightHeader}>Klassetrinn:</h3>

@@ -15,7 +15,12 @@ type Props = {
   actionGrant: /*TODO: ActionGrant */ any
 };
 
-const JoblistingsPage = ({ joblistings, query, actionGrant }: Props) => {
+const JoblistingsPage = ({
+  joblistings,
+  query,
+  actionGrant,
+  router
+}: Props) => {
   if (!joblistings) {
     return <LoadingIndicator loading />;
   }
@@ -28,6 +33,7 @@ const JoblistingsPage = ({ joblistings, query, actionGrant }: Props) => {
           query={query}
           actionGrant={actionGrant}
           className={styles.rightNav}
+          router={router}
         />
       </Flex>
     </div>
