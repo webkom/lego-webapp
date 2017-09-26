@@ -17,6 +17,7 @@ import HTTPError from './errors';
 import announcements from './announcements';
 import bdb from './bdb';
 import contact from './contact';
+import timeline from './timeline';
 
 export default {
   path: '/',
@@ -39,6 +40,7 @@ export default {
     bdb,
     email,
     contact,
+    timeline,
     {
       path: '*',
       component: HTTPError

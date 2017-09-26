@@ -26,7 +26,7 @@ export function activityHeader(aggregatedActivity: AggregatedActivity) {
 
   return (
     <b>
-      {joinValues(actorsRender)} kommenterte på{' '}
+      {joinValues(actorsRender)} svarte på din kommentar på{' '}
       {contextRender[target.contentType](target)}
     </b>
   );
