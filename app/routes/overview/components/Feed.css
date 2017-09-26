@@ -1,8 +1,14 @@
 .root {
-  padding: 10px;
+  padding: 0px 10px 10px 10px;
   flex: 1;
   min-width: 20em;
   whitespace: no-wrap;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .content {
@@ -10,8 +16,8 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   border-radius: 3px;
   padding: 20px;
-  height: calc(100% - 51px);
-  overflow-y: scroll;
+  height: 350px;
+  overflow-y: auto;
   background: #fff;
 }
 
@@ -20,11 +26,13 @@
   padding: 0 20px;
 }
 
+.icon {
+  margin-right: 15px;
+}
 .item {
   border-bottom: 1px solid #eee;
   padding: 5px 0;
-}
-
-.item a {
-  color: #555;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
