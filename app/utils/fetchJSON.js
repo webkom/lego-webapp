@@ -2,17 +2,19 @@
 
 import 'isomorphic-fetch';
 
-class HttpError extends Error {
+export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+
+export class HttpError extends Error {
   response: Response;
 }
 
-type HttpResponse<T> = {
-  jsonData?: T,
-  textString?: string
+export type HttpResponse<T> = {
+  jsonData?: ?T,
+  textString?: ?string
 } & Response;
 
 export type HttpRequestOptions = {
-  method?: 'GET' | 'POST' | 'PUT' | 'DELETE',
+  method?: HttpMethod,
   headers: { [key: string]: string },
   body?: Object,
   json?: boolean,
@@ -21,7 +23,9 @@ export type HttpRequestOptions = {
   retryDelays?: Array<number>
 };
 
-function parseResponseBody<T>(response: HttpResponse<T>) {
+function parseResponseBody<T>(
+  response: HttpResponse<T>
+): Promise<HttpResponse<T>> {
   return response.text().then(textString => {
     const contentType =
       response.headers.get('content-type') || 'application/json';
