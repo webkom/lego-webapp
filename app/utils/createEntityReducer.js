@@ -10,14 +10,14 @@ import type { Reducer, AsyncActionType } from 'app/types';
 type EntityReducerOptions = {
   key: string,
   types: {
-    fetch?: ?AsyncActionType,
-    mutate?: ?AsyncActionType
+    fetch?: AsyncActionType,
+    mutate?: AsyncActionType
   },
   mutate?: Reducer,
   initialState?: Object
 };
 
-export function fetching(fetchType?: ?AsyncActionType) {
+export function fetching(fetchType?: AsyncActionType) {
   return (state: any, action: any) => {
     if (!fetchType) {
       return state;
@@ -39,7 +39,7 @@ export function fetching(fetchType?: ?AsyncActionType) {
 
 const isNumber = id => !isNaN(Number(id)) && !isNaN(parseInt(id, 10));
 
-export function entities(key: string, fetchType?: ?AsyncActionType) {
+export function entities(key: string, fetchType?: AsyncActionType) {
   return (
     state: any = {
       actionGrant: [],
@@ -71,7 +71,7 @@ export function entities(key: string, fetchType?: ?AsyncActionType) {
   };
 }
 
-export function optimistic(mutateType?: ?AsyncActionType) {
+export function optimistic(mutateType?: AsyncActionType) {
   return (state: any, action: any) => {
     if (
       !mutateType ||
