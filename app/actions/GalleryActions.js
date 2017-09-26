@@ -183,7 +183,8 @@ export function editPicture(galleryId: EntityID, pictureId: EntityID) {
   });
 }
 
-export function addPictures(galleryId: number, files: []): Thunk<*> {
+// returns Thunk<any> because callAPI don't really support arrays
+export function addPictures(galleryId: number, files: []): Thunk<any> {
   return dispatch =>
     Promise.all(
       files.map(file =>
