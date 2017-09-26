@@ -11,7 +11,7 @@ import { User } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
 import { addNotification } from 'app/actions/NotificationActions';
-import type { Thunk } from 'app/types';
+import type { Thunk, Action } from 'app/types';
 
 const USER_STORAGE_KEY = 'lego.auth';
 
@@ -27,13 +27,16 @@ function removeToken() {
   return cookie.remove(USER_STORAGE_KEY, { path: '/' });
 }
 
-export function login(username: string, password: string): Thunk<*> {
+export function login(
+  username: string,
+  password: string
+): Thunk<Promise<?Action>> {
   return dispatch =>
     dispatch(
       callAPI({
         types: User.LOGIN,
         endpoint: '//authorization/token-auth/',
-        method: 'post',
+        method: 'POST',
         body: {
           username,
           password
@@ -43,6 +46,7 @@ export function login(username: string, password: string): Thunk<*> {
         }
       })
     ).then(action => {
+      if (!action || !action.payload) return;
       const { user, token } = action.payload;
       saveToken(token);
       dispatch(fetchMeta());
@@ -66,9 +70,9 @@ export function logout(): Thunk<*> {
 }
 
 export function updateUser(
-  user: Object,
-  options: Object = { noRedirect: false }
-): Thunk<*> {
+  user: Object /*Todo: UserModel*/,
+  options: { noRedirect: boolean } = { noRedirect: false }
+): Thunk<Promise<?Action>> {
   const {
     username,
     firstName,
@@ -99,6 +103,7 @@ export function updateUser(
         }
       })
     ).then(action => {
+      if (!action || !action.payload) return;
       if (!options.noRedirect) {
         dispatch(push(`/users/${action.payload.result || 'me'}`));
       }

@@ -4,11 +4,14 @@
  *
  */
 export default function createQueryString(query: {
-  [id: string]: string
+  [key: string]: ?string | ?number
 }): string {
   const queryString = Object.keys(query)
     .filter(key => typeof query[key] === 'number' || !!query[key])
-    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`)
+    .map(
+      key =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(String(query[key]))}`
+    )
     .join('&');
 
   return queryString ? `?${queryString}` : '';

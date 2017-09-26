@@ -1,13 +1,18 @@
 // @flow
 
 import { normalize, Schema } from 'normalizr';
-import fetchJSON, { type HttpRequestOptions } from 'app/utils/fetchJSON';
+import fetchJSON, {
+  type HttpRequestOptions,
+  type HttpMethod,
+  type HttpResponse
+} from 'app/utils/fetchJSON';
 import config from '../config';
 import type { Thunk } from 'app/types';
 import { logout } from 'app/actions/UserActions';
 import isRequestNeeded from 'app/utils/isRequestNeeded';
 import { setStatusCode } from './RoutingActions';
-import type { AsyncActionType } from 'app/types';
+import { FetchHistory } from './ActionTypes';
+import type { AsyncActionType, Action, Thunk } from 'app/types';
 
 function urlFor(resource: string) {
   if (resource.match(/^\/\//)) {
@@ -18,7 +23,8 @@ function urlFor(resource: string) {
   return config.serverUrl + resource;
 }
 
-function handleError(error, propagateError, endpoint) {
+// Todo: Middleware
+function handleError(error, propagateError, endpoint): Thunk<*> {
   return dispatch => {
     const statusCode = error.response && error.response.status;
     if (statusCode) {
@@ -39,7 +45,7 @@ function handleError(error, propagateError, endpoint) {
 type CallAPIOptions = {
   types: AsyncActionType,
   endpoint: string,
-  method?: 'GET' | 'POST' | 'PUT' | 'DELETE',
+  method?: HttpMethod,
   headers?: { [key: string]: string },
   schema?: Schema,
   body?: Object,
@@ -81,8 +87,9 @@ export default function callAPI({
   cacheSeconds = 10,
   propagateError = false,
   disableOptimistic = false,
-  requiresAuthentication = true
-}: CallAPIOptions): Thunk<*, *> {
+  requiresAuthentication = true,
+  mapper
+}: CallAPIOptions): Thunk<Promise<?Action>> {
   return (dispatch, getState) => {
     const methodUpperCase = method.toUpperCase();
     const shouldUseCache = methodUpperCase === 'GET' || useCache;
@@ -101,7 +108,7 @@ export default function callAPI({
       shouldUseCache &&
       !isRequestNeeded(state, endpoint, cacheSeconds)
     ) {
-      return Promise.resolve('Request skipped');
+      return Promise.resolve(null);
     }
 
     const jwt = state.auth.token;
@@ -109,15 +116,25 @@ export default function callAPI({
       requestOptions.headers.Authorization = `JWT ${jwt}`;
     }
 
-    function normalizeJsonResponse(jsonResponse = {}) {
-      const { results, actionGrant } = jsonResponse;
-      const payload = Array.isArray(results) ? results : jsonResponse;
-      return schema
-        ? {
-            ...normalize(payload, schema),
-            actionGrant
-          }
-        : payload;
+    function normalizeJsonResponse(response: HttpResponse<*>): any {
+      const jsonData = response.jsonData;
+
+      if (!jsonData) {
+        return [];
+      }
+
+      const { results, actionGrant } = jsonData;
+
+      const payload = Array.isArray(results) ? results : jsonData;
+
+      if (schema) {
+        return {
+          ...normalize(payload, schema),
+          actionGrant
+        };
+      }
+
+      return payload;
     }
 
     // @todo: better id gen (cuid or something)
@@ -131,6 +148,11 @@ export default function callAPI({
           })
         : null;
 
+    const promise: Promise<HttpResponse<*>> = fetchJSON(
+      urlFor(endpoint),
+      requestOptions
+    );
+
     return dispatch({
       types,
       payload: optimisticPayload,
@@ -141,8 +163,8 @@ export default function callAPI({
         success: shouldUseCache && types.SUCCESS,
         body
       },
-      promise: fetchJSON(urlFor(endpoint), requestOptions)
-        .then(response => normalizeJsonResponse(response.jsonData))
+      promise: promise
+        .then(response => normalizeJsonResponse(response))
         .catch(error => dispatch(handleError(error, propagateError, endpoint)))
     });
   };
