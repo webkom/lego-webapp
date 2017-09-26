@@ -8,15 +8,16 @@ import 'app/styles/icomoon.css';
 import React from 'react';
 import { Router } from 'react-router';
 import { Provider } from 'react-redux';
+import type { Store } from 'app/types';
 
 type Props = {
-  store: Object
+  store: Store
 };
 
 const Root = (props: Props) => {
   const { store, ...restProps } = props;
   return (
-    <Provider {...{ store }}>
+    <Provider store={store}>
       <Router {...restProps} />
     </Provider>
   );

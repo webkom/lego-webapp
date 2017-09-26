@@ -43,7 +43,8 @@ type $ExtractFunctionReturn = <V>(v: (...args: any) => V) => V;
 
 export type State = $ObjMap<Reducers, $ExtractFunctionReturn>;
 
-export type Reducer = (state: State, action: Action) => State;
+// Todo: remove any
+export type Reducer = any; // (state: State, action: Action) => State;
 
 export type Store = ReduxStore<State, Action, Dispatch<*>>;
 
