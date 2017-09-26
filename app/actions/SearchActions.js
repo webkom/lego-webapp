@@ -21,7 +21,7 @@ export function autocomplete(query: string, filter?: Array<string>): Thunk<*> {
       callAPI({
         endpoint: '/search-autocomplete/',
         types: Search.AUTOCOMPLETE,
-        method: 'post',
+        method: 'POST',
         body: {
           query,
           types: filter
@@ -31,7 +31,7 @@ export function autocomplete(query: string, filter?: Array<string>): Thunk<*> {
           errorMessage: 'Autofyll feilet'
         }
       })
-    ).then(res => selectAutocomplete(res.payload));
+    ).then(action => selectAutocomplete(action ? action.payload : []));
   };
 }
 

@@ -60,7 +60,7 @@ export function login(
     });
 }
 
-export function logout(): Thunk<*> {
+export function logout(): Thunk<void> {
   return dispatch => {
     removeToken();
     dispatch({ type: User.LOGOUT });
@@ -138,7 +138,12 @@ export function changePassword({
         }
       })
     ).then(action => {
-      dispatch(push(`/users/${action.payload.result || 'me'}`));
+      dispatch(
+        push(
+          `/users/${(action && action.payload && action.payload.result) ||
+            'me'}`
+        )
+      );
       dispatch(
         addNotification({
           message: 'Passordet ble endret',
@@ -154,7 +159,10 @@ export function updatePicture({ picture }: { picture: File }): Thunk<*> {
     return dispatch(uploadFile({ file: picture })).then(action =>
       dispatch(
         updateUser(
-          { username, profilePicture: action.meta.fileToken },
+          {
+            username,
+            profilePicture: action && action.meta ? action.meta.fileToken : null
+          },
           { noRedirect: true }
         )
       )
@@ -185,7 +193,7 @@ export function refreshToken(token: string) {
   return callAPI({
     types: User.LOGIN,
     endpoint: '//authorization/token-auth/refresh/',
-    method: 'post',
+    method: 'POST',
     body: { token }
   });
 }
@@ -205,7 +213,7 @@ export function loginWithExistingToken(token: string): Thunk<*> {
 
     if (expirationDate.isSame(now, 'day')) {
       return dispatch(refreshToken(token))
-        .then(action => saveToken(action.payload))
+        .then(action => action && saveToken(action.payload))
         .catch(err => {
           removeToken();
           throw err;
@@ -285,6 +293,7 @@ export function createUser(token: string, user: string): Thunk<*> {
         }
       })
     ).then(action => {
+      if (!action || !action.payload) return;
       const { user, token } = action.payload;
       saveToken(token);
 
