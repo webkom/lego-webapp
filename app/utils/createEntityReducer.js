@@ -5,20 +5,19 @@ import { get, union, isEmpty } from 'lodash';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
 
-import type { ActionTypeObject } from 'app/utils/promiseMiddleware';
-import type { Reducer } from 'app/types';
+import type { Reducer, AsyncActionType } from 'app/types';
 
 type EntityReducerOptions = {
   key: string,
   types: {
-    fetch?: ActionTypeObject,
-    mutate?: ActionTypeObject
+    fetch?: AsyncActionType,
+    mutate?: AsyncActionType
   },
-  mutate?: Reducer<*, *>,
+  mutate?: Reducer,
   initialState?: Object
 };
 
-export function fetching(fetchType?: ActionTypeObject) {
+export function fetching(fetchType?: AsyncActionType) {
   return (state: any, action: any) => {
     if (!fetchType) {
       return state;
@@ -40,7 +39,7 @@ export function fetching(fetchType?: ActionTypeObject) {
 
 const isNumber = id => !isNaN(Number(id)) && !isNaN(parseInt(id, 10));
 
-export function entities(key: string, fetchType?: ActionTypeObject) {
+export function entities(key: string, fetchType?: AsyncActionType) {
   return (
     state: any = {
       actionGrant: [],
@@ -72,7 +71,7 @@ export function entities(key: string, fetchType?: ActionTypeObject) {
   };
 }
 
-export function optimistic(mutateType?: ActionTypeObject) {
+export function optimistic(mutateType?: AsyncActionType) {
   return (state: any, action: any) => {
     if (
       !mutateType ||

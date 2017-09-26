@@ -187,11 +187,12 @@ export function addPictures(galleryId: number, files: []): Thunk<*> {
   return dispatch =>
     Promise.all(
       files.map(file =>
-        dispatch(uploadFile({ file })).then(action =>
-          dispatch(
+        dispatch(uploadFile({ file })).then(action => {
+          if (!action || !action.meta) return;
+          return dispatch(
             addPicture({ galleryId, file: action.meta.fileToken, active: true })
-          )
-        )
+          );
+        })
       )
     );
 }

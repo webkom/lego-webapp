@@ -7,11 +7,9 @@ import fetchJSON, {
   type HttpResponse
 } from 'app/utils/fetchJSON';
 import config from '../config';
-import type { Thunk } from 'app/types';
 import { logout } from 'app/actions/UserActions';
 import isRequestNeeded from 'app/utils/isRequestNeeded';
 import { setStatusCode } from './RoutingActions';
-import { FetchHistory } from './ActionTypes';
 import type { AsyncActionType, Action, Thunk } from 'app/types';
 
 function urlFor(resource: string) {
@@ -48,10 +46,10 @@ type CallAPIOptions = {
   method?: HttpMethod,
   headers?: { [key: string]: string },
   schema?: Schema,
-  body?: Object,
+  body?: Object | string,
   json?: boolean,
   meta?: { [key: string]: mixed },
-  files?: Array<string>,
+  files?: Array<any>,
   force?: boolean,
   useCache?: boolean,
   cacheSeconds?: number,
@@ -140,7 +138,7 @@ export default function callAPI({
     // @todo: better id gen (cuid or something)
     const optimisticId = Math.floor(Date.now() * Math.random() * 1000);
     const optimisticPayload =
-      !disableOptimistic && body
+      !disableOptimistic && body && typeof body === 'object'
         ? normalizeJsonResponse({
             id: optimisticId,
             __persisted: false,

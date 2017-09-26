@@ -16,7 +16,7 @@ export type HttpResponse<T> = {
 export type HttpRequestOptions = {
   method?: HttpMethod,
   headers: { [key: string]: string },
-  body?: Object,
+  body?: Object | string,
   json?: boolean,
   files?: Array<string>,
   timeout?: number,

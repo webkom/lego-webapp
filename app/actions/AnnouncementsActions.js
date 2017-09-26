@@ -5,6 +5,7 @@ import { Announcements } from './ActionTypes';
 import { announcementsSchema } from 'app/reducers';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { reset } from 'redux-form';
+import type { Thunk } from 'app/types';
 
 export function fetchAll() {
   return callAPI({
@@ -18,18 +19,20 @@ export function fetchAll() {
   });
 }
 
-export function createAnnouncement({
-  message,
-  users,
-  groups,
-  events,
-  meetings,
-  send
-}) {
+export function createAnnouncement(
+  {
+    message,
+    users,
+    groups,
+    events,
+    meetings,
+    send
+  }: Object /*AnnouncementModel*/
+): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('AnnouncementsCreate'));
 
-    dispatch(
+    return dispatch(
       callAPI({
         types: Announcements.CREATE,
         endpoint: '/announcements/',
@@ -47,11 +50,11 @@ export function createAnnouncement({
         }
       })
     )
-      .then(result => {
+      .then(action => {
         dispatch(stopSubmit('AnnouncementsCreate'));
         dispatch(reset('announcementsList'));
-        if (send) {
-          dispatch(sendAnnouncement(result.payload.result));
+        if (send && action && action.payload) {
+          dispatch(sendAnnouncement(action.payload.result));
         }
       })
       .catch(action => {
@@ -61,7 +64,7 @@ export function createAnnouncement({
   };
 }
 
-export function sendAnnouncement(announcementId) {
+export function sendAnnouncement(announcementId: number) {
   return callAPI({
     types: Announcements.SEND,
     endpoint: `/announcements/${announcementId}/send/`,
@@ -73,18 +76,14 @@ export function sendAnnouncement(announcementId) {
   });
 }
 
-export function deleteAnnouncement(announcementId) {
-  return dispatch => {
-    dispatch(
-      callAPI({
-        types: Announcements.DELETE,
-        endpoint: `/announcements/${announcementId}/`,
-        method: 'DELETE',
-        meta: {
-          announcementId,
-          errorMessage: 'Sletting av kunngjøringer feilet'
-        }
-      })
-    );
-  };
+export function deleteAnnouncement(announcementId: number) {
+  return callAPI({
+    types: Announcements.DELETE,
+    endpoint: `/announcements/${announcementId}/`,
+    method: 'DELETE',
+    meta: {
+      announcementId,
+      errorMessage: 'Sletting av kunngjøringer feilet'
+    }
+  });
 }

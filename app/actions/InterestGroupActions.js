@@ -51,15 +51,17 @@ export function createInterestGroup(group: Object): Thunk<*> {
           errorMessage: 'Opprettelse av interessegruppe feilet'
         }
       })
-    ).then(res => {
-      const group = res.payload.entities.interestGroups[res.payload.result];
+    ).then(action => {
+      if (!action || !action.payload || !action.payload.entities) return;
+      const group =
+        action.payload.entities.interestGroups[action.payload.result];
       dispatch(push(`/interestgroups/${group.id}`));
     });
   };
 }
 
 export function removeInterestGroup(id: string): Thunk<*> {
-  return dispatch => {
+  return dispatch =>
     dispatch(
       callAPI({
         types: InterestGroup.REMOVE,
@@ -71,12 +73,11 @@ export function removeInterestGroup(id: string): Thunk<*> {
         }
       })
     ).then(() => dispatch(push('/interestgroups/')));
-  };
 }
 
 export function editInterestGroup(group: Object): Thunk<*> {
   const { id } = group;
-  return dispatch => {
+  return dispatch =>
     dispatch(
       callAPI({
         types: InterestGroup.UPDATE,
@@ -90,7 +91,6 @@ export function editInterestGroup(group: Object): Thunk<*> {
         }
       })
     ).then(_ => dispatch(push(`/interestgroups/${group.id}`)));
-  };
 }
 
 export function joinInterestGroup(
@@ -98,7 +98,7 @@ export function joinInterestGroup(
   user: Object,
   role: string = 'member'
 ): Thunk<*> {
-  return dispatch => {
+  return dispatch =>
     dispatch(
       callAPI({
         types: Membership.JOIN_GROUP,
@@ -117,7 +117,6 @@ export function joinInterestGroup(
         }
       })
     );
-  };
 }
 
 export function leaveInterestGroup(
@@ -138,5 +137,4 @@ export function leaveInterestGroup(
         }
       })
     );
-  };
 }
