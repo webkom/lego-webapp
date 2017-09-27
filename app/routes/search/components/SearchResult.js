@@ -17,7 +17,7 @@ const SerachResult = ({ result }: Props) => (
     <div>
       <Link to={result.link}>
         <h3 className={styles.searchResultTitle}>
-          {result.label}{' '}
+          {result.label}
           {result.icon && (
             <Icon className={styles.searchResultItemIcon} name={result.icon} />
           )}

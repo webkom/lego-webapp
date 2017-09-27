@@ -21,6 +21,10 @@
   width: 300px;
 }
 
+.metaDescriptor {
+  margin-right: 5px;
+}
+
 .coverImage {
   width: 100%;
   height: 300px;

@@ -249,7 +249,7 @@ export default class BdbPage extends Component {
           className={styles.optionsHeader}
           style={{ cursor: 'pointer', margin: '15px 0' }}
         >
-          Valg{' '}
+          <span style={{ marginRight: '5px' }}>Valg</span>
           {this.state.displayOptions ? (
             <i className="fa fa-caret-down" />
           ) : (
@@ -277,7 +277,7 @@ export default class BdbPage extends Component {
               name="checkmark"
               size={30}
               style={{ color: 'green', marginBottom: '-10px' }}
-            />{' '}
+            />
             Lagret!
           </div>
         )}

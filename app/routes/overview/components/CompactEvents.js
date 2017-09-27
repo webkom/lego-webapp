@@ -43,7 +43,7 @@ export default class CompactEvents extends Component {
                   marginRight: '10px'
                 }}
               >
-                <i className="fa fa-circle" />{' '}
+                <i className="fa fa-circle" />
               </span>
               <span>
                 <Link to={`/events/${event.id}`}>
