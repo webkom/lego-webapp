@@ -68,6 +68,7 @@ const ContactForm = (props: Props) => {
       <Field
         label="Send som anonym avsender"
         name="anonymous"
+        normalize={v => !!v}
         component={CheckBox.Field}
         readOnly={!props.loggedIn}
         disabled={!props.loggedIn}
