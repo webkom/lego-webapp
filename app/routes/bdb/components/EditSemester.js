@@ -87,7 +87,7 @@ export default class EditSemester extends Component {
         <i>
           <Link to={`/bdb/${company.id}`}>{company.name}</Link> sin status for
           <b>
-            {semesterStatus.semester === 0 ? ' Vår' : ' Høst'}{' '}
+            {semesterStatus.semester === 'spring' ? ' Vår ' : ' Høst '}
             {semesterStatus.year}
           </b>
         </i>
@@ -101,7 +101,7 @@ export default class EditSemester extends Component {
           <div className={styles.leftSection}>
             <form onSubmit={handleSubmit(this.onSubmit)}>
               <Field
-                placeholder={'Kontrakt for dette semesteret'}
+                placeholder="Kontrakt for dette semesteret"
                 autoFocus={autoFocus}
                 name="contract"
                 component={TextInput.Field}

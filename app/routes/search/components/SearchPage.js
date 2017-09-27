@@ -54,10 +54,9 @@ class SearchPage extends Component {
           {results.length === 0 ? (
             <EmptyState icon="glasses-outline">
               <h1>
-                Søket <em style={{ fontWeight: 100 }}>
-                  {this.state.query}
-                </em>{' '}
-                matchet ingen objekter.
+                Søket
+                <em style={{ fontWeight: 100 }}>{this.state.query}</em> matchet
+                ingen objekter.
               </h1>
             </EmptyState>
           ) : (

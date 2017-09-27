@@ -22,7 +22,10 @@ const Event = ({
     key={id}
     render={() => (
       <div className={styles.cell}>
-        <Circle color={colorForEvent(eventType)} />{' '}
+        <Circle
+          color={colorForEvent(eventType)}
+          style={{ marginRight: '5px' }}
+        />
         <Link to={`/events/${id}`} title={title}>
           {title}
         </Link>

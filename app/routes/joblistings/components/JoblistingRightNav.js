@@ -102,7 +102,7 @@ export default class JoblistingsRightNav extends Component {
                   query: this.handleQuery('sort', 'company')
                 }}
               >
-                Bedrift{' '}
+                Bedrift
               </Link>
               <Link
                 to={{

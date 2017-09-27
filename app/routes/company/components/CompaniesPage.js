@@ -20,7 +20,7 @@ const CompaniesPage = ({ companies }: Props) => {
       <p>
         {companies.map((company, id) => (
           <Link key={id} to={`/companies/${company.id}`}>
-            {company.name}{' '}
+            {company.name}
           </Link>
         ))}
       </p>

@@ -36,6 +36,24 @@ const JoblistingDetail = ({
     return <LoadingIndicator loading />;
   }
 
+  const companyLink = (
+    <Link to={`/companies/${joblisting.company.id}`} className={styles.company}>
+      {joblisting.company.name}
+    </Link>
+  );
+
+  const deadline = (
+    <strong>
+      <Time time={joblisting.deadline} format="ll HH:mm" />
+    </strong>
+  );
+
+  const applicationUrl = (
+    <a href={`${joblisting.applicationUrl}`} className={styles.applicationUrl}>
+      {joblisting.applicationUrl}
+    </a>
+  );
+
   return (
     <div className={styles.root}>
       <div className={styles.coverImage}>
@@ -55,32 +73,9 @@ const JoblistingDetail = ({
             <li>
               <h3>Generell info:</h3>
             </li>
-            <li>
-              Bedrift:{' '}
-              <Link
-                to={`/companies/${joblisting.company.id}`}
-                className={styles.company}
-              >
-                {joblisting.company.name}
-              </Link>
-            </li>
-            <li>
-              Søknadsfrist:{' '}
-              <strong>
-                <Time time={joblisting.deadline} format="ll HH:mm" />
-              </strong>
-            </li>
-            {joblisting.applicationUrl && (
-              <li>
-                Søk her:{' '}
-                <a
-                  href={`${joblisting.applicationUrl}`}
-                  className={styles.applicationUrl}
-                >
-                  {joblisting.applicationUrl}
-                </a>
-              </li>
-            )}
+            <li>Bedrift: {companyLink}</li>
+            <li>Søknadsfrist: {deadline}</li>
+            {joblisting.applicationUrl && <li>Søk her: {applicationUrl}</li>}
             <br />
             <li>{jobType(joblisting.jobType)}</li>
             <Year joblisting={joblisting} />

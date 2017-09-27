@@ -33,12 +33,11 @@ function MeetingListItem({ meeting, userId }) {
 
         <div>
           <span>
-            Deltakere:&nbsp;
+            Deltakere:{' '}
             {
               meeting.invitations.filter(invite => invite.status === 1).length
             }{' '}
-            av&nbsp;
-            {meeting.invitations.length} personer deltar
+            av {meeting.invitations.length} personer deltar
           </span>
         </div>
 
