@@ -14,7 +14,7 @@ export function fetchAll() {
     endpoint: '/joblistings/',
     schema: [joblistingsSchema],
     meta: {
-      errorMessage: 'Fetching joblistings failed'
+      errorMessage: 'Henting av jobbannonser failet'
     },
     propagateError: true
   });
@@ -26,7 +26,7 @@ export function fetchJoblisting(id: number) {
     endpoint: `/joblistings/${id}/`,
     schema: joblistingsSchema,
     meta: {
-      errorMessage: 'Fetching joblisting failed'
+      errorMessage: 'Henting av jobbannonse feilet'
     },
     propagateError: true
   });
@@ -41,7 +41,7 @@ export function deleteJoblisting(id: number): Thunk<*> {
         method: 'DELETE',
         meta: {
           id,
-          errorMessage: 'Deleting joblisting failed'
+          errorMessage: 'Sletting av jobbannonse feilet'
         }
       })
     ).then(() => {
@@ -90,7 +90,7 @@ export function createJoblisting({
         },
         schema: joblistingsSchema,
         meta: {
-          errorMessage: 'Creating joblisting failed'
+          errorMessage: 'Opprettelse av jobbannonse feilet'
         }
       })
     )
@@ -147,7 +147,7 @@ export function editJoblisting({
         },
         schema: joblistingsSchema,
         meta: {
-          errorMessage: 'Editing joblisting failed'
+          errorMessage: 'Endring av jobbannonse feilet'
         }
       })
     )

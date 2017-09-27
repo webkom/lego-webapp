@@ -14,7 +14,7 @@ export function fetchEvent(eventId: string) {
     endpoint: `/events/${eventId}/`,
     schema: eventSchema,
     meta: {
-      errorMessage: 'Fetching event failed'
+      errorMessage: 'Henting av hendelse feilet'
     },
     propagateError: true
   });
@@ -29,7 +29,7 @@ export function fetchAll({ dateAfter, dateBefore }: Object = {}) {
     })}`,
     schema: [eventSchema],
     meta: {
-      errorMessage: 'Fetching events failed'
+      errorMessage: 'Henting av hendelser feilet'
     },
     propagateError: true
   });
@@ -41,7 +41,7 @@ export function fetchAdministrate(eventId: string) {
     endpoint: `/events/${eventId}/administrate/`,
     schema: eventAdministrateSchema,
     meta: {
-      errorMessage: 'Fetching registrations failed'
+      errorMessage: 'Henting av registreringer feilet'
     }
   });
 }
@@ -57,7 +57,7 @@ export function createEvent(event: Object): Thunk<*> {
         schema: eventSchema,
         disableOptimistic: true,
         meta: {
-          errorMessage: 'Creating event failed'
+          errorMessage: 'Opprettelse av hendelse feilet'
         }
       })
     ).then(res => dispatch(push(`/events/${res.payload.result}/`)));
@@ -72,7 +72,7 @@ export function editEvent(event: Object): Thunk<*> {
         method: 'PUT',
         body: event,
         meta: {
-          errorMessage: 'Editing event failed'
+          errorMessage: 'Endring av hendelse feilet'
         }
       })
     ).then(() => dispatch(push(`/events/${event.id}`)));
@@ -87,7 +87,7 @@ export function deleteEvent(eventId: number): Thunk<*> {
         method: 'DELETE',
         meta: {
           id: eventId,
-          errorMessage: 'Deleting event failed'
+          errorMessage: 'Sletting av hendelse feilet'
         }
       })
     ).then(() => {
@@ -107,7 +107,7 @@ export function setCoverPhoto(id: number, token: string): Thunk<*> {
       cover: token
     },
     meta: {
-      errorMessage: 'Editing cover photo failed'
+      errorMessage: 'Endring av cover bilde feilet'
     }
   });
 }
@@ -127,7 +127,7 @@ export function register(
     },
     meta: {
       id: eventId,
-      errorMessage: 'Registering to event failed'
+      errorMessage: 'Registering til hendelse feilet'
     }
   });
 }
@@ -143,7 +143,7 @@ export function unregister(
     method: 'delete',
     body: {},
     meta: {
-      errorMessage: 'Unregistering from event failed',
+      errorMessage: 'Avregistrering fra hendelse feilet',
       admin,
       id: Number(registrationId)
     }
@@ -168,7 +168,7 @@ export function adminRegister(
       admin_reason: reason
     },
     meta: {
-      errorMessage: 'Admin register failed'
+      errorMessage: 'Admin registrering feilet'
     }
   });
 }
@@ -182,7 +182,7 @@ export function payment(eventId: number, token: string) {
       token
     },
     meta: {
-      errorMessage: 'Payment failed'
+      errorMessage: 'Betaling feilet'
     }
   });
 }
@@ -202,7 +202,7 @@ export function updateFeedback(
           feedback
         },
         meta: {
-          errorMessage: 'Feedback update failed'
+          errorMessage: 'Tilbakemelding oppdatering feilet'
         }
       })
     ).then(() => dispatch(addNotification({ message: 'Feedback updated' })));
@@ -224,7 +224,7 @@ export function updatePresence(
           presence
         },
         meta: {
-          errorMessage: 'Presence update failed'
+          errorMessage: 'Tilstedeværelse oppdatering feilet'
         }
       })
     ).then(() => dispatch(addNotification({ message: 'Presence updated' })));
@@ -246,7 +246,7 @@ export function updatePayment(
           chargeStatus
         },
         meta: {
-          errorMessage: 'Presence update failed'
+          errorMessage: 'Oppdatering av betaling feilet'
         }
       })
     ).then(() => dispatch(addNotification({ message: 'Payment updated' })));
@@ -265,7 +265,7 @@ export function follow(userId: number, eventId: number): Thunk<*> {
           follower: userId
         },
         meta: {
-          errorMessage: 'Failed to register interest'
+          errorMessage: 'Registering av interesse feilet'
         }
       })
     );
@@ -281,7 +281,7 @@ export function unfollow(followId: number, eventId: number): Thunk<*> {
         method: 'DELETE',
         meta: {
           eventId,
-          errorMessage: 'Failed to unregister interest'
+          errorMessage: 'Avregistering fra interesse feilet'
         }
       })
     );
@@ -296,7 +296,7 @@ export function isUserFollowing(eventId: number, userId: number): Thunk<*> {
         endpoint: `/followers-event/?target=${eventId}&follower=${userId}`,
         method: 'GET',
         meta: {
-          errorMessage: 'Failed to get event followers'
+          errorMessage: 'Henting av hendelse følgere feilet'
         }
       })
     );

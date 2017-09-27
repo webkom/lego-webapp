@@ -8,7 +8,7 @@ export function fetchNotificationAlternatives() {
     types: NotificationSettings.FETCH_ALTERNATIVES,
     endpoint: '/notification-settings/alternatives/',
     meta: {
-      errorMessage: 'Fetching notification alternatives failed.'
+      errorMessage: 'Henting av varslingsalternativer feilet'
     },
     propagateError: true
   });
@@ -19,7 +19,7 @@ export function fetchNotificationSettings() {
     types: NotificationSettings.FETCH,
     endpoint: '/notification-settings/',
     meta: {
-      errorMessage: 'Fetching notification settings failed.'
+      errorMessage: 'Henting av varslingsintillinger feilet'
     },
     propagateError: true
   });
@@ -39,7 +39,7 @@ export function updateNotificationSetting(
       channels
     },
     meta: {
-      errorMessage: 'Updating notification settings failed.'
+      errorMessage: 'Oppdatering av varslingsintillinger feilet'
     }
   });
 }

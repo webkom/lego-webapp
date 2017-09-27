@@ -48,7 +48,7 @@ export function fetchGroup(groupId: number) {
     endpoint: `/groups/${groupId}/`,
     schema: groupSchema,
     meta: {
-      errorMessage: 'Fetching group failed'
+      errorMessage: 'Henting av gruppe feilet'
     },
     propagateError: true
   });
@@ -60,7 +60,7 @@ export function fetchAll() {
     endpoint: '/groups/',
     schema: [groupSchema],
     meta: {
-      errorMessage: 'Fetching groups failed'
+      errorMessage: 'Henting av grupper feilet'
     },
     propagateError: true
   });
@@ -80,7 +80,7 @@ export function updateGroup({
     body: updates,
     schema: groupSchema,
     meta: {
-      errorMessage: 'Updating group failed'
+      errorMessage: 'Oppdatering av grupper feilet'
     }
   });
 }
