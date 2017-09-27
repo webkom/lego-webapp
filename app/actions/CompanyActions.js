@@ -2,14 +2,19 @@
 
 import { Company, Event } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
-import { companySchema, eventSchema } from 'app/reducers';
+import {
+  companySchema,
+  companySemesterSchema,
+  eventSchema
+} from 'app/reducers';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 import type { Thunk } from 'app/types';
+import { addNotification } from 'app/actions/NotificationActions';
 
 export function fetchAll() {
   return callAPI({
-    types: Company.FETCH,
+    types: Company.FETCH_ALL,
     endpoint: '/companies/',
     schema: [companySchema],
     meta: {
@@ -31,17 +36,20 @@ export function fetch(companyId: number): Thunk<*> {
         },
         propagateError: true
       })
-    ).then(() =>
-      dispatch(
-        callAPI({
-          types: Event.FETCH,
-          endpoint: `/events/?company=${companyId}`,
-          schema: [eventSchema],
-          meta: {
-            errorMessage: 'Fetching assosiated events failed'
-          }
-        })
-      )
+    );
+}
+
+export function fetchEventsForCompany(companyId) {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: Event.FETCH,
+        endpoint: `/events/?company=${companyId}`,
+        schema: [eventSchema],
+        meta: {
+          errorMessage: 'Fetching assosiated events failed'
+        }
+      })
     );
 }
 
@@ -64,6 +72,7 @@ export function addCompany(data: Object): Thunk<*> {
       .then(action => {
         const id = action.payload.result;
         dispatch(stopSubmit('company'));
+        dispatch(addNotification({ message: 'Bedrift lagt til.' }));
         dispatch(push(`/bdb/${id}`));
       })
       .catch();
@@ -87,6 +96,7 @@ export function editCompany({ companyId, ...data }: Object): Thunk<*> {
       })
     ).then(() => {
       dispatch(stopSubmit('company'));
+      dispatch(addNotification({ message: 'Bedrift endret.' }));
       dispatch(push(`/bdb/${companyId}/`));
     });
   };
@@ -94,21 +104,18 @@ export function editCompany({ companyId, ...data }: Object): Thunk<*> {
 
 export function deleteCompany(companyId: number): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
         types: Company.DELETE,
         endpoint: `/companies/${companyId}/`,
-        method: 'delete',
+        method: 'DELETE',
         meta: {
-          companyId,
+          id: Number(companyId),
           errorMessage: 'Deleting company failed'
-        },
-        schema: companySchema
+        }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
+      dispatch(addNotification({ message: 'Bedrift slettet.' }));
       dispatch(push('/bdb/'));
     });
   };
@@ -121,20 +128,19 @@ export function addSemesterStatus(
   detail: boolean = false
 ): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
-        types: Company.ADD_SEMESTER,
+        types: Company.ADD_SEMESTER_STATUS,
         endpoint: `/companies/${companyId}/semester-statuses/`,
         method: 'post',
         body: data,
         meta: {
-          errorMessage: 'Adding semester status failed'
+          errorMessage: 'Adding semester status failed',
+          companyId
         }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
+      dispatch(addNotification({ message: 'Semester status lagt til.' }));
       if (detail) {
         dispatch(push(`/bdb/${companyId}/`));
       } else {
@@ -145,29 +151,24 @@ export function addSemesterStatus(
 }
 
 export function editSemesterStatus(
-  { companyId, semesterId, contactedStatus, contract }: Object,
+  { companyId, semesterStatusId, ...data }: Object,
   // TODO: change this to take in an object,
   // editSemesterStatus(something, false) really doesn't say much
   detail: boolean = false
 ): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
-        types: Company.EDIT_SEMESTER,
-        endpoint: `/companies/${companyId}/semester-statuses/${semesterId}/`,
+        types: Company.EDIT_SEMESTER_STATUS,
+        endpoint: `/companies/${companyId}/semester-statuses/${semesterStatusId}/`,
         method: 'PATCH',
-        body: {
-          contactedStatus,
-          contract
-        },
+        body: data,
         meta: {
           errorMessage: 'Editing semester status failed'
         }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
+      dispatch(addNotification({ message: 'Semester status endret.' }));
       if (detail) {
         dispatch(push(`/bdb/${companyId}/`));
       } else {
@@ -182,22 +183,19 @@ export function deleteSemesterStatus(
   semesterId: number
 ): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
-        types: Company.DELETE_SEMESTER,
+        types: Company.DELETE_SEMESTER_STATUS,
         endpoint: `/companies/${companyId}/semester-statuses/${semesterId}/`,
         method: 'delete',
         meta: {
           companyId,
           semesterId,
           errorMessage: 'Deleting semester status failed'
-        },
-        schema: companySchema
+        }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
+      dispatch(addNotification({ message: 'Semester Status slettet' }));
       dispatch(push(`/bdb/${companyId}/`));
     });
   };
@@ -222,8 +220,6 @@ export function addCompanyContact({
   phone
 }: Object): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
         types: Company.ADD_COMPANY_CONTACT,
@@ -240,7 +236,7 @@ export function addCompanyContact({
         }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
+      dispatch(addNotification({ message: 'Bedriftskontakt lagt til.' }));
       dispatch(push(`/bdb/${companyId}/`));
     });
   };
@@ -255,8 +251,6 @@ export function editCompanyContact({
   phone
 }: Object): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
         types: Company.EDIT_COMPANY_CONTACT,
@@ -269,12 +263,13 @@ export function editCompanyContact({
           phone
         },
         meta: {
-          errorMessage: 'Editing company contact failed'
+          errorMessage: 'Editing company contact failed',
+          companyId
         }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
-      dispatch(push(`bdb/${companyId}`));
+      dispatch(addNotification({ message: 'Bedriftskontakt endret.' }));
+      dispatch(push(`/bdb/${companyId}`));
     });
   };
 }
@@ -284,23 +279,51 @@ export function deleteCompanyContact(
   companyContactId: number
 ): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
         types: Company.DELETE_COMPANY_CONTACT,
         endpoint: `/companies/${companyId}/company-contacts/${companyContactId}/`,
-        method: 'delete',
+        method: 'DELETE',
         meta: {
           companyId,
           companyContactId,
           errorMessage: 'Deleting company contact failed'
-        },
-        schema: companySchema
+        }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
+      dispatch(addNotification({ message: 'Bedriftskontakt slettet.' }));
       dispatch(push(`/bdb/${companyId}/`));
     });
+  };
+}
+
+export function fetchSemesters() {
+  return callAPI({
+    types: Company.FETCH_SEMESTERS,
+    endpoint: '/company-semesters/',
+    schema: [companySemesterSchema],
+    meta: {
+      errorMessage: 'Fetching company semesters failed'
+    },
+    propagateError: true
+  });
+}
+
+export function addSemester({ year, semester }) {
+  return dispatch => {
+    return dispatch(
+      callAPI({
+        types: Company.ADD_SEMESTER,
+        endpoint: `/company-semesters/`,
+        method: 'post',
+        body: {
+          year,
+          semester
+        },
+        meta: {
+          errorMessage: 'Adding semester failed'
+        }
+      })
+    );
   };
 }

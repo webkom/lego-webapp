@@ -24,14 +24,14 @@ const iconComponent = (icon, bubbleClass, iconClass, link = undefined) => {
     return (
       <div className={bubbleClass}>
         <a href={httpCheck(link)} className={styles.iconLink}>
-          <Icon name={icon} className={iconClass} />
+          <Icon name={icon} className={iconClass} size={30} />
         </a>
       </div>
     );
   }
   return (
     <div className={bubbleClass}>
-      <Icon name={icon} className={iconClass} />
+      <Icon name={icon} className={iconClass} size={30} />
     </div>
   );
 };
@@ -40,11 +40,17 @@ const dataComponent = (dataClass, data, link = undefined) => {
   if (link) {
     return (
       <a href={httpCheck(link)}>
-        <span className={dataClass}>{data || '-'}</span>
+        <span className={dataClass}>
+          {data || '-'}
+        </span>
       </a>
     );
   }
-  return <span className={dataClass}>{data || '-'}</span>;
+  return (
+    <span className={dataClass}>
+      {data || '-'}
+    </span>
+  );
 };
 
 function InfoBubble({
