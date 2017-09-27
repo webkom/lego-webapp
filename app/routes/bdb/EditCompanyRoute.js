@@ -1,34 +1,32 @@
 import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import { compose } from 'redux';
-import { reduxForm } from 'redux-form';
 import { editCompany, fetch } from '../../actions/CompanyActions';
-import EditCompany from './components/EditCompany';
+import CompanyEditor from './components/CompanyEditor';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-
-function validateCompany(data) {
-  const errors = {};
-  if (!data.name) {
-    errors.name = 'Vennligst fyll ut dette feltet';
-  }
-  return errors;
-}
+import { uploadFile } from 'app/actions/FileActions';
+import { selectCompanyById } from 'app/reducers/companies';
 
 const mapStateToProps = (state, props) => {
-  const companyId = props.params.companyId;
-  const company = state.companies.byId[companyId];
+  const companyId = Number(props.params.companyId);
+  const company = selectCompanyById(state, { companyId });
+  const fetching = state.companies.fetching;
 
   return {
     company,
     companyId,
+    fetching,
     initialValues: company
       ? {
           name: company.name,
           description: company.description,
           adminComment: company.adminComment,
           website: company.website,
-          studentContact: company.studentContact,
+          studentContact: company.studentContact && {
+            value: Number(company.studentContact.id),
+            label: company.studentContact.fullName
+          },
           active: company.active ? 'true' : 'false',
           phone: company.phone,
           companyType: company.companyType,
@@ -39,7 +37,7 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { editCompany, fetch };
+const mapDispatchToProps = { submitFunction: editCompany, uploadFile };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
@@ -49,9 +47,5 @@ export default compose(
       componentWillReceiveProps: false
     }
   ),
-  connect(mapStateToProps, mapDispatchToProps),
-  reduxForm({
-    form: 'editCompany',
-    validate: validateCompany
-  })
-)(EditCompany);
+  connect(mapStateToProps, mapDispatchToProps)
+)(CompanyEditor);
