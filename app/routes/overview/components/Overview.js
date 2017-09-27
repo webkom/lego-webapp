@@ -132,7 +132,7 @@ export default class Overview extends Component {
   };
 
   render() {
-    const { events } = this.props;
+    const { events, feed, feedItems } = this.props;
 
     return (
       <Container>
@@ -142,7 +142,7 @@ export default class Overview extends Component {
             <CompactEvents events={events} />
             <PrimaryItem event={events[0]} />
           </Flex>
-          <Feed style={{ flex: 2 }} />
+          <Feed style={{ flex: 2 }} feed={feed} feedItems={feedItems} />
         </Flex>
         <Flex />
         <Flex padding={10}>

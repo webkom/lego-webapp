@@ -5,6 +5,7 @@ import type { AggregatedActivity } from './types';
 
 export const activityRenderers = {
   comment: require('./renders/comment'),
+  comment_reply: require('./renders/comment_reply'),
   meeting_invitation: require('./renders/meetingInvitation'),
   restricted_mail_sent: require('./renders/restrictedMail'),
   registration_bump: require('./renders/registrationBump'),

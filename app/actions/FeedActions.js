@@ -16,6 +16,17 @@ export function fetchUserFeed(userId: string) {
   });
 }
 
+export function fetchPersonalFeed() {
+  return callAPI({
+    types: Feed.FETCH,
+    endpoint: '/feed-personal/',
+    schema: [feedActivitySchema],
+    meta: {
+      feedId: 'personal'
+    }
+  });
+}
+
 export function fetchNotificationFeed() {
   return callAPI({
     types: Feed.FETCH,

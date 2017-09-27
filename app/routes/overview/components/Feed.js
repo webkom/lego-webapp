@@ -1,37 +1,49 @@
 import React from 'react';
+import { Link } from 'react-router';
 import styles from './Feed.css';
 
-const Feed = props => {
-  const items = [
-    {
-      who: 'Orhan',
-      what: 'started working for EY.'
-    },
-    {
-      who: 'Larsen',
-      what: 'made coffee.'
-    },
-    {
-      who: 'Sylliaas',
-      what: 'gave the grandis away.'
-    },
-    {
-      who: 'Donald John Trump',
-      what: 'did not make America great again.'
-    }
-  ];
+import { activityRenderers } from 'app/components/Feed';
+import type { AggregatedActivity } from 'app/components/Feed/types';
+import Time from 'app/components/Time';
 
+type Props = {
+  feedItems: Array<any>,
+  feed: Object
+};
+
+const FeedItem = (props: { activity: AggregatedActivity }) => {
+  const renders = activityRenderers[props.activity.verb];
+
+  if (renders) {
+    return (
+      <li className={styles.item}>
+        <div className={styles.icon}>{renders.icon(props.activity)}</div>
+        <div>
+          {renders.activityHeader(props.activity)}
+          <Time
+            time={props.activity.updatedAt}
+            wordsAgo
+            style={{ margin: '0', display: 'block' }}
+          />
+        </div>
+      </li>
+    );
+  }
+
+  return null;
+};
+
+const Feed = (props: Props) => {
   return (
     <div className={styles.root}>
-      <h2 className="u-ui-heading">Live updates</h2>
+      <div className={styles.header}>
+        <h2 className="u-ui-heading">Oppdateringer</h2>
+        <Link to="/timeline">Tidslinje →</Link>
+      </div>
       <div className={styles.content}>
         <ul>
-          {items.map((item, index) => (
-            <li className={styles.item} key={index}>
-              <a href="">
-                <strong>{item.who}</strong> {item.what}
-              </a>
-            </li>
+          {props.feedItems.map((activity, key) => (
+            <FeedItem activity={activity} key={key} />
           ))}
         </ul>
       </div>
