@@ -106,7 +106,7 @@ export default class AddSemester extends Component {
               <Field
                 autoFocus={autoFocus}
                 placeholder="År"
-                label={' '}
+                label=" "
                 name="year"
                 type="number"
                 component={TextInput.Field}
@@ -121,7 +121,7 @@ export default class AddSemester extends Component {
                       name="semester"
                       component={RadioButton.Field}
                       fieldStyle={{ width: '24px', marginBottom: 0 }}
-                      inputValue={'spring'}
+                      inputValue="spring"
                     />{' '}
                     Vår
                   </label>
@@ -132,7 +132,7 @@ export default class AddSemester extends Component {
                       name="semester"
                       component={RadioButton.Field}
                       fieldStyle={{ width: '24px', marginBottom: 0 }}
-                      inputValue={'autumn'}
+                      inputValue="autumn"
                     />{' '}
                     Høst
                   </label>
@@ -170,8 +170,8 @@ export default class AddSemester extends Component {
 
               <h3>Kontrakt</h3>
               <Field
-                placeholder={'Kontrakt for dette semesteret'}
-                label={' '}
+                placeholder="Kontrakt for dette semesteret"
+                label=" "
                 autoFocus={autoFocus}
                 name="contract"
                 component={TextInput.Field}

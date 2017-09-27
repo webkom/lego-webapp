@@ -86,17 +86,17 @@ const UserConfirmation = ({
             <Field
               label="Mann"
               component={RadioButton.Field}
-              inputValue={'male'}
+              inputValue="male"
             />
             <Field
               label="Kvinne"
               component={RadioButton.Field}
-              inputValue={'female'}
+              inputValue="female"
             />
             <Field
               label="Annet"
               component={RadioButton.Field}
-              inputValue={'other'}
+              inputValue="other"
             />
           </RadioButtonGroup>
           <Field
