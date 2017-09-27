@@ -131,7 +131,7 @@ export default class CompanyList extends Component {
                   name="arrow-back"
                   style={{ marginRight: '5px' }}
                   size={16}
-                />{' '}
+                />
                 Forrige år
               </td>
               <td />

@@ -66,9 +66,7 @@ export default class SemesterStatusContent extends Component {
                       height: '1px',
                       display: 'inline-block'
                     }}
-                  >
-                    {' '}
-                  </div>
+                  />
                 )}
                 {getStatusString(statusString)}
               </div>

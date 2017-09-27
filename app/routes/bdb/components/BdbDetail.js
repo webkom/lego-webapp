@@ -181,7 +181,7 @@ export default class BdbDetail extends Component {
               />
             )}
             <h1>
-              {company.name}{' '}
+              {company.name}
               {!company.active && (
                 <span style={{ color: 'red' }}> (Inaktiv bedrift)</span>
               )}
@@ -194,7 +194,7 @@ export default class BdbDetail extends Component {
               <InfoBubble
                 icon="briefcase"
                 data={company.companyType}
-                meta={'Type bedrift'}
+                meta="Type bedrift"
                 style={{ order: 0 }}
               />
               <InfoBubble

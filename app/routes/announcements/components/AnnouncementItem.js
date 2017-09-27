@@ -84,24 +84,22 @@ const AnnouncementItem = ({
         </Flex>
       </Flex>
       {!announcement.sent &&
-      actionGrant.includes('send') && (
-        <Flex className={styles.wrapperSendButton}>
-          <Button
-            className={styles.sendButton}
-            onClick={() => deleteAnnouncement(announcement.id)}
-          >
-            {' '}
-            Slett{' '}
-          </Button>
-          <Button
-            className={styles.sendButton}
-            onClick={() => sendAnnouncement(announcement.id)}
-          >
-            {' '}
-            Send{' '}
-          </Button>
-        </Flex>
-      )}
+        actionGrant.includes('send') && (
+          <Flex className={styles.wrapperSendButton}>
+            <Button
+              className={styles.sendButton}
+              onClick={() => deleteAnnouncement(announcement.id)}
+            >
+              Slett
+            </Button>
+            <Button
+              className={styles.sendButton}
+              onClick={() => sendAnnouncement(announcement.id)}
+            >
+              Send
+            </Button>
+          </Flex>
+        )}
     </Flex>
   );
 };

@@ -163,17 +163,17 @@ export default class EventDetail extends Component {
                 </li>
               )}
               <li>
-                <span>Hva </span>
+                <span className={styles.metaDescriptor}>Hva</span>
                 <strong>{EVENT_TYPE_TO_STRING(event.eventType)}</strong>
               </li>
               <li>
-                Starter{' '}
+                <span className={styles.metaDescriptor}>Starter</span>
                 <strong>
                   <Time time={event.startTime} format="DD.MM.YYYY HH:mm" />
                 </strong>
               </li>
               <li>
-                Slutter{' '}
+                <span className={styles.metaDescriptor}>Slutter</span>
                 <strong>
                   <Time time={event.endTime} format="DD.MM.YYYY HH:mm" />
                 </strong>
@@ -183,7 +183,7 @@ export default class EventDetail extends Component {
               </li>
               {event.activationTime && (
                 <li>
-                  Påmelding åpner{' '}
+                  Påmelding åpner
                   <strong>
                     <Time
                       time={event.activationTime}

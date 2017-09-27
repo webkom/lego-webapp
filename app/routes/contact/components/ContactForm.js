@@ -59,11 +59,12 @@ const ContactForm = (props: Props) => {
       <p>
         Du kan velge å sende meldingen med anonym avsender, HS vil ikke få vite
         hvem som har opprettet meldingen. HS vil da heller ikke ha mulighet til
-        å svare på meldingen.{' '}
-        {!props.loggedIn && (
-          <b>Du er ikke logget inn, din melding vil være anonym.</b>
-        )}
+        å svare på meldingen.
       </p>
+
+      {!props.loggedIn && (
+        <b>Du er ikke logget inn, din melding vil være anonym.</b>
+      )}
 
       <Field
         label="Send som anonym avsender"

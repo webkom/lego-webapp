@@ -186,11 +186,10 @@ export default class GalleryPictureModal extends Component {
                   <span>
                     <br />
                     <i>
-                      med{' '}
+                      med
                       {picture.taggees.map(taggee => (
                         <Link key={taggee.id} to={`/users/${taggee.username}`}>
-                          {' '}
-                          {taggee.fullName}{' '}
+                          <span> {taggee.fullName} </span>
                         </Link>
                       ))}
                     </i>
