@@ -59,14 +59,14 @@ class CompanyContactEditor extends Component {
           <div className={styles.leftSection}>
             <form onSubmit={handleSubmit(this.onSubmit)}>
               <Field
-                placeholder={'Navn'}
+                placeholder="Navn"
                 autoFocus={autoFocus}
                 name="name"
                 component={TextInput.Field}
               />
 
               <Field
-                placeholder={'Rolle'}
+                placeholder="Rolle"
                 autoFocus={autoFocus}
                 name="role"
                 component={TextInput.Field}
@@ -80,7 +80,7 @@ class CompanyContactEditor extends Component {
               />
 
               <Field
-                placeholder={'Telefonnummer'}
+                placeholder="Telefonnummer"
                 autoFocus={autoFocus}
                 name="phone"
                 component={TextInput.Field}

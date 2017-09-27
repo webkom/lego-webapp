@@ -75,7 +75,7 @@ export default class Quote extends Component {
                   <Dropdown
                     show={displayAdmin}
                     toggle={() => setDisplayAdmin(quote.id)}
-                    contentClassName={'adminDropdown2'}
+                    contentClassName="adminDropdown2"
                     triggerComponent={
                       <Icon
                         name="arrow-dropdown"

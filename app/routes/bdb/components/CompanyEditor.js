@@ -86,7 +86,7 @@ class CompanyEditor extends Component {
 
               <div className={styles.infoBubbles}>
                 <InfoBubble
-                  icon={'briefcase'}
+                  icon="briefcase"
                   data={
                     <Field
                       placeholder={'Type bedrift'}
@@ -101,10 +101,10 @@ class CompanyEditor extends Component {
                   style={{ order: 0 }}
                 />
                 <InfoBubble
-                  icon={'mail'}
+                  icon="mail"
                   data={
                     <Field
-                      placeholder={'Fakturamail'}
+                      placeholder="Fakturamail"
                       label={' '}
                       autoFocus={autoFocus}
                       name="paymentMail"
@@ -112,14 +112,14 @@ class CompanyEditor extends Component {
                       className={styles.editBubble}
                     />
                   }
-                  meta={'Fakturamail'}
+                  meta="Fakturamail"
                   style={{ order: 1 }}
                 />
                 <InfoBubble
-                  icon={'call'}
+                  icon="call"
                   data={
                     <Field
-                      placeholder={'Telefonnummer'}
+                      placeholder="Telefonnummer"
                       label={' '}
                       autoFocus={autoFocus}
                       name="phone"
@@ -127,17 +127,17 @@ class CompanyEditor extends Component {
                       className={styles.editBubble}
                     />
                   }
-                  meta={'Telefon'}
+                  meta="Telefon"
                   style={{ order: 2 }}
                 />
               </div>
 
               <div className={styles.infoBubbles}>
                 <InfoBubble
-                  icon={'at'}
+                  icon="at"
                   data={
                     <Field
-                      placeholder={'Nettside'}
+                      placeholder="Nettside"
                       label={' '}
                       autoFocus={autoFocus}
                       name="website"
@@ -145,15 +145,15 @@ class CompanyEditor extends Component {
                       className={styles.editBubble}
                     />
                   }
-                  meta={'Nettside'}
+                  meta="Nettside"
                   style={{ order: 0 }}
                 />
 
                 <InfoBubble
-                  icon={'home'}
+                  icon="home"
                   data={
                     <Field
-                      placeholder={'Adresse'}
+                      placeholder="Adresse"
                       label={' '}
                       autoFocus={autoFocus}
                       name="address"
@@ -161,14 +161,14 @@ class CompanyEditor extends Component {
                       className={styles.editBubble}
                     />
                   }
-                  meta={'Adresse'}
+                  meta="Adresse"
                   style={{ order: 1 }}
                 />
                 <InfoBubble
-                  icon={'person'}
+                  icon="person"
                   data={
                     <Field
-                      placeholder={'Studentkontakt'}
+                      placeholder="Studentkontakt"
                       label={' '}
                       autoFocus={autoFocus}
                       name="studentContact"
@@ -177,7 +177,7 @@ class CompanyEditor extends Component {
                       filter={['users.user']}
                     />
                   }
-                  meta={'Studentkontakt'}
+                  meta="Studentkontakt"
                   style={{ order: 2 }}
                 />
               </div>
