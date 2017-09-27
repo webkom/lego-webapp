@@ -142,7 +142,7 @@ function MeetingEditor({
         )}
 
         <Button disabled={pristine || submitting} submit>
-          {isEditPage ? 'Lagre møte' : 'Lag møte'}{' '}
+          {isEditPage ? 'Lagre møte' : 'Lag møte'}
         </Button>
       </Form>
     </div>

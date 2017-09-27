@@ -21,12 +21,13 @@ export function activityHeader(aggregatedActivity: AggregatedActivity) {
     return null;
   }
 
+  const toRender = joinValues(
+    meetings.map(meeting => contextRender[meeting.contentType](meeting))
+  );
+
   return (
     <b>
-      {contextRender[actor.contentType](actor)} inviterte deg til{' '}
-      {joinValues(
-        meetings.map(meeting => contextRender[meeting.contentType](meeting))
-      )}
+      {contextRender[actor.contentType](actor)} inviterte deg til {toRender}
     </b>
   );
 }

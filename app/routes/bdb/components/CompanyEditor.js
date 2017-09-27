@@ -67,8 +67,8 @@ class CompanyEditor extends Component {
                 img={company && company.logo}
               />
               <Field
-                placeholder={'Bedriftens navn'}
-                label={' '}
+                placeholder="Bedriftens navn"
+                label=" "
                 autoFocus={autoFocus}
                 name="name"
                 component={TextInput.Field}
@@ -76,8 +76,8 @@ class CompanyEditor extends Component {
               />
               <div className={styles.description}>
                 <Field
-                  placeholder={'Beskrivelse av bedriften'}
-                  label={' '}
+                  placeholder="Beskrivelse av bedriften"
+                  label=" "
                   autoFocus={autoFocus}
                   name="description"
                   component={TextEditor.Field}
@@ -89,15 +89,15 @@ class CompanyEditor extends Component {
                   icon="briefcase"
                   data={
                     <Field
-                      placeholder={'Type bedrift'}
-                      label={' '}
+                      placeholder="Type bedrift"
+                      label=" "
                       autoFocus={autoFocus}
                       name="companyType"
                       component={TextInput.Field}
                       className={styles.editBubble}
                     />
                   }
-                  meta={'Type bedrift'}
+                  meta="Type bedrift"
                   style={{ order: 0 }}
                 />
                 <InfoBubble
@@ -105,7 +105,7 @@ class CompanyEditor extends Component {
                   data={
                     <Field
                       placeholder="Fakturamail"
-                      label={' '}
+                      label=" "
                       autoFocus={autoFocus}
                       name="paymentMail"
                       component={TextInput.Field}
@@ -120,7 +120,7 @@ class CompanyEditor extends Component {
                   data={
                     <Field
                       placeholder="Telefonnummer"
-                      label={' '}
+                      label=" "
                       autoFocus={autoFocus}
                       name="phone"
                       component={TextInput.Field}
@@ -138,7 +138,7 @@ class CompanyEditor extends Component {
                   data={
                     <Field
                       placeholder="Nettside"
-                      label={' '}
+                      label=" "
                       autoFocus={autoFocus}
                       name="website"
                       component={TextInput.Field}
@@ -154,7 +154,7 @@ class CompanyEditor extends Component {
                   data={
                     <Field
                       placeholder="Adresse"
-                      label={' '}
+                      label=" "
                       autoFocus={autoFocus}
                       name="address"
                       component={TextInput.Field}
@@ -169,7 +169,7 @@ class CompanyEditor extends Component {
                   data={
                     <Field
                       placeholder="Studentkontakt"
-                      label={' '}
+                      label=" "
                       autoFocus={autoFocus}
                       name="studentContact"
                       component={SelectInput.AutocompleteField}
@@ -213,8 +213,8 @@ class CompanyEditor extends Component {
               <div className={styles.adminNote}>
                 <h3>Notat fra Bedkom</h3>
                 <Field
-                  placeholder={'Notat fra bedkom'}
-                  label={' '}
+                  placeholder="Notat fra bedkom"
+                  label=" "
                   autoFocus={autoFocus}
                   name="adminComment"
                   component={TextEditor.Field}

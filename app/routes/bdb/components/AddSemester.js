@@ -120,9 +120,9 @@ export default class AddSemester extends Component {
                     <Field
                       name="semester"
                       component={RadioButton.Field}
-                      fieldStyle={{ width: '24px', marginBottom: 0 }}
+                      fieldStyle={{ width: '24px', margin: '0 5px 0 0' }}
                       inputValue="spring"
-                    />{' '}
+                    />
                     Vår
                   </label>
                 </div>
@@ -131,9 +131,9 @@ export default class AddSemester extends Component {
                     <Field
                       name="semester"
                       component={RadioButton.Field}
-                      fieldStyle={{ width: '24px', marginBottom: 0 }}
+                      fieldStyle={{ width: '24px', margin: '0 5px 0 0' }}
                       inputValue="autumn"
-                    />{' '}
+                    />
                     Høst
                   </label>
                 </div>
