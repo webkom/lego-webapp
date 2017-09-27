@@ -61,7 +61,7 @@ function JoblistingEditor({
           <FlexColumn className={styles.des}>Bedrift: </FlexColumn>
           <FlexColumn className={styles.textfield}>
             <Field
-              placeholder={'Bedrift'}
+              placeholder="Bedrift"
               name="company"
               component={SelectInput.AutocompleteField}
               filter={['companies.company']}
@@ -95,7 +95,7 @@ function JoblistingEditor({
           <FlexColumn className={styles.des}>Arbeidssteder: </FlexColumn>
           <FlexColumn className={styles.textfield}>
             <Field
-              placeholder={'Arbeidssteder'}
+              placeholder="Arbeidssteder"
               name="workplaces"
               component={SelectInput.Field}
               options={places}

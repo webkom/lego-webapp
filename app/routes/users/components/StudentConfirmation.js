@@ -74,24 +74,24 @@ const StudentConfirmation = ({
             <Field
               label="Datateknologi"
               component={RadioButton.Field}
-              inputValue={'data'}
+              inputValue="data"
             />
             <Field
               label="Kommunikasjonsteknologi"
               component={RadioButton.Field}
-              inputValue={'komtek'}
+              inputValue="komtek"
             />
           </RadioButtonGroup>
           <RadioButtonGroup name="member" label="Vil du bli medlem i Abakus?">
             <Field
               label="Ja"
               component={RadioButton.Field}
-              inputValue={'true'}
+              inputValue="true"
             />
             <Field
               label="Nei"
               component={RadioButton.Field}
-              inputValue={'false'}
+              inputValue="false"
             />
           </RadioButtonGroup>
           <Field

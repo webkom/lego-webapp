@@ -192,45 +192,45 @@ export default class BdbDetail extends Component {
 
             <div className={styles.infoBubbles}>
               <InfoBubble
-                icon={'briefcase'}
+                icon="briefcase"
                 data={company.companyType}
                 meta={'Type bedrift'}
                 style={{ order: 0 }}
               />
               <InfoBubble
-                icon={'mail'}
+                icon="mail"
                 data={company.paymentMail}
-                meta={'Fakturamail'}
+                meta="Fakturamail"
                 style={{ order: 1 }}
               />
               <InfoBubble
-                icon={'call'}
+                icon="call"
                 data={company.phone}
-                meta={'Telefon'}
+                meta="Telefon"
                 style={{ order: 2 }}
               />
             </div>
 
             <div className={styles.infoBubbles}>
               <InfoBubble
-                icon={'at'}
+                icon="at"
                 data={company.website}
-                meta={'Nettside'}
+                meta="Nettside"
                 style={{ order: 0 }}
                 link={company.website}
               />
               <InfoBubble
-                icon={'home'}
+                icon="home"
                 data={company.address}
-                meta={'Adresse'}
+                meta="Adresse"
                 style={{ order: 1 }}
               />
               <InfoBubble
-                icon={'person'}
+                icon="person"
                 data={`${(company.studentContact &&
                   company.studentContact.fullName) ||
                   '-'}`}
-                meta={'Studentkontakt'}
+                meta="Studentkontakt"
                 style={{ order: 2 }}
               />
             </div>
