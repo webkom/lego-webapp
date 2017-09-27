@@ -12,7 +12,7 @@ export function fetchAll() {
     endpoint: '/announcements/',
     schema: [announcementsSchema],
     meta: {
-      errorMessage: 'Fetching announcements failed'
+      errorMessage: 'Henting av kunngjøringer feilet'
     },
     propagateError: true
   });
@@ -43,7 +43,7 @@ export function createAnnouncement({
         },
         schema: announcementsSchema,
         meta: {
-          errorMessage: 'Creating announcement failed'
+          errorMessage: 'Opprettelse av kunngjøringer feilet'
         }
       })
     )
@@ -67,7 +67,7 @@ export function sendAnnouncement(announcementId) {
     endpoint: `/announcements/${announcementId}/send/`,
     method: 'POST',
     meta: {
-      errorMessage: 'Sending announcement failed',
+      errorMessage: 'Sending av kunngjøringer feilet',
       announcementId
     }
   });
@@ -82,7 +82,7 @@ export function deleteAnnouncement(announcementId) {
         method: 'DELETE',
         meta: {
           announcementId,
-          errorMessage: 'Deleting announcement failed'
+          errorMessage: 'Sletting av kunngjøringer feilet'
         }
       })
     );

@@ -28,7 +28,7 @@ export function autocomplete(query: string, filter?: Array<string>): Thunk<*> {
         },
         meta: {
           query,
-          errorMessage: 'Autocomplete failed'
+          errorMessage: 'Autofyll feilet'
         }
       })
     ).then(res => selectAutocomplete(res.payload));
@@ -36,17 +36,49 @@ export function autocomplete(query: string, filter?: Array<string>): Thunk<*> {
 }
 
 export function search(query: string, types?: Array<string>): Thunk<*> {
-  return callAPI({
-    endpoint: '/search-search/',
-    types: Search.SEARCH,
-    method: 'post',
-    body: {
-      query,
-      types
-    },
-    meta: {
-      query,
-      errorMessage: 'Search failed'
+  return dispatch => {
+    if (!query) {
+      return Promise.resolve();
     }
-  });
+
+    return dispatch(
+      callAPI({
+        endpoint: '/search-search/',
+        types: Search.SEARCH,
+        method: 'post',
+        body: {
+          query,
+          types
+        },
+        meta: {
+          query,
+          errorMessage: 'Søk feilet'
+        }
+      })
+    );
+  };
+}
+
+export function mention(query: string): Thunk<*> {
+  return dispatch => {
+    if (!query) {
+      return Promise.resolve();
+    }
+
+    return dispatch(
+      callAPI({
+        endpoint: '/search-autocomplete/',
+        types: Search.MENTION,
+        method: 'post',
+        body: {
+          query,
+          contentType: 'users.user'
+        },
+        meta: {
+          query,
+          errorMessage: 'Omtale feilet'
+        }
+      })
+    );
+  };
 }

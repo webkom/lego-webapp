@@ -14,7 +14,7 @@ export function fetchAll({ approved = true }: { approved: boolean }) {
     endpoint: `/quotes/?approved=${String(approved)}`,
     schema: [quoteSchema],
     meta: {
-      errorMessage: `Fetching ${approved ? '' : 'un'}approved quotes failed`
+      errorMessage: `Henting av ${approved ? '' : 'un'}godkjente quotes feilet`
     },
     propagateError: true
   });
@@ -35,7 +35,7 @@ export function fetchQuote(quoteId: number) {
     method: 'get',
     meta: {
       quoteId,
-      errorMessage: 'Fetching quote failed'
+      errorMessage: 'Henting av quote feilet'
     },
     schema: quoteSchema,
     propagateError: true
@@ -48,7 +48,7 @@ export function fetchRandomQuote() {
     endpoint: '/quotes/random/',
     method: 'get',
     meta: {
-      errorMessage: 'Fetching random quote failed'
+      errorMessage: 'Henting av tilfeldig quote feilet'
     },
     schema: quoteSchema
   });
@@ -60,7 +60,7 @@ export function approve(quoteId: number) {
     endpoint: `/quotes/${quoteId}/approve/`,
     method: 'put',
     meta: {
-      errorMessage: 'Approving quote failed',
+      errorMessage: 'Godkjenning av quote feilet',
       quoteId: Number(quoteId)
     }
   });
@@ -72,7 +72,7 @@ export function unapprove(quoteId: number) {
     endpoint: `/quotes/${quoteId}/unapprove/`,
     method: 'put',
     meta: {
-      errorMessage: 'Unapproving quote failed',
+      errorMessage: 'Underkjenning av quote feilet',
       quoteId: Number(quoteId)
     }
   });
@@ -99,7 +99,7 @@ export function addQuotes({
         },
         schema: quoteSchema,
         meta: {
-          errorMessage: 'Adding quote failed'
+          errorMessage: 'Legg til quote feilet'
         }
       })
     )
@@ -128,7 +128,7 @@ export function deleteQuote(quoteId: number) {
     method: 'delete',
     meta: {
       quoteId: Number(quoteId),
-      errorMessage: 'Deleting quote failed'
+      errorMessage: 'Sletting av quote feilet'
     }
   });
 }

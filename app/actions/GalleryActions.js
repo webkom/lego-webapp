@@ -16,7 +16,7 @@ export function fetchAll(
     endpoint: `/galleries/${createQueryString({ year, month })}`,
     schema: [gallerySchema],
     meta: {
-      errorMessage: 'Fetching galleries failed'
+      errorMessage: 'Henting av gallerier feilet'
     }
   });
 }
@@ -27,7 +27,7 @@ export function fetchGallery(galleryId: EntityID) {
     endpoint: `/galleries/${galleryId}/`,
     schema: gallerySchema,
     meta: {
-      errorMessage: 'Fetching gallery failed'
+      errorMessage: 'Henting av galleri feilet'
     }
   });
 }
@@ -54,7 +54,7 @@ export function createGallery({
       photographers: photographers || []
     },
     meta: {
-      errorMessage: 'Creating gallery failed'
+      errorMessage: 'Opprettelse av galleri feilet'
     }
   });
 }
@@ -77,7 +77,7 @@ export function updateGallery(
       event
     },
     meta: {
-      errorMessage: 'Editing gallery failed'
+      errorMessage: 'Endring av galleri feilet'
     }
   });
 }
@@ -92,7 +92,7 @@ export function updateGalleryCover(id: EntityID, cover: EntityID) {
       cover
     },
     meta: {
-      errorMessage: 'Updating gallery cover failed'
+      errorMessage: 'Endring av galleri cover feilet'
     }
   });
 }
@@ -115,7 +115,7 @@ export function updatePicture(
     meta: {
       galleryId,
       pictureId,
-      errorMessage: 'Updating picture belonging gallery failed'
+      errorMessage: 'Oppdatering av bilde i galleriet feilet'
     }
   });
 }
@@ -128,7 +128,7 @@ export function deleteGallery(galleryId: EntityID) {
     schema: gallerySchema,
     meta: {
       galleryId,
-      errorMessage: 'Deleting gallery failed'
+      errorMessage: 'Sletting av galleri feilet'
     }
   });
 }
@@ -151,7 +151,7 @@ export function addPicture({
     },
     meta: {
       galleryId,
-      errorMessage: 'Adding picture belonging gallery failed'
+      errorMessage: 'Legg til bilde i galleriet feilet'
     }
   });
 }
@@ -165,7 +165,7 @@ export function deletePicture(galleryId: EntityID, pictureId: EntityID) {
     meta: {
       galleryId,
       pictureId,
-      errorMessage: 'Deleting picture belonging gallery failed'
+      errorMessage: 'Sletting av bilde i galleriet feilet'
     }
   });
 }
@@ -178,7 +178,7 @@ export function editPicture(galleryId: EntityID, pictureId: EntityID) {
     schema: galleryPictureSchema,
     meta: {
       galleryId,
-      errorMessage: 'Deleting picture belonging gallery failed'
+      errorMessage: 'Endring av bilde i galleriet feilet'
     }
   });
 }
