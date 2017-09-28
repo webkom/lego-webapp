@@ -15,11 +15,11 @@ const initialState = {
   users: false
 };
 
-type State = {
+export type Allowed = {
   [$Keys<typeof initialState>]: boolean
 };
 
-export default function allowed(state: State = initialState, action: Action) {
+export default function allowed(state: Allowed = initialState, action: Action) {
   switch (action.type) {
     case Meta.FETCH.SUCCESS:
       return action.payload.isAllowed;
