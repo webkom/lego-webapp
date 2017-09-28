@@ -13,8 +13,7 @@ import {
 
 type OwnProps = {
   handleSubmitCallback: Object => Promise<*>,
-  groupId?: string,
-  groupMembers: Array<Object>
+  groupId?: string
 };
 
 type Props = OwnProps & FieldProps;
@@ -23,7 +22,6 @@ function GroupForm({
   handleSubmit,
   handleSubmitCallback,
   group,
-  groupMembers = [],
   submitting,
   pristine,
   uploadFile
@@ -34,22 +32,22 @@ function GroupForm({
     <Form onSubmit={handleSubmit(handleSubmitCallback)}>
       <Field
         label="Gruppenavn"
-        placeholder="Gruppenavn"
+        placeholder="Strikk&Drikk"
         name="name"
         component={TextInput.Field}
         required
       />
       <Field
         label="Kort beskrivelse"
-        placeholder="Hva er gruppen om?"
+        placeholder="Vi drikker og strikker"
         name="description"
         component={TextInput.Field}
         required
       />
       <Field
         label="Beskrivelse"
-        placeholder="Her kan du skrive litt mer om hva gruppen handler om. Hva gjør dere? Møtes dere ofte?"
-        name="groupText"
+        placeholder="Vil du strikke din egen lue? Eller har du allerede […]"
+        name="text"
         component={EditorField.Field}
       />
       <Field
@@ -70,7 +68,5 @@ function GroupForm({
 
 export default reduxForm({
   form: 'groupForm',
-  initialValues: {
-    groupText: '<p></p>'
-  }
+  enableReinitialize: true
 })(GroupForm);

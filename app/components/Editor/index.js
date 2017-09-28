@@ -35,16 +35,12 @@ export default class CustomEditor extends Component {
 
   constructor(props) {
     super(props);
-    if (!props.value) {
-      throw Error(
-        'You must pass an initial value to the editor. You can pass "<p></p>" if there is no content.'
-      );
-    }
+    const value = props.value || '<p></p>';
     this.state = {
-      editorState: html.deserialize(props.value),
+      editorState: html.deserialize(value),
       focus: false
     };
-    this.lastSerializedState = props.value;
+    this.lastSerializedState = value;
     resetKeyGenerator();
   }
 
@@ -217,16 +213,16 @@ export default class CustomEditor extends Component {
         />
 
         {!this.props.disableBlocks &&
-        !this.props.readOnly && (
-          <Toolbar
-            editorState={editorState}
-            insertBlock={this.insertBlock}
-            wrapperElement={this.wrapperElement}
-            uploadFile={uploadFile}
-            isPublic
-            setBlockData={this.setBlockData}
-          />
-        )}
+          !this.props.readOnly && (
+            <Toolbar
+              editorState={editorState}
+              insertBlock={this.insertBlock}
+              wrapperElement={this.wrapperElement}
+              uploadFile={uploadFile}
+              isPublic
+              setBlockData={this.setBlockData}
+            />
+          )}
         {!this.props.readOnly && (
           <Tooltip
             disableBlocks={this.props.disableBlocks}
