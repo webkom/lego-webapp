@@ -30,10 +30,8 @@ export default class GroupView extends Component {
     const { group } = this.props;
     return (
       <section>
-        <LoadingIndicator loading={!group}>
-          <section className="content event-page">
-            {group && <Group {...this.props} />}
-          </section>
+        <LoadingIndicator loading={!group || !group.text}>
+          {group && <Group {...this.props} />}
         </LoadingIndicator>
       </section>
     );

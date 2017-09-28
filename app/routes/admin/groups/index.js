@@ -11,7 +11,7 @@ export default {
       childRoutes: [
         {
           path: 'settings', // admin/groups/123/settings
-          ...resolveAsyncRoute(() => import('./GroupSettingsRoute'))
+          ...resolveAsyncRoute(() => import('./components/GroupSettings'))
         },
         {
           path: 'members', // admin/groups/123/members
