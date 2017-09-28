@@ -199,6 +199,7 @@ class Header extends Component {
             backdrop
           >
             <Search
+              loggedIn={loggedIn}
               isOpen={this.props.searchOpen}
               onCloseSearch={this.props.toggleSearch}
             />

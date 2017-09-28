@@ -11,29 +11,12 @@ import { selectAutocompleteRedux } from 'app/reducers/search';
 import { push } from 'react-router-redux';
 import { Keyboard } from 'app/utils/constants';
 import type { State as ReducerState } from 'app/types';
+import type { Allowed } from 'app/reducers/allowed';
+import { getAdminLinks, getRegularLinks } from './utils';
 
-const navigationLinks = [
-  ['/articles', 'Artikler'],
-  ['/announcements', 'Kunngjøringer'],
-  ['/events', 'Arrangementer'],
-  ['/pages/om-oss', 'Om Abakus'],
-  ['/contact', 'Kontakt HS'],
-  ['/bdb', 'BDB'],
-  ['http://readme.abakus.no', 'readme'],
-  ['/interestgroups', 'Interessegrupper'],
-  ['/meetings', 'Møter'],
-  ['/quotes', 'Sitater'],
-  ['/users/me', 'Profil'],
-  ['https://shop.abakus.no/', 'Butikk'],
-  ['/joblistings', 'Jobbannonser']
-].sort((a, b) => a[1].localeCompare(b[1]));
-
-const adminLinks = [
-  ['/admin/groups', 'Grupper'],
-  ['/email', 'E-post']
-].sort((a, b) => a[1].localeCompare(b[1]));
-
-type StateProps = {};
+type StateProps = {
+  allowed: Allowed
+};
 
 type DispatchProps = {
   onQueryChanged: (value: string) => any,
@@ -43,6 +26,7 @@ type DispatchProps = {
 
 type Props = StateProps &
   DispatchProps & {
+    loggedIn: boolean,
     results: Array<any>,
     onCloseSearch: () => any,
     searching: boolean
@@ -101,8 +85,10 @@ class Search extends Component {
   };
 
   render() {
-    const { results, onCloseSearch, searching } = this.props;
+    const { allowed, loggedIn, results, onCloseSearch, searching } = this.props;
     const { query, selectedIndex } = this.state;
+    const regularLinks = getRegularLinks({ allowed, loggedIn });
+    const adminLinks = getAdminLinks({ allowed, loggedIn });
     return (
       <div onKeyDown={this.handleKeyDown} tabIndex={-1}>
         <div className={styles.overlay}>
@@ -131,7 +117,7 @@ class Search extends Component {
           <SearchResults
             query={query}
             results={results}
-            navigationLinks={navigationLinks}
+            navigationLinks={regularLinks}
             adminLinks={adminLinks}
             onCloseSearch={onCloseSearch}
             selectedIndex={selectedIndex}
@@ -144,6 +130,7 @@ class Search extends Component {
 
 function mapStateToProps(state: ReducerState): StateProps {
   return {
+    allowed: state.allowed,
     results: selectAutocompleteRedux(state),
     searching: state.search.searching
   };

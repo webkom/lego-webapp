@@ -9,6 +9,7 @@ import { userSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { User } from './ActionTypes';
 import { uploadFile } from './FileActions';
+import { fetchMeta } from './MetaActions';
 import { addNotification } from 'app/actions/NotificationActions';
 import type { Thunk } from 'app/types';
 
@@ -44,7 +45,7 @@ export function login(username: string, password: string): Thunk<*> {
     ).then(action => {
       const { user, token } = action.payload;
       saveToken(token);
-
+      dispatch(fetchMeta());
       return dispatch({
         type: User.FETCH.SUCCESS,
         payload: normalize(user, userSchema),
@@ -60,6 +61,7 @@ export function logout(): Thunk<*> {
     removeToken();
     dispatch({ type: User.LOGOUT });
     dispatch(replace('/'));
+    dispatch(fetchMeta());
   };
 }
 
@@ -191,6 +193,11 @@ export function loginWithExistingToken(token: string): Thunk<*> {
     const expirationDate: $FlowFixMe = getExpirationDate(token);
     const now = moment();
 
+    if (now.isAfter(expirationDate)) {
+      removeToken();
+      return Promise.resolve();
+    }
+
     if (expirationDate.isSame(now, 'day')) {
       return dispatch(refreshToken(token))
         .then(action => saveToken(action.payload))
@@ -198,11 +205,6 @@ export function loginWithExistingToken(token: string): Thunk<*> {
           removeToken();
           throw err;
         });
-    }
-
-    if (now.isAfter(expirationDate)) {
-      removeToken();
-      return Promise.resolve();
     }
 
     dispatch({

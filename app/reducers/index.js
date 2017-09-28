@@ -4,6 +4,7 @@ import { schema } from 'normalizr';
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import routing from './routing';
+import allowed from './allowed';
 import form from './forms';
 import companies from './companies';
 import companySemesters from './companySemesters';
@@ -40,6 +41,7 @@ const reduceReducers = (...reducers) => (prev, curr) =>
   reducers.reduce((p, r) => r(p, curr), prev);
 
 const reducers = {
+  allowed,
   quotes,
   events,
   pictures,
