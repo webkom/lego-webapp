@@ -6,7 +6,7 @@ import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
-const mapStateToProps = {
+const mapStateToProps = () => ({
   initialValues: {
     text: '<p></p>',
     description: '<p></p>',
@@ -15,7 +15,7 @@ const mapStateToProps = {
     jobType: 'summer_job'
   },
   isNew: true
-};
+});
 
 const mapDispatchToProps = {
   submitJoblisting: createJoblisting
