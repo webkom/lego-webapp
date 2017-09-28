@@ -80,6 +80,19 @@ function mutateEvent(state: any, action: any) {
         }
       };
     }
+    case Event.SOCKET_REGISTRATION.FAILURE: {
+      const { eventId } = action.meta;
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [eventId]: {
+            ...state.byId[eventId],
+            loading: false
+          }
+        }
+      };
+    }
     case Event.REGISTER.FAILURE: {
       return {
         ...state,
@@ -195,7 +208,6 @@ export const selectPoolsForEvent = createSelector(
     return (event.pools || []).map(poolId => poolsById[poolId]);
   }
 );
-
 export const selectPoolsWithRegistrationsForEvent = createSelector(
   selectPoolsForEvent,
   state => state.registrations.byId,
