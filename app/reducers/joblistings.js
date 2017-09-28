@@ -27,5 +27,5 @@ export default createEntityReducer({
 export const selectJoblistingById = createSelector(
   state => state.joblistings.byId,
   (state, props) => props.joblistingId,
-  (joblistingsById, joblistingId) => joblistingsById[joblistingId] || {}
+  (joblistingsById, joblistingId) => joblistingsById[joblistingId]
 );

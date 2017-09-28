@@ -13,7 +13,7 @@ const mapStateToProps = (state, props) => {
   const { joblistingId } = props.params;
   const formSelector = formValueSelector('joblistingEditor');
   const company = formSelector(state, 'company');
-  const joblisting = selectJoblistingById(state, { joblistingId });
+  const joblisting = selectJoblistingById(state, { joblistingId }) || {};
 
   return {
     joblisting,

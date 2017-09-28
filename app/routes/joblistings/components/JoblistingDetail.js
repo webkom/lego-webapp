@@ -13,7 +13,8 @@ import Editor from 'app/components/Editor';
 type Props = {
   joblisting: Object,
   deleteJoblisting: () => void,
-  actionGrant: Array
+  actionGrant: Array,
+  fetching: boolean
 };
 
 const Buttons = ({ id, deleteJoblisting }) => (
@@ -30,9 +31,10 @@ const Buttons = ({ id, deleteJoblisting }) => (
 const JoblistingDetail = ({
   joblisting,
   deleteJoblisting,
-  actionGrant
+  actionGrant,
+  fetching = false
 }: Props) => {
-  if (!joblisting) {
+  if (fetching || !joblisting) {
     return <LoadingIndicator loading />;
   }
 
@@ -63,7 +65,7 @@ const JoblistingDetail = ({
         <FlexItem>
           <h1>{joblisting.title}</h1>
         </FlexItem>
-        {actionGrant.includes('update') && (
+        {actionGrant.includes('edit') && (
           <Buttons id={joblisting.id} deleteJoblisting={deleteJoblisting} />
         )}
       </FlexRow>
@@ -95,18 +97,8 @@ const JoblistingDetail = ({
           </ul>
         </FlexColumn>
         <FlexColumn className={styles.description}>
-          <Editor
-            readOnly
-            value={`<div>
-                ${joblisting.description}
-              </div>`}
-          />
-          <Editor
-            readOnly
-            value={`<div>
-                ${joblisting.text}
-              </div>`}
-          />
+          <Editor readOnly value={joblisting.description} />
+          <Editor readOnly value={joblisting.text} />
         </FlexColumn>
       </FlexRow>
     </div>
