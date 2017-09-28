@@ -16,7 +16,7 @@ export type AggregatedActivity = {
   lastActivity: Activity,
   activities: Array<Activity>,
   activityCount: number,
-  actorIds: Array<number>,
+  actorIds: Array<string>,
   read: boolean,
   seen: boolean,
   context: Object
