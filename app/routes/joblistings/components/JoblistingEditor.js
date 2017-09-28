@@ -15,7 +15,7 @@ import {
   FieldComponent,
   TextEditorComponent
 } from './JoblistingEditorItems';
-import { places } from '../constants';
+import { places, jobTypes } from '../constants';
 
 type Props = {
   joblistingId?: string,
@@ -24,7 +24,8 @@ type Props = {
   submitJoblisting: () => void,
   company?: Object,
   dispatch: () => void,
-  isNew: boolean
+  isNew: boolean,
+  fetching: boolean
 };
 
 function JoblistingEditor({
@@ -34,7 +35,8 @@ function JoblistingEditor({
   isNew,
   submitJoblisting,
   company,
-  dispatch
+  dispatch,
+  fetching = false
 }: Props) {
   const onSubmit = newJoblisting => {
     const workplaces = newJoblisting.workplaces
@@ -46,7 +48,7 @@ function JoblistingEditor({
     });
   };
 
-  if (!isNew && !joblisting.company.id) {
+  if (!isNew && fetching) {
     return <LoadingIndicator loading />;
   }
 
@@ -83,11 +85,13 @@ function JoblistingEditor({
         <FlexRow className={styles.row}>
           <FlexColumn className={styles.des}>Jobbtype: </FlexColumn>
           <FlexColumn className={styles.textfield}>
-            <Field name="jobType" component="select">
-              <option value="summer_job">Sommerjobb</option>
-              <option value="part_time">Deltid</option>
-              <option value="full_time">Fulltid</option>
-            </Field>
+            <Field
+              name="jobType"
+              component={SelectInput.Field}
+              placeholder="Jobbtype"
+              simpleValue
+              options={jobTypes}
+            />
           </FlexColumn>
         </FlexRow>
 
