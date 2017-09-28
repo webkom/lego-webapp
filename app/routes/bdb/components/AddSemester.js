@@ -185,7 +185,6 @@ export default class AddSemester extends Component {
                 disabled={submitting}
                 onClick={() => this.setState({ submit: true })}
                 submit
-                style={{ marginBottom: '0!important' }}
               >
                 Lagre
               </Button>
