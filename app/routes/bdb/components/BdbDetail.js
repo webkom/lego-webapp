@@ -27,7 +27,8 @@ type Props = {
   companySemesters: Array<Object>,
   editSemesterStatus: () => void,
   companyEvents: Array<Object>,
-  fetching: boolean
+  fetching: boolean,
+  editCompany: Object => void
 };
 
 export default class BdbDetail extends Component {
@@ -75,6 +76,18 @@ export default class BdbDetail extends Component {
     deleteCompanyContact(company.id, companyContactId);
   };
 
+  addFileToSemester = (fileName, fileToken, type, semesterStatus) => {
+    const { editSemesterStatus, company } = this.props;
+
+    const sendableSemester = {
+      semesterStatusId: semesterStatus.id,
+      companyId: company.id,
+      [type]: fileToken
+    };
+
+    return editSemesterStatus(sendableSemester, true);
+  };
+
   render() {
     const {
       company,
@@ -93,11 +106,12 @@ export default class BdbDetail extends Component {
       .sort(sortByYearThenSemester)
       .map((status, i) => (
         <SemesterStatusDetail
-          status={status}
+          semesterStatus={status}
           key={i}
           companyId={company.id}
           deleteSemesterStatus={this.deleteSemesterStatus}
           editFunction={this.semesterStatusOnChange}
+          addFileToSemester={this.addFileToSemester}
         />
       ));
 
@@ -178,12 +192,6 @@ export default class BdbDetail extends Component {
 
           <div className={styles.description}>
             {company.description || 'Ingen beskrivelse tilgjengelig.'}
-          </div>
-
-          <div>
-            <Link to={`/bdb/${company.id}/semesters/add`}>
-              <i className="fa fa-plus-circle" /> Legg til nytt semester
-            </Link>
           </div>
 
           <div className={styles.infoBubbles}>
@@ -277,6 +285,9 @@ export default class BdbDetail extends Component {
                     <th>Semester</th>
                     <th>Status</th>
                     <th>Kontrakt</th>
+                    <th>Statistikk</th>
+                    <th>Evaluering</th>
+                    <th />
                   </tr>
                 </thead>
                 <tbody>{semesters}</tbody>
@@ -285,6 +296,12 @@ export default class BdbDetail extends Component {
           ) : (
             <i style={{ display: 'block' }}>Ingen sememsterstatuser.</i>
           )}
+
+          <div>
+            <Link to={`/bdb/${company.id}/semesters/add`}>
+              <i className="fa fa-plus-circle" /> Legg til nytt semester
+            </Link>
+          </div>
 
           {this.state.changedSemesters &&
             this.state.changedSemesters.length > 0 && (

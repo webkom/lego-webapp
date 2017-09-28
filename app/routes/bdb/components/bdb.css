@@ -185,7 +185,7 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 
 .detailTable thead th:nth-child(1),
 .detailTable tbody td:nth-child(1) {
-  width: 120px;
+  width: 100px;
 }
 
 .detailTable thead th:nth-child(2),
@@ -194,8 +194,37 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 }
 
 .detailTable thead th:nth-child(3),
-.detailTable tbody td:nth-child(3) {
-  width: 360px;
+.detailTable tbody td:nth-child(3),
+.detailTable thead th:nth-child(4),
+.detailTable tbody td:nth-child(4),
+.detailTable thead th:nth-child(5),
+.detailTable tbody td:nth-child(5) {
+  max-width: 130px;
+  min-width: 130px;
+  width: 130px;
+  word-wrap: break-word;
+}
+
+.detailTable tbody td:nth-child(3),
+.detailTable tbody td:nth-child(4),
+.detailTable tbody td:nth-child(5) {
+  line-height: 15px;
+  font-size: 13px;
+  padding: 5px;
+
+  & a {
+    color: var(--lego-link-color);
+    transition: color 0.3s;
+  }
+
+  & a:hover {
+    color: var(--color-red-1);
+  }
+}
+
+.detailTable thead th:nth-child(6),
+.detailTable tbody td:nth-child(6) {
+  width: 30px;
 }
 
 /* company contact in detailroute */
@@ -224,7 +253,7 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 
 .eventsTable thead th:nth-child(1),
 .eventsTable tbody td:nth-child(1) {
-  width: 250px;
+  width: 350px;
 }
 
 .eventsTable thead th:nth-child(2),
@@ -441,6 +470,13 @@ option {
 
 .info h3 {
   margin-bottom: 15px;
+}
+
+.uploadButton {
+  height: 30px;
+  font-size: 12px;
+  padding: 0 10px;
+  margin: 5px 0;
 }
 
 .contactedStatusForm {
