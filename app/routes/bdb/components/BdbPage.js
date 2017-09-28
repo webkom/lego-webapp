@@ -8,6 +8,7 @@ import OptionsBox from './OptionsBox';
 import TextInput from 'app/components/Form/TextInput';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Icon from 'app/components/Icon';
+import { uniqWith, isEqual } from 'lodash';
 
 type Props = {
   companies: Array<Object>,
@@ -24,7 +25,7 @@ export default class BdbPage extends Component {
   state = {
     startYear: 2016,
     startSem: 0,
-    changedStatses: [],
+    changedStatuses: [],
     submitted: false,
     displayOptions: false,
     filters: {},
@@ -56,7 +57,7 @@ export default class BdbPage extends Component {
   editSemester = (companyId, tableIndex, semesterStatusId, contactedStatus) => {
     // Update state whenever a semesterStatus is graphically changed by the user
     const { companySemesters } = this.props;
-    const { changedStatses, startYear, startSem } = this.state;
+    const { changedStatuses, startYear, startSem } = this.state;
 
     const globalSemester = indexToSemester(
       tableIndex,
@@ -71,18 +72,18 @@ export default class BdbPage extends Component {
       status.companyId === companyId;
 
     const semesterIsAlreadyChanged =
-      typeof changedStatses.find(matchSemester) !== 'undefined';
+      typeof changedStatuses.find(matchSemester) !== 'undefined';
 
     // Change the "changedSemester" if it's already in state, ie this
     // semesterStatus has been changed since last save. Otherwise, add it.
-    const newchangedStatses = semesterIsAlreadyChanged
-      ? changedStatses.map(
+    const newchangedStatuses = semesterIsAlreadyChanged
+      ? changedStatuses.map(
           changedSemester =>
             matchSemester(changedSemester)
               ? { ...changedSemester, contactedStatus }
               : changedSemester
         )
-      : changedStatses.concat({
+      : changedStatuses.concat({
           companyId,
           contactedStatus,
           semesterStatusId,
@@ -90,50 +91,45 @@ export default class BdbPage extends Component {
         });
 
     this.setState({
-      changedStatses: newchangedStatses,
+      changedStatuses: newchangedStatuses,
       submitted: false
     });
   };
 
   submitSemesters = () => {
     const { addSemester, addSemesterStatus, editSemesterStatus } = this.props;
-    const { changedStatses } = this.state;
+    const { changedStatuses } = this.state;
 
-    const semestersToAdd = changedStatses
-      .filter(status => typeof status.semester.id === 'undefined')
-      .map(status => status.semester)
-      .filter((semester, index, arraySoFar) => {
-        return (
-          arraySoFar.indexOf(
-            arraySoFar.find(
-              alreadyAdded =>
-                alreadyAdded.year === semester.year &&
-                alreadyAdded.semester === semester.semester
-            )
-          ) === index
-        );
-      });
+    const semestersToAdd = uniqWith(
+      changedStatuses
+        .filter(status => typeof status.semester.id === 'undefined')
+        .map(status => status.semester),
+      isEqual
+    );
 
     const semesterPromises = semestersToAdd.map((toAdd, i) =>
       addSemester(semestersToAdd[i])
     );
 
     Promise.all(semesterPromises).then(responses => {
-      const changedStatsesWithCompanySemesters = changedStatses.map(status => {
-        const relevantResponse = responses.find(
-          response =>
-            response.payload.year === status.semester.year &&
-            response.payload.semester === status.semester.semester
-        );
-        const newlyMadeSemester = relevantResponse && relevantResponse.payload;
+      const changedStatusesWithCompanySemesters = changedStatuses.map(
+        status => {
+          const relevantResponse = responses.find(
+            response =>
+              response.payload.year === status.semester.year &&
+              response.payload.semester === status.semester.semester
+          );
+          const newlyMadeSemester =
+            relevantResponse && relevantResponse.payload;
 
-        return {
-          ...status,
-          semester: status.semester.id || newlyMadeSemester.id
-        };
-      });
+          return {
+            ...status,
+            semester: status.semester.id || newlyMadeSemester.id
+          };
+        }
+      );
 
-      changedStatsesWithCompanySemesters.map(
+      changedStatusesWithCompanySemesters.map(
         status =>
           typeof status.semesterStatusId === 'undefined'
             ? addSemesterStatus(status)
@@ -141,7 +137,7 @@ export default class BdbPage extends Component {
       );
     });
 
-    this.setState({ changedStatses: [], submitted: true });
+    this.setState({ changedStatuses: [], submitted: true });
   };
 
   updateFilters = (name, value) => {
@@ -202,7 +198,7 @@ export default class BdbPage extends Component {
 
     const mergedCompaniesWithState = companies.map(company => {
       const updatedSemesterStatuses = company.semesterStatuses.map(status => {
-        const changedSemester = this.state.changedStatses.find(
+        const changedSemester = this.state.changedStatuses.find(
           changed => changed.semesterStatusId === status.id
         );
 
@@ -212,7 +208,7 @@ export default class BdbPage extends Component {
       });
 
       const newSemesterStatuses = updatedSemesterStatuses.concat(
-        this.state.changedStatses
+        this.state.changedStatuses
           .filter(
             changed =>
               changed.companyId === company.id &&
@@ -264,7 +260,7 @@ export default class BdbPage extends Component {
           filters={this.state.filters}
         />
 
-        {this.state.changedStatses.length > 0 ? (
+        {this.state.changedStatuses.length > 0 ? (
           <Button onClick={this.submitSemesters} dark>
             Lagre endringer
           </Button>
@@ -294,7 +290,7 @@ export default class BdbPage extends Component {
           navigateThroughTime={this.navigateThroughTime}
           editSemester={this.editSemester}
           removeChangedStatus={this.removeChangedStatus}
-          changedStatses={this.state.changedStatses}
+          changedStatuses={this.state.changedStatuses}
         />
       </div>
     );
