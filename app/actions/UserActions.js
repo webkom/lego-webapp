@@ -191,6 +191,11 @@ export function loginWithExistingToken(token: string): Thunk<*> {
     const expirationDate: $FlowFixMe = getExpirationDate(token);
     const now = moment();
 
+    if (now.isAfter(expirationDate)) {
+      removeToken();
+      return Promise.resolve();
+    }
+
     if (expirationDate.isSame(now, 'day')) {
       return dispatch(refreshToken(token))
         .then(action => saveToken(action.payload))
@@ -198,11 +203,6 @@ export function loginWithExistingToken(token: string): Thunk<*> {
           removeToken();
           throw err;
         });
-    }
-
-    if (now.isAfter(expirationDate)) {
-      removeToken();
-      return Promise.resolve();
     }
 
     dispatch({
