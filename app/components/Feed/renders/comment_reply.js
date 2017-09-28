@@ -12,7 +12,7 @@ import type { AggregatedActivity, Activity } from '../types';
 export function activityHeader(aggregatedActivity: AggregatedActivity) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actors = aggregatedActivity.actorIds.map(actorId => {
-    return lookupContext(aggregatedActivity, `users.user-${actorId}`);
+    return lookupContext(aggregatedActivity, actorId);
   });
   const target = lookupContext(aggregatedActivity, latestActivity.target);
 
