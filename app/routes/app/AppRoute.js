@@ -18,6 +18,7 @@ import {
   markNotification
 } from 'app/actions/NotificationsFeedActions';
 import { fetchNotificationFeed } from 'app/actions/FeedActions';
+import { fetchMeta } from 'app/actions/MetaActions';
 import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
 import { toggleSearch } from 'app/actions/SearchActions';
 import Header from 'app/components/Header';
@@ -106,6 +107,10 @@ function mapStateToProps(state) {
   };
 }
 
+function fetchInitialOnServer(props, dispatch) {
+  return dispatch(loginAutomaticallyIfPossible()).then(dispatch(fetchMeta()));
+}
+
 const mapDispatchToProps = {
   toggleSearch,
   logout,
@@ -118,7 +123,7 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  dispatched((props, dispatch) => dispatch(loginAutomaticallyIfPossible()), {
+  dispatched(fetchInitialOnServer, {
     componentDidMount: false,
     componentWillReceiveProps: false
   }),

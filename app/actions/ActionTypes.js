@@ -272,3 +272,10 @@ export const NotificationSettings = {
 export const Contact = {
   SEND_MESSAGE: generateStatuses('Contact.SEND_MESSAGE')
 };
+
+/**
+ *
+ */
+export const Meta = {
+  FETCH: generateStatuses('Meta.FETCH')
+};
