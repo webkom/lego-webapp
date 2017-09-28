@@ -1,30 +1,27 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import fetchOnUpdate from 'app/utils/fetchOnUpdate';
-import { fetchAll } from 'app/actions/SemesterActions';
+import { fetchSemesters } from 'app/actions/CompanyActions';
 import {
   fetchCompanyInterest,
   updateCompanyInterest
 } from 'app/actions/CompanyInterestActions';
-import { CompanyInterestEdit, EVENT_TYPES } from './components/CompanyInterestEdit';
+import CompanyInterestPage, { EVENT_TYPES } from './components/CompanyInterestPage';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
-import { selectSemesters } from 'app/reducers/semesters';
+import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { reduxForm } from 'redux-form';
 import { push } from 'react-router-redux';
 
 const loadData = ({ companyInterestId }, props) =>
   props
-    .fetchAll()
+    .fetchSemesters()
     .then(() => props.fetchCompanyInterest(Number(companyInterestId)));
 
 const mapStateToProps = (state, props) => {
   const { companyInterestId } = props.params;
   const company = selectCompanyInterestById(state, { companyInterestId });
-  const semesters = selectSemesters(state);
-  const events = company.events;
+  const semesters = selectCompanySemesters(state);
   const allEvents = Object.keys(EVENT_TYPES);
-  console.log('company',company);
-  console.log('company.events',company.events);
   return {
     initialValues: {
       ...company,
@@ -37,14 +34,15 @@ const mapStateToProps = (state, props) => {
         checked: company.semesters && company.semesters.includes(semester.id)
       }))
     },
-    companyInterestId
+    companyInterestId,
+    edit: true
   };
 };
 
 const mapDispatchToProps = {
-  updateCompanyInterest,
+  onSubmit: updateCompanyInterest,
   fetchCompanyInterest,
-  fetchAll,
+  fetchSemesters,
   push
 };
 
@@ -69,4 +67,4 @@ export default compose(
     enableReinitialize: true
   }),
   fetchOnUpdate(['companyInterestId', 'loggedIn'], loadData)
-)(CompanyInterestEdit);
+)(CompanyInterestPage);
