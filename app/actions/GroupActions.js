@@ -68,18 +68,14 @@ export function fetchAll() {
   });
 }
 
-export function updateGroup({
-  groupId,
-  updates
-}: {
-  groupId: number,
-  updates: Array<Object>
-}) {
+export function updateGroup(group: Object) {
   return callAPI({
     types: Group.UPDATE,
-    endpoint: `/groups/${groupId}/`,
+    endpoint: `/groups/${group.id}/`,
     method: 'PATCH',
-    body: updates,
+    body: {
+      ...group
+    },
     schema: groupSchema,
     meta: {
       errorMessage: 'Oppdatering av grupper feilet'
