@@ -16,12 +16,11 @@ export type AddMemberArgs = {
 export function addMember({ groupId, userId, role }: AddMemberArgs) {
   return callAPI({
     types: Membership.CREATE,
-    endpoint: '/memberships/',
+    endpoint: `/groups/${groupId}/memberships/`,
     method: 'POST',
     body: {
-      role,
       user: userId,
-      abakusGroup: groupId
+      role
     },
     schema: membershipSchema,
     meta: {
@@ -34,7 +33,7 @@ export function addMember({ groupId, userId, role }: AddMemberArgs) {
 export function removeMember(membership: Object) {
   return callAPI({
     types: Membership.REMOVE,
-    endpoint: `/memberships/${membership.id}/`,
+    endpoint: `/groups/${membership.abakusGroup}/memberships/${membership.id}/`,
     method: 'DELETE',
     schema: membershipSchema,
     meta: {
@@ -90,7 +89,7 @@ export function updateGroup({
 
 export function createGroup(group: Object): Thunk<*> {
   return dispatch => {
-    const { name, description, descriptionLong, logo } = group;
+    const { name, description, text, logo } = group;
     dispatch(
       callAPI({
         types: Group.CREATE,
@@ -100,7 +99,7 @@ export function createGroup(group: Object): Thunk<*> {
         body: {
           name,
           description,
-          descriptionLong,
+          text,
           logo
         },
         meta: {
