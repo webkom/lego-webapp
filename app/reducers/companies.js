@@ -78,6 +78,25 @@ function mutateCompanies(state, action) {
       };
     }
 
+    case Company.EDIT_SEMESTER_STATUS.SUCCESS: {
+      const { companyId, semesterStatusId } = action.meta;
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [companyId]: {
+            ...state.byId[companyId],
+            semesterStatuses: state.byId[companyId].semesterStatuses.map(
+              semesterStatus =>
+                semesterStatus.id !== semesterStatusId
+                  ? semesterStatus
+                  : action.payload
+            )
+          }
+        }
+      };
+    }
+
     case Company.DELETE_SEMESTER_STATUS.SUCCESS: {
       const companyId = action.meta.companyId;
       return {

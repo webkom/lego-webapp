@@ -165,7 +165,9 @@ export function editSemesterStatus(
         method: 'PATCH',
         body: data,
         meta: {
-          errorMessage: 'Endring av semester status feilet'
+          errorMessage: 'Endring av semester status feilet',
+          companyId,
+          semesterStatusId
         }
       })
     ).then(() => {
