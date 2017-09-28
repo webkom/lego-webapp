@@ -23,7 +23,7 @@ export default createEntityReducer({
   },
   mutate(state, action) {
     switch (action.type) {
-      case CompanyInterestForm.REMOVE.SUCCESS:
+      case CompanyInterestForm.DELETE.SUCCESS:
         return {
           ...state,
           items: state.items.filter(id => action.meta.companyInterestId !== id)
@@ -44,11 +44,6 @@ export const selectCompanyInterestList = createSelector(
 export const selectCompanyInterestById = createSelector(
   state => state.companyInterest.byId,
   (state, props) => props.companyInterestId,
-  (companyInterestById, companyInterestId) => {
-    const companyInterest = companyInterestById[companyInterestId];
-    if (companyInterest) {
-      return companyInterest;
-    }
-    return {};
-  }
+  (companyInterestById, companyInterestId) =>
+    companyInterestById[companyInterestId]
 );

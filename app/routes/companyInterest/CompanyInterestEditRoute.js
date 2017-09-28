@@ -1,21 +1,26 @@
+// @flow
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { fetchSemesters } from 'app/actions/CompanyActions';
 import {
   fetchCompanyInterest,
   updateCompanyInterest
 } from 'app/actions/CompanyInterestActions';
-import CompanyInterestPage, { EVENT_TYPES } from './components/CompanyInterestPage';
+import CompanyInterestPage, {
+  EVENT_TYPES
+} from './components/CompanyInterestPage';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { reduxForm } from 'redux-form';
 import { push } from 'react-router-redux';
+import { dispatched } from 'react-prepare';
 
-const loadData = ({ companyInterestId }, props) =>
-  props
-    .fetchSemesters()
-    .then(() => props.fetchCompanyInterest(Number(companyInterestId)));
+const loadCompanyInterests = (props, dispatch) => {
+  const { companyInterestId } = props.params;
+  return dispatch(fetchSemesters()).then(() =>
+    dispatch(fetchCompanyInterest(Number(companyInterestId)))
+  );
+};
 
 const mapStateToProps = (state, props) => {
   const { companyInterestId } = props.params;
@@ -39,15 +44,19 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = {
-  onSubmit: updateCompanyInterest,
-  fetchCompanyInterest,
-  fetchSemesters,
-  push
+const mapDispatchToProps = (dispatch, { params }) => {
+  const id = Number(params.companyInterestId);
+  return {
+    push: path => dispatch(push(path)),
+    onSubmit: data => dispatch(updateCompanyInterest(id, data))
+  };
 };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
+  dispatched(loadCompanyInterests, {
+    componentWillReceiveProps: false
+  }),
   reduxForm({
     form: 'CompanyInterestForm',
     validate(values) {
@@ -65,6 +74,5 @@ export default compose(
       return errors;
     },
     enableReinitialize: true
-  }),
-  fetchOnUpdate(['companyInterestId', 'loggedIn'], loadData)
+  })
 )(CompanyInterestPage);

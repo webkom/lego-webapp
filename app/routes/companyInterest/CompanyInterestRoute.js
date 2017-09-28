@@ -1,14 +1,17 @@
+// @flow
 import { connect } from 'react-redux';
 import { createCompanyInterest } from 'app/actions/CompanyInterestActions';
 import { fetchSemesters } from 'app/actions/CompanyActions';
 import { compose } from 'redux';
 import { reduxForm } from 'redux-form';
 import { push } from 'react-router-redux';
-import CompanyInterestPage, { EVENT_TYPES } from './components/CompanyInterestPage';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
+import CompanyInterestPage, {
+  EVENT_TYPES
+} from './components/CompanyInterestPage';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { dispatched } from 'react-prepare';
 
-const loadData = (params, props) => props.fetchSemesters();
+const loadSemesters = (props, dispatch) => dispatch(fetchSemesters());
 
 const mapStateToProps = state => {
   const semesters = selectCompanySemesters(state);
@@ -26,13 +29,15 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  onSubmit: createCompanyInterest,
-  fetchSemesters,
-  push
+  push,
+  onSubmit: createCompanyInterest
 };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
+  dispatched(loadSemesters, {
+    componentWillReceiveProps: false
+  }),
   reduxForm({
     form: 'CompanyInterestForm',
     validate(values) {
@@ -50,6 +55,5 @@ export default compose(
       return errors;
     },
     enableReinitialize: true
-  }),
-  fetchOnUpdate(['loggedIn'], loadData)
+  })
 )(CompanyInterestPage);

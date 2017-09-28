@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import styles from './CompanyInterest.css';
 import {
@@ -8,8 +9,10 @@ import {
   Form
 } from 'app/components/Form';
 import { Field, FieldArray } from 'redux-form';
+import type { FieldProps } from 'redux-form';
 import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
-import { Content } from 'app/components/Layout'
+import { Content } from 'app/components/Layout';
+import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 
 export const EVENT_TYPES = {
   company_presentation: 'Bedriftspresentasjon',
@@ -20,7 +23,7 @@ export const EVENT_TYPES = {
 };
 
 const eventToString = event =>
-  Object.keys(EVENT_TYPES)[event.charAt(event.length-2)];
+  Object.keys(EVENT_TYPES)[event.charAt(event.length - 2)];
 
 const ACTIVITY_TYPES = [
   { label: 'Annonsere i readme', name: 'readme' },
@@ -36,26 +39,27 @@ const SEMESTER_TRANSLATION = {
 const semesterToText = semesterObject =>
   `${SEMESTER_TRANSLATION[semesterObject.semester]} ${semesterObject.year}`;
 
-const getSemesterBoxes = ({ fields }) =>
-    <FlexRow className={styles.checkboxWrapper}>
-      {fields.map((item, index) => (
-        <div key={index} className={styles.checkbox}>
-          <div className={styles.checkboxField}>
-            <Field
-              key={`semester${index}`}
-              name={`semesters[${index}].checked`}
-              component={CheckBox.Field}
-              normalize={v => !!v}
-            />
-          </div>
-          <span className={styles.checkboxSpan}>
-            {semesterToText(fields.get(index))}
-          </span>
+const SemesterBox = ({ fields }: FieldProps) => (
+  <FlexRow className={styles.checkboxWrapper}>
+    {fields.map((item, index) => (
+      <div key={index} className={styles.checkbox}>
+        <div className={styles.checkboxField}>
+          <Field
+            key={`semester${index}`}
+            name={`semesters[${index}].checked`}
+            component={CheckBox.Field}
+            normalize={v => !!v}
+          />
         </div>
-      ))}
-    </FlexRow>;
+        <span className={styles.checkboxSpan}>
+          {semesterToText(fields.get(index))}
+        </span>
+      </div>
+    ))}
+  </FlexRow>
+);
 
-const getEventBoxes = ({ fields }) =>
+const EventBox = ({ fields }: FieldProps) => (
   <FlexRow className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
       <div key={index} className={styles.checkbox}>
@@ -72,32 +76,33 @@ const getEventBoxes = ({ fields }) =>
         </span>
       </div>
     ))}
-  </FlexRow>;
-
-const getActivityBoxes = () =>
-  <FlexRow className={styles.checkboxWrapper}>
-      {ACTIVITY_TYPES.map((item, index) => (
-        <div key={index} className={styles.checkbox}>
-          <div className={styles.checkboxField}>
-            <Field
-              key={`activity${index}`}
-              name={item.name}
-              component={CheckBox.Field}
-              normalize={v => !!v}
-            />
-          </div>
-          <span className={styles.checkboxSpan}>{item.label}</span>
-        </div>
-      ))
-    }
   </FlexRow>
+);
 
-type Props = {
-  onSubmit: () => void,
-  handleSubmit: () => void,
-  events: Array,
-  semesters: Array,
-  edit: boolean,
+const ActivityBox = () => (
+  <FlexRow className={styles.checkboxWrapper}>
+    {ACTIVITY_TYPES.map((item, index) => (
+      <div key={index} className={styles.checkbox}>
+        <div className={styles.checkboxField}>
+          <Field
+            key={`activity${index}`}
+            name={item.name}
+            component={CheckBox.Field}
+            normalize={v => !!v}
+          />
+        </div>
+        <span className={styles.checkboxSpan}>{item.label}</span>
+      </div>
+    ))}
+  </FlexRow>
+);
+
+type Props = FieldProps & {
+  onSubmit: CompanyInterestEntity => Promise<*>,
+  push: string => void,
+  events: Array<Object>,
+  semesters: Array<Object>,
+  edit: boolean
 };
 
 const CompanyInterestPage = (props: Props) => {
@@ -118,13 +123,10 @@ const CompanyInterestPage = (props: Props) => {
       itdagene: data.itdagene,
       comment: data.comment
     };
-    if (props.edit) {
-      newData.id = data.id;
-    }
-    props
-      .onSubmit(newData)
-      .then(() => props.push('/companyInterest'));
+
+    props.onSubmit(newData).then(() => props.push('/companyInterest'));
   };
+
   return (
     <Content>
       <Form onSubmit={props.handleSubmit(onSubmit)}>
@@ -153,24 +155,19 @@ const CompanyInterestPage = (props: Props) => {
             Semester
           </label>
 
-            <FieldArray
-              name="semesters"
-              component={getSemesterBoxes}
-            />
+          <FieldArray name="semesters" component={SemesterBox} />
 
           <label htmlFor="events" className={styles.heading}>
             Arrangementer
           </label>
 
-          <FieldArray
-            name="events"
-            component={getEventBoxes}
-          />
+          <FieldArray name="events" component={EventBox} />
 
           <label htmlFor="extra" className={styles.heading}>
             Annet
           </label>
-          {getActivityBoxes()}
+
+          <ActivityBox />
         </FlexColumn>
 
         <Field
@@ -185,7 +182,9 @@ const CompanyInterestPage = (props: Props) => {
           <FlexItem />
           <FlexItem>
             <Button type="submit" submit className={styles.createButton}>
-              {props.edit ? 'Oppdater bedriftsinteresse' : 'Opprett bedriftsinteresse'}
+              {props.edit
+                ? 'Oppdater bedriftsinteresse'
+                : 'Opprett bedriftsinteresse'}
             </Button>
           </FlexItem>
         </FlexColumn>

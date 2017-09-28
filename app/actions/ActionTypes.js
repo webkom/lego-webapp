@@ -96,7 +96,7 @@ export const CompanyInterestForm = {
   FETCH_ALL: generateStatuses('CompanyInterestForm.FETCH_ALL'),
   FETCH: generateStatuses('CompanyInterestForm.FETCH'),
   CREATE: generateStatuses('CompanyInterestForm.CREATE'),
-  REMOVE: generateStatuses('CompanyInterestForm.REMOVE'),
+  DELETE: generateStatuses('CompanyInterestForm.DELETE'),
   UPDATE: generateStatuses('CompanyInterestForm.UPDATE')
 };
 
