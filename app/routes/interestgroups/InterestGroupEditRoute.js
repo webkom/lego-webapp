@@ -30,6 +30,7 @@ const mapStateToProps = (state, props) => {
     interestGroup,
     initialValues: {
       ...interestGroup,
+      // TODO: remove this
       members: memberships.map(m => {
         const { user } = m;
         return {

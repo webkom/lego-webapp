@@ -49,7 +49,7 @@ function GroupForm({
       <Field
         label="Beskrivelse"
         placeholder="Her kan du skrive litt mer om hva gruppen handler om. Hva gjør dere? Møtes dere ofte?"
-        name="descriptionLong"
+        name="groupText"
         component={EditorField.Field}
       />
       <Field
@@ -71,6 +71,6 @@ function GroupForm({
 export default reduxForm({
   form: 'groupForm',
   initialValues: {
-    descriptionLong: '<p></p>'
+    groupText: '<p></p>'
   }
 })(GroupForm);
