@@ -16,6 +16,7 @@
 /* Base for label styling */
 [type='radio']:not(:checked),
 [type='radio']:checked {
+  cursor: pointer;
   position: absolute;
   z-index: 1;
   transform: scale(1.6);
