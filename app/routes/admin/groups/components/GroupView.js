@@ -10,7 +10,7 @@ const Group = props => {
 
   return (
     <div>
-      <header className="GroupPage__header">
+      <header>
         <h2>{props.group.name}</h2>
         <span>{descriptionText}</span>
       </header>
@@ -29,7 +29,7 @@ export default class GroupView extends Component {
   render() {
     const { group } = this.props;
     return (
-      <section className="GroupPage__content">
+      <section>
         <LoadingIndicator loading={!group}>
           <section className="content event-page">
             {group && <Group {...this.props} />}

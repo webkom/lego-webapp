@@ -2,6 +2,7 @@ import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
   path: 'groups', // admin/groups
+  indexRoute: resolveAsyncRoute(() => import('./components/SelectGroup')),
   ...resolveAsyncRoute(() => import('./GroupsRoute')),
   childRoutes: [
     {

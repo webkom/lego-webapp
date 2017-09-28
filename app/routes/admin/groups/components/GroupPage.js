@@ -14,13 +14,21 @@ type Props = {
   params: { groupId: string }
 };
 
-const GroupPageNavigation = ({ groupId }: { groupId: string }) => {
+const NavigationLinks = ({ groupId }: { groupId: string }) => {
   const baseUrl = `/admin/groups/${groupId}`;
   return (
-    <NavigationTab title="Grupper">
+    <div>
       <NavigationLink to={`${baseUrl}/settings`}>Rediger</NavigationLink>
       <NavigationLink to={`${baseUrl}/members`}>Medlemmer</NavigationLink>
       <NavigationLink to={`${baseUrl}/permissions`}>Rettigheter</NavigationLink>
+    </div>
+  );
+};
+
+const GroupPageNavigation = ({ groupId }: { groupId: ?string }) => {
+  return (
+    <NavigationTab title="Grupper">
+      {groupId && <NavigationLinks groupId={groupId} />}
     </NavigationTab>
   );
 };
@@ -28,7 +36,7 @@ const GroupPageNavigation = ({ groupId }: { groupId: string }) => {
 const GroupPage = ({ groups, children, location, params }: Props) => {
   return (
     <Content>
-      {params.groupId && <GroupPageNavigation groupId={params.groupId} />}
+      <GroupPageNavigation groupId={params.groupId} />
       <div className={styles.groupPage}>
         <section className={styles.sidebar}>
           <GroupTree groups={groups} pathname={location.pathname} />
