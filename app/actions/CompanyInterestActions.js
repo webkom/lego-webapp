@@ -1,8 +1,9 @@
+// @flow
 import { CompanyInterestForm } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
 import { addNotification } from 'app/actions/NotificationActions';
 import { companyInterestSchema } from 'app/reducers';
-import { push } from 'react-router-redux';
+import { CompanyInterestEntity } from 'app/reducers/companyInterest';
 
 export function fetchAll() {
   return callAPI({
@@ -10,48 +11,23 @@ export function fetchAll() {
     endpoint: '/company-interests/',
     schema: [companyInterestSchema],
     meta: {
-      errorMessage: 'Fetching companyInterest failed'
+      errorMessage: 'Henting av bedriftsinteresser feilet'
     }
   });
 }
 
-export function fetchCompanyInterest(companyInterestId) {
+export function fetchCompanyInterest(companyInterestId: number) {
   return callAPI({
     types: CompanyInterestForm.FETCH,
     endpoint: `/company-interests/${companyInterestId}/`,
     schema: companyInterestSchema,
     meta: {
-      errorMessage: 'Fetching companyInterest failed'
+      errorMessage: 'Henting av bedriftsinteresse feilet'
     }
   });
 }
 
-export type CompanyInterestEntity = {
-  id: number,
-  companyName: string,
-  contactPerson: string,
-  mail: string,
-  semesters: array,
-  events: array,
-  readme: boolean,
-  collaboration: boolean,
-  bedex: boolean,
-  itdagene: boolean,
-  comment: string
-};
-
-export function createCompanyInterest({
-  companyName,
-  contactPerson,
-  mail,
-  semesters,
-  events,
-  readme,
-  collaboration,
-  bedex,
-  itdagene,
-  comment
-}) {
+export function createCompanyInterest(data: CompanyInterestEntity) {
   return dispatch => {
     return dispatch(
       callAPI({
@@ -59,91 +35,50 @@ export function createCompanyInterest({
         endpoint: '/company-interests/',
         method: 'POST',
         schema: [companyInterestSchema],
-        body: {
-          companyName,
-          contactPerson,
-          mail,
-          semesters,
-          events,
-          readme,
-          collaboration,
-          bedex,
-          itdagene,
-          comment
-        },
+        body: data,
         meta: {
-          errorMessage: 'Creating CompanyInterestForm failed'
+          errorMessage: 'Opprette bedriftsinteresse feilet'
         }
       })
     ).then(() =>
-      dispatch(
-        addNotification({ message: 'Company interest successfully created!' })
-      )
+      dispatch(addNotification({ message: 'Bedriftsinteresse opprettet!' }))
     );
   };
 }
 
-export function removeCompanyInterest(id) {
+export function deleteCompanyInterest(id: number) {
   return dispatch => {
     return dispatch(
       callAPI({
-        types: CompanyInterestForm.REMOVE,
+        types: CompanyInterestForm.DELETE,
         endpoint: `/company-interests/${id}/`,
         method: 'DELETE',
         meta: {
           companyInterestId: id,
-          errorMessage: 'Removing companyInterest failed'
+          errorMessage: 'Fjerning av bedriftsinteresse feilet!'
         }
       })
     ).then(() =>
-      dispatch(
-        addNotification({ message: 'Company interest successfully removed!' })
-      )
+      dispatch(addNotification({ message: 'Bedriftsinteresse fjernet!' }))
     );
   };
 }
 
-export function updateCompanyInterest({
-  id,
-  companyName,
-  contactPerson,
-  mail,
-  semesters,
-  events,
-  readme,
-  collaboration,
-  bedex,
-  itdagene,
-  comment
-}) {
+export function updateCompanyInterest(id: number, data: CompanyInterestEntity) {
   return dispatch => {
     return dispatch(
       callAPI({
         types: CompanyInterestForm.UPDATE,
         endpoint: `/company-interests/${id}/`,
         method: 'PATCH',
-        body: {
-          id,
-          companyName,
-          contactPerson,
-          mail,
-          semesters,
-          events,
-          readme,
-          collaboration,
-          bedex,
-          itdagene,
-          comment
-        },
+        body: data,
         meta: {
           interestGroupId: id,
-          errorMessage: 'Editing companyInterest failed'
+          errorMessage: 'Endring av bedriftsinteresse feilet!'
         }
       })
     ).then(() =>
-      dispatch(
-        addNotification({ message: 'Company interest successfully updated!' })
-      )
+      dispatch(addNotification({ message: 'Bedriftsinteresse endret!' }))
     );
   };
 }

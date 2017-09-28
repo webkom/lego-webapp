@@ -10,7 +10,7 @@ export type Props = {
   companyInterestList: Array
 };
 
-const eventTypes = company => {
+const fields = company => {
   return [
     {
       value: company.companyName,
@@ -29,14 +29,14 @@ const eventTypes = company => {
 
 const CompanyInterestList = (props: Props) => {
   const generateValues = company =>
-    eventTypes(company).map((event, key) => (
+    fields(company).map((event, key) => (
       <td key={key} className={styles.companyInterestList}>
         <Link to={`/companyInterest/${company.id}/edit`}>{event.value}</Link>
       </td>
     ));
 
   const generateMobileValues = company =>
-    eventTypes(company).map((event, key) => (
+    fields(company).map((event, key) => (
       <tr key={key}>
         <td>{event.label}:</td>
         <td>
@@ -51,7 +51,7 @@ const CompanyInterestList = (props: Props) => {
       <td className={styles.remove}>
         <Icon
           name="close-circle"
-          onClick={() => props.removeCompanyInterest(company.id)}
+          onClick={() => props.deleteCompanyInterest(company.id)}
           className={styles.remove}
         />
       </td>
@@ -67,11 +67,13 @@ const CompanyInterestList = (props: Props) => {
               {company.companyName}
             </h3>
           </td>
-          <Icon
-            name="close-circle"
-            onClick={() => props.removeCompanyInterest(company.id)}
-            className={styles.remove}
-          />
+          <td>
+            <Icon
+              name="close-circle"
+              onClick={() => props.deleteCompanyInterest(company.id)}
+              className={styles.remove}
+            />
+          </td>
         </tr>
       </thead>
       <tbody className={styles.companyInterestListMobile}>

@@ -1,17 +1,15 @@
+// @flow
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import {
   fetchAll,
-  createCompanyInterest,
-  removeCompanyInterest
+  deleteCompanyInterest
 } from 'app/actions/CompanyInterestActions';
 import CompanyInterestList from './components/CompanyInterestList';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { selectCompanyInterestList } from 'app/reducers/companyInterest';
+import { dispatched } from 'react-prepare';
 
-const loadData = (params, props) => {
-  props.fetchAll();
-};
+const loadCompanyInterests = (props, dispatch) => dispatch(fetchAll());
 
 const mapStateToProps = state => {
   const companyInterestList = selectCompanyInterestList(state);
@@ -22,11 +20,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   fetchAll,
-  createCompanyInterest,
-  removeCompanyInterest
+  deleteCompanyInterest
 };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['loggedIn'], loadData)
+  dispatched(loadCompanyInterests, {
+    componentWillReceiveProps: false
+  })
 )(CompanyInterestList);
