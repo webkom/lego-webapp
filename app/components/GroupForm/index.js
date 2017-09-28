@@ -13,7 +13,7 @@ import {
 
 type OwnProps = {
   handleSubmitCallback: Object => Promise<*>,
-  groupId?: string
+  group: Object
 };
 
 type Props = OwnProps & FieldProps;
@@ -26,7 +26,7 @@ function GroupForm({
   pristine,
   uploadFile
 }: Props) {
-  const isNew = !!group;
+  const isNew = !group;
 
   return (
     <Form onSubmit={handleSubmit(handleSubmitCallback)}>
