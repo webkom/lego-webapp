@@ -150,7 +150,7 @@ class JoinEventForm extends Component {
     const disabledButton = !registration
       ? invalid || pristine || submitting
       : null;
-    const joinTitle = !registration ? 'MELD DEG PÅ' : 'AVREGISTRER';
+    const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
     const registrationType = !registration ? 'register' : 'unregister';
     const feedbackName = getFeedbackName(event.feedbackRequired);
     const showStripe =
