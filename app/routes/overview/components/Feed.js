@@ -37,7 +37,9 @@ const Feed = (props: Props) => {
   return (
     <div className={styles.root}>
       <div className={styles.header}>
-        <h2 className="u-ui-heading">Oppdateringer</h2>
+        <h2 className="u-ui-heading" style={{ padding: '0' }}>
+          Oppdateringer
+        </h2>
         <Link to="/timeline">Tidslinje →</Link>
       </div>
       <div className={styles.content}>
