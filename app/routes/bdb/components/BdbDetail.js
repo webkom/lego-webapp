@@ -63,7 +63,7 @@ export default class BdbDetail extends Component {
       companyId: company.id
     };
 
-    return editSemesterStatus(sendableSemester, true);
+    return editSemesterStatus(sendableSemester, { detail: true });
   };
 
   deleteSemesterStatus = semesterId => {
@@ -85,7 +85,7 @@ export default class BdbDetail extends Component {
       [type]: fileToken
     };
 
-    return editSemesterStatus(sendableSemester, true);
+    return editSemesterStatus(sendableSemester, { detail: true });
   };
 
   render() {
