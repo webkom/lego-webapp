@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { createCompanyInterest } from 'app/actions/CompanyInterestActions';
 import { fetchSemesters } from 'app/actions/CompanyActions';
 import { compose } from 'redux';
-import { reduxForm } from 'redux-form';
 import { push } from 'react-router-redux';
 import CompanyInterestPage, {
   EVENT_TYPES
@@ -37,23 +36,5 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   dispatched(loadSemesters, {
     componentWillReceiveProps: false
-  }),
-  reduxForm({
-    form: 'CompanyInterestForm',
-    validate(values) {
-      const errors = {};
-      if (!values.companyName) {
-        errors.companyName = 'Du må gi møtet en tittel';
-      }
-      if (!values.contactPerson) {
-        errors.contactPerson = 'Du må oppgi en kontaktperson!';
-      }
-      if (!values.mail) {
-        errors.mail = 'Du må oppgi mail!';
-      }
-
-      return errors;
-    },
-    enableReinitialize: true
   })
 )(CompanyInterestPage);

@@ -1,3 +1,4 @@
+// @flow
 import styles from './CompanyInterest.css';
 import React from 'react';
 import Button from 'app/components/Button';
@@ -7,7 +8,8 @@ import { Content } from 'app/components/Layout';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 
 export type Props = {
-  companyInterestList: Array
+  companyInterestList: Array<Object>,
+  deleteCompanyInterest: () => void
 };
 
 const fields = company => {

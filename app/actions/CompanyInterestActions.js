@@ -73,7 +73,7 @@ export function updateCompanyInterest(id: number, data: CompanyInterestEntity) {
         method: 'PATCH',
         body: data,
         meta: {
-          interestGroupId: id,
+          companyInterestId: id,
           errorMessage: 'Endring av bedriftsinteresse feilet!'
         }
       })
