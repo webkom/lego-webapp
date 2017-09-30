@@ -128,7 +128,6 @@ export const pageSchema = new schema.Entity(
   { idAttribute: 'slug' }
 );
 export const companyInterestSchema = new schema.Entity('companyInterest');
-export const interestGroupSchema = new schema.Entity('interestGroups');
 export const companySchema = new schema.Entity('companies', {
   studentContact: userSchema,
   comments: [commentSchema]

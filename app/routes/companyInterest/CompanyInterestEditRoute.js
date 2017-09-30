@@ -11,7 +11,6 @@ import CompanyInterestPage, {
 } from './components/CompanyInterestPage';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
-import { reduxForm } from 'redux-form';
 import { push } from 'react-router-redux';
 import { dispatched } from 'react-prepare';
 
@@ -56,23 +55,5 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   dispatched(loadCompanyInterests, {
     componentWillReceiveProps: false
-  }),
-  reduxForm({
-    form: 'CompanyInterestForm',
-    validate(values) {
-      const errors = {};
-      if (!values.companyName) {
-        errors.companyName = 'Du må gi møtet en tittel';
-      }
-      if (!values.contactPerson) {
-        errors.contactPerson = 'Du må oppgi en kontaktperson!';
-      }
-      if (!values.mail) {
-        errors.mail = 'Du må oppgi mail!';
-      }
-
-      return errors;
-    },
-    enableReinitialize: true
   })
 )(CompanyInterestPage);

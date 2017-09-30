@@ -13,6 +13,7 @@ import type { FieldProps } from 'redux-form';
 import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
 import { Content } from 'app/components/Layout';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
+import { reduxForm } from 'redux-form';
 
 export const EVENT_TYPES = {
   company_presentation: 'Bedriftspresentasjon',
@@ -193,4 +194,21 @@ const CompanyInterestPage = (props: Props) => {
   );
 };
 
-export default CompanyInterestPage;
+export default reduxForm({
+  form: 'CompanyInterestForm',
+  validate(values) {
+    const errors = {};
+    if (!values.companyName) {
+      errors.companyName = 'Du må gi møtet en tittel';
+    }
+    if (!values.contactPerson) {
+      errors.contactPerson = 'Du må oppgi en kontaktperson!';
+    }
+    if (!values.mail) {
+      errors.mail = 'Du må oppgi mail!';
+    }
+
+    return errors;
+  },
+  enableReinitialize: true
+})(CompanyInterestPage);
