@@ -16,10 +16,12 @@ function mapStateToProps(state, props) {
     picture,
     initialValues: {
       ...picture,
-      taggees: picture.taggees.map(taggee => ({
-        value: taggee.id,
-        label: taggee.fullName
-      }))
+      taggees:
+        picture &&
+        picture.taggees.map(taggee => ({
+          value: taggee.id,
+          label: taggee.fullName
+        }))
     }
   };
 }
