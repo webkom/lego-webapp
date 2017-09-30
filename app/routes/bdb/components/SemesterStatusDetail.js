@@ -8,6 +8,9 @@ import {
 import SemesterStatusContent from './SemesterStatusContent';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import FileUpload from 'app/components/Upload/FileUpload';
+import truncateString from 'app/utils/truncateString';
+
+const FILE_NAME_LENGTH = 15;
 
 type Props = {
   semesterStatus: Object,
@@ -48,17 +51,8 @@ export default class SemesterStatusDetail extends Component {
     />
   );
 
-  FILE_NAME_LENGTH = 15;
-
-  fileNameToShow = (name, url) => {
-    if (!name) return '-';
-    const shortened =
-      name.length > this.FILE_NAME_LENGTH
-        ? name.substring(0, this.FILE_NAME_LENGTH) + '...'
-        : name;
-
-    return <a href={url}>{shortened}</a>;
-  };
+  fileNameToShow = (name, url) =>
+    name ? <a href={url}>{truncateString(name, FILE_NAME_LENGTH)}</a> : '-';
 
   render() {
     const { semesterStatus, index, editFunction } = this.props;

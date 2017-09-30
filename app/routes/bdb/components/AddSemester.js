@@ -56,7 +56,7 @@ export default class AddSemester extends Component {
           contactedStatus,
           contract
         },
-        true
+        { detail: true }
       );
     } else {
       return addSemester({ year, semester }).then(response => {
@@ -67,7 +67,7 @@ export default class AddSemester extends Component {
             contactedStatus,
             contract
           },
-          true
+          { detail: true }
         );
       });
     }
@@ -156,15 +156,6 @@ export default class AddSemester extends Component {
                   }}
                 />
               </div>
-
-              <Field
-                placeholder="Kontrakt for dette semesteret"
-                label="Kontrakt"
-                autoFocus={autoFocus}
-                name="contract"
-                component={TextInput.Field}
-                className={styles.contractForm}
-              />
 
               <div className={styles.clear} />
 

@@ -7,6 +7,7 @@ import { selectEvents } from './events';
 import { mutateComments } from 'app/reducers/comments';
 import joinReducers from 'app/utils/joinReducers';
 import { selectCompanySemesters } from './companySemesters';
+import mergeObjects from 'app/utils/mergeObjects';
 
 function mutateCompanies(state, action) {
   switch (action.type) {
@@ -64,37 +65,26 @@ function mutateCompanies(state, action) {
 
     case Company.ADD_SEMESTER_STATUS.SUCCESS: {
       const companyId = action.meta.companyId;
-      return {
-        ...state,
+      const semesterStatuses = state.byId[companyId].semesterStatuses.concat(
+        action.payload
+      );
+      return mergeObjects(state, {
         byId: {
-          ...state.byId,
-          [companyId]: {
-            ...state.byId[companyId],
-            semesterStatuses: state.byId[companyId].semesterStatuses.concat(
-              action.payload
-            )
-          }
+          [companyId]: { semesterStatuses }
         }
-      };
+      });
     }
 
     case Company.EDIT_SEMESTER_STATUS.SUCCESS: {
       const { companyId, semesterStatusId } = action.meta;
-      return {
-        ...state,
+      const semesterStatuses = state.byId[companyId].semesterStatuses.map(
+        status => (status.id === semesterStatusId ? action.payload : status)
+      );
+      return mergeObjects(state, {
         byId: {
-          ...state.byId,
-          [companyId]: {
-            ...state.byId[companyId],
-            semesterStatuses: state.byId[companyId].semesterStatuses.map(
-              semesterStatus =>
-                semesterStatus.id !== semesterStatusId
-                  ? semesterStatus
-                  : action.payload
-            )
-          }
+          [companyId]: { semesterStatuses }
         }
-      };
+      });
     }
 
     case Company.DELETE_SEMESTER_STATUS.SUCCESS: {
