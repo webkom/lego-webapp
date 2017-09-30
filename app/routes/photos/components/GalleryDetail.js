@@ -8,6 +8,7 @@ import { Link } from 'react-router';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import { Flex } from 'app/components/Layout';
 import Gallery from 'app/components/Gallery';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import styles from './Overview.css';
 
 type Props = {
@@ -52,10 +53,11 @@ export default class GalleryDetail extends Component {
       children,
       push,
       loggedIn,
-      currentUser
+      currentUser,
+      loading
     } = this.props;
     const { upload } = this.state;
-
+    if (loading) return <LoadingIndicator loading />;
     return (
       <section className={styles.root}>
         <Flex wrap alignItems="center" justifyContent="space-between">

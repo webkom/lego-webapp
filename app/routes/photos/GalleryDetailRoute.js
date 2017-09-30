@@ -14,7 +14,8 @@ function mapStateToProps(state, props) {
 
   return {
     gallery: selectGalleryById(state, { galleryId }),
-    pictures: selectPicturesForGallery(state, { galleryId })
+    pictures: selectPicturesForGallery(state, { galleryId }),
+    loading: state.galleries.fetching
   };
 }
 
