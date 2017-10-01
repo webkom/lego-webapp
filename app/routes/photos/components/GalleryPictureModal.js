@@ -9,6 +9,7 @@ import { Link } from 'react-router';
 import CommentView from 'app/components/Comments/CommentView';
 import Modal from 'app/components/Modal';
 import styles from './GalleryPictureModal.css';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Keyboard } from 'app/utils/constants';
 
 type Props = {
@@ -94,7 +95,7 @@ export default class GalleryPictureModal extends Component {
       gallery
     } = this.props;
     const { showMore } = this.state;
-
+    if (!picture) return <LoadingIndicator loading />;
     return (
       <Modal
         onHide={() => push(`/photos/${gallery.id}`)}
