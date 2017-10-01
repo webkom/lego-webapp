@@ -3,6 +3,7 @@
 import React from 'react';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import { Form, TextArea, SelectInput, CheckBox } from 'app/components/Form';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import Button from 'app/components/Button';
 import { Field, reduxForm } from 'redux-form';
 import { Flex } from 'app/components/Layout';
@@ -27,6 +28,8 @@ const GalleryPictureEditModal = ({
   updatePicture,
   handleSubmit
 }: Props) => {
+  if (!picture) return <LoadingIndicator loading />;
+
   const onSubmit = data => {
     const body = {
       description: data.description,

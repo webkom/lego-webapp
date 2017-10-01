@@ -25,5 +25,10 @@ export const contextRender = {
   'articles.article': (context: Object) => (
     <Link to={`/articles/${context.id}/`}>{context.title}</Link>
   ),
-  'notifications.announcement': (context: Object) => <p>{context.message}</p>
+  'notifications.announcement': (context: Object) => <p>{context.message}</p>,
+  'gallery.gallerypicture': (context: Object) => (
+    <Link to={`/photos/${context.gallery.id}/picture/${context.id}`}>
+      {context.gallery.title}-#{context.id}
+    </Link>
+  )
 };
