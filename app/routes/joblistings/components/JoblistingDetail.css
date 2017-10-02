@@ -16,6 +16,7 @@
 
 .textbody {
   flex-direction: row-reverse;
+
   @media (--small-viewport) {
     display: block;
   }
@@ -26,6 +27,7 @@
   background: #ba1414;
   padding: 20px;
   color: #fff;
+
   @media (--small-viewport) {
     margin: 10px;
   }
