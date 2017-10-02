@@ -288,7 +288,7 @@ export function deleteCompanyContact(
           companyId,
           companyContactId,
           errorMessage: 'Sletting av bedriftkontakt feilet'
-        },
+        }
       })
     ).then(() => {
       dispatch(addNotification({ message: 'Bedriftskontakt slettet.' }));

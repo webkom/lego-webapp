@@ -4,4 +4,4 @@ export default {
   ravenDsn: process.env.SERVER_RAVEN_DSN,
   release: process.env.RELEASE,
   environment: process.env.ENVIRONMENT
-}
+};
