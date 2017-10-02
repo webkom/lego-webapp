@@ -91,6 +91,33 @@ describe('createEntityReducer', () => {
     });
   });
 
+  it('should handle non-numeric ids that starts with a digit', () => {
+    expect(
+      reducer(undefined, {
+        type: FETCH.SUCCESS,
+        payload: {
+          actionGrant: ['list'],
+          entities: {
+            events: {
+              '1-per': { name: 'per' },
+              '1-warlo': { name: 'warlo' }
+            }
+          },
+          result: ['1-per', '1-warlo']
+        }
+      })
+    ).toEqual({
+      actionGrant: ['list'],
+      byId: {
+        '1-per': { name: 'per' },
+        '1-warlo': { name: 'warlo' }
+      },
+      items: ['1-per', '1-warlo'],
+      fetching: false,
+      smashed: false
+    });
+  });
+
   it('should toggle the fetching flag', () => {
     const state = reducer(undefined, { type: FETCH.BEGIN });
     expect(state.fetching).toEqual(true);
