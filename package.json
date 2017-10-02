@@ -17,7 +17,7 @@
     "test:coverage": "yarn run test -- --coverage",
     "test:watch": "yarn run test -- --watch",
     "lint": "yarn run lint:js && yarn run lint:css",
-    "lint:js": "eslint app scripts server config --ignore-path .gitignore",
+    "lint:js": "eslint . --ignore-path .prettierignore",
     "lint:css": "stylelint './app/**/*.css'",
     "flow": "flow",
     "styleguide": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist server",
@@ -150,7 +150,7 @@
     }
   },
   "lint-staged": {
-    "app/**/*.{js,css}": [
+    "**/*.{js,css}": [
       "prettier --write",
       "git add"
     ]
