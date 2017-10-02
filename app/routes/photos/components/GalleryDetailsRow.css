@@ -4,7 +4,6 @@ span.detail + span.detail {
 
 span.detail + span.detail:before {
   margin-right: 10px;
-
   content: '•';
 }
 

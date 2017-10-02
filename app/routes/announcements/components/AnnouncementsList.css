@@ -14,6 +14,7 @@
       padding: 0 10px;
     }
   }
+
   @media (--mobile-device) {
     margin: auto 10px;
   }
