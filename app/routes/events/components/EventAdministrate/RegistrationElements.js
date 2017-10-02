@@ -128,11 +128,9 @@ export const RegisteredElement = props => {
                 className="fa fa-minus-circle"
                 style={{ color: '#C24538', marginRight: '5px' }}
               />
-              {clickedUnregister === registration.id ? (
-                'Er du sikker?'
-              ) : (
-                'Meld av'
-              )}
+              {clickedUnregister === registration.id
+                ? 'Er du sikker?'
+                : 'Meld av'}
             </a>
           ))}
       </div>

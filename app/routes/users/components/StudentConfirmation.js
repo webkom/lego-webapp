@@ -83,11 +83,7 @@ const StudentConfirmation = ({
             />
           </RadioButtonGroup>
           <RadioButtonGroup name="member" label="Vil du bli medlem i Abakus?">
-            <Field
-              label="Ja"
-              component={RadioButton.Field}
-              inputValue="true"
-            />
+            <Field label="Ja" component={RadioButton.Field} inputValue="true" />
             <Field
               label="Nei"
               component={RadioButton.Field}
