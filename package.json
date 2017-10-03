@@ -12,7 +12,6 @@
     "build:server": "NODE_ENV=production webpack --config config/webpack.server.js -p",
     "build:dll": "BUILDING_DLL=true webpack --display-chunks --color --config config/webpack.dll.js",
     "postinstall": "yarn run build:dll",
-    "precommit": "lint-staged",
     "test": "NODE_ENV=test jest",
     "test:coverage": "yarn run test -- --coverage",
     "test:watch": "yarn run test -- --watch",
@@ -111,7 +110,6 @@
     "identity-obj-proxy": "3.0.0",
     "jest": "^21.1.0",
     "json-loader": "^0.5.7",
-    "lint-staged": "^4.0.2",
     "postcss-cssnext": "^3.0.2",
     "postcss-import": "^11.0.0",
     "postcss-loader": "^2.0.6",
@@ -149,12 +147,6 @@
         }
       ]
     }
-  },
-  "lint-staged": {
-    "**/*.{js,css}": [
-      "prettier --write",
-      "git add"
-    ]
   },
   "jest": {
     "globals": {
