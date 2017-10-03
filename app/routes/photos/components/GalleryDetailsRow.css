@@ -2,7 +2,7 @@ span.detail + span.detail {
   margin-left: 10px;
 }
 
-span.detail + span.detail:before {
+span.detail + span.detail::before {
   margin-right: 10px;
   content: '•';
 }
