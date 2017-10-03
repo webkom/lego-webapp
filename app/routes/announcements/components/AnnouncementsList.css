@@ -89,14 +89,14 @@
   align-items: center;
 }
 
-.recipients:after {
+.recipients::after {
   content: ',\0000a0';
 }
 
-.recipients:first-child:before {
+.recipients:first-child::before {
   content: '\0000a0';
 }
 
-.recipients:last-child:after {
+.recipients:last-child::after {
   content: normal;
 }

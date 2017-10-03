@@ -27,9 +27,6 @@
   padding: 0;
   background: none;
   overflow: hidden;
-  max-width: none;
-  padding: 0;
-  background: none;
   height: calc(100vh - 200px);
   width: calc(100% - 100px);
 

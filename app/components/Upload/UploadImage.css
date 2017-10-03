@@ -5,7 +5,7 @@
 }
 
 .modal {
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
   border: 1px solid rgba(0, 0, 0, 0.09);
   border-radius: 5px;
 }
@@ -86,7 +86,7 @@
 
 .previewRow {
   height: 52px;
-  margin: 5px 0px;
+  margin: 5px 0;
 }
 
 .previewRowImage {
