@@ -21,6 +21,7 @@
     "__CLIENT__": true
   },
   "rules": {
+    "prettier/prettier": 2,
     "react/prop-types": 1,
     "react/display-name": 1,
     "flowtype/no-types-missing-file-annotation": 0
