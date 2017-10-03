@@ -138,6 +138,7 @@
       "string-quotes": "single",
       "indentation": 2,
       "custom-property-empty-line-before": null,
+      "declaration-colon-newline-after": null,
       "property-no-unknown": null,
       "selector-pseudo-class-no-unknown": [
         true,
