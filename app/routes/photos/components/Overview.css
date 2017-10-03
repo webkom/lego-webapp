@@ -16,7 +16,7 @@
 }
 
 .header {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .galleryInfo {
@@ -45,7 +45,7 @@
 }
 
 .overlay {
-  padding: 0px 16px;
+  padding: 0 16px;
   width: 100%;
   position: absolute;
   top: 0;
@@ -84,7 +84,7 @@
 .actions {
   height: 66px;
   background: dimgray;
-  padding: 0px 20px;
+  padding: 0 20px;
 }
 
 .actionsContainer {
