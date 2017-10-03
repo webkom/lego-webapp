@@ -13,10 +13,10 @@
   outline: none;
   border: 1px solid var(--color-mono-gray-3);
   border-radius: 4px;
-  display: inline-block;
   align-items: center;
   justify-content: center;
   display: inline-flex;
+
   &:hover:not(:disabled) {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     opacity: 0.9;
@@ -42,9 +42,11 @@
 .loading {
   margin-left: 8px;
 }
+
 .button + .button {
   margin-left: 16px;
 }
+
 .dark {
   background: var(--color-red-3);
   color: var(--color-white);

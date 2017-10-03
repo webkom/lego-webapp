@@ -27,11 +27,9 @@
   padding: 0;
   background: none;
   overflow: hidden;
-  max-width: none;
-  padding: 0;
-  background: none;
   height: calc(100vh - 200px);
   width: calc(100% - 100px);
+
   @media (max-width: 800px) {
     top: 40px;
     height: calc(100vh - 80px);
@@ -44,6 +42,7 @@
   flex-basis: calc(100% - 400px);
   order: 1;
   height: inherit;
+
   @media (max-width: 800px) {
     flex-basis: 100%;
     height: calc(60vh - 40px);
@@ -54,6 +53,7 @@
   flex-flow: row wrap;
   height: inherit;
 }
+
 .picture {
   max-width: 100%;
   max-height: 100%;
@@ -75,6 +75,7 @@
   height: inherit;
   background-color: white;
   order: 2;
+
   @media (max-width: 800px) {
     flex-basis: 100%;
     height: calc(40vh - 40px);

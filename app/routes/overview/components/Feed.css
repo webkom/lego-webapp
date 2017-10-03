@@ -1,5 +1,5 @@
 .root {
-  padding: 0px 10px 10px 10px;
+  padding: 0 10px 10px;
   flex: 1;
   min-width: 20em;
   whitespace: no-wrap;
@@ -32,6 +32,7 @@
 .icon {
   margin-right: 15px;
 }
+
 .item {
   border-bottom: 1px solid #eee;
   padding: 5px 0;
