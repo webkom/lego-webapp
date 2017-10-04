@@ -120,6 +120,25 @@ describe('createEntityReducer', () => {
     });
   });
 
+  it('should reduce actionGrant when result is empty', () => {
+    expect(
+      reducer(undefined, {
+        type: FETCH.SUCCESS,
+        payload: {
+          actionGrant: ['list', 'create'],
+          entities: {},
+          result: []
+        }
+      })
+    ).toEqual({
+      actionGrant: ['list', 'create'],
+      byId: {},
+      items: [],
+      fetching: false,
+      smashed: false
+    });
+  });
+
   it('should toggle the fetching flag', () => {
     const state = reducer(undefined, { type: FETCH.BEGIN });
     expect(state.fetching).toEqual(true);
