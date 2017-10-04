@@ -47,18 +47,20 @@ describe('createEntityReducer', () => {
           actionGrant: ['list'],
           entities: {
             events: {
+              0: { name: 'Hello' },
               1: { name: 'Hello' }
             }
           },
-          result: [1]
+          result: [0, 1]
         }
       })
     ).toEqual({
       actionGrant: ['list'],
       byId: {
+        0: { name: 'Hello' },
         1: { name: 'Hello' }
       },
-      items: [1],
+      items: [0, 1],
       fetching: false,
       smashed: false
     });

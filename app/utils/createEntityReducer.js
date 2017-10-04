@@ -37,6 +37,8 @@ export function fetching(fetchType?: ActionTypeObject) {
   };
 }
 
+const isNumber = id => !isNaN(Number(id)) && !isNaN(parseInt(id, 10));
+
 export function entities(key: string, fetchType?: ActionTypeObject) {
   return (
     state: any = {
@@ -62,7 +64,7 @@ export function entities(key: string, fetchType?: ActionTypeObject) {
       byId: mergeObjects(state.byId, result),
       items: union(
         state.items,
-        Object.keys(result).map(i => (Number(i) && parseInt(i, 10)) || i)
+        Object.keys(result).map(i => (isNumber(i) ? parseInt(i, 10) : i))
       ),
       actionGrant: union(state.actionGrant, actionGrant)
     };
