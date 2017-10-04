@@ -1,6 +1,7 @@
 // @flow
 
-import { get, union } from 'lodash';
+import { get, union, isEmpty } from 'lodash';
+
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
 
@@ -48,24 +49,24 @@ export function entities(key: string, fetchType?: ActionTypeObject) {
     },
     action: any
   ) => {
-    let result = get(action, ['payload', 'entities', key]);
-    let actionGrant = get(action, ['payload', 'actionGrant']);
+    const result = get(action, ['payload', 'entities', key], {});
+    const resultIds = Object.keys(result).map(
+      i => (isNumber(i) ? parseInt(i, 10) : i)
+    );
+    const actionGrant = get(action, ['payload', 'actionGrant'], []);
 
     if (
       !action.payload ||
-      (!result && actionGrant && action.type !== get(fetchType, 'SUCCESS'))
+      (isEmpty(result) &&
+        !isEmpty(actionGrant) &&
+        action.type !== get(fetchType, 'SUCCESS'))
     )
       return state;
 
-    result = result || {};
-    actionGrant = actionGrant || [];
     return {
       ...state,
       byId: mergeObjects(state.byId, result),
-      items: union(
-        state.items,
-        Object.keys(result).map(i => (isNumber(i) ? parseInt(i, 10) : i))
-      ),
+      items: union(state.items, resultIds),
       actionGrant: union(state.actionGrant, actionGrant)
     };
   };
