@@ -92,6 +92,14 @@ export const Group = {
   UPDATE: generateStatuses('Group.UPDATE')
 };
 
+export const CompanyInterestForm = {
+  FETCH_ALL: generateStatuses('CompanyInterestForm.FETCH_ALL'),
+  FETCH: generateStatuses('CompanyInterestForm.FETCH'),
+  CREATE: generateStatuses('CompanyInterestForm.CREATE'),
+  DELETE: generateStatuses('CompanyInterestForm.DELETE'),
+  UPDATE: generateStatuses('CompanyInterestForm.UPDATE')
+};
+
 export const InterestGroup = {
   FETCH_ALL: generateStatuses('InterestGroup.FETCH_ALL'),
   FETCH: generateStatuses('InterestGroup.FETCH'),
