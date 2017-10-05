@@ -81,9 +81,7 @@ function MeetingEditor({
         <h2> Tittel </h2>
         <Field name="title" component={TextInput.Field} />
         <h3>Møteinnkalling / referat</h3>
-        <div className={styles.editors}>
-          <Field name="report" component={EditorField} />
-        </div>
+        <Field name="report" component={EditorField} />
         <div className={styles.sideBySideBoxes}>
           <div>
             <h3>Starttidspunkt</h3>

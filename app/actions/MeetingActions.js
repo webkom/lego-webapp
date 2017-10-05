@@ -7,6 +7,7 @@ import { push } from 'react-router-redux';
 import { startSubmit, stopSubmit } from 'redux-form';
 import moment from 'moment';
 import type { Thunk } from 'app/types';
+import type { UserEntity } from 'app/reducers/users';
 
 export function fetchMeeting(meetingId: string) {
   return callAPI({
@@ -35,49 +36,40 @@ export function fetchAll() {
 export function setInvitationStatus(
   meetingId: number,
   status: string,
-  userId: number
+  user: UserEntity
 ) {
   return callAPI({
     types: Meeting.SET_INVITATION_STATUS,
+<<<<<<< HEAD
     endpoint: `/meetings/${meetingId}/invitations/${userId}/`,
     method: 'PUT',
+=======
+    endpoint: `/meetings/${meetingId}/invitations/${user.id}/`,
+    method: 'put',
+>>>>>>> Cleanup in meetingsEditor
     body: {
-      user: userId,
+      user: user.id,
       status
     },
     meta: {
       errorMessage: 'Endring av invitasjonstatus feilet',
       meetingId,
       status,
-      user: userId
+      user
     }
   });
 }
 
 export function deleteMeeting(id: number): Thunk<*> {
-  return dispatch => {
-    dispatch(startSubmit('deleteMeeting'));
-
-    return dispatch(
-      callAPI({
-        types: Meeting.DELETE,
-        endpoint: `/meetings/${id}/`,
-        method: 'DELETE',
-        meta: {
-          meetingId: id,
-          errorMessage: 'Sletting av møte feilet'
-        }
-      })
-    )
-      .then(() => {
-        dispatch(stopSubmit('deleteMeeting'));
-        dispatch(push('/meetings/'));
-      })
-      .catch(action => {
-        const errors = { ...action.error.response.jsonData };
-        dispatch(stopSubmit('deleteMeeting', errors));
-      });
-  };
+  return callAPI({
+    types: Meeting.DELETE,
+    endpoint: `/meetings/${id}/`,
+    method: 'DELETE',
+    meta: {
+      meetingId: id,
+      errorMessage: 'Sletting av møte feilet'
+    }
+  });
 }
 
 export function createMeeting({
