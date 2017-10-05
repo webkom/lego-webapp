@@ -8,7 +8,8 @@ import {
   CheckBox,
   Form
 } from 'app/components/Form';
-import { Field, FieldArray } from 'redux-form';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import { Field, SubmissionError, FieldArray } from 'redux-form';
 import type { FieldProps } from 'redux-form';
 import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
 import { Content } from 'app/components/Layout';
@@ -103,10 +104,14 @@ type Props = FieldProps & {
   push: string => void,
   events: Array<Object>,
   semesters: Array<Object>,
-  edit: boolean
+  edit: boolean,
+  companyInterest?: CompanyInterestEntity
 };
 
 const CompanyInterestPage = (props: Props) => {
+  if (props.edit && !props.companyInterest) {
+    return <LoadingIndicator loading />;
+  }
   const onSubmit = data => {
     const newData = {
       companyName: data.companyName,
@@ -199,7 +204,7 @@ export default reduxForm({
   validate(values) {
     const errors = {};
     if (!values.companyName) {
-      errors.companyName = 'Du må gi møtet en tittel';
+      errors.companyName = 'Denne kan ikke være tom!';
     }
     if (!values.contactPerson) {
       errors.contactPerson = 'Du må oppgi en kontaktperson!';
@@ -209,6 +214,5 @@ export default reduxForm({
     }
 
     return errors;
-  },
-  enableReinitialize: true
+  }
 })(CompanyInterestPage);
