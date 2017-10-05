@@ -99,7 +99,6 @@ class DatePicker extends Component {
         triggerComponent={
           <TextInput
             className={cx(styles.inputField, className)}
-            disabled
             value={this.state.value.format(this.props.dateFormat)}
           />
         }
