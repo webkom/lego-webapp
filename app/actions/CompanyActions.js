@@ -14,7 +14,7 @@ import { addNotification } from 'app/actions/NotificationActions';
 
 export function fetchAll() {
   return callAPI({
-    types: Company.FETCH_ALL,
+    types: Company.FETCH,
     endpoint: '/companies/',
     schema: [companySchema],
     meta: {
@@ -231,7 +231,8 @@ export function addCompanyContact({
           phone
         },
         meta: {
-          errorMessage: 'Legg til bedriftkontakt feilet'
+          errorMessage: 'Legg til bedriftkontakt feilet',
+          companyId
         }
       })
     ).then(() => {

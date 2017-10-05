@@ -18,51 +18,6 @@ function mutateCompanies(state, action) {
       };
     }
 
-    case Company.FETCH_ALL.SUCCESS: {
-      const items = action.payload.result;
-      const users = action.payload.entities.users;
-      return {
-        ...state,
-        items,
-        byId: items.reduce((byId, id) => {
-          const company = action.payload.entities.companies[id];
-          byId[id] = {
-            ...company,
-            studentContact: users
-              ? users[company.studentContact]
-              : company.studentContact
-          };
-          return byId;
-        }, {})
-      };
-    }
-
-    case Company.FETCH.SUCCESS:
-    case Company.ADD.SUCCESS:
-    case Company.EDIT.SUCCESS: {
-      const company = action.payload.entities.companies[action.payload.result];
-      const id = action.payload.result;
-
-      return {
-        ...state,
-        items: state.items
-          .filter(
-            item =>
-              !action.meta.optimisticId || item !== action.meta.optimisticId
-          )
-          .concat(state.items.indexOf(id) === -1 ? id : []),
-        byId: {
-          ...state.byId,
-          [id]: {
-            ...company,
-            studentContact: action.payload.entities.users
-              ? action.payload.entities.users[company.studentContact]
-              : company.studentContact
-          }
-        }
-      };
-    }
-
     case Company.ADD_SEMESTER_STATUS.SUCCESS: {
       const companyId = action.meta.companyId;
       const semesterStatuses = state.byId[companyId].semesterStatuses.concat(
@@ -103,23 +58,29 @@ function mutateCompanies(state, action) {
       };
     }
 
+    case Company.ADD_COMPANY_CONTACT.SUCCESS: {
+      const companyId = action.meta.companyId;
+      const companyContacts = state.byId[companyId].companyContacts.concat(
+        action.payload
+      );
+      return mergeObjects(state, {
+        byId: {
+          [companyId]: { companyContacts }
+        }
+      });
+    }
+
     case Company.EDIT_COMPANY_CONTACT.SUCCESS: {
       const companyId = action.meta.companyId;
-      return {
-        ...state,
-        byId: {
-          ...state.byId,
-          [companyId]: {
-            ...state.byId[companyId],
-            companyContacts: state.byId[companyId].companyContacts.map(
-              companyContact =>
-                companyContact.id === action.payload.id
-                  ? action.payload
-                  : companyContact
-            )
-          }
-        }
-      };
+      const companyContacts = state.byId[companyId].companyContacts.map(
+        companyContact =>
+          companyContact.id === action.payload.id
+            ? action.payload
+            : companyContact
+      );
+      return mergeObjects(state, {
+        byId: { [companyId]: { companyContacts } }
+      });
     }
 
     case Company.DELETE_COMPANY_CONTACT.SUCCESS: {
@@ -157,19 +118,24 @@ export default createEntityReducer({
 export const selectCompanies = createSelector(
   state => state.companies.items,
   state => state.companies.byId,
+  state => state.users.byId,
   state => state,
-  (companyIds, companiesById, state) => {
+  (companyIds, companiesById, usersById, state) => {
     if (companyIds.length === 0) return [];
     const companySemesters = selectCompanySemesters(state);
-    return companyIds.map(companyId => ({
-      ...companiesById[companyId],
-      semesterStatuses:
-        companiesById[companyId] &&
-        selectSemesterStatuses(
-          companiesById[companyId].semesterStatuses,
-          companySemesters
-        )
-    }));
+    return companyIds.map(companyId => {
+      const company = companiesById[companyId];
+      return {
+        ...company,
+        studentContact:
+          usersById && usersById[company.studentContact]
+            ? usersById[company.studentContact]
+            : company.studentContact,
+        semesterStatuses:
+          company &&
+          selectSemesterStatuses(company.semesterStatuses, companySemesters)
+      };
+    });
   }
 );
 
