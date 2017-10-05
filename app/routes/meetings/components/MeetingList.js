@@ -10,9 +10,24 @@ import styles from './MeetingList.css';
 import Toolbar from './Toolbar';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Content from 'app/components/Layout/Content';
-import { INVITATION_STATUSES } from '../constants';
+import { statuses } from 'app/reducers/meetingInvitations';
+import type { MeetingEntity } from 'app/reducers/meetings';
+import type { UserEntity } from 'app/reducers/users';
 
-function MeetingListItem({ meeting, userId }) {
+type MeetingPool = {
+  title: string,
+  meetings: Array<MeetingEntity>
+};
+
+type MeetingPools = Array<MeetingPool>;
+
+function MeetingListItem({
+  meeting,
+  username
+}: {
+  meeting: MeetingEntity,
+  username: string
+}) {
   const isDone = moment(meeting.startTime) < moment();
 
   return (
@@ -24,10 +39,10 @@ function MeetingListItem({ meeting, userId }) {
         <Link to={`/meetings/${meeting.id}`}>
           <h3 className={styles.meetingItemTitle}>
             {meeting.title}
-            {userId === meeting.createdBy && (
+            {username === meeting.createdBy && (
               <Pill style={{ marginLeft: 10 }}>Eier</Pill>
             )}
-            {userId === meeting.reportAuthor && (
+            {username === meeting.reportAuthor && (
               <Pill style={{ marginLeft: 10 }}>Referent</Pill>
             )}
           </h3>
@@ -38,7 +53,7 @@ function MeetingListItem({ meeting, userId }) {
             Deltakere:{' '}
             {
               meeting.invitations.filter(
-                invite => invite.status === INVITATION_STATUSES.ATTENDING
+                invite => invite.status === statuses.ATTENDING
               ).length
             }{' '}
             av {meeting.invitations.length} personer deltar
@@ -53,13 +68,23 @@ function MeetingListItem({ meeting, userId }) {
     </div>
   );
 }
-const MeetingListView = ({ pools, currentUser }) => (
+const MeetingListView = ({
+  pools,
+  currentUser
+}: {
+  pools: MeetingPools,
+  currentUser: UserEntity
+}) => (
   <div>
     {pools.map((item, key) => (
       <div key={key}>
         <h2 className={styles.heading}>{item.title}</h2>
         {item.meetings.map((item, key) => (
-          <MeetingListItem key={key} userId={currentUser.username} meeting={item} />
+          <MeetingListItem
+            key={key}
+            username={currentUser.username}
+            meeting={item}
+          />
         ))}
       </div>
     ))}
@@ -69,11 +94,19 @@ const MeetingListView = ({ pools, currentUser }) => (
   </div>
 );
 
+type Props = {
+  meetings: MeetingEntity,
+  currentUser: UserEntity,
+  loading: boolean
+};
+
 export default class MeetingList extends Component {
-  sortMeetings = meetings => {
+  props: Props;
+
+  sortMeetings = (meetings: Array<MeetingEntity>) => {
     const currentYear = moment().year();
     const currentWeek = moment().week();
-    const pools = [
+    const pools: MeetingPools = [
       {
         title: 'Denne uken',
         meetings: []
@@ -122,9 +155,9 @@ export default class MeetingList extends Component {
         const year1 = elem1.title.substring(1, 5);
         const year2 = elem2.title.substring(1, 5);
         if (year1 === year2) {
-          return elem1.title < elem2.tilte ? 1 : -1;
+          return elem1.title < elem2.title ? 1 : -1;
         }
-        return year2 - year1;
+        return Number(year2) - Number(year1);
       });
 
     return pools
@@ -140,7 +173,7 @@ export default class MeetingList extends Component {
 
   render() {
     const { meetings, currentUser, loading } = this.props;
-    const pools = this.sortMeetings(meetings);
+    const pools: MeetingPools = this.sortMeetings(meetings);
     return (
       <Content>
         <Toolbar />
