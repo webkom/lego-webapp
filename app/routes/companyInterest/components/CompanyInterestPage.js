@@ -9,12 +9,13 @@ import {
   Form
 } from 'app/components/Form';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { Field, SubmissionError, FieldArray } from 'redux-form';
+import { reduxForm, Field, SubmissionError, FieldArray } from 'redux-form';
 import type { FieldProps } from 'redux-form';
 import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
 import { Content } from 'app/components/Layout';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
-import { reduxForm } from 'redux-form';
+
+import { createValidator, required, isEmail } from 'app/utils/validation';
 
 export const EVENT_TYPES = {
   company_presentation: 'Bedriftspresentasjon',
@@ -130,7 +131,14 @@ const CompanyInterestPage = (props: Props) => {
       comment: data.comment
     };
 
-    props.onSubmit(newData).then(() => props.push('/companyInterest'));
+    return props
+      .onSubmit(newData)
+      .then(() => props.push('/companyInterest'))
+      .catch(err => {
+        if (err.payload && err.payload.response) {
+          throw new SubmissionError(err.payload.response.jsonData);
+        }
+      });
   };
 
   return (
@@ -199,20 +207,13 @@ const CompanyInterestPage = (props: Props) => {
   );
 };
 
+const validate = createValidator({
+  companyName: [required()],
+  contactPerson: [required()],
+  mail: [required(), isEmail()]
+});
+
 export default reduxForm({
   form: 'CompanyInterestForm',
-  validate(values) {
-    const errors = {};
-    if (!values.companyName) {
-      errors.companyName = 'Denne kan ikke være tom!';
-    }
-    if (!values.contactPerson) {
-      errors.contactPerson = 'Du må oppgi en kontaktperson!';
-    }
-    if (!values.mail) {
-      errors.mail = 'Du må oppgi mail!';
-    }
-
-    return errors;
-  }
+  validate
 })(CompanyInterestPage);
