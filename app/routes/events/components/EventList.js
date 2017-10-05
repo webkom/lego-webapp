@@ -62,10 +62,6 @@ export function EventItem({ event }: any) {
           />
         </Link>
 
-        <div>
-          <span>3 friends are going</span>
-        </div>
-
         <div className={styles.eventTime}>
           <Time time={event.startTime} format="ll HH:mm" />
           {` • ${event.location}`}
