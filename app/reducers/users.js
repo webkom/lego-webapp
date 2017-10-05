@@ -5,7 +5,13 @@ import { User } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 
 export type UserEntity = {
-  username: string
+  id: number,
+  username: string,
+  fullName: string,
+  firstName: string,
+  lastName: string,
+  gender: string,
+  profilePicture: string
 };
 
 export default createEntityReducer({
