@@ -21,11 +21,11 @@ export const statuses = {
 export const getMeetingInvitationId = (meetingId: number, username: string) =>
   `${meetingId}-${username}`;
 
-type Status = $Keys<typeof statuses>;
+export type MeetingInvitationStatus = $Keys<typeof statuses>;
 
 export type MeetingInvitationEntity = {
   user: UserEntity,
-  status: Status,
+  status: MeetingInvitationStatus,
   meeting: number
 };
 
