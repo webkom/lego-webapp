@@ -89,6 +89,7 @@ const GalleryPictureEditModal = ({
                 name="active"
                 component={CheckBox.Field}
                 id="gallery-picture-active"
+                normalize={v => !!v}
               />
               <Field
                 label="Brukere"

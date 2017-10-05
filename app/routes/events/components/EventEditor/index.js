@@ -177,6 +177,7 @@ function EventEditor({
               component={CheckBox.Field}
               fieldClassName={styles.metaField}
               className={styles.formField}
+              normalize={v => !!v}
             />
             {event.isPriced && (
               <div>
@@ -187,6 +188,7 @@ function EventEditor({
                     component={CheckBox.Field}
                     fieldClassName={styles.metaField}
                     className={styles.formField}
+                    normalize={v => !!v}
                   />
                 </Tooltip>
                 <Field
@@ -243,6 +245,7 @@ function EventEditor({
                 fieldClassName={styles.metaField}
                 className={styles.formField}
                 component={CheckBox.Field}
+                normalize={v => !!v}
               />
             </Flex>
             <Button disabled={pristine || submitting} submit>

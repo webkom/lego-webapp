@@ -24,10 +24,10 @@
 .compactLeft,
 .compactRight {
   flex: 1;
-  padding: 5px 20px;
+  padding: 0 20px 5px;
 
   @media (--mobile-device) {
-    padding: 10px;
+    padding: 0 10px 10px;
   }
 }
 
