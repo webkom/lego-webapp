@@ -85,7 +85,7 @@ const ButtonRow = ({
     m => m.user.id === currentUser.id
   )[0];
   const onClick = membership
-    ? () => leaveInterestGroup(membership)
+    ? () => leaveInterestGroup(membership, group.id)
     : () => joinInterestGroup(group.id, currentUser);
   return (
     <Flex>
