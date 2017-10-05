@@ -88,7 +88,7 @@ class App extends PureComponent {
           {this.props.children}
         </AppChildren>
 
-        <Footer />
+        <Footer {...this.props} />
       </div>
     );
   }
