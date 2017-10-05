@@ -89,7 +89,10 @@ export const Meeting = {
  */
 export const Group = {
   FETCH: generateStatuses('Group.FETCH'),
-  UPDATE: generateStatuses('Group.UPDATE')
+  UPDATE: generateStatuses('Group.UPDATE'),
+  FETCH_ALL: generateStatuses('Group.FETCH_ALL'),
+  CREATE: generateStatuses('Group.CREATE'),
+  REMOVE: generateStatuses('Group.REMOVE')
 };
 
 export const CompanyInterestForm = {
