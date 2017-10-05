@@ -9,8 +9,9 @@ import Editor from 'app/components/Editor';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import moment from 'moment';
-import { INVITATION_STATUSES_TEXT, INVITATION_STATUSES } from '../constants';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import { statusesText, statuses } from 'app/reducers/meetingInvitations';
+
 import type {
   MeetingInvitationEntity,
   MeetingInvitationStatus
@@ -19,11 +20,10 @@ import type { UserEntity } from 'app/reducers/users';
 
 type Props = {
   meeting: object,
-  user: object,
+  currentUser: UserEntity,
   showAnswer: Boolean,
   meetingInvitations: Array<MeetingInvitationEntity>,
   deleteMeeting: number => Promise<*>,
-  doTheThing: number => Promise<*>,
   setInvitationStatus: (
     meetingId: number,
     status: MeetingInvitationStatus,
@@ -46,21 +46,19 @@ class MeetingDetails extends Component {
   props: Props;
 
   setInvitationStatus = (newStatus: MeetingInvitationStatus) => {
-    const { meeting, user } = this.props;
-    this.props.setInvitationStatus(meeting.id, newStatus, user);
+    const { meeting, currentUser } = this.props;
+    this.props.setInvitationStatus(meeting.id, newStatus, currentUser);
   };
 
-  acceptInvitation = () =>
-    this.setInvitationStatus(INVITATION_STATUSES.ATTENDING);
+  acceptInvitation = () => this.setInvitationStatus(statuses.ATTENDING);
 
-  rejectInvitation = () =>
-    this.setInvitationStatus(INVITATION_STATUSES.NOT_ATTENDING);
+  rejectInvitation = () => this.setInvitationStatus(statuses.NOT_ATTENDING);
 
   sortInvitations = () => {
     const { meetingInvitations } = this.props;
 
-    return Object.keys(INVITATION_STATUSES).map(invitationStatus => ({
-      name: INVITATION_STATUSES_TEXT[invitationStatus],
+    return Object.keys(statuses).map(invitationStatus => ({
+      name: statusesText[invitationStatus],
       capacity: meetingInvitations.length,
       registrations: meetingInvitations.filter(
         invite => invite.status === invitationStatus
@@ -74,13 +72,13 @@ class MeetingDetails extends Component {
       <li className={styles.statusButtons}>
         <Button
           onClick={this.acceptInvitation}
-          disabled={statusMe === INVITATION_STATUSES.ATTENDING}
+          disabled={statusMe === statuses.ATTENDING}
         >
           Delta
         </Button>
         <Button
           onClick={this.rejectInvitation}
-          disabled={statusMe === INVITATION_STATUSES.NOT_ATTENDING}
+          disabled={statusMe === statuses.NOT_ATTENDING}
         >
           Avslå
         </Button>
@@ -88,7 +86,6 @@ class MeetingDetails extends Component {
     );
 
   onDeleteMeeting = () => {
-    this.props.de;
     this.props
       .deleteMeeting(this.props.meeting.id)
       .then(() => this.props.push('/meetings/'));
@@ -97,14 +94,14 @@ class MeetingDetails extends Component {
   render() {
     const {
       meeting,
-      user,
+      currentUser,
       showAnswer,
       reportAuthor,
       createdBy,
       currentUserInvitation
     } = this.props;
 
-    if (!meeting || !user) {
+    if (!meeting || !currentUser) {
       return <LoadingIndicator loading />;
     }
     const statusMe = currentUserInvitation && currentUserInvitation.status;
@@ -167,7 +164,7 @@ class MeetingDetails extends Component {
                 {statusMe && (
                   <li>
                     <strong> Din status: </strong>
-                    {INVITATION_STATUSES_TEXT[statusMe]}
+                    {statusesText[statusMe]}
                   </li>
                 )}
                 <li>
