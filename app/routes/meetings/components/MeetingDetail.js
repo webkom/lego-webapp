@@ -105,9 +105,11 @@ class MeetingDetails extends Component {
               <NavigationLink to="/meetings">
                 <i className="fa fa-angle-left" /> Mine møter
               </NavigationLink>
-              <NavigationLink to={`/meetings/${meeting.id}/edit`}>
-                Endre møte
-              </NavigationLink>
+              {canEdit && (
+                <NavigationLink to={`/meetings/${meeting.id}/edit`}>
+                  Endre møte
+                </NavigationLink>
+              )}
               {canDelete && (
                 <NavigationLink
                   onClick={() => {

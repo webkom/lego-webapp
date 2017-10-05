@@ -37,7 +37,9 @@ function MeetingListItem({ meeting, userId }) {
           <span>
             Deltakere:{' '}
             {
-              meeting.invitations.filter(invite => invite.status === 1).length
+              meeting.invitations.filter(
+                invite => invite.status === INVITATION_STATUSES.ATTENDING
+              ).length
             }{' '}
             av {meeting.invitations.length} personer deltar
           </span>
