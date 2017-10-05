@@ -10,7 +10,7 @@ import type { Thunk } from 'app/types';
 export function fetchInterestGroup(interestGroupId: string) {
   return callAPI({
     types: InterestGroup.FETCH,
-    endpoint: `/interest-groups/${interestGroupId}/`,
+    endpoint: `/groups/${interestGroupId}/`,
     schema: interestGroupSchema,
     meta: {
       errorMessage: 'Henting av interessegruppe feilet'
@@ -22,7 +22,7 @@ export function fetchInterestGroup(interestGroupId: string) {
 export function fetchAll() {
   return callAPI({
     types: InterestGroup.FETCH_ALL,
-    endpoint: '/interest-groups/',
+    endpoint: '/groups/?type=interesse',
     schema: [interestGroupSchema],
     meta: {
       errorMessage: 'Henting av interessegrupper feilet'
@@ -33,17 +33,17 @@ export function fetchAll() {
 
 export function createInterestGroup(group: Object): Thunk<*> {
   return dispatch => {
-    const { name, description, descriptionLong, logo } = group;
+    const { name, description, text, logo } = group;
     dispatch(
       callAPI({
         types: InterestGroup.CREATE,
-        endpoint: '/interest-groups/',
+        endpoint: '/groups/',
         schema: interestGroupSchema,
         method: 'POST',
         body: {
           name,
           description,
-          descriptionLong,
+          text,
           logo
         },
         meta: {
@@ -63,7 +63,7 @@ export function removeInterestGroup(id: string): Thunk<*> {
     dispatch(
       callAPI({
         types: InterestGroup.REMOVE,
-        endpoint: `/interest-groups/${id}/`,
+        endpoint: `/groups/${id}/`,
         method: 'DELETE',
         meta: {
           groupId: id,
@@ -80,7 +80,7 @@ export function editInterestGroup(group: Object): Thunk<*> {
     dispatch(
       callAPI({
         types: InterestGroup.UPDATE,
-        endpoint: `/interest-groups/${id}/`,
+        endpoint: `/groups/${id}/`,
         schema: interestGroupSchema,
         method: 'PATCH',
         body: group.logo ? group : omit(group, 'logo'),

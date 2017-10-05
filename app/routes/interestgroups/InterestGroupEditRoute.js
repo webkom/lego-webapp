@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { formValueSelector } from 'redux-form';
 import {
   editInterestGroup,
-  joinInterestGroup,
   removeInterestGroup
 } from 'app/actions/InterestGroupActions';
 import { uploadFile } from 'app/actions/FileActions';
@@ -12,7 +11,6 @@ import InterestGroupEdit from './components/InterestGroupEdit';
 
 const mapDispatchToProps = {
   editInterestGroup,
-  joinInterestGroup,
   removeInterestGroup,
   uploadFile,
   handleSubmitCallback: editInterestGroup
