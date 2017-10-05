@@ -23,6 +23,7 @@ type Props = {
   showAnswer: Boolean,
   meetingInvitations: Array<MeetingInvitationEntity>,
   deleteMeeting: number => Promise<*>,
+  doTheThing: number => Promise<*>,
   setInvitationStatus: (
     meetingId: number,
     status: MeetingInvitationStatus,
@@ -87,6 +88,7 @@ class MeetingDetails extends Component {
     );
 
   onDeleteMeeting = () => {
+    this.props.de;
     this.props
       .deleteMeeting(this.props.meeting.id)
       .then(() => this.props.push('/meetings/'));
@@ -107,8 +109,10 @@ class MeetingDetails extends Component {
     }
     const statusMe = currentUserInvitation && currentUserInvitation.status;
 
-    const canDelete = meeting.actionGrant.includes('delete');
-    const canEdit = meeting.actionGrant.includes('edit');
+    const actionGrant = meeting && meeting.actionGrant;
+
+    const canDelete = actionGrant && actionGrant.includes('delete');
+    const canEdit = actionGrant && actionGrant.includes('edit');
 
     return (
       <div className={styles.root}>
