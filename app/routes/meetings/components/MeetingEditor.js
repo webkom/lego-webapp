@@ -29,7 +29,8 @@ type Props = {
   invitingUsers: array,
   user: object,
   pristine: boolean,
-  submitting: boolean
+  submitting: boolean,
+  meetingInvitations: Array<Object>
 };
 
 function MeetingEditor({
@@ -41,7 +42,8 @@ function MeetingEditor({
   invitingUsers = [],
   user,
   submitting,
-  pristine
+  pristine,
+  meetingInvitations
 }: Props) {
   const isEditPage = meetingId !== undefined;
   if (isEditPage && !meeting) {
@@ -49,13 +51,13 @@ function MeetingEditor({
   }
 
   const userSearchable = {
-    value: user.id.toString(),
+    value: user.id,
     label: user.fullName
   };
 
-  const invitedUsersSearchable = meeting
-    ? meeting.invitations.map(invite => ({
-        value: invite.user.id.toString(),
+  const invitedUsersSearchable = meetingInvitations
+    ? meetingInvitations.map(invite => ({
+        value: parseInt(invite.user.id, 10),
         label: invite.user.fullName
       }))
     : [];
@@ -151,6 +153,7 @@ function MeetingEditor({
 
 export default reduxForm({
   form: 'meetingEditor',
+  enableReinitialize: true,
   validate(values) {
     const errors = {};
     if (!values.title) {

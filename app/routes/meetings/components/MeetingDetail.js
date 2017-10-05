@@ -11,11 +11,13 @@ import { AttendanceStatus } from 'app/components/UserAttendance';
 import moment from 'moment';
 import { INVITATION_STATUSES_TEXT, INVITATION_STATUSES } from '../constants';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import type { MeetingInvitationEntity } from 'app/reducers/meetingInvitation';
 
 type Props = {
   meeting: object,
   user: object,
-  showAnswer: Boolean
+  showAnswer: Boolean,
+  meetingInvitations: Array<MeetingInvitationEntity>
 };
 
 const UserLink = ({ user }: object) =>
@@ -30,7 +32,7 @@ class MeetingDetails extends Component {
 
   setInvitationStatus = newStatus => {
     const { meeting, user } = this.props;
-    this.props.setInvitationStatus(meeting.id, newStatus, user.id);
+    this.props.setInvitationStatus(meeting.id, newStatus, user);
   };
 
   acceptInvitation = () =>
@@ -40,12 +42,12 @@ class MeetingDetails extends Component {
     this.setInvitationStatus(INVITATION_STATUSES.NOT_ATTENDING);
 
   sortInvitations = () => {
-    const { invitations } = this.props.meeting;
+    const { meetingInvitations } = this.props;
 
     return Object.keys(INVITATION_STATUSES).map(invitationStatus => ({
       name: INVITATION_STATUSES_TEXT[invitationStatus],
-      capacity: invitations.length,
-      registrations: invitations.filter(
+      capacity: meetingInvitations.length,
+      registrations: meetingInvitations.filter(
         invite => invite.status === invitationStatus
       )
     }));
@@ -69,26 +71,30 @@ class MeetingDetails extends Component {
       </li>
     );
 
+  onDeleteMeeting = () => {
+    this.props
+      .deleteMeeting(this.props.meeting.id)
+      .then(() => this.props.push('/meetings/'));
+  };
+
   render() {
-    const { meeting, user, showAnswer } = this.props;
+    const {
+      meeting,
+      user,
+      showAnswer,
+      reportAuthor,
+      createdBy,
+      currentUserInvitation
+    } = this.props;
 
     if (!meeting || !user) {
       return <LoadingIndicator loading />;
     }
-    const statusMe = meeting.invitations.find(
-      item => item.user.username === user.username
-    ).status;
+    const statusMe = currentUserInvitation && currentUserInvitation.status;
 
-    const reportAuthorInvite = meeting.invitations.find(
-      invite => invite.user.id === meeting.reportAuthor
-    );
-    const reportAuthor = reportAuthorInvite ? reportAuthorInvite.user : null;
+    const canDelete = meeting.actionGrant.includes('delete');
+    const canEdit = meeting.actionGrant.includes('edit');
 
-    const createdBy = meeting.invitations.find(
-      invite => invite.user.id === meeting.createdBy
-    ).user;
-
-    const canDelete = user.id === meeting.createdBy;
     return (
       <div className={styles.root}>
         {showAnswer && <h2> Du har nå svart på invitasjonen 😃 </h2>}

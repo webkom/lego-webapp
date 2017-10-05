@@ -7,33 +7,57 @@ import {
   deleteMeeting
 } from 'app/actions/MeetingActions';
 import { selectMeetingById } from 'app/reducers/meetings';
+import {
+  selectMeetingInvitationsForMeeting,
+  selectMeetingInvitation
+} from 'app/reducers/meetingInvitations';
+import { selectUserById } from 'app/reducers/users';
 import MeetingDetail from './components/MeetingDetail';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
-const loadData = (props, dispatch) => {
-  const { meetingId } = props.params;
-  return dispatch(fetchMeeting(meetingId));
-};
-
 const mapStateToProps = (state, props) => {
   const { meetingId } = props.params;
+  const { currentUser } = props;
   const meeting = selectMeetingById(state, { meetingId });
+  const reportAuthor =
+    meeting && selectUserById(state, { userId: meeting.reportAuthor });
+  const createdBy =
+    meeting && selectUserById(state, { userId: meeting.createdBy });
+  const meetingInvitations =
+    meeting &&
+    selectMeetingInvitationsForMeeting(state, {
+      meetingId
+    });
+  const currentUserInvitation = selectMeetingInvitation(state, {
+    userId: currentUser.username,
+    meetingId
+  });
   return {
     meeting,
     meetingId,
-    user: props.currentUser
+    reportAuthor,
+    createdBy,
+    meetingInvitations,
+    currentUserInvitation,
+    currentUser
   };
 };
 
 const mapDispatchToProps = {
-  fetchMeeting,
   setInvitationStatus,
-  deleteMeeting
+  deleteMeeting,
+  fetchMeeting,
+  push
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(loadData, { componentWillReceiveProps: false }),
+  dispatched(
+    (props, dispatch) => dispatch(fetchMeeting(props.params.meetingId)),
+    {
+      componentWillReceiveProps: false
+    }
+  ),
   connect(mapStateToProps, mapDispatchToProps)
 )(MeetingDetail);
