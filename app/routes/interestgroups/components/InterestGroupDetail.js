@@ -65,7 +65,7 @@ const Logo = ({ logo }) => (
 
 const Content = ({ group }) => (
   <Flex column style={{ flex: '1' }}>
-    <Text text={group.descriptionLong} />
+    <Text text={group.text} />
   </Flex>
 );
 
