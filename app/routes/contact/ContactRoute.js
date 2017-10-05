@@ -27,6 +27,9 @@ export default compose(
   reduxForm({
     form: 'contactForm',
     validate,
-    enableReinitialize: true
+    enableReinitialize: true,
+    initialValues: {
+      anonymous: false
+    }
   })
 )(Contact);
