@@ -3,7 +3,6 @@
 import { Meeting } from './ActionTypes';
 import { meetingSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
-import { push } from 'react-router-redux';
 import { startSubmit, stopSubmit } from 'redux-form';
 import moment from 'moment';
 import type { Thunk } from 'app/types';
@@ -40,13 +39,8 @@ export function setInvitationStatus(
 ) {
   return callAPI({
     types: Meeting.SET_INVITATION_STATUS,
-<<<<<<< HEAD
-    endpoint: `/meetings/${meetingId}/invitations/${userId}/`,
-    method: 'PUT',
-=======
     endpoint: `/meetings/${meetingId}/invitations/${user.id}/`,
-    method: 'put',
->>>>>>> Cleanup in meetingsEditor
+    method: 'PUT',
     body: {
       user: user.id,
       status
@@ -81,51 +75,24 @@ export function createMeeting({
   reportAuthor,
   users,
   groups
-}: Object): Thunk<*> {
-  return dispatch => {
-    dispatch(startSubmit('meetingEditor'));
-    return dispatch(
-      callAPI({
-        types: Meeting.CREATE,
-        endpoint: '/meetings/',
-        method: 'POST',
-        body: {
-          title,
-          report,
-          location,
-          endTime: moment(endTime).toISOString(),
-          startTime: moment(startTime).toISOString(),
-          reportAuthor
-        },
-        schema: meetingSchema,
-        meta: {
-          errorMessage: 'Opprettelse av møte feilet'
-        }
-      })
-    )
-      .then(result => {
-        if (!result || !result.payload) return;
-        const id = result.payload.result;
-        if (groups !== undefined || users !== undefined) {
-          dispatch(inviteUsersAndGroups({ id, users, groups }))
-            .then(() => {
-              dispatch(stopSubmit('meetingEditor'));
-              dispatch(push(`/meetings/${id}`));
-            })
-            .catch(action => {
-              const errors = { ...action.error.response.jsonData };
-              dispatch(stopSubmit('meetingEditor', errors));
-            });
-        } else {
-          dispatch(stopSubmit('meetingEditor'));
-          dispatch(push(`/meetings/${id}`));
-        }
-      })
-      .catch(action => {
-        const errors = { ...action.error.response.jsonData };
-        dispatch(stopSubmit('meetingEditor', errors));
-      });
-  };
+}: Object) {
+  return callAPI({
+    types: Meeting.CREATE,
+    endpoint: '/meetings/',
+    method: 'POST',
+    body: {
+      title,
+      report,
+      location,
+      endTime: moment(endTime).toISOString(),
+      startTime: moment(startTime).toISOString(),
+      reportAuthor
+    },
+    schema: meetingSchema,
+    meta: {
+      errorMessage: 'Opprettelse av møte feilet'
+    }
+  });
 }
 
 export function inviteUsersAndGroups({ id, users, groups }: Object) {
@@ -181,51 +148,25 @@ export function editMeeting({
   id,
   users,
   groups
-}: Object): Thunk<*> {
-  return dispatch => {
-    dispatch(startSubmit('meetingEditor'));
-
-    return dispatch(
-      callAPI({
-        types: Meeting.EDIT,
-        endpoint: `/meetings/${id}/`,
-        method: 'PUT',
-        body: {
-          title,
-          id,
-          report,
-          location,
-          endTime: moment(endTime).toISOString(),
-          startTime: moment(startTime).toISOString(),
-          reportAuthor
-        },
-        schema: meetingSchema,
-        meta: {
-          errorMessage: 'Endring av møte feilet'
-        }
-      })
-    )
-      .then(() => {
-        if (groups !== undefined || users !== undefined) {
-          dispatch(inviteUsersAndGroups({ id, users, groups }))
-            .then(() => {
-              dispatch(stopSubmit('meetingEditor'));
-              dispatch(push(`/meetings/${id}`));
-            })
-            .catch(action => {
-              const errors = { ...action.error.response.jsonData };
-              dispatch(stopSubmit('meetingEditor', errors));
-            });
-        } else {
-          dispatch(stopSubmit('meetingEditor'));
-          dispatch(push(`/meetings/${id}`));
-        }
-      })
-      .catch(action => {
-        const errors = { ...action.error.response.jsonData };
-        dispatch(stopSubmit('meetingEditor', errors));
-      });
-  };
+}: Object) {
+  return callAPI({
+    types: Meeting.EDIT,
+    endpoint: `/meetings/${id}/`,
+    method: 'PUT',
+    body: {
+      title,
+      id,
+      report,
+      location,
+      endTime: moment(endTime).toISOString(),
+      startTime: moment(startTime).toISOString(),
+      reportAuthor
+    },
+    schema: meetingSchema,
+    meta: {
+      errorMessage: 'Endring av møte feilet'
+    }
+  });
 }
 
 export function resetMeetingsToken() {
