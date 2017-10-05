@@ -43,6 +43,8 @@ function CheckBox({
     <div className={styles.box}>
       <input
         {...props}
+        defaultChecked={!!value}
+        checked={!!value}
         className={cx(value ? styles.checked : styles.unchecked)}
         type="checkbox"
       />
@@ -54,4 +56,5 @@ function CheckBox({
 }
 
 CheckBox.Field = createField(CheckBox);
+
 export default CheckBox;
