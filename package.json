@@ -164,6 +164,9 @@
     },
     "testRegex": "\\.spec\\.(js|jsx)$"
   },
+  "prettier": {
+    "singleQuote": true
+  },
   "dllPlugin": {
     "path": "dist",
     "exclude": [
