@@ -48,7 +48,7 @@ class RandomQuote extends Component {
     return (
       <div>
         <h2 className={styles.heading}>
-          <span>Tilfelding sitat</span>
+          {'Tilfeldig sitat'}
           {this.props.loggedIn && (
             <i onClick={this.refreshQuote} className="fa fa-refresh" />
           )}
