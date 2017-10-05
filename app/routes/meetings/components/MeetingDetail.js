@@ -11,16 +11,30 @@ import { AttendanceStatus } from 'app/components/UserAttendance';
 import moment from 'moment';
 import { INVITATION_STATUSES_TEXT, INVITATION_STATUSES } from '../constants';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import type { MeetingInvitationEntity } from 'app/reducers/meetingInvitation';
+import type {
+  MeetingInvitationEntity,
+  MeetingInvitationStatus
+} from 'app/reducers/meetingInvitation';
+import type { UserEntity } from 'app/reducers/users';
 
 type Props = {
   meeting: object,
   user: object,
   showAnswer: Boolean,
-  meetingInvitations: Array<MeetingInvitationEntity>
+  meetingInvitations: Array<MeetingInvitationEntity>,
+  deleteMeeting: number => Promise<*>,
+  setInvitationStatus: (
+    meetingId: number,
+    status: MeetingInvitationStatus,
+    user: UserEntity
+  ) => Promise<*>,
+  reportAuthor: UserEntity,
+  createdBy: UserEntity,
+  currentUserInvitation: MeetingInvitationEntity,
+  push: string => Promise<*>
 };
 
-const UserLink = ({ user }: object) =>
+const UserLink = ({ user }: { user: UserEntity }) =>
   user ? (
     <Link to={`/users/${user.username}`}> {user.fullName} </Link>
   ) : (
@@ -30,7 +44,7 @@ const UserLink = ({ user }: object) =>
 class MeetingDetails extends Component {
   props: Props;
 
-  setInvitationStatus = newStatus => {
+  setInvitationStatus = (newStatus: MeetingInvitationStatus) => {
     const { meeting, user } = this.props;
     this.props.setInvitationStatus(meeting.id, newStatus, user);
   };
@@ -54,6 +68,7 @@ class MeetingDetails extends Component {
   };
 
   attendanceButtons = (statusMe, startTime) =>
+    statusMe &&
     moment(startTime) > moment() && (
       <li className={styles.statusButtons}>
         <Button
@@ -97,8 +112,15 @@ class MeetingDetails extends Component {
 
     return (
       <div className={styles.root}>
-        {showAnswer && <h2> Du har nå svart på invitasjonen 😃 </h2>}
-
+        {showAnswer && (
+          <h2>
+            {' '}
+            Du har nå svart på invitasjonen{' '}
+            <span aria-label="smile" role="img">
+              😃
+            </span>{' '}
+          </h2>
+        )}
         <FlexRow className={styles.heading}>
           <div style={{ flex: 1 }}>
             <NavigationTab title={meeting.title} className={styles.detailTitle}>
@@ -138,10 +160,12 @@ class MeetingDetails extends Component {
             <Card style={{ border: 'none', padding: 0 }} shadow={false}>
               <ul>
                 {this.attendanceButtons(statusMe, meeting.startTime)}
-                <li>
-                  <strong> Din status: </strong>
-                  {INVITATION_STATUSES_TEXT[statusMe]}
-                </li>
+                {statusMe && (
+                  <li>
+                    <strong> Din status: </strong>
+                    {INVITATION_STATUSES_TEXT[statusMe]}
+                  </li>
+                )}
                 <li>
                   <strong> Slutt </strong>
                   <Time time={meeting.endTime} format="ll HH:mm" />
