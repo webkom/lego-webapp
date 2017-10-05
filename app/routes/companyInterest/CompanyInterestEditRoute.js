@@ -23,22 +23,34 @@ const loadCompanyInterests = (props, dispatch) => {
 
 const mapStateToProps = (state, props) => {
   const { companyInterestId } = props.params;
-  const company = selectCompanyInterestById(state, { companyInterestId });
+  const companyInterest = selectCompanyInterestById(state, {
+    companyInterestId
+  });
+  if (!companyInterest)
+    return {
+      edit: true,
+      companyInterestId
+    };
+
   const semesters = selectCompanySemesters(state);
   const allEvents = Object.keys(EVENT_TYPES);
   return {
     initialValues: {
-      ...company,
+      ...companyInterest,
       events: allEvents.map(event => ({
         name: event,
-        checked: company.events && company.events.includes(event)
+        checked:
+          companyInterest.events && companyInterest.events.includes(event)
       })),
       semesters: semesters.map(semester => ({
         ...semester,
-        checked: company.semesters && company.semesters.includes(semester.id)
+        checked:
+          companyInterest.semesters &&
+          companyInterest.semesters.includes(semester.id)
       }))
     },
     companyInterestId,
+    companyInterest,
     edit: true
   };
 };
