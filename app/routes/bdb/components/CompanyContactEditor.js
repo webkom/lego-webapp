@@ -59,28 +59,32 @@ class CompanyContactEditor extends Component {
           <div className={styles.leftSection}>
             <form onSubmit={handleSubmit(this.onSubmit)}>
               <Field
-                placeholder="Navn"
+                placeholder="Arne Arnsten"
+                label="Navn"
                 autoFocus={autoFocus}
                 name="name"
                 component={TextInput.Field}
               />
 
               <Field
-                placeholder="Rolle"
+                placeholder="Konsulent"
+                label="Rolle"
                 autoFocus={autoFocus}
                 name="role"
                 component={TextInput.Field}
               />
 
               <Field
-                placeholder={'E-mail'}
+                placeholder="arne@bedrift.no"
+                label="E-mail"
                 autoFocus={autoFocus}
                 name="mail"
                 component={TextInput.Field}
               />
 
               <Field
-                placeholder="Telefonnummer"
+                label="Telefonnummer"
+                placeholder="12312312"
                 autoFocus={autoFocus}
                 name="phone"
                 component={TextInput.Field}
