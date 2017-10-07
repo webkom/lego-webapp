@@ -11,7 +11,8 @@ import {
   TextInput,
   RadioButton,
   SelectInput,
-  ImageUploadField
+  ImageUploadField,
+  RadioButtonGroup
 } from 'app/components/Form';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { reduxForm } from 'redux-form';
@@ -184,37 +185,25 @@ class CompanyEditor extends Component {
 
               <div className={styles.info}>
                 <div style={{ order: 0 }}>
-                  <h3>Aktiv bedrift?</h3>
-                  <div className={styles.editInfo}>
-                    <label>
-                      <Field
-                        name="active"
-                        component={RadioButton.Field}
-                        fieldStyle={{ width: '24px', marginBottom: 0 }}
-                        inputValue="true"
-                      />
-                      Ja
-                    </label>
-                  </div>
-                  <div className={styles.editInfo}>
-                    <label>
-                      <Field
-                        name="active"
-                        component={RadioButton.Field}
-                        fieldStyle={{ width: '24px', marginBottom: 0 }}
-                        inputValue="false"
-                      />
-                      Nei
-                    </label>
-                  </div>
+                  <RadioButtonGroup name="active" label="Aktiv bedrift?">
+                    <Field
+                      label="Ja"
+                      component={RadioButton.Field}
+                      inputValue="true"
+                    />
+                    <Field
+                      label="Nei"
+                      component={RadioButton.Field}
+                      inputValue="false"
+                    />
+                  </RadioButtonGroup>
                 </div>
               </div>
 
               <div className={styles.adminNote}>
-                <h3>Notat fra Bedkom</h3>
                 <Field
-                  placeholder="Notat fra bedkom"
-                  label=" "
+                  placeholder="Bedriften ønsker kun kurs"
+                  label="Notat fra Bedkom"
                   autoFocus={autoFocus}
                   name="adminComment"
                   component={TextEditor.Field}

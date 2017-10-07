@@ -396,7 +396,8 @@ option {
 }
 
 .yearForm {
-  width: 100px !important;
+  width: 100px;
+  display: block;
 }
 
 .semesterStatusForm {
