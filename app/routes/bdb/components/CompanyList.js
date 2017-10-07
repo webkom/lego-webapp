@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import styles from './bdb.css';
 import { Link } from 'react-router';
@@ -8,25 +10,24 @@ import cx from 'classnames';
 
 type Props = {
   companies: Array<Object>,
-  query: Object,
   startYear: number,
   startSem: number,
-  navigateThroughTime: () => void,
-  companySemesters: Array<Object>,
-  editSemester: () => void
+  query: Object,
+  navigateThroughTime: Object => void,
+  editChangedStatuses: (number, number, number, Array<string>) => void
 };
 
 export default class CompanyList extends Component {
   props: Props;
 
-  findTitle = index => {
+  findTitle = (index: number) => {
     const { startYear, startSem } = this.props;
     const result = indexToSemester(index, startYear, startSem);
     const sem = result.semester === 'spring' ? 'Vår' : 'Høst';
     return `${sem} ${result.year}`;
   };
 
-  findSortLink = sortType => {
+  findSortLink = (sortType: string) => {
     const { query } = this.props;
     const ascending = query.ascending === 'true';
     // Seperate sorting for name because the url for default sorting is just /bdb/
@@ -42,7 +43,7 @@ export default class CompanyList extends Component {
     return `/bdb?sortBy=${sortType}&ascending=true`;
   };
 
-  showOrHideSortIcon = sortType => {
+  showOrHideSortIcon = (sortType: string) => {
     const { query } = this.props;
     const ascending = query.ascending === 'true';
     // Special treatment for name sorting
@@ -61,7 +62,7 @@ export default class CompanyList extends Component {
       navigateThroughTime,
       startYear,
       startSem,
-      editSemester
+      editChangedStatuses
     } = this.props;
 
     /*
@@ -123,7 +124,7 @@ export default class CompanyList extends Component {
               <td />
               <td
                 className={styles.yearNavigator}
-                onClick={() => navigateThroughTime(false)}
+                onClick={() => navigateThroughTime({ direction: 'backward' })}
               >
                 <Icon
                   name="arrow-back"
@@ -135,7 +136,7 @@ export default class CompanyList extends Component {
               <td />
               <td
                 className={cx(styles.rightArrow, styles.yearNavigator)}
-                onClick={() => navigateThroughTime(true)}
+                onClick={() => navigateThroughTime({ direction: 'forward' })}
               >
                 Neste år
                 <Icon
@@ -155,9 +156,8 @@ export default class CompanyList extends Component {
                 company={company}
                 startYear={startYear}
                 startSem={startSem}
-                navigateThroughTime={this.navigateThroughTime}
                 key={i}
-                editSemester={editSemester}
+                editChangedStatuses={editChangedStatuses}
               />
             ))}
           </tbody>

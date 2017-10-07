@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import styles from './optionsBox.css';
 import { CheckBox, RadioButton } from 'app/components/Form';
@@ -5,7 +7,7 @@ import { SelectInput } from 'app/components/Form';
 
 type Props = {
   companies: Array<Object>,
-  updateFilters: () => void,
+  updateFilters: (string, boolean) => void,
   filters: Object
 };
 
@@ -20,7 +22,7 @@ export default class OptionsBox extends Component {
 
   props: Props;
 
-  toggleSection = section => {
+  toggleSection = (section: string) => {
     const { filters, updateFilters } = this.props;
     if (filters[section] === undefined) {
       updateFilters(section, this.state.values[section]);
@@ -32,7 +34,7 @@ export default class OptionsBox extends Component {
     this.setState(state);
   };
 
-  updateFilters = (name, value) => {
+  updateFilters = (name: string, value: boolean) => {
     const { values } = this.state;
     const { updateFilters } = this.props;
     this.setState(state => ({

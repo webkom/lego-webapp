@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import styles from './bdb.css';
 import {
@@ -9,12 +11,9 @@ import SemesterStatusContent from './SemesterStatusContent';
 
 type Props = {
   semesterStatus: Object,
-  editSemester: () => void,
+  editChangedStatuses: (number, number, number, Array<string>) => void,
   companyId: number,
-  semIndex: number,
-  startYear: number,
-  startSem: number,
-  companySemesters: Array<Object>
+  semIndex: number
 };
 
 export default class SemesterStatus extends Component {
@@ -41,7 +40,7 @@ export default class SemesterStatus extends Component {
         <SemesterStatusContent
           semesterStatus={semesterStatus}
           editFunction={statusString =>
-            this.props.editSemester(
+            this.props.editChangedStatuses(
               companyId,
               semIndex,
               semesterStatus.id,

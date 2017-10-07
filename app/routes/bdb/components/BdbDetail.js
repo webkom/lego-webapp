@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import styles from './bdb.css';
 import {
@@ -20,11 +22,11 @@ type Props = {
   comments?: Array<Object>,
   companyEvents: Array<Object>,
   currentUser: any,
-  deleteSemesterStatus: () => void,
-  deleteCompanyContact: () => void,
+  deleteSemesterStatus: (number, number) => void,
+  deleteCompanyContact: (number, number) => void,
   loggedIn: boolean,
   companySemesters: Array<Object>,
-  editSemesterStatus: () => void,
+  editSemesterStatus: (Object, Object) => void,
   companyEvents: Array<Object>,
   fetching: boolean,
   editCompany: Object => void
@@ -38,7 +40,7 @@ export default class BdbDetail extends Component {
     changedFiles: []
   };
 
-  semesterStatusOnChange = (semesterStatus, statusString) => {
+  semesterStatusOnChange = (semesterStatus: Object, statusString: string) => {
     const { companySemesters, editSemesterStatus, company } = this.props;
 
     const newStatus = {
@@ -65,12 +67,12 @@ export default class BdbDetail extends Component {
     return editSemesterStatus(sendableSemester, { detail: true });
   };
 
-  deleteSemesterStatus = semesterId => {
+  deleteSemesterStatus = (semesterId: number) => {
     const { deleteSemesterStatus, company } = this.props;
     deleteSemesterStatus(company.id, semesterId);
   };
 
-  deleteCompanyContact = companyContactId => {
+  deleteCompanyContact = (companyContactId: number) => {
     const { deleteCompanyContact, company } = this.props;
     deleteCompanyContact(company.id, companyContactId);
   };
@@ -107,6 +109,7 @@ export default class BdbDetail extends Component {
         <SemesterStatusDetail
           semesterStatus={status}
           key={i}
+          index={i}
           companyId={company.id}
           deleteSemesterStatus={this.deleteSemesterStatus}
           editFunction={this.semesterStatusOnChange}

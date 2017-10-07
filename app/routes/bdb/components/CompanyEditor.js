@@ -1,3 +1,5 @@
+// @flow
+
 import styles from './bdb.css';
 import React, { Component } from 'react';
 import { httpCheck, DetailNavigation, ListNavigation } from '../utils.js';
@@ -17,10 +19,10 @@ import { createValidator, required, isEmail } from 'app/utils/validation';
 import { reduxForm } from 'redux-form';
 
 type Props = {
-  uploadFile: () => void,
+  uploadFile: Object => void,
   company: Object,
   submitting: boolean,
-  handleSubmit: () => void,
+  handleSubmit: ((Object) => void) => void,
   autoFocus: any,
   fetching: boolean,
   submitFunction: (Object, ?number) => void

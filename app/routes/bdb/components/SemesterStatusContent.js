@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import Dropdown from 'app/components/Dropdown';
 import styles from './bdb.css';
@@ -12,7 +14,7 @@ import {
 
 type Props = {
   semesterStatus: Object,
-  editFunction: () => void,
+  editFunction: string => void,
   style?: Object
 };
 

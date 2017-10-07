@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import styles from './bdb.css';
 import {
@@ -16,8 +18,9 @@ type Props = {
   semesterStatus: Object,
   index: number,
   deleteSemesterStatus: number => void,
-  editFunction: () => void,
-  addFileToSemester: (fileName, type) => void
+  editFunction: (Object, string) => void,
+  addFileToSemester: (string, string) => void,
+  editFunction: (Object, string) => void
 };
 
 export default class SemesterStatusDetail extends Component {
