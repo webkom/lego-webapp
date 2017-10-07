@@ -65,7 +65,7 @@ const Logo = ({ logo }) => (
 
 const Content = ({ group }) => (
   <Flex column style={{ flex: '1' }}>
-    <Text text={group.descriptionLong} />
+    <Text text={group.text} />
   </Flex>
 );
 
@@ -85,7 +85,7 @@ const ButtonRow = ({
     m => m.user.id === currentUser.id
   )[0];
   const onClick = membership
-    ? () => leaveInterestGroup(membership)
+    ? () => leaveInterestGroup(membership, group.id)
     : () => joinInterestGroup(group.id, currentUser);
   return (
     <Flex>
