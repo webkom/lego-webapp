@@ -1,3 +1,5 @@
+// @flow
+
 import styles from './bdb.css';
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
@@ -10,8 +12,8 @@ import { reduxForm } from 'redux-form';
 import { DetailNavigation } from '../utils';
 
 type Props = {
-  submitFunction: () => void,
-  handleSubmit: () => void,
+  submitFunction: (Object, boolean) => void,
+  handleSubmit: ((Object) => void) => void,
   company: Object,
   companyContact?: Object,
   submitting: boolean,

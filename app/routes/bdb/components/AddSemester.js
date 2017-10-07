@@ -1,3 +1,5 @@
+// @flow
+
 import styles from './bdb.css';
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
@@ -12,13 +14,13 @@ import {
 } from '../utils';
 
 type Props = {
-  addSemesterStatus: () => void,
-  handleSubmit: () => void,
+  addSemesterStatus: (Object, Object) => void,
+  handleSubmit: ((Object) => void) => void,
   companyId: string,
   submitting: boolean,
   autoFocus: any,
   companySemesters: Array<Object>,
-  addSemester: () => void
+  addSemester: Object => void
 };
 
 export default class AddSemester extends Component {
@@ -29,7 +31,7 @@ export default class AddSemester extends Component {
     submit: false
   };
 
-  onSubmit = ({ year, semester, contract }) => {
+  onSubmit = ({ year, semester, contract }: Object) => {
     if (!this.state.submit) return;
     const {
       companyId,
@@ -58,7 +60,7 @@ export default class AddSemester extends Component {
         { detail: true }
       );
     } else {
-      return addSemester({ year, semester }).then(response => {
+      return addSemester(({ year, semester }: Object)).then(response => {
         addSemesterStatus(
           {
             companyId,
@@ -72,11 +74,11 @@ export default class AddSemester extends Component {
     }
   };
 
-  setContactedStatus = event => {
+  setContactedStatus = (event: Object) => {
     this.setState({ contactedStatus: event.target.value });
   };
 
-  editFunction = statusString => {
+  editFunction = (statusString: string) => {
     this.setState({
       contactedStatus: getContactedStatuses(
         this.state.contactedStatus,
