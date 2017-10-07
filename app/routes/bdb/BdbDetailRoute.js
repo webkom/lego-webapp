@@ -31,12 +31,14 @@ const mapStateToProps = (state, props) => {
   const comments = selectCommentsForCompany(state, { companyId });
   const companyEvents = selectEventsForCompany(state, { companyId });
   const companySemesters = selectCompanySemesters(state, props);
+  const fetching = state.companies.fetching;
   return {
     company,
     companyId,
     companyEvents,
     comments,
-    companySemesters
+    companySemesters,
+    fetching
   };
 };
 

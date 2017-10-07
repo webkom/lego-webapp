@@ -8,7 +8,6 @@
   font-size: 30px;
   font-weight: bold;
   display: block;
-  margin: 0 0 15px;
   padding-left: 0;
 }
 
@@ -105,7 +104,7 @@
 
 .categoryHeader {
   font-weight: bold;
-  background-color: #ddd;
+  background-color: var(--color-mono-gray-5);
 }
 
 .title {
@@ -203,39 +202,53 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 
 .contactTable thead th:nth-child(1),
 .contactTable tbody td:nth-child(1) {
-  width: 200px;
+  width: 260px;
 }
 
 .contactTable thead th:nth-child(2),
 .contactTable tbody td:nth-child(2) {
-  width: 120px;
+  width: 300px;
 }
 
 .contactTable thead th:nth-child(3),
 .contactTable tbody td:nth-child(3) {
-  width: 220px;
+  width: 330px;
 }
 
 .contactTable thead th:nth-child(4),
 .contactTable tbody td:nth-child(4) {
-  width: 150px;
+  width: 130px;
 }
 
 /* Events in company detailroute */
 
 .eventsTable thead th:nth-child(1),
 .eventsTable tbody td:nth-child(1) {
-  width: 300px;
+  width: 250px;
 }
 
 .eventsTable thead th:nth-child(2),
 .eventsTable tbody td:nth-child(2) {
-  width: 220px;
+  width: 180px;
 }
 
 .eventsTable thead th:nth-child(3),
 .eventsTable tbody td:nth-child(3) {
-  width: 150px;
+  width: 100px;
+}
+
+.eventsTable thead th:nth-child(4),
+.eventsTable tbody td:nth-child(4) {
+  width: 200px;
+  line-height: 20px;
+  padding: 5px;
+}
+
+.eventsTable thead th:nth-child(5),
+.eventsTable tbody td:nth-child(5) {
+  width: 300px;
+  line-height: 20px;
+  padding: 5px;
 }
 
 .description {
@@ -244,6 +257,11 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
   line-height: 20px;
   border-left: 1px solid #666;
   padding-left: 20px;
+  max-width: 60%;
+
+  @media (--small-viewport) {
+    max-width: 100%;
+  }
 }
 
 .description textarea {
@@ -252,10 +270,10 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 
 .infoBubbles {
   display: flex;
-  justify-content: space-between;
   margin: 30px 0;
   text-align: center;
   flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .editBubbles {
@@ -264,6 +282,7 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 
 .adminNote {
   margin: 30px 0;
+  width: 400px;
 }
 
 .invisRow {
@@ -278,28 +297,7 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
   display: flex;
   width: 100%;
   padding-bottom: 50px;
-
-  @media (--small-viewport) {
-    flex-direction: column;
-  }
-}
-
-.leftSection {
-  width: 70%;
-  order: 1;
-}
-
-.rightSection {
-  min-height: 300px;
-  padding: 20px 0 0 30px;
-  margin: 0 0 0 60px;
-  border-left: 1px solid #ccc;
-  order: 2;
-
-  @media (--small-viewport) {
-    margin: 0;
-    border: none;
-  }
+  flex-direction: column;
 }
 
 .rightSection a {
@@ -375,16 +373,15 @@ option {
 }
 
 .editTitle {
-  width: 250px !important;
-  font-size: 30px !important;
+  width: 250px;
+  font-size: 30px;
   margin: 0 0 10px;
-  font-weight: bold;
 }
 
 .editBubble {
   text-align: center;
   margin-bottom: 0 !important;
-  font-weight: bold;
+  font-size: 25px;
 }
 
 .choices {
