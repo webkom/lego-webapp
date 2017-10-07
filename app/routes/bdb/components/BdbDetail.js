@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import styles from './bdb.css';
-import { sortByYearThenSemester, getContactedStatuses } from '../utils.js';
-import BdbRightNav from './BdbRightNav';
+import {
+  sortByYearThenSemester,
+  getContactedStatuses,
+  detailNavigation
+} from '../utils.js';
 import InfoBubble from 'app/components/InfoBubble';
 import CommentView from 'app/components/Comments/CommentView';
 import Time from 'app/components/Time';
@@ -10,6 +13,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import Image from 'app/components/Image';
 import SemesterStatusDetail from './SemesterStatusDetail';
 import { eventTypes } from 'app/routes/events/utils';
+import truncateString from 'app/utils/truncateString';
 
 type Props = {
   company: Object,
@@ -21,7 +25,8 @@ type Props = {
   loggedIn: boolean,
   companySemesters: Array<Object>,
   editSemesterStatus: () => void,
-  companyEvents: Array<Object>
+  companyEvents: Array<Object>,
+  fetching: boolean
 };
 
 export default class BdbDetail extends Component {
@@ -75,10 +80,11 @@ export default class BdbDetail extends Component {
       comments,
       currentUser,
       loggedIn,
-      companyEvents
+      companyEvents,
+      fetching
     } = this.props;
 
-    if (!company || !company.semesterStatuses) {
+    if (fetching || !company.semesterStatuses) {
       return <LoadingIndicator loading />;
     }
 
@@ -133,185 +139,212 @@ export default class BdbDetail extends Component {
             <td>
               <Time time={event.startTime} format="DD.MM.YYYY" />
             </td>
+            <td>{truncateString(event.location, 50)}</td>
+            <td>{truncateString(event.description, 70)}</td>
           </tr>
         ));
+
+    const title = (
+      <span>
+        {company.name}
+        {!company.active && (
+          <span style={{ color: 'red' }}> (Inaktiv bedrift)</span>
+        )}
+        <Link to={`/bdb/${company.id}/edit`}>
+          <i
+            className="fa fa-pencil"
+            style={{ marginLeft: '15px', color: 'orange', fontSize: '20px' }}
+          />
+        </Link>
+      </span>
+    );
 
     return (
       <div className={styles.root}>
         <div className={styles.detail}>
-          <div className={styles.leftSection}>
-            {company.logo && (
-              <Image
-                src={company.logo}
-                style={{ height: 'inherit', border: '1px solid #ccc' }}
-              />
-            )}
-            <h1>
-              {company.name}
-              {!company.active && (
-                <span style={{ color: 'red' }}> (Inaktiv bedrift)</span>
-              )}
-            </h1>
-            <div className={styles.description}>
-              {company.description || 'Ingen beskrivelse tilgjengelig.'}
-            </div>
+          {company.logo && (
+            <Image
+              src={company.logo}
+              style={{
+                height: 'inherit',
+                border: '1px solid #ccc',
+                marginBottom: '15px'
+              }}
+            />
+          )}
 
-            <div className={styles.infoBubbles}>
-              <InfoBubble
-                icon="briefcase"
-                data={company.companyType}
-                meta="Type bedrift"
-                style={{ order: 0 }}
-              />
-              <InfoBubble
-                icon="mail"
-                data={company.paymentMail}
-                meta="Fakturamail"
-                style={{ order: 1 }}
-              />
-              <InfoBubble
-                icon="call"
-                data={company.phone}
-                meta="Telefon"
-                style={{ order: 2 }}
-              />
-            </div>
+          {detailNavigation(title, company.id)}
 
-            <div className={styles.infoBubbles}>
-              <InfoBubble
-                icon="at"
-                data={company.website}
-                meta="Nettside"
-                style={{ order: 0 }}
-                link={company.website}
-              />
-              <InfoBubble
-                icon="home"
-                data={company.address}
-                meta="Adresse"
-                style={{ order: 1 }}
-              />
-              <InfoBubble
-                icon="person"
-                data={`${(company.studentContact &&
-                  company.studentContact.fullName) ||
-                  '-'}`}
-                meta="Studentkontakt"
-                style={{ order: 2 }}
-              />
-            </div>
+          <div className={styles.description}>
+            {company.description || 'Ingen beskrivelse tilgjengelig.'}
+          </div>
 
-            <h3>Bedriftskontakter</h3>
-            {companyContacts && companyContacts.length > 0 ? (
-              <div
-                className={styles.companyList}
-                style={{ marginBottom: '10px' }}
-              >
-                <table className={styles.contactTable}>
-                  <thead className={styles.categoryHeader}>
-                    <tr>
-                      <th>Navn</th>
-                      <th>Rolle</th>
-                      <th>E-post</th>
-                      <th>Tlf</th>
-                    </tr>
-                  </thead>
-                  <tbody>{companyContacts}</tbody>
-                </table>
-              </div>
-            ) : (
-              <i style={{ display: 'block' }}>
-                Ingen bedriftskontakter registrert.
-              </i>
-            )}
-
-            <Link
-              to={`/bdb/${company.id}/company-contacts/add`}
-              style={{ marginTop: '10px' }}
-            >
-              <i className="fa fa-plus-circle" /> Legg til bedriftskontakt
+          <div>
+            <Link to={`/bdb/${company.id}/semesters/add`}>
+              <i className="fa fa-plus-circle" /> Legg til nytt semester
             </Link>
+          </div>
 
-            <div style={{ clear: 'both', marginBottom: '30px' }} />
-
-            <h3>Semesterstatuser</h3>
-            {semesters.length > 0 ? (
-              <div
-                className={styles.companyList}
-                style={{ marginBottom: '10px' }}
-              >
-                <p>
-                  Tips: Du kan endre semestere ved å trykke på dem i listen!
-                </p>
-                <table className={styles.detailTable}>
-                  <thead className={styles.categoryHeader}>
-                    <tr>
-                      <th>Semester</th>
-                      <th>Status</th>
-                      <th>Kontrakt</th>
-                    </tr>
-                  </thead>
-                  <tbody>{semesters}</tbody>
-                </table>
-              </div>
-            ) : (
-              <i style={{ display: 'block' }}>Ingen sememsterstatuser.</i>
-            )}
-
-            <div>
-              <Link to={`/bdb/${company.id}/semesters/add`}>
-                <i className="fa fa-plus-circle" /> Legg til nytt semester
-              </Link>
-            </div>
-
-            <div className={styles.files}>
-              <h3>Filer</h3>
-              <ul>
-                {!this.state.files || this.state.files.length === 0 ? (
-                  <i>Ingen filer.</i>
-                ) : (
-                  this.state.files.map((file, i) => <li key={i}>{file}</li>)
-                )}
-              </ul>
-              <Link to={`/bdb/${company.id}/semesters/add`}>
-                <i className="fa fa-plus-circle" /> Legg til fil
-              </Link>
-            </div>
-
-            <div className={styles.adminNote}>
-              <h3>Notat fra Bedkom</h3>
-              {company.adminComment || <i>Ingen notater</i>}
-            </div>
-
-            <h3>Bedriftens arrangementer</h3>
-            {events.length > 0 ? (
-              <div className={styles.companyList}>
-                <table className={styles.eventsTable}>
-                  <thead className={styles.categoryHeader}>
-                    <tr>
-                      <th>Tittel</th>
-                      <th>Arrangementstype</th>
-                      <th>Når</th>
-                    </tr>
-                  </thead>
-                  <tbody>{events}</tbody>
-                </table>
-              </div>
-            ) : (
-              <i>Ingen arrangementer.</i>
-            )}
-
-            <div style={{ clear: 'both', marginBottom: '30px' }} />
-
-            <CommentView
-              user={currentUser}
-              commentTarget={company.commentTarget}
-              loggedIn={loggedIn}
-              comments={comments}
+          <div className={styles.infoBubbles}>
+            <InfoBubble
+              icon="briefcase"
+              data={company.companyType}
+              meta="Type bedrift"
+              style={{ order: 0 }}
+            />
+            <InfoBubble
+              icon="mail"
+              data={company.paymentMail}
+              meta="Fakturamail"
+              style={{ order: 1 }}
+            />
+            <InfoBubble
+              icon="call"
+              data={company.phone}
+              meta="Telefon"
+              style={{ order: 2 }}
             />
           </div>
 
-          <BdbRightNav {...this.props} />
+          <div className={styles.infoBubbles}>
+            <InfoBubble
+              icon="at"
+              data={company.website}
+              meta="Nettside"
+              style={{ order: 0 }}
+              link={company.website}
+            />
+            <InfoBubble
+              icon="home"
+              data={company.address}
+              meta="Adresse"
+              style={{ order: 1 }}
+            />
+            <InfoBubble
+              icon="person"
+              data={`${(company.studentContact &&
+                company.studentContact.fullName) ||
+                '-'}`}
+              meta="Studentkontakt"
+              style={{ order: 2 }}
+            />
+          </div>
+
+          <h3>Bedriftskontakter</h3>
+          {companyContacts && companyContacts.length > 0 ? (
+            <div
+              className={styles.companyList}
+              style={{ marginBottom: '10px' }}
+            >
+              <table className={styles.contactTable}>
+                <thead className={styles.categoryHeader}>
+                  <tr>
+                    <th>Navn</th>
+                    <th>Rolle</th>
+                    <th>E-post</th>
+                    <th>Tlf</th>
+                  </tr>
+                </thead>
+                <tbody>{companyContacts}</tbody>
+              </table>
+            </div>
+          ) : (
+            <i style={{ display: 'block' }}>
+              Ingen bedriftskontakter registrert.
+            </i>
+          )}
+
+          <Link
+            to={`/bdb/${company.id}/company-contacts/add`}
+            style={{ marginTop: '10px' }}
+          >
+            <i className="fa fa-plus-circle" /> Legg til bedriftskontakt
+          </Link>
+
+          <div style={{ clear: 'both', marginBottom: '30px' }} />
+
+          <h3>Semesterstatuser</h3>
+          {semesters.length > 0 ? (
+            <div
+              className={styles.companyList}
+              style={{ marginBottom: '10px' }}
+            >
+              <p>Tips: Du kan endre semestere ved å trykke på dem i listen!</p>
+              <table className={styles.detailTable}>
+                <thead className={styles.categoryHeader}>
+                  <tr>
+                    <th>Semester</th>
+                    <th>Status</th>
+                    <th>Kontrakt</th>
+                  </tr>
+                </thead>
+                <tbody>{semesters}</tbody>
+              </table>
+            </div>
+          ) : (
+            <i style={{ display: 'block' }}>Ingen sememsterstatuser.</i>
+          )}
+
+          {this.state.changedSemesters &&
+            this.state.changedSemesters.length > 0 && (
+              <Button dark onClick={this.submitSemesters}>
+                Lagre semestere
+              </Button>
+            )}
+
+          <div>
+            <Link to={`/bdb/${company.id}/semesters/add`}>
+              <i className="fa fa-plus-circle" /> Legg til nytt semester
+            </Link>
+          </div>
+
+          <div className={styles.files}>
+            <h3>Filer</h3>
+            <ul>
+              {!this.state.files || this.state.files.length === 0 ? (
+                <i>Ingen filer.</i>
+              ) : (
+                this.state.files.map((file, i) => <li key={i}>{file}</li>)
+              )}
+            </ul>
+            <Link to={`/bdb/${company.id}/semesters/add`}>
+              <i className="fa fa-plus-circle" /> Legg til fil
+            </Link>
+          </div>
+
+          <div className={styles.adminNote}>
+            <h3>Notat fra Bedkom</h3>
+            {company.adminComment || <i>Ingen notater</i>}
+          </div>
+
+          <h3>Bedriftens arrangementer</h3>
+          {events.length > 0 ? (
+            <div className={styles.companyList}>
+              <table className={styles.eventsTable}>
+                <thead className={styles.categoryHeader}>
+                  <tr>
+                    <th>Tittel</th>
+                    <th>Arrangementstype</th>
+                    <th>Når</th>
+                    <th>Hvor</th>
+                    <th>Hva</th>
+                  </tr>
+                </thead>
+                <tbody>{events}</tbody>
+              </table>
+            </div>
+          ) : (
+            <i>Ingen arrangementer.</i>
+          )}
+
+          <div style={{ clear: 'both', marginBottom: '30px' }} />
+
+          <CommentView
+            user={currentUser}
+            commentTarget={company.commentTarget}
+            loggedIn={loggedIn}
+            comments={comments}
+          />
         </div>
       </div>
     );

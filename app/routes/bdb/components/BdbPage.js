@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import CompanyList from './CompanyList';
 import styles from './bdb.css';
 import sortCompanies from '../SortCompanies.js';
-import { indexToSemester } from '../utils.js';
-
+import { indexToSemester, listNavigation } from '../utils.js';
 import OptionsBox from './OptionsBox';
 import TextInput from 'app/components/Form/TextInput';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -24,7 +23,6 @@ export default class BdbPage extends Component {
     startYear: 2016,
     startSem: 0,
     submitted: false,
-    displayOptions: false,
     filters: {},
     searchQuery: ''
   };
@@ -96,12 +94,6 @@ export default class BdbPage extends Component {
     this.setState({ filters });
   };
 
-  toggleDisplay = () => {
-    this.setState({
-      displayOptions: !this.state.displayOptions
-    });
-  };
-
   companySearch = companies =>
     companies.filter(company =>
       company.name.toLowerCase().includes(this.state.searchQuery.toLowerCase())
@@ -154,30 +146,16 @@ export default class BdbPage extends Component {
 
     return (
       <div className={styles.root}>
-        <h1>Bedriftsdatabase</h1>
+        {listNavigation('Bedriftsdatabase')}
 
         <div className={styles.search}>
           <h2>Søk</h2>
           <TextInput onChange={this.updateSearchQuery} />
         </div>
 
-        <h2
-          onClick={this.toggleDisplay}
-          className={styles.optionsHeader}
-          style={{ cursor: 'pointer', margin: '15px 0' }}
-        >
-          <span style={{ marginRight: '5px' }}>Valg</span>
-          {this.state.displayOptions ? (
-            <i className="fa fa-caret-down" />
-          ) : (
-            <i className="fa fa-caret-right" />
-          )}
-        </h2>
-
         <OptionsBox
           companies={companies}
           updateFilters={this.updateFilters}
-          display={this.state.displayOptions}
           filters={this.state.filters}
         />
 

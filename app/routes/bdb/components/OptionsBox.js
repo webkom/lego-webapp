@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
 import styles from './optionsBox.css';
-import { Link } from 'react-router';
 import { CheckBox, RadioButton } from 'app/components/Form';
-import Button from 'app/components/Button';
 import { SelectInput } from 'app/components/Form';
 
 type Props = {
   companies: Array<Object>,
-  display: boolean,
   updateFilters: () => void,
   filters: Object
 };
@@ -22,8 +19,6 @@ export default class OptionsBox extends Component {
   };
 
   props: Props;
-
-  toggleDisplay = display => ({ display: display ? 'block' : 'none' });
 
   toggleSection = section => {
     const { filters, updateFilters } = this.props;
@@ -48,15 +43,8 @@ export default class OptionsBox extends Component {
   };
 
   render() {
-    const { display } = this.props;
-
     return (
-      <div className={styles.optionsBox} style={this.toggleDisplay(display)}>
-        <Button style={{ marginBottom: '15px' }}>
-          <Link to="/bdb/add" style={{ display: 'block' }}>
-            Legg til bedrift
-          </Link>
-        </Button>
+      <div className={styles.optionsBox}>
         <span
           style={{ display: 'block', fontSize: '18px', marginBottom: '5px' }}
         >

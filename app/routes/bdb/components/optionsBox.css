@@ -7,16 +7,12 @@
 }
 
 .optionsBox {
-  background-color: #efefef;
   width: 350px;
   min-height: 50px;
-  border: 1px solid #ccc;
-  padding: 20px 30px;
   border-radius: 5px;
-  box-shadow: inset 0 0 4px #ccc;
-  margin: 0 0 15px;
+  margin: 25px 0;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
 }
 
 input {
