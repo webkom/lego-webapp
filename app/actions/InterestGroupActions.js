@@ -124,7 +124,7 @@ export function leaveInterestGroup(
   groupId: Number
 ): Thunk<*> {
   return dispatch => {
-    dispatch(
+    return dispatch(
       callAPI({
         types: Membership.LEAVE_GROUP,
         endpoint: `/groups/${groupId}/memberships/${membership.id}/`,
@@ -137,4 +137,5 @@ export function leaveInterestGroup(
         }
       })
     );
+  };
 }
