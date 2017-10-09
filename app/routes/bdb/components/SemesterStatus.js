@@ -12,7 +12,6 @@ type Props = {
   editSemester: () => void,
   companyId: number,
   semIndex: number,
-  changedStatuses: Array<any>,
   startYear: number,
   startSem: number,
   companySemesters: Array<Object>
