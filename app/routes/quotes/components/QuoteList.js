@@ -8,7 +8,10 @@ type Props = {
   approve: number => void,
   deleteQuote: number => void,
   unapprove: number => void,
-  actionGrant: Array<string>
+  actionGrant: Array<string>,
+  currentUser: any,
+  loggedIn: boolean,
+  comments: Object
 };
 
 export default class QuoteList extends Component {
@@ -29,7 +32,17 @@ export default class QuoteList extends Component {
   };
 
   render() {
-    const { quotes, actionGrant, approve, unapprove, deleteQuote } = this.props;
+    const {
+      quotes,
+      actionGrant,
+      approve,
+      unapprove,
+      deleteQuote,
+      currentUser,
+      loggedIn,
+      comments
+    } = this.props;
+
     return (
       <ul>
         {quotes.map(quote => (
@@ -42,6 +55,9 @@ export default class QuoteList extends Component {
             key={quote.id}
             setDisplayAdmin={this.setDisplayAdmin}
             displayAdmin={quote.id === this.state.displayAdminId}
+            currentUser={currentUser}
+            loggedIn={loggedIn}
+            comments={comments}
           />
         ))}
       </ul>

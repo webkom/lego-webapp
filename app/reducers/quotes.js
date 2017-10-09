@@ -104,11 +104,26 @@ export const selectSortedQuotes = createSelector(
   }
 );
 
-export const selectCommentsForQuote = createSelector(
-  selectQuoteById,
+export const selectCommentsForQuotes = createSelector(
+  selectQuotes,
   state => state.comments.byId,
-  (quote, commentsById) => {
-    if (!quote || !commentsById) return [];
-    return (quote.comments || []).map(commentId => commentsById[commentId]);
+  (quotesById, commentsById) => {
+    if (!quotesById || !commentsById) return {};
+    const comments = {};
+    quotesById.map(quote => {
+      comments[quote.id] = quote.comments.map(
+        commentId => commentsById[commentId]
+      );
+    });
+    return comments;
+  }
+);
+
+export const selectCommentsForQuote = createSelector(
+  selectCommentsForQuotes,
+  (state, props) => props.quoteId,
+  (comments, quoteId) => {
+    if (!comments || !quoteId) return {};
+    return { [quoteId]: comments[quoteId] };
   }
 );
