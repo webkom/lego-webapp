@@ -9,7 +9,6 @@ import { Link } from 'react-router';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Image from 'app/components/Image';
 import SemesterStatusDetail from './SemesterStatusDetail';
-import Button from 'app/components/Button';
 import { eventTypes } from 'app/routes/events/utils';
 
 type Props = {
@@ -30,61 +29,34 @@ export default class BdbDetail extends Component {
 
   state = {
     addingFiles: false,
-    changedSemesters: [],
     changedFiles: []
   };
 
   semesterStatusOnChange = (semesterStatus, statusString) => {
-    const { changedSemesters } = this.state;
+    const { companySemesters, editSemesterStatus, company } = this.props;
 
-    const newSemesterStatus = {
+    const newStatus = {
       ...semesterStatus,
       contactedStatus: getContactedStatuses(
         semesterStatus.contactedStatus,
         statusString
       )
     };
-    const semesterIsAlreadyChanged =
-      changedSemesters &&
-      typeof changedSemesters.find(
-        status => status.id === semesterStatus.id
-      ) !== 'undefined';
 
-    const newChangedSemesters = semesterIsAlreadyChanged
-      ? changedSemesters.map(
-          status =>
-            status.id === semesterStatus.id ? newSemesterStatus : status
-        )
-      : changedSemesters.concat(newSemesterStatus);
+    const companySemester = companySemesters.find(
+      companySemester =>
+        companySemester.year === newStatus.year &&
+        companySemester.semester === newStatus.semester
+    );
 
-    this.setState({
-      changedSemesters: newChangedSemesters
-    });
-  };
+    const sendableSemester = {
+      contactedStatus: newStatus.contactedStatus,
+      semesterStatusId: newStatus.id,
+      semester: companySemester.id,
+      companyId: company.id
+    };
 
-  submitSemesters = () => {
-    const { companySemesters, editSemesterStatus, company } = this.props;
-
-    const { changedSemesters } = this.state;
-
-    changedSemesters.map(semesterStatus => {
-      const globalSemester = companySemesters.find(
-        companySemester =>
-          companySemester.year === semesterStatus.year &&
-          companySemester.semester === semesterStatus.semester
-      );
-      const sendableSemester = {
-        contactedStatus: semesterStatus.contactedStatus,
-        contract: semesterStatus.contract,
-        semesterStatusId: semesterStatus.id,
-        semester: globalSemester.id,
-        companyId: company.id
-      };
-
-      return editSemesterStatus(sendableSemester, true).then(() =>
-        this.setState({ changedSemesters: [] })
-      );
-    });
+    return editSemesterStatus(sendableSemester, true);
   };
 
   deleteSemesterStatus = semesterId => {
@@ -110,13 +82,7 @@ export default class BdbDetail extends Component {
       return <LoadingIndicator loading />;
     }
 
-    const mergedSemesters = company.semesterStatuses.map(
-      status =>
-        this.state.changedSemesters.find(changed => changed.id === status.id) ||
-        status
-    );
-
-    const semesters = mergedSemesters
+    const semesters = company.semesterStatuses
       .sort(sortByYearThenSemester)
       .map((status, i) => (
         <SemesterStatusDetail
@@ -291,13 +257,6 @@ export default class BdbDetail extends Component {
             ) : (
               <i style={{ display: 'block' }}>Ingen sememsterstatuser.</i>
             )}
-
-            {this.state.changedSemesters &&
-              this.state.changedSemesters.length > 0 && (
-                <Button dark onClick={this.submitSemesters}>
-                  Lagre semestere
-                </Button>
-              )}
 
             <div>
               <Link to={`/bdb/${company.id}/semesters/add`}>
