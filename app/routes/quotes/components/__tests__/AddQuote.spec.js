@@ -13,7 +13,11 @@ describe('components', () => {
       const store = mockStore();
       const wrapper = mount(
         <Provider {...{ store }}>
-          <AddQuote addQuotes={addQuotes} validate={validator} />
+          <AddQuote
+            addQuotes={addQuotes}
+            validate={validator}
+            actionGrant={['approve']}
+          />
         </Provider>
       );
       const form = wrapper.find('form');
