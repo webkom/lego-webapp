@@ -16,7 +16,7 @@
 
 .mainContent {
   flex-wrap: wrap;
-  padding: 20px;
+  padding-top: 20px;
   display: flex;
 }
 
@@ -30,16 +30,23 @@
 
 .reportContent {
   min-width: 300px;
-  padding: 20px;
 }
 
 .statusContent {
   min-width: 250px;
 }
 
+.detailTitle {
+  margin-bottom: 0;
+
+  & h1 {
+    margin-bottom: 0;
+  }
+}
+
 .statusButtons {
   display: flex;
-  justify-content: space-around;
+  margin-bottom: 10px;
 }
 
 .meetingItemTitle {
