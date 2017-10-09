@@ -4,13 +4,13 @@ import Time from 'app/components/Time';
 import { FlexRow, FlexItem } from 'app/components/FlexBox';
 import styles from './MeetingDetail.css';
 import Card from 'app/components/Card';
-import Icon from 'app/components/Icon';
 import Button from 'app/components/Button';
 import Editor from 'app/components/Editor';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import moment from 'moment';
 import { INVITATION_STATUSES_TEXT, INVITATION_STATUSES } from '../constants';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 
 type Props = {
   meeting: object,
@@ -92,14 +92,26 @@ class MeetingDetails extends Component {
     return (
       <div className={styles.root}>
         {showAnswer && <h2> Du har nå svart på invitasjonen 😃 </h2>}
-        <h2>
-          <Link to="/meetings/">
-            <i className="fa fa-angle-left" /> Mine møter
-          </Link>
-        </h2>
+
         <FlexRow className={styles.heading}>
           <div style={{ flex: 1 }}>
-            <h1 className={styles.title}>{meeting.title}</h1>
+            <NavigationTab title={meeting.title} className={styles.detailTitle}>
+              <NavigationLink to="/meetings">
+                <i className="fa fa-angle-left" /> Mine møter
+              </NavigationLink>
+              <NavigationLink to={`/meetings/${meeting.id}/edit`}>
+                Endre møte
+              </NavigationLink>
+              {canDelete && (
+                <NavigationLink
+                  onClick={() => {
+                    this.props.deleteMeeting(meeting.id);
+                  }}
+                >
+                  Slett møte
+                </NavigationLink>
+              )}
+            </NavigationTab>
             <h3>
               <Time
                 style={{ color: 'grey' }}
@@ -108,44 +120,20 @@ class MeetingDetails extends Component {
               />
             </h3>
           </div>
-
-          <div>
-            <Link to={`/meetings/${meeting.id}/edit`}>
-              <Button>
-                <Icon name="pencil" />
-                Endre møte
-              </Button>
-            </Link>
-
-            {canDelete && (
-              <Button
-                style={{ backgroundColor: 'pink' }}
-                onClick={() => {
-                  this.props.deleteMeeting(meeting.id);
-                }}
-              >
-                <Icon name="trash" />
-                Slett møte
-              </Button>
-            )}
-          </div>
         </FlexRow>
         <div className={styles.mainContent}>
+          <FlexItem className={styles.reportContent} flex={2}>
+            <h2>Referat</h2>
+            <Editor readOnly value={meeting.report} />
+          </FlexItem>
           <FlexItem className={styles.statusContent} flex={1}>
-            <Card>
+            <Card style={{ border: 'none', padding: 0 }}>
               <ul>
+                {this.attendanceButtons(statusMe, meeting.startTime)}
                 <li>
                   <strong> Din status: </strong>
                   {INVITATION_STATUSES_TEXT[statusMe]}
                 </li>
-                {this.attendanceButtons(statusMe, meeting.startTime)}
-                <li
-                  style={{
-                    height: '1px',
-                    width: '100%',
-                    backgroundColor: '#ccc'
-                  }}
-                />
                 <li>
                   <strong> Slutt </strong>
                   <Time time={meeting.endTime} format="ll HH:mm" />
@@ -168,10 +156,6 @@ class MeetingDetails extends Component {
                 </li>
               </ul>
             </Card>
-          </FlexItem>
-          <FlexItem className={styles.reportContent} flex={2}>
-            <h2>Referat</h2>
-            <Editor readOnly value={meeting.report} />
           </FlexItem>
         </div>
       </div>
