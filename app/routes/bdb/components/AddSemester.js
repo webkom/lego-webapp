@@ -12,15 +12,17 @@ import {
   selectColorCode,
   DetailNavigation
 } from '../utils';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { SemesterStatusEntity } from 'app/reducers/companies';
 
 type Props = {
-  addSemesterStatus: (Object, Object) => void,
-  handleSubmit: ((Object) => void) => void,
+  addSemesterStatus: (Object, ?Object) => Promise<*>,
+  handleSubmit: ((Object) => ?Promise<*>) => void,
   companyId: string,
   submitting: boolean,
   autoFocus: any,
   companySemesters: Array<Object>,
-  addSemester: Object => void
+  addSemester: CompanySemesterEntity => Promise<*>
 };
 
 export default class AddSemester extends Component {
@@ -31,7 +33,7 @@ export default class AddSemester extends Component {
     submit: false
   };
 
-  onSubmit = ({ year, semester, contract }: Object) => {
+  onSubmit = ({ year, semester, contract }: SemesterStatusEntity) => {
     if (!this.state.submit) return;
     const {
       companyId,

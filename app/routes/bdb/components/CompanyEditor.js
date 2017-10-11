@@ -17,15 +17,16 @@ import {
 } from 'app/components/Form';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { reduxForm } from 'redux-form';
+import type { CompanyEntity } from 'app/reducers/companies';
 
 type Props = {
-  uploadFile: Object => void,
-  company: Object,
+  uploadFile: Object => Promise<*>,
+  company: CompanyEntity,
   submitting: boolean,
-  handleSubmit: ((Object) => void) => void,
+  handleSubmit: ((CompanyEntity) => Promise<*>) => void,
   autoFocus: any,
   fetching: boolean,
-  submitFunction: (Object, ?number) => void
+  submitFunction: (CompanyEntity, ?number) => Promise<*>
 };
 
 class CompanyEditor extends Component {

@@ -4,6 +4,12 @@ import { Company } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
 
+export type CompanySemesterEntity = {
+  semester: string,
+  year: string,
+  id?: number
+};
+
 export default createEntityReducer({
   key: 'companySemesters',
   types: {
