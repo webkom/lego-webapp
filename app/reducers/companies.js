@@ -9,6 +9,50 @@ import joinReducers from 'app/utils/joinReducers';
 import { selectCompanySemesters } from './companySemesters';
 import mergeObjects from 'app/utils/mergeObjects';
 
+export type CompanyEntity = {
+  name: string,
+  id?: number,
+  companyId?: number,
+  description?: string,
+  studentContact?: Object,
+  phone?: string,
+  companyType?: string,
+  website?: string,
+  address?: string,
+  paymentMail?: string,
+  active?: boolean,
+  adminComment?: string,
+  companyType?: string,
+  comments: Array<number>,
+  semesterStatuses: Array<SemesterStatusEntity>,
+  logo?: string,
+  files?: Array<string>,
+  companyContacts: Array<CompanyContactEntity>
+};
+
+export type SemesterStatusEntity = {
+  id?: number,
+  companyId?: number,
+  semester: number | string,
+  year?: string,
+  contactedStatus: Array<string>,
+  contract?: string,
+  contractName?: string,
+  statistics?: string,
+  statisticsName?: string,
+  evaluation?: string,
+  evaluationName?: string
+};
+
+export type CompanyContactEntity = {
+  id?: number,
+  name: string,
+  role?: string,
+  mail?: string,
+  phone?: string,
+  mobile?: string
+};
+
 function mutateCompanies(state, action) {
   switch (action.type) {
     case Company.DELETE.SUCCESS: {

@@ -7,9 +7,14 @@ import CompanySingleRow from './CompanySingleRow';
 import { indexToSemester } from '../utils.js';
 import Icon from 'app/components/Icon';
 import cx from 'classnames';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type {
+  CompanyEntity,
+  SemesterStatusEntity
+} from 'app/reducers/companies';
 
 type Props = {
-  companies: Array<Object>,
+  companies: Array<CompanyEntity>,
   startYear: number,
   startSem: number,
   query: Object,
@@ -38,7 +43,7 @@ export default class CompanyList extends Component {
       return '/bdb?sortBy=name&ascending=false';
     } // The rest
     if (query.sortBy === sortType) {
-      return `/bdb?sortBy=${sortType}&ascending=${!ascending}`;
+      return `/bdb?sortBy=${sortType}&ascending=${String(!ascending)}`;
     }
     return `/bdb?sortBy=${sortType}&ascending=true`;
   };

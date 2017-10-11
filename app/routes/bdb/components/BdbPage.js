@@ -8,14 +8,19 @@ import { indexToSemester, ListNavigation } from '../utils.js';
 import OptionsBox from './OptionsBox';
 import TextInput from 'app/components/Form/TextInput';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import type {
+  CompanyEntity,
+  SemesterStatusEntity
+} from 'app/reducers/companies';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 type Props = {
-  companies: Array<Object>,
+  companies: Array<CompanyEntity>,
   query: Object,
-  editSemesterStatus: (Object, Object) => void,
-  addSemesterStatus: (Object, Object) => void,
-  addSemester: Object => void,
-  companySemesters: Array<Object>
+  editSemesterStatus: (SemesterStatusEntity, ?Object) => Promise<*>,
+  addSemesterStatus: (SemesterStatusEntity, ?Object) => Promise<*>,
+  addSemester: CompanySemesterEntity => Promise<*>,
+  companySemesters: Array<CompanySemesterEntity>
 };
 
 export default class BdbPage extends Component {
@@ -94,7 +99,7 @@ export default class BdbPage extends Component {
     }
   };
 
-  updateFilters = (name: string, value: string) => {
+  updateFilters = (name: string, value: string | boolean) => {
     // For OptionsBox
     const filters = this.state.filters;
     filters[name] = value;
@@ -138,7 +143,7 @@ export default class BdbPage extends Component {
   };
 
   render() {
-    const { query, companies, companySemesters } = this.props;
+    const { query, companies } = this.props;
 
     if (!companies) {
       return <LoadingIndicator loading />;

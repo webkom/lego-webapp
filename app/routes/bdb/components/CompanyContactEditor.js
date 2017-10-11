@@ -10,12 +10,16 @@ import { Link } from 'react-router';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { reduxForm } from 'redux-form';
 import { DetailNavigation } from '../utils';
+import type {
+  CompanyEntity,
+  CompanyContactEntity
+} from 'app/reducers/companies';
 
 type Props = {
-  submitFunction: (Object, boolean) => void,
-  handleSubmit: ((Object) => void) => void,
-  company: Object,
-  companyContact?: Object,
+  submitFunction: (CompanyContactEntity, ?Object) => Promise<*>,
+  handleSubmit: ((CompanyContactEntity) => Promise<*>) => void,
+  company: CompanyEntity,
+  companyContact?: CompanyContactEntity,
   submitting: boolean,
   autoFocus: any,
   fetching: boolean
@@ -24,7 +28,7 @@ type Props = {
 class CompanyContactEditor extends Component {
   onSubmit = formContent => {
     const { company, companyContact, submitFunction } = this.props;
-    submitFunction(
+    return submitFunction(
       {
         ...formContent,
         companyId: company.id,

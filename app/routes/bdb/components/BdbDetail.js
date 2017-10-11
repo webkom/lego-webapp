@@ -16,17 +16,21 @@ import { Image } from 'app/components/Image';
 import SemesterStatusDetail from './SemesterStatusDetail';
 import { eventTypes } from 'app/routes/events/utils';
 import truncateString from 'app/utils/truncateString';
+import type {
+  CompanyEntity,
+  SemesterStatusEntity
+} from 'app/reducers/companies';
 
 type Props = {
-  company: Object,
+  company: CompanyEntity,
   comments?: Array<Object>,
   companyEvents: Array<Object>,
   currentUser: any,
-  deleteSemesterStatus: (number, number) => void,
-  deleteCompanyContact: (number, number) => void,
+  deleteSemesterStatus: (number, number) => Promise<*>,
+  deleteCompanyContact: (number, number) => Promise<*>,
   loggedIn: boolean,
   companySemesters: Array<Object>,
-  editSemesterStatus: (Object, Object) => void,
+  editSemesterStatus: (SemesterStatusEntity, ?Object) => Promise<*>,
   companyEvents: Array<Object>,
   fetching: boolean,
   editCompany: Object => void
@@ -128,7 +132,11 @@ export default class BdbDetail extends Component {
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               {contact.phone || '-'}
               <span style={{ display: 'flex', flexDirection: 'row' }}>
-                <Link to={`/bdb/${company.id}/company-contacts/${contact.id}`}>
+                <Link
+                  to={`/bdb/${String(company.id)}/company-contacts/${String(
+                    contact.id
+                  )}`}
+                >
                   <i
                     className="fa fa-pencil"
                     style={{ marginRight: '5px', color: 'orange' }}
