@@ -281,7 +281,7 @@ class CustomEditor extends Component {
             onToggleBlock={this.onToggleBlock}
             onToggleMark={this.onToggleMark}
           />
-          <SideMenu state={this.state.state} />
+          {/*<SideMenu state={this.state.state} />*/}
           <Editor
             schema={schema}
             state={this.state.state}

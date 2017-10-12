@@ -62,10 +62,10 @@ export const MARK_TAGS = [
     padding: '3px',
     borderRadius: '4px'
   }),
-  createMarkTag('link', 'link', 'a', {
+  /*createMarkTag('link', 'link', 'a', {
     textDecoration: 'underline',
     color: 'blue'
-  }),
+  }),*/
   createMarkTag('strikethrough', 'strikethrough', 'strike', {
     textDecoration: 'line-through'
   })
