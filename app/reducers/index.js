@@ -94,7 +94,7 @@ export const userSchema = new schema.Entity(
   { idAttribute: 'username' }
 );
 export const registrationSchema = new schema.Entity('registrations', {
-  users: userSchema
+  user: userSchema
 });
 export const poolSchema = new schema.Entity('pools', {
   registrations: [registrationSchema]
