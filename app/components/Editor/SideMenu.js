@@ -1,7 +1,7 @@
 /* eslint-disable react/no-find-dom-node */
 import React, { Component } from 'react';
 import Icon from 'app/components/Icon/index';
-import { ImageUpload } from 'app/components/Upload/index';
+import ImageUpload from 'app/components/Upload/index';
 import styles from './Editor.css';
 import { findDOMNode } from 'slate-react';
 import cx from 'classnames';
@@ -20,7 +20,7 @@ export type SideMenuButtonProps = {
   onClick: properties => void
 };
 
-const SideMenuButton = ({ onClick, active, icon }: SideMenuButtonProps) =>
+const SideMenuButton = ({ onClick, active, icon }: SideMenuButtonProps) => (
   <span
     className={cx(
       styles.sideMenuButton,
@@ -33,7 +33,8 @@ const SideMenuButton = ({ onClick, active, icon }: SideMenuButtonProps) =>
     }}
   >
     <Icon name={icon} />
-  </span>;
+  </span>
+);
 
 export default class SideMenu extends Component {
   state = {
@@ -128,11 +129,12 @@ export default class SideMenu extends Component {
           <Icon onMouseDown={this.toggle} name="add" />
         </div>
 
-        {this.state.open &&
+        {this.state.open && (
           <div className={styles.sideMenuButtons}>
             <SideMenuButton icon="remove" onClick={this.insertSeparator} />
             <SideMenuButton icon="image" onClick={this.toggleImage} />
-          </div>}
+          </div>
+        )}
 
         {this.state.openUpload && (
           <ImageUpload

@@ -29,12 +29,6 @@ const searchMapping = {
     value: 'username',
     profilePicture: 'profilePicture'
   },
-  'tags.tag': {
-    label: 'text',
-    color: '#A1C34A',
-    path: '/tags/',
-    value: 'id'
-  },
   'articles.article': {
     icon: 'newspaper-o',
     label: 'title',
@@ -47,7 +41,6 @@ const searchMapping = {
   'events.event': {
     label: 'title',
     icon: 'calendar',
-    label: 'title',
     color: '#E8953A',
     picture: 'cover',
     path: '/events/',
@@ -57,7 +50,6 @@ const searchMapping = {
   'flatpages.page': {
     label: 'title',
     profilePicture: 'picture',
-    label: 'title',
     color: '#E8953A',
     path: '/pages/',
     value: 'slug',

@@ -8,7 +8,7 @@
   opacity: 0;
   background-color: #222;
   border-radius: 4px;
-  transition: opacity .75s;
+  transition: opacity 0.75s;
   margin-left: 15px;
   display: inline-block;
 }
@@ -60,11 +60,8 @@
   vertical-align: -webkit-baseline-middle;
 }
 
-.activeSideMenuButton {
-
-}
-
-.editor ul,ol {
+.editor ul,
+.editor ol {
   margin-left: 20px;
 }
 
@@ -80,3 +77,4 @@
   color: #aaa;
   font-style: italic;
 }
+

@@ -4,8 +4,6 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import CommentView from 'app/components/Comments/CommentView';
 import { FlexRow } from 'app/components/FlexBox';
 import Editor from 'app/components/Editor';
-import Tag from 'app/components/Tag';
-import { Flex } from 'app/components/Layout';
 import { Link } from 'react-router';
 
 /**

@@ -288,9 +288,7 @@ class CustomEditor extends Component {
             onChange={this.onChange}
             onKeyDown={this.onKeyDown}
           />
-          <div>
-            {this.state.serialized}
-          </div>
+          <div>{this.state.serialized}</div>
         </div>
       </div>
     );

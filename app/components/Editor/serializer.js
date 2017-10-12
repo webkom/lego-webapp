@@ -7,11 +7,7 @@ const rules = [
   {
     serialize: (object, children) => {
       if (object.kind == 'block' && object.type == 'paragraph') {
-        return (
-          <p>
-            {children}
-          </p>
-        );
+        return <p> {children} </p>;
       }
     },
     deserialize: (el, next) => {

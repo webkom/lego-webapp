@@ -46,10 +46,10 @@ const HoverMenuButton = ({
   );
 };
 
-const HoverMenu = ({ state, onToggleMark, onToggleBlock, onOpen }: Props) =>
+const HoverMenu = ({ state, onToggleMark, onToggleBlock, onOpen }: Props) => (
   <Portal isOpened onOpen={onOpen}>
     <div className={styles.hoverMenu}>
-      {BLOCK_TAGS.filter(tag => !tag.hoverHidden).map(tag =>
+      {BLOCK_TAGS.filter(tag => !tag.hoverHidden).map(tag => (
         <HoverMenuButton
           key={tag.type}
           kind="block"
@@ -57,9 +57,9 @@ const HoverMenu = ({ state, onToggleMark, onToggleBlock, onOpen }: Props) =>
           onClick={onToggleBlock}
           tag={tag}
         />
-      )}
+      ))}
       ||||
-      {MARK_TAGS.map(tag =>
+      {MARK_TAGS.map(tag => (
         <HoverMenuButton
           key={tag.type}
           kind="mark"
@@ -67,8 +67,9 @@ const HoverMenu = ({ state, onToggleMark, onToggleBlock, onOpen }: Props) =>
           onClick={onToggleMark}
           tag={tag}
         />
-      )}
+      ))}
     </div>
-  </Portal>;
+  </Portal>
+);
 
 export default HoverMenu;
