@@ -1,95 +1,83 @@
 /* eslint-disable react/no-danger */
 // @flow
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import styles from './PageDetail.css';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import Editor from 'app/components/Editor';
 import PageHierarchy from './PageHierarchy';
 
-type Props = {
-  updatePage: (string, Object) => void,
-  page: {
-    title: string,
-    slug: string,
-    content: string,
-    permissions: Array<string>
-  }
+import type { HierarchySectionEntity } from './PageHierarchy';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import type { PageEntity } from 'app/reducers/pages';
+
+export type PageInfo = {
+  editUrl: string,
+  title: string,
+  actionGrant: string[]
+};
+type Props<T> = {
+  selectedPage: T,
+  selectedPageInfo: PageInfo,
+  PageRenderer: ({ page: T }) => React.Element<*>,
+  pageHierarchy: HierarchySectionEntity[]
 };
 
-export default class PageDetail extends Component {
-  state = {
-    isEditing: false,
-    content: ''
-  };
-
-  props: Props;
-
-  handleEditorChange = (content: string) => {
-    this.setState({
-      ...this.state,
-      content
-    });
-  };
-
-  handleSave = () => {
-    this.setState({ isEditing: false });
-    this.props.updatePage(this.props.page.slug, {
-      content: this.state.content
-    });
-  };
-
-  toggleEditing = () => {
-    this.setState({
-      isEditing: !this.state.isEditing
-    });
-  };
-
-  render() {
-    const { page } = this.props;
-    if (!page.content) {
-      return <LoadingIndicator loading />;
-    }
-
-    const canEdit = page.permissions && page.permissions.includes('edit');
-    return (
-      <div className={styles.root}>
-        <Flex className={styles.page}>
-          <article className={styles.detail}>
-            <div className={styles.header}>
-              <h2 className={styles.title}>{page.title}</h2>
-              {canEdit && (
-                <PageButtons
-                  isEditing={this.state.isEditing}
-                  toggleEditing={this.toggleEditing}
-                  handleSave={this.handleSave}
-                />
-              )}
-            </div>
-            {page.cover && (
-              <div className={styles.coverImage}>
-                <img alt="presentation" src={page.cover} />
-              </div>
-            )}
-            {this.state.isEditing ? (
-              <Editor
-                content={page.content}
-                onChange={this.handleEditorChange}
-              />
-            ) : (
-              <div dangerouslySetInnerHTML={{ __html: page.content }} />
-            )}
-          </article>
-          <aside className={styles.sidebar}>
-            <PageHierarchy
-              {...this.props}
-              selectedPage={page}
-              actionGrant={page.actionGrant}
-            />
-          </aside>
-        </Flex>
+export const FlatpageRenderer = ({ page }: { page: PageEntity }) => (
+  <article className={styles.detail}>
+    {page.picture && (
+      <div className={styles.coverImage}>
+        <img alt="presentation" src={page.picture} />
       </div>
-    );
+    )}
+    <div dangerouslySetInnerHTML={{ __html: page.content }} />
+  </article>
+);
+
+export const GroupRenderer = ({ page }: { page: Object }) => (
+  <article className={styles.detail}>
+    {page.logo && (
+      <div className={styles.logo}>
+        <img alt="presentation" src={page.logo} />
+      </div>
+    )}
+
+    <div dangerouslySetInnerHTML={{ __html: page.description }} />
+    <div dangerouslySetInnerHTML={{ __html: page.text }} />
+  </article>
+);
+
+function PageDetail<T: Object>({
+  selectedPage,
+  selectedPageInfo,
+  pageHierarchy,
+  PageRenderer
+}: Props<T>) {
+  if (!selectedPage) {
+    return <LoadingIndicator loading />;
   }
+  const { title, editUrl, actionGrant } = selectedPageInfo;
+  return (
+    <div className={styles.root}>
+      <NavigationTab title={title}>
+        {actionGrant.includes('edit') && (
+          <NavigationLink to={`${editUrl}`}>ENDRE</NavigationLink>
+        )}
+        {actionGrant.includes('create') && (
+          <NavigationLink to={`/pages/create`}> NY </NavigationLink>
+        )}
+      </NavigationTab>
+      <Flex className={styles.page}>
+        <PageRenderer page={selectedPage} />
+
+        <aside className={styles.sidebar}>
+          <PageHierarchy
+            selectedItem={selectedPage}
+            pageHierarchy={pageHierarchy}
+          />
+        </aside>
+      </Flex>
+    </div>
+  );
 }
+export default PageDetail;

@@ -10,7 +10,7 @@
 }
 
 .page {
-  width: 80%;
+  margin: 0;
 }
 
 .detail {
@@ -20,7 +20,7 @@
 }
 
 .header {
-  margin: 10px 0px;
+  margin: 10px 0;
 }
 
 .sidebar {
@@ -40,4 +40,11 @@
 .coverImage img {
   height: 300px;
   width: 100%;
+  object-fit: cover;
+}
+
+.logo img {
+  height: 300px;
+  width: 100%;
+  object-fit: contain;
 }

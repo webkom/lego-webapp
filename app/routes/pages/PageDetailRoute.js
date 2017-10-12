@@ -1,19 +1,23 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-<<<<<<< HEAD
 import { fetchAll, fetchPage, updatePage } from 'app/actions/PageActions';
-=======
 import { dispatched } from 'react-prepare';
 import { fetchPage, updatePage } from 'app/actions/PageActions';
->>>>>>> More work
 import PageDetail from './components/PageDetail';
 import prepare from 'app/utils/prepare';
+import { fetchPage, updatePage, fetchAll } from 'app/actions/PageActions';
+import { fetchAllWithType, fetchGroup } from 'app/actions/GroupActions';
+import PageDetail, {
+  FlatpageRenderer,
+  GroupRenderer
+} from './components/PageDetail';
 import {
-  selectSiblings,
-  selectParent,
+  selectPages,
   selectPageBySlug,
-  selectChildren
+  selectPagesForHierarchy,
+  selectGroupsForHierarchy
 } from 'app/reducers/pages';
+import { selectGroup } from 'app/reducers/groups';
 
 const loadData = (props, dispatch) => {
   if (!props.pages || !props.page) {
@@ -25,26 +29,80 @@ const loadData = (props, dispatch) => {
 };
 
 const mapStateToProps = (state, props) => {
+const loadPage = ({ params: { section, pageSlug } }, dispatch) => {
+  switch (section) {
+    case 'komiteer':
+      return fetchGroup(pageSlug);
+    case 'info':
+    default:
+      return fetchPage(pageSlug);
+  }
+};
+const loadData = (props, dispatch) =>
+  dispatch(loadPage(props, dispatch))
+    .then(() => dispatch(fetchAll()))
+    .then(() => dispatch(fetchAllWithType('annen')));
+
+const mapStateToPropsFlatpages = (state, props) => {
   const { pageSlug } = props.params;
-  const page = selectPageBySlug(state, { pageSlug });
-  const siblings = selectSiblings(state, { parentPk: page.parent });
-  const children = selectChildren(state, { parentPk: page.pk });
-  const parent = selectParent(state, { parentPk: page.parent });
+  const selectedPage: PageEntity = selectPageBySlug(state, { pageSlug });
+
+  const selectedPageInfo = {
+    actionGrant: selectedPage.actionGrant || [],
+    title: selectedPage.title,
+    editUrl: `/pages/${selectedPage.slug}/edit`
+  };
+  const PageRenderer = FlatpageRenderer;
   return {
-    page,
-    pageSlug,
-    siblings,
-    parent,
-    children,
-    pages: state.pages.byId
+    selectedPage,
+    selectedPageInfo,
+    PageRenderer
+  };
+};
+
+const mapStateToPropsComitee = (state, props) => {
+  const { pageSlug } = props.params;
+  const group: Object = selectGroup(state, { groupId: pageSlug });
+
+  const selectedPageInfo = group && {
+    actionGrant: group.actionGrant || [],
+    title: group.name,
+    editUrl: `/admin/groups/${group.id}/settings`
+  };
+  const PageRenderer = GroupRenderer;
+  return {
+    selectedPage: group,
+    selectedPageInfo,
+    PageRenderer
+  };
+};
+
+const mapStateToPropsForSection = (state, props, section) => {
+  switch (section) {
+    case 'komiteer':
+      return mapStateToPropsComitee(state, props);
+    case 'info':
+    default:
+      return mapStateToPropsFlatpages(state, props);
+  }
+};
+const mapStateToProps = (state, props) => {
+  const { section } = props.params;
+
+  const pageHierarchy = [
+    selectPagesForHierarchy(state, { title: 'Informasjon' }),
+    selectGroupsForHierarchy(state, { title: 'Komiteer' })
+  ];
+
+  return {
+    ...mapStateToPropsForSection(state, props, section),
+    pageHierarchy
   };
 };
 
 const mapDispatchToProps = { updatePage };
 
 export default compose(
-  prepare(({ params: { pageSlug } }, dispatch) =>
-    dispatch(fetchPage(pageSlug))
-  ),
+  prepare(loadData),
   connect(mapStateToProps, mapDispatchToProps)
 )(PageDetail);

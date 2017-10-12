@@ -3,9 +3,10 @@ import { FlexRow } from 'app/components/FlexBox';
 import Button from 'app/components/Button';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import styles from './PageEditor.css';
-import { EditorField, TextInput, SelectInput, Form } from 'app/components/Form';
+import { EditorField, TextInput, Form } from 'app/components/Form';
 import { ImageUpload } from 'app/components/Upload';
 import { Field } from 'redux-form';
+import { get } from 'lodash';
 
 /**
  *
@@ -27,13 +28,13 @@ export default class PageEditor extends Component {
 
   state = {
     page: {
-      cover: this.props.page.cover,
-      content: this.props.page.content
+      picture: get(this.props, ['page', 'picture']),
+      content: get(this.props, ['page', 'content'])
     },
     images: {}
   };
 
-  setCover = image => {
+  setPicture = image => {
     this.props.uploadFile({ file: image, isPublic: true }).then(action => {
       const file = action.meta.fileToken;
       this.setState({
@@ -41,7 +42,7 @@ export default class PageEditor extends Component {
           ...this.state.images,
           [file]: window.URL.createObjectURL(image)
         },
-        page: { ...this.state.page, cover: file }
+        page: { ...this.state.page, picture: file }
       });
     });
   };
@@ -53,10 +54,10 @@ export default class PageEditor extends Component {
       parent: data.parent.value
     };
 
-    if (this.state.images[this.state.page.cover]) {
-      body.cover = this.state.page.cover;
+    if (this.state.images[this.state.page.picture]) {
+      body.picture = this.state.page.picture;
     } else {
-      delete body.cover;
+      delete body.picture;
     }
 
     console.log(body);
@@ -71,7 +72,7 @@ export default class PageEditor extends Component {
   render() {
     const { isNew, uploadFile, handleSubmit, page } = this.props;
     const { images } = this.state;
-    if (!isNew && !page.content) {
+    if (!isNew && !page) {
       return <LoadingIndicator loading />;
     }
 
@@ -81,11 +82,11 @@ export default class PageEditor extends Component {
           <div className={styles.coverImage}>
             <ImageUpload
               aspectRatio={20 / 6}
-              onSubmit={this.setCover}
+              onSubmit={this.setPicture}
               img={
-                images[this.state.page.cover]
-                  ? images[this.state.page.cover]
-                  : page.cover
+                images[this.state.page.picture]
+                  ? images[this.state.page.picture]
+                  : page.picture
               }
             />
           </div>
@@ -101,17 +102,6 @@ export default class PageEditor extends Component {
               {isNew ? 'Create' : 'Save'}
             </Button>
           </FlexRow>
-
-          <Field
-            placeholder="Parent"
-            name="parent"
-            component={SelectInput.Field}
-            options={this.props.pages.map(page => ({
-              label: page.title,
-              value: page.pk
-            }))}
-            id="page-parent"
-          />
 
           <Field
             placeholder="Write page content here..."

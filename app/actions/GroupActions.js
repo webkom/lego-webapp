@@ -68,6 +68,18 @@ export function fetchAll() {
   });
 }
 
+export function fetchAllWithType(type: string) {
+  return callAPI({
+    types: Group.FETCH,
+    endpoint: `/groups/?type=${type}`,
+    schema: [groupSchema],
+    meta: {
+      errorMessage: 'Henting av grupper feilet'
+    },
+    propagateError: true
+  });
+}
+
 export function updateGroup(group: Object) {
   return callAPI({
     types: Group.UPDATE,

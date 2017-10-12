@@ -1,6 +1,6 @@
 import { compose } from 'redux';
+import { dispatched } from 'react-prepare';
 import { connect } from 'react-redux';
-import fetchOnUpdate from 'app/utils/fetchOnUpdate';
 import { fetchAll, fetchPage, updatePage } from 'app/actions/PageActions';
 import { uploadFile } from 'app/actions/FileActions';
 import PageEditor from './components/PageEditor';
@@ -10,15 +10,19 @@ import {
   selectPageBySlug,
   selectPages
 } from 'app/reducers/pages';
+import { isEmpty } from 'lodash';
 
 function loadData({ pageSlug }, props) {
-  props.fetchPage(pageSlug);
-  props.fetchAll();
+  return props.fetchPage(pageSlug).then(() => props.fetchAll());
 }
 
 function mapStateToProps(state, props) {
   const { pageSlug } = props.params;
   const page = selectPageBySlug(state, { pageSlug });
+  if (isEmpty(page))
+    return {
+      isNew: false
+    };
   const parent = selectParent(state, { parentPk: page.parent });
   const pages = selectPages(state);
   return {
@@ -40,8 +44,8 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = { fetchAll, fetchPage, updatePage, uploadFile };
 
 export default compose(
+  dispatched((props, dispatch) => dispatch(loadData())),
   connect(mapStateToProps, mapDispatchToProps),
-  fetchOnUpdate(['pageSlug', 'loggedIn'], loadData),
   reduxForm({
     destroyOnUnmount: false,
     form: 'page-edit',

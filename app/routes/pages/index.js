@@ -1,7 +1,7 @@
 import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
-  path: 'pages',
+  path: 'pages/:section',
   indexRoute: resolveAsyncRoute(() => import('./PageListRoute')),
   childRoutes: [
     {
