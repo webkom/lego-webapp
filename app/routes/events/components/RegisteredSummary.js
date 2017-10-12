@@ -2,7 +2,6 @@ import styles from './Registrations.css';
 import React from 'react';
 import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
-import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
 import { Flex } from 'app/components/Layout';
 
 const Registration = ({ registration }) => (
@@ -23,7 +22,9 @@ const renderNameList = registrations => {
       {registrationsList.map(reg => (
         <Flex key={reg.id}>{reg.user.fullName}</Flex>
       ))}
-      {registrations.length > 10 && <Flex>{`og ${registrations.length - 12} andre`}</Flex>}
+      {registrations.length > 10 && (
+        <Flex>{`og ${registrations.length - 12} andre`}</Flex>
+      )}
     </Flex>
   );
 };
@@ -70,7 +71,7 @@ const RegisteredSummary = ({ registrations, pools, title, toggleModal }) => {
 
   summary.push('\u00A0er påmeldt');
 
-  return <FlexRow className={styles.summary}>{summary}</FlexRow>;
+  return <Flex className={styles.summary}>{summary}</Flex>;
 };
 
 export default RegisteredSummary;
