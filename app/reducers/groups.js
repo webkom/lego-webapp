@@ -3,6 +3,7 @@ import { Group, Membership } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import without from 'lodash/without';
 import mergeObjects from 'app/utils/mergeObjects';
+import { selectMembershipsForInterestGroup } from './memberships';
 
 export default createEntityReducer({
   key: 'groups',
@@ -31,6 +32,25 @@ export default createEntityReducer({
         const memberships = without(group.memberships, id);
         return replaceMemberships(memberships);
       }
+      case Group.MEMBERSHIP_FETCH.SUCCESS: {
+        const g = {
+          ...state.byId[action.meta.groupId],
+          memberships: action.payload.result
+        };
+        const memberships = selectMembershipsForInterestGroup(g, {
+          groupId: g.id
+        });
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [action.meta.groupId]: {
+              ...g,
+              memberships
+            }
+          }
+        };
+      }
       default:
         return state;
     }
@@ -39,25 +59,8 @@ export default createEntityReducer({
 
 export const selectGroup = createSelector(
   state => state.groups.byId,
-  state => state.memberships.byId,
-  state => state.users.byId,
   (state, props) => props.groupId,
-  (groupsById, membershipsById, usersById, groupId) => {
-    const group = groupsById[groupId];
-    if (group && group.memberships) {
-      return {
-        ...group,
-        memberships: group.memberships.map(id => {
-          const membership = membershipsById[id];
-          return {
-            ...membership,
-            user: usersById[membership.user]
-          };
-        })
-      };
-    }
-    return group;
-  }
+  (groupsById, id) => groupsById[id]
 );
 
 export const selectGroups = createSelector(
