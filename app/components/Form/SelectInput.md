@@ -21,5 +21,31 @@ const options = [
     placeholder="Select stuff"
     options={options}
   />
+
+  <Field
+    name="users"
+    filter={['users.user']}
+    placeholder="Autocomplete users"
+    label="Autocomplete users"
+    component={SelectInput.AutocompleteField}
+    multi
+  />
+ 
+  <Field
+    name="groups"
+    filter={['users.abakusgroup']}
+    placeholder="Autocomplete groups"
+    label="Autocomplete groups"
+    component={SelectInput.AutocompleteField}
+    multi
+  />
+
+  <Field
+    name="user"
+    filter={['users.user']}
+    placeholder="Autocomplete user"
+    label="Autocomplete user"
+    component={SelectInput.AutocompleteField}
+  />
 </ReduxForm>
 ```
