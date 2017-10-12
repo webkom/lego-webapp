@@ -35,12 +35,6 @@ export default class InterestGroupEdit extends Component {
         <Flex justifyContent="space-between" alignItems="baseline">
           <div>
             <h1>Endre gruppe</h1>
-            <Button
-              onClick={() => removeInterestGroup(interestGroup.id)}
-              className={styles.deleteButton}
-            >
-              Slett gruppen
-            </Button>
           </div>
         </Flex>
         <GroupForm
