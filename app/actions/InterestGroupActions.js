@@ -44,7 +44,8 @@ export function createInterestGroup(group: Object): Thunk<*> {
           name,
           description,
           text,
-          logo
+          logo,
+          type: 'interesse'
         },
         meta: {
           group,
