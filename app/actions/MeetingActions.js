@@ -6,6 +6,7 @@ import callAPI from 'app/actions/callAPI';
 import { push } from 'react-router-redux';
 import { startSubmit, stopSubmit } from 'redux-form';
 import moment from 'moment';
+import type { Thunk } from 'app/types';
 
 export function fetchMeeting(meetingId: string) {
   return callAPI({
@@ -13,7 +14,7 @@ export function fetchMeeting(meetingId: string) {
     endpoint: `/meetings/${meetingId}/`,
     schema: meetingSchema,
     meta: {
-      errorMessage: `Fetching meeting ${meetingId} failed`
+      errorMessage: `Henting av møte ${meetingId} feilet`
     },
     propagateError: true
   });
@@ -25,31 +26,35 @@ export function fetchAll() {
     endpoint: '/meetings/',
     schema: [meetingSchema],
     meta: {
-      errorMessage: 'Fetching meetings failed'
+      errorMessage: 'Henting av møter feilet'
     },
     propagateError: true
   });
 }
 
-export function setInvitationStatus(meetingId, status, user) {
+export function setInvitationStatus(
+  meetingId: number,
+  status: string,
+  userId: number
+) {
   return callAPI({
     types: Meeting.SET_INVITATION_STATUS,
-    endpoint: `/meetings/${meetingId}/invitations/${user}/`,
+    endpoint: `/meetings/${meetingId}/invitations/${userId}/`,
     method: 'put',
     body: {
-      user,
+      user: userId,
       status
     },
     meta: {
-      errorMessage: 'Set invitation status failed',
+      errorMessage: 'Endring av invitasjonstatus feilet',
       meetingId,
       status,
-      user
+      user: userId
     }
   });
 }
 
-export function deleteMeeting(id) {
+export function deleteMeeting(id: number): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('deleteMeeting'));
 
@@ -60,7 +65,7 @@ export function deleteMeeting(id) {
         method: 'delete',
         meta: {
           meetingId: id,
-          errorMessage: 'Delete meeting failed'
+          errorMessage: 'Sletting av møte feilet'
         }
       })
     )
@@ -84,7 +89,7 @@ export function createMeeting({
   reportAuthor,
   users,
   groups
-}) {
+}: Object): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('meetingEditor'));
     dispatch(
@@ -102,7 +107,7 @@ export function createMeeting({
         },
         schema: meetingSchema,
         meta: {
-          errorMessage: 'Creating meeting failed'
+          errorMessage: 'Opprettelse av møte feilet'
         }
       })
     )
@@ -130,7 +135,7 @@ export function createMeeting({
   };
 }
 
-export function inviteUsersAndGroups({ id, users, groups }) {
+export function inviteUsersAndGroups({ id, users, groups }: Object) {
   return callAPI({
     types: Meeting.EDIT,
     endpoint: `/meetings/${id}/bulk_invite/`,
@@ -140,12 +145,16 @@ export function inviteUsersAndGroups({ id, users, groups }) {
       groups: groups ? groups.map(group => group.value) : []
     },
     meta: {
-      errorMessage: 'Error inviting users/groups'
+      errorMessage: 'Feil ved invitering av brukere/grupper'
     }
   });
 }
 
-export function answerMeetingInvitation(action, token, loggedIn) {
+export function answerMeetingInvitation(
+  action: string,
+  token: string,
+  loggedIn: boolean
+): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('answerMeetingInvitation'));
 
@@ -155,7 +164,7 @@ export function answerMeetingInvitation(action, token, loggedIn) {
         endpoint: `/meeting-token/${action}/?token=${token}`,
         method: 'post',
         meta: {
-          errorMessage: 'Answer invitation failed'
+          errorMessage: 'Svar på invitasjon feilet'
         },
         useCache: true
       })
@@ -179,7 +188,7 @@ export function editMeeting({
   id,
   users,
   groups
-}) {
+}: Object): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('meetingEditor'));
 
@@ -199,7 +208,7 @@ export function editMeeting({
         },
         schema: meetingSchema,
         meta: {
-          errorMessage: 'editing meeting failed'
+          errorMessage: 'Endring av møte feilet'
         }
       })
     )
@@ -223,5 +232,11 @@ export function editMeeting({
         const errors = { ...action.error.response.jsonData };
         dispatch(stopSubmit('meetingEditor', errors));
       });
+  };
+}
+
+export function resetMeetingsToken() {
+  return {
+    type: Meeting.RESET_MEETINGS_TOKEN
   };
 }

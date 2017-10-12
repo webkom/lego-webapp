@@ -42,23 +42,98 @@ describe('createEntityReducer', () => {
   it('should pick up entities from actions', () => {
     expect(
       reducer(undefined, {
-        type: 'SUCCESS',
+        type: FETCH.SUCCESS,
         payload: {
           actionGrant: ['list'],
           entities: {
             events: {
+              0: { name: 'Hello' },
               1: { name: 'Hello' }
             }
           },
-          result: [1]
+          result: [0, 1]
         }
       })
     ).toEqual({
       actionGrant: ['list'],
       byId: {
+        0: { name: 'Hello' },
         1: { name: 'Hello' }
       },
-      items: ['1'],
+      items: [0, 1],
+      fetching: false,
+      smashed: false
+    });
+  });
+
+  it('should handle items as strings gracefully', () => {
+    expect(
+      reducer(undefined, {
+        type: FETCH.SUCCESS,
+        payload: {
+          actionGrant: ['list'],
+          entities: {
+            events: {
+              1: { name: '1' },
+              warlo: { name: 'warlo' }
+            }
+          },
+          result: [1, 'warlo']
+        }
+      })
+    ).toEqual({
+      actionGrant: ['list'],
+      byId: {
+        1: { name: '1' },
+        warlo: { name: 'warlo' }
+      },
+      items: [1, 'warlo'],
+      fetching: false,
+      smashed: false
+    });
+  });
+
+  it('should handle non-numeric ids that starts with a digit', () => {
+    expect(
+      reducer(undefined, {
+        type: FETCH.SUCCESS,
+        payload: {
+          actionGrant: ['list'],
+          entities: {
+            events: {
+              '1-per': { name: 'per' },
+              '1-warlo': { name: 'warlo' }
+            }
+          },
+          result: ['1-per', '1-warlo']
+        }
+      })
+    ).toEqual({
+      actionGrant: ['list'],
+      byId: {
+        '1-per': { name: 'per' },
+        '1-warlo': { name: 'warlo' }
+      },
+      items: ['1-per', '1-warlo'],
+      fetching: false,
+      smashed: false
+    });
+  });
+
+  it('should reduce actionGrant when result is empty', () => {
+    expect(
+      reducer(undefined, {
+        type: FETCH.SUCCESS,
+        payload: {
+          actionGrant: ['list', 'create'],
+          entities: {},
+          result: []
+        }
+      })
+    ).toEqual({
+      actionGrant: ['list', 'create'],
+      byId: {},
+      items: [],
       fetching: false,
       smashed: false
     });
@@ -163,7 +238,7 @@ describe('entities()', () => {
       byId: {
         1: user
       },
-      items: ['1']
+      items: [1]
     });
   });
 
@@ -234,7 +309,7 @@ describe('entities()', () => {
           comments: []
         }
       },
-      items: ['1', '2']
+      items: [1, 2]
     });
   });
 });

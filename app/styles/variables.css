@@ -1,6 +1,7 @@
 @custom-media --small-viewport (max-width: 35em);
 @custom-media --medium-viewport (max-width: 45em);
 @custom-media --mobile-device (max-width: 992px);
+@custom-media --lego-max-width (max-width: 1100px);
 
 :root {
   --lego-background-color: linear-gradient(0deg, #f4f4f4, #eae9e8);
@@ -36,6 +37,12 @@
   --color-light-gray-3: #e1e8ed;
   --color-light-gray-4: #ebf1f5;
   --color-light-gray-5: #f5f8fa;
+
+  --color-mono-gray-1: #aaa;
+  --color-mono-gray-2: #bbb;
+  --color-mono-gray-3: #ccc;
+  --color-mono-gray-4: #ddd;
+  --color-mono-gray-5: #eee;
 
   --color-blue-1: #0e5a8a;
   --color-blue-2: #106ba3;

@@ -4,7 +4,7 @@
   height: 21px;
 }
 
-.label {
+.span {
   display: inline-block;
   cursor: pointer;
   position: relative;
@@ -16,6 +16,7 @@
 /* Base for label styling */
 [type='radio']:not(:checked),
 [type='radio']:checked {
+  cursor: pointer;
   position: absolute;
   z-index: 1;
   transform: scale(1.6);
@@ -24,15 +25,15 @@
   opacity: 0;
 }
 
-[type='radio']:not(:checked) + label,
-[type='radio']:checked + label {
+[type='radio']:not(:checked) + span,
+[type='radio']:checked + span {
   position: relative;
   cursor: pointer;
 }
 
 /* radio aspect */
-[type='radio']:not(:checked) + label::before,
-[type='radio']:checked + label::before {
+[type='radio']:not(:checked) + span::before,
+[type='radio']:checked + span::before {
   content: '';
   position: absolute;
   width: 22px;
@@ -44,8 +45,8 @@
 }
 
 /* checked mark aspect */
-[type='radio']:not(:checked) + label::after,
-[type='radio']:checked + label::after {
+[type='radio']:not(:checked) + span::after,
+[type='radio']:checked + span::after {
   content: '';
   position: absolute;
   width: 16px;
@@ -56,40 +57,40 @@
 }
 
 /* checked mark aspect changes */
-[type='radio']:not(:checked) + label::after {
+[type='radio']:not(:checked) + span::after {
   opacity: 0;
   transform: scale(0) translate(11px, 11px);
 }
 
-[type='radio']:checked + label::after {
+[type='radio']:checked + span::after {
   opacity: 1;
   transform: scale(1) translate(3px, 3px);
 }
 
 /* disabled radio */
-[type='radio']:disabled:not(:checked) + label::before,
-[type='radio']:disabled:checked + label::before {
+[type='radio']:disabled:not(:checked) + span::before,
+[type='radio']:disabled:checked + span::before {
   box-shadow: none;
   border-color: #bbb;
   background-color: #ddd;
 }
 
-[type='radio']:disabled:checked + label::after {
+[type='radio']:disabled:checked + span::after {
   color: #999;
 }
 
-[type='radio']:disabled + label {
+[type='radio']:disabled + span {
   color: #aaa;
 }
 
 /* accessibility */
-[type='radio']:checked:focus + label::before,
-[type='radio']:not(:checked):focus + label::before {
+[type='radio']:checked:focus + span::before,
+[type='radio']:not(:checked):focus + span::before {
   cursor: pointer;
 }
 
 /* hover style just for information */
-label:hover::before {
+span:hover::before {
   border: 1px solid #999 !important;
   transition: border 0.5s;
 }

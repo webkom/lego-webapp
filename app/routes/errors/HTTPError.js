@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Content, Flex } from 'app/components/Layout';
+import { Container, Flex } from 'app/components/Layout';
 import { Link } from 'react-router';
 import renderAbakus from './renderAbakus';
 
@@ -31,21 +31,27 @@ export default class HTTPError extends Component {
 
   render() {
     return (
-      <Content>
-        <Flex column alignItems="center" justifyContent="center">
+      <Container>
+        <Flex
+          column
+          alignItems="center"
+          justifyContent="center"
+          style={{ padding: '10px' }}
+        >
           <Link to="/">
             <canvas
               id="canvas"
               ref={canvas => {
                 this.canvas = canvas;
               }}
+              style={{ width: '100%' }}
             />
           </Link>
-          <h1>
+          <h1 style={{ textAlign: 'center' }}>
             {getHTTPError(this.props.statusCode)}
           </h1>
         </Flex>
-      </Content>
+      </Container>
     );
   }
 }

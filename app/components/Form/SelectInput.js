@@ -74,4 +74,5 @@ function SelectInput({
 
 SelectInput.Field = createField(SelectInput);
 SelectInput.AutocompleteField = withAutocomplete(SelectInput.Field);
+SelectInput.withAutocomplete = withAutocomplete(SelectInput);
 export default SelectInput;

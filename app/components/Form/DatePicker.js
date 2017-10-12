@@ -16,7 +16,7 @@ type Props = {
   className?: string,
   value: ?string,
   showTimePicker?: boolean,
-  format: string
+  dateFormat?: string
 };
 
 function parseDateValue(value) {
@@ -30,7 +30,7 @@ class DatePicker extends Component {
   static defaultProps = {
     value: '',
     showTimePicker: true,
-    format: 'lll'
+    dateFormat: 'lll'
   };
 
   static Field: any;
@@ -99,8 +99,7 @@ class DatePicker extends Component {
         triggerComponent={
           <TextInput
             className={cx(styles.inputField, className)}
-            disabled
-            value={this.state.value.format(this.props.format)}
+            value={this.state.value.format(this.props.dateFormat)}
           />
         }
         componentClass="div"
@@ -112,16 +111,14 @@ class DatePicker extends Component {
             <button onClick={this.onPrev}>
               <Icon name="arrow-back" />
             </button>
-            <h3>
-              {date.format('MMMM YYYY')}
-            </h3>
+            <h3>{date.format('MMMM YYYY')}</h3>
             <button onClick={this.onNext}>
               <Icon name="arrow-forward" />
             </button>
           </div>
 
           <div className={styles.calendar}>
-            {createMonthlyCalendar(date).map((dateProps, i) =>
+            {createMonthlyCalendar(date).map((dateProps, i) => (
               <button
                 key={i}
                 className={cx(
@@ -135,14 +132,12 @@ class DatePicker extends Component {
               >
                 {dateProps.day.date()}
               </button>
-            )}
+            ))}
           </div>
 
-          {showTimePicker &&
-            <TimePicker
-              value={this.state.value}
-              onChange={this.onChangeTime}
-            />}
+          {showTimePicker && (
+            <TimePicker value={this.state.value} onChange={this.onChangeTime} />
+          )}
         </div>
       </Dropdown>
     );

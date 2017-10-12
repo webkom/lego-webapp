@@ -5,7 +5,6 @@
 }
 
 .label {
-  display: inline-block;
   cursor: pointer;
   position: relative;
   padding-left: 25px;
@@ -13,9 +12,13 @@
   font-size: 13px;
 }
 
-/* Base for label styling */
-[type='checkbox']:not(:checked),
-[type='checkbox']:checked {
+.label:hover::before {
+  border: 1px solid #999 !important;
+  transition: border 0.5s;
+}
+
+.checked,
+.unchecked {
   position: absolute;
   margin-top: 4px;
   margin-left: 2px;
@@ -24,36 +27,7 @@
   opacity: 0;
 }
 
-[type='checkbox']:not(:checked) + label,
-[type='checkbox']:checked + label {
-  position: relative;
-  cursor: pointer;
-}
-
-/* checkbox aspect */
-[type='checkbox']:not(:checked) + label::before,
-[type='checkbox']:checked + label::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 1px;
-  width: 17px;
-  height: 17px;
-  border: 1px solid #aaa;
-  border-radius: 1px;
-}
-
-[type='checkbox']:not(:checked) + label::before {
-  background: #f8f8f8;
-}
-
-[type='checkbox']:checked + label::before {
-  background: #888;
-}
-
-/* checked mark aspect */
-[type='checkbox']:not(:checked) + label::after,
-[type='checkbox']:checked + label::after {
+.checked + label::after {
   content: '\2713';
   position: absolute;
   top: 4px;
@@ -64,41 +38,43 @@
   transition: all 0.2s;
 }
 
-/* checked mark aspect changes */
-[type='checkbox']:not(:checked) + label::after {
-  opacity: 0;
-  transform: scale(0);
+.checked + label::before {
+  background: #a59a9a;
 }
 
-[type='checkbox']:checked + label::after {
+.checked + label::after {
   opacity: 1;
   transform: scale(1);
 }
 
-/* disabled checkbox */
-[type='checkbox']:disabled:not(:checked) + label::before,
-[type='checkbox']:disabled:checked + label::before {
-  box-shadow: none;
-  border-color: #bbb;
-  background-color: #ddd;
+.unchecked + label::before {
+  background: #f8f8f8;
 }
 
-[type='checkbox']:disabled:checked + label::after {
-  color: #999;
+.unchecked + label::after {
+  opacity: 0;
+  transform: scale(0);
 }
 
-[type='checkbox']:disabled + label {
-  color: #aaa;
-}
-
-/* accessibility */
-[type='checkbox']:checked:focus + label::before,
-[type='checkbox']:not(:checked):focus + label::before {
+.checked:focus + label::before,
+.unchecked:focus + label::before {
   cursor: pointer;
 }
 
-/* hover style just for information */
-label:hover::before {
-  border: 1px solid #999 !important;
-  transition: border 0.5s;
+.checked + label::before,
+.unchecked + label::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 1px;
+  width: 17px;
+  height: 17px;
+  border: 1px solid #aaa;
+  border-radius: 1px;
+}
+
+.unchecked + label,
+.checked + label {
+  position: relative;
+  cursor: pointer;
 }

@@ -21,6 +21,23 @@ export type Action = {
   error?: boolean
 };
 
+export type GalleryPictureEntity = {
+  description?: string,
+  active: boolean,
+  file: string,
+  galleryId: number,
+  taggees?: Array<Object>
+};
+
+export type GalleryEntity = {
+  title: string,
+  description?: string,
+  location?: string,
+  takenAt?: Date,
+  photographers?: EntityID[],
+  event?: EntityID
+};
+
 type $ExtractFunctionReturn = <V>(v: (...args: any) => V) => V;
 
 export type State = $ObjMap<Reducers, $ExtractFunctionReturn>;
@@ -30,7 +47,10 @@ export type Store = ReduxStore<State, Action>;
 export type GetState = () => State;
 
 export type Reducer<S, A> = ReduxReducer<S, A>;
-export type Thunk<S, R> = (dispatch: Dispatch<S, any>, getState: () => S) => R;
+export type Thunk<R> = (
+  dispatch: Dispatch<State, any>,
+  getState: () => State
+) => R;
 export type PromiseAction<R> = { type: string, payload: Promise<R> };
 type ThunkDispatch<S> = <R>(action: Thunk<S, R>) => R;
 type PromiseDispatch = <R>(action: PromiseAction<R>) => Promise<R>;

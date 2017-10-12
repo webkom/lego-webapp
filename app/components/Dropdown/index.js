@@ -73,7 +73,7 @@ class Dropdown extends Component {
           rootClose
           shouldUpdatePosition
         >
-          <div className={cx(styles.content, contentClassName)}>
+          <div className={cx(styles.content, contentClassName || null)}>
             {children}
           </div>
         </Overlay>
@@ -83,11 +83,7 @@ class Dropdown extends Component {
 }
 
 function List({ children }: { children: any }) {
-  return (
-    <ul className={styles.dropdownList}>
-      {children}
-    </ul>
-  );
+  return <ul className={styles.dropdownList}>{children}</ul>;
 }
 
 function ListItem(props) {

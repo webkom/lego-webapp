@@ -36,32 +36,25 @@ const ArticleDetail = (props: Props) => {
         <div className={styles.coverImageOverlay} />
       </div>
 
-      <Flex alignItems="center" justifyContent="space-between">
-        <h2>
-          {article.title}
-        </h2>
-        {article.actionGrant.includes('edit') &&
+      <FlexRow alignItems="center" justifyContent="space-between">
+        <h2>{article.title}</h2>
+        {article.actionGrant.includes('edit') && (
           <span>
             <Link to={`/articles/${article.id}/edit`}>Edit</Link>
-          </span>}
-      </Flex>
+          </span>
+        )}
+      </FlexRow>
 
-      <Flex className={styles.tagRow}>
-        {article.tags.map((tag, i) => <Tag key={i} tag={tag} />)}
-      </Flex>
-
-      <Flex>
-        <Editor readOnly value={article.content} />
-      </Flex>
-
-      {article.commentTarget &&
+      <Editor readOnly value={article.content} />
+      {article.commentTarget && (
         <CommentView
           formEnabled
           user={currentUser}
           commentTarget={article.commentTarget}
           loggedIn={loggedIn}
           comments={comments}
-        />}
+        />
+      )}
     </div>
   );
 };

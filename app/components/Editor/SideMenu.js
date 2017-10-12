@@ -134,12 +134,13 @@ export default class SideMenu extends Component {
             <SideMenuButton icon="image" onClick={this.toggleImage} />
           </div>}
 
-        {this.state.openUpload &&
+        {this.state.openUpload && (
           <ImageUpload
             inModal
             onClose={this.toggleImage}
             onSubmit={this.insertImage}
-          />}
+          />
+        )}
       </div>
     );
   }

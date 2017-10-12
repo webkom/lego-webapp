@@ -1,34 +1,32 @@
+import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+
 export default {
   path: 'bdb',
-  indexRoute: { component: require('./BdbRoute').default },
+  indexRoute: resolveAsyncRoute(() => import('./BdbRoute')),
   childRoutes: [
     {
       path: 'add',
-      component: require('./AddCompanyRoute').default
+      ...resolveAsyncRoute(() => import('./AddCompanyRoute'))
     },
     {
       path: ':companyId',
-      component: require('./BdbDetailRoute').default
+      ...resolveAsyncRoute(() => import('./BdbDetailRoute'))
     },
     {
       path: ':companyId/edit',
-      component: require('./EditCompanyRoute').default
+      ...resolveAsyncRoute(() => import('./EditCompanyRoute'))
     },
     {
       path: ':companyId/semesters/add',
-      component: require('./AddSemesterRoute').default
-    },
-    {
-      path: ':companyId/semesters/:semesterId',
-      component: require('./EditSemesterRoute').default
+      ...resolveAsyncRoute(() => import('./AddSemesterRoute'))
     },
     {
       path: ':companyId/company-contacts/add',
-      component: require('./AddCompanyContactRoute').default
+      ...resolveAsyncRoute(() => import('./AddCompanyContactRoute'))
     },
     {
       path: ':companyId/company-contacts/:companyContactId',
-      component: require('./EditCompanyContactRoute').default
+      ...resolveAsyncRoute(() => import('./EditCompanyContactRoute'))
     }
   ]
 };

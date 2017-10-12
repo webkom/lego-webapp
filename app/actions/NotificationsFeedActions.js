@@ -3,8 +3,9 @@
 import { NotificationsFeed } from './ActionTypes';
 import callAPI from './callAPI';
 import { selectIsLoggedIn } from 'app/reducers/auth';
+import type { Thunk } from 'app/types';
 
-export function fetchNotificationData() {
+export function fetchNotificationData(): Thunk<*> {
   return (dispatch, getState) => {
     if (selectIsLoggedIn(getState())) {
       return dispatch(
@@ -29,7 +30,7 @@ export function markAllNotifications() {
   });
 }
 
-export function markNotification(notificationId) {
+export function markNotification(notificationId: number) {
   return callAPI({
     types: NotificationsFeed.MARK,
     endpoint: `/feed-notifications/${notificationId}/mark/`,

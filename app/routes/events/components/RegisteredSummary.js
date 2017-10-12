@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
 import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
 
-const Registration = ({ registration }) =>
+const Registration = ({ registration }) => (
   <Tooltip content={registration.user.fullName}>
     <Link
       to={`/users/${registration.user.username}`}
@@ -12,25 +12,31 @@ const Registration = ({ registration }) =>
     >
       {registration.user.firstName.split(' ')[0]}
     </Link>
-  </Tooltip>;
+  </Tooltip>
+);
 
-const renderNameList = registrations =>
+const renderNameList = registrations => (
   <FlexColumn>
-    {registrations.map(reg =>
-      <FlexItem key={reg.id}>
-        {reg.user.fullName}
-      </FlexItem>
-    )}
-  </FlexColumn>;
+    {registrations.map(reg => (
+      <FlexItem key={reg.id}>{reg.user.fullName}</FlexItem>
+    ))}
+  </FlexColumn>
+);
 
-const RegistrationList = ({ registrations }) =>
-  <Tooltip content={renderNameList(registrations)} list>
+const RegistrationList = ({ registrations, onClick }) => (
+  <Tooltip
+    content={renderNameList(registrations)}
+    list
+    className={styles.registrationList}
+    onClick={onClick}
+  >
     {`${registrations.length} ${registrations.length === 1
       ? 'annen'
       : 'andre'}`}
-  </Tooltip>;
+  </Tooltip>
+);
 
-const RegisteredSummary = ({ registrations }) => {
+const RegisteredSummary = ({ registrations, pools, title, toggleModal }) => {
   const summary = [];
 
   if (registrations.length === 0) {
@@ -49,17 +55,17 @@ const RegisteredSummary = ({ registrations }) => {
       ',\u00A0',
       <Registration key={1} registration={registrations[1]} />,
       '\u00A0og\u00A0',
-      <RegistrationList key={2} registrations={registrations.slice(2)} />
+      <RegistrationList
+        key={2}
+        registrations={registrations.slice(2)}
+        onClick={() => toggleModal(0)}
+      />
     );
   }
 
   summary.push('\u00A0er påmeldt');
 
-  return (
-    <FlexRow className={styles.summary}>
-      {summary}
-    </FlexRow>
-  );
+  return <FlexRow className={styles.summary}>{summary}</FlexRow>;
 };
 
 export default RegisteredSummary;

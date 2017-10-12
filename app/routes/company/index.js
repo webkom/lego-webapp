@@ -1,10 +1,12 @@
+import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+
 export default {
   path: 'companies',
-  indexRoute: { component: require('./CompaniesRoute').default },
+  indexRoute: resolveAsyncRoute(() => import('./CompaniesRoute')),
   childRoutes: [
     {
       path: ':companyId',
-      component: require('./CompanyDetailRoute').default
+      ...resolveAsyncRoute(() => import('./CompanyDetailRoute'))
     }
   ]
 };

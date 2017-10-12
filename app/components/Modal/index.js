@@ -32,7 +32,6 @@ class Modal extends Component {
         ref={ref => {
           this.modal = ref;
         }}
-        className={styles.modal}
         backdropClassName={styles.backdrop}
         onHide={onHide}
         backdrop={closeOnBackdropClick ? backdrop : false}

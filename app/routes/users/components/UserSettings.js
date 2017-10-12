@@ -1,17 +1,32 @@
 // @flow
 
 import React from 'react';
-import { Field } from 'redux-form';
+import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { omit } from 'lodash';
 
 import Button from 'app/components/Button';
-import { Form, TextInput } from 'app/components/Form';
+import {
+  Form,
+  TextInput,
+  RadioButtonGroup,
+  RadioButton
+} from 'app/components/Form';
 import { FlexRow } from 'app/components/FlexBox';
 import UserImage from './UserImage';
+import ChangePassword from './ChangePassword';
+import styles from './UserSettings.css';
+import { createValidator, required, isEmail } from 'app/utils/validation';
+
+export type PasswordPayload = {
+  newPassword: string,
+  password: string,
+  retype_new_password: string
+};
 
 type Props = {
-  handleSubmit: () => void,
-  updateUser: () => void,
+  changePassword: PasswordPayload => Promise<void>,
+  handleSubmit: ((Object) => Promise<void>) => Promise<void>,
+  updateUser: Object => Promise<void>,
   invalid: boolean,
   pristine: boolean,
   submitting: boolean,
@@ -33,17 +48,20 @@ const UserSettings = (props: Props) => {
 
   const disabledButton = invalid || pristine || submitting;
 
+  const onSubmit = data =>
+    updateUser(omit(data, 'profilePicture')).catch(err => {
+      if (err.payload && err.payload.response) {
+        throw new SubmissionError(err.payload.response.jsonData);
+      }
+    });
+
   return (
     <div>
       <FlexRow justifyContent="center">
         <UserImage user={user} updatePicture={updatePicture} />
       </FlexRow>
 
-      <Form
-        onSubmit={handleSubmit(props => {
-          updateUser(omit(props, 'profilePicture'));
-        })}
-      >
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <Field
           placeholder="Brukernavn"
           label="Username"
@@ -69,12 +87,31 @@ const UserSettings = (props: Props) => {
           component={TextInput.Field}
         />
 
-        <Field label="Kjønn" name="gender" component={TextInput.Field} />
+        <RadioButtonGroup label="Kjønn" name="gender">
+          <Field
+            name="gender"
+            label="Mann"
+            inputValue="male"
+            component={RadioButton.Field}
+          />
+          <Field
+            name="gender"
+            label="Kvinne"
+            inputValue="female"
+            component={RadioButton.Field}
+          />
+          <Field
+            name="gender"
+            label="Annet"
+            inputValue="other"
+            component={RadioButton.Field}
+          />
+        </RadioButtonGroup>
         <Field label="Allergier" name="allergies" component={TextInput.Field} />
 
         <Field
           placeholder="abc@stud.ntnu.no"
-          label="email"
+          label="Epost"
           name="email"
           component={TextInput.Field}
         />
@@ -83,32 +120,25 @@ const UserSettings = (props: Props) => {
           Submit
         </Button>
       </Form>
-      <br />
-      <hr />
-      <br />
-      <Form onSubmit={handleSubmit(changePassword)}>
-        <Field
-          label="Gammelt passord"
-          name="old_password"
-          type="password"
-          component={TextInput.Field}
-        />
-        <Field
-          label="Nytt passord"
-          name="new_password"
-          type="password"
-          component={TextInput.Field}
-        />
-        <Field
-          label="Nytt passord (gjenta)"
-          name="new_password_repeat"
-          type="password"
-          component={TextInput.Field}
-        />
-        <Button submit>Change Password</Button>
-      </Form>
+
+      <div className={styles.changePassword}>
+        <h2>Endre passord</h2>
+        <ChangePassword changePassword={changePassword} />
+      </div>
     </div>
   );
 };
 
-export default UserSettings;
+const validate = createValidator({
+  username: [required()],
+  firstName: [required()],
+  lastName: [required()],
+  gender: [required()],
+  email: [required(), isEmail()]
+});
+
+export default reduxForm({
+  form: 'userSettings',
+  validate,
+  enableReinitialize: true
+})(UserSettings);

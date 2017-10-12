@@ -9,7 +9,8 @@ type Props = {
   startYear: number,
   startSem: number,
   editSemester: () => void,
-  changedStatuses: Array<Object>
+  changedStatuses: Array<Object>,
+  companySemesters: Array<Object>
 };
 
 export default class CompanySingleRow extends Component {
@@ -18,32 +19,23 @@ export default class CompanySingleRow extends Component {
   semesterElement = index => {
     const { startYear, startSem, company } = this.props;
     const result = indexToSemester(index, startYear, startSem);
-    const statuses = company.semesterStatuses;
-    if (statuses) {
-      return (
-        statuses.find(
-          status =>
-            status.year === result.year && status.semester === result.semester
-        ) || { contactedStatus: 6 }
-      );
-    }
-    return { contactedStatus: 6 };
+
+    return (
+      (company.semesterStatuses || []).find(
+        status =>
+          status.year === result.year && status.semester === result.semester
+      ) || { contactedStatus: ['not_contacted'] }
+    );
   };
 
   render() {
-    const {
-      company,
-      editSemester,
-      changedStatuses,
-      startYear,
-      startSem
-    } = this.props;
+    const { company, editSemester, changedStatuses } = this.props;
 
     const semesters = [
       this.semesterElement(0),
       this.semesterElement(1),
       this.semesterElement(2)
-    ].map((status, i) =>
+    ].map((status, i) => (
       <SemesterStatus
         key={i}
         semIndex={i}
@@ -51,25 +43,26 @@ export default class CompanySingleRow extends Component {
         editSemester={editSemester}
         companyId={company.id}
         changedStatuses={changedStatuses}
-        startYear={startYear}
-        startSem={startSem}
       />
-    );
+    ));
 
     return (
       <tr>
         <td>
-          <Link to={`/bdb/${company.id}`}>
-            {company.name}
-          </Link>
+          <Link to={`/bdb/${company.id}`}>{company.name}</Link>
         </td>
         {semesters}
         <td>
-          {company.studentContact ? company.studentContact.fullName : ''}
+          {company.studentContact &&
+            (typeof company.studentContact === 'string' ? (
+              company.studentContact
+            ) : (
+              <Link to={`/users/${company.studentContact.username}`}>
+                {company.studentContact.fullName}
+              </Link>
+            ))}
         </td>
-        <td className={styles.adminComment}>
-          {company.adminComment}
-        </td>
+        <td className={styles.adminComment}>{company.adminComment}</td>
       </tr>
     );
   }

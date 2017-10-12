@@ -8,24 +8,21 @@ import Image from 'app/components/Image';
 const HEADLINE_EVENTS = 2;
 const FRONT_EVENTS = 10;
 
-const OverviewItem = ({ article }) =>
+const OverviewItem = ({ article }) => (
   <div className={styles.item}>
     <Link to={`/articles/${article.id}`}>
       <Image height={60} src={article.cover} />
     </Link>
     <h2 className={styles.itemTitle}>
-      <Link to={`/articles/${article.id}`}>
-        {article.title}
-      </Link>
+      <Link to={`/articles/${article.id}`}>{article.title}</Link>
     </h2>
 
     <span className={styles.itemInfo}>
       <Time time={article.startTime} format="DD.MM HH:mm" />
     </span>
-    <p className={styles.itemDescription}>
-      {article.description}
-    </p>
-  </div>;
+    <p className={styles.itemDescription}>{article.description}</p>
+  </div>
+);
 
 export default class Overview extends Component {
   static propTypes = {
@@ -43,14 +40,14 @@ export default class Overview extends Component {
         <div className={styles.overview}>
           <Link to={`/articles/new`}>NY</Link>
           <div className={styles.headline}>
-            {headlineEvents.map(article =>
+            {headlineEvents.map(article => (
               <OverviewItem key={article.id} article={article} />
-            )}
+            ))}
           </div>
           <div className={styles.normal}>
-            {normalEvents.map(article =>
+            {normalEvents.map(article => (
               <OverviewItem key={article.id} article={article} />
-            )}
+            ))}
           </div>
         </div>
 

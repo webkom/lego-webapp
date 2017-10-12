@@ -1,9 +1,9 @@
 // @flow
 
 import { createSelector } from 'reselect';
-import { InterestGroup } from '../actions/ActionTypes';
+import { InterestGroup, Membership } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import { omit } from 'lodash';
+import { without } from 'lodash';
 
 export type InterestGroupEntity = {
   id: number,
@@ -19,47 +19,55 @@ export default createEntityReducer({
   },
   mutate(state, action) {
     switch (action.type) {
-      case InterestGroup.REMOVE.SUCCESS: {
-        const removedId = action.meta.groupId;
-        return {
-          ...state,
-          items: state.items.filter(g => g !== removedId),
-          byId: omit(state.byId, removedId)
-        };
-      }
-      case InterestGroup.JOIN.SUCCESS: {
-        const { user, groupId } = action.meta;
-        const membership = { ...action.payload, user };
-        const memberships = [membership].concat(
-          state.byId[groupId].memberships
+      case Membership.JOIN_GROUP.SUCCESS: {
+        const list = state.byId[action.meta.groupId].memberships.concat(
+          action.payload.result
         );
         return {
           ...state,
           byId: {
             ...state.byId,
-            [groupId]: {
-              ...state.byId[groupId],
-              memberships
+            [action.meta.groupId]: {
+              ...state.byId[action.meta.groupId],
+              memberships: list
             }
           }
         };
       }
-      case InterestGroup.LEAVE.SUCCESS: {
-        const { user, groupId } = action.meta;
+      case Membership.LEAVE_GROUP.SUCCESS: {
         return {
           ...state,
           byId: {
             ...state.byId,
-            [groupId]: {
-              ...state.byId[groupId],
-              memberships: state.byId[groupId].memberships.filter(
-                m => m.user.id !== user.id
+            [action.meta.groupId]: {
+              ...state.byId[action.meta.groupId],
+              memberships: without(
+                state.byId[action.meta.groupId].memberships,
+                action.meta.id
               )
             }
           }
         };
       }
-
+      case InterestGroup.REMOVE.SUCCESS: {
+        const removedId = action.meta.groupId;
+        return {
+          ...state,
+          items: state.items.filter(g => g !== removedId)
+        };
+      }
+      case Membership.MEMBER_SET.SUCCESS: {
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [action.meta.id]: {
+              ...state.byId[action.meta.id],
+              memberships: action.payload.result
+            }
+          }
+        };
+      }
       default:
         return state;
     }

@@ -4,15 +4,19 @@ import { schema } from 'normalizr';
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux';
 import routing from './routing';
+import allowed from './allowed';
 import form from './forms';
 import companies from './companies';
+import companySemesters from './companySemesters';
 import quotes from './quotes';
+import pictures from './pictures';
 import events from './events';
 import articles from './articles';
 import pools from './pools';
 import registrations from './registrations';
 import meetingsToken from './meetingsToken';
 import meetings from './meetings';
+import memberships from './memberships';
 import search from './search';
 import auth from './auth';
 import users from './users';
@@ -21,10 +25,13 @@ import { oauth2Applications, oauth2Grants } from './oauth2';
 import notifications from './notifications';
 import notificationsFeed from './notificationsFeed';
 import notificationSettings from './notificationSettings';
+import galleries from './galleries';
 import comments from './comments';
 import pages from './pages';
 import interestGroups from './interestGroups';
+import companyInterest from './companyInterest';
 import joblistings from './joblistings';
+import announcements from './announcements';
 import feedActivities from './feedActivities';
 import feeds from './feeds';
 import fetchHistory from './fetchHistory';
@@ -35,13 +42,17 @@ const reduceReducers = (...reducers) => (prev, curr) =>
   reducers.reduce((p, r) => r(p, curr), prev);
 
 const reducers = {
+  allowed,
   quotes,
   events,
+  pictures,
   articles,
   pools,
   registrations,
   meetingsToken,
   meetings,
+  memberships,
+  companyInterest,
   interestGroups,
   search,
   comments,
@@ -52,15 +63,18 @@ const reducers = {
   oauth2Applications,
   oauth2Grants,
   pages,
+  galleries,
   notifications,
   notificationsFeed,
   notificationSettings,
   routing: reduceReducers(routing, routerReducer),
   joblistings,
+  announcements,
   feedActivities,
   feeds,
   fetchHistory,
-  companies
+  companies,
+  companySemesters
 };
 
 export type Reducers = typeof reducers;
@@ -80,7 +94,7 @@ export const userSchema = new schema.Entity(
   { idAttribute: 'username' }
 );
 export const registrationSchema = new schema.Entity('registrations', {
-  users: userSchema
+  user: userSchema
 });
 export const poolSchema = new schema.Entity('pools', {
   registrations: [registrationSchema]
@@ -99,19 +113,41 @@ export const eventAdministrateSchema = new schema.Entity('events', {
 export const articleSchema = new schema.Entity('articles', {
   comments: [commentSchema]
 });
-export const meetingSchema = new schema.Entity('meetings');
-export const groupSchema = new schema.Entity('groups', { users: [userSchema] });
-export const quoteSchema = new schema.Entity('quotes');
+export const galleryPictureSchema = new schema.Entity('pictures', {
+  comments: [commentSchema]
+});
+export const gallerySchema = new schema.Entity('galleries', {
+  pictures: [galleryPictureSchema]
+});
+export const quoteSchema = new schema.Entity('quotes', {
+  comments: [commentSchema]
+});
 export const pageSchema = new schema.Entity(
   'pages',
   {},
   { idAttribute: 'slug' }
 );
-export const interestGroupSchema = new schema.Entity('interestGroups');
+export const companyInterestSchema = new schema.Entity('companyInterest');
 export const companySchema = new schema.Entity('companies', {
-  studentContact: userSchema
+  studentContact: userSchema,
+  comments: [commentSchema]
 });
+export const companySemesterSchema = new schema.Entity('companySemesters');
 export const joblistingsSchema = new schema.Entity('joblistings');
+export const announcementsSchema = new schema.Entity('announcements');
 export const feedActivitySchema = new schema.Entity('feedActivities');
 export const oauth2ApplicationSchema = new schema.Entity('oauth2Application');
 export const oauth2GrantSchema = new schema.Entity('oauth2Grant');
+export const membershipSchema = new schema.Entity('memberships', {
+  user: userSchema
+});
+export const groupSchema = new schema.Entity('groups', {
+  users: [userSchema],
+  memberships: [membershipSchema]
+});
+export const meetingSchema = new schema.Entity('meetings', {
+  memberships: [membershipSchema]
+});
+export const interestGroupSchema = new schema.Entity('interestGroups', {
+  memberships: [membershipSchema]
+});

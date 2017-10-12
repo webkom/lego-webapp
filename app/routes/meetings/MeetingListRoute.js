@@ -1,24 +1,22 @@
 // @flow
-
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { fetchAll } from 'app/actions/MeetingActions';
-import MeetingList from './components/MeetingList';
 import { dispatched } from 'react-prepare';
+import { fetchAll } from 'app/actions/MeetingActions';
+import { LoginPage } from 'app/components/LoginForm';
+import { selectMeetings } from 'app/reducers/meetings';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import MeetingList from './components/MeetingList';
 
-const mapStateToProps = state => {
-  // TODO: Write selectors for meetings
-  const meetings = state.meetings.items.map(id => state.meetings.byId[id]);
-  const userMe = state.users.byId[state.auth.username];
-  return {
-    meetings,
-    userMe
-  };
-};
+const mapStateToProps = (state, props) => ({
+  meetings: selectMeetings(state),
+  user: props.currentUser
+});
 
 const mapDispatchToProps = { fetchAll };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   dispatched((props, dispatch) => dispatch(fetchAll()), {
     componentWillReceiveProps: false
   }),

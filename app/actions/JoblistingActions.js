@@ -6,6 +6,7 @@ import { Joblistings } from './ActionTypes';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 import moment from 'moment';
+import type { Thunk } from 'app/types';
 
 export function fetchAll() {
   return callAPI({
@@ -13,25 +14,25 @@ export function fetchAll() {
     endpoint: '/joblistings/',
     schema: [joblistingsSchema],
     meta: {
-      errorMessage: 'Fetching joblistings failed'
+      errorMessage: 'Henting av jobbannonser failet'
     },
     propagateError: true
   });
 }
 
-export function fetchJoblisting(id) {
+export function fetchJoblisting(id: number) {
   return callAPI({
     types: Joblistings.FETCH,
     endpoint: `/joblistings/${id}/`,
     schema: joblistingsSchema,
     meta: {
-      errorMessage: 'Fetching joblisting failed'
+      errorMessage: 'Henting av jobbannonse feilet'
     },
     propagateError: true
   });
 }
 
-export function deleteJoblisting(id) {
+export function deleteJoblisting(id: number): Thunk<*> {
   return dispatch => {
     dispatch(
       callAPI({
@@ -40,7 +41,7 @@ export function deleteJoblisting(id) {
         method: 'DELETE',
         meta: {
           id,
-          errorMessage: 'Deleting joblisting failed'
+          errorMessage: 'Sletting av jobbannonse feilet'
         }
       })
     ).then(() => {
@@ -63,7 +64,7 @@ export function createJoblisting({
   fromYear,
   toYear,
   applicationUrl
-}) {
+}: Object): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('joblistingEditor'));
 
@@ -89,7 +90,7 @@ export function createJoblisting({
         },
         schema: joblistingsSchema,
         meta: {
-          errorMessage: 'Creating joblisting failed'
+          errorMessage: 'Opprettelse av jobbannonse feilet'
         }
       })
     )
@@ -120,7 +121,7 @@ export function editJoblisting({
   fromYear,
   toYear,
   applicationUrl
-}) {
+}: Object): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('joblistingEditor'));
     dispatch(
@@ -146,7 +147,7 @@ export function editJoblisting({
         },
         schema: joblistingsSchema,
         meta: {
-          errorMessage: 'Editing joblisting failed'
+          errorMessage: 'Endring av jobbannonse feilet'
         }
       })
     )

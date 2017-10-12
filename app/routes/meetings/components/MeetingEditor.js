@@ -27,6 +27,7 @@ type Props = {
   meeting?: Object,
   change: func,
   invitingUsers: array,
+  user: object,
   pristine: boolean,
   submitting: boolean
 };
@@ -38,6 +39,7 @@ function MeetingEditor({
   meeting,
   change,
   invitingUsers = [],
+  user,
   submitting,
   pristine
 }: Props) {
@@ -46,13 +48,21 @@ function MeetingEditor({
     return <LoadingIndicator loading />;
   }
 
+  const userSearchable = {
+    value: user.id.toString(),
+    label: user.fullName
+  };
+
+  const invitedUsersSearchable = meeting
+    ? meeting.invitations.map(invite => ({
+        value: invite.user.id.toString(),
+        label: invite.user.fullName
+      }))
+    : [];
+
   const possibleReportAuthors = unionBy(
-    meeting
-      ? meeting.invitations.map(invite => ({
-          value: `${invite.user.id}`,
-          label: invite.user.fullName
-        }))
-      : [],
+    [userSearchable],
+    invitedUsersSearchable,
     invitingUsers,
     'value'
   );
@@ -64,9 +74,7 @@ function MeetingEditor({
           {isEditPage ? ` ${meeting.title}` : ' Mine møter'}
         </Link>
       </h2>
-      <h1>
-        {isEditPage ? 'Endre møte' : 'Nytt møte'}{' '}
-      </h1>
+      <h1>{isEditPage ? 'Endre møte' : 'Nytt møte'} </h1>
       <Form onSubmit={handleSubmit(handleSubmitCallback)}>
         <h2> Tittel </h2>
         <Field name="title" component={TextInput.Field} />
@@ -119,9 +127,9 @@ function MeetingEditor({
           </div>
         </div>
         {isEditPage && <h3> Allerede inviterte </h3>}
-        {isEditPage &&
+        {isEditPage && (
           <div>
-            <AttendanceStatus
+            <AttendanceStatus.Modal
               pools={[
                 {
                   name: 'Inviterte brukere',
@@ -130,10 +138,11 @@ function MeetingEditor({
               ]}
             />
             <br />
-          </div>}
+          </div>
+        )}
 
         <Button disabled={pristine || submitting} submit>
-          {isEditPage ? 'Lagre møte' : 'Lag møte'}{' '}
+          {isEditPage ? 'Lagre møte' : 'Lag møte'}
         </Button>
       </Form>
     </div>

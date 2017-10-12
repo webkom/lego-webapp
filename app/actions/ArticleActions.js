@@ -13,7 +13,7 @@ export function fetchArticle(articleId: EntityID) {
     endpoint: `/articles/${articleId}/`,
     schema: articleSchema,
     meta: {
-      errorMessage: 'Fetching article failed'
+      errorMessage: 'Henting av artikkel feilet'
     },
     propagateError: true
   });
@@ -36,7 +36,7 @@ export function createArticle({ title, content, tags, cover }: ArticleEntity) {
           description: 'nice article'
         },
         meta: {
-          errorMessage: 'Creating article failed'
+          errorMessage: 'Opprettelse av artikkel feilet'
         }
       })
     ).then(res => dispatch(push(`/articles/${res.payload.result}/`)));
@@ -65,7 +65,7 @@ export function editArticle({
           description: 'nice article'
         },
         meta: {
-          errorMessage: 'Editing article failed'
+          errorMessage: 'Endring av artikkel feilet'
         }
       })
     ).then(res => dispatch(push(`/articles/${id}/`)));
@@ -79,7 +79,7 @@ export function fetchAll(
     endpoint: `/articles/${createQueryString({ year, month })}`,
     schema: [articleSchema],
     meta: {
-      errorMessage: 'Fetching articles failed'
+      errorMessage: 'Henting av artikler feilet'
     },
     propagateError: true
   });

@@ -2,7 +2,7 @@
 
 import { Notifications } from './ActionTypes';
 
-export function removeNotification({ id }) {
+export function removeNotification({ id }: { id: number }) {
   return {
     type: Notifications.NOTIFICATION_REMOVED,
     payload: {
@@ -16,7 +16,7 @@ export function addNotification({
   action = 'Close',
   dismissAfter = 3000,
   ...rest
-}) {
+}: Object) {
   return {
     type: Notifications.NOTIFICATION_ADDED,
     payload: {

@@ -1,6 +1,3 @@
-.activities {
-}
-
 .header {
   display: flex;
   align-items: center;
@@ -24,7 +21,7 @@
 }
 
 .activityContent {
-  padding: 0px 20px 0px 20px;
+  padding: 0 20px;
 }
 
 .activityFooter {

@@ -9,7 +9,9 @@ import { userSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { User } from './ActionTypes';
 import { uploadFile } from './FileActions';
+import { fetchMeta } from './MetaActions';
 import { addNotification } from 'app/actions/NotificationActions';
+import type { Thunk } from 'app/types';
 
 const USER_STORAGE_KEY = 'lego.auth';
 
@@ -25,7 +27,7 @@ function removeToken() {
   return cookie.remove(USER_STORAGE_KEY, { path: '/' });
 }
 
-export function login(username, password) {
+export function login(username: string, password: string): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
@@ -37,13 +39,13 @@ export function login(username, password) {
           password
         },
         meta: {
-          errorMessage: 'Login failed'
+          errorMessage: 'Inlogging feilet'
         }
       })
     ).then(action => {
       const { user, token } = action.payload;
       saveToken(token);
-
+      dispatch(fetchMeta());
       return dispatch({
         type: User.FETCH.SUCCESS,
         payload: normalize(user, userSchema),
@@ -54,15 +56,19 @@ export function login(username, password) {
     });
 }
 
-export function logout() {
+export function logout(): Thunk<*> {
   return dispatch => {
     removeToken();
     dispatch({ type: User.LOGOUT });
     dispatch(replace('/'));
+    dispatch(fetchMeta());
   };
 }
 
-export function updateUser(user, options = { noRedirect: false }) {
+export function updateUser(
+  user: Object,
+  options: Object = { noRedirect: false }
+): Thunk<*> {
   const {
     username,
     firstName,
@@ -89,7 +95,7 @@ export function updateUser(user, options = { noRedirect: false }) {
         },
         schema: userSchema,
         meta: {
-          errorMessage: 'Updating user failed'
+          errorMessage: 'Oppdatering av bruker feilet'
         }
       })
     ).then(action => {
@@ -99,8 +105,17 @@ export function updateUser(user, options = { noRedirect: false }) {
     });
 }
 
-export function changePassword(props) {
-  const { old_password, new_password, new_password_repeat } = props;
+type PasswordPayload = {
+  password: string,
+  newPassword: string,
+  retypeNewPassword: string
+};
+
+export function changePassword({
+  password,
+  newPassword,
+  retypeNewPassword
+}: PasswordPayload): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
@@ -108,13 +123,13 @@ export function changePassword(props) {
         endpoint: '/password-change/',
         method: 'POST',
         body: {
-          password: old_password,
-          newPassword: new_password,
-          retypeNewPassword: new_password_repeat
+          password,
+          newPassword,
+          retypeNewPassword
         },
         schema: userSchema,
         meta: {
-          errorMessage: 'Updating password failed'
+          errorMessage: 'Oppdatering av passord feilet'
         }
       })
     ).then(action => {
@@ -128,7 +143,7 @@ export function changePassword(props) {
     });
 }
 
-export function updatePicture({ picture }) {
+export function updatePicture({ picture }: { picture: File }): Thunk<*> {
   return (dispatch, getState) => {
     const username = getState().auth.username;
     return dispatch(uploadFile({ file: picture })).then(action =>
@@ -142,13 +157,14 @@ export function updatePicture({ picture }) {
   };
 }
 
-export function fetchUser(username = 'me') {
+export function fetchUser(username: string = 'me') {
   return callAPI({
     types: User.FETCH,
     endpoint: `/users/${username}/`,
     schema: userSchema,
+    force: true,
     meta: {
-      errorMessage: 'Fetching user failed',
+      errorMessage: 'Henting av bruker feilet',
       isCurrentUser: username === 'me'
     },
     propagateError: true
@@ -160,7 +176,7 @@ function getExpirationDate(token) {
   return moment(decodedToken.exp * 1000);
 }
 
-export function refreshToken(token) {
+export function refreshToken(token: string) {
   return callAPI({
     types: User.LOGIN,
     endpoint: '//authorization/token-auth/refresh/',
@@ -169,10 +185,18 @@ export function refreshToken(token) {
   });
 }
 
-export function loginWithExistingToken(token) {
+export function loginWithExistingToken(token: string): Thunk<*> {
   return dispatch => {
-    const expirationDate = getExpirationDate(token);
+    // TODO(ek): Remove FlowFixMe when we use a flow-typed version
+    // that has correct types for isSame
+    // (fixed in https://github.com/flowtype/flow-typed/commit/f3b9c89b85cdb463edeb707866a764508626cef1).
+    const expirationDate: $FlowFixMe = getExpirationDate(token);
     const now = moment();
+
+    if (now.isAfter(expirationDate)) {
+      removeToken();
+      return Promise.resolve();
+    }
 
     if (expirationDate.isSame(now, 'day')) {
       return dispatch(refreshToken(token))
@@ -181,11 +205,6 @@ export function loginWithExistingToken(token) {
           removeToken();
           throw err;
         });
-    }
-
-    if (now.isAfter(expirationDate)) {
-      removeToken();
-      return Promise.resolve();
     }
 
     dispatch({
@@ -200,7 +219,7 @@ export function loginWithExistingToken(token) {
 /**
  * Dispatch a login success if a token exists in local storage.
  */
-export function loginAutomaticallyIfPossible() {
+export function loginAutomaticallyIfPossible(): Thunk<*> {
   return dispatch => {
     const token = loadToken();
 
@@ -212,7 +231,11 @@ export function loginAutomaticallyIfPossible() {
   };
 }
 
-export function sendRegistrationEmail({ email, captchaResponse }) {
+type EmailArgs = { email: string, captchaResponse: string };
+export function sendRegistrationEmail({
+  email,
+  captchaResponse
+}: EmailArgs): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
@@ -224,27 +247,27 @@ export function sendRegistrationEmail({ email, captchaResponse }) {
           captchaResponse
         },
         meta: {
-          errorMessage: 'Sending registration mail failed'
+          errorMessage: 'Sending av registrerings-epost feilet'
         }
       })
     );
 }
 
-export function validateRegistrationToken({ token }) {
+export function validateRegistrationToken(token: string): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
         types: User.VALIDATE_REGISTRATION_TOKEN,
         endpoint: `/users-registration-request/?token=${token}`,
         meta: {
-          errorMessage: 'Validating registration token failed',
+          errorMessage: 'Validering av registrerings-token feilet',
           token
         }
       })
     );
 }
 
-export function createUser(token, user) {
+export function createUser(token: string, user: string): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
@@ -253,7 +276,7 @@ export function createUser(token, user) {
         method: 'POST',
         body: user,
         meta: {
-          errorMessage: 'Creating user failed'
+          errorMessage: 'Opprettelse av bruker feilet'
         }
       })
     ).then(action => {
@@ -270,25 +293,25 @@ export function createUser(token, user) {
     });
 }
 
-export function sendStudentConfirmationEmail(user) {
+export function sendStudentConfirmationEmail(user: string) {
   return callAPI({
     types: User.SEND_STUDENT_CONFIRMATION_TOKEN,
     endpoint: `/users-student-confirmation-request/`,
     method: 'POST',
     body: user,
     meta: {
-      errorMessage: 'Sending student confirmation mail failed'
+      errorMessage: 'Sending av student bekreftelsesepost feilet'
     }
   });
 }
 
-export function confirmStudentUser(token) {
+export function confirmStudentUser(token: string) {
   return callAPI({
     types: User.CONFIRM_STUDENT_USER,
     endpoint: `/users-student-confirmation-perform/?token=${token}`,
     method: 'POST',
     meta: {
-      errorMessage: 'Student confirmation failed'
+      errorMessage: 'Student bekreftelse feilet'
     },
     useCache: true
   });

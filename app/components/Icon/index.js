@@ -30,11 +30,15 @@ function Icon({
   name = 'star',
   scaleOnHover = false,
   className,
-  size,
+  size = 24,
   ...props
 }: Props) {
   return (
-    <i className={cx(`ion-ios-${name}`, styles.icon, className)} {...props} />
+    <i
+      className={cx(`ion-ios-${name}`, styles.icon, className)}
+      style={{ fontSize: `${size.toString()}px`, lineHeight: 1 }}
+      {...props}
+    />
   );
 }
 
@@ -47,9 +51,7 @@ Icon.Badge = ({ badgeCount, ...props }) => {
 
   return (
     <div style={{ position: 'relative' }}>
-      <span className={styles.badge}>
-        {badgeCount}
-      </span>
+      <span className={styles.badge}>{badgeCount}</span>
       {icon}
     </div>
   );

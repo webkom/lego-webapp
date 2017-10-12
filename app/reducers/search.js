@@ -4,6 +4,15 @@ import { createSelector } from 'reselect';
 import { Search } from '../actions/ActionTypes';
 import type { Action } from 'app/types';
 
+export type resultProps = {
+  label: string,
+  color: string,
+  picture: string,
+  path: string,
+  value: string,
+  link: string
+};
+
 const initialState = {
   results: [],
   autocomplete: [],
@@ -54,6 +63,15 @@ const searchMapping = {
     value: 'slug',
     content: 'content'
   },
+  'gallery.gallery': {
+    profilePicture: 'picture',
+    label: 'title',
+    color: '#F8953A',
+    icon: 'photos',
+    path: '/photos/',
+    value: 'id',
+    content: 'text'
+  },
   'companies.company': {
     icon: 'file-text',
     label: 'name',
@@ -66,6 +84,13 @@ const searchMapping = {
     label: 'name',
     company: 'company',
     value: 'id'
+  },
+  'tags.tag': {
+    label: 'id',
+    path: '/tags/',
+    icon: 'pricetags',
+    value: 'tag',
+    color: '#000000'
   },
   'users.abakusgroup': {
     label: 'name',

@@ -3,6 +3,7 @@
 import callAPI from 'app/actions/callAPI';
 import { Search } from './ActionTypes';
 import { selectAutocomplete } from 'app/reducers/search';
+import type { Thunk } from 'app/types';
 
 export function toggleSearch() {
   return {
@@ -10,7 +11,7 @@ export function toggleSearch() {
   };
 }
 
-export function autocomplete(query, filter) {
+export function autocomplete(query: string, filter?: Array<string>): Thunk<*> {
   return dispatch => {
     if (!query) {
       return Promise.resolve();
@@ -27,14 +28,14 @@ export function autocomplete(query, filter) {
         },
         meta: {
           query,
-          errorMessage: 'Autocomplete failed'
+          errorMessage: 'Autofyll feilet'
         }
       })
     ).then(res => selectAutocomplete(res.payload));
   };
 }
 
-export function search(query, types) {
+export function search(query: string, types?: Array<string>): Thunk<*> {
   return dispatch => {
     if (!query) {
       return Promise.resolve();
@@ -51,14 +52,14 @@ export function search(query, types) {
         },
         meta: {
           query,
-          errorMessage: 'Search failed'
+          errorMessage: 'Søk feilet'
         }
       })
     );
   };
 }
 
-export function mention(query) {
+export function mention(query: string): Thunk<*> {
   return dispatch => {
     if (!query) {
       return Promise.resolve();
@@ -75,7 +76,7 @@ export function mention(query) {
         },
         meta: {
           query,
-          errorMessage: 'Search failed'
+          errorMessage: 'Omtale feilet'
         }
       })
     );

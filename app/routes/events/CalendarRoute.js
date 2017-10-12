@@ -10,8 +10,14 @@ import Calendar from './components/Calendar';
 const loadData = ({ year, month }, dispatch) => {
   const date = moment([parseInt(year, 10), parseInt(month, 10) - 1]);
   if (date.isValid()) {
-    const dateAfter = date.clone().startOf('month').startOf('week');
-    const dateBefore = date.clone().endOf('month').endOf('week');
+    const dateAfter = date
+      .clone()
+      .startOf('month')
+      .startOf('week');
+    const dateBefore = date
+      .clone()
+      .endOf('month')
+      .endOf('week');
     return dispatch(
       fetchAll({
         dateAfter: dateAfter.format('YYYY-MM-DD'),
@@ -26,12 +32,10 @@ const mapStateToProps = (state, ownProps) => {
     year = moment().year(),
     month = moment().month() + 1
   } = ownProps.params;
+  const user = ownProps.currentUser;
+  const icalToken = user ? user.icalToken : null;
+
   const actionGrant = state.events.actionGrant;
-
-  const icalToken = state.auth
-    ? state.users.byId[state.auth.username].icalToken
-    : null;
-
   return {
     year,
     month,

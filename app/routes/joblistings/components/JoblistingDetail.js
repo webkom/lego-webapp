@@ -13,10 +13,11 @@ import Editor from 'app/components/Editor';
 type Props = {
   joblisting: Object,
   deleteJoblisting: () => void,
-  actionGrant: Array
+  actionGrant: Array,
+  fetching: boolean
 };
 
-const Buttons = ({ id, deleteJoblisting }) =>
+const Buttons = ({ id, deleteJoblisting }) => (
   <FlexRow alignItems="center">
     <Link to={`/joblistings/${id}/edit`}>
       <button className={styles.editButton}> Rediger </button>
@@ -24,16 +25,36 @@ const Buttons = ({ id, deleteJoblisting }) =>
     <Link onClick={() => deleteJoblisting(id)}>
       <button className={styles.editButton}> Slett </button>
     </Link>
-  </FlexRow>;
+  </FlexRow>
+);
 
 const JoblistingDetail = ({
   joblisting,
   deleteJoblisting,
-  actionGrant
+  actionGrant,
+  fetching = false
 }: Props) => {
-  if (!joblisting) {
+  if (fetching || !joblisting) {
     return <LoadingIndicator loading />;
   }
+
+  const companyLink = (
+    <Link to={`/companies/${joblisting.company.id}`} className={styles.company}>
+      {joblisting.company.name}
+    </Link>
+  );
+
+  const deadline = (
+    <strong>
+      <Time time={joblisting.deadline} format="ll HH:mm" />
+    </strong>
+  );
+
+  const applicationUrl = (
+    <a href={`${joblisting.applicationUrl}`} className={styles.applicationUrl}>
+      {joblisting.applicationUrl}
+    </a>
+  );
 
   return (
     <div className={styles.root}>
@@ -42,12 +63,11 @@ const JoblistingDetail = ({
       </div>
       <FlexRow className={styles.title}>
         <FlexItem>
-          <h1>
-            {joblisting.title}
-          </h1>
+          <h1>{joblisting.title}</h1>
         </FlexItem>
-        {actionGrant.includes('update') &&
-          <Buttons id={joblisting.id} deleteJoblisting={deleteJoblisting} />}
+        {actionGrant.includes('edit') && (
+          <Buttons id={joblisting.id} deleteJoblisting={deleteJoblisting} />
+        )}
       </FlexRow>
       <FlexRow className={styles.textbody}>
         <FlexColumn className={styles.meta}>
@@ -55,67 +75,30 @@ const JoblistingDetail = ({
             <li>
               <h3>Generell info:</h3>
             </li>
-            <li>
-              Bedrift:{' '}
-              <Link
-                to={`/companies/${joblisting.company.id}`}
-                className={styles.company}
-              >
-                {joblisting.company.name}
-              </Link>
-            </li>
-            <li>
-              Søknadsfrist:{' '}
-              <strong>
-                <Time time={joblisting.deadline} format="ll HH:mm" />
-              </strong>
-            </li>
-            {joblisting.applicationUrl &&
-              <li>
-                Søk her:{' '}
-                <a
-                  href={`${joblisting.applicationUrl}`}
-                  className={styles.applicationUrl}
-                >
-                  {joblisting.applicationUrl}
-                </a>
-              </li>}
+            <li>Bedrift: {companyLink}</li>
+            <li>Søknadsfrist: {deadline}</li>
+            {joblisting.applicationUrl && <li>Søk her: {applicationUrl}</li>}
             <br />
-            <li>
-              {jobType(joblisting.jobType)}
-            </li>
+            <li>{jobType(joblisting.jobType)}</li>
             <Year joblisting={joblisting} />
             <Workplaces places={joblisting.workplaces} />
-            {joblisting.responsible &&
+            {joblisting.responsible && (
               <div>
                 <li>
                   <h3>Kontaktinfo:</h3>
                 </li>
-                <li>
-                  Navn: {joblisting.responsible.name || 'Ikke oppgitt.'}
-                </li>
-                <li>
-                  Mail: {joblisting.responsible.mail || 'Ikke oppgitt.'}
-                </li>
+                <li>Navn: {joblisting.responsible.name || 'Ikke oppgitt.'}</li>
+                <li>Mail: {joblisting.responsible.mail || 'Ikke oppgitt.'}</li>
                 <li>
                   Telefon: {joblisting.responsible.phone || 'Ikke oppgitt.'}
                 </li>
-              </div>}
+              </div>
+            )}
           </ul>
         </FlexColumn>
         <FlexColumn className={styles.description}>
-          <Editor
-            readOnly
-            value={`<div>
-                ${joblisting.description}
-              </div>`}
-          />
-          <Editor
-            readOnly
-            value={`<div>
-                ${joblisting.text}
-              </div>`}
-          />
+          <Editor readOnly value={joblisting.description} />
+          <Editor readOnly value={joblisting.text} />
         </FlexColumn>
       </FlexRow>
     </div>

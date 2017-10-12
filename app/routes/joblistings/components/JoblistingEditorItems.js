@@ -2,39 +2,41 @@ import React from 'react';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 import styles from './JoblistingEditor.css';
 import { Field } from 'redux-form';
-import { TextInput, DatePicker, EditorField } from 'app/components/Form';
+import {
+  TextInput,
+  SelectInput,
+  DatePicker,
+  EditorField
+} from 'app/components/Form';
+import { yearValues } from '../constants';
 
-export const DatePickerComponent = ({ text, name }) =>
+export const DatePickerComponent = ({ text, name }) => (
   <FlexRow className={styles.row}>
-    <FlexColumn className={styles.des}>
-      {`${text} `}
-    </FlexColumn>
+    <FlexColumn className={styles.des}>{`${text} `}</FlexColumn>
     <FlexColumn className={styles.textfield}>
       <Field name={name} component={DatePicker.Field} />
     </FlexColumn>
-  </FlexRow>;
+  </FlexRow>
+);
 
-export const YearPickerComponent = ({ text, name }) =>
+export const YearPickerComponent = ({ text, name }) => (
   <FlexRow className={styles.row}>
-    <FlexColumn className={styles.des}>
-      {text}
-    </FlexColumn>
+    <FlexColumn className={styles.des}>{text}</FlexColumn>
     <FlexColumn className={styles.textfield}>
-      <Field name={name} component="select">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-      </Field>
+      <Field
+        name={name}
+        component={SelectInput.Field}
+        placeholder="Jobbtype"
+        simpleValue
+        options={yearValues}
+      />
     </FlexColumn>
-  </FlexRow>;
+  </FlexRow>
+);
 
-export const FieldComponent = ({ text, name, placeholder }) =>
+export const FieldComponent = ({ text, name, placeholder }) => (
   <FlexRow className={styles.row}>
-    <FlexColumn className={styles.des}>
-      {text}
-    </FlexColumn>
+    <FlexColumn className={styles.des}>{text}</FlexColumn>
     <FlexColumn className={styles.textfield}>
       <Field
         placeholder={placeholder}
@@ -42,14 +44,14 @@ export const FieldComponent = ({ text, name, placeholder }) =>
         component={TextInput.Field}
       />
     </FlexColumn>
-  </FlexRow>;
+  </FlexRow>
+);
 
-export const TextEditorComponent = ({ text, name, placeholder }) =>
+export const TextEditorComponent = ({ text, name, placeholder }) => (
   <FlexRow className={styles.row}>
-    <FlexColumn className={styles.des}>
-      {text}{' '}
-    </FlexColumn>
+    <FlexColumn className={styles.des}>{text} </FlexColumn>
     <FlexColumn className={styles.textfield}>
       <Field name={name} component={EditorField} placeholder={placeholder} />
     </FlexColumn>
-  </FlexRow>;
+  </FlexRow>
+);

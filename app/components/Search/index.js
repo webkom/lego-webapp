@@ -9,38 +9,28 @@ import SearchResults from './SearchResults';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocompleteRedux } from 'app/reducers/search';
 import { push } from 'react-router-redux';
+import { Keyboard } from 'app/utils/constants';
+import type { State as ReducerState } from 'app/types';
+import type { Allowed } from 'app/reducers/allowed';
+import { getAdminLinks, getRegularLinks } from './utils';
 
-const Keyboard = {
-  ENTER: 13,
-  UP: 38,
-  DOWN: 40
+type StateProps = {
+  allowed: Allowed
 };
 
-const navigationLinks = [
-  ['/articles', 'Artikler'],
-  ['/announcements', 'Kunngjøringer'],
-  ['/bdb', 'BDB'],
-  ['http://readme.abakus.no', 'readme'],
-  ['/interestgroups', 'Interessegrupper'],
-  ['/meetings', 'Møter'],
-  ['/quotes', 'Sitater'],
-  ['/users/me', 'Profil'],
-  ['https://shop.abakus.no/', 'Abashop'],
-  ['/joblistings', 'Jobbannonser']
-].sort((a, b) => a[1].localeCompare(b[1]));
-
-const adminLinks = [
-  ['/admin/groups', 'Grupper'],
-  ['/email', 'E-post']
-].sort((a, b) => a[1].localeCompare(b[1]));
-
-type Props = {
-  results: Array<any>,
-  onCloseSearch: () => any,
+type DispatchProps = {
   onQueryChanged: (value: string) => any,
   openSearchRoute: (query: string) => any,
-  searching: boolean
+  push: string => void
 };
+
+type Props = StateProps &
+  DispatchProps & {
+    loggedIn: boolean,
+    results: Array<any>,
+    onCloseSearch: () => any,
+    searching: boolean
+  };
 
 type State = {
   query: string,
@@ -95,14 +85,16 @@ class Search extends Component {
   };
 
   render() {
-    const { results, onCloseSearch, searching } = this.props;
+    const { allowed, loggedIn, results, onCloseSearch, searching } = this.props;
     const { query, selectedIndex } = this.state;
+    const regularLinks = getRegularLinks({ allowed, loggedIn });
+    const adminLinks = getAdminLinks({ allowed, loggedIn });
     return (
       <div onKeyDown={this.handleKeyDown} tabIndex={-1}>
         <div className={styles.overlay}>
           <div className={styles.inputContainer}>
             <div className={styles.searchIcon}>
-              <Icon name="search" />
+              <Icon name="search" size={30} />
             </div>
             <input
               onChange={e => this.onQueryChanged(e.target.value)}
@@ -118,14 +110,14 @@ class Search extends Component {
               className={styles.closeButton}
               onClick={onCloseSearch}
             >
-              <Icon name={searching ? 'refresh' : 'close'} />
+              <Icon name={searching ? 'refresh' : 'close'} size={30} />
             </button>
           </div>
 
           <SearchResults
             query={query}
             results={results}
-            navigationLinks={navigationLinks}
+            navigationLinks={regularLinks}
             adminLinks={adminLinks}
             onCloseSearch={onCloseSearch}
             selectedIndex={selectedIndex}
@@ -136,14 +128,15 @@ class Search extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state: ReducerState): StateProps {
   return {
+    allowed: state.allowed,
     results: selectAutocompleteRedux(state),
     searching: state.search.searching
   };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: $FlowFixMe): DispatchProps {
   return {
     onQueryChanged: debounce(query => dispatch(autocomplete(query)), 300),
     openSearchRoute: query => dispatch(push(`/search?q=${query}`)),

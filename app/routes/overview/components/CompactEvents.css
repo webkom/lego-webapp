@@ -1,3 +1,5 @@
+@import 'app/styles/variables.css';
+
 .compactEvents {
   display: flex;
   justify-content: space-between;
@@ -22,7 +24,11 @@
 .compactLeft,
 .compactRight {
   flex: 1;
-  padding: 5px 20px;
+  padding: 0 20px 5px;
+
+  @media (--mobile-device) {
+    padding: 0 10px 10px;
+  }
 }
 
 .compactEvents li {

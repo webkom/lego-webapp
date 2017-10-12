@@ -18,6 +18,7 @@ import {
   selectCommentsForEvent,
   selectPoolsWithRegistrationsForEvent,
   selectRegistrationsFromPools,
+  selectMergedPoolWithRegistrations,
   selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
 
@@ -30,24 +31,23 @@ const mapStateToProps = (state, props) => {
   const event = selectEventById(state, { eventId });
   const actionGrant = state.events.actionGrant;
   const comments = selectCommentsForEvent(state, { eventId });
-  const poolsWithRegistrations = selectPoolsWithRegistrationsForEvent(state, {
-    eventId
-  });
+  const poolsWithRegistrations = event.isMerged
+    ? selectMergedPoolWithRegistrations(state, { eventId })
+    : selectPoolsWithRegistrationsForEvent(state, {
+        eventId
+      });
   const registrations = selectRegistrationsFromPools(state, { eventId });
 
   const waitingRegistrations = selectWaitingRegistrationsForEvent(state, {
     eventId
   });
-  let pools =
+  const pools =
     waitingRegistrations.length > 0
-      ? [
-          ...poolsWithRegistrations,
-          {
-            name: 'Venteliste',
-            registrations: waitingRegistrations,
-            permissionGroups: []
-          }
-        ]
+      ? poolsWithRegistrations.concat({
+          name: 'Venteliste',
+          registrations: waitingRegistrations,
+          permissionGroups: []
+        })
       : poolsWithRegistrations;
   const currentRegistration = findCurrentRegistration(
     registrations.concat(waitingRegistrations),
@@ -57,6 +57,7 @@ const mapStateToProps = (state, props) => {
   return {
     comments,
     actionGrant,
+    loading: state.events.fetching,
     event,
     eventId,
     pools,
@@ -77,16 +78,16 @@ const mapDispatchToProps = {
   isUserFollowing
 };
 
+const loadData = ({ params: { eventId }, currentUser }, dispatch) => {
+  const userId = currentUser.id;
+  return dispatch(fetchEvent(eventId)).then(() =>
+    dispatch(isUserFollowing(eventId, userId))
+  );
+};
+
 export default compose(
-  dispatched(
-    ({ params: { eventId }, currentUser }, dispatch) => {
-      const userId = currentUser.id;
-      dispatch(fetchEvent(eventId));
-      dispatch(isUserFollowing(eventId, userId));
-    },
-    {
-      componentWillReceiveProps: false
-    }
-  ),
+  dispatched(loadData, {
+    componentWillReceiveProps: false
+  }),
   connect(mapStateToProps, mapDispatchToProps)
 )(EventDetail);

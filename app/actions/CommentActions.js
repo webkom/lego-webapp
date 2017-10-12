@@ -16,7 +16,7 @@ export function addComment({
   text,
   commentTarget,
   parent
-}: CommentEntity): Thunk<*, *> {
+}: CommentEntity): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('comment'));
 
@@ -32,7 +32,7 @@ export function addComment({
         },
         meta: {
           commentTarget,
-          errorMessage: 'Posting comment failed'
+          errorMessage: 'Legg til kommentar feilet'
         },
         schema: commentSchema
       })

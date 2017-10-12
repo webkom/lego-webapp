@@ -3,23 +3,30 @@ import { connect } from 'react-redux';
 import { dispatched } from 'react-prepare';
 import {
   fetchInterestGroup,
-  updateInterestGroup,
-  removeInterestGroup,
   joinInterestGroup,
   leaveInterestGroup
 } from 'app/actions/InterestGroupActions';
 import InterestGroupDetail from './components/InterestGroupDetail';
+import { selectMembershipsForInterestGroup } from 'app/reducers/memberships';
 import { selectInterestGroupById } from 'app/reducers/interestGroups';
 
-const mapStateToProps = (state, { params: { interestGroupId } }) => ({
-  group: selectInterestGroupById(state, { interestGroupId }),
-  interestGroupId
-});
+const mapStateToProps = (state, { params: { interestGroupId } }) => {
+  const group = selectInterestGroupById(state, { interestGroupId });
+  const memberships = selectMembershipsForInterestGroup(state, {
+    interestGroupId
+  });
+
+  return {
+    group: {
+      ...group,
+      memberships
+    },
+    interestGroupId
+  };
+};
 
 const mapDispatchToProps = {
   fetchInterestGroup,
-  updateInterestGroup,
-  removeInterestGroup,
   joinInterestGroup,
   leaveInterestGroup
 };

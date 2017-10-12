@@ -18,7 +18,8 @@ const mutate = mutateComments('articles');
 export default createEntityReducer({
   key: 'articles',
   types: {
-    fetch: Article.FETCH
+    fetch: Article.FETCH,
+    mutate: Article.CREATE
   },
   mutate
 });

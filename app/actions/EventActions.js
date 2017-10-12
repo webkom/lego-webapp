@@ -6,7 +6,7 @@ import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';
 import { push } from 'react-router-redux';
 import { addNotification } from 'app/actions/NotificationActions';
-import moment from 'moment';
+import type { Thunk } from 'app/types';
 
 export function fetchEvent(eventId: string) {
   return callAPI({
@@ -14,7 +14,7 @@ export function fetchEvent(eventId: string) {
     endpoint: `/events/${eventId}/`,
     schema: eventSchema,
     meta: {
-      errorMessage: 'Fetching event failed'
+      errorMessage: 'Henting av hendelse feilet'
     },
     propagateError: true
   });
@@ -29,7 +29,7 @@ export function fetchAll({ dateAfter, dateBefore }: Object = {}) {
     })}`,
     schema: [eventSchema],
     meta: {
-      errorMessage: 'Fetching events failed'
+      errorMessage: 'Henting av hendelser feilet'
     },
     propagateError: true
   });
@@ -41,112 +41,44 @@ export function fetchAdministrate(eventId: string) {
     endpoint: `/events/${eventId}/administrate/`,
     schema: eventAdministrateSchema,
     meta: {
-      errorMessage: 'Fetching registrations failed'
+      errorMessage: 'Henting av registreringer feilet'
     }
   });
 }
 
-export function createEvent({
-  title,
-  cover,
-  startTime,
-  endTime,
-  description,
-  text,
-  eventType,
-  company,
-  location,
-  isPriced,
-  useStripe,
-  priceMember,
-  mergeTime,
-  useCaptcha,
-  tags
-}: Object) {
+export function createEvent(event: Object): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
         types: Event.CREATE,
         endpoint: '/events/',
         method: 'POST',
-        body: {
-          title,
-          cover,
-          startTime: moment(startTime).toISOString(),
-          endTime: moment(endTime).toISOString(),
-          description,
-          text,
-          eventType,
-          company: company.value,
-          location,
-          isPriced,
-          useStripe,
-          priceMember: isPriced ? priceMember * 100 : 0,
-          mergeTime: moment(mergeTime).toISOString(),
-          useCaptcha,
-          tags
-        },
+        body: event,
         schema: eventSchema,
+        disableOptimistic: true,
         meta: {
-          errorMessage: 'Creating event failed'
+          errorMessage: 'Opprettelse av hendelse feilet'
         }
       })
     ).then(res => dispatch(push(`/events/${res.payload.result}/`)));
 }
 
-export function editEvent({
-  id,
-  title,
-  startTime,
-  endTime,
-  description,
-  text,
-  eventType,
-  company,
-  location,
-  isPriced,
-  useStripe,
-  priceMember,
-  mergeTime,
-  useCaptcha,
-  tags,
-  pools
-}: Object) {
+export function editEvent(event: Object): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
         types: Event.EDIT,
-        endpoint: `/events/${id}/`,
+        endpoint: `/events/${event.id}/`,
         method: 'PUT',
-        body: {
-          id,
-          title,
-          startTime: moment(startTime).toISOString(),
-          endTime: moment(endTime).toISOString(),
-          description,
-          text,
-          eventType,
-          company: company.value,
-          location,
-          isPriced,
-          useStripe,
-          priceMember: isPriced ? priceMember * 100 : 0,
-          mergeTime: moment(mergeTime).toISOString(),
-          useCaptcha,
-          tags,
-          pools: pools.map(pool => ({
-            ...pool,
-            permissionGroups: pool.permissionGroups.map(group => group.value)
-          }))
-        },
+        body: event,
         meta: {
-          errorMessage: 'Editing event failed'
+          errorMessage: 'Endring av hendelse feilet'
         }
       })
-    ).then(() => dispatch(push(`/events/${id}`)));
+    ).then(() => dispatch(push(`/events/${event.id}`)));
 }
 
-export function deleteEvent(eventId) {
+export function deleteEvent(eventId: number): Thunk<*> {
   return dispatch => {
     dispatch(
       callAPI({
@@ -155,7 +87,7 @@ export function deleteEvent(eventId) {
         method: 'DELETE',
         meta: {
           id: eventId,
-          errorMessage: 'Deleting event failed'
+          errorMessage: 'Sletting av hendelse feilet'
         }
       })
     ).then(() => {
@@ -165,7 +97,7 @@ export function deleteEvent(eventId) {
   };
 }
 
-export function setCoverPhoto(id, token) {
+export function setCoverPhoto(id: number, token: string): Thunk<*> {
   return callAPI({
     types: Event.EDIT,
     endpoint: `/events/${id}/`,
@@ -175,12 +107,16 @@ export function setCoverPhoto(id, token) {
       cover: token
     },
     meta: {
-      errorMessage: 'Editing cover photo failed'
+      errorMessage: 'Endring av cover bilde feilet'
     }
   });
 }
 
-export function register(eventId, captchaResponse, feedback) {
+export function register(
+  eventId: number,
+  captchaResponse: string,
+  feedback: string
+) {
   return callAPI({
     types: Event.REGISTER,
     endpoint: `/events/${eventId}/registrations/`,
@@ -191,43 +127,53 @@ export function register(eventId, captchaResponse, feedback) {
     },
     meta: {
       id: eventId,
-      errorMessage: 'Registering to event failed'
+      errorMessage: 'Registering til hendelse feilet'
     }
   });
 }
 
-export function unregister(eventId, registrationId, admin = false) {
+export function unregister(
+  eventId: number,
+  registrationId: number,
+  admin: boolean = false
+) {
   return callAPI({
     types: Event.UNREGISTER,
     endpoint: `/events/${eventId}/registrations/${registrationId}/`,
     method: 'delete',
     body: {},
     meta: {
-      errorMessage: 'Unregistering from event failed',
+      errorMessage: 'Avregistrering fra hendelse feilet',
       admin,
       id: Number(registrationId)
     }
   });
 }
 
-export function adminRegister(eventId, user, pool, feedback, reason) {
+export function adminRegister(
+  eventId: number,
+  userId: number,
+  poolId: number,
+  feedback: string,
+  reason: string
+) {
   return callAPI({
     types: Event.ADMIN_REGISTER,
     endpoint: `/events/${eventId}/registrations/admin_register/`,
     method: 'post',
     body: {
-      user,
-      pool,
+      user: userId,
+      pool: poolId,
       feedback,
       admin_reason: reason
     },
     meta: {
-      errorMessage: 'Admin register failed'
+      errorMessage: 'Admin registrering feilet'
     }
   });
 }
 
-export function payment(eventId, token) {
+export function payment(eventId: number, token: string) {
   return callAPI({
     types: Event.PAYMENT_QUEUE,
     endpoint: `/events/${eventId}/payment/`,
@@ -236,12 +182,16 @@ export function payment(eventId, token) {
       token
     },
     meta: {
-      errorMessage: 'Payment failed'
+      errorMessage: 'Betaling feilet'
     }
   });
 }
 
-export function updateFeedback(eventId, registrationId, feedback) {
+export function updateFeedback(
+  eventId: number,
+  registrationId: number,
+  feedback: string
+): Thunk<*> {
   return dispatch => {
     dispatch(
       callAPI({
@@ -252,14 +202,18 @@ export function updateFeedback(eventId, registrationId, feedback) {
           feedback
         },
         meta: {
-          errorMessage: 'Feedback update failed'
+          errorMessage: 'Tilbakemelding oppdatering feilet'
         }
       })
     ).then(() => dispatch(addNotification({ message: 'Feedback updated' })));
   };
 }
 
-export function updatePresence(eventId, registrationId, presence) {
+export function updatePresence(
+  eventId: number,
+  registrationId: number,
+  presence: string
+): Thunk<*> {
   return dispatch => {
     dispatch(
       callAPI({
@@ -270,14 +224,18 @@ export function updatePresence(eventId, registrationId, presence) {
           presence
         },
         meta: {
-          errorMessage: 'Presence update failed'
+          errorMessage: 'Tilstedeværelse oppdatering feilet'
         }
       })
     ).then(() => dispatch(addNotification({ message: 'Presence updated' })));
   };
 }
 
-export function updatePayment(eventId, registrationId, chargeStatus) {
+export function updatePayment(
+  eventId: number,
+  registrationId: number,
+  chargeStatus: string
+): Thunk<*> {
   return dispatch => {
     dispatch(
       callAPI({
@@ -288,14 +246,14 @@ export function updatePayment(eventId, registrationId, chargeStatus) {
           chargeStatus
         },
         meta: {
-          errorMessage: 'Presence update failed'
+          errorMessage: 'Oppdatering av betaling feilet'
         }
       })
     ).then(() => dispatch(addNotification({ message: 'Payment updated' })));
   };
 }
 
-export function follow(userId, eventId) {
+export function follow(userId: number, eventId: number): Thunk<*> {
   return dispatch => {
     dispatch(
       callAPI({
@@ -307,14 +265,14 @@ export function follow(userId, eventId) {
           follower: userId
         },
         meta: {
-          errorMessage: 'Failed to register interest'
+          errorMessage: 'Registering av interesse feilet'
         }
       })
     );
   };
 }
 
-export function unfollow(followId, eventId) {
+export function unfollow(followId: number, eventId: number): Thunk<*> {
   return dispatch => {
     dispatch(
       callAPI({
@@ -323,14 +281,14 @@ export function unfollow(followId, eventId) {
         method: 'DELETE',
         meta: {
           eventId,
-          errorMessage: 'Failed to unregister interest'
+          errorMessage: 'Avregistering fra interesse feilet'
         }
       })
     );
   };
 }
 
-export function isUserFollowing(eventId, userId) {
+export function isUserFollowing(eventId: number, userId: number): Thunk<*> {
   return dispatch => {
     dispatch(
       callAPI({
@@ -338,7 +296,7 @@ export function isUserFollowing(eventId, userId) {
         endpoint: `/followers-event/?target=${eventId}&follower=${userId}`,
         method: 'GET',
         meta: {
-          errorMessage: 'Failed to get event followers'
+          errorMessage: 'Henting av hendelse følgere feilet'
         }
       })
     );

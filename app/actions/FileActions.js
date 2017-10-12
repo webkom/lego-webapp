@@ -1,26 +1,52 @@
 // @flow
 
-import { File } from './ActionTypes';
+import { File as FileType } from './ActionTypes';
 import callAPI from './callAPI';
+import type { Thunk } from 'app/types';
+import slug from 'slug';
+
+/**
+ * Normalize filenames
+ * Remove non-word chars and replace spaces.
+ */
+const normalizeFilename: (filename: string) => string = filename => {
+  const extensionIndex = filename.lastIndexOf('.');
+  if (extensionIndex > 0) {
+    const name = slug(filename.substr(0, extensionIndex), { symbols: true });
+    const extension = filename.substr(extensionIndex);
+    return `${name}${extension}`;
+  }
+  return slug(filename, { symbols: true });
+};
 
 export function fetchSignedPost(key: string, isPublic: boolean) {
   return callAPI({
-    types: File.FETCH_SIGNED_POST,
+    types: FileType.FETCH_SIGNED_POST,
     method: 'post',
     endpoint: '/files/',
     body: {
-      key,
+      key: normalizeFilename(key),
       public: isPublic
     }
   });
 }
 
-export function uploadFile({ file, fileName, isPublic = false }) {
+type UploadArgs = {
+  file: File,
+  fileName?: string,
+  isPublic?: boolean
+};
+
+export function uploadFile({
+  file,
+  fileName,
+  isPublic = false
+}: UploadArgs): Thunk<*> {
   return dispatch =>
     dispatch(fetchSignedPost(fileName || file.name, isPublic)).then(action =>
       dispatch(
         callAPI({
-          types: File.UPLOAD,
+          types: FileType.UPLOAD,
           method: 'post',
           endpoint: action.payload.url,
           body: action.payload.fields,

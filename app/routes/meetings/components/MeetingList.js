@@ -11,7 +11,7 @@ import styles from './MeetingList.css';
 import Toolbar from './Toolbar';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 
-function MeetingListItem({ meeting, userIdMe }) {
+function MeetingListItem({ meeting, userId }) {
   const isDone = moment(meeting.startTime) < moment();
   return (
     <div
@@ -22,21 +22,22 @@ function MeetingListItem({ meeting, userIdMe }) {
         <Link to={`/meetings/${meeting.id}`}>
           <h3 className={styles.meetingItemTitle}>
             {meeting.title}
-            {userIdMe === meeting.createdBy &&
-              <Pill style={{ marginLeft: 10 }}>Eier</Pill>}
-            {userIdMe === meeting.reportAuthor &&
-              <Pill style={{ marginLeft: 10 }}>Referent</Pill>}
+            {userId === meeting.createdBy && (
+              <Pill style={{ marginLeft: 10 }}>Eier</Pill>
+            )}
+            {userId === meeting.reportAuthor && (
+              <Pill style={{ marginLeft: 10 }}>Referent</Pill>
+            )}
           </h3>
         </Link>
 
         <div>
           <span>
-            Deltakere:&nbsp;
+            Deltakere:{' '}
             {
               meeting.invitations.filter(invite => invite.status === 1).length
             }{' '}
-            av&nbsp;
-            {meeting.invitations.length} personer deltar
+            av {meeting.invitations.length} personer deltar
           </span>
         </div>
 
@@ -123,7 +124,7 @@ export default class MeetingList extends Component {
   };
 
   render() {
-    const { meetings, userMe } = this.props;
+    const { meetings, user } = this.props;
     if (!meetings) {
       return <LoadingIndicator loading />;
     }
@@ -133,18 +134,17 @@ export default class MeetingList extends Component {
       <div className={styles.root}>
         <Toolbar />
 
-        {pools.map((item, key) =>
+        {pools.map((item, key) => (
           <div key={key}>
-            <h2 className={styles.heading}>
-              {item.title}
-            </h2>
-            {item.meetings.map((item, key) =>
-              <MeetingListItem key={key} userIdMe={userMe.id} meeting={item} />
-            )}
+            <h2 className={styles.heading}>{item.title}</h2>
+            {item.meetings.map((item, key) => (
+              <MeetingListItem key={key} userId={user.id} meeting={item} />
+            ))}
           </div>
+        ))}
+        {isEmpty && (
+          <h2 style={{ textAlign: 'center' }}> Ingen møter å vise</h2>
         )}
-        {isEmpty &&
-          <h2 style={{ textAlign: 'center' }}> Ingen møter å vise</h2>}
       </div>
     );
   }

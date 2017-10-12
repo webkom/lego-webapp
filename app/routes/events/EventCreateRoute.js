@@ -1,12 +1,19 @@
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { formValueSelector } from 'redux-form';
 import { createEvent } from 'app/actions/EventActions';
 import { uploadFile } from 'app/actions/FileActions';
 import EventEditor from './components/EventEditor';
 import moment from 'moment';
+import { LoginPage } from 'app/components/LoginForm';
+import { transformEvent } from './utils';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const time = (hours, minutes) =>
-  moment().startOf('day').add({ hours, minutes }).toISOString();
+  moment()
+    .startOf('day')
+    .add({ hours, minutes })
+    .toISOString();
 
 const mapStateToProps = (state, props) => {
   const actionGrant = state.events.actionGrant;
@@ -22,10 +29,10 @@ const mapStateToProps = (state, props) => {
       company: null,
       location: 'TBA',
       isPriced: false,
-      useStripe: false,
+      useStripe: true,
       priceMember: 0,
       mergeTime: time(12),
-      useCaptcha: false,
+      useCaptcha: true,
       pools: []
     },
     actionGrant,
@@ -38,8 +45,11 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
-  handleSubmitCallback: createEvent,
+  handleSubmitCallback: event => createEvent(transformEvent(event)),
   uploadFile
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(EventEditor);
+export default compose(
+  replaceUnlessLoggedIn(LoginPage),
+  connect(mapStateToProps, mapDispatchToProps)
+)(EventEditor);

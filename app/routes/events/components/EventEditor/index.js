@@ -3,7 +3,7 @@
 import styles from './EventEditor.css';
 import React from 'react';
 import { Link } from 'react-router';
-import renderPools from './renderPools';
+import renderPools, { validatePools } from './renderPools';
 import RegisteredCell from '../RegisteredCell';
 import RegisteredSummary from '../RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
@@ -43,36 +43,10 @@ type Props = {
   handleSubmit: void => void,
   handleSubmitCallback: void,
   uploadFile: () => Promise<*>,
-  autocompleteResult: Object,
-  companyQueryChanged: (query: string) => void,
-  groupQueryChanged: (query: string) => void,
-  searching: boolean,
+  setCoverPhoto: (number, String) => void,
   deleteEvent: (eventId: string) => Promise<*>,
   submitting: boolean,
   pristine: boolean
-};
-
-type fieldProps = {
-  text: any,
-  name: string,
-  component: any
-};
-
-const FieldElement = ({ text, name, component, ...props }: fieldProps) => {
-  return (
-    <div className={styles.metaList}>
-      <span>
-        {text}
-      </span>
-      <Field
-        {...props}
-        name={name}
-        fieldClassName={styles.metaField}
-        className={styles.formField}
-        component={component}
-      />
-    </div>
-  );
 };
 
 function EventEditor({
@@ -91,10 +65,6 @@ function EventEditor({
   handleSubmitCallback,
   uploadFile,
   setCoverPhoto,
-  autocompleteResult,
-  companyQueryChanged,
-  groupQueryChanged,
-  searching,
   deleteEvent,
   submitting,
   pristine
@@ -109,23 +79,20 @@ function EventEditor({
   }
 
   if (error) {
-    return (
-      <div>
-        {error.message}
-      </div>
-    );
+    return <div>{error.message}</div>;
   }
   const styleType = styleForEvent(event.eventType);
 
   return (
     <div className={styles.root}>
-      {isEditPage &&
+      {isEditPage && (
         <h2>
           <Link to={`/events/${eventId}`}>
             <i className="fa fa-angle-left" />
             {` ${event.title}`}
           </Link>
-        </h2>}
+        </h2>
+      )}
       <Form onSubmit={handleSubmit(handleSubmitCallback)}>
         <Field
           name="cover"
@@ -145,7 +112,7 @@ function EventEditor({
         </Flex>
         <Field
           name="description"
-          placeholder="Beskrivelse"
+          placeholder="Kalenderbeskrivelse"
           className={styles.description}
           component={TextEditor.Field}
         />
@@ -163,136 +130,142 @@ function EventEditor({
             </Flex>
           </Flex>
           <Flex column className={cx(styles.meta, styleType)}>
-            <ul>
-              <li className={styles.metaList}>
-                <span>Hva</span>
-                <Field
-                  name="eventType"
-                  fieldClassName={cx(styles.metaField, styles.fieldShadow)}
-                  simpleValue
-                  component={SelectInput.Field}
-                  options={Object.keys(eventTypes).map(type => ({
-                    label: eventTypes[type],
-                    value: type
-                  }))}
-                  placeholder="Arrangementstype"
-                />
-              </li>
-              <li className={styles.metaList}>
-                <span>Arrangerende bedrift</span>
-                <Field
-                  name="company"
-                  filter={['companies.company']}
-                  fieldClassName={cx(styles.metaField, styles.fieldShadow)}
-                  component={SelectInput.AutocompleteField}
-                  placeholder="Bedrift"
-                />
-              </li>
-              <FieldElement
-                text="Starter"
-                name="startTime"
-                component={DatePicker.Field}
-              />
-              <FieldElement
-                text="Slutter"
-                name="endTime"
-                component={DatePicker.Field}
-              />
-              <FieldElement
-                text="Finner sted i"
-                name="location"
-                component={TextInput.Field}
-              />
-              <FieldElement
-                text="Betalt arrangement"
-                name="isPriced"
-                component={CheckBox.Field}
-              />
-              {event.isPriced &&
-                <div>
-                  <FieldElement
-                    text={
-                      <Tooltip content="Manuell betaling kan også hukes av i etterkant">
-                        Betaling igjennom Abakus.no
-                      </Tooltip>
-                    }
+            <Field
+              name="eventType"
+              label="Hva"
+              simpleValue
+              fieldClassName={styles.metaField}
+              component={SelectInput.Field}
+              options={Object.keys(eventTypes).map(type => ({
+                label: eventTypes[type],
+                value: type
+              }))}
+              placeholder="Arrangementstype"
+            />
+            <Field
+              name="company"
+              label="Arrangerende bedrift"
+              filter={['companies.company']}
+              fieldClassName={styles.metaField}
+              component={SelectInput.AutocompleteField}
+              placeholder="Bedrift"
+            />
+            <Field
+              label="Starter"
+              name="startTime"
+              component={DatePicker.Field}
+              fieldClassName={styles.metaField}
+              className={styles.formField}
+            />
+            <Field
+              label="Slutter"
+              name="endTime"
+              component={DatePicker.Field}
+              fieldClassName={styles.metaField}
+              className={styles.formField}
+            />
+            <Field
+              label="Finner sted i"
+              name="location"
+              component={TextInput.Field}
+              fieldClassName={styles.metaField}
+              className={styles.formField}
+            />
+            <Field
+              label="Betalt arrangement"
+              name="isPriced"
+              component={CheckBox.Field}
+              fieldClassName={styles.metaField}
+              className={styles.formField}
+              normalize={v => !!v}
+            />
+            {event.isPriced && (
+              <div>
+                <Tooltip content="Manuell betaling kan også av i etterkant">
+                  <Field
+                    label="Betaling igjennom Abakus.no"
                     name="useStripe"
                     component={CheckBox.Field}
+                    fieldClassName={styles.metaField}
+                    className={styles.formField}
+                    normalize={v => !!v}
                   />
-                  <FieldElement
-                    text="Pris medlem"
-                    name="priceMember"
-                    type="number"
-                    component={TextInput.Field}
-                  />
-                </div>}
-            </ul>
-            {loggedIn &&
+                </Tooltip>
+                <Field
+                  label="Pris medlem"
+                  name="priceMember"
+                  type="number"
+                  component={TextInput.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                />
+              </div>
+            )}
+            {loggedIn && (
               <Flex column>
                 <h3>Påmeldte:</h3>
                 <Flex className={styles.registeredThumbnails}>
                   {registrations &&
                     registrations
                       .slice(0, 10)
-                      .map(reg =>
+                      .map(reg => (
                         <RegisteredCell key={reg.user.id} user={reg.user} />
-                      )}
+                      ))}
                 </Flex>
                 <RegisteredSummary registrations={[]} />
                 <AttendanceStatus title="Påmeldte" pools={pools} />
                 <div className={styles.metaList}>
-                  <FieldArray
-                    name="pools"
-                    component={renderPools}
-                    autocompleteResult={autocompleteResult}
-                    groupQueryChanged={groupQueryChanged}
-                  />
+                  <FieldArray name="pools" component={renderPools} />
                 </div>
-                <FieldElement
-                  text="Merge time"
+                <Field
+                  label="Merge time"
                   name="mergeTime"
                   component={DatePicker.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
                 />
-                {isEditPage &&
+                {isEditPage && (
                   <Admin
                     actionGrant={actionGrant}
                     event={event}
                     deleteEvent={deleteEvent}
-                  />}
-              </Flex>}
+                  />
+                )}
+              </Flex>
+            )}
           </Flex>
         </Flex>
 
         <Flex wrapReverse>
           <Flex column className={styles.join}>
             <Flex alignItems="center">
-              <span>Bruk Captcha ved påmelding</span>
               <Field
                 name="useCaptcha"
+                label="Bruk Captcha ved påmelding"
                 fieldClassName={styles.metaField}
                 className={styles.formField}
                 component={CheckBox.Field}
+                normalize={v => !!v}
               />
             </Flex>
             <Button disabled={pristine || submitting} submit>
               LAGRE
             </Button>
 
-            {isEditPage &&
+            {isEditPage && (
               <Link to={`/events/${event.id}`}>
                 <Button>TILBAKE</Button>
-              </Link>}
+              </Link>
+            )}
           </Flex>
 
           <Flex column className={styles.openFor}>
             <strong>Åpent for</strong>
             <ul>
               {(pools || []).map(pool =>
-                (pool.permissionGroups || []).map(group =>
-                  <li key={group.value}>
-                    {group.label}
-                  </li>
-                )
+                (pool.permissionGroups || []).map(group => (
+                  <li key={group.value}>{group.label}</li>
+                ))
               )}
             </ul>
           </Flex>
@@ -310,15 +283,22 @@ export default reduxForm({
     if (!data.title) {
       errors.title = 'Tittel er påkrevet';
     }
-    if (!data.description) {
+    if (!data.description || data.description.trim() === '') {
       errors.description = 'Kalenderbeskrivelse er påkrevet';
     }
     if (!data.eventType) {
       errors.eventType = 'Arrangementstype er påkrevet';
     }
+    if (data.priceMember > 10000) {
+      errors.priceMember = 'Prisen er for høy';
+    }
+    if (Number(data.priceMember) <= 0) {
+      errors.priceMember = 'Prisen må være større enn 0';
+    }
     if (!data.location) {
       errors.location = 'Lokasjon er påkrevet';
     }
+    errors.pools = validatePools(data.pools);
     return errors;
   }
 })(EventEditor);

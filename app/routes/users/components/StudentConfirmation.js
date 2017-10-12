@@ -1,16 +1,18 @@
 import styles from './UserConfirmation.css';
 import React from 'react';
-import { Content } from 'app/components/Layout';
+import { Container } from 'app/components/Layout';
 import { reduxForm } from 'redux-form';
 import {
   Form,
   TextInput,
   RadioButton,
+  RadioButtonGroup,
   Button,
   Captcha
 } from 'app/components/Form';
 import { Link } from 'react-router';
 import { Field } from 'redux-form';
+import { createValidator, required } from 'app/utils/validation';
 
 const StudentConfirmation = ({
   studentConfirmed,
@@ -19,7 +21,10 @@ const StudentConfirmation = ({
   router,
   loggedIn,
   submitSucceeded,
-  isStudent
+  isStudent,
+  invalid,
+  pristine,
+  submitting
 }) => {
   if (!loggedIn) {
     router.push('/');
@@ -27,37 +32,36 @@ const StudentConfirmation = ({
   }
   if (isStudent) {
     return (
-      <Content>
+      <Container>
         <div className={styles.root}>
           <h2>Du er allerede verifisert!</h2>
         </div>
-      </Content>
+      </Container>
     );
   }
   if (submitSucceeded) {
     return (
-      <Content>
+      <Container>
         <div className={styles.root}>
           <h2>Sjekk eposten din!</h2>
         </div>
-      </Content>
+      </Container>
     );
   }
   if (studentConfirmed !== null) {
     return (
-      <Content>
+      <Container>
         <div className={styles.root}>
-          <h2>
-            {studentConfirmed ? 'Du er nå verifisert!' : 'Ugyldig token'}
-          </h2>
+          <h2>{studentConfirmed ? 'Du er nå verifisert!' : 'Ugyldig token'}</h2>
           <Link to="/">Gå tilbake til hovedsiden</Link>
         </div>
-      </Content>
+      </Container>
     );
   }
 
+  const disabledButton = invalid | pristine | submitting;
   return (
-    <Content>
+    <Container>
       <div>
         <h2>Verifiser studentepost</h2>
         <Form onSubmit={handleSubmit(sendStudentConfirmationEmail)}>
@@ -66,67 +70,46 @@ const StudentConfirmation = ({
             placeholder="NTNU Brukernavn"
             component={TextInput.Field}
           />
-          <div>
-            <p>Hvilken linje tilhører du?</p>
+          <RadioButtonGroup name="course" label="Hvilken linje tilhører du?">
             <Field
-              fieldClassName={styles.radioButton}
-              name="course"
               label="Datateknologi"
               component={RadioButton.Field}
-              inputValue={'data'}
+              inputValue="data"
             />
             <Field
-              fieldClassName={styles.radioButton}
-              name="course"
               label="Kommunikasjonsteknologi"
               component={RadioButton.Field}
-              inputValue={'komtek'}
+              inputValue="komtek"
             />
-          </div>
-          <div>
-            <p>Vil du bli medlem i Abakus?</p>
+          </RadioButtonGroup>
+          <RadioButtonGroup name="member" label="Vil du bli medlem i Abakus?">
+            <Field label="Ja" component={RadioButton.Field} inputValue="true" />
             <Field
-              fieldClassName={styles.radioButton}
-              name="member"
-              label="Ja"
-              component={RadioButton.Field}
-              inputValue={'true'}
-            />
-            <Field
-              fieldClassName={styles.radioButton}
-              name="member"
               label="Nei"
               component={RadioButton.Field}
-              inputValue={'false'}
+              inputValue="false"
             />
-          </div>
+          </RadioButtonGroup>
           <Field
             name="captchaResponse"
             fieldStyle={{ width: 304 }}
             component={Captcha.Field}
           />
-          <Button submit>Verifiser</Button>
+          <Button submit disabled={disabledButton}>
+            Verifiser
+          </Button>
         </Form>
       </div>
-    </Content>
+    </Container>
   );
 };
 
-const validate = data => {
-  const errors = {};
-
-  if (!data.studentUsername) {
-    errors.studentUsername = 'Vennligst fyll inn brukernavn';
-  }
-  if (!data.course) {
-    errors.course = 'Feltet er påkrevet';
-  }
-  if (!data.member) {
-    errors.member = 'Feltet er påkrevet';
-  }
-
-  return errors;
-};
+const validate = createValidator({
+  studentUsername: [required()],
+  course: [required()],
+  member: [required()],
+  captchaResponse: [required('Captcha er ikke validert')]
+});
 
 export default reduxForm({
   form: 'ConfirmationForm',

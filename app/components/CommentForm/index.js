@@ -80,10 +80,9 @@ class CommentForm extends Component {
             style={{ margin: '0px 0px 0px 25px' }}
           />
 
-          {formActive &&
-            <div className={styles.author}>
-              {this.props.user.fullName}
-            </div>}
+          {formActive && (
+            <div className={styles.author}>{this.props.user.fullName}</div>
+          )}
         </div>
 
         <div className={cx(styles.fields, formActive && styles.activeFields)}>
@@ -95,14 +94,15 @@ class CommentForm extends Component {
             disableBlocks
           />
 
-          {formActive &&
+          {formActive && (
             <Button
               className={styles.submit}
               disabled={pristine || submitting}
               submit
             >
               {submitText}
-            </Button>}
+            </Button>
+          )}
         </div>
       </form>
     );

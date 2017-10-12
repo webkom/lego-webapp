@@ -8,7 +8,6 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
-import { omit } from 'lodash';
 
 export type EventEntity = {
   id: number,
@@ -18,18 +17,10 @@ export type EventEntity = {
 
 function mutateEvent(state: any, action: any) {
   switch (action.type) {
-    case Event.CREATE.SUCCESS: {
-      return {
-        ...state,
-        byId: omit(state.byId, action.meta.optimisticId),
-        items: state.items.filter(id => id !== action.meta.optimisticId)
-      };
-    }
     case Event.DELETE.SUCCESS: {
       return {
         ...state,
-        byId: omit(state.byId, action.meta.id),
-        items: state.items.filter(id => id !== action.meta.id.toString())
+        items: state.items.filter(id => id !== action.meta.id)
       };
     }
     case Event.SOCKET_EVENT_UPDATED: {
@@ -85,6 +76,19 @@ function mutateEvent(state: any, action: any) {
             waitingRegistrations: state.byId[
               eventId
             ].waitingRegistrations.filter(id => id !== action.payload.id)
+          }
+        }
+      };
+    }
+    case Event.SOCKET_REGISTRATION.FAILURE: {
+      const { eventId } = action.meta;
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [eventId]: {
+            ...state.byId[eventId],
+            loading: false
           }
         }
       };
@@ -165,7 +169,8 @@ function transformEvent(event) {
   return {
     ...event,
     startTime: moment(event.startTime),
-    endTime: moment(event.endTime)
+    endTime: moment(event.endTime),
+    mergeTime: moment(event.mergeTime)
   };
 }
 
@@ -203,34 +208,90 @@ export const selectPoolsForEvent = createSelector(
     return (event.pools || []).map(poolId => poolsById[poolId]);
   }
 );
-
 export const selectPoolsWithRegistrationsForEvent = createSelector(
   selectPoolsForEvent,
   state => state.registrations.byId,
-  (pools, registrationsById) =>
+  state => state.users.byId,
+  (pools, registrationsById, usersById) =>
     pools.map(pool => ({
       ...pool,
-      registrations: pool.registrations.map(regId => registrationsById[regId])
+      registrations: pool.registrations.map(regId => {
+        const registration = registrationsById[regId];
+        return {
+          ...registration,
+          user: usersById[registration.user]
+        };
+      })
     }))
+);
+
+export const selectMergedPoolWithRegistrations = createSelector(
+  selectPoolsForEvent,
+  state => state.registrations.byId,
+  state => state.users.byId,
+  (pools, registrationsById, usersById) => {
+    if (pools.length === 0) return [];
+    return [
+      {
+        name: 'Deltakere',
+        ...pools.reduce(
+          (total, pool) => {
+            const capacity = total.capacity + pool.capacity;
+            const permissionGroups = total.permissionGroups.concat(
+              pool.permissionGroups
+            );
+            const registrations = total.registrations.concat(
+              pool.registrations.map(regId => {
+                const registration = registrationsById[regId];
+                return {
+                  ...registration,
+                  user: usersById[registration.user]
+                };
+              })
+            );
+            return {
+              capacity,
+              permissionGroups,
+              registrations
+            };
+          },
+          { capacity: 0, permissionGroups: [], registrations: [] }
+        )
+      }
+    ];
+  }
 );
 
 export const selectAllRegistrationsForEvent = createSelector(
   state => state.registrations.byId,
   state => state.registrations.items,
+  state => state.users.byId,
   (state, props) => props.eventId,
-  (registrationsById, registrationItems, eventId) =>
+  (registrationsById, registrationItems, usersById, eventId) =>
     registrationItems
-      .map((regId, i) => transformRegistration(registrationsById[regId]))
+      .map((regId, i) => {
+        const registration = registrationsById[regId];
+        return transformRegistration({
+          ...registration,
+          user: usersById[registration.user]
+        });
+      })
       .filter(reg => reg.event == eventId)
 );
 
 export const selectWaitingRegistrationsForEvent = createSelector(
   selectEventById,
   state => state.registrations.byId,
-  (event, registrationsById) => {
+  state => state.users.byId,
+  (event, registrationsById, usersById) => {
     if (!event) return [];
-    return (event.waitingRegistrations || [])
-      .map(regId => registrationsById[regId]);
+    return (event.waitingRegistrations || []).map(regId => {
+      const registration = registrationsById[regId];
+      return {
+        ...registration,
+        user: usersById[registration.user]
+      };
+    });
   }
 );
 

@@ -8,7 +8,7 @@ import { selectGroup } from 'app/reducers/groups';
 function mapStateToProps(state, props) {
   const { groupId } = props.routeParams;
   return {
-    loggedIn: state.auth.token !== null,
+    loggedIn: props.loggedIn,
     group: selectGroup(state, { groupId }),
     groupId
   };
@@ -17,11 +17,8 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = { fetchGroup, updateGroup };
 
 export default compose(
-  dispatched(
-    ({ params: { groupId } }, dispatch) => dispatch(fetchGroup(groupId)),
-    {
-      componentWillReceiveProps: false
-    }
+  dispatched(({ params: { groupId } }, dispatch) =>
+    dispatch(fetchGroup(groupId))
   ),
   connect(mapStateToProps, mapDispatchToProps)
 )(GroupView);

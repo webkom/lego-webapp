@@ -150,7 +150,7 @@ class JoinEventForm extends Component {
     const disabledButton = !registration
       ? invalid || pristine || submitting
       : null;
-    const joinTitle = !registration ? 'MELD DEG PÅ' : 'AVREGISTRER';
+    const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
     const registrationType = !registration ? 'register' : 'unregister';
     const feedbackName = getFeedbackName(event.feedbackRequired);
     const showStripe =
@@ -162,14 +162,16 @@ class JoinEventForm extends Component {
       <Flex column className={styles.join}>
         <div className={styles.joinHeader}>Bli med på dette arrangementet</div>
         {!this.state.formOpen &&
-          this.state.time &&
-          <div>
-            Åpner <Time time={this.state.time} format="nowToTimeInWords" />
-          </div>}
+          this.state.time && (
+            <div>
+              Åpner <Time time={this.state.time} format="nowToTimeInWords" />
+            </div>
+          )}
         {!this.state.formOpen &&
-          !this.state.time &&
-          <div>Du kan ikke melde deg på dette arrangementet.</div>}
-        {this.state.formOpen &&
+          !this.state.time && (
+            <div>Du kan ikke melde deg på dette arrangementet.</div>
+          )}
+        {this.state.formOpen && (
           <form
             onSubmit={this.submitWithType(
               handleSubmit,
@@ -185,7 +187,7 @@ class JoinEventForm extends Component {
               name={feedbackName}
               component={TextEditor.Field}
             />
-            {registration &&
+            {registration && (
               <Button
                 type="button"
                 onClick={this.submitWithType(
@@ -193,59 +195,68 @@ class JoinEventForm extends Component {
                   feedbackName,
                   'feedback'
                 )}
+                style={{ marginBottom: '5px' }}
               >
                 Oppdater feedback
-              </Button>}
+              </Button>
+            )}
             {!registration &&
               this.state.captchaOpen &&
-              event.useCaptcha &&
-              <Field
-                name="captchaResponse"
-                fieldStyle={{ width: 304 }}
-                component={Captcha.Field}
-              />}
-            {this.state.time &&
+              event.useCaptcha && (
+                <Field
+                  name="captchaResponse"
+                  fieldStyle={{ width: 304 }}
+                  component={Captcha.Field}
+                />
+              )}
+            {this.state.time && (
               <Button disabled={disabledButton}>
                 {`Åpner om ${this.state.time}`}
-              </Button>}
+              </Button>
+            )}
             {this.state.buttonOpen &&
-              !event.loading &&
-              <div>
-                {!registration &&
-                  event.spotsLeft === 0 &&
-                  <div>
-                    Det 0 plasser igjen, du blir registrert til venteliste
-                  </div>}
-                {!registration &&
-                  event.spotsLeft > 0 &&
-                  <div>
-                    Det er {event.spotsLeft} plasser igjen.
-                  </div>}
-                <Button type="submit" disabled={disabledButton}>
-                  {title || joinTitle}
-                </Button>
-              </div>}
-            {event.loading &&
-              <LoadingIndicator
-                loading
-                loadingStyle={{ margin: '5px auto' }}
-              />}
-          </form>}
+              !event.loading && (
+                <div>
+                  {!registration &&
+                    event.spotsLeft === 0 &&
+                    event.activeCapacity > 0 && (
+                      <div>
+                        Det 0 plasser igjen, du blir registrert til venteliste.
+                      </div>
+                    )}
+                  {!registration &&
+                    event.spotsLeft === 1 && <div>Det er 1 plass igjen.</div>}
+                  {!registration &&
+                    event.spotsLeft > 0 && (
+                      <div>Det er {event.spotsLeft} plasser igjen.</div>
+                    )}
+                  <Button type="submit" disabled={disabledButton}>
+                    {title || joinTitle}
+                  </Button>
+                </div>
+              )}
+            {event.loading && (
+              <LoadingIndicator loading loadingStyle={{ margin: '5px auto' }} />
+            )}
+          </form>
+        )}
         {showStripe &&
-          <StripeCheckout
-            name="Abakus Linjeforening"
-            description={event.title}
-            image={logoImage}
-            currency="NOK"
-            allowRememberMe={false}
-            locale="no"
-            token={onToken}
-            stripeKey={config.stripeKey}
-            amount={event.price}
-            email={currentUser.email}
-          >
-            <Button>Betal nå</Button>
-          </StripeCheckout>}
+          event.price && (
+            <StripeCheckout
+              name="Abakus Linjeforening"
+              description={event.title}
+              image={logoImage}
+              currency="NOK"
+              allowRememberMe={false}
+              locale="no"
+              token={onToken}
+              stripeKey={config.stripeKey}
+              amount={event.price}
+              email={currentUser.email}
+            >
+              <Button>Betal nå</Button>
+            </StripeCheckout>
+          )}
       </Flex>
     );
   }

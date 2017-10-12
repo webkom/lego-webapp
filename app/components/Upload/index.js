@@ -4,25 +4,37 @@ import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import styles from './UploadImage.css';
 
+export type DropFile = File & {
+  preview: string
+};
+
 type Props = {
-  onSubmit: () => void,
-  onDrop: () => void,
-  multiple?: Boolean,
-  accept?: String,
+  onDrop: (Array<DropFile>) => void,
+  multiple?: boolean,
+  accept?: string,
   children?: any
+};
+
+type State = {
+  files: Array<DropFile>
 };
 
 class Upload extends Component {
   props: Props;
 
-  state = {
-    file: undefined
+  state: State = {
+    files: []
   };
 
-  onDrop = (acceptedFiles: Array<File>) => {
+  onDrop = (acceptedFiles: Array<DropFile>) => {
     if (!this.props.multiple) {
-      this.setState({ file: acceptedFiles[0] }, () =>
-        this.props.onDrop(this.state.file)
+      this.setState({ files: acceptedFiles }, () =>
+        this.props.onDrop(this.state.files)
+      );
+    } else {
+      this.setState(
+        state => ({ files: state.files.concat(acceptedFiles) }),
+        () => this.props.onDrop(acceptedFiles)
       );
     }
   };
@@ -44,4 +56,3 @@ class Upload extends Component {
 }
 
 export default Upload;
-export { default as ImageUpload } from './ImageUpload';

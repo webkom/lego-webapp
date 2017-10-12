@@ -1,20 +1,22 @@
+@import 'app/styles/variables.css';
+
 .root {
-  composes: container from 'app/styles/utilities.css';
+  composes: contentContainer from 'app/styles/utilities.css';
 }
 
-h1 {
+.root h1 {
   font-size: 30px;
   font-weight: bold;
   display: block;
-  margin: 15px 0;
+  margin: 0 0 15px;
   padding-left: 0;
 }
 
-h3 {
+.root h3 {
   margin: 5px 0 25px;
 }
 
-select {
+.root select {
   font-size: 100%;
   font-family: 'proxima-nova', 'Helvetica Neue', Arial, sans-serif;
   cursor: pointer;
@@ -78,6 +80,24 @@ select {
   }
 }
 
+.yearNavigator {
+  margin-bottom: -5px;
+  transition: color 0.3s ease;
+
+  &:hover {
+    cursor: pointer;
+    color: var(--lego-link-color);
+  }
+
+  &:focus {
+    background: none;
+  }
+
+  &::selection {
+    background: none;
+  }
+}
+
 .adminComment {
   padding: 5px 0;
   line-height: 17px;
@@ -85,7 +105,7 @@ select {
 
 .categoryHeader {
   font-weight: bold;
-  background-color: #eee;
+  background-color: #ddd;
 }
 
 .title {
@@ -97,15 +117,15 @@ select {
   background-color: #3fff3f;
 }
 
-.companyPresentationAndCourse {
-  background-color: #9fff3f;
+.lunchPresentation {
+  background-color: #84ff84;
 }
 
 .course {
   background-color: #9fff3f;
 }
 
-.notOffered {
+.interested {
   background-color: #f5f5d5;
 }
 
@@ -125,6 +145,10 @@ select {
   background-color: #00fff6;
 }
 
+.files {
+  margin-top: 20px;
+}
+
 .showAscending .upArrow,
 .showDescending .downArrow {
   display: block !important;
@@ -138,6 +162,24 @@ select {
 .showAscending .downArrow,
 .showDescending .upArrow {
   display: none !important;
+}
+
+.dropDownItem {
+  padding: 5px 10px;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+}
+
+/* We have a seperate component for circles, but it takes a color code while
+the function from utils I use to choose color just adds a class with
+background-color. By making it this way I don't have to rewrite it 🤷 */
+.lazyCircle {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
 }
 
 /* Semesters in detailroute */
@@ -213,6 +255,7 @@ select {
   justify-content: space-between;
   margin: 30px 0;
   text-align: center;
+  flex-wrap: wrap;
 }
 
 .editBubbles {
@@ -223,13 +266,8 @@ select {
   margin: 30px 0;
 }
 
-.invisRow i {
-  transition: color 0.3s ease;
-
-  &:hover {
-    color: red;
-    cursor: pointer;
-  }
+.invisRow {
+  background-color: white;
 }
 
 .rightArrow {
@@ -240,6 +278,10 @@ select {
   display: flex;
   width: 100%;
   padding-bottom: 50px;
+
+  @media (--small-viewport) {
+    flex-direction: column;
+  }
 }
 
 .leftSection {
@@ -253,6 +295,11 @@ select {
   margin: 0 0 0 60px;
   border-left: 1px solid #ccc;
   order: 2;
+
+  @media (--small-viewport) {
+    margin: 0;
+    border: none;
+  }
 }
 
 .rightSection a {
@@ -309,7 +356,6 @@ option {
 }
 
 .info > div {
-  flex-basis: 30%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -318,11 +364,6 @@ option {
 .info h3,
 .info i {
   margin: 0 auto;
-}
-
-.editInfo {
-  margin: 0 auto 10px;
-  display: flex !important;
 }
 
 .editInfo > label {
@@ -336,12 +377,11 @@ option {
 .editTitle {
   width: 250px !important;
   font-size: 30px !important;
-  margin: 30px 0 10px;
+  margin: 0 0 10px;
   font-weight: bold;
 }
 
 .editBubble {
-  width: 150px !important;
   text-align: center;
   margin-bottom: 0 !important;
   font-weight: bold;
@@ -356,7 +396,8 @@ option {
 }
 
 .yearForm {
-  width: 100px !important;
+  width: 100px;
+  display: block;
 }
 
 .semesterStatusForm {

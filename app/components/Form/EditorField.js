@@ -13,7 +13,7 @@ type Props = {
 function EditorField({ className, ...props }: Props) {
   return (
     <Editor
-      className={cx(styles.textField, className)}
+      className={cx(styles.input, className)}
       {...props}
       {...props.input}
       {...props.meta}

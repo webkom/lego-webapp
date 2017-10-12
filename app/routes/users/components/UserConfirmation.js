@@ -1,10 +1,17 @@
 import styles from './UserConfirmation.css';
 import React from 'react';
-import { Content } from 'app/components/Layout';
+import { Container, Flex } from 'app/components/Layout';
 import { reduxForm } from 'redux-form';
-import { Form, TextInput, RadioButton, Button } from 'app/components/Form';
+import {
+  Form,
+  TextInput,
+  RadioButtonGroup,
+  RadioButton,
+  Button
+} from 'app/components/Form';
 import { Field } from 'redux-form';
 import { Link } from 'react-router';
+import { createValidator, required, validPassword } from 'app/utils/validation';
 
 const UserConfirmation = ({
   token,
@@ -18,28 +25,39 @@ const UserConfirmation = ({
 
   if (submitSucceeded) {
     return (
-      <Content>
+      <Container>
         <div className={styles.root}>
-          <h2>Du er nå registrert!</h2>
-          <h3>Er du student?</h3>
-          <Link to="/users/student-confirmation/">
-            <Button>Verifiser din studentepost</Button>
-          </Link>
+          <Flex wrap justifyContent="center">
+            <div>
+              <h2>Du er nå registrert!</h2>
+              <h3 style={{ margin: 0 }}>Er du student?</h3>
+              <Flex>
+                <Link to="/users/me/settings/student-confirmation/">
+                  <b>Verifiser studentepost</b>
+                </Link>
+              </Flex>
+              <Flex>
+                <Link to="/" style={{ marginTop: '1em' }}>
+                  Eller gå til hovedsiden
+                </Link>
+              </Flex>
+            </div>
+          </Flex>
         </div>
-      </Content>
+      </Container>
     );
   }
   if (!token) {
     return (
-      <Content>
+      <Container>
         <div className={styles.root}>
           <h2>Token ikke gyldig</h2>
         </div>
-      </Content>
+      </Container>
     );
   }
   return (
-    <Content>
+    <Container>
       <div className={styles.root}>
         <h2>Registrer bruker</h2>
         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -64,56 +82,42 @@ const UserConfirmation = ({
             placeholder="Etternavn"
             component={TextInput.Field}
           />
-          <div>
+          <RadioButtonGroup name="gender">
             <Field
-              fieldClassName={styles.radioButton}
-              name="gender"
               label="Mann"
               component={RadioButton.Field}
-              inputValue={'male'}
+              inputValue="male"
             />
             <Field
-              fieldClassName={styles.radioButton}
-              name="gender"
               label="Kvinne"
               component={RadioButton.Field}
-              inputValue={'female'}
+              inputValue="female"
             />
             <Field
-              fieldClassName={styles.radioButton}
-              name="gender"
               label="Annet"
               component={RadioButton.Field}
-              inputValue={'other'}
+              inputValue="other"
             />
-          </div>
+          </RadioButtonGroup>
           <Field
             name="allergies"
             placeholder="Allergier"
             component={TextInput.Field}
           />
-          <Button submit>Registrer bruker</Button>
+          <Button submit dark>
+            Registrer bruker
+          </Button>
         </Form>
       </div>
-    </Content>
+    </Container>
   );
 };
-const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,72}$/;
-const validate = data => {
-  const errors = {};
 
-  if (!data.username) {
-    errors.username = 'Brukernavn er ikke fylt ut';
-  }
-  if (!passwordRegex.test(data.password)) {
-    errors.password = 'Passordet må inneholde store og små bokstaver og tall';
-  }
-  if (!data.gender) {
-    errors.gender = 'Vennligst velg et kjønn';
-  }
-
-  return errors;
-};
+const validate = createValidator({
+  username: [required()],
+  password: [required(), validPassword()],
+  gender: [required()]
+});
 
 export default reduxForm({
   form: 'ConfirmationForm',

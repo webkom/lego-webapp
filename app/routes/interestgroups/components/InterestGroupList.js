@@ -9,9 +9,9 @@ export type Props = {
 };
 
 const InterestGroupList = (props: Props) => {
-  const groups = props.interestGroups.map((group, key) =>
+  const groups = props.interestGroups.map((group, key) => (
     <InterestGroup group={group} key={key} />
-  );
+  ));
   return (
     <div className={styles.root}>
       <div className={styles.section}>
@@ -26,9 +26,7 @@ const InterestGroupList = (props: Props) => {
           <Button>Lag ny interessegruppe</Button>
         </Link>
       </div>
-      <div className="groups">
-        {groups}
-      </div>
+      <div className="groups">{groups}</div>
     </div>
   );
 };

@@ -6,19 +6,14 @@ import { fetchJoblisting, editJoblisting } from 'app/actions/JoblistingActions';
 import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
 import { selectJoblistingById } from 'app/reducers/joblistings';
 import { formValueSelector } from 'redux-form';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
-function mapDispatchToProps(dispatch) {
-  return {
-    submitJoblisting: joblisting => dispatch(editJoblisting(joblisting)),
-    fetchJoblisting: id => dispatch(fetchJoblisting(id))
-  };
-}
-
-function mapStateToProps(state, props) {
+const mapStateToProps = (state, props) => {
   const { joblistingId } = props.params;
   const formSelector = formValueSelector('joblistingEditor');
   const company = formSelector(state, 'company');
-  const joblisting = selectJoblistingById(state, { joblistingId });
+  const joblisting = selectJoblistingById(state, { joblistingId }) || {};
 
   return {
     joblisting,
@@ -47,9 +42,14 @@ function mapStateToProps(state, props) {
     isNew: false,
     company: company ? company : {}
   };
-}
+};
+
+const mapDispatchToProps = {
+  submitJoblisting: editJoblisting
+};
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   dispatched(
     ({ params: { joblistingId } }, dispatch) =>
       dispatch(fetchJoblisting(joblistingId)),

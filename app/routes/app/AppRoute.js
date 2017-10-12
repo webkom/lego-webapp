@@ -18,6 +18,7 @@ import {
   markNotification
 } from 'app/actions/NotificationsFeedActions';
 import { fetchNotificationFeed } from 'app/actions/FeedActions';
+import { fetchMeta } from 'app/actions/MetaActions';
 import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
 import { toggleSearch } from 'app/actions/SearchActions';
 import Header from 'app/components/Header';
@@ -33,16 +34,18 @@ class AppChildren extends PureComponent {
     return (
       <div style={{ flex: 1 }}>
         <NotificationContainer />
-        {this.props.statusCode
-          ? <HTTPError
-              statusCode={this.props.statusCode}
-              setStatusCode={this.props.setStatusCode}
-              location={this.props.location}
-            />
-          : React.cloneElement(this.props.children, {
-              currentUser: this.props.currentUser,
-              loggedIn: this.props.loggedIn
-            })}
+        {this.props.statusCode ? (
+          <HTTPError
+            statusCode={this.props.statusCode}
+            setStatusCode={this.props.setStatusCode}
+            location={this.props.location}
+          />
+        ) : (
+          React.cloneElement(this.props.children, {
+            currentUser: this.props.currentUser,
+            loggedIn: this.props.loggedIn
+          })
+        )}
       </div>
     );
   }
@@ -85,7 +88,7 @@ class App extends PureComponent {
           {this.props.children}
         </AppChildren>
 
-        <Footer />
+        <Footer {...this.props} />
       </div>
     );
   }
@@ -104,6 +107,10 @@ function mapStateToProps(state) {
   };
 }
 
+function fetchInitialOnServer(props, dispatch) {
+  return dispatch(loginAutomaticallyIfPossible()).then(dispatch(fetchMeta()));
+}
+
 const mapDispatchToProps = {
   toggleSearch,
   logout,
@@ -116,7 +123,7 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  dispatched((props, dispatch) => dispatch(loginAutomaticallyIfPossible()), {
+  dispatched(fetchInitialOnServer, {
     componentDidMount: false,
     componentWillReceiveProps: false
   }),

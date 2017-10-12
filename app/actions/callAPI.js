@@ -6,7 +6,7 @@ import config from '../config';
 import type { Thunk } from 'app/types';
 import { logout } from 'app/actions/UserActions';
 import isRequestNeeded from 'app/utils/isRequestNeeded';
-import { setStatusCode } from 'app/actions/RoutingActions';
+import { setStatusCode } from './RoutingActions';
 
 function urlFor(resource) {
   if (resource.match(/^\/\//)) {
@@ -17,14 +17,18 @@ function urlFor(resource) {
   return config.serverUrl + resource;
 }
 
-function handleError(error, propagateError) {
+function handleError(error, propagateError, endpoint) {
   return dispatch => {
-    if (error.response && error.response.status) {
-      if (error.response.status === 401) {
+    const statusCode = error.response && error.response.status;
+    if (statusCode) {
+      if (statusCode === 401) {
         dispatch(logout());
       }
       if (propagateError) {
-        dispatch(setStatusCode(error.response.status));
+        const serverRenderer = typeof window === 'undefined';
+        if ((serverRenderer && statusCode < 500) || !serverRenderer) {
+          dispatch(setStatusCode(statusCode));
+        }
       }
     }
     throw error;
@@ -57,8 +61,9 @@ export default function callAPI({
   useCache,
   cacheSeconds = 10,
   propagateError = false,
+  disableOptimistic = false,
   requiresAuthentication = true
-}: Object): Thunk<*, *> {
+}: Object): Thunk<*> {
   return (dispatch, getState) => {
     const methodUpperCase = method.toUpperCase();
     const shouldUseCache = methodUpperCase === 'GET' || useCache;
@@ -96,30 +101,29 @@ export default function callAPI({
     }
 
     // @todo: better id gen (cuid or something)
-    const optimisticId = Math.floor(
-      Date.now() * Math.random() * 1000
-    ).toString();
-    const optimisticPayload = body
-      ? normalizeJsonResponse({
-          id: optimisticId,
-          __persisted: false,
-          ...body
-        })
-      : null;
+    const optimisticId = Math.floor(Date.now() * Math.random() * 1000);
+    const optimisticPayload =
+      !disableOptimistic && body
+        ? normalizeJsonResponse({
+            id: optimisticId,
+            __persisted: false,
+            ...body
+          })
+        : null;
 
     return dispatch({
       types,
       payload: optimisticPayload,
       meta: {
         ...meta,
-        optimisticId: body ? optimisticId : undefined,
+        optimisticId: optimisticPayload ? optimisticId : undefined,
         endpoint,
         success: shouldUseCache && types.SUCCESS,
         body
       },
       promise: fetchJSON(urlFor(endpoint), options)
         .then(response => normalizeJsonResponse(response.jsonData))
-        .catch(error => dispatch(handleError(error, propagateError)))
+        .catch(error => dispatch(handleError(error, propagateError, endpoint)))
     });
   };
 }
