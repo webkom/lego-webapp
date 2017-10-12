@@ -4,13 +4,15 @@ import { createSelector } from 'reselect';
 import values from 'lodash/values';
 import { Page } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import { selectGroups } from './groups';
 
 export type PageEntity = {
   id: number,
   title: string,
   slug: string,
   content: string,
-  comments: Array<number>
+  comments: Array<number>,
+  picture: string
 };
 
 export default createEntityReducer({
@@ -52,7 +54,7 @@ const selectParents = createSelector(
 export const selectSiblings = createSelector(
   selectParents,
   (state, props) => props.parentPk || rootKey,
-  (pagesByParent, parentPk) => pagesByParent[parentPk] || []
+  (pagesByParent, parentPk) => pagesByParent[parentPk]
 );
 
 /**
@@ -61,13 +63,13 @@ export const selectSiblings = createSelector(
 export const selectChildren = createSelector(
   state => values(state.pages.byId),
   (state, props) => props.parentPk,
-  (pages, parentPk) => pages.filter(page => page.parent === parentPk) || {}
+  (pages, parentPk) => pages.filter(page => page.parent === parentPk)
 );
 
 export const selectPages = createSelector(
   state => state.pages.byId,
   (pagesBySlug, pageSlug) =>
-    Object.keys(pagesBySlug).map(slug => pagesBySlug[slug]) || []
+    Object.keys(pagesBySlug).map(slug => pagesBySlug[slug])
 );
 
 /**
@@ -76,5 +78,28 @@ export const selectPages = createSelector(
 export const selectParent = createSelector(
   state => values(state.pages.byId),
   (state, props) => props.parentPk,
-  (pages, parentPk) => pages.find(page => page.pk === parentPk) || {}
+  (pages, parentPk) => pages.find(page => page.pk === parentPk)
+);
+
+export const selectPagesForHierarchy = createSelector(
+  state => selectPages(state),
+  (state, props) => props.title,
+  (pages, title) => ({
+    title,
+    items: pages.map(page => ({
+      url: `/pages/info/${page.slug}`,
+      title: page.title
+    }))
+  })
+);
+export const selectGroupsForHierarchy = createSelector(
+  state => selectGroups(state),
+  (state, props) => props.title,
+  (groups, title) => ({
+    title,
+    items: groups.map(page => ({
+      url: `/pages/komiteer/${page.id}`,
+      title: page.name
+    }))
+  })
 );

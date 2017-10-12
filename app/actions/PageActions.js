@@ -1,14 +1,14 @@
 // @flow
 
 import { Page } from './ActionTypes';
-import { pageSchema } from 'app/reducers';
+import { pageSchema, groupSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 
 export function fetchPage(pageSlug: string) {
   return callAPI({
     types: Page.FETCH,
-    endpoint: `/pages/${pageSlug}/tree`,
-    schema: [pageSchema],
+    endpoint: `/pages/${pageSlug}`,
+    schema: pageSchema,
     meta: {
       errorMessage: 'Henting av side feilet'
     },
