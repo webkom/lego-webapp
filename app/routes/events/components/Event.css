@@ -18,7 +18,9 @@
 
 .registeredThumbnails {
   flex-wrap: wrap;
-  width: 300px;
+  justify-content: space-around;
+  height: 138px;
+  overflow: hidden;
 }
 
 .metaDescriptor {
