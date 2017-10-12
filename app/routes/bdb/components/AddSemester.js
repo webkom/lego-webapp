@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import BdbRightNav from './BdbRightNav';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
-import { TextInput, RadioButton } from 'app/components/Form';
+import { TextInput, RadioButton, RadioButtonGroup } from 'app/components/Form';
 import SemesterStatusContent from './SemesterStatusContent';
 import {
   getContactedStatuses,
@@ -102,11 +102,10 @@ export default class AddSemester extends Component {
             </i>
 
             <form onSubmit={handleSubmit(this.onSubmit)}>
-              <h3>År</h3>
               <Field
                 autoFocus={autoFocus}
-                placeholder="År"
-                label=" "
+                placeholder="2020"
+                label="År"
                 name="year"
                 type="number"
                 component={TextInput.Field}
@@ -114,32 +113,21 @@ export default class AddSemester extends Component {
               />
 
               <div className={styles.choices}>
-                <h3>Semester</h3>
-                <div className={styles.editInfo}>
-                  <label>
-                    <Field
-                      name="semester"
-                      component={RadioButton.Field}
-                      fieldStyle={{ width: '24px', margin: '0 5px 0 0' }}
-                      inputValue="spring"
-                    />
-                    Vår
-                  </label>
-                </div>
-                <div className={styles.editInfo}>
-                  <label>
-                    <Field
-                      name="semester"
-                      component={RadioButton.Field}
-                      fieldStyle={{ width: '24px', margin: '0 5px 0 0' }}
-                      inputValue="autumn"
-                    />
-                    Høst
-                  </label>
-                </div>
+                <RadioButtonGroup name="semester" label="Semester">
+                  <Field
+                    label="Vår"
+                    component={RadioButton.Field}
+                    inputValue="spring"
+                  />
+                  <Field
+                    label="Høst"
+                    component={RadioButton.Field}
+                    inputValue="autumn"
+                  />
+                </RadioButtonGroup>
               </div>
 
-              <h3>Status</h3>
+              <label>Status</label>
               <div
                 style={{
                   width: '200px',
@@ -168,10 +156,9 @@ export default class AddSemester extends Component {
                 />
               </div>
 
-              <h3>Kontrakt</h3>
               <Field
                 placeholder="Kontrakt for dette semesteret"
-                label=" "
+                label="Kontrakt"
                 autoFocus={autoFocus}
                 name="contract"
                 component={TextInput.Field}
