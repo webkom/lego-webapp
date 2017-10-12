@@ -7,7 +7,8 @@ import {
   updateCompanyInterest
 } from 'app/actions/CompanyInterestActions';
 import CompanyInterestPage, {
-  EVENT_TYPES
+  EVENT_TYPES,
+  OTHER_TYPES
 } from './components/CompanyInterestPage';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
@@ -26,14 +27,15 @@ const mapStateToProps = (state, props) => {
   const companyInterest = selectCompanyInterestById(state, {
     companyInterestId
   });
-  if (!companyInterest)
+  const semesters = selectCompanySemesters(state);
+  if (!companyInterest || !semesters)
     return {
       edit: true,
       companyInterestId
     };
 
-  const semesters = selectCompanySemesters(state);
   const allEvents = Object.keys(EVENT_TYPES);
+  const allOtherOffers = Object.keys(OTHER_TYPES);
   return {
     initialValues: {
       ...companyInterest,
@@ -41,6 +43,12 @@ const mapStateToProps = (state, props) => {
         name: event,
         checked:
           companyInterest.events && companyInterest.events.includes(event)
+      })),
+      otherOffers: allOtherOffers.map(offer => ({
+        name: offer,
+        checked:
+          companyInterest.otherOffers &&
+          companyInterest.otherOffers.includes(offer)
       })),
       semesters: semesters.map(semester => ({
         ...semester,

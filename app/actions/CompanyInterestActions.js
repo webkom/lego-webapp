@@ -71,7 +71,6 @@ export function updateCompanyInterest(id: number, data: CompanyInterestEntity) {
         types: CompanyInterestForm.UPDATE,
         endpoint: `/company-interests/${id}/`,
         method: 'PATCH',
-        schema: companyInterestSchema,
         body: data,
         meta: {
           companyInterestId: id,
