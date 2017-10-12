@@ -90,7 +90,7 @@ export default function callAPI({
 }: CallAPIOptions): Thunk<Promise<?Action>> {
   return (dispatch, getState) => {
     const methodUpperCase = method.toUpperCase();
-    const shouldUseCache = methodUpperCase === 'GET' || useCache;
+    const shouldUseCache = useCache ? methodUpperCase === 'GET' : false;
 
     const requestOptions = toHttpRequestOptions({
       method,
