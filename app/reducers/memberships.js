@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Membership } from '../actions/ActionTypes';
-import { selectInterestGroupById } from './interestGroups';
+import { selectGroup } from './groups';
 
 export default createEntityReducer({
   key: 'memberships',
@@ -51,10 +51,11 @@ export default createEntityReducer({
 });
 
 export const selectMembershipsForInterestGroup = createSelector(
-  selectInterestGroupById,
+  selectGroup,
   state => state.memberships.byId,
   state => state.users.byId,
   (group, membershipsById, users) => {
+    console.log(group, membershipsById, users);
     const memberships = group.memberships;
     if (!memberships) return [];
     return memberships.map(m => membershipsById[m]).map(m => {

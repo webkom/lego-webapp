@@ -8,10 +8,10 @@ import {
   createInterestGroup
 } from 'app/actions/InterestGroupActions';
 import InterestGroupList from './components/InterestGroupList';
-import { selectInterestGroups } from 'app/reducers/interestGroups';
+import { selectGroups } from 'app/reducers/groups';
 
 const mapStateToProps = state => ({
-  interestGroups: selectInterestGroups(state)
+  interestGroups: selectGroups(state)
 });
 
 const mapDispatchToProps = { fetchAll, createInterestGroup };
