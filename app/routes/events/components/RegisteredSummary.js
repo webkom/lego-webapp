@@ -2,7 +2,7 @@ import styles from './Registrations.css';
 import React from 'react';
 import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
-import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
+import { Flex } from 'app/components/Layout';
 
 const Registration = ({ registration }) => (
   <Tooltip content={registration.user.fullName}>
@@ -15,13 +15,19 @@ const Registration = ({ registration }) => (
   </Tooltip>
 );
 
-const renderNameList = registrations => (
-  <FlexColumn>
-    {registrations.map(reg => (
-      <FlexItem key={reg.id}>{reg.user.fullName}</FlexItem>
-    ))}
-  </FlexColumn>
-);
+const renderNameList = registrations => {
+  const registrationsList = registrations.slice(0, 14);
+  return (
+    <Flex column>
+      {registrationsList.map(reg => (
+        <Flex key={reg.id}>{reg.user.fullName}</Flex>
+      ))}
+      {registrations.length > 10 && (
+        <Flex>{`og ${registrations.length - 12} andre`}</Flex>
+      )}
+    </Flex>
+  );
+};
 
 const RegistrationList = ({ registrations, onClick }) => (
   <Tooltip
@@ -65,7 +71,7 @@ const RegisteredSummary = ({ registrations, pools, title, toggleModal }) => {
 
   summary.push('\u00A0er påmeldt');
 
-  return <FlexRow className={styles.summary}>{summary}</FlexRow>;
+  return <Flex className={styles.summary}>{summary}</Flex>;
 };
 
 export default RegisteredSummary;
