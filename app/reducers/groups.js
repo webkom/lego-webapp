@@ -3,12 +3,12 @@ import { Group, Membership } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import without from 'lodash/without';
 import mergeObjects from 'app/utils/mergeObjects';
-import { selectMembershipsForInterestGroup } from './memberships';
 
 export default createEntityReducer({
   key: 'groups',
   types: {
-    fetch: Group.FETCH
+    fetch: Group.FETCH,
+    mutate: Group.MEMBERSHIP_FETCH
   },
   mutate(state, action) {
     const replaceMemberships = memberships => {
@@ -33,20 +33,13 @@ export default createEntityReducer({
         return replaceMemberships(memberships);
       }
       case Group.MEMBERSHIP_FETCH.SUCCESS: {
-        const g = {
-          ...state.byId[action.meta.groupId],
-          memberships: action.payload.result
-        };
-        const memberships = selectMembershipsForInterestGroup(g, {
-          groupId: g.id
-        });
         return {
           ...state,
           byId: {
             ...state.byId,
             [action.meta.groupId]: {
-              ...g,
-              memberships
+              ...state.byId[action.meta.groupId],
+              memberships: action.payload.result
             }
           }
         };
@@ -58,9 +51,9 @@ export default createEntityReducer({
 });
 
 export const selectGroup = createSelector(
-  state => state.groups.byId,
+  state => state && state.groups && state.groups.byId,
   (state, props) => props.groupId,
-  (groupsById, id) => groupsById[id]
+  (groupsById, id) => groupsById && groupsById[String(id)]
 );
 
 export const selectGroups = createSelector(

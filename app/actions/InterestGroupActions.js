@@ -12,6 +12,7 @@ function fetchMemberships(groupId: string) {
     types: Group.MEMBERSHIP_FETCH,
     endpoint: `/groups/${groupId}/memberships/`,
     schema: [membershipSchema],
+    useCache: false,
     meta: {
       groupId: groupId,
       errorMessage: 'Henting av medlemmene for gruppen feilet'
@@ -51,7 +52,6 @@ export function fetchAll() {
         propagateError: true
       })
     ).then(res => {
-      console.log('wtf, res=', res);
       const ids = res.payload.result;
       return Promise.all(ids.map(g => dispatch(fetchMemberships(g))));
     });
@@ -144,7 +144,9 @@ export function joinInterestGroup(
           username: user.username
         }
       })
-    );
+    ).then(() => {
+      return dispatch(fetchMemberships(groupId));
+    });
 }
 
 export function leaveInterestGroup(
@@ -164,6 +166,8 @@ export function leaveInterestGroup(
           errorMessage: 'Utmelding av interessegruppen failet'
         }
       })
-    );
+    ).then(_ => {
+      return dispatch(fetchMemberships(groupId));
+    });
   };
 }
