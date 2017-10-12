@@ -2,6 +2,7 @@
 // @flow
 
 import React from 'react';
+import Octagon from '../Octagon/index';
 
 export type TagKind = 'mark' | 'block';
 export type MarkType =
@@ -15,17 +16,17 @@ export type BlockType =
   | 'quote'
   | 'paragraph'
   | 'code'
-  | 'header-one'
-  | 'header-two'
+  | 'heading-one'
+  | 'heading-two'
   | 'image'
   | 'separator'
   | 'todo'
-  | 'list-ol'
-  | 'list-ul'
+  | 'numbered-list'
+  | 'bulleted-list'
   | 'list-item';
 
 const deserialize = (tagName, type, kind) => (el, next) => {
-  if (el.tagName.toLowerCase() == tagName) {
+  if (el.tagName.toLowerCase() === tagName) {
     return {
       kind,
       type,
@@ -35,7 +36,7 @@ const deserialize = (tagName, type, kind) => (el, next) => {
 };
 
 const serialize = (type, kind: TagKind, serializer) => (object, children) => {
-  if (object.kind == kind && object.type == type) {
+  if (object.kind === kind && object.type === type) {
     return serializer({ object, children });
   }
 };
@@ -43,22 +44,32 @@ const serialize = (type, kind: TagKind, serializer) => (object, children) => {
 const genericRender = tagName => ({ children, attributes }) =>
   React.createElement(tagName, attributes, children);
 
-const createMarkTag = (type, icon, tagName) => ({
+const createMarkTag = (type, icon, tagName, style) => ({
   type,
   icon,
   tag: tagName,
-  render: genericRender(tagName),
+  style,
   deserialize: deserialize(tagName, type, 'mark'),
   serialize: serialize(type, 'mark', genericRender(tagName))
 });
 
 export const MARK_TAGS = [
-  createMarkTag('italic', 'italic', 'em'),
-  createMarkTag('bold', 'bold', 'strong'),
-  createMarkTag('underline', 'underline', 'u'),
-  createMarkTag('code', 'code', 'code'),
-  createMarkTag('link', 'link', 'a'),
-  createMarkTag('strikethrough', 'strikethrough', 'strike')
+  createMarkTag('italic', 'italic', 'em', { fontStyle: 'italic' }),
+  createMarkTag('bold', 'bold', 'strong', { fontWeight: 'bold' }),
+  createMarkTag('underline', 'underline', 'u', { textDecoration: 'underline' }),
+  createMarkTag('code', 'code', 'code', {
+    fontFamily: 'monospace',
+    backgroundColor: '#eee',
+    padding: '3px',
+    borderRadius: '4px'
+  }),
+  createMarkTag('link', 'link', 'a', {
+    textDecoration: 'underline',
+    color: 'blue'
+  }),
+  createMarkTag('strikethrough', 'strikethrough', 'strike', {
+    textDecoration: 'line-through'
+  })
 ];
 
 /*/**
@@ -68,84 +79,145 @@ export const MARK_TAGS = [
  */
 export const BLOCK_TAGS = [
   {
-    type: 'quote',
+    type: 'block-quote',
     icon: 'quote-left',
     render: ({ children }) =>
-      <quote>
+      <blockquote>
         {children}
-      </quote>
+      </blockquote>,
+    serialize: (object, children) => {
+      if (object.kind === 'block' && object.type === 'block-quote') {
+        return (
+          <blockquote>
+            {children}
+          </blockquote>
+        );
+      }
+    }
   },
   {
     type: 'paragraph',
+    hoverHidden: true,
     render: ({ children }) =>
       <p>
         {children}
-      </p>
+      </p>,
+    serialize: (object, children) => {
+      if (object.kind === 'block' && object.type === 'paragraph') {
+        return (
+          <p>
+            {children}
+          </p>
+        );
+      }
+    }
   },
   {
-    type: 'code',
-    icon: 'code',
-    render: ({ children }) =>
-      <code>
-        {children}
-      </code>
-  },
-  {
-    type: 'header-one',
+    type: 'heading-one',
     icon: 'header',
     render: ({ children }) =>
       <h1>
         {children}
-      </h1>
+      </h1>,
+    serialize: (object, children) => {
+      if (object.kind === 'block' && object.type === 'heading-one') {
+        return (
+          <h1>
+            {children}
+          </h1>
+        );
+      }
+    }
   },
   {
-    type: 'header-two',
+    type: 'heading-two',
     icon: 'font',
     render: ({ children }) =>
       <h2>
         {children}
-      </h2>
+      </h2>,
+    serialize: (object, children) => {
+      if (object.kind === 'block' && object.type === 'heading-two') {
+        return (
+          <h2>
+            {children}
+          </h2>
+        );
+      }
+    }
   },
   {
     type: 'image',
     icon: 'image',
-    render: ({ children }) => <img />
+    hoverHidden: true,
+    render: ({ children }) => <img />,
+    serialize: (object, children) => {
+      if (object.kind === 'block' && object.type === 'image') {
+        return <img src="https://abakus.no/static/gfx/favicon.png" />;
+      }
+    }
   },
   {
     type: 'separator',
     icon: 'minus',
-    render: ({ children }) => <hr />
+    hoverHidden: true,
+    render: ({ children }) => <hr />,
+    serialize: (object, children) => {
+      if (object.kind === 'block' && object.type === 'separator') {
+        return <hr />;
+      }
+    }
   },
   {
-    type: 'todo',
-    icon: 'check-square-o',
-    render: ({ children }) =>
-      <p>
-        {children}
-      </p>
-  },
-  {
-    type: 'list-ol',
+    type: 'numbered-list',
     icon: 'list-ol',
     render: ({ children }) =>
       <ol>
         {children}
-      </ol>
+      </ol>,
+    serialize: (object, children) => {
+      if (object.kind === 'block' && object.type === 'numbered-list') {
+        return (
+          <ol>
+            {children}
+          </ol>
+        );
+      }
+    }
   },
   {
-    type: 'list-ul',
+    type: 'bulleted-list',
     icon: 'list-ul',
     render: ({ children }) =>
       <ul>
         {children}
-      </ul>
+      </ul>,
+    serialize: (object, children) => {
+      if (object.kind === 'block' && object.type === 'bulleted-list') {
+        return (
+          <ul>
+            {children}
+          </ul>
+        );
+      }
+    }
   },
   {
     type: 'list-item',
+    hoverHidden: true,
     render: ({ children }) =>
       <li>
         {children}
-      </li>
+      </li>,
+    serialize: (object, children) => {
+      if (object.kind === 'block' && object.type === 'list-item') {
+        return (
+          <li>
+            {children}
+          </li>
+        );
+      }
+    }
   }
 ];
 
@@ -156,10 +228,16 @@ export const BLOCK_TAGS = [
  */
 
 const marks = MARK_TAGS.reduce((acc, tag) => {
+  acc[tag.type] = tag.style;
+  return acc;
+}, {});
+
+const nodes = BLOCK_TAGS.reduce((acc, tag) => {
   acc[tag.type] = tag.render;
   return acc;
 }, {});
 
 export const schema = {
-  marks
+  marks,
+  nodes
 };

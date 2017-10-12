@@ -13,11 +13,13 @@
   display: inline-block;
 }
 
-.activeHoverMenuButton {
-  color: #fff;
+.hoverMenuButton.activeHoverMenuButton {
+  border-color: white;
 }
 
 .hoverMenuButton {
+  margin: 1px;
+  border: 1px solid #222;
   color: #aaa;
   cursor: pointer;
   padding: 1px;
@@ -60,4 +62,21 @@
 
 .activeSideMenuButton {
 
+}
+
+.editor ul,ol {
+  margin-left: 20px;
+}
+
+.editor ul {
+  list-style: disc;
+}
+
+.editor blockquote {
+  border-left: 2px solid #ddd;
+  margin-left: 0;
+  margin-right: 0;
+  padding-left: 10px;
+  color: #aaa;
+  font-style: italic;
 }

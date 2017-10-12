@@ -49,7 +49,7 @@ const HoverMenuButton = ({
 const HoverMenu = ({ state, onToggleMark, onToggleBlock, onOpen }: Props) =>
   <Portal isOpened onOpen={onOpen}>
     <div className={styles.hoverMenu}>
-      {BLOCK_TAGS.map(tag =>
+      {BLOCK_TAGS.filter(tag => !tag.hoverHidden).map(tag =>
         <HoverMenuButton
           key={tag.type}
           kind="block"
@@ -58,13 +58,14 @@ const HoverMenu = ({ state, onToggleMark, onToggleBlock, onOpen }: Props) =>
           tag={tag}
         />
       )}
-      {Object.keys(MARK_TAGS).map(tag =>
+      ||||
+      {MARK_TAGS.map(tag =>
         <HoverMenuButton
-          key={tag}
+          key={tag.type}
           kind="mark"
           state={state}
           onClick={onToggleMark}
-          tag={MARK_TAGS[tag]}
+          tag={tag}
         />
       )}
     </div>

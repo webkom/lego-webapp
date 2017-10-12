@@ -3,6 +3,7 @@ import { BLOCK_TAGS, MARK_TAGS } from './constants';
 
 const rules = [
   ...MARK_TAGS,
+  ...BLOCK_TAGS,
   {
     serialize: (object, children) => {
       if (object.kind == 'block' && object.type == 'paragraph') {
