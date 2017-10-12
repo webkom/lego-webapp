@@ -188,6 +188,10 @@ export const selectEvents = createSelector(
   (eventsById, eventIds) => eventIds.map(id => transformEvent(eventsById[id]))
 );
 
+export const selectSortedEvents = createSelector(selectEvents, events =>
+  events.sort((a, b) => a.startTime - b.startTime)
+);
+
 export const selectEventById = createSelector(
   state => state.events.byId,
   (state, props) => props.eventId,
