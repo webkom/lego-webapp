@@ -20,19 +20,23 @@ import { createValidator, required, isEmail } from 'app/utils/validation';
 export const EVENT_TYPES = {
   company_presentation: 'Bedriftspresentasjon',
   lunch_presentation: 'Lunsjpresentasjon',
-  course: 'Kurs',
+  course: 'Faglig arrangement',
   bedex: 'Bedex',
   other: 'Annet'
 };
 
-const eventToString = event =>
-  Object.keys(EVENT_TYPES)[event.charAt(event.length - 2)];
+export const OTHER_TYPES = {
+  readme: 'Annonsere i readme',
+  collaboration: 'Samarbeid med andre linjeforeninger',
+  itdagene: 'Stand på itDAGENE',
+  labamba_sponsor: 'Sponsing av LaBamba (Studentkjeller)'
+};
 
-const ACTIVITY_TYPES = [
-  { label: 'Annonsere i readme', name: 'readme' },
-  { label: 'Samarbeid med andre linjeforeninger', name: 'collaboration' },
-  { label: 'Ønsker stand på itDAGENE', name: 'itdagene' }
-];
+const eventToString = event =>
+  Object.keys(EVENT_TYPES)[Number(event.charAt(event.length - 2))];
+
+const otherOffersToString = offer =>
+  Object.keys(OTHER_TYPES)[Number(offer.charAt(offer.length - 2))];
 
 const SEMESTER_TRANSLATION = {
   spring: 'Vår',
@@ -82,19 +86,21 @@ const EventBox = ({ fields }: FieldProps) => (
   </FlexRow>
 );
 
-const ActivityBox = () => (
+const OtherBox = ({ fields }: FieldProps) => (
   <FlexRow className={styles.checkboxWrapper}>
-    {ACTIVITY_TYPES.map((item, index) => (
+    {fields.map((key, index) => (
       <div key={index} className={styles.checkbox}>
         <div className={styles.checkboxField}>
           <Field
-            key={`activity${index}`}
-            name={item.name}
+            key={`otherOffers[${index}]`}
+            name={`otherOffers[${index}].checked`}
             component={CheckBox.Field}
             normalize={v => !!v}
           />
         </div>
-        <span className={styles.checkboxSpan}>{item.label}</span>
+        <span className={styles.checkboxSpan}>
+          {OTHER_TYPES[otherOffersToString(key)]}
+        </span>
       </div>
     ))}
   </FlexRow>
@@ -105,6 +111,7 @@ type Props = FieldProps & {
   push: string => void,
   events: Array<Object>,
   semesters: Array<Object>,
+  otherOffers: Array<Object>,
   edit: boolean,
   companyInterest?: CompanyInterestEntity
 };
@@ -124,10 +131,9 @@ const CompanyInterestPage = (props: Props) => {
       events: data.events
         .filter(event => event.checked)
         .map(event => event.name),
-      readme: data.readme,
-      collaboration: data.collaboration,
-      bedex: data.bedex,
-      itdagene: data.itdagene,
+      otherOffers: data.otherOffers
+        .filter(offer => offer.checked)
+        .map(offer => offer.name),
       comment: data.comment
     };
 
@@ -165,7 +171,7 @@ const CompanyInterestPage = (props: Props) => {
         />
 
         <FlexColumn>
-          <label htmlFor="semester" className={styles.heading}>
+          <label htmlFor="semesters" className={styles.heading}>
             Semester
           </label>
 
@@ -177,11 +183,11 @@ const CompanyInterestPage = (props: Props) => {
 
           <FieldArray name="events" component={EventBox} />
 
-          <label htmlFor="extra" className={styles.heading}>
+          <label htmlFor="otherOffers" className={styles.heading}>
             Annet
           </label>
 
-          <ActivityBox />
+          <FieldArray name="otherOffers" component={OtherBox} />
         </FlexColumn>
 
         <Field
@@ -215,5 +221,6 @@ const validate = createValidator({
 
 export default reduxForm({
   form: 'CompanyInterestForm',
-  validate
+  validate,
+  enableReinitialize: true
 })(CompanyInterestPage);
