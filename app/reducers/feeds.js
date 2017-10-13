@@ -13,7 +13,7 @@ function arrayOf(value) {
 export default createEntityReducer({
   key: 'feeds',
   types: {
-    fetch: false
+    fetch: null
   },
   mutate(state, action) {
     switch (action.type) {

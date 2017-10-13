@@ -31,7 +31,7 @@ export default function configureStore(initialState: State): Store {
   const middlewares = [
     routerMiddleware(browserHistory),
     thunkMiddleware,
-    promiseMiddleware,
+    promiseMiddleware(),
     createRavenMiddleware(Raven),
     errorMiddleware
   ];

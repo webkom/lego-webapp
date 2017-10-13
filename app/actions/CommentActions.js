@@ -24,7 +24,7 @@ export function addComment({
       callAPI({
         types: Comment.ADD,
         endpoint: '/comments/',
-        method: 'post',
+        method: 'POST',
         body: {
           text,
           comment_target: commentTarget,

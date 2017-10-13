@@ -32,7 +32,7 @@ export function fetchQuote(quoteId: number) {
   return callAPI({
     types: Quote.FETCH,
     endpoint: `/quotes/${quoteId}/`,
-    method: 'get',
+    method: 'GET',
     meta: {
       quoteId,
       errorMessage: 'Henting av quote feilet'
@@ -46,7 +46,7 @@ export function fetchRandomQuote() {
   return callAPI({
     types: Quote.FETCH,
     endpoint: '/quotes/random/',
-    method: 'get',
+    method: 'GET',
     meta: {
       errorMessage: 'Henting av tilfeldig quote feilet'
     },
@@ -58,7 +58,7 @@ export function approve(quoteId: number) {
   return callAPI({
     types: Quote.APPROVE,
     endpoint: `/quotes/${quoteId}/approve/`,
-    method: 'put',
+    method: 'PUT',
     meta: {
       errorMessage: 'Godkjenning av quote feilet',
       quoteId: Number(quoteId)
@@ -70,7 +70,7 @@ export function unapprove(quoteId: number) {
   return callAPI({
     types: Quote.UNAPPROVE,
     endpoint: `/quotes/${quoteId}/unapprove/`,
-    method: 'put',
+    method: 'PUT',
     meta: {
       errorMessage: 'Underkjenning av quote feilet',
       quoteId: Number(quoteId)
@@ -88,11 +88,11 @@ export function addQuotes({
   return dispatch => {
     dispatch(startSubmit('addQuote'));
 
-    dispatch(
+    return dispatch(
       callAPI({
         types: Quote.ADD,
         endpoint: '/quotes/',
-        method: 'post',
+        method: 'POST',
         body: {
           text,
           source
@@ -125,7 +125,7 @@ export function deleteQuote(quoteId: number) {
   return callAPI({
     types: Quote.DELETE,
     endpoint: `/quotes/${quoteId}/`,
-    method: 'delete',
+    method: 'DELETE',
     meta: {
       quoteId: Number(quoteId),
       errorMessage: 'Sletting av quote feilet'
