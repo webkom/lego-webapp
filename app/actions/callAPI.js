@@ -80,7 +80,6 @@ export default function callAPI({
   files,
   meta,
   schema,
-  force = false,
   useCache,
   cacheSeconds = 10,
   propagateError = false,
@@ -90,7 +89,8 @@ export default function callAPI({
 }: CallAPIOptions): Thunk<Promise<?Action>> {
   return (dispatch, getState) => {
     const methodUpperCase = method.toUpperCase();
-    const shouldUseCache = useCache ? methodUpperCase === 'GET' : false;
+    const shouldUseCache =
+      typeof useCache === 'undefined' ? methodUpperCase === 'GET' : useCache;
 
     const requestOptions = toHttpRequestOptions({
       method,
@@ -101,11 +101,7 @@ export default function callAPI({
     });
 
     const state = getState();
-    if (
-      !force &&
-      shouldUseCache &&
-      !isRequestNeeded(state, endpoint, cacheSeconds)
-    ) {
+    if (shouldUseCache && !isRequestNeeded(state, endpoint, cacheSeconds)) {
       return Promise.resolve(null);
     }
 
