@@ -7,6 +7,7 @@ import {
   companySemesterSchema,
   eventSchema
 } from 'app/reducers';
+import createQueryString from 'app/utils/createQueryString';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 import type { Thunk } from 'app/types';
@@ -298,10 +299,12 @@ export function deleteCompanyContact(
   };
 }
 
-export function fetchSemesters() {
+export function fetchSemesters({ companyInterest }: Object = {}) {
   return callAPI({
     types: Company.FETCH_SEMESTERS,
-    endpoint: '/company-semesters/',
+    endpoint: `/company-semesters/${createQueryString({
+      company_interest: companyInterest
+    })}`,
     schema: [companySemesterSchema],
     meta: {
       errorMessage: 'Fetching company semesters failed'
