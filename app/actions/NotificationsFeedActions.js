@@ -7,14 +7,16 @@ import type { Thunk } from 'app/types';
 
 export function fetchNotificationData(): Thunk<*> {
   return (dispatch, getState) => {
-    if (selectIsLoggedIn(getState())) {
-      return dispatch(
-        callAPI({
-          types: NotificationsFeed.FETCH_DATA,
-          endpoint: '/feed-notifications/notification_data/'
-        })
-      );
+    if (!selectIsLoggedIn(getState())) {
+      return Promise.resolve();
     }
+
+    return dispatch(
+      callAPI({
+        types: NotificationsFeed.FETCH_DATA,
+        endpoint: '/feed-notifications/notification_data/'
+      })
+    );
   };
 }
 

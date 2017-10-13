@@ -40,7 +40,7 @@ export function setInvitationStatus(
   return callAPI({
     types: Meeting.SET_INVITATION_STATUS,
     endpoint: `/meetings/${meetingId}/invitations/${userId}/`,
-    method: 'put',
+    method: 'PUT',
     body: {
       user: userId,
       status
@@ -58,11 +58,11 @@ export function deleteMeeting(id: number): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('deleteMeeting'));
 
-    dispatch(
+    return dispatch(
       callAPI({
         types: Meeting.DELETE,
         endpoint: `/meetings/${id}/`,
-        method: 'delete',
+        method: 'DELETE',
         meta: {
           meetingId: id,
           errorMessage: 'Sletting av møte feilet'
@@ -92,11 +92,11 @@ export function createMeeting({
 }: Object): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('meetingEditor'));
-    dispatch(
+    return dispatch(
       callAPI({
         types: Meeting.CREATE,
         endpoint: '/meetings/',
-        method: 'post',
+        method: 'POST',
         body: {
           title,
           report,
@@ -112,6 +112,7 @@ export function createMeeting({
       })
     )
       .then(result => {
+        if (!result || !result.payload) return;
         const id = result.payload.result;
         if (groups !== undefined || users !== undefined) {
           dispatch(inviteUsersAndGroups({ id, users, groups }))
@@ -139,7 +140,7 @@ export function inviteUsersAndGroups({ id, users, groups }: Object) {
   return callAPI({
     types: Meeting.EDIT,
     endpoint: `/meetings/${id}/bulk_invite/`,
-    method: 'post',
+    method: 'POST',
     body: {
       users: users ? users.map(user => user.value) : [],
       groups: groups ? groups.map(group => group.value) : []
@@ -162,7 +163,7 @@ export function answerMeetingInvitation(
       callAPI({
         types: Meeting.ANSWER_INVITATION_TOKEN,
         endpoint: `/meeting-token/${action}/?token=${token}`,
-        method: 'post',
+        method: 'POST',
         meta: {
           errorMessage: 'Svar på invitasjon feilet'
         },
@@ -192,11 +193,11 @@ export function editMeeting({
   return dispatch => {
     dispatch(startSubmit('meetingEditor'));
 
-    dispatch(
+    return dispatch(
       callAPI({
         types: Meeting.EDIT,
         endpoint: `/meetings/${id}/`,
-        method: 'put',
+        method: 'PUT',
         body: {
           title,
           id,

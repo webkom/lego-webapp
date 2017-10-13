@@ -22,7 +22,7 @@ const normalizeFilename: (filename: string) => string = filename => {
 export function fetchSignedPost(key: string, isPublic: boolean) {
   return callAPI({
     types: FileType.FETCH_SIGNED_POST,
-    method: 'post',
+    method: 'POST',
     endpoint: '/files/',
     body: {
       key: normalizeFilename(key),
@@ -43,11 +43,12 @@ export function uploadFile({
   isPublic = false
 }: UploadArgs): Thunk<*> {
   return dispatch =>
-    dispatch(fetchSignedPost(fileName || file.name, isPublic)).then(action =>
-      dispatch(
+    dispatch(fetchSignedPost(fileName || file.name, isPublic)).then(action => {
+      if (!action || !action.payload) return;
+      return dispatch(
         callAPI({
           types: FileType.UPLOAD,
-          method: 'post',
+          method: 'POST',
           endpoint: action.payload.url,
           body: action.payload.fields,
           files: [file],
@@ -62,6 +63,6 @@ export function uploadFile({
             fileToken: action.payload.file_token
           }
         })
-      )
-    );
+      );
+    });
 }
