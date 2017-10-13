@@ -139,7 +139,7 @@ const CompanyInterestPage = (props: Props) => {
 
     return props
       .onSubmit(newData)
-      .then(() => props.push('/companyInterest'))
+      .then(() => props.push('/'))
       .catch(err => {
         if (err.payload && err.payload.response) {
           throw new SubmissionError(err.payload.response.jsonData);

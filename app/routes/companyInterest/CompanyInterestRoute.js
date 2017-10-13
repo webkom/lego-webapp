@@ -10,8 +10,10 @@ import CompanyInterestPage, {
 } from './components/CompanyInterestPage';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { dispatched } from '@webkom/react-prepare';
+import { sortSemesterChronologically } from './utils.js';
 
-const loadSemesters = (props, dispatch) => dispatch(fetchSemesters());
+const loadSemesters = (props, dispatch) =>
+  dispatch(fetchSemesters({ companyInterest: 'True' }));
 
 const mapStateToProps = state => {
   const semesters = selectCompanySemesters(state);
@@ -32,7 +34,7 @@ const mapStateToProps = state => {
         name: offer,
         checked: false
       })),
-      semesters
+      semesters: semesters.sort(sortSemesterChronologically)
     },
     edit: false
   };
