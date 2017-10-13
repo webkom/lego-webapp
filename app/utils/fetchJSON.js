@@ -87,8 +87,6 @@ function timeoutPromise(ms = 0) {
 
 const defaultOptions = {
   files: [],
-  retryDelays: [1000, 3000],
-  timeout: 15000,
   headers: {}
 };
 
@@ -96,7 +94,7 @@ export default function fetchJSON<T>(
   path: string,
   requestOptions: HttpRequestOptions = defaultOptions
 ): Promise<HttpResponse<T>> {
-  const { files } = requestOptions;
+  const { files, retryDelays = [1000, 3000], timeout = 15000 } = requestOptions;
   let body;
   if (files && files.length > 0) {
     body = makeFormData(files, requestOptions.body);
@@ -122,7 +120,7 @@ export default function fetchJSON<T>(
       const request = createRequest();
       requestsAttempted++;
       return Promise.race([
-        timeoutPromise(requestOptions.timeout),
+        timeoutPromise(timeout),
         fetch(request)
           .then(parseResponseBody)
           .then(rejectOnHttpErrors)
@@ -130,8 +128,8 @@ export default function fetchJSON<T>(
       ]).catch((error: HttpError) => {
         if (
           (error.response && error.response.status < 500) ||
-          !requestOptions.retryDelays ||
-          requestsAttempted > requestOptions.retryDelays.length ||
+          !retryDelays ||
+          requestsAttempted > retryDelays.length ||
           !__CLIENT__
         ) {
           return reject(error);
@@ -139,7 +137,7 @@ export default function fetchJSON<T>(
 
         setTimeout(
           wrappedFetch,
-          requestOptions.retryDelays[requestsAttempted - 1]
+          retryDelays[requestsAttempted - 1]
         );
       });
     };
