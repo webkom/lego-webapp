@@ -12,12 +12,12 @@ import PageDetail, {
   GroupRenderer
 } from './components/PageDetail';
 import {
-  selectPages,
   selectPageBySlug,
   selectPagesForHierarchy,
   selectGroupsForHierarchy
 } from 'app/reducers/pages';
 import { selectGroup } from 'app/reducers/groups';
+import HTTPError from 'app/routes/errors/HTTPError';
 
 const loadData = (props, dispatch) => {
   if (!props.pages || !props.page) {
@@ -37,11 +37,14 @@ const loadPage = ({ params: { section, pageSlug } }, dispatch) => {
     default:
       return fetchPage(pageSlug);
   }
+const loadPage = ({ params: { section, pageSlug } }, dispatch) =>
+  sections[section].fetchItem(pageSlug);
+
+const loadData = (props, dispatch) => {
+  dispatch(fetchAll());
+  dispatch(fetchAllWithType('annen'));
+  return sections[props.params.section] && dispatch(loadPage(props, dispatch));
 };
-const loadData = (props, dispatch) =>
-  dispatch(loadPage(props, dispatch))
-    .then(() => dispatch(fetchAll()))
-    .then(() => dispatch(fetchAllWithType('annen')));
 
 const mapStateToPropsFlatpages = (state, props) => {
   const { pageSlug } = props.params;
@@ -52,13 +55,20 @@ const mapStateToPropsFlatpages = (state, props) => {
     title: selectedPage.title,
     editUrl: `/pages/${selectedPage.slug}/edit`
   };
-  const PageRenderer = FlatpageRenderer;
   return {
     selectedPage,
-    selectedPageInfo,
-    PageRenderer
+    selectedPageInfo
   };
 };
+const mapStateToPropsSectionNotFound = (state, props, pageHierarchy) => ({
+  selectedPageInfo: {
+    title: 'Finner ikke det du leter etter',
+    actionGrant: []
+  },
+  selectedPage: {},
+  PageRenderer: HTTPError,
+  pageHierarchy
+});
 
 const mapStateToPropsComitee = (state, props) => {
   const { pageSlug } = props.params;
@@ -69,36 +79,48 @@ const mapStateToPropsComitee = (state, props) => {
     title: group.name,
     editUrl: `/admin/groups/${group.id}/settings`
   };
-  const PageRenderer = GroupRenderer;
   return {
     selectedPage: group,
-    selectedPageInfo,
-    PageRenderer
+    selectedPageInfo
   };
 };
 
-const mapStateToPropsForSection = (state, props, section) => {
-  switch (section) {
-    case 'komiteer':
-      return mapStateToPropsComitee(state, props);
-    case 'info':
-    default:
-      return mapStateToPropsFlatpages(state, props);
+const sections = {
+  info: {
+    title: 'Informasjon',
+    section: 'info',
+    mapStateToPropsForSection: mapStateToPropsFlatpages,
+    hierarchySectionSelector: selectPagesForHierarchy,
+    PageRenderer: FlatpageRenderer,
+    fetchItem: fetchPage
+  },
+  komiteer: {
+    title: 'Komiteer',
+    section: 'komiteer',
+    mapStateToPropsForSection: mapStateToPropsComitee,
+    hierarchySectionSelector: selectGroupsForHierarchy,
+    PageRenderer: GroupRenderer,
+    fetchItem: fetchGroup
   }
 };
 const mapStateToProps = (state, props) => {
   const { section } = props.params;
 
-  const pageHierarchy = [
-    selectPagesForHierarchy(state, { title: 'Informasjon' }),
-    selectGroupsForHierarchy(state, { title: 'Komiteer' })
-  ];
-  const currentUrl = props.location.pathname;
+  const pageHierarchy = Object.keys(sections).map(sectionKey =>
+    sections[sectionKey].hierarchySectionSelector(state, {
+      title: sections[sectionKey].title
+    })
+  );
 
+  if (!sections[section]) {
+    return mapStateToPropsSectionNotFound(state, props, pageHierarchy);
+  }
+  const { mapStateToPropsForSection, PageRenderer } = sections[section];
   return {
-    ...mapStateToPropsForSection(state, props, section),
+    ...mapStateToPropsForSection(state, props),
+    PageRenderer,
     pageHierarchy,
-    currentUrl
+    currentUrl: props.location.pathname
   };
 };
 

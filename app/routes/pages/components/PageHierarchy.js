@@ -6,7 +6,6 @@ import styles from './PageHierarchy.css';
 
 export type HierarchyEntity = {
   title: string,
-  id: number | string,
   url: string
 };
 
@@ -28,11 +27,11 @@ const HierarchySection = ({
   currentUrl: string
 }) => (
   <ul className={styles.pageList}>
-    <li>
+    <li key="title">
       <p className={styles.header}>{title}</p>
     </li>
-    {items.map(item => (
-      <li key={item.id}>
+    {items.map((item, key) => (
+      <li key={key}>
         <Link
           style={{
             fontWeight: item.url === currentUrl ? 'bold' : 'normal'

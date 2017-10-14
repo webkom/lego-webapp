@@ -62,9 +62,8 @@ function PageDetail<T: Object>({
   return (
     <div className={styles.root}>
       <NavigationTab title={title}>
-        {actionGrant.includes('edit') && (
-          <NavigationLink to={`${editUrl}`}>ENDRE</NavigationLink>
-        )}
+        {actionGrant.includes('edit') &&
+          editUrl && <NavigationLink to={`${editUrl}`}>ENDRE</NavigationLink>}
         {actionGrant.includes('create') && (
           <NavigationLink to={`/pages/create`}> NY </NavigationLink>
         )}
