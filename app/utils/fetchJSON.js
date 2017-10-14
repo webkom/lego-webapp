@@ -135,10 +135,7 @@ export default function fetchJSON<T>(
           return reject(error);
         }
 
-        setTimeout(
-          wrappedFetch,
-          retryDelays[requestsAttempted - 1]
-        );
+        setTimeout(wrappedFetch, retryDelays[requestsAttempted - 1]);
       });
     };
 
