@@ -18,6 +18,7 @@ export type PageInfo = {
 };
 type Props<T> = {
   selectedPage: T,
+  currentUrl: string,
   selectedPageInfo: PageInfo,
   PageRenderer: ({ page: T }) => React.Element<*>,
   pageHierarchy: HierarchySectionEntity[]
@@ -51,7 +52,8 @@ function PageDetail<T: Object>({
   selectedPage,
   selectedPageInfo,
   pageHierarchy,
-  PageRenderer
+  PageRenderer,
+  currentUrl
 }: Props<T>) {
   if (!selectedPage) {
     return <LoadingIndicator loading />;
@@ -72,8 +74,8 @@ function PageDetail<T: Object>({
 
         <aside className={styles.sidebar}>
           <PageHierarchy
-            selectedItem={selectedPage}
             pageHierarchy={pageHierarchy}
+            currentUrl={currentUrl}
           />
         </aside>
       </Flex>

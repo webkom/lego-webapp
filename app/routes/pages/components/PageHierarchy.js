@@ -17,16 +17,15 @@ export type HierarchySectionEntity = {
 
 type Props = {
   pageHierarchy: Array<HierarchySectionEntity>,
-  /* Is object because it will only be used for comparison */
-  selectedItem: Object
+  currentUrl: string
 };
 
 const HierarchySection = ({
   hierarchySection: { title, items },
-  selectedItem
+  currentUrl
 }: {
   hierarchySection: HierarchySectionEntity,
-  selectedItem: Object
+  currentUrl: string
 }) => (
   <ul className={styles.pageList}>
     <li>
@@ -36,7 +35,7 @@ const HierarchySection = ({
       <li key={item.id}>
         <Link
           style={{
-            fontWeight: item === selectedItem ? 'bold' : 'normal'
+            fontWeight: item.url === currentUrl ? 'bold' : 'normal'
           }}
           to={item.url}
         >
@@ -47,14 +46,14 @@ const HierarchySection = ({
   </ul>
 );
 
-const PageHierarchy = ({ pageHierarchy, selectedItem }: Props) => {
+const PageHierarchy = ({ pageHierarchy, currentUrl }: Props) => {
   return (
     <div className={styles.sidebar}>
       {pageHierarchy.map((section, key) => (
         <HierarchySection
           hierarchySection={section}
           key={key}
-          selectedItem={selectedItem}
+          currentUrl={currentUrl}
         />
       ))}
     </div>
