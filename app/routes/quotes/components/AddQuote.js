@@ -1,14 +1,19 @@
+// @flow
+
 import styles from './Quotes.css';
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { TextEditor, Button } from 'app/components/Form';
+import { createValidator, required } from 'app/utils/validation';
+import { navigation } from '../utils';
 
 type Props = {
   addQuotes: Object => void,
   invalid: boolean,
   pristine: boolean,
   submitting: boolean,
-  handleSubmit: () => void
+  handleSubmit: ((Object) => void) => void,
+  actionGrant: Array<string>
 };
 
 const AddQuote = ({
@@ -16,33 +21,27 @@ const AddQuote = ({
   invalid,
   pristine,
   submitting,
-  handleSubmit
+  handleSubmit,
+  actionGrant
 }: Props) => {
   const disabledButton = invalid || pristine || submitting;
 
   return (
     <div className={styles.root}>
-      <div className={styles.quoteTop}>
-        <h1>Legg til sitat</h1>
-      </div>
+      {navigation('Legg til sitat', actionGrant)}
 
       <div className={styles.addQuote}>
         <form onSubmit={handleSubmit(addQuotes)}>
-          <label htmlFor="addQuoteContent" style={{ fontSize: 30 }}>
-            Selve sitatet <b>*</b>
-          </label>
-
           <Field
-            placeholder="Det gjør seg ikke sjæl"
+            placeholder="Det er bare å gjøre det"
+            label="Selve sitatet"
             name="text"
             component={TextEditor.Field}
           />
 
-          <label htmlFor="addQuoteSource" style={{ fontSize: 20 }}>
-            Hvor sitatet kommer fra (sleng gjerne med noe snaks!) <b>*</b>
-          </label>
           <Field
-            placeholder="Harald Rex"
+            placeholder="Esso – alltid og i enhver situasjon"
+            label="Hvor sitatet kommer fra (sleng gjerne med noe snaks!)"
             name="source"
             component={TextEditor.Field}
             type="text"
@@ -63,19 +62,12 @@ const AddQuote = ({
   );
 };
 
-function validateQuote(data) {
-  const errors = {};
-  if (!data.text) {
-    errors.text = 'Vennligst fyll ut dette feltet';
-  }
-
-  if (!data.source) {
-    errors.source = 'Vennligst fyll ut dette feltet';
-  }
-  return errors;
-}
+const validate = createValidator({
+  text: [required()],
+  source: [required()]
+});
 
 export default reduxForm({
   form: 'addQuote',
-  validate: validateQuote
+  validate
 })(AddQuote);

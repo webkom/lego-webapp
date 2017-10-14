@@ -1,11 +1,13 @@
+// @flow
+
 import React, { Component } from 'react';
 import styles from './Quotes.css';
 import Quote from './Quote';
 import CommentView from 'app/components/Comments/CommentView';
-import QuoteRightNav from './QuoteRightNav';
 import cx from 'classnames';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { isEmpty } from 'lodash';
+import { navigation } from '../utils';
 
 type Props = {
   quote: Object,
@@ -13,7 +15,10 @@ type Props = {
   currentUser: any,
   loggedIn: boolean,
   query: Object,
-  actionGrant: Array<string>
+  actionGrant: Array<string>,
+  approve: number => void,
+  unapprove: number => void,
+  deleteQuote: number => void
 };
 
 export default class QuoteDetail extends Component {
@@ -33,8 +38,10 @@ export default class QuoteDetail extends Component {
       comments,
       currentUser,
       loggedIn,
-      query,
-      actionGrant
+      actionGrant,
+      approve,
+      unapprove,
+      deleteQuote
     } = this.props;
 
     if (isEmpty(quote)) {
@@ -48,28 +55,26 @@ export default class QuoteDetail extends Component {
           styles.quoteSingleroute
         )}
       >
-        <div className={styles.quotepageLeft}>
-          <h1>Enkelt sitat</h1>
+        {navigation('Enkelt sitat', actionGrant)}
 
-          <Quote
-            {...this.props}
-            quote={quote}
-            actionGrant={actionGrant}
-            displayAdmin={this.state.displayAdmin}
-            setDisplayAdmin={this.setDisplayAdmin}
+        <Quote
+          quote={quote}
+          actionGrant={actionGrant}
+          displayAdmin={this.state.displayAdmin}
+          setDisplayAdmin={this.setDisplayAdmin}
+          approve={approve}
+          unapprove={unapprove}
+          deleteQuote={deleteQuote}
+        />
+
+        {quote.commentTarget && (
+          <CommentView
+            user={currentUser}
+            commentTarget={quote.commentTarget}
+            loggedIn={loggedIn}
+            comments={comments}
           />
-
-          {quote.commentTarget && (
-            <CommentView
-              user={currentUser}
-              commentTarget={quote.commentTarget}
-              loggedIn={loggedIn}
-              comments={comments}
-            />
-          )}
-        </div>
-
-        <QuoteRightNav query={query} detail={true} actionGrant={actionGrant} />
+        )}
       </div>
     );
   }
