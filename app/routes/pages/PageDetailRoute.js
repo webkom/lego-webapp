@@ -93,10 +93,12 @@ const mapStateToProps = (state, props) => {
     selectPagesForHierarchy(state, { title: 'Informasjon' }),
     selectGroupsForHierarchy(state, { title: 'Komiteer' })
   ];
+  const currentUrl = props.location.pathname;
 
   return {
     ...mapStateToPropsForSection(state, props, section),
-    pageHierarchy
+    pageHierarchy,
+    currentUrl
   };
 };
 
