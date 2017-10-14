@@ -3,6 +3,9 @@
 import { union } from 'lodash';
 import { Event } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import { normalize } from 'normalizr';
+import { registrationSchema } from 'app/reducers';
+import mergeObjects from 'app/utils/mergeObjects';
 import moment from 'moment';
 
 export default createEntityReducer({
@@ -14,14 +17,11 @@ export default createEntityReducer({
       case Event.PAYMENT_QUEUE.SUCCESS:
       case Event.SOCKET_PAYMENT.SUCCESS:
       case Event.SOCKET_PAYMENT.FAILURE: {
+        const registrations = normalize(action.payload, registrationSchema)
+          .entities.registrations;
         return {
           ...state,
-          byId: {
-            ...state.byId,
-            [action.payload.id]: {
-              ...action.payload
-            }
-          },
+          byId: mergeObjects(state.byId, registrations),
           items: union(state.items, [action.payload.id])
         };
       }
