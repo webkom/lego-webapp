@@ -10,6 +10,7 @@ import moment from 'moment';
 import { Captcha, TextEditor } from 'app/components/Form';
 import Button from 'app/components/Button';
 import StripeCheckout from 'react-stripe-checkout';
+import Icon from 'app/components/Icon';
 import logoImage from 'app/assets/kule.png';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Time from 'app/components/Time';
@@ -161,6 +162,12 @@ class JoinEventForm extends Component {
     return (
       <Flex column className={styles.join}>
         <div className={styles.joinHeader}>Bli med på dette arrangementet</div>
+        <Link to="/pages/rules" style={{ marginTop: 0 }}>
+          <Flex alignItems="center">
+            <Icon name="document" style={{ marginRight: '4px' }} />
+            Regler for Abakus' arrangementer
+          </Flex>
+        </Link>
         {!this.state.formOpen &&
           this.state.time && (
             <div>
