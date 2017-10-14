@@ -330,3 +330,48 @@ export function confirmStudentUser(token: string) {
     useCache: true
   });
 }
+
+export function sendForgotPasswordEmail({
+  email
+}: {
+  email: string
+}): Thunk<*> {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: User.SEND_FORGOT_PASSWORD_REQUEST,
+        endpoint: '/password-reset-request/',
+        method: 'POST',
+        body: {
+          email
+        },
+        meta: {
+          errorMessage: 'Sending av tilbakestill passord e-post feilet'
+        }
+      })
+    );
+}
+
+export function resetPassword({
+  token,
+  password
+}: {
+  token: string,
+  password: string
+}): Thunk<*> {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: User.RESET_PASSWORD,
+        endpoint: '/password-reset-perform/',
+        method: 'POST',
+        body: {
+          token,
+          password
+        },
+        meta: {
+          errorMessage: 'Tilbakestilling av passord feilet'
+        }
+      })
+    );
+}
