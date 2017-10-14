@@ -8,6 +8,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
+import mergeObjects from 'app/utils/mergeObjects';
 
 export type EventEntity = {
   id: number,
@@ -27,10 +28,7 @@ function mutateEvent(state: any, action: any) {
       const events = normalize(action.payload, eventSchema).entities.events;
       return {
         ...state,
-        byId: {
-          ...state.byId,
-          ...events
-        }
+        byId: mergeObjects(state.byId, events)
       };
     }
     case Event.REGISTER.BEGIN: {
