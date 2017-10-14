@@ -43,6 +43,10 @@ export default {
       ...resolveAsyncRoute(() => import('./UserConfirmationRoute'))
     },
     {
+      path: 'reset-password',
+      ...resolveAsyncRoute(() => import('./UserResetPasswordRoute'))
+    },
+    {
       path: ':username',
       ...resolveAsyncRoute(() => import('./UserProfileRoute'))
     }

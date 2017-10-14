@@ -210,7 +210,11 @@ export const User = {
   SEND_STUDENT_CONFIRMATION_TOKEN: generateStatuses(
     'User.SEND_STUDENT_CONFIRMATION_TOKEN'
   ),
-  CONFIRM_STUDENT_USER: generateStatuses('User.CONFIRM_STUDENT_USER')
+  CONFIRM_STUDENT_USER: generateStatuses('User.CONFIRM_STUDENT_USER'),
+  SEND_FORGOT_PASSWORD_REQUEST: generateStatuses(
+    'User.SEND_FORGOT_PASSWORD_REQUEST'
+  ),
+  RESET_PASSWORD: generateStatuses('User.RESET_PASSWORD')
 };
 
 /**
