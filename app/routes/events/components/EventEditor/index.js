@@ -238,16 +238,22 @@ function EventEditor({
 
         <Flex wrapReverse>
           <Flex column className={styles.join}>
-            <Flex alignItems="center">
-              <Field
-                name="useCaptcha"
-                label="Bruk Captcha ved påmelding"
-                fieldClassName={styles.metaField}
-                className={styles.formField}
-                component={CheckBox.Field}
-                normalize={v => !!v}
-              />
-            </Flex>
+            <Field
+              name="useCaptcha"
+              label="Bruk Captcha ved påmelding"
+              fieldClassName={styles.metaField}
+              className={styles.formField}
+              component={CheckBox.Field}
+              normalize={v => !!v}
+            />
+            <Field
+              name="feedbackRequired"
+              label="Tvungen tilbakemelding"
+              fieldClassName={styles.metaField}
+              className={styles.formField}
+              component={CheckBox.Field}
+              normalize={v => !!v}
+            />
             <Button disabled={pristine || submitting} submit>
               LAGRE
             </Button>

@@ -23,8 +23,12 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 export default compose(
-  dispatched((props, dispatch) =>
-    dispatch(fetchAll({ dateAfter: moment().format('YYYY-MM-DD') }))
+  dispatched(
+    (props, dispatch) =>
+      dispatch(fetchAll({ dateAfter: moment().format('YYYY-MM-DD') })),
+    {
+      componentWillReceiveProps: false
+    }
   ),
   connect(mapStateToProps)
 )(EventList);
