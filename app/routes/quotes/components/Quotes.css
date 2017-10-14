@@ -6,16 +6,11 @@
 
 .quoteContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 .quoteContainer h1 {
   margin: 0 0 20px;
-}
-
-.quotepageLeft {
-  width: 68%;
-  order: 1;
 }
 
 .quotepageRight {

@@ -1,3 +1,5 @@
+// @flow
+
 import styles from './Quotes.css';
 import Time from 'app/components/Time';
 import React, { Component } from 'react';
@@ -7,11 +9,11 @@ import Icon from 'app/components/Icon';
 
 type Props = {
   quote: Object,
-  deleteQuote: () => void,
-  approve: () => void,
-  unapprove: () => void,
+  deleteQuote: number => void,
+  approve: number => void,
+  unapprove: number => void,
   actionGrant: Array<string>,
-  setDisplayAdmin: () => void,
+  setDisplayAdmin: number => void,
   displayAdmin: boolean
 };
 
