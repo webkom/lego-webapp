@@ -17,14 +17,16 @@ export default class Admin extends Component {
 
   render() {
     const { actionGrant, event } = this.props;
+    const canEdit = actionGrant.includes('edit');
+    const canDelete = actionGrant.includes('delete');
     return (
       <div style={{ marginTop: '10px' }}>
-        {actionGrant.length > 0 && (
+        {(canEdit || canDelete) && (
           <ul>
             <li>
               <strong>Admin</strong>
             </li>
-            {actionGrant.includes('edit') && (
+            {canEdit && (
               <li>
                 <Link
                   to={`/events/${event.id}/administrate`}
@@ -34,7 +36,7 @@ export default class Admin extends Component {
                 </Link>
               </li>
             )}
-            {actionGrant.includes('edit') && (
+            {canEdit && (
               <li>
                 <Link
                   to={`/events/${event.id}/edit`}
@@ -44,7 +46,7 @@ export default class Admin extends Component {
                 </Link>
               </li>
             )}
-            {actionGrant.includes('delete') && (
+            {canDelete && (
               <li>
                 <a
                   onClick={() => this.handleDelete(event.id)}

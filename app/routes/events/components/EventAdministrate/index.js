@@ -71,7 +71,6 @@ export default class EventAdministrate extends Component {
       eventId,
       event,
       pools,
-      actionGrant,
       error,
       loading,
       registered,
@@ -80,10 +79,6 @@ export default class EventAdministrate extends Component {
       onQueryChanged,
       searching
     } = this.props;
-
-    if (!actionGrant.includes('edit')) {
-      return null;
-    }
 
     if (loading) {
       return <LoadingIndicator loading />;
