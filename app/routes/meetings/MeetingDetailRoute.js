@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { dispatched } from 'react-prepare';
 import {
   fetchMeeting,
   setInvitationStatus,
@@ -11,6 +10,7 @@ import {
 } from 'app/actions/MeetingActions';
 import MeetingDetailLoginRoute from './MeetingDetailLoginRoute';
 import MeetingAnswer from './components/MeetingAnswer';
+import prepare from 'app/utils/prepare';
 
 const loadData = (props, dispatch) => {
   const { meetingId } = props.params;
@@ -61,6 +61,6 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  dispatched(loadData, { componentWillReceiveProps: false }),
+  prepare(loadData, ['params.meetingId']),
   connect(mapStateToProps, mapDispatchToProps)
 )(MeetingComponent);

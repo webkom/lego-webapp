@@ -1,5 +1,5 @@
 import React from 'react';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import StudentConfirmation from './components/StudentConfirmation';

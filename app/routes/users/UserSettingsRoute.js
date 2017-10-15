@@ -2,7 +2,7 @@
 
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import UserSettings from './components/UserSettings';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import {

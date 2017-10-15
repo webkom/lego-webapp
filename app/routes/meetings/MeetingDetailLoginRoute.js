@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import {
   fetchMeeting,
   setInvitationStatus,

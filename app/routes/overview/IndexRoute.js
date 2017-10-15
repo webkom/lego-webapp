@@ -1,7 +1,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import { fetchAll } from 'app/actions/EventActions';
 import { login, logout } from 'app/actions/UserActions';
 import Overview from './components/Overview';

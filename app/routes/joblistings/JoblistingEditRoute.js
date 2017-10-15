@@ -1,7 +1,7 @@
 // @flow
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import { fetchJoblisting, editJoblisting } from 'app/actions/JoblistingActions';
 import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
 import { selectJoblistingById } from 'app/reducers/joblistings';

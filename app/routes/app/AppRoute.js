@@ -4,7 +4,7 @@ import styles from './AppRoute.css';
 import React, { PureComponent } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import Helmet from 'react-helmet';
 import Raven from 'raven-js';
 import {
