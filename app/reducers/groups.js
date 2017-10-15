@@ -53,7 +53,7 @@ export default createEntityReducer({
 export const selectGroup = createSelector(
   state => state && state.groups && state.groups.byId,
   (state, props) => props.groupId,
-  (groupsById, id) => groupsById && groupsById[String(id)]
+  (groupsById, id) => groupsById && groupsById[id]
 );
 
 export const selectGroups = createSelector(
