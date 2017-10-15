@@ -11,6 +11,7 @@ import {
   selectFeedActivitesByFeedId,
   feedIdByUserId
 } from 'app/reducers/feeds';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
 
@@ -29,7 +30,9 @@ const loadData = ({ params: { username } }, dispatch) => {
 };
 
 const mapStateToProps = (state, props) => {
-  const username = props.params.username || state.auth.username;
+  const { params } = props;
+  const username =
+    params.username === 'me' ? state.auth.username : params.username;
   const user = state.users.byId[username];
 
   const feed = user
@@ -41,15 +44,18 @@ const mapStateToProps = (state, props) => {
       })
     : undefined;
 
+  const isMe =
+    params.username === 'me' || params.username === state.auth.username;
+  const actionGrant = (user && user.actionGrant) || [];
+  const showSettings = isMe || actionGrant.includes('edit');
   return {
     username,
-    isMe:
-      !props.params.username || props.params.username === state.auth.username,
     auth: state.auth,
     loggedIn: props.loggedIn,
     user,
     feed,
-    feedItems
+    feedItems,
+    showSettings
   };
 };
 
@@ -60,5 +66,6 @@ export default compose(
   dispatched(loadData, {
     componentWillReceiveProps: false
   }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  loadingIndicator('user')
 )(UserProfile);

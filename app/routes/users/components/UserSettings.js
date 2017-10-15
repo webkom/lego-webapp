@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import type { FieldProps } from 'redux-form';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { omit } from 'lodash';
 
@@ -23,15 +24,12 @@ export type PasswordPayload = {
   retype_new_password: string
 };
 
-type Props = {
+type Props = FieldProps & {
   changePassword: PasswordPayload => Promise<void>,
-  handleSubmit: ((Object) => Promise<void>) => Promise<void>,
   updateUser: Object => Promise<void>,
-  invalid: boolean,
-  pristine: boolean,
-  submitting: boolean,
   user: any,
-  updatePicture: () => void
+  isMe: boolean,
+  updatePicture: Object => void
 };
 
 const UserSettings = (props: Props) => {
@@ -40,6 +38,7 @@ const UserSettings = (props: Props) => {
     updateUser,
     changePassword,
     invalid,
+    isMe,
     pristine,
     submitting,
     updatePicture,
@@ -121,10 +120,12 @@ const UserSettings = (props: Props) => {
         </Button>
       </Form>
 
-      <div className={styles.changePassword}>
-        <h2>Endre passord</h2>
-        <ChangePassword changePassword={changePassword} />
-      </div>
+      {isMe && (
+        <div className={styles.changePassword}>
+          <h2>Endre passord</h2>
+          <ChangePassword changePassword={changePassword} />
+        </div>
+      )}
     </div>
   );
 };
