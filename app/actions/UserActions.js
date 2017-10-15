@@ -99,6 +99,7 @@ export function updateUser(
         },
         schema: userSchema,
         meta: {
+          successMessage: 'Oppdatering av bruker fullført',
           errorMessage: 'Oppdatering av bruker feilet'
         }
       })
