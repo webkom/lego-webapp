@@ -28,9 +28,12 @@ export default class GroupView extends Component {
 
   render() {
     const { group } = this.props;
+    // We're loading a detailed representation of a group,
+    // so make sure that the text field is there:
+    const loading = !group || group.text == null;
     return (
       <section>
-        <LoadingIndicator loading={!group || !group.text}>
+        <LoadingIndicator loading={loading}>
           {group && <Group {...this.props} />}
         </LoadingIndicator>
       </section>
