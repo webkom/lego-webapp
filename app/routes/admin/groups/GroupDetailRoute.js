@@ -16,10 +16,10 @@ function mapStateToProps(state, props) {
 
 const mapDispatchToProps = { fetchGroup, updateGroup };
 
-function loadData({ groupId }, dispatch) {
-  return dispatch(fetchGroup(groupId));
+function loadData({ params }, dispatch) {
+  return dispatch(fetchGroup(params.groupId));
 }
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  prepare(loadData, ['groupId'])
+  prepare(loadData, ['params.groupId']),
+  connect(mapStateToProps, mapDispatchToProps)
 )(GroupView);
