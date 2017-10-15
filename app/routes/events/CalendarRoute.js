@@ -1,10 +1,10 @@
 // @flow
 
 import moment from 'moment';
-import { dispatched } from '@webkom/react-prepare';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetchAll } from 'app/actions/EventActions';
+import prepare from 'app/utils/prepare';
 import Calendar from './components/Calendar';
 
 const loadData = ({ year, month }, dispatch) => {
@@ -25,6 +25,8 @@ const loadData = ({ year, month }, dispatch) => {
       })
     );
   }
+
+  return Promise.resolve();
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -46,8 +48,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = { fetchAll };
 
-// Todo: send PR to @webkom/react-prepare with cwrp compare function
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  dispatched(loadData)
+  prepare(loadData, ['year', 'month'])
 )(Calendar);
