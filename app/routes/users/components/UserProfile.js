@@ -44,10 +44,6 @@ export default class UserProfile extends Component {
 
   render() {
     const { user, showSettings, feedItems, feed } = this.props;
-    if (!user) {
-      return <LoadingIndicator loading />;
-    }
-
     return (
       <div className={styles.root}>
         <Helmet title={`${user.firstName} ${user.lastName}`} />

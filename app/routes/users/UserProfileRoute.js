@@ -11,6 +11,7 @@ import {
   selectFeedActivitesByFeedId,
   feedIdByUserId
 } from 'app/reducers/feeds';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
 
@@ -65,5 +66,6 @@ export default compose(
   dispatched(loadData, {
     componentWillReceiveProps: false
   }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  loadingIndicator('user')
 )(UserProfile);
