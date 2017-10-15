@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { dispatched } from '@webkom/react-prepare';
 import {
   fetchMeeting,
   setInvitationStatus,
@@ -11,9 +10,9 @@ import {
 } from 'app/actions/MeetingActions';
 import MeetingDetailLoginRoute from './MeetingDetailLoginRoute';
 import MeetingAnswer from './components/MeetingAnswer';
+import prepare from 'app/utils/prepare';
 
 const loadData = (props, dispatch) => {
-  const { meetingId } = props.params;
   const { action, token } = props.location.query;
   const loggedIn = props.loggedIn;
   if (!loggedIn && token) {
@@ -21,18 +20,20 @@ const loadData = (props, dispatch) => {
   }
   if (action && token) {
     return dispatch(answerMeetingInvitation(action, token, loggedIn)).then(() =>
-      dispatch(fetchMeeting(meetingId))
+      dispatch(fetchMeeting(props.meetingId))
     );
   }
 };
 
 const mapStateToProps = (state, props) => {
+  const { meetingId } = props.params;
   const { action, token } = props.location.query;
   const meetingsToken = state.meetingsToken;
   const showAnswer = Boolean(
     meetingsToken.response === 'SUCCESS' && action && token
   );
   return {
+    meetingId,
     meetingsToken,
     user: props.currentUser,
     showAnswer
@@ -61,6 +62,6 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  dispatched(loadData, { componentWillReceiveProps: false }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  prepare(loadData, ['meetingId'])
 )(MeetingComponent);

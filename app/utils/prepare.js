@@ -10,11 +10,11 @@ type PrepareFn = (props: Object, dispatch: Dispatch<*>) => Promise<*>;
  */
 export default function prepare(
   prepareFn: PrepareFn,
-  watchProps: Array<string>
+  watchProps: ?Array<string>
 ) {
   // Returns true if any of the given watchProps have changed:
   const componentWillReceiveProps = (oldProps, newProps) =>
-    watchProps.some(key => oldProps[key] !== newProps[key]);
+    watchProps && watchProps.some(key => oldProps[key] !== newProps[key]);
 
   return dispatched(prepareFn, { componentWillReceiveProps });
 }
