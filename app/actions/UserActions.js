@@ -153,9 +153,14 @@ export function changePassword({
     });
 }
 
-export function updatePicture({ picture }: { picture: File }): Thunk<*> {
+export function updatePicture({
+  username,
+  picture
+}: {
+  picture: File,
+  username: string
+}): Thunk<*> {
   return (dispatch, getState) => {
-    const username = getState().auth.username;
     return dispatch(uploadFile({ file: picture })).then(action =>
       dispatch(
         updateUser(

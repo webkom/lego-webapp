@@ -9,20 +9,24 @@ import { LoginPage } from 'app/components/LoginForm';
 
 type Props = {
   children: React$Element<*>,
-  currentUser: Object
+  currentUser: Object,
+  params: {
+    username: string
+  }
 };
 
 const UserSettingsIndex = (props: Props) => {
+  const base = `/users/${props.params.username}/settings`;
   return (
     <div className={styles.root}>
       <NavigationTab title="Innstillinger">
-        <NavigationLink to="/users/me/settings/profile">Profil</NavigationLink>
-        <NavigationLink to="/users/me/settings/notifications">
+        <NavigationLink to={`${base}/profile`}>Profil</NavigationLink>
+        <NavigationLink to={`${base}/notifications`}>
           Notifikasjoner
         </NavigationLink>
-        <NavigationLink to="/users/me/settings/oauth2">OAuth2</NavigationLink>
+        <NavigationLink to={`${base}/oauth2`}>OAuth2</NavigationLink>
         {!props.currentUser.isStudent && (
-          <NavigationLink to="/users/me/settings/student-confirmation">
+          <NavigationLink to={`${base}/student-confirmation`}>
             Verifiser studentstatus
           </NavigationLink>
         )}
