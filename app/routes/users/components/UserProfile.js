@@ -19,7 +19,7 @@ const fieldTranslations = {
 
 type Props = {
   user: any,
-  isMe: boolean,
+  showSettings: boolean,
   feedItems: Array<any>,
   feed: Object
 };
@@ -43,11 +43,7 @@ export default class UserProfile extends Component {
   }
 
   render() {
-    const { user, isMe, feedItems, feed } = this.props;
-    if (!user) {
-      return <LoadingIndicator loading />;
-    }
-
+    const { user, showSettings, feedItems, feed } = this.props;
     return (
       <div className={styles.root}>
         <Helmet title={`${user.firstName} ${user.lastName}`} />
@@ -64,8 +60,10 @@ export default class UserProfile extends Component {
           <div className={styles.sidebar}>
             <Card>
               {this.renderFields()}
-              {isMe ? (
-                <Link to="/users/me/settings/profile">Settings</Link>
+              {showSettings ? (
+                <Link to={`/users/${user.username}/settings/profile`}>
+                  Instillinger
+                </Link>
               ) : (
                 ''
               )}
