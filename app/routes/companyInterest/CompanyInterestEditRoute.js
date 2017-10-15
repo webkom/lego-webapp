@@ -12,7 +12,7 @@ import CompanyInterestPage, {
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { push } from 'react-router-redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 
 const loadCompanyInterests = (props, dispatch) => {
   const { companyInterestId } = props.params;

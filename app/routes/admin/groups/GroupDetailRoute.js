@@ -1,7 +1,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import GroupView from './components/GroupView';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import { fetchGroup, updateGroup } from 'app/actions/GroupActions';
 import { selectGroup } from 'app/reducers/groups';
 

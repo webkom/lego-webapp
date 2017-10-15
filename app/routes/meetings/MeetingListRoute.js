@@ -1,7 +1,7 @@
 // @flow
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import { fetchAll } from 'app/actions/MeetingActions';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectMeetings } from 'app/reducers/meetings';

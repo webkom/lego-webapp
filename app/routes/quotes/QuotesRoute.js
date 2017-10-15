@@ -8,7 +8,7 @@ import {
   deleteQuote
 } from 'app/actions/QuoteActions';
 import QuotePage from './components/QuotePage';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import { selectSortedQuotes } from 'app/reducers/quotes';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';

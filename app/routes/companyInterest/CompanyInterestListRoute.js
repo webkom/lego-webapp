@@ -7,7 +7,7 @@ import {
 } from 'app/actions/CompanyInterestActions';
 import CompanyInterestList from './components/CompanyInterestList';
 import { selectCompanyInterestList } from 'app/reducers/companyInterest';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 
 const loadCompanyInterests = (props, dispatch) => dispatch(fetchAll());
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import { fetch as fetchCompany } from 'app/actions/CompanyActions';
 import CompanyDetail from './components/CompanyDetail';
 import { LoginPage } from 'app/components/LoginForm';
