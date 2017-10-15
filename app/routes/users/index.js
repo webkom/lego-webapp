@@ -5,11 +5,19 @@ export default {
   indexRoute: resolveAsyncRoute(() => import('../errors')),
   childRoutes: [
     {
-      path: 'me',
+      path: 'registration',
+      ...resolveAsyncRoute(() => import('./UserConfirmationRoute'))
+    },
+    {
+      path: 'reset-password',
+      ...resolveAsyncRoute(() => import('./UserResetPasswordRoute'))
+    },
+    {
+      path: ':username',
       ...resolveAsyncRoute(() => import('./UserProfileRoute'))
     },
     {
-      path: 'me/settings',
+      path: ':username/settings',
       ...resolveAsyncRoute(() => import('./components/UserSettingsIndex')),
       childRoutes: [
         {
@@ -37,18 +45,6 @@ export default {
           ...resolveAsyncRoute(() => import('./StudentConfirmationRoute'))
         }
       ]
-    },
-    {
-      path: 'registration',
-      ...resolveAsyncRoute(() => import('./UserConfirmationRoute'))
-    },
-    {
-      path: 'reset-password',
-      ...resolveAsyncRoute(() => import('./UserResetPasswordRoute'))
-    },
-    {
-      path: ':username',
-      ...resolveAsyncRoute(() => import('./UserProfileRoute'))
     }
   ]
 };

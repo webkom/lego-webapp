@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import styles from './LoadingIndicator.css';
 
-type Props = {
+export type Props = {
   loading: boolean,
   small?: boolean,
   margin?: number,
