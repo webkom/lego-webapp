@@ -92,7 +92,8 @@ export const Group = {
   UPDATE: generateStatuses('Group.UPDATE'),
   FETCH_ALL: generateStatuses('Group.FETCH_ALL'),
   CREATE: generateStatuses('Group.CREATE'),
-  REMOVE: generateStatuses('Group.REMOVE')
+  REMOVE: generateStatuses('Group.REMOVE'),
+  MEMBERSHIP_FETCH: generateStatuses('Group.MEMBERSHIP_FETCH')
 };
 
 export const CompanyInterestForm = {
