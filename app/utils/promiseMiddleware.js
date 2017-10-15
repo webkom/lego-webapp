@@ -39,6 +39,7 @@ export default function promiseMiddleware(): Middleware {
             next({
               type: SUCCESS,
               payload,
+              success: true,
               meta
             })
           ),
