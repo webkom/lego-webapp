@@ -7,7 +7,7 @@ import { push } from 'react-router-redux';
 import { omit } from 'lodash';
 import type { Thunk } from 'app/types';
 
-function fetchMemberships(groupId: string) {
+function fetchMemberships(groupId: Number) {
   return callAPI({
     types: Group.MEMBERSHIP_FETCH,
     endpoint: `/groups/${groupId}/memberships/`,
@@ -21,7 +21,7 @@ function fetchMemberships(groupId: string) {
   });
 }
 
-export function fetchInterestGroup(interestGroupId: string) {
+export function fetchInterestGroup(interestGroupId: Number) {
   return dispatch => {
     const group = dispatch(
       callAPI({
@@ -122,7 +122,7 @@ export function editInterestGroup(group: Object): Thunk<*> {
 }
 
 export function joinInterestGroup(
-  groupId: number,
+  groupId: Number,
   user: Object,
   role: string = 'member'
 ): Thunk<*> {
