@@ -13,6 +13,7 @@ import MeetingAnswer from './components/MeetingAnswer';
 import prepare from 'app/utils/prepare';
 
 const loadData = (props, dispatch) => {
+  const { meetingId } = props.params;
   const { action, token } = props.location.query;
   const loggedIn = props.loggedIn;
   if (!loggedIn && token) {
@@ -20,20 +21,18 @@ const loadData = (props, dispatch) => {
   }
   if (action && token) {
     return dispatch(answerMeetingInvitation(action, token, loggedIn)).then(() =>
-      dispatch(fetchMeeting(props.meetingId))
+      dispatch(fetchMeeting(meetingId))
     );
   }
 };
 
 const mapStateToProps = (state, props) => {
-  const { meetingId } = props.params;
   const { action, token } = props.location.query;
   const meetingsToken = state.meetingsToken;
   const showAnswer = Boolean(
     meetingsToken.response === 'SUCCESS' && action && token
   );
   return {
-    meetingId,
     meetingsToken,
     user: props.currentUser,
     showAnswer
@@ -62,6 +61,6 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  prepare(loadData, ['meetingId'])
+  prepare(loadData, ['params.meetingId']),
+  connect(mapStateToProps, mapDispatchToProps)
 )(MeetingComponent);

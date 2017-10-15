@@ -63,7 +63,7 @@ const mapDispatchToProps = { fetchUser, fetchUserFeed };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
+  prepare(loadData, ['params.username']),
   connect(mapStateToProps, mapDispatchToProps),
-  prepare(loadData, ['username']),
   loadingIndicator('user')
 )(UserProfile);
