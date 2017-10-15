@@ -16,9 +16,7 @@ const loadData = ({ params: { username } }, dispatch) =>
   dispatch(fetchUser(username));
 
 const mapStateToProps = (state, props) => {
-  const { params } = props;
-  const isMe =
-    params.username === 'me' || params.username === state.auth.username;
+  const { isMe, params } = props;
   const username = isMe ? state.auth.username : params.username;
   const user = state.users.byId[username];
   return {
