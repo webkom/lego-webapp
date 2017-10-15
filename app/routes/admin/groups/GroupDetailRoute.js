@@ -1,9 +1,9 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import GroupView from './components/GroupView';
-import { dispatched } from '@webkom/react-prepare';
 import { fetchGroup, updateGroup } from 'app/actions/GroupActions';
 import { selectGroup } from 'app/reducers/groups';
+import prepare from 'app/utils/prepare';
 
 function mapStateToProps(state, props) {
   const { groupId } = props.routeParams;
@@ -16,9 +16,10 @@ function mapStateToProps(state, props) {
 
 const mapDispatchToProps = { fetchGroup, updateGroup };
 
+function loadData({ groupId }, dispatch) {
+  return dispatch(fetchGroup(groupId));
+}
 export default compose(
-  dispatched(({ params: { groupId } }, dispatch) =>
-    dispatch(fetchGroup(groupId))
-  ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  prepare(loadData, ['groupId'])
 )(GroupView);
