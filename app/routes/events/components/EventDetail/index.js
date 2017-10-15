@@ -102,6 +102,7 @@ export default class EventDetail extends Component {
       event,
       loggedIn,
       currentUser,
+      updateUser,
       actionGrant,
       comments,
       error,
@@ -236,6 +237,7 @@ export default class EventDetail extends Component {
               event={event}
               registration={currentRegistration}
               currentUser={currentUser}
+              updateUser={updateUser}
               onToken={this.handleToken}
               onSubmit={this.handleRegistration}
             />
