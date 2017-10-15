@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
 import {
   fetchQuote,
   approve,
@@ -10,6 +9,7 @@ import QuoteDetail from './components/QuoteDetail';
 import { compose } from 'redux';
 import { selectQuoteById, selectCommentsForQuote } from 'app/reducers/quotes';
 import { LoginPage } from 'app/components/LoginForm';
+import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = (state, props) => {
@@ -37,9 +37,6 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { quoteId } }, dispatch) => dispatch(fetchQuote(quoteId)),
-    { componentWillReceiveProps: false }
-  ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  prepare(({ quoteId }, dispatch) => dispatch(fetchQuote(quoteId)), ['quoteId'])
 )(QuoteDetail);
