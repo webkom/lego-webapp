@@ -174,7 +174,7 @@ class JoinEventForm extends Component {
         <Link to="/pages/rules" style={{ marginTop: 0 }}>
           <Flex alignItems="center">
             <Icon name="document" style={{ marginRight: '4px' }} />
-            Regler for Abakus' arrangementer
+            <span>Regler for Abakus&#39; arrangementer</span>
           </Flex>
         </Link>
         {!this.state.formOpen &&

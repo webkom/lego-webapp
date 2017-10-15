@@ -1,7 +1,6 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { Form, Button, TextInput } from 'app/components/Form';
-import { Flex } from 'app/components/Layout';
 
 export type Props = {
   handleSubmit: () => void,

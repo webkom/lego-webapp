@@ -217,13 +217,18 @@ function EventEditor({
                 <div className={styles.metaList}>
                   <FieldArray name="pools" component={renderPools} />
                 </div>
-                <Field
-                  label="Merge time"
-                  name="mergeTime"
-                  component={DatePicker.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                />
+                {pools &&
+                  pools.length > 1 && (
+                    <Tooltip content="Tidspunkt for å slå sammen poolene">
+                      <Field
+                        label="Merge time"
+                        name="mergeTime"
+                        component={DatePicker.Field}
+                        fieldClassName={styles.metaField}
+                        className={styles.formField}
+                      />
+                    </Tooltip>
+                  )}
                 {isEditPage && (
                   <Admin
                     actionGrant={actionGrant}
