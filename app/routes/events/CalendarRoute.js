@@ -1,7 +1,7 @@
 // @flow
 
 import moment from 'moment';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetchAll } from 'app/actions/EventActions';
@@ -46,7 +46,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = { fetchAll };
 
-// Todo: send PR to react-prepare with cwrp compare function
+// Todo: send PR to @webkom/react-prepare with cwrp compare function
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   dispatched(loadData)

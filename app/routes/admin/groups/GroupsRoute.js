@@ -2,7 +2,7 @@
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import GroupPage from './components/GroupPage';
 import { fetchAll } from 'app/actions/GroupActions';
 import { selectGroups } from 'app/reducers/groups';

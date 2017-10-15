@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import { compose } from 'redux';
 import { fetch, editCompanyContact } from '../../actions/CompanyActions';
 import CompanyContactEditor from './components/CompanyContactEditor';

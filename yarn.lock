@@ -6,6 +6,12 @@
   version "6.0.88"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.88.tgz#f618f11a944f6a18d92b5c472028728a3e3d4b66"
 
+"@webkom/react-prepare@^0.5.3":
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/@webkom/react-prepare/-/react-prepare-0.5.3.tgz#9c8085dd8b37945b1cec9285de8fbd812a76359b"
+  dependencies:
+    babel-runtime "^6.11.6"
+
 JSONStream@^0.8.4:
   version "0.8.4"
   resolved "https://registry.yarnpkg.com/JSONStream/-/JSONStream-0.8.4.tgz#91657dfe6ff857483066132b4618b62e8f4887bd"
@@ -6858,12 +6864,6 @@ react-portal@^3.0.0, react-portal@^3.1.0:
   resolved "https://registry.yarnpkg.com/react-portal/-/react-portal-3.1.0.tgz#865c44fb72a1da106c649206936559ce891ee899"
   dependencies:
     prop-types "^15.5.8"
-
-react-prepare@^0.4.0:
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/react-prepare/-/react-prepare-0.4.0.tgz#8404560e49f601dba6dc4f75661bc0fbb9eda612"
-  dependencies:
-    babel-runtime "^6.11.6"
 
 react-proxy@^3.0.0-alpha.0:
   version "3.0.0-alpha.1"
