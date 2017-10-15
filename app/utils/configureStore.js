@@ -9,7 +9,7 @@ import Raven from 'raven-js';
 import createRavenMiddleware from 'raven-for-redux';
 import { addNotification } from 'app/actions/NotificationActions';
 import promiseMiddleware from './promiseMiddleware';
-import createErrorMiddleware from './errorMiddleware';
+import createMessageMiddleware from './messageMiddleware';
 import type { State, Store } from 'app/types';
 import config from 'app/config';
 
@@ -23,7 +23,7 @@ const loggerMiddleware = createLogger({
   collapsed: true
 });
 
-const errorMiddleware = createErrorMiddleware(message =>
+const messageMiddleware = createMessageMiddleware(message =>
   addNotification({ message })
 );
 
@@ -33,7 +33,7 @@ export default function configureStore(initialState: State): Store {
     thunkMiddleware,
     promiseMiddleware(),
     createRavenMiddleware(Raven),
-    errorMiddleware
+    messageMiddleware
   ];
 
   if (__CLIENT__) {
