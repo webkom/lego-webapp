@@ -56,6 +56,7 @@ export const transformEvent = (data, edit = false) => {
     priceMember: event.isPriced ? event.priceMember * 100 : 0,
     pools: event.pools.map((pool, i) => ({
       ...omit(pool, 'registrations'),
+      activationDate: moment(pool.activationDate).toISOString(),
       permissionGroups: pool.permissionGroups.map(group => group.value)
     }))
   };
