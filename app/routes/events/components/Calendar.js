@@ -14,8 +14,7 @@ const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
 
 type Props = {
   weekOffset: number,
-  year: string,
-  month: string,
+  date: moment,
   icalToken: string
 };
 
@@ -37,8 +36,7 @@ export default class Calendar extends Component {
   };
 
   render() {
-    const { year, month, actionGrant, icalToken } = this.props;
-    const date = moment([parseInt(year, 10), parseInt(month, 10) - 1]);
+    const { actionGrant, date, icalToken } = this.props;
 
     return (
       <div className={styles.root}>

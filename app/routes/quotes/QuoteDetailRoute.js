@@ -12,6 +12,8 @@ import { LoginPage } from 'app/components/LoginForm';
 import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
+const loadData = ({ params }, dispatch) => dispatch(fetchQuote(params.quoteId));
+
 const mapStateToProps = (state, props) => {
   const query = props.location.query;
   const quoteId = props.params.quoteId;
@@ -37,6 +39,6 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  connect(mapStateToProps, mapDispatchToProps),
-  prepare(({ quoteId }, dispatch) => dispatch(fetchQuote(quoteId)), ['quoteId'])
+  prepare(loadData, ['params.quoteId']),
+  connect(mapStateToProps, mapDispatchToProps)
 )(QuoteDetail);
