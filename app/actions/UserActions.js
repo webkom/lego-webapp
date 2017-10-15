@@ -180,7 +180,7 @@ export function fetchUser(username: string = 'me') {
     types: User.FETCH,
     endpoint: `/users/${username}/`,
     schema: userSchema,
-    force: true,
+    useCache: false,
     meta: {
       errorMessage: 'Henting av bruker feilet',
       isCurrentUser: username === 'me'
