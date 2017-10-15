@@ -1,26 +1,20 @@
+import { get } from 'lodash';
 import Raven from 'raven-js';
 
 export default function createMessageMiddleware(actionToDispatch) {
   return store => next => action => {
-    if (
-      !action.meta ||
-      !(
-        (action.success && action.meta.successMessage) ||
-        (action.error && action.meta.errorMessage)
-      )
-    ) {
+    const success = action.success && get(action, ['meta', 'successMessage']);
+    const error = action.error && get(action, ['meta', 'errorMessage']);
+    if (!(success || error)) {
       return next(action);
     }
     let message;
 
-    if (action.error) {
+    if (error) {
       Raven.captureException(action.payload);
-      message =
-        typeof action.meta.errorMessage === 'function'
-          ? action.meta.errorMessage(action.error)
-          : action.meta.errorMessage;
+      message = typeof error === 'function' ? error(action.error) : error;
     } else {
-      message = action.meta.successMessage;
+      message = success;
     }
     store.dispatch(actionToDispatch(message));
     return next(action);

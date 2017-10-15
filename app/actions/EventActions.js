@@ -208,10 +208,11 @@ export function updateFeedback(
           feedback
         },
         meta: {
+          successMessage: 'Tilbakemelding oppdatert',
           errorMessage: 'Tilbakemelding oppdatering feilet'
         }
       })
-    ).then(() => dispatch(addNotification({ message: 'Feedback updated' })));
+    );
 }
 
 export function updatePresence(
