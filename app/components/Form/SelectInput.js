@@ -14,7 +14,8 @@ type Props = {
   fetching: boolean,
   className?: string,
   selectStyle?: string,
-  onBlur: string => void,
+  onBlur: value => void,
+  shouldKeyDownEventCreateNewOption: number => boolean,
   value: any,
   options?: {}[]
 };
@@ -24,6 +25,7 @@ function SelectInput({
   fetching,
   selectStyle,
   onBlur,
+  shouldKeyDownEventCreateNewOption,
   value,
   options = [],
   ...props
@@ -34,10 +36,18 @@ function SelectInput({
         {...props}
         instanceId={name}
         multi
+        shouldKeyDownEventCreateNewOption={shouldKeyDownEventCreateNewOption}
         onBlurResetsInput={false}
         onBlur={() => onBlur(value)}
         value={value}
         options={options}
+        isLoading={fetching}
+        onInputChange={value => {
+          if (props.onSearch) {
+            props.onSearch(value);
+          }
+          return value;
+        }}
       />
     );
   }

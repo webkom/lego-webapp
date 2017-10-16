@@ -1,56 +1,80 @@
-@import 'app/styles/variables.css';
-
-.EditorWrapper {
-  position: relative;
-  background: var(--color-white);
-  padding: 15px 0;
-  border-radius: 5px;
+.hoverMenu {
+  padding: 8px 7px 6px;
+  position: absolute;
+  z-index: 1;
+  top: -10000px;
+  left: -10000px;
+  margin-top: -6px;
+  opacity: 0;
+  background-color: #222;
+  border-radius: 4px;
+  transition: opacity 0.75s;
+  margin-left: 15px;
+  display: inline-block;
 }
 
-.Editor {
-  font-weight: 400;
-  margin: 0 25px;
-  font-style: normal;
-  font-size: 18px;
-  line-height: 1.6;
-  letter-spacing: -0.003em;
+.hoverMenuButton.activeHoverMenuButton {
+  border-color: white;
 }
 
-.Editor blockquote {
-  border-left: 3px solid rgba(0, 0, 0, 0.8);
+.hoverMenuButton {
+  margin: 1px;
+  border: 1px solid #222;
+  color: #aaa;
+  cursor: pointer;
+  padding: 1px;
+}
+
+.hoverMenuButton:hover {
+  color: #fff;
+}
+
+.sideMenu {
+  line-height: 1;
+  position: absolute;
+  margin: 0 2px;
+  user-select: none;
+  font-size: 22px;
+  margin-left: -20px;
+}
+
+.toggleSideMenuButton {
+  display: inline-block;
+  cursor: pointer;
+  transition: transform 0.15s;
+}
+
+.activeToggleSideMenuButton {
+  transform: rotate(45deg);
+}
+
+.sideMenuButtons {
+  display: inline-flex;
+  margin-left: 10px;
+}
+
+.sideMenuButton {
+  margin: 0 6px;
+  z-index: 300;
+  cursor: pointer;
+  vertical-align: -webkit-baseline-middle;
+}
+
+.editor ul,
+.editor ol {
+  margin-left: 20px;
+}
+
+.editor ul {
+  list-style: disc;
+}
+
+.editor blockquote {
+  border-left: 2px solid #ddd;
+  margin-left: 0;
+  margin-right: 0;
   padding-left: 10px;
-  margin-left: -13px;
-  padding-bottom: 3px;
-  font-weight: 400;
+  color: #aaa;
   font-style: italic;
-  font-size: 24px;
-  line-height: 1.58;
-  letter-spacing: -0.003em;
 }
 
-.Editor h1 {
-  font-size: 24px;
-  font-weight: 700;
-}
-
-.Editor h2 {
-  font-size: 20px;
-  font-weight: 700;
-}
-
-.Editor ::selection {
-  background: rgba(178, 34, 34, 0.26);
-}
-
-.Editor ul,
-ol {
-  list-style-position: inside;
-}
-
-.Editor ul {
-  list-style-type: disc;
-}
-
-.Editor ol > li {
-  padding-left: 5px;
-}

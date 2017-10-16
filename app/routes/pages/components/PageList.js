@@ -4,7 +4,7 @@ import React from 'react';
 import { Link } from 'react-router';
 
 type Props = {
-  pages: Object
+  pages: Object[]
 };
 
 const PageList = ({ pages }: Props) => {

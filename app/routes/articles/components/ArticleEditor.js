@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { FlexRow } from 'app/components/FlexBox';
 import Button from 'app/components/Button';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -22,75 +22,70 @@ export type Props = {
   uploadFile: () => Promise
 };
 
-export default class ArticleEditor extends Component {
-  props: Props;
+const ArticleEditor = (props: Props) => {
+  const { isNew, uploadFile, handleSubmit, article } = props;
 
-  state = {
-    uploadOpen: true
-  };
-
-  onSubmit = data => {
+  const onSubmit = data => {
     const body = {
-      ...(!this.props.isNew && { id: this.props.articleId }),
+      ...(!props.isNew && { id: props.articleId }),
+      ...(data.cover && { cover: data.cover }),
       title: data.title,
       content: data.content,
-      cover: data.cover,
-      tags: data.tags.map(tag => tag.value)
+      tags: (data.tags || []).map(tag => tag.value)
     };
 
-    if (this.props.isNew) {
-      this.props.createArticle(body);
+    if (props.isNew) {
+      props.createArticle(body);
     } else {
-      this.props.editArticle(body);
+      props.editArticle(body);
     }
   };
 
-  render() {
-    const { isNew, uploadFile, handleSubmit, article } = this.props;
-
-    if (!isNew && !article.content) {
-      return <LoadingIndicator loading />;
-    }
-
-    return (
-      <div className={styles.root}>
-        <Form onSubmit={handleSubmit(this.onSubmit)}>
-          <Field
-            name="cover"
-            component={ImageUploadField.Field}
-            uploadFile={uploadFile}
-            aspectRatio={20 / 6}
-            img={article.cover}
-          />
-
-          <FlexRow alignItems="baseline">
-            <Field
-              placeholder="Title"
-              name="title"
-              component={TextInput.Field}
-              id="article-title"
-            />
-
-            <Button className={styles.submitButton} type="submit">
-              {isNew ? 'Create' : 'Save'}
-            </Button>
-          </FlexRow>
-          <Field
-            placeholder="Tags"
-            name="tags"
-            tags
-            component={SelectInput.Field}
-            id="article-tags"
-          />
-
-          <Field
-            placeholder="Write your article here..."
-            name="content"
-            component={EditorField}
-            uploadFile={uploadFile}
-          />
-        </Form>
-      </div>
-    );
+  if (!isNew && !article.content) {
+    return <LoadingIndicator loading />;
   }
-}
+
+  return (
+    <div className={styles.root}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Field
+          name="cover"
+          component={ImageUploadField.Field}
+          uploadFile={uploadFile}
+          aspectRatio={20 / 6}
+          img={article.cover}
+        />
+
+        <FlexRow alignItems="baseline">
+          <Field
+            placeholder="Title"
+            name="title"
+            component={TextInput.Field}
+            id="article-title"
+          />
+
+          <Button className={styles.submitButton} type="submit">
+            {isNew ? 'Create' : 'Save'}
+          </Button>
+        </FlexRow>
+        <Field
+          name="tags"
+          filter={['tags.tag']}
+          placeholder="Skriv inn tags"
+          component={SelectInput.AutocompleteField}
+          tags
+          shouldKeyDownEventCreateNewOption={({ keyCode }: number) =>
+            keyCode === 32 || keyCode === 13}
+        />
+
+        <Field
+          placeholder="Write your article here..."
+          name="content"
+          component={EditorField}
+        />
+      </Form>
+    </div>
+  );
+};
+
+export default ArticleEditor;

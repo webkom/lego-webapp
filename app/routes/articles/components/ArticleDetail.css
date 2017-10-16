@@ -1,5 +1,19 @@
+@import 'app/styles/variables.css';
+
 .root {
-  composes: container from 'app/styles/utilities.css';
+  composes: contentContainer from 'app/styles/utilities.css';
+
+  @media (--small-viewport) {
+    padding: 0;
+
+    .coverImage {
+      padding: 0;
+    }
+
+    > div {
+      padding: 0 10px;
+    }
+  }
 }
 
 .coverImage {
@@ -8,4 +22,8 @@
   overflow: hidden;
   background: #000;
   position: relative;
+}
+
+.tagRow {
+  margin-top: 8px;
 }
