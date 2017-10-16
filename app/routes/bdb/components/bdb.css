@@ -185,12 +185,12 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 
 .detailTable thead th:nth-child(1),
 .detailTable tbody td:nth-child(1) {
-  width: 100px;
+  width: 120px;
 }
 
 .detailTable thead th:nth-child(2),
 .detailTable tbody td:nth-child(2) {
-  width: 200px;
+  width: 210px;
 }
 
 .detailTable thead th:nth-child(3),
@@ -199,9 +199,9 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 .detailTable tbody td:nth-child(4),
 .detailTable thead th:nth-child(5),
 .detailTable tbody td:nth-child(5) {
-  max-width: 130px;
-  min-width: 130px;
-  width: 130px;
+  max-width: 220px;
+  min-width: 220px;
+  width: 220px;
   word-wrap: break-word;
 }
 
@@ -231,12 +231,12 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 
 .contactTable thead th:nth-child(1),
 .contactTable tbody td:nth-child(1) {
-  width: 260px;
+  width: 250px;
 }
 
 .contactTable thead th:nth-child(2),
 .contactTable tbody td:nth-child(2) {
-  width: 300px;
+  width: 270px;
 }
 
 .contactTable thead th:nth-child(3),
@@ -246,7 +246,7 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 
 .contactTable thead th:nth-child(4),
 .contactTable tbody td:nth-child(4) {
-  width: 130px;
+  width: 180px;
 }
 
 /* Events in company detailroute */
