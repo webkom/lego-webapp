@@ -9,7 +9,6 @@ import {
   removeInterestGroup
 } from 'app/actions/InterestGroupActions';
 import { uploadFile } from 'app/actions/FileActions';
-import { selectMembershipsForInterestGroup } from 'app/reducers/memberships';
 import { selectGroup } from 'app/reducers/groups';
 import InterestGroupEdit from './components/InterestGroupEdit';
 
@@ -25,28 +24,9 @@ const mapStateToProps = (state, props) => {
   const valueSelector = formValueSelector('interestGroupEditor');
   const interestGroup = selectGroup(state, { groupId: id });
 
-  const memberships = interestGroup
-    ? selectMembershipsForInterestGroup(state, {
-        interestGroupId: interestGroup.id
-      })
-    : [];
-
   return {
     interestGroup,
-    initialValues: {
-      ...interestGroup,
-      // TODO: remove this
-      members: memberships.map(m => {
-        const { user } = m;
-        return {
-          value: user.id,
-          label: user.fullName
-        };
-      }),
-      leader: memberships
-        .filter(m => m.role === 'leader')
-        .map(({ user }) => ({ value: user.id, label: user.fullName }))[0]
-    },
+    initialValues: interestGroup,
     groupMembers: valueSelector(state, 'members') || []
   };
 };
