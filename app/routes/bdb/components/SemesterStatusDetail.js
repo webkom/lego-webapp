@@ -6,6 +6,7 @@ import {
   selectMostProminentStatus
 } from '../utils.js';
 import SemesterStatusContent from './SemesterStatusContent';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
   status: Object,
@@ -23,6 +24,8 @@ export default class SemesterStatusDetail extends Component {
 
   render() {
     const { status, index, deleteSemesterStatus, editFunction } = this.props;
+
+    if (!status) return <LoadingIndicator />;
 
     return (
       <tr key={index}>
