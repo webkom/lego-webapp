@@ -1,3 +1,7 @@
+import NavigationTab from 'app/components/NavigationTab';
+import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import React from 'react';
+
 export const statusStrings = {
   company_presentation: 'Bedpres',
   course: 'Kurs',
@@ -138,3 +142,27 @@ export const getContactedStatuses = (contactedStatuses, statusString) => {
 
   return contactedStatuses;
 };
+
+export const ListNavigation = ({ title }: { title: string }) => (
+  <NavigationTab title={title}>
+    <NavigationLink to="/bdb">Liste</NavigationLink>
+    <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
+  </NavigationTab>
+);
+
+export const DetailNavigation = ({
+  title,
+  companyId
+}: {
+  title: string,
+  companyId: number
+}) => (
+  <NavigationTab title={title}>
+    <NavigationLink to="/bdb">Tilbake til liste</NavigationLink>
+    <NavigationLink to={`/bdb/${companyId}`}>Bedriftens side</NavigationLink>
+    <NavigationLink to={`/bdb/${companyId}/edit`}>
+      Endre bedriften
+    </NavigationLink>
+    <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
+  </NavigationTab>
+);

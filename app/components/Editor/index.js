@@ -8,7 +8,6 @@ import { schema } from './constants';
 import HoverMenu from './HoverMenu';
 import rules from './serializer';
 import styles from './Editor.css';
-import SideMenu from './SideMenu';
 import type { BlockType, MarkType } from './constants';
 
 const parseHtml =

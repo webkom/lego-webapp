@@ -8,7 +8,8 @@ import SemesterStatusContent from './SemesterStatusContent';
 import {
   getContactedStatuses,
   selectMostProminentStatus,
-  selectColorCode
+  selectColorCode,
+  DetailNavigation
 } from '../utils';
 
 type Props = {
@@ -92,7 +93,7 @@ export default class AddSemester extends Component {
 
     return (
       <div className={styles.root}>
-        <h1>Legg til semester</h1>
+        <DetailNavigation title="Legg til semester" companyId={companyId} />
 
         <div className={styles.detail}>
           <div className={styles.leftSection}>
