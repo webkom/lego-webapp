@@ -3,12 +3,13 @@ import styles from './bdb.css';
 import {
   sortByYearThenSemester,
   getContactedStatuses,
-  detailNavigation
+  DetailNavigation
 } from '../utils.js';
 import InfoBubble from 'app/components/InfoBubble';
 import CommentView from 'app/components/Comments/CommentView';
 import Time from 'app/components/Time';
 import { Link } from 'react-router';
+import Button from 'app/components/Button';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Image from 'app/components/Image';
 import SemesterStatusDetail from './SemesterStatusDetail';
@@ -173,7 +174,7 @@ export default class BdbDetail extends Component {
             />
           )}
 
-          {detailNavigation(title, company.id)}
+          <DetailNavigation title={title} companyId={company.id} />
 
           <div className={styles.description}>
             {company.description || 'Ingen beskrivelse tilgjengelig.'}

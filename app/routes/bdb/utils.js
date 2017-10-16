@@ -143,14 +143,20 @@ export const getContactedStatuses = (contactedStatuses, statusString) => {
   return contactedStatuses;
 };
 
-export const listNavigation = (title: string) => (
+export const ListNavigation = ({ title }: { title: string }) => (
   <NavigationTab title={title}>
     <NavigationLink to="/bdb">Liste</NavigationLink>
     <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
   </NavigationTab>
 );
 
-export const detailNavigation = (title: string, companyId: number) => (
+export const DetailNavigation = ({
+  title,
+  companyId
+}: {
+  title: string,
+  companyId: number
+}) => (
   <NavigationTab title={title}>
     <NavigationLink to="/bdb">Tilbake til liste</NavigationLink>
     <NavigationLink to={`/bdb/${companyId}`}>Bedriftens side</NavigationLink>

@@ -1,6 +1,6 @@
 import styles from './bdb.css';
 import React, { Component } from 'react';
-import { httpCheck, detailNavigation, listNavigation } from '../utils.js';
+import { httpCheck, DetailNavigation, ListNavigation } from '../utils.js';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import InfoBubble from 'app/components/InfoBubble';
 import BdbRightNav from './BdbRightNav';
@@ -66,10 +66,6 @@ class CompanyEditor extends Component {
       />
     );
 
-    const navigation = company
-      ? detailNavigation(nameField, company.id)
-      : listNavigation(nameField);
-
     return (
       <div className={styles.root}>
         <div className={styles.detail}>
@@ -82,7 +78,12 @@ class CompanyEditor extends Component {
                 aspectRatio={20 / 6}
                 img={company && company.logo}
               />
-              {navigation}
+
+              {company ? (
+                <DetailNavigation title={nameField} companyId={company.id} />
+              ) : (
+                <ListNavigation title={nameField} />
+              )}
 
               <div className={styles.description}>
                 <Field
