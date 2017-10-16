@@ -63,17 +63,16 @@ export default createEntityReducer({
         };
       }
       case Event.SOCKET_UNREGISTRATION.SUCCESS: {
+        const transformedPayload = {
+          ...action.payload,
+          fetching: false,
+          unregistrationDate: moment()
+        };
+        const registrations = normalize(transformedPayload, registrationSchema)
+          .entities.registrations;
         return {
           ...state,
-          byId: {
-            ...state.byId,
-            [action.payload.id]: {
-              ...state.byId[action.payload.id],
-              ...action.payload,
-              fetching: false,
-              unregistrationDate: moment()
-            }
-          }
+          byId: mergeObjects(state.byId, registrations)
         };
       }
       default:

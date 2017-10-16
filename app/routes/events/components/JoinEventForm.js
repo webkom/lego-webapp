@@ -212,17 +212,19 @@ class JoinEventForm extends Component {
                 component={TextEditor.Field}
               />
               {registration && (
-                <Button
-                  type="button"
-                  onClick={this.submitWithType(
-                    handleSubmit,
-                    feedbackName,
-                    'feedback'
-                  )}
-                  style={{ marginBottom: '5px' }}
-                >
-                  Oppdater feedback
-                </Button>
+                <div>
+                  <Button
+                    type="button"
+                    onClick={this.submitWithType(
+                      handleSubmit,
+                      feedbackName,
+                      'feedback'
+                    )}
+                    style={{ marginBottom: '5px' }}
+                  >
+                    Oppdater feedback
+                  </Button>
+                </div>
               )}
               {!registration &&
                 this.state.captchaOpen &&
