@@ -7,6 +7,7 @@ import Button from 'app/components/Button';
 import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
 import ProfilePicture from 'app/components/ProfilePicture';
+import Editor from 'app/components/Editor';
 
 // TODO: this is from the event detail page.
 // We can probably move this out to somewhere common.
@@ -65,13 +66,7 @@ const Logo = ({ logo }) => (
 
 const Content = ({ group }) => (
   <Flex column style={{ flex: '1' }}>
-    <Text text={group.text} />
-  </Flex>
-);
-
-const Text = ({ text }) => (
-  <Flex style={{ margin: '1em' }}>
-    <div>{text}</div>
+    <Editor value={group.text} readOnly={true} />
   </Flex>
 );
 
