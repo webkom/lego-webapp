@@ -26,6 +26,7 @@ const Title = ({ group: { name, id }, showEdit, editClick }) => (
         [Rediger]
       </NavigationLink>
     )}
+    <NavigationLink to={`/interestgroups/`}>[Tilbake]</NavigationLink>
   </NavigationTab>
 );
 
