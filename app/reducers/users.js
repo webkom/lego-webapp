@@ -1,8 +1,12 @@
 // @flow
 
+import { union } from 'lodash';
 import { createSelector } from 'reselect';
-import { User } from '../actions/ActionTypes';
+import { User, Event } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import { normalize } from 'normalizr';
+import { registrationSchema } from 'app/reducers';
+import mergeObjects from 'app/utils/mergeObjects';
 
 export type UserEntity = {
   id: number,
@@ -21,13 +25,20 @@ export default createEntityReducer({
   },
   mutate(state, action) {
     switch (action.type) {
+      case Event.SOCKET_UNREGISTRATION.SUCCESS:
+      case Event.ADMIN_REGISTER.SUCCESS: {
+        const users = normalize(action.payload, registrationSchema).entities
+          .users;
+        return {
+          ...state,
+          byId: mergeObjects(state.byId, users),
+          items: union(state.items, [action.payload.id])
+        };
+      }
       case User.CONFIRM_STUDENT_USER.SUCCESS: {
         return {
           ...state,
-          byId: {
-            ...state.byId,
-            [action.payload.username]: action.payload
-          }
+          byId: mergeObjects(state.byId, action.payload)
         };
       }
       default:

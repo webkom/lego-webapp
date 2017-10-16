@@ -35,7 +35,6 @@ const AdminRegister = ({
           component={SelectInput.AutocompleteField}
           filter={['users.user']}
           placeholder="Bruker"
-          simpleValue
         />
         <Button type="submit" disabled={invalid || pristine || submitting}>
           Registrer
