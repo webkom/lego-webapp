@@ -7,11 +7,7 @@ import CompanySingleRow from './CompanySingleRow';
 import { indexToSemester } from '../utils.js';
 import Icon from 'app/components/Icon';
 import cx from 'classnames';
-import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import type {
-  CompanyEntity,
-  SemesterStatusEntity
-} from 'app/reducers/companies';
+import type { CompanyEntity } from 'app/reducers/companies';
 
 type Props = {
   companies: Array<CompanyEntity>,
@@ -19,7 +15,7 @@ type Props = {
   startSem: number,
   query: Object,
   navigateThroughTime: Object => void,
-  editChangedStatuses: (number, number, number, Array<string>) => void
+  editChangedStatuses: (number, number, number, Array<string>) => ?Promise<*>
 };
 
 export default class CompanyList extends Component {

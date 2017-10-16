@@ -10,7 +10,7 @@ type Props = {
   company: Object,
   startYear: number,
   startSem: number,
-  editChangedStatuses: (number, number, number, Array<string>) => void
+  editChangedStatuses: (number, number, number, Array<string>) => ?Promise<*>
 };
 
 export default class CompanySingleRow extends Component {

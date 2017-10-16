@@ -9,18 +9,19 @@ import {
 } from '../utils.js';
 import SemesterStatusContent from './SemesterStatusContent';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import type { SemesterStatusEntity } from 'app/reducers/companies';
 import FileUpload from 'app/components/Upload/FileUpload';
 import truncateString from 'app/utils/truncateString';
 
 const FILE_NAME_LENGTH = 30;
 
 type Props = {
-  semesterStatus: Object,
+  semesterStatus: SemesterStatusEntity,
   index: number,
-  deleteSemesterStatus: number => void,
-  editFunction: (Object, string) => void,
-  addFileToSemester: (string, string) => void,
-  editFunction: (Object, string) => void
+  companyId: number,
+  deleteSemesterStatus: (number, number) => Promise<*>,
+  editFunction: (Object, string) => Promise<*>,
+  addFileToSemester: (string, string) => void
 };
 
 export default class SemesterStatusDetail extends Component {
@@ -58,7 +59,13 @@ export default class SemesterStatusDetail extends Component {
     name ? <a href={url}>{truncateString(name, FILE_NAME_LENGTH)}</a> : '-';
 
   render() {
-    const { semesterStatus, index, editFunction } = this.props;
+    const {
+      semesterStatus,
+      index,
+      deleteSemesterStatus,
+      editFunction,
+      companyId
+    } = this.props;
 
     if (!semesterStatus) return <LoadingIndicator />;
 

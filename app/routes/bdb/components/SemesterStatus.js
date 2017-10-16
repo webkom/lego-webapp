@@ -11,7 +11,7 @@ import SemesterStatusContent from './SemesterStatusContent';
 
 type Props = {
   semesterStatus: Object,
-  editChangedStatuses: (number, number, number, Array<string>) => void,
+  editChangedStatuses: (number, number, number, Array<string>) => ?Promise<*>,
   companyId: number,
   semIndex: number
 };

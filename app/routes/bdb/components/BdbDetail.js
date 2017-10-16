@@ -18,19 +18,20 @@ import { eventTypes } from 'app/routes/events/utils';
 import truncateString from 'app/utils/truncateString';
 import type {
   CompanyEntity,
-  SemesterStatusEntity
+  BaseSemesterStatusEntity
 } from 'app/reducers/companies';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 type Props = {
   company: CompanyEntity,
-  comments?: Array<Object>,
+  comments: Array<Object>,
   companyEvents: Array<Object>,
   currentUser: any,
   deleteSemesterStatus: (number, number) => Promise<*>,
   deleteCompanyContact: (number, number) => Promise<*>,
   loggedIn: boolean,
-  companySemesters: Array<Object>,
-  editSemesterStatus: (SemesterStatusEntity, ?Object) => Promise<*>,
+  companySemesters: Array<CompanySemesterEntity>,
+  editSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
   companyEvents: Array<Object>,
   fetching: boolean,
   editCompany: Object => void
@@ -61,6 +62,10 @@ export default class BdbDetail extends Component {
         companySemester.semester === newStatus.semester
     );
 
+    if (!companySemester) {
+      throw new Error('Could not find company semester');
+    }
+
     const sendableSemester = {
       contactedStatus: newStatus.contactedStatus,
       semesterStatusId: newStatus.id,
@@ -73,12 +78,12 @@ export default class BdbDetail extends Component {
 
   deleteSemesterStatus = (semesterId: number) => {
     const { deleteSemesterStatus, company } = this.props;
-    deleteSemesterStatus(company.id, semesterId);
+    return deleteSemesterStatus(company.id, semesterId);
   };
 
   deleteCompanyContact = (companyContactId: number) => {
     const { deleteCompanyContact, company } = this.props;
-    deleteCompanyContact(company.id, companyContactId);
+    return deleteCompanyContact(company.id, companyContactId);
   };
 
   addFileToSemester = (fileName, fileToken, type, semesterStatus) => {
@@ -109,12 +114,12 @@ export default class BdbDetail extends Component {
 
     const semesters = company.semesterStatuses
       .sort(sortByYearThenSemester)
-      .map((status, i) => (
+      .map((semesterStatus, i) => (
         <SemesterStatusDetail
-          semesterStatus={status}
+          semesterStatus={semesterStatus}
           key={i}
-          index={i}
           companyId={company.id}
+          index={i}
           deleteSemesterStatus={this.deleteSemesterStatus}
           editFunction={this.semesterStatusOnChange}
           addFileToSemester={this.addFileToSemester}
@@ -351,12 +356,14 @@ export default class BdbDetail extends Component {
 
           <div style={{ clear: 'both', marginBottom: '30px' }} />
 
-          <CommentView
-            user={currentUser}
-            commentTarget={company.commentTarget}
-            loggedIn={loggedIn}
-            comments={comments}
-          />
+          {company.commentTarget && (
+            <CommentView
+              user={currentUser}
+              commentTarget={company.commentTarget}
+              loggedIn={loggedIn}
+              comments={comments}
+            />
+          )}
         </div>
       </div>
     );

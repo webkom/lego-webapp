@@ -10,15 +10,15 @@ import TextInput from 'app/components/Form/TextInput';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import type {
   CompanyEntity,
-  SemesterStatusEntity
+  BaseSemesterStatusEntity
 } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 type Props = {
   companies: Array<CompanyEntity>,
   query: Object,
-  editSemesterStatus: (SemesterStatusEntity, ?Object) => Promise<*>,
-  addSemesterStatus: (SemesterStatusEntity, ?Object) => Promise<*>,
+  editSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
+  addSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
   addSemester: CompanySemesterEntity => Promise<*>,
   companySemesters: Array<CompanySemesterEntity>
 };
