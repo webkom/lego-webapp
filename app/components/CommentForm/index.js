@@ -10,6 +10,7 @@ import { EditorField } from 'app/components/Form';
 import Button from 'app/components/Button';
 import ProfilePicture from 'app/components/ProfilePicture';
 import { addComment } from 'app/actions/CommentActions';
+import type { CommentEntity } from 'app/actions/CommentActions';
 import styles from './CommentForm.css';
 
 const validate = values => {
@@ -24,7 +25,7 @@ type Props = FieldProps & {
   commentTarget: string,
   user: Object,
   loggedIn: boolean,
-  addComment: Object /* TODO: CommentEntity */ => void,
+  addComment: CommentEntity => void,
   parent: number,
   submitText: string,
   inlineMode: boolean
@@ -34,7 +35,7 @@ class CommentForm extends Component {
   props: Props;
 
   static defaultProps = {
-    submitText: 'Send kommentar',
+    submitText: 'Kommenter',
     autoFocus: false
   };
 
@@ -71,11 +72,7 @@ class CommentForm extends Component {
         className={cx(className, isOpen && styles.activeForm)}
       >
         <div className={styles.header}>
-          <ProfilePicture
-            size={40}
-            user={user}
-            style={{ margin: '0px 0px 0px 25px' }}
-          />
+          <ProfilePicture size={40} user={user} />
 
           {isOpen && (
             <div className={styles.author}>{this.props.user.fullName}</div>
@@ -84,9 +81,9 @@ class CommentForm extends Component {
 
         <div className={cx(styles.fields, isOpen && styles.activeFields)}>
           <Field
-            placeholder={submitText}
             autoFocus={autoFocus}
             name="text"
+            placeholder="Skriv en kommentar"
             component={EditorField}
             disableBlocks
           />
@@ -111,7 +108,7 @@ class CommentForm extends Component {
 // This should be replaced with value != null or something
 // when that's fixed.
 function hasContent(value) {
-  return value !== '<p>  </p>';
+  return value && value !== '<p>  </p>';
 }
 
 function mapStateToProps(state, props) {
