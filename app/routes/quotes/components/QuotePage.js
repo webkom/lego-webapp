@@ -9,10 +9,9 @@ type Props = {
   query: Object,
   quotes: Array<Object>,
   actionGrant: Array<String>,
-
-  approve: number => void,
-  unapprove: number => void,
-  deleteQuote: number => void,
+  approve: number => Promise<*>,
+  unapprove: number => Promise<*>,
+  deleteQuote: number => Promise<*>,
   currentUser: any,
   loggedIn: boolean,
   comments: Object

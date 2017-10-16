@@ -111,6 +111,7 @@ export const selectCommentsForQuotes = createSelector(
     if (!quotesById || !commentsById) return {};
     const comments = {};
     quotesById.map(quote => {
+      if (!quote.comments) return;
       comments[quote.id] = quote.comments.map(
         commentId => commentsById[commentId]
       );

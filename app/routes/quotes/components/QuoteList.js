@@ -5,9 +5,9 @@ import Quote from './Quote';
 
 type Props = {
   quotes: Array<Object>,
-  approve: number => void,
-  deleteQuote: number => void,
-  unapprove: number => void,
+  approve: number => Promise<*>,
+  deleteQuote: number => Promise<*>,
+  unapprove: number => Promise<*>,
   actionGrant: Array<string>,
   currentUser: any,
   loggedIn: boolean,
