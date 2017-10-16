@@ -13,7 +13,7 @@ import moment from 'moment';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { uploadFile } from 'app/actions/FileActions';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { semesterCodeToName } from './utils.js';
 

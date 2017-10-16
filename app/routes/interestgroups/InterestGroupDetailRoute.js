@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import {
   fetchInterestGroup,
   joinInterestGroup,
@@ -8,12 +8,12 @@ import {
 } from 'app/actions/InterestGroupActions';
 import InterestGroupDetail from './components/InterestGroupDetail';
 import { selectMembershipsForInterestGroup } from 'app/reducers/memberships';
-import { selectInterestGroupById } from 'app/reducers/interestGroups';
+import { selectGroup } from 'app/reducers/groups';
 
 const mapStateToProps = (state, { params: { interestGroupId } }) => {
-  const group = selectInterestGroupById(state, { interestGroupId });
+  const group = selectGroup(state, { groupId: interestGroupId });
   const memberships = selectMembershipsForInterestGroup(state, {
-    interestGroupId
+    groupId: interestGroupId
   });
 
   return {
@@ -34,7 +34,7 @@ const mapDispatchToProps = {
 export default compose(
   dispatched(
     ({ params: { interestGroupId } }, dispatch) =>
-      dispatch(fetchInterestGroup(interestGroupId)),
+      dispatch(fetchInterestGroup(Number(interestGroupId))),
     {
       componentWillReceiveProps: false
     }

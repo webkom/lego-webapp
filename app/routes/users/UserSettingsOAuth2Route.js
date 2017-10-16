@@ -1,7 +1,7 @@
 // @flow
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import UserSettingsOAuth2 from './components/UserSettingsOAuth2';
 import {
   fetchOAuth2Applications,

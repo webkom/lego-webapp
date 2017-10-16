@@ -6,7 +6,7 @@ import callAPI from 'app/actions/callAPI';
 export function fetchMeta() {
   return callAPI({
     types: Meta.FETCH,
-    force: true,
+    useCache: false,
     endpoint: '/site-meta/',
     meta: {
       errorMessage: 'Noe gikk galt med innlastingen av sida'

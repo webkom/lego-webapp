@@ -1,7 +1,6 @@
 // @flow
 
-import { createSelector } from 'reselect';
-import { InterestGroup, Membership } from '../actions/ActionTypes';
+import { InterestGroup, Membership, Group } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { without } from 'lodash';
 
@@ -19,6 +18,18 @@ export default createEntityReducer({
   },
   mutate(state, action) {
     switch (action.type) {
+      case Group.MEMBERSHIP_FETCH.SUCCESS: {
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [action.meta.groupId]: {
+              ...state.byId[action.meta.groupId],
+              memberships: action.payload.result
+            }
+          }
+        };
+      }
       case Membership.JOIN_GROUP.SUCCESS: {
         const list = state.byId[action.meta.groupId].memberships.concat(
           action.payload.result
@@ -73,22 +84,3 @@ export default createEntityReducer({
     }
   }
 });
-
-export const selectInterestGroups = createSelector(
-  state => state.interestGroups.byId,
-  state => state.interestGroups.items,
-  (interestGroupById, interestGroupIds) =>
-    interestGroupIds.map(id => interestGroupById[id])
-);
-
-export const selectInterestGroupById = createSelector(
-  state => state.interestGroups.byId,
-  (state, props) => props.interestGroupId,
-  (interestGroupById, interestGroupId) => {
-    const interestGroup = interestGroupById[interestGroupId];
-    if (interestGroup) {
-      return interestGroup;
-    }
-    return {};
-  }
-);

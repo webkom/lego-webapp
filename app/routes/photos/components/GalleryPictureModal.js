@@ -18,12 +18,16 @@ type Props = {
   loggedIn: boolean,
   gallery: Object,
   push: () => void,
-  updateGalleryCover: () => Promise,
-  deletePicture: () => Promise,
+  updateGalleryCover: () => Promise<*>,
+  deletePicture: () => Promise<*>,
   comments: []
 };
 
-export default class GalleryPictureModal extends Component {
+type State = {
+  showMore: boolean
+};
+
+export default class GalleryPictureModal extends Component<Props, State> {
   props: Props;
 
   state: State = {

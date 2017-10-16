@@ -12,7 +12,6 @@ type Props = {
   startYear: number,
   startSem: number,
   navigateThroughTime: () => void,
-  changedStatuses: Array<any>,
   companySemesters: Array<Object>,
   editSemester: () => void
 };
@@ -62,8 +61,7 @@ export default class CompanyList extends Component {
       navigateThroughTime,
       startYear,
       startSem,
-      editSemester,
-      changedStatuses
+      editSemester
     } = this.props;
 
     /*
@@ -160,7 +158,6 @@ export default class CompanyList extends Component {
                 navigateThroughTime={this.navigateThroughTime}
                 key={i}
                 editSemester={editSemester}
-                changedStatuses={changedStatuses}
               />
             ))}
           </tbody>

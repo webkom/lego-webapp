@@ -1,22 +1,41 @@
 import React, { Component } from 'react';
 import { Container, Flex } from 'app/components/Layout';
-import { LoginForm, RegisterForm } from 'app/components/LoginForm';
+import {
+  LoginForm,
+  RegisterForm,
+  ForgotPasswordForm
+} from 'app/components/LoginForm';
 import styles from './PublicFrontpage.css';
 import { Link } from 'react-router';
 
 class PublicFrontpage extends Component {
   state = {
-    registerUser: false
+    registerUser: false,
+    forgotPassword: false
   };
 
-  toggleRegisterUser = () => {
-    this.setState(state => ({
-      registerUser: !state.registerUser
-    }));
-  };
+  toggleRegisterUser = () => this.setState({ registerUser: true });
+
+  toggleForgotPassword = () => this.setState({ forgotPassword: true });
+
+  toggleBack = () =>
+    this.setState({ registerUser: false, forgotPassword: false });
 
   render() {
-    const { registerUser } = this.state;
+    const { registerUser, forgotPassword } = this.state;
+
+    let title, form;
+    if (registerUser) {
+      title = 'Registrer bruker';
+      form = <RegisterForm />;
+    } else if (forgotPassword) {
+      title = 'Glemt passord';
+      form = <ForgotPasswordForm />;
+    } else {
+      title = 'Logg inn';
+      form = <LoginForm />;
+    }
+
     return (
       <Container>
         <Flex wrap justifyContent="space-between" className={styles.root}>
@@ -28,15 +47,34 @@ class PublicFrontpage extends Component {
               className="u-mb"
               style={{ whiteSpace: 'nowrap' }}
             >
-              {registerUser ? 'Registrer bruker' : 'Logg inn'}
-              <button
-                onClick={this.toggleRegisterUser}
-                className={styles.toggleButton}
-              >
-                {registerUser ? '← Jeg har bruker' : 'Jeg er ny →'}
-              </button>
+              {title}
+              {!(registerUser || forgotPassword) && (
+                <div>
+                  <button
+                    onClick={this.toggleForgotPassword}
+                    className={styles.toggleButton}
+                  >
+                    Glemt passord
+                  </button>
+                  <span className={styles.toggleButton}>&bull;</span>
+                  <button
+                    onClick={this.toggleRegisterUser}
+                    className={styles.toggleButton}
+                  >
+                    Jeg er ny
+                  </button>
+                </div>
+              )}
+              {(registerUser || forgotPassword) && (
+                <button
+                  onClick={this.toggleBack}
+                  className={styles.toggleButton}
+                >
+                  Tilbake
+                </button>
+              )}
             </Flex>
-            {registerUser ? <RegisterForm /> : <LoginForm />}
+            {form}
           </div>
           <div className={styles.bigWelcomeBox}>
             <h2 className="u-mb">Velkommen til Abakus</h2>

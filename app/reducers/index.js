@@ -142,12 +142,8 @@ export const membershipSchema = new schema.Entity('memberships', {
   user: userSchema
 });
 export const groupSchema = new schema.Entity('groups', {
-  users: [userSchema],
-  memberships: [membershipSchema]
+  users: [userSchema]
 });
 export const meetingSchema = new schema.Entity('meetings', {
-  memberships: [membershipSchema]
-});
-export const interestGroupSchema = new schema.Entity('interestGroups', {
   memberships: [membershipSchema]
 });

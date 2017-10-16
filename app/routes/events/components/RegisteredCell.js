@@ -7,7 +7,7 @@ import styles from './Registrations.css';
 const RegisteredCell = ({ user }) => (
   <Tooltip className={styles.cell} content={user.fullName}>
     <Link to={`/users/${user.username}`}>
-      <ProfilePicture size={60} user={user} style={{ padding: '3px' }} />
+      <ProfilePicture size={56} user={user} style={{ margin: '0px 2px' }} />
     </Link>
   </Tooltip>
 );

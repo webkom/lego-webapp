@@ -20,7 +20,11 @@ function groupEvents(events) {
   const nextWeek = now.clone().add(1, 'week');
 
   const groupers = {
-    currentWeek: event => event.startTime.isSame(now, 'week'),
+    currentWeek: event =>
+      event.startTime.isBetween(
+        now.clone().startOf('day'),
+        now.clone().endOf('week')
+      ),
     nextWeek: event => event.startTime.isSame(nextWeek, 'week'),
     later: event => event.startTime.isAfter(nextWeek)
   };
@@ -28,7 +32,7 @@ function groupEvents(events) {
   return events.reduce((result, event) => {
     for (const groupName in groupers) {
       if (groupers[groupName](event)) {
-        result[groupName] = (result[groupName] || []).concat([event]);
+        result[groupName] = (result[groupName] || []).concat(event);
         return result;
       }
     }

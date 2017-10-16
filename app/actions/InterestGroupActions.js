@@ -1,34 +1,61 @@
 // @flow
 
-import { interestGroupSchema, membershipSchema } from 'app/reducers';
+import { groupSchema, membershipSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
-import { InterestGroup, Membership } from './ActionTypes';
+import { InterestGroup, Membership, Group } from './ActionTypes';
 import { push } from 'react-router-redux';
 import { omit } from 'lodash';
 import type { Thunk } from 'app/types';
 
-export function fetchInterestGroup(interestGroupId: string) {
+function fetchMemberships(groupId: Number) {
   return callAPI({
-    types: InterestGroup.FETCH,
-    endpoint: `/groups/${interestGroupId}/`,
-    schema: interestGroupSchema,
+    types: Group.MEMBERSHIP_FETCH,
+    endpoint: `/groups/${groupId}/memberships/`,
+    schema: [membershipSchema],
+    useCache: false,
     meta: {
-      errorMessage: 'Henting av interessegruppe feilet'
+      groupId: groupId,
+      errorMessage: 'Henting av medlemmene for gruppen feilet'
     },
     propagateError: true
   });
 }
 
+export function fetchInterestGroup(interestGroupId: Number) {
+  return dispatch => {
+    const group = dispatch(
+      callAPI({
+        types: InterestGroup.FETCH,
+        endpoint: `/groups/${interestGroupId}/`,
+        schema: groupSchema,
+        meta: {
+          errorMessage: 'Henting av interessegruppe feilet'
+        },
+        propagateError: true
+      })
+    );
+    const memberships = dispatch(fetchMemberships(interestGroupId));
+    return Promise.all([group, memberships]);
+  };
+}
+
 export function fetchAll() {
-  return callAPI({
-    types: InterestGroup.FETCH_ALL,
-    endpoint: '/groups/?type=interesse',
-    schema: [interestGroupSchema],
-    meta: {
-      errorMessage: 'Henting av interessegrupper feilet'
-    },
-    propagateError: true
-  });
+  return dispatch => {
+    return dispatch(
+      callAPI({
+        types: InterestGroup.FETCH_ALL,
+        endpoint: '/groups/?type=interesse',
+        schema: [groupSchema],
+        meta: {
+          errorMessage: 'Henting av interessegrupper feilet'
+        },
+        propagateError: true
+      })
+    ).then(res => {
+      const ids = res.payload.result;
+      return Promise.all(ids.map(g => dispatch(fetchMemberships(g))));
+    });
+  };
 }
 
 export function createInterestGroup(group: Object): Thunk<*> {
@@ -38,7 +65,7 @@ export function createInterestGroup(group: Object): Thunk<*> {
       callAPI({
         types: InterestGroup.CREATE,
         endpoint: '/groups/',
-        schema: interestGroupSchema,
+        schema: groupSchema,
         method: 'POST',
         body: {
           name,
@@ -52,15 +79,17 @@ export function createInterestGroup(group: Object): Thunk<*> {
           errorMessage: 'Opprettelse av interessegruppe feilet'
         }
       })
-    ).then(res => {
-      const group = res.payload.entities.interestGroups[res.payload.result];
+    ).then(action => {
+      if (!action || !action.payload || !action.payload.entities) return;
+      const group =
+        action.payload.entities.interestGroups[action.payload.result];
       dispatch(push(`/interestgroups/${group.id}`));
     });
   };
 }
 
 export function removeInterestGroup(id: string): Thunk<*> {
-  return dispatch => {
+  return dispatch =>
     dispatch(
       callAPI({
         types: InterestGroup.REMOVE,
@@ -72,17 +101,16 @@ export function removeInterestGroup(id: string): Thunk<*> {
         }
       })
     ).then(() => dispatch(push('/interestgroups/')));
-  };
 }
 
 export function editInterestGroup(group: Object): Thunk<*> {
   const { id } = group;
-  return dispatch => {
+  return dispatch =>
     dispatch(
       callAPI({
         types: InterestGroup.UPDATE,
         endpoint: `/groups/${id}/`,
-        schema: interestGroupSchema,
+        schema: groupSchema,
         method: 'PATCH',
         body: group.logo ? group : omit(group, 'logo'),
         meta: {
@@ -91,15 +119,14 @@ export function editInterestGroup(group: Object): Thunk<*> {
         }
       })
     ).then(_ => dispatch(push(`/interestgroups/${group.id}`)));
-  };
 }
 
 export function joinInterestGroup(
-  groupId: number,
+  groupId: Number,
   user: Object,
   role: string = 'member'
 ): Thunk<*> {
-  return dispatch => {
+  return dispatch =>
     dispatch(
       callAPI({
         types: Membership.JOIN_GROUP,
@@ -117,8 +144,9 @@ export function joinInterestGroup(
           username: user.username
         }
       })
-    );
-  };
+    ).then(() => {
+      return dispatch(fetchMemberships(groupId));
+    });
 }
 
 export function leaveInterestGroup(
@@ -126,7 +154,7 @@ export function leaveInterestGroup(
   groupId: Number
 ): Thunk<*> {
   return dispatch => {
-    dispatch(
+    return dispatch(
       callAPI({
         types: Membership.LEAVE_GROUP,
         endpoint: `/groups/${groupId}/memberships/${membership.id}/`,
@@ -138,6 +166,8 @@ export function leaveInterestGroup(
           errorMessage: 'Utmelding av interessegruppen failet'
         }
       })
-    );
+    ).then(_ => {
+      return dispatch(fetchMemberships(groupId));
+    });
   };
 }

@@ -1,12 +1,12 @@
 // @flow
 
+import { push } from 'react-router-redux';
 import { eventSchema, eventAdministrateSchema } from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';
-import { push } from 'react-router-redux';
 import { addNotification } from 'app/actions/NotificationActions';
-import type { Thunk } from 'app/types';
+import type { Thunk, Action } from 'app/types';
 
 export function fetchEvent(eventId: string) {
   return callAPI({
@@ -20,7 +20,9 @@ export function fetchEvent(eventId: string) {
   });
 }
 
-export function fetchAll({ dateAfter, dateBefore }: Object = {}) {
+export function fetchAll(
+  { dateAfter, dateBefore }: { dateAfter?: string, dateBefore?: string } = {}
+) {
   return callAPI({
     types: Event.FETCH,
     endpoint: `/events/${createQueryString({
@@ -46,7 +48,7 @@ export function fetchAdministrate(eventId: string) {
   });
 }
 
-export function createEvent(event: Object): Thunk<*> {
+export function createEvent(event: Object): Thunk<Promise<?Action>> {
   return dispatch =>
     dispatch(
       callAPI({
@@ -60,10 +62,15 @@ export function createEvent(event: Object): Thunk<*> {
           errorMessage: 'Opprettelse av hendelse feilet'
         }
       })
-    ).then(res => dispatch(push(`/events/${res.payload.result}/`)));
+    ).then(
+      action =>
+        action &&
+        action.payload &&
+        dispatch(push(`/events/${action.payload.result}/`))
+    );
 }
 
-export function editEvent(event: Object): Thunk<*> {
+export function editEvent(event: Object): Thunk<Promise<*>> {
   return dispatch =>
     dispatch(
       callAPI({
@@ -78,8 +85,8 @@ export function editEvent(event: Object): Thunk<*> {
     ).then(() => dispatch(push(`/events/${event.id}`)));
 }
 
-export function deleteEvent(eventId: number): Thunk<*> {
-  return dispatch => {
+export function deleteEvent(eventId: number): Thunk<Promise<*>> {
+  return dispatch =>
     dispatch(
       callAPI({
         types: Event.DELETE,
@@ -94,10 +101,9 @@ export function deleteEvent(eventId: number): Thunk<*> {
       dispatch(addNotification({ message: 'Deleted' }));
       dispatch(push('/events'));
     });
-  };
 }
 
-export function setCoverPhoto(id: number, token: string): Thunk<*> {
+export function setCoverPhoto(id: number, token: string) {
   return callAPI({
     types: Event.EDIT,
     endpoint: `/events/${id}/`,
@@ -120,7 +126,7 @@ export function register(
   return callAPI({
     types: Event.REGISTER,
     endpoint: `/events/${eventId}/registrations/`,
-    method: 'post',
+    method: 'POST',
     body: {
       captchaResponse,
       feedback
@@ -140,7 +146,7 @@ export function unregister(
   return callAPI({
     types: Event.UNREGISTER,
     endpoint: `/events/${eventId}/registrations/${registrationId}/`,
-    method: 'delete',
+    method: 'DELETE',
     body: {},
     meta: {
       errorMessage: 'Avregistrering fra hendelse feilet',
@@ -160,7 +166,7 @@ export function adminRegister(
   return callAPI({
     types: Event.ADMIN_REGISTER,
     endpoint: `/events/${eventId}/registrations/admin_register/`,
-    method: 'post',
+    method: 'POST',
     body: {
       user: userId,
       pool: poolId,
@@ -177,7 +183,7 @@ export function payment(eventId: number, token: string) {
   return callAPI({
     types: Event.PAYMENT_QUEUE,
     endpoint: `/events/${eventId}/payment/`,
-    method: 'post',
+    method: 'POST',
     body: {
       token
     },
@@ -191,8 +197,8 @@ export function updateFeedback(
   eventId: number,
   registrationId: number,
   feedback: string
-): Thunk<*> {
-  return dispatch => {
+): Thunk<Promise<*>> {
+  return dispatch =>
     dispatch(
       callAPI({
         types: Event.UPDATE_REGISTRATION,
@@ -202,19 +208,19 @@ export function updateFeedback(
           feedback
         },
         meta: {
+          successMessage: 'Tilbakemelding oppdatert',
           errorMessage: 'Tilbakemelding oppdatering feilet'
         }
       })
-    ).then(() => dispatch(addNotification({ message: 'Feedback updated' })));
-  };
+    );
 }
 
 export function updatePresence(
   eventId: number,
   registrationId: number,
   presence: string
-): Thunk<*> {
-  return dispatch => {
+): Thunk<Promise<?Action>> {
+  return dispatch =>
     dispatch(
       callAPI({
         types: Event.UPDATE_REGISTRATION,
@@ -228,15 +234,14 @@ export function updatePresence(
         }
       })
     ).then(() => dispatch(addNotification({ message: 'Presence updated' })));
-  };
 }
 
 export function updatePayment(
   eventId: number,
   registrationId: number,
   chargeStatus: string
-): Thunk<*> {
-  return dispatch => {
+): Thunk<Promise<?Action>> {
+  return dispatch =>
     dispatch(
       callAPI({
         types: Event.UPDATE_REGISTRATION,
@@ -250,11 +255,10 @@ export function updatePayment(
         }
       })
     ).then(() => dispatch(addNotification({ message: 'Payment updated' })));
-  };
 }
 
 export function follow(userId: number, eventId: number): Thunk<*> {
-  return dispatch => {
+  return dispatch =>
     dispatch(
       callAPI({
         types: Event.FOLLOW,
@@ -269,11 +273,10 @@ export function follow(userId: number, eventId: number): Thunk<*> {
         }
       })
     );
-  };
 }
 
-export function unfollow(followId: number, eventId: number): Thunk<*> {
-  return dispatch => {
+export function unfollow(followId: number, eventId: number): Thunk<Promise<*>> {
+  return dispatch =>
     dispatch(
       callAPI({
         types: Event.UNFOLLOW,
@@ -285,20 +288,15 @@ export function unfollow(followId: number, eventId: number): Thunk<*> {
         }
       })
     );
-  };
 }
 
-export function isUserFollowing(eventId: number, userId: number): Thunk<*> {
-  return dispatch => {
-    dispatch(
-      callAPI({
-        types: Event.IS_USER_FOLLOWING,
-        endpoint: `/followers-event/?target=${eventId}&follower=${userId}`,
-        method: 'GET',
-        meta: {
-          errorMessage: 'Henting av hendelse følgere feilet'
-        }
-      })
-    );
-  };
+export function isUserFollowing(eventId: number, userId: number) {
+  return callAPI({
+    types: Event.IS_USER_FOLLOWING,
+    endpoint: `/followers-event/?target=${eventId}&follower=${userId}`,
+    method: 'GET',
+    meta: {
+      errorMessage: 'Henting av hendelse følgere feilet'
+    }
+  });
 }

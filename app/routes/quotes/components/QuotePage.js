@@ -1,16 +1,27 @@
 import React from 'react';
-import QuoteRightNav from './QuoteRightNav';
 import QuoteList from './QuoteList';
 import styles from './Quotes.css';
 import cx from 'classnames';
+import { navigation } from '../utils';
 
 type Props = {
   query: Object,
   quotes: Array<Object>,
-  actionGrant: Array<String>
+  actionGrant: Array<String>,
+  approve: number => void,
+  unapprove: number => void,
+  deleteQuote: number => void
 };
 
-export default function QuotePage({ query, quotes, ...props }: Props) {
+export default function QuotePage({
+  query,
+  quotes,
+  approve,
+  unapprove,
+  actionGrant,
+  deleteQuote,
+  ...props
+}: Props) {
   let errorMessage = undefined;
   if (quotes.length === 0) {
     errorMessage =
@@ -20,14 +31,17 @@ export default function QuotePage({ query, quotes, ...props }: Props) {
   }
   return (
     <div className={cx(styles.root, styles.quoteContainer)}>
-      <div className={styles.quotepageLeft}>
-        <div className={styles.quoteTop}>
-          <h1>Sitater</h1>
-        </div>
-        {errorMessage || <QuoteList {...props} quotes={quotes} />}
-      </div>
+      {navigation('Sitater', actionGrant)}
 
-      <QuoteRightNav query={query} actionGrant={props.actionGrant} />
+      {errorMessage || (
+        <QuoteList
+          approve={approve}
+          unapprove={unapprove}
+          deleteQuote={deleteQuote}
+          actionGrant={actionGrant}
+          quotes={quotes}
+        />
+      )}
     </div>
   );
 }

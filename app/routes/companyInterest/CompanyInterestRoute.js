@@ -8,7 +8,7 @@ import CompanyInterestPage, {
   EVENT_TYPES
 } from './components/CompanyInterestPage';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 
 const loadSemesters = (props, dispatch) => dispatch(fetchSemesters());
 

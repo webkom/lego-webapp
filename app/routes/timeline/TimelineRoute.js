@@ -2,7 +2,7 @@
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 
 import TimelinePage from './components/TimelinePage';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';

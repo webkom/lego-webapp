@@ -7,7 +7,8 @@ import mergeObjects from 'app/utils/mergeObjects';
 export default createEntityReducer({
   key: 'groups',
   types: {
-    fetch: Group.FETCH
+    fetch: Group.FETCH,
+    mutate: Group.MEMBERSHIP_FETCH
   },
   mutate(state, action) {
     const replaceMemberships = memberships => {
@@ -31,6 +32,18 @@ export default createEntityReducer({
         const memberships = without(group.memberships, id);
         return replaceMemberships(memberships);
       }
+      case Group.MEMBERSHIP_FETCH.SUCCESS: {
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [action.meta.groupId]: {
+              ...state.byId[action.meta.groupId],
+              memberships: action.payload.result
+            }
+          }
+        };
+      }
       default:
         return state;
     }
@@ -38,26 +51,9 @@ export default createEntityReducer({
 });
 
 export const selectGroup = createSelector(
-  state => state.groups.byId,
-  state => state.memberships.byId,
-  state => state.users.byId,
+  state => state && state.groups && state.groups.byId,
   (state, props) => props.groupId,
-  (groupsById, membershipsById, usersById, groupId) => {
-    const group = groupsById[groupId];
-    if (group && group.memberships) {
-      return {
-        ...group,
-        memberships: group.memberships.map(id => {
-          const membership = membershipsById[id];
-          return {
-            ...membership,
-            user: usersById[membership.user]
-          };
-        })
-      };
-    }
-    return group;
-  }
+  (groupsById, id) => groupsById && groupsById[id]
 );
 
 export const selectGroups = createSelector(

@@ -92,7 +92,8 @@ export const Group = {
   UPDATE: generateStatuses('Group.UPDATE'),
   FETCH_ALL: generateStatuses('Group.FETCH_ALL'),
   CREATE: generateStatuses('Group.CREATE'),
-  REMOVE: generateStatuses('Group.REMOVE')
+  REMOVE: generateStatuses('Group.REMOVE'),
+  MEMBERSHIP_FETCH: generateStatuses('Group.MEMBERSHIP_FETCH')
 };
 
 export const CompanyInterestForm = {
@@ -210,7 +211,11 @@ export const User = {
   SEND_STUDENT_CONFIRMATION_TOKEN: generateStatuses(
     'User.SEND_STUDENT_CONFIRMATION_TOKEN'
   ),
-  CONFIRM_STUDENT_USER: generateStatuses('User.CONFIRM_STUDENT_USER')
+  CONFIRM_STUDENT_USER: generateStatuses('User.CONFIRM_STUDENT_USER'),
+  SEND_FORGOT_PASSWORD_REQUEST: generateStatuses(
+    'User.SEND_FORGOT_PASSWORD_REQUEST'
+  ),
+  RESET_PASSWORD: generateStatuses('User.RESET_PASSWORD')
 };
 
 /**

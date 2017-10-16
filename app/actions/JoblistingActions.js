@@ -33,7 +33,7 @@ export function fetchJoblisting(id: number) {
 }
 
 export function deleteJoblisting(id: number): Thunk<*> {
-  return dispatch => {
+  return dispatch =>
     dispatch(
       callAPI({
         types: Joblistings.DELETE,
@@ -47,7 +47,6 @@ export function deleteJoblisting(id: number): Thunk<*> {
     ).then(() => {
       dispatch(push('/joblistings/'));
     });
-  };
 }
 
 export function createJoblisting({
@@ -68,7 +67,7 @@ export function createJoblisting({
   return dispatch => {
     dispatch(startSubmit('joblistingEditor'));
 
-    dispatch(
+    return dispatch(
       callAPI({
         types: Joblistings.CREATE,
         endpoint: '/joblistings/',
@@ -94,8 +93,9 @@ export function createJoblisting({
         }
       })
     )
-      .then(result => {
-        const id = result.payload.result;
+      .then(action => {
+        if (!action || !action.payload) return;
+        const id = action.payload.result;
         dispatch(stopSubmit('joblistingEditor'));
         dispatch(push(`/joblistings/${id}`));
       })
@@ -124,11 +124,11 @@ export function editJoblisting({
 }: Object): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('joblistingEditor'));
-    dispatch(
+    return dispatch(
       callAPI({
         types: Joblistings.EDIT,
         endpoint: `/joblistings/${id}/`,
-        method: 'put',
+        method: 'PUT',
         body: {
           id,
           title,

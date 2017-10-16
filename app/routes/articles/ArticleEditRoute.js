@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import { fetchArticle, editArticle } from 'app/actions/ArticleActions';
 import ArticleEditor from './components/ArticleEditor';
 import { selectArticleById } from 'app/reducers/articles';

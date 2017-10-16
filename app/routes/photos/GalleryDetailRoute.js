@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import { fetchGallery, addPictures } from 'app/actions/GalleryActions';
 import { push } from 'react-router-redux';
 import GalleryDetail from './components/GalleryDetail';

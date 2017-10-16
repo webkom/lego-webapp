@@ -1,14 +1,20 @@
 // @flow
 
 import moment from 'moment';
-import { dispatched } from 'react-prepare';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetchAll } from 'app/actions/EventActions';
+import prepare from 'app/utils/prepare';
 import Calendar from './components/Calendar';
 
-const loadData = ({ year, month }, dispatch) => {
-  const date = moment([parseInt(year, 10), parseInt(month, 10) - 1]);
+const getDate = ({ params }) => {
+  const year = params.year || moment().year();
+  const month = params.month || moment().month() + 1;
+  return moment([parseInt(year, 10), parseInt(month, 10) - 1]);
+};
+
+const loadData = (props, dispatch) => {
+  const date = getDate(props);
   if (date.isValid()) {
     const dateAfter = date
       .clone()
@@ -25,20 +31,17 @@ const loadData = ({ year, month }, dispatch) => {
       })
     );
   }
+
+  return Promise.resolve();
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const {
-    year = moment().year(),
-    month = moment().month() + 1
-  } = ownProps.params;
   const user = ownProps.currentUser;
   const icalToken = user ? user.icalToken : null;
 
   const actionGrant = state.events.actionGrant;
   return {
-    year,
-    month,
+    date: getDate(ownProps),
     actionGrant,
     icalToken
   };
@@ -46,8 +49,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = { fetchAll };
 
-// Todo: send PR to react-prepare with cwrp compare function
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  dispatched(loadData)
+  prepare(loadData, ['date']),
+  connect(mapStateToProps, mapDispatchToProps)
 )(Calendar);

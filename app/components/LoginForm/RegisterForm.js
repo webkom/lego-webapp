@@ -1,15 +1,16 @@
+// @flow
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm, Field, SubmissionError } from 'redux-form';
+import { reduxForm, Field, SubmissionError, FormProps } from 'redux-form';
 import { sendRegistrationEmail } from 'app/actions/UserActions';
 import { Form, TextInput, Captcha } from '../Form';
 import Button from '../Button';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 
 type Props = {
-  login: (username: string, password: string) => any
-};
+  sendRegistrationEmail: ({ email: string, captchaResponse: string }) => any
+} & FormProps;
 
 class RegisterForm extends Component {
   props: Props;
@@ -48,7 +49,11 @@ class RegisterForm extends Component {
     const { handleSubmit, invalid, pristine, submitting } = this.props;
 
     if (this.state.submitted) {
-      return <div>Sjekk eposten din</div>;
+      return (
+        <div>
+          Vi har sendt en e-post til deg hvor du kan fortsette registreringen.
+        </div>
+      );
     }
     return (
       <Form onSubmit={handleSubmit(this.onSubmit)}>

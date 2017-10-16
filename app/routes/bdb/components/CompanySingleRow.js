@@ -9,7 +9,6 @@ type Props = {
   startYear: number,
   startSem: number,
   editSemester: () => void,
-  changedStatuses: Array<Object>,
   companySemesters: Array<Object>
 };
 
@@ -29,7 +28,7 @@ export default class CompanySingleRow extends Component {
   };
 
   render() {
-    const { company, editSemester, changedStatuses } = this.props;
+    const { company, editSemester } = this.props;
 
     const semesters = [
       this.semesterElement(0),
@@ -42,7 +41,6 @@ export default class CompanySingleRow extends Component {
         semesterStatus={status}
         editSemester={editSemester}
         companyId={company.id}
-        changedStatuses={changedStatuses}
       />
     ));
 

@@ -61,7 +61,7 @@ export function addCompany(data: Object): Thunk<*> {
       callAPI({
         types: Company.ADD,
         endpoint: '/companies/',
-        method: 'post',
+        method: 'POST',
         body: data,
         schema: companySchema,
         meta: {
@@ -70,6 +70,7 @@ export function addCompany(data: Object): Thunk<*> {
       })
     )
       .then(action => {
+        if (!action || !action.payload) return;
         const id = action.payload.result;
         dispatch(stopSubmit('company'));
         dispatch(addNotification({ message: 'Bedrift lagt til.' }));
@@ -132,7 +133,7 @@ export function addSemesterStatus(
       callAPI({
         types: Company.ADD_SEMESTER_STATUS,
         endpoint: `/companies/${companyId}/semester-statuses/`,
-        method: 'post',
+        method: 'POST',
         body: data,
         meta: {
           errorMessage: 'Legg til semester status feilet',
@@ -187,7 +188,7 @@ export function deleteSemesterStatus(
       callAPI({
         types: Company.DELETE_SEMESTER_STATUS,
         endpoint: `/companies/${companyId}/semester-statuses/${semesterId}/`,
-        method: 'delete',
+        method: 'DELETE',
         meta: {
           companyId,
           semesterId,
@@ -224,7 +225,7 @@ export function addCompanyContact({
       callAPI({
         types: Company.ADD_COMPANY_CONTACT,
         endpoint: `/companies/${companyId}/company-contacts/`,
-        method: 'post',
+        method: 'POST',
         body: {
           name,
           role,

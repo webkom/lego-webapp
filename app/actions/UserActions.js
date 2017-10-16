@@ -11,7 +11,7 @@ import { User } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
 import { addNotification } from 'app/actions/NotificationActions';
-import type { Thunk } from 'app/types';
+import type { Thunk, Action } from 'app/types';
 
 const USER_STORAGE_KEY = 'lego.auth';
 
@@ -27,13 +27,16 @@ function removeToken() {
   return cookie.remove(USER_STORAGE_KEY, { path: '/' });
 }
 
-export function login(username: string, password: string): Thunk<*> {
+export function login(
+  username: string,
+  password: string
+): Thunk<Promise<?Action>> {
   return dispatch =>
     dispatch(
       callAPI({
         types: User.LOGIN,
         endpoint: '//authorization/token-auth/',
-        method: 'post',
+        method: 'POST',
         body: {
           username,
           password
@@ -43,6 +46,7 @@ export function login(username: string, password: string): Thunk<*> {
         }
       })
     ).then(action => {
+      if (!action || !action.payload) return;
       const { user, token } = action.payload;
       saveToken(token);
       dispatch(fetchMeta());
@@ -56,7 +60,7 @@ export function login(username: string, password: string): Thunk<*> {
     });
 }
 
-export function logout(): Thunk<*> {
+export function logout(): Thunk<void> {
   return dispatch => {
     removeToken();
     dispatch({ type: User.LOGOUT });
@@ -66,9 +70,9 @@ export function logout(): Thunk<*> {
 }
 
 export function updateUser(
-  user: Object,
-  options: Object = { noRedirect: false }
-): Thunk<*> {
+  user: Object /*Todo: UserModel*/,
+  options: { noRedirect: boolean } = { noRedirect: false }
+): Thunk<Promise<?Action>> {
   const {
     username,
     firstName,
@@ -95,10 +99,12 @@ export function updateUser(
         },
         schema: userSchema,
         meta: {
+          successMessage: 'Oppdatering av bruker fullført',
           errorMessage: 'Oppdatering av bruker feilet'
         }
       })
     ).then(action => {
+      if (!action || !action.payload) return;
       if (!options.noRedirect) {
         dispatch(push(`/users/${action.payload.result || 'me'}`));
       }
@@ -133,7 +139,12 @@ export function changePassword({
         }
       })
     ).then(action => {
-      dispatch(push(`/users/${action.payload.result || 'me'}`));
+      dispatch(
+        push(
+          `/users/${(action && action.payload && action.payload.result) ||
+            'me'}`
+        )
+      );
       dispatch(
         addNotification({
           message: 'Passordet ble endret',
@@ -143,13 +154,21 @@ export function changePassword({
     });
 }
 
-export function updatePicture({ picture }: { picture: File }): Thunk<*> {
+export function updatePicture({
+  username,
+  picture
+}: {
+  picture: File,
+  username: string
+}): Thunk<*> {
   return (dispatch, getState) => {
-    const username = getState().auth.username;
     return dispatch(uploadFile({ file: picture })).then(action =>
       dispatch(
         updateUser(
-          { username, profilePicture: action.meta.fileToken },
+          {
+            username,
+            profilePicture: action && action.meta ? action.meta.fileToken : null
+          },
           { noRedirect: true }
         )
       )
@@ -162,7 +181,7 @@ export function fetchUser(username: string = 'me') {
     types: User.FETCH,
     endpoint: `/users/${username}/`,
     schema: userSchema,
-    force: true,
+    useCache: false,
     meta: {
       errorMessage: 'Henting av bruker feilet',
       isCurrentUser: username === 'me'
@@ -180,7 +199,7 @@ export function refreshToken(token: string) {
   return callAPI({
     types: User.LOGIN,
     endpoint: '//authorization/token-auth/refresh/',
-    method: 'post',
+    method: 'POST',
     body: { token }
   });
 }
@@ -200,7 +219,7 @@ export function loginWithExistingToken(token: string): Thunk<*> {
 
     if (expirationDate.isSame(now, 'day')) {
       return dispatch(refreshToken(token))
-        .then(action => saveToken(action.payload))
+        .then(action => action && saveToken(action.payload))
         .catch(err => {
           removeToken();
           throw err;
@@ -280,6 +299,7 @@ export function createUser(token: string, user: string): Thunk<*> {
         }
       })
     ).then(action => {
+      if (!action || !action.payload) return;
       const { user, token } = action.payload;
       saveToken(token);
 
@@ -315,4 +335,49 @@ export function confirmStudentUser(token: string) {
     },
     useCache: true
   });
+}
+
+export function sendForgotPasswordEmail({
+  email
+}: {
+  email: string
+}): Thunk<*> {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: User.SEND_FORGOT_PASSWORD_REQUEST,
+        endpoint: '/password-reset-request/',
+        method: 'POST',
+        body: {
+          email
+        },
+        meta: {
+          errorMessage: 'Sending av tilbakestill passord e-post feilet'
+        }
+      })
+    );
+}
+
+export function resetPassword({
+  token,
+  password
+}: {
+  token: string,
+  password: string
+}): Thunk<*> {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: User.RESET_PASSWORD,
+        endpoint: '/password-reset-perform/',
+        method: 'POST',
+        body: {
+          token,
+          password
+        },
+        meta: {
+          errorMessage: 'Tilbakestilling av passord feilet'
+        }
+      })
+    );
 }

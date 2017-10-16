@@ -5,7 +5,7 @@ import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import { Provider } from 'react-redux';
 import cookie from 'react-cookie';
-import { prepare } from 'react-prepare';
+import { prepare } from '@webkom/react-prepare';
 import Helmet from 'react-helmet';
 import Raven from 'raven';
 import routes from '../app/routes';
