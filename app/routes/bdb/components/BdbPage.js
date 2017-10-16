@@ -101,8 +101,13 @@ export default class BdbPage extends Component {
 
   updateFilters = (name: string, value: string | boolean) => {
     // For OptionsBox
-    const filters = this.state.filters;
-    filters[name] = value;
+    const filters = { ...this.state.filters, [name]: value };
+    this.setState({ filters });
+  };
+
+  removeFilters = (name: string) => {
+    // For OptionsBox
+    const filters = { ...this.state.filters, [name]: undefined };
     this.setState({ filters });
   };
 
@@ -168,6 +173,7 @@ export default class BdbPage extends Component {
         <OptionsBox
           companies={companies}
           updateFilters={this.updateFilters}
+          removeFilters={this.removeFilters}
           filters={this.state.filters}
         />
 
