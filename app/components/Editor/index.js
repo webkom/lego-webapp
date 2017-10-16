@@ -6,16 +6,20 @@ import { resetKeyGenerator } from 'slate';
 import Html from 'slate-html-serializer';
 import { schema } from './constants';
 import HoverMenu from './HoverMenu';
+import isHotkey from 'is-hotkey';
 import rules from './serializer';
 import styles from './Editor.css';
-import SideMenu from './SideMenu';
 import type { BlockType, MarkType } from './constants';
 
 const parseHtml =
   typeof DOMParser === 'undefined' && require('parse5').parseFragment;
 const htmlArgs = { rules };
 if (parseHtml) htmlArgs.parseHtml = parseHtml;
-const html = new Html(htmlArgs);
+const serializer = new Html(htmlArgs);
+const isBoldHotkey = isHotkey('mod+b');
+const isItalicHotkey = isHotkey('mod+i');
+const isUnderlinedHotkey = isHotkey('mod+u');
+const isCodeHotkey = isHotkey('mod+`');
 
 type Document = {
   getClosest: (string, () => boolean) => void
@@ -37,12 +41,14 @@ type Change = {
 
 type Props = {
   value?: string,
-  onChange: string => void
+  placeholder?: string,
+  onChange: string => void,
+  onBlur?: () => void,
+  onFocus?: () => void
 };
 
 type State = {
-  menu?: ReactElement,
-  serialized: string,
+  menu?: HTMLElement,
   state: EditorState
 };
 
@@ -53,11 +59,10 @@ class CustomEditor extends Component {
   constructor(props: Props) {
     super(props);
     resetKeyGenerator();
-    const serialized = this.props.value || '<p></p>';
+    const content = this.props.value || '<p></p>';
+
     this.state = {
-      state: html.deserialize(serialized),
-      schema,
-      serialized
+      state: serializer.deserialize(content)
     };
   }
 
@@ -69,7 +74,7 @@ class CustomEditor extends Component {
     this.updateHoverMenu();
   };
 
-  getType = chars => {
+  getType = (chars: string) => {
     switch (chars) {
       case '*':
       case '-':
@@ -88,44 +93,54 @@ class CustomEditor extends Component {
 
   onChange = ({ state }: Change) => {
     if (state.document !== this.state.state.document) {
-      this.props.onChange(html.serialize(state));
+      this.props.onChange(serializer.serialize(state));
     }
 
     this.setState({ state });
   };
 
-  keyDownToggleMarks = (e: SyntheticInputEvent, data, change: Change) => {
-    if (!data.isMod) return;
+  onBlur = () => {
+    if (this.props.onBlur) {
+      this.props.onBlur();
+    }
+  };
+
+  onFocus = () => {
+    if (this.props.onFocus) {
+      this.props.onFocus();
+    }
+  };
+
+  onKeyDown = (e: SyntheticInputEvent, data: Object, change: Change) => {
     let mark;
-    switch (data.key) {
-      case 'b':
-        mark = 'bold';
-        break;
-      case 'i':
-        mark = 'italic';
-        break;
-      case 'u':
-        mark = 'underline';
-        break;
-      default:
-        return;
+
+    if (data.key === 'space') {
+      return this.onSpace(e, change);
+    }
+
+    if (data.key === 'backspace') {
+      return this.onBackspace(e, change);
+    }
+
+    if (data.key === 'enter') {
+      return this.onEnter(e, change);
+    }
+
+    if (isBoldHotkey(e)) {
+      mark = 'bold';
+    } else if (isItalicHotkey(e)) {
+      mark = 'italic';
+    } else if (isUnderlinedHotkey(e)) {
+      mark = 'underlined';
+    } else if (isCodeHotkey(e)) {
+      mark = 'code';
+    } else {
+      return;
     }
 
     e.preventDefault();
     change.toggleMark(mark);
     return true;
-  };
-
-  onKeyDown = (e: SyntheticInputEvent, data, change: Change) => {
-    this.keyDownToggleMarks(e, data, change);
-    switch (data.key) {
-      case 'space':
-        return this.onSpace(e, change);
-      case 'backspace':
-        return this.onBackspace(e, change);
-      case 'enter':
-        return this.onEnter(e, change);
-    }
   };
 
   onSpace = (e: SyntheticInputEvent, change: Change) => {
@@ -247,7 +262,7 @@ class CustomEditor extends Component {
     return state.blocks.some(node => node.type === type);
   };
 
-  onOpenHoverMenu = portal => {
+  onOpenHoverMenu = (portal: HTMLElement) => {
     this.setState({ menu: portal.firstChild });
   };
 
@@ -263,7 +278,7 @@ class CustomEditor extends Component {
     const selection = window.getSelection();
     const range = selection.getRangeAt(0);
     const rect = range.getBoundingClientRect();
-    menu.style.opacity = 1;
+    menu.style.opacity = '1';
     menu.style.top = `${rect.top + window.scrollY - menu.offsetHeight}px`;
     menu.style.left = `${rect.left +
       window.scrollX -
@@ -281,14 +296,15 @@ class CustomEditor extends Component {
             onToggleBlock={this.onToggleBlock}
             onToggleMark={this.onToggleMark}
           />
-          {/*<SideMenu state={this.state.state} />*/}
           <Editor
+            onBlur={this.onBlur}
+            onFocus={this.onFocus}
             schema={schema}
+            placeholder={this.props.placeholder || 'Enter some rich text...'}
             state={this.state.state}
             onChange={this.onChange}
             onKeyDown={this.onKeyDown}
           />
-          <div>{this.state.serialized}</div>
         </div>
       </div>
     );
