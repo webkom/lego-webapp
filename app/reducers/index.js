@@ -31,7 +31,6 @@ import notificationSettings from './notificationSettings';
 import galleries from './galleries';
 import comments from './comments';
 import pages from './pages';
-import interestGroups from './interestGroups';
 import companyInterest from './companyInterest';
 import joblistings from './joblistings';
 import announcements from './announcements';
@@ -57,7 +56,6 @@ const reducers = {
   meetingInvitations,
   memberships,
   companyInterest,
-  interestGroups,
   search,
   comments,
   auth,

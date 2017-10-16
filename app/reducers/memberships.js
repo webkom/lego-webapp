@@ -20,31 +20,6 @@ export default createEntityReducer({
           })
         };
       }
-      case Membership.MEMBER_SET.SUCCESS: {
-        const groupId = action.meta.id;
-        const newMembershipIds = action.payload.result;
-        const currentMemberships = state.items.map(id => state.byId[id]);
-
-        const newMemberships = currentMemberships.filter(
-          m =>
-            // we want the memberships that are from other groups,
-            // as well as the memberships which Id is in the `newMembershipIds`
-            m.abakusGroup !== groupId || newMembershipIds.includes(m.id)
-        );
-        const newMembershipItems = newMemberships.map(m => m.id);
-
-        const byId = {};
-        newMemberships.map(m => (byId[m.id] = m));
-        const items = newMembershipItems;
-
-        const returnState = {
-          ...state,
-          byId,
-          items
-        };
-
-        return returnState;
-      }
     }
     return state;
   }
