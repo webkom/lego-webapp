@@ -10,18 +10,26 @@ type Props = {
   /** Dark background  */
   dark?: boolean,
   /** Small */
-  tight?: boolean
+  tight?: boolean,
+  /** Shadow */
+  shadow?: boolean
 };
 
 function Card({
   children,
   dark = false,
   tight = false,
+  shadow = true,
   ...htmlAttributes
 }: Props) {
   return (
     <div
-      className={cx(styles.card, dark && styles.dark, tight && styles.tight)}
+      className={cx(
+        styles.card,
+        dark && styles.dark,
+        tight && styles.tight,
+        shadow && styles.shadow
+      )}
       {...htmlAttributes}
     >
       {children}
