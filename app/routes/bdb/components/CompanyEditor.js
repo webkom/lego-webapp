@@ -17,7 +17,10 @@ import {
 } from 'app/components/Form';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { reduxForm } from 'redux-form';
-import type { CompanyEntity } from 'app/reducers/companies';
+import type {
+  CompanyEntity,
+  SubmitCompanyEntity
+} from 'app/reducers/companies';
 
 type Props = {
   uploadFile: Object => Promise<*>,
@@ -26,11 +29,11 @@ type Props = {
   handleSubmit: ((CompanyEntity) => Promise<*>) => void,
   autoFocus: any,
   fetching: boolean,
-  submitFunction: (CompanyEntity, ?number) => Promise<*>
+  submitFunction: (SubmitCompanyEntity, ?number) => Promise<*>
 };
 
 class CompanyEditor extends Component {
-  onSubmit = formContent => {
+  onSubmit = (formContent: Object) => {
     const { company, submitFunction } = this.props;
     return submitFunction({
       ...formContent,

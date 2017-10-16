@@ -14,7 +14,7 @@ import {
 
 type Props = {
   semesterStatus: Object,
-  editFunction: string => void,
+  editFunction: string => ?Promise<*>,
   style?: Object
 };
 

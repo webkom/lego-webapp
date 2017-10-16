@@ -7,7 +7,7 @@ import { SelectInput } from 'app/components/Form';
 import type { CompanyEntity } from 'app/reducers/companies';
 
 type Props = {
-  companies: Array<Object>,
+  companies: Array<CompanyEntity>,
   updateFilters: (string, boolean | string) => void,
   removeFilters: string => void,
   filters: Object

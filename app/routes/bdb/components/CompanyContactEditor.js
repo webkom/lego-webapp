@@ -34,7 +34,7 @@ class CompanyContactEditor extends Component {
         companyId: company.id,
         companyContactId: companyContact && companyContact.id
       },
-      true
+      { detail: true }
     );
   };
 

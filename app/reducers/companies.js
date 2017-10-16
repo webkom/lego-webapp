@@ -8,13 +8,13 @@ import { mutateComments } from 'app/reducers/comments';
 import joinReducers from 'app/utils/joinReducers';
 import { selectCompanySemesters } from './companySemesters';
 import mergeObjects from 'app/utils/mergeObjects';
+import type { UserEntity } from 'app/reducers/users';
 
-export type CompanyEntity = {
+export type BaseCompanyEntity = {
   name: string,
-  id?: number,
   companyId?: number,
   description?: string,
-  studentContact?: Object,
+  studentContact?: UserEntity,
   phone?: string,
   companyType?: string,
   website?: string,
@@ -23,18 +23,25 @@ export type CompanyEntity = {
   active?: boolean,
   adminComment?: string,
   companyType?: string,
-  comments: Array<number>,
+  commentTarget: string,
+  comments: Array<{ id: string, parent: string }>,
   semesterStatuses: Array<SemesterStatusEntity>,
   logo?: string,
   files?: Array<string>,
   companyContacts: Array<CompanyContactEntity>
 };
 
-export type SemesterStatusEntity = {
+export type CompanyEntity = { ...BaseCompanyEntity, id: number };
+
+export type SubmitCompanyEntity = {
+  ...BaseCompanyEntity,
+  studentContact?: number
+};
+
+export type BaseSemesterStatusEntity = {
   id?: number,
   companyId?: number,
-  semester: number | string,
-  year?: string,
+  semester?: number,
   contactedStatus: Array<string>,
   contract?: string,
   contractName?: string,
@@ -44,13 +51,25 @@ export type SemesterStatusEntity = {
   evaluationName?: string
 };
 
-export type CompanyContactEntity = {
+export type SemesterStatusEntity = {
+  ...BaseSemesterStatusEntity,
+  id: number,
+  semester: string,
+  year: string
+};
+
+export type BaseCompanyContactEntity = {
   id?: number,
   name: string,
   role?: string,
   mail?: string,
   phone?: string,
   mobile?: string
+};
+
+export type CompanyContactEntity = {
+  ...BaseCompanyContactEntity,
+  id: number
 };
 
 function mutateCompanies(state, action) {
