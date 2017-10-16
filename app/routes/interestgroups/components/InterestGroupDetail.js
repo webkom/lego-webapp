@@ -7,7 +7,6 @@ import Button from 'app/components/Button';
 import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
 import ProfilePicture from 'app/components/ProfilePicture';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 
 // TODO: this is from the event detail page.
 // We can probably move this out to somewhere common.
@@ -131,10 +130,6 @@ class InterestGroupDetail extends Component {
   render() {
     const { group } = this.props;
     const canEdit = true;
-
-    if (!group) {
-      return <LoadingIndicator />;
-    }
 
     return (
       <Flex column className={styles.root}>

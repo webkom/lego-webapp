@@ -11,6 +11,7 @@ import {
 import { uploadFile } from 'app/actions/FileActions';
 import { selectGroup } from 'app/reducers/groups';
 import InterestGroupEdit from './components/InterestGroupEdit';
+import loadingIndicator from 'app/utils/loadingIndicator';
 
 const mapDispatchToProps = {
   editInterestGroup,
@@ -39,5 +40,6 @@ export default compose(
       componentWillReceiveProps: false
     }
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  loadingIndicator('interestGroup')
 )(InterestGroupEdit);
