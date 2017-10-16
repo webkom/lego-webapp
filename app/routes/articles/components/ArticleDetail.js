@@ -46,6 +46,7 @@ const ArticleDetail = (props: Props) => {
       <Editor readOnly value={article.content} />
       {article.commentTarget && (
         <CommentView
+          formEnabled
           user={currentUser}
           commentTarget={article.commentTarget}
           loggedIn={loggedIn}

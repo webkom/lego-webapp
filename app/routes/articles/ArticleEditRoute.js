@@ -18,13 +18,15 @@ const mapStateToProps = (state, props) => {
     articleId,
     isNew: false,
     initialValues: {
-      ...article,
+      title: article.title,
+      cover: article.cover,
+      tags: article.tags.map(tag => ({ label: tag, value: tag })),
       content: article.content || '<p></p>'
     }
   };
 };
 
-const mapDispatchToProps = { fetchArticle, editArticle, uploadFile };
+const mapDispatchToProps = { uploadFile, fetchArticle, editArticle };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),

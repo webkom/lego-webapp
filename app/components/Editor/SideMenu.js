@@ -1,22 +1,42 @@
 /* eslint-disable react/no-find-dom-node */
 import React, { Component } from 'react';
-import Icon from 'app/components/Icon';
-import ImageUpload from 'app/components/Upload/ImageUpload';
-import styles from './Toolbar.css';
-import { Blocks } from '../constants';
-import ToolbarButton from './ToolbarButton';
-import { findDOMNode } from 'slate';
+import Icon from 'app/components/Icon/index';
+import ImageUpload from 'app/components/Upload/index';
+import styles from './Editor.css';
+import { findDOMNode } from 'slate-react';
+import cx from 'classnames';
 
 export type Props = {
-  editorState: object,
-  isPublic: boolean,
+  state: object,
+  isPublic?: boolean,
   insertBlock: properties => void,
   setBlockData: (key, data) => void,
-  wrapperElement: object,
   uploadFile: () => Promise
 };
 
-export default class Toolbar extends Component {
+export type SideMenuButtonProps = {
+  icon: string,
+  active: boolean,
+  onClick: properties => void
+};
+
+const SideMenuButton = ({ onClick, active, icon }: SideMenuButtonProps) => (
+  <span
+    className={cx(
+      styles.sideMenuButton,
+      styles.activeSideMenuButtons && active
+    )}
+    onMouseDown={e => {
+      e.preventDefault();
+      e.stopPropagation();
+      onClick();
+    }}
+  >
+    <Icon name={icon} />
+  </span>
+);
+
+export default class SideMenu extends Component {
   state = {
     open: false,
     openUpload: false
@@ -34,14 +54,14 @@ export default class Toolbar extends Component {
   };
 
   updatePosition = () => {
-    const { editorState } = this.props;
+    const { state } = this.props;
     if (!this.container) return;
 
     const visible =
-      editorState.isCollapsed &&
-      editorState.startBlock.type === 'paragraph' &&
-      editorState.startText.text === '' &&
-      !editorState.isBlurred;
+      state.isCollapsed &&
+      state.startBlock.type === 'paragraph' &&
+      state.startText.text === '' &&
+      !state.isBlurred;
     if (!visible) {
       this.container.style.display = 'none';
       if (this.state.open) {
@@ -53,23 +73,19 @@ export default class Toolbar extends Component {
     }
     this.container.style.display = 'initial';
 
-    const rect = findDOMNode(editorState.startText).getBoundingClientRect();
-    const offset = this.props.wrapperElement.getBoundingClientRect();
-    this.container.style.top = `${rect.top - offset.top}px`;
+    const rect = findDOMNode(state.startText).getBoundingClientRect();
+    this.container.style.top = `${rect.top + window.scrollY}px`;
   };
 
-  insertBreak = () => {
-    this.props.insertBlock({
-      type: Blocks.Break,
-      isVoid: true,
-      data: {}
-    });
+  insertSeparator = () => {
+    // insert separator
     this.setState({
       open: false
     });
   };
 
   insertImage = (image, src) => {
+    /*
     const { uploadFile, setBlockData, isPublic } = this.props;
     this.props.insertBlock({
       type: Blocks.Image,
@@ -83,6 +99,7 @@ export default class Toolbar extends Component {
         src
       }
     });
+    */
   };
 
   toggleImage = () => {
@@ -98,21 +115,24 @@ export default class Toolbar extends Component {
   render() {
     return (
       <div
-        className={styles.toolbar}
+        className={styles.sideMenu}
         ref={c => {
           this.container = c;
         }}
       >
-        <Icon
-          onMouseDown={this.toggle}
-          name="add"
-          className={this.state.open ? styles.activeButton : ''}
-        />
+        <div
+          className={cx(
+            this.state.open ? styles.activeToggleSideMenuButton : '',
+            styles.toggleSideMenuButton
+          )}
+        >
+          <Icon onMouseDown={this.toggle} name="add" />
+        </div>
 
         {this.state.open && (
-          <div className={styles.toolbarButtons}>
-            <ToolbarButton icon="remove" onClick={this.insertBreak} />
-            <ToolbarButton icon="image" onClick={this.toggleImage} />
+          <div className={styles.sideMenuButtons}>
+            <SideMenuButton icon="remove" onClick={this.insertSeparator} />
+            <SideMenuButton icon="image" onClick={this.toggleImage} />
           </div>
         )}
 
