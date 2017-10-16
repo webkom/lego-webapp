@@ -90,7 +90,6 @@ export const BLOCK_TAGS = [
   {
     type: 'paragraph',
     hoverHidden: true,
-    render: ({ children }) => <p> {children} </p>,
     serialize: (object, children) => {
       if (object.kind === 'block' && object.type === 'paragraph') {
         return <p> {children} </p>;
@@ -183,7 +182,9 @@ const marks = MARK_TAGS.reduce((acc, tag) => {
 }, {});
 
 const nodes = BLOCK_TAGS.reduce((acc, tag) => {
-  acc[tag.type] = tag.render;
+  if (tag.render) {
+    acc[tag.type] = tag.render;
+  }
   return acc;
 }, {});
 

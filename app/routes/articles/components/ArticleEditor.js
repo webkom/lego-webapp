@@ -77,7 +77,6 @@ const ArticleEditor = (props: Props) => {
           shouldKeyDownEventCreateNewOption={({ keyCode }: number) =>
             keyCode === 32 || keyCode === 13}
         />
-
         <Field
           placeholder="Write your article here..."
           name="content"

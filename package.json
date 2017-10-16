@@ -34,6 +34,7 @@
     "child-process-promise": "^2.2.1",
     "classnames": "2.2.5",
     "immutable": "^3.8.1",
+    "is-hotkey": "^0.0.1",
     "isomorphic-fetch": "2.2.1",
     "jwt-decode": "2.2.0",
     "lodash": "^4.17.2",
