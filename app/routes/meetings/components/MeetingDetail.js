@@ -127,7 +127,7 @@ class MeetingDetails extends Component {
             <Editor readOnly value={meeting.report} />
           </FlexItem>
           <FlexItem className={styles.statusContent} flex={1}>
-            <Card style={{ border: 'none', padding: 0 }}>
+            <Card style={{ border: 'none', padding: 0 }} shadow={false}>
               <ul>
                 {this.attendanceButtons(statusMe, meeting.startTime)}
                 <li>
