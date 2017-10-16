@@ -80,10 +80,12 @@ export function createInterestGroup(group: Object): Thunk<*> {
         }
       })
     ).then(action => {
-      if (!action || !action.payload || !action.payload.entities) return;
-      const group =
-        action.payload.entities.interestGroups[action.payload.result];
-      dispatch(push(`/interestgroups/${group.id}`));
+      if (!action || !action.payload) {
+        console.log('wtf, something went wrong: ', action);
+        return;
+      }
+      const groupId = action.payload.result;
+      dispatch(push(`/interestgroups/${groupId}`));
     });
   };
 }
