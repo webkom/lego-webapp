@@ -40,7 +40,9 @@
 
 .editShadow {
   composes: withShadow;
-  box-shadow: 0 0 5px var(--color-dark-gray-2);
+  outline: none;
+  box-shadow: 0 0 5px #ccc;
+  border-color: #aaa;
 }
 
 .truncateString {
@@ -80,11 +82,5 @@
     font-size: 18px;
     font-weight: 400;
     letter-spacing: 1px;
-  }
-
-  .Select-control {
-    border: 1px solid rgba(0, 0, 0, 0.09);
-    box-shadow: 0 0 5px var(--color-dark-gray-2);
-    border-radius: 5px;
   }
 }
