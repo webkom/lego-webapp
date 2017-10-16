@@ -127,10 +127,9 @@ export const selectCompanies = createSelector(
       const company = companiesById[companyId];
       return {
         ...company,
-        studentContact:
-          usersById && usersById[company.studentContact]
-            ? usersById[company.studentContact]
-            : company.studentContact,
+        studentContact: usersById[company.studentContact]
+          ? usersById[company.studentContact]
+          : company.studentContact,
         semesterStatuses:
           company &&
           selectSemesterStatuses(company.semesterStatuses, companySemesters)
