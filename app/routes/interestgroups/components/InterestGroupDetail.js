@@ -116,10 +116,6 @@ const Contact = ({ group }) => {
 };
 
 class InterestGroupDetail extends Component {
-  state = {
-    editorOpen: false
-  };
-
   joinGroup = () => {
     this.props.joinInterestGroup(this.props.group.id, this.props.currentUser);
   };

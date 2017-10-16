@@ -1,12 +1,16 @@
 // @flow
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { dispatched } from '@webkom/react-prepare';
 import { formValueSelector } from 'redux-form';
 import {
+  fetchInterestGroup,
   editInterestGroup,
   removeInterestGroup
 } from 'app/actions/InterestGroupActions';
 import { uploadFile } from 'app/actions/FileActions';
 import { selectMembershipsForInterestGroup } from 'app/reducers/memberships';
+import { selectGroup } from 'app/reducers/groups';
 import InterestGroupEdit from './components/InterestGroupEdit';
 
 const mapDispatchToProps = {
@@ -17,13 +21,16 @@ const mapDispatchToProps = {
 };
 
 const mapStateToProps = (state, props) => {
+  const id = props.params.interestGroupId;
   const valueSelector = formValueSelector('interestGroupEditor');
-  const interestGroup = state.interestGroups.byId[props.params.interestGroupId];
+  const interestGroup = selectGroup(state, { groupId: id });
+
   const memberships = interestGroup
     ? selectMembershipsForInterestGroup(state, {
         interestGroupId: interestGroup.id
       })
     : [];
+
   return {
     interestGroup,
     initialValues: {
@@ -44,4 +51,13 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(InterestGroupEdit);
+export default compose(
+  dispatched(
+    ({ params: { interestGroupId } }, dispatch) =>
+      dispatch(fetchInterestGroup(Number(interestGroupId))),
+    {
+      componentWillReceiveProps: false
+    }
+  ),
+  connect(mapStateToProps, mapDispatchToProps)
+)(InterestGroupEdit);
