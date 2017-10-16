@@ -55,6 +55,7 @@ export const selectMembershipsForInterestGroup = createSelector(
   state => state.memberships.byId,
   state => state.users.byId,
   (group, membershipsById, users) => {
+    if (!group) return [];
     const memberships = group.memberships;
     if (!memberships) return [];
     return memberships.map(m => membershipsById[m]).map(m => {

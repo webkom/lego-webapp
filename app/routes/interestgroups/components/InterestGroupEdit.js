@@ -5,6 +5,7 @@ import styles from './InterestGroup.css';
 import { Flex, Content } from 'app/components/Layout';
 import { Link } from 'react-router';
 import Button from 'app/components/Button';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 export default class InterestGroupEdit extends Component {
   props: {
@@ -23,6 +24,10 @@ export default class InterestGroupEdit extends Component {
       uploadFile,
       handleSubmitCallback
     } = this.props;
+
+    if (!interestGroup) {
+      return <LoadingIndicator />;
+    }
 
     return (
       <Content>

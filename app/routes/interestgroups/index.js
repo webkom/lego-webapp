@@ -2,31 +2,19 @@ import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
   path: 'interestgroups',
-  indexRoute: resolveAsyncRoute(
-    () => import('./InterestGroupListRoute'),
-    () => require('./InterestGroupListRoute')
-  ),
+  indexRoute: resolveAsyncRoute(() => import('./InterestGroupListRoute')),
   childRoutes: [
     {
       path: 'create',
-      ...resolveAsyncRoute(
-        () => import('./InterestGroupCreateRoute'),
-        () => require('./InterestGroupCreateRoute')
-      )
+      ...resolveAsyncRoute(() => import('./InterestGroupCreateRoute'))
     },
     {
       path: ':interestGroupId',
-      ...resolveAsyncRoute(
-        () => import('./InterestGroupDetailRoute'),
-        () => require('./InterestGroupDetailRoute')
-      )
+      ...resolveAsyncRoute(() => import('./InterestGroupDetailRoute'))
     },
     {
       path: ':interestGroupId/edit',
-      ...resolveAsyncRoute(
-        () => import('./InterestGroupEditRoute'),
-        () => require('./InterestGroupEditRoute')
-      )
+      ...resolveAsyncRoute(() => import('./InterestGroupEditRoute'))
     }
   ]
 };
