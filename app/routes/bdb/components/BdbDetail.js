@@ -303,19 +303,6 @@ export default class BdbDetail extends Component {
             </Link>
           </div>
 
-          {this.state.changedSemesters &&
-            this.state.changedSemesters.length > 0 && (
-              <Button dark onClick={this.submitSemesters}>
-                Lagre semestere
-              </Button>
-            )}
-
-          <div>
-            <Link to={`/bdb/${company.id}/semesters/add`}>
-              <i className="fa fa-plus-circle" /> Legg til nytt semester
-            </Link>
-          </div>
-
           <div className={styles.files}>
             <h3>Filer</h3>
             <ul>
@@ -325,9 +312,6 @@ export default class BdbDetail extends Component {
                 this.state.files.map((file, i) => <li key={i}>{file}</li>)
               )}
             </ul>
-            <Link to={`/bdb/${company.id}/semesters/add`}>
-              <i className="fa fa-plus-circle" /> Legg til fil
-            </Link>
           </div>
 
           <div className={styles.adminNote}>
