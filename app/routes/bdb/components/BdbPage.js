@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import CompanyList from './CompanyList';
 import styles from './bdb.css';
 import sortCompanies from '../SortCompanies.js';
-import { indexToSemester, listNavigation } from '../utils.js';
+import { indexToSemester, ListNavigation } from '../utils.js';
 import OptionsBox from './OptionsBox';
 import TextInput from 'app/components/Form/TextInput';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -146,7 +146,7 @@ export default class BdbPage extends Component {
 
     return (
       <div className={styles.root}>
-        {listNavigation('Bedriftsdatabase')}
+        <ListNavigation title="Bedriftsdatabase" />
 
         <div className={styles.search}>
           <h2>Søk</h2>

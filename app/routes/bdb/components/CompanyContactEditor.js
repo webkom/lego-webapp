@@ -8,7 +8,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Link } from 'react-router';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { reduxForm } from 'redux-form';
-import { detailNavigation } from '../utils';
+import { DetailNavigation } from '../utils';
 
 type Props = {
   submitFunction: () => void,
@@ -50,7 +50,7 @@ class CompanyContactEditor extends Component {
 
     return (
       <div className={styles.root}>
-        {detailNavigation('Bedriftskontakt', company.id)}
+        <DetailNavigation title="Bedriftskontakt" companyId={company.id} />
         <h3>
           <Link to={`/bdb/${company.id}`}>{company.name}</Link> sin
           bedriftskontakt.
