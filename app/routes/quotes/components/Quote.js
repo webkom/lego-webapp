@@ -10,9 +10,9 @@ import CommentView from 'app/components/Comments/CommentView';
 
 type Props = {
   quote: Object,
-  deleteQuote: number => void,
-  approve: number => void,
-  unapprove: number => void,
+  deleteQuote: number => Promise<*>,
+  approve: number => Promise<*>,
+  unapprove: number => Promise<*>,
   actionGrant: Array<string>,
   setDisplayAdmin: number => void,
   displayAdmin: boolean,
