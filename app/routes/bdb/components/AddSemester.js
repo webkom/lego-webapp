@@ -1,6 +1,5 @@
 import styles from './bdb.css';
 import React, { Component } from 'react';
-import BdbRightNav from './BdbRightNav';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextInput, RadioButton, RadioButtonGroup } from 'app/components/Form';
@@ -96,81 +95,77 @@ export default class AddSemester extends Component {
         <DetailNavigation title="Legg til semester" companyId={companyId} />
 
         <div className={styles.detail}>
-          <div className={styles.leftSection}>
-            <i style={{ display: 'block', marginBottom: '10px' }}>
-              <b>Hint:</b> du kan legge til status for flere semestere samtidig
-              på Bdb-forsiden!
-            </i>
+          <i style={{ display: 'block', marginBottom: '10px' }}>
+            <b>Hint:</b> du kan legge til status for flere semestere samtidig på
+            Bdb-forsiden!
+          </i>
 
-            <form onSubmit={handleSubmit(this.onSubmit)}>
-              <Field
-                autoFocus={autoFocus}
-                placeholder="2020"
-                label="År"
-                name="year"
-                type="number"
-                component={TextInput.Field}
-                className={styles.yearForm}
-              />
+          <form onSubmit={handleSubmit(this.onSubmit)}>
+            <Field
+              autoFocus={autoFocus}
+              placeholder="2020"
+              label="År"
+              name="year"
+              type="number"
+              component={TextInput.Field}
+              className={styles.yearForm}
+            />
 
-              <div className={styles.choices}>
-                <RadioButtonGroup name="semester" label="Semester">
-                  <Field
-                    label="Vår"
-                    component={RadioButton.Field}
-                    inputValue="spring"
-                  />
-                  <Field
-                    label="Høst"
-                    component={RadioButton.Field}
-                    inputValue="autumn"
-                  />
-                </RadioButtonGroup>
-              </div>
-
-              <label>Status</label>
-              <div
-                style={{
-                  width: '200px',
-                  minHeight: '30px',
-                  margin: '15px 0 25px',
-                  borderRadius: '5px',
-                  border: '1px solid #ccc'
-                }}
-                type="button"
-                className={
-                  styles[
-                    selectColorCode(
-                      selectMostProminentStatus(semesterStatus.contactedStatus)
-                    )
-                  ]
-                }
-              >
-                <SemesterStatusContent
-                  semesterStatus={semesterStatus}
-                  submit={false}
-                  editFunction={statusCode => this.editFunction(statusCode)}
-                  style={{
-                    minHeight: '30px',
-                    padding: '10px'
-                  }}
+            <div className={styles.choices}>
+              <RadioButtonGroup name="semester" label="Semester">
+                <Field
+                  label="Vår"
+                  component={RadioButton.Field}
+                  inputValue="spring"
                 />
-              </div>
+                <Field
+                  label="Høst"
+                  component={RadioButton.Field}
+                  inputValue="autumn"
+                />
+              </RadioButtonGroup>
+            </div>
 
-              <div className={styles.clear} />
+            <label>Status</label>
+            <div
+              style={{
+                width: '200px',
+                minHeight: '30px',
+                margin: '15px 0 25px',
+                borderRadius: '5px',
+                border: '1px solid #ccc'
+              }}
+              type="button"
+              className={
+                styles[
+                  selectColorCode(
+                    selectMostProminentStatus(semesterStatus.contactedStatus)
+                  )
+                ]
+              }
+            >
+              <SemesterStatusContent
+                semesterStatus={semesterStatus}
+                submit={false}
+                editFunction={statusCode => this.editFunction(statusCode)}
+                style={{
+                  minHeight: '30px',
+                  padding: '10px'
+                }}
+              />
+            </div>
 
-              <Button
-                className={styles.submit}
-                disabled={submitting}
-                onClick={() => this.setState({ submit: true })}
-                submit
-              >
-                Lagre
-              </Button>
-            </form>
-          </div>
+            <div className={styles.clear} />
 
-          <BdbRightNav {...this.props} companyId={companyId} />
+            <Button
+              className={styles.submit}
+              disabled={submitting}
+              onClick={() => this.setState({ submit: true })}
+              submit
+            >
+              Lagre
+            </Button>
+          </form>
         </div>
       </div>
     );

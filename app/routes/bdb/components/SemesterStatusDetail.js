@@ -10,7 +10,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import FileUpload from 'app/components/Upload/FileUpload';
 import truncateString from 'app/utils/truncateString';
 
-const FILE_NAME_LENGTH = 15;
+const FILE_NAME_LENGTH = 30;
 
 type Props = {
   semesterStatus: Object,
@@ -57,14 +57,13 @@ export default class SemesterStatusDetail extends Component {
   render() {
     const { semesterStatus, index, editFunction } = this.props;
 
-    if (!status) return <LoadingIndicator />;
+    if (!semesterStatus) return <LoadingIndicator />;
 
     return (
       <tr key={index}>
         <td>
           {semesterStatus.year} {semesterCodeToName(semesterStatus.semester)}
         </td>
-
         <td
           className={
             styles[
@@ -81,7 +80,6 @@ export default class SemesterStatusDetail extends Component {
               editFunction(semesterStatus, statusCode)}
           />
         </td>
-
         {['contract', 'statistics', 'evaluation'].map(type => (
           <td key={type}>
             <span>
@@ -94,7 +92,6 @@ export default class SemesterStatusDetail extends Component {
             </span>
           </td>
         ))}
-
         <td>
           <span style={{ display: 'flex', flexDirection: 'row' }}>
             <a
