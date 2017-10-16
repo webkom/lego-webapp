@@ -57,6 +57,7 @@ export function fetchAll() {
         propagateError: true
       })
     ).then(res => {
+      if (!res) return;
       const ids = res.payload.result;
       return Promise.all(ids.map(g => dispatch(fetchMemberships(g))));
     });

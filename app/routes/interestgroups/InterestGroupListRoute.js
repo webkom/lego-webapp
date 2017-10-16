@@ -11,7 +11,7 @@ import InterestGroupList from './components/InterestGroupList';
 import { selectGroups } from 'app/reducers/groups';
 
 const mapStateToProps = state => ({
-  interestGroups: selectGroups(state)
+  interestGroups: selectGroups(state).filter(g => g.type === 'interesse')
 });
 
 const mapDispatchToProps = { fetchAll, createInterestGroup };
