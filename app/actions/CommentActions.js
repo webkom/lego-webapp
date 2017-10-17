@@ -6,7 +6,7 @@ import callAPI from 'app/actions/callAPI';
 import { Comment } from './ActionTypes';
 import type { Thunk } from 'app/types';
 
-type CommentEntity = {
+export type CommentEntity = {
   text: string,
   commentTarget: string,
   parent: string
