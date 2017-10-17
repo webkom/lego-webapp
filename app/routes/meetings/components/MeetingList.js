@@ -10,7 +10,6 @@ import styles from './MeetingList.css';
 import Toolbar from './Toolbar';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Content from 'app/components/Layout/Content';
-import { statuses } from 'app/reducers/meetingInvitations';
 import type { MeetingEntity } from 'app/reducers/meetings';
 import type { UserEntity } from 'app/reducers/users';
 
@@ -47,19 +46,6 @@ function MeetingListItem({
             )}
           </h3>
         </Link>
-
-        <div>
-          <span>
-            Deltakere:{' '}
-            {
-              meeting.invitations.filter(
-                invite => invite.status === statuses.ATTENDING
-              ).length
-            }{' '}
-            av {meeting.invitations.length} personer deltar
-          </span>
-        </div>
-
         <div className={styles.meetingTime}>
           <Time time={meeting.startTime} format="ll - HH:mm" />
           {` • Lokasjon: ${meeting.location}`}
@@ -95,7 +81,7 @@ const MeetingListView = ({
 );
 
 type Props = {
-  meetings: MeetingEntity,
+  meetings: MeetingEntity[],
   currentUser: UserEntity,
   loading: boolean
 };
