@@ -1,7 +1,7 @@
 // @flow
 
 import { Page } from './ActionTypes';
-import { pageSchema, groupSchema } from 'app/reducers';
+import { pageSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 
 export function fetchPage(pageSlug: string) {

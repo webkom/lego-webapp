@@ -53,7 +53,6 @@ const searchMapping = {
     profilePicture: 'picture',
     icon: 'paper-outline',
     label: 'title',
-    profilePicture: 'picture',
     color: '#E8953A',
     path: '/pages/info/',
     value: 'slug',
