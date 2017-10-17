@@ -50,6 +50,7 @@ export function fetchRandomQuote() {
     meta: {
       errorMessage: 'Henting av tilfeldig quote feilet'
     },
+    useCache: false,
     schema: quoteSchema
   });
 }
