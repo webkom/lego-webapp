@@ -1,25 +1,19 @@
 import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
-  path: 'pages/:section',
+  path: 'pages/',
   indexRoute: resolveAsyncRoute(() => import('./PageListRoute')),
   childRoutes: [
     {
       path: 'new',
-      ...resolveAsyncRoute(
-        () => import('./PageCreateRoute'),
-        () => require('./PageCreateRoute')
-      )
+      ...resolveAsyncRoute(() => import('./PageCreateRoute'))
     },
     {
-      path: ':pageSlug/edit',
-      ...resolveAsyncRoute(
-        () => import('./PageEditRoute'),
-        () => require('./PageEditRoute')
-      )
+      path: ':section/:pageSlug/edit',
+      ...resolveAsyncRoute(() => import('./PageEditRoute'))
     },
     {
-      path: ':pageSlug',
+      path: ':section/:pageSlug',
       ...resolveAsyncRoute(() => import('./PageDetailRoute'))
     }
   ]
