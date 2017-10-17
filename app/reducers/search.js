@@ -55,7 +55,7 @@ const searchMapping = {
     label: 'title',
     profilePicture: 'picture',
     color: '#E8953A',
-    path: '/pages/',
+    path: '/pages/info/',
     value: 'slug',
     content: 'content'
   },
