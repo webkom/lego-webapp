@@ -40,10 +40,14 @@ const loadPage = ({ params: { section, pageSlug } }, dispatch) => {
 const loadPage = ({ params: { section, pageSlug } }, dispatch) =>
   sections[section].fetchItem(pageSlug);
 
+const isValidSection = sectionKey => !!sections[sectionKey];
+
 const loadData = (props, dispatch) => {
-  dispatch(fetchAll());
-  dispatch(fetchAllWithType('annen'));
-  return sections[props.params.section] && dispatch(loadPage(props, dispatch));
+  Object.keys(sections).forEach(key => dispatch(sections[key].fetchAll()));
+
+  return (
+    isValidSection(props.params.section) && dispatch(loadPage(props, dispatch))
+  );
 };
 
 const mapStateToPropsFlatpages = (state, props) => {
@@ -92,6 +96,7 @@ const sections = {
     mapStateToPropsForSection: mapStateToPropsFlatpages,
     hierarchySectionSelector: selectPagesForHierarchy,
     PageRenderer: FlatpageRenderer,
+    fetchAll: fetchAll,
     fetchItem: fetchPage
   },
   komiteer: {
@@ -100,6 +105,7 @@ const sections = {
     mapStateToPropsForSection: mapStateToPropsComitee,
     hierarchySectionSelector: selectGroupsForHierarchy,
     PageRenderer: GroupRenderer,
+    fetchAll: () => fetchAllWithType('komite'),
     fetchItem: fetchGroup
   }
 };
