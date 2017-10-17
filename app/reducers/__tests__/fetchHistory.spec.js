@@ -31,22 +31,35 @@ describe('fetchHistory', () => {
     const prevState = {};
     const action = {
       type: 'Event.SUCCESS',
+      payload: {},
       meta: { endpoint: 'events/1/', success: 'Event.SUCCESS' }
     };
     expect(fetchHistory(prevState, action)).toEqual({
-      'events/1/': Date.now()
+      'events/1/': {
+        timestamp: Date.now(),
+        action
+      }
     });
   });
 
   it('should append new history entry', () => {
-    const prevState = { 'company/': new Date(1504090888011) };
+    const prevState = {
+      'company/': {
+        timestamp: new Date(1504090888011),
+        action: {}
+      }
+    };
     const action = {
       type: 'Event.SUCCESS',
+      payload: {},
       meta: { endpoint: 'events/1/', success: 'Event.SUCCESS' }
     };
     expect(fetchHistory(prevState, action)).toEqual({
-      'company/': new Date(1504090888011),
-      'events/1/': Date.now()
+      ...prevState,
+      'events/1/': {
+        timestamp: Date.now(),
+        action
+      }
     });
   });
 });
