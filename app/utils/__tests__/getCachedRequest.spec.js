@@ -5,25 +5,25 @@ describe('getCachedRequest', () => {
   let time = Date.now();
   timekeeper.freeze(time);
 
-  it('should return true without endpoint', () => {
+  it('should return null without endpoint', () => {
     const state = {};
     const endpoint = '';
     expect(getCachedRequest(state, endpoint, 10)).toEqual(null);
   });
 
-  it('should return true without cacheSeconds', () => {
+  it('should return null without cacheSeconds', () => {
     const state = {};
     const endpoint = '/events/1';
     expect(getCachedRequest(state, endpoint, null)).toEqual(null);
   });
 
-  it('should return true with empty fetchHistory', () => {
+  it('should return null with empty fetchHistory', () => {
     const state = { fetchHistory: {} };
     const endpoint = '/events/1';
     expect(getCachedRequest(state, endpoint, 10)).toEqual(null);
   });
 
-  it('should return false when endpoint exists', () => {
+  it('should return action when endpoint exists', () => {
     const action = {
       type: 'Event.FETCH.SUCCESS',
       payload: {}
@@ -40,7 +40,7 @@ describe('getCachedRequest', () => {
     expect(getCachedRequest(state, endpoint, 10)).toEqual(action);
   });
 
-  it('should return true when time has passed', () => {
+  it('should return null when time has passed', () => {
     const action = {
       type: 'Event.FETCH.SUCCESS',
       payload: {}

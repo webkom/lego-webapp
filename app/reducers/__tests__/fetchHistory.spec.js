@@ -9,19 +9,19 @@ describe('fetchHistory', () => {
     expect(fetchHistory(prevState, {})).toEqual({});
   });
 
-  it('should not crash when success equals false', () => {
+  it('should not throw when success equals false', () => {
     const prevState = {};
     const action = { meta: { success: false } };
     expect(fetchHistory(prevState, action)).toEqual({});
   });
 
-  it('should not crash when success equals false with type', () => {
+  it('should not throw when success equals false with type', () => {
     const prevState = {};
     const action = { type: 'Event.SUCCESS', meta: { success: false } };
     expect(fetchHistory(prevState, action)).toEqual({});
   });
 
-  it('should not crash when success equals false with type', () => {
+  it('should not throw when success equals false with type', () => {
     const prevState = {};
     const action = { type: 'Event.BEGIN', meta: { success: 'EVENT.SUCCESS' } };
     expect(fetchHistory(prevState, action)).toEqual({});
@@ -37,7 +37,10 @@ describe('fetchHistory', () => {
     expect(fetchHistory(prevState, action)).toEqual({
       'events/1/': {
         timestamp: Date.now(),
-        action
+        action: {
+          ...action,
+          cached: true
+        }
       }
     });
   });
@@ -58,7 +61,10 @@ describe('fetchHistory', () => {
       ...prevState,
       'events/1/': {
         timestamp: Date.now(),
-        action
+        action: {
+          ...action,
+          cached: true
+        }
       }
     });
   });
