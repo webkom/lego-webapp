@@ -1,10 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { fetchAll, fetchPage, updatePage } from 'app/actions/PageActions';
-import { dispatched } from 'react-prepare';
-import { fetchPage, updatePage } from 'app/actions/PageActions';
-import PageDetail from './components/PageDetail';
-import prepare from 'app/utils/prepare';
+import { dispatched } from '@webkom/react-prepare';
 import { fetchPage, updatePage, fetchAll } from 'app/actions/PageActions';
 import { fetchAllWithType, fetchGroup } from 'app/actions/GroupActions';
 import PageDetail, {
@@ -19,24 +15,6 @@ import {
 import { selectGroup } from 'app/reducers/groups';
 import HTTPError from 'app/routes/errors/HTTPError';
 
-const loadData = (props, dispatch) => {
-  if (!props.pages || !props.page) {
-    // We only need to fetch the title list once
-    // to show the page hierarchy:
-    return dispatch(fetchAll()).then(() => dispatch(fetchPage(props.pageSlug)));
-  }
-  return dispatch(fetchPage(props.pageSlug));
-};
-
-const mapStateToProps = (state, props) => {
-const loadPage = ({ params: { section, pageSlug } }, dispatch) => {
-  switch (section) {
-    case 'komiteer':
-      return fetchGroup(pageSlug);
-    case 'info':
-    default:
-      return fetchPage(pageSlug);
-  }
 const loadPage = ({ params: { section, pageSlug } }, dispatch) =>
   sections[section].fetchItem(pageSlug);
 
@@ -45,9 +23,8 @@ const isValidSection = sectionKey => !!sections[sectionKey];
 const loadData = (props, dispatch) => {
   Object.keys(sections).forEach(key => dispatch(sections[key].fetchAll()));
 
-  return (
-    isValidSection(props.params.section) && dispatch(loadPage(props, dispatch))
-  );
+  const { section } = props.params;
+  return isValidSection(section) && dispatch(loadPage(props, dispatch));
 };
 
 const mapStateToPropsFlatpages = (state, props) => {
@@ -57,7 +34,7 @@ const mapStateToPropsFlatpages = (state, props) => {
   const selectedPageInfo = {
     actionGrant: selectedPage.actionGrant || [],
     title: selectedPage.title,
-    editUrl: `/pages/${selectedPage.slug}/edit`
+    editUrl: `/pages/info/${selectedPage.slug}/edit`
   };
   return {
     selectedPage,
@@ -133,6 +110,6 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = { updatePage };
 
 export default compose(
-  prepare(loadData),
+  dispatched(loadData),
   connect(mapStateToProps, mapDispatchToProps)
 )(PageDetail);

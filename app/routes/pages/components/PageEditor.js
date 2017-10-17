@@ -4,7 +4,7 @@ import Button from 'app/components/Button';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import styles from './PageEditor.css';
 import { EditorField, TextInput, Form } from 'app/components/Form';
-import { ImageUpload } from 'app/components/Upload';
+import ImageUpload from 'app/components/Upload/ImageUpload';
 import { Field } from 'redux-form';
 import { get } from 'lodash';
 
@@ -20,7 +20,8 @@ export type Props = {
   uploadFile: () => Promise,
   handleSubmit: () => Promise,
   updatePage?: () => Promise,
-  createPage?: () => Promise
+  createPage?: () => Promise,
+  push: string => void
 };
 
 export default class PageEditor extends Component {
@@ -50,9 +51,10 @@ export default class PageEditor extends Component {
   onSubmit = data => {
     const body = {
       title: data.title,
-      content: data.content,
-      parent: data.parent.value
+      content: data.content
     };
+
+    const { push, pageSlug } = this.props;
 
     if (this.state.images[this.state.page.picture]) {
       body.picture = this.state.page.picture;
@@ -60,12 +62,14 @@ export default class PageEditor extends Component {
       delete body.picture;
     }
 
-    console.log(body);
-
     if (this.props.isNew) {
-      this.props.createPage(body);
+      this.props.createPage(body).then(result => {
+        push(`/pages/info/${result.payload.result}`);
+      });
     } else {
-      this.props.updatePage(this.props.pageSlug, body);
+      this.props
+        .updatePage(this.props.pageSlug, body)
+        .then(() => push(`/pages/info/${pageSlug}`));
     }
   };
 
