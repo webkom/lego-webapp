@@ -74,14 +74,16 @@ function MeetingEditor({
   }
 
   const userSearchable = {
-    value: user.id,
-    label: user.fullName
+    value: user.username,
+    label: user.fullName,
+    id: user.id
   };
 
   const invitedUsersSearchable = meetingInvitations
     ? meetingInvitations.map(invite => ({
-        value: parseInt(invite.user.id, 10),
-        label: invite.user.fullName
+        value: invite.user.username,
+        label: invite.user.fullName,
+        id: invite.user.id
       }))
     : [];
 
@@ -125,7 +127,6 @@ function MeetingEditor({
           placeholder="La denne stå åpen for å velge deg selv"
           options={possibleReportAuthors}
           component={SelectInput.Field}
-          simpleValue
         />
         <div className={styles.sideBySideBoxes}>
           <div>

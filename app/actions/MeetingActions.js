@@ -86,7 +86,7 @@ export function createMeeting({
       location,
       endTime: moment(endTime).toISOString(),
       startTime: moment(startTime).toISOString(),
-      reportAuthor
+      reportAuthor: reportAuthor.id
     },
     schema: meetingSchema,
     meta: {
@@ -101,7 +101,7 @@ export function inviteUsersAndGroups({
   groups
 }: {
   id: number,
-  users: [{ value: number }],
+  users: [{ value: number, id: number }],
   groups: [{ value: number }]
 }) {
   return callAPI({
@@ -109,7 +109,7 @@ export function inviteUsersAndGroups({
     endpoint: `/meetings/${id}/bulk_invite/`,
     method: 'POST',
     body: {
-      users: users ? users.map(user => user.value) : [],
+      users: users ? users.map(user => user.id) : [],
       groups: groups ? groups.map(group => group.value) : []
     },
     meta: {
@@ -168,7 +168,7 @@ export function editMeeting({
       location,
       endTime: moment(endTime).toISOString(),
       startTime: moment(startTime).toISOString(),
-      reportAuthor
+      reportAuthor: reportAuthor.id
     },
     schema: meetingSchema,
     meta: {
