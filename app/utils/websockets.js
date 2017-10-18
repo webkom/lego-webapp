@@ -17,8 +17,9 @@ export default function createWebSocketMiddleware() {
       socket.onmessage = event => {
         const { type, payload, meta } = JSON.parse(event.data);
         store.dispatch({ type, payload, meta });
-        if (meta.errorMessage) {
-          store.dispatch(addNotification({ message: meta.errorMessage }));
+        const message = meta.successMessage || meta.errorMessage;
+        if (message) {
+          store.dispatch(addNotification({ message }));
         }
       };
 
