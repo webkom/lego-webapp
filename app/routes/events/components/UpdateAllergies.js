@@ -33,13 +33,13 @@ const UpdateAllergies = ({
   >
     <div>
       <Field
-        label="Dine allergier"
+        label="Allergier eller preferanser"
         placeholder="Ingen"
         name="allergies"
         component={TextInput.Field}
       />
       <Button submit disabled={invalid | pristine | submitting}>
-        Oppdater allergier
+        Oppdater
       </Button>
     </div>
   </Form>
