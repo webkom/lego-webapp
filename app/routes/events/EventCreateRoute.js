@@ -33,6 +33,7 @@ const mapStateToProps = (state, props) => {
       priceMember: 0,
       mergeTime: time(12),
       useCaptcha: true,
+      feedbackDescription: 'Melding til arrangører',
       pools: []
     },
     actionGrant,

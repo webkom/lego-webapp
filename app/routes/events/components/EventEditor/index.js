@@ -243,31 +243,36 @@ function EventEditor({
 
         <Flex wrapReverse>
           <Flex column className={styles.join}>
-            <Field
-              name="useCaptcha"
-              label="Bruk Captcha ved påmelding"
-              fieldClassName={styles.metaField}
-              className={styles.formField}
-              component={CheckBox.Field}
-              normalize={v => !!v}
-            />
-            <Field
-              name="feedbackRequired"
-              label="Tvungen tilbakemelding"
-              fieldClassName={styles.metaField}
-              className={styles.formField}
-              component={CheckBox.Field}
-              normalize={v => !!v}
-            />
-            <Button disabled={pristine || submitting} submit>
-              LAGRE
-            </Button>
-
-            {isEditPage && (
-              <Link to={`/events/${event.id}`}>
-                <Button>TILBAKE</Button>
-              </Link>
-            )}
+            <Flex column>
+              <Field
+                label="Tilbakemeldingsbeskrivelse"
+                name="feedbackDescription"
+                placeholder="E.g. Melding til arrangører"
+                component={TextInput.Field}
+              />
+              <Field
+                name="feedbackRequired"
+                label="Tvungen tilbakemelding"
+                component={CheckBox.Field}
+                normalize={v => !!v}
+              />
+              <Field
+                name="useCaptcha"
+                label="Bruk Captcha ved påmelding"
+                component={CheckBox.Field}
+                normalize={v => !!v}
+              />
+              <div>
+                <Button disabled={pristine || submitting} submit>
+                  LAGRE
+                </Button>
+              </div>
+              {isEditPage && (
+                <Link to={`/events/${event.id}`}>
+                  <Button>TILBAKE</Button>
+                </Link>
+              )}
+            </Flex>
           </Flex>
 
           <Flex column className={styles.openFor}>
