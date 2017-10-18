@@ -157,12 +157,16 @@ class JoinEventForm extends Component {
     } = this.props;
 
     const isInvalid = this.state.time !== null || invalid;
+    const isPristine = event.feedbackRequired && pristine;
     const disabledButton = !registration
-      ? isInvalid || pristine || submitting
+      ? isInvalid || isPristine || submitting
       : null;
     const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
     const registrationType = !registration ? 'register' : 'unregister';
     const feedbackName = getFeedbackName(event.feedbackRequired);
+    const feedbackLabel = event.feedbackRequired
+      ? 'NB: Dette arrangementet krever tilbakemelding'
+      : 'Tilbakemelding';
     const showStripe =
       event.isPriced &&
       registration &&
@@ -202,11 +206,7 @@ class JoinEventForm extends Component {
               )}
             >
               <Field
-                label={
-                  event.feedbackRequired
-                    ? 'NB: Dette arrangementet krever tilbakemelding'
-                    : 'Tilbakemelding'
-                }
+                label={`${feedbackLabel}: ${event.feedbackDescription}`}
                 placeholder="Melding til arrangører"
                 name={feedbackName}
                 component={TextEditor.Field}
@@ -221,6 +221,7 @@ class JoinEventForm extends Component {
                       'feedback'
                     )}
                     style={{ marginBottom: '5px' }}
+                    disabled={pristine}
                   >
                     Oppdater feedback
                   </Button>
