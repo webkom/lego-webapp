@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import moment from 'moment-timezone';
 import config from 'app/config';
@@ -10,9 +9,26 @@ import Pill from 'app/components/Pill';
 import styles from './MeetingList.css';
 import Toolbar from './Toolbar';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import Content from 'app/components/Layout/Content';
+import type { MeetingEntity } from 'app/reducers/meetings';
+import type { UserEntity } from 'app/reducers/users';
 
-function MeetingListItem({ meeting, userId }) {
+type MeetingPool = {
+  title: string,
+  meetings: Array<MeetingEntity>
+};
+
+type MeetingPools = Array<MeetingPool>;
+
+function MeetingListItem({
+  meeting,
+  username
+}: {
+  meeting: MeetingEntity,
+  username: string
+}) {
   const isDone = moment(meeting.startTime) < moment();
+
   return (
     <div
       style={{ borderColor: isDone ? 'gray' : 'red' }}
@@ -22,25 +38,14 @@ function MeetingListItem({ meeting, userId }) {
         <Link to={`/meetings/${meeting.id}`}>
           <h3 className={styles.meetingItemTitle}>
             {meeting.title}
-            {userId === meeting.createdBy && (
+            {username === meeting.createdBy && (
               <Pill style={{ marginLeft: 10 }}>Eier</Pill>
             )}
-            {userId === meeting.reportAuthor && (
+            {username === meeting.reportAuthor && (
               <Pill style={{ marginLeft: 10 }}>Referent</Pill>
             )}
           </h3>
         </Link>
-
-        <div>
-          <span>
-            Deltakere:{' '}
-            {
-              meeting.invitations.filter(invite => invite.status === 1).length
-            }{' '}
-            av {meeting.invitations.length} personer deltar
-          </span>
-        </div>
-
         <div className={styles.meetingTime}>
           <Time time={meeting.startTime} format="ll - HH:mm" />
           {` • Lokasjon: ${meeting.location}`}
@@ -49,16 +54,45 @@ function MeetingListItem({ meeting, userId }) {
     </div>
   );
 }
+const MeetingListView = ({
+  pools,
+  currentUser
+}: {
+  pools: MeetingPools,
+  currentUser: UserEntity
+}) => (
+  <div>
+    {pools.map((item, key) => (
+      <div key={key}>
+        <h2 className={styles.heading}>{item.title}</h2>
+        {item.meetings.map((item, key) => (
+          <MeetingListItem
+            key={key}
+            username={currentUser.username}
+            meeting={item}
+          />
+        ))}
+      </div>
+    ))}
+    {!pools.length && (
+      <h2 style={{ textAlign: 'center' }}> Ingen møter å vise</h2>
+    )}
+  </div>
+);
+
+type Props = {
+  meetings: MeetingEntity[],
+  currentUser: UserEntity,
+  loading: boolean
+};
 
 export default class MeetingList extends Component {
-  static propTypes = {
-    meetings: PropTypes.arrayOf(Object)
-  };
+  props: Props;
 
-  sortMeetings = meetings => {
+  sortMeetings = (meetings: Array<MeetingEntity>) => {
     const currentYear = moment().year();
     const currentWeek = moment().week();
-    const pools = [
+    const pools: MeetingPools = [
       {
         title: 'Denne uken',
         meetings: []
@@ -107,45 +141,34 @@ export default class MeetingList extends Component {
         const year1 = elem1.title.substring(1, 5);
         const year2 = elem2.title.substring(1, 5);
         if (year1 === year2) {
-          return elem1.title < elem2.tilte ? 1 : -1;
+          return elem1.title < elem2.title ? 1 : -1;
         }
-        return year2 - year1;
+        return Number(year2) - Number(year1);
       });
 
     return pools
-      .concat(oldMeetings)
-      .filter(elem => elem.meetings.length)
       .map(pool => ({
         title: pool.title,
         meetings: pool.meetings.sort(
           (elem1, elem2) => moment(elem1.startTime) - moment(elem2.startTime)
         )
-      }));
+      }))
+      .concat(oldMeetings)
+      .filter(elem => elem.meetings.length);
   };
 
   render() {
-    const { meetings, user } = this.props;
-    if (!meetings) {
-      return <LoadingIndicator loading />;
-    }
-    const pools = this.sortMeetings(meetings);
-    const isEmpty = !meetings.length;
+    const { meetings, currentUser, loading } = this.props;
+    const pools: MeetingPools = this.sortMeetings(meetings);
     return (
-      <div className={styles.root}>
+      <Content>
         <Toolbar />
-
-        {pools.map((item, key) => (
-          <div key={key}>
-            <h2 className={styles.heading}>{item.title}</h2>
-            {item.meetings.map((item, key) => (
-              <MeetingListItem key={key} userId={user.id} meeting={item} />
-            ))}
-          </div>
-        ))}
-        {isEmpty && (
-          <h2 style={{ textAlign: 'center' }}> Ingen møter å vise</h2>
+        {loading ? (
+          <LoadingIndicator loading />
+        ) : (
+          <MeetingListView currentUser={currentUser} pools={pools} />
         )}
-      </div>
+      </Content>
     );
   }
 }

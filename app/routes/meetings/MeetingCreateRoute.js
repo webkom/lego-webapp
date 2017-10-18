@@ -1,8 +1,12 @@
 // @flow
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import MeetingEditor from './components/MeetingEditor';
-import { createMeeting } from 'app/actions/MeetingActions';
+import {
+  createMeeting,
+  inviteUsersAndGroups
+} from 'app/actions/MeetingActions';
 import { formValueSelector } from 'redux-form';
 import moment from 'moment';
 import { LoginPage } from 'app/components/LoginForm';
@@ -27,7 +31,11 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { handleSubmitCallback: createMeeting };
+const mapDispatchToProps = {
+  handleSubmitCallback: createMeeting,
+  inviteUsersAndGroups,
+  push
+};
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
