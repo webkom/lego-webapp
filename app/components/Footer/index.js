@@ -12,9 +12,13 @@ const Footer = props => (
   <footer className={styles.footer}>
     <div className={styles.footerContent}>
       <div className={cx(styles.section, hiddenOnMobile)}>
-        <h2>README</h2>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper
-        nunc at ex consequat ultricies.
+        <h2>Lego</h2>
+        <p>
+          Velkommen til LEGO, den nye nettsiden til Abakus. Vi i Webkom har
+          arbeidet lenge med denne siden og håper den faller i smak. Spørsmål
+          eller rapportering av feil gjøres til{' '}
+          <a href="mailto:webkom@abakus.no">webkom@abakus.no</a>.
+        </p>
       </div>
       <div className={cx(styles.section, hiddenOnMobile)}>
         <RandomQuote loggedIn={props.loggedIn} />
@@ -22,8 +26,9 @@ const Footer = props => (
       <div className={styles.section}>
         <h2>Kontakt oss</h2>
         <a href="mailto:abakus@abakus.no">abakus@abakus.no</a>
-        <br />
-        7491 Trondheim<br />
+        <p>Abakus</p>
+        <p>Sem Sælands vei 7-9</p>
+        <p>7491 Trondheim</p>
       </div>
     </div>
   </footer>
