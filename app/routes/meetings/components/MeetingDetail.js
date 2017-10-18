@@ -9,16 +9,33 @@ import Editor from 'app/components/Editor';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import moment from 'moment';
-import { INVITATION_STATUSES_TEXT, INVITATION_STATUSES } from '../constants';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import { statusesText, statuses } from 'app/reducers/meetingInvitations';
+
+import type {
+  MeetingInvitationEntity,
+  MeetingInvitationStatus
+} from 'app/reducers/meetingInvitation';
+import type { UserEntity } from 'app/reducers/users';
 
 type Props = {
   meeting: object,
-  user: object,
-  showAnswer: Boolean
+  currentUser: UserEntity,
+  showAnswer: Boolean,
+  meetingInvitations: Array<MeetingInvitationEntity>,
+  deleteMeeting: number => Promise<*>,
+  setInvitationStatus: (
+    meetingId: number,
+    status: MeetingInvitationStatus,
+    user: UserEntity
+  ) => Promise<*>,
+  reportAuthor: UserEntity,
+  createdBy: UserEntity,
+  currentUserInvitation: MeetingInvitationEntity,
+  push: string => Promise<*>
 };
 
-const UserLink = ({ user }: object) =>
+const UserLink = ({ user }: { user: UserEntity }) =>
   user ? (
     <Link to={`/users/${user.username}`}> {user.fullName} </Link>
   ) : (
@@ -28,80 +45,94 @@ const UserLink = ({ user }: object) =>
 class MeetingDetails extends Component {
   props: Props;
 
-  setInvitationStatus = newStatus => {
-    const { meeting, user } = this.props;
-    this.props.setInvitationStatus(meeting.id, newStatus, user.id);
+  setInvitationStatus = (newStatus: MeetingInvitationStatus) => {
+    const { meeting, currentUser } = this.props;
+    this.props.setInvitationStatus(meeting.id, newStatus, currentUser);
   };
 
-  acceptInvitation = () =>
-    this.setInvitationStatus(INVITATION_STATUSES.ATTENDING);
+  acceptInvitation = () => this.setInvitationStatus(statuses.ATTENDING);
 
-  rejectInvitation = () =>
-    this.setInvitationStatus(INVITATION_STATUSES.NOT_ATTENDING);
+  rejectInvitation = () => this.setInvitationStatus(statuses.NOT_ATTENDING);
 
   sortInvitations = () => {
-    const { invitations } = this.props.meeting;
+    const { meetingInvitations } = this.props;
 
-    return Object.keys(INVITATION_STATUSES).map(invitationStatus => ({
-      name: INVITATION_STATUSES_TEXT[invitationStatus],
-      capacity: invitations.length,
-      registrations: invitations.filter(
+    return Object.keys(statuses).map(invitationStatus => ({
+      name: statusesText[invitationStatus],
+      capacity: meetingInvitations.length,
+      registrations: meetingInvitations.filter(
         invite => invite.status === invitationStatus
       )
     }));
   };
 
   attendanceButtons = (statusMe, startTime) =>
+    statusMe &&
     moment(startTime) > moment() && (
       <li className={styles.statusButtons}>
         <Button
           onClick={this.acceptInvitation}
-          disabled={statusMe === INVITATION_STATUSES.ATTENDING}
+          disabled={statusMe === statuses.ATTENDING}
         >
           Delta
         </Button>
         <Button
           onClick={this.rejectInvitation}
-          disabled={statusMe === INVITATION_STATUSES.NOT_ATTENDING}
+          disabled={statusMe === statuses.NOT_ATTENDING}
         >
           Avslå
         </Button>
       </li>
     );
 
-  render() {
-    const { meeting, user, showAnswer } = this.props;
+  onDeleteMeeting = () => {
+    this.props
+      .deleteMeeting(this.props.meeting.id)
+      .then(() => this.props.push('/meetings/'));
+  };
 
-    if (!meeting || !user) {
+  render() {
+    const {
+      meeting,
+      currentUser,
+      showAnswer,
+      reportAuthor,
+      createdBy,
+      currentUserInvitation
+    } = this.props;
+
+    if (!meeting || !currentUser) {
       return <LoadingIndicator loading />;
     }
-    const statusMe = meeting.invitations.find(
-      item => item.user.username === user.username
-    ).status;
+    const statusMe = currentUserInvitation && currentUserInvitation.status;
 
-    const reportAuthorInvite = meeting.invitations.find(
-      invite => invite.user.id === meeting.reportAuthor
-    );
-    const reportAuthor = reportAuthorInvite ? reportAuthorInvite.user : null;
+    const actionGrant = meeting && meeting.actionGrant;
 
-    const createdBy = meeting.invitations.find(
-      invite => invite.user.id === meeting.createdBy
-    ).user;
+    const canDelete = actionGrant && actionGrant.includes('delete');
+    const canEdit = actionGrant && actionGrant.includes('edit');
 
-    const canDelete = user.id === meeting.createdBy;
     return (
       <div className={styles.root}>
-        {showAnswer && <h2> Du har nå svart på invitasjonen 😃 </h2>}
-
+        {showAnswer && (
+          <h2>
+            {' '}
+            Du har nå svart på invitasjonen{' '}
+            <span aria-label="smile" role="img">
+              😃
+            </span>{' '}
+          </h2>
+        )}
         <FlexRow className={styles.heading}>
           <div style={{ flex: 1 }}>
             <NavigationTab title={meeting.title} className={styles.detailTitle}>
               <NavigationLink to="/meetings">
                 <i className="fa fa-angle-left" /> Mine møter
               </NavigationLink>
-              <NavigationLink to={`/meetings/${meeting.id}/edit`}>
-                Endre møte
-              </NavigationLink>
+              {canEdit && (
+                <NavigationLink to={`/meetings/${meeting.id}/edit`}>
+                  Endre møte
+                </NavigationLink>
+              )}
               {canDelete && (
                 <NavigationLink
                   onClick={() => {
@@ -130,10 +161,12 @@ class MeetingDetails extends Component {
             <Card style={{ border: 'none', padding: 0 }} shadow={false}>
               <ul>
                 {this.attendanceButtons(statusMe, meeting.startTime)}
-                <li>
-                  <strong> Din status: </strong>
-                  {INVITATION_STATUSES_TEXT[statusMe]}
-                </li>
+                {statusMe && (
+                  <li>
+                    <strong> Din status: </strong>
+                    {statusesText[statusMe]}
+                  </li>
+                )}
                 <li>
                   <strong> Slutt </strong>
                   <Time time={meeting.endTime} format="ll HH:mm" />

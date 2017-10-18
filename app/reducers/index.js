@@ -16,6 +16,9 @@ import pools from './pools';
 import registrations from './registrations';
 import meetingsToken from './meetingsToken';
 import meetings from './meetings';
+import meetingInvitations, {
+  getMeetingInvitationId
+} from './meetingInvitations';
 import memberships from './memberships';
 import search from './search';
 import auth from './auth';
@@ -51,6 +54,7 @@ const reducers = {
   registrations,
   meetingsToken,
   meetings,
+  meetingInvitations,
   memberships,
   companyInterest,
   interestGroups,
@@ -144,6 +148,18 @@ export const membershipSchema = new schema.Entity('memberships', {
 export const groupSchema = new schema.Entity('groups', {
   users: [userSchema]
 });
+export const meetingInvitationSchema = new schema.Entity(
+  'meetingInvitations',
+  {
+    user: userSchema
+  },
+  {
+    idAttribute: invite =>
+      getMeetingInvitationId(invite.meeting, invite.user.username)
+  }
+);
 export const meetingSchema = new schema.Entity('meetings', {
-  memberships: [membershipSchema]
+  invitations: [meetingInvitationSchema],
+  reportAuthor: userSchema,
+  createdBy: userSchema
 });

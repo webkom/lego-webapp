@@ -5,7 +5,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import styles from './MeetingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 
 import {
@@ -19,6 +19,7 @@ import {
 import moment from 'moment';
 import config from 'app/config';
 import { unionBy } from 'lodash';
+import type { UserEntity } from 'app/reducers/users';
 
 type Props = {
   handleSubmit: func,
@@ -26,10 +27,13 @@ type Props = {
   meetingId?: string,
   meeting?: Object,
   change: func,
-  invitingUsers: array,
-  user: object,
+  invitingUsers: Array<UserEntity>,
+  user: UserEntity,
   pristine: boolean,
-  submitting: boolean
+  submitting: boolean,
+  meetingInvitations: Array<Object>,
+  push: string => void,
+  inviteUsersAndGroups: Object => Promise<*>
 };
 
 function MeetingEditor({
@@ -41,22 +45,45 @@ function MeetingEditor({
   invitingUsers = [],
   user,
   submitting,
-  pristine
+  pristine,
+  meetingInvitations,
+  push,
+  inviteUsersAndGroups
 }: Props) {
+  const onSubmit = data => {
+    return handleSubmitCallback(data)
+      .then(result => {
+        const id = data.id || result.payload.result;
+        const { groups, users } = data;
+        if (groups || users) {
+          return inviteUsersAndGroups({ id, users, groups }).then(() =>
+            push(`/meetings/${id}`)
+          );
+        }
+        push(`/meetings/${id}`);
+      })
+      .catch(err => {
+        if (err.payload && err.payload.response) {
+          throw new SubmissionError(err.payload.response.jsonData);
+        }
+      });
+  };
   const isEditPage = meetingId !== undefined;
   if (isEditPage && !meeting) {
     return <LoadingIndicator loading />;
   }
 
   const userSearchable = {
-    value: user.id.toString(),
-    label: user.fullName
+    value: user.username,
+    label: user.fullName,
+    id: user.id
   };
 
-  const invitedUsersSearchable = meeting
-    ? meeting.invitations.map(invite => ({
-        value: invite.user.id.toString(),
-        label: invite.user.fullName
+  const invitedUsersSearchable = meetingInvitations
+    ? meetingInvitations.map(invite => ({
+        value: invite.user.username,
+        label: invite.user.fullName,
+        id: invite.user.id
       }))
     : [];
 
@@ -75,13 +102,11 @@ function MeetingEditor({
         </Link>
       </h2>
       <h1>{isEditPage ? 'Endre møte' : 'Nytt møte'} </h1>
-      <Form onSubmit={handleSubmit(handleSubmitCallback)}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <h2> Tittel </h2>
         <Field name="title" component={TextInput.Field} />
         <h3>Møteinnkalling / referat</h3>
-        <div className={styles.editors}>
-          <Field name="report" component={EditorField} />
-        </div>
+        <Field name="report" component={EditorField} />
         <div className={styles.sideBySideBoxes}>
           <div>
             <h3>Starttidspunkt</h3>
@@ -102,7 +127,6 @@ function MeetingEditor({
           placeholder="La denne stå åpen for å velge deg selv"
           options={possibleReportAuthors}
           component={SelectInput.Field}
-          simpleValue
         />
         <div className={styles.sideBySideBoxes}>
           <div>
@@ -133,7 +157,7 @@ function MeetingEditor({
               pools={[
                 {
                   name: 'Inviterte brukere',
-                  registrations: meeting.invitations
+                  registrations: meetingInvitations
                 }
               ]}
             />

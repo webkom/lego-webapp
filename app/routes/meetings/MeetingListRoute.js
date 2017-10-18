@@ -10,7 +10,8 @@ import MeetingList from './components/MeetingList';
 
 const mapStateToProps = (state, props) => ({
   meetings: selectMeetings(state),
-  user: props.currentUser
+  currentUser: props.currentUser,
+  loading: state.meetings.fetching
 });
 
 const mapDispatchToProps = { fetchAll };

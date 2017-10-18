@@ -4,7 +4,6 @@ import React from 'react';
 import { Link } from 'react-router';
 import Button from 'app/components/Button';
 import styles from './Toolbar.css';
-import Icon from 'app/components/Icon';
 
 const Toolbar = props => {
   return (
@@ -15,10 +14,7 @@ const Toolbar = props => {
 
       <div className={styles.section}>
         <Link to="/meetings/create/">
-          <Button>
-            <Icon name="add" />
-            Nytt møte
-          </Button>
+          <Button>Nytt møte</Button>
         </Link>
       </div>
     </div>
