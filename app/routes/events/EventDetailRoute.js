@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import {
   fetchEvent,
   deleteEvent,
@@ -88,8 +88,6 @@ const loadData = ({ params: { eventId }, currentUser }, dispatch) => {
 };
 
 export default compose(
-  dispatched(loadData, {
-    componentWillReceiveProps: false
-  }),
+  prepare(loadData, ['params.eventId']),
   connect(mapStateToProps, mapDispatchToProps)
 )(EventDetail);
