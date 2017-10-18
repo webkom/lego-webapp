@@ -7,20 +7,23 @@
 }
 
 .overview {
+  width: 100%;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   flex-wrap: wrap;
   justify-content: space-between;
-  border-right: 1px solid #ddd;
 }
 
 .headline,
 .normal {
   display: flex;
   flex-direction: row;
-  border-bottom: 1px solid #ddd;
   margin: 0 30px;
+}
+
+.normal {
+  flex-wrap: wrap;
 }
 
 .rest {

@@ -2,6 +2,7 @@ import styles from './Overview.css';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
+import { Content } from 'app/components/Layout';
 import Time from 'app/components/Time';
 import Image from 'app/components/Image';
 
@@ -36,23 +37,23 @@ export default class Overview extends Component {
     const normalEvents = articles.slice(HEADLINE_EVENTS, FRONT_EVENTS);
 
     return (
-      <section className={styles.frontpage}>
-        <div className={styles.overview}>
-          <Link to={`/articles/new`}>NY</Link>
-          <div className={styles.headline}>
-            {headlineEvents.map(article => (
-              <OverviewItem key={article.id} article={article} />
-            ))}
+      <Content>
+        <section className={styles.frontpage}>
+          <div className={styles.overview}>
+            <Link to={`/articles/new`}>NY</Link>
+            <div className={styles.headline}>
+              {headlineEvents.map(article => (
+                <OverviewItem key={article.id} article={article} />
+              ))}
+            </div>
+            <div className={styles.normal}>
+              {normalEvents.map(article => (
+                <OverviewItem key={article.id} article={article} />
+              ))}
+            </div>
           </div>
-          <div className={styles.normal}>
-            {normalEvents.map(article => (
-              <OverviewItem key={article.id} article={article} />
-            ))}
-          </div>
-        </div>
-
-        <div className={styles.sidebar} />
-      </section>
+        </section>
+      </Content>
     );
   }
 }
