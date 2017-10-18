@@ -13,3 +13,4 @@ dist
 styleguide
 .css.tmp.md
 *.log
+*.swp
