@@ -17,11 +17,11 @@ type ButtonsProps = {
 };
 
 const Buttons = ({ id, deleteJoblisting }) => (
-  <Flex alignItems="center">
+  <Flex alignItems="center" className={styles.buttonRow}>
     <Link to={`/joblistings/${id}/edit`}>
-      <Button className={styles.editButton}> Rediger </Button>
+      <Button> Rediger </Button>
     </Link>
-    <Button className={styles.editButton} onClick={() => deleteJoblisting(id)}>
+    <Button dark onClick={() => deleteJoblisting(joblisting.id)}>
       Slett
     </Button>
   </Flex>

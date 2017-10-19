@@ -7,7 +7,8 @@
 .title {
   flex-wrap: wrap;
   justify-content: space-between;
-  margin-left: 20px;
+  margin-left: 10px;
+  margin-right: 10px;
 
   @media (--small-viewport) {
     margin: auto 10px;
@@ -72,4 +73,8 @@
   &:disabled {
     color: #888;
   }
+}
+
+.buttons {
+  margin-right: 10px;
 }
