@@ -4,8 +4,7 @@ import React from 'react';
 import styles from './Company.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Link } from 'react-router';
-import Image from 'app/components/Image';
-import truncateString from 'app/utils/truncateString';
+import { Image } from 'app/components/Image';
 
 type Props = {
   companies: Array<Object>
@@ -21,11 +20,12 @@ export function CompanyItem({ company }: any) {
         <a href={company.website}>
           <div className={styles.website}>{company.website}</div>
         </a>
-        {truncateString(company.description, 300)}
+        <div>{company.companyType}</div>
+        <div>{company.address}</div>
       </div>
-      <div className={styles.companyLogo}>
+      <Link className={styles.companyLogo} to={`/companies/${company.id}`}>
         {company.thumbnail && <Image src={company.thumbnail} />}
-      </div>
+      </Link>
     </div>
   );
 }
