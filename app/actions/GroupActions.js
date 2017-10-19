@@ -86,7 +86,7 @@ export function updateGroup(group: Object) {
 export function createGroup(group: Object): Thunk<*> {
   return dispatch => {
     const { name, description, text, logo } = group;
-    dispatch(
+    return dispatch(
       callAPI({
         types: Group.CREATE,
         endpoint: '/groups/',
@@ -104,7 +104,8 @@ export function createGroup(group: Object): Thunk<*> {
         }
       })
     ).then(res => {
-      const group = res.payload.entities.groups[res.payload.result];
+      const payload = (res: any).payload;
+      const group = payload.entities.groups[payload.result];
       dispatch(push(`/groups/${group.id}`));
     });
   };
@@ -112,7 +113,7 @@ export function createGroup(group: Object): Thunk<*> {
 
 export function removeGroup(id: string): Thunk<*> {
   return dispatch => {
-    dispatch(
+    return dispatch(
       callAPI({
         types: Group.REMOVE,
         endpoint: `/groups/${id}/`,
@@ -129,7 +130,7 @@ export function removeGroup(id: string): Thunk<*> {
 export function editGroup(group: Object): Thunk<*> {
   const { id } = group;
   return dispatch => {
-    dispatch(
+    return dispatch(
       callAPI({
         types: Group.UPDATE,
         endpoint: `/groups/${id}/`,
@@ -151,7 +152,7 @@ export function joinGroup(
   role: string = 'member'
 ): Thunk<*> {
   return dispatch => {
-    dispatch(
+    return dispatch(
       callAPI({
         types: Membership.JOIN_GROUP,
         endpoint: '/memberships/',
@@ -174,7 +175,7 @@ export function joinGroup(
 
 export function leaveGroup(membership: Object): Thunk<*> {
   return dispatch => {
-    dispatch(
+    return dispatch(
       callAPI({
         types: Membership.LEAVE_GROUP,
         endpoint: `/memberships/${membership.id}/`,

@@ -17,17 +17,17 @@ type Props = {
   currentUser: Object,
   loggedIn: boolean,
   gallery: Object,
-  push: () => void,
-  updateGalleryCover: () => Promise<*>,
-  deletePicture: () => Promise<*>,
-  comments: []
+  push: string => void,
+  updateGalleryCover: (number, number) => Promise<*>,
+  deletePicture: (number, number) => Promise<*>,
+  comments: Array<Object>
 };
 
 type State = {
   showMore: boolean
 };
 
-export default class GalleryPictureModal extends Component<Props, State> {
+export default class GalleryPictureModal extends Component {
   props: Props;
 
   state: State = {
@@ -56,7 +56,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
     this.props.push(`/photos/${this.props.gallery.id}`);
   };
 
-  handleKeyDown = (e: Event) => {
+  handleKeyDown = (e: KeyboardEvent) => {
     const { gallery, picture, push } = this.props;
 
     switch (e.which) {

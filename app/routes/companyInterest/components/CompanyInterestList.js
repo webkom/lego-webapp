@@ -9,7 +9,7 @@ import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 
 export type Props = {
   companyInterestList: Array<Object>,
-  deleteCompanyInterest: () => void
+  deleteCompanyInterest: number => void
 };
 
 const fields = company => {

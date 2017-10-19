@@ -64,7 +64,8 @@ type Props = {
     registrationId: number,
     feedback: string
   ) => Promise<*>,
-  deleteEvent: (eventId: string) => Promise<*>
+  deleteEvent: (eventId: string) => Promise<*>,
+  updateUser: Object => void
 };
 
 /**

@@ -10,14 +10,12 @@ import { jobType, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
 import Editor from 'app/components/Editor';
 
-type Props = {
-  joblisting: Object,
-  deleteJoblisting: () => void,
-  actionGrant: Array,
-  fetching: boolean
+type ButtonsProps = {
+  id: number,
+  deleteJoblisting: number => void
 };
 
-const Buttons = ({ id, deleteJoblisting }) => (
+const Buttons = ({ id, deleteJoblisting }: ButtonsProps) => (
   <FlexRow alignItems="center">
     <Link to={`/joblistings/${id}/edit`}>
       <button className={styles.editButton}> Rediger </button>
@@ -27,6 +25,13 @@ const Buttons = ({ id, deleteJoblisting }) => (
     </Link>
   </FlexRow>
 );
+
+type Props = {
+  joblisting: Object,
+  deleteJoblisting: () => void,
+  actionGrant: /*TODO: ActionGrant */ Array<any>,
+  fetching: boolean
+};
 
 const JoblistingDetail = ({
   joblisting,
