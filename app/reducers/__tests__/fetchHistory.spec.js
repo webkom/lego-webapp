@@ -9,19 +9,19 @@ describe('fetchHistory', () => {
     expect(fetchHistory(prevState, {})).toEqual({});
   });
 
-  it('should not crash when success equals false', () => {
+  it('should not throw when success equals false', () => {
     const prevState = {};
     const action = { meta: { success: false } };
     expect(fetchHistory(prevState, action)).toEqual({});
   });
 
-  it('should not crash when success equals false with type', () => {
+  it('should not throw when success equals false with type', () => {
     const prevState = {};
     const action = { type: 'Event.SUCCESS', meta: { success: false } };
     expect(fetchHistory(prevState, action)).toEqual({});
   });
 
-  it('should not crash when success equals false with type', () => {
+  it('should not throw when success equals false with type', () => {
     const prevState = {};
     const action = { type: 'Event.BEGIN', meta: { success: 'EVENT.SUCCESS' } };
     expect(fetchHistory(prevState, action)).toEqual({});
@@ -31,22 +31,41 @@ describe('fetchHistory', () => {
     const prevState = {};
     const action = {
       type: 'Event.SUCCESS',
+      payload: {},
       meta: { endpoint: 'events/1/', success: 'Event.SUCCESS' }
     };
     expect(fetchHistory(prevState, action)).toEqual({
-      'events/1/': Date.now()
+      'events/1/': {
+        timestamp: Date.now(),
+        action: {
+          ...action,
+          cached: true
+        }
+      }
     });
   });
 
   it('should append new history entry', () => {
-    const prevState = { 'company/': new Date(1504090888011) };
+    const prevState = {
+      'company/': {
+        timestamp: new Date(1504090888011),
+        action: {}
+      }
+    };
     const action = {
       type: 'Event.SUCCESS',
+      payload: {},
       meta: { endpoint: 'events/1/', success: 'Event.SUCCESS' }
     };
     expect(fetchHistory(prevState, action)).toEqual({
-      'company/': new Date(1504090888011),
-      'events/1/': Date.now()
+      ...prevState,
+      'events/1/': {
+        timestamp: Date.now(),
+        action: {
+          ...action,
+          cached: true
+        }
+      }
     });
   });
 });
