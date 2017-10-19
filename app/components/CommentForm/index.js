@@ -8,7 +8,7 @@ import { getFormMeta, getFormValues, reduxForm, Field } from 'redux-form';
 import type { FieldProps } from 'redux-form';
 import { EditorField } from 'app/components/Form';
 import Button from 'app/components/Button';
-import ProfilePicture from 'app/components/ProfilePicture';
+import { ProfilePicture } from 'app/components/Image';
 import { addComment } from 'app/actions/CommentActions';
 import type { CommentEntity } from 'app/actions/CommentActions';
 import styles from './CommentForm.css';

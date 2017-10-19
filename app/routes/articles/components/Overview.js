@@ -7,7 +7,7 @@ import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { Link } from 'react-router';
 import { Content } from 'app/components/Layout';
 import Time from 'app/components/Time';
-import Image from 'app/components/Image';
+import { Image } from 'app/components/Image';
 
 const HEADLINE_EVENTS = 2;
 const FRONT_EVENTS = 10;

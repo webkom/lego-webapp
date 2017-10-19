@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import Time from 'app/components/Time';
-import ProfilePicture from 'app/components/ProfilePicture';
+import { ProfilePicture } from 'app/components/Image';
 import styles from './activity.css';
 import { lookupContext } from './context';
 import type { AggregatedActivity, Activity } from './types';

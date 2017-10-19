@@ -8,7 +8,7 @@ import Dropdown from '../Dropdown';
 import Icon from '../Icon';
 import Search from '../Search';
 import LoginForm from '../LoginForm/LoginForm';
-import ProfilePicture from '../ProfilePicture';
+import { ProfilePicture } from '../Image';
 import FancyNodesCanvas from './FancyNodesCanvas';
 import NotificationsDropdown from '../HeaderNotifications';
 import styles from './Header.css';
