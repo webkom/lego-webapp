@@ -3,7 +3,7 @@
 import { createSelector } from 'reselect';
 import { Page } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import { selectGroups } from './groups';
+import { selectGroupsWithType } from './groups';
 
 export type PageEntity = {
   id: number,
@@ -46,7 +46,7 @@ export const selectPagesForHierarchy = createSelector(
 );
 
 export const selectGroupsForHierarchy = createSelector(
-  state => selectGroups(state),
+  state => selectGroupsWithType(state, { groupType: 'komite' }),
   (state, props) => props.title,
   (groups, title) => ({
     title,
