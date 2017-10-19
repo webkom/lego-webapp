@@ -4,7 +4,6 @@ import styles from './EventDetail.css';
 import React, { Component } from 'react';
 import { Image } from 'app/components/Image';
 import CommentView from 'app/components/Comments/CommentView';
-import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import JoinEventForm from '../JoinEventForm';
 import RegisteredCell from '../RegisteredCell';
