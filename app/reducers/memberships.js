@@ -25,7 +25,7 @@ export default createEntityReducer({
   }
 });
 
-export const selectMembershipsForInterestGroup = createSelector(
+export const selectMembershipsForGroup = createSelector(
   selectGroup,
   state => state.memberships.byId,
   state => state.users.byId,

@@ -1,7 +1,8 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import { fetchPage, updatePage, fetchAll } from 'app/actions/PageActions';
+import { fetchMemberships } from 'app/actions/GroupActions';
 import { fetchAllWithType, fetchGroup } from 'app/actions/GroupActions';
 import PageDetail, {
   FlatpageRenderer,
@@ -13,18 +14,18 @@ import {
   selectGroupsForHierarchy
 } from 'app/reducers/pages';
 import { selectGroup } from 'app/reducers/groups';
+import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import HTTPError from 'app/routes/errors/HTTPError';
 
-const loadPage = ({ params: { section, pageSlug } }, dispatch) =>
-  sections[section].fetchItem(pageSlug);
-
-const isValidSection = sectionKey => !!sections[sectionKey];
-
 const loadData = (props, dispatch) => {
-  Object.keys(sections).forEach(key => dispatch(sections[key].fetchAll()));
+  const section = sections[props.params.section];
+  const { pageSlug } = props.params;
 
-  const { section } = props.params;
-  return isValidSection(section) && dispatch(loadPage(props, dispatch));
+  return Promise.all([
+    ...Object.keys(sections).map(key => dispatch(sections[key].fetchAll())),
+    ...(section &&
+      section.fetchItemActions.map(action => dispatch(action(pageSlug))))
+  ]);
 };
 
 const mapStateToPropsFlatpages = (state, props) => {
@@ -55,13 +56,17 @@ const mapStateToPropsComitee = (state, props) => {
   const { pageSlug } = props.params;
   const group: Object = selectGroup(state, { groupId: pageSlug });
 
+  const memberships = selectMembershipsForGroup(state, {
+    groupId: Number(pageSlug)
+  });
+
   const selectedPageInfo = group && {
     actionGrant: group.actionGrant || [],
     title: group.name,
     editUrl: `/admin/groups/${group.id}/settings`
   };
   return {
-    selectedPage: group,
+    selectedPage: group && { ...group, memberships },
     selectedPageInfo
   };
 };
@@ -74,7 +79,7 @@ const sections = {
     hierarchySectionSelector: selectPagesForHierarchy,
     PageRenderer: FlatpageRenderer,
     fetchAll: fetchAll,
-    fetchItem: fetchPage
+    fetchItemActions: [fetchPage]
   },
   komiteer: {
     title: 'Komiteer',
@@ -83,11 +88,11 @@ const sections = {
     hierarchySectionSelector: selectGroupsForHierarchy,
     PageRenderer: GroupRenderer,
     fetchAll: () => fetchAllWithType('komite'),
-    fetchItem: fetchGroup
+    fetchItemActions: [fetchGroup, fetchMemberships]
   }
 };
 const mapStateToProps = (state, props) => {
-  const { section } = props.params;
+  const { section, pageSlug } = props.params;
 
   const pageHierarchy = Object.keys(sections).map(sectionKey =>
     sections[sectionKey].hierarchySectionSelector(state, {
@@ -103,6 +108,7 @@ const mapStateToProps = (state, props) => {
     ...mapStateToPropsForSection(state, props),
     PageRenderer,
     pageHierarchy,
+    pageSlug,
     currentUrl: props.location.pathname
   };
 };
@@ -110,6 +116,6 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = { updatePage };
 
 export default compose(
-  dispatched(loadData),
+  prepare(loadData, ['params.pageSlug']),
   connect(mapStateToProps, mapDispatchToProps)
 )(PageDetail);

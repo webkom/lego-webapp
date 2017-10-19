@@ -3,9 +3,12 @@
 
 import * as React from 'react';
 import styles from './PageDetail.css';
+import { Link } from 'react-router';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import PageHierarchy from './PageHierarchy';
+import { Content } from 'app/components/Layout';
+import sortBy from 'lodash/sortBy';
 
 import type { HierarchySectionEntity } from './PageHierarchy';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
@@ -35,18 +38,40 @@ export const FlatpageRenderer = ({ page }: { page: PageEntity }) => (
   </article>
 );
 
-export const GroupRenderer = ({ page }: { page: Object }) => (
-  <article className={styles.detail}>
-    {page.logo && (
-      <div className={styles.logo}>
-        <img alt="presentation" src={page.logo} />
-      </div>
-    )}
-
-    <div dangerouslySetInnerHTML={{ __html: page.description }} />
-    <div dangerouslySetInnerHTML={{ __html: page.text }} />
-  </article>
+const RenderUser = ({ user }: Object) => (
+  <Link to={`/users/${user.username}`}>{user.fullName}</Link>
 );
+
+export const GroupRenderer = ({ page }: { page: Object }) => {
+  const { memberships, description, text, logo } = page;
+  const leader = memberships.find(membership => membership.role == 'member');
+
+  const members = sortBy(
+    memberships.filter(m => m != leader).map(m => m.user),
+    'fullName'
+  );
+  return (
+    <article className={styles.detail}>
+      {logo && (
+        <div className={styles.logo}>
+          <img alt="presentation" src={logo} />
+        </div>
+      )}
+      <div dangerouslySetInnerHTML={{ __html: description }} />
+      <div dangerouslySetInnerHTML={{ __html: text }} />
+
+      <h3>Medlemmer:</h3>
+      <ul>
+        {leader && <li>Leder: {<RenderUser user={leader.user} />}</li>}
+        {members.map((member, key) => (
+          <li key={key}>
+            <RenderUser user={member} />
+          </li>
+        ))}
+      </ul>
+    </article>
+  );
+};
 
 function PageDetail<T: Object>({
   selectedPage,
@@ -60,7 +85,7 @@ function PageDetail<T: Object>({
   }
   const { title, editUrl, actionGrant } = selectedPageInfo;
   return (
-    <div className={styles.root}>
+    <Content>
       <NavigationTab title={title}>
         {actionGrant.includes('edit') &&
           editUrl && <NavigationLink to={`${editUrl}`}>ENDRE</NavigationLink>}
@@ -78,7 +103,7 @@ function PageDetail<T: Object>({
           />
         </aside>
       </Flex>
-    </div>
+    </Content>
   );
 }
 export default PageDetail;
