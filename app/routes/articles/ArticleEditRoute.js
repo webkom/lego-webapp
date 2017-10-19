@@ -1,11 +1,10 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import { fetchArticle, editArticle } from 'app/actions/ArticleActions';
 import ArticleEditor from './components/ArticleEditor';
 import { selectArticleById } from 'app/reducers/articles';
-import { reduxForm } from 'redux-form';
-import { uploadFile } from 'app/actions/FileActions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
@@ -18,28 +17,19 @@ const mapStateToProps = (state, props) => {
     articleId,
     isNew: false,
     initialValues: {
-      title: article.title,
-      cover: article.cover,
-      tags: article.tags.map(tag => ({ label: tag, value: tag })),
-      content: article.content || '<p></p>'
+      ...article,
+      tags: (article.tags || []).map(tag => ({ label: tag, value: tag }))
     }
   };
 };
 
-const mapDispatchToProps = { uploadFile, fetchArticle, editArticle };
+const mapDispatchToProps = { fetchArticle, editArticle };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { articleId } }, dispatch) => dispatch(fetchArticle(articleId)),
-    {
-      componentWillReceiveProps: false
-    }
+  prepare(({ params: { articleId } }, dispatch) =>
+    dispatch(fetchArticle(articleId))
   ),
   connect(mapStateToProps, mapDispatchToProps),
-  reduxForm({
-    destroyOnUnmount: false,
-    form: 'article',
-    enableReinitialize: true
-  })
+  loadingIndicator('article.content')
 )(ArticleEditor);

@@ -1,29 +1,39 @@
 @import 'app/styles/variables.css';
 
-.root {
-  composes: contentContainer from 'app/styles/utilities.css';
-
-  @media (--small-viewport) {
-    padding: 0;
-
-    .coverImage {
-      padding: 0;
-    }
-
-    > div {
-      padding: 0 10px;
-    }
-  }
-}
-
 .coverImage {
   width: 100%;
   height: 300px;
   overflow: hidden;
-  background: #000;
   position: relative;
+}
+
+.coverImage img {
+  object-fit: cover;
+  width: inherit;
+  height: inherit;
 }
 
 .tagRow {
   margin-top: 8px;
+}
+
+span.detail + span.detail {
+  margin-left: 10px;
+}
+
+span.detail + span.detail::before {
+  margin-right: 10px;
+  content: '•';
+}
+
+.headerClassName {
+  margin-bottom: 0px;
+}
+
+.articleHeader {
+  margin-bottom: 0px;
+}
+
+.articleDetails {
+  margin-bottom: 15px;
 }
