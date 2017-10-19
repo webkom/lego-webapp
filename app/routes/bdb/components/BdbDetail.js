@@ -86,7 +86,12 @@ export default class BdbDetail extends Component {
     return deleteCompanyContact(company.id, companyContactId);
   };
 
-  addFileToSemester = (fileName, fileToken, type, semesterStatus) => {
+  addFileToSemester = (
+    fileName: string,
+    fileToken: string,
+    type: string,
+    semesterStatus: Object
+  ) => {
     const { editSemesterStatus, company } = this.props;
 
     const sendableSemester = {
