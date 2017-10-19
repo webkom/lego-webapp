@@ -2,8 +2,9 @@
 
 import { Meta } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
+import type { Thunk } from 'app/types';
 
-export function fetchMeta() {
+export function fetchMeta(): Thunk<*> {
   return callAPI({
     types: Meta.FETCH,
     useCache: false,

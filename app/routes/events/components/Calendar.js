@@ -15,7 +15,8 @@ const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
 type Props = {
   weekOffset: number,
   date: moment,
-  icalToken: string
+  icalToken: string,
+  actionGrant: Object
 };
 
 function pathForPrevMonth(date: moment) {

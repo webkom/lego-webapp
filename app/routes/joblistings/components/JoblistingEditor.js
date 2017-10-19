@@ -18,13 +18,15 @@ import {
 } from './JoblistingEditorItems';
 import { places, jobTypes } from '../constants';
 
+type JobListing = Object;
+
 type Props = {
   joblistingId?: string,
-  joblisting?: Object,
-  handleSubmit: () => void,
-  submitJoblisting: () => void,
+  joblisting?: JobListing,
+  handleSubmit: /*TODO: SubmitHandler<>*/ any => void,
+  submitJoblisting: JobListing => void,
   company?: Object,
-  dispatch: () => void,
+  dispatch: any => void,
   isNew: boolean,
   fetching: boolean
 };
@@ -43,6 +45,7 @@ function JoblistingEditor({
     const workplaces = newJoblisting.workplaces
       ? newJoblisting.workplaces.map(obj => ({ town: obj.value }))
       : null;
+
     submitJoblisting({
       ...newJoblisting,
       workplaces
@@ -167,7 +170,12 @@ export default reduxForm({
     if (!values.workplaces) {
       errors.workplaces = 'Arbeidssteder kan ikke være tom';
     }
+
+    // TODO: and unify timezone handling
+    // $FlowFixMe
     const visibleFrom = moment.tz(values.visibleFrom, config.timezone);
+
+    // $FlowFixMe
     const visibleTo = moment.tz(values.visibleTo, config.timezone);
     if (visibleFrom > visibleTo) {
       errors.visibleTo = 'Sluttidspunkt kan ikke være før starttidspunkt';

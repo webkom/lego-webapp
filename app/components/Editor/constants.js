@@ -1,5 +1,4 @@
 /* eslint-disable react/display-name */
-// @flow
 
 import React from 'react';
 
@@ -24,7 +23,7 @@ export type BlockType =
   | 'bulleted-list'
   | 'list-item';
 
-const deserialize = (tagName, type, kind) => (el, next) => {
+const deserialize = (tagName, type, kind) => (el: HTMLElement, next: any) => {
   if (el.tagName.toLowerCase() === tagName) {
     return {
       kind,
@@ -34,7 +33,10 @@ const deserialize = (tagName, type, kind) => (el, next) => {
   }
 };
 
-const serialize = (type, kind: TagKind, serializer) => (object, children) => {
+const serialize = (type, kind: TagKind, serializer) => (
+  object: Object,
+  children: any
+) => {
   if (object.kind === kind && object.type === type) {
     return serializer({ object, children });
   }

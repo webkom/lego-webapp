@@ -312,13 +312,18 @@ export function fetchSemesters({ companyInterest }: Object = {}) {
   });
 }
 
-export function addSemester({ year, semester }) {
+type SemesterInput = {
+  year: number,
+  semester: number
+};
+
+export function addSemester({ year, semester }: SemesterInput): Thunk<*> {
   return dispatch => {
     return dispatch(
       callAPI({
         types: Company.ADD_SEMESTER,
         endpoint: `/company-semesters/`,
-        method: 'post',
+        method: 'POST',
         body: {
           year,
           semester
