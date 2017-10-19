@@ -58,3 +58,12 @@ export const selectUserById = createSelector(
     return {};
   }
 );
+
+export const selectUserWithGroups = createSelector(
+  selectUserById,
+  state => state.groups.byId,
+  (user, groupsById) => ({
+    ...user,
+    abakusGroups: (user.abakusGroups || []).map(groupId => groupsById[groupId])
+  })
+);

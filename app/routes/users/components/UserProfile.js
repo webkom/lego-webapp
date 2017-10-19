@@ -4,13 +4,16 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Helmet from 'react-helmet';
 import { capitalize } from 'lodash';
-import ProfilePicture from 'app/components/ProfilePicture';
+import ProfilePicture, { CircularPicture } from 'app/components/ProfilePicture';
 import Card from 'app/components/Card';
 import Pill from 'app/components/Pill';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Feed from 'app/components/Feed';
 import styles from './UserProfile.css';
 import { Flex } from 'app/components/Layout';
+import Tooltip from 'app/components/Tooltip';
+import { groupBy } from 'lodash';
+import cx from 'classnames';
 
 const fieldTranslations = {
   username: 'brukernavn',
@@ -44,16 +47,39 @@ export default class UserProfile extends Component {
 
   render() {
     const { user, showSettings, feedItems, feed } = this.props;
+    const abakusGroups = groupBy(
+      user.abakusGroups,
+      group => (group.logo ? 'withLogo' : 'withoutLogo')
+    );
     return (
       <div className={styles.root}>
         <Helmet title={`${user.firstName} ${user.lastName}`} />
 
         <Flex wrap className={styles.header}>
-          <ProfilePicture user={user} size={150} />
-
-          <h2>{user.fullName}</h2>
-
-          <Pill>5. Datateknikk</Pill>
+          <div className={cx(styles.sidebar, styles.picture)}>
+            <ProfilePicture user={user} size={150} />
+          </div>
+          <Flex column className={styles.rightContent}>
+            <h2>{user.fullName}</h2>
+            <Flex>
+              {(abakusGroups['withoutLogo'] || []).map(group => (
+                <Pill key={group.id} style={{ margin: '0 5px' }}>
+                  {group.name}
+                </Pill>
+              ))}
+            </Flex>
+            <Flex>
+              {(abakusGroups['withLogo'] || []).map(group => (
+                <Tooltip key={group.id} content={group.name}>
+                  <CircularPicture
+                    src={group.logo}
+                    size={50}
+                    style={{ margin: '10px 5px' }}
+                  />
+                </Tooltip>
+              ))}
+            </Flex>
+          </Flex>
         </Flex>
 
         <Flex wrap className={styles.content}>
