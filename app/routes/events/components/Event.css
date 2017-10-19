@@ -43,9 +43,7 @@
 }
 
 .description {
-  border-radius: 5px;
   flex: 2;
-  background: var(--lego-color-gray-light);
 
   @media (--medium-viewport) {
     margin-bottom: 1em;
@@ -56,7 +54,7 @@
   flex: 1;
   padding: 20px;
   border-radius: 5px;
-  margin-left: 1em;
+  margin-left: 3em;
   background: #eee;
 
   @media (--small-viewport) {
@@ -78,17 +76,7 @@
 }
 
 .join {
-  background: var(--lego-color-gray-light);
-  border-radius: 5px;
   flex: 2;
-}
-
-.join > * {
-  margin: 20px 20px 0;
-}
-
-.join > *:last-child {
-  margin-bottom: 20px;
 }
 
 .joinHeader {

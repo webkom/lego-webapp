@@ -141,7 +141,12 @@ export default class EventDetail extends Component {
 
         <Flex wrap className={styles.mainRow}>
           <Flex column className={styles.description}>
-            <Flex wrap alignItems="center" justifyContent="space-between">
+            <Flex
+              wrap
+              className={styles.descriptionHeader}
+              alignItems="center"
+              justifyContent="space-between"
+            >
               <h2 className={styleType}>{event.title}</h2>
               <InterestedButton
                 value={event.isUserFollowing}
@@ -153,6 +158,7 @@ export default class EventDetail extends Component {
               className={styles.text}
               dangerouslySetInnerHTML={{ __html: event.text }}
             />
+
             <Flex className={styles.tagRow}>
               {event.tags.map((tag, i) => <Tag key={i} tag={tag} />)}
             </Flex>
@@ -186,7 +192,7 @@ export default class EventDetail extends Component {
               {event.activationTime && (
                 <li>
                   Påmelding åpner
-                  <strong>
+                  <strong style={{ marginLeft: 5 }}>
                     <Time
                       time={event.activationTime}
                       format="DD.MM.YYYY HH:mm"
@@ -206,7 +212,7 @@ export default class EventDetail extends Component {
             </ul>
             {loggedIn && (
               <Flex column>
-                <h3>Påmeldte:</h3>
+                <h3>Påmeldte</h3>
                 <Flex className={styles.registeredThumbnails}>
                   {registrations
                     .slice(0, 10)
@@ -233,29 +239,17 @@ export default class EventDetail extends Component {
           </Flex>
         </Flex>
 
-        <Flex wrapReverse style={{ marginBottom: '10px' }}>
-          {loggedIn && (
-            <JoinEventForm
-              event={event}
-              registration={currentRegistration}
-              currentUser={currentUser}
-              updateUser={updateUser}
-              onToken={this.handleToken}
-              onSubmit={this.handleRegistration}
-            />
-          )}
+        {loggedIn && (
+          <JoinEventForm
+            event={event}
+            registration={currentRegistration}
+            currentUser={currentUser}
+            updateUser={updateUser}
+            onToken={this.handleToken}
+            onSubmit={this.handleRegistration}
+          />
+        )}
 
-          <Flex column className={styles.openFor}>
-            <strong>Åpent for</strong>
-            <ul>
-              {(pools || []).map(pool =>
-                pool.permissionGroups.map(group => (
-                  <li key={group.id}>{group.name}</li>
-                ))
-              )}
-            </ul>
-          </Flex>
-        </Flex>
         {event.commentTarget && (
           <CommentView
             user={currentUser}

@@ -36,9 +36,11 @@ const RegistrationList = ({ registrations, onClick }) => (
     className={styles.registrationList}
     onClick={onClick}
   >
-    {`${registrations.length} ${registrations.length === 1
-      ? 'annen'
-      : 'andre'}`}
+    <a href="#">
+      {`${registrations.length} ${registrations.length === 1
+        ? 'annen'
+        : 'andre'}`}
+    </a>
   </Tooltip>
 );
 
