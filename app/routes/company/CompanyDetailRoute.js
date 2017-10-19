@@ -6,6 +6,7 @@ import { fetch as fetchCompany } from 'app/actions/CompanyActions';
 import CompanyDetail from './components/CompanyDetail';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { selectEventsForCompany } from 'app/reducers/companies';
 
 type Props = {
   fetchCompany: () => {}
@@ -19,8 +20,11 @@ const mapStateToProps = (state, props) => {
   const companyId = props.params.companyId;
   const { query } = props.location;
   const company = state.companies.byId[companyId];
+  const companyEvents = selectEventsForCompany(state, { companyId });
+
   return {
     company,
+    companyEvents,
     query,
     companyId,
     loggedIn: props.currentUser

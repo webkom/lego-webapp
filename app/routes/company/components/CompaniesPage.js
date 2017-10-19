@@ -15,15 +15,13 @@ export function CompanyItem({ company }: any) {
   return (
     <div className={styles.companyItem}>
       <div>
-        <Link key={company.id} to={`/companies/${company.id}`}>
+        <Link to={`/companies/${company.id}`}>
           <h3 className={styles.companyItemTitle}>{company.name}</h3>
         </Link>
-        <div className={styles.website}>
-          {`${company.website} • ${company.address}`
-            ? company.website || company.address
-            : ''}
-        </div>
-        <p>{truncateString(company.description, 300)}</p>
+        <a href={company.website}>
+          <div className={styles.website}>{company.website}</div>
+        </a>
+        {truncateString(company.description, 300)}
       </div>
       <div className={styles.companyLogo}>
         {company.thumbnail && <Image src={company.thumbnail} />}

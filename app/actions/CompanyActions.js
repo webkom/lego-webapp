@@ -39,7 +39,7 @@ export function fetchAllAdmin() {
 
 export function fetchAllPublic() {
   return callAPI({
-    types: Company.FETCH_ALL,
+    types: Company.FETCH,
     endpoint: '/public-companies/',
     schema: [companySchema],
     meta: {
