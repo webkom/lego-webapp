@@ -6,15 +6,15 @@
 }
 
 .heading i {
-  color: green;
-  position: absolute;
-  right: 0;
-  transition: color 0.3s ease;
+  margin-right: 10px;
 
   &:hover {
     cursor: pointer;
-    color: #7af252;
   }
+}
+
+.title {
+  color: white;
 }
 
 .quoteSource,
