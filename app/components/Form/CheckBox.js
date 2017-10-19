@@ -6,7 +6,7 @@ import styles from './CheckBox.css';
 import cx from 'classnames';
 
 type Props = {
-  id: string,
+  id?: string,
   type?: string,
   label?: string,
   labelStyle?: string,

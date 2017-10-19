@@ -35,7 +35,8 @@ export const GroupPermissions = ({ group, editGroup }: Props) => {
 };
 
 const mapDispatchToProps = { editGroup };
+
 export default compose(
-  connect(null, mapDispatchToProps),
+  connect(() => ({}), mapDispatchToProps),
   loadingIndicator('group')
 )(GroupPermissions);

@@ -38,10 +38,8 @@ import feedActivities from './feedActivities';
 import feeds from './feeds';
 import fetchHistory from './fetchHistory';
 import { User } from '../actions/ActionTypes';
+import reduceReducers from 'app/utils/joinReducers';
 import type { State, Action } from 'app/types';
-
-const reduceReducers = (...reducers) => (prev, curr) =>
-  reducers.reduce((p, r) => r(p, curr), prev);
 
 const reducers = {
   allowed,
@@ -87,6 +85,7 @@ export default function rootReducer(state: State, action: Action) {
   if (action.type === User.LOGOUT) {
     return appReducer(undefined, action);
   }
+
   return appReducer(state, action);
 }
 

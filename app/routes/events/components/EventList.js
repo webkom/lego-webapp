@@ -41,7 +41,17 @@ function groupEvents(events) {
   }, {});
 }
 
-function Attendance({ registrationCount, totalCapacity, style }) {
+type AttendanceProps = {
+  registrationCount: number,
+  totalCapacity: number,
+  style: any
+};
+
+function Attendance({
+  registrationCount,
+  totalCapacity,
+  style
+}: AttendanceProps) {
   // @todo choose pill color based on capacity
   return (
     <Pill style={{ ...style, whiteSpace: 'nowrap' }}>
@@ -83,7 +93,12 @@ export function EventItem({ event }: any) {
   );
 }
 
-function EventListGroup({ name, events = [] }) {
+type EventListGroupProps = {
+  name: string,
+  events: Array</*TODO: Event */ any>
+};
+
+function EventListGroup({ name, events = [] }: EventListGroupProps) {
   return (
     <div className={styles.eventGroup}>
       <h2 className={styles.heading}>{name}</h2>
@@ -92,7 +107,13 @@ function EventListGroup({ name, events = [] }) {
   );
 }
 
-const EventList = props => {
+type EventListProps = {
+  events: Array<any>,
+  actionGrant: /* TODO: ActionGrant */ any,
+  icalToken: /* TODO: IcalToken */ string
+};
+
+const EventList = (props: EventListProps) => {
   const events = groupEvents(props.events);
   const { icalToken } = props;
   return (

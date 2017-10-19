@@ -1,6 +1,5 @@
 // @flow
 
-import type { Action } from 'app/types';
 import { Meta } from '../actions/ActionTypes';
 
 const initialState = {
@@ -15,11 +14,13 @@ const initialState = {
   users: false
 };
 
-export type Allowed = {
-  [$Keys<typeof initialState>]: boolean
-};
+// export type Allowed = {
+//   [$Keys<typeof initialState>]: boolean
+// };
 
-export default function allowed(state: Allowed = initialState, action: Action) {
+export type Allowed = $ObjMap<typeof initialState, <V>(v: any) => boolean>;
+
+export default function allowed(state: Allowed = initialState, action: any) {
   switch (action.type) {
     case Meta.FETCH.SUCCESS:
       return action.payload.isAllowed;
