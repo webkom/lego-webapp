@@ -63,33 +63,6 @@ export const fetchList = (
   );
 };
 
-export function fetchAll(
-  { dateAfter, dateBefore, nextPage, force = false }: { dateAfter?: string, dateBefore?: string } = {}
-) {
-  const query = {};
-
-  if (dateBefore) {
-    query.date_before = dateBefore;
-  }
-  if (dateAfter) {
-    query.date_after = dateAfter;
-  }
-  if (dateBefore && dateAfter) {
-    query.page_size = 60;
-  }
-  return callAPI({
-    types: Event.FETCH,
-    endpoint: nextPage || `/events/${createQueryString(query)}`,
-    schema: [eventSchema],
-    meta: {
-      errorMessage: 'Henting av hendelser feilet'
-    },
-    force,
-    cacheSeconds: Infinity, // don't expire cache unless user explicitly wants to refresh
-    propagateError: true
-  });
-}
-
 export function fetchAdministrate(eventId: string) {
   return callAPI({
     types: Event.ADMINISTRATE_FETCH,
