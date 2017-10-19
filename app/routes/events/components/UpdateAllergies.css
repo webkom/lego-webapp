@@ -1,0 +1,17 @@
+.label {
+  font-size: 18px;
+}
+
+.allergies {
+  margin-bottom: 0;
+}
+
+.button {
+  margin-left: 10px;
+}
+
+.update {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
