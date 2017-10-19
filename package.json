@@ -18,6 +18,7 @@
     "lint": "yarn run lint:js && yarn run lint:css",
     "lint:js": "eslint . --ignore-path .prettierignore",
     "lint:css": "stylelint './app/**/*.css'",
+    "prettier": "prettier '**/*.{js|css}' --write",
     "flow": "flow",
     "styleguide": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist server",
     "styleguide:build": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist build"
