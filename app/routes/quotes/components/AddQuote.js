@@ -8,11 +8,11 @@ import { createValidator, required } from 'app/utils/validation';
 import { navigation } from '../utils';
 
 type Props = {
-  addQuotes: Object => void,
+  addQuotes: Object => Promise<*>,
   invalid: boolean,
   pristine: boolean,
   submitting: boolean,
-  handleSubmit: ((Object) => void) => void,
+  handleSubmit: ((Object) => Promise<*>) => void,
   actionGrant: Array<string>
 };
 
