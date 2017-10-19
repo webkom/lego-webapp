@@ -5,28 +5,29 @@
 }
 
 .header {
-  align-items: center;
   justify-content: space-between;
 
-  @media (--small-viewport) {
+  @media (--mobile-device) {
     justify-content: space-around;
+    flex-direction: column;
   }
 }
 
-.picture {
-  display: flex;
-  justify-content: center;
-}
-
-.rightContent {
-  flex: 3;
-  min-width: 320px;
-  padding-left: 30px;
-  width: 100%;
+.primaryInfo {
+  margin-left: 30px;
 
   @media (--small-viewport) {
-    padding-left: 0;
+    margin-left: 0;
+  }
+}
+
+.left {
+  @media (--small-viewport) {
+    justify-content: space-around;
+    flex-direction: column;
+    text-align: center;
     align-items: center;
+    margin-bottom: 30px;
   }
 }
 
