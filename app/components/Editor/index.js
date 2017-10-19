@@ -48,7 +48,7 @@ type Props = {
   placeholder?: string,
   onChange: string => void,
   onBlur?: () => void,
-  onFocus?: () => void,
+  autoFocus?: boolean,
   readOnly?: boolean,
   onChange?: any
 };
@@ -63,10 +63,11 @@ const emptyState = '<p></p>';
 class CustomEditor extends Component {
   state: State;
   props: Props;
-  lastSerialized: string | null;
+  lastSerialized: string;
 
   constructor(props: Props) {
     super(props);
+    this.lastSerialized = '';
     resetKeyGenerator();
     const content = this.props.value || emptyState;
 
@@ -319,6 +320,10 @@ class CustomEditor extends Component {
             onToggleMark={this.onToggleMark}
           />
           <Editor
+            ref={element => {
+              this.editor = element;
+            }}
+            autoFocus={this.props.autoFocus}
             onBlur={this.onBlur}
             onFocus={this.onFocus}
             schema={schema}
