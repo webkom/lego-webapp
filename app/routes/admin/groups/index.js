@@ -16,6 +16,10 @@ export default {
         {
           path: 'members', // admin/groups/123/members
           ...resolveAsyncRoute(() => import('./components/GroupMembers'))
+        },
+        {
+          path: 'permissions', // admin/groups/123/members
+          ...resolveAsyncRoute(() => import('./components/GroupPermissions'))
         }
       ]
     }
