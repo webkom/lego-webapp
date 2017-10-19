@@ -100,7 +100,6 @@ const EventList = props => {
     <div className={styles.root}>
       <Helmet title="Arrangementer" />
       <Toolbar actionGrant={props.actionGrant} />
-      <Button onClick={reload}>Refresh</Button>
       <EventListGroup name="Denne uken" events={events.currentWeek} />
 
       <EventListGroup name="Neste uke" events={events.nextWeek} />

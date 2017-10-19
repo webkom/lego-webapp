@@ -2,7 +2,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import { dispatched } from '@webkom/react-prepare';
-import { fetchAll } from 'app/actions/EventActions';
+import { fetchList } from 'app/actions/EventActions';
 import { login, logout } from 'app/actions/UserActions';
 import Overview from './components/Overview';
 import { selectEvents } from 'app/reducers/events';
@@ -28,7 +28,7 @@ export default compose(
   replaceUnlessLoggedIn(PublicFrontpage),
   dispatched(
     ({ loggedIn }, dispatch) =>
-      dispatch(fetchAll({ dateAfter: moment().format('YYYY-MM-DD') })).then(
+      dispatch(fetchList({ dateAfter: moment().format('YYYY-MM-DD') })).then(
         () => (loggedIn ? dispatch(fetchPersonalFeed()) : Promise.resolve())
       ),
     {
