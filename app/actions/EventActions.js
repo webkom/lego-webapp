@@ -38,7 +38,6 @@ export const fetchList = (
   }
   const queryString = createQueryString(query);
   const endpoint = getEndpoint(getState(), loadNextPage, queryString);
-  console.log('endpoint', endpoint, queryString)
   if (!endpoint) {
     return;
   }

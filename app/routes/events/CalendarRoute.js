@@ -15,8 +15,6 @@ const getDate = ({ params }) => {
 
 const loadData = (props, dispatch) => {
   const date = getDate(props);
-  console.log('load', date.toString());
-  console.log(props);
   if (date.isValid()) {
     const dateAfter = date
       .clone()
@@ -40,7 +38,6 @@ const loadData = (props, dispatch) => {
 const mapStateToProps = (state, ownProps) => {
   const user = ownProps.currentUser;
   const icalToken = user ? user.icalToken : null;
-  console.log('hello', getDate(ownProps).toString());
   const actionGrant = state.events.actionGrant;
   return {
     date: getDate(ownProps),
