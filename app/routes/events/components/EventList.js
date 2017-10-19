@@ -7,7 +7,7 @@ import moment from 'moment';
 import Time from 'app/components/Time';
 import Pill from 'app/components/Pill';
 import Image from 'app/components/Image';
-import Tag from 'app/components/Tag';
+import Tag from 'app/components/Tags';
 import Toolbar from './Toolbar';
 import { colorForEvent } from '../utils';
 import styles from './EventList.css';

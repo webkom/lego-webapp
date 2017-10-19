@@ -3,10 +3,11 @@
 import React from 'react';
 import cx from 'classnames';
 import Comment from './Comment';
+import { type CommentEntity } from 'app/reducers/comments';
 import styles from './CommentTree.css';
 
 type Props = {
-  comments: Array<Object>,
+  comments: CommentEntity[],
   isChild?: boolean,
   commentFormProps: Object,
   level?: number

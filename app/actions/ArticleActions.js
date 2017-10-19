@@ -19,7 +19,7 @@ export function fetchArticle(articleId: EntityID) {
   });
 }
 
-export function createArticle({ title, content, tags, cover }: ArticleEntity) {
+export function createArticle({ description, author, title, content, tags, cover }: ArticleEntity) {
   return dispatch =>
     dispatch(
       callAPI({
@@ -32,8 +32,8 @@ export function createArticle({ title, content, tags, cover }: ArticleEntity) {
           content,
           tags,
           cover,
-          author: 1,
-          description: 'nice article'
+          author,
+          description
         },
         meta: {
           errorMessage: 'Opprettelse av artikkel feilet'
@@ -46,6 +46,8 @@ export function editArticle({
   id,
   title,
   content,
+  author,
+  description,
   tags,
   cover
 }: ArticleEntity) {
@@ -61,8 +63,8 @@ export function editArticle({
           cover,
           tags,
           content,
-          author: 1,
-          description: 'nice article'
+          author,
+          description
         },
         meta: {
           errorMessage: 'Endring av artikkel feilet'

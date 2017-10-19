@@ -44,10 +44,12 @@ class Upload extends Component {
     return (
       <Dropzone
         className={styles.dropArea}
-        activeClassName={styles.activeDropArea}
         onDrop={this.onDrop}
         multiple={multiple}
         accept={accept}
+        onClick={e => {
+          e.preventDefault();
+        }}
       >
         {children}
       </Dropzone>

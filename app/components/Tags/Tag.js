@@ -18,7 +18,7 @@ function Tag({ tag, small = false }: Props) {
   const className = small ? styles.tagLinkSmall : styles.tagLink;
   return (
     <div className={styles.linkSpacing}>
-      <Link className={className} to={'/'}>
+      <Link className={className} to={`search?q=${tag}`}>
         #{tag}
       </Link>
     </div>
