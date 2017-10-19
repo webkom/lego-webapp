@@ -11,12 +11,6 @@ type Link = {|
 
 const LINKS: Array<Link> = [
   {
-    key: 'shop',
-    requireLogin: true,
-    title: 'Butikk',
-    url: 'https://shop.abakus.no/'
-  },
-  {
     key: 'profile',
     requireLogin: true,
     title: 'Profil',
@@ -60,7 +54,7 @@ const LINKS: Array<Link> = [
   },
   {
     key: 'quotes',
-    title: 'Sitat',
+    title: 'Sitater',
     url: '/quotes'
   },
   {

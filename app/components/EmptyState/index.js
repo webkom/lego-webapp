@@ -3,10 +3,11 @@
 import React from 'react';
 import styles from './EmptyState.css';
 import Icon from '../Icon';
+import cx from 'classnames';
 
 type Props = {
   /** name of icon */
-  icon: string,
+  icon?: string,
   /** html to display in an EmptyState */
   children: any,
   size?: number
@@ -17,8 +18,8 @@ type Props = {
  *
  */
 const EmptyState = ({ icon, size = 88, children }: Props) => (
-  <div className={styles.container}>
-    <Icon className={styles.icon} size={size} name={icon} />
+  <div className={cx(styles.container, icon && styles.centered)}>
+    {icon && <Icon className={styles.icon} size={size} name={icon} />}
     {children}
   </div>
 );
