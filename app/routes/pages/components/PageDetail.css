@@ -15,8 +15,9 @@
 
 .detail {
   margin-top: 30px;
-  width: 80%;
-  padding-right: 5em;
+  flex: 1;
+  min-width: 300px;
+  width: 100%;
 }
 
 .header {
@@ -24,7 +25,10 @@
 }
 
 .sidebar {
-  width: 20%;
+  min-width: 150px;
+  max-width: 230px;
+  margin: 0 2em;
+  flex: 1;
 }
 
 .action {

@@ -93,7 +93,7 @@ function PageDetail<T: Object>({
           <NavigationLink to={`/pages/new`}> NY </NavigationLink>
         )}
       </NavigationTab>
-      <Flex className={styles.page}>
+      <Flex className={styles.page} wrap>
         <PageRenderer page={selectedPage} />
 
         <aside className={styles.sidebar}>
