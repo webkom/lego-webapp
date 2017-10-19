@@ -8,7 +8,7 @@ import { getFormMeta, getFormValues, reduxForm, Field } from 'redux-form';
 import type { FieldProps } from 'redux-form';
 import { EditorField } from 'app/components/Form';
 import Button from 'app/components/Button';
-import ProfilePicture from 'app/components/ProfilePicture';
+import { ProfilePicture } from 'app/components/Image';
 import { addComment } from 'app/actions/CommentActions';
 import type { CommentEntity } from 'app/actions/CommentActions';
 import styles from './CommentForm.css';
@@ -103,19 +103,11 @@ class CommentForm extends Component {
   }
 }
 
-// TODO(larsen): there's a bug in the editor that causes
-// the empty value to be a p-tag with two spaces.
-// This should be replaced with value != null or something
-// when that's fixed.
-function hasContent(value) {
-  return value && value !== '<p>  </p>';
-}
-
 function mapStateToProps(state, props) {
   const meta = getFormMeta(props.form)(state);
   const values = getFormValues(props.form)(state);
   return {
-    isOpen: meta && (meta.text.active || hasContent(values.text))
+    isOpen: meta && (meta.text.active || (values && values.text))
   };
 }
 

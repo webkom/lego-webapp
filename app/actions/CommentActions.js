@@ -44,7 +44,7 @@ export function addComment({
           formName += `-${parent}`;
         }
 
-        dispatch(initialize(formName, { text: '<p></p>' }));
+        dispatch(initialize(formName, { text: '' }));
       })
       .catch(action => {
         const errors = { ...action.payload.response.jsonData };

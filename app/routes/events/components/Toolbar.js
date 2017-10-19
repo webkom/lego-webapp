@@ -28,7 +28,7 @@ class Toolbar extends Component {
             activeClassName={styles.active}
             className={styles.pickerItem}
           >
-            List View
+            Liste
           </IndexLink>
 
           <Link
@@ -36,7 +36,7 @@ class Toolbar extends Component {
             activeClassName={styles.active}
             className={styles.pickerItem}
           >
-            Calendar
+            Kalender
           </Link>
         </div>
 

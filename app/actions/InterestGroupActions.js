@@ -6,6 +6,7 @@ import { InterestGroup, Membership, Group } from './ActionTypes';
 import { push } from 'react-router-redux';
 import { omit } from 'lodash';
 import type { Thunk } from 'app/types';
+import createQueryString from 'app/utils/createQueryString';
 
 function fetchMemberships(groupId: Number) {
   return callAPI({
@@ -26,7 +27,9 @@ export function fetchInterestGroup(interestGroupId: Number) {
     const group = dispatch(
       callAPI({
         types: InterestGroup.FETCH,
-        endpoint: `/groups/${interestGroupId}/`,
+        endpoint: `/groups/${interestGroupId}/${createQueryString({
+          type: 'interesse'
+        })}`,
         schema: groupSchema,
         meta: {
           errorMessage: 'Henting av interessegruppe feilet'
@@ -44,7 +47,9 @@ export function fetchAll() {
     return dispatch(
       callAPI({
         types: InterestGroup.FETCH_ALL,
-        endpoint: '/groups/?type=interesse',
+        endpoint: `/groups/${createQueryString({
+          type: 'interesse'
+        })}`,
         schema: [groupSchema],
         meta: {
           errorMessage: 'Henting av interessegrupper feilet'
@@ -52,6 +57,7 @@ export function fetchAll() {
         propagateError: true
       })
     ).then(res => {
+      if (!res) return;
       const ids = res.payload.result;
       return Promise.all(ids.map(g => dispatch(fetchMemberships(g))));
     });
@@ -80,10 +86,11 @@ export function createInterestGroup(group: Object): Thunk<*> {
         }
       })
     ).then(action => {
-      if (!action || !action.payload || !action.payload.entities) return;
-      const group =
-        action.payload.entities.interestGroups[action.payload.result];
-      dispatch(push(`/interestgroups/${group.id}`));
+      if (!action || !action.payload) {
+        return;
+      }
+      const groupId = action.payload.result;
+      dispatch(push(`/interestgroups/${groupId}`));
     });
   };
 }

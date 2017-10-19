@@ -3,7 +3,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import styles from './JoblistingList.css';
-import Image from 'app/components/Image';
+import { Image } from 'app/components/Image';
 import Time from 'app/components/Time';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 import { Year, jobType, Workplaces } from './Items';

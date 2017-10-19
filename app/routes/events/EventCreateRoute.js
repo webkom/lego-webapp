@@ -24,7 +24,7 @@ const mapStateToProps = (state, props) => {
       startTime: time(17, 15),
       endTime: time(20),
       description: '',
-      text: '<p></p>',
+      text: '',
       eventType: '',
       company: null,
       location: 'TBA',
