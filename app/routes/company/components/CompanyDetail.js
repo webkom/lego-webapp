@@ -24,7 +24,7 @@ function insertInfoBubbles(company) {
 
   return (
     <div className={styles.infoBubbles}>
-      {infos.map((info, i) =>
+      {infos.map((info, i) => (
         <InfoBubble
           key={info[0]}
           icon={info[0]}
@@ -35,7 +35,7 @@ function insertInfoBubbles(company) {
           iconClass={styles.icon}
           dataClass={styles.data}
         />
-      )}
+      ))}
     </div>
   );
 }
@@ -70,9 +70,7 @@ const CompanyDetail = ({ company }: Props) => {
       {insertInfoBubbles(company)}
 
       <div className={styles.description}>
-        <p>
-          {company.description}
-        </p>
+        <p>{company.description}</p>
       </div>
     </div>
   );

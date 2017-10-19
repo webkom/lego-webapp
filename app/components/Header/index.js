@@ -25,9 +25,9 @@ type Props = {
   notificationsData: Object,
   fetchNotifications: () => void,
   notifications: Array<Object>,
-  markAllNotifications: () => void,
-  markNotification: string => void,
-  fetchNotificationData: () => void
+  markAllNotifications: () => Promise<void>,
+  markNotification: number => Promise<void>,
+  fetchNotificationData: () => Promise<void>
 };
 
 type State = {
@@ -40,23 +40,15 @@ function AccountDropdownItems({ logout, onClose, username }) {
     <Dropdown.List>
       <Dropdown.ListItem>
         <Link to="/users/me" onClick={onClose} style={{ color: '#333' }}>
-          <strong>
-            {username}
-          </strong>
+          <strong>{username}</strong>
           <Icon name="contact" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.Divider />
       <Dropdown.ListItem>
-        <Link to="/users/me/settings" onClick={onClose}>
+        <Link to="/users/me/settings/profile" onClick={onClose}>
           Innstillinger
           <Icon name="cog" size={24} />
-        </Link>
-      </Dropdown.ListItem>
-      <Dropdown.ListItem>
-        <Link to="/users/me/settings" onClick={onClose}>
-          Abacash
-          <Icon name="card" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.ListItem>
@@ -100,16 +92,18 @@ class Header extends Component {
               <Link to="/events" activeClassName={styles.activeItem}>
                 Arrangementer
               </Link>
-              {!loggedIn
-                ? <Link
-                    to="/pages/for-companies"
-                    activeClassName={styles.activeItem}
-                  >
-                    For bedrifter
-                  </Link>
-                : <Link to="/joblistings" activeClassName={styles.activeItem}>
-                    Karriere
-                  </Link>}
+              {!loggedIn ? (
+                <Link
+                  to="/pages/for-companies"
+                  activeClassName={styles.activeItem}
+                >
+                  For bedrifter
+                </Link>
+              ) : (
+                <Link to="/joblistings" activeClassName={styles.activeItem}>
+                  Karriere
+                </Link>
+              )}
               <Link to="/pages/om-oss" activeClassName={styles.activeItem}>
                 Om Abakus
               </Link>
@@ -120,10 +114,10 @@ class Header extends Component {
                 onClick={this.props.toggleSearch}
                 className={styles.burger}
               >
-                <Icon name="menu" scaleOnHover />
+                <Icon name="menu" size={30} scaleOnHover />
               </button>
 
-              {loggedIn &&
+              {loggedIn && (
                 <NotificationsDropdown
                   notificationsData={this.props.notificationsData}
                   fetchNotifications={this.props.fetchNotifications}
@@ -131,18 +125,21 @@ class Header extends Component {
                   markAllNotifications={this.props.markAllNotifications}
                   markNotification={this.props.markNotification}
                   fetchNotificationData={this.props.fetchNotificationData}
-                />}
+                />
+              )}
 
-              {loggedIn &&
+              {loggedIn && (
                 <Dropdown
                   show={this.state.accountOpen}
                   toggle={() =>
-                    this.setState({ accountOpen: !this.state.accountOpen })}
+                    this.setState(state => ({
+                      accountOpen: !state.accountOpen
+                    }))}
                   triggerComponent={
                     <ProfilePicture
-                      size={24}
+                      size={30}
                       user={this.props.currentUser}
-                      style={{ verticalAlign: 'middle', marginTop: -8 }}
+                      style={{ verticalAlign: 'middle' }}
                     />
                   }
                 >
@@ -151,21 +148,23 @@ class Header extends Component {
                     username={this.props.currentUser.username}
                     logout={this.props.logout}
                   />
-                </Dropdown>}
+                </Dropdown>
+              )}
 
-              {!loggedIn &&
+              {!loggedIn && (
                 <Dropdown
                   show={this.state.accountOpen}
                   toggle={() =>
-                    this.setState({
-                      accountOpen: !this.state.accountOpen,
+                    this.setState(state => ({
+                      accountOpen: !state.accountOpen,
                       shake: false
-                    })}
-                  contentClassName={this.state.shake && 'animated shake'}
-                  triggerComponent={<Icon name="contact" />}
+                    }))}
+                  contentClassName={this.state.shake ? 'animated shake' : ''}
+                  triggerComponent={<Icon name="contact" size={30} />}
                 >
                   <div style={{ padding: 10 }}>
                     <LoginForm
+                      form="HeaderLoginForm"
                       login={(...creds) => {
                         this.setState({ shake: false });
                         return this.props.login(...creds).then(
@@ -181,13 +180,14 @@ class Header extends Component {
                       }}
                     />
                   </div>
-                </Dropdown>}
+                </Dropdown>
+              )}
 
               <button
                 onClick={this.props.toggleSearch}
                 className={styles.hideOnMobile}
               >
-                <Icon name="search" className={styles.searchIcon} />
+                <Icon name="search" size={30} className={styles.searchIcon} />
               </button>
             </div>
           </div>
@@ -199,6 +199,7 @@ class Header extends Component {
             backdrop
           >
             <Search
+              loggedIn={loggedIn}
               isOpen={this.props.searchOpen}
               onCloseSearch={this.props.toggleSearch}
             />

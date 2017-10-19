@@ -10,7 +10,7 @@ export function fetchPage(pageSlug: string) {
     endpoint: `/pages/${pageSlug}/`,
     schema: pageSchema,
     meta: {
-      errorMessage: 'Fetching page failed'
+      errorMessage: 'Henting av side feilet'
     },
     propagateError: true
   });
@@ -22,7 +22,7 @@ export function fetchAll() {
     endpoint: '/pages/',
     schema: [pageSchema],
     meta: {
-      errorMessage: 'Fetching pages failed'
+      errorMessage: 'Henting av sider feilet'
     },
     propagateError: true
   });
@@ -36,7 +36,7 @@ export function updatePage(slug: string, body: Object) {
     body,
     schema: pageSchema,
     meta: {
-      errorMessage: 'Updating page failed'
+      errorMessage: 'Oppdatering av sider feilet'
     }
   });
 }

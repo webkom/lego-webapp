@@ -4,11 +4,13 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import cx from 'classnames';
-import { reduxForm, Field } from 'redux-form';
+import { getFormMeta, getFormValues, reduxForm, Field } from 'redux-form';
+import type { FieldProps } from 'redux-form';
 import { EditorField } from 'app/components/Form';
 import Button from 'app/components/Button';
 import ProfilePicture from 'app/components/ProfilePicture';
 import { addComment } from 'app/actions/CommentActions';
+import type { CommentEntity } from 'app/actions/CommentActions';
 import styles from './CommentForm.css';
 
 const validate = values => {
@@ -19,24 +21,21 @@ const validate = values => {
   return errors;
 };
 
-type Props = {
+type Props = FieldProps & {
   commentTarget: string,
   user: Object,
   loggedIn: boolean,
-  addComment: () => void,
+  addComment: CommentEntity => void,
   parent: number,
-  fields: Object,
-  handleSubmit: () => void,
   submitText: string,
-  inlineMode: boolean,
-  autoFocus: boolean
+  inlineMode: boolean
 };
 
 class CommentForm extends Component {
   props: Props;
 
   static defaultProps = {
-    submitText: 'Send kommentar',
+    submitText: 'Kommenter',
     autoFocus: false
   };
 
@@ -54,72 +53,77 @@ class CommentForm extends Component {
       handleSubmit,
       pristine,
       submitting,
-      active,
       user,
+      isOpen,
       loggedIn,
       submitText,
       inlineMode,
       autoFocus
     } = this.props;
-    const formActive = autoFocus || (active || !pristine);
     const className = inlineMode ? styles.inlineForm : styles.form;
 
     if (!loggedIn) {
-      return <div>Please log in.</div>;
+      return <div>Vennligst logg inn.</div>;
     }
 
     return (
       <form
         onSubmit={handleSubmit(this.onSubmit)}
-        className={cx(className, formActive && styles.activeForm)}
+        className={cx(className, isOpen && styles.activeForm)}
       >
         <div className={styles.header}>
-          <ProfilePicture
-            size={40}
-            user={user}
-            style={{ margin: '0px 0px 0px 25px' }}
-          />
+          <ProfilePicture size={40} user={user} />
 
-          {formActive &&
-            <div className={styles.author}>
-              {this.props.user.fullName}
-            </div>}
+          {isOpen && (
+            <div className={styles.author}>{this.props.user.fullName}</div>
+          )}
         </div>
 
-        <div className={cx(styles.fields, formActive && styles.activeFields)}>
+        <div className={cx(styles.fields, isOpen && styles.activeFields)}>
           <Field
-            placeholder={submitText}
             autoFocus={autoFocus}
             name="text"
+            placeholder="Skriv en kommentar"
             component={EditorField}
             disableBlocks
           />
 
-          {formActive &&
+          {isOpen && (
             <Button
               className={styles.submit}
               disabled={pristine || submitting}
               submit
             >
               {submitText}
-            </Button>}
+            </Button>
+          )}
         </div>
       </form>
     );
   }
 }
 
+// TODO(larsen): there's a bug in the editor that causes
+// the empty value to be a p-tag with two spaces.
+// This should be replaced with value != null or something
+// when that's fixed.
+function hasContent(value) {
+  return value && value !== '<p>  </p>';
+}
+
+function mapStateToProps(state, props) {
+  const meta = getFormMeta(props.form)(state);
+  const values = getFormValues(props.form)(state);
+  return {
+    isOpen: meta && (meta.text.active || hasContent(values.text))
+  };
+}
+
 export default compose(
-  connect(
-    () => ({
-      initialValues: {
-        text: '<p></p>'
-      }
-    }),
-    { addComment }
-  ),
   reduxForm({
     validate,
+    initialValues: {},
     destroyOnUnmount: false
-  })
+  }),
+  connect(mapStateToProps, { addComment })
 )(CommentForm);

@@ -2,34 +2,34 @@
 
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { reduxForm } from 'redux-form';
+import { dispatched } from '@webkom/react-prepare';
 import UserSettings from './components/UserSettings';
-import { updateUser, updatePicture } from 'app/actions/UserActions';
-import { createValidator, required, isEmail } from 'app/utils/validation';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import {
+  fetchUser,
+  updateUser,
+  updatePicture,
+  changePassword
+} from 'app/actions/UserActions';
 
-const validate = createValidator({
-  username: [required()],
-  firstName: [required()],
-  lastName: [required()],
-  gender: [required()],
-  email: [required(), isEmail()]
-});
+const loadData = ({ params: { username } }, dispatch) =>
+  dispatch(fetchUser(username));
 
-function mapStateToProps(state) {
-  const user = state.auth.username ? state.users.byId[state.auth.username] : {};
+const mapStateToProps = (state, props) => {
+  const { isMe, params } = props;
+  const username = isMe ? state.auth.username : params.username;
+  const user = state.users.byId[username];
   return {
     user,
+    isMe,
     initialValues: user
   };
-}
+};
 
-const mapDispatchToProps = { updateUser, updatePicture };
+const mapDispatchToProps = { updateUser, updatePicture, changePassword };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  reduxForm({
-    form: 'contact',
-    validate,
-    enableReinitialize: true
-  })
+  dispatched(loadData, { componentWillReceiveProps: false }),
+  loadingIndicator('user')
 )(UserSettings);

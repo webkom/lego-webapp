@@ -5,7 +5,7 @@ import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import { Provider } from 'react-redux';
 import cookie from 'react-cookie';
-import { prepare } from 'react-prepare';
+import { prepare } from '@webkom/react-prepare';
 import Helmet from 'react-helmet';
 import Raven from 'raven';
 import routes from '../app/routes';
@@ -24,6 +24,13 @@ require('../app/assets/icon-512x512.png');
 function render(req, res, next) {
   const log = req.app.get('log');
   cookie.plugToRequest(req, res);
+
+  if (process.env.NODE_ENV !== 'production') {
+    return res.send(
+      renderPage({ body: '', state: {}, helmet: Helmet.rewind() })
+    );
+  }
+
   match({ routes, location: req.url }, (err, redirect, renderProps) => {
     if (err) {
       return next(err);
@@ -57,12 +64,14 @@ function render(req, res, next) {
       );
     };
 
-    prepare(app).then(respond).catch(error => {
-      const err = error.error ? error.payload : error
-      log.error(err, 'render_error')
-      Raven.captureException(err);
-      respond();
-    });
+    prepare(app)
+      .then(respond)
+      .catch(error => {
+        const err = error.error ? error.payload : error;
+        log.error(err, 'render_error');
+        Raven.captureException(err);
+        respond();
+      });
   });
 }
 
@@ -116,7 +125,7 @@ function renderPage({ body, state, helmet }) {
         <meta name="mobile-web-app-capable" content="yes"/>
         <meta name="apple-mobile-web-app-title" content="Abakus"/>
 
-        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
         ${helmet.meta.toString()}
 

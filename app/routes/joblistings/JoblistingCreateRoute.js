@@ -1,25 +1,27 @@
 // @flow
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createJoblisting } from 'app/actions/JoblistingActions';
 import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
-function mapDispatchToProps(dispatch) {
-  return {
-    submitJoblisting: joblisting => dispatch(createJoblisting(joblisting))
-  };
-}
+const mapStateToProps = () => ({
+  initialValues: {
+    text: '<p></p>',
+    description: '<p></p>',
+    fromYear: 1,
+    toYear: 5,
+    jobType: 'summer_job'
+  },
+  isNew: true
+});
 
-function mapStateToProps(state, props) {
-  return {
-    initialValues: {
-      text: '<p></p>',
-      description: '<p></p>',
-      fromYear: 1,
-      toYear: 5,
-      jobType: 'summer_job'
-    },
-    isNew: true
-  };
-}
+const mapDispatchToProps = {
+  submitJoblisting: createJoblisting
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(JoblistingEditor);
+export default compose(
+  replaceUnlessLoggedIn(LoginPage),
+  connect(mapStateToProps, mapDispatchToProps)
+)(JoblistingEditor);

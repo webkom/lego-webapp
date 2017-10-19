@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import { formValueSelector } from 'redux-form';
 import {
   fetchEvent,
@@ -16,6 +16,9 @@ import {
   selectRegistrationsFromPools,
   selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
+import { LoginPage } from 'app/components/LoginForm';
+import { transformEvent } from './utils';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = (state, props) => {
   const eventId = props.params.eventId;
@@ -31,10 +34,13 @@ const mapStateToProps = (state, props) => {
   return {
     initialValues: {
       ...event,
+      priceMember: event.priceMember / 100,
       pools: pools.map(pool => ({
         ...pool,
-        permissionGroups: (pool.permissionGroups || [])
-          .map(group => ({ label: group.name, value: group.id }))
+        permissionGroups: (pool.permissionGroups || []).map(group => ({
+          label: group.name,
+          value: group.id
+        }))
       })),
       company: event.company && {
         label: event.company.name,
@@ -57,12 +63,13 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = {
   fetchEvent,
   deleteEvent,
-  handleSubmitCallback: editEvent,
+  handleSubmitCallback: event => editEvent(transformEvent(event, true)),
   uploadFile,
   setCoverPhoto
 };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   dispatched(
     ({ params: { eventId } }, dispatch) => dispatch(fetchEvent(eventId)),
     {

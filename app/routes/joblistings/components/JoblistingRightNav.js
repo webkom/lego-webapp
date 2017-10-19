@@ -64,18 +64,17 @@ export default class JoblistingsRightNav extends Component {
     return filterString;
   };
 
-  filterLinkto = (type, value, label) =>
+  filterLinkto = (type, value, label) => (
     <Link
       to={{ pathname: '/joblistings', query: this.updateFilters(type, value) }}
       key={value}
     >
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <CheckBox value={this.state.filters[type].includes(value)} readOnly />
-        <span style={{ marginLeft: '5px' }}>
-          {label}
-        </span>
+        <span style={{ marginLeft: '5px' }}>{label}</span>
       </div>
-    </Link>;
+    </Link>
+  );
 
   createButton = () => {
     if (this.props.actionGrant.includes('create')) {
@@ -103,7 +102,7 @@ export default class JoblistingsRightNav extends Component {
                   query: this.handleQuery('sort', 'company')
                 }}
               >
-                Bedrift{' '}
+                Bedrift
               </Link>
               <Link
                 to={{

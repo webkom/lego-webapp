@@ -1,20 +1,21 @@
+@import 'app/styles/variables.css';
+
 .root {
-  composes: container from 'app/styles/utilities.css';
+  composes: contentContainer from 'app/styles/utilities.css';
 }
 
-h1 {
+.root h1 {
   font-size: 30px;
   font-weight: bold;
   display: block;
-  margin: 15px 0;
   padding-left: 0;
 }
 
-h3 {
+.root h3 {
   margin: 5px 0 25px;
 }
 
-select {
+.root select {
   font-size: 100%;
   font-family: 'proxima-nova', 'Helvetica Neue', Arial, sans-serif;
   cursor: pointer;
@@ -78,6 +79,24 @@ select {
   }
 }
 
+.yearNavigator {
+  margin-bottom: -5px;
+  transition: color 0.3s ease;
+
+  &:hover {
+    cursor: pointer;
+    color: var(--lego-link-color);
+  }
+
+  &:focus {
+    background: none;
+  }
+
+  &::selection {
+    background: none;
+  }
+}
+
 .adminComment {
   padding: 5px 0;
   line-height: 17px;
@@ -85,7 +104,7 @@ select {
 
 .categoryHeader {
   font-weight: bold;
-  background-color: #eee;
+  background-color: var(--color-mono-gray-5);
 }
 
 .title {
@@ -97,15 +116,15 @@ select {
   background-color: #3fff3f;
 }
 
-.companyPresentationAndCourse {
-  background-color: #9fff3f;
+.lunchPresentation {
+  background-color: #84ff84;
 }
 
 .course {
   background-color: #9fff3f;
 }
 
-.notOffered {
+.interested {
   background-color: #f5f5d5;
 }
 
@@ -125,6 +144,10 @@ select {
   background-color: #00fff6;
 }
 
+.files {
+  margin-top: 20px;
+}
+
 .showAscending .upArrow,
 .showDescending .downArrow {
   display: block !important;
@@ -138,6 +161,24 @@ select {
 .showAscending .downArrow,
 .showDescending .upArrow {
   display: none !important;
+}
+
+.dropDownItem {
+  padding: 5px 10px;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%;
+}
+
+/* We have a seperate component for circles, but it takes a color code while
+the function from utils I use to choose color just adds a class with
+background-color. By making it this way I don't have to rewrite it 🤷 */
+.lazyCircle {
+  width: 20px;
+  height: 20px;
+  border-radius: 10px;
 }
 
 /* Semesters in detailroute */
@@ -161,39 +202,53 @@ select {
 
 .contactTable thead th:nth-child(1),
 .contactTable tbody td:nth-child(1) {
-  width: 200px;
+  width: 260px;
 }
 
 .contactTable thead th:nth-child(2),
 .contactTable tbody td:nth-child(2) {
-  width: 120px;
+  width: 300px;
 }
 
 .contactTable thead th:nth-child(3),
 .contactTable tbody td:nth-child(3) {
-  width: 220px;
+  width: 330px;
 }
 
 .contactTable thead th:nth-child(4),
 .contactTable tbody td:nth-child(4) {
-  width: 150px;
+  width: 130px;
 }
 
 /* Events in company detailroute */
 
 .eventsTable thead th:nth-child(1),
 .eventsTable tbody td:nth-child(1) {
-  width: 300px;
+  width: 250px;
 }
 
 .eventsTable thead th:nth-child(2),
 .eventsTable tbody td:nth-child(2) {
-  width: 220px;
+  width: 180px;
 }
 
 .eventsTable thead th:nth-child(3),
 .eventsTable tbody td:nth-child(3) {
-  width: 150px;
+  width: 100px;
+}
+
+.eventsTable thead th:nth-child(4),
+.eventsTable tbody td:nth-child(4) {
+  width: 200px;
+  line-height: 20px;
+  padding: 5px;
+}
+
+.eventsTable thead th:nth-child(5),
+.eventsTable tbody td:nth-child(5) {
+  width: 300px;
+  line-height: 20px;
+  padding: 5px;
 }
 
 .description {
@@ -202,6 +257,11 @@ select {
   line-height: 20px;
   border-left: 1px solid #666;
   padding-left: 20px;
+  max-width: 60%;
+
+  @media (--small-viewport) {
+    max-width: 100%;
+  }
 }
 
 .description textarea {
@@ -210,9 +270,10 @@ select {
 
 .infoBubbles {
   display: flex;
-  justify-content: space-between;
   margin: 30px 0;
   text-align: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .editBubbles {
@@ -221,15 +282,11 @@ select {
 
 .adminNote {
   margin: 30px 0;
+  width: 400px;
 }
 
-.invisRow i {
-  transition: color 0.3s ease;
-
-  &:hover {
-    color: red;
-    cursor: pointer;
-  }
+.invisRow {
+  background-color: white;
 }
 
 .rightArrow {
@@ -240,19 +297,7 @@ select {
   display: flex;
   width: 100%;
   padding-bottom: 50px;
-}
-
-.leftSection {
-  width: 70%;
-  order: 1;
-}
-
-.rightSection {
-  min-height: 300px;
-  padding: 20px 0 0 30px;
-  margin: 0 0 0 60px;
-  border-left: 1px solid #ccc;
-  order: 2;
+  flex-direction: column;
 }
 
 .rightSection a {
@@ -309,7 +354,6 @@ option {
 }
 
 .info > div {
-  flex-basis: 30%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -318,11 +362,6 @@ option {
 .info h3,
 .info i {
   margin: 0 auto;
-}
-
-.editInfo {
-  margin: 0 auto 10px;
-  display: flex !important;
 }
 
 .editInfo > label {
@@ -334,17 +373,15 @@ option {
 }
 
 .editTitle {
-  width: 250px !important;
-  font-size: 30px !important;
-  margin: 30px 0 10px;
-  font-weight: bold;
+  width: 250px;
+  font-size: 30px;
+  margin: 0 0 10px;
 }
 
 .editBubble {
-  width: 150px !important;
   text-align: center;
   margin-bottom: 0 !important;
-  font-weight: bold;
+  font-size: 25px;
 }
 
 .choices {
@@ -356,7 +393,8 @@ option {
 }
 
 .yearForm {
-  width: 100px !important;
+  width: 100px;
+  display: block;
 }
 
 .semesterStatusForm {

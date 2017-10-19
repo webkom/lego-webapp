@@ -3,7 +3,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 
 import { createValidator, required } from 'app/utils/validation';
 import UserSettingsOAuth2Form from './components/UserSettingsOAuth2Form';

@@ -16,7 +16,7 @@ export default createEntityReducer({
         return {
           ...state,
           byId: pools,
-          items: Object.keys(pools).map(Number)
+          items: Object.keys(pools)
         };
       }
       case Event.SOCKET_REGISTRATION.SUCCESS: {

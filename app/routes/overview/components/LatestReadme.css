@@ -7,11 +7,7 @@
 }
 
 .heading {
-  display: flex;
-  flex-direction: row;
   font-size: 22px;
-  justify-content: space-between;
-  align-items: center;
   color: #fff;
 }
 

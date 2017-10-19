@@ -4,6 +4,12 @@
   width: inherit;
 }
 
+.modal {
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  border-radius: 5px;
+}
+
 .uploadContainer {
   position: absolute;
   border-radius: inherit;
@@ -22,7 +28,7 @@
 }
 
 .inModalUpload {
-  height: 400px;
+  height: 320px;
   width: 600px;
 }
 
@@ -63,6 +69,8 @@
 .image {
   border-radius: inherit;
   height: inherit;
+  width: 100%;
+  object-fit: cover;
 }
 
 .cropper {
@@ -70,10 +78,26 @@
   width: 100%;
 }
 
-.buttons {
+.footer {
   margin-top: 20px;
 }
 
 .saveButton {
   margin-right: 10px;
+}
+
+.previewRow {
+  height: 52px;
+  margin: 5px 0;
+}
+
+.previewRowImage {
+  height: 50px;
+  width: 80px;
+  object-fit: cover;
+}
+
+.removeIcon {
+  font-size: 48px;
+  cursor: pointer;
 }

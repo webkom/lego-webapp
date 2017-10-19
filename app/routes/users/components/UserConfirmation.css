@@ -1,0 +1,6 @@
+@import 'app/styles/variables.css';
+
+.root {
+  composes: contentContainer from 'app/styles/utilities.css';
+  max-width: 500px;
+}

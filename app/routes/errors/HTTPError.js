@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Content, Flex } from 'app/components/Layout';
+import { Container, Flex } from 'app/components/Layout';
 import { Link } from 'react-router';
 import renderAbakus from './renderAbakus';
 
@@ -15,7 +15,7 @@ const getHTTPError = statusCode => {
   return error ? error : HTTPMapping[404];
 };
 
-class HTTPError extends Component {
+export default class HTTPError extends Component {
   componentDidMount() {
     const statusCode = this.props.statusCode
       ? this.props.statusCode.toString()
@@ -23,25 +23,35 @@ class HTTPError extends Component {
     renderAbakus(statusCode, this.canvas);
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (this.props.location !== nextProps.location) {
+      this.props.setStatusCode(null);
+    }
+  }
+
   render() {
-    const { statusCode } = this.props;
     return (
-      <Content>
-        <Flex column alignItems="center" justifyContent="center">
+      <Container>
+        <Flex
+          column
+          alignItems="center"
+          justifyContent="center"
+          style={{ padding: '10px' }}
+        >
           <Link to="/">
             <canvas
               id="canvas"
               ref={canvas => {
                 this.canvas = canvas;
               }}
+              style={{ width: '100%' }}
             />
           </Link>
-          <h1>
-            {getHTTPError(statusCode)}
+          <h1 style={{ textAlign: 'center' }}>
+            {getHTTPError(this.props.statusCode)}
           </h1>
         </Flex>
-      </Content>
+      </Container>
     );
   }
 }
-export default HTTPError;

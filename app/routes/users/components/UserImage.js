@@ -1,9 +1,9 @@
 // @flow
 import React from 'react';
-import { ImageUpload } from 'app/components/Upload';
+import ImageUpload from 'app/components/Upload/ImageUpload';
 
 type Props = {
-  updatePicture: () => void,
+  updatePicture: Object => void,
   user: Object
 };
 
@@ -17,7 +17,8 @@ function UploadPage({ updatePicture, user }: Props) {
       }}
     >
       <ImageUpload
-        onSubmit={file => updatePicture({ picture: file })}
+        onSubmit={file =>
+          updatePicture({ username: user.username, picture: file })}
         aspectRatio={1}
         img={user.profilePicture}
       />

@@ -19,7 +19,7 @@ const fieldTranslations = {
 
 type Props = {
   user: any,
-  isMe: boolean,
+  showSettings: boolean,
   feedItems: Array<any>,
   feed: Object
 };
@@ -39,19 +39,11 @@ export default class UserProfile extends Component {
       );
     });
 
-    return (
-      <ul>
-        {tags}
-      </ul>
-    );
+    return <ul>{tags}</ul>;
   }
 
   render() {
-    const { user, isMe, feedItems, feed } = this.props;
-    if (!user) {
-      return <LoadingIndicator loading />;
-    }
-
+    const { user, showSettings, feedItems, feed } = this.props;
     return (
       <div className={styles.root}>
         <Helmet title={`${user.firstName} ${user.lastName}`} />
@@ -59,9 +51,7 @@ export default class UserProfile extends Component {
         <Flex wrap className={styles.header}>
           <ProfilePicture user={user} size={150} />
 
-          <h2>
-            {user.fullName}
-          </h2>
+          <h2>{user.fullName}</h2>
 
           <Pill>5. Datateknikk</Pill>
         </Flex>
@@ -70,15 +60,23 @@ export default class UserProfile extends Component {
           <div className={styles.sidebar}>
             <Card>
               {this.renderFields()}
-              {isMe ? <Link to="/users/me/settings">Settings</Link> : ''}
+              {showSettings ? (
+                <Link to={`/users/${user.username}/settings/profile`}>
+                  Instillinger
+                </Link>
+              ) : (
+                ''
+              )}
             </Card>
           </div>
 
           <div className={styles.feed}>
             <h2>Recent Activity</h2>
-            {feed
-              ? <Feed items={feedItems} feed={feed} />
-              : <LoadingIndicator loading />}
+            {feed ? (
+              <Feed items={feedItems} feed={feed} />
+            ) : (
+              <LoadingIndicator loading />
+            )}
           </div>
         </Flex>
       </div>

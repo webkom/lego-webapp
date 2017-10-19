@@ -1,10 +1,12 @@
+// @flow
+
 import React, { Component } from 'react';
 import styles from './RandomQuote.css';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
 import { connect } from 'react-redux';
 
 type Props = {
-  fetchRandomQuote: () => void,
+  fetchRandomQuote: () => Promise<Object>,
   loggedIn: boolean
 };
 
@@ -46,20 +48,19 @@ class RandomQuote extends Component {
     return (
       <div>
         <h2 className={styles.heading}>
-          <span>Tilfelding sitat</span>
-          {this.props.loggedIn &&
-            <i onClick={this.refreshQuote} className="fa fa-refresh" />}
+          {'Tilfeldig sitat'}
+          {this.props.loggedIn && (
+            <i onClick={this.refreshQuote} className="fa fa-refresh" />
+          )}
         </h2>
-        {this.props.loggedIn
-          ? <div>
-              <div className={styles.quoteText}>
-                {currentQuote.text}
-              </div>
-              <div className={styles.quoteSource}>
-                -{currentQuote.source}
-              </div>
-            </div>
-          : 'Logg inn for å se sitater.'}
+        {this.props.loggedIn ? (
+          <div>
+            <div className={styles.quoteText}>{currentQuote.text}</div>
+            <div className={styles.quoteSource}>-{currentQuote.source}</div>
+          </div>
+        ) : (
+          'Logg inn for å se sitater.'
+        )}
       </div>
     );
   }
@@ -67,7 +68,7 @@ class RandomQuote extends Component {
 
 function mapStateToProps(state, props) {
   return {
-    loggedIn: state.auth.token !== null
+    loggedIn: props.loggedIn
   };
 }
 

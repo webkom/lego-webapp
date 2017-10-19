@@ -35,23 +35,24 @@ const ArticleDetail = (props: Props) => {
       </div>
 
       <FlexRow alignItems="center" justifyContent="space-between">
-        <h2>
-          {article.title}
-        </h2>
-        {article.actionGrant.includes('edit') &&
+        <h2>{article.title}</h2>
+        {article.actionGrant.includes('edit') && (
           <span>
             <Link to={`/articles/${article.id}/edit`}>Edit</Link>
-          </span>}
+          </span>
+        )}
       </FlexRow>
 
       <Editor readOnly value={article.content} />
-      {article.commentTarget &&
+      {article.commentTarget && (
         <CommentView
+          formEnabled
           user={currentUser}
           commentTarget={article.commentTarget}
           loggedIn={loggedIn}
           comments={comments}
-        />}
+        />
+      )}
     </div>
   );
 };

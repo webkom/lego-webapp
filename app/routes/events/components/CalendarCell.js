@@ -17,16 +17,20 @@ const Event = ({
   eventType,
   registrationCount,
   totalCapacity
-}) =>
+}) => (
   <Popover
     key={id}
-    render={() =>
+    render={() => (
       <div className={styles.cell}>
-        <Circle color={colorForEvent(eventType)} />{' '}
+        <Circle
+          color={colorForEvent(eventType)}
+          style={{ marginRight: '5px' }}
+        />
         <Link to={`/events/${id}`} title={title}>
           {title}
         </Link>
-      </div>}
+      </div>
+    )}
   >
     <div>
       <h3 className={styles.eventItemTitle}>
@@ -38,12 +42,13 @@ const Event = ({
 
       {description}
     </div>
-  </Popover>;
+  </Popover>
+);
 
 /**
  * Represents a cell in the calendar
  */
-const CalendarCell = ({ day, className, prevOrNextMonth, events = [] }) =>
+const CalendarCell = ({ day, className, prevOrNextMonth, events = [] }) => (
   <div
     className={cx(
       styles.day,
@@ -51,11 +56,10 @@ const CalendarCell = ({ day, className, prevOrNextMonth, events = [] }) =>
       className
     )}
   >
-    <strong className={styles.dayNumber}>
-      {day.date()}
-    </strong>
+    <strong className={styles.dayNumber}>{day.date()}</strong>
     {events.map(Event)}
-  </div>;
+  </div>
+);
 
 const selectEvents = createSelector(
   state => state.events.items,

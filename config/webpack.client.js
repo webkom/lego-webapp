@@ -52,7 +52,9 @@ module.exports = {
         __CLIENT__: true,
         'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
       }),
-
+      new webpack.optimize.MinChunkSizePlugin({
+        minChunkSize: 10000
+      }),
       !isProduction && new FriendlyErrorsPlugin(),
       !isProduction && new webpack.HotModuleReplacementPlugin(),
       !isProduction && new webpack.NoEmitOnErrorsPlugin(),

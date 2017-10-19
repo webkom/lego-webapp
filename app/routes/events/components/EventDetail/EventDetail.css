@@ -7,3 +7,11 @@
 .description > *:last-child {
   margin-bottom: 20px;
 }
+
+.meta h3 {
+  margin: 5px 0;
+}
+
+.mainRow {
+  margin-top: 1em;
+}

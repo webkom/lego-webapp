@@ -4,7 +4,7 @@ import styles from './AppRoute.css';
 import React, { PureComponent } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import Helmet from 'react-helmet';
 import Raven from 'raven-js';
 import {
@@ -18,6 +18,7 @@ import {
   markNotification
 } from 'app/actions/NotificationsFeedActions';
 import { fetchNotificationFeed } from 'app/actions/FeedActions';
+import { fetchMeta } from 'app/actions/MetaActions';
 import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
 import { toggleSearch } from 'app/actions/SearchActions';
 import Header from 'app/components/Header';
@@ -26,18 +27,25 @@ import NotificationContainer from 'app/components/NotificationContainer';
 import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 import cx from 'classnames';
 import HTTPError from '../errors/HTTPError';
+import { setStatusCode } from 'app/actions/RoutingActions';
 
 class AppChildren extends PureComponent {
   render() {
     return (
       <div style={{ flex: 1 }}>
         <NotificationContainer />
-        {this.props.statusCode
-          ? <HTTPError statusCode={this.props.statusCode} />
-          : React.cloneElement(this.props.children, {
-              currentUser: this.props.currentUser,
-              loggedIn: this.props.loggedIn
-            })}
+        {this.props.statusCode ? (
+          <HTTPError
+            statusCode={this.props.statusCode}
+            setStatusCode={this.props.setStatusCode}
+            location={this.props.location}
+          />
+        ) : (
+          React.cloneElement(this.props.children, {
+            currentUser: this.props.currentUser,
+            loggedIn: this.props.loggedIn
+          })
+        )}
       </div>
     );
   }
@@ -74,11 +82,13 @@ class App extends PureComponent {
           currentUser={this.props.currentUser}
           loggedIn={this.props.loggedIn}
           statusCode={this.props.statusCode}
+          setStatusCode={this.props.setStatusCode}
+          location={this.props.location}
         >
           {this.props.children}
         </AppChildren>
 
-        <Footer />
+        <Footer {...this.props} />
       </div>
     );
   }
@@ -97,6 +107,10 @@ function mapStateToProps(state) {
   };
 }
 
+function fetchInitialOnServer(props, dispatch) {
+  return dispatch(loginAutomaticallyIfPossible()).then(dispatch(fetchMeta()));
+}
+
 const mapDispatchToProps = {
   toggleSearch,
   logout,
@@ -104,11 +118,12 @@ const mapDispatchToProps = {
   fetchNotificationFeed,
   markNotification,
   markAllNotifications,
-  fetchNotificationData
+  fetchNotificationData,
+  setStatusCode
 };
 
 export default compose(
-  dispatched((props, dispatch) => dispatch(loginAutomaticallyIfPossible()), {
+  dispatched(fetchInitialOnServer, {
     componentDidMount: false,
     componentWillReceiveProps: false
   }),

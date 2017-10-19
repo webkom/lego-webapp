@@ -3,43 +3,33 @@
 import { Meeting } from '../actions/ActionTypes';
 import { createSelector } from 'reselect';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import type Moment from 'moment';
+
+export type MeetingEntity = {
+  id: number,
+  title: string,
+  location: string,
+  startTime: Moment,
+  endTime: Moment,
+  report: string,
+  invitations: Array<number>,
+  reportAuthor: number,
+  createdBy: number
+};
 
 export default createEntityReducer({
   key: 'meetings',
   types: {
-    fetch: Meeting.FETCH
+    fetch: Meeting.FETCH,
+    mutate: Meeting.CREATE
   },
   mutate(state, action) {
     switch (action.type) {
-      case Meeting.CREATE.SUCCESS:
-        return {
-          ...state,
-          items: state.items.filter(id => action.meta.optimisticId !== id)
-          // Remove the item with the optimisticId
-        };
       case Meeting.DELETE.SUCCESS:
         return {
           ...state,
           items: state.items.filter(id => action.meta.meetingId !== id)
         };
-      case Meeting.SET_INVITATION_STATUS.SUCCESS: {
-        const { meetingId, status, user } = action.meta;
-        return {
-          ...state,
-          byId: {
-            ...state.byId,
-            [meetingId]: {
-              ...state.byId[meetingId],
-              invitations: state.byId[meetingId].invitations.map(invitation => {
-                if (invitation.user.id === user) {
-                  invitation.status = status;
-                }
-                return invitation;
-              })
-            }
-          }
-        };
-      }
       default:
         return state;
     }

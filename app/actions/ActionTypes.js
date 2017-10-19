@@ -26,7 +26,10 @@ export const Event = {
   SOCKET_REGISTRATION: generateStatuses('Event.SOCKET_REGISTRATION'),
   SOCKET_UNREGISTRATION: generateStatuses('Event.SOCKET_UNREGISTRATION'),
   SOCKET_PAYMENT: generateStatuses('Event.SOCKET_PAYMENT'),
-  SOCKET_EVENT_UPDATED: 'SOCKET_EVENT_UPDATED'
+  SOCKET_EVENT_UPDATED: 'SOCKET_EVENT_UPDATED',
+  FOLLOW: generateStatuses('Event.FOLLOW'),
+  UNFOLLOW: generateStatuses('Event.UNFOLLOW'),
+  IS_USER_FOLLOWING: generateStatuses('Event.IS_USER_FOLLOWING')
 };
 
 /**
@@ -37,6 +40,20 @@ export const Article = {
   CREATE: generateStatuses('Article.CREATE'),
   EDIT: generateStatuses('Article.EDIT')
 };
+
+/**
+ *
+ */
+export const Gallery = {
+  FETCH: generateStatuses('Gallery.FETCH'),
+  CREATE: generateStatuses('Gallery.CREATE'),
+  EDIT: generateStatuses('Gallery.EDIT'),
+  DELETE: generateStatuses('Gallery.DELETE'),
+  ADD_PICTURE: generateStatuses('Gallery.ADD_PICTURE'),
+  EDIT_PICTURE: generateStatuses('Gallery.EDIT_PICTURE'),
+  DELETE_PICTURE: generateStatuses('Gallery.DELETE_PICTURE')
+};
+
 /**
  *
  */
@@ -46,7 +63,15 @@ export const Joblistings = {
   EDIT: generateStatuses('Joblistings.EDIT'),
   DELETE: generateStatuses('Joblistings.DELETE')
 };
-
+/**
+ *
+ */
+export const Announcements = {
+  FETCH_ALL: generateStatuses('Announcements.FETCH_ALL'),
+  CREATE: generateStatuses('Announcements.CREATE'),
+  SEND: generateStatuses('Announcements.SEND'),
+  DELETE: generateStatuses('Announcements.DELETE')
+};
 /**
  *
  */
@@ -56,7 +81,8 @@ export const Meeting = {
   CREATE: generateStatuses('Meeting.CREATE'),
   EDIT: generateStatuses('Meeting.EDIT'),
   DELETE: generateStatuses('Meeting.DELETE'),
-  ANSWER_INVITATION_TOKEN: generateStatuses('Meeting.ANSWER_INVITATION_TOKEN')
+  ANSWER_INVITATION_TOKEN: generateStatuses('Meeting.ANSWER_INVITATION_TOKEN'),
+  RESET_MEETINGS_TOKEN: 'Meeting.RESET_MEETINGS_TOKEN'
 };
 
 /**
@@ -64,7 +90,19 @@ export const Meeting = {
  */
 export const Group = {
   FETCH: generateStatuses('Group.FETCH'),
-  UPDATE: generateStatuses('Group.UPDATE')
+  UPDATE: generateStatuses('Group.UPDATE'),
+  FETCH_ALL: generateStatuses('Group.FETCH_ALL'),
+  CREATE: generateStatuses('Group.CREATE'),
+  REMOVE: generateStatuses('Group.REMOVE'),
+  MEMBERSHIP_FETCH: generateStatuses('Group.MEMBERSHIP_FETCH')
+};
+
+export const CompanyInterestForm = {
+  FETCH_ALL: generateStatuses('CompanyInterestForm.FETCH_ALL'),
+  FETCH: generateStatuses('CompanyInterestForm.FETCH'),
+  CREATE: generateStatuses('CompanyInterestForm.CREATE'),
+  DELETE: generateStatuses('CompanyInterestForm.DELETE'),
+  UPDATE: generateStatuses('CompanyInterestForm.UPDATE')
 };
 
 export const InterestGroup = {
@@ -73,6 +111,17 @@ export const InterestGroup = {
   CREATE: generateStatuses('InterestGroup.CREATE'),
   REMOVE: generateStatuses('InterestGroup.REMOVE'),
   UPDATE: generateStatuses('InterestGroup.UPDATE')
+};
+
+export const Membership = {
+  CREATE: generateStatuses('Membership.CREATE'),
+  REMOVE: generateStatuses('Membership.REMOVE'),
+
+  // TODO (ek): Remove these when the interest group
+  // reducer has been replaced by the group reducer:
+  MEMBER_SET: generateStatuses('Membership.MEMBER_SET'),
+  JOIN_GROUP: generateStatuses('Membership.JOIN_GROUP'),
+  LEAVE_GROUP: generateStatuses('Membership.LEAVE_GROUP')
 };
 
 /**
@@ -95,15 +144,19 @@ export const Comment = {
  */
 export const Company = {
   FETCH: generateStatuses('Company.FETCH'),
+  FETCH_ALL: generateStatuses('Company.FETCH_ALL'),
+  FETCH_COMPANY_CONTACT: generateStatuses('Company.FETCH_COMPANY_CONTACT'),
   ADD: generateStatuses('Company.ADD'),
   EDIT: generateStatuses('Company.EDIT'),
   DELETE: generateStatuses('Company.DELETE'),
-  ADD_SEMESTER: generateStatuses('Company.ADD_SEMESTER'),
-  EDIT_SEMESTER: generateStatuses('Company.EDIT_SEMESTER'),
-  DELETE_SEMESTER: generateStatuses('Company.DELETE_SEMESTER'),
+  ADD_SEMESTER_STATUS: generateStatuses('Company.ADD_SEMESTER_STATUS'),
+  EDIT_SEMESTER_STATUS: generateStatuses('Company.EDIT_SEMESTER_STATUS'),
+  DELETE_SEMESTER_STATUS: generateStatuses('Company.DELETE_SEMESTER_STATUS'),
   ADD_COMPANY_CONTACT: generateStatuses('Company.ADD_COMPANY_CONTACT'),
   EDIT_COMPANY_CONTACT: generateStatuses('Company.EDIT_COMPANY_CONTACT'),
-  DELETE_COMPANY_CONTACT: generateStatuses('Company.DELETE_COMPANY_CONTACT')
+  DELETE_COMPANY_CONTACT: generateStatuses('Company.DELETE_COMPANY_CONTACT'),
+  FETCH_SEMESTERS: generateStatuses('Company.FETCH_SEMESTERS'),
+  ADD_SEMESTER: generateStatuses('Company.ADD_SEMESTER')
 };
 
 /**
@@ -126,7 +179,8 @@ export const Search = {
   SEARCH: generateStatuses('Search.SEARCH'),
   AUTOCOMPLETE: generateStatuses('Search.AUTOCOMPLETE'),
   RESULTS_RECEIVED: 'Search.RESULTS_RECEIVED',
-  TOGGLE_OPEN: 'Search.TOGGLE_OPEN'
+  TOGGLE_OPEN: 'Search.TOGGLE_OPEN',
+  MENTION: 'Search.MENTION'
 };
 
 export const Notifications = {
@@ -146,9 +200,23 @@ export const NotificationsFeed = {
 export const User = {
   FETCH: generateStatuses('User.FETCH'),
   UPDATE: generateStatuses('User.UPDATE'),
+  PASSWORD_CHANGE: generateStatuses('User.PASSWORD_CHANGE'),
   LOGIN: generateStatuses('User.LOGIN'),
   LOGOUT: 'User.LOGOUT',
-  SOCKET: generateStatuses('User.SOCKET')
+  SOCKET: generateStatuses('User.SOCKET'),
+  SEND_REGISTRATION_TOKEN: generateStatuses('User.SEND_REGISTRATION_TOKEN'),
+  VALIDATE_REGISTRATION_TOKEN: generateStatuses(
+    'User.VALIDATE_REGISTRATION_TOKEN'
+  ),
+  CREATE_USER: generateStatuses('User.CREATE_USER'),
+  SEND_STUDENT_CONFIRMATION_TOKEN: generateStatuses(
+    'User.SEND_STUDENT_CONFIRMATION_TOKEN'
+  ),
+  CONFIRM_STUDENT_USER: generateStatuses('User.CONFIRM_STUDENT_USER'),
+  SEND_FORGOT_PASSWORD_REQUEST: generateStatuses(
+    'User.SEND_FORGOT_PASSWORD_REQUEST'
+  ),
+  RESET_PASSWORD: generateStatuses('User.RESET_PASSWORD')
 };
 
 /**
@@ -181,6 +249,10 @@ export const Feed = {
   FETCH: generateStatuses('Feed.FETCH')
 };
 
+export const FetchHistory = {
+  SET_HISTORY: 'FetchHistory.SET_HISTORY'
+};
+
 /**
  *
  */
@@ -209,4 +281,18 @@ export const NotificationSettings = {
   ),
   FETCH: generateStatuses('NotificationSettings.FETCH'),
   UPDATE: generateStatuses('NotificationSettings.UPDATE')
+};
+
+/**
+ *
+ */
+export const Contact = {
+  SEND_MESSAGE: generateStatuses('Contact.SEND_MESSAGE')
+};
+
+/**
+ *
+ */
+export const Meta = {
+  FETCH: generateStatuses('Meta.FETCH')
 };

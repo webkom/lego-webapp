@@ -4,127 +4,145 @@ import Time from 'app/components/Time';
 import { FlexRow, FlexItem } from 'app/components/FlexBox';
 import styles from './MeetingDetail.css';
 import Card from 'app/components/Card';
-import Icon from 'app/components/Icon';
 import Button from 'app/components/Button';
+import Editor from 'app/components/Editor';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import moment from 'moment';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import { statusesText, statuses } from 'app/reducers/meetingInvitations';
+
+import type {
+  MeetingInvitationEntity,
+  MeetingInvitationStatus
+} from 'app/reducers/meetingInvitation';
+import type { UserEntity } from 'app/reducers/users';
 
 type Props = {
   meeting: object,
-  userMe: object,
-  showAnswer: Boolean
+  currentUser: UserEntity,
+  showAnswer: Boolean,
+  meetingInvitations: Array<MeetingInvitationEntity>,
+  deleteMeeting: number => Promise<*>,
+  setInvitationStatus: (
+    meetingId: number,
+    status: MeetingInvitationStatus,
+    user: UserEntity
+  ) => Promise<*>,
+  reportAuthor: UserEntity,
+  createdBy: UserEntity,
+  currentUserInvitation: MeetingInvitationEntity,
+  push: string => Promise<*>
 };
 
-function UserLink({ user }) {
-  if (user === undefined) {
-    return <span> Ikke valgt </span>;
-  }
-  return (
-    <Link to={`/users/${user.user.username}`}>
-      {' '}{user.user.fullName}{' '}
-    </Link>
+const UserLink = ({ user }: { user: UserEntity }) =>
+  user ? (
+    <Link to={`/users/${user.username}`}> {user.fullName} </Link>
+  ) : (
+    <span> Ikke valgt </span>
   );
-}
 
 class MeetingDetails extends Component {
   props: Props;
 
-  setInvitationStatus = newStatus => {
-    const { meeting, userMe } = this.props;
-    this.props.setInvitationStatus(meeting.id, newStatus, userMe.id);
+  setInvitationStatus = (newStatus: MeetingInvitationStatus) => {
+    const { meeting, currentUser } = this.props;
+    this.props.setInvitationStatus(meeting.id, newStatus, currentUser);
   };
 
-  acceptInvitation = () => {
-    this.setInvitationStatus('ATTENDING');
-  };
+  acceptInvitation = () => this.setInvitationStatus(statuses.ATTENDING);
 
-  rejectInvitation = () => {
-    this.setInvitationStatus('NOT_ATTENDING');
-  };
+  rejectInvitation = () => this.setInvitationStatus(statuses.NOT_ATTENDING);
 
   sortInvitations = () => {
-    const { invitations } = this.props.meeting;
-    const pools = {
-      NO_ANSWER: {
-        name: 'Ikke svart',
-        capacity: invitations.length,
-        registrations: []
-      },
-      ATTENDING: {
-        name: 'Deltar',
-        capacity: invitations.length,
-        registrations: []
-      },
-      NOT_ATTENDING: {
-        name: 'Deltar ikke',
-        capacity: invitations.length,
-        registrations: []
-      }
-    };
+    const { meetingInvitations } = this.props;
 
-    invitations.forEach(item => pools[item.status].registrations.push(item));
-    return Object.values(pools).filter(pool => pool.registrations.length !== 0);
+    return Object.keys(statuses).map(invitationStatus => ({
+      name: statusesText[invitationStatus],
+      capacity: meetingInvitations.length,
+      registrations: meetingInvitations.filter(
+        invite => invite.status === invitationStatus
+      )
+    }));
   };
 
-  attendanceButtons = (statusMe, startTime) => {
-    if (moment(startTime) < moment()) {
-      return undefined;
-    }
-    return (
+  attendanceButtons = (statusMe, startTime) =>
+    statusMe &&
+    moment(startTime) > moment() && (
       <li className={styles.statusButtons}>
         <Button
           onClick={this.acceptInvitation}
-          disabled={statusMe === 'ATTENDING'}
+          disabled={statusMe === statuses.ATTENDING}
         >
           Delta
         </Button>
         <Button
           onClick={this.rejectInvitation}
-          disabled={statusMe === 'NOT_ATTENDING'}
+          disabled={statusMe === statuses.NOT_ATTENDING}
         >
           Avslå
         </Button>
       </li>
     );
+
+  onDeleteMeeting = () => {
+    this.props
+      .deleteMeeting(this.props.meeting.id)
+      .then(() => this.props.push('/meetings/'));
   };
 
   render() {
-    const { meeting, userMe, showAnswer } = this.props;
-    const STATUS_MESSAGES = {
-      NO_ANSWER: 'Ikke svart',
-      ATTENDING: 'Deltar',
-      NOT_ATTENDING: 'Deltar ikke'
-    };
+    const {
+      meeting,
+      currentUser,
+      showAnswer,
+      reportAuthor,
+      createdBy,
+      currentUserInvitation
+    } = this.props;
 
-    if (meeting === undefined || userMe === undefined) {
+    if (!meeting || !currentUser) {
       return <LoadingIndicator loading />;
     }
-    const statusMe = meeting.invitations.filter(
-      item => item.user.username === userMe.username
-    )[0].status;
+    const statusMe = currentUserInvitation && currentUserInvitation.status;
 
-    const reportAuthor = meeting.invitations.filter(
-      invitation => invitation.user.id === meeting.reportAuthor
-    )[0];
-    const createdBy = meeting.invitations.filter(
-      invitation => invitation.user.id === meeting.createdBy
-    )[0];
+    const actionGrant = meeting && meeting.actionGrant;
 
-    const canDelete = this.props.userMe.id === this.props.meeting.createdBy;
+    const canDelete = actionGrant && actionGrant.includes('delete');
+    const canEdit = actionGrant && actionGrant.includes('edit');
+
     return (
       <div className={styles.root}>
-        {showAnswer && <h2> Du har nå svart på invitasjonen 😃 </h2>}
-        <h2>
-          <Link to="/meetings/">
-            <i className="fa fa-angle-left" /> Mine møter
-          </Link>
-        </h2>
+        {showAnswer && (
+          <h2>
+            {' '}
+            Du har nå svart på invitasjonen{' '}
+            <span aria-label="smile" role="img">
+              😃
+            </span>{' '}
+          </h2>
+        )}
         <FlexRow className={styles.heading}>
           <div style={{ flex: 1 }}>
-            <h1 className={styles.title}>
-              {meeting.title}
-            </h1>
+            <NavigationTab title={meeting.title} className={styles.detailTitle}>
+              <NavigationLink to="/meetings">
+                <i className="fa fa-angle-left" /> Mine møter
+              </NavigationLink>
+              {canEdit && (
+                <NavigationLink to={`/meetings/${meeting.id}/edit`}>
+                  Endre møte
+                </NavigationLink>
+              )}
+              {canDelete && (
+                <NavigationLink
+                  onClick={() => {
+                    this.props.deleteMeeting(meeting.id);
+                  }}
+                >
+                  Slett møte
+                </NavigationLink>
+              )}
+            </NavigationTab>
             <h3>
               <Time
                 style={{ color: 'grey' }}
@@ -133,52 +151,29 @@ class MeetingDetails extends Component {
               />
             </h3>
           </div>
-
-          <div>
-            <Link to={`/meetings/${meeting.id}/edit`}>
-              <Button>
-                <Icon name="pencil" />
-                Endre møte
-              </Button>
-            </Link>
-
-            {canDelete &&
-              <Button
-                style={{ backgroundColor: 'pink' }}
-                onClick={() => {
-                  this.props.deleteMeeting(meeting.id);
-                }}
-              >
-                <Icon name="trash" />
-                Slett møte
-              </Button>}
-          </div>
         </FlexRow>
         <div className={styles.mainContent}>
+          <FlexItem className={styles.reportContent} flex={2}>
+            <h2>Referat</h2>
+            <Editor readOnly value={meeting.report} />
+          </FlexItem>
           <FlexItem className={styles.statusContent} flex={1}>
-            <Card>
+            <Card style={{ border: 'none', padding: 0 }} shadow={false}>
               <ul>
-                <li>
-                  <strong> Din status: </strong>
-                  {STATUS_MESSAGES[statusMe]}
-                </li>
                 {this.attendanceButtons(statusMe, meeting.startTime)}
-                <li
-                  style={{
-                    height: '1px',
-                    width: '100%',
-                    backgroundColor: '#ccc'
-                  }}
-                />
+                {statusMe && (
+                  <li>
+                    <strong> Din status: </strong>
+                    {statusesText[statusMe]}
+                  </li>
+                )}
                 <li>
                   <strong> Slutt </strong>
                   <Time time={meeting.endTime} format="ll HH:mm" />
                 </li>
                 <li>
                   <strong> Lokasjon: </strong>
-                  <span>
-                    {' '}{meeting.location}{' '}
-                  </span>
+                  <span> {meeting.location} </span>
                 </li>
                 <li>
                   <strong> Forfatter: </strong>
@@ -190,14 +185,10 @@ class MeetingDetails extends Component {
                   <UserLink user={reportAuthor} />
                 </li>
                 <li>
-                  <AttendanceStatus pools={this.sortInvitations()} />
+                  <AttendanceStatus.Modal pools={this.sortInvitations()} />
                 </li>
               </ul>
             </Card>
-          </FlexItem>
-          <FlexItem className={styles.reportContent} flex={2}>
-            <h2>Referat</h2>
-            <div dangerouslySetInnerHTML={{ __html: meeting.report }} />
           </FlexItem>
         </div>
       </div>

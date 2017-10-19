@@ -1,15 +1,14 @@
 // @flow
 
-export type ActionTypeObject = {|
-  BEGIN: string,
-  SUCCESS: string,
-  FAILURE: string
-|};
-export type ActionTypeArray = [string, string, string];
+import type {
+  Middleware,
+  AsyncActionType,
+  AsyncActionTypeArray
+} from 'app/types';
 
 function extractTypes(
-  types: ActionTypeArray | ActionTypeObject
-): ActionTypeArray {
+  types: AsyncActionType | AsyncActionTypeArray
+): AsyncActionTypeArray {
   if (Array.isArray(types)) {
     return types;
   }
@@ -17,8 +16,8 @@ function extractTypes(
   return [types.BEGIN, types.SUCCESS, types.FAILURE];
 }
 
-export default function promiseMiddleware(): any {
-  return next => action => {
+export default function promiseMiddleware(): Middleware {
+  return store => next => action => {
     if (!action.promise) {
       return next(action);
     }
@@ -40,6 +39,7 @@ export default function promiseMiddleware(): any {
             next({
               type: SUCCESS,
               payload,
+              success: true,
               meta
             })
           ),

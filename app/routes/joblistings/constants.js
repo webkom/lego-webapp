@@ -25,3 +25,17 @@ export const places = [
   { label: 'Elverum', value: 'Elverum' },
   { label: 'Kongsvinger', value: 'Kongsvinger' }
 ];
+
+export const jobTypes = [
+  { label: 'Sommerjobb', value: 'summer_job' },
+  { label: 'Sommerjobb', value: 'summer_job' },
+  { label: 'Deltid', value: 'part_time' },
+  { label: 'Fulltid', value: 'full_time' }
+];
+export const yearValues = [
+  { value: 1, label: '1. klasse' },
+  { value: 2, label: '2. klasse' },
+  { value: 3, label: '3. klasse' },
+  { value: 4, label: '4. klasse' },
+  { value: 5, label: '5. klasse' }
+];

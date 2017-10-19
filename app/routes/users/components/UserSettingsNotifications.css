@@ -1,11 +1,8 @@
-.root {
-  composes: contentContainer from 'app/styles/utilities.css';
-}
-
 .table {
-  width: 100%
+  width: 100%;
 }
 
-.table th, .table td {
+.table th,
+.table td {
   text-transform: capitalize;
 }

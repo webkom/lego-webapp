@@ -5,56 +5,62 @@ import { Link } from 'react-router';
 import cx from 'classnames';
 import ProfilePicture from 'app/components/ProfilePicture';
 import styles from './AttendanceModal.css';
+import { flatMap } from 'lodash';
 
 export type Props = {
-  pools: Array<Object>
+  pools: Array<Object>,
+  title: string,
+  togglePool: number => void,
+  selectedPool: number
 };
+
+const Tab = ({ name, index, activePoolIndex, togglePool }) => (
+  <a
+    className={cx(
+      styles.navButton,
+      activePoolIndex === index && styles.activeItem
+    )}
+    onClick={() => togglePool(index)}
+  >
+    {name}
+  </a>
+);
 
 class AttendanceModal extends Component {
   props: Props;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      activePoolIndex: props.selectedPool ? props.selectedPool : 0
-    };
-  }
-
   state = {
-    activePoolIndex: 0
+    pools: []
   };
 
-  togglePool = (index: number) => {
-    this.setState({
-      activePoolIndex: index
+  componentWillMount() {
+    this.generateAmendedPools(this.props.pools);
+  }
+
+  generateAmendedPools = (pools: Array<Object>) => {
+    if (pools.length === 1) return this.setState({ pools });
+
+    const allRegistrations = flatMap(pools, pool => pool.registrations);
+    const summaryPool = {
+      name: 'Alle',
+      registrations: allRegistrations
+    };
+    return this.setState({
+      pools: [summaryPool, ...pools]
     });
   };
 
   render() {
-    const { pools, title } = this.props;
+    const { title, togglePool, selectedPool } = this.props;
+    const { pools } = this.state;
 
-    const tabs = pools.map((pool, i) =>
-      <a
-        key={i}
-        className={cx(
-          styles.navButton,
-          this.state.activePoolIndex === i && styles.activeItem
-        )}
-        onClick={() => this.togglePool(i)}
-      >
-        {pool.name}
-      </a>
-    );
-
-    const activePool = pools[this.state.activePoolIndex];
+    const activePool = pools[selectedPool];
     const statusTitle = title || 'Status';
     return (
       <div>
-        <h2>
-          {statusTitle}
-        </h2>
+        <h2>{statusTitle}</h2>
         <ul className={styles.list}>
-          {activePool.registrations.map((registration, i) =>
+          {activePool.registrations.map((registration, i) => (
             <li key={i}>
               <div className={styles.row}>
                 <ProfilePicture size={30} user={registration.user} />
@@ -63,11 +69,19 @@ class AttendanceModal extends Component {
                 </Link>
               </div>
             </li>
-          )}
+          ))}
         </ul>
 
         <div className={styles.nav}>
-          {tabs}
+          {pools.map((pool, i) => (
+            <Tab
+              name={pool.name}
+              key={i}
+              index={i}
+              activePoolIndex={selectedPool}
+              togglePool={togglePool}
+            />
+          ))}
         </div>
       </div>
     );

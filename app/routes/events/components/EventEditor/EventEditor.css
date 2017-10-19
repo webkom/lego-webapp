@@ -9,9 +9,6 @@
   color: var(--lego-font-color);
   font-family: Raleway, 'Helvetica Neue', Arial, sans-serif;
   font-weight: 700;
-  margin-top: 1em;
-  padding-left: 0;
-  composes: editShadow from 'app/styles/utilities.css';
 }
 
 .editors {
@@ -27,34 +24,26 @@
 .formField {
   padding: 1px;
   padding-left: 5px;
-  composes: editShadow from 'app/styles/utilities.css';
 }
 
 .description {
   composes: description;
-  composes: editShadow from 'app/styles/utilities.css';
 }
 
 .metaField {
-  flex: 1;
-  margin: 0;
-  margin-left: 5px;
+  margin-bottom: 0;
+}
+
+.metaField input {
+  padding-bottom: 5px;
+  padding-top: 5px;
 }
 
 .metaList {
   display: flex;
   align-items: center;
-  margin: 5px 5px 0;
 }
 
 .metaList > span {
   display: flex;
-}
-
-.poolField {
-  margin-bottom: 0;
-}
-
-.poolField input {
-  padding: 5px;
 }

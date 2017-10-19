@@ -5,7 +5,6 @@ import { Field } from 'redux-form';
 
 import Button from 'app/components/Button';
 import { Form, TextInput } from 'app/components/Form';
-import styles from './UserSettingsOAuth2.css';
 
 type Props = {
   create: boolean,
@@ -33,10 +32,8 @@ const UserSettingsOAuth2Form = (props: Props) => {
   };
 
   return (
-    <div className={styles.root}>
-      <h1>
-        {props.create ? 'Opprett' : 'Endre'} Applikasjon
-      </h1>
+    <div>
+      <h1>{props.create ? 'Opprett' : 'Endre'} Applikasjon</h1>
 
       <Form onSubmit={props.handleSubmit(submit)}>
         <Field
@@ -60,7 +57,7 @@ const UserSettingsOAuth2Form = (props: Props) => {
           component={TextInput.Field}
         />
 
-        {!props.create &&
+        {!props.create && (
           <Field
             placeholder="Client ID"
             label="Client ID"
@@ -70,9 +67,10 @@ const UserSettingsOAuth2Form = (props: Props) => {
             props={{
               disabled: true
             }}
-          />}
+          />
+        )}
 
-        {!props.create &&
+        {!props.create && (
           <Field
             placeholder="Client Secret"
             label="Client Secret"
@@ -82,7 +80,8 @@ const UserSettingsOAuth2Form = (props: Props) => {
             props={{
               disabled: true
             }}
-          />}
+          />
+        )}
 
         <Button disabled={disabledButton} submit>
           Submit

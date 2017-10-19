@@ -1,7 +1,15 @@
 // @flow
 
-import type { Store as ReduxStore, Reducer as ReduxReducer } from 'redux';
+import type { Store as ReduxStore, Middleware as ReduxMiddleware } from 'redux';
 import type { Reducers } from 'app/reducers';
+
+export type AsyncActionType = {|
+  BEGIN: string,
+  SUCCESS: string,
+  FAILURE: string
+|};
+
+export type AsyncActionTypeArray = [string, string, string];
 
 export type EntityID = number;
 
@@ -14,25 +22,52 @@ export type ArticleEntity = {
   description: string
 };
 
-export type Action = {
-  type: string,
-  payload?: any,
-  meta?: any,
-  error?: boolean
+export type GalleryPictureEntity = {
+  description?: string,
+  active: boolean,
+  file: string,
+  galleryId: number,
+  taggees?: Array<Object>
+};
+
+export type GalleryEntity = {
+  title: string,
+  description?: string,
+  location?: string,
+  takenAt?: Date,
+  photographers?: EntityID[],
+  event?: EntityID
 };
 
 type $ExtractFunctionReturn = <V>(v: (...args: any) => V) => V;
 
 export type State = $ObjMap<Reducers, $ExtractFunctionReturn>;
 
-export type Store = ReduxStore<State, Action>;
+// Todo: remove any
+export type Reducer = any; // (state: State, action: Action) => State;
+
+export type Store = ReduxStore<State, Action, Dispatch<*>>;
 
 export type GetState = () => State;
 
-export type Reducer<S, A> = ReduxReducer<S, A>;
-export type Thunk<S, R> = (dispatch: Dispatch<S, any>, getState: () => S) => R;
-export type PromiseAction<R> = { type: string, payload: Promise<R> };
-type ThunkDispatch<S> = <R>(action: Thunk<S, R>) => R;
-type PromiseDispatch = <R>(action: PromiseAction<R>) => Promise<R>;
-type PlainDispatch<A: { type: $Subtype<string> }> = (action: A) => A;
-type Dispatch<S, A> = PlainDispatch<A> & ThunkDispatch<S> & PromiseDispatch;
+export type Middleware = ReduxMiddleware<State, AnyAction<*>, Dispatch<*>>;
+
+export type Action = {|
+  type: string,
+  payload?: any,
+  meta?: any,
+  error?: boolean
+|};
+
+export type PromiseAction<T> = {|
+  types: AsyncActionType,
+  promise: Promise<T>,
+  meta?: any,
+  payload?: any
+|};
+
+export type AnyAction<R> = PromiseAction<R> | Thunk<R> | Action;
+
+export type Dispatch<R> = (action: AnyAction<R>) => R;
+
+export type Thunk<R> = (dispatch: Dispatch<R>, getState: GetState) => R;

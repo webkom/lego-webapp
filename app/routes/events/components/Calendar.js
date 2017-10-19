@@ -14,8 +14,7 @@ const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
 
 type Props = {
   weekOffset: number,
-  year: string,
-  month: string,
+  date: moment,
   icalToken: string
 };
 
@@ -37,8 +36,7 @@ export default class Calendar extends Component {
   };
 
   render() {
-    const { year, month, actionGrant, icalToken } = this.props;
-    const date = moment([parseInt(year, 10), parseInt(month, 10) - 1]);
+    const { actionGrant, date, icalToken } = this.props;
 
     return (
       <div className={styles.root}>
@@ -47,18 +45,16 @@ export default class Calendar extends Component {
 
         <h2 className={styles.header}>
           <Link to={`/events/calendar/${pathForPrevMonth(date)}`}>«</Link>
-          <span>
-            {date.format('MMMM YYYY')}
-          </span>
+          <span>{date.format('MMMM YYYY')}</span>
           <Link to={`/events/calendar/${pathForNextMonth(date)}`}>»</Link>
         </h2>
 
         <div className={styles.grid}>
-          {WEEKDAYS.map(d =>
+          {WEEKDAYS.map(d => (
             <div key={d} className={styles.headingItem}>
               {d}
             </div>
-          )}
+          ))}
           {createMonthlyCalendar(
             date,
             this.props.weekOffset

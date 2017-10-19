@@ -1,9 +1,11 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import { fetchAll } from 'app/actions/CompanyActions';
 import CompaniesPage from './components/CompaniesPage';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 type Props = {
   fetchAll: () => {}
@@ -21,13 +23,14 @@ const mapStateToProps = (state, props) => {
   return {
     companies,
     query,
-    loggedIn: state.auth.token !== null
+    loggedIn: props.loggedIn
   };
 };
 
 const mapDispatchToProps = { fetchAll };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   dispatched((props, dispatch) => dispatch(fetchAll()), {
     componentWillReceiveProps: false
   }),

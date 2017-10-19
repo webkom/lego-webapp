@@ -2,55 +2,49 @@ import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
   path: 'users',
+  indexRoute: resolveAsyncRoute(() => import('../errors')),
   childRoutes: [
     {
-      path: 'me',
-      ...resolveAsyncRoute(
-        () => import('./UserProfileRoute'),
-        () => require('./UserProfileRoute')
-      )
+      path: 'registration',
+      ...resolveAsyncRoute(() => import('./UserConfirmationRoute'))
     },
     {
-      path: 'me/settings',
-      ...resolveAsyncRoute(
-        () => import('./UserSettingsRoute'),
-        () => require('./UserSettingsRoute')
-      )
-    },
-    {
-      path: 'me/settings/notifications',
-      ...resolveAsyncRoute(
-        () => import('./UserSettingsNotificationsRoute'),
-        () => require('./UserSettingsNotificationsRoute')
-      )
-    },
-    {
-      path: 'me/settings/oauth2',
-      ...resolveAsyncRoute(
-        () => import('./UserSettingsOAuth2Route'),
-        () => require('./UserSettingsOAuth2Route')
-      )
-    },
-    {
-      path: 'me/settings/oauth2/new',
-      ...resolveAsyncRoute(
-        () => import('./UserSettingsOAuth2CreateRoute'),
-        () => require('./UserSettingsOAuth2CreateRoute')
-      )
-    },
-    {
-      path: 'me/settings/oauth2/:applicationId',
-      ...resolveAsyncRoute(
-        () => import('./UserSettingsOAuth2EditRoute'),
-        () => require('./UserSettingsOAuth2EditRoute')
-      )
+      path: 'reset-password',
+      ...resolveAsyncRoute(() => import('./UserResetPasswordRoute'))
     },
     {
       path: ':username',
-      ...resolveAsyncRoute(
-        () => import('./UserProfileRoute'),
-        () => require('./UserProfileRoute')
-      )
+      ...resolveAsyncRoute(() => import('./UserProfileRoute'))
+    },
+    {
+      path: ':username/settings',
+      ...resolveAsyncRoute(() => import('./components/UserSettingsIndex')),
+      childRoutes: [
+        {
+          path: 'profile',
+          ...resolveAsyncRoute(() => import('./UserSettingsRoute'))
+        },
+        {
+          path: 'notifications',
+          ...resolveAsyncRoute(() => import('./UserSettingsNotificationsRoute'))
+        },
+        {
+          path: 'oauth2',
+          ...resolveAsyncRoute(() => import('./UserSettingsOAuth2Route'))
+        },
+        {
+          path: 'oauth2/new',
+          ...resolveAsyncRoute(() => import('./UserSettingsOAuth2CreateRoute'))
+        },
+        {
+          path: 'oauth2/:applicationId',
+          ...resolveAsyncRoute(() => import('./UserSettingsOAuth2EditRoute'))
+        },
+        {
+          path: 'student-confirmation',
+          ...resolveAsyncRoute(() => import('./StudentConfirmationRoute'))
+        }
+      ]
     }
   ]
 };

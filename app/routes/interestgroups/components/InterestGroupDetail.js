@@ -1,94 +1,156 @@
 import styles from './InterestGroup.css';
 import React, { Component } from 'react';
 import Image from 'app/components/Image';
-import Modal from 'app/components/Modal';
-import { Button } from 'app/components/Form';
-import { FlexColumn, FlexRow } from 'app/components/FlexBox';
-import InterestGroupForm from './InterestGroupForm';
+import { Flex } from 'app/components/Layout';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import Button from 'app/components/Button';
+import { Link } from 'react-router';
+import Tooltip from 'app/components/Tooltip';
+import ProfilePicture from 'app/components/ProfilePicture';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+
+// TODO: this is from the event detail page.
+// We can probably move this out to somewhere common.
+const RegisteredCell = ({ user }) => (
+  <Tooltip content={user.fullName}>
+    <Link to={`/users/${user.username}`}>
+      <ProfilePicture size={60} user={user} />
+    </Link>
+  </Tooltip>
+);
+
+const Title = ({ group: { name, id }, showEdit, editClick }) => (
+  <NavigationTab title={name}>
+    {showEdit && (
+      <NavigationLink to={`/interestgroups/${id}/edit`}>
+        [Rediger]
+      </NavigationLink>
+    )}
+  </NavigationTab>
+);
+
+const Description = ({ description }) => (
+  <Flex className={styles.description}>{description}</Flex>
+);
+
+const Sidebar = ({ group }) => (
+  <Flex column className={styles.sideBar}>
+    <Logo logo={group.logo || 'https://i.imgur.com/Is9VKjb.jpg'} />
+    <Members name={group.name} members={group.memberships} />
+    <Contact group={group} />
+  </Flex>
+);
+
+const SidebarHeader = ({ text }) => (
+  <div style={{ 'font-weight': 'bold' }}>{text}</div>
+);
+
+const Members = ({ members, name }) => (
+  <Flex column>
+    <SidebarHeader text={`Medlemmer (${members.length})`} />
+    <Flex wrap>
+      {members &&
+        members
+          .slice(0, 10)
+          .map(reg => <RegisteredCell key={reg.user.id} user={reg.user} />)}
+    </Flex>
+  </Flex>
+);
+
+const Logo = ({ logo }) => (
+  <Flex justifyContent="center">
+    <Image className={styles.logo} src={logo} />
+  </Flex>
+);
+
+const Content = ({ group }) => (
+  <Flex column style={{ flex: '1' }}>
+    <Text text={group.text} />
+  </Flex>
+);
+
+const Text = ({ text }) => (
+  <Flex style={{ margin: '1em' }}>
+    <div>{text}</div>
+  </Flex>
+);
+
+const ButtonRow = ({
+  group,
+  currentUser,
+  joinInterestGroup,
+  leaveInterestGroup
+}) => {
+  const membership = group.memberships.filter(
+    m => m.user.id === currentUser.id
+  )[0];
+  const onClick = membership
+    ? () => leaveInterestGroup(membership, group.id)
+    : () => joinInterestGroup(group.id, currentUser);
+  return (
+    <Flex>
+      <Button onClick={onClick}>
+        {membership ? 'Forlat Gruppen' : 'Bli med i gruppen'}
+      </Button>
+    </Flex>
+  );
+};
+
+const Contact = ({ group }) => {
+  const leaders = group.memberships.filter(m => m.role === 'leader');
+  if (leaders.length == 0) {
+    return (
+      <Flex column>
+        <SidebarHeader text="Leder" />
+        Gruppen har ingen leder!
+      </Flex>
+    );
+  }
+  const leader = leaders[0];
+  return (
+    <Flex column>
+      <SidebarHeader text="Leder" />
+      {leader.user.fullName}
+    </Flex>
+  );
+};
 
 class InterestGroupDetail extends Component {
   state = {
     editorOpen: false
   };
 
-  removeId = () => {
-    this.props.removeInterestGroup(this.props.group.id);
+  joinGroup = () => {
+    this.props.joinInterestGroup(this.props.group.id, this.props.currentUser);
   };
 
-  updateId = ({ name, description, text }) => {
-    this.props.updateInterestGroup(
-      this.props.group.id,
-      name,
-      description,
-      text
-    );
+  leaveGroup = () => {
+    const { group: { memberships = [] } } = this.props;
+    const user = this.props.currentUser.id;
+    const membership = memberships.find(m => m.user.id === user);
+    this.props.leaveInterestGroup(membership);
   };
 
   render() {
     const { group } = this.props;
-    return (
-      <div className={styles.root}>
-        <div className={styles.wrapper}>
-          <h1 className={styles.detail}>
-            {group.name}
-          </h1>
-          <div className={styles.content}>
-            <p className={styles.paragraphDetail}>
-              {group.text}
-            </p>
-            <Image
-              className={styles.interestPicDetail}
-              src={'https://i.redd.it/dz8mwvl4dgdy.jpg'}
-            />
-          </div>
-        </div>
-        <h2 className={styles.heading}>Kontaktinformasjon</h2>
-        <div className={styles.content}>
-          <p>
-            Martin<br />
-            Call me anytime bby gurl, love you long time (30 s confirmed, can
-            provide evidence)
-            <br />
-            martyboy@alphamale.com
-          </p>
-          <FlexColumn>
-            <div className={styles.button}>
-              <Button onClick={() => this.setState({ editorOpen: true })}>
-                Rediger interessegruppe
-              </Button>
-            </div>
-            <div className={styles.button}>
-              <Button onClick={this.removeId}>Slett interressegruppe</Button>
-            </div>
-          </FlexColumn>
-        </div>
+    const canEdit = true;
 
-        <FlexRow>
-          <div className={styles.button}>
-            <Button onClick="">Bli medlem!</Button>
-          </div>
-          <div className={styles.button}>
-            <Button onClick="">Kontakt oss</Button>
-          </div>
-          <div className={styles.button}>
-            <Button onClick="">Facebookgruppe</Button>
-          </div>
-        </FlexRow>
-        <Modal
-          keyboard={false}
-          show={this.state.editorOpen}
-          onHide={() => this.setState({ editorOpen: false })}
-          closeOnBackdropClick={false}
-        >
-          <InterestGroupForm
-            onSubmit={this.updateId}
-            buttonText="Rediger interessegruppe"
-            header="Rediger interessegruppe"
-            group={group}
-          />
-        </Modal>
-      </div>
+    if (!group) {
+      return <LoadingIndicator />;
+    }
+
+    return (
+      <Flex column className={styles.root}>
+        <Title group={group} showEdit={canEdit} />
+        <Description description={group.description} />
+        <Flex style={{ background: 'white' }}>
+          <Content group={group} />
+          <Sidebar group={group} />
+        </Flex>
+        <ButtonRow {...this.props} />
+      </Flex>
     );
   }
 }
+
 export default InterestGroupDetail;

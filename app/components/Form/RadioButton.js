@@ -30,9 +30,7 @@ function RadioButton({
         id={id}
         value={inputValue}
       />
-      <label htmlFor={id}>
-        {label}
-      </label>
+      <span>{label}</span>
     </div>
   );
 }

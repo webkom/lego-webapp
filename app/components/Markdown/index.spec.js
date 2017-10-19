@@ -14,11 +14,7 @@ describe('<Markdown />', () => {
 
   it('should throw on invalid children', () => {
     expect(() => {
-      shallow(
-        <Markdown>
-          {{ hello: 'world' }}
-        </Markdown>
-      );
+      shallow(<Markdown>{{ hello: 'world' }}</Markdown>);
     }).toThrow();
   });
 });

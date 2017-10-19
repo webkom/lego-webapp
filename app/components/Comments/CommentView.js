@@ -32,11 +32,12 @@ const CommentView = (props: Props) => {
     <div>
       {comments.length > 0 && <h3>Diskusjon</h3>}
       <LoadingIndicator loading={!comments}>
-        {comments &&
-          <CommentTree comments={tree} commentFormProps={commentFormProps} />}
+        {comments && (
+          <CommentTree comments={tree} commentFormProps={commentFormProps} />
+        )}
       </LoadingIndicator>
 
-      {!formDisabled &&
+      {!formDisabled && (
         <div>
           <h3>
             {comments.length
@@ -48,7 +49,8 @@ const CommentView = (props: Props) => {
             form={`comment.${commentFormProps.commentTarget}`}
             {...commentFormProps}
           />
-        </div>}
+        </div>
+      )}
     </div>
   );
 };

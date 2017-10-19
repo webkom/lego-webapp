@@ -49,9 +49,9 @@ $ apm install nuclide pigments linter-eslint linter-stylelint prettier-atom
 ```
 
 ## Prettier
-We use [prettier](https://github.com/prettier/prettier) for JS auto-formatting. It will run as a git pre-commit hook, but you can also install the [prettier-atom](https://atom.io/packages/prettier-atom) Atom plugin.
+We use [prettier](https://github.com/prettier/prettier) for JS auto-formatting. When the code isn't formatted with the prettier version in `package.json`, the tests will fail. We highly recommend using format on save via an editor plugin, for example [prettier-atom](https://atom.io/packages/prettier-atom) and [vim-prettier](https://github.com/prettier/vim-prettier).
 
-To run this automatically on each commit, install `husky` globally using `yarn global add lint-staged husky --dev`.
+You can also format the code via `yarn run lint:js -- --fix`.
 
 ## Tests
 Run all the tests and check for lint errors with the command:

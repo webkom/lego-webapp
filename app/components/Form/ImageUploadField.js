@@ -2,12 +2,14 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
 import { createField } from './Field';
-import { ImageUpload } from 'app/components/Upload';
+import ImageUpload from 'app/components/Upload/ImageUpload';
 import styles from './ImageUploadField.css';
 
 type Props = {
   type?: string,
   className?: string,
+  style?: Object,
+  value?: string,
   uploadFile: () => Promise<*>,
   onChange: () => void,
   edit: () => Promise<*>
@@ -18,20 +20,27 @@ class ImageUploadField extends Component {
 
   static Field: any;
 
+  componentWillMount() {
+    if (this.props.value) {
+      this.props.onChange(null);
+    }
+  }
+
   setValue = (image: File) => {
     this.props.uploadFile({ file: image, isPublic: true }).then(action => {
       const token = action.meta.fileToken;
+
       if (this.props.edit) {
         this.props.edit(token);
-      } else {
-        this.props.onChange(token);
       }
+      this.props.onChange(token);
     });
   };
 
   render() {
     const { className, style, ...props } = this.props;
     const imageClass = className ? className : styles.coverImage;
+
     return (
       <div className={cx(styles.base, imageClass)} style={style}>
         <ImageUpload

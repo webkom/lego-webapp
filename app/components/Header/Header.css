@@ -19,7 +19,6 @@
 .buttonGroup img {
   border: 0;
   color: var(--lego-text-gray);
-  font-size: 40px;
   cursor: pointer;
   transition: color 0.3s;
 
@@ -47,7 +46,6 @@
 }
 
 .burger {
-
   @media (--mobile-device) {
     order: 4;
   }
@@ -61,15 +59,12 @@
   @media (--mobile-device) {
     margin-right: 0;
   }
-
 }
 
 .hideOnMobile {
-
   @media (--mobile-device) {
     display: none;
   }
-
 }
 
 .content {
@@ -112,7 +107,7 @@
 
 .navigation a {
   font-size: 1.35rem;
-  padding: 0 1rem;
+  padding: 10px 1rem;
   height: 100%;
   color: var(--color-dark-gray-5);
   text-transform: uppercase;
