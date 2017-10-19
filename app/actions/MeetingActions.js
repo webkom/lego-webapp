@@ -20,16 +20,36 @@ export function fetchMeeting(meetingId: string) {
   });
 }
 
-export function fetchAll() {
-  return callAPI({
-    types: Meeting.FETCH,
-    endpoint: '/meetings/',
-    schema: [meetingSchema],
-    meta: {
-      errorMessage: 'Henting av møter feilet'
-    },
-    propagateError: true
-  });
+const getEndpoint = (state, loadNextPage, queryString) => {
+  const pagination = state.meetings.pagination;
+  let endpoint = `/meetings/${queryString}`;
+  if (loadNextPage && pagination.queryString === queryString) {
+    endpoint = pagination.nextPage;
+  }
+  return endpoint;
+};
+
+export function fetchAll(loadNextPage) {
+  return (dispatch, getState) => {
+    const queryString = '';
+    const endpoint = getEndpoint(getState(), loadNextPage, queryString);
+    if (!endpoint) {
+      return;
+    }
+    dispatch(
+      callAPI({
+        types: Meeting.FETCH,
+        endpoint,
+        schema: [meetingSchema],
+        meta: {
+          queryString,
+          errorMessage: 'Henting av møter feilet'
+        },
+        propagateError: true,
+        cacheSeconds: Infinity
+      })
+    );
+  };
 }
 
 export function setInvitationStatus(
