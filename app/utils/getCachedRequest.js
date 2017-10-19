@@ -11,7 +11,15 @@ const getCachedRequest = (
   if (!historyObject) return null;
   const shouldReturnCache =
     Date.now() - historyObject.timestamp < cacheSeconds * 1000;
-  return shouldReturnCache ? historyObject.action : null;
+  return shouldReturnCache
+    ? {
+        ...historyObject.action,
+        meta: {
+          ...historyObject.action.meta,
+          cachedResponse: true
+        }
+      }
+    : null;
 };
 
 export default getCachedRequest;

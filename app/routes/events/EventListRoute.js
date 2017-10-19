@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { dispatched } from '@webkom/react-prepare';
-import { fetchAll } from 'app/actions/EventActions';
+import { fetchList } from 'app/actions/EventActions';
 import EventList from './components/EventList';
 import { selectSortedEvents } from 'app/reducers/events';
 import moment from 'moment';

@@ -81,6 +81,7 @@ export default function callAPI({
   meta,
   schema,
   useCache,
+  force = false,
   cacheSeconds = 10,
   propagateError = false,
   disableOptimistic = false,
@@ -90,7 +91,7 @@ export default function callAPI({
   return (dispatch, getState) => {
     const methodUpperCase = method.toUpperCase();
     const shouldUseCache =
-      typeof useCache === 'undefined' ? methodUpperCase === 'GET' : useCache;
+      !force && typeof useCache === 'undefined' ? methodUpperCase === 'GET' : useCache;
 
     const requestOptions = toHttpRequestOptions({
       method,
@@ -120,14 +121,15 @@ export default function callAPI({
         return [];
       }
 
-      const { results, actionGrant } = jsonData;
+      const { results, actionGrant, next } = jsonData;
 
       const payload = Array.isArray(results) ? results : jsonData;
 
       if (schema) {
         return {
           ...normalize(payload, schema),
-          actionGrant
+          actionGrant,
+          next
         };
       }
 
