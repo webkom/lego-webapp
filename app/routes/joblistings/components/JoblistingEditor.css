@@ -14,20 +14,12 @@
   font-size: 24px;
 }
 
-.row {
-  display: flex;
-  justify-content: space-between;
-  margin: 2% 5%;
-}
-
-.textfield {
-  width: 80%;
-}
-
 .submit {
   width: 130px;
 }
 
-.des {
-  margin-right: 5px;
+.descriptionField,
+.textField {
+  border: 1px;
+  padding: 20px;
 }

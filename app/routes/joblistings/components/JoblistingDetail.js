@@ -9,6 +9,7 @@ import { Flex } from 'app/components/Layout';
 import { jobType, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
 import Editor from 'app/components/Editor';
+import Button from 'app/components/Button';
 
 type ButtonsProps = {
   id: number,
@@ -18,11 +19,11 @@ type ButtonsProps = {
 const Buttons = ({ id, deleteJoblisting }) => (
   <Flex alignItems="center">
     <Link to={`/joblistings/${id}/edit`}>
-      <button className={styles.editButton}> Rediger </button>
+      <Button className={styles.editButton}> Rediger </Button>
     </Link>
-    <Link onClick={() => deleteJoblisting(id)}>
-      <button className={styles.editButton}> Slett </button>
-    </Link>
+    <Button className={styles.editButton} onClick={() => deleteJoblisting(id)}>
+      Slett
+    </Button>
   </Flex>
 );
 
