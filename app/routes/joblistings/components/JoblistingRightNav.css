@@ -7,23 +7,76 @@
   border-left: 1px solid #ddd;
   border-right: 1px solid #ddd;
   flex: 1;
-  margin: 30px;
+  margin-left: 30px;
   padding: 30px;
   padding-top: 0;
-  margin-right: 0;
+  margin-top: 0;
+
   min-width: 150px;
   max-width: 250px;
+
+  @media (max-width: 630px) {
+    align-items: center;
+    justify-content: space-around;
+    max-width: none;
+    min-height: 0;
+    margin-left: 0;
+    margin-bottom: 20px;
+  }
+}
+
+.optionsTitle {
+  display: none;
+
+  @media (max-width: 630px) {
+    display: flex;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.options {
+}
+
+.filters {
+  @media (max-width: 630px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+.filters > div {
+  margin: 10px;
+}
+
+.sortNav {
+  @media (max-width: 630px) {
+    flex-wrap: wrap;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
 }
 
 .rightHeader {
   text-transform: uppercase;
   font-weight: 400;
   font-size: 15px;
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid #ddd;
   letter-spacing: 2px;
   margin-bottom: 2%;
   margin-top: 8%;
   padding-left: 0;
+}
+
+.sortHeader {
+  @media (max-width: 630px) {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
 }
 
 .createButton {
@@ -39,6 +92,11 @@
   border: 1px solid #ccc;
   letter-spacing: 1px;
   border-radius: 4px;
+
+  @media (max-width: 630px) {
+    margin-left: 20px;
+    margin-right: 20px;
+  }
 
   &:hover {
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);

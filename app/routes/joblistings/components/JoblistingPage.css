@@ -7,25 +7,14 @@
 .page {
   margin-top: 2rem;
   justify-content: space-around;
+
+  @media (max-width: 630px) {
+    flex-direction: column-reverse;
+  }
 }
 
 h1 {
   font-size: 30px;
   font-weight: bold;
   margin: 15px 0;
-}
-
-.list {
-  min-width: 75%;
-  flex: 3;
-}
-
-.rightNav {
-  min-width: 25%;
-  flex: 1;
-
-  @media (--small-viewport) {
-    align-items: center;
-    justify-content: space-around;
-  }
 }
