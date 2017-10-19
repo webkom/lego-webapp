@@ -10,6 +10,7 @@ import {
   selectFeedActivitesByFeedId,
   feedIdByUserId
 } from 'app/reducers/feeds';
+import { selectUserWithGroups } from 'app/reducers/users';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import prepare from 'app/utils/prepare';
@@ -33,7 +34,7 @@ const mapStateToProps = (state, props) => {
   const { params } = props;
   const username =
     params.username === 'me' ? state.auth.username : params.username;
-  const user = state.users.byId[username];
+  const user = selectUserWithGroups(state, { userId: username });
 
   const feed = user
     ? selectFeedById(state, { feedId: feedIdByUserId(user.id) })

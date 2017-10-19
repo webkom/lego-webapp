@@ -1,12 +1,12 @@
 import styles from './InterestGroup.css';
 import React, { Component } from 'react';
-import Image from 'app/components/Image';
+import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Button from 'app/components/Button';
 import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
-import ProfilePicture from 'app/components/ProfilePicture';
+import { ProfilePicture } from 'app/components/Image';
 import Editor from 'app/components/Editor';
 
 // TODO: this is from the event detail page.

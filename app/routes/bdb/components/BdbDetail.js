@@ -10,7 +10,7 @@ import CommentView from 'app/components/Comments/CommentView';
 import Time from 'app/components/Time';
 import { Link } from 'react-router';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import Image from 'app/components/Image';
+import { Image } from 'app/components/Image';
 import SemesterStatusDetail from './SemesterStatusDetail';
 import { eventTypes } from 'app/routes/events/utils';
 import truncateString from 'app/utils/truncateString';

@@ -2,7 +2,7 @@
 
 import styles from './EventDetail.css';
 import React, { Component } from 'react';
-import Image from 'app/components/Image';
+import { Image } from 'app/components/Image';
 import CommentView from 'app/components/Comments/CommentView';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';

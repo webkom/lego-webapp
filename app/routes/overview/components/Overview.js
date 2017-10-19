@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
-import Image from 'app/components/Image';
+import { Image } from 'app/components/Image';
 import truncateString from 'app/utils/truncateString';
 import { Container, Flex } from 'app/components/Layout';
 import LatestReadme from './LatestReadme';
