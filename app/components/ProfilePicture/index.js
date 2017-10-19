@@ -9,16 +9,27 @@ type Props = {
   style?: Object
 };
 
-function ProfilePicture({ user, size = 100, style, ...props }: Props) {
+export function CircularPicture({ src, size = 100, style, ...props }) {
   return (
     <Image
-      src={user.profilePicture}
+      src={src}
       style={{
         width: size,
         height: size,
         borderRadius: size / 2,
         ...style
       }}
+      {...props}
+    />
+  );
+}
+
+function ProfilePicture({ user, size = 100, style, ...props }: Props) {
+  return (
+    <CircularPicture
+      src={user.profilePicture}
+      size={size}
+      style={style}
       {...props}
     />
   );
