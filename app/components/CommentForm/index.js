@@ -103,19 +103,11 @@ class CommentForm extends Component {
   }
 }
 
-// TODO(larsen): there's a bug in the editor that causes
-// the empty value to be a p-tag with two spaces.
-// This should be replaced with value != null or something
-// when that's fixed.
-function hasContent(value) {
-  return value && value !== '<p>  </p>';
-}
-
 function mapStateToProps(state, props) {
   const meta = getFormMeta(props.form)(state);
   const values = getFormValues(props.form)(state);
   return {
-    isOpen: meta && (meta.text.active || hasContent(values.text))
+    isOpen: meta && (meta.text.active || (values && values.text))
   };
 }
 

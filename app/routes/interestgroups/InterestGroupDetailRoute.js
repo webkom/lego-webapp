@@ -9,6 +9,7 @@ import {
 import InterestGroupDetail from './components/InterestGroupDetail';
 import { selectMembershipsForInterestGroup } from 'app/reducers/memberships';
 import { selectGroup } from 'app/reducers/groups';
+import loadingIndicator from 'app/utils/loadingIndicator';
 
 const mapStateToProps = (state, { params: { interestGroupId } }) => {
   const group = selectGroup(state, { groupId: interestGroupId });
@@ -39,5 +40,6 @@ export default compose(
       componentWillReceiveProps: false
     }
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  loadingIndicator('group')
 )(InterestGroupDetail);

@@ -6,14 +6,18 @@ import { navigation } from '../utils';
 import Button from 'app/components/Button';
 
 type Props = {
+  comments: Array<Object>,
   query: Object,
   quotes: Array<Object>,
   actionGrant: Array<String>,
-  approve: number => void,
-  unapprove: number => void,
-  deleteQuote: number => void,
-  loadMore: boolean => void,
-  hasMore: boolean
+  approve: number => Promise<*>,
+  unapprove: number => Promise<*>,
+  deleteQuote: number => Promise<*>,
+  loadMore: boolean => Promise<*>,
+  hasMore: boolean,
+  currentUser: any,
+  loggedIn: boolean,
+  comments: Object
 };
 
 export default function QuotePage({
@@ -25,6 +29,9 @@ export default function QuotePage({
   deleteQuote,
   loadMore,
   hasMore,
+  currentUser,
+  loggedIn,
+  comments,
   ...props
 }: Props) {
   let errorMessage = undefined;
@@ -45,6 +52,9 @@ export default function QuotePage({
           deleteQuote={deleteQuote}
           actionGrant={actionGrant}
           quotes={quotes}
+          currentUser={currentUser}
+          loggedIn={loggedIn}
+          comments={comments}
         />
       )}
       {hasMore && (

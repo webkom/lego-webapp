@@ -34,7 +34,7 @@ export function createCompanyInterest(data: CompanyInterestEntity) {
         types: CompanyInterestForm.CREATE,
         endpoint: '/company-interests/',
         method: 'POST',
-        schema: [companyInterestSchema],
+        schema: companyInterestSchema,
         body: data,
         meta: {
           errorMessage: 'Opprette bedriftsinteresse feilet'

@@ -12,7 +12,8 @@ type State = {
 
 type Props = {
   uploadFile: ({ file: File }) => Promise<*>,
-  onChange: string => void
+  onChange: (string, string) => void,
+  className?: string
 };
 
 class FileUpload extends React.Component {
@@ -37,7 +38,7 @@ class FileUpload extends React.Component {
       .then(({ meta }) => {
         this.setState({ pending: false });
 
-        this.props.onChange(meta.fileKey);
+        this.props.onChange(meta.fileKey, meta.fileToken);
       })
       .catch(error => {
         this.setState({ pending: false });
@@ -48,7 +49,11 @@ class FileUpload extends React.Component {
   render() {
     return (
       <div>
-        <Button pending={this.state.pending} onClick={this.handleClick}>
+        <Button
+          pending={this.state.pending}
+          onClick={this.handleClick}
+          className={this.props.className}
+        >
           Last opp fil
         </Button>
         <input

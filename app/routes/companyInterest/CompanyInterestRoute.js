@@ -5,23 +5,38 @@ import { fetchSemesters } from 'app/actions/CompanyActions';
 import { compose } from 'redux';
 import { push } from 'react-router-redux';
 import CompanyInterestPage, {
-  EVENT_TYPES
+  EVENT_TYPES,
+  OTHER_TYPES
 } from './components/CompanyInterestPage';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { dispatched } from '@webkom/react-prepare';
+import { sortSemesterChronologically } from './utils.js';
 
-const loadSemesters = (props, dispatch) => dispatch(fetchSemesters());
+const loadSemesters = (props, dispatch) =>
+  dispatch(fetchSemesters({ companyInterest: 'True' }));
 
 const mapStateToProps = state => {
   const semesters = selectCompanySemesters(state);
+  if (!semesters) {
+    return {
+      edit: false
+    };
+  }
   const allEvents = Object.keys(EVENT_TYPES);
+  const allOtherOffers = Object.keys(OTHER_TYPES);
+  const actionGrant = state.companyInterest.actionGrant;
   return {
+    actionGrant,
     initialValues: {
       events: allEvents.map(event => ({
         name: event,
         checked: false
       })),
-      semesters
+      otherOffers: allOtherOffers.map(offer => ({
+        name: offer,
+        checked: false
+      })),
+      semesters: semesters.sort(sortSemesterChronologically)
     },
     edit: false
   };

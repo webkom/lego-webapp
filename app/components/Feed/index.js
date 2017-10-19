@@ -2,6 +2,7 @@
 import React from 'react';
 import Activity from './activity';
 import type { AggregatedActivity } from './types';
+import EmptyState from 'app/components/EmptyState';
 
 export const activityRenderers = {
   comment: require('./renders/comment'),
@@ -23,7 +24,9 @@ const Feed = ({ items }: { items: Array<AggregatedActivity> }) => (
         ) : null;
       })
     ) : (
-      <p>No activities...</p>
+      <EmptyState icon="sad">
+        <h1>Ingen aktiviteter i feeden</h1>
+      </EmptyState>
     )}
   </div>
 );

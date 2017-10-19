@@ -11,7 +11,7 @@ const mapStateToProps = () => ({
   isNew: true,
   article: {},
   initialValues: {
-    content: '<p></p>'
+    content: ''
   }
 });
 
