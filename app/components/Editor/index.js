@@ -320,9 +320,6 @@ class CustomEditor extends Component {
             onToggleMark={this.onToggleMark}
           />
           <Editor
-            ref={element => {
-              this.editor = element;
-            }}
             autoFocus={this.props.autoFocus}
             onBlur={this.onBlur}
             onFocus={this.onFocus}
