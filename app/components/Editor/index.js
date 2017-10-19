@@ -55,6 +55,7 @@ type State = {
 class CustomEditor extends Component {
   state: State;
   props: Props;
+  lastSerialized: string;
 
   constructor(props: Props) {
     super(props);
@@ -65,6 +66,15 @@ class CustomEditor extends Component {
       state: serializer.deserialize(content)
     };
   }
+
+  componentWillReceiveProps = (newProps: Props) => {
+    if (newProps.value !== this.lastSerialized) {
+      const content = newProps.value || '<p></p>';
+      this.setState({
+        state: serializer.deserialize(content)
+      })
+    }
+  };
 
   componentDidMount = () => {
     this.updateHoverMenu();
@@ -93,7 +103,8 @@ class CustomEditor extends Component {
 
   onChange = ({ state }: Change) => {
     if (state.document !== this.state.state.document) {
-      this.props.onChange(serializer.serialize(state));
+      this.lastSerialized = serializer.serialize(state);
+      this.props.onChange(this.lastSerialized);
     }
 
     this.setState({ state });
