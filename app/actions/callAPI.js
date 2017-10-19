@@ -81,7 +81,6 @@ export default function callAPI({
   meta,
   schema,
   useCache,
-  force = false,
   cacheSeconds = 10,
   propagateError = false,
   disableOptimistic = false,
@@ -91,9 +90,7 @@ export default function callAPI({
   return (dispatch, getState) => {
     const methodUpperCase = method.toUpperCase();
     const shouldUseCache =
-      !force && typeof useCache === 'undefined'
-        ? methodUpperCase === 'GET'
-        : useCache;
+      typeof useCache === 'undefined' ? methodUpperCase === 'GET' : useCache;
 
     const requestOptions = toHttpRequestOptions({
       method,
