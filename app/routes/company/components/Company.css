@@ -159,7 +159,8 @@
 }
 
 .companyLogo {
-  max-width: 300px;
+  max-height: 150px;
+  max-width: 510px;
 
   @media (--small-viewport) {
     display: none;
@@ -167,6 +168,7 @@
 }
 
 .companyLogoDetail {
+  max-height: 300px;
   width: 100%;
 }
 
