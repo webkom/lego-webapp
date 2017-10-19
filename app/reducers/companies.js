@@ -42,7 +42,7 @@ export type BaseSemesterStatusEntity = {
   id?: number,
   companyId?: number,
   semester?: number,
-  contactedStatus: Array<string>,
+  contactedStatus?: Array<string>,
   contract?: string,
   contractName?: string,
   statistics?: string,
