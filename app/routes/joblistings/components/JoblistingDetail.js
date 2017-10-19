@@ -5,7 +5,8 @@ import { Link } from 'react-router';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
 import { Image } from 'app/components/Image';
 import styles from './JoblistingDetail.css';
-import { Flex } from 'app/components/Layout';
+import { Flex, Content } from 'app/components/Layout';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { jobType, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
 import Editor from 'app/components/Editor';
@@ -63,16 +64,17 @@ const JoblistingDetail = ({
   );
 
   return (
-    <div className={styles.root}>
+    <Content>
       <div className={styles.coverImage}>
         <Image src="http://placehold.it/1000x300" />
       </div>
-      <Flex className={styles.title}>
-        <h1>{joblisting.title}</h1>
+      <NavigationTab title={joblisting.title}>
         {actionGrant.includes('edit') && (
-          <Buttons id={joblisting.id} deleteJoblisting={deleteJoblisting} />
+          <NavigationLink to={`/joblistings/${joblisting.id}/edit`}>
+            Rediger
+          </NavigationLink>
         )}
-      </Flex>
+      </NavigationTab>
       <Flex className={styles.textbody}>
         <Flex column className={styles.description}>
           <Editor
@@ -115,7 +117,7 @@ const JoblistingDetail = ({
           </ul>
         </Flex>
       </Flex>
-    </div>
+    </Content>
   );
 };
 
