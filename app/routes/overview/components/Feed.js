@@ -52,7 +52,7 @@ const Feed = (props: Props) => {
           </ul>
         ) : (
           <EmptyState icon="book-outline" size={40}>
-            <p>Ingen aktiviteter i feeden</p>
+            <p className={styles.noActivities}>Ingen aktiviteter i feeden</p>
           </EmptyState>
         )}
       </div>
