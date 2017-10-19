@@ -91,7 +91,9 @@ export default function callAPI({
   return (dispatch, getState) => {
     const methodUpperCase = method.toUpperCase();
     const shouldUseCache =
-      !force && typeof useCache === 'undefined' ? methodUpperCase === 'GET' : useCache;
+      !force && typeof useCache === 'undefined'
+        ? methodUpperCase === 'GET'
+        : useCache;
 
     const requestOptions = toHttpRequestOptions({
       method,

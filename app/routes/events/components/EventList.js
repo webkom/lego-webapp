@@ -95,7 +95,7 @@ function EventListGroup({ name, events = [] }) {
 
 const EventList = props => {
   const events = groupEvents(props.events);
-  const { icalToken, hasMore, fetchMore, reload } = props;
+  const { icalToken, hasMore, fetchMore } = props;
   return (
     <div className={styles.root}>
       <Helmet title="Arrangementer" />
