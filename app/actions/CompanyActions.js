@@ -14,7 +14,7 @@ import { addNotification } from 'app/actions/NotificationActions';
 
 export function fetchAll() {
   return callAPI({
-    types: Company.FETCH_ALL,
+    types: Company.FETCH,
     endpoint: '/companies/',
     schema: [companySchema],
     meta: {
@@ -124,9 +124,7 @@ export function deleteCompany(companyId: number): Thunk<*> {
 
 export function addSemesterStatus(
   { companyId, ...data }: Object,
-  // TODO: change this to take in an object,
-  // addSemesterStatus(something, false) really doesn't say much
-  detail: boolean = false
+  options: Object = { detail: false }
 ): Thunk<*> {
   return dispatch => {
     return dispatch(
@@ -142,7 +140,7 @@ export function addSemesterStatus(
       })
     ).then(() => {
       dispatch(addNotification({ message: 'Semester status lagt til.' }));
-      if (detail) {
+      if (options.detail) {
         dispatch(push(`/bdb/${companyId}/`));
       } else {
         dispatch(push('/bdb/'));
@@ -153,9 +151,7 @@ export function addSemesterStatus(
 
 export function editSemesterStatus(
   { companyId, semesterStatusId, ...data }: Object,
-  // TODO: change this to take in an object,
-  // editSemesterStatus(something, false) really doesn't say much
-  detail: boolean = false
+  options: Object = { detail: false }
 ): Thunk<*> {
   return dispatch => {
     return dispatch(
@@ -165,12 +161,14 @@ export function editSemesterStatus(
         method: 'PATCH',
         body: data,
         meta: {
-          errorMessage: 'Endring av semester status feilet'
+          errorMessage: 'Endring av semester status feilet',
+          companyId,
+          semesterStatusId
         }
       })
     ).then(() => {
       dispatch(addNotification({ message: 'Semester status endret.' }));
-      if (detail) {
+      if (options.detail) {
         dispatch(push(`/bdb/${companyId}/`));
       } else {
         dispatch(push('/bdb/'));
@@ -233,7 +231,8 @@ export function addCompanyContact({
           phone
         },
         meta: {
-          errorMessage: 'Legg til bedriftkontakt feilet'
+          errorMessage: 'Legg til bedriftkontakt feilet',
+          companyId
         }
       })
     ).then(() => {

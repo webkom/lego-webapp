@@ -139,7 +139,6 @@ export const Comment = {
  */
 export const Company = {
   FETCH: generateStatuses('Company.FETCH'),
-  FETCH_ALL: generateStatuses('Company.FETCH_ALL'),
   FETCH_COMPANY_CONTACT: generateStatuses('Company.FETCH_COMPANY_CONTACT'),
   ADD: generateStatuses('Company.ADD'),
   EDIT: generateStatuses('Company.EDIT'),
