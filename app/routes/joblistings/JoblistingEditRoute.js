@@ -2,7 +2,11 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from '@webkom/react-prepare';
-import { fetchJoblisting, editJoblisting } from 'app/actions/JoblistingActions';
+import {
+  fetchJoblisting,
+  editJoblisting,
+  deleteJoblisting
+} from 'app/actions/JoblistingActions';
 import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
 import { selectJoblistingById } from 'app/reducers/joblistings';
 import { formValueSelector } from 'redux-form';
@@ -45,7 +49,8 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
-  submitJoblisting: editJoblisting
+  submitJoblisting: editJoblisting,
+  deleteJoblisting
 };
 
 export default compose(
