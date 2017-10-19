@@ -10,7 +10,7 @@ type Props = {
   title: string,
   headerClassName: string,
   className?: string,
-  children: React$Element<*>
+  children?: React$Element<*>
 };
 
 const NavigationTab = (props: Props) => {
