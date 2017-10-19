@@ -71,7 +71,7 @@ export default class UserProfile extends Component {
           </div>
 
           <div className={styles.feed}>
-            <h2>Recent Activity</h2>
+            <h2>Nylig Aktivitet</h2>
             {feed ? (
               <Feed items={feedItems} feed={feed} />
             ) : (
