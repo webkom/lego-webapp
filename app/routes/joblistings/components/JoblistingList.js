@@ -27,9 +27,11 @@ function JoblistingItem({ joblisting }: JobListingItemProps) {
       <Flex className={styles.listItem}>
         <div>
           <Link to={`/joblistings/${joblisting.id}/`}>
-            <h3 className={styles.joblistingItemTitle}>
-              {truncateString(joblisting.title, 25)}
-            </h3>
+            <Flex>
+              <h3 className={styles.joblistingItemTitle}>
+                {truncateString(joblisting.title, 25)}
+              </h3>
+            </Flex>
           </Link>
           <div className={styles.companyJobtype}>
             {joblisting.company.name} • {jobType(joblisting.jobType)}
@@ -39,7 +41,11 @@ function JoblistingItem({ joblisting }: JobListingItemProps) {
         </div>
         <div className={styles.deadLine}>
           <div className={styles.deadLineLabel}>Frist • </div>
-          <Time time={joblisting.deadline} format="ll HH:mm" />
+          <Time
+            time={joblisting.deadline}
+            style={{ width: '135px' }}
+            format="ll HH:mm"
+          />
         </div>
       </Flex>
     </Flex>
@@ -50,7 +56,7 @@ const JoblistingsList = ({ joblistings }: Props) => (
   <Flex column className={styles.joblistingList}>
     <Flex className={styles.heading}>
       <h2 className={styles.headingText}>Jobbannonser</h2>
-      <h4 className={styles.headingDeadline}>Deadline:</h4>
+      <h4 className={styles.headingDeadline}>Søknadsfrist:</h4>
     </Flex>
     {joblistings.map((joblisting, i) => (
       <JoblistingItem key={i} joblisting={joblisting} />

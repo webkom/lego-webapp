@@ -10,6 +10,7 @@ type Props = {
   title: string,
   headerClassName?: string,
   className?: string,
+  headerClassName?: string,
   children?: React$Element<*>
 };
 
