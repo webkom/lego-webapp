@@ -7,18 +7,23 @@ import { LoginPage } from 'app/components/LoginForm';
 import { selectMeetings } from 'app/reducers/meetings';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import MeetingList from './components/MeetingList';
+import { selectHasMore } from '../../reducers/selectors';
 
 const mapStateToProps = (state, props) => ({
   meetings: selectMeetings(state),
   currentUser: props.currentUser,
-  loading: state.meetings.fetching
+  loading: state.meetings.fetching,
+  hasMore: selectHasMore('meetings')(state)
 });
 
-const mapDispatchToProps = { fetchAll };
+const mapDispatchToProps = {
+  fetchAll,
+  loadMore: () => fetchAll(true)
+};
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched((props, dispatch) => dispatch(fetchAll()), {
+  dispatched((props, dispatch) => dispatch(fetchAll(false)), {
     componentWillReceiveProps: false
   }),
   connect(mapStateToProps, mapDispatchToProps)

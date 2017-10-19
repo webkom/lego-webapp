@@ -10,6 +10,7 @@ import styles from './MeetingList.css';
 import Toolbar from './Toolbar';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Content from 'app/components/Layout/Content';
+import Button from 'app/components/Button';
 import type { MeetingEntity } from 'app/reducers/meetings';
 import type { UserEntity } from 'app/reducers/users';
 
@@ -83,7 +84,9 @@ const MeetingListView = ({
 type Props = {
   meetings: MeetingEntity[],
   currentUser: UserEntity,
-  loading: boolean
+  loading: boolean,
+  loadMore: () => void,
+  hasMore: boolean
 };
 
 export default class MeetingList extends Component {
@@ -158,16 +161,16 @@ export default class MeetingList extends Component {
   };
 
   render() {
-    const { meetings, currentUser, loading } = this.props;
+    const { meetings, currentUser, loading, loadMore, hasMore } = this.props;
     const pools: MeetingPools = this.sortMeetings(meetings);
     return (
       <Content>
         <Toolbar />
-        {loading ? (
-          <LoadingIndicator loading />
-        ) : (
+        {pools.length > 0 ? (
           <MeetingListView currentUser={currentUser} pools={pools} />
-        )}
+        ) : null}
+        {loading && <LoadingIndicator loading />}
+        {hasMore && <Button onClick={loadMore}>Load more</Button>}
       </Content>
     );
   }
