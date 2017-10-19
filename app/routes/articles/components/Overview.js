@@ -1,6 +1,9 @@
+// @flow
+
 import styles from './Overview.css';
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import NavigationTab from 'app/components/NavigationTab';
+import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { Link } from 'react-router';
 import { Content } from 'app/components/Layout';
 import Time from 'app/components/Time';
@@ -25,11 +28,12 @@ const OverviewItem = ({ article }) => (
   </div>
 );
 
+type Props = {
+  articles: Array<Object>
+};
+
 export default class Overview extends Component {
-  static propTypes = {
-    articles: PropTypes.array.isRequired,
-    fetchAll: PropTypes.func.isRequired
-  };
+  props: Props;
 
   render() {
     const { articles } = this.props;
@@ -38,9 +42,11 @@ export default class Overview extends Component {
 
     return (
       <Content>
+        <NavigationTab title="Artikler">
+          <NavigationLink to="/articles/new">Ny artikkel</NavigationLink>
+        </NavigationTab>
         <section className={styles.frontpage}>
           <div className={styles.overview}>
-            <Link to={`/articles/new`}>NY</Link>
             <div className={styles.headline}>
               {headlineEvents.map(article => (
                 <OverviewItem key={article.id} article={article} />
