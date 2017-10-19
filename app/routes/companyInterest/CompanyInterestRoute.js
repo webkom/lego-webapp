@@ -24,7 +24,9 @@ const mapStateToProps = state => {
   }
   const allEvents = Object.keys(EVENT_TYPES);
   const allOtherOffers = Object.keys(OTHER_TYPES);
+  const actionGrant = state.companyInterest.actionGrant;
   return {
+    actionGrant,
     initialValues: {
       events: allEvents.map(event => ({
         name: event,
