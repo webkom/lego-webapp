@@ -19,8 +19,8 @@ const mapStateToProps = (state, props) => {
     joblisting,
     initialValues: {
       ...joblisting,
-      text: joblisting.text || '<p></p>',
-      description: joblisting.description || '<p></p>',
+      text: joblisting.text || '',
+      description: joblisting.description || '',
       company: joblisting.company
         ? {
             label: joblisting.company.name,
