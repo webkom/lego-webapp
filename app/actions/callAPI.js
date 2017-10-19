@@ -8,7 +8,7 @@ import fetchJSON, {
 } from 'app/utils/fetchJSON';
 import config from '../config';
 import { logout } from 'app/actions/UserActions';
-import isRequestNeeded from 'app/utils/isRequestNeeded';
+import getCachedRequest from 'app/utils/getCachedRequest';
 import { setStatusCode } from './RoutingActions';
 import type { AsyncActionType, Action, Thunk } from 'app/types';
 
@@ -101,8 +101,11 @@ export default function callAPI({
     });
 
     const state = getState();
-    if (shouldUseCache && !isRequestNeeded(state, endpoint, cacheSeconds)) {
-      return Promise.resolve(null);
+    if (shouldUseCache) {
+      const cachedRequest = getCachedRequest(state, endpoint, cacheSeconds);
+      if (cachedRequest) {
+        return new Promise(() => dispatch(cachedRequest));
+      }
     }
 
     const jwt = state.auth.token;

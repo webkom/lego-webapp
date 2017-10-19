@@ -57,6 +57,7 @@
   padding: 20px;
   border-radius: 5px;
   margin-left: 1em;
+  background: #eee;
 
   @media (--small-viewport) {
     margin-left: 0;
