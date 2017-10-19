@@ -39,7 +39,7 @@ const mapStateToProps = (state, props) => {
     initialValues: {
       ...meeting,
       reportAuthor: reportAuthor && reportAuthor.id,
-      report: meeting ? meeting.report : '<p></p>'
+      report: meeting ? meeting.report : ''
     },
     invitingUsers: valueSelector(state, 'users') || [],
     meetingId,

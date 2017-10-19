@@ -21,7 +21,7 @@ const mapStateToProps = (state, props) => {
       title: article.title,
       cover: article.cover,
       tags: article.tags.map(tag => ({ label: tag, value: tag })),
-      content: article.content || '<p></p>'
+      content: article.content || ''
     }
   };
 };
