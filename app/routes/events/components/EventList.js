@@ -6,7 +6,7 @@ import Helmet from 'react-helmet';
 import moment from 'moment';
 import Time from 'app/components/Time';
 import Pill from 'app/components/Pill';
-import Image from 'app/components/Image';
+import { Image } from 'app/components/Image';
 import Tag from 'app/components/Tag';
 import Toolbar from './Toolbar';
 import { colorForEvent } from '../utils';

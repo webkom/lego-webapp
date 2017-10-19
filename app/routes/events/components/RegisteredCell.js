@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
-import ProfilePicture from 'app/components/ProfilePicture';
+import { ProfilePicture } from 'app/components/Image';
 import styles from './Registrations.css';
 
 const RegisteredCell = ({ user }) => (

@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import CommentForm from 'app/components/CommentForm';
-import ProfilePicture from 'app/components/ProfilePicture';
+import { ProfilePicture } from 'app/components/Image';
 import styles from './Comment.css';
 
 type Props = {

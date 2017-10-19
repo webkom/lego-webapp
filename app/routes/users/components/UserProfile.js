@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Helmet from 'react-helmet';
 import { capitalize } from 'lodash';
-import ProfilePicture, { CircularPicture } from 'app/components/ProfilePicture';
+import { ProfilePicture, CircularPicture } from 'app/components/Image';
 import Card from 'app/components/Card';
 import Pill from 'app/components/Pill';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -61,9 +61,9 @@ export default class UserProfile extends Component {
           </div>
           <Flex column className={styles.rightContent}>
             <h2>{user.fullName}</h2>
-            <Flex>
+            <Flex wrap>
               {(abakusGroups['withoutLogo'] || []).map(group => (
-                <Pill key={group.id} style={{ margin: '0 5px' }}>
+                <Pill key={group.id} style={{ margin: '5px' }}>
                   {group.name}
                 </Pill>
               ))}
