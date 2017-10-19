@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import styles from './UserSettingsIndex.css';
+import Content from 'app/components/Layout/Content';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
 
@@ -24,7 +24,7 @@ const UserSettingsIndex = (props: Props) => {
   // for the settings under `/profile` - so no point in showing
   // the other tabs.
   return (
-    <div className={styles.root}>
+    <Content>
       <NavigationTab title="Innstillinger">
         {props.isMe && (
           <div>
@@ -46,7 +46,7 @@ const UserSettingsIndex = (props: Props) => {
           ...props,
           children: undefined
         })}
-    </div>
+    </Content>
   );
 };
 
