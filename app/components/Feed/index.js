@@ -24,7 +24,7 @@ const Feed = ({ items }: { items: Array<AggregatedActivity> }) => (
         ) : null;
       })
     ) : (
-      <EmptyState icon="sad">
+      <EmptyState>
         <h1>Ingen aktiviteter i feeden</h1>
       </EmptyState>
     )}
