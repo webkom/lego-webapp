@@ -68,7 +68,10 @@ const JoblistingDetail = ({
       <div className={styles.coverImage}>
         <Image src="http://placehold.it/1000x300" />
       </div>
-      <NavigationTab title={joblisting.title}>
+      <NavigationTab
+        title={joblisting.title}
+        headerClassName={styles.headerDetail}
+      >
         {actionGrant.includes('edit') && (
           <NavigationLink to={`/joblistings/${joblisting.id}/edit`}>
             Rediger
