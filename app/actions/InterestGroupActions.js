@@ -2,25 +2,12 @@
 
 import { groupSchema, membershipSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
-import { InterestGroup, Membership, Group } from './ActionTypes';
+import { InterestGroup, Membership } from './ActionTypes';
+import { fetchMemberships } from 'app/actions/GroupActions';
 import { push } from 'react-router-redux';
 import { omit } from 'lodash';
 import type { Thunk } from 'app/types';
 import createQueryString from 'app/utils/createQueryString';
-
-function fetchMemberships(groupId: number): Thunk<*> {
-  return callAPI({
-    types: Group.MEMBERSHIP_FETCH,
-    endpoint: `/groups/${String(groupId)}/memberships/`,
-    schema: [membershipSchema],
-    useCache: false,
-    meta: {
-      groupId: groupId,
-      errorMessage: 'Henting av medlemmene for gruppen feilet'
-    },
-    propagateError: true
-  });
-}
 
 export function fetchInterestGroup(interestGroupId: number): Thunk<*> {
   return dispatch => {
