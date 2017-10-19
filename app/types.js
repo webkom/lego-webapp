@@ -16,6 +16,7 @@ export type EntityID = number;
 export type ArticleEntity = {
   id: EntityID,
   title: string,
+  author: number,
   content: string,
   tags: Array<string>,
   cover: string,

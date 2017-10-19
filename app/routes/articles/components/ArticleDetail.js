@@ -24,14 +24,24 @@ type Props = {
 /**
  *
  */
-const ArticleDetail = ({ article, author, loggedIn, currentUser, comments }: Props) => (
+const ArticleDetail = ({
+  article,
+  author,
+  loggedIn,
+  currentUser,
+  comments
+}: Props) => (
   <Content>
     <div className={styles.coverImage}>
       <img alt="Article cover" src={article.cover} />
       <div className={styles.coverImageOverlay} />
     </div>
 
-    <NavigationTab headerClassName={styles.headerClassName} className={styles.articleHeader} title={article.title}>
+    <NavigationTab
+      headerClassName={styles.headerClassName}
+      className={styles.articleHeader}
+      title={article.title}
+    >
       {article.actionGrant.includes('edit') && (
         <NavigationLink to={`/articles/${article.id}/edit`}>
           Rediger
@@ -41,7 +51,8 @@ const ArticleDetail = ({ article, author, loggedIn, currentUser, comments }: Pro
 
     <div className={styles.articleDetails}>
       <span className={styles.detail}>
-        Skrevet av <Link to={`/users/${author.username}`}>{author.fullName}</Link>
+        Skrevet av
+        <Link to={`/users/${author.username}`}> {author.fullName}</Link>
       </span>
       <span className={styles.detail}>
         {moment(article.createdAt).format('lll')}
@@ -50,9 +61,7 @@ const ArticleDetail = ({ article, author, loggedIn, currentUser, comments }: Pro
 
     <DisplayContent content={article.content} />
 
-    <Tags>
-      {article.tags.map(tag => <Tag tag={tag} key={tag} />)}
-    </Tags>
+    <Tags>{article.tags.map(tag => <Tag tag={tag} key={tag} />)}</Tags>
 
     {article.commentTarget && (
       <CommentView

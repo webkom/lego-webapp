@@ -19,7 +19,14 @@ export function fetchArticle(articleId: EntityID) {
   });
 }
 
-export function createArticle({ description, author, title, content, tags, cover }: ArticleEntity) {
+export function createArticle({
+  description,
+  author,
+  title,
+  content,
+  tags,
+  cover
+}: ArticleEntity) {
   return dispatch =>
     dispatch(
       callAPI({

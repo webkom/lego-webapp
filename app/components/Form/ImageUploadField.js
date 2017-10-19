@@ -22,8 +22,8 @@ class ImageUploadField extends Component {
   static Field: any;
 
   componentWillUpdate = () => {
+    // TODO
     // Need to remove the inital url set by redux form
-    console.log(this);
   };
 
   onSubmit = (file: File) => {
@@ -48,6 +48,4 @@ class ImageUploadField extends Component {
   }
 }
 
-export default connect(null, { uploadFile })(
-  createField(ImageUploadField)
-);
+export default connect(null, { uploadFile })(createField(ImageUploadField));

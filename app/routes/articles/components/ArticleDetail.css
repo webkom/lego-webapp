@@ -27,11 +27,11 @@ span.detail + span.detail::before {
 }
 
 .headerClassName {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .articleHeader {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }
 
 .articleDetails {
