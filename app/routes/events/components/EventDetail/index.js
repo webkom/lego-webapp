@@ -252,6 +252,7 @@ export default class EventDetail extends Component {
 
         {event.commentTarget && (
           <CommentView
+            style={{ marginTop: 20 }}
             user={currentUser}
             commentTarget={event.commentTarget}
             loggedIn={loggedIn}

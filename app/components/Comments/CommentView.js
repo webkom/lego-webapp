@@ -15,7 +15,8 @@ type Props = {
   commentTarget: string,
   user: Object,
   loggedIn: boolean,
-  displayTitle?: boolean
+  displayTitle?: boolean,
+  style?: Object
 };
 
 const CommentView = (props: Props) => {
@@ -25,13 +26,14 @@ const CommentView = (props: Props) => {
     commentTarget,
     user,
     loggedIn,
+    style,
     displayTitle = true
   } = props;
   const commentFormProps = { commentTarget, user, loggedIn };
   const tree = generateTreeStructure(comments);
 
   return (
-    <div>
+    <div style={style}>
       {comments.length > 0 && displayTitle && <h3>Diskusjon</h3>}
       <LoadingIndicator loading={!comments}>
         {comments && (
