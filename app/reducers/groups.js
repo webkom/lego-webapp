@@ -62,5 +62,6 @@ export const selectGroups = createSelector(
   (groupsById, groupIds) => groupIds.map(id => groupsById[id])
 );
 
-export const selectInterestGroups = state =>
-  selectGroups(state).filter(g => g.type === 'interesse');
+export const selectInterestGroups = createSelector(selectGroups, groups =>
+  groups.filter(g => g.type === 'interesse')
+);
