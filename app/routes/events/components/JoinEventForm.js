@@ -61,9 +61,10 @@ class JoinEventForm extends Component {
     let duration = moment.duration(diffTime, 'milliseconds');
     if (
       (!registration && !activationTime) ||
-      currentTime.isAfter(moment(startTime))
+      currentTime.isAfter(moment(startTime).subtract(2, 'hours'))
     ) {
       // Do nothing
+      // TODO: the 2 hour subtract is a hardcoded close time and should be improved
     } else if (poolActivationTime.isBefore(currentTime) || registration) {
       this.setState({
         formOpen: true,
