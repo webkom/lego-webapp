@@ -164,9 +164,12 @@ class JoinEventForm extends Component {
     const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
     const registrationType = !registration ? 'register' : 'unregister';
     const feedbackName = getFeedbackName(event.feedbackRequired);
-    const feedbackLabel = event.feedbackRequired
+    let feedbackLabel = event.feedbackRequired
       ? 'NB: Dette arrangementet krever tilbakemelding'
       : 'Tilbakemelding';
+    feedbackLabel = event.feedbackDescription
+      ? `${feedbackLabel}: ${event.feedbackDescription}`
+      : feedbackLabel;
     const showStripe =
       event.isPriced &&
       registration &&
@@ -206,7 +209,7 @@ class JoinEventForm extends Component {
               )}
             >
               <Field
-                label={`${feedbackLabel}: ${event.feedbackDescription}`}
+                label={feedbackLabel}
                 placeholder="Melding til arrangører"
                 name={feedbackName}
                 component={TextEditor.Field}
