@@ -189,6 +189,7 @@ export default class EventDetail extends Component {
                     <Time
                       time={event.activationTime}
                       format="DD.MM.YYYY HH:mm"
+                      style={{ marginLeft: '5px' }}
                     />
                   </strong>
                 </li>
