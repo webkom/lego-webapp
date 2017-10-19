@@ -25,6 +25,9 @@ describe('getCachedRequest', () => {
 
   it('should return action when endpoint exists', () => {
     const action = {
+      meta: {
+        cachedResponse: true
+      },
       type: 'Event.FETCH.SUCCESS',
       payload: {}
     };
