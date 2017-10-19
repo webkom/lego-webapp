@@ -2,13 +2,13 @@ import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from '@webkom/react-prepare';
-import { fetchAll } from 'app/actions/CompanyActions';
+import { fetchAllPublic } from 'app/actions/CompanyActions';
 import CompaniesPage from './components/CompaniesPage';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 type Props = {
-  fetchAll: () => {}
+  fetchAllPublic: () => {}
 };
 
 const CompaniesRoute = (props: Props) => {
@@ -27,11 +27,11 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { fetchAll };
+const mapDispatchToProps = { fetchAllPublic };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched((props, dispatch) => dispatch(fetchAll()), {
+  dispatched((props, dispatch) => dispatch(fetchAllPublic()), {
     componentWillReceiveProps: false
   }),
   connect(mapStateToProps, mapDispatchToProps)
