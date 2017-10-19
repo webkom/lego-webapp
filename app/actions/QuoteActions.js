@@ -8,7 +8,13 @@ import { Quote } from './ActionTypes';
 import { addNotification } from 'app/actions/NotificationActions';
 import type { Thunk } from 'app/types';
 
-export function fetchAll({ approved = true }: { approved: boolean }) {
+export function fetchAll({
+  approved = true,
+  refresh = false,
+  loadNextPage = false
+}: {
+  approved: boolean
+}) {
   return callAPI({
     types: Quote.FETCH,
     endpoint: `/quotes/?approved=${String(approved)}`,
