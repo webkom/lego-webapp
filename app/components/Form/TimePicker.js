@@ -7,7 +7,7 @@ import TextInput from './TextInput';
 import { createField } from './Field';
 import styles from './TimePicker.css';
 
-function TimePickerInput({ onNext, onPrev, ...props }) {
+function TimePickerInput({ onNext, onPrev, ...props }: any) {
   return (
     <div className={styles.timePickerInput}>
       <button type="button" onClick={onNext}>
@@ -23,7 +23,7 @@ function TimePickerInput({ onNext, onPrev, ...props }) {
 
 type Props = {
   value: string,
-  onChange: (value: string) => void
+  onChange: any => void
 };
 
 function parseValue(value) {
@@ -71,6 +71,7 @@ class TimePicker extends Component {
   onChange = (unit: 'hour' | 'minute') => () => {
     this.setState(
       {
+        // $FlowFixMe
         value: this.state.value.clone()[unit].call(null, 1)
       },
       this.commit

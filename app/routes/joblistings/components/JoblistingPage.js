@@ -10,9 +10,9 @@ import JoblistingsRightNav from './JoblistingRightNav';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 
 type Props = {
-  joblistings: Array,
+  joblistings: Array</*TODO: JobListing*/ any>,
   query: Object,
-  actionGrant: Array
+  actionGrant: /*TODO: ActionGrant */ any
 };
 
 const JoblistingsPage = ({ joblistings, query, actionGrant }: Props) => {

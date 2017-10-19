@@ -37,10 +37,12 @@ const mapStateToProps = (state, props) => {
   const user = selectUserWithGroups(state, { userId: username });
 
   const feed = user
-    ? selectFeedById(state, { feedId: feedIdByUserId(user.id) })
+    ? // $FlowFixMe
+      selectFeedById(state, { feedId: feedIdByUserId(user.id) })
     : undefined;
   const feedItems = user
     ? selectFeedActivitesByFeedId(state, {
+        // $FlowFixMe
         feedId: feedIdByUserId(user.id)
       })
     : undefined;

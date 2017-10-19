@@ -45,6 +45,7 @@ export default function configureStore(initialState: State): Store {
     middlewares.push(loggerMiddleware);
   }
 
+  // $FlowFixMe
   const store = createStore(
     require('../reducers').default,
     initialState,

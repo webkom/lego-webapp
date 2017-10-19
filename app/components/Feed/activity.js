@@ -11,8 +11,8 @@ import type { AggregatedActivity, Activity } from './types';
 
 type Props = {
   aggregatedActivity: AggregatedActivity,
-  activity: Activity,
-  key: any,
+  activity?: Activity,
+  key?: any,
   renders: Object
 };
 
@@ -20,7 +20,7 @@ type State = {
   expanded: boolean
 };
 
-export default class CommentRendrer extends Component {
+export default class CommentRenderer extends Component {
   props: Props;
 
   state: State = {

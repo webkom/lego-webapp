@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from 'react';
 import cx from 'classnames';
 import moment from 'moment';
@@ -28,9 +26,9 @@ type Props = {
   handleSubmit: () => void,
   createGallery: () => Promise<*>,
   push: string => Promise<*>,
-  updateGallery: () => Promise<*>,
+  updateGallery: (number, Object) => Promise<*>,
   deleteGallery: () => Promise<*>,
-  updateGalleryCover: () => Promise<*>,
+  updateGalleryCover: (number, number) => Promise<*>,
   updatePicture: () => Promise<*>,
   deletePicture: () => Promise<*>
 };

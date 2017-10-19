@@ -65,6 +65,7 @@ export function logout(): Thunk<void> {
     removeToken();
     dispatch({ type: User.LOGOUT });
     dispatch(replace('/'));
+    // $FlowFixMe
     dispatch(fetchMeta());
   };
 }
@@ -204,7 +205,7 @@ export function refreshToken(token: string) {
   });
 }
 
-export function loginWithExistingToken(token: string): Thunk<*> {
+export function loginWithExistingToken(token: string): Thunk<any> {
   return dispatch => {
     // TODO(ek): Remove FlowFixMe when we use a flow-typed version
     // that has correct types for isSame

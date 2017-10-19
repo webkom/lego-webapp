@@ -6,7 +6,7 @@ import config from 'app/config';
 
 type Props = {
   format?: string,
-  time?: string,
+  time?: string | Date | moment,
   wordsAgo?: boolean
 };
 

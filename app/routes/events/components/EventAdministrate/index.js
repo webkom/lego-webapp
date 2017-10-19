@@ -65,7 +65,7 @@ export default class EventAdministrate extends Component {
   handleAdminRegistration = ({ user, pool, feedback, reason }) => {
     this.props.adminRegister(
       this.props.eventId,
-      user.value,
+      user.id,
       pool,
       feedback,
       reason

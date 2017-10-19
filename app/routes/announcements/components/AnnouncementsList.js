@@ -12,12 +12,12 @@ import AnnouncementItem from './AnnouncementItem';
 
 type Props = {
   announcement: Object,
-  announcements: Array,
-  actionGrant: Array,
+  announcements: Array</*TODO: Announcement */ any>,
+  actionGrant: /* TODO: ActionGrant */ any,
   sendAnnouncement: () => void,
-  createAnnouncement: () => void,
+  createAnnouncement: (announcement: any) => void,
   deleteAnnouncement: () => void,
-  handleSubmit: () => void,
+  handleSubmit: /*SubmitHandler<>*/ any => void,
   invalid: string,
   pristine: string,
   submitting: string
@@ -37,7 +37,7 @@ const AnnouncementsList = ({
   if (announcements.fetching) {
     return <LoadingIndicator loading />;
   }
-  const disabledButton = invalid | pristine | submitting;
+  const disabledButton = invalid || pristine || submitting;
   const onSubmit = (announcement, send = false) => {
     return createAnnouncement({
       ...announcement,

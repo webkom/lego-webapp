@@ -78,9 +78,14 @@
   .u-ui-heading {
     color: #666;
     text-transform: uppercase;
-    padding: 10px 20px;
+    padding: 10px;
     font-size: 18px;
     font-weight: 400;
     letter-spacing: 1px;
+
+    @media (--mobile-device) {
+      padding: 0;
+      margin-bottom: 10px;
+    }
   }
 }

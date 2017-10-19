@@ -5,7 +5,9 @@ import { Link } from 'react-router';
 import Button from 'app/components/Button';
 import styles from './Toolbar.css';
 
-const Toolbar = props => {
+type Props = {};
+
+const Toolbar = (props: Props) => {
   return (
     <div className={styles.root}>
       <div className={styles.section}>

@@ -13,7 +13,9 @@ export default function loadingIndicator(
   loadingProps: string | string[],
   options: ?Props
 ) {
-  return (Component: Class<React$Component<*, *, *>>) => {
+    // $FlowFixMe React.Node in >= 0.53
+
+  return (Component: React.Class<*, *, *>) => {
     const Composed = (props: Object) => {
       let loading = true;
       if (Array.isArray(loadingProps)) {
