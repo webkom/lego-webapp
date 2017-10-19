@@ -16,11 +16,9 @@ const Footer = (props: Props) => (
   <footer className={styles.footer}>
     <div className={styles.footerContent}>
       <div className={cx(styles.section, hiddenOnMobile)}>
-        <h2>Lego</h2>
+        <h2>Nettsiden</h2>
         <p>
-          Velkommen til LEGO, den nye nettsiden til Abakus. Vi i Webkom har
-          arbeidet lenge med denne siden og håper den faller i smak. Spørsmål
-          eller rapportering av feil gjøres til{' '}
+          Har du et spørsmål eller funnet en feil? Send mail til{' '}
           <a href="mailto:webkom@abakus.no">webkom@abakus.no</a>.
         </p>
       </div>
