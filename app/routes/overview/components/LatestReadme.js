@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReadmeLogo from 'app/components/ReadmeLogo';
-import Image from 'app/components/Image';
+import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import Icon from 'app/components/Icon';
 import styles from './LatestReadme.css';

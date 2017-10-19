@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Search.css';
 import cx from 'classnames';
 import { Link } from 'react-router';
-import ProfilePicture from '../ProfilePicture';
+import { ProfilePicture } from '../Image';
 import Icon from '../Icon';
 import ResolveLink from 'app/components/ResolveLink';
 

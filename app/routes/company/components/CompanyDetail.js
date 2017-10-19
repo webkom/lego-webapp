@@ -3,7 +3,7 @@
 import React from 'react';
 import styles from './Company.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import Image from 'app/components/Image';
+import { Image } from 'app/components/Image';
 import InfoBubble from 'app/components/InfoBubble';
 import { Link } from 'react-router';
 import Button from 'app/components/Button';
