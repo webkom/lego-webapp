@@ -55,8 +55,8 @@ export const fetchList = (
         errorMessage: 'Fetching events failed',
         queryString
       },
-      force: refresh,
-      cacheSeconds: Infinity, // don't expire cache unless we pass force
+      useCache: refresh,
+      cacheSeconds: Infinity, // don't expire cache unless we pass useCache
       propagateError: true
     })
   );
