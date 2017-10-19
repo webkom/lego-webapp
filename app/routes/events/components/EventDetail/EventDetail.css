@@ -1,7 +1,8 @@
 @import '../Event.css';
 
 .descriptionHeader {
-  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .meta h3 {

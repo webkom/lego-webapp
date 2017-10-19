@@ -20,6 +20,7 @@ import { Flex } from 'app/components/Layout';
 import { EVENT_TYPE_TO_STRING, styleForEvent } from '../../utils.js';
 import Admin from '../Admin';
 import RegistrationMeta from '../RegistrationMeta';
+import Content from 'app/components/Layout/Content';
 import cx from 'classnames';
 
 const InterestedButton = ({ value, onClick }) => {
@@ -134,26 +135,26 @@ export default class EventDetail extends Component {
       : () => follow(currentUser.id, event.id);
 
     return (
-      <div className={styles.root}>
+      <Content>
         <div className={styles.coverImage}>
           <Image src={event.cover} />
         </div>
 
+        <Flex
+          wrap
+          className={styles.descriptionHeader}
+          alignItems="center"
+          justifyContent="space-between"
+        >
+          <h2 className={styleType}>{event.title}</h2>
+          <InterestedButton
+            value={event.isUserFollowing}
+            onClick={onRegisterClick}
+          />
+        </Flex>
+
         <Flex wrap className={styles.mainRow}>
           <Flex column className={styles.description}>
-            <Flex
-              wrap
-              className={styles.descriptionHeader}
-              alignItems="center"
-              justifyContent="space-between"
-            >
-              <h2 className={styleType}>{event.title}</h2>
-              <InterestedButton
-                value={event.isUserFollowing}
-                onClick={onRegisterClick}
-              />
-            </Flex>
-
             <div
               className={styles.text}
               dangerouslySetInnerHTML={{ __html: event.text }}
@@ -259,7 +260,7 @@ export default class EventDetail extends Component {
             comments={comments}
           />
         )}
-      </div>
+      </Content>
     );
   }
 }
