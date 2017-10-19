@@ -22,7 +22,7 @@ const mapStateToProps = (state, props) => {
   const valueSelector = formValueSelector('interestGroupEditor');
   return {
     initialValues: {
-      text: '<p></p>'
+      text: ''
     },
     groupMembers: valueSelector(state, 'members') || []
   };
