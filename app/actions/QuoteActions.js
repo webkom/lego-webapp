@@ -129,22 +129,17 @@ export function addQuotes({
           errorMessage: 'Legg til quote feilet'
         }
       })
-    )
-      .then(() => {
-        dispatch(stopSubmit('addQuote'));
-        dispatch(push('/quotes'));
-        dispatch(
-          addNotification({
-            message:
-              'Sitat sendt inn. Hvis det blir godkjent vil det dukke opp her!',
-            dismissAfter: 10000
-          })
-        );
-      })
-      .catch(action => {
-        const errors = { ...action.error.response.jsonData };
-        dispatch(stopSubmit('addQuote', errors));
-      });
+    ).then(() => {
+      dispatch(stopSubmit('addQuote'));
+      dispatch(push('/quotes'));
+      dispatch(
+        addNotification({
+          message:
+            'Sitat sendt inn. Hvis det blir godkjent vil det dukke opp her!',
+          dismissAfter: 10000
+        })
+      );
+    });
   };
 }
 

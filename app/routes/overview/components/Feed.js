@@ -4,6 +4,7 @@ import styles from './Feed.css';
 
 import { activityRenderers } from 'app/components/Feed';
 import type { AggregatedActivity } from 'app/components/Feed/types';
+import EmptyState from 'app/components/EmptyState';
 import Time from 'app/components/Time';
 
 type Props = {
@@ -43,11 +44,17 @@ const Feed = (props: Props) => {
         <Link to="/timeline">Tidslinje →</Link>
       </div>
       <div className={styles.content}>
-        <ul>
-          {props.feedItems.map((activity, key) => (
-            <FeedItem activity={activity} key={key} />
-          ))}
-        </ul>
+        {props.feedItems.length > 0 ? (
+          <ul>
+            {props.feedItems.map((activity, key) => (
+              <FeedItem activity={activity} key={key} />
+            ))}
+          </ul>
+        ) : (
+          <EmptyState icon="sad" size={40}>
+            <h3>Ingen aktiviteter i feeden</h3>
+          </EmptyState>
+        )}
       </div>
     </div>
   );

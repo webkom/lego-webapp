@@ -24,7 +24,7 @@ const mapStateToProps = (state, props) => {
     initialValues: {
       startTime: time(17, 15),
       endTime: time(20),
-      report: '<p></p>'
+      report: ''
     },
     user: props.currentUser,
     invitingUsers: valueSelector(state, 'users') || []

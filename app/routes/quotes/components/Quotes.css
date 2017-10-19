@@ -25,6 +25,12 @@
   display: block;
 }
 
+.comments {
+  order: 3;
+  margin: 15px 0 0 20px;
+  width: 100%;
+}
+
 .sortQuote {
   order: 2;
   width: 200px;
@@ -75,39 +81,45 @@
 /* Detail */
 
 .singleQuote {
-  padding: 1px 20px 10px 0;
+  padding: 1px 20px 0 0;
   background-repeat: no-repeat;
   width: 100%;
-  margin-bottom: 25px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  margin-bottom: 50px;
 
   &:last-child .quoteBottom {
     border-bottom: none;
   }
 }
 
-.singleQuote .theQuote {
+.theQuote {
   padding-left: 5px;
 }
 
-.singleQuote .theQuote a {
+.theQuote a {
   color: black;
 }
 
-.singleQuote .theQuote a:hover {
+.theQuote a:hover {
   color: black;
   text-decoration: none;
 }
 
-.singleQuote .leftQuote {
+.leftQuote {
   display: flex;
   width: 100%;
   order: 1;
 }
 
-.singleQuote .rightQuote {
+.leftQuote i {
+  @media (--small-viewport) {
+    display: none;
+  }
+}
+
+.rightQuote {
   order: 2;
   display: flex;
   justify-content: space-between;
@@ -131,33 +143,37 @@
   color: orange;
 }
 
-.singleQuote .fa-thumbs-up {
+.fa-thumbs-up {
   padding-top: 5px;
   font-size: 35px;
   order: 0;
 }
 
-.singleQuote .quoteDefault {
+.quoteDefault {
   color: gray;
 }
 
-.singleQuote .fa-thumbs-up:hover {
+.fa-thumbs-up:hover {
   color: orange;
 }
 
-.singleQuote .quoteBottom {
+.quoteBottom {
   width: 100%;
   margin-top: 20px;
-  padding-bottom: 40px;
+  padding-bottom: 5px;
   margin-left: 130px;
-  border-bottom: 1px solid #ccc;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   order: 3;
+
+  @media (--small-viewport) {
+    padding: 0 0 30px;
+    margin: 30px 0 0;
+  }
 }
 
-.singleQuote .quoteSource {
+.quoteSource {
   font-size: 20px;
   order: 1;
   margin-top: -5px;
@@ -165,7 +181,7 @@
   line-height: 25px;
 }
 
-.singleQuote .quoteSource i {
+.quoteSource i {
   font-size: 20px !important;
 }
 
@@ -201,24 +217,20 @@
   padding: 0;
 }
 
-.singleQuote .commentCount {
+.commentCount {
   order: 1;
 }
 
-.singleQuote .quoteAdmin {
+.quoteAdmin {
   order: 2;
 }
 
-.singleQuote .faQuote-right {
+.faQuote-right {
   font-size: 100px;
   color: #dbdbdb;
   margin-right: 30px;
   order: 0;
   height: 0;
-}
-
-.quote-singleroute .quoteBottom {
-  border-bottom: none;
 }
 
 .adminDropdown {
@@ -245,34 +257,28 @@
     flex-direction: column;
   }
 
-  .singleQuote .faQuote-right {
+  .faQuote-right {
     display: none;
   }
 
-  .singleQuote .leftQuote {
+  .leftQuote {
     width: 100%;
   }
 
-  .singleQuote .quoteBottom {
-    width: 100%;
-    margin: 15px 0 0;
-    padding: 0 0 50px 130px;
-  }
-
-  .singleQuote .quoteAdmin {
+  .quoteAdmin {
     margin: 0;
     width: 100%;
   }
 
-  .singleQuote .quoteDate {
+  .quoteDate {
     margin-top: 10px;
   }
 
-  .singleQuote .theQuote {
+  .theQuote {
     width: 100%;
   }
 
-  .singleQuote .rightQuote {
+  .rightQuote {
     margin: -50px 0 0 0;
     order: 4;
   }

@@ -32,6 +32,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = { updateNotificationSetting };
 
 export default compose(
-  dispatched(loadData),
+  dispatched(loadData, {
+    componentWillReceiveProps: false
+  }),
   connect(mapStateToProps, mapDispatchToProps)
 )(UserSettingsNotifications);

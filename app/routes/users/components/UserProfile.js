@@ -62,7 +62,7 @@ export default class UserProfile extends Component {
               {this.renderFields()}
               {showSettings ? (
                 <Link to={`/users/${user.username}/settings/profile`}>
-                  Instillinger
+                  Innstillinger
                 </Link>
               ) : (
                 ''

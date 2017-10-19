@@ -19,7 +19,7 @@ describe('<UserProfile />', () => {
     const wrapper = shallow(<UserProfile user={user} showSettings />);
     expect(
       wrapper.containsMatchingElement(
-        <Link to="/users/webkom/settings/profile">Instillinger</Link>
+        <Link to="/users/webkom/settings/profile">Innstillinger</Link>
       )
     ).toEqual(true);
   });
@@ -28,7 +28,7 @@ describe('<UserProfile />', () => {
     const wrapper = shallow(<UserProfile user={user} showSettings={false} />);
     expect(
       wrapper.containsMatchingElement(
-        <Link to="/users/webkom/settings/profile">Instillinger</Link>
+        <Link to="/users/webkom/settings/profile">Innstillinger</Link>
       )
     ).toEqual(false);
   });

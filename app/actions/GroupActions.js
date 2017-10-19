@@ -141,7 +141,7 @@ export function editGroup(group: Object): Thunk<*> {
           errorMessage: 'Editing group failed'
         }
       })
-    ).then(_ => dispatch(push(`/interestgroups/${group.id}`)));
+    );
   };
 }
 

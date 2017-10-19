@@ -7,7 +7,8 @@ import {
   updateCompanyInterest
 } from 'app/actions/CompanyInterestActions';
 import CompanyInterestPage, {
-  EVENT_TYPES
+  EVENT_TYPES,
+  OTHER_TYPES
 } from './components/CompanyInterestPage';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
@@ -23,22 +24,43 @@ const loadCompanyInterests = (props, dispatch) => {
 
 const mapStateToProps = (state, props) => {
   const { companyInterestId } = props.params;
-  const company = selectCompanyInterestById(state, { companyInterestId });
+  const companyInterest = selectCompanyInterestById(state, {
+    companyInterestId
+  });
   const semesters = selectCompanySemesters(state);
+  if (!companyInterest || !semesters)
+    return {
+      edit: true,
+      companyInterestId
+    };
+
   const allEvents = Object.keys(EVENT_TYPES);
+  const allOtherOffers = Object.keys(OTHER_TYPES);
+  const actionGrant = state.companyInterest.actionGrant;
   return {
+    actionGrant,
     initialValues: {
-      ...company,
+      ...companyInterest,
       events: allEvents.map(event => ({
         name: event,
-        checked: company.events && company.events.includes(event)
+        checked:
+          companyInterest.events && companyInterest.events.includes(event)
+      })),
+      otherOffers: allOtherOffers.map(offer => ({
+        name: offer,
+        checked:
+          companyInterest.otherOffers &&
+          companyInterest.otherOffers.includes(offer)
       })),
       semesters: semesters.map(semester => ({
         ...semester,
-        checked: company.semesters && company.semesters.includes(semester.id)
+        checked:
+          companyInterest.semesters &&
+          companyInterest.semesters.includes(semester.id)
       }))
     },
     companyInterestId,
+    companyInterest,
     edit: true
   };
 };

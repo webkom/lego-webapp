@@ -8,8 +8,8 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = () => ({
   initialValues: {
-    text: '<p></p>',
-    description: '<p></p>',
+    text: '',
+    description: '',
     fromYear: 1,
     toYear: 5,
     jobType: 'summer_job'
