@@ -1,75 +1,102 @@
-/* eslint-disable react/no-find-dom-node */
+// @flow
+
 import React, { Component } from 'react';
-import { Editor, Html, resetKeyGenerator } from 'slate';
-import { insertParagraph, getPlugins, getSchema } from './utils';
+import { Editor } from 'slate-react';
+import { resetKeyGenerator } from 'slate';
+import Html from 'slate-html-serializer';
+import { schema } from './constants';
+import HoverMenu from './HoverMenu';
+import isHotkey from 'is-hotkey';
 import rules from './serializer';
-import Toolbar from './Toolbar';
-import Tooltip from './Tooltip';
 import styles from './Editor.css';
-import { Blocks } from './constants';
-import cx from 'classnames';
+import type { BlockType, MarkType } from './constants';
 
 const parseHtml =
   typeof DOMParser === 'undefined' && require('parse5').parseFragment;
-const html = new Html({ rules, parseHtml });
+const htmlArgs = { rules };
+if (parseHtml) htmlArgs.parseHtml = parseHtml;
+const serializer = new Html(htmlArgs);
+const isBoldHotkey = isHotkey('mod+b');
+const isItalicHotkey = isHotkey('mod+i');
+const isUnderlinedHotkey = isHotkey('mod+u');
+const isCodeHotkey = isHotkey('mod+`');
 
-export type Props = {
-  content?: string,
-  uploadFile?: Object => void,
-  autoFocus?: boolean,
-  placeholder?: string,
-  onChange?: func,
-  isPublic?: boolean,
-  onFocus?: func,
-  onBlur?: func,
-  disableBlocks?: boolean,
-  readOnly?: boolean
+type Document = {
+  getClosest: (string, () => boolean) => void
 };
 
-export default class CustomEditor extends Component {
+type EditorState = {
+  document: Document,
+  change: () => Change,
+  blocks: []
+};
+type Change = {
+  state: EditorState,
+  toggleMark: MarkType => Change,
+  setBlock: BlockType => Change,
+  unwrapBlock: BlockType => Change,
+  wrapBlock: BlockType => Change,
+  splitBlock: () => Change
+};
+
+type Props = {
+  value?: string,
+  placeholder?: string,
+  onChange: string => void,
+  onBlur?: () => void,
+  onFocus?: () => void
+};
+
+type State = {
+  menu?: HTMLElement,
+  state: EditorState
+};
+
+class CustomEditor extends Component {
+  state: State;
   props: Props;
 
-  wrapperElement = undefined;
-
-  lastSerializedState = undefined;
-
-  constructor(props) {
+  constructor(props: Props) {
     super(props);
-    if (!props.value) {
-      throw Error(
-        'You must pass an initial value to the editor. You can pass "<p></p>" if there is no content.'
-      );
-    }
-    this.state = {
-      editorState: html.deserialize(props.value),
-      focus: false
-    };
-    this.lastSerializedState = props.value;
     resetKeyGenerator();
+    const content = this.props.value || '<p></p>';
+
+    this.state = {
+      state: serializer.deserialize(content)
+    };
   }
 
-  onChange = editorState => {
-    if (this.props.readOnly) {
-      return;
-    }
-    const hasFocus = !editorState.isBlurred;
-    let focus = this.state.focus;
-
-    if (hasFocus && !focus) {
-      this.onFocus();
-      focus = true;
-    } else if (!hasFocus && focus) {
-      this.onBlur();
-      focus = false;
-    }
-
-    this.setState({ editorState, focus });
+  componentDidMount = () => {
+    this.updateHoverMenu();
   };
 
-  onFocus = () => {
-    if (this.props.onFocus) {
-      this.props.onFocus();
+  componentDidUpdate = () => {
+    this.updateHoverMenu();
+  };
+
+  getType = (chars: string) => {
+    switch (chars) {
+      case '*':
+      case '-':
+      case '+':
+        return 'list-item';
+      case '>':
+        return 'block-quote';
+      case '#':
+        return 'heading-one';
+      case '##':
+        return 'heading-two';
+      default:
+        return null;
     }
+  };
+
+  onChange = ({ state }: Change) => {
+    if (state.document !== this.state.state.document) {
+      this.props.onChange(serializer.serialize(state));
+    }
+
+    this.setState({ state });
   };
 
   onBlur = () => {
@@ -78,163 +105,210 @@ export default class CustomEditor extends Component {
     }
   };
 
-  componentWillReceiveProps = newProps => {
-    if (newProps.value !== this.lastSerializedState) {
-      this.setState({
-        editorState: html.deserialize(newProps.value)
-      });
-      this.lastSerializedState = newProps.value;
+  onFocus = () => {
+    if (this.props.onFocus) {
+      this.props.onFocus();
     }
   };
 
-  onContentChange = state => {
-    const content = html.serialize(state);
-    if (this.props.onChange) {
-      this.props.onChange(content);
-      this.lastSerializedState = content;
+  onKeyDown = (e: SyntheticInputEvent, data: Object, change: Change) => {
+    let mark;
+
+    if (data.key === 'space') {
+      return this.onSpace(e, change);
     }
-  };
 
-  onDocumentChange = (document, state) => {
-    this.onContentChange(state);
-
-    if (state.isCollapsed && state.startBlock.isVoid) {
-      const transformed = insertParagraph(state);
-      this.onChange(transformed);
+    if (data.key === 'backspace') {
+      return this.onBackspace(e, change);
     }
-  };
 
-  insertBlock = properties => {
-    if (this.props.disableBlocks) {
+    if (data.key === 'enter') {
+      return this.onEnter(e, change);
+    }
+
+    if (isBoldHotkey(e)) {
+      mark = 'bold';
+    } else if (isItalicHotkey(e)) {
+      mark = 'italic';
+    } else if (isUnderlinedHotkey(e)) {
+      mark = 'underlined';
+    } else if (isCodeHotkey(e)) {
+      mark = 'code';
+    } else {
       return;
     }
-    const transformed = insertParagraph(
-      this.state.editorState
-        .transform()
-        .setBlock(properties)
-        .collapseToStartOfNextBlock()
-        .apply({
-          save: false
-        })
-    );
 
-    this.onChange(transformed);
-    this.onContentChange(transformed);
+    e.preventDefault();
+    change.toggleMark(mark);
+    return true;
   };
 
-  hasBlock = type => {
-    const { editorState } = this.state;
-    return editorState.blocks.some(node => node.type === type);
+  onSpace = (e: SyntheticInputEvent, change: Change) => {
+    const { state } = change;
+    if (state.isExpanded) return;
+
+    const { startBlock, startOffset } = state;
+    const chars = startBlock.text.slice(0, startOffset).replace(/\s*/g, '');
+    const type = this.getType(chars);
+
+    if (!type) return;
+    if (type === 'list-item' && startBlock.type === 'list-item') return;
+    e.preventDefault();
+
+    change.setBlock(type);
+
+    if (type === 'list-item') {
+      change.wrapBlock('bulleted-list');
+    }
+
+    change.extendToStartOf(startBlock).delete();
+
+    return true;
   };
 
-  setBlockType = type => {
-    if (this.props.disableBlocks) {
+  onBackspace = (e: SyntheticInputEvent, change: Change) => {
+    const { state } = change;
+    if (state.isExpanded) return;
+    if (state.startOffset !== 0) return;
+
+    const { startBlock } = state;
+    if (startBlock.type === 'paragraph') return;
+
+    e.preventDefault();
+    change.setBlock('paragraph');
+
+    if (startBlock.type === 'list-item') {
+      change.unwrapBlock('bulleted-list');
+    }
+
+    return true;
+  };
+
+  onEnter = (e: SyntheticInputEvent, change: Change) => {
+    const { state } = change;
+    if (state.isExpanded) return;
+
+    const { startBlock, startOffset, endOffset } = state;
+    if (startOffset === 0 && startBlock.text.length === 0)
+      return this.onBackspace(e, change);
+    if (endOffset !== startBlock.text.length) return;
+
+    if (
+      startBlock.type !== 'heading-one' &&
+      startBlock.type !== 'heading-two' &&
+      startBlock.type !== 'block-quote'
+    ) {
       return;
     }
-    const { editorState } = this.state;
-    const transfrom = editorState.transform();
-    const isActive = this.hasBlock(type);
-    const isList = this.hasBlock(Blocks.LI);
 
-    if (type !== Blocks.OL && type !== Blocks.UL) {
+    e.preventDefault();
+
+    change.splitBlock().setBlock('paragraph');
+
+    return true;
+  };
+
+  onToggleMark = (e: SyntheticInputEvent, type: MarkType) => {
+    e.preventDefault();
+    const change = this.state.state.change().toggleMark(type);
+    this.onChange(change);
+  };
+
+  onToggleBlock = (e: SyntheticInputEvent, type: BlockType) => {
+    e.preventDefault();
+    const { state } = this.state;
+    const change = state.change();
+    const { document } = state;
+
+    if (type !== 'bulleted-list' && type !== 'numbered-list') {
+      const isActive = this.hasBlock(type);
+      const isList = this.hasBlock('list-item');
+
       if (isList) {
-        transfrom
-          .setBlock(isActive ? Blocks.Paragraph : type)
-          .unwrapBlock(Blocks.UL)
-          .unwrapBlock(Blocks.OL);
+        change
+          .setBlock(isActive ? 'paragraph' : type)
+          .unwrapBlock('bulleted-list')
+          .unwrapBlock('numbered-list');
       } else {
-        transfrom.setBlock(isActive ? Blocks.Paragraph : type);
+        change.setBlock(isActive ? 'paragraph' : type);
       }
     } else {
-      const isType = editorState.blocks.some(
+      const isList = this.hasBlock('list-item');
+      const isType = state.blocks.some(
         block =>
-          !!editorState.document.getClosest(block.key, par => par.type === type)
+          !!document.getClosest(block.key, parent => parent.type === type)
       );
 
       if (isList && isType) {
-        transfrom
-          .setBlock(Blocks.Paragraph)
-          .unwrapBlock(Blocks.UL)
-          .unwrapBlock(Blocks.OL);
+        change
+          .setBlock('paragraph')
+          .unwrapBlock('bulleted-list')
+          .unwrapBlock('numbered-list');
       } else if (isList) {
-        transfrom
-          .unwrapBlock(type === Blocks.UL ? Blocks.OL : Blocks.UL)
+        change
+          .unwrapBlock(
+            type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list'
+          )
           .wrapBlock(type);
       } else {
-        transfrom.setBlock(Blocks.LI).wrapBlock(type);
+        change.setBlock('list-item').wrapBlock(type);
       }
     }
-
-    const newState = transfrom.apply({ save: false });
-    this.onChange(newState);
-    this.onContentChange(newState);
+    this.onChange(change);
   };
 
-  setBlockData = (key, data) => {
-    const { editorState } = this.state;
-
-    const transformed = editorState
-      .transform()
-      .setNodeByKey(key, { data })
-      .apply({ save: false });
-
-    this.onChange(transformed);
-    this.onContentChange(transformed);
+  hasBlock = (type: BlockType) => {
+    const { state } = this.state;
+    return state.blocks.some(node => node.type === type);
   };
 
-  setInlineStyle = type => {
-    const { editorState } = this.state;
+  onOpenHoverMenu = (portal: HTMLElement) => {
+    this.setState({ menu: portal.firstChild });
+  };
 
-    const transformed = editorState
-      .transform()
-      .toggleMark(type)
-      .apply({ save: false });
+  updateHoverMenu = () => {
+    const { menu, state } = this.state;
+    if (!menu) return;
 
-    this.onChange(transformed);
-    this.onContentChange(transformed);
+    if (state.isBlurred || state.isEmpty) {
+      menu.removeAttribute('style');
+      return;
+    }
+
+    const selection = window.getSelection();
+    const range = selection.getRangeAt(0);
+    const rect = range.getBoundingClientRect();
+    menu.style.opacity = '1';
+    menu.style.top = `${rect.top + window.scrollY - menu.offsetHeight}px`;
+    menu.style.left = `${rect.left +
+      window.scrollX -
+      menu.offsetWidth / 2 +
+      rect.width / 2}px`;
   };
 
   render() {
-    const { editorState } = this.state;
-    const { className, uploadFile, placeholder, disableBlocks } = this.props;
-
     return (
-      <div
-        ref={c => {
-          this.wrapperElement = c;
-        }}
-        className={cx(styles.EditorWrapper, className)}
-      >
-        <Editor
-          readOnly={this.props.readOnly}
-          state={editorState}
-          placeholder={placeholder || 'Default placeholder'}
-          onChange={this.onChange}
-          plugins={getPlugins(!disableBlocks)}
-          schema={getSchema(!disableBlocks)}
-          onDocumentChange={this.onDocumentChange}
-          className={styles.Editor}
-        />
-
-        {!this.props.disableBlocks &&
-          !this.props.readOnly &&
-          <Toolbar
-            editorState={editorState}
-            insertBlock={this.insertBlock}
-            wrapperElement={this.wrapperElement}
-            uploadFile={uploadFile}
-            isPublic
-            setBlockData={this.setBlockData}
-          />}
-        {!this.props.readOnly &&
-          <Tooltip
-            disableBlocks={this.props.disableBlocks}
-            setBlockType={this.setBlockType}
-            setInlineStyle={this.setInlineStyle}
-            editorState={editorState}
-            wrapperElement={this.wrapperElement}
-          />}
+      <div>
+        <div className={styles.editor}>
+          <HoverMenu
+            onOpen={this.onOpenHoverMenu}
+            state={this.state.state}
+            onToggleBlock={this.onToggleBlock}
+            onToggleMark={this.onToggleMark}
+          />
+          <Editor
+            onBlur={this.onBlur}
+            onFocus={this.onFocus}
+            schema={schema}
+            placeholder={this.props.placeholder || 'Enter some rich text...'}
+            state={this.state.state}
+            onChange={this.onChange}
+            onKeyDown={this.onKeyDown}
+          />
+        </div>
       </div>
     );
   }
 }
+
+export default CustomEditor;

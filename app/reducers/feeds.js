@@ -13,7 +13,7 @@ function arrayOf(value) {
 export default createEntityReducer({
   key: 'feeds',
   types: {
-    fetch: false
+    fetch: null
   },
   mutate(state, action) {
     switch (action.type) {
@@ -44,7 +44,7 @@ export default createEntityReducer({
   }
 });
 
-export const feedIdByUsername = username => `user-${username}`;
+export const feedIdByUserId = (userId: string) => `user-${userId}`;
 
 export const selectFeeds = createSelector(
   state => state.feeds.byId,

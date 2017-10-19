@@ -1,4 +1,6 @@
 import styles from './components/Event.css';
+import { omit } from 'lodash';
+import moment from 'moment';
 
 export const eventTypes = {
   company_presentation: 'Bedriftspresentasjon',
@@ -41,4 +43,21 @@ export const colorType = {
 
 export const colorForEvent = eventType => {
   return colorType[eventType] || colorType['other'];
+};
+
+export const transformEvent = (data, edit = false) => {
+  const event = edit ? omit(data, 'cover') : data;
+  return {
+    ...event,
+    startTime: moment(event.startTime).toISOString(),
+    endTime: moment(event.endTime).toISOString(),
+    mergeTime: moment(event.mergeTime).toISOString(),
+    company: event.company && event.company.value,
+    priceMember: event.isPriced ? event.priceMember * 100 : 0,
+    pools: event.pools.map((pool, i) => ({
+      ...omit(pool, 'registrations'),
+      activationDate: moment(pool.activationDate).toISOString(),
+      permissionGroups: pool.permissionGroups.map(group => group.value)
+    }))
+  };
 };

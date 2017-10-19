@@ -1,29 +1,40 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import {
   fetchInterestGroup,
-  updateInterestGroup,
-  removeInterestGroup
+  joinInterestGroup,
+  leaveInterestGroup
 } from 'app/actions/InterestGroupActions';
 import InterestGroupDetail from './components/InterestGroupDetail';
-import { selectInterestGroupById } from 'app/reducers/interestGroups';
+import { selectMembershipsForInterestGroup } from 'app/reducers/memberships';
+import { selectGroup } from 'app/reducers/groups';
 
-const mapStateToProps = (state, { params: interestGroupId }) => ({
-  group: selectInterestGroupById(state, { interestGroupId }),
-  interestGroupId
-});
+const mapStateToProps = (state, { params: { interestGroupId } }) => {
+  const group = selectGroup(state, { groupId: interestGroupId });
+  const memberships = selectMembershipsForInterestGroup(state, {
+    groupId: interestGroupId
+  });
+
+  return {
+    group: {
+      ...group,
+      memberships
+    },
+    interestGroupId
+  };
+};
 
 const mapDispatchToProps = {
   fetchInterestGroup,
-  updateInterestGroup,
-  removeInterestGroup
+  joinInterestGroup,
+  leaveInterestGroup
 };
 
 export default compose(
   dispatched(
     ({ params: { interestGroupId } }, dispatch) =>
-      dispatch(fetchInterestGroup(interestGroupId)),
+      dispatch(fetchInterestGroup(Number(interestGroupId))),
     {
       componentWillReceiveProps: false
     }

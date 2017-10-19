@@ -16,3 +16,13 @@
   margin-top: 3px;
   border-radius: 3px;
 }
+
+.label {
+  font-size: 18px;
+}
+
+.required {
+  color: #c24538;
+  font-weight: 600;
+  margin-left: 2px;
+}

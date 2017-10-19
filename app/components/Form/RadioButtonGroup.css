@@ -1,0 +1,31 @@
+.group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.groupLabel {
+  font-size: 18px;
+}
+
+.radioField {
+  margin-bottom: 10px;
+}
+
+.radioLabel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.radioLabel:hover {
+  cursor: pointer;
+}
+
+.radioLabel > span {
+  font-size: 16px;
+  margin-left: 15px;
+
+  /* For radio groups we want the label last: */
+  order: 1;
+}

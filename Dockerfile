@@ -1,4 +1,4 @@
-FROM node:7-alpine
+FROM node:8
 
 MAINTAINER Abakus Webkom <webkom@abakus.no>
 
@@ -14,9 +14,9 @@ ARG SENTRY_AUTH_KEY
 ENV NODE_ENV production
 ENV RELEASE ${RELEASE}
 
+RUN yarn run styleguide:build
 RUN yarn run build
 
-RUN apk add --update curl && rm -rf /var/cache/apk/*
 RUN SENTRY_AUTH_KEY=${SENTRY_AUTH_KEY} node scripts/release.js --delete
 
 ENTRYPOINT ["node", "dist/server.js"]

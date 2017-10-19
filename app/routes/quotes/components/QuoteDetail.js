@@ -1,11 +1,13 @@
-import React from 'react';
+// @flow
+
+import React, { Component } from 'react';
 import styles from './Quotes.css';
 import Quote from './Quote';
 import CommentView from 'app/components/Comments/CommentView';
-import QuoteRightNav from './QuoteRightNav';
 import cx from 'classnames';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { isEmpty } from 'lodash';
+import { navigation } from '../utils';
 
 type Props = {
   quote: Object,
@@ -13,44 +15,67 @@ type Props = {
   currentUser: any,
   loggedIn: boolean,
   query: Object,
-  actionGrant: Array<string>
+  actionGrant: Array<string>,
+  approve: number => void,
+  unapprove: number => void,
+  deleteQuote: number => void
 };
 
-export default function QuoteDetail({
-  quote,
-  comments,
-  currentUser,
-  loggedIn,
-  query,
-  actionGrant,
-  ...props
-}: Props) {
-  if (isEmpty(quote)) {
-    return <LoadingIndicator loading />;
-  }
-  return (
-    <div
-      className={cx(
-        styles.root,
-        styles.quoteContainer,
-        styles.quoteSingleroute
-      )}
-    >
-      <div className={styles.quotepageLeft}>
-        <h1>Enkelt sitat!</h1>
+export default class QuoteDetail extends Component {
+  props: Props;
 
-        <Quote {...props} quote={quote} actionGrant={actionGrant} />
+  state = {
+    displayAdmin: false
+  };
 
-        <CommentView
-          user={currentUser}
-          commentTarget={quote.commentTarget}
-          loggedIn={loggedIn}
-          comments={comments}
-          active
+  setDisplayAdmin = () => {
+    this.setState(state => ({ displayAdmin: !state.displayAdmin }));
+  };
+
+  render() {
+    const {
+      quote,
+      comments,
+      currentUser,
+      loggedIn,
+      actionGrant,
+      approve,
+      unapprove,
+      deleteQuote
+    } = this.props;
+
+    if (isEmpty(quote)) {
+      return <LoadingIndicator loading />;
+    }
+    return (
+      <div
+        className={cx(
+          styles.root,
+          styles.quoteContainer,
+          styles.quoteSingleroute
+        )}
+      >
+        {navigation('Enkelt sitat', actionGrant)}
+
+        <Quote
+          quote={quote}
+          actionGrant={actionGrant}
+          displayAdmin={this.state.displayAdmin}
+          setDisplayAdmin={this.setDisplayAdmin}
+          approve={approve}
+          unapprove={unapprove}
+          deleteQuote={deleteQuote}
         />
-      </div>
 
-      <QuoteRightNav query={query} detail={true} actionGrant={actionGrant} />
-    </div>
-  );
+        {quote.commentTarget && (
+          <CommentView
+            user={currentUser}
+            commentTarget={quote.commentTarget}
+            loggedIn={loggedIn}
+            comments={comments}
+          />
+        )}
+      </div>
+    );
+  }
 }

@@ -1,101 +1,45 @@
 .root {
-  composes: container from 'app/styles/utilities.css';
+  composes: contentContainer from 'app/styles/utilities.css';
 }
 
-.interestGroup {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-bottom: 40px;
+.logo {
+  max-height: 250px;
+  max-width: 250px;
 }
 
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 1000px;
-  margin-top: 30px;
+.logoSmall {
+  max-height: 100px;
+  max-width: 100px;
 }
 
-.content {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+.description {
+  font-size: 18px;
+  font-style: italic;
 }
 
-h1 {
-  font-size: 30px;
-  font-weight: bold;
+.listItem {
+  margin: 8px;
+  padding-left: 4px;
+  background: white;
 }
 
-.heading {
-  color: #777;
-  letter-spacing: 2px;
-  font-weight: 400;
-  text-transform: uppercase;
-  font-size: 20px;
-  border-bottom: 1px solid #ddd;
+.listItemContent {
+  padding: 4px;
 }
 
-.interestPic {
-  width: 200px;
-  max-height: 200px;
-  border-style: solid;
-  margin-left: 20px;
-  -moz-box-shadow: 0 0 3px #000;
-  -webkit-box-shadow: 0 0 3px #000;
-  box-shadow: 0 0 3px #000;
-  color: #000;
+.textEdit {
+  background: none;
+  border: none;
+  border-bottom: 1px solid #888;
+  margin: 8px;
+  padding: 4px;
 }
 
-.paragraph {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+.sideBar {
+  padding: 15px;
+  width: 350px;
 }
 
-.bold {
-  font-weight: bold;
-}
-
-.section {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 30px auto;
-}
-
-.textInput {
-  margin-bottom: 10px;
-}
-
-.textEditor {
-  height: 250px;
-}
-
-.button {
-  font-size: 12px;
-}
-
-.detail {
-  font-size: 30px;
-  color: #777;
-  letter-spacing: 2px;
-  font-weight: 400;
-  text-transform: uppercase;
-  border-bottom: 1px solid #ddd;
-}
-
-.interestPicDetail {
-  width: 300px;
-  max-height: 400px;
-  border-style: solid;
-  margin: 10px;
-  -moz-box-shadow: 0 0 5px #000;
-  -webkit-box-shadow: 0 0 5px #000;
-  box-shadow: 0 0 5px #000;
-}
-
-.paragraphDetail {
-  margin-top: 20px;
+.deleteButton {
+  margin-bottom: 16px;
 }

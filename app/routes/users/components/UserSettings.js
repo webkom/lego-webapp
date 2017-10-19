@@ -1,46 +1,66 @@
 // @flow
 
 import React from 'react';
-import { Link } from 'react-router';
-import Button from 'app/components/Button';
-import { Form, TextInput } from 'app/components/Form';
-import { Flex } from 'app/components/Layout';
-import { Field } from 'redux-form';
-import UserImage from './UserImage';
-import styles from './UserSettings.css';
+import type { FieldProps } from 'redux-form';
+import { reduxForm, Field, SubmissionError } from 'redux-form';
+import { omit } from 'lodash';
 
-type Props = {
-  handleSubmit: () => void,
-  updateUser: () => void,
-  invalid: boolean,
-  pristine: boolean,
-  submitting: boolean,
+import Button from 'app/components/Button';
+import {
+  Form,
+  TextInput,
+  RadioButtonGroup,
+  RadioButton
+} from 'app/components/Form';
+import { FlexRow } from 'app/components/FlexBox';
+import UserImage from './UserImage';
+import ChangePassword from './ChangePassword';
+import styles from './UserSettings.css';
+import { createValidator, required, isEmail } from 'app/utils/validation';
+
+export type PasswordPayload = {
+  newPassword: string,
+  password: string,
+  retype_new_password: string
+};
+
+type Props = FieldProps & {
+  changePassword: PasswordPayload => Promise<void>,
+  updateUser: Object => Promise<void>,
   user: any,
-  updatePicture: () => void
+  isMe: boolean,
+  updatePicture: Object => void
 };
 
 const UserSettings = (props: Props) => {
-  const { invalid, pristine, submitting, updatePicture } = props;
+  const {
+    handleSubmit,
+    updateUser,
+    changePassword,
+    invalid,
+    isMe,
+    pristine,
+    submitting,
+    updatePicture,
+    user
+  } = props;
 
   const disabledButton = invalid || pristine || submitting;
 
+  const onSubmit = data =>
+    updateUser(omit(data, 'profilePicture')).catch(err => {
+      if (err.payload && err.payload.response) {
+        throw new SubmissionError(err.payload.response.jsonData);
+      }
+    });
+
   return (
-    <div className={styles.root}>
-      <UserImage user={props.user} updatePicture={updatePicture} />
+    <div>
+      <FlexRow justifyContent="center">
+        <UserImage user={user} updatePicture={updatePicture} />
+      </FlexRow>
 
-      <Flex>
-        <Link
-          className={styles.navigationLink}
-          to="/users/me/settings/notifications"
-        >
-          Notification settings
-        </Link>
-        <Link className={styles.navigationLink} to="/users/me/settings/oauth2">
-          OAuth2 Applications And Grants
-        </Link>
-      </Flex>
-
-      <Form onSubmit={props.handleSubmit(props.updateUser)}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <Field
           placeholder="Brukernavn"
           label="Username"
@@ -66,12 +86,31 @@ const UserSettings = (props: Props) => {
           component={TextInput.Field}
         />
 
-        <Field label="Kjønn" name="gender" component={TextInput.Field} />
+        <RadioButtonGroup label="Kjønn" name="gender">
+          <Field
+            name="gender"
+            label="Mann"
+            inputValue="male"
+            component={RadioButton.Field}
+          />
+          <Field
+            name="gender"
+            label="Kvinne"
+            inputValue="female"
+            component={RadioButton.Field}
+          />
+          <Field
+            name="gender"
+            label="Annet"
+            inputValue="other"
+            component={RadioButton.Field}
+          />
+        </RadioButtonGroup>
         <Field label="Allergier" name="allergies" component={TextInput.Field} />
 
         <Field
           placeholder="abc@stud.ntnu.no"
-          label="email"
+          label="Epost"
           name="email"
           component={TextInput.Field}
         />
@@ -80,8 +119,27 @@ const UserSettings = (props: Props) => {
           Submit
         </Button>
       </Form>
+
+      {isMe && (
+        <div className={styles.changePassword}>
+          <h2>Endre passord</h2>
+          <ChangePassword changePassword={changePassword} />
+        </div>
+      )}
     </div>
   );
 };
 
-export default UserSettings;
+const validate = createValidator({
+  username: [required()],
+  firstName: [required()],
+  lastName: [required()],
+  gender: [required()],
+  email: [required(), isEmail()]
+});
+
+export default reduxForm({
+  form: 'userSettings',
+  validate,
+  enableReinitialize: true
+})(UserSettings);

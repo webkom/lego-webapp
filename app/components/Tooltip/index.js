@@ -20,16 +20,14 @@ export default class Tooltip extends Component {
   };
 
   render() {
-    const { content, children, className, list, style } = this.props;
+    const { content, children, className, list, style, onClick } = this.props;
     const tooltipClass = this.state.hovered
       ? styles.baseTooltipHover
       : styles.tooltip;
     const tooltip = list ? styles.listTooltip : styles.showTooltip;
     return (
-      <div className={className} style={style}>
-        <div className={cx(tooltipClass, tooltip)}>
-          {content}
-        </div>
+      <div className={className} style={style} onClick={onClick}>
+        <div className={cx(tooltipClass, tooltip)}>{content}</div>
         <div onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
           {children}
         </div>

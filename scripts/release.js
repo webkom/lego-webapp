@@ -6,7 +6,6 @@ const chalk = require('chalk');
 const meow = require('meow');
 const exec = require('child-process-promise').exec;
 
-
 const assets = JSON.parse(
   fs.readFileSync(path.join(__dirname, '..', 'dist', 'webpack-assets.json'))
 );
@@ -79,9 +78,7 @@ async function uploadArtifactsToSentry(version, project) {
 }
 
 async function uploadProjectToSentry(version, project) {
-  await Promise.all([
-    createSentryRelease(version, project),
-  ]);
+  await Promise.all([createSentryRelease(version, project)]);
   return uploadArtifactsToSentry(version, project);
 }
 
@@ -89,7 +86,7 @@ async function deleteSourceMaps() {
   return Promise.all([
     run(`rm ${appSourceMap}`),
     run(`rm ${vendorSourceMap}`),
-    run(`rm ${serverSourceMap}`),
+    run(`rm ${serverSourceMap}`)
   ]);
 }
 

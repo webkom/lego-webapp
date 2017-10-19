@@ -17,14 +17,16 @@ export default class Admin extends Component {
 
   render() {
     const { actionGrant, event } = this.props;
+    const canEdit = actionGrant.includes('edit');
+    const canDelete = actionGrant.includes('delete');
     return (
-      <div>
-        {actionGrant.length > 0 &&
+      <div style={{ marginTop: '10px' }}>
+        {(canEdit || canDelete) && (
           <ul>
             <li>
               <strong>Admin</strong>
             </li>
-            {actionGrant.includes('edit') &&
+            {canEdit && (
               <li>
                 <Link
                   to={`/events/${event.id}/administrate`}
@@ -32,8 +34,9 @@ export default class Admin extends Component {
                 >
                   Påmeldinger
                 </Link>
-              </li>}
-            {actionGrant.includes('edit') &&
+              </li>
+            )}
+            {canEdit && (
               <li>
                 <Link
                   to={`/events/${event.id}/edit`}
@@ -41,8 +44,9 @@ export default class Admin extends Component {
                 >
                   Rediger
                 </Link>
-              </li>}
-            {actionGrant.includes('delete') &&
+              </li>
+            )}
+            {canDelete && (
               <li>
                 <a
                   onClick={() => this.handleDelete(event.id)}
@@ -50,8 +54,10 @@ export default class Admin extends Component {
                 >
                   {this.state.verifyDelete ? 'Er du sikker?' : 'Slett'}
                 </a>
-              </li>}
-          </ul>}
+              </li>
+            )}
+          </ul>
+        )}
       </div>
     );
   }

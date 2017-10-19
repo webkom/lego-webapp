@@ -1,27 +1,39 @@
-import styles from './InterestGroup.css';
+// @flow
 import React, { Component } from 'react';
-import InterestGroupForm from './InterestGroupForm';
+import GroupForm from 'app/components/GroupForm';
+import { Flex, Content } from 'app/components/Layout';
+import { Link } from 'react-router';
 
-class InterestGroupCreate extends Component {
-  state = {
-    editorOpen: false
-  };
-
-  handleCreation = ({ name, description, text }) => {
-    this.props.createInterestGroup(name, description, text);
+export default class InterestGroupEdit extends Component {
+  props: {
+    initialValues: Object,
+    removeInterestGroup: number => Promise<*>,
+    uploadFile: string => Promise<*>,
+    handleSubmitCallback: Object => Promise<*>
   };
 
   render() {
+    const { initialValues, uploadFile, handleSubmitCallback } = this.props;
+
     return (
-      <div className={styles.root}>
-        <InterestGroupForm
-          onSubmit={this.handleCreation}
-          buttonText="Opprett interessegruppe"
-          header="Lag ny interessegruppe"
+      <Content>
+        <h2>
+          <Link to={`/interestGroups/`}>
+            <i className="fa fa-angle-left" />
+            Tilbake
+          </Link>
+        </h2>
+        <Flex justifyContent="space-between" alignItems="baseline">
+          <div>
+            <h1>Opprett gruppe</h1>
+          </div>
+        </Flex>
+        <GroupForm
+          handleSubmitCallback={handleSubmitCallback}
+          uploadFile={uploadFile}
+          initialValues={initialValues}
         />
-      </div>
+      </Content>
     );
   }
 }
-
-export default InterestGroupCreate;

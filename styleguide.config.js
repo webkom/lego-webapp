@@ -61,7 +61,7 @@ module.exports = {
               content: '.css.tmp.md'
             }
           ]
-        },
+        }
       ]
     }
   ],
@@ -80,9 +80,8 @@ module.exports = {
   getComponentPathLine(componentPath) {
     const name = path.basename(componentPath, '.js');
     const dir = path.dirname(componentPath);
-    let import_name = name === 'index'
-      ? dir.substr(dir.lastIndexOf('/') + 1)
-      : `{ ${name} }`;
+    let import_name =
+      name === 'index' ? dir.substr(dir.lastIndexOf('/') + 1) : `{ ${name} }`;
     return `import ${import_name} from '${dir}';`;
   }
 };

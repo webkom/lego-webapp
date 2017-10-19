@@ -1,8 +1,16 @@
 {
-  "presets": [["latest", { "es2015": { "modules": false } }], "react", "stage-2"],
+  "presets": [
+    ["latest", { "es2015": { "modules": false } }],
+    "react",
+    "stage-2"
+  ],
   "plugins": ["lodash", "react-hot-loader/babel"],
   "env": {
+    "development": {
+      "plugins": ["transform-import-to-require"]
+    },
     "test": {
+      "plugins": ["transform-import-to-require"],
       "presets": ["latest", "react", "stage-2"]
     }
   }

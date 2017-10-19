@@ -1,47 +1,48 @@
-import styles from './GroupTree.css';
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import React from 'react';
 import TreeView from 'react-treeview';
 import { Link } from 'react-router';
 import { generateTreeStructure } from 'app/utils';
+import styles from './GroupTree.css';
 
-function generateTreeView(groups) {
+// Returns the URL that a group in the tree should point to.
+// Re-uses the selected tab if there is one.
+function getUrl(group: Object, pathname: string) {
+  if (pathname.match(/\d+/)) {
+    return pathname.replace(/\d+/, group.id);
+  }
+
+  return `/admin/groups/${group.id}/settings`;
+}
+
+function generateTreeView(groups, pathname) {
   return groups.map(group => {
-    const nodeLabel = (
-      <Link to={`/admin/groups/${group.id}/settings`}>
-        {group.name}
-      </Link>
-    );
+    const href = getUrl(group, pathname);
+    const link = <Link to={href}>{group.name}</Link>;
     if (group.children.length) {
       return (
-        <TreeView key={group.id} nodeLabel={nodeLabel} defaultCollapsed={false}>
-          {generateTreeView(group.children)}
+        <TreeView key={group.id} nodeLabel={link} defaultCollapsed={false}>
+          {generateTreeView(group.children, pathname)}
         </TreeView>
       );
     }
 
     return (
       <div key={group.id} className="GroupTree__sidebar__info">
-        {nodeLabel}
+        {link}
       </div>
     );
   });
 }
 
-export default class GroupTree extends Component {
-  static propTypes = {
-    groups: PropTypes.array
-  };
+type Props = {
+  groups: Array<Object>,
+  pathname: string
+};
 
-  render() {
-    const { groups } = this.props;
-    const tree = generateTreeStructure(groups);
-
-    return (
-      <div className={styles.tree}>
-        <h3>Groups</h3>
-        {generateTreeView(tree)}
-      </div>
-    );
-  }
+function GroupTree({ groups, pathname }: Props) {
+  const tree = generateTreeStructure(groups);
+  return <div className={styles.tree}>{generateTreeView(tree, pathname)}</div>;
 }
+
+export default GroupTree;

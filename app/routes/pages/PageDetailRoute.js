@@ -1,8 +1,8 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
 import { fetchAll, fetchPage, updatePage } from 'app/actions/PageActions';
 import PageDetail from './components/PageDetail';
+import prepare from 'app/utils/prepare';
 import {
   selectSiblings,
   selectParent,
@@ -13,11 +13,9 @@ const loadData = (props, dispatch) => {
   if (!props.pages || !props.page) {
     // We only need to fetch the title list once
     // to show the page hierarchy:
-    return dispatch(fetchAll()).then(() =>
-      dispatch(fetchPage(props.params.pageSlug))
-    );
+    return dispatch(fetchAll()).then(() => dispatch(fetchPage(props.pageSlug)));
   }
-  return dispatch(fetchPage(props.params.pageSlug));
+  return dispatch(fetchPage(props.pageSlug));
 };
 
 const mapStateToProps = (state, props) => {
@@ -38,7 +36,5 @@ const mapDispatchToProps = { fetchAll, fetchPage, updatePage };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  dispatched(loadData, {
-    componentWillReceiveProps: false
-  })
+  prepare(loadData, ['pageSlug'])
 )(PageDetail);

@@ -18,6 +18,7 @@
 }
 
 .inputContainer input {
+  -webkit-appearance: textfield;
   flex: 1;
   outline: none;
   border: 0;
@@ -42,7 +43,6 @@
 }
 
 .searchResultItemIcon {
-  font-size: 40px;
   margin-right: 10px;
 }
 
@@ -53,7 +53,6 @@
   background: transparent;
   color: #333;
   cursor: pointer;
-  font-size: 40px;
 }
 
 .resultsContainer {

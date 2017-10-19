@@ -3,14 +3,17 @@ import styles from './bdb.css';
 import { Link } from 'react-router';
 import CompanySingleRow from './CompanySingleRow';
 import { indexToSemester } from '../utils.js';
+import Icon from 'app/components/Icon';
+import cx from 'classnames';
 
 type Props = {
-  companies: Array<any>,
+  companies: Array<Object>,
   query: Object,
   startYear: number,
   startSem: number,
-  changeSemesters: () => void,
-  changedStatuses: Array<any>
+  navigateThroughTime: () => void,
+  companySemesters: Array<Object>,
+  editSemester: () => void
 };
 
 export default class CompanyList extends Component {
@@ -19,7 +22,7 @@ export default class CompanyList extends Component {
   findTitle = index => {
     const { startYear, startSem } = this.props;
     const result = indexToSemester(index, startYear, startSem);
-    const sem = result.semester === 0 ? 'Vår' : 'Høst';
+    const sem = result.semester === 'spring' ? 'Vår' : 'Høst';
     return `${sem} ${result.year}`;
   };
 
@@ -55,11 +58,10 @@ export default class CompanyList extends Component {
   render() {
     const {
       companies,
-      changeSemesters,
+      navigateThroughTime,
       startYear,
       startSem,
-      editSemester,
-      changedStatuses
+      editSemester
     } = this.props;
 
     /*
@@ -96,24 +98,22 @@ export default class CompanyList extends Component {
       }
     ];
 
-    const headers = HEADER_ITEMS.map((item, i) =>
+    const headers = HEADER_ITEMS.map((item, i) => (
       <th key={i}>
         <Link to={this.findSortLink(item.sortLink)}>
-          <div className={styles.title}>
-            {item.title}
-          </div>
+          <div className={styles.title}>{item.title}</div>
 
           <div className={styles[this.showOrHideSortIcon(item.sortLink)]}>
             <div className={styles.upArrow}>
-              <i className="fa fa-caret-up" aria-hidden="true" />
+              <Icon name="arrow-up" size={16} />
             </div>
             <div className={styles.downArrow}>
-              <i className="fa fa-caret-down" aria-hidden="true" />
+              <Icon name="arrow-down" size={16} />
             </div>
           </div>
         </Link>
       </th>
-    );
+    ));
 
     return (
       <div className={styles.companyList}>
@@ -121,38 +121,45 @@ export default class CompanyList extends Component {
           <thead>
             <tr className={styles.invisRow}>
               <td />
-              <td>
-                <i
-                  onClick={() => changeSemesters(false)}
-                  className="fa fa-arrow-left"
+              <td
+                className={styles.yearNavigator}
+                onClick={() => navigateThroughTime(false)}
+              >
+                <Icon
+                  name="arrow-back"
+                  style={{ marginRight: '5px' }}
+                  size={16}
                 />
+                Forrige år
               </td>
               <td />
-              <td className={styles.rightArrow}>
-                <i
-                  onClick={() => changeSemesters(true)}
-                  className="fa fa-arrow-right"
+              <td
+                className={cx(styles.rightArrow, styles.yearNavigator)}
+                onClick={() => navigateThroughTime(true)}
+              >
+                Neste år
+                <Icon
+                  name="arrow-forward"
+                  style={{ marginLeft: '5px' }}
+                  size={16}
                 />
               </td>
             </tr>
 
-            <tr className={styles.categoryHeader}>
-              {headers}
-            </tr>
+            <tr className={styles.categoryHeader}>{headers}</tr>
           </thead>
 
           <tbody>
-            {companies.map((company, i) =>
+            {companies.map((company, i) => (
               <CompanySingleRow
                 company={company}
                 startYear={startYear}
                 startSem={startSem}
-                changeSemesters={this.changeSemesters}
+                navigateThroughTime={this.navigateThroughTime}
                 key={i}
                 editSemester={editSemester}
-                changedStatuses={changedStatuses}
               />
-            )}
+            ))}
           </tbody>
         </table>
       </div>

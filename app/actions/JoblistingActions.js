@@ -6,6 +6,7 @@ import { Joblistings } from './ActionTypes';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 import moment from 'moment';
+import type { Thunk } from 'app/types';
 
 export function fetchAll() {
   return callAPI({
@@ -13,26 +14,26 @@ export function fetchAll() {
     endpoint: '/joblistings/',
     schema: [joblistingsSchema],
     meta: {
-      errorMessage: 'Fetching joblistings failed'
+      errorMessage: 'Henting av jobbannonser failet'
     },
     propagateError: true
   });
 }
 
-export function fetchJoblisting(id) {
+export function fetchJoblisting(id: number) {
   return callAPI({
     types: Joblistings.FETCH,
     endpoint: `/joblistings/${id}/`,
     schema: joblistingsSchema,
     meta: {
-      errorMessage: 'Fetching joblisting failed'
+      errorMessage: 'Henting av jobbannonse feilet'
     },
     propagateError: true
   });
 }
 
-export function deleteJoblisting(id) {
-  return dispatch => {
+export function deleteJoblisting(id: number): Thunk<*> {
+  return dispatch =>
     dispatch(
       callAPI({
         types: Joblistings.DELETE,
@@ -40,13 +41,12 @@ export function deleteJoblisting(id) {
         method: 'DELETE',
         meta: {
           id,
-          errorMessage: 'Deleting joblisting failed'
+          errorMessage: 'Sletting av jobbannonse feilet'
         }
       })
     ).then(() => {
       dispatch(push('/joblistings/'));
     });
-  };
 }
 
 export function createJoblisting({
@@ -63,11 +63,11 @@ export function createJoblisting({
   fromYear,
   toYear,
   applicationUrl
-}) {
+}: Object): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('joblistingEditor'));
 
-    dispatch(
+    return dispatch(
       callAPI({
         types: Joblistings.CREATE,
         endpoint: '/joblistings/',
@@ -89,12 +89,13 @@ export function createJoblisting({
         },
         schema: joblistingsSchema,
         meta: {
-          errorMessage: 'Creating joblisting failed'
+          errorMessage: 'Opprettelse av jobbannonse feilet'
         }
       })
     )
-      .then(result => {
-        const id = result.payload.result;
+      .then(action => {
+        if (!action || !action.payload) return;
+        const id = action.payload.result;
         dispatch(stopSubmit('joblistingEditor'));
         dispatch(push(`/joblistings/${id}`));
       })
@@ -120,14 +121,14 @@ export function editJoblisting({
   fromYear,
   toYear,
   applicationUrl
-}) {
+}: Object): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('joblistingEditor'));
-    dispatch(
+    return dispatch(
       callAPI({
         types: Joblistings.EDIT,
         endpoint: `/joblistings/${id}/`,
-        method: 'put',
+        method: 'PUT',
         body: {
           id,
           title,
@@ -146,7 +147,7 @@ export function editJoblisting({
         },
         schema: joblistingsSchema,
         meta: {
-          errorMessage: 'Editing joblisting failed'
+          errorMessage: 'Endring av jobbannonse feilet'
         }
       })
     )

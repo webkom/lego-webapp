@@ -25,7 +25,7 @@ const UserSettingsNotifications = (props: Props) => {
   });
 
   return (
-    <div className={styles.root}>
+    <div>
       <h1>Notifikasjoner</h1>
 
       <p>
@@ -37,11 +37,9 @@ const UserSettingsNotifications = (props: Props) => {
         <thead>
           <tr>
             <th>Type</th>
-            {props.alternatives.channels.map((channel, key) =>
-              <th key={key}>
-                {channel}
-              </th>
-            )}
+            {props.alternatives.channels.map((channel, key) => (
+              <th key={key}>{channel}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -62,10 +60,8 @@ const UserSettingsNotifications = (props: Props) => {
             };
             return (
               <tr key={key}>
-                <td>
-                  {notificationType.replace(/_/g, ' ')}
-                </td>
-                {props.alternatives.channels.map((channel, key) =>
+                <td>{notificationType.replace(/_/g, ' ')}</td>
+                {props.alternatives.channels.map((channel, key) => (
                   <td key={key}>
                     <CheckBox
                       value={channnelSetting(channel)}
@@ -76,7 +72,7 @@ const UserSettingsNotifications = (props: Props) => {
                       }}
                     />
                   </td>
-                )}
+                ))}
               </tr>
             );
           })}

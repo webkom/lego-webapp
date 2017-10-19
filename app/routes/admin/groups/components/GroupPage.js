@@ -1,53 +1,50 @@
 // @flow
 
 import React from 'react';
-import { Link } from 'react-router';
+import NavigationTab from 'app/components/NavigationTab';
+import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import Content from 'app/components/Layout/Content';
 import GroupTree from './GroupTree';
-import styles from './GroupAdmin.css';
+import styles from './GroupPage.css';
 
-const tabNames = ['Settings', 'Members'];
+type Props = {
+  children: React.Element<*>,
+  groups: Array<Object>,
+  location: { pathname: string },
+  params: { groupId: string }
+};
 
-const Tab = ({ base, name }) =>
-  <Link
-    className={styles.tab}
-    to={`${base}/${name.toLowerCase()}`}
-    activeClassName="active"
-  >
-    {name}
-  </Link>;
-
-const Tabs = ({ location }: { location: Object }) => {
-  const { pathname } = location;
-  const baseParts = pathname.split('/');
-  const base = baseParts.slice(0, baseParts.length - 1).join('/');
-
+const NavigationLinks = ({ groupId }: { groupId: string }) => {
+  const baseUrl = `/admin/groups/${groupId}`;
   return (
-    <header className={styles.tabs}>
-      {tabNames.map(name => <Tab key={name} base={base} name={name} />)}
-    </header>
+    <div>
+      <NavigationLink to={`${baseUrl}/settings`}>Rediger</NavigationLink>
+      <NavigationLink to={`${baseUrl}/members`}>Medlemmer</NavigationLink>
+      <NavigationLink to={`${baseUrl}/permissions`}>Rettigheter</NavigationLink>
+    </div>
   );
 };
 
-const GroupPage = ({
-  groups,
-  children,
-  location
-}: {
-  groups: Object[],
-  children: any,
-  location: Object
-}) => {
+const GroupPageNavigation = ({ groupId }: { groupId: ?string }) => {
   return (
-    <div className={styles.groupPage}>
-      <section className={styles.sidebar}>
-        <GroupTree groups={groups} />
-      </section>
+    <NavigationTab title="Grupper">
+      {groupId && <NavigationLinks groupId={groupId} />}
+    </NavigationTab>
+  );
+};
 
-      <section className={styles.main}>
-        <Tabs location={location} />
-        {children}
-      </section>
-    </div>
+const GroupPage = ({ groups, children, location, params }: Props) => {
+  return (
+    <Content>
+      <GroupPageNavigation groupId={params.groupId} />
+      <div className={styles.groupPage}>
+        <section className={styles.sidebar}>
+          <GroupTree groups={groups} pathname={location.pathname} />
+        </section>
+
+        <section className={styles.main}>{children}</section>
+      </div>
+    </Content>
   );
 };
 

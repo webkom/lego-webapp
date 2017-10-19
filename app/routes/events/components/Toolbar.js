@@ -42,10 +42,11 @@ class Toolbar extends Component {
 
         <div className={styles.section}>
           {actionGrant &&
-            actionGrant.includes('create') &&
-            <Link to={'/events/create'}>
-              <Button>Lag nytt arrangement</Button>
-            </Link>}
+            actionGrant.includes('create') && (
+              <Link to={'/events/create'}>
+                <Button>Lag nytt arrangement</Button>
+              </Link>
+            )}
         </div>
 
         <Modal

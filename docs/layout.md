@@ -2,19 +2,19 @@
 
 ### TL;DR;
 Use
-```js
+```
 // default flex-direction: row
 // Put items next to each other
 <Flex />
 ```
 ### Flex
-```jsx
+```
 import { Flex } from 'app/components/Layout';
 
 ```
 
 If you need wrapping, use
-```jsx
+```
 <Flex wrap />
 // or
 <Flex wrapReverse />

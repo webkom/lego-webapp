@@ -4,6 +4,15 @@ import { createSelector } from 'reselect';
 import { Search } from '../actions/ActionTypes';
 import type { Action } from 'app/types';
 
+export type resultProps = {
+  label: string,
+  color: string,
+  picture: string,
+  path: string,
+  value: string,
+  link: string
+};
+
 const initialState = {
   results: [],
   autocomplete: [],
@@ -17,8 +26,8 @@ const searchMapping = {
     label: 'fullName',
     color: '#A1C34A',
     path: '/users/',
-    value: 'id',
-    link: user => `/users/${user.username}`,
+    value: 'username',
+    id: 'id',
     profilePicture: 'profilePicture'
   },
   'articles.article': {
@@ -31,8 +40,8 @@ const searchMapping = {
     content: 'text'
   },
   'events.event': {
-    icon: 'calendar',
     label: 'title',
+    icon: 'calendar',
     color: '#E8953A',
     picture: 'cover',
     path: '/events/',
@@ -40,12 +49,21 @@ const searchMapping = {
     content: 'description'
   },
   'flatpages.page': {
-    profilePicture: 'picture',
     label: 'title',
+    profilePicture: 'picture',
     color: '#E8953A',
     path: '/pages/',
     value: 'slug',
     content: 'content'
+  },
+  'gallery.gallery': {
+    profilePicture: 'picture',
+    label: 'title',
+    color: '#F8953A',
+    icon: 'photos',
+    path: '/photos/',
+    value: 'id',
+    content: 'text'
   },
   'companies.company': {
     icon: 'file-text',
@@ -59,6 +77,13 @@ const searchMapping = {
     label: 'name',
     company: 'company',
     value: 'id'
+  },
+  'tags.tag': {
+    label: 'id',
+    path: '/tags/',
+    icon: 'pricetags',
+    value: 'tag',
+    color: '#000000'
   },
   'users.abakusgroup': {
     label: 'name',

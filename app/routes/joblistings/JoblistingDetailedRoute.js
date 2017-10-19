@@ -1,21 +1,23 @@
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import {
   fetchJoblisting,
   deleteJoblisting
 } from 'app/actions/JoblistingActions';
 import JoblistingDetail from './components/JoblistingDetail';
+import { selectJoblistingById } from 'app/reducers/joblistings';
 import { compose } from 'redux';
 
 const mapStateToProps = (state, props) => {
   const { joblistingId } = props.params;
-  const joblisting = state.joblistings.byId[joblistingId];
-  const actionGrant = state.joblistings.actionGrant;
+  const joblisting = selectJoblistingById(state, { joblistingId });
+  const { actionGrant, fetching } = state.joblistings;
 
   return {
     joblisting,
     joblistingId,
-    actionGrant
+    actionGrant,
+    fetching
   };
 };
 

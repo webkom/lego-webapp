@@ -21,7 +21,11 @@ function groupEvents(events) {
   const nextWeek = now.clone().add(1, 'week');
 
   const groupers = {
-    currentWeek: event => event.startTime.isSame(now, 'week'),
+    currentWeek: event =>
+      event.startTime.isBetween(
+        now.clone().startOf('day'),
+        now.clone().endOf('week')
+      ),
     nextWeek: event => event.startTime.isSame(nextWeek, 'week'),
     later: event => event.startTime.isAfter(nextWeek)
   };
@@ -29,7 +33,7 @@ function groupEvents(events) {
   return events.reduce((result, event) => {
     for (const groupName in groupers) {
       if (groupers[groupName](event)) {
-        result[groupName] = (result[groupName] || []).concat([event]);
+        result[groupName] = (result[groupName] || []).concat(event);
         return result;
       }
     }
@@ -38,10 +42,10 @@ function groupEvents(events) {
   }, {});
 }
 
-function Attendance({ registrationCount, totalCapacity }) {
+function Attendance({ registrationCount, totalCapacity, style }) {
   // @todo choose pill color based on capacity
   return (
-    <Pill style={{ whiteSpace: 'nowrap' }}>
+    <Pill style={{ ...style, whiteSpace: 'nowrap' }}>
       {`${registrationCount} / ${totalCapacity}`}
     </Pill>
   );
@@ -55,18 +59,13 @@ export function EventItem({ event }: any) {
     >
       <div>
         <Link to={`/events/${event.id}`}>
-          <h3 className={styles.eventItemTitle}>
-            {event.title} {' '}
-            <Attendance
-              registrationCount={event.registrationCount}
-              totalCapacity={event.totalCapacity}
-            />
-          </h3>
+          <h3 className={styles.eventItemTitle}>{event.title}</h3>
+          <Attendance
+            registrationCount={event.registrationCount}
+            totalCapacity={event.totalCapacity}
+            style={{ marginLeft: '5px', color: 'black' }}
+          />
         </Link>
-
-        <div>
-          <span>3 friends are going</span>
-        </div>
 
         <div className={styles.eventTime}>
           <Time time={event.startTime} format="ll HH:mm" />
@@ -88,9 +87,7 @@ export function EventItem({ event }: any) {
 function EventListGroup({ name, events = [] }) {
   return (
     <div className={styles.eventGroup}>
-      <h2 className={styles.heading}>
-        {name}
-      </h2>
+      <h2 className={styles.heading}>{name}</h2>
       {events.map((event, i) => <EventItem key={i} event={event} />)}
     </div>
   );

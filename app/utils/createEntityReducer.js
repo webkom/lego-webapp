@@ -1,22 +1,23 @@
 // @flow
 
-import { get, union, mergeWith } from 'lodash';
-import joinReducers from 'app/utils/joinReducers';
+import { get, union, isEmpty } from 'lodash';
 
-import type { ActionTypeObject } from 'app/utils/promiseMiddleware';
-import type { Reducer } from 'app/types';
+import joinReducers from 'app/utils/joinReducers';
+import mergeObjects from 'app/utils/mergeObjects';
+
+import type { Reducer, AsyncActionType } from 'app/types';
 
 type EntityReducerOptions = {
   key: string,
   types: {
-    fetch?: ActionTypeObject,
-    mutate?: ActionTypeObject
+    fetch?: ?AsyncActionType,
+    mutate?: ?AsyncActionType
   },
-  mutate?: Reducer<*, *>,
+  mutate?: Reducer,
   initialState?: Object
 };
 
-export function fetching(fetchType?: ActionTypeObject) {
+export function fetching(fetchType?: ?AsyncActionType) {
   return (state: any, action: any) => {
     if (!fetchType) {
       return state;
@@ -36,16 +37,9 @@ export function fetching(fetchType?: ActionTypeObject) {
   };
 }
 
-function merge(old, updated) {
-  return mergeWith(
-    {},
-    old,
-    updated,
-    (oldValue, newValue) => (Array.isArray(oldValue) ? newValue : undefined)
-  );
-}
+const isNumber = id => !isNaN(Number(id)) && !isNaN(parseInt(id, 10));
 
-export function entities(key: string) {
+export function entities(key: string, fetchType?: ?AsyncActionType) {
   return (
     state: any = {
       actionGrant: [],
@@ -55,10 +49,20 @@ export function entities(key: string) {
     },
     action: any
   ) => {
-    const result = get(action, ['payload', 'entities', key]);
-    if (!result) {
+    const result = get(action, ['payload', 'entities', key], {});
+    const resultIds = Object.keys(result).map(
+      i => (isNumber(i) ? parseInt(i, 10) : i)
+    );
+    const actionGrant = get(action, ['payload', 'actionGrant'], []);
+
+    if (
+      !action.payload ||
+      (isEmpty(result) &&
+        !isEmpty(actionGrant) &&
+        action.type !== get(fetchType, 'SUCCESS'))
+    )
       return state;
-    }
+
     let pagination = state.pagination;
     if (action.meta.queryString) {
       pagination = {
@@ -66,18 +70,17 @@ export function entities(key: string) {
         nextPage: action.payload.next
       };
     }
-
     return {
       ...state,
-      byId: merge(state.byId, result),
-      items: union(state.items, Object.keys(result)),
-      actionGrant: union(state.actionGrant, action.payload.actionGrant || []),
+      byId: mergeObjects(state.byId, result),
+      items: union(state.items, resultIds),
+      actionGrant: union(state.actionGrant, actionGrant),
       pagination
     };
   };
 }
 
-export function optimistic(mutateType?: ActionTypeObject) {
+export function optimistic(mutateType?: ?AsyncActionType) {
   return (state: any, action: any) => {
     if (
       !mutateType ||
@@ -119,7 +122,7 @@ export default function createEntityReducer({
 
   const reduce = joinReducers(
     fetching(fetchType),
-    entities(key),
+    entities(key, fetchType),
     optimistic(mutateType),
     mutate
   );

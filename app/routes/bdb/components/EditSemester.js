@@ -4,10 +4,14 @@ import BdbRightNav from './BdbRightNav';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextInput } from 'app/components/Form';
-import { selectColorCode, statusStrings } from '../utils.js';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import cx from 'classnames';
 import { Link } from 'react-router';
+import SemesterStatusContent from './SemesterStatusContent';
+import {
+  selectColorCode,
+  selectMostProminentStatus,
+  getContactedStatuses
+} from '../utils.js';
 
 type Props = {
   editSemesterStatus: () => void,
@@ -83,13 +87,13 @@ export default class EditSemester extends Component {
         <i>
           <Link to={`/bdb/${company.id}`}>{company.name}</Link> sin status for
           <b>
-            {semesterStatus.semester === 0 ? ' Vår' : ' Høst'}{' '}
+            {semesterStatus.semester === 'spring' ? ' Vår ' : ' Høst '}
             {semesterStatus.year}
           </b>
         </i>
 
         <i style={{ display: 'block', marginBottom: '10px' }}>
-          Hint: du kan endre status for flere semestere samtidig på
+          <b>Hint:</b> du kan endre status for flere semestere samtidig på
           Bdb-forsiden!
         </i>
 
@@ -97,28 +101,34 @@ export default class EditSemester extends Component {
           <div className={styles.leftSection}>
             <form onSubmit={handleSubmit(this.onSubmit)}>
               <Field
-                placeholder={'Kontrakt for dette semesteret'}
+                placeholder="Kontrakt for dette semesteret"
                 autoFocus={autoFocus}
                 name="contract"
                 component={TextInput.Field}
                 className={styles.contractForm}
               />
 
-              <select
-                name={'contactedStatus'}
-                value={this.state.contactedStatus}
-                onChange={this.setContactedStatus}
-                className={cx(
-                  styles[selectColorCode(this.state.contactedStatus)],
-                  styles.contactedStatusForm
-                )}
+              <div
+                className={
+                  styles[
+                    selectColorCode(
+                      selectMostProminentStatus(semesterStatus.contactedStatus)
+                    )
+                  ]
+                }
+                style={{ padding: '20px' }}
               >
-                {Object.keys(statusStrings).map((statusString, j) =>
-                  <option key={j} value={statusString}>
-                    {statusStrings[j]}
-                  </option>
-                )}
-              </select>
+                <SemesterStatusContent
+                  semesterStatus={semesterStatus}
+                  editFunction={statusString =>
+                    this.setState({
+                      contactedStatus: getContactedStatuses(
+                        semesterStatus,
+                        statusString
+                      )
+                    })}
+                />
+              </div>
 
               <div className={styles.clear} />
               <Button

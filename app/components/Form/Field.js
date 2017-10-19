@@ -5,11 +5,7 @@ import cx from 'classnames';
 import styles from './Field.css';
 
 function FieldError({ error }) {
-  return (
-    <div className={styles.fieldError}>
-      {error}
-    </div>
-  );
+  return <div className={styles.fieldError}>{error}</div>;
 }
 
 function renderErrorMessage(error: Array<string> | string) {
@@ -28,19 +24,30 @@ function renderErrorMessage(error: Array<string> | string) {
  */
 export function createField(Component: any) {
   return (field: any) => {
-    const { input, meta, label, fieldStyle, fieldClassName, ...props } = field;
-    const hasError = meta.touched && meta.error && meta.error.length > 0;
+    const {
+      input,
+      meta,
+      required,
+      label,
+      fieldStyle,
+      fieldClassName,
+      labelClassName,
+      showErrors = true,
+      ...props
+    } = field;
+    const { error, touched } = meta;
+    const hasError = showErrors && touched && error && error.length > 0;
     return (
       <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
-        {label &&
-          <div>
-            {label}
-          </div>}
-        <Component
-          {...input}
-          {...props}
-          className={cx(props.className, hasError && styles.inputWithError)}
-        />
+        <label className={cx(styles.label, labelClassName)}>
+          {label && <span>{label}</span>}
+          {required && <span className={styles.required}>*</span>}
+          <Component
+            {...input}
+            {...props}
+            className={cx(props.className, hasError && styles.inputWithError)}
+          />
+        </label>
         {hasError && renderErrorMessage(meta.error)}
       </div>
     );

@@ -1,59 +1,46 @@
 // @flow
 
-import React, { Component } from 'react';
-import Modal from 'app/components/Modal';
-import RegistrationModal from './AttendanceModal';
+import React from 'react';
 import styles from './AttendanceStatus.css';
+import withModal from './withModal';
 
 export type Props = {
-  pools: Array<Object>
+  pools: Array<Object>,
+  toggleModal: number => void
 };
 
-class AttendanceStatus extends Component {
-  props: Props;
-
-  state = {
-    modalOpen: false,
-    selectedPool: 0
-  };
-
-  toggleModal = key => {
-    this.setState({
-      modalOpen: !this.state.modalOpen,
-      selectedPool: key
-    });
-  };
-
-  render() {
-    const { pools } = this.props;
-    const lists = (pools || []).map((pool, i) =>
-      <div key={i} className={styles.poolBox}>
+const AttendanceElement = ({ pool, i, toggleModal }) => {
+  const capacity = pool.capacity ? pool.capacity : '∞';
+  return (
+    <div key={i} className={styles.poolBox}>
+      <strong>{pool.name}</strong>
+      <a onClick={() => toggleModal(i)}>
         <strong>
-          {pool.name}
+          {pool.registrations
+            ? `${pool.registrations.length}/${capacity}`
+            : `0/${capacity}`}
         </strong>
-        <a onClick={() => this.toggleModal(i)}>
-          <strong>
-            {pool.capacity
-              ? `${pool.registrations.length}/${pool.capacity}`
-              : pool.registrations.length}
-          </strong>
-        </a>
-      </div>
-    );
+      </a>
+    </div>
+  );
+};
 
-    return (
-      <div className={styles.attendanceBox}>
-        {lists}
-        <Modal show={this.state.modalOpen} onHide={() => this.toggleModal(0)}>
-          <RegistrationModal
-            {...this.props}
-            selectedPool={this.state.selectedPool}
-            pools={pools}
-          />
-        </Modal>
-      </div>
-    );
-  }
-}
+const AttendanceStatus = ({ pools, toggleModal }: Props) => {
+  const toggleKey = key => (pools.length > 1 ? key + 1 : key);
+  return (
+    <div className={styles.attendanceBox}>
+      {(pools || []).map((pool, i) => (
+        <AttendanceElement
+          key={i}
+          pool={pool}
+          i={i}
+          toggleModal={key => toggleModal(toggleKey(key))}
+        />
+      ))}
+    </div>
+  );
+};
+
+AttendanceStatus.Modal = withModal(AttendanceStatus);
 
 export default AttendanceStatus;

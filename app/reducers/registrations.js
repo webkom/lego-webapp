@@ -3,6 +3,9 @@
 import { union } from 'lodash';
 import { Event } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import { normalize } from 'normalizr';
+import { registrationSchema } from 'app/reducers';
+import mergeObjects from 'app/utils/mergeObjects';
 import moment from 'moment';
 
 export default createEntityReducer({
@@ -10,19 +13,17 @@ export default createEntityReducer({
   types: {},
   mutate(state, action) {
     switch (action.type) {
+      case Event.ADMIN_REGISTER.SUCCESS:
       case Event.SOCKET_REGISTRATION.SUCCESS:
       case Event.PAYMENT_QUEUE.SUCCESS:
       case Event.SOCKET_PAYMENT.SUCCESS:
       case Event.SOCKET_PAYMENT.FAILURE: {
+        const registrations = normalize(action.payload, registrationSchema)
+          .entities.registrations;
         return {
           ...state,
-          byId: {
-            ...state.byId,
-            [action.payload.id]: {
-              ...action.payload
-            }
-          },
-          items: [...state.items, action.payload.id]
+          byId: mergeObjects(state.byId, registrations),
+          items: union(state.items, [action.payload.id])
         };
       }
       case Event.UNREGISTER.BEGIN: {
@@ -62,27 +63,16 @@ export default createEntityReducer({
         };
       }
       case Event.SOCKET_UNREGISTRATION.SUCCESS: {
-        return {
-          ...state,
-          byId: {
-            ...state.byId,
-            [action.payload.id]: {
-              ...state.byId[action.payload.id],
-              ...action.payload,
-              fetching: false,
-              unregistrationDate: moment()
-            }
-          }
+        const transformedPayload = {
+          ...action.payload,
+          fetching: false,
+          unregistrationDate: moment()
         };
-      }
-      case Event.ADMIN_REGISTER.SUCCESS: {
+        const registrations = normalize(transformedPayload, registrationSchema)
+          .entities.registrations;
         return {
           ...state,
-          byId: {
-            ...state.byId,
-            [action.payload.id]: action.payload
-          },
-          items: union(state.items, [action.payload.id])
+          byId: mergeObjects(state.byId, registrations)
         };
       }
       default:

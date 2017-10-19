@@ -10,13 +10,9 @@ const Group = props => {
 
   return (
     <div>
-      <header className="GroupPage__header">
-        <h2>
-          {props.group.name}
-        </h2>
-        <span>
-          {descriptionText}
-        </span>
+      <header>
+        <h2>{props.group.name}</h2>
+        <span>{descriptionText}</span>
       </header>
 
       {props.children && React.cloneElement(props.children, props)}
@@ -32,12 +28,13 @@ export default class GroupView extends Component {
 
   render() {
     const { group } = this.props;
+    // We're loading a detailed representation of a group,
+    // so make sure that the text field is there:
+    const loading = !group || group.text == null;
     return (
-      <section className="GroupPage__content">
-        <LoadingIndicator loading={!group}>
-          <section className="content event-page">
-            {group && <Group {...this.props} />}
-          </section>
+      <section>
+        <LoadingIndicator loading={loading}>
+          {group && <Group {...this.props} />}
         </LoadingIndicator>
       </section>
     );

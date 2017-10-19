@@ -2,23 +2,29 @@
 
 import { Company, Event } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
-import { companySchema, eventSchema } from 'app/reducers';
+import {
+  companySchema,
+  companySemesterSchema,
+  eventSchema
+} from 'app/reducers';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
+import type { Thunk } from 'app/types';
+import { addNotification } from 'app/actions/NotificationActions';
 
 export function fetchAll() {
   return callAPI({
-    types: Company.FETCH,
+    types: Company.FETCH_ALL,
     endpoint: '/companies/',
     schema: [companySchema],
     meta: {
-      errorMessage: 'Fetching companies failed'
+      errorMessage: 'Henting av bedrifter feilet'
     },
     propagateError: true
   });
 }
 
-export function fetch(companyId) {
+export function fetch(companyId: number): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
@@ -26,36 +32,28 @@ export function fetch(companyId) {
         endpoint: `/companies/${companyId}/`,
         schema: companySchema,
         meta: {
-          errorMessage: 'Fetching single company failed'
+          errorMessage: 'Henting av en bedrift feilet'
         },
         propagateError: true
       })
-    ).then(() =>
-      dispatch(
-        callAPI({
-          types: Event.FETCH,
-          endpoint: `/events/?company=${companyId}`,
-          schema: [eventSchema],
-          meta: {
-            errorMessage: 'Fetching assosiated events failed'
-          }
-        })
-      )
     );
 }
 
-export function addCompany({
-  name,
-  studentContact,
-  adminComment,
-  active,
-  description,
-  phone,
-  website,
-  companyType,
-  paymentMail,
-  address
-}) {
+export function fetchEventsForCompany(companyId: string) {
+  return (dispatch: Dispatch) =>
+    dispatch(
+      callAPI({
+        types: Event.FETCH,
+        endpoint: `/events/?company=${companyId}`,
+        schema: [eventSchema],
+        meta: {
+          errorMessage: 'Henting av tilknyttede arrangementer feilet'
+        }
+      })
+    );
+}
+
+export function addCompany(data: Object): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('company'));
 
@@ -63,47 +61,26 @@ export function addCompany({
       callAPI({
         types: Company.ADD,
         endpoint: '/companies/',
-        method: 'post',
-        body: {
-          name,
-          studentContact,
-          adminComment,
-          active,
-          description,
-          phone,
-          website,
-          companyType,
-          paymentMail,
-          address
-        },
+        method: 'POST',
+        body: data,
         schema: companySchema,
         meta: {
-          errorMessage: 'Adding company failed'
+          errorMessage: 'Legg til bedrift feilet'
         }
       })
     )
       .then(action => {
+        if (!action || !action.payload) return;
         const id = action.payload.result;
         dispatch(stopSubmit('company'));
+        dispatch(addNotification({ message: 'Bedrift lagt til.' }));
         dispatch(push(`/bdb/${id}`));
       })
       .catch();
   };
 }
 
-export function editCompany({
-  companyId,
-  name,
-  description,
-  adminComment,
-  website,
-  studentContact,
-  phone,
-  active,
-  companyType,
-  paymentMail,
-  address
-}) {
+export function editCompany({ companyId, ...data }: Object): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('company'));
 
@@ -112,76 +89,59 @@ export function editCompany({
         types: Company.EDIT,
         endpoint: `/companies/${companyId}/`,
         method: 'PATCH',
-        body: {
-          name,
-          description,
-          adminComment,
-          website,
-          studentContact,
-          active,
-          phone,
-          companyType,
-          paymentMail,
-          address
-        },
+        body: data,
         schema: companySchema,
         meta: {
-          errorMessage: 'Editing company failed'
+          errorMessage: 'Endring av bedrift feilet'
         }
       })
     ).then(() => {
       dispatch(stopSubmit('company'));
+      dispatch(addNotification({ message: 'Bedrift endret.' }));
       dispatch(push(`/bdb/${companyId}/`));
     });
   };
 }
 
-export function deleteCompany(companyId) {
+export function deleteCompany(companyId: number): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
         types: Company.DELETE,
         endpoint: `/companies/${companyId}/`,
-        method: 'delete',
+        method: 'DELETE',
         meta: {
-          companyId,
-          errorMessage: 'Deleting company failed'
-        },
-        schema: companySchema
+          id: Number(companyId),
+          errorMessage: 'Sletting av bedrift feilet'
+        }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
+      dispatch(addNotification({ message: 'Bedrift slettet.' }));
       dispatch(push('/bdb/'));
     });
   };
 }
 
 export function addSemesterStatus(
-  { companyId, year, semester, contactedStatus, contract },
-  detail = false
-) {
+  { companyId, ...data }: Object,
+  // TODO: change this to take in an object,
+  // addSemesterStatus(something, false) really doesn't say much
+  detail: boolean = false
+): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
-        types: Company.ADD_SEMESTER,
+        types: Company.ADD_SEMESTER_STATUS,
         endpoint: `/companies/${companyId}/semester-statuses/`,
-        method: 'post',
-        body: {
-          year,
-          semester,
-          contactedStatus,
-          contract
-        },
+        method: 'POST',
+        body: data,
         meta: {
-          errorMessage: 'Adding semester status failed'
+          errorMessage: 'Legg til semester status feilet',
+          companyId
         }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
+      dispatch(addNotification({ message: 'Semester status lagt til.' }));
       if (detail) {
         dispatch(push(`/bdb/${companyId}/`));
       } else {
@@ -192,27 +152,24 @@ export function addSemesterStatus(
 }
 
 export function editSemesterStatus(
-  { companyId, semesterId, contactedStatus, contract },
-  detail = false
-) {
+  { companyId, semesterStatusId, ...data }: Object,
+  // TODO: change this to take in an object,
+  // editSemesterStatus(something, false) really doesn't say much
+  detail: boolean = false
+): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
-        types: Company.EDIT_SEMESTER,
-        endpoint: `/companies/${companyId}/semester-statuses/${semesterId}/`,
+        types: Company.EDIT_SEMESTER_STATUS,
+        endpoint: `/companies/${companyId}/semester-statuses/${semesterStatusId}/`,
         method: 'PATCH',
-        body: {
-          contactedStatus,
-          contract
-        },
+        body: data,
         meta: {
-          errorMessage: 'Editing semester status failed'
+          errorMessage: 'Endring av semester status feilet'
         }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
+      dispatch(addNotification({ message: 'Semester status endret.' }));
       if (detail) {
         dispatch(push(`/bdb/${companyId}/`));
       } else {
@@ -222,49 +179,53 @@ export function editSemesterStatus(
   };
 }
 
-export function deleteSemesterStatus(companyId, semesterId) {
+export function deleteSemesterStatus(
+  companyId: number,
+  semesterId: number
+): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
-        types: Company.DELETE_SEMESTER,
+        types: Company.DELETE_SEMESTER_STATUS,
         endpoint: `/companies/${companyId}/semester-statuses/${semesterId}/`,
-        method: 'delete',
+        method: 'DELETE',
         meta: {
           companyId,
           semesterId,
-          errorMessage: 'Deleting semester status failed'
-        },
-        schema: companySchema
+          errorMessage: 'Sletting av semester status feilet'
+        }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
+      dispatch(addNotification({ message: 'Semester Status slettet' }));
       dispatch(push(`/bdb/${companyId}/`));
     });
   };
 }
 
-export function fetchCompanyContact({ companyId }) {
+export function fetchCompanyContact({ companyId }: { companyId: number }) {
   return callAPI({
     types: Company.FETCH_COMPANY_CONTACT,
     endpoint: `/companies/${companyId}/company-contacts/`,
     method: 'GET',
     meta: {
-      errorMessage: 'Fetching company contact failed'
+      errorMessage: 'Henting av bedriftkontakt feilet'
     }
   });
 }
 
-export function addCompanyContact({ companyId, name, role, mail, phone }) {
+export function addCompanyContact({
+  companyId,
+  name,
+  role,
+  mail,
+  phone
+}: Object): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
         types: Company.ADD_COMPANY_CONTACT,
         endpoint: `/companies/${companyId}/company-contacts/`,
-        method: 'post',
+        method: 'POST',
         body: {
           name,
           role,
@@ -272,11 +233,11 @@ export function addCompanyContact({ companyId, name, role, mail, phone }) {
           phone
         },
         meta: {
-          errorMessage: 'Adding company contact failed'
+          errorMessage: 'Legg til bedriftkontakt feilet'
         }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
+      dispatch(addNotification({ message: 'Bedriftskontakt lagt til.' }));
       dispatch(push(`/bdb/${companyId}/`));
     });
   };
@@ -289,10 +250,8 @@ export function editCompanyContact({
   role,
   mail,
   phone
-}) {
+}: Object): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
         types: Company.EDIT_COMPANY_CONTACT,
@@ -305,35 +264,67 @@ export function editCompanyContact({
           phone
         },
         meta: {
-          errorMessage: 'Editing company contact failed'
+          errorMessage: 'Endring av bedriftkontakt feilet',
+          companyId
         }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
-      dispatch(push(`bdb/${companyId}`));
+      dispatch(addNotification({ message: 'Bedriftskontakt endret.' }));
+      dispatch(push(`/bdb/${companyId}`));
     });
   };
 }
 
-export function deleteCompanyContact(companyId, companyContactId) {
+export function deleteCompanyContact(
+  companyId: number,
+  companyContactId: number
+): Thunk<*> {
   return dispatch => {
-    dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
         types: Company.DELETE_COMPANY_CONTACT,
         endpoint: `/companies/${companyId}/company-contacts/${companyContactId}/`,
-        method: 'delete',
+        method: 'DELETE',
         meta: {
           companyId,
           companyContactId,
-          errorMessage: 'Deleting company contact failed'
-        },
-        schema: companySchema
+          errorMessage: 'Sletting av bedriftkontakt feilet'
+        }
       })
     ).then(() => {
-      dispatch(stopSubmit('company'));
+      dispatch(addNotification({ message: 'Bedriftskontakt slettet.' }));
       dispatch(push(`/bdb/${companyId}/`));
     });
+  };
+}
+
+export function fetchSemesters() {
+  return callAPI({
+    types: Company.FETCH_SEMESTERS,
+    endpoint: '/company-semesters/',
+    schema: [companySemesterSchema],
+    meta: {
+      errorMessage: 'Fetching company semesters failed'
+    },
+    propagateError: true
+  });
+}
+
+export function addSemester({ year, semester }) {
+  return dispatch => {
+    return dispatch(
+      callAPI({
+        types: Company.ADD_SEMESTER,
+        endpoint: `/company-semesters/`,
+        method: 'post',
+        body: {
+          year,
+          semester
+        },
+        meta: {
+          errorMessage: 'Adding semester failed'
+        }
+      })
+    );
   };
 }

@@ -1,14 +1,32 @@
+// @flow
+
 import React, { Component } from 'react';
 import Icon from 'app/components/Icon';
+import EmptyState from 'app/components/EmptyState';
+import { Content } from 'app/components/Layout';
 import SearchResult from './SearchResult';
 import styles from './SearchPage.css';
+import type { resultProps } from 'app/reducers/search';
+
+type Props = {
+  searching: boolean,
+  location: Object,
+  onQueryChanged: string => Promise<*>,
+  results: Array<resultProps>
+};
+
+type State = {
+  query: string
+};
 
 class SearchPage extends Component {
+  props: Props;
+
   state: State = {
-    query: this.props.query || ''
+    query: this.props.location.query.q || ''
   };
 
-  onQueryChanged = query => {
+  onQueryChanged = (query: string) => {
     this.setState({ query });
     this.props.onQueryChanged(query);
   };
@@ -17,31 +35,37 @@ class SearchPage extends Component {
     const { searching, results } = this.props;
 
     return (
-      <div className={styles.root}>
+      <Content>
         <div className={styles.inputContainer}>
           <div className={styles.searchIcon}>
             <Icon name="search" />
           </div>
 
           <input
-            type="search"
             placeholder="Hva leter du etter?"
             autoFocus
             onChange={e => this.onQueryChanged(e.target.value)}
             value={this.state.query}
           />
 
-          {searching &&
-            <div className={styles.loadingIcon}>
-              <Icon name="spinner fa-spin" />
-            </div>}
+          {searching && <i className="fa fa-spinner fa-spin" />}
         </div>
         <div className={styles.searchResults}>
-          {results.map((result, id) =>
-            <SearchResult key={id} result={result} />
+          {results.length === 0 ? (
+            <EmptyState icon="glasses-outline">
+              <h1>
+                Søket
+                <em style={{ fontWeight: 100 }}>{this.state.query}</em> matchet
+                ingen objekter.
+              </h1>
+            </EmptyState>
+          ) : (
+            results.map((result, id) => (
+              <SearchResult key={id} result={result} />
+            ))
           )}
         </div>
-      </div>
+      </Content>
     );
   }
 }

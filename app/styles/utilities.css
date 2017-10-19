@@ -40,7 +40,9 @@
 
 .editShadow {
   composes: withShadow;
-  box-shadow: 0 0 5px var(--color-dark-gray-2);
+  outline: none;
+  box-shadow: 0 0 5px #ccc;
+  border-color: #aaa;
 }
 
 .truncateString {

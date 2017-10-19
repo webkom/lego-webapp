@@ -18,7 +18,12 @@
 
 .registeredThumbnails {
   flex-wrap: wrap;
-  width: 300px;
+  max-height: 138px;
+  overflow: hidden;
+}
+
+.metaDescriptor {
+  margin-right: 5px;
 }
 
 .coverImage {
@@ -41,6 +46,10 @@
   border-radius: 5px;
   flex: 2;
   background: var(--lego-color-gray-light);
+
+  @media (--medium-viewport) {
+    margin-bottom: 1em;
+  }
 }
 
 .meta {
@@ -48,6 +57,7 @@
   padding: 20px;
   border-radius: 5px;
   margin-left: 1em;
+  background: #eee;
 
   @media (--small-viewport) {
     margin-left: 0;
@@ -57,13 +67,13 @@
 .openFor {
   background: var(--color-gray-5);
   padding: 20px;
-  min-width: 340px;
   border-radius: 5px;
   margin-left: 1em;
   flex: 1;
 
   @media (--small-viewport) {
     margin-left: 0;
+    margin-bottom: 1em;
   }
 }
 
@@ -105,36 +115,36 @@
 }
 
 .companyPresentation {
-  background: colorCompanyPresentation;
+  border-bottom: 2px solid colorCompanyPresentation;
   color: var(--color-black);
 }
 
 .lunchPresentation {
-  background: colorLunchPresentation;
+  border-bottom: 2px solid colorLunchPresentation;
   color: var(--color-black);
 }
 
 .course {
-  background: colorCourse;
+  border-bottom: 2px solid colorCourse;
   color: var(--color-black);
 }
 
 .party {
-  background: colorParty;
+  border-bottom: 2px solid colorParty;
   color: var(--color-black);
 }
 
 .social {
-  background: colorSocial;
-  color: var(--color-white);
+  border-bottom: 2px solid colorSocial;
+  color: var(--color-black);
 }
 
 .event {
-  background: colorEvent;
-  color: var(--color-white);
+  border-bottom: 2px solid colorEvent;
+  color: var(--color-black);
 }
 
 .other {
-  background: colorOther;
-  color: var(--color-white);
+  border-bottom: 2px solid colorOther;
+  color: var(--color-black);
 }

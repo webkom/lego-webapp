@@ -12,20 +12,6 @@ export default function routing(state = initialState, action) {
         statusCode: action.payload
       };
     }
-    case '@@router/LOCATION_CHANGE': {
-      const { locationBeforeTransitions } = state;
-      if (
-        locationBeforeTransitions &&
-        (locationBeforeTransitions.pathname !== action.payload.pathname ||
-          locationBeforeTransitions.key !== action.payload.key)
-      ) {
-        return {
-          ...state,
-          statusCode: null
-        };
-      }
-      return state;
-    }
     default: {
       return state;
     }

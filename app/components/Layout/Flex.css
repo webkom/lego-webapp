@@ -1,3 +1,5 @@
+@import 'app/styles/variables.css';
+
 .flex {
   display: flex;
 }
@@ -22,8 +24,20 @@
   flex-wrap: wrap;
 }
 
+.wrap > .flex {
+  @media (--mobile-device) {
+    flex-basis: 15em !important;
+  }
+}
+
 .wrapReverse {
   flex-wrap: wrap-reverse;
+}
+
+.wrapReverse > .flex {
+  @media (--mobile-device) {
+    flex-basis: 15em !important;
+  }
 }
 
 .justifyContent__flex-start {

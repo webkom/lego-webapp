@@ -1,20 +1,25 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import prepare from 'app/utils/prepare';
 import {
   fetchEvent,
   deleteEvent,
   register,
   unregister,
   payment,
-  updateFeedback
+  updateFeedback,
+  follow,
+  unfollow,
+  isUserFollowing
 } from 'app/actions/EventActions';
+import { updateUser } from 'app/actions/UserActions';
 import EventDetail from './components/EventDetail';
 import {
   selectEventById,
   selectCommentsForEvent,
   selectPoolsWithRegistrationsForEvent,
   selectRegistrationsFromPools,
+  selectMergedPoolWithRegistrations,
   selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
 
@@ -27,24 +32,23 @@ const mapStateToProps = (state, props) => {
   const event = selectEventById(state, { eventId });
   const actionGrant = state.events.actionGrant;
   const comments = selectCommentsForEvent(state, { eventId });
-  const poolsWithRegistrations = selectPoolsWithRegistrationsForEvent(state, {
-    eventId
-  });
+  const poolsWithRegistrations = event.isMerged
+    ? selectMergedPoolWithRegistrations(state, { eventId })
+    : selectPoolsWithRegistrationsForEvent(state, {
+        eventId
+      });
   const registrations = selectRegistrationsFromPools(state, { eventId });
 
   const waitingRegistrations = selectWaitingRegistrationsForEvent(state, {
     eventId
   });
-  let pools =
+  const pools =
     waitingRegistrations.length > 0
-      ? [
-          ...poolsWithRegistrations,
-          {
-            name: 'Venteliste',
-            registrations: waitingRegistrations,
-            permissionGroups: []
-          }
-        ]
+      ? poolsWithRegistrations.concat({
+          name: 'Venteliste',
+          registrations: waitingRegistrations,
+          permissionGroups: []
+        })
       : poolsWithRegistrations;
   const currentRegistration = findCurrentRegistration(
     registrations.concat(waitingRegistrations),
@@ -54,6 +58,7 @@ const mapStateToProps = (state, props) => {
   return {
     comments,
     actionGrant,
+    loading: state.events.fetching,
     event,
     eventId,
     pools,
@@ -68,15 +73,21 @@ const mapDispatchToProps = {
   register,
   unregister,
   payment,
-  updateFeedback
+  updateFeedback,
+  follow,
+  unfollow,
+  isUserFollowing,
+  updateUser
+};
+
+const loadData = ({ params: { eventId }, currentUser }, dispatch) => {
+  const userId = currentUser.id;
+  return dispatch(fetchEvent(eventId)).then(() =>
+    dispatch(isUserFollowing(eventId, userId))
+  );
 };
 
 export default compose(
-  dispatched(
-    ({ params: { eventId } }, dispatch) => dispatch(fetchEvent(eventId)),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
+  prepare(loadData, ['params.eventId']),
   connect(mapStateToProps, mapDispatchToProps)
 )(EventDetail);

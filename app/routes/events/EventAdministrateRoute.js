@@ -1,6 +1,6 @@
-import { compose, bindActionCreators } from 'redux';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from 'react-prepare';
+import { dispatched } from '@webkom/react-prepare';
 import {
   fetchAdministrate,
   adminRegister,
@@ -15,6 +15,8 @@ import {
   selectAllRegistrationsForEvent
 } from 'app/reducers/events';
 import { groupBy } from 'lodash';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = (state, props) => {
   const eventId = props.params.eventId;
@@ -27,10 +29,12 @@ const mapStateToProps = (state, props) => {
     registrations,
     obj => (obj.unregistrationDate.isValid() ? 'unregistered' : 'registered')
   );
-  const registered = (grouped['registered'] || [])
-    .sort((a, b) => a.registrationDate.isAfter(b.registrationDate));
-  const unregistered = (grouped['unregistered'] || [])
-    .sort((a, b) => a.unregistrationDate.isAfter(b.unregistrationDate));
+  const registered = (grouped['registered'] || []).sort((a, b) =>
+    a.registrationDate.isAfter(b.registrationDate)
+  );
+  const unregistered = (grouped['unregistered'] || []).sort((a, b) =>
+    a.unregistrationDate.isAfter(b.unregistrationDate)
+  );
 
   return {
     eventId,
@@ -42,21 +46,15 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    ...bindActionCreators(
-      {
-        unregister,
-        adminRegister,
-        updatePresence,
-        updatePayment
-      },
-      dispatch
-    )
-  };
+const mapDispatchToProps = {
+  unregister,
+  adminRegister,
+  updatePresence,
+  updatePayment
 };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   dispatched(
     ({ params: { eventId } }, dispatch) =>
       dispatch(fetchAdministrate(Number(eventId))),

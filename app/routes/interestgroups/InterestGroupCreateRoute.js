@@ -1,7 +1,34 @@
+// @flow
+import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { createInterestGroup } from 'app/actions/InterestGroupActions';
+import { formValueSelector } from 'redux-form';
+import {
+  createInterestGroup,
+  joinInterestGroup
+} from 'app/actions/InterestGroupActions';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import InterestGroupCreate from './components/InterestGroupCreate';
+import { uploadFile } from 'app/actions/FileActions';
 
-const mapDispatchToProps = { createInterestGroup };
+const mapDispatchToProps = {
+  createInterestGroup,
+  joinInterestGroup,
+  uploadFile,
+  handleSubmitCallback: createInterestGroup
+};
 
-export default connect(null, mapDispatchToProps)(InterestGroupCreate);
+const mapStateToProps = (state, props) => {
+  const valueSelector = formValueSelector('interestGroupEditor');
+  return {
+    initialValues: {
+      text: '<p></p>'
+    },
+    groupMembers: valueSelector(state, 'members') || []
+  };
+};
+
+export default compose(
+  replaceUnlessLoggedIn(LoginPage),
+  connect(mapStateToProps, mapDispatchToProps)
+)(InterestGroupCreate);

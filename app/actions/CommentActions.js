@@ -6,7 +6,7 @@ import callAPI from 'app/actions/callAPI';
 import { Comment } from './ActionTypes';
 import type { Thunk } from 'app/types';
 
-type CommentEntity = {
+export type CommentEntity = {
   text: string,
   commentTarget: string,
   parent: string
@@ -16,7 +16,7 @@ export function addComment({
   text,
   commentTarget,
   parent
-}: CommentEntity): Thunk<*, *> {
+}: CommentEntity): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('comment'));
 
@@ -24,7 +24,7 @@ export function addComment({
       callAPI({
         types: Comment.ADD,
         endpoint: '/comments/',
-        method: 'post',
+        method: 'POST',
         body: {
           text,
           comment_target: commentTarget,
@@ -32,7 +32,7 @@ export function addComment({
         },
         meta: {
           commentTarget,
-          errorMessage: 'Posting comment failed'
+          errorMessage: 'Legg til kommentar feilet'
         },
         schema: commentSchema
       })

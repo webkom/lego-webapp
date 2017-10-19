@@ -1,97 +1,102 @@
+// @flow
+
 import React, { Component } from 'react';
 import cx from 'classnames';
-import debounce from 'lodash/debounce';
-import { Form, TextInput } from '../Form';
-import Button from '../Button';
+import { Form, Button, TextInput } from '../Form';
+import { connect } from 'react-redux';
+import { SubmissionError, Field, reduxForm } from 'redux-form';
+import type { FieldProps } from 'redux-form';
+import { login } from 'app/actions/UserActions';
+import { createValidator, required } from 'app/utils/validation';
 
-type Props = {
-  login: (username: string, password: string) => any
+type ConnectedProps = {
+  login: (username: string, password: string) => Promise<void>
 };
 
-export default class LoginForm extends Component {
-  state = {
-    username: '',
-    password: '',
-    submitted: false,
-    submitting: false,
-    error: false
-  };
+type OwnProps = {
+  className?: string
+};
 
+type Props = ConnectedProps & OwnProps & FieldProps;
+
+type ErrorProps = { error: string };
+
+const Error = ({ error }: ErrorProps) => (
+  <p style={{ color: '#c24538' }}>{error}</p>
+);
+
+class LoginForm extends Component {
   props: Props;
-
-  usernameRef: any;
-  passwordRef: any;
-  mounted = false;
+  usernameRef: Field;
+  passwordRef: Field;
 
   componentDidMount() {
-    this.mounted = true;
+    // Trigger onChange of the fields in case the inputs
+    // were initialized with data from e.g. a mobile phone's autofill:
+    this.props.change('username', this.usernameRef.value);
+    this.props.change('password', this.passwordRef.value);
   }
 
-  componentWillUnmount() {
-    this.mounted = false;
-  }
-
-  login = debounce(
-    () => {
-      if (this.state.username.trim() === '') {
-        this.usernameRef.focus();
-        return;
+  login = values => {
+    // Autofill in some mobile browsers doesn't trigger onChange,
+    // so use the direct values if redux-form won't give us anything:
+    const username = values.username || this.usernameRef.value;
+    const password = values.password || this.passwordRef.value;
+    return this.props.login(username, password).catch(err => {
+      // Throw a SubmissionError to show validation errors with redux-form:
+      if (err.payload.response.status === 400) {
+        throw new SubmissionError({
+          _error: 'Feil brukernavn eller passord'
+        });
       }
 
-      if (this.state.password.trim() === '') {
-        this.passwordRef.focus();
-        return;
-      }
-
-      this.setState({ submitting: true, error: false });
-      this.props
-        .login(this.state.username, this.state.password)
-        .then(
-          () => this.mounted && this.setState({ submitting: false }),
-          () =>
-            this.mounted && this.setState({ submitting: false, error: true })
-        );
-    },
-    500,
-    { leading: true }
-  );
-
-  handleSubmit = e => {
-    e.preventDefault();
-    this.login();
+      throw new SubmissionError({ _error: err.meta.errorMessage });
+    });
   };
 
   render() {
+    const { error, submitting, handleSubmit } = this.props;
+    const style = { marginBottom: 10 };
     return (
-      <Form onSubmit={this.handleSubmit} className={cx(this.props.className)}>
-        <TextInput
-          inputRef={ref => {
-            this.usernameRef = ref;
-          }}
+      <Form
+        onSubmit={handleSubmit(this.login)}
+        className={cx(this.props.className)}
+      >
+        <Field
+          name="username"
           placeholder="Brukernavn"
-          value={this.state.username}
-          onChange={e => this.setState({ username: e.target.value })}
-          autoFocus
-          style={{ marginBottom: 10 }}
-          disabled={this.state.submitting}
-        />
-
-        <TextInput
-          inputRef={ref => {
-            this.passwordRef = ref;
+          fieldStyle={style}
+          showErrors={false}
+          inputRef={node => {
+            this.usernameRef = node;
           }}
-          type="password"
-          value={this.state.password}
-          onChange={e => this.setState({ password: e.target.value })}
-          placeholder="Passord"
-          style={{ marginBottom: 10 }}
-          disabled={this.state.submitting}
+          component={TextInput.Field}
         />
-
-        <Button submit disabled={this.state.submitting} dark>
+        <Field
+          name="password"
+          type="password"
+          placeholder="Passord"
+          fieldStyle={style}
+          showErrors={false}
+          inputRef={node => {
+            this.passwordRef = node;
+          }}
+          component={TextInput.Field}
+        />
+        {error && <Error error={error} />}
+        <Button submit dark disabled={submitting}>
           Logg inn
         </Button>
       </Form>
     );
   }
 }
+
+const validate = createValidator({
+  username: [required()],
+  password: [required()]
+});
+
+export default reduxForm({ validate, form: 'LoginForm' })(
+  connect(null, { login })(LoginForm)
+);

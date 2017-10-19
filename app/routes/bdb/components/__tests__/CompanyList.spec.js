@@ -13,7 +13,7 @@ describe('components', () => {
           query={query}
           startSem={0}
           startYear={2016}
-          changeSemesters={() => null}
+          navigateThroughTime={() => null}
           changedStatuses={[]}
         />
       );

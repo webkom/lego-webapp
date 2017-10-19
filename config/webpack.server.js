@@ -42,6 +42,9 @@ module.exports = {
   plugins: [
     !isProduction && new StartServerPlugin('server.js'),
     !isProduction && new webpack.HotModuleReplacementPlugin(),
+    new webpack.optimize.MinChunkSizePlugin({
+      minChunkSize: 10000
+    }),
     new webpack.DefinePlugin({
       __CLIENT__: false,
       __DEV__: JSON.stringify(process.env.NODE_ENV !== 'production')

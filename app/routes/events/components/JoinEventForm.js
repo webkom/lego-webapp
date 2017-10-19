@@ -5,11 +5,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { compose } from 'redux';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, SubmissionError } from 'redux-form';
 import moment from 'moment';
-import { Captcha, TextEditor } from 'app/components/Form';
+import { Form, Captcha, TextEditor } from 'app/components/Form';
 import Button from 'app/components/Button';
+import UpdateAllergies from './UpdateAllergies';
 import StripeCheckout from 'react-stripe-checkout';
+import Icon from 'app/components/Icon';
 import logoImage from 'app/assets/kule.png';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Time from 'app/components/Time';
@@ -125,13 +127,19 @@ class JoinEventForm extends Component {
         })
       );
     }
-    return handleSubmit(values =>
-      this.props.onSubmit({
+    return handleSubmit(values => {
+      const feedback = values[feedbackName];
+      if (this.props.event.feedbackRequired && !feedback) {
+        throw new SubmissionError({
+          feedbackRequired: 'Tilbakemelding er påkrevet for dette arrangementet'
+        });
+      }
+      return this.props.onSubmit({
         captchaResponse: values.captchaResponse,
-        feedback: values[feedbackName],
+        feedback,
         type
-      })
-    );
+      });
+    });
   };
 
   render() {
@@ -140,6 +148,7 @@ class JoinEventForm extends Component {
       event,
       registration,
       currentUser,
+      updateUser,
       handleSubmit,
       onToken,
       invalid,
@@ -147,12 +156,17 @@ class JoinEventForm extends Component {
       submitting
     } = this.props;
 
+    const isInvalid = this.state.time !== null || invalid;
+    const isPristine = event.feedbackRequired && pristine;
     const disabledButton = !registration
-      ? invalid || pristine || submitting
+      ? isInvalid || isPristine || submitting
       : null;
-    const joinTitle = !registration ? 'MELD DEG PÅ' : 'AVREGISTRER';
+    const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
     const registrationType = !registration ? 'register' : 'unregister';
     const feedbackName = getFeedbackName(event.feedbackRequired);
+    const feedbackLabel = event.feedbackRequired
+      ? 'NB: Dette arrangementet krever tilbakemelding'
+      : 'Tilbakemelding';
     const showStripe =
       event.isPriced &&
       registration &&
@@ -161,91 +175,120 @@ class JoinEventForm extends Component {
     return (
       <Flex column className={styles.join}>
         <div className={styles.joinHeader}>Bli med på dette arrangementet</div>
+        <Link to="/pages/rules" style={{ marginTop: 0 }}>
+          <Flex alignItems="center">
+            <Icon name="document" style={{ marginRight: '4px' }} />
+            <span>Regler for Abakus&#39; arrangementer</span>
+          </Flex>
+        </Link>
         {!this.state.formOpen &&
-          this.state.time &&
-          <div>
-            Åpner <Time time={this.state.time} format="nowToTimeInWords" />
-          </div>}
+          this.state.time && (
+            <div>
+              Åpner <Time time={this.state.time} format="nowToTimeInWords" />
+            </div>
+          )}
         {!this.state.formOpen &&
-          !this.state.time &&
-          <div>Du kan ikke melde deg på dette arrangementet.</div>}
-        {this.state.formOpen &&
-          <form
-            onSubmit={this.submitWithType(
-              handleSubmit,
-              feedbackName,
-              registrationType
-            )}
-          >
-            <Link to={'/users/me/settings'} style={{ color: '#333' }}>
-              Oppdater allergier her
-            </Link>
-            <Field
-              placeholder="Melding til arrangører"
-              name={feedbackName}
-              component={TextEditor.Field}
+          !this.state.time && (
+            <div>Du kan ikke melde deg på dette arrangementet.</div>
+          )}
+        {this.state.formOpen && (
+          <Flex column>
+            <UpdateAllergies
+              username={currentUser.username}
+              initialValues={{ allergies: currentUser.allergies }}
+              updateUser={updateUser}
             />
-            {registration &&
-              <Button
-                type="button"
-                onClick={this.submitWithType(
-                  handleSubmit,
-                  feedbackName,
-                  'feedback'
-                )}
-              >
-                Oppdater feedback
-              </Button>}
-            {!registration &&
-              this.state.captchaOpen &&
-              event.useCaptcha &&
+            <Form
+              onSubmit={this.submitWithType(
+                handleSubmit,
+                feedbackName,
+                registrationType
+              )}
+            >
               <Field
-                name="captchaResponse"
-                fieldStyle={{ width: 304 }}
-                component={Captcha.Field}
-              />}
-            {this.state.time &&
-              <Button disabled={disabledButton}>
-                {`Åpner om ${this.state.time}`}
-              </Button>}
-            {this.state.buttonOpen &&
-              !event.loading &&
-              <div>
-                {!registration &&
-                  event.spotsLeft === 0 &&
-                  <div>
-                    Det 0 plasser igjen, du blir registrert til venteliste
-                  </div>}
-                {!registration &&
-                  event.spotsLeft > 0 &&
-                  <div>
-                    Det er {event.spotsLeft} plasser igjen.
-                  </div>}
-                <Button type="submit" disabled={disabledButton}>
-                  {title || joinTitle}
+                label={`${feedbackLabel}: ${event.feedbackDescription}`}
+                placeholder="Melding til arrangører"
+                name={feedbackName}
+                component={TextEditor.Field}
+              />
+              {registration && (
+                <div>
+                  <Button
+                    type="button"
+                    onClick={this.submitWithType(
+                      handleSubmit,
+                      feedbackName,
+                      'feedback'
+                    )}
+                    style={{ marginBottom: '5px' }}
+                    disabled={pristine}
+                  >
+                    Oppdater feedback
+                  </Button>
+                </div>
+              )}
+              {!registration &&
+                this.state.captchaOpen &&
+                event.useCaptcha && (
+                  <Field
+                    name="captchaResponse"
+                    fieldStyle={{ width: 304 }}
+                    component={Captcha.Field}
+                  />
+                )}
+              {this.state.time && (
+                <Button disabled={disabledButton}>
+                  {`Åpner om ${this.state.time}`}
                 </Button>
-              </div>}
-            {event.loading &&
-              <LoadingIndicator
-                loading
-                loadingStyle={{ margin: '5px auto' }}
-              />}
-          </form>}
+              )}
+              {this.state.buttonOpen &&
+                !event.loading && (
+                  <div>
+                    {!registration &&
+                      event.spotsLeft === 0 &&
+                      event.activeCapacity > 0 && (
+                        <div>
+                          Det 0 plasser igjen, du blir registrert til
+                          venteliste.
+                        </div>
+                      )}
+                    {!registration &&
+                      event.spotsLeft === 1 && <div>Det er 1 plass igjen.</div>}
+                    {!registration &&
+                      event.spotsLeft > 0 && (
+                        <div>Det er {event.spotsLeft} plasser igjen.</div>
+                      )}
+                    <Button submit disabled={disabledButton}>
+                      {title || joinTitle}
+                    </Button>
+                  </div>
+                )}
+              {event.loading && (
+                <LoadingIndicator
+                  loading
+                  loadingStyle={{ margin: '5px auto' }}
+                />
+              )}
+            </Form>
+          </Flex>
+        )}
         {showStripe &&
-          <StripeCheckout
-            name="Abakus Linjeforening"
-            description={event.title}
-            image={logoImage}
-            currency="NOK"
-            allowRememberMe={false}
-            locale="no"
-            token={onToken}
-            stripeKey={config.stripeKey}
-            amount={event.price}
-            email={currentUser.email}
-          >
-            <Button>Betal nå</Button>
-          </StripeCheckout>}
+          event.price && (
+            <StripeCheckout
+              name="Abakus Linjeforening"
+              description={event.title}
+              image={logoImage}
+              currency="NOK"
+              allowRememberMe={false}
+              locale="no"
+              token={onToken}
+              stripeKey={config.stripeKey}
+              amount={event.price}
+              email={currentUser.email}
+            >
+              <Button>Betal nå</Button>
+            </StripeCheckout>
+          )}
       </Flex>
     );
   }
@@ -255,10 +298,10 @@ function getFeedbackName(feedbackRequired) {
   return feedbackRequired ? 'feedbackRequired' : 'feedback';
 }
 
-function validateEventForm(data) {
+function validateEventForm(data, props) {
   const errors = {};
 
-  if (!data.feedbackRequired) {
+  if (!props.registration && !data.feedbackRequired) {
     errors.feedbackRequired =
       'Tilbakemelding er påkrevet for dette arrangementet';
   }

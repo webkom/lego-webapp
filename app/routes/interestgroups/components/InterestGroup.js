@@ -1,31 +1,28 @@
 import styles from './InterestGroup.css';
 import React from 'react';
 import Image from 'app/components/Image';
+import { Flex } from 'app/components/Layout';
 import { Link } from 'react-router';
 
-const InterestGroup = ({ group }) =>
-  <div className={styles.interestGroup}>
-    <Link to={`/interestgroups/${group.id}`} className={styles.link}>
-      <h2 className={styles.heading}>
-        {group.name}
-      </h2>
-    </Link>
-    <div className={styles.content}>
-      <div className={styles.paragraph}>
-        <p>
-          {group.description}
-        </p>
-        <p className={styles.bold}>
-          Antall medlemmer i {group.name}: {group.numberOfUsers}
-        </p>
-      </div>
-      <Link to={`/interestgroups/${group.id}`}>
-        <Image
-          className={styles.interestPic}
-          src={'https://i.redd.it/dz8mwvl4dgdy.jpg'}
-        />
-      </Link>
-    </div>
-  </div>;
+// TODO: rather handle this in the backend
+const SAMPLE_LOGO = 'https://i.imgur.com/Is9VKjb.jpg';
+
+const InterestGroup = ({ group }) => {
+  const { memberships = [] } = group;
+  return (
+    <Flex className={styles.listItem}>
+      <Flex column className={styles.listItemContent} style={{ flex: '1' }}>
+        <Link to={`/interestgroups/${group.id}`} className={styles.link}>
+          <h2>{group.name}</h2>
+        </Link>
+        <div>{group.description}</div>
+        <div>{memberships.length} medlemmer</div>
+      </Flex>
+      <Flex justifyContent="center" column>
+        <Image className={styles.logoSmall} src={group.logo || SAMPLE_LOGO} />
+      </Flex>
+    </Flex>
+  );
+};
 
 export default InterestGroup;

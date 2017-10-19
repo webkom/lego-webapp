@@ -8,8 +8,7 @@
 .inputContainer {
   display: flex;
   justify-content: space-between;
-  height: 120px;
-  padding-top: 40px;
+  padding: 12px 0;
   border-bottom: 1px solid #ccc;
   margin-bottom: 15px;
 
@@ -17,6 +16,11 @@
     padding: 0 20px;
     height: 96px;
   }
+}
+
+.inputContainer > i {
+  font-size: 25px;
+  padding: 9px;
 }
 
 .inputContainer input {
@@ -72,4 +76,8 @@
 
 .picture img {
   height: inherit;
+}
+
+.searchResultItemIcon {
+  margin-left: 5px;
 }
