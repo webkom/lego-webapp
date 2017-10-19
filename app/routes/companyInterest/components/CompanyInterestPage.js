@@ -107,6 +107,7 @@ const OtherBox = ({ fields }: FieldProps) => (
 );
 
 type Props = FieldProps & {
+  actionGrant: Array<String>,
   onSubmit: CompanyInterestEntity => Promise<*>,
   push: string => void,
   events: Array<Object>,
@@ -139,7 +140,13 @@ const CompanyInterestPage = (props: Props) => {
 
     return props
       .onSubmit(newData)
-      .then(() => props.push('/'))
+      .then(() =>
+        props.push(
+          props.actionGrant && props.actionGrant.includes('edit')
+            ? '/companyInterest/'
+            : '/pages/info/for-companies'
+        )
+      )
       .catch(err => {
         if (err.payload && err.payload.response) {
           throw new SubmissionError(err.payload.response.jsonData);
