@@ -38,6 +38,7 @@ function JoblistingItem({ joblisting }: JobListingItemProps) {
           <Workplaces places={joblisting.workplaces} />
         </div>
         <div className={styles.deadLine}>
+          <div className={styles.deadLineLabel}>Frist • </div>
           <Time time={joblisting.deadline} format="ll HH:mm" />
         </div>
       </Flex>

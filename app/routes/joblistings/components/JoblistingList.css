@@ -10,7 +10,6 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   margin-bottom: 12px;
-  margin-top: 8px;
   display: flex;
   border-bottom: 1px solid #ddd;
   justify-content: space-between;
@@ -26,14 +25,13 @@
 .headingDeadline {
   font-size: 16px;
 
-  @media (max-width: 850px) {
+  @media (max-width: 900px) {
     display: none;
   }
 }
 
 .joblistingList {
   flex: 3;
-  margin-left: 30px;
 
   @media (max-width: 321px) {
     margin-left: 10px;
@@ -56,7 +54,7 @@
   background: #eee;
   margin-right: 20px;
 
-  @media (max-width: 670px) {
+  @media (max-width: 767px) {
     display: none;
   }
 }
@@ -65,7 +63,7 @@
   flex: 1;
   justify-content: space-between;
 
-  @media (max-width: 850px) {
+  @media (max-width: 900px) {
     flex-direction: column;
   }
 }
@@ -84,9 +82,17 @@
 }
 
 .deadLine {
+  display: flex;
   align-self: center;
+  flex-direction: row;
 
-  @media (max-width: 850px) {
+  @media (max-width: 900px) {
     align-self: flex-start;
+  }
+}
+
+.deadLineLabel {
+  @media (min-width: 900px) {
+    display: none;
   }
 }

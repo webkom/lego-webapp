@@ -44,16 +44,16 @@ const dateSort = (a, b) => {
 
 const companySort = (a, b) => a.company.name.localeCompare(b.company.name);
 
-function sortJoblistings(joblistings, sortType) {
+const sortJoblistings = (joblistings, sortType) => {
   return joblistings.sort(sortType === 'company' ? companySort : dateSort);
-}
+};
 
 const mapStateToProps = (state, props) => {
   const { query } = props.location;
   const joblistings = state.joblistings.items.map(
     id => state.joblistings.byId[id]
   );
-  const sortType = query.sort === 'company' ? 'company' : 'deadline';
+  const sortType = query.order === 'company' ? 'company' : 'deadline';
   const filterClass = query.classNumber ? query.classNumber.split(',') : [];
   const filterJobType = query.jobTypes ? query.jobTypes.split(',') : [];
   const filterWorkplaces = query.workplaces ? query.workplaces.split(',') : [];

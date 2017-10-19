@@ -27,12 +27,11 @@ const JoblistingsPage = ({
   return (
     <div className={styles.root}>
       <Helmet title="Karriere" />
-      <Flex wrapReverse className={styles.page}>
-        <JoblistingsList joblistings={joblistings} className={styles.list} />
+      <Flex className={styles.page}>
+        <JoblistingsList joblistings={joblistings} />
         <JoblistingsRightNav
           query={query}
           actionGrant={actionGrant}
-          className={styles.rightNav}
           router={router}
         />
       </Flex>
