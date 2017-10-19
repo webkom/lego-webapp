@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import Portal from 'react-portal';
 import cx from 'classnames';
@@ -9,9 +7,9 @@ import type { TagKind, MarkType, BlockType } from './constants';
 
 type Props = {
   state: Object,
-  onOpen: boolean,
-  onToggleMark: () => void,
-  onToggleBlock: () => void
+  onOpen: () => mixed,
+  onToggleMark: () => mixed,
+  onToggleBlock: () => mixed
 };
 
 type HoverMenuButtonProps = {

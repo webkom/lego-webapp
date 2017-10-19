@@ -14,7 +14,8 @@ type Props = {
   fetching: boolean,
   className?: string,
   selectStyle?: string,
-  onBlur: value => void,
+  onBlur: (e: any) => void,
+  onSearch: string => void,
   shouldKeyDownEventCreateNewOption: number => boolean,
   value: any,
   options?: {}[]

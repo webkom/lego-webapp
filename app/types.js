@@ -56,7 +56,8 @@ export type Action = {|
   type: string,
   payload?: any,
   meta?: any,
-  error?: boolean
+  error?: boolean,
+  success?: boolean // 65 WAT M8 https://github.com/acdlite/flux-standard-action
 |};
 
 export type PromiseAction<T> = {|

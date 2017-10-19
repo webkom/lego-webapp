@@ -74,6 +74,7 @@ const mapDispatchToProps = (dispatch, { params }) => {
 };
 
 export default compose(
+  // $FlowFixMe
   connect(mapStateToProps, mapDispatchToProps),
   dispatched(loadCompanyInterests, {
     componentWillReceiveProps: false

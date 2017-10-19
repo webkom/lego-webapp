@@ -11,10 +11,13 @@ export function toggleSearch() {
   };
 }
 
-export function autocomplete(query: string, filter?: Array<string>): Thunk<*> {
+export function autocomplete(
+  query: string,
+  filter?: Array<string>
+): Thunk<Promise<Array<any>>> {
   return dispatch => {
     if (!query) {
-      return Promise.resolve();
+      return Promise.resolve([]);
     }
 
     return dispatch(
@@ -31,7 +34,7 @@ export function autocomplete(query: string, filter?: Array<string>): Thunk<*> {
           errorMessage: 'Autofyll feilet'
         }
       })
-    ).then(action => selectAutocomplete(action ? action.payload : []));
+    ).then(action => selectAutocomplete(action ? (action: any).payload : []));
   };
 }
 
@@ -45,7 +48,7 @@ export function search(query: string, types?: Array<string>): Thunk<*> {
       callAPI({
         endpoint: '/search-search/',
         types: Search.SEARCH,
-        method: 'post',
+        method: 'POST',
         body: {
           query,
           types
@@ -69,7 +72,7 @@ export function mention(query: string): Thunk<*> {
       callAPI({
         endpoint: '/search-autocomplete/',
         types: Search.MENTION,
-        method: 'post',
+        method: 'POST',
         body: {
           query,
           contentType: 'users.user'

@@ -8,10 +8,10 @@ import { omit } from 'lodash';
 import type { Thunk } from 'app/types';
 import createQueryString from 'app/utils/createQueryString';
 
-function fetchMemberships(groupId: Number) {
+function fetchMemberships(groupId: number): Thunk<*> {
   return callAPI({
     types: Group.MEMBERSHIP_FETCH,
-    endpoint: `/groups/${groupId}/memberships/`,
+    endpoint: `/groups/${String(groupId)}/memberships/`,
     schema: [membershipSchema],
     useCache: false,
     meta: {
@@ -22,12 +22,12 @@ function fetchMemberships(groupId: Number) {
   });
 }
 
-export function fetchInterestGroup(interestGroupId: Number) {
+export function fetchInterestGroup(interestGroupId: number): Thunk<*> {
   return dispatch => {
     const group = dispatch(
       callAPI({
         types: InterestGroup.FETCH,
-        endpoint: `/groups/${interestGroupId}/${createQueryString({
+        endpoint: `/groups/${String(interestGroupId)}/${createQueryString({
           type: 'interesse'
         })}`,
         schema: groupSchema,
@@ -42,7 +42,7 @@ export function fetchInterestGroup(interestGroupId: Number) {
   };
 }
 
-export function fetchAll() {
+export function fetchAll(): Thunk<*> {
   return dispatch => {
     return dispatch(
       callAPI({
@@ -58,7 +58,7 @@ export function fetchAll() {
       })
     ).then(res => {
       if (!res) return;
-      const ids = res.payload.result;
+      const ids = (res: any).payload.result;
       return Promise.all(ids.map(g => dispatch(fetchMemberships(g))));
     });
   };
@@ -67,7 +67,7 @@ export function fetchAll() {
 export function createInterestGroup(group: Object): Thunk<*> {
   return dispatch => {
     const { name, description, text, logo } = group;
-    dispatch(
+    return dispatch(
       callAPI({
         types: InterestGroup.CREATE,
         endpoint: '/groups/',
@@ -129,7 +129,7 @@ export function editInterestGroup(group: Object): Thunk<*> {
 }
 
 export function joinInterestGroup(
-  groupId: Number,
+  groupId: number,
   user: Object,
   role: string = 'member'
 ): Thunk<*> {
@@ -137,7 +137,7 @@ export function joinInterestGroup(
     dispatch(
       callAPI({
         types: Membership.JOIN_GROUP,
-        endpoint: `/groups/${groupId}/memberships/`,
+        endpoint: `/groups/${String(groupId)}/memberships/`,
         schema: membershipSchema,
         method: 'POST',
         body: {
@@ -158,13 +158,13 @@ export function joinInterestGroup(
 
 export function leaveInterestGroup(
   membership: Object,
-  groupId: Number
+  groupId: number
 ): Thunk<*> {
   return dispatch => {
     return dispatch(
       callAPI({
         types: Membership.LEAVE_GROUP,
-        endpoint: `/groups/${groupId}/memberships/${membership.id}/`,
+        endpoint: `/groups/${String(groupId)}/memberships/${membership.id}/`,
         method: 'DELETE',
         meta: {
           id: membership.id,

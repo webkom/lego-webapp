@@ -1,9 +1,11 @@
 // @flow
+
 import { CompanyInterestForm } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
 import { addNotification } from 'app/actions/NotificationActions';
 import { companyInterestSchema } from 'app/reducers';
 import { CompanyInterestEntity } from 'app/reducers/companyInterest';
+import type { Thunk } from 'app/types';
 
 export function fetchAll() {
   return callAPI({
@@ -27,7 +29,7 @@ export function fetchCompanyInterest(companyInterestId: number) {
   });
 }
 
-export function createCompanyInterest(data: CompanyInterestEntity) {
+export function createCompanyInterest(data: CompanyInterestEntity): Thunk<*> {
   return dispatch => {
     return dispatch(
       callAPI({
@@ -46,7 +48,7 @@ export function createCompanyInterest(data: CompanyInterestEntity) {
   };
 }
 
-export function deleteCompanyInterest(id: number) {
+export function deleteCompanyInterest(id: number): Thunk<*> {
   return dispatch => {
     return dispatch(
       callAPI({
@@ -64,7 +66,10 @@ export function deleteCompanyInterest(id: number) {
   };
 }
 
-export function updateCompanyInterest(id: number, data: CompanyInterestEntity) {
+export function updateCompanyInterest(
+  id: number,
+  data: CompanyInterestEntity
+): Thunk<*> {
   return dispatch => {
     return dispatch(
       callAPI({

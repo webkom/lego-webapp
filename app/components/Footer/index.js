@@ -8,7 +8,11 @@ import RandomQuote from '../RandomQuote';
 import styles from './Footer.css';
 import { hiddenOnMobile } from 'app/styles/utilities.css';
 
-const Footer = props => (
+type Props = {
+  loggedIn: boolean
+};
+
+const Footer = (props: Props) => (
   <footer className={styles.footer}>
     <div className={styles.footerContent}>
       <div className={cx(styles.section, hiddenOnMobile)}>

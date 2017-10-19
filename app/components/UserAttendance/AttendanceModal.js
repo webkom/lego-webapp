@@ -7,14 +7,19 @@ import { ProfilePicture } from 'app/components/Image';
 import styles from './AttendanceModal.css';
 import { flatMap } from 'lodash';
 
+type Pool = {
+  name: string,
+  registrations: Array<Object>
+};
+
 export type Props = {
-  pools: Array<Object>,
+  pools: Array<Pool>,
   title: string,
   togglePool: number => void,
   selectedPool: number
 };
 
-const Tab = ({ name, index, activePoolIndex, togglePool }) => (
+const Tab = ({ name, index, activePoolIndex, togglePool }: any) => (
   <a
     className={cx(
       styles.navButton,
@@ -37,9 +42,10 @@ class AttendanceModal extends Component {
     this.generateAmendedPools(this.props.pools);
   }
 
-  generateAmendedPools = (pools: Array<Object>) => {
+  generateAmendedPools = (pools: Array<Pool>) => {
     if (pools.length === 1) return this.setState({ pools });
 
+    // $FlowFixMe
     const allRegistrations = flatMap(pools, pool => pool.registrations);
     const summaryPool = {
       name: 'Alle',

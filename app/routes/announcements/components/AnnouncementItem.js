@@ -9,8 +9,8 @@ import Time from 'app/components/Time';
 
 type Props = {
   announcement: Object,
-  sendAnnouncement: () => void,
-  deleteAnnouncement: () => void,
+  sendAnnouncement: number => void,
+  deleteAnnouncement: number => void,
   actionGrant: Array<string>
 };
 
