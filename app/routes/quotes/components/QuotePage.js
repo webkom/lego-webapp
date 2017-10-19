@@ -3,6 +3,7 @@ import QuoteList from './QuoteList';
 import styles from './Quotes.css';
 import cx from 'classnames';
 import { navigation } from '../utils';
+import Button from 'app/components/Button';
 
 type Props = {
   query: Object,
@@ -10,7 +11,9 @@ type Props = {
   actionGrant: Array<String>,
   approve: number => void,
   unapprove: number => void,
-  deleteQuote: number => void
+  deleteQuote: number => void,
+  loadMore: boolean => void,
+  hasMore: boolean
 };
 
 export default function QuotePage({
@@ -20,6 +23,8 @@ export default function QuotePage({
   unapprove,
   actionGrant,
   deleteQuote,
+  loadMore,
+  hasMore,
   ...props
 }: Props) {
   let errorMessage = undefined;
@@ -41,6 +46,11 @@ export default function QuotePage({
           actionGrant={actionGrant}
           quotes={quotes}
         />
+      )}
+      {hasMore && (
+        <Button onClick={() => loadMore(query.filter !== 'unapproved')}>
+          Load more
+        </Button>
       )}
     </div>
   );

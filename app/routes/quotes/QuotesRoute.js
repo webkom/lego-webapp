@@ -12,11 +12,13 @@ import { dispatched } from '@webkom/react-prepare';
 import { selectSortedQuotes } from 'app/reducers/quotes';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { selectHasMore } from '../../reducers/selectors';
 
 const mapStateToProps = (state, props) => ({
   quotes: selectSortedQuotes(state, props.location.query),
   query: props.location.query,
-  actionGrant: state.quotes.actionGrant
+  actionGrant: state.quotes.actionGrant,
+  hasMore: selectHasMore('quotes')(state)
 });
 
 const mapDispatchToProps = {
@@ -24,7 +26,9 @@ const mapDispatchToProps = {
   fetchAllUnapproved,
   approve,
   unapprove,
-  deleteQuote
+  deleteQuote,
+  loadMore: approved =>
+    approved ? fetchAllApproved(true) : fetchAllUnapproved(true)
 };
 
 export default compose(
@@ -33,9 +37,9 @@ export default compose(
     (props, dispatch) => {
       const { location: { query } } = props;
       if (query.filter === 'unapproved') {
-        return dispatch(fetchAllUnapproved());
+        return dispatch(fetchAllUnapproved(false));
       }
-      return dispatch(fetchAllApproved());
+      return dispatch(fetchAllApproved(false));
     },
     { componentWillReceiveProps: false }
   ),
