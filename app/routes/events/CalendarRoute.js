@@ -52,6 +52,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = { fetchList };
 
 export default compose(
-  prepare(loadData, ['date']),
+  prepare(loadData, ['params.year', 'params.month']),
   connect(mapStateToProps, mapDispatchToProps)
 )(Calendar);
