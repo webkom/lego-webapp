@@ -53,6 +53,7 @@
   height: 80px;
   background: #eee;
   margin-right: 20px;
+  min-width: 120px;
 
   @media (max-width: 767px) {
     display: none;

@@ -122,7 +122,7 @@ export default class JoblistingsRightNav extends Component {
           <h3 className={cx(styles.rightHeader, styles.sortHeader)}>
             Sorter etter:
           </h3>
-          <Flex justifyContent="space-around" className={styles.sortNav}>
+          <Flex justifyContent="flex-start" className={styles.sortNav}>
             <Flex>
               <RadioButton
                 name="active"
@@ -135,7 +135,9 @@ export default class JoblistingsRightNav extends Component {
                   });
                 }}
               />
-              <span style={{ marginLeft: '5px' }}>Frist</span>
+              <span style={{ marginLeft: '5px', marginRight: '10px' }}>
+                Frist
+              </span>
             </Flex>
             <Flex>
               <RadioButton
