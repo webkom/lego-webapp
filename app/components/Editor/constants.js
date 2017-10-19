@@ -24,7 +24,7 @@ export type BlockType =
   | 'bulleted-list'
   | 'list-item';
 
-const deserialize = (tagName, type, kind) => (el, next) => {
+const deserialize = (tagName, type, kind) => (el, next) =>{
   if (el.tagName.toLowerCase() === tagName) {
     return {
       kind,
@@ -34,7 +34,7 @@ const deserialize = (tagName, type, kind) => (el, next) => {
   }
 };
 
-const serialize = (type, kind: TagKind, serializer) => (object, children) => {
+const serialize = (type, kind: TagKind, serializer) => (object, children) =>{
   if (object.kind === kind && object.type === type) {
     return serializer({ object, children });
   }
@@ -80,39 +80,39 @@ export const BLOCK_TAGS = [
   {
     type: 'block-quote',
     icon: 'quote-left',
-    render: ({ children }) => <blockquote> {children} </blockquote>,
-    serialize: (object, children) => {
+    render: ({ children }) => <blockquote>{children}</blockquote>,
+    serialize: (object, children) =>{
       if (object.kind === 'block' && object.type === 'block-quote') {
-        return <blockquote> {children} </blockquote>;
+        return <blockquote>{children}</blockquote>;
       }
     }
   },
   {
     type: 'paragraph',
     hoverHidden: true,
-    serialize: (object, children) => {
+    serialize: (object, children) =>{
       if (object.kind === 'block' && object.type === 'paragraph') {
-        return <p> {children} </p>;
+        return <p>{children}</p>;
       }
     }
   },
   {
     type: 'heading-one',
     icon: 'header',
-    render: ({ children }) => <h1> {children} </h1>,
-    serialize: (object, children) => {
+    render: ({ children }) => <h1>{children}</h1>,
+    serialize: (object, children) =>{
       if (object.kind === 'block' && object.type === 'heading-one') {
-        return <h1> {children} </h1>;
+        return <h1>{children}</h1>;
       }
     }
   },
   {
     type: 'heading-two',
     icon: 'font',
-    render: ({ children }) => <h2> {children} </h2>,
-    serialize: (object, children) => {
+    render: ({ children }) => <h2>{children}</h2>,
+    serialize: (object, children) =>{
       if (object.kind === 'block' && object.type === 'heading-two') {
-        return <h2> {children} </h2>;
+        return <h2>{children}</h2>;
       }
     }
   },
@@ -121,7 +121,7 @@ export const BLOCK_TAGS = [
     icon: 'image',
     hoverHidden: true,
     render: ({ children }) => <img />,
-    serialize: (object, children) => {
+    serialize: (object, children) =>{
       if (object.kind === 'block' && object.type === 'image') {
         return <img src="https://abakus.no/static/gfx/favicon.png" />;
       }
@@ -132,7 +132,7 @@ export const BLOCK_TAGS = [
     icon: 'minus',
     hoverHidden: true,
     render: ({ children }) => <hr />,
-    serialize: (object, children) => {
+    serialize: (object, children) =>{
       if (object.kind === 'block' && object.type === 'separator') {
         return <hr />;
       }
@@ -141,30 +141,30 @@ export const BLOCK_TAGS = [
   {
     type: 'numbered-list',
     icon: 'list-ol',
-    render: ({ children }) => <ol> {children} </ol>,
-    serialize: (object, children) => {
+    render: ({ children }) => <ol>{children}</ol>,
+    serialize: (object, children) =>{
       if (object.kind === 'block' && object.type === 'numbered-list') {
-        return <ol> {children} </ol>;
+        return <ol>{children}</ol>;
       }
     }
   },
   {
     type: 'bulleted-list',
     icon: 'list-ul',
-    render: ({ children }) => <ul> {children} </ul>,
-    serialize: (object, children) => {
+    render: ({ children }) => <ul>{children}</ul>,
+    serialize: (object, children) =>{
       if (object.kind === 'block' && object.type === 'bulleted-list') {
-        return <ul> {children} </ul>;
+        return <ul>{children}</ul>;
       }
     }
   },
   {
     type: 'list-item',
     hoverHidden: true,
-    render: ({ children }) => <li> {children} </li>,
-    serialize: (object, children) => {
+    render: ({ children }) => <li>{children}</li>,
+    serialize: (object, children) =>{
       if (object.kind === 'block' && object.type === 'list-item') {
-        return <li> {children} </li>;
+        return <li>{children}</li>;
       }
     }
   }
@@ -176,12 +176,12 @@ export const BLOCK_TAGS = [
  * @type {Object}
  */
 
-const marks = MARK_TAGS.reduce((acc, tag) => {
+const marks = MARK_TAGS.reduce((acc, tag) =>{
   acc[tag.type] = tag.style;
   return acc;
 }, {});
 
-const nodes = BLOCK_TAGS.reduce((acc, tag) => {
+const nodes = BLOCK_TAGS.reduce((acc, tag) =>{
   if (tag.render) {
     acc[tag.type] = tag.render;
   }
