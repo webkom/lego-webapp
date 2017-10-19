@@ -32,12 +32,13 @@ const getEndpoint = (state, loadNextPage, queryString) => {
 export const fetchList = (
   { dateAfter, dateBefore, refresh = false, loadNextPage = false }: Object = {}
 ) => (dispatch, getState) => {
-  const query = { dateAfter, dateBefore };
+  const query = { date_after: dateAfter, date_before: dateBefore };
   if (query.dateBefore && query.dateAfter) {
     query.page_size = 60;
   }
   const queryString = createQueryString(query);
   const endpoint = getEndpoint(getState(), loadNextPage, queryString);
+  console.log('endpoint', endpoint, queryString)
   if (!endpoint) {
     return;
   }

@@ -3,7 +3,7 @@
 import moment from 'moment';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { fetchAll } from 'app/actions/EventActions';
+import { fetchList } from 'app/actions/EventActions';
 import prepare from 'app/utils/prepare';
 import Calendar from './components/Calendar';
 
@@ -15,6 +15,8 @@ const getDate = ({ params }) => {
 
 const loadData = (props, dispatch) => {
   const date = getDate(props);
+  console.log('load', date.toString());
+  console.log(props);
   if (date.isValid()) {
     const dateAfter = date
       .clone()
@@ -25,7 +27,7 @@ const loadData = (props, dispatch) => {
       .endOf('month')
       .endOf('week');
     return dispatch(
-      fetchAll({
+      fetchList({
         dateAfter: dateAfter.format('YYYY-MM-DD'),
         dateBefore: dateBefore.format('YYYY-MM-DD')
       })
@@ -38,7 +40,7 @@ const loadData = (props, dispatch) => {
 const mapStateToProps = (state, ownProps) => {
   const user = ownProps.currentUser;
   const icalToken = user ? user.icalToken : null;
-
+  console.log('hello', getDate(ownProps).toString());
   const actionGrant = state.events.actionGrant;
   return {
     date: getDate(ownProps),
@@ -47,7 +49,7 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const mapDispatchToProps = { fetchAll };
+const mapDispatchToProps = { fetchList };
 
 export default compose(
   prepare(loadData, ['date']),
