@@ -27,9 +27,9 @@ class ImageUploadField extends Component {
 
   static Field: any;
 
-  componentWillUpdate = () => {
-    // TODO
-    // Need to remove the inital url set by redux form
+  componentDidMount = () => {
+    // hack for removing the inital url set by redux form
+    this.props.onChange(null);
   };
 
   onSubmit = (file: File) => {
