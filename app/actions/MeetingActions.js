@@ -86,7 +86,7 @@ export function createMeeting({
       location,
       endTime: moment(endTime).toISOString(),
       startTime: moment(startTime).toISOString(),
-      reportAuthor: reportAuthor.id
+      reportAuthor: reportAuthor && reportAuthor.id
     },
     schema: meetingSchema,
     meta: {
@@ -168,7 +168,7 @@ export function editMeeting({
       location,
       endTime: moment(endTime).toISOString(),
       startTime: moment(startTime).toISOString(),
-      reportAuthor: reportAuthor.id
+      reportAuthor: reportAuthor && reportAuthor.id
     },
     schema: meetingSchema,
     meta: {
