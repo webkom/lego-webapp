@@ -163,3 +163,7 @@ export const meetingSchema = new schema.Entity('meetings', {
   reportAuthor: userSchema,
   createdBy: userSchema
 });
+export const frontpageSchema = new schema.Entity('frontpage', {
+  events: [eventSchema],
+  articles: [articleSchema]
+});
