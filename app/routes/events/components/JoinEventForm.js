@@ -19,21 +19,39 @@ import { Flex } from 'app/components/Layout';
 import config from 'app/config';
 
 export type Props = {
-  title: string,
-  event: Event,
+  title?: string,
+  event: Object /*TODO: Event*/,
   registration: Object,
   currentUser: Object,
-  onSubmit: void,
-  onToken: void
+  onSubmit: Object => void,
+  onToken: () => void,
+
+  updateUser: () => void,
+  handleSubmit: /*TODO: SubmitHandler<>*/ any => void,
+
+  /*TODO: & ReduxFormProps */
+  invalid: boolean,
+  pristine: boolean,
+  submitting: boolean
+};
+
+type State = {
+  time: any,
+  formOpen: boolean,
+  captchaOpen: boolean,
+  buttonOpen: boolean
 };
 
 class JoinEventForm extends Component {
-  state = {
+  props: Props;
+
+  state: State = {
     time: null,
     formOpen: false,
     captchaOpen: false,
     buttonOpen: false
   };
+
   counter = undefined;
 
   componentDidMount() {
@@ -61,9 +79,10 @@ class JoinEventForm extends Component {
     let duration = moment.duration(diffTime, 'milliseconds');
     if (
       (!registration && !activationTime) ||
-      currentTime.isAfter(moment(startTime))
+      currentTime.isAfter(moment(startTime).subtract(2, 'hours'))
     ) {
       // Do nothing
+      // TODO: the 2 hour subtract is a hardcoded close time and should be improved
     } else if (poolActivationTime.isBefore(currentTime) || registration) {
       this.setState({
         formOpen: true,
@@ -80,6 +99,7 @@ class JoinEventForm extends Component {
       });
       const interval = 10000;
       this.counter = setInterval(() => {
+        // $FlowFixMe
         const diff = duration - interval;
         duration = moment.duration(diff, 'milliseconds');
         if (diff < 600000) {
@@ -94,8 +114,11 @@ class JoinEventForm extends Component {
 
   initiateCountdown(duration) {
     const interval = 1000;
+
+    // $FlowFixMe
     duration += 1000;
     this.counter = setInterval(() => {
+      // $FlowFixMe Does this work now?
       duration = moment.duration(duration, 'milliseconds') - interval;
       if (duration <= 1000) {
         clearInterval(this.counter);

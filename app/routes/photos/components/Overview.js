@@ -4,11 +4,11 @@ import React, { Component } from 'react';
 import Button from 'app/components/Button';
 import { Flex } from 'app/components/Layout';
 import { Link } from 'react-router';
-import Gallery from 'app/components/Gallery';
+import Gallery, { type Photo } from 'app/components/Gallery';
 import styles from './Overview.css';
 
 type Props = {
-  galleries: [],
+  galleries: Array<Photo>,
   fetchAll: () => Promise<*>,
   push: string => Promise<*>
 };

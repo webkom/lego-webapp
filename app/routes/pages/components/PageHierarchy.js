@@ -11,7 +11,7 @@ type Props = {
   siblings: Object[],
   selectedSlug: string
 };
-
+// $FlowFixMe
 const PageHierarchy = ({ parent, siblings, selectedSlug }: Props) => {
   if (!parent) return null;
   return (

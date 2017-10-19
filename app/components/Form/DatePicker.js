@@ -12,7 +12,7 @@ import TimePicker from './TimePicker';
 import styles from './DatePicker.css';
 
 type Props = {
-  onChange: () => void,
+  onChange: string => void,
   className?: string,
   value: ?string,
   showTimePicker?: boolean,
@@ -136,7 +136,10 @@ class DatePicker extends Component {
           </div>
 
           {showTimePicker && (
-            <TimePicker value={this.state.value} onChange={this.onChangeTime} />
+            <TimePicker
+              value={this.state.value.toISOString()}
+              onChange={this.onChangeTime}
+            />
           )}
         </div>
       </Dropdown>

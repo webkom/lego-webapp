@@ -28,7 +28,7 @@ import Tooltip from 'app/components/Tooltip';
 import cx from 'classnames';
 
 type Props = {
-  eventId: string,
+  eventId: number,
   event: Object,
   loggedIn: boolean,
   currentUser: Object,

@@ -32,15 +32,20 @@ const mapStateToProps = (state, props) => {
   const meetingInvitations = selectMeetingInvitationsForMeeting(state, {
     meetingId
   });
-  const reportAuthor = selectUserById(state, { userId: meeting.reportAuthor });
+  const reportAuthor = selectUserById(state, {
+    userId: meeting.reportAuthor
+  });
   return {
     user: props.currentUser,
     meeting,
     initialValues: {
       ...meeting,
       reportAuthor: reportAuthor && {
+        // $FlowFixMe
         id: reportAuthor.id,
+        // $FlowFixMe
         value: reportAuthor.username,
+        // $FlowFixMe
         label: reportAuthor.fullName
       },
       report: meeting ? meeting.report : ''

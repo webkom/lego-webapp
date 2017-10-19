@@ -4,7 +4,7 @@ import { Article } from './ActionTypes';
 import { articleSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import createQueryString from 'app/utils/createQueryString';
-import type { EntityID, ArticleEntity } from 'app/types';
+import type { EntityID, ArticleEntity, Thunk } from 'app/types';
 import { push } from 'react-router-redux';
 
 export function fetchArticle(articleId: EntityID) {
@@ -26,7 +26,7 @@ export function createArticle({
   content,
   tags,
   cover
-}: ArticleEntity) {
+}: ArticleEntity): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
@@ -46,7 +46,7 @@ export function createArticle({
           errorMessage: 'Opprettelse av artikkel feilet'
         }
       })
-    ).then(res => dispatch(push(`/articles/${res.payload.result}/`)));
+    ).then(res => dispatch(push(`/articles/${(res: any).payload.result}/`)));
 }
 
 export function editArticle({
@@ -57,7 +57,7 @@ export function editArticle({
   description,
   tags,
   cover
-}: ArticleEntity) {
+}: ArticleEntity): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
