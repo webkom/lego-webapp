@@ -17,18 +17,10 @@ type PermissionListProps = {
   permissions: [String]
 };
 
-const PermissionListItem = ({ permission }) => <div> {permission} </div>;
-
 const PermissionList = ({ permissions }: PermissionListProps) => (
   <div>
     <h3>Nåværende rettigheter</h3>
-    <ul>
-      {permissions.map(p => (
-        <li key={p}>
-          <PermissionListItem permission={p} />
-        </li>
-      ))}
-    </ul>
+    <ul>{permissions.map(p => <li key={p}>{p}</li>)}</ul>
   </div>
 );
 

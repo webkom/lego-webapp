@@ -4,7 +4,7 @@ import { reduxForm, Field } from 'redux-form';
 import type { FieldProps } from 'redux-form';
 import { Button, Form } from 'app/components/Form';
 import TextInput from 'app/components/Form/TextInput';
-import { createValidator, required } from 'app/utils/validation';
+import { createValidator, matchesRegex, required } from 'app/utils/validation';
 import { omit } from 'lodash';
 
 type Props = FieldProps & {
@@ -30,7 +30,7 @@ const AddGroupPermission = ({
       <Field
         label="Rettighet"
         name="permission"
-        placeholder="/sudo/samfundet/øl/drikk"
+        placeholder="/sudo/admin/events/create/"
         component={TextInput.Field}
       />
 
@@ -42,7 +42,13 @@ const AddGroupPermission = ({
 };
 
 const validate = createValidator({
-  permission: [required()]
+  permission: [
+    required(),
+    matchesRegex(
+      /^\/([a-zA-Z]+\/)+$/,
+      'Rettigheter kan bare inneholde skråstrek og bokstaver, og må begynne og ende med en skråstrek.'
+    )
+  ]
 });
 
 export default reduxForm({
