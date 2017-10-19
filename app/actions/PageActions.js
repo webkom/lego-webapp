@@ -41,7 +41,7 @@ export function updatePage(slug: string, body: Object) {
   });
 }
 
-export function createPage(body) {
+export function createPage(body: Object) {
   return callAPI({
     types: Page.CREATE,
     endpoint: `/pages/`,

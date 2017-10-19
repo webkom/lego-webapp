@@ -202,3 +202,17 @@ export function leaveGroup(membership: Object): Thunk<*> {
     );
   };
 }
+
+export function fetchMemberships(groupId: number) {
+  return callAPI({
+    types: Group.MEMBERSHIP_FETCH,
+    endpoint: `/groups/${groupId}/memberships/`,
+    schema: [membershipSchema],
+    useCache: false,
+    meta: {
+      groupId: groupId,
+      errorMessage: 'Henting av medlemmene for gruppen feilet'
+    },
+    propagateError: true
+  });
+}
