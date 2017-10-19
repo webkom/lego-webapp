@@ -23,16 +23,13 @@ import RegistrationMeta from '../RegistrationMeta';
 import Content from 'app/components/Layout/Content';
 import cx from 'classnames';
 
-const InterestedButton = ({ value, onClick }) => {
-  const [icon, text] = value
-    ? ['check', 'Ikke lengre interessert?']
-    : ['plus', 'Jeg er interessert'];
+type InterestedButtonProps = {
+  isInterested: boolean
+};
 
-  return (
-    <Button onClick={onClick}>
-      <Icon name={icon} /> {text}
-    </Button>
-  );
+const InterestedButton = ({ isInterested }: InterestedButtonProps) => {
+  const icon = isInterested ? 'star' : 'star-outline';
+  return <Icon className={styles.star} name={icon} />;
 };
 
 /**
@@ -135,132 +132,131 @@ export default class EventDetail extends Component {
       : () => follow(currentUser.id, event.id);
 
     return (
-      <Content>
+      <div>
         <div className={styles.coverImage}>
           <Image src={event.cover} />
         </div>
 
-        <Flex
-          wrap
-          className={styles.descriptionHeader}
-          alignItems="center"
-          justifyContent="space-between"
-        >
-          <h2 className={styleType}>{event.title}</h2>
-          <InterestedButton
-            value={event.isUserFollowing}
-            onClick={onRegisterClick}
-          />
-        </Flex>
+        <Content className={styles.content}>
+          <div>
+            <h2
+              onClick={onRegisterClick}
+              className={cx(styleType, styles.title)}
+            >
+              <InterestedButton isInterested={event.isUserFollowing} />
+              {event.title}
+            </h2>
+          </div>
 
-        <Flex wrap className={styles.mainRow}>
-          <Flex column className={styles.description}>
-            <div
-              className={styles.text}
-              dangerouslySetInnerHTML={{ __html: event.text }}
-            />
+          <Flex wrap className={styles.mainRow}>
+            <Flex column className={styles.description}>
+              <div
+                className={styles.text}
+                dangerouslySetInnerHTML={{ __html: event.text }}
+              />
 
-            <Flex className={styles.tagRow}>
-              {event.tags.map((tag, i) => <Tag key={i} tag={tag} />)}
+              <Flex className={styles.tagRow}>
+                {event.tags.map((tag, i) => <Tag key={i} tag={tag} />)}
+              </Flex>
             </Flex>
-          </Flex>
-          <Flex column className={cx(styles.meta)}>
-            <ul>
-              {event.company && (
+            <Flex column className={cx(styles.meta)}>
+              <ul>
+                {event.company && (
+                  <li>
+                    Arrangerende bedrift <strong>{event.company.name}</strong>
+                  </li>
+                )}
                 <li>
-                  Arrangerende bedrift <strong>{event.company.name}</strong>
+                  <span className={styles.metaDescriptor}>Hva</span>
+                  <strong>{EVENT_TYPE_TO_STRING(event.eventType)}</strong>
                 </li>
-              )}
-              <li>
-                <span className={styles.metaDescriptor}>Hva</span>
-                <strong>{EVENT_TYPE_TO_STRING(event.eventType)}</strong>
-              </li>
-              <li>
-                <span className={styles.metaDescriptor}>Starter</span>
-                <strong>
-                  <Time time={event.startTime} format="DD.MM.YYYY HH:mm" />
-                </strong>
-              </li>
-              <li>
-                <span className={styles.metaDescriptor}>Slutter</span>
-                <strong>
-                  <Time time={event.endTime} format="DD.MM.YYYY HH:mm" />
-                </strong>
-              </li>
-              <li>
-                Finner sted i <strong>{event.location}</strong>
-              </li>
-              {event.activationTime && (
                 <li>
-                  Påmelding åpner
-                  <strong style={{ marginLeft: 5 }}>
-                    <Time
-                      time={event.activationTime}
-                      format="DD.MM.YYYY HH:mm"
-                      style={{ marginLeft: '5px' }}
-                    />
+                  <span className={styles.metaDescriptor}>Starter</span>
+                  <strong>
+                    <Time time={event.startTime} format="DD.MM.YYYY HH:mm" />
                   </strong>
                 </li>
-              )}
-              {event.isPriced && (
-                <div>
-                  <li>Dette er et betalt arrangement</li>
+                <li>
+                  <span className={styles.metaDescriptor}>Slutter</span>
+                  <strong>
+                    <Time time={event.endTime} format="DD.MM.YYYY HH:mm" />
+                  </strong>
+                </li>
+                <li>
+                  Finner sted i <strong>{event.location}</strong>
+                </li>
+                {event.activationTime && (
                   <li>
-                    Pris: <strong>{event.priceMember / 100},-</strong>
+                    Påmelding åpner
+                    <strong style={{ marginLeft: 5 }}>
+                      <Time
+                        time={event.activationTime}
+                        format="DD.MM.YYYY HH:mm"
+                        style={{ marginLeft: '5px' }}
+                      />
+                    </strong>
                   </li>
-                </div>
-              )}
-            </ul>
-            {loggedIn && (
-              <Flex column>
-                <h3>Påmeldte</h3>
-                <Flex className={styles.registeredThumbnails}>
-                  {registrations
-                    .slice(0, 10)
-                    .map(reg => (
-                      <RegisteredCell key={reg.user.id} user={reg.user} />
-                    ))}
+                )}
+                {event.isPriced && (
+                  <div>
+                    <li>Dette er et betalt arrangement</li>
+                    <li>
+                      Pris: <strong>{event.priceMember / 100},-</strong>
+                    </li>
+                  </div>
+                )}
+              </ul>
+              {loggedIn && (
+                <Flex column>
+                  <h3>Påmeldte</h3>
+                  <Flex className={styles.registeredThumbnails}>
+                    {registrations
+                      .slice(0, 10)
+                      .map(reg => (
+                        <RegisteredCell key={reg.user.id} user={reg.user} />
+                      ))}
+                  </Flex>
+                  <ModalParentComponent pools={pools} title="Påmeldte">
+                    <RegisteredSummary registrations={registrations} />
+                    <AttendanceStatus />
+                  </ModalParentComponent>
+
+                  <RegistrationMeta
+                    registration={currentRegistration}
+                    isPriced={event.isPriced}
+                  />
+                  <Admin
+                    actionGrant={actionGrant}
+                    event={event}
+                    deleteEvent={deleteEvent}
+                  />
                 </Flex>
-                <ModalParentComponent pools={pools} title="Påmeldte">
-                  <RegisteredSummary registrations={registrations} />
-                  <AttendanceStatus />
-                </ModalParentComponent>
-
-                <RegistrationMeta
-                  registration={currentRegistration}
-                  isPriced={event.isPriced}
-                />
-                <Admin
-                  actionGrant={actionGrant}
-                  event={event}
-                  deleteEvent={deleteEvent}
-                />
-              </Flex>
-            )}
+              )}
+            </Flex>
           </Flex>
-        </Flex>
 
-        {loggedIn && (
-          <JoinEventForm
-            event={event}
-            registration={currentRegistration}
-            currentUser={currentUser}
-            updateUser={updateUser}
-            onToken={this.handleToken}
-            onSubmit={this.handleRegistration}
-          />
-        )}
+          {loggedIn && (
+            <JoinEventForm
+              event={event}
+              registration={currentRegistration}
+              currentUser={currentUser}
+              updateUser={updateUser}
+              onToken={this.handleToken}
+              onSubmit={this.handleRegistration}
+            />
+          )}
 
-        {event.commentTarget && (
-          <CommentView
-            style={{ marginTop: 20 }}
-            user={currentUser}
-            commentTarget={event.commentTarget}
-            loggedIn={loggedIn}
-            comments={comments}
-          />
-        )}
-      </Content>
+          {event.commentTarget && (
+            <CommentView
+              style={{ marginTop: 20 }}
+              user={currentUser}
+              commentTarget={event.commentTarget}
+              loggedIn={loggedIn}
+              comments={comments}
+            />
+          )}
+        </Content>
+      </div>
     );
   }
 }

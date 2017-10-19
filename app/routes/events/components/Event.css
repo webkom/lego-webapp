@@ -10,8 +10,16 @@
   margin-right: 5px;
 }
 
+.content {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
 .coverImage {
-  width: 100%;
+  composes: contentContainer from 'app/styles/utilities.css';
+  padding: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
   height: 300px;
   overflow: hidden;
   position: relative;
