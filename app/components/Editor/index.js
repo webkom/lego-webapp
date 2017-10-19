@@ -44,7 +44,8 @@ type Props = {
   placeholder?: string,
   onChange: string => void,
   onBlur?: () => void,
-  onFocus?: () => void
+  onFocus?: () => void,
+  readOnly?: boolean
 };
 
 type State = {
@@ -320,6 +321,7 @@ class CustomEditor extends Component {
             state={this.state.state}
             onChange={this.onChange}
             onKeyDown={this.onKeyDown}
+            readOnly={this.props.readOnly}
           />
         </div>
       </div>
