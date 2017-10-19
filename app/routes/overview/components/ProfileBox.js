@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
-import ProfilePicture from 'app/components/ProfilePicture';
+import { ProfilePicture } from 'app/components/Image';
 import LoginForm from 'app/components/LoginForm';
 import styles from './ProfileBox.css';
 
@@ -17,7 +17,7 @@ const Dropdown = ({ login, logout, user }) => {
         </li>
         <li>
           <Link to="/users/me/settings/profile">
-            Instillinger
+            Innstillinger
             <Icon name="cog" />
           </Link>
         </li>

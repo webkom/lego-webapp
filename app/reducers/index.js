@@ -31,7 +31,6 @@ import notificationSettings from './notificationSettings';
 import galleries from './galleries';
 import comments from './comments';
 import pages from './pages';
-import interestGroups from './interestGroups';
 import companyInterest from './companyInterest';
 import joblistings from './joblistings';
 import announcements from './announcements';
@@ -57,7 +56,6 @@ const reducers = {
   meetingInvitations,
   memberships,
   companyInterest,
-  interestGroups,
   search,
   comments,
   auth,
@@ -92,9 +90,10 @@ export default function rootReducer(state: State, action: Action) {
   return appReducer(state, action);
 }
 
+export const groupSchema = new schema.Entity('groups');
 export const userSchema = new schema.Entity(
   'users',
-  {},
+  { abakusGroups: [groupSchema] },
   { idAttribute: 'username' }
 );
 export const registrationSchema = new schema.Entity('registrations', {
@@ -145,9 +144,6 @@ export const oauth2ApplicationSchema = new schema.Entity('oauth2Application');
 export const oauth2GrantSchema = new schema.Entity('oauth2Grant');
 export const membershipSchema = new schema.Entity('memberships', {
   user: userSchema
-});
-export const groupSchema = new schema.Entity('groups', {
-  users: [userSchema]
 });
 export const meetingInvitationSchema = new schema.Entity(
   'meetingInvitations',

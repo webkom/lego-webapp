@@ -6,22 +6,27 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Dropdown from 'app/components/Dropdown';
 import Icon from 'app/components/Icon';
+import CommentView from 'app/components/Comments/CommentView';
 
 type Props = {
   quote: Object,
-  deleteQuote: number => void,
-  approve: number => void,
-  unapprove: number => void,
+  deleteQuote: number => Promise<*>,
+  approve: number => Promise<*>,
+  unapprove: number => Promise<*>,
   actionGrant: Array<string>,
   setDisplayAdmin: number => void,
-  displayAdmin: boolean
+  displayAdmin: boolean,
+  currentUser: any,
+  loggedIn: boolean,
+  comments: Object
 };
 
 export default class Quote extends Component {
   props: Props;
 
   state = {
-    deleting: false
+    deleting: false,
+    showComments: true
   };
 
   render() {
@@ -32,8 +37,13 @@ export default class Quote extends Component {
       unapprove,
       actionGrant,
       setDisplayAdmin,
-      displayAdmin
+      displayAdmin,
+      currentUser,
+      loggedIn,
+      comments
     } = this.props;
+
+    const { showComments } = this.state;
 
     return (
       <li className={styles.singleQuote}>
@@ -65,13 +75,18 @@ export default class Quote extends Component {
 
             <div className={styles.bottomRight}>
               <div className={styles.commentCount}>
-                <Link to={`/quotes/${quote.id}`}>
+                <a
+                  onClick={() =>
+                    this.setState(state => ({
+                      showComments: !state.showComments
+                    }))}
+                >
                   <i
                     className="fa fa-comment-o"
                     style={{ marginRight: '5px' }}
                   />
                   {quote.comments ? quote.comments.length : quote.commentCount}
-                </Link>
+                </a>
               </div>
 
               {actionGrant &&
@@ -128,6 +143,18 @@ export default class Quote extends Component {
             </div>
           </div>
         </div>
+        {quote.commentTarget &&
+          showComments && (
+            <div className={styles.comments}>
+              <CommentView
+                user={currentUser}
+                commentTarget={quote.commentTarget}
+                loggedIn={loggedIn}
+                comments={comments[quote.id]}
+                displayTitle={false}
+              />
+            </div>
+          )}
       </li>
     );
   }

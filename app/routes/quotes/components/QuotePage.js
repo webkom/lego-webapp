@@ -5,21 +5,29 @@ import cx from 'classnames';
 import { navigation } from '../utils';
 
 type Props = {
+  comments: Array<Object>,
   query: Object,
   quotes: Array<Object>,
   actionGrant: Array<String>,
-  approve: number => void,
-  unapprove: number => void,
-  deleteQuote: number => void
+  approve: number => Promise<*>,
+  unapprove: number => Promise<*>,
+  deleteQuote: number => Promise<*>,
+  currentUser: any,
+  loggedIn: boolean,
+  comments: Object
 };
 
 export default function QuotePage({
   query,
   quotes,
+
   approve,
   unapprove,
   actionGrant,
   deleteQuote,
+  currentUser,
+  loggedIn,
+  comments,
   ...props
 }: Props) {
   let errorMessage = undefined;
@@ -40,6 +48,9 @@ export default function QuotePage({
           deleteQuote={deleteQuote}
           actionGrant={actionGrant}
           quotes={quotes}
+          currentUser={currentUser}
+          loggedIn={loggedIn}
+          comments={comments}
         />
       )}
     </div>

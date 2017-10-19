@@ -1,17 +1,14 @@
-//@flow
+// @flow
 
 import styles from './Overview.css';
 import React, { Component } from 'react';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { Link } from 'react-router';
 import { Content } from 'app/components/Layout';
 import { type ArticleEntity } from 'app/reducers/articles';
 import Time from 'app/components/Time';
-import Image from 'app/components/Image';
+import { Image } from 'app/components/Image';
 
-type Props = {
-  articles: ArticleEntity[],
-  fetchAll: () => Promise<*>
-};
 const HEADLINE_EVENTS = 2;
 const FRONT_EVENTS = 10;
 
@@ -31,6 +28,10 @@ const OverviewItem = ({ article }: { article: ArticleEntity }) => (
   </div>
 );
 
+type Props = {
+  articles: Array<Object>
+};
+
 export default class Overview extends Component {
   props: Props;
 
@@ -41,9 +42,11 @@ export default class Overview extends Component {
 
     return (
       <Content>
+        <NavigationTab title="Artikler">
+          <NavigationLink to="/articles/new">Ny artikkel</NavigationLink>
+        </NavigationTab>
         <section className={styles.frontpage}>
           <div className={styles.overview}>
-            <Link to={`/articles/new`}>NY</Link>
             <div className={styles.headline}>
               {headlineEvents.map(article => (
                 <OverviewItem key={article.id} article={article} />

@@ -1,6 +1,5 @@
 import styles from './bdb.css';
 import React, { Component } from 'react';
-import BdbRightNav from './BdbRightNav';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextInput } from 'app/components/Form';
@@ -57,53 +56,49 @@ class CompanyContactEditor extends Component {
         </h3>
 
         <div className={styles.detail}>
-          <div className={styles.leftSection}>
-            <form onSubmit={handleSubmit(this.onSubmit)}>
-              <Field
-                placeholder="Arne Arnsten"
-                label="Navn"
-                autoFocus={autoFocus}
-                name="name"
-                component={TextInput.Field}
-              />
+          <form onSubmit={handleSubmit(this.onSubmit)}>
+            <Field
+              placeholder="Arne Arnsten"
+              label="Navn"
+              autoFocus={autoFocus}
+              name="name"
+              component={TextInput.Field}
+            />
 
-              <Field
-                placeholder="Konsulent"
-                label="Rolle"
-                autoFocus={autoFocus}
-                name="role"
-                component={TextInput.Field}
-              />
+            <Field
+              placeholder="Konsulent"
+              label="Rolle"
+              autoFocus={autoFocus}
+              name="role"
+              component={TextInput.Field}
+            />
 
-              <Field
-                placeholder="arne@bedrift.no"
-                label="E-mail"
-                autoFocus={autoFocus}
-                name="mail"
-                component={TextInput.Field}
-              />
+            <Field
+              placeholder="arne@bedrift.no"
+              label="E-mail"
+              autoFocus={autoFocus}
+              name="mail"
+              component={TextInput.Field}
+            />
 
-              <Field
-                label="Telefonnummer"
-                placeholder="12312312"
-                autoFocus={autoFocus}
-                name="phone"
-                component={TextInput.Field}
-              />
+            <Field
+              label="Telefonnummer"
+              placeholder="12312312"
+              autoFocus={autoFocus}
+              name="phone"
+              component={TextInput.Field}
+            />
 
-              <div className={styles.clear} />
-              <Button
-                className={styles.submit}
-                disabled={submitting}
-                submit
-                style={{ marginBottom: '0!important' }}
-              >
-                Lagre
-              </Button>
-            </form>
-          </div>
-
-          <BdbRightNav {...this.props} companyId={company.id} />
+            <div className={styles.clear} />
+            <Button
+              className={styles.submit}
+              disabled={submitting}
+              submit
+              style={{ marginBottom: '0!important' }}
+            >
+              Lagre
+            </Button>
+          </form>
         </div>
       </div>
     );

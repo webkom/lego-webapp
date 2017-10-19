@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReadmeLogo from 'app/components/ReadmeLogo';
-import Image from 'app/components/Image';
+import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import Icon from 'app/components/Icon';
 import styles from './LatestReadme.css';
@@ -39,14 +39,14 @@ class LatestReadme extends Component {
 
         {expanded && (
           <Flex wrap justifyContent="space-between" style={{ paddingTop: 20 }}>
-            {[1, 2, 3, 4, 5, 6].map(issue => (
+            {[1, 2, 3, 4].map(issue => (
               <a
                 key={issue}
-                href={`http://readme.abakus.no/utgaver/2016/2016-0${issue}.pdf`}
+                href={`http://readme.abakus.no/utgaver/2017/2017-0${issue}.pdf`}
                 className={styles.thumb}
               >
                 <Image
-                  src={`http://readme.abakus.no/bilder/2016/2016-0${issue}.jpg`}
+                  src={`http://readme.abakus.no/bilder/2017/2017-0${issue}.jpg`}
                 />
               </a>
             ))}

@@ -7,12 +7,17 @@ import {
 } from '../utils.js';
 import SemesterStatusContent from './SemesterStatusContent';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import FileUpload from 'app/components/Upload/FileUpload';
+import truncateString from 'app/utils/truncateString';
+
+const FILE_NAME_LENGTH = 30;
 
 type Props = {
-  status: Object,
+  semesterStatus: Object,
   index: number,
   deleteSemesterStatus: number => void,
-  editFunction: () => void
+  editFunction: () => void,
+  addFileToSemester: (fileName, type) => void
 };
 
 export default class SemesterStatusDetail extends Component {
@@ -22,51 +27,88 @@ export default class SemesterStatusDetail extends Component {
     editing: false
   };
 
-  render() {
-    const { status, index, deleteSemesterStatus, editFunction } = this.props;
+  deleteSemesterStatus = id => {
+    if (confirm('Er du sikker?')) {
+      this.props.deleteSemesterStatus(id);
+    }
+  };
 
-    if (!status) return <LoadingIndicator />;
+  addFile = (fileName, fileToken, type) => {
+    this.props.addFileToSemester(
+      fileName,
+      fileToken,
+      type,
+      this.props.semesterStatus
+    );
+    this.setState(state => ({ editing: false }));
+  };
+
+  uploadButton = type => (
+    <FileUpload
+      onChange={(fileName, fileToken) =>
+        this.addFile(fileName, fileToken, type)}
+      className={styles.uploadButton}
+    />
+  );
+
+  fileNameToShow = (name, url) =>
+    name ? <a href={url}>{truncateString(name, FILE_NAME_LENGTH)}</a> : '-';
+
+  render() {
+    const { semesterStatus, index, editFunction } = this.props;
+
+    if (!semesterStatus) return <LoadingIndicator />;
 
     return (
       <tr key={index}>
         <td>
-          {status.year} {semesterCodeToName(status.semester)}
+          {semesterStatus.year} {semesterCodeToName(semesterStatus.semester)}
         </td>
-
         <td
           className={
             styles[
-              selectColorCode(selectMostProminentStatus(status.contactedStatus))
+              selectColorCode(
+                selectMostProminentStatus(semesterStatus.contactedStatus)
+              )
             ]
           }
           style={{ padding: '5px', lineHeight: '18px' }}
         >
           <SemesterStatusContent
-            semesterStatus={status}
-            editFunction={statusCode => editFunction(status, statusCode)}
+            semesterStatus={semesterStatus}
+            editFunction={statusCode =>
+              editFunction(semesterStatus, statusCode)}
           />
         </td>
-
-        <td>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        {['contract', 'statistics', 'evaluation'].map(type => (
+          <td key={type}>
             <span>
-              {this.state.editing ? 'Last opp' : status.contract || '-'}
+              {this.state.editing
+                ? this.uploadButton(type)
+                : this.fileNameToShow(
+                    semesterStatus[type + 'Name'],
+                    semesterStatus[type]
+                  )}
             </span>
-            <span style={{ display: 'flex', flexDirection: 'row' }}>
-              <a
-                onClick={() =>
-                  this.setState(state => ({ editing: !state.editing }))}
-              >
-                <i
-                  className="fa fa-pencil"
-                  style={{ marginRight: '5px', color: 'orange' }}
-                />
-              </a>
-              <a onClick={() => deleteSemesterStatus(status.id)}>
-                <i className="fa fa-times" style={{ color: '#d13c32' }} />
-              </a>
-            </span>
-          </div>
+          </td>
+        ))}
+        <td>
+          <span style={{ display: 'flex', flexDirection: 'row' }}>
+            <a
+              onClick={() =>
+                this.setState(state => ({
+                  editing: !state.editing
+                }))}
+            >
+              <i
+                className="fa fa-pencil"
+                style={{ marginRight: '5px', color: 'orange' }}
+              />
+            </a>
+            <a onClick={() => this.deleteSemesterStatus(semesterStatus.id)}>
+              <i className="fa fa-times" style={{ color: '#d13c32' }} />
+            </a>
+          </span>
         </td>
       </tr>
     );

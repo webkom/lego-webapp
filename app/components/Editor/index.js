@@ -44,7 +44,8 @@ type Props = {
   placeholder?: string,
   onChange: string => void,
   onBlur?: () => void,
-  onFocus?: () => void
+  onFocus?: () => void,
+  readOnly?: boolean
 };
 
 type State = {
@@ -52,19 +53,31 @@ type State = {
   state: EditorState
 };
 
+const emptyState = '<p></p>';
+
 class CustomEditor extends Component {
   state: State;
   props: Props;
+  lastSerialized: string | null;
 
   constructor(props: Props) {
     super(props);
     resetKeyGenerator();
-    const content = this.props.value || '<p></p>';
+    const content = this.props.value || emptyState;
 
     this.state = {
       state: serializer.deserialize(content)
     };
   }
+
+  componentWillReceiveProps = (newProps: Props) => {
+    if (newProps.value !== this.lastSerialized) {
+      const content = newProps.value || emptyState;
+      this.setState({
+        state: serializer.deserialize(content)
+      });
+    }
+  };
 
   componentDidMount = () => {
     this.updateHoverMenu();
@@ -93,7 +106,11 @@ class CustomEditor extends Component {
 
   onChange = ({ state }: Change) => {
     if (state.document !== this.state.state.document) {
-      this.props.onChange(serializer.serialize(state));
+      this.lastSerialized = serializer.serialize(state);
+      if (this.lastSerialized === emptyState) {
+        this.lastSerialized = '';
+      }
+      this.props.onChange(this.lastSerialized);
     }
 
     this.setState({ state });
@@ -304,6 +321,7 @@ class CustomEditor extends Component {
             state={this.state.state}
             onChange={this.onChange}
             onKeyDown={this.onKeyDown}
+            readOnly={this.props.readOnly}
           />
         </div>
       </div>

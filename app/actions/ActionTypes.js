@@ -115,10 +115,6 @@ export const InterestGroup = {
 export const Membership = {
   CREATE: generateStatuses('Membership.CREATE'),
   REMOVE: generateStatuses('Membership.REMOVE'),
-
-  // TODO (ek): Remove these when the interest group
-  // reducer has been replaced by the group reducer:
-  MEMBER_SET: generateStatuses('Membership.MEMBER_SET'),
   JOIN_GROUP: generateStatuses('Membership.JOIN_GROUP'),
   LEAVE_GROUP: generateStatuses('Membership.LEAVE_GROUP')
 };
@@ -143,7 +139,6 @@ export const Comment = {
  */
 export const Company = {
   FETCH: generateStatuses('Company.FETCH'),
-  FETCH_ALL: generateStatuses('Company.FETCH_ALL'),
   FETCH_COMPANY_CONTACT: generateStatuses('Company.FETCH_COMPANY_CONTACT'),
   ADD: generateStatuses('Company.ADD'),
   EDIT: generateStatuses('Company.EDIT'),

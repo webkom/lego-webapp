@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
-import Image from 'app/components/Image';
+import { Image } from 'app/components/Image';
 import truncateString from 'app/utils/truncateString';
 import { Container, Flex } from 'app/components/Layout';
 import LatestReadme from './LatestReadme';
@@ -20,7 +20,7 @@ function PrimaryItem({ event }) {
   if (!event) {
     return (
       <Flex column className={styles.primaryItem}>
-        <h2 className="u-ui-heading">Pinned event</h2>
+        <h2 className="u-ui-heading">Festet arrangement</h2>
         <Flex column className={styles.innerPrimaryItem}>
           <Image
             style={{ height: IMAGE_HEIGHT, display: 'block' }}
@@ -36,7 +36,7 @@ function PrimaryItem({ event }) {
   }
   return (
     <Flex column className={styles.primaryItem}>
-      <h2 className="u-ui-heading">Pinned Event</h2>
+      <h2 className="u-ui-heading">Festet arrangement</h2>
       <Flex column className={styles.innerPrimaryItem}>
         <Link
           to={`/events/${event.id}`}

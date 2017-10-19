@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import truncateString from 'app/utils/truncateString';
 import styles from './SearchPage.css';
 import Icon from 'app/components/Icon';
-import ProfilePicture from 'app/components/ProfilePicture';
+import { ProfilePicture } from 'app/components/Image';
 import type { resultProps } from 'app/reducers/search';
 
 type Props = {
