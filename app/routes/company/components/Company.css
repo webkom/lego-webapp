@@ -1,9 +1,21 @@
+@import 'app/styles/variables.css';
+
 .root {
-  composes: container from 'app/styles/utilities.css';
+  composes: contentContainer from 'app/styles/utilities.css';
 }
 
 .picture {
   background-color: ghostwhite;
+}
+
+.heading {
+  color: #777;
+  letter-spacing: 2px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 20px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
 }
 
 .titleFlex {
@@ -12,6 +24,31 @@
   justify-content: space-between;
   border-bottom: 1px solid #aaa;
   background-color: ghostwhite;
+}
+
+.companies {
+  margin-bottom: 40px;
+}
+
+.website {
+  color: #777;
+}
+
+.companyItem {
+  padding-left: 20px;
+  border-left: 4px solid transparent;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  border-left: 4px solid colorEvent;
+  color: var(--color-black);
+}
+
+.companyItemTitle {
+  color: #333;
+  font-weight: 700;
+  margin: 0;
+  word-break: break-word;
 }
 
 .title {
@@ -77,6 +114,10 @@
   width: 100%;
   height: 300px;
   overflow: hidden;
+}
+
+.companyLogo {
+  max-width: 300px;
 }
 
 .image {
