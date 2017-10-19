@@ -24,6 +24,7 @@ import {
 import { Flex } from 'app/components/Layout';
 import { eventTypes, styleForEvent } from '../../utils.js';
 import Admin from '../Admin';
+import Content from 'app/components/Layout/Content';
 import Tooltip from 'app/components/Tooltip';
 import cx from 'classnames';
 
@@ -84,7 +85,7 @@ function EventEditor({
   const styleType = styleForEvent(event.eventType);
 
   return (
-    <div className={styles.root}>
+    <Content>
       {isEditPage && (
         <h2>
           <Link to={`/events/${eventId}`}>
@@ -287,7 +288,7 @@ function EventEditor({
           </Flex>
         </Flex>
       </Form>
-    </div>
+    </Content>
   );
 }
 

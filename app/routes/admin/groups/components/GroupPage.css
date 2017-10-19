@@ -10,7 +10,7 @@
   order: -1;
   margin-right: 40px;
   padding-right: 40px;
-  border-right: 1px solid ghostwhite;
+  border-right: 1px solid var(--border-gray);
 }
 
 .main {
