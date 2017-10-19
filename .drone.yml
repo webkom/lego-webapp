@@ -6,8 +6,9 @@ pipeline:
     commands:
       - yarn
       - yarn test
-      - yarn run lint
-      - yarn run build
+      - yarn lint
+      - yarn flow
+      - yarn build
   docker:
     image: plugins/docker
     when:
