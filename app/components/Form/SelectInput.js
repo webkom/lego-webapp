@@ -42,7 +42,15 @@ function SelectInput({
           onBlurResetsInput={false}
           onBlur={() => onBlur(value)}
           value={value}
+          shouldKeyDownEventCreateNewOption={shouldKeyDownEventCreateNewOption}
           options={options}
+          isLoading={fetching}
+          onInputChange={value => {
+            if (props.onSearch) {
+              props.onSearch(value);
+            }
+            return value;
+          }}
         />
       </div>
     );
