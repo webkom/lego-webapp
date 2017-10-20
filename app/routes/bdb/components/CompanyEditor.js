@@ -37,6 +37,7 @@ class CompanyEditor extends Component {
     const { company, submitFunction } = this.props;
     return submitFunction({
       ...formContent,
+      logo: formContent.logo || undefined,
       studentContact:
         formContent.studentContact && Number(formContent.studentContact.value),
       website: httpCheck(formContent.website),
@@ -77,7 +78,7 @@ class CompanyEditor extends Component {
           <form onSubmit={handleSubmit(this.onSubmit)}>
             <Field
               name="logo"
-              component={ImageUploadField.Field}
+              component={ImageUploadField}
               uploadFile={uploadFile}
               aspectRatio={20 / 6}
               img={company && company.logo}

@@ -23,8 +23,7 @@ function GroupForm({
   handleSubmitCallback,
   group,
   submitting,
-  pristine,
-  uploadFile
+  pristine
 }: Props) {
   const isNew = !group;
 
@@ -52,9 +51,8 @@ function GroupForm({
       />
       <Field
         name="logo"
-        component={ImageUploadField.Field}
+        component={ImageUploadField}
         label="Gruppelogo"
-        uploadFile={uploadFile}
         aspectRatio={1}
         img={group && group.logo}
         className={styles.logo}
