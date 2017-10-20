@@ -93,7 +93,7 @@ function renderPage({ body, state, helmet }) {
     .join('\n');
   const scripts = [vendor && vendor.js, app && app.js]
     .filter(Boolean)
-    .map(js => `<script async src="${js}"></script>`)
+    .map(js => `<script src="${js}"></script>`)
     .join('\n');
 
   return `
