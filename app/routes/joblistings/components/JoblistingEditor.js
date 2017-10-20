@@ -1,5 +1,3 @@
-// @flow
-
 import React from 'react';
 import styles from './JoblistingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -17,8 +15,6 @@ import config from 'app/config';
 import { Content } from 'app/components/Layout';
 import { Flex } from 'app/components/Layout';
 import { places, jobTypes, yearValues } from '../constants';
-
-type JobListing = Object;
 
 type Props = {
   joblistingId?: string,

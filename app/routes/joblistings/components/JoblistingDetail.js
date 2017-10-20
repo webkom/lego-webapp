@@ -10,34 +10,15 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { jobType, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
 import Editor from 'app/components/Editor';
-import Button from 'app/components/Button';
-
-type ButtonsProps = {
-  id: number,
-  deleteJoblisting: number => void
-};
-
-const Buttons = ({ id, deleteJoblisting }) => (
-  <Flex alignItems="center" className={styles.buttonRow}>
-    <Link to={`/joblistings/${id}/edit`}>
-      <Button> Rediger </Button>
-    </Link>
-    <Button dark onClick={() => deleteJoblisting(joblisting.id)}>
-      Slett
-    </Button>
-  </Flex>
-);
 
 type Props = {
   joblisting: Object,
-  deleteJoblisting: () => void,
   actionGrant: /*TODO: ActionGrant */ Array<any>,
   fetching: boolean
 };
 
 const JoblistingDetail = ({
   joblisting,
-  deleteJoblisting,
   actionGrant,
   fetching = false
 }: Props) => {
@@ -65,17 +46,21 @@ const JoblistingDetail = ({
 
   return (
     <Content>
-      <div className={styles.coverImage}>
-        <Image src="http://placehold.it/1000x300" />
-      </div>
+      {joblisting.cover && (
+        <div className={styles.coverImage}>
+          <Image src="http://placehold.it/1000x300" />
+        </div>
+      )}
       <NavigationTab
         title={joblisting.title}
         headerClassName={styles.headerDetail}
       >
         {actionGrant.includes('edit') && (
-          <NavigationLink to={`/joblistings/${joblisting.id}/edit`}>
-            Rediger
-          </NavigationLink>
+          <div>
+            <NavigationLink to={`/joblistings/${joblisting.id}/edit`}>
+              Rediger
+            </NavigationLink>
+          </div>
         )}
       </NavigationTab>
       <Flex className={styles.textbody}>

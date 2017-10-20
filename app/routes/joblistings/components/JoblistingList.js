@@ -49,7 +49,11 @@ function JoblistingItem({ joblisting }: JobListingItemProps) {
   );
 }
 
-const JoblistingsList = ({ joblistings }: Props) => (
+type JobListingsItemProps = {
+  joblistings: /*TODO: JobListings*/ Array<Object>
+};
+
+const JoblistingsList = ({ joblistings }: JobListingsItemProps) => (
   <Flex column className={styles.joblistingList}>
     <Flex className={styles.heading}>
       <h2 className={styles.headingText}>Jobbannonser</h2>
