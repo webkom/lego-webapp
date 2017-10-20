@@ -47,14 +47,15 @@ export default class CompactEvents extends Component {
                 </Link>
               </span>
             </span>
-            <span>{Time({ format: 'dd d.MM', time: event.startTime._i })}</span>
+            <Time format="dd D.MM" time={event.startTime} />
           </li>
         ));
     };
 
     const leftEvents = mapEvents([
       'company_presentation',
-      'lunch_presentation'
+      'lunch_presentation',
+      'course'
     ]);
 
     const rightEvents = mapEvents(['other', 'event']);
