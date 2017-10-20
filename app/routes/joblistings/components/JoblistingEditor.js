@@ -1,30 +1,27 @@
-// @flow
-
 import React from 'react';
 import styles from './JoblistingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field, change } from 'redux-form';
-import { Form, SelectInput } from 'app/components/Form';
+import {
+  TextInput,
+  EditorField,
+  Form,
+  SelectInput,
+  DatePicker
+} from 'app/components/Form';
 import Button from 'app/components/Button';
 import moment from 'moment';
 import config from 'app/config';
 import { Content } from 'app/components/Layout';
-import { FlexRow, FlexColumn } from 'app/components/FlexBox';
-import {
-  DatePickerComponent,
-  YearPickerComponent,
-  FieldComponent,
-  TextEditorComponent
-} from './JoblistingEditorItems';
-import { places, jobTypes } from '../constants';
-
-type JobListing = Object;
+import { Flex } from 'app/components/Layout';
+import { places, jobTypes, yearValues } from '../constants';
 
 type Props = {
   joblistingId?: string,
-  joblisting?: JobListing,
-  handleSubmit: /*TODO: SubmitHandler<>*/ any => void,
-  submitJoblisting: JobListing => void,
+  joblisting?: Object,
+  handleSubmit: () => void,
+  submitJoblisting: () => void,
+  deleteJoblisting: () => void,
   company?: Object,
   dispatch: any => void,
   isNew: boolean,
@@ -37,6 +34,7 @@ function JoblistingEditor({
   joblisting,
   isNew,
   submitJoblisting,
+  deleteJoblisting,
   company,
   dispatch,
   fetching = false
@@ -58,97 +56,125 @@ function JoblistingEditor({
 
   return (
     <Content>
-      <div className={styles.root}>
-        <h1 className={styles.heading}>
-          {!isNew ? 'Rediger jobbannonse' : 'Legg til jobbannonse'}
-        </h1>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <FieldComponent text="Tittel: " name="title" placeholder="Tittel" />
-          <FlexRow className={styles.row}>
-            <FlexColumn className={styles.des}>Bedrift: </FlexColumn>
-            <FlexColumn className={styles.textfield}>
-              <Field
-                placeholder="Bedrift"
-                name="company"
-                component={SelectInput.AutocompleteField}
-                filter={['companies.company']}
-                onChange={() =>
-                  dispatch(
-                    change('joblistingEditor', 'responsible', {
-                      label: 'Ingen',
-                      value: null
-                    })
-                  )}
-              />
-            </FlexColumn>
-          </FlexRow>
+      <h1 className={styles.heading}>
+        {!isNew ? 'Rediger jobbannonse' : 'Legg til jobbannonse'}
+      </h1>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <Field
+          placeholder="Title"
+          label="Title"
+          name="title"
+          component={TextInput.Field}
+          required
+        />
+        <Field
+          placeholder="Bedrift"
+          label="Bedrift"
+          name="company"
+          component={SelectInput.AutocompleteField}
+          filter={['companies.company']}
+          onChange={() =>
+            dispatch(
+              change('joblistingEditor', 'responsible', {
+                label: 'Ingen',
+                value: null
+              })
+            )}
+        />
+        <Field
+          name="jobType"
+          label="Jobbtype"
+          component={SelectInput.Field}
+          placeholder="Jobbtype"
+          simpleValue
+          options={jobTypes}
+        />
+        <Field
+          placeholder="Søknadsfrist"
+          dateFormat="ll"
+          label="Søknadsfrist"
+          showTimePicker={true}
+          name="deadline"
+          id="gallery-takenAt"
+          component={DatePicker.Field}
+        />
+        <Field
+          name="visibleFrom"
+          label="Synlig fra dato"
+          component={DatePicker.Field}
+        />
+        <Field
+          name="visibleTo"
+          label="Synlig til dato"
+          component={DatePicker.Field}
+        />
+        <Field
+          placeholder="Arbeidssteder"
+          label="Arbeidssteder"
+          name="workplaces"
+          component={SelectInput.Field}
+          options={places}
+          tags
+        />
+        <Field
+          name="fromYear"
+          label="For klasse trinn fra"
+          placeholder="Jobbtype"
+          simpleValue
+          component={SelectInput.Field}
+          options={yearValues}
+        />
+        <Field
+          name="toYear"
+          label="Til klasse"
+          placeholder="Jobbtype"
+          simpleValue
+          component={SelectInput.Field}
+          options={yearValues}
+        />
+        <Field
+          placeholder="Søknadslenke"
+          label="Søknadslenke"
+          name="applicationUrl"
+          component={TextInput.Field}
+        />
+        <Field
+          placeholder="Kontaktperson"
+          label="Kontaktperson"
+          name="responsible"
+          component={SelectInput.AutocompleteField}
+          filter={['companies.companycontact']}
+        />
+        <Field
+          name="description"
+          className={styles.descriptionField}
+          label="Søknadsintro"
+          placeholder="Søknadsintro"
+          component={EditorField.Field}
+        />
+        <Field
+          name="text"
+          className={styles.textField}
+          label="Søknadstekst:"
+          placeholder="Søknadstekst"
+          component={EditorField.Field}
+        />
 
-          <DatePickerComponent text="Deadline:" name="deadline" />
-          <DatePickerComponent text="Synlig fra:" name="visibleFrom" />
-          <DatePickerComponent text="Synlig til:" name="visibleTo" />
-
-          <FlexRow className={styles.row}>
-            <FlexColumn className={styles.des}>Jobbtype: </FlexColumn>
-            <FlexColumn className={styles.textfield}>
-              <Field
-                name="jobType"
-                component={SelectInput.Field}
-                placeholder="Jobbtype"
-                simpleValue
-                options={jobTypes}
-              />
-            </FlexColumn>
-          </FlexRow>
-
-          <FlexRow className={styles.row}>
-            <FlexColumn className={styles.des}>Arbeidssteder: </FlexColumn>
-            <FlexColumn className={styles.textfield}>
-              <Field
-                placeholder="Arbeidssteder"
-                name="workplaces"
-                component={SelectInput.Field}
-                options={places}
-                tags
-              />
-            </FlexColumn>
-          </FlexRow>
-
-          <YearPickerComponent text="Fra år: " name="fromYear" />
-          <YearPickerComponent text="Til år: " name="toYear" />
-
-          <FieldComponent
-            text="Søknadslenke: "
-            name="applicationUrl"
-            placeholder="Søknadslenke"
-          />
-
-          <TextEditorComponent
-            text="Søknadsintro: "
-            name="description"
-            placeholder="Søknadsintro"
-          />
-          <TextEditorComponent
-            text="Søknadstekst: "
-            name="text"
-            placeholder="Søknadstekst"
-          />
-
-          <FlexRow className={styles.row}>
-            <FlexColumn className={styles.des}>Kontaktperson: </FlexColumn>
-            <FlexColumn className={styles.textfield}>
-              <Field
-                placeholder="Kontaktperson"
-                name="responsible"
-                component={SelectInput.AutocompleteField}
-                filter={['companies.companycontact']}
-              />
-            </FlexColumn>
-          </FlexRow>
+        <Flex
+          className={styles.buttonRow}
+          alignItems="baseline"
+          justifyContent="flex-end"
+        >
+          {!isNew && (
+            <Button dark onClick={() => deleteJoblisting(joblisting.id)}>
+              Delete
+            </Button>
+          )}
           <Button className={styles.submit} submit>
             Lagre
           </Button>
-        </Form>
-      </div>
+        </Flex>
+      </Form>
     </Content>
   );
 }

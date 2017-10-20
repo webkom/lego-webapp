@@ -1,36 +1,20 @@
 @import 'app/styles/variables.css';
 
 .root {
-  composes: container from 'app/styles/utilities.css';
+  composes: contentContainer from 'app/styles/utilities.css';
 }
 
 .page {
   margin-top: 2rem;
+  justify-content: space-around;
 
-  @media (--small-viewport) {
+  @media (max-width: 630px) {
     flex-direction: column-reverse;
-    margin: auto 10px;
   }
 }
 
 h1 {
   font-size: 30px;
   font-weight: bold;
-  display: block;
   margin: 15px 0;
-}
-
-.list {
-  min-width: 75%;
-}
-
-.rightNav {
-  min-width: 25%;
-  width: 25px;
-
-  @media (--small-viewport) {
-    align-items: center;
-    justify-content: space-around;
-    width: 100%;
-  }
 }

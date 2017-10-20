@@ -1,59 +1,100 @@
 @import 'app/styles/variables.css';
 
 .box {
-  margin-left: 2rem;
-  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-start;
   min-height: 350px;
-  background: #f2ece8;
-  border: 1px solid #ddd;
-  padding: 5% 10%;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  flex: 1;
+  margin-left: 30px;
+  padding: 30px;
+  padding-top: 0;
+  margin-top: 0;
+  min-width: 225px;
+  max-width: 250px;
 
-  @media (--small-viewport) {
-    display: none;
+  @media (max-width: 630px) {
+    align-items: center;
+    justify-content: space-around;
+    max-width: none;
+    min-height: 0;
+    margin-left: 0;
+    margin-bottom: 5px;
+    padding-bottom: 0;
   }
 }
 
-.sort {
-  justify-content: space-around;
+.optionsTitle {
+  display: flex;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  width: 95%;
+  justify-content: center;
+
+  @media (max-width: 630px) {
+    margin-bottom: 0;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.options {
+  margin-top: 20px;
+
+  @media (max-width: 630px) {
+    width: 100%;
+  }
+}
+
+.filters {
+  @media (max-width: 630px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
+
+.filters > div {
+  margin: 10px;
+}
+
+.sortNav {
+  @media (max-width: 630px) {
+    flex-wrap: wrap;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 }
 
 .rightHeader {
   text-transform: uppercase;
   font-weight: 400;
   font-size: 15px;
-  border-bottom: 1px solid #999;
+  border-bottom: 1px solid #ddd;
   letter-spacing: 2px;
   margin-bottom: 2%;
   margin-top: 8%;
   padding-left: 0;
 }
 
+.sortHeader {
+  @media (max-width: 630px) {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
 .createButton {
-  font-weight: 700;
-  cursor: pointer;
-  background: #eff1f4;
-  text-transform: uppercase;
-  padding: 10px 20px;
-  color: #333;
-  outline: none;
-  border: 1px solid #ccc;
-  letter-spacing: 1px;
-  border-radius: 4px;
+  flex: 1;
+  align-self: center;
+  justify-content: center;
 
-  @media (--small-viewport) {
-    display: block;
-  }
-
-  &:hover {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  }
-
-  &:active {
-    color: #555;
-    transform: translateY(1px);
-  }
-
-  &:disabled {
-    color: #888;
+  @media (max-width: 630px) {
+    margin-left: 10px;
+    margin-right: 10px;
   }
 }
