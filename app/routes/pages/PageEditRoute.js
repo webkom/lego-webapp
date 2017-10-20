@@ -1,7 +1,12 @@
 import { compose } from 'redux';
 import { dispatched } from '@webkom/react-prepare';
 import { connect } from 'react-redux';
-import { fetchAll, fetchPage, updatePage } from 'app/actions/PageActions';
+import {
+  fetchAll,
+  fetchPage,
+  updatePage,
+  deletePage
+} from 'app/actions/PageActions';
 import { uploadFile } from 'app/actions/FileActions';
 import PageEditor from './components/PageEditor';
 import { reduxForm } from 'redux-form';
@@ -32,6 +37,7 @@ const mapDispatchToProps = {
   fetchPage,
   updatePage,
   uploadFile,
+  deletePage,
   push
 };
 

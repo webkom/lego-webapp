@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from 'react';
 import { Modal as ReactModal } from 'react-overlays';
 import cx from 'classnames';
