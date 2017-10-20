@@ -3,7 +3,6 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import styles from './JoblistingPage.css';
-import { Content } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
 import JoblistingsList from './JoblistingList';
 import JoblistingsRightNav from './JoblistingRightNav';
@@ -12,7 +11,8 @@ import { Flex } from 'app/components/Layout';
 type Props = {
   joblistings: Array</*TODO: JobListing*/ any>,
   query: Object,
-  actionGrant: /*TODO: ActionGrant */ any
+  actionGrant: /*TODO: ActionGrant */ any,
+  router: any
 };
 
 const JoblistingsPage = ({
