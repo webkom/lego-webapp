@@ -72,16 +72,16 @@ function PrimaryItem({ event }) {
   );
 }
 
-const OverviewItem = ({ event, showImage }) => (
+const OverviewItem = ({ event }) => (
   <Flex column className={styles.item}>
     <Flex className={styles.inner}>
-      <Flex column>
-        {showImage && (
+      {event.cover && (
+        <Flex column>
           <Link to={`/events/${event.id}`} className={styles.imageContainer}>
             <Image className={styles.image} src={event.cover} />
           </Link>
-        )}
-      </Flex>
+        </Flex>
+      )}
       <Flex column className={styles.innerRight}>
         <div className={styles.heading}>
           <h2 className={styles.itemTitle}>
@@ -156,7 +156,6 @@ export default class Overview extends Component {
               <OverviewItem
                 key={event.id}
                 event={event}
-                showImage
                 increaseEventsToShow={this.increaseEventsToShow}
               />
             ))}
