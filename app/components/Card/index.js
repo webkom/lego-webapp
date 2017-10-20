@@ -12,7 +12,9 @@ type Props = {
   /** Small */
   tight?: boolean,
   /** Shadow */
-  shadow?: boolean
+  shadow?: boolean,
+  /** Extra style **/
+  className?: string
 };
 
 function Card({
@@ -20,6 +22,7 @@ function Card({
   dark = false,
   tight = false,
   shadow = true,
+  className,
   ...htmlAttributes
 }: Props) {
   return (
@@ -28,7 +31,8 @@ function Card({
         styles.card,
         dark && styles.dark,
         tight && styles.tight,
-        shadow && styles.shadow
+        shadow && styles.shadow,
+        className
       )}
       {...htmlAttributes}
     >

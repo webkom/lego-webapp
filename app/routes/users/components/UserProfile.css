@@ -22,12 +22,39 @@
 }
 
 .left {
-  @media (--small-viewport) {
+  width: 70%;
+  margin-right: 15px;
+
+  @media (--mobile-device) {
+    width: 100%;
     justify-content: space-around;
     flex-direction: column;
     text-align: center;
     align-items: center;
     margin-bottom: 30px;
+  }
+}
+
+.card {
+  max-width: 300px;
+
+  @media (--mobile-device) {
+    margin: 50px auto 0;
+  }
+}
+
+.pills {
+  @media (--mobile-device) {
+    margin-bottom: 35px;
+  }
+}
+
+.pill {
+  margin: 5px;
+  height: 100%;
+
+  @media (--mobile-device) {
+    margin-bottom: 20px;
   }
 }
 
@@ -43,6 +70,5 @@
 }
 
 .feed {
-  composes: rightContent;
   padding-left: 30px;
 }

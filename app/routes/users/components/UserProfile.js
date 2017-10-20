@@ -13,7 +13,6 @@ import styles from './UserProfile.css';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import { groupBy } from 'lodash';
-import cx from 'classnames';
 
 const fieldTranslations = {
   username: 'brukernavn',
@@ -63,9 +62,9 @@ export default class UserProfile extends Component {
             <Flex column className={styles.primaryInfo}>
               <h2 style={{ marginBottom: '15px' }}>{user.fullName}</h2>
 
-              <Flex wrap>
+              <Flex wrap className={styles.pills}>
                 {(abakusGroups['withoutLogo'] || []).map(group => (
-                  <Pill key={group.id} style={{ margin: '5px' }}>
+                  <Pill key={group.id} className={styles.pill}>
                     {group.name}
                   </Pill>
                 ))}
@@ -83,7 +82,7 @@ export default class UserProfile extends Component {
               </Flex>
             </Flex>
           </Flex>
-          <Card style={{ maxWidth: '300px' }}>
+          <Card className={styles.card}>
             {this.renderFields()}
             {showSettings ? (
               <Link to={`/users/${user.username}/settings/profile`}>
