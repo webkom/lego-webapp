@@ -27,6 +27,10 @@ $ NODE_ENV=production node dist/server.js
 * WS_URL
 * BASE_URL
 * CAPTCHA_KEY
+* STRIPE_KEY
+* RAVEN_DSN
+* RELEASE
+* ENVIRONMENT
 
 ## Documentation
 For simple component documentation we use [react-docgen](https://github.com/reactjs/react-docgen), with [react-styleguidist](https://github.com/styleguidist/react-styleguidist) for easy style guide generation.
