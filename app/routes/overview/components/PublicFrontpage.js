@@ -6,6 +6,7 @@ import {
   ForgotPasswordForm
 } from 'app/components/LoginForm';
 import styles from './PublicFrontpage.css';
+import bekkLogo from 'app/assets/bekk_small.png';
 import { Link } from 'react-router';
 
 class PublicFrontpage extends Component {
@@ -77,7 +78,12 @@ class PublicFrontpage extends Component {
             {form}
           </div>
           <div className={styles.bigWelcomeBox}>
-            <h2 className="u-mb">Velkommen til Abakus</h2>
+            <h2 className={`${styles.header} u-mb`}>
+              Velkommen til Abakus
+              <a href="https://bekk.no">
+                <img className={styles.sponsor} src={bekkLogo} alt="BEKK" />
+              </a>
+            </h2>
             <p>
               Abakus er linjeforeningen for studentene ved Datateknologi og
               Kommunikasjonsteknologi på NTNU, og drives av studenter ved disse
@@ -97,16 +103,6 @@ class PublicFrontpage extends Component {
           <div className={styles.usefulLinks}>
             <h2 className="u-mb">Nyttige linker</h2>
             <ul>
-              <li>
-                <a href="https://www.ntnu.no/innsida/">
-                  <i className="fa fa-caret-right" /> innsida
-                </a>
-                <div className={styles.linkDescription}>
-                  Innsida er kjappeste vei inn til andre system og tjenester.
-                  Logger man seg på Innsida, blir man samtidig pålogget andre
-                  system.
-                </div>
-              </li>
               <li>
                 <a href="https://www.ntnu.no/studier/mtdt">
                   <i className="fa fa-caret-right" /> Om Datateknologi
@@ -132,10 +128,8 @@ class PublicFrontpage extends Component {
                   <i className="fa fa-caret-right" /> For bedrifter
                 </Link>
                 <div className={styles.linkDescription}>
-                  Her finner du som bedriftsrepresentant informasjon om Abakus
-                  {"'"}
-                  {} prosedyrer for bedriftspresentasjoner og andre nyttige
-                  fakta.
+                  Her finner du som bedriftsrepresentant informasjon om Abakus{"' "}
+                  prosedyrer for bedriftspresentasjoner og andre nyttige fakta.
                 </div>
               </li>
             </ul>
