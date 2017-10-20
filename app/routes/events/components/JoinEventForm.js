@@ -218,7 +218,7 @@ class JoinEventForm extends Component {
     return (
       <Flex column className={styles.join}>
         <div className={styles.joinHeader}>Bli med på dette arrangementet</div>
-        <Link to="/pages/rules" style={{ marginTop: 0 }}>
+        <Link to="/pages/info/26-arrangementsregler" style={{ marginTop: 0 }}>
           <Flex alignItems="center">
             <Icon name="document" style={{ marginRight: '4px' }} />
             <span>Regler for Abakus&#39; arrangementer</span>
