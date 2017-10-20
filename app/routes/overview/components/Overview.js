@@ -132,24 +132,25 @@ export default class Overview extends Component {
   };
 
   render() {
-    const { events, feed, feedItems } = this.props;
+    const isEvent = o => typeof o['startTime'] !== 'undefined';
+    const { frontpage, feed, feedItems } = this.props;
 
     return (
       <Container>
         <Helmet title="Hjem" />
         <Flex wrap style={{ justifyContent: 'space-between' }}>
           <Flex column style={{ flex: 2 }}>
-            <CompactEvents events={events} />
-            <PrimaryItem event={events[0]} />
+            <CompactEvents events={frontpage.filter(isEvent)} />
+            <PrimaryItem event={frontpage[0]} />
           </Flex>
           <Feed style={{ flex: 2 }} feed={feed} feedItems={feedItems} />
         </Flex>
         <Flex />
         <Flex padding={10}>
-          <LatestReadme expanded={events.length === 0} />
+          <LatestReadme expanded={frontpage.length === 0} />
         </Flex>
         <Flex wrap>
-          {events
+          {frontpage
             .slice(1, this.state.eventsToShow)
             .map(event => (
               <OverviewItem
@@ -159,7 +160,7 @@ export default class Overview extends Component {
                 increaseEventsToShow={this.increaseEventsToShow}
               />
             ))}
-          {events.length > 0 && (
+          {frontpage.length > 0 && (
             <Button
               style={{ width: '100%', marginTop: '10px' }}
               onClick={() =>

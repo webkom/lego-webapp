@@ -1,11 +1,10 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import moment from 'moment';
 import { dispatched } from '@webkom/react-prepare';
-import { fetchAll } from 'app/actions/EventActions';
+import { fetch } from 'app/actions/FrontpageActions';
 import { login, logout } from 'app/actions/UserActions';
 import Overview from './components/Overview';
-import { selectEvents } from 'app/reducers/events';
+import { selectFrontpage } from 'app/reducers/frontpage';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import PublicFrontpage from './components/PublicFrontpage';
 import { fetchPersonalFeed } from 'app/actions/FeedActions';
@@ -15,7 +14,7 @@ import {
 } from 'app/reducers/feeds';
 
 const mapStateToProps = state => ({
-  events: selectEvents(state),
+  frontpage: selectFrontpage(state),
   feed: selectFeedById(state, { feedId: 'personal' }),
   feedItems: selectFeedActivitesByFeedId(state, {
     feedId: 'personal'
@@ -28,7 +27,7 @@ export default compose(
   replaceUnlessLoggedIn(PublicFrontpage),
   dispatched(
     ({ loggedIn }, dispatch) =>
-      dispatch(fetchAll({ dateAfter: moment().format('YYYY-MM-DD') })).then(
+      dispatch(fetch()).then(
         () => (loggedIn ? dispatch(fetchPersonalFeed()) : Promise.resolve())
       ),
     {
