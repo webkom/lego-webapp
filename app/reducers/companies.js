@@ -8,6 +8,69 @@ import { mutateComments } from 'app/reducers/comments';
 import joinReducers from 'app/utils/joinReducers';
 import { selectCompanySemesters } from './companySemesters';
 import mergeObjects from 'app/utils/mergeObjects';
+import type { UserEntity } from 'app/reducers/users';
+
+export type BaseCompanyEntity = {
+  name: string,
+  companyId?: number,
+  description?: string,
+  studentContact?: UserEntity,
+  phone?: string,
+  companyType?: string,
+  website?: string,
+  address?: string,
+  paymentMail?: string,
+  active?: boolean,
+  adminComment?: string,
+  companyType?: string,
+  commentTarget: string,
+  comments: Array<{ id: string, parent: string }>,
+  semesterStatuses: Array<SemesterStatusEntity>,
+  logo?: string,
+  files?: Array<string>,
+  companyContacts: Array<CompanyContactEntity>
+};
+
+export type CompanyEntity = { ...BaseCompanyEntity, id: number };
+
+export type SubmitCompanyEntity = {
+  ...BaseCompanyEntity,
+  studentContact?: number
+};
+
+export type BaseSemesterStatusEntity = {
+  id?: number,
+  companyId?: number,
+  semester?: number,
+  contactedStatus?: Array<string>,
+  contract?: string,
+  contractName?: string,
+  statistics?: string,
+  statisticsName?: string,
+  evaluation?: string,
+  evaluationName?: string
+};
+
+export type SemesterStatusEntity = {
+  ...BaseSemesterStatusEntity,
+  id: number,
+  semester: string,
+  year: string
+};
+
+export type BaseCompanyContactEntity = {
+  id?: number,
+  name: string,
+  role?: string,
+  mail?: string,
+  phone?: string,
+  mobile?: string
+};
+
+export type CompanyContactEntity = {
+  ...BaseCompanyContactEntity,
+  id: number
+};
 
 function mutateCompanies(state, action) {
   switch (action.type) {

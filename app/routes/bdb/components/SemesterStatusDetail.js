@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import styles from './bdb.css';
 import {
@@ -7,17 +9,19 @@ import {
 } from '../utils.js';
 import SemesterStatusContent from './SemesterStatusContent';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import type { SemesterStatusEntity } from 'app/reducers/companies';
 import FileUpload from 'app/components/Upload/FileUpload';
 import truncateString from 'app/utils/truncateString';
 
 const FILE_NAME_LENGTH = 30;
 
 type Props = {
-  semesterStatus: Object,
+  semesterStatus: SemesterStatusEntity,
   index: number,
-  deleteSemesterStatus: number => void,
-  editFunction: () => void,
-  addFileToSemester: (fileName, type) => void
+  companyId: number,
+  deleteSemesterStatus: (number, number) => Promise<*>,
+  editFunction: (Object, string) => Promise<*>,
+  addFileToSemester: (string, string, string, Object) => Promise<*>
 };
 
 export default class SemesterStatusDetail extends Component {
@@ -27,13 +31,13 @@ export default class SemesterStatusDetail extends Component {
     editing: false
   };
 
-  deleteSemesterStatus = id => {
+  deleteSemesterStatus = (id: number) => {
     if (confirm('Er du sikker?')) {
-      this.props.deleteSemesterStatus(id);
+      this.props.deleteSemesterStatus(this.props.companyId, id);
     }
   };
 
-  addFile = (fileName, fileToken, type) => {
+  addFile = (fileName: string, fileToken: string, type: string) => {
     this.props.addFileToSemester(
       fileName,
       fileToken,
@@ -43,7 +47,7 @@ export default class SemesterStatusDetail extends Component {
     this.setState(state => ({ editing: false }));
   };
 
-  uploadButton = type => (
+  uploadButton = (type: string) => (
     <FileUpload
       onChange={(fileName, fileToken) =>
         this.addFile(fileName, fileToken, type)}
@@ -51,7 +55,7 @@ export default class SemesterStatusDetail extends Component {
     />
   );
 
-  fileNameToShow = (name, url) =>
+  fileNameToShow = (name: string, url?: string) =>
     name ? <a href={url}>{truncateString(name, FILE_NAME_LENGTH)}</a> : '-';
 
   render() {
