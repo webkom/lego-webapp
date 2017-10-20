@@ -97,7 +97,7 @@ function EventEditor({
       <Form onSubmit={handleSubmit(handleSubmitCallback)}>
         <Field
           name="cover"
-          component={ImageUploadField.Field}
+          component={ImageUploadField}
           uploadFile={uploadFile}
           edit={isEditPage && (token => setCoverPhoto(eventId, token))}
           aspectRatio={20 / 6}
@@ -314,6 +314,9 @@ export default reduxForm({
     }
     if (!data.location) {
       errors.location = 'Lokasjon er påkrevet';
+    }
+    if (!data.cover) {
+      errors.cover = 'Bildet er påkrevet';
     }
     errors.pools = validatePools(data.pools);
     return errors;

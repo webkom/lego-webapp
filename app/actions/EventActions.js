@@ -108,7 +108,10 @@ export function editEvent(event: Object): Thunk<Promise<*>> {
         types: Event.EDIT,
         endpoint: `/events/${event.id}/`,
         method: 'PUT',
-        body: event,
+        body: {
+          ...event,
+          cover: event.cover || undefined
+        },
         meta: {
           errorMessage: 'Endring av hendelse feilet'
         }

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { dispatched } from '@webkom/react-prepare';
 import {
-  fetch,
+  fetchAdmin,
   deleteSemesterStatus,
   deleteCompanyContact,
   fetchSemesters,
@@ -22,7 +22,7 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const loadData = ({ params: { companyId } }, dispatch) =>
   Promise.all([
-    dispatch(fetchSemesters()).then(() => dispatch(fetch(companyId))),
+    dispatch(fetchSemesters()).then(() => dispatch(fetchAdmin(companyId))),
     dispatch(fetchEventsForCompany(companyId))
   ]);
 

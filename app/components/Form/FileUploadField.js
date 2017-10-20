@@ -14,7 +14,7 @@ type Props = {
   onChange: string => void
 };
 
-class ImageUploadField extends Component {
+class FileUploadField extends Component {
   props: Props & FieldProps;
 
   static Field: any;
@@ -49,5 +49,5 @@ class ImageUploadField extends Component {
   }
 }
 
-ImageUploadField.Field = createField(ImageUploadField);
-export default ImageUploadField;
+FileUploadField.Field = createField(FileUploadField);
+export default FileUploadField;
