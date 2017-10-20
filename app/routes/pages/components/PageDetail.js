@@ -17,14 +17,15 @@ import type { PageEntity } from 'app/reducers/pages';
 export type PageInfo = {
   editUrl: string,
   title: string,
-  actionGrant: string[]
+  actionGrant: Array<string>
 };
+
 type Props<T> = {
   selectedPage: T,
   currentUrl: string,
   selectedPageInfo: PageInfo,
   PageRenderer: ({ page: T }) => React.Element<*>,
-  pageHierarchy: HierarchySectionEntity[]
+  pageHierarchy: Array<HierarchySectionEntity>
 };
 
 export const FlatpageRenderer = ({ page }: { page: PageEntity }) => (
