@@ -5,8 +5,7 @@ import { dispatched } from '@webkom/react-prepare';
 import { formValueSelector } from 'redux-form';
 import {
   fetchInterestGroup,
-  editInterestGroup,
-  removeInterestGroup
+  editInterestGroup
 } from 'app/actions/InterestGroupActions';
 import { uploadFile } from 'app/actions/FileActions';
 import { selectGroup } from 'app/reducers/groups';
@@ -15,7 +14,6 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 
 const mapDispatchToProps = {
   editInterestGroup,
-  removeInterestGroup,
   uploadFile,
   handleSubmitCallback: editInterestGroup
 };
