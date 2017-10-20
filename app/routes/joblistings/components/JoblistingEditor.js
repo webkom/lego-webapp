@@ -187,6 +187,9 @@ export default reduxForm({
     if (!values.title) {
       errors.title = 'Du må gi jobbannonsen en tittel';
     }
+    if (!values.description) {
+      errors.description = 'Du må skrive en søknadsintro';
+    }
     if (!values.company || values.company.value == null) {
       errors.company = 'Du må angi en bedrift for jobbannonsen';
     }
