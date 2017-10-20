@@ -4,7 +4,6 @@ import type { Thunk } from 'app/types';
 import { groupSchema, membershipSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Group, Membership } from './ActionTypes';
-import { push } from 'react-router-redux';
 import { omit } from 'lodash';
 
 export type AddMemberArgs = {
