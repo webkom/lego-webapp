@@ -52,7 +52,11 @@ function mutateEvent(state: any, action: any) {
     }
     case Event.SOCKET_REGISTRATION.SUCCESS: {
       const eventId = action.meta.eventId;
-      let waitingRegistrations = state.byId[eventId].waitingRegistrations;
+      let waitingRegistrations =
+        state.byId[eventId] && state.byId[eventId].waitingRegistrations;
+      if (!waitingRegistrations) {
+        return state;
+      }
       if (!action.payload.pool) {
         waitingRegistrations = [...waitingRegistrations, action.payload.id];
       }
