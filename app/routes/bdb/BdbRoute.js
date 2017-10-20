@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { dispatched } from '@webkom/react-prepare';
 import {
-  fetchAll,
+  fetchAllAdmin,
   addSemesterStatus,
   editSemesterStatus,
   fetchSemesters,
@@ -15,7 +15,7 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 
 const loadData = (props, dispatch) =>
-  dispatch(fetchSemesters()).then(() => dispatch(fetchAll()));
+  dispatch(fetchSemesters()).then(() => dispatch(fetchAllAdmin()));
 
 const mapStateToProps = (state, props) => ({
   companies: selectCompanies(state, props),

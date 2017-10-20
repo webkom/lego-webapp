@@ -25,12 +25,39 @@ export function fetchAll() {
   });
 }
 
+export function fetchAllAdmin() {
+  return callAPI({
+    types: Company.FETCH,
+    endpoint: '/bdb/',
+    schema: [companySchema],
+    meta: {
+      errorMessage: 'Henting av bedrifter feilet'
+    },
+    propagateError: true
+  });
+}
+
 export function fetch(companyId: number): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
         types: Company.FETCH,
         endpoint: `/companies/${companyId}/`,
+        schema: companySchema,
+        meta: {
+          errorMessage: 'Henting av en bedrift feilet'
+        },
+        propagateError: true
+      })
+    );
+}
+
+export function fetchAdmin(companyId: number): Thunk<*> {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: Company.FETCH,
+        endpoint: `/bdb/${companyId}/`,
         schema: companySchema,
         meta: {
           errorMessage: 'Henting av en bedrift feilet'
