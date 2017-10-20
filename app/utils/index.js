@@ -24,7 +24,7 @@ type Tree<T: Object> = Array<
 export function generateTreeStructure<
   T: {
     id: string,
-    parent: string
+    parent?: string
   }
 >(nodes: Array<T>): Tree<T> {
   // Create a map of id -> node for retrievals later:

@@ -145,10 +145,6 @@ function renderPage({ body, state, helmet }) {
         </script>
 
         <script src="https://js.stripe.com/v2/"></script>
-        <script src="https://use.typekit.net/rtr2iog.js"></script>
-        <script src="//cdn.iframe.ly/embed.js" async></script>
-        <script>try{Typekit.load({ async: true });}catch(e){}</script>
-
         ${dllPlugin}
         ${scripts}
       </body>

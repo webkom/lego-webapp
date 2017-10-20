@@ -49,7 +49,10 @@ const group = {
 
 describe('<GroupMembers />', () => {
   it('should render the GroupMembersList component with the user list', () => {
-    const wrapper = shallow(<GroupMembers group={group} />);
+    const wrapper = shallow(
+      <GroupMembers group={group} memberships={memberships} />
+    );
+
     const membersList = wrapper.find(GroupMembersList);
     expect(membersList.prop('memberships')).toEqual(memberships);
   });
@@ -58,6 +61,7 @@ describe('<GroupMembers />', () => {
     const wrapper = shallow(
       <GroupMembers group={omit(group, 'memberships')} />
     );
+
     const loadingIndicator = wrapper.find(LoadingIndicator);
     const { loading } = loadingIndicator.props();
     expect(loading).toEqual(true);

@@ -25,24 +25,22 @@ export type Props = {
   articleId?: number,
   currentUser: UserEntity,
   isNew: boolean,
-  handleSubmit: () => void,
-  editArticle?: () => Promise<*>,
-  createArticle?: () => Promise<*>
+  handleSubmit: Object => void,
+  submitArticle: Object => Promise<*>
 };
 
 const ArticleEditor = ({
   isNew,
   articleId,
   currentUser,
-  createArticle,
-  editArticle,
+  submitArticle,
   handleSubmit,
   article
 }: Props) => {
   const onSubmit = data => {
     const body = {
-      ...(!isNew && { id: articleId }),
-      ...(data.cover && { cover: data.cover }),
+      ...(isNew ? {} : { id: articleId }),
+      ...(data.cover ? { cover: data.cover } : {}),
       title: data.title,
       author: currentUser.id,
       description: data.description,
@@ -50,14 +48,10 @@ const ArticleEditor = ({
       tags: (data.tags || []).map(tag => tag.value)
     };
 
-    if (isNew) {
-      createArticle(body);
-    } else {
-      editArticle(body);
-    }
+    submitArticle(body);
   };
 
-  if (!isNew && !article.content) {
+  if (!isNew && (!article || !article.content)) {
     return <LoadingIndicator loading />;
   }
 
@@ -69,7 +63,7 @@ const ArticleEditor = ({
           label="Cover"
           component={ImageUploadField}
           aspectRatio={20 / 6}
-          img={article.cover}
+          img={article && article.cover}
         />
 
         <Flex alignItems="center">
@@ -92,8 +86,11 @@ const ArticleEditor = ({
           placeholder="Skriv inn tags"
           component={SelectInput.AutocompleteField}
           tags
-          shouldKeyDownEventCreateNewOption={({ keyCode }: number) =>
-            keyCode === 32 || keyCode === 13}
+          shouldKeyDownEventCreateNewOption={({
+            keyCode
+          }: {
+            keyCode: number
+          }) => keyCode === 32 || keyCode === 13}
         />
         <Field
           placeholder="En kort beskrivelse av artikkelen"

@@ -15,7 +15,7 @@ const mapStateToProps = () => ({
   }
 });
 
-const mapDispatchToProps = { createArticle, uploadFile };
+const mapDispatchToProps = { submitArticle: createArticle, uploadFile };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),

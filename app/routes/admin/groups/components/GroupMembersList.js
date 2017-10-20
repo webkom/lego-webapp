@@ -34,7 +34,7 @@ const GroupMembersList = ({ memberships, removeMember }: Props) => {
               className={`fa fa-times ${styles.removeIcon}`}
               onClick={performRemove}
             />
-            {role !== 'member' && <span>{ROLES[role]}: </span>}
+            {role !== 'member' && <span>{ROLES[role] || role}: </span>}
             <Link to={`/users/${user.username}`}>
               {user.fullName} ({user.username})
             </Link>

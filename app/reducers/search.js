@@ -89,8 +89,20 @@ const searchMapping = {
   },
   'users.abakusgroup': {
     label: 'name',
-    path: '/groups/',
+    path: group => {
+      switch (group.type) {
+        case 'interesse':
+          return `/interestgroups/${group.id}`;
+        case 'komite':
+          return `/pages/komiteer/${group.id}`;
+        default:
+          return `group/${group.id}`;
+      }
+    },
     value: 'id',
+    profilePicture: 'logo',
+    id: 'id',
+    type: 'type',
     icon: 'people',
     color: '#000000'
   }
@@ -168,8 +180,13 @@ const transformResult = result => {
     item[field] = result[fields[field]] || fields[field];
   });
 
+  item.profilePicture =
+    item.profilePicture === fields.profilePicture ? '' : item.profilePicture;
+
   if (fields.link) {
     item.link = fields.link(result);
+  } else if (typeof fields.path === 'function') {
+    item.link = fields.path(item);
   } else {
     item.link = item.path + item.value;
   }
