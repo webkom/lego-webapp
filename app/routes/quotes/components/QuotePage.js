@@ -58,7 +58,9 @@ export default function QuotePage({
         />
       )}
       {showFetchMore && (
-        <Button onClick={() => fetchMore(query.filter !== 'unapproved')}>
+        <Button
+          onClick={() => fetchMore({ approved: query.filter !== 'unapproved' })}
+        >
           Load more
         </Button>
       )}
