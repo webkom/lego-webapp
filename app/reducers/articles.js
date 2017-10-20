@@ -8,6 +8,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 export type ArticleEntity = {
   id: number,
   title: string,
+  commentTarget: string,
   description: string,
   author: number,
   cover: string,

@@ -9,7 +9,7 @@ export type CommentEntity = {
   id: string,
   parent?: string,
   createdAt: string,
-  children: Array<CommentEntity>,
+  children: Array<Object>,
   text: string,
   author: UserEntity
 };

@@ -31,7 +31,7 @@ export function fetchSignedPost(key: string, isPublic: boolean) {
   });
 }
 
-type UploadArgs = {
+export type UploadArgs = {
   file: File,
   fileName?: string,
   isPublic?: boolean

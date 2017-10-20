@@ -17,8 +17,8 @@ type Props = {
   inModal?: boolean,
   multiple?: boolean,
   img?: string,
-  aspectRatio: number,
-  onSubmit: (Image | Array<DropFile>) => void,
+  aspectRatio?: number,
+  onSubmit: (File | Array<DropFile>) => void,
   onDrop?: () => void,
   onClose?: () => void
 };
