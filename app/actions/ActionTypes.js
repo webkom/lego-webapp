@@ -291,3 +291,7 @@ export const Contact = {
 export const Meta = {
   FETCH: generateStatuses('Meta.FETCH')
 };
+
+export const Frontpage = {
+  FETCH: generateStatuses('Frontpage.FETCH')
+};
