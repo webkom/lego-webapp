@@ -85,6 +85,7 @@ const ArticleEditor = ({
           filter={['tags.tag']}
           placeholder="Skriv inn tags"
           component={SelectInput.AutocompleteField}
+          multi
           tags
           shouldKeyDownEventCreateNewOption={({
             keyCode
