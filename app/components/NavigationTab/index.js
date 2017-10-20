@@ -8,7 +8,7 @@ import cx from 'classnames';
 
 type Props = {
   title: string,
-  headerClassName: string,
+  headerClassName?: string,
   className?: string,
   children?: React$Element<*>
 };

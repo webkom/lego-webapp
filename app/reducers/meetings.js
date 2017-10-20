@@ -119,7 +119,8 @@ export const selectGroupedMeetings = createSelector(
       .map(pool => ({
         title: pool.title,
         meetings: pool.meetings.sort(
-          (elem1, elem2) => moment(elem1.startTime) - moment(elem2.startTime)
+          (elem1, elem2) =>
+            Number(moment(elem1.startTime)) - Number(moment(elem2.startTime))
         )
       }))
       .concat(oldMeetings)
