@@ -5,10 +5,10 @@ import JoblistingPage from './components/JoblistingPage';
 import { compose } from 'redux';
 import moment from 'moment';
 
-function filterJoblistings(joblistings, classes, jobtypes, workplaces) {
+function filterJoblistings(joblistings, classes, jobTypes, workplaces) {
   return joblistings.filter(joblisting => {
     let classBoolean = false;
-    let jobtypesBoolean = false;
+    let jobTypesBoolean = false;
     let workplacesBoolean = false;
     if (classes.length === 0) {
       classBoolean = true;
@@ -17,10 +17,10 @@ function filterJoblistings(joblistings, classes, jobtypes, workplaces) {
         c => joblisting.fromYear <= Number(c) && joblisting.toYear >= Number(c)
       );
     }
-    if (jobtypes.length === 0) {
-      jobtypesBoolean = true;
+    if (jobTypes.length === 0) {
+      jobTypesBoolean = true;
     } else {
-      jobtypesBoolean = jobtypes.find(j => j === joblisting.jobType);
+      jobTypesBoolean = jobTypes.find(j => j === joblisting.jobType);
     }
     if (workplaces.length === 0) {
       workplacesBoolean = true;
@@ -32,7 +32,7 @@ function filterJoblistings(joblistings, classes, jobtypes, workplaces) {
             w => !['Oslo', 'Trondheim', 'Bergen', 'Tromsø'].includes(w.town)
           ));
     }
-    return classBoolean && jobtypesBoolean && workplacesBoolean;
+    return classBoolean && jobTypesBoolean && workplacesBoolean;
   });
 }
 
@@ -44,18 +44,18 @@ const dateSort = (a, b) => {
 
 const companySort = (a, b) => a.company.name.localeCompare(b.company.name);
 
-function sortJoblistings(joblistings, sortType) {
+const sortJoblistings = (joblistings, sortType) => {
   return joblistings.sort(sortType === 'company' ? companySort : dateSort);
-}
+};
 
 const mapStateToProps = (state, props) => {
   const { query } = props.location;
   const joblistings = state.joblistings.items.map(
     id => state.joblistings.byId[id]
   );
-  const sortType = query.sort === 'company' ? 'company' : 'deadline';
-  const filterClass = query.class ? query.class.split(',') : [];
-  const filterJobType = query.jobtypes ? query.jobtypes.split(',') : [];
+  const sortType = query.order === 'company' ? 'company' : 'deadline';
+  const filterClass = query.classNumber ? query.classNumber.split(',') : [];
+  const filterJobType = query.jobTypes ? query.jobTypes.split(',') : [];
   const filterWorkplaces = query.workplaces ? query.workplaces.split(',') : [];
 
   const filteredJoblistings = filterJoblistings(
