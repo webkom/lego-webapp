@@ -121,23 +121,21 @@ class JoinEventForm extends Component {
         duration = moment.duration(diff, 'milliseconds');
         if (diff < 600000) {
           clearInterval(this.counter);
-          this.initiateCountdown(duration);
+          this.initiateCountdown(poolActivationTime);
         }
       }, interval);
     } else {
-      this.initiateCountdown(duration);
+      this.initiateCountdown(poolActivationTime);
     }
   };
 
-  initiateCountdown(duration) {
+  initiateCountdown(activationTime) {
     const interval = 1000;
 
-    // $FlowFixMe
-    duration += 1000;
+    let diffTime;
     this.counter = setInterval(() => {
-      // $FlowFixMe Does this work now?
-      duration = moment.duration(duration, 'milliseconds') - interval;
-      if (duration <= 1000) {
+      diffTime = activationTime.diff(moment());
+      if (diffTime < 0) {
         clearInterval(this.counter);
         this.setState({
           time: null,
@@ -145,13 +143,13 @@ class JoinEventForm extends Component {
         });
         return;
       }
-      if (duration < 60000) {
+      if (diffTime < 60000) {
         this.setState({
           captchaOpen: true
         });
       }
       this.setState({
-        time: moment(duration).format('mm:ss')
+        time: moment(diffTime).format('mm:ss')
       });
     }, interval);
     this.setState({
