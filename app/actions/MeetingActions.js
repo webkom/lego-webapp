@@ -49,18 +49,22 @@ export function fetchAll(
     refresh?: boolean,
     loadNextPage?: boolean
   } = {}
-) {
+): Thunk<*> {
   return (dispatch, getState) => {
-    const query = { date_after: dateAfter, date_before: dateBefore, ordering };
+    const query: Object = {
+      date_after: dateAfter,
+      date_before: dateBefore,
+      ordering
+    };
     if (dateBefore && dateAfter) {
       query.page_size = 60;
     }
     const queryString = createQueryString(query);
     const endpoint = getEndpoint(getState(), loadNextPage, queryString);
     if (!endpoint) {
-      return;
+      return Promise.resolve(null);
     }
-    dispatch(
+    return dispatch(
       callAPI({
         types: Meeting.FETCH,
         endpoint,

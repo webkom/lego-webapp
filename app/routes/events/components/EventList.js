@@ -111,7 +111,9 @@ function EventListGroup({ name, events = [] }: EventListGroupProps) {
 type EventListProps = {
   events: Array<any>,
   actionGrant: /* TODO: ActionGrant */ any,
-  icalToken: /* TODO: IcalToken */ string
+  icalToken: /* TODO: IcalToken */ string,
+  showFetchMore: boolean,
+  fetchMore: () => Promise<*>
 };
 
 const EventList = (props: EventListProps) => {

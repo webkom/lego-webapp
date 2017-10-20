@@ -77,8 +77,10 @@ type Props = {
   meetingSections: Array<MeetingSection>,
   currentUser: UserEntity,
   loading: boolean,
-  loadMore: () => void,
-  hasMore: boolean
+  fetchMore: () => Promise<*>,
+  fetchOlder: () => Promise<*>,
+  showFetchMore: boolean,
+  showFetchOlder: boolean
 };
 
 export default class MeetingList extends Component {
