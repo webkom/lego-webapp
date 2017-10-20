@@ -52,7 +52,6 @@ function SelectInput({
       <Select
         {...props}
         instanceId={name}
-        multi
         shouldKeyDownEventCreateNewOption={shouldKeyDownEventCreateNewOption}
         onBlurResetsInput={false}
         onBlur={() => onBlur(value)}
