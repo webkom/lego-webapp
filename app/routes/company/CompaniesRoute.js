@@ -27,12 +27,10 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { fetchAll };
-
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   dispatched((props, dispatch) => dispatch(fetchAll()), {
     componentWillReceiveProps: false
   }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, null)
 )(CompaniesRoute);

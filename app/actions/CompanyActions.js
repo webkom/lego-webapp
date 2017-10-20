@@ -1,11 +1,12 @@
 // @flow
 
-import { Company, Event } from './ActionTypes';
+import { Company, Event, Joblistings } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
 import {
   companySchema,
   companySemesterSchema,
-  eventSchema
+  eventSchema,
+  joblistingsSchema
 } from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import { startSubmit, stopSubmit } from 'redux-form';
@@ -74,6 +75,20 @@ export function fetchEventsForCompany(companyId: string) {
         types: Event.FETCH,
         endpoint: `/events/?company=${companyId}`,
         schema: [eventSchema],
+        meta: {
+          errorMessage: 'Henting av tilknyttede arrangementer feilet'
+        }
+      })
+    );
+}
+
+export function fetchJobListingsForCompany(companyId: string) {
+  return (dispatch: Dispatch) =>
+    dispatch(
+      callAPI({
+        types: Joblistings.FETCH,
+        endpoint: `/joblistings/?company=${companyId}`,
+        schema: [joblistingsSchema],
         meta: {
           errorMessage: 'Henting av tilknyttede arrangementer feilet'
         }
