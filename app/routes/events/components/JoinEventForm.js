@@ -42,6 +42,23 @@ type State = {
   buttonOpen: boolean
 };
 
+type SpotsLeftProps = {
+  activeCapacity: number,
+  spotsLeft: number
+};
+
+const SpotsLeft = ({ activeCapacity, spotsLeft }: SpotsLeftProps) => {
+  if (spotsLeft === 1) {
+    return <div>Det er 1 plass igjen.</div>;
+  }
+
+  if (spotsLeft === 0 && activeCapacity > 0) {
+    return <div>Det 0 plasser igjen, du blir registrert til venteliste.</div>;
+  }
+
+  return <div>Det er {spotsLeft} plasser igjen.</div>;
+};
+
 class JoinEventForm extends Component {
   props: Props;
 
@@ -269,25 +286,21 @@ class JoinEventForm extends Component {
               )}
               {this.state.buttonOpen &&
                 !event.loading && (
-                  <div>
-                    {!registration &&
-                      event.spotsLeft === 0 &&
-                      event.activeCapacity > 0 && (
-                        <div>
-                          Det 0 plasser igjen, du blir registrert til
-                          venteliste.
-                        </div>
-                      )}
-                    {!registration &&
-                      event.spotsLeft === 1 && <div>Det er 1 plass igjen.</div>}
-                    {!registration &&
-                      event.spotsLeft > 0 && (
-                        <div>Det er {event.spotsLeft} plasser igjen.</div>
-                      )}
-                    <Button submit disabled={disabledButton}>
+                  <Flex alignItems="center">
+                    <Button
+                      style={{ marginRight: 10 }}
+                      submit
+                      disabled={disabledButton}
+                    >
                       {title || joinTitle}
                     </Button>
-                  </div>
+                    {!registration && (
+                      <SpotsLeft
+                        activeCapacity={event.activeCapacity}
+                        spotsLeft={event.spotsLeft}
+                      />
+                    )}
+                  </Flex>
                 )}
               {event.loading && (
                 <LoadingIndicator

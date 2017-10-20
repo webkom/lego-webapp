@@ -15,7 +15,8 @@ type Props = {
   commentTarget: string,
   user: Object,
   loggedIn: boolean,
-  displayTitle?: boolean
+  displayTitle?: boolean,
+  style?: Object
 };
 
 const CommentView = (props: Props) => {
@@ -25,14 +26,15 @@ const CommentView = (props: Props) => {
     commentTarget,
     user,
     loggedIn,
+    style,
     displayTitle = true
   } = props;
   const commentFormProps = { commentTarget, user, loggedIn };
   const tree = generateTreeStructure(comments);
 
   return (
-    <div>
-      {comments.length > 0 && displayTitle && <h3>Diskusjon</h3>}
+    <div style={style}>
+      {displayTitle && <h3>Kommentarer</h3>}
       <LoadingIndicator loading={!comments}>
         {comments && (
           <CommentTree comments={tree} commentFormProps={commentFormProps} />
@@ -41,14 +43,6 @@ const CommentView = (props: Props) => {
 
       {!formDisabled && (
         <div>
-          {displayTitle && (
-            <h3>
-              {comments.length
-                ? 'Ta del i diskusjonen eller få svar på dine spørsmål'
-                : 'Start en diskusjon eller still et spørsmål'}
-            </h3>
-          )}
-
           <CommentForm
             form={`comment.${commentFormProps.commentTarget}`}
             {...commentFormProps}
