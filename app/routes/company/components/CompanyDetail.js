@@ -14,7 +14,8 @@ import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 
 type Props = {
   company: Object,
-  companyEvents: Array<Object>
+  companyEvents: Array<Object>,
+  joblistings: Array<Object>
 };
 
 function insertInfoBubbles(company) {
@@ -45,7 +46,7 @@ function insertInfoBubbles(company) {
 }
 
 const CompanyDetail = (props: Props) => {
-  const { company, companyEvents } = props;
+  const { company, companyEvents, joblistings } = props;
   if (!company) {
     return <LoadingIndicator loading />;
   }
@@ -64,9 +65,25 @@ const CompanyDetail = (props: Props) => {
           </td>
           <td>{truncateString(event.location, 50)}</td>
           <td>{truncateString(event.description, 70)}</td>
+          <td />
         </tr>
       ));
-
+  const joblistingsList =
+    joblistings &&
+    joblistings.map((joblisting, i) => (
+      <tr key={i}>
+        <td>
+          <Link to={`joblistings/${joblisting.id}`}>{joblisting.title}</Link>
+        </td>
+        <td>{joblisting.jobtype}</td>
+        <td>{joblisting.from_year}</td>
+        <td>{joblisting.to_year}</td>
+        <td>{truncateString(joblisting.description, 40)}</td>
+        <td>
+          <a href={joblisting.application_url}>Link</a>
+        </td>
+      </tr>
+    ));
   return (
     <div className={styles.root}>
       <div className={styles.companyLogoDetail}>
@@ -85,22 +102,40 @@ const CompanyDetail = (props: Props) => {
 
       <h3>Bedriftens arrangementer</h3>
       {events.length > 0 ? (
-        <div className={styles.companyList}>
-          <table className={styles.companyEventTable}>
-            <thead className={styles.categoryHeader}>
-              <tr>
-                <th>Tittel</th>
-                <th>Arrangementstype</th>
-                <th>Når</th>
-                <th>Hvor</th>
-                <th>Hva</th>
-              </tr>
-            </thead>
-            <tbody>{events}</tbody>
-          </table>
-        </div>
+        <table className={styles.companyEventTable}>
+          <thead className={styles.categoryHeader}>
+            <tr>
+              <th>Tittel</th>
+              <th>Arrangementstype</th>
+              <th>Når</th>
+              <th>Hvor</th>
+              <th>Hva</th>
+              <th> </th>
+            </tr>
+          </thead>
+          <tbody>{events}</tbody>
+        </table>
       ) : (
         <i>Ingen arrangementer.</i>
+      )}
+
+      <h3 style={{ marginTop: '10px' }}>Bedriftens jobbannonser</h3>
+      {joblistingsList.length > 0 ? (
+        <table className={styles.companyEventTable}>
+          <thead className={styles.categoryHeader}>
+            <tr>
+              <th>Tittel</th>
+              <th>Jobbtype</th>
+              <th>Fra år</th>
+              <th>Til år</th>
+              <th>Beskrivelse</th>
+              <th>Søk</th>
+            </tr>
+          </thead>
+          <tbody>{joblistingsList}</tbody>
+        </table>
+      ) : (
+        <i>Ingen jobbannonser.</i>
       )}
     </div>
   );
