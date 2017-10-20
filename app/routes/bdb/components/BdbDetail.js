@@ -36,7 +36,8 @@ type Props = {
   editSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
   companyEvents: Array<Object>,
   fetching: boolean,
-  editCompany: Object => void
+  editCompany: Object => void,
+  deleteCompany: number => ?Promise<*>
 };
 
 type State = {
@@ -117,7 +118,8 @@ export default class BdbDetail extends Component<Props, State> {
       currentUser,
       loggedIn,
       companyEvents,
-      fetching
+      fetching,
+      deleteCompany
     } = this.props;
 
     if (fetching || !company.semesterStatuses) {
@@ -215,7 +217,11 @@ export default class BdbDetail extends Component<Props, State> {
             />
           )}
 
-          <DetailNavigation title={title} companyId={company.id} />
+          <DetailNavigation
+            title={title}
+            companyId={company.id}
+            deleteFunction={deleteCompany}
+          />
 
           <div className={styles.description}>
             {company.description || 'Ingen beskrivelse tilgjengelig.'}

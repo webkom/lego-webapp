@@ -172,17 +172,26 @@ export const ListNavigation = ({ title }: { title: Node }) => (
 
 export const DetailNavigation = ({
   title,
-  companyId
+  companyId,
+  deleteFunction
 }: {
   title: Node,
-  companyId: number
+  companyId: number,
+  deleteFunction: number => ?Promise<*>
 }) => (
   <NavigationTab title={title}>
     <NavigationLink to="/bdb">Tilbake til liste</NavigationLink>
     <NavigationLink to={`/bdb/${companyId}`}>Bedriftens side</NavigationLink>
-    <NavigationLink to={`/bdb/${companyId}/edit`}>
-      Endre bedriften
-    </NavigationLink>
     <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
+    <NavigationLink to={`/bdb/${companyId}/edit`}>Endre</NavigationLink>
+    <span
+      onClick={() => {
+        if (confirm('Er du sikker på at du vil slette denne bedriften?')) {
+          return deleteFunction(companyId);
+        }
+      }}
+    >
+      <NavigationLink to="">Slett</NavigationLink>
+    </span>
   </NavigationTab>
 );
