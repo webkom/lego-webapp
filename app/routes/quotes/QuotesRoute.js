@@ -35,8 +35,10 @@ const mapDispatchToProps = {
   approve,
   unapprove,
   deleteQuote,
-  fetchMore: approved =>
-    approved ? fetchAllApproved(true) : fetchAllUnapproved(true)
+  fetchMore: ({ approved }) =>
+    approved
+      ? fetchAllApproved({ loadNextPage: true })
+      : fetchAllUnapproved({ loadNextPage: true })
 };
 
 export default compose(
@@ -45,9 +47,9 @@ export default compose(
     (props, dispatch) => {
       const { location: { query } } = props;
       if (query.filter === 'unapproved') {
-        return dispatch(fetchAllUnapproved(false));
+        return dispatch(fetchAllUnapproved({ loadNextPage: false }));
       }
-      return dispatch(fetchAllApproved(false));
+      return dispatch(fetchAllApproved({ loadNextPage: false }));
     },
     { componentWillReceiveProps: false }
   ),

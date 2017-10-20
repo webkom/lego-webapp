@@ -55,11 +55,15 @@ export const fetchAll = (
   );
 };
 
-export function fetchAllApproved(loadNextPage: boolean) {
+export function fetchAllApproved({ loadNextPage }: { loadNextPage: boolean }) {
   return fetchAll({ approved: true, loadNextPage });
 }
 
-export function fetchAllUnapproved(loadNextPage: boolean) {
+export function fetchAllUnapproved({
+  loadNextPage
+}: {
+  loadNextPage: boolean
+}) {
   return fetchAll({ approved: false, loadNextPage });
 }
 
