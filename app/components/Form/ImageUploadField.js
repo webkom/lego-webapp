@@ -22,8 +22,6 @@ type Props = {
 class ImageUploadField extends Component {
   props: Props;
 
-  static Field: any;
-
   componentDidMount = () => {
     // hack for removing the inital url set by redux form
     this.props.onChange(null);
@@ -38,13 +36,16 @@ class ImageUploadField extends Component {
 
   render() {
     const { className, style, ...props } = this.props;
-    const imageClass = className ? className : styles.coverImage;
 
     return (
-      <div className={cx(styles.base, imageClass)} style={style}>
+      <div
+        className={cx(styles.base, styles.coverImage, className && className)}
+        style={style}
+      >
         <ImageUpload
           className={styles.textField}
           onSubmit={this.onSubmit}
+          showErrors={false}
           {...props}
         />
       </div>
