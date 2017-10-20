@@ -85,7 +85,8 @@ export function updateGroup(group: Object) {
     endpoint: `/groups/${group.id}/`,
     method: 'PATCH',
     body: {
-      ...group
+      ...group,
+      logo: group.logo || undefined
     },
     schema: groupSchema,
     meta: {
