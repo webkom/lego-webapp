@@ -125,9 +125,10 @@ export default class JoblistingsRightNav extends Component {
           <Flex justifyContent="flex-start" className={styles.sortNav}>
             <Flex>
               <RadioButton
-                name="active"
-                id="active"
-                inputValue={this.state.order === 'deadline'}
+                name="sort"
+                id="deadline"
+                inputValue={true}
+                value={this.state.order.deadline}
                 onChange={() => {
                   this.props.router.push({
                     pathname: '/joblistings',
@@ -141,14 +142,16 @@ export default class JoblistingsRightNav extends Component {
             </Flex>
             <Flex>
               <RadioButton
-                name="active"
-                id="inactive"
-                inputValue={this.state.order.company}
-                onChange={() =>
+                name="sort"
+                id="company"
+                inputValue={true}
+                value={this.state.order.company}
+                onChange={() => {
                   this.props.router.push({
                     pathname: '/joblistings',
                     query: this.handleQuery('order', 'company')
-                  })}
+                  });
+                }}
               />
               <span style={{ marginLeft: '5px' }}>Bedrift</span>
             </Flex>
