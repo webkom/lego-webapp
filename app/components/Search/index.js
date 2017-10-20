@@ -116,6 +116,7 @@ class Search extends Component {
 
           <SearchResults
             query={query}
+            searching={searching}
             results={results}
             navigationLinks={regularLinks}
             adminLinks={adminLinks}
