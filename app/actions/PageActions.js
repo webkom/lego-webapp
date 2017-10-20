@@ -7,7 +7,7 @@ import callAPI from 'app/actions/callAPI';
 export function fetchPage(pageSlug: string) {
   return callAPI({
     types: Page.FETCH,
-    endpoint: `/pages/${pageSlug}/`,
+    endpoint: `/pages/${pageSlug}`,
     schema: pageSchema,
     meta: {
       errorMessage: 'Henting av side feilet'
@@ -37,6 +37,19 @@ export function updatePage(slug: string, body: Object) {
     schema: pageSchema,
     meta: {
       errorMessage: 'Oppdatering av sider feilet'
+    }
+  });
+}
+
+export function createPage(body: Object) {
+  return callAPI({
+    types: Page.CREATE,
+    endpoint: `/pages/`,
+    method: 'POST',
+    body,
+    schema: pageSchema,
+    meta: {
+      errorMessage: 'Creating page failed'
     }
   });
 }

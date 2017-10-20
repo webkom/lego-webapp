@@ -68,6 +68,18 @@ export function fetchAll() {
   });
 }
 
+export function fetchAllWithType(type: string) {
+  return callAPI({
+    types: Group.FETCH,
+    endpoint: `/groups/?type=${type}`,
+    schema: [groupSchema],
+    meta: {
+      errorMessage: 'Henting av grupper feilet'
+    },
+    propagateError: true
+  });
+}
+
 export function updateGroup(group: Object) {
   return callAPI({
     types: Group.UPDATE,
@@ -189,4 +201,18 @@ export function leaveGroup(membership: Object): Thunk<*> {
       })
     );
   };
+}
+
+export function fetchMemberships(groupId: number) {
+  return callAPI({
+    types: Group.MEMBERSHIP_FETCH,
+    endpoint: `/groups/${groupId}/memberships/`,
+    schema: [membershipSchema],
+    useCache: false,
+    meta: {
+      groupId: groupId,
+      errorMessage: 'Henting av medlemmene for gruppen feilet'
+    },
+    propagateError: true
+  });
 }

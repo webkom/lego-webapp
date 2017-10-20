@@ -51,4 +51,5 @@ class Modal extends Component {
   }
 }
 
+export { default as ConfirmModal } from './ConfirmModal';
 export default Modal;

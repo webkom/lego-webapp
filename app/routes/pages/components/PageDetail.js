@@ -1,89 +1,109 @@
 /* eslint-disable react/no-danger */
 // @flow
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import styles from './PageDetail.css';
+import { Link } from 'react-router';
+import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import Editor from 'app/components/Editor';
-import { Content } from 'app/components/Layout';
-import PageButtons from './PageButtons';
 import PageHierarchy from './PageHierarchy';
+import { Content } from 'app/components/Layout';
+import sortBy from 'lodash/sortBy';
 
-type Props = {
-  updatePage: (string, Object) => void,
-  page: {
-    title: string,
-    slug: string,
-    content: string,
-    permissions: Array<string>
-  }
+import type { HierarchySectionEntity } from './PageHierarchy';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import type { PageEntity } from 'app/reducers/pages';
+
+export type PageInfo = {
+  editUrl: string,
+  title: string,
+  actionGrant: string[]
+};
+type Props<T> = {
+  selectedPage: T,
+  currentUrl: string,
+  selectedPageInfo: PageInfo,
+  PageRenderer: ({ page: T }) => React.Element<*>,
+  pageHierarchy: HierarchySectionEntity[]
 };
 
-export default class PageDetail extends Component {
-  state = {
-    isEditing: false,
-    content: ''
-  };
+export const FlatpageRenderer = ({ page }: { page: PageEntity }) => (
+  <article className={styles.detail}>
+    {page.picture && (
+      <div className={styles.coverImage}>
+        <img alt="presentation" src={page.picture} />
+      </div>
+    )}
+    <div dangerouslySetInnerHTML={{ __html: page.content }} />
+  </article>
+);
 
-  props: Props;
+const RenderUser = ({ user }: Object) => (
+  <Link to={`/users/${user.username}`}>{user.fullName}</Link>
+);
 
-  handleEditorChange = (content: string) => {
-    this.setState({
-      ...this.state,
-      content
-    });
-  };
+export const GroupRenderer = ({ page }: { page: Object }) => {
+  const { memberships, description, text, logo } = page;
+  const leader = memberships.find(membership => membership.role == 'member');
 
-  handleSave = () => {
-    this.setState({ isEditing: false });
-    this.props.updatePage(this.props.page.slug, {
-      content: this.state.content
-    });
-  };
-
-  toggleEditing = () => {
-    this.setState({
-      isEditing: !this.state.isEditing
-    });
-  };
-
-  render() {
-    const { page } = this.props;
-    if (!page.content) {
-      return <LoadingIndicator loading />;
-    }
-
-    const canEdit = page.permissions && page.permissions.includes('edit');
-    return (
-      <Content>
-        <div className={styles.root}>
-          <div className={styles.page}>
-            <article className={styles.detail}>
-              <div className={styles.header}>
-                <h2 className={styles.title}>{page.title}</h2>
-                {canEdit && (
-                  <PageButtons
-                    isEditing={this.state.isEditing}
-                    toggleEditing={this.toggleEditing}
-                    handleSave={this.handleSave}
-                  />
-                )}
-              </div>
-              {this.state.isEditing ? (
-                <Editor
-                  content={page.content}
-                  onChange={this.handleEditorChange}
-                />
-              ) : (
-                <div dangerouslySetInnerHTML={{ __html: page.content }} />
-              )}
-            </article>
-            <aside className={styles.sidebar}>
-              <PageHierarchy {...this.props} selectedSlug={page.slug} />
-            </aside>
-          </div>
+  const members = sortBy(
+    memberships.filter(m => m != leader).map(m => m.user),
+    'fullName'
+  );
+  return (
+    <article className={styles.detail}>
+      {logo && (
+        <div className={styles.logo}>
+          <img alt="presentation" src={logo} />
         </div>
-      </Content>
-    );
+      )}
+      <div dangerouslySetInnerHTML={{ __html: description }} />
+      <div dangerouslySetInnerHTML={{ __html: text }} />
+
+      <h3>Medlemmer:</h3>
+      <ul>
+        {leader && <li>Leder: {<RenderUser user={leader.user} />}</li>}
+        {members.map((member, key) => (
+          <li key={key}>
+            <RenderUser user={member} />
+          </li>
+        ))}
+      </ul>
+    </article>
+  );
+};
+
+function PageDetail<T: Object>({
+  selectedPage,
+  selectedPageInfo,
+  pageHierarchy,
+  PageRenderer,
+  currentUrl
+}: Props<T>) {
+  if (!selectedPage) {
+    return <LoadingIndicator loading />;
   }
+  const { title, editUrl, actionGrant } = selectedPageInfo;
+  return (
+    <Content>
+      <NavigationTab title={title}>
+        {actionGrant.includes('edit') &&
+          editUrl && <NavigationLink to={`${editUrl}`}>ENDRE</NavigationLink>}
+        {actionGrant.includes('create') && (
+          <NavigationLink to={`/pages/new`}> NY </NavigationLink>
+        )}
+      </NavigationTab>
+      <Flex className={styles.page} wrap>
+        <PageRenderer page={selectedPage} />
+
+        <aside className={styles.sidebar}>
+          <PageHierarchy
+            pageHierarchy={pageHierarchy}
+            currentUrl={currentUrl}
+          />
+        </aside>
+      </Flex>
+    </Content>
+  );
 }
+export default PageDetail;

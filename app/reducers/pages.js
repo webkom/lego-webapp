@@ -1,16 +1,17 @@
 // @flow
 
 import { createSelector } from 'reselect';
-import values from 'lodash/values';
 import { Page } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import { selectGroupsWithType } from './groups';
 
 export type PageEntity = {
   id: number,
   title: string,
   slug: string,
   content: string,
-  comments: Array<number>
+  comments: Array<number>,
+  picture: string
 };
 
 export default createEntityReducer({
@@ -26,40 +27,32 @@ export const selectPageBySlug = createSelector(
   (pagesBySlug, pageSlug) => pagesBySlug[pageSlug] || {}
 );
 
-const rootKey = 'root';
-/**
- * Maps parent PKs to a list of their children:
- */
-const selectParents = createSelector(
+export const selectPages = createSelector(
   state => state.pages.byId,
-  pagesBySlug =>
-    Object.keys(pagesBySlug)
-      .map(key => pagesBySlug[key])
-      .reduce((total, page) => {
-        const parent = page.parent || rootKey;
-        const existing = total[parent] || [];
-        return {
-          ...total,
-          [parent]: [...existing, page]
-        };
-      }, {})
+  (pagesBySlug, pageSlug) =>
+    Object.keys(pagesBySlug).map(slug => pagesBySlug[slug])
 );
 
-/**
- * Finds the siblings of the given parent PK
- * (includes self)
- */
-export const selectSiblings = createSelector(
-  selectParents,
-  (state, props) => props.parentPk || rootKey,
-  (pagesByParent, parentPk) => pagesByParent[parentPk] || []
+export const selectPagesForHierarchy = createSelector(
+  state => selectPages(state),
+  (state, props) => props.title,
+  (pages, title) => ({
+    title,
+    items: pages.map(page => ({
+      url: `/pages/info/${page.slug}`,
+      title: page.title
+    }))
+  })
 );
 
-/**
- * Finds the page with the given parent PK.
- */
-export const selectParent = createSelector(
-  state => values(state.pages.byId),
-  (state, props) => props.parentPk,
-  (pages, parentPk) => pages.find(page => page.pk === parentPk)
+export const selectGroupsForHierarchy = createSelector(
+  state => selectGroupsWithType(state, { groupType: 'komite' }),
+  (state, props) => props.title,
+  (groups, title) => ({
+    title,
+    items: groups.map(page => ({
+      url: `/pages/komiteer/${page.id}`,
+      title: page.name
+    }))
+  })
 );
