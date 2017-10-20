@@ -10,6 +10,10 @@ import {
 } from 'app/reducers/articles';
 import { selectUserById } from 'app/reducers/users';
 
+function loadData(props, dispatch) {
+  return dispatch(fetchArticle(props.params.articleId));
+}
+
 const mapStateToProps = (state, props) => {
   const { articleId } = props.params;
   const article = selectArticleById(state, { articleId });
@@ -28,9 +32,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = { fetchArticle };
 
 export default compose(
-  prepare(({ params: { articleId } }, dispatch) =>
-    dispatch(fetchArticle(articleId))
-  ),
+  prepare(loadData, ['params.articleId']),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['article.content'])
 )(ArticleDetail);
