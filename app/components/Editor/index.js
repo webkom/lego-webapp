@@ -63,11 +63,10 @@ const emptyState = '<p></p>';
 class CustomEditor extends Component {
   state: State;
   props: Props;
-  lastSerialized: string;
+  lastSerialized: string = '';
 
   constructor(props: Props) {
     super(props);
-    this.lastSerialized = '';
     resetKeyGenerator();
     const content = this.props.value || emptyState;
 
