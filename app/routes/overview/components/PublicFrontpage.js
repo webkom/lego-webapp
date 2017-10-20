@@ -96,6 +96,11 @@ class PublicFrontpage extends Component {
               NTNU, fremme kontakten med næringslivet og bidra med sosiale
               aktiviteter.
             </p>
+            <p style={{ fontWeight: 700, fontSize: '20px' }}>
+              <span style={{ color: 'red' }}>OBS!</span> I overgangen til ny
+              nettside er alle brukere nødt til å lage nytt passord. Klikk på
+              &quot;Glemt passord&quot; for å begynne.
+            </p>
           </div>
         </Flex>
 
