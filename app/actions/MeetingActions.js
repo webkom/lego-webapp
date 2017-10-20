@@ -24,8 +24,13 @@ export function fetchMeeting(meetingId: string) {
 const getEndpoint = (state, loadNextPage, queryString) => {
   const pagination = state.meetings.pagination;
   let endpoint = `/meetings/${queryString}`;
-  if (loadNextPage && pagination.queryString === queryString) {
-    endpoint = pagination.nextPage;
+  const paginationObject = pagination[queryString];
+  if (
+    loadNextPage &&
+    paginationObject &&
+    paginationObject.queryString === queryString
+  ) {
+    endpoint = pagination[queryString].nextPage;
   }
   return endpoint;
 };
@@ -35,7 +40,7 @@ export function fetchAll(
     dateAfter,
     dateBefore,
     ordering,
-    refresh,
+    refresh = false,
     loadNextPage
   }: {
     dateAfter?: string,

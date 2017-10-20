@@ -13,8 +13,8 @@ type Props = {
   approve: number => Promise<*>,
   unapprove: number => Promise<*>,
   deleteQuote: number => Promise<*>,
-  loadMore: boolean => Promise<*>,
-  hasMore: boolean,
+  fetchMore: boolean => Promise<*>,
+  showFetchMore: boolean,
   currentUser: any,
   loggedIn: boolean,
   comments: Object
@@ -27,8 +27,8 @@ export default function QuotePage({
   unapprove,
   actionGrant,
   deleteQuote,
-  loadMore,
-  hasMore,
+  fetchMore,
+  showFetchMore,
   currentUser,
   loggedIn,
   comments,
@@ -57,8 +57,8 @@ export default function QuotePage({
           comments={comments}
         />
       )}
-      {hasMore && (
-        <Button onClick={() => loadMore(query.filter !== 'unapproved')}>
+      {showFetchMore && (
+        <Button onClick={() => fetchMore(query.filter !== 'unapproved')}>
           Load more
         </Button>
       )}

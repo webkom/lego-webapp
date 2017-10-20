@@ -64,14 +64,14 @@ export function entities(key: string, fetchType?: ?AsyncActionType) {
       return state;
 
     let pagination = state.pagination;
-    if (
-      action.meta &&
-      !action.cached &&
-      action.meta.queryString !== undefined
-    ) {
+    const queryString = action.meta && action.meta.queryString;
+    if (!action.cached && queryString !== undefined) {
       pagination = {
-        queryString: action.meta.queryString,
-        nextPage: action.payload.next
+        ...state.pagination,
+        [queryString]: {
+          queryString,
+          nextPage: action.payload.next
+        }
       };
     }
     return {

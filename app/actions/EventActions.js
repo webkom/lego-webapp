@@ -23,8 +23,13 @@ export function fetchEvent(eventId: string) {
 const getEndpoint = (state, loadNextPage, queryString) => {
   const pagination = state.events.pagination;
   let endpoint = `/events/${queryString}`;
-  if (loadNextPage && pagination.queryString === queryString) {
-    endpoint = pagination.nextPage;
+  const paginationObject = pagination[queryString];
+  if (
+    loadNextPage &&
+    paginationObject &&
+    paginationObject.queryString === queryString
+  ) {
+    endpoint = pagination[queryString].nextPage;
   }
   return endpoint;
 };
@@ -53,7 +58,8 @@ export const fetchList = (
       schema: [eventSchema],
       meta: {
         errorMessage: 'Fetching events failed',
-        queryString
+        queryString,
+        endpoint
       },
       useCache: refresh,
       cacheSeconds: Infinity, // don't expire cache unless we pass useCache
