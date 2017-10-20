@@ -122,7 +122,7 @@ function EventEditor({
             <Field
               name="text"
               component={EditorField}
-              placeholder="Write your event here..."
+              placeholder="Dette blir tidenes fest..."
               className={styles.descriptionEditor}
               uploadFile={uploadFile}
             />
@@ -314,9 +314,6 @@ export default reduxForm({
     }
     if (!data.location) {
       errors.location = 'Lokasjon er påkrevet';
-    }
-    if (!data.cover) {
-      errors.cover = 'Bildet er påkrevet';
     }
     errors.pools = validatePools(data.pools);
     return errors;
