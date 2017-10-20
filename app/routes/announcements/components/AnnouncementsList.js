@@ -41,9 +41,7 @@ const AnnouncementsList = ({
   const onSubmit = (announcement, send = false) => {
     return createAnnouncement({
       ...announcement,
-      users: announcement.users
-        ? announcement.users.map(user => user.value)
-        : [],
+      users: announcement.users ? announcement.users.map(user => user.id) : [],
       groups: announcement.groups
         ? announcement.groups.map(group => group.value)
         : [],
