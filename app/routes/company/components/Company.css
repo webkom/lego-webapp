@@ -1,23 +1,58 @@
+@import 'app/styles/variables.css';
+
 .root {
-  composes: container from 'app/styles/utilities.css';
+  composes: contentContainer from 'app/styles/utilities.css';
 }
 
 .picture {
   background-color: ghostwhite;
 }
 
+.heading {
+  color: #777;
+  letter-spacing: 2px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 20px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
 .titleFlex {
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
-  border-bottom: 1px solid #aaa;
-  background-color: ghostwhite;
+}
+
+.companies {
+  margin-bottom: 40px;
+}
+
+.website {
+  color: #777;
+}
+
+.companyItem {
+  padding-left: 20px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  border-left: 4px solid colorEvent;
+  color: var(--color-black);
+}
+
+.companyItemTitle {
+  color: #333;
+  font-weight: 700;
+  margin: 0;
+  word-break: break-word;
 }
 
 .title {
   font-weight: 700;
   font-size: 200%;
   margin-left: 0.5em;
+  background-color: 0;
 }
 
 .button {
@@ -29,6 +64,11 @@
   display: flex;
   flex-direction: row;
   justify-content: center;
+}
+
+.bubbleContainer {
+  display: flex;
+  justify-content: space-between;
 }
 
 .editLink {
@@ -73,10 +113,76 @@
   justify-content: space-between;
 }
 
+.categoryHeader {
+  font-weight: bold;
+  background-color: var(--color-mono-gray-5);
+}
+
 .coverImage {
   width: 100%;
   height: 300px;
   overflow: hidden;
+}
+
+.companyEventList {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.companyEventTable {
+  margin-top: 20px;
+}
+
+.companyEventTable thead th:nth-child(1),
+.companyEventTable tbody td:nth-child(1) {
+  width: 250px;
+}
+
+.companyEventTable thead th:nth-child(2),
+.companyEventTable tbody td:nth-child(2) {
+  width: 180px;
+}
+
+.companyEventTable thead th:nth-child(3),
+.companyEventTable tbody td:nth-child(3) {
+  width: 100px;
+}
+
+.companyEventTable thead th:nth-child(4),
+.companyEventTable tbody td:nth-child(4) {
+  width: 200px;
+  line-height: 20px;
+  padding: 5px;
+}
+
+.companyEventTable thead th:nth-child(5),
+.companyEventTable tbody td:nth-child(5) {
+  width: 300px;
+  line-height: 20px;
+  padding: 5px;
+}
+
+.companyLogo {
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+  @media (--small-viewport) {
+    display: none;
+  }
+}
+
+.companyLogo img {
+  min-width: 120px;
+  height: 80px;
+  object-fit: cover;
+}
+
+.companyLogoDetail {
+  max-height: 300px;
+  width: 100%;
 }
 
 .image {

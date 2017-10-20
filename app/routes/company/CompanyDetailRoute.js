@@ -6,6 +6,7 @@ import { fetch as fetchCompany } from 'app/actions/CompanyActions';
 import CompanyDetail from './components/CompanyDetail';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { selectEventsForCompany } from 'app/reducers/companies';
 
 type Props = {
   fetchCompany: () => {}
@@ -16,18 +17,23 @@ const CompanyDetailRoute = (props: Props) => {
 };
 
 const mapStateToProps = (state, props) => {
-  const companyId = props.params.companyId;
+  const { companyId } = props.params;
   const { query } = props.location;
   const company = state.companies.byId[companyId];
+  const companyEvents = selectEventsForCompany(state, { companyId });
+  const joblistings = state.joblistings.items.map(
+    id => state.joblistings.byId[id]
+  );
+
   return {
     company,
+    companyEvents,
+    joblistings,
     query,
     companyId,
     loggedIn: props.currentUser
   };
 };
-
-const mapDispatchToProps = { fetchCompany };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
@@ -37,5 +43,5 @@ export default compose(
       componentWillReceiveProps: false
     }
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, null)
 )(CompanyDetailRoute);
