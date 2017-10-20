@@ -4,7 +4,6 @@ import type { Thunk } from 'app/types';
 import { groupSchema, membershipSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Group, Membership } from './ActionTypes';
-import { push } from 'react-router-redux';
 import { omit } from 'lodash';
 
 export type AddMemberArgs = {
@@ -94,50 +93,6 @@ export function updateGroup(group: Object) {
       errorMessage: 'Oppdatering av grupper feilet'
     }
   });
-}
-
-export function createGroup(group: Object): Thunk<*> {
-  return dispatch => {
-    const { name, description, text, logo } = group;
-    return dispatch(
-      callAPI({
-        types: Group.CREATE,
-        endpoint: '/groups/',
-        schema: groupSchema,
-        method: 'POST',
-        body: {
-          name,
-          description,
-          text,
-          logo
-        },
-        meta: {
-          group,
-          errorMessage: 'Creating group failed'
-        }
-      })
-    ).then(res => {
-      const payload = (res: any).payload;
-      const group = payload.entities.groups[payload.result];
-      dispatch(push(`/groups/${group.id}`));
-    });
-  };
-}
-
-export function removeGroup(id: string): Thunk<*> {
-  return dispatch => {
-    return dispatch(
-      callAPI({
-        types: Group.REMOVE,
-        endpoint: `/groups/${id}/`,
-        method: 'DELETE',
-        meta: {
-          groupId: id,
-          errorMessage: 'Removing group failed'
-        }
-      })
-    ).then(() => dispatch(push('/interestgroups/')));
-  };
 }
 
 export function editGroup(group: Object): Thunk<*> {
