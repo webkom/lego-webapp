@@ -40,7 +40,7 @@ class CompanyEditor extends Component<Props> {
       ...formContent,
       logo: formContent.logo || undefined,
       studentContact:
-        formContent.studentContact && Number(formContent.studentContact.value),
+        formContent.studentContact && Number(formContent.studentContact.id),
       website: httpCheck(formContent.website),
       companyId: company && company.id
     });

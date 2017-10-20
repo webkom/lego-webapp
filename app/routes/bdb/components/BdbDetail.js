@@ -24,6 +24,7 @@ import type {
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import Button from 'app/components/Button';
 import type { CompanySemesterContactedStatus } from 'app/models';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 
 type Props = {
   company: CompanyEntity,
@@ -88,16 +89,12 @@ export default class BdbDetail extends Component<Props, State> {
 
   deleteSemesterStatus = (semesterId: number) => {
     const { deleteSemesterStatus, company } = this.props;
-    if (confirm('Er du sikker på at du vil slette denne semesterstatusen?')) {
-      return deleteSemesterStatus(company.id, semesterId);
-    }
+    return deleteSemesterStatus(company.id, semesterId);
   };
 
   deleteCompanyContact = (companyContactId: number) => {
     const { deleteCompanyContact, company } = this.props;
-    if (confirm('Er du sikker på at du vil slette denne bedriftskontakten?')) {
-      return deleteCompanyContact(company.id, companyContactId);
-    }
+    return deleteCompanyContact(company.id, companyContactId);
   };
 
   addFileToSemester = (
@@ -168,9 +165,13 @@ export default class BdbDetail extends Component<Props, State> {
                     style={{ marginRight: '5px', color: 'orange' }}
                   />
                 </Link>
-                <a onClick={() => this.deleteCompanyContact(contact.id)}>
+                <ConfirmModalWithParent
+                  title="Slett bedriftskontakt"
+                  message="Er du sikker på at du vil slette denne bedriftskontakten?"
+                  onConfirm={() => this.deleteCompanyContact(contact.id)}
+                >
                   <i className="fa fa-times" style={{ color: '#d13c32' }} />
-                </a>
+                </ConfirmModalWithParent>
               </span>
             </div>
           </td>
@@ -199,9 +200,7 @@ export default class BdbDetail extends Component<Props, State> {
     const title = (
       <span>
         {company.name}
-        {!company.active && (
-          <span style={{ color: 'red' }}> (Inaktiv bedrift)</span>
-        )}
+        {!company.active && <span style={{ color: 'red' }}> (Inaktiv)</span>}
         <Link to={`/bdb/${company.id}/edit`}>
           <i
             className="fa fa-pencil"

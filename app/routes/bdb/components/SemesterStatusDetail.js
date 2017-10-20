@@ -113,11 +113,7 @@ export default class SemesterStatusDetail extends Component<Props, State> {
                 style={{ marginRight: '5px', color: 'orange' }}
               />
             </a>
-            <a
-              onClick={() =>
-                semesterStatus.id &&
-                this.deleteSemesterStatus(semesterStatus.id)}
-            >
+            <a onClick={() => this.deleteSemesterStatus(semesterStatus.id)}>
               <i className="fa fa-times" style={{ color: '#d13c32' }} />
             </a>
           </span>

@@ -20,7 +20,8 @@ const loadData = (props, dispatch) =>
 const mapStateToProps = (state, props) => ({
   companies: selectCompanies(state, props),
   companySemesters: selectCompanySemesters(state, props),
-  query: props.location.query
+  query: props.location.query,
+  fetching: state.companies.fetching
 });
 
 const mapDispatchToProps = {

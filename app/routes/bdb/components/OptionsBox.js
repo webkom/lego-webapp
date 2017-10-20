@@ -129,7 +129,7 @@ export default class OptionsBox extends Component<Props, State> {
                 value={{
                   id:
                     this.state.values.studentContact &&
-                    Number(this.state.values.studentContact.value),
+                    Number(this.state.values.studentContact.id),
                   label:
                     this.state.values.studentContact &&
                     this.state.values.studentContact.fullName
@@ -140,7 +140,7 @@ export default class OptionsBox extends Component<Props, State> {
                 onChange={user =>
                   user
                     ? this.updateFilters('studentContact', {
-                        id: Number(user.value),
+                        id: Number(user.id),
                         fullName: user.label
                       })
                     : this.removeFilters('studentContact')}

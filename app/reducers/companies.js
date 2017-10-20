@@ -54,7 +54,7 @@ export type BaseSemesterStatusEntity = {
 };
 
 export type SemesterStatusEntity = BaseSemesterStatusEntity & {
-  id?: number,
+  id: number,
   semester: Semester,
   year: string
 };

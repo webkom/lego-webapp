@@ -41,7 +41,7 @@ export default function withModal<Props>(
   const displayName =
     WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
 
-  return class extends React.Component<ConfirmModalProps & Props, State> {
+  return class extends React.Component<ConfirmModalProps, State> {
     static displayName = `WithModal(${displayName})`;
     state = { modalVisible: false };
 

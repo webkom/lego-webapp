@@ -18,6 +18,7 @@ import type { CompanySemesterContactedStatus } from 'app/models';
 type Props = {
   companies: Array<CompanyEntity>,
   query: Object,
+  fetching: boolean,
   editSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
   addSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
   addSemester: CompanySemesterEntity => Promise<*>,
@@ -138,8 +139,8 @@ export default class BdbPage extends Component<Props, State> {
       for (const key of Object.keys(filters)) {
         const filterShouldApply = filters[key] !== undefined;
         if (
-          (filterShouldApply && company[key] === undefined) ||
-          company[key] === null
+          filterShouldApply &&
+          (company[key] === undefined || company[key] === null)
         )
           return false;
 
@@ -164,7 +165,7 @@ export default class BdbPage extends Component<Props, State> {
   };
 
   render() {
-    const { query, companies } = this.props;
+    const { query, companies, fetching } = this.props;
 
     if (!companies) {
       return <LoadingIndicator loading />;
@@ -204,6 +205,7 @@ export default class BdbPage extends Component<Props, State> {
           query={query}
           navigateThroughTime={this.navigateThroughTime}
           editChangedStatuses={this.editChangedStatuses}
+          fetching={fetching}
         />
       </div>
     );

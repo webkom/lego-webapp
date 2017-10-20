@@ -3,6 +3,7 @@
 import React, { type Node } from 'react';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import type { Semester } from 'app/models';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { CompanySemesterContactedStatus } from 'app/models';
@@ -184,14 +185,14 @@ export const DetailNavigation = ({
     <NavigationLink to={`/bdb/${companyId}`}>Bedriftens side</NavigationLink>
     <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
     <NavigationLink to={`/bdb/${companyId}/edit`}>Endre</NavigationLink>
-    <span
-      onClick={() => {
-        if (confirm('Er du sikker på at du vil slette denne bedriften?')) {
-          return deleteFunction(companyId);
-        }
-      }}
+    <ConfirmModalWithParent
+      title="Slett bedrift"
+      message="Er du sikker på at du vil slette denne bedriften?"
+      onConfirm={() => deleteFunction(companyId)}
     >
-      <NavigationLink to="">Slett</NavigationLink>
-    </span>
+      <div>
+        <NavigationLink to="">Slett</NavigationLink>
+      </div>
+    </ConfirmModalWithParent>
   </NavigationTab>
 );
