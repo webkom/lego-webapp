@@ -100,7 +100,7 @@ const CompanyDetail = (props: Props) => {
 
       {insertInfoBubbles(company)}
 
-      <h3>Bedriftens arrangementer</h3>
+      <h3 style={{ marginTop: '20px' }}>Bedriftens arrangementer</h3>
       {events.length > 0 ? (
         <table className={styles.companyEventTable}>
           <thead className={styles.categoryHeader}>
@@ -119,7 +119,7 @@ const CompanyDetail = (props: Props) => {
         <i>Ingen arrangementer.</i>
       )}
 
-      <h3 style={{ marginTop: '10px' }}>Bedriftens jobbannonser</h3>
+      <h3 style={{ marginTop: '20px' }}>Bedriftens jobbannonser</h3>
       {joblistingsList.length > 0 ? (
         <table className={styles.companyEventTable}>
           <thead className={styles.categoryHeader}>

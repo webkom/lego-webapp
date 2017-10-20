@@ -35,8 +35,6 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { fetchCompany };
-
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   dispatched(
@@ -45,5 +43,5 @@ export default compose(
       componentWillReceiveProps: false
     }
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, null)
 )(CompanyDetailRoute);

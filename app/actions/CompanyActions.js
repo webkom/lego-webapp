@@ -38,18 +38,6 @@ export function fetchAllAdmin() {
   });
 }
 
-export function fetchAllPublic() {
-  return callAPI({
-    types: Company.FETCH,
-    endpoint: '/public-companies/',
-    schema: [companySchema],
-    meta: {
-      errorMessage: 'Henting av bedrifter feilet'
-    },
-    propagateError: true
-  });
-}
-
 export function fetch(companyId: number): Thunk<*> {
   return dispatch =>
     dispatch(
