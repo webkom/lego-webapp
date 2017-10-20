@@ -7,6 +7,7 @@ import { startSubmit, stopSubmit } from 'redux-form';
 import moment from 'moment';
 import type { Thunk } from 'app/types';
 import type { UserEntity } from 'app/reducers/users';
+import createQueryString from 'app/utils/createQueryString';
 
 export function fetchMeeting(meetingId: string) {
   return callAPI({
@@ -29,9 +30,27 @@ const getEndpoint = (state, loadNextPage, queryString) => {
   return endpoint;
 };
 
-export function fetchAll(loadNextPage) {
+export function fetchAll(
+  {
+    dateAfter,
+    dateBefore,
+    ordering,
+    refresh,
+    loadNextPage
+  }: {
+    dateAfter?: string,
+    dateBefore?: string,
+    ordering?: string,
+    refresh?: boolean,
+    loadNextPage?: boolean
+  } = {}
+) {
   return (dispatch, getState) => {
-    const queryString = '';
+    const query = { date_after: dateAfter, date_before: dateBefore, ordering };
+    if (dateBefore && dateAfter) {
+      query.page_size = 60;
+    }
+    const queryString = createQueryString(query);
     const endpoint = getEndpoint(getState(), loadNextPage, queryString);
     if (!endpoint) {
       return;
@@ -46,6 +65,7 @@ export function fetchAll(loadNextPage) {
           errorMessage: 'Henting av møter feilet'
         },
         propagateError: true,
+        useCache: refresh,
         cacheSeconds: Infinity
       })
     );

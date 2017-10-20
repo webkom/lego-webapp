@@ -8,6 +8,7 @@ import { selectMeetings } from 'app/reducers/meetings';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import MeetingList from './components/MeetingList';
 import { selectHasMore } from '../../reducers/selectors';
+import moment from 'moment';
 
 const mapStateToProps = (state, props) => ({
   meetings: selectMeetings(state),
@@ -18,12 +19,28 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = {
   fetchAll,
-  loadMore: () => fetchAll(true)
+  loadMore: () =>
+    fetchAll({
+      dateAfter: moment()
+        .subtract(3, 'weeks')
+        .format('YYYY-MM-DD'),
+      refresh: true,
+      loadNextPage: true
+    }),
+  loadOlder: () =>
+    fetchAll({
+      dateBefore: moment()
+        .subtract(3, 'weeks')
+        .format('YYYY-MM-DD'),
+      ordering: '-start_time',
+      refresh: true,
+      loadNextPage: true
+    })
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched((props, dispatch) => dispatch(fetchAll(false)), {
+  dispatched((props, dispatch) => dispatch(fetchAll()), {
     componentWillReceiveProps: false
   }),
   connect(mapStateToProps, mapDispatchToProps)
