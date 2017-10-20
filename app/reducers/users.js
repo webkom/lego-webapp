@@ -5,7 +5,7 @@ import { createSelector } from 'reselect';
 import { User, Event } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { normalize } from 'normalizr';
-import { registrationSchema } from 'app/reducers';
+import { eventSchema, registrationSchema } from 'app/reducers';
 import mergeObjects from 'app/utils/mergeObjects';
 
 export type UserEntity = {
@@ -25,6 +25,15 @@ export default createEntityReducer({
   },
   mutate(state, action) {
     switch (action.type) {
+      case Event.SOCKET_EVENT_UPDATED: {
+        const users =
+          normalize(action.payload, eventSchema).entities.users || {};
+        return {
+          ...state,
+          byId: mergeObjects(state.byId, users),
+          items: union(state.items, Object.keys(users))
+        };
+      }
       case Event.SOCKET_REGISTRATION.SUCCESS:
       case Event.ADMIN_REGISTER.SUCCESS: {
         const users = normalize(action.payload, registrationSchema).entities
