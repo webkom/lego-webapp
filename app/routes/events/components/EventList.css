@@ -48,7 +48,7 @@
 .companyLogo img {
   min-width: 120px;
   height: 80px;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .bottomBorder {
