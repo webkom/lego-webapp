@@ -27,9 +27,11 @@ const HierarchySection = ({
   currentUrl: string
 }) => (
   <ul className={styles.pageList}>
-    <li key="title">
-      <p className={styles.header}>{title}</p>
-    </li>
+    {items.length > 0 && (
+      <li key="title">
+        <p className={styles.header}>{title}</p>
+      </li>
+    )}
     {items.map((item, key) => (
       <li key={key}>
         <Link

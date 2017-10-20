@@ -21,6 +21,14 @@ const loadData = (props, dispatch) => {
   const section = sections[props.params.section];
   const { pageSlug } = props.params;
 
+  // Only handle flatpages when user isn't authenticated
+  if (!props.loggedIn) {
+    return Promise.all([
+      dispatch(section.fetchAll()),
+      ...section.fetchItemActions.map(action => dispatch(action(pageSlug)))
+    ]);
+  }
+
   return Promise.all([
     ...Object.keys(sections).map(key => dispatch(sections[key].fetchAll())),
     ...(section &&
