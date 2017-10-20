@@ -6,11 +6,11 @@ import { Parser, ProcessNodeDefinitions } from 'html-to-react';
 type Props = {
   /** The content to be displayed - the text */
   content: string,
-  /** The content to be displayed - the text */
+  /** The id of the div wrapping the content - the id */
   id?: string,
-  /** The content to be displayed - the text */
+  /** The classname of the div wrapping the content - the className */
   className?: string,
-  /** The content to be displayed - the text */
+  /** Any style tp be added to the div wrapping the content - the style */
   style?: Object
 };
 

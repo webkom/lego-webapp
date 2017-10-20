@@ -38,5 +38,5 @@ const mapDispatchToProps = { editGroup };
 
 export default compose(
   connect(() => ({}), mapDispatchToProps),
-  loadingIndicator('group')
+  loadingIndicator(['group'])
 )(GroupPermissions);

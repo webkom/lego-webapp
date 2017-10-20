@@ -31,5 +31,5 @@ export default compose(
     dispatch(fetchArticle(articleId))
   ),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator('article.content')
+  loadingIndicator(['article.content'])
 )(ArticleEditor);

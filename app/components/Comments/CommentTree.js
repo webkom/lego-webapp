@@ -7,7 +7,7 @@ import { type CommentEntity } from 'app/reducers/comments';
 import styles from './CommentTree.css';
 
 type Props = {
-  comments: CommentEntity[],
+  comments: Array<CommentEntity>,
   isChild?: boolean,
   commentFormProps: Object,
   level?: number
