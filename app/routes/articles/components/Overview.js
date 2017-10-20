@@ -22,7 +22,7 @@ const OverviewItem = ({ article }: { article: ArticleEntity }) => (
     </h2>
 
     <span className={styles.itemInfo}>
-      <Time time={article.startTime} format="DD.MM HH:mm" />
+      <Time time={article.createdAt} format="DD.MM.YYYY HH:mm" />
     </span>
     <p className={styles.itemDescription}>{article.description}</p>
   </div>
