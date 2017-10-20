@@ -10,6 +10,16 @@
   }
 }
 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sponsor {
+  width: 90px;
+}
+
 .toggleButton {
   color: var(--lego-link-color);
   font-size: 14px;
