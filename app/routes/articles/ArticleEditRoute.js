@@ -23,7 +23,7 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { fetchArticle, editArticle };
+const mapDispatchToProps = { fetchArticle, submitArticle: editArticle };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),

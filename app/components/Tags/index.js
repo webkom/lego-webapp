@@ -17,4 +17,3 @@ function Tags({ children }: Props) {
 }
 
 export default Tags;
-export { Tag };

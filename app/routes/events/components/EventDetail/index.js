@@ -12,7 +12,7 @@ import {
   AttendanceStatus,
   ModalParentComponent
 } from 'app/components/UserAttendance';
-import Tag from 'app/components/Tags';
+import Tag from 'app/components/Tags/Tag';
 import Time from 'app/components/Time';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Flex } from 'app/components/Layout';
