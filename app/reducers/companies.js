@@ -27,7 +27,7 @@ export type BaseCompanyEntity = {
   comments: Array<{ id: string, parent: string }>,
   semesterStatuses: Array<SemesterStatusEntity>,
   logo?: string,
-  files?: Array<string>,
+  files?: Array<Object>,
   companyContacts: Array<CompanyContactEntity>
 };
 
