@@ -16,6 +16,18 @@ export function fetchPage(pageSlug: string) {
   });
 }
 
+export function deletePage(pageSlug: string) {
+  return callAPI({
+    types: Page.DELETE,
+    endpoint: `/pages/${pageSlug}/`,
+    method: 'DELETE',
+    meta: {
+      pageSlug,
+      errorMessage: 'Sletting av side feilet'
+    }
+  });
+}
+
 export function fetchAll() {
   return callAPI({
     types: Page.FETCH,

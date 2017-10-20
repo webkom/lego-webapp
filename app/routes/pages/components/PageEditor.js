@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FlexRow } from 'app/components/FlexBox';
 import Button from 'app/components/Button';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import styles from './PageEditor.css';
 import { EditorField, TextInput, Form } from 'app/components/Form';
 import ImageUpload from 'app/components/Upload/ImageUpload';
@@ -22,6 +23,7 @@ export type Props = {
   handleSubmit: () => Promise,
   updatePage?: () => Promise,
   createPage?: () => Promise,
+  deletePage?: slug => Promise,
   push: string => void
 };
 
@@ -47,6 +49,10 @@ export default class PageEditor extends Component {
         page: { ...this.state.page, picture: file }
       });
     });
+  };
+  onDelete = () => {
+    const { push, pageSlug, deletePage } = this.props;
+    deletePage(pageSlug).then(() => push('/pages/info/om-oss'));
   };
 
   onSubmit = data => {
@@ -103,6 +109,16 @@ export default class PageEditor extends Component {
               component={TextInput.Field}
               id="page-title"
             />
+
+            {!isNew && (
+              <ConfirmModalWithParent
+                title="Slett side"
+                message="Er du sikker på at du vil slette denne infosiden?"
+                onConfirm={this.onDelete}
+              >
+                <Button>Slett </Button>
+              </ConfirmModalWithParent>
+            )}
             <Button className={styles.submitButton} type="submit">
               {isNew ? 'Create' : 'Save'}
             </Button>
