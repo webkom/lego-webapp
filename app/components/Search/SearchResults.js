@@ -9,16 +9,17 @@ import ResolveLink from 'app/components/ResolveLink';
 const SearchResultItem = ({ result, isSelected, onCloseSearch }: Object) => (
   <Link to={result.link} onClick={onCloseSearch}>
     <li className={cx(isSelected && styles.isSelected)}>
-      {result.icon && (
-        <Icon className={styles.searchResultItemIcon} name={result.icon} />
-      )}
-      {!result.icon && (
+      {result.profilePicture && (
         <ProfilePicture
           size={30}
           user={result}
           style={{ margin: '0px 10px 0px 0px' }}
         />
       )}
+      {!result.profilePicture &&
+        result.icon && (
+          <Icon className={styles.searchResultItemIcon} name={result.icon} />
+        )}
       {result.label}
     </li>
   </Link>
