@@ -23,8 +23,10 @@ export function CompanyItem({ company }: any) {
         <div>{company.companyType}</div>
         <div>{company.address}</div>
       </div>
-      <Link className={styles.companyLogo} to={`/companies/${company.id}`}>
-        {company.thumbnail && <Image src={company.thumbnail} />}
+      <Link to={`/companies/${company.id}`}>
+        {company.thumbnail && (
+          <Image src={company.thumbnail} className={styles.companyLogo} />
+        )}
       </Link>
     </div>
   );

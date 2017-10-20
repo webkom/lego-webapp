@@ -159,12 +159,21 @@
 }
 
 .companyLogo {
-  max-height: 150px;
-  max-width: 510px;
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
 
   @media (--small-viewport) {
     display: none;
   }
+}
+
+.companyLogo img {
+  min-width: 120px;
+  height: 80px;
+  object-fit: cover;
 }
 
 .companyLogoDetail {

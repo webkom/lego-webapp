@@ -17,14 +17,18 @@ const CompanyDetailRoute = (props: Props) => {
 };
 
 const mapStateToProps = (state, props) => {
-  const companyId = props.params.companyId;
+  const { companyId } = props.params;
   const { query } = props.location;
   const company = state.companies.byId[companyId];
   const companyEvents = selectEventsForCompany(state, { companyId });
+  const joblistings = state.joblistings.items.map(
+    id => state.joblistings.byId[id]
+  );
 
   return {
     company,
     companyEvents,
+    joblistings,
     query,
     companyId,
     loggedIn: props.currentUser
