@@ -31,6 +31,7 @@ const SearchResults = ({
   navigationLinks,
   adminLinks,
   onCloseSearch,
+  searching,
   selectedIndex
 }: Object) => (
   <div className={styles.resultsContainer}>
@@ -38,15 +39,23 @@ const SearchResults = ({
       <div className={styles.scrollAble}>
         {query && (
           <ul className={styles.results}>
-            {results.length === 0 && <li>Ingen treff</li>}
-            {results.map((result, i) => (
-              <SearchResultItem
-                key={i}
-                result={result}
-                onCloseSearch={onCloseSearch}
-                isSelected={i === selectedIndex - 1}
-              />
-            ))}
+            {searching ? (
+              <p>
+                <i className="fa fa-spinner fa-spin" /> Søker...
+              </p>
+            ) : (
+              <div>
+                {results.length === 0 && <li>Ingen treff</li>}
+                {results.map((result, i) => (
+                  <SearchResultItem
+                    key={i}
+                    result={result}
+                    onCloseSearch={onCloseSearch}
+                    isSelected={i === selectedIndex - 1}
+                  />
+                ))}
+              </div>
+            )}
           </ul>
         )}
         <div className={styles.quickLinks}>
