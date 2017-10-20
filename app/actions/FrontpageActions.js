@@ -5,16 +5,13 @@ import { Frontpage } from './ActionTypes';
 import { frontpageSchema } from 'app/reducers';
 
 export function fetch() {
-  return dispatch =>
-    dispatch(
-      callAPI({
-        types: Frontpage.FETCH,
-        endpoint: '/frontpage/',
-        schema: frontpageSchema,
-        meta: {
-          errorMessage: 'Klarte ikke hente forsiden!'
-        },
-        propagateError: true
-      })
-    );
+  return callAPI({
+    types: Frontpage.FETCH,
+    endpoint: '/frontpage/',
+    schema: frontpageSchema,
+    meta: {
+      errorMessage: 'Klarte ikke hente forsiden!'
+    },
+    propagateError: true
+  });
 }
