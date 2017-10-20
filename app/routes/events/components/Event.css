@@ -1,21 +1,5 @@
 @import 'app/styles/variables.css';
 
-.root {
-  composes: contentContainer from 'app/styles/utilities.css';
-
-  @media (--small-viewport) {
-    padding: 0;
-
-    .coverImage {
-      padding: 0;
-    }
-
-    > div {
-      padding: 0 10px;
-    }
-  }
-}
-
 .registeredThumbnails {
   flex-wrap: wrap;
   max-height: 138px;
@@ -26,8 +10,16 @@
   margin-right: 5px;
 }
 
+.content {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
 .coverImage {
-  width: 100%;
+  composes: contentContainer from 'app/styles/utilities.css';
+  padding: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
   height: 300px;
   overflow: hidden;
   position: relative;
@@ -43,24 +35,20 @@
 }
 
 .description {
-  border-radius: 5px;
   flex: 2;
-  background: var(--lego-color-gray-light);
-
-  @media (--medium-viewport) {
-    margin-bottom: 1em;
-  }
 }
 
 .meta {
   flex: 1;
   padding: 20px;
-  border-radius: 5px;
-  margin-left: 1em;
-  background: #eee;
+  padding-top: 0;
+  border-left: 1px solid var(--border-gray);
+  margin-left: 3em;
 
   @media (--small-viewport) {
+    border-left: none;
     margin-left: 0;
+    padding: 0;
   }
 }
 
@@ -78,17 +66,7 @@
 }
 
 .join {
-  background: var(--lego-color-gray-light);
-  border-radius: 5px;
   flex: 2;
-}
-
-.join > * {
-  margin: 20px 20px 0;
-}
-
-.join > *:last-child {
-  margin-bottom: 20px;
 }
 
 .joinHeader {
