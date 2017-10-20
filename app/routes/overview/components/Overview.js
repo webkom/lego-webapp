@@ -72,55 +72,58 @@ function PrimaryItem({ event }) {
   );
 }
 
-const OverviewItem = ({ event, showImage }) => (
-  <Flex column className={styles.item}>
-    <Flex className={styles.inner}>
-      <Flex column>
-        {showImage && (
-          <Link to={`/events/${event.id}`} className={styles.imageContainer}>
-            <Image className={styles.image} src={event.cover} />
-          </Link>
-        )}
-      </Flex>
-      <Flex column className={styles.innerRight}>
-        <div className={styles.heading}>
-          <h2 className={styles.itemTitle}>
-            <Link to={`/events/${event.id}`}>
-              {truncateString(event.title, TITLE_MAX_LENGTH)}
+const OverviewItem = ({ item }) => {
+  const base = item.eventType ? 'events' : 'articles';
+  return (
+    <Flex column className={styles.item}>
+      <Flex className={styles.inner}>
+        {item.cover && (
+          <Flex column>
+            <Link to={`/${base}/${item.id}`} className={styles.imageContainer}>
+              <Image className={styles.image} src={item.cover} />
             </Link>
-          </h2>
+          </Flex>
+        )}
+        <Flex column className={styles.innerRight}>
+          <div className={styles.heading}>
+            <h2 className={styles.itemTitle}>
+              <Link to={`/${base}/${item.id}`}>
+                {truncateString(item.title, TITLE_MAX_LENGTH)}
+              </Link>
+            </h2>
 
-          <span className={styles.itemInfo}>
-            {event.startTime && (
-              <Time time={event.startTime} format="DD.MM HH:mm" />
-            )}
-            {event.location !== '-' && (
-              <span>
-                <span className={styles.dot}> · </span>
-                <span>{event.location}</span>
-              </span>
-            )}
-            {event.eventType && (
-              <span>
-                <span className={styles.dot}> · </span>
-                <span>{EVENT_TYPE_TO_STRING(event.eventType)}</span>
-              </span>
-            )}
-          </span>
-        </div>
+            <span className={styles.itemInfo}>
+              {item.startTime && (
+                <Time time={item.startTime} format="DD.MM HH:mm" />
+              )}
+              {item.location !== '-' && (
+                <span>
+                  <span className={styles.dot}> · </span>
+                  <span>{item.location}</span>
+                </span>
+              )}
+              {item.itemType && (
+                <span>
+                  <span className={styles.dot}> · </span>
+                  <span>{EVENT_TYPE_TO_STRING(item.itemType)}</span>
+                </span>
+              )}
+            </span>
+          </div>
 
-        <p
-          className={styles.itemDescription}
-          style={{
-            borderTop: `3px solid ${colorForEvent(event.eventType)}`
-          }}
-        >
-          {truncateString(event.description, DESCRIPTION_MAX_LENGTH)}
-        </p>
+          <p
+            className={styles.itemDescription}
+            style={{
+              borderTop: `3px solid ${colorForEvent(item.itemType)}`
+            }}
+          >
+            {truncateString(item.description, DESCRIPTION_MAX_LENGTH)}
+          </p>
+        </Flex>
       </Flex>
     </Flex>
-  </Flex>
-);
+  );
+};
 
 export default class Overview extends Component {
   state = {
@@ -155,8 +158,7 @@ export default class Overview extends Component {
             .map(event => (
               <OverviewItem
                 key={event.id}
-                event={event}
-                showImage
+                item={event}
                 increaseEventsToShow={this.increaseEventsToShow}
               />
             ))}
