@@ -68,5 +68,5 @@ export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData, ['params.username']),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator('user')
+  loadingIndicator(['user'])
 )(UserProfile);

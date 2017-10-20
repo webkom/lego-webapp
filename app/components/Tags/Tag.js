@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Link } from 'react-router';
+import createQueryString from 'app/utils/createQueryString';
 import styles from './Tag.css';
 
 type Props = {
@@ -18,7 +19,7 @@ function Tag({ tag, small = false }: Props) {
   const className = small ? styles.tagLinkSmall : styles.tagLink;
   return (
     <div className={styles.linkSpacing}>
-      <Link className={className} to={'/'}>
+      <Link className={className} to={`search${createQueryString({ q: tag })}`}>
         #{tag}
       </Link>
     </div>

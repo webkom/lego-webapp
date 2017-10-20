@@ -7,7 +7,7 @@ import renderPools, { validatePools } from './renderPools';
 import RegisteredCell from '../RegisteredCell';
 import RegisteredSummary from '../RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
-import Tag from 'app/components/Tag';
+import Tag from 'app/components/Tags';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field, FieldArray } from 'redux-form';
 import {
