@@ -88,12 +88,16 @@ export default class BdbDetail extends Component<Props, State> {
 
   deleteSemesterStatus = (semesterId: number) => {
     const { deleteSemesterStatus, company } = this.props;
-    return deleteSemesterStatus(company.id, semesterId);
+    if (confirm('Er du sikker på at du vil slette denne semesterstatusen?')) {
+      return deleteSemesterStatus(company.id, semesterId);
+    }
   };
 
   deleteCompanyContact = (companyContactId: number) => {
     const { deleteCompanyContact, company } = this.props;
-    return deleteCompanyContact(company.id, companyContactId);
+    if (confirm('Er du sikker på at du vil slette denne bedriftskontakten?')) {
+      return deleteCompanyContact(company.id, companyContactId);
+    }
   };
 
   addFileToSemester = (
@@ -338,9 +342,7 @@ export default class BdbDetail extends Component<Props, State> {
               ) : (
                 company.files.map((file, i) => (
                   <li key={i}>
-                    <a href={file.file} blank="true">
-                      {truncateString(file.file, 100)}
-                    </a>
+                    <a href={file.file}>{truncateString(file.file, 100)}</a>
                   </li>
                 ))
               )}

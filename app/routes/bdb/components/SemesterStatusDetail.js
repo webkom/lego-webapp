@@ -20,7 +20,7 @@ type Props = {
   semesterStatus: SemesterStatusEntity,
   index: number,
   companyId: number,
-  deleteSemesterStatus: (number, number) => Promise<*>,
+  deleteSemesterStatus: number => ?Promise<*>,
   editFunction: (
     semesterStatus: SemesterStatusEntity,
     statusString: CompanySemesterContactedStatus
@@ -38,9 +38,7 @@ export default class SemesterStatusDetail extends Component<Props, State> {
   };
 
   deleteSemesterStatus = (id: number) => {
-    if (confirm('Er du sikker?')) {
-      this.props.deleteSemesterStatus(this.props.companyId, id);
-    }
+    this.props.deleteSemesterStatus(id);
   };
 
   addFile = (fileName: string, fileToken: string, type: string) => {

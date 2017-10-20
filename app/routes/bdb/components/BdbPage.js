@@ -137,7 +137,11 @@ export default class BdbPage extends Component<Props, State> {
 
       for (const key of Object.keys(filters)) {
         const filterShouldApply = filters[key] !== undefined;
-        if (filterShouldApply && company[key] === undefined) return false;
+        if (
+          (filterShouldApply && company[key] === undefined) ||
+          company[key] === null
+        )
+          return false;
 
         const shouldFilterById =
           filterShouldApply && company[key].id && filters[key].id;
