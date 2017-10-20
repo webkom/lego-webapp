@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import { FlexRow, FlexItem } from 'app/components/FlexBox';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+
 import styles from './MeetingDetail.css';
 import Card from 'app/components/Card';
 import Button from 'app/components/Button';
@@ -122,6 +124,7 @@ class MeetingDetails extends Component {
             </span>{' '}
           </h2>
         )}
+
         <FlexRow className={styles.heading}>
           <div style={{ flex: 1 }}>
             <NavigationTab title={meeting.title} className={styles.detailTitle}>
@@ -134,13 +137,15 @@ class MeetingDetails extends Component {
                 </NavigationLink>
               )}
               {canDelete && (
-                <NavigationLink
-                  onClick={() => {
-                    this.props.deleteMeeting(meeting.id);
-                  }}
+                <ConfirmModalWithParent
+                  title="Slett møte"
+                  message="Er du sikker på at du vil slette møtet?"
+                  onConfirm={this.onDeleteMeeting}
                 >
-                  Slett møte
-                </NavigationLink>
+                  <div>
+                    <NavigationLink to="">Slett møte</NavigationLink>
+                  </div>
+                </ConfirmModalWithParent>
               )}
             </NavigationTab>
             <h3>
