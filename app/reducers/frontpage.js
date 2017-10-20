@@ -1,3 +1,5 @@
+import moment from 'moment';
+import { sortBy } from 'lodash';
 import { createSelector } from 'reselect';
 import { selectArticles } from './articles';
 import { selectEvents } from './events';
@@ -5,7 +7,9 @@ import { selectEvents } from './events';
 export const selectFrontpage = createSelector(
   selectArticles,
   selectEvents,
-  (articles, events) => {
-    return articles.concat(events);
-  }
+  (articles, events) =>
+    sortBy(articles.concat(events), item => {
+      const timeField = item.eventType ? item.startTime : item.createdAt;
+      return Math.abs(moment() - moment(timeField));
+    })
 );
