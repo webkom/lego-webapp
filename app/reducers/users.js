@@ -25,7 +25,7 @@ export default createEntityReducer({
   },
   mutate(state, action) {
     switch (action.type) {
-      case Event.SOCKET_UNREGISTRATION.SUCCESS:
+      case Event.SOCKET_REGISTRATION.SUCCESS:
       case Event.ADMIN_REGISTER.SUCCESS: {
         const users = normalize(action.payload, registrationSchema).entities
           .users;
