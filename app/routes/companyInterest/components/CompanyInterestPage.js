@@ -144,7 +144,7 @@ const CompanyInterestPage = (props: Props) => {
         props.push(
           props.actionGrant && props.actionGrant.includes('edit')
             ? '/companyInterest/'
-            : '/pages/info/for-companies'
+            : '/pages/info/for-bedrifter'
         )
       )
       .catch(err => {
