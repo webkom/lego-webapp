@@ -27,7 +27,7 @@ const AddGroupMember = ({
   const onSubmit = handleSubmit(({ user, role }) =>
     addMember({
       role,
-      userId: user.value,
+      userId: user.id,
       groupId: group.id
     })
   );
