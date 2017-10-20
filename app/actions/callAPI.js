@@ -120,14 +120,15 @@ export default function callAPI({
         return [];
       }
 
-      const { results, actionGrant } = jsonData;
+      const { results, actionGrant, next } = jsonData;
 
       const payload = Array.isArray(results) ? results : jsonData;
 
       if (schema) {
         return {
           ...normalize(payload, schema),
-          actionGrant
+          actionGrant,
+          next
         };
       }
 

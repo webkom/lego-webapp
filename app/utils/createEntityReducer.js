@@ -43,6 +43,7 @@ export function entities(key: string, fetchType?: ?AsyncActionType) {
   return (
     state: any = {
       actionGrant: [],
+      pagination: {},
       byId: {},
       items: []
     },
@@ -62,11 +63,23 @@ export function entities(key: string, fetchType?: ?AsyncActionType) {
     )
       return state;
 
+    let pagination = state.pagination;
+    const queryString = action.meta && action.meta.queryString;
+    if (!action.cached && queryString !== undefined) {
+      pagination = {
+        ...state.pagination,
+        [queryString]: {
+          queryString,
+          nextPage: action.payload.next
+        }
+      };
+    }
     return {
       ...state,
       byId: mergeObjects(state.byId, result),
       items: union(state.items, resultIds),
-      actionGrant: union(state.actionGrant, actionGrant)
+      actionGrant: union(state.actionGrant, actionGrant),
+      pagination
     };
   };
 }
@@ -104,6 +117,7 @@ export default function createEntityReducer({
 
   const finalInitialState = {
     actionGrant: [],
+    pagination: {},
     byId: {},
     items: [],
     fetching: false,

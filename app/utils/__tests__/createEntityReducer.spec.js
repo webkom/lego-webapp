@@ -35,7 +35,8 @@ describe('createEntityReducer', () => {
       byId: {},
       items: [],
       fetching: false,
-      smashed: true
+      smashed: true,
+      pagination: {}
     });
   });
 
@@ -62,7 +63,8 @@ describe('createEntityReducer', () => {
       },
       items: [0, 1],
       fetching: false,
-      smashed: false
+      smashed: false,
+      pagination: {}
     });
   });
 
@@ -89,7 +91,8 @@ describe('createEntityReducer', () => {
       },
       items: [1, 'warlo'],
       fetching: false,
-      smashed: false
+      smashed: false,
+      pagination: {}
     });
   });
 
@@ -116,7 +119,8 @@ describe('createEntityReducer', () => {
       },
       items: ['1-per', '1-warlo'],
       fetching: false,
-      smashed: false
+      smashed: false,
+      pagination: {}
     });
   });
 
@@ -135,7 +139,8 @@ describe('createEntityReducer', () => {
       byId: {},
       items: [],
       fetching: false,
-      smashed: false
+      smashed: false,
+      pagination: {}
     });
   });
 
@@ -183,7 +188,8 @@ describe('createEntityReducer', () => {
       customFlag2: false,
       actionGrant: [],
       byId: {},
-      items: []
+      items: [],
+      pagination: {}
     });
   });
 });
@@ -309,7 +315,8 @@ describe('entities()', () => {
           comments: []
         }
       },
-      items: [1, 2]
+      items: [1, 2],
+      pagination: {}
     });
   });
 });

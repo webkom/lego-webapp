@@ -31,6 +31,13 @@ function mutateEvent(state: any, action: any) {
         byId: mergeObjects(state.byId, events)
       };
     }
+    case Event.CLEAR: {
+      return {
+        ...state,
+        items: [],
+        pagination: {}
+      };
+    }
     case Event.REGISTER.BEGIN: {
       return {
         ...state,

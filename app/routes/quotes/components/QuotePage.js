@@ -3,6 +3,7 @@ import QuoteList from './QuoteList';
 import styles from './Quotes.css';
 import cx from 'classnames';
 import { navigation } from '../utils';
+import Button from 'app/components/Button';
 
 type Props = {
   comments: Array<Object>,
@@ -12,6 +13,8 @@ type Props = {
   approve: number => Promise<*>,
   unapprove: number => Promise<*>,
   deleteQuote: number => Promise<*>,
+  fetchMore: boolean => Promise<*>,
+  showFetchMore: boolean,
   currentUser: any,
   loggedIn: boolean,
   comments: Object
@@ -20,11 +23,12 @@ type Props = {
 export default function QuotePage({
   query,
   quotes,
-
   approve,
   unapprove,
   actionGrant,
   deleteQuote,
+  fetchMore,
+  showFetchMore,
   currentUser,
   loggedIn,
   comments,
@@ -52,6 +56,13 @@ export default function QuotePage({
           loggedIn={loggedIn}
           comments={comments}
         />
+      )}
+      {showFetchMore && (
+        <Button
+          onClick={() => fetchMore({ approved: query.filter !== 'unapproved' })}
+        >
+          Load more
+        </Button>
       )}
     </div>
   );

@@ -15,20 +15,30 @@ import {
 } from 'app/reducers/quotes';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { selectPagination } from '../../reducers/selectors';
 
-const mapStateToProps = (state, props) => ({
-  quotes: selectSortedQuotes(state, props.location.query),
-  query: props.location.query,
-  actionGrant: state.quotes.actionGrant,
-  comments: selectCommentsForQuotes(state, props)
-});
+const mapStateToProps = (state, props) => {
+  const queryString = ['?approved=true', '?approved=false'];
+  const showFetchMore = selectPagination('quotes', { queryString })(state);
+  return {
+    quotes: selectSortedQuotes(state, props.location.query),
+    query: props.location.query,
+    actionGrant: state.quotes.actionGrant,
+    showFetchMore,
+    comments: selectCommentsForQuotes(state, props)
+  };
+};
 
 const mapDispatchToProps = {
   fetchAllApproved,
   fetchAllUnapproved,
   approve,
   unapprove,
-  deleteQuote
+  deleteQuote,
+  fetchMore: ({ approved }) =>
+    approved
+      ? fetchAllApproved({ loadNextPage: true })
+      : fetchAllUnapproved({ loadNextPage: true })
 };
 
 export default compose(
@@ -37,9 +47,9 @@ export default compose(
     (props, dispatch) => {
       const { location: { query } } = props;
       if (query.filter === 'unapproved') {
-        return dispatch(fetchAllUnapproved());
+        return dispatch(fetchAllUnapproved({ loadNextPage: false }));
       }
-      return dispatch(fetchAllApproved());
+      return dispatch(fetchAllApproved({ loadNextPage: false }));
     },
     { componentWillReceiveProps: false }
   ),

@@ -8,24 +8,63 @@ import { Quote } from './ActionTypes';
 import { addNotification } from 'app/actions/NotificationActions';
 import type { Thunk } from 'app/types';
 
-export function fetchAll({ approved = true }: { approved: boolean }) {
-  return callAPI({
-    types: Quote.FETCH,
-    endpoint: `/quotes/?approved=${String(approved)}`,
-    schema: [quoteSchema],
-    meta: {
-      errorMessage: `Henting av ${approved ? '' : 'un'}godkjente quotes feilet`
-    },
-    propagateError: true
-  });
+const getEndpoint = (state, loadNextPage, queryString) => {
+  const pagination = state.quotes.pagination;
+  let endpoint = `/quotes/${queryString}`;
+  const paginationObject = pagination[queryString];
+  if (
+    loadNextPage &&
+    paginationObject &&
+    paginationObject.queryString === queryString
+  ) {
+    endpoint = pagination[queryString].nextPage;
+  }
+  return endpoint;
+};
+
+export const fetchAll = (
+  {
+    approved = true,
+    refresh = false,
+    loadNextPage = false
+  }: {
+    approved?: boolean,
+    refresh?: boolean,
+    loadNextPage?: boolean
+  } = {}
+): Thunk<*> => (dispatch, getState) => {
+  const queryString = `?approved=${String(approved)}`;
+  const endpoint = getEndpoint(getState(), loadNextPage, queryString);
+  if (!endpoint) {
+    return Promise.resolve(null);
+  }
+  return dispatch(
+    callAPI({
+      types: Quote.FETCH,
+      endpoint,
+      schema: [quoteSchema],
+      meta: {
+        queryString,
+        errorMessage: `Henting av ${approved
+          ? ''
+          : 'ikke '}godkjente sitater feilet`
+      },
+      propagateError: true,
+      cacheSeconds: Infinity // don't expire cache unless we pass force
+    })
+  );
+};
+
+export function fetchAllApproved({ loadNextPage }: { loadNextPage: boolean }) {
+  return fetchAll({ approved: true, loadNextPage });
 }
 
-export function fetchAllApproved() {
-  return fetchAll({ approved: true });
-}
-
-export function fetchAllUnapproved() {
-  return fetchAll({ approved: false });
+export function fetchAllUnapproved({
+  loadNextPage
+}: {
+  loadNextPage: boolean
+}) {
+  return fetchAll({ approved: false, loadNextPage });
 }
 
 export function fetchQuote(quoteId: number) {
