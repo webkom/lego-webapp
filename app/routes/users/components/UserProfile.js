@@ -94,33 +94,6 @@ export default class UserProfile extends Component {
           </Card>
         </Flex>
 
-        <Flex>
-          {this.props.isMe &&
-            this.props.user.email !== this.props.user.emailAddress && (
-              <Card style={{ marginTop: '20px' }}>
-                <h3>Google GSuite</h3>
-                <p>
-                  Din konto er linket opp mot Abakus sitt domene i Google
-                  GSuite. E-post sendes til denne brukeren og ikke til e-posten
-                  du har oppgitt i din profil.
-                </p>
-
-                <ul>
-                  <li>
-                    <b>URL:</b>{' '}
-                    <a href="http://mail.abakus.no">mail.abakus.no</a>
-                  </li>
-                  <li>
-                    <b>E-post:</b> {this.props.user.emailAddress}
-                  </li>
-                  <li>
-                    <b>Passord:</b> <i>Ditt abakus passord</i>
-                  </li>
-                </ul>
-              </Card>
-            )}
-        </Flex>
-
         <Flex wrap className={styles.content}>
           <div className={styles.feed}>
             <h2>Nylig Aktivitet</h2>
@@ -130,6 +103,32 @@ export default class UserProfile extends Component {
               <LoadingIndicator loading />
             )}
           </div>
+          <Flex style={{ maxWidth: '300px', marginTop: '43px' }}>
+            {this.props.isMe &&
+              this.props.user.email !== this.props.user.emailAddress && (
+                <Card style={{ marginTop: '20px' }}>
+                  <h3>Google GSuite</h3>
+                  <p>
+                    Din konto er linket opp mot Abakus sitt domene i Google
+                    GSuite. E-post sendes til denne brukeren og ikke til
+                    e-posten du har oppgitt i din profil.
+                  </p>
+
+                  <ul>
+                    <li>
+                      <b>URL:</b>{' '}
+                      <a href="http://mail.abakus.no">mail.abakus.no</a>
+                    </li>
+                    <li>
+                      <b>E-post:</b> {this.props.user.emailAddress}
+                    </li>
+                    <li>
+                      <b>Passord:</b> <i>Ditt abakus passord</i>
+                    </li>
+                  </ul>
+                </Card>
+              )}
+          </Flex>
         </Flex>
       </div>
     );
