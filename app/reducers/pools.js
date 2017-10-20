@@ -2,6 +2,8 @@ import { Event } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
+import { union } from 'lodash';
+import mergeObjects from 'app/utils/mergeObjects';
 
 export default createEntityReducer({
   key: 'pools',
@@ -15,8 +17,8 @@ export default createEntityReducer({
           normalize(action.payload, eventSchema).entities.pools || {};
         return {
           ...state,
-          byId: pools,
-          items: Object.keys(pools)
+          byId: mergeObjects(state.byId, pools),
+          items: union(state.items, Object.keys(pools).map(Number))
         };
       }
       case Event.SOCKET_REGISTRATION.SUCCESS: {
