@@ -58,7 +58,8 @@ const mapStateToProps = (state, props) => {
     user,
     feed,
     feedItems,
-    showSettings
+    showSettings,
+    isMe
   };
 };
 
