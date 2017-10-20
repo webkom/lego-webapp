@@ -93,7 +93,7 @@ function renderPage({ body, state, helmet }) {
     .join('\n');
   const scripts = [vendor && vendor.js, app && app.js]
     .filter(Boolean)
-    .map(js => `<script src="${js}"></script>`)
+    .map(js => `<script async src="${js}"></script>`)
     .join('\n');
 
   return `
@@ -144,9 +144,17 @@ function renderPage({ body, state, helmet }) {
            )}
         </script>
 
-        <script src="https://js.stripe.com/v2/"></script>
+        <script async src="https://js.stripe.com/v2/"></script>
         ${dllPlugin}
         ${scripts}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17746625-3"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+
+          gtag('config', 'UA-17746625-3');
+        </script>
       </body>
     </html>
    `;
