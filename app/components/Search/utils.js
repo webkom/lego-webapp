@@ -48,6 +48,11 @@ const LINKS: Array<Link> = [
     url: '/interestgroups'
   },
   {
+    key: 'photos',
+    title: 'Bilder',
+    url: '/photos'
+  },
+  {
     key: 'meetings',
     title: 'Møter',
     url: '/meetings'

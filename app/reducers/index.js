@@ -113,7 +113,8 @@ export const eventAdministrateSchema = new schema.Entity('events', {
   waitingRegistrations: [registrationSchema]
 });
 export const articleSchema = new schema.Entity('articles', {
-  comments: [commentSchema]
+  comments: [commentSchema],
+  author: userSchema
 });
 export const galleryPictureSchema = new schema.Entity('pictures', {
   comments: [commentSchema]

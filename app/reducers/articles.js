@@ -9,7 +9,14 @@ export type ArticleEntity = {
   id: number,
   title: string,
   description: string,
+  author: number,
+  cover: string,
+  createdAt: string,
+  content: string,
+  startTime: string,
   text: string,
+  tags: Array<string>,
+  actionGrant: Object,
   comments: Array<number>
 };
 

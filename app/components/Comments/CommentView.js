@@ -4,16 +4,15 @@ import React from 'react';
 import { generateTreeStructure } from 'app/utils';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import CommentForm from 'app/components/CommentForm';
+import { type CommentEntity } from 'app/reducers/comments';
+import { type UserEntity } from 'app/reducers/users';
 import CommentTree from './CommentTree';
 
 type Props = {
-  comments: Array<{
-    id: string,
-    parent: string
-  }>,
+  comments: Array<CommentEntity>,
   formDisabled?: boolean,
   commentTarget: string,
-  user: Object,
+  user: UserEntity,
   loggedIn: boolean,
   displayTitle?: boolean,
   style?: Object

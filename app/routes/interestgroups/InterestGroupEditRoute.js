@@ -41,5 +41,5 @@ export default compose(
     }
   ),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator('interestGroup')
+  loadingIndicator(['interestGroup'])
 )(InterestGroupEdit);
