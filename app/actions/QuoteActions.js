@@ -11,8 +11,13 @@ import type { Thunk } from 'app/types';
 const getEndpoint = (state, loadNextPage, queryString) => {
   const pagination = state.quotes.pagination;
   let endpoint = `/quotes/${queryString}`;
-  if (loadNextPage && pagination.queryString === queryString) {
-    endpoint = pagination.nextPage;
+  const paginationObject = pagination[queryString];
+  if (
+    loadNextPage &&
+    paginationObject &&
+    paginationObject.queryString === queryString
+  ) {
+    endpoint = pagination[queryString].nextPage;
   }
   return endpoint;
 };

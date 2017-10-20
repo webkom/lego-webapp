@@ -15,15 +15,19 @@ import {
 } from 'app/reducers/quotes';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { selectHasMore } from '../../reducers/selectors';
+import { selectPagination } from '../../reducers/selectors';
 
-const mapStateToProps = (state, props) => ({
-  quotes: selectSortedQuotes(state, props.location.query),
-  query: props.location.query,
-  actionGrant: state.quotes.actionGrant,
-  hasMore: selectHasMore('quotes')(state),
-  comments: selectCommentsForQuotes(state, props)
-});
+const mapStateToProps = (state, props) => {
+  const queryString = ['?approved=true', '?approved=false'];
+  const showFetchMore = selectPagination('quotes', { queryString })(state);
+  return {
+    quotes: selectSortedQuotes(state, props.location.query),
+    query: props.location.query,
+    actionGrant: state.quotes.actionGrant,
+    showFetchMore,
+    comments: selectCommentsForQuotes(state, props)
+  };
+};
 
 const mapDispatchToProps = {
   fetchAllApproved,
@@ -31,7 +35,7 @@ const mapDispatchToProps = {
   approve,
   unapprove,
   deleteQuote,
-  loadMore: approved =>
+  fetchMore: approved =>
     approved ? fetchAllApproved(true) : fetchAllUnapproved(true)
 };
 

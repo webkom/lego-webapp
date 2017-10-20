@@ -7,30 +7,56 @@ import { LoginPage } from 'app/components/LoginForm';
 import { selectGroupedMeetings } from 'app/reducers/meetings';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import MeetingList from './components/MeetingList';
-import { selectHasMore } from '../../reducers/selectors';
+import { selectPagination } from '../../reducers/selectors';
+import createQueryString from 'app/utils/createQueryString';
 import moment from 'moment';
 
-const mapStateToProps = (state, props) => ({
-  meetingSections: selectGroupedMeetings(state),
-  currentUser: props.currentUser,
-  loading: state.meetings.fetching,
-  hasMore: selectHasMore('meetings')(state)
-});
+const mapStateToProps = (state, props) => {
+  const dateAfter = moment().format('YYYY-MM-DD');
+  const dateBefore = moment().format('YYYY-MM-DD');
+  const fetchMoreString = createQueryString({ date_after: dateAfter });
+  const fetchOlderString = createQueryString({
+    date_before: dateBefore,
+    ordering: '-start_time'
+  });
+  const showFetchMore = selectPagination('meetings', {
+    queryString: fetchMoreString
+  })(state);
+  const showFetchOlder = selectPagination('meetings', {
+    queryString: fetchOlderString
+  })(state);
+
+  return {
+    meetingSections: selectGroupedMeetings(state),
+    currentUser: props.currentUser,
+    loading: state.meetings.fetching,
+    showFetchMore,
+    showFetchOlder
+  };
+};
+
+const fetchData = (
+  { refresh, loadNextPage }: { refresh?: boolean, loadNextPage?: boolean } = {}
+) =>
+  fetchAll({
+    dateAfter: moment()
+      .subtract(0, 'weeks')
+      .format('YYYY-MM-DD'),
+    refresh,
+    loadNextPage
+  });
 
 const mapDispatchToProps = {
   fetchAll,
-  loadMore: () =>
-    fetchAll({
-      dateAfter: moment()
-        .subtract(3, 'weeks')
-        .format('YYYY-MM-DD'),
+  fetchMore: () =>
+    fetchData({
       refresh: true,
       loadNextPage: true
     }),
-  loadOlder: () =>
+  fetchOlder: () =>
     fetchAll({
       dateBefore: moment()
-        .subtract(3, 'weeks')
+        .subtract(0, 'weeks')
         .format('YYYY-MM-DD'),
       ordering: '-start_time',
       refresh: true,
@@ -40,7 +66,7 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched((props, dispatch) => dispatch(fetchAll()), {
+  dispatched((props, dispatch) => dispatch(fetchData()), {
     componentWillReceiveProps: false
   }),
   connect(mapStateToProps, mapDispatchToProps)
