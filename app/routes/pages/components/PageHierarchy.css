@@ -3,25 +3,25 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  margin-top: 4em;
-  border-left: 1px solid #ddd;
+
+  /* border-left: 1px solid #ddd; */
 }
 
 .pageList {
-  padding: 2em 0;
-  text-align: right;
+  padding: 1em 0;
+  text-align: left;
 }
 
 .pageList a {
   font-size: 18px;
 }
 
-.back {
+.header {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
   font-weight: bold;
+  font-size: var(--font-size-large);
 }
 
 .back > i {

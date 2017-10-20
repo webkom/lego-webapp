@@ -2,16 +2,21 @@
 
 import styles from './JoblistingRightNav.css';
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 import CheckBox from 'app/components/Form/CheckBox';
 
+type Props = {
+  query: {
+    class: ?string,
+    jobtypes: ?string,
+    workplaces: ?string
+  },
+  actionGrant: /*TODO: ActionGrant*/ any
+};
+
 export default class JoblistingsRightNav extends Component {
-  static propTypes = {
-    query: PropTypes.object.isRequired,
-    actionGrant: PropTypes.array
-  };
+  props: Props;
 
   state = {
     filters: {
@@ -21,8 +26,8 @@ export default class JoblistingsRightNav extends Component {
     }
   };
 
-  componentWillReceiveProps(newProps) {
-    const query = newProps.query;
+  componentWillReceiveProps(nextProps: Props) {
+    const query = nextProps.query;
     this.setState({
       filters: {
         class: (query.class || '').split(','),
@@ -32,6 +37,7 @@ export default class JoblistingsRightNav extends Component {
     });
   }
 
+  // $FlowFixMe
   handleQuery = (type, value, remove = false) => {
     const query = { ...this.props.query };
     if (remove) {
@@ -42,6 +48,7 @@ export default class JoblistingsRightNav extends Component {
     return query;
   };
 
+  // $FlowFixMe
   updateFilters = (type, value) => {
     const filters = this.state.filters;
     let newFilter = {};
@@ -64,6 +71,7 @@ export default class JoblistingsRightNav extends Component {
     return filterString;
   };
 
+  // $FlowFixMe
   filterLinkto = (type, value, label) => (
     <Link
       to={{ pathname: '/joblistings', query: this.updateFilters(type, value) }}

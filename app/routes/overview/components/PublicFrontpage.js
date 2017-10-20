@@ -128,7 +128,7 @@ class PublicFrontpage extends Component {
                 </div>
               </li>
               <li>
-                <Link to="/pages/for-companies">
+                <Link to="/pages/info/for-companies">
                   <i className="fa fa-caret-right" /> For bedrifter
                 </Link>
                 <div className={styles.linkDescription}>

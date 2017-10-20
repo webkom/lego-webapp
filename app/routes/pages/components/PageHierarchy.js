@@ -1,39 +1,60 @@
 // @flow
 
 import React from 'react';
-import classNames from 'classnames';
 import { Link } from 'react-router';
 import styles from './PageHierarchy.css';
-import Icon from 'app/components/Icon';
 
-type Props = {
-  parent?: { slug: string, title: string },
-  siblings: Object[],
-  selectedSlug: string
+export type HierarchyEntity = {
+  title: string,
+  url: string
 };
 
-const PageHierarchy = ({ parent, siblings, selectedSlug }: Props) => {
-  if (!parent) return null;
+export type HierarchySectionEntity = {
+  title: string,
+  items: HierarchyEntity[]
+};
+
+type Props = {
+  pageHierarchy: Array<HierarchySectionEntity>,
+  currentUrl: string
+};
+
+const HierarchySection = ({
+  hierarchySection: { title, items },
+  currentUrl
+}: {
+  hierarchySection: HierarchySectionEntity,
+  currentUrl: string
+}) => (
+  <ul className={styles.pageList}>
+    <li key="title">
+      <p className={styles.header}>{title}</p>
+    </li>
+    {items.map((item, key) => (
+      <li key={key}>
+        <Link
+          style={{
+            fontWeight: item.url === currentUrl ? 'bold' : 'normal'
+          }}
+          to={item.url}
+        >
+          {item.title}
+        </Link>
+      </li>
+    ))}
+  </ul>
+);
+
+const PageHierarchy = ({ pageHierarchy, currentUrl }: Props) => {
   return (
     <div className={styles.sidebar}>
-      <ul className={styles.pageList}>
-        <li>
-          <Link className={styles.back} to={`/pages/${parent.slug}`}>
-            <Icon name="chevron-left" />
-            {parent.title}
-          </Link>
-        </li>
-        {siblings.map(page => (
-          <li
-            key={page.pk}
-            className={classNames(styles.sibling, {
-              selected: page.slug === selectedSlug
-            })}
-          >
-            <Link to={`/pages/${page.slug}`}>{page.title}</Link>
-          </li>
-        ))}
-      </ul>
+      {pageHierarchy.map((section, key) => (
+        <HierarchySection
+          hierarchySection={section}
+          key={key}
+          currentUrl={currentUrl}
+        />
+      ))}
     </div>
   );
 };

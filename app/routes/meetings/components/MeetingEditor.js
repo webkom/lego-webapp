@@ -22,11 +22,12 @@ import { unionBy } from 'lodash';
 import type { UserEntity } from 'app/reducers/users';
 
 type Props = {
-  handleSubmit: func,
-  handleSubmitCallback: func,
+  handleSubmit: Object => void,
+  handleSubmitCallback: Object => Promise<*>,
   meetingId?: string,
-  meeting?: Object,
-  change: func,
+  meeting: Object,
+  change: () => void,
+  // $FlowFixMe
   invitingUsers: Array<UserEntity>,
   user: UserEntity,
   pristine: boolean,
@@ -87,12 +88,14 @@ function MeetingEditor({
       }))
     : [];
 
+  // $FlowFixMe
   const possibleReportAuthors = unionBy(
     [userSearchable],
     invitedUsersSearchable,
     invitingUsers,
     'value'
   );
+
   return (
     <div className={styles.root}>
       <h2>
@@ -193,7 +196,10 @@ export default reduxForm({
       errors.startTime = 'Du må velge sluttidspunkt';
     }
 
+    // $FlowFixMe
     const startTime = moment.tz(values.startTime, config.timezone);
+
+    // $FlowFixMe
     const endTime = moment.tz(values.endTime, config.timezone);
     if (startTime > endTime) {
       errors.endTime = 'Sluttidspunkt kan ikke være før starttidspunkt!';

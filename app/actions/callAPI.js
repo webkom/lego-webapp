@@ -10,7 +10,7 @@ import config from '../config';
 import { logout } from 'app/actions/UserActions';
 import getCachedRequest from 'app/utils/getCachedRequest';
 import { setStatusCode } from './RoutingActions';
-import type { AsyncActionType, Action, Thunk } from 'app/types';
+import type { AsyncActionType, Thunk } from 'app/types';
 
 function urlFor(resource: string) {
   if (resource.match(/^\/\//)) {
@@ -86,7 +86,7 @@ export default function callAPI({
   disableOptimistic = false,
   requiresAuthentication = true,
   mapper
-}: CallAPIOptions): Thunk<Promise<?Action>> {
+}: CallAPIOptions): Thunk<Promise<any>> {
   return (dispatch, getState) => {
     const methodUpperCase = method.toUpperCase();
     const shouldUseCache =
@@ -163,6 +163,7 @@ export default function callAPI({
       },
       promise: promise
         .then(response => normalizeJsonResponse(response))
+        // $FlowFixMe
         .catch(error => dispatch(handleError(error, propagateError, endpoint)))
     });
   };

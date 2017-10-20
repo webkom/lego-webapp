@@ -1,6 +1,8 @@
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { Form, Button, TextInput } from 'app/components/Form';
+import styles from './UpdateAllergies.css';
+import formStyles from 'app/components/Form/Field.css';
 
 export type Props = {
   handleSubmit: () => void,
@@ -31,14 +33,22 @@ const UpdateAllergies = ({
     )}
     style={{ marginBottom: '20px' }}
   >
-    <div>
+    <label className={formStyles.label} htmlFor="allergies">
+      Allergier eller preferanser
+    </label>
+    <div className={styles.update}>
       <Field
-        label="Allergier eller preferanser"
-        placeholder="Ingen"
+        id="allergies"
         name="allergies"
+        placeholder="Ingen"
+        fieldClassName={styles.allergies}
         component={TextInput.Field}
       />
-      <Button submit disabled={invalid | pristine | submitting}>
+      <Button
+        className={styles.button}
+        submit
+        disabled={invalid | pristine | submitting}
+      >
         Oppdater
       </Button>
     </div>

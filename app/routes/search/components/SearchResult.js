@@ -5,14 +5,14 @@ import { Link } from 'react-router';
 import truncateString from 'app/utils/truncateString';
 import styles from './SearchPage.css';
 import Icon from 'app/components/Icon';
-import ProfilePicture from 'app/components/ProfilePicture';
-import type { resultProps } from 'app/reducers/search';
+import { ProfilePicture } from 'app/components/Image';
+import type { SearchResult } from 'app/reducers/search';
 
 type Props = {
-  result: resultProps
+  result: SearchResult
 };
 
-const SerachResult = ({ result }: Props) => (
+const SearchResultComponent = ({ result }: Props) => (
   <div style={{ borderColor: result.color }} className={styles.searchResult}>
     <div>
       <Link to={result.link}>
@@ -48,4 +48,4 @@ const SerachResult = ({ result }: Props) => (
   </div>
 );
 
-export default SerachResult;
+export default SearchResultComponent;

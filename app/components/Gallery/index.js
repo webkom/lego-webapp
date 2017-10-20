@@ -5,15 +5,15 @@ import { chunk, get } from 'lodash';
 import LoadingIndicator from '../LoadingIndicator';
 import styles from './Gallery.css';
 
-type Photo = Object;
+export type Photo = Object;
 type Props = {
-  onClick?: Photo => void,
+  onClick?: Photo => mixed,
   renderOverlay?: Photo => void,
   renderTop?: Photo => void,
-  renderBottom?: Photo => void,
+  renderBottom?: Photo => React.Element<*>,
   renderEmpty?: React.Element<*>,
   margin?: number,
-  loading: boolean,
+  loading?: boolean,
   srcKey: string,
   photos: Array<Photo>
 };

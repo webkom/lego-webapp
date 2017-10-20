@@ -11,12 +11,6 @@ type Link = {|
 
 const LINKS: Array<Link> = [
   {
-    key: 'shop',
-    requireLogin: true,
-    title: 'Butikk',
-    url: 'https://shop.abakus.no/'
-  },
-  {
     key: 'profile',
     requireLogin: true,
     title: 'Profil',
@@ -41,7 +35,7 @@ const LINKS: Array<Link> = [
   {
     key: 'aboutUs',
     title: 'Om Abakus',
-    url: '/pages/om-oss'
+    url: '/pages/info/om-oss'
   },
   {
     key: 'readme',
@@ -54,13 +48,18 @@ const LINKS: Array<Link> = [
     url: '/interestgroups'
   },
   {
+    key: 'photos',
+    title: 'Bilder',
+    url: '/photos'
+  },
+  {
     key: 'meetings',
     title: 'Møter',
     url: '/meetings'
   },
   {
     key: 'quotes',
-    title: 'Sitat',
+    title: 'Sitater',
     url: '/quotes'
   },
   {

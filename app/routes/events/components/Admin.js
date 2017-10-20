@@ -28,30 +28,17 @@ export default class Admin extends Component {
             </li>
             {canEdit && (
               <li>
-                <Link
-                  to={`/events/${event.id}/administrate`}
-                  style={{ color: 'inherit' }}
-                >
-                  Påmeldinger
-                </Link>
+                <Link to={`/events/${event.id}/administrate`}>Påmeldinger</Link>
               </li>
             )}
             {canEdit && (
               <li>
-                <Link
-                  to={`/events/${event.id}/edit`}
-                  style={{ color: 'inherit' }}
-                >
-                  Rediger
-                </Link>
+                <Link to={`/events/${event.id}/edit`}>Rediger</Link>
               </li>
             )}
             {canDelete && (
               <li>
-                <a
-                  onClick={() => this.handleDelete(event.id)}
-                  style={{ color: 'inherit' }}
-                >
+                <a onClick={() => this.handleDelete(event.id)}>
                   {this.state.verifyDelete ? 'Er du sikker?' : 'Slett'}
                 </a>
               </li>

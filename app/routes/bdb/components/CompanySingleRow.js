@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { indexToSemester } from '../utils.js';
@@ -8,14 +10,13 @@ type Props = {
   company: Object,
   startYear: number,
   startSem: number,
-  editSemester: () => void,
-  companySemesters: Array<Object>
+  editChangedStatuses: (number, number, number, Array<string>) => ?Promise<*>
 };
 
 export default class CompanySingleRow extends Component {
   props: Props;
 
-  semesterElement = index => {
+  semesterElement = (index: number) => {
     const { startYear, startSem, company } = this.props;
     const result = indexToSemester(index, startYear, startSem);
 
@@ -28,7 +29,7 @@ export default class CompanySingleRow extends Component {
   };
 
   render() {
-    const { company, editSemester } = this.props;
+    const { company, editChangedStatuses } = this.props;
 
     const semesters = [
       this.semesterElement(0),
@@ -39,7 +40,7 @@ export default class CompanySingleRow extends Component {
         key={i}
         semIndex={i}
         semesterStatus={status}
-        editSemester={editSemester}
+        editChangedStatuses={editChangedStatuses}
         companyId={company.id}
       />
     ));

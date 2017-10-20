@@ -2,7 +2,17 @@
 
 import { Comment } from 'app/actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import { type UserEntity } from 'app/routes/users';
 import getEntityType from 'app/utils/getEntityType';
+
+export type CommentEntity = {
+  id: string,
+  parent?: string,
+  createdAt: string,
+  children: Array<CommentEntity>,
+  text: string,
+  author: UserEntity
+};
 
 /**
  * Used by the individual entity reducers

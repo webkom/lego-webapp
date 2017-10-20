@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import styles from './bdb.css';
 import {
@@ -10,21 +12,26 @@ import CommentView from 'app/components/Comments/CommentView';
 import Time from 'app/components/Time';
 import { Link } from 'react-router';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import Image from 'app/components/Image';
+import { Image } from 'app/components/Image';
 import SemesterStatusDetail from './SemesterStatusDetail';
 import { eventTypes } from 'app/routes/events/utils';
 import truncateString from 'app/utils/truncateString';
+import type {
+  CompanyEntity,
+  BaseSemesterStatusEntity
+} from 'app/reducers/companies';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 type Props = {
-  company: Object,
-  comments?: Array<Object>,
+  company: CompanyEntity,
+  comments: Array<Object>,
   companyEvents: Array<Object>,
   currentUser: any,
-  deleteSemesterStatus: () => void,
-  deleteCompanyContact: () => void,
+  deleteSemesterStatus: (number, number) => Promise<*>,
+  deleteCompanyContact: (number, number) => Promise<*>,
   loggedIn: boolean,
-  companySemesters: Array<Object>,
-  editSemesterStatus: () => void,
+  companySemesters: Array<CompanySemesterEntity>,
+  editSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
   companyEvents: Array<Object>,
   fetching: boolean,
   editCompany: Object => void
@@ -38,7 +45,7 @@ export default class BdbDetail extends Component {
     changedFiles: []
   };
 
-  semesterStatusOnChange = (semesterStatus, statusString) => {
+  semesterStatusOnChange = (semesterStatus: Object, statusString: string) => {
     const { companySemesters, editSemesterStatus, company } = this.props;
 
     const newStatus = {
@@ -55,6 +62,10 @@ export default class BdbDetail extends Component {
         companySemester.semester === newStatus.semester
     );
 
+    if (!companySemester) {
+      throw new Error('Could not find company semester');
+    }
+
     const sendableSemester = {
       contactedStatus: newStatus.contactedStatus,
       semesterStatusId: newStatus.id,
@@ -65,17 +76,22 @@ export default class BdbDetail extends Component {
     return editSemesterStatus(sendableSemester, { detail: true });
   };
 
-  deleteSemesterStatus = semesterId => {
+  deleteSemesterStatus = (semesterId: number) => {
     const { deleteSemesterStatus, company } = this.props;
-    deleteSemesterStatus(company.id, semesterId);
+    return deleteSemesterStatus(company.id, semesterId);
   };
 
-  deleteCompanyContact = companyContactId => {
+  deleteCompanyContact = (companyContactId: number) => {
     const { deleteCompanyContact, company } = this.props;
-    deleteCompanyContact(company.id, companyContactId);
+    return deleteCompanyContact(company.id, companyContactId);
   };
 
-  addFileToSemester = (fileName, fileToken, type, semesterStatus) => {
+  addFileToSemester = (
+    fileName: string,
+    fileToken: string,
+    type: string,
+    semesterStatus: Object
+  ) => {
     const { editSemesterStatus, company } = this.props;
 
     const sendableSemester = {
@@ -103,11 +119,12 @@ export default class BdbDetail extends Component {
 
     const semesters = company.semesterStatuses
       .sort(sortByYearThenSemester)
-      .map((status, i) => (
+      .map((semesterStatus, i) => (
         <SemesterStatusDetail
-          semesterStatus={status}
+          semesterStatus={semesterStatus}
           key={i}
           companyId={company.id}
+          index={i}
           deleteSemesterStatus={this.deleteSemesterStatus}
           editFunction={this.semesterStatusOnChange}
           addFileToSemester={this.addFileToSemester}
@@ -125,7 +142,11 @@ export default class BdbDetail extends Component {
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               {contact.phone || '-'}
               <span style={{ display: 'flex', flexDirection: 'row' }}>
-                <Link to={`/bdb/${company.id}/company-contacts/${contact.id}`}>
+                <Link
+                  to={`/bdb/${String(company.id)}/company-contacts/${String(
+                    contact.id
+                  )}`}
+                >
                   <i
                     className="fa fa-pencil"
                     style={{ marginRight: '5px', color: 'orange' }}
@@ -340,12 +361,14 @@ export default class BdbDetail extends Component {
 
           <div style={{ clear: 'both', marginBottom: '30px' }} />
 
-          <CommentView
-            user={currentUser}
-            commentTarget={company.commentTarget}
-            loggedIn={loggedIn}
-            comments={comments}
-          />
+          {company.commentTarget && (
+            <CommentView
+              user={currentUser}
+              commentTarget={company.commentTarget}
+              loggedIn={loggedIn}
+              comments={comments}
+            />
+          )}
         </div>
       </div>
     );

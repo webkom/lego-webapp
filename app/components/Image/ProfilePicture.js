@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import Image from 'app/components/Image';
+import CircularPicture from './CircularPicture';
 
 type Props = {
   user: any,
@@ -11,14 +11,10 @@ type Props = {
 
 function ProfilePicture({ user, size = 100, style, ...props }: Props) {
   return (
-    <Image
+    <CircularPicture
       src={user.profilePicture}
-      style={{
-        width: size,
-        height: size,
-        borderRadius: size / 2,
-        ...style
-      }}
+      size={size}
+      style={style}
       {...props}
     />
   );

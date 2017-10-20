@@ -51,8 +51,8 @@ const Feed = (props: Props) => {
             ))}
           </ul>
         ) : (
-          <EmptyState icon="sad" size={40}>
-            <h3>Ingen aktiviteter i feeden</h3>
+          <EmptyState icon="book-outline" size={40}>
+            <p className={styles.noActivities}>Ingen aktiviteter i feeden</p>
           </EmptyState>
         )}
       </div>

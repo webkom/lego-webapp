@@ -7,7 +7,7 @@ import renderPools, { validatePools } from './renderPools';
 import RegisteredCell from '../RegisteredCell';
 import RegisteredSummary from '../RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
-import Tag from 'app/components/Tag';
+import Tag from 'app/components/Tags';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field, FieldArray } from 'redux-form';
 import {
@@ -24,11 +24,12 @@ import {
 import { Flex } from 'app/components/Layout';
 import { eventTypes, styleForEvent } from '../../utils.js';
 import Admin from '../Admin';
+import Content from 'app/components/Layout/Content';
 import Tooltip from 'app/components/Tooltip';
 import cx from 'classnames';
 
 type Props = {
-  eventId: string,
+  eventId: number,
   event: Object,
   loggedIn: boolean,
   currentUser: Object,
@@ -84,7 +85,7 @@ function EventEditor({
   const styleType = styleForEvent(event.eventType);
 
   return (
-    <div className={styles.root}>
+    <Content>
       {isEditPage && (
         <h2>
           <Link to={`/events/${eventId}`}>
@@ -287,7 +288,7 @@ function EventEditor({
           </Flex>
         </Flex>
       </Form>
-    </div>
+    </Content>
   );
 }
 

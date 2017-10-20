@@ -38,10 +38,8 @@ import feedActivities from './feedActivities';
 import feeds from './feeds';
 import fetchHistory from './fetchHistory';
 import { User } from '../actions/ActionTypes';
+import reduceReducers from 'app/utils/joinReducers';
 import type { State, Action } from 'app/types';
-
-const reduceReducers = (...reducers) => (prev, curr) =>
-  reducers.reduce((p, r) => r(p, curr), prev);
 
 const reducers = {
   allowed,
@@ -87,12 +85,14 @@ export default function rootReducer(state: State, action: Action) {
   if (action.type === User.LOGOUT) {
     return appReducer(undefined, action);
   }
+
   return appReducer(state, action);
 }
 
+export const groupSchema = new schema.Entity('groups');
 export const userSchema = new schema.Entity(
   'users',
-  {},
+  { abakusGroups: [groupSchema] },
   { idAttribute: 'username' }
 );
 export const registrationSchema = new schema.Entity('registrations', {
@@ -113,7 +113,8 @@ export const eventAdministrateSchema = new schema.Entity('events', {
   waitingRegistrations: [registrationSchema]
 });
 export const articleSchema = new schema.Entity('articles', {
-  comments: [commentSchema]
+  comments: [commentSchema],
+  author: userSchema
 });
 export const galleryPictureSchema = new schema.Entity('pictures', {
   comments: [commentSchema]
@@ -142,9 +143,6 @@ export const oauth2ApplicationSchema = new schema.Entity('oauth2Application');
 export const oauth2GrantSchema = new schema.Entity('oauth2Grant');
 export const membershipSchema = new schema.Entity('memberships', {
   user: userSchema
-});
-export const groupSchema = new schema.Entity('groups', {
-  users: [userSchema]
 });
 export const meetingInvitationSchema = new schema.Entity(
   'meetingInvitations',

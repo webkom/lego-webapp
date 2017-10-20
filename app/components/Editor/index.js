@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component } from 'react';
 import { Editor } from 'slate-react';
 import { resetKeyGenerator } from 'slate';
@@ -13,8 +11,9 @@ import type { BlockType, MarkType } from './constants';
 
 const parseHtml =
   typeof DOMParser === 'undefined' && require('parse5').parseFragment;
-const htmlArgs = { rules };
-if (parseHtml) htmlArgs.parseHtml = parseHtml;
+
+const htmlArgs = { rules, parseHtml: parseHtml ? parseHtml : undefined };
+
 const serializer = new Html(htmlArgs);
 const isBoldHotkey = isHotkey('mod+b');
 const isItalicHotkey = isHotkey('mod+i');
@@ -28,15 +27,20 @@ type Document = {
 type EditorState = {
   document: Document,
   change: () => Change,
-  blocks: []
+  blocks: [],
+  startBlock: Object,
+  startOffset: number,
+  endOffset: number
 };
+
 type Change = {
   state: EditorState,
   toggleMark: MarkType => Change,
   setBlock: BlockType => Change,
   unwrapBlock: BlockType => Change,
   wrapBlock: BlockType => Change,
-  splitBlock: () => Change
+  splitBlock: () => Change,
+  extendToStartOf: Object => Object
 };
 
 type Props = {
@@ -44,8 +48,9 @@ type Props = {
   placeholder?: string,
   onChange: string => void,
   onBlur?: () => void,
-  onFocus?: () => void,
-  readOnly?: boolean
+  autoFocus?: boolean,
+  readOnly?: boolean,
+  onChange?: any
 };
 
 type State = {
@@ -58,7 +63,7 @@ const emptyState = '<p></p>';
 class CustomEditor extends Component {
   state: State;
   props: Props;
-  lastSerialized: string | null;
+  lastSerialized: string = '';
 
   constructor(props: Props) {
     super(props);
@@ -110,7 +115,7 @@ class CustomEditor extends Component {
       if (this.lastSerialized === emptyState) {
         this.lastSerialized = '';
       }
-      this.props.onChange(this.lastSerialized);
+      this.props.onChange && this.props.onChange(this.lastSerialized);
     }
 
     this.setState({ state });
@@ -161,7 +166,7 @@ class CustomEditor extends Component {
   };
 
   onSpace = (e: SyntheticInputEvent, change: Change) => {
-    const { state } = change;
+    const { state }: any = change;
     if (state.isExpanded) return;
 
     const { startBlock, startOffset } = state;
@@ -188,7 +193,7 @@ class CustomEditor extends Component {
     if (state.isExpanded) return;
     if (state.startOffset !== 0) return;
 
-    const { startBlock } = state;
+    const { startBlock }: any = state;
     if (startBlock.type === 'paragraph') return;
 
     e.preventDefault();
@@ -314,6 +319,7 @@ class CustomEditor extends Component {
             onToggleMark={this.onToggleMark}
           />
           <Editor
+            autoFocus={this.props.autoFocus}
             onBlur={this.onBlur}
             onFocus={this.onFocus}
             schema={schema}

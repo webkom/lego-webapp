@@ -4,15 +4,15 @@ import React, { Component } from 'react';
 import Icon from 'app/components/Icon';
 import EmptyState from 'app/components/EmptyState';
 import { Content } from 'app/components/Layout';
-import SearchResult from './SearchResult';
+import SearchResultComponent from './SearchResult';
 import styles from './SearchPage.css';
-import type { resultProps } from 'app/reducers/search';
+import type { SearchResult } from 'app/reducers/search';
 
 type Props = {
   searching: boolean,
   location: Object,
-  onQueryChanged: string => Promise<*>,
-  results: Array<resultProps>
+  onQueryChanged: string => void,
+  results: Array<SearchResult>
 };
 
 type State = {
@@ -61,7 +61,7 @@ class SearchPage extends Component {
             </EmptyState>
           ) : (
             results.map((result, id) => (
-              <SearchResult key={id} result={result} />
+              <SearchResultComponent key={id} result={result} />
             ))
           )}
         </div>

@@ -8,7 +8,7 @@ import Dropdown from '../Dropdown';
 import Icon from '../Icon';
 import Search from '../Search';
 import LoginForm from '../LoginForm/LoginForm';
-import ProfilePicture from '../ProfilePicture';
+import { ProfilePicture } from '../Image';
 import FancyNodesCanvas from './FancyNodesCanvas';
 import NotificationsDropdown from '../HeaderNotifications';
 import styles from './Header.css';
@@ -94,7 +94,7 @@ class Header extends Component {
               </Link>
               {!loggedIn ? (
                 <Link
-                  to="/pages/for-companies"
+                  to="/pages/info/for-companies"
                   activeClassName={styles.activeItem}
                 >
                   For bedrifter
@@ -104,7 +104,7 @@ class Header extends Component {
                   Karriere
                 </Link>
               )}
-              <Link to="/pages/om-oss" activeClassName={styles.activeItem}>
+              <Link to="/pages/info/om-oss" activeClassName={styles.activeItem}>
                 Om Abakus
               </Link>
             </div>
