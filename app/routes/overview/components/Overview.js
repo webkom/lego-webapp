@@ -164,12 +164,11 @@ export default class Overview extends Component {
             ))}
           {frontpage.length > 0 && (
             <Button
-              style={{ width: '100%', marginTop: '10px' }}
+              style={{ width: '100%', margin: '10px' }}
               onClick={() =>
                 this.setState({ eventsToShow: this.state.eventsToShow ** 2 })}
             >
-              Vis flere arrangementer&nbsp;
-              <i className="fa fa-angle-double-down " />
+              Vis flere
             </Button>
           )}
         </Flex>
