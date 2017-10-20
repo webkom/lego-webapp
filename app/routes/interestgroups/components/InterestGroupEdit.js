@@ -1,16 +1,13 @@
 // @flow
 import React, { Component } from 'react';
 import GroupForm from 'app/components/GroupForm';
-import styles from './InterestGroup.css';
 import { Flex, Content } from 'app/components/Layout';
 import { Link } from 'react-router';
-import Button from 'app/components/Button';
 
 export default class InterestGroupEdit extends Component {
   props: {
     interestGroup: Object,
     initialValues: Object,
-    removeInterestGroup: number => Promise<*>,
     uploadFile: string => Promise<*>,
     handleSubmitCallback: Object => Promise<*>
   };
@@ -19,7 +16,6 @@ export default class InterestGroupEdit extends Component {
     const {
       interestGroup,
       initialValues,
-      removeInterestGroup,
       uploadFile,
       handleSubmitCallback
     } = this.props;
