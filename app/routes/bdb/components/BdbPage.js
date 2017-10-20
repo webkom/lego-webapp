@@ -127,24 +127,17 @@ export default class BdbPage extends Component<Props, State> {
     );
 
   filterCompanies = (companies: Array<Object>) => {
-    console.log('filtering');
-    console.log(this.state);
-    console.log(companies);
     if (this.state.searchQuery !== '') {
       companies = this.companySearch(companies);
     }
     const { filters } = this.state;
+
     return companies.filter(company => {
       // Using 'for of' here. Probably a cleaner way to do it, but I couldn't think of one
+
       for (const key of Object.keys(filters)) {
         const filterShouldApply = filters[key] !== undefined;
-        if (filterShouldApply && !company[key]) return false;
-        console.log('filters should apply');
-        console.log(filterShouldApply);
-        console.log(company);
-        console.log(key);
-        console.log(company[key]);
-        console.log(filters[key]);
+        if (filterShouldApply && company[key] === undefined) return false;
 
         const shouldFilterById =
           filterShouldApply && company[key].id && filters[key].id;
@@ -152,9 +145,6 @@ export default class BdbPage extends Component<Props, State> {
           !shouldFilterById && company[key] !== filters[key];
         const idFilter =
           shouldFilterById && company[key].id !== filters[key].id;
-        console.log(shouldFilterById);
-        console.log(regularFilter);
-        console.log(idFilter);
 
         if (filterShouldApply && (regularFilter || idFilter)) {
           return false;

@@ -22,6 +22,7 @@ import type {
   SemesterStatusEntity
 } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import Button from 'app/components/Button';
 import type { CompanySemesterContactedStatus } from 'app/models';
 
 type Props = {
@@ -41,12 +42,14 @@ type Props = {
 };
 
 type State = {
-  addingFiles: boolean
+  addingFiles: boolean,
+  eventsToDisplay: number
 };
 
 export default class BdbDetail extends Component<Props, State> {
   state = {
-    addingFiles: false
+    addingFiles: false,
+    eventsToDisplay: 3
   };
 
   semesterStatusOnChange = (
@@ -174,6 +177,7 @@ export default class BdbDetail extends Component<Props, State> {
       companyEvents &&
       companyEvents
         .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
+        .splice(0, this.state.eventsToDisplay)
         .map((event, i) => (
           <tr key={i}>
             <td>
@@ -216,17 +220,14 @@ export default class BdbDetail extends Component<Props, State> {
               }}
             />
           )}
-
           <DetailNavigation
             title={title}
             companyId={company.id}
             deleteFunction={deleteCompany}
           />
-
           <div className={styles.description}>
             {company.description || 'Ingen beskrivelse tilgjengelig.'}
           </div>
-
           <div className={styles.infoBubbles}>
             <InfoBubble
               icon="briefcase"
@@ -247,7 +248,6 @@ export default class BdbDetail extends Component<Props, State> {
               style={{ order: 2 }}
             />
           </div>
-
           <div className={styles.infoBubbles}>
             <InfoBubble
               icon="at"
@@ -271,7 +271,6 @@ export default class BdbDetail extends Component<Props, State> {
               style={{ order: 2 }}
             />
           </div>
-
           <h3>Bedriftskontakter</h3>
           {companyContacts && companyContacts.length > 0 ? (
             <div
@@ -295,16 +294,13 @@ export default class BdbDetail extends Component<Props, State> {
               Ingen bedriftskontakter registrert.
             </i>
           )}
-
           <Link
             to={`/bdb/${company.id}/company-contacts/add`}
             style={{ marginTop: '10px' }}
           >
             <i className="fa fa-plus-circle" /> Legg til bedriftskontakt
           </Link>
-
           <div style={{ clear: 'both', marginBottom: '30px' }} />
-
           <h3>Semesterstatuser</h3>
           {semesters.length > 0 ? (
             <div
@@ -329,13 +325,11 @@ export default class BdbDetail extends Component<Props, State> {
           ) : (
             <i style={{ display: 'block' }}>Ingen sememsterstatuser.</i>
           )}
-
           <div>
             <Link to={`/bdb/${company.id}/semesters/add`}>
               <i className="fa fa-plus-circle" /> Legg til nytt semester
             </Link>
           </div>
-
           <div className={styles.files}>
             <h3>Filer</h3>
             <ul>
@@ -352,12 +346,10 @@ export default class BdbDetail extends Component<Props, State> {
               )}
             </ul>
           </div>
-
           <div className={styles.adminNote}>
             <h3>Notat fra Bedkom</h3>
             {company.adminComment || <i>Ingen notater</i>}
           </div>
-
           <h3>Bedriftens arrangementer</h3>
           {events.length > 0 ? (
             <div className={styles.companyList}>
@@ -373,11 +365,18 @@ export default class BdbDetail extends Component<Props, State> {
                 </thead>
                 <tbody>{events}</tbody>
               </table>
+              {companyEvents.length > 3 && (
+                <Button
+                  style={{ width: '100%', marginTop: '20px' }}
+                  onClick={() => this.setState({ eventsToDisplay: 100 })}
+                >
+                  Vis alle arrangementer
+                </Button>
+              )}
             </div>
           ) : (
             <i>Ingen arrangementer.</i>
           )}
-
           <div style={{ clear: 'both', marginBottom: '30px' }} />
 
           {company.commentTarget && (
@@ -385,7 +384,9 @@ export default class BdbDetail extends Component<Props, State> {
               user={currentUser}
               commentTarget={company.commentTarget}
               loggedIn={loggedIn}
-              comments={comments}
+              comments={comments.sort(
+                (a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)
+              )}
             />
           )}
         </div>
