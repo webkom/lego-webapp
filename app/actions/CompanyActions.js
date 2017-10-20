@@ -103,7 +103,7 @@ export function addCompany(data: Object): Thunk<*> {
     return dispatch(
       callAPI({
         types: Company.ADD,
-        endpoint: '/companies/',
+        endpoint: '/bdb/',
         method: 'POST',
         body: data,
         schema: companySchema,
@@ -130,7 +130,7 @@ export function editCompany({ companyId, ...data }: Object): Thunk<*> {
     return dispatch(
       callAPI({
         types: Company.EDIT,
-        endpoint: `/companies/${companyId}/`,
+        endpoint: `/bdb/${companyId}/`,
         method: 'PATCH',
         body: data,
         schema: companySchema,
@@ -151,7 +151,7 @@ export function deleteCompany(companyId: number): Thunk<*> {
     return dispatch(
       callAPI({
         types: Company.DELETE,
-        endpoint: `/companies/${companyId}/`,
+        endpoint: `/bdb/${companyId}/`,
         method: 'DELETE',
         meta: {
           id: Number(companyId),
