@@ -326,10 +326,16 @@ export default class BdbDetail extends Component {
           <div className={styles.files}>
             <h3>Filer</h3>
             <ul>
-              {!this.state.files || this.state.files.length === 0 ? (
+              {!company.files || company.length === 0 ? (
                 <i>Ingen filer.</i>
               ) : (
-                this.state.files.map((file, i) => <li key={i}>{file}</li>)
+                company.files.map((file, i) => (
+                  <li key={i}>
+                    <a href={file.file} blank="true">
+                      {truncateString(file.file, 100)}
+                    </a>
+                  </li>
+                ))
               )}
             </ul>
           </div>
