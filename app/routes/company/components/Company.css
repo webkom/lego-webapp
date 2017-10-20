@@ -129,6 +129,10 @@
   width: 100%;
 }
 
+.companyEventTable {
+  margin-top: 20px;
+}
+
 .companyEventTable thead th:nth-child(1),
 .companyEventTable tbody td:nth-child(1) {
   width: 250px;
