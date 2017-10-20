@@ -161,7 +161,14 @@ export default class MeetingList extends Component {
   };
 
   render() {
-    const { meetings, currentUser, loading, loadMore, hasMore } = this.props;
+    const {
+      meetings,
+      currentUser,
+      loading,
+      loadMore,
+      loadOlder,
+      hasMore
+    } = this.props;
     const pools: MeetingPools = this.sortMeetings(meetings);
     return (
       <Content>
@@ -170,7 +177,8 @@ export default class MeetingList extends Component {
           <MeetingListView currentUser={currentUser} pools={pools} />
         ) : null}
         {loading && <LoadingIndicator loading />}
-        {hasMore && <Button onClick={loadMore}>Load more</Button>}
+        {hasMore && <Button onClick={loadMore}>Last flere</Button>}
+        {hasMore && <Button onClick={loadOlder}>Hent gamle</Button>}
       </Content>
     );
   }

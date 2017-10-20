@@ -33,7 +33,7 @@ export const fetchList = (
   { dateAfter, dateBefore, refresh = false, loadNextPage = false }: Object = {}
 ) => (dispatch, getState) => {
   const query = { date_after: dateAfter, date_before: dateBefore };
-  if (query.dateBefore && query.dateAfter) {
+  if (dateBefore && dateAfter) {
     query.page_size = 60;
   }
   const queryString = createQueryString(query);
