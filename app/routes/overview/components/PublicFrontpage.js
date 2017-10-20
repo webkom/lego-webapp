@@ -150,6 +150,7 @@ class PublicFrontpage extends Component {
                 height: '500px',
                 width: '420px'
               }}
+              title="facebook"
               scrolling="no"
               frameBorder="0"
               allowTransparency="true"
