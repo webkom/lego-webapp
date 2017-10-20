@@ -44,7 +44,7 @@ const RenderUser = ({ user }: Object) => (
 
 export const GroupRenderer = ({ page }: { page: Object }) => {
   const { memberships, description, text, logo } = page;
-  const leader = memberships.find(membership => membership.role == 'member');
+  const leader = memberships.find(membership => membership.role == 'leader');
 
   const members = sortBy(
     memberships.filter(m => m != leader).map(m => m.user),
