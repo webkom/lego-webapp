@@ -9,6 +9,7 @@ import styles from './MeetingList.css';
 import Toolbar from './Toolbar';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Content from 'app/components/Layout/Content';
+import Button from 'app/components/Button';
 import type { MeetingEntity, MeetingSection } from 'app/reducers/meetings';
 import type { UserEntity } from 'app/reducers/users';
 
@@ -75,14 +76,26 @@ const MeetingListView = ({
 type Props = {
   meetingSections: Array<MeetingSection>,
   currentUser: UserEntity,
-  loading: boolean
+  loading: boolean,
+  fetchMore: () => Promise<*>,
+  fetchOlder: () => Promise<*>,
+  showFetchMore: boolean,
+  showFetchOlder: boolean
 };
 
 export default class MeetingList extends Component {
   props: Props;
 
   render() {
-    const { meetingSections, currentUser, loading } = this.props;
+    const {
+      meetingSections,
+      currentUser,
+      loading,
+      fetchMore,
+      fetchOlder,
+      showFetchMore,
+      showFetchOlder
+    } = this.props;
     return (
       <Content>
         <Toolbar />
@@ -94,6 +107,8 @@ export default class MeetingList extends Component {
             sections={meetingSections}
           />
         )}
+        {showFetchMore && <Button onClick={fetchMore}>Last flere</Button>}
+        {showFetchOlder && <Button onClick={fetchOlder}>Hent gamle</Button>}
       </Content>
     );
   }

@@ -8,6 +8,7 @@ import Time from 'app/components/Time';
 import Pill from 'app/components/Pill';
 import { Image } from 'app/components/Image';
 import Tag from 'app/components/Tags/Tag';
+import Button from 'app/components/Button';
 import Toolbar from './Toolbar';
 import { colorForEvent } from '../utils';
 import styles from './EventList.css';
@@ -110,22 +111,24 @@ function EventListGroup({ name, events = [] }: EventListGroupProps) {
 type EventListProps = {
   events: Array<any>,
   actionGrant: /* TODO: ActionGrant */ any,
-  icalToken: /* TODO: IcalToken */ string
+  icalToken: /* TODO: IcalToken */ string,
+  showFetchMore: boolean,
+  fetchMore: () => Promise<*>
 };
 
 const EventList = (props: EventListProps) => {
   const events = groupEvents(props.events);
-  const { icalToken } = props;
+  const { icalToken, showFetchMore, fetchMore } = props;
   return (
     <div className={styles.root}>
       <Helmet title="Arrangementer" />
       <Toolbar actionGrant={props.actionGrant} />
-
       <EventListGroup name="Denne uken" events={events.currentWeek} />
 
       <EventListGroup name="Neste uke" events={events.nextWeek} />
 
       <EventListGroup name="Senere" events={events.later} />
+      {showFetchMore && <Button onClick={fetchMore}>Last inn mer</Button>}
       <div className={styles.bottomBorder} />
       <EventFooter icalToken={icalToken} />
     </div>

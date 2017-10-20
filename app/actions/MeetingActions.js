@@ -7,6 +7,7 @@ import { startSubmit, stopSubmit } from 'redux-form';
 import moment from 'moment';
 import type { Thunk } from 'app/types';
 import type { UserEntity } from 'app/reducers/users';
+import createQueryString from 'app/utils/createQueryString';
 
 export function fetchMeeting(meetingId: string) {
   return callAPI({
@@ -20,16 +21,64 @@ export function fetchMeeting(meetingId: string) {
   });
 }
 
-export function fetchAll() {
-  return callAPI({
-    types: Meeting.FETCH,
-    endpoint: '/meetings/',
-    schema: [meetingSchema],
-    meta: {
-      errorMessage: 'Henting av møter feilet'
-    },
-    propagateError: true
-  });
+const getEndpoint = (state, loadNextPage, queryString) => {
+  const pagination = state.meetings.pagination;
+  let endpoint = `/meetings/${queryString}`;
+  const paginationObject = pagination[queryString];
+  if (
+    loadNextPage &&
+    paginationObject &&
+    paginationObject.queryString === queryString
+  ) {
+    endpoint = pagination[queryString].nextPage;
+  }
+  return endpoint;
+};
+
+export function fetchAll(
+  {
+    dateAfter,
+    dateBefore,
+    ordering,
+    refresh = false,
+    loadNextPage
+  }: {
+    dateAfter?: string,
+    dateBefore?: string,
+    ordering?: string,
+    refresh?: boolean,
+    loadNextPage?: boolean
+  } = {}
+): Thunk<*> {
+  return (dispatch, getState) => {
+    const query: Object = {
+      date_after: dateAfter,
+      date_before: dateBefore,
+      ordering
+    };
+    if (dateBefore && dateAfter) {
+      query.page_size = 60;
+    }
+    const queryString = createQueryString(query);
+    const endpoint = getEndpoint(getState(), loadNextPage, queryString);
+    if (!endpoint) {
+      return Promise.resolve(null);
+    }
+    return dispatch(
+      callAPI({
+        types: Meeting.FETCH,
+        endpoint,
+        schema: [meetingSchema],
+        meta: {
+          queryString,
+          errorMessage: 'Henting av møter feilet'
+        },
+        propagateError: true,
+        useCache: refresh,
+        cacheSeconds: Infinity
+      })
+    );
+  };
 }
 
 export function setInvitationStatus(
