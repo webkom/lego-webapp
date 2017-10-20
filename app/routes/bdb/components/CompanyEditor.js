@@ -1,3 +1,5 @@
+// @flow
+
 import styles from './bdb.css';
 import React, { Component } from 'react';
 import { httpCheck, DetailNavigation, ListNavigation } from '../utils.js';
@@ -15,19 +17,23 @@ import {
 } from 'app/components/Form';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { reduxForm } from 'redux-form';
+import type {
+  CompanyEntity,
+  SubmitCompanyEntity
+} from 'app/reducers/companies';
 
 type Props = {
-  uploadFile: () => void,
-  company: Object,
+  uploadFile: Object => Promise<*>,
+  company: CompanyEntity,
   submitting: boolean,
-  handleSubmit: () => void,
+  handleSubmit: ((CompanyEntity) => Promise<*>) => void,
   autoFocus: any,
   fetching: boolean,
-  submitFunction: (Object, ?number) => void
+  submitFunction: (SubmitCompanyEntity, ?number) => Promise<*>
 };
 
 class CompanyEditor extends Component {
-  onSubmit = formContent => {
+  onSubmit = (formContent: Object) => {
     const { company, submitFunction } = this.props;
     return submitFunction({
       ...formContent,

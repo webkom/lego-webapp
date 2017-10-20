@@ -8,7 +8,8 @@ function loadingError(err) {
   console.error('Loading error', err); // eslint-disable-line
 }
 
-type ComponentFn = () => Promise<Object> | Object;
+type ComponentFn = () => Promise<Object>;
+
 type AsyncOrSyncRouteConfig =
   | {
       getComponent: (location: string, cb: () => void) => void
@@ -44,7 +45,7 @@ export default function resolveAsyncRoute(
   if (__DEV__) {
     let component = componentFn();
     if (component && component.__esModule) {
-      component = component.default;
+      component = (component: any).default;
     }
 
     return {

@@ -175,7 +175,7 @@ export const Search = {
   AUTOCOMPLETE: generateStatuses('Search.AUTOCOMPLETE'),
   RESULTS_RECEIVED: 'Search.RESULTS_RECEIVED',
   TOGGLE_OPEN: 'Search.TOGGLE_OPEN',
-  MENTION: 'Search.MENTION'
+  MENTION: generateStatuses('Search.MENTION')
 };
 
 export const Notifications = {
@@ -219,6 +219,7 @@ export const User = {
  */
 export const Page = {
   FETCH: generateStatuses('Page.FETCH'),
+  CREATE: generateStatuses('Page.CREATE'),
   UPDATE: generateStatuses('Page.UPDATE')
 };
 

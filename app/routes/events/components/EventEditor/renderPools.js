@@ -74,7 +74,14 @@ const renderPools = ({ fields }: poolProps) => (
   </ul>
 );
 
-export const validatePools = pools => {
+type PermissionGroup = {};
+
+type Pool = {
+  capacity: number,
+  permissionGroups: Array<PermissionGroup>
+};
+
+export const validatePools = (pools: Array<Pool>) => {
   const capacity = pools.reduce((a, b) => a + b.capacity, 0);
   const errors = pools.map((pool, i) => {
     const poolError = {};

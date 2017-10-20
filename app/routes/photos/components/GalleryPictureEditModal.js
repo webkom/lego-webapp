@@ -14,10 +14,11 @@ import styles from './GalleryPictureModal.css';
 type Props = {
   picture: Object,
   gallery: Object,
-  push: () => void,
-  handleSubmit: () => void,
-  updatePicture: () => Promise,
-  deletePicture: () => Promise
+  push: string => void,
+  handleSubmit: ((Object) => void) => void,
+  updatePicture: (number, number, Object) => Promise<*>,
+  deletePicture: () => Promise<*>,
+  onDeleteGallery: () => mixed
 };
 
 const GalleryPictureEditModal = ({
@@ -26,6 +27,7 @@ const GalleryPictureEditModal = ({
   push,
   deletePicture,
   updatePicture,
+  onDeleteGallery,
   handleSubmit
 }: Props) => {
   if (!picture) return <LoadingIndicator loading />;
@@ -108,7 +110,7 @@ const GalleryPictureEditModal = ({
                 <Button
                   danger
                   secondary
-                  onClick={this.onDeleteGallery}
+                  onClick={onDeleteGallery}
                   className={styles.deleteButton}
                 >
                   Delete

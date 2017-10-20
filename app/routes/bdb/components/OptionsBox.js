@@ -1,11 +1,15 @@
+// @flow
+
 import React, { Component } from 'react';
 import styles from './optionsBox.css';
 import { CheckBox, RadioButton } from 'app/components/Form';
 import { SelectInput } from 'app/components/Form';
+import type { CompanyEntity } from 'app/reducers/companies';
 
 type Props = {
-  companies: Array<Object>,
-  updateFilters: () => void,
+  companies: Array<CompanyEntity>,
+  updateFilters: (string, boolean | string) => void,
+  removeFilters: string => void,
   filters: Object
 };
 
@@ -20,26 +24,34 @@ export default class OptionsBox extends Component {
 
   props: Props;
 
-  toggleSection = section => {
-    const { filters, updateFilters } = this.props;
+  toggleSection = (section: string) => {
+    const { filters, updateFilters, removeFilters } = this.props;
     if (filters[section] === undefined) {
       updateFilters(section, this.state.values[section]);
     } else {
-      updateFilters(section, undefined);
+      removeFilters(section);
     }
     const state = this.state;
     state[section] = !this.state[section];
     this.setState(state);
   };
 
-  updateFilters = (name, value) => {
-    const { values } = this.state;
+  updateFilters = (name: string, value: boolean) => {
     const { updateFilters } = this.props;
     this.setState(state => ({
       ...state,
-      values: { ...values, [name]: value }
+      values: { ...state.values, [name]: value }
     }));
     updateFilters(name, value);
+  };
+
+  removeFilters = (name: string) => {
+    const { removeFilters } = this.props;
+    this.setState(state => ({
+      ...state,
+      values: { ...state.values, [name]: undefined }
+    }));
+    removeFilters(name);
   };
 
   render() {
@@ -118,15 +130,12 @@ export default class OptionsBox extends Component {
                 name="studentContact"
                 filter={['users.user']}
                 onChange={user =>
-                  this.updateFilters(
-                    'studentContact',
-                    user
-                      ? {
-                          id: Number(user.value),
-                          fullName: user.label
-                        }
-                      : undefined
-                  )}
+                  user
+                    ? this.updateFilters('studentContact', {
+                        id: Number(user.value),
+                        fullName: user.label
+                      })
+                    : this.removeFilters('studentContact')}
                 onBlur={() => null}
               />
             </div>

@@ -45,7 +45,9 @@ export function generateTreeStructure<
       roots.push(node);
     } else {
       const parent = tree[node.parent];
-      parent.children.push(node);
+      if (parent) {
+        parent.children.push(node);
+      }
     }
 
     return roots;

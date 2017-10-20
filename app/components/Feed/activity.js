@@ -4,15 +4,15 @@ import { Link } from 'react-router';
 import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import Time from 'app/components/Time';
-import ProfilePicture from 'app/components/ProfilePicture';
+import { ProfilePicture } from 'app/components/Image';
 import styles from './activity.css';
 import { lookupContext } from './context';
 import type { AggregatedActivity, Activity } from './types';
 
 type Props = {
   aggregatedActivity: AggregatedActivity,
-  activity: Activity,
-  key: any,
+  activity?: Activity,
+  key?: any,
   renders: Object
 };
 
@@ -20,7 +20,7 @@ type State = {
   expanded: boolean
 };
 
-export default class CommentRendrer extends Component {
+export default class CommentRenderer extends Component {
   props: Props;
 
   state: State = {

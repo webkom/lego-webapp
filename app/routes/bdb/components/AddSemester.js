@@ -1,3 +1,5 @@
+// @flow
+
 import styles from './bdb.css';
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
@@ -10,15 +12,17 @@ import {
   selectColorCode,
   DetailNavigation
 } from '../utils';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { SemesterStatusEntity } from 'app/reducers/companies';
 
 type Props = {
-  addSemesterStatus: () => void,
-  handleSubmit: () => void,
+  addSemesterStatus: (Object, ?Object) => Promise<*>,
+  handleSubmit: ((Object) => ?Promise<*>) => void,
   companyId: string,
   submitting: boolean,
   autoFocus: any,
   companySemesters: Array<Object>,
-  addSemester: () => void
+  addSemester: CompanySemesterEntity => Promise<*>
 };
 
 export default class AddSemester extends Component {
@@ -29,7 +33,7 @@ export default class AddSemester extends Component {
     submit: false
   };
 
-  onSubmit = ({ year, semester, contract }) => {
+  onSubmit = ({ year, semester, contract }: SemesterStatusEntity) => {
     if (!this.state.submit) return;
     const {
       companyId,
@@ -58,7 +62,7 @@ export default class AddSemester extends Component {
         { detail: true }
       );
     } else {
-      return addSemester({ year, semester }).then(response => {
+      return addSemester(({ year, semester }: Object)).then(response => {
         addSemesterStatus(
           {
             companyId,
@@ -72,11 +76,11 @@ export default class AddSemester extends Component {
     }
   };
 
-  setContactedStatus = event => {
+  setContactedStatus = (event: Object) => {
     this.setState({ contactedStatus: event.target.value });
   };
 
-  editFunction = statusString => {
+  editFunction = (statusString: string) => {
     this.setState({
       contactedStatus: getContactedStatuses(
         this.state.contactedStatus,

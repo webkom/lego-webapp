@@ -3,17 +3,16 @@
 import React from 'react';
 import { Link } from 'react-router';
 import styles from './JoblistingList.css';
-import Image from 'app/components/Image';
+import { Image } from 'app/components/Image';
 import Time from 'app/components/Time';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 import { Year, jobType, Workplaces } from './Items';
 
-type Props = {
-  joblisting: Object,
-  joblistings: Array
+type JobListingItemProps = {
+  joblisting: /*TODO: JobListing*/ Object
 };
 
-function JoblistingItem({ joblisting }: Props) {
+function JoblistingItem({ joblisting }: JobListingItemProps) {
   return (
     <FlexRow className={styles.joblistingItem}>
       <FlexRow>
@@ -45,7 +44,11 @@ function JoblistingItem({ joblisting }: Props) {
   );
 }
 
-function JoblistingListGroup({ joblistings = [] }: Props) {
+type JoblistingListGroupProps = {
+  joblistings: Array</*TODO: JobListing*/ any>
+};
+
+function JoblistingListGroup({ joblistings = [] }: JoblistingListGroupProps) {
   return (
     <div>
       <FlexRow className={styles.heading}>
@@ -61,7 +64,11 @@ function JoblistingListGroup({ joblistings = [] }: Props) {
   );
 }
 
-const JoblistingsList = ({ joblistings }: Props) => (
+type JoblistingsListProps = {
+  joblistings: Array</*TODO: JobListing*/ any>
+};
+
+const JoblistingsList = ({ joblistings }: JoblistingsListProps) => (
   <JoblistingListGroup joblistings={joblistings} />
 );
 

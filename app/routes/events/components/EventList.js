@@ -6,8 +6,8 @@ import Helmet from 'react-helmet';
 import moment from 'moment';
 import Time from 'app/components/Time';
 import Pill from 'app/components/Pill';
-import Image from 'app/components/Image';
-import Tag from 'app/components/Tag';
+import { Image } from 'app/components/Image';
+import Tag from 'app/components/Tags';
 import Button from 'app/components/Button';
 import Toolbar from './Toolbar';
 import { colorForEvent } from '../utils';
@@ -42,7 +42,17 @@ function groupEvents(events) {
   }, {});
 }
 
-function Attendance({ registrationCount, totalCapacity, style }) {
+type AttendanceProps = {
+  registrationCount: number,
+  totalCapacity: number,
+  style: any
+};
+
+function Attendance({
+  registrationCount,
+  totalCapacity,
+  style
+}: AttendanceProps) {
   // @todo choose pill color based on capacity
   return (
     <Pill style={{ ...style, whiteSpace: 'nowrap' }}>
@@ -84,7 +94,12 @@ export function EventItem({ event }: any) {
   );
 }
 
-function EventListGroup({ name, events = [] }) {
+type EventListGroupProps = {
+  name: string,
+  events: Array</*TODO: Event */ any>
+};
+
+function EventListGroup({ name, events = [] }: EventListGroupProps) {
   return (
     <div className={styles.eventGroup}>
       <h2 className={styles.heading}>{name}</h2>
@@ -93,9 +108,15 @@ function EventListGroup({ name, events = [] }) {
   );
 }
 
-const EventList = props => {
+type EventListProps = {
+  events: Array<any>,
+  actionGrant: /* TODO: ActionGrant */ any,
+  icalToken: /* TODO: IcalToken */ string
+};
+
+const EventList = (props: EventListProps) => {
   const events = groupEvents(props.events);
-  const { icalToken, hasMore, fetchMore } = props;
+  const { icalToken, showFetchMore, fetchMore } = props;
   return (
     <div className={styles.root}>
       <Helmet title="Arrangementer" />
@@ -105,7 +126,7 @@ const EventList = props => {
       <EventListGroup name="Neste uke" events={events.nextWeek} />
 
       <EventListGroup name="Senere" events={events.later} />
-      {hasMore && <Button onClick={fetchMore}>Last inn mer</Button>}
+      {showFetchMore && <Button onClick={fetchMore}>Last inn mer</Button>}
       <div className={styles.bottomBorder} />
       <EventFooter icalToken={icalToken} />
     </div>

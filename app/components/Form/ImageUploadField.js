@@ -1,18 +1,25 @@
 // @flow
+
 import React, { Component } from 'react';
 import cx from 'classnames';
 import { createField } from './Field';
+import { uploadFile } from 'app/actions/FileActions';
+import { connect } from 'react-redux';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import styles from './ImageUploadField.css';
 
+type File = {
+  isPublic: true,
+  file: Object
+};
+
 type Props = {
-  type?: string,
   className?: string,
   style?: Object,
   value?: string,
-  uploadFile: () => Promise<*>,
-  onChange: () => void,
-  edit: () => Promise<*>
+  uploadFile: File => Promise<*>,
+  onChange: (?string) => void,
+  edit: string => Promise<*>
 };
 
 class ImageUploadField extends Component {
@@ -20,20 +27,14 @@ class ImageUploadField extends Component {
 
   static Field: any;
 
-  componentWillMount() {
-    if (this.props.value) {
-      this.props.onChange(null);
-    }
-  }
+  componentDidMount = () => {
+    // hack for removing the inital url set by redux form
+    this.props.onChange(null);
+  };
 
-  setValue = (image: File) => {
-    this.props.uploadFile({ file: image, isPublic: true }).then(action => {
-      const token = action.meta.fileToken;
-
-      if (this.props.edit) {
-        this.props.edit(token);
-      }
-      this.props.onChange(token);
+  onSubmit = (file: File) => {
+    this.props.uploadFile({ file }).then(({ meta }) => {
+      this.props.onChange(meta.fileToken);
     });
   };
 
@@ -45,15 +46,12 @@ class ImageUploadField extends Component {
       <div className={cx(styles.base, imageClass)} style={style}>
         <ImageUpload
           className={styles.textField}
-          onSubmit={this.setValue}
+          onSubmit={this.onSubmit}
           {...props}
-          {...props.input}
-          {...props.meta}
         />
       </div>
     );
   }
 }
 
-ImageUploadField.Field = createField(ImageUploadField);
-export default ImageUploadField;
+export default connect(null, { uploadFile })(createField(ImageUploadField));

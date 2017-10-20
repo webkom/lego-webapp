@@ -2,15 +2,16 @@
 
 import { createSelector } from 'reselect';
 import { Search } from '../actions/ActionTypes';
-import type { Action } from 'app/types';
 
-export type resultProps = {
+export type SearchResult = {
   label: string,
   color: string,
   picture: string,
   path: string,
   value: string,
-  link: string
+  link: string,
+  content: string,
+  icon: string
 };
 
 const initialState = {
@@ -49,10 +50,11 @@ const searchMapping = {
     content: 'description'
   },
   'flatpages.page': {
-    label: 'title',
     profilePicture: 'picture',
+    icon: 'paper-outline',
+    label: 'title',
     color: '#E8953A',
-    path: '/pages/',
+    path: '/pages/info/',
     value: 'slug',
     content: 'content'
   },
@@ -96,7 +98,7 @@ const searchMapping = {
 
 type State = typeof initialState;
 
-export default function search(state: State = initialState, action: Action) {
+export default function search(state: State = initialState, action: any) {
   switch (action.type) {
     case Search.SEARCH.BEGIN:
       return {
@@ -175,7 +177,7 @@ const transformResult = result => {
   return item;
 };
 
-export const selectAutocomplete = autocomplete =>
+export const selectAutocomplete = (autocomplete: Array<any>) =>
   autocomplete.map(result => transformResult(result));
 
 export const selectAutocompleteRedux = createSelector(

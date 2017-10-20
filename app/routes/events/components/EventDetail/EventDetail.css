@@ -1,11 +1,13 @@
 @import '../Event.css';
 
-.description > * {
-  margin: 20px 20px 0;
+.star {
+  color: colorEvent;
+  margin-right: 10px;
 }
 
-.description > *:last-child {
-  margin-bottom: 20px;
+.descriptionHeader {
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
 .meta h3 {
@@ -14,4 +16,8 @@
 
 .mainRow {
   margin-top: 1em;
+}
+
+.title {
+  cursor: pointer;
 }

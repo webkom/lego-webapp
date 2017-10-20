@@ -1,5 +1,3 @@
-// @flow
-
 import React, { Component, cloneElement } from 'react';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import Button from 'app/components/Button';

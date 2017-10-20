@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import CompanyList from './CompanyList';
 import styles from './bdb.css';
@@ -6,14 +8,19 @@ import { indexToSemester, ListNavigation } from '../utils.js';
 import OptionsBox from './OptionsBox';
 import TextInput from 'app/components/Form/TextInput';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import type {
+  CompanyEntity,
+  BaseSemesterStatusEntity
+} from 'app/reducers/companies';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 type Props = {
-  companies: Array<Object>,
+  companies: Array<CompanyEntity>,
   query: Object,
-  editSemesterStatus: () => void,
-  addSemesterStatus: () => void,
-  addSemester: () => void,
-  companySemesters: {}
+  editSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
+  addSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
+  addSemester: CompanySemesterEntity => Promise<*>,
+  companySemesters: Array<CompanySemesterEntity>
 };
 
 export default class BdbPage extends Component {
@@ -35,13 +42,13 @@ export default class BdbPage extends Component {
     });
   }
 
-  navigateThroughTime = forward => {
+  navigateThroughTime = (options: Object) => {
     // Change which three semesters are displayed (move ahead or back in time)
     const { startSem, startYear } = this.state;
     const newSem = (startSem + 1) % 2;
 
     let newYear = 0;
-    if (forward) {
+    if (options.direction === 'forward') {
       newYear = startSem === 0 ? startYear : startYear + 1;
     } else {
       newYear = startSem === 1 ? startYear : startYear - 1;
@@ -49,7 +56,12 @@ export default class BdbPage extends Component {
     this.setState({ ...this.state, startYear: newYear, startSem: newSem });
   };
 
-  editSemester = (companyId, tableIndex, semesterStatusId, contactedStatus) => {
+  editChangedStatuses = (
+    companyId: number,
+    tableIndex: number,
+    semesterStatusId: number,
+    contactedStatus: Array<string>
+  ) => {
     // Update state whenever a semesterStatus is graphically changed by the user
     const {
       companySemesters,
@@ -87,19 +99,24 @@ export default class BdbPage extends Component {
     }
   };
 
-  updateFilters = (name, value) => {
+  updateFilters = (name: string, value: string | boolean) => {
     // For OptionsBox
-    const filters = this.state.filters;
-    filters[name] = value;
+    const filters = { ...this.state.filters, [name]: value };
     this.setState({ filters });
   };
 
-  companySearch = companies =>
+  removeFilters = (name: string) => {
+    // For OptionsBox
+    const filters = { ...this.state.filters, [name]: undefined };
+    this.setState({ filters });
+  };
+
+  companySearch = (companies: Array<Object>) =>
     companies.filter(company =>
       company.name.toLowerCase().includes(this.state.searchQuery.toLowerCase())
     );
 
-  filterCompanies = companies => {
+  filterCompanies = (companies: Array<Object>) => {
     if (this.state.searchQuery !== '') {
       companies = this.companySearch(companies);
     }
@@ -125,7 +142,7 @@ export default class BdbPage extends Component {
     });
   };
 
-  updateSearchQuery = event => {
+  updateSearchQuery = (event: Object) => {
     const searchQuery = event.target.value;
     this.setState({ searchQuery });
   };
@@ -156,6 +173,7 @@ export default class BdbPage extends Component {
         <OptionsBox
           companies={companies}
           updateFilters={this.updateFilters}
+          removeFilters={this.removeFilters}
           filters={this.state.filters}
         />
 
@@ -164,13 +182,12 @@ export default class BdbPage extends Component {
         </i>
 
         <CompanyList
-          {...this.props}
+          companies={this.filterCompanies(sortedCompanies)}
           startYear={this.state.startYear}
           startSem={this.state.startSem}
-          companies={this.filterCompanies(sortedCompanies)}
+          query={query}
           navigateThroughTime={this.navigateThroughTime}
-          editSemester={this.editSemester}
-          removeChangedStatus={this.removeChangedStatus}
+          editChangedStatuses={this.editChangedStatuses}
         />
       </div>
     );

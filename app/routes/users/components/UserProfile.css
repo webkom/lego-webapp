@@ -7,11 +7,26 @@
 .header {
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
 
   @media (--small-viewport) {
     justify-content: space-around;
-    flex-direction: column;
+  }
+}
+
+.picture {
+  display: flex;
+  justify-content: center;
+}
+
+.rightContent {
+  flex: 3;
+  min-width: 320px;
+  padding-left: 30px;
+  width: 100%;
+
+  @media (--small-viewport) {
+    padding-left: 0;
+    align-items: center;
   }
 }
 
@@ -27,8 +42,6 @@
 }
 
 .feed {
-  flex: 3;
-  min-width: 320px;
+  composes: rightContent;
   padding-left: 30px;
-  width: 100%;
 }

@@ -4,11 +4,13 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import CommentForm from 'app/components/CommentForm';
-import ProfilePicture from 'app/components/ProfilePicture';
+import { ProfilePicture } from 'app/components/Image';
+import DisplayContent from 'app/components/DisplayContent';
+import { type CommentEntity } from 'app/reducers/comments';
 import styles from './Comment.css';
 
 type Props = {
-  comment: Object,
+  comment: CommentEntity,
   commentFormProps: Object
 };
 
@@ -54,11 +56,11 @@ export default class Comment extends Component {
           </div>
 
           <div className={styles.content}>
-            <div
+            <DisplayContent
               id="comment-text"
               className={styles.text}
               style={{ fontStyle: this.state.replyOpen && 'italic' }}
-              dangerouslySetInnerHTML={{ __html: text }}
+              content={text}
             />
           </div>
         </div>

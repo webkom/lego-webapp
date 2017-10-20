@@ -1,33 +1,36 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import { fetchArticle } from 'app/actions/ArticleActions';
 import ArticleDetail from './components/ArticleDetail';
 import {
   selectArticleById,
   selectCommentsForArticle
 } from 'app/reducers/articles';
+import { selectUserById } from 'app/reducers/users';
 
 const mapStateToProps = (state, props) => {
   const { articleId } = props.params;
   const article = selectArticleById(state, { articleId });
   const comments = selectCommentsForArticle(state, { articleId });
+  const author = selectUserById(state, { userId: article.author });
 
   return {
+    fetching: state.articles.fetching,
     comments,
     article,
-    articleId
+    articleId,
+    author
   };
 };
 
 const mapDispatchToProps = { fetchArticle };
 
 export default compose(
-  dispatched(
-    ({ params: { articleId } }, dispatch) => dispatch(fetchArticle(articleId)),
-    {
-      componentWillReceiveProps: false
-    }
+  prepare(({ params: { articleId } }, dispatch) =>
+    dispatch(fetchArticle(articleId))
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  loadingIndicator(['article.content'])
 )(ArticleDetail);

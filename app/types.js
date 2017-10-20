@@ -16,6 +16,7 @@ export type EntityID = number;
 export type ArticleEntity = {
   id: EntityID,
   title: string,
+  author: number,
   content: string,
   tags: Array<string>,
   cover: string,
@@ -56,7 +57,8 @@ export type Action = {|
   type: string,
   payload?: any,
   meta?: any,
-  error?: boolean
+  error?: boolean,
+  success?: boolean // 65 WAT M8 https://github.com/acdlite/flux-standard-action
 |};
 
 export type PromiseAction<T> = {|
