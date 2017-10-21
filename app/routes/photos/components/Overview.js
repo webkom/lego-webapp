@@ -13,9 +13,7 @@ type Props = {
   push: string => Promise<*>
 };
 
-export default class Overview extends Component {
-  props: Props;
-
+export default class Overview extends Component<Props> {
   render() {
     const { galleries, push } = this.props;
 

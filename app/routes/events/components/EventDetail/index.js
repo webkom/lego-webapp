@@ -68,9 +68,7 @@ type Props = {
 /**
  *
  */
-export default class EventDetail extends Component {
-  props: Props;
-
+export default class EventDetail extends Component<Props> {
   handleRegistration = ({ captchaResponse, feedback, type }: Object) => {
     const {
       eventId,

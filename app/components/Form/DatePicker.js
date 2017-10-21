@@ -19,14 +19,18 @@ type Props = {
   dateFormat?: string
 };
 
+type State = {
+  pickerOpen: boolean,
+  date: moment,
+  value: moment
+};
+
 function parseDateValue(value) {
   if (value) return moment(value);
   return moment();
 }
 
-class DatePicker extends Component {
-  props: Props;
-
+class DatePicker extends Component<Props, State> {
   static defaultProps = {
     value: '',
     showTimePicker: true,

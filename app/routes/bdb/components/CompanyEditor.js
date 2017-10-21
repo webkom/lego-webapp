@@ -32,7 +32,7 @@ type Props = {
   submitFunction: (SubmitCompanyEntity, ?number) => Promise<*>
 };
 
-class CompanyEditor extends Component {
+class CompanyEditor extends Component<Props> {
   onSubmit = (formContent: Object) => {
     const { company, submitFunction } = this.props;
     return submitFunction({
@@ -44,8 +44,6 @@ class CompanyEditor extends Component {
       companyId: company && company.id
     });
   };
-
-  props: Props;
 
   render() {
     const {

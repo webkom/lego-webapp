@@ -18,9 +18,7 @@ type Props = {
   editChangedStatuses: (number, number, number, Array<string>) => ?Promise<*>
 };
 
-export default class CompanyList extends Component {
-  props: Props;
-
+export default class CompanyList extends Component<Props> {
   findTitle = (index: number) => {
     const { startYear, startSem } = this.props;
     const result = indexToSemester(index, startYear, startSem);

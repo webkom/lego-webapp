@@ -11,9 +11,7 @@ export type Props = {
   children?: any
 };
 
-export default class LoadingIndicator extends Component {
-  props: Props;
-
+export default class LoadingIndicator extends Component<Props> {
   static defaultProps = {
     loading: false
   };

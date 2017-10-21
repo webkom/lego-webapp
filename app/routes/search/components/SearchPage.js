@@ -19,9 +19,7 @@ type State = {
   query: string
 };
 
-class SearchPage extends Component {
-  props: Props;
-
+class SearchPage extends Component<Props, State> {
   state: State = {
     query: this.props.location.query.q || ''
   };

@@ -14,9 +14,11 @@ type Props = {
   commentFormProps: Object
 };
 
-export default class Comment extends Component {
-  props: Props;
+type State = {
+  replyOpen: boolean
+};
 
+export default class Comment extends Component<Props, State> {
   state = {
     replyOpen: false
   };

@@ -1,11 +1,12 @@
 // @flow
-import React from 'react';
+
+import React, { type Node } from 'react';
 
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import styles from './EmailIndex.css';
 
 type Props = {
-  children: React$Element<*>
+  children: Node
 };
 
 const EmailIndex = (props: Props) => {

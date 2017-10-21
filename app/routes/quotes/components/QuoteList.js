@@ -14,9 +14,11 @@ type Props = {
   comments: Object
 };
 
-export default class QuoteList extends Component {
-  props: Props;
+type State = {
+  displayAdminId: number
+};
 
+export default class QuoteList extends Component<Props, State> {
   state = {
     displayAdminId: -1
   };

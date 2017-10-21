@@ -83,9 +83,7 @@ type Props = {
   showFetchOlder: boolean
 };
 
-export default class MeetingList extends Component {
-  props: Props;
-
+export default class MeetingList extends Component<Props> {
   render() {
     const {
       meetingSections,

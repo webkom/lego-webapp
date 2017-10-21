@@ -1,20 +1,23 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, type Node } from 'react';
 import { Overlay } from 'react-overlays';
 import cx from 'classnames';
 import styles from './Popover.css';
 
 type Props = {
-  render: () => React.Element<*>,
+  render: () => Node,
   children: any,
   placement: 'top' | 'bottom' | 'left' | 'right',
   contentClassName?: string
 };
 
-class Popover extends Component {
-  props: Props;
+type State = {
+  contentHovered: boolean,
+  overlayHovered: boolean
+};
 
+class Popover extends Component<Props, State> {
   state = {
     contentHovered: false,
     overlayHovered: false

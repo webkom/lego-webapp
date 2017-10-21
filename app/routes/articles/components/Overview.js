@@ -32,9 +32,7 @@ type Props = {
   articles: Array<Object>
 };
 
-export default class Overview extends Component {
-  props: Props;
-
+export default class Overview extends Component<Props> {
   render() {
     const { articles } = this.props;
     const headlineEvents = articles.slice(0, HEADLINE_EVENTS);

@@ -29,9 +29,7 @@ function pathForNextMonth(date: moment) {
   return `${newDate.year()}/${newDate.month() + 1}`;
 }
 
-export default class Calendar extends Component {
-  props: Props;
-
+export default class Calendar extends Component<Props> {
   static defaultProps = {
     weekOffset: 0
   };

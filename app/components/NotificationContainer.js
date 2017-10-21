@@ -10,9 +10,7 @@ type Props = {
   notifications: Array<any>
 };
 
-class NotificationContainer extends Component {
-  props: Props;
-
+class NotificationContainer extends Component<Props> {
   onClick = notification => {
     // For now, we assume the action is "close". In the future, this might be a
     // link to a resource instead

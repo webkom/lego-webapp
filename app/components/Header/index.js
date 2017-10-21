@@ -68,9 +68,7 @@ function AccountDropdownItems({ logout, onClose, username }) {
   );
 }
 
-class Header extends Component {
-  props: Props;
-
+class Header extends Component<Props, State> {
   state: State = {
     accountOpen: false,
     shake: false

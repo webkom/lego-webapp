@@ -14,9 +14,7 @@ type Props = {
   onChange: string => void
 };
 
-class FileUploadField extends Component {
-  props: Props & FieldProps;
-
+class FileUploadField extends Component<Props & FieldProps> {
   static Field: any;
 
   render() {
