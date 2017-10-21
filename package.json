@@ -8,9 +8,12 @@
   "scripts": {
     "start": "webpack --config config/webpack.server.js",
     "build": "concurrently \"yarn run build:server\" \"yarn run build:client\"",
-    "build:client": "NODE_ENV=production webpack --config config/webpack.client.js",
-    "build:server": "NODE_ENV=production webpack --config config/webpack.server.js -p",
-    "build:dll": "BUILDING_DLL=true webpack --display-chunks --color --config config/webpack.dll.js",
+    "build:client":
+      "NODE_ENV=production webpack --config config/webpack.client.js",
+    "build:server":
+      "NODE_ENV=production webpack --config config/webpack.server.js -p",
+    "build:dll":
+      "BUILDING_DLL=true webpack --display-chunks --color --config config/webpack.dll.js",
     "postinstall": "yarn run build:dll",
     "test": "NODE_ENV=test jest",
     "test:coverage": "yarn run test -- --coverage",
@@ -20,8 +23,10 @@
     "lint:css": "stylelint './app/**/*.css'",
     "prettier": "prettier '**/*.{js|css}' --write",
     "flow": "flow",
-    "styleguide": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist server",
-    "styleguide:build": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist build"
+    "styleguide":
+      "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist server",
+    "styleguide:build":
+      "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist build"
   },
   "repository": {
     "type": "git",
@@ -52,12 +57,12 @@
     "raven": "^2.1.2",
     "raven-for-redux": "^1.0.0",
     "raven-js": "^3.17.0",
-    "react": "^15.6.1",
+    "react": "^16.0.0",
     "react-async-script": "^0.9.1",
     "react-collapse": "^4.0.3",
     "react-cookie": "^1.0.4",
     "react-cropper": "^0.12.0",
-    "react-dom": "^15.6.1",
+    "react-dom": "^16.0.0",
     "react-dropzone": "^3.10.0",
     "react-google-recaptcha": "^0.9.7",
     "react-helmet": "^5.2.0",
@@ -99,7 +104,8 @@
     "babel-preset-stage-2": "^6.22.0",
     "concurrently": "^3.5.0",
     "css-loader": "^0.28.0",
-    "enzyme": "^2.9.1",
+    "enzyme": "^3.1.0",
+    "enzyme-adapter-react-16": "^1.0.2",
     "eslint": "^4.7.1",
     "eslint-config-prettier": "^2.3.0",
     "eslint-config-react-app": "^2.0.0",
@@ -125,7 +131,7 @@
     "react-docgen": "^2.18.0",
     "react-hot-loader": "3.0.0-beta.4",
     "react-styleguidist": "^6.0.30",
-    "react-test-renderer": "^15.6.0",
+    "react-test-renderer": "^16.0.0",
     "redux-mock-store": "^1.2.2",
     "start-server-webpack-plugin": "^2.1.2",
     "style-loader": "^0.18.2",
@@ -149,9 +155,7 @@
       "selector-pseudo-class-no-unknown": [
         true,
         {
-          "ignorePseudoClasses": [
-            "global"
-          ]
+          "ignorePseudoClasses": ["global"]
         }
       ]
     }
@@ -161,15 +165,17 @@
       "__DEV__": false,
       "__CLIENT__": true
     },
-    "moduleDirectories": [
-      "<rootDir>",
-      "node_modules"
-    ],
+    "moduleDirectories": ["<rootDir>", "node_modules"],
     "moduleNameMapper": {
-      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm)$": "<rootDir>/testing/FileStub.js",
+      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm)$":
+        "<rootDir>/testing/FileStub.js",
       "^.+\\.css$": "<rootDir>/testing/CSSStub.js"
     },
-    "testRegex": "\\.spec\\.(js|jsx)$"
+    "testRegex": "\\.spec\\.(js|jsx)$",
+    "setupFiles": [
+      "<rootDir>/testing/requestAnimationFrame.js",
+      "<rootDir>/testing/setup.js"
+    ]
   },
   "prettier": {
     "singleQuote": true
@@ -186,7 +192,5 @@
       "meow"
     ]
   },
-  "moduleRoots": [
-    "./"
-  ]
+  "moduleRoots": ["./"]
 }
