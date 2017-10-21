@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import { Link } from 'react-router';

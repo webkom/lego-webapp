@@ -1,6 +1,6 @@
 import styles from './components/Event.css';
 import { omit } from 'lodash';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 export const eventTypes = {
   company_presentation: 'Bedriftspresentasjon',

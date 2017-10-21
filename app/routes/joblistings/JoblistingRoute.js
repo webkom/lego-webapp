@@ -3,7 +3,7 @@ import { dispatched } from '@webkom/react-prepare';
 import { fetchAll } from 'app/actions/JoblistingActions';
 import JoblistingPage from './components/JoblistingPage';
 import { compose } from 'redux';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 function filterJoblistings(joblistings, classes, jobTypes, workplaces) {
   return joblistings.filter(joblisting => {

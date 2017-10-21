@@ -1,6 +1,6 @@
 // @flow
 
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetchList } from 'app/actions/EventActions';

@@ -3,7 +3,7 @@
 import React from 'react';
 import { Flex } from 'app/components/Layout';
 import { Link } from 'react-router';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import styles from './GalleryDetailsRow.css';
 
 type Props = {

@@ -3,7 +3,7 @@
 import jwtDecode from 'jwt-decode';
 import { normalize } from 'normalizr';
 import cookie from 'react-cookie';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { push, replace } from 'react-router-redux';
 import { userSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';

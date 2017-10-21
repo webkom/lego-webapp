@@ -9,7 +9,7 @@ import {
   Button
 } from 'app/components/Form';
 
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 type poolProps = {
   fields: Object

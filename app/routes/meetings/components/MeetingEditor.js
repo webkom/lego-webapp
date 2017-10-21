@@ -16,7 +16,7 @@ import {
   Button,
   DatePicker
 } from 'app/components/Form';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import config from 'app/config';
 import { unionBy } from 'lodash';
 import type { UserEntity } from 'app/reducers/users';

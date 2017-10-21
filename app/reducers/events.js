@@ -1,6 +1,6 @@
 // @flow
 
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import { Event } from '../actions/ActionTypes';
 import { mutateComments } from 'app/reducers/comments';
