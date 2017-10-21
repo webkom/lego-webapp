@@ -1,7 +1,7 @@
 // @flow
 
 import styles from './Event.css';
-import * as React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { compose } from 'redux';
@@ -18,10 +18,13 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import Time from 'app/components/Time';
 import { Flex } from 'app/components/Layout';
 import config from 'app/config';
+import CountdownProvider from './JoinEventFormCountdownProvider';
+
+type Event = Object;
 
 export type Props = {
   title?: string,
-  event: Object /*TODO: Event*/,
+  event: Event,
   registration: Object,
   currentUser: Object,
   onSubmit: Object => void,
@@ -34,13 +37,6 @@ export type Props = {
   invalid: boolean,
   pristine: boolean,
   submitting: boolean
-};
-
-type State = {
-  time: any,
-  formOpen: boolean,
-  captchaOpen: boolean,
-  buttonOpen: boolean
 };
 
 type SpotsLeftProps = {
@@ -97,103 +93,8 @@ const SpotsLeft = ({ activeCapacity, spotsLeft }: SpotsLeftProps) => {
 
   return <div>Det er {spotsLeft} plasser igjen.</div>;
 };
-
-class JoinEventForm extends React.Component<Props, State> {
-  state: State = {
-    time: null,
-    formOpen: false,
-    captchaOpen: false,
-    buttonOpen: false
-  };
-
-  counter = undefined;
-
-  componentDidMount() {
-    this.parseEventTimes(this.props.event, this.props.registration);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (
-      (nextProps.event.activationTime && !this.props.event.activationTime) ||
-      nextProps.registration !== this.props.registration
-    ) {
-      this.setState({ formOpen: false });
-      this.parseEventTimes(nextProps.event, nextProps.registration);
-    }
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.counter);
-  }
-
-  parseEventTimes = ({ activationTime, startTime }, registration) => {
-    const poolActivationTime = moment(activationTime);
-    const currentTime = moment();
-    const diffTime = poolActivationTime.diff(currentTime);
-    let duration = moment.duration(diffTime, 'milliseconds');
-    if (
-      (!registration && !activationTime) ||
-      currentTime.isAfter(moment(startTime).subtract(2, 'hours'))
-    ) {
-      // Do nothing
-      // TODO: the 2 hour subtract is a hardcoded close time and should be improved
-    } else if (poolActivationTime.isBefore(currentTime) || registration) {
-      this.setState({
-        formOpen: true,
-        captchaOpen: true,
-        buttonOpen: true
-      });
-    } else if (poolActivationTime.day() > currentTime.day()) {
-      this.setState({
-        time: poolActivationTime
-      });
-    } else if (duration.asMinutes() > 10) {
-      this.setState({
-        time: poolActivationTime
-      });
-      const interval = 10000;
-      this.counter = setInterval(() => {
-        const diff = duration - interval;
-        duration = moment.duration(diff, 'milliseconds');
-        if (diff < 600000) {
-          clearInterval(this.counter);
-          this.initiateCountdown(duration);
-        }
-      }, interval);
-    } else {
-      this.initiateCountdown(duration);
-    }
-  };
-
-  initiateCountdown(duration) {
-    const interval = 1000;
-
-    duration += 1000;
-    this.counter = setInterval(() => {
-      duration = moment.duration(duration, 'milliseconds') - interval;
-      if (duration <= 1000) {
-        clearInterval(this.counter);
-        this.setState({
-          time: null,
-          buttonOpen: true
-        });
-        return;
-      }
-      if (duration < 60000) {
-        this.setState({
-          captchaOpen: true
-        });
-      }
-      this.setState({
-        time: moment(duration).format('mm:ss')
-      });
-    }, interval);
-    this.setState({
-      formOpen: true
-    });
-  }
-
-  submitWithType = (handleSubmit, feedbackName, type = null) => {
+class JoinEventForm extends Component<Props> {
+  submitWithType = (handleSubmit, feedbackName, type) => {
     if (type === 'unregister') {
       return handleSubmit(() =>
         this.props.onSubmit({
@@ -201,6 +102,7 @@ class JoinEventForm extends React.Component<Props, State> {
         })
       );
     }
+
     return handleSubmit(values => {
       const feedback = values[feedbackName];
       if (this.props.event.feedbackRequired && !feedback) {
@@ -208,6 +110,7 @@ class JoinEventForm extends React.Component<Props, State> {
           feedbackRequired: 'Tilbakemelding er påkrevet for dette arrangementet'
         });
       }
+
       return this.props.onSubmit({
         captchaResponse: values.captchaResponse,
         feedback,
@@ -230,143 +133,190 @@ class JoinEventForm extends React.Component<Props, State> {
       submitting
     } = this.props;
 
-    const isInvalid = this.state.time !== null || invalid;
-    const isPristine = event.feedbackRequired && pristine;
-    const disabledButton = !registration
-      ? isInvalid || isPristine || submitting
-      : false;
     const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
     const registrationType = !registration ? 'register' : 'unregister';
-    const feedbackName = getFeedbackName(event.feedbackRequired);
-    let feedbackLabel = event.feedbackRequired
-      ? 'NB: Dette arrangementet krever tilbakemelding'
-      : 'Tilbakemelding';
-    feedbackLabel = event.feedbackDescription
-      ? `${feedbackLabel}: ${event.feedbackDescription}`
-      : feedbackLabel;
+
+    const feedbackName = getFeedbackName(event);
+    const feedbackLabel = getFeedbackLabel(event);
+
     const showStripe =
       event.isPriced &&
+      event.price > 0 &&
       registration &&
       registration.pool &&
       !['pending', 'succeeded'].includes(registration.chargeStatus);
+
     return (
-      <Flex column className={styles.join}>
-        <div className={styles.joinHeader}>Bli med på dette arrangementet</div>
-        <Link to="/pages/info/26-arrangementsregler" style={{ marginTop: 0 }}>
-          <Flex alignItems="center">
-            <Icon name="document" style={{ marginRight: '4px' }} />
-            <span>Regler for Abakus&#39; arrangementer</span>
-          </Flex>
-        </Link>
-        {!this.state.formOpen &&
-          this.state.time && (
-            <div>
-              Åpner <Time time={this.state.time} format="nowToTimeInWords" />
-            </div>
-          )}
-        {!this.state.formOpen &&
-          !this.state.time && (
-            <div>Du kan ikke melde deg på dette arrangementet.</div>
-          )}
-        {this.state.formOpen && (
-          <Flex column>
-            <UpdateAllergies
-              username={currentUser.username}
-              initialValues={{ allergies: currentUser.allergies }}
-              updateUser={updateUser}
-            />
-            <Form>
-              <Field
-                label={feedbackLabel}
-                placeholder="Melding til arrangører"
-                name={feedbackName}
-                component={TextEditor.Field}
-              />
-              {registration && (
-                <div>
-                  <Button
-                    type="button"
-                    onClick={this.submitWithType(
+      <CountdownProvider
+        event={event}
+        registration={registration}
+        render={({
+          buttonOpen,
+          formOpen,
+          captchaOpen,
+          registrationOpensIn
+        }) => {
+          const isInvalid = registrationOpensIn !== null || invalid;
+          const isPristine = event.feedbackRequired && pristine;
+          const disabledButton = !registration
+            ? isInvalid || isPristine || submitting
+            : false;
+          const disabledForUser = !formOpen && !event.activationTime;
+          const showCaptcha =
+            !submitting && !registration && captchaOpen && event.useCaptcha;
+          console.log('\nButtonOpen', buttonOpen);
+          console.log('formOpe', formOpen);
+          console.log('captchaOpen', captchaOpen);
+          console.log('registrationOpensIn', registrationOpensIn);
+          return (
+            <Flex column className={styles.join}>
+              <div className={styles.joinHeader}>
+                Bli med på dette arrangementet
+              </div>
+              <Link
+                to="/pages/info/26-arrangementsregler"
+                style={{ marginTop: 0 }}
+              >
+                <Flex alignItems="center">
+                  <Icon name="document" style={{ marginRight: '4px' }} />
+                  <span>Regler for Abakus&#39; arrangementer</span>
+                </Flex>
+              </Link>
+
+              {!formOpen &&
+                event.activationTime && (
+                  <div>
+                    Åpner{' '}
+                    <Time
+                      time={event.activationTime}
+                      format="nowToTimeInWords"
+                    />
+                  </div>
+                )}
+
+              {disabledForUser && (
+                <div>Du kan ikke melde deg på dette arrangementet.</div>
+              )}
+
+              {formOpen && (
+                <Flex column>
+                  <UpdateAllergies
+                    username={currentUser.username}
+                    initialValues={{ allergies: currentUser.allergies }}
+                    updateUser={updateUser}
+                  />
+                  <Form
+                    onSubmit={this.submitWithType(
                       handleSubmit,
                       feedbackName,
-                      'feedback'
+                      registrationType
                     )}
-                    style={{ marginBottom: '5px' }}
-                    disabled={pristine}
                   >
-                    Oppdater feedback
-                  </Button>
-                </div>
-              )}
-              {!submitting &&
-                !registration &&
-                this.state.captchaOpen &&
-                event.useCaptcha && (
-                  <Field
-                    name="captchaResponse"
-                    fieldStyle={{ width: 304 }}
-                    component={Captcha.Field}
-                  />
-                )}
-              {this.state.time && (
-                <Button disabled={disabledButton}>
-                  {`Åpner om ${this.state.time}`}
-                </Button>
-              )}
-              {this.state.buttonOpen &&
-                !submitting && (
-                  <Flex alignItems="center">
-                    <SubmitButton
-                      disabled={disabledButton}
-                      onSubmit={this.submitWithType(
-                        handleSubmit,
-                        feedbackName,
-                        registrationType
-                      )}
-                      type={registrationType}
-                      title={title || joinTitle}
+                    <Field
+                      label={feedbackLabel}
+                      placeholder="Melding til arrangører"
+                      name={feedbackName}
+                      component={TextEditor.Field}
                     />
-                    {!registration && (
-                      <SpotsLeft
-                        activeCapacity={event.activeCapacity}
-                        spotsLeft={event.spotsLeft}
+                    {registration && (
+                      <div>
+                        <Button
+                          type="button"
+                          onClick={this.submitWithType(
+                            handleSubmit,
+                            feedbackName,
+                            'feedback'
+                          )}
+                          style={{ marginBottom: '5px' }}
+                          disabled={pristine}
+                        >
+                          Oppdater feedback
+                        </Button>
+                      </div>
+                    )}
+                    {showCaptcha && (
+                      <Field
+                        name="captchaResponse"
+                        fieldStyle={{ width: 304 }}
+                        component={Captcha.Field}
                       />
                     )}
-                  </Flex>
-                )}
-              {submitting && (
-                <LoadingIndicator
-                  loading
-                  loadingStyle={{ margin: '5px auto' }}
-                />
+                    {event.activationTime &&
+                      registrationOpensIn && (
+                        <Flex alignItems="center">
+                          <Button disabled={disabledButton}>
+                            {`Åpner om ${registrationOpensIn}`}
+                          </Button>
+                        </Flex>
+                      )}
+                    {buttonOpen &&
+                      !submitting && (
+                        <Flex alignItems="center">
+                          <SubmitButton
+                            disabled={disabledButton}
+                            onSubmit={this.submitWithType(
+                              handleSubmit,
+                              feedbackName,
+                              registrationType
+                            )}
+                            type={registrationType}
+                            title={title || joinTitle}
+                          />
+
+                          {!registration && (
+                            <SpotsLeft
+                              activeCapacity={event.activeCapacity}
+                              spotsLeft={event.spotsLeft}
+                            />
+                          )}
+                        </Flex>
+                      )}
+                    {submitting && (
+                      <LoadingIndicator
+                        loading
+                        loadingStyle={{ margin: '5px auto' }}
+                      />
+                    )}
+                  </Form>
+                </Flex>
               )}
-            </Form>
-          </Flex>
-        )}
-        {showStripe &&
-          event.price && (
-            <StripeCheckout
-              name="Abakus Linjeforening"
-              description={event.title}
-              image={logoImage}
-              currency="NOK"
-              allowRememberMe={false}
-              locale="no"
-              token={onToken}
-              stripeKey={config.stripeKey}
-              amount={event.price}
-              email={currentUser.email}
-            >
-              <Button>Betal nå</Button>
-            </StripeCheckout>
-          )}
-      </Flex>
+
+              {showStripe && (
+                <StripeCheckout
+                  name="Abakus Linjeforening"
+                  description={event.title}
+                  image={logoImage}
+                  currency="NOK"
+                  allowRememberMe={false}
+                  locale="no"
+                  token={onToken}
+                  stripeKey={config.stripeKey}
+                  amount={event.price}
+                  email={currentUser.email}
+                >
+                  <Button>Betal nå</Button>
+                </StripeCheckout>
+              )}
+            </Flex>
+          );
+        }}
+      />
     );
   }
 }
 
-function getFeedbackName(feedbackRequired) {
-  return feedbackRequired ? 'feedbackRequired' : 'feedback';
+function getFeedbackName(event: Event) {
+  return event.feedbackRequired ? 'feedbackRequired' : 'feedback';
+}
+
+function getFeedbackLabel(event: Event) {
+  const feedbackLabel = event.feedbackRequired
+    ? 'NB: Dette arrangementet krever tilbakemelding'
+    : 'Tilbakemelding';
+
+  return event.feedbackDescription
+    ? `${feedbackLabel}: ${event.feedbackDescription}`
+    : feedbackLabel;
 }
 
 function validateEventForm(data, props) {
