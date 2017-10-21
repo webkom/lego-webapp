@@ -5,7 +5,7 @@
  * implementation detail and not revealed to consuming code. Therefore, one
  * must use the utility functions toId and idToString when dealing with them.
  */
-opaque type ID = string;
+type ID = string;
 
 export const toId = (value: string | number): ID => {
   if (typeof value === 'number') {

@@ -25,9 +25,12 @@ type Props = {
   addSemester: CompanySemesterEntity => Promise<*>
 };
 
-export default class AddSemester extends Component {
-  props: Props;
+type State = {
+  contactedStatus: Array</*TODO: ContactedStatus */ any>,
+  submit: boolean
+};
 
+export default class AddSemester extends Component<Props, State> {
   state = {
     contactedStatus: [],
     submit: false

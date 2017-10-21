@@ -19,9 +19,7 @@ type State = {
   files: Array<DropFile>
 };
 
-class Upload extends Component {
-  props: Props;
-
+class Upload extends Component<Props, State> {
   state: State = {
     files: []
   };

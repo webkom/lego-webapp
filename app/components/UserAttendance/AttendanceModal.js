@@ -31,9 +31,11 @@ const Tab = ({ name, index, activePoolIndex, togglePool }: any) => (
   </a>
 );
 
-class AttendanceModal extends Component {
-  props: Props;
+type State = {
+  pools: Array</*TODO: Pool*/ Object>
+};
 
+class AttendanceModal extends Component<Props, State> {
   state = {
     pools: []
   };

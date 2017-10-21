@@ -1,6 +1,6 @@
 //@flow
 
-import React, { PureComponent } from 'react';
+import React, { PureComponent, type Node } from 'react';
 import { chunk, get } from 'lodash';
 import LoadingIndicator from '../LoadingIndicator';
 import styles from './Gallery.css';
@@ -10,8 +10,8 @@ type Props = {
   onClick?: Photo => mixed,
   renderOverlay?: Photo => void,
   renderTop?: Photo => void,
-  renderBottom?: Photo => React.Element<*>,
-  renderEmpty?: React.Element<*>,
+  renderBottom?: Photo => Node,
+  renderEmpty?: () => Node,
   margin?: number,
   loading?: boolean,
   srcKey: string,
@@ -22,9 +22,8 @@ type State = {
   containerWidth: number
 };
 
-export default class Gallery extends PureComponent {
-  props: Props;
-  gallery: HTMLDivElement;
+export default class Gallery extends PureComponent<Props, State> {
+  gallery: ?HTMLDivElement;
 
   static defaultProps = {
     margin: 3
@@ -35,12 +34,17 @@ export default class Gallery extends PureComponent {
   };
 
   componentDidMount() {
-    this.setState({ containerWidth: Math.floor(this.gallery.clientWidth) });
+    this.gallery &&
+      this.setState({ containerWidth: Math.floor(this.gallery.clientWidth) });
     window.addEventListener('resize', this.handleResize);
   }
 
   componentDidUpdate() {
-    if (this.gallery.clientWidth !== this.state.containerWidth) {
+    if (
+      this.gallery &&
+      this.gallery.clientWidth &&
+      this.gallery.clientWidth !== this.state.containerWidth
+    ) {
       this.setState({ containerWidth: Math.floor(this.gallery.clientWidth) });
     }
   }
@@ -50,7 +54,8 @@ export default class Gallery extends PureComponent {
   }
 
   handleResize = () => {
-    this.setState({ containerWidth: Math.floor(this.gallery.clientWidth) });
+    this.gallery &&
+      this.setState({ containerWidth: Math.floor(this.gallery.clientWidth) });
   };
 
   onClick = (photo: File) => {

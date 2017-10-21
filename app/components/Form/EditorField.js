@@ -7,7 +7,9 @@ import styles from './TextInput.css';
 
 type Props = {
   type?: string,
-  className?: string
+  className?: string,
+  input: any,
+  meta: any
 };
 
 function EditorField({ className, ...props }: Props) {

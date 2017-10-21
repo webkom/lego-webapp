@@ -1,12 +1,11 @@
 // @flow
 
-import React from 'react';
-import Tag from './Tag';
+import React, { type Node } from 'react';
 import styles from './Tag.css';
 
 type Props = {
   /** Make small */
-  children: React.Element<Tag>
+  children: Node
 };
 
 /**

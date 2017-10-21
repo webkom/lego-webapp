@@ -8,23 +8,28 @@ import AddGroupPermission from './AddGroupPermission';
 import { editGroup } from 'app/actions/GroupActions';
 import loadingIndicator from 'app/utils/loadingIndicator';
 
-type Props = {
-  group: Object,
-  editGroup: Promise<*>
-};
-
 type PermissionListProps = {
-  permissions: [String]
+  permissions: Array</*TODO: Permission*/ string>
 };
 
 const PermissionList = ({ permissions }: PermissionListProps) => (
   <div>
     <h3>Nåværende rettigheter</h3>
-    <ul>{permissions.map(p => <li key={p}>{p}</li>)}</ul>
+    <ul>
+      {permissions.map(permission => <li key={permission}>{permission}</li>)}
+    </ul>
   </div>
 );
 
-export const GroupPermissions = ({ group, editGroup }: Props) => {
+type GroupPermissionsProps = {
+  group: Object,
+  editGroup: Promise<*>
+};
+
+export const GroupPermissions = ({
+  group,
+  editGroup
+}: GroupPermissionsProps) => {
   const { permissions } = group;
   return (
     <div className={styles.groupMembers}>

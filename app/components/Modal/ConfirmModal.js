@@ -1,11 +1,11 @@
 // @flow
 
 import styles from './ConfirmModal.css';
+import React, { type ComponentType } from 'react';
 import Modal from 'app/components/Modal';
-import * as React from 'react';
 import Button from '../Button';
 
-type Props = {
+type ConfirmModalProps = {
   onConfirm: () => any,
   onCancel?: () => any,
   message: string,
@@ -17,7 +17,7 @@ export const ConfirmModal = ({
   onConfirm,
   onCancel,
   title
-}: Props) => (
+}: ConfirmModalProps) => (
   <div className={styles.overlay}>
     <div className={styles.confirmContainer}>
       <h2 className={styles.confirmTitle}>{title}</h2>
@@ -30,25 +30,33 @@ export const ConfirmModal = ({
   </div>
 );
 
-export default function withModal(WrappedComponent: Object) {
-  return class extends React.Component {
+type State = {
+  modalVisible: boolean
+};
+
+export default function withModal<Props>(
+  WrappedComponent: ComponentType<Props>
+) {
+  const displayName =
+    WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
+
+  return class extends React.Component<ConfirmModalProps & Props, State> {
+    static displayName = `WithModal(${displayName})`;
     state = { modalVisible: false };
 
-    toggleModal = (key: number = 0) => {
+    toggleModal = () => {
       this.setState(state => ({
         modalVisible: !state.modalVisible
       }));
     };
 
     render() {
-      const onCancel = this.props.onCancel || (() => this.toggleModal(0));
+      const onCancel = this.props.onCancel || this.toggleModal;
       return (
         <div>
+          {/* $FlowFixMe rest props hoc behaviour */}
           <WrappedComponent {...this.props} onClick={this.toggleModal} />
-          <Modal
-            show={this.state.modalVisible}
-            onHide={() => this.toggleModal(0)}
-          >
+          <Modal show={this.state.modalVisible} onHide={this.toggleModal}>
             <ConfirmModal onCancel={onCancel} {...this.props} />
           </Modal>
         </div>
@@ -56,6 +64,7 @@ export default function withModal(WrappedComponent: Object) {
     }
   };
 }
+
 const ChildrenWithProps = ({ children, ...restProps }) => (
   <div>
     {React.Children.map(children, child =>
@@ -63,4 +72,5 @@ const ChildrenWithProps = ({ children, ...restProps }) => (
     )}
   </div>
 );
+
 export const ConfirmModalWithParent = withModal(ChildrenWithProps);

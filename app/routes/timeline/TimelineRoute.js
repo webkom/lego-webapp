@@ -29,5 +29,6 @@ export default compose(
   dispatched(loadData, {
     componentWillReceiveProps: false
   }),
+  // $FlowFixMe
   connect(mapStateToProps)
 )(TimelinePage);

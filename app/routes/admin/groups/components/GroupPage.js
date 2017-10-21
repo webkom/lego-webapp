@@ -1,18 +1,11 @@
 // @flow
 
-import React from 'react';
+import React, { type Node } from 'react';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import Content from 'app/components/Layout/Content';
 import GroupTree from './GroupTree';
 import styles from './GroupPage.css';
-
-type Props = {
-  children: React.Element<*>,
-  groups: Array<Object>,
-  location: { pathname: string },
-  params: { groupId: string }
-};
 
 const NavigationLinks = ({ groupId }: { groupId: string }) => {
   const baseUrl = `/admin/groups/${groupId}`;
@@ -33,7 +26,14 @@ const GroupPageNavigation = ({ groupId }: { groupId: ?string }) => {
   );
 };
 
-const GroupPage = ({ groups, children, location, params }: Props) => {
+type GroupPageProps = {
+  children: Node,
+  groups: Array<Object>,
+  location: { pathname: string },
+  params: { groupId: string }
+};
+
+const GroupPage = ({ groups, children, location, params }: GroupPageProps) => {
   return (
     <Content>
       <GroupPageNavigation groupId={params.groupId} />

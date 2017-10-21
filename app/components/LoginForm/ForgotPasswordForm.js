@@ -12,9 +12,11 @@ type Props = {
   sendForgotPasswordEmail: ({ email: string }) => any
 } & FormProps;
 
-class ForgotPasswordForm extends Component {
-  props: Props;
+type State = {
+  submitted: boolean
+};
 
+class ForgotPasswordForm extends Component<Props, State> {
   mounted = false;
   state = {
     submitted: false

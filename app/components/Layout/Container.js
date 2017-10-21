@@ -1,12 +1,12 @@
 // @flow
 
-import React from 'react';
+import React, { type Node } from 'react';
 import cx from 'classnames';
 import styles from './Container.css';
 
 type Props = {
   className?: string,
-  children: React.Element<*>
+  children: Node
 };
 
 function Container({ children, className }: Props) {

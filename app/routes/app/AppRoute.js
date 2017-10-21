@@ -1,7 +1,7 @@
 // @flow
 
 import styles from './AppRoute.css';
-import React, { PureComponent } from 'react';
+import React, { PureComponent, type Element } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from '@webkom/react-prepare';
@@ -29,7 +29,16 @@ import cx from 'classnames';
 import HTTPError from '../errors/HTTPError';
 import { setStatusCode } from 'app/actions/RoutingActions';
 
-class AppChildren extends PureComponent {
+type Props = {
+  statusCode: number,
+  location: any,
+  children: Element<*>,
+  currentUser: /*TODO: User*/ Object,
+  setStatusCode: (code: ?number) => void,
+  loggedIn: boolean
+};
+
+class AppChildren extends PureComponent<Props> {
   render() {
     return (
       <div style={{ flex: 1 }}>
@@ -51,10 +60,15 @@ class AppChildren extends PureComponent {
   }
 }
 
-class App extends PureComponent {
-  render() {
-    Raven.setUserContext(this.props.currentUser);
+// TODO: Type it
+type AppProps = any;
 
+class App extends PureComponent<AppProps> {
+  componentWillReceiveProps(nextProps: Props) {
+    Raven.setUserContext(nextProps.currentUser);
+  }
+
+  render() {
     return (
       <div
         className={cx(styles.appRoute, {
