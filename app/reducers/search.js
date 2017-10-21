@@ -68,10 +68,10 @@ const searchMapping = {
     content: 'text'
   },
   'companies.company': {
-    icon: 'file-text',
+    icon: 'briefcase',
     label: 'name',
     color: '#E8953A',
-    path: '/company/',
+    path: '/companies/',
     value: 'id',
     content: 'content'
   },
