@@ -116,7 +116,6 @@ class JoinEventForm extends Component {
       });
       const interval = 10000;
       this.counter = setInterval(() => {
-        // $FlowFixMe
         const diff = duration - interval;
         duration = moment.duration(diff, 'milliseconds');
         if (diff < 600000) {
@@ -132,10 +131,8 @@ class JoinEventForm extends Component {
   initiateCountdown(duration) {
     const interval = 1000;
 
-    // $FlowFixMe
     duration += 1000;
     this.counter = setInterval(() => {
-      // $FlowFixMe Does this work now?
       duration = moment.duration(duration, 'milliseconds') - interval;
       if (duration <= 1000) {
         clearInterval(this.counter);

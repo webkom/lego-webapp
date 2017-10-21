@@ -71,7 +71,6 @@ class TimePicker extends Component {
   onChange = (unit: 'hour' | 'minute') => () => {
     this.setState(
       {
-        // $FlowFixMe
         value: this.state.value.clone()[unit].call(null, 1)
       },
       this.commit
