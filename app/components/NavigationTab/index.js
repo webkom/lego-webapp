@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { type Node } from 'react';
 
 import NavigationLink from './NavigationLink';
 import styles from './NavigationTab.css';
@@ -11,7 +11,7 @@ type Props = {
   headerClassName?: string,
   className?: string,
   headerClassName?: string,
-  children?: React$Element<*>
+  children: Node
 };
 
 const NavigationTab = (props: Props) => {

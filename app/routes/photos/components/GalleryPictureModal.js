@@ -27,9 +27,7 @@ type State = {
   showMore: boolean
 };
 
-export default class GalleryPictureModal extends Component {
-  props: Props;
-
+export default class GalleryPictureModal extends Component<Props, State> {
   state: State = {
     showMore: false
   };

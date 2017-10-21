@@ -9,7 +9,15 @@ import EventEditor from './EventEditor';
 import { Flex } from 'app/components/Layout';
 import styles from './Toolbar.css';
 
-class Toolbar extends Component {
+type Props = {
+  actionGrant: /*TODO: ActionGrant */ any
+};
+
+type State = {
+  editorOpen: boolean
+};
+
+class Toolbar extends Component<Props, State> {
   state = {
     editorOpen: false
   };

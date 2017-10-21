@@ -82,11 +82,10 @@ const UploadArea = ({ multiple, onDrop, image }: UploadAreaProps) => {
   );
 };
 
-export default class ImageUpload extends Component {
-  props: Props;
+export default class ImageUpload extends Component<Props, State> {
   crop: Cropper;
 
-  state: State = {
+  state = {
     cropOpen: this.props.inModal || false,
     file: null,
     files: [],
@@ -142,15 +141,18 @@ export default class ImageUpload extends Component {
 
   onNameChange = (index: number, name: string) => {
     if (this.props.multiple) {
-      this.setState(state => ({
-        files: {
-          ...state.files,
-          [index]: {
-            ...state.files[index],
-            name
-          }
-        }
-      }));
+      this.setState(state => {
+        const files = state.files.slice();
+        // $FlowFixMe revamp File types
+        files[index] = {
+          ...files[index],
+          name
+        };
+
+        return {
+          files
+        };
+      });
     }
   };
 

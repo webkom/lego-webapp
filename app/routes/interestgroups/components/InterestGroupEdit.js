@@ -4,14 +4,12 @@ import GroupForm from 'app/components/GroupForm';
 import { Flex, Content } from 'app/components/Layout';
 import { Link } from 'react-router';
 
-export default class InterestGroupEdit extends Component {
-  props: {
-    interestGroup: Object,
-    initialValues: Object,
-    uploadFile: string => Promise<*>,
-    handleSubmitCallback: Object => Promise<*>
-  };
-
+export default class InterestGroupEdit extends Component<{
+  interestGroup: Object,
+  initialValues: Object,
+  uploadFile: string => Promise<*>,
+  handleSubmitCallback: Object => Promise<*>
+}> {
   render() {
     const {
       interestGroup,

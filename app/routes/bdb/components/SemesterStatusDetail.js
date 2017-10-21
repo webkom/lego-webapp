@@ -24,9 +24,11 @@ type Props = {
   addFileToSemester: (string, string, string, Object) => Promise<*>
 };
 
-export default class SemesterStatusDetail extends Component {
-  props: Props;
+type State = {
+  editing: boolean
+};
 
+export default class SemesterStatusDetail extends Component<Props, State> {
   state = {
     editing: false
   };

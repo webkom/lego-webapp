@@ -9,9 +9,11 @@ type Props = {
   height: number
 };
 
-class FancyNodesCanvas extends Component {
-  props: Props;
+type State = {
+  width: number
+};
 
+class FancyNodesCanvas extends Component<Props, State> {
   static defaultProps = {
     height: 160
   };

@@ -16,17 +16,15 @@ type Props = {
   className?: string
 };
 
-class FileUpload extends React.Component {
-  props: Props;
+class FileUpload extends React.Component<Props, State> {
+  input: ?HTMLInputElement;
 
-  input: HTMLInputElement;
-
-  state: State = {
+  state = {
     pending: false
   };
 
   handleClick = () => {
-    this.input.click();
+    this.input && this.input.click();
   };
 
   handleChange = e => {

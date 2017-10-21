@@ -13,9 +13,7 @@ type Props = {
   editChangedStatuses: (number, number, number, Array<string>) => ?Promise<*>
 };
 
-export default class CompanySingleRow extends Component {
-  props: Props;
-
+export default class CompanySingleRow extends Component<Props> {
   semesterElement = (index: number) => {
     const { startYear, startSem, company } = this.props;
     const result = indexToSemester(index, startYear, startSem);

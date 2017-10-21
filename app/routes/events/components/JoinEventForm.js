@@ -59,9 +59,7 @@ const SpotsLeft = ({ activeCapacity, spotsLeft }: SpotsLeftProps) => {
   return <div>Det er {spotsLeft} plasser igjen.</div>;
 };
 
-class JoinEventForm extends Component {
-  props: Props;
-
+class JoinEventForm extends Component<Props, State> {
   state: State = {
     time: null,
     formOpen: false,
@@ -365,6 +363,7 @@ function mapStateToProps(state, props) {
 }
 
 export default compose(
+  // $FlowFixMe
   connect(mapStateToProps, null),
   reduxForm({
     form: 'joinEvent',

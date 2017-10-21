@@ -19,9 +19,7 @@ type Props = {
   edit: string => Promise<*>
 };
 
-class ImageUploadField extends Component {
-  props: Props;
-
+class ImageUploadField extends Component<Props> {
   componentDidMount = () => {
     // hack for removing the inital url set by redux form
     this.props.onChange(null);

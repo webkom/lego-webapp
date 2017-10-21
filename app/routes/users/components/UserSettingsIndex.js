@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { type Element } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 
@@ -10,7 +10,7 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
 
 type Props = {
-  children: React$Element<*>,
+  children: Element<*>,
   currentUser: Object,
   isMe: boolean,
   params: {
@@ -58,5 +58,6 @@ const mapStateToProps = (state, props) => {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
+  // $FlowFixMe
   connect(mapStateToProps)
 )(UserSettingsIndex);

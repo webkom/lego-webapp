@@ -10,11 +10,12 @@ import type { Store } from 'app/types';
 
 const renderApp = (store: Store, history: any) => {
   match({ history, routes }, (error, redirectLocation, renderProps) => {
+    const rootElement: HTMLElement = (document.getElementById('root'): any);
     render(
       <AppContainer>
         <Root {...{ store, history, routes }} {...renderProps} />
       </AppContainer>,
-      document.getElementById('root')
+      rootElement
     );
   });
 };

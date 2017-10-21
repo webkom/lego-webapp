@@ -18,9 +18,11 @@ type Props = {
   style?: Object
 };
 
-export default class SemesterStatusContent extends Component {
-  props: Props;
+type State = {
+  displayDropdown: boolean
+};
 
+export default class SemesterStatusContent extends Component<Props, State> {
   state = {
     displayDropdown: false
   };
