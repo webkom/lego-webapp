@@ -58,7 +58,7 @@ export default class CompactEvents extends Component {
       'course'
     ]);
 
-    const rightEvents = mapEvents(['other', 'event']);
+    const rightEvents = mapEvents(['other', 'event', 'social', 'party']);
 
     if (!events.length) {
       return null;
