@@ -42,7 +42,7 @@ export function login(
           password
         },
         meta: {
-          errorMessage: 'Inlogging feilet'
+          errorMessage: 'Kunne ikke logge inn'
         }
       })
     ).then(action => {
