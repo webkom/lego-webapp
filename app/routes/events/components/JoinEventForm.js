@@ -18,9 +18,11 @@ import Time from 'app/components/Time';
 import { Flex } from 'app/components/Layout';
 import config from 'app/config';
 
+type Event = Object;
+
 export type Props = {
   title?: string,
-  event: Object /*TODO: Event*/,
+  event: Event,
   registration: Object,
   currentUser: Object,
   onSubmit: Object => void,
@@ -35,42 +37,80 @@ export type Props = {
   submitting: boolean
 };
 
+const COUNTDOWN_STARTS_WHEN_MINUTES_LEFT = 10;
+
+// How often to check when to start the real countdown
+const CHECK_COUNTDOWN_START_INTERVAL = 10000;
+
+// How often to run the countdown, should be <= 1000
+const COUNTDOWN_INTERVAL = 1000;
+
+// Must be sorted lo->hi
+const TICK_ACTIONS = [
+  [0, 'REGISTRATION_AVAILABLE'],
+  [60 * 1000, '1_MINUTE_LEFT'],
+  [Infinity, 'STILL_WAITING']
+];
+
 type State = {
-  time: any,
   formOpen: boolean,
   captchaOpen: boolean,
   buttonOpen: boolean
 };
 
-type SpotsLeftProps = {
-  activeCapacity: number,
-  spotsLeft: number
-};
-
-const SpotsLeft = ({ activeCapacity, spotsLeft }: SpotsLeftProps) => {
-  if (spotsLeft === 1) {
-    return <div>Det er 1 plass igjen.</div>;
-  }
-
-  if (spotsLeft === 0 && activeCapacity > 0) {
-    return <div>Det 0 plasser igjen, du blir registrert til venteliste.</div>;
-  }
-
-  return <div>Det er {spotsLeft} plasser igjen.</div>;
-};
-
 class JoinEventForm extends Component<Props, State> {
-  state: State = {
-    time: null,
+  state = {
     formOpen: false,
     captchaOpen: false,
     buttonOpen: false
   };
 
-  counter = undefined;
+  countdownProbeTimer: number;
+  countdownTimer: number;
+
+  reducer = (state, action): State => {
+    switch (action) {
+      case 'REGISTRATION_AVAILABLE':
+        return {
+          buttonOpen: true,
+          formOpen: true,
+          captchaOpen: true
+        };
+
+      case '1_MINUTE_LEFT':
+        return {
+          captchaOpen: true,
+          formOpen: true,
+          buttonOpen: false
+        };
+
+      case 'REGISTERED_OR_REGISTRATION_ALREADY_OPENED':
+        return {
+          formOpen: true,
+          captchaOpen: true,
+          buttonOpen: true
+        };
+
+      case 'REGISTRATION_NOT_AVAILABLE':
+        return {
+          ...state,
+          formOpen: true
+        };
+
+      case 'RESET':
+        return {
+          formOpen: false,
+          captchaOpen: false,
+          buttonOpen: false
+        };
+
+      default:
+        return state;
+    }
+  };
 
   componentDidMount() {
-    this.parseEventTimes(this.props.event, this.props.registration);
+    this.setupEventCountdown(this.props.event, this.props.registration);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -78,83 +118,93 @@ class JoinEventForm extends Component<Props, State> {
       (nextProps.event.activationTime && !this.props.event.activationTime) ||
       nextProps.registration !== this.props.registration
     ) {
-      this.setState({ formOpen: false });
-      this.parseEventTimes(nextProps.event, nextProps.registration);
+      this.dispatch('RESET');
+      this.setupEventCountdown(nextProps.event, nextProps.registration);
     }
   }
 
   componentWillUnmount() {
-    clearInterval(this.counter);
+    clearInterval(this.countdownProbeTimer);
+    clearInterval(this.countdownTimer);
   }
 
-  parseEventTimes = ({ activationTime, startTime }, registration) => {
+  dispatch(action) {
+    this.setState(state => this.reducer(state, action));
+  }
+
+  setupEventCountdown = (event, registration) => {
+    const { activationTime, startTime } = event;
     const poolActivationTime = moment(activationTime);
     const currentTime = moment();
-    const diffTime = poolActivationTime.diff(currentTime);
-    let duration = moment.duration(diffTime, 'milliseconds');
-    if (
-      (!registration && !activationTime) ||
-      currentTime.isAfter(moment(startTime).subtract(2, 'hours'))
-    ) {
-      // Do nothing
-      // TODO: the 2 hour subtract is a hardcoded close time and should be improved
-    } else if (poolActivationTime.isBefore(currentTime) || registration) {
-      this.setState({
-        formOpen: true,
-        captchaOpen: true,
-        buttonOpen: true
-      });
-    } else if (poolActivationTime.day() > currentTime.day()) {
-      this.setState({
-        time: poolActivationTime
-      });
-    } else if (duration.asMinutes() > 10) {
-      this.setState({
-        time: poolActivationTime
-      });
-      const interval = 10000;
-      this.counter = setInterval(() => {
-        const diff = duration - interval;
-        duration = moment.duration(diff, 'milliseconds');
-        if (diff < 600000) {
-          clearInterval(this.counter);
-          this.initiateCountdown(duration);
-        }
-      }, interval);
-    } else {
-      this.initiateCountdown(duration);
+
+    const timeUntilRegistrationOpens = getTimeUntil(event.activationTime);
+
+    // TODO: the 2 hour subtract is a hardcoded close time and should be improved
+    const registrationIsClosed = currentTime.isAfter(
+      moment(startTime).subtract(2, 'hours')
+    );
+
+    if ((!registration && !activationTime) || registrationIsClosed) {
+      this.dispatch('REGISTRATION_NOT_AVAILABLE');
+      return;
     }
+
+    if (registration || poolActivationTime.isBefore(currentTime)) {
+      this.dispatch('REGISTERED_OR_REGISTRATION_ALREADY_OPENED');
+      return;
+    }
+
+    if (
+      timeUntilRegistrationOpens.asMinutes() <=
+      COUNTDOWN_STARTS_WHEN_MINUTES_LEFT
+    ) {
+      this.initiateCountdown(poolActivationTime);
+      return;
+    }
+
+    const poll = () => {
+      const timeUntilRegistrationOpens = getTimeUntil(poolActivationTime);
+
+      if (
+        timeUntilRegistrationOpens.asMinutes() <=
+        COUNTDOWN_STARTS_WHEN_MINUTES_LEFT
+      ) {
+        clearInterval(this.countdownProbeTimer);
+        this.initiateCountdown(poolActivationTime);
+      }
+    };
+
+    poll();
+    this.countdownProbeTimer = setInterval(
+      poll,
+      CHECK_COUNTDOWN_START_INTERVAL
+    );
   };
 
-  initiateCountdown(duration) {
-    const interval = 1000;
+  initiateCountdown(finishTime) {
+    const poll = () => {
+      const timeUntilRegistrationOpens = getTimeUntil(finishTime);
 
-    duration += 1000;
-    this.counter = setInterval(() => {
-      duration = moment.duration(duration, 'milliseconds') - interval;
-      if (duration <= 1000) {
-        clearInterval(this.counter);
-        this.setState({
-          time: null,
-          buttonOpen: true
-        });
-        return;
+      if (timeUntilRegistrationOpens.asMilliseconds() <= 0) {
+        clearInterval(this.countdownTimer);
       }
-      if (duration < 60000) {
-        this.setState({
-          captchaOpen: true
-        });
+
+      const [, action] =
+        TICK_ACTIONS.find(
+          ([time, action]) =>
+            timeUntilRegistrationOpens.asMilliseconds() <= time
+        ) || [];
+
+      if (action) {
+        this.dispatch(action);
       }
-      this.setState({
-        time: moment(duration).format('mm:ss')
-      });
-    }, interval);
-    this.setState({
-      formOpen: true
-    });
+    };
+
+    poll();
+    this.countdownTimer = setInterval(poll, COUNTDOWN_INTERVAL);
   }
 
-  submitWithType = (handleSubmit, feedbackName, type = null) => {
+  submitWithType = (handleSubmit, feedbackName, type) => {
     if (type === 'unregister') {
       return handleSubmit(() =>
         this.props.onSubmit({
@@ -162,6 +212,7 @@ class JoinEventForm extends Component<Props, State> {
         })
       );
     }
+
     return handleSubmit(values => {
       const feedback = values[feedbackName];
       if (this.props.event.feedbackRequired && !feedback) {
@@ -169,6 +220,7 @@ class JoinEventForm extends Component<Props, State> {
           feedbackRequired: 'Tilbakemelding er påkrevet for dette arrangementet'
         });
       }
+
       return this.props.onSubmit({
         captchaResponse: values.captchaResponse,
         feedback,
@@ -191,25 +243,29 @@ class JoinEventForm extends Component<Props, State> {
       submitting
     } = this.props;
 
-    const isInvalid = this.state.time !== null || invalid;
+    const registrationOpensIn = event.activationTime
+      ? moment(getTimeUntil(event.activationTime))
+      : null;
+
+    const isInvalid = registrationOpensIn !== null || invalid;
     const isPristine = event.feedbackRequired && pristine;
     const disabledButton = !registration
       ? isInvalid || isPristine || submitting
       : null;
+
     const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
     const registrationType = !registration ? 'register' : 'unregister';
-    const feedbackName = getFeedbackName(event.feedbackRequired);
-    let feedbackLabel = event.feedbackRequired
-      ? 'NB: Dette arrangementet krever tilbakemelding'
-      : 'Tilbakemelding';
-    feedbackLabel = event.feedbackDescription
-      ? `${feedbackLabel}: ${event.feedbackDescription}`
-      : feedbackLabel;
+
+    const feedbackName = getFeedbackName(event);
+    const feedbackLabel = getFeedbackLabel(event);
+
     const showStripe =
       event.isPriced &&
+      event.price > 0 &&
       registration &&
       registration.pool &&
       !['pending', 'succeeded'].includes(registration.chargeStatus);
+
     return (
       <Flex column className={styles.join}>
         <div className={styles.joinHeader}>Bli med på dette arrangementet</div>
@@ -219,16 +275,21 @@ class JoinEventForm extends Component<Props, State> {
             <span>Regler for Abakus&#39; arrangementer</span>
           </Flex>
         </Link>
+
         {!this.state.formOpen &&
-          this.state.time && (
+          event.activationTime && (
             <div>
-              Åpner <Time time={this.state.time} format="nowToTimeInWords" />
+              Åpner{' '}
+              <Time time={event.activationTime} format="nowToTimeInWords" />
             </div>
           )}
+
         {!this.state.formOpen &&
-          !this.state.time && (
+          !registration &&
+          !event.activationTime && (
             <div>Du kan ikke melde deg på dette arrangementet.</div>
           )}
+
         {this.state.formOpen && (
           <Flex column>
             <UpdateAllergies
@@ -249,6 +310,7 @@ class JoinEventForm extends Component<Props, State> {
                 name={feedbackName}
                 component={TextEditor.Field}
               />
+
               {registration && (
                 <div>
                   <Button
@@ -275,11 +337,14 @@ class JoinEventForm extends Component<Props, State> {
                     component={Captcha.Field}
                   />
                 )}
-              {this.state.time && (
-                <Button disabled={disabledButton}>
-                  {`Åpner om ${this.state.time}`}
-                </Button>
-              )}
+
+              {event.activationTime &&
+                registrationOpensIn && (
+                  <Button disabled={disabledButton}>
+                    {`Åpner om ${registrationOpensIn.format('mm:ss')}`}
+                  </Button>
+                )}
+
               {this.state.buttonOpen &&
                 !submitting && (
                   <Flex alignItems="center">
@@ -290,12 +355,8 @@ class JoinEventForm extends Component<Props, State> {
                     >
                       {title || joinTitle}
                     </Button>
-                    {!registration && (
-                      <SpotsLeft
-                        activeCapacity={event.activeCapacity}
-                        spotsLeft={event.spotsLeft}
-                      />
-                    )}
+
+                    {!registration && <div>{getSpotsLeftMessage(event)}</div>}
                   </Flex>
                 )}
               {submitting && (
@@ -307,30 +368,60 @@ class JoinEventForm extends Component<Props, State> {
             </Form>
           </Flex>
         )}
-        {showStripe &&
-          event.price && (
-            <StripeCheckout
-              name="Abakus Linjeforening"
-              description={event.title}
-              image={logoImage}
-              currency="NOK"
-              allowRememberMe={false}
-              locale="no"
-              token={onToken}
-              stripeKey={config.stripeKey}
-              amount={event.price}
-              email={currentUser.email}
-            >
-              <Button>Betal nå</Button>
-            </StripeCheckout>
-          )}
+
+        {showStripe && (
+          <StripeCheckout
+            name="Abakus Linjeforening"
+            description={event.title}
+            image={logoImage}
+            currency="NOK"
+            allowRememberMe={false}
+            locale="no"
+            token={onToken}
+            stripeKey={config.stripeKey}
+            amount={event.price}
+            email={currentUser.email}
+          >
+            <Button>Betal nå</Button>
+          </StripeCheckout>
+        )}
       </Flex>
     );
   }
 }
 
-function getFeedbackName(feedbackRequired) {
-  return feedbackRequired ? 'feedbackRequired' : 'feedback';
+function getTimeDifference(first: moment, second: moment): number {
+  return moment(first).diff(moment(second));
+}
+
+function getTimeUntil(time, currentTime = moment()): moment$MomentDuration {
+  return moment.duration(getTimeDifference(time, currentTime));
+}
+
+function getFeedbackName(event: Event) {
+  return event.feedbackRequired ? 'feedbackRequired' : 'feedback';
+}
+
+function getFeedbackLabel(event: Event) {
+  const feedbackLabel = event.feedbackRequired
+    ? 'NB: Dette arrangementet krever tilbakemelding'
+    : 'Tilbakemelding';
+
+  return event.feedbackDescription
+    ? `${feedbackLabel}: ${event.feedbackDescription}`
+    : feedbackLabel;
+}
+
+function getSpotsLeftMessage(event: Event) {
+  if (event.spotsLeft === 1) {
+    return 'Det er 1 plass igjen';
+  }
+
+  if (event.spotsLeft === 0 && event.activeCapacity > 0) {
+    return 'Det 0 plasser igjen, du blir registrert til venteliste.';
+  }
+
+  return `Det er ${event.spotsLeft} plasser igjen`;
 }
 
 function validateEventForm(data, props) {
