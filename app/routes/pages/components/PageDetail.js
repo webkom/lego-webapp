@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 // @flow
 
-import * as React from 'react';
+import React, { type Node } from 'react';
 import styles from './PageDetail.css';
 import { Link } from 'react-router';
 import { Flex } from 'app/components/Layout';
@@ -24,7 +24,7 @@ type Props<T> = {
   selectedPage: T,
   currentUrl: string,
   selectedPageInfo: PageInfo,
-  PageRenderer: ({ page: T }) => React.Element<*>,
+  PageRenderer: ({ page: T }) => Node,
   pageHierarchy: Array<HierarchySectionEntity>
 };
 

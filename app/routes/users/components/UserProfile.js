@@ -28,9 +28,7 @@ type Props = {
   isMe: Boolean
 };
 
-export default class UserProfile extends Component {
-  props: Props;
-
+export default class UserProfile extends Component<Props> {
   renderFields() {
     const { user } = this.props;
     const fields = Object.keys(fieldTranslations).filter(field => user[field]);

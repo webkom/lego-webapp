@@ -1,6 +1,6 @@
 /** @flow */
 
-import React, { Component } from 'react';
+import React, { Component, type Node } from 'react';
 import { Overlay } from 'react-overlays';
 import cx from 'classnames';
 import Icon from 'app/components/Icon';
@@ -12,15 +12,14 @@ type Props = {
   className?: string,
   contentClassName?: string,
   componentClass: any,
-  triggerComponent?: React.Element<*>,
+  triggerComponent?: Node,
   show: boolean,
   children?: any,
   style?: any,
   placement: 'top' | 'bottom' | 'left' | 'right'
 };
 
-class Dropdown extends Component {
-  props: Props;
+class Dropdown extends Component<Props> {
   target: any;
 
   static defaultProps = {

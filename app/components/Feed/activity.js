@@ -20,9 +20,7 @@ type State = {
   expanded: boolean
 };
 
-export default class CommentRenderer extends Component {
-  props: Props;
-
+export default class CommentRenderer extends Component<Props, State> {
   state: State = {
     expanded: false
   };

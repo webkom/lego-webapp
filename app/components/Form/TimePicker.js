@@ -26,14 +26,15 @@ type Props = {
   onChange: any => void
 };
 
+type State = {
+  value: moment
+};
+
 function parseValue(value) {
   return value ? moment(value) : moment();
 }
 
-// @Todo: prettify
-class TimePicker extends Component {
-  props: Props;
-
+class TimePicker extends Component<Props, State> {
   static defaultProps = {
     value: ''
   };

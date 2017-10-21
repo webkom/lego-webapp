@@ -12,9 +12,11 @@ type Props = {
   sendRegistrationEmail: ({ email: string, captchaResponse: string }) => any
 } & FormProps;
 
-class RegisterForm extends Component {
-  props: Props;
+type State = {
+  submitted: boolean
+};
 
+class RegisterForm extends Component<Props, State> {
   mounted = false;
   state = {
     submitted: false

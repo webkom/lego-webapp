@@ -37,12 +37,13 @@ type Props = {
   editCompany: Object => void
 };
 
-export default class BdbDetail extends Component {
-  props: Props;
+type State = {
+  addingFiles: boolean
+};
 
+export default class BdbDetail extends Component<Props, State> {
   state = {
-    addingFiles: false,
-    changedFiles: []
+    addingFiles: false
   };
 
   semesterStatusOnChange = (semesterStatus: Object, statusString: string) => {

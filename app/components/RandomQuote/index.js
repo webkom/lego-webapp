@@ -10,9 +10,11 @@ type Props = {
   loggedIn: boolean
 };
 
-class RandomQuote extends Component {
-  props: Props;
+type State = {
+  currentQuote: /*TODO: Quote*/ Object
+};
 
+class RandomQuote extends Component<Props, State> {
   state = {
     currentQuote: {}
   };

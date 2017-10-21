@@ -1,20 +1,33 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Component, type ComponentType } from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { autocomplete } from 'app/actions/SearchActions';
 import { debounce } from 'lodash';
 
-type Props = {
-  filter: Array<string>
+type InjectedProps = {
+  filter: Array<string>,
+  autocomplete: (query: string, filter?: Array<string>) => Promise<*>
 };
 
-function withAutocomplete(WrappedComponent: any) {
-  return class extends Component {
+type State = {
+  searching: boolean,
+  result: Array</*Todo: AutocompleteResult */ Object>
+};
+
+function withAutocomplete<Props: {}>(WrappedComponent: ComponentType<Props>) {
+  const displayName =
+    WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
+
+  return class extends Component<InjectedProps & Props, State> {
+    static displayName = `Autocomplete(${displayName})`;
+
     state = {
       searching: false,
       result: []
     };
+
     _isMounted = false;
 
     componentDidMount() {
@@ -29,6 +42,7 @@ function withAutocomplete(WrappedComponent: any) {
       this.setState({
         searching: true
       });
+
       this.props
         .autocomplete(query, filter)
         .then(result => {
@@ -47,8 +61,9 @@ function withAutocomplete(WrappedComponent: any) {
     };
 
     render() {
-      const { filter, ...restProps }: Props = this.props;
+      const { filter, autocomplete, ...restProps } = this.props;
       return (
+        // $FlowFixMe
         <WrappedComponent
           {...restProps}
           options={this.state.result}
@@ -64,5 +79,4 @@ const mapDispatchToProps = {
   autocomplete
 };
 
-export default (WrappedComponent: any) =>
-  connect(null, mapDispatchToProps)(withAutocomplete(WrappedComponent));
+export default compose(connect(null, mapDispatchToProps), withAutocomplete);

@@ -25,8 +25,7 @@ const Error = ({ error }: ErrorProps) => (
   <p style={{ color: '#c24538' }}>{error}</p>
 );
 
-class LoginForm extends Component {
-  props: Props;
+class LoginForm extends Component<Props> {
   usernameRef: Field;
   passwordRef: Field;
 

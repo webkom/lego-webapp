@@ -1,13 +1,13 @@
 // @flow
 
-import React from 'react';
+import React, { type Node } from 'react';
 import { Link } from 'react-router';
 
 import styles from './NavigationLink.css';
 
 type Props = {
   to: string,
-  children: React$Element<*>
+  children: Node
 };
 
 const NavigationLink = (props: Props) => {

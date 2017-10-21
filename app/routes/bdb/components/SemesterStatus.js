@@ -16,9 +16,11 @@ type Props = {
   semIndex: number
 };
 
-export default class SemesterStatus extends Component {
-  props: Props;
+type State = {
+  displayDropdown: boolean
+};
 
+export default class SemesterStatus extends Component<Props, State> {
   state = {
     displayDropdown: false
   };

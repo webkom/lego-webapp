@@ -8,21 +8,29 @@ import type { CompanyEntity } from 'app/reducers/companies';
 
 type Props = {
   companies: Array<CompanyEntity>,
-  updateFilters: (string, boolean | string) => void,
+  updateFilters: (string, mixed) => void,
   removeFilters: string => void,
   filters: Object
 };
 
-export default class OptionsBox extends Component {
+type State = {
+  active: boolean,
+  studentContact: boolean,
+  values: {
+    active: boolean,
+    studentContact: /*TODO: StudentContact */ any
+  }
+};
+
+export default class OptionsBox extends Component<Props, State> {
   state = {
     active: false,
     studentContact: false,
     values: {
-      active: true
+      active: true,
+      studentContact: {}
     }
   };
-
-  props: Props;
 
   toggleSection = (section: string) => {
     const { filters, updateFilters, removeFilters } = this.props;
@@ -36,7 +44,7 @@ export default class OptionsBox extends Component {
     this.setState(state);
   };
 
-  updateFilters = (name: string, value: boolean) => {
+  updateFilters = (name: string, value: mixed) => {
     const { updateFilters } = this.props;
     this.setState(state => ({
       ...state,

@@ -23,9 +23,15 @@ type Props = {
   companySemesters: Array<CompanySemesterEntity>
 };
 
-export default class BdbPage extends Component {
-  props: Props;
+type State = {
+  startYear: number,
+  startSem: number,
+  submitted: boolean,
+  filters: { [key: string]: Object },
+  searchQuery: string
+};
 
+export default class BdbPage extends Component<Props, State> {
   state = {
     startYear: 2016,
     startSem: 0,
@@ -99,7 +105,7 @@ export default class BdbPage extends Component {
     }
   };
 
-  updateFilters = (name: string, value: string | boolean) => {
+  updateFilters = (name: string, value: mixed) => {
     // For OptionsBox
     const filters = { ...this.state.filters, [name]: value };
     this.setState({ filters });

@@ -9,9 +9,11 @@ type Props = {
   className?: string
 };
 
-class Image extends Component {
-  props: Props;
+type State = {
+  loaded: boolean
+};
 
+class Image extends Component<Props, State> {
   state = {
     loaded: false
   };

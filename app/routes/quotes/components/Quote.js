@@ -21,9 +21,12 @@ type Props = {
   comments: Object
 };
 
-export default class Quote extends Component {
-  props: Props;
+type State = {
+  deleting: boolean,
+  showComments: boolean
+};
 
+export default class Quote extends Component<Props, State> {
   state = {
     deleting: false,
     showComments: true

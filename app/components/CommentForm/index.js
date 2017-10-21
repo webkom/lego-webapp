@@ -31,9 +31,7 @@ type Props = FieldProps & {
   inlineMode: boolean
 };
 
-class CommentForm extends Component {
-  props: Props;
-
+class CommentForm extends Component<Props> {
   static defaultProps = {
     submitText: 'Kommenter',
     autoFocus: false

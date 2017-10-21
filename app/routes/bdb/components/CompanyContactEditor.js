@@ -25,7 +25,7 @@ type Props = {
   fetching: boolean
 };
 
-class CompanyContactEditor extends Component {
+class CompanyContactEditor extends Component<Props> {
   onSubmit = formContent => {
     const { company, companyContact, submitFunction } = this.props;
     return submitFunction(
@@ -37,8 +37,6 @@ class CompanyContactEditor extends Component {
       { detail: true }
     );
   };
-
-  props: Props;
 
   render() {
     const {
