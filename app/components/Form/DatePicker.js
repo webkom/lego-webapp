@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import cx from 'classnames';
 import Dropdown from 'app/components/Dropdown';
 import Icon from 'app/components/Icon';

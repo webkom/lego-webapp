@@ -9,7 +9,7 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import MeetingList from './components/MeetingList';
 import { selectPagination } from '../../reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 const mapStateToProps = (state, props) => {
   const dateAfter = moment().format('YYYY-MM-DD');

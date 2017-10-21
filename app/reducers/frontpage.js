@@ -1,4 +1,4 @@
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { sortBy } from 'lodash';
 import { createSelector } from 'reselect';
 import { selectArticles } from './articles';

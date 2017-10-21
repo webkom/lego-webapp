@@ -2,7 +2,7 @@
 /* eslint no-console: 0 */
 
 import 'babel-polyfill';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { isEmpty } from 'lodash';

@@ -7,7 +7,7 @@ import CommentView from 'app/components/Comments/CommentView';
 import Tag from 'app/components/Tags/Tag';
 import Tags from 'app/components/Tags';
 import { Link } from 'react-router';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import DisplayContent from 'app/components/DisplayContent';
 import type { ArticleEntity } from 'app/reducers/articles';
 import type { UserEntity } from 'app/reducers/users';

@@ -1,10 +1,10 @@
 // @flow
 
 import { Meeting } from '../actions/ActionTypes';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import type Moment from 'moment';
+import type Moment from 'moment-timezone';
 
 export type MeetingEntity = {
   id: number,

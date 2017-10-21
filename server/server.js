@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import express from 'express';
 import morgan from 'morgan';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import bunyan from 'bunyan';
 import Raven from 'raven';
 import render from './render';

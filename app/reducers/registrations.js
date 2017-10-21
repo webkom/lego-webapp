@@ -6,7 +6,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import { normalize } from 'normalizr';
 import { eventSchema, registrationSchema } from 'app/reducers';
 import mergeObjects from 'app/utils/mergeObjects';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 export default createEntityReducer({
   key: 'registrations',

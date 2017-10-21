@@ -10,7 +10,7 @@ import Button from 'app/components/Button';
 import Editor from 'app/components/Editor';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { AttendanceStatus } from 'app/components/UserAttendance';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { statusesText, statuses } from 'app/reducers/meetingInvitations';
 
