@@ -47,6 +47,9 @@ module.exports = {
 
   plugins: getDependencyHandlers().concat(
     compact([
+      // Explicitly import the moment locales we care about:
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(!isProduction),
         __CLIENT__: true,
@@ -59,9 +62,6 @@ module.exports = {
       !isProduction && new webpack.HotModuleReplacementPlugin(),
       !isProduction && new webpack.NoEmitOnErrorsPlugin(),
       new webpack.optimize.ModuleConcatenationPlugin(),
-
-      // Only include the Norwegian moment locale:
-      new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /nb-NO/),
 
       new webpack.optimize.UglifyJsPlugin({
         compress: {
