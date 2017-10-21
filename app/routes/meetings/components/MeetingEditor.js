@@ -196,10 +196,8 @@ export default reduxForm({
       errors.startTime = 'Du må velge sluttidspunkt';
     }
 
-    // $FlowFixMe
     const startTime = moment.tz(values.startTime, config.timezone);
 
-    // $FlowFixMe
     const endTime = moment.tz(values.endTime, config.timezone);
     if (startTime > endTime) {
       errors.endTime = 'Sluttidspunkt kan ikke være før starttidspunkt!';
