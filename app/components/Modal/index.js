@@ -1,8 +1,22 @@
-import React, { Component } from 'react';
+// @flow
+
+import React, { Component, type Node } from 'react';
 import { Modal as ReactModal } from 'react-overlays';
 import cx from 'classnames';
 import Icon from 'app/components/Icon';
 import styles from './Modal.css';
+
+type Props = {
+  children: Node,
+  onHide: () => any,
+  closeOnBackdropClick: boolean,
+  show: boolean,
+  keyboard: boolean,
+  onKeyDown: (e: KeyboardEvent) => void,
+  contentClassName?: string,
+  backdropClassName?: string,
+  backdrop?: boolean
+};
 
 /**
  * A wrapper around react-overlays's modal that comes with a default style, a close
@@ -10,12 +24,14 @@ import styles from './Modal.css';
  * on the modal when clicking on the backdrop. Particurlarly useful for modal
  * forms where you don't want it to close when users accidentally click outside.
  */
-class Modal extends Component {
+class Modal extends Component<Props> {
   static defaultProps = {
-    closeOnBackdropClick: true
+    closeOnBackdropClick: true,
+    keyboard: true,
+    onKeyDown: () => {}
   };
 
-  modal: ReactModal;
+  modal: ?ReactModal;
 
   render() {
     const {
@@ -41,6 +57,7 @@ class Modal extends Component {
             <button onClick={onHide} className={styles.closeButton}>
               <Icon name="close" />
             </button>
+
             {children}
           </div>
         </div>
