@@ -194,6 +194,7 @@ export default class ImageUpload extends Component<Props, State> {
                 />
               </div>
             )}
+          {/* $FlowFixMe */}
           {preview && (
             <Cropper
               ref={node => {
