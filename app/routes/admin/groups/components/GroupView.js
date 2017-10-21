@@ -1,9 +1,20 @@
-/* eslint-disable react/prop-types */
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// @flow
+
+import React, { Component, type Element } from 'react';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 
-const Group = props => {
+type GroupModel = {
+  name: string,
+  description: string,
+  text: ?string
+};
+
+type GroupProps = {
+  group: GroupModel,
+  children?: Element<*>
+};
+
+const Group = (props: GroupProps) => {
   const { description } = props.group;
   const descriptionText =
     description && description.length ? `(${description})` : '';
@@ -20,12 +31,11 @@ const Group = props => {
   );
 };
 
-export default class GroupView extends Component {
-  static propTypes = {
-    group: PropTypes.object,
-    children: PropTypes.object.isRequired
-  };
+type GroupViewProps = {
+  group: GroupModel
+};
 
+export default class GroupView extends Component<GroupViewProps> {
   render() {
     const { group } = this.props;
     // We're loading a detailed representation of a group,
