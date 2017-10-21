@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { compose } from 'redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { Form, Captcha, TextEditor } from 'app/components/Form';
 import Button from 'app/components/Button';
 import UpdateAllergies from './UpdateAllergies';
@@ -114,7 +114,6 @@ class JoinEventForm extends Component<Props, State> {
       });
       const interval = 10000;
       this.counter = setInterval(() => {
-        // $FlowFixMe
         const diff = duration - interval;
         duration = moment.duration(diff, 'milliseconds');
         if (diff < 600000) {
@@ -130,10 +129,8 @@ class JoinEventForm extends Component<Props, State> {
   initiateCountdown(duration) {
     const interval = 1000;
 
-    // $FlowFixMe
     duration += 1000;
     this.counter = setInterval(() => {
-      // $FlowFixMe Does this work now?
       duration = moment.duration(duration, 'milliseconds') - interval;
       if (duration <= 1000) {
         clearInterval(this.counter);

@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { RegisteredElement, UnregisteredElement } from './RegistrationElements';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import AdminRegisterForm from './AdminRegisterForm';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { Flex } from 'app/components/Layout';
 
 /**

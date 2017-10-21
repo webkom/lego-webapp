@@ -9,7 +9,7 @@ import {
 } from '../../actions/CompanyActions';
 import { selectCompanies } from 'app/reducers/companies';
 import AddSemester from './components/AddSemester';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { uploadFile } from 'app/actions/FileActions';

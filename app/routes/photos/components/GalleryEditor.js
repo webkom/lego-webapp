@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import Button from 'app/components/Button';
 import {
   TextInput,

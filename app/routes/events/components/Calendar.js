@@ -3,7 +3,7 @@
 import styles from './Calendar.css';
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { Link } from 'react-router';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import CalendarCell from './CalendarCell';

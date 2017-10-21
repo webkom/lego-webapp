@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import Icon from 'app/components/Icon';
 import TextInput from './TextInput';
 import { createField } from './Field';
@@ -72,7 +72,6 @@ class TimePicker extends Component<Props, State> {
   onChange = (unit: 'hour' | 'minute') => () => {
     this.setState(
       {
-        // $FlowFixMe
         value: this.state.value.clone()[unit].call(null, 1)
       },
       this.commit

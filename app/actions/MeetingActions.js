@@ -4,7 +4,7 @@ import { Meeting } from './ActionTypes';
 import { meetingSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { startSubmit, stopSubmit } from 'redux-form';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import type { Thunk } from 'app/types';
 import type { UserEntity } from 'app/reducers/users';
 import createQueryString from 'app/utils/createQueryString';

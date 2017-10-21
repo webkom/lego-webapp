@@ -4,7 +4,7 @@ import { formValueSelector } from 'redux-form';
 import { createEvent } from 'app/actions/EventActions';
 import { uploadFile } from 'app/actions/FileActions';
 import EventEditor from './components/EventEditor';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { LoginPage } from 'app/components/LoginForm';
 import { transformEvent } from './utils';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';

@@ -3,7 +3,7 @@
 import { createSelector } from 'reselect';
 import { Announcements } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 export default createEntityReducer({
   key: 'announcements',
