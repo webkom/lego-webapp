@@ -3,6 +3,7 @@
 
 import 'babel-polyfill';
 import moment from 'moment-timezone';
+import 'moment/locale/nb';
 import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { isEmpty } from 'lodash';
