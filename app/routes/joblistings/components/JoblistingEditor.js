@@ -10,7 +10,7 @@ import {
   DatePicker
 } from 'app/components/Form';
 import Button from 'app/components/Button';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import config from 'app/config';
 import { Content } from 'app/components/Layout';
 import { Flex } from 'app/components/Layout';

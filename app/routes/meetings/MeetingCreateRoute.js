@@ -8,7 +8,7 @@ import {
   inviteUsersAndGroups
 } from 'app/actions/MeetingActions';
 import { formValueSelector } from 'redux-form';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 

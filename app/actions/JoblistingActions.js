@@ -5,7 +5,7 @@ import callAPI from 'app/actions/callAPI';
 import { Joblistings } from './ActionTypes';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import type { Thunk } from 'app/types';
 
 export function fetchAll() {

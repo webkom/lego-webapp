@@ -7,7 +7,7 @@ import { dispatched } from '@webkom/react-prepare';
 import { fetchList } from 'app/actions/EventActions';
 import EventList from './components/EventList';
 import { selectSortedEvents } from 'app/reducers/events';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import { selectPagination } from '../../reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
 

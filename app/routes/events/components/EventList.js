@@ -3,7 +3,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import Helmet from 'react-helmet';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import Time from 'app/components/Time';
 import Pill from 'app/components/Pill';
 import { Image } from 'app/components/Image';

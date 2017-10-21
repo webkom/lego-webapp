@@ -5,7 +5,7 @@ import colorForEvent from 'app/routes/events/colorForEvent';
 import truncateString from 'app/utils/truncateString';
 import { Flex } from 'app/components/Layout';
 import Time from 'app/components/Time';
-import moment from 'moment';
+import moment from 'moment-timezone';
 
 type Props = {
   events: Array<Object>
