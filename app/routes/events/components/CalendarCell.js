@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import moment from 'moment-timezone';
 import { connect } from 'react-redux';
@@ -9,15 +11,16 @@ import Popover from 'app/components/Popover';
 import { colorForEvent } from '../utils';
 import styles from './Calendar.css';
 import Pill from 'app/components/Pill';
+import type { Event } from 'app/models';
 
-const Event = ({
+const renderEvent = ({
   id,
   title,
   description,
   eventType,
   registrationCount,
   totalCapacity
-}) => (
+}: Event) => (
   <Popover
     key={id}
     render={() => (
@@ -45,10 +48,22 @@ const Event = ({
   </Popover>
 );
 
+type CalendarCellProps = {
+  day: moment,
+  className: string,
+  prevOrNextMonth: boolean,
+  events: Array<Event>
+};
+
 /**
  * Represents a cell in the calendar
  */
-const CalendarCell = ({ day, className, prevOrNextMonth, events = [] }) => (
+const CalendarCell = ({
+  day,
+  className,
+  prevOrNextMonth,
+  events = []
+}: CalendarCellProps) => (
   <div
     className={cx(
       styles.day,
@@ -57,7 +72,7 @@ const CalendarCell = ({ day, className, prevOrNextMonth, events = [] }) => (
     )}
   >
     <strong className={styles.dayNumber}>{day.date()}</strong>
-    {events.map(Event)}
+    {events.map(renderEvent)}
   </div>
 );
 
@@ -77,4 +92,5 @@ function mapStateToProps(state, ownProps) {
   };
 }
 
+// $FlowFixMe
 export default connect(mapStateToProps)(CalendarCell);

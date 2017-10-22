@@ -1,3 +1,5 @@
+// @flow
+
 import styles from './Administrate.css';
 import React from 'react';
 import { Link } from 'react-router';
@@ -6,16 +8,36 @@ import Tooltip from 'app/components/Tooltip';
 import Time from 'app/components/Time';
 import cx from 'classnames';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import type {
+  EventRegistration,
+  EventRegistrationPresence,
+  EventRegistrationChargeStatus,
+  ID
+} from 'app/models';
 
-export const RegisteredElement = props => {
-  const {
-    registration,
-    handlePresence,
-    handlePayment,
-    handleUnregister,
-    clickedUnregister,
-    showUnregister
-  } = props;
+type Props = {
+  registration: EventRegistration,
+  handlePresence: (
+    registrationId: ID,
+    presence: EventRegistrationPresence
+  ) => void,
+  handlePayment: (
+    registrationId: ID,
+    chargeStatus: EventRegistrationChargeStatus
+  ) => void,
+  handleUnregister: (registrationId: ID) => void,
+  clickedUnregister: ID,
+  showUnregister: boolean
+};
+
+export const RegisteredElement = ({
+  registration,
+  handlePresence,
+  handlePayment,
+  handleUnregister,
+  clickedUnregister,
+  showUnregister
+}: Props) => {
   const transparency = (variable, value) =>
     variable !== value && styles.transparent;
 
@@ -138,7 +160,13 @@ export const RegisteredElement = props => {
   );
 };
 
-export const UnregisteredElement = ({ registration }) => {
+type UnregisteredElementProps = {
+  registration: EventRegistration
+};
+
+export const UnregisteredElement = ({
+  registration
+}: UnregisteredElementProps) => {
   return (
     <li className={styles.unregisteredList}>
       <div className={styles.col}>

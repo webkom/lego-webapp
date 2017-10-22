@@ -1,21 +1,13 @@
 // @flow
 
-/**
- * Type of entity IDs in our app. The fact that it is a string is an
- * implementation detail and not revealed to consuming code. Therefore, one
- * must use the utility functions toId and idToString when dealing with them.
- */
-type ID = string;
+import moment from 'moment';
 
-export const toId = (value: string | number): ID => {
-  if (typeof value === 'number') {
-    return value.toString();
-  }
+// TODO: Id handling could be opaque
+export type ID = number;
 
-  return value;
-};
+export type Dateish = moment | Date | string;
 
-export const idToString = (value: ID): string => value;
+export type ActionGrant = Array<string>;
 
 export type GalleryPictureDto = {
   description?: string,
@@ -29,3 +21,86 @@ export type GalleryPicture = {
   active: boolean,
   file: string
 };
+
+type EventType =
+  | 'company_presentation'
+  | 'lunch_presentation'
+  | 'course'
+  | 'kid_event'
+  | 'party'
+  | 'social'
+  | 'other';
+
+export type Event = {
+  id: ID,
+  title: string,
+  description: string,
+  eventType: EventType,
+  registrationCount: number,
+  totalCapacity: number,
+  startTime: Dateish,
+  activationTime: ?Dateish,
+  cover: string,
+  thumbnail: string,
+  location: string
+};
+
+export type Article = Object;
+export type Feed = Object;
+export type FeedItem = Object;
+
+export type Grade = {
+  name: string
+};
+
+export type User = {
+  id: ID,
+  firstName: string,
+  fullName: string,
+  username: string,
+  grade: Grade,
+  allergies: string
+};
+
+export type EventRegistrationPresence = 'PRESENT' | 'NOT_PRESENT' | 'UNKNOWN';
+
+export type EventRegistrationChargeStatus = 'manual' | 'succeeded' | 'failed';
+
+export type EventRegistration = {
+  id: number,
+  user: User,
+  registrationDate: Dateish,
+  unregistrationDate: Dateish,
+  presence: EventRegistrationPresence,
+  chargeStatus: EventRegistrationChargeStatus,
+  feedback: string
+};
+
+export type EventPool = Object;
+
+export type Workplace = {
+  town: string
+};
+
+export type Joblisting = {
+  fromYear: number,
+  toYear: number
+};
+
+export type InterestGroup = {
+  id: ID,
+  name: string,
+  memberships: Array<GroupMembership>,
+  description: string,
+  text: string,
+  logo: ?string
+};
+
+export type GroupMembership = {
+  user: User,
+  role: string
+};
+
+export type Company = Object;
+
+export type Permission = string;

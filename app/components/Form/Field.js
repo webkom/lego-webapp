@@ -1,10 +1,10 @@
 // @flow
 
-import React from 'react';
+import React, { type ComponentType } from 'react';
 import cx from 'classnames';
 import styles from './Field.css';
 
-function FieldError({ error }) {
+function FieldError({ error }: { error: string }) {
   return <div className={styles.fieldError}>{error}</div>;
 }
 
@@ -16,14 +16,26 @@ function renderErrorMessage(error: Array<string> | string) {
   return <FieldError error={error} key={error} />;
 }
 
+type FieldProps = {
+  className: string,
+  input: Object,
+  meta: Object,
+  required: boolean,
+  label: string,
+  fieldStyle: any,
+  fieldClassName: string,
+  labelClassName: string,
+  showErrors: boolean
+};
+
 /**
  * Wraps Component so it works with redux-form and add some default
  * field behaviour.
  *
  * http://redux-form.com/6.0.5/docs/api/Field.md/
  */
-export function createField(Component: any) {
-  return (field: any) => {
+export function createField(Component: ComponentType<*>) {
+  const Field = (field: FieldProps) => {
     const {
       input,
       meta,
@@ -33,6 +45,7 @@ export function createField(Component: any) {
       fieldClassName,
       labelClassName,
       showErrors = true,
+      className = null,
       ...props
     } = field;
     const { error, touched } = meta;
@@ -45,11 +58,16 @@ export function createField(Component: any) {
           <Component
             {...input}
             {...props}
-            className={cx(props.className, hasError && styles.inputWithError)}
+            className={cx(className, hasError && styles.inputWithError)}
           />
         </label>
         {hasError && renderErrorMessage(meta.error)}
       </div>
     );
   };
+
+  Field.displayName = `Field(${Component.displayName ||
+    Component.name ||
+    'Unknown'})`;
+  return Field;
 }

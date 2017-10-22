@@ -1,4 +1,6 @@
-import React from 'react';
+// @flow
+
+import React, { type Node } from 'react';
 import styles from './InfoBubble.css';
 import Icon from 'app/components/Icon';
 import cx from 'classnames';
@@ -7,13 +9,15 @@ type Props = {
   /** Icon name */
   icon: string,
   /** Text under icon */
-  data: string,
+  data?: Node,
   /** Small text below main text */
   meta?: string,
   /** Size of button */
   small?: boolean,
   /** Make link a clickable link - url */
-  link?: string
+  link?: string,
+  /** Custom class name */
+  className?: string
 };
 
 const httpCheck = link =>

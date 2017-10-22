@@ -35,7 +35,17 @@ type State = {
   shake: boolean
 };
 
-function AccountDropdownItems({ logout, onClose, username }) {
+type AccountDropdownItemsProps = {
+  logout: () => void,
+  onClose: () => void,
+  username: string
+};
+
+function AccountDropdownItems({
+  logout,
+  onClose,
+  username
+}: AccountDropdownItemsProps) {
   return (
     <Dropdown.List>
       <Dropdown.ListItem>

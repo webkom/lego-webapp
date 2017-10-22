@@ -1,17 +1,23 @@
 /* eslint-disable react/display-name */
+// @flow
 
-import React from 'react';
+import React, { type Node } from 'react';
+
+type HasChildren = {
+  children: Node
+};
 
 export type TagKind = 'mark' | 'block';
 export type MarkType =
   | 'italic'
   | 'bold'
-  | 'underline'
+  | 'underlined'
   | 'code'
   | 'link'
   | 'strikethrough';
 export type BlockType =
   | 'quote'
+  | 'block-quote'
   | 'paragraph'
   | 'code'
   | 'heading-one'
@@ -38,12 +44,17 @@ const serialize = (type, kind: TagKind, serializer) => (
   children: any
 ) => {
   if (object.kind === kind && object.type === type) {
-    return serializer({ object, children });
+    return serializer({ attributes: object, children });
   }
 };
 
-const genericRender = tagName => ({ children, attributes }) =>
-  React.createElement(tagName, attributes, children);
+const genericRender = tagName => ({
+  children,
+  attributes
+}: {
+  children: Node,
+  attributes: Object
+}) => React.createElement(tagName, attributes, children);
 
 const createMarkTag = (type, icon, tagName, style) => ({
   type,
@@ -73,16 +84,25 @@ export const MARK_TAGS = [
   })
 ];
 
-/*/**
+type BlockTag = {
+  type: string,
+  icon: string,
+  render: ({ children: Node }) => Node,
+  serialize: (object: any, children: Node) => Node,
+  hoverHidden?: boolean
+};
+
+/**
  * Block tags
  *
  * @type {Object}
  */
-export const BLOCK_TAGS = [
+
+export const BLOCK_TAGS: Array<BlockTag> = ([
   {
     type: 'block-quote',
     icon: 'quote-left',
-    render: ({ children }) => <blockquote>{children}</blockquote>,
+    render: ({ children }: HasChildren) => <blockquote>{children}</blockquote>,
     serialize: (object, children) => {
       if (object.kind === 'block' && object.type === 'block-quote') {
         return <blockquote>{children}</blockquote>;
@@ -101,7 +121,7 @@ export const BLOCK_TAGS = [
   {
     type: 'heading-one',
     icon: 'header',
-    render: ({ children }) => <h1>{children}</h1>,
+    render: ({ children }: HasChildren) => <h1>{children}</h1>,
     serialize: (object, children) => {
       if (object.kind === 'block' && object.type === 'heading-one') {
         return <h1>{children}</h1>;
@@ -111,7 +131,7 @@ export const BLOCK_TAGS = [
   {
     type: 'heading-two',
     icon: 'font',
-    render: ({ children }) => <h2>{children}</h2>,
+    render: ({ children }: HasChildren) => <h2>{children}</h2>,
     serialize: (object, children) => {
       if (object.kind === 'block' && object.type === 'heading-two') {
         return <h2>{children}</h2>;
@@ -122,10 +142,10 @@ export const BLOCK_TAGS = [
     type: 'image',
     icon: 'image',
     hoverHidden: true,
-    render: ({ children }) => <img />,
+    render: ({ children }: HasChildren) => <img alt="" />,
     serialize: (object, children) => {
       if (object.kind === 'block' && object.type === 'image') {
-        return <img src="https://abakus.no/static/gfx/favicon.png" />;
+        return <img src="https://abakus.no/static/gfx/favicon.png" alt="" />;
       }
     }
   },
@@ -133,7 +153,7 @@ export const BLOCK_TAGS = [
     type: 'separator',
     icon: 'minus',
     hoverHidden: true,
-    render: ({ children }) => <hr />,
+    render: ({ children }: HasChildren) => <hr />,
     serialize: (object, children) => {
       if (object.kind === 'block' && object.type === 'separator') {
         return <hr />;
@@ -143,7 +163,7 @@ export const BLOCK_TAGS = [
   {
     type: 'numbered-list',
     icon: 'list-ol',
-    render: ({ children }) => <ol>{children}</ol>,
+    render: ({ children }: HasChildren) => <ol>{children}</ol>,
     serialize: (object, children) => {
       if (object.kind === 'block' && object.type === 'numbered-list') {
         return <ol>{children}</ol>;
@@ -153,7 +173,7 @@ export const BLOCK_TAGS = [
   {
     type: 'bulleted-list',
     icon: 'list-ul',
-    render: ({ children }) => <ul>{children}</ul>,
+    render: ({ children }: HasChildren) => <ul>{children}</ul>,
     serialize: (object, children) => {
       if (object.kind === 'block' && object.type === 'bulleted-list') {
         return <ul>{children}</ul>;
@@ -163,14 +183,14 @@ export const BLOCK_TAGS = [
   {
     type: 'list-item',
     hoverHidden: true,
-    render: ({ children }) => <li>{children}</li>,
+    render: ({ children }: HasChildren) => <li>{children}</li>,
     serialize: (object, children) => {
       if (object.kind === 'block' && object.type === 'list-item') {
         return <li>{children}</li>;
       }
     }
   }
-];
+]: any);
 
 /**
  * Define a schema.

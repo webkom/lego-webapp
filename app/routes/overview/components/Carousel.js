@@ -1,7 +1,25 @@
-import React, { Component } from 'react';
+// @flow
+
+import React, { Component, type Node } from 'react';
 import styles from './Carousel.css';
 
-class Carousel extends Component {
+type MenuItem = {
+  item: Object,
+  isActive: boolean,
+  onClick: () => void
+};
+
+type Props = {
+  items: Array<Object>,
+  renderMenuItem: MenuItem => Node,
+  renderContent: Object => Node
+};
+
+type State = {
+  selectedIndex: number
+};
+
+class Carousel extends Component<Props, State> {
   state = {
     selectedIndex: 0
   };
