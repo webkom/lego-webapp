@@ -27,6 +27,7 @@ import Admin from '../Admin';
 import Content from 'app/components/Layout/Content';
 import Tooltip from 'app/components/Tooltip';
 import cx from 'classnames';
+import type { ID } from 'app/models';
 
 type Props = {
   eventId: number,
@@ -44,8 +45,8 @@ type Props = {
   handleSubmit: void => void,
   handleSubmitCallback: void,
   uploadFile: () => Promise<*>,
-  setCoverPhoto: (number, String) => void,
-  deleteEvent: (eventId: string) => Promise<*>,
+  setCoverPhoto: (number, string) => void,
+  deleteEvent: (eventId: ID) => Promise<*>,
   submitting: boolean,
   pristine: boolean
 };
@@ -213,7 +214,7 @@ function EventEditor({
                         <RegisteredCell key={reg.user.id} user={reg.user} />
                       ))}
                 </Flex>
-                <RegisteredSummary registrations={[]} />
+                <RegisteredSummary registrations={[]} toggleModal={i => {}} />
                 <AttendanceStatus title="Påmeldte" pools={pools} />
                 <div className={styles.metaList}>
                   <FieldArray name="pools" component={renderPools} />

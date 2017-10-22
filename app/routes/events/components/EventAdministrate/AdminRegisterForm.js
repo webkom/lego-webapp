@@ -1,7 +1,15 @@
+// @flow
+
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { TextEditor, SelectInput } from 'app/components/Form';
 import Button from 'app/components/Button';
+import type { EventPool } from 'app/models';
+import type { ReduxFormProps } from 'app/types';
+
+type Props = {
+  pools: Array<EventPool>
+} & ReduxFormProps;
 
 const AdminRegister = ({
   pools,
@@ -9,7 +17,7 @@ const AdminRegister = ({
   invalid,
   pristine,
   submitting
-}) => {
+}: Props) => {
   return (
     <div style={{ width: '400px' }}>
       <form onSubmit={handleSubmit}>

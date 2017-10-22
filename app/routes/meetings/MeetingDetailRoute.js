@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
@@ -16,14 +18,18 @@ const loadData = (props, dispatch) => {
   const { meetingId } = props.params;
   const { action, token } = props.location.query;
   const loggedIn = props.loggedIn;
+
   if (!loggedIn && token) {
     return dispatch(answerMeetingInvitation(action, token, loggedIn));
   }
+
   if (action && token) {
     return dispatch(answerMeetingInvitation(action, token, loggedIn)).then(() =>
       dispatch(fetchMeeting(meetingId))
     );
   }
+
+  return Promise.resolve();
 };
 
 const mapStateToProps = (state, props) => {
@@ -39,7 +45,14 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const MeetingComponent = props => {
+type Props = {
+  loggedIn: boolean,
+  meetingsToken: Object,
+  router: any,
+  resetMeetingsToken: () => void
+};
+
+const MeetingComponent = (props: Props) => {
   const { loggedIn, meetingsToken, router, resetMeetingsToken } = props;
   if (!loggedIn && meetingsToken.meeting) {
     return (

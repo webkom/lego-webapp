@@ -1,14 +1,22 @@
-import React, { PureComponent } from 'react';
+// @flow
 
-export default function replaceUnlessLoggedIn(ReplacementComponent) {
+import React, { PureComponent, type ComponentType } from 'react';
+
+type LoginProps = { loggedIn: boolean };
+
+export default function replaceUnlessLoggedIn<Props: Object>(
+  ReplacementComponent: ComponentType<Props>
+): (ActualComponent: ComponentType<Props>) => ComponentType<Props> {
   return ActualComponent => {
-    class Replacement extends PureComponent {
+    class Replacement extends PureComponent<Props & LoginProps> {
       render() {
-        if (this.props.loggedIn) {
-          return <ActualComponent {...this.props} />;
+        const { loggedIn, ...props } = this.props;
+
+        if (loggedIn) {
+          return <ActualComponent {...props} />;
         }
 
-        return <ReplacementComponent {...this.props} />;
+        return <ReplacementComponent {...props} />;
       }
     }
 

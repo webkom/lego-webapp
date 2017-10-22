@@ -6,7 +6,8 @@ import styles from './Image.css';
 
 type Props = {
   src: string,
-  className?: string
+  className?: string,
+  alt: string
 };
 
 type State = {
@@ -14,6 +15,10 @@ type State = {
 };
 
 class Image extends Component<Props, State> {
+  static defaultProps = {
+    alt: 'image'
+  };
+
   state = {
     loaded: false
   };
@@ -33,7 +38,7 @@ class Image extends Component<Props, State> {
   }
 
   render() {
-    const { src, className, ...props } = this.props;
+    const { src, className, alt, ...props } = this.props;
     return (
       <img
         className={cx(
@@ -42,6 +47,7 @@ class Image extends Component<Props, State> {
           className
         )}
         src={src}
+        alt={alt}
         {...props}
       />
     );
