@@ -18,7 +18,7 @@ function JoblistingItem({ joblisting }: JobListingItemProps) {
       <Flex alignItems="center">
         <Link to={`/joblistings/${joblisting.id}/`}>
           <Image
-            src="http://placehold.it/120x80"
+            src="https://placehold.it/120x80"
             className={styles.companyLogo}
           />
         </Link>
