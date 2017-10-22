@@ -6,6 +6,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import { normalize } from 'normalizr';
 import { eventSchema, registrationSchema } from 'app/reducers';
 import mergeObjects from 'app/utils/mergeObjects';
+import { omit } from 'lodash';
 import moment from 'moment-timezone';
 
 export default createEntityReducer({
@@ -22,17 +23,27 @@ export default createEntityReducer({
           items: union(state.items, Object.keys(registrations).map(Number))
         };
       }
+      case Event.REGISTER.SUCCESS:
       case Event.ADMIN_REGISTER.SUCCESS:
       case Event.SOCKET_REGISTRATION.SUCCESS:
       case Event.PAYMENT_QUEUE.SUCCESS:
       case Event.SOCKET_PAYMENT.SUCCESS:
       case Event.SOCKET_PAYMENT.FAILURE: {
-        const registrations = normalize(action.payload, registrationSchema)
-          .entities.registrations;
+        const registration = normalize(action.payload, registrationSchema)
+          .entities.registrations[action.payload.id];
+        if (!registration) {
+          return state;
+        }
         return {
           ...state,
-          byId: mergeObjects(state.byId, registrations),
-          items: union(state.items, [action.payload.id])
+          byId: {
+            ...state.byId,
+            [registration.id]: {
+              ...omit(state.byId[registration.id], 'unregistrationDate'),
+              ...registration
+            }
+          },
+          items: union(state.items, [registration.id])
         };
       }
       case Event.UNREGISTER.BEGIN: {
