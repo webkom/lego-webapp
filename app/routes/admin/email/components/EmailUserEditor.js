@@ -10,8 +10,8 @@ import { Form, Field } from 'redux-form';
 export type Props = {
   emailUserId?: number,
   submitting: boolean,
-  handleSubmit: () => void,
-  push: () => void,
+  handleSubmit: Function => void,
+  push: string => void,
   mutateFunction: Object => Promise<*>
 };
 

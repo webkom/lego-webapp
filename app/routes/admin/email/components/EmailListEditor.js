@@ -18,9 +18,8 @@ const roles = Object.keys(ROLES)
 export type Props = {
   emailListId?: number,
   submitting: boolean,
-  emailList: Object,
-  handleSubmit: () => void,
-  push: () => void,
+  handleSubmit: Function => void,
+  push: string => void,
   mutateFunction: Object => Promise<*>
 };
 
@@ -29,8 +28,7 @@ const EmailListEditor = ({
   mutateFunction,
   submitting,
   handleSubmit,
-  push,
-  emailList
+  push
 }: Props) => {
   const onSubmit = data => {
     mutateFunction({

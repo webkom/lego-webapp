@@ -9,10 +9,10 @@ type Props = {
   fetching: boolean,
   hasMore: boolean,
   emailUsers: Array<Object>,
-  fetch: ({ filters: Object, next: boolean }) => Promise<*>
+  fetch: ({ filters?: Object, next?: boolean }) => Promise<*>
 };
 
-export default class EmailUsersPage extends Component {
+export default class EmailUsersPage extends Component<Props> {
   props: Props;
 
   render() {

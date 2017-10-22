@@ -1,6 +1,6 @@
 // @flow
 
-import React, { type Node } from 'react';
+import React, { Component, type Node } from 'react';
 import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { TextInput } from 'app/components/Form';
@@ -13,9 +13,10 @@ import styles from './Table.css';
 type columnProps = {
   dataIndex: string,
   title: string,
+  sorter?: (any, any) => number,
   search?: boolean,
   width?: number,
-  render?: (string, Object) => Node
+  render?: (string | Object, Object) => Node
 };
 
 type Props = {
@@ -25,7 +26,7 @@ type Props = {
   hasMore: boolean,
   loading: boolean,
   onChange?: (filters: Object, sort: Object) => void,
-  onLoad?: () => void
+  onLoad?: (filters: Object, sort: Object) => void
 };
 
 type State = {
@@ -36,7 +37,7 @@ type State = {
   }
 };
 
-export default class Table extends React.Component {
+export default class Table extends Component<Props, State> {
   props: Props;
 
   state: State = {

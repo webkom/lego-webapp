@@ -9,19 +9,18 @@ import { selectEmailUserById } from 'app/reducers/emailUsers';
 import { editEmailUser, fetchEmailUser } from 'app/actions/emailUserActions';
 
 const mapStateToProps = (state, { routeParams }) => {
-  const emailUser = selectEmailUserById(state, {
-    emailUserId: routeParams.emailUserId
-  });
+  const { emailUserId } = routeParams;
+  const emailUser = selectEmailUserById(state, { emailUserId });
 
   return {
     emailUser,
-    emailUserId: routeParams.emailUserId,
+    emailUserId,
     fetching: state.emailUsers.fetching,
     initialValues: {
       ...emailUser,
       user: {
-        label: emailUser.user.fullName,
-        value: emailUser.user.id
+        label: emailUser.user.fullName || undefined,
+        value: emailUser.user.id || undefined
       }
     }
   };
