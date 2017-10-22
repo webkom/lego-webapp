@@ -81,7 +81,8 @@ export default createEntityReducer({
           .entities.registrations;
         return {
           ...state,
-          byId: mergeObjects(state.byId, registrations)
+          byId: mergeObjects(state.byId, registrations),
+          items: union(state.items, [action.payload.id])
         };
       }
       default:

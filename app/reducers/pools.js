@@ -22,28 +22,26 @@ export default createEntityReducer({
         };
       }
       case Event.SOCKET_REGISTRATION.SUCCESS: {
-        const registration = action.payload;
-        if (!registration.pool) {
+        const poolId = action.payload.pool;
+        const statePool = state.byId[poolId];
+        if (!poolId || !statePool) {
           return state;
         }
         return {
           ...state,
           byId: {
             ...state.byId,
-            [registration.pool]: {
-              ...state.byId[registration.pool],
-              registrations: [
-                ...state.byId[registration.pool].registrations,
-                registration.id
-              ]
+            [poolId]: {
+              ...statePool,
+              registrations: [...statePool.registrations, action.payload.id]
             }
           }
         };
       }
       case Event.SOCKET_UNREGISTRATION.SUCCESS: {
         const { meta: { fromPool }, payload } = action;
-        const pool = state.byId[fromPool];
-        if (!fromPool || !pool) {
+        const statePool = state.byId[fromPool];
+        if (!fromPool || !statePool) {
           return state;
         }
         return {
@@ -51,8 +49,8 @@ export default createEntityReducer({
           byId: {
             ...state.byId,
             [fromPool]: {
-              ...pool,
-              registrations: pool.registrations.filter(
+              ...statePool,
+              registrations: statePool.registrations.filter(
                 reg => reg !== payload.id
               )
             }
