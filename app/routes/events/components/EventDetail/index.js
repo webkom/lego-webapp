@@ -201,6 +201,17 @@ export default class EventDetail extends Component<Props> {
                     <li>
                       Pris: <strong>{event.priceMember / 100},-</strong>
                     </li>
+                    {event.paymentDueDate && (
+                      <li>
+                        Betalingsfrist:{' '}
+                        <strong>
+                          <Time
+                            time={event.paymentDueDate}
+                            format="DD.MM.YYYY HH:mm"
+                          />
+                        </strong>
+                      </li>
+                    )}
                   </div>
                 )}
               </ul>

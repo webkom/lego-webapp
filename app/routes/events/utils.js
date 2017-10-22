@@ -54,6 +54,7 @@ export const transformEvent = (data, edit = false) => {
     mergeTime: moment(event.mergeTime).toISOString(),
     company: event.company && event.company.value,
     priceMember: event.isPriced ? event.priceMember * 100 : 0,
+    paymentDueDate: moment(event.paymentDueDate).toISOString(),
     pools: event.pools.map((pool, i) => ({
       ...omit(pool, 'registrations'),
       activationDate: moment(pool.activationDate).toISOString(),

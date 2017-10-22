@@ -1,3 +1,5 @@
+// @flow
+
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { formValueSelector } from 'redux-form';
@@ -9,10 +11,12 @@ import { LoginPage } from 'app/components/LoginForm';
 import { transformEvent } from './utils';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
-const time = (hours, minutes) =>
+const time = (
+  timeObject: { days?: number, hours?: number, minutes?: number } = {}
+) =>
   moment()
     .startOf('day')
-    .add({ hours, minutes })
+    .add(timeObject)
     .toISOString();
 
 const mapStateToProps = (state, props) => {
@@ -21,8 +25,8 @@ const mapStateToProps = (state, props) => {
   return {
     initialValues: {
       title: '',
-      startTime: time(17, 15),
-      endTime: time(20),
+      startTime: time({ hours: 17, minutes: 15 }),
+      endTime: time({ hours: 20, minutes: 15 }),
       description: '',
       text: '',
       eventType: '',
@@ -31,7 +35,8 @@ const mapStateToProps = (state, props) => {
       isPriced: false,
       useStripe: true,
       priceMember: 0,
-      mergeTime: time(12),
+      paymentDueDate: time({ days: 7, hours: 17, minutes: 15 }),
+      mergeTime: time({ hours: 12 }),
       useCaptcha: true,
       feedbackDescription: 'Melding til arrangører',
       pools: []
