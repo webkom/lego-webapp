@@ -52,20 +52,21 @@ function mutateEvent(state: any, action: any) {
     }
     case Event.SOCKET_REGISTRATION.SUCCESS: {
       const eventId = action.meta.eventId;
-      let waitingRegistrations =
-        state.byId[eventId] && state.byId[eventId].waitingRegistrations;
-      if (!waitingRegistrations) {
+      const registration = action.payload;
+      const stateEvent = state.byId[eventId];
+      if (!stateEvent) {
         return state;
       }
-      if (!action.payload.pool) {
-        waitingRegistrations = [...waitingRegistrations, action.payload.id];
+      let waitingRegistrations = stateEvent.waitingRegistrations;
+      if (!registration.pool) {
+        waitingRegistrations = [...waitingRegistrations, registration.id];
       }
       return {
         ...state,
         byId: {
           ...state.byId,
           [eventId]: {
-            ...state.byId[eventId],
+            ...stateEvent,
             loading: false,
             waitingRegistrations
           }
@@ -74,17 +75,21 @@ function mutateEvent(state: any, action: any) {
     }
     case Event.SOCKET_UNREGISTRATION.SUCCESS: {
       const { eventId, activationTime } = action.meta;
+      const stateEvent = state.byId[eventId];
+      if (!stateEvent) {
+        return state;
+      }
       return {
         ...state,
         byId: {
           ...state.byId,
           [eventId]: {
-            ...state.byId[eventId],
+            ...stateEvent,
             loading: false,
             activationTime,
-            waitingRegistrations: state.byId[
-              eventId
-            ].waitingRegistrations.filter(id => id !== action.payload.id)
+            waitingRegistrations: stateEvent.waitingRegistrations.filter(
+              id => id !== action.payload.id
+            )
           }
         }
       };
