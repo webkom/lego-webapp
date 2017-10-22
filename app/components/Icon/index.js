@@ -42,7 +42,7 @@ function Icon({
   );
 }
 
-Icon.Badge = ({ badgeCount, ...props }) => {
+Icon.Badge = ({ badgeCount, ...props }: Props & { badgeCount: number }) => {
   const icon = <Icon {...props} />;
 
   if (!badgeCount) {
@@ -56,5 +56,7 @@ Icon.Badge = ({ badgeCount, ...props }) => {
     </div>
   );
 };
+
+Icon.Badge.displayName = 'IconBadge';
 
 export default Icon;

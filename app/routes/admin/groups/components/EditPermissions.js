@@ -1,33 +1,42 @@
+// @flow
+
 import React, { Component } from 'react';
 import { isEqual } from 'lodash';
+import type { Permission, ID } from 'app/models';
 
 type Props = {
   groupId: number,
-  updateGroup: () => void
+  updateGroup: ({
+    groupId: ID,
+    updates: {
+      permissions: Array<Permission>
+    }
+  }) => void,
+  permissions: Array<Permission>
 };
 
-export default class EditPermissions extends Component {
-  props: Props;
+type State = {
+  permissions: Array<Permission>,
+  edited: boolean
+};
 
+export default class EditPermissions extends Component<Props, State> {
   newPermissionRef: any;
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      permissions: props.permissions,
-      edited: false
-    };
-  }
+  state = {
+    permissions: this.props.permissions,
+    edited: false
+  };
 
-  componentWillReceiveProps(newProps) {
-    if (newProps.permissions !== this.props.permissions) {
+  componentWillReceiveProps(nextProps: Props) {
+    if (nextProps.permissions !== this.props.permissions) {
       this.setState({
-        permissions: newProps.permissions
+        permissions: nextProps.permissions
       });
     }
   }
 
-  del(perm) {
+  del(perm: Permission) {
     const permissions = this.state.permissions.filter(p => p !== perm);
     this.setState({
       permissions
@@ -43,7 +52,7 @@ export default class EditPermissions extends Component {
     });
   };
 
-  add = e => {
+  add = (e: SyntheticEvent<*>) => {
     e.preventDefault();
     if (!this.newPermissionRef.value) {
       return;

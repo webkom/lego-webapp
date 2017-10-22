@@ -5,9 +5,10 @@ import styles from './Company.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Link } from 'react-router';
 import { Image } from 'app/components/Image';
+import type { Company } from 'app/models';
 
 type Props = {
-  companies: Array<Object>
+  companies: Array<Company>
 };
 
 export function CompanyItem({ company }: any) {
@@ -32,7 +33,12 @@ export function CompanyItem({ company }: any) {
   );
 }
 
-function CompanyList({ name, companies = [] }) {
+type CompanyListProps = {
+  name: string,
+  companies: Array<Company>
+};
+
+function CompanyList({ name, companies = [] }: CompanyListProps) {
   return (
     <div className={styles.companies}>
       <h2 className={styles.heading}>{name}</h2>

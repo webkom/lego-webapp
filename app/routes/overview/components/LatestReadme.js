@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import ReadmeLogo from 'app/components/ReadmeLogo';
 import { Image } from 'app/components/Image';
@@ -5,12 +7,20 @@ import { Flex } from 'app/components/Layout';
 import Icon from 'app/components/Icon';
 import styles from './LatestReadme.css';
 
-class LatestReadme extends Component {
+type Props = {
+  expanded: boolean
+};
+
+type State = {
+  expanded: boolean
+};
+
+class LatestReadme extends Component<Props, State> {
   state = {
-    expanded: false
+    expanded: this.props.expanded
   };
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: Props) {
     if (nextProps.expanded !== this.state.expanded) {
       this.setState({
         expanded: nextProps.expanded || false

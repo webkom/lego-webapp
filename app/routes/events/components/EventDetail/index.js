@@ -21,6 +21,7 @@ import Admin from '../Admin';
 import RegistrationMeta from '../RegistrationMeta';
 import Content from 'app/components/Layout/Content';
 import cx from 'classnames';
+import type { ID } from 'app/models';
 
 type InterestedButtonProps = {
   isInterested: boolean
@@ -61,7 +62,7 @@ type Props = {
     registrationId: number,
     feedback: string
   ) => Promise<*>,
-  deleteEvent: (eventId: string) => Promise<*>,
+  deleteEvent: (eventId: ID) => Promise<*>,
   updateUser: Object => void
 };
 

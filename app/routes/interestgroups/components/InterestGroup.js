@@ -1,13 +1,20 @@
+// @flow
+
 import styles from './InterestGroup.css';
 import React from 'react';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import { Link } from 'react-router';
+import type { InterestGroup } from 'app/models';
 
 // TODO: rather handle this in the backend
 const SAMPLE_LOGO = 'https://i.imgur.com/Is9VKjb.jpg';
 
-const InterestGroup = ({ group }) => {
+type Props = {
+  group: InterestGroup
+};
+
+const InterestGroupComponent = ({ group }: Props) => {
   const { memberships = [] } = group;
   return (
     <Flex className={styles.listItem}>
@@ -25,4 +32,4 @@ const InterestGroup = ({ group }) => {
   );
 };
 
-export default InterestGroup;
+export default InterestGroupComponent;

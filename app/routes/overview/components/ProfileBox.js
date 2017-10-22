@@ -5,7 +5,18 @@ import { ProfilePicture } from 'app/components/Image';
 import LoginForm from 'app/components/LoginForm';
 import styles from './ProfileBox.css';
 
-const Dropdown = ({ login, logout, user }) => {
+import type { User } from 'app/models';
+
+type AuthActions = {
+  login: () => void,
+  logout: () => void
+};
+
+type DropdownProps = {
+  user: ?User
+} & AuthActions;
+
+const Dropdown = ({ login, logout, user }: DropdownProps) => {
   if (user) {
     return (
       <ul className={styles.dropdownList}>
@@ -38,7 +49,16 @@ const Dropdown = ({ login, logout, user }) => {
   );
 };
 
-export default class ProfileBox extends Component {
+type Props = {
+  currentUser: ?User,
+  loggedIn: boolean
+} & AuthActions;
+
+type State = {
+  open: boolean
+};
+
+export default class ProfileBox extends Component<Props, State> {
   state = {
     open: false
   };

@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './Octagon.css';
 
 type Props = {
-  size: number,
+  size: number | string,
   children?: any
 };
 

@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import config from 'app/config';
 import { createField } from './Field';
@@ -5,18 +7,21 @@ import ReCAPTCHA from 'react-google-recaptcha';
 
 type Props = {
   className?: string,
-  onChange?: void
+  onChange?: void,
+  value: string
 };
 
-class Captcha extends Component {
-  componentWillReceiveProps(nextProps) {
+class Captcha extends Component<Props> {
+  captcha: ?ReCAPTCHA;
+
+  componentWillReceiveProps(nextProps: Props) {
     if (nextProps.value === '') {
-      this.captcha.reset();
+      this.captcha && this.captcha.reset();
     }
   }
 
   render() {
-    const { className, onChange }: Props = this.props;
+    const { className, onChange } = this.props;
     return (
       <div className={className}>
         <ReCAPTCHA
@@ -29,8 +34,8 @@ class Captcha extends Component {
       </div>
     );
   }
-}
 
-Captcha.Field = createField(Captcha);
+  static Field = createField(Captcha);
+}
 
 export default Captcha;

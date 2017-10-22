@@ -1,3 +1,5 @@
+// @flow
+
 import styles from './UserConfirmation.css';
 import React from 'react';
 import { Container, Flex } from 'app/components/Layout';
@@ -13,6 +15,14 @@ import { Field } from 'redux-form';
 import { Link } from 'react-router';
 import { createValidator, required, validPassword } from 'app/utils/validation';
 
+type Props = {
+  token: string,
+  handleSubmit: Function => void,
+  createUser: (token: string, data: Object) => void,
+  router: any,
+  submitSucceeded: () => void
+};
+
 const UserConfirmation = ({
   token,
   handleSubmit,
@@ -20,7 +30,7 @@ const UserConfirmation = ({
   router,
   submitSucceeded,
   ...props
-}) => {
+}: Props) => {
   const onSubmit = data => createUser(token, data);
 
   if (submitSucceeded) {

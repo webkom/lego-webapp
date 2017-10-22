@@ -1,11 +1,19 @@
+// @flow
+
 import styles from './EventSidebar.css';
 import React from 'react';
 import { Link } from 'react-router';
 import Octagon from 'app/components/Octagon';
 import { Image } from 'app/components/Image';
 import { colorForEvent } from 'app/routes/events/utils';
+import type { Event } from 'app/models';
 
-const EventItem = ({ event, imageSize }) => (
+type EventItemProps = {
+  event: Event,
+  imageSize: number | string
+};
+
+const EventItem = ({ event, imageSize }: EventItemProps) => (
   <Link to={`/events/${event.id}`}>
     <li className={styles.item} key={event.id}>
       <Octagon size={imageSize}>
@@ -28,8 +36,12 @@ const EventItem = ({ event, imageSize }) => (
   </Link>
 );
 
+type EventSidebarProps = {
+  events: Array<Event>
+};
+
 // TODO: Only show events from the next 14 days under "Kommende"
-const EventSidebar = ({ events }) => (
+const EventSidebar = ({ events }: EventSidebarProps) => (
   <div className={styles.eventSidebar}>
     <h2>Arrangementer</h2>
     <div className={`${styles.events}`}>

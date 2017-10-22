@@ -40,6 +40,10 @@ class AttendanceModal extends Component<Props, State> {
     pools: []
   };
 
+  static defaultProps = {
+    title: 'Status'
+  };
+
   componentWillMount() {
     this.generateAmendedPools(this.props.pools);
   }
@@ -63,10 +67,9 @@ class AttendanceModal extends Component<Props, State> {
     const { pools } = this.state;
 
     const activePool = pools[selectedPool];
-    const statusTitle = title || 'Status';
     return (
       <div>
-        <h2>{statusTitle}</h2>
+        <h2>{title}</h2>
         <ul className={styles.list}>
           {activePool.registrations.map((registration, i) => (
             <li key={i}>

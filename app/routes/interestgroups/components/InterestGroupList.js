@@ -1,17 +1,21 @@
+// @flow
+
 import styles from './InterestGroup.css';
 import React from 'react';
-import InterestGroup from './InterestGroup';
+import InterestGroupComponent from './InterestGroup';
 import Button from 'app/components/Button';
 import { Link } from 'react-router';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import type { InterestGroup } from 'app/models';
 
 export type Props = {
-  interestGroups: Array
+  interestGroups: Array<InterestGroup>,
+  loggedIn: boolean
 };
 
 const InterestGroupList = (props: Props) => {
   const groups = props.interestGroups.map((group, key) => (
-    <InterestGroup group={group} key={key} />
+    <InterestGroupComponent group={group} key={key} />
   ));
   const showCreate = props.loggedIn;
   return (

@@ -1,6 +1,16 @@
-import React from 'react';
+// @flow
 
-function Padder({ left = 0, right = 0, top = 0, bottom = 0, children }) {
+import React, { type Node } from 'react';
+
+type Props = {
+  left: number,
+  right: number,
+  top: number,
+  bottom: number,
+  children: Node
+};
+
+function Padder({ left = 0, right = 0, top = 0, bottom = 0, children }: Props) {
   return (
     <div
       style={{
