@@ -122,7 +122,9 @@ function mapStateToProps(state) {
 }
 
 function fetchInitialOnServer(props, dispatch) {
-  return dispatch(loginAutomaticallyIfPossible()).then(dispatch(fetchMeta()));
+  return dispatch(loginAutomaticallyIfPossible()).then(() =>
+    dispatch(fetchMeta())
+  );
 }
 
 const mapDispatchToProps = {

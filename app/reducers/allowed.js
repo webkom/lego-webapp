@@ -11,7 +11,8 @@ const initialState = {
   announcements: false,
   groups: false,
   email: false,
-  users: false
+  users: false,
+  bdb: false
 };
 
 // export type Allowed = {
