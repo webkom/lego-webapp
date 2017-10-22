@@ -8,10 +8,17 @@ import {
   getContactedStatuses
 } from '../utils.js';
 import SemesterStatusContent from './SemesterStatusContent';
+import type { BaseSemesterStatusEntity } from 'app/reducers/companies';
+import type { CompanySemesterContactedStatus } from 'app/models';
 
 type Props = {
-  semesterStatus: Object,
-  editChangedStatuses: (number, number, number, Array<string>) => ?Promise<*>,
+  semesterStatus: BaseSemesterStatusEntity,
+  editChangedStatuses: (
+    number,
+    number,
+    ?number,
+    Array<CompanySemesterContactedStatus>
+  ) => any,
   companyId: number,
   semIndex: number
 };

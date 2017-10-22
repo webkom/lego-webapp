@@ -18,9 +18,11 @@ import { eventTypes } from 'app/routes/events/utils';
 import truncateString from 'app/utils/truncateString';
 import type {
   CompanyEntity,
-  BaseSemesterStatusEntity
+  BaseSemesterStatusEntity,
+  SemesterStatusEntity
 } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { CompanySemesterContactedStatus } from 'app/models';
 
 type Props = {
   company: CompanyEntity,
@@ -46,7 +48,10 @@ export default class BdbDetail extends Component<Props, State> {
     addingFiles: false
   };
 
-  semesterStatusOnChange = (semesterStatus: Object, statusString: string) => {
+  semesterStatusOnChange = (
+    semesterStatus: SemesterStatusEntity,
+    statusString: CompanySemesterContactedStatus
+  ) => {
     const { companySemesters, editSemesterStatus, company } = this.props;
 
     const newStatus = {
@@ -98,6 +103,7 @@ export default class BdbDetail extends Component<Props, State> {
     const sendableSemester = {
       semesterStatusId: semesterStatus.id,
       companyId: company.id,
+      contactedStatus: [],
       [type]: fileToken
     };
 

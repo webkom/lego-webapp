@@ -2,15 +2,21 @@
 
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { indexToSemester } from '../utils.js';
+import { indexToSemester } from '../utils';
 import SemesterStatus from './SemesterStatus';
 import styles from './bdb.css';
+import type { CompanySemesterContactedStatus } from 'app/models';
 
 type Props = {
   company: Object,
   startYear: number,
   startSem: number,
-  editChangedStatuses: (number, number, number, Array<string>) => ?Promise<*>
+  editChangedStatuses: (
+    number,
+    number,
+    ?number,
+    Array<CompanySemesterContactedStatus>
+  ) => ?Promise<*>
 };
 
 export default class CompanySingleRow extends Component<Props> {

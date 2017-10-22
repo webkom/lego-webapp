@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
@@ -17,11 +19,12 @@ import { statusesText, statuses } from 'app/reducers/meetingInvitations';
 import type {
   MeetingInvitationEntity,
   MeetingInvitationStatus
-} from 'app/reducers/meetingInvitation';
+} from 'app/reducers/meetingInvitations';
 import type { UserEntity } from 'app/reducers/users';
+import type { Dateish } from 'app/models';
 
 type Props = {
-  meeting: object,
+  meeting: Object,
   currentUser: UserEntity,
   showAnswer: Boolean,
   meetingInvitations: Array<MeetingInvitationEntity>,
@@ -44,9 +47,7 @@ const UserLink = ({ user }: { user: UserEntity }) =>
     <span> Ikke valgt </span>
   );
 
-class MeetingDetails extends Component {
-  props: Props;
-
+class MeetingDetails extends Component<Props> {
   setInvitationStatus = (newStatus: MeetingInvitationStatus) => {
     const { meeting, currentUser } = this.props;
     this.props.setInvitationStatus(meeting.id, newStatus, currentUser);
@@ -68,7 +69,7 @@ class MeetingDetails extends Component {
     }));
   };
 
-  attendanceButtons = (statusMe, startTime) =>
+  attendanceButtons = (statusMe: ?string, startTime: Dateish) =>
     statusMe &&
     moment(startTime) > moment() && (
       <li className={styles.statusButtons}>
@@ -137,6 +138,7 @@ class MeetingDetails extends Component {
                 </NavigationLink>
               )}
               {canDelete && (
+                /* $FlowFixMe what is wrong with confirmomdalwithparent */
                 <ConfirmModalWithParent
                   title="Slett møte"
                   message="Er du sikker på at du vil slette møtet?"

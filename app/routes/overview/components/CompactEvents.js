@@ -1,3 +1,5 @@
+// @flow
+
 import styles from './CompactEvents.css';
 import React, { Component } from 'react';
 import { Link } from 'react-router';
@@ -13,9 +15,7 @@ type Props = {
 
 const TITLE_MAX_LENGTH = 25;
 
-export default class CompactEvents extends Component {
-  props: Props;
-
+export default class CompactEvents extends Component<Props> {
   render() {
     const { events } = this.props;
 

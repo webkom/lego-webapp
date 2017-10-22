@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { Form, Button, TextInput } from 'app/components/Form';
@@ -5,9 +7,12 @@ import styles from './UpdateAllergies.css';
 import formStyles from 'app/components/Form/Field.css';
 
 export type Props = {
-  handleSubmit: () => void,
+  handleSubmit: Function => void,
   username: string,
-  updateUser: () => Promise<*>,
+  updateUser: (
+    { username: string, allergies: string },
+    { noRedirect: boolean }
+  ) => Promise<*>,
   invalid: boolean,
   pristine: boolean,
   submitting: boolean
@@ -47,7 +52,7 @@ const UpdateAllergies = ({
       <Button
         className={styles.button}
         submit
-        disabled={invalid | pristine | submitting}
+        disabled={invalid || pristine || submitting}
       >
         Oppdater
       </Button>

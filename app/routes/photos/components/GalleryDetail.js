@@ -1,4 +1,6 @@
-import React, { Component, cloneElement } from 'react';
+// @flow
+
+import React, { Component, cloneElement, type Element } from 'react';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import Button from 'app/components/Button';
 import EmptyState from 'app/components/EmptyState';
@@ -8,31 +10,31 @@ import { Flex } from 'app/components/Layout';
 import Gallery from 'app/components/Gallery';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import styles from './Overview.css';
+import type { DropFile } from 'app/components/Upload';
+import type { Photo, ID } from 'app/models';
 
 type Props = {
   gallery: Object,
   loggedIn: Object,
   currentUser: boolean,
-  pictures: [],
+  pictures: Array<Photo>,
   loading: boolean,
-  children: ReactElement,
-  fetchAll: () => Promise,
-  push: string => Promise,
-  addPictures: () => Promise
+  children: Element<*>,
+  fetchAll: () => Promise<*>,
+  push: string => Promise<*>,
+  addPictures: (ID, File | Array<DropFile>) => Promise<*>
 };
 
 type State = {
   upload: boolean
 };
 
-export default class GalleryDetail extends Component {
-  props: Props;
-
-  state: State = {
+export default class GalleryDetail extends Component<Props, State> {
+  state = {
     upload: false
   };
 
-  toggleUpload = response => {
+  toggleUpload = (response?: File | Array<DropFile>) => {
     if (response) {
       this.props.addPictures(this.props.gallery.id, response);
     }
@@ -74,7 +76,7 @@ export default class GalleryDetail extends Component {
             photos={pictures}
             onClick={this.handleClick}
             srcKey="file"
-            renderEmpty={
+            renderEmpty={() => (
               <EmptyState icon="photos-outline">
                 <h1>Ingen bilder</h1>
                 <h4>
@@ -82,7 +84,7 @@ export default class GalleryDetail extends Component {
                   legge inn bilder
                 </h4>
               </EmptyState>
-            }
+            )}
           />
         </Flex>
 

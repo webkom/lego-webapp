@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import { FlexRow } from 'app/components/FlexBox';
 import Button from 'app/components/Button';
@@ -10,26 +12,35 @@ import { Field } from 'redux-form';
 import { Content } from 'app/components/Layout';
 import { get } from 'lodash';
 
-/**
- *
- */
+type Page = {
+  title: string,
+  content: string,
+  picture?: string
+};
+
 export type Props = {
-  page: Object,
-  pageSlug?: string,
+  page: Page,
+  pageSlug: string,
   isNew: boolean,
   loggedIn: boolean,
   currentUser: any,
-  uploadFile: () => Promise,
-  handleSubmit: () => Promise,
-  updatePage?: () => Promise,
-  createPage?: () => Promise,
-  deletePage?: slug => Promise,
+  uploadFile: ({ file: string, isPublic: boolean }) => Promise<*>,
+  handleSubmit: Function => Promise<*>,
+  updatePage: (string, Page) => Promise<*>,
+  createPage: Page => Promise<*>,
+  deletePage: (slug: string) => Promise<*>,
   push: string => void
 };
 
-export default class PageEditor extends Component {
-  props: Props;
+type State = {
+  page: {
+    picture: string,
+    content: string
+  },
+  images: { [key: string]: string }
+};
 
+export default class PageEditor extends Component<Props, State> {
   state = {
     page: {
       picture: get(this.props, ['page', 'picture']),
@@ -38,7 +49,7 @@ export default class PageEditor extends Component {
     images: {}
   };
 
-  setPicture = image => {
+  setPicture = (image: any) => {
     this.props.uploadFile({ file: image, isPublic: true }).then(action => {
       const file = action.meta.fileToken;
       this.setState({
@@ -50,15 +61,17 @@ export default class PageEditor extends Component {
       });
     });
   };
+
   onDelete = () => {
     const { push, pageSlug, deletePage } = this.props;
     deletePage(pageSlug).then(() => push('/pages/info/om-oss'));
   };
 
-  onSubmit = data => {
+  onSubmit = (data: Page) => {
     const body = {
       title: data.title,
-      content: data.content
+      content: data.content,
+      picture: undefined
     };
 
     const { push, pageSlug } = this.props;
@@ -70,14 +83,14 @@ export default class PageEditor extends Component {
     }
 
     if (this.props.isNew) {
-      this.props.createPage(body).then(result => {
+      return this.props.createPage(body).then(result => {
         push(`/pages/info/${result.payload.result}`);
       });
-    } else {
-      this.props
-        .updatePage(this.props.pageSlug, body)
-        .then(() => push(`/pages/info/${pageSlug}`));
     }
+
+    this.props
+      .updatePage(this.props.pageSlug, body)
+      .then(() => push(`/pages/info/${pageSlug}`));
   };
 
   render() {
@@ -111,12 +124,13 @@ export default class PageEditor extends Component {
             />
 
             {!isNew && (
+              /* $FlowFixMe */
               <ConfirmModalWithParent
                 title="Slett side"
                 message="Er du sikker på at du vil slette denne infosiden?"
                 onConfirm={this.onDelete}
               >
-                <Button>Slett </Button>
+                <Button>Slett</Button>
               </ConfirmModalWithParent>
             )}
             <Button className={styles.submitButton} type="submit">

@@ -20,6 +20,10 @@ type State = {
 };
 
 class Upload extends Component<Props, State> {
+  static defaultProps = {
+    onDrop: () => {}
+  };
+
   state: State = {
     files: []
   };

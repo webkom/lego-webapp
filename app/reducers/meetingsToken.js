@@ -1,4 +1,7 @@
+// @flow
+
 import { Meeting } from '../actions/ActionTypes';
+
 const initialState = {
   response: '',
   user: {},
@@ -10,7 +13,7 @@ type State = typeof initialState;
 
 export default function meetingsToken(
   state: State = initialState,
-  action: Action
+  action: any
 ) {
   switch (action.type) {
     case Meeting.ANSWER_INVITATION_TOKEN.FAILURE: {

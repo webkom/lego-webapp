@@ -1,19 +1,22 @@
+// @flow
+
 import React from 'react';
 import QuoteList from './QuoteList';
 import styles from './Quotes.css';
 import cx from 'classnames';
 import { navigation } from '../utils';
 import Button from 'app/components/Button';
+import type { ActionGrant } from 'app/models';
 
 type Props = {
   comments: Array<Object>,
   query: Object,
   quotes: Array<Object>,
-  actionGrant: Array<String>,
+  actionGrant: ActionGrant,
   approve: number => Promise<*>,
   unapprove: number => Promise<*>,
   deleteQuote: number => Promise<*>,
-  fetchMore: boolean => Promise<*>,
+  fetchMore: ({ approved: boolean }) => Promise<*>,
   showFetchMore: boolean,
   currentUser: any,
   loggedIn: boolean,

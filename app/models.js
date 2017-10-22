@@ -22,6 +22,10 @@ export type GalleryPicture = {
   file: string
 };
 
+export type Photo = GalleryPicture;
+
+export type Gallery = Object;
+
 type EventType =
   | 'company_presentation'
   | 'lunch_presentation'
@@ -83,8 +87,10 @@ export type Workplace = {
 };
 
 export type Joblisting = {
+  id: ID,
   fromYear: number,
-  toYear: number
+  toYear: number,
+  workplaces: Array<Workplace>
 };
 
 export type InterestGroup = {
@@ -104,3 +110,17 @@ export type GroupMembership = {
 export type Company = Object;
 
 export type Permission = string;
+
+export type Comment = Object;
+
+export type Semester = 'spring' | 'autumn';
+
+export type CompanySemesterContactedStatus =
+  | 'company_presentation'
+  | 'course'
+  | 'lunch_presentation'
+  | 'interested'
+  | 'bedex'
+  | 'not_interested'
+  | 'contacted'
+  | 'not_contacted';

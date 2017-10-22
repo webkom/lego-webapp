@@ -6,7 +6,7 @@ import { createSelector } from 'reselect';
 
 export type CompanySemesterEntity = {
   semester: string,
-  year: string,
+  year: number,
   id?: number
 };
 

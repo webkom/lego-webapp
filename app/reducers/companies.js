@@ -9,6 +9,7 @@ import joinReducers from 'app/utils/joinReducers';
 import { selectCompanySemesters } from './companySemesters';
 import mergeObjects from 'app/utils/mergeObjects';
 import type { UserEntity } from 'app/reducers/users';
+import type { CompanySemesterContactedStatus, Semester } from 'app/models';
 
 export type BaseCompanyEntity = {
   name: string,
@@ -25,6 +26,7 @@ export type BaseCompanyEntity = {
   companyType?: string,
   commentTarget: string,
   comments: Array<{ id: string, parent: string }>,
+  // $FlowFixMe
   semesterStatuses: Array<SemesterStatusEntity>,
   logo?: string,
   files?: Array<Object>,
@@ -42,7 +44,7 @@ export type BaseSemesterStatusEntity = {
   id?: number,
   companyId?: number,
   semester?: number,
-  contactedStatus?: Array<string>,
+  contactedStatus: Array<CompanySemesterContactedStatus>,
   contract?: string,
   contractName?: string,
   statistics?: string,
@@ -51,10 +53,9 @@ export type BaseSemesterStatusEntity = {
   evaluationName?: string
 };
 
-export type SemesterStatusEntity = {
-  ...BaseSemesterStatusEntity,
-  id: number,
-  semester: string,
+export type SemesterStatusEntity = BaseSemesterStatusEntity & {
+  id?: number,
+  semester: Semester,
   year: string
 };
 
@@ -238,7 +239,7 @@ export const selectEventsForCompany = createSelector(
 
 export const selectCompanyContactById = createSelector(
   selectCompanyById,
-  (state, props) => props.companyContactId,
+  (state, props) => props.companyId,
   (company, companyContactId) => {
     if (!company || !company.companyContacts) return {};
     return company.companyContacts.find(

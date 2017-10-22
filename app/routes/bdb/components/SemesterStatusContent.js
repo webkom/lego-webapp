@@ -11,10 +11,11 @@ import {
   statusStrings,
   selectColorCode
 } from '../utils';
+import type { CompanySemesterContactedStatus } from 'app/models';
 
 type Props = {
   semesterStatus: Object,
-  editFunction: string => ?Promise<*>,
+  editFunction: CompanySemesterContactedStatus => ?Promise<*>,
   style?: Object
 };
 

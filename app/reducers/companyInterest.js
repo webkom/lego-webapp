@@ -1,3 +1,5 @@
+// @flow
+
 import { createSelector } from 'reselect';
 import { CompanyInterestForm } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
