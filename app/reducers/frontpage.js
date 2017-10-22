@@ -8,8 +8,18 @@ export const selectFrontpage = createSelector(
   selectArticles,
   selectEvents,
   (articles, events) =>
-    sortBy(articles.concat(events), item => {
-      const timeField = item.eventType ? item.startTime : item.createdAt;
-      return Math.abs(moment() - moment(timeField));
-    })
+    sortBy(articles.concat(events), [
+      // Always sort pinned items first:
+      item => !item.pinned,
+      item => {
+        // For events we care about when the event starts, whereas for articles
+        // we look at when it was written:
+        const timeField = item.eventType ? item.startTime : item.createdAt;
+        return Math.abs(
+          moment()
+            .diff(timeField)
+            .valueOf()
+        );
+      }
+    ])
 );
