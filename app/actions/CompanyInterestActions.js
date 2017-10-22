@@ -4,7 +4,7 @@ import { CompanyInterestForm } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
 import { addNotification } from 'app/actions/NotificationActions';
 import { companyInterestSchema } from 'app/reducers';
-import { CompanyInterestEntity } from 'app/reducers/companyInterest';
+import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { Thunk } from 'app/types';
 
 export function fetchAll() {

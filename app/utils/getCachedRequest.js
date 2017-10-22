@@ -1,10 +1,12 @@
+// @flow
+
 import { get } from 'lodash';
 
 // cacheSeconds is the number of seconds that will be awaited until new request is allowed
 const getCachedRequest = (
   state: Object,
   endpoint: string,
-  cacheSeconds: Number
+  cacheSeconds: number
 ) => {
   if (!cacheSeconds) return null;
   const historyObject = get(state, ['fetchHistory', endpoint]);

@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import styles from './Search.css';
 import cx from 'classnames';
@@ -6,7 +8,17 @@ import { ProfilePicture } from '../Image';
 import Icon from '../Icon';
 import ResolveLink from 'app/components/ResolveLink';
 
-const SearchResultItem = ({ result, isSelected, onCloseSearch }: Object) => (
+type SearchResultItemProps = {
+  result: Object,
+  isSelected: boolean,
+  onCloseSearch: () => void
+};
+
+const SearchResultItem = ({
+  result,
+  isSelected,
+  onCloseSearch
+}: SearchResultItemProps) => (
   <Link to={result.link} onClick={onCloseSearch}>
     <li className={cx(isSelected && styles.isSelected)}>
       {result.profilePicture && (

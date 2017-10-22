@@ -15,10 +15,12 @@ import {
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { SemesterStatusEntity } from 'app/reducers/companies';
 
+import type { CompanySemesterContactedStatus } from 'app/models';
+
 type Props = {
   addSemesterStatus: (Object, ?Object) => Promise<*>,
   handleSubmit: ((Object) => ?Promise<*>) => void,
-  companyId: string,
+  companyId: number,
   submitting: boolean,
   autoFocus: any,
   companySemesters: Array<Object>,
@@ -83,7 +85,7 @@ export default class AddSemester extends Component<Props, State> {
     this.setState({ contactedStatus: event.target.value });
   };
 
-  editFunction = (statusString: string) => {
+  editFunction = (statusString: CompanySemesterContactedStatus) => {
     this.setState({
       contactedStatus: getContactedStatuses(
         this.state.contactedStatus,

@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
@@ -50,7 +52,7 @@ const Dropdown = ({ login, logout, user }: DropdownProps) => {
 };
 
 type Props = {
-  currentUser: ?User,
+  currentUser: User,
   loggedIn: boolean
 } & AuthActions;
 
