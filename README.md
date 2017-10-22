@@ -11,9 +11,8 @@ $ yarn start
 
 Everything should be up and running on [localhost:3000](http://localhost:3000).
 
-Noob guide for setting up LEGO:
-https://github.com/webkom/lego/wiki/Noob-Guide
-
+For instructions on how to run the backend, see
+[webkom/lego](https://github.com/webkom/lego).
 
 ## Build for production
 ```bash
