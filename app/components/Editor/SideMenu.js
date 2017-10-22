@@ -1,4 +1,6 @@
 /* eslint-disable react/no-find-dom-node */
+// @flow
+
 import React, { Component } from 'react';
 import Icon from 'app/components/Icon/index';
 import ImageUpload from 'app/components/Upload/index';
@@ -7,24 +9,24 @@ import { findDOMNode } from 'slate-react';
 import cx from 'classnames';
 
 export type Props = {
-  state: object,
+  state: Object,
   isPublic?: boolean,
-  insertBlock: properties => void,
-  setBlockData: (key, data) => void,
-  uploadFile: () => Promise
+  insertBlock: Object => void,
+  setBlockData: (key: string, data: Object) => void,
+  uploadFile: () => Promise<*>
 };
 
 export type SideMenuButtonProps = {
   icon: string,
-  active: boolean,
-  onClick: properties => void
+  active?: boolean,
+  onClick: any => void
 };
 
 const SideMenuButton = ({ onClick, active, icon }: SideMenuButtonProps) => (
   <span
     className={cx(
       styles.sideMenuButton,
-      styles.activeSideMenuButtons && active
+      active && styles.activeSideMenuButtons
     )}
     onMouseDown={e => {
       e.preventDefault();
@@ -36,14 +38,18 @@ const SideMenuButton = ({ onClick, active, icon }: SideMenuButtonProps) => (
   </span>
 );
 
-export default class SideMenu extends Component {
+type State = {
+  open: boolean,
+  openUpload: boolean
+};
+
+export default class SideMenu extends Component<Props, State> {
   state = {
     open: false,
     openUpload: false
   };
-  props: Props;
 
-  container = undefined;
+  container: ?HTMLElement;
 
   componentDidUpdate = () => {
     this.updatePosition();
@@ -74,7 +80,9 @@ export default class SideMenu extends Component {
     this.container.style.display = 'initial';
 
     const rect = findDOMNode(state.startText).getBoundingClientRect();
-    this.container.style.top = `${rect.top + window.scrollY}px`;
+
+    if (this.container)
+      this.container.style.top = `${rect.top + window.scrollY}px`;
   };
 
   insertSeparator = () => {
@@ -84,7 +92,7 @@ export default class SideMenu extends Component {
     });
   };
 
-  insertImage = (image, src) => {
+  insertImage = (image: string, src: string) => {
     /*
     const { uploadFile, setBlockData, isPublic } = this.props;
     this.props.insertBlock({
@@ -106,7 +114,7 @@ export default class SideMenu extends Component {
     this.setState({ ...this.state, openUpload: !this.state.openUpload });
   };
 
-  toggle = e => {
+  toggle = (e: SyntheticEvent<*>) => {
     e.preventDefault();
     e.stopPropagation();
     this.setState({ open: !this.state.open });

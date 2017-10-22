@@ -1,3 +1,5 @@
+// @flow
+
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
@@ -38,7 +40,7 @@ const loadData = (props, dispatch) => {
 
 const mapStateToPropsFlatpages = (state, props) => {
   const { pageSlug } = props.params;
-  const selectedPage: PageEntity = selectPageBySlug(state, { pageSlug });
+  const selectedPage = selectPageBySlug(state, { pageSlug });
 
   const selectedPageInfo = {
     actionGrant: selectedPage.actionGrant || [],

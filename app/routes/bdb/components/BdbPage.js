@@ -13,6 +13,7 @@ import type {
   BaseSemesterStatusEntity
 } from 'app/reducers/companies';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { CompanySemesterContactedStatus } from 'app/models';
 
 type Props = {
   companies: Array<CompanyEntity>,
@@ -65,8 +66,8 @@ export default class BdbPage extends Component<Props, State> {
   editChangedStatuses = (
     companyId: number,
     tableIndex: number,
-    semesterStatusId: number,
-    contactedStatus: Array<string>
+    semesterStatusId: ?number,
+    contactedStatus: Array<CompanySemesterContactedStatus>
   ) => {
     // Update state whenever a semesterStatus is graphically changed by the user
     const {
@@ -88,21 +89,24 @@ export default class BdbPage extends Component<Props, State> {
       companyId,
       contactedStatus,
       semesterStatusId,
-      semester: companySemester.id
+      semester:
+        typeof companySemester.id === 'undefined'
+          ? undefined
+          : companySemester.id
     };
 
     if (typeof companySemester.id === 'undefined') {
-      addSemester(companySemester).then(response => {
+      return addSemester(companySemester).then(response => {
         const updatedStatus = { ...newStatus, semester: response.payload.id };
         return typeof updatedStatus.semesterStatusId === 'undefined'
           ? addSemesterStatus(updatedStatus)
           : editSemesterStatus(updatedStatus);
       });
-    } else {
-      return typeof newStatus.semesterStatusId === 'undefined'
-        ? addSemesterStatus(newStatus)
-        : editSemesterStatus(newStatus);
     }
+
+    return typeof newStatus.semesterStatusId === 'undefined'
+      ? addSemesterStatus(newStatus)
+      : editSemesterStatus(newStatus);
   };
 
   updateFilters = (name: string, value: mixed) => {

@@ -8,8 +8,8 @@ import styles from './Gallery.css';
 export type Photo = Object;
 type Props = {
   onClick?: Photo => mixed,
-  renderOverlay?: Photo => void,
-  renderTop?: Photo => void,
+  renderOverlay?: Photo => Node,
+  renderTop?: Photo => Node,
   renderBottom?: Photo => Node,
   renderEmpty?: () => Node,
   margin?: number,
@@ -142,7 +142,7 @@ export default class Gallery extends PureComponent<Props, State> {
           }}
         >
           {photoNodes}
-          {!photos.length && renderEmpty}
+          {!photos.length && renderEmpty && renderEmpty()}
         </div>
         <LoadingIndicator loading={loading} />
       </div>

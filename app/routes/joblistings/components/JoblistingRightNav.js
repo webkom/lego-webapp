@@ -1,3 +1,5 @@
+// @flow
+
 import styles from './JoblistingRightNav.css';
 import React, { Component } from 'react';
 import { Link } from 'react-router';
@@ -5,6 +7,7 @@ import { Flex } from 'app/components/Layout';
 import { CheckBox, RadioButton } from 'app/components/Form/';
 import Button from 'app/components/Button';
 import cx from 'classnames';
+import type { ActionGrant } from 'app/models';
 
 const updateFilters = (type, value, filters) => {
   const newFilter = {
@@ -14,15 +17,21 @@ const updateFilters = (type, value, filters) => {
       : filters[type].concat(value)
   };
   return {
-    ...(newFilter.classNumber.length > 0 && {
-      classNumber: newFilter.classNumber.toString()
-    }),
-    ...(newFilter.jobTypes.length > 0 && {
-      jobTypes: newFilter.jobTypes.toString()
-    }),
-    ...(newFilter.workplaces.length > 0 && {
-      workplaces: newFilter.workplaces.toString()
-    })
+    ...(newFilter.classNumber.length > 0
+      ? {
+          classNumber: newFilter.classNumber.toString()
+        }
+      : {}),
+    ...(newFilter.jobTypes.length > 0
+      ? {
+          jobTypes: newFilter.jobTypes.toString()
+        }
+      : {}),
+    ...(newFilter.workplaces.length > 0
+      ? {
+          workplaces: newFilter.workplaces.toString()
+        }
+      : {})
   };
 };
 
@@ -40,9 +49,33 @@ const FilterLink = ({ type, label, value, filters }: Object) => (
   </Link>
 );
 
-export default class JoblistingsRightNav extends Component {
-  props: Props;
+type Filter = {
+  classNumber: Array<string>,
+  jobTypes: Array<string>,
+  workplaces: Array<string>
+};
 
+type Props = {
+  actionGrant: ActionGrant,
+  query: {
+    classNumber: string,
+    jobTypes: string,
+    workplaces: string,
+    order: string
+  },
+  router: any
+};
+
+type State = {
+  filters: Filter,
+  order: {
+    deadline: boolean,
+    company: boolean
+  },
+  displayOptions: boolean
+};
+
+export default class JoblistingsRightNav extends Component<Props, State> {
   state = {
     filters: {
       classNumber: [],
@@ -62,10 +95,12 @@ export default class JoblistingsRightNav extends Component {
     });
   };
 
-  toggleDisplay = display => ({ display: display ? 'block' : 'none' });
+  toggleDisplay = (display: boolean) => ({
+    display: display ? 'block' : 'none'
+  });
 
-  componentWillReceiveProps = newProps => {
-    const query = newProps.query;
+  componentWillReceiveProps = (nextProps: Props) => {
+    const query = nextProps.query;
     this.setState({
       filters: {
         classNumber: query.classNumber ? query.classNumber.split(',') : [],

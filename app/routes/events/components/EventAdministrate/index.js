@@ -1,3 +1,5 @@
+// @flow
+
 import styles from './Administrate.css';
 import React, { Component } from 'react';
 import { Link } from 'react-router';
@@ -6,42 +8,49 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import AdminRegisterForm from './AdminRegisterForm';
 import moment from 'moment-timezone';
 import { Flex } from 'app/components/Layout';
+import type {
+  Event,
+  Comment,
+  EventPool,
+  ActionGrant,
+  User,
+  ID,
+  EventRegistration,
+  EventRegistrationChargeStatus,
+  EventRegistrationPresence
+} from 'app/models';
 
-/**
- *
- */
 export type Props = {
-  eventId: Number,
+  eventId: number,
   event: Event,
-  comments: Array,
-  pools: Array,
+  comments: Array<Comment>,
+  pools: Array<EventPool>,
   loggedIn: boolean,
   currentUser: Object,
   error: Object,
   loading: boolean,
-  registered: Array,
-  unregistered: Array,
-  unregister: () => Promise<*>,
-  updatePresence: (Number, Number, string) => Promise<*>,
-  updatePayment: (Number, Number, string) => Promise<*>,
-  adminRegister: (Number, Number, Number, string, string) => Promise<*>,
-  usersResult: Array,
-  actionGrant: Array<string>,
+  registered: Array<EventRegistration>,
+  unregistered: Array<EventRegistration>,
+  unregister: (ID, ID, boolean) => Promise<*>,
+  updatePresence: (number, number, string) => Promise<*>,
+  updatePayment: (ID, ID, EventRegistrationChargeStatus) => Promise<*>,
+  adminRegister: (ID, ID, ID, string, string) => Promise<*>,
+  usersResult: Array<User>,
+  actionGrant: ActionGrant,
   onQueryChanged: (value: string) => any,
   searching: boolean
 };
 
-/**
- *
- */
-export default class EventAdministrate extends Component {
-  props: Props;
+type State = {
+  clickedUnregister: number
+};
 
+export default class EventAdministrate extends Component<Props, State> {
   state = {
     clickedUnregister: 0
   };
 
-  handleUnregister = registrationId => {
+  handleUnregister = (registrationId: number) => {
     if (this.state.clickedUnregister === registrationId) {
       this.props.unregister(this.props.eventId, registrationId, true);
       this.setState({
@@ -54,15 +63,31 @@ export default class EventAdministrate extends Component {
     }
   };
 
-  handlePresence = (registrationId, presence) => {
+  handlePresence = (
+    registrationId: ID,
+    presence: EventRegistrationPresence
+  ) => {
     this.props.updatePresence(this.props.eventId, registrationId, presence);
   };
 
-  handlePayment = (registrationId, chargeStatus) => {
+  handlePayment = (
+    registrationId: number,
+    chargeStatus: EventRegistrationChargeStatus
+  ) => {
     this.props.updatePayment(this.props.eventId, registrationId, chargeStatus);
   };
 
-  handleAdminRegistration = ({ user, pool, feedback, reason }) => {
+  handleAdminRegistration = ({
+    user,
+    pool,
+    feedback,
+    reason
+  }: {
+    user: User,
+    pool: number,
+    feedback: string,
+    reason: string
+  }) => {
     this.props.adminRegister(
       this.props.eventId,
       user.id,

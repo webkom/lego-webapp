@@ -1,6 +1,10 @@
+// @flow
+
 import { FetchHistory } from 'app/actions/ActionTypes';
 
-export default function fetchHistory(state: State = {}, action: Action) {
+type State = {};
+
+export default function fetchHistory(state: State = {}, action: any) {
   const success = action.meta && action.meta.success;
   switch (action.type) {
     case success: {

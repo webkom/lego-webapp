@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import styles from './JoblistingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -16,12 +18,14 @@ import { Content } from 'app/components/Layout';
 import { Flex } from 'app/components/Layout';
 import { places, jobTypes, yearValues } from '../constants';
 
+import type { Joblisting, Workplace, ID } from 'app/models';
+
 type Props = {
   joblistingId?: string,
-  joblisting?: Object,
-  handleSubmit: () => void,
-  submitJoblisting: () => void,
-  deleteJoblisting: () => void,
+  joblisting: Joblisting,
+  handleSubmit: Function => void,
+  submitJoblisting: Workplace => void,
+  deleteJoblisting: ID => void,
   company?: Object,
   dispatch: any => void,
   isNew: boolean,
