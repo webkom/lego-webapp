@@ -15,11 +15,7 @@ export const selectFrontpage = createSelector(
         // For events we care about when the event starts, whereas for articles
         // we look at when it was written:
         const timeField = item.eventType ? item.startTime : item.createdAt;
-        return Math.abs(
-          moment()
-            .diff(timeField)
-            .valueOf()
-        );
+        return Math.abs(moment().diff(timeField));
       }
     ])
 );
