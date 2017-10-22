@@ -1,3 +1,5 @@
+// @flow
+
 import styles from './InterestGroup.css';
 import React, { Component } from 'react';
 import { Image } from 'app/components/Image';
@@ -9,9 +11,11 @@ import Tooltip from 'app/components/Tooltip';
 import { ProfilePicture } from 'app/components/Image';
 import Editor from 'app/components/Editor';
 
+import type { InterestGroup, User, GroupMembership, ID } from 'app/models';
+
 // TODO: this is from the event detail page.
 // We can probably move this out to somewhere common.
-const RegisteredCell = ({ user }) => (
+const RegisteredCell = ({ user }: { user: User }) => (
   <Tooltip content={user.fullName}>
     <Link to={`/users/${user.username}`}>
       <ProfilePicture size={60} user={user} />
@@ -19,7 +23,12 @@ const RegisteredCell = ({ user }) => (
   </Tooltip>
 );
 
-const Title = ({ group: { name, id }, showEdit, editClick }) => (
+type TitleProps = {
+  group: InterestGroup,
+  showEdit: boolean
+};
+
+const Title = ({ group: { name, id }, showEdit }: TitleProps) => (
   <NavigationTab title={name}>
     {showEdit && (
       <NavigationLink to={`/interestgroups/${id}/edit`}>
@@ -30,11 +39,11 @@ const Title = ({ group: { name, id }, showEdit, editClick }) => (
   </NavigationTab>
 );
 
-const Description = ({ description }) => (
+const Description = ({ description }: { description: string }) => (
   <Flex className={styles.description}>{description}</Flex>
 );
 
-const Sidebar = ({ group }) => (
+const Sidebar = ({ group }: { group: InterestGroup }) => (
   <Flex column className={styles.sideBar}>
     <Logo logo={group.logo || 'https://i.imgur.com/Is9VKjb.jpg'} />
     <Members name={group.name} members={group.memberships} />
@@ -42,11 +51,16 @@ const Sidebar = ({ group }) => (
   </Flex>
 );
 
-const SidebarHeader = ({ text }) => (
+const SidebarHeader = ({ text }: { text: string }) => (
   <div style={{ 'font-weight': 'bold' }}>{text}</div>
 );
 
-const Members = ({ members, name }) => (
+type MembersProps = {
+  members: Array<GroupMembership>,
+  name: string
+};
+
+const Members = ({ members, name }: MembersProps) => (
   <Flex column>
     <SidebarHeader text={`Medlemmer (${members.length})`} />
     <Flex wrap>
@@ -58,30 +72,39 @@ const Members = ({ members, name }) => (
   </Flex>
 );
 
-const Logo = ({ logo }) => (
+const Logo = ({ logo }: { logo: string }) => (
   <Flex justifyContent="center">
     <Image className={styles.logo} src={logo} />
   </Flex>
 );
 
-const Content = ({ group }) => (
+const Content = ({ group }: { group: InterestGroup }) => (
   <Flex column style={{ flex: '1' }}>
     <Editor value={group.text} readOnly={true} />
   </Flex>
 );
+
+type ButtonRowProps = {
+  group: InterestGroup,
+  currentUser: User,
+  leaveInterestGroup: (GroupMembership, ID) => void,
+  joinInterestGroup: (ID, User) => void
+};
 
 const ButtonRow = ({
   group,
   currentUser,
   joinInterestGroup,
   leaveInterestGroup
-}) => {
+}: ButtonRowProps) => {
   const membership = group.memberships.filter(
     m => m.user.id === currentUser.id
   )[0];
+
   const onClick = membership
     ? () => leaveInterestGroup(membership, group.id)
     : () => joinInterestGroup(group.id, currentUser);
+
   return (
     <Flex>
       <Button onClick={onClick}>
@@ -91,8 +114,9 @@ const ButtonRow = ({
   );
 };
 
-const Contact = ({ group }) => {
+const Contact = ({ group }: { group: InterestGroup }) => {
   const leaders = group.memberships.filter(m => m.role === 'leader');
+
   if (leaders.length == 0) {
     return (
       <Flex column>
@@ -101,7 +125,9 @@ const Contact = ({ group }) => {
       </Flex>
     );
   }
+
   const leader = leaders[0];
+
   return (
     <Flex column>
       <SidebarHeader text="Leder" />
@@ -110,7 +136,14 @@ const Contact = ({ group }) => {
   );
 };
 
-class InterestGroupDetail extends Component {
+type Props = {
+  joinInterestGroup: (ID, User) => void,
+  leaveInterestGroup: GroupMembership => void,
+  currentUser: User,
+  group: InterestGroup
+};
+
+class InterestGroupDetail extends Component<Props> {
   joinGroup = () => {
     this.props.joinInterestGroup(this.props.group.id, this.props.currentUser);
   };
@@ -119,7 +152,7 @@ class InterestGroupDetail extends Component {
     const { group: { memberships = [] } } = this.props;
     const user = this.props.currentUser.id;
     const membership = memberships.find(m => m.user.id === user);
-    this.props.leaveInterestGroup(membership);
+    membership && this.props.leaveInterestGroup(membership);
   };
 
   render() {

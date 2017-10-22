@@ -1,10 +1,8 @@
+// @flow
+
 import React from 'react';
 import cx from 'classnames';
 import styles from './Flex.css';
-
-// Do this because prettier makes wierd formatting
-const around = 'space-around';
-const between = 'space-between';
 
 type Props = {
   children: any,
@@ -17,8 +15,17 @@ type Props = {
   wrap?: boolean,
   /** Wrap elements in reverse order */
   wrapReverse?: boolean,
-  justifyContent?: 'flex-start' | 'flex-end' | 'center' | between | around,
-  alignItems?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch'
+  justifyContent?:
+    | 'flex-start'
+    | 'flex-end'
+    | 'center'
+    | 'space-between'
+    | 'space-around',
+  alignItems?: 'flex-start' | 'flex-end' | 'center' | 'baseline' | 'stretch',
+  padding?: number | string,
+  margin?: number | string,
+  width?: number | string,
+  style?: Object
 };
 /**
 * Simple FlexBox component

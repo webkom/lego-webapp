@@ -1,3 +1,5 @@
+// @flow
+
 import styles from './Overview.css';
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
@@ -11,12 +13,13 @@ import Feed from './Feed';
 import CompactEvents from './CompactEvents';
 import { EVENT_TYPE_TO_STRING, colorForEvent } from 'app/routes/events/utils';
 import Button from 'app/components/Button';
+import type { Event } from 'app/models';
 
 const TITLE_MAX_LENGTH = 50;
 const DESCRIPTION_MAX_LENGTH = 140;
 const IMAGE_HEIGHT = 192;
 
-function PrimaryItem({ event }) {
+function PrimaryItem({ event }: { event: ?Event }) {
   if (!event) {
     return (
       <Flex column className={styles.primaryItem}>
@@ -72,7 +75,7 @@ function PrimaryItem({ event }) {
   );
 }
 
-const OverviewItem = ({ item }) => {
+const OverviewItem = ({ item }: { item: Object }) => {
   const base = item.eventType ? 'events' : 'articles';
   return (
     <Flex column className={styles.item}>
@@ -125,7 +128,17 @@ const OverviewItem = ({ item }) => {
   );
 };
 
-export default class Overview extends Component {
+type Props = {
+  frontpage: Array<Object>,
+  feed: Object,
+  feedItems: Array<Object>
+};
+
+type State = {
+  eventsToShow: number
+};
+
+export default class Overview extends Component<Props, State> {
   state = {
     eventsToShow: 4
   };
@@ -165,8 +178,7 @@ export default class Overview extends Component {
           {frontpage.length > 0 && (
             <Button
               style={{ width: '100%', margin: '10px' }}
-              onClick={() =>
-                this.setState({ eventsToShow: this.state.eventsToShow ** 2 })}
+              onClick={this.increaseEventsToShow}
             >
               Vis flere
             </Button>

@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import { Editor } from 'slate-react';
 import { resetKeyGenerator } from 'slate';
@@ -21,7 +23,7 @@ const isUnderlinedHotkey = isHotkey('mod+u');
 const isCodeHotkey = isHotkey('mod+`');
 
 type Document = {
-  getClosest: (string, () => boolean) => void
+  getClosest: (string, (Object) => boolean) => void
 };
 
 type EditorState = {
@@ -50,7 +52,8 @@ type Props = {
   onBlur?: () => void,
   autoFocus?: boolean,
   readOnly?: boolean,
-  onChange?: any
+  onChange?: any,
+  onFocus?: () => void
 };
 
 type State = {
@@ -60,9 +63,7 @@ type State = {
 
 const emptyState = '<p></p>';
 
-class CustomEditor extends Component {
-  state: State;
-  props: Props;
+class CustomEditor extends Component<Props, State> {
   lastSerialized: string = '';
 
   constructor(props: Props) {
@@ -92,7 +93,7 @@ class CustomEditor extends Component {
     this.updateHoverMenu();
   };
 
-  getType = (chars: string) => {
+  getType = (chars: string): ?BlockType => {
     switch (chars) {
       case '*':
       case '-':
@@ -133,8 +134,8 @@ class CustomEditor extends Component {
     }
   };
 
-  onKeyDown = (e: SyntheticInputEvent, data: Object, change: Change) => {
-    let mark;
+  onKeyDown = (e: SyntheticInputEvent<*>, data: Object, change: Change) => {
+    let mark: MarkType;
 
     if (data.key === 'space') {
       return this.onSpace(e, change);
@@ -165,7 +166,7 @@ class CustomEditor extends Component {
     return true;
   };
 
-  onSpace = (e: SyntheticInputEvent, change: Change) => {
+  onSpace = (e: SyntheticInputEvent<*>, change: Change) => {
     const { state }: any = change;
     if (state.isExpanded) return;
 
@@ -188,7 +189,7 @@ class CustomEditor extends Component {
     return true;
   };
 
-  onBackspace = (e: SyntheticInputEvent, change: Change) => {
+  onBackspace = (e: SyntheticInputEvent<*>, change: Change) => {
     const { state } = change;
     if (state.isExpanded) return;
     if (state.startOffset !== 0) return;
@@ -206,7 +207,7 @@ class CustomEditor extends Component {
     return true;
   };
 
-  onEnter = (e: SyntheticInputEvent, change: Change) => {
+  onEnter = (e: SyntheticInputEvent<*>, change: Change) => {
     const { state } = change;
     if (state.isExpanded) return;
 
@@ -230,13 +231,13 @@ class CustomEditor extends Component {
     return true;
   };
 
-  onToggleMark = (e: SyntheticInputEvent, type: MarkType) => {
+  onToggleMark = (e: SyntheticInputEvent<*>, type: MarkType) => {
     e.preventDefault();
     const change = this.state.state.change().toggleMark(type);
     this.onChange(change);
   };
 
-  onToggleBlock = (e: SyntheticInputEvent, type: BlockType) => {
+  onToggleBlock = (e: SyntheticInputEvent<*>, type: BlockType) => {
     e.preventDefault();
     const { state } = this.state;
     const change = state.change();
@@ -285,6 +286,7 @@ class CustomEditor extends Component {
   };
 
   onOpenHoverMenu = (portal: HTMLElement) => {
+    // $FlowFixMe firstChild dom Node?
     this.setState({ menu: portal.firstChild });
   };
 

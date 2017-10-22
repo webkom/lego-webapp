@@ -73,3 +73,10 @@ export type AnyAction<R> = PromiseAction<R> | Thunk<R> | Action;
 export type Dispatch<R> = (action: AnyAction<R>) => R;
 
 export type Thunk<R> = (dispatch: Dispatch<R>, getState: GetState) => R;
+
+export type ReduxFormProps = {
+  pristine: boolean,
+  submitting: boolean,
+  invalid: boolean,
+  handleSubmit: Function => void
+};

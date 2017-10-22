@@ -1,7 +1,7 @@
 // @flow
 
 import styles from './ConfirmModal.css';
-import React, { type ComponentType } from 'react';
+import React, { type ComponentType, type Node } from 'react';
 import Modal from 'app/components/Modal';
 import Button from '../Button';
 
@@ -9,7 +9,8 @@ type ConfirmModalProps = {
   onConfirm: () => any,
   onCancel?: () => any,
   message: string,
-  title: string
+  title: string,
+  children: Node
 };
 
 export const ConfirmModal = ({
@@ -65,7 +66,7 @@ export default function withModal<Props>(
   };
 }
 
-const ChildrenWithProps = ({ children, ...restProps }) => (
+const ChildrenWithProps = ({ children, ...restProps }: { children: Node }) => (
   <div>
     {React.Children.map(children, child =>
       React.cloneElement(child, { ...restProps })

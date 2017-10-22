@@ -1,12 +1,25 @@
+// @flow
+
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import type { ID, Event, ActionGrant } from 'app/models';
 
-export default class Admin extends Component {
+type Props = {
+  deleteEvent: (eventId: ID) => mixed,
+  event: Event,
+  actionGrant: ActionGrant
+};
+
+type State = {
+  verifyDelete: boolean
+};
+
+export default class Admin extends Component<Props, State> {
   state = {
     verifyDelete: false
   };
 
-  handleDelete = (eventId: string) => {
+  handleDelete = (eventId: number) => {
     if (this.state.verifyDelete) {
       this.props.deleteEvent(eventId);
     }

@@ -1,3 +1,5 @@
+// @flow
+
 import styles from './UserConfirmation.css';
 import React from 'react';
 import { Container } from 'app/components/Layout';
@@ -13,6 +15,17 @@ import {
 import { Link } from 'react-router';
 import { Field } from 'redux-form';
 import { createValidator, required } from 'app/utils/validation';
+import type { ReduxFormProps } from 'app/types';
+
+type Props = {
+  studentConfirmed: boolean,
+  handleSubmit: Function => void,
+  sendStudentConfirmationEmail: () => void,
+  router: any,
+  loggedIn: boolean,
+  submitSucceeded: () => void,
+  isStudent: boolean
+} & ReduxFormProps;
 
 const StudentConfirmation = ({
   studentConfirmed,
@@ -25,7 +38,7 @@ const StudentConfirmation = ({
   invalid,
   pristine,
   submitting
-}) => {
+}: Props) => {
   if (!loggedIn) {
     router.push('/');
     return null;
@@ -59,7 +72,7 @@ const StudentConfirmation = ({
     );
   }
 
-  const disabledButton = invalid | pristine | submitting;
+  const disabledButton = invalid || pristine || submitting;
   return (
     <Container>
       <div>

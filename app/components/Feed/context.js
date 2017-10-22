@@ -10,25 +10,37 @@ export function lookupContext(
   return aggregatedActivity.context[key];
 }
 
+const renderUser = (context: Object) => (
+  <Link to={`/users/${context.username}/`}>
+    {`${context.firstName} ${context.lastName}`}
+  </Link>
+);
+
+const renderEvent = (context: Object) => (
+  <Link to={`/events/${context.id}/`}>{`${context.title}`}</Link>
+);
+
+const renderMeetingInvitation = (context: Object) => (
+  <Link to={`/meetings/${context.meeting.id}/`}>{context.meeting.title}</Link>
+);
+
+const renderArticle = (context: Object) => (
+  <Link to={`/articles/${context.id}/`}>{context.title}</Link>
+);
+
+const renderAnnouncement = (context: Object) => <p>{context.message}</p>;
+
+const renderGalleryPicture = (context: Object) => (
+  <Link to={`/photos/${context.gallery.id}/picture/${context.id}`}>
+    {context.gallery.title}-#{context.id}
+  </Link>
+);
+
 export const contextRender = {
-  'users.user': (context: Object) => (
-    <Link to={`/users/${context.username}/`}>
-      {`${context.firstName} ${context.lastName}`}
-    </Link>
-  ),
-  'events.event': (context: Object) => (
-    <Link to={`/events/${context.id}/`}>{`${context.title}`}</Link>
-  ),
-  'meetings.meetinginvitation': (context: Object) => (
-    <Link to={`/meetings/${context.meeting.id}/`}>{context.meeting.title}</Link>
-  ),
-  'articles.article': (context: Object) => (
-    <Link to={`/articles/${context.id}/`}>{context.title}</Link>
-  ),
-  'notifications.announcement': (context: Object) => <p>{context.message}</p>,
-  'gallery.gallerypicture': (context: Object) => (
-    <Link to={`/photos/${context.gallery.id}/picture/${context.id}`}>
-      {context.gallery.title}-#{context.id}
-    </Link>
-  )
+  'users.user': renderUser,
+  'events.event': renderEvent,
+  'meetings.meetinginvitation': renderMeetingInvitation,
+  'articles.article': renderArticle,
+  'notifications.announcement': renderAnnouncement,
+  'gallery.gallerypicture': renderGalleryPicture
 };

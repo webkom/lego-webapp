@@ -1,10 +1,17 @@
+// @flow
+
 import styles from './Registrations.css';
 import React from 'react';
 import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
 import { Flex } from 'app/components/Layout';
+import type { EventRegistration } from 'app/models';
 
-const Registration = ({ registration }) => (
+type RegistrationProps = {
+  registration: EventRegistration
+};
+
+const Registration = ({ registration }: RegistrationProps) => (
   <Tooltip content={registration.user.fullName}>
     <Link
       to={`/users/${registration.user.username}`}
@@ -29,14 +36,22 @@ const renderNameList = registrations => {
   );
 };
 
-const RegistrationList = ({ registrations, onClick }) => (
+type RegistrationListProps = {
+  registrations: Array<EventRegistration>,
+  onClick: () => any
+};
+
+const RegistrationList = ({
+  registrations,
+  onClick
+}: RegistrationListProps) => (
   <Tooltip
     content={renderNameList(registrations)}
     list
     className={styles.registrationList}
     onClick={onClick}
   >
-    <a href="#">
+    <a href="">
       {`${registrations.length} ${registrations.length === 1
         ? 'annen'
         : 'andre'}`}
@@ -44,7 +59,15 @@ const RegistrationList = ({ registrations, onClick }) => (
   </Tooltip>
 );
 
-const RegisteredSummary = ({ registrations, pools, title, toggleModal }) => {
+type RegisteredSummaryProps = {
+  registrations: Array<EventRegistration>,
+  toggleModal?: number => void
+};
+
+const RegisteredSummary = ({
+  registrations,
+  toggleModal
+}: RegisteredSummaryProps) => {
   const summary = [];
 
   if (registrations.length === 0) {
@@ -66,7 +89,7 @@ const RegisteredSummary = ({ registrations, pools, title, toggleModal }) => {
       <RegistrationList
         key={2}
         registrations={registrations.slice(2)}
-        onClick={() => toggleModal(0)}
+        onClick={() => toggleModal && toggleModal(0)}
       />
     );
   }
