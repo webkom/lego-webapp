@@ -1,0 +1,38 @@
+
+.table {
+  width: 100%;
+}
+
+.sorter {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.searchIcon {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+  line-height: 1;
+  cursor: pointer;
+  position: relative;
+}
+
+.loader {
+  border-bottom: none;
+}
+
+.overlay {
+  position: absolute;
+  min-width: 200px;
+  padding: 8px;
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+}
+
+.iconActive {
+  color: #c0392b;
+}
