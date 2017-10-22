@@ -1,3 +1,4 @@
+//@flow
 import React, { Component } from 'react';
 import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
@@ -5,8 +6,10 @@ import { Link } from 'react-router';
 import moment from 'moment';
 
 type Props = {
-  groupId: number,
-  updateGroup: () => void
+  fetching: boolean,
+  hasMore: boolean,
+  restrictedMails: Array<Object>,
+  fetch: ({ filters: Object, next: boolean }) => Promise<*>
 };
 
 export default class RestrictedMailList extends Component {

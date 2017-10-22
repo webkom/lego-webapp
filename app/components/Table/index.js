@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { type Node } from 'react';
 import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { TextInput } from 'app/components/Form';
@@ -11,10 +11,11 @@ import InfiniteScroll from 'react-infinite-scroller';
 import styles from './Table.css';
 
 type columnProps = {
-  dataIndex: 'string',
-  title: 'string',
+  dataIndex: string,
+  title: string,
+  search?: boolean,
   width?: number,
-  render?: () => void
+  render?: (string, Object) => Node
 };
 
 type Props = {
@@ -35,7 +36,7 @@ type State = {
   }
 };
 
-export default class Table extends Component {
+export default class Table extends React.Component {
   props: Props;
 
   state: State = {

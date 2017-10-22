@@ -1,10 +1,14 @@
+//@flow
+
 import React, { Component } from 'react';
 import Table from 'app/components/Table';
 import { Link } from 'react-router';
 
 type Props = {
-  groupId: number,
-  updateGroup: () => void
+  fetching: boolean,
+  hasMore: boolean,
+  emailLists: Array<Object>,
+  fetch: ({ filters: Object, next: boolean }) => Promise<*>
 };
 
 export default class EmailListsPage extends Component {
