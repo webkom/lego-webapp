@@ -18,6 +18,7 @@ type Props = {
   onBlur: (e: any) => void,
   onSearch: string => void,
   shouldKeyDownEventCreateNewOption: number => boolean,
+  isValidNewOption: string => boolean,
   value: any,
   options?: {}[]
 };
@@ -28,6 +29,7 @@ function SelectInput({
   selectStyle,
   onBlur,
   shouldKeyDownEventCreateNewOption,
+  isValidNewOption,
   value,
   options = [],
   ...props
@@ -42,6 +44,7 @@ function SelectInput({
           onBlurResetsInput={false}
           onBlur={() => onBlur(value)}
           value={value}
+          isValidNewOption={isValidNewOption}
           shouldKeyDownEventCreateNewOption={shouldKeyDownEventCreateNewOption}
           options={options}
           isLoading={fetching}

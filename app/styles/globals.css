@@ -75,11 +75,6 @@ table {
   border-collapse: collapse;
 }
 
-table a {
-  display: block;
-  color: black;
-}
-
 th {
   padding: 5px 0;
   border-top: 1px solid #aaa;

@@ -11,12 +11,6 @@
   transition: 0.1s;
 }
 
-.tagLink:hover {
-  background: #ba1414;
-  color: #fff;
-  transition: 0.2s;
-}
-
 .tagLink a,
 .tagLinkSmall a {
   color: inherit;
@@ -27,11 +21,29 @@
   transition: 0.1s;
 }
 
-.tagLinkSmall:hover {
+.tags {
+  margin: 20px 0;
+}
+
+.link:hover {
   color: #ba1414;
   transition: 0.2s;
 }
 
-.tags {
-  margin: 20px 0;
+.link:hover {
+  background: #ba1414;
+  color: #fff;
+  transition: 0.2s;
+}
+
+.cyan {
+  color: #00a2ae;
+  background: #cfedf0;
+  border-color: #cfedf0;
+}
+
+.orange {
+  color: #f56a00;
+  background: #fde3cf;
+  border-color: #fde3cf;
 }

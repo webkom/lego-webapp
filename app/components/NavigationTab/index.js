@@ -11,7 +11,7 @@ type Props = {
   headerClassName?: string,
   className?: string,
   headerClassName?: string,
-  children?: React$Element<*>
+  children?: Array<NavigationLink>
 };
 
 const NavigationTab = (props: Props) => {

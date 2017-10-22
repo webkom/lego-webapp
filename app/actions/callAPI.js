@@ -7,6 +7,7 @@ import fetchJSON, {
   type HttpResponse
 } from 'app/utils/fetchJSON';
 import config from '../config';
+import createQueryString from 'app/utils/createQueryString';
 import { logout } from 'app/actions/UserActions';
 import getCachedRequest from 'app/utils/getCachedRequest';
 import { setStatusCode } from './RoutingActions';
@@ -47,6 +48,7 @@ type CallAPIOptions = {
   headers?: { [key: string]: string },
   schema?: Schema,
   body?: Object | string,
+  query?: Object,
   json?: boolean,
   meta?: { [key: string]: mixed },
   files?: Array<any>,
@@ -77,6 +79,7 @@ export default function callAPI({
   json = true,
   endpoint,
   body,
+  query,
   files,
   meta,
   schema,
@@ -146,8 +149,13 @@ export default function callAPI({
           })
         : null;
 
+    let qs = '';
+    if (query) {
+      qs = createQueryString(query);
+    }
+
     const promise: Promise<HttpResponse<*>> = fetchJSON(
-      urlFor(endpoint),
+      urlFor(`${endpoint}${qs}`),
       requestOptions
     );
 

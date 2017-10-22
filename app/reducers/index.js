@@ -8,6 +8,7 @@ import allowed from './allowed';
 import form from './forms';
 import companies from './companies';
 import companySemesters from './companySemesters';
+import emailLists from './emailLists';
 import quotes from './quotes';
 import pictures from './pictures';
 import events from './events';
@@ -15,6 +16,7 @@ import articles from './articles';
 import pools from './pools';
 import registrations from './registrations';
 import meetingsToken from './meetingsToken';
+import restrictedMails from './restrictedMails';
 import meetings from './meetings';
 import meetingInvitations, {
   getMeetingInvitationId
@@ -23,6 +25,7 @@ import memberships from './memberships';
 import search from './search';
 import auth from './auth';
 import users from './users';
+import emailUsers from './emailUsers';
 import groups from './groups';
 import { oauth2Applications, oauth2Grants } from './oauth2';
 import notifications from './notifications';
@@ -46,6 +49,7 @@ const reducers = {
   quotes,
   events,
   pictures,
+  restrictedMails,
   articles,
   pools,
   registrations,
@@ -60,8 +64,10 @@ const reducers = {
   form,
   users,
   groups,
+  emailUsers,
   oauth2Applications,
   oauth2Grants,
+  emailLists,
   pages,
   galleries,
   notifications,
@@ -89,12 +95,20 @@ export default function rootReducer(state: State, action: Action) {
   return appReducer(state, action);
 }
 
+export const restrictedMailSchema = new schema.Entity('restrictedMails');
+
 export const groupSchema = new schema.Entity('groups');
-export const userSchema = new schema.Entity(
-  'users',
-  { abakusGroups: [groupSchema] },
-  { idAttribute: 'username' }
-);
+export const userSchema = new schema.Entity('users', {
+  abakusGroups: [groupSchema]
+});
+export const emailUserSchema = new schema.Entity('emailUsers', {
+  user: userSchema
+});
+export const emailListSchema = new schema.Entity('emailLists', {
+  users: [userSchema],
+  groups: [groupSchema]
+});
+
 export const registrationSchema = new schema.Entity('registrations', {
   user: userSchema
 });
