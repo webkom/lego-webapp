@@ -1,6 +1,11 @@
+// @flow
+
+import React, { type Node } from 'react';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import React from 'react';
+import type { Semester } from 'app/models';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import type { CompanySemesterContactedStatus } from 'app/models';
 
 export const statusStrings = {
   company_presentation: 'Bedpres',
@@ -13,10 +18,13 @@ export const statusStrings = {
   not_contacted: 'Ikke kontaktet'
 };
 
-export const getStatusString = status =>
-  statusStrings[status] || (status || 'Ikke kontaktet');
+export const getStatusString = (
+  status: CompanySemesterContactedStatus = 'not_contacted'
+) => statusStrings[status];
 
-export const selectColorCode = status => {
+export const selectColorCode = (
+  status: CompanySemesterContactedStatus = 'not_contacted'
+) => {
   const statusToClass = {
     bedex: 'bedex',
     company_presentation: 'companyPresentation',
@@ -27,10 +35,14 @@ export const selectColorCode = status => {
     contacted: 'contacted',
     not_contacted: 'notContacted'
   };
-  return statusToClass[status] || 'notContacted';
+
+  return statusToClass[status];
 };
 
-export const sortStatusesByProminence = (a, b) => {
+export const sortStatusesByProminence = (
+  a: CompanySemesterContactedStatus,
+  b: CompanySemesterContactedStatus
+) => {
   const priority = {
     bedex: 0,
     company_presentation: 1,
@@ -44,19 +56,21 @@ export const sortStatusesByProminence = (a, b) => {
   return priority[a] - priority[b];
 };
 
-export const selectMostProminentStatus = statuses => {
+export const selectMostProminentStatus = (
+  statuses: Array<CompanySemesterContactedStatus> = []
+) => {
   return statuses.sort(sortStatusesByProminence)[0];
 };
 
-export const semesterNameOf = index => {
+export const semesterNameOf = (index: number) => {
   const indexToSemesterName = {
-    0: 'spring',
-    1: 'autumn'
+    '0': 'spring',
+    '1': 'autumn'
   };
   return indexToSemesterName[index] || 'spring';
 };
 
-export const semesterCodeToName = code => {
+export const semesterCodeToName = (code: Semester) => {
   const codeToName = {
     spring: 'Vår',
     autumn: 'Høst'
@@ -64,21 +78,24 @@ export const semesterCodeToName = code => {
   return codeToName[code] || '-';
 };
 
-export const sortByYearThenSemester = (a, b) => {
+export const sortByYearThenSemester = (
+  a: CompanySemesterEntity,
+  b: CompanySemesterEntity
+) => {
   const semesterCodeToPriority = {
     spring: 0,
     autumn: 1
   };
   return a.year !== b.year
-    ? b.year - a.year
+    ? parseInt(b.year, 10) - parseInt(a.year, 10)
     : semesterCodeToPriority[b.semester] - semesterCodeToPriority[a.semester];
 };
 
 export const indexToSemester = (
-  index,
-  startYear,
-  startSem,
-  companySemesters
+  index: number,
+  startYear: number,
+  startSem: number,
+  companySemesters?: Array<CompanySemesterEntity>
 ) => {
   const semester = semesterNameOf((index % 2 + startSem) % 2);
 
@@ -102,7 +119,7 @@ export const indexToSemester = (
   );
 };
 
-export const httpCheck = link => {
+export const httpCheck = (link: string) => {
   const httpLink =
     link.startsWith('http://') || link.startsWith('https://')
       ? link
@@ -110,7 +127,10 @@ export const httpCheck = link => {
   return link === '' ? link : httpLink;
 };
 
-export const getContactedStatuses = (contactedStatuses, statusString) => {
+export const getContactedStatuses = (
+  contactedStatuses: Array<CompanySemesterContactedStatus>,
+  statusString: CompanySemesterContactedStatus
+) => {
   const statusIsAlreadySelected =
     contactedStatuses.indexOf(statusString) !== -1;
 
@@ -143,7 +163,7 @@ export const getContactedStatuses = (contactedStatuses, statusString) => {
   return contactedStatuses;
 };
 
-export const ListNavigation = ({ title }: { title: string }) => (
+export const ListNavigation = ({ title }: { title: Node }) => (
   <NavigationTab title={title}>
     <NavigationLink to="/bdb">Liste</NavigationLink>
     <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
@@ -154,7 +174,7 @@ export const DetailNavigation = ({
   title,
   companyId
 }: {
-  title: string,
+  title: Node,
   companyId: number
 }) => (
   <NavigationTab title={title}>

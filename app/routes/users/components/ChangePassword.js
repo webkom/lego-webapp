@@ -1,3 +1,5 @@
+// @flow
+
 import React from 'react';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import Button from 'app/components/Button';
@@ -13,7 +15,7 @@ type Props = {
   invalid: boolean,
   pristine: boolean,
   submitting: boolean,
-  handleSubmit: Event => Promise<void>,
+  handleSubmit: Function => Promise<void>,
   changePassword: Object => Promise<void>
 };
 

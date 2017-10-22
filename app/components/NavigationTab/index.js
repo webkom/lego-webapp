@@ -7,7 +7,7 @@ import styles from './NavigationTab.css';
 import cx from 'classnames';
 
 type Props = {
-  title: string,
+  title: Node,
   headerClassName?: string,
   className?: string,
   headerClassName?: string,

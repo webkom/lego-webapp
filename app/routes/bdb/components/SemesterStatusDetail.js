@@ -12,6 +12,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { SemesterStatusEntity } from 'app/reducers/companies';
 import FileUpload from 'app/components/Upload/FileUpload';
 import truncateString from 'app/utils/truncateString';
+import type { CompanySemesterContactedStatus } from 'app/models';
 
 const FILE_NAME_LENGTH = 30;
 
@@ -20,7 +21,10 @@ type Props = {
   index: number,
   companyId: number,
   deleteSemesterStatus: (number, number) => Promise<*>,
-  editFunction: (Object, string) => Promise<*>,
+  editFunction: (
+    semesterStatus: SemesterStatusEntity,
+    statusString: CompanySemesterContactedStatus
+  ) => Promise<*>,
   addFileToSemester: (string, string, string, Object) => Promise<*>
 };
 
@@ -111,7 +115,11 @@ export default class SemesterStatusDetail extends Component<Props, State> {
                 style={{ marginRight: '5px', color: 'orange' }}
               />
             </a>
-            <a onClick={() => this.deleteSemesterStatus(semesterStatus.id)}>
+            <a
+              onClick={() =>
+                semesterStatus.id &&
+                this.deleteSemesterStatus(semesterStatus.id)}
+            >
               <i className="fa fa-times" style={{ color: '#d13c32' }} />
             </a>
           </span>

@@ -1,4 +1,5 @@
-import React from 'react';
+// @flow
+
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from '@webkom/react-prepare';
@@ -7,14 +8,6 @@ import CompanyDetail from './components/CompanyDetail';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectEventsForCompany } from 'app/reducers/companies';
-
-type Props = {
-  fetchCompany: () => {}
-};
-
-const CompanyDetailRoute = (props: Props) => {
-  return <CompanyDetail {...props} />;
-};
 
 const mapStateToProps = (state, props) => {
   const { companyId } = props.params;
@@ -43,5 +36,6 @@ export default compose(
       componentWillReceiveProps: false
     }
   ),
+  // $FlowFixMe
   connect(mapStateToProps, null)
-)(CompanyDetailRoute);
+)(CompanyDetail);

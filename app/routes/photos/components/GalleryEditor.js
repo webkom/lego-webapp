@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from 'react';
 import cx from 'classnames';
 import moment from 'moment-timezone';
@@ -15,32 +17,36 @@ import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
 import EmptyState from 'app/components/EmptyState';
 import GalleryEditorActions from './GalleryEditorActions';
-import Gallery from 'app/components/Gallery';
+import GalleryComponent from 'app/components/Gallery';
 import styles from './Overview.css';
 import { pull, find } from 'lodash';
+
+import type { ID, Gallery } from 'app/models';
 
 type Props = {
   isNew: boolean,
   gallery: Object,
-  pictures: [],
-  handleSubmit: () => void,
-  createGallery: () => Promise<*>,
+  pictures: Array<Object>,
+  handleSubmit: Function => void,
+  createGallery: Gallery => Promise<*>,
   push: string => Promise<*>,
-  updateGallery: (number, Object) => Promise<*>,
-  deleteGallery: () => Promise<*>,
+  updateGallery: (ID, Object) => Promise<*>,
+  deleteGallery: ID => Promise<*>,
   updateGalleryCover: (number, number) => Promise<*>,
-  updatePicture: () => Promise<*>,
-  deletePicture: () => Promise<*>
+  updatePicture: (
+    galleryId: ID,
+    photoId: ID,
+    { active: boolean }
+  ) => Promise<*>,
+  deletePicture: (galleryId: ID, photoId: ID) => Promise<*>
 };
 
 type State = {
   selected: Array<number>
 };
 
-class GalleryEditor extends Component {
-  props: Props;
-
-  state: State = {
+class GalleryEditor extends Component<Props, State> {
+  state = {
     selected: []
   };
 
@@ -104,11 +110,11 @@ class GalleryEditor extends Component {
 
   pictureStatus = () => {
     const activePictures = this.state.selected
-      .map(id => find(this.props.pictures, ['id', id]))
+      .map(id => find(this.props.pictures, ['id', id]) || {})
       .filter(picture => picture.active);
 
     const inactivePictures = this.state.selected
-      .map(id => find(this.props.pictures, ['id', id]))
+      .map(id => find(this.props.pictures, ['id', id]) || {})
       .filter(picture => !picture.active);
 
     if (activePictures.length === this.state.selected.length) {
@@ -218,7 +224,7 @@ class GalleryEditor extends Component {
               <h1>For å legge inn bilder må du først lage albumet!</h1>
             </EmptyState>
           ) : (
-            <Gallery
+            <GalleryComponent
               photos={pictures}
               renderOverlay={photo => (
                 <div
@@ -248,7 +254,7 @@ class GalleryEditor extends Component {
                   {photo.id === gallery.cover.id && <span>Cover</span>}
                 </Flex>
               )}
-              renderEmpty={
+              renderEmpty={() => (
                 <EmptyState icon="photos-outline">
                   <h1>Ingen bilder å redigere</h1>
                   <h4>
@@ -256,7 +262,7 @@ class GalleryEditor extends Component {
                     inn bilder
                   </h4>
                 </EmptyState>
-              }
+              )}
               onClick={this.handleClick}
               srcKey="file"
             />
