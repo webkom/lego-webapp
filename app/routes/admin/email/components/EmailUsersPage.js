@@ -20,14 +20,16 @@ export default class EmailUsersPage extends Component<Props> {
       {
         title: 'Bruker',
         dataIndex: 'user',
-        render: (user, emailUser) => (
+        render: (user: Object, emailUser) => (
           <Link to={`/admin/email/users/${emailUser.id}`}>{user.fullName}</Link>
         )
       },
       {
         title: 'Internepost',
         dataIndex: 'internalEmail',
-        render: internalEmail => <span>{`${internalEmail}@abakus.no`}</span>
+        render: (internalEmail: string) => (
+          <span>{`${internalEmail}@abakus.no`}</span>
+        )
       },
       {
         title: 'Status',

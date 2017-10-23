@@ -16,7 +16,7 @@ type columnProps = {
   sorter?: (any, any) => number,
   search?: boolean,
   width?: number,
-  render?: (string | Object, Object) => Node
+  render?: (any, Object) => Node
 };
 
 type Props = {
@@ -57,7 +57,7 @@ export default class Table extends Component<Props, State> {
     });
   };
 
-  onSearchInput = ({ target }: SyntheticInputEvent, column: columnProps) => {
+  onSearchInput = ({ target }: SyntheticInputEvent<*>, column: columnProps) => {
     this.setState(
       { filters: { ...this.state.filters, [column.dataIndex]: target.value } },
       () => this.onChange()
@@ -92,6 +92,7 @@ export default class Table extends Component<Props, State> {
           <div className={styles.searchIcon}>
             <div
               ref={c => {
+                // $FlowFixMe
                 this[`${column.dataIndex}Search`] = c;
               }}
               className={styles.searchIcon}
@@ -106,7 +107,9 @@ export default class Table extends Component<Props, State> {
               show={this.state[`show${column.dataIndex}Search`]}
               onHide={() => this.toggleSearch(column)}
               placement="bottom"
+              // $FlowFixMe
               container={this[`${column.dataIndex}Search`]}
+              // $FlowFixMe
               target={() => this[`${column.dataIndex}Search`]}
               rootClose
             >

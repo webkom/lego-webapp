@@ -20,7 +20,7 @@ export default class EmailListsPage extends Component<Props> {
         title: 'Navn',
         dataIndex: 'name',
         search: true,
-        render: (name, emailList) => (
+        render: (name: string, emailList) => (
           <Link to={`/admin/email/lists/${emailList.id}`}>{name}</Link>
         )
       },
@@ -28,7 +28,7 @@ export default class EmailListsPage extends Component<Props> {
         title: 'Epost',
         dataIndex: 'email',
         search: true,
-        render: email => <span>{`${email}@abakus.no`}</span>
+        render: (email: string) => <span>{`${email}@abakus.no`}</span>
       }
     ];
 
