@@ -214,6 +214,17 @@ export default class EventDetail extends Component<Props> {
                     )}
                   </div>
                 )}
+                {event.unregistrationDeadline && (
+                  <li>
+                    Avregistreringsfrist:{' '}
+                    <strong>
+                      <Time
+                        time={event.unregistrationDeadline}
+                        format="DD.MM.YYYY HH:mm"
+                      />
+                    </strong>
+                  </li>
+                )}
               </ul>
               {loggedIn && (
                 <Flex column>

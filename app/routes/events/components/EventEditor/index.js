@@ -214,6 +214,16 @@ function EventEditor({
                 />
               </div>
             )}
+            <Tooltip content="Frist for avmelding – fører til prikk etterpå">
+              <Field
+                key="unregistrationDeadline"
+                label="Avregistreringsfrist"
+                name="unregistrationDeadline"
+                component={DatePicker.Field}
+                fieldClassName={styles.metaField}
+                className={styles.formField}
+              />
+            </Tooltip>
             <Flex column>
               <h3>Påmeldte:</h3>
               <Flex className={styles.registeredThumbnails}>
