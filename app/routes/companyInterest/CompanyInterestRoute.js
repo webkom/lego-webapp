@@ -9,7 +9,7 @@ import CompanyInterestPage, {
   OTHER_TYPES
 } from './components/CompanyInterestPage';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import { sortSemesterChronologically } from './utils.js';
 
 const loadSemesters = (props, dispatch) =>
@@ -48,8 +48,6 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  dispatched(loadSemesters, {
-    componentWillReceiveProps: false
-  })
+  prepare(loadSemesters),
+  connect(mapStateToProps, mapDispatchToProps)
 )(CompanyInterestPage);
