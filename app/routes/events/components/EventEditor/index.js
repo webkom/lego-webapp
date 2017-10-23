@@ -32,8 +32,6 @@ import type { ID } from 'app/models';
 type Props = {
   eventId: number,
   event: Object,
-  loggedIn: boolean,
-  currentUser: Object,
   actionGrant: Array<string>,
   error?: Object,
   loading: boolean,
@@ -54,8 +52,6 @@ type Props = {
 function EventEditor({
   event,
   eventId,
-  loggedIn,
-  currentUser,
   actionGrant,
   error,
   loading,
@@ -104,11 +100,19 @@ function EventEditor({
           aspectRatio={20 / 6}
           img={event.cover}
         />
+        <Field
+          label="Festet på forsiden"
+          name="pinned"
+          component={CheckBox.Field}
+          fieldClassName={styles.metaField}
+          className={styles.formField}
+          normalize={v => !!v}
+        />
         <Flex wrap alignItems="center" justifyContent="space-between">
           <Field
             name="title"
             placeholder="Tittel"
-            className={styles.title}
+            className={cx(styleType, styles.title)}
             component={TextInput.Field}
           />
         </Flex>
@@ -131,7 +135,7 @@ function EventEditor({
               {(event.tags || []).map((tag, i) => <Tag key={i} tag={tag} />)}
             </Flex>
           </Flex>
-          <Flex column className={cx(styles.meta, styleType)}>
+          <Flex column className={styles.meta}>
             <Field
               name="eventType"
               label="Hva"
@@ -201,45 +205,60 @@ function EventEditor({
                   fieldClassName={styles.metaField}
                   className={styles.formField}
                 />
+                <Field
+                  label="Betalingsfrist"
+                  name="paymentDueDate"
+                  component={DatePicker.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                />
               </div>
             )}
-            {loggedIn && (
-              <Flex column>
-                <h3>Påmeldte:</h3>
-                <Flex className={styles.registeredThumbnails}>
-                  {registrations &&
-                    registrations
-                      .slice(0, 10)
-                      .map(reg => (
-                        <RegisteredCell key={reg.user.id} user={reg.user} />
-                      ))}
-                </Flex>
-                <RegisteredSummary registrations={[]} toggleModal={i => {}} />
-                <AttendanceStatus title="Påmeldte" pools={pools} />
-                <div className={styles.metaList}>
-                  <FieldArray name="pools" component={renderPools} />
-                </div>
-                {pools &&
-                  pools.length > 1 && (
-                    <Tooltip content="Tidspunkt for å slå sammen poolene">
-                      <Field
-                        label="Merge time"
-                        name="mergeTime"
-                        component={DatePicker.Field}
-                        fieldClassName={styles.metaField}
-                        className={styles.formField}
-                      />
-                    </Tooltip>
-                  )}
-                {isEditPage && (
-                  <Admin
-                    actionGrant={actionGrant}
-                    event={event}
-                    deleteEvent={deleteEvent}
-                  />
-                )}
+            <Tooltip content="Frist for avmelding – fører til prikk etterpå">
+              <Field
+                key="unregistrationDeadline"
+                label="Avregistreringsfrist"
+                name="unregistrationDeadline"
+                component={DatePicker.Field}
+                fieldClassName={styles.metaField}
+                className={styles.formField}
+              />
+            </Tooltip>
+            <Flex column>
+              <h3>Påmeldte:</h3>
+              <Flex className={styles.registeredThumbnails}>
+                {registrations &&
+                  registrations
+                    .slice(0, 10)
+                    .map(reg => (
+                      <RegisteredCell key={reg.user.id} user={reg.user} />
+                    ))}
               </Flex>
-            )}
+              <RegisteredSummary registrations={[]} toggleModal={i => {}} />
+              <AttendanceStatus title="Påmeldte" pools={pools} />
+              <div className={styles.metaList}>
+                <FieldArray name="pools" component={renderPools} />
+              </div>
+              {pools &&
+                pools.length > 1 && (
+                  <Tooltip content="Tidspunkt for å slå sammen poolene">
+                    <Field
+                      label="Merge time"
+                      name="mergeTime"
+                      component={DatePicker.Field}
+                      fieldClassName={styles.metaField}
+                      className={styles.formField}
+                    />
+                  </Tooltip>
+                )}
+              {isEditPage && (
+                <Admin
+                  actionGrant={actionGrant}
+                  event={event}
+                  deleteEvent={deleteEvent}
+                />
+              )}
+            </Flex>
           </Flex>
         </Flex>
 
@@ -275,17 +294,6 @@ function EventEditor({
                 </Link>
               )}
             </Flex>
-          </Flex>
-
-          <Flex column className={styles.openFor}>
-            <strong>Åpent for</strong>
-            <ul>
-              {(pools || []).map(pool =>
-                (pool.permissionGroups || []).map(group => (
-                  <li key={group.value}>{group.label}</li>
-                ))
-              )}
-            </ul>
           </Flex>
         </Flex>
       </Form>

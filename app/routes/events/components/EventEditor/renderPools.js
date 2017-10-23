@@ -68,7 +68,7 @@ const renderPools = ({ fields }: poolProps) => (
             permissionGroups: []
           })}
       >
-        Legg til pool
+        Legg til ny pool
       </Button>
     </li>
   </ul>

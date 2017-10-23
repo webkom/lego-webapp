@@ -19,7 +19,7 @@ global.log = function log(self = this) {
   return this;
 };
 
-const preloadedState = window.__PRELOADED_STATE__;
+const preloadedState = JSON.parse(atob(window.__PRELOADED_STATE__));
 delete window.__PRELOADED_STATE__;
 
 const store = configureStore(preloadedState);
