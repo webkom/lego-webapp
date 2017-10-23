@@ -7,7 +7,9 @@ import {
 } from 'app/actions/CompanyInterestActions';
 import CompanyInterestList from './components/CompanyInterestList';
 import { selectCompanyInterestList } from 'app/reducers/companyInterest';
-import { dispatched } from '@webkom/react-prepare';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import prepare from 'app/utils/prepare';
 
 const loadCompanyInterests = (props, dispatch) => dispatch(fetchAll());
 
@@ -24,8 +26,7 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
-  dispatched(loadCompanyInterests, {
-    componentWillReceiveProps: false
-  })
+  replaceUnlessLoggedIn(LoginPage),
+  prepare(loadCompanyInterests),
+  connect(mapStateToProps, mapDispatchToProps)
 )(CompanyInterestList);

@@ -13,7 +13,7 @@ import CompanyInterestPage, {
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { push } from 'react-router-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 
 const loadCompanyInterests = (props, dispatch) => {
   const { companyInterestId } = props.params;
@@ -74,9 +74,6 @@ const mapDispatchToProps = (dispatch, { params }) => {
 };
 
 export default compose(
-  // $FlowFixMe
-  connect(mapStateToProps, mapDispatchToProps),
-  dispatched(loadCompanyInterests, {
-    componentWillReceiveProps: false
-  })
+  prepare(loadCompanyInterests),
+  connect(mapStateToProps, mapDispatchToProps)
 )(CompanyInterestPage);
