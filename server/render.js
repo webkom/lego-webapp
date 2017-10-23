@@ -134,14 +134,12 @@ function renderPage({ body, state, helmet }) {
       <body>
         <div id="root">${body}</div>
         <script>
-           window.__CONFIG__ = ${JSON.stringify(config).replace(
-             /</g,
-             '\\u003c'
-           )}
-           window.__PRELOADED_STATE__ = ${JSON.stringify(state).replace(
-             /</g,
-             '\\u003c'
-           )}
+           window.__CONFIG__ = "${Buffer.from(
+             JSON.stringify(config).replace(/</g, '\\u003c')
+           ).toString('base64')}"
+           window.__PRELOADED_STATE__ = "${Buffer.from(
+             JSON.stringify(state).replace(/</g, '\\u003c')
+           ).toString('base64')}"
         </script>
 
         <script async src="https://js.stripe.com/v2/"></script>
