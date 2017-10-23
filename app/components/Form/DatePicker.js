@@ -110,7 +110,7 @@ class DatePicker extends Component<Props, State> {
         contentClassName={styles.dropdown}
         style={{ flex: 1 }}
       >
-        <div className={styles.datePicker}>
+        <div className={styles.datePicker} onClick={e => e.stopPropagation()}>
           <div className={styles.header}>
             <button onClick={this.onPrev}>
               <Icon name="arrow-back" />

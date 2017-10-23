@@ -39,6 +39,7 @@ class Modal extends Component<Props> {
       onHide,
       closeOnBackdropClick,
       backdrop,
+      show,
       ...props
     } = this.props;
     return (
@@ -48,6 +49,7 @@ class Modal extends Component<Props> {
         }}
         backdropClassName={styles.backdrop}
         onHide={onHide}
+        show={show}
         backdrop={closeOnBackdropClick ? backdrop : false}
         {...props}
       >
