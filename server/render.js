@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
+import segment from '@segment/snippet';
 import { match, RouterContext } from 'react-router';
 import { Provider } from 'react-redux';
 import cookie from 'react-cookie';
@@ -142,6 +143,13 @@ function renderPage({ body, state, helmet }) {
              /</g,
              '\\u003c'
            )}
+        </script>
+        <script>
+          ${segment.max({
+            host: 'cdn.segment.com',
+            apiKey: config.segmentWriteKey,
+            page: false
+          })}
         </script>
 
         <script async src="https://js.stripe.com/v2/"></script>

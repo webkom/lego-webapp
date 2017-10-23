@@ -27,7 +27,6 @@ function handleError(error, propagateError, endpoint): Thunk<*> {
     const statusCode = error.response && error.response.status;
     if (statusCode) {
       if (statusCode === 401) {
-        // $FlowFixMe when fixing redux types
         dispatch(logout());
       }
       if (propagateError) {
