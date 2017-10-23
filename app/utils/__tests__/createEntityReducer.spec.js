@@ -36,6 +36,7 @@ describe('createEntityReducer', () => {
       items: [],
       fetching: false,
       smashed: true,
+      hasMore: false,
       pagination: {}
     });
   });
@@ -63,8 +64,11 @@ describe('createEntityReducer', () => {
       },
       items: [0, 1],
       fetching: false,
+      hasMore: false,
       smashed: false,
-      pagination: {}
+      pagination: {
+        next: {}
+      }
     });
   });
 
@@ -91,8 +95,11 @@ describe('createEntityReducer', () => {
       },
       items: [1, 'warlo'],
       fetching: false,
+      hasMore: false,
       smashed: false,
-      pagination: {}
+      pagination: {
+        next: {}
+      }
     });
   });
 
@@ -119,8 +126,11 @@ describe('createEntityReducer', () => {
       },
       items: ['1-per', '1-warlo'],
       fetching: false,
+      hasMore: false,
       smashed: false,
-      pagination: {}
+      pagination: {
+        next: {}
+      }
     });
   });
 
@@ -140,7 +150,10 @@ describe('createEntityReducer', () => {
       items: [],
       fetching: false,
       smashed: false,
-      pagination: {}
+      hasMore: false,
+      pagination: {
+        next: {}
+      }
     });
   });
 
@@ -189,6 +202,7 @@ describe('createEntityReducer', () => {
       actionGrant: [],
       byId: {},
       items: [],
+      hasMore: false,
       pagination: {}
     });
   });

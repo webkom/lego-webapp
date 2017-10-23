@@ -110,6 +110,10 @@ export function paginationReducer(key: string, fetchType?: ?AsyncActionType) {
       return state;
     }
 
+    if (!action.payload) {
+      return state;
+    }
+
     return {
       ...state,
       hasMore: typeof action.payload.next === 'string',
