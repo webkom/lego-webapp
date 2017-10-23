@@ -14,7 +14,9 @@ type ConnectedProps = {
 };
 
 type OwnProps = {
-  className?: string
+  className?: string,
+  postLoginFail?: any => any,
+  postLoginSuccess?: any => any
 };
 
 type Props = ConnectedProps & OwnProps & FieldProps;
@@ -41,16 +43,27 @@ class LoginForm extends Component<Props> {
     // so use the direct values if redux-form won't give us anything:
     const username = values.username || this.usernameRef.value;
     const password = values.password || this.passwordRef.value;
-    return this.props.login(username, password).catch(err => {
-      // Throw a SubmissionError to show validation errors with redux-form:
-      if (err.payload.response.status === 400) {
-        throw new SubmissionError({
-          _error: 'Feil brukernavn eller passord'
-        });
-      }
 
-      throw new SubmissionError({ _error: err.meta.errorMessage });
-    });
+    const {
+      postLoginSuccess = res => res,
+      postLoginFail = error => {
+        throw error;
+      }
+    } = this.props;
+
+    return this.props
+      .login(username, password)
+      .then(postLoginSuccess, postLoginFail)
+      .catch(err => {
+        // Throw a SubmissionError to show validation errors with redux-form:
+        if (err.payload.response.status === 400) {
+          throw new SubmissionError({
+            _error: 'Feil brukernavn eller passord'
+          });
+        }
+
+        throw new SubmissionError({ _error: err.meta.errorMessage });
+      });
   };
 
   render() {
@@ -60,6 +73,7 @@ class LoginForm extends Component<Props> {
       <Form
         onSubmit={handleSubmit(this.login)}
         className={cx(this.props.className)}
+        onClick={e => e.stopPropagation()}
       >
         <Field
           name="username"

@@ -152,7 +152,7 @@ class Header extends Component<Props, State> {
                   }
                 >
                   <AccountDropdownItems
-                    onClose={() => this.setState({ accountOpen: false })}
+                    onClose={() => {}}
                     username={this.props.currentUser.username}
                     logout={this.props.logout}
                   />
@@ -173,18 +173,13 @@ class Header extends Component<Props, State> {
                   <div style={{ padding: 10 }}>
                     <LoginForm
                       form="HeaderLoginForm"
-                      login={(...creds) => {
-                        this.setState({ shake: false });
-                        return this.props.login(...creds).then(
-                          res => {
-                            this.setState({ shake: false, accountOpen: false });
-                            return res;
-                          },
-                          error => {
-                            this.setState({ shake: true });
-                            throw error;
-                          }
-                        );
+                      postLoginSuccess={res => {
+                        this.setState({ shake: false, accountOpen: false });
+                        return res;
+                      }}
+                      postLoginFail={error => {
+                        this.setState({ shake: true });
+                        throw error;
                       }}
                     />
                   </div>
