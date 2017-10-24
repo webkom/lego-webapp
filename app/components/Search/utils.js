@@ -40,7 +40,7 @@ const LINKS: Array<Link> = [
   {
     key: 'readme',
     title: 'readme',
-    url: 'http://readme.abakus.no'
+    url: 'https://readme.abakus.no'
   },
   {
     key: 'interestGroups',
