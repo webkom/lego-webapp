@@ -265,7 +265,8 @@ class JoinEventForm extends Component<Props, State> {
                   </Button>
                 </div>
               )}
-              {!registration &&
+              {!submitting &&
+                !registration &&
                 this.state.captchaOpen &&
                 event.useCaptcha && (
                   <Field
@@ -280,7 +281,7 @@ class JoinEventForm extends Component<Props, State> {
                 </Button>
               )}
               {this.state.buttonOpen &&
-                !event.loading && (
+                !submitting && (
                   <Flex alignItems="center">
                     <Button
                       style={{ marginRight: 10 }}
@@ -297,7 +298,7 @@ class JoinEventForm extends Component<Props, State> {
                     )}
                   </Flex>
                 )}
-              {event.loading && (
+              {submitting && (
                 <LoadingIndicator
                   loading
                   loadingStyle={{ margin: '5px auto' }}

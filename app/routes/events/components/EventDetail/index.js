@@ -82,9 +82,12 @@ export default class EventDetail extends Component<Props> {
       case 'feedback':
         return updateFeedback(eventId, currentRegistration.id, feedback);
       case 'register':
-        return register(eventId, captchaResponse, feedback);
+        // Note that we do not return this promise due to custom submitting handling
+        register(eventId, captchaResponse, feedback);
+        return;
       case 'unregister':
-        return unregister(eventId, currentRegistration.id);
+        unregister(eventId, currentRegistration.id);
+        return;
       default:
         return undefined;
     }
