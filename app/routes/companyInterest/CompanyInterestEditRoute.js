@@ -11,13 +11,13 @@ import CompanyInterestPage, {
   OTHER_TYPES
 } from './components/CompanyInterestPage';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { selectCompanySemestersForInterestform } from 'app/reducers/companySemesters';
 import { push } from 'react-router-redux';
 import prepare from 'app/utils/prepare';
 
 const loadCompanyInterests = (props, dispatch) => {
   const { companyInterestId } = props.params;
-  return dispatch(fetchSemesters()).then(() =>
+  return dispatch(fetchSemesters({ companyInterest: 'True' })).then(() =>
     dispatch(fetchCompanyInterest(Number(companyInterestId)))
   );
 };
@@ -27,7 +27,9 @@ const mapStateToProps = (state, props) => {
   const companyInterest = selectCompanyInterestById(state, {
     companyInterestId
   });
-  const semesters = selectCompanySemesters(state);
+  // TODO show an intersection of the currently active semesters, and
+  // the semester chosen when the interestform was created
+  const semesters = selectCompanySemestersForInterestform(state);
   if (!companyInterest || !semesters)
     return {
       edit: true,

@@ -8,7 +8,7 @@ import CompanyInterestPage, {
   EVENT_TYPES,
   OTHER_TYPES
 } from './components/CompanyInterestPage';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { selectCompanySemestersForInterestform } from 'app/reducers/companySemesters';
 import prepare from 'app/utils/prepare';
 import { sortSemesterChronologically } from './utils.js';
 
@@ -16,7 +16,7 @@ const loadSemesters = (props, dispatch) =>
   dispatch(fetchSemesters({ companyInterest: 'True' }));
 
 const mapStateToProps = state => {
-  const semesters = selectCompanySemesters(state);
+  const semesters = selectCompanySemestersForInterestform(state);
   if (!semesters) {
     return {
       edit: false
