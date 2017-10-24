@@ -13,10 +13,10 @@ export default function replaceUnlessLoggedIn<Props: Object>(
         const { loggedIn, ...props } = this.props;
 
         if (loggedIn) {
-          return <ActualComponent {...props} />;
+          return <ActualComponent loggedIn={loggedIn} {...props} />;
         }
 
-        return <ReplacementComponent {...props} />;
+        return <ReplacementComponent loggedIn={loggedIn} {...props} />;
       }
     }
 
