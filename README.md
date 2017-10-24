@@ -1,4 +1,4 @@
-# lego-webapp [![CircleCI](https://circleci.com/gh/webkom/lego-webapp.svg?style=svg&circle-token=6deaa4526c1e205353e8089aabcaae230088e914)](https://circleci.com/gh/webkom/lego-webapp)
+# lego-webapp [![DroneCI](https://ci.abakus.no/api/badges/webkom/lego-webapp/status.svg?branch=master)](https://ci.abakus.no/webkom/lego-webapp)
 
 > Next-gen frontend for abakus.no
 
