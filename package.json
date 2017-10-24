@@ -76,6 +76,7 @@
     "redux-logger": "^3.0.1",
     "redux-thunk": "^2.2.0",
     "reselect": "2.5.4",
+    "serialize-javascript": "^1.4.0",
     "slate": "^0.24.5",
     "slate-auto-replace": "0.6.2",
     "slate-html-serializer": "^0.1.5",

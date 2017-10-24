@@ -19,11 +19,7 @@ global.log = function log(self = this) {
   return this;
 };
 
-const preloadedState = JSON.parse(
-  new Buffer(window.__PRELOADED_STATE__, 'base64').toString()
-);
-delete window.__PRELOADED_STATE__;
-
+const preloadedState = window.__PRELOADED_STATE__;
 const store = configureStore(preloadedState);
 
 if (isEmpty(preloadedState)) {

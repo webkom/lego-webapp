@@ -8,6 +8,7 @@ import cookie from 'react-cookie';
 import { prepare } from '@webkom/react-prepare';
 import Helmet from 'react-helmet';
 import Raven from 'raven';
+import serialize from 'serialize-javascript';
 import routes from '../app/routes';
 import configureStore from '../app/utils/configureStore';
 import config from '../config/env';
@@ -134,12 +135,8 @@ function renderPage({ body, state, helmet }) {
       <body>
         <div id="root">${body}</div>
         <script>
-           window.__CONFIG__ = "${Buffer.from(
-             JSON.stringify(config).replace(/</g, '\\u003c')
-           ).toString('base64')}"
-           window.__PRELOADED_STATE__ = "${Buffer.from(
-             JSON.stringify(state).replace(/</g, '\\u003c')
-           ).toString('base64')}"
+           window.__CONFIG__ = ${serialize(config, { isJSON: true })};
+           window.__PRELOADED_STATE__ = ${serialize(state, { isJSON: true })};
         </script>
 
         <script async src="https://js.stripe.com/v2/"></script>
