@@ -13,6 +13,7 @@ import type { SemesterStatusEntity } from 'app/reducers/companies';
 import FileUpload from 'app/components/Upload/FileUpload';
 import truncateString from 'app/utils/truncateString';
 import type { CompanySemesterContactedStatus } from 'app/models';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 
 const FILE_NAME_LENGTH = 30;
 
@@ -20,7 +21,7 @@ type Props = {
   semesterStatus: SemesterStatusEntity,
   index: number,
   companyId: number,
-  deleteSemesterStatus: (number, number) => Promise<*>,
+  deleteSemesterStatus: number => ?Promise<*>,
   editFunction: (
     semesterStatus: SemesterStatusEntity,
     statusString: CompanySemesterContactedStatus
@@ -38,9 +39,7 @@ export default class SemesterStatusDetail extends Component<Props, State> {
   };
 
   deleteSemesterStatus = (id: number) => {
-    if (confirm('Er du sikker?')) {
-      this.props.deleteSemesterStatus(this.props.companyId, id);
-    }
+    this.props.deleteSemesterStatus(id);
   };
 
   addFile = (fileName: string, fileToken: string, type: string) => {
@@ -115,13 +114,13 @@ export default class SemesterStatusDetail extends Component<Props, State> {
                 style={{ marginRight: '5px', color: 'orange' }}
               />
             </a>
-            <a
-              onClick={() =>
-                semesterStatus.id &&
-                this.deleteSemesterStatus(semesterStatus.id)}
+            <ConfirmModalWithParent
+              title="Slett semesterstatus"
+              message="Er du sikker på at du vil slette denne semesterstatusen? Alle filer for dette semesteret vil bli slettet."
+              onConfirm={() => this.deleteSemesterStatus(semesterStatus.id)}
             >
               <i className="fa fa-times" style={{ color: '#d13c32' }} />
-            </a>
+            </ConfirmModalWithParent>
           </span>
         </td>
       </tr>

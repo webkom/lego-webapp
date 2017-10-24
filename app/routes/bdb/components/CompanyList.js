@@ -9,12 +9,14 @@ import Icon from 'app/components/Icon';
 import cx from 'classnames';
 import type { CompanyEntity } from 'app/reducers/companies';
 import type { CompanySemesterContactedStatus } from 'app/models';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
   companies: Array<CompanyEntity>,
   startYear: number,
   startSem: number,
   query: Object,
+  fetching: boolean,
   navigateThroughTime: Object => void,
   editChangedStatuses: (
     number,
@@ -67,7 +69,8 @@ export default class CompanyList extends Component<Props> {
       navigateThroughTime,
       startYear,
       startSem,
-      editChangedStatuses
+      editChangedStatuses,
+      fetching
     } = this.props;
 
     /*
@@ -167,6 +170,7 @@ export default class CompanyList extends Component<Props> {
             ))}
           </tbody>
         </table>
+        {fetching && <LoadingIndicator loading />}
       </div>
     );
   }

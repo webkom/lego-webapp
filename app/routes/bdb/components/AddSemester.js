@@ -24,7 +24,8 @@ type Props = {
   submitting: boolean,
   autoFocus: any,
   companySemesters: Array<Object>,
-  addSemester: CompanySemesterEntity => Promise<*>
+  addSemester: CompanySemesterEntity => Promise<*>,
+  deleteCompany: number => ?Promise<*>
 };
 
 type State = {
@@ -95,13 +96,23 @@ export default class AddSemester extends Component<Props, State> {
   };
 
   render() {
-    const { companyId, submitting, autoFocus, handleSubmit } = this.props;
+    const {
+      companyId,
+      submitting,
+      autoFocus,
+      handleSubmit,
+      deleteCompany
+    } = this.props;
 
     const semesterStatus = { contactedStatus: this.state.contactedStatus };
 
     return (
       <div className={styles.root}>
-        <DetailNavigation title="Legg til semester" companyId={companyId} />
+        <DetailNavigation
+          title="Legg til semester"
+          companyId={companyId}
+          deleteFunction={deleteCompany}
+        />
 
         <div className={styles.detail}>
           <i style={{ display: 'block', marginBottom: '10px' }}>

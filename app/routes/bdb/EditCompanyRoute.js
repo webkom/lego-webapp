@@ -1,7 +1,11 @@
 import { connect } from 'react-redux';
 import { dispatched } from '@webkom/react-prepare';
 import { compose } from 'redux';
-import { editCompany, fetch } from '../../actions/CompanyActions';
+import {
+  editCompany,
+  fetch,
+  deleteCompany
+} from '../../actions/CompanyActions';
 import CompanyEditor from './components/CompanyEditor';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
@@ -37,7 +41,11 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { submitFunction: editCompany, uploadFile };
+const mapDispatchToProps = {
+  submitFunction: editCompany,
+  uploadFile,
+  deleteCompany
+};
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),

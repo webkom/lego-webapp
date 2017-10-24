@@ -1,7 +1,11 @@
 import { connect } from 'react-redux';
 import { dispatched } from '@webkom/react-prepare';
 import { compose } from 'redux';
-import { fetch, editCompanyContact } from '../../actions/CompanyActions';
+import {
+  fetch,
+  editCompanyContact,
+  deleteCompany
+} from '../../actions/CompanyActions';
 import CompanyContactEditor from './components/CompanyContactEditor';
 import {
   selectCompanyById,
@@ -34,7 +38,10 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { submitFunction: editCompanyContact };
+const mapDispatchToProps = {
+  submitFunction: editCompanyContact,
+  deleteCompany
+};
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),

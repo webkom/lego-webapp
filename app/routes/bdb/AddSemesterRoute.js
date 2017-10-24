@@ -5,7 +5,8 @@ import {
   addSemesterStatus,
   fetchSemesters,
   addSemester,
-  fetchAll
+  fetchAll,
+  deleteCompany
 } from '../../actions/CompanyActions';
 import { selectCompanies } from 'app/reducers/companies';
 import AddSemester from './components/AddSemester';
@@ -62,7 +63,12 @@ const mapStateToProps = (state, props) => ({
   companies: selectCompanies(state, props)
 });
 
-const mapDispatchToProps = { addSemesterStatus, uploadFile, addSemester };
+const mapDispatchToProps = {
+  addSemesterStatus,
+  uploadFile,
+  addSemester,
+  deleteCompany
+};
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),

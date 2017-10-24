@@ -18,6 +18,7 @@ import type { CompanySemesterContactedStatus } from 'app/models';
 type Props = {
   companies: Array<CompanyEntity>,
   query: Object,
+  fetching: boolean,
   editSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
   addSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
   addSemester: CompanySemesterEntity => Promise<*>,
@@ -131,11 +132,17 @@ export default class BdbPage extends Component<Props, State> {
       companies = this.companySearch(companies);
     }
     const { filters } = this.state;
+
     return companies.filter(company => {
       // Using 'for of' here. Probably a cleaner way to do it, but I couldn't think of one
+
       for (const key of Object.keys(filters)) {
         const filterShouldApply = filters[key] !== undefined;
-        if (filterShouldApply && !company[key]) return false;
+        if (
+          filterShouldApply &&
+          (company[key] === undefined || company[key] === null)
+        )
+          return false;
 
         const shouldFilterById =
           filterShouldApply && company[key].id && filters[key].id;
@@ -158,7 +165,7 @@ export default class BdbPage extends Component<Props, State> {
   };
 
   render() {
-    const { query, companies } = this.props;
+    const { query, companies, fetching } = this.props;
 
     if (!companies) {
       return <LoadingIndicator loading />;
@@ -198,6 +205,7 @@ export default class BdbPage extends Component<Props, State> {
           query={query}
           navigateThroughTime={this.navigateThroughTime}
           editChangedStatuses={this.editChangedStatuses}
+          fetching={fetching}
         />
       </div>
     );

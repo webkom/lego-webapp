@@ -54,7 +54,7 @@ export type BaseSemesterStatusEntity = {
 };
 
 export type SemesterStatusEntity = BaseSemesterStatusEntity & {
-  id?: number,
+  id: number,
   semester: Semester,
   year: string
 };
@@ -124,9 +124,8 @@ function mutateCompanies(state, action) {
 
     case Company.ADD_COMPANY_CONTACT.SUCCESS: {
       const companyId = action.meta.companyId;
-      const companyContacts = state.byId[companyId].companyContacts.concat(
-        action.payload
-      );
+      const companyContacts = (state.byId[companyId].companyContacts || []
+      ).concat(action.payload);
       return mergeObjects(state, {
         byId: {
           [companyId]: { companyContacts }

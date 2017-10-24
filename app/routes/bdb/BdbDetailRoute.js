@@ -7,7 +7,8 @@ import {
   fetchSemesters,
   editSemesterStatus,
   fetchEventsForCompany,
-  editCompany
+  editCompany,
+  deleteCompany
 } from 'app/actions/CompanyActions';
 import BdbDetail from './components/BdbDetail';
 import { compose } from 'redux';
@@ -47,7 +48,8 @@ const mapDispatchToProps = {
   deleteSemesterStatus,
   deleteCompanyContact,
   editSemesterStatus,
-  editCompany
+  editCompany,
+  deleteCompany
 };
 
 export default compose(

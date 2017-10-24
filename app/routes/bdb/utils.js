@@ -3,6 +3,7 @@
 import React, { type Node } from 'react';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import type { Semester } from 'app/models';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { CompanySemesterContactedStatus } from 'app/models';
@@ -172,17 +173,26 @@ export const ListNavigation = ({ title }: { title: Node }) => (
 
 export const DetailNavigation = ({
   title,
-  companyId
+  companyId,
+  deleteFunction
 }: {
   title: Node,
-  companyId: number
+  companyId: number,
+  deleteFunction: number => ?Promise<*>
 }) => (
   <NavigationTab title={title}>
     <NavigationLink to="/bdb">Tilbake til liste</NavigationLink>
     <NavigationLink to={`/bdb/${companyId}`}>Bedriftens side</NavigationLink>
-    <NavigationLink to={`/bdb/${companyId}/edit`}>
-      Endre bedriften
-    </NavigationLink>
     <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
+    <NavigationLink to={`/bdb/${companyId}/edit`}>Endre</NavigationLink>
+    <ConfirmModalWithParent
+      title="Slett bedrift"
+      message="Er du sikker på at du vil slette denne bedriften?"
+      onConfirm={() => deleteFunction(companyId)}
+    >
+      <div>
+        <NavigationLink to="">Slett</NavigationLink>
+      </div>
+    </ConfirmModalWithParent>
   </NavigationTab>
 );

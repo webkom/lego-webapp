@@ -22,7 +22,8 @@ type Props = {
   companyContact?: CompanyContactEntity,
   submitting: boolean,
   autoFocus: any,
-  fetching: boolean
+  fetching: boolean,
+  deleteCompany: number => Promise<*>
 };
 
 class CompanyContactEditor extends Component<Props> {
@@ -44,7 +45,8 @@ class CompanyContactEditor extends Component<Props> {
       fetching,
       submitting,
       autoFocus,
-      handleSubmit
+      handleSubmit,
+      deleteCompany
     } = this.props;
 
     if (fetching) {
@@ -53,7 +55,11 @@ class CompanyContactEditor extends Component<Props> {
 
     return (
       <div className={styles.root}>
-        <DetailNavigation title="Bedriftskontakt" companyId={company.id} />
+        <DetailNavigation
+          title="Bedriftskontakt"
+          companyId={company.id}
+          deleteFunction={deleteCompany}
+        />
         <h3>
           <Link to={`/bdb/${company.id}`}>{company.name}</Link> sin
           bedriftskontakt.

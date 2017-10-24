@@ -29,7 +29,8 @@ type Props = {
   handleSubmit: ((CompanyEntity) => Promise<*>) => void,
   autoFocus: any,
   fetching: boolean,
-  submitFunction: (SubmitCompanyEntity, ?number) => Promise<*>
+  submitFunction: (SubmitCompanyEntity, ?number) => Promise<*>,
+  deleteCompany: number => ?Promise<*>
 };
 
 class CompanyEditor extends Component<Props> {
@@ -39,7 +40,7 @@ class CompanyEditor extends Component<Props> {
       ...formContent,
       logo: formContent.logo || undefined,
       studentContact:
-        formContent.studentContact && Number(formContent.studentContact.value),
+        formContent.studentContact && Number(formContent.studentContact.id),
       website: httpCheck(formContent.website),
       companyId: company && company.id
     });
@@ -52,7 +53,8 @@ class CompanyEditor extends Component<Props> {
       autoFocus,
       handleSubmit,
       uploadFile,
-      fetching
+      fetching,
+      deleteCompany
     } = this.props;
 
     if (fetching) {
@@ -83,7 +85,11 @@ class CompanyEditor extends Component<Props> {
             />
 
             {company ? (
-              <DetailNavigation title={nameField} companyId={company.id} />
+              <DetailNavigation
+                title={nameField}
+                companyId={company.id}
+                deleteFunction={deleteCompany}
+              />
             ) : (
               <ListNavigation title={nameField} />
             )}
