@@ -5,7 +5,6 @@ import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import CommentForm from 'app/components/CommentForm';
 import { ProfilePicture } from 'app/components/Image';
-import DisplayContent from 'app/components/DisplayContent';
 import { type CommentEntity } from 'app/reducers/comments';
 import styles from './Comment.css';
 
@@ -37,7 +36,7 @@ export default class Comment extends Component<Props, State> {
     const { comment, commentFormProps } = this.props;
     const { createdAt, text, author } = comment;
     const { replyOpen } = this.state;
-
+    const content = text.replace(/<p>(.*)<\/p>/, '$1');
     return (
       <div className={styles.container}>
         <div className={styles.comment}>
@@ -58,12 +57,13 @@ export default class Comment extends Component<Props, State> {
           </div>
 
           <div className={styles.content}>
-            <DisplayContent
+            <p
               id="comment-text"
               className={styles.text}
               style={{ fontStyle: this.state.replyOpen && 'italic' }}
-              content={text}
-            />
+            >
+              {content}
+            </p>
           </div>
         </div>
 
