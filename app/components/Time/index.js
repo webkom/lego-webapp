@@ -42,4 +42,44 @@ function Time({
   );
 }
 
+export const FormatTime = ({
+  time,
+  format
+}: {
+  time: moment | string,
+  format?: string
+}) => {
+  const dateTime = moment(time);
+
+  if (!format) {
+    const defaultFormat = moment().isSame(dateTime, 'year')
+      ? 'dddd DD. MMM HH:mm'
+      : 'dddd DD. MMM YYYY HH:mm';
+    return <Time time={dateTime} format={defaultFormat} />;
+  } else {
+    return <Time time={dateTime} format={format} />;
+  }
+};
+
+export const FromToTime = ({
+  from,
+  to
+}: {
+  from: moment | string,
+  to: moment | string
+}) => {
+  const fromTime = moment(from);
+  const toTime = moment(to);
+  return fromTime.isSame(toTime, 'day') ? (
+    <span>
+      <FormatTime time={fromTime} format="dddd DD. MMMM, HH:mm" /> -{' '}
+      <FormatTime time={toTime} format="HH:mm" />
+    </span>
+  ) : (
+    <span>
+      <FormatTime time={fromTime} /> - <FormatTime time={toTime} />
+    </span>
+  );
+};
+
 export default Time;
