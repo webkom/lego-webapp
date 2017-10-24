@@ -19,7 +19,9 @@ global.log = function log(self = this) {
   return this;
 };
 
-const preloadedState = JSON.parse(atob(window.__PRELOADED_STATE__));
+const preloadedState = JSON.parse(
+  new Buffer(window.__PRELOADED_STATE__, 'base64').toString()
+);
 delete window.__PRELOADED_STATE__;
 
 const store = configureStore(preloadedState);
