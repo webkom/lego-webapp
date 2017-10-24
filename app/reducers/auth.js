@@ -37,6 +37,7 @@ export default function auth(state: State = initialState, action: any): State {
 
     case User.CREATE_USER.SUCCESS:
     case User.LOGIN.SUCCESS:
+    case User.REFRESH_TOKEN.SUCCESS:
       return {
         ...state,
         loggingIn: false,
