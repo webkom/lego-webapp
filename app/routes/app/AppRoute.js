@@ -28,6 +28,7 @@ import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 import cx from 'classnames';
 import HTTPError from '../errors/HTTPError';
 import { setStatusCode } from 'app/actions/RoutingActions';
+import config from 'app/config';
 
 type Props = {
   statusCode: number,
@@ -76,6 +77,19 @@ class App extends PureComponent<AppProps> {
         })}
       >
         <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no" />
+
+        {config.environment !== 'production' && (
+          <div
+            style={{
+              backgroundColor: 'red',
+              color: 'white',
+              fontWeight: 'bold',
+              padding: '10px'
+            }}
+          >
+            This is a development version of lego-webapp.
+          </div>
+        )}
 
         <Header
           searchOpen={this.props.searchOpen}
