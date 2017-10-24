@@ -211,7 +211,8 @@ export const User = {
   SEND_FORGOT_PASSWORD_REQUEST: generateStatuses(
     'User.SEND_FORGOT_PASSWORD_REQUEST'
   ),
-  RESET_PASSWORD: generateStatuses('User.RESET_PASSWORD')
+  RESET_PASSWORD: generateStatuses('User.RESET_PASSWORD'),
+  REFRESH_TOKEN: generateStatuses('User.REFRESH_TOKEN')
 };
 
 /**

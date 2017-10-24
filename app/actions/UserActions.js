@@ -191,14 +191,9 @@ export function fetchUser(username: string = 'me') {
   });
 }
 
-function getExpirationDate(token) {
-  const decodedToken = jwtDecode(token);
-  return moment(decodedToken.exp * 1000);
-}
-
 export function refreshToken(token: string) {
   return callAPI({
-    types: User.LOGIN,
+    types: User.REFRESH_TOKEN,
     endpoint: '//authorization/token-auth/refresh/',
     method: 'POST',
     body: { token }
@@ -207,24 +202,14 @@ export function refreshToken(token: string) {
 
 export function loginWithExistingToken(token: string): Thunk<any> {
   return dispatch => {
-    // TODO(ek): Remove FlowFixMe when we use a flow-typed version
-    // that has correct types for isSame
-    // (fixed in https://github.com/flowtype/flow-typed/commit/f3b9c89b85cdb463edeb707866a764508626cef1).
-    const expirationDate: $FlowFixMe = getExpirationDate(token);
+    const decoded = jwtDecode(token);
+    const expirationTime = moment.unix(decoded.exp);
+    const issuedTime = moment.unix(decoded.orig_iat);
     const now = moment();
 
-    if (now.isAfter(expirationDate)) {
+    if (now.isAfter(expirationTime)) {
       removeToken();
       return Promise.resolve();
-    }
-
-    if (expirationDate.isSame(now, 'day')) {
-      return dispatch(refreshToken(token))
-        .then(action => action && saveToken(action.payload))
-        .catch(err => {
-          removeToken();
-          throw err;
-        });
     }
 
     dispatch({
@@ -232,7 +217,17 @@ export function loginWithExistingToken(token: string): Thunk<any> {
       payload: { token }
     });
 
-    return dispatch(fetchUser());
+    return dispatch(fetchUser()).then(() => {
+      // Refresh the token if it wasn't created today:
+      if (!issuedTime.isSame(now, 'day')) {
+        return dispatch(refreshToken(token))
+          .then(action => saveToken(action.payload.token))
+          .catch(err => {
+            removeToken();
+            throw err;
+          });
+      }
+    });
   };
 }
 
