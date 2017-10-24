@@ -28,6 +28,7 @@
     "url": "github.com/webkom/lego-webapp"
   },
   "dependencies": {
+    "@segment/snippet": "^4.0.1",
     "@webkom/react-prepare": "^0.5.3",
     "animate.css": "3.5.2",
     "bunyan": "^1.8.12",
@@ -74,6 +75,7 @@
     "redux": "^3.7.2",
     "redux-form": "^6.5.0",
     "redux-logger": "^3.0.1",
+    "redux-segment": "^1.6.2",
     "redux-thunk": "^2.2.0",
     "reselect": "2.5.4",
     "serialize-javascript": "^1.4.0",

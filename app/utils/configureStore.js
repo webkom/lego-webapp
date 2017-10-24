@@ -2,6 +2,8 @@
 
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
+import { User } from 'app/actions/ActionTypes';
+import { createTracker, EventTypes } from 'redux-segment';
 import { createLogger } from 'redux-logger';
 import { browserHistory } from 'react-router';
 import { routerMiddleware } from 'react-router-redux';
@@ -12,6 +14,41 @@ import promiseMiddleware from './promiseMiddleware';
 import createMessageMiddleware from './messageMiddleware';
 import type { State, Store } from 'app/types';
 import config from 'app/config';
+
+const trackerMiddleware = createTracker({
+  mapper: {
+    [User.FETCH.SUCCESS]: (getState, { meta, payload }) => {
+      if (meta.isCurrentUser) {
+        const user = payload.entities.users[payload.result];
+
+        return {
+          eventType: EventTypes.identify,
+          eventPayload: {
+            userId: user.id,
+            traits: {
+              avatar: user.profilePicture,
+              email: user.email,
+              firstName: user.firstName,
+              gender: user.gender,
+              id: user.id,
+              lastName: user.lastName,
+              name: user.fullName,
+              username: user.username
+            }
+          }
+        };
+      }
+    },
+    [User.LOGOUT]: () => [
+      {
+        eventType: EventTypes.reset
+      },
+      {
+        eventType: EventTypes.page
+      }
+    ]
+  }
+});
 
 Raven.config(config.ravenDSN, {
   release: config.release,
@@ -33,7 +70,8 @@ export default function configureStore(initialState: State): Store {
     thunkMiddleware,
     promiseMiddleware(),
     createRavenMiddleware(Raven),
-    messageMiddleware
+    messageMiddleware,
+    trackerMiddleware
   ];
 
   if (__CLIENT__) {
