@@ -9,6 +9,11 @@
 
 .pageList {
   text-align: left;
+  line-height: 18px;
+
+  & li {
+    margin-bottom: 10px;
+  }
 }
 
 .pageList a {
