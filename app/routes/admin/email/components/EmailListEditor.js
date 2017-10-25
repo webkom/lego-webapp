@@ -4,16 +4,9 @@ import React from 'react';
 import Button from 'app/components/Button';
 import { createValidator, required } from 'app/utils/validation';
 import { reduxForm } from 'redux-form';
-import { ROLES } from 'app/utils/constants';
+import { roleOptions } from 'app/utils/constants';
 import { TextInput, SelectInput } from 'app/components/Form';
 import { Form, Field } from 'redux-form';
-
-const roles = Object.keys(ROLES)
-  .sort()
-  .map(role => ({
-    value: role,
-    label: ROLES[role]
-  }));
 
 export type Props = {
   emailListId?: number,
@@ -84,7 +77,7 @@ const EmailListEditor = ({
         name="groupRoles"
         multi
         placeholder="Velg rolle"
-        options={roles}
+        options={roleOptions}
         component={SelectInput.Field}
       />
       <Button submit disabled={submitting}>

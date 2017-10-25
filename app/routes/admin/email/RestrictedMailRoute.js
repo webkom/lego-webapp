@@ -4,10 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import RestrictedMailEditor from './components/RestrictedMailEditor';
-import {
-  fetchRestrictedMail,
-  fetchRestrictedMailToken
-} from 'app/actions/restrictedMailActions';
+import { fetchRestrictedMail } from 'app/actions/restrictedMailActions';
 import { selectRestrictedMailById } from 'app/reducers/restrictedMails';
 import prepare from 'app/utils/prepare';
 
@@ -34,6 +31,7 @@ const mapStateToProps = (state, { routeParams }) => {
         label: event.title,
         value: event.id
       })),
+      // Raw Sauce
       rawAddresses: (restrictedMail.rawAddresses || []).map(rawAddresses => ({
         label: rawAddresses,
         value: rawAddresses
@@ -46,13 +44,11 @@ const mapStateToProps = (state, { routeParams }) => {
   };
 };
 
-const mapDispatchToProps = { fetchRestrictedMailToken };
-
 const loadData = ({ params }, dispatch) =>
   dispatch(fetchRestrictedMail(params.restrictedMailId));
 
 export default compose(
   prepare(loadData, ['params.restrictedMailId']),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(mapStateToProps, {}),
   loadingIndicator(['restrictedMail.id'])
 )(RestrictedMailEditor);

@@ -10,6 +10,11 @@ import { isEmpty } from 'lodash';
 import InfiniteScroll from 'react-infinite-scroller';
 import styles from './Table.css';
 
+type sortProps = {
+  direction?: 'asc' | 'desc',
+  sort?: string
+};
+
 type columnProps = {
   dataIndex: string,
   title: string,
@@ -25,16 +30,14 @@ type Props = {
   data: Array<Object>,
   hasMore: boolean,
   loading: boolean,
-  onChange?: (filters: Object, sort: Object) => void,
-  onLoad?: (filters: Object, sort: Object) => void
+  onChange?: (filters: Object, sort: sortProps) => void,
+  onLoad?: (filters: Object, sort: sortProps) => void
 };
 
 type State = {
   filters: Object,
-  sort: {
-    direction?: 'asc' | 'desc',
-    sort?: string
-  }
+  isShown: Object,
+  sort: sortProps
 };
 
 export default class Table extends Component<Props, State> {
@@ -42,24 +45,25 @@ export default class Table extends Component<Props, State> {
 
   state: State = {
     sort: {},
-    filters: {}
+    filters: {},
+    isShown: {}
   };
 
   static defaultProps = {
     rowKey: 'id'
   };
 
-  toggleSearch = (column: Object) => {
+  toggleSearch = (dataIndex: string) => {
     this.setState({
-      [`show${column.dataIndex}Search`]: !this.state[
-        `show${column.dataIndex}Search`
-      ]
+      isShown: {
+        [dataIndex]: !this.state.isShown[dataIndex]
+      }
     });
   };
 
-  onSearchInput = ({ target }: SyntheticInputEvent<*>, column: columnProps) => {
+  onSearchInput = ({ target }: SyntheticInputEvent<*>, dataIndex: string) => {
     this.setState(
-      { filters: { ...this.state.filters, [column.dataIndex]: target.value } },
+      { filters: { ...this.state.filters, [dataIndex]: target.value } },
       () => this.onChange()
     );
   };
@@ -74,54 +78,55 @@ export default class Table extends Component<Props, State> {
     );
   };
 
-  renderHeadCell = (column: columnProps) => {
-    const searchActive =
-      (this.state.filters[column.dataIndex] &&
-        this.state.filters[column.dataIndex].length) ||
-      this.state[`show${column.dataIndex}Search`];
+  renderHeadCell = ({ dataIndex, search, title, sorter }: columnProps) => {
+    const { filters, isShown } = this.state;
+
     return (
-      <th key={column.dataIndex}>
-        {column.title}
-        {column.sorter && (
+      <th key={dataIndex}>
+        {title}
+        {sorter && (
           <div className={styles.sorter}>
             <Icon name="arrow-up" />
             <Icon name="arrow-down" />
           </div>
         )}
-        {column.search && (
+        {search && (
           <div className={styles.searchIcon}>
             <div
-              ref={c => {
-                // $FlowFixMe
-                this[`${column.dataIndex}Search`] = c;
-              }}
+              // $FlowFixMe
+              ref={c => (this[dataIndex] = c)}
               className={styles.searchIcon}
             >
               <Icon
-                onClick={() => this.toggleSearch(column)}
+                onClick={() => this.toggleSearch(dataIndex)}
                 name="search"
-                className={cx(styles.icon, searchActive && styles.iconActive)}
+                className={cx(
+                  styles.icon,
+                  ((filters[dataIndex] && filters[dataIndex].length) ||
+                    isShown[dataIndex]) &&
+                    styles.iconActive
+                )}
               />
             </div>
             <Overlay
-              show={this.state[`show${column.dataIndex}Search`]}
-              onHide={() => this.toggleSearch(column)}
+              show={isShown[dataIndex]}
+              onHide={() => this.toggleSearch(dataIndex)}
               placement="bottom"
               // $FlowFixMe
-              container={this[`${column.dataIndex}Search`]}
+              container={this[dataIndex]}
               // $FlowFixMe
-              target={() => this[`${column.dataIndex}Search`]}
+              target={() => this[dataIndex]}
               rootClose
             >
               <div className={styles.overlay}>
                 <TextInput
                   autoFocus
                   placeholder="Filtrer"
-                  value={this.state.filters[column.dataIndex]}
-                  onChange={e => this.onSearchInput(e, column)}
+                  value={filters[dataIndex]}
+                  onChange={e => this.onSearchInput(e, dataIndex)}
                   onKeyDown={({ keyCode }) => {
                     if (keyCode === 13) {
-                      this.toggleSearch(column);
+                      this.toggleSearch(dataIndex);
                     }
                   }}
                 />

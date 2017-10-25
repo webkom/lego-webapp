@@ -12,19 +12,7 @@ export function fetchRestrictedMail(restrictedMailId: EntityID) {
     endpoint: `/restricted-mail/${restrictedMailId}/`,
     schema: restrictedMailSchema,
     meta: {
-      errorMessage: 'Henting av epost liste feilet'
-    },
-    propagateError: true
-  });
-}
-
-export function fetchRestrictedMailToken(restrictedMailId: EntityID) {
-  return callAPI({
-    types: RestrictedMail.FETCH,
-    endpoint: `/restricted-mail/${restrictedMailId}/token/`,
-    schema: restrictedMailSchema,
-    meta: {
-      errorMessage: 'Henting av epost liste feilet'
+      errorMessage: 'Henting av begrenset epost feilet'
     },
     propagateError: true
   });
@@ -38,20 +26,7 @@ export function createRestrictedMail(restrictedMail: RestrictedMailEntity) {
     schema: restrictedMailSchema,
     body: restrictedMail,
     meta: {
-      errorMessage: 'Opprettelse av epost listen feilet'
-    }
-  });
-}
-
-export function editRestrictedMail(restrictedMail: RestrictedMailEntity) {
-  return callAPI({
-    types: RestrictedMail.EDIT,
-    endpoint: `/restricted-mail/${restrictedMail.id}/`,
-    method: 'PUT',
-    schema: restrictedMailSchema,
-    body: restrictedMail,
-    meta: {
-      errorMessage: 'Endring av artikkel feilet'
+      errorMessage: 'Opprettelse av begrenset epost feilet'
     }
   });
 }
@@ -66,7 +41,7 @@ export function fetch({ next }: { next: boolean } = {}): Thunk<*> {
           : ''}`,
         schema: [restrictedMailSchema],
         meta: {
-          errorMessage: 'Henting av epost lister feilet'
+          errorMessage: 'Henting av begrensete eposter feilet'
         },
         propagateError: true
       })

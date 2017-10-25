@@ -24,10 +24,9 @@ const EmailUserEditor = ({
 }: Props) => {
   const onSubmit = data => {
     mutateFunction({
-      id: data.id,
+      ...data,
       user: data.user.value,
-      internalEmail: data.internalEmail,
-      internalEmailEnabled: data.internalEmailEnabled || false
+      internalEmailEnabled: !!data.internalEmailEnabled
     }).then(({ payload }) => {
       if (!emailUserId) {
         push(`/admin/email/users/${payload.result}`);

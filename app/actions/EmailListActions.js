@@ -12,7 +12,7 @@ export function fetchEmailList(emailListId: EntityID) {
     endpoint: `/email-lists/${emailListId}/`,
     schema: emailListSchema,
     meta: {
-      errorMessage: 'Henting av epost liste feilet'
+      errorMessage: 'Henting av epostliste feilet'
     },
     propagateError: true
   });
@@ -26,7 +26,7 @@ export function createEmailList(emailList: EmailListEntity) {
     schema: emailListSchema,
     body: emailList,
     meta: {
-      errorMessage: 'Opprettelse av epost listen feilet'
+      errorMessage: 'Opprettelse av epostlisten feilet'
     }
   });
 }
@@ -61,7 +61,7 @@ export function fetch(
         },
         schema: [emailListSchema],
         meta: {
-          errorMessage: 'Henting av epost lister feilet'
+          errorMessage: 'Henting av epostlister feilet'
         },
         propagateError: true
       })

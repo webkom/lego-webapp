@@ -1,43 +1,43 @@
 import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
-  path: 'email', // admin/email
+  path: 'email',
   ...resolveAsyncRoute(() => import('./components/EmailPage')),
   childRoutes: [
     {
-      path: 'lists', // admin/email/lists
+      path: 'lists',
       ...resolveAsyncRoute(() => import('./EmailListsRoute'))
     },
     {
-      path: 'lists/new', // admin/email/lists/new
+      path: 'lists/new',
       ...resolveAsyncRoute(() => import('./CreateEmailListRoute'))
     },
     {
-      path: 'lists/:emailListId', // admin/email/lists/12
+      path: 'lists/:emailListId',
       ...resolveAsyncRoute(() => import('./EditEmailListRoute'))
     },
     {
-      path: 'users', // admin/email/users
+      path: 'users',
       ...resolveAsyncRoute(() => import('./EmailUsersRoute'))
     },
     {
-      path: 'users/new', // admin/email/users
+      path: 'users/new',
       ...resolveAsyncRoute(() => import('./EmailUserRoute'))
     },
     {
-      path: 'users/:emailUserId', // admin/email/users
+      path: 'users/:emailUserId',
       ...resolveAsyncRoute(() => import('./EditEmailUserRoute'))
     },
     {
-      path: 'restricted', // admin/email/lists/new
+      path: 'restricted',
       ...resolveAsyncRoute(() => import('./RestrictedMailListsRoute'))
     },
     {
-      path: 'restricted/new', // admin/email/lists/new
+      path: 'restricted/new',
       ...resolveAsyncRoute(() => import('./CreateRestrictedMailRoute'))
     },
     {
-      path: 'restricted/:restrictedMailId', // admin/email/lists/new
+      path: 'restricted/:restrictedMailId',
       ...resolveAsyncRoute(() => import('./RestrictedMailRoute'))
     }
   ]

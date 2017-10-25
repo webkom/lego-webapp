@@ -19,35 +19,29 @@ export function fetchEmailUser(articleId: EntityID) {
 }
 
 export function createEmailUser(emailUser: EmailUserEntity): Thunk<*> {
-  return dispatch =>
-    dispatch(
-      callAPI({
-        types: EmailUser.CREATE,
-        endpoint: '/email-users/',
-        method: 'POST',
-        schema: emailUserSchema,
-        body: emailUser,
-        meta: {
-          errorMessage: 'Opprettelse av artikkel feilet'
-        }
-      })
-    );
+  return callAPI({
+    types: EmailUser.CREATE,
+    endpoint: '/email-users/',
+    method: 'POST',
+    schema: emailUserSchema,
+    body: emailUser,
+    meta: {
+      errorMessage: 'Opprettelse av artikkel feilet'
+    }
+  });
 }
 
 export function editEmailUser(emailUser: EmailUserEntity): Thunk<*> {
-  return dispatch =>
-    dispatch(
-      callAPI({
-        types: EmailUser.EDIT,
-        endpoint: `/email-users/${emailUser.id}/`,
-        method: 'PUT',
-        schema: emailUserSchema,
-        body: emailUser,
-        meta: {
-          errorMessage: 'Endring av artikkel feilet'
-        }
-      })
-    );
+  return callAPI({
+    types: EmailUser.EDIT,
+    endpoint: `/email-users/${emailUser.id}/`,
+    method: 'PUT',
+    schema: emailUserSchema,
+    body: emailUser,
+    meta: {
+      errorMessage: 'Endring av artikkel feilet'
+    }
+  });
 }
 
 export function fetch(
@@ -65,7 +59,7 @@ export function fetch(
         },
         schema: [emailUserSchema],
         meta: {
-          errorMessage: 'Henting av epost lister feilet'
+          errorMessage: 'Henting av epostlister feilet'
         },
         propagateError: true
       })

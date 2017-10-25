@@ -3,7 +3,7 @@
 import React from 'react';
 import sortBy from 'lodash/sortBy';
 import { Link } from 'react-router';
-import { ROLES } from '../utils';
+import { ROLES } from 'app/utils/constants';
 import styles from './GroupMembersList.css';
 
 type Props = {

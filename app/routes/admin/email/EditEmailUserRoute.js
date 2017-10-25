@@ -19,8 +19,8 @@ const mapStateToProps = (state, { routeParams }) => {
     initialValues: {
       ...emailUser,
       user: {
-        label: emailUser.user.fullName || undefined,
-        value: emailUser.user.id || undefined
+        label: emailUser.user.fullName || '',
+        value: emailUser.user.id || ''
       }
     }
   };

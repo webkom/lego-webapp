@@ -13,45 +13,43 @@ type Props = {
   params: { groupId: string }
 };
 
-const EmailPage = ({ groups, children, location, params }: Props) => {
-  let createAction;
-  switch (location.pathname) {
+const CreateAction = ({ pathname }: { pathname: string }) => {
+  switch (pathname) {
     case '/admin/email/lists':
-      createAction = (
-        <Link to={'/admin/email/lists/new'} style={{ float: 'right' }}>
+      return (
+        <Link to={`/admin/email/lists/new`} style={{ float: 'right' }}>
           Ny epostliste
         </Link>
       );
-      break;
     case '/admin/email/users':
-      createAction = (
+      return (
         <Link to={'/admin/email/users/new'} style={{ float: 'right' }}>
           Ny bruker
         </Link>
       );
-      break;
     case '/admin/email/restricted':
-      createAction = (
+      return (
         <Link to={'/admin/email/restricted/new'} style={{ float: 'right' }}>
           Ny begrenset epost
         </Link>
       );
-      break;
     default:
+      return null;
   }
-  return (
-    <Content>
-      <NavigationTab title="Epost">
-        <NavigationLink to={'/admin/email/lists'}>Lister</NavigationLink>
-        <NavigationLink to={'/admin/email/users'}>Brukere</NavigationLink>
-        <NavigationLink to={'/admin/email/restricted'}>
-          Begrenset epost
-        </NavigationLink>
-      </NavigationTab>
-      {createAction}
-      {children}
-    </Content>
-  );
 };
+
+const EmailPage = ({ groups, children, location, params }: Props) => (
+  <Content>
+    <NavigationTab title="Epost">
+      <NavigationLink to={'/admin/email/lists'}>Lister</NavigationLink>
+      <NavigationLink to={'/admin/email/users'}>Brukere</NavigationLink>
+      <NavigationLink to={'/admin/email/restricted'}>
+        Begrenset epost
+      </NavigationLink>
+    </NavigationTab>
+    <CreateAction pathname={location.pathname} />
+    {children}
+  </Content>
+);
 
 export default EmailPage;

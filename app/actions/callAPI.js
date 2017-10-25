@@ -150,10 +150,7 @@ export default function callAPI({
           })
         : null;
 
-    let qs = '';
-    if (query) {
-      qs = createQueryString(query);
-    }
+    const qs = query ? createQueryString(query) : '';
 
     const promise: Promise<HttpResponse<*>> = fetchJSON(
       urlFor(`${endpoint}${qs}`),

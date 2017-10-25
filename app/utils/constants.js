@@ -1,5 +1,7 @@
 //@flow
 
+import { startCase } from 'lodash';
+
 export const Keyboard = {
   ESCAPE: 27,
   RIGHT: 39,
@@ -19,15 +21,14 @@ export const ROLES = {
   recruiting: 'Rekruttering',
   development: 'Utvikling',
   editor: 'Moderator',
-  media_relations: 'PR',
+  media_relations: 'PR ansvarlig',
   alumni: 'Alumni',
-  webmaster: 'Web',
-  interest_group_admin: 'Admin',
-  alumni_admin: 'Admin',
-  retiree_email: 'Admin',
-  company_admin: 'Admin',
-  dugnad_admin: 'Admin',
-  trip_admin: 'Admin',
-  sponsor_admin: 'Admin',
-  social_admin: 'Admin'
+  webmaster: 'Webansvarling'
 };
+
+export const roleOptions = Object.keys(ROLES)
+  .sort()
+  .map(role => ({
+    value: role,
+    label: ROLES[role] || startCase(role)
+  }));
