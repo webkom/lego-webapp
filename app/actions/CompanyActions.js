@@ -243,7 +243,7 @@ export function deleteSemesterStatus(
   };
 }
 
-export function fetchCompanyContact({ companyId }: { companyId: number }) {
+export function fetchCompanyContacts({ companyId }: { companyId: number }) {
   return callAPI({
     types: Company.FETCH_COMPANY_CONTACT,
     endpoint: `/companies/${companyId}/company-contacts/`,

@@ -7,6 +7,7 @@ import {
   editJoblisting,
   deleteJoblisting
 } from 'app/actions/JoblistingActions';
+import { fetchCompanyContacts } from 'app/actions/CompanyActions';
 import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
 import { selectJoblistingById } from 'app/reducers/joblistings';
 import { formValueSelector } from 'redux-form';
@@ -19,18 +20,20 @@ const mapStateToProps = (state, props) => {
   const company = formSelector(state, 'company');
   const joblisting = selectJoblistingById(state, { joblistingId }) || {};
 
+  const initialCompany = joblisting.company
+    ? {
+        label: joblisting.company.name,
+        value: joblisting.company.id
+      }
+    : {};
+
   return {
     joblisting,
     initialValues: {
       ...joblisting,
       text: joblisting.text || '',
       description: joblisting.description || '',
-      company: joblisting.company
-        ? {
-            label: joblisting.company.name,
-            value: joblisting.company.id
-          }
-        : {},
+      company: initialCompany,
       responsible: joblisting.responsible
         ? {
             label: joblisting.responsible.name,
@@ -44,13 +47,14 @@ const mapStateToProps = (state, props) => {
     },
     joblistingId,
     isNew: false,
-    company: company ? company : {}
+    company: company ? company : initialCompany
   };
 };
 
 const mapDispatchToProps = {
   submitJoblisting: editJoblisting,
-  deleteJoblisting
+  deleteJoblisting,
+  fetchCompanyContacts
 };
 
 export default compose(
