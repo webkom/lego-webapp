@@ -20,7 +20,17 @@ function loadToken() {
 }
 
 function saveToken(token) {
-  return cookie.save(USER_STORAGE_KEY, token, { path: '/' });
+  const decoded = jwtDecode(token);
+  const expires = moment.unix(decoded.exp);
+  // milliseconds -> seconds:
+  const maxAge = expires.diff(moment()) / 1000;
+  return cookie.save(USER_STORAGE_KEY, token, {
+    path: '/',
+    maxAge,
+    expires: expires.toDate(),
+    // Only HTTPS in prod:
+    secure: !__DEV__
+  });
 }
 
 function removeToken() {
