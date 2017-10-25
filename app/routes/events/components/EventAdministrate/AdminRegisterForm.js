@@ -38,7 +38,9 @@ const AdminRegister = ({
           component={SelectInput.Field}
           placeholder="Pool"
           label="Pool"
-          options={pools.map(pool => ({ value: pool.id, label: pool.name }))}
+          options={pools
+            .map(pool => ({ value: pool.id, label: pool.name }))
+            .concat([{ value: 0, label: 'Venteliste' }])}
           simpleValue
         />
         <Field
@@ -63,7 +65,7 @@ function validateForm(data) {
     errors.reason = 'Forklaring er påkrevet';
   }
 
-  if (!data.pool) {
+  if (!data.pool && data.pool !== 0) {
     errors.pool = 'Pool er påkrevet';
   }
 

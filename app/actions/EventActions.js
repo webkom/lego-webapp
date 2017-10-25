@@ -203,7 +203,7 @@ export function adminRegister(
     method: 'POST',
     body: {
       user: userId,
-      pool: poolId,
+      pool: poolId ? poolId : undefined,
       feedback,
       admin_reason: reason
     },
