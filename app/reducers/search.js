@@ -26,8 +26,9 @@ const searchMapping = {
   'users.user': {
     label: 'fullName',
     color: '#A1C34A',
-    path: '/users/',
     value: 'id',
+    username: 'username',
+    path: user => `/users/${user.username}`,
     id: 'id',
     profilePicture: 'profilePicture'
   },

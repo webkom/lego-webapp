@@ -1,6 +1,6 @@
 // @flow
 
-import { union } from 'lodash';
+import { union, find } from 'lodash';
 import { createSelector } from 'reselect';
 import { User, Event } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
@@ -60,7 +60,10 @@ export const selectUserById = createSelector(
   state => state.users.byId,
   (state, props) => props.userId,
   (usersById, userId) => {
-    const user = usersById[userId];
+    const user = isNaN(userId)
+      ? find(usersById, ['username', userId])
+      : usersById[userId];
+
     if (user) {
       return user;
     }

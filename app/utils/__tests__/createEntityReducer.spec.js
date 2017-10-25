@@ -66,9 +66,7 @@ describe('createEntityReducer', () => {
       fetching: false,
       hasMore: false,
       smashed: false,
-      pagination: {
-        next: {}
-      }
+      pagination: {}
     });
   });
 
@@ -97,9 +95,7 @@ describe('createEntityReducer', () => {
       fetching: false,
       hasMore: false,
       smashed: false,
-      pagination: {
-        next: {}
-      }
+      pagination: {}
     });
   });
 
@@ -128,9 +124,7 @@ describe('createEntityReducer', () => {
       fetching: false,
       hasMore: false,
       smashed: false,
-      pagination: {
-        next: {}
-      }
+      pagination: {}
     });
   });
 
@@ -151,9 +145,7 @@ describe('createEntityReducer', () => {
       fetching: false,
       smashed: false,
       hasMore: false,
-      pagination: {
-        next: {}
-      }
+      pagination: {}
     });
   });
 

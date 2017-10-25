@@ -114,14 +114,13 @@ export function paginationReducer(key: string, fetchType?: ?AsyncActionType) {
       return state;
     }
 
+    if (action.payload.next) {
+      state.pagination.next = parse(action.payload.next.split('?')[1]);
+    }
+
     return {
       ...state,
-      hasMore: typeof action.payload.next === 'string',
-      pagination: {
-        next: parse(
-          action.payload.next ? action.payload.next.split('?')[1] : ''
-        )
-      }
+      hasMore: typeof action.payload.next === 'string'
     };
   };
 }
