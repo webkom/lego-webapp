@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import segment from '@segment/snippet';
 import { match, RouterContext } from 'react-router';
 import { Provider } from 'react-redux';
 import cookie from 'react-cookie';
@@ -140,24 +139,13 @@ function renderPage({ body, state, helmet }) {
            window.__PRELOADED_STATE__ = ${serialize(state, { isJSON: true })};
         </script>
         <script>
-          ${segment.max({
-            host: 'cdn.segment.com',
-            apiKey: config.segmentWriteKey,
-            page: false
-          })}
+          !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","reset","group","track","ready","alias","debug","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"long-snoot.abakus.no/"+t+"/snoot.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="4.0.0";
+          analytics.load("${config.segmentWriteKey}");
+          }}();
         </script>
-
         <script async src="https://js.stripe.com/v2/"></script>
         ${dllPlugin}
         ${scripts}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-17746625-3"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'UA-17746625-3');
-        </script>
       </body>
     </html>
    `;
