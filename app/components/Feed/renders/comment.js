@@ -33,9 +33,8 @@ export function activityHeader(aggregatedActivity: AggregatedActivity) {
 }
 
 export function activityContent(activity: Activity) {
-  return (
-    <div dangerouslySetInnerHTML={{ __html: activity.extraContext.content }} />
-  );
+  const content = activity.extraContext.content.replace(/<p>(.*)<\/p>/, '$1');
+  return <p>{content} </p>;
 }
 
 export function icon() {
