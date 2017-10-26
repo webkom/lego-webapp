@@ -22,6 +22,7 @@ export default formReducer.plugin({
         };
       case Event.SOCKET_UNREGISTRATION.SUCCESS:
       case Event.SOCKET_REGISTRATION.SUCCESS: {
+        if (!state) return;
         if (action.payload.id !== state.registrationId) {
           return state;
         }
@@ -34,6 +35,7 @@ export default formReducer.plugin({
       }
       case Event.SOCKET_REGISTRATION.FAILURE:
       case Event.SOCKET_UNREGISTRATION.FAILURE: {
+        if (!state) return;
         if (action.payload.id !== state.registrationId) {
           return state;
         }

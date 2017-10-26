@@ -68,14 +68,16 @@ function mutateEvent(state: any, action: any) {
           [eventId]: {
             ...stateEvent,
             loading: false,
-            registrationCount: stateEvent.registrationCount + 1,
+            registrationCount: registration.pool
+              ? stateEvent.registrationCount + 1
+              : stateEvent.registrationCount,
             waitingRegistrations
           }
         }
       };
     }
     case Event.SOCKET_UNREGISTRATION.SUCCESS: {
-      const { eventId, activationTime } = action.meta;
+      const { eventId, activationTime, fromPool } = action.meta;
       const stateEvent = state.byId[eventId];
       if (!stateEvent) {
         return state;
@@ -88,7 +90,9 @@ function mutateEvent(state: any, action: any) {
             ...stateEvent,
             loading: false,
             activationTime,
-            registrationCount: stateEvent.registrationCount - 1,
+            registrationCount: fromPool
+              ? stateEvent.registrationCount - 1
+              : stateEvent.registrationCount,
             waitingRegistrations: (stateEvent.waitingRegistrations || []
             ).filter(id => id !== action.payload.id)
           }
