@@ -5,6 +5,7 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const { StatsWriterPlugin } = require('webpack-stats-plugin');
+const AssetsPlugin = require('assets-webpack-plugin');
 const packageJson = require('../package.json');
 
 const root = path.resolve(__dirname, '..');
@@ -90,6 +91,10 @@ module.exports = {
         filename: 'stats.json',
         fields: ['assets'],
         transform: JSON.stringify
+      }),
+
+      new AssetsPlugin({
+        path: path.join(root, 'dist')
       })
     ])
   ),
