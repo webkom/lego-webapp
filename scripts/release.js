@@ -8,7 +8,8 @@ const { assets } = require('../dist/stats.json');
 
 const sourceMaps = assets
   .map(({ name }) => name)
-  .filter(name => name.endsWith('.js.map'));
+  .filter(name => name.endsWith('.js.map'))
+  .concat('server.js.map');
 
 const { RELEASE, SENTRY_AUTH_KEY } = process.env;
 const SENTRY_PROJECT = 'webkom/lego-webapp';
