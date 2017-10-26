@@ -46,8 +46,6 @@ export const colorForEvent = eventType => {
 };
 
 export const transformEvent = (data, edit = false) => {
-  console.log(data);
-
   return {
     ...data,
     startTime: moment(data.startTime).toISOString(),
