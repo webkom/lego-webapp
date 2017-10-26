@@ -7,10 +7,7 @@
 .checkboxWrapper {
   margin-top: 5px;
   margin-bottom: -5px;
-
-  @media (--small-viewport) {
-    flex-wrap: wrap;
-  }
+  flex-wrap: wrap;
 }
 
 .remove {
