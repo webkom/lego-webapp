@@ -3,7 +3,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import RestrictedMails from './components/RestrictedMails';
-import { fetch } from 'app/actions/restrictedMailActions';
+import { fetch } from 'app/actions/RestrictedMailActions';
 import { selectRestrictedMails } from 'app/reducers/restrictedMails';
 import prepare from 'app/utils/prepare';
 

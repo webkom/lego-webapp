@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import RestrictedMailEditor from './components/RestrictedMailEditor';
-import { fetchRestrictedMail } from 'app/actions/restrictedMailActions';
+import { fetchRestrictedMail } from 'app/actions/RestrictedMailActions';
 import { selectRestrictedMailById } from 'app/reducers/restrictedMails';
 import prepare from 'app/utils/prepare';
 
