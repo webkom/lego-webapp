@@ -17,8 +17,10 @@ pipeline:
       event: push
     registry: https://registry.abakus.no
     repo: registry.abakus.no/webkom/lego-webapp
-    secrets: [ docker_username, docker_password ]
+    secrets: [ docker_username, docker_password, sentry_auth_key ]
     tags:
       - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+    build_args_from_env:
+      - sentry_auth_key
     build_args:
       - RELEASE=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}

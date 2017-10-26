@@ -78,27 +78,35 @@ function render(req, res, next) {
   });
 }
 
+let cachedAssets;
+function retrieveAssets() {
+  if (__DEV__ || !cachedAssets) {
+    const { app, vendor } = JSON.parse(
+      fs.readFileSync(path.join(__dirname, '..', 'dist', 'webpack-assets.json'))
+    );
+
+    const styles = [app && app.css]
+      .filter(Boolean)
+      .map(css => `<link rel="stylesheet" href="${css}">`)
+      .join('\n');
+    const scripts = [vendor && vendor.js, app && app.js]
+      .filter(Boolean)
+      .map(js => `<script src="${js}"></script>`)
+      .join('\n');
+
+    cachedAssets = { scripts, styles };
+  }
+
+  return cachedAssets;
+}
+
+const dllPlugin =
+  process.env.NODE_ENV !== 'production'
+    ? '<script src="/vendors.dll.js"></script>'
+    : '';
+
 function renderPage({ body, state, helmet }) {
-  const dllPlugin =
-    process.env.NODE_ENV !== 'production'
-      ? '<script src="/vendors.dll.js"></script>'
-      : '';
-
-  const assets = JSON.parse(
-    fs.readFileSync(path.join(__dirname, '..', 'dist', 'webpack-assets.json'))
-  );
-
-  const { app, vendor } = assets;
-
-  const styles = [app && app.css]
-    .filter(Boolean)
-    .map(css => `<link rel="stylesheet" href="${css}">`)
-    .join('\n');
-  const scripts = [vendor && vendor.js, app && app.js]
-    .filter(Boolean)
-    .map(js => `<script src="${js}"></script>`)
-    .join('\n');
-
+  const { scripts, styles } = retrieveAssets();
   return `
     <!DOCTYPE html>
     <html>

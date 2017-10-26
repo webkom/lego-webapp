@@ -4,6 +4,7 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
+const { StatsWriterPlugin } = require('webpack-stats-plugin');
 const AssetsPlugin = require('assets-webpack-plugin');
 const packageJson = require('../package.json');
 
@@ -84,6 +85,12 @@ module.exports = {
         filename: '[name].[contenthash:8].css',
         allChunks: true,
         disable: !isProduction
+      }),
+
+      new StatsWriterPlugin({
+        filename: 'stats.json',
+        fields: ['assets'],
+        transform: JSON.stringify
       }),
 
       new AssetsPlugin({

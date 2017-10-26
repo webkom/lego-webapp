@@ -1,29 +1,27 @@
 #!/usr/bin/env node
 /* eslint no-console: 0 */
-const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
 const meow = require('meow');
 const exec = require('child-process-promise').exec;
+const { assets } = require('../dist/stats.json');
 
-const assets = JSON.parse(
-  fs.readFileSync(path.join(__dirname, '..', 'dist', 'webpack-assets.json'))
-);
+const sourceMaps = assets
+  .map(({ name }) => name)
+  .filter(name => name.endsWith('.js.map'));
 
-const { app, vendor } = assets;
-
-const release = process.env.RELEASE;
-const sentryProject = 'webkom/lego-web';
-const sentryAuthKey = process.env.SENTRY_AUTH_KEY;
-const appSourceMap = `./dist${app.js}.map`;
-const vendorSourceMap = `./dist${vendor.js}.map`;
-const serverSourceMap = './dist/server.js.map';
+const { RELEASE, SENTRY_AUTH_KEY } = process.env;
+const SENTRY_PROJECT = 'webkom/lego-webapp';
 
 const failedCommands = [];
 
 const cli = meow(`
   Upload artifacts to sentry and create a release.
 `);
+
+function getPath(filename) {
+  return path.resolve(__dirname, '..', 'dist', filename);
+}
 
 async function run(command) {
   try {
@@ -43,57 +41,43 @@ async function task(promise) {
   }
 }
 
-/**
- *
- */
 async function createSentryRelease(version, project) {
   return run(
-    `curl https://sentry.abakus.no/api/0/projects/${project}/releases/ \
-    -H 'Authorization: Bearer ${sentryAuthKey}' \
-    -X POST -d '{"version": "${version}"}' -H 'Content-Type: application/json'`
+    `curl https://sentry.abakus.no/api/0/projects/${SENTRY_PROJECT}/releases/ \
+    -H 'Authorization: Bearer ${SENTRY_AUTH_KEY}' \
+    -X POST -d '{"version": "${RELEASE}"}' -H 'Content-Type: application/json'`
   );
 }
 
-/**
- *
- */
-async function uploadArtifactsToSentry(version, project) {
-  return Promise.all([
-    run(`
-      curl https://sentry.abakus.no/api/0/projects/${project}/releases/${version}/files/ -X POST \
-      -H 'Authorization: Bearer ${sentryAuthKey}' \
-      -F file=@${appSourceMap} -F name=~${app.js}.map
-    `),
-    run(`
-      curl https://sentry.abakus.no/api/0/projects/${project}/releases/${version}/files/ -X POST \
-      -H 'Authorization: Bearer ${sentryAuthKey}' \
-      -F file=@${vendorSourceMap} -F name=~${vendor.js}.map
-    `),
-    run(`
-      curl https://sentry.abakus.no/api/0/projects/${project}/releases/${version}/files/ -X POST \
-      -H 'Authorization: Bearer ${sentryAuthKey}' \
-      -F file=@${serverSourceMap} -F name=~/server.js.map
-    `)
-  ]);
+async function uploadSourceMap(filename) {
+  const result = await run(`
+    curl https://sentry.abakus.no/api/0/projects/${SENTRY_PROJECT}/releases/${RELEASE}/files/ -X POST \
+    -H 'Authorization: Bearer ${SENTRY_AUTH_KEY}' \
+    -F file=@${getPath(filename)} -F name=~/${filename}
+  `);
+
+  if (!JSON.parse(result.stdout).sha1) {
+    throw new Error(`Upload error ${result.stdout}`);
+  }
+
+  return result;
 }
 
-async function uploadProjectToSentry(version, project) {
-  await Promise.all([createSentryRelease(version, project)]);
-  return uploadArtifactsToSentry(version, project);
+async function uploadProjectToSentry() {
+  await createSentryRelease();
+  await Promise.all(sourceMaps.map(uploadSourceMap));
 }
 
 async function deleteSourceMaps() {
-  return Promise.all([
-    run(`rm ${appSourceMap}`),
-    run(`rm ${vendorSourceMap}`),
-    run(`rm ${serverSourceMap}`)
-  ]);
+  await Promise.all(
+    sourceMaps.map(sourceMap => run(`rm ${getPath(sourceMap)}`))
+  );
 }
 
 async function main(flags) {
   const startTime = Date.now();
 
-  await task(uploadProjectToSentry(release, sentryProject));
+  await task(uploadProjectToSentry());
 
   if (flags.delete) {
     // Delete sourcemaps if the --delete flag exists.
