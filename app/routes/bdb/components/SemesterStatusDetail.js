@@ -14,6 +14,7 @@ import FileUpload from 'app/components/Upload/FileUpload';
 import truncateString from 'app/utils/truncateString';
 import type { CompanySemesterContactedStatus } from 'app/models';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import cx from 'classnames';
 
 const FILE_NAME_LENGTH = 30;
 
@@ -25,7 +26,8 @@ type Props = {
     semesterStatus: SemesterStatusEntity,
     statusString: CompanySemesterContactedStatus
   ) => Promise<*>,
-  addFileToSemester: (string, string, string, Object) => Promise<*>
+  addFileToSemester: (string, string, string, Object) => Promise<*>,
+  removeFileFromSemester: (SemesterStatusEntity, string) => Promise<*>
 };
 
 type State = {
@@ -47,8 +49,11 @@ export default class SemesterStatusDetail extends Component<Props, State> {
       type,
       this.props.semesterStatus
     );
-    this.setState(state => ({ editing: false }));
+    this.setState({ editing: false });
   };
+
+  removeFile = (type: string) =>
+    this.props.removeFileFromSemester(this.props.semesterStatus, type);
 
   uploadButton = (type: string) => (
     <FileUpload
@@ -73,6 +78,34 @@ export default class SemesterStatusDetail extends Component<Props, State> {
     if (!semesterStatus) return <LoadingIndicator />;
 
     const humanReadableSemester = this.semesterToHumanReadable();
+
+    const renderFile = (type: string) => {
+      const fileName = this.fileNameToShow(
+        semesterStatus[type + 'Name'],
+        semesterStatus[type]
+      );
+
+      if (this.state.editing && semesterStatus[type]) {
+        return (
+          <span className={styles.deleteFile}>
+            <span>{fileName}</span>
+            <ConfirmModalWithParent
+              title="Slett fil"
+              message="Er du sikker på at du vil slette denne filen?"
+              onConfirm={() => this.removeFile(type)}
+              closeOnConfirm
+            >
+              <i className="fa fa-times" style={{ color: '#d13c32' }} />
+            </ConfirmModalWithParent>
+          </span>
+        );
+      }
+      if (this.state.editing) {
+        return this.uploadButton(type);
+      }
+      return fileName;
+    };
+
     return (
       <tr key={semesterStatus.id}>
         <td>{humanReadableSemester}</td>
@@ -92,16 +125,10 @@ export default class SemesterStatusDetail extends Component<Props, State> {
               editFunction(semesterStatus, statusCode)}
           />
         </td>
+
         {['contract', 'statistics', 'evaluation'].map(type => (
           <td key={type}>
-            <span>
-              {this.state.editing
-                ? this.uploadButton(type)
-                : this.fileNameToShow(
-                    semesterStatus[type + 'Name'],
-                    semesterStatus[type]
-                  )}
-            </span>
+            <span>{renderFile(type)}</span>
           </td>
         ))}
         <td>
@@ -123,7 +150,7 @@ export default class SemesterStatusDetail extends Component<Props, State> {
               onConfirm={this.deleteSemesterStatus}
               closeOnConfirm
             >
-              <i className="fa fa-times" style={{ color: '#d13c32' }} />
+              <i className={cx('fa fa-times', styles.deleteIcon)} />
             </ConfirmModalWithParent>
           </span>
         </td>

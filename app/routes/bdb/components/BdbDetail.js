@@ -112,8 +112,24 @@ export default class BdbDetail extends Component<Props, State> {
     const sendableSemester = {
       semesterStatusId: semesterStatus.id,
       companyId: company.id,
-      contactedStatus: [],
+      contactedStatus: semesterStatus.contactedStatus,
       [type]: fileToken
+    };
+
+    return editSemesterStatus(sendableSemester, { detail: true });
+  };
+
+  removeFileFromSemester = (
+    semesterStatus: SemesterStatusEntity,
+    type: string
+  ) => {
+    const { editSemesterStatus, company } = this.props;
+
+    const sendableSemester = {
+      semesterStatusId: semesterStatus.id,
+      contactedStatus: semesterStatus.contactedStatus,
+      companyId: company.id,
+      [type]: null
     };
 
     return editSemesterStatus(sendableSemester, { detail: true });
@@ -144,6 +160,7 @@ export default class BdbDetail extends Component<Props, State> {
           deleteSemesterStatus={this.deleteSemesterStatus}
           editFunction={this.semesterStatusOnChange}
           addFileToSemester={this.addFileToSemester}
+          removeFileFromSemester={this.removeFileFromSemester}
         />
       ));
 
@@ -273,6 +290,10 @@ export default class BdbDetail extends Component<Props, State> {
                 company.studentContact.fullName) ||
                 '-'}`}
               meta="Studentkontakt"
+              link={`${String(
+                company.studentContact &&
+                  'abakus.no/users/' + String(company.studentContact.username)
+              )}`}
               style={{ order: 5 }}
             />
           </div>
