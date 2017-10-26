@@ -63,6 +63,11 @@ const LINKS: Array<Link> = [
     url: '/quotes'
   },
   {
+    key: 'companies',
+    title: 'Bedrifter',
+    url: '/companies'
+  },
+  {
     key: 'jobListings',
     title: 'Jobbannonser',
     url: '/joblistings'
