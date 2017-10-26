@@ -123,3 +123,12 @@
 .buttonRow {
   padding-bottom: 20px;
 }
+
+.detailTitle {
+  margin-bottom: 0;
+  width: 100%;
+
+  & h1 {
+    margin-bottom: 0;
+  }
+}
