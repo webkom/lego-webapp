@@ -47,24 +47,26 @@ async function createSentryRelease(version, project) {
 
 async function uploadSourceMap(filename) {
   const filePath = path.resolve(__dirname, '..', 'dist', filename);
-  return run(`
+  const result = await run(`
     curl https://sentry.abakus.no/api/0/projects/${SENTRY_PROJECT}/releases/${RELEASE}/files/ -X POST \
     -H 'Authorization: Bearer ${SENTRY_AUTH_KEY}' \
     -F file=@${filePath} -F name=~${filename}
   `);
+
+  if (!JSON.parse(result.stdout).sha1) {
+    throw new Error(`Upload error ${result.stdout}`);
+  }
+
+  return result;
 }
 
 async function uploadProjectToSentry() {
   await createSentryRelease();
-  for (const sourceMap of sourceMaps) {
-    await uploadSourceMap(sourceMap);
-  }
+  await Promise.all(sourceMaps.map(uploadSourceMap));
 }
 
 async function deleteSourceMaps() {
-  for (const sourceMap of sourceMaps) {
-    await run(`rm ${sourceMap}`);
-  }
+  await Promise.all(sourceMaps.map(sourceMap => run(`rm ${sourceMap}`)));
 }
 
 async function main(flags) {
