@@ -156,8 +156,8 @@ export default class Table extends Component<Props, State> {
     return match > 0;
   };
 
-  loadMore = (loading: boolean) => {
-    if (this.props.onLoad && !loading) {
+  loadMore = () => {
+    if (this.props.onLoad && this.props.loading) {
       this.props.onLoad(this.state.filters, this.state.sort);
     }
   };
@@ -179,7 +179,7 @@ export default class Table extends Component<Props, State> {
         <InfiniteScroll
           element="tbody"
           hasMore={hasMore}
-          loadMore={() => this.loadMore(loading)}
+          loadMore={this.loadMore}
           threshold={50}
           loader={
             <tr>

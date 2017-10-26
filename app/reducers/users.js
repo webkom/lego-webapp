@@ -59,20 +59,17 @@ export default createEntityReducer({
 export const selectUserById = createSelector(
   state => state.users.byId,
   (state, props) => props.userId,
-  (usersById, userId) => {
-    const user = isNaN(userId)
-      ? find(usersById, ['username', userId])
-      : usersById[userId];
+  (usersById, userId) => usersById[userId] || {}
+);
 
-    if (user) {
-      return user;
-    }
-    return {};
-  }
+export const selectUserByUsername = createSelector(
+  state => state.users.byId,
+  (state, props) => props.username,
+  (usersById, username) => find(usersById, ['username', username]) || {}
 );
 
 export const selectUserWithGroups = createSelector(
-  selectUserById,
+  selectUserByUsername,
   state => state.groups.byId,
   (user, groupsById) => ({
     ...user,

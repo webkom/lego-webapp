@@ -5,6 +5,7 @@ import { compose } from 'redux';
 import { dispatched } from '@webkom/react-prepare';
 import UserSettings from './components/UserSettings';
 import loadingIndicator from 'app/utils/loadingIndicator';
+import { selectUserByUsername } from 'app/reducers/users';
 import {
   fetchUser,
   updateUser,
@@ -18,7 +19,7 @@ const loadData = ({ params: { username } }, dispatch) =>
 const mapStateToProps = (state, props) => {
   const { isMe, params } = props;
   const username = isMe ? state.auth.username : params.username;
-  const user = state.users.byId[username];
+  const user = selectUserByUsername(state, { username });
   return {
     user,
     isMe,
