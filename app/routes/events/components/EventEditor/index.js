@@ -305,6 +305,7 @@ export default reduxForm({
   form: 'eventEditor',
   enableReinitialize: true,
   validate(data) {
+    console.log(data);
     const errors = {};
     if (!data.title) {
       errors.title = 'Tittel er påkrevet';
@@ -323,6 +324,9 @@ export default reduxForm({
     }
     if (!data.location) {
       errors.location = 'Lokasjon er påkrevet';
+    }
+    if (!data.id && !data.cover) {
+      errors.cover = 'Cover er påkrevet';
     }
     errors.pools = validatePools(data.pools);
     return errors;
