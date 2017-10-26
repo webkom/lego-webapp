@@ -6,7 +6,6 @@ import Icon from '../Icon';
 import { activityRenderers } from '../Feed';
 import Time from 'app/components/Time';
 import styles from './HeaderNotifications.css';
-import { Link } from 'react-router';
 
 type Props = {
   notificationsData: Object,
@@ -37,7 +36,7 @@ const NotificationElement = ({
           styles.notification,
           !notification.read ? styles.unRead : null
         )}
-        onClick={() => markNotification(notification.id)}
+        onClick={() => this.props.markNotification(notification.id)}
       >
         <div className={styles.innerNotification}>
           <div className={styles.icon}>{renders.icon(notification)}</div>
@@ -58,7 +57,8 @@ const NotificationElement = ({
 
 export default class NotificationsDropdown extends Component<Props, State> {
   state: State = {
-    notificationsOpen: false
+    notificationsOpen: false,
+    hideUnreadCount: false
   };
 
   seeAll = () => {
@@ -100,12 +100,20 @@ export default class NotificationsDropdown extends Component<Props, State> {
         toggle={() =>
           this.setState(
             {
-              notificationsOpen: !this.state.notificationsOpen
+              notificationsOpen: !this.state.notificationsOpen,
+              hideUnreadCount: true
             },
-            () => (this.state.notificationsOpen ? fetchNotifications() : null)
+            () =>
+              this.state.notificationsOpen
+                ? fetchNotifications()
+                : this.props.markAllNotifications().then(this.fetch)
           )}
         triggerComponent={
-          <Icon.Badge name="notifications" size={30} badgeCount={unreadCount} />
+          <Icon.Badge
+            name="notifications"
+            size={30}
+            badgeCount={!this.state.hideUnreadCount && unreadCount}
+          />
         }
         contentClassName={styles.notifications}
       >
@@ -114,11 +122,6 @@ export default class NotificationsDropdown extends Component<Props, State> {
           <div style={{ width: '100%' }}>
             <div style={{ maxHeight: '300px', overflowY: 'overlay' }}>
               {this.renderNotifications(notifications)}
-            </div>
-            <div className={styles.seeAllWrapper}>
-              <Link onClick={this.seeAll} className={styles.seeAll}>
-                Marker alle som sett
-              </Link>
             </div>
           </div>
         ) : (
