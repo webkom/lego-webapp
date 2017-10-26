@@ -19,6 +19,10 @@ const cli = meow(`
   Upload artifacts to sentry and create a release.
 `);
 
+function getPath(filename) {
+  return path.resolve(__dirname, '..', 'dist', filename);
+}
+
 async function run(command) {
   try {
     console.log(chalk.yellow('RUN'), command);
@@ -46,11 +50,10 @@ async function createSentryRelease(version, project) {
 }
 
 async function uploadSourceMap(filename) {
-  const filePath = path.resolve(__dirname, '..', 'dist', filename);
   const result = await run(`
     curl https://sentry.abakus.no/api/0/projects/${SENTRY_PROJECT}/releases/${RELEASE}/files/ -X POST \
     -H 'Authorization: Bearer ${SENTRY_AUTH_KEY}' \
-    -F file=@${filePath} -F name=~${filename}
+    -F file=@${getPath(filename)} -F name=~${filename}
   `);
 
   if (!JSON.parse(result.stdout).sha1) {
@@ -66,7 +69,9 @@ async function uploadProjectToSentry() {
 }
 
 async function deleteSourceMaps() {
-  await Promise.all(sourceMaps.map(sourceMap => run(`rm ${sourceMap}`)));
+  await Promise.all(
+    sourceMaps.map(sourceMap => run(`rm ${getPath(sourceMap)}`))
+  );
 }
 
 async function main(flags) {
