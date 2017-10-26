@@ -385,9 +385,8 @@ export default class BdbDetail extends Component<Props, State> {
               user={currentUser}
               commentTarget={company.commentTarget}
               loggedIn={loggedIn}
-              comments={comments.sort(
-                (a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt)
-              )}
+              comments={comments}
+              newOnTop
             />
           )}
         </div>
