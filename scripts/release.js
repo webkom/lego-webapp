@@ -8,7 +8,7 @@ const { assets } = require('../dist/stats.json');
 
 const sourceMaps = assets
   .map(({ name }) => name)
-  .filter(name => name.endsWith('.js'));
+  .filter(name => name.endsWith('.js.map'));
 
 const { RELEASE, SENTRY_AUTH_KEY } = process.env;
 const SENTRY_PROJECT = 'webkom/lego-webapp';
@@ -53,7 +53,7 @@ async function uploadSourceMap(filename) {
   const result = await run(`
     curl https://sentry.abakus.no/api/0/projects/${SENTRY_PROJECT}/releases/${RELEASE}/files/ -X POST \
     -H 'Authorization: Bearer ${SENTRY_AUTH_KEY}' \
-    -F file=@${getPath(filename)} -F name=~${filename}
+    -F file=@${getPath(filename)} -F name=~/${filename}
   `);
 
   if (!JSON.parse(result.stdout).sha1) {
