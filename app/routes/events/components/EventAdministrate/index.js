@@ -105,10 +105,7 @@ export default class EventAdministrate extends Component<Props, State> {
       error,
       loading,
       registered,
-      unregistered,
-      usersResult,
-      onQueryChanged,
-      searching
+      unregistered
     } = this.props;
 
     if (loading) {
@@ -133,11 +130,8 @@ export default class EventAdministrate extends Component<Props, State> {
             <strong>Adminpåmelding:</strong>
             <AdminRegisterForm
               {...this.props}
-              usersResult={usersResult}
-              onQueryChanged={onQueryChanged}
               onSubmit={this.handleAdminRegistration}
               pools={pools}
-              searching={searching}
             />
             <strong>Påmeldte:</strong>
             <ul className={styles.grid}>

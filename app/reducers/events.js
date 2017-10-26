@@ -57,7 +57,7 @@ function mutateEvent(state: any, action: any) {
       if (!stateEvent) {
         return state;
       }
-      let waitingRegistrations = stateEvent.waitingRegistrations;
+      let waitingRegistrations = stateEvent.waitingRegistrations || [];
       if (!registration.pool) {
         waitingRegistrations = [...waitingRegistrations, registration.id];
       }
@@ -68,6 +68,7 @@ function mutateEvent(state: any, action: any) {
           [eventId]: {
             ...stateEvent,
             loading: false,
+            registrationCount: stateEvent.registrationCount + 1,
             waitingRegistrations
           }
         }
@@ -87,9 +88,9 @@ function mutateEvent(state: any, action: any) {
             ...stateEvent,
             loading: false,
             activationTime,
-            waitingRegistrations: stateEvent.waitingRegistrations.filter(
-              id => id !== action.payload.id
-            )
+            registrationCount: stateEvent.registrationCount - 1,
+            waitingRegistrations: (stateEvent.waitingRegistrations || []
+            ).filter(id => id !== action.payload.id)
           }
         }
       };
