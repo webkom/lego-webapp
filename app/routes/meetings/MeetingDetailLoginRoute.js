@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { dispatched } from '@webkom/react-prepare';
 import { push } from 'react-router-redux';
 import {
   fetchMeeting,
@@ -52,11 +51,5 @@ const mapStateToProps = (state, props) => {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { meetingId } }, dispatch) => dispatch(fetchMeeting(meetingId)),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
   connect(mapStateToProps, mapDispatchToProps)
 )(MeetingDetail);
