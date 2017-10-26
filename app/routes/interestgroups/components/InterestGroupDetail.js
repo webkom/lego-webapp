@@ -46,7 +46,7 @@ const Description = ({ description }: { description: string }) => (
 const Sidebar = ({ group }: { group: InterestGroup }) => (
   <Flex column className={styles.sideBar}>
     <Logo logo={group.logo || 'https://i.imgur.com/Is9VKjb.jpg'} />
-    <Members name={group.name} members={group.memberships} />
+    <Members group={group} members={group.memberships} />
     <Contact group={group} />
   </Flex>
 );
@@ -57,12 +57,12 @@ const SidebarHeader = ({ text }: { text: string }) => (
 
 type MembersProps = {
   members: Array<GroupMembership>,
-  name: string
+  group: Object
 };
 
-const Members = ({ members, name }: MembersProps) => (
+const Members = ({ group, members }: MembersProps) => (
   <Flex column>
-    <SidebarHeader text={`Medlemmer (${members.length})`} />
+    <SidebarHeader text={`Medlemmer (${group.numberOfUsers})`} />
     <Flex wrap>
       {members &&
         members
