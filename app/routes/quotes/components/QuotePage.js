@@ -64,7 +64,7 @@ export default function QuotePage({
         <Button
           onClick={() => fetchMore({ approved: query.filter !== 'unapproved' })}
         >
-          Load more
+          Last inn flere
         </Button>
       )}
     </div>
