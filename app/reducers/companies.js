@@ -10,6 +10,7 @@ import { selectCompanySemesters } from './companySemesters';
 import mergeObjects from 'app/utils/mergeObjects';
 import type { UserEntity } from 'app/reducers/users';
 import type { CompanySemesterContactedStatus, Semester } from 'app/models';
+import { selectJoblistings } from 'app/reducers/joblistings';
 
 export type BaseCompanyEntity = {
   name: string,
@@ -226,12 +227,25 @@ export const selectCompanyById = createSelector(
 );
 
 export const selectEventsForCompany = createSelector(
-  selectCompanyById,
+  (state, props) => props.companyId,
   selectEvents,
-  (company, events) => {
-    if (!company || !events) return [];
+  (companyId, events) => {
+    if (!companyId || !events) return [];
     return events.filter(
-      event => event.company && event.company.id === company.id
+      event => event.company && Number(event.company.id) === Number(companyId)
+    );
+  }
+);
+
+export const selectJoblistingsForCompany = createSelector(
+  (state, props) => props.companyId,
+  selectJoblistings,
+  (companyId, joblistings) => {
+    if (!companyId || !joblistings) return [];
+    return joblistings.filter(
+      joblisting =>
+        joblisting.company &&
+        Number(joblisting.company.id) === Number(companyId)
     );
   }
 );
