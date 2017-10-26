@@ -2,28 +2,6 @@
 # yarn lockfile v1
 
 
-"@ndhoule/each@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@ndhoule/each/-/each-2.0.1.tgz#bbed372a603e0713a3193c706a73ddebc5b426a9"
-  dependencies:
-    "@ndhoule/keys" "^2.0.0"
-
-"@ndhoule/keys@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@ndhoule/keys/-/keys-2.0.0.tgz#3d64ae677c65a261747bf3a457c62eb292a4e0ce"
-
-"@ndhoule/map@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@ndhoule/map/-/map-2.0.1.tgz#f5ca0a47424ea67f46e2a6d499b9e9bc886aefa8"
-  dependencies:
-    "@ndhoule/each" "^2.0.1"
-
-"@segment/snippet@^4.0.1":
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/@segment/snippet/-/snippet-4.0.1.tgz#ea6d10058ba2381111c048098a9a8e454a74d50b"
-  dependencies:
-    "@ndhoule/map" "^2.0.1"
-
 "@types/node@^6.0.46":
   version "6.0.88"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.88.tgz#f618f11a944f6a18d92b5c472028728a3e3d4b66"
