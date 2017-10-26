@@ -14,17 +14,26 @@ import { push } from 'react-router-redux';
 import type { Thunk } from 'app/types';
 import { addNotification } from 'app/actions/NotificationActions';
 
-export function fetchAll() {
-  return callAPI({
-    types: Company.FETCH,
-    endpoint: '/companies/',
-    schema: [companySchema],
-    meta: {
-      errorMessage: 'Henting av bedrifter feilet'
-    },
-    propagateError: true
-  });
-}
+export const fetchAll = ({ fetchMore }: { fetchMore: boolean }): Thunk<*> => (
+  dispatch,
+  getState
+) => {
+  const endpoint = fetchMore
+    ? getState().companies.pagination[''].nextPage
+    : '/companies/';
+  return dispatch(
+    callAPI({
+      types: Company.FETCH,
+      endpoint,
+      schema: [companySchema],
+      meta: {
+        errorMessage: 'Henting av bedrifter feilet',
+        queryString: ''
+      },
+      propagateError: true
+    })
+  );
+};
 
 export function fetchAllAdmin() {
   return callAPI({

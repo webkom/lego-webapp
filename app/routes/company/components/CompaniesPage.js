@@ -6,9 +6,12 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Link } from 'react-router';
 import { Image } from 'app/components/Image';
 import type { Company } from 'app/models';
+import { Button } from 'app/components/Form';
 
 type Props = {
-  companies: Array<Company>
+  companies: Array<Company>,
+  showFetchMore: () => void,
+  fetchMore: () => void
 };
 
 export function CompanyItem({ company }: any) {
@@ -47,14 +50,16 @@ function CompanyList({ name, companies = [] }: CompanyListProps) {
   );
 }
 
-const CompaniesPage = ({ companies }: Props) => {
-  if (companies.length < 1) {
+const CompaniesPage = (props: Props) => {
+  if (props.companies.length < 1) {
     return <LoadingIndicator loading />;
   }
-
   return (
     <div className={styles.root}>
-      <CompanyList name="Bedrifter" companies={companies} />
+      <CompanyList name={'Bedrifter'} companies={props.companies} />
+      {props.showFetchMore && (
+        <Button onClick={() => props.fetchMore()}>Flere bedrifter</Button>
+      )}
     </div>
   );
 };
