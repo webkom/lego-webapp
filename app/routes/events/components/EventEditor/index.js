@@ -138,7 +138,7 @@ function EventEditor({
           <Flex column className={styles.meta}>
             <Field
               name="eventType"
-              label="Hva"
+              label="Type arrangement"
               simpleValue
               fieldClassName={styles.metaField}
               component={SelectInput.Field}
@@ -171,7 +171,7 @@ function EventEditor({
               className={styles.formField}
             />
             <Field
-              label="Finner sted i"
+              label="Sted"
               name="location"
               component={TextInput.Field}
               fieldClassName={styles.metaField}
@@ -243,7 +243,7 @@ function EventEditor({
                 pools.length > 1 && (
                   <Tooltip content="Tidspunkt for å slå sammen poolene">
                     <Field
-                      label="Merge time"
+                      label="Sammenslåingstidspunkt"
                       name="mergeTime"
                       component={DatePicker.Field}
                       fieldClassName={styles.metaField}
