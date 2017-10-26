@@ -13,7 +13,7 @@ import {
   ModalParentComponent
 } from 'app/components/UserAttendance';
 import Tag from 'app/components/Tags/Tag';
-import Time from 'app/components/Time';
+import { FormatTime, FromToTime } from 'app/components/Time';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Flex } from 'app/components/Layout';
 import { EVENT_TYPE_TO_STRING, styleForEvent } from '../../utils.js';
@@ -172,15 +172,9 @@ export default class EventDetail extends Component<Props> {
                   <strong>{EVENT_TYPE_TO_STRING(event.eventType)}</strong>
                 </li>
                 <li>
-                  <span className={styles.metaDescriptor}>Starter</span>
+                  <span className={styles.metaDescriptor}>Når</span>
                   <strong>
-                    <Time time={event.startTime} format="DD.MM.YYYY HH:mm" />
-                  </strong>
-                </li>
-                <li>
-                  <span className={styles.metaDescriptor}>Slutter</span>
-                  <strong>
-                    <Time time={event.endTime} format="DD.MM.YYYY HH:mm" />
+                    <FromToTime from={event.startTime} to={event.endTime} />
                   </strong>
                 </li>
                 <li>
@@ -190,11 +184,7 @@ export default class EventDetail extends Component<Props> {
                   <li>
                     Påmelding åpner
                     <strong style={{ marginLeft: 5 }}>
-                      <Time
-                        time={event.activationTime}
-                        format="DD.MM.YYYY HH:mm"
-                        style={{ marginLeft: '5px' }}
-                      />
+                      <FormatTime time={event.activationTime} />
                     </strong>
                   </li>
                 )}
@@ -208,10 +198,7 @@ export default class EventDetail extends Component<Props> {
                       <li>
                         Betalingsfrist:{' '}
                         <strong>
-                          <Time
-                            time={event.paymentDueDate}
-                            format="DD.MM.YYYY HH:mm"
-                          />
+                          <FormatTime time={event.paymentDueDate} />
                         </strong>
                       </li>
                     )}
@@ -221,10 +208,7 @@ export default class EventDetail extends Component<Props> {
                   <li>
                     Avregistreringsfrist:{' '}
                     <strong>
-                      <Time
-                        time={event.unregistrationDeadline}
-                        format="DD.MM.YYYY HH:mm"
-                      />
+                      <FormatTime time={event.unregistrationDeadline} />
                     </strong>
                   </li>
                 )}
