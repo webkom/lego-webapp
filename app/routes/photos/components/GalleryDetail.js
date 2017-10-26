@@ -63,24 +63,21 @@ export default class GalleryDetail extends Component<Props, State> {
       <section className={styles.root}>
         <Flex wrap alignItems="center" justifyContent="space-between">
           <NavigationTab title={gallery.title} className={styles.detailTitle}>
-
             <NavigationLink to="/photos">
               <i className="fa fa-angle-left" /> Tilbake
             </NavigationLink>
-
             <NavigationLink>
-              <Button onClick={() => this.toggleUpload()}>Last opp bilder</Button>
+              <Button onClick={() => this.toggleUpload()}>
+                Last opp bilder
+              </Button>
             </NavigationLink>
-
             <NavigationLink>
               <Button>
                 <Link to={`/photos/${gallery.id}/edit`}>Rediger</Link>
               </Button>
             </NavigationLink>
-
           </NavigationTab>
         </Flex>
-
 
         <GalleryDetailsRow gallery={gallery} showDescription />
         <Flex>
