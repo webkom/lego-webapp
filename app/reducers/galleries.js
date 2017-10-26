@@ -2,7 +2,6 @@
 
 import { createSelector } from 'reselect';
 import { Gallery } from '../actions/ActionTypes';
-import { mutatePictures } from 'app/reducers/pictures';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import defaultAlbumCover from 'app/assets/default-album-cover.jpg';
 
@@ -14,12 +13,37 @@ export type GalleryEntity = {
   comments: Array<number>
 };
 
+function mutate(state: any, action: any) {
+  switch (action.type) {
+    case Gallery.UPLOAD.BEGIN: {
+      return {
+        ...state,
+        fetching: true
+      };
+    }
+    case Gallery.UPLOAD.FAILURE: {
+      return {
+        ...state,
+        fetching: false
+      };
+    }
+    case Gallery.UPLOAD.SUCCESS: {
+      return {
+        ...state,
+        fetching: false
+      };
+    }
+    default:
+      return state;
+  }
+}
+
 export default createEntityReducer({
   key: 'galleries',
+  mutate,
   types: {
     fetch: Gallery.FETCH
-  },
-  mutate: mutatePictures()
+  }
 });
 
 const transformGallery = gallery => {

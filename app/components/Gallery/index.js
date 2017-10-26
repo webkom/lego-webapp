@@ -2,7 +2,8 @@
 
 import React, { PureComponent, type Node } from 'react';
 import { chunk, get } from 'lodash';
-import LoadingIndicator from '../LoadingIndicator';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import Paginator from 'app/components/Paginator';
 import styles from './Gallery.css';
 
 export type Photo = Object;
@@ -15,7 +16,10 @@ type Props = {
   margin?: number,
   loading?: boolean,
   srcKey: string,
-  photos: Array<Photo>
+  photos: Array<Photo>,
+  hasMore: boolean,
+  fetchNext: () => void,
+  fetching: boolean
 };
 
 type State = {
@@ -69,6 +73,9 @@ export default class Gallery extends PureComponent<Props, State> {
       margin,
       photos,
       loading,
+      hasMore,
+      fetchNext,
+      fetching,
       srcKey,
       renderOverlay,
       renderTop,
@@ -141,10 +148,20 @@ export default class Gallery extends PureComponent<Props, State> {
             this.gallery = c;
           }}
         >
-          {photoNodes}
+          {fetchNext && (
+            <Paginator
+              infiniteScroll
+              hasMore={hasMore}
+              fetching={fetching}
+              fetchNext={fetchNext}
+            >
+              {photoNodes}
+            </Paginator>
+          )}
+          {!fetchNext && photoNodes}
           {!photos.length && renderEmpty && renderEmpty()}
         </div>
-        <LoadingIndicator loading={loading} />
+        <LoadingIndicator loading={fetching} />
       </div>
     );
   }

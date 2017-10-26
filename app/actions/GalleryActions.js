@@ -1,11 +1,10 @@
 // @flow
 
 import { Gallery } from './ActionTypes';
-import { gallerySchema, galleryPictureSchema } from 'app/reducers';
-import { uploadFile } from './FileActions';
+import { gallerySchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import createQueryString from 'app/utils/createQueryString';
-import type { EntityID, GalleryEntity, GalleryPictureEntity } from 'app/types';
+import type { EntityID, GalleryEntity } from 'app/types';
 import type { Thunk } from 'app/types';
 
 export function fetchAll(
@@ -97,29 +96,6 @@ export function updateGalleryCover(id: EntityID, cover: EntityID) {
   });
 }
 
-export function updatePicture(
-  galleryId: EntityID,
-  pictureId: EntityID,
-  { description, active, taggees }: GalleryPictureEntity
-) {
-  return callAPI({
-    types: Gallery.EDIT_PICTURE,
-    endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
-    method: 'PATCH',
-    schema: galleryPictureSchema,
-    body: {
-      description,
-      active,
-      taggees
-    },
-    meta: {
-      galleryId,
-      pictureId,
-      errorMessage: 'Oppdatering av bilde i galleriet feilet'
-    }
-  });
-}
-
 export function deleteGallery(galleryId: EntityID) {
   return callAPI({
     types: Gallery.DELETE,
@@ -131,72 +107,4 @@ export function deleteGallery(galleryId: EntityID) {
       errorMessage: 'Sletting av galleri feilet'
     }
   });
-}
-
-export function addPicture({
-  galleryId,
-  active,
-  file,
-  description
-}: GalleryPictureEntity) {
-  return callAPI({
-    types: Gallery.ADD_PICTURE,
-    endpoint: `/galleries/${galleryId}/pictures/`,
-    method: 'POST',
-    schema: galleryPictureSchema,
-    body: {
-      description,
-      active,
-      file
-    },
-    meta: {
-      galleryId,
-      errorMessage: 'Legg til bilde i galleriet feilet'
-    }
-  });
-}
-
-export function deletePicture(galleryId: EntityID, pictureId: EntityID) {
-  return callAPI({
-    types: Gallery.DELETE_PICTURE,
-    endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
-    method: 'DELETE',
-    schema: galleryPictureSchema,
-    meta: {
-      galleryId,
-      pictureId,
-      errorMessage: 'Sletting av bilde i galleriet feilet'
-    }
-  });
-}
-
-export function editPicture(galleryId: EntityID, pictureId: EntityID) {
-  return callAPI({
-    types: Gallery.DELETE_PICTURE,
-    endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
-    method: 'DELETE',
-    schema: galleryPictureSchema,
-    meta: {
-      galleryId,
-      errorMessage: 'Endring av bilde i galleriet feilet'
-    }
-  });
-}
-
-// returns Thunk<any> because callAPI don't really support arrays
-export function addPictures(
-  galleryId: number,
-  files: Array<Object>
-): Thunk<any> {
-  return dispatch =>
-    Promise.all(
-      files.map(file =>
-        dispatch(uploadFile({ file })).then(action => {
-          if (!action || !action.meta) return;
-          return dispatch(
-            addPicture({ galleryId, file: action.meta.fileToken, active: true })
-          );
-        })
-      )
-    );
 }

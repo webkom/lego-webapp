@@ -4,7 +4,7 @@ import { deletePicture, updatePicture } from 'app/actions/GalleryActions';
 import {
   selectPictureById,
   selectCommentsForPicture
-} from 'app/reducers/pictures';
+} from 'app/reducers/galleryPictures';
 
 function mapStateToProps(state, props) {
   const { pictureId } = props.params;

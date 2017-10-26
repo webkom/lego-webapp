@@ -3,7 +3,7 @@ import GalleryPictureModal from './components/GalleryPictureModal';
 import {
   selectPictureById,
   selectCommentsForPicture
-} from 'app/reducers/pictures';
+} from 'app/reducers/galleryPictures';
 import { deletePicture, updateGalleryCover } from 'app/actions/GalleryActions';
 import { push } from 'react-router-redux';
 

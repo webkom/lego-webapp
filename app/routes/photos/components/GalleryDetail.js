@@ -7,7 +7,6 @@ import { Link } from 'react-router';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import { Flex } from 'app/components/Layout';
 import Gallery from 'app/components/Gallery';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import styles from './Overview.css';
 import type { DropFile } from 'app/components/Upload';
 import type { Photo, ID } from 'app/models';
@@ -20,9 +19,9 @@ type Props = {
   pictures: Array<Photo>,
   loading: boolean,
   children: Element<*>,
-  fetchAll: () => Promise<*>,
+  fetch: () => Promise<*>,
   push: string => Promise<*>,
-  addPictures: (ID, File | Array<DropFile>) => Promise<*>
+  uploadAndCreateGalleryPicture: (ID, File | Array<DropFile>) => Promise<*>
 };
 
 type State = {
@@ -36,7 +35,7 @@ export default class GalleryDetail extends Component<Props, State> {
 
   toggleUpload = (response?: File | Array<DropFile>) => {
     if (response) {
-      this.props.addPictures(this.props.gallery.id, response);
+      this.props.uploadAndCreateGalleryPicture(this.props.gallery.id, response);
     }
 
     this.setState({ upload: !this.state.upload });
@@ -54,10 +53,12 @@ export default class GalleryDetail extends Component<Props, State> {
       push,
       loggedIn,
       currentUser,
-      loading
+      hasMore,
+      fetch,
+      fetching
     } = this.props;
     const { upload } = this.state;
-    if (loading) return <LoadingIndicator loading />;
+
     return (
       <section className={styles.root}>
         <Flex wrap alignItems="center" justifyContent="space-between">
@@ -78,6 +79,9 @@ export default class GalleryDetail extends Component<Props, State> {
         <Flex>
           <Gallery
             photos={pictures}
+            hasMore={hasMore}
+            fetching={fetching}
+            fetchNext={fetch}
             onClick={this.handleClick}
             srcKey="file"
             renderEmpty={() => (
