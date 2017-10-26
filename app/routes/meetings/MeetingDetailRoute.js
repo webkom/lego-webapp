@@ -14,22 +14,20 @@ import MeetingDetailLoginRoute from './MeetingDetailLoginRoute';
 import MeetingAnswer from './components/MeetingAnswer';
 import prepare from 'app/utils/prepare';
 
+const loadMeeting = ({ loggedIn, params: { meetingId } }, dispatch) =>
+  loggedIn ? dispatch(fetchMeeting(meetingId)) : Promise.resolve();
+
 const loadData = (props, dispatch) => {
-  const { meetingId } = props.params;
   const { action, token } = props.location.query;
   const loggedIn = props.loggedIn;
 
-  if (!loggedIn && token) {
-    return dispatch(answerMeetingInvitation(action, token, loggedIn));
-  }
-
-  if (action && token) {
+  if (token && action) {
     return dispatch(answerMeetingInvitation(action, token, loggedIn)).then(() =>
-      dispatch(fetchMeeting(meetingId))
+      loadMeeting(props, dispatch)
     );
   }
 
-  return Promise.resolve();
+  return loadMeeting(props, dispatch);
 };
 
 const mapStateToProps = (state, props) => {
@@ -74,6 +72,6 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  prepare(loadData, ['params.meetingId']),
+  prepare(loadData, ['params.meetingId', 'loggedIn']),
   connect(mapStateToProps, mapDispatchToProps)
 )(MeetingComponent);
