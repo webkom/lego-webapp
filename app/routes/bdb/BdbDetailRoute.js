@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import {
   fetchAdmin,
   deleteSemesterStatus,
@@ -54,8 +54,6 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(loadData, {
-    componentWillReceiveProps: false
-  }),
+  prepare(loadData, ['params.companyId']),
   connect(mapStateToProps, mapDispatchToProps)
 )(BdbDetail);
