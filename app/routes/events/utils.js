@@ -46,17 +46,16 @@ export const colorForEvent = eventType => {
 };
 
 export const transformEvent = (data, edit = false) => {
-  const event = edit ? omit(data, 'cover') : data;
   return {
-    ...event,
-    startTime: moment(event.startTime).toISOString(),
-    endTime: moment(event.endTime).toISOString(),
-    mergeTime: moment(event.mergeTime).toISOString(),
-    company: event.company && event.company.value,
-    priceMember: event.isPriced ? event.priceMember * 100 : 0,
-    paymentDueDate: moment(event.paymentDueDate).toISOString(),
-    unregistrationDeadline: moment(event.unregistrationDeadline).toISOString(),
-    pools: event.pools.map((pool, i) => ({
+    ...data,
+    startTime: moment(data.startTime).toISOString(),
+    endTime: moment(data.endTime).toISOString(),
+    mergeTime: moment(data.mergeTime).toISOString(),
+    company: data.company && data.company.value,
+    priceMember: data.isPriced ? data.priceMember * 100 : 0,
+    paymentDueDate: moment(data.paymentDueDate).toISOString(),
+    unregistrationDeadline: moment(data.unregistrationDeadline).toISOString(),
+    pools: data.pools.map((pool, i) => ({
       ...omit(pool, 'registrations'),
       activationDate: moment(pool.activationDate).toISOString(),
       permissionGroups: pool.permissionGroups.map(group => group.value)

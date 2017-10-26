@@ -324,6 +324,9 @@ export default reduxForm({
     if (!data.location) {
       errors.location = 'Lokasjon er påkrevet';
     }
+    if (!data.id && !data.cover) {
+      errors.cover = 'Cover er påkrevet';
+    }
     errors.pools = validatePools(data.pools);
     return errors;
   }
