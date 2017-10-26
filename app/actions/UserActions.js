@@ -2,6 +2,7 @@
 
 import jwtDecode from 'jwt-decode';
 import { normalize } from 'normalizr';
+import config from 'app/config';
 import cookie from 'js-cookie';
 import moment from 'moment-timezone';
 import { push, replace } from 'react-router-redux';
@@ -22,7 +23,7 @@ function saveToken(token) {
     path: '/',
     expires: expires.toDate(),
     // Only HTTPS in prod:
-    secure: !__DEV__
+    secure: config.environment === 'production'
   });
 }
 
