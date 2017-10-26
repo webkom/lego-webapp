@@ -100,17 +100,14 @@ function findAsset(prefix, suffix) {
  */
 
 const { assets } = JSON.parse(
-  fs.readFileSync(path.resolve('..', 'dist', 'stats.json'))
+  fs.readFileSync(path.resolve(__dirname, '..', 'dist', 'stats.json'))
 );
 
 const css = findAsset('app', 'css');
 const app = findAsset('app', 'js');
 const vendor = findAsset('vendor', 'js');
 
-const styles = [css]
-  .map(css => `<link rel="stylesheet" href="${css}">`)
-  .join('\n');
-
+const styles = `<link rel="stylesheet" href="${css}">`;
 const scripts = [vendor, app]
   .map(js => `<script src="${js}"></script>`)
   .join('\n');

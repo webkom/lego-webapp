@@ -13,7 +13,7 @@ pipeline:
     image: plugins/docker
     when:
       branch:
-        - prod
+        - source_maps
       event: push
     registry: https://registry.abakus.no
     repo: registry.abakus.no/webkom/lego-webapp
@@ -22,3 +22,4 @@ pipeline:
       - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
     build_args:
       - RELEASE=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+      - SENTRY_AUTH_KEY:${SENTRY_AUTH_KEY}
