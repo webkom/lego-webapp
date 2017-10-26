@@ -2,7 +2,7 @@
 
 import jwtDecode from 'jwt-decode';
 import { normalize } from 'normalizr';
-import cookie from 'react-cookie';
+import cookie from 'js-cookie';
 import moment from 'moment-timezone';
 import { push, replace } from 'react-router-redux';
 import { userSchema } from 'app/reducers';
@@ -15,18 +15,11 @@ import type { Thunk, Action } from 'app/types';
 
 const USER_STORAGE_KEY = 'lego.auth';
 
-function loadToken() {
-  return cookie.load(USER_STORAGE_KEY);
-}
-
 function saveToken(token) {
   const decoded = jwtDecode(token);
   const expires = moment.unix(decoded.exp);
-  // milliseconds -> seconds:
-  const maxAge = expires.diff(moment()) / 1000;
-  return cookie.save(USER_STORAGE_KEY, token, {
+  return cookie.set(USER_STORAGE_KEY, token, {
     path: '/',
-    maxAge,
     expires: expires.toDate(),
     // Only HTTPS in prod:
     secure: !__DEV__
@@ -214,7 +207,6 @@ export function loginWithExistingToken(token: string): Thunk<any> {
   return dispatch => {
     const decoded = jwtDecode(token);
     const expirationTime = moment.unix(decoded.exp);
-    const issuedTime = moment.unix(decoded.orig_iat);
     const now = moment();
 
     if (now.isAfter(expirationTime)) {
@@ -227,26 +219,40 @@ export function loginWithExistingToken(token: string): Thunk<any> {
       payload: { token }
     });
 
-    return dispatch(fetchUser()).then(() => {
-      // Refresh the token if it wasn't created today:
-      if (!issuedTime.isSame(now, 'day')) {
-        return dispatch(refreshToken(token))
-          .then(action => saveToken(action.payload.token))
-          .catch(err => {
-            removeToken();
-            throw err;
-          });
-      }
-    });
+    return dispatch(fetchUser());
+  };
+}
+
+/**
+ * Refreshes the token if it was issued any other day than today.
+ */
+export function maybeRefreshToken(): Thunk<*> {
+  return dispatch => {
+    const token = cookie.get(USER_STORAGE_KEY);
+    if (!token) return Promise.resolve();
+    const decoded = jwtDecode(token);
+    const issuedTime = moment.unix(decoded.orig_iat);
+    if (!issuedTime.isSame(moment(), 'day')) {
+      return dispatch(refreshToken(token))
+        .then(action => saveToken(action.payload.token))
+        .catch(err => {
+          removeToken();
+          throw err;
+        });
+    }
+
+    return Promise.resolve();
   };
 }
 
 /**
  * Dispatch a login success if a token exists in local storage.
  */
-export function loginAutomaticallyIfPossible(): Thunk<*> {
+export function loginAutomaticallyIfPossible(
+  getCookie: string => string
+): Thunk<*> {
   return dispatch => {
-    const token = loadToken();
+    const token = getCookie(USER_STORAGE_KEY);
 
     if (token) {
       return dispatch(loginWithExistingToken(token));

@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import moment from 'moment-timezone';
 import bunyan from 'bunyan';
 import Raven from 'raven';
+import cookieParser from 'cookie-parser';
 import render from './render';
 import config from './env';
 
@@ -12,6 +13,7 @@ moment.locale('nb-NO');
 const app = express();
 
 app.use(Raven.requestHandler());
+app.use(cookieParser());
 
 const log = bunyan.createLogger({
   name: 'lego-webapp',

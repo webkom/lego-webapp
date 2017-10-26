@@ -5,7 +5,6 @@ import { renderToString } from 'react-dom/server';
 import segment from '@segment/snippet';
 import { match, RouterContext } from 'react-router';
 import { Provider } from 'react-redux';
-import cookie from 'react-cookie';
 import { prepare } from '@webkom/react-prepare';
 import Helmet from 'react-helmet';
 import Raven from 'raven';
@@ -25,7 +24,6 @@ require('../app/assets/icon-512x512.png');
 
 function render(req, res, next) {
   const log = req.app.get('log');
-  cookie.plugToRequest(req, res);
 
   if (process.env.NODE_ENV !== 'production') {
     return res.send(
@@ -46,11 +44,15 @@ function render(req, res, next) {
       return next();
     }
 
+    const createElement = (Component, props) => (
+      <Component {...props} getCookie={key => req.cookies[key]} />
+    );
+
     // Todo: render on errors as well
     const store = configureStore();
     const app = (
       <Provider store={store}>
-        <RouterContext {...renderProps} />
+        <RouterContext {...renderProps} createElement={createElement} />
       </Provider>
     );
 

@@ -4,13 +4,17 @@
 import 'babel-polyfill';
 import moment from 'moment-timezone';
 import 'moment/locale/nb';
+import cookie from 'js-cookie';
 import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { isEmpty } from 'lodash';
 import configureStore from 'app/utils/configureStore';
 import renderApp from './render';
 import { fetchMeta } from 'app/actions/MetaActions';
-import { loginAutomaticallyIfPossible } from 'app/actions/UserActions';
+import {
+  loginAutomaticallyIfPossible,
+  maybeRefreshToken
+} from 'app/actions/UserActions';
 
 moment.locale('nb-NO');
 
@@ -24,8 +28,11 @@ const store = configureStore(preloadedState);
 
 if (isEmpty(preloadedState)) {
   store
-    .dispatch(loginAutomaticallyIfPossible())
-    .then(() => store.dispatch(fetchMeta()));
+    .dispatch(loginAutomaticallyIfPossible(cookie.get))
+    .then(() => store.dispatch(fetchMeta()))
+    .then(() => store.dispatch(maybeRefreshToken()));
+} else {
+  store.dispatch(maybeRefreshToken());
 }
 
 const history = syncHistoryWithStore(browserHistory, store);
