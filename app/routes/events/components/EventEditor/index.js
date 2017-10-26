@@ -305,7 +305,6 @@ export default reduxForm({
   form: 'eventEditor',
   enableReinitialize: true,
   validate(data) {
-    console.log(data);
     const errors = {};
     if (!data.title) {
       errors.title = 'Tittel er påkrevet';
