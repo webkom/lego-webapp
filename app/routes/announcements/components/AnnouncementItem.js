@@ -84,19 +84,22 @@ const AnnouncementItem = ({
         </Flex>
       </Flex>
       {!announcement.sent &&
-        actionGrant.includes('send') && (
+        actionGrant.includes('send') &&
+        actionGrant.includes('delete') && (
           <Flex className={styles.wrapperSendButton}>
             <Button
               className={styles.sendButton}
               onClick={() => deleteAnnouncement(announcement.id)}
             >
-              Slett
+              {' '}
+              Slett{' '}
             </Button>
             <Button
               className={styles.sendButton}
               onClick={() => sendAnnouncement(announcement.id)}
             >
-              Send
+              {' '}
+              Send{' '}
             </Button>
           </Flex>
         )}

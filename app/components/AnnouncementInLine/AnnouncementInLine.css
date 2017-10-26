@@ -1,0 +1,17 @@
+@import 'app/styles/variables.css';
+
+.button {
+  width: 30%;
+  font-size: 80%;
+}
+
+.field {
+  font: inherit;
+  font-size: 80%;
+  margin-bottom: 0;
+}
+
+.label {
+  font: inherit;
+  color: inherit;
+}

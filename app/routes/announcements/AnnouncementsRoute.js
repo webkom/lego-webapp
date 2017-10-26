@@ -24,8 +24,8 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = {
-  sendAnnouncement,
   createAnnouncement,
+  sendAnnouncement,
   deleteAnnouncement
 };
 
