@@ -4,7 +4,6 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
-const AssetsPlugin = require('assets-webpack-plugin');
 const packageJson = require('../package.json');
 
 const root = path.resolve(__dirname, '..');
@@ -84,10 +83,6 @@ module.exports = {
         filename: '[name].[contenthash:8].css',
         allChunks: true,
         disable: !isProduction
-      }),
-
-      new AssetsPlugin({
-        path: path.join(root, 'dist')
       })
     ])
   ),

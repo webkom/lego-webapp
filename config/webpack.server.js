@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const StartServerPlugin = require('start-server-webpack-plugin');
+const { StatsWriterPlugin } = require('webpack-stats-plugin');
 
 const root = path.resolve(__dirname, '..');
 const isProduction = process.env.NODE_ENV === 'production';
@@ -53,6 +54,11 @@ module.exports = {
       options: {
         context: __dirname
       }
+    }),
+    new StatsWriterPlugin({
+      filename: 'stats.json',
+      fields: ['assets'],
+      transform: JSON.stringify
     })
   ].filter(Boolean),
 

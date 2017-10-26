@@ -77,27 +77,50 @@ function render(req, res, next) {
   });
 }
 
+/**
+ * Given a list of asset filenames on the form of:
+ *
+ * - vendor.[hash].js
+ * - vendor.[hash].js.map
+ * - app.[hash].css
+ *
+ * and so on, finds the one with the given prefix (vendor)
+ * and suffix (js).
+ */
+function findAsset(prefix, suffix) {
+  return assets.map(({ name }) => name).filter(name => {
+    const parts = name.split('.');
+    return parts[0] === prefix && parts[parts.length - 1] === suffix;
+  });
+}
+
+/*
+ * Precalculate variables that are the same for every request,
+ * such as script tags etc.:
+ */
+
+const { assets } = JSON.parse(
+  fs.readFileSync(path.resolve('..', 'dist', 'stats.json'))
+);
+
+const css = findAsset('app', 'css');
+const app = findAsset('app', 'js');
+const vendor = findAsset('vendor', 'js');
+
+const styles = [css]
+  .map(css => `<link rel="stylesheet" href="${css}">`)
+  .join('\n');
+
+const scripts = [vendor, app]
+  .map(js => `<script src="${js}"></script>`)
+  .join('\n');
+
+const dllPlugin =
+  process.env.NODE_ENV !== 'production'
+    ? '<script src="/vendors.dll.js"></script>'
+    : '';
+
 function renderPage({ body, state, helmet }) {
-  const dllPlugin =
-    process.env.NODE_ENV !== 'production'
-      ? '<script src="/vendors.dll.js"></script>'
-      : '';
-
-  const assets = JSON.parse(
-    fs.readFileSync(path.join(__dirname, '..', 'dist', 'webpack-assets.json'))
-  );
-
-  const { app, vendor } = assets;
-
-  const styles = [app && app.css]
-    .filter(Boolean)
-    .map(css => `<link rel="stylesheet" href="${css}">`)
-    .join('\n');
-  const scripts = [vendor && vendor.js, app && app.js]
-    .filter(Boolean)
-    .map(js => `<script src="${js}"></script>`)
-    .join('\n');
-
   return `
     <!DOCTYPE html>
     <html>
