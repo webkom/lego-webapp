@@ -11,7 +11,7 @@ type Props = {
   fetch: ({ filters?: Object, next?: boolean }) => Promise<*>
 };
 
-export default class EmailListsPage extends Component<Props> {
+export default class EmailLists extends Component<Props> {
   props: Props;
 
   render() {

@@ -12,7 +12,7 @@ type Props = {
   fetch: ({ filters?: Object, next?: boolean }) => Promise<*>
 };
 
-export default class RestrictedMailList extends Component<Props> {
+export default class RestrictedMails extends Component<Props> {
   props: Props;
 
   render() {

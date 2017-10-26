@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import EmailListEditor from './components/EmailListEditor';
-import { fetchEmailList, editEmailList } from 'app/actions/emailListActions';
+import { fetchEmailList, editEmailList } from 'app/actions/EmailListActions';
 import { selectEmailListById } from 'app/reducers/emailLists';
 import { ROLES } from 'app/utils/constants';
 import prepare from 'app/utils/prepare';

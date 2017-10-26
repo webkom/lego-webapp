@@ -2,7 +2,7 @@ import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
   path: 'email',
-  ...resolveAsyncRoute(() => import('./components/EmailPage')),
+  ...resolveAsyncRoute(() => import('./components/EmailRoute')),
   childRoutes: [
     {
       path: 'lists',
@@ -14,7 +14,7 @@ export default {
     },
     {
       path: 'lists/:emailListId',
-      ...resolveAsyncRoute(() => import('./EditEmailListRoute'))
+      ...resolveAsyncRoute(() => import('./EmailListRoute'))
     },
     {
       path: 'users',
@@ -22,15 +22,15 @@ export default {
     },
     {
       path: 'users/new',
-      ...resolveAsyncRoute(() => import('./EmailUserRoute'))
+      ...resolveAsyncRoute(() => import('./CreateEmailUserRoute'))
     },
     {
       path: 'users/:emailUserId',
-      ...resolveAsyncRoute(() => import('./EditEmailUserRoute'))
+      ...resolveAsyncRoute(() => import('./EmailUserRoute'))
     },
     {
       path: 'restricted',
-      ...resolveAsyncRoute(() => import('./RestrictedMailListsRoute'))
+      ...resolveAsyncRoute(() => import('./RestrictedMailsRoute'))
     },
     {
       path: 'restricted/new',

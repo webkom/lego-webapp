@@ -2,8 +2,8 @@
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import EmailListsPage from './components/EmailListsPage';
-import { fetch } from 'app/actions/emailListActions';
+import EmailLists from './components/EmailLists';
+import { fetch } from 'app/actions/EmailListActions';
 import { selectEmailLists } from 'app/reducers/emailLists';
 import prepare from 'app/utils/prepare';
 import loadingIndicator from 'app/utils/loadingIndicator';
@@ -20,4 +20,4 @@ export default compose(
   prepare((props, dispatch) => dispatch(fetch())),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['emailLists.length'])
-)(EmailListsPage);
+)(EmailLists);

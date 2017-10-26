@@ -2,8 +2,8 @@
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import EmailUsersPage from './components/EmailUsersPage';
-import { fetch } from 'app/actions/emailUserActions';
+import EmailUsers from './components/EmailUsers';
+import { fetch } from 'app/actions/EmailUserActions';
 import { selectEmailUsers } from 'app/reducers/emailUsers';
 import prepare from 'app/utils/prepare';
 import loadingIndicator from 'app/utils/loadingIndicator';
@@ -20,4 +20,4 @@ export default compose(
   prepare((props, dispatch) => dispatch(fetch())),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['emailUsers.length'])
-)(EmailUsersPage);
+)(EmailUsers);

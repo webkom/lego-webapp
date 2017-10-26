@@ -2,7 +2,7 @@
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import RestrictedMailListsPage from './components/RestrictedMailListsPage';
+import RestrictedMails from './components/RestrictedMails';
 import { fetch } from 'app/actions/restrictedMailActions';
 import { selectRestrictedMails } from 'app/reducers/restrictedMails';
 import prepare from 'app/utils/prepare';
@@ -18,4 +18,4 @@ const mapDispatchToProps = { fetch };
 export default compose(
   prepare((props, dispatch) => dispatch(fetch())),
   connect(mapStateToProps, mapDispatchToProps)
-)(RestrictedMailListsPage);
+)(RestrictedMails);
