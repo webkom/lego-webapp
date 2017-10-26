@@ -7,6 +7,7 @@ describe('reducers', () => {
       const prevState = undefined;
       expect(auth(prevState, {})).toEqual({
         username: null,
+        id: null,
         token: null,
         loginFailed: false,
         loggingIn: false,
@@ -44,6 +45,7 @@ describe('reducers', () => {
       };
       expect(auth(prevState, action)).toEqual({
         username: null,
+        id: null,
         token: action.payload.token,
         loginFailed: false,
         loggingIn: false,
@@ -68,6 +70,7 @@ describe('reducers', () => {
       const action = { type: User.LOGOUT };
       expect(auth(prevState, action)).toEqual({
         username: null,
+        id: null,
         token: null,
         loginFailed: false,
         loggingIn: false,

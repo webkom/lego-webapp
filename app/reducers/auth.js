@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { User } from '../actions/ActionTypes';
 
 type State = {
-  in: ?number,
+  id: ?number,
   username: ?string,
   token: ?string,
   loginFailed: boolean,
