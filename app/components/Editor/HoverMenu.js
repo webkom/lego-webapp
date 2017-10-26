@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import Portal from 'react-portal';
+import { Portal } from 'react-portal';
 import cx from 'classnames';
 import styles from './Editor.css';
 import { BLOCK_TAGS, MARK_TAGS } from './constants';
@@ -9,7 +9,7 @@ import type { TagKind } from './constants';
 
 type Props = {
   state: Object,
-  onOpen: HTMLElement => mixed,
+  element: HTMLElement,
   onToggleMark: (SyntheticInputEvent<*>, any) => mixed,
   onToggleBlock: (SyntheticInputEvent<*>, any) => mixed
 };
@@ -46,8 +46,8 @@ const HoverMenuButton = ({
   );
 };
 
-const HoverMenu = ({ state, onToggleMark, onToggleBlock, onOpen }: Props) => (
-  <Portal isOpened onOpen={onOpen}>
+const HoverMenu = ({ state, onToggleMark, onToggleBlock, element }: Props) => (
+  <Portal node={element}>
     <div className={styles.hoverMenu}>
       {BLOCK_TAGS.filter(tag => !tag.hoverHidden).map(tag => (
         <HoverMenuButton

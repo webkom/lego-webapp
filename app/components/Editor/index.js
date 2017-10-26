@@ -65,11 +65,13 @@ const emptyState = '<p></p>';
 
 class CustomEditor extends Component<Props, State> {
   lastSerialized: string = '';
+  menuWrapper: HTMLElement;
 
   constructor(props: Props) {
     super(props);
     resetKeyGenerator();
     const content = this.props.value || emptyState;
+    this.menuWrapper = document.createElement('div');
 
     this.state = {
       state: serializer.deserialize(content)
@@ -87,6 +89,15 @@ class CustomEditor extends Component<Props, State> {
 
   componentDidMount = () => {
     this.updateHoverMenu();
+    if (document && document.body) {
+      document.body.appendChild(this.menuWrapper);
+    }
+  };
+
+  componentWillUnmount = () => {
+    if (document && document.body) {
+      document.body.removeChild(this.menuWrapper);
+    }
   };
 
   componentDidUpdate = () => {
@@ -285,13 +296,9 @@ class CustomEditor extends Component<Props, State> {
     return state.blocks.some(node => node.type === type);
   };
 
-  onOpenHoverMenu = (portal: HTMLElement) => {
-    // $FlowFixMe firstChild dom Node?
-    this.setState({ menu: portal.firstChild });
-  };
-
   updateHoverMenu = () => {
-    const { menu, state } = this.state;
+    const { state } = this.state;
+    const menu: HTMLElement = this.menuWrapper.firstChild;
     if (!menu) return;
 
     if (state.isBlurred || state.isEmpty) {
@@ -315,7 +322,7 @@ class CustomEditor extends Component<Props, State> {
       <div>
         <div className={styles.editor}>
           <HoverMenu
-            onOpen={this.onOpenHoverMenu}
+            element={this.menuWrapper}
             state={this.state.state}
             onToggleBlock={this.onToggleBlock}
             onToggleMark={this.onToggleMark}
