@@ -204,10 +204,12 @@ export default class GalleryPictureModal extends Component<Props, State> {
             {picture.commentTarget && (
               <Flex className={styles.pictureDescription} width="100%">
                 <CommentView
+
                   formEnabled
                   user={currentUser}
                   commentTarget={picture.commentTarget}
                   loggedIn={loggedIn}
+                  style={{ width: '100%' }}
                   comments={comments}
                 />
               </Flex>
