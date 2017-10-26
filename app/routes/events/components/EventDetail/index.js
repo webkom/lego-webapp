@@ -21,6 +21,7 @@ import Admin from '../Admin';
 import RegistrationMeta from '../RegistrationMeta';
 import Content from 'app/components/Layout/Content';
 import cx from 'classnames';
+import DisplayContent from 'app/components/DisplayContent';
 import type { ID } from 'app/models';
 
 type InterestedButtonProps = {
@@ -151,10 +152,7 @@ export default class EventDetail extends Component<Props> {
 
           <Flex wrap className={styles.mainRow}>
             <Flex column className={styles.description}>
-              <div
-                className={styles.text}
-                dangerouslySetInnerHTML={{ __html: event.text }}
-              />
+              <DisplayContent content={event.text} />
 
               <Flex className={styles.tagRow}>
                 {event.tags.map((tag, i) => <Tag key={i} tag={tag} />)}

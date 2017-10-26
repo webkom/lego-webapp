@@ -33,7 +33,9 @@ const legalTags = [
   'hr',
   'img',
   'div',
-  'a'
+  'a',
+  'text',
+  undefined // Nodes with only text
 ];
 
 const isValidNode = node => legalTags.includes(node.name);

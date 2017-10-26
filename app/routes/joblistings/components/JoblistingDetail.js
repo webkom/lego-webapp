@@ -4,12 +4,12 @@ import React from 'react';
 import { Link } from 'react-router';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
 import { Image } from 'app/components/Image';
+import DisplayContent from 'app/components/DisplayContent';
 import styles from './JoblistingDetail.css';
 import { Flex, Content } from 'app/components/Layout';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { jobType, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
-import Editor from 'app/components/Editor';
 
 type Props = {
   joblisting: Object,
@@ -65,8 +65,8 @@ const JoblistingDetail = ({
       </NavigationTab>
       <Flex className={styles.textbody}>
         <Flex column className={styles.description}>
-          <Editor readOnly value={joblisting.description} />
-          <Editor readOnly value={joblisting.text} />
+          <DisplayContent content={joblisting.description} />
+          <DisplayContent content={joblisting.text} />
         </Flex>
         <Flex column className={styles.meta}>
           <ul>

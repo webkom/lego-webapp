@@ -9,7 +9,7 @@ import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import styles from './MeetingDetail.css';
 import Card from 'app/components/Card';
 import Button from 'app/components/Button';
-import Editor from 'app/components/Editor';
+import DisplayContent from 'app/components/DisplayContent';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import moment from 'moment-timezone';
@@ -162,7 +162,7 @@ class MeetingDetails extends Component<Props> {
         <div className={styles.mainContent}>
           <FlexItem className={styles.reportContent} flex={2}>
             <h2>Referat</h2>
-            <Editor readOnly value={meeting.report} />
+            <DisplayContent content={meeting.report} />
           </FlexItem>
           <FlexItem className={styles.statusContent} flex={1}>
             <Card style={{ border: 'none', padding: 0 }} shadow={false}>

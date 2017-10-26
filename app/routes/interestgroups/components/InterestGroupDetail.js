@@ -9,7 +9,7 @@ import Button from 'app/components/Button';
 import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
 import { ProfilePicture } from 'app/components/Image';
-import Editor from 'app/components/Editor';
+import DisplayContent from 'app/components/DisplayContent';
 
 import type { InterestGroup, User, GroupMembership, ID } from 'app/models';
 
@@ -80,7 +80,7 @@ const Logo = ({ logo }: { logo: string }) => (
 
 const Content = ({ group }: { group: InterestGroup }) => (
   <Flex column style={{ flex: '1' }}>
-    <Editor value={group.text} readOnly={true} />
+    <DisplayContent content={group.text} />
   </Flex>
 );
 
