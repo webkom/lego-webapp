@@ -99,13 +99,7 @@ class JoblistingEditor extends Component<Props, State> {
   }
 
   render() {
-    const {
-      handleSubmit,
-      isNew,
-      company,
-      dispatch,
-      fetching = false
-    } = this.props;
+    const { handleSubmit, isNew, dispatch, fetching = false } = this.props;
 
     if (!isNew && fetching) {
       return <LoadingIndicator loading />;

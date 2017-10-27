@@ -46,9 +46,9 @@ const JoblistingDetail = ({
 
   return (
     <Content>
-      {joblisting.cover && (
+      {joblisting.company.logo && (
         <div className={styles.coverImage}>
-          <Image src="https://placehold.it/1000x300" />
+          <Image src={joblisting.company.logo} />
         </div>
       )}
       <NavigationTab
