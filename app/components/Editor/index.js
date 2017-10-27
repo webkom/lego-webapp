@@ -154,7 +154,7 @@ class CustomEditor extends Component<Props, State> {
     } else if (isItalicHotkey(e)) {
       mark = 'italic';
     } else if (isUnderlinedHotkey(e)) {
-      mark = 'underlined';
+      mark = 'underline';
     } else if (isCodeHotkey(e)) {
       mark = 'code';
     } else {
