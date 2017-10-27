@@ -42,38 +42,24 @@ export function deleteJoblisting(id: number) {
 }
 
 export function createJoblisting({
-  title,
-  text,
   company,
   responsible,
-  description,
   deadline,
-  visibleFrom,
   visibleTo,
-  jobType,
-  workplaces,
-  fromYear,
-  toYear,
-  applicationUrl
+  visibleFrom,
+  ...data
 }: Object) {
   return callAPI({
     types: Joblistings.CREATE,
     endpoint: '/joblistings/',
     method: 'POST',
     body: {
-      title,
-      text,
+      ...data,
       company: company && company.value,
       responsible: responsible.value,
-      description,
       deadline: moment(deadline).toISOString(),
       visibleFrom: moment(visibleFrom).toISOString(),
-      visibleTo: moment(visibleTo).toISOString(),
-      jobType,
-      workplaces,
-      fromYear,
-      toYear,
-      applicationUrl
+      visibleTo: moment(visibleTo).toISOString()
     },
     schema: joblistingsSchema,
     meta: {
@@ -84,39 +70,24 @@ export function createJoblisting({
 
 export function editJoblisting({
   id,
-  title,
-  text,
   company,
   responsible,
-  description,
   deadline,
-  visibleFrom,
   visibleTo,
-  jobType,
-  workplaces,
-  fromYear,
-  toYear,
-  applicationUrl
+  visibleFrom,
+  ...data
 }: Object) {
   return callAPI({
     types: Joblistings.EDIT,
     endpoint: `/joblistings/${id}/`,
     method: 'PUT',
     body: {
-      id,
-      title,
-      text,
+      ...data,
       company: company && company.value,
       responsible: responsible.value,
-      description,
       deadline: moment(deadline).toISOString(),
       visibleFrom: moment(visibleFrom).toISOString(),
-      visibleTo: moment(visibleTo).toISOString(),
-      jobType,
-      workplaces,
-      fromYear,
-      toYear,
-      applicationUrl
+      visibleTo: moment(visibleTo).toISOString()
     },
     schema: joblistingsSchema,
     meta: {

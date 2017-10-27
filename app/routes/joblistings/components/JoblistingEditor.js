@@ -238,31 +238,34 @@ class JoblistingEditor extends Component<Props, State> {
   }
 }
 
-const validate = values => {
+const validate = ({
+  title,
+  description,
+  company,
+  fromYear,
+  toYear,
+  workplaces,
+  visibleFrom,
+  visibleTo
+}) => {
   const errors = {};
-  if (!values.title) {
+  if (!title) {
     errors.title = 'Du må gi jobbannonsen en tittel';
   }
-  if (!values.description) {
+  if (!description) {
     errors.description = 'Du må skrive en søknadsintro';
   }
-  if (!values.company || values.company.value == null) {
+  if (!company || company.value == null) {
     errors.company = 'Du må angi en bedrift for jobbannonsen';
   }
-  if (parseInt(values.fromYear, 10) > parseInt(values.toYear, 10)) {
+  if (parseInt(fromYear, 10) > parseInt(toYear, 10)) {
     errors.toYear = "'Til år' kan ikke være lavere enn 'Fra år'";
   }
-  if (!values.workplaces) {
+  if (!workplaces) {
     errors.workplaces = 'Arbeidssteder kan ikke være tom';
   }
 
-  // TODO: and unify timezone handling
-  // $FlowFixMe
-  const visibleFrom = moment.tz(values.visibleFrom, config.timezone);
-
-  // $FlowFixMe
-  const visibleTo = moment.tz(values.visibleTo, config.timezone);
-  if (visibleFrom > visibleTo) {
+  if (moment(visibleFrom).isAfter(moment(visibleTo))) {
     errors.visibleTo = 'Sluttidspunkt kan ikke være før starttidspunkt';
   }
   return errors;
