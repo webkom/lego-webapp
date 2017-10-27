@@ -60,7 +60,7 @@ export function stringifyBody(requestOptions: HttpRequestOptions) {
     return JSON.stringify(body);
   }
 
-  return null;
+  return;
 }
 
 function makeFormData(files, rawBody) {
@@ -98,7 +98,7 @@ export default function fetchJSON<T>(
   let body;
   if (files && files.length > 0) {
     body = makeFormData(files, requestOptions.body);
-  } else {
+  } else if (body) {
     body = stringifyBody(requestOptions);
     requestOptions.headers['Content-Type'] = 'application/json';
   }
