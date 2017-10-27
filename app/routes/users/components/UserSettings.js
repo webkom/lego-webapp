@@ -63,7 +63,7 @@ const UserSettings = (props: Props) => {
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Field
           placeholder="Brukernavn"
-          label="Username"
+          label="Brukernavn"
           name="username"
           readOnly
           component={TextInput.Field}
@@ -74,14 +74,14 @@ const UserSettings = (props: Props) => {
 
         <Field
           placeholder="Fornavn"
-          label="First name"
+          label="Fornavn"
           name="firstName"
           component={TextInput.Field}
         />
 
         <Field
           placeholder="Etternavn"
-          label="Last name"
+          label="Etternavn"
           name="lastName"
           component={TextInput.Field}
         />

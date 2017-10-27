@@ -33,14 +33,14 @@ const AddQuote = ({
       <div className={styles.addQuote}>
         <form onSubmit={handleSubmit(addQuotes)}>
           <Field
-            placeholder="Det er bare å gjøre det"
+            placeholder="Eks: Det er bare å gjøre det"
             label="Selve sitatet"
             name="text"
             component={TextEditor.Field}
           />
 
           <Field
-            placeholder="Esso – alltid og i enhver situasjon"
+            placeholder="Eks: Esso – alltid og i enhver situasjon"
             label="Hvor sitatet kommer fra (sleng gjerne med noe snaks!)"
             name="source"
             component={TextEditor.Field}

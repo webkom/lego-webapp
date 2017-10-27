@@ -106,47 +106,60 @@ function MeetingEditor({
       </h2>
       <h1>{isEditPage ? 'Endre møte' : 'Nytt møte'} </h1>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <h2> Tittel </h2>
-        <Field name="title" component={TextInput.Field} />
-        <h3>Møteinnkalling / referat</h3>
-        <Field name="report" component={EditorField} />
+        <Field
+          name="title"
+          label="Tittel"
+          placeholder="Ny tittel for møte"
+          component={TextInput.Field}
+        />
+        <h3>Møtereferat</h3>
+        <Field name="report" label="Referat" component={EditorField} />
         <div className={styles.sideBySideBoxes}>
           <div>
-            <h3>Starttidspunkt</h3>
-            <Field name="startTime" component={DatePicker.Field} />
+            <Field
+              name="startTime"
+              label="Starttidspunkt"
+              component={DatePicker.Field}
+            />
           </div>
           <div>
-            <h3>Sluttidspunkt</h3>
-            <Field name="endTime" component={DatePicker.Field} />
+            <Field
+              name="endTime"
+              label="Sluttidspunkt"
+              component={DatePicker.Field}
+            />
           </div>
         </div>
 
-        <h3>Sted</h3>
-        <Field name="location" component={TextInput.Field} />
-        <h3>Referent</h3>
-
+        <Field
+          name="location"
+          label="Sted"
+          placeholder="Sted for møte"
+          component={TextInput.Field}
+        />
         <Field
           name="reportAuthor"
+          label="Referent"
           placeholder="La denne stå åpen for å velge deg selv"
           options={possibleReportAuthors}
           component={SelectInput.Field}
         />
         <div className={styles.sideBySideBoxes}>
           <div>
-            <h3>Inviter brukere</h3>
             <Field
               name="users"
               filter={['users.user']}
+              label="Invitere brukere"
               placeholder="Skriv inn brukernavn på de du vil invitere"
               component={SelectInput.AutocompleteField}
               multi
             />
           </div>
           <div>
-            <h3>Inviter grupper</h3>
             <Field
               name="groups"
               filter={['users.abakusgroup']}
+              label="Invitere grupper"
               placeholder="Skriv inn gruppene du vil invitere"
               component={SelectInput.AutocompleteField}
               multi

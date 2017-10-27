@@ -65,14 +65,14 @@ function JoblistingEditor({
       </h1>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Field
-          placeholder="Title"
-          label="Title"
+          placeholder="Tittel på jobbannonse"
+          label="Tittel"
           name="title"
           component={TextInput.Field}
           required
         />
         <Field
-          placeholder="Bedrift"
+          placeholder="Bedriften annonsen gjelder"
           label="Bedrift"
           name="company"
           component={SelectInput.AutocompleteField}
@@ -89,7 +89,7 @@ function JoblistingEditor({
           name="jobType"
           label="Jobbtype"
           component={SelectInput.Field}
-          placeholder="Jobbtype"
+          placeholder="Type stilling"
           simpleValue
           options={jobTypes}
         />
@@ -137,7 +137,7 @@ function JoblistingEditor({
           options={yearValues}
         />
         <Field
-          placeholder="Søknadslenke"
+          placeholder="Lenke til søknad"
           label="Søknadslenke"
           name="applicationUrl"
           component={TextInput.Field}
@@ -153,14 +153,14 @@ function JoblistingEditor({
           name="description"
           className={styles.descriptionField}
           label="Søknadsintro"
-          placeholder="Søknadsintro"
+          placeholder="Intro til søknaden"
           component={EditorField.Field}
         />
         <Field
           name="text"
           className={styles.textField}
           label="Søknadstekst:"
-          placeholder="Søknadstekst"
+          placeholder="Hoveddel av søknaden"
           component={EditorField.Field}
         />
 

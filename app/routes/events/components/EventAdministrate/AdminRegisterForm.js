@@ -23,11 +23,13 @@ const AdminRegister = ({
       <form onSubmit={handleSubmit}>
         <Field
           placeholder="Begrunnelse"
+          label="Begrunnelse"
           name="reason"
           component={TextEditor.Field}
         />
         <Field
           placeholder="Tilbakemelding"
+          label="Tilbakemelding"
           name="feedback"
           component={TextEditor.Field}
         />
@@ -35,6 +37,7 @@ const AdminRegister = ({
           name="pool"
           component={SelectInput.Field}
           placeholder="Pool"
+          label="Pool"
           options={pools.map(pool => ({ value: pool.id, label: pool.name }))}
           simpleValue
         />
@@ -43,6 +46,7 @@ const AdminRegister = ({
           component={SelectInput.AutocompleteField}
           filter={['users.user']}
           placeholder="Bruker"
+          label="Bruker"
         />
         <Button type="submit" disabled={invalid || pristine || submitting}>
           Registrer

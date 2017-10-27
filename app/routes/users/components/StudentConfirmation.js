@@ -81,6 +81,7 @@ const StudentConfirmation = ({
           <Field
             name="studentUsername"
             placeholder="NTNU Brukernavn"
+            label="NTNU Brukernavn"
             component={TextInput.Field}
           />
           <RadioButtonGroup name="course" label="Hvilken linje tilhører du?">

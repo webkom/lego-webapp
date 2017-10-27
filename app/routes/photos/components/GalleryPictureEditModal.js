@@ -81,13 +81,14 @@ const GalleryPictureEditModal = ({
           <Flex className={styles.pictureDescription} width="100%">
             <Form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
               <Field
-                placeholder="Beskrivelse"
+                placeholder="Hva skjer på bildet"
+                label="Beskrivelse"
                 name="description"
                 component={TextArea.Field}
                 id="gallery-picture-description"
               />
               <Field
-                placeholder="Synlig for alle brukere"
+                label="Synlig for alle brukere"
                 name="active"
                 component={CheckBox.Field}
                 id="gallery-picture-active"

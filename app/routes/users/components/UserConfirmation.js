@@ -74,21 +74,25 @@ const UserConfirmation = ({
           <Field
             name="username"
             placeholder="Brukernavn"
+            label="Brukernavn"
             component={TextInput.Field}
           />
           <Field
             name="password"
             type="password"
             placeholder="Passord"
+            label="Passord"
             component={TextInput.Field}
           />
           <Field
             name="firstName"
             placeholder="Fornavn"
+            label="Fornavn"
             component={TextInput.Field}
           />
           <Field
             name="lastName"
+            label="Etternavn"
             placeholder="Etternavn"
             component={TextInput.Field}
           />
@@ -112,6 +116,7 @@ const UserConfirmation = ({
           <Field
             name="allergies"
             placeholder="Allergier"
+            label="Allergier"
             component={TextInput.Field}
           />
           <Button submit dark>
