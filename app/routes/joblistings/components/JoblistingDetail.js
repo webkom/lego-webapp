@@ -46,9 +46,9 @@ const JoblistingDetail = ({
 
   return (
     <Content>
-      {joblisting.cover && (
+      {joblisting.company.logo && (
         <div className={styles.coverImage}>
-          <Image src="https://placehold.it/1000x300" />
+          <Image src={joblisting.company.logo} />
         </div>
       )}
       <NavigationTab
@@ -65,18 +65,8 @@ const JoblistingDetail = ({
       </NavigationTab>
       <Flex className={styles.textbody}>
         <Flex column className={styles.description}>
-          <Editor
-            readOnly
-            value={`<div>
-                ${joblisting.description}
-              </div>`}
-          />
-          <Editor
-            readOnly
-            value={`<div>
-                ${joblisting.text}
-              </div>`}
-          />
+          <Editor readOnly value={joblisting.description} />
+          <Editor readOnly value={joblisting.text} />
         </Flex>
         <Flex column className={styles.meta}>
           <ul>
