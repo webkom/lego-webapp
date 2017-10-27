@@ -3,7 +3,10 @@
 import React, { Component } from 'react';
 import styles from './JoblistingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { reduxForm, Field, change } from 'redux-form';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+
+import { reduxForm, Field, SubmissionError, change } from 'redux-form';
+import { httpCheck } from 'app/routes/bdb/utils';
 import {
   TextInput,
   EditorField,
@@ -24,10 +27,11 @@ type Props = {
   joblistingId?: string,
   joblisting: Joblisting,
   handleSubmit: Function => void,
-  submitJoblisting: Workplace => void,
-  deleteJoblisting: ID => void,
+  submitJoblisting: Workplace => Promise<*>,
+  deleteJoblisting: ID => Promise<*>,
   company: SelectInputObject,
   dispatch: any => void,
+  push: string => void,
   isNew: boolean,
   fetching: boolean,
   fetchCompanyContacts: ({ companyId: ID }) => Promise<*>
@@ -52,10 +56,27 @@ class JoblistingEditor extends Component<Props, State> {
       ? newJoblisting.workplaces.map(obj => ({ town: obj.value }))
       : null;
 
-    return this.props.submitJoblisting({
-      ...newJoblisting,
-      id: this.props.joblistingId,
-      workplaces
+    return this.props
+      .submitJoblisting({
+        ...newJoblisting,
+        id: this.props.joblistingId,
+        applicationUrl: httpCheck(newJoblisting.applicationUrl),
+        workplaces
+      })
+      .then(result => {
+        const id = this.props.joblistingId || result.payload.result;
+        this.props.push(`/joblistings/${id}/`);
+      })
+      .catch(err => {
+        if (err.payload && err.payload.response) {
+          throw new SubmissionError(err.payload.response.jsonData);
+        }
+      });
+  };
+
+  onDeleteJoblisting = () => {
+    this.props.deleteJoblisting(this.props.joblisting.id).then(() => {
+      this.props.push('/joblistings/');
     });
   };
 
@@ -80,9 +101,7 @@ class JoblistingEditor extends Component<Props, State> {
   render() {
     const {
       handleSubmit,
-      joblisting,
       isNew,
-      deleteJoblisting,
       company,
       dispatch,
       fetching = false
@@ -111,7 +130,7 @@ class JoblistingEditor extends Component<Props, State> {
             name="company"
             component={SelectInput.AutocompleteField}
             filter={['companies.company']}
-            onChange={arg => {
+            onChange={company => {
               this.fetchContacts(company).then(() => {
                 dispatch(
                   change('joblistingEditor', 'responsible', {
@@ -207,9 +226,13 @@ class JoblistingEditor extends Component<Props, State> {
             justifyContent="flex-end"
           >
             {!isNew && (
-              <Button dark onClick={() => deleteJoblisting(joblisting.id)}>
-                Delete
-              </Button>
+              <ConfirmModalWithParent
+                title="Slett jobbannonse"
+                message="Er du sikker på at du vil slette denne jobbannonsen?"
+                onConfirm={this.onDeleteJoblisting}
+              >
+                <Button dark>Slett</Button>
+              </ConfirmModalWithParent>
             )}
             <Button className={styles.submit} submit>
               Lagre

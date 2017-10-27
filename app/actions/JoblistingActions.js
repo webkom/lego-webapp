@@ -3,10 +3,7 @@
 import { joblistingsSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Joblistings } from './ActionTypes';
-import { startSubmit, stopSubmit } from 'redux-form';
-import { push } from 'react-router-redux';
 import moment from 'moment-timezone';
-import type { Thunk } from 'app/types';
 
 export function fetchAll() {
   return callAPI({
@@ -32,21 +29,16 @@ export function fetchJoblisting(id: number) {
   });
 }
 
-export function deleteJoblisting(id: number): Thunk<*> {
-  return dispatch =>
-    dispatch(
-      callAPI({
-        types: Joblistings.DELETE,
-        endpoint: `/joblistings/${id}/`,
-        method: 'DELETE',
-        meta: {
-          id,
-          errorMessage: 'Sletting av jobbannonse feilet'
-        }
-      })
-    ).then(() => {
-      dispatch(push('/joblistings/'));
-    });
+export function deleteJoblisting(id: number) {
+  return callAPI({
+    types: Joblistings.DELETE,
+    endpoint: `/joblistings/${id}/`,
+    method: 'DELETE',
+    meta: {
+      id,
+      errorMessage: 'Sletting av jobbannonse feilet'
+    }
+  });
 }
 
 export function createJoblisting({
@@ -63,47 +55,31 @@ export function createJoblisting({
   fromYear,
   toYear,
   applicationUrl
-}: Object): Thunk<*> {
-  return dispatch => {
-    dispatch(startSubmit('joblistingEditor'));
-
-    return dispatch(
-      callAPI({
-        types: Joblistings.CREATE,
-        endpoint: '/joblistings/',
-        method: 'POST',
-        body: {
-          title,
-          text,
-          company: company && company.value,
-          responsible: responsible.value,
-          description,
-          deadline: moment(deadline).toISOString(),
-          visibleFrom: moment(visibleFrom).toISOString(),
-          visibleTo: moment(visibleTo).toISOString(),
-          jobType,
-          workplaces,
-          fromYear,
-          toYear,
-          applicationUrl
-        },
-        schema: joblistingsSchema,
-        meta: {
-          errorMessage: 'Opprettelse av jobbannonse feilet'
-        }
-      })
-    )
-      .then(action => {
-        if (!action || !action.payload) return;
-        const id = action.payload.result;
-        dispatch(stopSubmit('joblistingEditor'));
-        dispatch(push(`/joblistings/${id}`));
-      })
-      .catch(action => {
-        const errors = { ...action.error.response.jsonData };
-        dispatch(stopSubmit('joblistingEditor', errors));
-      });
-  };
+}: Object) {
+  return callAPI({
+    types: Joblistings.CREATE,
+    endpoint: '/joblistings/',
+    method: 'POST',
+    body: {
+      title,
+      text,
+      company: company && company.value,
+      responsible: responsible.value,
+      description,
+      deadline: moment(deadline).toISOString(),
+      visibleFrom: moment(visibleFrom).toISOString(),
+      visibleTo: moment(visibleTo).toISOString(),
+      jobType,
+      workplaces,
+      fromYear,
+      toYear,
+      applicationUrl
+    },
+    schema: joblistingsSchema,
+    meta: {
+      errorMessage: 'Opprettelse av jobbannonse feilet'
+    }
+  });
 }
 
 export function editJoblisting({
@@ -121,43 +97,30 @@ export function editJoblisting({
   fromYear,
   toYear,
   applicationUrl
-}: Object): Thunk<*> {
-  return dispatch => {
-    dispatch(startSubmit('joblistingEditor'));
-    return dispatch(
-      callAPI({
-        types: Joblistings.EDIT,
-        endpoint: `/joblistings/${id}/`,
-        method: 'PUT',
-        body: {
-          id,
-          title,
-          text,
-          company: company && company.value,
-          responsible: responsible.value,
-          description,
-          deadline: moment(deadline).toISOString(),
-          visibleFrom: moment(visibleFrom).toISOString(),
-          visibleTo: moment(visibleTo).toISOString(),
-          jobType,
-          workplaces,
-          fromYear,
-          toYear,
-          applicationUrl
-        },
-        schema: joblistingsSchema,
-        meta: {
-          errorMessage: 'Endring av jobbannonse feilet'
-        }
-      })
-    )
-      .then(() => {
-        dispatch(stopSubmit('joblistingEditor'));
-        dispatch(push(`/joblistings/${id}`));
-      })
-      .catch(action => {
-        const errors = { ...action.error.response.jsonData };
-        dispatch(stopSubmit('joblistingEditor', errors));
-      });
-  };
+}: Object) {
+  return callAPI({
+    types: Joblistings.EDIT,
+    endpoint: `/joblistings/${id}/`,
+    method: 'PUT',
+    body: {
+      id,
+      title,
+      text,
+      company: company && company.value,
+      responsible: responsible.value,
+      description,
+      deadline: moment(deadline).toISOString(),
+      visibleFrom: moment(visibleFrom).toISOString(),
+      visibleTo: moment(visibleTo).toISOString(),
+      jobType,
+      workplaces,
+      fromYear,
+      toYear,
+      applicationUrl
+    },
+    schema: joblistingsSchema,
+    meta: {
+      errorMessage: 'Endring av jobbannonse feilet'
+    }
+  });
 }

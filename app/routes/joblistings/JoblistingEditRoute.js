@@ -2,6 +2,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from '@webkom/react-prepare';
+import { push } from 'react-router-redux';
 import {
   fetchJoblisting,
   editJoblisting,
@@ -11,6 +12,7 @@ import { fetchCompanyContacts } from 'app/actions/CompanyActions';
 import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
 import { selectJoblistingById } from 'app/reducers/joblistings';
 import { formValueSelector } from 'redux-form';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
@@ -54,7 +56,8 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = {
   submitJoblisting: editJoblisting,
   deleteJoblisting,
-  fetchCompanyContacts
+  fetchCompanyContacts,
+  push
 };
 
 export default compose(
@@ -66,5 +69,7 @@ export default compose(
       componentWillReceiveProps: false
     }
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+
+  connect(mapStateToProps, mapDispatchToProps),
+  loadingIndicator(['company.value'])
 )(JoblistingEditor);
