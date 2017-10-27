@@ -29,6 +29,7 @@ type Props = FieldProps & {
   updateUser: Object => Promise<void>,
   user: any,
   isMe: boolean,
+  push: string => void,
   updatePicture: Object => void
 };
 
@@ -42,6 +43,7 @@ const UserSettings = (props: Props) => {
     pristine,
     submitting,
     updatePicture,
+    push,
     user
   } = props;
 
@@ -123,7 +125,7 @@ const UserSettings = (props: Props) => {
       {isMe && (
         <div className={styles.changePassword}>
           <h2>Endre passord</h2>
-          <ChangePassword changePassword={changePassword} />
+          <ChangePassword push={push} changePassword={changePassword} />
         </div>
       )}
     </div>
