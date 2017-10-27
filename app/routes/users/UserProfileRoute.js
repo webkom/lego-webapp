@@ -29,9 +29,9 @@ const mapStateToProps = (state, props) => {
 
   const user = selectUserWithGroups(state, { username });
 
-  const feed = selectFeedById(state, { feedId: feedIdByUserId(state.auth.id) });
+  const feed = selectFeedById(state, { feedId: feedIdByUserId(user.id) });
   const feedItems = selectFeedActivitesByFeedId(state, {
-    feedId: feedIdByUserId(state.auth.id)
+    feedId: feedIdByUserId(user.id)
   });
 
   const isMe =
