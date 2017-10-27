@@ -98,7 +98,7 @@ export default function fetchJSON<T>(
   let body;
   if (files && files.length > 0) {
     body = makeFormData(files, requestOptions.body);
-  } else if (body) {
+  } else if (requestOptions.body) {
     body = stringifyBody(requestOptions);
     requestOptions.headers['Content-Type'] = 'application/json';
   }
