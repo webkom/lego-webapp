@@ -17,17 +17,9 @@ import prepare from 'app/utils/prepare';
 import { LoginPage } from 'app/components/LoginForm';
 
 const loadData = ({ params: { username } }, dispatch) => {
-  return dispatch(fetchUser(username)).then(action => {
-    /**
-     * /users/me has no username property and the application fetches "me"
-     * when that happens. Extract the current username from the fetch response
-     * and then lookup the user ID.
-     * This hack exists because User is the only entity that doesn't use ID as
-     * the lookup field.
-     */
-    const userId = action.payload.entities.users[action.payload.result].id;
-    return dispatch(fetchUserFeed(userId));
-  });
+  return dispatch(fetchUser(username)).then(action =>
+    dispatch(fetchUserFeed(action.payload.result))
+  );
 };
 
 const mapStateToProps = (state, props) => {

@@ -11,7 +11,6 @@ import callAPI from 'app/actions/callAPI';
 import { User } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
-import { addNotification } from 'app/actions/NotificationActions';
 import type { Thunk, Action } from 'app/types';
 
 const USER_STORAGE_KEY = 'lego.auth';
@@ -111,7 +110,7 @@ export function updateUser(
     ).then(action => {
       if (!action || !action.payload) return;
       if (!options.noRedirect) {
-        dispatch(push(`/users/${action.payload.result || 'me'}`));
+        dispatch(push(`/users/${username}`));
       }
     });
 }
@@ -140,23 +139,11 @@ export function changePassword({
         },
         schema: userSchema,
         meta: {
-          errorMessage: 'Oppdatering av passord feilet'
+          errorMessage: 'Oppdatering av passord feilet',
+          successMessage: 'Passordet ble endret'
         }
       })
-    ).then(action => {
-      dispatch(
-        push(
-          `/users/${(action && action.payload && action.payload.result) ||
-            'me'}`
-        )
-      );
-      dispatch(
-        addNotification({
-          message: 'Passordet ble endret',
-          dismissAfter: 5000
-        })
-      );
-    });
+    );
 }
 
 export function updatePicture({
