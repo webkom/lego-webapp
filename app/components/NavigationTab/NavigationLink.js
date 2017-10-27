@@ -12,7 +12,12 @@ type Props = {
 
 const NavigationLink = (props: Props) => {
   return (
-    <Link to={props.to} className={styles.link} activeClassName={styles.active}>
+    <Link
+      to={props.to}
+      onlyActiveOnIndex
+      className={styles.link}
+      activeClassName={styles.active}
+    >
       {props.children}
     </Link>
   );

@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 import { User } from '../actions/ActionTypes';
 
 type State = {
+  id: ?number,
   username: ?string,
   token: ?string,
   loginFailed: boolean,
@@ -12,6 +13,7 @@ type State = {
 
 const initialState = {
   username: null,
+  id: null,
   token: null,
   loginFailed: false,
   loggingIn: false,
@@ -52,7 +54,8 @@ export default function auth(state: State = initialState, action: any): State {
 
       return {
         ...state,
-        username: action.payload.result
+        id: action.payload.result,
+        username: action.payload.entities.users[action.payload.result].username
       };
 
     case User.LOGOUT:
@@ -84,6 +87,6 @@ export function selectIsLoggedIn(state: any) {
 
 export const selectCurrentUser = createSelector(
   state => state.users.byId,
-  state => state.auth.username,
+  state => state.auth.id,
   (usersById, userId) => usersById[userId] || {}
 );

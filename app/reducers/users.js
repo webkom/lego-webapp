@@ -1,6 +1,6 @@
 // @flow
 
-import { union } from 'lodash';
+import { union, find } from 'lodash';
 import { createSelector } from 'reselect';
 import { User, Event } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
@@ -59,17 +59,17 @@ export default createEntityReducer({
 export const selectUserById = createSelector(
   state => state.users.byId,
   (state, props) => props.userId,
-  (usersById, userId) => {
-    const user = usersById[userId];
-    if (user) {
-      return user;
-    }
-    return {};
-  }
+  (usersById, userId) => usersById[userId] || {}
+);
+
+export const selectUserByUsername = createSelector(
+  state => state.users.byId,
+  (state, props) => props.username,
+  (usersById, username) => find(usersById, ['username', username]) || {}
 );
 
 export const selectUserWithGroups = createSelector(
-  selectUserById,
+  selectUserByUsername,
   state => state.groups.byId,
   (user, groupsById) => ({
     ...user,

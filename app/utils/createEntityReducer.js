@@ -1,7 +1,7 @@
 // @flow
 
 import { get, union, isEmpty } from 'lodash';
-
+import { parse } from 'qs';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
 
@@ -104,6 +104,26 @@ export function optimistic(mutateType?: ?AsyncActionType) {
   };
 }
 
+export function paginationReducer(key: string, fetchType?: ?AsyncActionType) {
+  return (state: any, action: any) => {
+    if (action.type !== get(fetchType, 'SUCCESS')) {
+      return state;
+    }
+
+    if (!action.payload) {
+      return state;
+    }
+
+    if (action.payload.next) {
+      state.pagination.next = parse(action.payload.next.split('?')[1]);
+    }
+
+    return {
+      ...state,
+      hasMore: typeof action.payload.next === 'string'
+    };
+  };
+}
 /**
  * Create reducers for common crud actions
  */
@@ -120,6 +140,7 @@ export default function createEntityReducer({
     pagination: {},
     byId: {},
     items: [],
+    hasMore: false,
     fetching: false,
     ...initialState
   };
@@ -128,6 +149,7 @@ export default function createEntityReducer({
     fetching(fetchType),
     entities(key, fetchType),
     optimistic(mutateType),
+    paginationReducer(key, fetchType),
     mutate
   );
 

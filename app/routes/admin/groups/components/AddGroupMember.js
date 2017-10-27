@@ -5,7 +5,7 @@ import type { FieldProps } from 'redux-form';
 import { Button, Form } from 'app/components/Form';
 import SelectInput from 'app/components/Form/SelectInput';
 import { createValidator, required } from 'app/utils/validation';
-import { ROLES } from '../utils';
+import { ROLES } from 'app/utils/constants';
 
 type Props = FieldProps & {
   group: Object

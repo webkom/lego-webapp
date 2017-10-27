@@ -44,6 +44,33 @@ export const Article = {
 /**
  *
  */
+export const EmailList = {
+  FETCH: generateStatuses('EmailList.FETCH'),
+  CREATE: generateStatuses('EmailList.CREATE'),
+  EDIT: generateStatuses('EmailList.EDIT')
+};
+
+/**
+ *
+ */
+export const RestrictedMail = {
+  FETCH: generateStatuses('RestrictedMail.FETCH'),
+  CREATE: generateStatuses('RestrictedMail.CREATE'),
+  EDIT: generateStatuses('RestrictedMail.EDIT')
+};
+
+/**
+ *
+ */
+export const EmailUser = {
+  FETCH: generateStatuses('EmailUser.FETCH'),
+  CREATE: generateStatuses('EmailUser.CREATE'),
+  EDIT: generateStatuses('EmailUser.EDIT')
+};
+
+/**
+ *
+ */
 export const Gallery = {
   FETCH: generateStatuses('Gallery.FETCH'),
   CREATE: generateStatuses('Gallery.CREATE'),
