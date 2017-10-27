@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
 import {
-  fetch,
+  fetchAdmin,
   editCompanyContact,
   deleteCompany
 } from '../../actions/CompanyActions';
@@ -45,9 +45,9 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(({ params: { companyId } }, dispatch) => dispatch(fetch(companyId)), [
-    'params.companyId',
-    'params.companyContactId'
-  ]),
+  prepare(
+    ({ params: { companyId } }, dispatch) => dispatch(fetchAdmin(companyId)),
+    ['params.companyId', 'params.companyContactId']
+  ),
   connect(mapStateToProps, mapDispatchToProps)
 )(CompanyContactEditor);

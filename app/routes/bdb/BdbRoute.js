@@ -25,16 +25,12 @@ const mapStateToProps = (state, props) => ({
   fetching: state.companies.fetching
 });
 
-function mapDispatchToProps(dispatch) {
-  return {
-    editSemesterStatus: (semesterStatus, options) =>
-      dispatch(editSemesterStatus(semesterStatus, options)),
-    addSemesterStatus: (semesterStatus, options) =>
-      dispatch(addSemesterStatus(semesterStatus, options)),
-    addSemester: semester => dispatch(addSemester(semester)),
-    push: uri => dispatch(push(uri))
-  };
-}
+const mapDispatchToProps = {
+  editSemesterStatus,
+  addSemesterStatus,
+  addSemester,
+  push
+};
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),

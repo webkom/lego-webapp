@@ -5,7 +5,7 @@ import {
   addSemesterStatus,
   fetchSemesters,
   addSemester,
-  fetchAll,
+  fetchAllAdmin,
   deleteCompany
 } from '../../actions/CompanyActions';
 import { selectCompanies } from 'app/reducers/companies';
@@ -74,7 +74,7 @@ export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(
     (props, dispatch) =>
-      Promise.all([dispatch(fetchSemesters()), dispatch(fetchAll())]),
+      Promise.all([dispatch(fetchSemesters()), dispatch(fetchAllAdmin())]),
     ['params.companyId']
   ),
   connect(mapStateToProps, mapDispatchToProps),
