@@ -26,7 +26,7 @@ type Props = {
   handleSubmit: Function => void,
   submitJoblisting: Workplace => void,
   deleteJoblisting: ID => void,
-  company: SelectInputObject | {},
+  company: SelectInputObject,
   dispatch: any => void,
   isNew: boolean,
   fetching: boolean,
@@ -54,6 +54,7 @@ class JoblistingEditor extends Component<Props, State> {
 
     return this.props.submitJoblisting({
       ...newJoblisting,
+      id: this.props.joblistingId,
       workplaces
     });
   };
@@ -79,10 +80,8 @@ class JoblistingEditor extends Component<Props, State> {
   render() {
     const {
       handleSubmit,
-      joblistingId,
       joblisting,
       isNew,
-      submitJoblisting,
       deleteJoblisting,
       company,
       dispatch,
@@ -113,7 +112,6 @@ class JoblistingEditor extends Component<Props, State> {
             component={SelectInput.AutocompleteField}
             filter={['companies.company']}
             onChange={arg => {
-              console.log('arg', arg);
               this.fetchContacts(company).then(() => {
                 dispatch(
                   change('joblistingEditor', 'responsible', {
