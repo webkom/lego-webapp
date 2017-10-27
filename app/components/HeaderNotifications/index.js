@@ -12,7 +12,6 @@ type Props = {
   fetchNotifications: () => void,
   notifications: Array<Object>,
   markAllNotifications: () => Promise<void>,
-  markNotification: number => Promise<void>,
   fetchNotificationData: () => Promise<void>
 };
 
@@ -20,13 +19,7 @@ type State = {
   notificationsOpen: boolean
 };
 
-const NotificationElement = ({
-  notification,
-  markNotification
-}: {
-  notification: Object,
-  markNotification: number => void
-}) => {
+const NotificationElement = ({ notification }: { notification: Object }) => {
   const renders = activityRenderers[notification.verb];
 
   if (renders) {
@@ -36,7 +29,6 @@ const NotificationElement = ({
           styles.notification,
           !notification.read ? styles.unRead : null
         )}
-        onClick={() => this.props.markNotification(notification.id)}
       >
         <div className={styles.innerNotification}>
           <div className={styles.icon}>{renders.icon(notification)}</div>
@@ -57,18 +49,7 @@ const NotificationElement = ({
 
 export default class NotificationsDropdown extends Component<Props, State> {
   state: State = {
-    notificationsOpen: false,
-    hideUnreadCount: false
-  };
-
-  seeAll = () => {
-    this.setState({ notificationsOpen: false });
-    this.props.markAllNotifications().then(this.fetch);
-  };
-
-  markNotification = (notificationId: number) => {
-    this.setState({ notificationsOpen: false });
-    this.props.markNotification(notificationId).then(this.fetch);
+    notificationsOpen: false
   };
 
   fetch = () => {
@@ -80,11 +61,7 @@ export default class NotificationsDropdown extends Component<Props, State> {
     return (
       <div>
         {notifications.map((notification, i) => (
-          <NotificationElement
-            key={i}
-            notification={notification}
-            markNotification={this.markNotification}
-          />
+          <NotificationElement key={i} notification={notification} />
         ))}
       </div>
     );
@@ -100,19 +77,18 @@ export default class NotificationsDropdown extends Component<Props, State> {
         toggle={() =>
           this.setState(
             {
-              notificationsOpen: !this.state.notificationsOpen,
-              hideUnreadCount: true
+              notificationsOpen: !this.state.notificationsOpen
             },
             () =>
               this.state.notificationsOpen
                 ? fetchNotifications()
-                : this.props.markAllNotifications().then(this.fetch)
+                : this.props.markAllNotifications()
           )}
         triggerComponent={
           <Icon.Badge
             name="notifications"
             size={30}
-            badgeCount={!this.state.hideUnreadCount && unreadCount}
+            badgeCount={this.state.notificationsOpen ? 0 : unreadCount}
           />
         }
         contentClassName={styles.notifications}

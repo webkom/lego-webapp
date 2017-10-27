@@ -20,6 +20,8 @@ export default function notificationsFeed(
         ...state,
         ...action.payload
       };
+    case NotificationsFeed.MARK_ALL.SUCCESS:
+      return initialState;
     default: {
       return state;
     }
