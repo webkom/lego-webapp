@@ -113,7 +113,7 @@ function JoblistingEditor({
           component={DatePicker.Field}
         />
         <Field
-          placeholder="Steder stilling er tilgjengelig"
+          placeholder="Arbeidssteder"
           label="Arbeidssteder"
           name="workplaces"
           component={SelectInput.Field}
@@ -143,7 +143,7 @@ function JoblistingEditor({
           component={TextInput.Field}
         />
         <Field
-          placeholder="Person som kan kontaktes angående annonsen"
+          placeholder="Kontaktperson"
           label="Kontaktperson"
           name="responsible"
           component={SelectInput.AutocompleteField}

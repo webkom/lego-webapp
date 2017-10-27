@@ -23,13 +23,13 @@ const AdminRegister = ({
       <form onSubmit={handleSubmit}>
         <Field
           placeholder="Begrunnelse"
-          lable="Begrunnelse"
+          label="Begrunnelse"
           name="reason"
           component={TextEditor.Field}
         />
         <Field
           placeholder="Tilbakemelding"
-          lable="Tilbakemelding"
+          label="Tilbakemelding"
           name="feedback"
           component={TextEditor.Field}
         />
