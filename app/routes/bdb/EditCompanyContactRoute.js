@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
 import {
   fetch,
@@ -45,11 +45,9 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { companyId } }, dispatch) => dispatch(fetch(companyId)),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
+  prepare(({ params: { companyId } }, dispatch) => dispatch(fetch(companyId)), [
+    'params.companyId',
+    'params.companyContactId'
+  ]),
   connect(mapStateToProps, mapDispatchToProps)
 )(CompanyContactEditor);
