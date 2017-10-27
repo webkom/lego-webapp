@@ -11,7 +11,7 @@ export type TagKind = 'mark' | 'block';
 export type MarkType =
   | 'italic'
   | 'bold'
-  | 'underlined'
+  | 'underline'
   | 'code'
   | 'link'
   | 'strikethrough';
