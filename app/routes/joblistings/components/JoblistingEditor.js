@@ -16,7 +16,6 @@ import {
 } from 'app/components/Form';
 import Button from 'app/components/Button';
 import moment from 'moment-timezone';
-import config from 'app/config';
 import { Content } from 'app/components/Layout';
 import { Flex } from 'app/components/Layout';
 import { places, jobTypes, yearValues } from '../constants';
@@ -147,7 +146,7 @@ class JoblistingEditor extends Component<Props, State> {
             placeholder="Søknadsfrist"
             dateFormat="ll"
             label="Søknadsfrist"
-            showTimePicker={true}
+            showTimePicker
             name="deadline"
             id="gallery-takenAt"
             component={DatePicker.Field}

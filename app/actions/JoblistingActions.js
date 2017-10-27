@@ -56,7 +56,7 @@ export function createJoblisting({
     body: {
       ...data,
       company: company && company.value,
-      responsible: responsible.value,
+      responsible: responsible && responsible.value,
       deadline: moment(deadline).toISOString(),
       visibleFrom: moment(visibleFrom).toISOString(),
       visibleTo: moment(visibleTo).toISOString()
@@ -84,7 +84,7 @@ export function editJoblisting({
     body: {
       ...data,
       company: company && company.value,
-      responsible: responsible.value,
+      responsible: responsible && responsible.value,
       deadline: moment(deadline).toISOString(),
       visibleFrom: moment(visibleFrom).toISOString(),
       visibleTo: moment(visibleTo).toISOString()
