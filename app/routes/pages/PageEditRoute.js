@@ -11,13 +11,12 @@ import { uploadFile } from 'app/actions/FileActions';
 import PageEditor from './components/PageEditor';
 import { reduxForm } from 'redux-form';
 import { selectPageBySlug } from 'app/reducers/pages';
-import { isEmpty } from 'lodash';
 import { push } from 'react-router-redux';
 
 function mapStateToProps(state, props) {
   const { pageSlug } = props.params;
   const page = selectPageBySlug(state, { pageSlug });
-  if (isEmpty(page))
+  if (!page)
     return {
       isNew: false,
       pageSlug

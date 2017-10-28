@@ -38,7 +38,7 @@ export default createEntityReducer({
 export const selectPageBySlug = createSelector(
   state => state.pages.byId,
   (state, props) => props.pageSlug,
-  (pagesBySlug, pageSlug) => pagesBySlug[pageSlug] || {}
+  (pagesBySlug, pageSlug) => pagesBySlug[pageSlug]
 );
 
 export const selectPages = createSelector(
@@ -88,21 +88,23 @@ export const selectFlatpageForPages = createSelector(
   (selectedPage, pageSlug) => ({
     selectedPage,
     selectedPageInfo: {
-      actionGrant: selectedPage.actionGrant || [],
-      title: selectedPage.title,
+      isComplete: !!(selectedPage && selectedPage.actionGrant),
+      actionGrant: selectedPage && selectedPage.actionGrant,
+      title: selectedPage && selectedPage.title,
       editUrl: `/pages/info/${pageSlug}/edit`
     }
   })
 );
 
-export const selectComiteeForPages = createSelector(
+export const selectCommitteeForPages = createSelector(
   (state, props) => selectGroup(state, { groupId: Number(props.pageSlug) }),
   (state, props) =>
     selectMembershipsForGroup(state, { groupId: Number(props.pageSlug) }),
   (group, memberships) => {
     const selectedPageInfo = group && {
-      actionGrant: group.actionGrant || [],
-      title: group.name,
+      isComplete: !!(group && group.actionGrant),
+      actionGrant: group && group.actionGrant,
+      title: group && group.name,
       editUrl: `/admin/groups/${group.id}/settings`
     };
     return {
@@ -117,7 +119,7 @@ export const selectNotFoundpageForPages = createSelector(
   pageSlug => ({
     selectedPageInfo: {
       title: pageSlug,
-      actionGrant: []
+      isComplete: true
     },
     selectedPage: {}
   })
