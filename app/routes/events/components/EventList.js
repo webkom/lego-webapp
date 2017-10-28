@@ -123,11 +123,19 @@ const EventList = (props: EventListProps) => {
     <div className={styles.root}>
       <Helmet title="Arrangementer" />
       <Toolbar actionGrant={props.actionGrant} />
-      <EventListGroup name="Denne uken" events={events.currentWeek} />
+      {events.currentWeek && (
+        <EventListGroup name="Denne uken" events={events.currentWeek} />
+      )}
 
-      <EventListGroup name="Neste uke" events={events.nextWeek} />
+      {events.nextWeek && (
+        <EventListGroup name="Neste uke" events={events.nextWeek} />
+      )}
 
-      <EventListGroup name="Senere" events={events.later} />
+      {events.later && <EventListGroup name="Senere" events={events.later} />}
+
+      {!props.events && (
+        <h2 className={styles.heading}>Ingen kommende arrangementer</h2>
+      )}
       {showFetchMore && <Button onClick={fetchMore}>Last inn mer</Button>}
       <div className={styles.bottomBorder} />
       <EventFooter icalToken={icalToken} />
