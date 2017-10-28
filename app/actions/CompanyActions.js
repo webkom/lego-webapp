@@ -14,17 +14,26 @@ import { push } from 'react-router-redux';
 import type { Thunk } from 'app/types';
 import { addNotification } from 'app/actions/NotificationActions';
 
-export function fetchAll() {
-  return callAPI({
-    types: Company.FETCH,
-    endpoint: '/companies/',
-    schema: [companySchema],
-    meta: {
-      errorMessage: 'Henting av bedrifter feilet'
-    },
-    propagateError: true
-  });
-}
+export const fetchAll = ({ fetchMore }: { fetchMore: boolean }): Thunk<*> => (
+  dispatch,
+  getState
+) => {
+  const endpoint = fetchMore
+    ? getState().companies.pagination[''].nextPage
+    : '/companies/';
+  return dispatch(
+    callAPI({
+      types: Company.FETCH,
+      endpoint,
+      schema: [companySchema],
+      meta: {
+        errorMessage: 'Henting av bedrifter feilet',
+        queryString: ''
+      },
+      propagateError: true
+    })
+  );
+};
 
 export function fetchAllAdmin() {
   return callAPI({
@@ -82,7 +91,7 @@ export function fetchEventsForCompany(companyId: string) {
     );
 }
 
-export function fetchJobListingsForCompany(companyId: string) {
+export function fetchJoblistingsForCompany(companyId: string) {
   return (dispatch: Dispatch) =>
     dispatch(
       callAPI({
@@ -90,7 +99,7 @@ export function fetchJobListingsForCompany(companyId: string) {
         endpoint: `/joblistings/?company=${companyId}`,
         schema: [joblistingsSchema],
         meta: {
-          errorMessage: 'Henting av tilknyttede arrangementer feilet'
+          errorMessage: 'Henting av tilknyttede jobbannonser feilet'
         }
       })
     );
@@ -99,7 +108,6 @@ export function fetchJobListingsForCompany(companyId: string) {
 export function addCompany(data: Object): Thunk<*> {
   return dispatch => {
     dispatch(startSubmit('company'));
-
     return dispatch(
       callAPI({
         types: Company.ADD,
@@ -177,7 +185,7 @@ export function addSemesterStatus(
         method: 'POST',
         body: data,
         meta: {
-          errorMessage: 'Legg til semester status feilet',
+          errorMessage: 'Legg til semesterstatus feilet',
           companyId
         }
       })
@@ -210,7 +218,7 @@ export function editSemesterStatus(
         }
       })
     ).then(() => {
-      dispatch(addNotification({ message: 'Semester status endret.' }));
+      dispatch(addNotification({ message: 'Semesterstatus endret.' }));
       if (options.detail) {
         dispatch(push(`/bdb/${companyId}/`));
       } else {
@@ -233,7 +241,7 @@ export function deleteSemesterStatus(
         meta: {
           companyId,
           semesterId,
-          errorMessage: 'Sletting av semester status feilet'
+          errorMessage: 'Sletting av semesterstatus feilet'
         }
       })
     ).then(() => {
@@ -249,7 +257,7 @@ export function fetchCompanyContacts({ companyId }: { companyId: number }) {
     endpoint: `/companies/${companyId}/company-contacts/`,
     method: 'GET',
     meta: {
-      errorMessage: 'Henting av bedriftkontakt feilet'
+      errorMessage: 'Henting av bedriftskontakt feilet'
     }
   });
 }
@@ -274,7 +282,7 @@ export function addCompanyContact({
           phone
         },
         meta: {
-          errorMessage: 'Legg til bedriftkontakt feilet',
+          errorMessage: 'Legg til bedriftskontakt feilet',
           companyId
         }
       })
@@ -306,7 +314,7 @@ export function editCompanyContact({
           phone
         },
         meta: {
-          errorMessage: 'Endring av bedriftkontakt feilet',
+          errorMessage: 'Endring av bedriftskontakt feilet',
           companyId
         }
       })
@@ -330,7 +338,7 @@ export function deleteCompanyContact(
         meta: {
           companyId,
           companyContactId,
-          errorMessage: 'Sletting av bedriftkontakt feilet'
+          errorMessage: 'Sletting av bedriftskontakt feilet'
         }
       })
     ).then(() => {
@@ -348,7 +356,7 @@ export function fetchSemesters({ companyInterest }: Object = {}) {
     })}`,
     schema: [companySemesterSchema],
     meta: {
-      errorMessage: 'Fetching company semesters failed'
+      errorMessage: 'Henting av semestre feilet'
     },
     propagateError: true
   });
@@ -371,7 +379,7 @@ export function addSemester({ year, semester }: SemesterInput): Thunk<*> {
           semester
         },
         meta: {
-          errorMessage: 'Adding semester failed'
+          errorMessage: 'Legge til semester feilet'
         }
       })
     );
