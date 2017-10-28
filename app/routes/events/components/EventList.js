@@ -14,6 +14,8 @@ import { colorForEvent } from '../utils';
 import styles from './EventList.css';
 import EventFooter from './EventFooter';
 import { Flex } from 'app/components/Layout';
+import EmptyState from 'app/components/EmptyState';
+import { isEmpty } from 'lodash';
 
 // Kinda works
 function groupEvents(events) {
@@ -100,7 +102,7 @@ type EventListGroupProps = {
 };
 
 function EventListGroup({ name, events = [] }: EventListGroupProps) {
-  return (
+  return isEmpty(events) ? null : (
     <div className={styles.eventGroup}>
       <h2 className={styles.heading}>{name}</h2>
       {events.map((event, i) => <EventItem key={i} event={event} />)}
@@ -128,6 +130,12 @@ const EventList = (props: EventListProps) => {
       <EventListGroup name="Neste uke" events={events.nextWeek} />
 
       <EventListGroup name="Senere" events={events.later} />
+
+      {isEmpty(props.events) && (
+        <EmptyState icon="book-outline" size={40}>
+          <h2 className={styles.noEvents}>Ingen kommende arrangementer</h2>
+        </EmptyState>
+      )}
       {showFetchMore && <Button onClick={fetchMore}>Last inn mer</Button>}
       <div className={styles.bottomBorder} />
       <EventFooter icalToken={icalToken} />
