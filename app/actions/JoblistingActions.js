@@ -22,6 +22,7 @@ export function fetchJoblisting(id: number) {
     types: Joblistings.FETCH,
     endpoint: `/joblistings/${id}/`,
     schema: joblistingsSchema,
+    useCache: false,
     meta: {
       errorMessage: 'Henting av jobbannonse feilet'
     },
@@ -89,7 +90,6 @@ export function editJoblisting({
       visibleFrom: moment(visibleFrom).toISOString(),
       visibleTo: moment(visibleTo).toISOString()
     },
-    schema: joblistingsSchema,
     meta: {
       errorMessage: 'Endring av jobbannonse feilet'
     }
