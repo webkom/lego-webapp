@@ -14,7 +14,7 @@ import {
   selectPagesForHierarchy,
   selectGroupsForHierarchy,
   selectPageHierarchy,
-  selectComiteeForPages,
+  selectCommitteeForPages,
   selectFlatpageForPages,
   selectNotFoundpageForPages
 } from 'app/reducers/pages';
@@ -33,7 +33,7 @@ const sections = {
   komiteer: {
     title: 'Komiteer',
     section: 'komiteer',
-    pageSelector: selectComiteeForPages,
+    pageSelector: selectCommitteeForPages,
     hierarchySectionSelector: selectGroupsForHierarchy,
     PageRenderer: GroupRenderer,
     fetchAll: () => fetchAllWithType('komite'),
