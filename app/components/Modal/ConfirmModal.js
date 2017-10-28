@@ -10,29 +10,35 @@ type ConfirmModalProps = {
   onCancel?: () => Promise<*>,
   message: string,
   title: string,
-  children: Node
+  disabled?: boolean
 };
 
 export const ConfirmModal = ({
   message,
   onConfirm,
   onCancel,
-  title
+  title,
+  disabled = false
 }: ConfirmModalProps) => (
   <div className={styles.overlay}>
     <div className={styles.confirmContainer}>
       <h2 className={styles.confirmTitle}>{title}</h2>
       <div className={styles.confirmMessage}>{message}</div>
       <div className={styles.buttonGroup}>
-        <Button onClick={onCancel}>Avbryt</Button>
-        <Button onClick={onConfirm}>Ja</Button>
+        <Button disabled={disabled} onClick={onCancel}>
+          Avbryt
+        </Button>
+        <Button disabled={disabled} onClick={onConfirm}>
+          Ja
+        </Button>
       </div>
     </div>
   </div>
 );
 
 type State = {
-  modalVisible: boolean
+  modalVisible: boolean,
+  working: boolean
 };
 
 type withModalProps = {
@@ -54,12 +60,24 @@ export default function withModal<Props>(
     State
   > {
     static displayName = `WithModal(${displayName})`;
-    state = { modalVisible: false };
+    state = { modalVisible: false, working: false };
 
     toggleModal = () => {
       this.setState(state => ({
         modalVisible: !state.modalVisible
       }));
+    };
+
+    startWorking = () => {
+      this.setState({
+        working: true
+      });
+    };
+
+    stopWorking = () => {
+      this.setState({
+        working: false
+      });
     };
 
     render() {
@@ -73,17 +91,23 @@ export default function withModal<Props>(
         ...props
       } = this.props;
 
-      const modalOnConfirm = () =>
-        onConfirm.then(result => {
-          closeOnConfirm && this.toggleModal();
+      const modalOnConfirm = () => {
+        this.startWorking();
+        return onConfirm().then(result => {
+          this.stopWorking();
+          closeOnConfirm && this.state.modalVisible && this.toggleModal();
           return result;
         });
+      };
 
-      const modalOnCancel = () =>
-        onCancel.then(result => {
-          closeOnCancel && this.toggleModal();
+      const modalOnCancel = () => {
+        this.startWorking();
+        return onCancel().then(result => {
+          this.stopWorking();
+          closeOnCancel && this.state.modalVisible && this.toggleModal();
           return result;
         });
+      };
 
       return [
         <WrappedComponent key={0} {...props} onClick={this.toggleModal} />,
