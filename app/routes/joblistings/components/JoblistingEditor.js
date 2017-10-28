@@ -59,7 +59,9 @@ class JoblistingEditor extends Component<Props, State> {
       .submitJoblisting({
         ...newJoblisting,
         id: this.props.joblistingId,
-        applicationUrl: httpCheck(newJoblisting.applicationUrl),
+        applicationUrl:
+          newJoblisting.applicationUrl &&
+          httpCheck(newJoblisting.applicationUrl),
         workplaces
       })
       .then(result => {
