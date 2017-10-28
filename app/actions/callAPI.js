@@ -108,7 +108,7 @@ export default function callAPI({
     if (shouldUseCache) {
       const cachedRequest = getCachedRequest(state, endpoint, cacheSeconds);
       if (cachedRequest) {
-        return new Promise(() => dispatch(cachedRequest));
+        return Promise.resolve(dispatch(cachedRequest));
       }
     }
 
