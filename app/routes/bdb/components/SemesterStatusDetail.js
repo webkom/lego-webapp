@@ -19,7 +19,6 @@ const FILE_NAME_LENGTH = 30;
 
 type Props = {
   semesterStatus: SemesterStatusEntity,
-  index: number,
   companyId: number,
   deleteSemesterStatus: number => Promise<*>,
   editFunction: (
@@ -69,13 +68,13 @@ export default class SemesterStatusDetail extends Component<Props, State> {
   };
 
   render() {
-    const { semesterStatus, index, editFunction } = this.props;
+    const { semesterStatus, editFunction } = this.props;
 
     if (!semesterStatus) return <LoadingIndicator />;
 
     const humanReadableSemester = this.semesterToHumanReadable();
     return (
-      <tr key={index}>
+      <tr key={semesterStatus.id}>
         <td>{humanReadableSemester}</td>
         <td
           className={
@@ -122,6 +121,7 @@ export default class SemesterStatusDetail extends Component<Props, State> {
               title="Slett semesterstatus"
               message={`Er du sikker på at du vil slette semesterstatusen for ${humanReadableSemester}? Alle filer for dette semesteret vil bli slettet.`}
               onConfirm={this.deleteSemesterStatus}
+              closeOnConfirm
             >
               <i className="fa fa-times" style={{ color: '#d13c32' }} />
             </ConfirmModalWithParent>

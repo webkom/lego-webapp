@@ -136,12 +136,11 @@ export default class BdbDetail extends Component<Props, State> {
 
     const semesters = company.semesterStatuses
       .sort(sortByYearThenSemester)
-      .map((semesterStatus, i) => (
+      .map(semesterStatus => (
         <SemesterStatusDetail
           semesterStatus={semesterStatus}
-          key={i}
+          key={semesterStatus.id}
           companyId={company.id}
-          index={i}
           deleteSemesterStatus={this.deleteSemesterStatus}
           editFunction={this.semesterStatusOnChange}
           addFileToSemester={this.addFileToSemester}
@@ -150,8 +149,8 @@ export default class BdbDetail extends Component<Props, State> {
 
     const companyContacts =
       company.companyContacts &&
-      company.companyContacts.map((contact, i) => (
-        <tr key={i}>
+      company.companyContacts.map(contact => (
+        <tr key={contact.id}>
           <td>{contact.name || '-'}</td>
           <td>{contact.role || '-'}</td>
           <td>{contact.mail || '-'}</td>
@@ -188,8 +187,8 @@ export default class BdbDetail extends Component<Props, State> {
       companyEvents
         .sort((a, b) => Date.parse(b.startTime) - Date.parse(a.startTime))
         .splice(0, this.state.eventsToDisplay)
-        .map((event, i) => (
-          <tr key={i}>
+        .map(event => (
+          <tr key={event.id}>
             <td>
               <Link to={`events/${event.id}`}>{event.title}</Link>
             </td>
@@ -344,8 +343,8 @@ export default class BdbDetail extends Component<Props, State> {
               {!company.files || company.length === 0 ? (
                 <i>Ingen filer.</i>
               ) : (
-                company.files.map((file, i) => (
-                  <li key={i}>
+                company.files.map(file => (
+                  <li key={file.id}>
                     <a href={file.file}>{truncateString(file.file, 100)}</a>
                   </li>
                 ))

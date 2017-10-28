@@ -228,27 +228,18 @@ export function editSemesterStatus(
   };
 }
 
-export function deleteSemesterStatus(
-  companyId: number,
-  semesterId: number
-): Thunk<*> {
-  return dispatch => {
-    return dispatch(
-      callAPI({
-        types: Company.DELETE_SEMESTER_STATUS,
-        endpoint: `/companies/${companyId}/semester-statuses/${semesterId}/`,
-        method: 'DELETE',
-        meta: {
-          companyId,
-          semesterId,
-          errorMessage: 'Sletting av semesterstatus feilet'
-        }
-      })
-    ).then(() => {
-      dispatch(addNotification({ message: 'Semester Status slettet' }));
-      dispatch(push(`/bdb/${companyId}/`));
-    });
-  };
+export function deleteSemesterStatus(companyId: number, semesterId: number) {
+  return callAPI({
+    types: Company.DELETE_SEMESTER_STATUS,
+    endpoint: `/companies/${companyId}/semester-statuses/${semesterId}/`,
+    method: 'DELETE',
+    meta: {
+      companyId,
+      semesterId,
+      errorMessage: 'Sletting av semesterstatus feilet',
+      successMessage: 'Semesterstatus slettet'
+    }
+  });
 }
 
 export function fetchCompanyContacts({ companyId }: { companyId: number }) {
@@ -328,24 +319,18 @@ export function editCompanyContact({
 export function deleteCompanyContact(
   companyId: number,
   companyContactId: number
-): Thunk<*> {
-  return dispatch => {
-    return dispatch(
-      callAPI({
-        types: Company.DELETE_COMPANY_CONTACT,
-        endpoint: `/companies/${companyId}/company-contacts/${companyContactId}/`,
-        method: 'DELETE',
-        meta: {
-          companyId,
-          companyContactId,
-          errorMessage: 'Sletting av bedriftskontakt feilet'
-        }
-      })
-    ).then(() => {
-      dispatch(addNotification({ message: 'Bedriftskontakt slettet.' }));
-      dispatch(push(`/bdb/${companyId}/`));
-    });
-  };
+) {
+  return callAPI({
+    types: Company.DELETE_COMPANY_CONTACT,
+    endpoint: `/companies/${companyId}/company-contacts/${companyContactId}/`,
+    method: 'DELETE',
+    meta: {
+      companyId,
+      companyContactId,
+      errorMessage: 'Sletting av bedriftskontakt feilet',
+      successMessage: 'Bedriftskontakt slettet'
+    }
+  });
 }
 
 export function fetchSemesters({ companyInterest }: Object = {}) {
