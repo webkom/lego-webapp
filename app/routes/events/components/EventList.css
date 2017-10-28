@@ -14,6 +14,14 @@
   margin-bottom: 20px;
 }
 
+.noEvents {
+  color: #777;
+  letter-spacing: 2px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 20px;
+}
+
 .eventItem {
   padding-left: 20px;
   border-left: 4px solid transparent;

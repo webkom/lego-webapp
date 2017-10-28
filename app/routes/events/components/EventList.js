@@ -14,6 +14,7 @@ import { colorForEvent } from '../utils';
 import styles from './EventList.css';
 import EventFooter from './EventFooter';
 import { Flex } from 'app/components/Layout';
+import EmptyState from 'app/components/EmptyState';
 
 // Kinda works
 function groupEvents(events) {
@@ -100,12 +101,12 @@ type EventListGroupProps = {
 };
 
 function EventListGroup({ name, events = [] }: EventListGroupProps) {
-  return (
+  return events.length ? (
     <div className={styles.eventGroup}>
       <h2 className={styles.heading}>{name}</h2>
       {events.map((event, i) => <EventItem key={i} event={event} />)}
     </div>
-  );
+  ) : null;
 }
 
 type EventListProps = {
@@ -123,18 +124,16 @@ const EventList = (props: EventListProps) => {
     <div className={styles.root}>
       <Helmet title="Arrangementer" />
       <Toolbar actionGrant={props.actionGrant} />
-      {events.currentWeek && (
-        <EventListGroup name="Denne uken" events={events.currentWeek} />
-      )}
+      <EventListGroup name="Denne uken" events={events.currentWeek} />
 
-      {events.nextWeek && (
-        <EventListGroup name="Neste uke" events={events.nextWeek} />
-      )}
+      <EventListGroup name="Neste uke" events={events.nextWeek} />
 
-      {events.later && <EventListGroup name="Senere" events={events.later} />}
+      <EventListGroup name="Senere" events={events.later} />
 
       {!props.events && (
-        <h2 className={styles.heading}>Ingen kommende arrangementer</h2>
+        <EmptyState icon="book-outline" size={40}>
+          <h2 className={styles.noEvents}>Ingen kommende arrangementer</h2>
+        </EmptyState>
       )}
       {showFetchMore && <Button onClick={fetchMore}>Last inn mer</Button>}
       <div className={styles.bottomBorder} />
