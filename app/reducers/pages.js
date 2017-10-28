@@ -4,6 +4,8 @@ import { createSelector } from 'reselect';
 import { Page } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { selectGroupsWithType } from './groups';
+import { selectGroup } from 'app/reducers/groups';
+import { selectMembershipsForGroup } from 'app/reducers/memberships';
 
 export type PageEntity = {
   id: number,
@@ -66,5 +68,57 @@ export const selectGroupsForHierarchy = createSelector(
       url: `/pages/komiteer/${page.id}`,
       title: page.name
     }))
+  })
+);
+
+export const selectPageHierarchy = createSelector(
+  (state, props) => props.sections,
+  state => state,
+  (sections, state) =>
+    Object.keys(sections).map(sectionKey =>
+      sections[sectionKey].hierarchySectionSelector(state, {
+        title: sections[sectionKey].title
+      })
+    )
+);
+
+export const selectFlatpageForPages = createSelector(
+  selectPageBySlug,
+  (state, props) => props.pageSlug,
+  (selectedPage, pageSlug) => ({
+    selectedPage,
+    selectedPageInfo: {
+      actionGrant: selectedPage.actionGrant || [],
+      title: selectedPage.title,
+      editUrl: `/pages/info/${pageSlug}/edit`
+    }
+  })
+);
+
+export const selectComiteeForPages = createSelector(
+  (state, props) => selectGroup(state, { groupId: Number(props.pageSlug) }),
+  (state, props) =>
+    selectMembershipsForGroup(state, { groupId: Number(props.pageSlug) }),
+  (group, memberships) => {
+    const selectedPageInfo = group && {
+      actionGrant: group.actionGrant || [],
+      title: group.name,
+      editUrl: `/admin/groups/${group.id}/settings`
+    };
+    return {
+      selectedPage: group && { ...group, memberships },
+      selectedPageInfo
+    };
+  }
+);
+
+export const selectNotFoundpageForPages = createSelector(
+  (state, props) => props.pageSlug,
+  pageSlug => ({
+    selectedPageInfo: {
+      title: pageSlug,
+      actionGrant: []
+    },
+    selectedPage: {}
   })
 );
