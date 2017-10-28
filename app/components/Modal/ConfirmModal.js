@@ -6,8 +6,9 @@ import Modal from 'app/components/Modal';
 import Button from '../Button';
 
 type ConfirmModalProps = {
-  onConfirm: () => any,
-  onCancel?: () => any,
+  onConfirm?: () => Promise<*>,
+  onCancel?: () => Promise<*>,
+  autoClose?: boolean,
   message: string,
   title: string,
   children: Node
@@ -35,13 +36,23 @@ type State = {
   modalVisible: boolean
 };
 
+type withModalProps = {
+  /* Close the modal after confirm promise is resolved*/
+  closeOnConfirm?: boolean,
+  /* Close the modal after cancel promise is resolved*/
+  closeOnCancel?: boolean
+};
+
 export default function withModal<Props>(
   WrappedComponent: ComponentType<Props>
 ) {
   const displayName =
     WrappedComponent.displayName || WrappedComponent.name || 'Unknown';
 
-  return class extends React.Component<ConfirmModalProps, State> {
+  return class extends React.Component<
+    withModalProps & ConfirmModalProps,
+    State
+  > {
     static displayName = `WithModal(${displayName})`;
     state = { modalVisible: false };
 
@@ -52,13 +63,38 @@ export default function withModal<Props>(
     };
 
     render() {
-      const onCancel = this.props.onCancel || this.toggleModal;
+      const {
+        onConfirm = Promise.resolve(),
+        onCancel = Promise.resolve(),
+        message,
+        title,
+        closeOnCancel = true,
+        closeOnConfirm = false,
+        ...props
+      } = this.props;
+
+      const modalOnConfirm = () =>
+        onConfirm.then(result => {
+          closeOnConfirm && this.toggleModal();
+          return result;
+        });
+
+      const modalOnCancel = () =>
+        onCancel.then(result => {
+          closeOnCancel && this.toggleModal();
+          return result;
+        });
+
       return (
         <div>
           {/* $FlowFixMe rest props hoc behaviour */}
-          <WrappedComponent {...this.props} onClick={this.toggleModal} />
+          <WrappedComponent {...props} onClick={this.toggleModal} />
           <Modal show={this.state.modalVisible} onHide={this.toggleModal}>
-            <ConfirmModal onCancel={onCancel} {...this.props} />
+            <ConfirmModal
+              onCancel={modalOnCancel}
+              onConfirm={modalOnConfirm}
+              {...this.props}
+            />
           </Modal>
         </div>
       );

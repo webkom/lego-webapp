@@ -25,7 +25,7 @@ type Props = {
   autoFocus: any,
   companySemesters: Array<Object>,
   addSemester: CompanySemesterEntity => Promise<*>,
-  deleteCompany: number => ?Promise<*>
+  deleteCompany: number => Promise<*>
 };
 
 type State = {

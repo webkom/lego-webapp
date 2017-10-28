@@ -39,7 +39,7 @@ type Props = {
   companyEvents: Array<Object>,
   fetching: boolean,
   editCompany: Object => void,
-  deleteCompany: number => ?Promise<*>
+  deleteCompany: number => Promise<*>
 };
 
 type State = {
@@ -173,6 +173,7 @@ export default class BdbDetail extends Component<Props, State> {
                   title="Slett bedriftskontakt"
                   message="Er du sikker på at du vil slette denne bedriftskontakten?"
                   onConfirm={() => this.deleteCompanyContact(contact.id)}
+                  closeOnConfirm
                 >
                   <i className="fa fa-times" style={{ color: '#d13c32' }} />
                 </ConfirmModalWithParent>

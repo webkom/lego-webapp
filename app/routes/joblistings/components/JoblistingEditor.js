@@ -75,11 +75,10 @@ class JoblistingEditor extends Component<Props, State> {
       });
   };
 
-  onDeleteJoblisting = () => {
+  onDeleteJoblisting = () =>
     this.props.deleteJoblisting(this.props.joblisting.id).then(() => {
       this.props.push('/joblistings/');
     });
-  };
 
   fetchContacts = (company: SelectInputObject) => {
     return this.props

@@ -178,7 +178,7 @@ export const DetailNavigation = ({
 }: {
   title: Node,
   companyId: number,
-  deleteFunction: number => ?Promise<*>
+  deleteFunction: number => Promise<*>
 }) => (
   <NavigationTab title={title}>
     <NavigationLink to="/bdb">Tilbake til liste</NavigationLink>
