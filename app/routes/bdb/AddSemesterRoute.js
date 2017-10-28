@@ -5,7 +5,7 @@ import {
   addSemesterStatus,
   fetchSemesters,
   addSemester,
-  fetchAll,
+  fetchAllAdmin,
   deleteCompany
 } from '../../actions/CompanyActions';
 import { selectCompanies } from 'app/reducers/companies';
@@ -14,7 +14,7 @@ import moment from 'moment-timezone';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { uploadFile } from 'app/actions/FileActions';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { semesterCodeToName } from './utils.js';
 
@@ -72,12 +72,10 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
+  prepare(
     (props, dispatch) =>
-      Promise.all([dispatch(fetchSemesters()), dispatch(fetchAll())]),
-    {
-      componentWillReceiveProps: false
-    }
+      Promise.all([dispatch(fetchSemesters()), dispatch(fetchAllAdmin())]),
+    ['params.companyId']
   ),
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({

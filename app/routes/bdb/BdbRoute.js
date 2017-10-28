@@ -13,6 +13,7 @@ import { selectCompanies } from 'app/reducers/companies';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { push } from 'react-router-redux';
 
 const loadData = (props, dispatch) =>
   dispatch(fetchSemesters()).then(() => dispatch(fetchAllAdmin()));
@@ -27,7 +28,8 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = {
   editSemesterStatus,
   addSemesterStatus,
-  addSemester
+  addSemester,
+  push
 };
 
 export default compose(

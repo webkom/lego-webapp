@@ -22,7 +22,8 @@ type Props = {
   editSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
   addSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
   addSemester: CompanySemesterEntity => Promise<*>,
-  companySemesters: Array<CompanySemesterEntity>
+  companySemesters: Array<CompanySemesterEntity>,
+  push: string => void
 };
 
 type State = {
@@ -165,7 +166,7 @@ export default class BdbPage extends Component<Props, State> {
   };
 
   render() {
-    const { query, companies, fetching } = this.props;
+    const { query, companies, fetching, push } = this.props;
 
     if (!companies) {
       return <LoadingIndicator loading />;
@@ -178,13 +179,24 @@ export default class BdbPage extends Component<Props, State> {
       this.state.startSem
     );
 
+    const filteredCompanies = this.filterCompanies(sortedCompanies);
+
+    const searchKeyPress = (event: Object) => {
+      if (event.key === 'Enter' && filteredCompanies.length === 1) {
+        push(`/bdb/${filteredCompanies[0].id}`);
+      }
+    };
+
     return (
       <div className={styles.root}>
         <ListNavigation title="Bedriftsdatabase" />
 
         <div className={styles.search}>
           <h2>Søk</h2>
-          <TextInput onChange={this.updateSearchQuery} />
+          <TextInput
+            onChange={this.updateSearchQuery}
+            onKeyPress={searchKeyPress}
+          />
         </div>
 
         <OptionsBox
@@ -199,7 +211,7 @@ export default class BdbPage extends Component<Props, State> {
         </i>
 
         <CompanyList
-          companies={this.filterCompanies(sortedCompanies)}
+          companies={filteredCompanies}
           startYear={this.state.startYear}
           startSem={this.state.startSem}
           query={query}

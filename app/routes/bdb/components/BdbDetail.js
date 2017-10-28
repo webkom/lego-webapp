@@ -53,6 +53,10 @@ export default class BdbDetail extends Component<Props, State> {
     eventsToDisplay: 3
   };
 
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   semesterStatusOnChange = (
     semesterStatus: SemesterStatusEntity,
     statusString: CompanySemesterContactedStatus
@@ -181,7 +185,7 @@ export default class BdbDetail extends Component<Props, State> {
     const events =
       companyEvents &&
       companyEvents
-        .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
+        .sort((a, b) => Date.parse(b.startTime) - Date.parse(a.startTime))
         .splice(0, this.state.eventsToDisplay)
         .map((event, i) => (
           <tr key={i}>
