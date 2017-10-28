@@ -8,7 +8,6 @@ import Button from '../Button';
 type ConfirmModalProps = {
   onConfirm?: () => Promise<*>,
   onCancel?: () => Promise<*>,
-  autoClose?: boolean,
   message: string,
   title: string,
   children: Node
@@ -39,8 +38,9 @@ type State = {
 type withModalProps = {
   /* Close the modal after confirm promise is resolved*/
   closeOnConfirm?: boolean,
-  /* Close the modal after cancel promise is resolved*/
-  closeOnCancel?: boolean
+  /* Close the modal after confirm promise is resolved*/
+  closeOnCancel?: boolean,
+  children: Node
 };
 
 export default function withModal<Props>(
@@ -64,8 +64,8 @@ export default function withModal<Props>(
 
     render() {
       const {
-        onConfirm = Promise.resolve(),
-        onCancel = Promise.resolve(),
+        onConfirm = () => Promise.resolve(),
+        onCancel = () => Promise.resolve(),
         message,
         title,
         closeOnCancel = true,
@@ -85,19 +85,18 @@ export default function withModal<Props>(
           return result;
         });
 
-      return (
-        <div>
-          {/* $FlowFixMe rest props hoc behaviour */}
-          <WrappedComponent {...props} onClick={this.toggleModal} />
-          <Modal show={this.state.modalVisible} onHide={this.toggleModal}>
-            <ConfirmModal
-              onCancel={modalOnCancel}
-              onConfirm={modalOnConfirm}
-              {...this.props}
-            />
-          </Modal>
-        </div>
-      );
+      return [
+        <WrappedComponent key={0} {...props} onClick={this.toggleModal} />,
+        <Modal key={1} show={this.state.modalVisible} onHide={this.toggleModal}>
+          <ConfirmModal
+            onCancel={modalOnCancel}
+            onConfirm={modalOnConfirm}
+            message={message}
+            title={title}
+            disabled={this.state.working}
+          />
+        </Modal>
+      ];
     }
   };
 }
