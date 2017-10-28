@@ -50,6 +50,7 @@
   border-bottom-left-radius: 0;
 
   @media (--mobile-device) {
+    padding: 10px;
     flex-basis: 20em;
   }
 }
