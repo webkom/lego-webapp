@@ -11,81 +11,20 @@ import PageDetail, {
   GroupRenderer
 } from './components/PageDetail';
 import {
-  selectPageBySlug,
   selectPagesForHierarchy,
-  selectGroupsForHierarchy
+  selectGroupsForHierarchy,
+  selectPageHierarchy,
+  selectCommitteeForPages,
+  selectFlatpageForPages,
+  selectNotFoundpageForPages
 } from 'app/reducers/pages';
-import { selectGroup } from 'app/reducers/groups';
-import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import HTTPError from 'app/routes/errors/HTTPError';
-
-const loadData = (props, dispatch) => {
-  const section = sections[props.params.section];
-  const { pageSlug } = props.params;
-
-  // Only handle flatpages when user isn't authenticated
-  if (!props.loggedIn) {
-    return Promise.all([
-      dispatch(section.fetchAll()),
-      ...section.fetchItemActions.map(action => dispatch(action(pageSlug)))
-    ]);
-  }
-
-  return Promise.all([
-    ...Object.keys(sections).map(key => dispatch(sections[key].fetchAll())),
-    ...(section &&
-      section.fetchItemActions.map(action => dispatch(action(pageSlug))))
-  ]);
-};
-
-const mapStateToPropsFlatpages = (state, props) => {
-  const { pageSlug } = props.params;
-  const selectedPage = selectPageBySlug(state, { pageSlug });
-
-  const selectedPageInfo = {
-    actionGrant: selectedPage.actionGrant || [],
-    title: selectedPage.title,
-    editUrl: `/pages/info/${selectedPage.slug}/edit`
-  };
-  return {
-    selectedPage,
-    selectedPageInfo
-  };
-};
-const mapStateToPropsSectionNotFound = (state, props, pageHierarchy) => ({
-  selectedPageInfo: {
-    title: 'Finner ikke det du leter etter',
-    actionGrant: []
-  },
-  selectedPage: {},
-  PageRenderer: HTTPError,
-  pageHierarchy
-});
-
-const mapStateToPropsComitee = (state, props) => {
-  const { pageSlug } = props.params;
-  const group: Object = selectGroup(state, { groupId: pageSlug });
-
-  const memberships = selectMembershipsForGroup(state, {
-    groupId: Number(pageSlug)
-  });
-
-  const selectedPageInfo = group && {
-    actionGrant: group.actionGrant || [],
-    title: group.name,
-    editUrl: `/admin/groups/${group.id}/settings`
-  };
-  return {
-    selectedPage: group && { ...group, memberships },
-    selectedPageInfo
-  };
-};
 
 const sections = {
   info: {
     title: 'Informasjon',
     section: 'info',
-    mapStateToPropsForSection: mapStateToPropsFlatpages,
+    pageSelector: selectFlatpageForPages,
     hierarchySectionSelector: selectPagesForHierarchy,
     PageRenderer: FlatpageRenderer,
     fetchAll: fetchAll,
@@ -94,28 +33,51 @@ const sections = {
   komiteer: {
     title: 'Komiteer',
     section: 'komiteer',
-    mapStateToPropsForSection: mapStateToPropsComitee,
+    pageSelector: selectCommitteeForPages,
     hierarchySectionSelector: selectGroupsForHierarchy,
     PageRenderer: GroupRenderer,
     fetchAll: () => fetchAllWithType('komite'),
     fetchItemActions: [fetchGroup, fetchMemberships]
   }
 };
+
+const getSection = sectionName =>
+  sections[sectionName] || {
+    pageSelector: selectNotFoundpageForPages,
+    PageRenderer: HTTPError,
+    fetchItemActions: []
+  };
+
+const loadData = (props, dispatch) => {
+  const { fetchItemActions } = getSection(props.params.section);
+  const { pageSlug } = props.params;
+
+  // Only handle flatpages when user isn't authenticated
+  if (!props.loggedIn) {
+    return Promise.all(
+      fetchItemActions
+        .map(action => dispatch(action(pageSlug)))
+        .concat(dispatch(sections.info.fetchAll()))
+    );
+  }
+
+  return Promise.all(
+    Object.keys(sections)
+      .map(key => dispatch(sections[key].fetchAll()))
+      .concat(fetchItemActions.map(action => dispatch(action(pageSlug))))
+  );
+};
+
 const mapStateToProps = (state, props) => {
   const { section, pageSlug } = props.params;
 
-  const pageHierarchy = Object.keys(sections).map(sectionKey =>
-    sections[sectionKey].hierarchySectionSelector(state, {
-      title: sections[sectionKey].title
-    })
-  );
+  const pageHierarchy = selectPageHierarchy(state, { sections });
+  const { pageSelector, PageRenderer } = getSection(section);
 
-  if (!sections[section]) {
-    return mapStateToPropsSectionNotFound(state, props, pageHierarchy);
-  }
-  const { mapStateToPropsForSection, PageRenderer } = sections[section];
+  const { selectedPage, selectedPageInfo } = pageSelector(state, { pageSlug });
   return {
-    ...mapStateToPropsForSection(state, props),
+    selectedPage,
+    selectedPageInfo,
     PageRenderer,
     pageHierarchy,
     pageSlug,

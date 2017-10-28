@@ -15,9 +15,11 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import type { PageEntity } from 'app/reducers/pages';
 
 export type PageInfo = {
-  editUrl: string,
+  editUrl?: string,
   title: string,
-  actionGrant: Array<string>
+  /* The page is complete, and can be rendered */
+  isComplete: boolean,
+  actionGrant?: Array<string>
 };
 
 type Props<T> = {
@@ -84,7 +86,7 @@ function PageDetail<T: Object>({
   if (!selectedPage) {
     return <LoadingIndicator loading />;
   }
-  const { title, editUrl, actionGrant } = selectedPageInfo;
+  const { title, editUrl, actionGrant = [], isComplete } = selectedPageInfo;
   return (
     <Content>
       <NavigationTab title={title}>
@@ -95,8 +97,11 @@ function PageDetail<T: Object>({
         )}
       </NavigationTab>
       <Flex className={styles.page} wrap>
-        <PageRenderer page={selectedPage} />
-
+        {isComplete ? (
+          <PageRenderer page={selectedPage} />
+        ) : (
+          <LoadingIndicator loading />
+        )}
         <aside className={styles.sidebar}>
           <PageHierarchy
             pageHierarchy={pageHierarchy}
