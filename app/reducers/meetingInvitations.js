@@ -42,9 +42,8 @@ export default createEntityReducer({
           byId: {
             ...state.byId,
             [invitationId]: {
-              user: user.username,
-              status: status,
-              meeting: meetingId
+              ...state.byId[invitationId],
+              status: status
             }
           }
         };
