@@ -8,6 +8,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 export type GalleryPictureEntity = {
   id: number,
   title: string,
+  galleryId: number,
   description: string,
   text: string,
   comments: Array<number>
@@ -33,7 +34,7 @@ export const SelectGalleryPicturesByGalleryId = createSelector(
 );
 
 export const selectGalleryPictureById = createSelector(
-  state => state.pictures.byId,
+  state => state.galleryPictures.byId,
   (state, props) => props.pictureId,
   (picturesById, pictureId) => picturesById[pictureId]
 );

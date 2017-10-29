@@ -9,7 +9,6 @@ import { Link } from 'react-router';
 import CommentView from 'app/components/Comments/CommentView';
 import Modal from 'app/components/Modal';
 import styles from './GalleryPictureModal.css';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Keyboard } from 'app/utils/constants';
 
 type Props = {
@@ -54,39 +53,6 @@ export default class GalleryPictureModal extends Component<Props, State> {
     this.props.push(`/photos/${this.props.gallery.id}`);
   };
 
-  handleKeyDown = (e: KeyboardEvent) => {
-    const { gallery, picture, push } = this.props;
-
-    switch (e.which) {
-      case Keyboard.LEFT: {
-        e.preventDefault();
-        const previousPicture =
-          gallery.pictures[gallery.pictures.indexOf(picture.id) - 1];
-
-        if (previousPicture) {
-          push(`/photos/${gallery.id}/picture/${previousPicture}`);
-        }
-        break;
-      }
-      case Keyboard.RIGHT: {
-        e.preventDefault();
-        const nextPicture =
-          gallery.pictures[gallery.pictures.indexOf(picture.id) + 1];
-
-        if (nextPicture) {
-          push(`/photos/${gallery.id}/picture/${nextPicture}`);
-        }
-        break;
-      }
-      case Keyboard.ESCAPE: {
-        e.preventDefault();
-        push(`/photos/${gallery.id}`);
-        break;
-      }
-      default:
-    }
-  };
-
   render() {
     const {
       picture,
@@ -97,12 +63,11 @@ export default class GalleryPictureModal extends Component<Props, State> {
       gallery
     } = this.props;
     const { showMore } = this.state;
-    if (!picture) return <LoadingIndicator loading />;
+
     return (
       <Modal
         onHide={() => push(`/photos/${gallery.id}`)}
         backdrop
-        onKeyDown={this.handleKeyDown}
         show
         contentClassName={styles.content}
       >
@@ -182,7 +147,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
               </Dropdown>
             </Flex>
 
-            <Flex className={styles.pictureDescription} width="100%">
+            <Flex className={styles.pictureDescription}>
               <p>
                 {picture.description}
                 {picture.taggees.length > 0 && (
@@ -202,8 +167,9 @@ export default class GalleryPictureModal extends Component<Props, State> {
             </Flex>
 
             {picture.commentTarget && (
-              <Flex className={styles.pictureDescription} width="100%">
+              <Flex className={styles.pictureDescription}>
                 <CommentView
+                  style={{ width: '100%' }}
                   formEnabled
                   user={currentUser}
                   commentTarget={picture.commentTarget}

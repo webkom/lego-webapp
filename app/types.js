@@ -35,6 +35,7 @@ export type GalleryPictureEntity = {
 export type GalleryEntity = {
   title: string,
   description?: string,
+  id: number,
   location?: string,
   takenAt?: Date,
   photographers?: EntityID[],

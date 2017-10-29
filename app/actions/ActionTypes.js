@@ -44,6 +44,12 @@ export const Article = {
 /**
  *
  */
+export const GalleryPicture = {
+  FETCH: generateStatuses('GalleryPicture.FETCH'),
+  CREATE: generateStatuses('GalleryPicture.CREATE'),
+  EDIT: generateStatuses('GalleryPicture.EDIT')
+};
+
 export const EmailList = {
   FETCH: generateStatuses('EmailList.FETCH'),
   CREATE: generateStatuses('EmailList.CREATE'),
@@ -81,7 +87,8 @@ export const Gallery = {
   FETCH: generateStatuses('Gallery.FETCH'),
   CREATE: generateStatuses('Gallery.CREATE'),
   EDIT: generateStatuses('Gallery.EDIT'),
-  UPLOAD: generateStatuses('Gallery.UPLOAD')
+  UPLOAD: generateStatuses('Gallery.UPLOAD'),
+  DELETE: generateStatuses('Gallery.DELETE')
 };
 
 /**

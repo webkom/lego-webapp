@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { type Node } from 'react';
 import styles from './EmptyState.css';
 import Icon from '../Icon';
 import cx from 'classnames';
@@ -9,7 +9,7 @@ type Props = {
   /** name of icon */
   icon?: string,
   /** html to display in an EmptyState */
-  children: any,
+  children?: Node,
   size?: number
 };
 

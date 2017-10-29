@@ -1,47 +1,55 @@
 // @flow
 
-import React, { Component } from 'react';
-import Button from 'app/components/Button';
-import { Flex } from 'app/components/Layout';
-import { Link } from 'react-router';
-import Gallery, { type Photo } from 'app/components/Gallery';
-import styles from './Overview.css';
+import React, { Component } from "react";
+import NavigationTab, { NavigationLink } from "app/components/NavigationTab";
+import EmptyState from "app/components/EmptyState";
+import { Content } from "app/components/Layout";
+import Gallery, { type Photo } from "app/components/Gallery";
+import styles from "./Overview.css";
 
 type Props = {
+  fetching: boolean,
+  hasMore: boolean,
   galleries: Array<Photo>,
-  fetchAll: () => Promise<*>,
+  fetch: ({ next?: boolean }) => Promise<*>,
   push: string => Promise<*>
 };
 
 export default class Overview extends Component<Props> {
   render() {
-    const { galleries, push } = this.props;
+    const { galleries, push, hasMore, fetch, fetching } = this.props;
 
     return (
-      <section className={styles.root}>
-        <Flex wrap alignItems="center" justifyContent="space-between">
-          <h1>Alle albumer</h1>
-          <Button>
-            <Link to={'/photos/new'}>Nytt Album</Link>
-          </Button>
-        </Flex>
-
-        <Flex>
-          <Gallery
-            onClick={gallery => push(`/photos/${gallery.id}`)}
-            renderBottom={photo => (
-              <div className={styles.galleryInfo}>
-                <h4 className={styles.galleryTitle}>{photo.title}</h4>
-                <span className={styles.galleryDescription}>{`${
-                  photo.pictureCount
-                } - bilder`}</span>
-              </div>
-            )}
-            photos={galleries}
-            srcKey="cover.file"
-          />
-        </Flex>
-      </section>
+      <Content>
+        <NavigationTab title="Albumer">
+          <NavigationLink to="/photos/new">Nytt album</NavigationLink>
+        </NavigationTab>
+        <Gallery
+          hasMore={hasMore}
+          fetching={fetching}
+          fetchNext={() => fetch({ next: true })}
+          onClick={gallery => push(`/photos/${gallery.id}`)}
+          renderBottom={photo => (
+            <div className={styles.galleryInfo}>
+              <h4 className={styles.galleryTitle}>{photo.title}</h4>
+              <span className={styles.galleryDescription}>{`${
+                photo.pictureCount
+              } - bilder`}</span>
+            </div>
+          )}
+          renderEmpty={() => (
+            <EmptyState icon="photos-outline">
+              <h1>Ingen synlige albumer</h1>
+              <h4>
+                Trykk <a onClick={() => push("/photos/new")}>her</a> for å lage
+                et nytt album
+              </h4>
+            </EmptyState>
+          )}
+          photos={galleries}
+          srcKey="cover.file"
+        />
+      </Content>
     );
   }
 }

@@ -34,10 +34,10 @@ export function fetch(
   };
 }
 
-export function fetchGalleryPicture(galleryId: EntityID) {
+export function fetchGalleryPicture(galleryId: EntityID, pictureId: EntityID) {
   return callAPI({
     types: GalleryPicture.FETCH,
-    endpoint: `/galleries/${galleryId}/`,
+    endpoint: `/galleries/${galleryId}/pictures/${pictureId}`,
     schema: galleryPictureSchema,
     meta: {
       errorMessage: 'Henting av galleri feilet'
@@ -45,66 +45,49 @@ export function fetchGalleryPicture(galleryId: EntityID) {
   });
 }
 
-export function updatePicture(
-  galleryId: EntityID,
-  pictureId: EntityID,
-  { description, active, taggees }: GalleryPictureEntity
-) {
+export function updatePicture(galleryPicture: GalleryPictureEntity) {
   return callAPI({
-    types: GalleryPicture.EDIT_PICTURE,
-    endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
+    types: GalleryPicture.EDIT,
+    endpoint: `/galleries/${galleryPicture.galleryId}/pictures/${galleryPicture.id}/`,
     method: 'PATCH',
     schema: galleryPictureSchema,
-    body: {
-      description,
-      active,
-      taggees
-    },
+    body: galleryPicture,
     meta: {
-      galleryId,
-      pictureId,
+      galleryId: galleryPicture.galleryId,
+      id: galleryPicture.id,
       errorMessage: 'Oppdatering av bilde i galleriet feilet'
     }
   });
 }
 
-export function CreateGalleryPicture({
-  galleryId,
-  active,
-  file,
-  description
-}: GalleryPictureEntity) {
-  return callAPI({
-    types: GalleryPicture.CREATE,
-    endpoint: `/galleries/${galleryId}/pictures/`,
-    method: 'POST',
-    schema: galleryPictureSchema,
-    body: {
-      description,
-      active,
-      file
-    },
-    meta: {
-      galleryId,
-      errorMessage: 'Legg til bilde i galleriet feilet'
-    }
-  });
-}
-
-export function editPicture(galleryId: EntityID, pictureId: EntityID) {
+export function deletePicture(galleryId: EntityID, pictureId: EntityID) {
   return callAPI({
     types: GalleryPicture.EDIT,
     endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
     method: 'DELETE',
     schema: galleryPictureSchema,
     meta: {
-      galleryId,
-      errorMessage: 'Endring av bilde i galleriet feilet'
+      galleryId: galleryId,
+      id: pictureId,
+      errorMessage: 'Oppdatering av bilde i galleriet feilet'
     }
   });
 }
 
-// returns Thunk<any> because callAPI don't really support arrays
+export function CreateGalleryPicture(galleryPicture: GalleryPictureEntity) {
+  return callAPI({
+    types: GalleryPicture.CREATE,
+    endpoint: `/galleries/${galleryPicture.galleryId}/pictures/`,
+    method: 'POST',
+    schema: galleryPictureSchema,
+    body: galleryPicture,
+    meta: {
+      galleryId: galleryPicture.galleryId,
+      errorMessage: 'Legg til bilde i galleriet feilet'
+    }
+  });
+}
+
 export function uploadAndCreateGalleryPicture(
   galleryId: number,
   files: Array<Object>

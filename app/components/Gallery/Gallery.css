@@ -17,6 +17,11 @@
   position: relative;
 }
 
+.img {
+  height: auto;
+  width: 100%;
+}
+
 .overlay {
   top: 0;
   left: 0;

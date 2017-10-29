@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
 import moment from 'moment-timezone';
+import NavigationTab from 'app/components/NavigationTab';
 import Button from 'app/components/Button';
 import {
   TextInput,
@@ -12,7 +13,7 @@ import {
   SelectInput
 } from 'app/components/Form';
 import { Field, reduxForm } from 'redux-form';
-import { Flex } from 'app/components/Layout';
+import { Content, Flex } from 'app/components/Layout';
 import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
 import EmptyState from 'app/components/EmptyState';
@@ -25,27 +26,58 @@ import type { ID, Gallery } from 'app/models';
 
 type Props = {
   isNew: boolean,
-  gallery: Object,
-  pictures: Array<Object>,
-  handleSubmit: Function => void,
-  createGallery: Gallery => Promise<*>,
+  gallery?: Object,
+  pictures?: Array<Object>,
+  submitFunction: Gallery => Promise<*>,
+  handleSubmit: () => void,
   push: string => Promise<*>,
-  updateGallery: (ID, Object) => Promise<*>,
-  deleteGallery: ID => Promise<*>,
-  updateGalleryCover: (number, number) => Promise<*>,
-  updatePicture: (
-    galleryId: ID,
-    photoId: ID,
-    { active: boolean }
-  ) => Promise<*>,
-  deletePicture: (galleryId: ID, photoId: ID) => Promise<*>
+  deleteGallery?: ID => Promise<*>,
+  updateGalleryCover?: (number, number) => Promise<*>,
+  updatePicture?: Object => Promise<*>,
+  deletePicture?: (galleryId: ID, photoId: ID) => Promise<*>
 };
 
 type State = {
   selected: Array<number>
 };
 
+const photoOverlay = (photo: Object, selected: Array<number>) => (
+  <div
+    className={cx(
+      styles.overlay,
+      selected.includes(photo.id) && styles.overlaySelected
+    )}
+  >
+    <Icon
+      className={cx(
+        styles.icon,
+        selected.includes(photo.id) && styles.iconSelected
+      )}
+      name="checkmark"
+      size={32}
+    />
+  </div>
+);
+
+const renderBottom = (photo: Object, gallery: Gallery) => (
+  <Flex className={styles.infoOverlay} justifyContent="space-between">
+    <span>{photo.active ? 'Synlig for brukere' : 'Skjult for brukere'}</span>
+    {photo.id === gallery.cover.id && <span>Cover</span>}
+  </Flex>
+);
+
+const renderEmpty = (gallery: Gallery) => (
+  <EmptyState icon="photos-outline">
+    <h1>Ingen bilder å redigere</h1>
+    <h4>
+      Gå <Link to={`/photos/${gallery.id}`}>hit</Link> for å legge inn bilder
+    </h4>
+  </EmptyState>
+);
+
 class GalleryEditor extends Component<Props, State> {
+  props: Props;
+
   state = {
     selected: []
   };
@@ -59,22 +91,19 @@ class GalleryEditor extends Component<Props, State> {
   };
 
   onSubmit = data => {
-    const body = {
+    const body: Gallery = {
+      id: data.id,
       title: data.title,
       description: data.description,
       takenAt: moment(data.takenAt).format('YYYY-MM-DD'),
       location: data.location,
-      event: data.event && parseInt(data.event.value, 10),
+      event: data.event ? parseInt(data.event.value, 10) : undefined,
       photographers: data.photographers && data.photographers.map(p => p.value)
     };
 
-    if (this.props.isNew) {
-      this.props.createGallery(body).then(({ payload }) => {
-        this.props.push(`/photos/${payload.result}`);
-      });
-    } else {
-      this.props.updateGallery(this.props.gallery.id, body);
-    }
+    this.props.submitFunction(body).then(({ payload }) => {
+      this.props.push(`/photos/${payload.result}`);
+    });
   };
 
   onDeleteGallery = () => {
@@ -102,7 +131,11 @@ class GalleryEditor extends Component<Props, State> {
 
   onTogglePicturesStatus = active => {
     this.state.selected.forEach(photo => {
-      this.props.updatePicture(this.props.gallery.id, photo, { active });
+      this.props.updatePicture({
+        id: photo,
+        galleryId: this.props.gallery.id,
+        active
+      });
     });
 
     this.setState({ selected: [] });
@@ -133,83 +166,88 @@ class GalleryEditor extends Component<Props, State> {
   };
 
   render() {
-    const { pictures, isNew, handleSubmit, gallery } = this.props;
+    const {
+      pictures,
+      isNew,
+      fetch,
+      hasMore,
+      fetching,
+      handleSubmit,
+      gallery
+    } = this.props;
     const { selected } = this.state;
 
     return (
-      <section className={styles.root}>
-        <Flex>
-          <Form className={styles.form} onSubmit={handleSubmit(this.onSubmit)}>
-            <Field
-              placeholder="Title"
-              label="Title"
-              name="title"
-              component={TextInput.Field}
-              id="gallery-title"
-              required
-            />
-            <Field
-              placeholder="Dato"
-              dateFormat="ll"
-              label="Dato"
-              showTimePicker={false}
-              name="takenAt"
-              id="gallery-takenAt"
-              component={DatePicker.Field}
-            />
-            <Field
-              placeholder="Sted"
-              name="location"
-              label="Sted"
-              component={TextInput.Field}
-              id="gallery-location"
-            />
-            <Field
-              label="Fotografer"
-              name="photographers"
-              id="gallery-photographers"
-              filter={['users.user']}
-              placeholder="Skriv inn navn på fotografer"
-              component={SelectInput.AutocompleteField}
-              multi
-            />
-            <Field
-              name="event"
-              filter={['events.event']}
-              label="Event"
-              placeholder="Skriv inn navn på eventet"
-              component={SelectInput.AutocompleteField}
-            />
-            <Field
-              placeholder="Album beskrivelse"
-              label="Beskrivelse"
-              name="description"
-              required
-              component={TextArea.Field}
-              id="gallery-description"
-            />
+      <Content>
+        <NavigationTab title="Nytt album" />
+        <Form onSubmit={handleSubmit(this.onSubmit)}>
+          <Field
+            placeholder="Title"
+            label="Title"
+            name="title"
+            component={TextInput.Field}
+            id="gallery-title"
+            required
+          />
+          <Field
+            placeholder="Dato"
+            dateFormat="ll"
+            label="Dato"
+            showTimePicker={false}
+            name="takenAt"
+            id="gallery-takenAt"
+            component={DatePicker.Field}
+          />
+          <Field
+            placeholder="Sted"
+            name="location"
+            label="Sted"
+            component={TextInput.Field}
+            id="gallery-location"
+          />
+          <Field
+            label="Fotografer"
+            name="photographers"
+            id="gallery-photographers"
+            filter={['users.user']}
+            placeholder="Skriv inn navn på fotografer"
+            component={SelectInput.AutocompleteField}
+            multi
+          />
+          <Field
+            name="event"
+            filter={['events.event']}
+            label="Event"
+            placeholder="Skriv inn navn på eventet"
+            component={SelectInput.AutocompleteField}
+          />
+          <Field
+            placeholder="Album beskrivelse"
+            label="Beskrivelse"
+            name="description"
+            required
+            component={TextArea.Field}
+            id="gallery-description"
+          />
 
-            <Flex
-              className={styles.buttonRow}
-              alignItems="baseline"
-              justifyContent="flex-end"
-            >
-              {!isNew && (
-                <Button
-                  danger
-                  secondary
-                  onClick={this.onDeleteGallery}
-                  className={styles.deleteButton}
-                >
-                  Delete
-                </Button>
-              )}
-              <Button className={styles.submitButton} type="submit" primary>
-                {isNew ? 'Create' : 'Save'}
+          <Flex
+            className={styles.buttonRow}
+            alignItems="baseline"
+            justifyContent="flex-end"
+          >
+            {!isNew && (
+              <Button
+                onClick={this.onDeleteGallery}
+                className={styles.deleteButton}
+              >
+                Delete
               </Button>
-            </Flex>
-          </Form>
-        </Flex>
+            )}
+            <Button className={styles.submitButton} type="submit">
+              {isNew ? 'Create' : 'Save'}
+            </Button>
+          </Flex>
+        </Form>
         <GalleryEditorActions
           selectedCount={selected.length}
           newPicutureStatus={this.pictureStatus()}
@@ -226,49 +264,18 @@ class GalleryEditor extends Component<Props, State> {
           ) : (
             <GalleryComponent
               photos={pictures}
-              renderOverlay={photo => (
-                <div
-                  className={cx(
-                    styles.overlay,
-                    selected.includes(photo.id) && styles.overlaySelected
-                  )}
-                >
-                  <Icon
-                    className={cx(
-                      styles.icon,
-                      selected.includes(photo.id) && styles.iconSelected
-                    )}
-                    name="checkmark"
-                    size={32}
-                  />
-                </div>
-              )}
-              renderBottom={photo => (
-                <Flex
-                  className={styles.infoOverlay}
-                  justifyContent="space-between"
-                >
-                  <span>
-                    {photo.active ? 'Synlig for brukere' : 'Skjult for brukere'}
-                  </span>
-                  {photo.id === gallery.cover.id && <span>Cover</span>}
-                </Flex>
-              )}
-              renderEmpty={() => (
-                <EmptyState icon="photos-outline">
-                  <h1>Ingen bilder å redigere</h1>
-                  <h4>
-                    Gå <Link to={`/photos/${gallery.id}`}>hit</Link> for å legge
-                    inn bilder
-                  </h4>
-                </EmptyState>
-              )}
+              hasMore={hasMore}
+              fetching={fetching}
+              fetchNext={() => fetch(gallery.id, { next: true })}
+              renderOverlay={photo => photoOverlay(photo, selected)}
+              renderBottom={photo => renderBottom(photo, gallery)}
+              renderEmpty={() => renderEmpty(gallery)}
               onClick={this.handleClick}
               srcKey="file"
             />
           )}
         </Flex>
-      </section>
+      </Content>
     );
   }
 }
@@ -280,19 +287,10 @@ export default reduxForm({
     const errors = {};
 
     if (!values.title) {
-      errors.title = 'Du må gi møtet en tittel';
-    }
-    if (!values.report) {
-      errors.report = 'Referatet kan ikke være tomt';
+      errors.title = 'Du må gi albumet en tittel';
     }
     if (!values.location) {
-      errors.location = 'Du må velge en lokasjon for møtet';
-    }
-    if (!values.endTime) {
-      errors.endTime = 'Du må velge starttidspunkt';
-    }
-    if (!values.startTime) {
-      errors.startTime = 'Du må velge sluttidspunkt';
+      errors.location = 'Du må velge en lokasjon for albumet';
     }
 
     return errors;

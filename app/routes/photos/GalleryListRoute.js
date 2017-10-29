@@ -1,22 +1,20 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
-import { fetchAll } from 'app/actions/GalleryActions';
+import prepare from 'app/utils/prepare';
+import { fetch } from 'app/actions/GalleryActions';
 import { push } from 'react-router-redux';
 import Overview from './components/Overview';
 import { selectGalleries } from 'app/reducers/galleries';
 
-function mapStateToProps(state) {
-  return {
-    galleries: selectGalleries(state)
-  };
-}
+const mapStateToProps = state => ({
+  galleries: selectGalleries(state),
+  fetching: state.galleries.fetching,
+  hasMore: state.galleries.hasMore
+});
 
-const mapDispatchToProps = { fetchAll, push };
+const mapDispatchToProps = { fetch, push };
 
 export default compose(
-  dispatched((params, dispatch) => dispatch(fetchAll()), {
-    componentWillReceiveProps: false
-  }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  prepare((props, dispatch) => dispatch(fetch()))
 )(Overview);

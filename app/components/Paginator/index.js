@@ -23,7 +23,7 @@ export default class Paginator extends React.Component<Props> {
 
   render() {
     const { infiniteScroll, hasMore, children, fetching } = this.props;
-    console.log(fetching);
+
     if (infiniteScroll) {
       return (
         <InfiniteScroll

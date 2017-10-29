@@ -1997,7 +1997,7 @@ create-hmac@^1.1.0, create-hmac@^1.1.2, create-hmac@^1.1.4:
     safe-buffer "^5.0.1"
     sha.js "^2.4.8"
 
-create-react-class@^15.5.1, create-react-class@^15.5.2:
+create-react-class@^15.5.1, create-react-class@^15.5.2, create-react-class@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/create-react-class/-/create-react-class-15.6.0.tgz#ab448497c26566e1e29413e883207d57cfe7bed4"
   dependencies:
@@ -6955,6 +6955,12 @@ react-icons@^2.2.7:
   dependencies:
     react-icon-base "2.1.0"
 
+react-image-progressive-loader@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/react-image-progressive-loader/-/react-image-progressive-loader-1.0.1.tgz#e44b36cd027a5403223bf1e8784ce7b65438aa50"
+  dependencies:
+    react "^15.6.1"
+
 react-infinite-scroller@^1.0.15:
   version "1.0.15"
   resolved "https://registry.yarnpkg.com/react-infinite-scroller/-/react-infinite-scroller-1.0.15.tgz#9fad0127be540cb327ea6b0ecb98d164e1a1d3fb"
@@ -7155,6 +7161,16 @@ react-treeview@^0.4.6:
   resolved "https://registry.yarnpkg.com/react-treeview/-/react-treeview-0.4.7.tgz#f647e04f70496eb11fb0912c35187e80eb60d458"
   dependencies:
     prop-types "^15.5.8"
+
+react@^15.6.1:
+  version "15.6.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-15.6.2.tgz#dba0434ab439cfe82f108f0f511663908179aa72"
+  dependencies:
+    create-react-class "^15.6.0"
+    fbjs "^0.8.9"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.0"
+    prop-types "^15.5.10"
 
 react@^16.0.0:
   version "16.0.0"

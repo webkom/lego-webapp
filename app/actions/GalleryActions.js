@@ -3,21 +3,33 @@
 import { Gallery } from './ActionTypes';
 import { gallerySchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
-import createQueryString from 'app/utils/createQueryString';
 import type { EntityID, GalleryEntity } from 'app/types';
 import type { Thunk } from 'app/types';
 
-export function fetchAll(
-  { year, month }: { year: string, month: string } = {}
-) {
-  return callAPI({
-    types: Gallery.FETCH,
-    endpoint: `/galleries/${createQueryString({ year, month })}`,
-    schema: [gallerySchema],
-    meta: {
-      errorMessage: 'Henting av gallerier feilet'
-    }
-  });
+export function fetch(
+  galleryId: number,
+  { next, filters }: { next: boolean, filters: Object } = {}
+): Thunk<*> {
+  return (dispatch, getState) => {
+    const cursor = next ? getState().galleryPictures.pagination.next : {};
+
+    return dispatch(
+      callAPI({
+        types: Gallery.FETCH,
+        endpoint: `/galleries/`,
+        useCache: false,
+        query: {
+          ...cursor,
+          ...filters
+        },
+        schema: [gallerySchema],
+        meta: {
+          errorMessage: 'Henting av epostlister feilet'
+        },
+        propagateError: true
+      })
+    );
+  };
 }
 
 export function fetchGallery(galleryId: EntityID) {
@@ -31,50 +43,26 @@ export function fetchGallery(galleryId: EntityID) {
   });
 }
 
-export function createGallery({
-  title,
-  description,
-  location,
-  takenAt,
-  photographers,
-  event
-}: GalleryEntity) {
+export function createGallery(gallery: GalleryEntity) {
   return callAPI({
     types: Gallery.CREATE,
     endpoint: '/galleries/',
     method: 'POST',
     schema: gallerySchema,
-    body: {
-      title,
-      description,
-      location,
-      event,
-      takenAt,
-      photographers: photographers || []
-    },
+    body: gallery,
     meta: {
       errorMessage: 'Opprettelse av galleri feilet'
     }
   });
 }
 
-export function updateGallery(
-  id: EntityID,
-  { title, description, location, takenAt, photographers, event }: GalleryEntity
-) {
+export function updateGallery(gallery: GalleryEntity) {
   return callAPI({
     types: Gallery.EDIT,
-    endpoint: `/galleries/${id}/`,
+    endpoint: `/galleries/${gallery.id}/`,
     method: 'PUT',
     schema: gallerySchema,
-    body: {
-      title,
-      description,
-      location,
-      takenAt,
-      photographers,
-      event
-    },
+    body: gallery,
     meta: {
       errorMessage: 'Endring av galleri feilet'
     }

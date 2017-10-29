@@ -1,22 +1,21 @@
 // @flow
 
-import React from 'react';
-import GalleryDetailsRow from './GalleryDetailsRow';
-import { Form, TextArea, SelectInput, CheckBox } from 'app/components/Form';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import Button from 'app/components/Button';
-import { Field, reduxForm } from 'redux-form';
-import { Flex } from 'app/components/Layout';
-import { Link } from 'react-router';
-import Modal from 'app/components/Modal';
-import styles from './GalleryPictureModal.css';
+import React from "react";
+import GalleryDetailsRow from "./GalleryDetailsRow";
+import { Form, TextArea, SelectInput, CheckBox } from "app/components/Form";
+import Button from "app/components/Button";
+import { Field, reduxForm } from "redux-form";
+import { Flex } from "app/components/Layout";
+import { Link } from "react-router";
+import Modal from "app/components/Modal";
+import styles from "./GalleryPictureModal.css";
 
 type Props = {
   picture: Object,
   gallery: Object,
   push: string => void,
   handleSubmit: ((Object) => void) => void,
-  updatePicture: (number, number, Object) => Promise<*>,
+  updatePicture: Object => Promise<*>,
   deletePicture: () => Promise<*>,
   onDeleteGallery: () => mixed
 };
@@ -30,16 +29,16 @@ const GalleryPictureEditModal = ({
   onDeleteGallery,
   handleSubmit
 }: Props) => {
-  if (!picture) return <LoadingIndicator loading />;
-
   const onSubmit = data => {
     const body = {
+      id: picture.id,
+      galleryId: gallery.id,
       description: data.description,
       active: data.ative,
       taggees: data.taggees && data.taggees.map(taggee => taggee.value)
     };
 
-    updatePicture(gallery.id, picture.id, body);
+    updatePicture(body);
     push(`/photos/${gallery.id}/picture/${picture.id}`);
   };
 
@@ -89,37 +88,22 @@ const GalleryPictureEditModal = ({
               />
               <Field
                 label="Synlig for alle brukere"
+                placeholder="Synlig for alle brukere"
                 name="active"
                 component={CheckBox.Field}
                 id="gallery-picture-active"
                 normalize={v => !!v}
               />
               <Field
-                label="Brukere"
+                label="Tagg brukere"
                 name="taggees"
                 id="gallery-picture-taggees"
-                filter={['users.user']}
+                filter={["users.user"]}
                 placeholder="Skriv inn navn på brukere i bildet"
                 component={SelectInput.AutocompleteField}
                 multi
               />
-              <Flex
-                className={styles.buttonRow}
-                alignItems="baseline"
-                justifyContent="flex-end"
-              >
-                <Button
-                  danger
-                  secondary
-                  onClick={onDeleteGallery}
-                  className={styles.deleteButton}
-                >
-                  Delete
-                </Button>
-                <Button className={styles.submitButton} type="submit" primary>
-                  Save
-                </Button>
-              </Flex>
+              <Button type="submit">Lagre</Button>
             </Form>
           </Flex>
         </div>
@@ -129,5 +113,5 @@ const GalleryPictureEditModal = ({
 };
 
 export default reduxForm({
-  form: 'galleryPictureEditor'
+  form: "galleryPictureEditor"
 })(GalleryPictureEditModal);

@@ -2,6 +2,7 @@
 
 import React, { PureComponent, type Node } from 'react';
 import { chunk, get } from 'lodash';
+import Img from 'app/components/ProgressiveImage';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Paginator from 'app/components/Paginator';
 import styles from './Gallery.css';
@@ -125,7 +126,18 @@ export default class Gallery extends PureComponent<Props, State> {
               className={styles.galleryPhoto}
             >
               <div className={styles.top}>{top}</div>
-              <img src={src} alt={photo.alt} />
+              <Img
+                src={src}
+                beforeLoadstyle={{
+                  height: '250px',
+                  width: '350px'
+                }}
+                onLoadStyle={{
+                  height: 'auto',
+                  width: '100%'
+                }}
+                alt={photo.alt}
+              />
               <div className={styles.overlay}>{overlay}</div>
               <div className={styles.bottom}>{bottom}</div>
             </div>
@@ -159,9 +171,8 @@ export default class Gallery extends PureComponent<Props, State> {
             </Paginator>
           )}
           {!fetchNext && photoNodes}
-          {!photos.length && renderEmpty && renderEmpty()}
+          {!photos.length && !fetching && renderEmpty && renderEmpty()}
         </div>
-        <LoadingIndicator loading={fetching} />
       </div>
     );
   }
