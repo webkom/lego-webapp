@@ -7,7 +7,7 @@ import callAPI from 'app/actions/callAPI';
 export function fetchPage(pageSlug: string) {
   return callAPI({
     types: Page.FETCH,
-    endpoint: `/pages/${pageSlug}`,
+    endpoint: `/pages/${pageSlug}/`,
     schema: pageSchema,
     meta: {
       errorMessage: 'Henting av side feilet'
