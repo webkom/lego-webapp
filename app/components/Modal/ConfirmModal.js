@@ -2,6 +2,7 @@
 
 import styles from './ConfirmModal.css';
 import React, { type ComponentType, type Node } from 'react';
+import { get } from 'lodash';
 import Modal from 'app/components/Modal';
 import Button from '../Button';
 
@@ -10,7 +11,8 @@ type ConfirmModalProps = {
   onCancel?: () => Promise<*>,
   message: Node,
   title: string,
-  disabled?: boolean
+  disabled?: boolean,
+  errorMessage?: string
 };
 
 export const ConfirmModal = ({
@@ -18,7 +20,8 @@ export const ConfirmModal = ({
   onConfirm,
   onCancel,
   title,
-  disabled = false
+  disabled = false,
+  errorMessage = ''
 }: ConfirmModalProps) => (
   <div className={styles.overlay}>
     <div className={styles.confirmContainer}>
@@ -31,6 +34,7 @@ export const ConfirmModal = ({
         <Button disabled={disabled} onClick={onConfirm}>
           Ja
         </Button>
+        <p style={{ color: 'red' }}>{errorMessage} </p>
       </div>
     </div>
   </div>
@@ -38,13 +42,18 @@ export const ConfirmModal = ({
 
 type State = {
   modalVisible: boolean,
-  working: boolean
+  working: boolean,
+  errorMessage: string
 };
 
 type withModalProps = {
-  /* Close the modal after confirm promise is resolved*/
+  /* Close the modal after confirm promise is resolved 
+   * This should only be used if the component isn't automatically
+   * unmounted when the given promise resolves */
   closeOnConfirm?: boolean,
-  /* Close the modal after confirm promise is resolved*/
+  /* Close the modal after cancel promise is resolved 
+   * This should only be true if the component isn't automatically
+   * unmounted when the given promise resolves */
   closeOnCancel?: boolean,
   children: Node
 };
@@ -60,12 +69,20 @@ export default function withModal<Props>(
     State
   > {
     static displayName = `WithModal(${displayName})`;
-    state = { modalVisible: false, working: false };
+    state = { modalVisible: false, working: false, errorMessage: '' };
 
     toggleModal = () => {
       this.setState(state => ({
         modalVisible: !state.modalVisible
       }));
+      this.stopWorking();
+      this.resetError();
+    };
+
+    hideModal = () => {
+      this.setState({
+        modalVisible: false
+      });
     };
 
     startWorking = () => {
@@ -80,6 +97,18 @@ export default function withModal<Props>(
       });
     };
 
+    setErrorMessage = (errorMessage: string) => {
+      this.setState({
+        errorMessage
+      });
+    };
+
+    resetError = () => {
+      this.setState({
+        errorMessage: ''
+      });
+    };
+
     render() {
       const {
         onConfirm = () => Promise.resolve(),
@@ -91,33 +120,50 @@ export default function withModal<Props>(
         ...props
       } = this.props;
 
-      const modalOnConfirm = () => {
-        this.startWorking();
-        return onConfirm().then(result => {
-          this.stopWorking();
-          closeOnConfirm && this.state.modalVisible && this.toggleModal();
-          return result;
-        });
+      const wrapAction = (action: () => Promise<*>, closeWhenDone: boolean) => {
+        return () => {
+          this.startWorking();
+          return action().then(
+            result => {
+              if (closeWhenDone) {
+                this.stopWorking();
+                this.hideModal();
+                this.resetError();
+              }
+              return result;
+            },
+            error => {
+              this.stopWorking();
+              const errorMessage =
+                get(error, ['meta', 'errorMessage']) ||
+                'Det skjedde en feil...';
+              this.setErrorMessage(errorMessage);
+              throw error;
+            }
+          );
+        };
       };
 
-      const modalOnCancel = () => {
-        this.startWorking();
-        return onCancel().then(result => {
-          this.stopWorking();
-          closeOnCancel && this.state.modalVisible && this.toggleModal();
-          return result;
-        });
-      };
+      const modalOnConfirm = wrapAction(onConfirm, closeOnConfirm);
+      const modalOnCancel = wrapAction(onCancel, closeOnCancel);
+
+      const { working, errorMessage } = this.state;
 
       return [
         <WrappedComponent key={0} {...props} onClick={this.toggleModal} />,
-        <Modal key={1} show={this.state.modalVisible} onHide={this.toggleModal}>
+        <Modal
+          closeOnBackdropClick={!working}
+          key={1}
+          show={this.state.modalVisible}
+          onHide={this.toggleModal}
+        >
           <ConfirmModal
             onCancel={modalOnCancel}
             onConfirm={modalOnConfirm}
             message={message}
             title={title}
-            disabled={this.state.working}
+            disabled={working}
+            errorMessage={errorMessage}
           />
         </Modal>
       ];
