@@ -120,7 +120,7 @@ export default class Gallery extends PureComponent<Props, State> {
 
           return (
             <div
-              key={`${columnIndex}-${rowIndex}`}
+              key={photo.id}
               style={{ margin }}
               onClick={() => this.onClick(photo)}
               className={styles.galleryPhoto}

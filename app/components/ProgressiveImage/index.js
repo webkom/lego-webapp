@@ -1,6 +1,6 @@
 //@flow
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 type Props = {
   src: string,
@@ -21,7 +21,7 @@ type State = {
   style: Object
 };
 
-export default class ProgressiveImage extends Component<Props, Style> {
+export default class ProgressiveImage extends PureComponent<Props, Style> {
   props: Props;
 
   state: State = {

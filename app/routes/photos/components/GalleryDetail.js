@@ -1,5 +1,6 @@
 // @flow
 
+import NavigationTab, { NavigationLink } from "app/components/NavigationTab";
 import React, { Component, cloneElement, type Node } from "react";
 import GalleryDetailsRow from "./GalleryDetailsRow";
 import NavigationTab, { NavigationLink } from "app/components/NavigationTab";
@@ -9,7 +10,6 @@ import { Content } from "app/components/Layout";
 import Gallery from "app/components/Gallery";
 import type { DropFile } from "app/components/Upload";
 import type { Photo, ID } from "app/models";
-import NavigationTab, { NavigationLink } from "app/components/NavigationTab";
 
 type Props = {
   gallery: Object,

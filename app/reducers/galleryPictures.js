@@ -8,7 +8,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 export type GalleryPictureEntity = {
   id: number,
   title: string,
-  galleryId: number,
+  gallery: number,
   description: string,
   text: string,
   comments: Array<number>

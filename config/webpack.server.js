@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const StartServerPlugin = require('start-server-webpack-plugin');
-
+const DashboardPlugin = require('webpack-dashboard/plugin');
 const root = path.resolve(__dirname, '..');
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -40,6 +40,7 @@ module.exports = {
   },
 
   plugins: [
+    !isProduction && new DashboardPlugin(),
     !isProduction && new StartServerPlugin('server.js'),
     !isProduction && new webpack.HotModuleReplacementPlugin(),
     new webpack.optimize.MinChunkSizePlugin({

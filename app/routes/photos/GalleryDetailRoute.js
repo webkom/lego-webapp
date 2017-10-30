@@ -15,6 +15,7 @@ import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
 function mapStateToProps(state, props) {
   const { galleryId } = props.params;
 
+  console.log(SelectGalleryPicturesByGalleryId(state, { galleryId }));
   return {
     gallery: selectGalleryById(state, { galleryId }),
     pictures: SelectGalleryPicturesByGalleryId(state, { galleryId }),
