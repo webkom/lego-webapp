@@ -60,8 +60,11 @@ export default class NotificationsDropdown extends Component<Props, State> {
   renderNotifications = (notifications: Array<Object>) => {
     return (
       <div>
-        {notifications.map((notification, i) => (
-          <NotificationElement key={i} notification={notification} />
+        {notifications.map(notification => (
+          <NotificationElement
+            key={notification.id}
+            notification={notification}
+          />
         ))}
       </div>
     );
