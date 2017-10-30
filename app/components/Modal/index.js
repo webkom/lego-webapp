@@ -51,6 +51,7 @@ class Modal extends Component<Props> {
         onHide={onHide}
         show={show}
         backdrop={closeOnBackdropClick ? backdrop : false}
+        autoFocus={false}
         {...props}
       >
         <div>
