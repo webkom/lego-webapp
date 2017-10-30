@@ -6,6 +6,7 @@
   flex-direction: row;
   align-items: center;
   padding: 20px;
+  margin-bottom: 15px;
 }
 
 .inlineForm {
