@@ -19,9 +19,8 @@ const FILE_NAME_LENGTH = 30;
 
 type Props = {
   semesterStatus: SemesterStatusEntity,
-  index: number,
   companyId: number,
-  deleteSemesterStatus: number => ?Promise<*>,
+  deleteSemesterStatus: number => Promise<*>,
   editFunction: (
     semesterStatus: SemesterStatusEntity,
     statusString: CompanySemesterContactedStatus
@@ -38,9 +37,8 @@ export default class SemesterStatusDetail extends Component<Props, State> {
     editing: false
   };
 
-  deleteSemesterStatus = (id: number) => {
-    this.props.deleteSemesterStatus(id);
-  };
+  deleteSemesterStatus = () =>
+    this.props.deleteSemesterStatus(this.props.semesterStatus.id);
 
   addFile = (fileName: string, fileToken: string, type: string) => {
     this.props.addFileToSemester(
@@ -63,16 +61,21 @@ export default class SemesterStatusDetail extends Component<Props, State> {
   fileNameToShow = (name: string, url?: string) =>
     name ? <a href={url}>{truncateString(name, FILE_NAME_LENGTH)}</a> : '-';
 
+  semesterToHumanReadable = () => {
+    const { year, semester } = this.props.semesterStatus;
+    const semesterName = semesterCodeToName(semester);
+    return `${year} ${semesterName}`;
+  };
+
   render() {
-    const { semesterStatus, index, editFunction } = this.props;
+    const { semesterStatus, editFunction } = this.props;
 
     if (!semesterStatus) return <LoadingIndicator />;
 
+    const humanReadableSemester = this.semesterToHumanReadable();
     return (
-      <tr key={index}>
-        <td>
-          {semesterStatus.year} {semesterCodeToName(semesterStatus.semester)}
-        </td>
+      <tr key={semesterStatus.id}>
+        <td>{humanReadableSemester}</td>
         <td
           className={
             styles[
@@ -116,8 +119,9 @@ export default class SemesterStatusDetail extends Component<Props, State> {
             </a>
             <ConfirmModalWithParent
               title="Slett semesterstatus"
-              message="Er du sikker på at du vil slette denne semesterstatusen? Alle filer for dette semesteret vil bli slettet."
-              onConfirm={() => this.deleteSemesterStatus(semesterStatus.id)}
+              message={`Er du sikker på at du vil slette semesterstatusen for ${humanReadableSemester}? Alle filer for dette semesteret vil bli slettet.`}
+              onConfirm={this.deleteSemesterStatus}
+              closeOnConfirm
             >
               <i className="fa fa-times" style={{ color: '#d13c32' }} />
             </ConfirmModalWithParent>

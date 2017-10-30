@@ -30,7 +30,7 @@ type Props = {
   autoFocus: any,
   fetching: boolean,
   submitFunction: (SubmitCompanyEntity, ?number) => Promise<*>,
-  deleteCompany: number => ?Promise<*>
+  deleteCompany: number => Promise<*>
 };
 
 class CompanyEditor extends Component<Props> {
