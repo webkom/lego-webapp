@@ -32,5 +32,6 @@
 
 .bekk {
   width: 100px;
-  margin: 0 auto;
+  height: auto;
+  margin: 10px auto 15px;
 }
