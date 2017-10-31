@@ -3,10 +3,10 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import styles from './AnnouncementsList.css';
-import LoadingIndicator from 'app/components/LoadingIndicator/';
 import Flex from 'app/components/Layout/Flex';
 import AnnouncementItem from './AnnouncementItem';
 import AnnouncementsCreate from './AnnouncementsCreate';
+import { Content } from 'app/components/Layout';
 
 type Props = {
   announcement: Object,
@@ -32,12 +32,8 @@ const AnnouncementsList = ({
   pristine,
   submitting
 }: Props) => {
-  if (announcements.fetching) {
-    return <LoadingIndicator loading />;
-  }
-
   return (
-    <div className={styles.root}>
+    <Content>
       <Helmet title="Kunngjøringer" />
       <AnnouncementsCreate
         createAnnouncement={createAnnouncement}
@@ -60,7 +56,7 @@ const AnnouncementsList = ({
             </Flex>
           </Flex>
         )}
-    </div>
+    </Content>
   );
 };
 

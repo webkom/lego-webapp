@@ -28,7 +28,7 @@ export function createAnnouncement(
     send
   }: Object /*AnnouncementModel*/
 ): Thunk<*> {
-  return dispatch => {
+  return dispatch =>
     dispatch(
       callAPI({
         types: Announcements.CREATE,
@@ -56,7 +56,6 @@ export function createAnnouncement(
         const errors = { ...action.error.response.jsonData };
         dispatch(stopSubmit('AnnouncementsCreate', errors));
       });
-  };
 }
 
 export function sendAnnouncement(announcementId: number) {

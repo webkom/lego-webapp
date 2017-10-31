@@ -10,17 +10,21 @@ import { createAnnouncement } from 'app/actions/AnnouncementsActions';
 import styles from './AnnouncementInLine.css';
 
 type Props = {
-  label?: string,
+  placeholder?: string,
   event?: number,
   meeting?: number,
   group?: number,
   createAnnouncement: (...any) => void,
-  handleSubmit: () => void,
+  handleSubmit: Function => void,
   actionGrant: boolean,
   hidden?: boolean
 };
 
-class AnnouncementInLine extends Component {
+type State = {
+  hidden: boolean
+};
+
+class AnnouncementInLine extends Component<Props, State> {
   props: Props;
   state = {
     hidden: true
@@ -36,33 +40,28 @@ class AnnouncementInLine extends Component {
     });
   };
 
-  handleHide = current => {
-    this.setState({
-      hidden: !current
-    });
+  handleHide = () => {
+    this.setState(prevState => ({
+      hidden: !prevState.hidden
+    }));
   };
 
   render() {
     const {
       actionGrant,
       handleSubmit,
-      label,
+      placeholder,
       event,
       meeting,
       group
     } = this.props;
-
     return (
       <div>
         {actionGrant &&
           (event || meeting || group) && (
             <div>
-              <a
-                onClick={() => this.handleHide(this.state.hidden)}
-                className={styles.label}
-              >
-                {' '}
-                {label || 'Ny kunngjøring'}{' '}
+              <a onClick={this.handleHide} className={styles.label}>
+                Ny kunngjøring
               </a>
               {!this.state.hidden && (
                 <Form
@@ -73,7 +72,7 @@ class AnnouncementInLine extends Component {
                   <Field
                     name="message"
                     component={TextArea.Field}
-                    placeholder="Skriv din kunngjøring her..."
+                    placeholder={placeholder || 'Skriv din kunngjøring her...'}
                     className={styles.field}
                   />
                   <Button submit className={styles.button}>
@@ -101,7 +100,7 @@ export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   reduxForm({
     form: 'announcementInline',
-    onSubmitSuccess: resetForm(),
+    onSubmitSuccess: resetForm,
     validate(values) {
       const errors = {};
       if (!values.message) {

@@ -7,6 +7,15 @@ import { Form, SelectInput, TextArea } from 'app/components/Form';
 import { reduxForm, Field, reset } from 'redux-form';
 import Button from 'app/components/Button';
 
+type Props = {
+  createAnnouncement: (...any) => void,
+  actionGrant: Array<string>,
+  handleSubmit: Function => void,
+  invalid: boolean,
+  pristine: boolean,
+  submitting: boolean
+};
+
 const AnnouncementsCreate = ({
   createAnnouncement,
   actionGrant,
@@ -15,7 +24,7 @@ const AnnouncementsCreate = ({
   pristine,
   submitting
 }: Props) => {
-  const disabledButton = invalid | pristine | submitting;
+  const disabledButton = invalid || pristine || submitting;
 
   const onSubmit = (announcement, send = false) => {
     return createAnnouncement({

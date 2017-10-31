@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import type { ID, Event, ActionGrant } from 'app/models';
+import AnnouncementInLine from 'app/components/AnnouncementInLine';
 
 type Props = {
   deleteEvent: (eventId: ID) => mixed,
@@ -44,6 +45,12 @@ export default class Admin extends Component<Props, State> {
                 <Link to={`/events/${event.id}/administrate`}>Påmeldinger</Link>
               </li>
             )}
+            <li>
+              <AnnouncementInLine
+                placeholder="Skriv en kunngjøring til alle påmeldte..."
+                event={event.id}
+              />
+            </li>
             {canEdit && (
               <li>
                 <Link to={`/events/${event.id}/edit`}>Rediger</Link>

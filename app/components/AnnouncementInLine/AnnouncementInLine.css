@@ -8,10 +8,10 @@
 .field {
   font: inherit;
   font-size: 80%;
-  margin-bottom: 0;
+  margin-bottom: 0 !important;
 }
 
 .label {
   font: inherit;
-  color: inherit;
+  color: #c0392b;
 }
