@@ -13,17 +13,16 @@ import Feed from './Feed';
 import CompactEvents from './CompactEvents';
 import { EVENT_TYPE_TO_STRING, colorForEvent } from 'app/routes/events/utils';
 import Button from 'app/components/Button';
-import type { Event } from 'app/models';
 
 const TITLE_MAX_LENGTH = 50;
 const DESCRIPTION_MAX_LENGTH = 140;
 const IMAGE_HEIGHT = 192;
 
-function PrimaryItem({ event }: { event: ?Event }) {
-  if (!event) {
+function PrimaryItem({ item }: { item: ?Object }) {
+  if (!item) {
     return (
       <Flex column className={styles.primaryItem}>
-        <h2 className="u-ui-heading">Festet arrangement</h2>
+        <h2 className="u-ui-heading">Festet oppslag</h2>
         <Flex column className={styles.innerPrimaryItem}>
           <Image
             style={{ height: IMAGE_HEIGHT, display: 'block' }}
@@ -31,41 +30,42 @@ function PrimaryItem({ event }: { event: ?Event }) {
             src={'https://i.redd.it/dz8mwvl4dgdy.jpg'}
           />
           <div className={styles.pinnedHeading}>
-            <h2 className={styles.itemTitle}>Ingen arrangementer</h2>
+            <h2 className={styles.itemTitle}>Ingen oppslag</h2>
           </div>
         </Flex>
       </Flex>
     );
   }
+  const base = item.eventType ? 'events' : 'articles';
   return (
     <Flex column className={styles.primaryItem}>
-      <h2 className="u-ui-heading">Festet arrangement</h2>
+      <h2 className="u-ui-heading">Festet oppslag</h2>
       <Flex column className={styles.innerPrimaryItem}>
         <Link
-          to={`/events/${event.id}`}
+          to={`/${base}/${item.id}`}
           style={{ height: IMAGE_HEIGHT, display: 'block' }}
         >
-          <Image className={styles.image} src={event.cover} />
+          <Image className={styles.image} src={item.cover} />
         </Link>
         <div className={styles.pinnedHeading}>
           <h2 className={styles.itemTitle}>
-            <Link to={`/events/${event.id}`}>{event.title}</Link>
+            <Link to={`/${base}/${item.id}`}>{item.title}</Link>
           </h2>
 
           <span className={styles.itemInfo}>
-            {event.startTime && (
-              <Time time={event.startTime} format="DD.MM HH:mm" />
+            {item.startTime && (
+              <Time time={item.startTime} format="DD.MM HH:mm" />
             )}
-            {event.location !== '-' && (
+            {item.location !== '-' && (
               <span>
                 <span className={styles.dot}> · </span>
-                <span>{event.location}</span>
+                <span>{item.location}</span>
               </span>
             )}
-            {event.eventType && (
+            {item.eventType && (
               <span>
                 <span className={styles.dot}> · </span>
-                <span>{EVENT_TYPE_TO_STRING(event.eventType)}</span>
+                <span>{EVENT_TYPE_TO_STRING(item.eventType)}</span>
               </span>
             )}
           </span>
@@ -157,7 +157,7 @@ export default class Overview extends Component<Props, State> {
         <Flex wrap style={{ justifyContent: 'space-between' }}>
           <Flex column style={{ flex: 2 }}>
             <CompactEvents events={frontpage.filter(isEvent)} />
-            <PrimaryItem event={frontpage[0]} />
+            <PrimaryItem item={frontpage[0]} />
           </Flex>
           <Feed style={{ flex: 2 }} feed={feed} feedItems={feedItems} />
         </Flex>
