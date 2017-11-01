@@ -42,35 +42,24 @@ export default class SemesterStatusDetail extends Component<Props, State> {
   deleteSemesterStatus = () =>
     this.props.deleteSemesterStatus(this.props.semesterStatus.id);
 
-  addFile = (fileName: string, fileToken: string, type: string) => {
-    this.props.addFileToSemester(
-      fileName,
-      fileToken,
-      type,
-      this.props.semesterStatus
-    );
-    this.setState({ editing: false });
-  };
-
-  removeFile = (type: string) =>
-    this.props.removeFileFromSemester(this.props.semesterStatus, type);
-
-  uploadButton = (type: string) => (
-    <FileUpload
-      onChange={(fileName, fileToken) =>
-        this.addFile(fileName, fileToken, type)}
-      className={styles.uploadButton}
-    />
-  );
-
-  fileNameToShow = (name: string, url?: string) =>
-    name ? <a href={url}>{truncateString(name, FILE_NAME_LENGTH)}</a> : '-';
-
   semesterToHumanReadable = () => {
     const { year, semester } = this.props.semesterStatus;
     const semesterName = semesterCodeToName(semester);
     return `${year} ${semesterName}`;
   };
+
+  addFile = (fileName: string, fileToken: string, type: string) => {
+    this.setState({ editing: false });
+    return this.props.addFileToSemester(
+      fileName,
+      fileToken,
+      type,
+      this.props.semesterStatus
+    );
+  };
+
+  removeFile = (type: string) =>
+    this.props.removeFileFromSemester(this.props.semesterStatus, type);
 
   render() {
     const { semesterStatus, editFunction } = this.props;
@@ -78,33 +67,6 @@ export default class SemesterStatusDetail extends Component<Props, State> {
     if (!semesterStatus) return <LoadingIndicator />;
 
     const humanReadableSemester = this.semesterToHumanReadable();
-
-    const renderFile = (type: string) => {
-      const fileName = this.fileNameToShow(
-        semesterStatus[type + 'Name'],
-        semesterStatus[type]
-      );
-
-      if (this.state.editing && semesterStatus[type]) {
-        return (
-          <span className={styles.deleteFile}>
-            <span>{fileName}</span>
-            <ConfirmModalWithParent
-              title="Slett fil"
-              message="Er du sikker på at du vil slette denne filen?"
-              onConfirm={() => this.removeFile(type)}
-              closeOnConfirm
-            >
-              <i className="fa fa-times" style={{ color: '#d13c32' }} />
-            </ConfirmModalWithParent>
-          </span>
-        );
-      }
-      if (this.state.editing) {
-        return this.uploadButton(type);
-      }
-      return fileName;
-    };
 
     return (
       <tr key={semesterStatus.id}>
@@ -128,7 +90,13 @@ export default class SemesterStatusDetail extends Component<Props, State> {
 
         {['contract', 'statistics', 'evaluation'].map(type => (
           <td key={type}>
-            <span>{renderFile(type)}</span>
+            <RenderFile
+              semesterStatus={semesterStatus}
+              type={type}
+              addFile={this.addFile}
+              removeFile={this.removeFile}
+              editing={this.state.editing}
+            />
           </td>
         ))}
         <td>
@@ -158,3 +126,52 @@ export default class SemesterStatusDetail extends Component<Props, State> {
     );
   }
 }
+
+type RenderFileProps = {
+  semesterStatus: SemesterStatusEntity,
+  type: string,
+  removeFile: string => Promise<*>,
+  addFile: (string, string, string) => Promise<*>,
+  editing: boolean
+};
+
+const RenderFile = (props: RenderFileProps) => {
+  const { semesterStatus, type, removeFile, addFile, editing } = props;
+
+  const uploadButton = (type: string) => (
+    <FileUpload
+      onChange={(fileName, fileToken) => addFile(fileName, fileToken, type)}
+      className={styles.uploadButton}
+    />
+  );
+
+  const fileNameToShow = (name: string, url?: string) =>
+    name ? <a href={url}>{truncateString(name, FILE_NAME_LENGTH)}</a> : '-';
+
+  const fileName = fileNameToShow(
+    semesterStatus[type + 'Name'],
+    semesterStatus[type]
+  );
+
+  const displayDeleteButton = editing && semesterStatus[type];
+  const displayUploadButton = editing && !semesterStatus[type];
+
+  if (displayDeleteButton) {
+    return (
+      <span className={styles.deleteFile}>
+        <span>{fileName}</span>
+        <ConfirmModalWithParent
+          title="Slett fil"
+          message="Er du sikker på at du vil slette denne filen?"
+          onConfirm={() => removeFile(type)}
+          closeOnConfirm
+        >
+          <i className="fa fa-times" style={{ color: '#d13c32' }} />
+        </ConfirmModalWithParent>
+      </span>
+    );
+  } else if (displayUploadButton) {
+    return uploadButton(type);
+  }
+  return fileName;
+};
