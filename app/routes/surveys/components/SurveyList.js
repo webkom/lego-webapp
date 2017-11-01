@@ -2,7 +2,7 @@
 
 import React from 'react';
 import styles from './surveys.css';
-import Survey from './Survey';
+import SurveyItem from './SurveyItem';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 
@@ -15,7 +15,7 @@ const SurveyList = (props: Props) => {
   const { surveys, fetching } = props;
 
   const surveys_to_render = surveys.map(survey => (
-    <Survey key={survey.id} survey={survey} />
+    <SurveyItem key={survey.id} survey={survey} />
   ));
 
   return (

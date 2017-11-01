@@ -22,11 +22,9 @@ export const DetailNavigation = ({
   deleteFunction: number => Promise<*>
 }) => (
   <NavigationTab title={title}>
-    <NavigationLink to="/surveys">Tilbake til liste</NavigationLink>
-    <NavigationLink to={`/surveys/${surveyId}`}>
-      Undersøkelsens side
-    </NavigationLink>
-    <NavigationLink to="/surveys/add">Ny undersøkelse</NavigationLink>
+    <NavigationLink to="/surveys">Liste</NavigationLink>
+    <NavigationLink to={`/surveys/${surveyId}`}>Undersøkelsen</NavigationLink>
+    <NavigationLink to="/surveys/add">Ny</NavigationLink>
     <NavigationLink to={`/surveys/${surveyId}/edit`}>Endre</NavigationLink>
     <ConfirmModalWithParent
       title="Slett undersøkelse"

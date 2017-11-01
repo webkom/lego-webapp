@@ -8,7 +8,7 @@ import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const loadData = ({ params: { surveyId } }, dispatch) =>
-  dispatch(dispatch(fetch(surveyId)));
+  dispatch(fetch(surveyId));
 
 const mapStateToProps = (state, props) => {
   const surveyId = Number(props.params.surveyId);

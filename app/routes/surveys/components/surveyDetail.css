@@ -1,0 +1,18 @@
+@import './surveys.css';
+
+.surveyDetail {
+}
+
+.coverImage {
+  composes: contentContainer from 'app/styles/utilities.css';
+  padding: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+
+  img {
+    object-fit: cover;
+  }
+}

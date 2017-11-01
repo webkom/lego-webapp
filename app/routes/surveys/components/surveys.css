@@ -1,9 +1,5 @@
 @import 'app/styles/variables.css';
 
-.root {
-  composes: contentContainer from 'app/styles/utilities.css';
-}
-
 .heading {
   color: #777;
   letter-spacing: 2px;
@@ -28,6 +24,7 @@
   margin-bottom: 15px;
   display: flex;
   justify-content: space-between;
+  border-color: var(--color-orange-5);
 }
 
 .surveyItemTitle {
@@ -58,6 +55,7 @@
   display: inline;
   margin-right: 20px;
   padding-top: 3px;
+  margin-bottom: 40px;
 }
 
 .search input {

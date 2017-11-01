@@ -4,35 +4,39 @@ import React from 'react';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import { Image } from 'app/components/Image';
-import styles from './surveys.css';
+import styles from './surveyDetail.css';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import { DetailNavigation } from '../utils.js';
+import Content from 'app/components/Layout/Content';
 
 type Props = {
   survey: SurveyEntity,
-  fetching: boolean
+  fetching: boolean,
+  deleteSurvey: number => Promise<*>
 };
 
 const SurveyDetail = (props: Props) => {
-  const { survey, fetching } = props;
+  const { survey, fetching, deleteSurvey } = props;
 
-  if (fetching) return <LoadingIndicator />;
+  if (fetching || !survey || !survey.event) return <LoadingIndicator />;
   return (
-    <div className={styles.surveyItem}>
-      <div>
-        <Link to={`/surveys/${String(survey.id)}`}>
-          <h3 className={styles.surveyItemTitle}>{survey.title}</h3>
-        </Link>
+    <div>
+      <div className={styles.coverImage}>
+        <Image src={survey.event.cover} />
+      </div>
+
+      <Content className={styles.surveyDetail}>
+        <DetailNavigation
+          title={`Spørreundersøkelse for ${survey.event.title}`}
+          surveyId={Number(survey.id)}
+          deleteFunction={deleteSurvey}
+        />
 
         <div className={styles.surveyTime}>
-          Aktiv fra
-          <Time time={survey.activeFrom} format="ll HH:mm" />
+          Aktiv fra <Time time={survey.activeFrom} format="ll HH:mm" />
         </div>
-      </div>
-
-      <div className={styles.companyLogo}>
-        <Image src={survey.event.thumbnail} />
-      </div>
+      </Content>
     </div>
   );
 };

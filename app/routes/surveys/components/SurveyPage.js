@@ -7,7 +7,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import { ListNavigation } from '../utils.js';
 import TextInput from 'app/components/Form/TextInput';
-import OptionsBox from './OptionsBox';
+import Content from 'app/components/Layout/Content';
 
 type Props = {
   surveys: Array<SurveyEntity>,
@@ -18,7 +18,6 @@ type Props = {
 };
 
 type State = {
-  filters: { [key: string]: Object },
   searchQuery: string
 };
 
@@ -28,52 +27,13 @@ export default class SurveyPage extends Component<Props, State> {
     searchQuery: ''
   };
 
-  updateFilters = (title: string, value: mixed) => {
-    // For OptionsBox
-    const filters = { ...this.state.filters, [title]: value };
-    this.setState({ filters });
-  };
-
-  removeFilters = (title: string) => {
-    // For OptionsBox
-    const filters = { ...this.state.filters, [title]: undefined };
-    this.setState({ filters });
-  };
-
   surveySearch = (surveys: Array<Object>) =>
     surveys.filter(survey =>
       survey.title.toLowerCase().includes(this.state.searchQuery.toLowerCase())
     );
 
-  filterSurveys = (surveys: Array<Object>) => {
-    if (this.state.searchQuery !== '') {
-      surveys = this.surveySearch(surveys);
-    }
-    const { filters } = this.state;
-
-    return surveys.filter(survey => {
-      // Using 'for of' here. Probably a cleaner way to do it, but I couldn't think of one
-
-      for (const key of Object.keys(filters)) {
-        const filterShouldApply = filters[key] !== undefined;
-        if (
-          filterShouldApply &&
-          (survey[key] === undefined || survey[key] === null)
-        )
-          return false;
-
-        const shouldFilterById =
-          filterShouldApply && survey[key].id && filters[key].id;
-        const regularFilter = !shouldFilterById && survey[key] !== filters[key];
-        const idFilter = shouldFilterById && survey[key].id !== filters[key].id;
-
-        if (filterShouldApply && (regularFilter || idFilter)) {
-          return false;
-        }
-      }
-      return true;
-    });
-  };
+  filterSurveys = (surveys: Array<Object>) =>
+    this.state.searchQuery !== '' ? this.surveySearch(surveys) : surveys;
 
   updateSearchQuery = (event: Object) => {
     const searchQuery = event.target.value;
@@ -95,7 +55,7 @@ export default class SurveyPage extends Component<Props, State> {
       }
     };
     return (
-      <div className={styles.root}>
+      <Content>
         <ListNavigation title="Spørreundersøkelser" />
 
         <div className={styles.search}>
@@ -106,15 +66,8 @@ export default class SurveyPage extends Component<Props, State> {
           />
         </div>
 
-        <OptionsBox
-          surveys={surveys}
-          updateFilters={this.updateFilters}
-          removeFilters={this.removeFilters}
-          filters={this.state.filters}
-        />
-
         <SurveyList surveys={filteredSurveys} fetching={fetching} />
-      </div>
+      </Content>
     );
   }
 }
