@@ -74,6 +74,12 @@ const LINKS: Array<Link> = [
   },
   {
     admin: true,
+    key: 'surveys',
+    title: 'Undersøkelser',
+    url: '/surveys'
+  },
+  {
+    admin: true,
     key: 'announcements',
     title: 'Kunngjøringer',
     url: '/announcements'

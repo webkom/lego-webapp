@@ -1,0 +1,80 @@
+@import 'app/styles/variables.css';
+
+.root {
+  composes: contentContainer from 'app/styles/utilities.css';
+}
+
+.heading {
+  color: #777;
+  letter-spacing: 2px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 20px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.noSurveys {
+  color: #777;
+  letter-spacing: 2px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 20px;
+}
+
+.surveyItem {
+  padding-left: 20px;
+  border-left: 4px solid transparent;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.surveyItemTitle {
+  color: #333;
+  font-weight: 700;
+  margin: 0;
+  word-break: break-word;
+}
+
+.surveyGroup {
+  margin-bottom: 40px;
+}
+
+.surveyTime {
+  color: #777;
+}
+
+.bottomBorder {
+  margin-top: 40px;
+  border-top: 1px solid #ddd;
+}
+
+.search {
+  display: flex;
+}
+
+.search h2 {
+  display: inline;
+  margin-right: 20px;
+  padding-top: 3px;
+}
+
+.search input {
+  width: 200px;
+  height: 45px;
+}
+
+.companyLogo {
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.companyLogo img {
+  min-width: 120px;
+  height: 80px;
+  object-fit: contain;
+}

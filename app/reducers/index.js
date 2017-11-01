@@ -39,6 +39,7 @@ import joblistings from './joblistings';
 import announcements from './announcements';
 import feedActivities from './feedActivities';
 import feeds from './feeds';
+import surveys from './surveys';
 import fetchHistory from './fetchHistory';
 import { User } from '../actions/ActionTypes';
 import reduceReducers from 'app/utils/joinReducers';
@@ -80,7 +81,8 @@ const reducers = {
   feeds,
   fetchHistory,
   companies,
-  companySemesters
+  companySemesters,
+  surveys
 };
 
 export type Reducers = typeof reducers;
@@ -181,4 +183,8 @@ export const meetingSchema = new schema.Entity('meetings', {
 export const frontpageSchema = new schema.Entity('frontpage', {
   events: [eventSchema],
   articles: [articleSchema]
+});
+export const surveySchema = new schema.Entity('surveys', {
+  user: userSchema,
+  events: [eventSchema]
 });
