@@ -1,7 +1,8 @@
 //@flow
 
 import React from 'react';
-import { Flex, Content } from 'app/components/Layout';
+import { Flex } from 'app/components/Layout';
+import { Content } from 'app/components/Content';
 import Button from 'app/components/Button';
 import { reduxForm } from 'redux-form';
 import { type UserEntity } from 'app/reducers/users';

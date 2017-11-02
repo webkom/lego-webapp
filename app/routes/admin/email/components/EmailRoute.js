@@ -3,7 +3,7 @@
 import React, { type Node } from 'react';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
-import { Content } from 'app/components/Layout/Content';
+import { Content } from 'app/components/Content';
 import { Link } from 'react-router';
 
 type Props = {

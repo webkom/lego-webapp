@@ -12,7 +12,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field, SubmissionError, FieldArray } from 'redux-form';
 import type { FieldProps } from 'redux-form';
 import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
-import { Content } from 'app/components/Layout';
+import { Content } from 'app/components/Content';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 
 import { createValidator, required, isEmail } from 'app/utils/validation';

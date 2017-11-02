@@ -29,7 +29,7 @@ import {
   ContentSection,
   ContentMain,
   ContentSidebar
-} from 'app/components/Layout/Content';
+} from 'app/components/Content';
 import Tooltip from 'app/components/Tooltip';
 import type { ID } from 'app/models';
 

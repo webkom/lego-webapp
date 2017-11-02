@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Link } from 'react-router';
-import { Content } from 'app/components/Layout';
+import { Content } from 'app/components/Content';
 
 type Page = {
   slug: string,

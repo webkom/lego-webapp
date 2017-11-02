@@ -8,7 +8,7 @@ import Pill from 'app/components/Pill';
 import styles from './MeetingList.css';
 import Toolbar from './Toolbar';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { Content } from 'app/components/Layout/Content';
+import { Content } from 'app/components/Content';
 import Button from 'app/components/Button';
 import type { MeetingEntity, MeetingSection } from 'app/reducers/meetings';
 import type { UserEntity } from 'app/reducers/users';

@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { Content } from 'app/components/Layout';
+import { Content } from 'app/components/Content';
 import ContactForm from './ContactForm';
 import type { ContactForm as ContactFormType } from 'app/reducers/contact';
 import type { FieldProps } from 'redux-form';

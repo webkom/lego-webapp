@@ -9,7 +9,7 @@ import styles from './PageEditor.css';
 import { EditorField, TextInput, Form } from 'app/components/Form';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import { Field } from 'redux-form';
-import { Content } from 'app/components/Layout';
+import { Content } from 'app/components/Content';
 import { get } from 'lodash';
 
 type Page = {

@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import Icon from 'app/components/Icon';
 import EmptyState from 'app/components/EmptyState';
-import { Content } from 'app/components/Layout';
+import { Content } from 'app/components/Content';
 import SearchResultComponent from './SearchResult';
 import styles from './SearchPage.css';
 import type { SearchResult } from 'app/reducers/search';

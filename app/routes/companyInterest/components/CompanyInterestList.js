@@ -4,7 +4,7 @@ import React from 'react';
 import Button from 'app/components/Button';
 import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
-import { Content } from 'app/components/Layout';
+import { Content } from 'app/components/Content';
 import { FlexRow, FlexColumn } from 'app/components/FlexBox';
 
 export type Props = {

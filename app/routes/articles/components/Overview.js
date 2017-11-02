@@ -4,7 +4,7 @@ import styles from './Overview.css';
 import React, { Component } from 'react';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { Link } from 'react-router';
-import { Content } from 'app/components/Layout';
+import { Content } from 'app/components/Content';
 import { type ArticleEntity } from 'app/reducers/articles';
 import Time from 'app/components/Time';
 import { Image } from 'app/components/Image';

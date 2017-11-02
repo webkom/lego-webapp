@@ -16,7 +16,7 @@ import {
 } from 'app/components/Form';
 import Button from 'app/components/Button';
 import moment from 'moment-timezone';
-import { Content } from 'app/components/Layout';
+import { Content } from 'app/components/Content';
 import { Flex } from 'app/components/Layout';
 import { places, jobTypes, yearValues } from '../constants';
 

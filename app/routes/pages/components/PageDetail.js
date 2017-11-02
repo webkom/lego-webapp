@@ -7,7 +7,7 @@ import { Link } from 'react-router';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import PageHierarchy from './PageHierarchy';
-import { Content } from 'app/components/Layout';
+import { Content } from 'app/components/Content';
 import sortBy from 'lodash/sortBy';
 import DisplayContent from 'app/components/DisplayContent';
 

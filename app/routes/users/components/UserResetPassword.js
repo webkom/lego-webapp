@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { reduxForm, FormProps, Field } from 'redux-form';
-import { Content } from 'app/components/Layout';
+import { Content } from 'app/components/Content';
 import { Form, Button, TextInput } from 'app/components/Form';
 import { createValidator, required, validPassword } from 'app/utils/validation';
 

@@ -1,7 +1,8 @@
 // @flow
 import React, { Component } from 'react';
 import GroupForm from 'app/components/GroupForm';
-import { Flex, Content } from 'app/components/Layout';
+import { Flex } from 'app/components/Layout';
+import { Content } from 'app/components/Content';
 import { Link } from 'react-router';
 
 export default class InterestGroupEdit extends Component<{
