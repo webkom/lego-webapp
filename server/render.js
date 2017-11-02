@@ -21,6 +21,23 @@ require('../app/assets/icon-256x256.png');
 require('../app/assets/icon-384x384.png');
 require('../app/assets/icon-512x512.png');
 
+const serverSideTimeoutInMs = 4000;
+
+const TimeoutError = new Error(
+  'React prepare timeout when server side rendering.'
+);
+
+function prepareWithTimeout(app) {
+  return Promise.race([
+    prepare(app),
+    new Promise(resolve => {
+      setTimeout(resolve, serverSideTimeoutInMs);
+    }).then(() => {
+      throw TimeoutError;
+    })
+  ]);
+}
+
 function render(req, res, next) {
   const log = req.app.get('log');
 
@@ -55,25 +72,29 @@ function render(req, res, next) {
       </Provider>
     );
 
-    const respond = () => {
-      const body = renderToString(app);
+    const respond = (error = null) => {
+      const renderResult = error !== TimeoutError;
+
+      const body = renderResult ? renderToString(app) : '';
+      const state = renderResult ? store.getState() : {};
+      const helmet = Helmet.rewind();
 
       return res.send(
         renderPage({
           body,
-          state: store.getState(),
-          helmet: Helmet.rewind()
+          state,
+          helmet
         })
       );
     };
 
-    prepare(app)
+    prepareWithTimeout(app)
       .then(respond)
       .catch(error => {
         const err = error.error ? error.payload : error;
         log.error(err, 'render_error');
         Raven.captureException(err);
-        respond();
+        respond(error);
       });
   });
 }
