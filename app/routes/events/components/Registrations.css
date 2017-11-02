@@ -1,8 +1,13 @@
+@import 'app/styles/variables.css';
+
 .summary {
   flex-wrap: wrap;
+  white-space: pre;
 }
 
 .registrationList {
+  color: var(--lego-link-color);
+
   &:hover {
     text-decoration: underline;
     cursor: pointer;

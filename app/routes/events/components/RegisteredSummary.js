@@ -51,11 +51,9 @@ const RegistrationList = ({
     className={styles.registrationList}
     onClick={onClick}
   >
-    <a href="">
-      {`${registrations.length} ${registrations.length === 1
-        ? 'annen'
-        : 'andre'}`}
-    </a>
+    {`${registrations.length} ${registrations.length === 1
+      ? 'annen'
+      : 'andre'}`}
   </Tooltip>
 );
 
@@ -64,39 +62,45 @@ type RegisteredSummaryProps = {
   toggleModal?: number => void
 };
 
-const RegisteredSummary = ({
+const RegisteredSentence = ({
   registrations,
   toggleModal
 }: RegisteredSummaryProps) => {
-  const summary = [];
-
   if (registrations.length === 0) {
-    summary.push('Ingen');
-  } else {
-    summary.push(<Registration key={0} registration={registrations[0]} />);
+    return 'Ingen';
   }
 
-  if (registrations.length === 2) {
-    summary.push(
-      '\u00A0og\u00A0',
-      <Registration key={1} registration={registrations[1]} />
-    );
-  } else if (registrations.length >= 3) {
-    summary.push(
-      ',\u00A0',
-      <Registration key={1} registration={registrations[1]} />,
-      '\u00A0og\u00A0',
-      <RegistrationList
-        key={2}
-        registrations={registrations.slice(2)}
-        onClick={() => toggleModal && toggleModal(0)}
-      />
+  // For more than 2 registrations we add a clickable `more` link:
+  if (registrations.length > 2) {
+    return (
+      <Flex>
+        <Registration registration={registrations[0]} />
+        {', '}
+        <Registration registration={registrations[1]} />
+        {' og '}
+        <RegistrationList
+          registrations={registrations.slice(2)}
+          onClick={() => toggleModal && toggleModal(0)}
+        />
+      </Flex>
     );
   }
 
-  summary.push('\u00A0er påmeldt');
+  return (
+    <Flex>
+      <Registration registration={registrations[0]} />
+      {' og '}
+      <Registration registration={registrations[1]} />
+    </Flex>
+  );
+};
 
-  return <Flex className={styles.summary}>{summary}</Flex>;
+const RegisteredSummary = (props: RegisteredSummaryProps) => {
+  return (
+    <Flex className={styles.summary}>
+      <RegisteredSentence {...props} /> er påmeldt.
+    </Flex>
+  );
 };
 
 export default RegisteredSummary;
