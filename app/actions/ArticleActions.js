@@ -25,7 +25,8 @@ export function createArticle({
   title,
   content,
   tags,
-  cover
+  cover,
+  pinned
 }: ArticleEntity): Thunk<*> {
   return dispatch =>
     dispatch(
@@ -40,7 +41,8 @@ export function createArticle({
           tags,
           cover,
           author,
-          description
+          description,
+          pinned
         },
         meta: {
           errorMessage: 'Opprettelse av artikkel feilet'
@@ -56,7 +58,8 @@ export function editArticle({
   author,
   description,
   tags,
-  cover
+  cover,
+  pinned
 }: ArticleEntity): Thunk<*> {
   return dispatch =>
     dispatch(
@@ -71,7 +74,8 @@ export function editArticle({
           tags,
           content,
           author,
-          description
+          description,
+          pinned
         },
         meta: {
           errorMessage: 'Endring av artikkel feilet'
