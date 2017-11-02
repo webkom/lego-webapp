@@ -91,6 +91,25 @@
   flex-direction: row;
 }
 
+.toggleButton {
+  color: var(--lego-link-color);
+  font-size: 14px;
+}
+
+.dropdown {
+  width: 355px;
+  padding: 15px;
+
+  @media (--small-viewport) {
+    width: 100%;
+
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+}
+
 .navigation {
   display: flex;
   flex-direction: row;
