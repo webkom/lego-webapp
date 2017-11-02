@@ -9,6 +9,7 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import PageHierarchy from './PageHierarchy';
 import { Content } from 'app/components/Layout';
 import sortBy from 'lodash/sortBy';
+import DisplayContent from 'app/components/DisplayContent';
 
 import type { HierarchySectionEntity } from './PageHierarchy';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
@@ -37,7 +38,7 @@ export const FlatpageRenderer = ({ page }: { page: PageEntity }) => (
         <img alt="presentation" src={page.picture} />
       </div>
     )}
-    <div dangerouslySetInnerHTML={{ __html: page.content }} />
+    <DisplayContent content={page.content} />
   </article>
 );
 
@@ -46,7 +47,7 @@ const RenderUser = ({ user }: Object) => (
 );
 
 export const GroupRenderer = ({ page }: { page: Object }) => {
-  const { memberships, description, text, logo } = page;
+  const { memberships, text, logo } = page;
   const leader = memberships.find(membership => membership.role == 'leader');
 
   const members = sortBy(
@@ -60,8 +61,7 @@ export const GroupRenderer = ({ page }: { page: Object }) => {
           <img alt="presentation" src={logo} />
         </div>
       )}
-      <div dangerouslySetInnerHTML={{ __html: description }} />
-      <div dangerouslySetInnerHTML={{ __html: text }} />
+      <DisplayContent content={text} />
 
       <h3>Medlemmer:</h3>
       <ul>

@@ -4,6 +4,7 @@ import Icon from 'app/components/Icon';
 import { lookupContext, contextRender } from '../context';
 import joinValues from 'app/utils/joinValues';
 import type { AggregatedActivity, Activity } from '../types';
+import DisplayContent from 'app/components/DisplayContent';
 
 /**
  * Comments are grouped by the comment target and date.
@@ -33,8 +34,7 @@ export function activityHeader(aggregatedActivity: AggregatedActivity) {
 }
 
 export function activityContent(activity: Activity) {
-  const content = activity.extraContext.content.replace(/<p>(.*)<\/p>/, '$1');
-  return <p>{content} </p>;
+  return <DisplayContent content={activity.extraContext.content} />;
 }
 
 export function icon() {

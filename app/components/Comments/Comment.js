@@ -6,6 +6,7 @@ import Time from 'app/components/Time';
 import CommentForm from 'app/components/CommentForm';
 import { ProfilePicture } from 'app/components/Image';
 import { type CommentEntity } from 'app/reducers/comments';
+import DisplayContent from 'app/components/DisplayContent';
 import styles from './Comment.css';
 
 type Props = {
@@ -36,7 +37,6 @@ export default class Comment extends Component<Props, State> {
     const { comment, commentFormProps } = this.props;
     const { createdAt, text, author } = comment;
     const { replyOpen } = this.state;
-    const content = text.replace(/<p>(.*)<\/p>/, '$1');
     return (
       <div className={styles.container}>
         <div className={styles.comment}>
@@ -55,15 +55,13 @@ export default class Comment extends Component<Props, State> {
               {this.state.replyOpen ? 'Lukk svar' : 'Svar'}
             </a>
           </div>
-
           <div className={styles.content}>
-            <p
+            <DisplayContent
               id="comment-text"
               className={styles.text}
               style={{ fontStyle: this.state.replyOpen && 'italic' }}
-            >
-              {content}
-            </p>
+              content={text}
+            />
           </div>
         </div>
 

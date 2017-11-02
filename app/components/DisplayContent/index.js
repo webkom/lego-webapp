@@ -14,12 +14,38 @@ type Props = {
   style?: Object
 };
 
-const isValidNode = () => true;
+const legalTags = [
+  'p',
+  'b',
+  'i',
+  'u',
+  'h1',
+  'h2',
+  'code',
+  'pre',
+  'blockquote',
+  'strong',
+  'strike',
+  'ul',
+  'cite',
+  'li',
+  'em',
+  'hr',
+  'img',
+  'div',
+  'a',
+  'text',
+  undefined // Nodes with only text
+];
+
+const isValidNode = node => legalTags.includes(node.name);
+
 const parser = new Parser();
 const processNodeDefinitions = new ProcessNodeDefinitions(React);
 const processingInstructions = [
   {
     // Custom <href> processing
+    //
     shouldProcessNode: node => {
       return node.parent && node.parent.name && node.parent.name === 'href';
     },
