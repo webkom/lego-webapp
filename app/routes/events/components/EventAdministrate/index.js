@@ -146,9 +146,9 @@ export default class EventAdministrate extends Component<Props, State> {
                 <div>Administrer:</div>
               </li>
               {registered.length === 0 && <li>Ingen påmeldte</li>}
-              {registered.map((reg, i) => (
+              {registered.map(reg => (
                 <RegisteredElement
-                  key={i}
+                  key={reg.id}
                   registration={reg}
                   handlePresence={this.handlePresence}
                   handlePayment={this.handlePayment}
@@ -170,8 +170,8 @@ export default class EventAdministrate extends Component<Props, State> {
                 <div>Klassetrinn:</div>
               </li>
               {unregistered.length === 0 && <div>Ingen avmeldte</div>}
-              {unregistered.map((reg, i) => (
-                <UnregisteredElement key={i} registration={reg} />
+              {unregistered.map(reg => (
+                <UnregisteredElement key={reg.id} registration={reg} />
               ))}
             </ul>
           </div>

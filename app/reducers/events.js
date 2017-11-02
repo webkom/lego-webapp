@@ -9,6 +9,7 @@ import joinReducers from 'app/utils/joinReducers';
 import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
 import mergeObjects from 'app/utils/mergeObjects';
+import { groupBy } from 'lodash';
 
 export type EventEntity = {
   id: number,
@@ -330,4 +331,26 @@ export const selectCommentsForEvent = createSelector(
 export const selectRegistrationsFromPools = createSelector(
   selectPoolsWithRegistrationsForEvent,
   pools => pools.reduce((users, pool) => users.concat(pool.registrations), [])
+);
+
+export const getRegistrationGroups = createSelector(
+  selectAllRegistrationsForEvent,
+  registrations => {
+    const grouped = groupBy(
+      registrations,
+      obj => (obj.unregistrationDate.isValid() ? 'unregistered' : 'registered')
+    );
+    const registered = (grouped['registered'] || []).sort((a, b) =>
+      a.registrationDate.diff(b.registrationDate)
+    );
+
+    const unregistered = (grouped['unregistered'] || []).sort((a, b) =>
+      a.unregistrationDate.diff(b.unregistrationDate)
+    );
+
+    return {
+      registered,
+      unregistered
+    };
+  }
 );
