@@ -193,7 +193,7 @@ export function unregister(
 export function adminRegister(
   eventId: number,
   userId: number,
-  poolId: number,
+  poolId?: number,
   feedback: string,
   reason: string
 ) {

@@ -34,7 +34,7 @@ export type Props = {
   unregister: (ID, ID, boolean) => Promise<*>,
   updatePresence: (number, number, string) => Promise<*>,
   updatePayment: (ID, ID, EventRegistrationChargeStatus) => Promise<*>,
-  adminRegister: (ID, ID, ID, string, string) => Promise<*>,
+  adminRegister: (ID, ID, ?ID, string, string) => Promise<*>,
   usersResult: Array<User>,
   actionGrant: ActionGrant,
   onQueryChanged: (value: string) => any,
@@ -84,14 +84,15 @@ export default class EventAdministrate extends Component<Props, State> {
     reason
   }: {
     user: User,
-    pool: number,
+    pool?: number,
     feedback: string,
     reason: string
   }) => {
+    const poolId = pool !== -1 ? pool : undefined;
     this.props.adminRegister(
       this.props.eventId,
       user.id,
-      pool,
+      poolId,
       feedback,
       reason
     );

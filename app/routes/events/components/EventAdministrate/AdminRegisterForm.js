@@ -38,7 +38,9 @@ const AdminRegister = ({
           component={SelectInput.Field}
           placeholder="Pool"
           label="Pool"
-          options={pools.map(pool => ({ value: pool.id, label: pool.name }))}
+          options={pools
+            .map(pool => ({ value: pool.id, label: pool.name }))
+            .concat([{ value: -1, label: 'Venteliste' }])}
           simpleValue
         />
         <Field
