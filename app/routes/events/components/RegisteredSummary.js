@@ -51,7 +51,7 @@ const RegistrationList = ({
     className={styles.registrationList}
     onClick={onClick}
   >
-    <a href="">
+    <a>
       {`${registrations.length} ${registrations.length === 1
         ? 'annen'
         : 'andre'}`}
