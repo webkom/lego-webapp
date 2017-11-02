@@ -42,11 +42,15 @@ export type Event = {
   eventType: EventType,
   registrationCount: number,
   totalCapacity: number,
+  activeCapacity: number,
   startTime: Dateish,
   activationTime: ?Dateish,
-  cover: string,
-  thumbnail: string,
-  location: string
+  cover: ?string,
+  thumbnail: ?string,
+  location: string,
+  useCaptcha: boolean,
+  isPriced: boolean,
+  price: number
 };
 
 export type Article = Object;
