@@ -1,3 +1,5 @@
+@import 'app/styles/variables.css';
+
 .box {
   display: inline-block;
   width: 18px;
@@ -31,15 +33,11 @@
   content: '\2713';
   position: absolute;
   top: 4px;
-  left: 4px;
+  left: 3px;
   font-size: 16px;
   line-height: 0.8;
   color: white;
   transition: all 0.2s;
-}
-
-.checked + label::before {
-  background: #a59a9a;
 }
 
 .checked + label::after {
@@ -70,7 +68,12 @@
   width: 17px;
   height: 17px;
   border: 1px solid #aaa;
-  border-radius: 1px;
+  border-radius: 3px;
+}
+
+.checked + label::before {
+  background: var(--lego-link-color);
+  border-color: var(--lego-link-color);
 }
 
 .unchecked + label,
