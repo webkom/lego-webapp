@@ -190,7 +190,7 @@ function transformEvent(event) {
     ...event,
     startTime: moment(event.startTime),
     endTime: moment(event.endTime),
-    mergeTime: moment(event.mergeTime)
+    mergeTime: event.mergeTime && moment(event.mergeTime)
   };
 }
 
