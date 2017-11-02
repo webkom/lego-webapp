@@ -24,13 +24,15 @@ type Props = {
 };
 
 type State = {
-  hidden: boolean
+  hidden: boolean,
+  sent: boolean
 };
 
 class AnnouncementInLine extends Component<Props, State> {
   props: Props;
   state = {
-    hidden: true
+    hidden: true,
+    sent: false
   };
 
   onSubmit = (announcement, event, meeting, group) => {
@@ -41,6 +43,9 @@ class AnnouncementInLine extends Component<Props, State> {
       groups: group ? [group] : [],
       send: true
     });
+    this.setState(() => ({
+      sent: true
+    }));
   };
 
   handleHide = () => {
@@ -60,22 +65,26 @@ class AnnouncementInLine extends Component<Props, State> {
       button,
       className
     } = this.props;
+
+    const showButton = button && this.state.hidden && !this.state.sent;
+    const showLabel = !button || !this.state.hidden || this.state.sent;
+    const showForm = !this.state.hidden && !this.state.sent;
+
     return (
       <div>
         {actionGrant &&
           (event || meeting || group) && (
             <div>
-              {button &&
-                this.state.hidden && (
-                  <Button
-                    onClick={this.handleHide}
-                    className={styles.announcementButton}
-                  >
-                    {' '}
-                    Ny kunngjøring{' '}
-                  </Button>
-                )}
-              {(!button || !this.state.hidden) && (
+              {showButton && (
+                <Button
+                  onClick={this.handleHide}
+                  className={styles.announcementButton}
+                >
+                  {' '}
+                  Ny kunngjøring{' '}
+                </Button>
+              )}
+              {showLabel && (
                 <a
                   onClick={this.handleHide}
                   className={cx(
@@ -83,11 +92,13 @@ class AnnouncementInLine extends Component<Props, State> {
                     className
                   )}
                 >
-                  Ny kunngjøring
+                  {!this.state.sent
+                    ? ' Ny kunngjøring '
+                    : ' Kunngjøring sendt '}
                 </a>
               )}
 
-              {!this.state.hidden && (
+              {showForm && (
                 <Form
                   onSubmit={handleSubmit(values =>
                     this.onSubmit(values, event, meeting, group)
