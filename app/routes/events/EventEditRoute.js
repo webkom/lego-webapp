@@ -34,7 +34,7 @@ const mapStateToProps = (state, props) => {
   return {
     initialValues: {
       ...event,
-      mergeTime: time({ hours: 12 }),
+      mergeTime: event.mergeTime ? event.mergeTime : time({ hours: 12 }),
       priceMember: event.priceMember / 100,
       pools: pools.map(pool => ({
         ...pool,
