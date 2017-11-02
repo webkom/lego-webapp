@@ -27,6 +27,7 @@ export default class EmailUsers extends Component<Props> {
       {
         title: 'Internepost',
         dataIndex: 'internalEmail',
+        search: true,
         render: (internalEmail: string) => (
           <span>{`${internalEmail}@abakus.no`}</span>
         )

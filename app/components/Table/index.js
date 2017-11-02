@@ -157,7 +157,7 @@ export default class Table extends Component<Props, State> {
   };
 
   loadMore = () => {
-    if (this.props.onLoad && this.props.loading) {
+    if (this.props.onLoad && !this.props.loading) {
       this.props.onLoad(this.state.filters, this.state.sort);
     }
   };
