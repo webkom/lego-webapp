@@ -6,7 +6,7 @@ export default function joinValues(values) {
   }
 
   return (
-    <div>
+    <span>
       {values.map((el, i) => (
         <span key={i}>
           {i > 0 && i !== values.length - 1 && ', '}
@@ -14,6 +14,6 @@ export default function joinValues(values) {
           {el}
         </span>
       ))}
-    </div>
+    </span>
   );
 }
