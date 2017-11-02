@@ -16,7 +16,7 @@ import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
 import { ProfilePicture } from 'app/components/Image';
 import DisplayContent from 'app/components/DisplayContent';
-
+import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import type { InterestGroup, User, GroupMembership, ID } from 'app/models';
 
 // TODO: this is from the event detail page.
@@ -137,6 +137,11 @@ function InterestGroupDetail(props: Props) {
           <Image className={styles.logo} src={logo} />
           <Members group={group} members={group.memberships} />
           <Contact group={group} />
+          <AnnouncementInLine
+            placeholder="Skriv en kunngjøring til alle medlemmer..."
+            group={group.id}
+            button
+          />
         </ContentSidebar>
       </ContentSection>
     </Content>

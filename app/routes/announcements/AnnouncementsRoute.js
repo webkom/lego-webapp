@@ -31,6 +31,6 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  connect(mapStateToProps, mapDispatchToProps),
-  prepare((props, dispatch) => dispatch(fetchAll))
+  prepare((props, dispatch) => dispatch(fetchAll())),
+  connect(mapStateToProps, mapDispatchToProps)
 )(AnnouncementsList);

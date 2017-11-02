@@ -2,6 +2,7 @@
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import cx from 'classnames';
 import React, { Component } from 'react';
 import Button from 'app/components/Button';
 import { Form, TextArea } from 'app/components/Form';
@@ -17,7 +18,9 @@ type Props = {
   createAnnouncement: (...any) => void,
   handleSubmit: Function => void,
   actionGrant: boolean,
-  hidden?: boolean
+  hidden?: boolean,
+  button?: boolean,
+  className?: string
 };
 
 type State = {
@@ -53,16 +56,37 @@ class AnnouncementInLine extends Component<Props, State> {
       placeholder,
       event,
       meeting,
-      group
+      group,
+      button,
+      className
     } = this.props;
     return (
       <div>
         {actionGrant &&
           (event || meeting || group) && (
             <div>
-              <a onClick={this.handleHide} className={styles.label}>
-                Ny kunngjøring
-              </a>
+              {button &&
+                this.state.hidden && (
+                  <Button
+                    onClick={this.handleHide}
+                    className={styles.announcementButton}
+                  >
+                    {' '}
+                    Ny kunngjøring{' '}
+                  </Button>
+                )}
+              {(!button || !this.state.hidden) && (
+                <a
+                  onClick={this.handleHide}
+                  className={cx(
+                    button ? styles.labelButton : styles.label,
+                    className
+                  )}
+                >
+                  Ny kunngjøring
+                </a>
+              )}
+
               {!this.state.hidden && (
                 <Form
                   onSubmit={handleSubmit(values =>
@@ -73,7 +97,8 @@ class AnnouncementInLine extends Component<Props, State> {
                     name="message"
                     component={TextArea.Field}
                     placeholder={placeholder || 'Skriv din kunngjøring her...'}
-                    className={styles.field}
+                    fieldClassName={styles.field}
+                    className={styles.fieldText}
                   />
                   <Button submit className={styles.button}>
                     {' '}

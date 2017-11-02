@@ -10,7 +10,7 @@ import { Content } from 'app/components/Layout';
 
 type Props = {
   announcement: Object,
-  announcements: Array</*TODO: Announcement */ any>,
+  announcements: Array<Object>,
   actionGrant: /* TODO: ActionGrant */ any,
   sendAnnouncement: () => void,
   createAnnouncement: (announcement: any) => void,

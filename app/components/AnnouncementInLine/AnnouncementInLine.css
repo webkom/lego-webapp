@@ -5,13 +5,29 @@
   font-size: 80%;
 }
 
+.announcementButton {
+  margin-top: 20px;
+}
+
 .field {
+  margin-bottom: 0;
+  margin-top: 5px;
+}
+
+.fieldText {
   font: inherit;
   font-size: 80%;
-  margin-bottom: 0 !important;
 }
 
 .label {
   font: inherit;
   color: #c0392b;
+}
+
+.labelButton {
+  font: inherit;
+  color: #394b59;
+  font-weight: bold;
+  margin-top: 20px;
+  display: inline-block;
 }
