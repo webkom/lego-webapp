@@ -6,8 +6,12 @@ import LoadingIndicator from 'app/components/LoadingIndicator/';
 import { Image } from 'app/components/Image';
 import DisplayContent from 'app/components/DisplayContent';
 import styles from './JoblistingDetail.css';
-import { Flex } from 'app/components/Layout';
-import { Content } from 'app/components/Content';
+import {
+  Content,
+  ContentSection,
+  ContentMain,
+  ContentSidebar
+} from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { jobType, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
@@ -64,12 +68,12 @@ const JoblistingDetail = ({
           </div>
         )}
       </NavigationTab>
-      <Flex className={styles.textbody}>
-        <Flex column className={styles.description}>
+      <ContentSection>
+        <ContentMain>
           <DisplayContent content={joblisting.description} />
           <DisplayContent content={joblisting.text} />
-        </Flex>
-        <Flex column className={styles.meta}>
+        </ContentMain>
+        <ContentSidebar>
           <ul>
             <li>
               <h3>Generell info:</h3>
@@ -94,8 +98,8 @@ const JoblistingDetail = ({
               </div>
             )}
           </ul>
-        </Flex>
-      </Flex>
+        </ContentSidebar>
+      </ContentSection>
     </Content>
   );
 };

@@ -20,10 +20,6 @@
   max-width: 80%;
 }
 
-.textbody {
-  flex-wrap: wrap-reverse;
-}
-
 .meta {
   flex: 1;
   background: #ba1414;
@@ -31,17 +27,6 @@
   color: #fff;
   margin-left: 10px;
   margin-right: 10px;
-}
-
-.description {
-  background: #fff;
-  padding: 20px;
-  flex: 2.5;
-  margin-left: 10px;
-
-  @media (--small-viewport) {
-    margin: 10px;
-  }
 }
 
 .applicationUrl,
