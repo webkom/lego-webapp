@@ -40,7 +40,7 @@ const AdminRegister = ({
           label="Pool"
           options={pools
             .map(pool => ({ value: pool.id, label: pool.name }))
-            .concat([{ value: 0, label: 'Venteliste' }])}
+            .concat([{ value: -1, label: 'Venteliste' }])}
           simpleValue
         />
         <Field
@@ -65,7 +65,7 @@ function validateForm(data) {
     errors.reason = 'Forklaring er påkrevet';
   }
 
-  if (!data.pool && data.pool !== 0) {
+  if (!data.pool) {
     errors.pool = 'Pool er påkrevet';
   }
 

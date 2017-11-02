@@ -193,7 +193,7 @@ export function unregister(
 export function adminRegister(
   eventId: number,
   userId: number,
-  poolId: number,
+  poolId?: number,
   feedback: string,
   reason: string
 ) {
@@ -203,7 +203,7 @@ export function adminRegister(
     method: 'POST',
     body: {
       user: userId,
-      pool: poolId ? poolId : undefined,
+      pool: poolId,
       feedback,
       admin_reason: reason
     },
