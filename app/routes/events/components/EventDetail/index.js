@@ -14,6 +14,7 @@ import {
 } from 'app/components/UserAttendance';
 import Tag from 'app/components/Tags/Tag';
 import { FormatTime, FromToTime } from 'app/components/Time';
+import InfoList from 'app/components/InfoList';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Flex } from 'app/components/Layout';
 import { EVENT_TYPE_TO_STRING, colorForEvent } from '../../utils';
@@ -138,6 +139,38 @@ export default class EventDetail extends Component<Props> {
       ? () => unfollow(event.isUserFollowing.id, event.id)
       : () => follow(currentUser.id, event.id);
 
+    const infoItems = [
+      event.company && {
+        key: 'Arrangerende bedrift',
+        value: event.company.name
+      },
+      {
+        key: 'Hva',
+        value: EVENT_TYPE_TO_STRING(event.eventType)
+      },
+      {
+        key: 'Når',
+        value: <FromToTime from={event.startTime} to={event.endTime} />
+      },
+      { key: 'Finner sted i', value: event.location },
+      event.activationTime && {
+        key: 'Påmelding åpner',
+        value: <FormatTime time={event.activationTime} />
+      },
+      event.unregistrationDeadline && {
+        key: 'Avregistreringsfrist',
+        value: <FormatTime time={event.unregistrationDeadline} />
+      }
+    ].filter(Boolean);
+
+    const paidItems = [
+      { key: 'Pris', value: `${event.priceMember / 100},-` },
+      event.paymentDueDate && {
+        key: 'Betalingsfrist',
+        value: <FormatTime time={event.paymentDueDate} />
+      }
+    ].filter(Boolean);
+
     return (
       <div>
         <div className={styles.coverImage}>
@@ -162,58 +195,14 @@ export default class EventDetail extends Component<Props> {
               </Flex>
             </ContentMain>
             <ContentSidebar>
-              <ul>
-                {event.company && (
-                  <li>
-                    Arrangerende bedrift <strong>{event.company.name}</strong>
-                  </li>
-                )}
-                <li>
-                  <span className={styles.metaDescriptor}>Hva</span>
-                  <strong>{EVENT_TYPE_TO_STRING(event.eventType)}</strong>
-                </li>
-                <li>
-                  <span className={styles.metaDescriptor}>Når</span>
-                  <strong>
-                    <FromToTime from={event.startTime} to={event.endTime} />
-                  </strong>
-                </li>
-                <li>
-                  Finner sted i <strong>{event.location}</strong>
-                </li>
-                {event.activationTime && (
-                  <li>
-                    Påmelding åpner
-                    <strong style={{ marginLeft: 5 }}>
-                      <FormatTime time={event.activationTime} />
-                    </strong>
-                  </li>
-                )}
-                {event.isPriced && (
-                  <div>
-                    <li>Dette er et betalt arrangement</li>
-                    <li>
-                      Pris: <strong>{event.priceMember / 100},-</strong>
-                    </li>
-                    {event.paymentDueDate && (
-                      <li>
-                        Betalingsfrist:{' '}
-                        <strong>
-                          <FormatTime time={event.paymentDueDate} />
-                        </strong>
-                      </li>
-                    )}
-                  </div>
-                )}
-                {event.unregistrationDeadline && (
-                  <li>
-                    Avregistreringsfrist:{' '}
-                    <strong>
-                      <FormatTime time={event.unregistrationDeadline} />
-                    </strong>
-                  </li>
-                )}
-              </ul>
+              <InfoList items={infoItems} />
+              {event.isPriced && (
+                <div className={styles.paymentInfo}>
+                  <strong>Dette er et betalt arrangement</strong>
+                  <InfoList items={paidItems} />
+                </div>
+              )}
+
               {loggedIn && (
                 <Flex column>
                   <h3>Påmeldte</h3>

@@ -17,3 +17,7 @@
 .title {
   cursor: pointer;
 }
+
+.paymentInfo {
+  margin-top: 10px;
+}

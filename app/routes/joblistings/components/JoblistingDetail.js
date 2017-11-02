@@ -6,6 +6,8 @@ import LoadingIndicator from 'app/components/LoadingIndicator/';
 import { Image } from 'app/components/Image';
 import DisplayContent from 'app/components/DisplayContent';
 import styles from './JoblistingDetail.css';
+import InfoList from 'app/components/InfoList';
+import { Flex } from 'app/components/Layout';
 import {
   Content,
   ContentSection,
@@ -72,30 +74,47 @@ const JoblistingDetail = ({
           <DisplayContent content={joblisting.text} />
         </ContentMain>
         <ContentSidebar>
-          <ul>
-            <li>
-              <h3>Generell info:</h3>
-            </li>
-            <li>Bedrift: {companyLink}</li>
-            <li>Søknadsfrist: {deadline}</li>
-            {joblisting.applicationUrl && <li>Søk her: {applicationUrl}</li>}
-            <br />
-            <li>{jobType(joblisting.jobType)}</li>
-            <Year joblisting={joblisting} />
-            <Workplaces places={joblisting.workplaces} />
-            {joblisting.responsible && (
-              <div>
-                <li>
-                  <h3>Kontaktinfo:</h3>
-                </li>
-                <li>Navn: {joblisting.responsible.name || 'Ikke oppgitt.'}</li>
-                <li>Mail: {joblisting.responsible.mail || 'Ikke oppgitt.'}</li>
-                <li>
-                  Telefon: {joblisting.responsible.phone || 'Ikke oppgitt.'}
-                </li>
-              </div>
-            )}
-          </ul>
+          <h3>Generell info</h3>
+          {joblisting.applicationUrl && (
+            <Flex column className={styles.apply}>
+              <strong>Søk her:</strong>
+              {applicationUrl}
+            </Flex>
+          )}
+
+          <InfoList
+            items={[
+              { key: 'Stilling', value: jobType(joblisting.jobType) },
+              { key: 'Bedrift', value: companyLink },
+              { key: 'Søknadsfist', value: deadline },
+              { key: 'Klassetrinn', value: <Year joblisting={joblisting} /> },
+              {
+                key: 'Sted',
+                value: <Workplaces places={joblisting.workplaces} />
+              }
+            ].filter(Boolean)}
+          />
+          {joblisting.responsible && (
+            <div>
+              <h3>Kontaktinfo</h3>
+              <InfoList
+                items={[
+                  {
+                    key: 'Navn',
+                    value: joblisting.responsible.name || 'Ikke oppgitt.'
+                  },
+                  {
+                    key: 'Epost',
+                    value: joblisting.responsible.mail || 'Ikke oppgitt.'
+                  },
+                  {
+                    key: 'Telefon',
+                    value: joblisting.responsible.phone || 'Ikke oppgitt.'
+                  }
+                ]}
+              />
+            </div>
+          )}
         </ContentSidebar>
       </ContentSection>
     </Content>
