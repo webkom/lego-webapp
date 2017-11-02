@@ -26,10 +26,6 @@
   padding-left: 5px;
 }
 
-.description {
-  composes: description;
-}
-
 .metaField {
   margin-bottom: 0;
 }

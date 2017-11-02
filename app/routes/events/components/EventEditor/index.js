@@ -25,8 +25,10 @@ import { Flex } from 'app/components/Layout';
 import { eventTypes, colorForEvent } from '../../utils';
 import Admin from '../Admin';
 import Content from 'app/components/Layout/Content';
+import ContentSection from 'app/components/Layout/ContentSection';
+import ContentMain from 'app/components/Layout/ContentMain';
+import ContentSidebar from 'app/components/Layout/ContentSidebar';
 import Tooltip from 'app/components/Tooltip';
-import cx from 'classnames';
 import type { ID } from 'app/models';
 
 type Props = {
@@ -123,8 +125,8 @@ function EventEditor({
           className={styles.description}
           component={TextEditor.Field}
         />
-        <Flex wrap className={styles.mainRow}>
-          <Flex column className={styles.description}>
+        <ContentSection>
+          <ContentMain>
             <Field
               name="text"
               component={EditorField}
@@ -135,8 +137,8 @@ function EventEditor({
             <Flex className={styles.tagRow}>
               {(event.tags || []).map((tag, i) => <Tag key={i} tag={tag} />)}
             </Flex>
-          </Flex>
-          <Flex column className={styles.meta}>
+          </ContentMain>
+          <ContentSidebar>
             <Field
               name="eventType"
               label="Type arrangement"
@@ -260,8 +262,8 @@ function EventEditor({
                 />
               )}
             </Flex>
-          </Flex>
-        </Flex>
+          </ContentSidebar>
+        </ContentSection>
 
         <Flex wrapReverse>
           <Flex column className={styles.join}>

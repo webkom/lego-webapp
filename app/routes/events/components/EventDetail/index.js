@@ -22,8 +22,9 @@ import RegistrationMeta from '../RegistrationMeta';
 import Content from 'app/components/Layout/Content';
 import ContentHeader from 'app/components/Layout/ContentHeader';
 import ContentSection from 'app/components/Layout/ContentSection';
-import cx from 'classnames';
 import DisplayContent from 'app/components/DisplayContent';
+import ContentMain from 'app/components/Layout/ContentMain';
+import ContentSidebar from 'app/components/Layout/ContentSidebar';
 import type { ID } from 'app/models';
 
 type InterestedButtonProps = {
@@ -152,14 +153,13 @@ export default class EventDetail extends Component<Props> {
           </ContentHeader>
 
           <ContentSection>
-            <Flex column className={styles.description}>
+            <ContentMain>
               <DisplayContent content={event.text} />
-
               <Flex className={styles.tagRow}>
                 {event.tags.map((tag, i) => <Tag key={i} tag={tag} />)}
               </Flex>
-            </Flex>
-            <Flex column className={cx(styles.meta)}>
+            </ContentMain>
+            <ContentSidebar>
               <ul>
                 {event.company && (
                   <li>
@@ -238,7 +238,7 @@ export default class EventDetail extends Component<Props> {
                   />
                 </Flex>
               )}
-            </Flex>
+            </ContentSidebar>
           </ContentSection>
 
           {loggedIn && (
