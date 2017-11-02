@@ -26,28 +26,60 @@ export type Photo = GalleryPicture;
 
 export type Gallery = Object;
 
-type EventType =
+export type EventType =
   | 'company_presentation'
   | 'lunch_presentation'
   | 'course'
   | 'kid_event'
   | 'party'
   | 'social'
-  | 'other';
+  | 'other'
+  | 'event';
 
-export type Event = {
+type SelectInput = { label: string, value: string };
+
+type EventBase = {
   id: ID,
   title: string,
+  cover: string,
   description: string,
+  text: string,
+  feedbackDescription: string,
+  feedbackRequired: string,
   eventType: EventType,
+  location: string,
+  isPriced: number,
+  priceMember: number,
+  priceGuest: ?number,
+  useStripe: boolean,
+  paymentDueDate: ?Dateish,
+  startTime: Dateish,
+  endTime: Dateish,
+  mergeTime: ?Dateish,
+  useCaptcha: boolean,
+  tags: Array<Tags>,
+  unregistrationDeadline: Dateish,
+  pinned: boolean
+};
+
+export type Event = EventBase & {
+  actionGrant: Array<string>,
+  activationTime: ?Dateish,
+  activeCapacity: number,
   registrationCount: number,
   totalCapacity: number,
-  startTime: Dateish,
-  activationTime: ?Dateish,
-  cover: string,
-  thumbnail: string,
-  location: string
+  thumbnail: ?string,
+  company: Company,
+  comments: Array<Comment>,
+  pools: Array<EventPool>
 };
+
+export type TransformEvent = EventBase & {
+  pools: Array<EventTransformPool>,
+  company: SelectInput
+};
+
+export type Tags = Object;
 
 export type Article = Object;
 export type Feed = Object;
@@ -80,7 +112,21 @@ export type EventRegistration = {
   feedback: string
 };
 
-export type EventPool = Object;
+type EventPoolBase = {
+  id: ID,
+  name: string,
+  capacity: number,
+  activationDate: Dateish
+};
+
+export type EventPool = EventPoolBase & {
+  registrations: Array<EventRegistration>,
+  permissionGroups: Array<Object>
+};
+
+type EventTransformPool = EventPoolBase & {
+  permissionGroups: Array<SelectInput>
+};
 
 export type Workplace = {
   town: string
