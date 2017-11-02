@@ -2,6 +2,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import GalleryPictureModal from './components/GalleryPictureModal';
 import loadingIndicator from 'app/utils/loadingIndicator';
+import prepare from 'app/utils/prepare';
+import { fetchGalleryPicture } from 'app/actions/GalleryPictureActions';
 import {
   selectGalleryPictureById,
   selectCommentsForGalleryPicture
@@ -30,5 +32,8 @@ const mapDispatchToProps = {
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
+  prepare(({ params }, dispatch) =>
+    dispatch(fetchGalleryPicture(params.galleryId, params.pictureId))
+  ),
   loadingIndicator(['picture.id'])
 )(GalleryPictureModal);

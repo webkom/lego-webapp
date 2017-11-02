@@ -6,7 +6,7 @@
   "author": "webkom",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dashboard -- webpack --config config/webpack.server.js",
+    "start": "webpack --config config/webpack.server.js",
     "build": "concurrently \"yarn run build:server\" \"yarn run build:client\"",
     "build:all": "concurrently \"yarn build:server\" \"yarn build:client\" \"yarn styleguide:build\"",
     "build:client": "NODE_ENV=production webpack --config config/webpack.client.js",
@@ -88,7 +88,6 @@
     "slate-html-serializer": "^0.1.5",
     "slate-react": "^0.1.5",
     "slug": "^0.9.1",
-    "webpack-dashboard": "^1.0.0",
     "websocket.js": "^0.1.7"
   },
   "devDependencies": {

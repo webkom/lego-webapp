@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import { Flex, Content } from 'app/components/Layout';
 import Icon from 'app/components/Icon';
+import ProgressiveImage from 'app/components/ProgressiveImage';
 import Dropdown from 'app/components/Dropdown';
 import { Link } from 'react-router';
 import CommentView from 'app/components/Comments/CommentView';
@@ -25,6 +26,41 @@ type State = {
   showMore: boolean
 };
 
+const Taggees = ({ taggees }: { taggees: Array<Object> }) => {
+  if (taggees.length === 1) {
+    return (
+      <span>
+        <br />
+        <span>med </span>
+        <Link key={taggees[0].id} to={`/users/${taggees[0].username}`}>
+          {taggees[0].fullName}
+        </Link>
+      </span>
+    );
+  } else {
+    return (
+      <span>
+        <br />
+        <span>med </span>
+        {taggees.map((taggee, index) => (
+          <span key={taggee.id}>
+            {taggees.length === index + 1 ? (
+              <span>
+                <span>{'og '}</span>
+                <Link to={`/users/${taggee.username}`}>{taggee.fullName}</Link>
+              </span>
+            ) : (
+              <span style={{ marginRight: '5px' }}>
+                <Link to={`/users/${taggee.username}`}>{taggee.fullName}</Link>
+                {taggees.length === index + 2 ? null : <span>,</span>}
+              </span>
+            )}
+          </span>
+        ))}
+      </span>
+    );
+  }
+};
 export default class GalleryPictureModal extends Component<Props, State> {
   state: State = {
     showMore: false
@@ -90,14 +126,14 @@ export default class GalleryPictureModal extends Component<Props, State> {
 
             <Dropdown
               show={showMore}
-              placement="left"
+              placement="bottom"
               toggle={this.toggleDropdown}
               className={styles.dropdown}
               iconName="more"
             >
               <Dropdown.List>
                 <Dropdown.ListItem>
-                  <Link
+                  <a
                     href={picture.rawFile}
                     download
                     onClick={this.toggleDropdown}
@@ -105,7 +141,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
                   >
                     <strong>Last ned</strong>
                     <Icon name="download-outline" size={24} />
-                  </Link>
+                  </a>
                 </Dropdown.ListItem>
                 <Dropdown.ListItem>
                   <Link onClick={this.onUpdate} style={{ color: '#333' }}>
@@ -134,24 +170,14 @@ export default class GalleryPictureModal extends Component<Props, State> {
           </Flex>
         </Content>
         <Flex className={styles.pictureContainer}>
-          <img src={picture.file} alt="some alt" />
+          <ProgressiveImage src={picture.file} alt="some alt" />
         </Flex>
         <Content className={styles.bottomContent}>
           <Flex className={styles.pictureDescription}>
             <p>
               {picture.description}
               {picture.taggees.length > 0 && (
-                <span>
-                  <br />
-                  <i>
-                    med
-                    {picture.taggees.map(taggee => (
-                      <Link key={taggee.id} to={`/users/${taggee.username}`}>
-                        <span> {taggee.fullName} </span>
-                      </Link>
-                    ))}
-                  </i>
-                </span>
+                <Taggees taggees={picture.taggees} />
               )}
             </p>
           </Flex>
@@ -164,7 +190,6 @@ export default class GalleryPictureModal extends Component<Props, State> {
                 user={currentUser}
                 commentTarget={picture.commentTarget}
                 loggedIn={loggedIn}
-                style={{ width: '100%' }}
                 comments={comments}
               />
             </Flex>

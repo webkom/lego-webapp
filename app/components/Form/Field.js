@@ -2,6 +2,9 @@
 
 import React, { type ComponentType } from 'react';
 import cx from 'classnames';
+import Icon from 'app/components/Icon';
+import { Flex } from 'app/components/Layout';
+import Tooltip from 'app/components/Tooltip';
 import styles from './Field.css';
 
 function FieldError({ error }: { error: string }) {
@@ -22,6 +25,7 @@ type FieldProps = {
   meta: Object,
   required: boolean,
   label: string,
+  description?: string,
   fieldStyle: any,
   fieldClassName: string,
   labelClassName: string,
@@ -42,6 +46,7 @@ export function createField(Component: ComponentType<*>) {
       required,
       label,
       fieldStyle,
+      description,
       fieldClassName,
       labelClassName,
       showErrors = true,
@@ -53,8 +58,20 @@ export function createField(Component: ComponentType<*>) {
     return (
       <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
         <label className={cx(styles.label, labelClassName)}>
-          {label && <span>{label}</span>}
-          {required && <span className={styles.required}>*</span>}
+          <Flex>
+            {label && <div>{label}</div>}
+            {description && (
+              <Tooltip
+                style={{ display: 'inline-block' }}
+                content={description}
+              >
+                <div style={{ marginLeft: '10px' }}>
+                  <Icon size={32} name="help" />
+                </div>
+              </Tooltip>
+            )}
+            {required && <span className={styles.required}>*</span>}
+          </Flex>
           <Component
             {...input}
             {...props}

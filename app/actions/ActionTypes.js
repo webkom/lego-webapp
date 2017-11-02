@@ -47,7 +47,8 @@ export const Article = {
 export const GalleryPicture = {
   FETCH: generateStatuses('GalleryPicture.FETCH'),
   CREATE: generateStatuses('GalleryPicture.CREATE'),
-  EDIT: generateStatuses('GalleryPicture.EDIT')
+  EDIT: generateStatuses('GalleryPicture.EDIT'),
+  DELETE: generateStatuses('GalleryPicture.DELETE')
 };
 
 export const EmailList = {

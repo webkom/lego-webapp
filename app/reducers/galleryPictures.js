@@ -3,6 +3,7 @@
 import { createSelector } from 'reselect';
 import { GalleryPicture } from 'app/actions/ActionTypes';
 import { mutateComments } from 'app/reducers/comments';
+import joinReducers from 'app/utils/joinReducers';
 import createEntityReducer from 'app/utils/createEntityReducer';
 
 export type GalleryPictureEntity = {
@@ -14,7 +15,23 @@ export type GalleryPictureEntity = {
   comments: Array<number>
 };
 
-const mutate = mutateComments('galleryPictures');
+function mutateGalleryPicture(state: any, action: any) {
+  switch (action.type) {
+    case GalleryPicture.DELETE.SUCCESS: {
+      return {
+        ...state,
+        items: state.items.filter(id => id !== action.meta.id)
+      };
+    }
+    default:
+      return state;
+  }
+}
+
+const mutate = joinReducers(
+  mutateComments('galleryPictures'),
+  mutateGalleryPicture
+);
 
 export default createEntityReducer({
   key: 'galleryPictures',
@@ -26,9 +43,10 @@ export default createEntityReducer({
 
 export const SelectGalleryPicturesByGalleryId = createSelector(
   state => state.galleryPictures.byId,
+  state => state.galleryPictures.items,
   (state, props) => props.galleryId,
-  (galleryPicturesById, galleryId) =>
-    Object.keys(galleryPicturesById)
+  (galleryPicturesById, galleryPictureIds, galleryId) =>
+    galleryPictureIds
       .map(id => galleryPicturesById[id])
       .filter(galleryPicture => galleryPicture.gallery === parseInt(galleryId))
 );

@@ -3,7 +3,6 @@
 import React, { PureComponent, type Node } from 'react';
 import { chunk, get } from 'lodash';
 import Img from 'app/components/ProgressiveImage';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import Paginator from 'app/components/Paginator';
 import styles from './Gallery.css';
 
@@ -73,7 +72,6 @@ export default class Gallery extends PureComponent<Props, State> {
     const {
       margin,
       photos,
-      loading,
       hasMore,
       fetchNext,
       fetching,

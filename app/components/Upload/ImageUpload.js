@@ -49,16 +49,13 @@ const FilePreview = ({ file, onRemove, index }: FilePreviewProps) => (
     alignItems="center"
     justifyContent="space-between"
   >
-    <img
-      alt="presentation"
-      src={file.preview}
-      className={styles.previewRowImage}
-    />
-    <TextInput
-      disabled
-      value={file.name}
-      style={{ width: 'calc(100% - 140px)', height: 50 }}
-    />
+    <div style={{ width: '90%' }}>
+      <TextInput
+        disabled
+        value={file.name}
+        style={{ width: '100%', height: 50 }}
+      />
+    </div>
     <Icon
       name="close"
       onClick={() => onRemove(index)}

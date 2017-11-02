@@ -55,13 +55,13 @@ span.back {
 }
 
 h1.hasDetails {
-  padding-bottom: 0px;
+  padding-bottom: 0;
 }
 
 h1.hasBack {
-  padding-top: 0px;
+  padding-top: 0;
 }
 
 div.hasDetails {
-  margin-bottom: 0px;
+  margin-bottom: 0;
 }

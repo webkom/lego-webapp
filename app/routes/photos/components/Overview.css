@@ -53,11 +53,11 @@
 }
 
 .overlay:hover {
-  background: linear-gradient(rgba(199, 69, 89, 1), rgba(255, 255, 255, .3))
+  background: linear-gradient(rgba(199, 69, 89, 1), rgba(255, 255, 255, 0.3));
 }
 
 .overlaySelected {
-  background: linear-gradient(rgba(199, 69, 89, 1), rgba(255, 255, 255, .3))
+  background: linear-gradient(rgba(199, 69, 89, 1), rgba(255, 255, 255, 0.3));
 }
 
 .icon {

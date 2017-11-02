@@ -28,7 +28,7 @@
 
   @media (max-width: 800px) {
     position: fixed;
-    top: 0px;
+    top: 0;
     max-height: 100vh;
     height: 100vh;
     width: 100vw;
@@ -37,15 +37,17 @@
 
 .topContent {
   border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
+  border-bottom-right-radi  us: 0;
+
   @media (max-width: 800px) {
     border-radius: 0;
   }
 }
 
 .bottomContent {
-  border-bottom-top-radius: 0;
-  border-bottom-top-radius: 0;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+
   @media (max-width: 800px) {
     border-radius: 0;
     height: inherit;
@@ -55,40 +57,7 @@
 .pictureContainer {
   display: grid;
   justify-content: center;
-    background-color: black;
-}
-
-.container {
-  flex-flow: row wrap;
-  height: inherit;
-}
-
-.picture {
-  max-width: 100%;
-  max-height: 100%;
-  width: 100%;
-  text-align: center;
-  vertical-align: middle;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.picture img {
-  margin-bottom: -9px;
-}
-
-.contentContainer {
-  width: 400px;
-  padding: 8px;
-  height: inherit;
-  background-color: white;
-  order: 2;
-
-  @media (max-width: 800px) {
-    flex-basis: 100%;
-    height: calc(40vh - 40px);
-  }
+  background-color: black;
 }
 
 .pictureDescription {

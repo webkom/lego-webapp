@@ -37,7 +37,7 @@ export function fetch(
 export function fetchGalleryPicture(galleryId: EntityID, pictureId: EntityID) {
   return callAPI({
     types: GalleryPicture.FETCH,
-    endpoint: `/galleries/${galleryId}/pictures/${pictureId}`,
+    endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
     schema: galleryPictureSchema,
     meta: {
       errorMessage: 'Henting av galleri feilet'
@@ -48,12 +48,12 @@ export function fetchGalleryPicture(galleryId: EntityID, pictureId: EntityID) {
 export function updatePicture(galleryPicture: GalleryPictureEntity) {
   return callAPI({
     types: GalleryPicture.EDIT,
-    endpoint: `/galleries/${galleryPicture.galleryId}/pictures/${galleryPicture.id}/`,
+    endpoint: `/galleries/${galleryPicture.gallery}/pictures/${galleryPicture.id}/`,
     method: 'PATCH',
     schema: galleryPictureSchema,
     body: galleryPicture,
     meta: {
-      galleryId: galleryPicture.galleryId,
+      galleryId: galleryPicture.gallery,
       id: galleryPicture.id,
       errorMessage: 'Oppdatering av bilde i galleriet feilet'
     }
@@ -62,14 +62,14 @@ export function updatePicture(galleryPicture: GalleryPictureEntity) {
 
 export function deletePicture(galleryId: EntityID, pictureId: EntityID) {
   return callAPI({
-    types: GalleryPicture.EDIT,
+    types: GalleryPicture.DELETE,
     endpoint: `/galleries/${galleryId}/pictures/${pictureId}/`,
     method: 'DELETE',
     schema: galleryPictureSchema,
     meta: {
       galleryId: galleryId,
       id: pictureId,
-      errorMessage: 'Oppdatering av bilde i galleriet feilet'
+      errorMessage: 'Sletting av bilde i galleriet feilet'
     }
   });
 }
