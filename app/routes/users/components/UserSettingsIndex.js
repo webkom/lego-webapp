@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import Content from 'app/components/Layout/Content';
+import { Content } from 'app/components/Layout/Content';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
 

@@ -17,6 +17,7 @@
   --lego-color-gray-light: #eee;
   --lego-text-gray: #394b59;
 
+  --color-event-red: #b11c11;
   --color-white: #fff;
   --color-black: #10161a;
   --border-gray: #eee;
@@ -75,11 +76,3 @@
   --font-size-small: 12px;
   --font-size-large: 18px;
 }
-
-@value colorCompanyPresentation: #A1C34A;
-@value colorLunchPresentation: #A1C34A;
-@value colorCourse: #52B0EC;
-@value colorParty: #FCD748;
-@value colorSocial: #B11C11;
-@value colorEvent: #B11C11;
-@value colorOther: #111;

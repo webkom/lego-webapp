@@ -1,7 +1,7 @@
 @import '../Event.css';
 
 .star {
-  color: colorEvent;
+  color: var(--color-event-red);
   margin-right: 10px;
 }
 
@@ -12,10 +12,6 @@
 
 .meta h3 {
   margin: 5px 0;
-}
-
-.mainRow {
-  margin-top: 1em;
 }
 
 .title {

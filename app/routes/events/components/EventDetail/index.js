@@ -16,12 +16,17 @@ import Tag from 'app/components/Tags/Tag';
 import { FormatTime, FromToTime } from 'app/components/Time';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Flex } from 'app/components/Layout';
-import { EVENT_TYPE_TO_STRING, styleForEvent } from '../../utils.js';
+import { EVENT_TYPE_TO_STRING, colorForEvent } from '../../utils';
 import Admin from '../Admin';
 import RegistrationMeta from '../RegistrationMeta';
-import Content from 'app/components/Layout/Content';
-import cx from 'classnames';
 import DisplayContent from 'app/components/DisplayContent';
+import {
+  Content,
+  ContentHeader,
+  ContentSection,
+  ContentMain,
+  ContentSidebar
+} from 'app/components/Layout/Content';
 import type { ID } from 'app/models';
 
 type InterestedButtonProps = {
@@ -127,8 +132,8 @@ export default class EventDetail extends Component<Props> {
     if (error) {
       return <div>{error.message}</div>;
     }
-    const styleType = styleForEvent(event.eventType);
 
+    const color = colorForEvent(event.eventType);
     const onRegisterClick = event.isUserFollowing
       ? () => unfollow(event.isUserFollowing.id, event.id)
       : () => follow(currentUser.id, event.id);
@@ -140,25 +145,23 @@ export default class EventDetail extends Component<Props> {
         </div>
 
         <Content className={styles.content}>
-          <div>
-            <h2
-              onClick={onRegisterClick}
-              className={cx(styleType, styles.title)}
-            >
-              <InterestedButton isInterested={event.isUserFollowing} />
-              {event.title}
-            </h2>
-          </div>
+          <ContentHeader
+            borderColor={color}
+            onClick={onRegisterClick}
+            className={styles.title}
+          >
+            <InterestedButton isInterested={event.isUserFollowing} />
+            {event.title}
+          </ContentHeader>
 
-          <Flex wrap className={styles.mainRow}>
-            <Flex column className={styles.description}>
+          <ContentSection>
+            <ContentMain>
               <DisplayContent content={event.text} />
-
               <Flex className={styles.tagRow}>
                 {event.tags.map((tag, i) => <Tag key={i} tag={tag} />)}
               </Flex>
-            </Flex>
-            <Flex column className={cx(styles.meta)}>
+            </ContentMain>
+            <ContentSidebar>
               <ul>
                 {event.company && (
                   <li>
@@ -237,8 +240,8 @@ export default class EventDetail extends Component<Props> {
                   />
                 </Flex>
               )}
-            </Flex>
-          </Flex>
+            </ContentSidebar>
+          </ContentSection>
 
           {loggedIn && (
             <JoinEventForm

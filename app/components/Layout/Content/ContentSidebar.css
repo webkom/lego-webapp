@@ -1,0 +1,15 @@
+@import 'app/styles/variables.css';
+
+.sidebar {
+  flex: 1;
+  padding: 20px;
+  padding-top: 0;
+  border-left: 1px solid var(--border-gray);
+  margin-left: 3em;
+
+  @media (--small-viewport) {
+    border-left: none;
+    margin-left: 0;
+    padding: 0;
+  }
+}

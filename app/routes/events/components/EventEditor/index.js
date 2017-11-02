@@ -22,11 +22,15 @@ import {
   ImageUploadField
 } from 'app/components/Form';
 import { Flex } from 'app/components/Layout';
-import { eventTypes, styleForEvent } from '../../utils.js';
+import { eventTypes, colorForEvent } from '../../utils';
 import Admin from '../Admin';
-import Content from 'app/components/Layout/Content';
+import {
+  Content,
+  ContentSection,
+  ContentMain,
+  ContentSidebar
+} from 'app/components/Layout/Content';
 import Tooltip from 'app/components/Tooltip';
-import cx from 'classnames';
 import type { ID } from 'app/models';
 
 type Props = {
@@ -79,8 +83,8 @@ function EventEditor({
   if (error) {
     return <div>{error.message}</div>;
   }
-  const styleType = styleForEvent(event.eventType);
 
+  const color = colorForEvent(event.eventType);
   return (
     <Content>
       {isEditPage && (
@@ -112,7 +116,8 @@ function EventEditor({
           <Field
             name="title"
             placeholder="Tittel"
-            className={cx(styleType, styles.title)}
+            style={{ borderBottom: `2px solid ${color}` }}
+            className={styles.title}
             component={TextInput.Field}
           />
         </Flex>
@@ -122,8 +127,8 @@ function EventEditor({
           className={styles.description}
           component={TextEditor.Field}
         />
-        <Flex wrap className={styles.mainRow}>
-          <Flex column className={styles.description}>
+        <ContentSection>
+          <ContentMain>
             <Field
               name="text"
               component={EditorField}
@@ -134,8 +139,8 @@ function EventEditor({
             <Flex className={styles.tagRow}>
               {(event.tags || []).map((tag, i) => <Tag key={i} tag={tag} />)}
             </Flex>
-          </Flex>
-          <Flex column className={styles.meta}>
+          </ContentMain>
+          <ContentSidebar>
             <Field
               name="eventType"
               label="Type arrangement"
@@ -259,8 +264,8 @@ function EventEditor({
                 />
               )}
             </Flex>
-          </Flex>
-        </Flex>
+          </ContentSidebar>
+        </ContentSection>
 
         <Flex wrapReverse>
           <Flex column className={styles.join}>
