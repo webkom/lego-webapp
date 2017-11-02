@@ -1,7 +1,7 @@
 // @flow
 
 import styles from './Event.css';
-import React, { Component } from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { compose } from 'redux';
@@ -13,6 +13,7 @@ import UpdateAllergies from './UpdateAllergies';
 import StripeCheckout from 'react-stripe-checkout';
 import Icon from 'app/components/Icon';
 import logoImage from 'app/assets/kule.png';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Time from 'app/components/Time';
 import { Flex } from 'app/components/Layout';
@@ -46,6 +47,44 @@ type SpotsLeftProps = {
   activeCapacity: number,
   spotsLeft: number
 };
+const SubmitButton = ({
+  onSubmit,
+  disabled,
+  type,
+  title
+}: {
+  onSubmit?: () => void,
+  disabled: boolean,
+  type: string,
+  title: string
+}) => {
+  if (type === 'register') {
+    return (
+      <Button
+        style={{ marginRight: 10 }}
+        onClick={onSubmit}
+        disabled={disabled}
+      >
+        {title}
+      </Button>
+    );
+  }
+
+  return (
+    <ConfirmModalWithParent
+      title="Avregistrer"
+      message="Er du sikker på at du vil avregistrere deg?"
+      onConfirm={() => {
+        onSubmit && onSubmit();
+        return Promise.resolve();
+      }}
+    >
+      <Button style={{ marginRight: 10 }} dark disabled={disabled}>
+        {title}
+      </Button>
+    </ConfirmModalWithParent>
+  );
+};
 
 const SpotsLeft = ({ activeCapacity, spotsLeft }: SpotsLeftProps) => {
   if (spotsLeft === 1) {
@@ -59,7 +98,7 @@ const SpotsLeft = ({ activeCapacity, spotsLeft }: SpotsLeftProps) => {
   return <div>Det er {spotsLeft} plasser igjen.</div>;
 };
 
-class JoinEventForm extends Component<Props, State> {
+class JoinEventForm extends React.Component<Props, State> {
   state: State = {
     time: null,
     formOpen: false,
@@ -195,7 +234,7 @@ class JoinEventForm extends Component<Props, State> {
     const isPristine = event.feedbackRequired && pristine;
     const disabledButton = !registration
       ? isInvalid || isPristine || submitting
-      : null;
+      : false;
     const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
     const registrationType = !registration ? 'register' : 'unregister';
     const feedbackName = getFeedbackName(event.feedbackRequired);
@@ -236,13 +275,7 @@ class JoinEventForm extends Component<Props, State> {
               initialValues={{ allergies: currentUser.allergies }}
               updateUser={updateUser}
             />
-            <Form
-              onSubmit={this.submitWithType(
-                handleSubmit,
-                feedbackName,
-                registrationType
-              )}
-            >
+            <Form>
               <Field
                 label={feedbackLabel}
                 placeholder="Melding til arrangører"
@@ -283,13 +316,16 @@ class JoinEventForm extends Component<Props, State> {
               {this.state.buttonOpen &&
                 !submitting && (
                   <Flex alignItems="center">
-                    <Button
-                      style={{ marginRight: 10 }}
-                      submit
+                    <SubmitButton
                       disabled={disabledButton}
-                    >
-                      {title || joinTitle}
-                    </Button>
+                      onSubmit={this.submitWithType(
+                        handleSubmit,
+                        feedbackName,
+                        registrationType
+                      )}
+                      type={registrationType}
+                      title={title || joinTitle}
+                    />
                     {!registration && (
                       <SpotsLeft
                         activeCapacity={event.activeCapacity}
