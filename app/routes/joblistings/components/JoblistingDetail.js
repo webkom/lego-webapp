@@ -8,7 +8,6 @@ import DisplayContent from 'app/components/DisplayContent';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import styles from './JoblistingDetail.css';
 import InfoList from 'app/components/InfoList';
-import { Flex } from 'app/components/Layout';
 import {
   Content,
   ContentSection,
@@ -16,9 +15,9 @@ import {
   ContentSidebar,
   ContentHeader
 } from 'app/components/Content';
-import Button from 'app/components/Button';
 import { jobType, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
+import type { ID } from 'app/models';
 
 type Props = {
   joblisting: Object,
@@ -57,7 +56,10 @@ const JoblistingDetail = ({
   );
 
   const applicationUrl = (
-    <a href={`${joblisting.applicationUrl}`}>{joblisting.applicationUrl}</a>
+    <a href={`${joblisting.applicationUrl}`}>
+      {' '}
+      <strong>SØK HER</strong>
+    </a>
   );
 
   const canEdit = actionGrant.includes('edit');
@@ -78,27 +80,27 @@ const JoblistingDetail = ({
         </ContentMain>
         <ContentSidebar>
           <h3>Generell info</h3>
-          {joblisting.applicationUrl && (
-            <Flex column className={styles.apply}>
-              <strong>Søk her:</strong>
-              {applicationUrl}
-            </Flex>
-          )}
-
           <InfoList
             items={[
               { key: 'Stilling', value: jobType(joblisting.jobType) },
               { key: 'Bedrift', value: companyLink },
-              { key: 'Søknadsfist', value: deadline },
               { key: 'Klassetrinn', value: <Year joblisting={joblisting} /> },
               {
                 key: 'Sted',
                 value: <Workplaces places={joblisting.workplaces} />
-              }
+              },
+              { key: 'Søknadsfist', value: deadline }
             ].filter(Boolean)}
           />
+          {joblisting.applicationUrl && (
+            <div>
+              <br />
+              {applicationUrl}
+            </div>
+          )}
           {joblisting.responsible && (
             <div>
+              <br />
               <h3>Kontaktinfo</h3>
               <InfoList
                 items={[
@@ -118,27 +120,30 @@ const JoblistingDetail = ({
               />
             </div>
           )}
-          <ul>
-            <li>
-              <strong>Admin</strong>
-            </li>
-            {canEdit && (
+          {(canEdit || canDelete) && (
+            <ul>
+              <br />
               <li>
-                <Link to={`/joblistings/${joblisting.id}/edit`}>Rediger</Link>
+                <strong>Admin</strong>
               </li>
-            )}
-            {canDelete && (
-              <ConfirmModalWithParent
-                title="Slett jobbannonse"
-                message="Er du sikker på at du vil slette denne jobbannonsen?"
-                onConfirm={onDeleteJoblisting}
-              >
+              {canEdit && (
                 <li>
-                  <Link to="">Slett</Link>
+                  <Link to={`/joblistings/${joblisting.id}/edit`}>Rediger</Link>
                 </li>
-              </ConfirmModalWithParent>
-            )}
-          </ul>
+              )}
+              {canDelete && (
+                <ConfirmModalWithParent
+                  title="Slett jobbannonse"
+                  message="Er du sikker på at du vil slette denne jobbannonsen?"
+                  onConfirm={onDeleteJoblisting}
+                >
+                  <li>
+                    <Link to="">Slett</Link>
+                  </li>
+                </ConfirmModalWithParent>
+              )}
+            </ul>
+          )}
         </ContentSidebar>
       </ContentSection>
     </Content>

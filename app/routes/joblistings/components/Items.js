@@ -3,7 +3,6 @@
 import React from 'react';
 import joinValues from 'app/utils/joinValues';
 import type { Workplace, Joblisting } from 'app/models';
-import { Flex } from 'app/components/Layout';
 
 type YearProps = {
   joblisting: Joblisting
