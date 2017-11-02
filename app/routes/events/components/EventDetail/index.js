@@ -21,6 +21,7 @@ import Admin from '../Admin';
 import RegistrationMeta from '../RegistrationMeta';
 import Content from 'app/components/Layout/Content';
 import ContentHeader from 'app/components/Layout/ContentHeader';
+import ContentSection from 'app/components/Layout/ContentSection';
 import cx from 'classnames';
 import DisplayContent from 'app/components/DisplayContent';
 import type { ID } from 'app/models';
@@ -150,7 +151,7 @@ export default class EventDetail extends Component<Props> {
             {event.title}
           </ContentHeader>
 
-          <Flex wrap className={styles.mainRow}>
+          <ContentSection>
             <Flex column className={styles.description}>
               <DisplayContent content={event.text} />
 
@@ -238,7 +239,7 @@ export default class EventDetail extends Component<Props> {
                 </Flex>
               )}
             </Flex>
-          </Flex>
+          </ContentSection>
 
           {loggedIn && (
             <JoinEventForm
