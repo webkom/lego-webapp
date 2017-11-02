@@ -17,7 +17,7 @@ import {
   selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
 import { LoginPage } from 'app/components/LoginForm';
-import { transformEvent } from './utils';
+import { transformEvent, time } from './utils';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = (state, props) => {
@@ -34,6 +34,7 @@ const mapStateToProps = (state, props) => {
   return {
     initialValues: {
       ...event,
+      mergeTime: event.mergeTime ? event.mergeTime : time({ hours: 12 }),
       priceMember: event.priceMember / 100,
       pools: pools.map(pool => ({
         ...pool,
