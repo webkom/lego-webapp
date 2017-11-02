@@ -6,10 +6,10 @@ import { Link } from 'react-router';
 import renderAbakus from './renderAbakus';
 
 const HTTPMapping = {
-  '400': '400 Bad Method',
-  '401': '401 Unauthorized',
-  '403': '403 Forbidden',
-  '404': 'Webkom finner ikke det du leter etter!',
+  '400': 'Noe gikk galt med forespørselen',
+  '401': 'Du er ikke logget inn',
+  '403': 'Denne siden har du ikke tilgang på',
+  '404': 'Denne siden finnes ikke. Er du logget inn?',
   '500': 'Noe gikk veldig galt, Webkom er på saken!'
 };
 
