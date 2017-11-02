@@ -28,10 +28,15 @@ const SurveyDetail = (props: Props) => {
 
       <Content className={styles.surveyDetail}>
         <DetailNavigation
-          title={`Spørreundersøkelse for ${survey.event.title}`}
+          title={survey.title}
           surveyId={Number(survey.id)}
           deleteFunction={deleteSurvey}
         />
+
+        <div className={styles.surveyTime}>
+          Spørreundersøkelse for{' '}
+          <Link to={`/surveys/${survey.event}`}>{survey.event.title}</Link>
+        </div>
 
         <div className={styles.surveyTime}>
           Aktiv fra <Time time={survey.activeFrom} format="ll HH:mm" />

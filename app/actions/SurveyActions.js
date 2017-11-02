@@ -5,8 +5,6 @@ import callAPI from 'app/actions/callAPI';
 import { surveySchema } from 'app/reducers';
 import type { Thunk } from 'app/types';
 import { startSubmit, stopSubmit } from 'redux-form';
-import { push } from 'react-router-redux';
-import { addNotification } from 'app/actions/NotificationActions';
 
 export function fetchAll() {
   return callAPI({
@@ -47,18 +45,13 @@ export function addSurvey(data: Object): Thunk<*> {
         body: data,
         schema: surveySchema,
         meta: {
-          errorMessage: 'Legg til spørreundersøkelse feilet'
+          errorMessage: 'Legg til spørreundersøkelse feilet',
+          successMessage: 'Spørreundersøkelse lagt til.'
         }
       })
-    )
-      .then(action => {
-        if (!action || !action.payload) return;
-        const id = action.payload.result;
-        dispatch(stopSubmit('survey'));
-        dispatch(addNotification({ message: 'Spørreundersøkelse lagt til.' }));
-        dispatch(push(`/surveys/${id}`));
-      })
-      .catch();
+    ).then(action => {
+      dispatch(stopSubmit('survey'));
+    });
   };
 }
 
@@ -74,13 +67,12 @@ export function editSurvey({ surveyId, ...data }: Object): Thunk<*> {
         body: data,
         schema: surveySchema,
         meta: {
-          errorMessage: 'Endring av spørreundersøkelse feilet'
+          errorMessage: 'Endring av spørreundersøkelse feilet',
+          successMessage: 'Spørreundersøkelse endret.'
         }
       })
     ).then(() => {
       dispatch(stopSubmit('survey'));
-      dispatch(addNotification({ message: 'Spørreundersøkelse endret.' }));
-      dispatch(push(`/surveys/${surveyId}/`));
     });
   };
 }
@@ -94,71 +86,10 @@ export function deleteSurvey(surveyId: number): Thunk<*> {
         method: 'DELETE',
         meta: {
           id: Number(surveyId),
-          errorMessage: 'Sletting av spørreundersøkelse feilet'
+          errorMessage: 'Sletting av spørreundersøkelse feilet',
+          successMessage: 'Spørreundersøkelse slettet.'
         }
       })
-    ).then(() => {
-      dispatch(addNotification({ message: 'Spørreundersøkelse slettet.' }));
-      dispatch(push('/surveys/'));
-    });
+    );
   };
-}
-
-export function addSubmission({ surveyId, ...data }: Object): Thunk<*> {
-  return dispatch => {
-    return dispatch(
-      callAPI({
-        types: Survey.ADD_SUBMISSION,
-        endpoint: `/surveys/${surveyId}/submissions/`,
-        method: 'POST',
-        body: data,
-        meta: {
-          errorMessage: 'Legg til svar feilet',
-          surveyId
-        }
-      })
-    ).then(() => {
-      dispatch(addNotification({ message: 'Semester status lagt til.' }));
-      dispatch(push('/surveys/'));
-    });
-  };
-}
-
-export function editSubmission({
-  surveyId,
-  submissionId,
-  ...data
-}: Object): Thunk<*> {
-  return dispatch => {
-    return dispatch(
-      callAPI({
-        types: Survey.EDIT_SUBMISSION,
-        endpoint: `/surveys/${surveyId}/submissions/${submissionId}/`,
-        method: 'PATCH',
-        body: data,
-        meta: {
-          errorMessage: 'Endring av submission status feilet',
-          surveyId,
-          submissionId
-        }
-      })
-    ).then(() => {
-      dispatch(addNotification({ message: 'Svar endret.' }));
-      dispatch(push('/surveys/'));
-    });
-  };
-}
-
-export function deleteSubmission(surveyId: number, submissionId: number) {
-  return callAPI({
-    types: Survey.DELETE_SUBMISSION,
-    endpoint: `/surveys/${surveyId}/submissions/${submissionId}/`,
-    method: 'DELETE',
-    meta: {
-      surveyId,
-      submissionId,
-      errorMessage: 'Sletting av svar feilet',
-      successMessage: 'Svar slettet'
-    }
-  });
 }

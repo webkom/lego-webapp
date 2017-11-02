@@ -15,18 +15,6 @@ export default {
     {
       path: ':surveyId/edit',
       ...resolveAsyncRoute(() => import('./EditSurveyRoute'))
-    },
-    {
-      path: ':surveyId/answer',
-      ...resolveAsyncRoute(() => import('./AddSubmissionRoute'))
-    },
-    {
-      path: ':surveyId/submissions',
-      ...resolveAsyncRoute(() => import('./SubmissionsRoute'))
-    },
-    {
-      path: ':surveyId/submissions/edit',
-      ...resolveAsyncRoute(() => import('./AddSubmissionRoute'))
     }
   ]
 };

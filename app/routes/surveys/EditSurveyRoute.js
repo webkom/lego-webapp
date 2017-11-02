@@ -6,6 +6,7 @@ import SurveyEditor from './components/SurveyEditor';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectSurveyById } from 'app/reducers/surveys';
+import { push } from 'react-router-redux';
 
 const mapStateToProps = (state, props) => {
   const surveyId = Number(props.params.surveyId);
@@ -31,7 +32,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
   submitFunction: editSurvey,
-  deleteSurvey
+  deleteSurvey,
+  push
 };
 
 export default compose(

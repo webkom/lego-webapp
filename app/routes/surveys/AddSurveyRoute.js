@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { addSurvey } from '../../actions/SurveyActions';
+import { addSurvey, deleteSurvey } from '../../actions/SurveyActions';
 import SurveyEditor from './components/SurveyEditor';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { push } from 'react-router-redux';
 
 const mapStateToProps = (state, props) => {
   return {
@@ -18,7 +19,11 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { submitFunction: addSurvey };
+const mapDispatchToProps = {
+  submitFunction: addSurvey,
+  push,
+  deleteSurvey
+};
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),

@@ -15,6 +15,7 @@ import {
 import { createValidator, required } from 'app/utils/validation';
 import { reduxForm } from 'redux-form';
 import type { SurveyEntity } from 'app/reducers/surveys';
+import Content from 'app/components/Layout/Content';
 
 type Props = {
   survey: SurveyEntity,
@@ -23,20 +24,22 @@ type Props = {
   autoFocus: any,
   fetching: boolean,
   submitFunction: (SurveyEntity, ?number) => Promise<*>,
-  deleteSurvey: number => Promise<*>
+  deleteSurvey: number => Promise<*>,
+  push: string => void
 };
 
 class SurveyEditor extends Component<Props> {
   onSubmit = (formContent: Object) => {
-    const { survey, submitFunction } = this.props;
+    const { survey, submitFunction, push } = this.props;
     return submitFunction({
       ...formContent,
       logo: formContent.logo || undefined,
       studentContact:
         formContent.studentContact && Number(formContent.studentContact.id),
       surveyId: survey && survey.id
-    });
+    }).then(result => push(`/surveys/${result.id}`));
   };
+
   render() {
     const {
       survey,
@@ -51,10 +54,10 @@ class SurveyEditor extends Component<Props> {
       return <LoadingIndicator />;
     }
 
-    const nameField = (
+    const titleField = (
       <Field
         placeholder="Tittel"
-        label="Undersøkelse etter Bekk Miniseminar"
+        label=" "
         autoFocus={autoFocus}
         name="title"
         component={TextInput.Field}
@@ -63,26 +66,26 @@ class SurveyEditor extends Component<Props> {
     );
 
     return (
-      <div className={styles.root}>
+      <Content>
         <div className={styles.detail}>
           <form onSubmit={handleSubmit(this.onSubmit)}>
             {survey ? (
               <DetailNavigation
-                title={nameField}
+                title={titleField}
                 surveyId={Number(survey.id)}
                 deleteFunction={deleteSurvey}
               />
             ) : (
-              <ListNavigation title={nameField} />
+              <ListNavigation title={titleField} />
             )}
 
             <Field
-              placeholder="Arrangement"
-              label=" "
+              placeholder="Bekk Miniseminar"
+              label="Arrangement"
               autoFocus={autoFocus}
               name="event"
               component={SelectInput.AutocompleteField}
-              className={styles.editBubble}
+              className={styles.editEvent}
               filter={['events.event']}
             />
 
@@ -112,7 +115,7 @@ class SurveyEditor extends Component<Props> {
             </Button>
           </form>
         </div>
-      </div>
+      </Content>
     );
   }
 }
