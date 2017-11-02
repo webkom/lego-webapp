@@ -1,6 +1,9 @@
 import { get } from 'lodash';
 import Raven from 'raven-js';
 
+const reportToSentry = action =>
+  __CLIENT__ && Raven.captureException(action.payload);
+
 export default function createMessageMiddleware(actionToDispatch) {
   return store => next => action => {
     const success = action.success && get(action, ['meta', 'successMessage']);
@@ -11,8 +14,8 @@ export default function createMessageMiddleware(actionToDispatch) {
     let message;
 
     if (error) {
-      Raven.captureException(action.payload);
       message = typeof error === 'function' ? error(action.error) : error;
+      reportToSentry(action);
     } else {
       message = success;
     }
