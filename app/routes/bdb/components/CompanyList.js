@@ -102,7 +102,7 @@ export default class CompanyList extends Component<Props> {
         sortLink: 'studentContact'
       },
       {
-        title: 'Kommentar',
+        title: 'Notat',
         sortLink: 'comment'
       }
     ];

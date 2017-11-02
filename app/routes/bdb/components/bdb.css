@@ -299,10 +299,22 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 
 .infoBubbles {
   display: flex;
-  margin: 30px 0;
   text-align: center;
   flex-wrap: wrap;
   justify-content: space-between;
+
+  @media (--mobile-device) {
+    justify-content: space-around;
+    align-items: center;
+  }
+}
+
+.infoBubbles > div {
+  margin: 30px 0;
+
+  @media (--mobile-device) {
+    margin-right: 20px;
+  }
 }
 
 .editBubbles {

@@ -254,20 +254,18 @@ export default class BdbDetail extends Component<Props, State> {
               meta="Telefon"
               style={{ order: 2 }}
             />
-          </div>
-          <div className={styles.infoBubbles}>
             <InfoBubble
               icon="at"
               data={company.website}
               meta="Nettside"
-              style={{ order: 0 }}
+              style={{ order: 3 }}
               link={company.website}
             />
             <InfoBubble
               icon="home"
               data={company.address}
               meta="Adresse"
-              style={{ order: 1 }}
+              style={{ order: 4 }}
             />
             <InfoBubble
               icon="person"
@@ -275,7 +273,7 @@ export default class BdbDetail extends Component<Props, State> {
                 company.studentContact.fullName) ||
                 '-'}`}
               meta="Studentkontakt"
-              style={{ order: 2 }}
+              style={{ order: 5 }}
             />
           </div>
           <h3>Bedriftskontakter</h3>
@@ -352,7 +350,7 @@ export default class BdbDetail extends Component<Props, State> {
             </ul>
           </div>
           <div className={styles.adminNote}>
-            <h3>Notat fra Bedkom</h3>
+            <h3>Notat i listen</h3>
             {company.adminComment || <i>Ingen notater</i>}
           </div>
           <h3>Bedriftens arrangementer</h3>
