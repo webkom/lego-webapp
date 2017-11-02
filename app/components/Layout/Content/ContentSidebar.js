@@ -10,6 +10,11 @@ type Props = {
   children: Node
 };
 
+/**
+ * Sidebar used next to ContentMain. Should usually be used
+ * next to ContentMain, nested under ContentSection.
+ * See Content for an example.
+ */
 function ContentSidebar({ children, className }: Props) {
   return (
     <Flex column className={cx(styles.sidebar, className)}>
