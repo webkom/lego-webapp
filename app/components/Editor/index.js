@@ -298,7 +298,7 @@ class CustomEditor extends Component<Props, State> {
 
   updateHoverMenu = () => {
     const { state } = this.state;
-    const menu: HTMLElement = this.menuWrapper.firstChild;
+    const [menu] = this.menuWrapper.children;
     if (!menu) return;
 
     if (state.isBlurred || state.isEmpty) {
