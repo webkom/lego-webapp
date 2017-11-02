@@ -95,7 +95,7 @@ export const RegisteredElement = ({
           content={
             <Time
               time={registration.registrationDate}
-              format="DD.MM.YYYY HH:mm"
+              format="DD.MM.YYYY HH:mm:ss"
             />
           }
         >
@@ -201,7 +201,9 @@ export const UnregisteredElement = ({
           <Time time={registration.unregistrationDate} format="DD.MM.YYYY" />
         </Tooltip>
       </div>
-      <div className={styles.col}>5. Data</div>
+      <div className={styles.col}>
+        {registration.user.grade ? registration.user.grade.name : ''}
+      </div>
     </li>
   );
 };

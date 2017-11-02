@@ -12,9 +12,8 @@ import EventAdministrate from './components/EventAdministrate';
 import {
   selectEventById,
   selectPoolsForEvent,
-  selectAllRegistrationsForEvent
+  getRegistrationGroups
 } from 'app/reducers/events';
-import { groupBy } from 'lodash';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
@@ -24,17 +23,9 @@ const mapStateToProps = (state, props) => {
   const event = selectEventById(state, { eventId });
   const actionGrant = state.events.actionGrant;
   const pools = selectPoolsForEvent(state, { eventId });
-  const registrations = selectAllRegistrationsForEvent(state, { eventId });
-  const grouped = groupBy(
-    registrations,
-    obj => (obj.unregistrationDate.isValid() ? 'unregistered' : 'registered')
-  );
-  const registered = (grouped['registered'] || []).sort((a, b) =>
-    a.registrationDate.isAfter(b.registrationDate)
-  );
-  const unregistered = (grouped['unregistered'] || []).sort((a, b) =>
-    a.unregistrationDate.isAfter(b.unregistrationDate)
-  );
+  const { registered, unregistered } = getRegistrationGroups(state, {
+    eventId
+  });
 
   return {
     eventId,
