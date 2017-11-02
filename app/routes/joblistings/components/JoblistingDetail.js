@@ -5,6 +5,7 @@ import { Link } from 'react-router';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
 import { Image } from 'app/components/Image';
 import DisplayContent from 'app/components/DisplayContent';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import styles from './JoblistingDetail.css';
 import InfoList from 'app/components/InfoList';
 import { Flex } from 'app/components/Layout';
@@ -12,26 +13,36 @@ import {
   Content,
   ContentSection,
   ContentMain,
-  ContentSidebar
+  ContentSidebar,
+  ContentHeader
 } from 'app/components/Content';
-import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import Button from 'app/components/Button';
 import { jobType, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
 
 type Props = {
   joblisting: Object,
   actionGrant: /*TODO: ActionGrant */ Array<any>,
-  fetching: boolean
+  deleteJoblisting: ID => Promise<*>,
+  fetching: boolean,
+  push: string => void
 };
 
 const JoblistingDetail = ({
   joblisting,
   actionGrant,
+  deleteJoblisting,
+  push,
   fetching = false
 }: Props) => {
   if (fetching || !joblisting) {
     return <LoadingIndicator loading />;
   }
+
+  const onDeleteJoblisting = () =>
+    deleteJoblisting(joblisting.id).then(() => {
+      push('/joblistings/');
+    });
 
   const companyLink = (
     <Link to={`/companies/${joblisting.company.id}`}>
@@ -49,6 +60,9 @@ const JoblistingDetail = ({
     <a href={`${joblisting.applicationUrl}`}>{joblisting.applicationUrl}</a>
   );
 
+  const canEdit = actionGrant.includes('edit');
+  const canDelete = actionGrant.includes('delete');
+
   return (
     <Content>
       {joblisting.company.logo && (
@@ -56,18 +70,7 @@ const JoblistingDetail = ({
           <Image src={joblisting.company.logo} />
         </div>
       )}
-      <NavigationTab
-        title={joblisting.title}
-        headerClassName={styles.headerDetail}
-      >
-        {actionGrant.includes('edit') && (
-          <div>
-            <NavigationLink to={`/joblistings/${joblisting.id}/edit`}>
-              Rediger
-            </NavigationLink>
-          </div>
-        )}
-      </NavigationTab>
+      <ContentHeader>{joblisting.title}</ContentHeader>
       <ContentSection>
         <ContentMain>
           <DisplayContent content={joblisting.description} />
@@ -115,6 +118,27 @@ const JoblistingDetail = ({
               />
             </div>
           )}
+          <ul>
+            <li>
+              <strong>Admin</strong>
+            </li>
+            {canEdit && (
+              <li>
+                <Link to={`/joblistings/${joblisting.id}/edit`}>Rediger</Link>
+              </li>
+            )}
+            {canDelete && (
+              <ConfirmModalWithParent
+                title="Slett jobbannonse"
+                message="Er du sikker på at du vil slette denne jobbannonsen?"
+                onConfirm={onDeleteJoblisting}
+              >
+                <li>
+                  <Link to="">Slett</Link>
+                </li>
+              </ConfirmModalWithParent>
+            )}
+          </ul>
         </ContentSidebar>
       </ContentSection>
     </Content>
