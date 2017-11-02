@@ -1,12 +1,11 @@
 // @flow
 
 import React from 'react';
-import Helmet from 'react-helmet';
 import styles from './AnnouncementsList.css';
 import Flex from 'app/components/Layout/Flex';
 import AnnouncementItem from './AnnouncementItem';
 import AnnouncementsCreate from './AnnouncementsCreate';
-import { Content } from 'app/components/Layout';
+import { Content, ContentMain } from 'app/components/Content';
 
 type Props = {
   announcement: Object,
@@ -34,14 +33,13 @@ const AnnouncementsList = ({
 }: Props) => {
   return (
     <Content>
-      <Helmet title="Kunngjøringer" />
       <AnnouncementsCreate
         createAnnouncement={createAnnouncement}
         actionGrant={actionGrant}
       />
       {actionGrant.includes('list') &&
         actionGrant.includes('delete') && (
-          <Flex column>
+          <ContentMain>
             <h1 className={styles.header}> Mine kunngjøringer </h1>
             <Flex column className={styles.list}>
               {announcements.map((a, i) => (
@@ -54,7 +52,7 @@ const AnnouncementsList = ({
                 />
               ))}
             </Flex>
-          </Flex>
+          </ContentMain>
         )}
     </Content>
   );

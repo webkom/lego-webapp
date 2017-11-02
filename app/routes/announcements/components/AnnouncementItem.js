@@ -21,7 +21,7 @@ const AnnouncementItem = ({
   actionGrant
 }: Props) => {
   return (
-    <Flex padding="10px 0" justifyContent="space-between">
+    <Flex className={styles.item}>
       <Flex column>
         <Flex className={styles.date}>
           {announcement.sent ? (

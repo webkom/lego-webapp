@@ -6,6 +6,7 @@ import Flex from 'app/components/Layout/Flex';
 import { Form, SelectInput, TextArea } from 'app/components/Form';
 import { reduxForm, Field, reset } from 'redux-form';
 import Button from 'app/components/Button';
+import { ContentMain } from 'app/components/Content';
 
 type Props = {
   createAnnouncement: (...any) => void,
@@ -45,7 +46,7 @@ const AnnouncementsCreate = ({
     });
   };
   return (
-    <div>
+    <ContentMain>
       {actionGrant.includes('create') && (
         <Flex column>
           <h2 className={styles.header}>Ny kunngjøring</h2>
@@ -109,7 +110,7 @@ const AnnouncementsCreate = ({
           </Form>
         </Flex>
       )}
-    </div>
+    </ContentMain>
   );
 };
 
