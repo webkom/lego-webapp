@@ -29,12 +29,6 @@
   margin-right: 10px;
 }
 
-.applicationUrl,
-.company {
-  color: #fff;
-  text-decoration: underline;
-}
-
 .editButton {
   cursor: pointer;
   background: #eff1f4;

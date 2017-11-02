@@ -32,7 +32,7 @@ const JoblistingDetail = ({
   }
 
   const companyLink = (
-    <Link to={`/companies/${joblisting.company.id}`} className={styles.company}>
+    <Link to={`/companies/${joblisting.company.id}`}>
       {joblisting.company.name}
     </Link>
   );
@@ -44,9 +44,7 @@ const JoblistingDetail = ({
   );
 
   const applicationUrl = (
-    <a href={`${joblisting.applicationUrl}`} className={styles.applicationUrl}>
-      {joblisting.applicationUrl}
-    </a>
+    <a href={`${joblisting.applicationUrl}`}>{joblisting.applicationUrl}</a>
   );
 
   return (
