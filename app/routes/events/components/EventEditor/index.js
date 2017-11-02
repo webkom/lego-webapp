@@ -24,10 +24,12 @@ import {
 import { Flex } from 'app/components/Layout';
 import { eventTypes, colorForEvent } from '../../utils';
 import Admin from '../Admin';
-import Content from 'app/components/Layout/Content';
-import ContentSection from 'app/components/Layout/ContentSection';
-import ContentMain from 'app/components/Layout/ContentMain';
-import ContentSidebar from 'app/components/Layout/ContentSidebar';
+import {
+  Content,
+  ContentSection,
+  ContentMain,
+  ContentSidebar
+} from 'app/components/Layout/Content';
 import Tooltip from 'app/components/Tooltip';
 import type { ID } from 'app/models';
 

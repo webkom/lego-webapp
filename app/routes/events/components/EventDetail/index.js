@@ -19,12 +19,14 @@ import { Flex } from 'app/components/Layout';
 import { EVENT_TYPE_TO_STRING, colorForEvent } from '../../utils';
 import Admin from '../Admin';
 import RegistrationMeta from '../RegistrationMeta';
-import Content from 'app/components/Layout/Content';
-import ContentHeader from 'app/components/Layout/ContentHeader';
-import ContentSection from 'app/components/Layout/ContentSection';
 import DisplayContent from 'app/components/DisplayContent';
-import ContentMain from 'app/components/Layout/ContentMain';
-import ContentSidebar from 'app/components/Layout/ContentSidebar';
+import {
+  Content,
+  ContentHeader,
+  ContentSection,
+  ContentMain,
+  ContentSidebar
+} from 'app/components/Layout/Content';
 import type { ID } from 'app/models';
 
 type InterestedButtonProps = {
