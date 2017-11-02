@@ -1,4 +1,3 @@
-import styles from './components/Event.css';
 import { omit } from 'lodash';
 import moment from 'moment-timezone';
 
@@ -17,32 +16,18 @@ export const EVENT_TYPE_TO_STRING = eventType => {
   return eventTypes[eventType] || eventTypes['other'];
 };
 
-const typeStyles = {
-  company_presentation: styles.companyPresentation,
-  lunch_presentation: styles.lunchPresentation,
-  course: styles.course,
-  party: styles.party,
-  social: styles.social,
-  event: styles.event,
-  other: styles.other
-};
-
-export const styleForEvent = eventType => {
-  return typeStyles[eventType] || typeStyles['other'];
-};
-
-export const colorType = {
-  company_presentation: styles.colorCompanyPresentation,
-  lunch_presentation: styles.colorLunchPresentation,
-  course: styles.colorCourse,
-  party: styles.colorParty,
-  social: styles.colorSocial,
-  event: styles.colorEvent,
-  other: styles.colorOther
+const TYPE_COLORS = {
+  company_presentation: '#A1C34A',
+  lunch_presentation: '#A1C34A',
+  course: '#52B0EC',
+  party: '#FCD748',
+  social: '#B11C11',
+  event: '#B11C11',
+  other: '#111'
 };
 
 export const colorForEvent = eventType => {
-  return colorType[eventType] || colorType['other'];
+  return TYPE_COLORS[eventType] || TYPE_COLORS['other'];
 };
 
 export const transformEvent = (data, edit = false) => {

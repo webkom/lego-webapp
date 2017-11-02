@@ -22,7 +22,7 @@ import {
   ImageUploadField
 } from 'app/components/Form';
 import { Flex } from 'app/components/Layout';
-import { eventTypes, styleForEvent } from '../../utils.js';
+import { eventTypes, colorForEvent } from '../../utils';
 import Admin from '../Admin';
 import Content from 'app/components/Layout/Content';
 import Tooltip from 'app/components/Tooltip';
@@ -79,8 +79,8 @@ function EventEditor({
   if (error) {
     return <div>{error.message}</div>;
   }
-  const styleType = styleForEvent(event.eventType);
 
+  const color = colorForEvent(event.eventType);
   return (
     <Content>
       {isEditPage && (
@@ -112,7 +112,8 @@ function EventEditor({
           <Field
             name="title"
             placeholder="Tittel"
-            className={cx(styleType, styles.title)}
+            style={{ borderBottom: `2px solid ${color}` }}
+            className={styles.title}
             component={TextInput.Field}
           />
         </Flex>
