@@ -161,7 +161,7 @@ export default class EventDetail extends Component<Props> {
         key: 'Avregistreringsfrist',
         value: <FormatTime time={event.unregistrationDeadline} />
       }
-    ].filter(Boolean);
+    ];
 
     const paidItems = [
       { key: 'Pris', value: `${event.priceMember / 100},-` },
@@ -169,7 +169,7 @@ export default class EventDetail extends Component<Props> {
         key: 'Betalingsfrist',
         value: <FormatTime time={event.paymentDueDate} />
       }
-    ].filter(Boolean);
+    ];
 
     return (
       <div>

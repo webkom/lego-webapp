@@ -92,7 +92,7 @@ const JoblistingDetail = ({
                 key: 'Sted',
                 value: <Workplaces places={joblisting.workplaces} />
               }
-            ].filter(Boolean)}
+            ]}
           />
           {joblisting.responsible && (
             <div>
