@@ -73,19 +73,29 @@ function render(req, res, next) {
     );
 
     const respond = (error = null) => {
-      const renderResult = error !== TimeoutError;
-
-      const body = renderResult ? renderToString(app) : '';
-      const state = renderResult ? store.getState() : {};
       const helmet = Helmet.rewind();
+      const render = (body = '', state = {}) =>
+        res.send(
+          renderPage({
+            body: '',
+            state: {},
+            helmet
+          })
+        );
 
-      return res.send(
-        renderPage({
-          body,
-          state,
-          helmet
-        })
-      );
+      // Skip server side rendering on timeout errors:
+      if (error === TimeoutError) {
+        return render();
+      }
+
+      try {
+        const body = renderToString(app);
+        const state = store.getState();
+        return render(body, state);
+      } catch (err) {
+        Raven.captureException(err);
+        return render();
+      }
     };
 
     prepareWithTimeout(app)
