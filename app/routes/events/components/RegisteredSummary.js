@@ -66,33 +66,34 @@ const RegisteredSentence = ({
   registrations,
   toggleModal
 }: RegisteredSummaryProps) => {
-  if (registrations.length === 0) {
-    return 'Ingen';
+  switch (registrations.length) {
+    case 0:
+      return 'Ingen';
+    case 1:
+      return <Registration registration={registrations[0]} />;
+    case 2:
+      return (
+        <Flex>
+          <Registration registration={registrations[0]} />
+          {' og '}
+          <Registration registration={registrations[1]} />
+        </Flex>
+      );
+    default:
+      // For more than 2 registrations we add a clickable `more` link:
+      return (
+        <Flex>
+          <Registration registration={registrations[0]} />
+          {', '}
+          <Registration registration={registrations[1]} />
+          {' og '}
+          <RegistrationList
+            registrations={registrations.slice(2)}
+            onClick={() => toggleModal && toggleModal(0)}
+          />
+        </Flex>
+      );
   }
-
-  // For more than 2 registrations we add a clickable `more` link:
-  if (registrations.length > 2) {
-    return (
-      <Flex>
-        <Registration registration={registrations[0]} />
-        {', '}
-        <Registration registration={registrations[1]} />
-        {' og '}
-        <RegistrationList
-          registrations={registrations.slice(2)}
-          onClick={() => toggleModal && toggleModal(0)}
-        />
-      </Flex>
-    );
-  }
-
-  return (
-    <Flex>
-      <Registration registration={registrations[0]} />
-      {' og '}
-      <Registration registration={registrations[1]} />
-    </Flex>
-  );
 };
 
 const RegisteredSummary = (props: RegisteredSummaryProps) => {
