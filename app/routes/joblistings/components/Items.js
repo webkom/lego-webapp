@@ -9,12 +9,12 @@ type YearProps = {
 };
 
 export const Year = ({ joblisting }: YearProps) => (
-  <div>
+  <span>
     {joblisting.fromYear === joblisting.toYear
       ? `${joblisting.fromYear}. `
       : `${joblisting.fromYear}. - ${joblisting.toYear}. `}
     klasse
-  </div>
+  </span>
 );
 
 type WorkplacesProps = {
@@ -22,7 +22,7 @@ type WorkplacesProps = {
 };
 
 export const Workplaces = ({ places }: WorkplacesProps) => (
-  <div>{joinValues(places.map(place => place.town))}</div>
+  <span>{joinValues(places.map(place => place.town))}</span>
 );
 
 const types = {
