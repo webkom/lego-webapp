@@ -14,7 +14,7 @@ import {
 } from 'app/components/Form';
 import { Link } from 'react-router';
 import { Field } from 'redux-form';
-import { createValidator, required } from 'app/utils/validation';
+import { createValidator, required, isNotEmail } from 'app/utils/validation';
 import type { ReduxFormProps } from 'app/types';
 
 type Props = {
@@ -119,7 +119,7 @@ const StudentConfirmation = ({
 };
 
 const validate = createValidator({
-  studentUsername: [required()],
+  studentUsername: [isNotEmail('Kun NTNU-brukernavn')],
   course: [required()],
   member: [required()],
   captchaResponse: [required('Captcha er ikke validert')]
