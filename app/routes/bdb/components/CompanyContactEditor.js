@@ -54,7 +54,7 @@ class CompanyContactEditor extends Component<Props> {
     }
 
     return (
-      <div className={styles.root}>
+      <Content>
         <DetailNavigation
           title="Bedriftskontakt"
           companyId={company.id}
@@ -110,7 +110,7 @@ class CompanyContactEditor extends Component<Props> {
             </Button>
           </form>
         </div>
-      </div>
+      </Content>
     );
   }
 }

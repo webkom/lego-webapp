@@ -1,46 +1,7 @@
 @import 'app/styles/variables.css';
 
-.root {
-  composes: contentContainer from 'app/styles/utilities.css';
-}
-
-.root h1 {
-  font-size: 30px;
-  font-weight: bold;
-  display: block;
-  padding-left: 0;
-}
-
 .root h3 {
   margin: 5px 0 25px;
-}
-
-.root select {
-  font-size: 100%;
-  font-family: 'proxima-nova', 'Helvetica Neue', Arial, sans-serif;
-  cursor: pointer;
-  transition: color 0.2s;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  text-indent: 1px;
-  text-overflow: '';
-  background-color: inherit;
-  border: none;
-  outline: none;
-
-  &:hover {
-    color: #777;
-    cursor: pointer;
-  }
-
-  &:focus {
-    border: none;
-    outline: none;
-  }
-
-  &::-ms-expand {
-    display: none;
-  }
 }
 
 .companyList table {

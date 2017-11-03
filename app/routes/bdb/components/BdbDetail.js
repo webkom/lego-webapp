@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import styles from './bdb.css';
+import { Content } from 'app/components/Layout';
 import {
   sortByYearThenSemester,
   getContactedStatuses,
@@ -215,7 +216,7 @@ export default class BdbDetail extends Component<Props, State> {
     );
 
     return (
-      <div className={styles.root}>
+      <Content>
         <div className={styles.detail}>
           {company.logo && (
             <Image
@@ -392,7 +393,7 @@ export default class BdbDetail extends Component<Props, State> {
             />
           )}
         </div>
-      </div>
+      </Content>
     );
   }
 }
