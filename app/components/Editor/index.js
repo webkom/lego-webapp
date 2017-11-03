@@ -71,7 +71,6 @@ class CustomEditor extends Component<Props, State> {
     super(props);
     resetKeyGenerator();
     const content = this.props.value || emptyState;
-    this.menuWrapper = document.createElement('div');
 
     this.state = {
       state: serializer.deserialize(content)
@@ -88,10 +87,13 @@ class CustomEditor extends Component<Props, State> {
   };
 
   componentDidMount = () => {
-    this.updateHoverMenu();
     if (document && document.body) {
-      document.body.appendChild(this.menuWrapper);
+      const { body } = document;
+      this.menuWrapper = document.createElement('div');
+      body.appendChild(this.menuWrapper);
     }
+
+    this.updateHoverMenu();
   };
 
   componentWillUnmount = () => {
