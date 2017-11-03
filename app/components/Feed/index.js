@@ -11,7 +11,9 @@ export const activityRenderers = {
   restricted_mail_sent: require('./renders/restrictedMail'),
   registration_bump: require('./renders/registrationBump'),
   admin_registration: require('./renders/adminRegistration'),
-  announcement: require('./renders/announcement')
+  announcement: require('./renders/announcement'),
+  group_join: require('./renders/group'),
+  event_register: require('./renders/event_register')
 };
 
 const Feed = ({ items }: { items: Array<AggregatedActivity> }) => (

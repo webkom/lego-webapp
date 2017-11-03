@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import Icon from 'app/components/Icon';
-import joinValues from 'app/utils/joinValues';
+import { formatHeader } from './utils';
 import { lookupContext, contextRender } from '../context';
 import type { AggregatedActivity } from '../types';
 
@@ -21,7 +21,9 @@ export function activityHeader(aggregatedActivity: AggregatedActivity) {
   return (
     <b>
       {'Du har rykket opp fra ventelisten på '}
-      {joinValues(events.map(event => contextRender[event.contentType](event)))}
+      {formatHeader(
+        events.map(event => contextRender[event.contentType](event))
+      )}
     </b>
   );
 }
