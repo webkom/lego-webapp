@@ -4,7 +4,7 @@
   max-height: calc(100vh - 210px);
   padding: 0 30px;
   margin-bottom: 5px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .list > li {

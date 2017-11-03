@@ -28,7 +28,7 @@
   padding: 40px;
   outline: none;
   max-height: 80vh;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .closeButton {

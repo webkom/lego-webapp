@@ -57,7 +57,7 @@
 
 .resultsContainer {
   background: rgba(255, 255, 255, 0.8);
-  overflow-y: scroll;
+  overflow-y: auto;
   height: 100%;
   max-height: calc(100vh - 120px);
   border-radius: 0 0 7px 7px;
