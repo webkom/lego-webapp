@@ -6,6 +6,7 @@ import { compose } from 'redux';
 import { selectSurveyById } from 'app/reducers/surveys';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import loadingIndicator from 'app/utils/loadingIndicator';
 
 const loadData = ({ params: { surveyId } }, dispatch) =>
   dispatch(fetch(surveyId));
@@ -13,11 +14,9 @@ const loadData = ({ params: { surveyId } }, dispatch) =>
 const mapStateToProps = (state, props) => {
   const surveyId = Number(props.params.surveyId);
   const survey = selectSurveyById(state, { surveyId });
-  const fetching = state.surveys.fetching;
   return {
     survey,
-    surveyId,
-    fetching
+    surveyId
   };
 };
 
@@ -29,5 +28,6 @@ const mapDispatchToProps = {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData, ['params.surveyId']),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  loadingIndicator(['survey.title'])
 )(SurveyDetail);

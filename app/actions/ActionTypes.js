@@ -266,10 +266,7 @@ export const Survey = {
   FETCH: generateStatuses('Survey.FETCH'),
   ADD: generateStatuses('Survey.ADD'),
   EDIT: generateStatuses('Survey.EDIT'),
-  DELETE: generateStatuses('Survey.DELETE'),
-  ADD_SUBMISSION: generateStatuses('Survey.ADD_SUBMISSION'),
-  EDIT_SUBMISSION: generateStatuses('Survey.EDIT_SUBMISSION'),
-  DELETE_SUBMISSION: generateStatuses('Survey.DELETE_SUBMISSION')
+  DELETE: generateStatuses('Survey.DELETE')
 };
 
 /**

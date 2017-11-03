@@ -7,12 +7,13 @@ import { selectSurveys } from 'app/reducers/surveys';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { push } from 'react-router-redux';
+import loadingIndicator from 'app/utils/loadingIndicator';
 
 const loadData = (props, dispatch) => dispatch(fetchAll());
 
 const mapStateToProps = (state, props) => ({
   surveys: selectSurveys(state, props),
-  fetching: state.surveys.fetching
+  notFetching: !state.surveys.fetching
 });
 
 const mapDispatchToProps = {
@@ -24,5 +25,6 @@ const mapDispatchToProps = {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  loadingIndicator(['notFetching'])
 )(SurveyPage);

@@ -3,11 +3,11 @@
 import React, { Component } from 'react';
 import SurveyList from './SurveyList';
 import styles from './surveys.css';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import { ListNavigation } from '../utils.js';
 import TextInput from 'app/components/Form/TextInput';
-import Content from 'app/components/Layout/Content';
+import Content from 'app/components/Content';
+import { Flex } from 'app/components/Layout';
 
 type Props = {
   surveys: Array<SurveyEntity>,
@@ -23,7 +23,6 @@ type State = {
 
 export default class SurveyPage extends Component<Props, State> {
   state = {
-    filters: {},
     searchQuery: ''
   };
 
@@ -49,13 +48,9 @@ export default class SurveyPage extends Component<Props, State> {
   render() {
     const { surveys, fetching, push } = this.props;
 
-    if (!surveys) {
-      return <LoadingIndicator loading />;
-    }
-
     const filteredSurveys = this.filterSurveys(surveys);
 
-    const searchKeyPress = (event: Object) => {
+    const searchKeyPress = (event: Event) => {
       if (event.key === 'Enter' && filteredSurveys.length === 1) {
         push(`/surveys/${filteredSurveys[0].id}`);
       }
@@ -64,13 +59,13 @@ export default class SurveyPage extends Component<Props, State> {
       <Content>
         <ListNavigation title="Spørreundersøkelser" />
 
-        <div className={styles.search}>
+        <Flex className={styles.search}>
           <h2>Søk</h2>
           <TextInput
             onChange={this.updateSearchQuery}
             onKeyPress={searchKeyPress}
           />
-        </div>
+        </Flex>
 
         <SurveyList surveys={filteredSurveys} fetching={fetching} />
       </Content>

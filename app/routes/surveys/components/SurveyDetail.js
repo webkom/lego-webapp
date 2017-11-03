@@ -8,18 +8,18 @@ import styles from './surveyDetail.css';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { DetailNavigation } from '../utils.js';
-import Content from 'app/components/Layout/Content';
+import Content from 'app/components/Content';
 
 type Props = {
   survey: SurveyEntity,
-  fetching: boolean,
   deleteSurvey: number => Promise<*>
 };
 
 const SurveyDetail = (props: Props) => {
-  const { survey, fetching, deleteSurvey } = props;
+  const { survey, deleteSurvey } = props;
 
-  if (fetching || !survey || !survey.event) return <LoadingIndicator />;
+  if (!survey.event) return <LoadingIndicator />;
+
   return (
     <div>
       <div className={styles.coverImage}>

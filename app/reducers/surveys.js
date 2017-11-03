@@ -3,7 +3,6 @@
 import { Survey } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
-import mergeObjects from 'app/utils/mergeObjects';
 
 export type SurveyEntity = {
   id?: number,
@@ -55,30 +54,6 @@ function mutateSurveys(state, action) {
       };
     }
 
-    case Survey.ADD_SUBMISSION.SUCCESS: {
-      const companyId = action.meta.companyId;
-      const semesterStatuses = state.byId[companyId].semesterStatuses.concat(
-        action.payload
-      );
-      return mergeObjects(state, {
-        byId: {
-          [companyId]: { semesterStatuses }
-        }
-      });
-    }
-
-    case Survey.EDIT_SUBMISSION.SUCCESS: {
-      const { companyId, semesterStatusId } = action.meta;
-      const semesterStatuses = state.byId[companyId].semesterStatuses.map(
-        status => (status.id === semesterStatusId ? action.payload : status)
-      );
-      return mergeObjects(state, {
-        byId: {
-          [companyId]: { semesterStatuses }
-        }
-      });
-    }
-
     default:
       return state;
   }
@@ -97,7 +72,6 @@ export const selectSurveys = createSelector(
   state => state.surveys.items,
   state => state.surveys.byId,
   (surveyIds, surveysById) => {
-    if (surveyIds.length === 0) return [];
     return surveyIds.map(surveyId => surveysById[surveyId]);
   }
 );

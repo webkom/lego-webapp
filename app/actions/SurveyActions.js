@@ -5,6 +5,7 @@ import callAPI from 'app/actions/callAPI';
 import { surveySchema } from 'app/reducers';
 import type { Thunk } from 'app/types';
 import moment from 'moment-timezone';
+import type { SurveyEntity } from 'app/reducers/surveys';
 
 export function fetchAll() {
   return callAPI({
@@ -34,7 +35,7 @@ export function fetch(surveyId: number): Thunk<*> {
     );
 }
 
-export function addSurvey(data: Object): Thunk<*> {
+export function addSurvey(data: SurveyEntity): Thunk<*> {
   return callAPI({
     types: Survey.ADD,
     endpoint: '/surveys/',
