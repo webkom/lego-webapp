@@ -19,12 +19,12 @@ const mapStateToProps = (state, props) => {
     fetching,
     initialValues: survey
       ? {
-          title: survey.title,
-          active_from: survey.active_from,
-          questions: survey.questions,
-          submissions: survey.submissions,
-          event: survey.event,
-          template_type: survey.template_type
+          ...survey,
+          event: survey.event && {
+            value: Number(survey.event.id),
+            label: survey.event.title
+          },
+          isClone: String(survey.isClone)
         }
       : null
   };

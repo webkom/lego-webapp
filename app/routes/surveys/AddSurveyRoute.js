@@ -5,16 +5,22 @@ import SurveyEditor from './components/SurveyEditor';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { push } from 'react-router-redux';
+import moment from 'moment-timezone';
+
+const time = (hours, minutes) =>
+  moment()
+    .startOf('day')
+    .add({ hours, minutes })
+    .toISOString();
 
 const mapStateToProps = (state, props) => {
   return {
     initialValues: {
       title: '',
-      active_from: '',
-      questions: '',
-      submissions: '',
-      event: '',
-      template_type: ''
+      isClone: 'false',
+      activeFrom: time(12, 0),
+      questions: [],
+      event: ''
     }
   };
 };

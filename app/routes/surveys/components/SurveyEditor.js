@@ -10,7 +10,8 @@ import {
   TextInput,
   RadioButton,
   SelectInput,
-  RadioButtonGroup
+  RadioButtonGroup,
+  DatePicker
 } from 'app/components/Form';
 import { createValidator, required } from 'app/utils/validation';
 import { reduxForm } from 'redux-form';
@@ -33,11 +34,12 @@ class SurveyEditor extends Component<Props> {
     const { survey, submitFunction, push } = this.props;
     return submitFunction({
       ...formContent,
-      logo: formContent.logo || undefined,
-      studentContact:
-        formContent.studentContact && Number(formContent.studentContact.id),
+      event: formContent.event && Number(formContent.event.value),
       surveyId: survey && survey.id
-    }).then(result => push(`/surveys/${result.id}`));
+    }).then(result => {
+      const id = survey ? survey.id : result.payload.result;
+      push(`/surveys/${String(id)}`);
+    });
   };
 
   render() {
@@ -79,20 +81,10 @@ class SurveyEditor extends Component<Props> {
               <ListNavigation title={titleField} />
             )}
 
-            <Field
-              placeholder="Bekk Miniseminar"
-              label="Arrangement"
-              autoFocus={autoFocus}
-              name="event"
-              component={SelectInput.AutocompleteField}
-              className={styles.editEvent}
-              filter={['events.event']}
-            />
-
             <div className={styles.info}>
               <div style={{ order: 0 }}>
                 <RadioButtonGroup
-                  name="is_clone"
+                  name="isClone"
                   label="Klone av en annen undersøkelse?"
                 >
                   <Field
@@ -104,10 +96,28 @@ class SurveyEditor extends Component<Props> {
                     label="Nei"
                     component={RadioButton.Field}
                     inputValue="false"
+                    value="false"
                   />
                 </RadioButtonGroup>
               </div>
             </div>
+
+            <Field
+              placeholder="Bekk Miniseminar"
+              label="Arrangement"
+              autoFocus={autoFocus}
+              name="event"
+              component={SelectInput.AutocompleteField}
+              className={styles.editEvent}
+              filter={['events.event']}
+            />
+
+            <Field
+              label="Aktiveringstidspunkt"
+              name="activeFrom"
+              className={styles.editEvent}
+              component={DatePicker.Field}
+            />
 
             <div className={styles.clear} />
             <Button className={styles.submit} disabled={submitting} submit>

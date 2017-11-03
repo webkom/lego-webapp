@@ -4,7 +4,7 @@ import { Survey } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
 import { surveySchema } from 'app/reducers';
 import type { Thunk } from 'app/types';
-import { startSubmit, stopSubmit } from 'redux-form';
+import moment from 'moment-timezone';
 
 export function fetchAll() {
   return callAPI({
@@ -35,61 +35,42 @@ export function fetch(surveyId: number): Thunk<*> {
 }
 
 export function addSurvey(data: Object): Thunk<*> {
-  return dispatch => {
-    dispatch(startSubmit('survey'));
-    return dispatch(
-      callAPI({
-        types: Survey.ADD,
-        endpoint: '/surveys/',
-        method: 'POST',
-        body: data,
-        schema: surveySchema,
-        meta: {
-          errorMessage: 'Legg til spørreundersøkelse feilet',
-          successMessage: 'Spørreundersøkelse lagt til.'
-        }
-      })
-    ).then(action => {
-      dispatch(stopSubmit('survey'));
-    });
-  };
+  return callAPI({
+    types: Survey.ADD,
+    endpoint: '/surveys/',
+    method: 'POST',
+    body: { ...data, activeFrom: moment(data.activeFrom).toISOString() },
+    schema: surveySchema,
+    meta: {
+      errorMessage: 'Legg til spørreundersøkelse feilet',
+      successMessage: 'Spørreundersøkelse lagt til.'
+    }
+  });
 }
 
 export function editSurvey({ surveyId, ...data }: Object): Thunk<*> {
-  return dispatch => {
-    dispatch(startSubmit('survey'));
-
-    return dispatch(
-      callAPI({
-        types: Survey.EDIT,
-        endpoint: `/surveys/${surveyId}/`,
-        method: 'PATCH',
-        body: data,
-        schema: surveySchema,
-        meta: {
-          errorMessage: 'Endring av spørreundersøkelse feilet',
-          successMessage: 'Spørreundersøkelse endret.'
-        }
-      })
-    ).then(() => {
-      dispatch(stopSubmit('survey'));
-    });
-  };
+  return callAPI({
+    types: Survey.EDIT,
+    endpoint: `/surveys/${surveyId}/`,
+    method: 'PATCH',
+    body: { ...data, activeFrom: moment(data.activeFrom).toISOString() },
+    schema: surveySchema,
+    meta: {
+      errorMessage: 'Endring av spørreundersøkelse feilet',
+      successMessage: 'Spørreundersøkelse endret.'
+    }
+  });
 }
 
 export function deleteSurvey(surveyId: number): Thunk<*> {
-  return dispatch => {
-    return dispatch(
-      callAPI({
-        types: Survey.DELETE,
-        endpoint: `/surveys/${surveyId}/`,
-        method: 'DELETE',
-        meta: {
-          id: Number(surveyId),
-          errorMessage: 'Sletting av spørreundersøkelse feilet',
-          successMessage: 'Spørreundersøkelse slettet.'
-        }
-      })
-    );
-  };
+  return callAPI({
+    types: Survey.DELETE,
+    endpoint: `/surveys/${surveyId}/`,
+    method: 'DELETE',
+    meta: {
+      id: Number(surveyId),
+      errorMessage: 'Sletting av spørreundersøkelse feilet',
+      successMessage: 'Spørreundersøkelse slettet.'
+    }
+  });
 }

@@ -1,8 +1,5 @@
 @import './surveys.css';
 
-.surveyDetail {
-}
-
 .coverImage {
   composes: contentContainer from 'app/styles/utilities.css';
   padding: 0;

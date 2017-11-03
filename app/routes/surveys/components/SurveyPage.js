@@ -28,8 +28,14 @@ export default class SurveyPage extends Component<Props, State> {
   };
 
   surveySearch = (surveys: Array<Object>) =>
-    surveys.filter(survey =>
-      survey.title.toLowerCase().includes(this.state.searchQuery.toLowerCase())
+    surveys.filter(
+      survey =>
+        survey.title
+          .toLowerCase()
+          .includes(this.state.searchQuery.toLowerCase()) ||
+        survey.event.title
+          .toLowerCase()
+          .includes(this.state.searchQuery.toLowerCase())
     );
 
   filterSurveys = (surveys: Array<Object>) =>
