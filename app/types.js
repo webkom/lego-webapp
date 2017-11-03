@@ -20,7 +20,8 @@ export type ArticleEntity = {
   content: string,
   tags: Array<string>,
   cover: string,
-  description: string
+  description: string,
+  pinned: boolean
 };
 
 export type GalleryPictureEntity = {

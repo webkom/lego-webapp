@@ -14,6 +14,7 @@ import {
   TextInput,
   TextArea,
   SelectInput,
+  CheckBox,
   ImageUploadField
 } from 'app/components/Form';
 import { Form, Field } from 'redux-form';
@@ -46,7 +47,8 @@ const ArticleEditor = ({
       author: currentUser.id,
       description: data.description,
       content: data.content,
-      tags: (data.tags || []).map(tag => tag.value)
+      tags: (data.tags || []).map(tag => tag.value),
+      pinned: data.pinned
     };
 
     submitArticle(body);
@@ -66,7 +68,14 @@ const ArticleEditor = ({
           aspectRatio={20 / 6}
           img={article && article.cover}
         />
-
+        <Field
+          label="Festet på forsiden"
+          name="pinned"
+          component={CheckBox.Field}
+          fieldClassName={styles.metaField}
+          className={styles.formField}
+          normalize={v => !!v}
+        />
         <Flex alignItems="center">
           <Field
             placeholder="Title"

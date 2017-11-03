@@ -13,17 +13,19 @@ import Feed from './Feed';
 import CompactEvents from './CompactEvents';
 import { EVENT_TYPE_TO_STRING, colorForEvent } from 'app/routes/events/utils';
 import Button from 'app/components/Button';
-import type { Event } from 'app/models';
+import type { Event, Article } from 'app/models';
 
 const TITLE_MAX_LENGTH = 50;
 const DESCRIPTION_MAX_LENGTH = 140;
 const IMAGE_HEIGHT = 192;
 
-function PrimaryItem({ event }: { event: ?Event }) {
-  if (!event) {
+const itemUrl = item => `/${item.eventType ? 'events' : 'articles'}/${item.id}`;
+
+function PrimaryItem({ item }: { item?: Event | Article }) {
+  if (!item) {
     return (
       <Flex column className={styles.primaryItem}>
-        <h2 className="u-ui-heading">Festet arrangement</h2>
+        <h2 className="u-ui-heading">Festet oppslag</h2>
         <Flex column className={styles.innerPrimaryItem}>
           <Image
             style={{ height: IMAGE_HEIGHT, display: 'block' }}
@@ -31,7 +33,7 @@ function PrimaryItem({ event }: { event: ?Event }) {
             src={'https://i.redd.it/dz8mwvl4dgdy.jpg'}
           />
           <div className={styles.pinnedHeading}>
-            <h2 className={styles.itemTitle}>Ingen arrangementer</h2>
+            <h2 className={styles.itemTitle}>Ingen oppslag</h2>
           </div>
         </Flex>
       </Flex>
@@ -39,33 +41,33 @@ function PrimaryItem({ event }: { event: ?Event }) {
   }
   return (
     <Flex column className={styles.primaryItem}>
-      <h2 className="u-ui-heading">Festet arrangement</h2>
+      <h2 className="u-ui-heading">Festet oppslag</h2>
       <Flex column className={styles.innerPrimaryItem}>
         <Link
-          to={`/events/${event.id}`}
+          to={itemUrl(item)}
           style={{ height: IMAGE_HEIGHT, display: 'block' }}
         >
-          <Image className={styles.image} src={event.cover} />
+          <Image className={styles.image} src={item.cover} />
         </Link>
         <div className={styles.pinnedHeading}>
           <h2 className={styles.itemTitle}>
-            <Link to={`/events/${event.id}`}>{event.title}</Link>
+            <Link to={itemUrl(item)}>{item.title}</Link>
           </h2>
 
           <span className={styles.itemInfo}>
-            {event.startTime && (
-              <Time time={event.startTime} format="DD.MM HH:mm" />
+            {item.startTime && (
+              <Time time={item.startTime} format="DD.MM HH:mm" />
             )}
-            {event.location !== '-' && (
+            {item.location !== '-' && (
               <span>
                 <span className={styles.dot}> · </span>
-                <span>{event.location}</span>
+                <span>{item.location}</span>
               </span>
             )}
-            {event.eventType && (
+            {item.eventType && (
               <span>
                 <span className={styles.dot}> · </span>
-                <span>{EVENT_TYPE_TO_STRING(event.eventType)}</span>
+                <span>{EVENT_TYPE_TO_STRING(item.eventType)}</span>
               </span>
             )}
           </span>
@@ -75,14 +77,13 @@ function PrimaryItem({ event }: { event: ?Event }) {
   );
 }
 
-const OverviewItem = ({ item }: { item: Object }) => {
-  const base = item.eventType ? 'events' : 'articles';
+const OverviewItem = ({ item }: { item: Event | Article }) => {
   return (
     <Flex column className={styles.item}>
       <Flex className={styles.inner}>
         {item.cover && (
           <Flex column>
-            <Link to={`/${base}/${item.id}`} className={styles.imageContainer}>
+            <Link to={itemUrl(item)} className={styles.imageContainer}>
               <Image className={styles.image} src={item.cover} />
             </Link>
           </Flex>
@@ -90,7 +91,7 @@ const OverviewItem = ({ item }: { item: Object }) => {
         <Flex column className={styles.innerRight}>
           <div className={styles.heading}>
             <h2 className={styles.itemTitle}>
-              <Link to={`/${base}/${item.id}`}>
+              <Link to={itemUrl(item)}>
                 {truncateString(item.title, TITLE_MAX_LENGTH)}
               </Link>
             </h2>
@@ -105,10 +106,10 @@ const OverviewItem = ({ item }: { item: Object }) => {
                   <span>{item.location}</span>
                 </span>
               )}
-              {item.itemType && (
+              {item.eventType && (
                 <span>
                   <span className={styles.dot}> · </span>
-                  <span>{EVENT_TYPE_TO_STRING(item.itemType)}</span>
+                  <span>{EVENT_TYPE_TO_STRING(item.eventType)}</span>
                 </span>
               )}
             </span>
@@ -117,7 +118,7 @@ const OverviewItem = ({ item }: { item: Object }) => {
           <p
             className={styles.itemDescription}
             style={{
-              borderTop: `3px solid ${colorForEvent(item.itemType)}`
+              borderTop: `3px solid ${colorForEvent(item.eventType)}`
             }}
           >
             {truncateString(item.description, DESCRIPTION_MAX_LENGTH)}
@@ -157,7 +158,7 @@ export default class Overview extends Component<Props, State> {
         <Flex wrap style={{ justifyContent: 'space-between' }}>
           <Flex column style={{ flex: 2 }}>
             <CompactEvents events={frontpage.filter(isEvent)} />
-            <PrimaryItem event={frontpage[0]} />
+            <PrimaryItem item={frontpage[0]} />
           </Flex>
           <Feed style={{ flex: 2 }} feed={feed} feedItems={feedItems} />
         </Flex>
