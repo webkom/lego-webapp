@@ -1,347 +1,461 @@
-// @flow
+import React from 'react';
 
-import React, { Component } from 'react';
-import { Editor } from 'slate-react';
-import { resetKeyGenerator } from 'slate';
-import Html from 'slate-html-serializer';
-import { schema } from './constants';
-import HoverMenu from './HoverMenu';
-import isHotkey from 'is-hotkey';
-import rules from './serializer';
-import styles from './Editor.css';
-import type { BlockType, MarkType } from './constants';
+import beforeInput, { StringToTypeMap } from './util/beforeinput';
+import keyBindingFn from './util/keybinding';
+import rendererFn from './components/customrenderer';
+import createEditorState from './model/content';
+import {
+  EditorState,
+  convertToRaw,
+  convertFromRaw,
+  KeyBindingUtil,
+  Modifier,
+  AtomicBlockUtils
+} from 'draft-js';
+import { Block, HANDLED, NOT_HANDLED } from './util/constants';
 
-const parseHtml =
-  typeof DOMParser === 'undefined' && require('parse5').parseFragment;
+import 'draft-js/dist/Draft.css';
+import { getCurrentBlock, addNewBlockAt } from './model';
 
-const htmlArgs = { rules, parseHtml: parseHtml ? parseHtml : undefined };
+import ImageSideButton from './components/sides/image';
 
-const serializer = new Html(htmlArgs);
-const isBoldHotkey = isHotkey('mod+b');
-const isItalicHotkey = isHotkey('mod+i');
-const isUnderlinedHotkey = isHotkey('mod+u');
-const isCodeHotkey = isHotkey('mod+`');
+import Editor from './editor';
 
-type Document = {
-  getClosest: (string, (Object) => boolean) => void
+import {
+  setRenderOptions,
+  blockToHTML,
+  entityToHTML,
+  styleToHTML
+} from './exporter';
+
+const newTypeMap = StringToTypeMap;
+newTypeMap['2.'] = Block.OL;
+
+const { hasCommandModifier } = KeyBindingUtil;
+
+/*
+A demo for example editor. (Feature not built into medium-draft as too specific.)
+Convert quotes to curly quotes.
+*/
+const DQUOTE_START = '“';
+const DQUOTE_END = '”';
+const SQUOTE_START = '‘';
+const SQUOTE_END = '’';
+
+const newBlockToHTML = block => {
+  const blockType = block.type;
+  if (block.type === Block.ATOMIC) {
+    if (block.text === 'E') {
+      return {
+        start: '<figure class="md-block-atomic md-block-atomic-embed">',
+        end: '</figure>'
+      };
+    } else if (block.text === '-') {
+      return (
+        <div className="md-block-atomic md-block-atomic-break">
+          <hr />
+        </div>
+      );
+    }
+  }
+  return blockToHTML(block);
 };
 
-type EditorState = {
-  document: Document,
-  change: () => Change,
-  blocks: [],
-  startBlock: Object,
-  startOffset: number,
-  endOffset: number
+const newEntityToHTML = (entity, originalText) => {
+  if (entity.type === 'embed') {
+    return (
+      <div>
+        <a
+          className="embedly-card"
+          href={entity.data.url}
+          data-card-controls="0"
+          data-card-theme="dark"
+        >
+          Embedded ― {entity.data.url}
+        </a>
+      </div>
+    );
+  }
+  return entityToHTML(entity, originalText);
 };
 
-type Change = {
-  state: EditorState,
-  toggleMark: MarkType => Change,
-  setBlock: BlockType => Change,
-  unwrapBlock: BlockType => Change,
-  wrapBlock: BlockType => Change,
-  splitBlock: () => Change,
-  extendToStartOf: Object => Object
+const handleBeforeInput = (editorState, str, onChange) => {
+  if (str === '"' || str === "'") {
+    const currentBlock = getCurrentBlock(editorState);
+    const selectionState = editorState.getSelection();
+    const contentState = editorState.getCurrentContent();
+    const text = currentBlock.getText();
+    const len = text.length;
+    if (selectionState.getAnchorOffset() === 0) {
+      onChange(
+        EditorState.push(
+          editorState,
+          Modifier.insertText(
+            contentState,
+            selectionState,
+            str === '"' ? DQUOTE_START : SQUOTE_START
+          ),
+          'transpose-characters'
+        )
+      );
+      return HANDLED;
+    } else if (len > 0) {
+      const lastChar = text[len - 1];
+      if (lastChar !== ' ') {
+        onChange(
+          EditorState.push(
+            editorState,
+            Modifier.insertText(
+              contentState,
+              selectionState,
+              str === '"' ? DQUOTE_END : SQUOTE_END
+            ),
+            'transpose-characters'
+          )
+        );
+      } else {
+        onChange(
+          EditorState.push(
+            editorState,
+            Modifier.insertText(
+              contentState,
+              selectionState,
+              str === '"' ? DQUOTE_START : SQUOTE_START
+            ),
+            'transpose-characters'
+          )
+        );
+      }
+      return HANDLED;
+    }
+  }
+  return beforeInput(editorState, str, onChange, newTypeMap);
 };
 
-type Props = {
-  value?: string,
-  placeholder?: string,
-  onChange: string => void,
-  onBlur?: () => void,
-  autoFocus?: boolean,
-  readOnly?: boolean,
-  onChange?: any,
-  onFocus?: () => void
-};
-
-type State = {
-  menu?: HTMLElement,
-  state: EditorState
-};
-
-const emptyState = '<p></p>';
-
-class CustomEditor extends Component<Props, State> {
-  lastSerialized: string = '';
-  menuWrapper: HTMLElement;
-
-  constructor(props: Props) {
+class SeparatorSideButton extends React.Component {
+  constructor(props) {
     super(props);
-    resetKeyGenerator();
-    const content = this.props.value || emptyState;
-    this.menuWrapper = document.createElement('div');
-
-    this.state = {
-      state: serializer.deserialize(content)
-    };
+    this.onClick = this.onClick.bind(this);
   }
 
-  componentWillReceiveProps = (newProps: Props) => {
-    if (newProps.value !== this.lastSerialized) {
-      const content = newProps.value || emptyState;
-      this.setState({
-        state: serializer.deserialize(content)
-      });
-    }
-  };
-
-  componentDidMount = () => {
-    this.updateHoverMenu();
-    if (document && document.body) {
-      document.body.appendChild(this.menuWrapper);
-    }
-  };
-
-  componentWillUnmount = () => {
-    if (document && document.body) {
-      document.body.removeChild(this.menuWrapper);
-    }
-  };
-
-  componentDidUpdate = () => {
-    this.updateHoverMenu();
-  };
-
-  getType = (chars: string): ?BlockType => {
-    switch (chars) {
-      case '*':
-      case '-':
-      case '+':
-        return 'list-item';
-      case '>':
-        return 'block-quote';
-      case '#':
-        return 'heading-one';
-      case '##':
-        return 'heading-two';
-      default:
-        return null;
-    }
-  };
-
-  onChange = ({ state }: Change) => {
-    if (state.document !== this.state.state.document) {
-      this.lastSerialized = serializer.serialize(state);
-      if (this.lastSerialized === emptyState) {
-        this.lastSerialized = '';
-      }
-      this.props.onChange && this.props.onChange(this.lastSerialized);
-    }
-
-    this.setState({ state });
-  };
-
-  onBlur = () => {
-    if (this.props.onBlur) {
-      this.props.onBlur();
-    }
-  };
-
-  onFocus = () => {
-    if (this.props.onFocus) {
-      this.props.onFocus();
-    }
-  };
-
-  onKeyDown = (e: SyntheticInputEvent<*>, data: Object, change: Change) => {
-    let mark: MarkType;
-
-    if (data.key === 'space') {
-      return this.onSpace(e, change);
-    }
-
-    if (data.key === 'backspace') {
-      return this.onBackspace(e, change);
-    }
-
-    if (data.key === 'enter') {
-      return this.onEnter(e, change);
-    }
-
-    if (isBoldHotkey(e)) {
-      mark = 'bold';
-    } else if (isItalicHotkey(e)) {
-      mark = 'italic';
-    } else if (isUnderlinedHotkey(e)) {
-      mark = 'underline';
-    } else if (isCodeHotkey(e)) {
-      mark = 'code';
-    } else {
-      return;
-    }
-
-    e.preventDefault();
-    change.toggleMark(mark);
-    return true;
-  };
-
-  onSpace = (e: SyntheticInputEvent<*>, change: Change) => {
-    const { state }: any = change;
-    if (state.isExpanded) return;
-
-    const { startBlock, startOffset } = state;
-    const chars = startBlock.text.slice(0, startOffset).replace(/\s*/g, '');
-    const type = this.getType(chars);
-
-    if (!type) return;
-    if (type === 'list-item' && startBlock.type === 'list-item') return;
-    e.preventDefault();
-
-    change.setBlock(type);
-
-    if (type === 'list-item') {
-      change.wrapBlock('bulleted-list');
-    }
-
-    change.extendToStartOf(startBlock).delete();
-
-    return true;
-  };
-
-  onBackspace = (e: SyntheticInputEvent<*>, change: Change) => {
-    const { state } = change;
-    if (state.isExpanded) return;
-    if (state.startOffset !== 0) return;
-
-    const { startBlock }: any = state;
-    if (startBlock.type === 'paragraph') return;
-
-    e.preventDefault();
-    change.setBlock('paragraph');
-
-    if (startBlock.type === 'list-item') {
-      change.unwrapBlock('bulleted-list');
-    }
-
-    return true;
-  };
-
-  onEnter = (e: SyntheticInputEvent<*>, change: Change) => {
-    const { state } = change;
-    if (state.isExpanded) return;
-
-    const { startBlock, startOffset, endOffset } = state;
-    if (startOffset === 0 && startBlock.text.length === 0)
-      return this.onBackspace(e, change);
-    if (endOffset !== startBlock.text.length) return;
-
-    if (
-      startBlock.type !== 'heading-one' &&
-      startBlock.type !== 'heading-two' &&
-      startBlock.type !== 'block-quote'
-    ) {
-      return;
-    }
-
-    e.preventDefault();
-
-    change.splitBlock().setBlock('paragraph');
-
-    return true;
-  };
-
-  onToggleMark = (e: SyntheticInputEvent<*>, type: MarkType) => {
-    e.preventDefault();
-    const change = this.state.state.change().toggleMark(type);
-    this.onChange(change);
-  };
-
-  onToggleBlock = (e: SyntheticInputEvent<*>, type: BlockType) => {
-    e.preventDefault();
-    const { state } = this.state;
-    const change = state.change();
-    const { document } = state;
-
-    if (type !== 'bulleted-list' && type !== 'numbered-list') {
-      const isActive = this.hasBlock(type);
-      const isList = this.hasBlock('list-item');
-
-      if (isList) {
-        change
-          .setBlock(isActive ? 'paragraph' : type)
-          .unwrapBlock('bulleted-list')
-          .unwrapBlock('numbered-list');
-      } else {
-        change.setBlock(isActive ? 'paragraph' : type);
-      }
-    } else {
-      const isList = this.hasBlock('list-item');
-      const isType = state.blocks.some(
-        block =>
-          !!document.getClosest(block.key, parent => parent.type === type)
-      );
-
-      if (isList && isType) {
-        change
-          .setBlock('paragraph')
-          .unwrapBlock('bulleted-list')
-          .unwrapBlock('numbered-list');
-      } else if (isList) {
-        change
-          .unwrapBlock(
-            type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list'
-          )
-          .wrapBlock(type);
-      } else {
-        change.setBlock('list-item').wrapBlock(type);
-      }
-    }
-    this.onChange(change);
-  };
-
-  hasBlock = (type: BlockType) => {
-    const { state } = this.state;
-    return state.blocks.some(node => node.type === type);
-  };
-
-  updateHoverMenu = () => {
-    const { state } = this.state;
-    const [menu] = this.menuWrapper.children;
-    if (!menu) return;
-
-    if (state.isBlurred || state.isEmpty) {
-      menu.removeAttribute('style');
-      return;
-    }
-
-    const selection = window.getSelection();
-    const range = selection.getRangeAt(0);
-    const rect = range.getBoundingClientRect();
-    menu.style.opacity = '1';
-    menu.style.top = `${rect.top + window.scrollY - menu.offsetHeight}px`;
-    menu.style.left = `${rect.left +
-      window.scrollX -
-      menu.offsetWidth / 2 +
-      rect.width / 2}px`;
-  };
+  onClick() {
+    let editorState = this.props.getEditorState();
+    const content = editorState.getCurrentContent();
+    const contentWithEntity = content.createEntity(
+      'separator',
+      'IMMUTABLE',
+      {}
+    );
+    const entityKey = contentWithEntity.getLastCreatedEntityKey();
+    editorState = EditorState.push(
+      editorState,
+      contentWithEntity,
+      'create-entity'
+    );
+    this.props.setEditorState(
+      AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, '-')
+    );
+    this.props.close();
+  }
 
   render() {
     return (
-      <div>
-        <div className={styles.editor}>
-          <HoverMenu
-            element={this.menuWrapper}
-            state={this.state.state}
-            onToggleBlock={this.onToggleBlock}
-            onToggleMark={this.onToggleMark}
-          />
-          <Editor
-            autoFocus={this.props.autoFocus}
-            onBlur={this.onBlur}
-            onFocus={this.onFocus}
-            schema={schema}
-            placeholder={this.props.placeholder || 'Enter some rich text...'}
-            state={this.state.state}
-            onChange={this.onChange}
-            onKeyDown={this.onKeyDown}
-            readOnly={this.props.readOnly}
-          />
-        </div>
-      </div>
+      <button
+        className="md-sb-button md-sb-img-button"
+        type="button"
+        title="Add a separator"
+        onClick={this.onClick}
+      >
+        <i className="fa fa-minus" />
+      </button>
     );
   }
 }
 
-export default CustomEditor;
+const AtomicSeparatorComponent = props => <hr />;
+
+const AtomicBlock = props => {
+  const { blockProps, block } = props;
+  const content = blockProps.getEditorState().getCurrentContent();
+  const entity = content.getEntity(block.getEntityAt(0));
+  const data = entity.getData();
+  const type = entity.getType();
+  if (blockProps.components[type]) {
+    const AtComponent = blockProps.components[type];
+    return (
+      <div
+        className={`md-block-atomic-wrapper md-block-atomic-wrapper-${type}`}
+      >
+        <AtComponent data={data} />
+      </div>
+    );
+  }
+  return (
+    <p>
+      Block of type <b>{type}</b> is not supported.
+    </p>
+  );
+};
+
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      editorState: createEditorState(),
+      editorEnabled: true,
+      placeholder: 'Write here...'
+    };
+
+    this.onChange = (editorState, callback = null) => {
+      if (this.state.editorEnabled) {
+        this.setState({ editorState }, () => {
+          if (callback) {
+            callback();
+          }
+        });
+      }
+    };
+
+    this.sideButtons = [
+      {
+        title: 'Image',
+        component: ImageSideButton
+      },
+      {
+        title: 'Separator',
+        component: SeparatorSideButton
+      }
+    ];
+
+    this.exporter = setRenderOptions({
+      styleToHTML,
+      blockToHTML: newBlockToHTML,
+      entityToHTML: newEntityToHTML
+    });
+
+    this.getEditorState = () => this.state.editorState;
+
+    this.logData = this.logData.bind(this);
+    this.renderHTML = this.renderHTML.bind(this);
+    this.toggleEdit = this.toggleEdit.bind(this);
+    this.fetchData = this.fetchData.bind(this);
+    this.loadSavedData = this.loadSavedData.bind(this);
+    this.keyBinding = this.keyBinding.bind(this);
+    this.handleKeyCommand = this.handleKeyCommand.bind(this);
+    this.handleDroppedFiles = this.handleDroppedFiles.bind(this);
+    this.handleReturn = this.handleReturn.bind(this);
+  }
+
+  componentDidMount() {
+    setTimeout(this.fetchData, 1000);
+  }
+
+  rendererFn(setEditorState, getEditorState) {
+    const atomicRenderers = {
+      separator: AtomicSeparatorComponent
+    };
+    const rFnOld = rendererFn(setEditorState, getEditorState);
+    const rFnNew = contentBlock => {
+      const type = contentBlock.getType();
+      switch (type) {
+        case Block.ATOMIC:
+          return {
+            component: AtomicBlock,
+            editable: false,
+            props: {
+              components: atomicRenderers,
+              getEditorState
+            }
+          };
+        default:
+          return rFnOld(contentBlock);
+      }
+    };
+    return rFnNew;
+  }
+
+  keyBinding(e) {
+    if (hasCommandModifier(e)) {
+      if (e.which === 83) {
+        /* Key S */
+        return 'editor-save';
+      }
+      // else if (e.which === 74 /* Key J */) {
+      //  return 'do-nothing';
+      //}
+    }
+    if (e.altKey === true) {
+      if (e.shiftKey === true) {
+        switch (e.which) {
+          /* Alt + Shift + L */
+          case 76:
+            return 'load-saved-data';
+          /* Key E */
+          // case 69: return 'toggle-edit-mode';
+        }
+      }
+      if (e.which === 72 /* Key H */) {
+        return 'toggleinline:HIGHLIGHT';
+      }
+    }
+    return keyBindingFn(e);
+  }
+
+  handleKeyCommand(command) {
+    if (command === 'editor-save') {
+      window.localStorage['editor'] = JSON.stringify(
+        convertToRaw(this.state.editorState.getCurrentContent())
+      );
+      window.ga('send', 'event', 'draftjs', command);
+      return true;
+    } else if (command === 'load-saved-data') {
+      this.loadSavedData();
+      return true;
+    } else if (command === 'toggle-edit-mode') {
+      this.toggleEdit();
+    }
+    return false;
+  }
+
+  fetchData() {
+    window.ga('send', 'event', 'draftjs', 'load-data', 'ajax');
+    this.setState({
+      placeholder: 'Loading...'
+    });
+    const req = new XMLHttpRequest();
+    req.open('GET', 'data.json', true);
+    req.onreadystatechange = () => {
+      if (req.readyState === 4) {
+        const data = JSON.parse(req.responseText);
+        this.setState(
+          {
+            editorState: createEditorState(data),
+            placeholder: 'Write here...'
+          },
+          () => {
+            this._editor.focus();
+          }
+        );
+        window.ga('send', 'event', 'draftjs', 'data-success');
+      }
+    };
+    req.send();
+  }
+
+  logData(e) {
+    const currentContent = this.state.editorState.getCurrentContent();
+    const es = convertToRaw(currentContent);
+    console.log(es);
+    console.log(this.state.editorState.getSelection().toJS());
+    window.ga('send', 'event', 'draftjs', 'log-data');
+  }
+
+  renderHTML(e) {
+    const currentContent = this.state.editorState.getCurrentContent();
+    const eHTML = this.exporter(currentContent);
+    var newWin = window.open(
+      `${window.location.pathname}rendered.html`,
+      'windowName',
+      `height=${window.screen.height},width=${window.screen.wdith}`
+    );
+    newWin.onload = () => newWin.postMessage(eHTML, window.location.origin);
+  }
+
+  loadSavedData() {
+    const data = window.localStorage.getItem('editor');
+    if (data === null) {
+      return;
+    }
+    try {
+      const blockData = JSON.parse(data);
+      console.log(blockData);
+      this.onChange(
+        EditorState.push(this.state.editorState, convertFromRaw(blockData)),
+        this._editor.focus
+      );
+    } catch (e) {
+      console.log(e);
+    }
+    window.ga('send', 'event', 'draftjs', 'load-data', 'localstorage');
+  }
+
+  toggleEdit(e) {
+    this.setState(
+      {
+        editorEnabled: !this.state.editorEnabled
+      },
+      () => {
+        window.ga(
+          'send',
+          'event',
+          'draftjs',
+          'toggle-edit',
+          this.state.editorEnabled + ''
+        );
+      }
+    );
+  }
+
+  handleDroppedFiles(selection, files) {
+    window.ga(
+      'send',
+      'event',
+      'draftjs',
+      'filesdropped',
+      files.length + ' files'
+    );
+    const file = files[0];
+    if (file.type.indexOf('image/') === 0) {
+      // eslint-disable-next-line no-undef
+      const src = URL.createObjectURL(file);
+      this.onChange(
+        addNewBlockAt(
+          this.state.editorState,
+          selection.getAnchorKey(),
+          Block.IMAGE,
+          {
+            src
+          }
+        )
+      );
+      return HANDLED;
+    }
+    return NOT_HANDLED;
+  }
+
+  handleReturn(e) {
+    // const currentBlock = getCurrentBlock(this.state.editorState);
+    // var text = currentBlock.getText();
+    return NOT_HANDLED;
+  }
+
+  render() {
+    const { editorState, editorEnabled } = this.state;
+    return (
+      <div>
+        <div className="editor-action">
+          <button onClick={this.logData}>Log State</button>
+          <button onClick={this.renderHTML}>Render HTML</button>
+          <button onClick={this.toggleEdit}>Toggle Edit</button>
+        </div>
+        <Editor
+          ref={e => {
+            this._editor = e;
+          }}
+          editorState={editorState}
+          onChange={this.onChange}
+          editorEnabled={editorEnabled}
+          handleDroppedFiles={this.handleDroppedFiles}
+          handleKeyCommand={this.handleKeyCommand}
+          placeholder={this.state.placeholder}
+          keyBindingFn={this.keyBinding}
+          beforeInput={handleBeforeInput}
+          handleReturn={this.handleReturn}
+          sideButtons={this.sideButtons}
+          rendererFn={this.rendererFn}
+        />
+      </div>
+    );
+  }
+}
