@@ -160,15 +160,39 @@ export function leaveGroup(membership: Object): Thunk<*> {
 }
 
 export function fetchMemberships(groupId: number) {
-  return callAPI({
-    types: Group.MEMBERSHIP_FETCH,
-    endpoint: `/groups/${groupId}/memberships/`,
-    schema: [membershipSchema],
-    useCache: false,
-    meta: {
-      groupId: groupId,
-      errorMessage: 'Henting av medlemmene for gruppen feilet'
-    },
-    propagateError: true
-  });
+  return dispatch => {
+    return dispatch(
+      callAPI({
+        types: Group.MEMBERSHIP_FETCH,
+        endpoint: `/groups/${groupId}/memberships/`,
+        schema: [membershipSchema],
+        useCache: false,
+        meta: {
+          groupId: groupId,
+          errorMessage: 'Henting av medlemmene for gruppen feilet'
+        },
+        propagateError: true
+      })
+    ).then(res => {
+      let next = res.payload.next;
+      function get() {
+        dispatch(
+          callAPI({
+            endpoint: next,
+            types: Group.MEMBERSHIP_FETCH_PARTIAL,
+            schema: [membershipSchema],
+            useCache: false,
+            meta: {
+              groupId: groupId,
+              errorMessage: 'Henting av medlemmene for gruppen feilet'
+            }
+          })
+        ).then(res => {
+          next = res.payload.next;
+          if (next) get();
+        });
+      }
+      if (next) return get();
+    });
+  };
 }

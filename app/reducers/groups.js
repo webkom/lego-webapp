@@ -44,6 +44,20 @@ export default createEntityReducer({
           }
         };
       }
+      case Group.MEMBERSHIP_FETCH_PARTIAL.SUCCESS: {
+        const id = action.meta.groupId;
+        const currentMemberships = state.byId[id].memberships || [];
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [id]: {
+              ...state.byId[id],
+              memberships: currentMemberships.concat(action.payload.result)
+            }
+          }
+        };
+      }
       default:
         return state;
     }
