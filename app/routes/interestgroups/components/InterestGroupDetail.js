@@ -1,9 +1,15 @@
 // @flow
 
 import styles from './InterestGroup.css';
-import React, { Component } from 'react';
+import React from 'react';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
+import {
+  Content,
+  ContentSection,
+  ContentMain,
+  ContentSidebar
+} from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Button from 'app/components/Button';
 import { Link } from 'react-router';
@@ -39,22 +45,6 @@ const Title = ({ group: { name, id }, showEdit }: TitleProps) => (
   </NavigationTab>
 );
 
-const Description = ({ description }: { description: string }) => (
-  <Flex className={styles.description}>{description}</Flex>
-);
-
-const Sidebar = ({ group }: { group: InterestGroup }) => (
-  <Flex column className={styles.sideBar}>
-    <Logo logo={group.logo || 'https://i.imgur.com/Is9VKjb.jpg'} />
-    <Members group={group} members={group.memberships} />
-    <Contact group={group} />
-  </Flex>
-);
-
-const SidebarHeader = ({ text }: { text: string }) => (
-  <div style={{ 'font-weight': 'bold' }}>{text}</div>
-);
-
 type MembersProps = {
   members: Array<GroupMembership>,
   group: Object
@@ -62,25 +52,13 @@ type MembersProps = {
 
 const Members = ({ group, members }: MembersProps) => (
   <Flex column>
-    <SidebarHeader text={`Medlemmer (${group.numberOfUsers})`} />
+    <h4>Medlemmer {group.numberOfUsers}</h4>
     <Flex wrap>
       {members &&
         members
           .slice(0, 10)
           .map(reg => <RegisteredCell key={reg.user.id} user={reg.user} />)}
     </Flex>
-  </Flex>
-);
-
-const Logo = ({ logo }: { logo: string }) => (
-  <Flex justifyContent="center">
-    <Image className={styles.logo} src={logo} />
-  </Flex>
-);
-
-const Content = ({ group }: { group: InterestGroup }) => (
-  <Flex column style={{ flex: '1' }}>
-    <DisplayContent content={group.text} />
   </Flex>
 );
 
@@ -97,9 +75,9 @@ const ButtonRow = ({
   joinInterestGroup,
   leaveInterestGroup
 }: ButtonRowProps) => {
-  const membership = group.memberships.filter(
+  const [membership] = group.memberships.filter(
     m => m.user.id === currentUser.id
-  )[0];
+  );
 
   const onClick = membership
     ? () => leaveInterestGroup(membership, group.id)
@@ -120,7 +98,7 @@ const Contact = ({ group }: { group: InterestGroup }) => {
   if (leaders.length == 0) {
     return (
       <Flex column>
-        <SidebarHeader text="Leder" />
+        <h4>Leder</h4>
         Gruppen har ingen leder!
       </Flex>
     );
@@ -130,7 +108,7 @@ const Contact = ({ group }: { group: InterestGroup }) => {
 
   return (
     <Flex column>
-      <SidebarHeader text="Leder" />
+      <h4>Leder</h4>
       {leader.user.fullName}
     </Flex>
   );
@@ -143,34 +121,26 @@ type Props = {
   group: InterestGroup
 };
 
-class InterestGroupDetail extends Component<Props> {
-  joinGroup = () => {
-    this.props.joinInterestGroup(this.props.group.id, this.props.currentUser);
-  };
-
-  leaveGroup = () => {
-    const { group: { memberships = [] } } = this.props;
-    const user = this.props.currentUser.id;
-    const membership = memberships.find(m => m.user.id === user);
-    membership && this.props.leaveInterestGroup(membership);
-  };
-
-  render() {
-    const { group } = this.props;
-    const canEdit = true;
-
-    return (
-      <Flex column className={styles.root}>
-        <Title group={group} showEdit={canEdit} />
-        <Description description={group.description} />
-        <Flex style={{ background: 'white' }}>
-          <Content group={group} />
-          <Sidebar group={group} />
-        </Flex>
-        <ButtonRow {...this.props} />
-      </Flex>
-    );
-  }
+function InterestGroupDetail(props: Props) {
+  const { group } = props;
+  const logo = group.logo || 'https://i.imgur.com/Is9VKjb.jpg';
+  return (
+    <Content>
+      <Title group={group} showEdit />
+      <ContentSection>
+        <ContentMain>
+          <p className={styles.description}>{group.description}</p>
+          <DisplayContent content={group.text} />
+          <ButtonRow {...props} />
+        </ContentMain>
+        <ContentSidebar>
+          <Image className={styles.logo} src={logo} />
+          <Members group={group} members={group.memberships} />
+          <Contact group={group} />
+        </ContentSidebar>
+      </ContentSection>
+    </Content>
+  );
 }
 
 export default InterestGroupDetail;

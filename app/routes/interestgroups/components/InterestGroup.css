@@ -1,7 +1,3 @@
-.root {
-  composes: contentContainer from 'app/styles/utilities.css';
-}
-
 .logo {
   max-height: 250px;
   max-width: 250px;
@@ -33,11 +29,6 @@
   border-bottom: 1px solid #888;
   margin: 8px;
   padding: 4px;
-}
-
-.sideBar {
-  padding: 15px;
-  width: 350px;
 }
 
 .deleteButton {

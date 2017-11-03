@@ -4,6 +4,7 @@ import styles from './InterestGroup.css';
 import React from 'react';
 import InterestGroupComponent from './InterestGroup';
 import Button from 'app/components/Button';
+import { Content } from 'app/components/Content';
 import { Link } from 'react-router';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import type { InterestGroup } from 'app/models';
@@ -19,7 +20,7 @@ const InterestGroupList = (props: Props) => {
   ));
   const showCreate = props.loggedIn;
   return (
-    <div className={styles.root}>
+    <Content>
       <div className={styles.section}>
         <div>
           <NavigationTab title="Interessegrupper">
@@ -37,7 +38,7 @@ const InterestGroupList = (props: Props) => {
         </div>
       </div>
       <div className="groups">{groups}</div>
-    </div>
+    </Content>
   );
 };
 
