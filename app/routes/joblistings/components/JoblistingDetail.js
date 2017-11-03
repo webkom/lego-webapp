@@ -55,13 +55,6 @@ const JoblistingDetail = ({
     </strong>
   );
 
-  const applicationUrl = (
-    <a href={`${joblisting.applicationUrl}`}>
-      {' '}
-      <strong>SØK HER</strong>
-    </a>
-  );
-
   const canEdit = actionGrant.includes('edit');
   const canDelete = actionGrant.includes('delete');
 
@@ -93,14 +86,12 @@ const JoblistingDetail = ({
             ].filter(Boolean)}
           />
           {joblisting.applicationUrl && (
-            <div>
-              <br />
-              {applicationUrl}
-            </div>
+            <a href={joblisting.applicationUrl} style={{ marginTop: '10px' }}>
+              <strong>SØK HER</strong>
+            </a>
           )}
           {joblisting.responsible && (
-            <div>
-              <br />
+            <div style={{ marginTop: '10px' }}>
               <h3>Kontaktinfo</h3>
               <InfoList
                 items={[
@@ -120,9 +111,9 @@ const JoblistingDetail = ({
               />
             </div>
           )}
+
           {(canEdit || canDelete) && (
-            <ul>
-              <br />
+            <ul style={{ marginTop: '10px' }}>
               <li>
                 <strong>Admin</strong>
               </li>
@@ -137,9 +128,7 @@ const JoblistingDetail = ({
                   message="Er du sikker på at du vil slette denne jobbannonsen?"
                   onConfirm={onDeleteJoblisting}
                 >
-                  <li>
-                    <Link to="">Slett</Link>
-                  </li>
+                  <span className={styles.deleteButton}>Slett</span>
                 </ConfirmModalWithParent>
               )}
             </ul>
