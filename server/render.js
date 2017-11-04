@@ -77,8 +77,8 @@ function render(req, res, next) {
       const render = (body = '', state = {}) =>
         res.send(
           renderPage({
-            body: '',
-            state: {},
+            body,
+            state,
             helmet
           })
         );
