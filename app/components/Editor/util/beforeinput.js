@@ -14,6 +14,7 @@ export const StringToTypeMap = {
   '* ': Block.UL,
   '- ': Block.UL,
   '1.': Block.OL,
+  '2.': Block.OL,
   '# ': Block.H1,
   '##': Block.H2,
   '==': Block.UNSTYLED,
