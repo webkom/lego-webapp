@@ -1,14 +1,18 @@
+//@flow
+import { EditorState, ContentBlock } from 'draft-js';
+
 import QuoteCaptionBlock from './blocks/blockquotecaption';
 import CaptionBlock from './blocks/caption';
 import AtomicBlock from './blocks/atomic';
 import TodoBlock from './blocks/todo';
 import ImageBlock from './blocks/image';
 import BreakBlock from './blocks/break';
-
 import { Block } from '../util/constants';
 
-export default (setEditorState, getEditorState) => contentBlock => {
-  // console.log(editorState, onChange);
+export default (
+  setEditorState: EditorState => void,
+  getEditorState: () => EditorState
+) => (contentBlock: ContentBlock) => {
   const type = contentBlock.getType();
   switch (type) {
     case Block.BLOCKQUOTE_CAPTION:

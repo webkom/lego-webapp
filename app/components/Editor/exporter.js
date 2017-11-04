@@ -1,9 +1,11 @@
+//@flow
+
 import React from 'react';
 import { convertToHTML } from 'draft-convert';
 
 import { Inline, Block, Entity } from './util/constants';
 
-export const styleToHTML = style => {
+export const styleToHTML = (style: string) => {
   switch (style) {
     case Inline.ITALIC:
       return <em className={`md-inline-${style.toLowerCase()}`} />;
@@ -22,7 +24,8 @@ export const styleToHTML = style => {
   }
 };
 
-export const blockToHTML = block => {
+//TODO Create blockType
+export const blockToHTML = (block: Object) => {
   const blockType = block.type;
   switch (blockType) {
     case Block.H1:
@@ -107,7 +110,8 @@ export const blockToHTML = block => {
   }
 };
 
-export const entityToHTML = (entity, originalText) => {
+//TODO Create entityType
+export const entityToHTML = (entity: Object, originalText: string) => {
   if (entity.type === Entity.LINK) {
     return (
       <a

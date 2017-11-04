@@ -1,4 +1,5 @@
 // @flow
+
 export const Block = {
   UNSTYLED: 'unstyled',
   PARAGRAPH: 'unstyled',
@@ -43,6 +44,82 @@ export const KEY_COMMANDS = {
   toggleInline: (type: string = '') => `toggleinline:${type}`,
   deleteBlock: () => 'delete-block'
 };
+
+export const BLOCK_BUTTONS = [
+  {
+    label: 'H1',
+    style: Block.H1,
+    icon: 'header',
+    description: 'Heading 1'
+  },
+  {
+    label: 'H2',
+    style: Block.H2,
+    icon: 'header',
+    description: 'Heading 2'
+  },
+  {
+    label: 'quote',
+    style: Block.BLOCKQUOTE,
+    icon: 'quote-right',
+    description: 'Blockquote'
+  },
+  {
+    label: 'code',
+    style: Block.CODE,
+    icon: 'code',
+    description: 'Code'
+  },
+  {
+    label: 'UL',
+    style: Block.UL,
+    icon: 'list-ul',
+    description: 'Unordered List'
+  },
+  {
+    label: 'OL',
+    style: Block.OL,
+    icon: 'list-ol',
+    description: 'Ordered List'
+  },
+  {
+    label: '✓',
+    style: Block.TODO,
+    description: 'Todo List'
+  }
+];
+
+export const INLINE_BUTTONS = [
+  {
+    label: 'B',
+    style: Inline.BOLD,
+    icon: 'bold',
+    description: 'Bold'
+  },
+  {
+    label: 'I',
+    style: Inline.ITALIC,
+    icon: 'italic',
+    description: 'Italic'
+  },
+  {
+    label: 'U',
+    style: Inline.UNDERLINE,
+    icon: 'underline',
+    description: 'Underline'
+  },
+  {
+    label: 'Hi',
+    style: Inline.HIGHLIGHT,
+    description: 'Highlight selection'
+  },
+  {
+    label: 'link',
+    style: HYPERLINK,
+    icon: 'link',
+    description: 'Add a link'
+  }
+];
 
 export default {
   Block,

@@ -1,3 +1,5 @@
+//@flow
+
 import { convertFromHTML } from 'draft-convert';
 import { Inline, Block, Entity as EntityType } from './util/constants';
 

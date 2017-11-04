@@ -1,34 +1,37 @@
-import PropTypes from 'prop-types';
+//@flow
 
-import React from 'react';
+import * as React from 'react';
+import { EditorState } from 'draft-js';
 import { CSSTransitionGroup } from 'react-transition-group';
-
 import { getSelectedBlockNode } from '../util';
 
-/*
-Implementation of the medium-link side `+` button to insert various rich blocks
-like Images/Embeds/Videos.
-*/
-export default class AddButton extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      style: {},
-      visible: false,
-      isOpen: false
-    };
-    this.node = null;
-    this.blockKey = '';
-    this.blockType = '';
-    this.blockLength = -1;
+type Props = {
+  editorState: EditorState,
+  getEditorState: () => EditorState,
+  setEditorState: EditorState => void,
+  focus: () => void
+};
 
-    this.findNode = this.findNode.bind(this);
-    this.hideBlock = this.hideBlock.bind(this);
-    this.openToolbar = this.openToolbar.bind(this);
-  }
+type State = {
+  style: Object,
+  visible: boolean,
+  isOpen: boolean
+};
+
+export default class AddButton extends React.Component<Props, State> {
+  state: State = {
+    style: {},
+    visible: false,
+    isOpen: false
+  };
+
+  node = null;
+  blockKey = '';
+  blockType = '';
+  blockLength = -1;
 
   // To show + button only when text length == 0
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps(newProps: Props) {
     const { editorState } = newProps;
     const contentState = editorState.getCurrentContent();
     const selectionState = editorState.getSelection();
@@ -78,66 +81,37 @@ export default class AddButton extends React.Component {
     setTimeout(this.findNode, 0);
   }
 
-  // Show + button regardless of block length
-  // componentWillReceiveProps(newProps) {
-  //   const { editorState } = newProps;
-  //   const contentState = editorState.getCurrentContent();
-  //   const selectionState = editorState.getSelection();
-  //   if (!selectionState.isCollapsed() || selectionState.anchorKey != selectionState.focusKey) {
-  //     this.hideBlock();
-  //     return;
-  //   }
-  //   const block = contentState.getBlockForKey(selectionState.anchorKey);
-  //   const bkey = block.getKey();
-  //   if (block.getType() !== this.blockType) {
-  //     this.blockType = block.getType();
-  //     setTimeout(this.findNode, 0);
-  //     return;
-  //   }
-  //   if (this.blockKey === bkey) {
-  //     this.setState({
-  //       visible: true
-  //     });
-  //     return;
-  //   }
-  //   this.blockKey = bkey;
-  //   setTimeout(this.findNode, 0);
-  // }
-
-  hideBlock() {
+  hideBlock = () => {
     if (this.state.visible) {
       this.setState({
         visible: false,
         isOpen: false
       });
     }
-  }
+  };
 
-  openToolbar() {
+  openToolbar = () => {
     this.setState(
       {
         isOpen: !this.state.isOpen
       },
       this.props.focus
     );
-  }
+  };
 
-  findNode() {
-    // eslint-disable-next-line no-undef
+  findNode = () => {
     const node = getSelectedBlockNode(window);
     if (node === this.node) {
-      // console.log('Node exists');
       return;
     }
+
     if (!node) {
-      // console.log('no node');
       this.setState({
         visible: false,
         isOpen: false
       });
       return;
     }
-    // const rect = node.getBoundingClientRect();
     this.node = node;
     this.setState({
       visible: true,
@@ -145,17 +119,21 @@ export default class AddButton extends React.Component {
         top: node.offsetTop - 3
       }
     });
-  }
+  };
 
+  // TODO add sidebuttons line 153
   render() {
-    if (!this.state.visible) {
+    const { visible, style, isOpen } = this.state;
+    const { getEditorState, setEditorState } = this.props;
+    if (!visible) {
       return null;
     }
+
     return (
-      <div className="md-side-toolbar" style={this.state.style}>
+      <div className="md-side-toolbar" style={style}>
         <button
           onClick={this.openToolbar}
-          className={`md-sb-button md-add-button${this.state.isOpen
+          className={`md-sb-button md-add-button${isOpen
             ? ' md-open-button'
             : ''}`}
           type="button"
@@ -164,7 +142,7 @@ export default class AddButton extends React.Component {
             <path d="M3 0v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2z" />
           </svg>
         </button>
-        {this.state.isOpen ? (
+        {isOpen ? (
           <CSSTransitionGroup
             transitionName="md-example"
             transitionEnterTimeout={200}
@@ -172,15 +150,15 @@ export default class AddButton extends React.Component {
             transitionAppearTimeout={100}
             transitionAppear
           >
-            {this.props.sideButtons.map(button => {
+            {[].map(button => {
               const Button = button.component;
               const extraProps = button.props ? button.props : {};
               return (
                 <Button
                   key={button.title}
                   {...extraProps}
-                  getEditorState={this.props.getEditorState}
-                  setEditorState={this.props.setEditorState}
+                  getEditorState={getEditorState}
+                  setEditorState={setEditorState}
                   close={this.openToolbar}
                 />
               );
@@ -191,10 +169,3 @@ export default class AddButton extends React.Component {
     );
   }
 }
-
-AddButton.propTypes = {
-  focus: PropTypes.func,
-  getEditorState: PropTypes.func.isRequired,
-  setEditorState: PropTypes.func.isRequired,
-  sideButtons: PropTypes.arrayOf(PropTypes.object)
-};

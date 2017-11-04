@@ -1,22 +1,23 @@
 // @flow
 
-import React, { Component } from 'react';
+import * as React from 'react';
 import {
   Editor,
   EditorState,
   RichUtils,
   SelectionState,
   ContentBlock,
-  genKey,
-  Modifier
+  genKey
 } from 'draft-js';
+import 'draft-js/dist/Draft.css';
 import isSoftNewlineEvent from 'draft-js/lib/isSoftNewlineEvent';
 import { OrderedMap } from 'immutable';
+import createEditorState from './model/content';
 
 import AddButton from './components/addbutton';
-import Toolbar, { BLOCK_BUTTONS, INLINE_BUTTONS } from './components/toolbar';
+import Toolbar from './components/toolbar';
 import LinkEditComponent from './components/LinkEditComponent';
-
+import styles from './Editor.css';
 import rendererFn from './components/customrenderer';
 import RenderMap from './util/rendermap';
 import keyBindingFn from './util/keybinding';
@@ -36,81 +37,69 @@ import {
   isCursorBetweenLink
 } from './model';
 
-import ImageButton from './components/sides/image';
-
 type State = {
   editorState: EditorState
 };
 
 type Props = {
-  placeholder?: string
+  placeholder?: string,
+  onChange?: string => void,
+  simpleEditor?: boolean,
+  spellCheck?: boolean,
+  editorEnabled?: boolean
 };
 
-export default class CustomEditor extends Component<Props, State> {
-  props: Props;
+export default class CustomEditor extends React.Component<Props, State> {
+  editorNode: HTMLElement;
+  toolbar: HTMLElement;
 
   static defaultProps = {
-    beforeInput,
-    keyBindingFn,
-    blockStyleFn,
-    rendererFn,
+    simpleEditor: false,
     editorEnabled: true,
     spellCheck: true,
-    stringToTypeMap: StringToTypeMap,
-    blockRenderMap: RenderMap,
-    blockButtons: BLOCK_BUTTONS,
-    inlineButtons: INLINE_BUTTONS,
-    placeholder: 'Write your story...',
-    continuousBlocks: [
-      Block.UNSTYLED,
-      Block.BLOCKQUOTE,
-      Block.OL,
-      Block.UL,
-      Block.CODE,
-      Block.TODO
-    ],
-    sideButtons: [
-      {
-        title: 'Image',
-        component: ImageButton
-      }
-    ],
-    disableToolbar: false,
-    showLinkEditToolbar: true,
-    toolbarConfig: {}
+    placeholder: 'Write your story...'
   };
 
   state: State = {
-    editorState: null
+    editorState: createEditorState()
   };
 
-  focus = () => this._editorNode.focus();
-  onChange = (editorState, cb) => {
-    this.props.onChange(editorState, cb);
+  focus = () => {
+    this.editorNode.focus();
+  };
+
+  onChange = (editorState: EditorState) => {
+    console.log(editorState);
+    this.setState({ editorState }, () => {
+      if (this.props.onChange) {
+        this.props.onChange('test');
+      }
+    });
   };
 
   getEditorState = () => this.state.editorState;
 
-  blockRendererFn = this.props.rendererFn(this.onChange, this.getEditorState);
+  blockRendererFn = rendererFn(this.onChange, this.getEditorState);
 
   /**
    * Implemented to provide nesting of upto 2 levels in ULs or OLs.
    */
-  onTab(e) {
-    const { editorState } = this.props;
+  onTab(e: SyntheticKeyboardEvent<*>) {
+    const { editorState } = this.state;
     const newEditorState = RichUtils.onTab(e, editorState, 2);
     if (newEditorState !== editorState) {
       this.onChange(newEditorState);
     }
   }
 
-  onUpArrow = e => {
-    const { editorState } = this.props;
+  onUpArrow = (e: SyntheticKeyboardEvent<*>) => {
+    const { editorState } = this.state;
     const content = editorState.getCurrentContent();
     const selection = editorState.getSelection();
     const key = selection.getAnchorKey();
     const currentBlock = content.getBlockForKey(key);
     const firstBlock = content.getFirstBlock();
+
     if (firstBlock.getKey() === key) {
       if (firstBlock.getType().indexOf(Block.ATOMIC) === 0) {
         e.preventDefault();
@@ -155,8 +144,8 @@ export default class CustomEditor extends Component<Props, State> {
   /*
   Adds a hyperlink on the selected text with some basic checks.
   */
-  setLink(url) {
-    let { editorState } = this.props;
+  setLink(url: string) {
+    let { editorState } = this.state;
     const selection = editorState.getSelection();
     const content = editorState.getCurrentContent();
     let entityKey = null;
@@ -185,41 +174,6 @@ export default class CustomEditor extends Component<Props, State> {
     );
   }
 
-  /**
-   * Override which text modifications are available according BLOCK_BUTTONS style property.
-   * Defaults all of them if no toolbarConfig.block passed:
-   *   block: ['ordered-list-item', 'unordered-list-item', 'blockquote', 'header-three', 'todo'],
-   * Example parameter: toolbarConfig = {
-   *   block: ['ordered-list-item', 'unordered-list-item'],
-   *   inline: ['BOLD', 'ITALIC', 'UNDERLINE', 'hyperlink'],
-   * };
-   */
-  configureToolbarBlockOptions(toolbarConfig) {
-    return toolbarConfig && toolbarConfig.block
-      ? toolbarConfig.block
-          .map(type => BLOCK_BUTTONS.find(button => button.style === type))
-          .filter(button => button !== undefined)
-      : this.props.blockButtons;
-  }
-
-  /**
-   * Override which text modifications are available according INLINE_BUTTONS style property.
-   * CASE SENSITIVE. Would be good clean up to lowercase inline styles consistently.
-   * Defaults all of them if no toolbarConfig.inline passed:
-   *   inline: ['BOLD', 'ITALIC', 'UNDERLINE', 'hyperlink', 'HIGHLIGHT'],
-   * Example parameter: toolbarConfig = {
-   *   block: ['ordered-list-item', 'unordered-list-item'],
-   *   inline: ['BOLD', 'ITALIC', 'UNDERLINE', 'hyperlink'],
-   * };
-   */
-  configureToolbarInlineOptions(toolbarConfig) {
-    return toolbarConfig && toolbarConfig.inline
-      ? toolbarConfig.inline
-          .map(type => INLINE_BUTTONS.find(button => button.style === type))
-          .filter(button => button !== undefined)
-      : this.props.inlineButtons;
-  }
-
   /*
   Handles custom commands based on various key combinations. First checks
   for some built-in commands. If found, that command's function is apllied and returns.
@@ -234,17 +188,11 @@ export default class CustomEditor extends Component<Props, State> {
     then succeeded by the inline type, the current selection's inline type will be
     togglled.
   */
-  handleKeyCommand(command) {
-    // console.log(command);
-    const { editorState } = this.props;
-    if (this.props.handleKeyCommand) {
-      const behaviour = this.props.handleKeyCommand(command);
-      if (behaviour === HANDLED || behaviour === true) {
-        return HANDLED;
-      }
-    }
+  handleKeyCommand = (command: string) => {
+    const { editorState } = this.state;
+
     if (command === KEY_COMMANDS.showLinkInput()) {
-      if (!this.props.disableToolbar && this.toolbar) {
+      if (this.toolbar) {
         // For some reason, scroll is jumping sometimes for the below code.
         // Debug and fix it later.
         const isCursorLink = isCursorBetweenLink(editorState);
@@ -301,7 +249,7 @@ export default class CustomEditor extends Component<Props, State> {
       return HANDLED;
     } else if (command.indexOf(`${KEY_COMMANDS.toggleInline()}`) === 0) {
       const inline = command.split(':')[1];
-      this._toggleInlineStyle(inline);
+      this.toggleInlineStyle(inline);
       return HANDLED;
     }
     const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -310,19 +258,13 @@ export default class CustomEditor extends Component<Props, State> {
       return HANDLED;
     }
     return NOT_HANDLED;
-  }
+  };
 
   /*
   This function is responsible for emitting various commands based on various key combos.
   */
-  handleBeforeInput(str) {
-    return this.props.beforeInput(
-      this.props.editorState,
-      str,
-      this.onChange,
-      this.props.stringToTypeMap
-    );
-  }
+  handleBeforeInput = (str: string) =>
+    beforeInput(this.state.editorState, str, this.onChange, StringToTypeMap);
 
   /*
   By default, it handles return key for inserting soft breaks (BRs in HTML) and
@@ -331,14 +273,9 @@ export default class CustomEditor extends Component<Props, State> {
   simply converted to an unstyled empty block. If RETURN is pressed on an unstyled block
   default behavior is executed.
   */
-  handleReturn(e) {
-    if (this.props.handleReturn) {
-      const behavior = this.props.handleReturn();
-      if (behavior === HANDLED || behavior === true) {
-        return HANDLED;
-      }
-    }
-    const { editorState } = this.props;
+  handleReturn = (e: SyntheticKeyboardEvent<*>) => {
+    const { editorState } = this.state;
+
     if (isSoftNewlineEvent(e)) {
       this.onChange(RichUtils.insertSoftNewline(editorState));
       return HANDLED;
@@ -376,7 +313,16 @@ export default class CustomEditor extends Component<Props, State> {
         selection.isCollapsed() &&
         currentBlock.getLength() === selection.getStartOffset()
       ) {
-        if (this.props.continuousBlocks.indexOf(blockType) < 0) {
+        if (
+          [
+            Block.UNSTYLED,
+            Block.BLOCKQUOTE,
+            Block.OL,
+            Block.UL,
+            Block.CODE,
+            Block.TODO
+          ].indexOf(blockType) < 0
+        ) {
           this.onChange(addNewBlockAt(editorState, currentBlock.getKey()));
           return HANDLED;
         }
@@ -385,32 +331,34 @@ export default class CustomEditor extends Component<Props, State> {
       return NOT_HANDLED;
     }
     return NOT_HANDLED;
-  }
+  };
 
   /*
   The function documented in `draft-js` to be used to toggle block types (mainly
   for some key combinations handled by default inside draft-js).
   */
-  _toggleBlockType(blockType) {
-    const type = RichUtils.getCurrentBlockType(this.props.editorState);
+  toggleBlockType = (blockType: string) => {
+    const type = RichUtils.getCurrentBlockType(this.state.editorState);
+
     if (type.indexOf(`${Block.ATOMIC}:`) === 0) {
       return;
     }
-    this.onChange(RichUtils.toggleBlockType(this.props.editorState, blockType));
-  }
+
+    this.onChange(RichUtils.toggleBlockType(this.state.editorState, blockType));
+  };
 
   /*
   The function documented in `draft-js` to be used to toggle inline styles of selection (mainly
   for some key combinations handled by default inside draft-js).
   */
-  _toggleInlineStyle(inlineStyle) {
-    this.onChange(
-      RichUtils.toggleInlineStyle(this.props.editorState, inlineStyle)
-    );
-  }
+  toggleInlineStyle = (inlineStyle: string) => {
+    const { editorState } = this.state;
 
-  removeLink = (blockKey, entityKey) => {
-    const { editorState } = this.props;
+    this.onChange(RichUtils.toggleInlineStyle(editorState, inlineStyle));
+  };
+
+  removeLink = (blockKey: string, entityKey: string) => {
+    const { editorState } = this.state;
     const content = editorState.getCurrentContent();
     const block = content.getBlockForKey(blockKey);
     const oldSelection = editorState.getSelection();
@@ -435,11 +383,13 @@ export default class CustomEditor extends Component<Props, State> {
     );
   };
 
-  editLinkAfterSelection = (blockKey, entityKey = null) => {
-    if (entityKey === null) {
+  editLinkAfterSelection = (blockKey: string, entityKey?: string) => {
+    if (entityKey == null) {
+      // TODO validate this check
       return;
     }
-    const { editorState } = this.props;
+
+    const { editorState } = this.state;
     const content = editorState.getCurrentContent();
     const block = content.getBlockForKey(blockKey);
     block.findEntityRanges(
@@ -468,103 +418,57 @@ export default class CustomEditor extends Component<Props, State> {
     );
   };
 
-  /**
-   * Handle pasting when cursor is in an image block. Paste the text as the
-   * caption. Otherwise, let Draft do its thing.
-   */
-  handlePastedText = (text, html, es) => {
-    const currentBlock = getCurrentBlock(this.props.editorState);
-    if (currentBlock.getType() === Block.IMAGE) {
-      const { editorState } = this.props;
-      const content = editorState.getCurrentContent();
-      this.onChange(
-        EditorState.push(
-          editorState,
-          Modifier.insertText(content, editorState.getSelection(), text)
-        )
-      );
-      return HANDLED;
-    }
-    if (
-      this.props.handlePastedText &&
-      this.props.handlePastedText(text, html, es) === HANDLED
-    ) {
-      return HANDLED;
-    }
-    return NOT_HANDLED;
-  };
-
   /*
   Renders the `Editor`, `Toolbar` and the side `AddButton`.
   */
   render() {
-    const {
-      editorState,
-      editorEnabled,
-      disableToolbar,
-      showLinkEditToolbar,
-      toolbarConfig
-    } = this.props;
-    const showAddButton = editorEnabled;
-    const editorClass = `md-RichEditor-editor${!editorEnabled
-      ? ' md-RichEditor-readonly'
-      : ''}`;
-    let isCursorLink = false;
-    if (editorEnabled && showLinkEditToolbar) {
-      isCursorLink = isCursorBetweenLink(editorState);
-    }
-    const blockButtons = this.configureToolbarBlockOptions(toolbarConfig);
-    const inlineButtons = this.configureToolbarInlineOptions(toolbarConfig);
+    const { editorState } = this.state;
+    const { editorEnabled, simpleEditor, placeholder, spellCheck } = this.props;
+    const isCursorLink = isCursorBetweenLink(editorState);
+
     return (
-      <div className="md-RichEditor-root">
-        <div className={editorClass}>
+      <div className={styles.editorRoot}>
+        <div className={styles.editor}>
           <Editor
             ref={node => {
-              this._editorNode = node;
+              this.editorNode = node;
             }}
             {...this.props}
             editorState={editorState}
             blockRendererFn={this.blockRendererFn}
-            blockStyleFn={this.props.blockStyleFn}
+            blockStyleFn={blockStyleFn}
             onChange={this.onChange}
             onTab={this.onTab}
             onUpArrow={this.onUpArrow}
-            blockRenderMap={this.props.blockRenderMap}
+            blockRenderMap={RenderMap}
             handleKeyCommand={this.handleKeyCommand}
             handleBeforeInput={this.handleBeforeInput}
             handleReturn={this.handleReturn}
-            handlePastedText={this.handlePastedText}
             readOnly={!editorEnabled}
-            keyBindingFn={this.props.keyBindingFn}
-            placeholder={this.props.placeholder}
-            spellCheck={editorEnabled && this.props.spellCheck}
+            keyBindingFn={keyBindingFn}
+            placeholder={placeholder}
+            spellCheck={editorEnabled && spellCheck}
           />
-          {this.props.sideButtons.length > 0 &&
-            showAddButton && (
-              <AddButton
-                editorState={editorState}
-                getEditorState={this.getEditorState}
-                setEditorState={this.onChange}
-                focus={this.focus}
-                sideButtons={this.props.sideButtons}
-              />
-            )}
-          {!disableToolbar && (
-            <Toolbar
-              ref={c => {
-                this.toolbar = c;
-              }}
-              editorNode={this._editorNode}
+          {!simpleEditor && (
+            <AddButton
               editorState={editorState}
-              toggleBlockType={this.toggleBlockType}
-              toggleInlineStyle={this.toggleInlineStyle}
-              editorEnabled={editorEnabled}
-              setLink={this.setLink}
+              getEditorState={this.getEditorState}
+              setEditorState={this.onChange}
               focus={this.focus}
-              blockButtons={blockButtons}
-              inlineButtons={inlineButtons}
             />
           )}
+          <Toolbar
+            ref={c => {
+              this.toolbar = c;
+            }}
+            editorNode={this.editorNode}
+            editorState={editorState}
+            toggleBlockType={this.toggleBlockType}
+            toggleInlineStyle={this.toggleInlineStyle}
+            editorEnabled={editorEnabled}
+            setLink={this.setLink}
+            focus={this.focus}
+          />
           {isCursorLink && (
             <LinkEditComponent
               {...isCursorLink}
