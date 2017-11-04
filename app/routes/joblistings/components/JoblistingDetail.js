@@ -123,13 +123,15 @@ const JoblistingDetail = ({
                 </li>
               )}
               {canDelete && (
-                <ConfirmModalWithParent
-                  title="Slett jobbannonse"
-                  message="Er du sikker på at du vil slette denne jobbannonsen?"
-                  onConfirm={onDeleteJoblisting}
-                >
-                  <span className={styles.deleteButton}>Slett</span>
-                </ConfirmModalWithParent>
+                <li>
+                  <ConfirmModalWithParent
+                    title="Slett jobbannonse"
+                    message="Er du sikker på at du vil slette denne jobbannonsen?"
+                    onConfirm={onDeleteJoblisting}
+                  >
+                    <span className={styles.deleteButton}>Slett</span>
+                  </ConfirmModalWithParent>
+                </li>
               )}
             </ul>
           )}
