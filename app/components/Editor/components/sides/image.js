@@ -1,36 +1,24 @@
-import PropTypes from 'prop-types';
+//@flow
 import React from 'react';
-
+import { EditorState } from 'draft-js';
 import { addNewBlock } from '../../model';
 import { Block } from '../../util/constants';
 
-export default class ImageButton extends React.Component {
-  static propTypes = {
-    setEditorState: PropTypes.func,
-    getEditorState: PropTypes.func,
-    close: PropTypes.func
-  };
+type Props = {
+  setEditorState: EditorState => void,
+  getEditorState: () => EditorState,
+  close: () => void
+};
 
-  constructor(props) {
-    super(props);
+export default class ImageButton extends React.Component<Props> {
+  input: HTMLInputElement;
 
-    this.onClick = this.onClick.bind(this);
-    this.onChange = this.onChange.bind(this);
-  }
-
-  onClick() {
+  onClick = () => {
     this.input.value = null;
     this.input.click();
-  }
+  };
 
-  /*
-  This is an example of how an image button can be added
-  on the side control. This Button handles the image addition locally
-  by creating an object url. You can override this method to upload
-  images to your server first, then get the image url in return and then
-  add to the editor.
-  */
-  onChange(e) {
+  onChange = (e: SyntheticInputEvent<*>) => {
     // e.preventDefault();
     const file = e.target.files[0];
     if (file.type.indexOf('image/') === 0) {
@@ -44,7 +32,7 @@ export default class ImageButton extends React.Component {
       );
     }
     this.props.close();
-  }
+  };
 
   render() {
     return (

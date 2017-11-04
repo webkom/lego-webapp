@@ -111,8 +111,8 @@ export default class Toolbar extends React.Component<Props, State> {
     this.setState({ urlInputValue: target.value });
   };
 
-  handleLinkInput = (e: SyntheticMouseEvent<*>, direct?: boolean) => {
-    if (direct !== true) {
+  handleLinkInput = (e?: SyntheticMouseEvent<*>, direct?: boolean) => {
+    if (!direct && e) {
       e.preventDefault();
       e.stopPropagation();
     }

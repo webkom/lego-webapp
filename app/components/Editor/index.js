@@ -51,7 +51,7 @@ type Props = {
 
 export default class CustomEditor extends React.Component<Props, State> {
   editorNode: HTMLElement;
-  toolbar: HTMLElement;
+  toolbar: Toolbar;
 
   static defaultProps = {
     simpleEditor: false,
@@ -69,7 +69,6 @@ export default class CustomEditor extends React.Component<Props, State> {
   };
 
   onChange = (editorState: EditorState) => {
-    console.log(editorState);
     this.setState({ editorState }, () => {
       if (this.props.onChange) {
         this.props.onChange('test');
@@ -203,7 +202,7 @@ export default class CustomEditor extends React.Component<Props, State> {
           );
           return HANDLED;
         }
-        this.toolbar.handleLinkInput(null, true);
+        this.toolbar.handleLinkInput(undefined, true);
         return HANDLED;
       }
       return NOT_HANDLED;

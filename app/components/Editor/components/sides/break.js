@@ -1,21 +1,21 @@
-import PropTypes from 'prop-types';
-import React from 'react';
+//@flow
 
+import React from 'react';
+import { EditorState } from 'draft-js';
 import { addNewBlock } from '../../model';
 import { Block } from '../../util/constants';
 
-export default class BreakButton extends React.Component {
-  constructor(props) {
-    super(props);
+type Props = {
+  setEditorState: EditorState => void,
+  getEditorState: () => EditorState,
+  close: () => void
+};
 
-    this.onClick = this.onClick.bind(this);
-  }
-
-  onClick() {
-    this.props.setEditorState(
-      addNewBlock(this.props.getEditorState(), Block.BREAK)
-    );
-  }
+export default class BreakButton extends React.Component<Props> {
+  onClick = () => {
+    const { setEditorState, getEditorState } = this.props;
+    setEditorState(addNewBlock(getEditorState(), Block.BREAK));
+  };
 
   render() {
     return (
@@ -25,9 +25,3 @@ export default class BreakButton extends React.Component {
     );
   }
 }
-
-BreakButton.propTypes = {
-  setEditorState: PropTypes.func,
-  getEditorState: PropTypes.func,
-  close: PropTypes.func
-};

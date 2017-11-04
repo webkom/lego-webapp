@@ -1,14 +1,8 @@
-// import './text.scss';
+//@flow
 
 import React from 'react';
 import { EditorBlock } from 'draft-js';
 
-// export default class Paragraph extends Component {
-//    render(){
-//     return (
-//       <EditorBlock {...this.props} />
-//     );
-//    }
-// }
+const Text = props => <EditorBlock {...props} />;
 
-export default props => <EditorBlock {...props} />;
+export default Text;
