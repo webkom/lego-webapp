@@ -4,65 +4,7 @@
   composes: container from 'app/styles/utilities.css';
 }
 
-.title {
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin-left: 10px;
-  margin-right: 10px;
-
-  @media (--small-viewport) {
-    margin: auto 10px;
-  }
-}
-
-.headerDetail {
-  word-break: break-all;
-  max-width: 80%;
-}
-
-.meta {
-  flex: 1;
-  background: #ba1414;
-  padding: 20px;
-  color: #fff;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
-.editButton {
+.deleteButton {
+  color: var(--lego-link-color);
   cursor: pointer;
-  background: #eff1f4;
-  text-transform: uppercase;
-  padding: 5px 10px;
-  color: #333;
-  outline: none;
-  border: 1px solid #ccc;
-  letter-spacing: 1px;
-  border-radius: 4px;
-  font-size: 1rem;
-
-  @media (--small-viewport) {
-    margin: 0;
-  }
-
-  &:hover {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  }
-
-  &:active {
-    color: #555;
-    transform: translateY(1px);
-  }
-
-  &:disabled {
-    color: #888;
-  }
-}
-
-.buttons {
-  margin-right: 10px;
-}
-
-.apply {
-  margin-bottom: 10px;
 }
