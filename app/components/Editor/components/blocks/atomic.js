@@ -1,29 +1,42 @@
-import PropTypes from 'prop-types';
-// import './atomic.scss';
+// @flow
 
 import React from 'react';
+import styles from './Atomic.css';
 
-const AtomicBlock = props => {
-  const content = props.getEditorState().getCurrentContent();
-  const entity = content.getEntity(props.block.getEntityAt(0));
+import EmbedBlock from './Embed';
+import BreakBlock from './break';
+
+const atomicComponents = {
+  separator: BreakBlock,
+  embed: EmbedBlock
+};
+
+type Props = {
+  block: Object,
+  blockProps: Object
+};
+
+const AtomicBlock = ({ blockProps, block }: Props) => {
+  const content = blockProps.getEditorState().getCurrentContent();
+  const entity = content.getEntity(block.getEntityAt(0));
   const data = entity.getData();
   const type = entity.getType();
-  if (type === 'image') {
+
+  if (atomicComponents[type]) {
+    const AtComponent = atomicComponents[type];
+
     return (
-      <div className="md-block-atomic-wrapper">
-        <img role="presentation" src={data.src} />
-        <div className="md-block-atomic-controls">
-          <button>&times;</button>
-        </div>
+      <div className={styles.atomic}>
+        <AtComponent data={data} />
       </div>
     );
   }
-  return <p>No supported block for {type}</p>;
-};
 
-AtomicBlock.propTypes = {
-  block: PropTypes.object,
-  getEditorState: PropTypes.func
+  return (
+    <p>
+      Block of type <b>{type}</b> is not supported.
+    </p>
+  );
 };
 
 export default AtomicBlock;

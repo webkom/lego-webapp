@@ -1,9 +1,12 @@
 //@flow
 
 import * as React from 'react';
+import cx from 'classnames';
+import Sides from './sides';
 import { EditorState } from 'draft-js';
-import { CSSTransitionGroup } from 'react-transition-group';
+import { CSSTransition } from 'react-transition-group';
 import { getSelectedBlockNode } from '../util';
+import styles from './AddButton.css';
 
 type Props = {
   editorState: EditorState,
@@ -43,7 +46,6 @@ export default class AddButton extends React.Component<Props, State> {
         .getType()
         .indexOf('atomic') >= 0
     ) {
-      // console.log('no sel');
       this.hideBlock();
       return;
     }
@@ -90,13 +92,8 @@ export default class AddButton extends React.Component<Props, State> {
     }
   };
 
-  openToolbar = () => {
-    this.setState(
-      {
-        isOpen: !this.state.isOpen
-      },
-      this.props.focus
-    );
+  open = () => {
+    this.setState({ isOpen: !this.state.isOpen }, this.props.focus);
   };
 
   findNode = () => {
@@ -121,50 +118,47 @@ export default class AddButton extends React.Component<Props, State> {
     });
   };
 
-  // TODO add sidebuttons line 153
   render() {
     const { visible, style, isOpen } = this.state;
     const { getEditorState, setEditorState } = this.props;
+
     if (!visible) {
       return null;
     }
 
     return (
-      <div className="md-side-toolbar" style={style}>
+      <div className={styles.addButton} style={style}>
         <button
-          onClick={this.openToolbar}
-          className={`md-sb-button md-add-button${isOpen
-            ? ' md-open-button'
-            : ''}`}
+          onClick={this.open}
+          className={cx(styles.addButtonButton, isOpen && styles.isOpen)}
           type="button"
         >
-          <svg viewBox="0 0 8 8" height="14" width="14">
-            <path d="M3 0v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2z" />
-          </svg>
+          <i className="fa fa-plus" />
         </button>
-        {isOpen ? (
-          <CSSTransitionGroup
-            transitionName="md-example"
-            transitionEnterTimeout={200}
-            transitionLeaveTimeout={100}
-            transitionAppearTimeout={100}
-            transitionAppear
-          >
-            {[].map(button => {
-              const Button = button.component;
-              const extraProps = button.props ? button.props : {};
-              return (
-                <Button
-                  key={button.title}
-                  {...extraProps}
-                  getEditorState={getEditorState}
-                  setEditorState={setEditorState}
-                  close={this.openToolbar}
-                />
-              );
-            })}
-          </CSSTransitionGroup>
-        ) : null}
+        <CSSTransition
+          timeout={300}
+          in={isOpen}
+          classNames={{
+            appear: styles.transitionAppear,
+            appearActive: styles.transitionAppearActive,
+            enter: styles.transitionEnter,
+            enterActive: styles.transitionEnterActive,
+            exit: styles.transitionExit,
+            exitActive: styles.transitionExitActive
+          }}
+        >
+          <div className={cx(styles.addButtonButtons, isOpen && styles.isOpen)}>
+            {Sides.map(({ Component, props = {}, title }) => (
+              <Component
+                key={title}
+                {...props}
+                getEditorState={getEditorState}
+                setEditorState={setEditorState}
+                close={this.open}
+              />
+            ))}
+          </div>
+        </CSSTransition>
       </div>
     );
   }

@@ -1,27 +1,39 @@
 //@flow
 
 import React from 'react';
-import { EditorState } from 'draft-js';
-import { addNewBlock } from '../../model';
-import { Block } from '../../util/constants';
+import { EditorState, AtomicBlockUtils } from 'draft-js';
+import SideButton from './SideButton';
 
 type Props = {
-  setEditorState: EditorState => void,
+  setEditorState: (EditorState, () => void) => void,
   getEditorState: () => EditorState,
   close: () => void
 };
 
-export default class BreakButton extends React.Component<Props> {
-  onClick = () => {
-    const { setEditorState, getEditorState } = this.props;
-    setEditorState(addNewBlock(getEditorState(), Block.BREAK));
-  };
+const BreakButton = ({ getEditorState, setEditorState, close }: Props) => (
+  <SideButton
+    active={false}
+    icon="minus"
+    onClick={() => {
+      let editorState = getEditorState();
+      const content = editorState.getCurrentContent();
+      const contentWithEntity = content.createEntity(
+        'separator',
+        'IMMUTABLE',
+        {}
+      );
+      const entityKey = contentWithEntity.getLastCreatedEntityKey();
+      editorState = EditorState.push(
+        editorState,
+        contentWithEntity,
+        'create-entity'
+      );
+      setEditorState(
+        AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, '-'),
+        close
+      );
+    }}
+  />
+);
 
-  render() {
-    return (
-      <button className="md-sb-button" onClick={this.onClick} type="button">
-        <i className="fa fa-minus" />
-      </button>
-    );
-  }
-}
+export default BreakButton;

@@ -1,14 +1,32 @@
-import PropTypes from 'prop-types';
+//@flow
+
 import React from 'react';
+import { connect } from 'react-redux';
+import type { UploadArgs } from 'app/actions/FileActions';
 
 import { EditorBlock, EditorState, SelectionState } from 'draft-js';
-
+import { uploadFile } from 'app/actions/FileActions';
 import { getCurrentBlock } from '../../model/';
 
-class ImageBlock extends React.Component {
-  static propTypes = {
-    block: PropTypes.object,
-    blockProps: PropTypes.object
+import styles from './Image.css';
+
+type Props = {
+  blockProps: Object,
+  block: Object,
+  uploadFile: UploadArgs => Promise<*>
+};
+
+type State = {
+  uploading: boolean,
+  fileToken?: string,
+  error?: string
+};
+
+class ImageBlock extends React.Component<Props, State> {
+  state = {
+    uploading: false,
+    fileToken: undefined,
+    error: undefined
   };
 
   focusBlock = () => {
@@ -17,9 +35,11 @@ class ImageBlock extends React.Component {
     const key = block.getKey();
     const editorState = getEditorState();
     const currentblock = getCurrentBlock(editorState);
+
     if (currentblock.getKey() === key) {
       return;
     }
+
     const newSelection = new SelectionState({
       anchorKey: key,
       focusKey: key,
@@ -29,27 +49,43 @@ class ImageBlock extends React.Component {
     setEditorState(EditorState.forceSelection(editorState, newSelection));
   };
 
+  componentDidMount() {
+    const { block } = this.props;
+    const data = block.getData();
+    const image = data.get('image');
+
+    this.setState({ uploading: true });
+    this.props
+      .uploadFile({ file: image })
+      .then(({ meta }) => {
+        this.setState({ fileToken: meta.fileToken, uploading: false });
+      })
+      .catch(err => {
+        this.setState({ error: err.message, uploading: false });
+      });
+  }
+
   render() {
     const { block } = this.props;
     const data = block.getData();
-    const src = data.get('src');
-    if (src !== null) {
-      return (
-        <div>
-          <div
-            className="md-block-image-inner-container"
-            onClick={this.focusBlock}
-          >
-            <img role="presentation" src={src} />
-          </div>
-          <figcaption>
-            <EditorBlock {...this.props} />
-          </figcaption>
+    const image = data.get('image');
+
+    return (
+      <div>
+        <div className={styles.imageContainer} onClick={this.focusBlock}>
+          {this.state.uploading && <div className={styles.loader} />}
+          <img
+            alt="presentation"
+            data-file-token={this.state.fileToken}
+            src={window.URL.createObjectURL(image)}
+          />
         </div>
-      );
-    }
-    return <EditorBlock {...this.props} />;
+        <figcaption className={styles.imageCaption}>
+          <EditorBlock {...this.props} />
+        </figcaption>
+      </div>
+    );
   }
 }
 
-export default ImageBlock;
+export default connect(null, { uploadFile })(ImageBlock);

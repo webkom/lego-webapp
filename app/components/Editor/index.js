@@ -68,8 +68,12 @@ export default class CustomEditor extends React.Component<Props, State> {
     this.editorNode.focus();
   };
 
-  onChange = (editorState: EditorState) => {
+  onChange = (editorState: EditorState, callback?: () => void) => {
     this.setState({ editorState }, () => {
+      if (callback) {
+        callback();
+      }
+
       if (this.props.onChange) {
         this.props.onChange('test');
       }
@@ -448,14 +452,6 @@ export default class CustomEditor extends React.Component<Props, State> {
             placeholder={placeholder}
             spellCheck={editorEnabled && spellCheck}
           />
-          {!simpleEditor && (
-            <AddButton
-              editorState={editorState}
-              getEditorState={this.getEditorState}
-              setEditorState={this.onChange}
-              focus={this.focus}
-            />
-          )}
           <Toolbar
             ref={c => {
               this.toolbar = c;
@@ -468,6 +464,14 @@ export default class CustomEditor extends React.Component<Props, State> {
             setLink={this.setLink}
             focus={this.focus}
           />
+          {!simpleEditor && (
+            <AddButton
+              editorState={editorState}
+              getEditorState={this.getEditorState}
+              setEditorState={this.onChange}
+              focus={this.focus}
+            />
+          )}
           {isCursorLink && (
             <LinkEditComponent
               {...isCursorLink}

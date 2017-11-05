@@ -1,0 +1,25 @@
+
+.sideButton {
+  background: none;
+  color: #6D6D6D;
+  cursor: pointer;
+  font-size: 24px;
+  margin: 0px 5px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.sideButton:focus {
+  outline: none;
+  color: #08c;
+}
+
+
+.sideButton:hover {
+  color: green;
+}
+
+.active {
+
+}

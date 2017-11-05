@@ -1,0 +1,14 @@
+.editorRoot {
+  box-sizing: border-box;
+  padding: 15px 30px;
+  position: relative;
+  line-height: 1.4em;
+}
+
+
+.editor {
+  cursor: text;
+  margin-top: 10px;
+  position: relative;
+  margin: 0 auto;
+}

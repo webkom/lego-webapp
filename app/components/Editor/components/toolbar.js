@@ -4,7 +4,9 @@ import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { EditorState } from 'draft-js';
 import { find } from 'lodash';
+import cx from 'classnames';
 import ToolbarButton from './ToolbarButton';
+import { Portal } from 'react-portal';
 import { getSelection, getSelectionRect } from '../util/index';
 import { getCurrentBlock } from '../model/index';
 import {
@@ -13,6 +15,7 @@ import {
   BLOCK_BUTTONS,
   INLINE_BUTTONS
 } from '../util/constants';
+import styles from './Toolbar.css';
 
 type Props = {
   editorNode: HTMLElement,
@@ -195,7 +198,7 @@ export default class Toolbar extends React.Component<Props, State> {
   };
 
   render() {
-    const { editorState, editorEnabled } = this.props;
+    const { editorState, editorEnabled, editorNode } = this.props;
     const { showURLInput, urlInputValue } = this.state;
     let isOpen = true;
 
@@ -234,38 +237,36 @@ export default class Toolbar extends React.Component<Props, State> {
     }
 
     return (
-      <div
-        className={`md-editor-toolbar${isOpen
-          ? ' md-editor-toolbar--isopen'
-          : ''}`}
-      >
-        {BLOCK_BUTTONS.map(button => (
-          <ToolbarButton
-            key={button.style}
-            button={button}
-            type="block"
-            editorState={editorState}
-            onToggle={this.props.toggleBlockType}
-          />
-        ))}
-        {INLINE_BUTTONS.map(button => (
-          <ToolbarButton
-            key={button.style}
-            type="inline"
-            button={button}
-            editorState={editorState}
-            onToggle={this.props.toggleInlineStyle}
-          />
-        ))}
-        {false && ( //TODO show this when Edit link
-          <ToolbarButton
-            button={find(INLINE_BUTTONS, ['style', HYPERLINK])}
-            type="inline"
-            editorState={editorState}
-            onToggle={this.handleLinkInput}
-          />
-        )}
-      </div>
+      <Portal node={editorNode}>
+        <div className={cx(styles.toolbar, isOpen && styles.isOpen)}>
+          {BLOCK_BUTTONS.map(button => (
+            <ToolbarButton
+              key={button.style}
+              button={button}
+              type="block"
+              editorState={editorState}
+              onToggle={this.props.toggleBlockType}
+            />
+          ))}
+          {INLINE_BUTTONS.map(button => (
+            <ToolbarButton
+              key={button.style}
+              type="inline"
+              button={button}
+              editorState={editorState}
+              onToggle={this.props.toggleInlineStyle}
+            />
+          ))}
+          {false && ( //TODO show this when Edit link
+            <ToolbarButton
+              button={find(INLINE_BUTTONS, ['style', HYPERLINK])}
+              type="inline"
+              editorState={editorState}
+              onToggle={this.handleLinkInput}
+            />
+          )}
+        </div>
+      </Portal>
     );
   }
 }

@@ -6,7 +6,6 @@ import CaptionBlock from './blocks/caption';
 import AtomicBlock from './blocks/atomic';
 import TodoBlock from './blocks/todo';
 import ImageBlock from './blocks/image';
-import BreakBlock from './blocks/break';
 import { Block } from '../util/constants';
 
 export default (
@@ -35,7 +34,6 @@ export default (
       return {
         component: TodoBlock,
         props: {
-          setEditorState,
           getEditorState
         }
       };
@@ -46,11 +44,6 @@ export default (
           setEditorState,
           getEditorState
         }
-      };
-    case Block.BREAK:
-      return {
-        component: BreakBlock,
-        editable: false
       };
     default:
       return null;
