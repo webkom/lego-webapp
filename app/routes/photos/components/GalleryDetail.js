@@ -2,7 +2,6 @@
 
 import React, { Component, cloneElement, type Element } from 'react';
 import GalleryDetailsRow from './GalleryDetailsRow';
-import Button from 'app/components/Button';
 import EmptyState from 'app/components/EmptyState';
 import { Link } from 'react-router';
 import ImageUpload from 'app/components/Upload/ImageUpload';
@@ -67,14 +66,10 @@ export default class GalleryDetail extends Component<Props, State> {
               <i className="fa fa-angle-left" /> Tilbake
             </NavigationLink>
             <NavigationLink to="">
-              <Button onClick={() => this.toggleUpload()}>
-                Last opp bilder
-              </Button>
+              <a onClick={() => this.toggleUpload()}>Last opp bilder</a>
             </NavigationLink>
             <NavigationLink to="">
-              <Button>
-                <Link to={`/photos/${gallery.id}/edit`}>Rediger</Link>
-              </Button>
+              <Link to={`/photos/${gallery.id}/edit`}>Rediger</Link>
             </NavigationLink>
           </NavigationTab>
         </Flex>

@@ -4,6 +4,15 @@
   margin-bottom: 40px;
 }
 
+.detailTitle {
+  margin-bottom: 0;
+  width: 100%;
+
+  & h1 {
+    margin-bottom: 0;
+  }
+}
+
 .section {
   flex: 1;
   display: flex;

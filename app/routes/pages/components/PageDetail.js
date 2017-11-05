@@ -91,9 +91,9 @@ function PageDetail<T: Object>({
     <Content>
       <NavigationTab title={title}>
         {actionGrant.includes('edit') &&
-          editUrl && <NavigationLink to={`${editUrl}`}>ENDRE</NavigationLink>}
+          editUrl && <NavigationLink to={`${editUrl}`}>Endre</NavigationLink>}
         {actionGrant.includes('create') && (
-          <NavigationLink to={`/pages/new`}> NY </NavigationLink>
+          <NavigationLink to={`/pages/new`}>Ny</NavigationLink>
         )}
       </NavigationTab>
       <Flex className={styles.page} wrap>
