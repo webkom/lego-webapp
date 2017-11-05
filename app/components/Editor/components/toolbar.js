@@ -1,12 +1,11 @@
 // @flow
 
 import * as React from 'react';
-import ReactDOM from 'react-dom';
+import { createPortal, findDOMNode } from 'react-dom';
 import { EditorState } from 'draft-js';
 import { find } from 'lodash';
 import cx from 'classnames';
 import ToolbarButton from './ToolbarButton';
-import { Portal } from 'react-portal';
 import { getSelection, getSelectionRect } from '../util/index';
 import { getCurrentBlock } from '../model/index';
 import {
@@ -18,7 +17,7 @@ import {
 import styles from './Toolbar.css';
 
 type Props = {
-  editorNode: HTMLElement,
+  editorRoot: HTMLElement,
   editorState: EditorState,
   editorEnabled: boolean,
   simpleEditor: boolean,
@@ -33,8 +32,8 @@ type State = {
   urlInputValue: string
 };
 export default class Toolbar extends React.Component<Props, State> {
-  toolbarNode: HTMLElement;
   urlinput: HTMLInputElement;
+  toolbar: HTMLDivElement;
 
   state: State = {
     showURLInput: false,
@@ -58,44 +57,6 @@ export default class Toolbar extends React.Component<Props, State> {
         });
       }
       return;
-    }
-  }
-
-  componentDidUpdate() {
-    if (!this.props.editorEnabled || this.state.showURLInput) {
-      return;
-    }
-
-    const selectionState = this.props.editorState.getSelection();
-    if (selectionState.isCollapsed()) {
-      return;
-    }
-
-    const nativeSelection = getSelection(window);
-    if (!nativeSelection.rangeCount) {
-      return;
-    }
-
-    const selectionBoundary = getSelectionRect(nativeSelection);
-    const toolbarNode = ReactDOM.findDOMNode(this);
-    const toolbarBoundary = toolbarNode.getBoundingClientRect();
-    const parent = ReactDOM.findDOMNode(this.props.editorNode);
-    const parentBoundary = parent.getBoundingClientRect();
-
-    /*
-    * Main logic for setting the toolbar position.
-    */
-    toolbarNode.style.top = `${selectionBoundary.top -
-      parentBoundary.top -
-      toolbarBoundary.height -
-      5}px`;
-    toolbarNode.style.width = `${toolbarBoundary.width}px`;
-    const widthDiff = selectionBoundary.width - toolbarBoundary.width;
-    if (widthDiff >= 0) {
-      toolbarNode.style.left = `${widthDiff / 2}px`;
-    } else {
-      const left = selectionBoundary.left - parentBoundary.left;
-      toolbarNode.style.left = `${left + widthDiff / 2}px`;
     }
   }
 
@@ -198,12 +159,32 @@ export default class Toolbar extends React.Component<Props, State> {
   };
 
   render() {
-    const { editorState, editorEnabled, editorNode } = this.props;
+    const { editorState, editorEnabled, editorRoot } = this.props;
     const { showURLInput, urlInputValue } = this.state;
-    let isOpen = true;
+    const selection = editorState.getSelection();
+    const nativeSelection = getSelection(window);
 
-    if (!editorEnabled || editorState.getSelection().isCollapsed()) {
-      isOpen = false;
+    if (
+      !editorRoot ||
+      !nativeSelection.rangeCount ||
+      !editorEnabled ||
+      selection.isCollapsed()
+    ) {
+      return null;
+    }
+
+    if (this.toolbar) {
+      const selectionBoundary = getSelectionRect(nativeSelection);
+      console.log(selectionBoundary);
+      console.log(this.toolbar);
+      console.log(editorRoot);
+      this.toolbar.style.top = `${selectionBoundary.top +
+        window.scrollY -
+        this.toolbar.offsetHeight}px`;
+      this.toolbar.style.left = `${selectionBoundary.left +
+        window.scrollX -
+        this.toolbar.offsetWidth / 2 +
+        selectionBoundary.width / 2}px`;
     }
 
     if (showURLInput) {
@@ -236,37 +217,41 @@ export default class Toolbar extends React.Component<Props, State> {
       );
     }
 
-    return (
-      <Portal node={editorNode}>
-        <div className={cx(styles.toolbar, isOpen && styles.isOpen)}>
-          {BLOCK_BUTTONS.map(button => (
-            <ToolbarButton
-              key={button.style}
-              button={button}
-              type="block"
-              editorState={editorState}
-              onToggle={this.props.toggleBlockType}
-            />
-          ))}
-          {INLINE_BUTTONS.map(button => (
-            <ToolbarButton
-              key={button.style}
-              type="inline"
-              button={button}
-              editorState={editorState}
-              onToggle={this.props.toggleInlineStyle}
-            />
-          ))}
-          {false && ( //TODO show this when Edit link
-            <ToolbarButton
-              button={find(INLINE_BUTTONS, ['style', HYPERLINK])}
-              type="inline"
-              editorState={editorState}
-              onToggle={this.handleLinkInput}
-            />
-          )}
-        </div>
-      </Portal>
+    return createPortal(
+      <div
+        className={styles.toolbar}
+        ref={e => {
+          this.toolbar = e;
+        }}
+      >
+        {BLOCK_BUTTONS.map(button => (
+          <ToolbarButton
+            key={button.style}
+            button={button}
+            type="block"
+            editorState={editorState}
+            onToggle={this.props.toggleBlockType}
+          />
+        ))}
+        {INLINE_BUTTONS.map(button => (
+          <ToolbarButton
+            key={button.style}
+            type="inline"
+            button={button}
+            editorState={editorState}
+            onToggle={this.props.toggleInlineStyle}
+          />
+        ))}
+        {false && ( //TODO show this when Edit link
+          <ToolbarButton
+            button={find(INLINE_BUTTONS, ['style', HYPERLINK])}
+            type="inline"
+            editorState={editorState}
+            onToggle={this.handleLinkInput}
+          />
+        )}
+      </div>,
+      editorRoot
     );
   }
 }

@@ -50,8 +50,9 @@ type Props = {
 };
 
 export default class CustomEditor extends React.Component<Props, State> {
-  editorNode: HTMLElement;
+  editorNode: Editor;
   toolbar: Toolbar;
+  editorRoot: HTMLDivElement;
 
   static defaultProps = {
     simpleEditor: false,
@@ -431,7 +432,12 @@ export default class CustomEditor extends React.Component<Props, State> {
 
     return (
       <div className={styles.editorRoot}>
-        <div className={styles.editor}>
+        <div
+          className={styles.editor}
+          ref={node => {
+            this.editorRoot = node;
+          }}
+        >
           <Editor
             ref={node => {
               this.editorNode = node;
@@ -456,7 +462,7 @@ export default class CustomEditor extends React.Component<Props, State> {
             ref={c => {
               this.toolbar = c;
             }}
-            editorNode={this.editorNode}
+            editorRoot={this.editorRoot}
             editorState={editorState}
             toggleBlockType={this.toggleBlockType}
             toggleInlineStyle={this.toggleInlineStyle}
