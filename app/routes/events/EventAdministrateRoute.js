@@ -23,10 +23,11 @@ const mapStateToProps = (state, props) => {
   const event = selectEventById(state, { eventId });
   const actionGrant = state.events.actionGrant;
   const pools = selectPoolsForEvent(state, { eventId });
+  console.log('state', state);
   const { registered, unregistered } = getRegistrationGroups(state, {
     eventId
   });
-
+  console.log('registered', registered);
   return {
     eventId,
     actionGrant,

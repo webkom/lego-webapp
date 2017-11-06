@@ -3,11 +3,18 @@
 import styles from './Administrate.css';
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import { RegisteredElement, UnregisteredElement } from './RegistrationElements';
+import { RegisteredTable, UnregisteredElement } from './RegistrationElements';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import AdminRegisterForm from './AdminRegisterForm';
 import moment from 'moment-timezone';
 import { Flex } from 'app/components/Layout';
+import {
+  Content,
+  ContentHeader,
+  ContentSection,
+  ContentMain,
+  ContentSidebar
+} from 'app/components/Content';
 import type {
   Event,
   Comment,
@@ -119,65 +126,49 @@ export default class EventAdministrate extends Component<Props, State> {
     const showUnregister = moment().isBefore(event.startTime);
 
     return (
-      <div className={styles.root}>
+      <Content>
         <h2>
           <Link to={`/events/${eventId}`}>
             <i className="fa fa-angle-left" />
             {` ${event.title}`}
           </Link>
         </h2>
-        <Flex column alignItems="center">
-          <div className={styles.list}>
+        <Flex column>
+          <Flex column alignItems="center">
             <strong>Adminpåmelding:</strong>
             <AdminRegisterForm
               {...this.props}
               onSubmit={this.handleAdminRegistration}
               pools={pools}
             />
-            <strong>Påmeldte:</strong>
-            <ul className={styles.grid}>
-              <li className={styles.registeredList}>
-                <div>Bruker:</div>
-                <div className={styles.center}>Status:</div>
-                <div className={styles.center}>Til stede:</div>
-                <div>Dato:</div>
-                <div className={styles.center}>Klassetrinn:</div>
-                <div className={styles.center}>Betaling:</div>
-                <div>Tilbakemelding:</div>
-                <div>Administrer:</div>
-              </li>
-              {registered.length === 0 && <li>Ingen påmeldte</li>}
-              {registered.map(reg => (
-                <RegisteredElement
-                  key={reg.id}
-                  registration={reg}
-                  handlePresence={this.handlePresence}
-                  handlePayment={this.handlePayment}
-                  handleUnregister={this.handleUnregister}
-                  clickedUnregister={this.state.clickedUnregister}
-                  showUnregister={showUnregister}
-                />
-              ))}
-            </ul>
-          </div>
-          <div className={styles.list} style={{ paddingTop: '1em' }}>
-            <strong>Avmeldte:</strong>
-            <ul className={styles.grid}>
-              <li className={styles.unregisteredList}>
-                <div>Bruker:</div>
-                <div>Status:</div>
-                <div>Påmeldt:</div>
-                <div>Avmeldt:</div>
-                <div>Klassetrinn:</div>
-              </li>
-              {unregistered.length === 0 && <div>Ingen avmeldte</div>}
-              {unregistered.map(reg => (
-                <UnregisteredElement key={reg.id} registration={reg} />
-              ))}
-            </ul>
-          </div>
+          </Flex>
+          <strong>Påmeldte:</strong>
+          {registered.length === 0 && <li>Ingen påmeldte</li>}
+          <RegisteredTable
+            registered={registered}
+            loading={loading}
+            handlePresence={this.handlePresence}
+            handlePayment={this.handlePayment}
+            handleUnregister={this.handleUnregister}
+            clickedUnregister={this.state.clickedUnregister}
+            showUnregister={showUnregister}
+          />
+          <strong>Avmeldte:</strong>
+          <ul className={styles.grid}>
+            <li className={styles.unregisteredList}>
+              <div>Bruker:</div>
+              <div>Status:</div>
+              <div>Påmeldt:</div>
+              <div>Avmeldt:</div>
+              <div>Klassetrinn:</div>
+            </li>
+            {unregistered.length === 0 && <div>Ingen avmeldte</div>}
+            {unregistered.map(reg => (
+              <UnregisteredElement key={reg.id} registration={reg} />
+            ))}
+          </ul>
         </Flex>
-      </div>
+      </Content>
     );
   }
 }
