@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
 import Icon from 'app/components/Icon';
+import { formatHeader } from './utils';
 import { lookupContext, contextRender } from '../context';
-import joinValues from 'app/utils/joinValues';
 import type { AggregatedActivity, Activity } from '../types';
 import DisplayContent from 'app/components/DisplayContent';
 
@@ -27,7 +27,7 @@ export function activityHeader(aggregatedActivity: AggregatedActivity) {
 
   return (
     <b>
-      {joinValues(actorsRender)} kommenterte på{' '}
+      {formatHeader(actorsRender)} kommenterte på{' '}
       {contextRender[target.contentType](target)}
     </b>
   );

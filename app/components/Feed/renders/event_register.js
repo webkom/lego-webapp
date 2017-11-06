@@ -7,8 +7,7 @@ import type { AggregatedActivity, Activity } from '../types';
 import DisplayContent from 'app/components/DisplayContent';
 
 /**
- * Comments are grouped by the comment target and date.
- * This makes it possible to use the latest activity to generate the header.
+ * Grouped by target and date, standard...
  */
 export function activityHeader(aggregatedActivity: AggregatedActivity) {
   const latestActivity = aggregatedActivity.lastActivity;
@@ -27,14 +26,14 @@ export function activityHeader(aggregatedActivity: AggregatedActivity) {
 
   return (
     <b>
-      {formatHeader(actorsRender)} svarte på din kommentar på{' '}
+      {formatHeader(actorsRender)} meldte seg på arrangementet{' '}
       {contextRender[target.contentType](target)}
     </b>
   );
 }
 
 export function activityContent(activity: Activity) {
-  return <DisplayContent content={activity.extraContext.content} />;
+  return <DisplayContent content={''} />;
 }
 
 export function icon() {

@@ -57,7 +57,7 @@ export default class CommentRenderer extends Component<Props, State> {
           <div key={i}>
             {this.renderHeader(activity, aggregatedActivity)}
             <div className={styles.activityContent}>
-              {renders.activityContent(activity)}
+              {renders.activityContent(activity, aggregatedActivity)}
             </div>
           </div>
         ))}
