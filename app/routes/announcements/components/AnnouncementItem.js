@@ -6,12 +6,13 @@ import Flex from 'app/components/Layout/Flex';
 import Button from 'app/components/Button';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
+import type { ActionGrant, Announcement, ID } from 'app/models';
 
 type Props = {
-  announcement: Object,
-  sendAnnouncement: number => void,
-  deleteAnnouncement: number => void,
-  actionGrant: Array<string>
+  announcement: Announcement,
+  sendAnnouncement: ID => Promise<*>,
+  deleteAnnouncement: ID => Promise<*>,
+  actionGrant: ActionGrant
 };
 
 const AnnouncementItem = ({
@@ -91,15 +92,13 @@ const AnnouncementItem = ({
               className={styles.sendButton}
               onClick={() => deleteAnnouncement(announcement.id)}
             >
-              {' '}
-              Slett{' '}
+              Slett
             </Button>
             <Button
               className={styles.sendButton}
               onClick={() => sendAnnouncement(announcement.id)}
             >
-              {' '}
-              Send{' '}
+              Send
             </Button>
           </Flex>
         )}

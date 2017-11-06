@@ -7,10 +7,11 @@ import { Form, SelectInput, TextArea } from 'app/components/Form';
 import { reduxForm, Field, reset } from 'redux-form';
 import Button from 'app/components/Button';
 import { ContentMain } from 'app/components/Content';
+import type { ActionGrant, CreateAnnouncement } from 'app/models';
 
 type Props = {
-  createAnnouncement: (...any) => void,
-  actionGrant: Array<string>,
+  createAnnouncement: CreateAnnouncement => Promise<*>,
+  actionGrant: ActionGrant,
   handleSubmit: Function => void,
   invalid: boolean,
   pristine: boolean,
@@ -30,18 +31,10 @@ const AnnouncementsCreate = ({
   const onSubmit = (announcement, send = false) => {
     return createAnnouncement({
       ...announcement,
-      users: announcement.users
-        ? announcement.users.map(user => user.value)
-        : [],
-      groups: announcement.groups
-        ? announcement.groups.map(group => group.value)
-        : [],
-      meetings: announcement.meetings
-        ? announcement.meetings.map(meeting => meeting.value)
-        : [],
-      events: announcement.events
-        ? announcement.events.map(event => event.value)
-        : [],
+      users: announcement.users.map(user => user.value),
+      groups: announcement.groups.map(group => group.value),
+      meetings: announcement.meetings.map(meeting => meeting.value),
+      events: announcement.events.map(event => event.value),
       send
     });
   };
@@ -114,6 +107,13 @@ const AnnouncementsCreate = ({
   );
 };
 
+const initialValues = {
+  events: [],
+  meetings: [],
+  groups: [],
+  users: []
+};
+
 const resetForm = (result, dispatch) => {
   dispatch(reset('announcementsCreate'));
 };
@@ -131,6 +131,7 @@ const validateForm = values => {
 
 export default reduxForm({
   form: 'announcementsCreate',
+  initialValues,
   onSubmitSuccess: resetForm,
   validate: validateForm
 })(AnnouncementsCreate);

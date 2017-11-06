@@ -9,13 +9,14 @@ import { Form, TextArea } from 'app/components/Form';
 import { reduxForm, Field, reset } from 'redux-form';
 import { createAnnouncement } from 'app/actions/AnnouncementsActions';
 import styles from './AnnouncementInLine.css';
+import type { CreateAnnouncement, ID } from 'app/models';
 
 type Props = {
   placeholder?: string,
-  event?: number,
-  meeting?: number,
-  group?: number,
-  createAnnouncement: (...any) => void,
+  event?: ID,
+  meeting?: ID,
+  group?: ID,
+  createAnnouncement: CreateAnnouncement => Promise<*>,
   handleSubmit: Function => void,
   actionGrant: boolean,
   hidden?: boolean,
@@ -80,8 +81,7 @@ class AnnouncementInLine extends Component<Props, State> {
                   onClick={this.handleHide}
                   className={styles.announcementButton}
                 >
-                  {' '}
-                  Ny kunngjøring{' '}
+                  Ny kunngjøring
                 </Button>
               )}
               {showLabel && (
@@ -112,8 +112,7 @@ class AnnouncementInLine extends Component<Props, State> {
                     className={styles.fieldText}
                   />
                   <Button submit className={styles.button}>
-                    {' '}
-                    SEND{' '}
+                    SEND
                   </Button>
                 </Form>
               )}

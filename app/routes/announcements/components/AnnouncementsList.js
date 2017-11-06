@@ -6,15 +6,21 @@ import Flex from 'app/components/Layout/Flex';
 import AnnouncementItem from './AnnouncementItem';
 import AnnouncementsCreate from './AnnouncementsCreate';
 import { Content, ContentMain } from 'app/components/Content';
+import type {
+  ActionGrant,
+  Announcement,
+  CreateAnnouncement,
+  ID
+} from 'app/models';
 
 type Props = {
-  announcement: Object,
-  announcements: Array<Object>,
-  actionGrant: /* TODO: ActionGrant */ any,
-  sendAnnouncement: () => void,
-  createAnnouncement: (announcement: any) => void,
-  deleteAnnouncement: () => void,
-  handleSubmit: /*SubmitHandler<>*/ any => void,
+  announcement: Announcement,
+  announcements: Array<Announcement>,
+  actionGrant: ActionGrant,
+  sendAnnouncement: ID => Promise<*>,
+  createAnnouncement: CreateAnnouncement => Promise<*>,
+  deleteAnnouncement: ID => Promise<*>,
+  handleSubmit: Function => void,
   invalid: string,
   pristine: string,
   submitting: string
