@@ -65,7 +65,8 @@ const eventCreateAndUpdateFields = [
   'tags',
   'pools',
   'unregistrationDeadline',
-  'pinned'
+  'pinned',
+  'heedPenalties'
 ];
 
 const poolCreateAndUpdateFields = [
