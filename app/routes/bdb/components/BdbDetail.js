@@ -209,9 +209,8 @@ export default class BdbDetail extends Component<Props, State> {
     const events =
       companyEvents &&
       companyEvents
-        .slice()
         .sort((a, b) => Date.parse(b.startTime) - Date.parse(a.startTime))
-        .splice(0, this.state.eventsToDisplay)
+        .slice(0, this.state.eventsToDisplay)
         .map(event => (
           <tr key={event.id}>
             <td>
@@ -394,7 +393,7 @@ export default class BdbDetail extends Component<Props, State> {
                 </thead>
                 <tbody>{events}</tbody>
               </table>
-              {companyEvents.length > 3 && (
+              {this.state.eventsToDisplay === 3 && (
                 <Button
                   style={{ width: '100%', marginTop: '20px' }}
                   onClick={() => this.setState({ eventsToDisplay: 100 })}
