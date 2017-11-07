@@ -3,8 +3,7 @@
 import callAPI from 'app/actions/callAPI';
 import { Announcements } from './ActionTypes';
 import { announcementsSchema } from 'app/reducers';
-import { startSubmit, stopSubmit } from 'redux-form';
-import { reset } from 'redux-form';
+import { stopSubmit } from 'redux-form';
 import type { Thunk } from 'app/types';
 
 export function fetchAll() {
@@ -29,10 +28,8 @@ export function createAnnouncement(
     send
   }: Object /*AnnouncementModel*/
 ): Thunk<*> {
-  return dispatch => {
-    dispatch(startSubmit('AnnouncementsCreate'));
-
-    return dispatch(
+  return dispatch =>
+    dispatch(
       callAPI({
         types: Announcements.CREATE,
         endpoint: '/announcements/',
@@ -51,8 +48,6 @@ export function createAnnouncement(
       })
     )
       .then(action => {
-        dispatch(stopSubmit('AnnouncementsCreate'));
-        dispatch(reset('announcementsList'));
         if (send && action && action.payload) {
           dispatch(sendAnnouncement(action.payload.result));
         }
@@ -61,7 +56,6 @@ export function createAnnouncement(
         const errors = { ...action.error.response.jsonData };
         dispatch(stopSubmit('AnnouncementsCreate', errors));
       });
-  };
 }
 
 export function sendAnnouncement(announcementId: number) {

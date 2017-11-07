@@ -22,6 +22,7 @@ import type {
 } from 'app/reducers/meetingInvitations';
 import type { UserEntity } from 'app/reducers/users';
 import type { Dateish } from 'app/models';
+import AnnouncementInLine from 'app/components/AnnouncementInLine';
 
 type Props = {
   meeting: Object,
@@ -193,6 +194,13 @@ class MeetingDetails extends Component<Props> {
                 </li>
                 <li>
                   <AttendanceStatus.Modal pools={this.sortInvitations()} />
+                </li>
+                <li>
+                  <AnnouncementInLine
+                    placeholder="Skriv en kunngjøring til alle inviterte..."
+                    meeting={meeting.id}
+                    button
+                  />
                 </li>
               </ul>
             </Card>
