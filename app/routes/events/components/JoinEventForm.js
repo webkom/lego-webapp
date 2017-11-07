@@ -314,7 +314,7 @@ class JoinEventForm extends Component<Props, State> {
               description={event.title}
               image={logoImage}
               currency="NOK"
-              allowRememberMe={true}
+              allowRememberMe
               locale="no"
               token={onToken}
               stripeKey={config.stripeKey}

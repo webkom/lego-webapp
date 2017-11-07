@@ -14,13 +14,13 @@ import {
 } from 'app/components/Form';
 import { Link } from 'react-router';
 import { Field } from 'redux-form';
-import { createValidator, required, isNotEmail } from 'app/utils/validation';
+import { createValidator, required } from 'app/utils/validation';
 import type { ReduxFormProps } from 'app/types';
 
 type Props = {
   studentConfirmed: boolean,
   handleSubmit: Function => void,
-  sendStudentConfirmationEmail: () => void,
+  sendStudentConfirmationEmail: Object => void,
   router: any,
   loggedIn: boolean,
   submitSucceeded: () => void,
@@ -72,12 +72,20 @@ const StudentConfirmation = ({
     );
   }
 
+  const handleSendConfirmation = data => {
+    const payload = {
+      ...data,
+      studentUsername: data.studentUsername.replace('@stud.ntnu.no', '')
+    };
+    return sendStudentConfirmationEmail(payload);
+  };
+
   const disabledButton = invalid || pristine || submitting;
   return (
     <Container>
       <div>
         <h2>Verifiser studentepost</h2>
-        <Form onSubmit={handleSubmit(sendStudentConfirmationEmail)}>
+        <Form onSubmit={handleSubmit(handleSendConfirmation)}>
           <Field
             name="studentUsername"
             placeholder="NTNU Brukernavn"
@@ -119,7 +127,7 @@ const StudentConfirmation = ({
 };
 
 const validate = createValidator({
-  studentUsername: [isNotEmail('Kun NTNU-brukernavn')],
+  studentUsername: [required()],
   course: [required()],
   member: [required()],
   captchaResponse: [required('Captcha er ikke validert')]
