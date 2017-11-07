@@ -5,6 +5,8 @@ import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import type Moment from 'moment-timezone';
+import { mutateComments } from 'app/reducers/comments';
+import joinReducers from 'app/utils/joinReducers';
 
 export type MeetingEntity = {
   id: number,
@@ -23,23 +25,27 @@ export type MeetingSection = {
   meetings: Array<MeetingEntity>
 };
 
+function mutateMeeting(state: any, action: any) {
+  switch (action.type) {
+    case Meeting.DELETE.SUCCESS:
+      return {
+        ...state,
+        items: state.items.filter(id => action.meta.meetingId !== id)
+      };
+    default:
+      return state;
+  }
+}
+
+const mutate = joinReducers(mutateComments('meetings'), mutateMeeting);
+
 export default createEntityReducer({
   key: 'meetings',
   types: {
     fetch: Meeting.FETCH,
     mutate: Meeting.CREATE
   },
-  mutate(state, action) {
-    switch (action.type) {
-      case Meeting.DELETE.SUCCESS:
-        return {
-          ...state,
-          items: state.items.filter(id => action.meta.meetingId !== id)
-        };
-      default:
-        return state;
-    }
-  }
+  mutate
 });
 
 export const selectMeetings = createSelector(
@@ -52,6 +58,15 @@ export const selectMeetingById = createSelector(
   state => state.meetings.byId,
   (state, props) => props.meetingId,
   (meetingsById, meetingId) => meetingsById[meetingId]
+);
+
+export const selectCommentsForMeeting = createSelector(
+  selectMeetingById,
+  state => state.comments.byId,
+  (meeting, commentsById) => {
+    if (!meeting) return [];
+    return (meeting.comments || []).map(commentId => commentsById[commentId]);
+  }
 );
 
 export const selectGroupedMeetings = createSelector(

@@ -16,7 +16,6 @@
 .mainContent {
   flex-wrap: wrap;
   padding-top: 20px;
-  display: flex;
 }
 
 .meetingItem {
@@ -27,12 +26,23 @@
   justify-content: space-between;
 }
 
+.line {
+  border-bottom: 3px solid #e5e5e4;
+  padding-bottom: 50px;
+  border-radius: 1%;
+}
+
 .reportContent {
   min-width: 300px;
 }
 
 .statusContent {
   min-width: 250px;
+}
+
+.commentContent {
+  width: 100%;
+  margin-top: 15px;
 }
 
 .detailTitle {

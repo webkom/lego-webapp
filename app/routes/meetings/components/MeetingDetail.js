@@ -3,9 +3,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
-import { FlexRow, FlexItem } from 'app/components/FlexBox';
+import { FlexRow, FlexItem, FlexColumn } from 'app/components/FlexBox';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 
+import CommentView from 'app/components/Comments/CommentView';
 import styles from './MeetingDetail.css';
 import Card from 'app/components/Card';
 import Button from 'app/components/Button';
@@ -15,6 +16,7 @@ import { AttendanceStatus } from 'app/components/UserAttendance';
 import moment from 'moment-timezone';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { statusesText, statuses } from 'app/reducers/meetingInvitations';
+import { Flex } from 'app/components/Layout';
 
 import type {
   MeetingInvitationEntity,
@@ -38,6 +40,8 @@ type Props = {
   reportAuthor: UserEntity,
   createdBy: UserEntity,
   currentUserInvitation: MeetingInvitationEntity,
+  loggedIn: boolean,
+  comments: Array<Object>,
   push: string => Promise<*>
 };
 
@@ -102,6 +106,8 @@ class MeetingDetails extends Component<Props> {
       showAnswer,
       reportAuthor,
       createdBy,
+      comments,
+      loggedIn,
       currentUserInvitation
     } = this.props;
 
@@ -127,7 +133,7 @@ class MeetingDetails extends Component<Props> {
           </h2>
         )}
 
-        <FlexRow className={styles.heading}>
+        <Flex className={styles.heading}>
           <div style={{ flex: 1 }}>
             <NavigationTab title={meeting.title} className={styles.detailTitle}>
               <NavigationLink to="/meetings">
@@ -159,53 +165,66 @@ class MeetingDetails extends Component<Props> {
               />
             </h3>
           </div>
-        </FlexRow>
-        <div className={styles.mainContent}>
-          <FlexItem className={styles.reportContent} flex={2}>
-            <h2>Referat</h2>
-            <DisplayContent content={meeting.report} />
-          </FlexItem>
-          <FlexItem className={styles.statusContent} flex={1}>
-            <Card style={{ border: 'none', padding: 0 }} shadow={false}>
-              <ul>
-                {this.attendanceButtons(statusMe, meeting.startTime)}
-                {statusMe && (
+        </Flex>
+        <Flex className={styles.mainContent}>
+          <Flex wrap className={styles.line}>
+            <Flex className={styles.reportContent} flex={2}>
+              <h2>Referat</h2>
+              <Editor readOnly value={meeting.report} />
+            </Flex>
+            <Flex className={styles.statusContent} flex={1}>
+              <Card style={{ border: 'none', padding: 0 }} shadow={false}>
+                <ul>
+                  {this.attendanceButtons(statusMe, meeting.startTime)}
+                  {statusMe && (
+                    <li>
+                      <strong> Din status: </strong>
+                      {statusesText[statusMe]}
+                    </li>
+                  )}
                   <li>
-                    <strong> Din status: </strong>
-                    {statusesText[statusMe]}
+                    <strong> Slutt </strong>
+                    <Time time={meeting.endTime} format="ll HH:mm" />
                   </li>
-                )}
-                <li>
-                  <strong> Slutt </strong>
-                  <Time time={meeting.endTime} format="ll HH:mm" />
-                </li>
-                <li>
-                  <strong> Lokasjon: </strong>
-                  <span> {meeting.location} </span>
-                </li>
-                <li>
-                  <strong> Forfatter: </strong>
-                  <UserLink user={createdBy} />
-                </li>
+                  <li>
+                    <strong> Lokasjon: </strong>
+                    <span> {meeting.location} </span>
+                  </li>
+                  <li>
+                    <strong> Forfatter: </strong>
+                    <UserLink user={createdBy} />
+                  </li>
 
-                <li>
-                  <strong> Referent: </strong>
-                  <UserLink user={reportAuthor} />
-                </li>
-                <li>
-                  <AttendanceStatus.Modal pools={this.sortInvitations()} />
-                </li>
-                <li>
-                  <AnnouncementInLine
-                    placeholder="Skriv en kunngjøring til alle inviterte..."
-                    meeting={meeting.id}
-                    button
-                  />
-                </li>
-              </ul>
-            </Card>
-          </FlexItem>
-        </div>
+                  <li>
+                    <strong> Referent: </strong>
+                    <UserLink user={reportAuthor} />
+                  </li>
+                  <li>
+                    <AttendanceStatus.Modal pools={this.sortInvitations()} />
+                  </li>
+                  <li>
+                    <AnnouncementInLine
+                      placeholder="Skriv en kunngjøring til alle inviterte..."
+                      meeting={meeting.id}
+                      button
+                    />
+                  </li>
+                </ul>
+              </Card>
+            </Flex>
+          </Flex>
+          <Flex className={styles.commentContent}>
+            {meeting.commentTarget && (
+              <CommentView
+                style={{ marginTop: 20 }}
+                user={currentUser}
+                commentTarget={meeting.commentTarget}
+                loggedIn={loggedIn}
+                comments={comments}
+              />
+            )}
+          </Flex>
+        </Flex>
       </div>
     );
   }
