@@ -1,7 +1,7 @@
 // @flow
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { fetchSemesters } from 'app/actions/CompanyActions';
+import { fetchSemestersForInterestform } from 'app/actions/CompanyActions';
 import {
   fetchCompanyInterest,
   updateCompanyInterest
@@ -17,7 +17,7 @@ import prepare from 'app/utils/prepare';
 
 const loadCompanyInterests = (props, dispatch) => {
   const { companyInterestId } = props.params;
-  return dispatch(fetchSemesters({ companyInterest: 'True' })).then(() =>
+  return dispatch(fetchSemestersForInterestform()).then(() =>
     dispatch(fetchCompanyInterest(Number(companyInterestId)))
   );
 };

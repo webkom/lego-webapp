@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 import { createCompanyInterest } from 'app/actions/CompanyInterestActions';
-import { fetchSemesters } from 'app/actions/CompanyActions';
+import { fetchSemestersForInterestform } from 'app/actions/CompanyActions';
 import { compose } from 'redux';
 import { push } from 'react-router-redux';
 import CompanyInterestPage, {
@@ -13,7 +13,7 @@ import prepare from 'app/utils/prepare';
 import { sortSemesterChronologically } from './utils.js';
 
 const loadSemesters = (props, dispatch) =>
-  dispatch(fetchSemesters({ companyInterest: 'True' }));
+  dispatch(fetchSemestersForInterestform());
 
 const mapStateToProps = state => {
   const semesters = selectCompanySemestersForInterestform(state);
