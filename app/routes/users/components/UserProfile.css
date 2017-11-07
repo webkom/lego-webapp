@@ -5,28 +5,56 @@
 }
 
 .header {
-  align-items: center;
   justify-content: space-between;
 
-  @media (--small-viewport) {
+  @media (--mobile-device) {
     justify-content: space-around;
+    flex-direction: column;
   }
 }
 
-.picture {
-  display: flex;
-  justify-content: center;
-}
-
-.rightContent {
-  flex: 3;
-  min-width: 320px;
-  padding-left: 30px;
-  width: 100%;
+.primaryInfo {
+  margin-left: 30px;
 
   @media (--small-viewport) {
-    padding-left: 0;
+    margin-left: 0;
+  }
+}
+
+.left {
+  width: 70%;
+  margin-right: 15px;
+
+  @media (--mobile-device) {
+    width: 100%;
+    justify-content: space-around;
+    flex-direction: column;
+    text-align: center;
     align-items: center;
+    margin-bottom: 30px;
+  }
+}
+
+.card {
+  max-width: 300px;
+
+  @media (--mobile-device) {
+    margin: 50px auto 0;
+  }
+}
+
+.pills {
+  @media (--mobile-device) {
+    margin-bottom: 35px;
+  }
+}
+
+.pill {
+  margin: 5px;
+  height: 100%;
+
+  @media (--mobile-device) {
+    margin-bottom: 20px;
   }
 }
 
@@ -34,14 +62,9 @@
   display: flex;
   flex-direction: row;
   padding-top: 20px;
-}
-
-.sidebar {
-  flex: 1;
-  min-width: 320px;
+  justify-content: space-between;
 }
 
 .feed {
-  composes: rightContent;
   padding-left: 30px;
 }

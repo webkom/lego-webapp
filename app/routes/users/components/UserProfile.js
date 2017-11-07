@@ -13,7 +13,6 @@ import styles from './UserProfile.css';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import { groupBy } from 'lodash';
-import cx from 'classnames';
 
 const fieldTranslations = {
   username: 'brukernavn',
@@ -55,44 +54,54 @@ export default class UserProfile extends Component<Props> {
         <Helmet title={`${user.firstName} ${user.lastName}`} />
 
         <Flex wrap className={styles.header}>
-          <div className={cx(styles.sidebar, styles.picture)}>
+          <Flex className={styles.left}>
             <ProfilePicture user={user} size={150} />
-          </div>
-          <Flex column className={styles.rightContent}>
-            <h2>{user.fullName}</h2>
-            <Flex wrap>
-              {(abakusGroups['withoutLogo'] || []).map(group => (
-                <Pill key={group.id} style={{ margin: '5px' }}>
-                  {group.name}
-                </Pill>
-              ))}
-            </Flex>
-            <Flex>
-              {(abakusGroups['withLogo'] || []).map(group => (
-                <Tooltip key={group.id} content={group.name}>
-                  <CircularPicture
-                    src={group.logo}
-                    size={50}
-                    style={{ margin: '10px 5px' }}
-                  />
-                </Tooltip>
-              ))}
+
+            <Flex column className={styles.primaryInfo}>
+              <h2 style={{ marginBottom: '15px' }}>{user.fullName}</h2>
+
+              <Flex wrap className={styles.pills}>
+                {(abakusGroups['withoutLogo'] || []).map(group => (
+                  <Pill key={group.id} className={styles.pill}>
+                    {group.name}
+                  </Pill>
+                ))}
+              </Flex>
+              <Flex>
+                {(abakusGroups['withLogo'] || []).map(group => (
+                  <Tooltip key={group.id} content={group.name}>
+                    <CircularPicture
+                      src={group.logo}
+                      size={50}
+                      style={{ margin: '10px 5px' }}
+                    />
+                  </Tooltip>
+                ))}
+              </Flex>
             </Flex>
           </Flex>
+          <Card className={styles.card}>
+            {this.renderFields()}
+            {showSettings ? (
+              <Link to={`/users/${user.username}/settings/profile`}>
+                Innstillinger
+              </Link>
+            ) : (
+              ''
+            )}
+          </Card>
         </Flex>
 
         <Flex wrap className={styles.content}>
-          <div className={styles.sidebar}>
-            <Card>
-              {this.renderFields()}
-              {showSettings ? (
-                <Link to={`/users/${user.username}/settings/profile`}>
-                  Innstillinger
-                </Link>
-              ) : (
-                ''
-              )}
-            </Card>
+          <div className={styles.feed}>
+            <h2>Nylig Aktivitet</h2>
+            {feed ? (
+              <Feed items={feedItems} feed={feed} />
+            ) : (
+              <LoadingIndicator loading />
+            )}
+          </div>
+          <Flex style={{ maxWidth: '300px', marginTop: '43px' }}>
             {this.props.isMe &&
               this.props.user.email !== this.props.user.emailAddress && (
                 <Card style={{ marginTop: '20px' }}>
@@ -117,16 +126,7 @@ export default class UserProfile extends Component<Props> {
                   </ul>
                 </Card>
               )}
-          </div>
-
-          <div className={styles.feed}>
-            <h2>Nylig Aktivitet</h2>
-            {feed ? (
-              <Feed items={feedItems} feed={feed} />
-            ) : (
-              <LoadingIndicator loading />
-            )}
-          </div>
+          </Flex>
         </Flex>
       </div>
     );
