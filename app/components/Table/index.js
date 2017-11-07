@@ -42,6 +42,7 @@ type State = {
 
 export default class Table extends Component<Props, State> {
   props: Props;
+  components: { [string]: ?HTMLDivElement } = {};
 
   state: State = {
     sort: {},
@@ -93,8 +94,7 @@ export default class Table extends Component<Props, State> {
         {search && (
           <div className={styles.searchIcon}>
             <div
-              // $FlowFixMe
-              ref={c => (this[dataIndex] = c)}
+              ref={c => (this.components[dataIndex] = c)}
               className={styles.searchIcon}
             >
               <Icon
@@ -112,10 +112,8 @@ export default class Table extends Component<Props, State> {
               show={isShown[dataIndex]}
               onHide={() => this.toggleSearch(dataIndex)}
               placement="bottom"
-              // $FlowFixMe
-              container={this[dataIndex]}
-              // $FlowFixMe
-              target={() => this[dataIndex]}
+              container={this.components[dataIndex]}
+              target={() => this.components[dataIndex]}
               rootClose
             >
               <div className={styles.overlay}>
