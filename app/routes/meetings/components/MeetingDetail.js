@@ -98,11 +98,10 @@ class MeetingDetails extends Component<Props> {
       </li>
     );
 
-  onDeleteMeeting = () => {
+  onDeleteMeeting = () =>
     this.props
       .deleteMeeting(this.props.meeting.id)
       .then(() => this.props.push('/meetings/'));
-  };
 
   render() {
     const {
@@ -166,15 +165,12 @@ class MeetingDetails extends Component<Props> {
                   </NavigationLink>
                 )}
                 {canDelete && (
-                  /* $FlowFixMe what is wrong with confirmomdalwithparent */
                   <ConfirmModalWithParent
                     title="Slett møte"
                     message="Er du sikker på at du vil slette møtet?"
                     onConfirm={this.onDeleteMeeting}
                   >
-                    <div>
-                      <NavigationLink to="">Slett møte</NavigationLink>
-                    </div>
+                    <NavigationLink to="">Slett møte</NavigationLink>
                   </ConfirmModalWithParent>
                 )}
               </NavigationTab>

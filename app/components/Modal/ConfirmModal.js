@@ -47,11 +47,11 @@ type State = {
 };
 
 type withModalProps = {
-  /* Close the modal after confirm promise is resolved 
+  /* Close the modal after confirm promise is resolved
    * This should only be used if the component isn't automatically
    * unmounted when the given promise resolves */
   closeOnConfirm?: boolean,
-  /* Close the modal after cancel promise is resolved 
+  /* Close the modal after cancel promise is resolved
    * This should only be true if the component isn't automatically
    * unmounted when the given promise resolves */
   closeOnCancel?: boolean,
@@ -122,25 +122,26 @@ export default function withModal<Props>(
 
       const wrapAction = (action: () => Promise<*>, closeWhenDone: boolean) => {
         return () => {
-          this.startWorking();
-          return action().then(
-            result => {
-              if (closeWhenDone) {
+          const onResolve = closeWhenDone
+            ? result => {
                 this.stopWorking();
                 this.hideModal();
                 this.resetError();
+                return result;
               }
-              return result;
-            },
-            error => {
-              this.stopWorking();
-              const errorMessage =
-                get(error, ['meta', 'errorMessage']) ||
-                'Det skjedde en feil...';
-              this.setErrorMessage(errorMessage);
-              throw error;
-            }
-          );
+            : result => result;
+
+          const onError = error => {
+            this.stopWorking();
+            const errorMessage =
+              get(error, ['meta', 'errorMessage']) || 'Det skjedde en feil...';
+
+            this.setErrorMessage(errorMessage);
+            throw error;
+          };
+
+          this.startWorking();
+          return action().then(onResolve, onError);
         };
       };
 
