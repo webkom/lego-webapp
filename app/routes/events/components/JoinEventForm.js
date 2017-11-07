@@ -35,7 +35,11 @@ export type Props = {
   /*TODO: & ReduxFormProps */
   invalid: boolean,
   pristine: boolean,
-  submitting: boolean
+  submitting: boolean,
+  formOpen: boolean,
+  captchaOpen: boolean,
+  buttonOpen: boolean,
+  registrationOpensIn: ?string
 };
 
 type SpotsLeftProps = {

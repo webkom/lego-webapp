@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, type Node } from 'react';
+import React, { Component, type Node, type ComponentType } from 'react';
 import moment from 'moment-timezone';
 import type { Dateish, Event, EventRegistration } from 'app/models';
 
@@ -94,7 +94,7 @@ const countdownReducer = (
   }
 };
 
-function withCountdown(WrappedComponent) {
+function withCountdown(WrappedComponent: ComponentType<Props>) {
   return class JoinEventFormCountdownProvider extends Component<Props, State> {
     state = {
       formOpen: false,
