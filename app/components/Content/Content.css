@@ -17,3 +17,8 @@
   width: 100%;
   padding-top: 20px;
 }
+
+.contentWithBanner {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}

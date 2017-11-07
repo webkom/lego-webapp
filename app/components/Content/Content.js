@@ -36,7 +36,13 @@ function Content({ banner, children, className }: Props) {
         </div>
       )}
 
-      <div className={cx(styles.content, className)}>{children}</div>
+      <div
+        className={cx(styles.content, className, {
+          [styles.contentWithBanner]: banner
+        })}
+      >
+        {children}
+      </div>
     </div>
   );
 }
