@@ -1,4 +1,5 @@
 // @flow
+import { ListNavigation } from 'app/routes/bdb/utils';
 import styles from './CompanyInterest.css';
 import React from 'react';
 import Button from 'app/components/Button';
@@ -86,9 +87,9 @@ const CompanyInterestList = (props: Props) => {
 
   return (
     <Content>
+      <ListNavigation title="Bedriftsinteresser" />
       <FlexRow className={styles.section}>
         <FlexColumn>
-          <h1>Bedriftsinteresser</h1>
           <p>
             <strong>Her</strong> finner du all praktisk informasjon knyttet til
             bedriftsinteresser.

@@ -2,6 +2,7 @@
 
 import styles from './bdb.css';
 import React, { Component } from 'react';
+import { Content } from 'app/components/Content';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextInput } from 'app/components/Form';
@@ -54,7 +55,7 @@ class CompanyContactEditor extends Component<Props> {
     }
 
     return (
-      <div className={styles.root}>
+      <Content>
         <DetailNavigation
           title="Bedriftskontakt"
           companyId={company.id}
@@ -110,7 +111,7 @@ class CompanyContactEditor extends Component<Props> {
             </Button>
           </form>
         </div>
-      </div>
+      </Content>
     );
   }
 }

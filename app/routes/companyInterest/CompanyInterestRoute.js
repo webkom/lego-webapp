@@ -1,22 +1,22 @@
 // @flow
 import { connect } from 'react-redux';
 import { createCompanyInterest } from 'app/actions/CompanyInterestActions';
-import { fetchSemesters } from 'app/actions/CompanyActions';
+import { fetchSemestersForInterestform } from 'app/actions/CompanyActions';
 import { compose } from 'redux';
 import { push } from 'react-router-redux';
 import CompanyInterestPage, {
   EVENT_TYPES,
   OTHER_TYPES
 } from './components/CompanyInterestPage';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { selectCompanySemestersForInterestform } from 'app/reducers/companySemesters';
 import prepare from 'app/utils/prepare';
 import { sortSemesterChronologically } from './utils.js';
 
 const loadSemesters = (props, dispatch) =>
-  dispatch(fetchSemesters({ companyInterest: 'True' }));
+  dispatch(fetchSemestersForInterestform());
 
 const mapStateToProps = state => {
-  const semesters = selectCompanySemesters(state);
+  const semesters = selectCompanySemestersForInterestform(state);
   if (!semesters) {
     return {
       edit: false

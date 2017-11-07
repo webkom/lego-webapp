@@ -166,7 +166,8 @@ export const getContactedStatuses = (
 
 export const ListNavigation = ({ title }: { title: Node }) => (
   <NavigationTab title={title}>
-    <NavigationLink to="/bdb">Liste</NavigationLink>
+    <NavigationLink to="/companyInterest/">Interesseskjema</NavigationLink>
+    <NavigationLink to="/bdb">BDB</NavigationLink>
     <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
   </NavigationTab>
 );

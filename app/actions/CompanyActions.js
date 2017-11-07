@@ -333,12 +333,16 @@ export function deleteCompanyContact(
   });
 }
 
-export function fetchSemesters({ companyInterest }: Object = {}) {
+export function fetchSemestersForInterestform() {
+  return fetchSemesters({ company_inerest: 'True' });
+}
+
+export function fetchSemesters(
+  queries: { [key: string]: ?string | ?number } = {}
+) {
   return callAPI({
     types: Company.FETCH_SEMESTERS,
-    endpoint: `/company-semesters/${createQueryString({
-      company_interest: companyInterest
-    })}`,
+    endpoint: `/company-semesters/${createQueryString(queries)}`,
     schema: [companySemesterSchema],
     meta: {
       errorMessage: 'Henting av semestre feilet'
