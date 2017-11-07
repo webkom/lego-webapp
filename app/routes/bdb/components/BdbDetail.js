@@ -185,6 +185,7 @@ export default class BdbDetail extends Component<Props, State> {
     const events =
       companyEvents &&
       companyEvents
+        .slice()
         .sort((a, b) => Date.parse(b.startTime) - Date.parse(a.startTime))
         .splice(0, this.state.eventsToDisplay)
         .map(event => (
