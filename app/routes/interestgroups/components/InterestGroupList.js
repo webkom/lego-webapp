@@ -24,14 +24,16 @@ const InterestGroupList = (props: Props) => {
       <div className={styles.section}>
         <div>
           <NavigationTab title="Interessegrupper">
-            <NavigationLink to={`/`}>Hjem</NavigationLink>
+            <NavigationLink to="">
+              <i className="fa fa-angle-left" /> Hjem
+            </NavigationLink>
           </NavigationTab>
           <p>
             <strong>Her</strong> finner du all praktisk informasjon knyttet til
             våre interessegrupper.
           </p>
           {showCreate && (
-            <Link to={'/interestgroups/create'} className={styles.link}>
+            <Link to="/interestgroups/create" className={styles.link}>
               <Button>Lag ny interessegruppe</Button>
             </Link>
           )}

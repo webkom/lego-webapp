@@ -2,11 +2,11 @@
 
 import React from 'react';
 
-import { Link } from 'react-router';
 import styles from './MeetingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { AttendanceStatus } from 'app/components/UserAttendance';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 
 import {
   Form,
@@ -98,13 +98,11 @@ function MeetingEditor({
 
   return (
     <div className={styles.root}>
-      <h2>
-        <Link to={isEditPage ? `/meetings/${meeting.id}` : `/meetings/`}>
-          <i className="fa fa-angle-left" />
-          {isEditPage ? ` ${meeting.title}` : ' Mine møter'}
-        </Link>
-      </h2>
-      <h1>{isEditPage ? 'Endre møte' : 'Nytt møte'} </h1>
+      <NavigationTab title="Nytt møte" className={styles.detailTitle}>
+        <NavigationLink to="/meetings/">
+          <i className="fa fa-angle-left" /> Mine møter
+        </NavigationLink>
+      </NavigationTab>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Field
           name="title"
