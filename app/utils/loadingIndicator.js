@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { get } from 'lodash';
 import type { Props } from 'app/components/LoadingIndicator';
@@ -13,8 +13,7 @@ export default function loadingIndicator(
   loadingProps: Array<string>,
   options: ?Props
 ) {
-  // $FlowFixMe React.Node in >= 0.53
-  return (Component: React.Class<*, *, *>) => {
+  return (Component: React.ComponentType<*>) => {
     const Composed = (props: Object) => (
       <LoadingIndicator
         {...options}
