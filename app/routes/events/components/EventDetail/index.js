@@ -2,7 +2,6 @@
 
 import styles from './EventDetail.css';
 import React, { Component } from 'react';
-import { Image } from 'app/components/Image';
 import CommentView from 'app/components/Comments/CommentView';
 import Icon from 'app/components/Icon';
 import JoinEventForm from '../JoinEventForm';
@@ -173,11 +172,7 @@ export default class EventDetail extends Component<Props> {
 
     return (
       <div>
-        <div className={styles.coverImage}>
-          <Image src={event.cover} />
-        </div>
-
-        <Content className={styles.content}>
+        <Content banner={event.cover}>
           <ContentHeader
             borderColor={color}
             onClick={onRegisterClick}

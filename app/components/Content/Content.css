@@ -1,5 +1,24 @@
+.cover {
+  composes: contentContainer from 'app/styles/utilities.css';
+  max-height: 300px;
+  padding: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+  overflow: hidden;
+  position: relative;
+
+  img {
+    object-fit: cover;
+  }
+}
+
 .content {
   composes: contentContainer from 'app/styles/utilities.css';
   width: 100%;
   padding-top: 20px;
+}
+
+.contentWithBanner {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
 }

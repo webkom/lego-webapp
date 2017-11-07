@@ -3,7 +3,6 @@
 import React from 'react';
 import { Link } from 'react-router';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
-import { Image } from 'app/components/Image';
 import DisplayContent from 'app/components/DisplayContent';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import styles from './JoblistingDetail.css';
@@ -59,12 +58,7 @@ const JoblistingDetail = ({
   const canDelete = actionGrant.includes('delete');
 
   return (
-    <Content>
-      {joblisting.company.logo && (
-        <div className={styles.coverImage}>
-          <Image src={joblisting.company.logo} />
-        </div>
-      )}
+    <Content banner={joblisting.company.logo}>
       <ContentHeader>{joblisting.title}</ContentHeader>
       <ContentSection>
         <ContentMain>
