@@ -171,12 +171,9 @@ export default function withModal<Props>(
   };
 }
 
-const ChildrenWithProps = ({ children, ...restProps }: { children: Node }) => (
-  <div>
-    {React.Children.map(children, child =>
-      React.cloneElement(child, { ...restProps })
-    )}
-  </div>
-);
+const ChildrenWithProps = ({ children, ...restProps }: { children: Node }) =>
+  React.Children.map(children, child =>
+    React.cloneElement(child, { ...restProps })
+  );
 
 export const ConfirmModalWithParent = withModal(ChildrenWithProps);
