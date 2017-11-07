@@ -26,7 +26,6 @@ type Props = {
   fetchNotifications: () => void,
   notifications: Array<Object>,
   markAllNotifications: () => Promise<void>,
-  markNotification: number => Promise<void>,
   fetchNotificationData: () => Promise<void>
 };
 
@@ -131,7 +130,6 @@ class Header extends Component<Props, State> {
                   fetchNotifications={this.props.fetchNotifications}
                   notifications={this.props.notifications}
                   markAllNotifications={this.props.markAllNotifications}
-                  markNotification={this.props.markNotification}
                   fetchNotificationData={this.props.fetchNotificationData}
                 />
               )}

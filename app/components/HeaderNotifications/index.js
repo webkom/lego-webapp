@@ -6,14 +6,12 @@ import Icon from '../Icon';
 import { activityRenderers } from '../Feed';
 import Time from 'app/components/Time';
 import styles from './HeaderNotifications.css';
-import { Link } from 'react-router';
 
 type Props = {
   notificationsData: Object,
   fetchNotifications: () => void,
   notifications: Array<Object>,
   markAllNotifications: () => Promise<void>,
-  markNotification: number => Promise<void>,
   fetchNotificationData: () => Promise<void>
 };
 
@@ -21,13 +19,7 @@ type State = {
   notificationsOpen: boolean
 };
 
-const NotificationElement = ({
-  notification,
-  markNotification
-}: {
-  notification: Object,
-  markNotification: number => void
-}) => {
+const NotificationElement = ({ notification }: { notification: Object }) => {
   const renders = activityRenderers[notification.verb];
 
   if (renders) {
@@ -37,7 +29,6 @@ const NotificationElement = ({
           styles.notification,
           !notification.read ? styles.unRead : null
         )}
-        onClick={() => markNotification(notification.id)}
       >
         <div className={styles.innerNotification}>
           <div className={styles.icon}>{renders.icon(notification)}</div>
@@ -61,16 +52,6 @@ export default class NotificationsDropdown extends Component<Props, State> {
     notificationsOpen: false
   };
 
-  seeAll = () => {
-    this.setState({ notificationsOpen: false });
-    this.props.markAllNotifications().then(this.fetch);
-  };
-
-  markNotification = (notificationId: number) => {
-    this.setState({ notificationsOpen: false });
-    this.props.markNotification(notificationId).then(this.fetch);
-  };
-
   fetch = () => {
     this.props.fetchNotifications();
     this.props.fetchNotificationData();
@@ -79,11 +60,10 @@ export default class NotificationsDropdown extends Component<Props, State> {
   renderNotifications = (notifications: Array<Object>) => {
     return (
       <div>
-        {notifications.map((notification, i) => (
+        {notifications.map(notification => (
           <NotificationElement
-            key={i}
+            key={notification.id}
             notification={notification}
-            markNotification={this.markNotification}
           />
         ))}
       </div>
@@ -102,10 +82,17 @@ export default class NotificationsDropdown extends Component<Props, State> {
             {
               notificationsOpen: !this.state.notificationsOpen
             },
-            () => (this.state.notificationsOpen ? fetchNotifications() : null)
+            () =>
+              this.state.notificationsOpen
+                ? fetchNotifications()
+                : this.props.markAllNotifications()
           )}
         triggerComponent={
-          <Icon.Badge name="notifications" size={30} badgeCount={unreadCount} />
+          <Icon.Badge
+            name="notifications"
+            size={30}
+            badgeCount={this.state.notificationsOpen ? 0 : unreadCount}
+          />
         }
         contentClassName={styles.notifications}
       >
@@ -114,11 +101,6 @@ export default class NotificationsDropdown extends Component<Props, State> {
           <div style={{ width: '100%' }}>
             <div style={{ maxHeight: '300px', overflowY: 'overlay' }}>
               {this.renderNotifications(notifications)}
-            </div>
-            <div className={styles.seeAllWrapper}>
-              <Link onClick={this.seeAll} className={styles.seeAll}>
-                Marker alle som sett
-              </Link>
             </div>
           </div>
         ) : (

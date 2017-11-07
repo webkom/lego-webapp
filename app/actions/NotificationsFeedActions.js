@@ -31,15 +31,3 @@ export function markAllNotifications() {
     }
   });
 }
-
-export function markNotification(notificationId: number) {
-  return callAPI({
-    types: NotificationsFeed.MARK,
-    endpoint: `/feed-notifications/${notificationId}/mark/`,
-    method: 'POST',
-    body: {
-      read: true,
-      seen: true
-    }
-  });
-}

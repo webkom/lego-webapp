@@ -14,8 +14,7 @@ import {
 } from 'app/actions/UserActions';
 import {
   fetchNotificationData,
-  markAllNotifications,
-  markNotification
+  markAllNotifications
 } from 'app/actions/NotificationsFeedActions';
 import { fetchNotificationFeed } from 'app/actions/FeedActions';
 import { fetchMeta } from 'app/actions/MetaActions';
@@ -101,7 +100,6 @@ class App extends PureComponent<AppProps> {
           notificationsData={this.props.notificationsData}
           fetchNotifications={this.props.fetchNotificationFeed}
           notifications={this.props.notifications}
-          markNotification={this.props.markNotification}
           markAllNotifications={this.props.markAllNotifications}
           fetchNotificationData={this.props.fetchNotificationData}
         />
@@ -146,7 +144,6 @@ const mapDispatchToProps = {
   logout,
   login,
   fetchNotificationFeed,
-  markNotification,
   markAllNotifications,
   fetchNotificationData,
   setStatusCode
