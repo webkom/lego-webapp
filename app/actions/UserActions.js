@@ -84,7 +84,8 @@ export function updateUser(
     email,
     gender,
     allergies,
-    profilePicture
+    profilePicture,
+    isAbakusMember
   } = user;
   return dispatch =>
     dispatch(
@@ -99,7 +100,8 @@ export function updateUser(
           email,
           gender,
           allergies,
-          profilePicture
+          profilePicture,
+          isAbakusMember
         },
         schema: userSchema,
         meta: {

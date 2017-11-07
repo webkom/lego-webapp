@@ -48,6 +48,7 @@ const UserSettings = (props: Props) => {
   } = props;
 
   const disabledButton = invalid || pristine || submitting;
+  const showAbakusMembership = user.isStudent;
 
   const onSubmit = data =>
     updateUser(omit(data, 'profilePicture')).catch(err => {
@@ -116,6 +117,16 @@ const UserSettings = (props: Props) => {
           name="email"
           component={TextInput.Field}
         />
+        {showAbakusMembership && (
+          <RadioButtonGroup name="isAbakusMember" label="Medlem i Abakus?">
+            <Field label="Ja" component={RadioButton.Field} inputValue="true" />
+            <Field
+              label="Nei"
+              component={RadioButton.Field}
+              inputValue="false"
+            />
+          </RadioButtonGroup>
+        )}
 
         <Button disabled={disabledButton} submit>
           Submit
