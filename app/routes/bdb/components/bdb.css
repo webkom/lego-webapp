@@ -148,6 +148,28 @@
   margin-top: 20px;
 }
 
+.deleteFile {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & i:hover {
+    cursor: pointer;
+  }
+
+  & div {
+    display: inline;
+  }
+}
+
+.deleteIcon {
+  color: #d13c32;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .showAscending .upArrow,
 .showDescending .downArrow {
   display: block !important;

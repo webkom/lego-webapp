@@ -14,6 +14,7 @@ import FileUpload from 'app/components/Upload/FileUpload';
 import truncateString from 'app/utils/truncateString';
 import type { CompanySemesterContactedStatus } from 'app/models';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import cx from 'classnames';
 
 const FILE_NAME_LENGTH = 30;
 
@@ -25,7 +26,8 @@ type Props = {
     semesterStatus: SemesterStatusEntity,
     statusString: CompanySemesterContactedStatus
   ) => Promise<*>,
-  addFileToSemester: (string, string, string, Object) => Promise<*>
+  addFileToSemester: (string, string, string, Object) => Promise<*>,
+  removeFileFromSemester: (SemesterStatusEntity, string) => Promise<*>
 };
 
 type State = {
@@ -40,32 +42,24 @@ export default class SemesterStatusDetail extends Component<Props, State> {
   deleteSemesterStatus = () =>
     this.props.deleteSemesterStatus(this.props.semesterStatus.id);
 
-  addFile = (fileName: string, fileToken: string, type: string) => {
-    this.props.addFileToSemester(
-      fileName,
-      fileToken,
-      type,
-      this.props.semesterStatus
-    );
-    this.setState(state => ({ editing: false }));
-  };
-
-  uploadButton = (type: string) => (
-    <FileUpload
-      onChange={(fileName, fileToken) =>
-        this.addFile(fileName, fileToken, type)}
-      className={styles.uploadButton}
-    />
-  );
-
-  fileNameToShow = (name: string, url?: string) =>
-    name ? <a href={url}>{truncateString(name, FILE_NAME_LENGTH)}</a> : '-';
-
   semesterToHumanReadable = () => {
     const { year, semester } = this.props.semesterStatus;
     const semesterName = semesterCodeToName(semester);
     return `${year} ${semesterName}`;
   };
+
+  addFile = (fileName: string, fileToken: string, type: string) => {
+    this.setState({ editing: false });
+    return this.props.addFileToSemester(
+      fileName,
+      fileToken,
+      type,
+      this.props.semesterStatus
+    );
+  };
+
+  removeFile = (type: string) =>
+    this.props.removeFileFromSemester(this.props.semesterStatus, type);
 
   render() {
     const { semesterStatus, editFunction } = this.props;
@@ -73,6 +67,7 @@ export default class SemesterStatusDetail extends Component<Props, State> {
     if (!semesterStatus) return <LoadingIndicator />;
 
     const humanReadableSemester = this.semesterToHumanReadable();
+
     return (
       <tr key={semesterStatus.id}>
         <td>{humanReadableSemester}</td>
@@ -92,16 +87,16 @@ export default class SemesterStatusDetail extends Component<Props, State> {
               editFunction(semesterStatus, statusCode)}
           />
         </td>
+
         {['contract', 'statistics', 'evaluation'].map(type => (
           <td key={type}>
-            <span>
-              {this.state.editing
-                ? this.uploadButton(type)
-                : this.fileNameToShow(
-                    semesterStatus[type + 'Name'],
-                    semesterStatus[type]
-                  )}
-            </span>
+            <RenderFile
+              semesterStatus={semesterStatus}
+              type={type}
+              addFile={this.addFile}
+              removeFile={this.removeFile}
+              editing={this.state.editing}
+            />
           </td>
         ))}
         <td>
@@ -123,7 +118,7 @@ export default class SemesterStatusDetail extends Component<Props, State> {
               onConfirm={this.deleteSemesterStatus}
               closeOnConfirm
             >
-              <i className="fa fa-times" style={{ color: '#d13c32' }} />
+              <i className={cx('fa fa-times', styles.deleteIcon)} />
             </ConfirmModalWithParent>
           </span>
         </td>
@@ -131,3 +126,52 @@ export default class SemesterStatusDetail extends Component<Props, State> {
     );
   }
 }
+
+type RenderFileProps = {
+  semesterStatus: SemesterStatusEntity,
+  type: string,
+  removeFile: string => Promise<*>,
+  addFile: (string, string, string) => Promise<*>,
+  editing: boolean
+};
+
+const RenderFile = (props: RenderFileProps) => {
+  const { semesterStatus, type, removeFile, addFile, editing } = props;
+
+  const uploadButton = (type: string) => (
+    <FileUpload
+      onChange={(fileName, fileToken) => addFile(fileName, fileToken, type)}
+      className={styles.uploadButton}
+    />
+  );
+
+  const fileNameToShow = (name: string, url?: string) =>
+    name ? <a href={url}>{truncateString(name, FILE_NAME_LENGTH)}</a> : '-';
+
+  const fileName = fileNameToShow(
+    semesterStatus[type + 'Name'],
+    semesterStatus[type]
+  );
+
+  const displayDeleteButton = editing && semesterStatus[type];
+  const displayUploadButton = editing && !semesterStatus[type];
+
+  if (displayDeleteButton) {
+    return (
+      <span className={styles.deleteFile}>
+        <span>{fileName}</span>
+        <ConfirmModalWithParent
+          title="Slett fil"
+          message="Er du sikker på at du vil slette denne filen?"
+          onConfirm={() => removeFile(type)}
+          closeOnConfirm
+        >
+          <i className="fa fa-times" style={{ color: '#d13c32' }} />
+        </ConfirmModalWithParent>
+      </span>
+    );
+  } else if (displayUploadButton) {
+    return uploadButton(type);
+  }
+  return fileName;
+};
