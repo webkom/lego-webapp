@@ -38,7 +38,8 @@ const TICK_ACTIONS: Array<[number, Action]> = [
 type State = {
   formOpen: boolean,
   captchaOpen: boolean,
-  buttonOpen: boolean
+  buttonOpen: boolean,
+  registrationOpensIn: ?string
 };
 
 class JoinEventFormCountdownProvider extends Component<Props, State> {
@@ -52,7 +53,11 @@ class JoinEventFormCountdownProvider extends Component<Props, State> {
   countdownProbeTimer: number;
   countdownTimer: number;
 
-  reducer = (state: State, action: Action): State => {
+  reducer = (
+    state: State,
+    action: Action,
+    registrationOpensIn: ?string
+  ): State => {
     switch (action) {
       case 'REGISTRATION_AVAILABLE':
         return {
@@ -66,21 +71,24 @@ class JoinEventFormCountdownProvider extends Component<Props, State> {
         return {
           captchaOpen: true,
           formOpen: true,
-          buttonOpen: false
+          buttonOpen: false,
+          registrationOpensIn
         };
 
       case '10_MINUTE_LEFT':
         return {
           captchaOpen: false,
           formOpen: true,
-          buttonOpen: false
+          buttonOpen: false,
+          registrationOpensIn
         };
 
       case 'REGISTERED_OR_REGISTRATION_ALREADY_OPENED':
         return {
           formOpen: true,
           captchaOpen: true,
-          buttonOpen: true
+          buttonOpen: true,
+          registrationOpensIn: null
         };
 
       case 'REGISTRATION_NOT_AVAILABLE':
@@ -88,7 +96,8 @@ class JoinEventFormCountdownProvider extends Component<Props, State> {
         return {
           formOpen: false,
           captchaOpen: false,
-          buttonOpen: false
+          buttonOpen: false,
+          registrationOpensIn: null
         };
 
       default:
@@ -115,8 +124,8 @@ class JoinEventFormCountdownProvider extends Component<Props, State> {
     clearInterval(this.countdownTimer);
   }
 
-  dispatch(action: Action) {
-    this.setState(state => this.reducer(state, action));
+  dispatch(action: Action, registrationOpensIn: ?string) {
+    this.setState(state => this.reducer(state, action, registrationOpensIn));
   }
 
   setupEventCountdown = (event: Event, registration: ?EventRegistration) => {
@@ -128,7 +137,6 @@ class JoinEventFormCountdownProvider extends Component<Props, State> {
     const registrationIsClosed = currentTime.isAfter(
       moment(startTime).subtract(2, 'hours')
     );
-    console.log('asd', registration, activationTime, registrationIsClosed);
     if ((!registration && !activationTime) || registrationIsClosed) {
       this.dispatch('REGISTRATION_NOT_AVAILABLE');
       return;
@@ -170,26 +178,24 @@ class JoinEventFormCountdownProvider extends Component<Props, State> {
 
   initiateCountdown(finishTime: Dateish) {
     const poll = () => {
-      const timeUntilRegistrationOpens = getTimeUntil(finishTime);
+      const timeUntilRegistrationOpens = getTimeUntil(
+        finishTime
+      ).asMilliseconds();
 
-      if (timeUntilRegistrationOpens.asMilliseconds() <= 0) {
+      if (timeUntilRegistrationOpens <= 0) {
         clearInterval(this.countdownTimer);
-      } else {
-        this.setState({
-          registrationOpensIn: moment(timeUntilRegistrationOpens + 1000).format(
-            'mm:ss'
-          )
-        });
       }
 
       const [, action] =
         TICK_ACTIONS.find(
-          ([time, action]) =>
-            timeUntilRegistrationOpens.asMilliseconds() <= time
+          ([time, action]) => timeUntilRegistrationOpens <= time
         ) || [];
 
+      const registrationOpensIn = moment(
+        timeUntilRegistrationOpens + 1000
+      ).format('mm:ss');
       if (action) {
-        this.dispatch(action);
+        this.dispatch(action, registrationOpensIn);
       }
     };
 

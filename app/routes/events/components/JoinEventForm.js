@@ -164,10 +164,6 @@ class JoinEventForm extends Component<Props> {
           const disabledForUser = !formOpen && !event.activationTime;
           const showCaptcha =
             !submitting && !registration && captchaOpen && event.useCaptcha;
-          console.log('\nButtonOpen', buttonOpen);
-          console.log('formOpe', formOpen);
-          console.log('captchaOpen', captchaOpen);
-          console.log('registrationOpensIn', registrationOpensIn);
           return (
             <Flex column className={styles.join}>
               <div className={styles.joinHeader}>
