@@ -39,8 +39,7 @@ type Props = {
 type State = {
   accountOpen: boolean,
   shake: boolean,
-  forgotPassword: boolean,
-  registerUser: boolean
+  mode: 'login' | 'register' | 'forgotPassword'
 };
 
 type AccountDropdownItemsProps = {
@@ -90,40 +89,43 @@ class Header extends Component<Props, State> {
   state: State = {
     accountOpen: false,
     shake: false,
-    forgotPassword: false,
-    registerUser: false
+    mode: 'login'
   };
 
   toggleRegisterUser = (e: Event) => {
-    this.setState({ registerUser: true });
+    this.setState({ mode: 'register' });
     e.stopPropagation();
   };
 
   toggleForgotPassword = (e: Event) => {
-    this.setState({ forgotPassword: true });
+    this.setState({ mode: 'forgotPassword' });
     e.stopPropagation();
   };
 
   toggleBack = (e: Event) => {
-    this.setState({ registerUser: false, forgotPassword: false });
+    this.setState({ mode: 'login' });
     e.stopPropagation();
   };
 
   render() {
     const { loggedIn } = this.props;
 
-    const { registerUser, forgotPassword } = this.state;
+    const { registerUser, forgotPassword, mode } = this.state;
 
     let title, form;
-    if (registerUser) {
-      title = 'Registrer bruker';
-      form = <RegisterForm />;
-    } else if (forgotPassword) {
-      title = 'Glemt passord';
-      form = <ForgotPasswordForm />;
-    } else {
-      title = 'Logg inn';
-      form = <LoginForm />;
+    switch (mode) {
+      case 'login':
+        title = 'Logg inn';
+        form = <LoginForm />;
+        break;
+      case 'register':
+        title = 'Registrer bruker';
+        form = <RegisterForm />;
+        break;
+      case 'forgotPassword':
+        title = 'Glemt passord';
+        form = <ForgotPasswordForm />;
+        break;
     }
 
     return (
