@@ -18,7 +18,6 @@ import {
   ForgotPasswordForm
 } from 'app/components/LoginForm';
 import styles from './Header.css';
-
 import type { UserEntity } from 'app/reducers/users';
 
 type Props = {
