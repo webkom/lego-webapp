@@ -18,6 +18,7 @@ import Time from 'app/components/Time';
 import { Flex } from 'app/components/Layout';
 import config from 'app/config';
 import withCountdown from './JoinEventFormCountdownProvider';
+import formStyles from 'app/components/Form/Field.css';
 
 type Event = Object;
 
@@ -194,14 +195,21 @@ class JoinEventForm extends Component<Props> {
                 registrationType
               )}
             >
-              <Field
-                label={feedbackLabel}
-                placeholder="Melding til arrangører"
-                name={feedbackName}
-                component={TextEditor.Field}
-              />
-              {registration && (
-                <div>
+              <label className={formStyles.label} htmlFor={feedbackName}>
+                {feedbackLabel}
+              </label>
+              <Flex style={{ marginBottom: '20px' }}>
+                <Field
+                  id={feedbackName}
+                  placeholder="Melding til arrangører"
+                  name={feedbackName}
+                  component={TextEditor.Field}
+                  labelClassName={styles.feedbackLabel}
+                  className={styles.feedbackText}
+                  fieldClassName={styles.feedbackField}
+                  rows={1}
+                />
+                {registration && (
                   <Button
                     type="button"
                     onClick={this.submitWithType(
@@ -209,13 +217,13 @@ class JoinEventForm extends Component<Props> {
                       feedbackName,
                       'feedback'
                     )}
-                    style={{ marginBottom: '5px' }}
+                    className={styles.feedbackUpdateButton}
                     disabled={pristine}
                   >
-                    Oppdater feedback
+                    Oppdater
                   </Button>
-                </div>
-              )}
+                )}
+              </Flex>
               {showCaptcha && (
                 <Field
                   name="captchaResponse"
@@ -251,6 +259,22 @@ class JoinEventForm extends Component<Props> {
                         spotsLeft={event.spotsLeft}
                       />
                     )}
+                    {showStripe && (
+                      <StripeCheckout
+                        name="Abakus Linjeforening"
+                        description={event.title}
+                        image={logoImage}
+                        currency="NOK"
+                        allowRememberMe
+                        locale="no"
+                        token={onToken}
+                        stripeKey={config.stripeKey}
+                        amount={event.price}
+                        email={currentUser.email}
+                      >
+                        <Button>Betal nå</Button>
+                      </StripeCheckout>
+                    )}
                   </Flex>
                 )}
               {submitting && (
@@ -261,22 +285,6 @@ class JoinEventForm extends Component<Props> {
               )}
             </Form>
           </Flex>
-        )}
-        {showStripe && (
-          <StripeCheckout
-            name="Abakus Linjeforening"
-            description={event.title}
-            image={logoImage}
-            currency="NOK"
-            allowRememberMe={false}
-            locale="no"
-            token={onToken}
-            stripeKey={config.stripeKey}
-            amount={event.price}
-            email={currentUser.email}
-          >
-            <Button>Betal nå</Button>
-          </StripeCheckout>
         )}
       </Flex>
     );
