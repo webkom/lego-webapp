@@ -28,7 +28,7 @@ class Captcha extends Component<Props> {
           ref={ref => {
             this.captcha = ref;
           }}
-          sitekey={config.captchaKey}
+          sitekey={config.captchaKey || ''}
           onChange={onChange}
         />
       </div>

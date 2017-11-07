@@ -1,6 +1,6 @@
 // @flow
 
-import { Component, type Node } from 'react';
+import React, { Component, type Node } from 'react';
 import moment from 'moment-timezone';
 import type { Dateish, Event, EventRegistration } from 'app/models';
 
@@ -42,174 +42,174 @@ type State = {
   registrationOpensIn: ?string
 };
 
-class JoinEventFormCountdownProvider extends Component<Props, State> {
-  state = {
-    formOpen: false,
-    captchaOpen: false,
-    buttonOpen: false,
-    registrationOpensIn: null
-  };
+const countdownReducer = (
+  state: State,
+  action: Action,
+  registrationOpensIn: ?string
+): State => {
+  switch (action) {
+    case 'REGISTRATION_AVAILABLE':
+      return {
+        buttonOpen: true,
+        formOpen: true,
+        captchaOpen: true,
+        registrationOpensIn: null
+      };
 
-  countdownProbeTimer: number;
-  countdownTimer: number;
+    case '1_MINUTE_LEFT':
+      return {
+        captchaOpen: true,
+        formOpen: true,
+        buttonOpen: false,
+        registrationOpensIn
+      };
 
-  reducer = (
-    state: State,
-    action: Action,
-    registrationOpensIn: ?string
-  ): State => {
-    switch (action) {
-      case 'REGISTRATION_AVAILABLE':
-        return {
-          buttonOpen: true,
-          formOpen: true,
-          captchaOpen: true,
-          registrationOpensIn: null
-        };
+    case '10_MINUTE_LEFT':
+      return {
+        captchaOpen: false,
+        formOpen: true,
+        buttonOpen: false,
+        registrationOpensIn
+      };
 
-      case '1_MINUTE_LEFT':
-        return {
-          captchaOpen: true,
-          formOpen: true,
-          buttonOpen: false,
-          registrationOpensIn
-        };
+    case 'REGISTERED_OR_REGISTRATION_ALREADY_OPENED':
+      return {
+        formOpen: true,
+        captchaOpen: true,
+        buttonOpen: true,
+        registrationOpensIn: null
+      };
 
-      case '10_MINUTE_LEFT':
-        return {
-          captchaOpen: false,
-          formOpen: true,
-          buttonOpen: false,
-          registrationOpensIn
-        };
+    case 'REGISTRATION_NOT_AVAILABLE':
+    case 'RESET':
+      return {
+        formOpen: false,
+        captchaOpen: false,
+        buttonOpen: false,
+        registrationOpensIn: null
+      };
 
-      case 'REGISTERED_OR_REGISTRATION_ALREADY_OPENED':
-        return {
-          formOpen: true,
-          captchaOpen: true,
-          buttonOpen: true,
-          registrationOpensIn: null
-        };
-
-      case 'REGISTRATION_NOT_AVAILABLE':
-      case 'RESET':
-        return {
-          formOpen: false,
-          captchaOpen: false,
-          buttonOpen: false,
-          registrationOpensIn: null
-        };
-
-      default:
-        return state;
-    }
-  };
-
-  componentDidMount() {
-    this.setupEventCountdown(this.props.event, this.props.registration);
+    default:
+      return state;
   }
+};
 
-  componentWillReceiveProps(nextProps: Props) {
-    if (
-      (nextProps.event.activationTime && !this.props.event.activationTime) ||
-      nextProps.registration !== this.props.registration
-    ) {
-      this.dispatch('RESET');
-      this.setupEventCountdown(nextProps.event, nextProps.registration);
-    }
-  }
+function withCountdown(WrappedComponent) {
+  return class JoinEventFormCountdownProvider extends Component<Props, State> {
+    state = {
+      formOpen: false,
+      captchaOpen: false,
+      buttonOpen: false,
+      registrationOpensIn: null
+    };
 
-  componentWillUnmount() {
-    clearInterval(this.countdownProbeTimer);
-    clearInterval(this.countdownTimer);
-  }
+    countdownProbeTimer: number;
+    countdownTimer: number;
 
-  dispatch(action: Action, registrationOpensIn: ?string) {
-    this.setState(state => this.reducer(state, action, registrationOpensIn));
-  }
-
-  setupEventCountdown = (event: Event, registration: ?EventRegistration) => {
-    const { activationTime, startTime } = event;
-    const poolActivationTime = moment(activationTime);
-    const currentTime = moment();
-
-    // TODO: the 2 hour subtract is a hardcoded close time and should be improved
-    const registrationIsClosed = currentTime.isAfter(
-      moment(startTime).subtract(2, 'hours')
-    );
-    if ((!registration && !activationTime) || registrationIsClosed) {
-      this.dispatch('REGISTRATION_NOT_AVAILABLE');
-      return;
+    componentDidMount() {
+      this.setupEventCountdown(this.props.event, this.props.registration);
     }
 
-    if (registration || poolActivationTime.isBefore(currentTime)) {
-      this.dispatch('REGISTERED_OR_REGISTRATION_ALREADY_OPENED');
-      return;
+    componentWillReceiveProps(nextProps: Props) {
+      if (
+        (nextProps.event.activationTime && !this.props.event.activationTime) ||
+        nextProps.registration !== this.props.registration
+      ) {
+        this.dispatch('RESET');
+        this.setupEventCountdown(nextProps.event, nextProps.registration);
+      }
     }
 
-    const timeUntilRegistrationOpens = getTimeUntil(poolActivationTime);
-
-    if (
-      timeUntilRegistrationOpens.asMinutes() <=
-      COUNTDOWN_STARTS_WHEN_MINUTES_LEFT
-    ) {
-      this.initiateCountdown(poolActivationTime);
-      return;
+    componentWillUnmount() {
+      clearInterval(this.countdownProbeTimer);
+      clearInterval(this.countdownTimer);
     }
 
-    const poll = () => {
+    dispatch(action: Action, registrationOpensIn: ?string) {
+      this.setState(state =>
+        countdownReducer(state, action, registrationOpensIn)
+      );
+    }
+
+    setupEventCountdown = (event: Event, registration: ?EventRegistration) => {
+      const { activationTime, startTime } = event;
+      const poolActivationTime = moment(activationTime);
+      const currentTime = moment();
+
+      // TODO: the 2 hour subtract is a hardcoded close time and should be improved
+      const registrationIsClosed = currentTime.isAfter(
+        moment(startTime).subtract(2, 'hours')
+      );
+      if ((!registration && !activationTime) || registrationIsClosed) {
+        this.dispatch('REGISTRATION_NOT_AVAILABLE');
+        return;
+      }
+
+      if (registration || poolActivationTime.isBefore(currentTime)) {
+        this.dispatch('REGISTERED_OR_REGISTRATION_ALREADY_OPENED');
+        return;
+      }
+
       const timeUntilRegistrationOpens = getTimeUntil(poolActivationTime);
 
       if (
         timeUntilRegistrationOpens.asMinutes() <=
         COUNTDOWN_STARTS_WHEN_MINUTES_LEFT
       ) {
-        clearInterval(this.countdownProbeTimer);
         this.initiateCountdown(poolActivationTime);
+        return;
       }
+
+      const poll = () => {
+        const timeUntilRegistrationOpens = getTimeUntil(poolActivationTime);
+
+        if (
+          timeUntilRegistrationOpens.asMinutes() <=
+          COUNTDOWN_STARTS_WHEN_MINUTES_LEFT
+        ) {
+          clearInterval(this.countdownProbeTimer);
+          this.initiateCountdown(poolActivationTime);
+        }
+      };
+
+      poll();
+      this.countdownProbeTimer = setInterval(
+        poll,
+        CHECK_COUNTDOWN_START_INTERVAL
+      );
     };
 
-    poll();
-    this.countdownProbeTimer = setInterval(
-      poll,
-      CHECK_COUNTDOWN_START_INTERVAL
-    );
-  };
+    initiateCountdown(finishTime: Dateish) {
+      const poll = () => {
+        const timeUntilRegistrationOpens = getTimeUntil(
+          finishTime
+        ).asMilliseconds();
 
-  initiateCountdown(finishTime: Dateish) {
-    const poll = () => {
-      const timeUntilRegistrationOpens = getTimeUntil(
-        finishTime
-      ).asMilliseconds();
+        if (timeUntilRegistrationOpens <= 0) {
+          clearInterval(this.countdownTimer);
+        }
 
-      if (timeUntilRegistrationOpens <= 0) {
-        clearInterval(this.countdownTimer);
-      }
+        const [, action] =
+          TICK_ACTIONS.find(
+            ([time, action]) => timeUntilRegistrationOpens <= time
+          ) || [];
 
-      const [, action] =
-        TICK_ACTIONS.find(
-          ([time, action]) => timeUntilRegistrationOpens <= time
-        ) || [];
+        const registrationOpensIn = moment(
+          timeUntilRegistrationOpens + 1000
+        ).format('mm:ss');
+        if (action) {
+          this.dispatch(action, registrationOpensIn);
+        }
+      };
 
-      const registrationOpensIn = moment(
-        timeUntilRegistrationOpens + 1000
-      ).format('mm:ss');
-      if (action) {
-        this.dispatch(action, registrationOpensIn);
-      }
-    };
-
-    poll();
-    this.countdownTimer = setInterval(poll, COUNTDOWN_INTERVAL);
-  }
-
-  render() {
-    if (this.props.render) {
-      return this.props.render(this.state);
+      poll();
+      this.countdownTimer = setInterval(poll, COUNTDOWN_INTERVAL);
     }
 
-    return null;
-  }
+    render() {
+      return <WrappedComponent {...this.props} {...this.state} />;
+    }
+  };
 }
 
 function getTimeDifference(first: moment, second: moment): number {
@@ -223,4 +223,4 @@ export function getTimeUntil(
   return moment.duration(getTimeDifference(time, currentTime), 'milliseconds');
 }
 
-export default JoinEventFormCountdownProvider;
+export default withCountdown;

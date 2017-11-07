@@ -2,9 +2,11 @@
 
 import React from 'react';
 import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
 import moment from 'moment';
 import lolex from 'lolex';
-import JoinEventFormCountdownProvider from '../JoinEventFormCountdownProvider';
+import JoinEventForm from '../JoinEventForm';
+import configureStore from 'redux-mock-store';
 
 jest.useFakeTimers();
 
@@ -42,15 +44,21 @@ const EVENT = {
 };
 
 const defaultProps = {
+  currentUser: { username: 'webkom' },
   registration: null,
   event: EVENT
 };
+const store = configureStore([])({});
 
-function renderJoinEventFormCountdownProvider(props = {}) {
-  return mount(<JoinEventFormCountdownProvider {...defaultProps} {...props} />);
+function renderJoinEventForm(props = {}) {
+  return mount(
+    <Provider store={store}>
+      <JoinEventForm {...defaultProps} {...props} />
+    </Provider>
+  );
 }
 
-describe('<JoinEventFormCountdownProvider />', () => {
+describe('<JoinEventForm />', () => {
   let clock;
   beforeEach(() => {
     clock = lolex.install();
@@ -61,103 +69,118 @@ describe('<JoinEventFormCountdownProvider />', () => {
   });
 
   it('should start with hidden form', () => {
-    const component = renderJoinEventFormCountdownProvider({
+    const component = renderJoinEventForm({
       ...defaultProps,
       event: {
         ...defaultProps.event,
         startTime: moment().add(7, 'days'),
         activationTime: moment().add(20, 'minutes')
       }
-    });
+    }).find('JoinEventForm');
 
-    expect(component.state()).toEqual({
-      buttonOpen: false,
-      captchaOpen: false,
-      formOpen: false,
-      registrationOpensIn: null
-    });
+    expect(component.props()).toEqual(
+      expect.objectContaining({
+        buttonOpen: false,
+        captchaOpen: false,
+        formOpen: false,
+        registrationOpensIn: null
+      })
+    );
   });
 
   it('should enable form when 10 minute is left', () => {
-    const component = renderJoinEventFormCountdownProvider({
+    const component = renderJoinEventForm({
       ...defaultProps,
       event: {
         ...defaultProps.event,
         activationTime: moment().add(10, 'minutes')
       }
-    });
+    }).find('JoinEventForm');
 
     /**
      * registrationOpensIn is 10:01 by intention due to we dont show 00:00
      * We go directly from 00:01 to "Meld deg på"
      */
-    expect(component.state()).toEqual({
-      buttonOpen: false,
-      captchaOpen: false,
-      formOpen: true,
-      registrationOpensIn: '10:01'
-    });
+    expect(component.props()).toEqual(
+      expect.objectContaining({
+        buttonOpen: false,
+        captchaOpen: false,
+        formOpen: true,
+        registrationOpensIn: '10:01'
+      })
+    );
   });
 
   it('should enable everything but the join button when 1 minute is left', () => {
-    const component = renderJoinEventFormCountdownProvider({
+    const component = renderJoinEventForm({
       ...defaultProps,
       event: {
         ...defaultProps.event,
         activationTime: moment().add(1, 'minutes')
       }
-    });
+    }).find('JoinEventForm');
 
-    expect(component.state()).toEqual({
-      buttonOpen: false,
-      captchaOpen: true,
-      formOpen: true,
-      registrationOpensIn: '01:01'
-    });
+    expect(component.props()).toEqual(
+      expect.objectContaining({
+        buttonOpen: false,
+        captchaOpen: true,
+        formOpen: true,
+        registrationOpensIn: '01:01'
+      })
+    );
   });
 
   it('should enable everything when countdown is done', () => {
-    const component = renderJoinEventFormCountdownProvider({
+    const activationTime = moment().add(1, 'minutes');
+    let component = renderJoinEventForm({
       ...defaultProps,
       event: {
         ...defaultProps.event,
-        activationTime: moment().add(1, 'minutes')
+        activationTime
       }
     });
 
     clock.tick('00:59');
 
-    expect(component.state()).toEqual({
-      buttonOpen: false,
-      captchaOpen: true,
-      formOpen: true,
-      registrationOpensIn: '00:02'
-    });
+    component.update();
+    expect(component.find('JoinEventForm').props()).toEqual(
+      expect.objectContaining({
+        buttonOpen: false,
+        captchaOpen: true,
+        formOpen: true,
+        registrationOpensIn: '00:02'
+      })
+    );
 
     clock.tick('00:02');
 
-    expect(component.state()).toEqual({
-      buttonOpen: true,
-      captchaOpen: true,
-      formOpen: true,
-      registrationOpensIn: null
-    });
+    component.update();
+    expect(component.find('JoinEventForm').props()).toEqual(
+      expect.objectContaining({
+        buttonOpen: true,
+        captchaOpen: true,
+        formOpen: true,
+        registrationOpensIn: null
+      })
+    );
   });
 
   it('should enable everything when activationTime is in the past', () => {
-    const component = renderJoinEventFormCountdownProvider({
+    const component = renderJoinEventForm({
       ...defaultProps,
       event: {
         ...defaultProps.event,
         activationTime: moment().subtract(1, 'seconds')
       }
-    });
+    }).find('JoinEventForm');
 
-    expect(component.state()).toEqual({
-      buttonOpen: true,
-      captchaOpen: true,
-      formOpen: true,
-      registrationOpensIn: null
-    });
+    expect(component.props()).toEqual(
+      expect.objectContaining({
+        buttonOpen: true,
+        captchaOpen: true,
+        formOpen: true,
+        registrationOpensIn: null
+      })
+    );
   });
 });
