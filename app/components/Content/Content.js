@@ -3,8 +3,10 @@
 import React, { type Node } from 'react';
 import cx from 'classnames';
 import styles from './Content.css';
+import { Image } from 'app/components/Image';
 
 type Props = {
+  banner?: string,
   className?: string,
   children: Node
 };
@@ -25,8 +27,18 @@ type Props = {
  * </Content>
  * ```
  */
-function Content({ children, className }: Props) {
-  return <div className={cx(styles.content, className)}>{children}</div>;
+function Content({ banner, children, className }: Props) {
+  return (
+    <div>
+      {banner && (
+        <div className={cx(styles.cover, className)}>
+          <Image src={banner} />
+        </div>
+      )}
+
+      <div className={cx(styles.content, className)}>{children}</div>
+    </div>
+  );
 }
 
 export default Content;
