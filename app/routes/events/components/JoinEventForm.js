@@ -350,7 +350,7 @@ class JoinEventForm extends React.Component<Props, State> {
               description={event.title}
               image={logoImage}
               currency="NOK"
-              allowRememberMe={false}
+              allowRememberMe
               locale="no"
               token={onToken}
               stripeKey={config.stripeKey}
