@@ -98,8 +98,8 @@ function MeetingEditor({
 
   return (
     <div className={styles.root}>
-      <NavigationTab title={'Nytt møte'} className={styles.detailTitle}>
-        <NavigationLink to={`/meetings/`}>
+      <NavigationTab title="Nytt møte" className={styles.detailTitle}>
+        <NavigationLink to="/meetings/">
           <i className="fa fa-angle-left" /> Mine møter
         </NavigationLink>
       </NavigationTab>

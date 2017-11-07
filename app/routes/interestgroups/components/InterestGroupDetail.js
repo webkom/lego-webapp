@@ -36,7 +36,7 @@ type TitleProps = {
 
 const Title = ({ group: { name, id }, showEdit }: TitleProps) => (
   <NavigationTab title={name}>
-    <NavigationLink to={`/interestgroups/`}>
+    <NavigationLink to="/interestgroups/">
       <i className="fa fa-angle-left" /> Tilbake
     </NavigationLink>
     {showEdit && (

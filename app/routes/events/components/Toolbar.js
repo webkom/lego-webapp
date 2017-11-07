@@ -51,7 +51,7 @@ class Toolbar extends Component<Props, State> {
         <div className={styles.section}>
           {actionGrant &&
             actionGrant.includes('create') && (
-              <Link to={'/events/create'}>
+              <Link to="/events/create">
                 <Button>Lag nytt arrangement</Button>
               </Link>
             )}

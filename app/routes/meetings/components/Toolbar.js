@@ -10,8 +10,8 @@ type Props = {};
 const Toolbar = (props: Props) => {
   return (
     <Flex wrap alignItems="center" justifyContent="space-between">
-      <NavigationTab title={'Dine Møter'} className={styles.detailTitle}>
-        <NavigationLink to={'/meetings/create/'}>Nytt møte</NavigationLink>
+      <NavigationTab title="Dine Møter" className={styles.detailTitle}>
+        <NavigationLink to="/meetings/create/">Nytt møte</NavigationLink>
       </NavigationTab>
     </Flex>
   );
