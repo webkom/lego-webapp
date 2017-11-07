@@ -1,7 +1,7 @@
 // @flow
 
 import styles from './bdb.css';
-import { Content } from 'app/components/Layout';
+import { Content } from 'app/components/Content';
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';

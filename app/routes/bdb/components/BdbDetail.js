@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import styles from './bdb.css';
-import { Content } from 'app/components/Layout';
+import { Content } from 'app/components/Content';
 import {
   sortByYearThenSemester,
   getContactedStatuses,

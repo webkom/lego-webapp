@@ -2,6 +2,7 @@
 
 import React from 'react';
 import styles from './Company.css';
+import { Content } from 'app/components/Content';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Image } from 'app/components/Image';
 import InfoBubble from 'app/components/InfoBubble';
@@ -85,7 +86,7 @@ const CompanyDetail = (props: Props) => {
       </tr>
     ));
   return (
-    <div className={styles.root}>
+    <Content>
       <div className={styles.companyLogoDetail}>
         <Image src={company.logo} className={styles.image} />
       </div>
@@ -137,7 +138,7 @@ const CompanyDetail = (props: Props) => {
       ) : (
         <i>Ingen jobbannonser.</i>
       )}
-    </div>
+    </Content>
   );
 };
 

@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import CompanyList from './CompanyList';
-import { Content } from 'app/components/Layout';
+import { Content } from 'app/components/Content';
 import styles from './bdb.css';
 import sortCompanies from '../SortCompanies.js';
 import { indexToSemester, ListNavigation } from '../utils.js';

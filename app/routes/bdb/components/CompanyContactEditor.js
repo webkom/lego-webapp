@@ -2,6 +2,7 @@
 
 import styles from './bdb.css';
 import React, { Component } from 'react';
+import { Content } from 'app/components/Content';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextInput } from 'app/components/Form';
