@@ -12,6 +12,10 @@
 
 .window {
   width: 600px;
+
+  @media (--mobile-device) {
+    width: 100%;
+  }
 }
 
 .detailTitle {
