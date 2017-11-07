@@ -109,11 +109,9 @@ class Header extends Component<Props, State> {
 
   render() {
     const { loggedIn } = this.props;
-
-    const { registerUser, forgotPassword, mode } = this.state;
-
+    const isLogin = this.state.mode === 'login';
     let title, form;
-    switch (mode) {
+    switch (this.state.mode) {
       case 'login':
         title = 'Logg inn';
         form = <LoginForm />;
@@ -223,7 +221,7 @@ class Header extends Component<Props, State> {
                       style={{ whiteSpace: 'nowrap' }}
                     >
                       {title}
-                      {!(registerUser || forgotPassword) && (
+                      {isLogin && (
                         <div>
                           <button
                             onClick={this.toggleForgotPassword}
@@ -240,7 +238,7 @@ class Header extends Component<Props, State> {
                           </button>
                         </div>
                       )}
-                      {(registerUser || forgotPassword) && (
+                      {!isLogin && (
                         <button
                           onClick={this.toggleBack}
                           className={styles.toggleButton}
