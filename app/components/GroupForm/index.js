@@ -10,6 +10,7 @@ import {
   Button,
   ImageUploadField
 } from 'app/components/Form';
+import { createValidator, required } from 'app/utils/validation';
 
 type OwnProps = {
   handleSubmitCallback: Object => Promise<*>,
@@ -23,7 +24,7 @@ function GroupForm({
   handleSubmitCallback,
   group,
   submitting,
-  pristine
+  invalid
 }: Props) {
   const isNew = !group;
 
@@ -56,8 +57,9 @@ function GroupForm({
         aspectRatio={1}
         img={group && group.logo}
         className={styles.logo}
+        required
       />
-      <Button disabled={pristine || submitting} submit>
+      <Button disabled={invalid || submitting} submit>
         {isNew ? 'Lag gruppe' : 'Lagre gruppe'}
       </Button>
     </Form>
@@ -66,5 +68,10 @@ function GroupForm({
 
 export default reduxForm({
   form: 'groupForm',
-  enableReinitialize: true
+  enableReinitialize: true,
+  validate: createValidator({
+    name: [required()],
+    description: [required()],
+    logo: [required()]
+  })
 })(GroupForm);
