@@ -5,7 +5,7 @@ import { normalize } from 'normalizr';
 import config from 'app/config';
 import cookie from 'js-cookie';
 import moment from 'moment-timezone';
-import { push, replace } from 'react-router-redux';
+import { push } from 'react-router-redux';
 import { userSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { User } from './ActionTypes';
@@ -63,11 +63,17 @@ export function login(
     });
 }
 
+export function logoutWithRedirect() {
+  return (dispatch: Dispatch<*>) => {
+    dispatch(logout());
+    dispatch(push('/'));
+  };
+}
+
 export function logout() {
   return (dispatch: Dispatch<*>) => {
     removeToken();
     dispatch({ type: User.LOGOUT });
-    dispatch(replace('/'));
     dispatch(fetchMeta());
   };
 }

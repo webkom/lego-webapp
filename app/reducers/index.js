@@ -89,7 +89,12 @@ const appReducer = combineReducers(reducers);
 
 export default function rootReducer(state: State, action: Action) {
   if (action.type === User.LOGOUT) {
-    return appReducer(undefined, action);
+    return appReducer(
+      {
+        routing: state.routing
+      },
+      action
+    );
   }
 
   return appReducer(state, action);
