@@ -9,6 +9,8 @@ export const selectFrontpage = createSelector(
   selectEvents,
   (articles, events) =>
     sortBy(articles.concat(events), [
+      // Sort by IDs first to differ between events that start at the same time:
+      item => item.id,
       // Always sort pinned items first:
       item => !item.pinned,
       item => {
