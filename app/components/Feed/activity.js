@@ -49,7 +49,7 @@ export default class CommentRenderer extends Component<Props, State> {
       ? aggregatedActivity.activities
       : aggregatedActivity.activities.slice(0, 3);
     return (
-      <Card style={{ padding: '0', margin: '20px 0 20px 0' }}>
+      <Card style={{ padding: '0', margin: '10px 0 20px 0' }}>
         <div className={styles.header}>
           {renders.activityHeader(aggregatedActivity)}
         </div>

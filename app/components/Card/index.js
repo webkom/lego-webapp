@@ -5,6 +5,7 @@ import cx from 'classnames';
 import styles from './Card.css';
 
 type Props = {
+  className?: string,
   /** Children compontents */
   children?: any,
   /** Dark background  */
@@ -17,6 +18,7 @@ type Props = {
 
 function Card({
   children,
+  className,
   dark = false,
   tight = false,
   shadow = true,
@@ -25,6 +27,7 @@ function Card({
   return (
     <div
       className={cx(
+        className,
         styles.card,
         dark && styles.dark,
         tight && styles.tight,
