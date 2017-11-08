@@ -25,12 +25,13 @@ function RadioButton({
     <div className={styles.box}>
       <input
         {...props}
+        className={styles.input}
         checked={inputValue === value}
         type="radio"
         id={id}
         value={inputValue}
       />
-      <span>{label}</span>
+      <span className={styles.label}>{label}</span>
     </div>
   );
 }
