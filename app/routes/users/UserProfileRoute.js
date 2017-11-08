@@ -28,11 +28,14 @@ const mapStateToProps = (state, props) => {
     params.username === 'me' ? state.auth.username : params.username;
 
   const user = selectUserWithGroups(state, { username });
-
-  const feed = selectFeedById(state, { feedId: feedIdByUserId(user.id) });
-  const feedItems = selectFeedActivitesByFeedId(state, {
-    feedId: feedIdByUserId(user.id)
-  });
+  let feed;
+  let feedItems;
+  if (user) {
+    feed = selectFeedById(state, { feedId: feedIdByUserId(user.id) });
+    feedItems = selectFeedActivitesByFeedId(state, {
+      feedId: feedIdByUserId(user.id)
+    });
+  }
 
   const isMe =
     params.username === 'me' || params.username === state.auth.username;
