@@ -63,12 +63,11 @@ export function login(
     });
 }
 
-export function logout(): Thunk<void> {
-  return dispatch => {
+export function logout() {
+  return (dispatch: Dispatch<*>) => {
     removeToken();
     dispatch({ type: User.LOGOUT });
     dispatch(replace('/'));
-    // $FlowFixMe
     dispatch(fetchMeta());
   };
 }
@@ -128,24 +127,21 @@ export function changePassword({
   newPassword,
   retypeNewPassword
 }: PasswordPayload): Thunk<*> {
-  return dispatch =>
-    dispatch(
-      callAPI({
-        types: User.PASSWORD_CHANGE,
-        endpoint: '/password-change/',
-        method: 'POST',
-        body: {
-          password,
-          newPassword,
-          retypeNewPassword
-        },
-        schema: userSchema,
-        meta: {
-          errorMessage: 'Oppdatering av passord feilet',
-          successMessage: 'Passordet ble endret'
-        }
-      })
-    );
+  return callAPI({
+    types: User.PASSWORD_CHANGE,
+    endpoint: '/password-change/',
+    method: 'POST',
+    body: {
+      password,
+      newPassword,
+      retypeNewPassword
+    },
+    schema: userSchema,
+    meta: {
+      errorMessage: 'Oppdatering av passord feilet',
+      successMessage: 'Passordet ble endret'
+    }
+  });
 }
 
 export function updatePicture({
