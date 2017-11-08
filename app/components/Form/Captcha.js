@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import config from 'app/config';
 import { createField } from './Field';
 import ReCAPTCHA from 'react-google-recaptcha';
+import styles from './Captcha.css';
+import cx from 'classnames';
 
 type Props = {
   className?: string,
@@ -23,7 +25,7 @@ class Captcha extends Component<Props> {
   render() {
     const { className, onChange } = this.props;
     return (
-      <div className={className}>
+      <div className={cx(className, styles.captchaContainer)}>
         <ReCAPTCHA
           ref={ref => {
             this.captcha = ref;
