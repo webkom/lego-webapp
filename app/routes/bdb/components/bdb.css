@@ -1,16 +1,5 @@
 @import 'app/styles/variables.css';
 
-.root {
-  composes: contentContainer from 'app/styles/utilities.css';
-}
-
-.root h1 {
-  font-size: 30px;
-  font-weight: bold;
-  display: block;
-  padding-left: 0;
-}
-
 .root h3 {
   margin: 5px 0 25px;
 }

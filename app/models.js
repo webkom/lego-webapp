@@ -170,3 +170,16 @@ export type CompanySemesterContactedStatus =
   | 'not_interested'
   | 'contacted'
   | 'not_contacted';
+
+export type Announcement = {
+  id: ID,
+  message: string,
+  users: Array<Object>,
+  groups: Array<Object>,
+  events: Array<Object>,
+  meetings: Array<Object>
+};
+
+export type CreateAnnouncement = Announcement & {
+  send: ?boolean
+};

@@ -3,21 +3,28 @@
 .container {
   display: flex;
   justify-content: space-between;
-  flex-wrap: wrap;
   margin-bottom: 15px;
+  align-items: baseline;
 }
 
 .header {
   display: inline;
   font-weight: 400;
+  line-height: 34px;
   text-transform: uppercase;
+  flex-shrink: 99999;
 }
 
 .navigator {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
   align-items: center;
+}
+
+@media (--mobile-device) {
+  .container {
+    flex-wrap: wrap;
+  }
 }
 
 @media (--small-viewport) {

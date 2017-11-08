@@ -2,7 +2,6 @@
 
 .root {
   composes: contentContainer from 'app/styles/utilities.css';
-  margin-top: 2rem;
 }
 
 .heading {

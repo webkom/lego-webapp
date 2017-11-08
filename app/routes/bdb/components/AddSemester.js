@@ -1,6 +1,7 @@
 // @flow
 
 import styles from './bdb.css';
+import { Content } from 'app/components/Content';
 import React, { Component } from 'react';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
@@ -107,7 +108,7 @@ export default class AddSemester extends Component<Props, State> {
     const semesterStatus = { contactedStatus: this.state.contactedStatus };
 
     return (
-      <div className={styles.root}>
+      <Content>
         <DetailNavigation
           title="Legg til semester"
           companyId={companyId}
@@ -187,7 +188,7 @@ export default class AddSemester extends Component<Props, State> {
             </Button>
           </form>
         </div>
-      </div>
+      </Content>
     );
   }
 }

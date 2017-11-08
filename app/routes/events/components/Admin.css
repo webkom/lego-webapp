@@ -1,0 +1,6 @@
+@import 'app/styles/variables.css';
+
+.deleteButton {
+  color: var(--lego-link-color);
+  cursor: pointer;
+}

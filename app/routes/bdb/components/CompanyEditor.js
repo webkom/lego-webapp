@@ -1,6 +1,7 @@
 // @flow
 
 import styles from './bdb.css';
+import { Content } from 'app/components/Content';
 import React, { Component } from 'react';
 import { httpCheck, DetailNavigation, ListNavigation } from '../utils.js';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -73,7 +74,7 @@ class CompanyEditor extends Component<Props> {
     );
 
     return (
-      <div className={styles.root}>
+      <Content>
         <div className={styles.detail}>
           <form onSubmit={handleSubmit(this.onSubmit)}>
             <Field
@@ -235,7 +236,7 @@ class CompanyEditor extends Component<Props> {
             </Button>
           </form>
         </div>
-      </div>
+      </Content>
     );
   }
 }

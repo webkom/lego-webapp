@@ -6,12 +6,13 @@ import Flex from 'app/components/Layout/Flex';
 import Button from 'app/components/Button';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
+import type { ActionGrant, Announcement, ID } from 'app/models';
 
 type Props = {
-  announcement: Object,
-  sendAnnouncement: number => void,
-  deleteAnnouncement: number => void,
-  actionGrant: Array<string>
+  announcement: Announcement,
+  sendAnnouncement: ID => Promise<*>,
+  deleteAnnouncement: ID => Promise<*>,
+  actionGrant: ActionGrant
 };
 
 const AnnouncementItem = ({
@@ -21,7 +22,7 @@ const AnnouncementItem = ({
   actionGrant
 }: Props) => {
   return (
-    <Flex padding="10px 0" justifyContent="space-between">
+    <Flex className={styles.item}>
       <Flex column>
         <Flex className={styles.date}>
           {announcement.sent ? (
@@ -84,7 +85,8 @@ const AnnouncementItem = ({
         </Flex>
       </Flex>
       {!announcement.sent &&
-        actionGrant.includes('send') && (
+        actionGrant.includes('send') &&
+        actionGrant.includes('delete') && (
           <Flex className={styles.wrapperSendButton}>
             <Button
               className={styles.sendButton}

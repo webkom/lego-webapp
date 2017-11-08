@@ -65,7 +65,7 @@ export const selectUserById = createSelector(
 export const selectUserByUsername = createSelector(
   state => state.users.byId,
   (state, props) => props.username,
-  (usersById, username) => find(usersById, ['username', username]) || {}
+  (usersById, username) => find(usersById, ['username', username])
 );
 
 export const selectUserWithGroups = createSelector(

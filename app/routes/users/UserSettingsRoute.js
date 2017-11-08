@@ -24,14 +24,17 @@ const mapStateToProps = (state, props) => {
   return {
     user,
     isMe,
-    initialValues: user
+    initialValues: {
+      ...user,
+      isAbakusMember: user && user.isAbakusMember.toString()
+    }
   };
 };
 
 const mapDispatchToProps = { updateUser, updatePicture, changePassword, push };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
   dispatched(loadData, { componentWillReceiveProps: false }),
+  connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['user'])
 )(UserSettings);

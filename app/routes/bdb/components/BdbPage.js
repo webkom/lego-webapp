@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import CompanyList from './CompanyList';
+import { Content } from 'app/components/Content';
 import styles from './bdb.css';
 import sortCompanies from '../SortCompanies.js';
 import { indexToSemester, ListNavigation } from '../utils.js';
@@ -188,7 +189,7 @@ export default class BdbPage extends Component<Props, State> {
     };
 
     return (
-      <div className={styles.root}>
+      <Content>
         <ListNavigation title="Bedriftsdatabase" />
 
         <div className={styles.search}>
@@ -219,7 +220,7 @@ export default class BdbPage extends Component<Props, State> {
           editChangedStatuses={this.editChangedStatuses}
           fetching={fetching}
         />
-      </div>
+      </Content>
     );
   }
 }

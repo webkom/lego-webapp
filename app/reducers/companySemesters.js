@@ -41,3 +41,9 @@ export const selectCompanySemesters = createSelector(
     return semesterIds.map(id => semestersById[id]);
   }
 );
+
+export const selectCompanySemestersForInterestform = createSelector(
+  selectCompanySemesters,
+  companySemesters =>
+    companySemesters.filter(semester => semester.activeInterestForm)
+);

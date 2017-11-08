@@ -30,25 +30,6 @@
   overflow: hidden;
 }
 
-.content {
-  border-top-right-radius: 0;
-  border-top-left-radius: 0;
-}
-
-.coverImage {
-  composes: contentContainer from 'app/styles/utilities.css';
-  padding: 0;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-  height: 300px;
-  overflow: hidden;
-  position: relative;
-
-  img {
-    object-fit: cover;
-  }
-}
-
 .mainRow {
   margin-bottom: 1em;
   margin-top: 0.5em;
