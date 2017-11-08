@@ -123,10 +123,11 @@ type Props = {
 
 function InterestGroupDetail(props: Props) {
   const { group } = props;
+  const canEdit = group.actionGrant && group.actionGrant.includes('edit');
   const logo = group.logo || 'https://i.imgur.com/Is9VKjb.jpg';
   return (
     <Content>
-      <Title group={group} showEdit />
+      <Title group={group} showEdit={canEdit} />
       <ContentSection>
         <ContentMain>
           <p className={styles.description}>{group.description}</p>
