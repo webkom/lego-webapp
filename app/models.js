@@ -141,6 +141,7 @@ export type Joblisting = {
 
 export type InterestGroup = {
   id: ID,
+  actionGrant: Array<string>,
   name: string,
   memberships: Array<GroupMembership>,
   description: string,
