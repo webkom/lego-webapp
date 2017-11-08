@@ -10,6 +10,7 @@ import { Form, Field } from 'redux-form';
 
 export type Props = {
   restrictedMailId?: number,
+  restrictedMail: Object,
   submitting: boolean,
   handleSubmit: Function => void,
   push: string => void,
@@ -17,6 +18,7 @@ export type Props = {
 };
 
 const RestrictedMailEditor = ({
+  restrictedMail,
   restrictedMailId,
   mutateFunction,
   submitting,
@@ -104,14 +106,15 @@ const RestrictedMailEditor = ({
           Lag flaskepost
         </Button>
       )}
-      {restrictedMailId && (
-        <a
-          href={`${config.serverUrl}/restricted-mail/${restrictedMailId}/token`}
-          download
-        >
-          <Button>Last ned Epost token</Button>
-        </a>
-      )}
+      {restrictedMailId &&
+        restrictedMail && (
+          <a
+            href={`${config.serverUrl}/restricted-mail/${restrictedMailId}/token?auth=${restrictedMail.tokenQueryParam}`}
+            download
+          >
+            <Button>Last ned Epost token</Button>
+          </a>
+        )}
     </Form>
   );
 };
