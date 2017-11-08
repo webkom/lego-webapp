@@ -10,6 +10,7 @@ import { Form, Field } from 'redux-form';
 
 export type Props = {
   restrictedMailId?: number,
+  restrictedMail: Object,
   submitting: boolean,
   handleSubmit: Function => void,
   push: string => void,
