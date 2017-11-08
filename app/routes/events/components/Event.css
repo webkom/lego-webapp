@@ -1,5 +1,29 @@
 @import 'app/styles/variables.css';
 
+.feedbackLabel {
+  display: flex;
+  flex: 1;
+}
+
+.feedbackField {
+  display: flex;
+  flex: 1;
+  margin-bottom: 0;
+  min-height: 40px;
+}
+
+.feedbackText {
+  min-height: 40px;
+  min-width: 200px;
+  max-width: 893px;
+  max-height: 300px;
+}
+
+.feedbackUpdateButton {
+  margin-left: 10px;
+  height: 40px;
+}
+
 .registeredThumbnails {
   flex-wrap: wrap;
   max-height: 138px;

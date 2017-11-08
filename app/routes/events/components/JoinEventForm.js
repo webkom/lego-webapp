@@ -1,12 +1,11 @@
 // @flow
 
 import styles from './Event.css';
-import * as React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { compose } from 'redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
-import moment from 'moment-timezone';
 import { Form, Captcha, TextEditor } from 'app/components/Form';
 import Button from 'app/components/Button';
 import UpdateAllergies from './UpdateAllergies';
@@ -18,10 +17,14 @@ import LoadingIndicator from 'app/components/LoadingIndicator';
 import Time from 'app/components/Time';
 import { Flex } from 'app/components/Layout';
 import config from 'app/config';
+import withCountdown from './JoinEventFormCountdownProvider';
+import formStyles from 'app/components/Form/Field.css';
+
+type Event = Object;
 
 export type Props = {
   title?: string,
-  event: Object /*TODO: Event*/,
+  event: Event,
   registration: Object,
   currentUser: Object,
   onSubmit: Object => void,
@@ -33,14 +36,11 @@ export type Props = {
   /*TODO: & ReduxFormProps */
   invalid: boolean,
   pristine: boolean,
-  submitting: boolean
-};
-
-type State = {
-  time: any,
+  submitting: boolean,
   formOpen: boolean,
   captchaOpen: boolean,
-  buttonOpen: boolean
+  buttonOpen: boolean,
+  registrationOpensIn: ?string
 };
 
 type SpotsLeftProps = {
@@ -97,103 +97,8 @@ const SpotsLeft = ({ activeCapacity, spotsLeft }: SpotsLeftProps) => {
 
   return <div>Det er {spotsLeft} plasser igjen.</div>;
 };
-
-class JoinEventForm extends React.Component<Props, State> {
-  state: State = {
-    time: null,
-    formOpen: false,
-    captchaOpen: false,
-    buttonOpen: false
-  };
-
-  counter = undefined;
-
-  componentDidMount() {
-    this.parseEventTimes(this.props.event, this.props.registration);
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (
-      (nextProps.event.activationTime && !this.props.event.activationTime) ||
-      nextProps.registration !== this.props.registration
-    ) {
-      this.setState({ formOpen: false });
-      this.parseEventTimes(nextProps.event, nextProps.registration);
-    }
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.counter);
-  }
-
-  parseEventTimes = ({ activationTime, startTime }, registration) => {
-    const poolActivationTime = moment(activationTime);
-    const currentTime = moment();
-    const diffTime = poolActivationTime.diff(currentTime);
-    let duration = moment.duration(diffTime, 'milliseconds');
-    if (
-      (!registration && !activationTime) ||
-      currentTime.isAfter(moment(startTime).subtract(2, 'hours'))
-    ) {
-      // Do nothing
-      // TODO: the 2 hour subtract is a hardcoded close time and should be improved
-    } else if (poolActivationTime.isBefore(currentTime) || registration) {
-      this.setState({
-        formOpen: true,
-        captchaOpen: true,
-        buttonOpen: true
-      });
-    } else if (poolActivationTime.day() > currentTime.day()) {
-      this.setState({
-        time: poolActivationTime
-      });
-    } else if (duration.asMinutes() > 10) {
-      this.setState({
-        time: poolActivationTime
-      });
-      const interval = 10000;
-      this.counter = setInterval(() => {
-        const diff = duration - interval;
-        duration = moment.duration(diff, 'milliseconds');
-        if (diff < 600000) {
-          clearInterval(this.counter);
-          this.initiateCountdown(duration);
-        }
-      }, interval);
-    } else {
-      this.initiateCountdown(duration);
-    }
-  };
-
-  initiateCountdown(duration) {
-    const interval = 1000;
-
-    duration += 1000;
-    this.counter = setInterval(() => {
-      duration = moment.duration(duration, 'milliseconds') - interval;
-      if (duration <= 1000) {
-        clearInterval(this.counter);
-        this.setState({
-          time: null,
-          buttonOpen: true
-        });
-        return;
-      }
-      if (duration < 60000) {
-        this.setState({
-          captchaOpen: true
-        });
-      }
-      this.setState({
-        time: moment(duration).format('mm:ss')
-      });
-    }, interval);
-    this.setState({
-      formOpen: true
-    });
-  }
-
-  submitWithType = (handleSubmit, feedbackName, type = null) => {
+class JoinEventForm extends Component<Props> {
+  submitWithType = (handleSubmit, feedbackName, type) => {
     if (type === 'unregister') {
       return handleSubmit(() =>
         this.props.onSubmit({
@@ -201,6 +106,7 @@ class JoinEventForm extends React.Component<Props, State> {
         })
       );
     }
+
     return handleSubmit(values => {
       const feedback = values[feedbackName];
       if (this.props.event.feedbackRequired && !feedback) {
@@ -208,6 +114,7 @@ class JoinEventForm extends React.Component<Props, State> {
           feedbackRequired: 'Tilbakemelding er påkrevet for dette arrangementet'
         });
       }
+
       return this.props.onSubmit({
         captchaResponse: values.captchaResponse,
         feedback,
@@ -227,28 +134,34 @@ class JoinEventForm extends React.Component<Props, State> {
       onToken,
       invalid,
       pristine,
-      submitting
+      submitting,
+      buttonOpen,
+      formOpen,
+      captchaOpen,
+      registrationOpensIn
     } = this.props;
 
-    const isInvalid = this.state.time !== null || invalid;
+    const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
+    const registrationType = !registration ? 'register' : 'unregister';
+
+    const feedbackName = getFeedbackName(event);
+    const feedbackLabel = getFeedbackLabel(event);
+
+    const isInvalid = registrationOpensIn !== null || invalid;
     const isPristine = event.feedbackRequired && pristine;
     const disabledButton = !registration
       ? isInvalid || isPristine || submitting
       : false;
-    const joinTitle = !registration ? 'Meld deg på' : 'Avregistrer';
-    const registrationType = !registration ? 'register' : 'unregister';
-    const feedbackName = getFeedbackName(event.feedbackRequired);
-    let feedbackLabel = event.feedbackRequired
-      ? 'NB: Dette arrangementet krever tilbakemelding'
-      : 'Tilbakemelding';
-    feedbackLabel = event.feedbackDescription
-      ? `${feedbackLabel}: ${event.feedbackDescription}`
-      : feedbackLabel;
+    const disabledForUser = !formOpen && !event.activationTime;
+    const showCaptcha =
+      !submitting && !registration && captchaOpen && event.useCaptcha;
     const showStripe =
       event.isPriced &&
+      event.price > 0 &&
       registration &&
       registration.pool &&
       !['pending', 'succeeded'].includes(registration.chargeStatus);
+
     return (
       <Flex column className={styles.join}>
         <div className={styles.joinHeader}>Bli med på dette arrangementet</div>
@@ -258,32 +171,45 @@ class JoinEventForm extends React.Component<Props, State> {
             <span>Regler for Abakus&#39; arrangementer</span>
           </Flex>
         </Link>
-        {!this.state.formOpen &&
-          this.state.time && (
+        {!formOpen &&
+          event.activationTime && (
             <div>
-              Åpner <Time time={this.state.time} format="nowToTimeInWords" />
+              Åpner{' '}
+              <Time time={event.activationTime} format="nowToTimeInWords" />
             </div>
           )}
-        {!this.state.formOpen &&
-          !this.state.time && (
-            <div>Du kan ikke melde deg på dette arrangementet.</div>
-          )}
-        {this.state.formOpen && (
+        {disabledForUser && (
+          <div>Du kan ikke melde deg på dette arrangementet.</div>
+        )}
+        {formOpen && (
           <Flex column>
             <UpdateAllergies
               username={currentUser.username}
               initialValues={{ allergies: currentUser.allergies }}
               updateUser={updateUser}
             />
-            <Form>
-              <Field
-                label={feedbackLabel}
-                placeholder="Melding til arrangører"
-                name={feedbackName}
-                component={TextEditor.Field}
-              />
-              {registration && (
-                <div>
+            <Form
+              onSubmit={this.submitWithType(
+                handleSubmit,
+                feedbackName,
+                registrationType
+              )}
+            >
+              <label className={formStyles.label} htmlFor={feedbackName}>
+                {feedbackLabel}
+              </label>
+              <Flex style={{ marginBottom: '20px' }}>
+                <Field
+                  id={feedbackName}
+                  placeholder="Melding til arrangører"
+                  name={feedbackName}
+                  component={TextEditor.Field}
+                  labelClassName={styles.feedbackLabel}
+                  className={styles.feedbackText}
+                  fieldClassName={styles.feedbackField}
+                  rows={1}
+                />
+                {registration && (
                   <Button
                     type="button"
                     onClick={this.submitWithType(
@@ -291,29 +217,29 @@ class JoinEventForm extends React.Component<Props, State> {
                       feedbackName,
                       'feedback'
                     )}
-                    style={{ marginBottom: '5px' }}
+                    className={styles.feedbackUpdateButton}
                     disabled={pristine}
                   >
-                    Oppdater feedback
+                    Oppdater
                   </Button>
-                </div>
-              )}
-              {!submitting &&
-                !registration &&
-                this.state.captchaOpen &&
-                event.useCaptcha && (
-                  <Field
-                    name="captchaResponse"
-                    fieldStyle={{ width: 304 }}
-                    component={Captcha.Field}
-                  />
                 )}
-              {this.state.time && (
-                <Button disabled={disabledButton}>
-                  {`Åpner om ${this.state.time}`}
-                </Button>
+              </Flex>
+              {showCaptcha && (
+                <Field
+                  name="captchaResponse"
+                  fieldStyle={{ width: 304 }}
+                  component={Captcha.Field}
+                />
               )}
-              {this.state.buttonOpen &&
+              {event.activationTime &&
+                registrationOpensIn && (
+                  <Flex alignItems="center">
+                    <Button disabled={disabledButton}>
+                      {`Åpner om ${registrationOpensIn}`}
+                    </Button>
+                  </Flex>
+                )}
+              {buttonOpen &&
                 !submitting && (
                   <Flex alignItems="center">
                     <SubmitButton
@@ -326,11 +252,28 @@ class JoinEventForm extends React.Component<Props, State> {
                       type={registrationType}
                       title={title || joinTitle}
                     />
+
                     {!registration && (
                       <SpotsLeft
                         activeCapacity={event.activeCapacity}
                         spotsLeft={event.spotsLeft}
                       />
+                    )}
+                    {showStripe && (
+                      <StripeCheckout
+                        name="Abakus Linjeforening"
+                        description={event.title}
+                        image={logoImage}
+                        currency="NOK"
+                        allowRememberMe
+                        locale="no"
+                        token={onToken}
+                        stripeKey={config.stripeKey}
+                        amount={event.price}
+                        email={currentUser.email}
+                      >
+                        <Button>Betal nå</Button>
+                      </StripeCheckout>
                     )}
                   </Flex>
                 )}
@@ -343,30 +286,23 @@ class JoinEventForm extends React.Component<Props, State> {
             </Form>
           </Flex>
         )}
-        {showStripe &&
-          event.price && (
-            <StripeCheckout
-              name="Abakus Linjeforening"
-              description={event.title}
-              image={logoImage}
-              currency="NOK"
-              allowRememberMe
-              locale="no"
-              token={onToken}
-              stripeKey={config.stripeKey}
-              amount={event.price}
-              email={currentUser.email}
-            >
-              <Button>Betal nå</Button>
-            </StripeCheckout>
-          )}
       </Flex>
     );
   }
 }
 
-function getFeedbackName(feedbackRequired) {
-  return feedbackRequired ? 'feedbackRequired' : 'feedback';
+function getFeedbackName(event: Event) {
+  return event.feedbackRequired ? 'feedbackRequired' : 'feedback';
+}
+
+function getFeedbackLabel(event: Event) {
+  const feedbackLabel = event.feedbackRequired
+    ? 'NB: Dette arrangementet krever tilbakemelding'
+    : 'Tilbakemelding';
+
+  return event.feedbackDescription
+    ? `${feedbackLabel}: ${event.feedbackDescription}`
+    : feedbackLabel;
 }
 
 function validateEventForm(data, props) {
@@ -399,6 +335,7 @@ function mapStateToProps(state, props) {
 export default compose(
   // $FlowFixMe
   connect(mapStateToProps, null),
+  withCountdown,
   reduxForm({
     form: 'joinEvent',
     validate: validateEventForm
