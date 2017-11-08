@@ -1,0 +1,4 @@
+.captchaContainer iframe {
+  height: 78px;
+  max-width: 100%;
+}
