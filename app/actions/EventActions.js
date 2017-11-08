@@ -68,9 +68,9 @@ export const fetchList = (
   );
 };
 
-export function fetchAdministrate(eventId: string) {
+export function fetchAdministrate(eventId: number) {
   return callAPI({
-    types: Event.ADMINISTRATE_FETCH,
+    types: Event.FETCH,
     endpoint: `/events/${eventId}/administrate/`,
     schema: eventAdministrateSchema,
     meta: {
@@ -208,7 +208,8 @@ export function adminRegister(
       admin_reason: reason
     },
     meta: {
-      errorMessage: 'Admin registrering feilet'
+      errorMessage: 'Admin registrering feilet',
+      successMessage: 'Brukeren ble registrert'
     }
   });
 }

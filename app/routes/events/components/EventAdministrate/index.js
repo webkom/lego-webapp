@@ -1,174 +1,42 @@
 // @flow
 
-import styles from './Administrate.css';
-import React, { Component } from 'react';
-import { Link } from 'react-router';
-import { RegisteredTable, UnregisteredElement } from './RegistrationElements';
-import LoadingIndicator from 'app/components/LoadingIndicator';
-import AdminRegisterForm from './AdminRegisterForm';
-import moment from 'moment-timezone';
-import { Flex } from 'app/components/Layout';
-import {
-  Content,
-  ContentHeader,
-  ContentSection,
-  ContentMain,
-  ContentSidebar
-} from 'app/components/Content';
-import type {
-  Event,
-  Comment,
-  EventPool,
-  ActionGrant,
-  User,
-  ID,
-  EventRegistration,
-  EventRegistrationChargeStatus,
-  EventRegistrationPresence
-} from 'app/models';
+import React, { type Element } from 'react';
 
-export type Props = {
-  eventId: number,
-  event: Event,
-  comments: Array<Comment>,
-  pools: Array<EventPool>,
-  loggedIn: boolean,
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import { Content } from 'app/components/Content';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { LoginPage } from 'app/components/LoginForm';
+
+type Props = {
+  children: Element<*>,
   currentUser: Object,
-  error: Object,
-  loading: boolean,
-  registered: Array<EventRegistration>,
-  unregistered: Array<EventRegistration>,
-  unregister: (ID, ID, boolean) => Promise<*>,
-  updatePresence: (number, number, string) => Promise<*>,
-  updatePayment: (ID, ID, EventRegistrationChargeStatus) => Promise<*>,
-  adminRegister: (ID, ID, ?ID, string, string) => Promise<*>,
-  usersResult: Array<User>,
-  actionGrant: ActionGrant,
-  onQueryChanged: (value: string) => any,
-  searching: boolean
-};
-
-type State = {
-  clickedUnregister: number
-};
-
-export default class EventAdministrate extends Component<Props, State> {
-  state = {
-    clickedUnregister: 0
-  };
-
-  handleUnregister = (registrationId: number) => {
-    if (this.state.clickedUnregister === registrationId) {
-      this.props.unregister(this.props.eventId, registrationId, true);
-      this.setState({
-        clickedUnregister: 0
-      });
-    } else {
-      this.setState({
-        clickedUnregister: registrationId
-      });
-    }
-  };
-
-  handlePresence = (
-    registrationId: ID,
-    presence: EventRegistrationPresence
-  ) => {
-    this.props.updatePresence(this.props.eventId, registrationId, presence);
-  };
-
-  handlePayment = (
-    registrationId: number,
-    chargeStatus: EventRegistrationChargeStatus
-  ) => {
-    this.props.updatePayment(this.props.eventId, registrationId, chargeStatus);
-  };
-
-  handleAdminRegistration = ({
-    user,
-    pool,
-    feedback,
-    reason
-  }: {
-    user: User,
-    pool?: number,
-    feedback: string,
-    reason: string
-  }) => {
-    const poolId = pool !== -1 ? pool : undefined;
-    this.props.adminRegister(
-      this.props.eventId,
-      user.id,
-      poolId,
-      feedback,
-      reason
-    );
-  };
-
-  render() {
-    const {
-      eventId,
-      event,
-      pools,
-      error,
-      loading,
-      registered,
-      unregistered
-    } = this.props;
-
-    if (loading) {
-      return <LoadingIndicator loading />;
-    }
-
-    if (error) {
-      return <div>{error.message}</div>;
-    }
-    const showUnregister = moment().isBefore(event.startTime);
-
-    return (
-      <Content>
-        <h2>
-          <Link to={`/events/${eventId}`}>
-            <i className="fa fa-angle-left" />
-            {` ${event.title}`}
-          </Link>
-        </h2>
-        <Flex column>
-          <Flex column alignItems="center">
-            <strong>Adminpåmelding:</strong>
-            <AdminRegisterForm
-              {...this.props}
-              onSubmit={this.handleAdminRegistration}
-              pools={pools}
-            />
-          </Flex>
-          <strong>Påmeldte:</strong>
-          {registered.length === 0 && <li>Ingen påmeldte</li>}
-          <RegisteredTable
-            registered={registered}
-            loading={loading}
-            handlePresence={this.handlePresence}
-            handlePayment={this.handlePayment}
-            handleUnregister={this.handleUnregister}
-            clickedUnregister={this.state.clickedUnregister}
-            showUnregister={showUnregister}
-          />
-          <strong>Avmeldte:</strong>
-          <ul className={styles.grid}>
-            <li className={styles.unregisteredList}>
-              <div>Bruker:</div>
-              <div>Status:</div>
-              <div>Påmeldt:</div>
-              <div>Avmeldt:</div>
-              <div>Klassetrinn:</div>
-            </li>
-            {unregistered.length === 0 && <div>Ingen avmeldte</div>}
-            {unregistered.map(reg => (
-              <UnregisteredElement key={reg.id} registration={reg} />
-            ))}
-          </ul>
-        </Flex>
-      </Content>
-    );
+  isMe: boolean,
+  params: {
+    eventId: string
   }
-}
+};
+
+const EventAdministrateIndex = (props: Props) => {
+  const base = `/events/${props.params.eventId}/administrate`;
+  // At the moment changing settings for other users only works
+  // for the settings under `/profile` - so no point in showing
+  // the other tabs.
+  return (
+    <Content>
+      <NavigationTab title="Innstillinger">
+        <NavigationLink to={`${base}/attendees`}>Påmeldinger</NavigationLink>
+        <NavigationLink to={`${base}/admin-register`}>
+          Adminregistrering
+        </NavigationLink>
+        <NavigationLink to={`${base}/abacard`}>Abacard</NavigationLink>
+      </NavigationTab>
+      {props.children &&
+        React.cloneElement(props.children, {
+          ...props,
+          children: undefined
+        })}
+    </Content>
+  );
+};
+
+export default replaceUnlessLoggedIn(LoginPage)(EventAdministrateIndex);

@@ -4,23 +4,40 @@ import React from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { TextEditor, SelectInput } from 'app/components/Form';
 import Button from 'app/components/Button';
-import type { EventPool } from 'app/models';
+import type { ID, EventPool, User } from 'app/models';
 import type { ReduxFormProps } from 'app/types';
 
 type Props = {
+  eventId: ID,
+  adminRegister: (ID, ID, ID, string, string) => Promise<*>,
   pools: Array<EventPool>
 } & ReduxFormProps;
 
 const AdminRegister = ({
-  pools,
+  eventId,
   handleSubmit,
+  adminRegister,
+  pools,
   invalid,
   pristine,
   submitting
 }: Props) => {
+  const onSubmit = ({
+    user,
+    pool,
+    feedback,
+    reason
+  }: {
+    user: User,
+    pool: number,
+    feedback: string,
+    reason: string
+  }) => {
+    adminRegister(eventId, user.id, pool, feedback, reason);
+  };
   return (
     <div style={{ width: '400px' }}>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <Field
           placeholder="Begrunnelse"
           label="Begrunnelse"

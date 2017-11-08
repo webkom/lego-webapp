@@ -171,7 +171,6 @@ export default class Table extends Component<Props, State> {
 
   render() {
     const { columns, data, rowKey, hasMore, loading } = this.props;
-
     return (
       <table className={styles.table}>
         <thead>
