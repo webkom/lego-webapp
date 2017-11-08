@@ -18,18 +18,6 @@
   justify-content: center;
 }
 
-.rightContent {
-  flex: 3;
-  min-width: 320px;
-  padding-left: 30px;
-  width: 100%;
-
-  @media (--small-viewport) {
-    padding-left: 0;
-    align-items: center;
-  }
-}
-
 .content {
   display: flex;
   flex-direction: row;
@@ -42,6 +30,22 @@
 }
 
 .feed {
-  composes: rightContent;
+  flex: 2;
+  min-width: 320px;
   padding-left: 30px;
+  width: 100%;
+
+  @media (--small-viewport) {
+    padding-left: 0;
+    align-items: center;
+  }
+}
+
+.info {
+  flex: 1;
+}
+
+.infoCard {
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
