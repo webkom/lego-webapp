@@ -75,7 +75,9 @@ export const selectUserWithGroups = createSelector(
     if (!user) return;
     return {
       ...user,
-      abakusGroups: user.abakusGroups.map(groupId => groupsById[groupId])
+      abakusGroups: user.abakusGroups
+        ? user.abakusGroups.map(groupId => groupsById[groupId])
+        : []
     };
   }
 );
