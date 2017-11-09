@@ -35,12 +35,12 @@ export default class EmailLists extends Component<Props> {
     return (
       <div>
         <p>
-          Lister brukes for permanete lister som skal mottas av definerte
+          Lister brukes for permanente lister som skal mottas av definerte
           brukere eller grupper. Lister kan ikke slettes, men mottakere kan
           endres. Delen av adressen som kommer før @abakus.no er unik og kan
           ikke brukes andre steder på abakus.no. Lister er åpne og alle kan
           sende epost til disse. Ønsker brukere å sende mail fra en @abakus.no
-          adresse må de få opprettet en adresse under Brukere.
+          adresse må de få opprettet en personlig adresse under Brukere.
         </p>
         <Table
           infiniteScroll
