@@ -33,19 +33,29 @@ export default class EmailLists extends Component<Props> {
     ];
 
     return (
-      <Table
-        infiniteScroll
-        columns={columns}
-        onLoad={(filters, sort) => {
-          this.props.fetch({ next: true, filters });
-        }}
-        onChange={(filters, sort) => {
-          this.props.fetch({ filters });
-        }}
-        hasMore={this.props.hasMore}
-        loading={this.props.fetching}
-        data={this.props.emailLists}
-      />
+      <div>
+        <p>
+          Lister brukes for permanete lister som skal mottas av definerte
+          brukere eller grupper. Lister kan ikke slettes, men mottakere kan
+          endres. Delen av adressen som kommer før @abakus.no er unik og kan
+          ikke brukes andre steder på abakus.no. Lister er åpne og alle kan
+          sende epost til disse. Ønsker brukere å sende mail fra en @abakus.no
+          adresse må de få opprettet en adresse under Brukere.
+        </p>
+        <Table
+          infiniteScroll
+          columns={columns}
+          onLoad={(filters, sort) => {
+            this.props.fetch({ next: true, filters });
+          }}
+          onChange={(filters, sort) => {
+            this.props.fetch({ filters });
+          }}
+          hasMore={this.props.hasMore}
+          loading={this.props.fetching}
+          data={this.props.emailLists}
+        />
+      </div>
     );
   }
 }

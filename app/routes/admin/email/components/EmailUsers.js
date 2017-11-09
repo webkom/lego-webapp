@@ -45,16 +45,29 @@ export default class EmailUsers extends Component<Props> {
     ];
 
     return (
-      <Table
-        infiniteScroll
-        columns={columns}
-        onLoad={() => {
-          this.props.fetch({ next: true });
-        }}
-        hasMore={this.props.hasMore}
-        loading={this.props.fetching}
-        data={this.props.emailUsers}
-      />
+      <div>
+        <p>
+          Brukere som har behov for det kan få sin egen private @abakus.no
+          adresse. Denne skal være på formatet{' '}
+          <b>
+            fornavn.etternavn@abakus.no. Adressen kan ikke endres senere, så vær
+            sikker på at adressen som settes er riktig.
+          </b>{' '}
+          Alle brukere med en aktivert adresse vil motta sin mail fra Abakus på
+          denne. Adressen kan deaktiveres når brukeren ikke lengre er aktiv i
+          Abakus, men adressen vil ikke bli tilgjengelig for andre brukere.
+        </p>
+        <Table
+          infiniteScroll
+          columns={columns}
+          onLoad={() => {
+            this.props.fetch({ next: true });
+          }}
+          hasMore={this.props.hasMore}
+          loading={this.props.fetching}
+          data={this.props.emailUsers}
+        />
+      </div>
     );
   }
 }

@@ -47,7 +47,7 @@ const RestrictedMailEditor = ({
       <Field
         disabled={restrictedMailId}
         required
-        placeholder="Abakus@abakus.no"
+        placeholder="abakus@abakus.no"
         name="fromAddress"
         label="Eposten du ønsker å sende fra"
         component={TextInput.Field}

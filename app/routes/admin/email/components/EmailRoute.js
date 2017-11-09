@@ -16,23 +16,11 @@ type Props = {
 const CreateAction = ({ pathname }: { pathname: string }) => {
   switch (pathname) {
     case '/admin/email/lists':
-      return (
-        <Link to={`/admin/email/lists/new`} style={{ float: 'right' }}>
-          Ny epostliste
-        </Link>
-      );
+      return <Link to={`/admin/email/lists/new`}>Ny epostliste</Link>;
     case '/admin/email/users':
-      return (
-        <Link to={'/admin/email/users/new'} style={{ float: 'right' }}>
-          Ny bruker
-        </Link>
-      );
+      return <Link to={'/admin/email/users/new'}>Ny bruker</Link>;
     case '/admin/email/restricted':
-      return (
-        <Link to={'/admin/email/restricted/new'} style={{ float: 'right' }}>
-          Ny begrenset epost
-        </Link>
-      );
+      return <Link to={'/admin/email/restricted/new'}>Ny begrenset epost</Link>;
     default:
       return null;
   }
