@@ -55,11 +55,11 @@ export default class RestrictedMails extends Component<Props> {
         <p>
           Begrenset epost benyttes om det ønskes å sende en målrettet epost til
           en kombinasjon av grupper, brukere, møter, arrangementer eller
-          definerte adresser. En begrenset epost kan kun benyttes en gang må
-          komme fra en definert adresse. For ytterligere sikkerhet må en fil
+          definerte adresser. En begrenset epost kan kun benyttes en gang, og må
+          komme fra en forhåndsdefinert adresse. For ytterligere sikkerhet må en fil
           legges som vedlegg for verifisering av avsender. Denne filen vil bli
           validert og fjernet før eposten sendes til mottakere. Begrenset epost
-          kan sendes som skult avsender, mottakere vil da ikke kunne svare på
+          kan sendes med skult avsender, mottakere vil da ikke kunne svare på
           eposten.
           <ul style={{ listStyleType: 'circle', listStylePosition: 'inside' }}>
             <li>Opprett en begrenset epost</li>
