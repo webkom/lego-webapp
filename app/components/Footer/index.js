@@ -19,7 +19,7 @@ const Footer = (props: Props) => (
   <footer className={styles.footer}>
     <div className={styles.footerContent}>
       <Flex column>
-        <Flex row>
+        <Flex>
           <div className={cx(styles.section, hiddenOnMobile)}>
             <h2>Lego</h2>
             <p>

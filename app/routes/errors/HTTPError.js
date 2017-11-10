@@ -9,38 +9,44 @@ const HTTPMapping = {
   '400': 'Noe gikk galt med forespørselen',
   '401': 'Du er ikke logget inn',
   '403': 'Denne siden har du ikke tilgang på',
-  '404': 'Denne siden finnes ikke. Er du logget inn?',
+  '404': 'Denne siden finnes ikke',
   '500': 'Noe gikk veldig galt, Webkom er på saken!'
 };
 
-const getHTTPError = statusCode => {
-  const error = HTTPMapping[statusCode];
-  return error ? error : HTTPMapping['404'];
-};
+const fallbackStatus = 404;
+
+const getHTTPError = statusCode =>
+  HTTPMapping[statusCode] || HTTPMapping[fallbackStatus];
 
 type Props = {
   statusCode: number,
   location: any,
-  setStatusCode: (statusCode: ?number) => void
+  setStatusCode?: (statusCode: ?number) => void
 };
 
 export default class HTTPError extends Component<Props> {
   canvas: ?HTMLElement;
 
   componentDidMount() {
-    const statusCode = this.props.statusCode
-      ? this.props.statusCode.toString()
-      : '404';
-    renderAbakus(statusCode, this.canvas);
+    const { statusCode = fallbackStatus } = this.props;
+    renderAbakus(statusCode.toString(), this.canvas);
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    if (this.props.location !== nextProps.location) {
-      this.props.setStatusCode(null);
+    const { setStatusCode, location } = this.props;
+    const { location: nextLocation } = nextProps;
+
+    if (setStatusCode && location !== nextLocation) {
+      setStatusCode(null);
     }
   }
 
+  shouldComponentUpdate() {
+    return true;
+  }
+
   render() {
+    const { statusCode = fallbackStatus } = this.props;
     return (
       <Container>
         <Flex
@@ -58,9 +64,7 @@ export default class HTTPError extends Component<Props> {
               style={{ width: '100%' }}
             />
           </Link>
-          <h1 style={{ textAlign: 'center' }}>
-            {getHTTPError(this.props.statusCode)}
-          </h1>
+          <h1 style={{ textAlign: 'center' }}>{getHTTPError(statusCode)}</h1>
         </Flex>
       </Container>
     );
