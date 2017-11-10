@@ -16,6 +16,7 @@ export const selectFrontpage = createSelector(
         // we look at when it was written:
         const timeField = item.eventType ? item.startTime : item.createdAt;
         return Math.abs(moment().diff(timeField));
-      }
+      },
+      item => item.id
     ])
 );
