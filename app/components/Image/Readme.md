@@ -1,4 +1,5 @@
 Example profilePicture:
+
 ```
 <div>
   <ProfilePicture user={state.currentUser} />
