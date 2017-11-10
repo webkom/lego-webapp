@@ -94,7 +94,8 @@ export default class SemesterStatusContent extends Component<Props, State> {
         toggle={() =>
           this.setState(state => ({
             displayDropdown: !state.displayDropdown
-          }))}
+          }))
+        }
         style={{ width: '100%', textAlign: 'left' }}
         triggerComponent={statusesToRender}
       >

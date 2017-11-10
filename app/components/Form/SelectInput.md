@@ -1,6 +1,7 @@
 Example usage of `SelectInput` in redux form:
 
-Note that SelectInput requires a unique name as string to be set to make server-side-rendering work.
+Note that SelectInput requires a unique name as string to be set to make
+server-side-rendering work.
 
 ```
 const { Field } = require( 'redux-form');
@@ -30,7 +31,7 @@ const options = [
     component={SelectInput.AutocompleteField}
     multi
   />
- 
+
   <Field
     name="groups"
     filter={['users.abakusgroup']}

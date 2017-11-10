@@ -45,9 +45,9 @@ export const fetchAll = (
       schema: [quoteSchema],
       meta: {
         queryString,
-        errorMessage: `Henting av ${approved
-          ? ''
-          : 'ikke '}godkjente sitater feilet`
+        errorMessage: `Henting av ${
+          approved ? '' : 'ikke '
+        }godkjente sitater feilet`
       },
       propagateError: true,
       cacheSeconds: Infinity // don't expire cache unless we pass force

@@ -1,11 +1,16 @@
 # app/styles
 
-Stuff in this folder is mostly global stuff and utilities consumable by component specific CSS.
+Stuff in this folder is mostly global stuff and utilities consumable by
+component specific CSS.
 
-Do not import `globals.css` directly anywhere, as it is being imported in `Root.js`.
+Do not import `globals.css` directly anywhere, as it is being imported in
+`Root.js`.
 
 ## Utilities
-Utility classes can be used by other classes by using the `composes` keyword from CSS Modules:
+
+Utility classes can be used by other classes by using the `composes` keyword
+from CSS Modules:
+
 ```css
 .myClassName {
   composes: utilityClassName from 'app/styles/utilities.css';
@@ -13,7 +18,9 @@ Utility classes can be used by other classes by using the `composes` keyword fro
 ```
 
 ## Variables
+
 Variables are stored in `variables.css` and should be used in other CSS files:
+
 ```css
 @import 'app/styles/variables.css';
 

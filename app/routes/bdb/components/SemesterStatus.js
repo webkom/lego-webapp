@@ -54,7 +54,8 @@ export default class SemesterStatus extends Component<Props, State> {
               semIndex,
               semesterStatus.id,
               getContactedStatuses(semesterStatus.contactedStatus, statusString)
-            )}
+            )
+          }
         />
       </td>
     );

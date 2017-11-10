@@ -66,7 +66,8 @@ const renderPools = ({ fields }: poolProps) => (
             registrations: [],
             activationDate: moment().toISOString(),
             permissionGroups: []
-          })}
+          })
+        }
       >
         Legg til ny pool
       </Button>

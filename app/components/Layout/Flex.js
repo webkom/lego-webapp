@@ -28,8 +28,8 @@ type Props = {
   style?: Object
 };
 /**
-* Simple FlexBox component
-*/
+ * Simple FlexBox component
+ */
 const Flex = ({
   children,
   className,

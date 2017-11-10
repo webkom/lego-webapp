@@ -62,8 +62,8 @@ const processingInstructions = [
 ];
 
 /**
-* A basic tag component for displaying tags
-*/
+ * A basic tag component for displaying tags
+ */
 function DisplayContent({ content, id, style, className }: Props) {
   const react = parser.parseWithInstructions(
     content,

@@ -32,9 +32,9 @@ export default class Overview extends Component<Props> {
             renderBottom={photo => (
               <div className={styles.galleryInfo}>
                 <h4 className={styles.galleryTitle}>{photo.title}</h4>
-                <span
-                  className={styles.galleryDescription}
-                >{`${photo.pictureCount} - bilder`}</span>
+                <span className={styles.galleryDescription}>{`${
+                  photo.pictureCount
+                } - bilder`}</span>
               </div>
             )}
             photos={galleries}

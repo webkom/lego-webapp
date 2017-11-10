@@ -125,7 +125,8 @@ function mutateCompanies(state, action) {
 
     case Company.ADD_COMPANY_CONTACT.SUCCESS: {
       const companyId = action.meta.companyId;
-      const companyContacts = (state.byId[companyId].companyContacts || []
+      const companyContacts = (
+        state.byId[companyId].companyContacts || []
       ).concat(action.payload);
       return mergeObjects(state, {
         byId: {

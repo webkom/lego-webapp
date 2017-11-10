@@ -82,7 +82,8 @@ export default class Quote extends Component<Props, State> {
                   onClick={() =>
                     this.setState(state => ({
                       showComments: !state.showComments
-                    }))}
+                    }))
+                  }
                 >
                   <i
                     className="fa fa-comment-o"
@@ -113,7 +114,8 @@ export default class Quote extends Component<Props, State> {
                             onClick={() =>
                               quote.approved
                                 ? unapprove(quote.id)
-                                : approve(quote.id)}
+                                : approve(quote.id)
+                            }
                           >
                             {quote.approved ? 'Fjern Godkjenning' : 'Godkjenn'}
                           </a>

@@ -1,5 +1,7 @@
-The global rules for tables should take care of most styling you need. You will need to add
-the `table-header` class to your `<tr>` with header elements. You should use a structure like this:
+The global rules for tables should take care of most styling you need. You will
+need to add the `table-header` class to your `<tr>` with header elements. You
+should use a structure like this:
+
 ```
 <table>
   <thead>

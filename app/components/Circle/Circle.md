@@ -1,5 +1,3 @@
-Basic:
-    <Circle />
+Basic: <Circle />
 
-Red:
-    <Circle color="red"/>
+Red: <Circle color="red"/>

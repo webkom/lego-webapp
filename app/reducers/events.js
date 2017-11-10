@@ -94,7 +94,8 @@ function mutateEvent(state: any, action: any) {
             registrationCount: fromPool
               ? stateEvent.registrationCount - 1
               : stateEvent.registrationCount,
-            waitingRegistrations: (stateEvent.waitingRegistrations || []
+            waitingRegistrations: (
+              stateEvent.waitingRegistrations || []
             ).filter(id => id !== action.payload.id)
           }
         }

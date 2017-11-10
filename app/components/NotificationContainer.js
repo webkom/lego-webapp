@@ -33,7 +33,8 @@ class NotificationContainer extends Component<Props> {
         barStyleFactory={notificationStyleFactory}
         activeBarStyleFactory={notificationStyleFactory}
         onDismiss={notification =>
-          this.props.removeNotification({ id: notification.id })}
+          this.props.removeNotification({ id: notification.id })
+        }
       />
     );
   }
