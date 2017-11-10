@@ -4,3 +4,25 @@
   composes: contentContainer from 'app/styles/utilities.css';
   max-width: 500px;
 }
+
+.toggleButton {
+  color: var(--lego-link-color);
+  font-size: 14px;
+}
+
+.window {
+  width: 600px;
+
+  @media (--mobile-device) {
+    width: 100%;
+  }
+}
+
+.detailTitle {
+  margin-bottom: 0;
+  width: 100%;
+
+  & h1 {
+    margin-bottom: 0;
+  }
+}
