@@ -9,7 +9,7 @@ import Helmet from 'react-helmet';
 import Raven from 'raven-js';
 import {
   loginAutomaticallyIfPossible,
-  logout,
+  logoutWithRedirect,
   login
 } from 'app/actions/UserActions';
 import {
@@ -141,7 +141,7 @@ function fetchInitialOnServer(props, dispatch) {
 
 const mapDispatchToProps = {
   toggleSearch,
-  logout,
+  logout: logoutWithRedirect,
   login,
   fetchNotificationFeed,
   markAllNotifications,

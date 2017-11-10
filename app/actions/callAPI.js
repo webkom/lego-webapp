@@ -12,6 +12,7 @@ import { logout } from 'app/actions/UserActions';
 import getCachedRequest from 'app/utils/getCachedRequest';
 import { setStatusCode } from './RoutingActions';
 import type { AsyncActionType, Thunk } from 'app/types';
+import { selectIsLoggedIn } from 'app/reducers/auth';
 
 function urlFor(resource: string) {
   if (resource.match(/^\/\//)) {
@@ -23,11 +24,11 @@ function urlFor(resource: string) {
 }
 
 // Todo: Middleware
-function handleError(error, propagateError, endpoint): Thunk<*> {
+function handleError(error, propagateError, endpoint, loggedIn): Thunk<*> {
   return dispatch => {
     const statusCode = error.response && error.response.status;
     if (statusCode) {
-      if (statusCode === 401) {
+      if (statusCode === 401 && loggedIn) {
         // $FlowFixMe
         dispatch(logout());
       }
@@ -105,6 +106,7 @@ export default function callAPI({
     });
 
     const state = getState();
+    const loggedIn = selectIsLoggedIn(state);
     if (shouldUseCache) {
       const cachedRequest = getCachedRequest(state, endpoint, cacheSeconds);
       if (cachedRequest) {
@@ -169,8 +171,10 @@ export default function callAPI({
       },
       promise: promise
         .then(response => normalizeJsonResponse(response))
-        // $FlowFixMe
-        .catch(error => dispatch(handleError(error, propagateError, endpoint)))
+        .catch(error =>
+          // $FlowFixMe
+          dispatch(handleError(error, propagateError, endpoint, loggedIn))
+        )
     });
   };
 }
