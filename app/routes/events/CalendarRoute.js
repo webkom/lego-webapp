@@ -5,6 +5,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { fetchList } from 'app/actions/EventActions';
 import prepare from 'app/utils/prepare';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import Calendar from './components/Calendar';
 
 const getDate = ({ params }) => {
@@ -49,6 +51,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = { fetchList };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   prepare(loadData, ['params.year', 'params.month']),
   connect(mapStateToProps, mapDispatchToProps)
 )(Calendar);

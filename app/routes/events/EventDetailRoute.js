@@ -14,6 +14,8 @@ import {
 } from 'app/actions/EventActions';
 import { updateUser } from 'app/actions/UserActions';
 import EventDetail from './components/EventDetail';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import {
   selectEventById,
   selectCommentsForEvent,
@@ -88,6 +90,7 @@ const loadData = ({ params: { eventId }, currentUser }, dispatch) => {
 };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   prepare(loadData, ['params.eventId']),
   connect(mapStateToProps, mapDispatchToProps)
 )(EventDetail);
