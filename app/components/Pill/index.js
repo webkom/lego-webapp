@@ -11,8 +11,8 @@ type Props = {
 };
 
 /**
-* Basic `Pill` component to wrap extra content inside
-*/
+ * Basic `Pill` component to wrap extra content inside
+ */
 function Pill({ color, style, ...props }: Props) {
   return (
     <span

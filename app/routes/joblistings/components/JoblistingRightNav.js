@@ -234,21 +234,17 @@ export default class JoblistingsRightNav extends Component<Props, State> {
               style={{ display: this.state.displayOptions ? 'block' : 'flex' }}
             >
               <h3 className={styles.rightHeader}>Sted:</h3>
-              {[
-                'Oslo',
-                'Trondheim',
-                'Bergen',
-                'Tromsø',
-                'Annet'
-              ].map(element => (
-                <FilterLink
-                  type="workplaces"
-                  key={element}
-                  value={element}
-                  label={element}
-                  filters={this.state.filters}
-                />
-              ))}
+              {['Oslo', 'Trondheim', 'Bergen', 'Tromsø', 'Annet'].map(
+                element => (
+                  <FilterLink
+                    type="workplaces"
+                    key={element}
+                    value={element}
+                    label={element}
+                    filters={this.state.filters}
+                  />
+                )
+              )}
             </Flex>
           </Flex>
         </Flex>

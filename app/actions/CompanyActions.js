@@ -208,7 +208,9 @@ export function editSemesterStatus(
     return dispatch(
       callAPI({
         types: Company.EDIT_SEMESTER_STATUS,
-        endpoint: `/companies/${companyId}/semester-statuses/${semesterStatusId}/`,
+        endpoint: `/companies/${companyId}/semester-statuses/${
+          semesterStatusId
+        }/`,
         method: 'PATCH',
         body: data,
         meta: {
@@ -296,7 +298,9 @@ export function editCompanyContact({
     return dispatch(
       callAPI({
         types: Company.EDIT_COMPANY_CONTACT,
-        endpoint: `/companies/${companyId}/company-contacts/${companyContactId}/`,
+        endpoint: `/companies/${companyId}/company-contacts/${
+          companyContactId
+        }/`,
         method: 'PATCH',
         body: {
           name,

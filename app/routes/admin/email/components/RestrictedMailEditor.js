@@ -98,7 +98,8 @@ const RestrictedMailEditor = ({
         tags
         isValidNewOption={({ label }: { label: string }) => isEmail()(label)[0]}
         shouldKeyDownEventCreateNewOption={({ keyCode }: { keyCode: number }) =>
-          keyCode === 32 || keyCode === 13}
+          keyCode === 32 || keyCode === 13
+        }
       />
 
       {!restrictedMailId && (
@@ -109,7 +110,9 @@ const RestrictedMailEditor = ({
       {restrictedMailId &&
         restrictedMail && (
           <a
-            href={`${config.serverUrl}/restricted-mail/${restrictedMailId}/token?auth=${restrictedMail.tokenQueryParam}`}
+            href={`${config.serverUrl}/restricted-mail/${
+              restrictedMailId
+            }/token?auth=${restrictedMail.tokenQueryParam}`}
             download
           >
             <Button>Last ned Epost token</Button>

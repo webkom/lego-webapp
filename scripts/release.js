@@ -52,7 +52,9 @@ async function createSentryRelease(version, project) {
 
 async function uploadSourceMap(filename) {
   const result = await run(`
-    curl https://sentry.abakus.no/api/0/projects/${SENTRY_PROJECT}/releases/${RELEASE}/files/ -X POST \
+    curl https://sentry.abakus.no/api/0/projects/${SENTRY_PROJECT}/releases/${
+    RELEASE
+  }/files/ -X POST \
     -H 'Authorization: Bearer ${SENTRY_AUTH_KEY}' \
     -F file=@${getPath(filename)} -F name=~/${filename}
   `);

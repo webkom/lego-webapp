@@ -54,10 +54,9 @@ export default class Calendar extends Component<Props> {
               {d}
             </div>
           ))}
-          {createMonthlyCalendar(
-            date,
-            this.props.weekOffset
-          ).map((dateProps, i) => <CalendarCell key={i} {...dateProps} />)}
+          {createMonthlyCalendar(date, this.props.weekOffset).map(
+            (dateProps, i) => <CalendarCell key={i} {...dateProps} />
+          )}
         </div>
         <EventFooter icalToken={icalToken} />
       </div>

@@ -51,9 +51,9 @@ const RegistrationList = ({
     className={styles.registrationList}
     onClick={onClick}
   >
-    {`${registrations.length} ${registrations.length === 1
-      ? 'annen'
-      : 'andre'}`}
+    {`${registrations.length} ${
+      registrations.length === 1 ? 'annen' : 'andre'
+    }`}
   </Tooltip>
 );
 

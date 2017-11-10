@@ -86,7 +86,8 @@ export default class NotificationsDropdown extends Component<Props, State> {
               this.state.notificationsOpen
                 ? fetchNotifications()
                 : this.props.markAllNotifications()
-          )}
+          )
+        }
         triggerComponent={
           <Icon.Badge
             name="notifications"

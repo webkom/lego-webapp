@@ -18,7 +18,8 @@ function UploadPage({ updatePicture, user }: Props) {
     >
       <ImageUpload
         onSubmit={file =>
-          updatePicture({ username: user.username, picture: file })}
+          updatePicture({ username: user.username, picture: file })
+        }
         aspectRatio={1}
         img={user.profilePicture}
       />

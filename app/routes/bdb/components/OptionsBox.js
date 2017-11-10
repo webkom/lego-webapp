@@ -143,7 +143,8 @@ export default class OptionsBox extends Component<Props, State> {
                         id: Number(user.id),
                         fullName: user.label
                       })
-                    : this.removeFilters('studentContact')}
+                    : this.removeFilters('studentContact')
+                }
                 onBlur={() => null}
               />
             </div>

@@ -52,11 +52,15 @@ class LatestReadme extends Component<Props, State> {
             {[1, 2, 3, 4].map(issue => (
               <a
                 key={issue}
-                href={`https://readme.abakus.no/utgaver/2017/2017-0${issue}.pdf`}
+                href={`https://readme.abakus.no/utgaver/2017/2017-0${
+                  issue
+                }.pdf`}
                 className={styles.thumb}
               >
                 <Image
-                  src={`https://readme.abakus.no/bilder/2017/2017-0${issue}.jpg`}
+                  src={`https://readme.abakus.no/bilder/2017/2017-0${
+                    issue
+                  }.jpg`}
                 />
               </a>
             ))}

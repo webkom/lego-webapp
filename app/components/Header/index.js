@@ -140,7 +140,8 @@ class Header extends Component<Props, State> {
                   toggle={() =>
                     this.setState(state => ({
                       accountOpen: !state.accountOpen
-                    }))}
+                    }))
+                  }
                   triggerComponent={
                     <ProfilePicture
                       size={30}
@@ -164,7 +165,8 @@ class Header extends Component<Props, State> {
                     this.setState(state => ({
                       accountOpen: !state.accountOpen,
                       shake: false
-                    }))}
+                    }))
+                  }
                   contentClassName={this.state.shake ? 'animated shake' : ''}
                   triggerComponent={<Icon name="contact" size={30} />}
                 >

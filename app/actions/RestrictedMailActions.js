@@ -36,9 +36,9 @@ export function fetch({ next }: { next: boolean } = {}): Thunk<*> {
     return dispatch(
       callAPI({
         types: RestrictedMail.FETCH,
-        endpoint: `/restricted-mail/${next
-          ? `?${getState().restrictedMails.pagination.next}`
-          : ''}`,
+        endpoint: `/restricted-mail/${
+          next ? `?${getState().restrictedMails.pagination.next}` : ''
+        }`,
         schema: [restrictedMailSchema],
         meta: {
           errorMessage: 'Henting av begrensete eposter feilet'

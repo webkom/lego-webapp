@@ -84,7 +84,8 @@ export default class SemesterStatusDetail extends Component<Props, State> {
           <SemesterStatusContent
             semesterStatus={semesterStatus}
             editFunction={statusCode =>
-              editFunction(semesterStatus, statusCode)}
+              editFunction(semesterStatus, statusCode)
+            }
           />
         </td>
 
@@ -105,7 +106,8 @@ export default class SemesterStatusDetail extends Component<Props, State> {
               onClick={() =>
                 this.setState(state => ({
                   editing: !state.editing
-                }))}
+                }))
+              }
             >
               <i
                 className="fa fa-pencil"
@@ -114,7 +116,9 @@ export default class SemesterStatusDetail extends Component<Props, State> {
             </a>
             <ConfirmModalWithParent
               title="Slett semesterstatus"
-              message={`Er du sikker på at du vil slette semesterstatusen for ${humanReadableSemester}? Alle filer for dette semesteret vil bli slettet.`}
+              message={`Er du sikker på at du vil slette semesterstatusen for ${
+                humanReadableSemester
+              }? Alle filer for dette semesteret vil bli slettet.`}
               onConfirm={this.deleteSemesterStatus}
               closeOnConfirm
             >

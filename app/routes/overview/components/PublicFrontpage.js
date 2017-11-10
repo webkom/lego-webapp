@@ -133,7 +133,9 @@ class PublicFrontpage extends Component {
                   <i className="fa fa-caret-right" /> For bedrifter
                 </Link>
                 <div className={styles.linkDescription}>
-                  Her finner du som bedriftsrepresentant informasjon om Abakus{"' "}
+                  Her finner du som bedriftsrepresentant informasjon om Abakus{
+                    "' "
+                  }
                   prosedyrer for bedriftspresentasjoner og andre nyttige fakta.
                 </div>
               </li>
