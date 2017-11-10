@@ -275,7 +275,8 @@ export const Feed = {
 };
 
 export const FetchHistory = {
-  SET_HISTORY: 'FetchHistory.SET_HISTORY'
+  SET_HISTORY: 'FetchHistory.SET_HISTORY',
+  CLEAR_HISTORY: 'FetchHistory.CLEAR_HISTORY'
 };
 
 /**

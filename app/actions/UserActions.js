@@ -8,10 +8,11 @@ import moment from 'moment-timezone';
 import { push } from 'react-router-redux';
 import { userSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
-import { User } from './ActionTypes';
+import { User, FetchHistory } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
 import type { Thunk, Action } from 'app/types';
+import { setStatusCode } from './RoutingActions';
 
 const USER_STORAGE_KEY = 'lego.auth';
 
@@ -52,7 +53,9 @@ export function login(
       if (!action || !action.payload) return;
       const { user, token } = action.payload;
       saveToken(token);
+      dispatch({ type: FetchHistory.CLEAR_HISTORY });
       dispatch(fetchMeta());
+      dispatch(setStatusCode(null));
       return dispatch({
         type: User.FETCH.SUCCESS,
         payload: normalize(user, userSchema),

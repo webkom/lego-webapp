@@ -4,7 +4,9 @@ import { FetchHistory } from 'app/actions/ActionTypes';
 
 type State = {};
 
-export default function fetchHistory(state: State = {}, action: any) {
+const initialState = {};
+
+export default function fetchHistory(state: State = initialState, action: any) {
   const success = action.meta && action.meta.success;
   switch (action.type) {
     case success: {
@@ -30,6 +32,8 @@ export default function fetchHistory(state: State = {}, action: any) {
         }
       };
     }
+    case FetchHistory.CLEAR_HISTORY:
+      return initialState;
     default:
       return state;
   }
