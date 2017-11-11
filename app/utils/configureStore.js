@@ -9,7 +9,7 @@ import { browserHistory } from 'react-router';
 import { routerMiddleware } from 'react-router-redux';
 import Raven from 'raven-js';
 import createRavenMiddleware from 'raven-for-redux';
-import { addNotification } from 'app/actions/NotificationActions';
+import { addToast } from 'app/actions/ToastActions';
 import promiseMiddleware from './promiseMiddleware';
 import createMessageMiddleware from './messageMiddleware';
 import type { State, Store } from 'app/types';
@@ -61,7 +61,7 @@ const loggerMiddleware = createLogger({
 });
 
 const messageMiddleware = createMessageMiddleware(message =>
-  addNotification({ message })
+  addToast({ message })
 );
 
 export default function configureStore(initialState: State): Store {

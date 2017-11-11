@@ -5,7 +5,7 @@ import { startSubmit, stopSubmit } from 'redux-form';
 import { quoteSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Quote } from './ActionTypes';
-import { addNotification } from 'app/actions/NotificationActions';
+import { addToast } from 'app/actions/ToastActions';
 import type { Thunk } from 'app/types';
 
 const getEndpoint = (state, loadNextPage, queryString) => {
@@ -146,7 +146,7 @@ export function addQuotes({
       dispatch(stopSubmit('addQuote'));
       dispatch(push('/quotes'));
       dispatch(
-        addNotification({
+        addToast({
           message:
             'Sitat sendt inn. Hvis det blir godkjent vil det dukke opp her!',
           dismissAfter: 10000

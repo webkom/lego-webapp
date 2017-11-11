@@ -16,7 +16,7 @@ import type { FieldProps } from 'redux-form';
 
 type Props = FieldProps & {
   sendContactMessage: (message: ContactFormType) => Promise<*>,
-  addNotification: ({ message: string }) => void,
+  addToast: ({ message: string }) => void,
   reset: (form: string) => void,
   change: (field: string, value: boolean) => void,
   loggedIn: boolean
@@ -31,11 +31,9 @@ const ContactForm = (props: Props) => {
       .sendContactMessage(data)
       .then(() => {
         props.reset('contactForm');
-        return props.addNotification({ message: 'Melding er sendt til HS.' });
+        return props.addToast({ message: 'Melding er sendt til HS.' });
       })
-      .catch(() =>
-        props.addNotification({ message: 'Kunne ikke sende melding.' })
-      );
+      .catch(() => props.addToast({ message: 'Kunne ikke sende melding.' }));
   };
 
   !props.loggedIn && props.change('anonymous', true);

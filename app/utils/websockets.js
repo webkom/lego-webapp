@@ -1,7 +1,7 @@
 import WebSocketClient from 'websocket.js';
 import config from '../config';
 import createQueryString from './createQueryString';
-import { addNotification } from 'app/actions/NotificationActions';
+import { addToast } from 'app/actions/ToastActions';
 import { User } from 'app/actions/ActionTypes';
 
 export default function createWebSocketMiddleware() {
@@ -19,7 +19,7 @@ export default function createWebSocketMiddleware() {
         store.dispatch({ type, payload, meta });
         const message = meta.successMessage || meta.errorMessage;
         if (message) {
-          store.dispatch(addNotification({ message }));
+          store.dispatch(addToast({ message }));
         }
       };
 

@@ -22,7 +22,7 @@ import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
 import { toggleSearch } from 'app/actions/SearchActions';
 import Header from 'app/components/Header';
 import Footer from 'app/components/Footer';
-import NotificationContainer from 'app/components/NotificationContainer';
+import ToastContainer from 'app/components/ToastContainer';
 import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 import cx from 'classnames';
 import HTTPError from '../errors/HTTPError';
@@ -42,7 +42,7 @@ class AppChildren extends PureComponent<Props> {
   render() {
     return (
       <div style={{ flex: 1 }}>
-        <NotificationContainer />
+        <ToastContainer />
         {this.props.statusCode ? (
           <HTTPError
             statusCode={this.props.statusCode}
