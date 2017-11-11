@@ -12,7 +12,7 @@ import createQueryString from 'app/utils/createQueryString';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 import type { Thunk } from 'app/types';
-import { addNotification } from 'app/actions/NotificationActions';
+import { addToast } from 'app/actions/ToastActions';
 
 export const fetchAll = ({ fetchMore }: { fetchMore: boolean }): Thunk<*> => (
   dispatch,
@@ -124,7 +124,7 @@ export function addCompany(data: Object): Thunk<*> {
         if (!action || !action.payload) return;
         const id = action.payload.result;
         dispatch(stopSubmit('company'));
-        dispatch(addNotification({ message: 'Bedrift lagt til.' }));
+        dispatch(addToast({ message: 'Bedrift lagt til.' }));
         dispatch(push(`/bdb/${id}`));
       })
       .catch();
@@ -148,7 +148,7 @@ export function editCompany({ companyId, ...data }: Object): Thunk<*> {
       })
     ).then(() => {
       dispatch(stopSubmit('company'));
-      dispatch(addNotification({ message: 'Bedrift endret.' }));
+      dispatch(addToast({ message: 'Bedrift endret.' }));
       dispatch(push(`/bdb/${companyId}/`));
     });
   };
@@ -167,7 +167,7 @@ export function deleteCompany(companyId: number): Thunk<*> {
         }
       })
     ).then(() => {
-      dispatch(addNotification({ message: 'Bedrift slettet.' }));
+      dispatch(addToast({ message: 'Bedrift slettet.' }));
       dispatch(push('/bdb/'));
     });
   };
@@ -190,7 +190,7 @@ export function addSemesterStatus(
         }
       })
     ).then(() => {
-      dispatch(addNotification({ message: 'Semester status lagt til.' }));
+      dispatch(addToast({ message: 'Semester status lagt til.' }));
       if (options.detail) {
         dispatch(push(`/bdb/${companyId}/`));
       } else {
@@ -220,7 +220,7 @@ export function editSemesterStatus(
         }
       })
     ).then(() => {
-      dispatch(addNotification({ message: 'Semesterstatus endret.' }));
+      dispatch(addToast({ message: 'Semesterstatus endret.' }));
       if (options.detail) {
         dispatch(push(`/bdb/${companyId}/`));
       } else {
@@ -280,7 +280,7 @@ export function addCompanyContact({
         }
       })
     ).then(() => {
-      dispatch(addNotification({ message: 'Bedriftskontakt lagt til.' }));
+      dispatch(addToast({ message: 'Bedriftskontakt lagt til.' }));
       dispatch(push(`/bdb/${companyId}/`));
     });
   };
@@ -314,7 +314,7 @@ export function editCompanyContact({
         }
       })
     ).then(() => {
-      dispatch(addNotification({ message: 'Bedriftskontakt endret.' }));
+      dispatch(addToast({ message: 'Bedriftskontakt endret.' }));
       dispatch(push(`/bdb/${companyId}`));
     });
   };

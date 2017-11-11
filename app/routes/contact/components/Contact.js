@@ -9,7 +9,7 @@ import type { FieldProps } from 'redux-form';
 
 type Props = FieldProps & {
   sendContactMessage: (message: ContactFormType) => Promise<*>,
-  addNotification: ({ message: string }) => void,
+  addToast: ({ message: string }) => void,
   reset: (form: string) => void,
   change: (field: string, value: boolean) => void,
   loggedIn: boolean

@@ -1,24 +1,24 @@
 // @flow
 
-import { Notifications } from './ActionTypes';
+import { Toasts } from './ActionTypes';
 
-export function removeNotification({ id }: { id: number }) {
+export function removeToast({ id }: { id: number }) {
   return {
-    type: Notifications.NOTIFICATION_REMOVED,
+    type: Toasts.TOAST_REMOVED,
     payload: {
       id
     }
   };
 }
 
-export function addNotification({
-  message = 'Notification',
+export function addToast({
+  message = 'Toast',
   action = 'Close',
   dismissAfter = 3000,
   ...rest
 }: Object) {
   return {
-    type: Notifications.NOTIFICATION_ADDED,
+    type: Toasts.TOAST_ADDED,
     payload: {
       // Unsure how to best generate a new id here? Should it be a large random
       // number, or just an increment of the current max id?

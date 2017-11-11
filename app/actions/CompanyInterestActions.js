@@ -2,7 +2,7 @@
 
 import { CompanyInterestForm } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
-import { addNotification } from 'app/actions/NotificationActions';
+import { addToast } from 'app/actions/ToastActions';
 import { companyInterestSchema } from 'app/reducers';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { Thunk } from 'app/types';
@@ -43,7 +43,7 @@ export function createCompanyInterest(data: CompanyInterestEntity): Thunk<*> {
         }
       })
     ).then(() =>
-      dispatch(addNotification({ message: 'Bedriftsinteresse opprettet!' }))
+      dispatch(addToast({ message: 'Bedriftsinteresse opprettet!' }))
     );
   };
 }
@@ -60,9 +60,7 @@ export function deleteCompanyInterest(id: number): Thunk<*> {
           errorMessage: 'Fjerning av bedriftsinteresse feilet!'
         }
       })
-    ).then(() =>
-      dispatch(addNotification({ message: 'Bedriftsinteresse fjernet!' }))
-    );
+    ).then(() => dispatch(addToast({ message: 'Bedriftsinteresse fjernet!' })));
   };
 }
 
@@ -82,8 +80,6 @@ export function updateCompanyInterest(
           errorMessage: 'Endring av bedriftsinteresse feilet!'
         }
       })
-    ).then(() =>
-      dispatch(addNotification({ message: 'Bedriftsinteresse endret!' }))
-    );
+    ).then(() => dispatch(addToast({ message: 'Bedriftsinteresse endret!' })));
   };
 }

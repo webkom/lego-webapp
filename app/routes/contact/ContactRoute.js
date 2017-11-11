@@ -6,7 +6,7 @@ import { reduxForm, reset, change } from 'redux-form';
 
 import { createValidator, required, maxLength } from 'app/utils/validation';
 import { sendContactMessage } from 'app/actions/ContactActions';
-import { addNotification } from 'app/actions/NotificationActions';
+import { addToast } from 'app/actions/ToastActions';
 import Contact from './components/Contact';
 
 const validate = createValidator({
@@ -17,7 +17,7 @@ const validate = createValidator({
 
 const mapDispatchToProps = {
   sendContactMessage,
-  addNotification,
+  addToast,
   reset,
   change
 };

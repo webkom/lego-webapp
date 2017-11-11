@@ -205,9 +205,9 @@ export const Search = {
   MENTION: generateStatuses('Search.MENTION')
 };
 
-export const Notifications = {
-  NOTIFICATION_ADDED: 'Notification.ADDED',
-  NOTIFICATION_REMOVED: 'Notification.REMOVED'
+export const Toasts = {
+  TOAST_ADDED: 'Toast.ADDED',
+  TOAST_REMOVED: 'Toast.REMOVED'
 };
 
 export const NotificationsFeed = {

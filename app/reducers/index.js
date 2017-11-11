@@ -28,7 +28,7 @@ import users from './users';
 import emailUsers from './emailUsers';
 import groups from './groups';
 import { oauth2Applications, oauth2Grants } from './oauth2';
-import notifications from './notifications';
+import toasts from './toasts';
 import notificationsFeed from './notificationsFeed';
 import notificationSettings from './notificationSettings';
 import galleries from './galleries';
@@ -70,7 +70,7 @@ const reducers = {
   emailLists,
   pages,
   galleries,
-  notifications,
+  toasts,
   notificationsFeed,
   notificationSettings,
   routing: reduceReducers(routing, routerReducer),

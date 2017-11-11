@@ -5,7 +5,7 @@ import { eventSchema, eventAdministrateSchema } from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';
-import { addNotification } from 'app/actions/NotificationActions';
+import { addToast } from 'app/actions/ToastActions';
 import type { Thunk, Action } from 'app/types';
 
 export function fetchEvent(eventId: string) {
@@ -132,7 +132,7 @@ export function deleteEvent(eventId: number): Thunk<Promise<*>> {
         }
       })
     ).then(() => {
-      dispatch(addNotification({ message: 'Deleted' }));
+      dispatch(addToast({ message: 'Deleted' }));
       dispatch(push('/events'));
     });
 }
@@ -267,7 +267,7 @@ export function updatePresence(
           errorMessage: 'Tilstedeværelse oppdatering feilet'
         }
       })
-    ).then(() => dispatch(addNotification({ message: 'Presence updated' })));
+    ).then(() => dispatch(addToast({ message: 'Presence updated' })));
 }
 
 export function updatePayment(
@@ -288,7 +288,7 @@ export function updatePayment(
           errorMessage: 'Oppdatering av betaling feilet'
         }
       })
-    ).then(() => dispatch(addNotification({ message: 'Payment updated' })));
+    ).then(() => dispatch(addToast({ message: 'Payment updated' })));
 }
 
 export function follow(userId: number, eventId: number): Thunk<*> {
