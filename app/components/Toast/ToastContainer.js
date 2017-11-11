@@ -11,26 +11,19 @@ type Props = {
 };
 
 class ToastContainer extends Component<Props> {
-  onClick = toast => {
-    // For now, we assume the action is "close". In the future, this might be a
-    // link to a resource instead
-    this.props.removeToast({ id: toast.id });
-  };
-
   render() {
     const toasts = this.props.toasts.map(toast => ({
-      ...toast,
-      key: toast.id,
+      dismissAfter: 5000,
       // onClick has to be implemented on each object because NotificationStack
       // does not support onClick like it supports onDismiss (see below)
-      onClick: this.onClick.bind(this, toast),
-      dismissAfter: 5000
+      ...toast,
+      key: toast.id
     }));
 
     return (
       <NotificationStack
         notifications={toasts}
-        barStyleFactory={toastStyleFactory}
+        barStyleFactory={toastStyleFactoryInactive}
         activeBarStyleFactory={toastStyleFactory}
         onDismiss={toast => this.props.removeToast({ id: toast.id })}
       />
@@ -39,10 +32,27 @@ class ToastContainer extends Component<Props> {
 }
 
 function toastStyleFactory(index, style) {
+  if (__CLIENT__ && window.matchMedia('(max-width: 35em)').matches) {
+    return {
+      ...style,
+      bottom: `${index * 48}px`,
+      width: '100%',
+      borderRadius: 0,
+      left: 0,
+      padding: '14px 24px',
+      lineHeight: '20px',
+      fontSize: '14px',
+      boxShadow: 0
+    };
+  }
   return {
     ...style,
-    bottom: `${8 + index * 4}rem`
+    bottom: `${2 + index * 4}rem`
   };
+}
+
+function toastStyleFactoryInactive(index, style) {
+  return toastStyleFactory(index - 1, style);
 }
 
 function mapStateToProps(state) {
