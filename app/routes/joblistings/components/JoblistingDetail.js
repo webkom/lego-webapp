@@ -76,7 +76,7 @@ const JoblistingDetail = ({
                 key: 'Sted',
                 value: <Workplaces places={joblisting.workplaces} />
               },
-              { key: 'Søknadsfist', value: deadline }
+              { key: 'Søknadsfrist', value: deadline }
             ]}
           />
           {joblisting.applicationUrl && (
