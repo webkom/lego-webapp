@@ -16,9 +16,9 @@ import { setStatusCode } from './RoutingActions';
 
 const USER_STORAGE_KEY = 'lego.auth';
 
-type encodedToken = string;
+type EncodedToken = string;
 
-type decodedToken = {
+type DecodedToken = {
   user_id: number,
   username: string,
   exp: number,
@@ -26,12 +26,11 @@ type decodedToken = {
   orig_iat: number
 };
 
-type token = {
-  ...decodedToken,
-  encodedToken: encodedToken
+type Token = DecodedToken & {
+  encodedToken: EncodedToken
 };
 
-function saveToken(token: encodedToken) {
+function saveToken(token: EncodedToken) {
   const decoded = jwtDecode(token);
   const expires = moment.unix(decoded.exp);
   return cookie.set(USER_STORAGE_KEY, token, {
@@ -46,7 +45,7 @@ function removeToken() {
   return cookie.remove(USER_STORAGE_KEY, { path: '/' });
 }
 
-function getToken(getCookie: string => encodedToken): ?token {
+function getToken(getCookie: string => EncodedToken): ?Token {
   const encodedToken = getCookie(USER_STORAGE_KEY);
 
   if (!encodedToken) return;
@@ -221,7 +220,7 @@ export function fetchUser(username: string = 'me') {
   });
 }
 
-export function refreshToken(token: encodedToken) {
+export function refreshToken(token: EncodedToken) {
   return callAPI({
     types: User.REFRESH_TOKEN,
     endpoint: '//authorization/token-auth/refresh/',
@@ -230,7 +229,7 @@ export function refreshToken(token: encodedToken) {
   });
 }
 
-export function loginWithExistingToken(token: token): Thunk<any> {
+export function loginWithExistingToken(token: Token): Thunk<any> {
   return dispatch => {
     const now = moment();
     const expirationTime = moment.unix(token.exp);
