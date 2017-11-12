@@ -16,7 +16,22 @@ import { setStatusCode } from './RoutingActions';
 
 const USER_STORAGE_KEY = 'lego.auth';
 
-function saveToken(token) {
+type encodedToken = string;
+
+type decodedToken = {
+  user_id: number,
+  username: string,
+  exp: number,
+  email: string,
+  orig_iat: number
+};
+
+type token = {
+  ...decodedToken,
+  encodedToken: encodedToken
+};
+
+function saveToken(token: encodedToken) {
   const decoded = jwtDecode(token);
   const expires = moment.unix(decoded.exp);
   return cookie.set(USER_STORAGE_KEY, token, {
@@ -29,6 +44,23 @@ function saveToken(token) {
 
 function removeToken() {
   return cookie.remove(USER_STORAGE_KEY, { path: '/' });
+}
+
+function getToken(getCookie: string => encodedToken): ?token {
+  const encodedToken = getCookie(USER_STORAGE_KEY);
+
+  if (!encodedToken) return;
+
+  try {
+    const decoded = jwtDecode(encodedToken);
+    return {
+      ...decoded,
+      encodedToken
+    };
+  } catch (e) {
+    // Treat invalid tokens as if no token is stored
+    return;
+  }
 }
 
 export function login(
@@ -189,7 +221,7 @@ export function fetchUser(username: string = 'me') {
   });
 }
 
-export function refreshToken(token: string) {
+export function refreshToken(token: encodedToken) {
   return callAPI({
     types: User.REFRESH_TOKEN,
     endpoint: '//authorization/token-auth/refresh/',
@@ -198,11 +230,10 @@ export function refreshToken(token: string) {
   });
 }
 
-export function loginWithExistingToken(token: string): Thunk<any> {
+export function loginWithExistingToken(token: token): Thunk<any> {
   return dispatch => {
-    const decoded = jwtDecode(token);
-    const expirationTime = moment.unix(decoded.exp);
     const now = moment();
+    const expirationTime = moment.unix(token.exp);
 
     if (now.isAfter(expirationTime)) {
       removeToken();
@@ -211,7 +242,7 @@ export function loginWithExistingToken(token: string): Thunk<any> {
 
     dispatch({
       type: User.LOGIN.SUCCESS,
-      payload: { token }
+      payload: { token: token.encodedToken }
     });
 
     return dispatch(fetchUser());
@@ -223,12 +254,12 @@ export function loginWithExistingToken(token: string): Thunk<any> {
  */
 export function maybeRefreshToken(): Thunk<*> {
   return dispatch => {
-    const token = cookie.get(USER_STORAGE_KEY);
+    const token = getToken(cookie.get);
     if (!token) return Promise.resolve();
-    const decoded = jwtDecode(token);
-    const issuedTime = moment.unix(decoded.orig_iat);
+
+    const issuedTime = moment.unix(token.orig_iat);
     if (!issuedTime.isSame(moment(), 'day')) {
-      return dispatch(refreshToken(token))
+      return dispatch(refreshToken(token.encodedToken))
         .then(action => saveToken(action.payload.token))
         .catch(err => {
           removeToken();
@@ -247,13 +278,11 @@ export function loginAutomaticallyIfPossible(
   getCookie: string => string
 ): Thunk<*> {
   return dispatch => {
-    const token = getCookie(USER_STORAGE_KEY);
-
-    if (token) {
-      return dispatch(loginWithExistingToken(token));
+    const token = getToken(getCookie);
+    if (!token) {
+      return Promise.resolve();
     }
-
-    return Promise.resolve();
+    return dispatch(loginWithExistingToken(token));
   };
 }
 
