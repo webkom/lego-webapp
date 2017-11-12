@@ -13,8 +13,8 @@ export function removeToast({ id }: { id: number }) {
 
 export function addToast({
   message = 'Toast',
-  action = 'Close',
-  dismissAfter = 3000,
+  action = null,
+  dismissAfter = 5000,
   ...rest
 }: Object) {
   return {
