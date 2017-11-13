@@ -201,6 +201,7 @@ class JoinEventForm extends Component<Props> {
               <Flex style={{ marginBottom: '20px' }}>
                 <Field
                   id={feedbackName}
+                  validateUntouched
                   placeholder="Melding til arrangører"
                   name={feedbackName}
                   component={TextEditor.Field}
