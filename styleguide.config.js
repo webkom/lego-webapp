@@ -83,5 +83,10 @@ module.exports = {
     let import_name =
       name === 'index' ? dir.substr(dir.lastIndexOf('/') + 1) : `{ ${name} }`;
     return `import ${import_name} from '${dir}';`;
+  },
+  logger: {
+    // Suppress all warnings
+    info: () => {},
+    warn: () => {}
   }
 };
