@@ -4,7 +4,7 @@ import React from 'react';
 
 import styles from './MeetingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { reduxForm, Field, SubmissionError } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 
@@ -14,7 +14,8 @@ import {
   EditorField,
   SelectInput,
   Button,
-  DatePicker
+  DatePicker,
+  withSubmissionError
 } from 'app/components/Form';
 import moment from 'moment-timezone';
 import config from 'app/config';
@@ -52,22 +53,16 @@ function MeetingEditor({
   inviteUsersAndGroups
 }: Props) {
   const onSubmit = data => {
-    return handleSubmitCallback(data)
-      .then(result => {
-        const id = data.id || result.payload.result;
-        const { groups, users } = data;
-        if (groups || users) {
-          return inviteUsersAndGroups({ id, users, groups }).then(() =>
-            push(`/meetings/${id}`)
-          );
-        }
-        push(`/meetings/${id}`);
-      })
-      .catch(err => {
-        if (err.payload && err.payload.response) {
-          throw new SubmissionError(err.payload.response.jsonData);
-        }
-      });
+    return handleSubmitCallback(data).then(result => {
+      const id = data.id || result.payload.result;
+      const { groups, users } = data;
+      if (groups || users) {
+        return inviteUsersAndGroups({ id, users, groups }).then(() =>
+          push(`/meetings/${id}`)
+        );
+      }
+      push(`/meetings/${id}`);
+    });
   };
   const isEditPage = meetingId !== undefined;
   if (isEditPage && !meeting) {
@@ -103,7 +98,7 @@ function MeetingEditor({
           <i className="fa fa-angle-left" /> Mine møter
         </NavigationLink>
       </NavigationTab>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(withSubmissionError(onSubmit))}>
         <Field
           name="title"
           label="Tittel"

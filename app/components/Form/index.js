@@ -15,3 +15,4 @@ export { default as Captcha } from './Captcha';
 export { default as FileUploadField } from './FileUploadField';
 export { default as ImageUploadField } from './ImageUploadField';
 export { createField } from './Field';
+export { withSubmissionError } from './utils';
