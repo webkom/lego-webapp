@@ -320,12 +320,12 @@ function validateEventForm(data, props) {
   return errors;
 }
 
-function mapStateToProps(state, props) {
-  if (props.registration) {
-    const feedbackName = getFeedbackName(props.event.feedbackRequired);
+function mapStateToProps(state, { event, registration }) {
+  if (registration) {
+    const feedbackName = getFeedbackName(event);
     return {
       initialValues: {
-        [feedbackName]: props.registration.feedback
+        [feedbackName]: registration.feedback
       }
     };
   }
