@@ -25,7 +25,8 @@ type FieldProps = {
   fieldStyle: any,
   fieldClassName: string,
   labelClassName: string,
-  showErrors: boolean
+  showErrors: boolean,
+  validateUntouched?: boolean
 };
 
 /**
@@ -46,10 +47,12 @@ export function createField(Component: ComponentType<*>) {
       labelClassName,
       showErrors = true,
       className = null,
+      validateUntouched = false,
       ...props
     } = field;
     const { error, touched } = meta;
-    const hasError = showErrors && touched && error && error.length > 0;
+    const shouldValidate = validateUntouched || touched;
+    const hasError = showErrors && shouldValidate && error && error.length > 0;
     return (
       <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
         <label className={cx(styles.label, labelClassName)}>
