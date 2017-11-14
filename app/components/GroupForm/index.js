@@ -19,6 +19,8 @@ type OwnProps = {
 
 type Props = OwnProps & FieldProps;
 
+const logoValidator = value => (value ? undefined : 'Bilde er påkrevd');
+
 function GroupForm({
   handleSubmit,
   handleSubmitCallback,
@@ -57,6 +59,7 @@ function GroupForm({
         aspectRatio={1}
         img={group && group.logo}
         className={styles.logo}
+        validate={isNew && [logoValidator]}
         required
       />
       <Button disabled={invalid || submitting} submit>
@@ -71,7 +74,6 @@ export default reduxForm({
   enableReinitialize: true,
   validate: createValidator({
     name: [required()],
-    description: [required()],
-    logo: [required()]
+    description: [required()]
   })
 })(GroupForm);
