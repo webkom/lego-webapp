@@ -40,7 +40,7 @@ export default {
     bdb,
     contact,
     timeline,
-    companyInterest,
+    ...companyInterest,
     {
       path: '*',
       component: HTTPError
