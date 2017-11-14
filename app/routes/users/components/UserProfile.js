@@ -139,7 +139,7 @@ export default class UserProfile extends Component<Props> {
               )}
           </div>
 
-          <div className={styles.feed}>
+          <div className={styles.rightContent}>
             <h3>Nylig Aktivitet</h3>
             {feed ? (
               <Feed items={feedItems} feed={feed} />
