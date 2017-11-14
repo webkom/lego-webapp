@@ -40,7 +40,8 @@ export type Props = {
   formOpen: boolean,
   captchaOpen: boolean,
   buttonOpen: boolean,
-  registrationOpensIn: ?string
+  registrationOpensIn: ?string,
+  touch: (field: string) => void
 };
 
 type SpotsLeftProps = {
@@ -338,6 +339,12 @@ export default compose(
   withCountdown,
   reduxForm({
     form: 'joinEvent',
+    onChange: (values = {}, dispatch, props, previousValues = {}) => {
+      if (values.captchaResponse !== previousValues.captchaResponse) {
+        // Trigger form validation for required feedback when captcha is changd
+        props.touch('feedbackRequired');
+      }
+    },
     validate: validateEventForm
   })
 )(JoinEventForm);
