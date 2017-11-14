@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: space-between;
 
-  @media (--small-viewport) {
+  @media (--medium-viewport) {
     justify-content: space-around;
   }
 }
@@ -29,13 +29,13 @@
   min-width: 320px;
 }
 
-.feed {
+.rightContent {
   flex: 2;
   min-width: 320px;
   padding-left: 30px;
   width: 100%;
 
-  @media (--small-viewport) {
+  @media (--medium-viewport) {
     padding-left: 0;
     align-items: center;
   }
