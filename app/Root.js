@@ -9,6 +9,7 @@ import React from 'react';
 import { Router } from 'react-router';
 import { Provider } from 'react-redux';
 import type { Store } from 'app/types';
+import ErrorBoundary from 'app/components/ErrorBoundary';
 
 type Props = {
   store: Store
@@ -18,7 +19,9 @@ const Root = (props: Props) => {
   const { store, ...restProps } = props;
   return (
     <Provider store={store}>
-      <Router {...restProps} />
+      <ErrorBoundary openReportDialog>
+        <Router {...restProps} />
+      </ErrorBoundary>
     </Provider>
   );
 };
