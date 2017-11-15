@@ -155,7 +155,7 @@ module.exports = {
         })
       },
       {
-        test: /\.(png|jpg|jpeg|gif|bdf|eot|svg|woff|woff2|ttf|mp4|webm)$/,
+        test: /\.(png|jpg|jpeg|gif|svg|bdf|eot|svg|woff|woff2|ttf|mp4|webm)$/,
         loader: 'url-loader',
         query: {
           limit: 8192

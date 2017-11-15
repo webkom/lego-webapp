@@ -20,6 +20,7 @@ import { fetchNotificationFeed } from 'app/actions/FeedActions';
 import { fetchMeta } from 'app/actions/MetaActions';
 import { selectFeedActivitesByFeedId } from 'app/reducers/feeds';
 import { toggleSearch } from 'app/actions/SearchActions';
+import ErrorBoundary from 'app/components/ErrorBoundary';
 import Header from 'app/components/Header';
 import Footer from 'app/components/Footer';
 import ToastContainer from 'app/components/Toast/ToastContainer';
@@ -104,15 +105,17 @@ class App extends PureComponent<AppProps> {
           fetchNotificationData={this.props.fetchNotificationData}
         />
 
-        <AppChildren
-          currentUser={this.props.currentUser}
-          loggedIn={this.props.loggedIn}
-          statusCode={this.props.statusCode}
-          setStatusCode={this.props.setStatusCode}
-          location={this.props.location}
-        >
-          {this.props.children}
-        </AppChildren>
+        <ErrorBoundary>
+          <AppChildren
+            currentUser={this.props.currentUser}
+            loggedIn={this.props.loggedIn}
+            statusCode={this.props.statusCode}
+            setStatusCode={this.props.setStatusCode}
+            location={this.props.location}
+          >
+            {this.props.children}
+          </AppChildren>
+        </ErrorBoundary>
 
         <Footer {...this.props} />
       </div>

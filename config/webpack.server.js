@@ -102,7 +102,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.(png|jpg|jpeg|gif|bdf|woff|woff2|ttf|mp4|webm)$/,
+        test: /\.(png|jpg|jpeg|gif|svg|bdf|woff|woff2|ttf|mp4|webm)$/,
         loader: 'url-loader',
         query: {
           limit: 8192
