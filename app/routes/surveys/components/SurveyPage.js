@@ -6,7 +6,7 @@ import styles from './surveys.css';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import { ListNavigation } from '../utils.js';
 import TextInput from 'app/components/Form/TextInput';
-import Content from 'app/components/Content';
+import { Content } from 'app/components/Content';
 import { Flex } from 'app/components/Layout';
 
 type Props = {

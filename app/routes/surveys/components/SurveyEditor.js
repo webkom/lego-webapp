@@ -15,7 +15,7 @@ import {
 import { createValidator, required } from 'app/utils/validation';
 import { reduxForm } from 'redux-form';
 import type { SurveyEntity } from 'app/reducers/surveys';
-import Content from 'app/components/Content';
+import { Content } from 'app/components/Content';
 import type { FieldProps } from 'redux-form';
 
 type Props = FieldProps & {

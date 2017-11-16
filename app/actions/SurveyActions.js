@@ -13,8 +13,7 @@ export function fetchAll() {
     endpoint: '/surveys/',
     schema: [surveySchema],
     meta: {
-      errorMessage: 'Henting av spørreundersøkelser feilet',
-      queryString: ''
+      errorMessage: 'Henting av spørreundersøkelser feilet'
     },
     propagateError: true
   });

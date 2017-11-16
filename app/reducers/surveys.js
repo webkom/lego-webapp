@@ -3,6 +3,7 @@
 import { Survey } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
+import { selectEvents } from './events';
 
 export type SurveyEntity = {
   id?: number,
@@ -71,13 +72,17 @@ export default createEntityReducer({
 export const selectSurveys = createSelector(
   state => state.surveys.items,
   state => state.surveys.byId,
-  (surveyIds, surveysById) => {
-    return surveyIds.map(surveyId => surveysById[surveyId]);
+  selectEvents,
+  (surveyIds, surveysById, events) => {
+    return surveyIds.map(surveyId => ({
+      ...surveysById[surveyId],
+      event: events.find(event => event.id === surveysById[surveyId].event)
+    }));
   }
 );
 
 export const selectSurveyById = createSelector(
-  selectSurveys,
+  (state, props) => selectSurveys(state, props),
   (state, props) => props.surveyId,
   (surveys, surveyId) => {
     const survey = surveys.find(survey => survey.id === surveyId);

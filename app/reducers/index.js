@@ -186,5 +186,5 @@ export const frontpageSchema = new schema.Entity('frontpage', {
 });
 export const surveySchema = new schema.Entity('surveys', {
   user: userSchema,
-  events: [eventSchema]
+  event: eventSchema
 });

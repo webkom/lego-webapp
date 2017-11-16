@@ -7,7 +7,7 @@ import styles from './surveyDetail.css';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { DetailNavigation } from '../utils.js';
-import Content from 'app/components/Content';
+import { Content } from 'app/components/Content';
 
 type Props = {
   survey: SurveyEntity,
