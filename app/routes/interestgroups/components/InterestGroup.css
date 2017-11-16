@@ -1,3 +1,5 @@
+@import 'app/styles/variables.css';
+
 .logo {
   max-height: 250px;
   max-width: 250px;
@@ -33,4 +35,13 @@
 
 .deleteButton {
   margin-bottom: 16px;
+}
+
+.showMemberList {
+  color: var(--lego-link-color);
+
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
 }
