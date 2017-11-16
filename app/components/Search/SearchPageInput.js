@@ -1,6 +1,5 @@
 // @flow
 import * as React from 'react';
-import Icon from 'app/components/Icon';
 import styles from './SearchPageInput.css';
 
 type Props = {
@@ -10,10 +9,11 @@ type Props = {
 };
 
 function SearchPageInput({ isSearching, onChange, value }: Props) {
+  const icon = isSearching ? 'fa-circle-o-notch fa-spin' : 'fa-search';
   return (
     <div className={styles.container}>
       <div className={styles.searchIcon}>
-        <Icon name="search" />
+        <i className={`fa ${icon} ${styles.icon}`} />
       </div>
 
       <input
@@ -23,10 +23,6 @@ function SearchPageInput({ isSearching, onChange, value }: Props) {
         onChange={onChange}
         value={value}
       />
-
-      {isSearching && (
-        <i className={`${styles.spinner} fa fa-spinner fa-spin`} />
-      )}
     </div>
   );
 }
