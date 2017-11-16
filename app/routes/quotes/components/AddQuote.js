@@ -3,7 +3,7 @@
 import styles from './Quotes.css';
 import React from 'react';
 import { reduxForm, Field } from 'redux-form';
-import { TextEditor, Button } from 'app/components/Form';
+import { TextEditor, Button, withSubmissionError } from 'app/components/Form';
 import { createValidator, required } from 'app/utils/validation';
 import { navigation } from '../utils';
 
@@ -31,7 +31,7 @@ const AddQuote = ({
       {navigation('Legg til sitat', actionGrant)}
 
       <div className={styles.addQuote}>
-        <form onSubmit={handleSubmit(addQuotes)}>
+        <form onSubmit={handleSubmit(withSubmissionError(addQuotes))}>
           <Field
             placeholder="Eks: Det er bare å gjøre det"
             label="Selve sitatet"

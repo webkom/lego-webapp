@@ -19,7 +19,8 @@ import {
   CheckBox,
   Button,
   DatePicker,
-  ImageUploadField
+  ImageUploadField,
+  withSubmissionError
 } from 'app/components/Form';
 import { Flex } from 'app/components/Layout';
 import { eventTypes, colorForEvent } from '../../utils';
@@ -45,7 +46,7 @@ type Props = {
   change: void,
   isUserInterested: boolean,
   handleSubmit: void => void,
-  handleSubmitCallback: void,
+  handleSubmitCallback: any => Promise<*>,
   uploadFile: () => Promise<*>,
   setCoverPhoto: (number, string) => void,
   deleteEvent: (eventId: ID) => Promise<*>,
@@ -95,7 +96,7 @@ function EventEditor({
           </Link>
         </h2>
       )}
-      <Form onSubmit={handleSubmit(handleSubmitCallback)}>
+      <Form onSubmit={handleSubmit(withSubmissionError(handleSubmitCallback))}>
         <Field
           name="cover"
           component={ImageUploadField}

@@ -6,7 +6,12 @@ import Button from 'app/components/Button';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import styles from './PageEditor.css';
-import { EditorField, TextInput, Form } from 'app/components/Form';
+import {
+  EditorField,
+  TextInput,
+  Form,
+  withSubmissionError
+} from 'app/components/Form';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { Field } from 'redux-form';
@@ -89,7 +94,7 @@ export default class PageEditor extends Component<Props, State> {
       });
     }
 
-    this.props
+    return this.props
       .updatePage(this.props.pageSlug, body)
       .then(() => push(`/pages/info/${pageSlug}`));
   };
@@ -108,7 +113,7 @@ export default class PageEditor extends Component<Props, State> {
             <i className="fa fa-angle-left" /> Tilbake
           </NavigationLink>
         </NavigationTab>
-        <Form onSubmit={handleSubmit(this.onSubmit)}>
+        <Form onSubmit={handleSubmit(withSubmissionError(this.onSubmit))}>
           <div className={styles.coverImage}>
             <ImageUpload
               aspectRatio={20 / 6}

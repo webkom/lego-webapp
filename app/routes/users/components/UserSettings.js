@@ -2,7 +2,7 @@
 
 import React from 'react';
 import type { FieldProps } from 'redux-form';
-import { reduxForm, Field, SubmissionError } from 'redux-form';
+import { reduxForm, Field } from 'redux-form';
 import { omit } from 'lodash';
 
 import Button from 'app/components/Button';
@@ -10,7 +10,8 @@ import {
   Form,
   TextInput,
   RadioButtonGroup,
-  RadioButton
+  RadioButton,
+  handleSubmissionError
 } from 'app/components/Form';
 import { FlexRow } from 'app/components/FlexBox';
 import UserImage from './UserImage';
@@ -51,11 +52,7 @@ const UserSettings = (props: Props) => {
   const showAbakusMembership = user.isStudent;
 
   const onSubmit = data =>
-    updateUser(omit(data, 'profilePicture')).catch(err => {
-      if (err.payload && err.payload.response) {
-        throw new SubmissionError(err.payload.response.jsonData);
-      }
-    });
+    updateUser(omit(data, 'profilePicture')).catch(handleSubmissionError);
 
   return (
     <div>

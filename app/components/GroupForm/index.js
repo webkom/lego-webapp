@@ -8,7 +8,8 @@ import {
   TextInput,
   EditorField,
   Button,
-  ImageUploadField
+  ImageUploadField,
+  withSubmissionError
 } from 'app/components/Form';
 import { createValidator, required } from 'app/utils/validation';
 
@@ -31,7 +32,7 @@ function GroupForm({
   const isNew = !group;
 
   return (
-    <Form onSubmit={handleSubmit(handleSubmitCallback)}>
+    <Form onSubmit={handleSubmit(withSubmissionError(handleSubmitCallback))}>
       <Field
         label="Gruppenavn"
         placeholder="Strikk&Drikk"
