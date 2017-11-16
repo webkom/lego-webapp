@@ -28,12 +28,12 @@ const searchMapping = {
     color: '#A1C34A',
     value: 'id',
     username: 'username',
-    path: user => `/users/${user.username}`,
+    link: user => `/users/${user.username}`,
     id: 'id',
     profilePicture: 'profilePicture'
   },
   'articles.article': {
-    icon: 'newspaper-o',
+    icon: 'book',
     label: 'title',
     picture: 'cover',
     color: '#52B0EC',
@@ -51,7 +51,6 @@ const searchMapping = {
     content: 'description'
   },
   'flatpages.page': {
-    profilePicture: 'picture',
     icon: 'paper-outline',
     label: 'title',
     color: '#E8953A',
@@ -90,7 +89,7 @@ const searchMapping = {
   },
   'users.abakusgroup': {
     label: 'name',
-    path: group => {
+    link: group => {
       switch (group.type) {
         case 'interesse':
           return `/interestgroups/${group.id}`;
@@ -104,7 +103,7 @@ const searchMapping = {
     profilePicture: 'logo',
     id: 'id',
     type: 'type',
-    icon: 'people',
+    icon: group => (group.profilePicture ? null : 'people'),
     color: '#000000'
   }
 };
@@ -178,20 +177,15 @@ const transformResult = result => {
   const item = {};
 
   Object.keys(fields).forEach(field => {
-    item[field] = result[fields[field]] || fields[field];
+    const value = fields[field];
+    if (typeof value === 'function') {
+      item[field] = value(result);
+    } else {
+      item[field] = result[value] || value;
+    }
   });
 
-  item.profilePicture =
-    item.profilePicture === fields.profilePicture ? '' : item.profilePicture;
-
-  if (fields.link) {
-    item.link = fields.link(result);
-  } else if (typeof fields.path === 'function') {
-    item.link = fields.path(item);
-  } else {
-    item.link = item.path + item.value;
-  }
-
+  item.link = item.link || item.path + item.value;
   return item;
 };
 

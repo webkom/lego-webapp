@@ -39,19 +39,25 @@ function SearchResult({ result, onSelect, isSelected }: SearchResultProps) {
           to={result.link}
         >
           <h3 className={styles.searchResultTitle}>
-            {result.icon ? (
+            <span>
+              {result.label}{' '}
+              {typeof result.username === 'string' && (
+                <span>({result.username})</span>
+              )}
+            </span>
+
+            {result.profilePicture ? (
+              <ProfilePicture
+                className={styles.searchResultItemIcon}
+                size={24}
+                user={result}
+              />
+            ) : (
               <Icon
                 className={styles.searchResultItemIcon}
                 name={result.icon}
               />
-            ) : (
-              <ProfilePicture
-                className={styles.searchResultItemIcon}
-                size={25}
-                user={result}
-              />
             )}
-            {result.label}
           </h3>
         </Link>
 
