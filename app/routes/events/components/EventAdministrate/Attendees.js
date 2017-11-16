@@ -1,6 +1,5 @@
 // @flow
 
-import styles from './Administrate.css';
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { RegisteredTable, UnregisteredTable } from './RegistrationTables';

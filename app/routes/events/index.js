@@ -32,7 +32,7 @@ export default {
     },
     {
       path: ':eventId/administrate',
-      ...resolveAsyncRoute(() => import('./components/EventAdministrate')),
+      ...resolveAsyncRoute(() => import('./EventAdministrateRoute')),
       childRoutes: [
         {
           path: 'attendees',
