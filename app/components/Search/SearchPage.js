@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Content } from 'app/components/Content';
 import SearchPageInput from 'app/components/Search/SearchPageInput';
 import SearchPageResults from 'app/components/Search/SearchPageResults';
 import { Keyboard } from 'app/utils/constants';
@@ -47,6 +46,7 @@ class SearchPage extends Component<Props, State> {
 
       case Keyboard.ENTER:
         e.preventDefault();
+        this.setState({ query: '' });
         this.props.handleSelect(this.props.results[this.state.selectedIndex]);
         break;
     }
@@ -62,7 +62,7 @@ class SearchPage extends Component<Props, State> {
     const { handleSelect, searching, results } = this.props;
 
     return (
-      <Content>
+      <div>
         <SearchPageInput
           isSearching={searching}
           value={this.state.query}
@@ -77,7 +77,7 @@ class SearchPage extends Component<Props, State> {
           results={results}
           selectedIndex={this.state.selectedIndex}
         />
-      </Content>
+      </div>
     );
   }
 }

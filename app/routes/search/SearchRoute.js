@@ -1,6 +1,8 @@
+import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from '@webkom/react-prepare';
+import { Content } from 'app/components/Content';
 import { search } from 'app/actions/SearchActions';
 import SearchPage from 'app/components/Search/SearchPage';
 import { push } from 'react-router-redux';
@@ -34,9 +36,17 @@ const mapDispatchToProps = dispatch => ({
   }, 300)
 });
 
+function SearchPageWrapper(props) {
+  return (
+    <Content>
+      <SearchPage {...props} />
+    </Content>
+  );
+}
+
 export default compose(
   dispatched(loadData, {
     componentWillReceiveProps: false
   }),
   connect(mapStateToProps, mapDispatchToProps)
-)(SearchPage);
+)(SearchPageWrapper);
