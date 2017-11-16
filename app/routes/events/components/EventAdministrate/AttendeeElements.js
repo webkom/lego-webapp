@@ -5,12 +5,40 @@ import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import cx from 'classnames';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import type {
+  EventRegistrationChargeStatus,
+  EventRegistrationPresence,
+  ID
+} from 'app/models';
 
 type TooltipIconProps = {
-  onClick?: (SyntheticInputEvent<*>, any) => mixed,
+  onClick?: (SyntheticInputEvent<*>) => mixed,
   content: string,
   transparent?: boolean,
   iconClass: string
+};
+
+type PresenceProps = {
+  handlePresence: (ID, EventRegistrationPresence) => Promise<*>,
+  presence: EventRegistrationPresence,
+  id: ID
+};
+
+type UnregisterProps = {
+  fetching: boolean,
+  handleUnregister: ID => void,
+  id: ID,
+  clickedUnregister: ID,
+  showUnregister: boolean
+};
+
+type StripeStatusProps = {
+  id: ID,
+  handlePayment: (
+    registrationId: ID,
+    chargeStatus: EventRegistrationChargeStatus
+  ) => Promise<*>,
+  chargeStatus: EventRegistrationChargeStatus
 };
 
 export const TooltipIcon = ({
@@ -28,7 +56,11 @@ export const TooltipIcon = ({
   );
 };
 
-export const PresenceIcons = ({ handlePresence, presence, id }) => {
+export const PresenceIcons = ({
+  handlePresence,
+  presence,
+  id
+}: PresenceProps) => {
   return (
     <Flex row className={styles.presenceIcons}>
       <TooltipIcon
@@ -53,7 +85,11 @@ export const PresenceIcons = ({ handlePresence, presence, id }) => {
   );
 };
 
-export const StripeStatus = ({ id, handlePayment, chargeStatus }) => (
+export const StripeStatus = ({
+  id,
+  handlePayment,
+  chargeStatus
+}: StripeStatusProps) => (
   <Flex row className={styles.presenceIcons}>
     <TooltipIcon
       content="Betalt stripe"
@@ -81,7 +117,7 @@ export const Unregister = ({
   id,
   clickedUnregister,
   showUnregister
-}) => {
+}: UnregisterProps) => {
   return (
     <div>
       {showUnregister &&
