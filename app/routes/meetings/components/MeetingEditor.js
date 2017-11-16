@@ -15,7 +15,7 @@ import {
   SelectInput,
   Button,
   DatePicker,
-  withSubmissionError
+  handleSubmissionError
 } from 'app/components/Form';
 import moment from 'moment-timezone';
 import config from 'app/config';
@@ -62,7 +62,7 @@ function MeetingEditor({
         );
       }
       push(`/meetings/${id}`);
-    });
+    }, handleSubmissionError);
   };
   const isEditPage = meetingId !== undefined;
   if (isEditPage && !meeting) {
@@ -98,7 +98,7 @@ function MeetingEditor({
           <i className="fa fa-angle-left" /> Mine møter
         </NavigationLink>
       </NavigationTab>
-      <Form onSubmit={handleSubmit(withSubmissionError(onSubmit))}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <Field
           name="title"
           label="Tittel"
