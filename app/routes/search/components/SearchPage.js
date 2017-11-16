@@ -1,11 +1,9 @@
 // @flow
 
 import React, { Component } from 'react';
-import EmptyState from 'app/components/EmptyState';
 import { Content } from 'app/components/Content';
 import SearchPageInput from 'app/components/Search/SearchPageInput';
-import SearchResultComponent from './SearchResult';
-import styles from './SearchPage.css';
+import SearchPageResults from 'app/components/Search/SearchPageResults';
 import type { SearchResult } from 'app/reducers/search';
 
 type Props = {
@@ -40,20 +38,8 @@ class SearchPage extends Component<Props, State> {
           value={this.state.query}
           onChange={this.handleQueryChange}
         />
-        <div className={styles.searchResults}>
-          {results.length === 0 ? (
-            <EmptyState icon="glasses-outline">
-              <h1>
-                Fant ingen treff på søket{' '}
-                <em style={{ fontWeight: 100 }}>{this.state.query}</em>.
-              </h1>
-            </EmptyState>
-          ) : (
-            results.map((result, id) => (
-              <SearchResultComponent key={id} result={result} />
-            ))
-          )}
-        </div>
+
+        <SearchPageResults query={this.state.query} results={results} />
       </Content>
     );
   }
