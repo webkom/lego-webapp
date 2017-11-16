@@ -262,6 +262,16 @@ export const Bdb = {
 /**
  *
  */
+export const Survey = {
+  FETCH: generateStatuses('Survey.FETCH'),
+  ADD: generateStatuses('Survey.ADD'),
+  EDIT: generateStatuses('Survey.EDIT'),
+  DELETE: generateStatuses('Survey.DELETE')
+};
+
+/**
+ *
+ */
 export const File = {
   FETCH_SIGNED_POST: generateStatuses('File.FETCH_SIGNED_POST'),
   UPLOAD: generateStatuses('File.UPLOAD')

@@ -1,0 +1,62 @@
+@import 'app/styles/variables.css';
+
+.surveyItem {
+  padding-left: 20px;
+  border-left: 4px solid transparent;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+  border-color: var(--color-orange-5);
+}
+
+.surveyItemTitle {
+  color: #333;
+  font-weight: 700;
+  margin: 0;
+  word-break: break-word;
+}
+
+.surveyTime {
+  color: var(--color-gray-2);
+}
+
+.editTitle {
+  width: 550px;
+  font-size: 30px;
+  margin: 0 0 -10px;
+}
+
+.editEvent {
+  width: 300px;
+}
+
+.bottomBorder {
+  margin-top: 40px;
+  border-top: 1px solid var(--color-gray-2);
+}
+
+.search h2 {
+  display: inline;
+  margin-right: 20px;
+  padding-top: 3px;
+  margin-bottom: 40px;
+}
+
+.search input {
+  width: 200px;
+  height: 45px;
+}
+
+.companyLogo {
+  width: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.companyLogo img {
+  min-width: 120px;
+  height: 80px;
+  object-fit: contain;
+}
