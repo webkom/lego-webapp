@@ -1,0 +1,43 @@
+@import 'app/styles/variables.css';
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 15px;
+
+  @media (--small-viewport) {
+    padding: 0 20px;
+    height: 96px;
+  }
+}
+
+.spinner {
+  font-size: 25px;
+  padding: 9px;
+}
+
+.input {
+  flex: 1;
+  outline: none;
+  border: 0;
+  padding: 0 1rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: #333;
+  background: transparent;
+
+  &::placeholder {
+    color: #444;
+  }
+}
+
+.searchIcon {
+  color: #777;
+  font-size: 1.8rem;
+  width: 30px;
+  display: flex;
+  align-items: center;
+}
+

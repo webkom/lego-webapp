@@ -1,9 +1,9 @@
 // @flow
 
 import React, { Component } from 'react';
-import Icon from 'app/components/Icon';
 import EmptyState from 'app/components/EmptyState';
 import { Content } from 'app/components/Content';
+import SearchPageInput from 'app/components/Search/SearchPageInput';
 import SearchResultComponent from './SearchResult';
 import styles from './SearchPage.css';
 import type { SearchResult } from 'app/reducers/search';
@@ -24,7 +24,8 @@ class SearchPage extends Component<Props, State> {
     query: this.props.location.query.q || ''
   };
 
-  onQueryChanged = (query: string) => {
+  handleQueryChange = ({ target }: SyntheticInputEvent<HTMLInputElement>) => {
+    const query = target.value;
     this.setState({ query });
     this.props.onQueryChanged(query);
   };
@@ -34,26 +35,17 @@ class SearchPage extends Component<Props, State> {
 
     return (
       <Content>
-        <div className={styles.inputContainer}>
-          <div className={styles.searchIcon}>
-            <Icon name="search" />
-          </div>
-
-          <input
-            placeholder="Hva leter du etter?"
-            autoFocus
-            onChange={e => this.onQueryChanged(e.target.value)}
-            value={this.state.query}
-          />
-
-          {searching && <i className="fa fa-spinner fa-spin" />}
-        </div>
+        <SearchPageInput
+          isSearching={searching}
+          value={this.state.query}
+          onChange={this.handleQueryChange}
+        />
         <div className={styles.searchResults}>
           {results.length === 0 ? (
             <EmptyState icon="glasses-outline">
               <h1>
-                Søket <em style={{ fontWeight: 100 }}>{this.state.query}</em>{' '}
-                matchet ingen objekter.
+                Fant ingen treff på søket{' '}
+                <em style={{ fontWeight: 100 }}>{this.state.query}</em>.
               </h1>
             </EmptyState>
           ) : (
