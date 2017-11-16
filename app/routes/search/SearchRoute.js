@@ -25,6 +25,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = dispatch => ({
+  push: url => dispatch(push(url)),
   onQueryChanged: debounce(query => {
     dispatch(push(`/search?q=${query}`));
     if (query) {

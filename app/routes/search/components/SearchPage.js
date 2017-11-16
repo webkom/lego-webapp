@@ -5,12 +5,14 @@ import { Content } from 'app/components/Content';
 import SearchPageInput from 'app/components/Search/SearchPageInput';
 import SearchPageResults from 'app/components/Search/SearchPageResults';
 import type { SearchResult } from 'app/reducers/search';
+import type { ReactRouterHistory } from 'react-router-redux';
 
 type Props = {
   searching: boolean,
   location: Object,
   onQueryChanged: string => void,
-  results: Array<SearchResult>
+  results: Array<SearchResult>,
+  push: ReactRouterHistory.push
 };
 
 type State = {
@@ -28,6 +30,10 @@ class SearchPage extends Component<Props, State> {
     this.props.onQueryChanged(query);
   };
 
+  handleSelect = (result: SearchResult) => {
+    this.props.push(result.link);
+  };
+
   render() {
     const { searching, results } = this.props;
 
@@ -39,7 +45,11 @@ class SearchPage extends Component<Props, State> {
           onChange={this.handleQueryChange}
         />
 
-        <SearchPageResults query={this.state.query} results={results} />
+        <SearchPageResults
+          onSelect={this.handleSelect}
+          query={this.state.query}
+          results={results}
+        />
       </Content>
     );
   }

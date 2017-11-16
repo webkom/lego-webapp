@@ -10,14 +10,26 @@ import styles from './SearchPageResults.css';
 
 type Props = {
   query: string,
-  results: Array<SearchResultType>
+  results: Array<SearchResultType>,
+  onSelect: SearchResultType => void
 };
 
-function SearchResult({ result }: { result: SearchResultType }) {
+type SearchResultProps = {
+  result: SearchResultType,
+  onSelect: SearchResultType => void
+};
+
+function SearchResult({ result, onSelect }: SearchResultProps) {
   return (
     <div style={{ borderColor: result.color }} className={styles.searchResult}>
       <div>
-        <Link to={result.link}>
+        <Link
+          onClick={e => {
+            e.preventDefault();
+            onSelect(result);
+          }}
+          to={result.link}
+        >
           <h3 className={styles.searchResultTitle}>
             {result.label}
             {result.icon && (
@@ -54,7 +66,7 @@ function SearchResult({ result }: { result: SearchResultType }) {
   );
 }
 
-function SearchPageResults({ query, results }: Props) {
+function SearchPageResults({ onSelect, query, results }: Props) {
   if (results.length === 0) {
     return (
       <EmptyState icon="glasses-outline">
@@ -68,7 +80,11 @@ function SearchPageResults({ query, results }: Props) {
   return (
     <div>
       {results.map(result => (
-        <SearchResult key={`${result.path}-${result.value}`} result={result} />
+        <SearchResult
+          key={`${result.path}-${result.value}`}
+          onSelect={onSelect}
+          result={result}
+        />
       ))}
     </div>
   );
