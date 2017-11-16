@@ -1,32 +1,66 @@
 // @flow
 
 import React, { Component } from 'react';
-import Icon from 'app/components/Icon';
-import EmptyState from 'app/components/EmptyState';
 import { Content } from 'app/components/Content';
-import SearchResultComponent from './SearchResult';
-import styles from './SearchPage.css';
+import SearchPageInput from 'app/components/Search/SearchPageInput';
+import SearchPageResults from 'app/components/Search/SearchPageResults';
+import { Keyboard } from 'app/utils/constants';
 import type { SearchResult } from 'app/reducers/search';
+import type { ReactRouterHistory } from 'react-router-redux';
 
 type Props = {
   searching: boolean,
   location: Object,
   onQueryChanged: string => void,
-  results: Array<SearchResult>
+  results: Array<SearchResult>,
+  push: ReactRouterHistory.push
 };
 
 type State = {
-  query: string
+  query: string,
+  selectedIndex: number
 };
 
 class SearchPage extends Component<Props, State> {
   state: State = {
+    selectedIndex: 0,
     query: this.props.location.query.q || ''
   };
 
-  onQueryChanged = (query: string) => {
+  handleKeyDown = (e: KeyboardEvent) => {
+    switch (e.which) {
+      case Keyboard.UP:
+        e.preventDefault();
+        this.setState({
+          selectedIndex: Math.max(0, this.state.selectedIndex - 1)
+        });
+        break;
+
+      case Keyboard.DOWN:
+        e.preventDefault();
+        this.setState({
+          selectedIndex: Math.min(
+            this.props.results.length - 1,
+            this.state.selectedIndex + 1
+          )
+        });
+        break;
+
+      case Keyboard.ENTER:
+        e.preventDefault();
+        this.handleSelect(this.props.results[this.state.selectedIndex]);
+        break;
+    }
+  };
+
+  handleQueryChange = ({ target }: SyntheticInputEvent<HTMLInputElement>) => {
+    const query = target.value;
     this.setState({ query });
     this.props.onQueryChanged(query);
+  };
+
+  handleSelect = (result: SearchResult) => {
+    this.props.push(result.link);
   };
 
   render() {
@@ -34,35 +68,20 @@ class SearchPage extends Component<Props, State> {
 
     return (
       <Content>
-        <div className={styles.inputContainer}>
-          <div className={styles.searchIcon}>
-            <Icon name="search" />
-          </div>
+        <SearchPageInput
+          isSearching={searching}
+          value={this.state.query}
+          onKeyDown={this.handleKeyDown}
+          onChange={this.handleQueryChange}
+        />
 
-          <input
-            placeholder="Hva leter du etter?"
-            autoFocus
-            onChange={e => this.onQueryChanged(e.target.value)}
-            value={this.state.query}
-          />
-
-          {searching && <i className="fa fa-spinner fa-spin" />}
-        </div>
-        <div className={styles.searchResults}>
-          {results.length === 0 ? (
-            <EmptyState icon="glasses-outline">
-              <h1>
-                Søket
-                <em style={{ fontWeight: 100 }}>{this.state.query}</em> matchet
-                ingen objekter.
-              </h1>
-            </EmptyState>
-          ) : (
-            results.map((result, id) => (
-              <SearchResultComponent key={id} result={result} />
-            ))
-          )}
-        </div>
+        <SearchPageResults
+          onKeyDown={this.handleKeyDown}
+          onSelect={this.handleSelect}
+          query={this.state.query}
+          results={results}
+          selectedIndex={this.state.selectedIndex}
+        />
       </Content>
     );
   }

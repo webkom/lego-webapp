@@ -1,0 +1,27 @@
+.searchResult {
+  padding-left: 20px;
+  border-left: 4px solid transparent;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.searchResultTitle {
+  display: flex;
+  align-items: center;
+  color: #333;
+  font-weight: 700;
+  margin: 0;
+}
+
+.picture {
+  height: 100px;
+}
+
+.picture img {
+  height: inherit;
+}
+
+.searchResultItemIcon {
+  margin-left: 10px;
+}
