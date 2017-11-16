@@ -6,14 +6,13 @@ import SearchPageInput from 'app/components/Search/SearchPageInput';
 import SearchPageResults from 'app/components/Search/SearchPageResults';
 import { Keyboard } from 'app/utils/constants';
 import type { SearchResult } from 'app/reducers/search';
-import type { ReactRouterHistory } from 'react-router-redux';
 
 type Props = {
   searching: boolean,
   location: Object,
   onQueryChanged: string => void,
   results: Array<SearchResult>,
-  push: ReactRouterHistory.push
+  handleSelect: SearchResult => void
 };
 
 type State = {
@@ -48,7 +47,7 @@ class SearchPage extends Component<Props, State> {
 
       case Keyboard.ENTER:
         e.preventDefault();
-        this.handleSelect(this.props.results[this.state.selectedIndex]);
+        this.props.handleSelect(this.props.results[this.state.selectedIndex]);
         break;
     }
   };
@@ -59,12 +58,8 @@ class SearchPage extends Component<Props, State> {
     this.props.onQueryChanged(query);
   };
 
-  handleSelect = (result: SearchResult) => {
-    this.props.push(result.link);
-  };
-
   render() {
-    const { searching, results } = this.props;
+    const { handleSelect, searching, results } = this.props;
 
     return (
       <Content>
@@ -77,7 +72,7 @@ class SearchPage extends Component<Props, State> {
 
         <SearchPageResults
           onKeyDown={this.handleKeyDown}
-          onSelect={this.handleSelect}
+          onSelect={handleSelect}
           query={this.state.query}
           results={results}
           selectedIndex={this.state.selectedIndex}

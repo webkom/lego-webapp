@@ -2,7 +2,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from '@webkom/react-prepare';
 import { search } from 'app/actions/SearchActions';
-import SearchPage from './components/SearchPage';
+import SearchPage from 'app/components/Search/SearchPage';
 import { push } from 'react-router-redux';
 import { debounce } from 'lodash';
 import { selectResult } from 'app/reducers/search';
@@ -25,7 +25,7 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  push: url => dispatch(push(url)),
+  handleSelect: result => dispatch(push(result.link)),
   onQueryChanged: debounce(query => {
     dispatch(push(`/search?q=${query}`));
     if (query) {
