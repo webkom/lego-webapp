@@ -7,6 +7,8 @@
 }
 
 .searchResultTitle {
+  display: flex;
+  align-items: center;
   color: #333;
   font-weight: 700;
   margin: 0;
@@ -21,5 +23,5 @@
 }
 
 .searchResultItemIcon {
-  margin-left: 5px;
+  margin-right: 10px;
 }

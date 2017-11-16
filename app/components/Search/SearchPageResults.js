@@ -11,17 +11,25 @@ import styles from './SearchPageResults.css';
 type Props = {
   query: string,
   results: Array<SearchResultType>,
-  onSelect: SearchResultType => void
+  onSelect: SearchResultType => void,
+  selectedIndex: number
 };
 
 type SearchResultProps = {
   result: SearchResultType,
-  onSelect: SearchResultType => void
+  onSelect: SearchResultType => void,
+  isSelected: boolean
 };
 
-function SearchResult({ result, onSelect }: SearchResultProps) {
+function SearchResult({ result, onSelect, isSelected }: SearchResultProps) {
   return (
-    <div style={{ borderColor: result.color }} className={styles.searchResult}>
+    <div
+      style={{
+        backgroundColor: isSelected && 'rgba(255, 0, 0, 0.15)',
+        borderColor: result.color
+      }}
+      className={styles.searchResult}
+    >
       <div>
         <Link
           onClick={e => {
@@ -31,20 +39,19 @@ function SearchResult({ result, onSelect }: SearchResultProps) {
           to={result.link}
         >
           <h3 className={styles.searchResultTitle}>
-            {result.label}
-            {result.icon && (
+            {result.icon ? (
               <Icon
                 className={styles.searchResultItemIcon}
                 name={result.icon}
               />
-            )}
-            {!result.icon && (
+            ) : (
               <ProfilePicture
-                size={20}
+                className={styles.searchResultItemIcon}
+                size={25}
                 user={result}
-                style={{ margin: '0px 10px 0px 0px' }}
               />
             )}
+            {result.label}
           </h3>
         </Link>
 
@@ -66,7 +73,7 @@ function SearchResult({ result, onSelect }: SearchResultProps) {
   );
 }
 
-function SearchPageResults({ onSelect, query, results }: Props) {
+function SearchPageResults({ onSelect, results, selectedIndex, query }: Props) {
   if (results.length === 0) {
     return (
       <EmptyState icon="glasses-outline">
@@ -79,11 +86,12 @@ function SearchPageResults({ onSelect, query, results }: Props) {
 
   return (
     <div>
-      {results.map(result => (
+      {results.map((result, i) => (
         <SearchResult
           key={`${result.path}-${result.value}`}
           onSelect={onSelect}
           result={result}
+          isSelected={selectedIndex === i}
         />
       ))}
     </div>
