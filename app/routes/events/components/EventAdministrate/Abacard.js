@@ -1,62 +1,72 @@
 // @flow
 
-import React from 'react';
-import { reduxForm, Field } from 'redux-form';
-import { SelectInput } from 'app/components/Form';
-import Button from 'app/components/Button';
-import type { ID, EventPool, EventRegistrationPresence } from 'app/models';
-import type { ReduxFormProps } from 'app/types';
+import * as React from 'react';
+import _ from 'lodash';
+import cx from 'classnames';
+import SearchPage from 'app/components/Search/SearchPage';
+import type { SearchResult } from 'app/reducers/search';
+import styles from './Abacard.css';
 
-type Props = {
-  eventId: ID,
-  updatePresence: (number, number, string) => Promise<*>,
-  pools: Array<EventPool>
-} & ReduxFormProps;
+// $FlowFixMe
+import goodSound from '../../../../assets/good-sound.mp3';
 
-const Abacard = ({
-  eventId,
-  handleSubmit,
-  updatePresence,
-  pools,
-  invalid,
-  pristine,
-  submitting
-}: Props) => {
-  const onSubmit = (
-    registrationId: ID,
-    presence: EventRegistrationPresence
-  ) => {
-    updatePresence(eventId, registrationId, presence);
-  };
-  return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Field
-          name="user"
-          component={SelectInput.AutocompleteField}
-          filter={['users.user']}
-          placeholder="Bruker"
-          label="Bruker"
-        />
-        <Button type="submit" disabled={invalid || pristine || submitting}>
-          Registrer
-        </Button>
-      </form>
-    </div>
-  );
+type State = {
+  showCompleted: boolean
 };
 
-function validateForm(data) {
-  const errors = {};
+class Abacard extends React.Component<*, State> {
+  state = {
+    showCompleted: false
+  };
 
-  if (!data.user) {
-    errors.user = 'Bruker er påkrevet';
+  showCompleted = () => {
+    this.setState({ showCompleted: true });
+    setTimeout(() => this.setState({ showCompleted: false }), 2000);
+  };
+
+  handleSelect = (result: SearchResult) => {
+    this.props.handleSelect(result).then(
+      () => {
+        const sound = new window.Audio(goodSound);
+        sound.play();
+        this.showCompleted();
+        return this.props.clearSearch();
+      },
+      err => {
+        const payload = _.get(err, 'payload.response.jsonData');
+        if (payload && payload.errorCode === 'not_registered') {
+          alert('Bruker er ikke påmeldt på eventet!');
+        } else if (payload && payload.errorCode === 'already_present') {
+          alert('Bruker er allerede satt som tilstede.');
+        } else {
+          alert(
+            `Det oppsto en uventet feil: ${JSON.stringify(payload || err)}`
+          );
+        }
+      }
+    );
+  };
+
+  render() {
+    return (
+      <div>
+        <div
+          className={cx(styles.overlay, {
+            [styles.shown]: this.state.showCompleted
+          })}
+        >
+          <h3>
+            Tusen takk! Kos deg{' '}
+            <span role="img" aria-label="smile">
+              😀
+            </span>
+          </h3>
+          <i className="fa fa-check" />
+        </div>
+        <SearchPage {...this.props} handleSelect={this.handleSelect} />
+      </div>
+    );
   }
-
-  return errors;
 }
 
-export default reduxForm({
-  form: 'abacard',
-  validate: validateForm
-})(Abacard);
+export default Abacard;

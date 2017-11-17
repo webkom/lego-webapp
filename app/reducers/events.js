@@ -296,10 +296,10 @@ export const selectAllRegistrationsForEvent = createSelector(
     registrationItems
       .map((regId, i) => {
         const registration = registrationsById[regId];
-        return transformRegistration({
-          ...registration,
-          user: usersById[registration.user]
-        });
+        const user = registration.user.id
+          ? registration.user
+          : usersById[registration.user];
+        return transformRegistration({ ...registration, user });
       })
       .filter(reg => reg.event == eventId)
 );

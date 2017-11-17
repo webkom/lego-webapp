@@ -6,6 +6,7 @@ import createQueryString from 'app/utils/createQueryString';
 import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';
 import { addToast } from 'app/actions/ToastActions';
+import type { EventRegistrationPresence } from 'app/models';
 import type { Thunk, Action } from 'app/types';
 
 export function fetchEvent(eventId: string) {
@@ -250,25 +251,36 @@ export function updateFeedback(
     );
 }
 
+export function markUsernamePresent(
+  eventId: number,
+  username: string
+): Thunk<Promise<*>> {
+  return callAPI({
+    types: Event.UPDATE_REGISTRATION,
+    endpoint: `/events/${eventId}/registration_search/`,
+    method: 'POST',
+    body: { username },
+    meta: {
+      errorMessage: 'Oppdatering av tilstedeværelse feilet'
+    }
+  });
+}
+
 export function updatePresence(
   eventId: number,
   registrationId: number,
-  presence: string
-): Thunk<Promise<?Action>> {
-  return dispatch =>
-    dispatch(
-      callAPI({
-        types: Event.UPDATE_REGISTRATION,
-        endpoint: `/events/${eventId}/registrations/${registrationId}/`,
-        method: 'PATCH',
-        body: {
-          presence
-        },
-        meta: {
-          errorMessage: 'Tilstedeværelse oppdatering feilet'
-        }
-      })
-    ).then(() => dispatch(addToast({ message: 'Presence updated' })));
+  presence: EventRegistrationPresence
+): Thunk<Promise<*>> {
+  return callAPI({
+    types: Event.UPDATE_REGISTRATION,
+    endpoint: `/events/${eventId}/registrations/${registrationId}/`,
+    method: 'PATCH',
+    body: { presence },
+    meta: {
+      successMessage: 'Tilstedeværelse oppdatert',
+      errorMessage: 'Oppdatering av tilstedeværelse feilet'
+    }
+  });
 }
 
 export function updatePayment(
