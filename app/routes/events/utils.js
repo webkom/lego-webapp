@@ -81,7 +81,8 @@ export const transformEvent = (data: TransformEvent, edit: boolean = false) => {
     ...pick(data, eventCreateAndUpdateFields),
     startTime: moment(data.startTime).toISOString(),
     endTime: moment(data.endTime).toISOString(),
-    mergeTime: moment(data.mergeTime).toISOString(),
+    mergeTime:
+      data.pools.length >= 2 ? moment(data.mergeTime).toISOString() : null,
     company: data.company && data.company.value,
     priceMember: data.isPriced ? data.priceMember * 100 : 0,
     paymentDueDate: data.isPriced

@@ -41,7 +41,9 @@ const Admin = ({ actionGrant, event, deleteEvent }: Props) => {
           </li>
           {canEdit && (
             <li>
-              <Link to={`/events/${event.id}/administrate`}>Påmeldinger</Link>
+              <Link to={`/events/${event.id}/administrate/attendees`}>
+                Påmeldinger
+              </Link>
             </li>
           )}
           <li>

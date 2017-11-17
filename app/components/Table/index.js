@@ -71,7 +71,7 @@ export default class Table extends Component<Props, State> {
 
   renderCell = (column: columnProps, data: Object, index: number) => {
     return (
-      <td key={`${column.dataIndex}-${index}`}>
+      <td key={`${column.dataIndex}-${index}-${data.id}`}>
         {column.render
           ? column.render(data[column.dataIndex], data)
           : data[column.dataIndex]}
@@ -79,11 +79,14 @@ export default class Table extends Component<Props, State> {
     );
   };
 
-  renderHeadCell = ({ dataIndex, search, title, sorter }: columnProps) => {
+  renderHeadCell = (
+    { dataIndex, search, title, sorter }: columnProps,
+    index: number
+  ) => {
     const { filters, isShown } = this.state;
 
     return (
-      <th key={dataIndex}>
+      <th key={`${dataIndex}-${index}`}>
         {title}
         {sorter && (
           <div className={styles.sorter}>
@@ -168,11 +171,12 @@ export default class Table extends Component<Props, State> {
 
   render() {
     const { columns, data, rowKey, hasMore, loading } = this.props;
-
     return (
       <table className={styles.table}>
         <thead>
-          <tr>{columns.map(column => this.renderHeadCell(column))}</tr>
+          <tr>
+            {columns.map((column, index) => this.renderHeadCell(column, index))}
+          </tr>
         </thead>
         <InfiniteScroll
           element="tbody"
@@ -191,7 +195,9 @@ export default class Table extends Component<Props, State> {
             .filter(this.filter)
             .map((item, index) => (
               <tr key={item[rowKey]}>
-                {columns.map(column => this.renderCell(column, item, index))}
+                {columns.map((column, index) =>
+                  this.renderCell(column, item, index)
+                )}
               </tr>
             ))}
         </InfiniteScroll>

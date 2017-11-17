@@ -1,57 +1,25 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
-import {
-  fetchAdministrate,
-  adminRegister,
-  unregister,
-  updatePresence,
-  updatePayment
-} from 'app/actions/EventActions';
-import EventAdministrate from './components/EventAdministrate';
-import {
-  selectEventById,
-  selectPoolsForEvent,
-  getRegistrationGroups
-} from 'app/reducers/events';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import prepare from 'app/utils/prepare';
+import { fetchAdministrate } from 'app/actions/EventActions';
+import EventAdministrateIndex from './components/EventAdministrate';
+import { selectEventById } from 'app/reducers/events';
 
 const mapStateToProps = (state, props) => {
   const eventId = props.params.eventId;
 
   const event = selectEventById(state, { eventId });
-  const actionGrant = state.events.actionGrant;
-  const pools = selectPoolsForEvent(state, { eventId });
-  const { registered, unregistered } = getRegistrationGroups(state, {
-    eventId
-  });
-
   return {
+    actionGrant: state.events.actionGrant,
+    loading: state.events.fetching,
     eventId,
-    actionGrant,
-    event,
-    pools,
-    registered,
-    unregistered
+    event
   };
 };
 
-const mapDispatchToProps = {
-  unregister,
-  adminRegister,
-  updatePresence,
-  updatePayment
-};
-
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { eventId } }, dispatch) =>
-      dispatch(fetchAdministrate(Number(eventId))),
-    {
-      componentWillReceiveProps: false
-    }
+  prepare(({ params: { eventId } }, dispatch) =>
+    dispatch(fetchAdministrate(Number(eventId)))
   ),
-  connect(mapStateToProps, mapDispatchToProps)
-)(EventAdministrate);
+  connect(mapStateToProps)
+)(EventAdministrateIndex);

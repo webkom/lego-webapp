@@ -20,6 +20,15 @@ export default formReducer.plugin({
           ...state,
           registrationId: action.payload.id
         };
+      case Event.REGISTER.FAILURE:
+      case Event.UNREGISTER.FAILURE: {
+        return {
+          ...state,
+          registrationId: null,
+          submitting: false,
+          submitSucceeded: false
+        };
+      }
       case Event.SOCKET_UNREGISTRATION.SUCCESS:
       case Event.SOCKET_REGISTRATION.SUCCESS: {
         if (!state) return;
