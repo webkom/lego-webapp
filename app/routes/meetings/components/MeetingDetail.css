@@ -9,32 +9,6 @@
   flex-wrap: wrap;
 }
 
-.title {
-  margin-bottom: 0;
-}
-
-.mainContent {
-  flex-wrap: wrap;
-  padding-top: 20px;
-  display: flex;
-}
-
-.meetingItem {
-  padding-left: 20px;
-  border-left: 4px solid transparent;
-  margin-bottom: 15px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.reportContent {
-  min-width: 300px;
-}
-
-.statusContent {
-  min-width: 250px;
-}
-
 .detailTitle {
   margin-bottom: 0;
 
@@ -46,18 +20,4 @@
 .statusButtons {
   display: flex;
   margin-bottom: 10px;
-}
-
-.meetingItemTitle {
-  color: #333;
-  font-weight: 700;
-  margin: 0;
-}
-
-.meetingGroup {
-  margin-bottom: 40px;
-}
-
-.meetingTime {
-  color: #777;
 }

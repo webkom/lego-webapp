@@ -3,19 +3,24 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
-import { FlexRow, FlexItem } from 'app/components/FlexBox';
+import CommentView from 'app/components/Comments/CommentView';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-
 import styles from './MeetingDetail.css';
 import Card from 'app/components/Card';
 import Button from 'app/components/Button';
-import DisplayContent from 'app/components/DisplayContent';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import moment from 'moment-timezone';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { statusesText, statuses } from 'app/reducers/meetingInvitations';
-
+import DisplayContent from 'app/components/DisplayContent';
+import {
+  Content,
+  ContentHeader,
+  ContentSection,
+  ContentSidebar,
+  ContentMain
+} from 'app/components/Content';
 import type {
   MeetingInvitationEntity,
   MeetingInvitationStatus
@@ -38,6 +43,8 @@ type Props = {
   reportAuthor: UserEntity,
   createdBy: UserEntity,
   currentUserInvitation: MeetingInvitationEntity,
+  loggedIn: boolean,
+  comments: Array<Object>,
   push: string => Promise<*>
 };
 
@@ -99,9 +106,10 @@ class MeetingDetails extends Component<Props> {
     const {
       meeting,
       currentUser,
-      showAnswer,
       reportAuthor,
       createdBy,
+      comments,
+      loggedIn,
       currentUserInvitation
     } = this.props;
 
@@ -116,96 +124,104 @@ class MeetingDetails extends Component<Props> {
     const canEdit = actionGrant && actionGrant.includes('edit');
 
     return (
-      <div className={styles.root}>
-        {showAnswer && (
-          <h2>
-            {' '}
-            Du har nå svart på invitasjonen{' '}
-            <span aria-label="smile" role="img">
-              😃
-            </span>{' '}
-          </h2>
-        )}
-
-        <FlexRow className={styles.heading}>
-          <div style={{ flex: 1 }}>
-            <NavigationTab title={meeting.title} className={styles.detailTitle}>
-              <NavigationLink to="/meetings">
-                <i className="fa fa-angle-left" /> Mine møter
-              </NavigationLink>
-              {canEdit && (
-                <NavigationLink to={`/meetings/${meeting.id}/edit`}>
-                  Endre møte
+      <div>
+        <Content>
+          <ContentHeader className={styles.heading}>
+            <div style={{ flex: 1 }}>
+              <NavigationTab
+                title={meeting.title}
+                className={styles.detailTitle}
+              >
+                <NavigationLink to="/meetings">
+                  <i className="fa fa-angle-left" /> Mine møter
                 </NavigationLink>
-              )}
-              {canDelete && (
-                /* $FlowFixMe what is wrong with confirmomdalwithparent */
-                <ConfirmModalWithParent
-                  title="Slett møte"
-                  message="Er du sikker på at du vil slette møtet?"
-                  onConfirm={this.onDeleteMeeting}
-                >
-                  <div>
-                    <NavigationLink to="">Slett møte</NavigationLink>
-                  </div>
-                </ConfirmModalWithParent>
-              )}
-            </NavigationTab>
-            <h3>
-              <Time
-                style={{ color: 'grey' }}
-                time={meeting.startTime}
-                format="ll [-] HH:mm"
-              />
-            </h3>
-          </div>
-        </FlexRow>
-        <div className={styles.mainContent}>
-          <FlexItem className={styles.reportContent} flex={2}>
-            <h2>Referat</h2>
-            <DisplayContent content={meeting.report} />
-          </FlexItem>
-          <FlexItem className={styles.statusContent} flex={1}>
-            <Card style={{ border: 'none', padding: 0 }} shadow={false}>
-              <ul>
-                {this.attendanceButtons(statusMe, meeting.startTime)}
-                {statusMe && (
-                  <li>
-                    <strong> Din status: </strong>
-                    {statusesText[statusMe]}
-                  </li>
+                {canEdit && (
+                  <NavigationLink to={`/meetings/${meeting.id}/edit`}>
+                    Endre møte
+                  </NavigationLink>
                 )}
-                <li>
-                  <strong> Slutt </strong>
-                  <Time time={meeting.endTime} format="ll HH:mm" />
-                </li>
-                <li>
-                  <strong> Lokasjon: </strong>
-                  <span> {meeting.location} </span>
-                </li>
-                <li>
-                  <strong> Forfatter: </strong>
-                  <UserLink user={createdBy} />
-                </li>
+                {canDelete && (
+                  /* $FlowFixMe what is wrong with confirmomdalwithparent */
+                  <ConfirmModalWithParent
+                    title="Slett møte"
+                    message="Er du sikker på at du vil slette møtet?"
+                    onConfirm={this.onDeleteMeeting}
+                  >
+                    <div>
+                      <NavigationLink to="">Slett møte</NavigationLink>
+                    </div>
+                  </ConfirmModalWithParent>
+                )}
+              </NavigationTab>
+              <h3>
+                <Time
+                  style={{ color: 'grey' }}
+                  time={meeting.startTime}
+                  format="ll [-] HH:mm"
+                />
+              </h3>
+            </div>
+          </ContentHeader>
 
-                <li>
-                  <strong> Referent: </strong>
-                  <UserLink user={reportAuthor} />
-                </li>
-                <li>
-                  <AttendanceStatus.Modal pools={this.sortInvitations()} />
-                </li>
-                <li>
-                  <AnnouncementInLine
-                    placeholder="Skriv en kunngjøring til alle inviterte..."
-                    meeting={meeting.id}
-                    button
-                  />
-                </li>
-              </ul>
-            </Card>
-          </FlexItem>
-        </div>
+          <ContentSection>
+            <ContentMain>
+              <h2>Referat</h2>
+              <DisplayContent content={meeting.report} />
+            </ContentMain>
+            <ContentSidebar>
+              <Card style={{ border: 'none', padding: 0 }} shadow={false}>
+                <ul>
+                  {this.attendanceButtons(statusMe, meeting.startTime)}
+                  {statusMe && (
+                    <li>
+                      <strong> Din status: </strong>
+                      {statusesText[statusMe]}
+                    </li>
+                  )}
+                  <li>
+                    <strong> Slutt </strong>
+                    <Time time={meeting.endTime} format="ll HH:mm" />
+                  </li>
+                  <li>
+                    <strong> Lokasjon: </strong>
+                    <span> {meeting.location} </span>
+                  </li>
+                  <li>
+                    <strong> Forfatter: </strong>
+                    <UserLink user={createdBy} />
+                  </li>
+
+                  <li>
+                    <strong> Referent: </strong>
+                    <UserLink user={reportAuthor} />
+                  </li>
+                  <li>
+                    <AttendanceStatus.Modal pools={this.sortInvitations()} />
+                  </li>
+                  <li>
+                    <AnnouncementInLine
+                      placeholder="Skriv en kunngjøring til alle inviterte..."
+                      meeting={meeting.id}
+                      button
+                    />
+                  </li>
+                </ul>
+              </Card>
+            </ContentSidebar>
+          </ContentSection>
+          <ContentSection>
+            <ContentMain>
+              {meeting.commentTarget && (
+                <CommentView
+                  user={currentUser}
+                  commentTarget={meeting.commentTarget}
+                  loggedIn={loggedIn}
+                  comments={comments}
+                />
+              )}
+            </ContentMain>
+          </ContentSection>
+        </Content>
       </div>
     );
   }

@@ -178,7 +178,8 @@ export const meetingInvitationSchema = new schema.Entity(
 export const meetingSchema = new schema.Entity('meetings', {
   invitations: [meetingInvitationSchema],
   reportAuthor: userSchema,
-  createdBy: userSchema
+  createdBy: userSchema,
+  comments: [commentSchema]
 });
 export const frontpageSchema = new schema.Entity('frontpage', {
   events: [eventSchema],
