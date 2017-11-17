@@ -64,7 +64,7 @@ export const selectCommentsForMeeting = createSelector(
   selectMeetingById,
   state => state.comments.byId,
   (meeting, commentsById) => {
-    if (!meeting) return [];
+    if (!meeting || !meeting.comments) return [];
     return meeting.comments.map(commentId => commentsById[commentId]);
   }
 );
