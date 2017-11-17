@@ -114,7 +114,7 @@ const ArticleEditor = ({
           placeholder="Write your article here..."
           name="content"
           label="Content"
-          component={EditorField}
+          component={EditorField.Field}
         />
       </Form>
     </Content>
