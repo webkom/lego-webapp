@@ -2,7 +2,7 @@
 
 import { reduxForm, SubmissionError } from 'redux-form';
 import { handleSubmissionError } from './utils';
-
+import { pick, difference } from 'lodash';
 type Props = {
   onSubmitFail: any => any,
   onSubmit: any => Promise<*>,
@@ -41,14 +41,22 @@ const legoForm = ({
         //
       }
     },
-    onSubmit: (values, dispatch, props) =>
-      onSubmit(values, dispatch, props).catch(error => {
+    onSubmit: (values, dispatch, props) => {
+      const data = pick(values, Object.keys(props.registeredFields));
+
+      console.log(
+        'Diff (lost in translation): ',
+        difference(Object.keys(values), Object.keys(data))
+      );
+
+      return onSubmit(data, dispatch, props).catch(error => {
         if (error instanceof SubmissionError || !enableSubmissionError) {
           throw error;
         }
 
         return handleSubmissionError(error);
-      })
+      });
+    }
   });
 
 export default legoForm;
