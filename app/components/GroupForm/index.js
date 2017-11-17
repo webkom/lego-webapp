@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import styles from './index.css';
-import { reduxForm, Field } from 'redux-form';
+import { Field } from 'redux-form';
 import type { FieldProps } from 'redux-form';
 import {
   Form,
@@ -9,7 +9,7 @@ import {
   EditorField,
   Button,
   ImageUploadField,
-  withSubmissionError
+  legoForm
 } from 'app/components/Form';
 import { createValidator, required } from 'app/utils/validation';
 
@@ -32,7 +32,7 @@ function GroupForm({
   const isNew = !group;
 
   return (
-    <Form onSubmit={handleSubmit(withSubmissionError(handleSubmitCallback))}>
+    <Form onSubmit={handleSubmit}>
       <Field
         label="Gruppenavn"
         placeholder="Strikk&Drikk"
@@ -70,11 +70,13 @@ function GroupForm({
   );
 }
 
-export default reduxForm({
+export default legoForm({
   form: 'groupForm',
   enableReinitialize: true,
   validate: createValidator({
     name: [required()],
     description: [required()]
-  })
+  }),
+  onSubmit: (data, dispatch, { handleSubmitCallback }: Props) =>
+    handleSubmitCallback(data)
 })(GroupForm);

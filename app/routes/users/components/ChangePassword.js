@@ -1,10 +1,10 @@
 // @flow
 
 import React from 'react';
-import { reduxForm, Field, SubmissionError } from 'redux-form';
+import { Field } from 'redux-form';
 import type { FieldProps } from 'redux-form';
 import Button from 'app/components/Button';
-import { TextInput, Form } from 'app/components/Form';
+import { TextInput, Form, legoForm } from 'app/components/Form';
 import {
   createValidator,
   required,
@@ -22,22 +22,12 @@ const ChangePassword = ({
   invalid,
   pristine,
   submitting,
-  changePassword,
-  push,
   ...props
 }: Props) => {
   const disabledButton = invalid || pristine || submitting;
-  const onSubmit = data =>
-    changePassword(data)
-      .then(() => push('/users/me'))
-      .catch(err => {
-        if (err.payload && err.payload.response) {
-          throw new SubmissionError(err.payload.response.jsonData);
-        }
-      });
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit}>
       <Field
         label="Gammelt passord"
         name="password"
@@ -72,7 +62,9 @@ const validate = createValidator({
   ]
 });
 
-export default reduxForm({
+export default legoForm({
   form: 'changePassword',
-  validate
+  validate,
+  onSubmit: (data, dispatch, { changePassword, push }: Props) =>
+    changePassword(data).then(() => push('/users/me'))
 })(ChangePassword);

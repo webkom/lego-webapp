@@ -2,7 +2,7 @@
 
 import styles from './bdb.css';
 import { Content } from 'app/components/Content';
-import React, { Component } from 'react';
+import React from 'react';
 import { httpCheck, DetailNavigation, ListNavigation } from '../utils.js';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import InfoBubble from 'app/components/InfoBubble';
@@ -14,10 +14,10 @@ import {
   RadioButton,
   SelectInput,
   ImageUploadField,
-  RadioButtonGroup
+  RadioButtonGroup,
+  legoForm
 } from 'app/components/Form';
 import { createValidator, required, isEmail } from 'app/utils/validation';
-import { reduxForm } from 'redux-form';
 import type {
   CompanyEntity,
   SubmitCompanyEntity
@@ -34,220 +34,215 @@ type Props = {
   deleteCompany: number => Promise<*>
 };
 
-class CompanyEditor extends Component<Props> {
-  onSubmit = (formContent: Object) => {
-    const { company, submitFunction } = this.props;
-    return submitFunction({
-      ...formContent,
-      logo: formContent.logo || undefined,
-      studentContact:
-        formContent.studentContact && Number(formContent.studentContact.id),
-      website: httpCheck(formContent.website),
-      companyId: company && company.id
-    });
-  };
+const CompanyEditor = ({
+  company,
+  submitting,
+  autoFocus,
+  handleSubmit,
+  uploadFile,
+  fetching,
+  deleteCompany
+}: Props) => {
+  if (fetching) {
+    return <LoadingIndicator />;
+  }
 
-  render() {
-    const {
-      company,
-      submitting,
-      autoFocus,
-      handleSubmit,
-      uploadFile,
-      fetching,
-      deleteCompany
-    } = this.props;
+  const nameField = (
+    <Field
+      placeholder="Bedriftens navn"
+      label=" "
+      autoFocus={autoFocus}
+      name="name"
+      component={TextInput.Field}
+      className={styles.editTitle}
+    />
+  );
 
-    if (fetching) {
-      return <LoadingIndicator />;
-    }
+  return (
+    <Content>
+      <div className={styles.detail}>
+        <form onSubmit={handleSubmit}>
+          <Field
+            name="logo"
+            component={ImageUploadField}
+            uploadFile={uploadFile}
+            aspectRatio={20 / 6}
+            img={company && company.logo}
+          />
 
-    const nameField = (
-      <Field
-        placeholder="Bedriftens navn"
-        label=" "
-        autoFocus={autoFocus}
-        name="name"
-        component={TextInput.Field}
-        className={styles.editTitle}
-      />
-    );
+          {company ? (
+            <DetailNavigation
+              title={nameField}
+              companyId={company.id}
+              deleteFunction={deleteCompany}
+            />
+          ) : (
+            <ListNavigation title={nameField} />
+          )}
 
-    return (
-      <Content>
-        <div className={styles.detail}>
-          <form onSubmit={handleSubmit(this.onSubmit)}>
+          <div className={styles.description}>
             <Field
-              name="logo"
-              component={ImageUploadField}
-              uploadFile={uploadFile}
-              aspectRatio={20 / 6}
-              img={company && company.logo}
+              placeholder="Beskrivelse av bedriften"
+              label=" "
+              autoFocus={autoFocus}
+              name="description"
+              component={TextEditor.Field}
+            />
+          </div>
+
+          <div className={styles.infoBubbles}>
+            <InfoBubble
+              icon="briefcase"
+              data={
+                <Field
+                  placeholder="Type bedrift"
+                  label=" "
+                  autoFocus={autoFocus}
+                  name="companyType"
+                  component={TextInput.Field}
+                  className={styles.editBubble}
+                />
+              }
+              meta="Type bedrift"
+              style={{ order: 0 }}
+            />
+            <InfoBubble
+              icon="mail"
+              data={
+                <Field
+                  placeholder="Fakturamail"
+                  label=" "
+                  autoFocus={autoFocus}
+                  name="paymentMail"
+                  component={TextInput.Field}
+                  className={styles.editBubble}
+                />
+              }
+              meta="Fakturamail"
+              style={{ order: 1 }}
+            />
+            <InfoBubble
+              icon="call"
+              data={
+                <Field
+                  placeholder="Telefonnummer"
+                  label=" "
+                  autoFocus={autoFocus}
+                  name="phone"
+                  component={TextInput.Field}
+                  className={styles.editBubble}
+                />
+              }
+              meta="Telefon"
+              style={{ order: 2 }}
+            />
+          </div>
+
+          <div className={styles.infoBubbles}>
+            <InfoBubble
+              icon="at"
+              data={
+                <Field
+                  placeholder="Nettside"
+                  label=" "
+                  autoFocus={autoFocus}
+                  name="website"
+                  component={TextInput.Field}
+                  className={styles.editBubble}
+                />
+              }
+              meta="Nettside"
+              style={{ order: 0 }}
             />
 
-            {company ? (
-              <DetailNavigation
-                title={nameField}
-                companyId={company.id}
-                deleteFunction={deleteCompany}
-              />
-            ) : (
-              <ListNavigation title={nameField} />
-            )}
+            <InfoBubble
+              icon="home"
+              data={
+                <Field
+                  placeholder="Adresse"
+                  label=" "
+                  autoFocus={autoFocus}
+                  name="address"
+                  component={TextInput.Field}
+                  className={styles.editBubble}
+                />
+              }
+              meta="Adresse"
+              style={{ order: 1 }}
+            />
+            <InfoBubble
+              icon="person"
+              data={
+                <Field
+                  placeholder="Studentkontakt"
+                  label=" "
+                  autoFocus={autoFocus}
+                  name="studentContact"
+                  component={SelectInput.AutocompleteField}
+                  className={styles.editBubble}
+                  filter={['users.user']}
+                />
+              }
+              meta="Studentkontakt"
+              style={{ order: 2 }}
+            />
+          </div>
 
-            <div className={styles.description}>
-              <Field
-                placeholder="Beskrivelse av bedriften"
-                label=" "
-                autoFocus={autoFocus}
-                name="description"
-                component={TextEditor.Field}
-              />
+          <div className={styles.info}>
+            <div style={{ order: 0 }}>
+              <RadioButtonGroup name="active" label="Aktiv bedrift?">
+                <Field
+                  label="Ja"
+                  component={RadioButton.Field}
+                  inputValue="true"
+                />
+                <Field
+                  label="Nei"
+                  component={RadioButton.Field}
+                  inputValue="false"
+                />
+              </RadioButtonGroup>
             </div>
+          </div>
 
-            <div className={styles.infoBubbles}>
-              <InfoBubble
-                icon="briefcase"
-                data={
-                  <Field
-                    placeholder="Type bedrift"
-                    label=" "
-                    autoFocus={autoFocus}
-                    name="companyType"
-                    component={TextInput.Field}
-                    className={styles.editBubble}
-                  />
-                }
-                meta="Type bedrift"
-                style={{ order: 0 }}
-              />
-              <InfoBubble
-                icon="mail"
-                data={
-                  <Field
-                    placeholder="Fakturamail"
-                    label=" "
-                    autoFocus={autoFocus}
-                    name="paymentMail"
-                    component={TextInput.Field}
-                    className={styles.editBubble}
-                  />
-                }
-                meta="Fakturamail"
-                style={{ order: 1 }}
-              />
-              <InfoBubble
-                icon="call"
-                data={
-                  <Field
-                    placeholder="Telefonnummer"
-                    label=" "
-                    autoFocus={autoFocus}
-                    name="phone"
-                    component={TextInput.Field}
-                    className={styles.editBubble}
-                  />
-                }
-                meta="Telefon"
-                style={{ order: 2 }}
-              />
-            </div>
+          <div className={styles.adminNote}>
+            <Field
+              placeholder="Bedriften ønsker kun kurs"
+              label="Notat fra Bedkom"
+              autoFocus={autoFocus}
+              name="adminComment"
+              component={TextEditor.Field}
+            />
+          </div>
 
-            <div className={styles.infoBubbles}>
-              <InfoBubble
-                icon="at"
-                data={
-                  <Field
-                    placeholder="Nettside"
-                    label=" "
-                    autoFocus={autoFocus}
-                    name="website"
-                    component={TextInput.Field}
-                    className={styles.editBubble}
-                  />
-                }
-                meta="Nettside"
-                style={{ order: 0 }}
-              />
+          <div className={styles.clear} />
+          <Button className={styles.submit} disabled={submitting} submit>
+            Lagre
+          </Button>
+        </form>
+      </div>
+    </Content>
+  );
+};
 
-              <InfoBubble
-                icon="home"
-                data={
-                  <Field
-                    placeholder="Adresse"
-                    label=" "
-                    autoFocus={autoFocus}
-                    name="address"
-                    component={TextInput.Field}
-                    className={styles.editBubble}
-                  />
-                }
-                meta="Adresse"
-                style={{ order: 1 }}
-              />
-              <InfoBubble
-                icon="person"
-                data={
-                  <Field
-                    placeholder="Studentkontakt"
-                    label=" "
-                    autoFocus={autoFocus}
-                    name="studentContact"
-                    component={SelectInput.AutocompleteField}
-                    className={styles.editBubble}
-                    filter={['users.user']}
-                  />
-                }
-                meta="Studentkontakt"
-                style={{ order: 2 }}
-              />
-            </div>
-
-            <div className={styles.info}>
-              <div style={{ order: 0 }}>
-                <RadioButtonGroup name="active" label="Aktiv bedrift?">
-                  <Field
-                    label="Ja"
-                    component={RadioButton.Field}
-                    inputValue="true"
-                  />
-                  <Field
-                    label="Nei"
-                    component={RadioButton.Field}
-                    inputValue="false"
-                  />
-                </RadioButtonGroup>
-              </div>
-            </div>
-
-            <div className={styles.adminNote}>
-              <Field
-                placeholder="Bedriften ønsker kun kurs"
-                label="Notat fra Bedkom"
-                autoFocus={autoFocus}
-                name="adminComment"
-                component={TextEditor.Field}
-              />
-            </div>
-
-            <div className={styles.clear} />
-            <Button className={styles.submit} disabled={submitting} submit>
-              Lagre
-            </Button>
-          </form>
-        </div>
-      </Content>
-    );
-  }
-}
+const onSubmit = (formContent, dispatch, { company, submitFunction }: Props) =>
+  submitFunction({
+    ...formContent,
+    logo: formContent.logo || undefined,
+    studentContact:
+      formContent.studentContact && Number(formContent.studentContact.id),
+    website: httpCheck(formContent.website),
+    companyId: company && company.id
+  });
 
 const validate = createValidator({
   name: [required()],
   paymentMail: [isEmail()]
 });
 
-export default reduxForm({
+export default legoForm({
   form: 'companyEditor',
   validate,
+  onSubmit,
   enableReinitialize: true
 })(CompanyEditor);
