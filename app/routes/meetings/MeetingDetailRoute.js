@@ -13,10 +13,7 @@ import {
 import MeetingDetailLoginRoute from './MeetingDetailLoginRoute';
 import MeetingAnswer from './components/MeetingAnswer';
 import prepare from 'app/utils/prepare';
-import {
-  selectMeetingById,
-  selectCommentsForMeeting
-} from 'app/reducers/meetings';
+import { selectMeetingById } from 'app/reducers/meetings';
 
 const loadMeeting = ({ loggedIn, params: { meetingId } }, dispatch) =>
   loggedIn ? dispatch(fetchMeeting(meetingId)) : Promise.resolve();
@@ -39,7 +36,6 @@ const mapStateToProps = (state, props) => {
   const { action, token } = props.location.query;
   const meetingsToken = state.meetingsToken;
   const meeting = selectMeetingById(state, { meetingId });
-  const comments = selectCommentsForMeeting(state, { meetingId });
   const showAnswer = Boolean(
     meetingsToken.response === 'SUCCESS' && action && token
   );
@@ -47,7 +43,6 @@ const mapStateToProps = (state, props) => {
     meetingsToken,
     user: props.currentUser,
     showAnswer,
-    comments,
     meeting,
     currentUser
   };

@@ -15,6 +15,7 @@ import { selectUserById } from 'app/reducers/users';
 import MeetingDetail from './components/MeetingDetail';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { selectCommentsForMeeting } from 'app/reducers/meetings';
 
 const mapDispatchToProps = {
   setInvitationStatus,
@@ -27,6 +28,8 @@ const mapStateToProps = (state, props) => {
   const { meetingId } = props.params;
   const { currentUser } = props;
   const meeting = selectMeetingById(state, { meetingId });
+  const comments = selectCommentsForMeeting(state, { meetingId });
+
   if (!meeting) return { currentUser, meetingId };
 
   const reportAuthor = selectUserById(state, { userId: meeting.reportAuthor });
@@ -45,7 +48,8 @@ const mapStateToProps = (state, props) => {
     createdBy,
     meetingInvitations,
     currentUserInvitation,
-    currentUser
+    currentUser,
+    comments
   };
 };
 
