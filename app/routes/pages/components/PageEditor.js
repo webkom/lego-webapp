@@ -141,7 +141,7 @@ export default class PageEditor extends Component<Props, State> {
           <Field
             placeholder="Write page content here..."
             name="content"
-            component={EditorField}
+            component={EditorField.Field}
             uploadFile={uploadFile}
           />
         </Form>

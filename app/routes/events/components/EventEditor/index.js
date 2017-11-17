@@ -131,7 +131,7 @@ function EventEditor({
           <ContentMain>
             <Field
               name="text"
-              component={EditorField}
+              component={EditorField.Field}
               placeholder="Dette blir tidenes fest..."
               className={styles.descriptionEditor}
               uploadFile={uploadFile}

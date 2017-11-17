@@ -111,7 +111,7 @@ function MeetingEditor({
           component={TextInput.Field}
         />
         <h3>Møtereferat</h3>
-        <Field name="report" label="Referat" component={EditorField} />
+        <Field name="report" label="Referat" component={EditorField.Field} />
         <div className={styles.sideBySideBoxes}>
           <div>
             <Field
