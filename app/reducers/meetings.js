@@ -25,7 +25,7 @@ export type MeetingSection = {
   meetings: Array<MeetingEntity>
 };
 
-function mutateMeeting(state: any, action: any) {
+function mutateMeetings(state: any, action: any) {
   switch (action.type) {
     case Meeting.DELETE.SUCCESS:
       return {
@@ -37,7 +37,7 @@ function mutateMeeting(state: any, action: any) {
   }
 }
 
-const mutate = joinReducers(mutateComments('meetings'), mutateMeeting);
+const mutate = joinReducers(mutateComments('meetings'), mutateMeetings);
 
 export default createEntityReducer({
   key: 'meetings',

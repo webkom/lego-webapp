@@ -13,7 +13,7 @@ import { AttendanceStatus } from 'app/components/UserAttendance';
 import moment from 'moment-timezone';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { statusesText, statuses } from 'app/reducers/meetingInvitations';
-import Editor from 'app/components/Editor';
+import DisplayContent from 'app/components/DisplayContent';
 import {
   Content,
   ContentHeader,
@@ -166,7 +166,7 @@ class MeetingDetails extends Component<Props> {
           <ContentSection>
             <ContentMain>
               <h2>Referat</h2>
-              <Editor readOnly value={meeting.report} />
+              <DisplayContent content={meeting.report} />
             </ContentMain>
             <ContentSidebar>
               <Card style={{ border: 'none', padding: 0 }} shadow={false}>

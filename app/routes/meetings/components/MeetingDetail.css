@@ -9,42 +9,6 @@
   flex-wrap: wrap;
 }
 
-.title {
-  margin-bottom: 0;
-}
-
-.mainContent {
-  flex-wrap: wrap;
-  padding-top: 20px;
-}
-
-.meetingItem {
-  padding-left: 20px;
-  border-left: 4px solid transparent;
-  margin-bottom: 15px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.line {
-  border-bottom: 3px solid #e5e5e4;
-  padding-bottom: 50px;
-  border-radius: 1%;
-}
-
-.reportContent {
-  min-width: 300px;
-}
-
-.statusContent {
-  min-width: 250px;
-}
-
-.commentContent {
-  width: 100%;
-  margin-top: 15px;
-}
-
 .detailTitle {
   margin-bottom: 0;
 
@@ -56,18 +20,4 @@
 .statusButtons {
   display: flex;
   margin-bottom: 10px;
-}
-
-.meetingItemTitle {
-  color: #333;
-  font-weight: 700;
-  margin: 0;
-}
-
-.meetingGroup {
-  margin-bottom: 40px;
-}
-
-.meetingTime {
-  color: #777;
 }
