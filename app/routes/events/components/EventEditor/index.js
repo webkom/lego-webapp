@@ -9,7 +9,7 @@ import RegisteredSummary from '../RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import Tag from 'app/components/Tags/Tag';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { reduxForm, Field, FieldArray } from 'redux-form';
+import { Field, FieldArray } from 'redux-form';
 import {
   Form,
   EditorField,
@@ -19,7 +19,8 @@ import {
   CheckBox,
   Button,
   DatePicker,
-  ImageUploadField
+  ImageUploadField,
+  legoForm
 } from 'app/components/Form';
 import { Flex } from 'app/components/Layout';
 import { eventTypes, colorForEvent } from '../../utils';
@@ -306,7 +307,7 @@ function EventEditor({
   );
 }
 
-export default reduxForm({
+export default legoForm({
   form: 'eventEditor',
   enableReinitialize: true,
   validate(data) {
