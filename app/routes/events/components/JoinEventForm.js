@@ -59,7 +59,8 @@ const SubmitButton = ({
   onSubmit?: () => void,
   disabled: boolean,
   type: string,
-  title: string
+  title: string,
+  showPenaltyNotice: boolean
 }) => {
   if (type === 'register') {
     return (
