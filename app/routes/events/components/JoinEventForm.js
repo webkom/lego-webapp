@@ -19,6 +19,7 @@ import { Flex } from 'app/components/Layout';
 import config from 'app/config';
 import withCountdown from './JoinEventFormCountdownProvider';
 import formStyles from 'app/components/Form/Field.css';
+import moment from 'moment-timezone';
 
 type Event = Object;
 
@@ -52,7 +53,8 @@ const SubmitButton = ({
   onSubmit,
   disabled,
   type,
-  title
+  title,
+  showPenaltyNotice
 }: {
   onSubmit?: () => void,
   disabled: boolean,
@@ -71,10 +73,16 @@ const SubmitButton = ({
     );
   }
 
+  const message = (
+    <Flex column>
+      <span>Er du sikker på at du vil avregistrere deg?</span>
+      {showPenaltyNotice && <b>NB: Avregistrering medfører én prikk</b>}
+    </Flex>
+  );
   return (
     <ConfirmModalWithParent
       title="Avregistrer"
-      message="Er du sikker på at du vil avregistrere deg?"
+      message={message}
       onConfirm={() => {
         onSubmit && onSubmit();
         return Promise.resolve();
@@ -154,6 +162,8 @@ class JoinEventForm extends Component<Props> {
       ? isInvalid || isPristine || submitting
       : false;
     const disabledForUser = !formOpen && !event.activationTime;
+    const showPenaltyNotice =
+      event.heedPenalties && moment().isAfter(event.unregistrationDeadline);
     const showCaptcha =
       !submitting && !registration && captchaOpen && event.useCaptcha;
     const showStripe =
@@ -252,6 +262,7 @@ class JoinEventForm extends Component<Props> {
                       )}
                       type={registrationType}
                       title={title || joinTitle}
+                      showPenaltyNotice={showPenaltyNotice}
                     />
 
                     {!registration && (

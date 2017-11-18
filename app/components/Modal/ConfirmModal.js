@@ -8,7 +8,7 @@ import Button from '../Button';
 type ConfirmModalProps = {
   onConfirm?: () => Promise<*>,
   onCancel?: () => Promise<*>,
-  message: string,
+  message: string | Node,
   title: string,
   disabled?: boolean
 };
