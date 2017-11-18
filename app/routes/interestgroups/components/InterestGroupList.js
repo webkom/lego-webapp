@@ -29,8 +29,8 @@ const InterestGroupList = (props: Props) => {
             </NavigationLink>
           </NavigationTab>
           <p>
-            <strong>Her</strong> finner du all praktisk informasjon knyttet til
-            våre interessegrupper.
+            <Link to="/pages/info/39-praktisk-informasjon">Her</Link> finner du
+            all praktisk informasjon knyttet til våre interessegrupper.
           </p>
           {showCreate && (
             <Link to="/interestgroups/create" className={styles.link}>
