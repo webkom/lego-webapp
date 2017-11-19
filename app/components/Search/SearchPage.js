@@ -9,6 +9,7 @@ import type { SearchResult } from 'app/reducers/search';
 type Props = {
   searching: boolean,
   location: Object,
+  inputRef?: (?HTMLInputElement) => void,
   onQueryChanged: string => void,
   results: Array<SearchResult>,
   handleSelect: SearchResult => void
@@ -46,10 +47,14 @@ class SearchPage extends Component<Props, State> {
 
       case Keyboard.ENTER:
         e.preventDefault();
-        this.setState({ query: '' });
-        this.props.handleSelect(this.props.results[this.state.selectedIndex]);
+        this.handleSelect(this.props.results[this.state.selectedIndex]);
         break;
     }
+  };
+
+  handleSelect = (result: SearchResult) => {
+    this.setState({ query: '', selectedIndex: 0 });
+    this.props.handleSelect(result);
   };
 
   handleQueryChange = ({ target }: SyntheticInputEvent<HTMLInputElement>) => {
@@ -59,11 +64,12 @@ class SearchPage extends Component<Props, State> {
   };
 
   render() {
-    const { handleSelect, searching, results } = this.props;
+    const { inputRef, searching, results } = this.props;
 
     return (
       <div>
         <SearchPageInput
+          inputRef={inputRef}
           isSearching={searching}
           value={this.state.query}
           onKeyDown={this.handleKeyDown}
@@ -72,7 +78,7 @@ class SearchPage extends Component<Props, State> {
 
         <SearchPageResults
           onKeyDown={this.handleKeyDown}
-          onSelect={handleSelect}
+          onSelect={this.handleSelect}
           query={this.state.query}
           results={results}
           selectedIndex={this.state.selectedIndex}
