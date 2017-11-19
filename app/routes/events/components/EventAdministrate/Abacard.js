@@ -73,6 +73,7 @@ class Abacard extends React.Component<*, State> {
         </div>
         <SearchPage
           {...this.props}
+          placeholder="Skriv inn brukernavn eller navn"
           handleSelect={this.handleSelect}
           inputRef={input => {
             this.input = input;

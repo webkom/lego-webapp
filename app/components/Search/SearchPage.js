@@ -11,6 +11,7 @@ type Props = {
   location: Object,
   inputRef?: (?HTMLInputElement) => void,
   onQueryChanged: string => void,
+  placeholder?: string,
   results: Array<SearchResult>,
   handleSelect: SearchResult => void
 };
@@ -74,7 +75,7 @@ class SearchPage extends Component<Props, State> {
   };
 
   render() {
-    const { inputRef, searching, results } = this.props;
+    const { inputRef, placeholder, searching, results } = this.props;
 
     return (
       <div>
@@ -83,6 +84,7 @@ class SearchPage extends Component<Props, State> {
           isSearching={searching}
           value={this.state.query}
           onKeyDown={this.handleKeyDown}
+          placeholder={placeholder}
           onChange={this.handleQueryChange}
         />
 

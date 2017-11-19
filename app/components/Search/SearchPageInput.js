@@ -6,6 +6,7 @@ type Props = {
   inputRef?: (?HTMLInputElement) => void,
   onChange: (SyntheticInputEvent<HTMLInputElement>) => void,
   onKeyDown: KeyboardEvent => void,
+  placeholder?: string,
   value: string,
   isSearching: boolean
 };
@@ -15,6 +16,7 @@ function SearchPageInput({
   isSearching,
   onKeyDown,
   onChange,
+  placeholder = 'Hva leter du etter?',
   value
 }: Props) {
   const icon = isSearching ? 'fa-circle-o-notch fa-spin' : 'fa-search';
@@ -26,7 +28,7 @@ function SearchPageInput({
 
       <input
         onKeyDown={onKeyDown}
-        placeholder="Hva leter du etter?"
+        placeholder={placeholder}
         autoFocus
         ref={inputRef}
         className={styles.input}
