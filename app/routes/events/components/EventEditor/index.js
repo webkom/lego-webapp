@@ -219,6 +219,16 @@ function EventEditor({
                 />
               </div>
             )}
+            <Tooltip content="Utsetter registrering og deler ut prikker">
+              <Field
+                label="Bruk prikker"
+                name="heedPenalties"
+                component={CheckBox.Field}
+                fieldClassName={styles.metaField}
+                className={styles.formField}
+                normalize={v => !!v}
+              />
+            </Tooltip>
             <Tooltip content="Frist for avmelding – fører til prikk etterpå">
               <Field
                 key="unregistrationDeadline"
