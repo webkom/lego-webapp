@@ -26,6 +26,16 @@ class SearchPage extends Component<Props, State> {
     query: this.props.location.query.q || ''
   };
 
+  componentWillReceiveProps(nextProps: Props) {
+    // Make sure the selectedIndex is within 0 <= index < results.length:
+    const selectedIndex = Math.min(
+      this.state.selectedIndex,
+      Math.max(nextProps.results.length - 1, 0)
+    );
+
+    this.setState({ selectedIndex });
+  }
+
   handleKeyDown = (e: KeyboardEvent) => {
     switch (e.which) {
       case Keyboard.UP:
