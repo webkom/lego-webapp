@@ -38,6 +38,7 @@ class SearchPage extends Component<Props, State> {
   }
 
   handleKeyDown = (e: KeyboardEvent) => {
+    if (this.props.results.length === 0) return;
     switch (e.which) {
       case Keyboard.UP:
         e.preventDefault();

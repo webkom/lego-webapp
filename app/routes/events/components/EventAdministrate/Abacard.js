@@ -27,7 +27,7 @@ class Abacard extends React.Component<*, State> {
 
   handleSelect = (result: SearchResult) => {
     this.props.clearSearch();
-    this.props
+    return this.props
       .handleSelect(result)
       .then(
         () => {
