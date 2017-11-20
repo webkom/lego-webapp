@@ -62,7 +62,7 @@ export const PresenceIcons = ({
   id
 }: PresenceProps) => {
   return (
-    <Flex row className={styles.presenceIcons}>
+    <Flex className={styles.presenceIcons}>
       <TooltipIcon
         content="Til stede"
         iconClass={cx('fa fa-check', styles.greenIcon)}
@@ -90,7 +90,7 @@ export const StripeStatus = ({
   handlePayment,
   chargeStatus
 }: StripeStatusProps) => (
-  <Flex row className={styles.presenceIcons}>
+  <Flex className={styles.presenceIcons}>
     <TooltipIcon
       content="Betalt stripe"
       iconClass={cx('fa fa-cc-stripe', styles.greenIcon)}
