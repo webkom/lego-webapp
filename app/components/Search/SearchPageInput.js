@@ -3,13 +3,22 @@ import * as React from 'react';
 import styles from './SearchPageInput.css';
 
 type Props = {
+  inputRef?: (?HTMLInputElement) => void,
   onChange: (SyntheticInputEvent<HTMLInputElement>) => void,
   onKeyDown: KeyboardEvent => void,
+  placeholder?: string,
   value: string,
   isSearching: boolean
 };
 
-function SearchPageInput({ isSearching, onKeyDown, onChange, value }: Props) {
+function SearchPageInput({
+  inputRef,
+  isSearching,
+  onKeyDown,
+  onChange,
+  placeholder = 'Hva leter du etter?',
+  value
+}: Props) {
   const icon = isSearching ? 'fa-circle-o-notch fa-spin' : 'fa-search';
   return (
     <div className={styles.container}>
@@ -19,8 +28,9 @@ function SearchPageInput({ isSearching, onKeyDown, onChange, value }: Props) {
 
       <input
         onKeyDown={onKeyDown}
-        placeholder="Hva leter du etter?"
+        placeholder={placeholder}
         autoFocus
+        ref={inputRef}
         className={styles.input}
         onChange={onChange}
         value={value}

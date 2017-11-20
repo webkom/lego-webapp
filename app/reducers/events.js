@@ -13,7 +13,7 @@ import { groupBy } from 'lodash';
 
 export type EventEntity = {
   id: number,
-  name: string,
+  title: string,
   comments: Array<number>
 };
 

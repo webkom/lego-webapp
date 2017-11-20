@@ -9,7 +9,9 @@ import type { SearchResult } from 'app/reducers/search';
 type Props = {
   searching: boolean,
   location: Object,
+  inputRef?: (?HTMLInputElement) => void,
   onQueryChanged: string => void,
+  placeholder?: string,
   results: Array<SearchResult>,
   handleSelect: SearchResult => void
 };
@@ -25,7 +27,18 @@ class SearchPage extends Component<Props, State> {
     query: this.props.location.query.q || ''
   };
 
+  componentWillReceiveProps(nextProps: Props) {
+    // Make sure the selectedIndex is within 0 <= index < results.length:
+    const selectedIndex = Math.min(
+      this.state.selectedIndex,
+      Math.max(nextProps.results.length - 1, 0)
+    );
+
+    this.setState({ selectedIndex });
+  }
+
   handleKeyDown = (e: KeyboardEvent) => {
+    if (this.props.results.length === 0) return;
     switch (e.which) {
       case Keyboard.UP:
         e.preventDefault();
@@ -46,10 +59,14 @@ class SearchPage extends Component<Props, State> {
 
       case Keyboard.ENTER:
         e.preventDefault();
-        this.setState({ query: '' });
-        this.props.handleSelect(this.props.results[this.state.selectedIndex]);
+        this.handleSelect(this.props.results[this.state.selectedIndex]);
         break;
     }
+  };
+
+  handleSelect = (result: SearchResult) => {
+    this.setState({ query: '', selectedIndex: 0 });
+    this.props.handleSelect(result);
   };
 
   handleQueryChange = ({ target }: SyntheticInputEvent<HTMLInputElement>) => {
@@ -59,20 +76,22 @@ class SearchPage extends Component<Props, State> {
   };
 
   render() {
-    const { handleSelect, searching, results } = this.props;
+    const { inputRef, placeholder, searching, results } = this.props;
 
     return (
       <div>
         <SearchPageInput
+          inputRef={inputRef}
           isSearching={searching}
           value={this.state.query}
           onKeyDown={this.handleKeyDown}
+          placeholder={placeholder}
           onChange={this.handleQueryChange}
         />
 
         <SearchPageResults
           onKeyDown={this.handleKeyDown}
-          onSelect={handleSelect}
+          onSelect={this.handleSelect}
           query={this.state.query}
           results={results}
           selectedIndex={this.state.selectedIndex}
