@@ -21,7 +21,6 @@ body {
   line-height: 1.8;
   font-family: Raleway, 'Helvetica Neue', Arial, sans-serif;
   background: var(--lego-background-color);
-  background-attachment: fixed;
   color: var(--lego-font-color);
   position: relative;
 }
