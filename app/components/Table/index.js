@@ -9,6 +9,7 @@ import cx from 'classnames';
 import { isEmpty } from 'lodash';
 import InfiniteScroll from 'react-infinite-scroller';
 import styles from './Table.css';
+import { get } from 'lodash';
 
 type sortProps = {
   direction?: 'asc' | 'desc',
@@ -70,11 +71,10 @@ export default class Table extends Component<Props, State> {
   };
 
   renderCell = (column: columnProps, data: Object, index: number) => {
+    const cellData = get(data, column.dataIndex);
     return (
       <td key={`${column.dataIndex}-${index}-${data.id}`}>
-        {column.render
-          ? column.render(data[column.dataIndex], data)
-          : data[column.dataIndex]}
+        {column.render ? column.render(cellData, data) : cellData}
       </td>
     );
   };
