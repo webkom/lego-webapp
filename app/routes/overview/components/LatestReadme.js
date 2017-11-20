@@ -49,7 +49,7 @@ class LatestReadme extends Component<Props, State> {
 
         {expanded && (
           <Flex wrap justifyContent="space-between" style={{ paddingTop: 20 }}>
-            {[1, 2, 3, 4].map(issue => (
+            {[1, 2, 3, 4, 5].map(issue => (
               <a
                 key={issue}
                 href={`https://readme.abakus.no/utgaver/2017/2017-0${
