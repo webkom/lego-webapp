@@ -318,7 +318,6 @@ function EventEditor({
 
 export default reduxForm({
   form: 'eventEditor',
-  enableReinitialize: true,
   validate(data) {
     const errors = {};
     if (!data.title) {
