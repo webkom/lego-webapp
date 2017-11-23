@@ -5,7 +5,13 @@ import styles from './JoblistingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 
-import { reduxForm, Field, SubmissionError, change } from 'redux-form';
+import {
+  type FormProps,
+  reduxForm,
+  Field,
+  SubmissionError,
+  change
+} from 'redux-form';
 import { httpCheck } from 'app/routes/bdb/utils';
 import {
   TextInput,
@@ -34,7 +40,7 @@ type Props = {
   isNew: boolean,
   fetching: boolean,
   fetchCompanyContacts: ({ companyId: ID }) => Promise<*>
-};
+} & FormProps;
 
 type State = {
   responsibleOptions: Array<Object>
@@ -99,7 +105,14 @@ class JoblistingEditor extends Component<Props, State> {
   }
 
   render() {
-    const { handleSubmit, isNew, dispatch, fetching = false } = this.props;
+    const {
+      handleSubmit,
+      isNew,
+      dispatch,
+      fetching = false,
+      submitting,
+      invalid
+    } = this.props;
 
     if (!isNew && fetching) {
       return <LoadingIndicator loading />;
@@ -228,7 +241,11 @@ class JoblistingEditor extends Component<Props, State> {
                 <Button dark>Slett</Button>
               </ConfirmModalWithParent>
             )}
-            <Button className={styles.submit} submit>
+            <Button
+              disabled={invalid || submitting}
+              className={styles.submit}
+              submit
+            >
               Lagre
             </Button>
           </Flex>
