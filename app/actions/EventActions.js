@@ -205,8 +205,8 @@ export function adminRegister(
     body: {
       user: userId,
       pool: poolId,
-      feedback,
-      admin_reason: reason
+      adminRegistrationReason: reason,
+      feedback
     },
     meta: {
       errorMessage: 'Admin registrering feilet',
