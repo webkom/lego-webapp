@@ -7,18 +7,15 @@ import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
 import { Link } from 'react-router';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import type { InterestGroup } from 'app/models';
+import type { ActionGrant, InterestGroup } from 'app/models';
 
 export type Props = {
-  interestGroups: Array<InterestGroup>,
-  loggedIn: boolean
+  actionGrant: ActionGrant,
+  interestGroups: Array<InterestGroup>
 };
 
-const InterestGroupList = (props: Props) => {
-  const groups = props.interestGroups.map((group, key) => (
-    <InterestGroupComponent group={group} key={key} />
-  ));
-  const showCreate = props.loggedIn;
+const InterestGroupList = ({ actionGrant, interestGroups }: Props) => {
+  const canCreate = actionGrant.includes('create');
   return (
     <Content>
       <div className={styles.section}>
@@ -32,14 +29,18 @@ const InterestGroupList = (props: Props) => {
             <Link to="/pages/info/39-praktisk-informasjon">Her</Link> finner du
             all praktisk informasjon knyttet til våre interessegrupper.
           </p>
-          {showCreate && (
+          {canCreate && (
             <Link to="/interestgroups/create" className={styles.link}>
               <Button>Lag ny interessegruppe</Button>
             </Link>
           )}
         </div>
       </div>
-      <div className="groups">{groups}</div>
+      <div className="groups">
+        {interestGroups.map(group => (
+          <InterestGroupComponent group={group} key={group.id} />
+        ))}
+      </div>
     </Content>
   );
 };
