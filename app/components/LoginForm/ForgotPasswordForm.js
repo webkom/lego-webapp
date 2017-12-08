@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm, Field, SubmissionError, FormProps } from 'redux-form';
+import { reduxForm, Field, SubmissionError, type FormProps } from 'redux-form';
 import { sendForgotPasswordEmail } from 'app/actions/UserActions';
 import { Form, TextInput } from '../Form';
 import Button from '../Button';

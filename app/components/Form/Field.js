@@ -66,8 +66,8 @@ export function createField(Component: ComponentType<*>) {
     );
   };
 
-  Field.displayName = `Field(${Component.displayName ||
-    Component.name ||
-    'Unknown'})`;
+  Field.displayName = `Field(${
+    Component ? Component.displayName || Component.name : 'Unknown'
+  })`;
   return Field;
 }
