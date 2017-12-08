@@ -39,7 +39,7 @@ const searchMapping = {
     color: '#52B0EC',
     path: '/articles/',
     value: 'id',
-    content: 'text'
+    content: 'description'
   },
   'events.event': {
     label: 'title',
@@ -73,7 +73,7 @@ const searchMapping = {
     color: '#E8953A',
     path: '/companies/',
     value: 'id',
-    content: 'content'
+    content: 'description'
   },
   'companies.companycontact': {
     label: 'name',
