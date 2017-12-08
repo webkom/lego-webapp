@@ -20,7 +20,7 @@ type State = {
   expanded: boolean
 };
 
-export default class CommentRenderer extends Component<Props, State> {
+export default class ActivityRenderer extends Component<Props, State> {
   state: State = {
     expanded: false
   };

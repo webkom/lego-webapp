@@ -6,7 +6,8 @@ import awSnap from 'app/assets/sentry-aw-snap.svg';
 
 type Props = {
   openReportDialog?: boolean,
-  children: any
+  children: any,
+  hidden?: boolean
 };
 
 type State = {
@@ -31,9 +32,9 @@ class ErrorBoundary extends React.Component<Props, State> {
   }
 
   render() {
-    const { openReportDialog, children, ...rest } = this.props;
+    const { openReportDialog, hidden = false, children, ...rest } = this.props;
     if (this.state.error) {
-      return (
+      return hidden ? null : (
         <div className={styles.container}>
           <div
             className={styles.snap}
