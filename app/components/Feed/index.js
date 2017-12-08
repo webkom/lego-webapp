@@ -25,7 +25,7 @@ const Feed = ({ items }: Props) => (
       items.map((item, i) => {
         const renders = activityRenderers[item.verb];
         return renders ? (
-          <ErrorBoundary key={item.id}>
+          <ErrorBoundary hidden key={item.id}>
             <Activity aggregatedActivity={item} renders={renders} />
           </ErrorBoundary>
         ) : null;
