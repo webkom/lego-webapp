@@ -3,6 +3,7 @@ import React from 'react';
 import Activity from './activity';
 import type { AggregatedActivity } from './types';
 import EmptyState from 'app/components/EmptyState';
+import ErrorBoundary from 'app/components/ErrorBoundary';
 
 export const activityRenderers = {
   comment: require('./renders/comment'),
@@ -16,13 +17,17 @@ export const activityRenderers = {
   event_register: require('./renders/event_register')
 };
 
-const Feed = ({ items }: { items: Array<AggregatedActivity> }) => (
+type Props = { items: Array<AggregatedActivity> };
+
+const Feed = ({ items }: Props) => (
   <div style={{ width: '100%' }}>
     {items.length ? (
       items.map((item, i) => {
         const renders = activityRenderers[item.verb];
         return renders ? (
-          <Activity aggregatedActivity={item} key={i} renders={renders} />
+          <ErrorBoundary key={item.id}>
+            <Activity aggregatedActivity={item} renders={renders} />
+          </ErrorBoundary>
         ) : null;
       })
     ) : (
@@ -32,5 +37,4 @@ const Feed = ({ items }: { items: Array<AggregatedActivity> }) => (
     )}
   </div>
 );
-
 export default Feed;
