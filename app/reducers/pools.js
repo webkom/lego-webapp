@@ -7,9 +7,7 @@ import mergeObjects from 'app/utils/mergeObjects';
 
 export default createEntityReducer({
   key: 'pools',
-  types: {
-    fetch: false
-  },
+  types: {},
   mutate(state, action) {
     switch (action.type) {
       case Event.SOCKET_EVENT_UPDATED: {

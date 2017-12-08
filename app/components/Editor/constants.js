@@ -1,5 +1,5 @@
-/* eslint-disable react/display-name */
 // @flow
+/* eslint-disable react/display-name */
 
 import React, { type Node } from 'react';
 
@@ -86,8 +86,8 @@ export const MARK_TAGS = [
 
 type BlockTag = {
   type: string,
-  icon: string,
-  render: ({ children: Node }) => Node,
+  icon?: string,
+  render?: ({ children: Node }) => Node,
   serialize: (object: any, children: Node) => Node,
   hoverHidden?: boolean
 };
@@ -98,7 +98,7 @@ type BlockTag = {
  * @type {Object}
  */
 
-export const BLOCK_TAGS: Array<BlockTag> = ([
+export const BLOCK_TAGS: Array<BlockTag> = [
   {
     type: 'block-quote',
     icon: 'quote-left',
@@ -190,7 +190,7 @@ export const BLOCK_TAGS: Array<BlockTag> = ([
       }
     }
   }
-]: any);
+];
 
 /**
  * Define a schema.

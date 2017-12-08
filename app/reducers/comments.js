@@ -2,7 +2,7 @@
 
 import { Comment } from 'app/actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import { type UserEntity } from 'app/routes/users';
+import { type UserEntity } from 'app/reducers/users';
 import getEntityType from 'app/utils/getEntityType';
 
 export type CommentEntity = {
