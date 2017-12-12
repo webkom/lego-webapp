@@ -203,7 +203,7 @@ export default class EventDetail extends Component<Props> {
                   <h3>Påmeldte</h3>
                   <Flex className={styles.registeredThumbnails}>
                     {registrations
-                      .slice(0, 10)
+                      .slice(0, 12)
                       .map(reg => (
                         <RegisteredCell key={reg.user.id} user={reg.user} />
                       ))}

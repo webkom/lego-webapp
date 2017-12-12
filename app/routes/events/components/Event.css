@@ -26,7 +26,8 @@
 
 .registeredThumbnails {
   flex-wrap: wrap;
-  max-height: 138px;
+  max-height: 130px;
+  justify-content: space-between;
   overflow: hidden;
 }
 
