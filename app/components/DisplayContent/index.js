@@ -2,6 +2,8 @@
 
 import React from 'react';
 import { Parser, ProcessNodeDefinitions } from 'html-to-react';
+import styles from './DisplayContent.css';
+import cx from 'classnames';
 
 type Props = {
   /** The content to be displayed - the text */
@@ -72,7 +74,7 @@ function DisplayContent({ content, id, style, className }: Props) {
   );
 
   return (
-    <div className={className} id={className} style={style}>
+    <div className={cx(styles.base, className)} id={className} style={style}>
       {react}
     </div>
   );
