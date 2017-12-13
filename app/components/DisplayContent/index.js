@@ -4,6 +4,7 @@ import React from 'react';
 import { Parser, ProcessNodeDefinitions } from 'html-to-react';
 import styles from './DisplayContent.css';
 import cx from 'classnames';
+import urlifyString from 'app/utils/urlifyString';
 
 type Props = {
   /** The content to be displayed - the text */
@@ -53,6 +54,24 @@ const processingInstructions = [
     },
     processNode: (node, children) => {
       return node.data.toUpperCase();
+    }
+  },
+  {
+    /*
+    * Custom handler that renders urls (including mails) as a-tags with the
+    * corresponding src
+    */
+    replaceChildren: true,
+    shouldProcessNode: function(node) {
+      return node.name === 'p';
+    },
+    processNode: function(node, children, index) {
+      return children.map(child => {
+        if (typeof child === 'string') {
+          return urlifyString(child);
+        }
+        return child;
+      });
     }
   },
   {
