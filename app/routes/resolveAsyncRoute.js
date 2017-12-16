@@ -1,18 +1,13 @@
 // @flow
 
-function loadRoute(callback) {
-  return module => callback(null, module.default);
-}
-
-function loadingError(err) {
-  console.error('Loading error', err); // eslint-disable-line
-}
-
 type ComponentFn = () => Promise<Object>;
 
 type AsyncOrSyncRouteConfig =
   | {
-      getComponent: (location: string, cb: () => void) => void
+      getComponent: (
+        location: string,
+        cb: (Object | null, ?Object) => void
+      ) => void
     }
   | { component: Object };
 
@@ -54,10 +49,13 @@ export default function resolveAsyncRoute(
   }
 
   return {
-    getComponent(location, cb: (null, Object) => void) {
+    getComponent(
+      location,
+      callback: (error: Object | null, component?: Object) => void
+    ) {
       componentFn()
-        .then(loadRoute(cb))
-        .catch(loadingError);
+        .then(module => callback(null, module.default))
+        .catch(error => callback(error));
     }
   };
 }
