@@ -2,11 +2,13 @@
 
 import { reduxForm, SubmissionError } from 'redux-form';
 import { handleSubmissionError } from './utils';
-import { pick, difference } from 'lodash';
+import { pick } from 'lodash';
 type Props = {
   onSubmitFail: any => any,
   onSubmit: any => Promise<*>,
-  /* Enable auto submissionError */
+  /* Enable auto submissionError
+   * This only works if 'onSubmit' is passed into legoForm,
+   * and not if it is passed into 'handleSubmit()'*/
   enableSubmissionError?: boolean,
   /* Move the screen to the first error in the list on SubmissionError */
   enableFocusOnError?: boolean,
@@ -14,8 +16,9 @@ type Props = {
    * Should be used when there is no visible filed for the value,
    * but that it should still pass the value further.
    * 
-   * The id is always picked
+   * The id is always picked, together with all registered fields
    */
+  enableValuePicking?: boolean,
   pickAdditionalValues?: Array<string>,
   ...any
 };
@@ -25,16 +28,15 @@ const legoForm = ({
   onSubmit,
   enableSubmissionError = true,
   enableFocusOnError = true,
+  enableValuePicking = true,
   pickAdditionalValues = [],
   ...rest
 }: Props) =>
   reduxForm({
     ...rest,
     onSubmitFail: errors => {
-      onSubmitFail(errors);
-
       if (!enableFocusOnError) {
-        return;
+        return onSubmitFail(errors);
       }
 
       try {
@@ -48,19 +50,17 @@ const legoForm = ({
       } catch (e) {
         //
       }
+      return onSubmitFail(errors);
     },
     onSubmit: (values, dispatch, props) => {
-      const pickedValues = pick(
-        values,
-        Object.keys(props.registeredFields)
-          .concat('id')
-          .concat(pickAdditionalValues)
-      );
-
-      console.log(
-        'Diff (lost in translation): ',
-        difference(Object.keys(values), Object.keys(pickedValues))
-      );
+      const pickedValues = enableValuePicking
+        ? pick(
+            values,
+            Object.keys(props.registeredFields)
+              .concat('id')
+              .concat(pickAdditionalValues)
+          )
+        : values;
 
       return onSubmit(pickedValues, dispatch, props).catch(error => {
         if (error instanceof SubmissionError || !enableSubmissionError) {

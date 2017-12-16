@@ -9,7 +9,7 @@ import {
 } from 'app/actions/PageActions';
 import { uploadFile } from 'app/actions/FileActions';
 import PageEditor from './components/PageEditor';
-import { reduxForm } from 'redux-form';
+import { legoForm } from 'app/components/Form/';
 import { selectPageBySlug } from 'app/reducers/pages';
 import { push } from 'react-router-redux';
 
@@ -24,10 +24,7 @@ function mapStateToProps(state, props) {
   return {
     page,
     pageSlug,
-    initialValues: {
-      content: page.content,
-      title: page.title
-    }
+    initialValues: page
   };
 }
 
@@ -45,9 +42,8 @@ export default compose(
     dispatch(fetchPage(pageSlug))
   ),
   connect(mapStateToProps, mapDispatchToProps),
-  reduxForm({
+  legoForm({
     destroyOnUnmount: false,
-    form: 'page-edit',
-    enableReinitialize: true
+    form: 'page-edit'
   })
 )(PageEditor);
