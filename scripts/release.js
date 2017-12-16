@@ -2,6 +2,7 @@
 /* eslint no-console: 0 */
 const path = require('path');
 const chalk = require('chalk');
+const { chunk } = require('lodash');
 const meow = require('meow');
 const exec = require('child-process-promise').exec;
 const { assets } = require('../dist/stats.json');
@@ -13,6 +14,7 @@ const sourceMaps = assets
 
 const { RELEASE, SENTRY_AUTH_KEY } = process.env;
 const SENTRY_PROJECT = 'webkom/lego-webapp';
+const MAX_PARALLEL_REQUESTS = 10;
 
 const failedCommands = [];
 
@@ -42,12 +44,17 @@ async function task(promise) {
   }
 }
 
-async function createSentryRelease(version, project) {
-  return run(
+async function createSentryRelease() {
+  const result = await run(
     `curl https://sentry.abakus.no/api/0/projects/${SENTRY_PROJECT}/releases/ \
     -H 'Authorization: Bearer ${SENTRY_AUTH_KEY}' \
     -X POST -d '{"version": "${RELEASE}"}' -H 'Content-Type: application/json'`
   );
+
+  if (JSON.parse(result.stdout).version !== RELEASE) {
+    throw new Error(`Error creating release "${RELEASE}": ${result.stdout}`);
+  }
+  return result;
 }
 
 async function uploadSourceMap(filename) {
@@ -60,15 +67,22 @@ async function uploadSourceMap(filename) {
   `);
 
   if (!JSON.parse(result.stdout).sha1) {
-    throw new Error(`Upload error ${result.stdout}`);
+    throw new Error(
+      `Error uploading sourcemap "${filename}": ${result.stdout}`
+    );
   }
 
   return result;
 }
 
 async function uploadProjectToSentry() {
-  await createSentryRelease();
-  await Promise.all(sourceMaps.map(uploadSourceMap));
+  await task(createSentryRelease());
+
+  for (const sourceMapsChunk of chunk(sourceMaps, MAX_PARALLEL_REQUESTS)) {
+    await Promise.all(
+      sourceMapsChunk.map(sourceMap => task(uploadSourceMap(sourceMap)))
+    );
+  }
 }
 
 async function deleteSourceMaps() {
@@ -80,7 +94,7 @@ async function deleteSourceMaps() {
 async function main(flags) {
   const startTime = Date.now();
 
-  await task(uploadProjectToSentry());
+  await uploadProjectToSentry();
 
   if (flags.delete) {
     // Delete sourcemaps if the --delete flag exists.
