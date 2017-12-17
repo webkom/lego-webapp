@@ -90,7 +90,7 @@ export function EventItem({ event }: any) {
       </div>
 
       <div className={styles.companyLogo}>
-        <Image src={event.cover} />
+        {event.cover && <Image src={event.cover} />}
       </div>
     </div>
   );
