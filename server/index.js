@@ -7,7 +7,8 @@ import config from './env';
 
 Raven.config(config.ravenDsn, {
   release: config.release,
-  environment: config.environment
+  environment: config.environment,
+  logger: 'node'
 }).install();
 
 const server = http.createServer(app);

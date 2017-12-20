@@ -7,13 +7,20 @@ import { createTracker, EventTypes } from 'redux-segment';
 import { createLogger } from 'redux-logger';
 import { browserHistory } from 'react-router';
 import { routerMiddleware } from 'react-router-redux';
-import Raven from 'raven-js';
+import RavenJS from 'raven-js';
 import createRavenMiddleware from 'raven-for-redux';
 import { addToast } from 'app/actions/ToastActions';
 import promiseMiddleware from './promiseMiddleware';
 import createMessageMiddleware from './messageMiddleware';
 import type { State, Store } from 'app/types';
-import config from 'app/config';
+
+export type UniversalRaven =
+  | {
+      captureBreadcrumb: Breadcrumb => UniversalRaven,
+      setDataCallback: ((any) => any) => UniversalRaven,
+      captureException: (Error, ?RavenOptions) => UniversalRaven
+    }
+  | typeof RavenJS;
 
 const trackerMiddleware = createTracker({
   mapper: {
@@ -50,11 +57,6 @@ const trackerMiddleware = createTracker({
   }
 });
 
-Raven.config(config.ravenDSN, {
-  release: config.release,
-  environment: config.environment
-}).install();
-
 const loggerMiddleware = createLogger({
   level: 'info',
   collapsed: true
@@ -64,12 +66,16 @@ const messageMiddleware = createMessageMiddleware(message =>
   addToast({ message })
 );
 
-export default function configureStore(initialState: State): Store {
+export default function configureStore(
+  initialState: State,
+  Raven: UniversalRaven
+): Store {
   const middlewares = [
     routerMiddleware(browserHistory),
     thunkMiddleware,
     promiseMiddleware(),
     createRavenMiddleware(Raven),
+
     messageMiddleware,
     trackerMiddleware
   ];

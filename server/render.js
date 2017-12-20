@@ -10,15 +10,14 @@ import Raven from 'raven';
 import serialize from 'serialize-javascript';
 import routes from '../app/routes';
 import configureStore from '../app/utils/configureStore';
+import { selectCurrentUser } from 'app/reducers/auth';
 import config from '../config/env';
 
 import manifest from '../app/assets/manifest.json';
 
 const serverSideTimeoutInMs = 4000;
 
-const TimeoutError = new Error(
-  'React prepare timeout when server side rendering.'
-);
+const TimeoutError = new Error('Testing sentry-node');
 
 function prepareWithTimeout(app) {
   return Promise.race([
@@ -52,53 +51,73 @@ function render(req, res, next) {
     if (!renderProps) {
       return next();
     }
+    Raven.context(function() {
+      const createElement = (Component, props) => (
+        <Component
+          {...props}
+          getRaven={() => Raven}
+          getCookie={key => req.cookies[key]}
+        />
+      );
 
-    const createElement = (Component, props) => (
-      <Component {...props} getCookie={key => req.cookies[key]} />
-    );
+      let dataCallback = data => data;
 
-    // Todo: render on errors as well
-    const store = configureStore();
-    const app = (
-      <Provider store={store}>
-        <RouterContext {...renderProps} createElement={createElement} />
-      </Provider>
-    );
+      // Mimic raven-js API
+      const raven = {
+        captureBreadcrumb: data => Raven.captureBreadcrumb(data),
+        setDataCallback: callback => (dataCallback = callback),
+        captureException: (error, extraData = {}) => {
+          const data = dataCallback({
+            extra: {},
+            ...extraData
+          });
+          return Raven.captureException(error, {
+            ...data,
+            user: selectCurrentUser(data.extra.state) || data.extra.state.auth
+          });
+        }
+      };
 
-    const respond = (error = null) => {
-      const helmet = Helmet.rewind();
-      const render = (body = '', state = {}) =>
-        res.send(
-          renderPage({
-            body,
-            state,
-            helmet
-          })
-        );
+      const store = configureStore({}, raven);
+      const app = (
+        <Provider store={store}>
+          <RouterContext {...renderProps} createElement={createElement} />
+        </Provider>
+      );
 
-      // Skip server side rendering on timeout errors:
-      if (error === TimeoutError) {
-        return render();
-      }
+      const respond = (error = null) => {
+        const helmet = Helmet.rewind();
+        const render = (body = '', state = {}) =>
+          res.send(
+            renderPage({
+              body,
+              state,
+              helmet
+            })
+          );
 
-      try {
-        const body = renderToString(app);
-        const state = store.getState();
-        return render(body, state);
-      } catch (err) {
-        Raven.captureException(err);
-        return render();
-      }
-    };
+        try {
+          // Skip server side rendering on timeout errors:
+          if (error === TimeoutError) {
+            throw error;
+          }
+          const state = store.getState();
+          const body = renderToString(app);
 
-    prepareWithTimeout(app)
-      .then(respond)
-      .catch(error => {
-        const err = error.error ? error.payload : error;
-        log.error(err, 'render_error');
-        Raven.captureException(err);
-        respond(error);
-      });
+          return render(body, state);
+        } catch (err) {
+          const err = error.error ? error.payload : error;
+          log.error(err, 'render_error');
+
+          raven.captureException(err);
+          return render();
+        }
+      };
+
+      prepareWithTimeout(app)
+        .then(respond)
+        .catch(respond);
+    });
   });
 }
 
