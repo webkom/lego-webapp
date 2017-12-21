@@ -28,6 +28,7 @@ import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 import cx from 'classnames';
 import HTTPError from '../errors/HTTPError';
 import { setStatusCode } from 'app/actions/RoutingActions';
+import { omit } from 'lodash';
 import config from 'app/config';
 
 type Props = {
@@ -68,7 +69,7 @@ type AppProps = any;
 
 class App extends PureComponent<AppProps> {
   componentWillReceiveProps(nextProps: Props) {
-    Raven.setUserContext(nextProps.currentUser);
+    Raven.setUserContext(omit(nextProps.currentUser, 'icalToken'));
   }
 
   render() {

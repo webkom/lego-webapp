@@ -64,17 +64,24 @@ function render(req, res, next) {
 
       // Mimic raven-js API
       const raven = {
-        captureBreadcrumb: data => Raven.captureBreadcrumb(data),
-        setDataCallback: callback => (dataCallback = callback),
+        captureBreadcrumb: data => {
+          Raven.captureBreadcrumb(data);
+          return raven;
+        },
+        setDataCallback: callback => {
+          dataCallback = callback;
+          return raven;
+        },
         captureException: (error, extraData = {}) => {
           const data = dataCallback({
             extra: {},
             ...extraData
           });
-          return Raven.captureException(error, {
+          Raven.captureException(error, {
             ...data,
-            user: selectCurrentUser(data.extra.state) || data.extra.state.auth
+            user: selectCurrentUser(data.extra.state)
           });
+          return raven;
         }
       };
 
@@ -103,7 +110,9 @@ function render(req, res, next) {
           }
           const state = store.getState();
           const body = renderToString(app);
+          const statusCode = state.routing.statusCode || 200;
 
+          res.status(statusCode);
           return render(body, state);
         } catch (err) {
           const err = error.error ? error.payload : error;

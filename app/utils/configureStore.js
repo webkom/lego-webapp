@@ -5,6 +5,7 @@ import thunkMiddleware from 'redux-thunk';
 import { User } from 'app/actions/ActionTypes';
 import { createTracker, EventTypes } from 'redux-segment';
 import { createLogger } from 'redux-logger';
+import jwtDecode from 'jwt-decode';
 import { browserHistory } from 'react-router';
 import { routerMiddleware } from 'react-router-redux';
 import RavenJS from 'raven-js';
@@ -16,9 +17,12 @@ import type { State, Store } from 'app/types';
 
 export type UniversalRaven =
   | {
-      captureBreadcrumb: Breadcrumb => UniversalRaven,
-      setDataCallback: ((any) => any) => UniversalRaven,
-      captureException: (Error, ?RavenOptions) => UniversalRaven
+      captureBreadcrumb: Breadcrumb => UniversalRaven | typeof RavenJS | void,
+      setDataCallback: (any, ?any) => UniversalRaven | typeof RavenJS | void,
+      captureException: (
+        Error,
+        RavenOptions | void
+      ) => UniversalRaven | typeof RavenJS | void
     }
   | typeof RavenJS;
 
@@ -57,25 +61,40 @@ const trackerMiddleware = createTracker({
   }
 });
 
+const stateTransformer = state => {
+  try {
+    const token = jwtDecode(state.auth.token);
+    return {
+      ...state,
+      auth: {
+        ...state.auth,
+        token
+      }
+    };
+  } catch (e) {
+    return state;
+  }
+};
+
 const loggerMiddleware = createLogger({
   level: 'info',
   collapsed: true
 });
 
-const messageMiddleware = createMessageMiddleware(message =>
-  addToast({ message })
-);
-
 export default function configureStore(
   initialState: State,
   Raven: UniversalRaven
 ): Store {
+  const messageMiddleware = createMessageMiddleware(
+    message => addToast({ message }),
+    Raven
+  );
+
   const middlewares = [
     routerMiddleware(browserHistory),
     thunkMiddleware,
     promiseMiddleware(),
-    createRavenMiddleware(Raven),
-
+    createRavenMiddleware(Raven, { stateTransformer }),
     messageMiddleware,
     trackerMiddleware
   ];
