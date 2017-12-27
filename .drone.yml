@@ -4,7 +4,7 @@ pipeline:
     when:
       event: push
     commands:
-      - yarn --ignore-scripts
+      - yarn
   test:
     image: node:8
     when:
