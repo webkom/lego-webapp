@@ -8,6 +8,7 @@
   "scripts": {
     "start": "webpack --config config/webpack.server.js",
     "build": "concurrently \"yarn run build:server\" \"yarn run build:client\"",
+    "build:all": "concurrently \"yarn build:server\" \"yarn build:client\" \"yarn styleguide:build\"",
     "build:client": "NODE_ENV=production webpack --config config/webpack.client.js",
     "build:server": "NODE_ENV=production webpack --config config/webpack.server.js -p",
     "build:dll": "BUILDING_DLL=true webpack --display-chunks --color --config config/webpack.dll.js",

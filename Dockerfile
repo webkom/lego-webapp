@@ -11,8 +11,7 @@ ARG RELEASE
 ENV NODE_ENV production
 ENV RELEASE ${RELEASE}
 
-RUN yarn run styleguide:build
-RUN yarn run build
+RUN yarn build:all # includes styleguide
 
 FROM getsentry/sentry-cli as sentry
 
