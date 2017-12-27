@@ -47,6 +47,9 @@ MAINTAINER Abakus Webkom <webkom@abakus.no>
 RUN mkdir /app
 WORKDIR /app/
 
+ARG RELEASE
+ENV RELEASE ${RELEASE}
+
 COPY --from=builder /app/dist dist
 COPY --from=builder /app/dist-client dist-client
 COPY --from=builder /app/package.json .
