@@ -45,6 +45,9 @@ module.exports = {
     new webpack.optimize.MinChunkSizePlugin({
       minChunkSize: 10000
     }),
+    new webpack.optimize.LimitChunkCountPlugin({
+      maxChunks: 1
+    }),
     new webpack.DefinePlugin({
       __CLIENT__: false,
       __DEV__: JSON.stringify(process.env.NODE_ENV !== 'production')

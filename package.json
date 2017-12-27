@@ -11,6 +11,7 @@
     "build:client": "NODE_ENV=production webpack --config config/webpack.client.js",
     "build:server": "NODE_ENV=production webpack --config config/webpack.server.js -p",
     "build:dll": "BUILDING_DLL=true webpack --display-chunks --color --config config/webpack.dll.js",
+    "delete-sourcemaps": "find ./dist-client -name '*.map' -delete",
     "postinstall": "yarn run build:dll",
     "test": "NODE_ENV=test jest",
     "test:coverage": "yarn run test -- --coverage",
@@ -32,7 +33,6 @@
     "@webkom/react-prepare": "^0.5.3",
     "animate.css": "3.5.2",
     "bunyan": "^1.8.12",
-    "chalk": "^2.1.0",
     "child-process-promise": "^2.2.1",
     "classnames": "2.2.5",
     "cookie-parser": "^1.4.3",
@@ -192,7 +192,6 @@
       "bunyan",
       "raven",
       "child-process-promise",
-      "chalk",
       "meow"
     ]
   },

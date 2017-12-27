@@ -113,7 +113,9 @@ let cachedAssets;
 function retrieveAssets() {
   if (__DEV__ || !cachedAssets) {
     const { app, vendor } = JSON.parse(
-      fs.readFileSync(path.join(__dirname, '..', 'dist', 'webpack-assets.json'))
+      fs.readFileSync(
+        path.join(__dirname, '..', 'dist-client', 'webpack-assets.json')
+      )
     );
 
     const styles = [app && app.css]
