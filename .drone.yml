@@ -30,6 +30,8 @@ pipeline:
     image: node:8
     when:
       event: push
+      branch:
+        exclude: [ prod ]
     group: testing
     commands:
       - yarn build
