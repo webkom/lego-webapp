@@ -1,3 +1,4 @@
+//@flow
 import fs from 'fs';
 import path from 'path';
 import React from 'react';
@@ -10,33 +11,56 @@ import Raven from 'raven';
 import serialize from 'serialize-javascript';
 import routes from '../app/routes';
 import configureStore from '../app/utils/configureStore';
-import { selectCurrentUser } from 'app/reducers/auth';
 import config from '../config/env';
+import type { $Request, $Response, Middleware } from 'express';
+import { UniversalRavenNode } from '../app/utils/universalRaven';
+import webpackClient from '../config/webpack.client.js';
+import type { State } from '../app/types';
 
 import manifest from '../app/assets/manifest.json';
 
 const serverSideTimeoutInMs = 4000;
 
-const TimeoutError = new Error('Testing sentry-node');
+// AntiPattern because of babel
+// https://github.com/babel/babel/issues/3083
+class TimeoutError {
+  error: Error;
+  constructor(msg) {
+    this.error = new Error(msg);
+  }
+}
 
-function prepareWithTimeout(app) {
-  return Promise.race([
+const prepareWithTimeout = app =>
+  Promise.race([
     prepare(app),
     new Promise(resolve => {
       setTimeout(resolve, serverSideTimeoutInMs);
     }).then(() => {
-      throw TimeoutError;
+      throw new TimeoutError(
+        'React prepare timeout when server side rendering.'
+      );
     })
   ]);
-}
 
-function render(req, res, next) {
+function render(req: $Request, res: $Response, next: Middleware) {
+  const render = (
+    body: string = '',
+    state: State | {||} = Object.freeze({})
+  ) => {
+    const helmet = Helmet.rewind();
+    return res.send(
+      renderPage({
+        body,
+        state,
+        helmet
+      })
+    );
+  };
+
   const log = req.app.get('log');
 
   if (process.env.NODE_ENV !== 'production') {
-    return res.send(
-      renderPage({ body: '', state: {}, helmet: Helmet.rewind() })
-    );
+    return render();
   }
 
   match({ routes, location: req.url }, (err, redirect, renderProps) => {
@@ -51,39 +75,13 @@ function render(req, res, next) {
     if (!renderProps) {
       return next();
     }
+
     Raven.context(function() {
       const createElement = (Component, props) => (
-        <Component
-          {...props}
-          getRaven={() => Raven}
-          getCookie={key => req.cookies[key]}
-        />
+        <Component {...props} getCookie={key => req.cookies[key]} />
       );
 
-      let dataCallback = data => data;
-
-      // Mimic raven-js API
-      const raven = {
-        captureBreadcrumb: data => {
-          Raven.captureBreadcrumb(data);
-          return raven;
-        },
-        setDataCallback: callback => {
-          dataCallback = callback;
-          return raven;
-        },
-        captureException: (error, extraData = {}) => {
-          const data = dataCallback({
-            extra: {},
-            ...extraData
-          });
-          Raven.captureException(error, {
-            ...data,
-            user: selectCurrentUser(data.extra.state)
-          });
-          return raven;
-        }
-      };
+      const raven = new UniversalRavenNode(Raven);
 
       const store = configureStore({}, raven);
       const app = (
@@ -92,40 +90,31 @@ function render(req, res, next) {
         </Provider>
       );
 
-      const respond = (error = null) => {
-        const helmet = Helmet.rewind();
-        const render = (body = '', state = {}) =>
-          res.send(
-            renderPage({
-              body,
-              state,
-              helmet
-            })
-          );
-
+      const respondStateless = (error: Error | { payload: Error }) => {
         try {
-          // Skip server side rendering on timeout errors:
-          if (error === TimeoutError) {
-            throw error;
-          }
-          const state = store.getState();
-          const body = renderToString(app);
-          const statusCode = state.routing.statusCode || 200;
-
-          res.status(statusCode);
-          return render(body, state);
-        } catch (err) {
-          const err = error.error ? error.payload : error;
+          const err = error instanceof Error ? error : error.payload;
           log.error(err, 'render_error');
-
           raven.captureException(err);
-          return render();
+        } catch (e) {
+          //
         }
+        return render();
+      };
+
+      const respond = (error: Error | TimeoutError) => {
+        if (error instanceof TimeoutError) {
+          return respondStateless(error.error);
+        }
+        const state: State = store.getState();
+        const body = renderToString(app);
+        const statusCode = state.routing.statusCode || 200;
+        res.status(statusCode);
+        return render(body, state);
       };
 
       prepareWithTimeout(app)
-        .then(respond)
-        .catch(respond);
+        .then(respond, respond)
+        .catch(respondStateless);
     });
   });
 }
@@ -134,9 +123,11 @@ let cachedAssets;
 function retrieveAssets() {
   if (__DEV__ || !cachedAssets) {
     const { app, vendor } = JSON.parse(
-      fs.readFileSync(
-        path.join(__dirname, '..', 'dist-client', 'webpack-assets.json')
-      )
+      fs
+        .readFileSync(
+          path.join(webpackClient.output.path, 'webpack-assets.json')
+        )
+        .toString()
     );
 
     const styles = [app && app.css]
@@ -159,7 +150,15 @@ const dllPlugin =
     ? '<script src="/vendors.dll.js"></script>'
     : '';
 
-function renderPage({ body, state, helmet }) {
+function renderPage({
+  body,
+  state,
+  helmet
+}: {
+  body: string,
+  state: State | {||},
+  helmet: *
+}) {
   const { scripts, styles } = retrieveAssets();
   return `
     <!DOCTYPE html>

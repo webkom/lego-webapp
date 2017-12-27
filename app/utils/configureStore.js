@@ -8,23 +8,11 @@ import { createLogger } from 'redux-logger';
 import jwtDecode from 'jwt-decode';
 import { browserHistory } from 'react-router';
 import { routerMiddleware } from 'react-router-redux';
-import RavenJS from 'raven-js';
 import createRavenMiddleware from 'raven-for-redux';
 import { addToast } from 'app/actions/ToastActions';
 import promiseMiddleware from './promiseMiddleware';
 import createMessageMiddleware from './messageMiddleware';
 import type { State, Store } from 'app/types';
-
-export type UniversalRaven =
-  | {
-      captureBreadcrumb: Breadcrumb => UniversalRaven | typeof RavenJS | void,
-      setDataCallback: (any, ?any) => UniversalRaven | typeof RavenJS | void,
-      captureException: (
-        Error,
-        RavenOptions | void
-      ) => UniversalRaven | typeof RavenJS | void
-    }
-  | typeof RavenJS;
 
 const trackerMiddleware = createTracker({
   mapper: {
@@ -82,11 +70,11 @@ const loggerMiddleware = createLogger({
 });
 
 export default function configureStore(
-  initialState: State,
-  Raven: UniversalRaven
+  initialState: State | {||},
+  Raven: any
 ): Store {
   const messageMiddleware = createMessageMiddleware(
-    message => addToast({ message }),
+    __CLIENT__ ? message => addToast({ message }) : null,
     Raven
   );
 

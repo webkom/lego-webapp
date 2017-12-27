@@ -15,7 +15,9 @@ export default function createMessageMiddleware(actionToDispatch, Raven) {
     } else {
       message = success;
     }
-    store.dispatch(actionToDispatch(message));
+    if (actionToDispatch) {
+      store.dispatch(actionToDispatch(message));
+    }
     return next(action);
   };
 }
