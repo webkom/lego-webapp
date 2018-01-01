@@ -1,6 +1,4 @@
 //@flow
-// import RavenNode from 'raven';
-import { selectCurrentUser } from 'app/reducers/auth';
 
 export interface UniversalRaven {
   captureException(ex: Error, options?: RavenOptions): *;
@@ -25,9 +23,6 @@ export class UniversalRavenNode implements UniversalRaven {
       extra: {},
       ...extraData
     });
-    return this.raven.captureException(error, {
-      ...data,
-      user: selectCurrentUser(data.extra.state)
-    });
+    return this.raven.captureException(error, data);
   };
 }

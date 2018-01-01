@@ -6,7 +6,6 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { dispatched } from '@webkom/react-prepare';
 import Helmet from 'react-helmet';
-import Raven from 'raven-js';
 import {
   loginAutomaticallyIfPossible,
   logoutWithRedirect,
@@ -28,7 +27,6 @@ import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 import cx from 'classnames';
 import HTTPError from '../errors/HTTPError';
 import { setStatusCode } from 'app/actions/RoutingActions';
-import { omit } from 'lodash';
 import config from 'app/config';
 
 type Props = {
@@ -68,10 +66,6 @@ class AppChildren extends PureComponent<Props> {
 type AppProps = any;
 
 class App extends PureComponent<AppProps> {
-  componentWillReceiveProps(nextProps: Props) {
-    Raven.setUserContext(omit(nextProps.currentUser, 'icalToken'));
-  }
-
   render() {
     return (
       <div

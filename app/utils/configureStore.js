@@ -11,8 +11,10 @@ import { routerMiddleware } from 'react-router-redux';
 import createRavenMiddleware from 'raven-for-redux';
 import { addToast } from 'app/actions/ToastActions';
 import promiseMiddleware from './promiseMiddleware';
+import { selectCurrentUser } from 'app/reducers/auth';
 import createMessageMiddleware from './messageMiddleware';
 import type { State, Store } from 'app/types';
+import { omit } from 'lodash';
 
 const trackerMiddleware = createTracker({
   mapper: {
@@ -49,19 +51,22 @@ const trackerMiddleware = createTracker({
   }
 });
 
-const stateTransformer = state => {
-  try {
-    const token = jwtDecode(state.auth.token);
-    return {
-      ...state,
-      auth: {
-        ...state.auth,
-        token
-      }
-    };
-  } catch (e) {
-    return state;
-  }
+const ravenMiddlewareOptions = {
+  stateTransformer: state => {
+    try {
+      const token = jwtDecode(state.auth.token);
+      return {
+        ...state,
+        auth: {
+          ...state.auth,
+          token
+        }
+      };
+    } catch (e) {
+      return state;
+    }
+  },
+  getUserContext: state => omit(selectCurrentUser(state), 'icalToken')
 };
 
 const loggerMiddleware = createLogger({
@@ -82,7 +87,7 @@ export default function configureStore(
     routerMiddleware(browserHistory),
     thunkMiddleware,
     promiseMiddleware(),
-    createRavenMiddleware(Raven, { stateTransformer }),
+    createRavenMiddleware(Raven, ravenMiddlewareOptions),
     messageMiddleware,
     trackerMiddleware
   ];
