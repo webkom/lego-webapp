@@ -37,7 +37,7 @@
 
 .topContent {
   border-bottom-left-radius: 0;
-  border-bottom-right-radi  us: 0;
+  border-bottom-right-radi: 0;
 
   @media (max-width: 800px) {
     border-radius: 0;

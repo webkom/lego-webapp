@@ -13,7 +13,8 @@ import {
   SelectInput
 } from 'app/components/Form';
 import { Field, reduxForm } from 'redux-form';
-import { Content, Flex } from 'app/components/Layout';
+import { Flex } from 'app/components/Layout';
+import { Content } from 'app/components/Content';
 import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
 import EmptyState from 'app/components/EmptyState';

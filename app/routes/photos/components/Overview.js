@@ -1,11 +1,11 @@
 // @flow
 
-import React, { Component } from "react";
-import NavigationTab, { NavigationLink } from "app/components/NavigationTab";
-import EmptyState from "app/components/EmptyState";
-import { Content } from "app/components/Layout";
-import Gallery, { type Photo } from "app/components/Gallery";
-import styles from "./Overview.css";
+import React, { Component } from 'react';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import EmptyState from 'app/components/EmptyState';
+import { Content } from 'app/components/Content';
+import Gallery, { type Photo } from 'app/components/Gallery';
+import styles from './Overview.css';
 
 type Props = {
   fetching: boolean,
@@ -41,7 +41,7 @@ export default class Overview extends Component<Props> {
             <EmptyState icon="photos-outline">
               <h1>Ingen synlige albumer</h1>
               <h4>
-                Trykk <a onClick={() => push("/photos/new")}>her</a> for å lage
+                Trykk <a onClick={() => push('/photos/new')}>her</a> for å lage
                 et nytt album
               </h4>
             </EmptyState>

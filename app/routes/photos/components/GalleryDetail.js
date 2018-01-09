@@ -1,15 +1,14 @@
 // @flow
 
-import NavigationTab, { NavigationLink } from "app/components/NavigationTab";
-import React, { Component, cloneElement, type Node } from "react";
-import GalleryDetailsRow from "./GalleryDetailsRow";
-import NavigationTab, { NavigationLink } from "app/components/NavigationTab";
-import EmptyState from "app/components/EmptyState";
-import ImageUpload from "app/components/Upload/ImageUpload";
-import { Content } from "app/components/Layout";
-import Gallery from "app/components/Gallery";
-import type { DropFile } from "app/components/Upload";
-import type { Photo, ID } from "app/models";
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import React, { Component, cloneElement, type Node } from 'react';
+import GalleryDetailsRow from './GalleryDetailsRow';
+import EmptyState from 'app/components/EmptyState';
+import ImageUpload from 'app/components/Upload/ImageUpload';
+import { Content } from 'app/components/Content';
+import Gallery from 'app/components/Gallery';
+import type { DropFile } from 'app/components/Upload';
+import type { Photo, ID } from 'app/models';
 
 type Props = {
   gallery: Object,
@@ -64,8 +63,8 @@ export default class GalleryDetail extends Component<Props, State> {
       <Content>
         <NavigationTab
           back={{
-            label: "Tilbake til gallerier",
-            path: "/photos"
+            label: 'Tilbake til gallerier',
+            path: '/photos'
           }}
           title={gallery.title}
           details={<GalleryDetailsRow gallery={gallery} showDescription />}

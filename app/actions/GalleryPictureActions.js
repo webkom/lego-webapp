@@ -48,7 +48,9 @@ export function fetchGalleryPicture(galleryId: EntityID, pictureId: EntityID) {
 export function updatePicture(galleryPicture: GalleryPictureEntity) {
   return callAPI({
     types: GalleryPicture.EDIT,
-    endpoint: `/galleries/${galleryPicture.gallery}/pictures/${galleryPicture.id}/`,
+    endpoint: `/galleries/${galleryPicture.gallery}/pictures/${
+      galleryPicture.id
+    }/`,
     method: 'PATCH',
     schema: galleryPictureSchema,
     body: galleryPicture,

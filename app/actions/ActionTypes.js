@@ -44,13 +44,6 @@ export const Article = {
 /**
  *
  */
-export const GalleryPicture = {
-  FETCH: generateStatuses('GalleryPicture.FETCH'),
-  CREATE: generateStatuses('GalleryPicture.CREATE'),
-  EDIT: generateStatuses('GalleryPicture.EDIT'),
-  DELETE: generateStatuses('GalleryPicture.DELETE')
-};
-
 export const EmailList = {
   FETCH: generateStatuses('EmailList.FETCH'),
   CREATE: generateStatuses('EmailList.CREATE'),
@@ -75,12 +68,6 @@ export const EmailUser = {
   EDIT: generateStatuses('EmailUser.EDIT')
 };
 
-export const GalleryPicture = {
-  FETCH: generateStatuses('GalleryPicture.FETCH'),
-  CREATE: generateStatuses('GalleryPicture.CREATE'),
-  EDIT: generateStatuses('GalleryPicture.EDIT')
-};
-
 /**
  *
  */
@@ -90,6 +77,16 @@ export const Gallery = {
   EDIT: generateStatuses('Gallery.EDIT'),
   UPLOAD: generateStatuses('Gallery.UPLOAD'),
   DELETE: generateStatuses('Gallery.DELETE')
+};
+
+/**
+ *
+ */
+export const GalleryPicture = {
+  FETCH: generateStatuses('GalleryPicture.FETCH'),
+  CREATE: generateStatuses('GalleryPicture.CREATE'),
+  EDIT: generateStatuses('GalleryPicture.EDIT'),
+  DELETE: generateStatuses('GalleryPicture.DELETE')
 };
 
 /**

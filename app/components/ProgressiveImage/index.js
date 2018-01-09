@@ -29,8 +29,9 @@ export default class ProgressiveImage extends PureComponent<Props, Style> {
     style: {
       ...this.props.beforeLoadstyle,
       filter: `blur(${this.props.blurStr}) contrast(${this.props.contrastStr})`,
-      transition: `filter ${this.props.transtionTime} linear ${this.props
-        .transitionDelay}`
+      transition: `filter ${this.props.transtionTime} linear ${
+        this.props.transitionDelay
+      }`
     }
   };
 

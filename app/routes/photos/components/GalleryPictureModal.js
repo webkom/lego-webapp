@@ -2,7 +2,8 @@
 
 import React, { Component } from 'react';
 import GalleryDetailsRow from './GalleryDetailsRow';
-import { Flex, Content } from 'app/components/Layout';
+import { Flex } from 'app/components/Layout';
+import { Content } from 'app/components/Content';
 import Icon from 'app/components/Icon';
 import ProgressiveImage from 'app/components/ProgressiveImage';
 import Dropdown from 'app/components/Dropdown';

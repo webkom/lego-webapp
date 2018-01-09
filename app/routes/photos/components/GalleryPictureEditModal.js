@@ -1,15 +1,16 @@
 // @flow
 
-import React from "react";
-import GalleryDetailsRow from "./GalleryDetailsRow";
-import { Form, TextArea, SelectInput, CheckBox } from "app/components/Form";
-import ProgressiveImage from "app/components/ProgressiveImage";
-import Button from "app/components/Button";
-import { Field, reduxForm } from "redux-form";
-import { Flex, Content } from "app/components/Layout";
-import { Link } from "react-router";
-import Modal from "app/components/Modal";
-import styles from "./GalleryPictureModal.css";
+import React from 'react';
+import GalleryDetailsRow from './GalleryDetailsRow';
+import { Form, TextArea, SelectInput, CheckBox } from 'app/components/Form';
+import ProgressiveImage from 'app/components/ProgressiveImage';
+import Button from 'app/components/Button';
+import { Field, reduxForm } from 'redux-form';
+import { Flex } from 'app/components/Layout';
+import { Content } from 'app/components/Content';
+import { Link } from 'react-router';
+import Modal from 'app/components/Modal';
+import styles from './GalleryPictureModal.css';
 
 type Props = {
   picture: Object,
@@ -94,7 +95,7 @@ const GalleryPictureEditModal = ({
             label="Tagg brukere"
             name="taggees"
             id="gallery-picture-taggees"
-            filter={["users.user"]}
+            filter={['users.user']}
             placeholder="Skriv inn navn på brukere i bildet"
             component={SelectInput.AutocompleteField}
             multi
@@ -125,5 +126,5 @@ const GalleryPictureEditModal = ({
 };
 
 export default reduxForm({
-  form: "galleryPictureEditor"
+  form: 'galleryPictureEditor'
 })(GalleryPictureEditModal);
