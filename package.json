@@ -43,7 +43,6 @@
     "js-cookie": "^2.1.4",
     "jwt-decode": "2.2.0",
     "lodash": "^4.17.2",
-    "marked": "0.3.6",
     "meow": "^3.7.0",
     "minireset.css": "^0.0.3",
     "moment-timezone": "^0.5.13",
