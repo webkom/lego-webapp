@@ -43,19 +43,21 @@ class AppChildren extends PureComponent<Props> {
   render() {
     return (
       <div style={{ flex: 1 }}>
-        <ToastContainer />
-        {this.props.statusCode ? (
-          <HTTPError
-            statusCode={this.props.statusCode}
-            setStatusCode={this.props.setStatusCode}
-            location={this.props.location}
-          />
-        ) : (
-          React.cloneElement(this.props.children, {
-            currentUser: this.props.currentUser,
-            loggedIn: this.props.loggedIn
-          })
-        )}
+        <ErrorBoundary resetOnChange={this.props.location}>
+          <ToastContainer />
+          {this.props.statusCode ? (
+            <HTTPError
+              statusCode={this.props.statusCode}
+              setStatusCode={this.props.setStatusCode}
+              location={this.props.location}
+            />
+          ) : (
+            React.cloneElement(this.props.children, {
+              currentUser: this.props.currentUser,
+              loggedIn: this.props.loggedIn
+            })
+          )}
+        </ErrorBoundary>
       </div>
     );
   }
@@ -105,17 +107,15 @@ class App extends PureComponent<AppProps> {
           fetchNotificationData={this.props.fetchNotificationData}
         />
 
-        <ErrorBoundary>
-          <AppChildren
-            currentUser={this.props.currentUser}
-            loggedIn={this.props.loggedIn}
-            statusCode={this.props.statusCode}
-            setStatusCode={this.props.setStatusCode}
-            location={this.props.location}
-          >
-            {this.props.children}
-          </AppChildren>
-        </ErrorBoundary>
+        <AppChildren
+          currentUser={this.props.currentUser}
+          loggedIn={this.props.loggedIn}
+          statusCode={this.props.statusCode}
+          setStatusCode={this.props.setStatusCode}
+          location={this.props.location}
+        >
+          {this.props.children}
+        </AppChildren>
 
         <Footer {...this.props} />
       </div>
