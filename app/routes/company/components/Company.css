@@ -131,6 +131,7 @@
 
 .companyEventTable {
   margin-top: 20px;
+  width: 100%;
 }
 
 .companyEventTable thead th:nth-child(1),
@@ -168,6 +169,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: row;
+  object-fit: contain;
 
   @media (--small-viewport) {
     display: none;

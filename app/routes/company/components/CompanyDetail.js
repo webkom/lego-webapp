@@ -12,6 +12,7 @@ import { eventTypes } from 'app/routes/events/utils';
 import Time from 'app/components/Time';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import { jobType, Year } from 'app/routes/joblistings/components/Items';
 
 type Props = {
   company: Object,
@@ -71,25 +72,31 @@ const CompanyDetail = (props: Props) => {
       ));
   const joblistingsList =
     joblistings &&
-    joblistings.map((joblisting, i) => (
-      <tr key={i}>
+    joblistings.map(joblisting => (
+      <tr key={joblisting.id}>
         <td>
-          <Link to={`joblistings/${joblisting.id}`}>{joblisting.title}</Link>
+          <Link to={`/joblistings/${joblisting.id}`}>{joblisting.title}</Link>
         </td>
-        <td>{joblisting.jobtype}</td>
-        <td>{joblisting.from_year}</td>
-        <td>{joblisting.to_year}</td>
-        <td>{truncateString(joblisting.description, 40)}</td>
+        <td>{jobType(joblisting.jobType)}</td>
         <td>
-          <a href={joblisting.application_url}>Link</a>
+          <Year joblisting={joblisting} />
+        </td>
+        <td>
+          {joblisting.applicationUrl && (
+            <a href={joblisting.applicationUrl}>
+              <strong>SØK HER</strong>
+            </a>
+          )}
         </td>
       </tr>
     ));
   return (
     <Content>
-      <div className={styles.companyLogoDetail}>
-        <Image src={company.logo} className={styles.image} />
-      </div>
+      {company.logo && (
+        <div className={styles.companyLogoDetail}>
+          <Image src={company.logo} className={styles.image} />
+        </div>
+      )}
 
       <NavigationTab title={company.name}>
         <NavigationLink to="/companies">Tilbake til liste</NavigationLink>
@@ -127,10 +134,8 @@ const CompanyDetail = (props: Props) => {
             <tr>
               <th>Tittel</th>
               <th>Jobbtype</th>
-              <th>Fra år</th>
-              <th>Til år</th>
-              <th>Beskrivelse</th>
-              <th>Søk</th>
+              <th>Klassetrinn</th>
+              <th>Søknadslenke</th>
             </tr>
           </thead>
           <tbody>{joblistingsList}</tbody>

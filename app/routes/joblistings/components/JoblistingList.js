@@ -17,7 +17,14 @@ function JoblistingItem({ joblisting }: JobListingItemProps) {
     <Flex className={styles.joblistingItem}>
       <Flex alignItems="center">
         <Link to={`/joblistings/${joblisting.id}/`}>
-          <Image src={joblisting.company.logo} className={styles.companyLogo} />
+          <div className={styles.companyLogoContainer}>
+            {joblisting.company.logo && (
+              <Image
+                className={styles.companyLogo}
+                src={joblisting.company.logo}
+              />
+            )}
+          </div>
         </Link>
       </Flex>
       <Flex className={styles.listItem}>
