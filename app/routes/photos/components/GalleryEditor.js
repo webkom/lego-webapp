@@ -23,22 +23,27 @@ import GalleryComponent from 'app/components/Gallery';
 import styles from './Overview.css';
 import { pull, find } from 'lodash';
 
-import type { ID, Gallery } from 'app/models';
+import type { ID } from 'app/models';
+import type { GalleryEntity } from 'app/reducers/galleries';
+import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
 
 type Props = {
   isNew: boolean,
-  gallery?: Object,
-  pictures?: Array<Object>,
-  submitFunction: Gallery => Promise<*>,
-  handleSubmit: () => void,
+  gallery: GalleryEntity,
+  pictures: Array<GalleryPictureEntity>,
+  submitFunction: GalleryEntity => Promise<*>,
+  handleSubmit: any => void,
   push: string => Promise<*>,
-  fetch: () => Promise<*>,
+  fetch: (
+    galleryId: number,
+    args: { next?: boolean, filters?: Object }
+  ) => Promise<*>,
   hasMore: boolean,
   fetching: boolean,
-  deleteGallery?: ID => Promise<*>,
-  updateGalleryCover?: (number, number) => Promise<*>,
-  updatePicture?: Object => Promise<*>,
-  deletePicture?: (galleryId: ID, photoId: ID) => Promise<*>
+  deleteGallery: ID => Promise<*>,
+  updateGalleryCover: (number, number) => Promise<*>,
+  updatePicture: Object => Promise<*>,
+  deletePicture: (galleryId: ID, photoId: ID) => Promise<*>
 };
 
 type State = {
@@ -63,14 +68,16 @@ const photoOverlay = (photo: Object, selected: Array<number>) => (
   </div>
 );
 
-const renderBottom = (photo: Object, gallery: Gallery) => (
+const renderBottom = (photo: Object, gallery: GalleryEntity) => (
   <Flex className={styles.infoOverlay} justifyContent="space-between">
     <span>{photo.active ? 'Synlig for brukere' : 'Skjult for brukere'}</span>
-    {photo.id === gallery.cover.id && <span>Cover</span>}
+    {photo.id &&
+      gallery.cover &&
+      gallery.cover.id === gallery.cover.id && <span>Cover</span>}
   </Flex>
 );
 
-const renderEmpty = (gallery: Gallery) => (
+const renderEmpty = (gallery: GalleryEntity) => (
   <EmptyState icon="photos-outline">
     <h1>Ingen bilder å redigere</h1>
     <h4>
@@ -95,7 +102,7 @@ class GalleryEditor extends Component<Props, State> {
   };
 
   onSubmit = data => {
-    const body: Gallery = {
+    const body: GalleryEntity = {
       id: data.id,
       title: data.title,
       description: data.description,

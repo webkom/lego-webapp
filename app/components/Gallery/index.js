@@ -18,7 +18,7 @@ type Props = {
   srcKey: string,
   photos: Array<Photo>,
   hasMore: boolean,
-  fetchNext: () => void,
+  fetchNext: () => any,
   fetching: boolean
 };
 

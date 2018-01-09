@@ -12,6 +12,7 @@ export type GalleryPictureEntity = {
   gallery: number,
   description: string,
   text: string,
+  active: boolean,
   comments: Array<number>
 };
 

@@ -6,7 +6,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 
 type Props = {
   infiniteScroll?: boolean,
-  children: Node<*>,
+  children: Node,
   hasMore: boolean,
   fetchNext: () => void,
   fetching: boolean

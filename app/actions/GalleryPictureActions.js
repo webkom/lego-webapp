@@ -76,7 +76,7 @@ export function deletePicture(galleryId: EntityID, pictureId: EntityID) {
   });
 }
 
-export function CreateGalleryPicture(galleryPicture: GalleryPictureEntity) {
+export function CreateGalleryPicture(galleryPicture: { galleryId: number }) {
   return callAPI({
     types: GalleryPicture.CREATE,
     endpoint: `/galleries/${galleryPicture.galleryId}/pictures/`,

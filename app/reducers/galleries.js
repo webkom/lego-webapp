@@ -9,8 +9,9 @@ export type GalleryEntity = {
   id: number,
   title: string,
   description: string,
-  text: string,
-  comments: Array<number>
+  text?: string,
+  comments?: Array<number>,
+  cover?: Object
 };
 
 function mutate(state: any, action: any) {

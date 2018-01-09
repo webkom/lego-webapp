@@ -3,25 +3,25 @@
 import React, { PureComponent } from 'react';
 
 type Props = {
-  src: string,
+  src: any,
   alt: string,
   className?: string,
-  base64?: string,
+  base64: string,
   style?: Object,
   beforeLoadstyle?: Object,
   onLoadStyle?: Object,
-  blurStr?: string,
-  contrastStr?: string,
-  transtionTime?: string,
-  transitionDelay?: string
+  blurStr: string,
+  contrastStr: string,
+  transtionTime: string,
+  transitionDelay: string
 };
 
 type State = {
-  src: string,
+  src: any,
   style: Object
 };
 
-export default class ProgressiveImage extends PureComponent<Props, Style> {
+export default class ProgressiveImage extends PureComponent<Props, State> {
   props: Props;
 
   state: State = {
@@ -44,7 +44,7 @@ export default class ProgressiveImage extends PureComponent<Props, Style> {
     transitionDelay: '.05s'
   };
 
-  fetchSrc = (url: string) =>
+  fetchSrc: (url: string) => Promise<*> = url =>
     new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = () => resolve(url);

@@ -17,7 +17,7 @@ type Props = {
   headerClassName?: string,
   className?: string,
   headerClassName?: string,
-  children?: Array<NavigationLink>
+  children?: Node
 };
 
 const NavigationTab = (props: Props) => {
@@ -31,21 +31,8 @@ const NavigationTab = (props: Props) => {
           </NavigationLink>
         </div>
       )}
-      <div
-        className={cx(
-          styles.container,
-          props.className,
-          props.details && styles.hasDetails
-        )}
-      >
-        <h1
-          className={cx(
-            styles.header,
-            props.headerClassName,
-            props.details && styles.hasDetails,
-            props.back && styles.hasBack
-          )}
-        >
+      <div className={cx(styles.container, props.className)}>
+        <h1 className={cx(styles.header, props.headerClassName)}>
           {props.title}
         </h1>
         <div className={styles.navigator}>{props.children}</div>

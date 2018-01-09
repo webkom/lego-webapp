@@ -1,24 +1,25 @@
 // @flow
 
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import React, { Component, cloneElement, type Node } from 'react';
+import React, { Component, cloneElement, type Element } from 'react';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import EmptyState from 'app/components/EmptyState';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import { Content } from 'app/components/Content';
 import Gallery from 'app/components/Gallery';
 import type { DropFile } from 'app/components/Upload';
-import type { Photo, ID } from 'app/models';
+import type { ID } from 'app/models';
+import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
 
 type Props = {
   gallery: Object,
   loggedIn: boolean,
   currentUser: boolean,
-  pictures: Array<Photo>,
+  pictures: Array<GalleryPictureEntity>,
   hasMore: boolean,
   fetching: boolean,
-  children: Node<*>,
-  fetch: () => Promise<*>,
+  children: Element<*>,
+  fetch: (galleryId: Number, args: { next: boolean }) => Promise<*>,
   push: string => Promise<*>,
   uploadAndCreateGalleryPicture: (ID, File | Array<DropFile>) => Promise<*>
 };

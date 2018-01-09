@@ -18,7 +18,7 @@ type Props = {
   push: string => void,
   handleSubmit: ((Object) => void) => void,
   updatePicture: Object => Promise<*>,
-  deletePicture: () => Promise<*>,
+  deletePicture: (galleryId: number, pictureId: number) => Promise<*>,
   onDeleteGallery: () => mixed
 };
 
