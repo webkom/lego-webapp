@@ -30,6 +30,8 @@ pipeline:
     image: node:8
     when:
       event: push
+      branch:
+        exclude: [ prod ]
     group: testing
     commands:
       - yarn build
@@ -49,3 +51,6 @@ pipeline:
       - sentry_auth_key
     build_args:
       - RELEASE=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+      - SENTRY_ORG=webkom
+      - SENTRY_PROJECT=lego-webapp
+      - SENTRY_URL=https://sentry.abakus.no/

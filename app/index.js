@@ -16,6 +16,15 @@ import {
   maybeRefreshToken
 } from 'app/actions/UserActions';
 
+require('../app/assets/manifest.json');
+require('../app/assets/favicon.png');
+require('../app/assets/icon-48x48.png');
+require('../app/assets/icon-96x96.png');
+require('../app/assets/icon-192x192.png');
+require('../app/assets/icon-256x256.png');
+require('../app/assets/icon-384x384.png');
+require('../app/assets/icon-512x512.png');
+
 moment.locale('nb-NO');
 
 global.log = function log(self = this) {

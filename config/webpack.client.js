@@ -37,7 +37,7 @@ module.exports = {
       },
 
   output: {
-    path: path.join(root, 'dist'),
+    path: path.join(root, 'dist-client'),
     filename: isProduction ? '[name].[chunkhash:8].js' : '[name].js',
     chunkFilename: isProduction
       ? '[name].chunk.[chunkhash:8].js'
@@ -94,7 +94,7 @@ module.exports = {
       }),
 
       new AssetsPlugin({
-        path: path.join(root, 'dist')
+        path: path.join(root, 'dist-client')
       })
     ])
   ),

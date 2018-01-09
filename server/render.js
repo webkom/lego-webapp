@@ -13,13 +13,6 @@ import configureStore from '../app/utils/configureStore';
 import config from '../config/env';
 
 import manifest from '../app/assets/manifest.json';
-require('../app/assets/favicon.png');
-require('../app/assets/icon-48x48.png');
-require('../app/assets/icon-96x96.png');
-require('../app/assets/icon-192x192.png');
-require('../app/assets/icon-256x256.png');
-require('../app/assets/icon-384x384.png');
-require('../app/assets/icon-512x512.png');
 
 const serverSideTimeoutInMs = 4000;
 
@@ -113,7 +106,9 @@ let cachedAssets;
 function retrieveAssets() {
   if (__DEV__ || !cachedAssets) {
     const { app, vendor } = JSON.parse(
-      fs.readFileSync(path.join(__dirname, '..', 'dist', 'webpack-assets.json'))
+      fs.readFileSync(
+        path.join(__dirname, '..', 'dist-client', 'webpack-assets.json')
+      )
     );
 
     const styles = [app && app.css]
