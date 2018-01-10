@@ -1,32 +1,37 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
-import { fetchGallery, addPictures } from 'app/actions/GalleryActions';
+import { fetchGallery } from 'app/actions/GalleryActions';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import prepare from 'app/utils/prepare';
+import {
+  fetch,
+  uploadAndCreateGalleryPicture
+} from 'app/actions/GalleryPictureActions';
 import { push } from 'react-router-redux';
 import GalleryDetail from './components/GalleryDetail';
-import {
-  selectGalleryById,
-  selectPicturesForGallery
-} from 'app/reducers/galleries';
+import { selectGalleryById } from 'app/reducers/galleries';
+import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
 
 function mapStateToProps(state, props) {
   const { galleryId } = props.params;
 
   return {
     gallery: selectGalleryById(state, { galleryId }),
-    pictures: selectPicturesForGallery(state, { galleryId }),
-    loading: state.galleries.fetching
+    pictures: SelectGalleryPicturesByGalleryId(state, { galleryId }),
+    fetching: state.galleries.fetching || state.galleryPictures.fetching,
+    hasMore: state.galleryPictures.hasMore
   };
 }
 
-const mapDispatchToProps = { push, addPictures };
+const mapDispatchToProps = { push, fetch, uploadAndCreateGalleryPicture };
 
 export default compose(
-  dispatched(
-    ({ params: { galleryId } }, dispatch) => dispatch(fetchGallery(galleryId)),
-    {
-      componentWillReceiveProps: false
-    }
+  connect(mapStateToProps, mapDispatchToProps),
+  prepare(({ params }, dispatch) =>
+    Promise.all([
+      dispatch(fetch(params.galleryId)),
+      dispatch(fetchGallery(params.galleryId))
+    ])
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  loadingIndicator(['gallery.title'])
 )(GalleryDetail);

@@ -1,20 +1,22 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import {
-  updateGallery,
-  fetchGallery,
+  fetch,
   deletePicture,
+  updatePicture
+} from 'app/actions/GalleryPictureActions';
+import {
+  fetchGallery,
   deleteGallery,
-  updatePicture,
+  updateGallery,
   updateGalleryCover
 } from 'app/actions/GalleryActions';
 import { push } from 'react-router-redux';
 import GalleryEditor from './components/GalleryEditor';
-import {
-  selectGalleryById,
-  selectPicturesForGallery
-} from 'app/reducers/galleries';
+import { selectGalleryById } from 'app/reducers/galleries';
+import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
 
 function mapStateToProps(state, props) {
   const { galleryId } = props.params;
@@ -23,7 +25,9 @@ function mapStateToProps(state, props) {
   return {
     isNew: false,
     gallery,
-    pictures: selectPicturesForGallery(state, { galleryId }),
+    pictures: SelectGalleryPicturesByGalleryId(state, { galleryId }),
+    fetching: state.galleries.fetching || state.galleryPictures.fetching,
+    hasMore: state.galleryPictures.hasMore,
     initialValues: {
       ...gallery,
       photographers: gallery.photographers.map(photographer => ({
@@ -41,7 +45,8 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = {
   fetchGallery,
   deleteGallery,
-  updateGallery,
+  fetch,
+  submitFunction: updateGallery,
   push,
   deletePicture,
   updatePicture,
@@ -49,11 +54,12 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  dispatched(
-    ({ params: { galleryId } }, dispatch) => dispatch(fetchGallery(galleryId)),
-    {
-      componentWillReceiveProps: false
-    }
+  connect(mapStateToProps, mapDispatchToProps),
+  prepare(({ params }, dispatch) =>
+    Promise.all([
+      dispatch(fetch(params.galleryId)),
+      dispatch(fetchGallery(params.galleryId))
+    ])
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  loadingIndicator(['gallery.title'])
 )(GalleryEditor);

@@ -25,7 +25,6 @@ export function mutateComments(forTargetType: string) {
           '-'
         );
         const targetType = getEntityType(serverTargetType);
-
         if (targetType !== forTargetType) {
           return state;
         }

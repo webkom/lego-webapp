@@ -6,14 +6,16 @@ import { Link } from 'react-router';
 import styles from './NavigationLink.css';
 
 type Props = {
-  to: string,
-  children: Node
+  to?: string,
+  onClick?: () => void,
+  children?: Node
 };
 
 const NavigationLink = (props: Props) => {
   return (
     <Link
       to={props.to}
+      onClick={props.onClick}
       onlyActiveOnIndex
       className={styles.link}
       activeClassName={styles.active}

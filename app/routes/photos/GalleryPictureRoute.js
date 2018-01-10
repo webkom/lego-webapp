@@ -1,16 +1,21 @@
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import GalleryPictureModal from './components/GalleryPictureModal';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import prepare from 'app/utils/prepare';
+import { fetchGalleryPicture } from 'app/actions/GalleryPictureActions';
 import {
-  selectPictureById,
-  selectCommentsForPicture
-} from 'app/reducers/pictures';
-import { deletePicture, updateGalleryCover } from 'app/actions/GalleryActions';
+  selectGalleryPictureById,
+  selectCommentsForGalleryPicture
+} from 'app/reducers/galleryPictures';
+import { deletePicture } from 'app/actions/GalleryPictureActions';
+import { updateGalleryCover } from 'app/actions/GalleryActions';
 import { push } from 'react-router-redux';
 
 function mapStateToProps(state, props) {
   const { pictureId } = props.params;
-  const picture = selectPictureById(state, { pictureId });
-  const comments = selectCommentsForPicture(state, { pictureId });
+  const picture = selectGalleryPictureById(state, { pictureId });
+  const comments = selectCommentsForGalleryPicture(state, { pictureId });
 
   return {
     comments,
@@ -25,6 +30,10 @@ const mapDispatchToProps = {
   updateGalleryCover
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(
-  GalleryPictureModal
-);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  prepare(({ params }, dispatch) =>
+    dispatch(fetchGalleryPicture(params.galleryId, params.pictureId))
+  ),
+  loadingIndicator(['picture.id'])
+)(GalleryPictureModal);

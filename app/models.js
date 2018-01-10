@@ -9,23 +9,6 @@ export type Dateish = moment | Date | string;
 
 export type ActionGrant = Array<string>;
 
-export type GalleryPictureDto = {
-  description?: string,
-  active?: boolean,
-  file?: string
-};
-
-export type GalleryPicture = {
-  id: ID,
-  description: string,
-  active: boolean,
-  file: string
-};
-
-export type Photo = GalleryPicture;
-
-export type Gallery = Object;
-
 export type EventType =
   | 'company_presentation'
   | 'lunch_presentation'

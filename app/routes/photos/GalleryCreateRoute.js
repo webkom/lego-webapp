@@ -4,13 +4,11 @@ import { createGallery } from 'app/actions/GalleryActions';
 import { push } from 'react-router-redux';
 import GalleryEditor from './components/GalleryEditor';
 
-function mapStateToProps(state, props) {
-  return {
-    isNew: true
-  };
-}
+const mapStateToProps = () => ({
+  isNew: true
+});
 
-const mapDispatchToProps = { createGallery, push };
+const mapDispatchToProps = { submitFunction: createGallery, push };
 
 export default compose(connect(mapStateToProps, mapDispatchToProps))(
   GalleryEditor

@@ -2,7 +2,8 @@
 
 import React, { PureComponent, type Node } from 'react';
 import { chunk, get } from 'lodash';
-import LoadingIndicator from '../LoadingIndicator';
+import Img from 'app/components/ProgressiveImage';
+import Paginator from 'app/components/Paginator';
 import styles from './Gallery.css';
 
 export type Photo = Object;
@@ -15,7 +16,10 @@ type Props = {
   margin?: number,
   loading?: boolean,
   srcKey: string,
-  photos: Array<Photo>
+  photos: Array<Photo>,
+  hasMore: boolean,
+  fetchNext: () => any,
+  fetching: boolean
 };
 
 type State = {
@@ -68,7 +72,9 @@ export default class Gallery extends PureComponent<Props, State> {
     const {
       margin,
       photos,
-      loading,
+      hasMore,
+      fetchNext,
+      fetching,
       srcKey,
       renderOverlay,
       renderTop,
@@ -112,13 +118,24 @@ export default class Gallery extends PureComponent<Props, State> {
 
           return (
             <div
-              key={`${columnIndex}-${rowIndex}`}
+              key={photo.id}
               style={{ margin }}
               onClick={() => this.onClick(photo)}
               className={styles.galleryPhoto}
             >
               <div className={styles.top}>{top}</div>
-              <img src={src} alt={photo.alt} />
+              <Img
+                src={src}
+                beforeLoadstyle={{
+                  height: '250px',
+                  width: '350px'
+                }}
+                onLoadStyle={{
+                  height: 'auto',
+                  width: '100%'
+                }}
+                alt={photo.alt}
+              />
               <div className={styles.overlay}>{overlay}</div>
               <div className={styles.bottom}>{bottom}</div>
             </div>
@@ -141,10 +158,19 @@ export default class Gallery extends PureComponent<Props, State> {
             this.gallery = c;
           }}
         >
-          {photoNodes}
-          {!photos.length && renderEmpty && renderEmpty()}
+          {fetchNext && (
+            <Paginator
+              infiniteScroll
+              hasMore={hasMore}
+              fetching={fetching}
+              fetchNext={fetchNext}
+            >
+              {photoNodes}
+            </Paginator>
+          )}
+          {!fetchNext && photoNodes}
+          {!photos.length && !fetching && renderEmpty && renderEmpty()}
         </div>
-        <LoadingIndicator loading={loading} />
       </div>
     );
   }
