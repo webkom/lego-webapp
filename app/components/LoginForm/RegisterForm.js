@@ -58,7 +58,10 @@ class RegisterForm extends Component<Props, State> {
       );
     }
     return (
-      <Form onSubmit={handleSubmit(this.onSubmit)}>
+      <Form
+        onSubmit={handleSubmit(this.onSubmit)}
+        onClick={e => e.stopPropagation()}
+      >
         <Field name="email" component={TextInput.Field} placeholder="E-post" />
         <Field
           name="captchaResponse"
