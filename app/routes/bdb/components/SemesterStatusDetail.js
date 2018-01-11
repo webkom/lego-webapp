@@ -116,9 +116,7 @@ export default class SemesterStatusDetail extends Component<Props, State> {
             </a>
             <ConfirmModalWithParent
               title="Slett semesterstatus"
-              message={`Er du sikker på at du vil slette semesterstatusen for ${
-                humanReadableSemester
-              }? Alle filer for dette semesteret vil bli slettet.`}
+              message={`Er du sikker på at du vil slette semesterstatusen for ${humanReadableSemester}? Alle filer for dette semesteret vil bli slettet.`}
               onConfirm={this.deleteSemesterStatus}
               closeOnConfirm
             >

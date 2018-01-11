@@ -32,9 +32,10 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-const fetchData = (
-  { refresh, loadNextPage }: { refresh?: boolean, loadNextPage?: boolean } = {}
-) =>
+const fetchData = ({
+  refresh,
+  loadNextPage
+}: { refresh?: boolean, loadNextPage?: boolean } = {}) =>
   fetchList({
     refresh,
     loadNextPage,

@@ -44,9 +44,10 @@ export function editEmailList(emailList: EmailListEntity) {
   });
 }
 
-export function fetch(
-  { next, filters }: { next: boolean, filters: Object } = {}
-): Thunk<*> {
+export function fetch({
+  next,
+  filters
+}: { next: boolean, filters: Object } = {}): Thunk<*> {
   return (dispatch, getState) => {
     const cursor = next ? getState().emailLists.pagination.next : {};
 

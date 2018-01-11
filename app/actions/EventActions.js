@@ -35,9 +35,12 @@ const getEndpoint = (state, loadNextPage, queryString) => {
   return endpoint;
 };
 
-export const fetchList = (
-  { dateAfter, dateBefore, refresh = false, loadNextPage = false }: Object = {}
-): Thunk<*> => (dispatch, getState) => {
+export const fetchList = ({
+  dateAfter,
+  dateBefore,
+  refresh = false,
+  loadNextPage = false
+}: Object = {}): Thunk<*> => (dispatch, getState) => {
   const query: Object = { date_after: dateAfter, date_before: dateBefore };
   if (dateBefore && dateAfter) {
     query.page_size = 60;

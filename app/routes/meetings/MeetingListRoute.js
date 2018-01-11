@@ -35,9 +35,10 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const fetchData = (
-  { refresh, loadNextPage }: { refresh?: boolean, loadNextPage?: boolean } = {}
-) =>
+const fetchData = ({
+  refresh,
+  loadNextPage
+}: { refresh?: boolean, loadNextPage?: boolean } = {}) =>
   fetchAll({
     dateAfter: moment()
       .subtract(0, 'weeks')

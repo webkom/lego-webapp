@@ -84,9 +84,10 @@ export function editArticle({
     ).then(res => dispatch(push(`/articles/${id}/`)));
 }
 
-export function fetchAll(
-  { year, month }: { year: string, month: string } = {}
-) {
+export function fetchAll({
+  year,
+  month
+}: { year: string, month: string } = {}) {
   return callAPI({
     types: Article.FETCH,
     endpoint: `/articles/${createQueryString({ year, month })}`,

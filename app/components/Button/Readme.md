@@ -8,5 +8,5 @@ Random buttons:
   <Button danger>Danger</Button>
   <Button primary>Primary</Button>
   <Button pending>Pending</Button>
-</div>;
+</div>
 ```

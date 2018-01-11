@@ -35,21 +35,19 @@ const getEndpoint = (state, loadNextPage, queryString) => {
   return endpoint;
 };
 
-export function fetchAll(
-  {
-    dateAfter,
-    dateBefore,
-    ordering,
-    refresh = false,
-    loadNextPage
-  }: {
-    dateAfter?: string,
-    dateBefore?: string,
-    ordering?: string,
-    refresh?: boolean,
-    loadNextPage?: boolean
-  } = {}
-): Thunk<*> {
+export function fetchAll({
+  dateAfter,
+  dateBefore,
+  ordering,
+  refresh = false,
+  loadNextPage
+}: {
+  dateAfter?: string,
+  dateBefore?: string,
+  ordering?: string,
+  refresh?: boolean,
+  loadNextPage?: boolean
+} = {}): Thunk<*> {
   return (dispatch, getState) => {
     const query: Object = {
       date_after: dateAfter,

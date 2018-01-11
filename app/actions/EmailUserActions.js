@@ -44,9 +44,10 @@ export function editEmailUser(emailUser: EmailUserEntity): Thunk<*> {
   });
 }
 
-export function fetch(
-  { next, filters }: { next: boolean, filters: Object } = {}
-): Thunk<*> {
+export function fetch({
+  next,
+  filters
+}: { next: boolean, filters: Object } = {}): Thunk<*> {
   return (dispatch, getState) => {
     return dispatch(
       callAPI({

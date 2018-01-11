@@ -43,9 +43,9 @@ const validateSemesterStatus = (data, props) => {
     });
   if (foundSemesterStatus) {
     const semesterFoundError = `Denne bedriften har allerede en registrert semester status for
-      ${semesterCodeToName(semester)} ${
-      year
-    }. Du kan endre den på bedriftens side.`;
+      ${semesterCodeToName(
+        semester
+      )} ${year}. Du kan endre den på bedriftens side.`;
     errors.year = semesterFoundError;
   }
 
