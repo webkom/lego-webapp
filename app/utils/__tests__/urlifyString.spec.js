@@ -26,6 +26,11 @@ describe('UrlifyString', () => {
       expected: ['Hei På deg']
     },
     {
+      input: 'abakus.no webkom@abakus.no',
+      desc: 'render urls with schema',
+      expected: ['abakus.no webkom@abakus.no']
+    },
+    {
       input: 'mailto:hs@abakus.no',
       desc: 'mailto url ',
       expected: [

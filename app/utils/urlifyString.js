@@ -3,9 +3,9 @@ import * as React from 'react';
 
 type Urlified = Array<React.Node | string>;
 
-export const isUrl = (data: string) =>
+const isUrl = (data: string) =>
   data.match(
-    /^(https?:\/\/|mailto:)?([\da-z.-@]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/
+    /^(https?:\/\/|mailto:)([\da-z.-@]+)\.([a-z.]{2,6})([/\w_-]*)*\/?$/
   );
 
 export const urlToLink = (url: string): React.Node => (
