@@ -7,11 +7,17 @@ import logoImage from 'app/assets/logo-dark.png';
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';
 import Search from '../Search';
-import LoginForm from '../LoginForm/LoginForm';
 import { ProfilePicture } from '../Image';
 import FancyNodesCanvas from './FancyNodesCanvas';
 import NotificationsDropdown from '../HeaderNotifications';
 import styles from './Header.css';
+import {
+  LoginForm,
+  RegisterForm,
+  ForgotPasswordForm
+} from 'app/components/LoginForm';
+import { Flex } from 'app/components/Layout';
+import cx from 'classnames';
 
 import type { UserEntity } from 'app/reducers/users';
 
@@ -31,7 +37,8 @@ type Props = {
 
 type State = {
   accountOpen: boolean,
-  shake: boolean
+  shake: boolean,
+  mode: 'login' | 'register' | 'forgotPassword'
 };
 
 type AccountDropdownItemsProps = {
@@ -80,11 +87,43 @@ function AccountDropdownItems({
 class Header extends Component<Props, State> {
   state: State = {
     accountOpen: false,
-    shake: false
+    shake: false,
+    mode: 'login'
+  };
+
+  toggleRegisterUser = (e: Event) => {
+    this.setState({ mode: 'register' });
+    e.stopPropagation();
+  };
+
+  toggleForgotPassword = (e: Event) => {
+    this.setState({ mode: 'forgotPassword' });
+    e.stopPropagation();
+  };
+
+  toggleBack = (e: Event) => {
+    this.setState({ mode: 'login' });
+    e.stopPropagation();
   };
 
   render() {
     const { loggedIn } = this.props;
+    const isLogin = this.state.mode === 'login';
+    let title, form;
+    switch (this.state.mode) {
+      case 'login':
+        title = 'Logg inn';
+        form = <LoginForm />;
+        break;
+      case 'register':
+        title = 'Register';
+        form = <RegisterForm />;
+        break;
+      case 'forgotPassword':
+        title = 'Glemt passord';
+        form = <ForgotPasswordForm />;
+        break;
+    }
 
     return (
       <header className={styles.header}>
@@ -167,21 +206,49 @@ class Header extends Component<Props, State> {
                       shake: false
                     }))
                   }
-                  contentClassName={this.state.shake ? 'animated shake' : ''}
+                  contentClassName={cx(
+                    this.state.shake ? 'animated shake' : '',
+                    styles.dropdown
+                  )}
                   triggerComponent={<Icon name="contact" size={30} />}
                 >
                   <div style={{ padding: 10 }}>
-                    <LoginForm
-                      form="HeaderLoginForm"
-                      postLoginSuccess={res => {
-                        this.setState({ shake: false, accountOpen: false });
-                        return res;
-                      }}
-                      postLoginFail={error => {
-                        this.setState({ shake: true });
-                        throw error;
-                      }}
-                    />
+                    <Flex
+                      component="h2"
+                      justifyContent="space-between"
+                      allignItems="center"
+                      className="u-mb"
+                      style={{ whitespace: 'nowrap' }}
+                    >
+                      {title}
+                      {isLogin && (
+                        <div>
+                          <button
+                            onClick={this.toggleForgotPassword}
+                            className={styles.toggleButton}
+                          >
+                            Glemt passord
+                          </button>
+                          <span className={styles.toggleButton}>&bull;</span>
+                          <button
+                            onClick={this.toggleRegisterUser}
+                            className={styles.toggleButton}
+                          >
+                            Jeg er ny
+                          </button>
+                        </div>
+                      )}
+
+                      {!isLogin && (
+                        <button
+                          onClick={this.toggleBack}
+                          className={styles.toggleButton}
+                        >
+                          Tilbake
+                        </button>
+                      )}
+                    </Flex>
+                    {form}
                   </div>
                 </Dropdown>
               )}
