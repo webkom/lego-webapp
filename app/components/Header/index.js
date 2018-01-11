@@ -19,7 +19,7 @@ import {
 import { Flex } from 'app/components/Layout';
 import cx from 'classnames';
 
-import type { UserEntity } from 'app/reducyarners/users';
+import type { UserEntity } from 'app/reducers/users';
 
 type Props = {
   searchOpen: boolean,
@@ -179,7 +179,8 @@ class Header extends Component<Props, State> {
                   toggle={() =>
                     this.setState(state => ({
                       accountOpen: !state.accountOpen
-                    }))}
+                    }))
+                  }
                   triggerComponent={
                     <ProfilePicture
                       size={30}
@@ -203,7 +204,8 @@ class Header extends Component<Props, State> {
                     this.setState(state => ({
                       accountOpen: !state.accountOpen,
                       shake: false
-                    }))}
+                    }))
+                  }
                   contentClassName={cx(
                     this.state.shake ? 'animated shake' : '',
                     styles.dropdown
