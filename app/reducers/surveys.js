@@ -24,15 +24,15 @@ export type SubmmissionEntity = {
 };
 
 export type QuestionEntity = {
-  id?: number,
-  questionType: string,
+  id: number,
+  questionType: number,
   questionText: string,
   mandatory?: boolean,
-  alternatives?: Array<AlternativeEntity>
+  options?: Array<OptionEntity>
 };
 
 export type AnswerEntity = {
-  id?: number,
+  id: number,
   user: number,
   survey: number,
   submitted?: boolean,
@@ -40,10 +40,10 @@ export type AnswerEntity = {
   answers?: Array<AnswerEntity>
 };
 
-export type AlternativeEntity = {
-  id?: number,
-  alternativeText?: string,
-  alternativeType: string
+export type OptionEntity = {
+  id: number,
+  optionText?: string,
+  optionType: string
 };
 
 function mutateSurveys(state, action) {

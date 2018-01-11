@@ -3,6 +3,7 @@
 import styles from './surveys.css';
 import React, { Component } from 'react';
 import { DetailNavigation, ListNavigation } from '../utils.js';
+import Question from './Question';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import {
@@ -26,7 +27,15 @@ type Props = FieldProps & {
   push: string => void
 };
 
-class SurveyEditor extends Component<Props> {
+type State = {
+  questions: Array<any>
+};
+
+class SurveyEditor extends Component<Props, State> {
+  state = {
+    questions: []
+  };
+
   onSubmit = (formContent: Object) => {
     const { survey, submitFunction, push } = this.props;
     return submitFunction({
@@ -37,6 +46,19 @@ class SurveyEditor extends Component<Props> {
       const id = survey ? survey.id : result.payload.result;
       push(`/surveys/${String(id)}`);
     });
+  };
+
+  updateQuestion = (question: Object) => {
+    const questions = this.state.questions.slice();
+    const oldQuestion = questions.find(q => q && q.id === question.id);
+    const changedQuestionIndex = questions.indexOf(oldQuestion);
+    if (changedQuestionIndex) {
+      questions[changedQuestionIndex] = question;
+    } else {
+      questions.push(question);
+    }
+
+    this.setState({ questions });
   };
 
   render() {
@@ -82,12 +104,14 @@ class SurveyEditor extends Component<Props> {
                   label="Ja"
                   component={RadioButton.Field}
                   inputValue="true"
+                  name="clone"
                 />
                 <Field
                   label="Nei"
                   component={RadioButton.Field}
                   inputValue="false"
                   value="false"
+                  name="clone"
                 />
               </RadioButtonGroup>
             </div>
@@ -109,6 +133,10 @@ class SurveyEditor extends Component<Props> {
             className={styles.editEvent}
             component={DatePicker.Field}
           />
+
+          <div className={styles.questions}>
+            <Question updateQuestion={this.updateQuestion} />
+          </div>
 
           <div className={styles.clear} />
           <Button className={styles.submit} disabled={submitting} submit>

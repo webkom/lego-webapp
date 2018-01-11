@@ -60,3 +60,13 @@
   height: 80px;
   object-fit: contain;
 }
+
+.questions {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid #ccc;
+}
+
+.questionTitle {
+  width: 200px;
+}
