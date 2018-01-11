@@ -8,6 +8,7 @@ compiler.jar
 tiny-lr.pid
 coverage
 dist
+dist-client
 .env
 styleguide
 .css.tmp.md
