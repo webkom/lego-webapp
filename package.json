@@ -185,7 +185,7 @@
     "singleQuote": true
   },
   "dllPlugin": {
-    "path": "dist",
+    "path": "dist-client",
     "exclude": [
       "animate.css",
       "minireset.css",
