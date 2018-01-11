@@ -1,6 +1,10 @@
 // @flow
 
 import React from 'react';
+import moment from 'moment-timezone';
+import Time, { FormatTime } from 'app/components/Time';
+
+
 
 type Penalty = {
   id: number,
@@ -22,11 +26,15 @@ function Penalties({ penalties }: Props) {
       {penalties.map(penalty => {
         const word = penalty.weight > 1 ? 'prikker' : 'prikk';
         return (
-          <li key={penalty.id}>
+          <li key={penalty.id} style={{paddingBottom: "10px"}}>
             <strong>
-              {penalty.weight} {word}:{' '}
+              Du har fått {penalty.weight} {word}
             </strong>
-            {penalty.reason}
+            <br/>
+            Begrunnelse: <i>{penalty.reason}</i>
+            <br/>
+            Utgår: <i><FormatTime time={moment(penalty.exactExpiration)}/></i>
+
           </li>
         );
       })}
