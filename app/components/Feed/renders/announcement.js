@@ -29,3 +29,9 @@ export function activityContent() {
 export function icon() {
   return <Icon name="chatboxes" />;
 }
+
+export function getURL(aggregatedActivity: AggregatedActivity) {
+  const latestActivity = aggregatedActivity.lastActivity;
+  const actor = lookupContext(aggregatedActivity, latestActivity.actor);
+  return `/users/${actor.username}/`;
+}

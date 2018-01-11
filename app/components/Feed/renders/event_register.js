@@ -39,3 +39,12 @@ export function activityContent(activity: Activity) {
 export function icon() {
   return <Icon name="text" />;
 }
+
+export function getURL(aggregatedActivity: AggregatedActivity) {
+  const latestActivity = aggregatedActivity.lastActivity;
+  const event = lookupContext(aggregatedActivity, latestActivity.target);
+  if (!event) {
+    return '/events/';
+  }
+  return `/events/${event.id}/`;
+}

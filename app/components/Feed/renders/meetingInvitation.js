@@ -39,3 +39,15 @@ export function activityContent() {
 export function icon() {
   return <Icon name="calendar" />;
 }
+
+export function getURL(aggregatedActivity: AggregatedActivity) {
+  const meetings = aggregatedActivity.activities.reduce((acc, activity) => {
+    const context = lookupContext(aggregatedActivity, activity.object);
+    return context ? acc.concat(context) : acc;
+  }, []);
+
+  if (!meetings || meetings.length !== 1) {
+    return '/meetings/';
+  }
+  return `/meetings/${meetings[0].id}/`;
+}

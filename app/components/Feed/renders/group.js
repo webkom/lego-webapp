@@ -48,3 +48,19 @@ export function activityContent(
 export function icon() {
   return <Icon name="people-outline" />;
 }
+
+export function getURL(aggregatedActivity: AggregatedActivity) {
+  const latestActivity = aggregatedActivity.lastActivity;
+  const group = lookupContext(aggregatedActivity, latestActivity.target);
+  if (!group) {
+    return '';
+  }
+  switch (group.type) {
+    case 'interesse':
+      return `/interestgroups/${group.id}`;
+    case 'komite':
+      return `/pages/komiteer/${group.id}`;
+    default:
+      return '';
+  }
+}

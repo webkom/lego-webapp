@@ -2,6 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import type { AggregatedActivity } from './types';
+import styles from './context.css';
 
 export function lookupContext(
   aggregatedActivity: AggregatedActivity,

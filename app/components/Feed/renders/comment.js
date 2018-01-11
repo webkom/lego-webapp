@@ -40,3 +40,26 @@ export function activityContent(activity: Activity) {
 export function icon() {
   return <Icon name="text" />;
 }
+
+export function getURL(aggregatedActivity: AggregatedActivity) {
+  const latestActivity = aggregatedActivity.lastActivity;
+  const target = lookupContext(aggregatedActivity, latestActivity.target);
+  return commentURL(target);
+}
+
+export const commentURL = (target: Object) => {
+  switch (target.contentType) {
+    case 'events.event':
+      return !target ? '/events/' : `/events/${target.id}/`;
+    case 'meetings.meetinginvitation':
+      return !target ? '/meetings/' : `/meetings/${target.id}/`;
+    case 'articles.article':
+      return !target ? '/articles/' : `/articles/${target.id}/`;
+    case 'gallery.gallerypicture':
+      return !target
+        ? '/photos/'
+        : `/photos/${target.gallery.id}/picture/${target.id}`;
+    default:
+      return '';
+  }
+};

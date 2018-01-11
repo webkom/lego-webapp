@@ -5,6 +5,7 @@ import { lookupContext, contextRender } from '../context';
 import { formatHeader } from './utils';
 import type { AggregatedActivity, Activity } from '../types';
 import DisplayContent from 'app/components/DisplayContent';
+import { commentURL } from './comment';
 
 /**
  * Comments are grouped by the comment target and date.
@@ -39,4 +40,10 @@ export function activityContent(activity: Activity) {
 
 export function icon() {
   return <Icon name="text" />;
+}
+
+export function getURL(aggregatedActivity: AggregatedActivity) {
+  const latestActivity = aggregatedActivity.lastActivity;
+  const target = lookupContext(aggregatedActivity, latestActivity.target);
+  return commentURL(target);
 }
