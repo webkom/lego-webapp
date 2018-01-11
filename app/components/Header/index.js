@@ -19,7 +19,7 @@ import {
 import { Flex } from 'app/components/Layout';
 import cx from 'classnames';
 
-import type { UserEntity } from 'app/reducyarners/users';
+import type { UserEntity } from 'app/reducers/users';
 
 type Props = {
   searchOpen: boolean,
