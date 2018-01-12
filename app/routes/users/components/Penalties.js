@@ -25,17 +25,21 @@ function Penalties({ penalties }: Props) {
       {penalties.map(penalty => {
         const word = penalty.weight > 1 ? 'prikker' : 'prikk';
         return (
-          <li key={penalty.id} style={{ paddingBottom: '10px' }}>
-            <strong>
-              Du har fått {penalty.weight} {word}
-            </strong>
-            <br />
-            Begrunnelse: <i>{penalty.reason}</i>
-            <br />
-            Utgår:{' '}
-            <i>
-              <FormatTime time={moment(penalty.exactExpiration)} />
-            </i>
+          <li key={penalty.id} style={{ marginBottom: '10px' }}>
+            <div>
+              <strong>
+                Du har fått {penalty.weight} {word}
+              </strong>
+            </div>
+            <div>
+              Begrunnelse: <i>{penalty.reason}</i>
+            </div>
+            <div>
+              Utgår:{' '}
+              <i>
+                <FormatTime time={penalty.exactExpiration} />
+              </i>
+            </div>
           </li>
         );
       })}
