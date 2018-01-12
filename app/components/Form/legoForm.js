@@ -25,10 +25,10 @@ type Props = {
 
 const legoForm = ({
   onSubmitFail = () => {},
-  onSubmit,
+  onSubmit = () => {},
   enableSubmissionError = true,
   enableFocusOnError = true,
-  enableValuePicking = true,
+  enableValuePicking = false,
   pickAdditionalValues = [],
   ...rest
 }: Props) =>
