@@ -7,6 +7,8 @@ import { selectGroupsWithType } from './groups';
 import { selectGroup } from 'app/reducers/groups';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 
+import { sortBy, groupBy } from 'lodash';
+
 export type PageEntity = {
   id: number,
   title: string,
@@ -107,8 +109,12 @@ export const selectCommitteeForPages = createSelector(
       title: group && group.name,
       editUrl: `/admin/groups/${group.id}/settings`
     };
+    const membershipsByRole = groupBy(
+      sortBy(memberships, 'user.fullName'),
+      'role'
+    );
     return {
-      selectedPage: group && { ...group, memberships },
+      selectedPage: group && { ...group, membershipsByRole },
       selectedPageInfo
     };
   }
