@@ -1,7 +1,6 @@
 // @flow
 
 import React from 'react';
-import moment from 'moment-timezone';
 import { FormatTime } from 'app/components/Time';
 
 type Penalty = {
