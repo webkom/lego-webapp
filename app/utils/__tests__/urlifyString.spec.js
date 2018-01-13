@@ -15,9 +15,24 @@ describe('UrlifyString', () => {
         <a key="https://abakus.no" href="https://abakus.no">
           https://abakus.no
         </a>,
+        ' ',
         <a key="https://vg.no" href="https://vg.no">
           https://vg.no
         </a>
+      ]
+    },
+    {
+      input: 'https://abakus.no/abc/. https://vg.no/abc/, is cool',
+      desc: 'not include comma or dot as url postfix',
+      expected: [
+        <a key="https://abakus.no/abc/" href="https://abakus.no/abc/">
+          https://abakus.no/abc/
+        </a>,
+        '. ',
+        <a key="https://vg.no/abc/" href="https://vg.no/abc/">
+          https://vg.no/abc/
+        </a>,
+        ', is cool'
       ]
     },
     {
@@ -26,25 +41,37 @@ describe('UrlifyString', () => {
       expected: ['Hei På deg']
     },
     {
-      input: 'mailto:hs@abakus.no',
-      desc: 'mailto url ',
+      input: 'abakus.no abakus2.no',
+      desc: 'render urls with schema',
+      expected: ['abakus.no abakus2.no']
+    },
+    {
+      input: 'hs@abakus.no hs@abakus.no',
+      desc: 'email ',
       expected: [
-        <a key="mailto:hs@abakus.no" href="mailto:hs@abakus.no">
+        <a key="hs@abakus.no" href="mailto:hs@abakus.no">
+          hs@abakus.no
+        </a>,
+        ' ',
+        <a key="hs@abakus.no" href="mailto:hs@abakus.no">
           hs@abakus.no
         </a>
       ]
     },
     {
       input:
-        'Hei på Deg https://abakus.no er kult, og mailto:webkom@abakus.no test',
-      desc: 'nested strings, mailto-links and urls',
+        'Hei på Deg https://abakus.no/testing.-/ er kult, og webkom@abakus.no test',
+      desc: 'nested strings, email-links and urls',
       expected: [
         'Hei på Deg ',
-        <a key="https://abakus.no" href="https://abakus.no">
-          https://abakus.no
+        <a
+          key="https://abakus.no/testing.-/"
+          href="https://abakus.no/testing.-/"
+        >
+          https://abakus.no/testing.-/
         </a>,
         ' er kult, og ',
-        <a key="mailto:webkom@abakus.no" href="mailto:webkom@abakus.no">
+        <a key="webkom@abakus.no" href="mailto:webkom@abakus.no">
           webkom@abakus.no
         </a>,
         ' test'
