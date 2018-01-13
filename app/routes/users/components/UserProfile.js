@@ -104,7 +104,7 @@ export default class UserProfile extends Component<Props> {
 
             {showSettings && (
               <div>
-                <h3>Prikker ({this.sumPenalties()})</h3>
+                <h3>Prikker ({this.sumPenalties()} stk)</h3>
                 <Card className={styles.infoCard}>
                   <Penalties penalties={user.penalties} />
                 </Card>
