@@ -87,6 +87,7 @@
     "slate-html-serializer": "^0.1.5",
     "slate-react": "^0.1.5",
     "slug": "^0.9.1",
+    "validator": "^9.2.0",
     "websocket.js": "^0.1.7"
   },
   "devDependencies": {
