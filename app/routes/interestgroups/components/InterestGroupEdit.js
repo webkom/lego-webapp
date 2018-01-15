@@ -20,7 +20,7 @@ export default class InterestGroupEdit extends Component<{
 
     return (
       <Content>
-        <NavigationTab title={'Endre gruppe: ' + `${interestGroup.name}`}>
+        <NavigationTab title={interestGroup.name}>
           <NavigationLink to={`/interestGroups/${interestGroup.id}`}>
             <i className="fa fa-angle-left" /> Tilbake
           </NavigationLink>

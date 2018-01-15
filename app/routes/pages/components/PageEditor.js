@@ -8,6 +8,7 @@ import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import styles from './PageEditor.css';
 import { EditorField, TextInput, Form } from 'app/components/Form';
 import ImageUpload from 'app/components/Upload/ImageUpload';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { Field } from 'redux-form';
 import { Content } from 'app/components/Content';
 import { get } from 'lodash';
@@ -94,7 +95,7 @@ export default class PageEditor extends Component<Props, State> {
   };
 
   render() {
-    const { isNew, uploadFile, handleSubmit, page } = this.props;
+    const { isNew, uploadFile, handleSubmit, page, pageSlug } = this.props;
     const { images } = this.state;
     if (!isNew && !page) {
       return <LoadingIndicator loading />;
@@ -102,6 +103,11 @@ export default class PageEditor extends Component<Props, State> {
 
     return (
       <Content>
+        <NavigationTab title={page.title}>
+          <NavigationLink to={`/pages/info/${pageSlug}`}>
+            <i className="fa fa-angle-left" /> Tilbake
+          </NavigationLink>
+        </NavigationTab>
         <Form onSubmit={handleSubmit(this.onSubmit)}>
           <div className={styles.coverImage}>
             <ImageUpload
