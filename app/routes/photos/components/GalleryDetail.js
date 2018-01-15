@@ -63,13 +63,12 @@ export default class GalleryDetail extends Component<Props, State> {
     return (
       <Content>
         <NavigationTab
-          back={{
-            label: 'Tilbake til gallerier',
-            path: '/photos'
-          }}
           title={gallery.title}
           details={<GalleryDetailsRow gallery={gallery} showDescription />}
         >
+          <NavigationLink to={'/photos'}>
+            <i className="fa fa-angle-left" /> Tilbake
+          </NavigationLink>
           <NavigationLink onClick={() => this.toggleUpload()}>
             Last opp bilder
           </NavigationLink>

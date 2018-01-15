@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import cx from 'classnames';
 import moment from 'moment-timezone';
-import NavigationTab from 'app/components/NavigationTab';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Button from 'app/components/Button';
 import {
   TextInput,
@@ -190,7 +190,11 @@ class GalleryEditor extends Component<Props, State> {
 
     return (
       <Content>
-        <NavigationTab title="Nytt album" />
+        <NavigationTab title="Nytt album">
+          <NavigationLink to={'/photos'}>
+            <i className="fa fa-angle-left" /> Tilbake
+          </NavigationLink>
+        </NavigationTab>
         <Form onSubmit={handleSubmit(this.onSubmit)}>
           <Field
             placeholder="Title"

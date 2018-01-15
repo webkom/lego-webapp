@@ -1,9 +1,8 @@
 // @flow
 import React, { Component } from 'react';
 import GroupForm from 'app/components/GroupForm';
-import { Flex } from 'app/components/Layout';
 import { Content } from 'app/components/Content';
-import { Link } from 'react-router';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 
 export default class InterestGroupEdit extends Component<{
   interestGroup: Object,
@@ -21,17 +20,11 @@ export default class InterestGroupEdit extends Component<{
 
     return (
       <Content>
-        <h2>
-          <Link to={`/interestGroups/${interestGroup.id}`}>
-            <i className="fa fa-angle-left" />
-            Tilbake
-          </Link>
-        </h2>
-        <Flex justifyContent="space-between" alignItems="baseline">
-          <div>
-            <h1>Endre gruppe</h1>
-          </div>
-        </Flex>
+        <NavigationTab title={'Endre gruppe: ' + `${interestGroup.name}`}>
+          <NavigationLink to={`/interestGroups/${interestGroup.id}`}>
+            <i className="fa fa-angle-left" /> Tilbake
+          </NavigationLink>
+        </NavigationTab>
         <GroupForm
           handleSubmitCallback={handleSubmitCallback}
           group={interestGroup}
