@@ -9,6 +9,7 @@ import Tooltip from 'app/components/Tooltip';
 import { Flex } from 'app/components/Layout';
 import Icon from 'app/components/Icon';
 import type { User, GroupMembership } from 'app/models';
+import sortBy from 'lodash/sortBy';
 
 const iconName = (role: string) => {
   switch (role) {
@@ -21,7 +22,7 @@ const iconName = (role: string) => {
   }
 };
 
-const icon = (role: string) => {
+const RoleIcon = ({ role }: { role: string }) => {
   const props = iconName(role);
   if (props) {
     const [name, tooltip] = props;
@@ -31,21 +32,21 @@ const icon = (role: string) => {
       </Tooltip>
     );
   }
+  return null;
 };
 
-const ListedUser = ({ user, role }: { user: User, role: string }) => {
-  return (
-    <li>
-      <Flex className={styles.row}>
-        <ProfilePicture size={30} user={user} />
-        {icon(role)}
-        <Link to={`/users/${user.username}`}>{user.fullName}</Link>
-      </Flex>
-    </li>
-  );
-};
+const ListedUser = ({ user, role }: { user: User, role: string }) => (
+  <li>
+    <Flex className={styles.row}>
+      <ProfilePicture size={30} user={user} />
+      <RoleIcon role={role} />
+      <Link to={`/users/${user.username}`}>{user.fullName}</Link>
+    </Flex>
+  </li>
+);
 
-const rolePriority = ['leader', 'co-leader'];
+// Reversed sort order
+const SORT_ORDER = ['member', 'co-leader', 'leader'];
 
 type Props = {
   children: any,
@@ -66,20 +67,16 @@ export default class InterestGroupMemberList extends Component<Props, State> {
   };
 
   render() {
-    this.props.memberships.sort((a, b) => {
-      for (let i = 0; i < rolePriority.length; i++) {
-        if (a.role === rolePriority[i]) return -1;
-        if (b.role === rolePriority[i]) return 1;
-      }
-      return 0;
-    });
+    const sorted = sortBy(this.props.memberships, ({ role }) =>
+      SORT_ORDER.indexOf(role)
+    ).reverse();
     return (
       <div>
         <div onClick={this.toggleModal}>{this.props.children}</div>
         <Modal show={this.state.modalVisible} onHide={this.toggleModal}>
           <h2>Medlemmer</h2>
           <ul className={styles.list}>
-            {this.props.memberships.map(membership => (
+            {sorted.map(membership => (
               <ListedUser
                 key={membership.user.id}
                 user={membership.user}
