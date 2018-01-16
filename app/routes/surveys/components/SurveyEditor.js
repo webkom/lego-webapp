@@ -8,9 +8,8 @@ import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import {
   TextInput,
-  RadioButton,
+  CheckBox,
   SelectInput,
-  RadioButtonGroup,
   DatePicker
 } from 'app/components/Form';
 import { createValidator, required } from 'app/utils/validation';
@@ -18,6 +17,9 @@ import { reduxForm } from 'redux-form';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import { Content } from 'app/components/Content';
 import type { FieldProps } from 'redux-form';
+import Icon from 'app/components/Icon';
+import { Link } from 'react-router';
+import { omit } from 'lodash';
 
 type Props = FieldProps & {
   survey: SurveyEntity,
@@ -33,15 +35,36 @@ type State = {
 
 class SurveyEditor extends Component<Props, State> {
   state = {
-    questions: []
+    questions: [{ questionText: '', nr: 0, questionType: 1, options: [] }],
+    shouldUpdate: false
   };
 
   onSubmit = (formContent: Object) => {
     const { survey, submitFunction, push } = this.props;
+    const { questions } = this.state;
+
+    // Remove options if it's a free text question, and remove the empty
+    // option at the end of the list
+    const cleanQuestions = questions.map(question => {
+      question = question || {}; // hello flow
+      question.relativeIndex = question.nr;
+
+      if (question.questionType === 3) {
+        question.options = [];
+      } else {
+        question.options = question.options
+          .filter(option => option.optionText !== '')
+          .map(option => omit(option, 'nr'));
+      }
+      return omit(question, 'nr');
+    });
+    console.log('submitting questions:', cleanQuestions);
+
     return submitFunction({
       ...formContent,
       event: formContent.event && Number(formContent.event.value),
-      surveyId: survey && survey.id
+      surveyId: survey && survey.id,
+      questions: cleanQuestions
     }).then(result => {
       const id = survey ? survey.id : result.payload.result;
       push(`/surveys/${String(id)}`);
@@ -50,18 +73,30 @@ class SurveyEditor extends Component<Props, State> {
 
   updateQuestion = (question: Object) => {
     const questions = this.state.questions.slice();
-    const oldQuestion = questions.find(q => q && q.id === question.id);
+    console.log('updating question', questions, question);
+    const oldQuestion = questions.find(q => q && q.nr === question.nr);
     const changedQuestionIndex = questions.indexOf(oldQuestion);
-    if (changedQuestionIndex) {
+
+    if (changedQuestionIndex !== -1) {
+      console.log('endrer q');
       questions[changedQuestionIndex] = question;
     } else {
+      console.log('legger til q');
       questions.push(question);
     }
 
     this.setState({ questions });
   };
 
+  deleteQuestion = (nr: number) => {
+    this.setState(state => ({
+      questions: state.questions.filter(question => question.nr !== nr)
+    }));
+    return Promise.resolve();
+  };
+
   render() {
+    console.log('rendering...', this.state);
     const {
       survey,
       submitting,
@@ -94,49 +129,60 @@ class SurveyEditor extends Component<Props, State> {
             <ListNavigation title={titleField} />
           )}
 
-          <div className={styles.info}>
-            <div style={{ order: 0 }}>
-              <RadioButtonGroup
-                name="isClone"
-                label="Klone av en annen undersøkelse?"
-              >
-                <Field
-                  label="Ja"
-                  component={RadioButton.Field}
-                  inputValue="true"
-                  name="clone"
-                />
-                <Field
-                  label="Nei"
-                  component={RadioButton.Field}
-                  inputValue="false"
-                  value="false"
-                  name="clone"
-                />
-              </RadioButtonGroup>
-            </div>
+          <div className={styles.checkBox}>
+            <Field
+              name="isClone"
+              label="Klone av en annen undersøkelse?"
+              component={CheckBox.Field}
+              normalize={v => !!v}
+            />
           </div>
 
-          <Field
-            placeholder="Bekk Miniseminar"
-            label="Arrangement"
-            autoFocus={autoFocus}
-            name="event"
-            component={SelectInput.AutocompleteField}
-            className={styles.editEvent}
-            filter={['events.event']}
-          />
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <Field
+              placeholder="Bekk Miniseminar"
+              label="Arrangement"
+              autoFocus={autoFocus}
+              name="event"
+              component={SelectInput.AutocompleteField}
+              className={styles.editEvent}
+              filter={['events.event']}
+            />
 
-          <Field
-            label="Aktiveringstidspunkt"
-            name="activeFrom"
-            className={styles.editEvent}
-            component={DatePicker.Field}
-          />
-
-          <div className={styles.questions}>
-            <Question updateQuestion={this.updateQuestion} />
+            <Field
+              label="Aktiveringstidspunkt"
+              name="activeFrom"
+              component={DatePicker.Field}
+            />
           </div>
+
+          <ul className={styles.questions}>
+            {this.state.questions.map((question, i) => (
+              <Question
+                key={i}
+                nr={i}
+                question={question || {}}
+                updateQuestion={this.updateQuestion}
+                deleteQuestion={this.deleteQuestion}
+              />
+            ))}
+          </ul>
+
+          <Link
+            onClick={() => {
+              const questions = this.state.questions.slice();
+              questions.push({
+                questionText: '',
+                nr: questions.length,
+                questionType: 1,
+                mandatory: false,
+                options: []
+              });
+              this.setState({ questions });
+            }}
+          >
+            <Icon name="add-circle" size={30} className={styles.addQuestion} />
+          </Link>
 
           <div className={styles.clear} />
           <Button className={styles.submit} disabled={submitting} submit>

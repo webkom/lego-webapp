@@ -1,30 +1,61 @@
 // @flow
 
 import React from 'react';
-import type { OptionEntity } from 'app/reducers/surveys';
-import { RadioButton, SelectInput } from 'app/components/Form';
-import { Field } from 'redux-form';
+import {
+  RadioButton,
+  TextInput,
+  TextArea,
+  CheckBox
+} from 'app/components/Form';
 import styles from './surveys.css';
 
 type Props = {
-  questionType: number
+  questionType: number,
+  updateOptions: Object => void,
+  option: Object,
+  nr: number
 };
 
-const Option = (props: Props) => {
-  const { questionType } = props;
+function makeOption(text: string, nr: number) {
+  return {
+    optionText: text,
+    nr
+  };
+}
 
-  return questionType === 1 ? (
-    <Field
-      name="option"
-      component={RadioButton.Field}
-      className={styles.option}
-    />
+const Option = (props: Props) => {
+  return props.questionType === 1 ? (
+    <MultipleChoice {...props} />
   ) : (
-    <Field
-      name="option"
-      component={SelectInput.Field}
-      className={styles.option}
-    />
+    <Checkbox {...props} />
+  );
+};
+
+const MultipleChoice = (props: Props) => {
+  return (
+    <li>
+      <RadioButton value={false} className={styles.option} />
+      <TextInput
+        onInput={e => props.updateOptions(makeOption(e.target.value, props.nr))}
+        placeholder="Alternativ..."
+        className={styles.optionInput}
+        value={props.option.optionText}
+      />
+    </li>
+  );
+};
+
+const Checkbox = (props: Props) => {
+  return (
+    <li>
+      <CheckBox checked={false} className={styles.option} />
+      <TextInput
+        onInput={e => props.updateOptions(makeOption(e.target.value, props.nr))}
+        placeholder="Alternativ..."
+        className={styles.optionInput}
+        value={props.option.optionText}
+      />
+    </li>
   );
 };
 

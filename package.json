@@ -8,10 +8,14 @@
   "scripts": {
     "start": "webpack --config config/webpack.server.js",
     "build": "concurrently \"yarn run build:server\" \"yarn run build:client\"",
-    "build:all": "concurrently \"yarn build:server\" \"yarn build:client\" \"yarn styleguide:build\"",
-    "build:client": "NODE_ENV=production webpack --config config/webpack.client.js",
-    "build:server": "NODE_ENV=production webpack --config config/webpack.server.js -p",
-    "build:dll": "BUILDING_DLL=true webpack --display-chunks --color --config config/webpack.dll.js",
+    "build:all":
+      "concurrently \"yarn build:server\" \"yarn build:client\" \"yarn styleguide:build\"",
+    "build:client":
+      "NODE_ENV=production webpack --config config/webpack.client.js",
+    "build:server":
+      "NODE_ENV=production webpack --config config/webpack.server.js -p",
+    "build:dll":
+      "BUILDING_DLL=true webpack --display-chunks --color --config config/webpack.dll.js",
     "delete-sourcemaps": "find ./dist-client -name '*.map' -delete",
     "postinstall": "yarn run build:dll",
     "test": "NODE_ENV=test jest",
@@ -23,8 +27,10 @@
     "lint:prettier": "prettier '**/*.{js,css,md}' --list-different",
     "prettier": "prettier '**/*.{js,css,md}' --write",
     "flow": "flow",
-    "styleguide": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist server",
-    "styleguide:build": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist build"
+    "styleguide":
+      "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist server",
+    "styleguide:build":
+      "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist build"
   },
   "repository": {
     "type": "git",
@@ -157,9 +163,7 @@
       "selector-pseudo-class-no-unknown": [
         true,
         {
-          "ignorePseudoClasses": [
-            "global"
-          ]
+          "ignorePseudoClasses": ["global"]
         }
       ]
     }
@@ -169,12 +173,10 @@
       "__DEV__": false,
       "__CLIENT__": true
     },
-    "moduleDirectories": [
-      "<rootDir>",
-      "node_modules"
-    ],
+    "moduleDirectories": ["<rootDir>", "node_modules"],
     "moduleNameMapper": {
-      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp3|mp4|webm)$": "<rootDir>/testing/FileStub.js",
+      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp3|mp4|webm)$":
+        "<rootDir>/testing/FileStub.js",
       "^.+\\.css$": "<rootDir>/testing/CSSStub.js"
     },
     "testRegex": "\\.spec\\.(js|jsx)$",
@@ -198,7 +200,5 @@
       "meow"
     ]
   },
-  "moduleRoots": [
-    "./"
-  ]
+  "moduleRoots": ["./"]
 }

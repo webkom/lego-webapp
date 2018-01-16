@@ -3,6 +3,7 @@
 import React from 'react';
 import { createField } from './Field';
 import styles from './RadioButton.css';
+import cx from 'classnames';
 
 type Props = {
   id: string,
@@ -22,7 +23,7 @@ function RadioButton({
   ...props
 }: Props) {
   return (
-    <div className={styles.box}>
+    <div className={cx(styles.box, className)}>
       <input
         {...props}
         className={styles.input}

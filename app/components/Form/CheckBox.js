@@ -19,7 +19,7 @@ type Props = {
 When using this component as a Field in redux-form, you have to include
 normalize={v => !!v}. This makes the value always end up in redux-form as
 true or false, while otherwise it can end up as an empty string or left
-out of the firn values altogether.
+out of the form values altogether.
 
 Example:
 <Field
@@ -40,7 +40,7 @@ function CheckBox({
   ...props
 }: Props) {
   return (
-    <div className={styles.box}>
+    <div className={cx(styles.box, className)}>
       <input
         {...props}
         defaultChecked={!!value}
