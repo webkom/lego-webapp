@@ -8,7 +8,6 @@ import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import PageHierarchy from './PageHierarchy';
 import { Content } from 'app/components/Content';
-import sortBy from 'lodash/sortBy';
 import DisplayContent from 'app/components/DisplayContent';
 
 import type { HierarchySectionEntity } from './PageHierarchy';
@@ -47,13 +46,10 @@ const RenderUser = ({ user }: Object) => (
 );
 
 export const GroupRenderer = ({ page }: { page: Object }) => {
-  const { memberships, text, logo } = page;
-  const leader = memberships.find(membership => membership.role == 'leader');
+  const { membershipsByRole, text, logo } = page;
 
-  const members = sortBy(
-    memberships.filter(m => m != leader).map(m => m.user),
-    'fullName'
-  );
+  const { leader: leaders = [], member: members = [] } = membershipsByRole;
+
   return (
     <article className={styles.detail}>
       {logo && (
@@ -65,10 +61,14 @@ export const GroupRenderer = ({ page }: { page: Object }) => {
 
       <h3>Medlemmer:</h3>
       <ul>
-        {leader && <li>Leder: {<RenderUser user={leader.user} />}</li>}
-        {members.map((member, key) => (
+        {leaders.map(({ user }, key) => (
           <li key={key}>
-            <RenderUser user={member} />
+            Leder: <RenderUser user={user} />
+          </li>
+        ))}
+        {members.map(({ user }, key) => (
+          <li key={key}>
+            <RenderUser user={user} />
           </li>
         ))}
       </ul>

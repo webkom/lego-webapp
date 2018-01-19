@@ -7,6 +7,8 @@ import { selectGroupsWithType } from './groups';
 import { selectGroup } from 'app/reducers/groups';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 
+import { sortBy, groupBy } from 'lodash';
+
 export type PageEntity = {
   id: number,
   title: string,
@@ -96,6 +98,22 @@ export const selectFlatpageForPages = createSelector(
   })
 );
 
+const separateRoles = [
+  'retiree',
+  'active_retiree',
+  'alumni',
+  'retiree_email',
+  'leader'
+];
+// Map all the other roles as if they were regular members
+const defaultRole = 'member';
+
+const groupMemberships = memberships =>
+  groupBy(
+    sortBy(memberships, 'user.fullName'),
+    ({ role }) => (separateRoles.includes(role) ? role : defaultRole)
+  );
+
 export const selectCommitteeForPages = createSelector(
   (state, props) => selectGroup(state, { groupId: Number(props.pageSlug) }),
   (state, props) =>
@@ -107,8 +125,9 @@ export const selectCommitteeForPages = createSelector(
       title: group && group.name,
       editUrl: `/admin/groups/${group.id}/settings`
     };
+    const membershipsByRole = groupMemberships(memberships);
     return {
-      selectedPage: group && { ...group, memberships },
+      selectedPage: group && { ...group, membershipsByRole },
       selectedPageInfo
     };
   }
