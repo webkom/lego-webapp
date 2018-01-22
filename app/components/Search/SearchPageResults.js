@@ -75,7 +75,7 @@ function SearchResult({ result, onSelect, isSelected }: SearchResultProps) {
           )}
         </div>
       </Flex>
-      {console.log('result:', result)}
+
       {result.picture &&
         result.picture !== 'cover' && (
           <Flex className={styles.picture}>
