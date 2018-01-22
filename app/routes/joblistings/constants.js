@@ -28,9 +28,9 @@ export const places = [
 
 export const jobTypes = [
   { label: 'Sommerjobb', value: 'summer_job' },
-  { label: 'Sommerjobb', value: 'summer_job' },
   { label: 'Deltid', value: 'part_time' },
-  { label: 'Fulltid', value: 'full_time' }
+  { label: 'Fulltid', value: 'full_time' },
+  { label: 'Annet', value: 'other' }
 ];
 export const yearValues = [
   { value: 1, label: '1. klasse' },
