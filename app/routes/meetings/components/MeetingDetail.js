@@ -28,6 +28,8 @@ import type {
 import type { UserEntity } from 'app/reducers/users';
 import type { Dateish } from 'app/models';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
+import { FromToTime } from 'app/components/Time';
+import InfoList from 'app/components/InfoList';
 
 type Props = {
   meeting: Object,
@@ -123,6 +125,29 @@ class MeetingDetails extends Component<Props> {
     const canDelete = actionGrant && actionGrant.includes('delete');
     const canEdit = actionGrant && actionGrant.includes('edit');
 
+    const infoItems = [
+      {
+        key: 'Din status',
+        value: `${statusesText[statusMe]}`
+      },
+      {
+        key: 'Når',
+        value: <FromToTime from={meeting.startTime} to={meeting.endTime} />
+      },
+      {
+        key: 'Sted',
+        value: `${meeting.location}`
+      },
+      {
+        key: 'Forfatter',
+        value: <UserLink user={createdBy} />
+      },
+      {
+        key: 'Referent',
+        value: <UserLink user={reportAuthor} />
+      }
+    ];
+
     return (
       <div>
         <Content>
@@ -172,29 +197,7 @@ class MeetingDetails extends Component<Props> {
               <Card style={{ border: 'none', padding: 0 }} shadow={false}>
                 <ul>
                   {this.attendanceButtons(statusMe, meeting.startTime)}
-                  {statusMe && (
-                    <li>
-                      <strong> Din status: </strong>
-                      {statusesText[statusMe]}
-                    </li>
-                  )}
-                  <li>
-                    <strong> Slutt </strong>
-                    <Time time={meeting.endTime} format="ll HH:mm" />
-                  </li>
-                  <li>
-                    <strong> Lokasjon: </strong>
-                    <span> {meeting.location} </span>
-                  </li>
-                  <li>
-                    <strong> Forfatter: </strong>
-                    <UserLink user={createdBy} />
-                  </li>
-
-                  <li>
-                    <strong> Referent: </strong>
-                    <UserLink user={reportAuthor} />
-                  </li>
+                  <InfoList items={infoItems} />
                   <li>
                     <AttendanceStatus.Modal pools={this.sortInvitations()} />
                   </li>
