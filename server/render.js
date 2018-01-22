@@ -101,7 +101,7 @@ function render(req: $Request, res: $Response, next: Middleware) {
         return render();
       };
 
-      const respond = (error: Error | TimeoutError) => {
+      const respond = (error: ?Error | TimeoutError) => {
         if (error instanceof TimeoutError) {
           return respondStateless(error.error);
         }
