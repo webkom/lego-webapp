@@ -16,11 +16,13 @@ const time = (hours, minutes) =>
 const mapStateToProps = (state, props) => {
   return {
     initialValues: {
-      title: '',
-      isClone: 'false',
       activeFrom: time(12, 0),
-      questions: [],
-      event: ''
+      event: '',
+      title: '',
+      isClone: true
+    },
+    survey: {
+      questions: []
     }
   };
 };

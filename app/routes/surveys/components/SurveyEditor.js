@@ -23,21 +23,40 @@ import { omit } from 'lodash';
 
 type Props = FieldProps & {
   survey: SurveyEntity,
-  autoFocus: any,
+  autoFocus: Object,
   submitFunction: (SurveyEntity, ?number) => Promise<*>,
   deleteSurvey: number => Promise<*>,
   push: string => void
 };
 
 type State = {
-  questions: Array<any>
+  questions: Array<Object>,
+  shouldUpdate: boolean
 };
 
 class SurveyEditor extends Component<Props, State> {
   state = {
-    questions: [{ questionText: '', nr: 0, questionType: 1, options: [] }],
+    questions: [],
     shouldUpdate: false
   };
+
+  componentDidMount() {
+    const questions =
+      this.props.survey.questions.length === 0
+        ? [
+            {
+              questionText: '',
+              nr: 0,
+              questionType: 1,
+              options: []
+            }
+          ]
+        : this.props.survey.questions.map((question, i) => ({
+            ...question,
+            nr: i
+          }));
+    this.setState({ questions });
+  }
 
   onSubmit = (formContent: Object) => {
     const { survey, submitFunction, push } = this.props;
@@ -45,8 +64,8 @@ class SurveyEditor extends Component<Props, State> {
 
     // Remove options if it's a free text question, and remove the empty
     // option at the end of the list
-    const cleanQuestions = questions.map(question => {
-      question = question || {}; // hello flow
+    const cleanQuestions = questions.map(q => {
+      const question = omit(q, 'nr');
       question.relativeIndex = question.nr;
 
       if (question.questionType === 3) {
@@ -58,7 +77,6 @@ class SurveyEditor extends Component<Props, State> {
       }
       return omit(question, 'nr');
     });
-    console.log('submitting questions:', cleanQuestions);
 
     return submitFunction({
       ...formContent,
@@ -73,15 +91,12 @@ class SurveyEditor extends Component<Props, State> {
 
   updateQuestion = (question: Object) => {
     const questions = this.state.questions.slice();
-    console.log('updating question', questions, question);
-    const oldQuestion = questions.find(q => q && q.nr === question.nr);
-    const changedQuestionIndex = questions.indexOf(oldQuestion);
+    const oldQuestion = questions.find(q => q.nr === question.nr);
+    const changedQuestionIndex = questions.indexOf(oldQuestion || {});
 
     if (changedQuestionIndex !== -1) {
-      console.log('endrer q');
       questions[changedQuestionIndex] = question;
     } else {
-      console.log('legger til q');
       questions.push(question);
     }
 
@@ -96,7 +111,6 @@ class SurveyEditor extends Component<Props, State> {
   };
 
   render() {
-    console.log('rendering...', this.state);
     const {
       survey,
       submitting,
@@ -119,7 +133,7 @@ class SurveyEditor extends Component<Props, State> {
     return (
       <Content className={styles.detail}>
         <form onSubmit={handleSubmit(this.onSubmit)}>
-          {survey ? (
+          {survey && survey.id ? (
             <DetailNavigation
               title={titleField}
               surveyId={Number(survey.id)}

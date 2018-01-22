@@ -28,7 +28,8 @@ export type QuestionEntity = {
   questionType: number,
   questionText: string,
   mandatory?: boolean,
-  options?: Array<OptionEntity>
+  options?: Array<OptionEntity>,
+  relativeIndex: number
 };
 
 export type AnswerEntity = {

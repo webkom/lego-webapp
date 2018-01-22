@@ -1,12 +1,7 @@
 // @flow
 
 import React from 'react';
-import {
-  RadioButton,
-  TextInput,
-  TextArea,
-  CheckBox
-} from 'app/components/Form';
+import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
 import styles from './surveys.css';
 
 type Props = {
@@ -16,10 +11,10 @@ type Props = {
   nr: number
 };
 
-function makeOption(text: string, nr: number) {
+function makeOption(optionText: string, option: Object) {
   return {
-    optionText: text,
-    nr
+    ...option,
+    optionText
   };
 }
 
@@ -36,7 +31,9 @@ const MultipleChoice = (props: Props) => {
     <li>
       <RadioButton value={false} className={styles.option} />
       <TextInput
-        onInput={e => props.updateOptions(makeOption(e.target.value, props.nr))}
+        onInput={e =>
+          props.updateOptions(makeOption(e.target.value, props.option))
+        }
         placeholder="Alternativ..."
         className={styles.optionInput}
         value={props.option.optionText}
@@ -50,7 +47,9 @@ const Checkbox = (props: Props) => {
     <li>
       <CheckBox checked={false} className={styles.option} />
       <TextInput
-        onInput={e => props.updateOptions(makeOption(e.target.value, props.nr))}
+        onInput={e =>
+          props.updateOptions(makeOption(e.target.value, props.option))
+        }
         placeholder="Alternativ..."
         className={styles.optionInput}
         value={props.option.optionText}

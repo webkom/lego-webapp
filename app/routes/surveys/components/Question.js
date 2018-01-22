@@ -18,7 +18,7 @@ type Props = {
 
 type State = {
   shouldUpdate: boolean,
-  options: Array<any>,
+  options: Array<Object>,
   pickerOpen: boolean
 };
 
@@ -87,32 +87,31 @@ class Question extends Component<Props, State> {
     pickerOpen: false
   };
 
+  componentDidMount() {
+    const options = this.props.question.options
+      .map((option, i) => ({ ...option, nr: i }))
+      .concat({
+        nr: this.props.question.options.length,
+        optionText: ''
+      });
+    this.setState({ options });
+  }
+
   componentDidUpdate() {
     if (this.state.shouldUpdate) {
-      const { questionText, nr, questionType } = this.props.question;
-      this.props.updateQuestion(
-        this.makeQuestion(questionText, nr, questionType)
-      );
+      this.props.updateQuestion({
+        ...this.props.question,
+        options: this.state.options
+      });
       this.setState({ shouldUpdate: false });
     }
   }
 
-  makeQuestion = (questionText: string, nr: number, questionType: number) => {
-    const { options } = this.state;
-    return {
-      questionType,
-      questionText,
-      options,
-      nr,
-      mandatory: false // TODO
-    };
-  };
-
   updateOptions = (option: Object) => {
     const options = this.state.options.slice();
 
-    const oldOption = options.find(o => o && o.nr === option.nr);
-    const changedOptionIndex = options.indexOf(oldOption);
+    const oldOption = options.find(o => o.nr === option.nr);
+    const changedOptionIndex = options.indexOf(oldOption || {});
 
     if (changedOptionIndex !== -1) {
       // This inner "if" adds another empty option below the current one if

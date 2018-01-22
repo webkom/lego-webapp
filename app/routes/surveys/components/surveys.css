@@ -100,9 +100,6 @@
   width: 100%;
 }
 
-.questionType {
-}
-
 .questionTypeSelector {
   padding: 14px 20px;
   border: 1px solid #ccc;
@@ -192,4 +189,24 @@
   &:hover {
     cursor: pointer;
   }
+}
+
+.detailQuestions > li {
+  margin-top: 30px;
+}
+
+.detailQuestions .freeText {
+  max-width: 600px;
+}
+
+.detailOptions > li {
+  margin-top: 10px;
+}
+
+.detailOptions .option {
+  margin-right: 10px;
+}
+
+.mandatory {
+  color: var(--lego-link-color);
 }
