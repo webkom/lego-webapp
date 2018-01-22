@@ -29,6 +29,7 @@ const mapStateToProps = (state, props) => {
       paymentDueDate: time({ days: 7, hours: 17, minutes: 15 }),
       mergeTime: time({ hours: 12 }),
       useCaptcha: true,
+      heedPenalties: true,
       feedbackDescription: 'Melding til arrangører',
       pools: [],
       unregistrationDeadline: time({ hours: 12 })
