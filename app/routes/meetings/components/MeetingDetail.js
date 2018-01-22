@@ -28,7 +28,7 @@ import type {
 import type { UserEntity } from 'app/reducers/users';
 import type { Dateish } from 'app/models';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
-import { FormatTime, FromToTime } from 'app/components/Time';
+import { FromToTime } from 'app/components/Time';
 import InfoList from 'app/components/InfoList';
 
 type Props = {
