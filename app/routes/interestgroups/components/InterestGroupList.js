@@ -21,7 +21,7 @@ const InterestGroupList = ({ actionGrant, interestGroups }: Props) => {
       <div className={styles.section}>
         <div>
           <NavigationTab title="Interessegrupper">
-            <NavigationLink to="">
+            <NavigationLink to="/">
               <i className="fa fa-angle-left" /> Hjem
             </NavigationLink>
           </NavigationTab>
