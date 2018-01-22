@@ -7,6 +7,7 @@ import { ProfilePicture } from 'app/components/Image';
 import truncateString from 'app/utils/truncateString';
 import Icon from 'app/components/Icon';
 import styles from './SearchPageResults.css';
+import { Flex } from 'app/components/Layout';
 
 type Props = {
   query: string,
@@ -23,14 +24,15 @@ type SearchResultProps = {
 
 function SearchResult({ result, onSelect, isSelected }: SearchResultProps) {
   return (
-    <div
+    <Flex
+      wrap
       style={{
         backgroundColor: isSelected && 'rgba(255, 0, 0, 0.15)',
         borderColor: result.color
       }}
       className={styles.searchResult}
     >
-      <div>
+      <Flex column className={styles.textbox}>
         <Link
           onClick={e => {
             e.preventDefault();
@@ -60,22 +62,27 @@ function SearchResult({ result, onSelect, isSelected }: SearchResultProps) {
             )}
           </h3>
         </Link>
-
-        {result.content && (
-          <div className={styles.content}>
-            <span>
-              {truncateString(result.content.replace(/(<([^>]+)>)/gi, ''), 250)}
-            </span>
-          </div>
-        )}
-      </div>
-
-      {result.picture && (
-        <div className={styles.picture}>
-          <img src={result.picture} alt="search" role="presentation" />
+        <div>
+          {result.content && (
+            <div className={styles.content}>
+              <span>
+                {truncateString(
+                  result.content.replace(/(<([^>]+)>)/gi, ''),
+                  250
+                )}
+              </span>
+            </div>
+          )}
         </div>
-      )}
-    </div>
+      </Flex>
+
+      {result.picture &&
+        result.picture !== 'cover' && (
+          <Flex className={styles.picture}>
+            <img src={result.picture} alt="search" role="presentation" />
+          </Flex>
+        )}
+    </Flex>
   );
 }
 
