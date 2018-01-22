@@ -43,7 +43,7 @@ const SEMESTER_TRANSLATION = {
   autumn: 'Høst'
 };
 
-const semesterToText = semesterObject =>
+export const semesterToText = semesterObject =>
   `${SEMESTER_TRANSLATION[semesterObject.semester]} ${semesterObject.year}`;
 
 const SemesterBox = ({ fields }: FieldProps) => (

@@ -334,7 +334,7 @@ export function deleteCompanyContact(
 }
 
 export function fetchSemestersForInterestform() {
-  return fetchSemesters({ company_inerest: 'True' });
+  return fetchSemesters({ company_interest: 'True' });
 }
 
 export function fetchSemesters(
@@ -353,7 +353,8 @@ export function fetchSemesters(
 
 type SemesterInput = {
   year: number,
-  semester: number
+  semester: number,
+  activeInterestForm: boolean
 };
 
 export function addSemester({ year, semester }: SemesterInput): Thunk<*> {
@@ -369,6 +370,22 @@ export function addSemester({ year, semester }: SemesterInput): Thunk<*> {
         },
         meta: {
           errorMessage: 'Legge til semester feilet'
+        }
+      })
+    );
+  };
+}
+
+export function toggleActiveSemester(semesterId: number): Thunk<*> {
+  return dispatch => {
+    return dispatch(
+      callAPI({
+        types: Company.TOGGLE_ACTIVE_SEMESTER,
+        endpoint: `/company-semesters/${semesterId}`,
+        method: 'PATCH',
+        meta: {
+          errorMessage: 'Sletting av semester feilet',
+          successMessage: 'Semester slettet'
         }
       })
     );

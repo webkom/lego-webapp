@@ -5,9 +5,10 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
 
 export type CompanySemesterEntity = {
+  id?: number,
   semester: string,
   year: number,
-  id?: number
+  activeInterestForm: boolean
 };
 
 export default createEntityReducer({
@@ -42,7 +43,7 @@ export const selectCompanySemesters = createSelector(
   }
 );
 
-export const selectCompanySemestersForInterestform = createSelector(
+export const selectCompanySemestersForInterestForm = createSelector(
   selectCompanySemesters,
   companySemesters =>
     companySemesters
