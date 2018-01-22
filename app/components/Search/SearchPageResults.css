@@ -1,7 +1,9 @@
+@import 'app/styles/variables.css';
+
 .searchResult {
   padding-left: 20px;
   border-left: 4px solid transparent;
-  margin-bottom: 15px;
+  margin-bottom: 25px;
   display: flex;
   justify-content: space-between;
 }
@@ -16,12 +18,37 @@
 
 .picture {
   height: 100px;
+  flex: 1;
+  justify-content: center;
 }
 
 .picture img {
   height: inherit;
+  object-fit: contain;
+  min-width: 100px;
+
+  @media (--small-viewport) {
+    width: 100%;
+    object-fit: contain;
+    margin: 0 10px 0 0;
+    background-color: white;
+  }
 }
 
 .searchResultItemIcon {
   margin-left: 10px;
+}
+
+.textbox {
+  flex: 4;
+  min-width: 260px;
+  margin-right: 15px;
+
+  @media (--medium-viewport) {
+    min-width: 400px;
+  }
+
+  @media (--small-viewport) {
+    min-width: 260px;
+  }
 }

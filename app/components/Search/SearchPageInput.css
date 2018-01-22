@@ -26,6 +26,7 @@
   font-weight: 500;
   color: #333;
   background: transparent;
+  overflow: hidden;
 
   &::placeholder {
     color: #444;
