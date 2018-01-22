@@ -135,7 +135,7 @@ class MeetingDetails extends Component<Props> {
         value: <FromToTime from={meeting.startTime} to={meeting.endTime} />
       },
       {
-        key: 'Lokasjon',
+        key: 'Sted',
         value: `${meeting.location}`
       },
       {
