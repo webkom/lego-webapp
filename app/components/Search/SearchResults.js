@@ -7,6 +7,7 @@ import { Link } from 'react-router';
 import { ProfilePicture } from '../Image';
 import Icon from '../Icon';
 import ResolveLink from 'app/components/ResolveLink';
+import Time from 'app/components/Time';
 
 type SearchResultItemProps = {
   result: Object,
@@ -33,6 +34,13 @@ const SearchResultItem = ({
           <Icon className={styles.searchResultItemIcon} name={result.icon} />
         )}
       {result.label}
+      {result.date && (
+        <Time
+          time={Date.parse(result.date)}
+          wordsAgo
+          className={styles.resultDate}
+        />
+      )}
     </li>
   </Link>
 );

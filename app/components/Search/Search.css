@@ -137,6 +137,11 @@
   background: #eee;
 }
 
+.resultDate {
+  color: var(--lego-font-color);
+  margin-left: auto;
+}
+
 .results li {
   border-bottom: 1px solid #ddd;
   padding: 0.5rem;
