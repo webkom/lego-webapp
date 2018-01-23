@@ -37,16 +37,23 @@ function JoblistingItem({ joblisting }: JobListingItemProps) {
           <div className={styles.companyJobtype}>
             {joblisting.company.name} • {jobType(joblisting.jobType)}
           </div>
-          <Year joblisting={joblisting} />
-          <Workplaces places={joblisting.workplaces} />
+          <div>
+            <Year joblisting={joblisting} />
+            {' • '}
+            <Workplaces places={joblisting.workplaces} />
+          </div>
         </div>
         <div className={styles.deadLine}>
-          <div className={styles.deadLineLabel}>Frist • </div>
-          <Time
-            time={joblisting.deadline}
-            style={{ width: '135px' }}
-            format="ll HH:mm"
-          />
+          <span className={styles.deadLineLabel} style={{ marginRight: '5px' }}>
+            {'Frist  • '}
+          </span>
+          <span>
+            <Time
+              time={joblisting.deadline}
+              style={{ width: '135px' }}
+              format="ll HH:mm"
+            />
+          </span>
         </div>
       </Flex>
     </Flex>
