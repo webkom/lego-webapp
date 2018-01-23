@@ -5,11 +5,6 @@ import { connect } from 'react-redux';
 import UserProfile from './components/UserProfile';
 import { fetchUser } from 'app/actions/UserActions';
 import { fetchUserFeed } from 'app/actions/FeedActions';
-import {
-  selectFeedById,
-  selectFeedActivitesByFeedId,
-  feedIdByUserId
-} from 'app/reducers/feeds';
 import { selectUserWithGroups } from 'app/reducers/users';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
@@ -17,9 +12,11 @@ import prepare from 'app/utils/prepare';
 import { LoginPage } from 'app/components/LoginForm';
 
 const loadData = ({ params: { username } }, dispatch) => {
-  return dispatch(fetchUser(username)).then(action =>
-    dispatch(fetchUserFeed(action.payload.result))
-  );
+  return dispatch(fetchUser(username));
+  // TODO: re-enable when the user feed is fixed:
+  // .then(action =>
+  //   dispatch(fetchUserFeed(action.payload.result))
+  //  );
 };
 
 const mapStateToProps = (state, props) => {
@@ -31,10 +28,13 @@ const mapStateToProps = (state, props) => {
   let feed;
   let feedItems;
   if (user) {
-    feed = selectFeedById(state, { feedId: feedIdByUserId(user.id) });
-    feedItems = selectFeedActivitesByFeedId(state, {
-      feedId: feedIdByUserId(user.id)
-    });
+    feed = { type: 'user', activities: [] };
+    feedItems = [];
+    // TODO: re-enable! see above.
+    // feed = selectFeedById(state, { feedId: feedIdByUserId(user.id) });
+    // feedItems = selectFeedActivitesByFeedId(state, {
+    //   feedId: feedIdByUserId(user.id)
+    // });
   }
 
   const isMe =
