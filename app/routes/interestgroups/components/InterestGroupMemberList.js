@@ -82,7 +82,7 @@ export default class InterestGroupMemberList extends Component<Props, State> {
                 user={membership.user}
                 role={membership.role}
               />
-            ))};
+            ))}
           </ul>
         </Modal>
       </div>
