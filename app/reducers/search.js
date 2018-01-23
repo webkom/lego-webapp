@@ -43,6 +43,7 @@ const searchMapping = {
   },
   'events.event': {
     label: 'title',
+    date: 'startTime',
     icon: 'calendar',
     color: '#E8953A',
     picture: 'cover',
