@@ -28,6 +28,7 @@ import {
   ContentSidebar
 } from 'app/components/Content';
 import type { ID } from 'app/models';
+import { Link } from 'react-router';
 
 type InterestedButtonProps = {
   isInterested: boolean
@@ -141,7 +142,19 @@ export default class EventDetail extends Component<Props> {
     const infoItems = [
       event.company && {
         key: 'Arrangerende bedrift',
-        value: event.company.name
+        value: (
+          <Link to={`/companies/${event.company.id}`}>
+            {event.company.name}
+          </Link>
+        )
+      },
+      event.createdBy && {
+        key: 'Forfatter',
+        value: (
+          <Link to={`/users/${event.createdBy.username}`}>
+            {event.createdBy.fullName}
+          </Link>
+        )
       },
       {
         key: 'Hva',
