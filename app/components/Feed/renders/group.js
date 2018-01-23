@@ -8,7 +8,10 @@ import DisplayContent from 'app/components/DisplayContent';
 /**
  * Grouped by object...
  */
-export function activityHeader(aggregatedActivity: AggregatedActivity) {
+export function activityHeader(
+  aggregatedActivity: AggregatedActivity,
+  htmlTag: Function => string
+) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actor = lookupContext(aggregatedActivity, latestActivity.actor);
   const target = lookupContext(aggregatedActivity, latestActivity.target);
@@ -26,7 +29,7 @@ export function activityHeader(aggregatedActivity: AggregatedActivity) {
 
   return (
     <b>
-      {contextRender[actor.contentType](actor)}
+      {htmlTag(contextRender[actor.contentType](actor))}
       {` ble medlem av ${groupType} `}
       {target.name}
     </b>

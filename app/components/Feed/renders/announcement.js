@@ -7,17 +7,20 @@ import type { AggregatedActivity } from '../types';
 /**
  * Group by object
  */
-export function activityHeader(aggregatedActivity: AggregatedActivity) {
+export function activityHeader(
+  aggregatedActivity: AggregatedActivity,
+  htmlTag: Function => string
+) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actor = lookupContext(aggregatedActivity, latestActivity.actor);
   const object = lookupContext(aggregatedActivity, latestActivity.object);
 
   return (
     <b>
-      {contextRender[actor.contentType](actor)}
+      {htmlTag(contextRender[actor.contentType](actor))}
       {' sendte ut en kunngjøring:'}
       <br />
-      {contextRender[object.contentType](object)}
+      {htmlTag(contextRender[object.contentType](object))}
     </b>
   );
 }
@@ -31,7 +34,5 @@ export function icon() {
 }
 
 export function getURL(aggregatedActivity: AggregatedActivity) {
-  const latestActivity = aggregatedActivity.lastActivity;
-  const actor = lookupContext(aggregatedActivity, latestActivity.actor);
-  return `/users/${actor.username}/`;
+  return '/timeline';
 }

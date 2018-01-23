@@ -8,7 +8,10 @@ import type { AggregatedActivity } from '../types';
 /**
  * Normal grouping by target and date
  */
-export function activityHeader(aggregatedActivity: AggregatedActivity) {
+export function activityHeader(
+  aggregatedActivity: AggregatedActivity,
+  htmlTag: Function => string
+) {
   const events = aggregatedActivity.activities.reduce((acc, activity) => {
     const context = lookupContext(aggregatedActivity, activity.actor);
     return context ? acc.concat(context) : acc;
@@ -22,7 +25,7 @@ export function activityHeader(aggregatedActivity: AggregatedActivity) {
     <b>
       {'Du har rykket opp fra ventelisten på '}
       {formatHeader(
-        events.map(event => contextRender[event.contentType](event))
+        events.map(event => htmlTag(contextRender[event.contentType](event)))
       )}
     </b>
   );
@@ -43,7 +46,7 @@ export function getURL(aggregatedActivity: AggregatedActivity) {
   }, []);
 
   if (!events || events.length !== 1) {
-    return '/events/';
+    return '/events';
   }
-  return `/events/${events[0].id}/`;
+  return `/events/${events[0].id}`;
 }

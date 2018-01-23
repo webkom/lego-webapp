@@ -22,12 +22,11 @@ export function icon() {
 }
 
 export function getURL(aggregatedActivity: AggregatedActivity) {
-  const restrictedMail = aggregatedActivity.activities.reduce(
-    (acc, activity) => {
-      const context = lookupContext(aggregatedActivity, activity.object);
-      return context ? acc.concat(context) : acc;
-    },
-    []
-  );
-  return `/admin/email/restricted/${restrictedMail[0].id}/`;
+  const latestActivity = aggregatedActivity.lastActivity;
+  const mail = lookupContext(aggregatedActivity, latestActivity.object);
+
+  if (!mail) {
+    return '/admin/email/restricted';
+  }
+  return `/admin/email/restricted/${mail.id}`;
 }

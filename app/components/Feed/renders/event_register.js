@@ -9,7 +9,10 @@ import DisplayContent from 'app/components/DisplayContent';
 /**
  * Grouped by target and date, standard...
  */
-export function activityHeader(aggregatedActivity: AggregatedActivity) {
+export function activityHeader(
+  aggregatedActivity: AggregatedActivity,
+  htmlTag: Function => string
+) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actors = aggregatedActivity.actorIds.map(actorId => {
     return lookupContext(aggregatedActivity, actorId);
@@ -21,13 +24,13 @@ export function activityHeader(aggregatedActivity: AggregatedActivity) {
   }
 
   const actorsRender = actors.map(actor =>
-    contextRender[actor.contentType](actor)
+    htmlTag(contextRender[actor.contentType](actor))
   );
 
   return (
     <b>
       {formatHeader(actorsRender)} meldte seg på arrangementet{' '}
-      {contextRender[target.contentType](target)}
+      {htmlTag(contextRender[target.contentType](target))}
     </b>
   );
 }
@@ -44,7 +47,7 @@ export function getURL(aggregatedActivity: AggregatedActivity) {
   const latestActivity = aggregatedActivity.lastActivity;
   const event = lookupContext(aggregatedActivity, latestActivity.target);
   if (!event) {
-    return '/events/';
+    return '/events';
   }
-  return `/events/${event.id}/`;
+  return `/events/${event.id}`;
 }

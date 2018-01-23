@@ -8,6 +8,7 @@ import Time from 'app/components/Time';
 import styles from './HeaderNotifications.css';
 import { Link } from 'react-router';
 import ErrorBoundary from 'app/components/ErrorBoundary';
+import { toSpan } from '../Feed/context';
 
 type Props = {
   notificationsData: Object,
@@ -23,7 +24,6 @@ type State = {
 
 const NotificationElement = ({ notification }: { notification: Object }) => {
   const renders = activityRenderers[notification.verb];
-
   if (renders) {
     return (
       <Link to={renders.getURL(notification)}>
@@ -36,7 +36,7 @@ const NotificationElement = ({ notification }: { notification: Object }) => {
           <div className={styles.innerNotification}>
             <div className={styles.icon}>{renders.icon(notification)}</div>
             <div>
-              {renders.activityHeader(notification)}
+              {renders.activityHeader(notification, toSpan)}
               <Time
                 time={notification.updatedAt}
                 wordsAgo
