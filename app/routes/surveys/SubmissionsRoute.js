@@ -28,7 +28,8 @@ const mapStateToProps = (state, props) => {
   return {
     survey: selectSurveyById(state, { surveyId }),
     submissions: selectSurveySubmissions(state, { surveyId }),
-    notFetching: !state.surveys.fetching
+    notFetching: !state.surveys.fetching,
+    actionGrant: state.surveys.actionGrant
   };
 };
 

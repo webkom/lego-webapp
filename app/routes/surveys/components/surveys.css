@@ -222,3 +222,7 @@
 .submissionNav {
   margin: 10px 0;
 }
+
+.adminSideBar {
+  flex: 0.65;
+}

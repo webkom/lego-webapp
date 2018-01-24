@@ -5,12 +5,7 @@ import React from 'react';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
-import {
-  TextArea,
-  RadioButton,
-  RadioButtonGroup,
-  CheckBox
-} from 'app/components/Form';
+import { TextArea, RadioButton, CheckBox } from 'app/components/Form';
 import { createValidator, required } from 'app/utils/validation';
 import { reduxForm, FieldArray } from 'redux-form';
 import type { SurveyEntity } from 'app/reducers/surveys';

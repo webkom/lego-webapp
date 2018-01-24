@@ -1,12 +1,13 @@
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
-import { fetch, addSurvey, editSurvey } from 'app/actions/SurveyActions';
+import { fetch, deleteSurvey } from 'app/actions/SurveyActions';
 import SurveyDetail from './components/SurveyDetail';
 import { compose } from 'redux';
 import { selectSurveyById } from 'app/reducers/surveys';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import loadingIndicator from 'app/utils/loadingIndicator';
+import { push } from 'react-router-redux';
 
 const loadData = ({ params: { surveyId } }, dispatch) =>
   dispatch(fetch(surveyId));
@@ -16,13 +17,14 @@ const mapStateToProps = (state, props) => {
   const survey = selectSurveyById(state, { surveyId });
   return {
     survey,
-    surveyId
+    surveyId,
+    actionGrant: state.surveys.actionGrant
   };
 };
 
 const mapDispatchToProps = {
-  addSurvey,
-  editSurvey
+  deleteSurvey,
+  push
 };
 
 export default compose(

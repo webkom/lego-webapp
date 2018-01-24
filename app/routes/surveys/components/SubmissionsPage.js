@@ -5,20 +5,23 @@ import styles from './surveys.css';
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import { DetailNavigation } from '../utils.js';
-import { Content } from 'app/components/Content';
+import { Content, ContentSection, ContentMain } from 'app/components/Content';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Link } from 'react-router';
+import AdminSideBar from './AdminSideBar';
+import type { ActionGrant } from 'app/models';
 
 type Props = {
   submissions: Array<SubmissionEntity>,
   addSubmission: SubmissionEntity => Promise<*>,
   deleteSurvey: number => Promise<*>,
   survey: SurveyEntity,
-  children: React.Element<*>
+  children: React.Element<*>,
+  actionGrant: ActionGrant
 };
 
 const SubmissionPage = (props: Props) => {
-  const { submissions, deleteSurvey, survey } = props;
+  const { submissions, deleteSurvey, survey, actionGrant } = props;
   if (!submissions || !survey || !survey.event)
     return <LoadingIndicator loading />;
 
@@ -30,19 +33,25 @@ const SubmissionPage = (props: Props) => {
         deleteFunction={deleteSurvey}
       />
 
-      <h2>{submissions.length} svar</h2>
+      <ContentSection>
+        <ContentMain>
+          <h2 style={{ lineHeight: '24px' }}>{submissions.length} svar</h2>
 
-      <div className={styles.submissionNav}>
-        <Link to={`/surveys/${survey.id}/submissions/summary`}>
-          Oppsummering
-        </Link>
-        {' | '}
-        <Link to={`/surveys/${survey.id}/submissions/individual`}>
-          Individuell
-        </Link>
-      </div>
+          <div className={styles.submissionNav}>
+            <Link to={`/surveys/${survey.id}/submissions/summary`}>
+              Oppsummering
+            </Link>
+            {' | '}
+            <Link to={`/surveys/${survey.id}/submissions/individual`}>
+              Individuell
+            </Link>
+          </div>
 
-      {React.cloneElement(props.children, props)}
+          {React.cloneElement(props.children, props)}
+        </ContentMain>
+
+        <AdminSideBar surveyId={survey.id} actionGrant={actionGrant} />
+      </ContentSection>
     </Content>
   );
 };
