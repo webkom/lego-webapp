@@ -18,6 +18,7 @@ import { ProfilePicture } from 'app/components/Image';
 import DisplayContent from 'app/components/DisplayContent';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import type { InterestGroup, User, GroupMembership, ID } from 'app/models';
+import InterestGroupMemberList from './InterestGroupMemberList';
 
 // TODO: this is from the event detail page.
 // We can probably move this out to somewhere common.
@@ -59,6 +60,9 @@ const Members = ({ group, members }: MembersProps) => (
           .slice(0, 10)
           .map(reg => <RegisteredCell key={reg.user.id} user={reg.user} />)}
     </Flex>
+    <InterestGroupMemberList memberships={members}>
+      <Flex className={styles.showMemberList}>Vis alle medlemmer</Flex>
+    </InterestGroupMemberList>
   </Flex>
 );
 
