@@ -43,6 +43,9 @@ export const DetailNavigation = ({
   <NavigationTab title={title}>
     <NavigationLink to="/surveys">Liste</NavigationLink>
     <NavigationLink to={`/surveys/${surveyId}`}>Undersøkelsen</NavigationLink>
+    <NavigationLink to={`/surveys/${surveyId}/submissions`}>
+      Svar
+    </NavigationLink>
     <NavigationLink to="/surveys/add">Ny</NavigationLink>
     <NavigationLink to={`/surveys/${surveyId}/edit`}>Endre</NavigationLink>
     <ConfirmModalWithParent
