@@ -21,7 +21,7 @@ const FeedItem = (props: { activity: AggregatedActivity }) => {
     return (
       <li className={styles.item}>
         <div className={styles.icon}>{renders.icon(props.activity)}</div>
-        <div>
+        <div className={styles.wordBreak}>
           {renders.activityHeader(props.activity)}
           <Time
             time={props.activity.updatedAt}
