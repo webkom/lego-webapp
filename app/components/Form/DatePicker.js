@@ -10,6 +10,7 @@ import { createField } from './Field';
 import TextInput from './TextInput';
 import TimePicker from './TimePicker';
 import styles from './DatePicker.css';
+import config from 'app/config';
 
 type Props = {
   onChange: string => void,
@@ -103,7 +104,9 @@ class DatePicker extends Component<Props, State> {
         triggerComponent={
           <TextInput
             className={cx(styles.inputField, className)}
-            value={this.state.value.format(this.props.dateFormat)}
+            value={moment
+              .tz(this.state.value, config.timezone)
+              .format(this.props.dateFormat)}
           />
         }
         componentClass="div"
