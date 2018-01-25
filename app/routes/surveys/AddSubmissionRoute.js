@@ -16,9 +16,7 @@ const mapStateToProps = (state, props) => {
     survey,
     surveyId,
     initialValues: {
-      user: '',
-      submitted: '',
-      submitted_time: '',
+      user: props.currentUser,
       answers: []
     }
   };

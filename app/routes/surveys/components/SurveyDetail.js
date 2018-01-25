@@ -43,6 +43,10 @@ const SurveyDetail = (props: Props) => {
             Aktiv fra <Time time={survey.activeFrom} format="ll HH:mm" />
           </div>
 
+          <Link to={`/surveys/${survey.id}/answer`}>
+            Svar på undersøkelsen (Midlertidig link)
+          </Link>
+
           <ul className={styles.detailQuestions}>
             {survey.questions.map(question => (
               <li key={question.id}>

@@ -67,8 +67,8 @@ const AnswerList = ({ survey, submission }: AnswerListProps) => {
             {question.options.map(option => {
               const selected =
                 typeof (answer.selectedOptions || []).find(
-                  o => o.id === option.id
-                ) === 'undefined';
+                  o => o === option.id
+                ) !== 'undefined';
 
               return (
                 <li key={option.id}>

@@ -36,9 +36,7 @@ const SubmissionSummary = ({ submissions, deleteSurvey, survey }: Props) => {
                         ) || {}
                     )
                     .filter(answer =>
-                      (answer.selectedOptions || []).find(
-                        o => o.id === option.id
-                      )
+                      (answer.selectedOptions || []).find(o => o === option.id)
                     ).length;
 
                   return (

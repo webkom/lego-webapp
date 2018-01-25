@@ -17,11 +17,12 @@ type Props = {
   deleteSurvey: number => Promise<*>,
   survey: SurveyEntity,
   children: React.Element<*>,
-  actionGrant: ActionGrant
+  actionGrant: ActionGrant,
+  isSummary: boolean
 };
 
 const SubmissionPage = (props: Props) => {
-  const { submissions, deleteSurvey, survey, actionGrant } = props;
+  const { submissions, deleteSurvey, survey, actionGrant, isSummary } = props;
   if (!submissions || !survey || !survey.event)
     return <LoadingIndicator loading />;
 
@@ -38,11 +39,17 @@ const SubmissionPage = (props: Props) => {
           <h2 style={{ lineHeight: '24px' }}>{submissions.length} svar</h2>
 
           <div className={styles.submissionNav}>
-            <Link to={`/surveys/${survey.id}/submissions/summary`}>
+            <Link
+              to={`/surveys/${survey.id}/submissions/summary`}
+              className={isSummary && styles.activeRoute}
+            >
               Oppsummering
             </Link>
             {' | '}
-            <Link to={`/surveys/${survey.id}/submissions/individual`}>
+            <Link
+              to={`/surveys/${survey.id}/submissions/individual`}
+              className={isSummary && styles.activeRoute}
+            >
               Individuell
             </Link>
           </div>

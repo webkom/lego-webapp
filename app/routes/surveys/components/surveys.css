@@ -226,3 +226,11 @@
 .adminSideBar {
   flex: 0.65;
 }
+
+.formOption {
+  width: 18px;
+}
+
+.activeRoute {
+  font-weight: 500;
+}

@@ -25,11 +25,15 @@ const loadData = (props, dispatch) => {
 
 const mapStateToProps = (state, props) => {
   const surveyId = Number(props.params.surveyId);
+  const locationStrings = props.location.split('/');
+  const isSummary = locationStrings[locationStrings.length - 1] === 'summary';
+  console.log('isSummary', locationStrings, isSummary);
   return {
     survey: selectSurveyById(state, { surveyId }),
     submissions: selectSurveySubmissions(state, { surveyId }),
     notFetching: !state.surveys.fetching,
-    actionGrant: state.surveys.actionGrant
+    actionGrant: state.surveys.actionGrant,
+    isSummary
   };
 };
 
