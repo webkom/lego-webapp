@@ -90,21 +90,18 @@ function render(req: $Request, res: $Response, next: Middleware) {
         </Provider>
       );
 
-      const respondStateless = (error: Error | { payload: Error }) => {
+      const reportError = (error: Error) => {
         try {
-          const err = error instanceof Error ? error : error.payload;
+          // $FlowFixMe
+          const err = error.error ? error.payload : error;
           log.error(err, 'render_error');
           raven.captureException(err);
         } catch (e) {
           //
         }
-        return render();
       };
 
-      const respond = (error: ?Error | TimeoutError) => {
-        if (error instanceof TimeoutError) {
-          return respondStateless(error.error);
-        }
+      const respond = () => {
         const state: State = store.getState();
         const body = renderToString(app);
         const statusCode = state.routing.statusCode || 200;
@@ -113,8 +110,21 @@ function render(req: $Request, res: $Response, next: Middleware) {
       };
 
       prepareWithTimeout(app)
-        .then(respond, respond)
-        .catch(respondStateless);
+        .then(
+          () => respond(),
+          error => {
+            if (error instanceof TimeoutError) {
+              reportError(error.error);
+              return render();
+            }
+            reportError(error);
+            respond();
+          }
+        )
+        .catch(error => {
+          reportError(error);
+          render();
+        });
     });
   });
 }
