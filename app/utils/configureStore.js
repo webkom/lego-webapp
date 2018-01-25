@@ -79,7 +79,7 @@ export default function configureStore(
   Raven: any
 ): Store {
   const messageMiddleware = createMessageMiddleware(
-    __CLIENT__ ? message => addToast({ message }) : null,
+    message => addToast({ message }),
     Raven
   );
 
