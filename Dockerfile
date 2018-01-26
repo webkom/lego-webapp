@@ -41,6 +41,8 @@ files ${RELEASE} upload-sourcemaps \
 './dist/' \
 --url-prefix="/app/dist/"
 RUN sentry-cli releases finalize ${RELEASE}
+RUN sentry-cli releases deploys ${RELEASE} new -e "staging"
+RUN sentry-cli releases deploys ${RELEASE} new -e "production"
 
 FROM node:8-alpine
 MAINTAINER Abakus Webkom <webkom@abakus.no>
