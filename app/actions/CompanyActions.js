@@ -352,6 +352,7 @@ export function fetchSemesters(
 }
 
 type SemesterInput = {
+  id: number,
   year: number,
   semester: number,
   activeInterestForm: boolean
@@ -376,13 +377,23 @@ export function addSemester({ year, semester }: SemesterInput): Thunk<*> {
   };
 }
 
-export function toggleActiveSemester(semesterId: number): Thunk<*> {
+export function toggleActiveSemester({
+  id,
+  year,
+  semester
+}: SemesterInput): Thunk<*> {
   return dispatch => {
     return dispatch(
       callAPI({
         types: Company.TOGGLE_ACTIVE_SEMESTER,
-        endpoint: `/company-semesters/${semesterId}`,
+        endpoint: `/company-semesters/${id}`,
         method: 'PATCH',
+        body: {
+          id,
+          year,
+          semester,
+          activeInterestForm: true
+        },
         meta: {
           errorMessage: 'Sletting av semester feilet',
           successMessage: 'Semester slettet'

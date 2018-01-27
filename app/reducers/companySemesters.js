@@ -37,30 +37,14 @@ export default createEntityReducer({
 export const selectCompanySemesters = createSelector(
   state => state.companySemesters.items,
   state => state.companySemesters.byId,
-  (semesterIds, semestersById) => {
-    if (!semesterIds || !semestersById) return [];
-    return semesterIds.map(id => semestersById[id]);
-  }
+  (semesterIds, semestersById) =>
+    !semesterIds || !semestersById
+      ? []
+      : semesterIds.map(id => semestersById[id])
 );
 
 export const selectCompanySemestersForInterestForm = createSelector(
   selectCompanySemesters,
   companySemesters =>
-    companySemesters
-      .filter(semester => {
-        const currentDate = new Date();
-        const currentYear = currentDate.getFullYear();
-        const currentMonth = currentDate.getMonth();
-        if (currentYear > semester.year) return false;
-        if (currentYear === semester.year) {
-          if (semester.semester === 'spring') {
-            return false;
-          }
-          if (semester.semester === 'autumn' && currentMonth > 5) {
-            return false;
-          }
-        }
-        return true;
-      })
-      .slice(0, 4)
+    companySemesters.filter(semester => semester.activeInterestForm)
 );
