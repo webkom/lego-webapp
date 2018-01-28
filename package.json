@@ -34,6 +34,7 @@
     "@webkom/react-prepare": "^0.5.3",
     "animate.css": "3.5.2",
     "bunyan": "^1.8.12",
+    "bunyan-pretty": "^0.0.1",
     "child-process-promise": "^2.2.1",
     "classnames": "2.2.5",
     "cookie-parser": "^1.4.3",
@@ -191,6 +192,7 @@
       "animate.css",
       "minireset.css",
       "bunyan",
+      "bunyan-pretty",
       "raven",
       "child-process-promise",
       "meow"

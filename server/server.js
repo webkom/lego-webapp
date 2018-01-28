@@ -4,6 +4,7 @@ import express from 'express';
 import morgan from 'morgan';
 import moment from 'moment-timezone';
 import bunyan from 'bunyan';
+import bunyanPretty from 'bunyan-pretty';
 import Raven from 'raven';
 import cookieParser from 'cookie-parser';
 import render from './render';
@@ -18,6 +19,7 @@ app.use(cookieParser());
 const log = bunyan.createLogger({
   name: 'lego-webapp',
   release: config.release,
+  stream: process.stdout.isTTY ? bunyanPretty() : process.stdout,
   environment: config.environment
 });
 
