@@ -1401,6 +1401,12 @@ builtin-status-codes@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
 
+bunyan-pretty@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/bunyan-pretty/-/bunyan-pretty-0.0.1.tgz#d7a8afe592779804b1ca0453a573d9eec084cb3b"
+  dependencies:
+    through "^2.3.6"
+
 bunyan@^1.8.12:
   version "1.8.12"
   resolved "https://registry.yarnpkg.com/bunyan/-/bunyan-1.8.12.tgz#f150f0f6748abdd72aeae84f04403be2ef113797"
