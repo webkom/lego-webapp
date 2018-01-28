@@ -6,6 +6,9 @@ export interface UniversalRaven {
   captureException(ex: Error, options?: RavenOptions): *;
 }
 
+export const createNewRavenInstance = (Raven: any): UniversalRaven =>
+  Raven.context(() => new UniversalRavenNode(Raven));
+
 // Mimic raven-js API
 export class UniversalRavenNode implements UniversalRaven {
   raven: any;

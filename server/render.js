@@ -13,7 +13,7 @@ import routes from '../app/routes';
 import configureStore from '../app/utils/configureStore';
 import config from '../config/env';
 import type { $Request, $Response, Middleware } from 'express';
-import { UniversalRavenNode } from '../app/utils/universalRaven';
+import { createNewRavenInstance } from '../app/utils/universalRaven';
 import webpackClient from '../config/webpack.client.js';
 import type { State } from '../app/types';
 
@@ -76,56 +76,54 @@ function render(req: $Request, res: $Response, next: Middleware) {
       return next();
     }
 
-    Raven.context(function() {
-      const createElement = (Component, props) => (
-        <Component {...props} getCookie={key => req.cookies[key]} />
-      );
+    const createElement = (Component, props) => (
+      <Component {...props} getCookie={key => req.cookies[key]} />
+    );
 
-      const raven = new UniversalRavenNode(Raven);
+    const raven = createNewRavenInstance(Raven);
 
-      const store = configureStore({}, raven);
-      const app = (
-        <Provider store={store}>
-          <RouterContext {...renderProps} createElement={createElement} />
-        </Provider>
-      );
+    const store = configureStore({}, raven);
+    const app = (
+      <Provider store={store}>
+        <RouterContext {...renderProps} createElement={createElement} />
+      </Provider>
+    );
 
-      const reportError = (error: Error) => {
-        try {
-          // $FlowFixMe
-          const err = error.error ? error.payload : error;
-          log.error(err, 'render_error');
-          raven.captureException(err);
-        } catch (e) {
-          //
-        }
-      };
+    const reportError = (error: Error) => {
+      try {
+        // $FlowFixMe
+        const err = error.error ? error.payload : error;
+        log.error(err, 'render_error');
+        raven.captureException(err);
+      } catch (e) {
+        //
+      }
+    };
 
-      const respond = () => {
-        const state: State = store.getState();
-        const body = renderToString(app);
-        const statusCode = state.routing.statusCode || 200;
-        res.status(statusCode);
-        return render(body, state);
-      };
+    const respond = () => {
+      const state: State = store.getState();
+      const body = renderToString(app);
+      const statusCode = state.routing.statusCode || 200;
+      res.status(statusCode);
+      return render(body, state);
+    };
 
-      prepareWithTimeout(app)
-        .then(
-          () => respond(),
-          error => {
-            if (error instanceof TimeoutError) {
-              reportError(error.error);
-              return render();
-            }
-            reportError(error);
-            respond();
+    prepareWithTimeout(app)
+      .then(
+        () => respond(),
+        error => {
+          if (error instanceof TimeoutError) {
+            reportError(error.error);
+            return render();
           }
-        )
-        .catch(error => {
           reportError(error);
-          render();
-        });
-    });
+          respond();
+        }
+      )
+      .catch(error => {
+        reportError(error);
+        render();
+      });
   });
 }
 
