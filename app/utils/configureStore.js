@@ -5,15 +5,16 @@ import thunkMiddleware from 'redux-thunk';
 import { User } from 'app/actions/ActionTypes';
 import { createTracker, EventTypes } from 'redux-segment';
 import { createLogger } from 'redux-logger';
+import jwtDecode from 'jwt-decode';
 import { browserHistory } from 'react-router';
 import { routerMiddleware } from 'react-router-redux';
-import Raven from 'raven-js';
 import createRavenMiddleware from 'raven-for-redux';
 import { addToast } from 'app/actions/ToastActions';
 import promiseMiddleware from './promiseMiddleware';
+import { selectCurrentUser } from 'app/reducers/auth';
 import createMessageMiddleware from './messageMiddleware';
 import type { State, Store } from 'app/types';
-import config from 'app/config';
+import { omit } from 'lodash';
 
 const trackerMiddleware = createTracker({
   mapper: {
@@ -50,26 +51,43 @@ const trackerMiddleware = createTracker({
   }
 });
 
-Raven.config(config.ravenDSN, {
-  release: config.release,
-  environment: config.environment
-}).install();
+const ravenMiddlewareOptions = {
+  stateTransformer: state => {
+    try {
+      const token = jwtDecode(state.auth.token);
+      return {
+        ...state,
+        auth: {
+          ...state.auth,
+          token
+        }
+      };
+    } catch (e) {
+      return state;
+    }
+  },
+  getUserContext: state => omit(selectCurrentUser(state), 'icalToken')
+};
 
 const loggerMiddleware = createLogger({
   level: 'info',
   collapsed: true
 });
 
-const messageMiddleware = createMessageMiddleware(message =>
-  addToast({ message })
-);
+export default function configureStore(
+  initialState: State | {||},
+  Raven: any
+): Store {
+  const messageMiddleware = createMessageMiddleware(
+    message => addToast({ message }),
+    Raven
+  );
 
-export default function configureStore(initialState: State): Store {
   const middlewares = [
     routerMiddleware(browserHistory),
     thunkMiddleware,
     promiseMiddleware(),
-    createRavenMiddleware(Raven),
+    createRavenMiddleware(Raven, ravenMiddlewareOptions),
     messageMiddleware,
     trackerMiddleware
   ];

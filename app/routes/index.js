@@ -12,7 +12,7 @@ import pages from './pages';
 import search from './search';
 import interestGroups from './interestgroups';
 import joblistings from './joblistings';
-import HTTPError from './errors';
+import pageNotFound from './pageNotFound';
 import announcements from './announcements';
 import companyInterest from './companyInterest';
 import bdb from './bdb';
@@ -43,9 +43,6 @@ export default {
     timeline,
     ...companyInterest,
     surveys,
-    {
-      path: '*',
-      component: HTTPError
-    }
+    pageNotFound
   ]
 };

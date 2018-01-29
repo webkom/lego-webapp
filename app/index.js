@@ -5,6 +5,8 @@ import 'babel-polyfill';
 import moment from 'moment-timezone';
 import 'moment/locale/nb';
 import cookie from 'js-cookie';
+import config from 'app/config';
+import Raven from 'raven-js';
 import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { isEmpty } from 'lodash';
@@ -32,8 +34,13 @@ global.log = function log(self = this) {
   return this;
 };
 
+Raven.config(config.ravenDSN, {
+  release: config.release,
+  environment: config.environment
+}).install();
+
 const preloadedState = window.__PRELOADED_STATE__;
-const store = configureStore(preloadedState);
+const store = configureStore(preloadedState, Raven);
 
 if (isEmpty(preloadedState)) {
   store
