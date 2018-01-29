@@ -97,9 +97,11 @@ const JoblistingDetail = ({
                       }
                     ]}
                   />
-                  <div style={{ marginTop: '10px' }}>
-                    <strong>Kontaktperson:</strong>
-                  </div>
+                  {joblisting.responsible && (
+                    <div style={{ marginTop: '10px' }}>
+                      <strong>Kontaktperson:</strong>
+                    </div>
+                  )}
                 </div>
               )}
               {joblisting.responsible && (

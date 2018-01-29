@@ -159,14 +159,14 @@ class JoblistingEditor extends Component<Props, State> {
             required
           />
           <Field
-            placeholder="Søknadsfrist, tom = løpende frist"
+            placeholder="Søknadsfrist"
             label="Søknadsfrist"
             name="deadline"
             id="gallery-takenAt"
             component={DatePicker.Field}
           />
           <Field
-            name="visibleFrom, tom = dato og tid settes til nå"
+            name="visibleFrom"
             label="Synlig fra dato"
             component={DatePicker.Field}
           />
