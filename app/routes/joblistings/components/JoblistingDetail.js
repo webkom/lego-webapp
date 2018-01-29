@@ -84,25 +84,46 @@ const JoblistingDetail = ({
               <strong>SØK HER</strong>
             </a>
           )}
-          {joblisting.responsible && (
+          {(joblisting.responsible || joblisting.contactMail) && (
             <div style={{ marginTop: '10px' }}>
               <h3>Kontaktinfo</h3>
-              <InfoList
-                items={[
-                  {
-                    key: 'Navn',
-                    value: joblisting.responsible.name || 'Ikke oppgitt.'
-                  },
-                  {
-                    key: 'Epost',
-                    value: joblisting.responsible.mail || 'Ikke oppgitt.'
-                  },
-                  {
-                    key: 'Telefon',
-                    value: joblisting.responsible.phone || 'Ikke oppgitt.'
-                  }
-                ]}
-              />
+              {joblisting.contactMail && (
+                <div>
+                  <InfoList
+                    items={[
+                      {
+                        key: 'Epost',
+                        value: joblisting.contactMail
+                      }
+                    ]}
+                  />
+                  {joblisting.responsible && (
+                    <div style={{ marginTop: '10px' }}>
+                      <strong>Kontaktperson:</strong>
+                    </div>
+                  )}
+                </div>
+              )}
+              {joblisting.responsible && (
+                <div style={{ marginTop: '0px' }}>
+                  <InfoList
+                    items={[
+                      {
+                        key: 'Navn',
+                        value: joblisting.responsible.name || 'Ikke oppgitt.'
+                      },
+                      {
+                        key: 'Epost',
+                        value: joblisting.responsible.mail || 'Ikke oppgitt.'
+                      },
+                      {
+                        key: 'Telefon',
+                        value: joblisting.responsible.phone || 'Ikke oppgitt.'
+                      }
+                    ]}
+                  />
+                </div>
+              )}
             </div>
           )}
 

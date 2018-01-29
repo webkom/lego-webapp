@@ -147,6 +147,7 @@ class JoblistingEditor extends Component<Props, State> {
                 );
               });
             }}
+            required
           />
           <Field
             name="jobType"
@@ -155,12 +156,11 @@ class JoblistingEditor extends Component<Props, State> {
             placeholder="Jobbtype"
             simpleValue
             options={jobTypes}
+            required
           />
           <Field
             placeholder="Søknadsfrist"
-            dateFormat="ll"
             label="Søknadsfrist"
-            showTimePicker
             name="deadline"
             id="gallery-takenAt"
             component={DatePicker.Field}
@@ -174,6 +174,7 @@ class JoblistingEditor extends Component<Props, State> {
             name="visibleTo"
             label="Synlig til dato"
             component={DatePicker.Field}
+            required
           />
           <Field
             placeholder="Arbeidssteder"
@@ -190,6 +191,7 @@ class JoblistingEditor extends Component<Props, State> {
             simpleValue
             component={SelectInput.Field}
             options={yearValues}
+            required
           />
           <Field
             name="toYear"
@@ -198,6 +200,7 @@ class JoblistingEditor extends Component<Props, State> {
             simpleValue
             component={SelectInput.Field}
             options={yearValues}
+            required
           />
           <Field
             placeholder="Søknadslenke"
@@ -206,9 +209,15 @@ class JoblistingEditor extends Component<Props, State> {
             component={TextInput.Field}
           />
           <Field
+            name="contactMail"
+            placeholder="E-mail"
+            label="Søknadsmail eller kontaktmail"
+            component={TextInput.Field}
+          />
+          <Field
+            name="responsible"
             placeholder="Kontaktperson"
             label="Kontaktperson"
-            name="responsible"
             options={this.state.responsibleOptions}
             component={SelectInput.Field}
           />
@@ -218,6 +227,7 @@ class JoblistingEditor extends Component<Props, State> {
             label="Søknadsintro"
             placeholder="Søknadsintro"
             component={EditorField.Field}
+            required
           />
           <Field
             name="text"
@@ -225,8 +235,8 @@ class JoblistingEditor extends Component<Props, State> {
             label="Søknadstekst:"
             placeholder="Søknadstekst"
             component={EditorField.Field}
+            required
           />
-
           <Flex
             className={styles.buttonRow}
             alignItems="baseline"
