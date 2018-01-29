@@ -34,7 +34,7 @@ const SearchResultItem = ({
           <Icon className={styles.searchResultItemIcon} name={result.icon} />
         )}
       <ul>
-        <li>{result.label}</li>
+        <li>{result.title}</li>
         {result.type && <li className={styles.resultType}>{result.type}</li>}
       </ul>
       {result.date && (
@@ -64,7 +64,6 @@ const SearchResults = ({
               </p>
             ) : (
               <div>
-                {results.length === 0 && <li>Ingen treff</li>}
                 {results.map((result, i) => (
                   <SearchResultItem
                     key={i}
@@ -73,6 +72,11 @@ const SearchResults = ({
                     isSelected={i === selectedIndex - 1}
                   />
                 ))}
+                {results.length === 0 ? (
+                  <li>Ingen treff, trykk enter for fullstendig søk</li>
+                ) : (
+                  <li>Trykk enter for fullstendig søk</li>
+                )}
               </div>
             )}
           </ul>

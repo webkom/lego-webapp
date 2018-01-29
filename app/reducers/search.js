@@ -2,6 +2,7 @@
 
 import { createSelector } from 'reselect';
 import { Search } from '../actions/ActionTypes';
+import moment from 'moment-timezone';
 
 export type SearchResult = {
   label: string,
@@ -25,6 +26,7 @@ const initialState = {
 const searchMapping = {
   'users.user': {
     label: 'fullName',
+    title: 'fullName',
     type: 'Bruker',
     color: '#A1C34A',
     value: 'id',
@@ -36,6 +38,7 @@ const searchMapping = {
   'articles.article': {
     icon: 'book',
     label: 'title',
+    title: 'title',
     type: 'Artikkel',
     picture: 'cover',
     color: '#52B0EC',
@@ -44,7 +47,9 @@ const searchMapping = {
     content: 'description'
   },
   'events.event': {
-    label: 'title',
+    label: event =>
+      `${event.title} (${moment(event.startTime).format('YYYY-MM-d')})`,
+    title: 'title',
     type: 'Arrangement',
     date: 'startTime',
     icon: 'calendar',
@@ -57,6 +62,7 @@ const searchMapping = {
   'flatpages.page': {
     icon: 'paper-outline',
     label: 'title',
+    title: 'title',
     type: 'Side',
     color: '#E8953A',
     path: '/pages/info/',
@@ -66,6 +72,7 @@ const searchMapping = {
   'gallery.gallery': {
     profilePicture: 'picture',
     label: 'title',
+    title: 'title',
     type: 'Galleri',
     color: '#F8953A',
     icon: 'photos',
@@ -76,6 +83,7 @@ const searchMapping = {
   'companies.company': {
     icon: 'briefcase',
     label: 'name',
+    title: 'name',
     type: 'Bedrift',
     color: '#E8953A',
     path: '/companies/',
@@ -84,11 +92,13 @@ const searchMapping = {
   },
   'companies.companycontact': {
     label: 'name',
+    title: 'name',
     company: 'company',
     value: 'id'
   },
   'tags.tag': {
     label: 'id',
+    title: 'id',
     type: 'Tag',
     path: '/tags/',
     icon: 'pricetags',
@@ -97,6 +107,7 @@ const searchMapping = {
   },
   'users.abakusgroup': {
     label: 'name',
+    title: 'name',
     link: group => {
       switch (group.type) {
         case 'interesse':
