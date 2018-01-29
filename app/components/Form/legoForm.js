@@ -8,17 +8,30 @@ type Props = {
   onSubmit: any => Promise<*>,
   /* Enable auto submissionError
    * This only works if 'onSubmit' is passed into legoForm,
-   * and not if it is passed into 'handleSubmit()'*/
+   * and not if it is passed into 'handleSubmit()
+   *
+   * This will add a "generic" error message to the "_error" value that can
+   * be ectracted from the form props as "props.error"
+   */
   enableSubmissionError?: boolean,
   /* Move the screen to the first error in the list on SubmissionError */
   enableFocusOnError?: boolean,
+  /* This will pick the values assosiated with only the visible
+   * fields at the time of submitting. This makes it possible to add
+   * default values to the `initialValues` to redux form, and only send
+   * them if a field is registered/visible. It therefore also allows you to
+   * do object spreading into initialValues, without sending all the values
+   * into the onSubmit action.
+   *
+   * about picking: https://lodash.com/docs/4.17.4#pick
+   */
+  enableValuePicking?: boolean,
   /* Also pick these values based on the keys given on the array
-   * Should be used when there is no visible filed for the value,
-   * but that it should still pass the value further.
+   * Should be used when there isn't a visible field for the value,
+   * at the time of submitting
    * 
    * The id is always picked, together with all registered fields
    */
-  enableValuePicking?: boolean,
   pickAdditionalValues?: Array<string>,
   ...any
 };
