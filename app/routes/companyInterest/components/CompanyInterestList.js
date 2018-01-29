@@ -6,7 +6,7 @@ import Button from 'app/components/Button';
 import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
 import { Content } from 'app/components/Content';
-import { FlexRow, FlexColumn } from 'app/components/FlexBox';
+import Flex from 'app/components/Layout/Flex';
 
 export type Props = {
   companyInterestList: Array<Object>,
@@ -63,42 +63,44 @@ const CompanyInterestList = (props: Props) => {
 
   const interestsMobile = props.companyInterestList.map((company, key) => (
     <table key={key} className={styles.companyInterestListMobile}>
-      <thead className={styles.flex}>
-        <tr className={styles.mobileHeader}>
-          <td>
-            <h3 className={styles.companyInterestListMobile}>
-              {company.companyName}
-            </h3>
-          </td>
-          <td>
-            <Icon
-              name="close-circle"
-              onClick={() => props.deleteCompanyInterest(company.id)}
-              className={styles.remove}
-            />
-          </td>
-        </tr>
-      </thead>
-      <tbody className={styles.companyInterestListMobile}>
-        {generateMobileValues(company)}
-      </tbody>
+      <Flex>
+        <thead>
+          <tr className={styles.mobileHeader}>
+            <td>
+              <h3 className={styles.companyInterestListMobile}>
+                {company.companyName}
+              </h3>
+            </td>
+            <td>
+              <Icon
+                name="close-circle"
+                onClick={() => props.deleteCompanyInterest(company.id)}
+                className={styles.remove}
+              />
+            </td>
+          </tr>
+        </thead>
+        <tbody className={styles.companyInterestListMobile}>
+          {generateMobileValues(company)}
+        </tbody>
+      </Flex>
     </table>
   ));
 
   return (
     <Content>
       <ListNavigation title="Bedriftsinteresser" />
-      <FlexRow className={styles.section}>
-        <FlexColumn>
+      <Flex className={styles.section}>
+        <Flex column>
           <p>
-            <strong>Her</strong> finner du all praktisk informasjon knyttet til
-            bedriftsinteresser.
+            Her finner du all praktisk informasjon knyttet til
+            <strong> bedriftsinteresser</strong>.
           </p>
-        </FlexColumn>
+        </Flex>
         <Link to={'/companyInterest/create'} className={styles.link}>
           <Button>Opprett ny bedriftsinteresse</Button>
         </Link>
-      </FlexRow>
+      </Flex>
       <table className={styles.companyInterestList}>
         <thead>
           <tr className={styles.companyInterestList}>

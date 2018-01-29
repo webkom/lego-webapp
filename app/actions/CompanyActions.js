@@ -13,6 +13,7 @@ import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 import type { Thunk } from 'app/types';
 import { addToast } from 'app/actions/ToastActions';
+import { semesterToText } from 'app/routes/companyInterest/components/CompanyInterestPage';
 
 export const fetchAll = ({ fetchMore }: { fetchMore: boolean }): Thunk<*> => (
   dispatch,
@@ -358,7 +359,11 @@ type SemesterInput = {
   activeInterestForm: boolean
 };
 
-export function addSemester({ year, semester }: SemesterInput): Thunk<*> {
+export function addSemester({
+  year,
+  semester,
+  activeInterestForm
+}: SemesterInput): Thunk<*> {
   return dispatch => {
     return dispatch(
       callAPI({
@@ -367,7 +372,8 @@ export function addSemester({ year, semester }: SemesterInput): Thunk<*> {
         method: 'POST',
         body: {
           year,
-          semester
+          semester,
+          activeInterestForm: true
         },
         meta: {
           errorMessage: 'Legge til semester feilet',
@@ -387,9 +393,10 @@ export function editSemester({
   return dispatch => {
     return dispatch(
       callAPI({
-        types: Company.TOGGLE_ACTIVE_SEMESTER,
-        endpoint: `/company-semesters/${id}`,
+        types: Company.EDIT_SEMESTER,
+        endpoint: `/company-semesters/${id}/`,
         method: 'PATCH',
+        schema: companySemesterSchema,
         body: {
           id,
           year,
@@ -398,7 +405,12 @@ export function editSemester({
         },
         meta: {
           errorMessage: 'Endring av semester feilet',
-          successMessage: 'Semester endret!'
+          successMessage: `${semesterToText({
+            id,
+            year,
+            semester,
+            activeInterestForm
+          })} er nå ${activeInterestForm ? 'aktivt' : 'deaktivert'}!`
         }
       })
     );

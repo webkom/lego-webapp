@@ -3,19 +3,22 @@ import { compose } from 'redux';
 import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
-import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
-import { sortSemesterChronologically } from './utils.js';
+import {
+  selectCompanySemesters,
+  selectCompanySemestersForInterestForm
+} from 'app/reducers/companySemesters';
 import { addSemester, editSemester } from 'app/actions/CompanyActions';
 import CompanySemesterGUI from './components/CompanySemesterGUI';
-import { fetchSemestersForInterestform } from 'app/actions/CompanyActions';
+import { fetchSemesters } from 'app/actions/CompanyActions';
 
-const loadSemesters = (props, dispatch) =>
-  dispatch(fetchSemestersForInterestform());
+const loadSemesters = (props, dispatch) => dispatch(fetchSemesters());
 
 const mapStateToProps = state => {
-  const semesters = selectCompanySemestersForInterestForm(state);
+  const semesters = selectCompanySemesters(state);
+  const activeSemesters = selectCompanySemestersForInterestForm(state);
   return {
-    semesters: semesters.sort(sortSemesterChronologically)
+    semesters,
+    activeSemesters
   };
 };
 

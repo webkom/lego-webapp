@@ -11,7 +11,8 @@ import {
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field, SubmissionError, FieldArray } from 'redux-form';
 import type { FieldProps } from 'redux-form';
-import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
+import { FlexItem } from 'app/components/FlexBox';
+import Flex from 'app/components/Layout/Flex';
 import { Content } from 'app/components/Content';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 
@@ -53,9 +54,9 @@ export const semesterToText = (semester: companySemester) =>
   `${SEMESTER_TRANSLATION[semester.semester]} ${semester.year}`;
 
 const SemesterBox = ({ fields }: FieldProps) => (
-  <FlexRow className={styles.checkboxWrapper}>
+  <Flex column className={styles.checkboxWrapper}>
     {fields.map((item, index) => (
-      <div key={index} className={styles.checkbox}>
+      <Flex key={index}>
         <div className={styles.checkboxField}>
           <Field
             key={`semester${index}`}
@@ -67,15 +68,15 @@ const SemesterBox = ({ fields }: FieldProps) => (
         <span className={styles.checkboxSpan}>
           {semesterToText(fields.get(index))}
         </span>
-      </div>
+      </Flex>
     ))}
-  </FlexRow>
+  </Flex>
 );
 
 const EventBox = ({ fields }: FieldProps) => (
-  <FlexRow className={styles.checkboxWrapper}>
+  <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
-      <div key={index} className={styles.checkbox}>
+      <Flex key={index}>
         <div className={styles.checkboxField}>
           <Field
             key={`events[${index}]`}
@@ -87,15 +88,15 @@ const EventBox = ({ fields }: FieldProps) => (
         <span className={styles.checkboxSpan}>
           {EVENT_TYPES[eventToString(key)]}
         </span>
-      </div>
+      </Flex>
     ))}
-  </FlexRow>
+  </Flex>
 );
 
 const OtherBox = ({ fields }: FieldProps) => (
-  <FlexRow className={styles.checkboxWrapper}>
+  <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
-      <div key={index} className={styles.checkbox}>
+      <Flex key={index}>
         <div className={styles.checkboxField}>
           <Field
             key={`otherOffers[${index}]`}
@@ -107,9 +108,9 @@ const OtherBox = ({ fields }: FieldProps) => (
         <span className={styles.checkboxSpan}>
           {OTHER_TYPES[otherOffersToString(key)]}
         </span>
-      </div>
+      </Flex>
     ))}
-  </FlexRow>
+  </Flex>
 );
 
 type Props = FieldProps & {
@@ -183,25 +184,28 @@ const CompanyInterestPage = (props: Props) => {
           component={TextInput.Field}
         />
 
-        <FlexColumn>
-          <label htmlFor="semesters" className={styles.heading}>
-            Semester
-          </label>
+        <Flex justifyContent="space-between">
+          <Flex column>
+            <label htmlFor="semesters" className={styles.heading}>
+              Semester
+            </label>
+            <FieldArray name="semesters" component={SemesterBox} />
+          </Flex>
 
-          <FieldArray name="semesters" component={SemesterBox} />
+          <Flex column>
+            <label htmlFor="events" className={styles.heading}>
+              Arrangementer
+            </label>
+            <FieldArray name="events" component={EventBox} />
+          </Flex>
 
-          <label htmlFor="events" className={styles.heading}>
-            Arrangementer
-          </label>
-
-          <FieldArray name="events" component={EventBox} />
-
-          <label htmlFor="otherOffers" className={styles.heading}>
-            Annet
-          </label>
-
-          <FieldArray name="otherOffers" component={OtherBox} />
-        </FlexColumn>
+          <Flex column>
+            <label htmlFor="otherOffers" className={styles.heading}>
+              Annet
+            </label>
+            <FieldArray name="otherOffers" component={OtherBox} />
+          </Flex>
+        </Flex>
 
         <Field
           placeholder="Skriv eventuell kommentar"
@@ -211,7 +215,7 @@ const CompanyInterestPage = (props: Props) => {
           label="Kommentar"
         />
 
-        <FlexColumn className={styles.content}>
+        <Flex column className={styles.content}>
           <FlexItem />
           <FlexItem>
             <Button type="submit" submit className={styles.createButton}>
@@ -220,7 +224,7 @@ const CompanyInterestPage = (props: Props) => {
                 : 'Opprett bedriftsinteresse'}
             </Button>
           </FlexItem>
-        </FlexColumn>
+        </Flex>
       </Form>
     </Content>
   );

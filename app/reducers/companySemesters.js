@@ -3,10 +3,12 @@
 import { Company } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
+import { sortSemesterChronologically } from 'app/routes/companyInterest/utils';
+import { sortBy } from 'lodash';
 
 export type CompanySemesterEntity = {
   id?: number,
-  semester: string,
+  semester: number,
   year: number,
   activeInterestForm: boolean
 };
@@ -47,5 +49,7 @@ export const selectCompanySemesters = createSelector(
 export const selectCompanySemestersForInterestForm = createSelector(
   selectCompanySemesters,
   companySemesters =>
-    companySemesters.filter(semester => semester.activeInterestForm)
+    companySemesters
+      .filter(semester => semester.activeInterestForm)
+      .sort(sortSemesterChronologically)
 );
