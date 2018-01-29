@@ -2,15 +2,17 @@
 
 import React from 'react';
 import type { FieldProps } from 'redux-form';
+import { reduxForm } from 'redux-form';
 import { Field } from 'redux-form';
 import { Content } from 'app/components/Content';
-import { semesterToText } from 'app/routes/companyInterest/components/companyInterestPage';
+import { semesterToText } from 'app/routes/companyInterest/components/CompanyInterestPage';
 import styles from './CompanyInterest.css';
 import { Form } from 'app/components/Form';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import { FlexRow } from 'app/components/FlexBox';
 import Icon from 'app/components/Icon';
 import { TextInput, RadioButton, RadioButtonGroup } from 'app/components/Form';
+import Button from 'app/components/Button';
 
 type Props = FieldProps & {
   actionGrant: Array<String>,
@@ -20,12 +22,12 @@ type Props = FieldProps & {
   semesters: Array<Object>,
   autoFocus: any,
   edit: boolean,
-  toggleActiveSemester: (Array<Object>) => void
+  editSemester: (Array<Object>) => void
 };
 
 const CompanySemesterGUI = (props: Props) => {
   const onSubmit = ({ year, semester }: CompanySemesterEntity) => {
-    const { companySemesters, addSemester, toggleActiveSemester } = props;
+    const { companySemesters, addSemester, editSemester } = props;
     const existingCompanySemester = companySemesters.find(companySemester => {
       return (
         companySemester.year == Number(year) &&
@@ -33,11 +35,12 @@ const CompanySemesterGUI = (props: Props) => {
       );
     });
 
-    if (existingCompanySemester) {
-      return toggleActiveSemester(existingCompanySemester);
-    } else {
-      return addSemester({ year, semester }); // Default is activeInterestForm: true
-    }
+    if (existingCompanySemester)
+      return editSemester({
+        ...existingCompanySemester,
+        activeInterestForm: true
+      });
+    else return addSemester({ year, semester }); // Default is activeInterestForm: true
   };
 
   const activeSemesters = semesters => (
@@ -46,7 +49,12 @@ const CompanySemesterGUI = (props: Props) => {
         <div key={index} className={styles.checkbox}>
           <Icon
             name="close-circle"
-            onClick={() => props.toggleActiveSemester(semester.id)}
+            onClick={() =>
+              props.editSemester({
+                ...semester,
+                activeInterestForm: false
+              })
+            }
             className={styles.remove}
           />
           <span className={styles.checkboxSpan}>
@@ -57,11 +65,11 @@ const CompanySemesterGUI = (props: Props) => {
     </FlexRow>
   );
 
-  const { autoFocus } = props;
+  const { handleSubmit, autoFocus } = props;
 
   return (
     <Content>
-      <Form onSubmit={props.handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <label className={styles.heading}>Legg til aktivt semester</label>
         <Field
           autoFocus={autoFocus}
@@ -86,11 +94,15 @@ const CompanySemesterGUI = (props: Props) => {
             />
           </RadioButtonGroup>
         </div>
+        <Button onClick={props.addSemester}>Legg til semester</Button>
         <label className={styles.heading}>Deaktiver semestre</label>
-        {activeSemesters}
+        {activeSemesters(props.semesters)}
       </Form>
     </Content>
   );
 };
 
-export default CompanySemesterGUI;
+export default reduxForm({
+  form: 'addCompanySemester',
+  enableReinitialize: true
+})(CompanySemesterGUI);

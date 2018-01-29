@@ -37,10 +37,11 @@ export default createEntityReducer({
 export const selectCompanySemesters = createSelector(
   state => state.companySemesters.items,
   state => state.companySemesters.byId,
-  (semesterIds, semestersById) =>
-    !semesterIds || !semestersById
+  (semesterIds, semestersById) => {
+    return !semesterIds || !semestersById
       ? []
-      : semesterIds.map(id => semestersById[id])
+      : semesterIds.map(id => semestersById[id]);
+  }
 );
 
 export const selectCompanySemestersForInterestForm = createSelector(

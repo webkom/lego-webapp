@@ -1,21 +1,19 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { reduxForm } from 'redux-form';
 import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { LoginPage } from 'app/components/LoginForm';
-import selectCompanySemestersForInterestForm from 'app/reducers/companySemesters';
+import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
 import { sortSemesterChronologically } from './utils.js';
-
-import {
-  addSemester,
-  deleteSemester,
-  fetchSemesters
-} from 'app/actions/CompanyActions';
+import { addSemester, editSemester } from 'app/actions/CompanyActions';
 import CompanySemesterGUI from './components/CompanySemesterGUI';
+import { fetchSemestersForInterestform } from 'app/actions/CompanyActions';
 
-const mapStateToProps = (state, props) => {
-  const semesters = selectCompanySemestersForInterestForm(state, props);
+const loadSemesters = (props, dispatch) =>
+  dispatch(fetchSemestersForInterestform());
+
+const mapStateToProps = state => {
+  const semesters = selectCompanySemestersForInterestForm(state);
   return {
     semesters: semesters.sort(sortSemesterChronologically)
   };
@@ -23,16 +21,11 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
   addSemester,
-  deleteSemester
+  editSemester
 };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare((props, dispatch) => dispatch(fetchSemesters)),
-  connect(mapStateToProps, mapDispatchToProps),
-  reduxForm({
-    form: 'addSemester',
-    validate: 'validateSemesterStatus',
-    enableReinitialize: true
-  })
+  prepare(loadSemesters),
+  connect(mapStateToProps, mapDispatchToProps)
 )(CompanySemesterGUI);

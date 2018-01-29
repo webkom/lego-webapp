@@ -370,17 +370,19 @@ export function addSemester({ year, semester }: SemesterInput): Thunk<*> {
           semester
         },
         meta: {
-          errorMessage: 'Legge til semester feilet'
+          errorMessage: 'Legge til semester feilet',
+          successMessage: 'Semest lagt til!'
         }
       })
     );
   };
 }
 
-export function toggleActiveSemester({
+export function editSemester({
   id,
   year,
-  semester
+  semester,
+  activeInterestForm
 }: SemesterInput): Thunk<*> {
   return dispatch => {
     return dispatch(
@@ -392,11 +394,11 @@ export function toggleActiveSemester({
           id,
           year,
           semester,
-          activeInterestForm: true
+          activeInterestForm
         },
         meta: {
-          errorMessage: 'Sletting av semester feilet',
-          successMessage: 'Semester slettet'
+          errorMessage: 'Endring av semester feilet',
+          successMessage: 'Semester endret!'
         }
       })
     );

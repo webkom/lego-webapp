@@ -43,8 +43,14 @@ const SEMESTER_TRANSLATION = {
   autumn: 'Høst'
 };
 
-export const semesterToText = semesterObject =>
-  `${SEMESTER_TRANSLATION[semesterObject.semester]} ${semesterObject.year}`;
+type companySemester = {
+  id: number,
+  semester: number,
+  year: number
+};
+
+export const semesterToText = (semester: companySemester) =>
+  `${SEMESTER_TRANSLATION[semester.semester]} ${semester.year}`;
 
 const SemesterBox = ({ fields }: FieldProps) => (
   <FlexRow className={styles.checkboxWrapper}>
