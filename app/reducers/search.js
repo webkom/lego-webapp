@@ -25,6 +25,7 @@ const initialState = {
 const searchMapping = {
   'users.user': {
     label: 'fullName',
+    type: 'Bruker',
     color: '#A1C34A',
     value: 'id',
     username: 'username',
@@ -35,6 +36,7 @@ const searchMapping = {
   'articles.article': {
     icon: 'book',
     label: 'title',
+    type: 'Artikkel',
     picture: 'cover',
     color: '#52B0EC',
     path: '/articles/',
@@ -43,6 +45,7 @@ const searchMapping = {
   },
   'events.event': {
     label: 'title',
+    type: 'Arrangement',
     date: 'startTime',
     icon: 'calendar',
     color: '#E8953A',
@@ -54,6 +57,7 @@ const searchMapping = {
   'flatpages.page': {
     icon: 'paper-outline',
     label: 'title',
+    type: 'Side',
     color: '#E8953A',
     path: '/pages/info/',
     value: 'slug',
@@ -62,6 +66,7 @@ const searchMapping = {
   'gallery.gallery': {
     profilePicture: 'picture',
     label: 'title',
+    type: 'Galleri',
     color: '#F8953A',
     icon: 'photos',
     path: '/photos/',
@@ -71,6 +76,7 @@ const searchMapping = {
   'companies.company': {
     icon: 'briefcase',
     label: 'name',
+    type: 'Bedrift',
     color: '#E8953A',
     path: '/companies/',
     value: 'id',
@@ -83,6 +89,7 @@ const searchMapping = {
   },
   'tags.tag': {
     label: 'id',
+    type: 'Tag',
     path: '/tags/',
     icon: 'pricetags',
     value: 'tag',

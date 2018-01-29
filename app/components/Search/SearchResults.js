@@ -21,7 +21,7 @@ const SearchResultItem = ({
   onCloseSearch
 }: SearchResultItemProps) => (
   <Link to={result.link} onClick={onCloseSearch}>
-    <li className={cx(isSelected && styles.isSelected)}>
+    <li className={cx(isSelected && styles.isSelected, styles.resultItem)}>
       {result.profilePicture && (
         <ProfilePicture
           size={30}
@@ -33,13 +33,12 @@ const SearchResultItem = ({
         result.icon && (
           <Icon className={styles.searchResultItemIcon} name={result.icon} />
         )}
-      {result.label}
+      <ul>
+        <li>{result.label}</li>
+        {result.type && <li className={styles.resultType}>{result.type}</li>}
+      </ul>
       {result.date && (
-        <Time
-          time={Date.parse(result.date)}
-          wordsAgo
-          className={styles.resultDate}
-        />
+        <Time time={result.date} wordsAgo className={styles.resultDate} />
       )}
     </li>
   </Link>

@@ -142,7 +142,13 @@
   margin-left: auto;
 }
 
-.results li {
+.resultType {
+  color: var(--lego-font-color);
+  text-transform: capitalize;
+  font-size: 0.7rem;
+}
+
+.resultItem {
   border-bottom: 1px solid #ddd;
   padding: 0.5rem;
   height: 64px;
