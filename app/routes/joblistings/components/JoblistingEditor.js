@@ -5,20 +5,15 @@ import styles from './JoblistingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 
-import {
-  type FormProps,
-  reduxForm,
-  Field,
-  SubmissionError,
-  change
-} from 'redux-form';
+import { Field, SubmissionError, change, type FormProps } from 'redux-form';
 import { httpCheck } from 'app/routes/bdb/utils';
 import {
   TextInput,
   EditorField,
   Form,
   SelectInput,
-  DatePicker
+  DatePicker,
+  legoForm
 } from 'app/components/Form';
 import Button from 'app/components/Button';
 import moment from 'moment-timezone';
@@ -298,7 +293,7 @@ const validate = ({
   return errors;
 };
 
-export default reduxForm({
+export default legoForm({
   form: 'joblistingEditor',
   enableReinitialize: true,
   validate

@@ -9,7 +9,7 @@ import RegisteredSummary from '../RegisteredSummary';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import Tag from 'app/components/Tags/Tag';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { reduxForm, Field, FieldArray } from 'redux-form';
+import { Field, FieldArray } from 'redux-form';
 import {
   Form,
   EditorField,
@@ -19,7 +19,8 @@ import {
   CheckBox,
   Button,
   DatePicker,
-  ImageUploadField
+  ImageUploadField,
+  legoForm
 } from 'app/components/Form';
 import { Flex } from 'app/components/Layout';
 import { eventTypes, colorForEvent } from '../../utils';
@@ -45,7 +46,7 @@ type Props = {
   change: void,
   isUserInterested: boolean,
   handleSubmit: void => void,
-  handleSubmitCallback: void,
+  handleSubmitCallback: any => Promise<*>,
   uploadFile: () => Promise<*>,
   setCoverPhoto: (number, string) => void,
   deleteEvent: (eventId: ID) => Promise<*>,
@@ -64,7 +65,6 @@ function EventEditor({
   waitingRegistrations,
   change,
   handleSubmit,
-  handleSubmitCallback,
   uploadFile,
   setCoverPhoto,
   deleteEvent,
@@ -95,7 +95,7 @@ function EventEditor({
           </Link>
         </h2>
       )}
-      <Form onSubmit={handleSubmit(handleSubmitCallback)}>
+      <Form onSubmit={handleSubmit}>
         <Field
           name="cover"
           component={ImageUploadField}
@@ -316,32 +316,36 @@ function EventEditor({
   );
 }
 
-export default reduxForm({
-  form: 'eventEditor',
-  validate(data) {
-    const errors = {};
-    if (!data.title) {
-      errors.title = 'Tittel er påkrevet';
-    }
-    if (!data.description || data.description.trim() === '') {
-      errors.description = 'Kalenderbeskrivelse er påkrevet';
-    }
-    if (!data.eventType) {
-      errors.eventType = 'Arrangementstype er påkrevet';
-    }
-    if (data.priceMember > 10000) {
-      errors.priceMember = 'Prisen er for høy';
-    }
-    if (Number(data.priceMember) <= 0) {
-      errors.priceMember = 'Prisen må være større enn 0';
-    }
-    if (!data.location) {
-      errors.location = 'Lokasjon er påkrevet';
-    }
-    if (!data.id && !data.cover) {
-      errors.cover = 'Cover er påkrevet';
-    }
-    errors.pools = validatePools(data.pools);
-    return errors;
+const validate = data => {
+  const errors = {};
+  if (!data.title) {
+    errors.title = 'Tittel er påkrevet';
   }
+  if (!data.description || data.description.trim() === '') {
+    errors.description = 'Kalenderbeskrivelse er påkrevet';
+  }
+  if (!data.eventType) {
+    errors.eventType = 'Arrangementstype er påkrevet';
+  }
+  if (data.priceMember > 10000) {
+    errors.priceMember = 'Prisen er for høy';
+  }
+  if (Number(data.priceMember) <= 0) {
+    errors.priceMember = 'Prisen må være større enn 0';
+  }
+  if (!data.location) {
+    errors.location = 'Lokasjon er påkrevet';
+  }
+  if (!data.id && !data.cover) {
+    errors.cover = 'Cover er påkrevet';
+  }
+  errors.pools = validatePools(data.pools);
+  return errors;
+};
+
+export default legoForm({
+  form: 'eventEditor',
+  validate,
+  onSubmit: (values, dispatch, props: Props) =>
+    props.handleSubmitCallback(values)
 })(EventEditor);

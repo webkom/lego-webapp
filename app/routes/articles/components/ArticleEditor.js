@@ -4,7 +4,6 @@ import React from 'react';
 import { Flex } from 'app/components/Layout';
 import { Content } from 'app/components/Content';
 import Button from 'app/components/Button';
-import { reduxForm } from 'redux-form';
 import { type UserEntity } from 'app/reducers/users';
 import { type ArticleEntity } from 'app/reducers/articles';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -15,7 +14,8 @@ import {
   TextArea,
   SelectInput,
   CheckBox,
-  ImageUploadField
+  ImageUploadField,
+  legoForm
 } from 'app/components/Form';
 import { Form, Field } from 'redux-form';
 
@@ -39,28 +39,13 @@ const ArticleEditor = ({
   handleSubmit,
   article
 }: Props) => {
-  const onSubmit = data => {
-    const body = {
-      ...(isNew ? {} : { id: articleId }),
-      ...(data.cover ? { cover: data.cover } : {}),
-      title: data.title,
-      author: currentUser.id,
-      description: data.description,
-      content: data.content,
-      tags: (data.tags || []).map(tag => tag.value),
-      pinned: data.pinned
-    };
-
-    submitArticle(body);
-  };
-
   if (!isNew && (!article || !article.content)) {
     return <LoadingIndicator loading />;
   }
 
   return (
     <Content>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit}>
         <Field
           name="cover"
           label="Cover"
@@ -121,8 +106,28 @@ const ArticleEditor = ({
   );
 };
 
-export default reduxForm({
+const onSubmit = (
+  data,
+  dispatch,
+  { currentUser, isNew, articleId, submitArticle }: Props
+) => {
+  const body = {
+    ...(isNew ? {} : { id: articleId }),
+    ...(data.cover ? { cover: data.cover } : {}),
+    title: data.title,
+    author: currentUser.id,
+    description: data.description,
+    content: data.content,
+    tags: (data.tags || []).map(tag => tag.value),
+    pinned: data.pinned
+  };
+
+  return submitArticle(body);
+};
+
+export default legoForm({
   destroyOnUnmount: false,
   form: 'article',
-  enableReinitialize: true
+  enableReinitialize: true,
+  onSubmit
 })(ArticleEditor);

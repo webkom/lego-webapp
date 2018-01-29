@@ -4,7 +4,7 @@ import React from 'react';
 
 import styles from './MeetingEditor.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { reduxForm, Field, SubmissionError } from 'redux-form';
+import { Field } from 'redux-form';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 
@@ -14,7 +14,8 @@ import {
   EditorField,
   SelectInput,
   Button,
-  DatePicker
+  DatePicker,
+  legoForm
 } from 'app/components/Form';
 import moment from 'moment-timezone';
 import config from 'app/config';
@@ -39,7 +40,6 @@ type Props = {
 
 function MeetingEditor({
   handleSubmit,
-  handleSubmitCallback,
   meetingId,
   meeting,
   change,
@@ -48,27 +48,8 @@ function MeetingEditor({
   submitting,
   pristine,
   meetingInvitations,
-  push,
-  inviteUsersAndGroups
+  push
 }: Props) {
-  const onSubmit = data => {
-    return handleSubmitCallback(data)
-      .then(result => {
-        const id = data.id || result.payload.result;
-        const { groups, users } = data;
-        if (groups || users) {
-          return inviteUsersAndGroups({ id, users, groups }).then(() =>
-            push(`/meetings/${id}`)
-          );
-        }
-        push(`/meetings/${id}`);
-      })
-      .catch(err => {
-        if (err.payload && err.payload.response) {
-          throw new SubmissionError(err.payload.response.jsonData);
-        }
-      });
-  };
   const isEditPage = meetingId !== undefined;
   if (isEditPage && !meeting) {
     return <LoadingIndicator loading />;
@@ -103,7 +84,7 @@ function MeetingEditor({
           <i className="fa fa-angle-left" /> Mine møter
         </NavigationLink>
       </NavigationTab>
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit}>
         <Field
           name="title"
           label="Tittel"
@@ -186,33 +167,49 @@ function MeetingEditor({
     </div>
   );
 }
-
-export default reduxForm({
-  form: 'meetingEditor',
-  validate(values) {
-    const errors = {};
-    if (!values.title) {
-      errors.title = 'Du må gi møtet en tittel';
-    }
-    if (!values.report) {
-      errors.report = 'Referatet kan ikke være tomt';
-    }
-    if (!values.location) {
-      errors.location = 'Du må velge en lokasjon for møtet';
-    }
-    if (!values.endTime) {
-      errors.endTime = 'Du må velge starttidspunkt';
-    }
-    if (!values.startTime) {
-      errors.startTime = 'Du må velge sluttidspunkt';
-    }
-
-    const startTime = moment.tz(values.startTime, config.timezone);
-
-    const endTime = moment.tz(values.endTime, config.timezone);
-    if (startTime > endTime) {
-      errors.endTime = 'Sluttidspunkt kan ikke være før starttidspunkt!';
-    }
-    return errors;
+const validate = values => {
+  const errors = {};
+  if (!values.title) {
+    errors.title = 'Du må gi møtet en tittel';
   }
+  if (!values.report) {
+    errors.report = 'Referatet kan ikke være tomt';
+  }
+  if (!values.location) {
+    errors.location = 'Du må velge en lokasjon for møtet';
+  }
+  if (!values.endTime) {
+    errors.endTime = 'Du må velge starttidspunkt';
+  }
+  if (!values.startTime) {
+    errors.startTime = 'Du må velge sluttidspunkt';
+  }
+
+  const startTime = moment.tz(values.startTime, config.timezone);
+
+  const endTime = moment.tz(values.endTime, config.timezone);
+  if (startTime > endTime) {
+    errors.endTime = 'Sluttidspunkt kan ikke være før starttidspunkt!';
+  }
+  return errors;
+};
+
+export default legoForm({
+  form: 'meetingEditor',
+  validate,
+  onSubmit: (
+    data,
+    dispatch,
+    { push, handleSubmitCallback, inviteUsersAndGroups }: Props
+  ) =>
+    handleSubmitCallback(data).then(result => {
+      const id = data.id || result.payload.result;
+      const { groups, users } = data;
+      if (groups || users) {
+        return inviteUsersAndGroups({ id, users, groups }).then(() =>
+          push(`/meetings/${id}`)
+        );
+      }
+      push(`/meetings/${id}`);
+    })
 })(MeetingEditor);

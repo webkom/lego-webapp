@@ -6,13 +6,13 @@ import callAPI from 'app/actions/callAPI';
 import { type EmailUserEntity } from 'app/reducers/emailUsers';
 import type { EntityID, Thunk } from 'app/types';
 
-export function fetchEmailUser(articleId: EntityID) {
+export function fetchEmailUser(userId: EntityID) {
   return callAPI({
     types: EmailUser.FETCH,
-    endpoint: `/email-users/${articleId}/`,
+    endpoint: `/email-users/${userId}/`,
     schema: emailUserSchema,
     meta: {
-      errorMessage: 'Henting av artikkel feilet'
+      errorMessage: 'Henting av epostliste feilet'
     },
     propagateError: true
   });
@@ -26,7 +26,7 @@ export function createEmailUser(emailUser: EmailUserEntity): Thunk<*> {
     schema: emailUserSchema,
     body: emailUser,
     meta: {
-      errorMessage: 'Opprettelse av artikkel feilet'
+      errorMessage: 'Opprettelse av epostliste feilet'
     }
   });
 }
@@ -39,7 +39,7 @@ export function editEmailUser(emailUser: EmailUserEntity): Thunk<*> {
     schema: emailUserSchema,
     body: emailUser,
     meta: {
-      errorMessage: 'Endring av artikkel feilet'
+      errorMessage: 'Endring av epostliste feilet'
     }
   });
 }

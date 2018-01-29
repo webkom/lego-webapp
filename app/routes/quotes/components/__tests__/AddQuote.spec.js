@@ -7,7 +7,7 @@ import AddQuote from '../AddQuote';
 describe('components', () => {
   describe('AddQuote', () => {
     it('should be possible to submit forms', () => {
-      const addQuotes = jest.fn();
+      const addQuotes = jest.fn(() => Promise.resolve());
       const validator = jest.fn(() => ({}));
       const mockStore = configureStore();
       const store = mockStore();

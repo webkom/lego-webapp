@@ -5,7 +5,11 @@ import Button from 'app/components/Button';
 import { createValidator, required } from 'app/utils/validation';
 import { reduxForm } from 'redux-form';
 import { roleOptions } from 'app/utils/constants';
-import { TextInput, SelectInput } from 'app/components/Form';
+import {
+  TextInput,
+  SelectInput,
+  handleSubmissionError
+} from 'app/components/Form';
 import { Form, Field } from 'redux-form';
 
 export type Props = {
@@ -23,7 +27,7 @@ const EmailListEditor = ({
   handleSubmit,
   push
 }: Props) => {
-  const onSubmit = data => {
+  const onSubmit = data =>
     mutateFunction({
       id: data.id,
       email: data.email,
@@ -35,8 +39,7 @@ const EmailListEditor = ({
       if (!emailListId) {
         push(`/admin/email/lists/${payload.result}`);
       }
-    });
-  };
+    }, handleSubmissionError);
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
