@@ -28,6 +28,7 @@ import cx from 'classnames';
 import HTTPError from '../errors/HTTPError';
 import { setStatusCode } from 'app/actions/RoutingActions';
 import config from 'app/config';
+import coverPhoto from 'app/assets/cover.png';
 
 type Props = {
   statusCode: number,
@@ -73,7 +74,13 @@ class App extends PureComponent<AppProps> {
           [styles.searchOpen]: this.props.searchOpen
         })}
       >
-        <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no" />
+        <Helmet defaultTitle="Abakus.no" titleTemplate="%s | Abakus.no">
+          <meta property="og:image" content={coverPhoto} />
+          <meta
+            property="og:description"
+            content="Abakus er linjeforeningen for studentene ved Datateknologi og Kommunikasjonsteknologi på NTNU, og drives av studenter ved disse studiene."
+          />
+        </Helmet>
 
         {config.environment !== 'production' && (
           <div
