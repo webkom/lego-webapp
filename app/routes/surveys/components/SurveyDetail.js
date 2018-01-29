@@ -47,7 +47,7 @@ const SurveyDetail = (props: Props) => {
               )}
             </h3>
 
-            {question.questionType === 3 ? (
+            {question.questionType === 'text_field' ? (
               <TextArea
                 value=""
                 placeholder="Fritekst..."
@@ -57,7 +57,7 @@ const SurveyDetail = (props: Props) => {
               <ul className={styles.detailOptions}>
                 {question.options.map(option => (
                   <li key={option.id}>
-                    {question.questionType === 1 ? (
+                    {question.questionType === 'single_choice' ? (
                       <RadioButton value={false} className={styles.option} />
                     ) : (
                       <CheckBox checked={false} className={styles.option} />

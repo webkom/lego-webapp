@@ -43,7 +43,7 @@ class SurveyEditor extends Component<Props, State> {
         ? [
             {
               questionText: '',
-              questionType: 1,
+              questionType: 'single_choice',
               options: []
             }
           ]
@@ -63,7 +63,7 @@ class SurveyEditor extends Component<Props, State> {
         relativeIndex: i
       };
 
-      if (question.questionType === 3) {
+      if (question.questionType === 'text_field') {
         question.options = [];
       } else {
         question.options = question.options.filter(
@@ -177,7 +177,7 @@ class SurveyEditor extends Component<Props, State> {
             onClick={() => {
               const newQuestion = {
                 questionText: '',
-                questionType: 1,
+                questionType: 'single_choice',
                 mandatory: false,
                 options: []
               };

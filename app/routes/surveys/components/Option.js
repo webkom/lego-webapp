@@ -5,7 +5,7 @@ import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
 import styles from './surveys.css';
 
 type Props = {
-  questionType: number,
+  questionType: string,
   updateOptions: (Object, number) => void,
   option: Object,
   index: number
@@ -19,7 +19,7 @@ function makeOption(optionText: string, option: Object) {
 }
 
 const Option = (props: Props) => {
-  return props.questionType === 1 ? (
+  return props.questionType === 'single_choice' ? (
     <MultipleChoice {...props} />
   ) : (
     <Checkbox {...props} />

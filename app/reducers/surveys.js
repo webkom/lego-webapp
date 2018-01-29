@@ -25,7 +25,7 @@ export type SubmmissionEntity = {
 
 export type QuestionEntity = {
   id: number,
-  questionType: number,
+  questionType: string,
   questionText: string,
   mandatory?: boolean,
   options: Array<OptionEntity>,

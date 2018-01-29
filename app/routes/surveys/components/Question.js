@@ -21,28 +21,28 @@ type State = {
 };
 
 type QuestionTypeSelectorProps = {
-  questionType: number
+  questionType: string
 };
 
 function QuestionTypeSelector({ questionType }: QuestionTypeSelectorProps) {
-  const questionTypeIntToString = {
-    '1': 'Multiple Choice',
-    '2': 'Sjekkboks',
-    '3': 'Fritekst'
+  const questionTypeToString = {
+    single_choice: 'Multiple Choice',
+    multiple_choice: 'Sjekkboks',
+    text_field: 'Fritekst'
   };
-  const questionTypeIntToIcon = {
-    '1': 'radio-button-on',
-    '2': 'checkbox',
-    '3': 'more'
+  const questionTypeToIcon = {
+    single_choice: 'radio-button-on',
+    multiple_choice: 'checkbox',
+    text_field: 'more'
   };
   return (
     <Link className={styles.questionTypeSelector}>
       <span style={{ width: '170px', display: 'inline-block' }}>
         <Icon
-          name={questionTypeIntToIcon[String(questionType)]}
+          name={questionTypeToIcon[questionType]}
           style={{ marginRight: '15px' }}
         />
-        {questionTypeIntToString[String(questionType)]}
+        {questionTypeToString[questionType]}
       </span>
       <Icon name="arrow-down" size={24} className={styles.typeIcon} />
     </Link>
@@ -50,26 +50,26 @@ function QuestionTypeSelector({ questionType }: QuestionTypeSelectorProps) {
 }
 
 type DropdownItemsProps = {
-  setQuestionType: number => void
+  setQuestionType: string => void
 };
 
 function DropdownItems({ setQuestionType }: DropdownItemsProps) {
   return (
     <Dropdown.List>
       <Dropdown.ListItem>
-        <Link onClick={() => setQuestionType(1)}>
+        <Link onClick={() => setQuestionType('single_choice')}>
           <strong>Multiple Choice</strong>
           <Icon name="radio-button-on" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.ListItem>
-        <Link onClick={() => setQuestionType(2)}>
+        <Link onClick={() => setQuestionType('multiple_choice')}>
           Sjekkboks
           <Icon name="checkbox" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.ListItem>
-        <Link onClick={() => setQuestionType(3)}>
+        <Link onClick={() => setQuestionType('text_field')}>
           Fritekst
           <Icon name="more" size={24} />
         </Link>
@@ -101,7 +101,7 @@ class Question extends Component<Props, State> {
     }));
   };
 
-  setQuestionType = (questionType: number) => {
+  setQuestionType = (questionType: string) => {
     this.props.updateQuestion(
       { ...this.props.question, questionType },
       this.props.index
@@ -129,7 +129,7 @@ class Question extends Component<Props, State> {
               }
             />
           </div>
-          {this.props.question.questionType === 3 ? (
+          {this.props.question.questionType === 'text_field' ? (
             <TextArea
               className={styles.freeText}
               placeholder="Fritekst"
