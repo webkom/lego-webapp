@@ -10,15 +10,13 @@ import { Link } from 'react-router';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 
 type Props = {
-  updateQuestion: Object => void,
+  updateQuestion: (Object, number) => void,
   deleteQuestion: number => Promise<*>,
   question: Object,
-  nr: number
+  index: number
 };
 
 type State = {
-  shouldUpdate: boolean,
-  options: Array<Object>,
   pickerOpen: boolean
 };
 
@@ -82,57 +80,19 @@ function DropdownItems({ setQuestionType }: DropdownItemsProps) {
 
 class Question extends Component<Props, State> {
   state = {
-    shouldUpdate: false,
-    options: [{ nr: 0, optionText: '' }],
     pickerOpen: false
   };
 
-  componentDidMount() {
-    const options = this.props.question.options
-      .map((option, i) => ({ ...option, nr: i }))
-      .concat({
-        nr: this.props.question.options.length,
-        optionText: ''
-      });
-    this.setState({ options });
-  }
-
-  componentDidUpdate() {
-    if (this.state.shouldUpdate) {
-      this.props.updateQuestion({
+  updateOptions = (option: Object, optionIndex: number) => {
+    const options = this.props.question.options.slice();
+    options[optionIndex] = option;
+    this.props.updateQuestion(
+      {
         ...this.props.question,
-        options: this.state.options
-      });
-      this.setState({ shouldUpdate: false });
-    }
-  }
-
-  updateOptions = (option: Object) => {
-    const options = this.state.options.slice();
-
-    const oldOption = options.find(o => o.nr === option.nr);
-    const changedOptionIndex = options.indexOf(oldOption || {});
-
-    if (changedOptionIndex !== -1) {
-      // This inner "if" adds another empty option below the current one if
-      // the current option is the last one, which is how several options
-      // functionality is implemented.
-      if (
-        option.nr === options.length - 1 &&
-        (oldOption || {}).optionText === ''
-      ) {
-        options.push({
-          optionText: '',
-          nr: this.state.options.length
-        });
-      }
-      // Afterwards, outside that inner if, the current option is then updated.
-      options[changedOptionIndex] = option;
-    } else {
-      options.push(option);
-    }
-
-    this.setState({ options, shouldUpdate: true });
+        options
+      },
+      this.props.index
+    );
   };
 
   toggleDropdown = () => {
@@ -142,11 +102,14 @@ class Question extends Component<Props, State> {
   };
 
   setQuestionType = (questionType: number) => {
-    this.props.updateQuestion({ ...this.props.question, questionType });
+    this.props.updateQuestion(
+      { ...this.props.question, questionType },
+      this.props.index
+    );
   };
 
   render() {
-    const { updateQuestion, nr, question, deleteQuestion } = this.props;
+    const { updateQuestion, index, question, deleteQuestion } = this.props;
     return (
       <div className={styles.question}>
         <div className={styles.left}>
@@ -156,11 +119,13 @@ class Question extends Component<Props, State> {
               className={styles.questionTitle}
               placeholder="Spørsmål"
               onInput={e =>
-                updateQuestion({
-                  ...this.props.question,
-                  questionText: e.target.value,
-                  nr
-                })
+                updateQuestion(
+                  {
+                    ...this.props.question,
+                    questionText: e.target.value
+                  },
+                  index
+                )
               }
             />
           </div>
@@ -172,15 +137,19 @@ class Question extends Component<Props, State> {
             />
           ) : (
             <ul className={styles.options}>
-              {this.state.options.map((option, i) => (
-                <Option
-                  key={i}
-                  nr={i}
-                  questionType={this.props.question.questionType}
-                  option={option || {}}
-                  updateOptions={this.updateOptions}
-                />
-              ))}
+              {question.options
+                .concat({
+                  optionText: ''
+                })
+                .map((option, i) => (
+                  <Option
+                    key={i}
+                    index={i}
+                    questionType={this.props.question.questionType}
+                    option={option || {}}
+                    updateOptions={this.updateOptions}
+                  />
+                ))}
             </ul>
           )}
         </div>
@@ -210,10 +179,13 @@ class Question extends Component<Props, State> {
                 name="mandatory"
                 value={question.mandatory}
                 onChange={e =>
-                  updateQuestion({
-                    ...question,
-                    mandatory: !question.mandatory
-                  })
+                  updateQuestion(
+                    {
+                      ...question,
+                      mandatory: !question.mandatory
+                    },
+                    index
+                  )
                 }
               />
             </div>
@@ -221,7 +193,7 @@ class Question extends Component<Props, State> {
             <ConfirmModalWithParent
               title="Slett spørsmål"
               message="Er du sikker på at du vil slette dette spørsmålet?"
-              onConfirm={() => deleteQuestion(nr)}
+              onConfirm={() => deleteQuestion(index)}
               closeOnConfirm
               className={styles.deleteQuestion}
             >

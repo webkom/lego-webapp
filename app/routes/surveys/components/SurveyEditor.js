@@ -19,7 +19,6 @@ import { Content } from 'app/components/Content';
 import type { FieldProps } from 'redux-form';
 import Icon from 'app/components/Icon';
 import { Link } from 'react-router';
-import { omit } from 'lodash';
 
 type Props = FieldProps & {
   survey: SurveyEntity,
@@ -30,14 +29,12 @@ type Props = FieldProps & {
 };
 
 type State = {
-  questions: Array<Object>,
-  shouldUpdate: boolean
+  questions: Array<Object>
 };
 
 class SurveyEditor extends Component<Props, State> {
   state = {
-    questions: [],
-    shouldUpdate: false
+    questions: []
   };
 
   componentDidMount() {
@@ -46,15 +43,11 @@ class SurveyEditor extends Component<Props, State> {
         ? [
             {
               questionText: '',
-              nr: 0,
               questionType: 1,
               options: []
             }
           ]
-        : this.props.survey.questions.map((question, i) => ({
-            ...question,
-            nr: i
-          }));
+        : this.props.survey.questions;
     this.setState({ questions });
   }
 
@@ -62,20 +55,22 @@ class SurveyEditor extends Component<Props, State> {
     const { survey, submitFunction, push } = this.props;
     const { questions } = this.state;
 
-    // Remove options if it's a free text question, and remove the empty
-    // option at the end of the list
-    const cleanQuestions = questions.map(q => {
-      const question = omit(q, 'nr');
-      question.relativeIndex = question.nr;
+    // Remove options if it's a free text question, and remove all empty
+    // options
+    const cleanQuestions = questions.map((q, i) => {
+      const question = {
+        ...q,
+        relativeIndex: i
+      };
 
       if (question.questionType === 3) {
         question.options = [];
       } else {
-        question.options = question.options
-          .filter(option => option.optionText !== '')
-          .map(option => omit(option, 'nr'));
+        question.options = question.options.filter(
+          option => option.optionText !== ''
+        );
       }
-      return omit(question, 'nr');
+      return question;
     });
 
     return submitFunction({
@@ -84,28 +79,24 @@ class SurveyEditor extends Component<Props, State> {
       surveyId: survey && survey.id,
       questions: cleanQuestions
     }).then(result => {
-      const id = survey ? survey.id : result.payload.result;
+      const id = survey && survey.id ? survey.id : result.payload.result;
       push(`/surveys/${String(id)}`);
     });
   };
 
-  updateQuestion = (question: Object) => {
+  updateQuestion = (question: Object, index: number) => {
     const questions = this.state.questions.slice();
-    const oldQuestion = questions.find(q => q.nr === question.nr);
-    const changedQuestionIndex = questions.indexOf(oldQuestion || {});
-
-    if (changedQuestionIndex !== -1) {
-      questions[changedQuestionIndex] = question;
+    if (index !== -1) {
+      questions[index] = question;
     } else {
       questions.push(question);
     }
-
     this.setState({ questions });
   };
 
-  deleteQuestion = (nr: number) => {
+  deleteQuestion = (index: number) => {
     this.setState(state => ({
-      questions: state.questions.filter(question => question.nr !== nr)
+      questions: state.questions.filter((question, i) => i !== index)
     }));
     return Promise.resolve();
   };
@@ -174,8 +165,8 @@ class SurveyEditor extends Component<Props, State> {
             {this.state.questions.map((question, i) => (
               <Question
                 key={i}
-                nr={i}
-                question={question || {}}
+                index={i}
+                question={question}
                 updateQuestion={this.updateQuestion}
                 deleteQuestion={this.deleteQuestion}
               />
@@ -184,14 +175,13 @@ class SurveyEditor extends Component<Props, State> {
 
           <Link
             onClick={() => {
-              const questions = this.state.questions.slice();
-              questions.push({
+              const newQuestion = {
                 questionText: '',
-                nr: questions.length,
                 questionType: 1,
                 mandatory: false,
                 options: []
-              });
+              };
+              const questions = [...this.state.questions, newQuestion];
               this.setState({ questions });
             }}
           >

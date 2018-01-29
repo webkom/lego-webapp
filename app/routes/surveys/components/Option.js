@@ -6,9 +6,9 @@ import styles from './surveys.css';
 
 type Props = {
   questionType: number,
-  updateOptions: Object => void,
+  updateOptions: (Object, number) => void,
   option: Object,
-  nr: number
+  index: number
 };
 
 function makeOption(optionText: string, option: Object) {
@@ -32,7 +32,10 @@ const MultipleChoice = (props: Props) => {
       <RadioButton value={false} className={styles.option} />
       <TextInput
         onInput={e =>
-          props.updateOptions(makeOption(e.target.value, props.option))
+          props.updateOptions(
+            makeOption(e.target.value, props.option),
+            props.index
+          )
         }
         placeholder="Alternativ..."
         className={styles.optionInput}
@@ -48,7 +51,10 @@ const Checkbox = (props: Props) => {
       <CheckBox checked={false} className={styles.option} />
       <TextInput
         onInput={e =>
-          props.updateOptions(makeOption(e.target.value, props.option))
+          props.updateOptions(
+            makeOption(e.target.value, props.option),
+            props.index
+          )
         }
         placeholder="Alternativ..."
         className={styles.optionInput}

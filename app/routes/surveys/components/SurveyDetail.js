@@ -38,7 +38,7 @@ const SurveyDetail = (props: Props) => {
       </div>
 
       <ul className={styles.detailQuestions}>
-        {(survey.questions || []).map(question => (
+        {survey.questions.map(question => (
           <li key={question.id}>
             <h3 className={styles.questionTextDetail}>
               {question.questionText}
@@ -55,7 +55,7 @@ const SurveyDetail = (props: Props) => {
               />
             ) : (
               <ul className={styles.detailOptions}>
-                {(question.options || []).map(option => (
+                {question.options.map(option => (
                   <li key={option.id}>
                     {question.questionType === 1 ? (
                       <RadioButton value={false} className={styles.option} />

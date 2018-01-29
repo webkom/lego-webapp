@@ -10,7 +10,7 @@ export type SurveyEntity = {
   title: string,
   event: any,
   activeFrom?: string,
-  questions?: Array<QuestionEntity>,
+  questions: Array<QuestionEntity>,
   submissions?: Array<SubmmissionEntity>
 };
 
@@ -28,7 +28,7 @@ export type QuestionEntity = {
   questionType: number,
   questionText: string,
   mandatory?: boolean,
-  options?: Array<OptionEntity>,
+  options: Array<OptionEntity>,
   relativeIndex: number
 };
 
