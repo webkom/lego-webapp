@@ -11,6 +11,7 @@ import { Content, ContentSection, ContentMain } from 'app/components/Content';
 import type { ActionGrant } from 'app/models';
 import AdminSideBar from './AdminSideBar';
 import { TextArea, CheckBox, RadioButton } from 'app/components/Form';
+import Button from 'app/components/Button';
 
 type Props = {
   survey: SurveyEntity,
@@ -43,9 +44,11 @@ const SurveyDetail = (props: Props) => {
             Aktiv fra <Time time={survey.activeFrom} format="ll HH:mm" />
           </div>
 
-          <Link to={`/surveys/${survey.id}/answer`}>
-            Svar på undersøkelsen (Midlertidig link)
-          </Link>
+          <Button>
+            <Link to={`/surveys/${survey.id}/answer`}>
+              Svar på undersøkelsen
+            </Link>
+          </Button>
 
           <ul className={styles.detailQuestions}>
             {survey.questions.map(question => (

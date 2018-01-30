@@ -232,5 +232,9 @@
 }
 
 .activeRoute {
-  font-weight: 500;
+  font-weight: 700;
+}
+
+.inactiveRoute {
+  font-weight: 300;
 }

@@ -5,8 +5,7 @@ import styles from './surveys.css';
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { Link } from 'react-router';
-import { RadioButton, CheckBox } from 'app/components/form';
+import { RadioButton, CheckBox } from 'app/components/Form';
 import cx from 'classnames';
 
 type Props = {
@@ -24,12 +23,7 @@ const SubmissionPage = ({ submissions, deleteSurvey, survey }: Props) => {
     <ul className={styles.submissions}>
       {submissions.map((submission, i) => (
         <li key={submission.id}>
-          <h3>
-            Svar fra{' '}
-            <Link to={`/users/${submission.user.username}`}>
-              {submission.user.fullName}
-            </Link>
-          </h3>
+          <h3>Svar {i}</h3>
 
           <ul className={cx(styles.answers, styles.detailQuestions)}>
             {survey.questions && (

@@ -41,14 +41,14 @@ const SubmissionPage = (props: Props) => {
           <div className={styles.submissionNav}>
             <Link
               to={`/surveys/${survey.id}/submissions/summary`}
-              className={isSummary && styles.activeRoute}
+              className={isSummary ? styles.activeRoute : styles.inactiveRoute}
             >
               Oppsummering
             </Link>
             {' | '}
             <Link
               to={`/surveys/${survey.id}/submissions/individual`}
-              className={isSummary && styles.activeRoute}
+              className={!isSummary ? styles.activeRoute : styles.inactiveRoute}
             >
               Individuell
             </Link>
