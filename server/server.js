@@ -9,6 +9,7 @@ import Raven from 'raven';
 import cookieParser from 'cookie-parser';
 import render from './render';
 import config from './env';
+import healthCheck from './health';
 
 moment.locale('nb-NO');
 const app = express();
@@ -45,6 +46,8 @@ if (process.env.NODE_ENV !== 'production') {
     })
   );
 }
+
+app.get('/healthz', healthCheck);
 
 const styleguide = path.join(__dirname, '../styleguide');
 if (fs.existsSync(styleguide)) {
