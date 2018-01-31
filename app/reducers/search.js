@@ -25,7 +25,7 @@ const initialState = {
 
 const searchMapping = {
   'users.user': {
-    label: 'fullName',
+    label: user => `${user.fullName} (${user.username})`,
     title: 'fullName',
     type: 'Bruker',
     color: '#A1C34A',
@@ -48,7 +48,7 @@ const searchMapping = {
   },
   'events.event': {
     label: event =>
-      `${event.title} (${moment(event.startTime).format('YYYY-MM-d')})`,
+      `${event.title} (${moment(event.startTime).format('YYYY-MM-DD')})`,
     title: 'title',
     type: 'Arrangement',
     date: 'startTime',
