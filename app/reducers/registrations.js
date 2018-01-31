@@ -71,13 +71,15 @@ export default createEntityReducer({
         };
       }
       case Event.UPDATE_REGISTRATION.SUCCESS: {
+        const registration = normalize(action.payload, registrationSchema)
+          .entities.registrations[action.payload.id];
         return {
           ...state,
           byId: {
             ...state.byId,
             [action.payload.id]: {
               ...state.byId[action.payload.id],
-              ...action.payload
+              ...registration
             }
           }
         };
