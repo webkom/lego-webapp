@@ -140,6 +140,7 @@ export default function withModal<Props>(
             throw error;
           };
 
+          this.resetError();
           this.startWorking();
           return action().then(onResolve, onError);
         };
