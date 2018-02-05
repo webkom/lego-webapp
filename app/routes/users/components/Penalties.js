@@ -16,7 +16,7 @@ type Props = {
 
 function Penalties({ penalties }: Props) {
   if (!penalties.length) {
-    return <div>Du har ingen prikker.</div>;
+    return <div>Ingen prikker.</div>;
   }
 
   return (
@@ -27,7 +27,7 @@ function Penalties({ penalties }: Props) {
           <li key={penalty.id} style={{ marginBottom: '10px' }}>
             <div>
               <strong>
-                Du har fått {penalty.weight} {word}
+                Har {penalty.weight} {word}
               </strong>
             </div>
             <div>
