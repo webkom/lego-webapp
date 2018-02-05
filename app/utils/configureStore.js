@@ -2,6 +2,7 @@
 
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
+import type { UniversalRaven } from 'app/utils/universalRaven';
 import { User } from 'app/actions/ActionTypes';
 import { createTracker, EventTypes } from 'redux-segment';
 import { createLogger } from 'redux-logger';
@@ -76,7 +77,7 @@ const loggerMiddleware = createLogger({
 
 export default function configureStore(
   initialState: State | {||},
-  Raven: any
+  Raven: ?UniversalRaven
 ): Store {
   const messageMiddleware = createMessageMiddleware(
     message => addToast({ message }),
@@ -87,10 +88,10 @@ export default function configureStore(
     routerMiddleware(browserHistory),
     thunkMiddleware,
     promiseMiddleware(),
-    createRavenMiddleware(Raven, ravenMiddlewareOptions),
+    Raven && createRavenMiddleware(Raven, ravenMiddlewareOptions),
     messageMiddleware,
     trackerMiddleware
-  ];
+  ].filter(Boolean);
 
   if (__CLIENT__) {
     const createWebSocketMiddleware = require('./websockets').default;
