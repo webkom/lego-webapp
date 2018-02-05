@@ -5,7 +5,8 @@
   "display": "standalone",
   "background_color": "#f2f2f1",
   "theme_color": "#f2f2f1",
-  "description": "Abakus: Linjeforening for datateknikk og kommunikasjonsteknologi på NTNU",
+  "description":
+    "Abakus: Linjeforening for datateknikk og kommunikasjonsteknologi på NTNU",
   "icons": [
     {
       "src": "/icon-48x48.png",

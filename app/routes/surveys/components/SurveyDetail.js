@@ -6,8 +6,9 @@ import Time from 'app/components/Time';
 import styles from './surveyDetail.css';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { DetailNavigation } from '../utils.js';
+import { DetailNavigation, QuestionTypes } from '../utils.js';
 import { Content } from 'app/components/Content';
+import { TextArea, CheckBox, RadioButton } from 'app/components/Form';
 
 type Props = {
   survey: SurveyEntity,
@@ -35,6 +36,40 @@ const SurveyDetail = (props: Props) => {
       <div className={styles.surveyTime}>
         Aktiv fra <Time time={survey.activeFrom} format="ll HH:mm" />
       </div>
+
+      <ul className={styles.detailQuestions}>
+        {survey.questions.map(question => (
+          <li key={question.id}>
+            <h3 className={styles.questionTextDetail}>
+              {question.questionText}
+              {question.mandatory && (
+                <span className={styles.mandatory}> *</span>
+              )}
+            </h3>
+
+            {question.questionType === QuestionTypes('text') ? (
+              <TextArea
+                value=""
+                placeholder="Fritekst..."
+                className={styles.freeText}
+              />
+            ) : (
+              <ul className={styles.detailOptions}>
+                {question.options.map(option => (
+                  <li key={option.id}>
+                    {question.questionType === QuestionTypes('single') ? (
+                      <RadioButton value={false} className={styles.option} />
+                    ) : (
+                      <CheckBox checked={false} className={styles.option} />
+                    )}
+                    {option.optionText}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ul>
     </Content>
   );
 };

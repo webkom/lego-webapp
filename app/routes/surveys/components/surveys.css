@@ -27,7 +27,7 @@
 }
 
 .editEvent {
-  width: 300px;
+  margin-right: 30px;
 }
 
 .bottomBorder {
@@ -59,4 +59,154 @@
   min-width: 120px;
   height: 80px;
   object-fit: contain;
+}
+
+.questions {
+  margin: 30px 0 0;
+}
+
+.question {
+  border: 2px solid #ccc;
+  border-left: 3px solid var(--lego-link-color);
+  padding: 20px 25px;
+  margin-bottom: 35px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.left {
+  width: 70%;
+  order: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.right {
+  display: flex;
+  order: 2;
+  margin-top: 19px;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 247px;
+}
+
+.questionTop {
+  margin-bottom: 15px;
+}
+
+.questionTitle {
+  margin-top: 10px;
+  font-size: 22px;
+  width: 100%;
+}
+
+.questionTypeSelector {
+  padding: 14px 20px;
+  border: 1px solid #ccc;
+}
+
+.addQuestion {
+  color: var(--lego-link-color);
+  margin: 0 auto;
+  width: 25px;
+  display: flex;
+}
+
+.addOption {
+  color: var(--lego-link-color);
+  width: 20px;
+  display: block;
+  margin: 20px 0 0 150px;
+}
+
+.submit {
+  margin-top: 20px;
+}
+
+.dropdown {
+  margin-top: 20px;
+}
+
+.typeIcon {
+  margin: 5px 0 0 20px;
+}
+
+.options li {
+  margin: 5px 0 10px;
+}
+
+.option {
+  display: inline-block;
+  margin-bottom: -3px;
+  width: 21px;
+
+  &:hover {
+    cursor: default;
+  }
+}
+
+.optionInput {
+  width: calc(100% - 51px); /* 30px (margin) + 21px (icon width) = 51px */
+  margin-left: 30px;
+  margin-right: 0;
+}
+
+.checkBox div {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.checkBox > div {
+  margin-bottom: 10px;
+}
+
+.freeText {
+  min-height: 100px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.bottom {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.bottom div {
+  display: inline-block;
+}
+
+.required {
+  margin-right: 40px;
+}
+
+.required > div {
+  margin-left: 10px;
+  margin-bottom: -3px;
+}
+
+.deleteQuestion {
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.detailQuestions > li {
+  margin-top: 30px;
+}
+
+.detailQuestions .freeText {
+  max-width: 600px;
+}
+
+.detailOptions > li {
+  margin-top: 10px;
+}
+
+.detailOptions .option {
+  margin-right: 10px;
+}
+
+.mandatory {
+  color: var(--lego-link-color);
 }

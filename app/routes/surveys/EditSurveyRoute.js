@@ -24,7 +24,7 @@ const mapStateToProps = (state, props) => {
             value: survey.event.id,
             label: survey.event.title
           },
-          isClone: String(survey.isClone)
+          isClone: !!survey.isClone
         }
       : null
   };
