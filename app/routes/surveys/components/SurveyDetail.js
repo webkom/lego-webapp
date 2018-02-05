@@ -5,7 +5,6 @@ import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import styles from './surveyDetail.css';
 import type { SurveyEntity } from 'app/reducers/surveys';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { DetailNavigation, QuestionTypes } from '../utils.js';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
 import type { ActionGrant } from 'app/models';
@@ -22,8 +21,6 @@ type Props = {
 
 const SurveyDetail = (props: Props) => {
   const { survey, deleteSurvey, actionGrant, push } = props;
-
-  if (!survey.event) return <LoadingIndicator />;
 
   return (
     <Content className={styles.surveyDetail} banner={survey.event.cover}>
@@ -44,9 +41,9 @@ const SurveyDetail = (props: Props) => {
             Aktiv fra <Time time={survey.activeFrom} format="ll HH:mm" />
           </div>
 
-          <Button>
+          <Button style={{ marginTop: '30px' }}>
             <Link to={`/surveys/${survey.id}/answer`}>
-              Svar på undersøkelsen
+              Begynn å svare på undersøkelsen
             </Link>
           </Button>
 

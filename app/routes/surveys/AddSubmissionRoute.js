@@ -7,6 +7,7 @@ import SubmissionEditor from './components/SubmissionEditor';
 import { selectSurveyById } from 'app/reducers/surveys';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import loadingIndicator from 'app/utils/loadingIndicator';
 
 const mapStateToProps = (state, props) => {
   const surveyId = Number(props.params.surveyId);
@@ -29,5 +30,6 @@ export default compose(
   prepare(({ params: { surveyId } }, dispatch) => dispatch(fetch(surveyId)), [
     'params.surveyId'
   ]),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  loadingIndicator(['survey.questions', 'survey.event.cover'])
 )(SubmissionEditor);

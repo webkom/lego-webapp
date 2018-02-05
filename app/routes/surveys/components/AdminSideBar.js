@@ -20,8 +20,7 @@ const AdminSideBar = ({
   actionGrant,
   push
 }: Props) => {
-  // const canEdit = actionGrant.includes('edit');
-  const canEdit = true;
+  const canEdit = actionGrant.includes('edit');
 
   const onConfirm = () => {
     if (deleteFunction && push) {
@@ -42,7 +41,10 @@ const AdminSideBar = ({
         <strong>Admin</strong>
         <ul>
           <li>
-            <Link to={`/surveys/${surveyId}/edit`}>Endre</Link>
+            <Link to="/surveys/add">Ny undersøkelse</Link>
+          </li>
+          <li>
+            <Link to={`/surveys/${surveyId}/edit`}>Endre undersøkelsen</Link>
           </li>
           {deleteFunction && (
             <ConfirmModalWithParent
@@ -51,7 +53,7 @@ const AdminSideBar = ({
               onConfirm={onConfirm}
             >
               <li>
-                <Link to="">Slett</Link>
+                <Link to="">Slett undersøkelsen</Link>
               </li>
             </ConfirmModalWithParent>
           )}

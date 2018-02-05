@@ -6,7 +6,7 @@ import {
   deleteSubmission
 } from 'app/actions/SurveySubmissionActions';
 import { fetch, deleteSurvey } from 'app/actions/SurveyActions';
-import SubmissionPage from './components/SubmissionsPage';
+import SubmissionPage from './components/SubmissionPage';
 import { compose } from 'redux';
 import { selectSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { selectSurveyById } from 'app/reducers/surveys';
@@ -47,5 +47,10 @@ export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['notFetching'])
+  loadingIndicator([
+    'notFetching',
+    'survey.event.cover',
+    'survey.questions',
+    'submissions'
+  ])
 )(SubmissionPage);

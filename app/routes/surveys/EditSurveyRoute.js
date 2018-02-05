@@ -42,5 +42,5 @@ export default compose(
     'params.surveyId'
   ]),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['survey.title'])
+  loadingIndicator(['survey.questions', 'survey.event.cover'])
 )(SurveyEditor);

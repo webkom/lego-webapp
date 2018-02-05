@@ -16,9 +16,6 @@ type Props = {
 };
 
 const SubmissionPage = ({ submissions, deleteSurvey, survey }: Props) => {
-  if (!submissions || !survey || !survey.event)
-    return <LoadingIndicator loading />;
-
   return (
     <ul className={styles.submissions}>
       {submissions.map((submission, i) => (

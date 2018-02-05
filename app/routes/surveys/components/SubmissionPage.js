@@ -6,7 +6,6 @@ import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import { DetailNavigation } from '../utils.js';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Link } from 'react-router';
 import AdminSideBar from './AdminSideBar';
 import type { ActionGrant } from 'app/models';
@@ -23,8 +22,6 @@ type Props = {
 
 const SubmissionPage = (props: Props) => {
   const { submissions, deleteSurvey, survey, actionGrant, isSummary } = props;
-  if (!submissions || !survey || !survey.event)
-    return <LoadingIndicator loading />;
 
   return (
     <Content className={styles.surveyDetail} banner={survey.event.cover}>

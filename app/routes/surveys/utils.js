@@ -43,7 +43,7 @@ export const DetailNavigation = ({
     <NavigationLink to="/surveys">Liste</NavigationLink>
     <NavigationLink to={`/surveys/${surveyId}`}>Undersøkelsen</NavigationLink>
     <NavigationLink to={`/surveys/${surveyId}/submissions/summary`}>
-      Svar
+      Resultater
     </NavigationLink>
   </NavigationTab>
 );

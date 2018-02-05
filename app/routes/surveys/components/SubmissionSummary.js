@@ -4,7 +4,6 @@ import React from 'react';
 import styles from './surveys.css';
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity } from 'app/reducers/surveys';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
   submissions: Array<SubmissionEntity>,
@@ -14,9 +13,6 @@ type Props = {
 };
 
 const SubmissionSummary = ({ submissions, deleteSurvey, survey }: Props) => {
-  if (!submissions || !survey || !survey.event)
-    return <LoadingIndicator loading />;
-
   return (
     <ul className={styles.summary}>
       {survey.questions
