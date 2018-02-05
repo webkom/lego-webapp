@@ -44,6 +44,7 @@
 
 .searchResultItemIcon {
   margin-right: 15px;
+  margin-left: 3px;
 }
 
 .closeButton {
@@ -140,12 +141,33 @@
 .resultDate {
   color: var(--lego-font-color);
   margin-left: auto;
+  white-space: nowrap;
+  padding-left: 5px;
+
+  @media (--small-viewport) {
+    display: none;
+  }
+}
+
+.resultDateMobile {
+  display: none;
+  margin-left: auto;
+
+  @media (--small-viewport) {
+    display: block;
+  }
+}
+
+.resultDetails {
+  color: var(--lego-font-color);
+  font-size: 0.7rem;
+  display: flex;
+  justify-content: space-between;
+  line-height: 15px;
 }
 
 .resultType {
-  color: var(--lego-font-color);
   text-transform: capitalize;
-  font-size: 0.7rem;
 }
 
 .resultItem {
@@ -154,6 +176,21 @@
   height: 64px;
   display: flex;
   align-items: center;
+}
+
+.resultTitle {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  line-height: 20px;
+  padding-top: 2px;
+}
+
+.truncateTitle {
+  display: table-cell;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .isSelected {

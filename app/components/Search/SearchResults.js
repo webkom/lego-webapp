@@ -24,18 +24,35 @@ const SearchResultItem = ({
     <li className={cx(isSelected && styles.isSelected, styles.resultItem)}>
       {result.profilePicture && (
         <ProfilePicture
-          size={30}
+          size={28}
           user={result}
-          style={{ margin: '0px 10px 0px 0px' }}
+          style={{ margin: '0px 12px 0px 0px' }}
         />
       )}
       {!result.profilePicture &&
         result.icon && (
-          <Icon className={styles.searchResultItemIcon} name={result.icon} />
+          <Icon
+            className={styles.searchResultItemIcon}
+            name={result.icon}
+            size={28}
+          />
         )}
       <ul>
-        <li>{result.title}</li>
-        {result.type && <li className={styles.resultType}>{result.type}</li>}
+        <li className={styles.resultTitle}>
+          <div className={styles.truncateTitle}>{result.title}</div>
+        </li>
+        <li className={styles.resultDetails}>
+          {result.type && (
+            <div className={styles.resultType}>{result.type} </div>
+          )}
+          {result.date && (
+            <Time
+              time={result.date}
+              wordsAgo
+              className={styles.resultDateMobile}
+            />
+          )}
+        </li>
       </ul>
       {result.date && (
         <Time time={result.date} wordsAgo className={styles.resultDate} />
