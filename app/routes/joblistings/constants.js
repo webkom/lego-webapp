@@ -30,6 +30,7 @@ export const jobTypes = [
   { label: 'Sommerjobb', value: 'summer_job' },
   { label: 'Deltid', value: 'part_time' },
   { label: 'Fulltid', value: 'full_time' },
+  { label: 'Masteroppgave', value: 'master_thesis' },
   { label: 'Annet', value: 'other' }
 ];
 export const yearValues = [

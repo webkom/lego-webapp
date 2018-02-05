@@ -69,7 +69,7 @@ const JoblistingDetail = ({
           <h3>Generell info</h3>
           <InfoList
             items={[
-              { key: 'Stilling', value: jobType(joblisting.jobType) },
+              { key: 'Type', value: jobType(joblisting.jobType) },
               { key: 'Bedrift', value: companyLink },
               { key: 'Klassetrinn', value: <Year joblisting={joblisting} /> },
               {

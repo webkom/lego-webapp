@@ -228,6 +228,12 @@ export default class JoblistingsRightNav extends Component<Props, State> {
                 label="Fulltid"
                 filters={this.state.filters}
               />
+              <FilterLink
+                type="jobTypes"
+                value="master_thesis"
+                label="Masteroppgave"
+                filters={this.state.filters}
+              />
             </Flex>
             <Flex
               column
