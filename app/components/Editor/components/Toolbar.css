@@ -1,10 +1,45 @@
 .toolbar {
   background: $toolbar-color;
-  color: #fff;
+  color: black;
   cursor: auto;
+  font-size: 18px;
+  height: 36px !important;
   border-radius: 5px;
   z-index: 2;
+  background-color: white;
+  padding: 6px;
   position: absolute;
   transition: all 0.1s ease;
   box-shadow: 0 1px 3px 0 #747171;
+  display: flex;
+  align-items: center;
+}
+
+.linkInput {
+  width: 100%;
+  width: inherit;
+  display: inherit;
+  font-size: 18px;
+}
+
+.toolbarButton {
+  padding: 4px;
+  cursor: pointer;
+}
+
+.active {
+  color: indianred;
+}
+
+.link {
+  border: none;
+  width: 100%;
+  outline: none;
+  font-size: 14px;
+}
+
+.linkButton {
+  font-size: 18px;
+  cursor: pointer;
+  padding: 4px;
 }

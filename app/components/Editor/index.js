@@ -13,10 +13,8 @@ import 'draft-js/dist/Draft.css';
 import isSoftNewlineEvent from 'draft-js/lib/isSoftNewlineEvent';
 import { OrderedMap } from 'immutable';
 import createEditorState from './model/content';
-
 import AddButton from './components/addbutton';
 import Toolbar from './components/toolbar';
-import LinkEditComponent from './components/LinkEditComponent';
 import styles from './Editor.css';
 import rendererFn from './components/customrenderer';
 import RenderMap from './util/rendermap';
@@ -73,10 +71,6 @@ export default class CustomEditor extends React.Component<Props, State> {
     this.setState({ editorState }, () => {
       if (callback) {
         callback();
-      }
-
-      if (this.props.onChange) {
-        this.props.onChange('test');
       }
     });
   };
@@ -148,7 +142,7 @@ export default class CustomEditor extends React.Component<Props, State> {
   /*
   Adds a hyperlink on the selected text with some basic checks.
   */
-  setLink(url: string) {
+  setLink = (url: string) => {
     let { editorState } = this.state;
     const selection = editorState.getSelection();
     const content = editorState.getCurrentContent();
@@ -176,7 +170,7 @@ export default class CustomEditor extends React.Component<Props, State> {
       RichUtils.toggleLink(editorState, selection, entityKey),
       this.focus
     );
-  }
+  };
 
   /*
   Handles custom commands based on various key combinations. First checks
@@ -464,6 +458,7 @@ export default class CustomEditor extends React.Component<Props, State> {
             }}
             editorRoot={this.editorRoot}
             editorState={editorState}
+            simpleEditor={simpleEditor}
             toggleBlockType={this.toggleBlockType}
             toggleInlineStyle={this.toggleInlineStyle}
             editorEnabled={editorEnabled}
@@ -476,14 +471,6 @@ export default class CustomEditor extends React.Component<Props, State> {
               getEditorState={this.getEditorState}
               setEditorState={this.onChange}
               focus={this.focus}
-            />
-          )}
-          {isCursorLink && (
-            <LinkEditComponent
-              {...isCursorLink}
-              editorState={editorState}
-              removeLink={this.removeLink}
-              editLink={this.editLinkAfterSelection}
             />
           )}
         </div>

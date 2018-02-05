@@ -55,13 +55,13 @@ export const BLOCK_BUTTONS = [
   {
     label: 'H2',
     style: Block.H2,
-    icon: 'header',
+    icon: 'font',
     description: 'Heading 2'
   },
   {
     label: 'quote',
     style: Block.BLOCKQUOTE,
-    icon: 'quote-right',
+    icon: 'quote-left',
     description: 'Blockquote'
   },
   {
@@ -83,8 +83,9 @@ export const BLOCK_BUTTONS = [
     description: 'Ordered List'
   },
   {
-    label: '✓',
+    label: 'CHECK',
     style: Block.TODO,
+    icon: 'check-square',
     description: 'Todo List'
   }
 ];
@@ -107,11 +108,6 @@ export const INLINE_BUTTONS = [
     style: Inline.UNDERLINE,
     icon: 'underline',
     description: 'Underline'
-  },
-  {
-    label: 'Hi',
-    style: Inline.HIGHLIGHT,
-    description: 'Highlight selection'
   },
   {
     label: 'link',

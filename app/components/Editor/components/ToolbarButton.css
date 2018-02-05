@@ -1,8 +1,8 @@
-
 .toolbarButton {
-
+  padding: 4px;
+  cursor: pointer;
 }
 
 .active {
-  
+  color: indianred;
 }

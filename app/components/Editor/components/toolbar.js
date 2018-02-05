@@ -60,13 +60,48 @@ export default class Toolbar extends React.Component<Props, State> {
     }
   }
 
+  componentDidUpdate() {
+    if (!this.props.editorEnabled || this.state.showURLInput || !this.toolbar) {
+      return;
+    }
+    const selectionState = this.props.editorState.getSelection();
+    if (selectionState.isCollapsed()) {
+      return;
+    }
+    // eslint-disable-next-line no-undef
+    const nativeSelection = getSelection(window);
+    if (!nativeSelection.rangeCount) {
+      return;
+    }
+    const selectionBoundary = getSelectionRect(nativeSelection);
+
+    // eslint-disable-next-line react/no-find-dom-node
+    const toolbarNode = findDOMNode(this.toolbar);
+    const toolbarBoundary = toolbarNode.getBoundingClientRect();
+
+    // eslint-disable-next-line react/no-find-dom-node
+    const parent = findDOMNode(this.props.editorRoot);
+    const parentBoundary = parent.getBoundingClientRect();
+
+    toolbarNode.style.top = `${selectionBoundary.top -
+      parentBoundary.top -
+      toolbarBoundary.height -
+      8}px`;
+    toolbarNode.style.width = `${toolbarBoundary.width}px`;
+    const widthDiff = selectionBoundary.width - toolbarBoundary.width;
+    if (widthDiff >= 0) {
+      toolbarNode.style.left = `${widthDiff / 2}px`;
+    } else {
+      const left = selectionBoundary.left - parentBoundary.left;
+      toolbarNode.style.left = `${left + widthDiff / 2}px`;
+    }
+  }
+
   onKeyDown = (e: SyntheticKeyboardEvent<*>) => {
     if (e.which === 13) {
       e.preventDefault();
       e.stopPropagation();
       this.props.setLink(this.state.urlInputValue);
-      this.hideLinkInput();
-    } else if (e.which === 27) {
       this.hideLinkInput();
     }
   };
@@ -159,7 +194,7 @@ export default class Toolbar extends React.Component<Props, State> {
   };
 
   render() {
-    const { editorState, editorEnabled, editorRoot } = this.props;
+    const { editorState, simpleEditor, editorEnabled, editorRoot } = this.props;
     const { showURLInput, urlInputValue } = this.state;
     const selection = editorState.getSelection();
     const nativeSelection = getSelection(window);
@@ -173,50 +208,6 @@ export default class Toolbar extends React.Component<Props, State> {
       return null;
     }
 
-    if (this.toolbar) {
-      const selectionBoundary = getSelectionRect(nativeSelection);
-      console.log(selectionBoundary);
-      console.log(this.toolbar);
-      console.log(editorRoot);
-      this.toolbar.style.top = `${selectionBoundary.top +
-        window.scrollY -
-        this.toolbar.offsetHeight}px`;
-      this.toolbar.style.left = `${selectionBoundary.left +
-        window.scrollX -
-        this.toolbar.offsetWidth / 2 +
-        selectionBoundary.width / 2}px`;
-    }
-
-    if (showURLInput) {
-      let className = `md-editor-toolbar${isOpen
-        ? ' md-editor-toolbar--isopen'
-        : ''}`;
-      className += ' md-editor-toolbar--linkinput';
-      return (
-        <div className={className}>
-          <div
-            className="md-RichEditor-controls md-RichEditor-show-link-input"
-            style={{ display: 'block' }}
-          >
-            <span className="md-url-input-close" onClick={this.hideLinkInput}>
-              &times;
-            </span>
-            <input
-              ref={node => {
-                this.urlinput = node;
-              }}
-              type="text"
-              className="md-url-input"
-              onKeyDown={this.onKeyDown}
-              onChange={this.onChange}
-              placeholder="Press ENTER or ESC"
-              value={urlInputValue}
-            />
-          </div>
-        </div>
-      );
-    }
-
     return createPortal(
       <div
         className={styles.toolbar}
@@ -224,32 +215,46 @@ export default class Toolbar extends React.Component<Props, State> {
           this.toolbar = e;
         }}
       >
-        {BLOCK_BUTTONS.map(button => (
-          <ToolbarButton
-            key={button.style}
-            button={button}
-            type="block"
-            editorState={editorState}
-            onToggle={this.props.toggleBlockType}
-          />
-        ))}
-        {INLINE_BUTTONS.map(button => (
-          <ToolbarButton
-            key={button.style}
-            type="inline"
-            button={button}
-            editorState={editorState}
-            onToggle={this.props.toggleInlineStyle}
-          />
-        ))}
-        {false && ( //TODO show this when Edit link
-          <ToolbarButton
-            button={find(INLINE_BUTTONS, ['style', HYPERLINK])}
-            type="inline"
-            editorState={editorState}
-            onToggle={this.handleLinkInput}
-          />
+        {showURLInput && (
+          <div className={styles.linkInput}>
+            <input
+              ref={node => {
+                this.urlinput = node;
+              }}
+              type="text"
+              className={styles.link}
+              onKeyDown={this.onKeyDown}
+              onBlur={() => {
+                this.hideLinkInput();
+              }}
+              onChange={this.onChange}
+              placeholder="Press ENTER or ESC"
+              value={urlInputValue}
+            />
+          </div>
         )}
+        {!showURLInput &&
+          !simpleEditor &&
+          BLOCK_BUTTONS.map(button => (
+            <ToolbarButton
+              key={button.style}
+              button={button}
+              type="block"
+              editorState={editorState}
+              onToggle={this.props.toggleBlockType}
+            />
+          ))}
+        {!showURLInput &&
+          INLINE_BUTTONS.map(button => (
+            <ToolbarButton
+              key={button.style}
+              type="inline"
+              handleLinkInput={this.handleLinkInput}
+              button={button}
+              editorState={editorState}
+              onToggle={this.props.toggleInlineStyle}
+            />
+          ))}
       </div>,
       editorRoot
     );

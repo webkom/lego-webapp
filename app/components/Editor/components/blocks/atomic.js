@@ -2,13 +2,10 @@
 
 import React from 'react';
 import styles from './Atomic.css';
-
-import EmbedBlock from './Embed';
 import BreakBlock from './break';
 
 const atomicComponents = {
-  separator: BreakBlock,
-  embed: EmbedBlock
+  separator: BreakBlock
 };
 
 type Props = {

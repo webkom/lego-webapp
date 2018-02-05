@@ -92,7 +92,12 @@ export default class AddButton extends React.Component<Props, State> {
     }
   };
 
-  open = () => {
+  open = (e: ?SyntheticMouseEvent<*>) => {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+
     this.setState({ isOpen: !this.state.isOpen }, this.props.focus);
   };
 
@@ -129,7 +134,7 @@ export default class AddButton extends React.Component<Props, State> {
     return (
       <div className={styles.addButton} style={style}>
         <button
-          onClick={this.open}
+          onMouseDown={this.open}
           className={cx(styles.addButtonButton, isOpen && styles.isOpen)}
           type="button"
         >
