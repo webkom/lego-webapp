@@ -14,7 +14,8 @@ const mapStateToProps = () => ({
     description: '',
     fromYear: 1,
     toYear: 5,
-    jobType: 'summer_job'
+    jobType: 'summer_job',
+    workplaces: []
   },
   isNew: true
 });

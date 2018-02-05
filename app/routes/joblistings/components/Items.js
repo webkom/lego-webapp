@@ -29,6 +29,7 @@ const types = {
   full_time: 'Fulltid',
   part_time: 'Deltid',
   summer_job: 'Sommerjobb',
+  master_thesis: 'Masteroppgave',
   other: 'Annet'
 };
 

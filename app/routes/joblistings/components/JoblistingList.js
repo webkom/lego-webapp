@@ -37,11 +37,8 @@ function JoblistingItem({ joblisting }: JobListingItemProps) {
           <div className={styles.companyJobtype}>
             {joblisting.company.name} • {jobType(joblisting.jobType)}
           </div>
-          <div>
-            <Year joblisting={joblisting} />
-            {' • '}
-            <Workplaces places={joblisting.workplaces} />
-          </div>
+          <Year joblisting={joblisting} /> •
+          <Workplaces places={joblisting.workplaces} />
         </div>
         <div className={styles.deadLine}>
           <span className={styles.deadLineLabel} style={{ marginRight: '5px' }}>
