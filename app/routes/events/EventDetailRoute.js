@@ -20,10 +20,13 @@ import {
   selectEventById,
   selectCommentsForEvent,
   selectPoolsWithRegistrationsForEvent,
+  selectPoolsForEvent,
   selectRegistrationsFromPools,
   selectMergedPoolWithRegistrations,
+  selectMergedPool,
   selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
+import isArray from 'lodash/isArray';
 
 const findCurrentRegistration = (registrations, currentUser) =>
   registrations.find(registration => registration.user.id === currentUser.id);
@@ -32,6 +35,24 @@ const mapStateToProps = (state, props) => {
   const { params: { eventId }, currentUser } = props;
 
   const event = selectEventById(state, { eventId });
+
+  const hasFullAccess = isArray(event.waitingRegistrations);
+
+  if (!hasFullAccess) {
+    const pools = event.isMerged
+      ? selectMergedPool(state, { eventId })
+      : selectPoolsForEvent(state, {
+          eventId
+        });
+    return {
+      actionGrant,
+      loading: state.events.fetching,
+      event,
+      eventId,
+      pools,
+      comments: []
+    };
+  }
   const actionGrant = state.events.actionGrant;
   const comments = selectCommentsForEvent(state, { eventId });
   const poolsWithRegistrations = event.isMerged
@@ -82,15 +103,17 @@ const mapDispatchToProps = {
   updateUser
 };
 
-const loadData = ({ params: { eventId }, currentUser }, dispatch) => {
+const loadData = (
+  { params: { eventId }, currentUser, isLoggedIn },
+  dispatch
+) => {
   const userId = currentUser.id;
-  return dispatch(fetchEvent(eventId)).then(() =>
-    dispatch(isUserFollowing(eventId, userId))
+  return dispatch(fetchEvent(eventId)).then(
+    () => isLoggedIn && dispatch(isUserFollowing(eventId, userId))
   );
 };
 
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
   prepare(loadData, ['params.eventId']),
   connect(mapStateToProps, mapDispatchToProps)
 )(EventDetail);

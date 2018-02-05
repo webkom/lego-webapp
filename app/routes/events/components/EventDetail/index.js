@@ -211,6 +211,8 @@ export default class EventDetail extends Component<Props> {
                 </div>
               )}
 
+              <h2>Påmeldte</h2>
+              <AttendanceStatus pools={pools} />
               {loggedIn && (
                 <Flex column>
                   <h3>Påmeldte</h3>

@@ -48,7 +48,6 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
   prepare((props, dispatch) => dispatch(fetchData())),
   connect(mapStateToProps, mapDispatchToProps)
 )(EventList);

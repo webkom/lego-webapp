@@ -9,7 +9,7 @@ import joinReducers from 'app/utils/joinReducers';
 import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
 import mergeObjects from 'app/utils/mergeObjects';
-import { groupBy } from 'lodash';
+import { isArray, groupBy } from 'lodash';
 
 export type EventEntity = {
   id: number,
@@ -238,7 +238,7 @@ export const selectPoolsWithRegistrationsForEvent = createSelector(
   state => state.registrations.byId,
   state => state.users.byId,
   (pools, registrationsById, usersById) =>
-    pools.map(pool => ({
+    [].map(pool => ({
       ...pool,
       registrations: pool.registrations.map(regId => {
         const registration = registrationsById[regId];
@@ -249,6 +249,30 @@ export const selectPoolsWithRegistrationsForEvent = createSelector(
       })
     }))
 );
+
+export const selectMergedPool = createSelector(selectPoolsForEvent, pools => {
+  if (pools.length === 0) return [];
+  return [
+    {
+      name: 'Deltakere',
+      ...pools.reduce(
+        (total, pool) => {
+          const capacity = total.capacity + pool.capacity;
+          const permissionGroups = total.permissionGroups.concat(
+            pool.permissionGroups
+          );
+          const registrations = total.registrations + pool.registrations;
+          return {
+            capacity,
+            permissionGroups,
+            registrations
+          };
+        },
+        { capacity: 0, permissionGroups: [], registrations: 0 }
+      )
+    }
+  ];
+});
 
 export const selectMergedPoolWithRegistrations = createSelector(
   selectPoolsForEvent,
@@ -309,7 +333,6 @@ export const selectWaitingRegistrationsForEvent = createSelector(
   state => state.registrations.byId,
   state => state.users.byId,
   (event, registrationsById, usersById) => {
-    if (!event) return [];
     return (event.waitingRegistrations || []).map(regId => {
       const registration = registrationsById[regId];
       return {

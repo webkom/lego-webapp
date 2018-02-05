@@ -51,7 +51,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = { fetchList };
 
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
   prepare(loadData, ['params.year', 'params.month']),
   connect(mapStateToProps, mapDispatchToProps)
 )(Calendar);
