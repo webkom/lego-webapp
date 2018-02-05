@@ -19,9 +19,5 @@ const mapDispatchToProps = { submitArticle: createArticle, uploadFile };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  connect(mapStateToProps, mapDispatchToProps),
-  reduxForm({
-    destroyOnUnmount: false,
-    form: 'article'
-  })
+  connect(mapStateToProps, mapDispatchToProps)
 )(ArticleEditor);
