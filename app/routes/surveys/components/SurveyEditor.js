@@ -2,7 +2,7 @@
 
 import styles from './surveys.css';
 import React, { Component } from 'react';
-import { DetailNavigation, ListNavigation } from '../utils.js';
+import { DetailNavigation, ListNavigation, QuestionTypes } from '../utils.js';
 import Question from './Question';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
@@ -10,10 +10,11 @@ import {
   TextInput,
   CheckBox,
   SelectInput,
-  DatePicker
+  DatePicker,
+  withSubmissionError,
+  legoForm
 } from 'app/components/Form';
 import { createValidator, required } from 'app/utils/validation';
-import { reduxForm } from 'redux-form';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import { Content } from 'app/components/Content';
 import type { FieldProps } from 'redux-form';
@@ -43,7 +44,7 @@ class SurveyEditor extends Component<Props, State> {
         ? [
             {
               questionText: '',
-              questionType: 'single_choice',
+              questionType: QuestionTypes('single'),
               options: []
             }
           ]
@@ -63,7 +64,7 @@ class SurveyEditor extends Component<Props, State> {
         relativeIndex: i
       };
 
-      if (question.questionType === 'text_field') {
+      if (question.questionType === QuestionTypes('text')) {
         question.options = [];
       } else {
         question.options = question.options.filter(
@@ -123,7 +124,7 @@ class SurveyEditor extends Component<Props, State> {
 
     return (
       <Content className={styles.detail}>
-        <form onSubmit={handleSubmit(this.onSubmit)}>
+        <form onSubmit={handleSubmit(withSubmissionError(this.onSubmit))}>
           {survey && survey.id ? (
             <DetailNavigation
               title={titleField}
@@ -177,7 +178,7 @@ class SurveyEditor extends Component<Props, State> {
             onClick={() => {
               const newQuestion = {
                 questionText: '',
-                questionType: 'single_choice',
+                questionType: QuestionTypes('single'),
                 mandatory: false,
                 options: []
               };
@@ -203,8 +204,7 @@ const validate = createValidator({
   event: [required()]
 });
 
-export default reduxForm({
+export default legoForm({
   form: 'surveyEditor',
-  validate,
-  enableReinitialize: true
+  validate
 })(SurveyEditor);

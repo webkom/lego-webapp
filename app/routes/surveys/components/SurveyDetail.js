@@ -6,7 +6,7 @@ import Time from 'app/components/Time';
 import styles from './surveyDetail.css';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { DetailNavigation } from '../utils.js';
+import { DetailNavigation, QuestionTypes } from '../utils.js';
 import { Content } from 'app/components/Content';
 import { TextArea, CheckBox, RadioButton } from 'app/components/Form';
 
@@ -47,7 +47,7 @@ const SurveyDetail = (props: Props) => {
               )}
             </h3>
 
-            {question.questionType === 'text_field' ? (
+            {question.questionType === QuestionTypes('text') ? (
               <TextArea
                 value=""
                 placeholder="Fritekst..."
@@ -57,7 +57,7 @@ const SurveyDetail = (props: Props) => {
               <ul className={styles.detailOptions}>
                 {question.options.map(option => (
                   <li key={option.id}>
-                    {question.questionType === 'single_choice' ? (
+                    {question.questionType === QuestionTypes('single') ? (
                       <RadioButton value={false} className={styles.option} />
                     ) : (
                       <CheckBox checked={false} className={styles.option} />

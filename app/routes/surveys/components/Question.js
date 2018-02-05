@@ -8,6 +8,7 @@ import styles from './surveys.css';
 import Icon from 'app/components/Icon';
 import { Link } from 'react-router';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import { QuestionTypes, PresentableQuestionType } from '../utils';
 
 type Props = {
   updateQuestion: (Object, number) => void,
@@ -25,11 +26,6 @@ type QuestionTypeSelectorProps = {
 };
 
 function QuestionTypeSelector({ questionType }: QuestionTypeSelectorProps) {
-  const questionTypeToString = {
-    single_choice: 'Multiple Choice',
-    multiple_choice: 'Sjekkboks',
-    text_field: 'Fritekst'
-  };
   const questionTypeToIcon = {
     single_choice: 'radio-button-on',
     multiple_choice: 'checkbox',
@@ -42,7 +38,7 @@ function QuestionTypeSelector({ questionType }: QuestionTypeSelectorProps) {
           name={questionTypeToIcon[questionType]}
           style={{ marginRight: '15px' }}
         />
-        {questionTypeToString[questionType]}
+        {PresentableQuestionType(questionType)}
       </span>
       <Icon name="arrow-down" size={24} className={styles.typeIcon} />
     </Link>
@@ -57,19 +53,19 @@ function DropdownItems({ setQuestionType }: DropdownItemsProps) {
   return (
     <Dropdown.List>
       <Dropdown.ListItem>
-        <Link onClick={() => setQuestionType('single_choice')}>
+        <Link onClick={() => setQuestionType(QuestionTypes('single'))}>
           <strong>Multiple Choice</strong>
           <Icon name="radio-button-on" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.ListItem>
-        <Link onClick={() => setQuestionType('multiple_choice')}>
+        <Link onClick={() => setQuestionType(QuestionTypes('multiple'))}>
           Sjekkboks
           <Icon name="checkbox" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.ListItem>
-        <Link onClick={() => setQuestionType('text_field')}>
+        <Link onClick={() => setQuestionType(QuestionTypes('text'))}>
           Fritekst
           <Icon name="more" size={24} />
         </Link>
@@ -129,7 +125,7 @@ class Question extends Component<Props, State> {
               }
             />
           </div>
-          {this.props.question.questionType === 'text_field' ? (
+          {this.props.question.questionType === QuestionTypes('text') ? (
             <TextArea
               className={styles.freeText}
               placeholder="Fritekst"
