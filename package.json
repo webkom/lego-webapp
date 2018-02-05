@@ -41,7 +41,6 @@
     "animate.css": "3.5.2",
     "bunyan": "^1.8.12",
     "bunyan-pretty": "^0.0.1",
-    "child-process-promise": "^2.2.1",
     "classnames": "2.2.5",
     "cookie-parser": "^1.4.3",
     "html-to-react": "^1.3.1",
@@ -51,7 +50,6 @@
     "js-cookie": "^2.1.4",
     "jwt-decode": "2.2.0",
     "lodash": "^4.17.2",
-    "meow": "^3.7.0",
     "minireset.css": "^0.0.3",
     "moment-timezone": "^0.5.13",
     "morgan": "^1.8.2",
@@ -90,7 +88,6 @@
     "reselect": "2.5.4",
     "serialize-javascript": "^1.4.0",
     "slate": "^0.24.5",
-    "slate-auto-replace": "0.6.2",
     "slate-html-serializer": "^0.1.5",
     "slate-react": "^0.1.5",
     "slug": "^0.9.1",
@@ -138,7 +135,6 @@
     "react-docgen": "^2.18.0",
     "react-hot-loader": "3.0.0-beta.4",
     "react-styleguidist": "^6.0.30",
-    "react-test-renderer": "^16.0.0",
     "redux-mock-store": "^1.2.2",
     "start-server-webpack-plugin": "^2.1.2",
     "style-loader": "^0.18.2",
@@ -195,9 +191,7 @@
       "minireset.css",
       "bunyan",
       "bunyan-pretty",
-      "raven",
-      "child-process-promise",
-      "meow"
+      "raven"
     ]
   },
   "moduleRoots": ["./"]
