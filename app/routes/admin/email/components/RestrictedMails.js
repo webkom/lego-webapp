@@ -4,6 +4,8 @@ import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
 import { Link } from 'react-router';
 import moment from 'moment';
+import Button from 'app/components/Button';
+import Flex from 'app/components/Layout/Flex';
 
 type Props = {
   fetching: boolean,
@@ -72,6 +74,12 @@ export default class RestrictedMails extends Component<Props> {
             <li>Send eposten</li>
           </ul>
         </p>
+        <Flex justifyContent="space-between" style={{ marginBottom: '10px' }}>
+          <h3>Dine begrensede e-poster</h3>
+          <Link to={'/admin/email/restricted/new'}>
+            <Button>Ny begrenset epost</Button>
+          </Link>
+        </Flex>
         <Table
           infiniteScroll
           columns={columns}

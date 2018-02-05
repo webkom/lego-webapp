@@ -72,10 +72,10 @@ const RestrictedMailEditor = ({
       />
       <Field
         disabled={restrictedMailId}
-        label="Eventer"
+        label="Arrangementer"
         name="events"
         multi
-        placeholder="Eventer du ønsker å sende epost til"
+        placeholder="Arrangementer du ønsker å sende epost til"
         filter={['events.event']}
         component={SelectInput.AutocompleteField}
       />

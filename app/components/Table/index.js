@@ -3,7 +3,7 @@
 import React, { Component, type Node } from 'react';
 import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { TextInput } from 'app/components/Form';
+import { TextInput, CheckBox } from 'app/components/Form';
 import { Overlay } from 'react-overlays';
 import cx from 'classnames';
 import { isEmpty } from 'lodash';
@@ -16,10 +16,16 @@ type sortProps = {
   sort?: string
 };
 
+type checkFilter = {
+  label: string,
+  value: any
+};
+
 type columnProps = {
   dataIndex: string,
   title: string,
   sorter?: (any, any) => number,
+  filter?: Array<checkFilter>,
   search?: boolean,
   width?: number,
   render?: (any, Object) => Node
@@ -63,10 +69,32 @@ export default class Table extends Component<Props, State> {
     });
   };
 
+  toggleFilter = (dataIndex: string) => {
+    this.setState({
+      isShown: {
+        [dataIndex]: !this.state.isShown[dataIndex]
+      }
+    });
+  };
+
   onSearchInput = ({ target }: SyntheticInputEvent<*>, dataIndex: string) => {
     this.setState(
       { filters: { ...this.state.filters, [dataIndex]: target.value } },
       () => this.onChange()
+    );
+  };
+
+  onFilterInput = (value: any, dataIndex: string) => {
+    this.setState(
+      { filters: { ...this.state.filters, [dataIndex]: value } },
+      () => this.onChange()
+    );
+  };
+
+  checkifActive = (dataIndex: string) => {
+    return (
+      this.state.filters[dataIndex].length &&
+      typeof this.state.filters[dataIndex].find(e => e.value) !== 'undefined'
     );
   };
 
@@ -80,11 +108,10 @@ export default class Table extends Component<Props, State> {
   };
 
   renderHeadCell = (
-    { dataIndex, search, title, sorter }: columnProps,
+    { dataIndex, search, title, sorter, filter }: columnProps,
     index: number
   ) => {
     const { filters, isShown } = this.state;
-
     return (
       <th key={`${dataIndex}-${index}`}>
         {title}
@@ -135,6 +162,50 @@ export default class Table extends Component<Props, State> {
             </Overlay>
           </div>
         )}
+        {filter && (
+          <div className={styles.filterIcon}>
+            <div
+              ref={c => (this.components[dataIndex] = c)}
+              className={styles.filterIcon}
+            >
+              <Icon
+                onClick={() => this.toggleFilter(dataIndex)}
+                name="funnel"
+                className={cx(
+                  styles.icon,
+                  (filters[dataIndex] !== undefined || isShown[dataIndex]) &&
+                    styles.iconActive
+                )}
+              />
+            </div>
+            <Overlay
+              show={isShown[dataIndex]}
+              onHide={() => this.toggleFilter(dataIndex)}
+              placement="bottom"
+              container={this.components[dataIndex]}
+              target={() => this.components[dataIndex]}
+              rootClose
+            >
+              <div className={styles.checkbox}>
+                {filter.map(({ label, value }) => (
+                  <CheckBox
+                    key={label}
+                    label={label}
+                    value={value === this.state.filters[dataIndex]}
+                    onChange={() => this.onFilterInput(value, dataIndex)}
+                  />
+                ))}
+                <a
+                  onClick={() =>
+                    this.setState({ filters: { [dataIndex]: undefined } })
+                  }
+                >
+                  Nullstill
+                </a>
+              </div>
+            </Overlay>
+          </div>
+        )}
       </th>
     );
   };
@@ -145,6 +216,13 @@ export default class Table extends Component<Props, State> {
     }
 
     const match = Object.keys(this.state.filters).filter(key => {
+      if (this.state.filters[key] === undefined) {
+        return true;
+      }
+      if (typeof this.state.filters[key] === 'boolean') {
+        return this.state.filters[key] === item[key];
+      }
+
       const filter = this.state.filters[key].toLowerCase();
 
       if (!filter.length) {

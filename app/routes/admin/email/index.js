@@ -3,11 +3,8 @@ import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 export default {
   path: 'email',
   ...resolveAsyncRoute(() => import('./components/EmailRoute')),
+  indexRoute: resolveAsyncRoute(() => import('./EmailListsRoute')),
   childRoutes: [
-    {
-      path: 'lists',
-      ...resolveAsyncRoute(() => import('./EmailListsRoute'))
-    },
     {
       path: 'lists/new',
       ...resolveAsyncRoute(() => import('./CreateEmailListRoute'))
