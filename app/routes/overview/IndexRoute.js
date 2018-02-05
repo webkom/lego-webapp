@@ -14,6 +14,7 @@ import {
 } from 'app/reducers/feeds';
 
 const mapStateToProps = state => ({
+  loadingFrontpage: state.frontpage.fetching,
   frontpage: selectFrontpage(state),
   feed: selectFeedById(state, { feedId: 'personal' }),
   feedItems: selectFeedActivitesByFeedId(state, {

@@ -8,6 +8,7 @@ import Time from 'app/components/Time';
 import { Image } from 'app/components/Image';
 import truncateString from 'app/utils/truncateString';
 import { Container, Flex } from 'app/components/Layout';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 import LatestReadme from './LatestReadme';
 import Feed from './Feed';
 import CompactEvents from './CompactEvents';
@@ -21,24 +22,7 @@ const IMAGE_HEIGHT = 192;
 
 const itemUrl = item => `/${item.eventType ? 'events' : 'articles'}/${item.id}`;
 
-function PrimaryItem({ item }: { item?: Event | Article }) {
-  if (!item) {
-    return (
-      <Flex column className={styles.primaryItem}>
-        <h2 className="u-ui-heading">Festet oppslag</h2>
-        <Flex column className={styles.innerPrimaryItem}>
-          <Image
-            style={{ height: IMAGE_HEIGHT, display: 'block' }}
-            className={styles.image}
-            src={'https://i.redd.it/dz8mwvl4dgdy.jpg'}
-          />
-          <div className={styles.pinnedHeading}>
-            <h2 className={styles.itemTitle}>Ingen oppslag</h2>
-          </div>
-        </Flex>
-      </Flex>
-    );
-  }
+function PrimaryItem({ item }: { item: Event | Article }) {
   return (
     <Flex column className={styles.primaryItem}>
       <h2 className="u-ui-heading">Festet oppslag</h2>
@@ -132,7 +116,8 @@ const OverviewItem = ({ item }: { item: Event | Article }) => {
 type Props = {
   frontpage: Array<Object>,
   feed: Object,
-  feedItems: Array<Object>
+  feedItems: Array<Object>,
+  loadingFrontpage: boolean
 };
 
 type State = {
@@ -150,7 +135,7 @@ export default class Overview extends Component<Props, State> {
 
   render() {
     const isEvent = o => typeof o['startTime'] !== 'undefined';
-    const { frontpage, feed, feedItems } = this.props;
+    const { frontpage, feed, feedItems, loadingFrontpage } = this.props;
 
     return (
       <Container>
@@ -158,7 +143,9 @@ export default class Overview extends Component<Props, State> {
         <Flex wrap style={{ justifyContent: 'space-between' }}>
           <Flex column style={{ flex: 2 }}>
             <CompactEvents events={frontpage.filter(isEvent)} />
-            <PrimaryItem item={frontpage[0]} />
+            <LoadingIndicator loading={loadingFrontpage}>
+              {frontpage[0] && <PrimaryItem item={frontpage[0]} />}
+            </LoadingIndicator>
           </Flex>
           <Feed style={{ flex: 2 }} feed={feed} feedItems={feedItems} />
         </Flex>

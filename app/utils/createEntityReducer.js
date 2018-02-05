@@ -18,7 +18,7 @@ type EntityReducerOptions = {
 };
 
 export function fetching(fetchType?: ?AsyncActionType) {
-  return (state: any, action: any) => {
+  return (state: any = { fetching: false }, action: any) => {
     if (!fetchType) {
       return state;
     }
