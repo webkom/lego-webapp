@@ -39,6 +39,7 @@ import joblistings from './joblistings';
 import announcements from './announcements';
 import feedActivities from './feedActivities';
 import feeds from './feeds';
+import frontpage from './frontpage';
 import surveys from './surveys';
 import fetchHistory from './fetchHistory';
 import { User } from '../actions/ActionTypes';
@@ -80,6 +81,7 @@ const reducers = {
   feedActivities,
   feeds,
   fetchHistory,
+  frontpage,
   companies,
   companySemesters,
   surveys
