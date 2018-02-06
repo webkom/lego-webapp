@@ -50,6 +50,7 @@ export type Event = EventBase & {
   activationTime: ?Dateish,
   activeCapacity: number,
   registrationCount: number,
+  waitingRegistrationCount: number,
   totalCapacity: number,
   thumbnail: ?string,
   company: Company,
@@ -103,7 +104,8 @@ type EventPoolBase = {
 };
 
 export type EventPool = EventPoolBase & {
-  registrations: Array<EventRegistration> | number,
+  registrations?: Array<EventRegistration>,
+  registrationCount: number,
   permissionGroups: Array<Object>
 };
 

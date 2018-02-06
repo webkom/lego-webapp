@@ -14,7 +14,6 @@ import {
 import Tag from 'app/components/Tags/Tag';
 import { FormatTime, FromToTime } from 'app/components/Time';
 import InfoList from 'app/components/InfoList';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Flex } from 'app/components/Layout';
 import { EVENT_TYPE_TO_STRING, colorForEvent } from '../../utils';
 import Admin from '../Admin';
@@ -50,7 +49,6 @@ type Props = {
   actionGrant: Array<string>,
   comments: Array<Object>,
   error?: Object,
-  loading: boolean,
   pools: Array<Object>,
   registrations: Array<Object>,
   currentRegistration: Object,
@@ -113,7 +111,6 @@ export default class EventDetail extends Component<Props> {
       actionGrant,
       comments,
       error,
-      loading,
       pools,
       registrations,
       currentRegistration,
@@ -124,10 +121,6 @@ export default class EventDetail extends Component<Props> {
 
     if (!event.id) {
       return null;
-    }
-
-    if (loading) {
-      return <LoadingIndicator loading />;
     }
 
     if (error) {
@@ -236,7 +229,7 @@ export default class EventDetail extends Component<Props> {
                     </ModalParentComponent>
                   ]
                 ) : (
-                  <AttendanceStatus isCount useModal={false} pools={pools} />
+                  <AttendanceStatus pools={pools} />
                 )}
 
                 {loggedIn && (

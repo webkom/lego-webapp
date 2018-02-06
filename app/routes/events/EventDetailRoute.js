@@ -24,7 +24,7 @@ import {
   selectMergedPool,
   selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
-import isArray from 'lodash/isArray';
+import loadingIndicator from 'app/utils/loadingIndicator';
 import helmet from 'app/utils/helmet';
 
 const findCurrentRegistration = (registrations, currentUser) =>
@@ -37,17 +37,26 @@ const mapStateToProps = (state, props) => {
 
   const actionGrant = state.events.actionGrant;
 
-  const hasFullAccess = isArray(event.waitingRegistrations);
+  const hasFullAccess = Boolean(event.waitingRegistrations);
 
   if (!hasFullAccess) {
-    const pools = event.isMerged
+    const normalPools = event.isMerged
       ? selectMergedPool(state, { eventId })
       : selectPoolsForEvent(state, {
           eventId
         });
+
+    const pools =
+      event.waitingRegistrationCount > 0
+        ? normalPools.concat({
+            name: 'Venteliste',
+            registrationCount: event.waitingRegistrationCount,
+            permissionGroups: []
+          })
+        : normalPools;
     return {
       actionGrant,
-      loading: state.events.fetching,
+      notLoading: !state.events.fetching,
       event,
       eventId,
       pools,
@@ -81,7 +90,7 @@ const mapStateToProps = (state, props) => {
   return {
     comments,
     actionGrant,
-    loading: state.events.fetching,
+    notLoading: !state.events.fetching,
     event,
     eventId,
     pools,
@@ -113,55 +122,58 @@ const loadData = (
   );
 };
 
+const propertyGenerator = (props, config) => {
+  if (!props.event) return;
+  const tags = (props.event.tags || []).map(content => ({
+    content,
+    property: 'article:tag'
+  }));
+
+  return [
+    {
+      property: 'og:title',
+      content: props.event.title
+    },
+    {
+      element: 'title',
+      children: props.event.title
+    },
+    {
+      element: 'link',
+      rel: 'canonical',
+      href: `${config.webUrl}/events/${props.event.id}`
+    },
+    {
+      property: 'og:description',
+      content: props.event.description
+    },
+    {
+      property: 'og:type',
+      content: 'website'
+    },
+    {
+      property: 'og:image:width',
+      content: '1667'
+    },
+    {
+      property: 'og:image:height',
+      content: '500'
+    },
+    {
+      property: 'og:url',
+      content: `${config.webUrl}/events/${props.event.id}`
+    },
+    {
+      property: 'og:image',
+      content: props.event.cover
+    },
+    ...tags
+  ];
+};
+
 export default compose(
   prepare(loadData, ['params.eventId']),
   connect(mapStateToProps, mapDispatchToProps),
-  helmet((props, config) => {
-    if (!props.event) return;
-    const tags = (props.event.tags || []).map(content => ({
-      content,
-      property: 'article:tag'
-    }));
-
-    return [
-      {
-        property: 'og:title',
-        content: props.event.title
-      },
-      {
-        element: 'title',
-        children: props.event.title
-      },
-      {
-        element: 'link',
-        rel: 'canonical',
-        href: `${config.webUrl}/events/${props.event.id}`
-      },
-      {
-        property: 'og:description',
-        content: props.event.description
-      },
-      {
-        property: 'og:type',
-        content: 'website'
-      },
-      {
-        property: 'og:image:width',
-        content: '1667'
-      },
-      {
-        property: 'og:image:height',
-        content: '500'
-      },
-      {
-        property: 'og:url',
-        content: `${config.webUrl}/events/${props.event.id}`
-      },
-      {
-        property: 'og:image',
-        content: props.event.cover
-      },
-      ...tags
-    ];
-  })
+  loadingIndicator(['notLoading', 'event.title']),
+  helmet(propertyGenerator)
 )(EventDetail);

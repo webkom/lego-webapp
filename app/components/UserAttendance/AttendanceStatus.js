@@ -8,27 +8,23 @@ import type { EventPool } from 'app/models';
 type AttendanceElementProps = {
   pool: EventPool,
   index: number,
-  toggleModal: number => void,
-  useModal: boolean,
-  isCount: boolean
+  toggleModal: number => void
 };
 
 const AttendanceElement = ({
-  // $FlowFixMe
-  pool: { name, registrations = 0, capacity = '∞' },
+  pool: { name, registrations, registrationCount, capacity },
   index,
-  toggleModal,
-  useModal,
-  isCount
+  toggleModal
 }: AttendanceElementProps) => {
-  const registrationCount =
-    isCount || !registrations ? registrations : registrations.length;
-  const Status = () => <strong>{`${registrationCount}/${capacity}`}</strong>;
+  const totalCount = registrations ? registrations.length : registrationCount;
+  const Status = () => (
+    <strong>{`${totalCount}/${capacity ? capacity : '∞'}`}</strong>
+  );
 
   return (
     <div className={styles.poolBox}>
       <strong>{name}</strong>
-      {useModal ? (
+      {registrations ? (
         <a onClick={() => toggleModal(index)}>
           <Status />
         </a>
@@ -41,20 +37,10 @@ const AttendanceElement = ({
 
 export type AttendanceStatusProps = {
   pools: Array<EventPool>,
-  /*
-   * The elemnts will only be clickabel if 'toggleModal' is truthy
-   */
-  useModal?: boolean,
-  toggleModal: number => void,
-  isCount?: boolean
+  toggleModal: number => void
 };
 
-const AttendanceStatus = ({
-  pools,
-  toggleModal,
-  useModal = true,
-  isCount = false
-}: AttendanceStatusProps) => {
+const AttendanceStatus = ({ pools, toggleModal }: AttendanceStatusProps) => {
   const toggleKey = key => (pools.length > 1 ? key + 1 : key);
   return (
     <div className={styles.attendanceBox}>
@@ -62,9 +48,7 @@ const AttendanceStatus = ({
         <AttendanceElement
           key={index}
           pool={pool}
-          isCount={isCount}
           index={index}
-          useModal={useModal}
           toggleModal={key => toggleModal(toggleKey(key))}
         />
       ))}
