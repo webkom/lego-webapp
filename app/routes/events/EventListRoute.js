@@ -8,8 +8,6 @@ import { fetchList } from 'app/actions/EventActions';
 import EventList from './components/EventList';
 import { selectSortedEvents } from 'app/reducers/events';
 import moment from 'moment-timezone';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectPagination } from '../../reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
 

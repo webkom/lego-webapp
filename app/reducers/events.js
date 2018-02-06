@@ -9,7 +9,7 @@ import joinReducers from 'app/utils/joinReducers';
 import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
 import mergeObjects from 'app/utils/mergeObjects';
-import { isArray, groupBy } from 'lodash';
+import { groupBy } from 'lodash';
 
 export type EventEntity = {
   id: number,
@@ -238,7 +238,7 @@ export const selectPoolsWithRegistrationsForEvent = createSelector(
   state => state.registrations.byId,
   state => state.users.byId,
   (pools, registrationsById, usersById) =>
-    [].map(pool => ({
+    pools.map(pool => ({
       ...pool,
       registrations: pool.registrations.map(regId => {
         const registration = registrationsById[regId];
@@ -333,6 +333,7 @@ export const selectWaitingRegistrationsForEvent = createSelector(
   state => state.registrations.byId,
   state => state.users.byId,
   (event, registrationsById, usersById) => {
+    if (!event) return [];
     return (event.waitingRegistrations || []).map(regId => {
       const registration = registrationsById[regId];
       return {
