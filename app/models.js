@@ -103,7 +103,7 @@ type EventPoolBase = {
 };
 
 export type EventPool = EventPoolBase & {
-  registrations: Array<EventRegistration>,
+  registrations: Array<EventRegistration> | number,
   permissionGroups: Array<Object>
 };
 

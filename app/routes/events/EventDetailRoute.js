@@ -36,6 +36,8 @@ const mapStateToProps = (state, props) => {
 
   const event = selectEventById(state, { eventId });
 
+  const actionGrant = state.events.actionGrant;
+
   const hasFullAccess = isArray(event.waitingRegistrations);
 
   if (!hasFullAccess) {
@@ -53,7 +55,6 @@ const mapStateToProps = (state, props) => {
       comments: []
     };
   }
-  const actionGrant = state.events.actionGrant;
   const comments = selectCommentsForEvent(state, { eventId });
   const poolsWithRegistrations = event.isMerged
     ? selectMergedPoolWithRegistrations(state, { eventId })

@@ -191,7 +191,9 @@ export default class EventDetail extends Component<Props> {
             onClick={onRegisterClick}
             className={styles.title}
           >
-            <InterestedButton isInterested={event.isUserFollowing} />
+            {loggedIn && (
+              <InterestedButton isInterested={event.isUserFollowing} />
+            )}
             {event.title}
           </ContentHeader>
 
@@ -210,37 +212,56 @@ export default class EventDetail extends Component<Props> {
                   <InfoList items={paidItems} />
                 </div>
               )}
+              <Flex column>
+                <h3>Påmeldte</h3>
+                {registrations ? (
+                  [
+                    <Flex
+                      key="registrations"
+                      className={styles.registeredThumbnails}
+                    >
+                      {registrations
+                        .slice(0, 12)
+                        .map(reg => (
+                          <RegisteredCell key={reg.user.id} user={reg.user} />
+                        ))}
+                    </Flex>,
+                    <ModalParentComponent
+                      key="modal"
+                      pools={pools}
+                      title="Påmeldte"
+                    >
+                      <RegisteredSummary registrations={registrations} />
+                      <AttendanceStatus />
+                    </ModalParentComponent>
+                  ]
+                ) : (
+                  <AttendanceStatus isCount useModal={false} pools={pools} />
+                )}
 
-              <h2>Påmeldte</h2>
-              <AttendanceStatus pools={pools} />
-              {loggedIn && (
-                <Flex column>
-                  <h3>Påmeldte</h3>
-                  <Flex className={styles.registeredThumbnails}>
-                    {registrations
-                      .slice(0, 12)
-                      .map(reg => (
-                        <RegisteredCell key={reg.user.id} user={reg.user} />
-                      ))}
-                  </Flex>
-                  <ModalParentComponent pools={pools} title="Påmeldte">
-                    <RegisteredSummary registrations={registrations} />
-                    <AttendanceStatus />
-                  </ModalParentComponent>
-
+                {loggedIn && (
                   <RegistrationMeta
                     registration={currentRegistration}
                     isPriced={event.isPriced}
                   />
-                  <Admin
-                    actionGrant={actionGrant}
-                    event={event}
-                    deleteEvent={deleteEvent}
-                  />
-                </Flex>
-              )}
+                )}
+                <Admin
+                  actionGrant={actionGrant}
+                  event={event}
+                  deleteEvent={deleteEvent}
+                />
+              </Flex>
             </ContentSidebar>
           </ContentSection>
+          <div className={styles.joinHeader}>
+            Bli med på dette arrangementet
+          </div>
+          <Link to="/pages/info/26-arrangementsregler" style={{ marginTop: 0 }}>
+            <Flex alignItems="center">
+              <Icon name="document" style={{ marginRight: '4px' }} />
+              <span>Regler for Abakus&#39; arrangementer</span>
+            </Flex>
+          </Link>
 
           {loggedIn && (
             <JoinEventForm

@@ -8,35 +8,53 @@ import type { EventPool } from 'app/models';
 type AttendanceElementProps = {
   pool: EventPool,
   index: number,
-  toggleModal: number => void
+  toggleModal: number => void,
+  useModal: boolean,
+  isCount: boolean
 };
 
 const AttendanceElement = ({
-  pool,
+  // $FlowFixMe
+  pool: { name, registrations = 0, capacity = '∞' },
   index,
-  toggleModal
+  toggleModal,
+  useModal,
+  isCount
 }: AttendanceElementProps) => {
-  const capacity = pool.capacity ? pool.capacity : '∞';
+  const registrationCount =
+    isCount || !registrations ? registrations : registrations.length;
+  const Status = () => <strong>{`${registrationCount}/${capacity}`}</strong>;
+
   return (
     <div className={styles.poolBox}>
-      <strong>{pool.name}</strong>
-      <a onClick={() => toggleModal(index)}>
-        <strong>
-          {pool.registrations
-            ? `${pool.registrations}/${capacity}`
-            : `0/${capacity}`}
-        </strong>
-      </a>
+      <strong>{name}</strong>
+      {useModal ? (
+        <a onClick={() => toggleModal(index)}>
+          <Status />
+        </a>
+      ) : (
+        <Status />
+      )}
     </div>
   );
 };
 
 export type AttendanceStatusProps = {
   pools: Array<EventPool>,
-  toggleModal: number => void
+  /*
+   * The elemnts will only be clickabel if 'toggleModal' is truthy
+   */
+  useModal?: boolean,
+  toggleModal: number => void,
+  isCount?: boolean
 };
 
-const AttendanceStatus = ({ pools, toggleModal }: AttendanceStatusProps) => {
+const AttendanceStatus = ({
+  pools,
+  toggleModal,
+  useModal = true,
+  isCount = false
+}: AttendanceStatusProps) => {
   const toggleKey = key => (pools.length > 1 ? key + 1 : key);
   return (
     <div className={styles.attendanceBox}>
@@ -44,7 +62,9 @@ const AttendanceStatus = ({ pools, toggleModal }: AttendanceStatusProps) => {
         <AttendanceElement
           key={index}
           pool={pool}
+          isCount={isCount}
           index={index}
+          useModal={useModal}
           toggleModal={key => toggleModal(toggleKey(key))}
         />
       ))}
