@@ -25,6 +25,7 @@ import {
   selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
 import isArray from 'lodash/isArray';
+import helmet from 'app/utils/helmet';
 
 const findCurrentRegistration = (registrations, currentUser) =>
   registrations.find(registration => registration.user.id === currentUser.id);
@@ -114,5 +115,53 @@ const loadData = (
 
 export default compose(
   prepare(loadData, ['params.eventId']),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  helmet((props, config) => {
+    if (!props.event) return;
+    const tags = (props.event.tags || []).map(content => ({
+      content,
+      property: 'article:tag'
+    }));
+
+    return [
+      {
+        property: 'og:title',
+        content: props.event.title
+      },
+      {
+        element: 'title',
+        children: props.event.title
+      },
+      {
+        element: 'link',
+        rel: 'canonical',
+        href: `${config.webUrl}/events/${props.event.id}`
+      },
+      {
+        property: 'og:description',
+        content: props.event.description
+      },
+      {
+        property: 'og:type',
+        content: 'website'
+      },
+      {
+        property: 'og:image:width',
+        content: '1667'
+      },
+      {
+        property: 'og:image:height',
+        content: '500'
+      },
+      {
+        property: 'og:url',
+        content: `${config.webUrl}/events/${props.event.id}`
+      },
+      {
+        property: 'og:image',
+        content: props.event.cover
+      },
+      ...tags
+    ];
+  })
 )(EventDetail);
