@@ -1,6 +1,6 @@
 // @flow
 
-import { FetchHistory } from 'app/actions/ActionTypes';
+import { FetchHistory, User } from 'app/actions/ActionTypes';
 
 type State = {};
 
@@ -33,6 +33,7 @@ export default function fetchHistory(state: State = initialState, action: any) {
       };
     }
     case FetchHistory.CLEAR_HISTORY:
+    case User.LOGIN.SUCCESS:
       return initialState;
     default:
       return state;
