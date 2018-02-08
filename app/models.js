@@ -32,6 +32,8 @@ type EventBase = {
   eventType: EventType,
   location: string,
   isPriced: boolean,
+  isAbakomOnly: boolean,
+  heedPenalties: boolean,
   priceMember: number,
   priceGuest: ?number,
   useStripe: boolean,

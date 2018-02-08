@@ -239,6 +239,16 @@ function EventEditor({
                 className={styles.formField}
               />
             </Tooltip>
+            <Tooltip content="Kun la medlemmer i Abakom se arrangement">
+              <Field
+                label="Kun for Abakom"
+                name="isAbakomOnly"
+                component={CheckBox.Field}
+                fieldClassName={styles.metaField}
+                className={styles.formField}
+                normalize={v => !!v}
+              />
+            </Tooltip>
             <Flex column>
               <h3>Påmeldte:</h3>
               <Flex className={styles.registeredThumbnails}>

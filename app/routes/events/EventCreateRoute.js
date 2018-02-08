@@ -30,6 +30,7 @@ const mapStateToProps = (state, props) => {
       mergeTime: time({ hours: 12 }),
       useCaptcha: true,
       heedPenalties: true,
+      isAbakomOnly: false,
       feedbackDescription: 'Melding til arrangører',
       pools: [],
       unregistrationDeadline: time({ hours: 12 })
