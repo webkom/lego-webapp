@@ -1,11 +1,10 @@
 // @flow
 
 import styles from './EventDetail.css';
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import CommentView from 'app/components/Comments/CommentView';
 import Icon from 'app/components/Icon';
 import JoinEventForm from '../JoinEventForm';
-import RegisteredCell from '../RegisteredCell';
 import RegisteredSummary from '../RegisteredSummary';
 import {
   AttendanceStatus,
@@ -28,6 +27,7 @@ import {
 } from 'app/components/Content';
 import type { ID } from 'app/models';
 import { Link } from 'react-router';
+import UserGrid from 'app/components/UserGrid';
 
 type InterestedButtonProps = {
   isInterested: boolean
@@ -235,17 +235,12 @@ export default class EventDetail extends Component<Props> {
               <Flex column>
                 <h3>Påmeldte</h3>
                 {registrations ? (
-                  [
-                    <Flex
-                      key="registrations"
-                      className={styles.registeredThumbnails}
-                    >
-                      {registrations
-                        .slice(0, 12)
-                        .map(reg => (
-                          <RegisteredCell key={reg.user.id} user={reg.user} />
-                        ))}
-                    </Flex>,
+                  <Fragment>
+                    <UserGrid
+                      minRows={2}
+                      maxRows={2}
+                      users={registrations.slice(0, 14).map(reg => reg.user)}
+                    />
                     <ModalParentComponent
                       key="modal"
                       pools={pools}
@@ -255,7 +250,7 @@ export default class EventDetail extends Component<Props> {
                       <RegisteredSummary registrations={registrations} />
                       <AttendanceStatus />
                     </ModalParentComponent>
-                  ]
+                  </Fragment>
                 ) : (
                   <AttendanceStatus pools={pools} />
                 )}

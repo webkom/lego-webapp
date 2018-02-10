@@ -10,25 +10,13 @@ import {
   ContentMain,
   ContentSidebar
 } from 'app/components/Content';
+import UserGrid from 'app/components/UserGrid';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Button from 'app/components/Button';
-import { Link } from 'react-router';
-import Tooltip from 'app/components/Tooltip';
-import { ProfilePicture } from 'app/components/Image';
 import DisplayContent from 'app/components/DisplayContent';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import type { Group, User, GroupMembership, ID } from 'app/models';
 import InterestGroupMemberList from './InterestGroupMemberList';
-
-// TODO: this is from the event detail page.
-// We can probably move this out to somewhere common.
-const RegisteredCell = ({ user }: { user: User }) => (
-  <Tooltip content={user.fullName}>
-    <Link to={`/users/${user.username}`}>
-      <ProfilePicture size={60} user={user} />
-    </Link>
-  </Tooltip>
-);
 
 type TitleProps = {
   group: Group,
@@ -54,12 +42,11 @@ type MembersProps = {
 const Members = ({ group, members }: MembersProps) => (
   <Flex column>
     <h4>Medlemmer {group.numberOfUsers}</h4>
-    <Flex wrap>
-      {members &&
-        members
-          .slice(0, 10)
-          .map(reg => <RegisteredCell key={reg.user.id} user={reg.user} />)}
-    </Flex>
+    <UserGrid
+      users={members && members.slice(0, 14).map(reg => reg.user)}
+      maxRows={2}
+      minRows={2}
+    />
     <InterestGroupMemberList memberships={members}>
       <Flex className={styles.showMemberList}>Vis alle medlemmer</Flex>
     </InterestGroupMemberList>

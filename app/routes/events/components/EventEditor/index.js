@@ -4,8 +4,8 @@ import styles from './EventEditor.css';
 import React from 'react';
 import { Link } from 'react-router';
 import renderPools, { validatePools } from './renderPools';
-import RegisteredCell from '../RegisteredCell';
 import RegisteredSummary from '../RegisteredSummary';
+import UserGrid from 'app/components/UserGrid';
 import { AttendanceStatus } from 'app/components/UserAttendance';
 import Tag from 'app/components/Tags/Tag';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -277,14 +277,11 @@ function EventEditor({
             </Tooltip>
             <Flex column>
               <h3>Påmeldte:</h3>
-              <Flex className={styles.registeredThumbnails}>
-                {registrations &&
-                  registrations
-                    .slice(0, 10)
-                    .map(reg => (
-                      <RegisteredCell key={reg.user.id} user={reg.user} />
-                    ))}
-              </Flex>
+              <UserGrid
+                minRows={2}
+                maxRows={2}
+                users={registrations.slice(0, 14).map(reg => reg.user)}
+              />
               <RegisteredSummary registrations={[]} toggleModal={i => {}} />
               <AttendanceStatus title="Påmeldte" pools={pools} />
               <div className={styles.metaList}>
