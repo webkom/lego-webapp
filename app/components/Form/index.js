@@ -17,3 +17,4 @@ export { default as ImageUploadField } from './ImageUploadField';
 export { createField } from './Field';
 export { withSubmissionError, handleSubmissionError } from './utils';
 export { default as legoForm } from './legoForm';
+export { default as ObjectPermissions } from './ObjectPermissions';
