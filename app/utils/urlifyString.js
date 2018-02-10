@@ -28,8 +28,16 @@ const urlifyString = (data: string): Urlified =>
           index: number,
           { length }: Array<string>
         ) => {
+          // Remove trailing dot or comma from url
+          let lastChar = value[value.length - 1];
+          if (lastChar === ',' || lastChar === '.') {
+            value = value.slice(0, value.length - 1);
+          } else {
+            lastChar = '';
+          }
           const prevIndex = accumulator.length - 1;
-          const postfix = index === length - 1 ? '' : ' ';
+          const postfix = lastChar + (index === length - 1 ? '' : ' ');
+
           if (isEmail(value)) {
             return accumulator.concat(emailToLink(value)).concat(postfix);
           }
@@ -39,16 +47,7 @@ const urlifyString = (data: string): Urlified =>
               require_protocol: true
             })
           ) {
-            // Remove trailing dot or comma from url
-            let lastChar = value[value.length - 1];
-            if (lastChar === ',' || lastChar === '.') {
-              value = value.slice(0, value.length - 1);
-            } else {
-              lastChar = '';
-            }
-            return accumulator
-              .concat(urlToLink(value))
-              .concat(lastChar + postfix);
+            return accumulator.concat(urlToLink(value)).concat(postfix);
           }
           const text = `${value}${postfix}`;
 
