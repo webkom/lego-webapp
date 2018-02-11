@@ -79,6 +79,7 @@ const mapStateToProps = (state, props) => {
       ? poolsWithRegistrations.concat({
           name: 'Venteliste',
           registrations: waitingRegistrations,
+          registrationCount: waitingRegistrations.length,
           permissionGroups: []
         })
       : poolsWithRegistrations;

@@ -31,7 +31,8 @@ export default createEntityReducer({
             ...state.byId,
             [poolId]: {
               ...statePool,
-              registrations: [...statePool.registrations, action.payload.id]
+              registrations: [...statePool.registrations, action.payload.id],
+              registrationCount: statePool.registrationCount + 1
             }
           }
         };
@@ -50,7 +51,8 @@ export default createEntityReducer({
               ...statePool,
               registrations: statePool.registrations.filter(
                 reg => reg !== payload.id
-              )
+              ),
+              registrationCount: statePool.registrationCount - 1
             }
           }
         };

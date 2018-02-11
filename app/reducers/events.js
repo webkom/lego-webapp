@@ -261,14 +261,15 @@ export const selectMergedPool = createSelector(selectPoolsForEvent, pools => {
           const permissionGroups = total.permissionGroups.concat(
             pool.permissionGroups
           );
-          const registrations = total.registrations + pool.registrations;
+          const registrationCount =
+            total.registrationCount + pool.registrationCount;
           return {
             capacity,
             permissionGroups,
-            registrations
+            registrationCount
           };
         },
-        { capacity: 0, permissionGroups: [], registrations: 0 }
+        { capacity: 0, permissionGroups: [], registrationCount: 0 }
       )
     }
   ];
@@ -301,10 +302,16 @@ export const selectMergedPoolWithRegistrations = createSelector(
             return {
               capacity,
               permissionGroups,
-              registrations
+              registrations,
+              registrationCount: registrations.length
             };
           },
-          { capacity: 0, permissionGroups: [], registrations: [] }
+          {
+            capacity: 0,
+            permissionGroups: [],
+            registrations: [],
+            registrationCount: 0
+          }
         )
       }
     ];
