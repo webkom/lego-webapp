@@ -16,8 +16,9 @@ const AttendanceElement = ({
   index,
   toggleModal
 }: AttendanceElementProps) => {
+  const totalCount = registrations ? registrations.length : registrationCount;
   const Status = () => (
-    <strong>{`${registrationCount}/${capacity ? capacity : '∞'}`}</strong>
+    <strong>{`${totalCount}/${capacity ? capacity : '∞'}`}</strong>
   );
 
   return (
