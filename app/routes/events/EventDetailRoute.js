@@ -14,16 +14,18 @@ import {
 } from 'app/actions/EventActions';
 import { updateUser } from 'app/actions/UserActions';
 import EventDetail from './components/EventDetail';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import {
   selectEventById,
   selectCommentsForEvent,
   selectPoolsWithRegistrationsForEvent,
+  selectPoolsForEvent,
   selectRegistrationsFromPools,
   selectMergedPoolWithRegistrations,
+  selectMergedPool,
   selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
+import loadingIndicator from 'app/utils/loadingIndicator';
+import helmet from 'app/utils/helmet';
 
 const findCurrentRegistration = (registrations, currentUser) =>
   registrations.find(registration => registration.user.id === currentUser.id);
@@ -32,7 +34,35 @@ const mapStateToProps = (state, props) => {
   const { params: { eventId }, currentUser } = props;
 
   const event = selectEventById(state, { eventId });
+
   const actionGrant = state.events.actionGrant;
+
+  const hasFullAccess = Boolean(event.waitingRegistrations);
+
+  if (!hasFullAccess) {
+    const normalPools = event.isMerged
+      ? selectMergedPool(state, { eventId })
+      : selectPoolsForEvent(state, {
+          eventId
+        });
+
+    const pools =
+      event.waitingRegistrationCount > 0
+        ? normalPools.concat({
+            name: 'Venteliste',
+            registrationCount: event.waitingRegistrationCount,
+            permissionGroups: []
+          })
+        : normalPools;
+    return {
+      actionGrant,
+      notLoading: !state.events.fetching,
+      event,
+      eventId,
+      pools,
+      comments: []
+    };
+  }
   const comments = selectCommentsForEvent(state, { eventId });
   const poolsWithRegistrations = event.isMerged
     ? selectMergedPoolWithRegistrations(state, { eventId })
@@ -49,6 +79,7 @@ const mapStateToProps = (state, props) => {
       ? poolsWithRegistrations.concat({
           name: 'Venteliste',
           registrations: waitingRegistrations,
+          registrationCount: waitingRegistrations.length,
           permissionGroups: []
         })
       : poolsWithRegistrations;
@@ -60,7 +91,7 @@ const mapStateToProps = (state, props) => {
   return {
     comments,
     actionGrant,
-    loading: state.events.fetching,
+    notLoading: !state.events.fetching,
     event,
     eventId,
     pools,
@@ -82,15 +113,68 @@ const mapDispatchToProps = {
   updateUser
 };
 
-const loadData = ({ params: { eventId }, currentUser }, dispatch) => {
+const loadData = (
+  { params: { eventId }, currentUser, isLoggedIn },
+  dispatch
+) => {
   const userId = currentUser.id;
-  return dispatch(fetchEvent(eventId)).then(() =>
-    dispatch(isUserFollowing(eventId, userId))
+  return dispatch(fetchEvent(eventId)).then(
+    () => isLoggedIn && dispatch(isUserFollowing(eventId, userId))
   );
 };
 
+const propertyGenerator = (props, config) => {
+  if (!props.event) return;
+  const tags = (props.event.tags || []).map(content => ({
+    content,
+    property: 'article:tag'
+  }));
+
+  return [
+    {
+      property: 'og:title',
+      content: props.event.title
+    },
+    {
+      element: 'title',
+      children: props.event.title
+    },
+    {
+      element: 'link',
+      rel: 'canonical',
+      href: `${config.webUrl}/events/${props.event.id}`
+    },
+    {
+      property: 'og:description',
+      content: props.event.description
+    },
+    {
+      property: 'og:type',
+      content: 'website'
+    },
+    {
+      property: 'og:image:width',
+      content: '1667'
+    },
+    {
+      property: 'og:image:height',
+      content: '500'
+    },
+    {
+      property: 'og:url',
+      content: `${config.webUrl}/events/${props.event.id}`
+    },
+    {
+      property: 'og:image',
+      content: props.event.cover
+    },
+    ...tags
+  ];
+};
+
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
   prepare(loadData, ['params.eventId']),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  loadingIndicator(['notLoading', 'event.title']),
+  helmet(propertyGenerator)
 )(EventDetail);

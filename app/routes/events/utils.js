@@ -66,7 +66,8 @@ const eventCreateAndUpdateFields = [
   'pools',
   'unregistrationDeadline',
   'pinned',
-  'heedPenalties'
+  'heedPenalties',
+  'isAbakomOnly'
 ];
 
 const poolCreateAndUpdateFields = [

@@ -250,6 +250,31 @@ export const selectPoolsWithRegistrationsForEvent = createSelector(
     }))
 );
 
+export const selectMergedPool = createSelector(selectPoolsForEvent, pools => {
+  if (pools.length === 0) return [];
+  return [
+    {
+      name: 'Deltakere',
+      ...pools.reduce(
+        (total, pool) => {
+          const capacity = total.capacity + pool.capacity;
+          const permissionGroups = total.permissionGroups.concat(
+            pool.permissionGroups
+          );
+          const registrationCount =
+            total.registrationCount + pool.registrationCount;
+          return {
+            capacity,
+            permissionGroups,
+            registrationCount
+          };
+        },
+        { capacity: 0, permissionGroups: [], registrationCount: 0 }
+      )
+    }
+  ];
+});
+
 export const selectMergedPoolWithRegistrations = createSelector(
   selectPoolsForEvent,
   state => state.registrations.byId,
@@ -277,10 +302,16 @@ export const selectMergedPoolWithRegistrations = createSelector(
             return {
               capacity,
               permissionGroups,
-              registrations
+              registrations,
+              registrationCount: registrations.length
             };
           },
-          { capacity: 0, permissionGroups: [], registrations: [] }
+          {
+            capacity: 0,
+            permissionGroups: [],
+            registrations: [],
+            registrationCount: 0
+          }
         )
       }
     ];

@@ -12,21 +12,25 @@ type AttendanceElementProps = {
 };
 
 const AttendanceElement = ({
-  pool,
+  pool: { name, registrations, registrationCount, capacity },
   index,
   toggleModal
 }: AttendanceElementProps) => {
-  const capacity = pool.capacity ? pool.capacity : '∞';
+  const totalCount = registrations ? registrations.length : registrationCount;
+  const Status = () => (
+    <strong>{`${totalCount}/${capacity ? capacity : '∞'}`}</strong>
+  );
+
   return (
     <div className={styles.poolBox}>
-      <strong>{pool.name}</strong>
-      <a onClick={() => toggleModal(index)}>
-        <strong>
-          {pool.registrations
-            ? `${pool.registrations.length}/${capacity}`
-            : `0/${capacity}`}
-        </strong>
-      </a>
+      <strong>{name}</strong>
+      {registrations ? (
+        <a onClick={() => toggleModal(index)}>
+          <Status />
+        </a>
+      ) : (
+        <Status />
+      )}
     </div>
   );
 };

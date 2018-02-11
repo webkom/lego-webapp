@@ -14,7 +14,6 @@ import {
 import Tag from 'app/components/Tags/Tag';
 import { FormatTime, FromToTime } from 'app/components/Time';
 import InfoList from 'app/components/InfoList';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Flex } from 'app/components/Layout';
 import { EVENT_TYPE_TO_STRING, colorForEvent } from '../../utils';
 import Admin from '../Admin';
@@ -50,7 +49,6 @@ type Props = {
   actionGrant: Array<string>,
   comments: Array<Object>,
   error?: Object,
-  loading: boolean,
   pools: Array<Object>,
   registrations: Array<Object>,
   currentRegistration: Object,
@@ -113,7 +111,6 @@ export default class EventDetail extends Component<Props> {
       actionGrant,
       comments,
       error,
-      loading,
       pools,
       registrations,
       currentRegistration,
@@ -124,10 +121,6 @@ export default class EventDetail extends Component<Props> {
 
     if (!event.id) {
       return null;
-    }
-
-    if (loading) {
-      return <LoadingIndicator loading />;
     }
 
     if (error) {
@@ -191,7 +184,9 @@ export default class EventDetail extends Component<Props> {
             onClick={onRegisterClick}
             className={styles.title}
           >
-            <InterestedButton isInterested={event.isUserFollowing} />
+            {loggedIn && (
+              <InterestedButton isInterested={event.isUserFollowing} />
+            )}
             {event.title}
           </ContentHeader>
 
@@ -210,35 +205,56 @@ export default class EventDetail extends Component<Props> {
                   <InfoList items={paidItems} />
                 </div>
               )}
+              <Flex column>
+                <h3>Påmeldte</h3>
+                {registrations ? (
+                  [
+                    <Flex
+                      key="registrations"
+                      className={styles.registeredThumbnails}
+                    >
+                      {registrations
+                        .slice(0, 12)
+                        .map(reg => (
+                          <RegisteredCell key={reg.user.id} user={reg.user} />
+                        ))}
+                    </Flex>,
+                    <ModalParentComponent
+                      key="modal"
+                      pools={pools}
+                      title="Påmeldte"
+                    >
+                      <RegisteredSummary registrations={registrations} />
+                      <AttendanceStatus />
+                    </ModalParentComponent>
+                  ]
+                ) : (
+                  <AttendanceStatus pools={pools} />
+                )}
 
-              {loggedIn && (
-                <Flex column>
-                  <h3>Påmeldte</h3>
-                  <Flex className={styles.registeredThumbnails}>
-                    {registrations
-                      .slice(0, 12)
-                      .map(reg => (
-                        <RegisteredCell key={reg.user.id} user={reg.user} />
-                      ))}
-                  </Flex>
-                  <ModalParentComponent pools={pools} title="Påmeldte">
-                    <RegisteredSummary registrations={registrations} />
-                    <AttendanceStatus />
-                  </ModalParentComponent>
-
+                {loggedIn && (
                   <RegistrationMeta
                     registration={currentRegistration}
                     isPriced={event.isPriced}
                   />
-                  <Admin
-                    actionGrant={actionGrant}
-                    event={event}
-                    deleteEvent={deleteEvent}
-                  />
-                </Flex>
-              )}
+                )}
+                <Admin
+                  actionGrant={actionGrant}
+                  event={event}
+                  deleteEvent={deleteEvent}
+                />
+              </Flex>
             </ContentSidebar>
           </ContentSection>
+          <div className={styles.joinHeader}>
+            Bli med på dette arrangementet
+          </div>
+          <Link to="/pages/info/26-arrangementsregler" style={{ marginTop: 0 }}>
+            <Flex alignItems="center">
+              <Icon name="document" style={{ marginRight: '4px' }} />
+              <span>Regler for Abakus&#39; arrangementer</span>
+            </Flex>
+          </Link>
 
           {loggedIn && (
             <JoinEventForm

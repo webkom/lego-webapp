@@ -3,14 +3,12 @@
 import styles from './Event.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 import { compose } from 'redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { Form, Captcha, TextEditor } from 'app/components/Form';
 import Button from 'app/components/Button';
 import UpdateAllergies from './UpdateAllergies';
 import StripeCheckout from 'react-stripe-checkout';
-import Icon from 'app/components/Icon';
 import logoImage from 'app/assets/kule.png';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import LoadingIndicator from 'app/components/LoadingIndicator';
@@ -176,13 +174,6 @@ class JoinEventForm extends Component<Props> {
 
     return (
       <Flex column className={styles.join}>
-        <div className={styles.joinHeader}>Bli med på dette arrangementet</div>
-        <Link to="/pages/info/26-arrangementsregler" style={{ marginTop: 0 }}>
-          <Flex alignItems="center">
-            <Icon name="document" style={{ marginRight: '4px' }} />
-            <span>Regler for Abakus&#39; arrangementer</span>
-          </Flex>
-        </Link>
         {!formOpen &&
           event.activationTime && (
             <div>
