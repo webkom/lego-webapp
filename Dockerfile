@@ -13,7 +13,7 @@ ENV RELEASE ${RELEASE}
 
 RUN yarn build:all # includes styleguide
 
-FROM getsentry/sentry-cli as sentry
+FROM getsentry/sentry-cli:1.26.1 as sentry
 
 RUN mkdir /app
 WORKDIR /app/
@@ -35,11 +35,12 @@ COPY --from=builder /app/dist-client dist-client
 RUN sentry-cli releases new ${RELEASE}
 RUN sentry-cli releases \
 files ${RELEASE} upload-sourcemaps \
+--rewrite --url-prefix='~/' \
 './dist-client/'
 RUN sentry-cli releases \
 files ${RELEASE} upload-sourcemaps \
-'./dist/' \
---url-prefix="/app/dist/"
+--rewrite --url-prefix="/app/dist/" \
+'./dist/'
 RUN sentry-cli releases finalize ${RELEASE}
 RUN sentry-cli releases deploys ${RELEASE} new -e "staging"
 RUN sentry-cli releases deploys ${RELEASE} new -e "production"
