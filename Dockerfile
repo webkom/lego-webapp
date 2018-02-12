@@ -13,7 +13,7 @@ ENV RELEASE ${RELEASE}
 
 RUN yarn build:all # includes styleguide
 
-FROM getsentry/sentry-cli as sentry
+FROM getsentry/sentry-cli:1.26.1 as sentry
 
 RUN mkdir /app
 WORKDIR /app/
