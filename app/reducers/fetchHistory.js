@@ -10,9 +10,10 @@ export default function fetchHistory(state: State = initialState, action: any) {
   const success = action.meta && action.meta.success;
   switch (action.type) {
     case success: {
-      if (!success || action.cached) {
-        return state;
-      }
+      // We only want to cache on the server-side, to avoid having to redo all
+      // the requests during the initial render. Caching on the client is sort
+      // of annoying, as it creates a lot of weird issues.
+      if (!success || action.cached || __CLIENT__) return state;
       return {
         ...state,
         [action.meta.endpoint]: {
@@ -20,14 +21,6 @@ export default function fetchHistory(state: State = initialState, action: any) {
             ...action,
             cached: true
           },
-          timestamp: Date.now()
-        }
-      };
-    }
-    case FetchHistory.SET_HISTORY: {
-      return {
-        ...state,
-        [action.payload]: {
           timestamp: Date.now()
         }
       };
