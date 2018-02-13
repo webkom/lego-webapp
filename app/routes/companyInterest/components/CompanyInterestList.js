@@ -63,7 +63,7 @@ const CompanyInterestList = (props: Props) => {
 
   const interestsMobile = props.companyInterestList.map((company, key) => (
     <table key={key} className={styles.companyInterestListMobile}>
-      <Flex>
+      <Flex column>
         <thead>
           <tr className={styles.mobileHeader}>
             <td>
@@ -97,6 +97,9 @@ const CompanyInterestList = (props: Props) => {
             <strong> bedriftsinteresser</strong>.
           </p>
         </Flex>
+        <Link to={'/companyInterest/semesters'} className={styles.link}>
+          <Button>Endre aktive semestre</Button>
+        </Link>
         <Link to={'/companyInterest/create'} className={styles.link}>
           <Button>Opprett ny bedriftsinteresse</Button>
         </Link>

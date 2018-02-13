@@ -12,6 +12,7 @@
 
 .guiWrapper {
   margin-right: 30px;
+  flex-wrap: wrap;
 }
 
 .guiBoxes {
@@ -86,7 +87,7 @@
 .content {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
 
   @media (--small-viewport) {
     flex-direction: column;

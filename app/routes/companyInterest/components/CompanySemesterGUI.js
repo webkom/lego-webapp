@@ -14,6 +14,8 @@ import Icon from 'app/components/Icon';
 import { TextInput, RadioButton, RadioButtonGroup } from 'app/components/Form';
 import Button from 'app/components/Button';
 import { legoForm } from 'app/components/Form/';
+import { SemesterNavigation } from 'app/routes/companyInterest/utils';
+import { createValidator, required } from 'app/utils/validation';
 
 type Props = FieldProps & {
   actionGrant: Array<String>,
@@ -51,6 +53,7 @@ const CompanySemesterGUI = (props: Props) => {
 
   return (
     <Content>
+      <SemesterNavigation title="Endre aktive semestre" />
       <Form onSubmit={handleSubmit}>
         <Flex className={styles.guiWrapper}>
           <Flex column style={{ marginRight: '50px' }}>
@@ -63,6 +66,7 @@ const CompanySemesterGUI = (props: Props) => {
               type="number"
               component={TextInput.Field}
               className={styles.yearForm}
+              required
             />
             <RadioButtonGroup name="semester" label="Semester">
               <Field
@@ -106,9 +110,15 @@ const onSubmit = ({ year, semester }, dispatch, props: Props) => {
   else return addSemester({ year, semester }); // Default is activeInterestForm: true
 };
 
+const validate = createValidator({
+  year: [required()],
+  semester: [required()]
+});
+
 export default legoForm({
   form: 'addCompanySemester',
   onSubmitSuccess: (result, dispatch) => dispatch(reset('addCompanySemester')),
   onSubmit,
-  enableReinitialize: true
+  enableReinitialize: true,
+  validate
 })(CompanySemesterGUI);

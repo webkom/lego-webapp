@@ -17,6 +17,9 @@ const mapStateToProps = state => {
   const semesters = selectCompanySemesters(state);
   const activeSemesters = selectCompanySemestersForInterestForm(state);
   return {
+    initialValues: {
+      semester: 'spring'
+    },
     semesters,
     activeSemesters
   };

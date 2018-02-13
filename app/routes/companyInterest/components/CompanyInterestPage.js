@@ -11,7 +11,6 @@ import {
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field, SubmissionError, FieldArray } from 'redux-form';
 import type { FieldProps } from 'redux-form';
-import { FlexItem } from 'app/components/FlexBox';
 import Flex from 'app/components/Layout/Flex';
 import { Content } from 'app/components/Content';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
@@ -170,26 +169,33 @@ const CompanyInterestPage = (props: Props) => {
           placeholder="Bedriftsnavn"
           name="companyName"
           component={TextInput.Field}
+          required
         />
         <Field
           label="Kontaktperson"
           placeholder="Ola Nordmann"
           name="contactPerson"
           component={TextInput.Field}
+          required
         />
         <Field
           label="Mail"
           placeholder="example@gmail.com"
           name="mail"
           component={TextInput.Field}
+          required
         />
 
-        <Flex justifyContent="space-between">
+        <Flex wrap justifyContent="space-between">
           <Flex column>
             <label htmlFor="semesters" className={styles.heading}>
               Semester
             </label>
-            <FieldArray name="semesters" component={SemesterBox} />
+            <FieldArray
+              label="semesters"
+              name="semesters"
+              component={SemesterBox}
+            />
           </Flex>
 
           <Flex column>
@@ -216,14 +222,11 @@ const CompanyInterestPage = (props: Props) => {
         />
 
         <Flex column className={styles.content}>
-          <FlexItem />
-          <FlexItem>
-            <Button type="submit" submit className={styles.createButton}>
-              {props.edit
-                ? 'Oppdater bedriftsinteresse'
-                : 'Opprett bedriftsinteresse'}
-            </Button>
-          </FlexItem>
+          <Button type="submit" submit className={styles.createButton}>
+            {props.edit
+              ? 'Oppdater bedriftsinteresse'
+              : 'Opprett bedriftsinteresse'}
+          </Button>
         </Flex>
       </Form>
     </Content>
