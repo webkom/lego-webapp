@@ -4,6 +4,15 @@ import timekeeper from 'timekeeper';
 describe('fetchHistory', () => {
   let time = Date.now();
   timekeeper.freeze(time);
+
+  beforeEach(() => {
+    global.__CLIENT__ = false;
+  });
+
+  afterEach(() => {
+    global.__CLIENT__ = true;
+  });
+
   it('should have correct initialState', () => {
     const prevState = {};
     expect(fetchHistory(prevState, {})).toEqual({});
@@ -27,7 +36,7 @@ describe('fetchHistory', () => {
     expect(fetchHistory(prevState, action)).toEqual({});
   });
 
-  it('should set Date.now()', () => {
+  it('should set Date.now() on the server', () => {
     const prevState = {};
     const action = {
       type: 'Event.SUCCESS',
@@ -43,6 +52,24 @@ describe('fetchHistory', () => {
         }
       }
     });
+  });
+
+  it('should not cache on the frontend', () => {
+    global.__CLIENT__ = true;
+    const prevState = {
+      'company/': {
+        timestamp: new Date(1504090888011),
+        action: {}
+      }
+    };
+
+    const action = {
+      type: 'Event.SUCCESS',
+      payload: {},
+      meta: { endpoint: 'events/1/', success: 'Event.SUCCESS' }
+    };
+
+    expect(fetchHistory(prevState, action)).toEqual(prevState);
   });
 
   it('should append new history entry', () => {
