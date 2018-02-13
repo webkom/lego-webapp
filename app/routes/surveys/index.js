@@ -15,6 +15,26 @@ export default {
     {
       path: ':surveyId/edit',
       ...resolveAsyncRoute(() => import('./EditSurveyRoute'))
+    },
+    {
+      path: ':surveyId/answer',
+      ...resolveAsyncRoute(() => import('./AddSubmissionRoute'))
+    },
+    {
+      path: ':surveyId/submissions',
+      ...resolveAsyncRoute(() => import('./SubmissionsRoute')),
+      childRoutes: [
+        {
+          path: 'summary', // admin/groups/123/settings
+          ...resolveAsyncRoute(() => import('./components/SubmissionSummary'))
+        },
+        {
+          path: 'individual', // admin/groups/123/members
+          ...resolveAsyncRoute(() =>
+            import('./components/SubmissionIndividual')
+          )
+        }
+      ]
     }
   ]
 };

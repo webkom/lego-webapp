@@ -5,20 +5,22 @@ import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import styles from './surveyDetail.css';
 import type { SurveyEntity } from 'app/reducers/surveys';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import { DetailNavigation, QuestionTypes } from '../utils.js';
-import { Content } from 'app/components/Content';
+import { Content, ContentSection, ContentMain } from 'app/components/Content';
+import type { ActionGrant } from 'app/models';
+import AdminSideBar from './AdminSideBar';
 import { TextArea, CheckBox, RadioButton } from 'app/components/Form';
+import Button from 'app/components/Button';
 
 type Props = {
   survey: SurveyEntity,
-  deleteSurvey: number => Promise<*>
+  deleteSurvey: number => Promise<*>,
+  actionGrant: ActionGrant,
+  push: string => void
 };
 
 const SurveyDetail = (props: Props) => {
-  const { survey, deleteSurvey } = props;
-
-  if (!survey.event) return <LoadingIndicator />;
+  const { survey, deleteSurvey, actionGrant, push } = props;
 
   return (
     <Content className={styles.surveyDetail} banner={survey.event.cover}>
@@ -28,48 +30,68 @@ const SurveyDetail = (props: Props) => {
         deleteFunction={deleteSurvey}
       />
 
-      <div className={styles.surveyTime}>
-        Spørreundersøkelse for{' '}
-        <Link to={`/surveys/${survey.event}`}>{survey.event.title}</Link>
-      </div>
+      <ContentSection>
+        <ContentMain>
+          <div className={styles.surveyTime}>
+            Spørreundersøkelse for{' '}
+            <Link to={`/surveys/${survey.event}`}>{survey.event.title}</Link>
+          </div>
 
-      <div className={styles.surveyTime}>
-        Aktiv fra <Time time={survey.activeFrom} format="ll HH:mm" />
-      </div>
+          <div className={styles.surveyTime}>
+            Aktiv fra <Time time={survey.activeFrom} format="ll HH:mm" />
+          </div>
 
-      <ul className={styles.detailQuestions}>
-        {survey.questions.map(question => (
-          <li key={question.id}>
-            <h3 className={styles.questionTextDetail}>
-              {question.questionText}
-              {question.mandatory && (
-                <span className={styles.mandatory}> *</span>
-              )}
-            </h3>
+          <Button style={{ marginTop: '30px' }}>
+            <Link to={`/surveys/${survey.id}/answer`}>
+              Begynn å svare på undersøkelsen
+            </Link>
+          </Button>
 
-            {question.questionType === QuestionTypes('text') ? (
-              <TextArea
-                value=""
-                placeholder="Fritekst..."
-                className={styles.freeText}
-              />
-            ) : (
-              <ul className={styles.detailOptions}>
-                {question.options.map(option => (
-                  <li key={option.id}>
-                    {question.questionType === QuestionTypes('single') ? (
-                      <RadioButton value={false} className={styles.option} />
-                    ) : (
-                      <CheckBox checked={false} className={styles.option} />
-                    )}
-                    {option.optionText}
-                  </li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))}
-      </ul>
+          <ul className={styles.detailQuestions}>
+            {survey.questions.map(question => (
+              <li key={question.id}>
+                <h3 className={styles.questionTextDetail}>
+                  {question.questionText}
+                  {question.mandatory && (
+                    <span className={styles.mandatory}> *</span>
+                  )}
+                </h3>
+
+                {question.questionType === QuestionTypes('text') ? (
+                  <TextArea
+                    value=""
+                    placeholder="Fritekst..."
+                    className={styles.freeText}
+                  />
+                ) : (
+                  <ul className={styles.detailOptions}>
+                    {question.options.map(option => (
+                      <li key={option.id}>
+                        {question.questionType === QuestionTypes('single') ? (
+                          <RadioButton
+                            value={false}
+                            className={styles.option}
+                          />
+                        ) : (
+                          <CheckBox checked={false} className={styles.option} />
+                        )}
+                        {option.optionText}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+        </ContentMain>
+
+        <AdminSideBar
+          surveyId={survey.id}
+          actionGrant={actionGrant}
+          push={push}
+          deleteFunction={deleteSurvey}
+        />
+      </ContentSection>
     </Content>
   );
 };

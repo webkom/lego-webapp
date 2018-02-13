@@ -280,6 +280,15 @@ export const Survey = {
 /**
  *
  */
+export const SurveySubmission = {
+  FETCH: generateStatuses('Survey.FETCH_SUBMISSIONS'),
+  ADD: generateStatuses('Survey.ADD_SUBMISSION'),
+  DELETE: generateStatuses('Survey.DELETE_SUBMISSION')
+};
+
+/**
+ *
+ */
 export const File = {
   FETCH_SIGNED_POST: generateStatuses('File.FETCH_SIGNED_POST'),
   UPLOAD: generateStatuses('File.UPLOAD')

@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
-import { editSurvey, fetch, deleteSurvey } from '../../actions/SurveyActions';
-import SurveyEditor from './components/SurveyEditor';
+import { addSubmission } from '../../actions/SurveySubmissionActions';
+import { fetch } from 'app/actions/SurveyActions';
+import SubmissionEditor from './components/SubmissionEditor';
+import { selectSurveyById } from 'app/reducers/surveys';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { selectSurveyById } from 'app/reducers/surveys';
-import { push } from 'react-router-redux';
 import loadingIndicator from 'app/utils/loadingIndicator';
 
 const mapStateToProps = (state, props) => {
@@ -16,25 +16,14 @@ const mapStateToProps = (state, props) => {
   return {
     survey,
     surveyId,
-    fetching: state.surveys.fetching,
-    initialValues: survey
-      ? {
-          ...survey,
-          event: survey.event && {
-            value: survey.event.id,
-            label: survey.event.title
-          },
-          isClone: !!survey.isClone
-        }
-      : null
+    initialValues: {
+      user: props.currentUser,
+      answers: []
+    }
   };
 };
 
-const mapDispatchToProps = {
-  submitFunction: editSurvey,
-  deleteSurvey,
-  push
-};
+const mapDispatchToProps = { submitFunction: addSubmission };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
@@ -43,4 +32,4 @@ export default compose(
   ]),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['survey.questions', 'survey.event.cover'])
-)(SurveyEditor);
+)(SubmissionEditor);

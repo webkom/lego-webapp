@@ -26,5 +26,5 @@ export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['notFetching'])
+  loadingIndicator(['notFetching', 'surveys'])
 )(SurveyPage);

@@ -6,21 +6,11 @@ import { createSelector } from 'reselect';
 import { selectEvents } from './events';
 
 export type SurveyEntity = {
-  id?: number,
+  id: number,
   title: string,
   event: any,
   activeFrom?: string,
-  questions: Array<QuestionEntity>,
-  submissions?: Array<SubmmissionEntity>
-};
-
-export type SubmmissionEntity = {
-  id?: number,
-  user: number,
-  survey: number,
-  submitted?: boolean,
-  submittedTime?: string,
-  answers?: Array<AnswerEntity>
+  questions: Array<QuestionEntity>
 };
 
 export type QuestionEntity = {
@@ -32,19 +22,9 @@ export type QuestionEntity = {
   relativeIndex: number
 };
 
-export type AnswerEntity = {
-  id: number,
-  user: number,
-  survey: number,
-  submitted?: boolean,
-  submittedTime?: string,
-  answers?: Array<AnswerEntity>
-};
-
 export type OptionEntity = {
   id: number,
-  optionText?: string,
-  optionType: string
+  optionText: string
 };
 
 function mutateSurveys(state, action) {

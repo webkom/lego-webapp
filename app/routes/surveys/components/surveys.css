@@ -210,3 +210,31 @@
 .mandatory {
   color: var(--lego-link-color);
 }
+
+.answers {
+  margin: 0 0 40px 10px;
+}
+
+.answers > li {
+  margin: 10px 0 20px;
+}
+
+.submissionNav {
+  margin: 10px 0;
+}
+
+.adminSideBar {
+  flex: 0.65;
+}
+
+.formOption {
+  width: 18px;
+}
+
+.activeRoute {
+  font-weight: 700;
+}
+
+.inactiveRoute {
+  font-weight: 300;
+}
