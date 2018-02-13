@@ -7,6 +7,7 @@ import { reduxForm } from 'redux-form';
 import { isEmail, createValidator, required } from 'app/utils/validation';
 import { TextInput, SelectInput } from 'app/components/Form';
 import { Form, Field } from 'redux-form';
+import CheckBox from 'app/components/Form/CheckBox';
 
 export type Props = {
   restrictedMailId?: number,
@@ -16,6 +17,25 @@ export type Props = {
   push: string => void,
   mutateFunction: Object => Promise<*>
 };
+
+const hiddenSenderLabel = (
+  <div>
+    <p style={{ marginBottom: '0' }}>Vil du skjule original avsender?</p>
+    <p style={{ fontStyle: 'italic', fontSize: '16px' }}>
+      - Dette gjør at adressen i feltet over ikke vises som opprinnelig avsender
+      nederst i eposten
+    </p>
+  </div>
+);
+
+const restrictedMailLabel = (
+  <div>
+    <p style={{ marginBottom: '0' }}>Skal denne brukes til ukesmail?</p>
+    <p style={{ fontStyle: 'italic', fontSize: '16px' }}>
+      - Dette legger til alle aktive studenter som mottakere
+    </p>
+  </div>
+);
 
 const RestrictedMailEditor = ({
   restrictedMail,
@@ -27,7 +47,7 @@ const RestrictedMailEditor = ({
 }: Props) => {
   const onSubmit = data => {
     mutateFunction({
-      fromAddress: data.fromAddress,
+      ...data,
       rawAddresses: (data.rawAddresses || []).map(
         rawAddresses => rawAddresses.value
       ),
@@ -41,7 +61,6 @@ const RestrictedMailEditor = ({
       }
     });
   };
-
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <Field
@@ -52,6 +71,21 @@ const RestrictedMailEditor = ({
         label="Eposten du ønsker å sende fra"
         component={TextInput.Field}
       />
+      <Field
+        disabled={restrictedMailId}
+        name="hideSender"
+        label={hiddenSenderLabel}
+        component={CheckBox.Field}
+        normalize={v => !!v}
+      />
+      <Field
+        disabled={restrictedMailId}
+        name="weekly"
+        label={restrictedMailLabel}
+        component={CheckBox.Field}
+        normalize={v => !!v}
+      />
+
       <Field
         disabled={restrictedMailId}
         label="Brukere"
