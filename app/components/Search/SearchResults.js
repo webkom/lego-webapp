@@ -7,6 +7,7 @@ import { Link } from 'react-router';
 import { ProfilePicture } from '../Image';
 import Icon from '../Icon';
 import ResolveLink from 'app/components/ResolveLink';
+import Time from 'app/components/Time';
 
 type SearchResultItemProps = {
   result: Object,
@@ -20,19 +21,42 @@ const SearchResultItem = ({
   onCloseSearch
 }: SearchResultItemProps) => (
   <Link to={result.link} onClick={onCloseSearch}>
-    <li className={cx(isSelected && styles.isSelected)}>
+    <li className={cx(isSelected && styles.isSelected, styles.resultItem)}>
       {result.profilePicture && (
         <ProfilePicture
-          size={30}
+          size={28}
           user={result}
-          style={{ margin: '0px 10px 0px 0px' }}
+          style={{ margin: '0px 12px 0px 0px' }}
         />
       )}
       {!result.profilePicture &&
         result.icon && (
-          <Icon className={styles.searchResultItemIcon} name={result.icon} />
+          <Icon
+            className={styles.searchResultItemIcon}
+            name={result.icon}
+            size={28}
+          />
         )}
-      {result.label}
+      <ul>
+        <li className={styles.resultTitle}>
+          <div className={styles.truncateTitle}>{result.title}</div>
+        </li>
+        <li className={styles.resultDetails}>
+          {result.type && (
+            <div className={styles.resultType}>{result.type} </div>
+          )}
+          {result.date && (
+            <Time
+              time={result.date}
+              wordsAgo
+              className={styles.resultDateMobile}
+            />
+          )}
+        </li>
+      </ul>
+      {result.date && (
+        <Time time={result.date} wordsAgo className={styles.resultDate} />
+      )}
     </li>
   </Link>
 );
@@ -57,7 +81,6 @@ const SearchResults = ({
               </p>
             ) : (
               <div>
-                {results.length === 0 && <li>Ingen treff</li>}
                 {results.map((result, i) => (
                   <SearchResultItem
                     key={i}
@@ -66,6 +89,11 @@ const SearchResults = ({
                     isSelected={i === selectedIndex - 1}
                   />
                 ))}
+                {results.length === 0 ? (
+                  <li>Ingen treff, trykk enter for fullstendig søk</li>
+                ) : (
+                  <li>Trykk enter for fullstendig søk</li>
+                )}
               </div>
             )}
           </ul>

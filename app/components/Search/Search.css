@@ -43,7 +43,8 @@
 }
 
 .searchResultItemIcon {
-  margin-right: 10px;
+  margin-right: 15px;
+  margin-left: 3px;
 }
 
 .closeButton {
@@ -137,12 +138,59 @@
   background: #eee;
 }
 
-.results li {
+.resultDate {
+  color: var(--lego-font-color);
+  margin-left: auto;
+  white-space: nowrap;
+  padding-left: 5px;
+
+  @media (--small-viewport) {
+    display: none;
+  }
+}
+
+.resultDateMobile {
+  display: none;
+  margin-left: auto;
+
+  @media (--small-viewport) {
+    display: block;
+  }
+}
+
+.resultDetails {
+  color: var(--lego-font-color);
+  font-size: 0.7rem;
+  display: flex;
+  justify-content: space-between;
+  line-height: 15px;
+}
+
+.resultType {
+  text-transform: capitalize;
+}
+
+.resultItem {
   border-bottom: 1px solid #ddd;
   padding: 0.5rem;
   height: 64px;
   display: flex;
   align-items: center;
+}
+
+.resultTitle {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  line-height: 20px;
+  padding-top: 2px;
+}
+
+.truncateTitle {
+  display: table-cell;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .isSelected {
