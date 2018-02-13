@@ -195,7 +195,7 @@ export function unregister({
   admin: boolean
 }) {
   return callAPI({
-    types: Event.UNREGISTER,
+    types: Event.REQUEST_UNREGISTER,
     endpoint: `/events/${eventId}/registrations/${registrationId}/`,
     method: 'DELETE',
     body: {},

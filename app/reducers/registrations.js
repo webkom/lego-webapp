@@ -46,7 +46,7 @@ export default createEntityReducer({
           items: union(state.items, [registration.id])
         };
       }
-      case Event.UNREGISTER.BEGIN: {
+      case Event.REQUEST_UNREGISTER.BEGIN: {
         return {
           ...state,
           byId: {
@@ -58,7 +58,7 @@ export default createEntityReducer({
           }
         };
       }
-      case Event.UNREGISTER.FAILURE: {
+      case Event.REQUEST_UNREGISTER.FAILURE: {
         return {
           ...state,
           byId: {

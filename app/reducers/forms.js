@@ -7,7 +7,7 @@ export default formReducer.plugin({
   joinEvent: (state, action) => {
     switch (action.type) {
       case Event.REQUEST_REGISTER.BEGIN:
-      case Event.UNREGISTER.BEGIN: {
+      case Event.REQUEST_UNREGISTER.BEGIN: {
         return {
           ...state,
           userId: action.meta.userId,
@@ -15,7 +15,7 @@ export default formReducer.plugin({
         };
       }
       case Event.REQUEST_REGISTER.FAILURE:
-      case Event.UNREGISTER.FAILURE: {
+      case Event.REQUEST_UNREGISTER.FAILURE: {
         return {
           ...state,
           submitting: false,
