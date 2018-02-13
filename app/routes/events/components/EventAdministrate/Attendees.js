@@ -29,7 +29,9 @@ export type Props = {
   loading: boolean,
   registered: Array<EventRegistration>,
   unregistered: Array<EventRegistration>,
-  unregister: (ID, ID, boolean) => Promise<*>,
+  unregister: ({ eventId: ID, registrationId: ID, admin: boolean }) => Promise<
+    *
+  >,
   updatePresence: (number, number, string) => Promise<*>,
   updatePayment: (ID, ID, EventRegistrationChargeStatus) => Promise<*>,
   usersResult: Array<User>,
@@ -48,8 +50,13 @@ export default class Attendees extends Component<Props, State> {
   };
 
   handleUnregister = (registrationId: number) => {
+    const { unregister, eventId } = this.props;
     if (this.state.clickedUnregister === registrationId) {
-      this.props.unregister(this.props.eventId, registrationId, true);
+      unregister({
+        eventId,
+        registrationId,
+        admin: true
+      });
       this.setState({
         clickedUnregister: 0
       });

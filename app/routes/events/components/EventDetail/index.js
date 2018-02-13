@@ -53,14 +53,19 @@ type Props = {
   registrations: Array<Object>,
   currentRegistration: Object,
   waitingRegistrations: Array<Object>,
-  register: (
+  register: ({
     eventId: string,
     captchaResponse: string,
-    feedback: string
-  ) => Promise<*>,
+    feedback: string,
+    userId: number
+  }) => Promise<*>,
   follow: (eventId: string, userId: string) => Promise<*>,
   unfollow: (eventId: string, userId: string) => Promise<*>,
-  unregister: (eventId: string, registrationId: number) => Promise<*>,
+  unregister: ({
+    eventId: string,
+    registrationId: number,
+    userId: number
+  }) => Promise<*>,
   payment: (eventId: string, token: string) => Promise<*>,
   updateFeedback: (
     eventId: string,
@@ -81,17 +86,27 @@ export default class EventDetail extends Component<Props> {
       currentRegistration,
       register,
       unregister,
-      updateFeedback
+      updateFeedback,
+      currentUser: { id: userId }
     } = this.props;
     switch (type) {
       case 'feedback':
         return updateFeedback(eventId, currentRegistration.id, feedback);
       case 'register':
         // Note that we do not return this promise due to custom submitting handling
-        register(eventId, captchaResponse, feedback);
+        register({
+          eventId,
+          captchaResponse,
+          feedback,
+          userId
+        });
         return;
       case 'unregister':
-        unregister(eventId, currentRegistration.id);
+        unregister({
+          eventId,
+          registrationId: currentRegistration.id,
+          userId
+        });
         return;
       default:
         return undefined;

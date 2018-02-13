@@ -10,21 +10,14 @@ export default formReducer.plugin({
       case Event.UNREGISTER.BEGIN: {
         return {
           ...state,
-          registrationId: null,
+          userId: action.meta.userId,
           submitting: true
         };
       }
-      case Event.REQUEST_REGISTER.SUCCESS:
-      case Event.UNREGISTER.SUCCESS:
-        return {
-          ...state,
-          registrationId: action.payload.id
-        };
       case Event.REQUEST_REGISTER.FAILURE:
       case Event.UNREGISTER.FAILURE: {
         return {
           ...state,
-          registrationId: null,
           submitting: false,
           submitSucceeded: false
         };
@@ -32,12 +25,11 @@ export default formReducer.plugin({
       case Event.SOCKET_UNREGISTRATION.SUCCESS:
       case Event.SOCKET_REGISTRATION.SUCCESS: {
         if (!state) return;
-        if (action.payload.id !== state.registrationId) {
+        if (action.payload.user.id !== state.userId) {
           return state;
         }
         return {
           ...state,
-          registrationId: null,
           submitting: false,
           submitSucceeded: true
         };
