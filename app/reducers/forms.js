@@ -6,7 +6,7 @@ import { Event } from '../actions/ActionTypes';
 export default formReducer.plugin({
   joinEvent: (state, action) => {
     switch (action.type) {
-      case Event.REGISTER.BEGIN:
+      case Event.REQUEST_REGISTER.BEGIN:
       case Event.UNREGISTER.BEGIN: {
         return {
           ...state,
@@ -14,13 +14,13 @@ export default formReducer.plugin({
           submitting: true
         };
       }
-      case Event.REGISTER.SUCCESS:
+      case Event.REQUEST_REGISTER.SUCCESS:
       case Event.UNREGISTER.SUCCESS:
         return {
           ...state,
           registrationId: action.payload.id
         };
-      case Event.REGISTER.FAILURE:
+      case Event.REQUEST_REGISTER.FAILURE:
       case Event.UNREGISTER.FAILURE: {
         return {
           ...state,

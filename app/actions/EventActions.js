@@ -162,7 +162,7 @@ export function register(
   feedback: string
 ) {
   return callAPI({
-    types: Event.REGISTER,
+    types: Event.REQUEST_REGISTER,
     endpoint: `/events/${eventId}/registrations/`,
     method: 'POST',
     body: {

@@ -23,7 +23,7 @@ export default createEntityReducer({
           items: union(state.items, Object.keys(registrations).map(Number))
         };
       }
-      case Event.REGISTER.SUCCESS:
+      case Event.REQUEST_REGISTER.SUCCESS:
       case Event.ADMIN_REGISTER.SUCCESS:
       case Event.SOCKET_REGISTRATION.SUCCESS:
       case Event.PAYMENT_QUEUE.SUCCESS:
