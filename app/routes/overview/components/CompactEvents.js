@@ -7,7 +7,6 @@ import colorForEvent from 'app/routes/events/colorForEvent';
 import truncateString from 'app/utils/truncateString';
 import { Flex } from 'app/components/Layout';
 import Time from 'app/components/Time';
-import moment from 'moment-timezone';
 
 type Props = {
   events: Array<Object>
@@ -24,8 +23,7 @@ export default class CompactEvents extends Component<Props> {
         .sort((a, b) => a.startTime - b.startTime)
         .filter(
           event =>
-            event.startTime > moment.now() &&
-            eventTypes.indexOf(event.eventType) !== -1
+            event.endTime.isAfter() && eventTypes.includes(event.eventType)
         )
         .slice(0, 5)
         .map((event, key) => (
