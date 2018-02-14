@@ -6,25 +6,18 @@ import { Event } from '../actions/ActionTypes';
 export default formReducer.plugin({
   joinEvent: (state, action) => {
     switch (action.type) {
-      case Event.REGISTER.BEGIN:
-      case Event.UNREGISTER.BEGIN: {
+      case Event.REQUEST_REGISTER.BEGIN:
+      case Event.REQUEST_UNREGISTER.BEGIN: {
         return {
           ...state,
-          registrationId: null,
+          userId: action.meta.userId,
           submitting: true
         };
       }
-      case Event.REGISTER.SUCCESS:
-      case Event.UNREGISTER.SUCCESS:
+      case Event.REQUEST_REGISTER.FAILURE:
+      case Event.REQUEST_UNREGISTER.FAILURE: {
         return {
           ...state,
-          registrationId: action.payload.id
-        };
-      case Event.REGISTER.FAILURE:
-      case Event.UNREGISTER.FAILURE: {
-        return {
-          ...state,
-          registrationId: null,
           submitting: false,
           submitSucceeded: false
         };
@@ -32,12 +25,11 @@ export default formReducer.plugin({
       case Event.SOCKET_UNREGISTRATION.SUCCESS:
       case Event.SOCKET_REGISTRATION.SUCCESS: {
         if (!state) return;
-        if (action.payload.id !== state.registrationId) {
+        if (action.payload.user.id !== state.userId) {
           return state;
         }
         return {
           ...state,
-          registrationId: null,
           submitting: false,
           submitSucceeded: true
         };

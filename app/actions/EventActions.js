@@ -156,13 +156,19 @@ export function setCoverPhoto(id: number, token: string) {
   });
 }
 
-export function register(
+export function register({
+  eventId,
+  captchaResponse,
+  feedback,
+  userId
+}: {
   eventId: number,
   captchaResponse: string,
-  feedback: string
-) {
+  feedback: string,
+  userId: number
+}) {
   return callAPI({
-    types: Event.REGISTER,
+    types: Event.REQUEST_REGISTER,
     endpoint: `/events/${eventId}/registrations/`,
     method: 'POST',
     body: {
@@ -171,24 +177,32 @@ export function register(
     },
     meta: {
       id: eventId,
+      userId,
       errorMessage: 'Registering til hendelse feilet'
     }
   });
 }
 
-export function unregister(
+export function unregister({
+  eventId,
+  registrationId,
+  userId,
+  admin = false
+}: {
   eventId: number,
   registrationId: number,
-  admin: boolean = false
-) {
+  userId: number,
+  admin: boolean
+}) {
   return callAPI({
-    types: Event.UNREGISTER,
+    types: Event.REQUEST_UNREGISTER,
     endpoint: `/events/${eventId}/registrations/${registrationId}/`,
     method: 'DELETE',
     body: {},
     meta: {
       errorMessage: 'Avregistrering fra hendelse feilet',
       admin,
+      userId,
       id: Number(registrationId)
     }
   });

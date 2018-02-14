@@ -39,7 +39,7 @@ function mutateEvent(state: any, action: any) {
         pagination: {}
       };
     }
-    case Event.REGISTER.BEGIN: {
+    case Event.REQUEST_REGISTER.BEGIN: {
       return {
         ...state,
         byId: {
@@ -114,7 +114,7 @@ function mutateEvent(state: any, action: any) {
         }
       };
     }
-    case Event.REGISTER.FAILURE: {
+    case Event.REQUEST_REGISTER.FAILURE: {
       return {
         ...state,
         byId: {

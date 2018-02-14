@@ -23,7 +23,7 @@ export default createEntityReducer({
           items: union(state.items, Object.keys(registrations).map(Number))
         };
       }
-      case Event.REGISTER.SUCCESS:
+      case Event.REQUEST_REGISTER.SUCCESS:
       case Event.ADMIN_REGISTER.SUCCESS:
       case Event.SOCKET_REGISTRATION.SUCCESS:
       case Event.PAYMENT_QUEUE.SUCCESS:
@@ -46,7 +46,7 @@ export default createEntityReducer({
           items: union(state.items, [registration.id])
         };
       }
-      case Event.UNREGISTER.BEGIN: {
+      case Event.REQUEST_UNREGISTER.BEGIN: {
         return {
           ...state,
           byId: {
@@ -58,7 +58,7 @@ export default createEntityReducer({
           }
         };
       }
-      case Event.UNREGISTER.FAILURE: {
+      case Event.REQUEST_UNREGISTER.FAILURE: {
         return {
           ...state,
           byId: {
