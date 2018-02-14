@@ -4,11 +4,11 @@ import React, { Component } from 'react';
 import Option from './Option';
 import { TextInput, TextArea, CheckBox } from 'app/components/Form';
 import Dropdown from 'app/components/Dropdown';
-import styles from './surveys.css';
+import styles from '../surveys.css';
 import Icon from 'app/components/Icon';
 import { Link } from 'react-router';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import { QuestionTypes, PresentableQuestionType } from '../utils';
+import { QuestionTypes, PresentableQuestionType } from '../../utils';
 
 type Props = {
   updateQuestion: (Object, number) => void,

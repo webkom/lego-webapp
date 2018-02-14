@@ -25,11 +25,20 @@ export type AnswerEntity = {
 
 function mutateSurveySubmissions(state, action) {
   switch (action.type) {
-    case SurveySubmission.FETCH.SUCCESS: {
-      return {
-        ...state,
-        items: state.items.filter(id => id !== action.meta.id)
-      };
+    case SurveySubmission.ANSWERED.SUCCESS: {
+      const id = action.payload.result;
+
+      if (id) {
+        return {
+          ...state,
+          items: [...state.items.filter(item => item !== id), id],
+          byId: {
+            ...state.byId,
+            [id]: action.payload.entities.surveySubmissions[id]
+          }
+        };
+      }
+      return state;
     }
 
     default:
@@ -61,4 +70,13 @@ export const selectSurveySubmissions = createSelector(
         };
       })
       .filter(surveySubmission => surveySubmission.survey === surveyId)
+);
+
+export const selectSurveySubmissionForUser = createSelector(
+  (state, props) => selectSurveySubmissions(state, props),
+  (state, props) => props.currentUser,
+  (submissionsById, user) =>
+    submissionsById.find(
+      surveySubmission => surveySubmission.user.id === user.id
+    )
 );
