@@ -41,9 +41,7 @@ function JoblistingItem({ joblisting }: JobListingItemProps) {
           <Workplaces places={joblisting.workplaces} />
         </div>
         <div className={styles.deadLine}>
-          <span className={styles.deadLineLabel} style={{ marginRight: '5px' }}>
-            {'Frist  • '}
-          </span>
+          <span className={styles.deadLineLabel}>{'Frist  • '}</span>
           <span>
             <Time
               time={joblisting.deadline}

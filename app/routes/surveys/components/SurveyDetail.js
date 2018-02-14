@@ -64,16 +64,19 @@ const SurveyDetail = (props: Props) => {
                     className={styles.freeText}
                   />
                 ) : (
-                  <ul className={styles.detailOptions}>
+                  <ul className={styles.detailOptionss}>
                     {question.options.map(option => (
                       <li key={option.id}>
                         {question.questionType === QuestionTypes('single') ? (
                           <RadioButton
                             value={false}
-                            className={styles.option}
+                            className={styles.options}
                           />
                         ) : (
-                          <CheckBox checked={false} className={styles.option} />
+                          <CheckBox
+                            checked={false}
+                            className={styles.options}
+                          />
                         )}
                         {option.optionText}
                       </li>

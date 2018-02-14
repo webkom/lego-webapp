@@ -37,5 +37,5 @@ function RadioButton({
   );
 }
 
-RadioButton.Field = createField(RadioButton);
+RadioButton.Field = createField(RadioButton, true);
 export default RadioButton;

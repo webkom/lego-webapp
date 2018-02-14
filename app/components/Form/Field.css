@@ -33,16 +33,23 @@
   justify-content: flex-end;
 }
 
-.labelFirst ::before {
+/* CheckBox uses label for its clickable square, so these values are tuned for
+  checkboxes */
+.labelFirst > label label::before {
   top: 6px;
 }
 
-.labelFirst ::after {
+.labelFirst > label label::after {
   top: 9px;
 }
 
-.labelFirst > label > label {
-  margin-left: 20px;
+/* Same here for radio buttons, which use span */
+.labelFirst > label span::before {
+  top: 5px;
+}
+
+.labelFirst > label span::after {
+  top: 5px;
 }
 
 .labelFirst div {

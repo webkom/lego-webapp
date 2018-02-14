@@ -45,7 +45,7 @@ const FilterLink = ({ type, label, value, filters }: Object) => (
   >
     <CheckBox id={label} value={filters[type].includes(value)} readOnly />
 
-    <span style={{ marginLeft: '5px' }}> {label}</span>
+    <span>{label}</span>
   </Link>
 );
 
@@ -129,7 +129,7 @@ export default class JoblistingsRightNav extends Component<Props, State> {
     return (
       <Flex column className={styles.box}>
         <h2 onClick={this.updateDisplayOptions} className={styles.optionsTitle}>
-          <span style={{ marginRight: '5px' }}>Valg</span>
+          <span>Valg</span>
           {this.state.displayOptions ? (
             <i
               style={{ marginLeft: '5px', marginTop: '10px' }}
@@ -169,9 +169,7 @@ export default class JoblistingsRightNav extends Component<Props, State> {
                   });
                 }}
               />
-              <span style={{ marginLeft: '5px', marginRight: '10px' }}>
-                Frist
-              </span>
+              <span style={{ marginRight: '10px' }}>Frist</span>
             </Flex>
             <Flex>
               <RadioButton
@@ -186,7 +184,7 @@ export default class JoblistingsRightNav extends Component<Props, State> {
                   });
                 }}
               />
-              <span style={{ marginLeft: '5px' }}>Bedrift</span>
+              <span>Bedrift</span>
             </Flex>
           </Flex>
           <Flex column className={styles.filters}>
