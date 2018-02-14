@@ -38,7 +38,10 @@ type FieldProps = {
  *
  * http://redux-form.com/6.0.5/docs/api/Field.md/
  */
-export function createField(Component: ComponentType<*>) {
+export function createField(
+  Component: ComponentType<*>,
+  labelFirst: boolean = false
+) {
   const Field = (field: FieldProps) => {
     const {
       input,
@@ -56,7 +59,14 @@ export function createField(Component: ComponentType<*>) {
     const { error, touched } = meta;
     const hasError = showErrors && touched && error && error.length > 0;
     return (
-      <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
+      <div
+        className={cx(
+          styles.field,
+          fieldClassName,
+          labelFirst && styles.labelFirst
+        )}
+        style={fieldStyle}
+      >
         <label className={cx(styles.label, labelClassName)}>
           <Flex>
             {label && <div>{label}</div>}

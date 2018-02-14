@@ -3,6 +3,8 @@
 .box {
   width: 18px;
   height: 18px;
+  display: flex;
+  flex-direction: row-reverse;
 }
 
 .label {

@@ -26,3 +26,25 @@
   font-weight: 600;
   margin-left: 2px;
 }
+
+.labelFirst > label {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.labelFirst ::before {
+  top: 6px;
+}
+
+.labelFirst ::after {
+  top: 9px;
+}
+
+.labelFirst > label > label {
+  margin-left: 20px;
+}
+
+.labelFirst div {
+  display: inline-block;
+}
