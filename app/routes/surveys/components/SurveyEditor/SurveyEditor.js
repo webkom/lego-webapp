@@ -1,8 +1,12 @@
 // @flow
 
-import styles from './surveys.css';
+import styles from '../surveys.css';
 import React, { Component } from 'react';
-import { DetailNavigation, ListNavigation, QuestionTypes } from '../utils.js';
+import {
+  DetailNavigation,
+  ListNavigation,
+  QuestionTypes
+} from '../../utils.js';
 import Question from './Question';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';

@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
 import { editSurvey, fetch, deleteSurvey } from '../../actions/SurveyActions';
-import SurveyEditor from './components/SurveyEditor';
+import SurveyEditor from './components/SurveyEditor/SurveyEditor.js';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectSurveyById } from 'app/reducers/surveys';

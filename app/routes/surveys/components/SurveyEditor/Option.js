@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
-import styles from './surveys.css';
-import { QuestionTypes } from '../utils';
+import styles from '../surveys.css';
+import { QuestionTypes } from '../../utils';
 
 type Props = {
   questionType: string,

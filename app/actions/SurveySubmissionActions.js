@@ -44,3 +44,18 @@ export function deleteSubmission(surveyId: number, submissionId: number) {
     }
   });
 }
+
+export function hasUserAnswered(surveyId: number, user: number) {
+  return callAPI({
+    types: SurveySubmission.ANSWERED,
+    endpoint: `/surveys/${surveyId}/has_user_answered/${user}`,
+    method: 'GET',
+    schema: surveySubmissionSchema,
+    meta: {
+      surveyId,
+      user,
+      errorMessage:
+        'Noe gikk galt i sjekking av hvorvidt brukeren allerede har svart'
+    }
+  });
+}

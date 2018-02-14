@@ -191,11 +191,11 @@
   }
 }
 
-.detailQuestions > li {
+.staticSubmission > li {
   margin-top: 30px;
 }
 
-.detailQuestions .freeText {
+.staticSubmission .freeText {
   max-width: 600px;
 }
 
@@ -237,4 +237,11 @@
 
 .inactiveRoute {
   font-weight: 300;
+}
+
+.centerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
 }

@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import styles from './surveys.css';
+import styles from '../surveys.css';
 import SurveyItem from './SurveyItem';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import LoadingIndicator from 'app/components/LoadingIndicator';

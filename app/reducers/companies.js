@@ -228,8 +228,8 @@ export const selectCompanyById = createSelector(
 );
 
 export const selectEventsForCompany = createSelector(
+  (state, props) => selectEvents(state, props),
   (state, props) => props.companyId,
-  selectEvents,
   (companyId, events) => {
     if (!companyId || !events) return [];
     return events.filter(
