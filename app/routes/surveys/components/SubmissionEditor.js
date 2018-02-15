@@ -57,7 +57,7 @@ const SubmissionEditor = ({
               ) : (
                 <ul className={styles.detailOptions}>
                   {(question.options || []).map((option, j) => (
-                    <li key={option.id}>
+                    <li key={option.id} className={styles.submissionOptions}>
                       {question.questionType === QuestionTypes('single') ? (
                         <Field
                           component={RadioButton.Field}

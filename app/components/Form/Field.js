@@ -40,7 +40,7 @@ type FieldProps = {
  */
 export function createField(
   Component: ComponentType<*>,
-  labelFirst: boolean = false
+  radioOrCheckbox: boolean = false
 ) {
   const Field = (field: FieldProps) => {
     const {
@@ -63,7 +63,7 @@ export function createField(
         className={cx(
           styles.field,
           fieldClassName,
-          labelFirst && styles.labelFirst
+          radioOrCheckbox && styles.radioOrCheckbox
         )}
         style={fieldStyle}
       >

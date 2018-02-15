@@ -64,7 +64,7 @@ const SurveyDetail = (props: Props) => {
                     className={styles.freeText}
                   />
                 ) : (
-                  <ul>
+                  <ul className={styles.detailOptions}>
                     {question.options.map(option => (
                       <li key={option.id}>
                         {question.questionType === QuestionTypes('single') ? (

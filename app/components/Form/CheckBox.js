@@ -43,7 +43,6 @@ function CheckBox({
     <div className={cx(styles.box, className)}>
       <input
         {...props}
-        id={id}
         defaultChecked={!!value}
         checked={!!value}
         className={cx(value ? styles.checked : styles.unchecked)}
