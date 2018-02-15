@@ -2,9 +2,9 @@
 
 import React, { Component } from 'react';
 import SurveyList from './SurveyList';
-import styles from './surveys.css';
+import styles from '../surveys.css';
 import type { SurveyEntity } from 'app/reducers/surveys';
-import { ListNavigation } from '../utils.js';
+import { ListNavigation } from '../../utils';
 import TextInput from 'app/components/Form/TextInput';
 import { Content } from 'app/components/Content';
 import { Flex } from 'app/components/Layout';

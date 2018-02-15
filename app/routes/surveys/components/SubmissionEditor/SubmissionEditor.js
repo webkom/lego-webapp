@@ -1,15 +1,16 @@
 // @flow
 
-import styles from './surveys.css';
+import styles from '../surveys.css';
 import React from 'react';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextArea, RadioButton, CheckBox, legoForm } from 'app/components/Form';
-import { createValidator, required } from 'app/utils/validation';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import { Content, ContentHeader } from 'app/components/Content';
 import { Link } from 'react-router';
-import { QuestionTypes } from '../utils';
+import { QuestionTypes } from '../../utils';
+import { SubmissionError } from 'redux-form';
+import type { UserEntity } from 'app/reducers/users';
 
 type Props = {
   survey: SurveyEntity,
@@ -17,7 +18,9 @@ type Props = {
   handleSubmit: ((Object) => Promise<*>) => void,
   autoFocus: any,
   fetching: boolean,
-  submitFunction: (Object, ?number) => Promise<*>
+  submitFunction: (Object, ?number) => Promise<*>,
+  error: Object,
+  currentUser: UserEntity
 };
 
 const SubmissionEditor = ({
@@ -25,7 +28,8 @@ const SubmissionEditor = ({
   fetching,
   submitting,
   handleSubmit,
-  submitFunction
+  submitFunction,
+  error
 }: Props) => {
   return (
     <Content className={styles.surveyDetail} banner={survey.event.cover}>
@@ -44,6 +48,13 @@ const SubmissionEditor = ({
                 {question.questionText}
                 {question.mandatory && (
                   <span className={styles.mandatory}> *</span>
+                )}
+                {error && error.questions && error.questions[question.id] ? (
+                  <span style={{ color: 'red', marginLeft: '20px' }}>
+                    {error.questions[question.id]}
+                  </span>
+                ) : (
+                  ''
                 )}
               </h3>
 
@@ -91,46 +102,69 @@ const SubmissionEditor = ({
   );
 };
 
-const validate = createValidator({
-  user: [required()]
-});
-
 const prepareToSubmit = (formContent: Object, props: Props) => {
-  const { survey, submitFunction } = props;
+  validateMandatory(formContent, props);
+  const { survey, submitFunction, currentUser } = props;
+
   const toSubmit = {
     ...formContent,
-    user: formContent.user && formContent.user.id,
+    user: currentUser && currentUser.id,
     surveyId: survey.id,
-
-    answers: formContent.answers
-      .map((answer, i) => {
-        const question = survey.questions[i];
-        const selected = answer.selectedOptions || [];
-        const selectedOptions =
-          question.questionType === QuestionTypes('single')
-            ? selected.map(Number)
-            : selected
-                .map(
-                  (optionSelected, j) =>
-                    optionSelected && question.options[j].id
-                )
-                .filter(option => option);
-
-        return {
-          ...answer,
-          question: question.id,
-          selectedOptions,
-          answerText: answer.answerText || ''
-        };
-      })
-      .filter(answer => answer)
+    answers: formatAnswers(formContent.answers, survey).filter(answer => answer)
   };
 
   return submitFunction(toSubmit);
 };
 
+const formatAnswers = (answers, survey) => {
+  return answers.map((answer, i) => {
+    const question = survey.questions[i];
+    const selected = answer.selectedOptions || [];
+    const selectedOptions =
+      question.questionType === QuestionTypes('single')
+        ? selected.map(Number).filter(Boolean)
+        : selected
+            .map(
+              (optionSelected, j) => optionSelected && question.options[j].id
+            )
+            .filter(Boolean);
+
+    return {
+      ...answer,
+      question: question.id,
+      selectedOptions,
+      answerText: answer.answerText || ''
+    };
+  });
+};
+
+const validateMandatory = (formContent: Object, props) => {
+  const errors = { questions: {} };
+  const answers = formatAnswers(formContent.answers, props.survey);
+
+  const answeredQuestionIds = answers
+    ? answers
+        .filter(
+          answer =>
+            answer.selectedOptions.length > 0 || answer.answerText !== ''
+        )
+        .map(answer => answer.question)
+    : [];
+
+  props.survey.questions.map(question => {
+    if (question.mandatory && !answeredQuestionIds.includes(question.id)) {
+      errors.questions[question.id] = 'Dette feltet er obligatorisk';
+    }
+  });
+
+  if (Object.keys(errors.questions).length > 0) {
+    throw new SubmissionError({
+      _error: errors
+    });
+  }
+};
+
 export default legoForm({
   form: 'submissionEditor',
-  validate,
   onSubmit: (data, dispatch, props) => prepareToSubmit(data, props)
 })(SubmissionEditor);

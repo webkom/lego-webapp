@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
 import { fetchAll, addSurvey, deleteSurvey } from '../../actions/SurveyActions';
-import SurveyPage from './components/SurveyPage';
+import SurveyPage from './components/SurveyList/SurveyPage';
 import { compose } from 'redux';
 import { selectSurveys } from 'app/reducers/surveys';
 import { LoginPage } from 'app/components/LoginForm';

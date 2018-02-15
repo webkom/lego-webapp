@@ -6,7 +6,7 @@ import {
   deleteSubmission
 } from 'app/actions/SurveySubmissionActions';
 import { fetch, deleteSurvey } from 'app/actions/SurveyActions';
-import SubmissionPage from './components/SubmissionPage';
+import SubmissionPage from './components/Submissions/SubmissionPage';
 import { compose } from 'redux';
 import { selectSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { selectSurveyById } from 'app/reducers/surveys';

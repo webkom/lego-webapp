@@ -4,11 +4,11 @@ import React, { Component } from 'react';
 import Option from './Option';
 import { TextInput, TextArea, CheckBox } from 'app/components/Form';
 import Dropdown from 'app/components/Dropdown';
-import styles from './surveys.css';
+import styles from '../surveys.css';
 import Icon from 'app/components/Icon';
 import { Link } from 'react-router';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import { QuestionTypes, PresentableQuestionType } from '../utils';
+import { QuestionTypes, PresentableQuestionType } from '../../utils';
 
 type Props = {
   updateQuestion: (Object, number) => void,
@@ -46,26 +46,57 @@ function QuestionTypeSelector({ questionType }: QuestionTypeSelectorProps) {
 }
 
 type DropdownItemsProps = {
-  setQuestionType: string => void
+  setQuestionType: string => void,
+  currentlySelected: string
 };
 
-function DropdownItems({ setQuestionType }: DropdownItemsProps) {
+function DropdownItems({
+  setQuestionType,
+  currentlySelected
+}: DropdownItemsProps) {
   return (
     <Dropdown.List>
       <Dropdown.ListItem>
-        <Link onClick={() => setQuestionType(QuestionTypes('single'))}>
-          <strong>Multiple Choice</strong>
+        <Link
+          onClick={() => setQuestionType(QuestionTypes('single'))}
+          style={
+            currentlySelected === QuestionTypes('single')
+              ? {
+                  fontWeight: 'bold'
+                }
+              : {}
+          }
+        >
+          Multiple Choice
           <Icon name="radio-button-on" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.ListItem>
-        <Link onClick={() => setQuestionType(QuestionTypes('multiple'))}>
+        <Link
+          onClick={() => setQuestionType(QuestionTypes('multiple'))}
+          style={
+            currentlySelected === QuestionTypes('multiple')
+              ? {
+                  fontWeight: 'bold'
+                }
+              : {}
+          }
+        >
           Sjekkboks
           <Icon name="checkbox" size={24} />
         </Link>
       </Dropdown.ListItem>
       <Dropdown.ListItem>
-        <Link onClick={() => setQuestionType(QuestionTypes('text'))}>
+        <Link
+          onClick={() => setQuestionType(QuestionTypes('text'))}
+          style={
+            currentlySelected === QuestionTypes('text')
+              ? {
+                  fontWeight: 'bold'
+                }
+              : {}
+          }
+        >
           Fritekst
           <Icon name="more" size={24} />
         </Link>
@@ -164,7 +195,10 @@ class Question extends Component<Props, State> {
               contentClassName={styles.dropdown}
               style={{ flex: 1 }}
             >
-              <DropdownItems setQuestionType={this.setQuestionType} />
+              <DropdownItems
+                setQuestionType={this.setQuestionType}
+                currentlySelected={question.questionType}
+              />
             </Dropdown>
           </div>
 
