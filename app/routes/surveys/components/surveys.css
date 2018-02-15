@@ -246,3 +246,11 @@
   margin-bottom: 50px;
 >>>>>>> Reformat and validate
 }
+
+.textAnswers {
+  margin-bottom: 15px;
+}
+
+.summary > li {
+  margin-bottom: 15px;
+}
