@@ -43,15 +43,11 @@
   top: 9px;
 }
 
-/* Same here for radio buttons, which use span */
+/* Same here for radio buttons, which uses span */
 .labelFirst > label span::before {
   top: 5px;
 }
 
 .labelFirst > label span::after {
   top: 5px;
-}
-
-.labelFirst div {
-  display: inline-block;
 }
