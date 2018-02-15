@@ -12,7 +12,6 @@ import { selectSurveySubmissionForUser } from 'app/reducers/surveySubmissions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import loadingIndicator from 'app/utils/loadingIndicator';
-import { push } from 'react-router-redux';
 
 const loadData = ({ params: { surveyId }, currentUser }, dispatch) =>
   Promise.all([
@@ -33,14 +32,14 @@ const mapStateToProps = (state, props) => {
     survey,
     surveyId,
     submission,
+    currentUser,
     initialValues: {
-      user: currentUser,
       answers: []
     }
   };
 };
 
-const mapDispatchToProps = { submitFunction: addSubmission, push };
+const mapDispatchToProps = { submitFunction: addSubmission };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),

@@ -2,11 +2,7 @@
 
 import styles from '../surveys.css';
 import React, { Component } from 'react';
-import {
-  DetailNavigation,
-  ListNavigation,
-  QuestionTypes
-} from '../../utils';
+import { DetailNavigation, ListNavigation, QuestionTypes } from '../../utils';
 import Question from './Question';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
