@@ -245,3 +245,11 @@
   align-items: center;
   margin-bottom: 50px;
 }
+
+.textAnswers {
+  margin-bottom: 15px;
+}
+
+.summary > li {
+  margin-bottom: 15px;
+}
