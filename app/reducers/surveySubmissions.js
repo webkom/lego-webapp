@@ -5,6 +5,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
 import type { OptionEntity, SurveyEntity, QuestionEntity } from './surveys';
 import type { UserEntity } from 'app/reducers/users';
+import mergeObjects from 'app/utils/mergeObjects';
 
 export type SubmissionEntity = {
   id: number,
@@ -23,12 +24,31 @@ export type AnswerEntity = {
   selectedOptions: Array<OptionEntity>
 };
 
+function mutateSurveySubmissions(state, action) {
+  switch (action.type) {
+    case SurveySubmission.ADD.SUCCESS: {
+      const { surveyId } = action.meta;
+      const id = action.payload.result;
+      const surveySubmission = action.payload.entities.surveySubmissions[id];
+      return mergeObjects(state, {
+        byId: {
+          [id]: { ...surveySubmission, survey: surveyId }
+        }
+      });
+    }
+
+    default:
+      return state;
+  }
+}
+
 export default createEntityReducer({
   key: 'surveySubmissions',
   types: {
     fetch: SurveySubmission.FETCH,
     mutate: SurveySubmission.ADD
-  }
+  },
+  mutate: mutateSurveySubmissions
 });
 
 export const selectSurveySubmissions = createSelector(

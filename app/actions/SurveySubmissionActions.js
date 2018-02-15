@@ -38,6 +38,7 @@ export function addSubmission({ surveyId, ...data }: Object): Thunk<*> {
     endpoint: `/surveys/${surveyId}/submissions/`,
     method: 'POST',
     body: data,
+    schema: surveySubmissionSchema,
     meta: {
       errorMessage: 'Legg til svar feilet',
       successMessage: 'Undersøkelse besvart!',

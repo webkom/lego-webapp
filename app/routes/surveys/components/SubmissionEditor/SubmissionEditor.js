@@ -10,6 +10,7 @@ import { Content, ContentHeader } from 'app/components/Content';
 import { Link } from 'react-router';
 import { QuestionTypes } from '../../utils';
 import { SubmissionError } from 'redux-form';
+import type { UserEntity } from 'app/reducers/users';
 
 type Props = {
   survey: SurveyEntity,
@@ -18,8 +19,8 @@ type Props = {
   autoFocus: any,
   fetching: boolean,
   submitFunction: (Object, ?number) => Promise<*>,
-  push: string => void,
-  error: Object
+  error: Object,
+  currentUser: UserEntity
 };
 
 const SubmissionEditor = ({
@@ -103,18 +104,16 @@ const SubmissionEditor = ({
 
 const prepareToSubmit = (formContent: Object, props: Props) => {
   validateMandatory(formContent, props);
-  const { survey, submitFunction, push } = props;
+  const { survey, submitFunction, currentUser } = props;
 
   const toSubmit = {
     ...formContent,
-    user: formContent.user && formContent.user.id,
+    user: currentUser && currentUser.id,
     surveyId: survey.id,
     answers: formatAnswers(formContent.answers, survey).filter(answer => answer)
   };
 
-  return submitFunction(toSubmit).then(
-    e => e.success && push(`/surveys/${survey.id}`)
-  );
+  return submitFunction(toSubmit);
 };
 
 const formatAnswers = (answers, survey) => {
