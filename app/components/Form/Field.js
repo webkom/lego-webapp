@@ -19,7 +19,7 @@ function renderErrorMessage(error: Array<string> | string) {
   return <FieldError error={error} key={error} />;
 }
 
-type FieldProps = {
+export type FieldProps = {
   className: string,
   input: Object,
   meta: Object,
@@ -38,10 +38,7 @@ type FieldProps = {
  *
  * http://redux-form.com/6.0.5/docs/api/Field.md/
  */
-export function createField(
-  Component: ComponentType<*>,
-  radioOrCheckbox: boolean = false
-) {
+export function createField(Component: ComponentType<*>) {
   const Field = (field: FieldProps) => {
     const {
       input,
@@ -59,14 +56,7 @@ export function createField(
     const { error, touched } = meta;
     const hasError = showErrors && touched && error && error.length > 0;
     return (
-      <div
-        className={cx(
-          styles.field,
-          fieldClassName,
-          radioOrCheckbox && styles.radioOrCheckbox
-        )}
-        style={fieldStyle}
-      >
+      <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
         <label className={cx(styles.label, labelClassName)}>
           <Flex>
             {label && <div>{label}</div>}

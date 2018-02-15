@@ -84,3 +84,18 @@
   border: 1px solid #999 !important;
   transition: border 0.5s;
 }
+
+.radioField > label {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+/* Radio buttons use span for their clickable circle */
+.radioField > label span::before {
+  top: 5px;
+}
+
+.radioField > label span::after {
+  top: 5px;
+}

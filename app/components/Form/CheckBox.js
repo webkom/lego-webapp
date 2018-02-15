@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { createField } from './Field';
+import type { FieldProps } from './Field';
 import styles from './CheckBox.css';
 import cx from 'classnames';
 
@@ -55,6 +56,13 @@ function CheckBox({
   );
 }
 
-CheckBox.Field = createField(CheckBox, true);
+const RawField = createField(CheckBox);
+const StyledField = ({ fieldClassName, ...props }: FieldProps) => (
+  <RawField
+    fieldClassName={cx(fieldClassName, styles.checkboxField)}
+    {...props}
+  />
+);
+CheckBox.Field = StyledField;
 
 export default CheckBox;

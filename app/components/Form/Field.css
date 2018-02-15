@@ -26,28 +26,3 @@
   font-weight: 600;
   margin-left: 2px;
 }
-
-.radioOrCheckbox > label {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-end;
-}
-
-/* CheckBox uses label for its clickable square, so these values are tuned for
-  checkboxes */
-.radioOrCheckbox > label label::before {
-  top: 6px;
-}
-
-.radioOrCheckbox > label label::after {
-  top: 9px;
-}
-
-/* Same here for radio buttons, which uses span */
-.radioOrCheckbox > label span::before {
-  top: 5px;
-}
-
-.radioOrCheckbox > label span::after {
-  top: 5px;
-}
