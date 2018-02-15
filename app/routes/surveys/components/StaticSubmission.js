@@ -2,8 +2,11 @@
 
 import React from 'react';
 import styles from './surveys.css';
-import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
-import type { SurveyEntity } from 'app/reducers/surveys';
+import type {
+  SubmissionEntity,
+  AnswerEntity
+} from 'app/reducers/surveySubmissions';
+import type { SurveyEntity, QuestionEntity } from 'app/reducers/surveys';
 import { RadioButton, CheckBox, TextArea } from 'app/components/Form';
 import { QuestionTypes } from '../utils';
 
@@ -13,11 +16,18 @@ type Props = {
 };
 
 const StaticSubmission = ({ survey, submission }: Props) => {
-  const textAnswer = (answer: ?Object, submission: ?Object) => {
+  const textAnswer = (
+    answer: ?AnswerEntity,
+    submission: ?SubmissionEntity,
+    question: QuestionEntity
+  ) => {
     if (answer) {
       return answer.answerText || <i>Tomt svar</i>;
     }
-    if (submission && submission.answers.length === 0) {
+    if (
+      submission &&
+      !submission.answers.map(answer => answer.question).includes(question.id)
+    ) {
       return <i>Tomt svar</i>;
     }
     return (
@@ -46,7 +56,7 @@ const StaticSubmission = ({ survey, submission }: Props) => {
             </h3>
 
             {question.questionType === QuestionTypes('text') ? (
-              textAnswer(answer, submission)
+              textAnswer(answer, submission, question)
             ) : (
               <ul className={styles.detailOptions}>
                 {question.options.map(option => {

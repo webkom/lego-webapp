@@ -4,7 +4,7 @@ import * as React from 'react';
 import styles from '../surveys.css';
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity } from 'app/reducers/surveys';
-import { DetailNavigation } from '../../utils.js';
+import { DetailNavigation } from '../../utils';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
 import { Link } from 'react-router';
 import AdminSideBar from '../AdminSideBar';

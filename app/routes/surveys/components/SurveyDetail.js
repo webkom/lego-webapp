@@ -5,7 +5,7 @@ import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import styles from './surveyDetail.css';
 import type { SurveyEntity } from 'app/reducers/surveys';
-import { DetailNavigation } from '../utils.js';
+import { DetailNavigation } from '../utils';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
 import type { ActionGrant } from 'app/models';
 import AdminSideBar from './AdminSideBar';
@@ -44,7 +44,9 @@ class SurveyDetail extends Component<Props> {
           <ContentMain>
             <div className={styles.surveyTime}>
               Spørreundersøkelse for{' '}
-              <Link to={`/events/${survey.event}`}>{survey.event.title}</Link>
+              <Link to={`/events/${survey.event.id}`}>
+                {survey.event.title}
+              </Link>
             </div>
 
             <div className={styles.surveyTime}>

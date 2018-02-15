@@ -23,36 +23,12 @@ export type AnswerEntity = {
   selectedOptions: Array<OptionEntity>
 };
 
-function mutateSurveySubmissions(state, action) {
-  switch (action.type) {
-    case SurveySubmission.ANSWERED.SUCCESS: {
-      const id = action.payload.result;
-
-      if (id) {
-        return {
-          ...state,
-          items: [...state.items.filter(item => item !== id), id],
-          byId: {
-            ...state.byId,
-            [id]: action.payload.entities.surveySubmissions[id]
-          }
-        };
-      }
-      return state;
-    }
-
-    default:
-      return state;
-  }
-}
-
 export default createEntityReducer({
   key: 'surveySubmissions',
   types: {
     fetch: SurveySubmission.FETCH,
     mutate: SurveySubmission.ADD
-  },
-  mutate: mutateSurveySubmissions
+  }
 });
 
 export const selectSurveySubmissions = createSelector(
