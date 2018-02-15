@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { addSurvey, deleteSurvey } from '../../actions/SurveyActions';
-import SurveyEditor from './components/SurveyEditor/SurveyEditor.js';
+import SurveyEditor from './components/SurveyEditor/SurveyEditor';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { push } from 'react-router-redux';

@@ -230,7 +230,7 @@ export const selectCompanyById = createSelector(
 export const selectEventsForCompany = createSelector(
   (state, props) => selectEvents(state, props),
   (state, props) => props.companyId,
-  (companyId, events) => {
+  (events, companyId) => {
     if (!companyId || !events) return [];
     return events.filter(
       event => event.company && Number(event.company.id) === Number(companyId)

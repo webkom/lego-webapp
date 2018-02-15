@@ -6,7 +6,7 @@ import {
   DetailNavigation,
   ListNavigation,
   QuestionTypes
-} from '../../utils.js';
+} from '../../utils';
 import Question from './Question';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';

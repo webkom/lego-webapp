@@ -283,9 +283,9 @@ export const Survey = {
  */
 export const SurveySubmission = {
   FETCH: generateStatuses('Survey.FETCH_SUBMISSIONS'),
+  FETCH_FOR_USER: generateStatuses('Survey.FETCH_FOR_USER'),
   ADD: generateStatuses('Survey.ADD_SUBMISSION'),
-  DELETE: generateStatuses('Survey.DELETE_SUBMISSION'),
-  ANSWERED: generateStatuses('Survey.ANSWERED')
+  DELETE: generateStatuses('Survey.DELETE_SUBMISSION')
 };
 
 /**

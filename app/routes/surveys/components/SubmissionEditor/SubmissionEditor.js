@@ -48,7 +48,7 @@ const SubmissionEditor = ({
                 {question.mandatory && (
                   <span className={styles.mandatory}> *</span>
                 )}
-                {error && error.questions[question.id] ? (
+                {error && error.questions && error.questions[question.id] ? (
                   <span style={{ color: 'red', marginLeft: '20px' }}>
                     {error.questions[question.id]}
                   </span>
@@ -123,12 +123,12 @@ const formatAnswers = (answers, survey) => {
     const selected = answer.selectedOptions || [];
     const selectedOptions =
       question.questionType === QuestionTypes('single')
-        ? selected.map(Number).filter(option => option)
+        ? selected.map(Number).filter(Boolean)
         : selected
             .map(
               (optionSelected, j) => optionSelected && question.options[j].id
             )
-            .filter(option => option);
+            .filter(Boolean);
 
     return {
       ...answer,
