@@ -4,7 +4,8 @@ import styles from '../surveys.css';
 import React, { Component } from 'react';
 import { DetailNavigation, ListNavigation, QuestionTypes } from '../../utils';
 import Question from './Question';
-import { Field } from 'redux-form';
+import { Field, FieldArray, formValueSelector } from 'redux-form';
+import { connect } from 'react-redux';
 import Button from 'app/components/Button';
 import {
   TextInput,
@@ -54,7 +55,7 @@ class SurveyEditor extends Component<Props, State> {
 
   onSubmit = (formContent: Object) => {
     const { survey, submitFunction, push } = this.props;
-    const { questions } = this.state;
+    const { questions } = formContent;
 
     // Remove options if it's a free text question, and remove all empty
     // options
@@ -162,32 +163,11 @@ class SurveyEditor extends Component<Props, State> {
             />
           </div>
 
-          <ul className={styles.questions}>
-            {this.state.questions.map((question, i) => (
-              <Question
-                key={i}
-                index={i}
-                question={question}
-                updateQuestion={this.updateQuestion}
-                deleteQuestion={this.deleteQuestion}
-              />
-            ))}
-          </ul>
-
-          <Link
-            onClick={() => {
-              const newQuestion = {
-                questionText: '',
-                questionType: QuestionTypes('single'),
-                mandatory: false,
-                options: []
-              };
-              const questions = [...this.state.questions, newQuestion];
-              this.setState({ questions });
-            }}
-          >
-            <Icon name="add-circle" size={30} className={styles.addQuestion} />
-          </Link>
+          <FieldArray
+            name="questions"
+            questions={this.props.questions}
+            component={renderQuestions}
+          />
 
           <div className={styles.clear} />
           <Button className={styles.submit} disabled={submitting} submit>
@@ -199,12 +179,50 @@ class SurveyEditor extends Component<Props, State> {
   }
 }
 
+const renderQuestions = ({ fields, meta: { touched, error }, questions }) => {
+  return [
+    <ul className={styles.questions} key="questions">
+      {fields.map((question, i) => (
+        <Question
+          key={i}
+          index={i}
+          question={question}
+          question_data={questions && questions[i]}
+          updateQuestion={this.updateQuestion}
+          deleteQuestion={() => Promise.resolve(fields.remove(i))}
+        />
+      ))}
+    </ul>,
+
+    <Link
+      key="remove"
+      onClick={() => {
+        fields.push({
+          questionText: '',
+          questionType: QuestionTypes('single'),
+          mandatory: false,
+          options: [{ optionText: '' }]
+        });
+      }}
+    >
+      <Icon name="add-circle" size={30} className={styles.addQuestion} />
+    </Link>
+  ];
+};
 const validate = createValidator({
   title: [required()],
   event: [required()]
 });
 
-export default legoForm({
-  form: 'surveyEditor',
-  validate
-})(SurveyEditor);
+const selector = formValueSelector('surveyEditor');
+export default connect(state => {
+  const questions = selector(state, 'questions');
+  return {
+    questions
+  };
+})(
+  legoForm({
+    form: 'surveyEditor',
+    validate
+  })(SurveyEditor)
+);

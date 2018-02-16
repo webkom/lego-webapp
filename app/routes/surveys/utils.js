@@ -10,6 +10,12 @@ const questionStrings = {
   text: 'text_field'
 };
 
+export const mappings = [
+  { value: 'single_choice', label: 'enkel' },
+  { value: 'multiple_choice', label: 'multi' },
+  { value: 'text_field', label: 'teskts' }
+];
+
 export const QuestionTypes = (choice: string) => {
   return questionStrings[choice] || questionStrings[0];
 };

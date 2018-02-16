@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
+import { Field } from 'redux-form';
 import styles from '../surveys.css';
 import { QuestionTypes } from '../../utils';
 
@@ -31,17 +32,7 @@ const MultipleChoice = (props: Props) => {
   return (
     <li>
       <RadioButton value={false} className={styles.option} />
-      <TextInput
-        onInput={e =>
-          props.updateOptions(
-            makeOption(e.target.value, props.option),
-            props.index
-          )
-        }
-        placeholder="Alternativ..."
-        className={styles.optionInput}
-        value={props.option.optionText}
-      />
+      <Field name={`${props.option}.optionText`} component={TextInput.Field} />
     </li>
   );
 };
@@ -50,17 +41,7 @@ const Checkbox = (props: Props) => {
   return (
     <li>
       <CheckBox checked={false} className={styles.option} />
-      <TextInput
-        onInput={e =>
-          props.updateOptions(
-            makeOption(e.target.value, props.option),
-            props.index
-          )
-        }
-        placeholder="Alternativ..."
-        className={styles.optionInput}
-        value={props.option.optionText}
-      />
+      <Field name={`${props.option}.optionText`} component={TextInput.Field} />
     </li>
   );
 };

@@ -1,14 +1,23 @@
 // @flow
 
 import React, { Component } from 'react';
+import { Field, FieldArray } from 'redux-form';
+import {
+  TextInput,
+  TextArea,
+  CheckBox,
+  SelectInput,
+  DatePicker,
+  withSubmissionError,
+  legoForm
+} from 'app/components/Form';
 import Option from './Option';
-import { TextInput, TextArea, CheckBox } from 'app/components/Form';
-import Dropdown from 'app/components/Dropdown';
+import Button from 'app/components/Button';
 import styles from '../surveys.css';
 import Icon from 'app/components/Icon';
 import { Link } from 'react-router';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import { QuestionTypes, PresentableQuestionType } from '../../utils';
+import { mappings, QuestionTypes, PresentableQuestionType } from '../../utils';
 
 type Props = {
   updateQuestion: (Object, number) => void,
@@ -105,83 +114,51 @@ function DropdownItems({
   );
 }
 
-class Question extends Component<Props, State> {
-  state = {
-    pickerOpen: false
-  };
-
-  updateOptions = (option: Object, optionIndex: number) => {
-    const options = this.props.question.options.slice();
-    options[optionIndex] = option;
-    this.props.updateQuestion(
-      {
-        ...this.props.question,
-        options
-      },
-      this.props.index
-    );
-  };
-
-  toggleDropdown = () => {
-    this.setState(prevState => ({
-      pickerOpen: !prevState.pickerOpen
-    }));
-  };
-
-  setQuestionType = (questionType: string) => {
-    this.props.updateQuestion(
-      { ...this.props.question, questionType },
-      this.props.index
-    );
-  };
-
-  render() {
-    const { updateQuestion, index, question, deleteQuestion } = this.props;
-    return (
-      <div className={styles.question}>
-        <div className={styles.left}>
-          <div className={styles.questionTop}>
-            <TextInput
-              value={question.questionText}
-              className={styles.questionTitle}
-              placeholder="Spørsmål"
-              onInput={e =>
-                updateQuestion(
-                  {
-                    ...this.props.question,
-                    questionText: e.target.value
-                  },
-                  index
-                )
-              }
-            />
-          </div>
-          {this.props.question.questionType === QuestionTypes('text') ? (
-            <TextArea
-              className={styles.freeText}
-              placeholder="Fritekst"
-              value=""
-            />
-          ) : (
-            <ul className={styles.options}>
-              {question.options
-                .concat({
-                  optionText: ''
-                })
-                .map((option, i) => (
-                  <Option
-                    key={i}
-                    index={i}
-                    questionType={this.props.question.questionType}
-                    option={option || {}}
-                    updateOptions={this.updateOptions}
-                  />
-                ))}
-            </ul>
-          )}
+const Question = ({
+  updateQuestion,
+  index,
+  question,
+  question_data = {},
+  deleteQuestion
+}: Props) => {
+  return (
+    <div className={styles.question}>
+      <div className={styles.left}>
+        <div className={styles.questionTop}>
+          <Field
+            name={`${question}.questionText`}
+            className={styles.questionTitle}
+            placeholder="Spørsmål"
+            component={TextInput.Field}
+          />
         </div>
-        <div className={styles.right}>
-          <div className={styles.questionType}>
+        {question_data.questionType === QuestionTypes('text') ? (
+          <TextArea
+            className={styles.freeText}
+            placeholder="Fritekst - sånn vil den se ut :smile:"
+            value=""
+          />
+        ) : (
+          <FieldArray
+            name={`${question}.options`}
+            questionType={question_data.questionType}
+            component={renderOptions}
+          />
+        )}
+      </div>
+      <div className={styles.right}>
+        <div className={styles.questionType}>
+          <Field
+            name={`${question}.questionType`}
+            simpleValue
+            component={SelectInput.Field}
+            options={mappings}
+            optionComponent={props => (
+              <div className={props.className}>Hei-{props.children}</div>
+            )}
+            required
+          />
+          {/*
             <Dropdown
               show={this.state.pickerOpen}
               toggle={this.toggleDropdown}
@@ -200,40 +177,42 @@ class Question extends Component<Props, State> {
                 currentlySelected={question.questionType}
               />
             </Dropdown>
+            */}
+        </div>
+
+        <div className={styles.bottom}>
+          <div className={styles.required}>
+            <Field
+              name={`${question}.mandatory`}
+              label="Obligatorisk"
+              component={CheckBox.Field}
+              normalize={v => !!v}
+            />
           </div>
 
-          <div className={styles.bottom}>
-            <div className={styles.required}>
-              Obligatorisk
-              <CheckBox
-                name="mandatory"
-                value={question.mandatory}
-                onChange={e =>
-                  updateQuestion(
-                    {
-                      ...question,
-                      mandatory: !question.mandatory
-                    },
-                    index
-                  )
-                }
-              />
-            </div>
-
-            <ConfirmModalWithParent
-              title="Slett spørsmål"
-              message="Er du sikker på at du vil slette dette spørsmålet?"
-              onConfirm={() => deleteQuestion(index)}
-              closeOnConfirm
-              className={styles.deleteQuestion}
-            >
-              <Icon name="trash" />
-            </ConfirmModalWithParent>
-          </div>
+          <ConfirmModalWithParent
+            title="Slett spørsmål"
+            message="Er du sikker på at du vil slette dette spørsmålet?"
+            onConfirm={() => deleteQuestion(index)}
+            closeOnConfirm
+            className={styles.deleteQuestion}
+          >
+            <Icon name="trash" />
+          </ConfirmModalWithParent>
         </div>
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
+const renderOptions = ({ fields, meta: { error }, questionType }) => (
+  <ul className={styles.options}>
+    <Button type="button" onClick={() => fields.push()}>
+      Nytt spørsmål
+    </Button>
+    {fields.map((option, index) => (
+      <Option key={index} questionType={questionType} option={option} />
+    ))}
+  </ul>
+);
 export default Question;
