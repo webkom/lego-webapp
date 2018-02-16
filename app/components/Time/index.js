@@ -72,7 +72,7 @@ export const FromToTime = ({
   const toTime = moment(to);
   return fromTime.isSame(toTime, 'day') ? (
     <span>
-      <FormatTime time={fromTime} format="dddd DD. MMMM, HH:mm" /> -{' '}
+      <FormatTime time={fromTime} /> -{' '}
       <FormatTime time={toTime} format="HH:mm" />
     </span>
   ) : (

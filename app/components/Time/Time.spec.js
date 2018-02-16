@@ -63,9 +63,7 @@ describe('<FromToTime />', () => {
     const wrapper = shallow(<FromToTime from={from} to={to} />);
     const time = wrapper.find('span');
 
-    const fromTime = (
-      <FormatTime time={moment(from)} format="dddd DD. MMMM, HH:mm" />
-    );
+    const fromTime = <FormatTime time={moment(from)} />;
     const toTime = <FormatTime time={moment(to)} format="HH:mm" />;
 
     expect(time.prop('children')[0]).toEqual(fromTime);
