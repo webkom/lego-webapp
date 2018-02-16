@@ -1,126 +1,79 @@
 // @flow
 
-import React, { Component } from 'react';
-import { Field, FieldArray } from 'redux-form';
+import React from 'react';
+import { type FieldArrayProps, Field, FieldArray } from 'redux-form';
 import {
   TextInput,
   TextArea,
   CheckBox,
-  SelectInput,
-  DatePicker,
-  withSubmissionError,
-  legoForm
+  SelectInput
 } from 'app/components/Form';
 import Option from './Option';
-import Button from 'app/components/Button';
 import styles from '../surveys.css';
 import Icon from 'app/components/Icon';
-import { Link } from 'react-router';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import { mappings, QuestionTypes, PresentableQuestionType } from '../../utils';
+import { mappings, QuestionTypes } from '../../utils';
 
 type Props = {
-  updateQuestion: (Object, number) => void,
   deleteQuestion: number => Promise<*>,
-  question: Object,
+  questionData: Object,
+  question: string,
   index: number
 };
 
-type State = {
-  pickerOpen: boolean
+const questionTypeToIcon = {
+  single_choice: 'radio-button-on',
+  multiple_choice: 'checkbox',
+  text_field: 'more'
 };
 
-type QuestionTypeSelectorProps = {
-  questionType: string
-};
+const QuestionTypeOption = (props: Object) => (
+  <div
+    className={props.className}
+    onMouseDown={() => {
+      event.preventDefault();
+      event.stopPropagation();
+      props.onSelect(props.option, event);
+    }}
+    onMouseEnter={() => props.onFocus(props.option, event)}
+    onMouseMove={() => {
+      if (props.isFocused) return;
+      props.onFocus(props.option, event);
+    }}
+  >
+    <Icon
+      name={questionTypeToIcon[props.option && props.option.value]}
+      style={{ marginRight: '15px' }}
+    />
+    {props.children}
+  </div>
+);
 
-function QuestionTypeSelector({ questionType }: QuestionTypeSelectorProps) {
-  const questionTypeToIcon = {
-    single_choice: 'radio-button-on',
-    multiple_choice: 'checkbox',
-    text_field: 'more'
-  };
-  return (
-    <Link className={styles.questionTypeSelector}>
-      <span style={{ width: '170px', display: 'inline-block' }}>
-        <Icon
-          name={questionTypeToIcon[questionType]}
-          style={{ marginRight: '15px' }}
-        />
-        {PresentableQuestionType(questionType)}
-      </span>
-      <Icon name="arrow-down" size={24} className={styles.typeIcon} />
-    </Link>
-  );
-}
+const QuestionTypeValue = (props: Object) => (
+  <div
+    className="Select-value"
+    onMouseDown={() => {
+      event.preventDefault();
+      event.stopPropagation();
+      props.onSelect(props.option, event);
+    }}
+    onMouseEnter={() => props.onFocus(props.option, event)}
+    onMouseMove={() => {
+      if (props.isFocused) return;
+      props.onFocus(props.option, event);
+    }}
+  >
+    <span className="Select-value-label">
+      <Icon
+        name={questionTypeToIcon[props.value && props.value.value]}
+        style={{ marginRight: '15px' }}
+      />
+      {props.children}
+    </span>
+  </div>
+);
 
-type DropdownItemsProps = {
-  setQuestionType: string => void,
-  currentlySelected: string
-};
-
-function DropdownItems({
-  setQuestionType,
-  currentlySelected
-}: DropdownItemsProps) {
-  return (
-    <Dropdown.List>
-      <Dropdown.ListItem>
-        <Link
-          onClick={() => setQuestionType(QuestionTypes('single'))}
-          style={
-            currentlySelected === QuestionTypes('single')
-              ? {
-                  fontWeight: 'bold'
-                }
-              : {}
-          }
-        >
-          Multiple Choice
-          <Icon name="radio-button-on" size={24} />
-        </Link>
-      </Dropdown.ListItem>
-      <Dropdown.ListItem>
-        <Link
-          onClick={() => setQuestionType(QuestionTypes('multiple'))}
-          style={
-            currentlySelected === QuestionTypes('multiple')
-              ? {
-                  fontWeight: 'bold'
-                }
-              : {}
-          }
-        >
-          Sjekkboks
-          <Icon name="checkbox" size={24} />
-        </Link>
-      </Dropdown.ListItem>
-      <Dropdown.ListItem>
-        <Link
-          onClick={() => setQuestionType(QuestionTypes('text'))}
-          style={
-            currentlySelected === QuestionTypes('text')
-              ? {
-                  fontWeight: 'bold'
-                }
-              : {}
-          }
-        >
-          Fritekst
-          <Icon name="more" size={24} />
-        </Link>
-      </Dropdown.ListItem>
-    </Dropdown.List>
-  );
-}
-
-const Question = ({
-  updateQuestion,
-  index,
-  question,
-  question_data = {},
-  deleteQuestion
-}: Props) => {
+const Question = ({ index, question, questionData, deleteQuestion }: Props) => {
   return (
     <div className={styles.question}>
       <div className={styles.left}>
@@ -132,7 +85,7 @@ const Question = ({
             component={TextInput.Field}
           />
         </div>
-        {question_data.questionType === QuestionTypes('text') ? (
+        {questionData.questionType === QuestionTypes('text') ? (
           <TextArea
             className={styles.freeText}
             placeholder="Fritekst - sånn vil den se ut :smile:"
@@ -141,7 +94,7 @@ const Question = ({
         ) : (
           <FieldArray
             name={`${question}.options`}
-            questionType={question_data.questionType}
+            questionType={questionData.questionType}
             component={renderOptions}
           />
         )}
@@ -152,29 +105,10 @@ const Question = ({
             name={`${question}.questionType`}
             simpleValue
             component={SelectInput.Field}
+            optionComponent={QuestionTypeOption}
             options={mappings}
-            required
+            valueComponent={QuestionTypeValue}
           />
-          {/*
-            <Dropdown
-              show={this.state.pickerOpen}
-              toggle={this.toggleDropdown}
-              triggerComponent={
-                <QuestionTypeSelector
-                  questionType={question.questionType}
-                  toggleDropdown={this.toggleDropdown}
-                />
-              }
-              componentClass="div"
-              contentClassName={styles.dropdown}
-              style={{ flex: 1 }}
-            >
-              <DropdownItems
-                setQuestionType={this.setQuestionType}
-                currentlySelected={question.questionType}
-              />
-            </Dropdown>
-            */}
         </div>
 
         <div className={styles.bottom}>
@@ -202,17 +136,25 @@ const Question = ({
   );
 };
 
-const renderOptions = ({ fields, meta: { error }, questionType }) => (
+const renderOptions = ({
+  fields,
+  questionType
+}: {
+  fields: FieldArrayProps,
+  questionType: string
+}) => (
   <ul className={styles.options}>
     {fields.map((option, index) => {
       const isLast = fields.length - 1 === index;
       return (
         <Option
+          index={index}
           onChange={
-            isLast &&
-            (value => {
-              if (value) fields.push({ optionText: '' });
-            })
+            isLast
+              ? value => {
+                  if (value) fields.push({ optionText: '' });
+                }
+              : undefined
           }
           key={index}
           questionType={questionType}

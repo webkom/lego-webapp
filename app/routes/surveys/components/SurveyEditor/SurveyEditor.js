@@ -2,7 +2,6 @@
 
 import styles from '../surveys.css';
 import React from 'react';
-import last from 'lodash/last';
 import { DetailNavigation, ListNavigation, QuestionTypes } from '../../utils';
 import Question from './Question';
 import { Field, FieldArray, formValueSelector } from 'redux-form';
@@ -25,6 +24,7 @@ import { Link } from 'react-router';
 type Props = FieldProps & {
   survey: SurveyEntity,
   autoFocus: Object,
+  surveyData: Array<Object>,
   submitFunction: (SurveyEntity, ?number) => Promise<*>,
   deleteSurvey: number => Promise<*>,
   push: string => void
@@ -112,14 +112,14 @@ const renderQuestions = ({ fields, meta: { touched, error }, questions }) => {
           key={i}
           index={i}
           question={question}
-          question_data={questions && questions[i]}
+          questionData={questions ? questions[i] : {}}
           deleteQuestion={() => Promise.resolve(fields.remove(i))}
         />
       ))}
     </ul>,
 
     <Link
-      key="remove"
+      key="addNew"
       onClick={() => {
         fields.push(initialQuestion);
       }}
@@ -140,7 +140,7 @@ const validate = createValidator({
 });
 
 const onSubmit = (formContent: Object, dispatch, props: Props) => {
-  const { survey, submitFunction, push } = this.props;
+  const { survey, submitFunction, push } = props;
   const { questions } = formContent;
 
   // Remove options if it's a free text question, and remove all empty
@@ -172,16 +172,18 @@ const onSubmit = (formContent: Object, dispatch, props: Props) => {
   });
 };
 
+const SurveyEditorForm = legoForm({
+  form: 'surveyEditor',
+  validate,
+  onSubmit
+})(SurveyEditor);
+
 const selector = formValueSelector('surveyEditor');
+
+// $FlowFixMe
 export default connect(state => {
   const questions = selector(state, 'questions');
   return {
     questions
   };
-})(
-  legoForm({
-    form: 'surveyEditor',
-    validate,
-    onSubmit
-  })(SurveyEditor)
-);
+})(SurveyEditorForm);

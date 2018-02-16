@@ -8,18 +8,10 @@ import { QuestionTypes } from '../../utils';
 
 type Props = {
   questionType: string,
-  updateOptions: (Object, number) => void,
-  option: Object,
-  isLast: number,
+  option: string,
+  onChange?: any => void,
   index: number
 };
-
-function makeOption(optionText: string, option: Object) {
-  return {
-    ...option,
-    optionText
-  };
-}
 
 const Option = (props: Props) => {
   return props.questionType === QuestionTypes('single') ? (

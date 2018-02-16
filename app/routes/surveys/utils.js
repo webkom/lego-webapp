@@ -10,12 +10,6 @@ const questionStrings = {
   text: 'text_field'
 };
 
-export const mappings = [
-  { value: 'single_choice', label: 'enkel' },
-  { value: 'multiple_choice', label: 'multi' },
-  { value: 'text_field', label: 'teskts' }
-];
-
 export const QuestionTypes = (choice: string) => {
   return questionStrings[choice] || questionStrings[0];
 };
@@ -28,6 +22,10 @@ export const PresentableQuestionType = (choice: string) => {
   };
   return questionTypeToString[choice] || questionTypeToString[0];
 };
+export const mappings = Object.keys(questionStrings).map(key => ({
+  value: questionStrings[key],
+  label: PresentableQuestionType(questionStrings[key])
+}));
 
 export const ListNavigation = ({ title }: { title: Node }) => (
   <NavigationTab title={title}>
