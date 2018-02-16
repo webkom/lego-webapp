@@ -1,8 +1,11 @@
 @import 'app/styles/variables.css';
 
 .box {
-  width: 18px;
+  display: inline-block;
+  width: 21px;
   height: 18px;
+  margin-right: 10px;
+  margin-bottom: -3px;
 }
 
 .label {
@@ -79,4 +82,20 @@
 .checked + label {
   position: relative;
   cursor: pointer;
+}
+
+.checkboxField > label {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+/* CheckBox uses label for its clickable square, so these values are tuned for
+  checkboxes */
+.checkboxField > label label::before {
+  top: 6px;
+}
+
+.checkboxField > label label::after {
+  top: 9px;
 }

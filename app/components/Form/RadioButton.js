@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { createField } from './Field';
+import type { FieldProps } from './Field';
 import styles from './RadioButton.css';
 import cx from 'classnames';
 
@@ -37,5 +38,10 @@ function RadioButton({
   );
 }
 
-RadioButton.Field = createField(RadioButton);
+const RawField = createField(RadioButton);
+const StyledField = ({ fieldClassName, ...props }: FieldProps) => (
+  <RawField fieldClassName={cx(fieldClassName, styles.radioField)} {...props} />
+);
+RadioButton.Field = StyledField;
+
 export default RadioButton;

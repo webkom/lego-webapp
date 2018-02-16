@@ -19,7 +19,7 @@ function renderErrorMessage(error: Array<string> | string) {
   return <FieldError error={error} key={error} />;
 }
 
-type FieldProps = {
+export type FieldProps = {
   className: string,
   input: Object,
   meta: Object,

@@ -203,10 +203,6 @@
   margin-top: 10px;
 }
 
-.detailOptions .option {
-  margin-right: 10px;
-}
-
 .mandatory {
   color: var(--lego-link-color);
 }
@@ -237,4 +233,8 @@
 
 .inactiveRoute {
   font-weight: 300;
+}
+
+.submissionOptions > div {
+  margin-bottom: 10px;
 }

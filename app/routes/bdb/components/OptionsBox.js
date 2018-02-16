@@ -79,7 +79,7 @@ export default class OptionsBox extends Component<Props, State> {
                 name="active"
                 onChange={() => this.toggleSection('active')}
               />
-              <span style={{ marginLeft: '5px' }}>Er aktiv</span>
+              <span>Er aktiv</span>
             </label>
 
             <div
@@ -94,9 +94,7 @@ export default class OptionsBox extends Component<Props, State> {
                   value={this.state.values.active}
                   onChange={() => this.updateFilters('active', true)}
                 />
-                <span style={{ marginLeft: '5px' }}>
-                  Vis bare aktive bedrifter
-                </span>
+                <span>Vis bare aktive bedrifter</span>
               </label>
               <label>
                 <RadioButton
@@ -106,9 +104,7 @@ export default class OptionsBox extends Component<Props, State> {
                   value={this.state.values.active}
                   onChange={() => this.updateFilters('active', false)}
                 />
-                <span style={{ marginLeft: '5px' }}>
-                  Vis bare inaktive bedrifter
-                </span>
+                <span>Vis bare inaktive bedrifter</span>
               </label>
             </div>
 
@@ -118,7 +114,7 @@ export default class OptionsBox extends Component<Props, State> {
                 name="studentContact"
                 onChange={() => this.toggleSection('studentContact')}
               />
-              <span style={{ marginLeft: '5px' }}>Har studentkontakt...</span>
+              <span>Har studentkontakt...</span>
             </label>
 
             <div
