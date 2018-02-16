@@ -3,7 +3,7 @@
 import styles from './UserConfirmation.css';
 import React from 'react';
 import { Container, Flex } from 'app/components/Layout';
-import { reduxForm } from 'redux-form';
+import { reduxForm, SubmissionError } from 'redux-form';
 import {
   Form,
   TextInput,
@@ -18,7 +18,7 @@ import { createValidator, required, validPassword } from 'app/utils/validation';
 type Props = {
   token: string,
   handleSubmit: Function => void,
-  createUser: (token: string, data: Object) => void,
+  createUser: (token: string, data: Object) => Promise<*>,
   router: any,
   submitSucceeded: () => void
 };
@@ -31,7 +31,12 @@ const UserConfirmation = ({
   submitSucceeded,
   ...props
 }: Props) => {
-  const onSubmit = data => createUser(token, data);
+  const onSubmit = data =>
+    createUser(token, data).catch(err => {
+      if (err.payload && err.payload.response) {
+        throw new SubmissionError(err.payload.response.jsonData);
+      }
+    });
 
   if (submitSucceeded) {
     return (
@@ -98,16 +103,19 @@ const UserConfirmation = ({
           />
           <RadioButtonGroup name="gender">
             <Field
+              name="genderMale"
               label="Mann"
               component={RadioButton.Field}
               inputValue="male"
             />
             <Field
+              name="genderFemale"
               label="Kvinne"
               component={RadioButton.Field}
               inputValue="female"
             />
             <Field
+              name="genderOther"
               label="Annet"
               component={RadioButton.Field}
               inputValue="other"
