@@ -24,6 +24,17 @@ const mapStateToProps = (state, props) => {
             value: survey.event.id,
             label: survey.event.title
           },
+          questions:
+            survey.questions &&
+            survey.questions.map(
+              question =>
+                question.options
+                  ? {
+                      ...question,
+                      options: question.options.concat({ optionText: '' })
+                    }
+                  : question
+            ),
           isClone: !!survey.isClone
         }
       : null

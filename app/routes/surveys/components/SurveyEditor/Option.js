@@ -10,6 +10,7 @@ type Props = {
   questionType: string,
   updateOptions: (Object, number) => void,
   option: Object,
+  isLast: number,
   index: number
 };
 
@@ -32,7 +33,11 @@ const MultipleChoice = (props: Props) => {
   return (
     <li>
       <RadioButton value={false} className={styles.option} />
-      <Field name={`${props.option}.optionText`} component={TextInput.Field} />
+      <Field
+        onChange={props.onChange}
+        name={`${props.option}.optionText`}
+        component={TextInput.Field}
+      />
     </li>
   );
 };
@@ -41,7 +46,11 @@ const Checkbox = (props: Props) => {
   return (
     <li>
       <CheckBox checked={false} className={styles.option} />
-      <Field name={`${props.option}.optionText`} component={TextInput.Field} />
+      <Field
+        onChange={props.onChange}
+        name={`${props.option}.optionText`}
+        component={TextInput.Field}
+      />
     </li>
   );
 };

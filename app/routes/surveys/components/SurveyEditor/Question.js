@@ -153,9 +153,6 @@ const Question = ({
             simpleValue
             component={SelectInput.Field}
             options={mappings}
-            optionComponent={props => (
-              <div className={props.className}>Hei-{props.children}</div>
-            )}
             required
           />
           {/*
@@ -207,12 +204,22 @@ const Question = ({
 
 const renderOptions = ({ fields, meta: { error }, questionType }) => (
   <ul className={styles.options}>
-    <Button type="button" onClick={() => fields.push()}>
-      Nytt spørsmål
-    </Button>
-    {fields.map((option, index) => (
-      <Option key={index} questionType={questionType} option={option} />
-    ))}
+    {fields.map((option, index) => {
+      const isLast = fields.length - 1 === index;
+      return (
+        <Option
+          onChange={
+            isLast &&
+            (value => {
+              if (value) fields.push({ optionText: '' });
+            })
+          }
+          key={index}
+          questionType={questionType}
+          option={option}
+        />
+      );
+    })}
   </ul>
 );
 export default Question;

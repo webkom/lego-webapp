@@ -1,7 +1,8 @@
 // @flow
 
 import styles from '../surveys.css';
-import React, { Component } from 'react';
+import React from 'react';
+import last from 'lodash/last';
 import { DetailNavigation, ListNavigation, QuestionTypes } from '../../utils';
 import Question from './Question';
 import { Field, FieldArray, formValueSelector } from 'redux-form';
@@ -12,7 +13,6 @@ import {
   CheckBox,
   SelectInput,
   DatePicker,
-  withSubmissionError,
   legoForm
 } from 'app/components/Form';
 import { createValidator, required } from 'app/utils/validation';
@@ -30,154 +30,79 @@ type Props = FieldProps & {
   push: string => void
 };
 
-type State = {
-  questions: Array<Object>
-};
+const SurveyEditor = ({
+  survey,
+  submitting,
+  autoFocus,
+  handleSubmit,
+  deleteSurvey,
+  questions
+}: Props) => {
+  const titleField = (
+    <Field
+      placeholder="Tittel"
+      label=" "
+      autoFocus={autoFocus}
+      name="title"
+      component={TextInput.Field}
+      className={styles.editTitle}
+    />
+  );
 
-class SurveyEditor extends Component<Props, State> {
-  state = {
-    questions: []
-  };
+  return (
+    <Content className={styles.detail}>
+      <form onSubmit={handleSubmit}>
+        {survey && survey.id ? (
+          <DetailNavigation
+            title={titleField}
+            surveyId={Number(survey.id)}
+            deleteFunction={deleteSurvey}
+          />
+        ) : (
+          <ListNavigation title={titleField} />
+        )}
 
-  componentDidMount() {
-    const questions =
-      this.props.survey.questions.length === 0
-        ? [
-            {
-              questionText: '',
-              questionType: QuestionTypes('single'),
-              options: []
-            }
-          ]
-        : this.props.survey.questions;
-    this.setState({ questions });
-  }
+        <div className={styles.checkBox}>
+          <Field
+            name="isClone"
+            label="Klone av en annen undersøkelse?"
+            component={CheckBox.Field}
+            normalize={v => !!v}
+          />
+        </div>
 
-  onSubmit = (formContent: Object) => {
-    const { survey, submitFunction, push } = this.props;
-    const { questions } = formContent;
-
-    // Remove options if it's a free text question, and remove all empty
-    // options
-    const cleanQuestions = questions.map((q, i) => {
-      const question = {
-        ...q,
-        relativeIndex: i
-      };
-
-      if (question.questionType === QuestionTypes('text')) {
-        question.options = [];
-      } else {
-        question.options = question.options.filter(
-          option => option.optionText !== ''
-        );
-      }
-      return question;
-    });
-
-    return submitFunction({
-      ...formContent,
-      event: formContent.event && Number(formContent.event.value),
-      surveyId: survey && survey.id,
-      questions: cleanQuestions
-    }).then(result => {
-      const id = survey && survey.id ? survey.id : result.payload.result;
-      push(`/surveys/${String(id)}`);
-    });
-  };
-
-  updateQuestion = (question: Object, index: number) => {
-    const questions = this.state.questions.slice();
-    if (index !== -1) {
-      questions[index] = question;
-    } else {
-      questions.push(question);
-    }
-    this.setState({ questions });
-  };
-
-  deleteQuestion = (index: number) => {
-    this.setState(state => ({
-      questions: state.questions.filter((question, i) => i !== index)
-    }));
-    return Promise.resolve();
-  };
-
-  render() {
-    const {
-      survey,
-      submitting,
-      autoFocus,
-      handleSubmit,
-      deleteSurvey
-    } = this.props;
-
-    const titleField = (
-      <Field
-        placeholder="Tittel"
-        label=" "
-        autoFocus={autoFocus}
-        name="title"
-        component={TextInput.Field}
-        className={styles.editTitle}
-      />
-    );
-
-    return (
-      <Content className={styles.detail}>
-        <form onSubmit={handleSubmit(withSubmissionError(this.onSubmit))}>
-          {survey && survey.id ? (
-            <DetailNavigation
-              title={titleField}
-              surveyId={Number(survey.id)}
-              deleteFunction={deleteSurvey}
-            />
-          ) : (
-            <ListNavigation title={titleField} />
-          )}
-
-          <div className={styles.checkBox}>
-            <Field
-              name="isClone"
-              label="Klone av en annen undersøkelse?"
-              component={CheckBox.Field}
-              normalize={v => !!v}
-            />
-          </div>
-
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Field
-              placeholder="Bekk Miniseminar"
-              label="Arrangement"
-              autoFocus={autoFocus}
-              name="event"
-              component={SelectInput.AutocompleteField}
-              className={styles.editEvent}
-              filter={['events.event']}
-            />
-
-            <Field
-              label="Aktiveringstidspunkt"
-              name="activeFrom"
-              component={DatePicker.Field}
-            />
-          </div>
-
-          <FieldArray
-            name="questions"
-            questions={this.props.questions}
-            component={renderQuestions}
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Field
+            placeholder="Bekk Miniseminar"
+            label="Arrangement"
+            autoFocus={autoFocus}
+            name="event"
+            component={SelectInput.AutocompleteField}
+            className={styles.editEvent}
+            filter={['events.event']}
           />
 
-          <div className={styles.clear} />
-          <Button className={styles.submit} disabled={submitting} submit>
-            Lagre
-          </Button>
-        </form>
-      </Content>
-    );
-  }
-}
+          <Field
+            label="Aktiveringstidspunkt"
+            name="activeFrom"
+            component={DatePicker.Field}
+          />
+        </div>
+
+        <FieldArray
+          name="questions"
+          questions={questions}
+          component={renderQuestions}
+        />
+
+        <div className={styles.clear} />
+        <Button className={styles.submit} disabled={submitting} submit>
+          Lagre
+        </Button>
+      </form>
+    </Content>
+  );
+};
 
 const renderQuestions = ({ fields, meta: { touched, error }, questions }) => {
   return [
@@ -188,7 +113,6 @@ const renderQuestions = ({ fields, meta: { touched, error }, questions }) => {
           index={i}
           question={question}
           question_data={questions && questions[i]}
-          updateQuestion={this.updateQuestion}
           deleteQuestion={() => Promise.resolve(fields.remove(i))}
         />
       ))}
@@ -197,22 +121,56 @@ const renderQuestions = ({ fields, meta: { touched, error }, questions }) => {
     <Link
       key="remove"
       onClick={() => {
-        fields.push({
-          questionText: '',
-          questionType: QuestionTypes('single'),
-          mandatory: false,
-          options: [{ optionText: '' }]
-        });
+        fields.push(initialQuestion);
       }}
     >
       <Icon name="add-circle" size={30} className={styles.addQuestion} />
     </Link>
   ];
 };
+export const initialQuestion = {
+  questionText: '',
+  questionType: QuestionTypes('single'),
+  mandatory: false,
+  options: [{ optionText: '' }]
+};
 const validate = createValidator({
   title: [required()],
   event: [required()]
 });
+
+const onSubmit = (formContent: Object, dispatch, props: Props) => {
+  const { survey, submitFunction, push } = this.props;
+  const { questions } = formContent;
+
+  // Remove options if it's a free text question, and remove all empty
+  // options
+  const cleanQuestions = questions.map((q, i) => {
+    const question = {
+      ...q,
+      relativeIndex: i
+    };
+
+    if (question.questionType === QuestionTypes('text')) {
+      question.options = [];
+    } else {
+      question.options = question.options.filter(
+        option => option.optionText !== ''
+      );
+    }
+    return question;
+  });
+
+  return submitFunction({
+    ...formContent,
+    event: formContent.event && Number(formContent.event.value),
+    surveyId: survey && survey.id,
+    questions: cleanQuestions
+  }).then(result => {
+    const id = survey && survey.id ? survey.id : result.payload.result;
+    push(`/surveys/${String(id)}`);
+  });
+};
 
 const selector = formValueSelector('surveyEditor');
 export default connect(state => {
@@ -223,6 +181,7 @@ export default connect(state => {
 })(
   legoForm({
     form: 'surveyEditor',
-    validate
+    validate,
+    onSubmit
   })(SurveyEditor)
 );

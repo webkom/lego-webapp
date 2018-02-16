@@ -6,6 +6,7 @@ import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { push } from 'react-router-redux';
 import moment from 'moment-timezone';
+import { initialQuestion } from './components/SurveyEditor/SurveyEditor';
 
 const time = (hours, minutes) =>
   moment()
@@ -19,7 +20,8 @@ const mapStateToProps = (state, props) => {
       activeFrom: time(12, 0),
       event: '',
       title: '',
-      isClone: true
+      isClone: true,
+      questions: [initialQuestion]
     },
     survey: {
       questions: []
