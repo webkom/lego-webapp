@@ -70,14 +70,14 @@ export const FromToTime = ({
 }) => {
   const fromTime = moment(from);
   const toTime = moment(to);
-  return fromTime.isSame(toTime, 'day') ? (
+  const fromFormat =
+    moment().isSame(fromTime, 'year') && 'dddd DD. MMMM, HH:mm';
+  const toFormat = fromTime.isSame(toTime, 'day') ? 'HH:mm' : fromFormat;
+
+  return (
     <span>
-      <FormatTime time={fromTime} /> -{' '}
-      <FormatTime time={toTime} format="HH:mm" />
-    </span>
-  ) : (
-    <span>
-      <FormatTime time={fromTime} /> - <FormatTime time={toTime} />
+      <FormatTime time={fromTime} format={fromFormat} /> -{' '}
+      <FormatTime time={toTime} format={toFormat} />
     </span>
   );
 };
