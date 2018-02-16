@@ -3,13 +3,13 @@
 import styles from './UserConfirmation.css';
 import React from 'react';
 import { Container, Flex } from 'app/components/Layout';
-import { reduxForm } from 'redux-form';
 import {
   Form,
   TextInput,
   RadioButtonGroup,
   RadioButton,
-  Button
+  Button,
+  legoForm
 } from 'app/components/Form';
 import { Field } from 'redux-form';
 import { Link } from 'react-router';
@@ -31,8 +31,6 @@ const UserConfirmation = ({
   submitSucceeded,
   ...props
 }: Props) => {
-  const onSubmit = data => createUser(token, data);
-
   if (submitSucceeded) {
     return (
       <Container>
@@ -70,7 +68,7 @@ const UserConfirmation = ({
     <Container>
       <div className={styles.root}>
         <h2>Registrer bruker</h2>
-        <Form onSubmit={handleSubmit(onSubmit)}>
+        <Form onSubmit={handleSubmit}>
           <Field
             name="username"
             placeholder="Brukernavn"
@@ -134,7 +132,11 @@ const validate = createValidator({
   gender: [required()]
 });
 
-export default reduxForm({
+const onSubmit = (data, dispatch, { token, createUser }) =>
+  createUser(token, data);
+
+export default legoForm({
   form: 'ConfirmationForm',
-  validate
+  validate,
+  onSubmit
 })(UserConfirmation);
