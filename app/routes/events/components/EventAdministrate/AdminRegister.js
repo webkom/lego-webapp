@@ -28,7 +28,7 @@ const AdminRegister = ({
         <Field
           placeholder="Begrunnelse"
           label="Begrunnelse"
-          name="reason"
+          name="adminRegistrationReason"
           component={TextEditor.Field}
         />
         <Field
@@ -84,19 +84,21 @@ const onSubmit = (
     user,
     pool,
     feedback,
-    reason
+    adminRegistrationReason
   }: {
     user: User,
     pool: number,
     feedback: string,
-    reason: string
+    adminRegistrationReason: string
   },
   dispatch,
   { reset, eventId, adminRegister }: Props
 ) =>
-  adminRegister(eventId, user.id, pool, feedback, reason).then(() => {
-    reset();
-  });
+  adminRegister(eventId, user.id, pool, feedback, adminRegistrationReason).then(
+    () => {
+      reset();
+    }
+  );
 
 export default legoForm({
   form: 'adminRegister',

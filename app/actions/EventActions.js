@@ -215,7 +215,7 @@ export function adminRegister(
   userId: number,
   poolId?: number,
   feedback: string,
-  reason: string
+  adminRegistrationReason: string
 ) {
   return callAPI({
     types: Event.ADMIN_REGISTER,
@@ -224,7 +224,7 @@ export function adminRegister(
     body: {
       user: userId,
       pool: poolId === waitinglistPoolId ? undefined : poolId,
-      adminRegistrationReason: reason,
+      adminRegistrationReason,
       feedback
     },
     meta: {
