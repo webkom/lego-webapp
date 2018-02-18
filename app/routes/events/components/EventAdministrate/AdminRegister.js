@@ -1,17 +1,17 @@
 // @flow
 
 import React from 'react';
-import { reduxForm, Field } from 'redux-form';
-import { TextEditor, SelectInput } from 'app/components/Form';
+import { Field, type FormProps } from 'redux-form';
+import { legoForm, TextEditor, SelectInput } from 'app/components/Form';
 import Button from 'app/components/Button';
 import type { ID, EventPool, User } from 'app/models';
-import type { ReduxFormProps } from 'app/types';
+import { waitinglistPoolId } from 'app/actions/EventActions';
 
 type Props = {
   eventId: ID,
   adminRegister: (ID, ID, ID, string, string) => Promise<*>,
   pools: Array<EventPool>
-} & ReduxFormProps;
+} & FormProps;
 
 const AdminRegister = ({
   eventId,
@@ -22,22 +22,9 @@ const AdminRegister = ({
   pristine,
   submitting
 }: Props) => {
-  const onSubmit = ({
-    user,
-    pool,
-    feedback,
-    reason
-  }: {
-    user: User,
-    pool: number,
-    feedback: string,
-    reason: string
-  }) => {
-    adminRegister(eventId, user.id, pool, feedback, reason);
-  };
   return (
     <div style={{ width: '400px' }}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit}>
         <Field
           placeholder="Begrunnelse"
           label="Begrunnelse"
@@ -57,7 +44,7 @@ const AdminRegister = ({
           label="Pool"
           options={pools
             .map(pool => ({ value: pool.id, label: pool.name }))
-            .concat([{ value: -1, label: 'Venteliste' }])}
+            .concat([{ value: waitinglistPoolId, label: 'Venteliste' }])}
           simpleValue
         />
         <Field
@@ -92,8 +79,27 @@ function validateForm(data) {
 
   return errors;
 }
+const onSubmit = (
+  {
+    user,
+    pool,
+    feedback,
+    reason
+  }: {
+    user: User,
+    pool: number,
+    feedback: string,
+    reason: string
+  },
+  dispatch,
+  { reset, eventId, adminRegister }: Props
+) =>
+  adminRegister(eventId, user.id, pool, feedback, reason).then(() => {
+    reset();
+  });
 
-export default reduxForm({
+export default legoForm({
   form: 'adminRegister',
-  validate: validateForm
+  validate: validateForm,
+  onSubmit
 })(AdminRegister);
