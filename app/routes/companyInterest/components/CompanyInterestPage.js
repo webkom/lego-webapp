@@ -11,9 +11,10 @@ import {
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field, SubmissionError, FieldArray } from 'redux-form';
 import type { FieldProps } from 'redux-form';
-import { FlexRow, FlexColumn, FlexItem } from 'app/components/FlexBox';
+import Flex from 'app/components/Layout/Flex';
 import { Content } from 'app/components/Content';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 import { createValidator, required, isEmail } from 'app/utils/validation';
 
@@ -22,7 +23,7 @@ export const EVENT_TYPES = {
   lunch_presentation: 'Lunsjpresentasjon',
   course: 'Faglig arrangement',
   bedex: 'Bedex',
-  other: 'Annet'
+  other: 'Alternativt arrangement'
 };
 
 export const OTHER_TYPES = {
@@ -43,13 +44,13 @@ const SEMESTER_TRANSLATION = {
   autumn: 'Høst'
 };
 
-const semesterToText = semesterObject =>
-  `${SEMESTER_TRANSLATION[semesterObject.semester]} ${semesterObject.year}`;
+export const semesterToText = (semester: CompanySemesterEntity) =>
+  `${SEMESTER_TRANSLATION[semester.semester]} ${semester.year}`;
 
 const SemesterBox = ({ fields }: FieldProps) => (
-  <FlexRow className={styles.checkboxWrapper}>
+  <Flex column className={styles.checkboxWrapper}>
     {fields.map((item, index) => (
-      <div key={index} className={styles.checkbox}>
+      <Flex key={index}>
         <div className={styles.checkboxField}>
           <Field
             key={`semester${index}`}
@@ -61,15 +62,15 @@ const SemesterBox = ({ fields }: FieldProps) => (
         <span className={styles.checkboxSpan}>
           {semesterToText(fields.get(index))}
         </span>
-      </div>
+      </Flex>
     ))}
-  </FlexRow>
+  </Flex>
 );
 
 const EventBox = ({ fields }: FieldProps) => (
-  <FlexRow className={styles.checkboxWrapper}>
+  <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
-      <div key={index} className={styles.checkbox}>
+      <Flex key={index}>
         <div className={styles.checkboxField}>
           <Field
             key={`events[${index}]`}
@@ -81,15 +82,15 @@ const EventBox = ({ fields }: FieldProps) => (
         <span className={styles.checkboxSpan}>
           {EVENT_TYPES[eventToString(key)]}
         </span>
-      </div>
+      </Flex>
     ))}
-  </FlexRow>
+  </Flex>
 );
 
 const OtherBox = ({ fields }: FieldProps) => (
-  <FlexRow className={styles.checkboxWrapper}>
+  <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
-      <div key={index} className={styles.checkbox}>
+      <Flex key={index}>
         <div className={styles.checkboxField}>
           <Field
             key={`otherOffers[${index}]`}
@@ -101,9 +102,9 @@ const OtherBox = ({ fields }: FieldProps) => (
         <span className={styles.checkboxSpan}>
           {OTHER_TYPES[otherOffersToString(key)]}
         </span>
-      </div>
+      </Flex>
     ))}
-  </FlexRow>
+  </Flex>
 );
 
 type Props = FieldProps & {
@@ -111,7 +112,7 @@ type Props = FieldProps & {
   onSubmit: CompanyInterestEntity => Promise<*>,
   push: string => void,
   events: Array<Object>,
-  semesters: Array<Object>,
+  semesters: Array<CompanySemesterEntity>,
   otherOffers: Array<Object>,
   edit: boolean,
   companyInterest?: CompanyInterestEntity
@@ -163,39 +164,58 @@ const CompanyInterestPage = (props: Props) => {
           placeholder="Bedriftsnavn"
           name="companyName"
           component={TextInput.Field}
+          required
         />
         <Field
           label="Kontaktperson"
           placeholder="Ola Nordmann"
           name="contactPerson"
           component={TextInput.Field}
+          required
         />
         <Field
           label="Mail"
           placeholder="example@gmail.com"
           name="mail"
           component={TextInput.Field}
+          required
         />
 
-        <FlexColumn>
-          <label htmlFor="semesters" className={styles.heading}>
-            Semester
-          </label>
+        <Flex wrap justifyContent="space-between">
+          <Flex column>
+            <label htmlFor="semesters" className={styles.heading}>
+              Semester
+            </label>
+            <FieldArray
+              label="semesters"
+              name="semesters"
+              component={SemesterBox}
+            />
+          </Flex>
 
-          <FieldArray name="semesters" component={SemesterBox} />
+          <Flex column>
+            <label htmlFor="events" className={styles.heading}>
+              Arrangementer
+            </label>
+            <FieldArray name="events" component={EventBox} />
+          </Flex>
 
-          <label htmlFor="events" className={styles.heading}>
-            Arrangementer
-          </label>
+          <Flex column>
+            <label htmlFor="otherOffers" className={styles.heading}>
+              Annet
+            </label>
+            <FieldArray name="otherOffers" component={OtherBox} />
+          </Flex>
+        </Flex>
 
-          <FieldArray name="events" component={EventBox} />
-
-          <label htmlFor="otherOffers" className={styles.heading}>
-            Annet
-          </label>
-
-          <FieldArray name="otherOffers" component={OtherBox} />
-        </FlexColumn>
+        <div className={styles.underline}>
+          Vi i Abakus ønsker å kunne tilby et bredt spekter av arrangementer som
+          er gunstig for våre studenter. Dersom dere ønsker noe utenfor de
+          vanlige rammene, huk gjerne av på {'"Alternativt arrangement"'} og
+          skriv en kommentar om hva dere kunne tenkt dere å gjøre i
+          kommentarfeltet. Kommentarfeltet kan også brukes til å spesifisere
+          annen informasjon.
+        </div>
 
         <Field
           placeholder="Skriv eventuell kommentar"
@@ -205,16 +225,13 @@ const CompanyInterestPage = (props: Props) => {
           label="Kommentar"
         />
 
-        <FlexColumn className={styles.content}>
-          <FlexItem />
-          <FlexItem>
-            <Button type="submit" submit className={styles.createButton}>
-              {props.edit
-                ? 'Oppdater bedriftsinteresse'
-                : 'Opprett bedriftsinteresse'}
-            </Button>
-          </FlexItem>
-        </FlexColumn>
+        <Flex column className={styles.content}>
+          <Button type="submit" submit className={styles.createButton}>
+            {props.edit
+              ? 'Oppdater bedriftsinteresse'
+              : 'Opprett bedriftsinteresse'}
+          </Button>
+        </Flex>
       </Form>
     </Content>
   );

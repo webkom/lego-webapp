@@ -1,7 +1,7 @@
 // @flow
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { fetchSemestersForInterestform } from 'app/actions/CompanyActions';
+import { fetchSemesters } from 'app/actions/CompanyActions';
 import {
   fetchCompanyInterest,
   updateCompanyInterest
@@ -11,13 +11,13 @@ import CompanyInterestPage, {
   OTHER_TYPES
 } from './components/CompanyInterestPage';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
-import { selectCompanySemestersForInterestform } from 'app/reducers/companySemesters';
+import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { push } from 'react-router-redux';
 import prepare from 'app/utils/prepare';
 
 const loadCompanyInterests = (props, dispatch) => {
   const { companyInterestId } = props.params;
-  return dispatch(fetchSemestersForInterestform()).then(() =>
+  return dispatch(fetchSemesters()).then(() =>
     dispatch(fetchCompanyInterest(Number(companyInterestId)))
   );
 };
@@ -27,9 +27,7 @@ const mapStateToProps = (state, props) => {
   const companyInterest = selectCompanyInterestById(state, {
     companyInterestId
   });
-  // TODO show an intersection of the currently active semesters, and
-  // the semester chosen when the interestform was created
-  const semesters = selectCompanySemestersForInterestform(state);
+  const semesters = selectCompanySemesters(state);
   if (!companyInterest || !semesters)
     return {
       edit: true,
@@ -54,12 +52,14 @@ const mapStateToProps = (state, props) => {
           companyInterest.otherOffers &&
           companyInterest.otherOffers.includes(offer)
       })),
-      semesters: semesters.map(semester => ({
-        ...semester,
-        checked:
-          companyInterest.semesters &&
-          companyInterest.semesters.includes(semester.id)
-      }))
+      semesters: semesters
+        .map(semester => ({
+          ...semester,
+          checked:
+            companyInterest.semesters &&
+            companyInterest.semesters.includes(semester.id)
+        }))
+        .filter(semester => semester.activeInterestForm || semester.checked)
     },
     companyInterestId,
     companyInterest,

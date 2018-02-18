@@ -13,6 +13,8 @@ import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 import type { Thunk } from 'app/types';
 import { addToast } from 'app/actions/ToastActions';
+import { semesterToText } from 'app/routes/companyInterest/components/CompanyInterestPage';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 export const fetchAll = ({ fetchMore }: { fetchMore: boolean }): Thunk<*> => (
   dispatch,
@@ -334,7 +336,7 @@ export function deleteCompanyContact(
 }
 
 export function fetchSemestersForInterestform() {
-  return fetchSemesters({ company_inerest: 'True' });
+  return fetchSemesters({ company_interest: 'True' });
 }
 
 export function fetchSemesters(
@@ -351,12 +353,10 @@ export function fetchSemesters(
   });
 }
 
-type SemesterInput = {
-  year: number,
-  semester: number
-};
-
-export function addSemester({ year, semester }: SemesterInput): Thunk<*> {
+export function addSemester({
+  year,
+  semester
+}: CompanySemesterEntity): Thunk<*> {
   return dispatch => {
     return dispatch(
       callAPI({
@@ -365,10 +365,50 @@ export function addSemester({ year, semester }: SemesterInput): Thunk<*> {
         method: 'POST',
         body: {
           year,
-          semester
+          semester,
+          activeInterestForm: true
         },
         meta: {
-          errorMessage: 'Legge til semester feilet'
+          errorMessage: 'Legge til semester feilet',
+          successMessage: 'Semest lagt til!'
+        }
+      })
+    );
+  };
+}
+
+export function editSemester({
+  id,
+  year,
+  semester,
+  activeInterestForm
+}: {
+  id: number,
+  year: string,
+  semester: string,
+  activeInterestForm: boolean
+}): Thunk<*> {
+  return dispatch => {
+    return dispatch(
+      callAPI({
+        types: Company.EDIT_SEMESTER,
+        endpoint: `/company-semesters/${id}/`,
+        method: 'PATCH',
+        schema: companySemesterSchema,
+        body: {
+          id,
+          year,
+          semester,
+          activeInterestForm
+        },
+        meta: {
+          errorMessage: 'Endring av semester feilet',
+          successMessage: `${semesterToText({
+            id,
+            year,
+            semester,
+            activeInterestForm
+          })} er nå ${activeInterestForm ? 'aktivt' : 'deaktivert'}!`
         }
       })
     );

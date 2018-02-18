@@ -14,6 +14,10 @@ export default [
         ...resolveAsyncRoute(() => import('./CompanyInterestRoute'))
       },
       {
+        path: 'semesters',
+        ...resolveAsyncRoute(() => import('./CompanySemesterGUIRoute'))
+      },
+      {
         path: ':companyInterestId/edit',
         ...resolveAsyncRoute(() => import('./CompanyInterestEditRoute'))
       }
