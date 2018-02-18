@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Field, type FormProps } from 'redux-form';
+import { RenderErrorMessage } from 'app/components/Form/Field';
 import { legoForm, TextEditor, SelectInput } from 'app/components/Form';
 import Button from 'app/components/Button';
 import type { ID, EventPool, User } from 'app/models';
@@ -20,7 +21,9 @@ const AdminRegister = ({
   pools,
   invalid,
   pristine,
-  submitting
+  submitting,
+
+  error
 }: Props) => {
   return (
     <div style={{ width: '400px' }}>
@@ -54,6 +57,7 @@ const AdminRegister = ({
           placeholder="Bruker"
           label="Bruker"
         />
+        <RenderErrorMessage error={error} />
         <Button type="submit" disabled={invalid || pristine || submitting}>
           Registrer
         </Button>
