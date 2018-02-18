@@ -7,9 +7,10 @@ import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
 import { Content } from 'app/components/Content';
 import Flex from 'app/components/Layout/Flex';
+import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 
 export type Props = {
-  companyInterestList: Array<Object>,
+  companyInterestList: Array<CompanyInterestEntity>,
   deleteCompanyInterest: number => void
 };
 

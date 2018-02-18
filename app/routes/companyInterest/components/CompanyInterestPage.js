@@ -14,6 +14,7 @@ import type { FieldProps } from 'redux-form';
 import Flex from 'app/components/Layout/Flex';
 import { Content } from 'app/components/Content';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 import { createValidator, required, isEmail } from 'app/utils/validation';
 
@@ -22,7 +23,7 @@ export const EVENT_TYPES = {
   lunch_presentation: 'Lunsjpresentasjon',
   course: 'Faglig arrangement',
   bedex: 'Bedex',
-  other: 'Annet'
+  other: 'Alternativt arrangement'
 };
 
 export const OTHER_TYPES = {
@@ -43,13 +44,7 @@ const SEMESTER_TRANSLATION = {
   autumn: 'Høst'
 };
 
-type companySemester = {
-  id: number,
-  semester: number,
-  year: number
-};
-
-export const semesterToText = (semester: companySemester) =>
+export const semesterToText = (semester: CompanySemesterEntity) =>
   `${SEMESTER_TRANSLATION[semester.semester]} ${semester.year}`;
 
 const SemesterBox = ({ fields }: FieldProps) => (
@@ -117,7 +112,7 @@ type Props = FieldProps & {
   onSubmit: CompanyInterestEntity => Promise<*>,
   push: string => void,
   events: Array<Object>,
-  semesters: Array<Object>,
+  semesters: Array<CompanySemesterEntity>,
   otherOffers: Array<Object>,
   edit: boolean,
   companyInterest?: CompanyInterestEntity
@@ -212,6 +207,15 @@ const CompanyInterestPage = (props: Props) => {
             <FieldArray name="otherOffers" component={OtherBox} />
           </Flex>
         </Flex>
+
+        <div className={styles.underline}>
+          Vi i Abakus ønsker å kunne tilby et bredt spekter av arrangementer som
+          er gunstig for våre studenter. Dersom dere ønsker noe utenfor de
+          vanlige rammene, huk gjerne av på {'"Alternativt arrangement"'} og
+          skriv en kommentar om hva dere kunne tenkt dere å gjøre i
+          kommentarfeltet. Kommentarfeltet kan også brukes til å spesifisere
+          annen informasjon.
+        </div>
 
         <Field
           placeholder="Skriv eventuell kommentar"

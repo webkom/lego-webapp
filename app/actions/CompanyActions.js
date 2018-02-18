@@ -14,6 +14,7 @@ import { push } from 'react-router-redux';
 import type { Thunk } from 'app/types';
 import { addToast } from 'app/actions/ToastActions';
 import { semesterToText } from 'app/routes/companyInterest/components/CompanyInterestPage';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 export const fetchAll = ({ fetchMore }: { fetchMore: boolean }): Thunk<*> => (
   dispatch,
@@ -352,18 +353,10 @@ export function fetchSemesters(
   });
 }
 
-type SemesterInput = {
-  id: number,
-  year: number,
-  semester: number,
-  activeInterestForm: boolean
-};
-
 export function addSemester({
   year,
-  semester,
-  activeInterestForm
-}: SemesterInput): Thunk<*> {
+  semester
+}: CompanySemesterEntity): Thunk<*> {
   return dispatch => {
     return dispatch(
       callAPI({
@@ -389,7 +382,12 @@ export function editSemester({
   year,
   semester,
   activeInterestForm
-}: SemesterInput): Thunk<*> {
+}: {
+  id: number,
+  year: string,
+  semester: string,
+  activeInterestForm: boolean
+}): Thunk<*> {
   return dispatch => {
     return dispatch(
       callAPI({

@@ -8,7 +8,7 @@ import { sortSemesterChronologically } from 'app/routes/companyInterest/utils';
 export type CompanySemesterEntity = {
   id?: number,
   semester: string,
-  year: number,
+  year: number | string,
   activeInterestForm?: boolean
 };
 

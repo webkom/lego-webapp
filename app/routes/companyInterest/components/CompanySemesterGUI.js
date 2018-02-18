@@ -22,10 +22,10 @@ type Props = FieldProps & {
   onSubmit: CompanySemesterEntity => Promise<*>,
   push: string => void,
   events: Array<Object>,
-  semesters: Array<Object>,
+  semesters: Array<CompanySemesterEntity>,
   autoFocus: any,
   edit: boolean,
-  editSemester: (Array<Object>) => void
+  editSemester: CompanySemesterEntity => void
 };
 
 const CompanySemesterGUI = (props: Props) => {

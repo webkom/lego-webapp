@@ -2,14 +2,18 @@
 import React, { type Node } from 'react';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
-export const sortSemesterChronologically = (a: Object, b: Object) => {
+export const sortSemesterChronologically = (
+  a: CompanySemesterEntity,
+  b: CompanySemesterEntity
+) => {
   const semesterCodeToPriority = {
     spring: 0,
     autumn: 1
   };
-  return a.year !== b.year
-    ? a.year - b.year
+  return Number(a.year) !== Number(b.year)
+    ? Number(a.year) - Number(b.year)
     : semesterCodeToPriority[a.semester] - semesterCodeToPriority[b.semester];
 };
 
