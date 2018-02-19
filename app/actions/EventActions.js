@@ -9,6 +9,8 @@ import { addToast } from 'app/actions/ToastActions';
 import type { EventRegistrationPresence } from 'app/models';
 import type { Thunk, Action } from 'app/types';
 
+export const waitinglistPoolId = -1;
+
 export function fetchEvent(eventId: string) {
   return callAPI({
     types: Event.FETCH,
@@ -213,7 +215,7 @@ export function adminRegister(
   userId: number,
   poolId?: number,
   feedback: string,
-  reason: string
+  adminRegistrationReason: string
 ) {
   return callAPI({
     types: Event.ADMIN_REGISTER,
@@ -221,8 +223,8 @@ export function adminRegister(
     method: 'POST',
     body: {
       user: userId,
-      pool: poolId,
-      adminRegistrationReason: reason,
+      pool: poolId === waitinglistPoolId ? undefined : poolId,
+      adminRegistrationReason,
       feedback
     },
     meta: {

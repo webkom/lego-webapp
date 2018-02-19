@@ -1,17 +1,18 @@
 // @flow
 
 import React from 'react';
-import { reduxForm, Field } from 'redux-form';
-import { TextEditor, SelectInput } from 'app/components/Form';
+import { Field, type FormProps } from 'redux-form';
+import { RenderErrorMessage } from 'app/components/Form/Field';
+import { legoForm, TextEditor, SelectInput } from 'app/components/Form';
 import Button from 'app/components/Button';
 import type { ID, EventPool, User } from 'app/models';
-import type { ReduxFormProps } from 'app/types';
+import { waitinglistPoolId } from 'app/actions/EventActions';
 
 type Props = {
   eventId: ID,
   adminRegister: (ID, ID, ID, string, string) => Promise<*>,
   pools: Array<EventPool>
-} & ReduxFormProps;
+} & FormProps;
 
 const AdminRegister = ({
   eventId,
@@ -20,28 +21,17 @@ const AdminRegister = ({
   pools,
   invalid,
   pristine,
-  submitting
+  submitting,
+
+  error
 }: Props) => {
-  const onSubmit = ({
-    user,
-    pool,
-    feedback,
-    reason
-  }: {
-    user: User,
-    pool: number,
-    feedback: string,
-    reason: string
-  }) => {
-    adminRegister(eventId, user.id, pool, feedback, reason);
-  };
   return (
     <div style={{ width: '400px' }}>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit}>
         <Field
           placeholder="Begrunnelse"
           label="Begrunnelse"
-          name="reason"
+          name="adminRegistrationReason"
           component={TextEditor.Field}
         />
         <Field
@@ -57,7 +47,7 @@ const AdminRegister = ({
           label="Pool"
           options={pools
             .map(pool => ({ value: pool.id, label: pool.name }))
-            .concat([{ value: -1, label: 'Venteliste' }])}
+            .concat([{ value: waitinglistPoolId, label: 'Venteliste' }])}
           simpleValue
         />
         <Field
@@ -67,6 +57,7 @@ const AdminRegister = ({
           placeholder="Bruker"
           label="Bruker"
         />
+        <RenderErrorMessage error={error} />
         <Button type="submit" disabled={invalid || pristine || submitting}>
           Registrer
         </Button>
@@ -92,8 +83,29 @@ function validateForm(data) {
 
   return errors;
 }
+const onSubmit = (
+  {
+    user,
+    pool,
+    feedback,
+    adminRegistrationReason
+  }: {
+    user: User,
+    pool: number,
+    feedback: string,
+    adminRegistrationReason: string
+  },
+  dispatch,
+  { reset, eventId, adminRegister }: Props
+) =>
+  adminRegister(eventId, user.id, pool, feedback, adminRegistrationReason).then(
+    () => {
+      reset();
+    }
+  );
 
-export default reduxForm({
+export default legoForm({
   form: 'adminRegister',
-  validate: validateForm
+  validate: validateForm,
+  onSubmit
 })(AdminRegister);

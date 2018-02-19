@@ -7,17 +7,20 @@ import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import styles from './Field.css';
 
-function FieldError({ error }: { error: string }) {
-  return <div className={styles.fieldError}>{error}</div>;
-}
+const FieldError = ({ error }: { error?: string }) =>
+  error ? <div className={styles.fieldError}>{error}</div> : null;
 
-function renderErrorMessage(error: Array<string> | string) {
+export const RenderErrorMessage = ({
+  error
+}: {
+  error: Array<string> | string
+}) => {
   if (Array.isArray(error)) {
-    return error.map(renderErrorMessage);
+    return error.map(error => <RenderErrorMessage key={error} error={error} />);
   }
 
   return <FieldError error={error} key={error} />;
-}
+};
 
 export type FieldProps = {
   className: string,
@@ -78,7 +81,7 @@ export function createField(Component: ComponentType<*>) {
             className={cx(className, hasError && styles.inputWithError)}
           />
         </label>
-        {hasError && renderErrorMessage(meta.error)}
+        {hasError && <RenderErrorMessage error={meta.error} />}
       </div>
     );
   };
