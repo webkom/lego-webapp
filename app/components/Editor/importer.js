@@ -42,84 +42,81 @@ export const htmlToBlock = (nodeName: string, node: any) => {
   if (nodeName === 'h1') {
     return {
       type: Block.H1,
-      data: {},
+      data: {}
     };
   } else if (nodeName === 'h2') {
     return {
       type: Block.H2,
-      data: {},
+      data: {}
     };
   } else if (nodeName === 'h3') {
     return {
       type: Block.H3,
-      data: {},
+      data: {}
     };
   } else if (nodeName === 'h4') {
     return {
       type: Block.H4,
-      data: {},
+      data: {}
     };
   } else if (nodeName === 'h5') {
     return {
       type: Block.H5,
-      data: {},
+      data: {}
     };
   } else if (nodeName === 'h6') {
     return {
       type: Block.H6,
-      data: {},
+      data: {}
     };
   } else if (
     nodeName === 'p' &&
-    (node.className === `${Block.CAPTION.toLowerCase()}` ||
-      node.className === `${Block.BLOCKQUOTE_CAPTION.toLowerCase()}`)
+    (node.className === Block.CAPTION.toLowerCase() ||
+      node.className === Block.BLOCKQUOTE_CAPTION.toLowerCase())
   ) {
     return {
       type: Block.BLOCKQUOTE_CAPTION,
-      data: {},
+      data: {}
     };
   } else if (nodeName === 'figure') {
-    if (node.className.match(/^image/)) {
+    if (node.querySelector('img')) {
       const imageNode = node.querySelector('img');
       return {
         type: Block.IMAGE,
         data: {
           src: imageNode && imageNode.src,
-        },
+          fileKey: imageNode && imageNode.getAttribute('data-file-key')
+        }
       };
-    } else if (node.className === `${Block.ATOMIC.toLowerCase()}`) {
+    } else if (node.className === Block.ATOMIC.toLowerCase()) {
       return {
         type: Block.ATOMIC,
-        data: {},
+        data: {}
       };
     }
     return undefined;
-  } else if (
-    nodeName === 'div' &&
-    node.className &&
-    node.className.match(/^todo/)
-  ) {
+  } else if (nodeName === 'div' && node.getAttribute('data-type') === 'todo') {
     const inputNode = node.querySelector('input');
     return {
       type: Block.TODO,
       data: {
-        checked: inputNode && inputNode.checked,
-      },
+        checked: inputNode && inputNode.checked
+      }
     };
   } else if (nodeName === 'hr') {
     return {
       type: Block.BREAK,
-      data: {},
+      data: {}
     };
   } else if (nodeName === 'blockquote') {
     return {
       type: Block.BLOCKQUOTE,
-      data: {},
+      data: {}
     };
   } else if (nodeName === 'p') {
     return {
       type: Block.UNSTYLED,
-      data: {},
+      data: {}
     };
   }
 
@@ -129,7 +126,7 @@ export const htmlToBlock = (nodeName: string, node: any) => {
 export const options = {
   htmlToStyle,
   htmlToEntity,
-  htmlToBlock,
+  htmlToBlock
 };
 
 export default (rawHTML: any, htmlOptions: Object = options) =>

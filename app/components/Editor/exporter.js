@@ -8,7 +8,7 @@ type EntityProps = {
   blockType: string,
   data: Object,
   text: string,
-  extraClass: string,
+  extraClass: string
 };
 
 type BlockProps = {
@@ -16,23 +16,23 @@ type BlockProps = {
   data: Object,
   text: string,
   type: string,
-  extraClass: string,
+  extraClass: string
 };
 
 export const styleToHTML = (style: string) => {
   switch (style) {
     case Inline.ITALIC:
-      return <em className={`${style.toLowerCase()}`} />;
+      return <em />;
     case Inline.BOLD:
-      return <strong className={`${style.toLowerCase()}`} />;
+      return <strong />;
     case Inline.STRIKETHROUGH:
-      return <strike className={`${style.toLowerCase()}`} />;
+      return <strike />;
     case Inline.UNDERLINE:
-      return <u className={`${style.toLowerCase()}`} />;
+      return <u />;
     case Inline.HIGHLIGHT:
-      return <span className={`${style.toLowerCase()}`} />;
+      return <span />;
     case Inline.CODE:
-      return <code className={`${style.toLowerCase()}`} />;
+      return <code />;
     default:
       return null;
   }
@@ -43,83 +43,81 @@ export const blockToHTML = (block: BlockProps) => {
   switch (blockType) {
     case Block.H1:
       // eslint-disable-next-line jsx-a11y/heading-has-content
-      return <h1 className={`${blockType.toLowerCase()}`} />;
+      return <h1 />;
     case Block.H2:
       // eslint-disable-next-line jsx-a11y/heading-has-content
-      return <h2 className={`${blockType.toLowerCase()}`} />;
+      return <h2 />;
     case Block.H3:
       // eslint-disable-next-line jsx-a11y/heading-has-content
-      return <h3 className={`${blockType.toLowerCase()}`} />;
+      return <h3 />;
     case Block.H4:
       // eslint-disable-next-line jsx-a11y/heading-has-content
-      return <h4 className={`${blockType.toLowerCase()}`} />;
+      return <h4 />;
     case Block.H5:
       // eslint-disable-next-line jsx-a11y/heading-has-content
-      return <h5 className={`${blockType.toLowerCase()}`} />;
+      return <h5 />;
     case Block.H6:
       // eslint-disable-next-line jsx-a11y/heading-has-content
-      return <h6 className={`${blockType.toLowerCase()}`} />;
+      return <h6 />;
     case Block.BLOCKQUOTE_CAPTION:
     case Block.CAPTION:
       return {
-        start: `<p class="${blockType.toLowerCase()}"><caption>`,
-        end: '</caption></p>',
+        start: '<p><caption>',
+        end: '</caption></p>'
       };
     case Block.IMAGE: {
       const imgData = block.data;
       const text = block.text;
-      const extraClass = text.length > 0 ? ' image-has-caption' : '';
       return {
-        start: `<figure class="image${extraClass}"><img src="${
-          imgData.src
-        }" alt="${block.text}" /><figcaption className="image-caption">`,
-        end: '</figcaption></figure>',
+        start: `<figure data-type="${
+          text.length > 0 ? 'image-with-caption' : 'image'
+        }"><img src="${imgData.src}" data-file-key="${imgData.fileKey}" alt="${
+          block.text
+        }" /><figcaption>`,
+        end: '</figcaption></figure>'
       };
     }
     case Block.ATOMIC:
       return {
-        start: `<figure className="${blockType.toLowerCase()}">`,
-        end: '</figure>',
+        start: '<figure>',
+        end: '</figure>'
       };
     case Block.TODO: {
       const checked = block.data.checked || false;
       let inp = '';
-      let containerClass = '';
       if (checked) {
         inp = '<input type=checkbox disabled checked="checked" />';
-        containerClass = 'todo-checked';
       } else {
         inp = '<input type=checkbox disabled />';
-        containerClass = 'todo-unchecked';
       }
       return {
-        start: `<div class="${blockType.toLowerCase()} ${containerClass}">${inp}<p>`,
-        end: '</p></div>',
+        start: `<div data-type="todo">${inp}<p>`,
+        end: '</p></div>'
       };
     }
     case Block.BREAK:
-      return <hr className={`${blockType.toLowerCase()}`} />;
+      return <hr />;
     case Block.BLOCKQUOTE:
-      return <blockquote className={`${blockType.toLowerCase()}`} />;
+      return <blockquote />;
     case Block.OL:
       return {
         element: <li />,
-        nest: <ol className={`${blockType.toLowerCase()}`} />,
+        nest: <ol />
       };
     case Block.UL:
       return {
         element: <li />,
-        nest: <ul className={`${blockType.toLowerCase()}`} />,
+        nest: <ul />
       };
     case Block.UNSTYLED:
       if (block.text.length < 1) {
         return (
-          <p className={`${blockType.toLowerCase()}`}>
+          <p className={blockType.toLowerCase()}>
             <br />
           </p>
         );
       }
-      return <p className={`${blockType.toLowerCase()}`} />;
+      return <p />;
     default:
       return null;
   }
@@ -128,12 +126,7 @@ export const blockToHTML = (block: BlockProps) => {
 export const entityToHTML = (entity: EntityProps, originalText: string) => {
   if (entity.type === Entity.LINK) {
     return (
-      <a
-        className="link"
-        href={entity.data.url}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href={entity.data.url} target="_blank" rel="noopener noreferrer">
         {originalText}
       </a>
     );
@@ -144,7 +137,7 @@ export const entityToHTML = (entity: EntityProps, originalText: string) => {
 export const options = {
   styleToHTML,
   blockToHTML,
-  entityToHTML,
+  entityToHTML
 };
 
 export default (contentState: any, htmlOptions: Object = options) =>

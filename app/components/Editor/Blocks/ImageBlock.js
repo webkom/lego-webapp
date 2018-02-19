@@ -1,39 +1,103 @@
 // @flow
 
-import React, { Component, type Node } from 'react';
-import { EditorBlock } from 'draft-js';
-import { getCurrentBlock } from 'medium-draft';
+import React, { Component } from 'react';
+import { EditorBlock, EditorState, SelectionState } from 'draft-js';
+import { getCurrentBlock, updateDataOfBlock } from 'medium-draft';
+import cx from 'classnames';
+import { connect } from 'react-redux';
+import type { UploadArgs } from 'app/actions/FileActions';
+import { uploadFile } from 'app/actions/FileActions';
+import styles from './ImageBlock.css';
 
 type Props = {
-  block: any,
   blockProps: Object,
-  children: Node,
+  block: Object,
+  uploadFile: UploadArgs => Promise<*>
 };
 
-class ImageBlock extends Component<Props> {
+type State = {
+  uploading: boolean,
+  fileKeyToken?: string,
+  error?: string
+};
+
+class ImageBlock extends Component<Props, State> {
+  state = {
+    uploading: false,
+    fileKeyToken: undefined,
+    error: undefined
+  };
+
+  focusBlock = () => {
+    const { block, blockProps } = this.props;
+    const { getEditorState, setEditorState } = blockProps;
+    const key = block.getKey();
+    const currentBlock = getCurrentBlock(getEditorState());
+
+    if (currentBlock.getKey() === key) {
+      return;
+    }
+
+    const newSelection = new SelectionState({
+      anchorKey: key,
+      focusKey: key,
+      anchorOffset: 0,
+      focusOffset: 0
+    });
+    setEditorState(EditorState.forceSelection(getEditorState(), newSelection));
+  };
+
+  componentDidMount() {
+    const { block } = this.props;
+    const data = block.getData();
+    const image = data.get('image');
+
+    if (image) {
+      this.setState({ uploading: true });
+      this.props
+        .uploadFile({ file: image, isPublic: true })
+        .then(({ meta }) => {
+          this.setState({ fileKeyToken: meta.fileToken, uploading: false });
+          const { block, blockProps } = this.props;
+          const { setEditorState, getEditorState } = blockProps;
+          const data = block.getData();
+          const newData = data.set('fileKey', meta.fileToken.split(':')[0]);
+          setEditorState(updateDataOfBlock(getEditorState(), block, newData));
+        })
+        .catch(err => {
+          this.setState({ error: err.message, uploading: false });
+        });
+    }
+  }
+
   render() {
-    console.log(this);
     const { block, blockProps } = this.props;
     const { getEditorState } = blockProps;
     const data = block.getData();
+    const image = data.get('image');
     const src = data.get('src');
     const currentBlock = getCurrentBlock(getEditorState());
-    const className =
-      currentBlock.getKey() === block.getKey() ? 'md-image-is-selected' : '';
-    if (src !== null) {
-      return (
-        <div>
-          test
-          <div className="md-block-image-inner-container">
-            <img role="presentation" className={className} src={src} />
-          </div>
-          <figcaption>
-            <EditorBlock {...this.props} />
-          </figcaption>
+
+    return (
+      <div>
+        <div className="md-block-image-inner-container">
+          {this.state.uploading && <div className={styles.loader} />}
+          <img
+            role="presentation"
+            alt={block.getText() || ''}
+            className={cx(
+              styles.image,
+              currentBlock.getKey() === block.getKey() && styles.imageSelected
+            )}
+            src={src || window.URL.createObjectURL(image)}
+          />
         </div>
-      );
-    }
-    return <EditorBlock {...this.props} />;
+        <figcaption>
+          <EditorBlock {...this.props} />
+        </figcaption>
+      </div>
+    );
   }
 }
-export default ImageBlock;
+
+export default connect(null, { uploadFile })(ImageBlock);

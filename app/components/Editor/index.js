@@ -2,40 +2,62 @@
 
 import React, { Component } from 'react';
 import { convertToRaw } from 'draft-js';
-import { createEditorState, Editor, rendererFn, Block } from 'medium-draft';
+import 'medium-draft/lib/index.css';
+import {
+  createEditorState,
+  Editor as DraftEditor,
+  rendererFn,
+  Block,
+  Inline,
+  INLINE_BUTTONS,
+  BLOCK_BUTTONS
+} from 'medium-draft';
 import importer from './importer';
 import exporter from './exporter';
 import { ImageButton } from './Sides';
 import { ImageBlock } from './Blocks';
-import 'medium-draft/lib/index.css';
 
 type Props = {
+  /** Set focus when component mounts */
   autoFocus: ?boolean,
+  /** The value in the editor */
   value: ?string,
+  /** Placeholder to be shown when no content */
   placeholder: ?string,
+  /** Function that returns the content as html when changed */
   onChange: string => void,
+  /** Function that is called when editor is focused */
   onFocus: () => void,
+  /** Function that is called when editor is blurred */
   onBlur: () => void,
+  /** Use editor in simple mode, just enable inline styling, no block styling */
   simple: ?boolean,
-  disabled: ?boolean,
+  /** Disable editor input */
+  disabled: ?boolean
 };
 
 type State = {
-  editorState: any,
+  editorState: any
 };
 
-class CustomEditor extends Component<Props, State> {
+/**
+ * Custom Editor component
+ *
+ * ### Example Usage
+ * ```js
+ * <Editor />
+ * ```
+ *
+ *  ### Also avialable as a redux form field
+ * ```js
+ * <Field component={EditorField.Field} />
+ * ```
+ */
+export default class Editor extends Component<Props, State> {
   editor: ?HTMLElement;
 
-  sideButtons = [
-    {
-      title: 'Image',
-      component: ImageButton,
-    },
-  ];
-
   state = {
-    editorState: createEditorState(convertToRaw(importer(this.props.value))),
+    editorState: createEditorState(convertToRaw(importer(this.props.value)))
   };
 
   rendererFn = (setEditorState: any => void, getEditorState: () => any) => {
@@ -48,8 +70,8 @@ class CustomEditor extends Component<Props, State> {
             component: ImageBlock,
             props: {
               setEditorState,
-              getEditorState,
-            },
+              getEditorState
+            }
           };
         default:
           return rFnOld(contentBlock);
@@ -73,19 +95,36 @@ class CustomEditor extends Component<Props, State> {
   render() {
     const { editorState } = this.state;
     return (
-      <Editor
+      <DraftEditor
         ref={node => {
           this.editor = node;
         }}
+        blockButtons={
+          this.props.simple
+            ? []
+            : BLOCK_BUTTONS.filter(({ style }) => style !== Block.TODO)
+        }
+        inlineButtons={INLINE_BUTTONS.filter(
+          ({ style }) => style !== Inline.HIGHLIGHT
+        )}
+        onBlur={this.props.onBlur}
+        onFocus={this.props.onFocus}
         placeholder={this.props.placeholder}
         readOnly={this.props.disabled}
         editorState={editorState}
         rendererFn={this.rendererFn}
         onChange={this.onChange}
-        sideButtons={this.sideButtons}
+        sideButtons={
+          this.props.simple
+            ? []
+            : [
+                {
+                  title: 'Image',
+                  component: ImageButton
+                }
+              ]
+        }
       />
     );
   }
 }
-
-export default CustomEditor;

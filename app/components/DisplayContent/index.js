@@ -19,6 +19,10 @@ type Props = {
 
 const legalTags = [
   'p',
+  'ol',
+  'figure',
+  'figcaption',
+  'input',
   'b',
   'i',
   'u',
