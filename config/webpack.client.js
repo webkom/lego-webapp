@@ -50,6 +50,7 @@ module.exports = {
     compact([
       // Explicitly import the moment locales we care about:
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new webpack.IgnorePlugin(/^jsdom$/),
 
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(!isProduction),

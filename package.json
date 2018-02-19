@@ -44,6 +44,7 @@
     "is-hotkey": "^0.0.1",
     "isomorphic-fetch": "2.2.1",
     "js-cookie": "^2.1.4",
+    "jsdom": "^11.6.2",
     "jwt-decode": "2.2.0",
     "lodash": "^4.17.2",
     "medium-draft": "beta",
@@ -188,6 +189,7 @@
     "exclude": [
       "animate.css",
       "minireset.css",
+      "jsdom",
       "bunyan",
       "bunyan-pretty",
       "raven"

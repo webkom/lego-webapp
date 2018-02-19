@@ -129,5 +129,18 @@ export const options = {
   htmlToBlock
 };
 
-export default (rawHTML: any, htmlOptions: Object = options) =>
-  convertFromHTML(htmlOptions)(rawHTML);
+export default (rawHTML: any, htmlOptions: Object = options) => {
+  if (__CLIENT__) {
+    return convertFromHTML(htmlOptions)(rawHTML);
+  }
+
+  // This is slightly hacky, but allows us to server-side render the editor directly:
+  const { JSDOM } = require('jsdom');
+  const dom = html => {
+    const fullHtml = `<!doctype html><html><body>${html}</body></html>`;
+    const { window } = new JSDOM(fullHtml);
+    return window.document;
+  };
+
+  return convertFromHTML(htmlOptions)(rawHTML, { flat: false }, dom);
+};
