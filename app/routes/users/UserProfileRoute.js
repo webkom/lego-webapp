@@ -3,7 +3,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import UserProfile from './components/UserProfile';
-import { fetchUser } from 'app/actions/UserActions';
+import { fetchUser, addPenalty } from 'app/actions/UserActions';
 import { fetchUpcoming } from 'app/actions/EventActions';
 import { fetchUserFeed } from 'app/actions/FeedActions';
 import { selectUserWithGroups } from 'app/reducers/users';
@@ -60,7 +60,12 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { fetchUser, fetchUpcoming, fetchUserFeed };
+const mapDispatchToProps = {
+  fetchUser,
+  fetchUpcoming,
+  fetchUserFeed,
+  addPenalty
+};
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),

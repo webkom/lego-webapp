@@ -393,6 +393,19 @@ export function sendForgotPasswordEmail({
     );
 }
 
+export function addPenalty(username: string) {
+  console.log('ad');
+  /*return callAPI({
+    types: User.CONFIRM_STUDENT_USER,
+    endpoint: `/users/${username}/penalties`, //ish
+    method: 'POST',
+    meta: {
+      errorMessage: 'Opprettelse av prikk feilet'
+    },
+    useCache: true
+  });*/
+}
+
 export function resetPassword({
   token,
   password

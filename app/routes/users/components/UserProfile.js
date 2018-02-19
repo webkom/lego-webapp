@@ -33,7 +33,8 @@ type Props = {
   feed: Object,
   isMe: boolean,
   loading: boolean,
-  upcomingEvents: Array<Event>
+  upcomingEvents: Array<Event>,
+  addPenalty: string => Promise<*>
 };
 
 type UpcomingEventsProps = {
@@ -114,7 +115,8 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
       feedItems,
       feed,
       loading,
-      upcomingEvents
+      upcomingEvents,
+      addPenalty
     } = this.props;
 
     const { groupsAsBadges = [], groupsAsPills = [] } = groupBy(
@@ -164,7 +166,11 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
               <div>
                 <h3>Prikker ({this.sumPenalties()} stk)</h3>
                 <Card className={styles.infoCard}>
-                  <Penalties penalties={user.penalties} />
+                  <Penalties
+                    penalties={user.penalties}
+                    addPenalty={addPenalty}
+                    username={user.username}
+                  />
                 </Card>
               </div>
             )}
