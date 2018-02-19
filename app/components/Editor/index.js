@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
+import './Editor.css';
 import { convertToRaw } from 'draft-js';
 import 'medium-draft/lib/index.css';
 import {
