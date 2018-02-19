@@ -27,9 +27,13 @@ const questionTypeToIcon = {
   text_field: 'more'
 };
 
-const QuestionTypeOption = (props: Object) => (
+const DropdownItemGenerator = (
+  props: Object,
+  outerClassName?: string,
+  innerClassName?: string
+) => (
   <div
-    className={props.className}
+    className={outerClassName || props.className}
     onMouseDown={() => {
       event.preventDefault();
       event.stopPropagation();
@@ -41,36 +45,26 @@ const QuestionTypeOption = (props: Object) => (
       props.onFocus(props.option, event);
     }}
   >
-    <Icon
-      name={questionTypeToIcon[props.option && props.option.value]}
-      style={{ marginRight: '15px' }}
-    />
-    {props.children}
-  </div>
-);
-
-const QuestionTypeValue = (props: Object) => (
-  <div
-    className="Select-value"
-    onMouseDown={() => {
-      event.preventDefault();
-      event.stopPropagation();
-      props.onSelect(props.option, event);
-    }}
-    onMouseEnter={() => props.onFocus(props.option, event)}
-    onMouseMove={() => {
-      if (props.isFocused) return;
-      props.onFocus(props.option, event);
-    }}
-  >
-    <span className="Select-value-label">
+    <span className={innerClassName}>
       <Icon
-        name={questionTypeToIcon[props.value && props.value.value]}
+        name={questionTypeToIcon[props.option && props.option.value]}
         style={{ marginRight: '15px' }}
       />
       {props.children}
     </span>
   </div>
+);
+
+const QuestionTypeOption = (props: Object) => (
+  <DropdownItemGenerator props={props} />
+);
+
+const QuestionTypeValue = (props: Object) => (
+  <DropdownItemGenerator
+    props={props}
+    outerClassName="Select-value"
+    innerClassName="Select-value-label"
+  />
 );
 
 const Question = ({ index, question, questionData, deleteQuestion }: Props) => {

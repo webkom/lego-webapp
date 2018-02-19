@@ -110,7 +110,7 @@ const prepareToSubmit = (formContent: Object, props: Props) => {
     ...formContent,
     user: currentUser && currentUser.id,
     surveyId: survey.id,
-    answers: formatAnswers(formContent.answers, survey).filter(answer => answer)
+    answers: formatAnswers(formContent.answers, survey).filter(Boolean)
   };
 
   return submitFunction(toSubmit);
@@ -120,14 +120,12 @@ const formatAnswers = (answers, survey) => {
   return answers.map((answer, i) => {
     const question = survey.questions[i];
     const selected = answer.selectedOptions || [];
-    const selectedOptions =
-      question.questionType === QuestionTypes('single')
-        ? selected.map(Number).filter(Boolean)
-        : selected
-            .map(
-              (optionSelected, j) => optionSelected && question.options[j].id
-            )
-            .filter(Boolean);
+    const selectedOptions = (question.questionType === QuestionTypes('single')
+      ? selected.map(Number)
+      : selected.map(
+          (optionSelected, j) => optionSelected && question.options[j].id
+        )
+    ).filter(Boolean);
 
     return {
       ...answer,

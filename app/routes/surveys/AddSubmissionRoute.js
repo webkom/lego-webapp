@@ -43,7 +43,7 @@ const mapDispatchToProps = { submitFunction: addSubmission };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, ['params.surveyId', 'currentUser.id']),
+  prepare(loadData, ['params.surveyId', 'currentUser.id', 'fetching']),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['survey.questions', 'survey.event.cover'])
 )(SubmissionContainer);

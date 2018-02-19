@@ -7,7 +7,7 @@ import type { Thunk } from 'app/types';
 
 export function fetchSubmissions(surveyId: number): Thunk<*> {
   return callAPI({
-    types: SurveySubmission.FETCH,
+    types: SurveySubmission.FETCH_ALL,
     endpoint: `/surveys/${surveyId}/submissions`,
     schema: [surveySubmissionSchema],
     meta: {
@@ -19,7 +19,7 @@ export function fetchSubmissions(surveyId: number): Thunk<*> {
 
 export function fetchUserSubmission(surveyId: number, user: number) {
   return callAPI({
-    types: SurveySubmission.FETCH_FOR_USER,
+    types: SurveySubmission.FETCH,
     endpoint: `/surveys/${surveyId}/submissions/?user=${user}`,
     method: 'GET',
     schema: [surveySubmissionSchema],
