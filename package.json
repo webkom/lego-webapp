@@ -20,8 +20,8 @@
     "lint": "yarn run lint:js && yarn run lint:css && yarn run lint:prettier",
     "lint:js": "eslint . --ignore-path .prettierignore",
     "lint:css": "stylelint './app/**/*.css'",
-    "lint:prettier": "prettier '**/*.{js,css,md,json}' --list-different",
-    "prettier": "prettier '**/*.{js,css,md,json}' --write",
+    "lint:prettier": "prettier '**/*.{js,css,md}' --list-different",
+    "prettier": "prettier '**/*.{js,css,md}' --write",
     "flow": "flow",
     "styleguide": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist server",
     "styleguide:build": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist build"
