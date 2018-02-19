@@ -19,6 +19,32 @@
   position: relative;
 }
 
+.filterIcon {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+  line-height: 1;
+  cursor: pointer;
+  position: relative;
+}
+
+.checkbox {
+  position: absolute;
+  min-width: 100px;
+  padding: 8px;
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+}
+
+.checkbox div {
+  margin-bottom: 10px;
+}
+
+.checkbox a {
+  font-size: 15px;
+}
+
 .loader {
   border-bottom: none;
 }

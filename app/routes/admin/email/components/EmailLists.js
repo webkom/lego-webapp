@@ -3,6 +3,8 @@
 import React, { Component } from 'react';
 import Table from 'app/components/Table';
 import { Link } from 'react-router';
+import Button from 'app/components/Button';
+import Flex from 'app/components/Layout/Flex';
 
 type Props = {
   fetching: boolean,
@@ -42,6 +44,12 @@ export default class EmailLists extends Component<Props> {
           sende epost til disse. Ønsker brukere å sende mail fra en @abakus.no
           adresse må de få opprettet en personlig adresse under Brukere.
         </p>
+        <Flex justifyContent="space-between" style={{ marginBottom: '10px' }}>
+          <h3>Aktive epostlister</h3>
+          <Link to={`/admin/email/lists/new`}>
+            <Button>Ny epostliste</Button>
+          </Link>
+        </Flex>
         <Table
           infiniteScroll
           columns={columns}

@@ -4,38 +4,22 @@ import React, { type Node } from 'react';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { Content } from 'app/components/Content';
-import { Link } from 'react-router';
 
 type Props = {
   children: Node,
   groups: Array<Object>,
-  location: { pathname: string },
   params: { groupId: string }
 };
 
-const CreateAction = ({ pathname }: { pathname: string }) => {
-  switch (pathname) {
-    case '/admin/email/lists':
-      return <Link to={`/admin/email/lists/new`}>Ny epostliste</Link>;
-    case '/admin/email/users':
-      return <Link to={'/admin/email/users/new'}>Ny bruker</Link>;
-    case '/admin/email/restricted':
-      return <Link to={'/admin/email/restricted/new'}>Ny begrenset epost</Link>;
-    default:
-      return null;
-  }
-};
-
-const EmailPage = ({ groups, children, location, params }: Props) => (
+const EmailPage = ({ groups, children, params }: Props) => (
   <Content>
     <NavigationTab title="Epost">
-      <NavigationLink to={'/admin/email/lists'}>Lister</NavigationLink>
+      <NavigationLink to={'/admin/email'}>Lister</NavigationLink>
       <NavigationLink to={'/admin/email/users'}>Brukere</NavigationLink>
       <NavigationLink to={'/admin/email/restricted'}>
         Begrenset epost
       </NavigationLink>
     </NavigationTab>
-    <CreateAction pathname={location.pathname} />
     {children}
   </Content>
 );

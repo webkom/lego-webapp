@@ -4,6 +4,8 @@ import React, { Component } from 'react';
 import Table from 'app/components/Table';
 import Tag from 'app/components/Tags/Tag';
 import { Link } from 'react-router';
+import Button from 'app/components/Button';
+import Flex from 'app/components/Layout/Flex';
 
 type Props = {
   fetching: boolean,
@@ -35,6 +37,16 @@ export default class EmailUsers extends Component<Props> {
       {
         title: 'Status',
         dataIndex: 'internalEmailEnabled',
+        filter: [
+          {
+            label: 'Aktiv',
+            value: true
+          },
+          {
+            label: 'Inaktiv',
+            value: false
+          }
+        ],
         render: enabled =>
           enabled ? (
             <Tag tag="aktiv" color="orange" />
@@ -57,6 +69,12 @@ export default class EmailUsers extends Component<Props> {
           denne. Adressen kan deaktiveres når brukeren ikke lengre er aktiv i
           Abakus, men adressen vil ikke bli tilgjengelig for andre brukere.
         </p>
+        <Flex justifyContent="space-between" style={{ marginBottom: '10px' }}>
+          <h3>Aktive/Inaktive epostkontoer</h3>
+          <Link to={'/admin/email/users/new'}>
+            <Button>Ny bruker</Button>
+          </Link>
+        </Flex>
         <Table
           infiniteScroll
           columns={columns}
