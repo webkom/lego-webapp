@@ -29,6 +29,9 @@ const MultipleChoice = (props: Props) => {
         onChange={props.onChange}
         name={`${props.option}.optionText`}
         component={TextInput.Field}
+        className={styles.optionInput}
+        placeholder="Alternativ"
+        fieldClassName={styles.optionField}
       />
     </li>
   );
@@ -42,6 +45,9 @@ const Checkbox = (props: Props) => {
         onChange={props.onChange}
         name={`${props.option}.optionText`}
         component={TextInput.Field}
+        className={styles.optionInput}
+        placeholder="Alternativ"
+        fieldClassName={styles.optionField}
       />
     </li>
   );

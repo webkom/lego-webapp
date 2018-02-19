@@ -13,6 +13,7 @@ import styles from '../surveys.css';
 import Icon from 'app/components/Icon';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import { mappings, QuestionTypes } from '../../utils';
+import cx from 'classnames';
 
 type Props = {
   deleteQuestion: number => Promise<*>,
@@ -27,25 +28,19 @@ const questionTypeToIcon = {
   text_field: 'more'
 };
 
-const DropdownItemGenerator = (
-  props: Object,
-  outerClassName?: string,
-  innerClassName?: string
-) => (
+const QuestionTypeOption = (props: Object) => (
   <div
-    className={outerClassName || props.className}
+    className={cx(props.className, styles.dropdown)}
     onMouseDown={() => {
-      event.preventDefault();
-      event.stopPropagation();
-      props.onSelect(props.option, event);
+      props.onSelect && props.onSelect(props.option, event);
     }}
-    onMouseEnter={() => props.onFocus(props.option, event)}
+    onMouseEnter={() => props.onFocus && props.onFocus(props.option, event)}
     onMouseMove={() => {
       if (props.isFocused) return;
-      props.onFocus(props.option, event);
+      props.onFocus && props.onFocus(props.option, event);
     }}
   >
-    <span className={innerClassName}>
+    <span className={styles.dropdownColor}>
       <Icon
         name={questionTypeToIcon[props.option && props.option.value]}
         style={{ marginRight: '15px' }}
@@ -55,16 +50,26 @@ const DropdownItemGenerator = (
   </div>
 );
 
-const QuestionTypeOption = (props: Object) => (
-  <DropdownItemGenerator props={props} />
-);
-
-const QuestionTypeValue = (props: Object) => (
-  <DropdownItemGenerator
-    props={props}
-    outerClassName="Select-value"
-    innerClassName="Select-value-label"
-  />
+const QuestionTypeValue = (props: Object, b) => (
+  <div
+    className={cx('Select-value', styles.dropdown)}
+    onMouseDown={() => {
+      props.onSelect && props.onSelect(props.option, event);
+    }}
+    onMouseEnter={() => props.onFocus && props.onFocus(props.option, event)}
+    onMouseMove={() => {
+      if (props.isFocused) return;
+      props.onFocus && props.onFocus(props.option, event);
+    }}
+  >
+    <span className={cx('Select-value-label', styles.dropdownColor)}>
+      <Icon
+        name={questionTypeToIcon[props.value && props.value.value]}
+        style={{ marginRight: '15px' }}
+      />
+      {props.children}
+    </span>
+  </div>
 );
 
 const Question = ({ index, question, questionData, deleteQuestion }: Props) => {
@@ -77,6 +82,7 @@ const Question = ({ index, question, questionData, deleteQuestion }: Props) => {
             className={styles.questionTitle}
             placeholder="Spørsmål"
             component={TextInput.Field}
+            fieldStyle={{ marginBottom: 0 }}
           />
         </div>
         {questionData.questionType === QuestionTypes('text') ? (
@@ -84,6 +90,7 @@ const Question = ({ index, question, questionData, deleteQuestion }: Props) => {
             className={styles.freeText}
             placeholder="Fritekst - sånn vil den se ut :smile:"
             value=""
+            disabled={true}
           />
         ) : (
           <FieldArray
@@ -102,6 +109,10 @@ const Question = ({ index, question, questionData, deleteQuestion }: Props) => {
             optionComponent={QuestionTypeOption}
             options={mappings}
             valueComponent={QuestionTypeValue}
+            className={styles.questionType}
+            clearable={false}
+            backspaceRemoves={false}
+            searchable={false}
           />
         </div>
 

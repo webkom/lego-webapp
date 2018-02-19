@@ -4,8 +4,7 @@ import styles from '../surveys.css';
 import React from 'react';
 import { DetailNavigation, ListNavigation, QuestionTypes } from '../../utils';
 import Question from './Question';
-import { Field, FieldArray, formValueSelector } from 'redux-form';
-import { connect } from 'react-redux';
+import { Field, FieldArray } from 'redux-form';
 import Button from 'app/components/Button';
 import {
   TextInput,
@@ -35,8 +34,7 @@ const SurveyEditor = ({
   submitting,
   autoFocus,
   handleSubmit,
-  deleteSurvey,
-  questions
+  deleteSurvey
 }: Props) => {
   const titleField = (
     <Field
@@ -91,8 +89,8 @@ const SurveyEditor = ({
 
         <FieldArray
           name="questions"
-          questions={questions}
           component={renderQuestions}
+          rerenderOnEveryChange={true}
         />
 
         <div className={styles.clear} />
@@ -104,7 +102,7 @@ const SurveyEditor = ({
   );
 };
 
-const renderQuestions = ({ fields, meta: { touched, error }, questions }) => {
+const renderQuestions = ({ fields, meta: { touched, error } }) => {
   return [
     <ul className={styles.questions} key="questions">
       {fields.map((question, i) => (
@@ -112,7 +110,7 @@ const renderQuestions = ({ fields, meta: { touched, error }, questions }) => {
           key={i}
           index={i}
           question={question}
-          questionData={questions ? questions[i] : {}}
+          questionData={fields.get(i)}
           deleteQuestion={() => Promise.resolve(fields.remove(i))}
         />
       ))}
@@ -172,18 +170,8 @@ const onSubmit = (formContent: Object, dispatch, props: Props) => {
   });
 };
 
-const SurveyEditorForm = legoForm({
+export default legoForm({
   form: 'surveyEditor',
   validate,
   onSubmit
 })(SurveyEditor);
-
-const selector = formValueSelector('surveyEditor');
-
-// $FlowFixMe
-export default connect(state => {
-  const questions = selector(state, 'questions');
-  return {
-    questions
-  };
-})(SurveyEditorForm);

@@ -27,12 +27,14 @@ const mapStateToProps = (state, props) => {
     surveyId,
     currentUser
   });
+  const notFetching = state.surveySubmissions.fetching;
 
   return {
     survey,
     surveyId,
     submission,
     currentUser,
+    notFetching,
     initialValues: {
       answers: []
     }
@@ -43,7 +45,7 @@ const mapDispatchToProps = { submitFunction: addSubmission };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, ['params.surveyId', 'currentUser.id', 'fetching']),
+  prepare(loadData, ['params.surveyId', 'currentUser.id', 'notFetching']),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['survey.questions', 'survey.event.cover'])
 )(SubmissionContainer);

@@ -35,6 +35,7 @@ const StaticSubmission = ({ survey, submission }: Props) => {
         value=""
         placeholder="Fritekst..."
         className={styles.freeText}
+        disabled={true}
       />
     );
   };
@@ -73,9 +74,14 @@ const StaticSubmission = ({ survey, submission }: Props) => {
                           inputValue={selected}
                           value={true}
                           className={styles.option}
+                          disabled={true}
                         />
                       ) : (
-                        <CheckBox value={selected} className={styles.option} />
+                        <CheckBox
+                          value={selected}
+                          className={styles.option}
+                          disabled={true}
+                        />
                       )}
                       {option.optionText}
                     </li>
