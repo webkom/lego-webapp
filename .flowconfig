@@ -1,10 +1,14 @@
 [ignore]
 .*/node_modules/babel.*
 .*/node_modules/stylelint*
-.*/node_modules/fbjs*
 .*/node_modules/react-motion*
 .*/node_modules/jss/*
 .*/node_modules/findup/*
+
+; https://github.com/facebook/draft-js/issues/1621
+.*/node_modules/draft-js/lib/ContentBlock.js.flow
+.*/node_modules/draft-js/lib/ContentBlockNode.js.flow
+.*/node_modules/immutable/dist/immutable.js.flow
 
 [libs]
 

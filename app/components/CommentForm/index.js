@@ -83,7 +83,7 @@ class CommentForm extends Component<Props> {
             name="text"
             placeholder="Skriv en kommentar"
             component={EditorField}
-            disableBlocks
+            simple
           />
 
           {isOpen && (

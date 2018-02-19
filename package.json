@@ -8,14 +8,10 @@
   "scripts": {
     "start": "webpack --config config/webpack.server.js",
     "build": "concurrently \"yarn run build:server\" \"yarn run build:client\"",
-    "build:all":
-      "concurrently \"yarn build:server\" \"yarn build:client\" \"yarn styleguide:build\"",
-    "build:client":
-      "NODE_ENV=production webpack --config config/webpack.client.js",
-    "build:server":
-      "NODE_ENV=production webpack --config config/webpack.server.js -p",
-    "build:dll":
-      "BUILDING_DLL=true webpack --display-chunks --color --config config/webpack.dll.js",
+    "build:all": "concurrently \"yarn build:server\" \"yarn build:client\" \"yarn styleguide:build\"",
+    "build:client": "NODE_ENV=production webpack --config config/webpack.client.js",
+    "build:server": "NODE_ENV=production webpack --config config/webpack.server.js -p",
+    "build:dll": "BUILDING_DLL=true webpack --display-chunks --color --config config/webpack.dll.js",
     "delete-sourcemaps": "find ./dist-client -name '*.map' -delete",
     "postinstall": "yarn run build:dll",
     "test": "NODE_ENV=test jest",
@@ -24,13 +20,11 @@
     "lint": "yarn run lint:js && yarn run lint:css && yarn run lint:prettier",
     "lint:js": "eslint . --ignore-path .prettierignore",
     "lint:css": "stylelint './app/**/*.css'",
-    "lint:prettier": "prettier '**/*.{js,css,md,json}' --list-different",
-    "prettier": "prettier '**/*.{js,css,md,json}' --write",
+    "lint:prettier": "prettier '**/*.{js,css,md}' --list-different",
+    "prettier": "prettier '**/*.{js,css,md}' --write",
     "flow": "flow",
-    "styleguide":
-      "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist server",
-    "styleguide:build":
-      "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist build"
+    "styleguide": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist server",
+    "styleguide:build": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist build"
   },
   "repository": {
     "type": "git",
@@ -43,6 +37,8 @@
     "bunyan-pretty": "^0.0.1",
     "classnames": "2.2.5",
     "cookie-parser": "^1.4.3",
+    "draft-convert": "^2.0.1",
+    "draft-js": "^0.10.5",
     "html-to-react": "^1.3.1",
     "immutable": "^3.8.1",
     "is-hotkey": "^0.0.1",
@@ -50,6 +46,7 @@
     "js-cookie": "^2.1.4",
     "jwt-decode": "2.2.0",
     "lodash": "^4.17.2",
+    "medium-draft": "beta",
     "minireset.css": "^0.0.3",
     "moment-timezone": "^0.5.13",
     "morgan": "^1.8.2",
@@ -87,9 +84,6 @@
     "redux-thunk": "^2.2.0",
     "reselect": "2.5.4",
     "serialize-javascript": "^1.4.0",
-    "slate": "^0.24.5",
-    "slate-html-serializer": "^0.1.5",
-    "slate-react": "^0.1.5",
     "slug": "^0.9.1",
     "validator": "^9.2.0",
     "websocket.js": "^0.1.7"
@@ -159,7 +153,9 @@
       "selector-pseudo-class-no-unknown": [
         true,
         {
-          "ignorePseudoClasses": ["global"]
+          "ignorePseudoClasses": [
+            "global"
+          ]
         }
       ]
     }
@@ -169,10 +165,12 @@
       "__DEV__": false,
       "__CLIENT__": true
     },
-    "moduleDirectories": ["<rootDir>", "node_modules"],
+    "moduleDirectories": [
+      "<rootDir>",
+      "node_modules"
+    ],
     "moduleNameMapper": {
-      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp3|mp4|webm)$":
-        "<rootDir>/testing/FileStub.js",
+      "^.+\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp3|mp4|webm)$": "<rootDir>/testing/FileStub.js",
       "^.+\\.css$": "<rootDir>/testing/CSSStub.js"
     },
     "testRegex": "\\.spec\\.(js|jsx)$",
@@ -194,5 +192,7 @@
       "raven"
     ]
   },
-  "moduleRoots": ["./"]
+  "moduleRoots": [
+    "./"
+  ]
 }
