@@ -1,6 +1,12 @@
 // @flow
 
 import React, { Component } from 'react';
+import type { BlockNodeRecord } from 'draft-js/lib/BlockNodeRecord.js.flow';
+import type ContentState from 'draft-js/lib/ContentState.js.flow';
+import type { BidiDirection } from 'fbjs/lib/UnicodeBidiDirection';
+import type { List } from 'immutable';
+import type { DraftDecoratorType } from 'draft-js/lib/DraftDecoratorType.js.flow';
+import type { DraftInlineStyle } from 'draft-js/lib/DraftInlineStyle.js.flow';
 import { EditorBlock, EditorState, SelectionState } from 'draft-js';
 import { getCurrentBlock, updateDataOfBlock } from 'medium-draft';
 import cx from 'classnames';
@@ -10,8 +16,19 @@ import { uploadFile } from 'app/actions/FileActions';
 import styles from './ImageBlock.css';
 
 type Props = {
+  block: BlockNodeRecord,
   blockProps: Object,
-  block: Object,
+  blockStyleFn: (block: BlockNodeRecord) => string,
+  contentState: ContentState,
+  customStyleFn: (style: DraftInlineStyle, block: BlockNodeRecord) => ?Object,
+  customStyleMap: Object,
+  decorator: ?DraftDecoratorType,
+  direction: BidiDirection,
+  forceSelection: boolean,
+  offsetKey: string,
+  selection: SelectionState,
+  startIndent?: boolean,
+  tree: List<any>,
   uploadFile: UploadArgs => Promise<*>
 };
 

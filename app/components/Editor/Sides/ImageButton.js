@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { Block, addNewBlock } from 'medium-draft';
 import ImageUpload from 'app/components/Upload/ImageUpload';
+import type { DropFile } from 'app/components/Upload';
 
 type Props = {
   setEditorState: any => void,
@@ -25,7 +26,7 @@ export default class ImageButton extends Component<Props, State> {
     this.setState({ showUpload: true });
   };
 
-  onSubmit = (image: File) => {
+  onSubmit = (image: File | Array<DropFile>) => {
     const { close, setEditorState, getEditorState } = this.props;
 
     setEditorState(
