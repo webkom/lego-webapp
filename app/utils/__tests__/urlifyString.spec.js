@@ -22,6 +22,20 @@ describe('UrlifyString', () => {
       ]
     },
     {
+      input: 'hs@abakus.no. And webkom@abakus.no, is cool',
+      desc: 'not include comma or dot as mail postfix',
+      expected: [
+        <a key="hs@abakus.no" href="mailto:hs@abakus.no">
+          hs@abakus.no
+        </a>,
+        '. And ',
+        <a key="webkom@abakus.no" href="mailto:webkom@abakus.no">
+          webkom@abakus.no
+        </a>,
+        ', is cool'
+      ]
+    },
+    {
       input: 'https://abakus.no/abc/. https://vg.no/abc/, is cool',
       desc: 'not include comma or dot as url postfix',
       expected: [
