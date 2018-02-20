@@ -17,7 +17,7 @@ import Tooltip from 'app/components/Tooltip';
 import { ProfilePicture } from 'app/components/Image';
 import DisplayContent from 'app/components/DisplayContent';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
-import type { InterestGroup, User, GroupMembership, ID } from 'app/models';
+import type { Group, User, GroupMembership, ID } from 'app/models';
 import InterestGroupMemberList from './InterestGroupMemberList';
 
 // TODO: this is from the event detail page.
@@ -31,7 +31,7 @@ const RegisteredCell = ({ user }: { user: User }) => (
 );
 
 type TitleProps = {
-  group: InterestGroup,
+  group: Group,
   showEdit: boolean
 };
 
@@ -48,7 +48,7 @@ const Title = ({ group: { name, id }, showEdit }: TitleProps) => (
 
 type MembersProps = {
   members: Array<GroupMembership>,
-  group: Object
+  group: Group
 };
 
 const Members = ({ group, members }: MembersProps) => (
@@ -67,7 +67,7 @@ const Members = ({ group, members }: MembersProps) => (
 );
 
 type ButtonRowProps = {
-  group: InterestGroup,
+  group: Group,
   currentUser: User,
   leaveInterestGroup: (GroupMembership, ID) => void,
   joinInterestGroup: (ID, User) => void
@@ -96,7 +96,7 @@ const ButtonRow = ({
   );
 };
 
-const Contact = ({ group }: { group: InterestGroup }) => {
+const Contact = ({ group }: { group: Group }) => {
   const leaders = group.memberships.filter(m => m.role === 'leader');
 
   if (leaders.length == 0) {
@@ -122,7 +122,7 @@ type Props = {
   joinInterestGroup: (ID, User) => void,
   leaveInterestGroup: GroupMembership => void,
   currentUser: User,
-  group: InterestGroup
+  group: Group
 };
 
 function InterestGroupDetail(props: Props) {
