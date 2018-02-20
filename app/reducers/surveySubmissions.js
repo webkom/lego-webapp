@@ -5,6 +5,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
 import type { OptionEntity, SurveyEntity, QuestionEntity } from './surveys';
 import type { UserEntity } from 'app/reducers/users';
+import mergeObjects from 'app/utils/mergeObjects';
 
 export type SubmissionEntity = {
   id: number,
@@ -25,11 +26,15 @@ export type AnswerEntity = {
 
 function mutateSurveySubmissions(state, action) {
   switch (action.type) {
-    case SurveySubmission.FETCH.SUCCESS: {
-      return {
-        ...state,
-        items: state.items.filter(id => id !== action.meta.id)
-      };
+    case SurveySubmission.ADD.SUCCESS: {
+      const { surveyId } = action.meta;
+      const id = action.payload.result;
+      const surveySubmission = action.payload.entities.surveySubmissions[id];
+      return mergeObjects(state, {
+        byId: {
+          [id]: { ...surveySubmission, survey: surveyId }
+        }
+      });
     }
 
     default:
@@ -61,4 +66,13 @@ export const selectSurveySubmissions = createSelector(
         };
       })
       .filter(surveySubmission => surveySubmission.survey === surveyId)
+);
+
+export const selectSurveySubmissionForUser = createSelector(
+  (state, props) => selectSurveySubmissions(state, props),
+  (state, props) => props.currentUser,
+  (submissionsById, user) =>
+    submissionsById.find(
+      surveySubmission => surveySubmission.user.id === user.id
+    )
 );

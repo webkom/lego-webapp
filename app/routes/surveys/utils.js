@@ -22,6 +22,10 @@ export const PresentableQuestionType = (choice: string) => {
   };
   return questionTypeToString[choice] || questionTypeToString[0];
 };
+export const mappings = Object.keys(questionStrings).map(key => ({
+  value: questionStrings[key],
+  label: PresentableQuestionType(questionStrings[key])
+}));
 
 export const ListNavigation = ({ title }: { title: Node }) => (
   <NavigationTab title={title}>

@@ -26,12 +26,14 @@ export default {
       childRoutes: [
         {
           path: 'summary', // admin/groups/123/settings
-          ...resolveAsyncRoute(() => import('./components/SubmissionSummary'))
+          ...resolveAsyncRoute(() =>
+            import('./components/Submissions/SubmissionSummary')
+          )
         },
         {
           path: 'individual', // admin/groups/123/members
           ...resolveAsyncRoute(() =>
-            import('./components/SubmissionIndividual')
+            import('./components/Submissions/SubmissionIndividual')
           )
         }
       ]

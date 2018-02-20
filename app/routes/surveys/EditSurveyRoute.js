@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
 import { editSurvey, fetch, deleteSurvey } from '../../actions/SurveyActions';
-import SurveyEditor from './components/SurveyEditor';
+import SurveyEditor from './components/SurveyEditor/SurveyEditor';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectSurveyById } from 'app/reducers/surveys';
@@ -24,6 +24,17 @@ const mapStateToProps = (state, props) => {
             value: survey.event.id,
             label: survey.event.title
           },
+          questions:
+            survey.questions &&
+            survey.questions.map(
+              question =>
+                question.options
+                  ? {
+                      ...question,
+                      options: question.options.concat({ optionText: '' })
+                    }
+                  : question
+            ),
           isClone: !!survey.isClone
         }
       : null

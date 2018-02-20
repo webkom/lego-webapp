@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { addSurvey, deleteSurvey } from '../../actions/SurveyActions';
-import SurveyEditor from './components/SurveyEditor';
+import SurveyEditor from './components/SurveyEditor/SurveyEditor';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { push } from 'react-router-redux';
 import moment from 'moment-timezone';
+import { initialQuestion } from './components/SurveyEditor/SurveyEditor';
 
 const time = (hours, minutes) =>
   moment()
@@ -19,7 +20,8 @@ const mapStateToProps = (state, props) => {
       activeFrom: time(12, 0),
       event: '',
       title: '',
-      isClone: true
+      isClone: true,
+      questions: [initialQuestion]
     },
     survey: {
       questions: []

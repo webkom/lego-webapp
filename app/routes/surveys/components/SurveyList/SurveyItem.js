@@ -4,7 +4,7 @@ import React from 'react';
 import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import { Image } from 'app/components/Image';
-import styles from './surveys.css';
+import styles from '../surveys.css';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import { colorForEvent } from 'app/routes/events/utils';
 

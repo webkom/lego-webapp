@@ -2,22 +2,16 @@
 
 import React from 'react';
 import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
-import styles from './surveys.css';
-import { QuestionTypes } from '../utils';
+import { Field } from 'redux-form';
+import styles from '../surveys.css';
+import { QuestionTypes } from '../../utils';
 
 type Props = {
   questionType: string,
-  updateOptions: (Object, number) => void,
-  option: Object,
+  option: string,
+  onChange?: any => void,
   index: number
 };
-
-function makeOption(optionText: string, option: Object) {
-  return {
-    ...option,
-    optionText
-  };
-}
 
 const Option = (props: Props) => {
   return props.questionType === QuestionTypes('single') ? (
@@ -31,16 +25,13 @@ const MultipleChoice = (props: Props) => {
   return (
     <li>
       <RadioButton value={false} className={styles.option} />
-      <TextInput
-        onInput={e =>
-          props.updateOptions(
-            makeOption(e.target.value, props.option),
-            props.index
-          )
-        }
-        placeholder="Alternativ..."
+      <Field
+        onChange={props.onChange}
+        name={`${props.option}.optionText`}
+        component={TextInput.Field}
         className={styles.optionInput}
-        value={props.option.optionText}
+        placeholder="Alternativ"
+        fieldClassName={styles.optionField}
       />
     </li>
   );
@@ -50,16 +41,13 @@ const Checkbox = (props: Props) => {
   return (
     <li>
       <CheckBox checked={false} className={styles.option} />
-      <TextInput
-        onInput={e =>
-          props.updateOptions(
-            makeOption(e.target.value, props.option),
-            props.index
-          )
-        }
-        placeholder="Alternativ..."
+      <Field
+        onChange={props.onChange}
+        name={`${props.option}.optionText`}
+        component={TextInput.Field}
         className={styles.optionInput}
-        value={props.option.optionText}
+        placeholder="Alternativ"
+        fieldClassName={styles.optionField}
       />
     </li>
   );

@@ -282,9 +282,10 @@ export const Survey = {
  *
  */
 export const SurveySubmission = {
-  FETCH: generateStatuses('Survey.FETCH_SUBMISSIONS'),
-  ADD: generateStatuses('Survey.ADD_SUBMISSION'),
-  DELETE: generateStatuses('Survey.DELETE_SUBMISSION')
+  FETCH_ALL: generateStatuses('SurveySubmission.FETCH_ALL'),
+  FETCH: generateStatuses('SurveySubmission.FETCH'),
+  ADD: generateStatuses('SurveySubmission.ADD'),
+  DELETE: generateStatuses('SurveySubmission.DELETE')
 };
 
 /**

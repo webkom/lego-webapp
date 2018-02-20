@@ -84,7 +84,7 @@
 .right {
   display: flex;
   order: 2;
-  margin-top: 19px;
+  margin-top: 4px;
   flex-direction: column;
   justify-content: space-between;
   min-width: 247px;
@@ -98,6 +98,10 @@
   margin-top: 10px;
   font-size: 22px;
   width: 100%;
+}
+
+.questionType > div {
+  padding: 6px;
 }
 
 .questionTypeSelector {
@@ -124,7 +128,12 @@
 }
 
 .dropdown {
-  margin-top: 20px;
+  margin-top: 0;
+  top: 7px !important;
+}
+
+.dropdownColor {
+  color: var(--lego-link-color) !important;
 }
 
 .typeIcon {
@@ -136,18 +145,19 @@
 }
 
 .option {
-  display: inline-block;
-  margin-bottom: -3px;
-  width: 21px;
-
   &:hover {
     cursor: default;
   }
 }
 
+.optionField {
+  width: calc(100% - 51px); /* 20px (margin) + 21px (icon width) = 51px */
+  display: inline-block;
+  margin: 0;
+}
+
 .optionInput {
-  width: calc(100% - 51px); /* 30px (margin) + 21px (icon width) = 51px */
-  margin-left: 30px;
+  margin-left: 20px;
   margin-right: 0;
 }
 
@@ -191,11 +201,11 @@
   }
 }
 
-.detailQuestions > li {
+.staticSubmission > li {
   margin-top: 30px;
 }
 
-.detailQuestions .freeText {
+.staticSubmission .freeText {
   max-width: 600px;
 }
 
@@ -237,4 +247,19 @@
 
 .submissionOptions > div {
   margin-bottom: 10px;
+}
+
+.centerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.textAnswers {
+  margin-bottom: 15px;
+}
+
+.summary > li {
+  margin-bottom: 15px;
 }
