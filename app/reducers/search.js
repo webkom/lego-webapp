@@ -100,7 +100,7 @@ const searchMapping = {
     label: 'id',
     title: 'id',
     type: 'Tag',
-    path: '/tags/',
+    path: null, // Not yet implemented
     icon: 'pricetags',
     value: 'tag',
     color: '#000000'
@@ -115,7 +115,7 @@ const searchMapping = {
         case 'komite':
           return `/pages/komiteer/${group.id}`;
         default:
-          return `group/${group.id}`;
+          return null;
       }
     },
     value: 'id',
@@ -191,6 +191,13 @@ export default function search(state: State = initialState, action: any) {
   }
 }
 
+/*
+ * This transfors the search results (both search and autocomplete) from the backend.
+ * If the element has no valid url, it will be returned as null. You should therefore
+ * always filter out null values:
+ *
+ * const mapped = results.map(transformResult).filter(Boolean)
+ */
 const transformResult = result => {
   const fields = searchMapping[result.contentType];
   const item = {};
@@ -204,19 +211,21 @@ const transformResult = result => {
     }
   });
 
+  if (!item.link && !item.path) return null;
+
   item.link = item.link || item.path + item.value;
   return item;
 };
 
 export const selectAutocomplete = (autocomplete: Array<any>) =>
-  autocomplete.map(result => transformResult(result));
+  autocomplete.map(transformResult).filter(Boolean);
 
 export const selectAutocompleteRedux = createSelector(
   state => state.search.autocomplete,
-  autocomplete => autocomplete.map(result => transformResult(result))
+  autocomplete => autocomplete.map(transformResult).filter(Boolean)
 );
 
 export const selectResult = createSelector(
   state => state.search.results,
-  results => results.map(result => transformResult(result))
+  results => results.map(transformResult).filter(Boolean)
 );
