@@ -4,6 +4,12 @@ import Time, { FromToTime, FormatTime } from '../Time';
 import { shallow } from 'enzyme';
 import moment from 'moment-timezone';
 
+jest.mock('app/config', () => {
+  return {
+    timezone: 'GMT'
+  };
+});
+
 describe('<Time />', () => {
   it('should show a date with a default format', () => {
     const dateTime = '2016-02-02T22:17:21.838103Z';
@@ -15,7 +21,7 @@ describe('<Time />', () => {
   it('should show a date with a custom format', () => {
     const dateTime = '2016-02-02T22:17:21.838103Z';
     const wrapper = shallow(<Time format={'HH:mm'} time={dateTime} />);
-    const expected = <time dateTime={dateTime}>23:17</time>;
+    const expected = <time dateTime={dateTime}>22:17</time>;
     expect(wrapper.contains(expected)).toEqual(true);
   });
 
@@ -59,30 +65,50 @@ describe('<FromToTime />', () => {
   it('should only render day once when start day == end day', () => {
     const from = '2016-01-18T20:00:00Z';
     const to = '2016-01-18T22:00:00Z';
+    const output = 'Monday 18. Jan 2016 20:00 - 22:00';
 
     const wrapper = shallow(<FromToTime from={from} to={to} />);
-    const time = wrapper.find('span');
-
-    const fromTime = (
-      <FormatTime time={moment(from)} format="dddd DD. MMMM, HH:mm" />
-    );
-    const toTime = <FormatTime time={moment(to)} format="HH:mm" />;
-
-    expect(time.prop('children')[0]).toEqual(fromTime);
-    expect(time.prop('children')[3]).toEqual(toTime);
+    expect(wrapper.render().text()).toEqual(output);
   });
 
   it('should render both days fully when start day != end day', () => {
     const from = '2016-01-18T20:00:00Z';
     const to = '2016-01-19T22:00:00Z';
+    const output = 'Monday 18. Jan 2016 20:00 - Tuesday 19. Jan 2016 22:00';
 
     const wrapper = shallow(<FromToTime from={from} to={to} />);
-    const time = wrapper.find('span');
+    expect(wrapper.render().text()).toEqual(output);
+  });
 
-    const fromTime = <FormatTime time={moment(from)} />;
-    const toTime = <FormatTime time={moment(to)} />;
+  it('should not render year if year == currentYear', () => {
+    const from = '2017-01-18T20:00:00Z';
+    const to = '2017-01-19T22:00:00Z';
+    const output = 'Wednesday 18. January, 20:00 - Thursday 19. January, 22:00';
 
-    expect(time.prop('children')[0]).toEqual(fromTime);
-    expect(time.prop('children')[2]).toEqual(toTime);
+    const _now = Date.now;
+    const mockDate = +moment(from);
+    Date.now = jest.fn(() => mockDate);
+    try {
+      const wrapper = shallow(<FromToTime from={from} to={to} />);
+      expect(wrapper.render().text()).toEqual(output);
+    } finally {
+      Date.now = _now;
+    }
+  });
+
+  it('should not render year if year == currentYear, and day only once if equal', () => {
+    const from = '2017-01-18T20:00:00Z';
+    const to = '2017-01-18T21:00:00Z';
+    const output = 'Wednesday 18. January, 20:00 - 21:00';
+
+    const _now = Date.now;
+    const mockDate = +moment(from);
+    Date.now = jest.fn(() => mockDate);
+    try {
+      const wrapper = shallow(<FromToTime from={from} to={to} />);
+      expect(wrapper.render().text()).toEqual(output);
+    } finally {
+      Date.now = _now;
+    }
   });
 });
