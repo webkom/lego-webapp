@@ -1,10 +1,7 @@
 //@flow
 
 import React from 'react';
-import { Parser, ProcessNodeDefinitions } from 'html-to-react';
-import styles from './DisplayContent.css';
-import cx from 'classnames';
-import urlifyString from 'app/utils/urlifyString';
+import Editor from 'app/components/Editor';
 
 type Props = {
   /** The content to be displayed - the text */
@@ -17,88 +14,19 @@ type Props = {
   style?: Object
 };
 
-const legalTags = [
-  'p',
-  'ol',
-  'figure',
-  'figcaption',
-  'input',
-  'b',
-  'i',
-  'u',
-  'h1',
-  'h2',
-  'code',
-  'pre',
-  'blockquote',
-  'strong',
-  'strike',
-  'ul',
-  'cite',
-  'li',
-  'em',
-  'hr',
-  'img',
-  'div',
-  'a',
-  'text',
-  undefined // Nodes with only text
-];
-
-const isValidNode = node => legalTags.includes(node.name);
-
-const parser = new Parser();
-const processNodeDefinitions = new ProcessNodeDefinitions(React);
-const processingInstructions = [
-  {
-    // Custom <href> processing
-    //
-    shouldProcessNode: node => {
-      return node.parent && node.parent.name && node.parent.name === 'href';
-    },
-    processNode: (node, children) => {
-      return node.data.toUpperCase();
-    }
-  },
-  {
-    /*
-    * Custom handler that renders urls (including mails) as a-tags with the
-    * corresponding src
-    */
-    replaceChildren: true,
-    shouldProcessNode: function(node) {
-      return node.name === 'p';
-    },
-    processNode: function(node, children, index) {
-      return children.map(child => {
-        if (typeof child === 'string') {
-          return urlifyString(child);
-        }
-        return child;
-      });
-    }
-  },
-  {
-    shouldProcessNode: node => {
-      return true;
-    },
-    processNode: processNodeDefinitions.processDefaultNode
-  }
-];
-
-/**
- * A basic tag component for displaying tags
- */
 function DisplayContent({ content, id, style, className }: Props) {
-  const react = parser.parseWithInstructions(
-    content,
-    isValidNode,
-    processingInstructions
-  );
-
   return (
-    <div className={cx(styles.base, className)} id={className} style={style}>
-      {react}
+    <div htmlId={id} style={style} className={className}>
+      <Editor
+        simple={false}
+        autoFocus={false}
+        placeholder=""
+        onChange={() => {}}
+        onBlur={() => {}}
+        onFocus={() => {}}
+        value={content}
+        disabled
+      />
     </div>
   );
 }
