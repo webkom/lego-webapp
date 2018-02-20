@@ -1,8 +1,21 @@
+//@flow
 import { createSelector } from 'reselect';
 import { Group, Membership } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import without from 'lodash/without';
+import type { ID } from 'app/models';
 import mergeObjects from 'app/utils/mergeObjects';
+
+export const resolveGroupLink = (group: { type: string, id: ID }) => {
+  switch (group.type) {
+    case 'interesse':
+      return `/interestgroups/${group.id}`;
+    case 'komite':
+      return `/pages/komiteer/${group.id}`;
+    default:
+      return null;
+  }
+};
 
 export default createEntityReducer({
   key: 'groups',

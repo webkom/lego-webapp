@@ -14,6 +14,8 @@ import styles from './UserProfile.css';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import { groupBy } from 'lodash';
+import { resolveGroupLink } from 'app/reducers/groups';
+import type { Group } from 'app/models';
 import cx from 'classnames';
 
 const fieldTranslations = {
@@ -27,6 +29,34 @@ type Props = {
   feedItems: Array<any>,
   feed: Object,
   isMe: Boolean
+};
+
+const GroupPill = ({ group }: { group: Group }) => (
+  <Pill key={group.id} style={{ margin: '5px' }}>
+    {group.name}
+  </Pill>
+);
+
+const GroupBadge = ({ group }: { group: Group }) => {
+  const groupElement = (
+    <Tooltip key={group.id} content={group.name}>
+      <CircularPicture
+        alt={group.name}
+        src={group.logo}
+        size={50}
+        style={{ margin: '10px 5px' }}
+      />
+    </Tooltip>
+  );
+  const link = resolveGroupLink(group);
+  if (!link) {
+    return groupElement;
+  }
+  return (
+    <Link key={group.id} to={resolveGroupLink(group)}>
+      {groupElement}
+    </Link>
+  );
 };
 
 export default class UserProfile extends Component<Props> {
@@ -51,9 +81,9 @@ export default class UserProfile extends Component<Props> {
 
   render() {
     const { user, isMe, showSettings, feedItems, feed } = this.props;
-    const abakusGroups = groupBy(
+    const { groupsAsBadges = [], groupsAsPills = [] } = groupBy(
       user.abakusGroups,
-      group => (group.logo ? 'withLogo' : 'withoutLogo')
+      group => (group.logo ? 'groupsAsBadges' : 'groupsAsPills')
     );
     return (
       <div className={styles.root}>
@@ -66,21 +96,13 @@ export default class UserProfile extends Component<Props> {
           <Flex column className={styles.rightContent}>
             <h2>{user.fullName}</h2>
             <Flex wrap>
-              {(abakusGroups['withoutLogo'] || []).map(group => (
-                <Pill key={group.id} style={{ margin: '5px' }}>
-                  {group.name}
-                </Pill>
+              {groupsAsPills.map(group => (
+                <GroupPill key={group.id} group={group} />
               ))}
             </Flex>
             <Flex>
-              {(abakusGroups['withLogo'] || []).map(group => (
-                <Tooltip key={group.id} content={group.name}>
-                  <CircularPicture
-                    src={group.logo}
-                    size={50}
-                    style={{ margin: '10px 5px' }}
-                  />
-                </Tooltip>
+              {groupsAsBadges.map(group => (
+                <GroupBadge group={group} key={group.id} />
               ))}
             </Flex>
           </Flex>

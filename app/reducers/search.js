@@ -3,6 +3,7 @@
 import { createSelector } from 'reselect';
 import { Search } from '../actions/ActionTypes';
 import moment from 'moment-timezone';
+import { resolveGroupLink } from 'app/reducers/groups';
 
 export type SearchResult = {
   label: string,
@@ -108,16 +109,7 @@ const searchMapping = {
   'users.abakusgroup': {
     label: 'name',
     title: 'name',
-    link: group => {
-      switch (group.type) {
-        case 'interesse':
-          return `/interestgroups/${group.id}`;
-        case 'komite':
-          return `/pages/komiteer/${group.id}`;
-        default:
-          return null;
-      }
-    },
+    link: resolveGroupLink,
     value: 'id',
     profilePicture: 'logo',
     id: 'id',

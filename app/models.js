@@ -126,10 +126,12 @@ export type Joblisting = {
   workplaces: Array<Workplace>
 };
 
-export type InterestGroup = {
+export type Group = {
   id: ID,
   actionGrant: Array<string>,
+  type: string,
   name: string,
+  numberOfUsers?: number,
   memberships: Array<GroupMembership>,
   description: string,
   text: string,
