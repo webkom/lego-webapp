@@ -57,3 +57,8 @@
   max-width: 150px;
   margin-top: 30px;
 }
+
+.fields > div {
+  border: none !important;
+  margin-bottom: -20px !important;
+}
