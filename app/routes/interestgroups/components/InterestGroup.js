@@ -5,13 +5,13 @@ import React from 'react';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import { Link } from 'react-router';
-import type { InterestGroup } from 'app/models';
+import type { Group } from 'app/models';
 
 // TODO: rather handle this in the backend
 const SAMPLE_LOGO = 'https://i.imgur.com/Is9VKjb.jpg';
 
 type Props = {
-  group: InterestGroup
+  group: Group
 };
 
 const InterestGroupComponent = ({ group }: Props) => {

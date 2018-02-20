@@ -76,7 +76,7 @@ export const selectGroups = createSelector(
 );
 
 export const selectGroupsWithType = createSelector(
-  selectGroups,
+  (state, props) => selectGroups(state),
   (state, props) => props.groupType,
   (groups, groupType) => groups.filter(g => g.type === groupType)
 );
