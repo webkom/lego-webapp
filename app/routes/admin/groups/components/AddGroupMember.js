@@ -1,8 +1,8 @@
 // @flow
 import React from 'react';
-import { reduxForm, Field } from 'redux-form';
+import { Field, SubmissionError } from 'redux-form';
 import type { FieldProps } from 'redux-form';
-import { Button, Form } from 'app/components/Form';
+import { legoForm, Button, Form } from 'app/components/Form';
 import SelectInput from 'app/components/Form/SelectInput';
 import { createValidator, required } from 'app/utils/validation';
 import { ROLES } from 'app/utils/constants';
@@ -18,22 +18,9 @@ const roles = Object.keys(ROLES)
     label: ROLES[role]
   }));
 
-const AddGroupMember = ({
-  addMember,
-  submitting,
-  group,
-  handleSubmit
-}: Props) => {
-  const onSubmit = handleSubmit(({ user, role }) =>
-    addMember({
-      role,
-      userId: user.id,
-      groupId: group.id
-    })
-  );
-
+const AddGroupMember = ({ submitting, group, handleSubmit }: Props) => {
   return (
-    <Form onSubmit={onSubmit}>
+    <Form onSubmit={handleSubmit}>
       <h3>Legg til ny bruker</h3>
       <Field
         label="Bruker"
@@ -64,7 +51,23 @@ const validate = createValidator({
   role: [required()]
 });
 
-export default reduxForm({
+export default legoForm({
   form: 'add-user',
-  validate
+  validate,
+  onSubmit: ({ user, role }, dispatch, props: Props) =>
+    props
+      .addMember({
+        role,
+        userId: user.id,
+        groupId: props.group.id
+      })
+      .catch(err => {
+        if (err.payload.response.status === 409) {
+          throw new SubmissionError({
+            user: 'Denne brukeren er allerede med i gruppen.'
+          });
+        }
+
+        throw err;
+      })
 })(AddGroupMember);
