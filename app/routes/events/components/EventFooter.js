@@ -62,7 +62,7 @@ const EventFooter = ({ icalToken }: Props) => (
       )}
       {icalToken && (
         <div className={cx(styles.section, hiddenOnMobile)}>
-          <h3>ICalendar</h3>
+          <h3>iCalendar</h3>
           <ul>
             {icalTypes.map((type, key) => (
               <li key={key}>
