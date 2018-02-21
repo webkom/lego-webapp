@@ -218,6 +218,7 @@ export const selectEventById = createSelector(
   (state, props) => props.eventId,
   (eventsById, eventId) => {
     const event = eventsById[eventId];
+
     if (event) {
       return transformEvent(event);
     }

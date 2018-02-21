@@ -4,6 +4,7 @@ import { Survey } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
 import { selectEvents } from './events';
+import { omit } from 'lodash';
 
 export type SurveyEntity = {
   id: number,
@@ -68,5 +69,30 @@ export const selectSurveyById = createSelector(
   (surveys, surveyId) => {
     const survey = surveys.find(survey => survey.id === surveyId);
     return survey || {};
+  }
+);
+
+export const selectSurveyTemplates = createSelector(
+  (state, props) => selectSurveys(state, props),
+  surveys => surveys.filter(survey => survey.templateType)
+);
+
+export const selectSurveyTemplate = createSelector(
+  (state, props) => selectSurveys(state, props),
+  (state, props) => props.templateType,
+  (surveys, templateType) => {
+    const template = surveys.find(
+      survey => survey.templateType === templateType
+    );
+    if (!template) return false;
+
+    const questions = template.questions.map(question => ({
+      ...omit(question, 'id'),
+      options: question.options.map(option => omit(option, 'id'))
+    }));
+    return {
+      ...omit(template, ['id', 'event', 'activeFrom']),
+      questions
+    };
   }
 );

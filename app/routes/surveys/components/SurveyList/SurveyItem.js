@@ -25,14 +25,24 @@ const SurveyItem = (props: Props) => {
           <h3 className={styles.surveyItemTitle}>{survey.title}</h3>
         </Link>
 
-        <div className={styles.surveyTime}>
-          For arrangement{' '}
-          <Link to={`/events/${survey.event.id}`}>{survey.event.title}</Link>
-        </div>
+        {survey.templateType ? (
+          <div className={styles.surveyTime}>
+            Mal for arrangement av type {String(survey.templateType)}
+          </div>
+        ) : (
+          <div>
+            <div className={styles.surveyTime}>
+              For arrangement{' '}
+              <Link to={`/events/${survey.event.id}`}>
+                {survey.event.title}
+              </Link>
+            </div>
 
-        <div className={styles.surveyTime}>
-          Aktiv fra <Time time={survey.activeFrom} format="ll HH:mm" />
-        </div>
+            <div className={styles.surveyTime}>
+              Aktiv fra <Time time={survey.activeFrom} format="ll HH:mm" />
+            </div>
+          </div>
+        )}
       </div>
 
       <div className={styles.companyLogo}>
