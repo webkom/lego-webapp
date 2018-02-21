@@ -31,8 +31,7 @@ const mapStateToProps = (state, props) => {
   const surveyId = Number(props.params.surveyId);
   const survey = selectSurveyById(state, { surveyId });
   const templateType = props.location.query.template;
-  const template =
-    templateType && selectSurveyTemplate(state, { ...props, templateType });
+  const template = selectSurveyTemplate(state, { ...props, templateType });
 
   let initialValues = null;
   if (templateType) {
