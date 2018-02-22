@@ -86,12 +86,12 @@ export const selectSurveyTemplate = createSelector(
     );
     if (!template) return false;
 
-    const questions = template.questions.map(question => ({
+    const questions = (template.questions || []).map(question => ({
       ...omit(question, 'id'),
       options: question.options.map(option => omit(option, 'id'))
     }));
     return {
-      ...omit(template, ['id', 'event', 'activeFrom']),
+      ...omit(template, ['id', 'event', 'activeFrom', 'templateType']),
       questions
     };
   }

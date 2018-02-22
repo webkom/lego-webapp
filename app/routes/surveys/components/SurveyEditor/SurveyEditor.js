@@ -61,9 +61,11 @@ function TemplateTypeDropdownItems({
           <Link
             onClick={e => {
               e.preventDefault();
+              e.stopPropagation();
               if (
                 confirm(
-                  'Dette vil slette alle uendrete lagringer i undersøkelsen!'
+                  'Dette vil slette alle uendrete lagringer i undersøkelsen!' +
+                    'Lagrete endringer vil ikke overskrives før du trykker Lagre.'
                 )
               ) {
                 destroy();
@@ -146,23 +148,30 @@ class SurveyEditor extends Component<Props, State> {
             />
           </Dropdown>
 
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <Field
-              placeholder="Bekk Miniseminar"
-              label="Arrangement"
-              autoFocus={autoFocus}
-              name="event"
-              component={SelectInput.AutocompleteField}
-              className={styles.editEvent}
-              filter={['events.event']}
-            />
+          {survey.templateType ? (
+            <h2 style={{ color: 'red' }}>
+              Dette er malen for arrangementer av type{' '}
+              {eventTypes[String(survey.templateType)]}
+            </h2>
+          ) : (
+            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Field
+                placeholder="Bekk Miniseminar"
+                label="Arrangement"
+                autoFocus={autoFocus}
+                name="event"
+                component={SelectInput.AutocompleteField}
+                className={styles.editEvent}
+                filter={['events.event']}
+              />
 
-            <Field
-              label="Aktiveringstidspunkt"
-              name="activeFrom"
-              component={DatePicker.Field}
-            />
-          </div>
+              <Field
+                label="Aktiveringstidspunkt"
+                name="activeFrom"
+                component={DatePicker.Field}
+              />
+            </div>
+          )}
 
           <FieldArray
             name="questions"

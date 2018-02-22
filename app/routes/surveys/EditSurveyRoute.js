@@ -16,10 +16,10 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 
 const loadData = (props, dispatch) => {
   const { surveyId } = props.params;
-  const template = props.location.query.template;
-  if (template) {
+  const { templateType } = props.location.query;
+  if (templateType) {
     return Promise.all([
-      dispatch(fetchTemplate(template)),
+      dispatch(fetchTemplate(templateType)),
       dispatch(fetch(surveyId))
     ]);
   }
@@ -27,27 +27,30 @@ const loadData = (props, dispatch) => {
 };
 
 const mapStateToProps = (state, props) => {
-  const notFetching = !state.surveys.fetching && !state.events.fetching;
+  const notFetching = !state.surveys.fetching;
   const surveyId = Number(props.params.surveyId);
   const survey = selectSurveyById(state, { surveyId });
   const templateType = props.location.query.templateType;
   const template = selectSurveyTemplate(state, { ...props, templateType });
 
+  const initialEvent = survey.event && {
+    value: survey.event.id,
+    label: survey.event.title
+  };
+
   let initialValues = null;
-  if (notFetching) {
+  if (notFetching && !(templateType && !template)) {
     if (template) {
       initialValues = {
         ...template,
-        event: '',
-        activeFrom: survey.event.endTime
+        title: survey.title || template.title,
+        event: initialEvent,
+        activeFrom: survey.event && survey.event.endTime
       };
-    } else if (survey) {
+    } else {
       initialValues = {
         ...survey,
-        event: survey.event && {
-          value: survey.event.id,
-          label: survey.event.title
-        },
+        event: initialEvent,
         questions:
           survey.questions &&
           survey.questions.map(
@@ -63,13 +66,15 @@ const mapStateToProps = (state, props) => {
     }
   }
 
-  const surveyToSend = template ? { questions: template.questions } : survey;
+  const surveyToSend = template
+    ? { ...survey, questions: template.questions }
+    : survey;
 
   return {
-    surveyToSend,
+    survey: surveyToSend,
     surveyId,
     fetching: state.surveys.fetching,
-    templateType,
+    template,
     initialValues,
     notFetching
   };
@@ -85,5 +90,5 @@ export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData, ['params.surveyId', 'location.query.templateType']),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['notFetching', 'survey.questions', 'survey.event'])
+  loadingIndicator(['notFetching'])
 )(SurveyEditor);

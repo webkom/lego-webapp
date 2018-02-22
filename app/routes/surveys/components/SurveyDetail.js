@@ -45,7 +45,7 @@ class SurveyDetail extends Component<Props> {
           <ContentMain>
             {survey.templateType ? (
               <h2 style={{ color: 'red' }}>
-                Dette er en mal for arrangementer av type{' '}
+                Dette er malen for arrangementer av type{' '}
                 {eventTypes[String(survey.templateType)]}
               </h2>
             ) : (
