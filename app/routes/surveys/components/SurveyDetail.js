@@ -11,6 +11,7 @@ import type { ActionGrant } from 'app/models';
 import AdminSideBar from './AdminSideBar';
 import Button from 'app/components/Button';
 import StaticSubmission from './StaticSubmission';
+import { eventTypes } from 'app/routes/events/utils';
 
 type Props = {
   survey: SurveyEntity,
@@ -43,7 +44,10 @@ class SurveyDetail extends Component<Props> {
         <ContentSection>
           <ContentMain>
             {survey.templateType ? (
-              <h2 style={{ color: 'red' }}>Dette er en mal!</h2>
+              <h2 style={{ color: 'red' }}>
+                Dette er en mal for arrangementer av type{' '}
+                {eventTypes[String(survey.templateType)]}
+              </h2>
             ) : (
               <div>
                 <div className={styles.surveyTime}>

@@ -51,8 +51,8 @@ function TemplateTypeDropdownItems({
 }: TemplateTypeDropdownItemsProps) {
   const link = eventType =>
     survey && survey.id
-      ? `/surveys/${survey.id}/edit/?template=${eventType}`
-      : `/surveys/add/?template=${eventType}`;
+      ? `/surveys/${survey.id}/edit/?templateType=${eventType}`
+      : `/surveys/add/?templateType=${eventType}`;
 
   return (
     <Dropdown.List>

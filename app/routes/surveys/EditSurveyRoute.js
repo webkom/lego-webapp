@@ -13,7 +13,6 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectSurveyById, selectSurveyTemplate } from 'app/reducers/surveys';
 import { push } from 'react-router-redux';
 import loadingIndicator from 'app/utils/loadingIndicator';
-import { defaultActiveFrom } from './utils';
 
 const loadData = (props, dispatch) => {
   const { surveyId } = props.params;
@@ -28,49 +27,51 @@ const loadData = (props, dispatch) => {
 };
 
 const mapStateToProps = (state, props) => {
+  const notFetching = !state.surveys.fetching && !state.events.fetching;
   const surveyId = Number(props.params.surveyId);
   const survey = selectSurveyById(state, { surveyId });
-  const templateType = props.location.query.template;
+  const templateType = props.location.query.templateType;
   const template = selectSurveyTemplate(state, { ...props, templateType });
 
   let initialValues = null;
-  if (templateType) {
-    initialValues = {
-      ...template,
-      event: '',
-      activeFrom: defaultActiveFrom(12, 0)
-    };
-  } else if (survey) {
-    initialValues = {
-      ...survey,
-      event: survey.event && {
-        value: survey.event.id,
-        label: survey.event.title
-      },
-      questions:
-        survey.questions &&
-        survey.questions.map(
-          question =>
-            question.options
-              ? {
-                  ...question,
-                  options: question.options.concat({ optionText: '' })
-                }
-              : question
-        )
-    };
+  if (notFetching) {
+    if (template) {
+      initialValues = {
+        ...template,
+        event: '',
+        activeFrom: survey.event.endTime
+      };
+    } else if (survey) {
+      initialValues = {
+        ...survey,
+        event: survey.event && {
+          value: survey.event.id,
+          label: survey.event.title
+        },
+        questions:
+          survey.questions &&
+          survey.questions.map(
+            question =>
+              question.options
+                ? {
+                    ...question,
+                    options: question.options.concat({ optionText: '' })
+                  }
+                : question
+          )
+      };
+    }
   }
 
-  const surveyToSend = templateType
-    ? { questions: template.questions }
-    : survey;
+  const surveyToSend = template ? { questions: template.questions } : survey;
 
   return {
     surveyToSend,
     surveyId,
     fetching: state.surveys.fetching,
     templateType,
-    initialValues
+    initialValues,
+    notFetching
   };
 };
 
@@ -82,7 +83,7 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, ['params.surveyId', 'template']),
+  prepare(loadData, ['params.surveyId', 'location.query.templateType']),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['survey.questions', 'survey.event.cover'])
+  loadingIndicator(['notFetching', 'survey.questions', 'survey.event'])
 )(SurveyEditor);

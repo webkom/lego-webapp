@@ -15,18 +15,17 @@ import { selectSurveyTemplate } from 'app/reducers/surveys';
 import { fetchEvent } from 'app/actions/EventActions';
 import { selectEventById } from 'app/reducers/events';
 import { defaultActiveFrom } from './utils';
+import loadingIndicator from 'app/utils/loadingIndicator';
 
 const loadData = (props, dispatch) => {
-  const { template, event } = props.location.query;
+  const { templateType, event } = props.location.query;
   if (event) {
-    return dispatch(fetchEvent(event)).then(
-      result =>
-        result.success &&
-        dispatch(fetchTemplate(result.payload.entities.events[event].eventType))
+    return dispatch(fetchEvent(event)).then(result =>
+      dispatch(fetchTemplate(result.payload.entities.events[event].eventType))
     );
   }
-  if (template) {
-    return dispatch(fetchTemplate(template));
+  if (templateType) {
+    return dispatch(fetchTemplate(templateType));
   }
 };
 
@@ -35,12 +34,10 @@ const mapStateToProps = (state, props) => {
   const { templateType, event } = props.location.query;
 
   const fullEvent = selectEventById(state, { eventId: event });
-
   const template = selectSurveyTemplate(state, {
     ...props,
     templateType: templateType || fullEvent.eventType
   });
-
   const initialEvent = event
     ? {
         value: fullEvent.id,
@@ -50,12 +47,7 @@ const mapStateToProps = (state, props) => {
   const activeFrom = event ? fullEvent.endTime : defaultActiveFrom(12, 0);
 
   let initialValues = null;
-  if (
-    !(
-      ((templateType || event) && !template) ||
-      (event && Object.keys(fullEvent).length === 0)
-    )
-  ) {
+  if (notFetching) {
     if (template) {
       initialValues = {
         ...template,
@@ -91,10 +83,7 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, [
-    'notFetching',
-    'location.query.template',
-    'location.query.event'
-  ]),
-  connect(mapStateToProps, mapDispatchToProps)
+  prepare(loadData, ['location.query.templateType', 'location.query.event']),
+  connect(mapStateToProps, mapDispatchToProps),
+  loadingIndicator(['notFetching'])
 )(SurveyEditor);

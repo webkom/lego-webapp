@@ -78,7 +78,7 @@ export function deleteSurvey(surveyId: number): Thunk<*> {
 export function fetchTemplates(): Thunk<*> {
   return callAPI({
     types: Survey.FETCH,
-    endpoint: `/surveys/templates/`,
+    endpoint: `/survey-templates/`,
     schema: [surveySchema],
     meta: {
       errorMessage: 'Henting av spørreundersøkelse maler feilet'
@@ -90,7 +90,7 @@ export function fetchTemplates(): Thunk<*> {
 export function fetchTemplate(template: string): Thunk<*> {
   return callAPI({
     types: Survey.FETCH,
-    endpoint: `/surveys/templates/${template}/`,
+    endpoint: `/survey-templates/${template}/`,
     schema: surveySchema,
     meta: {
       errorMessage: 'Henting av spørreundersøkelse mal feilet'
