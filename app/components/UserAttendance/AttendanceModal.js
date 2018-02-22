@@ -74,6 +74,9 @@ class AttendanceModal extends Component<Props, State> {
           {activePool.registrations.map((registration, i) => (
             <li key={i}>
               <div className={styles.row}>
+                {activePool.name === 'Venteliste' && (
+                  <span className={styles.waitingListPosition}>{i + 1}. </span>
+                )}
                 <ProfilePicture size={30} user={registration.user} />
                 <Link to={`/users/${registration.user.username}`}>
                   {registration.user.fullName}

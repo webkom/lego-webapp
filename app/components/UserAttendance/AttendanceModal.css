@@ -56,3 +56,8 @@
   border-bottom: 1px solid #c24538;
   border-radius: 5px;
 }
+
+.waitingListPosition {
+  margin-right: 10px;
+  font-size: 20px;
+}
