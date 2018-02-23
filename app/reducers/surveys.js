@@ -5,13 +5,15 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
 import { selectEvents } from './events';
 import { omit } from 'lodash';
+import type { EventType } from 'app/models';
 
 export type SurveyEntity = {
   id: number,
   title: string,
   event: any,
   activeFrom?: string,
-  questions: Array<QuestionEntity>
+  questions: Array<QuestionEntity>,
+  templateType?: EventType
 };
 
 export type QuestionEntity = {

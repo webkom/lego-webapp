@@ -64,7 +64,7 @@ function TemplateTypeDropdownItems({
               e.stopPropagation();
               if (
                 confirm(
-                  'Dette vil slette alle uendrete lagringer i undersøkelsen!' +
+                  'Dette vil slette alle uendrete lagringer i undersøkelsen!\n' +
                     'Lagrete endringer vil ikke overskrives før du trykker Lagre.'
                 )
               ) {

@@ -18,7 +18,11 @@ const SurveyItem = (props: Props) => {
   return (
     <div
       className={styles.surveyItem}
-      style={{ borderColor: colorForEvent(survey.event.eventType) }}
+      style={{
+        borderColor: colorForEvent(
+          survey.templateType || survey.event.eventType
+        )
+      }}
     >
       <div>
         <Link to={`/surveys/${String(survey.id)}`}>
