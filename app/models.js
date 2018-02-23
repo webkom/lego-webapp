@@ -62,7 +62,8 @@ export type Event = EventBase & {
 
 export type TransformEvent = EventBase & {
   pools: Array<EventTransformPool>,
-  company: SelectInput
+  company: SelectInput,
+  responsibleGroup: SelectInput
 };
 
 export type Tags = Object;

@@ -48,6 +48,12 @@ function GroupForm({
         required
       />
       <Field
+        label="Kontakt e-post"
+        placeholder="Primær e-post for kommunikasjon med gruppen"
+        name="contactEmail"
+        component={TextInput.Field}
+      />
+      <Field
         label="Beskrivelse"
         placeholder="Vil du strikke din egen lue? Eller har du allerede […]"
         name="text"
