@@ -47,6 +47,10 @@ const mapStateToProps = (state, props) => {
       company: event.company && {
         label: event.company.name,
         value: event.company.id
+      },
+      responsibleGroup: event.responsibleGroup && {
+        label: event.responsibleGroup.name,
+        value: event.responsibleGroup.id
       }
     },
     actionGrant,

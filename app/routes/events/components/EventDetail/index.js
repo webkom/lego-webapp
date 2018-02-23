@@ -164,6 +164,19 @@ export default class EventDetail extends Component<Props> {
           </Link>
         )
       },
+      event.responsibleGroup && {
+        key: 'Arrangør',
+        value: (
+          <span>
+            {event.responsibleGroup.name}{' '}
+            {event.responsibleGroup.contactEmail && (
+              <a href={`mailto:${event.responsibleGroup.contactEmail}`}>
+                {event.responsibleGroup.contactEmail}
+              </a>
+            )}
+          </span>
+        )
+      },
       {
         key: 'Hva',
         value: EVENT_TYPE_TO_STRING(event.eventType)

@@ -162,6 +162,14 @@ function EventEditor({
               placeholder="Bedrift"
             />
             <Field
+              name="responsibleGroup"
+              label="Ansvarlig gruppe"
+              filter={['users.abakusgroup']}
+              fieldClassName={styles.metaField}
+              component={SelectInput.AutocompleteField}
+              placeholder="Gruppe med ansvar for arrangement"
+            />
+            <Field
               label="Starter"
               name="startTime"
               component={DatePicker.Field}
