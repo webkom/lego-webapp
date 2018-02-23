@@ -111,7 +111,7 @@ export default class Editor extends Component<Props, State> {
         onBlur={this.props.onBlur}
         onFocus={this.props.onFocus}
         placeholder={this.props.placeholder}
-        readOnly={this.props.disabled}
+        editorEnabled={!this.props.disabled}
         editorState={editorState}
         rendererFn={this.rendererFn}
         onChange={this.onChange}
