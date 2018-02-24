@@ -16,7 +16,8 @@ export type Props = {
   pools: Array<Pool>,
   title: string,
   togglePool: number => void,
-  selectedPool: number
+  selectedPool: number,
+  allRegistrations?: Array<Object>
 };
 
 const Tab = ({ name, index, activePoolIndex, togglePool }: any) => (
@@ -45,17 +46,20 @@ class AttendanceModal extends Component<Props, State> {
   };
 
   componentWillMount() {
-    this.generateAmendedPools(this.props.pools);
+    this.generateAmendedPools(this.props.pools, this.props.allRegistrations);
   }
 
-  generateAmendedPools = (pools: Array<Pool>) => {
+  generateAmendedPools = (
+    pools: Array<Pool>,
+    allRegistrations?: Array<Object>
+  ) => {
     if (pools.length === 1) return this.setState({ pools });
 
-    // $FlowFixMe
-    const allRegistrations = flatMap(pools, pool => pool.registrations);
+    const registrations = // $FlowFixMe
+      allRegistrations || flatMap(pools, pool => pool.registrations);
     const summaryPool = {
       name: 'Alle',
-      registrations: allRegistrations
+      registrations
     };
     return this.setState({
       pools: [summaryPool, ...pools]

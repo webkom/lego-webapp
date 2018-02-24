@@ -15,11 +15,7 @@ import Tag from 'app/components/Tags/Tag';
 import { FormatTime, FromToTime } from 'app/components/Time';
 import InfoList from 'app/components/InfoList';
 import { Flex } from 'app/components/Layout';
-import {
-  EVENT_TYPE_TO_STRING,
-  colorForEvent,
-  sortRegistrationsBySharedMemberships
-} from '../../utils';
+import { EVENT_TYPE_TO_STRING, colorForEvent } from '../../utils';
 import Admin from '../Admin';
 import RegistrationMeta from '../RegistrationMeta';
 import DisplayContent from 'app/components/DisplayContent';
@@ -254,6 +250,7 @@ export default class EventDetail extends Component<Props> {
                     <ModalParentComponent
                       key="modal"
                       pools={pools}
+                      registrations={registrations}
                       title="Påmeldte"
                     >
                       <RegisteredSummary registrations={registrations} />

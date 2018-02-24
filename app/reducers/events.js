@@ -372,6 +372,7 @@ export const selectRegistrationsFromPools = createSelector(
   selectPoolsWithRegistrationsForEvent,
   pools =>
     orderBy(
+      // $FlowFixMe
       pools.reduce((users, pool) => users.concat(pool.registrations), []),
       'sharedMemberships',
       'desc'
