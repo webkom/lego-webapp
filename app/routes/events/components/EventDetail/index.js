@@ -240,7 +240,7 @@ export default class EventDetail extends Component<Props> {
               <Flex column>
                 <h3>Påmeldte</h3>
                 {registrations ? (
-                  registrations.sort(sortRegistrationsBySharedMemberships) && [
+                  [
                     <Flex
                       key="registrations"
                       className={styles.registeredThumbnails}

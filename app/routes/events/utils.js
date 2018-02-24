@@ -1,7 +1,7 @@
 // @flow
 import { pick } from 'lodash';
 import moment from 'moment-timezone';
-import type { TransformEvent, EventType, EventRegistration } from 'app/models';
+import type { TransformEvent, EventType } from 'app/models';
 
 export const time = (
   timeObject: { days?: number, hours?: number, minutes?: number } = {}
@@ -100,20 +100,4 @@ export const transformEvent = (data: TransformEvent, edit: boolean = false) => {
       permissionGroups: pool.permissionGroups.map(group => group.value)
     }))
   };
-};
-
-export const sortRegistrationsBySharedMemberships = (
-  a: EventRegistration,
-  b: EventRegistration
-) => {
-  if (!a.sharedMemberships && !b.sharedMemberships) {
-    return a.id - b.id;
-  }
-  if (!a.sharedMemberships) {
-    return 1;
-  }
-  if (!b.sharedMemberships) {
-    return -1;
-  }
-  return Number(b.sharedMemberships) - Number(a.sharedMemberships);
 };
