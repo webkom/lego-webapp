@@ -10,6 +10,9 @@
 .*/node_modules/draft-js/lib/ContentBlockNode.js.flow
 .*/node_modules/immutable/dist/immutable.js.flow
 
+.*/node_modules/draft-js/lib/DraftEditorLeaf.react.js.flow
+.*/node_modules/draft-js/lib/editOnBlur.js.flow
+
 [libs]
 
 [options]
