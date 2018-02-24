@@ -96,7 +96,8 @@ export type EventRegistration = {
   unregistrationDate: Dateish,
   presence: EventRegistrationPresence,
   chargeStatus: EventRegistrationChargeStatus,
-  feedback: string
+  feedback: string,
+  sharedMemberships?: number
 };
 
 type EventPoolBase = {
