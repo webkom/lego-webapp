@@ -9,7 +9,7 @@ import joinReducers from 'app/utils/joinReducers';
 import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
 import mergeObjects from 'app/utils/mergeObjects';
-import { groupBy } from 'lodash';
+import { groupBy, orderBy } from 'lodash';
 
 export type EventEntity = {
   id: number,
@@ -240,13 +240,17 @@ export const selectPoolsWithRegistrationsForEvent = createSelector(
   (pools, registrationsById, usersById) =>
     pools.map(pool => ({
       ...pool,
-      registrations: pool.registrations.map(regId => {
-        const registration = registrationsById[regId];
-        return {
-          ...registration,
-          user: usersById[registration.user]
-        };
-      })
+      registrations: orderBy(
+        pool.registrations.map(regId => {
+          const registration = registrationsById[regId];
+          return {
+            ...registration,
+            user: usersById[registration.user]
+          };
+        }),
+        'sharedMemberships',
+        'desc'
+      )
     }))
 );
 
@@ -302,7 +306,11 @@ export const selectMergedPoolWithRegistrations = createSelector(
             return {
               capacity,
               permissionGroups,
-              registrations,
+              registrations: orderBy(
+                registrations,
+                'sharedMemberships',
+                'desc'
+              ),
               registrationCount: registrations.length
             };
           },
@@ -362,7 +370,13 @@ export const selectCommentsForEvent = createSelector(
 
 export const selectRegistrationsFromPools = createSelector(
   selectPoolsWithRegistrationsForEvent,
-  pools => pools.reduce((users, pool) => users.concat(pool.registrations), [])
+  pools =>
+    orderBy(
+      // $FlowFixMe
+      pools.flatMap(pool => pool.registrations || []),
+      'sharedMemberships',
+      'desc'
+    )
 );
 
 export const getRegistrationGroups = createSelector(

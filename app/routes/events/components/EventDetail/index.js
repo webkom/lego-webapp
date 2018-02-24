@@ -250,6 +250,7 @@ export default class EventDetail extends Component<Props> {
                     <ModalParentComponent
                       key="modal"
                       pools={pools}
+                      registrations={registrations}
                       title="Påmeldte"
                     >
                       <RegisteredSummary registrations={registrations} />

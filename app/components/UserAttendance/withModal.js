@@ -44,6 +44,7 @@ export default function withModal<Props: *>(
               selectedPool={this.state.selectedTab}
               togglePool={this.toggleTab}
               pools={this.props.pools}
+              allRegistrations={this.props.registrations}
             />
           </Modal>
         </div>
