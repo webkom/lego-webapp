@@ -6,6 +6,7 @@ import cx from 'classnames';
 import { ProfilePicture } from 'app/components/Image';
 import styles from './AttendanceModal.css';
 import { flatMap } from 'lodash';
+import moment from 'moment';
 
 type Pool = {
   name: string,
@@ -33,6 +34,55 @@ const Tab = ({ name, index, activePoolIndex, togglePool }: any) => (
 
 type State = {
   pools: Array</*TODO: Pool*/ Object>
+};
+
+const WaitingList = ({ pools, waitingPool }) => {
+  const relevantPools = pools.filter(pool => pool.id);
+
+  /*
+    For testing until prospectivePools and registrationDate is added to
+    registrations backend. Feel free to ignore
+  */
+  const testPool = {
+    ...waitingPool,
+    registrations: waitingPool.registrations.map(registration => ({
+      ...registration,
+      prospectivePools: [
+        relevantPools[Math.floor(Math.random() * relevantPools.length)].id
+      ],
+      registrationDate: moment(
+        `2018-02-20T11:${Math.floor(Math.random() * 24)}:00Z`
+      )
+    }))
+  };
+
+  const waitingPools = relevantPools
+    .map(pool => ({
+      name: `Venteliste for ${pool.name}`,
+      registrations: testPool.registrations // testPool -> waitingPool when done
+        .filter(registration => registration.prospectivePools.includes(pool.id))
+        .sort((a, b) => b.registrationDate - a.registrationDate)
+    }))
+    .filter(pool => pool.registrations.length > 0);
+
+  return waitingPools.map((waitingPool, i) => (
+    <li key={i} className={styles.waitingList}>
+      <h2>{waitingPool.name}</h2>
+      <ul>
+        {waitingPool.registrations.map((registration, j) => (
+          <li key={j} className={styles.waitingListItem}>
+            <div className={styles.row}>
+              <span className={styles.waitingListPosition}>{j + 1}. </span>
+              <ProfilePicture size={30} user={registration.user} />
+              <Link to={`/users/${registration.user.username}`}>
+                {registration.user.fullName}
+              </Link>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </li>
+  ));
 };
 
 class AttendanceModal extends Component<Props, State> {
@@ -71,19 +121,20 @@ class AttendanceModal extends Component<Props, State> {
       <div>
         <h2>{title}</h2>
         <ul className={styles.list}>
-          {activePool.registrations.map((registration, i) => (
-            <li key={i}>
-              <div className={styles.row}>
-                {activePool.name === 'Venteliste' && (
-                  <span className={styles.waitingListPosition}>{i + 1}. </span>
-                )}
-                <ProfilePicture size={30} user={registration.user} />
-                <Link to={`/users/${registration.user.username}`}>
-                  {registration.user.fullName}
-                </Link>
-              </div>
-            </li>
-          ))}
+          {activePool.name === 'Venteliste' ? (
+            <WaitingList pools={pools} waitingPool={activePool} />
+          ) : (
+            activePool.registrations.map((registration, i) => (
+              <li key={i}>
+                <div className={styles.row}>
+                  <ProfilePicture size={30} user={registration.user} />
+                  <Link to={`/users/${registration.user.username}`}>
+                    {registration.user.fullName}
+                  </Link>
+                </div>
+              </li>
+            ))
+          )}
         </ul>
 
         <div className={styles.nav}>

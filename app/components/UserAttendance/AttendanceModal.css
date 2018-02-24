@@ -7,12 +7,18 @@
   overflow-y: auto;
 }
 
-.list > li {
+.list > li,
+.waitingList li {
   border-bottom: 1px solid #ccc;
 }
 
-.list > li:last-child {
+.list > li:last-child,
+.waitingList li:last-child {
   border-bottom: none;
+}
+
+.waitingList {
+  margin-bottom: 20px;
 }
 
 .nav {
