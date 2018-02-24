@@ -61,7 +61,6 @@ const WaitingList = ({ pools, waitingPool }) => {
       name: `Venteliste for ${pool.name}`,
       registrations: testPool.registrations // testPool -> waitingPool when done
         .filter(registration => registration.prospectivePools.includes(pool.id))
-        .sort((a, b) => b.registrationDate - a.registrationDate)
     }))
     .filter(pool => pool.registrations.length > 0);
 
