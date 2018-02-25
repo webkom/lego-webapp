@@ -35,6 +35,17 @@ module.exports = {
           './app/index.js'
         ]
       },
+  optimization: {
+    minimize: true,
+    runtimeChunk: true,
+    splitChunks: {
+      chunks: 'initial',
+      cacheGroups: {
+        default: false,
+        vendors: false
+      }
+    }
+  },
 
   output: {
     path: path.join(root, 'dist-client'),
@@ -61,18 +72,6 @@ module.exports = {
       }),
       !isProduction && new FriendlyErrorsPlugin(),
       !isProduction && new webpack.HotModuleReplacementPlugin(),
-      !isProduction && new webpack.NoEmitOnErrorsPlugin(),
-      new webpack.optimize.ModuleConcatenationPlugin(),
-
-      new webpack.optimize.UglifyJsPlugin({
-        compress: {
-          warnings: false
-        },
-        output: {
-          comments: false
-        },
-        sourceMap: true
-      }),
 
       new webpack.LoaderOptionsPlugin({
         options: {
@@ -171,13 +170,7 @@ module.exports = {
 
 function getDependencyHandlers() {
   if (isProduction) {
-    return [
-      new webpack.optimize.CommonsChunkPlugin({
-        name: 'vendor',
-        minChunks: Infinity,
-        filename: '[name].[hash:8].js'
-      })
-    ];
+    return [];
   }
 
   const dllPath = path.resolve(root, dllConfig.path);

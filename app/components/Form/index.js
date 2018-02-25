@@ -5,7 +5,6 @@ export { default as EditorField } from './EditorField';
 export { default as DatePicker } from './DatePicker';
 export { default as Button } from 'app/components/Button';
 export { default as Form } from './Form';
-export { default as Field } from './Field';
 export { default as TimePicker } from './TimePicker';
 export { default as RadioButton } from './RadioButton';
 export { default as RadioButtonGroup } from './RadioButtonGroup';
