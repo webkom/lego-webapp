@@ -44,7 +44,7 @@ const store = configureStore(preloadedState, Raven);
 
 if (isEmpty(preloadedState)) {
   store
-    .dispatch(loginAutomaticallyIfPossible(cookie.get))
+    .dispatch(loginAutomaticallyIfPossible(key => cookie.get(key)))
     .then(() => store.dispatch(fetchMeta()))
     .then(() => store.dispatch(maybeRefreshToken()));
 } else {

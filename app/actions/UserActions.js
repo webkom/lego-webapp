@@ -45,7 +45,7 @@ function removeToken() {
   return cookie.remove(USER_STORAGE_KEY, { path: '/' });
 }
 
-function getToken(getCookie: string => EncodedToken): ?Token {
+function getToken(getCookie: string => ?EncodedToken): ?Token {
   const encodedToken = getCookie(USER_STORAGE_KEY);
 
   if (!encodedToken) return;
@@ -253,7 +253,7 @@ export function loginWithExistingToken(token: Token): Thunk<any> {
  */
 export function maybeRefreshToken(): Thunk<*> {
   return dispatch => {
-    const token = getToken(cookie.get);
+    const token = getToken(key => cookie.get(key));
     if (!token) return Promise.resolve();
 
     const issuedTime = moment.unix(token.orig_iat);
@@ -274,7 +274,7 @@ export function maybeRefreshToken(): Thunk<*> {
  * Dispatch a login success if a token exists in local storage.
  */
 export function loginAutomaticallyIfPossible(
-  getCookie: string => string
+  getCookie: string => ?string
 ): Thunk<*> {
   return dispatch => {
     const token = getToken(getCookie);

@@ -1,11 +1,11 @@
 // @flow
 
-import moment from 'moment';
+import type Moment from 'moment';
 
 // TODO: Id handling could be opaque
 export type ID = number;
 
-export type Dateish = moment | Date | string;
+export type Dateish = Moment | Date | string;
 
 export type ActionGrant = Array<string>;
 
