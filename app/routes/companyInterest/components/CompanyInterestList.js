@@ -8,10 +8,11 @@ import Icon from 'app/components/Icon';
 import { Content } from 'app/components/Content';
 import Flex from 'app/components/Layout/Flex';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 
 export type Props = {
   companyInterestList: Array<CompanyInterestEntity>,
-  deleteCompanyInterest: number => void
+  deleteCompanyInterest: number => Promise<*>
 };
 
 const fields = company => {
@@ -33,15 +34,18 @@ const fields = company => {
 
 const CompanyInterestList = (props: Props) => {
   const generateValues = company =>
-    fields(company).map((event, key) => (
-      <td key={key} className={styles.companyInterestList}>
+    fields(company).map(event => (
+      <td
+        key={`${event.label}-${company.id}`}
+        className={styles.companyInterestList}
+      >
         <Link to={`/companyInterest/${company.id}/edit`}>{event.value}</Link>
       </td>
     ));
 
   const generateMobileValues = company =>
-    fields(company).map((event, key) => (
-      <tr key={key}>
+    fields(company).map(event => (
+      <tr key={company.id}>
         <td>{event.label}:</td>
         <td>
           <Link to={`/companyInterest/${company.id}/edit`}>{event.value}</Link>
@@ -49,21 +53,23 @@ const CompanyInterestList = (props: Props) => {
       </tr>
     ));
 
-  const interests = props.companyInterestList.map((company, key) => (
-    <tr key={key} className={styles.companyInterestList}>
+  const interests = props.companyInterestList.map(company => (
+    <tr key={company.id} className={styles.companyInterestList}>
       {generateValues(company)}
       <td className={styles.remove}>
-        <Icon
-          name="close-circle"
-          onClick={() => props.deleteCompanyInterest(company.id)}
-          className={styles.remove}
-        />
+        <ConfirmModalWithParent
+          message="Er du sikker på at du vil slette interessen?"
+          title="Slett interesse"
+          onConfirm={() => props.deleteCompanyInterest(company.id)}
+        >
+          <Icon name="close-circle" className={styles.remove} />
+        </ConfirmModalWithParent>
       </td>
     </tr>
   ));
 
-  const interestsMobile = props.companyInterestList.map((company, key) => (
-    <table key={key} className={styles.companyInterestListMobile}>
+  const interestsMobile = props.companyInterestList.map(company => (
+    <table key={company.id} className={styles.companyInterestListMobile}>
       <Flex column>
         <thead>
           <tr className={styles.mobileHeader}>
@@ -73,11 +79,17 @@ const CompanyInterestList = (props: Props) => {
               </h3>
             </td>
             <td>
-              <Icon
-                name="close-circle"
-                onClick={() => props.deleteCompanyInterest(company.id)}
-                className={styles.remove}
-              />
+              <ConfirmModalWithParent
+                message="Er du sikker på at du vil slette interessen?"
+                title="Slett interesse"
+                onConfirm={() => props.deleteCompanyInterest(company.id)}
+              >
+                <Icon
+                  name="close-circle"
+                  onClick={() => props.deleteCompanyInterest(company.id)}
+                  className={styles.remove}
+                />
+              </ConfirmModalWithParent>
             </td>
           </tr>
         </thead>
