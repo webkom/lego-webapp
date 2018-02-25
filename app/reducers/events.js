@@ -9,7 +9,7 @@ import joinReducers from 'app/utils/joinReducers';
 import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
 import mergeObjects from 'app/utils/mergeObjects';
-import { groupBy, orderBy } from 'lodash';
+import { groupBy, orderBy, flatMap } from 'lodash';
 
 export type EventEntity = {
   id: number,
@@ -373,7 +373,7 @@ export const selectRegistrationsFromPools = createSelector(
   pools =>
     orderBy(
       // $FlowFixMe
-      pools.flatMap(pool => pool.registrations || []),
+      flatMap(pools, pool => pool.registrations || []),
       'sharedMemberships',
       'desc'
     )
