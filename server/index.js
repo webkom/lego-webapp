@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 
+import 'babel-polyfill';
 import http from 'http';
 import app from './server';
 import Raven from 'raven';
