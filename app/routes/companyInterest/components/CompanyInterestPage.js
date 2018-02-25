@@ -226,7 +226,7 @@ const CompanyInterestPage = (props: Props) => {
         />
 
         <Flex column className={styles.content}>
-          <Button type="submit" submit className={styles.createButton}>
+          <Button type="submit" submit>
             {props.edit
               ? 'Oppdater bedriftsinteresse'
               : 'Opprett bedriftsinteresse'}
