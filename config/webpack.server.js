@@ -104,14 +104,14 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|jpg|jpeg|gif|svg|bdf|woff|woff2|ttf|mp3|mp4|webm|xml)$/,
+        test: /\.(png|jpg|jpeg|gif|svg|bdf|woff|woff2|ttf|mp3|mp4|webm)$/,
         loader: 'url-loader',
         query: {
           limit: 8192,
         },
       },
       {
-        test: /((manifest\.json|favicon\.png)$|icon-)/,
+        test: /((manifest\.json|opensearch\.xml|favicon\.png)$|icon-)/,
         loader: 'file-loader?name=[name].[ext]',
       },
     ],
