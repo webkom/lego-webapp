@@ -20,21 +20,21 @@ import './Editor.css';
 
 type Props = {
   /** Set focus when component mounts */
-  autoFocus: ?boolean,
+  autoFocus?: boolean,
   /** The value in the editor */
-  value: ?string,
+  value?: string,
   /** Placeholder to be shown when no content */
-  placeholder: ?string,
+  placeholder?: string,
+  simple?: boolean,
+  /** Disable editor input */
+  disabled?: boolean,
   /** Function that returns the content as html when changed */
   onChange: string => void,
   /** Function that is called when editor is focused */
   onFocus: () => void,
   /** Function that is called when editor is blurred */
-  onBlur: () => void,
+  onBlur: () => void
   /** Use editor in simple mode, just enable inline styling, no block styling */
-  simple: ?boolean,
-  /** Disable editor input */
-  disabled: ?boolean
 };
 
 type State = {

@@ -14,13 +14,13 @@ type Props = {
   style?: Object
 };
 
+/**
+ * Renders `content` produced by the Editor component in a read-only format.
+ */
 function DisplayContent({ content, id, style, className }: Props) {
   return (
     <div htmlId={id} style={style} className={className}>
       <Editor
-        simple={false}
-        autoFocus={false}
-        placeholder=""
         onChange={() => {}}
         onBlur={() => {}}
         onFocus={() => {}}
