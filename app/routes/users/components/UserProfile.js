@@ -15,7 +15,7 @@ import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import { groupBy } from 'lodash';
 import { resolveGroupLink } from 'app/reducers/groups';
-import type { Group } from 'app/models';
+import type { Group, AddPenalty } from 'app/models';
 import cx from 'classnames';
 import { EventItem } from 'app/routes/events/components/EventList';
 import EmptyState from 'app/components/EmptyState';
@@ -34,7 +34,7 @@ type Props = {
   isMe: boolean,
   loading: boolean,
   upcomingEvents: Array<Event>,
-  addPenalty: string => Promise<*>
+  addPenalty: AddPenalty => void
 };
 
 type UpcomingEventsProps = {
@@ -170,6 +170,7 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
                     penalties={user.penalties}
                     addPenalty={addPenalty}
                     username={user.username}
+                    userId={user.id}
                   />
                 </Card>
               </div>

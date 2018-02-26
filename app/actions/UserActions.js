@@ -12,6 +12,7 @@ import { User, FetchHistory } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
 import type { Thunk, Action } from 'app/types';
+import type { AddPenalty } from 'app/models';
 import { setStatusCode } from './RoutingActions';
 
 const USER_STORAGE_KEY = 'lego.auth';
@@ -393,17 +394,21 @@ export function sendForgotPasswordEmail({
     );
 }
 
-export function addPenalty(username: string) {
-  console.log('ad');
-  /*return callAPI({
-    types: User.CONFIRM_STUDENT_USER,
-    endpoint: `/users/${username}/penalties`, //ish
+export function addPenalty({ user, reason, weight, sourceEvent }: AddPenalty) {
+  return callAPI({
+    types: User.ADD_PENALTY,
+    endpoint: '/penalties/',
     method: 'POST',
+    body: {
+      user,
+      reason,
+      weight,
+      sourceEvent
+    },
     meta: {
       errorMessage: 'Opprettelse av prikk feilet'
-    },
-    useCache: true
-  });*/
+    }
+  });
 }
 
 export function resetPassword({

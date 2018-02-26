@@ -175,3 +175,11 @@ export type Announcement = {
 export type CreateAnnouncement = Announcement & {
   send: ?boolean
 };
+
+export type AddPenalty = {
+  id: ID,
+  user: ID,
+  reason: string,
+  weight: number,
+  sourceEvent: ID
+};

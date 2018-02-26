@@ -2,7 +2,9 @@
 
 import React from 'react';
 import { FormatTime } from 'app/components/Time';
-import Button from 'app/components/Button';
+//import Button from 'app/components/Button';
+import PenaltyForm from './PenaltyForm';
+import type { AddPenalty } from 'app/models';
 
 type Penalty = {
   id: number,
@@ -13,11 +15,12 @@ type Penalty = {
 
 type Props = {
   penalties: Array<Penalty>,
-  addPenalty: () => void,
-  username: string
+  addPenalty: AddPenalty => void,
+  username: string,
+  userId: number
 };
 
-function Penalties({ penalties, addPenalty, username }: Props) {
+function Penalties({ penalties, addPenalty, username, userId }: Props) {
   return (
     <div>
       {penalties.length ? (
@@ -43,13 +46,11 @@ function Penalties({ penalties, addPenalty, username }: Props) {
               </li>
             );
           })}
-          asd
-          <Button>Fjern prikk</Button>
         </ul>
       ) : (
         <i>Ingen Prikker</i>
       )}
-      <Button onClick={() => addPenalty(username)}>Lag prikk</Button>
+      <PenaltyForm user={userId} />
     </div>
   );
 }
