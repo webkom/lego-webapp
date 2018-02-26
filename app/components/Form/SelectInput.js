@@ -20,6 +20,7 @@ type Props = {
   shouldKeyDownEventCreateNewOption: number => boolean,
   isValidNewOption: string => boolean,
   value: any,
+  disabled?: boolean,
   options?: {}[]
 };
 
@@ -32,6 +33,8 @@ function SelectInput({
   isValidNewOption,
   value,
   options = [],
+  disabled = false,
+  placeholder,
   ...props
 }: Props) {
   if (props.tags) {
@@ -39,6 +42,8 @@ function SelectInput({
       <div className={style.field}>
         <Select.Creatable
           {...props}
+          disabled={disabled}
+          placeholder={!disabled && placeholder}
           instanceId={name}
           multi
           onBlurResetsInput={false}
@@ -62,6 +67,8 @@ function SelectInput({
     <div className={style.field}>
       <Select
         {...props}
+        disabled={disabled}
+        placeholder={disabled ? 'Tomt' : placeholder}
         instanceId={name}
         shouldKeyDownEventCreateNewOption={shouldKeyDownEventCreateNewOption}
         onBlurResetsInput={false}
