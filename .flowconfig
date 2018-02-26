@@ -17,6 +17,7 @@
 
 [options]
 module.name_mapper='.*\(.css\)' -> 'empty/object'
+module.name_mapper='.*\(.xml\)' -> 'empty/object'
 module.name_mapper='^\(.*\)$' -> '<PROJECT_ROOT>/\1'
 
 suppress_comment= \\(.\\|\n\\)*\\$FlowFixMe
