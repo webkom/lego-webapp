@@ -7,6 +7,21 @@
   align-items: center;
   padding: 20px;
   margin-bottom: 15px;
+
+  :global {
+    .md-RichEditor-editor:not(.md-RichEditor-readonly) {
+      padding: 10px 0;
+      border: 0;
+
+      &:focus-within {
+        box-shadow: none;
+      }
+    }
+
+    .md-RichEditor-editor .public-DraftEditor-content {
+      min-height: 0;
+    }
+  }
 }
 
 .inlineForm {
@@ -56,9 +71,4 @@
 .submit {
   max-width: 150px;
   margin-top: 30px;
-}
-
-.fields > div {
-  border: none !important;
-  margin-bottom: -20px !important;
 }
