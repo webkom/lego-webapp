@@ -175,6 +175,6 @@ const propertyGenerator = (props, config) => {
 export default compose(
   prepare(loadData, ['params.eventId']),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['notLoading', 'event.title']),
+  loadingIndicator(['notLoading', 'event.text']),
   helmet(propertyGenerator)
 )(EventDetail);
