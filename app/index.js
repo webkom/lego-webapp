@@ -18,6 +18,8 @@ import {
   maybeRefreshToken
 } from 'app/actions/UserActions';
 
+// $FlowFixMe
+require('../app/assets/opensearch.xml');
 require('../app/assets/manifest.json');
 require('../app/assets/favicon.png');
 require('../app/assets/icon-48x48.png');
@@ -26,7 +28,6 @@ require('../app/assets/icon-192x192.png');
 require('../app/assets/icon-256x256.png');
 require('../app/assets/icon-384x384.png');
 require('../app/assets/icon-512x512.png');
-require('../app/assets/opensearch.xml');
 
 moment.locale('nb-NO');
 
