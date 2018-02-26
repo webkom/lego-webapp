@@ -18,6 +18,8 @@ import {
   maybeRefreshToken
 } from 'app/actions/UserActions';
 
+// $FlowFixMe
+require('../app/assets/opensearch.xml');
 require('../app/assets/manifest.json');
 require('../app/assets/favicon.png');
 require('../app/assets/icon-48x48.png');

@@ -111,7 +111,7 @@ module.exports = {
         }
       },
       {
-        test: /((manifest\.json|favicon\.png)$|icon-)/,
+        test: /((manifest\.json|opensearch\.xml|favicon\.png)$|icon-)/,
         loader: 'file-loader?name=[name].[ext]'
       }
     ]
