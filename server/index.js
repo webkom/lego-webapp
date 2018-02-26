@@ -2,6 +2,7 @@
 
 import 'babel-polyfill';
 import http from 'http';
+import { JSDOM } from 'jsdom';
 import app from './server';
 import Raven from 'raven';
 import config from './env';
@@ -11,6 +12,11 @@ Raven.config(config.ravenDsn, {
   environment: config.environment,
   logger: 'node'
 }).install();
+
+// This is a hack to use draft-convert on the server.
+// draft-convert performs a `typeof HTMLElement` which can't really be worked around.
+const { window } = new JSDOM('<!doctype html><html><body></body></html>');
+global.HTMLElement = window.HTMLElement;
 
 const server = http.createServer(app);
 let currentApp = app;

@@ -13,6 +13,9 @@ import { addComment } from 'app/actions/CommentActions';
 import type { CommentEntity } from 'app/actions/CommentActions';
 import styles from './CommentForm.css';
 
+// TODO: This can be removed if the editor importer gets an actual empty state.
+const EMPTY_STATE = '<p class="unstyled"><br/></p>';
+
 const validate = values => {
   const errors = {};
   if (!values.text) {
@@ -105,7 +108,8 @@ function mapStateToProps(state, props) {
   const meta = getFormMeta(props.form)(state);
   const values = getFormValues(props.form)(state);
   return {
-    isOpen: meta && (meta.text.active || (values && values.text))
+    isOpen:
+      meta && (meta.text.active || (values && values.text !== EMPTY_STATE))
   };
 }
 
