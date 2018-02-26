@@ -9,15 +9,15 @@ module.exports = {
   entry: {
     server: [
       !isProduction && 'webpack/hot/poll?1000',
-      path.resolve(__dirname, '..', 'server/index.js')
-    ].filter(Boolean)
+      path.resolve(__dirname, '..', 'server/index.js'),
+    ].filter(Boolean),
   },
 
   output: {
     path: path.join(root, 'dist'),
     filename: '[name].js',
     publicPath: '/',
-    sourceMapFilename: '[file].map'
+    sourceMapFilename: '[file].map',
   },
 
   devtool: 'source-map',
@@ -35,32 +35,32 @@ module.exports = {
 
   node: {
     __filename: true,
-    __dirname: true
+    __dirname: true,
   },
 
   plugins: [
     !isProduction && new StartServerPlugin('server.js'),
     !isProduction && new webpack.HotModuleReplacementPlugin(),
     new webpack.optimize.MinChunkSizePlugin({
-      minChunkSize: 10000
+      minChunkSize: 10000,
     }),
     new webpack.optimize.LimitChunkCountPlugin({
-      maxChunks: 1
+      maxChunks: 1,
     }),
     new webpack.DefinePlugin({
       __CLIENT__: false,
-      __DEV__: JSON.stringify(process.env.NODE_ENV !== 'production')
+      __DEV__: JSON.stringify(process.env.NODE_ENV !== 'production'),
     }),
     new webpack.LoaderOptionsPlugin({
       options: {
-        context: __dirname
-      }
-    })
+        context: __dirname,
+      },
+    }),
   ].filter(Boolean),
 
   resolve: {
     modules: [root, 'node_modules'],
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
   },
 
   module: {
@@ -68,12 +68,12 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
       },
       {
         test: /\.css$/,
         include: /node_modules/,
-        loaders: ['css-loader/locals']
+        loaders: ['css-loader/locals'],
       },
       {
         test: /\.css$/,
@@ -86,34 +86,34 @@ module.exports = {
               importLoaders: 1,
               localIdentName: isProduction
                 ? '[hash:base64:5]'
-                : '[name]__[local]___[hash:base64:5]'
-            }
+                : '[name]__[local]___[hash:base64:5]',
+            },
           },
           {
             loader: 'postcss-loader',
             options: {
               plugins: () => [
                 require('postcss-import')({
-                  path: [root]
+                  path: [root],
                 }),
                 require('postcss-cssnext'),
-                require('postcss-nested')
-              ]
-            }
-          }
-        ]
+                require('postcss-nested'),
+              ],
+            },
+          },
+        ],
       },
       {
-        test: /\.(png|jpg|jpeg|gif|svg|bdf|woff|woff2|ttf|mp3|mp4|webm)$/,
+        test: /\.(png|jpg|jpeg|gif|svg|bdf|woff|woff2|ttf|mp3|mp4|webm|xml)$/,
         loader: 'url-loader',
         query: {
-          limit: 8192
-        }
+          limit: 8192,
+        },
       },
       {
         test: /((manifest\.json|favicon\.png)$|icon-)/,
-        loader: 'file-loader?name=[name].[ext]'
-      }
-    ]
-  }
+        loader: 'file-loader?name=[name].[ext]',
+      },
+    ],
+  },
 };
