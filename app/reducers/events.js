@@ -209,6 +209,10 @@ export const selectEvents = createSelector(
   (eventsById, eventIds) => eventIds.map(id => transformEvent(eventsById[id]))
 );
 
+export const selectUpcomingEvents = createSelector(selectEvents, events =>
+  events.filter(event => event.isUsersUpcoming)
+);
+
 export const selectSortedEvents = createSelector(selectEvents, events =>
   events.sort((a, b) => a.startTime - b.startTime)
 );
