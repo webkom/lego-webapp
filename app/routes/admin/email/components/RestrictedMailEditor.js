@@ -128,8 +128,8 @@ const RestrictedMailEditor = ({
         name="rawAddresses"
         placeholder="Enkelte eposter du ønsker å sende til"
         component={SelectInput.Field}
-        multi
         tags
+        multi
         isValidNewOption={({ label }: { label: string }) => isEmail()(label)[0]}
         shouldKeyDownEventCreateNewOption={({ keyCode }: { keyCode: number }) =>
           keyCode === 32 || keyCode === 13

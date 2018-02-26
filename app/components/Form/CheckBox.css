@@ -8,6 +8,15 @@
   margin-bottom: -3px;
 }
 
+.box input:disabled + label::before {
+  background: var(--color-mono-gray-4);
+  border: var(--color-mono-gray-4);
+}
+
+.box input:disabled + label::after {
+  color: var(--color-dark-mono-gray-4);
+}
+
 .label {
   cursor: pointer;
   position: relative;

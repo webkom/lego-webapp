@@ -1,3 +1,5 @@
+@import 'app/styles/variables.css';
+
 .field {
   display: flex;
   flex-direction: column;
@@ -25,4 +27,25 @@
   color: #c24538;
   font-weight: 600;
   margin-left: 2px;
+}
+
+input[type='text']:disabled {
+  background-color: var(--color-mono-gray-4);
+  color: var(--color-dark-mono-gray-4);
+}
+
+:global {
+  .Select.is-disabled > .Select-control {
+    background-color: var(--color-mono-gray-4) !important;
+    color: var(--color-dark-mono-gray-4);
+  }
+
+  .Select--multi.is-disabled .Select-value-label {
+    background-color: var(--color-mono-gray-4) !important;
+    color: var(--color-dark-mono-gray-4);
+  }
+
+  .Select--multi.is-disabled .Select-value {
+    border: none !important;
+  }
 }
