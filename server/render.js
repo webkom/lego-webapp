@@ -39,7 +39,7 @@ const prepareWithTimeout = app =>
       throw new TimeoutError(
         'React prepare timeout when server side rendering.'
       );
-    })
+    }),
   ]);
 
 function render(req: $Request, res: $Response, next: Middleware) {
@@ -52,7 +52,7 @@ function render(req: $Request, res: $Response, next: Middleware) {
       renderPage({
         body,
         state,
-        helmet
+        helmet,
       })
     );
   };
@@ -161,11 +161,11 @@ const dllPlugin =
 function renderPage({
   body,
   state,
-  helmet
+  helmet,
 }: {
   body: string,
   state: State | {||},
-  helmet: *
+  helmet: *,
 }) {
   const { scripts, styles } = retrieveAssets();
   return `
@@ -179,7 +179,7 @@ function renderPage({
 
         <link rel="manifest" href="${manifest}">
         <meta name="theme-color" content="#f2f2f1">
-
+        <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="Abakus Søk">
         <link rel="icon" href="/icon-512x512.png" sizes="512x512"/>
         <link rel="apple-touch-icon" href="/icon-512x512.png" sizes="512x512"/>
         <link rel="icon" href="/icon-384x384.png" sizes="384x384"/>
