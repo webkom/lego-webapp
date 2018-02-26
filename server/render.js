@@ -39,7 +39,7 @@ const prepareWithTimeout = app =>
       throw new TimeoutError(
         'React prepare timeout when server side rendering.'
       );
-    }),
+    })
   ]);
 
 function render(req: $Request, res: $Response, next: Middleware) {
@@ -52,7 +52,7 @@ function render(req: $Request, res: $Response, next: Middleware) {
       renderPage({
         body,
         state,
-        helmet,
+        helmet
       })
     );
   };
@@ -161,11 +161,11 @@ const dllPlugin =
 function renderPage({
   body,
   state,
-  helmet,
+  helmet
 }: {
   body: string,
   state: State | {||},
-  helmet: *,
+  helmet: *
 }) {
   const { scripts, styles } = retrieveAssets();
   return `

@@ -15,7 +15,7 @@ import renderApp from './render';
 import { fetchMeta } from 'app/actions/MetaActions';
 import {
   loginAutomaticallyIfPossible,
-  maybeRefreshToken,
+  maybeRefreshToken
 } from 'app/actions/UserActions';
 
 require('../app/assets/manifest.json');
@@ -37,7 +37,7 @@ global.log = function log(self = this) {
 
 Raven.config(config.ravenDSN, {
   release: config.release,
-  environment: config.environment,
+  environment: config.environment
 }).install();
 
 const preloadedState = window.__PRELOADED_STATE__;

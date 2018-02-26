@@ -25,15 +25,15 @@ module.exports = {
           'react-dom',
           'react-router',
           'moment',
-          'moment-timezone',
-        ],
+          'moment-timezone'
+        ]
       }
     : {
         app: [
           'webpack-hot-middleware/client',
           'react-hot-loader/patch',
-          './app/index.js',
-        ],
+          './app/index.js'
+        ]
       },
 
   output: {
@@ -43,7 +43,7 @@ module.exports = {
       ? '[name].chunk.[chunkhash:8].js'
       : '[name].chunk.js',
     publicPath: '/',
-    sourceMapFilename: '[file].map',
+    sourceMapFilename: '[file].map'
   },
 
   plugins: getDependencyHandlers().concat(
@@ -54,10 +54,10 @@ module.exports = {
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(!isProduction),
         __CLIENT__: true,
-        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+        'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
       }),
       new webpack.optimize.MinChunkSizePlugin({
-        minChunkSize: 10000,
+        minChunkSize: 10000
       }),
       !isProduction && new FriendlyErrorsPlugin(),
       !isProduction && new webpack.HotModuleReplacementPlugin(),
@@ -66,42 +66,42 @@ module.exports = {
 
       new webpack.optimize.UglifyJsPlugin({
         compress: {
-          warnings: false,
+          warnings: false
         },
         output: {
-          comments: false,
+          comments: false
         },
-        sourceMap: true,
+        sourceMap: true
       }),
 
       new webpack.LoaderOptionsPlugin({
         options: {
           context: __dirname,
-          minimize: isProduction,
-        },
+          minimize: isProduction
+        }
       }),
 
       new ExtractTextPlugin({
         filename: '[name].[contenthash:8].css',
         allChunks: true,
-        disable: !isProduction,
+        disable: !isProduction
       }),
 
       new StatsWriterPlugin({
         filename: 'stats.json',
         fields: ['assets'],
-        transform: JSON.stringify,
+        transform: JSON.stringify
       }),
 
       new AssetsPlugin({
-        path: path.join(root, 'dist-client'),
-      }),
+        path: path.join(root, 'dist-client')
+      })
     ])
   ),
 
   resolve: {
     modules: [root, 'node_modules'],
-    extensions: ['.js', '.jsx'],
+    extensions: ['.js', '.jsx']
   },
 
   module: {
@@ -111,16 +111,16 @@ module.exports = {
         loader: 'babel-loader',
         include: path.resolve(root, 'app'),
         query: {
-          cacheDirectory: true,
-        },
+          cacheDirectory: true
+        }
       },
       {
         test: /\.css$/,
         include: /node_modules/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
-          use: isProduction ? 'css-loader' : 'css-loader?sourceMap',
-        }),
+          use: isProduction ? 'css-loader' : 'css-loader?sourceMap'
+        })
       },
       {
         test: /\.css$/,
@@ -135,8 +135,8 @@ module.exports = {
                 importLoaders: 1,
                 localIdentName: isProduction
                   ? '[hash:base64:5]'
-                  : '[name]__[local]___[hash:base64:5]',
-              },
+                  : '[name]__[local]___[hash:base64:5]'
+              }
             },
             {
               loader: 'postcss-loader',
@@ -144,29 +144,29 @@ module.exports = {
                 ident: 'postcss',
                 plugins: () => [
                   require('postcss-import')({
-                    path: [root],
+                    path: [root]
                   }),
                   require('postcss-cssnext'),
-                  require('postcss-nested'),
-                ],
-              },
-            },
-          ],
-        }),
+                  require('postcss-nested')
+                ]
+              }
+            }
+          ]
+        })
       },
       {
         test: /\.(png|jpg|jpeg|gif|svg|bdf|eot|svg|woff|woff2|ttf|mp3|mp4|webm)$/,
         loader: 'url-loader',
         query: {
-          limit: 8192,
-        },
+          limit: 8192
+        }
       },
       {
         test: /((manifest\.json|opensearch\.xml|favicon\.png)$|icon-)/,
-        loader: 'file-loader?name=[name].[ext]',
-      },
-    ],
-  },
+        loader: 'file-loader?name=[name].[ext]'
+      }
+    ]
+  }
 };
 
 function getDependencyHandlers() {
@@ -175,8 +175,8 @@ function getDependencyHandlers() {
       new webpack.optimize.CommonsChunkPlugin({
         name: 'vendor',
         minChunks: Infinity,
-        filename: '[name].[hash:8].js',
-      }),
+        filename: '[name].[hash:8].js'
+      })
     ];
   }
 
@@ -193,7 +193,7 @@ function getDependencyHandlers() {
   return [
     new webpack.DllReferencePlugin({
       context: root,
-      manifest: JSON.parse(fs.readFileSync(manifestPath, 'utf8')),
-    }),
+      manifest: JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+    })
   ];
 }
