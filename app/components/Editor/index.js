@@ -58,7 +58,9 @@ export default class Editor extends Component<Props, State> {
   editor: ?HTMLElement;
 
   state = {
-    editorState: createEditorState(convertToRaw(importer(this.props.value)))
+    editorState: createEditorState(
+      convertToRaw(importer(this.props.value || ''))
+    )
   };
 
   rendererFn = (setEditorState: any => void, getEditorState: () => any) => {
