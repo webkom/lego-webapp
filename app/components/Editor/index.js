@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import './Editor.css';
 import { convertToRaw } from 'draft-js';
 import 'medium-draft/lib/index.css';
 import {
@@ -17,6 +16,7 @@ import importer from './importer';
 import exporter from './exporter';
 import { ImageButton } from './Sides';
 import { ImageBlock } from './Blocks';
+import './Editor.css';
 
 type Props = {
   /** Set focus when component mounts */
