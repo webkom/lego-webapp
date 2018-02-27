@@ -83,3 +83,29 @@ export function updateCompanyInterest(
     ).then(() => dispatch(addToast({ message: 'Bedriftsinteresse endret!' })));
   };
 }
+
+export function fetch({
+  next,
+  filters
+}: { next: boolean, filters: Object } = {}): Thunk<*> {
+  return (dispatch, getState) => {
+    const cursor = next ? getState().companyInterest.pagination.next : {};
+
+    return dispatch(
+      callAPI({
+        types: CompanyInterestForm.FETCH_ALL,
+        endpoint: '/company-interests/',
+        useCache: false,
+        query: {
+          ...cursor,
+          ...filters
+        },
+        schema: [companyInterestSchema],
+        meta: {
+          errorMessage: 'Henting av bedriftsinteresser feilet'
+        },
+        propagateError: true
+      })
+    );
+  };
+}
