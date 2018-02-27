@@ -49,7 +49,6 @@
     "lodash": "^4.17.2",
     "medium-draft": "beta",
     "minireset.css": "^0.0.3",
-    "moment": "^2.20.1",
     "moment-timezone": "^0.5.13",
     "morgan": "^1.8.2",
     "normalizr": "^3.2.2",
