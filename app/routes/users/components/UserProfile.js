@@ -62,11 +62,11 @@ const GroupBadge = ({ group }: { group: Group }) => {
   );
 };
 
-const UpcomingEvents = ({ events }: Props) => (
+const UpcomingEvents = ({ upcomingEvents }: Props) => (
   <div>
-    {events.length ? (
+    {upcomingEvents.length ? (
       <Flex column wrap>
-        {events.map((event, i) => (
+        {upcomingEvents.map((event, i) => (
           <EventItem key={i} event={event} showTags={false} />
         ))}
       </Flex>
