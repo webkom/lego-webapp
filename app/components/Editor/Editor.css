@@ -1,5 +1,8 @@
 :global {
   /* medium-draft has pretty opinionated css, so we override a few properties */
+  .DraftEditor-editorContainer {
+    z-index: auto;
+  }
 
   .md-RichEditor-root {
     padding: 0;
