@@ -13,6 +13,13 @@
   }
 }
 
+.emptyState {
+  color: var(--color-gray-1);
+  font-size: 20px;
+  font-weight: lighter;
+  font-style: italic;
+}
+
 .picture {
   display: flex;
   justify-content: center;

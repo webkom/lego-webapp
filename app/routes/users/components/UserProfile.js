@@ -17,6 +17,8 @@ import { groupBy } from 'lodash';
 import { resolveGroupLink } from 'app/reducers/groups';
 import type { Group } from 'app/models';
 import cx from 'classnames';
+import { EventItem } from 'app/routes/events/components/EventList';
+import EmptyState from 'app/components/EmptyState';
 
 const fieldTranslations = {
   username: 'brukernavn',
@@ -28,7 +30,8 @@ type Props = {
   showSettings: boolean,
   feedItems: Array<any>,
   feed: Object,
-  isMe: Boolean
+  isMe: Boolean,
+  upcomingEvents: Array<any>
 };
 
 const GroupPill = ({ group }: { group: Group }) => (
@@ -59,6 +62,24 @@ const GroupBadge = ({ group }: { group: Group }) => {
   );
 };
 
+const UpcomingEvents = ({ events }: Props) => (
+  <div>
+    {events.length ? (
+      <Flex column wrap>
+        {events.map((event, i) => (
+          <EventItem key={i} event={event} showTags={false} />
+        ))}
+      </Flex>
+    ) : (
+      <EmptyState>
+        <h2 className={styles.emptyState}>
+          Du har ingen kommende arrangementer
+        </h2>
+      </EmptyState>
+    )}
+  </div>
+);
+
 export default class UserProfile extends Component<Props> {
   sumPenalties() {
     return sumBy(this.props.user.penalties, 'weight');
@@ -80,7 +101,14 @@ export default class UserProfile extends Component<Props> {
   }
 
   render() {
-    const { user, isMe, showSettings, feedItems, feed } = this.props;
+    const {
+      user,
+      isMe,
+      showSettings,
+      feedItems,
+      feed,
+      upcomingEvents
+    } = this.props;
     const { groupsAsBadges = [], groupsAsPills = [] } = groupBy(
       user.abakusGroups,
       group => (group.logo ? 'groupsAsBadges' : 'groupsAsPills')
@@ -160,8 +188,17 @@ export default class UserProfile extends Component<Props> {
                 </div>
               )}
           </div>
-
           <div className={styles.rightContent}>
+            {isMe && (
+              <div>
+                <h3>Dine kommende arrangementer</h3>
+                {upcomingEvents ? (
+                  <UpcomingEvents events={upcomingEvents} />
+                ) : (
+                  <LoadingIndicator loading />
+                )}
+              </div>
+            )}
             <h3>Nylig Aktivitet</h3>
             {feed ? (
               <Feed items={feedItems} feed={feed} />
