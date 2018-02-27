@@ -62,8 +62,11 @@ function Attendance({
     </Pill>
   );
 }
-
-export function EventItem({ event }: any) {
+type EventItemProps = {
+  event: any,
+  showTags?: Boolean
+};
+export function EventItem({ event, showTags = true }: EventItemProps) {
   return (
     <div
       style={{ borderColor: colorForEvent(event.eventType) }}
@@ -83,10 +86,13 @@ export function EventItem({ event }: any) {
           <Time time={event.startTime} format="ll HH:mm" />
           {` • ${event.location}`}
         </div>
-
-        <Flex wrap className={styles.tagList}>
-          {event.tags.map((tag, index) => <Tag key={index} tag={tag} small />)}
-        </Flex>
+        {showTags && (
+          <Flex wrap className={styles.tagList}>
+            {event.tags.map((tag, index) => (
+              <Tag key={index} tag={tag} small />
+            ))}
+          </Flex>
+        )}
       </div>
 
       <div className={styles.companyLogo}>

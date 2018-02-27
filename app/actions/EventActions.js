@@ -36,7 +36,6 @@ export function fetchUpcoming() {
         propagateError: true
       })
     ).then(result => {
-      console.log('payload', result);
       const events = result.payload.result.reduce(
         (total, id) => ({
           ...total,

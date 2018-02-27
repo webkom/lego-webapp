@@ -4,6 +4,7 @@ import Activity from './activity';
 import type { AggregatedActivity } from './types';
 import EmptyState from 'app/components/EmptyState';
 import ErrorBoundary from 'app/components/ErrorBoundary';
+import styles from './Feed.css';
 
 export const activityRenderers = {
   comment: require('./renders/comment'),
@@ -32,7 +33,7 @@ const Feed = ({ items }: Props) => (
       })
     ) : (
       <EmptyState>
-        <h1>Ingen aktiviteter i feeden</h1>
+        <h2 className={styles.emptyState}>Ingen aktiviteter i feeden</h2>
       </EmptyState>
     )}
   </div>
