@@ -19,6 +19,7 @@ import type { Group } from 'app/models';
 import cx from 'classnames';
 import { EventItem } from 'app/routes/events/components/EventList';
 import EmptyState from 'app/components/EmptyState';
+import { Event } from 'app/models';
 
 const fieldTranslations = {
   username: 'brukernavn',
@@ -30,8 +31,11 @@ type Props = {
   showSettings: boolean,
   feedItems: Array<any>,
   feed: Object,
-  isMe: Boolean,
-  upcomingEvents: Array<any>
+  isMe: boolean
+};
+
+type UpcomingEventsProps = {
+  upcomingEvents: Array<Event>
 };
 
 const GroupPill = ({ group }: { group: Group }) => (
@@ -62,9 +66,9 @@ const GroupBadge = ({ group }: { group: Group }) => {
   );
 };
 
-const UpcomingEvents = ({ upcomingEvents }: Props) => (
+const UpcomingEvents = ({ upcomingEvents }: UpcomingEventsProps) => (
   <div>
-    {upcomingEvents.length ? (
+    {upcomingEvents && upcomingEvents.length ? (
       <Flex column wrap>
         {upcomingEvents.map((event, i) => (
           <EventItem key={i} event={event} showTags={false} />
@@ -190,12 +194,10 @@ export default class UserProfile extends Component<Props> {
           </div>
           <div className={styles.rightContent}>
             {isMe && (
-              <div>
+              <div className={styles.bottomMargin}>
                 <h3>Dine kommende arrangementer</h3>
-                {upcomingEvents ? (
-                  <UpcomingEvents events={upcomingEvents} />
-                ) : (
-                  <LoadingIndicator loading />
+                {upcomingEvents && (
+                  <UpcomingEvents upcomingEvents={upcomingEvents} />
                 )}
               </div>
             )}

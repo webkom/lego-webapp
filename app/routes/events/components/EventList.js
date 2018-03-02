@@ -64,7 +64,7 @@ function Attendance({
 }
 type EventItemProps = {
   event: any,
-  showTags?: Boolean
+  showTags?: boolean
 };
 export function EventItem({ event, showTags = true }: EventItemProps) {
   return (

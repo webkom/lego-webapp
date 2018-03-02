@@ -15,7 +15,7 @@ import { LoginPage } from 'app/components/LoginForm';
 
 const loadData = ({ params: { username } }, dispatch) => {
   return dispatch(fetchUser(username)).then(action =>
-    dispatch(fetchUpcoming(action.payload.result))
+    dispatch(fetchUpcoming())
   );
   // TODO: re-enable when the user feed is fixed:
   // .then(action =>
@@ -31,7 +31,7 @@ const mapStateToProps = (state, props) => {
   const user = selectUserWithGroups(state, { username });
   let feed;
   let feedItems;
-  let upcomingEvents = selectUpcomingEvents(state);
+  const upcomingEvents = selectUpcomingEvents(state);
   if (user) {
     feed = { type: 'user', activities: [] };
     feedItems = [];

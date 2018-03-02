@@ -23,7 +23,7 @@ export function fetchEvent(eventId: string) {
   });
 }
 
-export function fetchUpcoming() {
+export function fetchUpcoming(): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
@@ -46,7 +46,6 @@ export function fetchUpcoming() {
         }),
         {}
       );
-
       return dispatch({
         ...result,
         payload: { entities: { events } }
