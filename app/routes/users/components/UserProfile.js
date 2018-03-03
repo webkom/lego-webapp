@@ -31,7 +31,8 @@ type Props = {
   showSettings: boolean,
   feedItems: Array<any>,
   feed: Object,
-  isMe: boolean
+  isMe: boolean,
+  loading: boolean
 };
 
 type UpcomingEventsProps = {
@@ -105,8 +106,8 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
   }
 
   render() {
-    const { user, isMe, showSettings, feedItems, feed } = this.props;
-    const upcomingEvents = this.state.upcomingEvents;
+    const { user, isMe, showSettings, feedItems, feed, loading } = this.props;
+    const { upcomingEvents } = this.props;
 
     const { groupsAsBadges = [], groupsAsPills = [] } = groupBy(
       user.abakusGroups,
@@ -191,7 +192,10 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
             {isMe && (
               <div className={styles.bottomMargin}>
                 <h3>Dine kommende arrangementer</h3>
-                {upcomingEvents && (
+
+                {loading ? (
+                  <LoadingIndicator margin={'20px auto'} loading />
+                ) : (
                   <UpcomingEvents upcomingEvents={upcomingEvents} />
                 )}
               </div>

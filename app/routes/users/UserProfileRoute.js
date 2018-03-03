@@ -55,7 +55,8 @@ const mapStateToProps = (state, props) => {
     feed,
     feedItems,
     showSettings,
-    isMe
+    isMe,
+    loading: state.events.fetching
   };
 };
 
