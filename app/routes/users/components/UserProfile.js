@@ -107,8 +107,15 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
   }
 
   render() {
-    const { user, isMe, showSettings, feedItems, feed, loading } = this.props;
-    const { upcomingEvents } = this.props;
+    const {
+      user,
+      isMe,
+      showSettings,
+      feedItems,
+      feed,
+      loading,
+      upcomingEvents
+    } = this.props;
 
     const { groupsAsBadges = [], groupsAsPills = [] } = groupBy(
       user.abakusGroups,
