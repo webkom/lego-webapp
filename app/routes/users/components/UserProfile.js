@@ -19,7 +19,7 @@ import type { Group } from 'app/models';
 import cx from 'classnames';
 import { EventItem } from 'app/routes/events/components/EventList';
 import EmptyState from 'app/components/EmptyState';
-import { Event } from 'app/models';
+import type { Event } from 'app/models';
 
 const fieldTranslations = {
   username: 'brukernavn',
@@ -84,7 +84,7 @@ const UpcomingEvents = ({ upcomingEvents }: UpcomingEventsProps) => (
   </div>
 );
 
-export default class UserProfile extends Component<Props> {
+export default class UserProfile extends Component<Props, UpcomingEventsProps> {
   sumPenalties() {
     return sumBy(this.props.user.penalties, 'weight');
   }
@@ -105,14 +105,9 @@ export default class UserProfile extends Component<Props> {
   }
 
   render() {
-    const {
-      user,
-      isMe,
-      showSettings,
-      feedItems,
-      feed,
-      upcomingEvents
-    } = this.props;
+    const { user, isMe, showSettings, feedItems, feed } = this.props;
+    const upcomingEvents = this.state.upcomingEvents;
+
     const { groupsAsBadges = [], groupsAsPills = [] } = groupBy(
       user.abakusGroups,
       group => (group.logo ? 'groupsAsBadges' : 'groupsAsPills')
