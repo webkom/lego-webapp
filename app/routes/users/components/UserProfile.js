@@ -32,7 +32,8 @@ type Props = {
   feedItems: Array<any>,
   feed: Object,
   isMe: boolean,
-  loading: boolean
+  loading: boolean,
+  upcomingEvents: Array<Event>
 };
 
 type UpcomingEventsProps = {

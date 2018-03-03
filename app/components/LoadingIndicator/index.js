@@ -6,7 +6,7 @@ import styles from './LoadingIndicator.css';
 export type Props = {
   loading: boolean,
   small?: boolean,
-  margin?: number,
+  margin?: number | string,
   loadingStyle?: Object,
   children?: any
 };
