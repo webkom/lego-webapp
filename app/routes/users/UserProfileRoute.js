@@ -4,15 +4,19 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import UserProfile from './components/UserProfile';
 import { fetchUser } from 'app/actions/UserActions';
+import { fetchUpcoming } from 'app/actions/EventActions';
 import { fetchUserFeed } from 'app/actions/FeedActions';
 import { selectUserWithGroups } from 'app/reducers/users';
+import { selectUpcomingEvents } from 'app/reducers/events';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import prepare from 'app/utils/prepare';
 import { LoginPage } from 'app/components/LoginForm';
 
 const loadData = ({ params: { username } }, dispatch) => {
-  return dispatch(fetchUser(username));
+  return dispatch(fetchUser(username)).then(action =>
+    dispatch(fetchUpcoming())
+  );
   // TODO: re-enable when the user feed is fixed:
   // .then(action =>
   //   dispatch(fetchUserFeed(action.payload.result))
@@ -27,6 +31,7 @@ const mapStateToProps = (state, props) => {
   const user = selectUserWithGroups(state, { username });
   let feed;
   let feedItems;
+  const upcomingEvents = selectUpcomingEvents(state);
   if (user) {
     feed = { type: 'user', activities: [] };
     feedItems = [];
@@ -46,14 +51,16 @@ const mapStateToProps = (state, props) => {
     auth: state.auth,
     loggedIn: props.loggedIn,
     user,
+    upcomingEvents,
     feed,
     feedItems,
     showSettings,
-    isMe
+    isMe,
+    loading: state.events.fetching
   };
 };
 
-const mapDispatchToProps = { fetchUser, fetchUserFeed };
+const mapDispatchToProps = { fetchUser, fetchUpcoming, fetchUserFeed };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),

@@ -17,6 +17,9 @@ import { groupBy } from 'lodash';
 import { resolveGroupLink } from 'app/reducers/groups';
 import type { Group } from 'app/models';
 import cx from 'classnames';
+import { EventItem } from 'app/routes/events/components/EventList';
+import EmptyState from 'app/components/EmptyState';
+import type { Event } from 'app/models';
 
 const fieldTranslations = {
   username: 'brukernavn',
@@ -28,7 +31,13 @@ type Props = {
   showSettings: boolean,
   feedItems: Array<any>,
   feed: Object,
-  isMe: Boolean
+  isMe: boolean,
+  loading: boolean,
+  upcomingEvents: Array<Event>
+};
+
+type UpcomingEventsProps = {
+  upcomingEvents: Array<Event>
 };
 
 const GroupPill = ({ group }: { group: Group }) => (
@@ -59,7 +68,25 @@ const GroupBadge = ({ group }: { group: Group }) => {
   );
 };
 
-export default class UserProfile extends Component<Props> {
+const UpcomingEvents = ({ upcomingEvents }: UpcomingEventsProps) => (
+  <div>
+    {upcomingEvents && upcomingEvents.length ? (
+      <Flex column wrap>
+        {upcomingEvents.map((event, i) => (
+          <EventItem key={i} event={event} showTags={false} />
+        ))}
+      </Flex>
+    ) : (
+      <EmptyState>
+        <h2 className={styles.emptyState}>
+          Du har ingen kommende arrangementer
+        </h2>
+      </EmptyState>
+    )}
+  </div>
+);
+
+export default class UserProfile extends Component<Props, UpcomingEventsProps> {
   sumPenalties() {
     return sumBy(this.props.user.penalties, 'weight');
   }
@@ -80,7 +107,16 @@ export default class UserProfile extends Component<Props> {
   }
 
   render() {
-    const { user, isMe, showSettings, feedItems, feed } = this.props;
+    const {
+      user,
+      isMe,
+      showSettings,
+      feedItems,
+      feed,
+      loading,
+      upcomingEvents
+    } = this.props;
+
     const { groupsAsBadges = [], groupsAsPills = [] } = groupBy(
       user.abakusGroups,
       group => (group.logo ? 'groupsAsBadges' : 'groupsAsPills')
@@ -160,8 +196,18 @@ export default class UserProfile extends Component<Props> {
                 </div>
               )}
           </div>
-
           <div className={styles.rightContent}>
+            {isMe && (
+              <div className={styles.bottomMargin}>
+                <h3>Dine kommende arrangementer</h3>
+
+                {loading ? (
+                  <LoadingIndicator margin={'20px auto'} loading />
+                ) : (
+                  <UpcomingEvents upcomingEvents={upcomingEvents} />
+                )}
+              </div>
+            )}
             <h3>Nylig Aktivitet</h3>
             {feed ? (
               <Feed items={feedItems} feed={feed} />
