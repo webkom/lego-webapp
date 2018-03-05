@@ -126,8 +126,10 @@ export default class Quote extends Component<Props, State> {
                             <a
                               className={styles.deleteQuote}
                               onClick={e => {
-                                e.preventDefault();
-                                e.stopPropagation();
+                                if (e) {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                }
                                 this.setState({ deleting: true });
                               }}
                             >
