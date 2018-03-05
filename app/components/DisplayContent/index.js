@@ -19,12 +19,13 @@ type Props = {
  */
 function DisplayContent({ content, id, style, className }: Props) {
   return (
-    <div htmlId={id} style={style} className={className}>
+    <div key={content} htmlId={id} style={style} className={className}>
       <Editor
         onChange={() => {}}
         onBlur={() => {}}
         onFocus={() => {}}
         value={content}
+        placeholder=""
         disabled
       />
     </div>
