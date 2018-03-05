@@ -47,7 +47,8 @@ function toastStyleFactory(index, style) {
   }
   return {
     ...style,
-    bottom: `${2 + index * 4}rem`
+    bottom: `${2 + index * 4}rem`,
+    zIndex: 2
   };
 }
 

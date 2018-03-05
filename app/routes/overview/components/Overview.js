@@ -83,12 +83,13 @@ const OverviewItem = ({ item }: { item: Event | Article }) => {
                 {item.startTime && (
                   <Time time={item.startTime} format="DD.MM HH:mm" />
                 )}
-                {item.location !== '-' && (
-                  <span>
-                    <span className={styles.dot}> · </span>
-                    <span>{item.location}</span>
-                  </span>
-                )}
+                {item.location &&
+                  item.location !== '-' && (
+                    <span>
+                      <span className={styles.dot}> · </span>
+                      <span>{item.location}</span>
+                    </span>
+                  )}
                 {item.eventType && (
                   <span>
                     <span className={styles.dot}> · </span>
