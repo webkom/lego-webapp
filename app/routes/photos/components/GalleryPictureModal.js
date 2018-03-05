@@ -14,17 +14,20 @@ import styles from './GalleryPictureModal.css';
 
 type Props = {
   picture: Object,
+  pictureId: number,
   currentUser: Object,
   loggedIn: boolean,
   gallery: Object,
   push: string => void,
   updateGalleryCover: (number, number) => Promise<*>,
   deletePicture: (number, number) => Promise<*>,
-  comments: Array<Object>
+  comments: Array<Object>,
+  actionGrant: Array<string>
 };
 
 type State = {
-  showMore: boolean
+  showMore: boolean,
+  clickedDeletePicture: number
 };
 
 const Taggees = ({ taggees }: { taggees: Array<Object> }) => {
@@ -62,9 +65,31 @@ const Taggees = ({ taggees }: { taggees: Array<Object> }) => {
     );
   }
 };
+
+const RenderGalleryPicture = ({
+  id,
+  handleDelete,
+  clickedDeletePicture
+}: {
+  id: number,
+  handleDelete: number => void,
+  clickedDeletePicture: number
+}) => (
+  <div>
+    <a onClick={() => handleDelete(id)}>
+      <i
+        className="fa fa-minus-circle"
+        style={{ color: '#C24538', marginRight: '5px' }}
+      />
+      {clickedDeletePicture === id ? 'Er du sikker?' : 'Slett'}
+    </a>
+  </div>
+);
+
 export default class GalleryPictureModal extends Component<Props, State> {
   state: State = {
-    showMore: false
+    showMore: false,
+    clickedDeletePicture: 0
   };
 
   toggleDropdown = () => {
@@ -79,27 +104,33 @@ export default class GalleryPictureModal extends Component<Props, State> {
 
   onUpdateGalleryCover = () => {
     this.props.updateGalleryCover(this.props.gallery.id, this.props.picture.id);
-
     this.toggleDropdown();
   };
 
-  onDeletePicture = () => {
-    this.props.deletePicture(this.props.gallery.id, this.props.picture.id);
-
-    this.props.push(`/photos/${this.props.gallery.id}`);
+  handleDelete = (clickedDeletePicture: number) => {
+    if (this.state.clickedDeletePicture === clickedDeletePicture) {
+      this.props
+        .deletePicture(this.props.gallery.id, this.props.picture.id)
+        .then(() => this.props.push(`/photos/${this.props.gallery.id}`));
+    } else {
+      this.setState({
+        clickedDeletePicture
+      });
+    }
   };
 
   render() {
     const {
       picture,
+      pictureId,
       comments,
       currentUser,
       loggedIn,
       push,
-      gallery
+      gallery,
+      actionGrant
     } = this.props;
     const { showMore } = this.state;
-
     return (
       <Modal
         onHide={() => push(`/photos/${gallery.id}`)}
@@ -144,28 +175,38 @@ export default class GalleryPictureModal extends Component<Props, State> {
                     <Icon name="download-outline" size={24} />
                   </a>
                 </Dropdown.ListItem>
-                <Dropdown.ListItem>
-                  <Link onClick={this.onUpdate} style={{ color: '#333' }}>
-                    <strong>Rediger</strong>
-                    <Icon name="gear" size={24} />
-                  </Link>
-                </Dropdown.ListItem>
-                <Dropdown.ListItem>
-                  <Link
-                    onClick={this.onUpdateGalleryCover}
-                    style={{ color: '#333' }}
-                  >
-                    <strong>Sett som album cover</strong>
-                    <Icon name="image" size={24} />
-                  </Link>
-                </Dropdown.ListItem>
-                <Dropdown.Divider />
-                <Dropdown.ListItem>
-                  <Link onClick={this.onDeletePicture}>
-                    Slett
-                    <Icon name="trash-outline" size={44} />
-                  </Link>
-                </Dropdown.ListItem>
+                {actionGrant &&
+                  actionGrant.includes('edit') && [
+                    <Dropdown.ListItem key="edit">
+                      <Link onClick={this.onUpdate} style={{ color: '#333' }}>
+                        <strong>Rediger</strong>
+                        <Icon name="gear" size={24} />
+                      </Link>
+                    </Dropdown.ListItem>,
+                    <Dropdown.ListItem key="cover">
+                      <Link
+                        onClick={this.onUpdateGalleryCover}
+                        style={{ color: '#333' }}
+                      >
+                        <strong>Sett som album cover</strong>
+                        <Icon name="image" size={24} />
+                      </Link>
+                    </Dropdown.ListItem>,
+                    <Dropdown.Divider key="divider" />,
+                    <Dropdown.ListItem
+                      key="delete"
+                      onClick={e => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
+                    >
+                      <RenderGalleryPicture
+                        handleDelete={this.handleDelete}
+                        id={pictureId}
+                        clickedDeletePicture={this.state.clickedDeletePicture}
+                      />
+                    </Dropdown.ListItem>
+                  ]}
               </Dropdown.List>
             </Dropdown>
           </Flex>

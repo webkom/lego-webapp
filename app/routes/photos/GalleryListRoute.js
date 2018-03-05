@@ -6,11 +6,15 @@ import { push } from 'react-router-redux';
 import Overview from './components/Overview';
 import { selectGalleries } from 'app/reducers/galleries';
 
-const mapStateToProps = state => ({
-  galleries: selectGalleries(state),
-  fetching: state.galleries.fetching,
-  hasMore: state.galleries.hasMore
-});
+const mapStateToProps = state => {
+  const actionGrant = state.galleries.actionGrant;
+  return {
+    actionGrant,
+    galleries: selectGalleries(state),
+    fetching: state.galleries.fetching,
+    hasMore: state.galleries.hasMore
+  };
+};
 
 const mapDispatchToProps = { fetch, push };
 

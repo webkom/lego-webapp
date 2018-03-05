@@ -13,11 +13,12 @@ import { updateGalleryCover } from 'app/actions/GalleryActions';
 import { push } from 'react-router-redux';
 
 function mapStateToProps(state, props) {
-  const { pictureId } = props.params;
+  const { galleryId, pictureId } = props.params;
   const picture = selectGalleryPictureById(state, { pictureId });
   const comments = selectCommentsForGalleryPicture(state, { pictureId });
-
+  const actionGrant = state.galleries.byId[galleryId].actionGrant;
   return {
+    actionGrant,
     comments,
     picture,
     pictureId
