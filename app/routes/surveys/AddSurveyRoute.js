@@ -5,6 +5,7 @@ import {
   deleteSurvey,
   fetchTemplate
 } from '../../actions/SurveyActions';
+import { formValueSelector } from 'redux-form';
 import SurveyEditor from './components/SurveyEditor/SurveyEditor';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
@@ -65,6 +66,7 @@ const mapStateToProps = (state, props) => {
       };
     }
   }
+  const formSelector = formValueSelector('surveyEditor');
 
   return {
     template,
@@ -73,7 +75,8 @@ const mapStateToProps = (state, props) => {
       questions: template ? template.questions : [],
       event: event && fullEvent
     },
-    notFetching
+    notFetching,
+    activeFrom: formSelector(state, 'activeFrom') || defaultActiveFrom(12, 0)
   };
 };
 

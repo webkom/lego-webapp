@@ -270,3 +270,8 @@
   font-size: 20px;
   margin-left: -5px;
 }
+
+.mailInfo {
+  display: block;
+  margin-top: 10px;
+}

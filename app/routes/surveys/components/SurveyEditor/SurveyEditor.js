@@ -20,6 +20,7 @@ import Icon from 'app/components/Icon';
 import { Link } from 'react-router';
 import Dropdown from 'app/components/Dropdown';
 import { eventTypes } from 'app/routes/events/utils';
+import Time from 'app/components/Time';
 
 type Props = FieldProps & {
   survey: SurveyEntity,
@@ -30,7 +31,8 @@ type Props = FieldProps & {
   push: string => void,
   template?: Object,
   destroy: () => void,
-  initialize: () => void
+  initialize: () => void,
+  activeFrom: string
 };
 
 type State = {
@@ -96,7 +98,8 @@ class SurveyEditor extends Component<Props, State> {
       deleteSurvey,
       template,
       push,
-      destroy
+      destroy,
+      activeFrom
     } = this.props;
 
     const titleField = (
@@ -183,9 +186,11 @@ class SurveyEditor extends Component<Props, State> {
           <Button className={styles.submit} disabled={submitting} submit>
             Lagre
           </Button>
-          <i>
+          <i className={styles.mailInfo}>
             Deltagerene på arrangementet vil få mail med link til
-            spørreundersøkelsen når den passerer aktiveringstidspunktet.
+            spørreundersøkelsen når den aktiveres (
+            <Time time={activeFrom} format="HH:mm DD. MMM" />
+            ).
           </i>
         </form>
       </Content>
