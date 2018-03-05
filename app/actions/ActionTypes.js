@@ -248,8 +248,13 @@ export const User = {
     'User.SEND_FORGOT_PASSWORD_REQUEST'
   ),
   RESET_PASSWORD: generateStatuses('User.RESET_PASSWORD'),
-  REFRESH_TOKEN: generateStatuses('User.REFRESH_TOKEN'),
-  ADD_PENALTY: generateStatuses('User.ADD_PENALTY')
+  REFRESH_TOKEN: generateStatuses('User.REFRESH_TOKEN')
+};
+
+export const Penalty = {
+  FETCH: generateStatuses('Penalty.FETCH'),
+  CREATE: generateStatuses('Penalty.CREATE'),
+  DELETE: generateStatuses('Penalty.DELETE')
 };
 
 /**

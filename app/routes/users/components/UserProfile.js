@@ -34,7 +34,10 @@ type Props = {
   isMe: boolean,
   loading: boolean,
   upcomingEvents: Array<Event>,
-  addPenalty: AddPenalty => void
+  addPenalty: AddPenalty => void,
+  deletePenalty: number => Promise<*>,
+  penalties: Array<Object>,
+  canDeletePenalties: boolean
 };
 
 type UpcomingEventsProps = {
@@ -89,7 +92,7 @@ const UpcomingEvents = ({ upcomingEvents }: UpcomingEventsProps) => (
 
 export default class UserProfile extends Component<Props, UpcomingEventsProps> {
   sumPenalties() {
-    return sumBy(this.props.user.penalties, 'weight');
+    return sumBy(this.props.penalties, 'weight');
   }
 
   renderFields() {
@@ -116,7 +119,10 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
       feed,
       loading,
       upcomingEvents,
-      addPenalty
+      addPenalty,
+      deletePenalty,
+      penalties,
+      canDeletePenalties
     } = this.props;
 
     const { groupsAsBadges = [], groupsAsPills = [] } = groupBy(
@@ -167,10 +173,12 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
                 <h3>Prikker ({this.sumPenalties()} stk)</h3>
                 <Card className={styles.infoCard}>
                   <Penalties
-                    penalties={user.penalties}
+                    penalties={penalties}
                     addPenalty={addPenalty}
+                    deletePenalty={deletePenalty}
                     username={user.username}
                     userId={user.id}
+                    canDeletePenalties={canDeletePenalties}
                   />
                 </Card>
               </div>

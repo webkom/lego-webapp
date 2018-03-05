@@ -75,9 +75,15 @@ class AnnouncementInLine extends Component<Props, State> {
               <Button onClick={this.handleHide}>Ny kunngjøring</Button>
             )}
             {showLabel && (
-              <a onClick={this.handleHide} className={cx(className)}>
-                {!this.state.sent ? ' Lag ny prikk ' : ' Prikk sendt '}
-              </a>
+              <div>
+                {!this.state.sent ? (
+                  <a onClick={this.handleHide} className={cx(className)}>
+                    Lag ny prikk
+                  </a>
+                ) : (
+                  <i>Prikken er registrert</i>
+                )}
+              </div>
             )}
 
             {showForm && (
@@ -102,7 +108,7 @@ class AnnouncementInLine extends Component<Props, State> {
                   filter={['events.event']}
                   component={SelectInput.AutocompleteField}
                 />
-                <Button submit>SEND</Button>
+                <Button submit>LAG PRIKK</Button>
               </Form>
             )}
           </div>

@@ -3,11 +3,12 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import UserProfile from './components/UserProfile';
-import { fetchUser, addPenalty } from 'app/actions/UserActions';
+import { fetchUser, addPenalty, deletePenalty } from 'app/actions/UserActions';
 import { fetchUpcoming } from 'app/actions/EventActions';
 import { fetchUserFeed } from 'app/actions/FeedActions';
 import { selectUserWithGroups } from 'app/reducers/users';
 import { selectUpcomingEvents } from 'app/reducers/events';
+import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import prepare from 'app/utils/prepare';
@@ -32,6 +33,7 @@ const mapStateToProps = (state, props) => {
   let feed;
   let feedItems;
   const upcomingEvents = selectUpcomingEvents(state);
+  let penalties;
   if (user) {
     feed = { type: 'user', activities: [] };
     feedItems = [];
@@ -40,12 +42,14 @@ const mapStateToProps = (state, props) => {
     // feedItems = selectFeedActivitesByFeedId(state, {
     //   feedId: feedIdByUserId(user.id)
     // });
+    penalties = selectPenaltyByUserId(state, { userId: user.id });
   }
 
   const isMe =
     params.username === 'me' || params.username === state.auth.username;
   const actionGrant = (user && user.actionGrant) || [];
   const showSettings = isMe || actionGrant.includes('edit');
+  const canDeletePenalties = state.allowed.penalties;
   return {
     username,
     auth: state.auth,
@@ -56,7 +60,9 @@ const mapStateToProps = (state, props) => {
     feedItems,
     showSettings,
     isMe,
-    loading: state.events.fetching
+    loading: state.events.fetching,
+    penalties,
+    canDeletePenalties
   };
 };
 
@@ -64,7 +70,8 @@ const mapDispatchToProps = {
   fetchUser,
   fetchUpcoming,
   fetchUserFeed,
-  addPenalty
+  addPenalty,
+  deletePenalty
 };
 
 export default compose(
