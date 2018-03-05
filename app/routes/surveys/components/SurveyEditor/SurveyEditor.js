@@ -183,6 +183,10 @@ class SurveyEditor extends Component<Props, State> {
           <Button className={styles.submit} disabled={submitting} submit>
             Lagre
           </Button>
+          <i>
+            Deltagerene på arrangementet vil få mail med link til
+            spørreundersøkelsen når den passerer aktiveringstidspunktet.
+          </i>
         </form>
       </Content>
     );
