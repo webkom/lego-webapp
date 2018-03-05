@@ -15,11 +15,19 @@
   margin-top: 4px;
   margin-left: 5px;
   opacity: 0;
+
+  &:disabled:hover {
+    cursor: default;
+  }
 }
 
 .label {
   position: relative;
   cursor: pointer;
+
+  &:disabled:hover {
+    cursor: default;
+  }
 }
 
 /* radio aspect */
@@ -65,18 +73,28 @@
   background-color: #ddd;
 }
 
+.input:disabled:not(:checked):hover + .label::before,
+.input:disabled:checked:hover + .label::before {
+  cursor: default;
+}
+
 .input:disabled:checked + .label::after {
   color: #999;
 }
 
 .input:disabled + .label {
   color: #aaa;
+  cursor: default;
+}
+
+.input:disabled:hover + .label {
+  cursor: default;
 }
 
 /* accessibility */
 .input:checked:focus + .label::before,
 .input:not(:checked):focus + .label::before {
-  cursor: pointer;
+  cursor: default;
 }
 
 /* hover style just for information */
