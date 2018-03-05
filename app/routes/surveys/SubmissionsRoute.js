@@ -30,7 +30,7 @@ const mapStateToProps = (state, props) => {
   return {
     survey: selectSurveyById(state, { surveyId }),
     submissions: selectSurveySubmissions(state, { surveyId }),
-    notFetching: !state.surveys.fetching,
+    notFetching: !state.surveys.fetching && !state.surveySubmissions.fetching,
     actionGrant: state.surveys.actionGrant,
     isSummary
   };
@@ -47,10 +47,5 @@ export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator([
-    'notFetching',
-    'survey.event.cover',
-    'survey.questions',
-    'submissions'
-  ])
+  loadingIndicator(['notFetching', 'survey.event', 'survey.questions'])
 )(SubmissionPage);

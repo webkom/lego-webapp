@@ -74,3 +74,27 @@ export function deleteSurvey(surveyId: number): Thunk<*> {
     }
   });
 }
+
+export function fetchTemplates(): Thunk<*> {
+  return callAPI({
+    types: Survey.FETCH,
+    endpoint: `/survey-templates/`,
+    schema: [surveySchema],
+    meta: {
+      errorMessage: 'Henting av spørreundersøkelse maler feilet'
+    },
+    propagateError: true
+  });
+}
+
+export function fetchTemplate(template: string): Thunk<*> {
+  return callAPI({
+    types: Survey.FETCH,
+    endpoint: `/survey-templates/${template}/`,
+    schema: surveySchema,
+    meta: {
+      errorMessage: 'Henting av spørreundersøkelse mal feilet'
+    },
+    propagateError: true
+  });
+}

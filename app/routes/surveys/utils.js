@@ -3,6 +3,7 @@
 import React, { type Node } from 'react';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
+import moment from 'moment-timezone';
 
 const questionStrings = {
   single: 'single_choice',
@@ -31,6 +32,7 @@ export const ListNavigation = ({ title }: { title: Node }) => (
   <NavigationTab title={title}>
     <NavigationLink to="/surveys">Liste</NavigationLink>
     <NavigationLink to="/surveys/add">Ny undersøkelse</NavigationLink>
+    <NavigationLink to="/surveys/templates">Maler</NavigationLink>
   </NavigationTab>
 );
 
@@ -51,3 +53,9 @@ export const DetailNavigation = ({
     </NavigationLink>
   </NavigationTab>
 );
+
+export const defaultActiveFrom = (hours: number, minutes: number) =>
+  moment()
+    .startOf('day')
+    .add({ hours, minutes })
+    .toISOString();

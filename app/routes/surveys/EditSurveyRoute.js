@@ -1,43 +1,82 @@
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
-import { editSurvey, fetch, deleteSurvey } from '../../actions/SurveyActions';
+import {
+  editSurvey,
+  fetch,
+  deleteSurvey,
+  fetchTemplate
+} from '../../actions/SurveyActions';
 import SurveyEditor from './components/SurveyEditor/SurveyEditor';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { selectSurveyById } from 'app/reducers/surveys';
+import { selectSurveyById, selectSurveyTemplate } from 'app/reducers/surveys';
 import { push } from 'react-router-redux';
 import loadingIndicator from 'app/utils/loadingIndicator';
 
+const loadData = (props, dispatch) => {
+  const { surveyId } = props.params;
+  const { templateType } = props.location.query;
+  if (templateType) {
+    return Promise.all([
+      dispatch(fetchTemplate(templateType)),
+      dispatch(fetch(surveyId))
+    ]);
+  }
+  return dispatch(fetch(surveyId));
+};
+
 const mapStateToProps = (state, props) => {
+  const notFetching = !state.surveys.fetching;
   const surveyId = Number(props.params.surveyId);
   const survey = selectSurveyById(state, { surveyId });
+  const templateType = props.location.query.templateType;
+  const template = selectSurveyTemplate(state, { ...props, templateType });
+
+  const initialEvent = survey.event && {
+    value: survey.event.id,
+    label: survey.event.title
+  };
+
+  let initialValues = null;
+  if (notFetching && !(templateType && !template)) {
+    if (template) {
+      initialValues = {
+        ...template,
+        title: survey.title || template.title,
+        event: initialEvent,
+        activeFrom: survey.event && survey.event.endTime
+      };
+    } else {
+      initialValues = {
+        ...survey,
+        event: initialEvent,
+        questions:
+          survey.questions &&
+          survey.questions.map(
+            question =>
+              question.options
+                ? {
+                    ...question,
+                    options: question.options.concat({ optionText: '' })
+                  }
+                : question
+          )
+      };
+    }
+  }
+
+  const surveyToSend = template
+    ? { ...survey, questions: template.questions }
+    : survey;
 
   return {
-    survey,
+    survey: surveyToSend,
     surveyId,
     fetching: state.surveys.fetching,
-    initialValues: survey
-      ? {
-          ...survey,
-          event: survey.event && {
-            value: survey.event.id,
-            label: survey.event.title
-          },
-          questions:
-            survey.questions &&
-            survey.questions.map(
-              question =>
-                question.options
-                  ? {
-                      ...question,
-                      options: question.options.concat({ optionText: '' })
-                    }
-                  : question
-            ),
-          isClone: !!survey.isClone
-        }
-      : null
+    template,
+    initialValues,
+    notFetching
   };
 };
 
@@ -49,9 +88,7 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(({ params: { surveyId } }, dispatch) => dispatch(fetch(surveyId)), [
-    'params.surveyId'
-  ]),
+  prepare(loadData, ['params.surveyId', 'location.query.templateType']),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['survey.questions', 'survey.event.cover'])
+  loadingIndicator(['notFetching'])
 )(SurveyEditor);

@@ -1,18 +1,22 @@
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
-import { fetchAll, addSurvey, deleteSurvey } from '../../actions/SurveyActions';
+import {
+  addSurvey,
+  deleteSurvey,
+  fetchTemplates
+} from '../../actions/SurveyActions';
 import SurveyPage from './components/SurveyList/SurveyPage';
 import { compose } from 'redux';
-import { selectSurveys } from 'app/reducers/surveys';
+import { selectSurveyTemplates } from 'app/reducers/surveys';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { push } from 'react-router-redux';
 import loadingIndicator from 'app/utils/loadingIndicator';
 
-const loadData = (props, dispatch) => dispatch(fetchAll());
+const loadData = (props, dispatch) => dispatch(fetchTemplates());
 
 const mapStateToProps = (state, props) => ({
-  surveys: selectSurveys(state, props).filter(survey => !survey.templateType),
+  surveys: selectSurveyTemplates(state, props),
   notFetching: !state.surveys.fetching
 });
 

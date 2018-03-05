@@ -161,13 +161,8 @@
   margin-right: 0;
 }
 
-.checkBox div {
-  display: inline-block;
-  margin-right: 5px;
-}
-
-.checkBox > div {
-  margin-bottom: 10px;
+.templatePicker {
+  margin: 0 0 15px;
 }
 
 .freeText {

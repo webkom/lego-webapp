@@ -31,5 +31,5 @@ export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(loadData, ['params.surveyId']),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['survey.questions', 'survey.event.cover'])
+  loadingIndicator(['survey.questions', 'survey.event'])
 )(SurveyDetail);

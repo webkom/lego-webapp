@@ -11,6 +11,7 @@ import type { ActionGrant } from 'app/models';
 import AdminSideBar from './AdminSideBar';
 import Button from 'app/components/Button';
 import StaticSubmission from './StaticSubmission';
+import { eventTypes } from 'app/routes/events/utils';
 
 type Props = {
   survey: SurveyEntity,
@@ -42,23 +43,31 @@ class SurveyDetail extends Component<Props> {
 
         <ContentSection>
           <ContentMain>
-            <div className={styles.surveyTime}>
-              Spørreundersøkelse for{' '}
-              <Link to={`/events/${survey.event.id}`}>
-                {survey.event.title}
-              </Link>
-            </div>
+            {survey.templateType ? (
+              <h2 style={{ color: 'red' }}>
+                Dette er malen for arrangementer av type{' '}
+                {eventTypes[String(survey.templateType)]}
+              </h2>
+            ) : (
+              <div>
+                <div className={styles.surveyTime}>
+                  Spørreundersøkelse for{' '}
+                  <Link to={`/events/${survey.event.id}`}>
+                    {survey.event.title}
+                  </Link>
+                </div>
 
-            <div className={styles.surveyTime}>
-              Aktiv fra <Time time={survey.activeFrom} format="ll HH:mm" />
-            </div>
+                <div className={styles.surveyTime}>
+                  Aktiv fra <Time time={survey.activeFrom} format="ll HH:mm" />
+                </div>
 
-            <Link to={`/surveys/${survey.id}/answer`}>
-              <Button style={{ marginTop: '30px' }}>
-                Svar på undersøkelsen
-              </Button>
-            </Link>
-
+                <Link to={`/surveys/${survey.id}/answer`}>
+                  <Button style={{ marginTop: '30px' }}>
+                    Svar på undersøkelsen
+                  </Button>
+                </Link>
+              </div>
+            )}
             <StaticSubmission survey={survey} />
           </ContentMain>
 

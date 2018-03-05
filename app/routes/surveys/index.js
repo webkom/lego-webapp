@@ -9,6 +9,10 @@ export default {
       ...resolveAsyncRoute(() => import('./AddSurveyRoute'))
     },
     {
+      path: 'templates',
+      ...resolveAsyncRoute(() => import('./TemplatesRoute'))
+    },
+    {
       path: ':surveyId',
       ...resolveAsyncRoute(() => import('./SurveyDetailRoute'))
     },
