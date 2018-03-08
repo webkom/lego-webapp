@@ -73,31 +73,31 @@ const OverviewItem = ({ item }: { item: Event | Article }) => {
           </Flex>
         )}
         <Flex column className={styles.innerRight}>
-          <div className={styles.heading}>
-            <h2 className={styles.itemTitle}>
-              <Link to={itemUrl(item)}>
+          <Link to={itemUrl(item)} style={{ color: 'rgba(0, 0, 0, 0.9)' }}>
+            <div className={styles.heading}>
+              <h2 className={styles.itemTitle}>
                 {truncateString(item.title, TITLE_MAX_LENGTH)}
-              </Link>
-            </h2>
+              </h2>
 
-            <span className={styles.itemInfo}>
-              {item.startTime && (
-                <Time time={item.startTime} format="DD.MM HH:mm" />
-              )}
-              {item.location !== '-' && (
-                <span>
-                  <span className={styles.dot}> · </span>
-                  <span>{item.location}</span>
-                </span>
-              )}
-              {item.eventType && (
-                <span>
-                  <span className={styles.dot}> · </span>
-                  <span>{EVENT_TYPE_TO_STRING(item.eventType)}</span>
-                </span>
-              )}
-            </span>
-          </div>
+              <span className={styles.itemInfo}>
+                {item.startTime && (
+                  <Time time={item.startTime} format="DD.MM HH:mm" />
+                )}
+                {item.location !== '-' && (
+                  <span>
+                    <span className={styles.dot}> · </span>
+                    <span>{item.location}</span>
+                  </span>
+                )}
+                {item.eventType && (
+                  <span>
+                    <span className={styles.dot}> · </span>
+                    <span>{EVENT_TYPE_TO_STRING(item.eventType)}</span>
+                  </span>
+                )}
+              </span>
+            </div>
+          </Link>
 
           <p
             className={styles.itemDescription}
