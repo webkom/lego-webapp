@@ -117,13 +117,15 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
       upcomingEvents
     } = this.props;
 
+    const { abakusGroups = [], firstName, lastName } = user;
+
     const { groupsAsBadges = [], groupsAsPills = [] } = groupBy(
-      user.abakusGroups,
+      abakusGroups.filter(Boolean),
       group => (group.logo ? 'groupsAsBadges' : 'groupsAsPills')
     );
     return (
       <div className={styles.root}>
-        <Helmet title={`${user.firstName} ${user.lastName}`} />
+        <Helmet title={`${firstName} ${lastName}`} />
 
         <Flex wrap className={styles.header}>
           <div className={cx(styles.sidebar, styles.picture)}>
