@@ -5,41 +5,39 @@ import JoblistingPage from './components/JoblistingPage';
 import { compose } from 'redux';
 import moment from 'moment-timezone';
 
-function filterJoblistings(joblistings, classes, jobTypes, workplaces) {
+function filterJoblistings(joblistings, grades, jobTypes, workplaces) {
   return joblistings.filter(joblisting => {
-    let classBoolean = false;
-    let jobTypesBoolean = false;
-    let workplacesBoolean = false;
-    if (classes.length === 0) {
-      classBoolean = true;
-    } else {
-      classBoolean = classes.find(
-        c => joblisting.fromYear <= Number(c) && joblisting.toYear >= Number(c)
+    const gradeBoolean =
+      grades.length === 0 ||
+      grades.find(
+        grade =>
+          joblisting.fromYear <= Number(grade) &&
+          joblisting.toYear >= Number(grade)
       );
-    }
-    if (jobTypes.length === 0) {
-      jobTypesBoolean = true;
-    } else {
-      jobTypesBoolean = jobTypes.find(j => j === joblisting.jobType);
-    }
-    if (workplaces.length === 0) {
-      workplacesBoolean = true;
-    } else {
-      workplacesBoolean =
-        joblisting.workplaces.some(w => workplaces.includes(w.town)) ||
-        (workplaces.includes('Annet') &&
-          joblisting.workplaces.some(
-            w => !['Oslo', 'Trondheim', 'Bergen', 'Tromsø'].includes(w.town)
-          ));
-    }
-    return classBoolean && jobTypesBoolean && workplacesBoolean;
+
+    const jobTypesBoolean =
+      jobTypes.length === 0 ||
+      jobTypes.find(jobType => jobType === joblisting.jobType);
+
+    const workplacesBoolean =
+      workplaces.length === 0 ||
+      joblisting.workplaces.some(workplace =>
+        workplaces.includes(workplace.town)
+      ) ||
+      (workplaces.includes('Annet') &&
+        joblisting.workplaces.some(
+          workplace =>
+            !['Oslo', 'Trondheim', 'Bergen', 'Tromsø'].includes(workplace.town)
+        ));
+
+    return gradeBoolean && jobTypesBoolean && workplacesBoolean;
   });
 }
 
 const dateSort = (a, b) => {
   const date1 = moment(a.deadline);
   const date2 = moment(b.deadline);
-  return date1.isAfter(date2);
+  return date1.isAfter(date2) ? 1 : -1;
 };
 
 const companySort = (a, b) => a.company.name.localeCompare(b.company.name);
@@ -53,14 +51,14 @@ const mapStateToProps = (state, props) => {
   const joblistings = state.joblistings.items.map(
     id => state.joblistings.byId[id]
   );
-  const sortType = query.order === 'company' ? 'company' : 'deadline';
-  const filterClass = query.classNumber ? query.classNumber.split(',') : [];
+  const sortType = query.order;
+  const filterGrade = query.grades ? query.grades.split(',') : [];
   const filterJobType = query.jobTypes ? query.jobTypes.split(',') : [];
   const filterWorkplaces = query.workplaces ? query.workplaces.split(',') : [];
 
   const filteredJoblistings = filterJoblistings(
     joblistings,
-    filterClass,
+    filterGrade,
     filterJobType,
     filterWorkplaces
   );

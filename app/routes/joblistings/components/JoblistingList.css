@@ -91,6 +91,7 @@
   display: flex;
   align-self: center;
   flex-direction: row;
+  min-width: 145px;
 
   @media (max-width: 900px) {
     align-self: flex-start;
