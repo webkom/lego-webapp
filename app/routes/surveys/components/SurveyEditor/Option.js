@@ -5,13 +5,23 @@ import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
 import { Field } from 'redux-form';
 import styles from '../surveys.css';
 import { QuestionTypes } from '../../utils';
-import Icon from 'app/components/Icon';
 
 type Props = {
   questionType: string,
   option: string,
   onChange?: any => void,
-  index: number
+  index: number,
+  remove?: () => void
+};
+
+const removeOption = (remove?) => {
+  return remove ? (
+    <a onClick={remove} className={styles.removeOption}>
+      <span>x</span>
+    </a>
+  ) : (
+    ''
+  );
 };
 
 const Option = (props: Props) => {
@@ -26,7 +36,6 @@ const MultipleChoice = (props: Props) => {
   return (
     <li>
       <RadioButton value={false} className={styles.option} />
-
       <Field
         onChange={props.onChange}
         name={`${props.option}.optionText`}
@@ -35,6 +44,7 @@ const MultipleChoice = (props: Props) => {
         placeholder="Alternativ"
         fieldClassName={styles.optionField}
       />
+      {removeOption(props.remove)}
     </li>
   );
 };
@@ -51,6 +61,7 @@ const Checkbox = (props: Props) => {
         placeholder="Alternativ"
         fieldClassName={styles.optionField}
       />
+      {removeOption(props.remove)}
     </li>
   );
 };
