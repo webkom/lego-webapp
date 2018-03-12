@@ -17,9 +17,9 @@ const updateFilters = (type, value, filters) => {
       : filters[type].concat(value)
   };
   return {
-    ...(newFilter.classNumber.length > 0
+    ...(newFilter.grades.length > 0
       ? {
-          classNumber: newFilter.classNumber.toString()
+          grades: newFilter.grades.toString()
         }
       : {}),
     ...(newFilter.jobTypes.length > 0
@@ -50,7 +50,7 @@ const FilterLink = ({ type, label, value, filters }: Object) => (
 );
 
 type Filter = {
-  classNumber: Array<string>,
+  grades: Array<string>,
   jobTypes: Array<string>,
   workplaces: Array<string>
 };
@@ -58,7 +58,7 @@ type Filter = {
 type Props = {
   actionGrant: ActionGrant,
   query: {
-    classNumber: string,
+    grades: string,
     jobTypes: string,
     workplaces: string,
     order: string
@@ -78,7 +78,7 @@ type State = {
 export default class JoblistingsRightNav extends Component<Props, State> {
   state = {
     filters: {
-      classNumber: [],
+      grades: [],
       jobTypes: [],
       workplaces: []
     },
@@ -103,12 +103,13 @@ export default class JoblistingsRightNav extends Component<Props, State> {
     const query = nextProps.query;
     this.setState({
       filters: {
-        classNumber: query.classNumber ? query.classNumber.split(',') : [],
+        grades: query.grades ? query.grades.split(',') : [],
         jobTypes: query.jobTypes ? query.jobTypes.split(',') : [],
         workplaces: query.workplaces ? query.workplaces.split(',') : []
       },
       order: {
-        deadline: query.order === 'deadline',
+        deadline:
+          query.order === 'deadline' || !Object.keys(query).includes('order'),
         company: query.order === 'company'
       }
     });
@@ -196,7 +197,7 @@ export default class JoblistingsRightNav extends Component<Props, State> {
               {['1', '2', '3', '4', '5'].map(element => (
                 <FilterLink
                   key={element}
-                  type="classNumber"
+                  type="grades"
                   label={`${element}. klasse`}
                   value={element}
                   filters={this.state.filters}
