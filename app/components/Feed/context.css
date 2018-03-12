@@ -1,0 +1,5 @@
+@import 'app/styles/variables.css';
+
+.highlight {
+  color: var(--lego-link-color);
+}

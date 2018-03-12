@@ -1,14 +1,17 @@
 // @flow
-import React from 'react';
+import React, { type Element } from 'react';
 import Icon from 'app/components/Icon';
 import { lookupContext, contextRender } from '../context';
-import type { AggregatedActivity, Activity } from '../types';
+import type { AggregatedActivity, Activity, TagInfo } from '../types';
 import DisplayContent from 'app/components/DisplayContent';
 
 /**
  * Grouped by object...
  */
-export function activityHeader(aggregatedActivity: AggregatedActivity) {
+export function activityHeader(
+  aggregatedActivity: AggregatedActivity,
+  htmlTag: TagInfo => Element<*>
+) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actor = lookupContext(aggregatedActivity, latestActivity.actor);
   const target = lookupContext(aggregatedActivity, latestActivity.target);
@@ -26,7 +29,7 @@ export function activityHeader(aggregatedActivity: AggregatedActivity) {
 
   return (
     <b>
-      {contextRender[actor.contentType](actor)}
+      {htmlTag(contextRender[actor.contentType](actor))}
       {` ble medlem av ${groupType} `}
       {target.name}
     </b>
@@ -47,4 +50,20 @@ export function activityContent(
 
 export function icon() {
   return <Icon name="people-outline" />;
+}
+
+export function getURL(aggregatedActivity: AggregatedActivity) {
+  const latestActivity = aggregatedActivity.lastActivity;
+  const group = lookupContext(aggregatedActivity, latestActivity.target);
+  if (!group) {
+    return '';
+  }
+  switch (group.type) {
+    case 'interesse':
+      return `/interestgroups/${group.id}`;
+    case 'komite':
+      return `/pages/komiteer/${group.id}`;
+    default:
+      return '';
+  }
 }
