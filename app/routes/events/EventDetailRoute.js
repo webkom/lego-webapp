@@ -113,13 +113,10 @@ const mapDispatchToProps = {
   updateUser
 };
 
-const loadData = (
-  { params: { eventId }, currentUser, isLoggedIn },
-  dispatch
-) => {
+const loadData = ({ params: { eventId }, currentUser, loggedIn }, dispatch) => {
   const userId = currentUser.id;
   return dispatch(fetchEvent(eventId)).then(
-    () => isLoggedIn && dispatch(isUserFollowing(eventId, userId))
+    () => loggedIn && dispatch(isUserFollowing(eventId, userId))
   );
 };
 
