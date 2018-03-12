@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import { Link } from 'react-router';
-import type { AggregatedActivity } from './types';
+import type { AggregatedActivity, TagInfo } from './types';
 import styles from './context.css';
 
 export function lookupContext(
@@ -14,11 +14,11 @@ export function lookupContext(
 export const linkAndText = (
   link: string,
   text: string,
-  notLink: boolean = false
+  linkableContent: boolean = true
 ) => ({
   link,
   text,
-  notLink
+  linkableContent
 });
 
 const renderUser = (context: Object) =>
@@ -37,7 +37,7 @@ const renderArticle = (context: Object) =>
   linkAndText(`/articles/${context.id}/`, context.title);
 
 const renderAnnouncement = (context: Object) =>
-  linkAndText('', context.message, true);
+  linkAndText('', context.message, false);
 
 const renderGalleryPicture = (context: Object) =>
   linkAndText(
@@ -54,15 +54,15 @@ export const contextRender = {
   'gallery.gallerypicture': renderGalleryPicture
 };
 
-export function toLink(linkAndText: linkAndText) {
-  return linkAndText.notLink ? (
-    toSpan(linkAndText)
-  ) : (
+export function toLink(linkAndText: TagInfo) {
+  return linkAndText.linkableContent ? (
     <Link to={linkAndText.link}>{linkAndText.text}</Link>
+  ) : (
+    toSpan(linkAndText)
   );
 }
 
-export function toSpan(linkAndText: linkAndText) {
-  const classname = !linkAndText.notLink ? styles.highlight : '';
+export function toSpan(linkAndText: TagInfo) {
+  const classname = linkAndText.linkableContent ? styles.highlight : '';
   return <span className={classname}>{linkAndText.text}</span>;
 }

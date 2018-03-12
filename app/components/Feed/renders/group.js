@@ -1,8 +1,8 @@
 // @flow
-import React from 'react';
+import React, { type Element } from 'react';
 import Icon from 'app/components/Icon';
 import { lookupContext, contextRender } from '../context';
-import type { AggregatedActivity, Activity } from '../types';
+import type { AggregatedActivity, Activity, TagInfo } from '../types';
 import DisplayContent from 'app/components/DisplayContent';
 
 /**
@@ -10,7 +10,7 @@ import DisplayContent from 'app/components/DisplayContent';
  */
 export function activityHeader(
   aggregatedActivity: AggregatedActivity,
-  htmlTag: Function => string
+  htmlTag: TagInfo => Element<*>
 ) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actor = lookupContext(aggregatedActivity, latestActivity.actor);

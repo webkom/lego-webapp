@@ -6,7 +6,7 @@ import styles from './Feed.css';
 
 import { activityRenderers } from 'app/components/Feed';
 import type { AggregatedActivity } from 'app/components/Feed/types';
-import { toLink } from 'app/components/Feed/context';
+import { toSpan } from 'app/components/Feed/context';
 import EmptyState from 'app/components/EmptyState';
 import Time from 'app/components/Time';
 
@@ -24,7 +24,7 @@ const FeedItem = (props: { activity: AggregatedActivity }) => {
         <li className={styles.item}>
           <div className={styles.icon}>{renders.icon(props.activity)}</div>
           <div className={styles.wordBreak}>
-            {renders.activityHeader(props.activity, toLink)}
+            {renders.activityHeader(props.activity, toSpan)}
             <Time
               time={props.activity.updatedAt}
               wordsAgo

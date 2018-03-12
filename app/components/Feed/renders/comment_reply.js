@@ -1,9 +1,9 @@
 // @flow
-import React from 'react';
+import React, { type Element } from 'react';
 import Icon from 'app/components/Icon';
 import { lookupContext, contextRender } from '../context';
 import { formatHeader } from './utils';
-import type { AggregatedActivity, Activity } from '../types';
+import type { AggregatedActivity, Activity, TagInfo } from '../types';
 import DisplayContent from 'app/components/DisplayContent';
 import { commentURL } from './comment';
 
@@ -13,7 +13,7 @@ import { commentURL } from './comment';
  */
 export function activityHeader(
   aggregatedActivity: AggregatedActivity,
-  htmlTag: Function => string
+  htmlTag: TagInfo => Element<*>
 ) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actors = aggregatedActivity.actorIds.map(actorId => {

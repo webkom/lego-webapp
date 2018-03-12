@@ -1,15 +1,15 @@
 // @flow
-import React from 'react';
+import React, { type Element } from 'react';
 import Icon from 'app/components/Icon';
 import { lookupContext, contextRender } from '../context';
-import type { AggregatedActivity } from '../types';
+import type { AggregatedActivity, TagInfo } from '../types';
 
 /**
  * Group by object
  */
 export function activityHeader(
   aggregatedActivity: AggregatedActivity,
-  htmlTag: Function => string
+  htmlTag: TagInfo => Element<*>
 ) {
   const latestActivity = aggregatedActivity.lastActivity;
   const actor = lookupContext(aggregatedActivity, latestActivity.actor);

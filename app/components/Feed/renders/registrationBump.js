@@ -1,16 +1,16 @@
 // @flow
-import React from 'react';
+import React, { type Element } from 'react';
 import Icon from 'app/components/Icon';
 import { formatHeader } from './utils';
 import { lookupContext, contextRender } from '../context';
-import type { AggregatedActivity } from '../types';
+import type { AggregatedActivity, TagInfo } from '../types';
 
 /**
  * Normal grouping by target and date
  */
 export function activityHeader(
   aggregatedActivity: AggregatedActivity,
-  htmlTag: Function => string
+  htmlTag: TagInfo => Element<*>
 ) {
   const events = aggregatedActivity.activities.reduce((acc, activity) => {
     const context = lookupContext(aggregatedActivity, activity.actor);
