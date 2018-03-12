@@ -20,7 +20,6 @@ export default class CompactEvents extends Component<Props> {
 
     const mapEvents = eventTypes => {
       return events
-        .sort((a, b) => a.startTime - b.startTime)
         .filter(
           event =>
             event.endTime.isAfter() && eventTypes.includes(event.eventType)
