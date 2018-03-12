@@ -104,6 +104,12 @@ const LINKS: Array<Link> = [
     key: 'email',
     title: 'E-post',
     url: '/admin/email'
+  },
+  {
+    admin: true,
+    key: 'surveys',
+    title: 'Spørreundersøkelser',
+    url: '/surveys'
   }
 ];
 

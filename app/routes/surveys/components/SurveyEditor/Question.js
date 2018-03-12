@@ -90,7 +90,7 @@ const Question = ({ index, question, questionData, deleteQuestion }: Props) => {
             className={styles.freeText}
             placeholder="Fritekst - sånn vil den se ut :smile:"
             value=""
-            disabled={true}
+            disabled
           />
         ) : (
           <FieldArray

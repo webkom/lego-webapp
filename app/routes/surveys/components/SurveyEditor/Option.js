@@ -5,6 +5,7 @@ import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
 import { Field } from 'redux-form';
 import styles from '../surveys.css';
 import { QuestionTypes } from '../../utils';
+import Icon from 'app/components/Icon';
 
 type Props = {
   questionType: string,
@@ -25,6 +26,7 @@ const MultipleChoice = (props: Props) => {
   return (
     <li>
       <RadioButton value={false} className={styles.option} />
+
       <Field
         onChange={props.onChange}
         name={`${props.option}.optionText`}

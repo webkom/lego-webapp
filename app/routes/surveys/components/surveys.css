@@ -258,3 +258,9 @@
 .summary > li {
   margin-bottom: 15px;
 }
+
+.navTab {
+  font-size: inherit;
+  text-transform: inherit;
+  font-weight: inherit;
+}
