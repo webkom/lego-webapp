@@ -3,6 +3,7 @@ import config from '../config';
 import createQueryString from './createQueryString';
 import { addToast } from 'app/actions/ToastActions';
 import { User } from 'app/actions/ActionTypes';
+import { selectCurrentUser } from 'app/reducers/auth';
 
 export default function createWebSocketMiddleware() {
   let socket = null;
@@ -15,7 +16,13 @@ export default function createWebSocketMiddleware() {
       socket = new WebSocketClient(`${config.wsServerUrl}/${qs}`);
 
       socket.onmessage = event => {
-        const { type, payload, meta } = JSON.parse(event.data);
+        const { type, payload, meta: socketMeta } = JSON.parse(event.data);
+
+        const meta = {
+          ...socketMeta,
+          currentUser: selectCurrentUser(store.getState())
+        };
+
         store.dispatch({ type, payload, meta });
         const message = meta.successMessage || meta.errorMessage;
         if (message) {

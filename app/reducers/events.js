@@ -84,11 +84,21 @@ function mutateEvent(state: any, action: any) {
       };
     }
     case Event.SOCKET_UNREGISTRATION.SUCCESS: {
-      const { eventId, activationTime, fromPool } = action.meta;
+      const {
+        eventId,
+        activationTime: activationTimeFromMeta,
+        fromPool,
+        currentUser
+      } = action.meta;
       const stateEvent = state.byId[eventId];
+      const registration = action.payload;
       if (!stateEvent) {
         return state;
       }
+      const activationTime =
+        registration.user.id === currentUser.id
+          ? activationTimeFromMeta
+          : stateEvent.activationTime;
       return {
         ...state,
         byId: {
