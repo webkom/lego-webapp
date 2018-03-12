@@ -77,7 +77,7 @@ function mutateEvent(state: any, action: any) {
             ...stateEvent,
             loading: false,
             registrationCount,
-            waitingRegistrations,
+            ...(waitingRegistrations && { waitingRegistrations }),
             waitingRegistrationCount
           }
         }
@@ -113,11 +113,11 @@ function mutateEvent(state: any, action: any) {
             waitingRegistrationCount: fromPool
               ? stateEvent.waitingRegistrationCount
               : stateEvent.waitingRegistrationCount - 1,
-            waitingRegistrations:
-              stateEvent.waitingRegistrations &&
-              stateEvent.waitingRegistrations.filter(
+            ...(stateEvent.waitingRegistrations && {
+              waitingRegistrations: stateEvent.waitingRegistrations.filter(
                 id => id !== action.payload.id
               )
+            })
           }
         }
       };
