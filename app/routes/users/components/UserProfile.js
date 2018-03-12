@@ -15,7 +15,7 @@ import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import { groupBy } from 'lodash';
 import { resolveGroupLink } from 'app/reducers/groups';
-import type { Group } from 'app/models';
+import type { Group, AddPenalty } from 'app/models';
 import cx from 'classnames';
 import { EventItem } from 'app/routes/events/components/EventList';
 import EmptyState from 'app/components/EmptyState';
@@ -33,7 +33,11 @@ type Props = {
   feed: Object,
   isMe: boolean,
   loading: boolean,
-  upcomingEvents: Array<Event>
+  upcomingEvents: Array<Event>,
+  addPenalty: AddPenalty => void,
+  deletePenalty: number => Promise<*>,
+  penalties: Array<Object>,
+  canDeletePenalties: boolean
 };
 
 type UpcomingEventsProps = {
@@ -88,7 +92,7 @@ const UpcomingEvents = ({ upcomingEvents }: UpcomingEventsProps) => (
 
 export default class UserProfile extends Component<Props, UpcomingEventsProps> {
   sumPenalties() {
-    return sumBy(this.props.user.penalties, 'weight');
+    return sumBy(this.props.penalties, 'weight');
   }
 
   renderFields() {
@@ -114,7 +118,11 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
       feedItems,
       feed,
       loading,
-      upcomingEvents
+      upcomingEvents,
+      addPenalty,
+      deletePenalty,
+      penalties,
+      canDeletePenalties
     } = this.props;
 
     const { abakusGroups = [], firstName, lastName } = user;
@@ -166,7 +174,14 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
               <div>
                 <h3>Prikker ({this.sumPenalties()} stk)</h3>
                 <Card className={styles.infoCard}>
-                  <Penalties penalties={user.penalties} />
+                  <Penalties
+                    penalties={penalties}
+                    addPenalty={addPenalty}
+                    deletePenalty={deletePenalty}
+                    username={user.username}
+                    userId={user.id}
+                    canDeletePenalties={canDeletePenalties}
+                  />
                 </Card>
               </div>
             )}

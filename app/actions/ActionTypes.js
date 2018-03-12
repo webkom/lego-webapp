@@ -251,6 +251,12 @@ export const User = {
   REFRESH_TOKEN: generateStatuses('User.REFRESH_TOKEN')
 };
 
+export const Penalty = {
+  FETCH: generateStatuses('Penalty.FETCH'),
+  CREATE: generateStatuses('Penalty.CREATE'),
+  DELETE: generateStatuses('Penalty.DELETE')
+};
+
 /**
  *
  */

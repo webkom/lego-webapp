@@ -6,12 +6,13 @@ import config from 'app/config';
 import cookie from 'js-cookie';
 import moment from 'moment-timezone';
 import { push } from 'react-router-redux';
-import { userSchema } from 'app/reducers';
+import { userSchema, penaltySchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
-import { User, FetchHistory } from './ActionTypes';
+import { User, FetchHistory, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
 import type { Thunk, Action } from 'app/types';
+import type { AddPenalty } from 'app/models';
 import { setStatusCode } from './RoutingActions';
 
 const USER_STORAGE_KEY = 'lego.auth';
@@ -391,6 +392,38 @@ export function sendForgotPasswordEmail({
         }
       })
     );
+}
+
+export function addPenalty({ user, reason, weight, sourceEvent }: AddPenalty) {
+  return callAPI({
+    types: Penalty.CREATE,
+    endpoint: '/penalties/',
+    method: 'POST',
+    schema: penaltySchema,
+    body: {
+      user,
+      reason,
+      weight,
+      sourceEvent
+    },
+    meta: {
+      errorMessage: 'Opprettelse av prikk feilet'
+    }
+  });
+}
+
+export function deletePenalty(id: number) {
+  return callAPI({
+    types: Penalty.DELETE,
+    endpoint: `/penalties/${id}`,
+    method: 'DELETE',
+    schema: penaltySchema,
+    meta: {
+      penaltyId: id,
+      errorMessage: 'Sletting av prikk feilet'
+    },
+    body: {}
+  });
 }
 
 export function resetPassword({

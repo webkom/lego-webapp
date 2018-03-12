@@ -25,6 +25,7 @@ import memberships from './memberships';
 import search from './search';
 import auth from './auth';
 import users from './users';
+import penalties from './penalties';
 import emailUsers from './emailUsers';
 import groups from './groups';
 import { oauth2Applications, oauth2Grants } from './oauth2';
@@ -86,7 +87,8 @@ const reducers = {
   companies,
   companySemesters,
   surveys,
-  surveySubmissions
+  surveySubmissions,
+  penalties
 };
 
 export type Reducers = typeof reducers;
@@ -109,8 +111,10 @@ export default function rootReducer(state: State, action: Action) {
 export const restrictedMailSchema = new schema.Entity('restrictedMails');
 
 export const groupSchema = new schema.Entity('groups');
+export const penaltySchema = new schema.Entity('penalties', {});
 export const userSchema = new schema.Entity('users', {
-  abakusGroups: [groupSchema]
+  abakusGroups: [groupSchema],
+  penalties: [penaltySchema]
 });
 export const emailUserSchema = new schema.Entity('emailUsers', {
   user: userSchema
