@@ -42,7 +42,8 @@ function toastStyleFactory(index, style) {
       padding: '14px 24px',
       lineHeight: '20px',
       fontSize: '14px',
-      boxShadow: 0
+      boxShadow: 0,
+      zIndex: 2
     };
   }
   return {
