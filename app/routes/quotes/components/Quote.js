@@ -125,7 +125,13 @@ export default class Quote extends Component<Props, State> {
                           <Dropdown.ListItem>
                             <a
                               className={styles.deleteQuote}
-                              onClick={() => this.setState({ deleting: true })}
+                              onClick={e => {
+                                if (e) {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                }
+                                this.setState({ deleting: true });
+                              }}
                             >
                               Slett
                             </a>

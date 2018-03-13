@@ -17,6 +17,11 @@
   opacity: 0;
 }
 
+.input:disabled,
+.input:disabled + .label {
+  cursor: default;
+}
+
 .label {
   position: relative;
   cursor: pointer;
@@ -71,12 +76,6 @@
 
 .input:disabled + .label {
   color: #aaa;
-}
-
-/* accessibility */
-.input:checked:focus + .label::before,
-.input:not(:checked):focus + .label::before {
-  cursor: pointer;
 }
 
 /* hover style just for information */
