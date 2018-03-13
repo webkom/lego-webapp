@@ -2,7 +2,7 @@
 
 import React from 'react';
 import type { FieldProps } from 'redux-form';
-import { reduxForm, Field } from 'redux-form';
+import { Field } from 'redux-form';
 import { omit } from 'lodash';
 
 import Button from 'app/components/Button';
@@ -11,7 +11,7 @@ import {
   TextInput,
   RadioButtonGroup,
   RadioButton,
-  handleSubmissionError
+  legoForm
 } from 'app/components/Form';
 import { FlexRow } from 'app/components/FlexBox';
 import UserImage from './UserImage';
@@ -37,7 +37,6 @@ type Props = FieldProps & {
 const UserSettings = (props: Props) => {
   const {
     handleSubmit,
-    updateUser,
     changePassword,
     invalid,
     isMe,
@@ -51,16 +50,13 @@ const UserSettings = (props: Props) => {
   const disabledButton = invalid || pristine || submitting;
   const showAbakusMembership = user.isStudent;
 
-  const onSubmit = data =>
-    updateUser(omit(data, 'profilePicture')).catch(handleSubmissionError);
-
   return (
     <div>
       <FlexRow justifyContent="center">
         <UserImage user={user} updatePicture={updatePicture} />
       </FlexRow>
 
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit}>
         <Field
           placeholder="Brukernavn"
           label="Brukernavn"
@@ -148,8 +144,10 @@ const validate = createValidator({
   email: [required(), isEmail()]
 });
 
-export default reduxForm({
+export default legoForm({
   form: 'userSettings',
   validate,
-  enableReinitialize: true
+  enableReinitialize: true,
+  onSubmit: (data, dispatch, { updateUser }: Props) =>
+    updateUser(omit(data, 'profilePicture'))
 })(UserSettings);
