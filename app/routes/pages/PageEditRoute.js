@@ -43,7 +43,6 @@ export default compose(
   ),
   connect(mapStateToProps, mapDispatchToProps),
   legoForm({
-    destroyOnUnmount: false,
     form: 'page-edit'
   })
 )(PageEditor);
