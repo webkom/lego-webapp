@@ -10,16 +10,15 @@ type Props = {
   icon?: string,
   /** html to display in an EmptyState */
   children?: Node,
-  size?: number,
-  className?: string
+  size?: number
 };
 
 /**
  * A basic EmptyState component
  *
  */
-const EmptyState = ({ icon, size = 88, className, children }: Props) => (
-  <div className={cx(styles.container, icon && styles.centered, className)}>
+const EmptyState = ({ icon, size = 88, children }: Props) => (
+  <div className={cx(styles.container, icon && styles.centered)}>
     {icon && <Icon className={styles.icon} size={size} name={icon} />}
     {children}
   </div>

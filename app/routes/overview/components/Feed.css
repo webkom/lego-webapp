@@ -1,5 +1,3 @@
-@import 'app/styles/variables.css';
-
 .root {
   padding: 0 10px 10px;
   flex: 1;
@@ -20,6 +18,7 @@
   border: 1px solid rgba(0, 0, 0, 0.09);
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
   border-radius: 3px;
+  padding: 20px;
   overflow-y: auto;
   height: 459px;
   flex: 1;
@@ -44,28 +43,14 @@
 
 .item {
   border-bottom: 1px solid #eee;
-  padding: 10px 20px;
+  padding: 5px 0;
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: var(--lego-font-color);
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.02);
-  }
-
-  &:active {
-    border: 2px solid var(--color-light-gray-1);
-  }
-
-  &:first-child {
-    padding-top: 20px;
-  }
 }
 
 .noActivities {
   font-weight: bold;
-  padding-top: 20px;
 }
 
 .wordBreak p {

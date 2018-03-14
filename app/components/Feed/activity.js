@@ -6,7 +6,7 @@ import Card from 'app/components/Card';
 import Time from 'app/components/Time';
 import { ProfilePicture } from 'app/components/Image';
 import styles from './activity.css';
-import { lookupContext, toLink } from './context';
+import { lookupContext } from './context';
 import type { AggregatedActivity, Activity } from './types';
 
 type Props = {
@@ -51,7 +51,7 @@ export default class ActivityRenderer extends Component<Props, State> {
     return (
       <Card style={{ padding: '0', margin: '10px 0 20px 0' }}>
         <div className={styles.header}>
-          {renders.activityHeader(aggregatedActivity, toLink)}
+          {renders.activityHeader(aggregatedActivity)}
         </div>
         {activities.map((activity, i) => (
           <div key={i}>
