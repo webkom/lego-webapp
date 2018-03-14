@@ -1,7 +1,7 @@
 // @flow
 import joinValues from 'app/utils/joinValues';
 
-export function formatHeader(values: Array<any>) {
+export function formatHeader(values: Array<*>) {
   if (values.length === 3) {
     values = values.slice(0, 2);
     values.push('en annen');

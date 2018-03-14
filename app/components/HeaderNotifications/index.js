@@ -6,9 +6,6 @@ import Icon from '../Icon';
 import { activityRenderers } from '../Feed';
 import Time from 'app/components/Time';
 import styles from './HeaderNotifications.css';
-import { Link } from 'react-router';
-import ErrorBoundary from 'app/components/ErrorBoundary';
-import { toSpan } from '../Feed/context';
 
 type Props = {
   notificationsData: Object,
@@ -24,28 +21,27 @@ type State = {
 
 const NotificationElement = ({ notification }: { notification: Object }) => {
   const renders = activityRenderers[notification.verb];
+
   if (renders) {
     return (
-      <Link to={renders.getURL(notification)}>
-        <div
-          className={cx(
-            styles.notification,
-            !notification.read ? styles.unRead : null
-          )}
-        >
-          <div className={styles.innerNotification}>
-            <div className={styles.icon}>{renders.icon(notification)}</div>
-            <div>
-              {renders.activityHeader(notification, toSpan)}
-              <Time
-                time={notification.updatedAt}
-                wordsAgo
-                style={{ margin: '0', display: 'block' }}
-              />
-            </div>
+      <div
+        className={cx(
+          styles.notification,
+          !notification.read ? styles.unRead : null
+        )}
+      >
+        <div className={styles.innerNotification}>
+          <div className={styles.icon}>{renders.icon(notification)}</div>
+          <div>
+            {renders.activityHeader(notification)}
+            <Time
+              time={notification.updatedAt}
+              wordsAgo
+              style={{ margin: '0', display: 'block' }}
+            />
           </div>
         </div>
-      </Link>
+      </div>
     );
   }
   return null;
@@ -65,9 +61,10 @@ export default class NotificationsDropdown extends Component<Props, State> {
     return (
       <div>
         {notifications.map(notification => (
-          <ErrorBoundary hidden key={notification.id}>
-            <NotificationElement notification={notification} />
-          </ErrorBoundary>
+          <NotificationElement
+            key={notification.id}
+            notification={notification}
+          />
         ))}
       </div>
     );

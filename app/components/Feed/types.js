@@ -21,9 +21,3 @@ export type AggregatedActivity = {
   seen: boolean,
   context: Object
 };
-
-export type TagInfo = {
-  link: string,
-  text: string,
-  notLink: boolean
-};
