@@ -5,8 +5,15 @@ import { connect } from 'react-redux';
 import cx from 'classnames';
 import React, { Component } from 'react';
 import Button from 'app/components/Button';
-import { Form, TextArea, TextInput, SelectInput } from 'app/components/Form';
-import { reduxForm, Field, reset } from 'redux-form';
+import {
+  legoForm,
+  Form,
+  TextArea,
+  TextInput,
+  SelectInput,
+  withSubmissionError
+} from 'app/components/Form';
+import { Field } from 'redux-form';
 import { addPenalty } from 'app/actions/UserActions';
 import type { AddPenalty, ID } from 'app/models';
 
@@ -19,7 +26,8 @@ type Props = {
   actionGrant: boolean,
   hidden?: boolean,
   button?: boolean,
-  className?: string
+  className?: string,
+  reset: () => void
 };
 
 type State = {
@@ -34,16 +42,19 @@ class PenaltyInLine extends Component<Props, State> {
     sent: false
   };
 
-  onSubmit = (penalty, user) => {
-    this.props.addPenalty({
-      ...penalty,
-      sourceEvent: penalty.sourceEvent.value,
-      user
-    });
-    this.setState(() => ({
-      sent: true
-    }));
-  };
+  onSubmit = (penalty, user) =>
+    this.props
+      .addPenalty({
+        ...penalty,
+        sourceEvent: penalty.sourceEvent && penalty.sourceEvent.value,
+        user
+      })
+      .then(() => {
+        this.setState(() => ({
+          sent: true
+        }));
+        this.props.reset();
+      });
 
   handleHide = () => {
     this.setState(prevState => ({
@@ -78,7 +89,9 @@ class PenaltyInLine extends Component<Props, State> {
 
             {showForm && (
               <Form
-                onSubmit={handleSubmit(values => this.onSubmit(values, user))}
+                onSubmit={handleSubmit(
+                  withSubmissionError(values => this.onSubmit(values, user))
+                )}
               >
                 <Field
                   name="reason"
@@ -92,7 +105,7 @@ class PenaltyInLine extends Component<Props, State> {
                 />
                 <Field
                   name="sourceEvent"
-                  placeholder="Arrangementer"
+                  placeholder="Arrangement"
                   filter={['events.event']}
                   component={SelectInput.AutocompleteField}
                 />
@@ -106,19 +119,14 @@ class PenaltyInLine extends Component<Props, State> {
   }
 }
 
-const resetForm = (result, dispatch) => {
-  dispatch(reset('penaltyInline'));
-};
-
 const mapStateToProps = state => ({ actionGrant: state.allowed.penalties });
 
 const mapDispatchToProps = { addPenalty };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  reduxForm({
+  legoForm({
     form: 'penaltyInline',
-    onSubmitSuccess: resetForm,
     validate(values) {
       const errors = {};
       if (!values.message) {

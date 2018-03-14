@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createPage } from 'app/actions/PageActions';
 import PageEditor from './components/PageEditor';
 import { uploadFile } from 'app/actions/FileActions';
-import { reduxForm } from 'redux-form';
+import { legoForm } from 'app/components/Form';
 import { push } from 'react-router-redux';
 
 function mapStateToProps(state, props) {
@@ -17,8 +17,7 @@ const mapDispatchToProps = { createPage, uploadFile, push };
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  reduxForm({
-    destroyOnUnmount: false,
+  legoForm({
     form: 'page-create'
   })
 )(PageEditor);
