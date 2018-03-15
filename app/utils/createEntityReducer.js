@@ -113,14 +113,27 @@ export function paginationReducer(key: string, fetchType?: ?AsyncActionType) {
     if (!action.payload) {
       return state;
     }
+    const { paginationKey } = action.meta;
 
-    if (action.payload.next) {
-      state.pagination.next = parse(action.payload.next.split('?')[1]);
+    const { next = null } = action.payload;
+    const parsedNext = next && parse(next.split('?')[1]);
+
+    if (paginationKey) {
+      state.pagination = {
+        ...state.pagination,
+        [paginationKey]: {
+          ...state.pagination[paginationKey],
+          next: parsedNext,
+          hasMore: typeof next === 'string'
+        }
+      };
+    } else {
+      state.pagination.next = parsedNext;
     }
 
     return {
       ...state,
-      hasMore: typeof action.payload.next === 'string'
+      hasMore: typeof next === 'string'
     };
   };
 }
