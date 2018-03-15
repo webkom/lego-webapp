@@ -3,6 +3,7 @@ import { createSelector } from 'reselect';
 import { Group, Membership } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import without from 'lodash/without';
+import union from 'lodash/union';
 import type { ID } from 'app/models';
 import mergeObjects from 'app/utils/mergeObjects';
 
@@ -52,7 +53,10 @@ export default createEntityReducer({
             ...state.byId,
             [action.meta.groupId]: {
               ...state.byId[action.meta.groupId],
-              memberships: action.payload.result
+              memberships: union(
+                action.payload.result,
+                state.byId[action.meta.groupId].memberships
+              )
             }
           }
         };

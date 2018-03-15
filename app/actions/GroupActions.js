@@ -4,7 +4,7 @@ import type { Thunk } from 'app/types';
 import { groupSchema, membershipSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Group, Membership } from './ActionTypes';
-import { omit } from 'lodash';
+import { omit, get } from 'lodash';
 
 export type AddMemberArgs = {
   groupId: number,
@@ -160,16 +160,35 @@ export function leaveGroup(membership: Object): Thunk<*> {
   };
 }
 
-export function fetchMemberships(groupId: number) {
-  return callAPI({
-    types: Group.MEMBERSHIP_FETCH,
-    endpoint: `/groups/${groupId}/memberships/`,
-    schema: [membershipSchema],
-    useCache: false,
-    meta: {
-      groupId: groupId,
-      errorMessage: 'Henting av medlemmene for gruppen feilet'
-    },
-    propagateError: true
-  });
+export function fetchMemberships(groupId: number): Thunk<*> {
+  return fetchMembershipsPagination({ groupId, next: true });
+}
+
+export function fetchMembershipsPagination({
+  groupId,
+  next
+}: {
+  groupId: number,
+  next: boolean
+}): Thunk<*> {
+  return (dispatch, getState) => {
+    return dispatch(
+      callAPI({
+        types: Group.MEMBERSHIP_FETCH,
+        endpoint: `/groups/${groupId}/memberships/`,
+        schema: [membershipSchema],
+        useCache: false,
+        query: next
+          ? // $FlowFixMe
+            get(getState(), ['memberships', 'pagination', groupId, 'next'])
+          : {},
+        meta: {
+          groupId: groupId,
+          errorMessage: 'Henting av medlemmene for gruppen feilet',
+          paginationKey: groupId
+        },
+        propagateError: true
+      })
+    );
+  };
 }
