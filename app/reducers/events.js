@@ -58,9 +58,16 @@ function mutateEvent(state: any, action: any) {
       if (!stateEvent) {
         return state;
       }
-      let waitingRegistrations = stateEvent.waitingRegistrations || [];
+      let registrationCount = stateEvent.registrationCount;
+      let waitingRegistrations = stateEvent.waitingRegistrations;
+      let waitingRegistrationCount = stateEvent.waitingRegistrationCount;
       if (!registration.pool) {
-        waitingRegistrations = [...waitingRegistrations, registration.id];
+        waitingRegistrationCount = waitingRegistrationCount + 1;
+        if (waitingRegistrations) {
+          waitingRegistrations = [...waitingRegistrations, registration.id];
+        }
+      } else {
+        registrationCount++;
       }
       return {
         ...state,
@@ -69,20 +76,29 @@ function mutateEvent(state: any, action: any) {
           [eventId]: {
             ...stateEvent,
             loading: false,
-            registrationCount: registration.pool
-              ? stateEvent.registrationCount + 1
-              : stateEvent.registrationCount,
-            waitingRegistrations
+            registrationCount,
+            ...(waitingRegistrations && { waitingRegistrations }),
+            waitingRegistrationCount
           }
         }
       };
     }
     case Event.SOCKET_UNREGISTRATION.SUCCESS: {
-      const { eventId, activationTime, fromPool } = action.meta;
+      const {
+        eventId,
+        activationTime: activationTimeFromMeta,
+        fromPool,
+        currentUser
+      } = action.meta;
       const stateEvent = state.byId[eventId];
+      const registration = action.payload;
       if (!stateEvent) {
         return state;
       }
+      const activationTime =
+        registration.user.id === currentUser.id
+          ? activationTimeFromMeta
+          : stateEvent.activationTime;
       return {
         ...state,
         byId: {
@@ -94,9 +110,14 @@ function mutateEvent(state: any, action: any) {
             registrationCount: fromPool
               ? stateEvent.registrationCount - 1
               : stateEvent.registrationCount,
-            waitingRegistrations: (
-              stateEvent.waitingRegistrations || []
-            ).filter(id => id !== action.payload.id)
+            waitingRegistrationCount: fromPool
+              ? stateEvent.waitingRegistrationCount
+              : stateEvent.waitingRegistrationCount - 1,
+            ...(stateEvent.waitingRegistrations && {
+              waitingRegistrations: stateEvent.waitingRegistrations.filter(
+                id => id !== action.payload.id
+              )
+            })
           }
         }
       };
