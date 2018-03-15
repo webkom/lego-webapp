@@ -24,7 +24,8 @@ export function addMember({ groupId, userId, role }: AddMemberArgs) {
     schema: membershipSchema,
     meta: {
       groupId,
-      errorMessage: 'Innmelding av bruker feilet'
+      errorMessage: 'Innmelding av bruker feilet',
+      successMessage: 'Brukeren ble innmeldt'
     }
   });
 }
