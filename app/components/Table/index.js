@@ -23,7 +23,7 @@ type checkFilter = {
 
 type columnProps = {
   dataIndex: string,
-  title: string,
+  title?: string,
   sorter?: (any, any) => number,
   filter?: Array<checkFilter>,
   search?: boolean,
@@ -229,7 +229,9 @@ export default class Table extends Component<Props, State> {
         return true;
       }
 
-      return item[key].toLowerCase().includes(filter);
+      return get(item, key)
+        .toLowerCase()
+        .includes(filter);
     }).length;
 
     return match > 0;
