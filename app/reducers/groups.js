@@ -54,8 +54,8 @@ export default createEntityReducer({
             [action.meta.groupId]: {
               ...state.byId[action.meta.groupId],
               memberships: union(
-                action.payload.result,
-                state.byId[action.meta.groupId].memberships
+                state.byId[action.meta.groupId].memberships,
+                action.payload.result
               )
             }
           }
