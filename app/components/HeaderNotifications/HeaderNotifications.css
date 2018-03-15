@@ -21,9 +21,18 @@
   padding: 15px;
   display: flex;
   flex-direction: row;
+  color: var(--lego-font-color);
 
   &:last-child {
     border-bottom: none;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+
+  &:active {
+    border: 2px solid var(--color-light-gray-1);
   }
 }
 
