@@ -7,23 +7,46 @@ import styles from './GroupMembers.css';
 import AddGroupPermission from './AddGroupPermission';
 import { editGroup } from 'app/actions/GroupActions';
 import loadingIndicator from 'app/utils/loadingIndicator';
+import { omit } from 'lodash';
 
 type PermissionListProps = {
-  permissions: Array</*TODO: Permission*/ string>
+  permissions: Array</*TODO: Permission*/ string>,
+  group: Object,
+  editGroup: any => Promise<*>
 };
 
-const PermissionList = ({ permissions }: PermissionListProps) => (
+const removePermission = (permission, group, editGroup) =>
+  confirm(`Er du sikker på at du vil fjerne ut tilgangen ${permission}?`) &&
+  editGroup({
+    ...omit(group || {}, 'logo'),
+    permissions: group.permissions.filter(perm => perm !== permission)
+  });
+
+const PermissionList = ({
+  permissions,
+  group,
+  editGroup
+}: PermissionListProps) => (
   <div>
     <h3>Nåværende rettigheter</h3>
     <ul>
-      {permissions.map(permission => <li key={permission}>{permission}</li>)}
+      {permissions.map(permission => (
+        <li key={permission}>
+          <i
+            className={`fa fa-times ${styles.removeIcon}`}
+            onClick={() => removePermission(permission, group, editGroup)}
+          />
+
+          {permission}
+        </li>
+      ))}
     </ul>
   </div>
 );
 
 type GroupPermissionsProps = {
   group: Object,
-  editGroup: Promise<*>
+  editGroup: any => Promise<*>
 };
 
 export const GroupPermissions = ({
@@ -33,7 +56,11 @@ export const GroupPermissions = ({
   const { permissions } = group;
   return (
     <div className={styles.groupMembers}>
-      <PermissionList permissions={permissions} />
+      <PermissionList
+        group={group}
+        permissions={permissions}
+        editGroup={editGroup}
+      />
       <AddGroupPermission group={group} editGroup={editGroup} />
     </div>
   );
