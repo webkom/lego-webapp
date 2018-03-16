@@ -35,10 +35,6 @@
 .searchIcon {
   color: var(--lego-link-color);
 
-  @media (--mobile-device) {
-    display: none;
-  }
-
   &:hover,
   &.activeItem {
     color: var(--color-red-1);
