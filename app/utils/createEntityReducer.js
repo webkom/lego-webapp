@@ -4,13 +4,14 @@ import { get, union, isEmpty } from 'lodash';
 import { parse } from 'qs';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
+import { isArray } from 'lodash';
 
 import type { Reducer, AsyncActionType } from 'app/types';
 
 type EntityReducerOptions = {
   key: string,
   types: {
-    fetch?: ?AsyncActionType,
+    fetch?: ?AsyncActionType | Array<?AsyncActionType>,
     mutate?: ?AsyncActionType
   },
   mutate?: Reducer,
@@ -140,7 +141,7 @@ export default function createEntityReducer({
   mutate,
   initialState = {}
 }: EntityReducerOptions) {
-  const { fetch: fetchType, mutate: mutateType } = types;
+  const { fetch, mutate: mutateType } = types;
 
   const finalInitialState = {
     actionGrant: [],
@@ -152,12 +153,17 @@ export default function createEntityReducer({
     ...initialState
   };
 
+  const fetchTypes = isArray(fetch) ? fetch : [fetch];
   const reduce = joinReducers(
-    fetching(fetchType),
-    entities(key, fetchType),
-    optimistic(mutateType),
-    paginationReducer(key, fetchType),
-    mutate
+    ...fetchTypes.map(fetchType =>
+      joinReducers(
+        fetching(fetchType),
+        entities(key, fetchType),
+        optimistic(mutateType),
+        paginationReducer(key, fetchType),
+        mutate
+      )
+    )
   );
 
   return (state: any = finalInitialState, action: any) => reduce(state, action);
