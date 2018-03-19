@@ -51,7 +51,7 @@ export function getURL(aggregatedActivity: AggregatedActivity) {
 }
 
 export const commentURL = (target: Object) => {
-  switch (target.contentType) {
+  switch (target && target.contentType) {
     case 'events.event':
       return !target ? '/events' : `/events/${target.id}`;
     case 'meetings.meetinginvitation':

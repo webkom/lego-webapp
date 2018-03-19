@@ -9,6 +9,7 @@ import type { AggregatedActivity } from 'app/components/Feed/types';
 import { toSpan } from 'app/components/Feed/context';
 import EmptyState from 'app/components/EmptyState';
 import Time from 'app/components/Time';
+import ErrorBoundary from 'app/components/ErrorBoundary';
 
 type Props = {
   feedItems: Array<any>,
@@ -51,8 +52,10 @@ const Feed = (props: Props) => {
       <div className={styles.content}>
         {props.feedItems.length > 0 ? (
           <ul>
-            {props.feedItems.map((activity, key) => (
-              <FeedItem activity={activity} key={key} />
+            {props.feedItems.map(activity => (
+              <ErrorBoundary hidden key={activity.id}>
+                <FeedItem activity={activity} />
+              </ErrorBoundary>
             ))}
           </ul>
         ) : (
