@@ -156,13 +156,6 @@ class Header extends Component<Props, State> {
             </div>
 
             <div className={styles.buttonGroup}>
-              <button
-                onClick={this.props.toggleSearch}
-                className={styles.burger}
-              >
-                <Icon name="menu" size={30} scaleOnHover />
-              </button>
-
               {loggedIn && (
                 <NotificationsDropdown
                   notificationsData={this.props.notificationsData}
@@ -253,11 +246,8 @@ class Header extends Component<Props, State> {
                 </Dropdown>
               )}
 
-              <button
-                onClick={this.props.toggleSearch}
-                className={styles.hideOnMobile}
-              >
-                <Icon name="search" size={30} className={styles.searchIcon} />
+              <button onClick={this.props.toggleSearch}>
+                <Icon name="menu" size={30} className={styles.searchIcon} />
               </button>
             </div>
           </div>
