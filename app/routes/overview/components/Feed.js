@@ -6,8 +6,10 @@ import styles from './Feed.css';
 
 import { activityRenderers } from 'app/components/Feed';
 import type { AggregatedActivity } from 'app/components/Feed/types';
+import { toSpan } from 'app/components/Feed/context';
 import EmptyState from 'app/components/EmptyState';
 import Time from 'app/components/Time';
+import ErrorBoundary from 'app/components/ErrorBoundary';
 
 type Props = {
   feedItems: Array<any>,
@@ -19,17 +21,19 @@ const FeedItem = (props: { activity: AggregatedActivity }) => {
 
   if (renders) {
     return (
-      <li className={styles.item}>
-        <div className={styles.icon}>{renders.icon(props.activity)}</div>
-        <div className={styles.wordBreak}>
-          {renders.activityHeader(props.activity)}
-          <Time
-            time={props.activity.updatedAt}
-            wordsAgo
-            style={{ margin: '0', display: 'block' }}
-          />
-        </div>
-      </li>
+      <Link to={renders.getURL(props.activity)}>
+        <li className={styles.item}>
+          <div className={styles.icon}>{renders.icon(props.activity)}</div>
+          <div className={styles.wordBreak}>
+            {renders.activityHeader(props.activity, toSpan)}
+            <Time
+              time={props.activity.updatedAt}
+              wordsAgo
+              style={{ margin: '0', display: 'block' }}
+            />
+          </div>
+        </li>
+      </Link>
     );
   }
 
@@ -48,12 +52,18 @@ const Feed = (props: Props) => {
       <div className={styles.content}>
         {props.feedItems.length > 0 ? (
           <ul>
-            {props.feedItems.map((activity, key) => (
-              <FeedItem activity={activity} key={key} />
+            {props.feedItems.map(activity => (
+              <ErrorBoundary hidden key={activity.id}>
+                <FeedItem activity={activity} />
+              </ErrorBoundary>
             ))}
           </ul>
         ) : (
-          <EmptyState icon="book-outline" size={40}>
+          <EmptyState
+            className={styles.noActivities}
+            icon="book-outline"
+            size={40}
+          >
             <p className={styles.noActivities}>Ingen aktiviteter i feeden</p>
           </EmptyState>
         )}

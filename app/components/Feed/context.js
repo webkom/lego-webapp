@@ -1,7 +1,8 @@
 // @flow
 import React from 'react';
 import { Link } from 'react-router';
-import type { AggregatedActivity } from './types';
+import type { AggregatedActivity, TagInfo } from './types';
+import styles from './context.css';
 
 export function lookupContext(
   aggregatedActivity: AggregatedActivity,
@@ -10,31 +11,39 @@ export function lookupContext(
   return aggregatedActivity.context[key];
 }
 
-const renderUser = (context: Object) => (
-  <Link to={`/users/${context.username}/`}>
-    {`${context.firstName} ${context.lastName}`}
-  </Link>
-);
+export const linkAndText = (
+  link: string,
+  text: string,
+  linkableContent: boolean = true
+) => ({
+  link,
+  text,
+  linkableContent
+});
 
-const renderEvent = (context: Object) => (
-  <Link to={`/events/${context.id}/`}>{`${context.title}`}</Link>
-);
+const renderUser = (context: Object) =>
+  linkAndText(
+    `/users/${context.username}/`,
+    `${context.firstName} ${context.lastName}`
+  );
 
-const renderMeetingInvitation = (context: Object) => (
-  <Link to={`/meetings/${context.meeting.id}/`}>{context.meeting.title}</Link>
-);
+const renderEvent = (context: Object) =>
+  linkAndText(`/events/${context.id}/`, context.title);
 
-const renderArticle = (context: Object) => (
-  <Link to={`/articles/${context.id}/`}>{context.title}</Link>
-);
+const renderMeetingInvitation = (context: Object) =>
+  linkAndText(`/meetings/${context.meeting.id}/`, context.meeting.title);
 
-const renderAnnouncement = (context: Object) => <p>{context.message}</p>;
+const renderArticle = (context: Object) =>
+  linkAndText(`/articles/${context.id}/`, context.title);
 
-const renderGalleryPicture = (context: Object) => (
-  <Link to={`/photos/${context.gallery.id}/picture/${context.id}`}>
-    {context.gallery.title}-#{context.id}
-  </Link>
-);
+const renderAnnouncement = (context: Object) =>
+  linkAndText('', context.message, false);
+
+const renderGalleryPicture = (context: Object) =>
+  linkAndText(
+    `/photos/${context.gallery.id}/picture/${context.id}`,
+    `${context.gallery.title}-#${context.id}`
+  );
 
 export const contextRender = {
   'users.user': renderUser,
@@ -44,3 +53,16 @@ export const contextRender = {
   'notifications.announcement': renderAnnouncement,
   'gallery.gallerypicture': renderGalleryPicture
 };
+
+export function toLink(linkAndText: TagInfo) {
+  return linkAndText.linkableContent ? (
+    <Link to={linkAndText.link}>{linkAndText.text}</Link>
+  ) : (
+    toSpan(linkAndText)
+  );
+}
+
+export function toSpan(linkAndText: TagInfo) {
+  const classname = linkAndText.linkableContent ? styles.highlight : '';
+  return <span className={classname}>{linkAndText.text}</span>;
+}
