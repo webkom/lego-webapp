@@ -10,7 +10,7 @@ export type ArticleEntity = {
   title: string,
   commentTarget: string,
   description: string,
-  author: number,
+  author: Object,
   cover: string,
   createdAt: string,
   content: string,

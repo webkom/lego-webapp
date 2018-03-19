@@ -7,6 +7,7 @@ import fetchJSON, {
   type HttpResponse
 } from 'app/utils/fetchJSON';
 import config from '../config';
+import { isArray } from 'lodash';
 import createQueryString from 'app/utils/createQueryString';
 import { logout } from 'app/actions/UserActions';
 import getCachedRequest from 'app/utils/getCachedRequest';
@@ -159,6 +160,15 @@ export default function callAPI({
       requestOptions
     );
 
+    let schemaKey = null;
+    if (schema) {
+      if (isArray(schema)) {
+        schemaKey = schema[0].key;
+      } else {
+        schemaKey = schema.key;
+      }
+    }
+
     return dispatch({
       types,
       payload: optimisticPayload,
@@ -167,7 +177,8 @@ export default function callAPI({
         optimisticId: optimisticPayload ? optimisticId : undefined,
         endpoint,
         success: shouldUseCache && types.SUCCESS,
-        body
+        body,
+        schemaKey
       },
       promise: promise
         .then(response => normalizeJsonResponse(response))

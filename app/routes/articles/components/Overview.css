@@ -6,6 +6,16 @@
   justify-content: space-between;
 }
 
+.tagline {
+  margin: 10px 0 0;
+}
+
+.overviewAuthor::after {
+  text-decoration: none;
+  color: #000;
+  content: ' \2022';
+}
+
 .overview {
   width: 100%;
   display: flex;

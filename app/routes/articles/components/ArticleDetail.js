@@ -43,7 +43,7 @@ const ArticleDetail = ({
       className={styles.articleHeader}
       title={article.title}
     >
-      {article.actionGrant.includes('edit') && (
+      {(article.actionGrant || []).includes('edit') && (
         <NavigationLink to={`/articles/${article.id}/edit`}>
           Rediger
         </NavigationLink>
