@@ -221,6 +221,7 @@ const CompanyInterestPage = (props: Props) => {
           placeholder="Skriv eventuell kommentar"
           name="comment"
           component={TextEditor.Field}
+          rows={10}
           className={styles.textEditor}
           label="Kommentar"
         />
