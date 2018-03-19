@@ -13,7 +13,6 @@ import Tags from 'app/components/Tags';
 import Paginator from 'app/components/Paginator';
 
 const HEADLINE_EVENTS = 2;
-const FRONT_EVENTS = 10;
 
 const OverviewItem = ({ article }: { article: ArticleEntity }) => (
   <div className={styles.item}>
@@ -57,7 +56,7 @@ export default class Overview extends Component<Props> {
   render() {
     const { articles } = this.props;
     const headlineEvents = articles.slice(0, HEADLINE_EVENTS);
-    const normalEvents = articles.slice(HEADLINE_EVENTS, FRONT_EVENTS);
+    const normalEvents = articles.slice(HEADLINE_EVENTS);
 
     return (
       <Content>

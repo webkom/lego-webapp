@@ -1,10 +1,10 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
 import { fetchAll } from 'app/actions/ArticleActions';
 import Overview from './components/Overview';
 import { selectArticles } from 'app/reducers/articles';
 import { selectUserById } from 'app/reducers/users';
+import prepare from 'app/utils/prepare';
 
 const mapStateToProps = state => ({
   articles: selectArticles(state).map(article => ({
@@ -18,8 +18,6 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = { fetchAll };
 
 export default compose(
-  dispatched((props, dispatch) => dispatch(fetchAll()), {
-    componentWillReceiveProps: false
-  }),
+  prepare((props, dispatch) => dispatch(fetchAll())),
   connect(mapStateToProps, mapDispatchToProps)
 )(Overview);
