@@ -118,7 +118,7 @@ const onSubmit = (
     author: currentUser.id,
     description: data.description,
     content: data.content,
-    tags: (data.tags || []).map(tag => tag.value),
+    tags: (data.tags || []).map(tag => tag.value.toLowerCase()),
     pinned: data.pinned
   };
 

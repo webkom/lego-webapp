@@ -3,7 +3,6 @@
 import { Article } from './ActionTypes';
 import { articleSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
-import createQueryString from 'app/utils/createQueryString';
 import type { EntityID, ArticleEntity, Thunk } from 'app/types';
 import { push } from 'react-router-redux';
 
@@ -86,15 +85,26 @@ export function editArticle({
 
 export function fetchAll({
   year,
-  month
-}: { year: string, month: string } = {}) {
-  return callAPI({
-    types: Article.FETCH,
-    endpoint: `/articles/${createQueryString({ year, month })}`,
-    schema: [articleSchema],
-    meta: {
-      errorMessage: 'Henting av artikler feilet'
-    },
-    propagateError: true
-  });
+  month,
+  next = false
+}: { year: string, month: string, next: boolean } = {}): Thunk<*> {
+  return (dispatch, getState) => {
+    const cursor = next ? getState().articles.pagination.next : {};
+    return dispatch(
+      callAPI({
+        types: Article.FETCH,
+        endpoint: '/articles/',
+        schema: [articleSchema],
+        query: {
+          ...cursor,
+          month,
+          year
+        },
+        meta: {
+          errorMessage: 'Henting av artikler feilet'
+        },
+        propagateError: true
+      })
+    );
+  };
 }

@@ -49,10 +49,17 @@ export function entities(key: string, fetchType?: ?AsyncActionType) {
     },
     action: any
   ) => {
+    const primaryKey = get(action, ['meta', 'schemaKey']) === key;
     const result = get(action, ['payload', 'entities', key], {});
-    const resultIds = Object.keys(result).map(
-      i => (isNumber(i) ? parseInt(i, 10) : i)
-    );
+
+    /*
+     * primaryKey is true if the action schema key is the same as the key specified by createEntityReducer.
+     * Ex: Article.FETCH.SUCCESS fetches articles, the payload.result is used rather
+     * than looping over the object keys for ordering purposes.
+     */
+    const resultIds = primaryKey
+      ? get(action, ['payload', 'result'], [])
+      : Object.keys(result).map(i => (isNumber(i) ? parseInt(i, 10) : i));
     const actionGrant = get(action, ['payload', 'actionGrant'], []);
 
     if (
