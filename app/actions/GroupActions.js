@@ -160,6 +160,14 @@ export function leaveGroup(membership: Object): Thunk<*> {
   };
 }
 
+export function fetchAllMemberships(groupId: number): Thunk<*> {
+  return dispatch => {
+    return dispatch(fetchMembershipsPagination({ groupId, next: true })).then(
+      res => res.payload.next && dispatch(fetchAllMemberships(groupId))
+    );
+  };
+}
+
 export function fetchMemberships(groupId: number): Thunk<*> {
   return fetchMembershipsPagination({ groupId, next: true });
 }
