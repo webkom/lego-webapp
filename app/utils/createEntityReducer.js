@@ -1,6 +1,6 @@
 // @flow
 
-import { get, union, isEmpty } from 'lodash';
+import { isArray, get, union, isEmpty } from 'lodash';
 import { parse } from 'qs';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
@@ -57,9 +57,13 @@ export function entities(key: string, fetchType?: ?AsyncActionType) {
      * Ex: Article.FETCH.SUCCESS fetches articles, the payload.result is used rather
      * than looping over the object keys for ordering purposes.
      */
-    const resultIds = primaryKey
+    let resultIds = primaryKey
       ? get(action, ['payload', 'result'], [])
       : Object.keys(result).map(i => (isNumber(i) ? parseInt(i, 10) : i));
+
+    if (!isArray(resultIds)) {
+      resultIds = [resultIds];
+    }
     const actionGrant = get(action, ['payload', 'actionGrant'], []);
 
     if (
