@@ -110,7 +110,7 @@ export function paginationReducer(key: string, fetchType?: ?AsyncActionType) {
       return state;
     }
 
-    if (!action.payload) {
+    if (!action.payload || action.payload.next === undefined) {
       return state;
     }
     const paginationKey = get(action, ['meta', 'paginationKey']);
@@ -127,7 +127,7 @@ export function paginationReducer(key: string, fetchType?: ?AsyncActionType) {
           hasMore: typeof next === 'string'
         }
       };
-    } else if (next !== null) {
+    } else {
       state.pagination.next = parsedNext;
     }
 

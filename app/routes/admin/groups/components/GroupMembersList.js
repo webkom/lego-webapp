@@ -30,9 +30,10 @@ const GroupMembersList = ({
   const columns = [
     {
       title: 'Navn',
-      dataIndex: 'user',
+      dataIndex: 'user.fullName',
       search: true,
-      render: (user, membership) => {
+      render: (fullName, membership) => {
+        const { user } = membership;
         const performRemove = () =>
           confirm(`Er du sikker på at du vil melde ut ${user.fullName}?`) &&
           removeMember(membership);
@@ -52,7 +53,8 @@ const GroupMembersList = ({
       title: 'Rolle',
       dataIndex: 'role',
       search: true,
-      filterMapping: role => (role === 'member' ? '' : ROLES[role]),
+      filterMapping: role =>
+        role === 'member' || !ROLES[role] ? '' : ROLES[role],
       render: (role: string) =>
         role !== 'member' && <span>{ROLES[role] || role} </span>
     }
