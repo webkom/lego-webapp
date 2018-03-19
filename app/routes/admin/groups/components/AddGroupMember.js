@@ -54,6 +54,7 @@ const validate = createValidator({
 export default legoForm({
   form: 'add-user',
   validate,
+  onSubmitSuccess: (result, dispatch, { reset }: Props) => reset(),
   onSubmit: ({ user, role }, dispatch, props: Props) =>
     props
       .addMember({

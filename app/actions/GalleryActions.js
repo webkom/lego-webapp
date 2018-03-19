@@ -6,12 +6,12 @@ import callAPI from 'app/actions/callAPI';
 import type { EntityID, GalleryEntity } from 'app/types';
 import type { Thunk } from 'app/types';
 
-export function fetch(
-  galleryId: number,
-  { next, filters }: { next: boolean, filters: Object } = {}
-): Thunk<*> {
+export function fetch({
+  next,
+  filters
+}: { next: boolean, filters: Object } = {}): Thunk<*> {
   return (dispatch, getState) => {
-    const cursor = next ? getState().galleryPictures.pagination.next : {};
+    const cursor = next ? getState().galleries.pagination.next : {};
 
     return dispatch(
       callAPI({

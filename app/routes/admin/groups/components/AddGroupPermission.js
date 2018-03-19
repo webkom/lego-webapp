@@ -1,46 +1,31 @@
 // @flow
 import React from 'react';
-import { reduxForm, Field } from 'redux-form';
-import type { FieldProps } from 'redux-form';
-import { Button, Form } from 'app/components/Form';
+import { Field } from 'redux-form';
+import type { FormProps } from 'redux-form';
+import { legoForm, Button, Form } from 'app/components/Form';
 import TextInput from 'app/components/Form/TextInput';
 import { createValidator, matchesRegex, required } from 'app/utils/validation';
 import { omit } from 'lodash';
 
-type Props = FieldProps & {
+type Props = FormProps & {
   group: Object
 };
 
-const AddGroupPermission = ({
-  editGroup,
-  submitting,
-  group,
-  handleSubmit
-}: Props) => {
-  const onSubmit = handleSubmit(({ permission }) =>
-    editGroup({
-      ...omit(group || {}, 'logo'),
-      permissions: group.permissions.concat(permission)
-    })
-  );
+const AddGroupPermission = ({ editGroup, submitting, handleSubmit }: Props) => (
+  <Form onSubmit={handleSubmit}>
+    <h3>Legg til ny rettighet</h3>
+    <Field
+      label="Rettighet"
+      name="permission"
+      placeholder="/sudo/admin/events/create/"
+      component={TextInput.Field}
+    />
 
-  return (
-    <Form onSubmit={onSubmit}>
-      <h3>Legg til ny rettighet</h3>
-      <Field
-        label="Rettighet"
-        name="permission"
-        placeholder="/sudo/admin/events/create/"
-        component={TextInput.Field}
-      />
-
-      <Button submit disabled={submitting}>
-        Legg til rettighet
-      </Button>
-    </Form>
-  );
-};
-
+    <Button submit disabled={submitting}>
+      Legg til rettighet
+    </Button>
+  </Form>
+);
 const validate = createValidator({
   permission: [
     required(),
@@ -51,7 +36,13 @@ const validate = createValidator({
   ]
 });
 
-export default reduxForm({
+export default legoForm({
   form: 'add-permission',
+  onSubmit: ({ permission }, dispatch, { group, editGroup }) =>
+    editGroup({
+      ...omit(group || {}, 'logo'),
+      permissions: group.permissions.concat(permission)
+    }),
+  onSubmitSuccess: (result, dispatch, { reset }) => reset(),
   validate
 })(AddGroupPermission);

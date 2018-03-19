@@ -1,49 +1,75 @@
 // @flow
 
-import React from 'react';
-import sortBy from 'lodash/sortBy';
+import * as React from 'react';
 import { Link } from 'react-router';
 import { ROLES } from 'app/utils/constants';
 import styles from './GroupMembersList.css';
+import Table from 'app/components/Table';
 
 type Props = {
+  fetching: boolean,
+  hasMore: boolean,
+  group: Object,
   memberships: Array<Object>,
-  removeMember: Object => Promise<*>
+  removeMember: Object => Promise<*>,
+  fetch: ({ groupId: string, next: true }) => Promise<*>
 };
 
-// Show members last in the list:
-const SORT_ORDER = ['member', 'treasurer', 'co-leader', 'leader'];
-
-const GroupMembersList = ({ memberships, removeMember }: Props) => {
+const GroupMembersList = ({
+  memberships,
+  group,
+  removeMember,
+  fetch,
+  hasMore,
+  fetching
+}: Props) => {
   if (!memberships.length) {
     return <div>Ingen brukere</div>;
   }
 
-  const sorted = sortBy(memberships, ({ role }) =>
-    SORT_ORDER.indexOf(role)
-  ).reverse();
-  return (
-    <ul>
-      {sorted.map(membership => {
-        const { user, role } = membership;
+  const columns = [
+    {
+      title: 'Navn',
+      dataIndex: 'user.fullName',
+      search: true,
+      render: (fullName, membership) => {
+        const { user } = membership;
         const performRemove = () =>
           confirm(`Er du sikker på at du vil melde ut ${user.fullName}?`) &&
           removeMember(membership);
-
-        return (
-          <li key={user.username}>
-            <i
-              className={`fa fa-times ${styles.removeIcon}`}
-              onClick={performRemove}
-            />
-            {role !== 'member' && <span>{ROLES[role] || role}: </span>}
-            <Link to={`/users/${user.username}`}>
-              {user.fullName} ({user.username})
-            </Link>
-          </li>
-        );
-      })}
-    </ul>
+        return [
+          <i
+            key="icon"
+            className={`fa fa-times ${styles.removeIcon}`}
+            onClick={performRemove}
+          />,
+          <Link key="link" to={`/users/${user.username}`}>
+            {user.fullName} ({user.username})
+          </Link>
+        ];
+      }
+    },
+    {
+      title: 'Rolle',
+      dataIndex: 'role',
+      search: true,
+      filterMapping: role =>
+        role === 'member' || !ROLES[role] ? '' : ROLES[role],
+      render: (role: string) =>
+        role !== 'member' && <span>{ROLES[role] || role} </span>
+    }
+  ];
+  return (
+    <Table
+      infiniteScroll
+      columns={columns}
+      onLoad={() => {
+        fetch({ groupId: group.id, next: true });
+      }}
+      hasMore={hasMore}
+      loading={fetching}
+      data={memberships}
+    />
   );
 };
 

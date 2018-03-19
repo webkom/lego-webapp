@@ -23,9 +23,16 @@ type checkFilter = {
 
 type columnProps = {
   dataIndex: string,
-  title: string,
+  title?: string,
   sorter?: (any, any) => number,
   filter?: Array<checkFilter>,
+  /*
+   * Map the value to to "another" value to use
+   * for filtering. Eg. the result from the backend
+   * is in english, and the search should be in norwegian
+   *
+   */
+  filterMapping?: any => any,
   search?: boolean,
   width?: number,
   render?: (any, Object) => Node
@@ -220,7 +227,7 @@ export default class Table extends Component<Props, State> {
         return true;
       }
       if (typeof this.state.filters[key] === 'boolean') {
-        return this.state.filters[key] === item[key];
+        return this.state.filters[key] === get(item, key);
       }
 
       const filter = this.state.filters[key].toLowerCase();
@@ -229,7 +236,12 @@ export default class Table extends Component<Props, State> {
         return true;
       }
 
-      return item[key].toLowerCase().includes(filter);
+      const { filterMapping = val => val } =
+        this.props.columns.find(col => col.dataIndex == key) || {};
+
+      return filterMapping(get(item, key))
+        .toLowerCase()
+        .includes(filter);
     }).length;
 
     return match > 0;

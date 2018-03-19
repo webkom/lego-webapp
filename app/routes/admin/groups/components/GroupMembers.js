@@ -10,14 +10,19 @@ import prepare from 'app/utils/prepare';
 import styles from './GroupMembers.css';
 import {
   fetchMemberships,
+  fetchMembershipsPagination,
   addMember,
   removeMember
 } from 'app/actions/GroupActions';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
 import type { AddMemberArgs } from 'app/actions/GroupActions';
+import { get } from 'lodash';
 
 type Props = {
   group: Object,
+  hasMore: boolean,
+  fetch: ({ groupId: string, next: true }) => Promise<*>,
+  fetching: boolean,
   memberships: Array<Object>,
   addMember: AddMemberArgs => Promise<*>,
   removeMember: Object => Promise<*>
@@ -27,13 +32,24 @@ export const GroupMembers = ({
   addMember,
   removeMember,
   group,
-  memberships
+  memberships,
+  hasMore,
+  fetching,
+
+  fetch
 }: Props) => (
   <div className={styles.groupMembers}>
     <AddGroupMember addMember={addMember} group={group} />
     <LoadingIndicator loading={!memberships}>
       <h3 className={styles.subTitle}>Brukere</h3>
-      <GroupMembersList removeMember={removeMember} memberships={memberships} />
+      <GroupMembersList
+        group={group}
+        hasMore={hasMore}
+        fetch={fetch}
+        fetching={fetching}
+        removeMember={removeMember}
+        memberships={memberships}
+      />
     </LoadingIndicator>
   </div>
 );
@@ -47,10 +63,20 @@ function mapStateToProps(state, props) {
     groupId: props.params.groupId
   });
 
-  return { memberships };
+  const groupId = props.group && props.group.id;
+
+  return {
+    memberships,
+    fetching: state.memberships.fetching,
+    hasMore: get(state, ['memberships', 'pagination', groupId, 'hasMore'])
+  };
 }
 
-const mapDispatchToProps = { addMember, removeMember };
+const mapDispatchToProps = {
+  addMember,
+  removeMember,
+  fetch: fetchMembershipsPagination
+};
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),

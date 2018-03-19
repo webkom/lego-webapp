@@ -1,12 +1,13 @@
 import { createSelector } from 'reselect';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import { Membership } from '../actions/ActionTypes';
+import { Membership, Group } from '../actions/ActionTypes';
 import { selectGroup } from './groups';
 
 export default createEntityReducer({
   key: 'memberships',
   types: {
-    mutate: Membership.JOIN_GROUP
+    mutate: Membership.JOIN_GROUP,
+    fetch: Group.MEMBERSHIP_FETCH
   },
   mutate(state, action) {
     switch (action.type) {
