@@ -37,7 +37,7 @@ const memberships = [
   }
 ];
 
-describe('GroupMembersList', () => {
+describe.skip('GroupMembersList', () => {
   it('should render "No users" for an empty array', () => {
     const wrapper = shallow(<GroupMembersList memberships={[]} />);
     expect(wrapper.text()).toContain('Ingen brukere');

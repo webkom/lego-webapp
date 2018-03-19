@@ -179,8 +179,12 @@ export function fetchMembershipsPagination({
         schema: [membershipSchema],
         useCache: false,
         query: next
-          ? // $FlowFixMe
-            get(getState(), ['memberships', 'pagination', groupId, 'next'])
+          ? get(getState(), [
+              'memberships',
+              'pagination',
+              groupId.toString(),
+              'next'
+            ])
           : {},
         meta: {
           groupId: groupId,

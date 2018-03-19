@@ -63,15 +63,12 @@ function mapStateToProps(state, props) {
     groupId: props.params.groupId
   });
 
+  const groupId = props.group && props.group.id;
+
   return {
     memberships,
     fetching: state.memberships.fetching,
-    hasMore: get(state, [
-      'memberships',
-      'pagination',
-      props.group && props.group.id,
-      'hasMore'
-    ])
+    hasMore: get(state, ['memberships', 'pagination', groupId, 'hasMore'])
   };
 }
 

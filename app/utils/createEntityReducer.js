@@ -113,7 +113,7 @@ export function paginationReducer(key: string, fetchType?: ?AsyncActionType) {
     if (!action.payload) {
       return state;
     }
-    const { paginationKey } = action.meta;
+    const paginationKey = get(action, ['meta', 'paginationKey']);
 
     const { next = null } = action.payload;
     const parsedNext = next && parse(next.split('?')[1]);
@@ -127,7 +127,7 @@ export function paginationReducer(key: string, fetchType?: ?AsyncActionType) {
           hasMore: typeof next === 'string'
         }
       };
-    } else {
+    } else if (next !== null) {
       state.pagination.next = parsedNext;
     }
 

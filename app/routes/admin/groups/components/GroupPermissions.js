@@ -16,7 +16,7 @@ type PermissionListProps = {
 };
 
 const removePermission = (permission, group, editGroup) =>
-  confirm(`Er du sikker på at du vil fjerne ut tilgangen ${permission}?`) &&
+  confirm(`Er du sikker på at du vil fjerne tilgangen ${permission}?`) &&
   editGroup({
     ...omit(group || {}, 'logo'),
     permissions: group.permissions.filter(perm => perm !== permission)

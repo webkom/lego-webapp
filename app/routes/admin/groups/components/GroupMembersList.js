@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import * as React from 'react';
 import { Link } from 'react-router';
 import { ROLES } from 'app/utils/constants';
 import styles from './GroupMembersList.css';
@@ -29,35 +29,32 @@ const GroupMembersList = ({
 
   const columns = [
     {
+      title: 'Navn',
       dataIndex: 'user',
+      search: true,
       render: (user, membership) => {
         const performRemove = () =>
           confirm(`Er du sikker på at du vil melde ut ${user.fullName}?`) &&
           removeMember(membership);
-        return (
+        return [
           <i
+            key="icon"
             className={`fa fa-times ${styles.removeIcon}`}
             onClick={performRemove}
-          />
-        );
+          />,
+          <Link key="link" to={`/users/${user.username}`}>
+            {user.fullName} ({user.username})
+          </Link>
+        ];
       }
     },
     {
       title: 'Rolle',
       dataIndex: 'role',
       search: true,
+      filterMapping: role => (role === 'member' ? '' : ROLES[role]),
       render: (role: string) =>
         role !== 'member' && <span>{ROLES[role] || role} </span>
-    },
-    {
-      title: 'Navn',
-      dataIndex: 'user.fullName',
-      search: true,
-      render: (fullName: string, { user }) => (
-        <Link to={`/users/${user.username}`}>
-          {user.fullName} ({user.username})
-        </Link>
-      )
     }
   ];
   return (
