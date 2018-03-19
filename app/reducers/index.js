@@ -45,7 +45,7 @@ import surveys from './surveys';
 import surveySubmissions from './surveySubmissions';
 import fetchHistory from './fetchHistory';
 import { User } from '../actions/ActionTypes';
-import reduceReducers from 'app/utils/joinReducers';
+import joinReducers from 'app/utils/joinReducers';
 import type { State, Action } from 'app/types';
 
 const reducers = {
@@ -77,7 +77,7 @@ const reducers = {
   toasts,
   notificationsFeed,
   notificationSettings,
-  routing: reduceReducers(routing, routerReducer),
+  routing: joinReducers(routing, routerReducer),
   joblistings,
   announcements,
   feedActivities,
