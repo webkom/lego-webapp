@@ -1,0 +1,15 @@
+@import 'app/styles/variables.css';
+
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.entity {
+  border: 1px solid var(--lego-color-gray-light);
+  flex: 1;
+  min-width: 200px;
+  margin: 5px;
+  border-radius: 3px;
+  text-align: center;
+}

@@ -49,7 +49,9 @@ type Props = {
   articles: Array<Object>,
   fetching: boolean,
   hasMore: boolean,
-  fetchAll: ({ next?: boolean }) => Promise<*>
+  fetchAll: ({ next?: boolean }) => Promise<*>,
+  tags: Array<Object>,
+  location: any
 };
 
 export default class Overview extends Component<Props> {
@@ -57,19 +59,31 @@ export default class Overview extends Component<Props> {
     const { articles } = this.props;
     const headlineEvents = articles.slice(0, HEADLINE_EVENTS);
     const normalEvents = articles.slice(HEADLINE_EVENTS);
-
     return (
       <Content>
         <NavigationTab title="Artikler">
           <NavigationLink to="/articles/new">Ny artikkel</NavigationLink>
         </NavigationTab>
+        <Tags>
+          {this.props.tags.map(tag => (
+            <Tag
+              tag={tag.tag}
+              key={tag.tag}
+              link={`/articles?tag=${tag.tag}`}
+            />
+          ))}
+          <Tag tag="Vis alle tags..." key="viewmore" link="/tags/" />
+        </Tags>
         <section className={styles.frontpage}>
           <Paginator
             infiniteScroll={true}
             hasMore={this.props.hasMore}
             fetching={this.props.fetching}
             fetchNext={() => {
-              this.props.fetchAll({ next: true });
+              this.props.fetchAll({
+                tag: this.props.location.query.tag,
+                next: true
+              });
             }}
           >
             <div className={styles.overview}>

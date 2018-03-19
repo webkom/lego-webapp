@@ -43,6 +43,7 @@ import feeds from './feeds';
 import frontpage from './frontpage';
 import surveys from './surveys';
 import surveySubmissions from './surveySubmissions';
+import tags from './tags';
 import fetchHistory from './fetchHistory';
 import { User } from '../actions/ActionTypes';
 import joinReducers from 'app/utils/joinReducers';
@@ -88,7 +89,8 @@ const reducers = {
   companySemesters,
   surveys,
   surveySubmissions,
-  penalties
+  penalties,
+  tags
 };
 
 export type Reducers = typeof reducers;
@@ -200,3 +202,4 @@ export const surveySchema = new schema.Entity('surveys', {
 export const surveySubmissionSchema = new schema.Entity('surveySubmissions', {
   user: userSchema
 });
+export const tagSchema = new schema.Entity('tags', {}, { idAttribute: 'tag' });

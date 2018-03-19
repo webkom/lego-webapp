@@ -19,6 +19,7 @@ import bdb from './bdb';
 import contact from './contact';
 import timeline from './timeline';
 import surveys from './surveys';
+import tags from './tags';
 
 export default {
   path: '/',
@@ -43,6 +44,7 @@ export default {
     timeline,
     ...companyInterest,
     surveys,
+    tags,
     pageNotFound
   ]
 };

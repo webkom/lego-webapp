@@ -45,6 +45,13 @@ export const selectArticles = createSelector(
     articleIds.map(id => transformArticle(articlesById[id]))
 );
 
+export const selectArticlesByTag = createSelector(
+  selectArticles,
+  (state, props) => props.tag,
+  (articles, tag) =>
+    articles.filter(article => (tag ? article.tags.indexOf(tag) !== -1 : true))
+);
+
 export const selectArticleById = createSelector(
   state => state.articles.byId,
   (state, props) => props.articleId,

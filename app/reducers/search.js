@@ -101,7 +101,7 @@ const searchMapping = {
     label: 'id',
     title: 'id',
     type: 'Tag',
-    path: null, // Not yet implemented
+    path: '/tags/', // Not yet implemented
     icon: 'pricetags',
     value: 'tag',
     color: '#000000'

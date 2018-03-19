@@ -84,10 +84,9 @@ export function editArticle({
 }
 
 export function fetchAll({
-  year,
-  month,
+  tag,
   next = false
-}: { year: string, month: string, next: boolean } = {}): Thunk<*> {
+}: { tag?: string, next: boolean } = {}): Thunk<*> {
   return (dispatch, getState) => {
     const cursor = next ? getState().articles.pagination.next : {};
     return dispatch(
@@ -97,8 +96,7 @@ export function fetchAll({
         schema: [articleSchema],
         query: {
           ...cursor,
-          month,
-          year
+          tag
         },
         meta: {
           errorMessage: 'Henting av artikler feilet'
