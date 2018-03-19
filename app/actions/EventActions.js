@@ -27,7 +27,7 @@ export function fetchUpcoming(): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
-        types: Event.FETCH,
+        types: Event.FETCH_UPCOMING,
         endpoint: '/events/upcoming/',
         schema: [eventSchema],
         meta: {
@@ -35,22 +35,7 @@ export function fetchUpcoming(): Thunk<*> {
         },
         propagateError: true
       })
-    ).then(result => {
-      const events = result.payload.result.reduce(
-        (total, id) => ({
-          ...total,
-          [id]: {
-            ...result.payload.entities.events[id],
-            isUsersUpcoming: true
-          }
-        }),
-        {}
-      );
-      return dispatch({
-        ...result,
-        payload: { entities: { events } }
-      });
-    });
+    );
 }
 
 const getEndpoint = (state, loadNextPage, queryString) => {
