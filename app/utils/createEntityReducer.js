@@ -4,7 +4,6 @@ import { isArray, get, union, isEmpty } from 'lodash';
 import { parse } from 'qs';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
-import { isArray } from 'lodash';
 
 import type { Reducer, AsyncActionType } from 'app/types';
 
