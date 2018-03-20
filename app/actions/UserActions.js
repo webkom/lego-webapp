@@ -415,7 +415,7 @@ export function addPenalty({ user, reason, weight, sourceEvent }: AddPenalty) {
 export function deletePenalty(id: number) {
   return callAPI({
     types: Penalty.DELETE,
-    endpoint: `/penalties/${id}`,
+    endpoint: `/penalties/${id}/`,
     method: 'DELETE',
     schema: penaltySchema,
     meta: {
