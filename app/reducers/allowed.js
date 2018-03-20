@@ -12,7 +12,8 @@ const initialState = {
   groups: false,
   email: false,
   users: false,
-  bdb: false
+  bdb: false,
+  surveys: false
 };
 
 // export type Allowed = {

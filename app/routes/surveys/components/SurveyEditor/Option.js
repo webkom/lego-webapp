@@ -4,7 +4,7 @@ import React from 'react';
 import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
 import { Field } from 'redux-form';
 import styles from '../surveys.css';
-import { QuestionTypes } from '../../utils';
+import { QuestionTypes } from 'app/routes/surveys/utils';
 
 type Props = {
   questionType: string,
@@ -14,15 +14,12 @@ type Props = {
   remove?: () => void
 };
 
-const removeOption = (remove?) => {
-  return remove ? (
+const RemoveButton = ({ remove }: { remove?: () => void }) =>
+  remove ? (
     <a onClick={remove} className={styles.removeOption}>
       <span>x</span>
     </a>
-  ) : (
-    ''
-  );
-};
+  ) : null;
 
 const Option = (props: Props) => {
   return props.questionType === QuestionTypes('single') ? (
@@ -44,7 +41,7 @@ const MultipleChoice = (props: Props) => {
         placeholder="Alternativ"
         fieldClassName={styles.optionField}
       />
-      {removeOption(props.remove)}
+      <RemoveButton remove={props.remove} />
     </li>
   );
 };
@@ -61,7 +58,7 @@ const Checkbox = (props: Props) => {
         placeholder="Alternativ"
         fieldClassName={styles.optionField}
       />
-      {removeOption(props.remove)}
+      <RemoveButton remove={props.remove} />
     </li>
   );
 };
