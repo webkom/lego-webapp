@@ -45,12 +45,14 @@ const mapStateToProps = (state, props) => {
       }
     : '';
   const activeFrom = event ? fullEvent.endTime : defaultActiveFrom(12, 0);
+  const title = event ? `Spørreundersøkelse for ${fullEvent.title}` : '';
 
   let initialValues = null;
   if (notFetching) {
     if (template) {
       initialValues = {
         ...template,
+        title,
         event: initialEvent,
         activeFrom
       };
@@ -58,7 +60,7 @@ const mapStateToProps = (state, props) => {
       initialValues = {
         activeFrom,
         event: initialEvent,
-        title: '',
+        title,
         questions: [initialQuestion]
       };
     }

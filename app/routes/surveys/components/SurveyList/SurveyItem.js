@@ -49,9 +49,11 @@ const SurveyItem = (props: Props) => {
         )}
       </div>
 
-      <div className={styles.companyLogo}>
-        <Image src={survey.event.cover} />
-      </div>
+      {!survey.templateType && (
+        <div className={styles.companyLogo}>
+          <Image src={survey.event.cover} />
+        </div>
+      )}
     </div>
   );
 };

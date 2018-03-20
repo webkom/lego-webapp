@@ -4,6 +4,7 @@ import React, { type Node } from 'react';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import moment from 'moment-timezone';
+import styles from './components/surveys.css';
 
 const questionStrings = {
   single: 'single_choice',
@@ -29,7 +30,7 @@ export const mappings = Object.keys(questionStrings).map(key => ({
 }));
 
 export const ListNavigation = ({ title }: { title: Node }) => (
-  <NavigationTab title={title}>
+  <NavigationTab title={title} headerClassName={styles.navTab}>
     <NavigationLink to="/surveys">Liste</NavigationLink>
     <NavigationLink to="/surveys/add">Ny undersøkelse</NavigationLink>
     <NavigationLink to="/surveys/templates">Maler</NavigationLink>
@@ -45,7 +46,7 @@ export const DetailNavigation = ({
   surveyId: number,
   deleteFunction: number => Promise<*>
 }) => (
-  <NavigationTab title={title}>
+  <NavigationTab title={title} headerClassName={styles.navTab}>
     <NavigationLink to="/surveys">Liste</NavigationLink>
     <NavigationLink to={`/surveys/${surveyId}`}>Undersøkelsen</NavigationLink>
     <NavigationLink to={`/surveys/${surveyId}/submissions/summary`}>

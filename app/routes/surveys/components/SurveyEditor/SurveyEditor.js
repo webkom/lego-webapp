@@ -156,7 +156,7 @@ class SurveyEditor extends Component<Props, State> {
           ) : (
             <div style={{ display: 'flex', justifyContent: 'space-between' }}>
               <Field
-                placeholder="Bekk Miniseminar"
+                placeholder="Velg arrangement"
                 label="Arrangement"
                 autoFocus={autoFocus}
                 name="event"

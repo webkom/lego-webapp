@@ -72,15 +72,6 @@ const LINKS: Array<Link> = [
     title: 'Jobbannonser',
     url: '/joblistings'
   },
-  /*
-  TODO: Add surveys back in when the feature is done
-  {
-    admin: true,
-    key: 'surveys',
-    title: 'Undersøkelser',
-    url: '/surveys'
-  },
-  */
   {
     admin: true,
     key: 'announcements',
@@ -104,6 +95,12 @@ const LINKS: Array<Link> = [
     key: 'email',
     title: 'E-post',
     url: '/admin/email'
+  },
+  {
+    admin: true,
+    key: 'surveys',
+    title: 'Spørreundersøkelser',
+    url: '/surveys'
   }
 ];
 

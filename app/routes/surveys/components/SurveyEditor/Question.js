@@ -90,7 +90,7 @@ const Question = ({ index, question, questionData, deleteQuestion }: Props) => {
             className={styles.freeText}
             placeholder="Fritekst - sånn vil den se ut :smile:"
             value=""
-            disabled={true}
+            disabled
           />
         ) : (
           <FieldArray
@@ -151,6 +151,7 @@ const renderOptions = ({
   <ul className={styles.options}>
     {fields.map((option, index) => {
       const isLast = fields.length - 1 === index;
+      const removeFunction = () => fields.remove(index);
       return (
         <Option
           index={index}
@@ -164,6 +165,7 @@ const renderOptions = ({
           key={index}
           questionType={questionType}
           option={option}
+          remove={isLast ? undefined : removeFunction}
         />
       );
     })}
