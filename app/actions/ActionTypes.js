@@ -361,3 +361,8 @@ export const Meta = {
 export const Frontpage = {
   FETCH: generateStatuses('Frontpage.FETCH')
 };
+
+export const Tag = {
+  FETCH: generateStatuses('Tag.FETCH'),
+  POPULAR: generateStatuses('Tag.POPULAR')
+};

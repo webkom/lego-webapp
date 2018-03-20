@@ -73,6 +73,11 @@ const LINKS: Array<Link> = [
     url: '/joblistings'
   },
   {
+    key: 'tags',
+    title: 'Tags',
+    url: '/tags'
+  },
+  {
     admin: true,
     key: 'announcements',
     title: 'Kunngjøringer',
