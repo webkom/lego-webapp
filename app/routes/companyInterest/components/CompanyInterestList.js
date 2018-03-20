@@ -1,136 +1,135 @@
 // @flow
 import { ListNavigation } from 'app/routes/bdb/utils';
 import styles from './CompanyInterest.css';
-import React from 'react';
+import React, { Component } from 'react';
 import Button from 'app/components/Button';
 import { Link } from 'react-router';
-import Icon from 'app/components/Icon';
 import { Content } from 'app/components/Content';
 import Flex from 'app/components/Layout/Flex';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
-import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+import Table from 'app/components/Table';
 
 export type Props = {
   companyInterestList: Array<CompanyInterestEntity>,
-  deleteCompanyInterest: number => Promise<*>
+  deleteCompanyInterest: number => Promise<*>,
+  fetch: Object => Promise<*>,
+  hasMore: boolean,
+  fetching: boolean
 };
 
-const fields = company => {
-  return [
-    {
-      value: company.companyName,
-      label: 'Bedriftsnavn'
-    },
-    {
-      value: company.contactPerson,
-      label: 'Kontaktperson'
-    },
-    {
-      value: company.mail,
-      label: 'Mail'
+type State = {
+  clickedCompanyInterest: number
+};
+
+const RenderCompanyActions = ({
+  id,
+  handleDelete,
+  fetching,
+  clickedCompanyInterest
+}: {
+  id: number,
+  handleDelete: number => void,
+  fetching: boolean,
+  clickedCompanyInterest: number
+}) => (
+  <a onClick={() => handleDelete(id)}>
+    <i
+      className="fa fa-minus-circle"
+      style={{ color: '#C24538', marginRight: '5px' }}
+    />
+    {clickedCompanyInterest === id ? 'Er du sikker?' : 'Slett'}
+  </a>
+);
+
+class CompanyInterestList extends Component<Props, State> {
+  state = {
+    clickedCompanyInterest: 0
+  };
+
+  handleDelete = (clickedCompanyInterest: number) => {
+    if (this.state.clickedCompanyInterest === clickedCompanyInterest) {
+      this.props
+        .deleteCompanyInterest(this.state.clickedCompanyInterest)
+        .then(() => {
+          this.setState({
+            clickedCompanyInterest: 0
+          });
+        });
+    } else {
+      this.setState({
+        clickedCompanyInterest
+      });
     }
-  ];
-};
+  };
 
-const CompanyInterestList = (props: Props) => {
-  const generateValues = company =>
-    fields(company).map(event => (
-      <td
-        key={`${event.label}-${company.id}`}
-        className={styles.companyInterestList}
-      >
-        <Link to={`/companyInterest/${company.id}/edit`}>{event.value}</Link>
-      </td>
-    ));
+  render() {
+    const columns = [
+      {
+        title: 'Bedriftsnavn',
+        dataIndex: 'companyName',
+        render: (companyName: string, companyInterest: Object) => (
+          <Link to={`/companyInterest/${companyInterest.id}/edit`}>
+            {companyName}
+          </Link>
+        )
+      },
+      {
+        title: 'Kontaktperson',
+        dataIndex: 'contactPerson',
+        render: (contactPerson: string) => <span>{contactPerson}</span>
+      },
+      {
+        title: 'Mail',
+        dataIndex: 'mail',
+        render: (mail: string) => <span>{mail}</span>
+      },
+      {
+        title: '',
+        dataIndex: 'id',
+        render: id => (
+          <RenderCompanyActions
+            fetching={this.props.fetching}
+            handleDelete={this.handleDelete}
+            id={id}
+            clickedCompanyInterest={this.state.clickedCompanyInterest}
+          />
+        )
+      }
+    ];
 
-  const generateMobileValues = company =>
-    fields(company).map(event => (
-      <tr key={company.id}>
-        <td>{event.label}:</td>
-        <td>
-          <Link to={`/companyInterest/${company.id}/edit`}>{event.value}</Link>
-        </td>
-      </tr>
-    ));
-
-  const interests = props.companyInterestList.map(company => (
-    <tr key={company.id} className={styles.companyInterestList}>
-      {generateValues(company)}
-      <td className={styles.remove}>
-        <ConfirmModalWithParent
-          message="Er du sikker på at du vil slette interessen?"
-          title="Slett interesse"
-          onConfirm={() => props.deleteCompanyInterest(company.id)}
-        >
-          <Icon name="close-circle" className={styles.remove} />
-        </ConfirmModalWithParent>
-      </td>
-    </tr>
-  ));
-
-  const interestsMobile = props.companyInterestList.map(company => (
-    <table key={company.id} className={styles.companyInterestListMobile}>
-      <Flex column>
-        <thead>
-          <tr className={styles.mobileHeader}>
-            <td>
-              <h3 className={styles.companyInterestListMobile}>
-                {company.companyName}
-              </h3>
-            </td>
-            <td>
-              <ConfirmModalWithParent
-                message="Er du sikker på at du vil slette interessen?"
-                title="Slett interesse"
-                onConfirm={() => props.deleteCompanyInterest(company.id)}
-              >
-                <Icon
-                  name="close-circle"
-                  onClick={() => props.deleteCompanyInterest(company.id)}
-                  className={styles.remove}
-                />
-              </ConfirmModalWithParent>
-            </td>
-          </tr>
-        </thead>
-        <tbody className={styles.companyInterestListMobile}>
-          {generateMobileValues(company)}
-        </tbody>
-      </Flex>
-    </table>
-  ));
-
-  return (
-    <Content>
-      <ListNavigation title="Bedriftsinteresser" />
-      <Flex className={styles.section}>
-        <Flex column>
-          <p>
-            Her finner du all praktisk informasjon knyttet til
-            <strong> bedriftsinteresser</strong>.
-          </p>
+    return (
+      <Content>
+        <ListNavigation title="Bedriftsinteresser" />
+        <Flex className={styles.section}>
+          <Flex column>
+            <p>
+              Her finner du all praktisk informasjon knyttet til
+              <strong> bedriftsinteresser</strong>.
+            </p>
+          </Flex>
+          <Link to={'/companyInterest/semesters'} className={styles.link}>
+            <Button>Endre aktive semestre</Button>
+          </Link>
+          <Link to={'/companyInterest/create'} className={styles.link}>
+            <Button>Opprett ny bedriftsinteresse</Button>
+          </Link>
         </Flex>
-        <Link to={'/companyInterest/semesters'} className={styles.link}>
-          <Button>Endre aktive semestre</Button>
-        </Link>
-        <Link to={'/companyInterest/create'} className={styles.link}>
-          <Button>Opprett ny bedriftsinteresse</Button>
-        </Link>
-      </Flex>
-      <table className={styles.companyInterestList}>
-        <thead>
-          <tr className={styles.companyInterestList}>
-            <th className={styles.companyInterestList}>Bedriftsnavn</th>
-            <th className={styles.companyInterestList}>Kontaktperson</th>
-            <th className={styles.companyInterestList}>Mail</th>
-            <th className={styles.companyInterestList} />
-          </tr>
-        </thead>
-        <tbody>{interests}</tbody>
-      </table>
-      {interestsMobile}
-    </Content>
-  );
-};
+        <Table
+          infiniteScroll
+          columns={columns}
+          onLoad={(filters, sort) => {
+            this.props.fetch({ next: true, filters });
+          }}
+          onChange={(filters, sort) => {
+            this.props.fetch({ filters });
+          }}
+          hasMore={this.props.hasMore}
+          loading={this.props.fetching}
+          data={this.props.companyInterestList}
+        />
+      </Content>
+    );
+  }
+}
 
 export default CompanyInterestList;
