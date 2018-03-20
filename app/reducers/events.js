@@ -19,6 +19,22 @@ export type EventEntity = {
 
 function mutateEvent(state: any, action: any) {
   switch (action.type) {
+    case Event.FETCH_UPCOMING.SUCCESS: {
+      const events = action.payload.result.reduce(
+        (total, id) => ({
+          ...total,
+          [id]: {
+            ...action.payload.entities.events[id],
+            isUsersUpcoming: true
+          }
+        }),
+        {}
+      );
+      return {
+        ...state,
+        byId: mergeObjects(state.byId, events)
+      };
+    }
     case Event.DELETE.SUCCESS: {
       return {
         ...state,
@@ -202,7 +218,7 @@ const mutate = joinReducers(mutateComments('events'), mutateEvent);
 export default createEntityReducer({
   key: 'events',
   types: {
-    fetch: Event.FETCH
+    fetch: [Event.FETCH, Event.FETCH_UPCOMING]
   },
   mutate
 });

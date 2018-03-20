@@ -28,6 +28,28 @@ const reducer = createEntityReducer({
   }
 });
 
+const FETCH_OTHER = {
+  BEGIN: 'FETCH_OTHER_BEGIN',
+  SUCCESS: 'FETCH_OTHER_SUCCESS',
+  FAILURE: 'FETCH_OTHER_FAILURE'
+};
+
+const otherReducer = createEntityReducer({
+  key: 'events',
+  types: {
+    fetch: [FETCH, FETCH_OTHER] // fetchTypes as array
+  },
+  initialState: {
+    smashed: false
+  },
+  mutate: (state, action) => {
+    if (action.type === 'SMASH') {
+      return { ...state, smashed: true };
+    }
+    return state;
+  }
+});
+
 describe('createEntityReducer', () => {
   it('should reduce', () => {
     expect(reducer(undefined, { type: 'SMASH' })).toEqual({
@@ -74,6 +96,35 @@ describe('createEntityReducer', () => {
     expect(
       reducer(undefined, {
         type: FETCH.SUCCESS,
+        payload: {
+          actionGrant: ['list'],
+          entities: {
+            events: {
+              1: { name: '1' },
+              warlo: { name: 'warlo' }
+            }
+          },
+          result: [1, 'warlo']
+        }
+      })
+    ).toEqual({
+      actionGrant: ['list'],
+      byId: {
+        1: { name: '1' },
+        warlo: { name: 'warlo' }
+      },
+      items: [1, 'warlo'],
+      fetching: false,
+      hasMore: false,
+      smashed: false,
+      pagination: {}
+    });
+  });
+
+  it('should handle fetchTypes as arrays gracefully', () => {
+    expect(
+      otherReducer(undefined, {
+        type: FETCH_OTHER.SUCCESS,
         payload: {
           actionGrant: ['list'],
           entities: {
