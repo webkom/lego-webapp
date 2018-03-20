@@ -33,6 +33,17 @@ class LatestReadme extends Component<Props, State> {
     const toggle = () =>
       this.setState(state => ({ expanded: !state.expanded }));
 
+    const readmes = [
+      {
+        year: 2018,
+        issues: [1]
+      },
+      {
+        year: 2017,
+        issues: [6, 5, 4, 3, 2]
+      }
+    ];
+
     return (
       <Flex column className={styles.latestReadme}>
         <button className={styles.heading} onClick={toggle}>
@@ -49,17 +60,19 @@ class LatestReadme extends Component<Props, State> {
 
         {expanded && (
           <Flex wrap justifyContent="space-between" style={{ paddingTop: 20 }}>
-            {[1, 2, 3, 4, 5, 6].map(issue => (
-              <a
-                key={issue}
-                href={`https://readme.abakus.no/utgaver/2017/2017-0${issue}.pdf`}
-                className={styles.thumb}
-              >
-                <Image
-                  src={`https://readme.abakus.no/bilder/2017/2017-0${issue}.jpg`}
-                />
-              </a>
-            ))}
+            {readmes.map(({ year, issues }) =>
+              issues.map(issue => (
+                <a
+                  key={issue}
+                  href={`https://readme.abakus.no/utgaver/${year}/${year}-0${issue}.pdf`}
+                  className={styles.thumb}
+                >
+                  <Image
+                    src={`https://readme.abakus.no/bilder/${year}/${year}-0${issue}.jpg`}
+                  />
+                </a>
+              ))
+            )}
           </Flex>
         )}
       </Flex>

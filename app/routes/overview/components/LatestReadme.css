@@ -16,6 +16,7 @@
   height: 200px;
   transition: transform 0.2s;
   display: block;
+  object-fit: contain;
 
   &:hover {
     transform: scale(1.1);
