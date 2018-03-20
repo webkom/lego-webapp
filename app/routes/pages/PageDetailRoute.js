@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
 import { fetchPage, updatePage, fetchAll } from 'app/actions/PageActions';
-import { fetchMemberships } from 'app/actions/GroupActions';
+import { fetchAllMemberships } from 'app/actions/GroupActions';
 import { fetchAllWithType, fetchGroup } from 'app/actions/GroupActions';
 import PageDetail, {
   FlatpageRenderer,
@@ -37,7 +37,7 @@ const sections = {
     hierarchySectionSelector: selectGroupsForHierarchy,
     PageRenderer: GroupRenderer,
     fetchAll: () => fetchAllWithType('komite'),
-    fetchItemActions: [fetchGroup, fetchMemberships]
+    fetchItemActions: [fetchGroup, fetchAllMemberships]
   }
 };
 
