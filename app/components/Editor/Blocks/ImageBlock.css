@@ -18,6 +18,11 @@
   animation: loading 2s linear infinite;
 }
 
+.center {
+  display: flex;
+  justify-content: center;
+}
+
 @keyframes loading {
   from {
     left: -200px;

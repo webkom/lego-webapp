@@ -32,12 +32,7 @@ const ArticleDetail = ({
   currentUser,
   comments
 }: Props) => (
-  <Content>
-    <div className={styles.coverImage}>
-      <img alt="Article cover" src={article.cover} />
-      <div className={styles.coverImageOverlay} />
-    </div>
-
+  <Content banner={article.cover}>
     <NavigationTab
       headerClassName={styles.headerClassName}
       className={styles.articleHeader}

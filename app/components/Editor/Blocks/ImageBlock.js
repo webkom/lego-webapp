@@ -97,7 +97,7 @@ class ImageBlock extends Component<Props, State> {
 
     return (
       <div>
-        <div className="md-block-image-inner-container">
+        <div className={cx('md-block-image-inner-container', styles.center)}>
           {this.state.uploading && <div className={styles.loader} />}
           <img
             role="presentation"
