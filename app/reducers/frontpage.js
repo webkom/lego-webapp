@@ -11,8 +11,13 @@ export default fetching(Frontpage.FETCH);
 export const selectFrontpage = createSelector(
   selectArticles,
   selectEvents,
-  (articles, events) =>
-    sortBy(articles.concat(events), [
+  (articles, events) => {
+    articles = articles.map(article => ({
+      ...article,
+      documentType: 'article'
+    }));
+    events = events.map(event => ({ ...event, documentType: 'event' }));
+    return sortBy(articles.concat(events), [
       // Always sort pinned items first:
       item => !item.pinned,
       item => {
@@ -22,5 +27,6 @@ export const selectFrontpage = createSelector(
         return Math.abs(moment().diff(timeField));
       },
       item => item.id
-    ])
+    ]);
+  }
 );

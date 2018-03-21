@@ -15,6 +15,8 @@ import CompactEvents from './CompactEvents';
 import { EVENT_TYPE_TO_STRING, colorForEvent } from 'app/routes/events/utils';
 import Button from 'app/components/Button';
 import type { Event, Article } from 'app/models';
+import Tag from 'app/components/Tags/Tag';
+import Tags from 'app/components/Tags';
 
 const TITLE_MAX_LENGTH = 50;
 const DESCRIPTION_MAX_LENGTH = 140;
@@ -22,7 +24,86 @@ const IMAGE_HEIGHT = 192;
 
 const itemUrl = item => `/${item.eventType ? 'events' : 'articles'}/${item.id}`;
 
-function PrimaryItem({ item }: { item: Event | Article }) {
+const renderMeta = item => {
+  switch (item.documentType) {
+    case 'article': {
+      return (
+        <span className={styles.itemInfo}>
+          {item.createdAt && (
+            <Time time={item.createdAt} format="DD.MM HH:mm" />
+          )}
+          {item.location &&
+            item.location !== '-' && (
+              <span>
+                <span className={styles.dot}> · </span>
+                <span>{item.location}</span>
+              </span>
+            )}
+          <span>
+            <span className={styles.dot}> · </span>
+            <span>Artikkel</span>
+          </span>
+          {item.tags &&
+            item.tags.length > 0 && (
+              <span>
+                <span className={styles.dot}> · </span>
+                <Tags className={styles.tagline}>
+                  {item.tags
+                    .slice(0, 3)
+                    .map(tag => (
+                      <Tag className={styles.tag} tag={tag} key={tag} />
+                    ))}
+                </Tags>
+              </span>
+            )}
+        </span>
+      );
+    }
+    case 'event': {
+      return (
+        <span className={styles.itemInfo}>
+          {item.startTime && (
+            <Time time={item.startTime} format="DD.MM HH:mm" />
+          )}
+          {item.location &&
+            item.location !== '-' && (
+              <span>
+                <span className={styles.dot}> · </span>
+                <span>{item.location}</span>
+              </span>
+            )}
+          {item.eventType && (
+            <span>
+              <span className={styles.dot}> · </span>
+              <span>{EVENT_TYPE_TO_STRING(item.eventType)}</span>
+            </span>
+          )}
+          {item.tags &&
+            item.tags.length > 0 && (
+              <span>
+                <span className={styles.dot}> · </span>
+                <Tags className={styles.tagline}>
+                  {item.tags
+                    .slice(0, 3)
+                    .map(tag => (
+                      <Tag className={styles.tag} tag={tag} key={tag} />
+                    ))}
+                </Tags>
+              </span>
+            )}
+        </span>
+      );
+    }
+    default:
+      return null;
+  }
+};
+
+function PrimaryItem({
+  item
+}: {
+  item: (Event | Article) & { documentType: string }
+}) {
   return (
     <Flex column className={styles.primaryItem}>
       <h2 className="u-ui-heading">Festet oppslag</h2>
@@ -37,31 +118,18 @@ function PrimaryItem({ item }: { item: Event | Article }) {
           <h2 className={styles.itemTitle}>
             <Link to={itemUrl(item)}>{item.title}</Link>
           </h2>
-
-          <span className={styles.itemInfo}>
-            {item.startTime && (
-              <Time time={item.startTime} format="DD.MM HH:mm" />
-            )}
-            {item.location !== '-' && (
-              <span>
-                <span className={styles.dot}> · </span>
-                <span>{item.location}</span>
-              </span>
-            )}
-            {item.eventType && (
-              <span>
-                <span className={styles.dot}> · </span>
-                <span>{EVENT_TYPE_TO_STRING(item.eventType)}</span>
-              </span>
-            )}
-          </span>
+          {renderMeta(item)}
         </div>
       </Flex>
     </Flex>
   );
 }
 
-const OverviewItem = ({ item }: { item: Event | Article }) => {
+const OverviewItem = ({
+  item
+}: {
+  item: (Event | Article) & { documentType: string }
+}) => {
   return (
     <Flex column className={styles.item}>
       <Flex className={styles.inner}>
@@ -78,25 +146,7 @@ const OverviewItem = ({ item }: { item: Event | Article }) => {
               <h2 className={styles.itemTitle}>
                 {truncateString(item.title, TITLE_MAX_LENGTH)}
               </h2>
-
-              <span className={styles.itemInfo}>
-                {item.startTime && (
-                  <Time time={item.startTime} format="DD.MM HH:mm" />
-                )}
-                {item.location &&
-                  item.location !== '-' && (
-                    <span>
-                      <span className={styles.dot}> · </span>
-                      <span>{item.location}</span>
-                    </span>
-                  )}
-                {item.eventType && (
-                  <span>
-                    <span className={styles.dot}> · </span>
-                    <span>{EVENT_TYPE_TO_STRING(item.eventType)}</span>
-                  </span>
-                )}
-              </span>
+              {renderMeta(item)}
             </div>
           </Link>
 
