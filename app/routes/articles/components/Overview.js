@@ -11,6 +11,7 @@ import { Image } from 'app/components/Image';
 import Tag from 'app/components/Tags/Tag';
 import Tags from 'app/components/Tags';
 import Paginator from 'app/components/Paginator';
+import { type ActionGrant } from 'app/models';
 
 const HEADLINE_EVENTS = 2;
 
@@ -51,18 +52,21 @@ type Props = {
   hasMore: boolean,
   fetchAll: ({ next?: boolean }) => Promise<*>,
   tags: Array<Object>,
-  location: any
+  location: any,
+  actionGrant: ActionGrant
 };
 
 export default class Overview extends Component<Props> {
   render() {
-    const { articles } = this.props;
+    const { articles, actionGrant = [] } = this.props;
     const headlineEvents = articles.slice(0, HEADLINE_EVENTS);
     const normalEvents = articles.slice(HEADLINE_EVENTS);
     return (
       <Content>
         <NavigationTab title="Artikler">
-          <NavigationLink to="/articles/new">Ny artikkel</NavigationLink>
+          {actionGrant.includes('create') && (
+            <NavigationLink to="/articles/new">Ny artikkel</NavigationLink>
+          )}
         </NavigationTab>
         <Tags>
           {this.props.tags.map(tag => (

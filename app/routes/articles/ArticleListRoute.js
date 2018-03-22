@@ -17,7 +17,8 @@ const mapStateToProps = (state, props) => ({
   ),
   fetching: state.articles.fetching,
   hasMore: state.articles.hasMore,
-  tags: selectPopularTags(state)
+  tags: selectPopularTags(state),
+  actionGrant: state.articles.actionGrant
 });
 
 const mapDispatchToProps = { fetchAll, fetchPopular };
