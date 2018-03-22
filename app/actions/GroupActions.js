@@ -4,7 +4,7 @@ import type { Thunk } from 'app/types';
 import { groupSchema, membershipSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Group, Membership } from './ActionTypes';
-import { omit, get } from 'lodash';
+import { get } from 'lodash';
 
 export type AddMemberArgs = {
   groupId: number,
@@ -105,7 +105,7 @@ export function editGroup(group: Object): Thunk<*> {
         endpoint: `/groups/${id}/`,
         schema: groupSchema,
         method: 'PATCH',
-        body: group.logo ? group : omit(group, 'logo'),
+        body: group,
         meta: {
           group,
           errorMessage: 'Editing group failed'

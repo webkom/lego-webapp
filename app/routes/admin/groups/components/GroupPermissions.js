@@ -7,7 +7,6 @@ import styles from './GroupMembers.css';
 import AddGroupPermission from './AddGroupPermission';
 import { editGroup } from 'app/actions/GroupActions';
 import loadingIndicator from 'app/utils/loadingIndicator';
-import { omit } from 'lodash';
 
 type PermissionListProps = {
   permissions: Array</*TODO: Permission*/ string>,
@@ -18,7 +17,7 @@ type PermissionListProps = {
 const removePermission = (permission, group, editGroup) =>
   confirm(`Er du sikker på at du vil fjerne tilgangen ${permission}?`) &&
   editGroup({
-    ...omit(group || {}, 'logo'),
+    ...group,
     permissions: group.permissions.filter(perm => perm !== permission)
   });
 

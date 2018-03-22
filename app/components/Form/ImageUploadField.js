@@ -20,11 +20,6 @@ type Props = {
 };
 
 class ImageUploadField extends Component<Props> {
-  componentDidMount = () => {
-    // hack for removing the inital url set by redux form
-    this.props.onChange(null);
-  };
-
   onSubmit = (file: File | Array<DropFile>) => {
     if (Array.isArray(file)) throw new Error('Expected only one file');
     this.props.uploadFile({ file }).then(({ meta }) => {
