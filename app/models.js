@@ -26,6 +26,7 @@ type EventBase = {
   title: string,
   cover: string,
   description: string,
+  createdAt: ?Dateish,
   text: string,
   feedbackDescription: string,
   feedbackRequired: boolean,
@@ -66,7 +67,7 @@ export type TransformEvent = EventBase & {
   responsibleGroup: SelectInput
 };
 
-export type Tags = Object;
+export type Tags = string;
 
 export type Article = Object;
 export type Feed = Object;

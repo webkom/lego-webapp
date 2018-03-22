@@ -21,6 +21,15 @@
   width: 100%;
 }
 
+.tagline {
+  display: inline-block;
+  margin: 0;
+}
+
+.tag {
+  background-color: #dadada !important;
+}
+
 .item:hover {
   opacity: 0.9;
 }
