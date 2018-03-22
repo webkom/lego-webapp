@@ -71,7 +71,8 @@ export function deletePicture(galleryId: EntityID, pictureId: EntityID) {
     meta: {
       galleryId: galleryId,
       id: pictureId,
-      errorMessage: 'Sletting av bilde i galleriet feilet'
+      errorMessage: 'Sletting av bilde i galleriet feilet',
+      successMessage: 'Bildet ble slettet!'
     }
   });
 }

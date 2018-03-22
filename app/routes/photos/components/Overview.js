@@ -12,18 +12,29 @@ type Props = {
   hasMore: boolean,
   galleries: Array<Photo>,
   fetch: ({ next?: boolean }) => Promise<*>,
-  push: string => Promise<*>
+  push: string => Promise<*>,
+  actionGrant: Array<string>
 };
 
 export default class Overview extends Component<Props> {
   render() {
-    const { galleries, push, hasMore, fetch, fetching } = this.props;
-
+    const {
+      galleries,
+      push,
+      hasMore,
+      fetch,
+      fetching,
+      actionGrant
+    } = this.props;
     return (
       <Content>
-        <NavigationTab title="Albumer">
-          <NavigationLink to="/photos/new">Nytt album</NavigationLink>
-        </NavigationTab>
+        {actionGrant &&
+          actionGrant.includes('create') && (
+            <NavigationTab title="Albumer">
+              <NavigationLink to="/photos/new">Nytt album</NavigationLink>
+            </NavigationTab>
+          )}
+
         <Gallery
           hasMore={hasMore}
           fetching={fetching}
@@ -40,10 +51,13 @@ export default class Overview extends Component<Props> {
           renderEmpty={() => (
             <EmptyState icon="photos-outline">
               <h1>Ingen synlige albumer</h1>
-              <h4>
-                Trykk <a onClick={() => push('/photos/new')}>her</a> for å lage
-                et nytt album
-              </h4>
+              {actionGrant &&
+                actionGrant.includes('create') && (
+                  <h4>
+                    Trykk <a onClick={() => push('/photos/new')}>her</a> for å
+                    lage et nytt album
+                  </h4>
+                )}
             </EmptyState>
           )}
           photos={galleries}

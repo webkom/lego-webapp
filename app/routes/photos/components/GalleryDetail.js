@@ -21,7 +21,8 @@ type Props = {
   children: Element<*>,
   fetch: (galleryId: Number, args: { next: boolean }) => Promise<*>,
   push: string => Promise<*>,
-  uploadAndCreateGalleryPicture: (ID, File | Array<DropFile>) => Promise<*>
+  uploadAndCreateGalleryPicture: (ID, File | Array<DropFile>) => Promise<*>,
+  actionGrant: Array<string>
 };
 
 type State = {
@@ -59,7 +60,7 @@ export default class GalleryDetail extends Component<Props, State> {
       fetch,
       fetching
     } = this.props;
-
+    const actionGrant = gallery && gallery.actionGrant;
     return (
       <Content>
         <NavigationTab
@@ -69,12 +70,17 @@ export default class GalleryDetail extends Component<Props, State> {
           <NavigationLink to={'/photos'}>
             <i className="fa fa-angle-left" /> Tilbake
           </NavigationLink>
-          <NavigationLink onClick={() => this.toggleUpload()}>
-            Last opp bilder
-          </NavigationLink>
-          <NavigationLink to={`/photos/${gallery.id}/edit`}>
-            Rediger
-          </NavigationLink>
+          {actionGrant &&
+            actionGrant.includes('edit') && (
+              <div>
+                <NavigationLink onClick={() => this.toggleUpload()}>
+                  Last opp bilder
+                </NavigationLink>
+                <NavigationLink to={`/photos/${gallery.id}/edit`}>
+                  Rediger
+                </NavigationLink>
+              </div>
+            )}
         </NavigationTab>
         <Gallery
           photos={pictures}
