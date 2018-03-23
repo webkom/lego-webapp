@@ -6,7 +6,7 @@ import { createSelector } from 'reselect';
 import { selectArticles } from './articles';
 import { selectEvents } from './events';
 
-export default fetching(Frontpage.FETCH);
+export default fetching([Frontpage.FETCH]);
 
 export const selectFrontpage = createSelector(
   selectArticles,
