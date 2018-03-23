@@ -3,7 +3,6 @@
 import React from 'react';
 import type { FieldProps } from 'redux-form';
 import { Field } from 'redux-form';
-import { omit } from 'lodash';
 
 import Button from 'app/components/Button';
 import {
@@ -148,6 +147,5 @@ export default legoForm({
   form: 'userSettings',
   validate,
   enableReinitialize: true,
-  onSubmit: (data, dispatch, { updateUser }: Props) =>
-    updateUser(omit(data, 'profilePicture'))
+  onSubmit: (data, dispatch, { updateUser }: Props) => updateUser(data)
 })(UserSettings);

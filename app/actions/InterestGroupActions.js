@@ -5,7 +5,6 @@ import callAPI from 'app/actions/callAPI';
 import { InterestGroup, Membership } from './ActionTypes';
 import { fetchMemberships } from 'app/actions/GroupActions';
 import { push } from 'react-router-redux';
-import { omit } from 'lodash';
 import type { Thunk } from 'app/types';
 import createQueryString from 'app/utils/createQueryString';
 
@@ -106,7 +105,7 @@ export function editInterestGroup(group: Object): Thunk<*> {
         endpoint: `/groups/${id}/`,
         schema: groupSchema,
         method: 'PATCH',
-        body: group.logo ? group : omit(group, 'logo'),
+        body: group,
         meta: {
           group,
           errorMessage: 'Endring av interessegruppe feilet'
