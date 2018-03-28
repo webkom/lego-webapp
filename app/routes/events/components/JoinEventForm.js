@@ -18,6 +18,7 @@ import config from 'app/config';
 import withCountdown from './JoinEventFormCountdownProvider';
 import formStyles from 'app/components/Form/Field.css';
 import moment from 'moment-timezone';
+import { paymentPending, paymentSuccess, paymentManual } from '../utils';
 
 type Event = Object;
 
@@ -170,7 +171,9 @@ class JoinEventForm extends Component<Props> {
       event.price > 0 &&
       registration &&
       registration.pool &&
-      !['pending', 'succeeded'].includes(registration.chargeStatus);
+      ![paymentPending, paymentManual, paymentSuccess].includes(
+        registration.chargeStatus
+      );
 
     return (
       <Flex column className={styles.join}>
