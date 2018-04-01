@@ -11,10 +11,11 @@ import {
   TextArea,
   DatePicker,
   SelectInput,
-  ObjectPermissions
+  ObjectPermissions,
+  legoForm
 } from 'app/components/Form';
 import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
-import { Field, Fields, reduxForm } from 'redux-form';
+import { Field, Fields } from 'redux-form';
 import { Flex } from 'app/components/Layout';
 import { Content } from 'app/components/Content';
 import { Link } from 'react-router';
@@ -104,23 +105,6 @@ class GalleryEditor extends Component<Props, State> {
     }
   };
 
-  onSubmit = data => {
-    const body: GalleryEntity = {
-      ...normalizeObjectPermissions(data),
-      id: data.id,
-      title: data.title,
-      description: data.description,
-      takenAt: moment(data.takenAt).format('YYYY-MM-DD'),
-      location: data.location,
-      event: data.event ? parseInt(data.event.value, 10) : undefined,
-      photographers: data.photographers && data.photographers.map(p => p.value)
-    };
-
-    return this.props.submitFunction(body).then(({ payload }) => {
-      this.props.push(`/photos/${payload.result}`);
-    });
-  };
-
   onDeleteGallery = () => {
     this.props.deleteGallery(this.props.gallery.id).then(() => {
       this.props.push('/photos');
@@ -200,7 +184,7 @@ class GalleryEditor extends Component<Props, State> {
             <i className="fa fa-angle-left" /> Tilbake
           </NavigationLink>
         </NavigationTab>
-        <Form onSubmit={handleSubmit(this.onSubmit)}>
+        <Form onSubmit={handleSubmit}>
           <Field
             placeholder="Title"
             label="Title"
@@ -312,20 +296,39 @@ class GalleryEditor extends Component<Props, State> {
     );
   }
 }
+const onSubmit = (data, dispatch, { submitFunction, push }: Props) => {
+  const body: GalleryEntity = {
+    ...normalizeObjectPermissions(data),
+    id: data.id,
+    title: data.title,
+    description: data.description,
+    takenAt: moment(data.takenAt).format('YYYY-MM-DD'),
+    location: data.location,
+    event: data.event ? parseInt(data.event.value, 10) : undefined,
+    photographers: data.photographers && data.photographers.map(p => p.value)
+  };
 
-export default reduxForm({
-  form: 'galleryEditor',
-  enableReinitialize: true,
-  validate(values) {
-    const errors = {};
+  return submitFunction(body).then(({ payload }) => {
+    push(`/photos/${payload.result}`);
+  });
+};
+const validate = values => {
+  const errors = {};
 
-    if (!values.title) {
-      errors.title = 'Du må gi albumet en tittel';
-    }
-    if (!values.location) {
-      errors.location = 'Du må velge en lokasjon for albumet';
-    }
-
-    return errors;
+  if (!values.title) {
+    errors.title = 'Du må gi albumet en tittel';
   }
+  if (!values.location) {
+    errors.location = 'Du må velge en lokasjon for albumet';
+  }
+
+  return errors;
+};
+
+export default legoForm({
+  form: 'galleryEditor',
+  hasObjectPermissions: true,
+  enableReinitialize: true,
+  validate,
+  onSubmit
 })(GalleryEditor);

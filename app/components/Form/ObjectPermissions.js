@@ -73,15 +73,20 @@ const toIds = mapping => mapping.value;
 
 export const normalizeObjectPermissions = ({
   requireAuth,
-  canEditUsers,
-  canEditGroups,
-  canViewGroups
-}: Object) => ({
-  requireAuth: !!requireAuth,
-  canEditUsers: canEditUsers && canEditUsers.map(toIds),
-  canViewGroups: canViewGroups && canViewGroups.map(toIds),
-  canEditGroups: canEditGroups && canEditGroups.map(toIds)
-});
+  canViewGroups: initialCanViewGroups,
+  canEditGroups: initialCanEditGroups,
+  canEditUsers: initialCanEditUsers
+}: Object) => {
+  const canEditUsers = initialCanEditUsers && initialCanEditUsers.map(toIds);
+  const canViewGroups = initialCanViewGroups && initialCanViewGroups.map(toIds);
+  const canEditGroups = initialCanEditGroups && initialCanEditGroups.map(toIds);
+  return {
+    requireAuth: !!requireAuth,
+    ...(canEditUsers ? { canEditUsers } : {}),
+    ...(canEditGroups ? { canEditGroups } : {}),
+    ...(canViewGroups ? { canViewGroups } : {})
+  };
+};
 export const objectPermissionsToInitialValues = ({
   canViewGroups: initialCanViewGroups,
   canEditGroups: initialCanEditGroups,
