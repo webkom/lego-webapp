@@ -2,6 +2,7 @@
 import * as React from 'react';
 
 import { SelectInput, CheckBox } from 'app/components/Form';
+import Tooltip from 'app/components/Tooltip';
 
 /* 
  * Usage inside redux-form:
@@ -33,13 +34,17 @@ const ObjectPermissions = ({
   requireAuth?: any
 }) => {
   return [
-    requireAuth && <CheckBox.Field {...requireAuth} label="Krev innlogging" />,
+    requireAuth && (
+      <Tooltip content="Denne bestemmer om brukere som ikke er innlogget kan se innholdet">
+        <CheckBox.Field {...requireAuth} label="Krev innlogging" />
+      </Tooltip>
+    ),
     canEditGroups && (
       <SelectInput.AutocompleteField
         {...canEditGroups}
-        label="Grupper med skrivetilgang"
+        label="Grupper med endretilgang"
         multi
-        placeholder="Grupper som kan redigere"
+        placeholder="Velg grupper"
         filter={['users.abakusgroup']}
       />
     ),
@@ -48,35 +53,73 @@ const ObjectPermissions = ({
         {...canViewGroups}
         label="Grupper med lesetilgang"
         multi
-        placeholder="Grupper som kan lese"
+        placeholder="Velg grupper"
         filter={['users.abakusgroup']}
       />
     ),
     canEditUsers && (
       <SelectInput.AutocompleteField
         {...canEditUsers}
-        label="Brukere med skrivetilgang"
+        label="Brukere med endretilgang"
         multi
-        placeholder="Brukere som kan redigere"
+        placeholder="Velg brukere"
         filter={['users.user']}
       />
     )
   ].filter(Boolean);
 };
 
-const toIds = mapping => mapping.id;
+const toIds = mapping => mapping.value;
 
 export const normalizeObjectPermissions = ({
   requireAuth,
   canEditUsers,
   canEditGroups,
-  canViewGroups,
-  ...data
+  canViewGroups
 }: Object) => ({
   requireAuth: !!requireAuth,
   canEditUsers: canEditUsers && canEditUsers.map(toIds),
   canViewGroups: canViewGroups && canViewGroups.map(toIds),
-  canEditGroups: canEditGroups && canEditGroups.map(toIds),
-  ...data
+  canEditGroups: canEditGroups && canEditGroups.map(toIds)
 });
+export const objectPermissionsToInitialValues = ({
+  canViewGroups: initialCanViewGroups,
+  canEditGroups: initialCanEditGroups,
+  canEditUsers: initialCanEditUsers
+}: Object) => {
+  const canEditGroups =
+    initialCanEditGroups &&
+    initialCanEditGroups.filter(Boolean).map(group => ({
+      ...group,
+      label: group.name,
+      value: group.id
+    }));
+  const canViewGroups =
+    initialCanViewGroups &&
+    initialCanViewGroups.filter(Boolean).map(group => ({
+      ...group,
+      label: group.name,
+      value: group.id
+    }));
+  const canEditUsers =
+    initialCanEditUsers &&
+    initialCanEditUsers.filter(Boolean).map(user => ({
+      ...user,
+      label: user.fullName,
+      value: user.id
+    }));
+  return {
+    ...(canEditUsers ? { canEditUsers } : {}),
+    ...(canEditGroups ? { canEditGroups } : {}),
+    ...(canViewGroups ? { canViewGroups } : {})
+  };
+};
+
+export const objectPermissionsInitialValues = {
+  requireAuth: true,
+  canEditUsers: [],
+  canEditGroups: [],
+  canViewGroups: []
+};
+
 export default ObjectPermissions;

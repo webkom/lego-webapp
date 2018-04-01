@@ -24,7 +24,7 @@ export function fetch({
         },
         schema: [gallerySchema],
         meta: {
-          errorMessage: 'Henting av epostlister feilet'
+          errorMessage: 'Henting av bilder feilet'
         },
         propagateError: true
       })
@@ -39,7 +39,8 @@ export function fetchGallery(galleryId: EntityID) {
     schema: gallerySchema,
     meta: {
       errorMessage: 'Henting av galleri feilet'
-    }
+    },
+    propagateError: true
   });
 }
 
