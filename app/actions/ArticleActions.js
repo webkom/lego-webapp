@@ -50,16 +50,7 @@ export function createArticle({
     ).then(res => dispatch(push(`/articles/${(res: any).payload.result}/`)));
 }
 
-export function editArticle({
-  id,
-  title,
-  content,
-  author,
-  description,
-  tags,
-  cover,
-  pinned
-}: ArticleEntity): Thunk<*> {
+export function editArticle({ id, ...data }: ArticleEntity): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
@@ -67,15 +58,7 @@ export function editArticle({
         endpoint: `/articles/${id}/`,
         method: 'PUT',
         schema: articleSchema,
-        body: {
-          title,
-          cover,
-          tags,
-          content,
-          author,
-          description,
-          pinned
-        },
+        body: data,
         meta: {
           errorMessage: 'Endring av artikkel feilet'
         }

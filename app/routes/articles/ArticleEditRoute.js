@@ -5,6 +5,7 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 import { fetchArticle, editArticle } from 'app/actions/ArticleActions';
 import ArticleEditor from './components/ArticleEditor';
 import { selectArticleById } from 'app/reducers/articles';
+import { objectPermissionsToInitialValues } from 'app/components/Form/ObjectPermissions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
@@ -18,6 +19,7 @@ const mapStateToProps = (state, props) => {
     isNew: false,
     initialValues: {
       ...article,
+      ...objectPermissionsToInitialValues(article),
       tags: (article.tags || []).map(tag => ({ label: tag, value: tag }))
     }
   };
