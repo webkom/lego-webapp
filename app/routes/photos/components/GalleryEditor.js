@@ -10,9 +10,11 @@ import {
   Form,
   TextArea,
   DatePicker,
-  SelectInput
+  SelectInput,
+  ObjectPermissions
 } from 'app/components/Form';
-import { Field, reduxForm } from 'redux-form';
+import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
+import { Field, Fields, reduxForm } from 'redux-form';
 import { Flex } from 'app/components/Layout';
 import { Content } from 'app/components/Content';
 import { Link } from 'react-router';
@@ -34,6 +36,7 @@ type Props = {
   submitFunction: GalleryEntity => Promise<*>,
   handleSubmit: any => void,
   push: string => Promise<*>,
+  submitting: boolean,
   fetch: (
     galleryId: number,
     args: { next?: boolean, filters?: Object }
@@ -73,7 +76,7 @@ const renderBottom = (photo: Object, gallery: GalleryEntity) => (
     <span>{photo.active ? 'Synlig for brukere' : 'Skjult for brukere'}</span>
     {photo.id &&
       gallery.cover &&
-      gallery.cover.id === gallery.cover.id && <span>Cover</span>}
+      photo.id === gallery.cover.id && <span>Cover</span>}
   </Flex>
 );
 
@@ -103,6 +106,7 @@ class GalleryEditor extends Component<Props, State> {
 
   onSubmit = data => {
     const body: GalleryEntity = {
+      ...normalizeObjectPermissions(data),
       id: data.id,
       title: data.title,
       description: data.description,
@@ -112,7 +116,7 @@ class GalleryEditor extends Component<Props, State> {
       photographers: data.photographers && data.photographers.map(p => p.value)
     };
 
-    this.props.submitFunction(body).then(({ payload }) => {
+    return this.props.submitFunction(body).then(({ payload }) => {
       this.props.push(`/photos/${payload.result}`);
     });
   };
@@ -144,7 +148,7 @@ class GalleryEditor extends Component<Props, State> {
     this.state.selected.forEach(photo => {
       this.props.updatePicture({
         id: photo,
-        galleryId: this.props.gallery.id,
+        gallery: this.props.gallery.id,
         active
       });
     });
@@ -184,7 +188,8 @@ class GalleryEditor extends Component<Props, State> {
       hasMore,
       fetching,
       handleSubmit,
-      gallery
+      gallery,
+      submitting
     } = this.props;
     const { selected } = this.state;
 
@@ -244,6 +249,15 @@ class GalleryEditor extends Component<Props, State> {
             component={TextArea.Field}
             id="gallery-description"
           />
+          <Fields
+            names={[
+              'requireAuth',
+              'canViewGroups',
+              'canEditUsers',
+              'canEditGroups'
+            ]}
+            component={ObjectPermissions}
+          />
 
           <Flex
             className={styles.buttonRow}
@@ -258,7 +272,11 @@ class GalleryEditor extends Component<Props, State> {
                 Delete
               </Button>
             )}
-            <Button className={styles.submitButton} type="submit">
+            <Button
+              disabled={submitting}
+              className={styles.submitButton}
+              type="submit"
+            >
               {isNew ? 'Create' : 'Save'}
             </Button>
           </Flex>

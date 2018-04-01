@@ -17,6 +17,7 @@ import { push } from 'react-router-redux';
 import GalleryEditor from './components/GalleryEditor';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
+import { objectPermissionsToInitialValues } from 'app/components/Form/ObjectPermissions';
 
 function mapStateToProps(state, props) {
   const { galleryId } = props.params;
@@ -30,6 +31,7 @@ function mapStateToProps(state, props) {
     hasMore: state.galleryPictures.hasMore,
     initialValues: {
       ...gallery,
+      ...objectPermissionsToInitialValues(gallery),
       photographers: gallery.photographers.map(photographer => ({
         label: photographer.fullName,
         value: photographer.id

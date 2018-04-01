@@ -3,9 +3,13 @@ import { connect } from 'react-redux';
 import { createGallery } from 'app/actions/GalleryActions';
 import { push } from 'react-router-redux';
 import GalleryEditor from './components/GalleryEditor';
+import { objectPermissionsInitialValues } from 'app/components/Form/ObjectPermissions';
 
 const mapStateToProps = () => ({
-  isNew: true
+  isNew: true,
+  initialValues: {
+    ...objectPermissionsInitialValues
+  }
 });
 
 const mapDispatchToProps = { submitFunction: createGallery, push };
