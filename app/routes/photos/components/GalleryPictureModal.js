@@ -22,7 +22,8 @@ type Props = {
   updateGalleryCover: (number, number) => Promise<*>,
   deletePicture: (number, number) => Promise<*>,
   comments: Array<Object>,
-  actionGrant: Array<string>
+  actionGrant: Array<string>,
+  pictures: Array<Object>
 };
 
 type State = {
@@ -128,9 +129,22 @@ export default class GalleryPictureModal extends Component<Props, State> {
       loggedIn,
       push,
       gallery,
-      actionGrant
+      actionGrant,
+      pictures
     } = this.props;
     const { showMore } = this.state;
+
+    const nextGalleryPicture = () => {
+      const currentIndex = pictures
+        .map(picture => picture.id)
+        .indexOf(Number(pictureId));
+      const hasNext = pictures.length - 1 > currentIndex;
+      const nextGalleryPictureId = hasNext
+        ? pictures[currentIndex + 1].id
+        : pictures[0].id;
+      return push(`/photos/${gallery.id}/picture/${nextGalleryPictureId}`);
+    };
+
     return (
       <Modal
         onHide={() => push(`/photos/${gallery.id}`)}
@@ -223,7 +237,6 @@ export default class GalleryPictureModal extends Component<Props, State> {
               )}
             </p>
           </Flex>
-
           {picture.commentTarget && (
             <Flex className={styles.pictureDescription}>
               <CommentView
@@ -236,6 +249,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
               />
             </Flex>
           )}
+          <Link onClick={nextGalleryPicture}>Next photo</Link>
         </Content>
       </Modal>
     );

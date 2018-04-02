@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { SelectGalleryPicturesByGalleryId } from '../../reducers/galleryPictures';
 import GalleryPictureModal from './components/GalleryPictureModal';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import prepare from 'app/utils/prepare';
@@ -14,10 +15,12 @@ import { push } from 'react-router-redux';
 
 function mapStateToProps(state, props) {
   const { galleryId, pictureId } = props.params;
+  const pictures = SelectGalleryPicturesByGalleryId(state, { galleryId });
   const picture = selectGalleryPictureById(state, { pictureId });
   const comments = selectCommentsForGalleryPicture(state, { pictureId });
   const actionGrant = state.galleries.byId[galleryId].actionGrant;
   return {
+    pictures,
     actionGrant,
     comments,
     picture,
