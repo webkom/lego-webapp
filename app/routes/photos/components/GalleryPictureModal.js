@@ -12,6 +12,7 @@ import { Link } from 'react-router';
 import CommentView from 'app/components/Comments/CommentView';
 import Modal from 'app/components/Modal';
 import styles from './GalleryPictureModal.css';
+import Swipeable from 'react-swipeable';
 
 type Props = {
   picture: Object,
@@ -121,8 +122,8 @@ export default class GalleryPictureModal extends Component<Props, State> {
     }
   };
 
-  previousGalleryPicture = (props: Props) => {
-    const { pictures, pictureId, gallery, push } = props;
+  previousGalleryPicture = () => {
+    const { pictures, pictureId, gallery, push } = this.props;
     const currentIndex = pictures
       .map(picture => picture.id)
       .indexOf(Number(pictureId));
@@ -133,8 +134,8 @@ export default class GalleryPictureModal extends Component<Props, State> {
     return push(`/photos/${gallery.id}/picture/${previousGalleryPictureId}`);
   };
 
-  nextGalleryPicture = (props: Props) => {
-    const { pictures, pictureId, gallery, push } = props;
+  nextGalleryPicture = () => {
+    const { pictures, pictureId, gallery, push } = this.props;
     const currentIndex = pictures
       .map(picture => picture.id)
       .indexOf(Number(pictureId));
@@ -145,20 +146,28 @@ export default class GalleryPictureModal extends Component<Props, State> {
     return push(`/photos/${gallery.id}/picture/${nextGalleryPictureId}`);
   };
 
-  handleKeyDown = (props: Props, e: KeyboardEvent) => {
+  handleKeyDown = (e: KeyboardEvent) => {
     switch (e.which) {
       case Keyboard.LEFT:
         e.preventDefault();
-        this.previousGalleryPicture(props);
+        this.previousGalleryPicture();
         break;
 
       case Keyboard.RIGHT:
         e.preventDefault();
-        this.nextGalleryPicture(props);
+        this.nextGalleryPicture();
         break;
 
       default:
     }
+  };
+
+  handleSwipeRight = () => {
+    this.nextGalleryPicture();
+  };
+
+  handleSwipeLeft = () => {
+    this.previousGalleryPicture();
   };
 
   render() {
@@ -175,123 +184,137 @@ export default class GalleryPictureModal extends Component<Props, State> {
     const { showMore } = this.state;
 
     return (
-      <Modal
-        onHide={() => push(`/photos/${gallery.id}`)}
-        backdropClassName={styles.backdrop}
-        backdrop
-        show
-        contentClassName={styles.content}
-        autoFocus
-        onKeyDown={e => this.handleKeyDown(this.props, e)}
+      <Swipeable
+        onSwipingLeft={this.handleSwipeLeft}
+        onSwipingRight={this.handleSwipeRight}
       >
-        <Content className={styles.topContent}>
-          <Flex width="100%" justifyContent="space-between" alignItems="center">
-            <Flex justifyContent="space-between">
-              <img
-                className={styles.galleryThumbnail}
-                alt="some alt"
-                src={gallery.cover.thumbnail}
-              />
-
-              <Flex column justifyContent="space-around">
-                <h5 className={styles.header}>
-                  <Link to={`/photos/${gallery.id}`}>{gallery.title}</Link>
-                </h5>
-                <GalleryDetailsRow size="small" gallery={gallery} />
-              </Flex>
-            </Flex>
-
-            <Dropdown
-              show={showMore}
-              placement="bottom"
-              toggle={this.toggleDropdown}
-              className={styles.dropdown}
-              iconName="more"
+        <Modal
+          onHide={() => push(`/photos/${gallery.id}`)}
+          backdropClassName={styles.backdrop}
+          backdrop
+          show
+          contentClassName={styles.content}
+          autoFocus
+          onKeyDown={this.handleKeyDown}
+        >
+          <Content className={styles.topContent}>
+            <Flex
+              width="100%"
+              justifyContent="space-between"
+              alignItems="center"
             >
-              <Dropdown.List>
-                <Dropdown.ListItem>
-                  <a
-                    href={picture.rawFile}
-                    download
-                    onClick={this.toggleDropdown}
-                    style={{ color: '#333' }}
-                  >
-                    <strong>Last ned</strong>
-                    <Icon name="download-outline" size={24} />
-                  </a>
-                </Dropdown.ListItem>
-                {actionGrant &&
-                  actionGrant.includes('edit') && [
-                    <Dropdown.ListItem key="edit">
-                      <Link onClick={this.onUpdate} style={{ color: '#333' }}>
-                        <strong>Rediger</strong>
-                        <Icon name="gear" size={24} />
-                      </Link>
-                    </Dropdown.ListItem>,
-                    <Dropdown.ListItem key="cover">
-                      <Link
-                        onClick={this.onUpdateGalleryCover}
-                        style={{ color: '#333' }}
-                      >
-                        <strong>Sett som album cover</strong>
-                        <Icon name="image" size={24} />
-                      </Link>
-                    </Dropdown.ListItem>,
-                    <Dropdown.Divider key="divider" />,
-                    <Dropdown.ListItem
-                      key="delete"
-                      onClick={e => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                      }}
+              <Flex justifyContent="space-between">
+                <img
+                  className={styles.galleryThumbnail}
+                  alt="some alt"
+                  src={gallery.cover.thumbnail}
+                />
+
+                <Flex column justifyContent="space-around">
+                  <h5 className={styles.header}>
+                    <Link to={`/photos/${gallery.id}`}>{gallery.title}</Link>
+                  </h5>
+                  <GalleryDetailsRow size="small" gallery={gallery} />
+                </Flex>
+              </Flex>
+
+              <Dropdown
+                show={showMore}
+                placement="bottom"
+                toggle={this.toggleDropdown}
+                className={styles.dropdown}
+                iconName="more"
+              >
+                <Dropdown.List>
+                  <Dropdown.ListItem>
+                    <a
+                      href={picture.rawFile}
+                      download
+                      onClick={this.toggleDropdown}
+                      style={{ color: '#333' }}
                     >
-                      <RenderGalleryPicture
-                        handleDelete={this.handleDelete}
-                        id={pictureId}
-                        clickedDeletePicture={this.state.clickedDeletePicture}
-                      />
-                    </Dropdown.ListItem>
-                  ]}
-              </Dropdown.List>
-            </Dropdown>
-          </Flex>
-        </Content>
-        <Flex className={styles.pictureContainer}>
-          <ProgressiveImage
-            key={picture.id}
-            src={picture.file}
-            alt="some alt"
-          />
-        </Flex>
-        <Content className={styles.bottomContent}>
-          <Flex className={styles.pictureDescription}>
-            <p>
-              {picture.description}
-              {picture.taggees.length > 0 && (
-                <Taggees taggees={picture.taggees} />
-              )}
-            </p>
-          </Flex>
-          {picture.commentTarget && (
-            <Flex className={styles.pictureDescription}>
-              <CommentView
-                style={{ width: '100%' }}
-                formEnabled
-                user={currentUser}
-                commentTarget={picture.commentTarget}
-                loggedIn={loggedIn}
-                comments={comments}
-              />
+                      <strong>Last ned</strong>
+                      <Icon name="download-outline" size={24} />
+                    </a>
+                  </Dropdown.ListItem>
+                  {actionGrant &&
+                    actionGrant.includes('edit') && [
+                      <Dropdown.ListItem key="edit">
+                        <Link onClick={this.onUpdate} style={{ color: '#333' }}>
+                          <strong>Rediger</strong>
+                          <Icon name="gear" size={24} />
+                        </Link>
+                      </Dropdown.ListItem>,
+                      <Dropdown.ListItem key="cover">
+                        <Link
+                          onClick={this.onUpdateGalleryCover}
+                          style={{ color: '#333' }}
+                        >
+                          <strong>Sett som album cover</strong>
+                          <Icon name="image" size={24} />
+                        </Link>
+                      </Dropdown.ListItem>,
+                      <Dropdown.Divider key="divider" />,
+                      <Dropdown.ListItem
+                        key="delete"
+                        onClick={e => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }}
+                      >
+                        <RenderGalleryPicture
+                          handleDelete={this.handleDelete}
+                          id={pictureId}
+                          clickedDeletePicture={this.state.clickedDeletePicture}
+                        />
+                      </Dropdown.ListItem>
+                    ]}
+                </Dropdown.List>
+              </Dropdown>
             </Flex>
-          )}
-          <Link onClick={() => this.previousGalleryPicture(this.props)}>
-            Previous photo
-          </Link>
-          <Link onClick={() => this.nextGalleryPicture(this.props)}>
-            Next photo
-          </Link>
-        </Content>
-      </Modal>
+          </Content>
+          <Flex className={styles.pictureContainer}>
+            <ProgressiveImage
+              key={picture.id}
+              src={picture.file}
+              alt="some alt"
+            />
+          </Flex>
+          <Content className={styles.bottomContent}>
+            <Flex justifyContent="center">
+              <Link
+                onClick={this.previousGalleryPicture}
+                style={{ marginRight: '50px' }}
+              >
+                <Icon name="arrow-dropleft" size={64} />
+              </Link>
+              <Link onClick={this.nextGalleryPicture}>
+                <Icon name="arrow-dropright" size={64} />
+              </Link>
+            </Flex>
+            <Flex className={styles.pictureDescription}>
+              <p>
+                {picture.description}
+                {picture.taggees.length > 0 && (
+                  <Taggees taggees={picture.taggees} />
+                )}
+              </p>
+            </Flex>
+            {picture.commentTarget && (
+              <Flex className={styles.pictureDescription}>
+                <CommentView
+                  style={{ width: '100%' }}
+                  formEnabled
+                  user={currentUser}
+                  commentTarget={picture.commentTarget}
+                  loggedIn={loggedIn}
+                  comments={comments}
+                />
+              </Flex>
+            )}
+          </Content>
+        </Modal>
+      </Swipeable>
     );
   }
 }
