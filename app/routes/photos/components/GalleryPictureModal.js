@@ -134,6 +134,17 @@ export default class GalleryPictureModal extends Component<Props, State> {
     } = this.props;
     const { showMore } = this.state;
 
+    const previousGalleryPicture = () => {
+      const currentIndex = pictures
+        .map(picture => picture.id)
+        .indexOf(Number(pictureId));
+      const previousGalleryPictureId =
+        currentIndex > 0
+          ? pictures[currentIndex - 1].id
+          : pictures[pictures.length - 1].id;
+      return push(`/photos/${gallery.id}/picture/${previousGalleryPictureId}`);
+    };
+
     const nextGalleryPicture = () => {
       const currentIndex = pictures
         .map(picture => picture.id)
@@ -226,7 +237,11 @@ export default class GalleryPictureModal extends Component<Props, State> {
           </Flex>
         </Content>
         <Flex className={styles.pictureContainer}>
-          <ProgressiveImage src={picture.file} alt="some alt" />
+          <ProgressiveImage
+            key={picture.id}
+            src={picture.file}
+            alt="some alt"
+          />
         </Flex>
         <Content className={styles.bottomContent}>
           <Flex className={styles.pictureDescription}>
@@ -249,6 +264,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
               />
             </Flex>
           )}
+          <Link onClick={previousGalleryPicture}>Previous photo</Link>
           <Link onClick={nextGalleryPicture}>Next photo</Link>
         </Content>
       </Modal>
