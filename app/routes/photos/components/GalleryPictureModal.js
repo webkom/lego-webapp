@@ -1,6 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
+import { Keyboard } from '../../../utils/constants';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import { Flex } from 'app/components/Layout';
 import { Content } from 'app/components/Content';
@@ -120,6 +121,46 @@ export default class GalleryPictureModal extends Component<Props, State> {
     }
   };
 
+  previousGalleryPicture = (props: Props) => {
+    const { pictures, pictureId, gallery, push } = props;
+    const currentIndex = pictures
+      .map(picture => picture.id)
+      .indexOf(Number(pictureId));
+    const previousGalleryPictureId =
+      currentIndex > 0
+        ? pictures[currentIndex - 1].id
+        : pictures[pictures.length - 1].id;
+    return push(`/photos/${gallery.id}/picture/${previousGalleryPictureId}`);
+  };
+
+  nextGalleryPicture = (props: Props) => {
+    const { pictures, pictureId, gallery, push } = props;
+    const currentIndex = pictures
+      .map(picture => picture.id)
+      .indexOf(Number(pictureId));
+    const hasNext = pictures.length - 1 > currentIndex;
+    const nextGalleryPictureId = hasNext
+      ? pictures[currentIndex + 1].id
+      : pictures[0].id;
+    return push(`/photos/${gallery.id}/picture/${nextGalleryPictureId}`);
+  };
+
+  handleKeyDown = (props: Props, e: KeyboardEvent) => {
+    switch (e.which) {
+      case Keyboard.LEFT:
+        e.preventDefault();
+        this.previousGalleryPicture(props);
+        break;
+
+      case Keyboard.RIGHT:
+        e.preventDefault();
+        this.nextGalleryPicture(props);
+        break;
+
+      default:
+    }
+  };
+
   render() {
     const {
       picture,
@@ -129,32 +170,9 @@ export default class GalleryPictureModal extends Component<Props, State> {
       loggedIn,
       push,
       gallery,
-      actionGrant,
-      pictures
+      actionGrant
     } = this.props;
     const { showMore } = this.state;
-
-    const previousGalleryPicture = () => {
-      const currentIndex = pictures
-        .map(picture => picture.id)
-        .indexOf(Number(pictureId));
-      const previousGalleryPictureId =
-        currentIndex > 0
-          ? pictures[currentIndex - 1].id
-          : pictures[pictures.length - 1].id;
-      return push(`/photos/${gallery.id}/picture/${previousGalleryPictureId}`);
-    };
-
-    const nextGalleryPicture = () => {
-      const currentIndex = pictures
-        .map(picture => picture.id)
-        .indexOf(Number(pictureId));
-      const hasNext = pictures.length - 1 > currentIndex;
-      const nextGalleryPictureId = hasNext
-        ? pictures[currentIndex + 1].id
-        : pictures[0].id;
-      return push(`/photos/${gallery.id}/picture/${nextGalleryPictureId}`);
-    };
 
     return (
       <Modal
@@ -163,6 +181,8 @@ export default class GalleryPictureModal extends Component<Props, State> {
         backdrop
         show
         contentClassName={styles.content}
+        autoFocus
+        onKeyDown={e => this.handleKeyDown(this.props, e)}
       >
         <Content className={styles.topContent}>
           <Flex width="100%" justifyContent="space-between" alignItems="center">
@@ -264,8 +284,12 @@ export default class GalleryPictureModal extends Component<Props, State> {
               />
             </Flex>
           )}
-          <Link onClick={previousGalleryPicture}>Previous photo</Link>
-          <Link onClick={nextGalleryPicture}>Next photo</Link>
+          <Link onClick={() => this.previousGalleryPicture(this.props)}>
+            Previous photo
+          </Link>
+          <Link onClick={() => this.nextGalleryPicture(this.props)}>
+            Next photo
+          </Link>
         </Content>
       </Modal>
     );
