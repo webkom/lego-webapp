@@ -44,7 +44,7 @@ const Feed = (props: Props) => {
   return (
     <div className={styles.root}>
       <div className={styles.header}>
-        <h2 className="u-ui-heading" style={{ padding: '0' }}>
+        <h2 className="u-ui-heading" style={{ padding: '0', margin: '0' }}>
           Oppdateringer
         </h2>
         <Link to="/timeline">Tidslinje →</Link>
@@ -64,7 +64,7 @@ const Feed = (props: Props) => {
             icon="book-outline"
             size={40}
           >
-            <p className={styles.noActivities}>Ingen aktiviteter i feeden</p>
+            <p>Ingen aktiviteter i feeden</p>
           </EmptyState>
         )}
       </div>
