@@ -8,16 +8,18 @@ import { type UserEntity } from 'app/reducers/users';
 import { type ArticleEntity } from 'app/reducers/articles';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import styles from './ArticleEditor.css';
+import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermissions';
 import {
   EditorField,
   TextInput,
   TextArea,
   SelectInput,
   CheckBox,
+  ObjectPermissions,
   ImageUploadField,
   legoForm
 } from 'app/components/Form';
-import { Form, Field } from 'redux-form';
+import { Form, Fields, Field } from 'redux-form';
 
 /**
  *
@@ -88,6 +90,16 @@ const ArticleEditor = ({
             keyCode: number
           }) => keyCode === 32 || keyCode === 13}
         />
+
+        <Fields
+          names={[
+            'requireAuth',
+            'canViewGroups',
+            'canEditUsers',
+            'canEditGroups'
+          ]}
+          component={ObjectPermissions}
+        />
         <Field
           placeholder="En kort beskrivelse av artikkelen"
           name="description"
@@ -114,6 +126,7 @@ const onSubmit = (
   const body = {
     ...(isNew ? {} : { id: articleId }),
     ...(data.cover ? { cover: data.cover } : {}),
+    ...normalizeObjectPermissions(data),
     title: data.title,
     author: currentUser.id,
     description: data.description,
