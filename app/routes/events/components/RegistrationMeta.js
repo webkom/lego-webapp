@@ -1,6 +1,7 @@
 // @flow
 
 import React from 'react';
+import { hasPaid } from '../utils';
 
 type Props = {
   registration: Object,
@@ -26,7 +27,7 @@ const RegistrationMeta = ({ registration, isPriced }: Props) => (
           </div>
         )}
         {isPriced &&
-          (registration.chargeStatus === 'succeeded' ? (
+          (hasPaid(registration.chargeStatus) ? (
             <div>
               <i className="fa fa-check-circle" /> Du har betalt
             </div>

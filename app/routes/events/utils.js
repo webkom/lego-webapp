@@ -101,3 +101,18 @@ export const transformEvent = (data: TransformEvent, edit: boolean = false) => {
     }))
   };
 };
+
+export const paymentPending = 'pending';
+export const paymentSuccess = 'succeeded';
+export const paymentFailure = 'failed';
+export const paymentManual = 'manual';
+
+const paymentSuccessMappings = {
+  [paymentManual]: true,
+  [paymentSuccess]: true,
+  [paymentPending]: false,
+  [paymentFailure]: false
+};
+
+export const hasPaid = (chargeStatus: string) =>
+  paymentSuccessMappings[chargeStatus];
