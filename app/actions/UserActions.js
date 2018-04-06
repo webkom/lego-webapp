@@ -115,7 +115,10 @@ export function logout() {
 
 export function updateUser(
   user: Object /*Todo: UserModel*/,
-  options: { noRedirect: boolean } = { noRedirect: false }
+  options: { noRedirect: boolean, updateProfilePicture?: boolean } = {
+    noRedirect: false,
+    updateProfilePicture: false
+  }
 ): Thunk<Promise<?Action>> {
   const {
     username,
@@ -140,8 +143,8 @@ export function updateUser(
           email,
           gender,
           allergies,
-          profilePicture,
-          isAbakusMember
+          isAbakusMember,
+          ...(options.updateProfilePicture ? { profilePicture } : null)
         },
         schema: userSchema,
         meta: {
@@ -200,7 +203,10 @@ export function updatePicture({
             username,
             profilePicture: action && action.meta ? action.meta.fileToken : null
           },
-          { noRedirect: true }
+          {
+            noRedirect: true,
+            updateProfilePicture: true
+          }
         )
       )
     );
