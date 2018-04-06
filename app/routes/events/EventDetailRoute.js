@@ -35,7 +35,7 @@ const mapStateToProps = (state, props) => {
 
   const event = selectEventById(state, { eventId });
 
-  const actionGrant = state.events.actionGrant;
+  const actionGrant = event.actionGrant || [];
 
   const hasFullAccess = Boolean(event.waitingRegistrations);
 

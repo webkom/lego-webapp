@@ -12,7 +12,8 @@ import { push } from 'react-router-redux';
 const mapStateToProps = (state, props) => {
   const { joblistingId } = props.params;
   const joblisting = selectJoblistingById(state, { joblistingId });
-  const { actionGrant, fetching } = state.joblistings;
+  const { fetching } = state.joblistings;
+  const actionGrant = joblisting ? joblisting.actionGrant : [];
 
   return {
     joblisting,
