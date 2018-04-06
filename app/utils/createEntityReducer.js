@@ -175,11 +175,11 @@ export default function createEntityReducer({
       joinReducers(
         fetching(fetchType),
         entities(key, fetchType),
-        optimistic(mutateType),
-        paginationReducer(key, fetchType),
-        mutate
+        paginationReducer(key, fetchType)
       )
-    )
+    ),
+    optimistic(mutateType),
+    mutate
   );
 
   return (state: any = finalInitialState, action: any) => reduce(state, action);
