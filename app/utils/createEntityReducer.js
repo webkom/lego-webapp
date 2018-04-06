@@ -10,36 +10,36 @@ import type { Reducer, AsyncActionType } from 'app/types';
 type EntityReducerOptions = {
   key: string,
   types: {
-    fetch?: ?AsyncActionType | Array<?AsyncActionType>,
+    fetch?: AsyncActionType | Array<AsyncActionType>,
     mutate?: ?AsyncActionType
   },
   mutate?: Reducer,
   initialState?: Object
 };
 
-export function fetching(fetchType?: ?AsyncActionType) {
+export function fetching(fetchTypes?: Array<AsyncActionType>) {
   return (state: any = { fetching: false }, action: any) => {
-    if (!fetchType) {
+    if (!fetchTypes || fetchTypes.length == 0) {
       return state;
     }
 
-    switch (action.type) {
-      case fetchType.BEGIN:
-        return { ...state, fetching: true };
+    for (const fetchType of fetchTypes) {
+      switch (action.type) {
+        case fetchType.BEGIN:
+          return { ...state, fetching: true };
 
-      case fetchType.SUCCESS:
-      case fetchType.FAILURE:
-        return { ...state, fetching: false };
-
-      default:
-        return state;
+        case fetchType.SUCCESS:
+        case fetchType.FAILURE:
+          return { ...state, fetching: false };
+      }
     }
+    return state;
   };
 }
 
 const isNumber = id => !isNaN(Number(id)) && !isNaN(parseInt(id, 10));
 
-export function entities(key: string, fetchType?: ?AsyncActionType) {
+export function entities(key: string, fetchTypes: ?Array<AsyncActionType>) {
   return (
     state: any = {
       actionGrant: [],
@@ -66,11 +66,13 @@ export function entities(key: string, fetchType?: ?AsyncActionType) {
     }
     const actionGrant = get(action, ['payload', 'actionGrant'], []);
 
+    const isFetchSuccess =
+      fetchTypes &&
+      fetchTypes.some(fetchType => action.type === get(fetchType, 'SUCCESS'));
+
     if (
       !action.payload ||
-      (isEmpty(result) &&
-        !isEmpty(actionGrant) &&
-        action.type !== get(fetchType, 'SUCCESS'))
+      (isEmpty(result) && !isEmpty(actionGrant) && !isFetchSuccess)
     )
       return state;
 
@@ -115,9 +117,16 @@ export function optimistic(mutateType?: ?AsyncActionType) {
   };
 }
 
-export function paginationReducer(key: string, fetchType?: ?AsyncActionType) {
+export function paginationReducer(
+  key: string,
+  fetchTypes: Array<AsyncActionType>
+) {
   return (state: any, action: any) => {
-    if (action.type !== get(fetchType, 'SUCCESS')) {
+    const isFetchSuccess = fetchTypes.some(
+      fetchType => action.type === get(fetchType, 'SUCCESS')
+    );
+
+    if (!isFetchSuccess) {
       return state;
     }
 
@@ -169,17 +178,13 @@ export default function createEntityReducer({
     ...initialState
   };
 
-  const fetchTypes = isArray(fetch) ? fetch : [fetch];
+  const fetchTypes = fetch ? (isArray(fetch) ? fetch : [fetch]) : [];
   const reduce = joinReducers(
-    ...fetchTypes.map(fetchType =>
-      joinReducers(
-        fetching(fetchType),
-        entities(key, fetchType),
-        optimistic(mutateType),
-        paginationReducer(key, fetchType),
-        mutate
-      )
-    )
+    fetching(fetchTypes),
+    entities(key, fetchTypes),
+    optimistic(mutateType),
+    paginationReducer(key, fetchTypes),
+    mutate
   );
 
   return (state: any = finalInitialState, action: any) => reduce(state, action);

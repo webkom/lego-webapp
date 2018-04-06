@@ -254,7 +254,7 @@ describe('createEntityReducer', () => {
 describe('fetching()', () => {
   it('should toggle fetching flags', () => {
     const state = {};
-    const reducer = fetching(FETCH);
+    const reducer = fetching([FETCH]);
     expect(reducer(state, { type: FETCH.BEGIN })).toEqual({
       fetching: true
     });
