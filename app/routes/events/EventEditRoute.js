@@ -24,7 +24,7 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 const mapStateToProps = (state, props) => {
   const eventId = props.params.eventId;
   const event = selectEventById(state, { eventId });
-  const actionGrant = state.events.actionGrant;
+  const actionGrant = event.actionGrant || [];
   const pools = selectPoolsWithRegistrationsForEvent(state, { eventId });
 
   const registrations = selectRegistrationsFromPools(state, { eventId });
