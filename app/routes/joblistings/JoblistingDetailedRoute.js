@@ -13,7 +13,7 @@ const mapStateToProps = (state, props) => {
   const { joblistingId } = props.params;
   const joblisting = selectJoblistingById(state, { joblistingId });
   const { fetching } = state.joblistings;
-  const actionGrant = joblisting ? joblisting.actionGrant : [];
+  const actionGrant = (joblisting && joblisting.actionGrant) || [];
 
   return {
     joblisting,
