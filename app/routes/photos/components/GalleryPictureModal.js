@@ -13,6 +13,7 @@ import CommentView from 'app/components/Comments/CommentView';
 import Modal from 'app/components/Modal';
 import styles from './GalleryPictureModal.css';
 import Swipeable from 'react-swipeable';
+import type { EntityID } from 'app/types';
 
 type Props = {
   picture: Object,
@@ -25,12 +26,18 @@ type Props = {
   deletePicture: (number, number) => Promise<*>,
   comments: Array<Object>,
   actionGrant: Array<string>,
-  pictures: Array<Object>
+  pictures: Array<Object>,
+  hasMore: Boolean,
+  fetchSiblingGallerPicture: (EntityID, EntityID, boolean) => Promise<*>,
+  isFirstImage: Boolean,
+  isLastImage: Boolean
 };
 
 type State = {
   showMore: boolean,
-  clickedDeletePicture: number
+  clickedDeletePicture: number,
+  hasNext: boolean,
+  hasPrevious: boolean
 };
 
 const Taggees = ({ taggees }: { taggees: Array<Object> }) => {
@@ -92,7 +99,9 @@ const RenderGalleryPicture = ({
 export default class GalleryPictureModal extends Component<Props, State> {
   state: State = {
     showMore: false,
-    clickedDeletePicture: 0
+    clickedDeletePicture: 0,
+    hasNext: !this.props.isLastImage,
+    hasPrevious: !this.props.isFirstImage
   };
 
   toggleDropdown = () => {
@@ -122,29 +131,25 @@ export default class GalleryPictureModal extends Component<Props, State> {
     }
   };
 
-  previousGalleryPicture = () => {
-    const { pictures, pictureId, gallery, push } = this.props;
-    const currentIndex = pictures
-      .map(picture => picture.id)
-      .indexOf(Number(pictureId));
-    const previousGalleryPictureId =
-      currentIndex > 0
-        ? pictures[currentIndex - 1].id
-        : pictures[pictures.length - 1].id;
-    return push(`/photos/${gallery.id}/picture/${previousGalleryPictureId}`);
+  siblingGalleryPicture = (next: boolean) => {
+    const { pictureId, gallery, push } = this.props;
+    return this.props
+      .fetchSiblingGallerPicture(gallery.id, pictureId, next)
+      .then(result => {
+        this.setState({
+          hasNext: !!result.payload.next,
+          hasPrevious: !!result.payload.previous
+        });
+        return (
+          result.payload.result.length > 0 &&
+          push(`/photos/${gallery.id}/picture/${result.payload.result[0]}`)
+        );
+      });
   };
 
-  nextGalleryPicture = () => {
-    const { pictures, pictureId, gallery, push } = this.props;
-    const currentIndex = pictures
-      .map(picture => picture.id)
-      .indexOf(Number(pictureId));
-    const hasNext = pictures.length - 1 > currentIndex;
-    const nextGalleryPictureId = hasNext
-      ? pictures[currentIndex + 1].id
-      : pictures[0].id;
-    return push(`/photos/${gallery.id}/picture/${nextGalleryPictureId}`);
-  };
+  previousGalleryPicture = () => this.siblingGalleryPicture(false);
+
+  nextGalleryPicture = () => this.siblingGalleryPicture(true);
 
   handleKeyDown = (e: KeyboardEvent) => {
     switch (e.which) {
@@ -282,15 +287,19 @@ export default class GalleryPictureModal extends Component<Props, State> {
           </Flex>
           <Content className={styles.bottomContent}>
             <Flex justifyContent="center">
-              <Link
-                onClick={this.previousGalleryPicture}
-                style={{ marginRight: '50px' }}
-              >
-                <Icon name="arrow-dropleft" size={64} />
-              </Link>
-              <Link onClick={this.nextGalleryPicture}>
-                <Icon name="arrow-dropright" size={64} />
-              </Link>
+              {this.state.hasPrevious && (
+                <Link
+                  onClick={this.previousGalleryPicture}
+                  style={{ marginRight: '50px' }}
+                >
+                  <Icon name="arrow-dropleft" size={64} />
+                </Link>
+              )}
+              {this.state.hasNext && (
+                <Link onClick={this.nextGalleryPicture}>
+                  <Icon name="arrow-dropright" size={64} />
+                </Link>
+              )}
             </Flex>
             <Flex className={styles.pictureDescription}>
               <p>
