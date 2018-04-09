@@ -29,9 +29,7 @@ const GalleryDetailsRow = ({
 
       {gallery.takenAt && (
         <span className={styles.detail}>
-          {moment(gallery.takenAt)
-            .utc()
-            .format('ll')}
+          {moment(gallery.takenAt).format('ll')}
         </span>
       )}
 
