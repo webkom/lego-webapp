@@ -127,7 +127,7 @@ export default function callAPI({
         return [];
       }
 
-      const { results, actionGrant, next } = jsonData;
+      const { results, actionGrant, next, previous } = jsonData;
 
       const payload = Array.isArray(results) ? results : jsonData;
 
@@ -135,7 +135,8 @@ export default function callAPI({
         return {
           ...normalize(payload, schema),
           actionGrant,
-          next
+          next,
+          previous
         };
       }
 

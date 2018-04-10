@@ -71,7 +71,7 @@ const GalleryPictureEditModal = ({
         </Flex>
       </Content>
       <Flex className={styles.pictureContainer}>
-        <ProgressiveImage src={picture.file} alt="some alt" />
+        <ProgressiveImage key={picture.id} src={picture.file} alt="some alt" />
       </Flex>
       <Content className={styles.bottomContent}>
         <Form onSubmit={handleSubmit(onSubmit)}>
