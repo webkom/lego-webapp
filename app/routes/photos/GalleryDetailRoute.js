@@ -1,6 +1,11 @@
+import React, { PureComponent } from 'react';
+import LoadingIndicator from 'app/components/LoadingIndicator';
+import HTTPError from '../errors/HTTPError';
+import { LoginPage } from 'app/components/LoginForm';
 import { compose } from 'redux';
+import helmet from 'app/utils/helmet';
 import { connect } from 'react-redux';
-import { fetchGallery } from 'app/actions/GalleryActions';
+import { fetchGallery, fetchGalleryMetadata } from 'app/actions/GalleryActions';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import prepare from 'app/utils/prepare';
 import {
@@ -12,6 +17,14 @@ import GalleryDetail from './components/GalleryDetail';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
 
+const loadData = ({ params }, dispatch) =>
+  Promise.all([
+    dispatch(fetch(params.galleryId)).catch(),
+    dispatch(fetchGallery(params.galleryId)).catch(err =>
+      dispatch(fetchGalleryMetadata(params.galleryId))
+    )
+  ]);
+
 function mapStateToProps(state, props) {
   const { galleryId } = props.params;
   return {
@@ -21,16 +34,82 @@ function mapStateToProps(state, props) {
     hasMore: state.galleryPictures.hasMore
   };
 }
+const propertyGenerator = (props, config) => {
+  if (!props.gallery) return;
+
+  return [
+    {
+      property: 'og:title',
+      content: props.gallery.title
+    },
+    {
+      element: 'title',
+      children: props.gallery.tile
+    },
+    {
+      element: 'link',
+      rel: 'canonical',
+      href: `${config.webUrl}/gallery/${props.gallery.id}`
+    },
+    {
+      property: 'og:description',
+      content: props.gallery.description
+    },
+    {
+      property: 'og:url',
+      content: `${config.webUrl}/gallery/${props.gallery.id}`
+    },
+    {
+      property: 'og:image',
+      content: props.gallery.cover.file
+    }
+  ];
+};
 
 const mapDispatchToProps = { push, fetch, uploadAndCreateGalleryPicture };
 
+function replaceUnlessThing<Props>(ReplacementComponent) {
+  return ActualComponent => {
+    class Replacement extends PureComponent<Props & LoginProps> {
+      render() {
+        const { fetching, gallery, loggedIn, ...props } = this.props;
+
+        if (gallery && gallery.createdAt) {
+          return (
+            <ActualComponent
+              fetching={fetching}
+              loggedIn={loggedIn}
+              gallery={gallery}
+              {...props}
+            />
+          );
+        }
+        if (fetching) {
+          return <LoadingIndicator loading />;
+        }
+
+        if (!loggedIn) {
+          return (
+            <ReplacementComponent
+              gallery={gallery}
+              loggedIn={loggedIn}
+              fetching={fetching}
+              {...props}
+            />
+          );
+        }
+        return <HTTPError />;
+      }
+    }
+
+    return Replacement;
+  };
+}
+
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-  prepare(({ params }, dispatch) =>
-    Promise.all([
-      dispatch(fetch(params.galleryId)),
-      dispatch(fetchGallery(params.galleryId))
-    ])
-  ),
-  loadingIndicator(['gallery.title'])
+  prepare(loadData),
+  loadingIndicator(['gallery.title']),
+  helmet(propertyGenerator),
+  replaceUnlessThing(LoginPage)
 )(GalleryDetail);
