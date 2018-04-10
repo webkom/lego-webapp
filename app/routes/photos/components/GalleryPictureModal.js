@@ -152,6 +152,10 @@ export default class GalleryPictureModal extends Component<Props, State> {
   nextGalleryPicture = () => this.siblingGalleryPicture(true);
 
   handleKeyDown = (e: KeyboardEvent) => {
+    // Dont handle events inside the comment form... :smile:
+    if (e.target.className === 'notranslate public-DraftEditor-content') {
+      return;
+    }
     switch (e.which) {
       case Keyboard.LEFT:
         e.preventDefault();
