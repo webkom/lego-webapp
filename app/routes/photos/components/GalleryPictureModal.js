@@ -6,6 +6,7 @@ import GalleryDetailsRow from './GalleryDetailsRow';
 import { Flex } from 'app/components/Layout';
 import { Content } from 'app/components/Content';
 import Icon from 'app/components/Icon';
+import throttle from 'lodash/throttle';
 import ProgressiveImage from 'app/components/ProgressiveImage';
 import Dropdown from 'app/components/Dropdown';
 import { Link } from 'react-router';
@@ -147,9 +148,14 @@ export default class GalleryPictureModal extends Component<Props, State> {
       });
   };
 
-  previousGalleryPicture = () => this.siblingGalleryPicture(false);
-
-  nextGalleryPicture = () => this.siblingGalleryPicture(true);
+  previousGalleryPicture = throttle(
+    () => this.siblingGalleryPicture(false),
+    500,
+    { trailing: false }
+  );
+  nextGalleryPicture = throttle(() => this.siblingGalleryPicture(true), 500, {
+    trailing: false
+  });
 
   handleKeyDown = (e: KeyboardEvent) => {
     // Dont handle events inside the comment form... :smile:
@@ -172,11 +178,11 @@ export default class GalleryPictureModal extends Component<Props, State> {
   };
 
   handleSwipeRight = () => {
-    this.nextGalleryPicture();
+    this.previousGalleryPicture();
   };
 
   handleSwipeLeft = () => {
-    this.previousGalleryPicture();
+    this.nextGalleryPicture();
   };
 
   render() {
