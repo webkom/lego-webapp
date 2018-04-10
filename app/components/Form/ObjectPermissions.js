@@ -20,6 +20,7 @@ import Tooltip from 'app/components/Tooltip';
  * To omit some of the fields, just omit the name in the 'names' prop.
  *
  * You also have to run the values through the 'normalizeObjectPermissions' function below
+ *
  * */
 const ObjectPermissions = ({
   canEditUsers,
@@ -35,8 +36,12 @@ const ObjectPermissions = ({
 }) => {
   return [
     requireAuth && (
-      <Tooltip content="Denne bestemmer om brukere som ikke er innlogget kan se innholdet">
-        <CheckBox.Field {...requireAuth} label="Krev innlogging" />
+      <Tooltip content="Gi alle brukere lesetilgang. Dette inkluderer også brukere som ikke har logget inn.">
+        <CheckBox.Field
+          inverted
+          {...requireAuth}
+          label="Apen for alle - offentlig på nettet."
+        />
       </Tooltip>
     ),
     canEditGroups && (

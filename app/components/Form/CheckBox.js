@@ -12,6 +12,7 @@ type Props = {
   label?: string,
   labelStyle?: string,
   value?: boolean,
+  inverted?: boolean,
   className?: string
 };
 
@@ -33,6 +34,7 @@ Example:
 */
 
 function CheckBox({
+  inverted,
   id,
   label,
   value,
@@ -40,13 +42,14 @@ function CheckBox({
   className,
   ...props
 }: Props) {
+  const normalizedValue = inverted ? !value : value;
   return (
     <div className={cx(styles.box, className)}>
       <input
         {...props}
-        defaultChecked={!!value}
-        checked={!!value}
-        className={cx(value ? styles.checked : styles.unchecked)}
+        defaultChecked={value}
+        checked={value}
+        className={cx(normalizedValue ? styles.checked : styles.unchecked)}
         type="checkbox"
       />
       <label htmlFor={id} style={labelStyle} className={styles.label}>
