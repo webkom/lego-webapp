@@ -21,3 +21,12 @@
 .paymentInfo {
   margin-top: 10px;
 }
+
+.unansweredSurveys {
+  max-width: 625px;
+  margin-top: 15px;
+}
+
+.unansweredSurveys h3 {
+  color: var(--color-red-3);
+}
