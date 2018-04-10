@@ -31,7 +31,8 @@ export const mappings = Object.keys(questionStrings).map(key => ({
 
 export const ListNavigation = ({ title }: { title: Node }) => (
   <NavigationTab title={title} headerClassName={styles.navTab}>
-    <NavigationLink to="/surveys">Liste</NavigationLink>
+    <NavigationLink to="/surveys">Mine</NavigationLink>
+    <NavigationLink to="/surveys/?filter=all">Alle</NavigationLink>
     <NavigationLink to="/surveys/add">Ny undersøkelse</NavigationLink>
     <NavigationLink to="/surveys/templates">Maler</NavigationLink>
   </NavigationTab>
