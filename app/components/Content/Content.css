@@ -1,6 +1,6 @@
 .cover {
   composes: contentContainer from 'app/styles/utilities.css';
-  max-height: 300px;
+  max-height: 400px;
   padding: 0;
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0;
@@ -9,6 +9,7 @@
 
   img {
     object-fit: cover;
+    display: block;
   }
 }
 
