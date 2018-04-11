@@ -26,7 +26,7 @@ export function fetch({
         meta: {
           errorMessage: 'Henting av bilder feilet'
         },
-        propagateError: true
+        propagateError: false
       })
     );
   };
@@ -40,6 +40,16 @@ export function fetchGallery(galleryId: EntityID) {
     meta: {
       errorMessage: 'Henting av galleri feilet'
     },
+    propagateError: false
+  });
+}
+
+export function fetchGalleryMetadata(galleryId: EntityID) {
+  return callAPI({
+    types: Gallery.FETCH,
+    endpoint: `/galleries/${galleryId}/metadata/`,
+    schema: gallerySchema,
+    meta: {},
     propagateError: true
   });
 }

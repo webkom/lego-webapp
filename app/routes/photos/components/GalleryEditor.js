@@ -7,6 +7,7 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Button from 'app/components/Button';
 import {
   TextInput,
+  CheckBox,
   Form,
   TextArea,
   DatePicker,
@@ -233,6 +234,12 @@ class GalleryEditor extends Component<Props, State> {
             component={TextArea.Field}
             id="gallery-description"
           />
+          <Field
+            label="Publiser metadata for deling på SoMe. Dette deler kun cover, tittel og beskrivelse."
+            name="publicMetadata"
+            component={CheckBox.Field}
+            normalize={v => !!v}
+          />
           <Fields
             names={[
               'requireAuth',
@@ -300,6 +307,7 @@ const onSubmit = (data, dispatch, { submitFunction, push }: Props) => {
   const body: GalleryEntity = {
     ...normalizeObjectPermissions(data),
     id: data.id,
+    publicMetadata: !!data.publicMetadata,
     title: data.title,
     description: data.description,
     takenAt: moment(data.takenAt).format('YYYY-MM-DD'),
@@ -327,7 +335,6 @@ const validate = values => {
 
 export default legoForm({
   form: 'galleryEditor',
-  hasObjectPermissions: true,
   enableReinitialize: true,
   validate,
   onSubmit
