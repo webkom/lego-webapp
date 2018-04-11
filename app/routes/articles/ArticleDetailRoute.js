@@ -80,6 +80,11 @@ export default compose(
         property: 'article:published_time',
         content: props.article.createdAt
       },
+
+      {
+        property: 'og:description',
+        content: props.article.description
+      },
       {
         property: 'article:author',
         content: `${config.webUrl}/users/${props.author.username}`
