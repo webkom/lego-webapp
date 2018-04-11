@@ -68,10 +68,14 @@ const propertyGenerator = (props, config) => {
 
 const mapDispatchToProps = { push, fetch, uploadAndCreateGalleryPicture };
 
-function replaceUnlessThing<Props>(ReplacementComponent) {
+function metadataHelper<Props>() {
   return ActualComponent => {
-    class Replacement extends PureComponent<Props & LoginProps> {
+    class MetadataHelper extends PureComponent<Props & LoginProps> {
       render() {
+        // Instead of relying on 'propagateError', this does
+        // all the error handling by itself. This makes it possible
+        // to render metadata-tags, so that we can share stuff without
+        // having to provide explicit access to all the content.
         const { fetching, gallery, loggedIn, ...props } = this.props;
 
         if (gallery && gallery.createdAt) {
@@ -89,8 +93,9 @@ function replaceUnlessThing<Props>(ReplacementComponent) {
         }
 
         if (!loggedIn) {
+          // If metadata exists, show a login page
           return (
-            <ReplacementComponent
+            <LoginPage
               gallery={gallery}
               loggedIn={loggedIn}
               fetching={fetching}
@@ -102,7 +107,7 @@ function replaceUnlessThing<Props>(ReplacementComponent) {
       }
     }
 
-    return Replacement;
+    return MetadataHelper;
   };
 }
 
@@ -111,5 +116,5 @@ export default compose(
   prepare(loadData),
   loadingIndicator(['gallery.title']),
   helmet(propertyGenerator),
-  replaceUnlessThing(LoginPage)
+  metadataHelper()
 )(GalleryDetail);

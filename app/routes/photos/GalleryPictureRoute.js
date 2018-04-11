@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { SelectGalleryPicturesByGalleryId } from '../../reducers/galleryPictures';
+import helmet from 'app/utils/helmet';
 import GalleryPictureModal from './components/GalleryPictureModal';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import prepare from 'app/utils/prepare';
@@ -59,10 +60,38 @@ const mapDispatchToProps = {
   fetchSiblingGallerPicture
 };
 
+const propertyGenerator = (props, config) => {
+  if (!props.picture) return;
+
+  const url = `${config.webUrl}/gallery/${props.gallery.id}/picture/${
+    props.picture.id
+  }/`;
+
+  // Becuase the parent route sets the title and description
+  // based on the metadata of the gallery, we don't have to do it
+  // explicitly here.
+  return [
+    {
+      element: 'link',
+      rel: 'canonical',
+      href: url
+    },
+    {
+      property: 'og:url',
+      content: url
+    },
+    {
+      property: 'og:image',
+      content: props.picture.file
+    }
+  ];
+};
+
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
   prepare(({ params }, dispatch) =>
     dispatch(fetchGalleryPicture(params.galleryId, params.pictureId))
   ),
+  helmet(propertyGenerator),
   loadingIndicator(['picture.id'])
 )(GalleryPictureModal);

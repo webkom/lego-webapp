@@ -307,6 +307,7 @@ const onSubmit = (data, dispatch, { submitFunction, push }: Props) => {
   const body: GalleryEntity = {
     ...normalizeObjectPermissions(data),
     id: data.id,
+    publicMetadata: !!data.publicMetadata,
     title: data.title,
     description: data.description,
     takenAt: moment(data.takenAt).format('YYYY-MM-DD'),
@@ -334,7 +335,6 @@ const validate = values => {
 
 export default legoForm({
   form: 'galleryEditor',
-  hasObjectPermissions: true,
   enableReinitialize: true,
   validate,
   onSubmit
