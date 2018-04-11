@@ -88,7 +88,8 @@ export const GalleryPicture = {
   FETCH_SIBLING: generateStatuses('GalleryPicture.FETCH_SIBLING'),
   CREATE: generateStatuses('GalleryPicture.CREATE'),
   EDIT: generateStatuses('GalleryPicture.EDIT'),
-  DELETE: generateStatuses('GalleryPicture.DELETE')
+  DELETE: generateStatuses('GalleryPicture.DELETE'),
+  UPLOAD: generateStatuses('GalleryPicture.UPLOAD')
 };
 
 /**

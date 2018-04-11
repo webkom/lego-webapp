@@ -3,6 +3,7 @@
 import { GalleryPicture, Gallery } from './ActionTypes';
 import { galleryPictureSchema } from 'app/reducers';
 import { uploadFile } from './FileActions';
+import { chunk } from 'lodash';
 import { type GalleryPictureEntity } from 'app/reducers/galleryPictures';
 import callAPI from 'app/actions/callAPI';
 import type { EntityID } from 'app/types';
@@ -112,6 +113,38 @@ export function CreateGalleryPicture(galleryPicture: { galleryId: number }) {
     }
   });
 }
+const delay = time => new Promise(res => setTimeout(() => res(), time));
+
+const MAX_UPLOADS = 7;
+
+async function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
+  for (const fileChunk of chunk(files, MAX_UPLOADS)) {
+    await Promise.all(
+      fileChunk.map(file =>
+        dispatch(uploadFile({ file }))
+          .then(action => {
+            if (!action || !action.meta) return;
+            return dispatch(
+              CreateGalleryPicture({
+                galleryId,
+                file: action.meta.fileToken,
+                active: true
+              })
+            );
+          })
+          .catch(error => {
+            dispatch({
+              type: GalleryPicture.UPLOAD.FAILURE,
+              meta: { fileName: file.name }
+            });
+          })
+      )
+    );
+    // Delay after each chunk in order to keep CPU and
+    // memory-usage relatively low.
+    await delay(2000);
+  }
+}
 
 export function uploadAndCreateGalleryPicture(
   galleryId: number,
@@ -122,25 +155,6 @@ export function uploadAndCreateGalleryPicture(
       type: Gallery.UPLOAD.BEGIN,
       meta: { imageCount: files.length }
     });
-    return Promise.all(
-      files.map(file =>
-        dispatch(uploadFile({ file })).then(action => {
-          if (!action || !action.meta) return;
-          return dispatch(
-            CreateGalleryPicture({
-              galleryId,
-              file: action.meta.fileToken,
-              active: true
-            })
-          );
-        })
-      )
-    )
-      .then(() => {
-        dispatch({ type: Gallery.UPLOAD.SUCCESS });
-      })
-      .catch(() => {
-        dispatch({ type: Gallery.UPLOAD.FAILURE });
-      });
+    return uploadGalleryPicturesInTurn(files, galleryId, dispatch);
   };
 }

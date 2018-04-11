@@ -11,12 +11,15 @@ export type UploadStatus = {
   imageCount: number,
   successCount: number,
   failCount: number,
-  lastUploaded?: ID
+  failedImages: Array<string>,
+  lastUploadedImage?: ID,
+  lastGallery?: ID
 };
 
 const initialUploadStatus: UploadStatus = {
   imageCount: 0,
   successCount: 0,
+  failedImages: [],
   failCount: 0
 };
 
@@ -56,18 +59,21 @@ function mutateGalleryPicture(state: any, action: any) {
         ...state,
         uploadStatus: {
           ...uploadStatus,
-          successCount
+          successCount,
+          lastUploadedImage: action.payload.result,
+          lastGallery: action.meta.galleryId
         }
       };
     }
-    case GalleryPicture.CREATE.FAILURE: {
+    case GalleryPicture.UPLOAD.FAILURE: {
       const { uploadStatus = initialUploadStatus } = state;
       const failCount = uploadStatus.failCount + 1;
       return {
         ...state,
         uploadStatus: {
           ...uploadStatus,
-          failCount
+          failCount,
+          failedImages: [...uploadStatus.failedImages, action.meta.fileName]
         }
       };
     }
