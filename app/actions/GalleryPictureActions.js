@@ -118,7 +118,10 @@ export function uploadAndCreateGalleryPicture(
   files: Array<Object>
 ): Thunk<any> {
   return dispatch => {
-    dispatch({ type: Gallery.UPLOAD.BEGIN });
+    dispatch({
+      type: Gallery.UPLOAD.BEGIN,
+      meta: { imageCount: files.length }
+    });
     return Promise.all(
       files.map(file =>
         dispatch(uploadFile({ file })).then(action => {
