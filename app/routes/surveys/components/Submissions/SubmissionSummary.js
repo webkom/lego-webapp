@@ -91,51 +91,59 @@ const SubmissionSummary = ({ submissions, deleteSurvey, survey }: Props) => {
       </div>
 
       <ul className={styles.summary}>
-        {survey.questions.map(question => (
-          <li key={question.id}>
-            <h3>{question.questionText}</h3>
+        {survey.questions
+          .sort(
+            // Shuffle text answers to the end, otherwise keep ordering
+            (a, b) =>
+              a.questionType === QuestionTypes('text')
+                ? 1
+                : a.relativeIndex - b.relativeIndex
+          )
+          .map(question => (
+            <li key={question.id}>
+              <h3>{question.questionText}</h3>
 
-            {question.questionType === QuestionTypes('text') ? (
-              <ul className={styles.textAnswers}>
-                {textAnswers(submissions, question)}
-              </ul>
-            ) : (
-              <div className={styles.questionResults}>
-                <div style={{ width: '300px' }}>
-                  <VictoryPie
-                    data={graphData[question.id]}
-                    x="option"
-                    y="selections"
-                    theme={VictoryTheme.material}
-                    colorScale={CHART_COLORS}
-                    labels={d => d.y}
-                    labelRadius={60}
-                    padding={{ left: 0, top: 40, right: 30, bottom: 30 }}
-                    style={{
-                      labels: { fill: 'white', fontSize: 20 }
-                    }}
-                  />
-                </div>
-
-                <ul className={styles.graphData}>
-                  {graphData[question.id].map((dataPoint, i) => (
-                    <li key={i}>
-                      <span
-                        className={styles.colorBox}
-                        style={{ backgroundColor: CHART_COLORS[i] }}
-                      >
-                        &nbsp;
-                      </span>
-                      <span style={{ marginTop: '-5px' }}>
-                        {dataPoint.option}
-                      </span>
-                    </li>
-                  ))}
+              {question.questionType === QuestionTypes('text') ? (
+                <ul className={styles.textAnswers}>
+                  {textAnswers(submissions, question)}
                 </ul>
-              </div>
-            )}
-          </li>
-        ))}
+              ) : (
+                <div className={styles.questionResults}>
+                  <div style={{ width: '300px' }}>
+                    <VictoryPie
+                      data={graphData[question.id]}
+                      x="option"
+                      y="selections"
+                      theme={VictoryTheme.material}
+                      colorScale={CHART_COLORS}
+                      labels={d => d.y}
+                      labelRadius={60}
+                      padding={{ left: 0, top: 40, right: 30, bottom: 30 }}
+                      style={{
+                        labels: { fill: 'white', fontSize: 20 }
+                      }}
+                    />
+                  </div>
+
+                  <ul className={styles.graphData}>
+                    {graphData[question.id].map((dataPoint, i) => (
+                      <li key={i}>
+                        <span
+                          className={styles.colorBox}
+                          style={{ backgroundColor: CHART_COLORS[i] }}
+                        >
+                          &nbsp;
+                        </span>
+                        <span style={{ marginTop: '-5px' }}>
+                          {dataPoint.option}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </li>
+          ))}
       </ul>
     </div>
   );
