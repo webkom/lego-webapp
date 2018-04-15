@@ -1,9 +1,11 @@
 // @flow
+import * as React from 'react';
 import type { Allowed } from 'app/reducers/allowed';
+import ReadmeLogo from 'app/components/ReadmeLogo';
 
 type Link = {|
   key: string,
-  title: string,
+  title: React.Node,
   url: string,
   admin?: boolean,
   requireLogin?: boolean
@@ -39,7 +41,7 @@ const LINKS: Array<Link> = [
   },
   {
     key: 'readme',
-    title: 'readme',
+    title: <ReadmeLogo />,
     url: 'https://readme.abakus.no'
   },
   {
@@ -109,13 +111,21 @@ const LINKS: Array<Link> = [
   }
 ];
 
-const SORTED_REGULAR = LINKS.filter(link => !link.admin).sort((a, b) =>
-  a.title.localeCompare(b.title)
-);
+const sortFn = (a, b) => {
+  // Sort non-strings last:
+  if (typeof a.title !== 'string') {
+    return 1;
+  }
 
-const SORTED_ADMIN = LINKS.filter(link => link.admin).sort((a, b) =>
-  a.title.localeCompare(b.title)
-);
+  if (typeof b.title !== 'string') {
+    return -1;
+  }
+
+  return a.title.localeCompare(b.title);
+};
+
+const SORTED_REGULAR = LINKS.filter(link => !link.admin).sort(sortFn);
+const SORTED_ADMIN = LINKS.filter(link => link.admin).sort(sortFn);
 
 type Options = { allowed: Allowed, loggedIn: boolean };
 
