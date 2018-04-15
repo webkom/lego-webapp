@@ -5,7 +5,8 @@ function ReadmeLogo() {
     <span
       style={{
         fontFamily: 'OCR A Extended',
-        fontWeight: '400'
+        fontWeight: '400',
+        textTransform: 'lowercase'
       }}
     >
       readme
