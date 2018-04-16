@@ -34,7 +34,10 @@ class SurveyDetail extends Component<Props> {
     const { survey, deleteSurvey, actionGrant, push } = this.props;
 
     return (
-      <Content className={styles.surveyDetail} banner={survey.event.cover}>
+      <Content
+        className={styles.surveyDetail}
+        banner={!survey.templateType && survey.event.cover}
+      >
         <DetailNavigation
           title={survey.title}
           surveyId={Number(survey.id)}

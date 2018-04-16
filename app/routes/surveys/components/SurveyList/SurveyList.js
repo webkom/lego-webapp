@@ -20,7 +20,9 @@ const SurveyList = (props: Props) => {
 
   return (
     <div className={styles.surveyList}>
-      {surveys_to_render}
+      {surveys_to_render.length > 0
+        ? surveys_to_render
+        : 'Ingen spørreundersøkelser funnet.'}
       {fetching &&
         surveys_to_render.length === 0 && <LoadingIndicator loading />}
     </div>
