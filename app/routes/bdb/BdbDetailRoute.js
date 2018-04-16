@@ -15,7 +15,8 @@ import { compose } from 'redux';
 import {
   selectCompanyById,
   selectEventsForCompany,
-  selectCommentsForCompany
+  selectCommentsForCompany,
+  selectSurveysForCompany
 } from 'app/reducers/companies';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { LoginPage } from 'app/components/LoginForm';
@@ -32,6 +33,7 @@ const mapStateToProps = (state, props) => {
   const company = selectCompanyById(state, { companyId });
   const comments = selectCommentsForCompany(state, { companyId });
   const companyEvents = selectEventsForCompany(state, { companyId });
+  const companySurveys = selectSurveysForCompany(state, { companyId });
   const companySemesters = selectCompanySemesters(state, props);
   const fetching = state.companies.fetching;
   return {
@@ -40,6 +42,7 @@ const mapStateToProps = (state, props) => {
     companyEvents,
     comments,
     companySemesters,
+    companySurveys,
     fetching
   };
 };

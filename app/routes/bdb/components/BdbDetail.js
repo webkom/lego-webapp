@@ -32,13 +32,13 @@ type Props = {
   company: CompanyEntity,
   comments: Array<Object>,
   companyEvents: Array<Object>,
+  companySurveys: Array<Object>,
   currentUser: any,
   deleteSemesterStatus: (number, number) => Promise<*>,
   deleteCompanyContact: (number, number) => Promise<*>,
   loggedIn: boolean,
   companySemesters: Array<CompanySemesterEntity>,
   editSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
-  companyEvents: Array<Object>,
   fetching: boolean,
   editCompany: Object => void,
   deleteCompany: number => Promise<*>
@@ -46,13 +46,15 @@ type Props = {
 
 type State = {
   addingFiles: boolean,
-  eventsToDisplay: number
+  eventsToDisplay: number,
+  surveysToDisplay: number
 };
 
 export default class BdbDetail extends Component<Props, State> {
   state = {
     addingFiles: false,
-    eventsToDisplay: 3
+    eventsToDisplay: 3,
+    surveysToDisplay: 3
   };
 
   componentDidMount() {
@@ -150,6 +152,7 @@ export default class BdbDetail extends Component<Props, State> {
       currentUser,
       loggedIn,
       companyEvents,
+      companySurveys,
       fetching,
       deleteCompany
     } = this.props;
@@ -215,7 +218,7 @@ export default class BdbDetail extends Component<Props, State> {
         .map(event => (
           <tr key={event.id}>
             <td>
-              <Link to={`events/${event.id}`}>{event.title}</Link>
+              <Link to={`/events/${event.id}`}>{event.title}</Link>
             </td>
             <td>{eventTypes[event.eventType]}</td>
             <td>
@@ -225,6 +228,22 @@ export default class BdbDetail extends Component<Props, State> {
             <td>{truncateString(event.description, 70)}</td>
           </tr>
         ));
+
+    const surveys =
+      companySurveys &&
+      companySurveys.slice(0, this.state.surveysToDisplay).map(survey => (
+        <tr key={survey.id}>
+          <td>
+            <Link to={`/surveys/${survey.id}`}>{survey.title}</Link>
+          </td>
+          <td>{eventTypes[survey.event.eventType]}</td>
+          <td>
+            <Time time={survey.activeFrom} format="DD.MM.YYYY" />
+          </td>
+          <td>{truncateString(survey.event.location, 50)}</td>
+          <td>{truncateString(survey.event.description, 70)}</td>
+        </tr>
+      ));
 
     const title = (
       <span>
@@ -338,7 +357,7 @@ export default class BdbDetail extends Component<Props, State> {
               className={styles.companyList}
               style={{ marginBottom: '10px' }}
             >
-              <p>Tips: Du kan endre semestere ved å trykke på dem i listen!</p>
+              <i>Tips: Du kan endre semestere ved å trykke på dem i listen!</i>
               <table className={styles.detailTable}>
                 <thead className={styles.categoryHeader}>
                   <tr>
@@ -364,8 +383,8 @@ export default class BdbDetail extends Component<Props, State> {
           <div className={styles.files}>
             <h3>Filer</h3>
             <ul>
-              {!company.files || company.length === 0 ? (
-                <i>Ingen filer.</i>
+              {!company.files || company.files.length === 0 ? (
+                <i>Ingen filer</i>
               ) : (
                 company.files.map(file => (
                   <li key={file.id}>
@@ -406,6 +425,37 @@ export default class BdbDetail extends Component<Props, State> {
           ) : (
             <i>Ingen arrangementer.</i>
           )}
+
+          <div style={{ clear: 'both', marginBottom: '30px' }} />
+
+          <h3>Bedriftens spørreundersøkelser</h3>
+          {surveys.length > 0 ? (
+            <div className={styles.surveyList}>
+              <table className={styles.eventsTable}>
+                <thead className={styles.categoryHeader}>
+                  <tr>
+                    <th>Tittel</th>
+                    <th>Arrangementstype</th>
+                    <th>Når</th>
+                    <th>Hvor</th>
+                    <th>Hva</th>
+                  </tr>
+                </thead>
+                <tbody>{surveys}</tbody>
+              </table>
+              {this.state.eventsToDisplay === 3 && (
+                <Button
+                  style={{ width: '100%', marginTop: '20px' }}
+                  onClick={() => this.setState({ eventsToDisplay: 100 })}
+                >
+                  Vis alle spørreundersøkelser
+                </Button>
+              )}
+            </div>
+          ) : (
+            <i>Ingen spørreundersøkelser</i>
+          )}
+
           <div style={{ clear: 'both', marginBottom: '30px' }} />
 
           {company.commentTarget && (
