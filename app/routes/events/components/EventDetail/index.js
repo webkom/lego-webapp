@@ -275,10 +275,10 @@ export default class EventDetail extends Component<Props> {
               </Flex>
             </ContentSidebar>
           </ContentSection>
-          {2 > 1 ||
-          (loggedIn &&
-            currentUser.unansweredSurveys &&
-            currentUser.unansweredSurveys.length > 0) ? (
+
+          {loggedIn &&
+          event.unansweredSurveys &&
+          event.unansweredSurveys.length > 0 ? (
             <div className={styles.unansweredSurveys}>
               <h3>
                 Du kan ikke melde deg på dette arrangementet fordi du har
@@ -290,14 +290,13 @@ export default class EventDetail extends Component<Props> {
                 svare på undersøkelsene dine ved å trykke på følgende linker:
               </p>
               <ul>
-                {currentUser.unansweredSurveys &&
-                  currentUser.unansweredSurveys.map((surveyId, i) => (
-                    <li key={surveyId}>
-                      <Link to={`/surveys/${surveyId}`}>
-                        Undersøkelse {i + 1}
-                      </Link>
-                    </li>
-                  ))}
+                {event.unansweredSurveys.map((surveyId, i) => (
+                  <li key={surveyId}>
+                    <Link to={`/surveys/${surveyId}`}>
+                      Undersøkelse {i + 1}
+                    </Link>
+                  </li>
+                ))}
               </ul>
             </div>
           ) : (
