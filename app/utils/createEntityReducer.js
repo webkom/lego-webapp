@@ -61,9 +61,10 @@ export function entities(key: string, fetchType?: ?AsyncActionType) {
       ? get(action, ['payload', 'result'], [])
       : Object.keys(result).map(i => (isNumber(i) ? parseInt(i, 10) : i));
 
-    const actionGrant = isArray(resultIds)
-      ? get(action, ['payload', 'actionGrant'], [])
-      : [];
+    const actionGrant =
+      primaryKey && isArray(resultIds)
+        ? get(action, ['payload', 'actionGrant'], [])
+        : [];
 
     if (!isArray(resultIds)) {
       resultIds = [resultIds];
