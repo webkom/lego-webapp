@@ -13,6 +13,7 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectSurveyById, selectSurveyTemplate } from 'app/reducers/surveys';
 import { push } from 'react-router-redux';
 import loadingIndicator from 'app/utils/loadingIndicator';
+import { formValueSelector } from 'redux-form';
 
 const loadData = (props, dispatch) => {
   const { surveyId } = props.params;
@@ -70,13 +71,16 @@ const mapStateToProps = (state, props) => {
     ? { ...survey, questions: template.questions }
     : survey;
 
+  const formSelector = formValueSelector('surveyEditor');
+
   return {
     survey: surveyToSend,
     surveyId,
     fetching: state.surveys.fetching,
     template,
     initialValues,
-    notFetching
+    notFetching,
+    activeFrom: formSelector(state, 'activeFrom')
   };
 };
 

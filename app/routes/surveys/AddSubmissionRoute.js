@@ -35,6 +35,7 @@ const mapStateToProps = (state, props) => {
     submission,
     currentUser,
     notFetching,
+    actionGrant: state.surveys.actionGrant,
     initialValues: {
       answers: []
     }
