@@ -13,10 +13,18 @@ type Props = {
   fetching: boolean,
   push: string => void,
   hasMore: boolean,
-  fetchAll: Object => Promise<*>
+  fetchAll: Object => Promise<*>,
+  filter: string
 };
 
-const SurveyPage = ({ surveys, fetching, push, hasMore, fetchAll }: Props) => {
+const SurveyPage = ({
+  surveys,
+  fetching,
+  push,
+  hasMore,
+  fetchAll,
+  filter
+}: Props) => {
   return (
     <Content>
       <ListNavigation title="Spørreundersøkelser" />
@@ -27,9 +35,10 @@ const SurveyPage = ({ surveys, fetching, push, hasMore, fetchAll }: Props) => {
           hasMore={hasMore}
           fetching={fetching}
           fetchNext={() => {
-            fetchAll({
-              next: true
-            });
+            filter &&
+              fetchAll({
+                next: true
+              });
           }}
         >
           <SurveyList surveys={surveys} fetching={fetching} />

@@ -22,7 +22,7 @@ const mapStateToProps = (state, props) => {
       : surveys.filter(survey => survey.createdBy === props.currentUser.id),
     fetching: state.surveys.fetching,
     hasMore: state.surveys.hasMore,
-    filter: props.params.filter
+    filter: props.location.query.filter
   };
 };
 
