@@ -162,10 +162,14 @@ export const pageSchema = new schema.Entity(
   {},
   { idAttribute: 'slug' }
 );
+export const surveySchema = new schema.Entity('surveys', {
+  event: eventSchema
+});
 export const companyInterestSchema = new schema.Entity('companyInterest');
 export const companySchema = new schema.Entity('companies', {
   studentContact: userSchema,
-  comments: [commentSchema]
+  comments: [commentSchema],
+  surveys: [surveySchema]
 });
 export const companySemesterSchema = new schema.Entity('companySemesters');
 export const joblistingsSchema = new schema.Entity('joblistings');
@@ -195,9 +199,6 @@ export const meetingSchema = new schema.Entity('meetings', {
 export const frontpageSchema = new schema.Entity('frontpage', {
   events: [eventSchema],
   articles: [articleSchema]
-});
-export const surveySchema = new schema.Entity('surveys', {
-  event: eventSchema
 });
 export const surveySubmissionSchema = new schema.Entity('surveySubmissions', {
   user: userSchema

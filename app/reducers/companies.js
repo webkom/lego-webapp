@@ -4,6 +4,7 @@ import { Company } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
 import { selectEvents } from './events';
+import { selectSurveys } from './surveys';
 import { mutateComments } from 'app/reducers/comments';
 import joinReducers from 'app/utils/joinReducers';
 import { selectCompanySemesters } from './companySemesters';
@@ -234,6 +235,18 @@ export const selectEventsForCompany = createSelector(
     if (!companyId || !events) return [];
     return events.filter(
       event => event.company && Number(event.company.id) === Number(companyId)
+    );
+  }
+);
+
+export const selectSurveysForCompany = createSelector(
+  (state, props) => selectSurveys(state, props),
+  (state, props) => props.companyId,
+  (surveys, companyId) => {
+    if (!companyId || !surveys) return [];
+    return surveys.filter(
+      survey =>
+        survey.event.id && Number(survey.event.company.id) === Number(companyId)
     );
   }
 );
