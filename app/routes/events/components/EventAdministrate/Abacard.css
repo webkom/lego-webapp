@@ -29,7 +29,7 @@
 }
 
 .counter {
-  text-align: right;
+  text-align: center;
   font-size: 20px;
   flex-direction: column;
   color: var(--color-gray-1);

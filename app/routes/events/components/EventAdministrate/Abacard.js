@@ -9,7 +9,6 @@ import styles from './Abacard.css';
 
 // $FlowFixMe
 import goodSound from '../../../../assets/good-sound.mp3';
-
 import type { EventRegistration } from 'app/models';
 type State = {
   showCompleted: boolean
@@ -86,8 +85,7 @@ class Abacard extends React.Component<*, State> {
           }}
         />
         <div className={styles.counter}>
-          {' '}
-          {registerCount}/{registered.length} påmeldte
+          {registerCount}/{registered.length} har møtt opp
         </div>
       </div>
     );

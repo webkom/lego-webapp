@@ -94,6 +94,7 @@ export type EventRegistration = {
   user: User,
   registrationDate: Dateish,
   unregistrationDate: Dateish,
+  pool: number,
   presence: EventRegistrationPresence,
   chargeStatus: EventRegistrationChargeStatus,
   feedback: string,
