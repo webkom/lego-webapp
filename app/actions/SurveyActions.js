@@ -7,18 +7,6 @@ import type { Thunk } from 'app/types';
 import moment from 'moment-timezone';
 import type { SurveyEntity } from 'app/reducers/surveys';
 
-export function fetchAll() {
-  return callAPI({
-    types: Survey.FETCH,
-    endpoint: '/surveys/',
-    schema: [surveySchema],
-    meta: {
-      errorMessage: 'Henting av spørreundersøkelser feilet'
-    },
-    propagateError: true
-  });
-}
-
 export function fetch(surveyId: number): Thunk<*> {
   return dispatch =>
     dispatch(
@@ -32,6 +20,24 @@ export function fetch(surveyId: number): Thunk<*> {
         propagateError: true
       })
     );
+}
+
+export function fetchAll({ next = false }: { next: boolean } = {}): Thunk<*> {
+  return (dispatch, getState) => {
+    const cursor = next ? getState().surveys.pagination.next : {};
+    return dispatch(
+      callAPI({
+        types: Survey.FETCH,
+        endpoint: '/surveys/',
+        schema: [surveySchema],
+        query: cursor,
+        meta: {
+          errorMessage: 'Henting av spørreundersøkelser feilet'
+        },
+        propagateError: true
+      })
+    );
+  };
 }
 
 export function addSurvey(data: SurveyEntity): Thunk<*> {
