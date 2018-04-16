@@ -60,3 +60,12 @@ export const defaultActiveFrom = (hours: number, minutes: number) =>
     .startOf('day')
     .add({ hours, minutes })
     .toISOString();
+
+export const CHART_COLORS = [
+  '#c0392b',
+  '#2b95d6',
+  '#d9822b',
+  '#3dcc91',
+  '#48aff0',
+  '#f55656'
+];

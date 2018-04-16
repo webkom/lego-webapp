@@ -21,7 +21,7 @@ type Props = {
 };
 
 const SubmissionPage = (props: Props) => {
-  const { submissions, deleteSurvey, survey, actionGrant, isSummary } = props;
+  const { deleteSurvey, survey, actionGrant, isSummary } = props;
 
   return (
     <Content className={styles.surveyDetail} banner={survey.event.cover}>
@@ -33,8 +33,6 @@ const SubmissionPage = (props: Props) => {
 
       <ContentSection>
         <ContentMain>
-          <h2 style={{ lineHeight: '24px' }}>{submissions.length} svar</h2>
-
           <div className={styles.submissionNav}>
             <Link
               to={`/surveys/${survey.id}/submissions/summary`}

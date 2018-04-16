@@ -221,7 +221,7 @@
 }
 
 .submissionNav {
-  margin: 10px 0;
+  margin: 0 0 10px;
 }
 
 .adminSideBar {
@@ -274,4 +274,49 @@
 .mailInfo {
   display: block;
   margin-top: 10px;
+}
+
+.infoBubbles {
+  display: flex;
+  text-align: center;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  @media (--mobile-device) {
+    justify-content: space-around;
+    align-items: center;
+  }
+}
+
+.infoBubbles > div {
+  margin: 30px 0;
+  width: 150px;
+
+  @media (--mobile-device) {
+    margin-right: 20px;
+  }
+}
+
+.eventSummary {
+  margin: 15px 0;
+}
+
+.questionResults {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.graphData li {
+  display: flex;
+  align-items: center;
+}
+
+.colorBox {
+  width: 10px;
+  height: 10px;
+  margin-right: 10px;
+  margin-top: -5px;
+  display: inline-block;
+  border-radius: 1px;
 }
