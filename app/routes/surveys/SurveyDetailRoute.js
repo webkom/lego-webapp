@@ -18,7 +18,7 @@ const mapStateToProps = (state, props) => {
   return {
     survey,
     surveyId,
-    actionGrant: state.surveys.actionGrant
+    actionGrant: survey.actionGrant
   };
 };
 
