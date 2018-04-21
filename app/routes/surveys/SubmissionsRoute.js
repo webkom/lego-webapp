@@ -10,16 +10,15 @@ import SubmissionPage from './components/Submissions/SubmissionPage';
 import { compose } from 'redux';
 import { selectSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { selectSurveyById } from 'app/reducers/surveys';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { push } from 'react-router-redux';
 import loadingIndicator from 'app/utils/loadingIndicator';
 
 const loadData = (props, dispatch) => {
   const { surveyId } = props.params;
+  const { token } = props.location.query;
   return Promise.all([
-    dispatch(fetch(surveyId)),
-    dispatch(fetchSubmissions(surveyId))
+    dispatch(fetch(surveyId, token)),
+    dispatch(fetchSubmissions(surveyId, token))
   ]);
 };
 
@@ -45,7 +44,6 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
   prepare(loadData),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['notFetching', 'survey.event', 'survey.questions'])

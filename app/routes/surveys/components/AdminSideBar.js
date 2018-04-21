@@ -40,7 +40,7 @@ const AdminSideBar = ({
   const shareLink = !token
     ? ''
     : `https://www.abakus.no/surveys/${surveyId}/submissions/summary/?token=${token}`;
-
+  console.log('admin side bar', canEdit, 'token:', token);
   return (
     canEdit && (
       <ContentSidebar className={styles.adminSideBar}>
@@ -63,11 +63,7 @@ const AdminSideBar = ({
               </li>
             </ConfirmModalWithParent>
           )}
-          {token && (
-            <li>
-              Delbar link: <a href={shareLink}>{shareLink}</a>
-            </li>
-          )}
+          {token && <Link to={shareLink}>Delbar link</Link>}
         </ul>
       </ContentSidebar>
     )

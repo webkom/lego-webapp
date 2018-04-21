@@ -7,13 +7,16 @@ import type { Thunk } from 'app/types';
 import moment from 'moment-timezone';
 import type { SurveyEntity } from 'app/reducers/surveys';
 
-export function fetch(surveyId: number): Thunk<*> {
+export function fetch(surveyId: number, token?: string): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
         types: Survey.FETCH,
         endpoint: `/surveys/${surveyId}/`,
         schema: surveySchema,
+        query: {
+          token
+        },
         meta: {
           errorMessage: 'Henting av spørreundersøkelse feilet'
         },
