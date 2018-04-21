@@ -17,11 +17,11 @@ type Props = {
   survey: SurveyEntity,
   children: React.Element<*>,
   actionGrant: ActionGrant,
-  isSummary: boolean
+  isIndividual: boolean
 };
 
 const SubmissionPage = (props: Props) => {
-  const { deleteSurvey, survey, actionGrant, isSummary } = props;
+  const { deleteSurvey, survey, actionGrant, isIndividual } = props;
 
   return (
     <Content className={styles.surveyDetail} banner={survey.event.cover}>
@@ -36,14 +36,18 @@ const SubmissionPage = (props: Props) => {
           <div className={styles.submissionNav}>
             <Link
               to={`/surveys/${survey.id}/submissions/summary`}
-              className={isSummary ? styles.activeRoute : styles.inactiveRoute}
+              className={
+                !isIndividual ? styles.activeRoute : styles.inactiveRoute
+              }
             >
               Oppsummering
             </Link>
             {' | '}
             <Link
               to={`/surveys/${survey.id}/submissions/individual`}
-              className={!isSummary ? styles.activeRoute : styles.inactiveRoute}
+              className={
+                isIndividual ? styles.activeRoute : styles.inactiveRoute
+              }
             >
               Individuell
             </Link>
