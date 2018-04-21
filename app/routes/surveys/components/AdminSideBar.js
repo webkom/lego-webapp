@@ -11,14 +11,16 @@ type Props = {
   surveyId: number,
   deleteFunction?: number => Promise<*>,
   push?: string => void,
-  actionGrant: ActionGrant
+  actionGrant: ActionGrant,
+  token?: string
 };
 
 const AdminSideBar = ({
   surveyId,
   deleteFunction,
   actionGrant,
-  push
+  push,
+  token
 }: Props) => {
   const canEdit = actionGrant.includes('edit');
 
@@ -34,6 +36,10 @@ const AdminSideBar = ({
     }
     return Promise.resolve();
   };
+
+  const shareLink = !token
+    ? ''
+    : `https://www.abakus.no/surveys/${surveyId}/submissions/summary/?token=${token}`;
 
   return (
     canEdit && (
@@ -56,6 +62,11 @@ const AdminSideBar = ({
                 <Link to="">Slett undersøkelsen</Link>
               </li>
             </ConfirmModalWithParent>
+          )}
+          {token && (
+            <li>
+              Delbar link: <a href={shareLink}>{shareLink}</a>
+            </li>
           )}
         </ul>
       </ContentSidebar>
