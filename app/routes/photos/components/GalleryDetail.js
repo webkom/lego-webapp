@@ -1,14 +1,11 @@
 // @flow
-import { Flex } from 'app/components/Layout';
 
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import React, { Fragment, Component, cloneElement, type Element } from 'react';
-import Tooltip from 'app/components/Tooltip';
+import React, { Component, cloneElement, type Element } from 'react';
 import GalleryDetailsRow from './GalleryDetailsRow';
 import EmptyState from 'app/components/EmptyState';
 import ImageUpload from 'app/components/Upload/ImageUpload';
 import { Content } from 'app/components/Content';
-import Card from 'app/components/Card';
 import Gallery from 'app/components/Gallery';
 import type { DropFile } from 'app/components/Upload';
 import type { ID } from 'app/models';
@@ -63,14 +60,9 @@ export default class GalleryDetail extends Component<Props, State> {
       currentUser,
       hasMore,
       fetch,
-      fetching,
-      uploadStatus
+      fetching
     } = this.props;
     const actionGrant = gallery && gallery.actionGrant;
-    const lastUploadedImageId = uploadStatus && uploadStatus.lastUploadedImage;
-    const lastImage: ?GalleryPictureEntity =
-      pictures &&
-      pictures.find(pic => Number(pic.id) === Number(lastUploadedImageId));
 
     return (
       <Content>
@@ -93,61 +85,6 @@ export default class GalleryDetail extends Component<Props, State> {
               </div>
             )}
         </NavigationTab>
-        {
-          <Card
-            style={{
-              zIndex: 2,
-              margin: 40,
-              position: 'fixed',
-              bottom: 0,
-              left: 0
-            }}
-          >
-            {uploadStatus && (
-              <Fragment>
-                {uploadStatus.successCount + uploadStatus.failCount ===
-                uploadStatus.imageCount ? (
-                  <Fragment>
-                    <h3>{uploadStatus.successCount} bilder ble lastet opp </h3>
-                  </Fragment>
-                ) : (
-                  <Fragment>
-                    <h3>Laster opp bilder</h3>
-                    <p>
-                      <b>Status</b>: {uploadStatus.successCount} av{' '}
-                      {uploadStatus.imageCount}
-                    </p>
-                  </Fragment>
-                )}
-                {uploadStatus.failCount ? (
-                  <p>
-                    <b>Antall feil</b>:{' '}
-                    <Tooltip
-                      content={
-                        <Flex column>
-                          {uploadStatus.failedImages.map(name => (
-                            <Flex>{name}</Flex>
-                          ))}
-                        </Flex>
-                      }
-                    >
-                      {' '}
-                      {uploadStatus.failCount}{' '}
-                    </Tooltip>
-                  </p>
-                ) : null}
-
-                {lastImage && (
-                  <img
-                    alt="Last"
-                    style={{ width: 250, height: 100, objectFit: 'cover' }}
-                    src={lastImage && lastImage.file}
-                  />
-                )}
-              </Fragment>
-            )}
-          </Card>
-        }
         <Gallery
           photos={pictures}
           hasMore={hasMore}

@@ -13,14 +13,15 @@ export type UploadStatus = {
   failCount: number,
   failedImages: Array<string>,
   lastUploadedImage?: ID,
-  lastGallery?: ID
+  showStatus: boolean
 };
 
-const initialUploadStatus: UploadStatus = {
+export const initialUploadStatus: UploadStatus = {
   imageCount: 0,
   successCount: 0,
   failedImages: [],
-  failCount: 0
+  failCount: 0,
+  showStatus: false
 };
 
 export type GalleryPictureEntity = {
@@ -30,10 +31,14 @@ export type GalleryPictureEntity = {
   description: string,
   text: string,
   active: boolean,
-  comments: Array<number>
+  comments: Array<number>,
+  file: string,
+  thumbnail: string,
+  rawFile: string
 };
 
 function mutateGalleryPicture(state: any, action: any) {
+  const { uploadStatus = initialUploadStatus } = state;
   switch (action.type) {
     case GalleryPicture.DELETE.SUCCESS: {
       return {
@@ -42,38 +47,53 @@ function mutateGalleryPicture(state: any, action: any) {
       };
     }
     case Gallery.UPLOAD.BEGIN: {
-      const { uploadStatus = initialUploadStatus } = state;
       const imageCount = uploadStatus.imageCount + action.meta.imageCount;
       return {
         ...state,
         uploadStatus: {
           ...uploadStatus,
-          imageCount
+          imageCount,
+          showStatus: true
+        }
+      };
+    }
+    case Gallery.HIDE_UPLOAD_STATUS: {
+      return {
+        ...state,
+        uploadStatus: {
+          ...uploadStatus,
+          showStatus: false
         }
       };
     }
     case GalleryPicture.CREATE.SUCCESS: {
-      const { uploadStatus = initialUploadStatus } = state;
       const successCount = uploadStatus.successCount + 1;
+
+      // Only update thumbnail in upload status for each 10th picture
+      const lastUploadedImage =
+        !uploadStatus.lastUploadedImage || successCount % 10 == 0
+          ? action.payload.result
+          : uploadStatus.lastUploadedImage;
       return {
         ...state,
         uploadStatus: {
           ...uploadStatus,
           successCount,
-          lastUploadedImage: action.payload.result,
-          lastGallery: action.meta.galleryId
+          showStatus: true,
+          lastUploadedImage
         }
       };
     }
     case GalleryPicture.UPLOAD.FAILURE: {
-      const { uploadStatus = initialUploadStatus } = state;
       const failCount = uploadStatus.failCount + 1;
+      const failedImages = [...uploadStatus.failedImages, action.meta.fileName];
       return {
         ...state,
         uploadStatus: {
           ...uploadStatus,
           failCount,
-          failedImages: [...uploadStatus.failedImages, action.meta.fileName]
+          showStatus: true,
+          failedImages
         }
       };
     }

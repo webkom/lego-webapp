@@ -23,6 +23,7 @@ import ErrorBoundary from 'app/components/ErrorBoundary';
 import Header from 'app/components/Header';
 import Footer from 'app/components/Footer';
 import ToastContainer from 'app/components/Toast/ToastContainer';
+import PhotoUploadStatus from 'app/components/PhotoUploadStatus';
 import { selectIsLoggedIn, selectCurrentUser } from 'app/reducers/auth';
 import cx from 'classnames';
 import HTTPError from '../errors/HTTPError';
@@ -118,6 +119,7 @@ class App extends PureComponent<AppProps> {
         >
           {this.props.children}
         </AppChildren>
+        <PhotoUploadStatus />
 
         <Footer {...this.props} />
       </div>

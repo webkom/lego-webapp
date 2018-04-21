@@ -77,7 +77,8 @@ export const Gallery = {
   CREATE: generateStatuses('Gallery.CREATE'),
   EDIT: generateStatuses('Gallery.EDIT'),
   UPLOAD: generateStatuses('Gallery.UPLOAD'),
-  DELETE: generateStatuses('Gallery.DELETE')
+  DELETE: generateStatuses('Gallery.DELETE'),
+  HIDE_UPLOAD_STATUS: 'Gallery.HIDE_UPLOAD_STATUS'
 };
 
 /**

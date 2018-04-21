@@ -115,7 +115,7 @@ export function CreateGalleryPicture(galleryPicture: { galleryId: number }) {
 }
 const delay = time => new Promise(res => setTimeout(() => res(), time));
 
-const MAX_UPLOADS = 7;
+const MAX_UPLOADS = 15;
 
 async function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
   for (const fileChunk of chunk(files, MAX_UPLOADS)) {
@@ -142,7 +142,8 @@ async function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
     );
     // Delay after each chunk in order to keep CPU and
     // memory-usage relatively low.
-    await delay(2000);
+    // TODO implement a non-pool based approach, with n parallel uploads.
+    await delay(200);
   }
 }
 
