@@ -180,7 +180,7 @@ class GalleryEditor extends Component<Props, State> {
 
     return (
       <Content>
-        <NavigationTab title="Nytt album">
+        <NavigationTab title={`Redigerer: ${gallery.title}`}>
           <NavigationLink to={'/photos'}>
             <i className="fa fa-angle-left" /> Tilbake
           </NavigationLink>
