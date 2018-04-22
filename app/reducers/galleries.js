@@ -82,6 +82,7 @@ export const selectPicturesForGallery = createSelector(
   (gallery, picturesById) => {
     if (!gallery) return [];
 
+    // $FlowFixMe
     return (gallery.pictures || []).map(pictureId => picturesById[pictureId]);
   }
 );

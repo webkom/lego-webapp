@@ -42,12 +42,13 @@ function SearchResult({ result, onSelect, isSelected }: SearchResultProps) {
         >
           <h3 className={styles.searchResultTitle}>
             <span>
-              {result.label}{' '}
+              {result.label} {/* $FlowFixMe*/}
               {typeof result.username === 'string' && (
                 <span>({result.username})</span>
               )}
             </span>
 
+            {/* $FlowFixMe*/}
             {result.profilePicture ? (
               <ProfilePicture
                 className={styles.searchResultItemIcon}

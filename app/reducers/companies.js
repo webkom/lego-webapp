@@ -57,7 +57,8 @@ export type BaseSemesterStatusEntity = {
 export type SemesterStatusEntity = BaseSemesterStatusEntity & {
   id: number,
   semester: Semester,
-  year: string
+  year: string,
+  activeInterestForm: boolean
 };
 
 export type BaseCompanyContactEntity = {

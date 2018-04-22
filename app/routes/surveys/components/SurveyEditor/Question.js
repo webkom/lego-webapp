@@ -31,11 +31,11 @@ const questionTypeToIcon = {
 const QuestionTypeOption = (props: Object) => (
   <div
     className={cx(props.className, styles.dropdown)}
-    onMouseDown={() => {
+    onMouseDown={event => {
       props.onSelect && props.onSelect(props.option, event);
     }}
-    onMouseEnter={() => props.onFocus && props.onFocus(props.option, event)}
-    onMouseMove={() => {
+    onMouseEnter={event => props.onFocus && props.onFocus(props.option, event)}
+    onMouseMove={event => {
       if (props.isFocused) return;
       props.onFocus && props.onFocus(props.option, event);
     }}
@@ -53,11 +53,11 @@ const QuestionTypeOption = (props: Object) => (
 const QuestionTypeValue = (props: Object, b) => (
   <div
     className={cx('Select-value', styles.dropdown)}
-    onMouseDown={() => {
+    onMouseDown={event => {
       props.onSelect && props.onSelect(props.option, event);
     }}
-    onMouseEnter={() => props.onFocus && props.onFocus(props.option, event)}
-    onMouseMove={() => {
+    onMouseEnter={event => props.onFocus && props.onFocus(props.option, event)}
+    onMouseMove={event => {
       if (props.isFocused) return;
       props.onFocus && props.onFocus(props.option, event);
     }}

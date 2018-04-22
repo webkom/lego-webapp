@@ -171,7 +171,8 @@ export type Announcement = {
   users: Array<Object>,
   groups: Array<Object>,
   events: Array<Object>,
-  meetings: Array<Object>
+  meetings: Array<Object>,
+  sent?: boolean
 };
 
 export type CreateAnnouncement = Announcement & {

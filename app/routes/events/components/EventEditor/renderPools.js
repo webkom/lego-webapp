@@ -79,7 +79,8 @@ type PermissionGroup = {};
 
 type Pool = {
   capacity: number,
-  permissionGroups: Array<PermissionGroup>
+  permissionGroups: Array<PermissionGroup>,
+  name?: ?string
 };
 
 export const validatePools = (pools: Array<Pool>) => {

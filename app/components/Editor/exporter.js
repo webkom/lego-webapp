@@ -8,7 +8,8 @@ type EntityProps = {
   blockType: string,
   data: Object,
   text: string,
-  extraClass: string
+  extraClass: string,
+  type: string
 };
 
 type BlockProps = {
