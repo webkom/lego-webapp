@@ -27,11 +27,12 @@ const mapStateToProps = (state, props) => {
   const surveyId = Number(props.params.surveyId);
   const locationStrings = props.location.pathname.split('/');
   const isSummary = locationStrings[locationStrings.length - 1] === 'summary';
+  const survey = selectSurveyById(state, { surveyId });
   return {
-    survey: selectSurveyById(state, { surveyId }),
+    survey,
     submissions: selectSurveySubmissions(state, { surveyId }),
     notFetching: !state.surveys.fetching && !state.surveySubmissions.fetching,
-    actionGrant: state.surveys.actionGrant,
+    actionGrant: survey.actionGrant,
     isSummary
   };
 };
