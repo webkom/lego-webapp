@@ -9,7 +9,7 @@ import styles from './Abacard.css';
 
 // $FlowFixMe
 import goodSound from '../../../../assets/good-sound.mp3';
-
+import type { EventRegistration } from 'app/models';
 type State = {
   showCompleted: boolean
 };
@@ -56,6 +56,11 @@ class Abacard extends React.Component<*, State> {
   };
 
   render() {
+    const registered: Array<EventRegistration> = this.props.registered;
+    const registerCount = registered.filter(
+      reg => reg.presence === 'PRESENT' && reg.pool
+    ).length;
+
     return (
       <div>
         <div
@@ -79,6 +84,9 @@ class Abacard extends React.Component<*, State> {
             this.input = input;
           }}
         />
+        <div className={styles.counter}>
+          {registerCount}/{registered.length} har møtt opp
+        </div>
       </div>
     );
   }

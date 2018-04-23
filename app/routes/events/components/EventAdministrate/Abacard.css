@@ -1,3 +1,5 @@
+@import '../Event.css';
+
 .overlay {
   position: absolute;
   left: 0;
@@ -24,4 +26,11 @@
 .shown {
   visibility: visible;
   opacity: 1;
+}
+
+.counter {
+  text-align: center;
+  font-size: 20px;
+  flex-direction: column;
+  color: var(--color-gray-1);
 }

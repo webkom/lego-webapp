@@ -9,6 +9,8 @@ import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/sear
 import { markUsernamePresent } from 'app/actions/EventActions';
 import Abacard from './components/EventAdministrate/Abacard';
 
+import { getRegistrationGroups } from 'app/reducers/events';
+
 const searchTypes = ['users.user'];
 
 const loadData = (props, dispatch) => {
@@ -21,10 +23,16 @@ const loadData = (props, dispatch) => {
 const mapStateToProps = (state, props) => {
   const query = props.location.query.q;
   const results = query ? selectAutocomplete(state) : [];
+
+  const { eventId } = props;
+  const { registered } = getRegistrationGroups(state, {
+    eventId
+  });
   return {
     location: props.location,
     searching: state.search.searching,
-    results
+    results,
+    registered
   };
 };
 
