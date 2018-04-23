@@ -6,6 +6,7 @@ import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import moment from 'moment-timezone';
 import { Flex } from 'app/components/Layout';
+import styles from './Abacard.css';
 import type {
   Event,
   Comment,
@@ -85,6 +86,9 @@ export default class Attendees extends Component<Props, State> {
       registered,
       unregistered
     } = this.props;
+    const registerCount = registered.filter(
+      reg => reg.presence === 'PRESENT' && reg.pool
+    ).length;
 
     if (loading) {
       return <LoadingIndicator loading />;
@@ -104,7 +108,12 @@ export default class Attendees extends Component<Props, State> {
           </Link>
         </h2>
         <Flex column>
-          <strong>Påmeldte:</strong>
+          <div>
+            <strong>Påmeldte:</strong>
+            <div className={styles.attendees}>
+              {registerCount}/{registered.length} har møtt opp
+            </div>
+          </div>
           {registered.length === 0 && <li>Ingen påmeldte</li>}
           <RegisteredTable
             registered={registered}

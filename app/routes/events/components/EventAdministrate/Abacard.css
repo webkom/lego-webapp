@@ -34,3 +34,9 @@
   flex-direction: column;
   color: var(--color-gray-1);
 }
+
+.attendees {
+  font-size: 16px;
+  color: var(--lego-text-gray-1);
+  float: right;
+}
