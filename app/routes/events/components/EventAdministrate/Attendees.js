@@ -86,7 +86,6 @@ export default class Attendees extends Component<Props, State> {
       registered,
       unregistered
     } = this.props;
-    // hvorfor godtar den reg?
     const registerCount = registered.filter(
       reg => reg.presence === 'PRESENT' && reg.pool
     ).length;
@@ -109,9 +108,11 @@ export default class Attendees extends Component<Props, State> {
           </Link>
         </h2>
         <Flex column>
-          <strong>Påmeldte:</strong>
-          <div className={styles.counter}>
-            {registerCount}/{registered.length} har møtt opp
+          <div>
+            <strong>Påmeldte:</strong>
+            <div className={styles.attendees}>
+              {registerCount}/{registered.length} har møtt opp
+            </div>
           </div>
           {registered.length === 0 && <li>Ingen påmeldte</li>}
           <RegisteredTable
