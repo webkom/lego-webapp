@@ -27,6 +27,8 @@ import GalleryComponent from 'app/components/Gallery';
 import styles from './Overview.css';
 import { pull, find } from 'lodash';
 
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
+
 import type { ID } from 'app/models';
 import type { GalleryEntity } from 'app/reducers/galleries';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
@@ -106,11 +108,10 @@ class GalleryEditor extends Component<Props, State> {
     }
   };
 
-  onDeleteGallery = () => {
+  onDeleteGallery = () =>
     this.props.deleteGallery(this.props.gallery.id).then(() => {
       this.props.push('/photos');
     });
-  };
 
   onUpdateGalleryCover = () => {
     this.props.updateGalleryCover(
@@ -180,7 +181,9 @@ class GalleryEditor extends Component<Props, State> {
 
     return (
       <Content>
-        <NavigationTab title="Nytt album">
+        <NavigationTab
+          title={gallery ? `Redigerer: ${gallery.title}` : 'Nytt album'}
+        >
           <NavigationLink to={'/photos'}>
             <i className="fa fa-angle-left" /> Tilbake
           </NavigationLink>
@@ -256,19 +259,20 @@ class GalleryEditor extends Component<Props, State> {
             justifyContent="flex-end"
           >
             {!isNew && (
-              <Button
-                onClick={this.onDeleteGallery}
-                className={styles.deleteButton}
+              <ConfirmModalWithParent
+                title="Slett album"
+                message="Vil du slette hele albumet og alle bildene albumet inneholder!"
+                onConfirm={this.onDeleteGallery}
               >
-                Delete
-              </Button>
+                <Button className={styles.deleteButton}>Slett album</Button>
+              </ConfirmModalWithParent>
             )}
             <Button
               disabled={submitting}
               className={styles.submitButton}
               type="submit"
             >
-              {isNew ? 'Create' : 'Save'}
+              {isNew ? 'Opprett' : 'Lagre'}
             </Button>
           </Flex>
         </Form>

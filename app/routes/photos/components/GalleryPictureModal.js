@@ -90,7 +90,7 @@ const RenderGalleryPicture = ({
     <a onClick={() => handleDelete(id)}>
       <i
         className="fa fa-minus-circle"
-        style={{ color: '#C24538', marginRight: '5px' }}
+        style={{ color: '#C24538', padding: '15px' }}
       />
       {clickedDeletePicture === id ? 'Er du sikker?' : 'Slett'}
     </a>
@@ -106,7 +106,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
   };
 
   toggleDropdown = () => {
-    this.setState({ showMore: !this.state.showMore });
+    this.setState({ showMore: !this.state.showMore, clickedDeletePicture: 0 });
   };
 
   onUpdate = () => {
