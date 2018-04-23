@@ -205,6 +205,10 @@ export default class Overview extends Component<Props, State> {
           <LatestReadme expanded={frontpage.length === 0} />
         </Flex>
         <Flex wrap>
+          <Flex column className={styles.header}>
+            <p className="u-ui-heading">Andre oppslag</p>
+          </Flex>
+
           {frontpage
             .slice(1, this.state.eventsToShow)
             .map(event => (

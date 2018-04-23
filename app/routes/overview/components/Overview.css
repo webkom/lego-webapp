@@ -4,7 +4,7 @@
   text-align: justify;
   flex: 1 0 100%;
   min-width: 320px;
-  padding: 20px 10px;
+  padding: 0 10px 40px;
   transition: opacity 0.2s;
 }
 
@@ -38,6 +38,21 @@
   padding: 10px;
   flex: 1;
   width: 100%;
+}
+
+.header {
+  padding: 0 0 0 10px;
+  flex: 1;
+  width: 100%;
+  color: #666;
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: 1px;
+
+  @media (--mobile-device) {
+    padding: 0;
+    margin-left: 10px;
+  }
 }
 
 .innerPrimaryItem {
