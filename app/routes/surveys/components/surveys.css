@@ -312,6 +312,11 @@
   align-items: center;
 }
 
+.textAnswers li {
+  line-height: 19px;
+  margin-bottom: 10px;
+}
+
 .colorBox {
   width: 10px;
   height: 10px;
