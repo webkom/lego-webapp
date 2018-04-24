@@ -14,41 +14,63 @@ type Props = {
   generateTextAnswers: QuestionEntity => any
 };
 
+type InfoBubblesProps = {
+  info: Array<Info>
+};
+
+type Info = {
+  icon: string,
+  data: number,
+  meta: string
+};
+
+const InfoBubbles = ({ info }: InfoBubblesProps) => {
+  return info.map((dataPoint, i) => (
+    <InfoBubble
+      key={i}
+      icon={dataPoint.icon}
+      data={String(dataPoint.data)}
+      meta={dataPoint.meta}
+      style={{ order: i }}
+    />
+  ));
+};
+
 const Results = ({
   graphData,
   generateTextAnswers,
   survey,
   numberOfSubmissions
 }: Props) => {
+  const info = [
+    {
+      icon: 'person',
+      data: survey.event.registrationCount,
+      meta: 'Påmeldte'
+    },
+    {
+      icon: 'checkmark',
+      data: survey.event.attendedCount,
+      meta: 'Møtte opp'
+    },
+    {
+      icon: 'list',
+      data: survey.event.waitingRegistrationCount,
+      meta: 'På venteliste'
+    },
+    {
+      icon: 'chatboxes',
+      data: numberOfSubmissions,
+      meta: 'Har svart'
+    }
+  ];
+
   return (
     <div>
       <div className={styles.eventSummary}>
         <h3>Arrangementet</h3>
         <div className={styles.infoBubbles}>
-          <InfoBubble
-            icon="person"
-            data={String(survey.event.registrationCount)}
-            meta="Påmeldte"
-            style={{ order: 0 }}
-          />
-          <InfoBubble
-            icon="checkmark"
-            data={String(survey.event.attendedCount)}
-            meta="Møtte opp"
-            style={{ order: 1 }}
-          />
-          <InfoBubble
-            icon="list"
-            data={String(survey.event.waitingRegistrationCount)}
-            meta="På venteliste"
-            style={{ order: 2 }}
-          />
-          <InfoBubble
-            icon="chatboxes"
-            data={String(numberOfSubmissions)}
-            meta="Har svart"
-            style={{ order: 3 }}
-          />
+          <InfoBubbles info={info} />
         </div>
       </div>
 
@@ -79,7 +101,7 @@ const Results = ({
                 <div className={styles.questionResults}>
                   <div style={{ width: '300px' }}>
                     <VictoryPie
-                      data={pieColors}
+                      data={pieData}
                       x="option"
                       y="selections"
                       theme={VictoryTheme.material}

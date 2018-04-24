@@ -5,14 +5,11 @@ import callAPI from 'app/actions/callAPI';
 import { surveySubmissionSchema } from 'app/reducers';
 import type { Thunk } from 'app/types';
 
-export function fetchSubmissions(surveyId: number, token?: string): Thunk<*> {
+export function fetchSubmissions(surveyId: number): Thunk<*> {
   return callAPI({
     types: SurveySubmission.FETCH_ALL,
     endpoint: `/surveys/${surveyId}/submissions`,
     schema: [surveySubmissionSchema],
-    query: {
-      token
-    },
     meta: {
       errorMessage: 'Henting av svar på spørreundersøkelse feilet'
     },

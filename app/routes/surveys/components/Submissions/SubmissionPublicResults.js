@@ -15,14 +15,14 @@ type Props = {
 };
 
 const SubmissionPublicResultsPage = ({ survey, actionGrant }: Props) => {
-  const results = survey.results || {};
+  const { results = {} } = survey;
 
   const generateTextAnswers = question => {
     let texts = [];
-    Object.keys(results[String(question.id)])
+    Object.keys(results[question.id])
       .map(name => {
         if (name !== 'questionType') {
-          texts = results[String(question.id)][name].map((answer, i) => (
+          texts = results[question.id][name].map((answer, i) => (
             <li key={i}>{answer}</li>
           ));
         }

@@ -61,19 +61,18 @@ export const DetailNavigation = ({
 export const TokenNavigation = ({
   title,
   surveyId,
-  actionGrant
+  actionGrant = []
 }: {
   title: Node,
   surveyId: number,
   actionGrant?: ActionGrant
 }) => (
   <NavigationTab title={title} headerClassName={styles.navTab}>
-    {actionGrant &&
-      actionGrant.includes('EDIT') && (
-        <NavigationLink to={`/surveys/${surveyId}/submissions/summary`}>
-          Adminversjon
-        </NavigationLink>
-      )}
+    {actionGrant.includes('EDIT') && (
+      <NavigationLink to={`/surveys/${surveyId}/submissions/summary`}>
+        Adminversjon
+      </NavigationLink>
+    )}
   </NavigationTab>
 );
 
