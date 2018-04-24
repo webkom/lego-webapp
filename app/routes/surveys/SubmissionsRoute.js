@@ -12,20 +12,21 @@ import { selectSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { selectSurveyById } from 'app/reducers/surveys';
 import { push } from 'react-router-redux';
 import loadingIndicator from 'app/utils/loadingIndicator';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const loadData = (props, dispatch) => {
   const { surveyId } = props.params;
-  const { token } = props.location.query;
   return Promise.all([
-    dispatch(fetch(surveyId, token)),
-    dispatch(fetchSubmissions(surveyId, token))
+    dispatch(fetch(surveyId)),
+    dispatch(fetchSubmissions(surveyId))
   ]);
 };
 
 const mapStateToProps = (state, props) => {
   const surveyId = Number(props.params.surveyId);
   const locationStrings = props.location.pathname.split('/');
-  const isIndividual =
+  const isSummary =
     locationStrings[locationStrings.length - 1] === 'individual';
   const survey = selectSurveyById(state, { surveyId });
   return {
@@ -33,7 +34,7 @@ const mapStateToProps = (state, props) => {
     submissions: selectSurveySubmissions(state, { surveyId }),
     notFetching: !state.surveys.fetching && !state.surveySubmissions.fetching,
     actionGrant: survey.actionGrant,
-    isIndividual
+    isSummary
   };
 };
 
@@ -45,6 +46,7 @@ const mapDispatchToProps = {
 };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   prepare(loadData),
   connect(mapStateToProps, mapDispatchToProps),
   loadingIndicator(['notFetching', 'survey.event', 'survey.questions'])

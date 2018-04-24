@@ -29,18 +29,22 @@ export default {
       ...resolveAsyncRoute(() => import('./SubmissionsRoute')),
       childRoutes: [
         {
-          path: 'summary', // admin/groups/123/settings
+          path: 'summary',
           ...resolveAsyncRoute(() =>
             import('./components/Submissions/SubmissionSummary')
           )
         },
         {
-          path: 'individual', // admin/groups/123/members
+          path: 'individual',
           ...resolveAsyncRoute(() =>
             import('./components/Submissions/SubmissionIndividual')
           )
         }
       ]
+    },
+    {
+      path: ':surveyId/results',
+      ...resolveAsyncRoute(() => import('./SubmissionsPublicResultsRoute'))
     }
   ]
 };

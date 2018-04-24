@@ -5,6 +5,7 @@ import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import moment from 'moment-timezone';
 import styles from './components/surveys.css';
+import { type ActionGrant } from 'app/models';
 
 const questionStrings = {
   single: 'single_choice',
@@ -40,11 +41,13 @@ export const ListNavigation = ({ title }: { title: Node }) => (
 export const DetailNavigation = ({
   title,
   surveyId,
-  deleteFunction
+  deleteFunction,
+  actionGrant
 }: {
   title: Node,
   surveyId: number,
-  deleteFunction: number => Promise<*>
+  deleteFunction: number => Promise<*>,
+  actionGrant?: ActionGrant
 }) => (
   <NavigationTab title={title} headerClassName={styles.navTab}>
     <NavigationLink to="/surveys">Liste</NavigationLink>
@@ -52,6 +55,25 @@ export const DetailNavigation = ({
     <NavigationLink to={`/surveys/${surveyId}/submissions/summary`}>
       Resultater
     </NavigationLink>
+  </NavigationTab>
+);
+
+export const TokenNavigation = ({
+  title,
+  surveyId,
+  actionGrant
+}: {
+  title: Node,
+  surveyId: number,
+  actionGrant?: ActionGrant
+}) => (
+  <NavigationTab title={title} headerClassName={styles.navTab}>
+    {actionGrant &&
+      actionGrant.includes('EDIT') && (
+        <NavigationLink to={`/surveys/${surveyId}/submissions/summary`}>
+          Adminversjon
+        </NavigationLink>
+      )}
   </NavigationTab>
 );
 

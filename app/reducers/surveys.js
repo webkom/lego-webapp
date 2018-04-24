@@ -14,7 +14,9 @@ export type SurveyEntity = {
   activeFrom?: string,
   questions: Array<QuestionEntity>,
   templateType?: EventType,
-  token?: string
+  token?: string,
+  results?: Object,
+  submissionCount?: number
 };
 
 export type QuestionEntity = {
