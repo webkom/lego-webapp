@@ -66,6 +66,6 @@ export const CHART_COLORS = [
   '#2b95d6',
   '#d9822b',
   '#3dcc91',
-  '#48aff0',
-  '#f55656'
+  '#c73aea',
+  '#f4ee42'
 ];

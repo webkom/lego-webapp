@@ -99,51 +99,66 @@ const SubmissionSummary = ({ submissions, deleteSurvey, survey }: Props) => {
                 ? 1
                 : a.relativeIndex - b.relativeIndex
           )
-          .map(question => (
-            <li key={question.id}>
-              <h3>{question.questionText}</h3>
+          .map(question => {
+            const colorsToRemove = [];
+            const pieData = graphData[question.id].filter((dataPoint, i) => {
+              if (dataPoint.selections === 0) {
+                colorsToRemove.push(i);
+                return false;
+              }
+              return true;
+            });
+            const pieColors = CHART_COLORS.filter(
+              (color, i) => !colorsToRemove.includes(i)
+            );
+            const labelRadius = pieData.length === 1 ? -10 : 60;
 
-              {question.questionType === QuestionTypes('text') ? (
-                <ul className={styles.textAnswers}>
-                  {textAnswers(submissions, question)}
-                </ul>
-              ) : (
-                <div className={styles.questionResults}>
-                  <div style={{ width: '300px' }}>
-                    <VictoryPie
-                      data={graphData[question.id]}
-                      x="option"
-                      y="selections"
-                      theme={VictoryTheme.material}
-                      colorScale={CHART_COLORS}
-                      labels={d => d.y}
-                      labelRadius={60}
-                      padding={{ left: 0, top: 40, right: 30, bottom: 30 }}
-                      style={{
-                        labels: { fill: 'white', fontSize: 20 }
-                      }}
-                    />
-                  </div>
+            return (
+              <li key={question.id}>
+                <h3>{question.questionText}</h3>
 
-                  <ul className={styles.graphData}>
-                    {graphData[question.id].map((dataPoint, i) => (
-                      <li key={i}>
-                        <span
-                          className={styles.colorBox}
-                          style={{ backgroundColor: CHART_COLORS[i] }}
-                        >
-                          &nbsp;
-                        </span>
-                        <span style={{ marginTop: '-5px' }}>
-                          {dataPoint.option}
-                        </span>
-                      </li>
-                    ))}
+                {question.questionType === QuestionTypes('text') ? (
+                  <ul className={styles.textAnswers}>
+                    {textAnswers(submissions, question)}
                   </ul>
-                </div>
-              )}
-            </li>
-          ))}
+                ) : (
+                  <div className={styles.questionResults}>
+                    <div style={{ width: '300px' }}>
+                      <VictoryPie
+                        data={pieData}
+                        x="option"
+                        y="selections"
+                        theme={VictoryTheme.material}
+                        colorScale={pieColors}
+                        labels={d => d.y}
+                        labelRadius={labelRadius}
+                        padding={{ left: 0, top: 40, right: 30, bottom: 30 }}
+                        style={{
+                          labels: { fill: 'white', fontSize: 20 }
+                        }}
+                      />
+                    </div>
+
+                    <ul className={styles.graphData}>
+                      {graphData[question.id].map((dataPoint, i) => (
+                        <li key={i}>
+                          <span
+                            className={styles.colorBox}
+                            style={{ backgroundColor: CHART_COLORS[i] }}
+                          >
+                            &nbsp;
+                          </span>
+                          <span style={{ marginTop: '-5px' }}>
+                            {dataPoint.option}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </li>
+            );
+          })}
       </ul>
     </div>
   );
