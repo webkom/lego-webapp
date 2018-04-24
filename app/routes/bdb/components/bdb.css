@@ -38,7 +38,7 @@
 
 .companyList table a {
   display: block;
-  color: black;
+  color: var(--lego-link-color);
 }
 
 .companyList th {
@@ -49,6 +49,42 @@
 
 .companyList th,
 .companyList td {
+  padding-left: 7px;
+  width: 140px;
+  border-bottom: 1px dashed #aaa;
+  text-align: left;
+  display: table-cell;
+
+  &:first-child {
+    width: 180px;
+  }
+
+  &:nth-child(5) {
+    width: 190px;
+  }
+
+  &:nth-child(6) {
+    width: 180px;
+  }
+}
+
+.surveyList table {
+  border-collapse: collapse;
+}
+
+.surveyList table a {
+  display: block;
+  color: var(--lego-link-color);
+}
+
+.surveyList th {
+  padding: 5px 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #aaa !important;
+}
+
+.surveyList th,
+.surveyList td {
   padding-left: 7px;
   width: 140px;
   border-bottom: 1px dashed #aaa;

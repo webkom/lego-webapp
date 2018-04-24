@@ -7,7 +7,7 @@ import { selectSurveyById } from 'app/reducers/surveys';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import loadingIndicator from 'app/utils/loadingIndicator';
-import { push } from 'react-router-redux';
+import { push, replace } from 'react-router-redux';
 
 const loadData = ({ params: { surveyId } }, dispatch) =>
   dispatch(fetch(surveyId));
@@ -24,7 +24,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
   deleteSurvey,
-  push
+  push,
+  replace
 };
 
 export default compose(
