@@ -275,25 +275,54 @@ export default class EventDetail extends Component<Props> {
               </Flex>
             </ContentSidebar>
           </ContentSection>
-          <div className={styles.joinHeader}>
-            Bli med på dette arrangementet
-          </div>
-          <Link to="/pages/info/26-arrangementsregler" style={{ marginTop: 0 }}>
-            <Flex alignItems="center">
-              <Icon name="document" style={{ marginRight: '4px' }} />
-              <span>Regler for Abakus&#39; arrangementer</span>
-            </Flex>
-          </Link>
 
-          {loggedIn && (
-            <JoinEventForm
-              event={event}
-              registration={currentRegistration}
-              currentUser={currentUser}
-              updateUser={updateUser}
-              onToken={this.handleToken}
-              onSubmit={this.handleRegistration}
-            />
+          {loggedIn &&
+          event.unansweredSurveys &&
+          event.unansweredSurveys.length > 0 ? (
+            <div className={styles.unansweredSurveys}>
+              <h3>
+                Du kan ikke melde deg på dette arrangementet fordi du har
+                ubesvarte spørreundersøkelser.
+              </h3>
+              <p>
+                Man må svare på alle spørreundersøkelser for tidligere
+                arrangementer før man kan melde seg på nye arrangementer. Du kan
+                svare på undersøkelsene dine ved å trykke på følgende linker:
+              </p>
+              <ul>
+                {event.unansweredSurveys.map((surveyId, i) => (
+                  <li key={surveyId}>
+                    <Link to={`/surveys/${surveyId}`}>
+                      Undersøkelse {i + 1}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : (
+            <div>
+              <div className={styles.joinHeader}>
+                Bli med på dette arrangementet
+              </div>
+              <Link
+                to="/pages/info/26-arrangementsregler"
+                style={{ marginTop: 0 }}
+              >
+                <Flex alignItems="center">
+                  <Icon name="document" style={{ marginRight: '4px' }} />
+                  <span>Regler for Abakus&#39; arrangementer</span>
+                </Flex>
+              </Link>
+
+              <JoinEventForm
+                event={event}
+                registration={currentRegistration}
+                currentUser={currentUser}
+                updateUser={updateUser}
+                onToken={this.handleToken}
+                onSubmit={this.handleRegistration}
+              />
+            </div>
           )}
 
           {event.commentTarget && (
