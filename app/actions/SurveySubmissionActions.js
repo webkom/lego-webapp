@@ -8,7 +8,7 @@ import type { Thunk } from 'app/types';
 export function fetchSubmissions(surveyId: number): Thunk<*> {
   return callAPI({
     types: SurveySubmission.FETCH_ALL,
-    endpoint: `/surveys/${surveyId}/submissions`,
+    endpoint: `/surveys/${surveyId}/submissions/`,
     schema: [surveySubmissionSchema],
     meta: {
       errorMessage: 'Henting av svar på spørreundersøkelse feilet'
