@@ -30,13 +30,14 @@ function Icon({
   name = 'star',
   scaleOnHover = false,
   className,
+  style = {},
   size = 24,
   ...props
 }: Props) {
   return (
     <i
       className={cx(`ion-ios-${name}`, styles.icon, className)}
-      style={{ fontSize: `${size.toString()}px`, lineHeight: 1 }}
+      style={{ fontSize: `${size.toString()}px`, lineHeight: 1, ...style }}
       {...props}
     />
   );

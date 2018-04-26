@@ -34,7 +34,7 @@ export type BaseCompanyEntity = {
   companyContacts: Array<CompanyContactEntity>
 };
 
-export type CompanyEntity = { ...BaseCompanyEntity, id: number };
+export type CompanyEntity = BaseCompanyEntity & { id: number };
 
 export type SubmitCompanyEntity = {
   ...BaseCompanyEntity,

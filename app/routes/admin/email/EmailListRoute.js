@@ -20,14 +20,17 @@ const mapStateToProps = (state, { routeParams }) => {
     fetching: state.emailLists.fetching,
     initialValues: {
       ...emailList,
+      // $FlowFixMe
       groups: (emailList.groups || []).filter(Boolean).map(groups => ({
         label: groups.name,
         value: groups.id
       })),
+      // $FlowFixMe
       groupRoles: (emailList.groupRoles || []).map(groupRoles => ({
         label: ROLES[groupRoles],
         value: groupRoles
       })),
+      // $FlowFixMe
       users: (emailList.users || []).filter(Boolean).map(user => ({
         label: user.fullName,
         value: user.id

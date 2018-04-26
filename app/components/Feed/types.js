@@ -25,5 +25,6 @@ export type AggregatedActivity = {
 export type TagInfo = {
   link: string,
   text: string,
-  notLink: boolean
+  notLink: boolean,
+  linkableContent: boolean
 };

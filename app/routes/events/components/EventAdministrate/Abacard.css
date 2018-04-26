@@ -37,6 +37,6 @@
 
 .attendees {
   font-size: 16px;
-  color: var(--lego-text-gray-1);
+  color: var(--lego-text-gray);
   float: right;
 }

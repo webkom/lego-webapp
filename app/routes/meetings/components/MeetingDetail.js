@@ -70,13 +70,17 @@ class MeetingDetails extends Component<Props> {
   sortInvitations = () => {
     const { meetingInvitations } = this.props;
 
-    return Object.keys(statuses).map(invitationStatus => ({
+    return (Object.keys(statuses).map(invitationStatus => ({
       name: statusesText[invitationStatus],
       capacity: meetingInvitations.length,
       registrations: meetingInvitations.filter(
         invite => invite.status === invitationStatus
       )
-    }));
+    })): Array<{
+      name: string,
+      capacity: number,
+      registrations: Array<MeetingInvitationEntity>
+    }>);
   };
 
   attendanceButtons = (statusMe: ?string, startTime: Dateish) =>

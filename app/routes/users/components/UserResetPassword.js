@@ -7,7 +7,7 @@ import { createValidator, required, validPassword } from 'app/utils/validation';
 
 type Props = {
   token: string,
-  resetPassword: ({ token: string, password: string }) => void
+  resetPassword: ({ token: string, password: string }) => Promise<*>
 } & FormProps;
 
 const UserResetPassword = ({

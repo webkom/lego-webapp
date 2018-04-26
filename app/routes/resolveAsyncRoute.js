@@ -39,6 +39,7 @@ export default function resolveAsyncRoute(
 
   if (__DEV__) {
     let component = componentFn();
+    // $FlowFixMe
     if (component && component.__esModule) {
       component = (component: any).default;
     }

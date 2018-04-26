@@ -159,6 +159,7 @@ export default class BdbDetail extends Component<Props, State> {
     }
 
     const semesters = company.semesterStatuses
+      // $FlowFixMe
       .sort(sortByYearThenSemester)
       .map(semesterStatus => (
         <SemesterStatusDetail
@@ -364,7 +365,7 @@ export default class BdbDetail extends Component<Props, State> {
           <div className={styles.files}>
             <h3>Filer</h3>
             <ul>
-              {!company.files || company.length === 0 ? (
+              {!company.files || company.files.length === 0 ? (
                 <i>Ingen filer.</i>
               ) : (
                 company.files.map(file => (

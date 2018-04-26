@@ -1,9 +1,9 @@
 //@flow
 
 export interface UniversalRaven {
-  captureException(ex: Error, options?: RavenOptions): *;
+  captureException(ex: Error, options?: Object): *;
   setDataCallback(data: any, orig?: any): *;
-  captureException(ex: Error, options?: RavenOptions): *;
+  captureException(ex: Error, options?: Object): *;
 }
 
 export const createNewRavenInstance = (Raven: any): UniversalRaven =>

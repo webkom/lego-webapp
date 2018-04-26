@@ -85,7 +85,7 @@ function List({ children }: { children: any }) {
   return <ul className={styles.dropdownList}>{children}</ul>;
 }
 
-function ListItem(props) {
+function ListItem(props: any) {
   return <li {...props} />;
 }
 

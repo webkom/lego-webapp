@@ -39,5 +39,4 @@ const SurveyPage = ({ surveys, fetching, push, hasMore, fetchAll }: Props) => {
     </Content>
   );
 };
-
 export default SurveyPage;

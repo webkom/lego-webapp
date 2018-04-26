@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component } from 'react';
+import React, { Fragment, Component } from 'react';
 import Cropper from 'react-cropper';
 import { Flex } from 'app/components/Layout';
 import 'cropperjs/dist/cropper.css';
@@ -181,57 +181,59 @@ export default class ImageUpload extends Component<Props, State> {
           backdropClassName={styles.backdrop}
           backdrop
         >
-          {inModal &&
-            !preview && (
-              <div className={styles.inModalUpload}>
-                <UploadArea
-                  onDrop={this.onDrop}
-                  multiple={multiple}
-                  image={this.state.img}
-                />
-              </div>
-            )}
-          {/* $FlowFixMe */}
-          {preview && (
-            <Cropper
-              ref={node => {
-                this.crop = node;
-              }}
-              src={preview}
-              className={styles.cropper}
-              aspectRatio={aspectRatio}
-              guides={false}
-            />
-          )}
-          {multiple &&
-            !crop && (
-              <Flex wrap column>
-                {files.map((file, index) => (
-                  <FilePreview
-                    onRemove={this.onRemove}
-                    file={file}
-                    index={index}
-                    key={index}
+          <Fragment>
+            {inModal &&
+              !preview && (
+                <div className={styles.inModalUpload}>
+                  <UploadArea
+                    onDrop={this.onDrop}
+                    multiple={multiple}
+                    image={this.state.img}
                   />
-                ))}
-              </Flex>
+                </div>
+              )}
+            {/* $FlowFixMe */}
+            {preview && (
+              <Cropper
+                ref={node => {
+                  this.crop = node;
+                }}
+                src={preview}
+                className={styles.cropper}
+                aspectRatio={aspectRatio}
+                guides={false}
+              />
             )}
-          <Flex
-            wrap
-            className={styles.footer}
-            alignItems="center"
-            justifyContent="space-around"
-          >
-            <Button onClick={this.onSubmit} className={styles.saveButton}>
-              Last opp
-            </Button>
-            <Button
-              onClick={() => this.closeModal()}
-              className={styles.cancelButton}
+            {multiple &&
+              !crop && (
+                <Flex wrap column>
+                  {files.map((file, index) => (
+                    <FilePreview
+                      onRemove={this.onRemove}
+                      file={file}
+                      index={index}
+                      key={index}
+                    />
+                  ))}
+                </Flex>
+              )}
+            <Flex
+              wrap
+              className={styles.footer}
+              alignItems="center"
+              justifyContent="space-around"
             >
-              Avbryt
-            </Button>
-          </Flex>
+              <Button onClick={this.onSubmit} className={styles.saveButton}>
+                Last opp
+              </Button>
+              <Button
+                onClick={() => this.closeModal()}
+                className={styles.cancelButton}
+              >
+                Avbryt
+              </Button>
+            </Flex>
+          </Fragment>
         </Modal>
       </div>
     );

@@ -28,12 +28,12 @@ export default function toasts(state: State = initialState, action: any) {
     case Toasts.TOAST_REMOVED:
       return {
         ...state,
-        items: state.items.map(toast => {
+        items: (state.items.map(toast => {
           if (toast.id === action.payload.id) {
             return { ...toast, removed: true };
           }
           return toast;
-        })
+        }): Array<Toast>)
       };
 
     default:

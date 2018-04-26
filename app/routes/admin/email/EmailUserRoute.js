@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import EmailUserEditor from './components/EmailUserEditor';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import prepare from 'app/utils/prepare';
+import { get } from 'lodash';
 import { selectEmailUserById } from 'app/reducers/emailUsers';
 import { editEmailUser, fetchEmailUser } from 'app/actions/EmailUserActions';
 
@@ -19,8 +20,8 @@ const mapStateToProps = (state, { routeParams }) => {
     initialValues: {
       ...emailUser,
       user: {
-        label: emailUser.user.fullName || '',
-        value: emailUser.user.id || ''
+        label: get(emailUser, 'user.fullName', ''),
+        value: get(emailUser, 'user.id', '')
       }
     }
   };

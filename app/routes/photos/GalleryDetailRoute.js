@@ -27,7 +27,10 @@ const loadData = ({ params }, dispatch) =>
 
 function mapStateToProps(state, props) {
   const { galleryId } = props.params;
+  const { uploadStatus } = state.galleryPictures;
+
   return {
+    uploadStatus,
     gallery: selectGalleryById(state, { galleryId }),
     pictures: SelectGalleryPicturesByGalleryId(state, { galleryId }),
     fetching: state.galleries.fetching || state.galleryPictures.fetching,

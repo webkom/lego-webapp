@@ -82,7 +82,7 @@ export const semesterCodeToName = (code: Semester) => {
 export const sortByYearThenSemester = (
   a: CompanySemesterEntity,
   b: CompanySemesterEntity
-) => {
+): number => {
   const semesterCodeToPriority = {
     spring: 0,
     autumn: 1

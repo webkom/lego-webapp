@@ -40,10 +40,12 @@ export default class SemesterStatusDetail extends Component<Props, State> {
   };
 
   deleteSemesterStatus = () =>
+    // $FlowFixMe
     this.props.deleteSemesterStatus(this.props.semesterStatus.id);
 
   semesterToHumanReadable = () => {
     const { year, semester } = this.props.semesterStatus;
+    // $FlowFixMe
     const semesterName = semesterCodeToName(semester);
     return `${year} ${semesterName}`;
   };

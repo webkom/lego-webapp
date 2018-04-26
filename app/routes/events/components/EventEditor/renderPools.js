@@ -79,12 +79,13 @@ type PermissionGroup = {};
 
 type Pool = {
   capacity: number,
-  permissionGroups: Array<PermissionGroup>
+  permissionGroups: Array<PermissionGroup>,
+  name?: ?string
 };
 
 export const validatePools = (pools: Array<Pool>) => {
   const capacity = pools.reduce((a, b) => a + b.capacity, 0);
-  const errors = pools.map((pool, i) => {
+  const errors = (pools.map((pool, i) => {
     const poolError = {};
     if (!pool.name) {
       poolError.name = 'Navn påkrevet';
@@ -99,7 +100,7 @@ export const validatePools = (pools: Array<Pool>) => {
       poolError.permissionGroups = 'Rettighetsgruppe er påkrevet';
     }
     return poolError;
-  });
+  }): Array<{ [string]: string }>);
   return errors;
 };
 export default renderPools;

@@ -8,7 +8,7 @@ import ImageUpload from 'app/components/Upload/ImageUpload';
 import { Content } from 'app/components/Content';
 import Gallery from 'app/components/Gallery';
 import type { DropFile } from 'app/components/Upload';
-import type { ID } from 'app/models';
+import type { ID, ActionGrant } from 'app/models';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
 
 type Props = {
@@ -22,7 +22,7 @@ type Props = {
   fetch: (galleryId: Number, args: { next: boolean }) => Promise<*>,
   push: string => Promise<*>,
   uploadAndCreateGalleryPicture: (ID, File | Array<DropFile>) => Promise<*>,
-  actionGrant: Array<string>
+  actionGrant: ActionGrant
 };
 
 type State = {
@@ -61,6 +61,7 @@ export default class GalleryDetail extends Component<Props, State> {
       fetching
     } = this.props;
     const actionGrant = gallery && gallery.actionGrant;
+
     return (
       <Content>
         <NavigationTab

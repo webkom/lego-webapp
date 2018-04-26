@@ -124,12 +124,12 @@ export default class BdbPage extends Component<Props, State> {
     this.setState({ filters });
   };
 
-  companySearch = (companies: Array<Object>) =>
+  companySearch = (companies: Array<CompanyEntity>) =>
     companies.filter(company =>
       company.name.toLowerCase().includes(this.state.searchQuery.toLowerCase())
     );
 
-  filterCompanies = (companies: Array<Object>) => {
+  filterCompanies = (companies: Array<CompanyEntity>) => {
     if (this.state.searchQuery !== '') {
       companies = this.companySearch(companies);
     }

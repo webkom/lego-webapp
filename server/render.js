@@ -103,7 +103,8 @@ function render(req: $Request, res: $Response, next: Middleware) {
     const respond = () => {
       const state: State = store.getState();
       const body = renderToString(app);
-      const statusCode = state.routing.statusCode || 200;
+      // $FlowFixMe
+      const { statusCode = 200 } = state.routing;
       res.status(statusCode);
       return render(body, state);
     };

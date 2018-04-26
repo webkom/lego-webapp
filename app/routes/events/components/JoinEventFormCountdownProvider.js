@@ -103,8 +103,8 @@ function withCountdown(WrappedComponent: ComponentType<Props>) {
       registrationOpensIn: null
     };
 
-    countdownProbeTimer: number;
-    countdownTimer: number;
+    countdownProbeTimer: IntervalID;
+    countdownTimer: IntervalID;
 
     componentDidMount() {
       this.setupEventCountdown(this.props.event, this.props.registration);
