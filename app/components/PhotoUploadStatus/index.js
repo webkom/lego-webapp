@@ -47,9 +47,14 @@ const UploadStatusCard = ({
 
   return (
     <Card style={style}>
-      <Button onClick={hideUploadStatus}>
-        <Icon name="close" />
-      </Button>
+      <div align="right">
+        <Icon
+          style={{ cursor: 'pointer' }}
+          size={24}
+          onClick={hideUploadStatus}
+          name="close"
+        />
+      </div>
       {uploadDone ? (
         <Fragment>
           <h3>{uploadStatus.successCount} bilder ble lastet opp </h3>
