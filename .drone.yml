@@ -25,7 +25,7 @@ pipeline:
       event: push
     group: testing
     commands:
-      - yarn flow
+      - yarn flow --quiet
   build:
     image: node:8
     when:
