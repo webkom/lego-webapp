@@ -26,9 +26,9 @@ export const ROLES = {
   webmaster: 'Webansvarling'
 };
 
-export const roleOptions = Object.keys(ROLES)
+export const roleOptions = (Object.keys(ROLES)
   .sort()
   .map(role => ({
     value: role,
     label: ROLES[role] || startCase(role)
-  }));
+  })): Array<{ value: string, label: string }>);

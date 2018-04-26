@@ -1,6 +1,6 @@
 // @flow
 
-import React, { type ComponentType } from 'react';
+import React, { type ComponentType, type Node } from 'react';
 import cx from 'classnames';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
@@ -16,7 +16,9 @@ export const RenderErrorMessage = ({
   error: Array<string> | string
 }) => {
   if (Array.isArray(error)) {
-    return error.map(error => <RenderErrorMessage key={error} error={error} />);
+    return (error.map(error => (
+      <RenderErrorMessage key={error} error={error} />
+    )): Array<Node>);
   }
 
   return <FieldError error={error} key={error} />;

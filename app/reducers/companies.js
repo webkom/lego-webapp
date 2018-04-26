@@ -34,7 +34,7 @@ export type BaseCompanyEntity = {
   companyContacts: Array<CompanyContactEntity>
 };
 
-export type CompanyEntity = { ...BaseCompanyEntity, id: number };
+export type CompanyEntity = BaseCompanyEntity & { id: number };
 
 export type SubmitCompanyEntity = {
   ...BaseCompanyEntity,
@@ -57,8 +57,7 @@ export type BaseSemesterStatusEntity = {
 export type SemesterStatusEntity = BaseSemesterStatusEntity & {
   id: number,
   semester: Semester,
-  year: string,
-  activeInterestForm: boolean
+  year: string
 };
 
 export type BaseCompanyContactEntity = {

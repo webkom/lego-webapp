@@ -53,6 +53,7 @@ const store = configureStore([])({});
 function renderJoinEventForm(props = {}) {
   return mount(
     <Provider store={store}>
+      {/* // $FlowFixMe */}
       <JoinEventForm {...defaultProps} {...props} />
     </Provider>
   );

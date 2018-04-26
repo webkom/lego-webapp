@@ -2,7 +2,6 @@
 import React, { Fragment, type ComponentType } from 'react';
 import Card from 'app/components/Card';
 import Icon from 'app/components/Icon';
-import Button from 'app/components/Button';
 import Flex from 'app/components/Layout/Flex';
 import { connect } from 'react-redux';
 import { Gallery } from 'app/actions/ActionTypes';

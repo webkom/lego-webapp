@@ -146,7 +146,7 @@ function retrieveAllowed(links: Array<Link>, { allowed, loggedIn }: Options) {
     .map(({ url, title }) => [url, title]);
 }
 
-type NavigationLink = [string, string]; // [url, label]
+type NavigationLink = [string, React.Node]; // [url, label(as a react-node)]
 
 export function getRegularLinks(options: Options): Array<NavigationLink> {
   return retrieveAllowed(SORTED_REGULAR, options);
