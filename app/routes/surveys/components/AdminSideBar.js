@@ -75,7 +75,10 @@ export class AdminSideBar extends React.Component<Props, State> {
               <li>
                 <CopyToClipboard
                   text={shareLink}
-                  onCopy={() => this.setState({ copied: true })}
+                  onCopy={() => {
+                    this.setState({ copied: true });
+                    setTimeout(() => this.setState({ copied: false }), 2000);
+                  }}
                   style={{ marginTop: '5px' }}
                 >
                   <Button>

@@ -14,7 +14,7 @@ type Props = {
   generateTextAnswers: QuestionEntity => any
 };
 
-type InfoBubblesProps = {
+type EventDataProps = {
   info: Array<Info>
 };
 
@@ -24,7 +24,7 @@ type Info = {
   meta: string
 };
 
-const InfoBubbles = ({ info }: InfoBubblesProps) => {
+const EventData = ({ info }: EventDataProps) => {
   return info.map((dataPoint, i) => (
     <InfoBubble
       key={i}
@@ -70,7 +70,7 @@ const Results = ({
       <div className={styles.eventSummary}>
         <h3>Arrangementet</h3>
         <div className={styles.infoBubbles}>
-          <InfoBubbles info={info} />
+          <EventData info={info} />
         </div>
       </div>
 
