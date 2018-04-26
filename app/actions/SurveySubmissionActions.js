@@ -60,3 +60,41 @@ export function deleteSubmission(surveyId: number, submissionId: number) {
     }
   });
 }
+
+export function hideAnswer(
+  surveyId: number,
+  submissionId: number,
+  answerId: number
+) {
+  return callAPI({
+    types: SurveySubmission.HIDE_ANSWER,
+    endpoint: `/surveys/${surveyId}/submissions/${submissionId}/hide/?answer=${answerId}`,
+    schema: surveySubmissionSchema,
+    meta: {
+      surveyId,
+      submissionId,
+      answerId,
+      errorMessage: 'Skjuling av kommentar feilet',
+      successMessage: 'Kommentar skjult.'
+    }
+  });
+}
+
+export function showAnswer(
+  surveyId: number,
+  submissionId: number,
+  answerId: number
+) {
+  return callAPI({
+    types: SurveySubmission.SHOW_ANSWER,
+    endpoint: `/surveys/${surveyId}/submissions/${submissionId}/show/?answer=${answerId}`,
+    schema: surveySubmissionSchema,
+    meta: {
+      surveyId,
+      submissionId,
+      answerId,
+      errorMessage: 'Avslutning av skjuling feilet',
+      successMessage: 'Skjuling av kommentar avsluttet.'
+    }
+  });
+}

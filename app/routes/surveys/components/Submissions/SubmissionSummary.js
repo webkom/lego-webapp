@@ -5,22 +5,61 @@ import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import type { QuestionEntity } from 'app/reducers/surveys';
 import Results from './Results';
+import styles from '../surveys.css';
 
 type Props = {
   submissions: Array<SubmissionEntity>,
   addSubmission: SubmissionEntity => Promise<*>,
   deleteSurvey: number => Promise<*>,
-  survey: SurveyEntity
+  survey: SurveyEntity,
+  hideAnswer: (number, number, number) => Promise<*>,
+  showAnswer: (number, number, number) => Promise<*>
 };
 
-const SubmissionSummary = ({ submissions, deleteSurvey, survey }: Props) => {
+const SubmissionSummary = ({
+  submissions,
+  deleteSurvey,
+  survey,
+  hideAnswer,
+  showAnswer
+}: Props) => {
   const generateTextAnswers = question => {
     const texts = submissions
       .map(submission => {
         const answer = submission.answers.find(
           answer => answer.question.id === question.id
         );
-        return answer && <li key={answer.id}>{answer.answerText}</li>;
+        return (
+          answer && (
+            <li
+              key={answer.id}
+              className={styles.adminAnswer}
+              style={{
+                backgroundColor: answer.hideFromPublic && '#eee',
+                padding: answer.hideFromPublic && '5px'
+              }}
+            >
+              <span>{answer.answerText}</span>
+              {answer.hideFromPublic ? (
+                <a
+                  onClick={() =>
+                    showAnswer(survey.id, submission.id, answer.id)
+                  }
+                >
+                  vis
+                </a>
+              ) : (
+                <a
+                  onClick={() =>
+                    hideAnswer(survey.id, submission.id, answer.id)
+                  }
+                >
+                  skjul
+                </a>
+              )}
+            </li>
+          )
+        );
       })
       .filter(Boolean);
 

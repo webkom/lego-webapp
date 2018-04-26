@@ -297,7 +297,9 @@ export const SurveySubmission = {
   FETCH_ALL: generateStatuses('SurveySubmission.FETCH_ALL'),
   FETCH: generateStatuses('SurveySubmission.FETCH'),
   ADD: generateStatuses('SurveySubmission.ADD'),
-  DELETE: generateStatuses('SurveySubmission.DELETE')
+  DELETE: generateStatuses('SurveySubmission.DELETE'),
+  HIDE_ANSWER: generateStatuses('SurveySubmission.HIDE_ANSWER'),
+  SHOW_ANSWER: generateStatuses('SurveySubmission.SHOW_ANSWER')
 };
 
 /**

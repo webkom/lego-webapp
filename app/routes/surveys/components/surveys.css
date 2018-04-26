@@ -329,3 +329,14 @@
   display: inline-block;
   border-radius: 1px;
 }
+
+.adminAnswer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.adminAnswer a {
+  margin-left: 15px;
+}
