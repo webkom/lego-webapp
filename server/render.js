@@ -104,7 +104,7 @@ function render(req: $Request, res: $Response, next: Middleware) {
       const state: State = store.getState();
       const body = renderToString(app);
       // $FlowFixMe
-      const { statusCode = 200 } = state.routing;
+      const statusCode = state.routing.statusCode || 200;
       res.status(statusCode);
       return render(body, state);
     };
