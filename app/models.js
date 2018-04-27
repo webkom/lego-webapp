@@ -58,7 +58,8 @@ export type Event = EventBase & {
   thumbnail: ?string,
   company: Company,
   comments: Array<Comment>,
-  pools: Array<EventPool>
+  pools: Array<EventPool>,
+  survey: ?ID
 };
 
 export type TransformEvent = EventBase & {

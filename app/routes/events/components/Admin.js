@@ -53,9 +53,15 @@ const Admin = ({ actionGrant, event, deleteEvent }: Props) => {
             />
           </li>
           <li>
-            <Link to={`/surveys/add/?event=${event.id}`}>
-              Lag spørreundersøkelse
-            </Link>
+            {event.survey ? (
+              <Link to={`/surveys/${event.survey}`}>
+                Gå til spørreundersøkelse
+              </Link>
+            ) : (
+              <Link to={`/surveys/add/?event=${event.id}`}>
+                Lag spørreundersøkelse
+              </Link>
+            )}
           </li>
           {canEdit && (
             <li>
