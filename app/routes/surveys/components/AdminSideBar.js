@@ -9,13 +9,16 @@ import { ContentSidebar } from 'app/components/Content';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Button from 'app/components/Button';
 import config from 'app/config';
+import { CheckBox } from 'app/components/Form';
 
 type Props = {
   surveyId: number,
   deleteFunction?: number => Promise<*>,
   push?: string => void,
   actionGrant: ActionGrant,
-  token?: string
+  token?: string,
+  shareSurvey?: number => Promise<*>,
+  hideSurvey?: number => Promise<*>
 };
 
 type State = {
@@ -28,7 +31,15 @@ export class AdminSideBar extends React.Component<Props, State> {
   };
 
   render() {
-    const { surveyId, deleteFunction, actionGrant, push, token } = this.props;
+    const {
+      surveyId,
+      deleteFunction,
+      actionGrant,
+      push,
+      token,
+      shareSurvey = id => null,
+      hideSurvey = id => null
+    } = this.props;
 
     const canEdit = actionGrant.includes('edit');
 
@@ -47,7 +58,7 @@ export class AdminSideBar extends React.Component<Props, State> {
 
     const shareLink = !token
       ? ''
-      : `${config.webUrl}/surveys/${surveyId}/results/?token=${token}`;
+      : `${config.webUrl}/survey-results/${surveyId}/?token=${token}`;
 
     return (
       canEdit && (
@@ -71,6 +82,20 @@ export class AdminSideBar extends React.Component<Props, State> {
                 </li>
               </ConfirmModalWithParent>
             )}
+            {actionGrant &&
+              actionGrant.includes('edit') &&
+              shareSurvey && (
+                <div>
+                  <CheckBox
+                    onChange={() =>
+                      token ? hideSurvey(surveyId) : shareSurvey(surveyId)
+                    }
+                    value={!!token}
+                  />
+                  Del spørreundersøkelsen{' '}
+                </div>
+              )}
+
             {token && (
               <li>
                 <CopyToClipboard

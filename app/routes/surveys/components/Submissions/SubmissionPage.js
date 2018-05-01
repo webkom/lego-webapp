@@ -17,11 +17,20 @@ type Props = {
   survey: SurveyEntity,
   children: React.Element<*>,
   actionGrant: ActionGrant,
-  isSummary: boolean
+  isSummary: boolean,
+  shareSurvey: number => Promise<*>,
+  hideSurvey: number => Promise<*>
 };
 
 const SubmissionPage = (props: Props) => {
-  const { deleteSurvey, survey, actionGrant, isSummary } = props;
+  const {
+    deleteSurvey,
+    survey,
+    actionGrant,
+    isSummary,
+    hideSurvey,
+    shareSurvey
+  } = props;
 
   return (
     <Content className={styles.surveyDetail} banner={survey.event.cover}>
@@ -56,6 +65,8 @@ const SubmissionPage = (props: Props) => {
           surveyId={survey.id}
           actionGrant={actionGrant}
           token={survey.token}
+          shareSurvey={shareSurvey}
+          hideSurvey={hideSurvey}
         />
       </ContentSection>
     </Content>
