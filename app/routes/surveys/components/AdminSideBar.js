@@ -6,61 +6,92 @@ import { Link } from 'react-router';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import type { ActionGrant } from 'app/models';
 import { ContentSidebar } from 'app/components/Content';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import Button from 'app/components/Button';
+import config from 'app/config';
 
 type Props = {
   surveyId: number,
   deleteFunction?: number => Promise<*>,
   push?: string => void,
-  actionGrant: ActionGrant
+  actionGrant: ActionGrant,
+  token?: string
 };
 
-const AdminSideBar = ({
-  surveyId,
-  deleteFunction,
-  actionGrant,
-  push
-}: Props) => {
-  const canEdit = actionGrant.includes('edit');
+type State = {
+  copied: boolean
+};
 
-  const onConfirm = () => {
-    if (deleteFunction && push) {
-      return (
-        deleteFunction &&
-        deleteFunction(surveyId).then(() => push && push('/surveys'))
-      );
-    }
-    if (deleteFunction) {
-      return deleteFunction && deleteFunction(surveyId);
-    }
-    return Promise.resolve();
+export class AdminSideBar extends React.Component<Props, State> {
+  state: State = {
+    copied: false
   };
 
-  return (
-    canEdit && (
-      <ContentSidebar className={styles.adminSideBar}>
-        <strong>Admin</strong>
-        <ul>
-          <li>
-            <Link to="/surveys/add">Ny undersøkelse</Link>
-          </li>
-          <li>
-            <Link to={`/surveys/${surveyId}/edit`}>Endre undersøkelsen</Link>
-          </li>
-          {deleteFunction && (
-            <ConfirmModalWithParent
-              title="Slett undersøkelse"
-              message="Er du sikker på at du vil slette denne undersøkelseen?"
-              onConfirm={onConfirm}
-            >
+  render() {
+    const { surveyId, deleteFunction, actionGrant, push, token } = this.props;
+
+    const canEdit = actionGrant.includes('edit');
+
+    const onConfirm = () => {
+      if (deleteFunction && push) {
+        return (
+          deleteFunction &&
+          deleteFunction(surveyId).then(() => push && push('/surveys'))
+        );
+      }
+      if (deleteFunction) {
+        return deleteFunction && deleteFunction(surveyId);
+      }
+      return Promise.resolve();
+    };
+
+    const shareLink = !token
+      ? ''
+      : `${config.webUrl}/surveys/${surveyId}/results/?token=${token}`;
+
+    return (
+      canEdit && (
+        <ContentSidebar className={styles.adminSideBar}>
+          <strong>Admin</strong>
+          <ul>
+            <li>
+              <Link to="/surveys/add">Ny undersøkelse</Link>
+            </li>
+            <li>
+              <Link to={`/surveys/${surveyId}/edit`}>Endre undersøkelsen</Link>
+            </li>
+            {deleteFunction && (
+              <ConfirmModalWithParent
+                title="Slett undersøkelse"
+                message="Er du sikker på at du vil slette denne undersøkelseen?"
+                onConfirm={onConfirm}
+              >
+                <li>
+                  <Link to="">Slett undersøkelsen</Link>
+                </li>
+              </ConfirmModalWithParent>
+            )}
+            {token && (
               <li>
-                <Link to="">Slett undersøkelsen</Link>
+                <CopyToClipboard
+                  text={shareLink}
+                  onCopy={() => {
+                    this.setState({ copied: true });
+                    setTimeout(() => this.setState({ copied: false }), 2000);
+                  }}
+                  style={{ marginTop: '5px' }}
+                >
+                  <Button>
+                    {this.state.copied ? 'Kopiert!' : 'Kopier delbar link'}
+                  </Button>
+                </CopyToClipboard>
               </li>
-            </ConfirmModalWithParent>
-          )}
-        </ul>
-      </ContentSidebar>
-    )
-  );
-};
+            )}
+          </ul>
+        </ContentSidebar>
+      )
+    );
+  }
+}
 
 export default AdminSideBar;

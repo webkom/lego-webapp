@@ -22,6 +22,24 @@ export function fetch(surveyId: number): Thunk<*> {
     );
 }
 
+export function fetchWithToken(surveyId: number, token: string): Thunk<*> {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: Survey.FETCH,
+        endpoint: `/survey-results/${surveyId}/`,
+        schema: surveySchema,
+        headers: {
+          Authorization: `Token ${token}`
+        },
+        meta: {
+          errorMessage: 'Henting av spørreundersøkelse feilet'
+        },
+        propagateError: true
+      })
+    );
+}
+
 export function fetchAll({ next = false }: { next: boolean } = {}): Thunk<*> {
   return (dispatch, getState) => {
     const cursor = next ? getState().surveys.pagination.next : {};

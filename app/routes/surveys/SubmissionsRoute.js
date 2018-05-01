@@ -10,10 +10,10 @@ import SubmissionPage from './components/Submissions/SubmissionPage';
 import { compose } from 'redux';
 import { selectSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { selectSurveyById } from 'app/reducers/surveys';
-import { LoginPage } from 'app/components/LoginForm';
-import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { push } from 'react-router-redux';
 import loadingIndicator from 'app/utils/loadingIndicator';
+import { LoginPage } from 'app/components/LoginForm';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const loadData = (props, dispatch) => {
   const { surveyId } = props.params;
@@ -26,7 +26,8 @@ const loadData = (props, dispatch) => {
 const mapStateToProps = (state, props) => {
   const surveyId = Number(props.params.surveyId);
   const locationStrings = props.location.pathname.split('/');
-  const isSummary = locationStrings[locationStrings.length - 1] === 'summary';
+  const isSummary =
+    locationStrings[locationStrings.length - 1] === 'individual';
   const survey = selectSurveyById(state, { surveyId });
   return {
     survey,

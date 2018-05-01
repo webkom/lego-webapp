@@ -52,7 +52,11 @@ const SubmissionPage = (props: Props) => {
           {React.cloneElement(props.children, props)}
         </ContentMain>
 
-        <AdminSideBar surveyId={survey.id} actionGrant={actionGrant} />
+        <AdminSideBar
+          surveyId={survey.id}
+          actionGrant={actionGrant}
+          token={survey.token}
+        />
       </ContentSection>
     </Content>
   );
