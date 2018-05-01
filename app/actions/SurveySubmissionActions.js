@@ -70,6 +70,7 @@ export function hideAnswer(
     types: SurveySubmission.HIDE_ANSWER,
     endpoint: `/surveys/${surveyId}/submissions/${submissionId}/hide/?answer=${answerId}`,
     schema: surveySubmissionSchema,
+    method: 'POST',
     meta: {
       surveyId,
       submissionId,
@@ -89,6 +90,7 @@ export function showAnswer(
     types: SurveySubmission.SHOW_ANSWER,
     endpoint: `/surveys/${surveyId}/submissions/${submissionId}/show/?answer=${answerId}`,
     schema: surveySubmissionSchema,
+    method: 'POST',
     meta: {
       surveyId,
       submissionId,
