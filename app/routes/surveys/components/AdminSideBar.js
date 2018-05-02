@@ -17,8 +17,8 @@ type Props = {
   push?: string => void,
   actionGrant: ActionGrant,
   token?: string,
-  shareSurvey?: number => Promise<*>,
-  hideSurvey?: number => Promise<*>
+  shareSurvey: number => Promise<*>,
+  hideSurvey: number => Promise<*>
 };
 
 type State = {
@@ -34,11 +34,11 @@ export class AdminSideBar extends React.Component<Props, State> {
     const {
       surveyId,
       deleteFunction,
-      actionGrant,
+      actionGrant = [],
       push,
       token,
-      shareSurvey = id => null,
-      hideSurvey = id => null
+      shareSurvey,
+      hideSurvey
     } = this.props;
 
     const canEdit = actionGrant.includes('edit');

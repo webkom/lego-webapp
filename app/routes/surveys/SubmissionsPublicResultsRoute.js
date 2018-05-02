@@ -31,5 +31,10 @@ const mapDispatchToProps = {
 export default compose(
   prepare(loadData),
   connect(mapStateToProps, mapDispatchToProps),
-  loadingIndicator(['notFetching', 'survey.event', 'survey.questions'])
+  loadingIndicator([
+    'notFetching',
+    'survey.event',
+    'survey.questions',
+    'survey.results'
+  ])
 )(SubmissionPublicResults);

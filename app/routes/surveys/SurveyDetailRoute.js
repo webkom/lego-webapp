@@ -1,6 +1,11 @@
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
-import { fetch, deleteSurvey } from 'app/actions/SurveyActions';
+import {
+  fetch,
+  deleteSurvey,
+  shareSurvey,
+  hideSurvey
+} from 'app/actions/SurveyActions';
 import SurveyDetail from './components/SurveyDetail';
 import { compose } from 'redux';
 import { selectSurveyById } from 'app/reducers/surveys';
@@ -24,7 +29,9 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
   deleteSurvey,
-  push
+  push,
+  shareSurvey,
+  hideSurvey
 };
 
 export default compose(

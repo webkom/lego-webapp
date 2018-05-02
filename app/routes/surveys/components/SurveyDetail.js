@@ -17,21 +17,30 @@ type Props = {
   survey: SurveyEntity,
   deleteSurvey: number => Promise<*>,
   actionGrant: ActionGrant,
-  push: string => void
+  push: string => void,
+  shareSurvey: number => Promise<*>,
+  hideSurvey: number => Promise<*>
 };
 
 class SurveyDetail extends Component<Props> {
   props: Props;
 
   componentDidMount() {
-    const { survey, actionGrant, push } = this.props;
+    const { survey, actionGrant = [], push } = this.props;
     if (!actionGrant.includes('edit')) {
       push(`/surveys/${survey.id}/answer`);
     }
   }
 
   render() {
-    const { survey, deleteSurvey, actionGrant, push } = this.props;
+    const {
+      survey,
+      deleteSurvey,
+      actionGrant = [],
+      push,
+      shareSurvey,
+      hideSurvey
+    } = this.props;
 
     return (
       <Content
@@ -79,6 +88,9 @@ class SurveyDetail extends Component<Props> {
             actionGrant={actionGrant}
             push={push}
             deleteFunction={deleteSurvey}
+            token={survey.token}
+            shareSurvey={shareSurvey}
+            hideSurvey={hideSurvey}
           />
         </ContentSection>
       </Content>
