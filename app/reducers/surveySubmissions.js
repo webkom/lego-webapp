@@ -21,7 +21,8 @@ export type AnswerEntity = {
   submission: SubmissionEntity,
   question: QuestionEntity,
   answerText: string,
-  selectedOptions: Array<OptionEntity>
+  selectedOptions: Array<OptionEntity>,
+  hideFromPublic: boolean
 };
 
 function mutateSurveySubmissions(state, action) {

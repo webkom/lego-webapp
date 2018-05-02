@@ -3,7 +3,9 @@ import prepare from 'app/utils/prepare';
 import {
   fetchSubmissions,
   addSubmission,
-  deleteSubmission
+  deleteSubmission,
+  hideAnswer,
+  showAnswer
 } from 'app/actions/SurveySubmissionActions';
 import {
   fetch,
@@ -49,7 +51,9 @@ const mapDispatchToProps = {
   deleteSurvey,
   push,
   shareSurvey,
-  hideSurvey
+  hideSurvey,
+  showAnswer,
+  hideAnswer
 };
 
 export default compose(
