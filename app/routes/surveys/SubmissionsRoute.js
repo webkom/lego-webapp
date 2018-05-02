@@ -5,7 +5,12 @@ import {
   addSubmission,
   deleteSubmission
 } from 'app/actions/SurveySubmissionActions';
-import { fetch, deleteSurvey } from 'app/actions/SurveyActions';
+import {
+  fetch,
+  deleteSurvey,
+  shareSurvey,
+  hideSurvey
+} from 'app/actions/SurveyActions';
 import SubmissionPage from './components/Submissions/SubmissionPage';
 import { compose } from 'redux';
 import { selectSurveySubmissions } from 'app/reducers/surveySubmissions';
@@ -42,7 +47,9 @@ const mapDispatchToProps = {
   addSubmission,
   deleteSubmission,
   deleteSurvey,
-  push
+  push,
+  shareSurvey,
+  hideSurvey
 };
 
 export default compose(

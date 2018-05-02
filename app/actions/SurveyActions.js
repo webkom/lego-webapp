@@ -122,3 +122,29 @@ export function fetchTemplate(template: string): Thunk<*> {
     propagateError: true
   });
 }
+
+export function shareSurvey(surveyId: number): Thunk<*> {
+  return callAPI({
+    types: Survey.SHARE,
+    endpoint: `/surveys/${surveyId}/share/`,
+    schema: surveySchema,
+    method: 'POST',
+    meta: {
+      errorMessage: 'Deling av spørreundersøkelse feilet'
+    },
+    propagateError: true
+  });
+}
+
+export function hideSurvey(surveyId: number): Thunk<*> {
+  return callAPI({
+    types: Survey.HIDE,
+    endpoint: `/surveys/${surveyId}/hide/`,
+    schema: surveySchema,
+    method: 'POST',
+    meta: {
+      errorMessage: 'Skjuling av spørreundersøkelse feilet'
+    },
+    propagateError: true
+  });
+}
