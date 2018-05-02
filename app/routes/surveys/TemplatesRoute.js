@@ -1,10 +1,6 @@
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
-import {
-  addSurvey,
-  deleteSurvey,
-  fetchTemplates
-} from '../../actions/SurveyActions';
+import { addSurvey, fetchTemplates } from '../../actions/SurveyActions';
 import SurveyPage from './components/SurveyList/SurveyPage';
 import { compose } from 'redux';
 import { selectSurveyTemplates } from 'app/reducers/surveys';
@@ -22,7 +18,6 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = {
   addSurvey,
-  deleteSurvey,
   push
 };
 

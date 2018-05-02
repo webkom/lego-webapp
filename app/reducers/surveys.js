@@ -33,27 +33,12 @@ export type OptionEntity = {
   optionText: string
 };
 
-function mutateSurveys(state, action) {
-  switch (action.type) {
-    case Survey.DELETE.SUCCESS: {
-      return {
-        ...state,
-        items: state.items.filter(id => id !== action.meta.id)
-      };
-    }
-
-    default:
-      return state;
-  }
-}
-
 export default createEntityReducer({
   key: 'surveys',
   types: {
     fetch: Survey.FETCH,
     mutate: Survey.ADD
-  },
-  mutate: mutateSurveys
+  }
 });
 
 export const selectSurveys = createSelector(

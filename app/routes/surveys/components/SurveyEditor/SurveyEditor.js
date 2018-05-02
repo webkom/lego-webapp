@@ -27,7 +27,6 @@ type Props = FieldProps & {
   autoFocus: Object,
   surveyData: Array<Object>,
   submitFunction: (SurveyEntity, ?number) => Promise<*>,
-  deleteSurvey: number => Promise<*>,
   push: string => void,
   template?: Object,
   destroy: () => void,
@@ -95,7 +94,6 @@ class SurveyEditor extends Component<Props, State> {
       submitting,
       autoFocus,
       handleSubmit,
-      deleteSurvey,
       template,
       push,
       destroy,
@@ -117,11 +115,7 @@ class SurveyEditor extends Component<Props, State> {
       <Content className={styles.detail}>
         <form onSubmit={handleSubmit}>
           {survey && survey.id ? (
-            <DetailNavigation
-              title={titleField}
-              surveyId={Number(survey.id)}
-              deleteFunction={deleteSurvey}
-            />
+            <DetailNavigation title={titleField} surveyId={Number(survey.id)} />
           ) : (
             <ListNavigation title={titleField} />
           )}
