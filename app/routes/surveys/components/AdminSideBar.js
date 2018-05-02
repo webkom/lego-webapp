@@ -58,7 +58,7 @@ export class AdminSideBar extends React.Component<Props, State> {
 
     const shareLink = !token
       ? ''
-      : `${config.webUrl}/survey-results/${surveyId}/?token=${token}`;
+      : `${config.webUrl}/surveys/${surveyId}/results/?token=${token}`;
 
     return (
       canEdit && (
