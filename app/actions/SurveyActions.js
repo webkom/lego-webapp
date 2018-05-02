@@ -29,6 +29,7 @@ export function fetchWithToken(surveyId: number, token: string): Thunk<*> {
         types: Survey.FETCH,
         endpoint: `/survey-results/${surveyId}/`,
         schema: surveySchema,
+        requiresAuthentication: false,
         headers: {
           Authorization: `Token ${token}`
         },

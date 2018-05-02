@@ -20,7 +20,7 @@ type Props = {
 const SubmissionContainer = ({
   survey,
   submission,
-  actionGrant,
+  actionGrant = [],
   ...props
 }: Props) => {
   if (survey.templateType) {
