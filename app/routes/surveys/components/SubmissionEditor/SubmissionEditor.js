@@ -37,7 +37,7 @@ const SubmissionEditor = ({
 
       <div className={styles.surveyTime}>
         Spørreundersøkelse for arrangementet{' '}
-        <Link to={`/surveys/${survey.event.id}`}>{survey.event.title}</Link>
+        <Link to={`/events/${survey.event.id}`}>{survey.event.title}</Link>
       </div>
 
       <form onSubmit={handleSubmit}>
