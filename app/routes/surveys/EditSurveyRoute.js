@@ -1,12 +1,7 @@
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
-import {
-  editSurvey,
-  fetch,
-  deleteSurvey,
-  fetchTemplate
-} from '../../actions/SurveyActions';
+import { editSurvey, fetch, fetchTemplate } from '../../actions/SurveyActions';
 import SurveyEditor from './components/SurveyEditor/SurveyEditor';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
@@ -86,7 +81,6 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = {
   submitFunction: editSurvey,
-  deleteSurvey,
   push
 };
 

@@ -41,12 +41,10 @@ export const ListNavigation = ({ title }: { title: Node }) => (
 export const DetailNavigation = ({
   title,
   surveyId,
-  deleteFunction,
   actionGrant
 }: {
   title: Node,
   surveyId: number,
-  deleteFunction: number => Promise<*>,
   actionGrant?: ActionGrant
 }) => (
   <NavigationTab title={title} headerClassName={styles.navTab}>

@@ -10,11 +10,10 @@ import cx from 'classnames';
 type Props = {
   submissions: Array<SubmissionEntity>,
   addSubmission: SubmissionEntity => Promise<*>,
-  deleteSurvey: number => Promise<*>,
   survey: SurveyEntity
 };
 
-const SubmissionPage = ({ submissions, deleteSurvey, survey }: Props) => {
+const SubmissionPage = ({ submissions, survey }: Props) => {
   return (
     <ul className={styles.submissions}>
       {submissions.map((submission, i) => (

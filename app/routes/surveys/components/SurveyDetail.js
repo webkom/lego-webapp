@@ -15,7 +15,6 @@ import { eventTypes } from 'app/routes/events/utils';
 
 type Props = {
   survey: SurveyEntity,
-  deleteSurvey: number => Promise<*>,
   actionGrant: ActionGrant,
   push: string => void,
   shareSurvey: number => Promise<*>,
@@ -33,25 +32,14 @@ class SurveyDetail extends Component<Props> {
   }
 
   render() {
-    const {
-      survey,
-      deleteSurvey,
-      actionGrant = [],
-      push,
-      shareSurvey,
-      hideSurvey
-    } = this.props;
+    const { survey, actionGrant = [], shareSurvey, hideSurvey } = this.props;
 
     return (
       <Content
         className={styles.surveyDetail}
         banner={!survey.templateType && survey.event.cover}
       >
-        <DetailNavigation
-          title={survey.title}
-          surveyId={Number(survey.id)}
-          deleteFunction={deleteSurvey}
-        />
+        <DetailNavigation title={survey.title} surveyId={Number(survey.id)} />
 
         <ContentSection>
           <ContentMain>
@@ -86,8 +74,6 @@ class SurveyDetail extends Component<Props> {
           <AdminSideBar
             surveyId={survey.id}
             actionGrant={actionGrant}
-            push={push}
-            deleteFunction={deleteSurvey}
             token={survey.token}
             shareSurvey={shareSurvey}
             hideSurvey={hideSurvey}

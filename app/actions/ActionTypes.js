@@ -285,7 +285,6 @@ export const Survey = {
   FETCH: generateStatuses('Survey.FETCH'),
   ADD: generateStatuses('Survey.ADD'),
   EDIT: generateStatuses('Survey.EDIT'),
-  DELETE: generateStatuses('Survey.DELETE'),
   SHARE: generateStatuses('Survey.SHARE'),
   HIDE: generateStatuses('Survey.HIDE')
 };

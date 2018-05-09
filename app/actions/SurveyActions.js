@@ -87,19 +87,6 @@ export function editSurvey({ surveyId, ...data }: Object): Thunk<*> {
   });
 }
 
-export function deleteSurvey(surveyId: number): Thunk<*> {
-  return callAPI({
-    types: Survey.DELETE,
-    endpoint: `/surveys/${surveyId}/`,
-    method: 'DELETE',
-    meta: {
-      id: Number(surveyId),
-      errorMessage: 'Sletting av spørreundersøkelse feilet',
-      successMessage: 'Spørreundersøkelse slettet.'
-    }
-  });
-}
-
 export function fetchTemplates(): Thunk<*> {
   return callAPI({
     types: Survey.FETCH,

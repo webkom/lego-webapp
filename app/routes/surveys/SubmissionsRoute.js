@@ -7,12 +7,7 @@ import {
   hideAnswer,
   showAnswer
 } from 'app/actions/SurveySubmissionActions';
-import {
-  fetch,
-  deleteSurvey,
-  shareSurvey,
-  hideSurvey
-} from 'app/actions/SurveyActions';
+import { fetch, shareSurvey, hideSurvey } from 'app/actions/SurveyActions';
 import SubmissionPage from './components/Submissions/SubmissionPage';
 import { compose } from 'redux';
 import { selectSurveySubmissions } from 'app/reducers/surveySubmissions';
@@ -48,7 +43,6 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = {
   addSubmission,
   deleteSubmission,
-  deleteSurvey,
   push,
   shareSurvey,
   hideSurvey,

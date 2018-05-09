@@ -13,7 +13,6 @@ import type { ActionGrant } from 'app/models';
 type Props = {
   submissions: Array<SubmissionEntity>,
   addSubmission: SubmissionEntity => Promise<*>,
-  deleteSurvey: number => Promise<*>,
   survey: SurveyEntity,
   children: React.Element<*>,
   actionGrant: ActionGrant,
@@ -23,22 +22,11 @@ type Props = {
 };
 
 const SubmissionPage = (props: Props) => {
-  const {
-    deleteSurvey,
-    survey,
-    actionGrant,
-    isSummary,
-    hideSurvey,
-    shareSurvey
-  } = props;
+  const { survey, actionGrant, isSummary, hideSurvey, shareSurvey } = props;
 
   return (
     <Content className={styles.surveyDetail} banner={survey.event.cover}>
-      <DetailNavigation
-        title={survey.title}
-        surveyId={Number(survey.id)}
-        deleteFunction={deleteSurvey}
-      />
+      <DetailNavigation title={survey.title} surveyId={Number(survey.id)} />
 
       <ContentSection>
         <ContentMain>
