@@ -14,16 +14,24 @@ export const Keyboard = {
 export const ROLES = {
   member: 'Medlem',
   leader: 'Leder',
-  treasurer: 'Økonomiansvarlig',
   'co-leader': 'Nestleder',
-  active_retiree: 'Aktiv pang',
-  retiree: 'Pang',
+  treasurer: 'Økonomiansvarlig',
   recruiting: 'Rekruttering',
   development: 'Utvikling',
   editor: 'Moderator',
-  media_relations: 'PR ansvarlig',
+  retiree: 'Pang',
+  media_relations: 'PR-ansvarlig',
+  active_retiree: 'Aktiv pang',
   alumni: 'Alumni',
-  webmaster: 'Webansvarling'
+  webmaster: 'Webansvarlig',
+  interest_group_admin: 'Interessegruppeansvarlig',
+  alumni_admin: 'Alumniansvarlig',
+  retiree_email: 'Pang med epost',
+  company_admin: 'Bedriftsansvarlig',
+  dugnad_admin: 'Dugnadsansvarlig',
+  trip_admin: 'Turansvarlig',
+  sponsor_admin: 'Sponsoransvarlig',
+  social_admin: 'Sosialansvarlig'
 };
 
 export const roleOptions = (Object.keys(ROLES)
