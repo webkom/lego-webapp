@@ -128,7 +128,8 @@ export function updateUser(
     gender,
     allergies,
     profilePicture,
-    isAbakusMember
+    isAbakusMember,
+    emailListsEnabled
   } = user;
   return dispatch =>
     dispatch(
@@ -144,6 +145,7 @@ export function updateUser(
           gender,
           allergies,
           isAbakusMember,
+          emailListsEnabled,
           ...(options.updateProfilePicture ? { profilePicture } : null)
         },
         schema: userSchema,

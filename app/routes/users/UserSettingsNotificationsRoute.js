@@ -14,6 +14,7 @@ import {
   selectNotificationSettingsAlternatives,
   selectNotificationSettings
 } from 'app/reducers/notificationSettings';
+import { updateUser } from 'app/actions/UserActions';
 
 const loadData = (props, dispatch) => {
   return Promise.all([
@@ -22,14 +23,15 @@ const loadData = (props, dispatch) => {
   ]);
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, { currentUser }) => {
   return {
     alternatives: selectNotificationSettingsAlternatives(state),
-    settings: selectNotificationSettings(state)
+    settings: selectNotificationSettings(state),
+    currentUser
   };
 };
 
-const mapDispatchToProps = { updateNotificationSetting };
+const mapDispatchToProps = { updateNotificationSetting, updateUser };
 
 export default compose(
   dispatched(loadData, {
