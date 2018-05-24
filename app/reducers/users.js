@@ -15,7 +15,8 @@ export type UserEntity = {
   firstName: string,
   lastName: string,
   gender: string,
-  profilePicture: string
+  profilePicture: string,
+  emailListsEnabled?: boolean
 };
 
 export default createEntityReducer({
