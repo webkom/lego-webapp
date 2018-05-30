@@ -340,3 +340,7 @@
 .adminAnswer a {
   margin-left: 15px;
 }
+
+.detailQuestions > li {
+  margin-top: 30px;
+}
