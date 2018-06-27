@@ -149,6 +149,10 @@
   & div {
     display: inline;
   }
+
+  & span {
+    max-width: 200px;
+  }
 }
 
 .deleteIcon {
