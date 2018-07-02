@@ -76,13 +76,14 @@ function render(req: $Request, res: $Response, next: Middleware) {
       return next();
     }
 
-    const createElement = (Component, props) => (
-      <Component {...props} getCookie={key => req.cookies[key]} />
-    );
+    const createElement = (Component, props) => <Component {...props} />;
 
     const raven = createNewRavenInstance(Raven);
 
-    const store = configureStore({}, raven);
+    const store = configureStore(
+      {},
+      { raven, getCookie: key => req.cookies[key] }
+    );
     const app = (
       <Provider store={store}>
         <RouterContext {...renderProps} createElement={createElement} />
