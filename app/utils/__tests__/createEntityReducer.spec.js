@@ -67,6 +67,7 @@ describe('createEntityReducer', () => {
     expect(
       reducer(undefined, {
         type: FETCH.SUCCESS,
+        meta: { schemaKey: 'events' },
         payload: {
           actionGrant: ['list'],
           entities: {
@@ -105,7 +106,8 @@ describe('createEntityReducer', () => {
             }
           },
           result: [1, 'warlo']
-        }
+        },
+        meta: { schemaKey: 'events' }
       })
     ).toEqual({
       actionGrant: ['list'],
@@ -134,7 +136,8 @@ describe('createEntityReducer', () => {
             }
           },
           result: [1, 'warlo']
-        }
+        },
+        meta: { schemaKey: 'events' }
       })
     ).toEqual({
       actionGrant: ['list'],
@@ -163,7 +166,8 @@ describe('createEntityReducer', () => {
             }
           },
           result: ['1-per', '1-warlo']
-        }
+        },
+        meta: { schemaKey: 'events' }
       })
     ).toEqual({
       actionGrant: ['list'],
@@ -187,7 +191,8 @@ describe('createEntityReducer', () => {
           actionGrant: ['list', 'create'],
           entities: {},
           result: []
-        }
+        },
+        meta: { schemaKey: 'events' }
       })
     ).toEqual({
       actionGrant: ['list', 'create'],
