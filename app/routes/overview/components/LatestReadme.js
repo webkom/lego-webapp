@@ -36,11 +36,11 @@ class LatestReadme extends Component<Props, State> {
     const readmes = [
       {
         year: 2018,
-        issues: [1]
+        issues: [3, 2, 1]
       },
       {
         year: 2017,
-        issues: [6, 5, 4, 3, 2]
+        issues: [6, 5, 4]
       }
     ];
 
