@@ -40,7 +40,7 @@ class LatestReadme extends Component<Props, State> {
       },
       {
         year: 2017,
-        issues: [6, 5, 4]
+        issues: [6, 5, 3]
       }
     ];
 
