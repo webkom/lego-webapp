@@ -20,7 +20,7 @@ import Tags from 'app/components/Tags';
 
 const TITLE_MAX_LENGTH = 50;
 const DESCRIPTION_MAX_LENGTH = 140;
-const IMAGE_HEIGHT = 192;
+const IMAGE_HEIGHT = 212;
 
 const itemUrl = item => `/${item.eventType ? 'events' : 'articles'}/${item.id}`;
 

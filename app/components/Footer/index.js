@@ -37,7 +37,7 @@ const Footer = (props: Props) => (
             <a href="mailto:abakus@abakus.no">abakus@abakus.no</a>
             <p>Abakus</p>
             <p>Sem Sælands vei 7-9</p>
-            <p>7034 Trondheim</p>
+            <p>7491 Trondheim</p>
           </div>
         </Flex>
         <Image className={styles.bekk} src={bekkLogo} />
