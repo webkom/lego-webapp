@@ -7,6 +7,10 @@
   background-color: #ddd;
 }
 
+.image {
+  object-fit: contain;
+}
+
 .loader::before {
   display: block;
   position: absolute;
