@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import { fetch } from 'app/actions/FrontpageActions';
 import { login, logout } from 'app/actions/UserActions';
 import Overview from './components/Overview';
@@ -25,15 +25,11 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = { login, logout };
 
 export default compose(
-  replaceUnlessLoggedIn(PublicFrontpage),
-  dispatched(
-    ({ loggedIn }, dispatch) =>
-      dispatch(fetch()).then(
-        () => (loggedIn ? dispatch(fetchPersonalFeed()) : Promise.resolve())
-      ),
-    {
-      componentWillReceiveProps: false
-    }
+  prepare(({ loggedIn }, dispatch) =>
+    dispatch(fetch()).then(
+      () => (loggedIn ? dispatch(fetchPersonalFeed()) : Promise.resolve())
+    )
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(mapStateToProps, mapDispatchToProps),
+  replaceUnlessLoggedIn(PublicFrontpage)
 )(Overview);
