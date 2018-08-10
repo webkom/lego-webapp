@@ -17,6 +17,8 @@ import { createNewRavenInstance } from '../app/utils/universalRaven';
 import webpackClient from '../config/webpack.client.js';
 import type { State } from '../app/types';
 
+import 'source-map-support/register';
+
 import manifest from '../app/assets/manifest.json';
 
 const serverSideTimeoutInMs = 4000;
