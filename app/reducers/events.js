@@ -283,7 +283,7 @@ export const selectPoolsWithRegistrationsForEvent = createSelector(
     pools.map(pool => ({
       ...pool,
       registrations: orderBy(
-        pool.registrations.map(regId => {
+        (pool.registrations || []).map(regId => {
           const registration = registrationsById[regId];
           return {
             ...registration,
