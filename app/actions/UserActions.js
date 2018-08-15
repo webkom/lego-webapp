@@ -11,25 +11,11 @@ import callAPI from 'app/actions/callAPI';
 import { User, FetchHistory, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
-import type { Thunk, Action } from 'app/types';
+import type { Thunk, Action, Token, EncodedToken, GetCookie } from 'app/types';
 import type { AddPenalty, ID } from 'app/models';
 import { setStatusCode } from './RoutingActions';
 
 const USER_STORAGE_KEY = 'lego.auth';
-
-type EncodedToken = string;
-
-type DecodedToken = {
-  user_id: number,
-  username: string,
-  exp: number,
-  email: string,
-  orig_iat: number
-};
-
-type Token = DecodedToken & {
-  encodedToken: EncodedToken
-};
 
 function saveToken(token: EncodedToken) {
   const decoded = jwtDecode(token);
@@ -46,7 +32,7 @@ function removeToken() {
   return cookie.remove(USER_STORAGE_KEY, { path: '/' });
 }
 
-function getToken(getCookie: string => ?EncodedToken): ?Token {
+function getToken(getCookie: GetCookie): ?Token {
   const encodedToken = getCookie(USER_STORAGE_KEY);
 
   if (!encodedToken) return;
@@ -277,8 +263,8 @@ export function loginWithExistingToken(token: Token): Thunk<any> {
  * Refreshes the token if it was issued any other day than today.
  */
 export function maybeRefreshToken(): Thunk<*> {
-  return dispatch => {
-    const token = getToken(key => cookie.get(key));
+  return (dispatch, getState, { getCookie }) => {
+    const token = getToken(getCookie);
     if (!token) return Promise.resolve();
 
     const issuedTime = moment.unix(token.orig_iat);
@@ -298,10 +284,8 @@ export function maybeRefreshToken(): Thunk<*> {
 /**
  * Dispatch a login success if a token exists in local storage.
  */
-export function loginAutomaticallyIfPossible(
-  getCookie: string => ?string
-): Thunk<*> {
-  return dispatch => {
+export function loginAutomaticallyIfPossible(): Thunk<*> {
+  return (dispatch, getState, { getCookie }) => {
     const token = getToken(getCookie);
     if (!token) {
       return Promise.resolve();
