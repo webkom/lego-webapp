@@ -13,3 +13,4 @@ styleguide
 .css.tmp.md
 *.log
 *.swp
+package-lock.json

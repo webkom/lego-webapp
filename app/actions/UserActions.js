@@ -196,7 +196,7 @@ export function changeGrade(groupId: ID, username: string): Thunk<*> {
     endpoint: `/users/${username}/change_grade/`,
     method: 'POST',
     body: {
-      groupId
+      group: groupId
     },
     schema: userSchema,
     meta: {

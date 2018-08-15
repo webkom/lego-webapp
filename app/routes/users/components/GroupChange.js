@@ -39,10 +39,9 @@ class GroupChange extends Component<Props, State> {
 
   handleOnClick = () =>
     this.state.selectedOption &&
-    this.props.changeGrade(
-      this.state.selectedOption.value,
-      this.props.username
-    );
+    this.props
+      .changeGrade(this.state.selectedOption.value, this.props.username)
+      .then(this.setState({ selectedOption: null }));
 
   handleChange = (selectedOption: Option): void => {
     this.setState({ selectedOption });
