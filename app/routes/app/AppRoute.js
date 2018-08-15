@@ -141,7 +141,7 @@ function mapStateToProps(state) {
 }
 
 function fetchInitialOnServer(props, dispatch) {
-  return dispatch(loginAutomaticallyIfPossible(props.getCookie)).then(() =>
+  return dispatch(loginAutomaticallyIfPossible()).then(() =>
     dispatch(fetchMeta())
   );
 }

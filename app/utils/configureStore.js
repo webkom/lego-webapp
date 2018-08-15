@@ -13,7 +13,7 @@ import { addToast } from 'app/actions/ToastActions';
 import promiseMiddleware from './promiseMiddleware';
 import { selectCurrentUser } from 'app/reducers/auth';
 import createMessageMiddleware from './messageMiddleware';
-import type { State, Store } from 'app/types';
+import type { State, Store, GetCookie } from 'app/types';
 import { omit } from 'lodash';
 
 const trackerMiddleware = createTracker({
@@ -76,18 +76,18 @@ const loggerMiddleware = createLogger({
 
 export default function configureStore(
   initialState: State | {||},
-  Raven: ?UniversalRaven
+  { raven, getCookie }: { raven: ?UniversalRaven, getCookie?: GetCookie }
 ): Store {
   const messageMiddleware = createMessageMiddleware(
     message => addToast({ message }),
-    Raven
+    raven
   );
 
   const middlewares = [
     routerMiddleware(browserHistory),
-    thunkMiddleware,
+    thunkMiddleware.withExtraArgument({ getCookie }),
     promiseMiddleware(),
-    Raven && createRavenMiddleware(Raven, ravenMiddlewareOptions),
+    raven && createRavenMiddleware(raven, ravenMiddlewareOptions),
     messageMiddleware,
     trackerMiddleware
   ].filter(Boolean);

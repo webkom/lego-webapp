@@ -46,12 +46,28 @@ type $ExtractFunctionReturn = <V>(v: (...args: any) => V) => V;
 
 export type State = $ObjMap<Reducers, $ExtractFunctionReturn>;
 
+export type EncodedToken = string;
+
+export type DecodedToken = {
+  user_id: number,
+  username: string,
+  exp: number,
+  email: string,
+  orig_iat: number
+};
+
+export type Token = DecodedToken & {
+  encodedToken: EncodedToken
+};
+
 // Todo: remove any
 export type Reducer = any; // (state: State, action: Action) => State;
 
 export type Store = ReduxStore<State, Action, Dispatch<*>>;
 
 export type GetState = () => State;
+
+export type GetCookie = string => ?EncodedToken;
 
 export type Middleware = ReduxMiddleware<State, AnyAction<*>, Dispatch<*>>;
 
@@ -74,7 +90,11 @@ export type AnyAction<R> = PromiseAction<R> | Thunk<R> | Action;
 
 export type Dispatch<R> = (action: AnyAction<R>) => R;
 
-export type Thunk<R> = (dispatch: Dispatch<R>, getState: GetState) => R;
+export type Thunk<R> = (
+  dispatch: Dispatch<R>,
+  getState: GetState,
+  { getCookie: GetCookie }
+) => R;
 
 export type ReduxFormProps = {
   pristine: boolean,
