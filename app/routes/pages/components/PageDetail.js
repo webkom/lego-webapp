@@ -8,6 +8,7 @@ import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import PageHierarchy from './PageHierarchy';
 import { Content } from 'app/components/Content';
+import { readmeIfy } from 'app/components/ReadmeLogo';
 import DisplayContent from 'app/components/DisplayContent';
 
 import type { HierarchySectionEntity } from './PageHierarchy';
@@ -89,7 +90,7 @@ function PageDetail<T: Object>({
   const { title, editUrl, actionGrant = [], isComplete } = selectedPageInfo;
   return (
     <Content>
-      <NavigationTab title={title}>
+      <NavigationTab title={readmeIfy(title)}>
         {actionGrant.includes('edit') &&
           editUrl && <NavigationLink to={editUrl}>Endre</NavigationLink>}
         {actionGrant.includes('create') && (

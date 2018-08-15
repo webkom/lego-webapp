@@ -1,3 +1,4 @@
+//@flow
 import React from 'react';
 
 function ReadmeLogo() {
@@ -13,5 +14,18 @@ function ReadmeLogo() {
     </span>
   );
 }
+
+export const readmeIfy = (text: ?string) =>
+  text && (
+    <span>
+      {text
+        .split(/readme/)
+        .reduce(
+          (prev, current, i) =>
+            i ? prev.concat(<ReadmeLogo key={current} />, current) : [current],
+          []
+        )}
+    </span>
+  );
 
 export default ReadmeLogo;
