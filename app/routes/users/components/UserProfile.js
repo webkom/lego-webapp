@@ -10,16 +10,16 @@ import Pill from 'app/components/Pill';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Feed from 'app/components/Feed';
 import Penalties from './Penalties';
+import GroupChange from './GroupChange.js';
 import styles from './UserProfile.css';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import { groupBy } from 'lodash';
 import { resolveGroupLink } from 'app/reducers/groups';
-import type { Group, AddPenalty } from 'app/models';
+import type { Group, AddPenalty, Event, ID } from 'app/models';
 import cx from 'classnames';
 import { EventItem } from 'app/routes/events/components/EventList';
 import EmptyState from 'app/components/EmptyState';
-import type { Event } from 'app/models';
 
 const fieldTranslations = {
   username: 'brukernavn',
@@ -37,7 +37,10 @@ type Props = {
   addPenalty: AddPenalty => void,
   deletePenalty: number => Promise<*>,
   penalties: Array<Object>,
-  canDeletePenalties: boolean
+  canDeletePenalties: boolean,
+  groups: Array<Group>,
+  canChangeGrade: boolean,
+  changeGrade: (ID, string) => Promise<*>
 };
 
 type UpcomingEventsProps = {
@@ -122,7 +125,10 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
       addPenalty,
       deletePenalty,
       penalties,
-      canDeletePenalties
+      canDeletePenalties,
+      groups,
+      canChangeGrade,
+      changeGrade
     } = this.props;
 
     const { abakusGroups = [], firstName, lastName } = user;
@@ -181,6 +187,20 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
                     username={user.username}
                     userId={user.id}
                     canDeletePenalties={canDeletePenalties}
+                  />
+                </Card>
+              </div>
+            )}
+
+            {canChangeGrade && (
+              <div>
+                <h3>Endre Klasse</h3>
+                <Card className={styles.infoCard}>
+                  <GroupChange
+                    grades={groups}
+                    abakusGroups={abakusGroups}
+                    changeGrade={changeGrade}
+                    username={user.username}
                   />
                 </Card>
               </div>

@@ -3,11 +3,18 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import UserProfile from './components/UserProfile';
-import { fetchUser, addPenalty, deletePenalty } from 'app/actions/UserActions';
+import {
+  fetchUser,
+  addPenalty,
+  deletePenalty,
+  changeGrade
+} from 'app/actions/UserActions';
+import { fetchAllWithType } from 'app/actions/GroupActions';
 import { fetchUpcoming } from 'app/actions/EventActions';
 import { fetchUserFeed } from 'app/actions/FeedActions';
 import { selectUserWithGroups } from 'app/reducers/users';
 import { selectUpcomingEvents } from 'app/reducers/events';
+import { selectGroupsWithType } from 'app/reducers/groups';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
@@ -16,7 +23,10 @@ import { LoginPage } from 'app/components/LoginForm';
 
 const loadData = ({ params: { username } }, dispatch) => {
   return dispatch(fetchUser(username)).then(action =>
-    dispatch(fetchUpcoming())
+    Promise.all([
+      dispatch(fetchUpcoming()),
+      dispatch(fetchAllWithType('klasse'))
+    ])
   );
   // TODO: re-enable when the user feed is fixed:
   // .then(action =>
@@ -49,7 +59,9 @@ const mapStateToProps = (state, props) => {
     params.username === 'me' || params.username === state.auth.username;
   const actionGrant = (user && user.actionGrant) || [];
   const showSettings = isMe || actionGrant.includes('edit');
+  const canChangeGrade = state.allowed.groups;
   const canDeletePenalties = state.allowed.penalties;
+  const groups = selectGroupsWithType(state, { groupType: 'klasse' });
   return {
     username,
     auth: state.auth,
@@ -62,7 +74,9 @@ const mapStateToProps = (state, props) => {
     isMe,
     loading: state.events.fetching,
     penalties,
-    canDeletePenalties
+    canDeletePenalties,
+    groups,
+    canChangeGrade
   };
 };
 
@@ -71,7 +85,8 @@ const mapDispatchToProps = {
   fetchUpcoming,
   fetchUserFeed,
   addPenalty,
-  deletePenalty
+  deletePenalty,
+  changeGrade
 };
 
 export default compose(
