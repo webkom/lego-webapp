@@ -12,7 +12,7 @@ import { User, FetchHistory, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
 import type { Thunk, Action, Token, EncodedToken, GetCookie } from 'app/types';
-import type { AddPenalty } from 'app/models';
+import type { AddPenalty, ID } from 'app/models';
 import { setStatusCode } from './RoutingActions';
 
 const USER_STORAGE_KEY = 'lego.auth';
@@ -172,6 +172,22 @@ export function changePassword({
     meta: {
       errorMessage: 'Oppdatering av passord feilet',
       successMessage: 'Passordet ble endret'
+    }
+  });
+}
+
+export function changeGrade(groupId: ID, username: string): Thunk<*> {
+  return callAPI({
+    types: User.UPDATE,
+    endpoint: `/users/${username}/change_grade/`,
+    method: 'POST',
+    body: {
+      group: groupId
+    },
+    schema: userSchema,
+    meta: {
+      errorMessage: 'Oppdatering av klasse feilet',
+      successMessage: 'Klasse endret'
     }
   });
 }
