@@ -1,8 +1,19 @@
-/* eslint-disable */
-/* DEPRECATED DO NOT USE */
+//@flow
+
 import React from 'react';
 import cx from 'classnames';
 import styles from './index.css';
+
+type Props = {
+  children?: any,
+  className?: string,
+  justifyContent?: string,
+  alignItems?: string,
+  flexWrap?: string,
+  style?: any,
+  container?: boolean,
+  flex?: any
+};
 
 export const FlexRow = ({
   children,
@@ -12,7 +23,7 @@ export const FlexRow = ({
   flexWrap,
   style,
   ...rest
-}) => (
+}: Props) => (
   <div
     className={cx(styles.row, className)}
     style={{
@@ -35,7 +46,7 @@ export const FlexColumn = ({
   flexWrap,
   style,
   ...rest
-}) => (
+}: Props) => (
   <div
     className={cx(styles.column, className)}
     style={{
@@ -56,7 +67,7 @@ export const FlexItem = ({
   flex,
   container = false, // Add display: flex;
   ...rest
-}) => (
+}: Props) => (
   <div
     className={className}
     style={{
