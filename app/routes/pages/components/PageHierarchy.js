@@ -1,4 +1,5 @@
 // @flow
+import { readmeIfy } from 'app/components/ReadmeLogo';
 
 import React from 'react';
 import { Link } from 'react-router';
@@ -40,7 +41,7 @@ const HierarchySection = ({
           }}
           to={item.url}
         >
-          {item.title}
+          {readmeIfy(item.title)}
         </Link>
       </li>
     ))}
