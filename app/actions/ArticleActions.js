@@ -18,15 +18,7 @@ export function fetchArticle(articleId: EntityID) {
   });
 }
 
-export function createArticle({
-  description,
-  author,
-  title,
-  content,
-  tags,
-  cover,
-  pinned
-}: ArticleEntity): Thunk<*> {
+export function createArticle({ id, ...data }: ArticleEntity): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
@@ -34,15 +26,7 @@ export function createArticle({
         endpoint: '/articles/',
         method: 'POST',
         schema: articleSchema,
-        body: {
-          title,
-          content,
-          tags,
-          cover,
-          author,
-          description,
-          pinned
-        },
+        body: data,
         meta: {
           errorMessage: 'Opprettelse av artikkel feilet'
         }
