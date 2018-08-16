@@ -49,13 +49,16 @@ export default class CompactEvents extends Component<Props> {
         ));
     };
 
-    const leftEvents = mapEvents([
+    const presentations = mapEvents([
       'company_presentation',
       'lunch_presentation',
       'course'
     ]);
+    const leftEvents =
+      presentations.length > 0 ? presentations : ['Ingen presentasjoner'];
 
-    const rightEvents = mapEvents(['other', 'event', 'social', 'party']);
+    const other = mapEvents(['other', 'event', 'social', 'party']);
+    const rightEvents = other.length > 0 ? other : ['Ingen arrangementer'];
 
     if (!events.length) {
       return null;
