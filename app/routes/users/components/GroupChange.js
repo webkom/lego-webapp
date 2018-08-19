@@ -41,7 +41,7 @@ class GroupChange extends Component<Props, State> {
     this.state.selectedOption &&
     this.props
       .changeGrade(this.state.selectedOption.value, this.props.username)
-      .then(this.setState({ selectedOption: null }));
+      .then(() => this.setState({ selectedOption: null }));
 
   handleChange = (selectedOption: Option): void => {
     this.setState({ selectedOption });
