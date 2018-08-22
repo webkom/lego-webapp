@@ -51,17 +51,19 @@ const SemesterBox = ({ fields }: FieldProps) => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((item, index) => (
       <Flex key={index}>
-        <div className={styles.checkboxField}>
-          <Field
-            key={`semester${index}`}
-            name={`semesters[${index}].checked`}
-            component={CheckBox.Field}
-            normalize={v => !!v}
-          />
-        </div>
-        <span className={styles.checkboxSpan}>
-          {semesterToText(fields.get(index))}
-        </span>
+        <label className={styles.checkboxLabel}>
+          <div className={styles.checkboxField}>
+            <Field
+              key={`semester${index}`}
+              name={`semesters[${index}].checked`}
+              component={CheckBox.Field}
+              normalize={v => !!v}
+            />
+          </div>
+          <span className={styles.checkboxSpan}>
+            {semesterToText(fields.get(index))}
+          </span>
+        </label>
       </Flex>
     ))}
   </Flex>
@@ -71,17 +73,19 @@ const EventBox = ({ fields }: FieldProps) => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
       <Flex key={index}>
-        <div className={styles.checkboxField}>
-          <Field
-            key={`events[${index}]`}
-            name={`events[${index}].checked`}
-            component={CheckBox.Field}
-            normalize={v => !!v}
-          />
-        </div>
-        <span className={styles.checkboxSpan}>
-          {EVENT_TYPES[eventToString(key)]}
-        </span>
+        <label className={styles.checkboxLabel}>
+          <div className={styles.checkboxField}>
+            <Field
+              key={`events[${index}]`}
+              name={`events[${index}].checked`}
+              component={CheckBox.Field}
+              normalize={v => !!v}
+            />
+          </div>
+          <span className={styles.checkboxSpan}>
+            {EVENT_TYPES[eventToString(key)]}
+          </span>
+        </label>
       </Flex>
     ))}
   </Flex>
@@ -91,17 +95,19 @@ const OtherBox = ({ fields }: FieldProps) => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
       <Flex key={index}>
-        <div className={styles.checkboxField}>
-          <Field
-            key={`otherOffers[${index}]`}
-            name={`otherOffers[${index}].checked`}
-            component={CheckBox.Field}
-            normalize={v => !!v}
-          />
-        </div>
-        <span className={styles.checkboxSpan}>
-          {OTHER_TYPES[otherOffersToString(key)]}
-        </span>
+        <label className={styles.checkboxLabel}>
+          <div className={styles.checkboxField}>
+            <Field
+              key={`otherOffers[${index}]`}
+              name={`otherOffers[${index}].checked`}
+              component={CheckBox.Field}
+              normalize={v => !!v}
+            />
+          </div>
+          <span className={styles.checkboxSpan}>
+            {OTHER_TYPES[otherOffersToString(key)]}
+          </span>
+        </label>
       </Flex>
     ))}
   </Flex>
