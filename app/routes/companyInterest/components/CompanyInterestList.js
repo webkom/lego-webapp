@@ -7,18 +7,27 @@ import { Link } from 'react-router';
 import { Content } from 'app/components/Content';
 import Flex from 'app/components/Layout/Flex';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import Table from 'app/components/Table';
+import Select from 'react-select';
 
 export type Props = {
   companyInterestList: Array<CompanyInterestEntity>,
   deleteCompanyInterest: number => Promise<*>,
   fetch: Object => Promise<*>,
   hasMore: boolean,
-  fetching: boolean
+  fetching: boolean,
+  fetchSemestersForInterestform: () => Array<CompanySemesterEntity>
+};
+
+type Option = {
+  companySemesterId: ?string,
+  label: string
 };
 
 type State = {
-  clickedCompanyInterest: number
+  clickedCompanyInterest: number,
+  selectedOption: Option
 };
 
 const RenderCompanyActions = ({
@@ -43,8 +52,11 @@ const RenderCompanyActions = ({
 
 class CompanyInterestList extends Component<Props, State> {
   state = {
-    clickedCompanyInterest: 0
+    clickedCompanyInterest: 0,
+    selectedOption: { companySemesterId: '', label: '' }
   };
+
+  semesters: Array<CompanySemesterEntity> = [];
 
   handleDelete = (clickedCompanyInterest: number) => {
     if (this.state.clickedCompanyInterest === clickedCompanyInterest) {
@@ -59,6 +71,20 @@ class CompanyInterestList extends Component<Props, State> {
       this.setState({
         clickedCompanyInterest
       });
+    }
+  };
+
+  componentDidMount = () => {
+    this.semesters = this.props.fetchSemestersForInterestform();
+  };
+
+  handleChange = (selectedOption: Option): void => {
+    this.props.fetchCompanyInterestsBySemester(
+      this.state.selectedOption.companySemesterId
+    );
+    // sekklectedOption can be null when the `x` (close) button is clicked
+    if (selectedOption) {
+      console.log('This is the selected options', this.state.selectedOption);
     }
   };
 
@@ -97,6 +123,18 @@ class CompanyInterestList extends Component<Props, State> {
       }
     ];
 
+    // TODO: FETCH SEMESTERS
+    // INITIAL OPTION SHOULD BE SHOW_ALL
+    const initalOption: Option = {
+      companySemesterId: '',
+      label: 'Alle semestre'
+    };
+
+    const options = this.semesters.map(semester => ({
+      value: semester.id,
+      label: semester.semester
+    }));
+
     return (
       <Content>
         <ListNavigation title="Bedriftsinteresser" />
@@ -106,6 +144,13 @@ class CompanyInterestList extends Component<Props, State> {
               Her finner du all praktisk informasjon knyttet til
               <strong> bedriftsinteresser</strong>.
             </p>
+            <Select
+              name="form-field-name"
+              value={this.state.selectedOption || initalOption}
+              onChange={this.handleChange}
+              options={options}
+              clearable={false}
+            />
           </Flex>
           <Link to={'/companyInterest/semesters'} className={styles.link}>
             <Button>Endre aktive semestre</Button>

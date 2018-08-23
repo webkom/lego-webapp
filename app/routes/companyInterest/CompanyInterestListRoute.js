@@ -6,6 +6,7 @@ import {
   deleteCompanyInterest,
   fetch
 } from 'app/actions/CompanyInterestActions';
+import { fetchSemestersForInterestform } from 'app/actions/CompanyActions';
 import CompanyInterestList from './components/CompanyInterestList';
 import { selectCompanyInterestList } from 'app/reducers/companyInterest';
 import { LoginPage } from 'app/components/LoginForm';
@@ -14,8 +15,11 @@ import prepare from 'app/utils/prepare';
 
 const loadCompanyInterests = (props, dispatch) => dispatch(fetchAll());
 
-const mapStateToProps = state => {
-  const companyInterestList = selectCompanyInterestList(state);
+const mapStateToProps = (state, props) => {
+  let { params } = props;
+  const companyInterestList = selectCompanyInterestList(state, {
+    selectedSemester: params.companySemesterId
+  });
   const hasMore = state.companyInterest.hasMore;
   const fetching = state.companyInterest.fetching;
 
@@ -29,7 +33,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   fetchAll,
   deleteCompanyInterest,
-  fetch
+  fetch,
+  fetchSemestersForInterestform
 };
 
 export default compose(

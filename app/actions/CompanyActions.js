@@ -335,8 +335,8 @@ export function deleteCompanyContact(
   });
 }
 
-export function fetchSemestersForInterestform() {
-  return fetchSemesters({ company_interest: 'True' });
+export function fetchSemestersForInterestform(param: Object = {}) {
+  return fetchSemesters({ company_interest: 'True', ...param });
 }
 
 export function fetchSemesters(
