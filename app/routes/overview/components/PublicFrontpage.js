@@ -1,7 +1,6 @@
 //@flow
 import React, { Fragment, Component } from 'react';
 import { Container, Flex } from 'app/components/Layout';
-import { Image } from 'app/components/Image';
 import {
   LoginForm,
   RegisterForm,
@@ -11,9 +10,7 @@ import styles from './PublicFrontpage.css';
 import bekkLogo from 'app/assets/bekk_small.png';
 import { Link } from 'react-router';
 
-import type { Article } from 'app/models';
-
-type Props = { fp: Article };
+type Props = {};
 type State = {
   registerUser: boolean,
   forgotPassword: boolean
@@ -33,7 +30,6 @@ class PublicFrontpage extends Component<Props, State> {
 
   render() {
     const { registerUser, forgotPassword } = this.state;
-    const { fp = {} } = this.props;
 
     let title, form;
     if (registerUser) {
@@ -49,34 +45,6 @@ class PublicFrontpage extends Component<Props, State> {
 
     return (
       <Fragment>
-        <div>
-          <div
-            style={{
-              background: '#e02f36'
-            }}
-          >
-            <Link
-              to={`/articles/${fp.id}`}
-              style={{ height: 192, display: 'block', margin: 'auto' }}
-            >
-              <Image
-                style={{
-                  objectFit: 'contain',
-                  display: 'block',
-                  margin: 'auto'
-                }}
-                src={fp.cover}
-              />
-            </Link>
-          </div>
-          <h3
-            style={{
-              textAlign: 'center'
-            }}
-          >
-            <Link to={`/articles/${fp.id}`}>Les mer her!</Link>
-          </h3>
-        </div>
         <Container>
           <Flex wrap justifyContent="space-between" className={styles.root}>
             <div className={styles.smallWelcomeBox}>
