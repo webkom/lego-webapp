@@ -49,34 +49,6 @@ class PublicFrontpage extends Component<Props, State> {
 
     return (
       <Fragment>
-        <div>
-          <div
-            style={{
-              background: '#e02f36'
-            }}
-          >
-            <Link
-              to={`/articles/${fp.id}`}
-              style={{ height: 192, display: 'block', margin: 'auto' }}
-            >
-              <Image
-                style={{
-                  objectFit: 'contain',
-                  display: 'block',
-                  margin: 'auto'
-                }}
-                src={fp.cover}
-              />
-            </Link>
-          </div>
-          <h3
-            style={{
-              textAlign: 'center'
-            }}
-          >
-            <Link to={`/articles/${fp.id}`}>Les mer her!</Link>
-          </h3>
-        </div>
         <Container>
           <Flex wrap justifyContent="space-between" className={styles.root}>
             <div className={styles.smallWelcomeBox}>
