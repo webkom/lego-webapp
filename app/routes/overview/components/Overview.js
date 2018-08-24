@@ -165,7 +165,7 @@ const OverviewItem = ({
 };
 
 const CommitteeHeader = () => (
-  <a href="https://opptak.abakus.no" target="_blank">
+  <a href="https://opptak.abakus.no" target="_blank" rel="noopener noreferrer">
     <div className={styles.committeeHeader}>Trykk her for å søke komité!</div>
   </a>
 );
