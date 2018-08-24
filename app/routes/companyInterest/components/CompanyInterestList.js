@@ -1,5 +1,6 @@
 // @flow
 import { ListNavigation } from 'app/routes/bdb/utils';
+import { semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
 import React, { Component } from 'react';
 import Button from 'app/components/Button';
@@ -11,18 +12,22 @@ import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import Table from 'app/components/Table';
 import Select from 'react-select';
 
+export type Option = {
+  semester: string,
+  year: string,
+  label: string
+};
+
 export type Props = {
   companyInterestList: Array<CompanyInterestEntity>,
   deleteCompanyInterest: number => Promise<*>,
   fetch: Object => Promise<*>,
   hasMore: boolean,
   fetching: boolean,
-  fetchSemestersForInterestform: () => Array<CompanySemesterEntity>
-};
-
-type Option = {
-  companySemesterId: ?string,
-  label: string
+  semesters: Array<CompanySemesterEntity>,
+  push: string => void,
+  selectedOption: Option,
+  router: any
 };
 
 type State = {
@@ -53,10 +58,8 @@ const RenderCompanyActions = ({
 class CompanyInterestList extends Component<Props, State> {
   state = {
     clickedCompanyInterest: 0,
-    selectedOption: { companySemesterId: '', label: '' }
+    selectedOption: this.props.selectedOption
   };
-
-  semesters: Array<CompanySemesterEntity> = [];
 
   handleDelete = (clickedCompanyInterest: number) => {
     if (this.state.clickedCompanyInterest === clickedCompanyInterest) {
@@ -74,18 +77,37 @@ class CompanyInterestList extends Component<Props, State> {
     }
   };
 
-  componentDidMount = () => {
-    this.semesters = this.props.fetchSemestersForInterestform();
-  };
-
-  handleChange = (selectedOption: Option): void => {
-    this.props.fetchCompanyInterestsBySemester(
-      this.state.selectedOption.companySemesterId
-    );
-    // sekklectedOption can be null when the `x` (close) button is clicked
-    if (selectedOption) {
-      console.log('This is the selected options', this.state.selectedOption);
-    }
+  handleChange = (clickedOption: Option): void => {
+    this.props
+      .fetch({
+        filters: {
+          semester: clickedOption.semester,
+          year: clickedOption.year
+        }
+      })
+      .then(() => {
+        //        let yearParam = selectedOption.year
+        //          ? `?year=${selectedOption.year}`
+        //          : '';
+        //        let semesterParam = selectedOption.semester
+        //          ? `?semester=${selectedOption.semester}`
+        //          : '';
+        //        console.log(
+        //          'I should be called',
+        //          `/companyInterest/${yearParam}${yearParam ? '&' : ''}${semesterParam}`
+        //        );
+        this.props.router.replace(
+          {
+            pathname: '/companyInterest',
+            query: {
+              semester: clickedOption.semester,
+              year: clickedOption.year
+            }
+          }
+          // `/companyInterest/${yearParam}${yearParam ? '&' : ''}${semesterParam}`
+        );
+      })
+      .then(() => this.setState({ selectedOption: clickedOption }));
   };
 
   render() {
@@ -123,17 +145,18 @@ class CompanyInterestList extends Component<Props, State> {
       }
     ];
 
-    // TODO: FETCH SEMESTERS
-    // INITIAL OPTION SHOULD BE SHOW_ALL
-    const initalOption: Option = {
-      companySemesterId: '',
-      label: 'Alle semestre'
-    };
-
-    const options = this.semesters.map(semester => ({
-      value: semester.id,
-      label: semester.semester
-    }));
+    const options = [
+      {
+        year: '',
+        semester: '',
+        label: 'Vis alle'
+      },
+      ...this.props.semesters.map((semester: CompanySemesterEntity) => ({
+        year: semester.year,
+        semester: semester.semester,
+        label: semesterToText(semester)
+      }))
+    ];
 
     return (
       <Content>
@@ -146,7 +169,7 @@ class CompanyInterestList extends Component<Props, State> {
             </p>
             <Select
               name="form-field-name"
-              value={this.state.selectedOption || initalOption}
+              value={this.state.selectedOption}
               onChange={this.handleChange}
               options={options}
               clearable={false}

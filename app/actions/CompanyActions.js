@@ -1,5 +1,6 @@
 // @flow
 
+import { semesterToText } from '../routes/companyInterest/utils';
 import { Company, Event, Joblistings } from './ActionTypes';
 import callAPI from 'app/actions/callAPI';
 import {
@@ -13,7 +14,6 @@ import { startSubmit, stopSubmit } from 'redux-form';
 import { push } from 'react-router-redux';
 import type { Thunk } from 'app/types';
 import { addToast } from 'app/actions/ToastActions';
-import { semesterToText } from 'app/routes/companyInterest/components/CompanyInterestPage';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 export const fetchAll = ({ fetchMore }: { fetchMore: boolean }): Thunk<*> => (
@@ -335,8 +335,8 @@ export function deleteCompanyContact(
   });
 }
 
-export function fetchSemestersForInterestform(param: Object = {}) {
-  return fetchSemesters({ company_interest: 'True', ...param });
+export function fetchSemestersForInterestform() {
+  return fetchSemesters({ company_interest: 'True' });
 }
 
 export function fetchSemesters(

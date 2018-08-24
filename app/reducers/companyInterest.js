@@ -42,23 +42,16 @@ export default createEntityReducer({
 export const selectCompanyInterestList = createSelector(
   state => state.companyInterest.byId,
   state => state.companyInterest.items,
-  (state, props) => props.selectedSemester,
-  (companyInterestById, companyInterestIds, selectedSemester) => {
+  (state, props) => props,
+  (companyInterestById, companyInterestIds, props) => {
     return companyInterestIds
       .map(id => companyInterestById[id])
-      .filter(companyInterest =>
-        companyInterest.semesters.contains(selectedSemester)
+      .filter(
+        companyInterest =>
+          companyInterest.semesters.semester === props.semester ||
+          companyInterest.semesters.year === props.year
       );
   }
-);
-
-export const selectCompanyInterestListBySemester = createSelector(
-  selectCompanyInterestList,
-  (state, props) => props.selectedSemester,
-  (companyInterests, selectedSemester) =>
-    companyInterests.filter(
-      companyInterest => companyInterest.semester === selectedSemester
-    )
 );
 
 export const selectCompanyInterestById = createSelector(
