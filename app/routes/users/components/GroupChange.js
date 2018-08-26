@@ -49,7 +49,9 @@ class GroupChange extends Component<Props, State> {
 
   render() {
     const { grades, abakusGroups } = this.props;
-    const initialGrade = abakusGroups.find(g => g.type === 'klasse');
+    const initialGrade = abakusGroups
+      .filter(Boolean)
+      .find(g => g.type === 'klasse');
 
     const initalOption = initialGrade
       ? {
