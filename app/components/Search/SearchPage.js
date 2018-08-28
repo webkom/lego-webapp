@@ -13,7 +13,7 @@ type Props = {
   onQueryChanged: string => void,
   placeholder?: string,
   results: Array<SearchResult>,
-  handleSelect: SearchResult => void
+  handleSelect: SearchResult => Promise<*>
 };
 
 type State = {

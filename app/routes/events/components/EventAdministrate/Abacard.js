@@ -13,8 +13,20 @@ import type { EventRegistration } from 'app/models';
 type State = {
   showCompleted: boolean
 };
+type Props = {
+  registered: Array<EventRegistration>,
+  event: {
+    totalCapacity: number
+  },
+  clearSearch: () => void,
+  handleSelect: SearchResult => Promise<void>,
+  location: Object,
+  onQueryChanged: string => void,
+  results: Array<SearchResult>,
+  searching: boolean
+};
 
-class Abacard extends React.Component<*, State> {
+class Abacard extends React.Component<Props, State> {
   input: ?HTMLInputElement;
   state = {
     showCompleted: false
@@ -56,7 +68,7 @@ class Abacard extends React.Component<*, State> {
   };
 
   render() {
-    const registered: Array<EventRegistration> = this.props.registered;
+    const { registered, event: { totalCapacity } } = this.props;
     const registerCount = registered.filter(
       reg => reg.presence === 'PRESENT' && reg.pool
     ).length;
@@ -85,7 +97,7 @@ class Abacard extends React.Component<*, State> {
           }}
         />
         <div className={styles.counter}>
-          {registerCount}/{registered.length} har møtt opp
+          {registerCount}/{totalCapacity} har møtt opp
         </div>
       </div>
     );

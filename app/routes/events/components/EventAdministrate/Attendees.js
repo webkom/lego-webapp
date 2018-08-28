@@ -98,7 +98,6 @@ export default class Attendees extends Component<Props, State> {
       return <div>{error.message}</div>;
     }
     const showUnregister = moment().isBefore(event.startTime);
-
     return (
       <div>
         <h2>
@@ -111,7 +110,7 @@ export default class Attendees extends Component<Props, State> {
           <div>
             <strong>Påmeldte:</strong>
             <div className={styles.attendees}>
-              {registerCount}/{registered.length} har møtt opp
+              {`${registerCount}/${event.totalCapacity} har møtt opp`}
             </div>
           </div>
           {registered.length === 0 && <li>Ingen påmeldte</li>}
