@@ -23,7 +23,7 @@ const eventTypes = [
 const icalTypes = [
   { name: 'events', title: 'Alle arrangementer' },
   { name: 'registrations', title: 'Registreringstidspunkt' },
-  { name: 'personal', title: 'Mine møter og arrangementer' }
+  { name: 'personal', title: 'Mine møter og favorittarrangementer' }
 ];
 
 const getIcalUrl = (icalToken, icalType) =>
