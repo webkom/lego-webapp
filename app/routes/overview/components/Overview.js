@@ -164,12 +164,6 @@ const OverviewItem = ({
   );
 };
 
-const CommitteeHeader = () => (
-  <a href="https://opptak.abakus.no" target="_blank" rel="noopener noreferrer">
-    <div className={styles.committeeHeader}>Trykk her for å søke komité!</div>
-  </a>
-);
-
 type Props = {
   frontpage: Array<Object>,
   feed: Object,
@@ -197,7 +191,6 @@ export default class Overview extends Component<Props, State> {
     return (
       <Container>
         <Helmet title="Hjem" />
-        <CommitteeHeader />
         <Flex wrap style={{ justifyContent: 'space-between' }}>
           <Flex column style={{ flex: 2 }}>
             <CompactEvents events={frontpage.filter(isEvent)} />
