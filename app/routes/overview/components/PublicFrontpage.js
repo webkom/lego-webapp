@@ -8,9 +8,12 @@ import {
 } from 'app/components/LoginForm';
 import styles from './PublicFrontpage.css';
 import bekkLogo from 'app/assets/bekk_small.png';
+import CompactEvents from './CompactEvents';
 import { Link } from 'react-router';
 
-type Props = {};
+type Props = {
+  frontpage: Array<Object>
+};
 type State = {
   registerUser: boolean,
   forgotPassword: boolean
@@ -30,6 +33,7 @@ class PublicFrontpage extends Component<Props, State> {
 
   render() {
     const { registerUser, forgotPassword } = this.state;
+    const isEvent = item => item.documentType === 'event';
 
     let title, form;
     if (registerUser) {
@@ -46,8 +50,23 @@ class PublicFrontpage extends Component<Props, State> {
     return (
       <Fragment>
         <Container>
-          <Flex wrap justifyContent="space-between" className={styles.root}>
-            <div className={styles.smallWelcomeBox}>
+          <Flex wrap className={styles.cardFlex}>
+            <div className={styles.welcome}>
+              <h2 className={'u-mb'}>Velkommen til Abakus</h2>
+              <p>
+                Abakus er linjeforeningen for studentene ved Datateknologi og
+                Kommunikasjonsteknologi på NTNU, og drives av studenter ved
+                disse studiene.
+              </p>
+              <p>
+                Abakus
+                {"'"} formål er å gi disse studentene veiledning i
+                studiesituasjonen, arrangere kurs som utfyller fagtilbudet ved
+                NTNU, fremme kontakten med næringslivet og bidra med sosiale
+                aktiviteter.
+              </p>
+            </div>
+            <div className={styles.loginForm}>
               <Flex
                 component="h2"
                 justifyContent="space-between"
@@ -84,29 +103,25 @@ class PublicFrontpage extends Component<Props, State> {
               </Flex>
               {form}
             </div>
-            <div className={styles.bigWelcomeBox}>
-              <h2 className={`${styles.header} u-mb`}>
-                Velkommen til Abakus
-                <a href="https://bekk.no">
-                  <img className={styles.sponsor} src={bekkLogo} alt="BEKK" />
-                </a>
-              </h2>
-              <p>
-                Abakus er linjeforeningen for studentene ved Datateknologi og
-                Kommunikasjonsteknologi på NTNU, og drives av studenter ved
-                disse studiene.
-              </p>
-              <p>
-                Abakus
-                {"'"} formål er å gi disse studentene veiledning i
-                studiesituasjonen, arrangere kurs som utfyller fagtilbudet ved
-                NTNU, fremme kontakten med næringslivet og bidra med sosiale
-                aktiviteter.
-              </p>
+          </Flex>
+
+          <Flex wrap className={styles.cardFlex}>
+            <div className={styles.events}>
+              <CompactEvents
+                events={this.props.frontpage.filter(isEvent)}
+                frontpageHeading
+              />
+            </div>
+
+            <div className={styles.cooperator}>
+              <h2 className={'u-mb'}>Hovedsammarbeidspartner</h2>
+              <a href="https://bekk.no">
+                <img className={styles.sponsor} src={bekkLogo} alt="BEKK" />
+              </a>
             </div>
           </Flex>
 
-          <Flex wrap className={styles.bottomContainer}>
+          <Flex wrap className={styles.cardFlex}>
             <div className={styles.usefulLinks}>
               <h2 className="u-mb">Nyttige linker</h2>
               <ul>
@@ -120,7 +135,7 @@ class PublicFrontpage extends Component<Props, State> {
                 </li>
                 <li>
                   <a href="https://www.ntnu.no/studier/mtdt">
-                    <i className="fa fa-caret-right" /> Om Datateknologi
+                    <i className="fa fa-caret-right" /> Datateknologi
                   </a>
                   <div className={styles.linkDescription}>
                     Datateknologi er en helt sentral del av alle fremtidsrettede
@@ -130,8 +145,7 @@ class PublicFrontpage extends Component<Props, State> {
                 </li>
                 <li>
                   <a href="http://www.ntnu.no/studier/mtkom">
-                    <i className="fa fa-caret-right" /> Om
-                    Kommunikasjonsteknologi
+                    <i className="fa fa-caret-right" /> Kommunikasjonsteknologi
                   </a>
                   <div className={styles.linkDescription}>
                     Vi bruker stadig mer av livene våre på nett, på jobb som i
@@ -155,6 +169,7 @@ class PublicFrontpage extends Component<Props, State> {
             </div>
 
             <div className={styles.facebook}>
+              <h2 className="u-mb">Vår Facebook side</h2>
               <iframe
                 src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAbakusNTNU%2F&amp;tabs=timeline&amp;width=420&amp;small_header=true&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true&amp;appId=1717809791769695"
                 style={{
