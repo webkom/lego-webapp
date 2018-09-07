@@ -9,14 +9,6 @@
   }
 }
 
-h2 {
-  color: var(--lego-font-color);
-
-  @media (--mobile-device) {
-    text-align: center;
-  }
-}
-
 .rootCardStyle {
   composes: withShadow from 'app/styles/utilities.css';
   background: var(--color-light-gray-5);
@@ -25,7 +17,7 @@ h2 {
 
   @media (--mobile-device) {
     margin: 0 10px 10px !important;
-    padding: 10px;
+    padding: 15px;
   }
 }
 
@@ -53,19 +45,53 @@ h2 {
 
 .events {
   composes: rootCardStyle;
-  flex: 1.8;
+  flex: 1.95;
   margin-right: 30px;
   color: var(--lego-font-color);
-  padding: 40px 50px 40px 30px;
+  padding: 40px 10px 40px 20px;
+
+  @media (--mobile-device) {
+    padding: 15px 25px 15px 5px;
+  }
 }
 
 .cooperator {
   composes: rootCardStyle;
   flex: 1;
+}
+
+.cooperator img {
+  width: 50%;
+  display: block;
+  margin: auto;
+  margin-bottom: 10px;
 
   @media (--mobile-device) {
-    text-align: center;
+    margin: 10px 0;
   }
+}
+
+.readme {
+  composes: rootCardStyle;
+  flex: 1;
+}
+
+.articles {
+  composes: rootCardStyle;
+  flex: 1.8;
+  margin-right: 30px;
+}
+
+.innerArticle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.articleTitle {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
 }
 
 .usefulLinks {

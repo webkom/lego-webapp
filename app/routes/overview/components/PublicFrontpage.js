@@ -10,14 +10,19 @@ import styles from './PublicFrontpage.css';
 import bekkLogo from 'app/assets/bekk_small.png';
 import CompactEvents from './CompactEvents';
 import { Link } from 'react-router';
+import { Image } from 'app/components/Image';
+import truncateString from 'app/utils/truncateString';
+import Time from 'app/components/Time';
 
 type Props = {
   frontpage: Array<Object>
 };
+
 type State = {
   registerUser: boolean,
   forgotPassword: boolean
 };
+
 class PublicFrontpage extends Component<Props, State> {
   state = {
     registerUser: false,
@@ -34,6 +39,39 @@ class PublicFrontpage extends Component<Props, State> {
   render() {
     const { registerUser, forgotPassword } = this.state;
     const isEvent = item => item.documentType === 'event';
+    const isArticle = item => item.documentType === 'article';
+
+    const topArticle = this.props.frontpage
+      .filter(isArticle)
+      .slice(0, 1)
+      .map(item => (
+        <div key={item.id} className={styles.innerArticle}>
+          <div className={styles.articleTitle}>
+            <h4
+              style={{
+                whiteSpace: 'pre',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
+              }}
+            >
+              {truncateString(item.title, 60)}
+            </h4>
+            <h5
+              style={{
+                whiteSpace: 'pre',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
+              }}
+            >
+              <Time format="dd D.MM" time={item.createdAt} />
+            </h5>
+          </div>
+          <Link to={`/articles/${item.id}`}>
+            <Image src={item.cover} />
+          </Link>
+          {truncateString(item.description, 500)}
+        </div>
+      ));
 
     let title, form;
     if (registerUser) {
@@ -110,13 +148,37 @@ class PublicFrontpage extends Component<Props, State> {
               <CompactEvents
                 events={this.props.frontpage.filter(isEvent)}
                 frontpageHeading
+                titleMaxLength={20}
               />
             </div>
 
             <div className={styles.cooperator}>
-              <h2 className={'u-mb'}>Hovedsammarbeidspartner</h2>
-              <a href="https://bekk.no">
+              <a href="https://bekk.no" target="blank">
                 <img className={styles.sponsor} src={bekkLogo} alt="BEKK" />
+              </a>{' '}
+              Bekk er vår hovedsamarbeidspartner. De er et faglig sterkt og
+              kreativt drevet selskap, spesialisert innen strategi, teknologi og
+              design. Vi mener utviklingen drives av nysgjerrige hoder som
+              brenner for faget sitt og alltid søker nye utfordringer.
+            </div>
+          </Flex>
+
+          <Flex wrap className={styles.cardFlex}>
+            <div className={styles.articles}>
+              <h2 className="u-mb">Siste artikkel</h2>
+              {topArticle}
+            </div>
+
+            <div className={styles.readme}>
+              <h2 className="u-mb">Siste utgave av vårt magasin</h2>
+              <a
+                href={`https://readme.abakus.no/utgaver/2018/2018-03.pdf`}
+                className={styles.thumb}
+                style={{ display: 'block' }}
+              >
+                <Image
+                  src={`https://readme.abakus.no/bilder/2018/2018-03.jpg`}
+                />
               </a>
             </div>
           </Flex>
@@ -134,7 +196,7 @@ class PublicFrontpage extends Component<Props, State> {
                   </div>
                 </li>
                 <li>
-                  <a href="https://www.ntnu.no/studier/mtdt">
+                  <a href="https://www.ntnu.no/studier/mtdt" target="blank">
                     <i className="fa fa-caret-right" /> Datateknologi
                   </a>
                   <div className={styles.linkDescription}>
@@ -144,7 +206,7 @@ class PublicFrontpage extends Component<Props, State> {
                   </div>
                 </li>
                 <li>
-                  <a href="http://www.ntnu.no/studier/mtkom">
+                  <a href="http://www.ntnu.no/studier/mtkom" target="blank">
                     <i className="fa fa-caret-right" /> Kommunikasjonsteknologi
                   </a>
                   <div className={styles.linkDescription}>
