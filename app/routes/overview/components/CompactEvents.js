@@ -10,14 +10,13 @@ import Time from 'app/components/Time';
 
 type Props = {
   events: Array<Object>,
-  frontpageHeading?: boolean
+  frontpageHeading?: boolean,
+  titleMaxLength?: number
 };
-
-const TITLE_MAX_LENGTH = 25;
 
 export default class CompactEvents extends Component<Props> {
   render() {
-    const { events, frontpageHeading } = this.props;
+    const { events, frontpageHeading, titleMaxLength = 25 } = this.props;
 
     const mapEvents = eventTypes => {
       return events
@@ -41,7 +40,7 @@ export default class CompactEvents extends Component<Props> {
               </span>
               <span>
                 <Link to={`/events/${event.id}`}>
-                  {truncateString(event.title, TITLE_MAX_LENGTH)}
+                  {truncateString(event.title, titleMaxLength)}
                 </Link>
               </span>
             </span>
