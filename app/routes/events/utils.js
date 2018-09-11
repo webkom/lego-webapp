@@ -79,6 +79,12 @@ const poolCreateAndUpdateFields = [
 ];
 
 export const transformEvent = (data: TransformEvent, edit: boolean = false) => {
+  let priceMember = 0;
+  if (data.isPriced) {
+    priceMember =
+      (data.addFee ? addStripeFee(data.priceMember) : data.priceMember) * 100;
+  }
+
   return {
     ...pick(data, eventCreateAndUpdateFields),
     startTime: moment(data.startTime).toISOString(),
@@ -87,7 +93,7 @@ export const transformEvent = (data: TransformEvent, edit: boolean = false) => {
       data.pools.length >= 2 ? moment(data.mergeTime).toISOString() : null,
     company: data.company && data.company.value,
     responsibleGroup: data.responsibleGroup && data.responsibleGroup.value,
-    priceMember: data.isPriced ? data.priceMember * 100 : 0,
+    priceMember,
     paymentDueDate: data.isPriced
       ? moment(data.paymentDueDate).toISOString()
       : null,
@@ -116,3 +122,5 @@ const paymentSuccessMappings = {
 
 export const hasPaid = (chargeStatus: string) =>
   paymentSuccessMappings[chargeStatus];
+
+export const addStripeFee = (price: number) => Math.ceil(price * 1.012 + 1.8);

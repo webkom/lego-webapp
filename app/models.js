@@ -63,6 +63,7 @@ export type Event = EventBase & {
 };
 
 export type TransformEvent = EventBase & {
+  addFee: boolean,
   pools: Array<EventTransformPool>,
   company: SelectInput,
   responsibleGroup: SelectInput
