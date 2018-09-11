@@ -23,7 +23,7 @@ import {
   legoForm
 } from 'app/components/Form';
 import { Flex } from 'app/components/Layout';
-import { eventTypes, colorForEvent } from '../../utils';
+import { addStripeFee, eventTypes, colorForEvent } from '../../utils';
 import Admin from '../Admin';
 import {
   Content,
@@ -218,6 +218,24 @@ function EventEditor({
                   fieldClassName={styles.metaField}
                   className={styles.formField}
                 />
+                <Field
+                  label="Legg til gebyr"
+                  name="addFee"
+                  component={CheckBox.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                  normalize={v => !!v}
+                />
+                {event.priceMember > 0 && (
+                  <i>
+                    Totalt:{' '}
+                    <strong>
+                      {event.addFee
+                        ? addStripeFee(Number(event.priceMember))
+                        : event.priceMember},-
+                    </strong>
+                  </i>
+                )}
                 <Field
                   label="Betalingsfrist"
                   name="paymentDueDate"

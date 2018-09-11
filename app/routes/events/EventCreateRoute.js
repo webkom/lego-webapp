@@ -38,8 +38,10 @@ const mapStateToProps = (state, props) => {
     },
     actionGrant,
     event: {
+      addFee: valueSelector(state, 'addFee'),
       isPriced: valueSelector(state, 'isPriced'),
-      eventType: valueSelector(state, 'eventType')
+      eventType: valueSelector(state, 'eventType'),
+      priceMember: valueSelector(state, 'priceMember')
     },
     pools: valueSelector(state, 'pools')
   };
