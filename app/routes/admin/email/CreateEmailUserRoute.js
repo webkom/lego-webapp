@@ -8,4 +8,12 @@ import { push } from 'react-router-redux';
 
 const mapDispatchToProps = { mutateFunction: createEmailUser, push };
 
-export default compose(connect(null, mapDispatchToProps))(EmailUserEditor);
+const mapStateToProps = () => ({
+  initialValues: {
+    internalEmailEnabled: true
+  }
+});
+
+export default compose(connect(mapStateToProps, mapDispatchToProps))(
+  EmailUserEditor
+);
