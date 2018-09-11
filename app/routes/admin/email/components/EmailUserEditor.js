@@ -55,7 +55,7 @@ const EmailUserEditor = ({
         component={TextInput.Field}
       />
       <Field
-        label="Intern epost aktivert"
+        label="Aktiv epost"
         name="internalEmailEnabled"
         component={CheckBox.Field}
         normalize={v => !!v}
