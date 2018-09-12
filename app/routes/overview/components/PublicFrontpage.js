@@ -8,13 +8,21 @@ import {
 } from 'app/components/LoginForm';
 import styles from './PublicFrontpage.css';
 import bekkLogo from 'app/assets/bekk_small.png';
+import CompactEvents from './CompactEvents';
 import { Link } from 'react-router';
+import { Image } from 'app/components/Image';
+import truncateString from 'app/utils/truncateString';
+import Time from 'app/components/Time';
 
-type Props = {};
+type Props = {
+  frontpage: Array<Object>
+};
+
 type State = {
   registerUser: boolean,
   forgotPassword: boolean
 };
+
 class PublicFrontpage extends Component<Props, State> {
   state = {
     registerUser: false,
@@ -30,6 +38,40 @@ class PublicFrontpage extends Component<Props, State> {
 
   render() {
     const { registerUser, forgotPassword } = this.state;
+    const isEvent = item => item.documentType === 'event';
+    const isArticle = item => item.documentType === 'article';
+
+    const topArticle = this.props.frontpage
+      .filter(isArticle)
+      .slice(0, 1)
+      .map(item => (
+        <div key={item.id} className={styles.innerArticle}>
+          <div className={styles.articleTitle}>
+            <h4
+              style={{
+                whiteSpace: 'pre',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
+              }}
+            >
+              {truncateString(item.title, 60)}
+            </h4>
+            <h5
+              style={{
+                whiteSpace: 'pre',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis'
+              }}
+            >
+              <Time format="dd D.MM" time={item.createdAt} />
+            </h5>
+          </div>
+          <Link to={`/articles/${item.id}`}>
+            <Image src={item.cover} />
+          </Link>
+          {truncateString(item.description, 500)}
+        </div>
+      ));
 
     let title, form;
     if (registerUser) {
@@ -46,8 +88,23 @@ class PublicFrontpage extends Component<Props, State> {
     return (
       <Fragment>
         <Container>
-          <Flex wrap justifyContent="space-between" className={styles.root}>
-            <div className={styles.smallWelcomeBox}>
+          <Flex wrap className={styles.cardFlex}>
+            <div className={styles.welcome}>
+              <h2 className={'u-mb'}>Velkommen til Abakus</h2>
+              <p>
+                Abakus er linjeforeningen for studentene ved Datateknologi og
+                Kommunikasjonsteknologi på NTNU, og drives av studenter ved
+                disse studiene.
+              </p>
+              <p>
+                Abakus
+                {"'"} formål er å gi disse studentene veiledning i
+                studiesituasjonen, arrangere kurs som utfyller fagtilbudet ved
+                NTNU, fremme kontakten med næringslivet og bidra med sosiale
+                aktiviteter.
+              </p>
+            </div>
+            <div className={styles.loginForm}>
               <Flex
                 component="h2"
                 justifyContent="space-between"
@@ -84,29 +141,49 @@ class PublicFrontpage extends Component<Props, State> {
               </Flex>
               {form}
             </div>
-            <div className={styles.bigWelcomeBox}>
-              <h2 className={`${styles.header} u-mb`}>
-                Velkommen til Abakus
-                <a href="https://bekk.no">
-                  <img className={styles.sponsor} src={bekkLogo} alt="BEKK" />
-                </a>
-              </h2>
-              <p>
-                Abakus er linjeforeningen for studentene ved Datateknologi og
-                Kommunikasjonsteknologi på NTNU, og drives av studenter ved
-                disse studiene.
-              </p>
-              <p>
-                Abakus
-                {"'"} formål er å gi disse studentene veiledning i
-                studiesituasjonen, arrangere kurs som utfyller fagtilbudet ved
-                NTNU, fremme kontakten med næringslivet og bidra med sosiale
-                aktiviteter.
-              </p>
+          </Flex>
+
+          <Flex wrap className={styles.cardFlex}>
+            <div className={styles.events}>
+              <CompactEvents
+                events={this.props.frontpage.filter(isEvent)}
+                frontpageHeading
+                titleMaxLength={20}
+              />
+            </div>
+
+            <div className={styles.cooperator}>
+              <a href="https://bekk.no" target="blank">
+                <img className={styles.sponsor} src={bekkLogo} alt="BEKK" />
+              </a>{' '}
+              Bekk er vår hovedsamarbeidspartner. De er et faglig sterkt og
+              kreativt drevet selskap, spesialisert innen strategi, teknologi og
+              design. Vi mener utviklingen drives av nysgjerrige hoder som
+              brenner for faget sitt og alltid søker nye utfordringer.
             </div>
           </Flex>
 
-          <Flex wrap className={styles.bottomContainer}>
+          <Flex wrap className={styles.cardFlex}>
+            <div className={styles.articles}>
+              <h2 className="u-mb">Siste artikkel</h2>
+              {topArticle}
+            </div>
+
+            <div className={styles.readme}>
+              <h2 className="u-mb">Siste utgave av vårt magasin</h2>
+              <a
+                href={`https://readme.abakus.no/utgaver/2018/2018-03.pdf`}
+                className={styles.thumb}
+                style={{ display: 'block' }}
+              >
+                <Image
+                  src={`https://readme.abakus.no/bilder/2018/2018-03.jpg`}
+                />
+              </a>
+            </div>
+          </Flex>
+
+          <Flex wrap className={styles.cardFlex}>
             <div className={styles.usefulLinks}>
               <h2 className="u-mb">Nyttige linker</h2>
               <ul>
@@ -119,8 +196,8 @@ class PublicFrontpage extends Component<Props, State> {
                   </div>
                 </li>
                 <li>
-                  <a href="https://www.ntnu.no/studier/mtdt">
-                    <i className="fa fa-caret-right" /> Om Datateknologi
+                  <a href="https://www.ntnu.no/studier/mtdt" target="blank">
+                    <i className="fa fa-caret-right" /> Datateknologi
                   </a>
                   <div className={styles.linkDescription}>
                     Datateknologi er en helt sentral del av alle fremtidsrettede
@@ -129,9 +206,8 @@ class PublicFrontpage extends Component<Props, State> {
                   </div>
                 </li>
                 <li>
-                  <a href="http://www.ntnu.no/studier/mtkom">
-                    <i className="fa fa-caret-right" /> Om
-                    Kommunikasjonsteknologi
+                  <a href="http://www.ntnu.no/studier/mtkom" target="blank">
+                    <i className="fa fa-caret-right" /> Kommunikasjonsteknologi
                   </a>
                   <div className={styles.linkDescription}>
                     Vi bruker stadig mer av livene våre på nett, på jobb som i
@@ -155,6 +231,7 @@ class PublicFrontpage extends Component<Props, State> {
             </div>
 
             <div className={styles.facebook}>
+              <h2 className="u-mb">Vår Facebook side</h2>
               <iframe
                 src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAbakusNTNU%2F&amp;tabs=timeline&amp;width=420&amp;small_header=true&amp;adapt_container_width=true&amp;hide_cover=false&amp;show_facepile=true&amp;appId=1717809791769695"
                 style={{

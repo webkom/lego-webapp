@@ -1,12 +1,23 @@
 @import 'app/styles/variables.css';
 
-.root {
-  flex-direction: row-reverse;
-  align-items: center;
-  padding-bottom: 75px;
+.cardFlex {
+  display: flex;
+  flex-direction: row;
 
   @media (--mobile-device) {
-    padding-bottom: 25px;
+    flex-direction: column;
+  }
+}
+
+.rootCardStyle {
+  composes: withShadow from 'app/styles/utilities.css';
+  background: var(--color-light-gray-5);
+  padding: 40px;
+  margin-bottom: 30px;
+
+  @media (--mobile-device) {
+    margin: 0 10px 10px !important;
+    padding: 15px;
   }
 }
 
@@ -16,70 +27,82 @@
   justify-content: space-between;
 }
 
-.sponsor {
-  width: 90px;
-}
-
 .toggleButton {
   color: var(--lego-link-color);
   font-size: 14px;
 }
 
-.welcomeBox {
-  composes: withShadow from 'app/styles/utilities.css';
-  padding: 40px;
-  background: #f9f9f9;
+.welcome {
+  composes: rootCardStyle;
+  flex: 1.8;
+  margin-right: 30px;
 }
 
-.bigWelcomeBox {
-  composes: welcomeBox;
-  background: #fff;
-  flex: 1.55;
-
-  @media (--mobile-device) {
-    flex-basis: 20em;
-  }
-}
-
-.smallWelcomeBox {
-  composes: welcomeBox;
+.loginForm {
+  composes: rootCardStyle;
   flex: 1;
-  box-shadow: inset 5px 0 5px #eee;
-  padding: 30px 40px 40px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+}
+
+.events {
+  composes: rootCardStyle;
+  flex: 1.95;
+  margin-right: 30px;
+  color: var(--lego-font-color);
+  padding: 40px 10px 40px 20px;
 
   @media (--mobile-device) {
-    padding: 10px;
-    flex-basis: 20em;
+    padding: 15px 25px 15px 5px;
   }
 }
 
-.facebook {
+.cooperator {
+  composes: rootCardStyle;
+  flex: 1;
+}
+
+.cooperator img {
+  width: 50%;
+  display: block;
+  margin: auto;
+  margin-bottom: 10px;
+
   @media (--mobile-device) {
-    width: 90%;
-    max-width: 420px;
-    margin: 15px auto 0;
+    margin: 10px 0;
   }
 }
 
-.bottomContainer {
+.readme {
+  composes: rootCardStyle;
+  flex: 1;
+}
+
+.articles {
+  composes: rootCardStyle;
+  flex: 1.8;
+  margin-right: 30px;
+}
+
+.innerArticle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.articleTitle {
+  display: flex;
+  width: 100%;
   justify-content: space-between;
-
-  @media (--mobile-device) {
-    flex-direction: column;
-  }
 }
 
 .usefulLinks {
-  composes: contentContainer from 'app/styles/utilities.css';
-  flex: 1;
+  composes: rootCardStyle;
+  flex: 1.8;
   margin-right: 30px;
+}
 
-  @media (--mobile-device) {
-    margin: 0 auto;
-    padding: 20px 30px;
-  }
+.facebook {
+  composes: rootCardStyle;
+  flex: 1;
 }
 
 .usefulLinks a {

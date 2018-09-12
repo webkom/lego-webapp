@@ -9,14 +9,14 @@ import { Flex } from 'app/components/Layout';
 import Time from 'app/components/Time';
 
 type Props = {
-  events: Array<Object>
+  events: Array<Object>,
+  frontpageHeading?: boolean,
+  titleMaxLength?: number
 };
-
-const TITLE_MAX_LENGTH = 25;
 
 export default class CompactEvents extends Component<Props> {
   render() {
-    const { events } = this.props;
+    const { events, frontpageHeading, titleMaxLength = 25 } = this.props;
 
     const mapEvents = eventTypes => {
       return events
@@ -40,7 +40,7 @@ export default class CompactEvents extends Component<Props> {
               </span>
               <span>
                 <Link to={`/events/${event.id}`}>
-                  {truncateString(event.title, TITLE_MAX_LENGTH)}
+                  {truncateString(event.title, titleMaxLength)}
                 </Link>
               </span>
             </span>
@@ -63,18 +63,21 @@ export default class CompactEvents extends Component<Props> {
     if (!events.length) {
       return null;
     }
+
+    const headerStyle = frontpageHeading ? 'u-mb' : 'u-ui-heading';
+
     return (
       <Flex column>
         <Flex wrap className={styles.compactEvents}>
           <Flex column className={styles.compactLeft}>
             <Link to={'/events'}>
-              <h3 className="u-ui-heading">Bedpres og Kurs</h3>
+              <h3 className={headerStyle}>Bedpres og Kurs</h3>
             </Link>
             <ul className={styles.innerList}>{leftEvents}</ul>
           </Flex>
           <Flex column className={styles.compactRight}>
             <Link to={'/events'}>
-              <h3 className="u-ui-heading">Arrangementer</h3>
+              <h3 className={headerStyle}>Arrangementer</h3>
             </Link>
             <ul className={styles.innerList}>{rightEvents}</ul>
           </Flex>

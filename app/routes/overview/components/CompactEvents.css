@@ -14,7 +14,7 @@
 }
 
 .compactEvents a {
-  color: rgba(0, 0, 0, 0.9);
+  color: var(--lego-font-color);
 
   &:hover {
     color: #c0392b;
