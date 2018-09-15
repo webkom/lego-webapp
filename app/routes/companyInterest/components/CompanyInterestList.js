@@ -32,8 +32,7 @@ export type Props = {
 };
 
 type State = {
-  clickedCompanyInterest: number,
-  selectedOption: Option
+  clickedCompanyInterest: number
 };
 
 const RenderCompanyActions = ({
@@ -58,8 +57,7 @@ const RenderCompanyActions = ({
 
 class CompanyInterestList extends Component<Props, State> {
   state = {
-    clickedCompanyInterest: 0,
-    selectedOption: this.props.selectedOption
+    clickedCompanyInterest: 0
   };
 
   handleDelete = (clickedCompanyInterest: number) => {
@@ -92,8 +90,7 @@ class CompanyInterestList extends Component<Props, State> {
             semesters: clickedOption.id
           }
         });
-      })
-      .then(() => this.setState({ selectedOption: clickedOption }));
+      });
   };
 
   render() {
@@ -159,7 +156,7 @@ class CompanyInterestList extends Component<Props, State> {
             </p>
             <Select
               name="form-field-name"
-              value={this.state.selectedOption}
+              value={this.props.selectedOption}
               onChange={this.handleChange}
               options={options}
               clearable={false}
