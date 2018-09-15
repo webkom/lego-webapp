@@ -130,9 +130,9 @@ class CompanyInterestList extends Component<Props, State> {
 
     const options = [
       {
-        year: '',
+        year: 9999,
         semester: '',
-        label: 'Vis alle'
+        label: 'Vis alle semestre'
       },
       ...this.props.semesters.map((semesterObj: CompanySemesterEntity) => {
         let { id, year, semester } = semesterObj;
@@ -143,7 +143,15 @@ class CompanyInterestList extends Component<Props, State> {
           label: semesterToText(semesterObj)
         };
       })
-    ];
+    ].sort((o1, o2) => {
+      if (Number(o1.year) === Number(o2.year)) {
+        if (o1.semester === 'spring') {
+          return -1;
+        }
+        return 1;
+      }
+      return Number(o1.year) > Number(o2.year) ? -1 : 1;
+    });
 
     return (
       <Content>
