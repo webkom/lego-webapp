@@ -31,7 +31,7 @@ const mapStateToProps = (state, props) => {
   );
 
   let selectedOption = {
-    id: semesterId != null ? semesterId : 0,
+    id: semesterId ? semesterId : 0,
     semester: semesterObj != null ? semesterObj.semester : '',
     year: semesterObj != null ? semesterObj.year : ''
   };
@@ -44,7 +44,6 @@ const mapStateToProps = (state, props) => {
   const fetching = state.companyInterest.fetching;
 
   let label = semesterToText(selectedOption);
-  console.log(label, selectedOption);
   return {
     semesters,
     companyInterestList,

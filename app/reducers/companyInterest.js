@@ -44,11 +44,15 @@ export const selectCompanyInterestList = createSelector(
   state => state.companyInterest.items,
   (state, props) => props,
   (companyInterestById, companyInterestIds, semesterId) => {
-    return companyInterestIds
-      .map(id => companyInterestById[id])
-      .filter(companyInterest =>
-        companyInterest.semesters.includes(semesterId)
-      );
+    let companyInterests = companyInterestIds.map(
+      id => companyInterestById[id]
+    );
+    if (semesterId === 0) {
+      return companyInterests;
+    }
+    return companyInterests.filter(companyInterest =>
+      companyInterest.semesters.includes(semesterId)
+    );
   }
 );
 
