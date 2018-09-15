@@ -13,7 +13,7 @@ import Table from 'app/components/Table';
 import Select from 'react-select';
 
 export type Option = {
-  id: number,
+  value: number,
   semester: string,
   year: string,
   label: string
@@ -27,7 +27,7 @@ export type Props = {
   fetching: boolean,
   semesters: Array<CompanySemesterEntity>,
   push: string => void,
-  selectedOption: Option,
+  selectedOptions: [Option],
   router: any
 };
 
@@ -76,18 +76,22 @@ class CompanyInterestList extends Component<Props, State> {
     }
   };
 
-  handleChange = (clickedOption: Option): void => {
+  handleChange = (clickedOption: [Option]): void => {
+    const optionIds = [
+      clickedOption.map(option => option.value),
+      ...this.props.selectedOptions
+    ];
     this.props
       .fetch({
         filters: {
-          semesters: clickedOption.id
+          semesters: optionIds
         }
       })
       .then(() => {
         this.props.router.replace({
           pathname: '/companyInterest',
           query: {
-            semesters: clickedOption.id
+            semesters: optionIds
           }
         });
       });
@@ -137,7 +141,7 @@ class CompanyInterestList extends Component<Props, State> {
       ...this.props.semesters.map((semesterObj: CompanySemesterEntity) => {
         let { id, year, semester } = semesterObj;
         return {
-          id,
+          value: id,
           year,
           semester,
           label: semesterToText(semesterObj)
@@ -152,7 +156,6 @@ class CompanyInterestList extends Component<Props, State> {
       }
       return Number(o1.year) > Number(o2.year) ? -1 : 1;
     });
-
     return (
       <Content>
         <ListNavigation title="Bedriftsinteresser" />
@@ -164,9 +167,10 @@ class CompanyInterestList extends Component<Props, State> {
             </p>
             <Select
               name="form-field-name"
-              value={this.props.selectedOption}
+              value={this.props.selectedOptions}
               onChange={this.handleChange}
               options={options}
+              multi
               clearable={false}
             />
           </Flex>
