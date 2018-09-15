@@ -35,12 +35,16 @@ const mapStateToProps = (state, props) => {
     semester: semesterObj != null ? semesterObj.semester : '',
     year: semesterObj != null ? semesterObj.year : ''
   };
-  const companyInterestList = selectCompanyInterestList(state, selectedOption);
+  const companyInterestList = selectCompanyInterestList(
+    state,
+    selectedOption.id
+  );
   // TODO: Add filter in selector
   const hasMore = state.companyInterest.hasMore;
   const fetching = state.companyInterest.fetching;
 
   let label = semesterToText(selectedOption);
+  console.log(label, selectedOption);
   return {
     semesters,
     companyInterestList,
@@ -48,7 +52,7 @@ const mapStateToProps = (state, props) => {
     fetching,
     selectedOption: {
       ...selectedOption,
-      label: label != null ? label : 'Vis alle semestre'
+      label: semesterObj != null ? label : 'Vis alle semestre'
     }
   };
 };

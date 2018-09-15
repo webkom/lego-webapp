@@ -43,13 +43,11 @@ export const selectCompanyInterestList = createSelector(
   state => state.companyInterest.byId,
   state => state.companyInterest.items,
   (state, props) => props,
-  (companyInterestById, companyInterestIds, props) => {
+  (companyInterestById, companyInterestIds, semesterId) => {
     return companyInterestIds
       .map(id => companyInterestById[id])
-      .filter(
-        companyInterest =>
-          companyInterest.semesters.semester === props.semester ||
-          companyInterest.semesters.year === props.year
+      .filter(companyInterest =>
+        companyInterest.semesters.includes(semesterId)
       );
   }
 );
