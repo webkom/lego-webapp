@@ -13,6 +13,7 @@ import Table from 'app/components/Table';
 import Select from 'react-select';
 
 export type Option = {
+  id: number,
   semester: string,
   year: string,
   label: string
@@ -81,16 +82,14 @@ class CompanyInterestList extends Component<Props, State> {
     this.props
       .fetch({
         filters: {
-          semester: clickedOption.semester,
-          year: clickedOption.year
+          semesters: clickedOption.id
         }
       })
       .then(() => {
         this.props.router.replace({
           pathname: '/companyInterest',
           query: {
-            semester: clickedOption.semester,
-            year: clickedOption.year
+            semesters: clickedOption.id
           }
         });
       })
@@ -138,11 +137,15 @@ class CompanyInterestList extends Component<Props, State> {
         semester: '',
         label: 'Vis alle'
       },
-      ...this.props.semesters.map((semester: CompanySemesterEntity) => ({
-        year: semester.year,
-        semester: semester.semester,
-        label: semesterToText(semester)
-      }))
+      ...this.props.semesters.map((semesterObj: CompanySemesterEntity) => {
+        let { id, year, semester } = semesterObj;
+        return {
+          id,
+          year,
+          semester,
+          label: semesterToText(semesterObj)
+        };
+      })
     ];
 
     return (

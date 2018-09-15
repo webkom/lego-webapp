@@ -15,6 +15,7 @@ import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import prepare from 'app/utils/prepare';
 import { push } from 'react-router-redux';
 import { semesterToText } from './utils';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 const loadData = ({ params }, dispatch) =>
   Promise.all([
@@ -23,14 +24,19 @@ const loadData = ({ params }, dispatch) =>
   ]);
 
 const mapStateToProps = (state, props) => {
-  const { semester, year } = props.location.query;
+  const semesterId = Number(props.location.query.semesters);
+  const semesters = selectCompanySemesters(state);
+  let semesterObj: ?CompanySemesterEntity = semesters.find(
+    semester => semester.id === semesterId
+  );
+
   let selectedOption = {
-    semester: semester ? semester : '',
-    year: year ? year : ''
+    id: semesterId != null ? semesterId : 0,
+    semester: semesterObj != null ? semesterObj.semester : '',
+    year: semesterObj != null ? semesterObj.year : ''
   };
   const companyInterestList = selectCompanyInterestList(state, selectedOption);
   // TODO: Add filter in selector
-  const semesters = selectCompanySemesters(state);
   const hasMore = state.companyInterest.hasMore;
   const fetching = state.companyInterest.fetching;
 
@@ -42,7 +48,7 @@ const mapStateToProps = (state, props) => {
     fetching,
     selectedOption: {
       ...selectedOption,
-      label: label === undefined ? label : 'Vis alle semestre'
+      label: label != null ? label : 'Vis alle semestre'
     }
   };
 };
