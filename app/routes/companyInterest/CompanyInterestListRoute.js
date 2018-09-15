@@ -24,7 +24,6 @@ const loadData = ({ params }, dispatch) =>
 
 const mapStateToProps = (state, props) => {
   const { semester, year } = props.location.query;
-  console.log(semester, year, '<3<333');
   let selectedOption = {
     semester: semester ? semester : '',
     year: year ? year : ''
@@ -35,21 +34,15 @@ const mapStateToProps = (state, props) => {
   const hasMore = state.companyInterest.hasMore;
   const fetching = state.companyInterest.fetching;
 
+  let label = semesterToText(selectedOption);
   return {
-    initialValues: {
-      semesters,
-      selectedOption: {
-        ...selectedOption,
-        label: semesterToText(selectedOption)
-      }
-    },
     semesters,
     companyInterestList,
     hasMore,
     fetching,
     selectedOption: {
       ...selectedOption,
-      label: semesterToText(selectedOption)
+      label: label === undefined ? label : 'Vis alle semestre'
     }
   };
 };

@@ -86,26 +86,13 @@ class CompanyInterestList extends Component<Props, State> {
         }
       })
       .then(() => {
-        //        let yearParam = selectedOption.year
-        //          ? `?year=${selectedOption.year}`
-        //          : '';
-        //        let semesterParam = selectedOption.semester
-        //          ? `?semester=${selectedOption.semester}`
-        //          : '';
-        //        console.log(
-        //          'I should be called',
-        //          `/companyInterest/${yearParam}${yearParam ? '&' : ''}${semesterParam}`
-        //        );
-        this.props.router.replace(
-          {
-            pathname: '/companyInterest',
-            query: {
-              semester: clickedOption.semester,
-              year: clickedOption.year
-            }
+        this.props.router.replace({
+          pathname: '/companyInterest',
+          query: {
+            semester: clickedOption.semester,
+            year: clickedOption.year
           }
-          // `/companyInterest/${yearParam}${yearParam ? '&' : ''}${semesterParam}`
-        );
+        });
       })
       .then(() => this.setState({ selectedOption: clickedOption }));
   };
