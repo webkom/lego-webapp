@@ -11,7 +11,7 @@
 
 .rootCardStyle {
   composes: withShadow from 'app/styles/utilities.css';
-  background: var(--color-light-gray-5);
+  background: rgba(245, 244, 244, 1);
   padding: 40px;
   margin-bottom: 30px;
 
