@@ -404,10 +404,8 @@ export function editSemester({
         meta: {
           errorMessage: 'Endring av semester feilet',
           successMessage: `${semesterToText({
-            id,
-            year,
             semester,
-            activeInterestForm
+            year
           })} er nå ${activeInterestForm ? 'aktivt' : 'deaktivert'}!`
         }
       })

@@ -30,8 +30,13 @@ export const SEMESTER_TRANSLATION = {
   autumn: 'Høst'
 };
 
-export const semesterToText = (semesterObj: CompanySemesterEntity) => {
-  let { semester, year } = semesterObj;
+export const semesterToText = ({
+  semester,
+  year
+}: {
+  semester: string,
+  year: number | string
+}) => {
   return semester === 'spring' || semester === 'autumn'
     ? `${SEMESTER_TRANSLATION[semester]} ${year}`
     : '';

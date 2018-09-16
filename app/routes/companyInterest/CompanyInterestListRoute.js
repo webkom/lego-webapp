@@ -18,41 +18,40 @@ import { semesterToText } from './utils';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 const loadData = ({ params }, dispatch) =>
-  Promise.all([
-    dispatch(fetchAll()).catch(),
-    dispatch(fetchSemesters()).catch()
-  ]);
+  Promise.all([dispatch(fetchAll()), dispatch(fetchSemesters())]);
 
 const mapStateToProps = (state, props) => {
   const semesterId = Number(props.location.query.semesters);
   const semesters = selectCompanySemesters(state);
-  let semesterObj: ?CompanySemesterEntity = semesters.find(
+  const semesterObj: ?CompanySemesterEntity = semesters.find(
     semester => semester.id === semesterId
   );
 
-  let selectedOption = {
+  const selectedOption = {
     id: semesterId ? semesterId : 0,
     semester: semesterObj != null ? semesterObj.semester : '',
-    year: semesterObj != null ? semesterObj.year : ''
+    year: semesterObj != null ? semesterObj.year : '',
+    label:
+      semesterObj != null
+        ? semesterToText({
+            semester: semesterObj.semester,
+            year: semesterObj.year
+          })
+        : 'Vis alle semestre'
   };
   const companyInterestList = selectCompanyInterestList(
     state,
     selectedOption.id
   );
-  // TODO: Add filter in selector
   const hasMore = state.companyInterest.hasMore;
   const fetching = state.companyInterest.fetching;
 
-  let label = semesterToText(selectedOption);
   return {
     semesters,
     companyInterestList,
     hasMore,
     fetching,
-    selectedOption: {
-      ...selectedOption,
-      label: semesterObj != null ? label : 'Vis alle semestre'
-    }
+    selectedOption
   };
 };
 
@@ -65,6 +64,6 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(loadData, ['']),
+  prepare(loadData),
   connect(mapStateToProps, mapDispatchToProps)
 )(CompanyInterestList);

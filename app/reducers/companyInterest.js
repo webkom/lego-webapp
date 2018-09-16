@@ -44,7 +44,7 @@ export const selectCompanyInterestList = createSelector(
   state => state.companyInterest.items,
   (state, props) => props,
   (companyInterestById, companyInterestIds, semesterId) => {
-    let companyInterests = companyInterestIds.map(
+    const companyInterests = companyInterestIds.map(
       id => companyInterestById[id]
     );
     if (semesterId === 0) {
