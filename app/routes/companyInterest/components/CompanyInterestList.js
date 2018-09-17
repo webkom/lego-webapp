@@ -1,5 +1,6 @@
 // @flow
 import { ListNavigation } from 'app/routes/bdb/utils';
+import { semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
 import React, { Component } from 'react';
 import Button from 'app/components/Button';
@@ -7,14 +8,27 @@ import { Link } from 'react-router';
 import { Content } from 'app/components/Content';
 import Flex from 'app/components/Layout/Flex';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import Table from 'app/components/Table';
+import Select from 'react-select';
+
+export type Option = {
+  id: number,
+  semester: string,
+  year: string,
+  label: string
+};
 
 export type Props = {
   companyInterestList: Array<CompanyInterestEntity>,
   deleteCompanyInterest: number => Promise<*>,
   fetch: Object => Promise<*>,
   hasMore: boolean,
-  fetching: boolean
+  fetching: boolean,
+  semesters: Array<CompanySemesterEntity>,
+  push: string => void,
+  selectedOption: Option,
+  router: any
 };
 
 type State = {
@@ -62,6 +76,23 @@ class CompanyInterestList extends Component<Props, State> {
     }
   };
 
+  handleChange = (clickedOption: Option): void => {
+    this.props
+      .fetch({
+        filters: {
+          semesters: clickedOption.id
+        }
+      })
+      .then(() => {
+        this.props.router.replace({
+          pathname: '/companyInterest',
+          query: {
+            semesters: clickedOption.id
+          }
+        });
+      });
+  };
+
   render() {
     const columns = [
       {
@@ -97,6 +128,31 @@ class CompanyInterestList extends Component<Props, State> {
       }
     ];
 
+    const options = [
+      {
+        year: 9999,
+        semester: '',
+        label: 'Vis alle semestre'
+      },
+      ...this.props.semesters.map((semesterObj: CompanySemesterEntity) => {
+        let { id, year, semester } = semesterObj;
+        return {
+          id,
+          year,
+          semester,
+          label: semesterToText(semesterObj)
+        };
+      })
+    ].sort((o1, o2) => {
+      if (Number(o1.year) === Number(o2.year)) {
+        if (o1.semester === 'spring') {
+          return -1;
+        }
+        return 1;
+      }
+      return Number(o1.year) > Number(o2.year) ? -1 : 1;
+    });
+
     return (
       <Content>
         <ListNavigation title="Bedriftsinteresser" />
@@ -106,6 +162,13 @@ class CompanyInterestList extends Component<Props, State> {
               Her finner du all praktisk informasjon knyttet til
               <strong> bedriftsinteresser</strong>.
             </p>
+            <Select
+              name="form-field-name"
+              value={this.props.selectedOption}
+              onChange={this.handleChange}
+              options={options}
+              clearable={false}
+            />
           </Flex>
           <Link to={'/companyInterest/semesters'} className={styles.link}>
             <Button>Endre aktive semestre</Button>

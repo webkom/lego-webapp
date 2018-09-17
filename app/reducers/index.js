@@ -162,12 +162,14 @@ export const pageSchema = new schema.Entity(
   {},
   { idAttribute: 'slug' }
 );
-export const companyInterestSchema = new schema.Entity('companyInterest');
+export const companySemesterSchema = new schema.Entity('companySemesters');
+export const companyInterestSchema = new schema.Entity('companyInterest', {
+  semesters: [companySemesterSchema]
+});
 export const companySchema = new schema.Entity('companies', {
   studentContact: userSchema,
   comments: [commentSchema]
 });
-export const companySemesterSchema = new schema.Entity('companySemesters');
 export const joblistingsSchema = new schema.Entity('joblistings');
 export const announcementsSchema = new schema.Entity('announcements');
 export const feedActivitySchema = new schema.Entity('feedActivities');

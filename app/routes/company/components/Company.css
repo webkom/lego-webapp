@@ -37,7 +37,6 @@
   margin-bottom: 15px;
   display: flex;
   justify-content: space-between;
-  border-left: 4px solid var(--color-event-red);
   color: var(--color-black);
 }
 

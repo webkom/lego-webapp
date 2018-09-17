@@ -37,6 +37,10 @@
   display: block;
 }
 
+.link {
+  margin-top: 10px;
+}
+
 .mobileHeader {
   width: 100%;
   display: flex;
@@ -114,11 +118,12 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
   margin: 30px auto;
+  align-items: flex-end;
 
   @media (--small-viewport) {
     flex-flow: column wrap;
+    align-items: center;
   }
 }
 

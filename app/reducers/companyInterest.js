@@ -3,6 +3,7 @@
 import { createSelector } from 'reselect';
 import { CompanyInterestForm } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 export type CompanyInterestEntity = {
   id: number,
@@ -15,7 +16,8 @@ export type CompanyInterestEntity = {
   readme: boolean,
   collaboration: boolean,
   itdagene: boolean,
-  comment: boolean
+  comment: boolean,
+  semesters: Array<CompanySemesterEntity>
 };
 
 export default createEntityReducer({
@@ -40,8 +42,18 @@ export default createEntityReducer({
 export const selectCompanyInterestList = createSelector(
   state => state.companyInterest.byId,
   state => state.companyInterest.items,
-  (companyInterestById, companyInterestIds) =>
-    companyInterestIds.map(id => companyInterestById[id])
+  (state, props) => props,
+  (companyInterestById, companyInterestIds, semesterId) => {
+    const companyInterests = companyInterestIds.map(
+      id => companyInterestById[id]
+    );
+    if (semesterId === 0) {
+      return companyInterests;
+    }
+    return companyInterests.filter(companyInterest =>
+      companyInterest.semesters.includes(semesterId)
+    );
+  }
 );
 
 export const selectCompanyInterestById = createSelector(

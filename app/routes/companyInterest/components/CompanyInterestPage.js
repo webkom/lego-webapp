@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import { semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
 import {
   TextEditor,
@@ -38,14 +39,6 @@ const eventToString = event =>
 
 const otherOffersToString = offer =>
   Object.keys(OTHER_TYPES)[Number(offer.charAt(offer.length - 2))];
-
-const SEMESTER_TRANSLATION = {
-  spring: 'Vår',
-  autumn: 'Høst'
-};
-
-export const semesterToText = (semester: CompanySemesterEntity) =>
-  `${SEMESTER_TRANSLATION[semester.semester]} ${semester.year}`;
 
 const SemesterBox = ({ fields }: FieldProps) => (
   <Flex column className={styles.checkboxWrapper}>

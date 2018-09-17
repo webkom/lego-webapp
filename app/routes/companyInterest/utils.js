@@ -24,3 +24,20 @@ export const SemesterNavigation = ({ title }: { title: Node }) => (
     <NavigationLink to="/bdb/add">Ny bedrift</NavigationLink>
   </NavigationTab>
 );
+
+export const SEMESTER_TRANSLATION = {
+  spring: 'Vår',
+  autumn: 'Høst'
+};
+
+export const semesterToText = ({
+  semester,
+  year
+}: {
+  semester: string,
+  year: number | string
+}) => {
+  return semester === 'spring' || semester === 'autumn'
+    ? `${SEMESTER_TRANSLATION[semester]} ${year}`
+    : '';
+};

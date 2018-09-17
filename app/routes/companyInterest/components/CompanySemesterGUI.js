@@ -5,7 +5,7 @@ import type { FieldProps } from 'redux-form';
 import { reset } from 'redux-form';
 import { Field } from 'redux-form';
 import { Content } from 'app/components/Content';
-import { semesterToText } from 'app/routes/companyInterest/components/CompanyInterestPage';
+import { semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
 import { Form } from 'app/components/Form';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
