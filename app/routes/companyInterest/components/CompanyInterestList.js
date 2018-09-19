@@ -158,10 +158,11 @@ class CompanyInterestList extends Component<Props, State> {
               <strong> bedriftsinteresser</strong>.
             </p>
             <Select
-              name="form-field-name"
+              name="selectCompanySemesters"
               value={this.props.selectedOptions}
               onChange={this.handleChange}
               options={options}
+              placeholder="Velg semestre"
               multi
             />
           </Flex>
