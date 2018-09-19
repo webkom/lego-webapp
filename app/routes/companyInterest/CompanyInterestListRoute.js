@@ -20,11 +20,14 @@ const loadData = ({ params }, dispatch) =>
   Promise.all([dispatch(fetchAll()), dispatch(fetchSemesters())]);
 
 const mapStateToProps = (state, props) => {
-  const semesterIds = [...(props.location.query.semesters || '')];
+  const semesterIds = [...(props.location.query.semesters || [])];
   const semesters = selectCompanySemesters(state);
-  const semesterObjects = semesterIds
-    ? semesterIds.map(id => semesters.find(semester => semester.id === id))
-    : [];
+  const semesterObjects =
+    semesterIds.length > 0
+      ? semesterIds
+          .filter(Boolean)
+          .map(id => semesters.find(semester => semester.id === Number(id)))
+      : [];
 
   const selectedOptions = semesterObjects.filter(Boolean).map(semesterObj => {
     let { id, semester, year } = semesterObj;
