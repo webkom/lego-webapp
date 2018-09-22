@@ -1,14 +1,15 @@
+@import 'app/styles/variables.css';
+
 .latestReadme {
   flex: 1;
-  background: #555;
-  color: #fff;
-  border-radius: 3px;
+  composes: withShadow from 'app/styles/utilities.css';
+  background: rgba(245, 244, 244, 1);
   padding: 10px 20px;
 }
 
 .heading {
   font-size: 22px;
-  color: #fff;
+  color: #555;
 }
 
 .thumb {

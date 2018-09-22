@@ -1,0 +1,77 @@
+@import 'app/styles/variables.css';
+
+.item {
+  text-align: justify;
+  flex: 1 0 100%;
+  min-width: 320px;
+  padding: 0 10px 40px;
+  transition: opacity 0.2s;
+}
+
+.inner {
+  composes: withShadow from 'app/styles/utilities.css';
+  flex: 1;
+
+  @media (--mobile-device) {
+    flex-wrap: wrap;
+  }
+}
+
+.image {
+  object-fit: contain;
+  background: white;
+  border-right: 1px solid rgba(0, 0, 0, 0.09);
+  border-radius: 3px 0 0 3px;
+
+  @media (--mobile-device) {
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+    border-radius: 3px 3px 0 0;
+  }
+}
+
+.imageContainer {
+  display: 'block';
+  width: 350px;
+  height: 194px;
+
+  @media (--mobile-device) {
+    width: auto;
+    max-height: 194px;
+  }
+}
+
+.innerRight {
+  width: 100%;
+}
+
+.heading {
+  text-align: center;
+  background: rgba(242, 241, 237, 0.8);
+  padding: 20px;
+}
+
+.itemTitle {
+  margin: 0;
+  line-height: 1.1;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  word-break: normal;
+}
+
+.itemTitle > a {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.itemDescription {
+  margin: 0;
+  font-family: Cardo;
+  font-size: 1.1rem;
+  -webkit-font-smoothing: initial;
+  text-align: left;
+  background: #fff;
+  padding: 20px;
+  flex: 1;
+}
+

@@ -1,0 +1,53 @@
+@import 'app/styles/variables.css';
+
+.pinned {
+  padding: 10px;
+  flex: 1;
+  width: 100%;
+}
+
+.innerPinned {
+  composes: withShadow from 'app/styles/utilities.css';
+}
+
+.innerLinks {
+  height: 212px;
+  display: block;
+}
+
+.image {
+  object-fit: contain;
+  background: white;
+  border-right: 1px solid rgba(0, 0, 0, 0.09);
+  border-radius: 3px 0 0 3px;
+
+  @media (--mobile-device) {
+    border-right: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.09);
+    border-radius: 3px 3px 0 0;
+  }
+}
+
+.pinnedHeading {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+  background: rgba(242, 241, 237, 0.2);
+  padding: 20px;
+  font-size: 30px;
+  align-items: center;
+}
+
+.itemTitle {
+  margin: 0;
+  line-height: 1.1;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  word-break: normal;
+}
+
+.itemTitle > a {
+  color: rgba(0, 0, 0, 0.9);
+}
+
