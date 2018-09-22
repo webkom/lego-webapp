@@ -42,78 +42,45 @@ export default class Overview extends Component<Props, State> {
   };
 
   renderMeta = (item: (Event | Article) & { documentType: string }) => {
-    switch (item.documentType) {
-      case 'article': {
-        return (
-          <span className={styles.itemInfo}>
-            {item.createdAt && (
-              <Time time={item.createdAt} format="DD.MM HH:mm" />
-            )}
-            {item.location &&
-              item.location !== '-' && (
-                <span>
-                  <span className={styles.dot}> · </span>
-                  <span>{item.location}</span>
-                </span>
-              )}
+    const isEvent = item.eventType ? true : false;
+    return (
+      <span className={styles.itemInfo}>
+        <Time
+          time={isEvent ? item.startTime : item.createdAt}
+          format="DD.MM HH:mm"
+        />
+
+        {item.location !== '-' &&
+          isEvent && (
             <span>
-              <span className={styles.dot}> · </span>
-              <span>Artikkel</span>
+              <span className={styles.dot}> . </span>
+              <span> {item.location} </span>
             </span>
-            {item.tags &&
-              item.tags.length > 0 && (
-                <span>
-                  <span className={styles.dot}> · </span>
-                  <Tags className={styles.tagline}>
-                    {item.tags
-                      .slice(0, 3)
-                      .map(tag => (
-                        <Tag className={styles.tag} tag={tag} key={tag} />
-                      ))}
-                  </Tags>
-                </span>
-              )}
+          )}
+
+        <span>
+          <span className={styles.dot}> . </span>
+          <span>
+            {' '}
+            {isEvent ? EVENT_TYPE_TO_STRING(item.eventType) : 'Artikkel'}{' '}
           </span>
-        );
-      }
-      case 'event': {
-        return (
-          <span className={styles.itemInfo}>
-            {item.startTime && (
-              <Time time={item.startTime} format="DD.MM HH:mm" />
-            )}
-            {item.location &&
-              item.location !== '-' && (
-                <span>
-                  <span className={styles.dot}> · </span>
-                  <span>{item.location}</span>
-                </span>
-              )}
-            {item.eventType && (
-              <span>
-                <span className={styles.dot}> · </span>
-                <span>{EVENT_TYPE_TO_STRING(item.eventType)}</span>
-              </span>
-            )}
-            {item.tags &&
-              item.tags.length > 0 && (
-                <span>
-                  <span className={styles.dot}> · </span>
-                  <Tags className={styles.tagline}>
-                    {item.tags
-                      .slice(0, 3)
-                      .map(tag => (
-                        <Tag className={styles.tag} tag={tag} key={tag} />
-                      ))}
-                  </Tags>
-                </span>
-              )}
-          </span>
-        );
-      }
-      default:
-        return null;
-    }
+        </span>
+
+        {item.tags &&
+          item.tags.length > 0 && (
+            <span>
+              <span className={styles.dot}> . </span>
+              <Tags className={styles.tagline}>
+                {item.tags
+                  .slice(0, 3)
+                  .map(tag => (
+                    <Tag className={styles.tag} tag={tag} key={tag} />
+                  ))}
+              </Tags>
+            </span>
+          )}
+      </span>
+    );
   };
 
   render() {
