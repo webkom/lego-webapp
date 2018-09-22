@@ -30,7 +30,7 @@ type State = {
 
 export default class Overview extends Component<Props, State> {
   state = {
-    eventsToShow: 4
+    eventsToShow: 7
   };
 
   increaseEventsToShow = () => {
@@ -106,14 +106,16 @@ export default class Overview extends Component<Props, State> {
           <Feed style={{ flex: 2 }} feed={feed} feedItems={feedItems} />
         </Flex>
         <Flex />
+
         <Flex padding={10}>
           <LatestReadme expanded={frontpage.length === 0} />
         </Flex>
-        <Flex wrap>
-          <Flex column className={styles.header}>
-            <p className="u-ui-heading">Andre oppslag</p>
-          </Flex>
 
+        <Flex column className={styles.header}>
+          <p className="u-ui-heading">Andre oppslag</p>
+        </Flex>
+
+        <Flex className={styles.otherItems}>
           {frontpage
             .slice(1, this.state.eventsToShow)
             .map(event => (
@@ -125,6 +127,9 @@ export default class Overview extends Component<Props, State> {
                 meta={this.renderMeta(event)}
               />
             ))}
+        </Flex>
+
+        <div>
           {frontpage.length > 0 && (
             <Button
               style={{ width: '100%', margin: '10px' }}
@@ -133,7 +138,7 @@ export default class Overview extends Component<Props, State> {
               Vis flere
             </Button>
           )}
-        </Flex>
+        </div>
       </Container>
     );
   }

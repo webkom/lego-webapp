@@ -20,18 +20,24 @@ class OverviewItem extends Component<Props, *> {
   render() {
     const { item, url, meta } = this.props;
     const TITLE_MAX_LENGTH = 50;
-    const DESCRIPTION_MAX_LENGTH = 140;
     return (
       <Flex column className={styles.item}>
-        <Flex className={styles.inner}>
+        <Flex column>
           {item.cover && (
             <Flex column>
-              <Link to={url} className={styles.imageContainer}>
+              <Link to={url}>
                 <Image className={styles.image} src={item.cover} />
+                <p
+                  style={{
+                    marginTop: '-8px',
+                    marginBottom: '-1px',
+                    borderTop: `7px solid ${colorForEvent(item.eventType)}`
+                  }}
+                />
               </Link>
             </Flex>
           )}
-          <Flex column className={styles.innerRight}>
+          <Flex column>
             <Link to={url} style={{ color: 'rgba(0, 0, 0, 0.9)' }}>
               <div className={styles.heading}>
                 <h2 className={styles.itemTitle}>
@@ -40,15 +46,6 @@ class OverviewItem extends Component<Props, *> {
                 {meta}
               </div>
             </Link>
-
-            <p
-              className={styles.itemDescription}
-              style={{
-                borderTop: `3px solid ${colorForEvent(item.eventType)}`
-              }}
-            >
-              {truncateString(item.description, DESCRIPTION_MAX_LENGTH)}
-            </p>
           </Flex>
         </Flex>
       </Flex>
