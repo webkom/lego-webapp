@@ -139,7 +139,12 @@ const formatAnswers = (answers, survey) => {
 
 const validateMandatory = (formContent: Object, props) => {
   const errors = { questions: {} };
-  const answers = formatAnswers(formContent.answers, props.survey);
+  const safeAnswers = new Array(formContent.answers.length);
+  formContent.answers.forEach((elem, i) => {
+    if (elem) safeAnswers[i] = elem;
+  });
+
+  const answers = formatAnswers(safeAnswers, props.survey);
 
   const answeredQuestionIds = answers
     ? answers
