@@ -15,7 +15,8 @@ import type { Event, Article } from 'app/models';
 import Tag from 'app/components/Tags/Tag';
 import Tags from 'app/components/Tags';
 import Pinned from './Pinned';
-import OverviewItem from './OverviewItem';
+import EventItem from './EventItem';
+import ArticleItem from './ArticleItem';
 
 type Props = {
   frontpage: Array<Object>,
@@ -25,12 +26,14 @@ type Props = {
 };
 
 type State = {
-  eventsToShow: number
+  eventsToShow: number,
+  articlesToShow: number
 };
 
-export default class Overview extends Component<Props, State> {
+class Overview extends Component<Props, State> {
   state = {
-    eventsToShow: 7
+    eventsToShow: 7,
+    articlesToShow: 3
   };
 
   increaseEventsToShow = () => {
@@ -68,16 +71,11 @@ export default class Overview extends Component<Props, State> {
 
         {item.tags &&
           item.tags.length > 0 && (
-            <span>
-              <span className={styles.dot}> . </span>
-              <Tags className={styles.tagline}>
-                {item.tags
-                  .slice(0, 3)
-                  .map(tag => (
-                    <Tag className={styles.tag} tag={tag} key={tag} />
-                  ))}
-              </Tags>
-            </span>
+            <Tags className={styles.tagline}>
+              {item.tags
+                .slice(0, 3)
+                .map(tag => <Tag className={styles.tag} tag={tag} key={tag} />)}
+            </Tags>
           )}
       </span>
     );
@@ -86,7 +84,7 @@ export default class Overview extends Component<Props, State> {
   render() {
     const isEvent = o => typeof o['startTime'] !== 'undefined';
     const { frontpage, feed, feedItems, loadingFrontpage } = this.props;
-
+    console.log(frontpage);
     return (
       <Container>
         <Helmet title="Hjem" />
@@ -111,22 +109,44 @@ export default class Overview extends Component<Props, State> {
           <LatestReadme expanded={frontpage.length === 0} />
         </Flex>
 
-        <Flex column className={styles.header}>
-          <p className="u-ui-heading">Andre oppslag</p>
+        <Flex row className={styles.header}>
+          <p className="u-ui-heading" style={{ flex: '1.9' }}>
+            Arrangementer
+          </p>
+          <p className="u-ui-heading" style={{ flex: '1' }}>
+            Artikler
+          </p>
         </Flex>
 
-        <Flex className={styles.otherItems}>
-          {frontpage
-            .slice(1, this.state.eventsToShow)
-            .map(event => (
-              <OverviewItem
-                key={event.id}
-                item={event}
-                increaseEventsToShow={this.increaseEventsToShow}
-                url={this.itemUrl(event)}
-                meta={this.renderMeta(event)}
-              />
-            ))}
+        <Flex row className={styles.otherItems}>
+          <Flex className={styles.events}>
+            {frontpage
+              .slice(1, this.state.eventsToShow)
+              .filter(item => item.documentType === 'event')
+              .map(event => (
+                <EventItem
+                  key={event.id}
+                  item={event}
+                  increaseEventsToShow={this.increaseEventsToShow}
+                  url={this.itemUrl(event)}
+                  meta={this.renderMeta(event)}
+                />
+              ))}
+          </Flex>
+
+          <Flex className={styles.articles}>
+            {frontpage
+              .filter(item => item.documentType === 'article')
+              .slice(1, this.state.articlesToShow)
+              .map(article => (
+                <ArticleItem
+                  key={article.id}
+                  item={article}
+                  url={this.itemUrl(article)}
+                  meta={this.renderMeta(article)}
+                />
+              ))}
+          </Flex>
         </Flex>
 
         <div>
@@ -143,3 +163,5 @@ export default class Overview extends Component<Props, State> {
     );
   }
 }
+
+export default Overview;

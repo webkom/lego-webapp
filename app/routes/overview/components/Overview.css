@@ -40,8 +40,17 @@
   color: rgba(0, 0, 0, 0.8);
 }
 
-.otherItems {
+.events {
   display: flex;
+  flex: 1.9;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.articles {
+  display: flex;
+  flex: 1;
   justify-content: space-between;
   flex-direction: row;
   flex-wrap: wrap;

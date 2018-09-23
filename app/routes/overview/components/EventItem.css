@@ -1,22 +1,24 @@
 @import 'app/styles/variables.css';
 
-.item {
-  text-align: justify;
-  padding: 0 10px 60px;
-  transition: opacity 0.2s;
-  width: 530px;
+.link {
+  color: rgba(0, 0, 0, 0.9);
+  width: 100%;
+}
 
-  @media (--mobile-device) {
-    width: 100%;
-  }
+.body {
+  display: flex;
+  flex-direction: row;
+  margin: 0 10px;
+  padding-bottom: 100px;
+  width: 100%;
 }
 
 .image {
-  width: 510px;
-  height: 150px;
   object-fit: cover;
   background: white;
   border-radius: 5px 5px 0 0;
+  height: 80px;
+  width: 272px;
 
   @media (--mobile-device) {
     width: 100%;
@@ -28,8 +30,27 @@
   composes: withShadow from 'app/styles/utilities.css';
   text-align: center;
   padding: 20px;
+  height: 100%;
+  flex: 1;
   border-radius: 0 0 5px 5px;
   background: rgba(245, 244, 244, 1);
+}
+
+.wrapper {
+  width: 100%;
+}
+
+.attending {
+  composes: withShadow from 'app/styles/utilities.css';
+  background: rgba(245, 244, 244, 1);
+  font-size: 1rem;
+  font-weight: 600;
+  width: 272px;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.status {
+  text-align: center;
 }
 
 .itemTitle {

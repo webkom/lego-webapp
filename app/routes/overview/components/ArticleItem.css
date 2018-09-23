@@ -1,0 +1,45 @@
+@import 'app/styles/variables.css';
+
+.link {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.body {
+  composes: withShadow from 'app/styles/utilities.css';
+  text-align: center;
+  border-radius: 0 0 5px 5px;
+  background: rgba(245, 244, 244, 1);
+  height: 360px;
+  margin: 0 10px;
+}
+
+.image {
+  object-fit: cover;
+  border-radius: 5px 5px 0 0;
+  height: 100px;
+
+  @media (--mobile-device) {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.articleTitle {
+  margin: 5px;
+  height: 40px;
+  line-height: 1.1;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  word-break: normal;
+}
+
+.articleMeta {
+  margin: 0 30px;
+}
+
+.articleDescription {
+  text-align: justify;
+  margin: 15px;
+}
+
