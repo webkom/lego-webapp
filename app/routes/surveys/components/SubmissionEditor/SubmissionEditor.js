@@ -2,6 +2,7 @@
 
 import styles from '../surveys.css';
 import React from 'react';
+import Raven from 'raven-js';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextArea, RadioButton, CheckBox, legoForm } from 'app/components/Form';
@@ -43,7 +44,7 @@ const SubmissionEditor = ({
       <form onSubmit={handleSubmit}>
         <ul className={styles.detailQuestions}>
           {(survey.questions || []).map((question, i) => (
-            <li key={question.id}>
+            <li key={question.id} name={`question[${question.id}]`}>
               <h3 className={styles.questionTextDetail}>
                 {question.questionText}
                 {question.mandatory && (
@@ -164,5 +165,12 @@ const validateMandatory = (formContent: Object, props) => {
 
 export default legoForm({
   form: 'submissionEditor',
-  onSubmit: (data, dispatch, props) => prepareToSubmit(data, props)
+  onSubmit: (data, dispatch, props) => {
+    try {
+      return prepareToSubmit(data, props);
+    } catch (err) {
+      Raven.captureException(err);
+      throw err;
+    }
+  }
 })(SubmissionEditor);
