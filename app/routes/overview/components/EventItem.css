@@ -42,15 +42,28 @@
 
 .attending {
   composes: withShadow from 'app/styles/utilities.css';
-  background: rgba(245, 244, 244, 1);
+  background: var(--lego-card-color);
   font-size: 1rem;
   font-weight: 600;
   width: 272px;
   color: rgba(0, 0, 0, 0.8);
 }
 
-.status {
+.statusFull {
   text-align: center;
+  color: var(--color-red-1);
+}
+
+.statusNotFull {
+  text-align: center;
+  color: var(--color-green-1);
+}
+
+.count {
+  background: lightgrey;
+  border-radius: 2px;
+  color: var(--lego-font-color);
+  padding: 3px 6px;
 }
 
 .itemTitle {

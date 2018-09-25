@@ -20,6 +20,7 @@ class EventItem extends Component<Props, *> {
   render() {
     const { item, url, meta } = this.props;
     const TITLE_MAX_LENGTH = 50;
+    const { registrationCount, totalCapacity } = item;
     return (
       <div className={styles.body}>
         <Flex row className={styles.wrapper}>
@@ -30,9 +31,21 @@ class EventItem extends Component<Props, *> {
                   <Image className={styles.image} src={item.cover} />
                 )}
               </Link>
-              <p className={styles.status}>
-                {item.registrationCount}/{item.totalCapacity} påmeldte
-              </p>
+              {registrationCount == totalCapacity ? (
+                <p className={styles.statusFull}>
+                  Fullt!{' '}
+                  <span className={styles.count}>
+                    {registrationCount}/{totalCapacity}
+                  </span>
+                </p>
+              ) : (
+                <p className={styles.statusNotFull}>
+                  Ledig!{' '}
+                  <span className={styles.count}>
+                    {registrationCount}/{totalCapacity}
+                  </span>
+                </p>
+              )}
             </div>
           </Flex>
           <Link to={url} className={styles.link}>

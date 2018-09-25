@@ -121,7 +121,7 @@ class Overview extends Component<Props, State> {
         <Flex row className={styles.otherItems}>
           <Flex className={styles.events}>
             {frontpage
-              .slice(1, this.state.eventsToShow)
+              .slice(0, this.state.eventsToShow)
               .filter(item => item.documentType === 'event')
               .map(event => (
                 <EventItem
@@ -137,7 +137,7 @@ class Overview extends Component<Props, State> {
           <Flex className={styles.articles}>
             {frontpage
               .filter(item => item.documentType === 'article')
-              .slice(1, this.state.articlesToShow)
+              .slice(0, this.state.articlesToShow)
               .map(article => (
                 <ArticleItem
                   key={article.id}
