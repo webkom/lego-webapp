@@ -104,14 +104,19 @@ const SubmissionEditor = ({
 };
 
 const prepareToSubmit = (formContent: Object, props: Props) => {
-  validateMandatory(formContent, props);
+  const safeAnswers = new Array(formContent.answers.length);
+  formContent.answers.forEach((elem, i) => {
+    if (elem) safeAnswers[i] = elem;
+  });
+
+  validateMandatory(safeAnswers, props);
   const { survey, submitFunction, currentUser } = props;
 
   const toSubmit = {
     ...formContent,
     user: currentUser && currentUser.id,
     surveyId: survey.id,
-    answers: formatAnswers(formContent.answers, survey).filter(Boolean)
+    answers: formatAnswers(safeAnswers, survey).filter(Boolean)
   };
 
   return submitFunction(toSubmit);
@@ -137,14 +142,9 @@ const formatAnswers = (answers, survey) => {
   });
 };
 
-const validateMandatory = (formContent: Object, props) => {
+const validateMandatory = (inputAnswers: Array<Object>, props) => {
   const errors = { questions: {} };
-  const safeAnswers = new Array(formContent.answers.length);
-  formContent.answers.forEach((elem, i) => {
-    if (elem) safeAnswers[i] = elem;
-  });
-
-  const answers = formatAnswers(safeAnswers, props.survey);
+  const answers = formatAnswers(inputAnswers, props.survey);
 
   const answeredQuestionIds = answers
     ? answers
