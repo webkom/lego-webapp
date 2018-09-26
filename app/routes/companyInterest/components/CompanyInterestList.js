@@ -13,7 +13,7 @@ import Table from 'app/components/Table';
 import Select from 'react-select';
 
 export type Option = {
-  id: number,
+  value: number,
   semester: string,
   year: string,
   label: string
@@ -27,7 +27,7 @@ export type Props = {
   fetching: boolean,
   semesters: Array<CompanySemesterEntity>,
   push: string => void,
-  selectedOption: Option,
+  selectedOptions: [Option],
   router: any
 };
 
@@ -76,18 +76,19 @@ class CompanyInterestList extends Component<Props, State> {
     }
   };
 
-  handleChange = (clickedOption: Option): void => {
+  handleChange = (clickedOption: [Option]): void => {
+    const optionIds = clickedOption.map(option => Number(option.value));
     this.props
       .fetch({
         filters: {
-          semesters: clickedOption.id
+          semesters: optionIds
         }
       })
       .then(() => {
         this.props.router.replace({
           pathname: '/companyInterest',
           query: {
-            semesters: clickedOption.id
+            semesters: optionIds
           }
         });
       });
@@ -128,31 +129,25 @@ class CompanyInterestList extends Component<Props, State> {
       }
     ];
 
-    const options = [
-      {
-        year: 9999,
-        semester: '',
-        label: 'Vis alle semestre'
-      },
-      ...this.props.semesters.map((semesterObj: CompanySemesterEntity) => {
+    const options = this.props.semesters
+      .map((semesterObj: CompanySemesterEntity) => {
         let { id, year, semester } = semesterObj;
         return {
-          id,
+          value: id,
           year,
           semester,
           label: semesterToText(semesterObj)
         };
       })
-    ].sort((o1, o2) => {
-      if (Number(o1.year) === Number(o2.year)) {
-        if (o1.semester === 'spring') {
-          return -1;
+      .sort((o1, o2) => {
+        if (Number(o1.year) === Number(o2.year)) {
+          if (o1.semester === 'spring') {
+            return -1;
+          }
+          return 1;
         }
-        return 1;
-      }
-      return Number(o1.year) > Number(o2.year) ? -1 : 1;
-    });
-
+        return Number(o1.year) > Number(o2.year) ? -1 : 1;
+      });
     return (
       <Content>
         <ListNavigation title="Bedriftsinteresser" />
@@ -163,11 +158,12 @@ class CompanyInterestList extends Component<Props, State> {
               <strong> bedriftsinteresser</strong>.
             </p>
             <Select
-              name="form-field-name"
-              value={this.props.selectedOption}
+              name="selectCompanySemesters"
+              value={this.props.selectedOptions}
               onChange={this.handleChange}
               options={options}
-              clearable={false}
+              placeholder="Velg semestre"
+              multi
             />
           </Flex>
           <Link to={'/companyInterest/semesters'} className={styles.link}>
