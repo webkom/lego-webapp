@@ -8,7 +8,8 @@ import Icon from 'app/components/Icon';
 import styles from './LatestReadme.css';
 
 type Props = {
-  expanded: boolean
+  expanded: boolean,
+  readmes: Array<Object>
 };
 
 type State = {
@@ -32,17 +33,7 @@ class LatestReadme extends Component<Props, State> {
     const { expanded } = this.state;
     const toggle = () =>
       this.setState(state => ({ expanded: !state.expanded }));
-
-    const readmes = [
-      {
-        year: 2018,
-        issues: [3, 2, 1]
-      },
-      {
-        year: 2017,
-        issues: [6, 5, 3]
-      }
-    ];
+    const { readmes = [] } = this.props;
 
     return (
       <Flex column className={styles.latestReadme}>
@@ -60,19 +51,11 @@ class LatestReadme extends Component<Props, State> {
 
         {expanded && (
           <Flex wrap justifyContent="space-between" style={{ paddingTop: 20 }}>
-            {readmes.map(({ year, issues }) =>
-              issues.map(issue => (
-                <a
-                  key={issue}
-                  href={`https://readme.abakus.no/utgaver/${year}/${year}-0${issue}.pdf`}
-                  className={styles.thumb}
-                >
-                  <Image
-                    src={`https://readme.abakus.no/bilder/${year}/${year}-0${issue}.jpg`}
-                  />
-                </a>
-              ))
-            )}
+            {readmes.slice(0, 6).map(({ image, pdf, title }) => (
+              <a key={title} href={pdf} className={styles.thumb}>
+                <Image src={image} />
+              </a>
+            ))}
           </Flex>
         )}
       </Flex>

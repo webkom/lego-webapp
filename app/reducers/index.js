@@ -42,6 +42,7 @@ import feedActivities from './feedActivities';
 import feeds from './feeds';
 import frontpage from './frontpage';
 import surveys from './surveys';
+import readme from './readme';
 import surveySubmissions from './surveySubmissions';
 import tags from './tags';
 import fetchHistory from './fetchHistory';
@@ -58,6 +59,7 @@ const reducers = {
   articles,
   pools,
   registrations,
+  readme,
   meetingsToken,
   meetings,
   meetingInvitations,
