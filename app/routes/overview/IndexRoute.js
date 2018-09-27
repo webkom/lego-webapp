@@ -1,7 +1,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
-import { fetch } from 'app/actions/FrontpageActions';
+import { fetchData, fetchReadmes } from 'app/actions/FrontpageActions';
 import { login, logout } from 'app/actions/UserActions';
 import Overview from './components/Overview';
 import { selectFrontpage } from 'app/reducers/frontpage';
@@ -19,14 +19,15 @@ const mapStateToProps = state => ({
   feed: selectFeedById(state, { feedId: 'personal' }),
   feedItems: selectFeedActivitesByFeedId(state, {
     feedId: 'personal'
-  })
+  }),
+  readmes: state.readme
 });
 
 const mapDispatchToProps = { login, logout };
 
 export default compose(
   prepare(({ loggedIn }, dispatch) =>
-    dispatch(fetch()).then(
+    Promise.all([dispatch(fetchData()), dispatch(fetchReadmes())]).then(
       () => (loggedIn ? dispatch(fetchPersonalFeed()) : Promise.resolve())
     )
   ),

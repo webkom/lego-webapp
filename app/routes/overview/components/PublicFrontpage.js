@@ -15,7 +15,8 @@ import truncateString from 'app/utils/truncateString';
 import Time from 'app/components/Time';
 
 type Props = {
-  frontpage: Array<Object>
+  frontpage: Array<Object>,
+  readmes: Array<Object>
 };
 
 type State = {
@@ -84,6 +85,7 @@ class PublicFrontpage extends Component<Props, State> {
       title = 'Logg inn';
       form = <LoginForm />;
     }
+    const [latestReadme] = this.props.readmes || [];
 
     return (
       <Fragment>
@@ -172,13 +174,11 @@ class PublicFrontpage extends Component<Props, State> {
             <div className={styles.readme}>
               <h2 className="u-mb">Siste utgave av vårt magasin</h2>
               <a
-                href={`https://readme.abakus.no/utgaver/2018/2018-03.pdf`}
+                href={latestReadme && latestReadme.pdf}
                 className={styles.thumb}
                 style={{ display: 'block' }}
               >
-                <Image
-                  src={`https://readme.abakus.no/bilder/2018/2018-03.jpg`}
-                />
+                <Image src={latestReadme && latestReadme.image} />
               </a>
             </div>
           </Flex>
