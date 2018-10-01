@@ -24,7 +24,9 @@ export const EVENT_TYPES = {
   lunch_presentation: 'Lunsjpresentasjon',
   course: 'Faglig arrangement',
   bedex: 'Bedex',
-  other: 'Alternativt arrangement'
+  other: 'Alternativt arrangement',
+  sponsor:
+    'Revysponsor og bedriftspresentasjon i forbindelse med Abakus-revyen 2019'
 };
 
 export const OTHER_TYPES = {
@@ -180,7 +182,7 @@ const CompanyInterestPage = (props: Props) => {
         />
 
         <Flex wrap justifyContent="space-between">
-          <Flex column>
+          <Flex column style={{ width: '350px' }}>
             <label htmlFor="semesters" className={styles.heading}>
               Semester
             </label>
@@ -191,14 +193,14 @@ const CompanyInterestPage = (props: Props) => {
             />
           </Flex>
 
-          <Flex column>
+          <Flex column style={{ width: '350px' }}>
             <label htmlFor="events" className={styles.heading}>
               Arrangementer
             </label>
             <FieldArray name="events" component={EventBox} />
           </Flex>
 
-          <Flex column>
+          <Flex column styles={{ width: '350px' }}>
             <label htmlFor="otherOffers" className={styles.heading}>
               Annet
             </label>
