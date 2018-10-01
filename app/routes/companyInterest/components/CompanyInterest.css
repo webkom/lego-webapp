@@ -4,10 +4,6 @@
   composes: container from 'app/styles/utilities.css';
 }
 
-.events {
-  max-width: 350px;
-}
-
 .checkboxWrapper {
   margin-top: 5px;
   margin-bottom: -5px;

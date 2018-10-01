@@ -182,7 +182,7 @@ const CompanyInterestPage = (props: Props) => {
         />
 
         <Flex wrap justifyContent="space-between">
-          <Flex column className={styles.events}>
+          <Flex column style={{ width: '350px' }}>
             <label htmlFor="semesters" className={styles.heading}>
               Semester
             </label>
@@ -193,14 +193,14 @@ const CompanyInterestPage = (props: Props) => {
             />
           </Flex>
 
-          <Flex column className={styles.events}>
+          <Flex column style={{ width: '350px' }}>
             <label htmlFor="events" className={styles.heading}>
               Arrangementer
             </label>
             <FieldArray name="events" component={EventBox} />
           </Flex>
 
-          <Flex column className={styles.events}>
+          <Flex column styles={{ width: '350px' }}>
             <label htmlFor="otherOffers" className={styles.heading}>
               Annet
             </label>
