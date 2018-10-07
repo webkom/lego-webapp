@@ -24,14 +24,15 @@ export const EVENT_TYPES = {
   lunch_presentation: 'Lunsjpresentasjon',
   course: 'Faglig arrangement',
   bedex: 'Bedex',
-  other: 'Alternativt arrangement'
+  other: 'Alternativt arrangement',
+  sponsor:
+    'Revysponsor og bedriftspresentasjon i forbindelse med Abakus-revyen 2019'
 };
 
 export const OTHER_TYPES = {
   readme: 'Annonsere i readme',
   collaboration: 'Samarbeid med andre linjeforeninger',
-  itdagene: 'Stand på itDAGENE',
-  labamba_sponsor: 'Sponsing av LaBamba (Studentkjeller)'
+  itdagene: 'Stand på itDAGENE'
 };
 
 const eventToString = event =>
@@ -181,7 +182,7 @@ const CompanyInterestPage = (props: Props) => {
         />
 
         <Flex wrap justifyContent="space-between">
-          <Flex column>
+          <Flex column style={{ width: '350px' }}>
             <label htmlFor="semesters" className={styles.heading}>
               Semester
             </label>
@@ -192,14 +193,14 @@ const CompanyInterestPage = (props: Props) => {
             />
           </Flex>
 
-          <Flex column>
+          <Flex column style={{ width: '350px' }}>
             <label htmlFor="events" className={styles.heading}>
               Arrangementer
             </label>
             <FieldArray name="events" component={EventBox} />
           </Flex>
 
-          <Flex column>
+          <Flex column styles={{ width: '350px' }}>
             <label htmlFor="otherOffers" className={styles.heading}>
               Annet
             </label>
@@ -208,16 +209,23 @@ const CompanyInterestPage = (props: Props) => {
         </Flex>
 
         <div className={styles.underline}>
-          Vi i Abakus ønsker å kunne tilby et bredt spekter av arrangementer som
-          er gunstig for våre studenter. Dersom dere ønsker noe utenfor de
-          vanlige rammene, huk gjerne av på {'"Alternativt arrangement"'} og
-          skriv en kommentar om hva dere kunne tenkt dere å gjøre i
-          kommentarfeltet. Kommentarfeltet kan også brukes til å spesifisere
-          annen informasjon.
+          Dersom dere ønsker noe utenfor de vanlige rammene, huk gjerne av på
+          “Alternativt arrangement” og skriv en kommentar om hva dere kunne
+          tenkt dere å gjøre i kommentarfeltet. Vi i Abakus ønsker å kunne tilby
+          et bredt spekter av arrangementer som er gunstig for våre studenter.
+          <br />
+          <br />
+          Kommentarfeltet kan også brukes til å spesifisere annen informasjon,
+          som for eksempel hvilken teknologi dere ønsker å lære bort hvis dere
+          får faglig arrangement.
         </div>
 
         <Field
-          placeholder="Skriv eventuell kommentar"
+          placeholder={
+            'For at vi skal kunne legge tilrette for deres ønsker på best ' +
+            'mulig måte, ønsker vi at dere skriver litt om hvordan dere ' +
+            'ønsker å gjennomføre arrangementet.'
+          }
           name="comment"
           component={TextEditor.Field}
           rows={10}
@@ -240,7 +248,8 @@ const CompanyInterestPage = (props: Props) => {
 const validate = createValidator({
   companyName: [required()],
   contactPerson: [required()],
-  mail: [required(), isEmail()]
+  mail: [required(), isEmail()],
+  comment: [required()]
 });
 
 export default reduxForm({

@@ -368,6 +368,10 @@ export const Frontpage = {
   FETCH: generateStatuses('Frontpage.FETCH')
 };
 
+export const Readme = {
+  FETCH: generateStatuses('Readme.FETCH')
+};
+
 export const Tag = {
   FETCH: generateStatuses('Tag.FETCH'),
   POPULAR: generateStatuses('Tag.POPULAR')

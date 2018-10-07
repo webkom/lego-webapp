@@ -9,7 +9,7 @@ import {
 import { fetchSemesters } from 'app/actions/CompanyActions';
 import CompanyInterestList from './components/CompanyInterestList';
 import { selectCompanyInterestList } from 'app/reducers/companyInterest';
-import { selectCompanySemesters } from 'app/reducers/companySemesters';
+import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemesters';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import prepare from 'app/utils/prepare';
@@ -22,7 +22,7 @@ const loadData = ({ params }, dispatch) =>
 
 const mapStateToProps = (state, props) => {
   const semesterId = Number(props.location.query.semesters);
-  const semesters = selectCompanySemesters(state);
+  const semesters = selectCompanySemestersForInterestForm(state);
   const semesterObj: ?CompanySemesterEntity = semesters.find(
     semester => semester.id === semesterId
   );

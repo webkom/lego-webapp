@@ -22,6 +22,7 @@ type Props = {
   frontpage: Array<Object>,
   feed: Object,
   feedItems: Array<Object>,
+  readmes: Array<Object>,
   loadingFrontpage: boolean
 };
 
@@ -86,7 +87,13 @@ class Overview extends Component<Props, State> {
 
   render() {
     const isEvent = o => typeof o['startTime'] !== 'undefined';
-    const { frontpage, feed, feedItems, loadingFrontpage } = this.props;
+    const {
+      frontpage,
+      feed,
+      feedItems,
+      loadingFrontpage,
+      readmes
+    } = this.props;
     const pinned = frontpage[0];
 
     return (
@@ -110,7 +117,7 @@ class Overview extends Component<Props, State> {
         <Flex />
 
         <Flex padding={10}>
-          <LatestReadme expanded={frontpage.length === 0} />
+          <LatestReadme readmes={readmes} expanded={frontpage.length === 0} />
         </Flex>
 
         <Flex className={styles.otherItems}>
