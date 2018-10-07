@@ -2,7 +2,6 @@
 
 import React, { Component } from 'react';
 import type { Event, Article } from 'app/models';
-import type { Element } from 'react';
 import { Image } from 'app/components/Image';
 import truncateString from 'app/utils/truncateString';
 import { Flex } from 'app/components/Layout';
@@ -12,7 +11,7 @@ import styles from './ArticleItem.css';
 type Props = {
   item: Event | Article,
   url: string,
-  meta: Element<'span'> | null
+  meta: Object
 };
 
 class ArticleItem extends Component<Props, *> {
