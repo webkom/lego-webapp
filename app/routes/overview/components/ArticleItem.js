@@ -18,26 +18,31 @@ type Props = {
 class ArticleItem extends Component<Props, *> {
   render() {
     const { item, url, meta } = this.props;
-    const TITLE_MAX_LENGTH = 50;
-    const DESC_MAX_LENGTH = 155;
+    const TITLE_MAX_LENGTH = 40;
+    const DESC_MAX_LENGTH = 230;
 
     return (
-      <Flex column>
+      <div className={styles.body}>
         <Flex column>
-          <Link to={url} className={styles.link}>
-            <div className={styles.body}>
+          <Flex column>
+            <Link to={url} className={styles.link}>
               <Image className={styles.image} src={item.cover} />
-              <h2 className={styles.articleTitle}>
-                {truncateString(item.title, TITLE_MAX_LENGTH)}
-              </h2>
-              <p className={styles.articleMeta}>{meta}</p>
+              <div className={styles.infoWrapper}>
+                <h2 className={styles.articleTitle}>
+                  {truncateString(item.title, TITLE_MAX_LENGTH)}
+                </h2>
+                <span className={styles.articleMeta}>
+                  Publisert - {meta.props.children[0]}
+                </span>
+                <p className={styles.articleMeta}>{meta.props.children[3]}</p>
+              </div>
               <p className={styles.articleDescription}>
                 {truncateString(item.description, DESC_MAX_LENGTH)}
               </p>
-            </div>
-          </Link>
+            </Link>
+          </Flex>
         </Flex>
-      </Flex>
+      </div>
     );
   }
 }

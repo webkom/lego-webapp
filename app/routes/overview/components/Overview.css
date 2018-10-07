@@ -40,18 +40,36 @@
   color: rgba(0, 0, 0, 0.8);
 }
 
+.otherItems {
+  display: flex;
+  padding: 0 10px;
+
+  @media (--mobile-device) {
+    flex-direction: column;
+  }
+}
+
 .events {
   display: flex;
-  flex: 1.9;
+  justify-content: flex-start;
+  flex-direction: column;
+  margin-right: 20px;
+  flex-wrap: wrap;
+
+  @media (--mobile-device) {
+    margin-right: 0;
+  }
+}
+
+.articles {
+  display: flex;
   justify-content: space-between;
   flex-direction: row;
   flex-wrap: wrap;
 }
 
-.articles {
+.showMore {
   display: flex;
-  flex: 1;
-  justify-content: space-between;
-  flex-direction: row;
-  flex-wrap: wrap;
+  justify-content: center;
+  margin: 10px;
 }

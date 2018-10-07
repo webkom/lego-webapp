@@ -23,36 +23,23 @@ class EventItem extends Component<Props, *> {
     const { registrationCount, totalCapacity } = item;
     return (
       <div className={styles.body}>
-        <Flex row className={styles.wrapper}>
-          <Flex column>
-            <div className={styles.attending}>
-              <Link to={url} className={styles.link}>
-                {item.cover && (
-                  <Image className={styles.image} src={item.cover} />
-                )}
-              </Link>
-              {registrationCount == totalCapacity ? (
-                <p className={styles.statusFull}>
-                  Fullt!{' '}
-                  <span className={styles.count}>
-                    {registrationCount}/{totalCapacity}
-                  </span>
-                </p>
-              ) : (
-                <p className={styles.statusNotFull}>
-                  Ledig!{' '}
-                  <span className={styles.count}>
-                    {registrationCount}/{totalCapacity}
-                  </span>
-                </p>
+        <Link to={url} className={styles.link}>
+          <Flex className={styles.wrapper}>
+            <Flex column className={styles.left}>
+              {item.cover && (
+                <Image className={styles.image} src={item.cover} />
               )}
-            </div>
-          </Flex>
-          <Link to={url} className={styles.link}>
+              {registrationCount &&
+                totalCapacity && (
+                  <span className={styles.count}>
+                    {registrationCount}/{totalCapacity}
+                  </span>
+                )}
+            </Flex>
             <div
-              className={styles.heading}
+              className={styles.right}
               style={{
-                borderBottom: `6px solid ${colorForEvent(item.eventType)}`
+                borderBottom: `4px solid ${colorForEvent(item.eventType)}`
               }}
             >
               <h2 className={styles.itemTitle}>
@@ -60,8 +47,8 @@ class EventItem extends Component<Props, *> {
               </h2>
               {meta}
             </div>
-          </Link>
-        </Flex>
+          </Flex>
+        </Link>
       </div>
     );
   }

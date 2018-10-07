@@ -10,13 +10,13 @@ import LatestReadme from './LatestReadme';
 import Feed from './Feed';
 import CompactEvents from './CompactEvents';
 import { EVENT_TYPE_TO_STRING } from 'app/routes/events/utils';
-import Button from 'app/components/Button';
 import type { Event, Article } from 'app/models';
 import Tag from 'app/components/Tags/Tag';
 import Tags from 'app/components/Tags';
 import Pinned from './Pinned';
 import EventItem from './EventItem';
 import ArticleItem from './ArticleItem';
+import Icon from 'app/components/Icon';
 
 type Props = {
   frontpage: Array<Object>,
@@ -32,12 +32,15 @@ type State = {
 
 class Overview extends Component<Props, State> {
   state = {
-    eventsToShow: 7,
-    articlesToShow: 3
+    eventsToShow: 6,
+    articlesToShow: 2
   };
 
-  increaseEventsToShow = () => {
-    this.setState({ eventsToShow: this.state.eventsToShow * 2 });
+  showMore = () => {
+    this.setState({
+      eventsToShow: this.state.eventsToShow + 6,
+      articlesToShow: this.state.articlesToShow + 2
+    });
   };
 
   itemUrl = (item: Event | Article) => {
@@ -84,7 +87,8 @@ class Overview extends Component<Props, State> {
   render() {
     const isEvent = o => typeof o['startTime'] !== 'undefined';
     const { frontpage, feed, feedItems, loadingFrontpage } = this.props;
-    console.log(frontpage);
+    const pinned = frontpage[0];
+
     return (
       <Container>
         <Helmet title="Hjem" />
@@ -92,11 +96,11 @@ class Overview extends Component<Props, State> {
           <Flex column style={{ flex: 2 }}>
             <CompactEvents events={frontpage.filter(isEvent)} />
             <LoadingIndicator loading={loadingFrontpage}>
-              {frontpage[0] && (
+              {pinned && (
                 <Pinned
-                  item={frontpage[0]}
-                  url={this.itemUrl(frontpage[0])}
-                  meta={this.renderMeta(frontpage[0])}
+                  item={pinned}
+                  url={this.itemUrl(pinned)}
+                  meta={this.renderMeta(pinned)}
                 />
               )}
             </LoadingIndicator>
@@ -109,56 +113,48 @@ class Overview extends Component<Props, State> {
           <LatestReadme expanded={frontpage.length === 0} />
         </Flex>
 
-        <Flex row className={styles.header}>
-          <p className="u-ui-heading" style={{ flex: '1.9' }}>
-            Arrangementer
-          </p>
-          <p className="u-ui-heading" style={{ flex: '1' }}>
-            Artikler
-          </p>
-        </Flex>
-
-        <Flex row className={styles.otherItems}>
-          <Flex className={styles.events}>
-            {frontpage
-              .slice(0, this.state.eventsToShow)
-              .filter(item => item.documentType === 'event')
-              .map(event => (
-                <EventItem
-                  key={event.id}
-                  item={event}
-                  increaseEventsToShow={this.increaseEventsToShow}
-                  url={this.itemUrl(event)}
-                  meta={this.renderMeta(event)}
-                />
-              ))}
+        <Flex className={styles.otherItems}>
+          <Flex column style={{ flex: '2' }}>
+            <p className="u-ui-heading">Arrangementer</p>
+            <Flex className={styles.events}>
+              {frontpage
+                .filter(item => item.documentType === 'event')
+                .filter(item => item != frontpage[0])
+                .slice(0, this.state.eventsToShow)
+                .map(event => (
+                  <EventItem
+                    key={event.id}
+                    item={event}
+                    url={this.itemUrl(event)}
+                    meta={this.renderMeta(event)}
+                  />
+                ))}
+            </Flex>
           </Flex>
 
-          <Flex className={styles.articles}>
-            {frontpage
-              .filter(item => item.documentType === 'article')
-              .slice(0, this.state.articlesToShow)
-              .map(article => (
-                <ArticleItem
-                  key={article.id}
-                  item={article}
-                  url={this.itemUrl(article)}
-                  meta={this.renderMeta(article)}
-                />
-              ))}
+          <Flex column style={{ flex: '1' }}>
+            <p className="u-ui-heading">Artikler</p>
+            <Flex className={styles.articles}>
+              {frontpage
+                .filter(item => item.documentType === 'article')
+                .slice(0, this.state.articlesToShow)
+                .map(article => (
+                  <ArticleItem
+                    key={article.id}
+                    item={article}
+                    url={this.itemUrl(article)}
+                    meta={this.renderMeta(article)}
+                  />
+                ))}
+            </Flex>
           </Flex>
         </Flex>
 
-        <div>
-          {frontpage.length > 0 && (
-            <Button
-              style={{ width: '100%', margin: '10px' }}
-              onClick={this.increaseEventsToShow}
-            >
-              Vis flere
-            </Button>
-          )}
-        </div>
+        {frontpage.length > 8 && (
+          <div className={styles.showMore}>
+            <Icon onClick={this.showMore} size={40} name="arrow-dropdown" />
+          </div>
+        )}
       </Container>
     );
   }

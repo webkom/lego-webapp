@@ -3,30 +3,29 @@
 .link {
   color: rgba(0, 0, 0, 0.9);
   width: 100%;
+  height: 100%;
 }
 
 .body {
   display: flex;
   flex-direction: row;
-  margin: 0 10px;
-  padding-bottom: 100px;
   width: 100%;
+  margin-bottom: 20px;
 }
 
 .image {
   object-fit: cover;
   background: white;
-  border-radius: 5px 5px 0 0;
   height: 80px;
-  width: 272px;
+  width: 270px;
 
   @media (--mobile-device) {
-    width: 100%;
     height: auto;
+    width: 100%;
   }
 }
 
-.heading {
+.right {
   composes: withShadow from 'app/styles/utilities.css';
   text-align: center;
   padding: 20px;
@@ -34,36 +33,48 @@
   flex: 1;
   border-radius: 0 0 5px 5px;
   background: rgba(245, 244, 244, 1);
+
+  @media (--mobile-device) {
+    background: white;
+    border: none;
+  }
 }
 
 .wrapper {
+  display: flex;
   width: 100%;
+
+  @media (--mobile-device) {
+    flex-direction: column;
+  }
 }
 
-.attending {
+.left {
   composes: withShadow from 'app/styles/utilities.css';
   background: var(--lego-card-color);
+  text-align: center;
   font-size: 1rem;
   font-weight: 600;
   width: 272px;
+  border-radius: 0 0 5px 5px;
   color: rgba(0, 0, 0, 0.8);
-}
 
-.statusFull {
-  text-align: center;
-  color: var(--color-red-1);
-}
-
-.statusNotFull {
-  text-align: center;
-  color: var(--color-green-1);
+  @media (--mobile-device) {
+    width: 100%;
+    border: none;
+  }
 }
 
 .count {
-  background: lightgrey;
-  border-radius: 2px;
+  background: white;
+  text-align: center;
+  border-radius: 0 0 5px 5px;
   color: var(--lego-font-color);
   padding: 3px 6px;
+
+  @media (--mobile-device) {
+    display: none;
+  }
 }
 
 .itemTitle {
