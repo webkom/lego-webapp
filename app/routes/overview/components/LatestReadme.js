@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import ReadmeLogo from 'app/components/ReadmeLogo';
+import { readmeIfy } from 'app/components/ReadmeLogo';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
 import Icon from 'app/components/Icon';
@@ -39,13 +39,8 @@ class LatestReadme extends Component<Props, State> {
       <Flex column className={styles.latestReadme}>
         <button className={styles.heading} onClick={toggle}>
           <Flex justifyContent="space-between">
-            <span>
-              <ReadmeLogo />-utgaver
-            </span>
-            <Icon
-              name={expanded ? 'close' : 'arrow-down'}
-              style={{ color: '#fff' }}
-            />
+            {readmeIfy('readme')}
+            <Icon name={expanded ? 'close' : 'arrow-down'} />
           </Flex>
         </button>
 

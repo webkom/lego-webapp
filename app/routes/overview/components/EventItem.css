@@ -1,0 +1,92 @@
+@import 'app/styles/variables.css';
+
+.link {
+  color: rgba(0, 0, 0, 0.9);
+  width: 100%;
+  height: 100%;
+}
+
+.body {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.image {
+  object-fit: cover;
+  background: white;
+  height: 80px;
+  width: 270px;
+
+  @media (--mobile-device) {
+    height: auto;
+    width: 100%;
+  }
+}
+
+.right {
+  composes: withShadow from 'app/styles/utilities.css';
+  text-align: center;
+  padding: 20px;
+  height: 100%;
+  flex: 1;
+  border-radius: 0 0 5px 5px;
+  background: rgba(245, 244, 244, 1);
+
+  @media (--mobile-device) {
+    background: white;
+    border: none;
+  }
+}
+
+.wrapper {
+  display: flex;
+  width: 100%;
+
+  @media (--mobile-device) {
+    flex-direction: column;
+  }
+}
+
+.left {
+  composes: withShadow from 'app/styles/utilities.css';
+  background: var(--lego-card-color);
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  width: 272px;
+  border-radius: 0 0 5px 5px;
+  color: rgba(0, 0, 0, 0.8);
+
+  @media (--mobile-device) {
+    width: 100%;
+    border: none;
+  }
+}
+
+.count {
+  background: white;
+  text-align: center;
+  border-radius: 0 0 5px 5px;
+  color: var(--lego-font-color);
+  padding: 3px 6px;
+
+  @media (--mobile-device) {
+    display: none;
+  }
+}
+
+.itemTitle {
+  margin: 0;
+  height: 40px;
+  line-height: 1.1;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  word-break: normal;
+}
+
+.itemTitle > a {
+  color: rgba(0, 0, 0, 0.9);
+}

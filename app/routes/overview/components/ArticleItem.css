@@ -1,0 +1,54 @@
+@import 'app/styles/variables.css';
+
+.link {
+  color: rgba(0, 0, 0, 0.9);
+}
+
+.body {
+  composes: withShadow from 'app/styles/utilities.css';
+  text-align: center;
+  background: var(--lego-card-color);
+  height: 387px;
+  margin-bottom: 20px;
+  position: relative;
+
+  @media (--mobile-device) {
+    height: 100%;
+  }
+}
+
+.image {
+  object-fit: cover;
+  height: 100px;
+
+  @media (--mobile-device) {
+    width: 100%;
+    height: auto;
+  }
+}
+
+.articleTitle {
+  margin: 0 5px;
+  line-height: 1.1;
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  word-break: normal;
+}
+
+.articleMeta {
+  margin: 0 5px;
+  font-weight: bold;
+}
+
+.infoWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100px;
+}
+
+.articleDescription {
+  text-align: justify;
+  margin: 5px 15px;
+}

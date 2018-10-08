@@ -133,7 +133,6 @@ export default class EventDetail extends Component<Props> {
       follow,
       unfollow
     } = this.props;
-
     if (!event.id) {
       return null;
     }
