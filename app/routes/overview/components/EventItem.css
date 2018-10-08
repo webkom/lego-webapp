@@ -71,6 +71,7 @@
   border-radius: 0 0 5px 5px;
   color: var(--lego-font-color);
   padding: 3px 6px;
+  height: 100%;
 
   @media (--mobile-device) {
     display: none;

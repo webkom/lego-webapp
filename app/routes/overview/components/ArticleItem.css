@@ -8,7 +8,7 @@
   composes: withShadow from 'app/styles/utilities.css';
   text-align: center;
   background: var(--lego-card-color);
-  height: 387px;
+  height: 387.5px;
   margin-bottom: 20px;
   position: relative;
 
