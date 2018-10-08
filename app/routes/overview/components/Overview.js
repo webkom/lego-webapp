@@ -17,6 +17,7 @@ import Pinned from './Pinned';
 import EventItem from './EventItem';
 import ArticleItem from './ArticleItem';
 import Icon from 'app/components/Icon';
+import truncateString from 'app/utils/truncateString';
 
 type Props = {
   frontpage: Array<Object>,
@@ -61,7 +62,7 @@ class Overview extends Component<Props, State> {
           isEvent && (
             <span>
               <span className={styles.dot}> . </span>
-              <span> {item.location} </span>
+              <span> {truncateString(item.location, 10)} </span>
             </span>
           )}
 

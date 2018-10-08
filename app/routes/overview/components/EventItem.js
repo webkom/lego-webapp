@@ -29,12 +29,13 @@ class EventItem extends Component<Props, *> {
               {item.cover && (
                 <Image className={styles.image} src={item.cover} />
               )}
-              {registrationCount &&
-                totalCapacity && (
-                  <span className={styles.count}>
-                    {registrationCount}/{totalCapacity}
-                  </span>
-                )}
+              {registrationCount && totalCapacity ? (
+                <span className={styles.count}>
+                  {registrationCount}/{totalCapacity}
+                </span>
+              ) : (
+                <span className={styles.count}>Ingen påmelding</span>
+              )}
             </Flex>
             <div
               className={styles.right}
