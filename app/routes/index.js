@@ -7,6 +7,7 @@ import articles from './articles';
 import meetings from './meetings';
 import admin from './admin';
 import quotes from './quotes';
+import podcasts from './podcasts';
 import photos from './photos';
 import pages from './pages';
 import search from './search';
@@ -33,6 +34,7 @@ export default {
     meetings,
     admin,
     quotes,
+    podcasts,
     pages,
     company,
     search,
