@@ -377,3 +377,10 @@ export const Tag = {
   FETCH: generateStatuses('Tag.FETCH'),
   POPULAR: generateStatuses('Tag.POPULAR')
 };
+
+export const Podcast = {
+  FETCH: generateStatuses('Podcast.FETCH'),
+  DELETE: generateStatuses('Podcast.DELETE'),
+  CREATE: generateStatuses('Podcast.CREATE'),
+  UPDATE: generateStatuses('Podcast.UPDATE')
+};
