@@ -3,65 +3,64 @@
 import React from 'react';
 import styles from './Company.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { Link } from 'react-router';
-import { Image } from 'app/components/Image';
-import type { Company } from 'app/models';
-import { Button } from 'app/components/Form';
+import {Link} from 'react-router';
+import {Image} from 'app/components/Image';
+import type {Company}
+from 'app/models';
+import {Button} from 'app/components/Form';
 
 type Props = {
-  companies: Array<Company>,
-  showFetchMore: () => void,
-  fetchMore: () => void
+    companies: Array<Company>,
+    showFetchMore: () => void,
+    fetchMore: () => void,
 };
 
-export function CompanyItem({ company }: any) {
-  return (
-    <div className={styles.companyItem}>
-      <div>
-        <Link to={`/companies/${company.id}`}>
-          <h3 className={styles.companyItemTitle}>{company.name}</h3>
-        </Link>
-        <a href={company.website}>
-          <div className={styles.website}>{company.website}</div>
-        </a>
-        <div>{company.companyType}</div>
-        <div>{company.address}</div>
-      </div>
-      <Link to={`/companies/${company.id}`}>
-        {company.logo && (
-          <Image src={company.logo} className={styles.companyLogo} />
-        )}
-      </Link>
+const CompanyItem = function({company} : any) {
+    let websiteString = company.website.split('/');
+    websiteString = websiteString[0] + '//' + websiteString[2];
+
+
+    return <div className={styles.companyItem}>
+        <div className={styles.companyItemContent}>
+            <Link to={`/companies/${company.id}`}>
+                <div className={styles.companyLogo}>
+                    {<Image src='https://www.freelogodesign.org/Content/img/slide-logo-1.png'/>}
+                </div>
+                <div className={styles.companyItemTitle}>
+                    <h2>{company.name}</h2>
+                </div>
+                <div className={styles.companyInfo}>
+                    <span>{company.joblistingCount > 0 && company.joblistingCount + ' jobbannonser'}</span>
+                    <span>{company.eventCount > 0 && company.eventCount + ' kommende arrangementer'}</span>
+                </div>
+            </Link>
+            {
+                (company.website && company.website != "http://example.com/") && (<a href={company.website}>
+                    <div className={styles.website}>{websiteString}</div>
+                </a>)
+            }
+        </div>
     </div>
-  );
 }
 
 type CompanyListProps = {
-  name: string,
-  companies: Array<Company>
+    name: string,
+    companies: Array<Company>
 };
 
-function CompanyList({ name, companies = [] }: CompanyListProps) {
-  return (
-    <div className={styles.companies}>
-      <h2 className={styles.heading}>{name}</h2>
-      {companies.map((company, i) => <CompanyItem key={i} company={company} />)}
-    </div>
-  );
-}
+const CompanyList = ({
+    name,
+    companies = []
+} : CompanyListProps) => (<div className={styles.companyList}>
+    {companies.map((company, id) => <CompanyItem key={id} company={company}/>)}
+</div>);
 
-const CompaniesPage = (props: Props) => {
-  if (props.companies.length < 1) {
-    return <LoadingIndicator loading />;
-  }
-  return (
-    <div className={styles.root}>
-      <CompanyList name={'Bedrifter'} companies={props.companies} />
-      {props.showFetchMore && (
-        <Button onClick={() => props.fetchMore()}>Flere bedrifter</Button>
-      )}
-    </div>
-  );
-};
+
+const CompaniesPage = (props : Props) => (<div className={styles.root}>
+    {props.companies.length === 0 && <LoadingIndicator loading />}
+    <h2 className={styles.heading}>Bedrifter</h2>
+    <CompanyList companies={props.companies}/>
+    {props.showFetchMore && (<Button onClick={() => props.fetchMore()}>Flere bedrifter</Button>)}
+</div>);
 
 export default CompaniesPage;
