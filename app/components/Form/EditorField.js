@@ -12,7 +12,17 @@ type Props = {
   meta: any
 };
 
+class NoSSRError {
+  error: Error;
+  constructor(msg) {
+    this.error = new Error(msg);
+  }
+}
+
 function EditorField({ className, ...props }: Props) {
+  if (!__CLIENT__) {
+    throw new NoSSRError('Cannot SSR editor');
+  }
   return (
     <Editor
       className={cx(styles.input, className)}
