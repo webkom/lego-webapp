@@ -25,7 +25,7 @@ export const selectPodcasts = createSelector(
   state => state.podcasts.byId,
   state => state.podcasts.items,
   (podcastsById, podcastIds) => {
-    podcastIds.map(id => podcastsById[id]);
+    return podcastIds.map(id => podcastsById[id]);
   }
 );
 

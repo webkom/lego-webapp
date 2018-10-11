@@ -1,0 +1,37 @@
+@import 'app/styles/variables.css';
+
+.root {
+  composes: withShadow from 'app/styles/utilities.css';
+  background: var(--lego-card-color);
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-bottom: 2px solid #fc561e;
+}
+
+.title {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+}
+
+.volume {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.progress {
+  display: flex;
+  align-items: center;
+}
