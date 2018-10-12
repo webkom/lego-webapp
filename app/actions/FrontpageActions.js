@@ -41,7 +41,7 @@ fragment readmeFragment on ReadmeUtgave {
 //
 const readmeUtgaver = `
 {
-    readmeUtgaver{
+    readmeUtgaver(first: 6){
     ...readmeFragment
     }
 
