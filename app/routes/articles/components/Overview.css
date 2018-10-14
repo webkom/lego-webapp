@@ -1,3 +1,5 @@
+@import 'app/styles/variables.css';
+
 .frontpage {
   composes: container from 'app/styles/utilities.css';
   margin-top: 20px;
@@ -30,6 +32,12 @@
   display: flex;
   flex-direction: row;
   margin: 0 30px;
+
+  @media (--mobile-device) {
+    flex-direction: column;
+    margin: auto;
+    justify-content: center;
+  }
 }
 
 .normal {
@@ -52,10 +60,18 @@
 
 .headline > .item {
   width: 50%;
+
+  @media (--mobile-device) {
+    width: 100%;
+  }
 }
 
 .normal > .item {
   width: 33%;
+
+  @media (--mobile-device) {
+    width: 100%;
+  }
 }
 
 .item:hover .itemInfo {
@@ -64,6 +80,10 @@
 
 .item:not(:last-child) {
   border-right: 1px solid #ddd;
+
+  @media (--mobile-device) {
+    border: none;
+  }
 }
 
 .itemType {
