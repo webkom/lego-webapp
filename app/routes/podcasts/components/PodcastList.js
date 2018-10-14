@@ -36,7 +36,7 @@ class PodcastList extends Component<Props, State> {
     return (
       <Content>
         <NavigationTab title="Podcasts">
-          <NavigationLink to="/podcasts/edit">Rediger</NavigationLink>
+          <NavigationLink to="/podcasts/create">Legg til ny</NavigationLink>
         </NavigationTab>
 
         {elements}

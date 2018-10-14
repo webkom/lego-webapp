@@ -3,8 +3,11 @@
 import React, { Component } from 'react';
 import styles from './Podcast.css';
 import ProgressSoundPlayer from './Player';
+import { Link } from 'react-router';
+import Icon from 'app/components/Icon';
 
 type Props = {
+  id: number,
   title: string,
   source: string,
   createdAt: string,
@@ -21,17 +24,43 @@ class Podcast extends Component<Props, State> {
     extended: false
   };
 
+  showMore = () => {
+    this.setState({
+      extended: true
+    });
+  };
+
   render() {
     const CLIENT_ID = 'E8IqLGTYxHll6SyaM7LKrMzKveWkcrjg';
 
-    const { source, createdAt } = this.props;
+    const { id, source, createdAt, description, authors } = this.props;
+    const talking = authors.map(author => {
+      return (
+        <span key={author.id} className={styles.names}>
+          <Link to={`/users/${author.username}`}>{author.fullName}</Link>
+        </span>
+      );
+    });
+
     return (
       <div className={styles.root}>
         <ProgressSoundPlayer
+          id={id}
           createdAt={createdAt}
           clientId={CLIENT_ID}
           resolveUrl={source}
         />
+        {this.state.extended ? (
+          <div className={styles.more}>
+            <p>Snakker: {talking}</p>
+            <p style={{ fontWeight: '400' }}>Om:</p>
+            <p>{description}</p>
+          </div>
+        ) : (
+          <div className={styles.showMore}>
+            <Icon onClick={this.showMore} size={20} name="arrow-down" />
+          </div>
+        )}
       </div>
     );
   }

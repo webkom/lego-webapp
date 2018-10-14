@@ -6,32 +6,105 @@
   width: 100%;
   margin-bottom: 20px;
   padding: 20px;
+
+  @media (--mobile-device) {
+    padding: 5px;
+  }
 }
 
 .header {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   width: 100%;
-  border-bottom: 2px solid #fc561e;
+  padding: 0 10px;
+  border-bottom: 2px solid var(--color-red-3);
 }
 
 .title {
   text-transform: uppercase;
   font-weight: bold;
+  margin: 0;
 }
 
-.controls {
+.player {
   display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+.playerRow {
   align-items: center;
+  margin-top: 5px;
+}
+
+.names {
+  padding: 10px;
+}
+
+.playButton {
+  background: var(--color-red-3) !important;
+  color: white !important;
+  border-radius: 999px !important;
+
+  @media (--mobile-device) {
+    margin-right: 0;
+  }
 }
 
 .volume {
   display: flex;
   align-items: center;
-  margin-right: 20px;
+  margin-right: 10px;
+  height: 15px !important;
+  background: none;
+
+  @media (--mobile-device) {
+    margin-right: 0;
+  }
+}
+
+.volume button {
+  color: var(--color-red-3);
+}
+
+.volume::-webkit-slider-thumb {
+  height: 15px !important;
+  width: 15px;
+  overflow: auto;
+  border-radius: 15px;
+  background: var(--color-red-3) !important;
+  cursor: pointer;
+  margin-top: -6px;
+  -webkit-appearance: none;
 }
 
 .progress {
+  height: 30px !important;
+  width: 100%;
+  border-radius: 10px !important;
+  opacity: 0.5 !important;
+}
+
+.progressInner {
+  background: var(--color-red-3) !important;
+}
+
+.timer {
+  display: block;
+  text-align: right;
+  padding-right: 10px;
+  margin-top: -38px;
+  white-space: nowrap;
+}
+
+.more {
+  margin-top: 30px;
+}
+
+.showMore {
   display: flex;
-  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  cursor: pointer;
 }

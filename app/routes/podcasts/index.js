@@ -2,15 +2,15 @@ import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
   path: 'podcasts',
-  indexRoute: resolveAsyncRoute(() => import('./PodcastRoute')),
+  indexRoute: resolveAsyncRoute(() => import('./PodcastListRoute')),
   childRoutes: [
     {
-      path: 'edit',
-      ...resolveAsyncRoute(() => import('./PodcastEditorRoute'))
+      path: 'create',
+      ...resolveAsyncRoute(() => import('./PodcastCreateRoute'))
     },
     {
-      path: ':podcastId',
-      ...resolveAsyncRoute(() => import('./PodcastDetailRoute'))
+      path: ':podcastId/edit',
+      ...resolveAsyncRoute(() => import('./PodcastEditRoute'))
     }
   ]
 };
