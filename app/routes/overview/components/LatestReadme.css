@@ -5,6 +5,10 @@
   composes: withShadow from 'app/styles/utilities.css';
   background: var(--lego-card-color);
   padding: 10px 20px;
+
+  @media (--mobile-device) {
+    padding: 10px 5px;
+  }
 }
 
 .heading {
@@ -18,6 +22,11 @@
   transition: transform 0.2s;
   display: block;
   object-fit: contain;
+
+  @media (--mobile-device) {
+    width: 48%;
+    height: auto;
+  }
 
   &:hover {
     transform: scale(1.1);
