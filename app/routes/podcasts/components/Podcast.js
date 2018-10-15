@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import styles from './Podcast.css';
-import ProgressSoundPlayer from './Player';
+import LegoSoundCloudPlayer from './PodcastPlayer.js';
 import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
 
@@ -44,7 +44,7 @@ class Podcast extends Component<Props, State> {
 
     return (
       <div className={styles.root}>
-        <ProgressSoundPlayer
+        <LegoSoundCloudPlayer
           id={id}
           createdAt={createdAt}
           clientId={CLIENT_ID}
@@ -53,7 +53,6 @@ class Podcast extends Component<Props, State> {
         {this.state.extended ? (
           <div className={styles.more}>
             <p>Snakker: {talking}</p>
-            <p style={{ fontWeight: '400' }}>Om:</p>
             <p>{description}</p>
           </div>
         ) : (

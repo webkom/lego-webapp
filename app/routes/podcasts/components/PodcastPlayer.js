@@ -30,7 +30,7 @@ type Props = {
   playing: boolean
 };
 
-class ProgressSoundPlayer extends Component<Props, *> {
+class LegoSoundCloudPlayer extends Component<Props, *> {
   render() {
     const { id, track, currentTime, duration, createdAt } = this.props;
     return (
@@ -78,4 +78,4 @@ class ProgressSoundPlayer extends Component<Props, *> {
   }
 }
 
-export default withSoundCloudAudio(ProgressSoundPlayer);
+export default withSoundCloudAudio(LegoSoundCloudPlayer);

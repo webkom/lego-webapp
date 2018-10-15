@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import styles from './admin.css';
+import styles from './PodcastEditor.css';
 
 type Props = {
   id: number,

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { selectPodcasts } from 'app/reducers/podcasts';
 import { fetchPodcasts } from 'app/actions/PodcastAction';
 import prepare from 'app/utils/prepare';
-import CreatePodcast from './components/admin/CreatePodcast';
+import PodcastEditor from './components/PodcastEditor';
 
 const mapStateToProps = (state, props) => {
   return {
@@ -16,4 +16,4 @@ const mapStateToProps = (state, props) => {
 export default compose(
   prepare((props, dispatch) => dispatch(fetchPodcasts())),
   connect(mapStateToProps, null)
-)(CreatePodcast);
+)(PodcastEditor);
