@@ -104,7 +104,7 @@
 }
 
 .more {
-  margin-top: 30px;
+  padding: 20px;
 }
 
 .showMore {
@@ -112,4 +112,12 @@
   justify-content: center;
   margin: 5px;
   cursor: pointer;
+}
+
+.arrow {
+  &:hover {
+    transform: scale(1.5);
+    color: var(--color-red-3);
+    transition: transform 0.2s;
+  }
 }

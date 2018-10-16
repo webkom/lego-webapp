@@ -26,7 +26,7 @@ class Podcast extends Component<Props, State> {
 
   showMore = () => {
     this.setState({
-      extended: true
+      extended: !this.state.extended
     });
   };
 
@@ -50,16 +50,30 @@ class Podcast extends Component<Props, State> {
           clientId={CLIENT_ID}
           resolveUrl={source}
         />
-        {this.state.extended ? (
+        {this.state.extended && (
           <div className={styles.more}>
-            <p>Snakker: {talking}</p>
-            <p>{description}</p>
-          </div>
-        ) : (
-          <div className={styles.showMore}>
-            <Icon onClick={this.showMore} size={20} name="arrow-down" />
+            <p style={{ fontWeight: 'bold' }}>Snakker: {talking}</p>
+            <p style={{ textAlign: 'justify' }}>{description}</p>
           </div>
         )}
+
+        <div className={styles.showMore}>
+          {this.state.extended ? (
+            <Icon
+              onClick={this.showMore}
+              className={styles.arrow}
+              size={20}
+              name="arrow-up"
+            />
+          ) : (
+            <Icon
+              onClick={this.showMore}
+              className={styles.arrow}
+              size={20}
+              name="arrow-down"
+            />
+          )}
+        </div>
       </div>
     );
   }

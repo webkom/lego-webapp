@@ -41,7 +41,7 @@ export function deletePodcast(podcastId: number) {
     endpoint: `/podcasts/${podcastId}/`,
     method: 'DELETE',
     meta: {
-      quoteId: Number(podcastId),
+      podcastId: Number(podcastId),
       errorMessage: 'Sletting av podcast feilet'
     }
   });

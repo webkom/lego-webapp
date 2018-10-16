@@ -45,7 +45,7 @@ class LegoSoundCloudPlayer extends Component<Props, *> {
             <span className={styles.title}>{track ? track.title : ''}</span>
           </span>
           <span>
-            <Link to={`podcasts/${id}/edit`} style={{ marginRight: '10px' }}>
+            <Link to={`/podcasts/${id}/edit`} style={{ marginRight: '10px' }}>
               <Icon size={17} name="options" style={{ marginRight: '5px' }} />
               Edit
             </Link>
