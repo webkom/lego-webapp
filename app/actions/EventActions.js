@@ -227,7 +227,7 @@ export function unregister({
 
 export function adminRegister(
   eventId: number,
-  userIds: Array<number>,
+  userId: number,
   poolId?: number,
   feedback: string,
   adminRegistrationReason: string
@@ -237,7 +237,7 @@ export function adminRegister(
     endpoint: `/events/${eventId}/registrations/admin_register/`,
     method: 'POST',
     body: {
-      users: userIds,
+      user: userId,
       pool: poolId === waitinglistPoolId ? undefined : poolId,
       adminRegistrationReason,
       feedback
