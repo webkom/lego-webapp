@@ -1,4 +1,9 @@
-module.exports = {
+// baseConfig is the base config, should be sent to client
+//
+// When this config is sent to the client, it will act as the "normal" config
+//
+// See the file `app/config.js` for more info.
+export const baseConfig = {
   serverUrl: process.env.API_URL || 'http://127.0.0.1:8000/api/v1',
   wsServerUrl: process.env.WS_URL || 'ws://127.0.0.1:8000',
   baseUrl: process.env.BASE_URL || 'http://127.0.0.1:8000',
@@ -13,3 +18,15 @@ module.exports = {
   environment: process.env.ENVIRONMENT,
   timezone: 'Europe/Oslo'
 };
+
+// This config is for the server side renderer (SSR),
+// so that we can use the internal api-urls
+export const ssrConfig = {
+  ...baseConfig,
+  serverUrl: process.env.SSR_API_URL || baseConfig.serverUrl,
+  baseUrl: process.env.SSR_BASE_URL || baseConfig.baseUrl
+};
+
+// User ssrConfig as default export config. Only SSR imports this file
+const config = ssrConfig;
+export default config;

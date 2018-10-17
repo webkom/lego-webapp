@@ -110,7 +110,7 @@ module.exports = {
       {
         test: /\.jsx?$/,
         loader: 'babel-loader',
-        include: path.resolve(root, 'app'),
+        include: [path.resolve(root, 'app'), path.resolve(root, 'config')],
         query: {
           cacheDirectory: true
         }
