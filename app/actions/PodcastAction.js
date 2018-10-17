@@ -1,12 +1,9 @@
 // @flow
 
 import { Podcast } from './ActionTypes';
-import { push } from 'react-router-redux';
 import { podcastSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
-import { startSubmit, stopSubmit } from 'redux-form';
 import type { Thunk } from 'app/types';
-import { addToast } from 'app/actions/ToastActions';
 
 export function fetchPodcasts() {
   return callAPI({
@@ -47,42 +44,21 @@ export function deletePodcast(podcastId: number) {
   });
 }
 
-export function addPodcast({
-  title,
-  source,
-  description
-}: {
+export function addPodcast(data: {
   title: string,
   source: string,
-  description: string
+  description: string,
+  authors: Array<number>
 }): Thunk<*> {
-  return dispatch => {
-    dispatch(startSubmit('createPodcast'));
-
-    return dispatch(
-      callAPI({
-        types: Podcast.CREATE,
-        endpoint: '/podcasts/',
-        method: 'POST',
-        body: {
-          title,
-          source,
-          description
-        },
-        schema: podcastSchema,
-        meta: {
-          errorMessage: 'Legg til podcast feilet'
-        }
-      })
-    ).then(() => {
-      dispatch(stopSubmit('createPodcast'));
-      dispatch(push('/podcasts'));
-      dispatch(
-        addToast({
-          message: 'Podcast sendt inn.',
-          dismissAfter: 10000
-        })
-      );
-    });
-  };
+  return callAPI({
+    types: Podcast.CREATE,
+    endpoint: '/podcasts/',
+    method: 'POST',
+    body: data,
+    schema: podcastSchema,
+    meta: {
+      errorMessage: 'Legg til podcast feilet',
+      successMessage: 'Podcast lagt til'
+    }
+  });
 }

@@ -19,11 +19,6 @@
   width: 100%;
   padding: 0 10px;
   border-bottom: 2px solid var(--color-red-3);
-
-  @media (--mobile-device) {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }
 
 .title {
@@ -32,19 +27,43 @@
   margin: 0;
 }
 
-.player {
-  display: flex;
-  flex-direction: column;
-  padding: 5px;
-}
-
 .playerRow {
   align-items: center;
   margin-top: 5px;
 }
 
+.init {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.talking {
+  display: flex;
+  align-items: center;
+
+  @media (--mobile-device) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.published {
+  background: var(--color-red-5);
+  padding: 5px;
+  color: white;
+  border-radius: 5px;
+}
+
 .names {
   padding: 10px;
+
+  @media (--mobile-device) {
+    padding: 2px;
+  }
+
+  &:hover {
+    font-weight: bold;
+  }
 }
 
 .playButton {
@@ -75,20 +94,20 @@
 
 .volume::-webkit-slider-thumb {
   height: 15px !important;
-  width: 15px;
-  overflow: auto;
-  border-radius: 15px;
+  width: 15px !important;
+  overflow: auto !important;
+  border-radius: 15px !important;
   background: var(--color-red-3) !important;
-  cursor: pointer;
-  margin-top: -6px;
-  -webkit-appearance: none;
+  cursor: pointer !important;
+  margin-top: -6px !important;
+  -webkit-appearance: none !important;
 }
 
 .progress {
   height: 30px !important;
-  width: 100%;
+  width: 100% !important;
   border-radius: 10px !important;
-  opacity: 0.5 !important;
+  opacity: 0.9 !important;
 }
 
 .progressInner {
@@ -101,6 +120,8 @@
   padding-right: 10px;
   margin-top: -38px;
   white-space: nowrap;
+  pointer-events: none;
+  z-index: 10;
 }
 
 .more {

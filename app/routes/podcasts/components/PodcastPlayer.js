@@ -15,7 +15,6 @@ import 'react-soundplayer/styles/icons.css';
 import 'react-soundplayer/styles/progress.css';
 import 'react-soundplayer/styles/volume.css';
 import styles from './Podcast.css';
-import moment from 'moment-timezone';
 import { Flex } from 'app/components/Layout';
 import Icon from 'app/components/Icon';
 import { Link } from 'react-router';
@@ -25,14 +24,14 @@ type Props = {
   track: any,
   currentTime: any,
   duration: any,
-  createdAt: string,
   description: string,
-  playing: boolean
+  playing: boolean,
+  actionGrant: Array<String>
 };
 
 class LegoSoundCloudPlayer extends Component<Props, *> {
   render() {
-    const { id, track, currentTime, duration, createdAt } = this.props;
+    const { id, track, currentTime, duration, actionGrant } = this.props;
     return (
       <section>
         <div className={styles.header}>
@@ -44,16 +43,18 @@ class LegoSoundCloudPlayer extends Component<Props, *> {
             />
             <span className={styles.title}>{track ? track.title : ''}</span>
           </span>
-          <span>
-            <Link to={`/podcasts/${id}/edit`} style={{ marginRight: '10px' }}>
+          {actionGrant.includes('edit') && (
+            <Link
+              to={`/podcasts/${id}/edit`}
+              style={{ marginRight: '10px', whiteSpace: 'nowrap' }}
+            >
               <Icon size={17} name="options" style={{ marginRight: '5px' }} />
               Edit
             </Link>
-            <span>{moment(createdAt).format('Do MMM YY')}</span>
-          </span>
+          )}
         </div>
-        <div className={styles.player}>
-          <Flex row className={styles.playerRow}>
+        <Flex column style={{ padding: '10px' }}>
+          <Flex className={styles.playerRow}>
             <PlayButton className={styles.playButton} {...this.props} />
             <VolumeControl
               className={styles.volume}
@@ -72,7 +73,7 @@ class LegoSoundCloudPlayer extends Component<Props, *> {
             duration={track ? track.duration / 1000 : 0}
             {...this.props}
           />
-        </div>
+        </Flex>
       </section>
     );
   }

@@ -124,6 +124,7 @@ type EventListProps = {
   fetchMore: () => Promise<*>
 };
 
+// $FlowFixMe
 const EventList = (props: EventListProps) => {
   const events = groupEvents(props.events);
   const { icalToken, showFetchMore, fetchMore } = props;

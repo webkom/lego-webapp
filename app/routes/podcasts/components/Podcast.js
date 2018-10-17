@@ -5,14 +5,17 @@ import styles from './Podcast.css';
 import LegoSoundCloudPlayer from './PodcastPlayer.js';
 import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
+import { ProfilePicture } from 'app/components/Image';
+import moment from 'moment-timezone';
 
 type Props = {
   id: number,
-  title: string,
   source: string,
   createdAt: string,
   description: string,
-  authors: Array<Object>
+  authors: Array<Object>,
+  thanks: Array<Object>,
+  actionGrant: Array<String>
 };
 
 type State = {
@@ -33,11 +36,48 @@ class Podcast extends Component<Props, State> {
   render() {
     const CLIENT_ID = 'E8IqLGTYxHll6SyaM7LKrMzKveWkcrjg';
 
-    const { id, source, createdAt, description, authors } = this.props;
-    const talking = authors.map(author => {
+    const {
+      id,
+      source,
+      createdAt,
+      description,
+      authors,
+      thanks,
+      actionGrant
+    } = this.props;
+
+    const authorsSpan = authors.map(user => {
       return (
-        <span key={author.id} className={styles.names}>
-          <Link to={`/users/${author.username}`}>{author.fullName}</Link>
+        <span key={user.id} className={styles.names}>
+          <Link
+            to={`/users/${user.username}`}
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
+            <ProfilePicture
+              size={40}
+              user={user}
+              style={{ marginRight: '10px' }}
+            />
+            {user.fullName}
+          </Link>
+        </span>
+      );
+    });
+
+    const thanksSpan = thanks.map(user => {
+      return (
+        <span key={user.id} className={styles.names}>
+          <Link
+            to={`/users/${user.username}`}
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
+            <ProfilePicture
+              size={40}
+              user={user}
+              style={{ marginRight: '10px' }}
+            />
+            {user.fullName}
+          </Link>
         </span>
       );
     });
@@ -46,17 +86,30 @@ class Podcast extends Component<Props, State> {
       <div className={styles.root}>
         <LegoSoundCloudPlayer
           id={id}
-          createdAt={createdAt}
           clientId={CLIENT_ID}
           resolveUrl={source}
+          actionGrant={actionGrant}
         />
         {this.state.extended && (
           <div className={styles.more}>
-            <p style={{ fontWeight: 'bold' }}>Snakker: {talking}</p>
-            <p style={{ textAlign: 'justify' }}>{description}</p>
+            <div className={styles.talking}>
+              <span className={styles.init}>Snakker</span> {authorsSpan}
+            </div>
+            <p>
+              <span className={styles.init}>Publisert</span>
+              <span className={styles.published}>
+                {moment(createdAt).format('Do MMM YY')}
+              </span>
+            </p>
+            <p style={{ textAlign: 'justify' }}>
+              <span className={styles.init}>Om </span>
+              {description}
+            </p>
+            <div className={styles.talking}>
+              <span className={styles.init}>Takk til</span> {thanksSpan}
+            </div>
           </div>
         )}
-
         <div className={styles.showMore}>
           {this.state.extended ? (
             <Icon

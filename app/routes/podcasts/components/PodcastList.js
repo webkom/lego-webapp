@@ -8,7 +8,8 @@ import Icon from 'app/components/Icon';
 import styles from './PodcastList.css';
 
 type Props = {
-  podcasts: Array<Object>
+  podcasts: Array<Object>,
+  actionGrant: Array<String>
 };
 
 type State = {
@@ -25,10 +26,12 @@ class PodcastList extends Component<Props, State> {
   };
 
   render() {
-    const { podcasts } = this.props;
+    const { podcasts, actionGrant } = this.props;
     const elements = podcasts
       .map(podcast => {
-        return <Podcast key={podcast.id} {...podcast} />;
+        return (
+          <Podcast key={podcast.id} {...podcast} actionGrant={actionGrant} />
+        );
       })
       .reverse()
       .splice(0, this.state.items);
@@ -36,7 +39,9 @@ class PodcastList extends Component<Props, State> {
     return (
       <Content>
         <NavigationTab title="Podcasts">
-          <NavigationLink to="/podcasts/create">Legg til ny</NavigationLink>
+          {actionGrant.includes('create') && (
+            <NavigationLink to="/podcasts/create">Legg til ny</NavigationLink>
+          )}
         </NavigationTab>
 
         {elements}
