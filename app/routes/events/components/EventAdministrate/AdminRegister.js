@@ -10,7 +10,7 @@ import { waitinglistPoolId } from 'app/actions/EventActions';
 
 type Props = {
   eventId: ID,
-  adminRegister: (ID, Array<ID>, ID, string, string) => Promise<*>,
+  adminRegister: (ID, ID, ID, string, string) => Promise<*>,
   pools: Array<EventPool>
 } & FormProps;
 
@@ -51,11 +51,10 @@ const AdminRegister = ({
           simpleValue
         />
         <Field
-          name="users"
+          name="user"
           component={SelectInput.AutocompleteField}
           filter={['users.user']}
-          placeholder="Brukere"
-          multi
+          placeholder="Bruker"
           label="Bruker"
         />
         <RenderErrorMessage error={error} />
@@ -86,12 +85,12 @@ function validateForm(data) {
 }
 const onSubmit = (
   {
-    users,
+    user,
     pool,
     feedback,
     adminRegistrationReason
   }: {
-    users: Array<User>,
+    user: User,
     pool: number,
     feedback: string,
     adminRegistrationReason: string
@@ -99,15 +98,11 @@ const onSubmit = (
   dispatch,
   { reset, eventId, adminRegister }: Props
 ) =>
-  adminRegister(
-    eventId,
-    users.map(user => user.id),
-    pool,
-    feedback,
-    adminRegistrationReason
-  ).then(() => {
-    reset();
-  });
+  adminRegister(eventId, user.id, pool, feedback, adminRegistrationReason).then(
+    () => {
+      reset();
+    }
+  );
 
 export default legoForm({
   form: 'adminRegister',
