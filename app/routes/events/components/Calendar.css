@@ -27,6 +27,15 @@
   right: 8px;
 }
 
+.currentDay {
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+  color: white;
+  text-align: center;
+  background-color: var(--color-red-3);
+}
+
 .headingItem {
   flex: 0 14.28571%;
   color: #444;
@@ -56,6 +65,14 @@
 
 .prevNextMonthDay {
   color: #bbb;
+}
+
+.previousEvent a {
+  color: #999;
+}
+
+.previousEvent span {
+  opacity: 0.5;
 }
 
 .cell {

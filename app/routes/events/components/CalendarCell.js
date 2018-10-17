@@ -19,16 +19,24 @@ const renderEvent = ({
   description,
   eventType,
   registrationCount,
+  startTime,
   totalCapacity
 }: Event) => (
   <Popover
     key={id}
     render={() => (
-      <div className={styles.cell}>
-        <Circle
-          color={colorForEvent(eventType)}
-          style={{ marginRight: '5px' }}
-        />
+      <div
+        className={cx(
+          styles.cell,
+          moment(startTime) < moment() && styles.previousEvent
+        )}
+      >
+        <span>
+          <Circle
+            color={colorForEvent(eventType)}
+            style={{ marginRight: '5px' }}
+          />
+        </span>
         <Link to={`/events/${id}`} title={title}>
           {title}
         </Link>
@@ -71,7 +79,14 @@ const CalendarCell = ({
       className
     )}
   >
-    <strong className={styles.dayNumber}>{day.date()}</strong>
+    <strong
+      className={cx(
+        styles.dayNumber,
+        day.isSame(moment(), 'day') && styles.currentDay
+      )}
+    >
+      {day.date()}
+    </strong>
     {events.map(renderEvent)}
   </div>
 );
