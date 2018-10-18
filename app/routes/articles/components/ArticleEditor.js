@@ -1,7 +1,6 @@
 //@flow
 
 import React from 'react';
-import { Flex } from 'app/components/Layout';
 import { Content } from 'app/components/Content';
 import Button from 'app/components/Button';
 import { type UserEntity } from 'app/reducers/users';
