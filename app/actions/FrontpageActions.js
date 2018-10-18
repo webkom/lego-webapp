@@ -40,8 +40,8 @@ fragment readmeFragment on ReadmeUtgave {
 //`;
 //
 const readmeUtgaver = `
-{
-    readmeUtgaver(first: 6){
+query readmeUtgaver($first: Int){
+    readmeUtgaver(first: $first){
     ...readmeFragment
     }
 
@@ -62,7 +62,7 @@ export function fetchReadmes() {
         body: JSON.stringify({
           operationName: null,
           query: readmeUtgaver,
-          variables: null
+          variables: { first: 6 }
         })
       });
 
