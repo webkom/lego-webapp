@@ -20,6 +20,8 @@ import type { Group, AddPenalty, Event, ID } from 'app/models';
 import cx from 'classnames';
 import { EventItem } from 'app/routes/events/components/EventList';
 import EmptyState from 'app/components/EmptyState';
+import moment from 'moment-timezone';
+import type { Dateish } from 'app/models';
 
 const fieldTranslations = {
   username: 'brukernavn',
@@ -47,20 +49,49 @@ type UpcomingEventsProps = {
   upcomingEvents: Array<Event>
 };
 
-const GroupPill = ({ group }: { group: Group }) => (
-  <Pill key={group.id} style={{ margin: '5px' }}>
-    {group.name}
-  </Pill>
-);
+const GroupPill = ({ group }: { group: Group }) =>
+  group.showBadge && (
+    <Pill key={group.id} style={{ margin: '5px' }}>
+      {group.name}
+    </Pill>
+  );
 
-const GroupBadge = ({ group }: { group: Group }) => {
+const BadgeTooltip = ({
+  group,
+  start,
+  end
+}: {
+  group: Group,
+  start: Dateish,
+  end: ?Dateish
+}) => {
+  const startYear = moment(start).year();
+  const endYear = end ? moment(end).year() : 'd.d.';
+  return `${group.name} (${startYear} - ${endYear})`;
+};
+
+const GroupBadge = ({
+  group,
+  start,
+  end
+}: {
+  group: Group,
+  start: Dateish,
+  end?: ?Dateish
+}) => {
   const groupElement = (
-    <Tooltip key={group.id} content={group.name}>
+    <Tooltip
+      key={group.id}
+      content={<BadgeTooltip group={group} end={end} start={start} />}
+    >
       <CircularPicture
         alt={group.name}
         src={group.logo}
         size={50}
-        style={{ margin: '10px 5px' }}
+        style={{
+          margin: '10px 5px',
+          ...(end ? { filter: 'grayscale(100%)', opacity: '0.7' } : {})
+        }}
       />
     </Tooltip>
   );
@@ -69,9 +100,11 @@ const GroupBadge = ({ group }: { group: Group }) => {
     return groupElement;
   }
   return (
-    <Link key={group.id} to={resolveGroupLink(group)}>
-      {groupElement}
-    </Link>
+    group.showBadge && (
+      <Link key={group.id} to={resolveGroupLink(group)}>
+        {groupElement}
+      </Link>
+    )
   );
 };
 
@@ -131,12 +164,33 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
       changeGrade
     } = this.props;
 
-    const { abakusGroups = [], firstName, lastName } = user;
+    const {
+      pastMemberships = [],
+      abakusGroups = [],
+      firstName,
+      lastName,
+      memberships = []
+    } = user;
 
-    const { groupsAsBadges = [], groupsAsPills = [] } = groupBy(
-      abakusGroups.filter(Boolean),
-      group => (group.logo ? 'groupsAsBadges' : 'groupsAsPills')
+    const { membershipsAsBadges = [], membershipsAsPills = [] } = groupBy(
+      memberships.filter(Boolean).map(membership => ({
+        ...membership,
+        abakusGroup: abakusGroups.find(g => g.id === membership.abakusGroup)
+      })),
+      membership =>
+        membership.abakusGroup.logo
+          ? 'membershipsAsBadges'
+          : 'membershipsAsPills'
     );
+
+    const { pastMembershipsAsBadges = [] } = groupBy(
+      pastMemberships.filter(Boolean),
+      m =>
+        m.abakusGroup.logo
+          ? 'pastMembershipsAsBadges'
+          : 'pastMembershipsAsPills'
+    );
+    const a = pastMemberships.filter(Boolean).map(m => m.abakusGroup);
     return (
       <div className={styles.root}>
         <Helmet title={`${firstName} ${lastName}`} />
@@ -148,13 +202,25 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
           <Flex column className={styles.rightContent}>
             <h2>{user.fullName}</h2>
             <Flex wrap>
-              {groupsAsPills.map(group => (
-                <GroupPill key={group.id} group={group} />
+              {membershipsAsPills.map(membership => (
+                <GroupPill key={membership.id} group={membership.abakusGroup} />
               ))}
             </Flex>
             <Flex>
-              {groupsAsBadges.map(group => (
-                <GroupBadge group={group} key={group.id} />
+              {membershipsAsBadges.map(membership => (
+                <GroupBadge
+                  group={membership.abakusGroup}
+                  start={membership.createdAt}
+                  key={membership.id}
+                />
+              ))}
+              {pastMembershipsAsBadges.map(membership => (
+                <GroupBadge
+                  group={membership.abakusGroup}
+                  start={membership.startDate}
+                  end={membership.endDate}
+                  key={membership.id}
+                />
               ))}
             </Flex>
           </Flex>
