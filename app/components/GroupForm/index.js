@@ -9,8 +9,10 @@ import {
   EditorField,
   Button,
   ImageUploadField,
+  CheckBox,
   legoForm
 } from 'app/components/Form';
+import Tooltip from 'app/components/Tooltip';
 import { createValidator, required } from 'app/utils/validation';
 
 type OwnProps = {
@@ -53,6 +55,14 @@ function GroupForm({
         name="contactEmail"
         component={TextInput.Field}
       />
+      <Tooltip content="Skal gruppen vises på brukerprofilen til folk?">
+        <Field
+          label="Vis badge på brukerprofiler"
+          name="showBadge"
+          component={CheckBox.Field}
+          normalize={v => !!v}
+        />
+      </Tooltip>
       <Field
         label="Beskrivelse"
         placeholder="Vil du strikke din egen lue? Eller har du allerede […]"

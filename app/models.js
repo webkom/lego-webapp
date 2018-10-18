@@ -141,7 +141,8 @@ export type Group = {
   memberships: Array<GroupMembership>,
   description: string,
   text: string,
-  logo: ?string
+  logo: ?string,
+  showBadge: boolean
 };
 
 export type GroupMembership = {

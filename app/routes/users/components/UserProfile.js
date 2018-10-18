@@ -49,11 +49,12 @@ type UpcomingEventsProps = {
   upcomingEvents: Array<Event>
 };
 
-const GroupPill = ({ group }: { group: Group }) => (
-  <Pill key={group.id} style={{ margin: '5px' }}>
-    {group.name}
-  </Pill>
-);
+const GroupPill = ({ group }: { group: Group }) =>
+  group.showBadge && (
+    <Pill key={group.id} style={{ margin: '5px' }}>
+      {group.name}
+    </Pill>
+  );
 
 const BadgeTooltip = ({
   group,
@@ -99,9 +100,11 @@ const GroupBadge = ({
     return groupElement;
   }
   return (
-    <Link key={group.id} to={resolveGroupLink(group)}>
-      {groupElement}
-    </Link>
+    group.showBadge && (
+      <Link key={group.id} to={resolveGroupLink(group)}>
+        {groupElement}
+      </Link>
+    )
   );
 };
 
