@@ -37,6 +37,8 @@ $ NODE_ENV=production node dist/server.js
 * HOST
 * PORT
 * SERVER_RAVEN_DSN
+* SSR_API_URL
+* SSR_BASE_URL
 
 ## Documentation
 
