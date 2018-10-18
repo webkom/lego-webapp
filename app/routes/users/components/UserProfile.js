@@ -169,7 +169,7 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
       abakusGroups = [],
       firstName,
       lastName,
-      memberships
+      memberships = []
     } = user;
 
     const { membershipsAsBadges = [], membershipsAsPills = [] } = groupBy(
