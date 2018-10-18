@@ -2,12 +2,17 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
 import loadingIndicator from 'app/utils/loadingIndicator';
-import { fetchArticle, editArticle } from 'app/actions/ArticleActions';
+import {
+  fetchArticle,
+  editArticle,
+  deleteArticle
+} from 'app/actions/ArticleActions';
 import ArticleEditor from './components/ArticleEditor';
 import { selectArticleById } from 'app/reducers/articles';
 import { objectPermissionsToInitialValues } from 'app/components/Form/ObjectPermissions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { push } from 'react-router-redux';
 
 const mapStateToProps = (state, props) => {
   const { articleId } = props.params;
@@ -25,7 +30,12 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { fetchArticle, submitArticle: editArticle };
+const mapDispatchToProps = {
+  deleteArticle,
+  fetchArticle,
+  submitArticle: editArticle,
+  push
+};
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),

@@ -26,11 +26,13 @@ import { Form, Fields, Field } from 'redux-form';
  */
 export type Props = {
   article?: ArticleEntity,
-  articleId?: number,
+  articleId: number,
   currentUser: UserEntity,
   isNew: boolean,
   handleSubmit: Object => void,
-  submitArticle: Object => Promise<*>
+  submitArticle: Object => Promise<*>,
+  deleteArticle: number => Promise<*>,
+  push: string => void
 };
 
 const ArticleEditor = ({
@@ -39,11 +41,19 @@ const ArticleEditor = ({
   currentUser,
   submitArticle,
   handleSubmit,
+  deleteArticle,
+  push,
   article
 }: Props) => {
   if (!isNew && (!article || !article.content)) {
     return <LoadingIndicator loading />;
   }
+
+  const handleDeleteArticle = () => {
+    deleteArticle(articleId).then(() => {
+      push('/articles/');
+    });
+  };
 
   return (
     <Content>
@@ -63,19 +73,13 @@ const ArticleEditor = ({
           className={styles.formField}
           normalize={v => !!v}
         />
-        <Flex alignItems="center">
-          <Field
-            placeholder="Title"
-            name="title"
-            label="Tittel"
-            component={TextInput.Field}
-            id="article-title"
-          />
-
-          <Button className={styles.submitButton} type="submit">
-            {isNew ? 'Create' : 'Save'}
-          </Button>
-        </Flex>
+        <Field
+          placeholder="Title"
+          name="title"
+          label="Tittel"
+          component={TextInput.Field}
+          id="article-title"
+        />
         <Field
           name="tags"
           label="Tags"
@@ -113,7 +117,11 @@ const ArticleEditor = ({
           label="Content"
           component={EditorField.Field}
         />
+        <Button className={styles.submitButton} type="submit">
+          {isNew ? 'Create' : 'Save'}
+        </Button>
       </Form>
+      {!isNew && <Button onClick={handleDeleteArticle}>Delete</Button>}
     </Content>
   );
 };

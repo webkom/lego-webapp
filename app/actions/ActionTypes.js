@@ -39,7 +39,8 @@ export const Event = {
 export const Article = {
   FETCH: generateStatuses('Article.FETCH'),
   CREATE: generateStatuses('Article.CREATE'),
-  EDIT: generateStatuses('Article.EDIT')
+  EDIT: generateStatuses('Article.EDIT'),
+  DELETE: generateStatuses('Article.DELETE')
 };
 
 /**
