@@ -4,6 +4,7 @@ import { createSelector } from 'reselect';
 import { Article } from '../actions/ActionTypes';
 import { mutateComments } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import joinReducers from 'app/utils/joinReducers';
 
 export type ArticleEntity = {
   id: number,
@@ -21,7 +22,21 @@ export type ArticleEntity = {
   comments: Array<number>
 };
 
-const mutate = mutateComments('articles');
+function mutateArticle(state: any, action: any) {
+  switch (action.type) {
+    case Article.DELETE.SUCCESS: {
+      const { articleId } = action.meta;
+      return {
+        ...state,
+        items: state.items.filter(id => id !== articleId)
+      };
+    }
+    default:
+      return state;
+  }
+}
+
+const mutate = joinReducers(mutateComments('articles'), mutateArticle);
 
 export default createEntityReducer({
   key: 'articles',
