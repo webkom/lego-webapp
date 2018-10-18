@@ -50,11 +50,11 @@ type UpcomingEventsProps = {
 };
 
 const GroupPill = ({ group }: { group: Group }) =>
-  group.showBadge && (
+  group.showBadge ? (
     <Pill key={group.id} style={{ margin: '5px' }}>
       {group.name}
     </Pill>
-  );
+  ) : null;
 
 const BadgeTooltip = ({
   group,
