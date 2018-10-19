@@ -8,9 +8,11 @@ import { roleOptions } from 'app/utils/constants';
 import {
   TextInput,
   SelectInput,
+  CheckBox,
   handleSubmissionError
 } from 'app/components/Form';
 import { Form, Field } from 'redux-form';
+import Tooltip from 'app/components/Tooltip';
 
 export type Props = {
   emailListId?: number,
@@ -32,6 +34,7 @@ const EmailListEditor = ({
       id: data.id,
       email: data.email,
       name: data.name,
+      requireInternalAddress: data.requireInternalAddress,
       groupRoles: (data.groupRoles || []).map(groupRole => groupRole.value),
       groups: (data.groups || []).map(group => group.value),
       users: (data.users || []).map(user => user.value)
@@ -83,6 +86,15 @@ const EmailListEditor = ({
         options={roleOptions}
         component={SelectInput.Field}
       />
+
+      <Tooltip content="Når denne er aktivert vil kun brukere med aktiv @abakus.no-adresse få mail fra denne listen">
+        <Field
+          label="Kun for for brukere med internmail (@abakus.no)"
+          name="requireInternalAddress"
+          component={CheckBox.Field}
+          normalize={v => !!v}
+        />
+      </Tooltip>
       <Button submit disabled={submitting}>
         {emailListId ? 'Oppdater epostliste' : 'Lag epostliste'}
       </Button>
