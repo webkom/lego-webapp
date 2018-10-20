@@ -69,6 +69,6 @@
   padding-top: 20px;
 }
 
-.wordBreak p {
+.wordBreak span {
   word-break: break-word;
 }
