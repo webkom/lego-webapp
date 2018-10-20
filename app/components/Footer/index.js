@@ -23,9 +23,9 @@ const Footer = (props: Props) => (
           <div className={cx(styles.section, hiddenOnMobile)}>
             <h2>Lego</h2>
             <p>
-              Velkommen til LEGO, den nye nettsiden til Abakus. Vi i Webkom har
-              arbeidet lenge med denne siden og håper den faller i smak.
-              Spørsmål eller rapportering av feil gjøres til{' '}
+              Velkommen til LEGO. Den nå ett år gamle nettsiden til Abakus. Vi i
+              Webkom har arbeidet lenge med denne siden og håper den faller i
+              smak. Spørsmål eller rapportering av feil gjøres til{' '}
               <a href="mailto:webkom@abakus.no">webkom@abakus.no</a>.
             </p>
           </div>
