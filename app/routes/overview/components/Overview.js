@@ -99,6 +99,9 @@ class Overview extends Component<Props, State> {
 
     return (
       <Container>
+        <a href="https://abakus.no/photos/374/picture/24350" taget="_blank">
+          <div className={styles.committeeHeader}>LEGO 1år</div>
+        </a>
         <Helmet title="Hjem" />
         <Flex wrap style={{ justifyContent: 'space-between' }}>
           <Flex column style={{ flex: 2 }}>
