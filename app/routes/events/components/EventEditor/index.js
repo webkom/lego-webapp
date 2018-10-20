@@ -280,7 +280,11 @@ function EventEditor({
               <UserGrid
                 minRows={2}
                 maxRows={2}
-                users={registrations.slice(0, 14).map(reg => reg.user)}
+                users={
+                  registrations
+                    ? registrations.slice(0, 14).map(reg => reg.user)
+                    : []
+                }
               />
               <RegisteredSummary registrations={[]} toggleModal={i => {}} />
               <AttendanceStatus title="Påmeldte" pools={pools} />
@@ -372,7 +376,9 @@ const validate = data => {
   if (!data.id && !data.cover) {
     errors.cover = 'Cover er påkrevet';
   }
-  errors.pools = validatePools(data.pools);
+  if (data.pools) {
+    errors.pools = validatePools(data.pools);
+  }
   return errors;
 };
 
