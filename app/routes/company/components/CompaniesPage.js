@@ -51,11 +51,10 @@ const CompanyItem = function({ company }: any) {
 };
 
 type CompanyListProps = {
-  name: string,
   companies: Array<Company>
 };
 
-const CompanyList = ({ name, companies = [] }: CompanyListProps) => (
+const CompanyList = ({companies = [] }: CompanyListProps) => (
   <div className={styles.companyList}>
     {companies.map((company, id) => <CompanyItem key={id} company={company} />)}
   </div>
@@ -70,7 +69,7 @@ const CompaniesPage = (props: Props) => (
         hasMore={props.hasMore}
         loadMore={() => props.hasMore && props.fetchMore()}
         initialLoad={false}
-        loader={<LoadingIndicator loading="loading" />}
+        loader={<LoadingIndicator loading />}
       >
         <CompanyList companies={props.companies} />
       </InfiniteScroll>
