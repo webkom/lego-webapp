@@ -21,6 +21,7 @@ import contact from './contact';
 import timeline from './timeline';
 import surveys from './surveys';
 import tags from './tags';
+import brand from './brand';
 
 export default {
   path: '/',
@@ -47,6 +48,11 @@ export default {
     ...companyInterest,
     surveys,
     tags,
+    brand,
+    /* 
+     This will eat all routes that are written after this 
+     So one cant put any routes after pageNotFound
+     */
     pageNotFound
   ]
 };
