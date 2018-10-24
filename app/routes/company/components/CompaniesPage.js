@@ -3,28 +3,27 @@
 import React from 'react';
 import styles from './Company.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import InfiniteScroll from 'react-infinite-scroller';
 import {Link} from 'react-router';
 import {Image} from 'app/components/Image';
-import type {Company}
-from 'app/models';
-import {Button} from 'app/components/Form';
+import type {Company} from 'app/models';
 
 type Props = {
     companies: Array<Company>,
-    showFetchMore: () => void,
     fetchMore: () => void,
+    showFetchMore: () => void,
+    hasMore: Boolean
 };
 
 const CompanyItem = function({company} : any) {
     let websiteString = company.website.split('/');
-    websiteString = websiteString[0] + '//' + websiteString[2];
-
+        websiteString = websiteString[0] + '//' + websiteString[2];
 
     return <div className={styles.companyItem}>
         <div className={styles.companyItemContent}>
             <Link to={`/companies/${company.id}`}>
                 <div className={styles.companyLogo}>
-                    {<Image src='https://www.freelogodesign.org/Content/img/slide-logo-1.png'/>}
+                    {<Image src={company.logo}/>}
                 </div>
                 <div className={styles.companyItemTitle}>
                     <h2>{company.name}</h2>
@@ -35,7 +34,7 @@ const CompanyItem = function({company} : any) {
                 </div>
             </Link>
             {
-                (company.website && company.website != "http://example.com/") && (<a href={company.website}>
+                (company.website && !company.website.includes("example.com")) && (<a href={company.website}>
                     <div className={styles.website}>{websiteString}</div>
                 </a>)
             }
@@ -57,10 +56,19 @@ const CompanyList = ({
 
 
 const CompaniesPage = (props : Props) => (<div className={styles.root}>
-    {props.companies.length === 0 && <LoadingIndicator loading />}
     <h2 className={styles.heading}>Bedrifter</h2>
-    <CompanyList companies={props.companies}/>
-    {props.showFetchMore && (<Button onClick={() => props.fetchMore()}>Flere bedrifter</Button>)}
+    <div>
+    <InfiniteScroll
+        element="div"
+        hasMore={props.hasMore}
+        loadMore={()=> props.hasMore && props.fetchMore()}
+        initialLoad={false}
+        loader={<LoadingIndicator loading="loading"/>}
+        >
+
+        <CompanyList companies={props.companies}/>
+    </InfiniteScroll>
+</div>
 </div>);
 
 export default CompaniesPage;
