@@ -14,3 +14,4 @@ styleguide
 *.log
 *.swp
 package-lock.json
+.idea
