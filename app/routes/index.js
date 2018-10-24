@@ -20,6 +20,7 @@ import contact from './contact';
 import timeline from './timeline';
 import surveys from './surveys';
 import tags from './tags';
+import brand from './brand';
 
 export default {
   path: '/',
@@ -45,6 +46,7 @@ export default {
     ...companyInterest,
     surveys,
     tags,
+    brand,
     pageNotFound
   ]
 };
