@@ -10,6 +10,7 @@ import companies from './companies';
 import companySemesters from './companySemesters';
 import emailLists from './emailLists';
 import quotes from './quotes';
+import podcasts from './podcasts';
 import galleryPictures from './galleryPictures';
 import events from './events';
 import articles from './articles';
@@ -52,47 +53,48 @@ import type { State, Action } from 'app/types';
 
 const reducers = {
   allowed,
-  quotes,
-  events,
-  restrictedMails,
-  galleryPictures,
-  articles,
-  pools,
-  registrations,
-  readme,
-  meetingsToken,
-  meetings,
-  meetingInvitations,
-  memberships,
-  companyInterest,
-  search,
-  comments,
-  auth,
-  form,
-  users,
-  groups,
-  emailUsers,
-  oauth2Applications,
-  oauth2Grants,
-  emailLists,
-  pages,
-  galleries,
-  toasts,
-  notificationsFeed,
-  notificationSettings,
-  routing: joinReducers(routing, routerReducer),
-  joblistings,
   announcements,
+  articles,
+  auth,
+  comments,
+  companies,
+  companyInterest,
+  companySemesters,
+  emailLists,
+  emailUsers,
+  events,
   feedActivities,
   feeds,
   fetchHistory,
+  form,
   frontpage,
-  companies,
-  companySemesters,
-  surveys,
-  surveySubmissions,
+  galleries,
+  galleryPictures,
+  groups,
+  joblistings,
+  meetingInvitations,
+  meetings,
+  meetingsToken,
+  memberships,
+  notificationSettings,
+  notificationsFeed,
+  oauth2Applications,
+  oauth2Grants,
+  pages,
   penalties,
-  tags
+  podcasts,
+  pools,
+  quotes,
+  readme,
+  registrations,
+  restrictedMails,
+  routing: joinReducers(routing, routerReducer),
+  search,
+  surveySubmissions,
+  surveys,
+  tags,
+  toasts,
+  users
 };
 
 export type Reducers = typeof reducers;
@@ -159,6 +161,9 @@ export const gallerySchema = new schema.Entity('galleries');
 export const quoteSchema = new schema.Entity('quotes', {
   comments: [commentSchema]
 });
+
+export const podcastSchema = new schema.Entity('podcasts');
+
 export const pageSchema = new schema.Entity(
   'pages',
   {},

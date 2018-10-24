@@ -4185,7 +4185,7 @@ flatten@^1.0.2:
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
   integrity sha1-2uRqnXj74lKSJYzB54CkHZXAN4I=
 
-flow-bin@0.70.0:
+flow-bin@0.70:
   version "0.70.0"
   resolved "https://registry.yarnpkg.com/flow-bin/-/flow-bin-0.70.0.tgz#080ae83a997f2b4ddb3dc2649bf13336825292b5"
   integrity sha1-CAroOpl/K03bPcJkm/EzNoJSkrU=
@@ -4774,6 +4774,11 @@ hoist-non-react-statics@^2.2.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.3.1.tgz#343db84c6018c650778898240135a1420ee22ce0"
   integrity sha1-ND24TGAYxlB3iJgkATWhQg7iLOA=
+
+hoist-non-react-statics@^2.3.1:
+  version "2.5.5"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
+  integrity sha512-rqcy4pJo55FTTLWt+bU8ukscqHeE/e9KWvsOW2b/a3afxQZhwkQdT1rPPCJ0rYXdj4vNcasY8zHTH+jF/qStxw==
 
 home-or-tmp@^2.0.0:
   version "2.0.0"
@@ -8923,6 +8928,17 @@ react-side-effect@^1.1.0:
     exenv "^1.2.1"
     shallowequal "^1.0.1"
 
+react-soundplayer@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-soundplayer/-/react-soundplayer-1.0.4.tgz#333b0edc41694a3f883117898d962af061bb8d3f"
+  integrity sha512-Rnp3qdG3ztG2eEHBQ4Muqhh7EpilyUi/+CiVPsp6kl0ErS0RnnYaB70JFk240BOdnwDWrAel6sABPq4ehYb0NQ==
+  dependencies:
+    classnames "^2.2.5"
+    hoist-non-react-statics "^2.3.1"
+    object-assign "^4.1.1"
+    prop-types "^15.6.0"
+    soundcloud-audio "^1.2.2"
+
 react-stickynode@^1.3.1:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/react-stickynode/-/react-stickynode-1.3.1.tgz#de2f37958cb7be54f168ae754fb72caef8660a04"
@@ -10012,6 +10028,11 @@ sort-keys@^1.0.0:
   integrity sha1-RBttTTRnmPG05J6JIK37oOVD+a0=
   dependencies:
     is-plain-obj "^1.0.0"
+
+soundcloud-audio@^1.2.2:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/soundcloud-audio/-/soundcloud-audio-1.3.1.tgz#d1266affc3016c8eb154f937fe216162e0883b34"
+  integrity sha512-7VMyxAR3vQreRcK/RH+oM19hUr6obwxeiL42/nR5L3u2NXp82RvEdfJc5lq/mq0C3zA+gi6jcHkUIu8lFYwLIg==
 
 source-list-map@^2.0.0:
   version "2.0.0"

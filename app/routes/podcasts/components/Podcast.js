@@ -1,0 +1,135 @@
+// @flow
+
+import React, { Component } from 'react';
+import styles from './Podcast.css';
+import LegoSoundCloudPlayer from './PodcastPlayer.js';
+import { Link } from 'react-router';
+import Icon from 'app/components/Icon';
+import { ProfilePicture } from 'app/components/Image';
+import moment from 'moment-timezone';
+
+type Props = {
+  id: number,
+  source: string,
+  createdAt: string,
+  description: string,
+  authors: Array<Object>,
+  thanks: Array<Object>,
+  actionGrant: Array<String>
+};
+
+type State = {
+  extended: boolean
+};
+
+class Podcast extends Component<Props, State> {
+  state = {
+    extended: false
+  };
+
+  showMore = () => {
+    this.setState({
+      extended: !this.state.extended
+    });
+  };
+
+  render() {
+    const CLIENT_ID = 'E8IqLGTYxHll6SyaM7LKrMzKveWkcrjg';
+
+    const {
+      id,
+      source,
+      createdAt,
+      description,
+      authors,
+      thanks,
+      actionGrant
+    } = this.props;
+
+    const authorsSpan = authors.map(user => {
+      return (
+        <span key={user.id} className={styles.names}>
+          <Link
+            to={`/users/${user.username}`}
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
+            <ProfilePicture
+              size={40}
+              user={user}
+              style={{ marginRight: '10px' }}
+            />
+            {user.fullName}
+          </Link>
+        </span>
+      );
+    });
+
+    const thanksSpan = thanks.map(user => {
+      return (
+        <span key={user.id} className={styles.names}>
+          <Link
+            to={`/users/${user.username}`}
+            style={{ display: 'flex', alignItems: 'center' }}
+          >
+            <ProfilePicture
+              size={40}
+              user={user}
+              style={{ marginRight: '10px' }}
+            />
+            {user.fullName}
+          </Link>
+        </span>
+      );
+    });
+
+    return (
+      <div className={styles.root}>
+        <LegoSoundCloudPlayer
+          id={id}
+          clientId={CLIENT_ID}
+          resolveUrl={source}
+          actionGrant={actionGrant}
+        />
+        {this.state.extended && (
+          <div className={styles.more}>
+            <div className={styles.talking}>
+              <span className={styles.init}>Snakker</span> {authorsSpan}
+            </div>
+            <p>
+              <span className={styles.init}>Publisert</span>
+              <span className={styles.published}>
+                {moment(createdAt).format('Do MMM YY')}
+              </span>
+            </p>
+            <p style={{ textAlign: 'justify' }}>
+              <span className={styles.init}>Om </span>
+              {description}
+            </p>
+            <div className={styles.talking}>
+              <span className={styles.init}>Takk til</span> {thanksSpan}
+            </div>
+          </div>
+        )}
+        <div className={styles.showMore}>
+          {this.state.extended ? (
+            <Icon
+              onClick={this.showMore}
+              className={styles.arrow}
+              size={20}
+              name="arrow-up"
+            />
+          ) : (
+            <Icon
+              onClick={this.showMore}
+              className={styles.arrow}
+              size={20}
+              name="arrow-down"
+            />
+          )}
+        </div>
+      </div>
+    );
+  }
+}
+
+export default Podcast;
