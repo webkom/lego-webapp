@@ -47,7 +47,7 @@ export default {
     surveys,
     tags,
     brand,
-     /* 
+    /* 
      This will eat all routes that are written after this 
      So one cant put any routes after pageNotFound
      */
