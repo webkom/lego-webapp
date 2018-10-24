@@ -190,21 +190,13 @@
 }
 
 .companyLogo {
-  width: inherit;
-  display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: row;
-  object-fit: contain;
   margin: auto;
   height: 80px;
 }
 
 .companyLogo img {
-  min-width: 120px;
-  height: inherit;
-  object-fit: cover;
-  margin: auto;
+  object-fit: contain;
   display: block;
 }
 
