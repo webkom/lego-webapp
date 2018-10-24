@@ -20,7 +20,8 @@ const mapStateToProps = (state, props) => {
     showFetchMore,
     companies,
     query,
-    loggedIn: props.loggedIn
+    loggedIn: props.loggedIn,
+    hasMore: state.companies.hasMore
   };
 };
 
