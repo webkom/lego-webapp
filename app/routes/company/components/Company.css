@@ -25,10 +25,9 @@
 }
 
 .companyList {
-  display: flex;
-  -webkit-flex-flow: row wrap;
-  -ms-flex-flow: row wrap;
-  flex-flow: row wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 240px);
+  column-gap: 15px;
   margin-bottom: 40px;
   justify-content: space-around;
 }
@@ -45,9 +44,6 @@
   padding-right: 5px;
   margin-bottom: 15px;
   margin-left: 8px;
-  -webkit-flex: 1 1 auto;
-  -ms-flex: 1 1 auto;
-  flex: 0 0 auto;
   color: var(--color-black);
   box-shadow: 5px 2px 5px #ede7e7;
   border-radius: 2px;
@@ -201,11 +197,12 @@
   flex-direction: row;
   object-fit: contain;
   margin: auto;
+  height: 80px;
 }
 
 .companyLogo img {
   min-width: 120px;
-  height: 80px;
+  height: inherit;
   object-fit: cover;
   margin: auto;
   display: block;

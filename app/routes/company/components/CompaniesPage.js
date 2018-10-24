@@ -30,7 +30,7 @@ const CompanyItem = function({company} : any) {
                 </div>
                 <div className={styles.companyInfo}>
                     <span>{company.joblistingCount > 0 && company.joblistingCount + ' jobbannonser'}</span>
-                    <span>{company.eventCount > 0 && company.eventCount + ' kommende arrangementer'}</span>
+                    <span>{company.eventCount > 0 && company.eventCount + ' arrangementer'}</span>
                 </div>
             </Link>
             {
