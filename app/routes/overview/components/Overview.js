@@ -18,7 +18,6 @@ import EventItem from './EventItem';
 import ArticleItem from './ArticleItem';
 import Icon from 'app/components/Icon';
 import truncateString from 'app/utils/truncateString';
-import Banner from 'app/components/Banner';
 
 type Props = {
   frontpage: Array<Object>,
@@ -101,11 +100,6 @@ class Overview extends Component<Props, State> {
     return (
       <Container>
         <Helmet title="Hjem" />
-        <Banner
-          text={'LEGO 1 år'}
-          link={'https://abakus.no/photos/374/picture/24350'}
-          red
-        />
         <Flex wrap style={{ justifyContent: 'space-between' }}>
           <Flex column style={{ flex: 2 }}>
             <CompactEvents events={frontpage.filter(isEvent)} />
