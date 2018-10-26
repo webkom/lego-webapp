@@ -24,8 +24,12 @@
   justify-content: space-between;
 }
 
-.companies {
+.companyList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 240px);
+  column-gap: 15px;
   margin-bottom: 40px;
+  justify-content: space-around;
 }
 
 .website {
@@ -33,18 +37,39 @@
 }
 
 .companyItem {
-  padding-left: 20px;
+  width: 220px;
+  height: 260px;
+  padding: 10px 5px 0;
   margin-bottom: 15px;
-  display: flex;
-  justify-content: space-between;
+  margin-left: 8px;
   color: var(--color-black);
+  box-shadow: 5px 2px 5px #ede7e7;
+  border-radius: 2px;
+  word-wrap: break-word;
+}
+
+.companyItemContent {
+  justify-content: inherit;
+  text-align: center;
 }
 
 .companyItemTitle {
-  color: #333;
+  color: var(--lego-font-color);
   font-weight: 700;
   margin: 0;
-  word-break: break-word;
+  text-overflow: clip;
+  line-height: 25px;
+}
+
+.companyInfo {
+  color: #777;
+  font-weight: 200;
+  font-style: italic;
+  line-height: 20px;
+}
+
+.companyInfo > * {
+  display: block;
 }
 
 .title {
@@ -163,22 +188,14 @@
 }
 
 .companyLogo {
-  width: 120px;
-  display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: row;
-  object-fit: contain;
-
-  @media (--small-viewport) {
-    display: none;
-  }
+  margin: auto;
+  height: 80px;
 }
 
 .companyLogo img {
-  min-width: 120px;
-  height: 80px;
-  object-fit: cover;
+  object-fit: contain;
+  display: block;
 }
 
 .companyLogoDetail {

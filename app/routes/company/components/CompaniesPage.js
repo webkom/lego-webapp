@@ -3,65 +3,76 @@
 import React from 'react';
 import styles from './Company.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import InfiniteScroll from 'react-infinite-scroller';
 import { Link } from 'react-router';
 import { Image } from 'app/components/Image';
 import type { Company } from 'app/models';
-import { Button } from 'app/components/Form';
 
 type Props = {
   companies: Array<Company>,
+  fetchMore: () => void,
   showFetchMore: () => void,
-  fetchMore: () => void
+  hasMore: Boolean
 };
 
-export function CompanyItem({ company }: any) {
+const CompanyItem = ({ company }: Company) => {
+  const [protocol, , domain] = company.website.split('/');
+  const websiteString = `${protocol}//${domain}`;
+
   return (
     <div className={styles.companyItem}>
-      <div>
+      <div className={styles.companyItemContent}>
         <Link to={`/companies/${company.id}`}>
-          <h3 className={styles.companyItemTitle}>{company.name}</h3>
+          <div className={styles.companyLogo}>
+            {<Image src={company.logo} />}
+          </div>
+          <div className={styles.companyItemTitle}>
+            <h2>{company.name}</h2>
+          </div>
+          <div className={styles.companyInfo}>
+            <span>
+              {company.joblistingCount > 0 &&
+                company.joblistingCount + ' jobbannonser'}
+            </span>
+            <span>
+              {company.eventCount > 0 && company.eventCount + ' arrangementer'}
+            </span>
+          </div>
         </Link>
-        <a href={company.website}>
-          <div className={styles.website}>{company.website}</div>
-        </a>
-        <div>{company.companyType}</div>
-        <div>{company.address}</div>
+        {company.website &&
+          !company.website.includes('example.com') && (
+            <a href={company.website} target="_blank">
+              <div className={styles.website}>{websiteString}</div>
+            </a>
+          )}
       </div>
-      <Link to={`/companies/${company.id}`}>
-        {company.logo && (
-          <Image src={company.logo} className={styles.companyLogo} />
-        )}
-      </Link>
     </div>
   );
-}
+};
 
 type CompanyListProps = {
-  name: string,
   companies: Array<Company>
 };
 
-function CompanyList({ name, companies = [] }: CompanyListProps) {
-  return (
-    <div className={styles.companies}>
-      <h2 className={styles.heading}>{name}</h2>
-      {companies.map((company, i) => <CompanyItem key={i} company={company} />)}
-    </div>
-  );
-}
+const CompanyList = ({ companies = [] }: CompanyListProps) => (
+  <div className={styles.companyList}>
+    {companies.map((company, id) => <CompanyItem key={id} company={company} />)}
+  </div>
+);
 
-const CompaniesPage = (props: Props) => {
-  if (props.companies.length < 1) {
-    return <LoadingIndicator loading />;
-  }
-  return (
-    <div className={styles.root}>
-      <CompanyList name={'Bedrifter'} companies={props.companies} />
-      {props.showFetchMore && (
-        <Button onClick={() => props.fetchMore()}>Flere bedrifter</Button>
-      )}
-    </div>
-  );
-};
+const CompaniesPage = (props: Props) => (
+  <div className={styles.root}>
+    <h2 className={styles.heading}>Bedrifter</h2>
+    <InfiniteScroll
+      element="div"
+      hasMore={props.hasMore}
+      loadMore={() => props.hasMore && props.fetchMore()}
+      initialLoad={false}
+      loader={<LoadingIndicator loading />}
+    >
+      <CompanyList companies={props.companies} />
+    </InfiniteScroll>
+  </div>
+);
 
 export default CompaniesPage;
