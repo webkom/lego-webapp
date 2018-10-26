@@ -15,9 +15,9 @@ type Props = {
   hasMore: Boolean
 };
 
-const CompanyItem = function({ company }: any) {
-  let websiteString = company.website.split('/');
-  websiteString = websiteString[0] + '//' + websiteString[2];
+const CompanyItem = ({ company }: Company) => {
+  const [protocol, , domain] = company.website.split('/');
+  const websiteString = `${protocol}//${domain}`;
 
   return (
     <div className={styles.companyItem}>
@@ -41,7 +41,7 @@ const CompanyItem = function({ company }: any) {
         </Link>
         {company.website &&
           !company.website.includes('example.com') && (
-            <a href={company.website}>
+            <a href={company.website} target="_blank">
               <div className={styles.website}>{websiteString}</div>
             </a>
           )}
@@ -63,7 +63,6 @@ const CompanyList = ({companies = [] }: CompanyListProps) => (
 const CompaniesPage = (props: Props) => (
   <div className={styles.root}>
     <h2 className={styles.heading}>Bedrifter</h2>
-    <div>
       <InfiniteScroll
         element="div"
         hasMore={props.hasMore}
@@ -73,7 +72,6 @@ const CompaniesPage = (props: Props) => (
       >
         <CompanyList companies={props.companies} />
       </InfiniteScroll>
-    </div>
   </div>
 );
 
