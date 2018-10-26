@@ -54,7 +54,7 @@ type CompanyListProps = {
   companies: Array<Company>
 };
 
-const CompanyList = ({companies = [] }: CompanyListProps) => (
+const CompanyList = ({ companies = [] }: CompanyListProps) => (
   <div className={styles.companyList}>
     {companies.map((company, id) => <CompanyItem key={id} company={company} />)}
   </div>
@@ -63,15 +63,15 @@ const CompanyList = ({companies = [] }: CompanyListProps) => (
 const CompaniesPage = (props: Props) => (
   <div className={styles.root}>
     <h2 className={styles.heading}>Bedrifter</h2>
-      <InfiniteScroll
-        element="div"
-        hasMore={props.hasMore}
-        loadMore={() => props.hasMore && props.fetchMore()}
-        initialLoad={false}
-        loader={<LoadingIndicator loading />}
-      >
-        <CompanyList companies={props.companies} />
-      </InfiniteScroll>
+    <InfiniteScroll
+      element="div"
+      hasMore={props.hasMore}
+      loadMore={() => props.hasMore && props.fetchMore()}
+      initialLoad={false}
+      loader={<LoadingIndicator loading />}
+    >
+      <CompanyList companies={props.companies} />
+    </InfiniteScroll>
   </div>
 );
 
