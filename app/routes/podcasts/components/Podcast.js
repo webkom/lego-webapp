@@ -6,7 +6,6 @@ import LegoSoundCloudPlayer from './PodcastPlayer.js';
 import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
 import { ProfilePicture } from 'app/components/Image';
-import moment from 'moment-timezone';
 
 type Props = {
   id: number,
@@ -39,7 +38,6 @@ class Podcast extends Component<Props, State> {
     const {
       id,
       source,
-      createdAt,
       description,
       authors,
       thanks,
@@ -95,13 +93,7 @@ class Podcast extends Component<Props, State> {
             <div className={styles.talking}>
               <span className={styles.init}>Snakker</span> {authorsSpan}
             </div>
-            <p>
-              <span className={styles.init}>Publisert</span>
-              <span className={styles.published}>
-                {moment(createdAt).format('Do MMM YY')}
-              </span>
-            </p>
-            <p style={{ textAlign: 'justify' }}>
+            <p style={{ textAlign: 'justify', marginBottom: '0' }}>
               <span className={styles.init}>Om </span>
               {description}
             </p>

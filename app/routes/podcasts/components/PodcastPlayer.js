@@ -18,6 +18,7 @@ import styles from './Podcast.css';
 import { Flex } from 'app/components/Layout';
 import Icon from 'app/components/Icon';
 import { Link } from 'react-router';
+import moment from 'moment-timezone';
 
 type Props = {
   id: number,
@@ -32,6 +33,23 @@ type Props = {
 class LegoSoundCloudPlayer extends Component<Props, *> {
   render() {
     const { id, track, currentTime, duration, actionGrant } = this.props;
+    if (!track) {
+      return (
+        <p style={{ textAlign: 'center' }}>
+          {actionGrant.includes('edit') && (
+            <Link
+              to={`/podcasts/${id}/edit`}
+              style={{ marginRight: '10px', whiteSpace: 'nowrap' }}
+            >
+              <Icon size={17} name="options" style={{ marginRight: '5px' }} />
+              Det er noe feil med linken til denne podcasten, trykk her for å
+              endre den
+            </Link>
+          )}
+        </p>
+      );
+    }
+    const [date] = track.created_at.split(' ');
     return (
       <section>
         <div className={styles.header}>
@@ -73,6 +91,17 @@ class LegoSoundCloudPlayer extends Component<Props, *> {
             duration={track ? track.duration / 1000 : 0}
             {...this.props}
           />
+          <Flex className={styles.extra}>
+            <span>
+              <Icon size={15} name="time" style={{ margin: '0 5px' }} />
+              {moment(date, 'YYYY/MM/DD').format('Do MMM YYYY')}
+            </span>
+            <span>
+              Lyttere
+              <Icon size={15} name="podium" style={{ margin: '0 5px' }} />
+              {track.playback_count}
+            </span>
+          </Flex>
         </Flex>
       </section>
     );

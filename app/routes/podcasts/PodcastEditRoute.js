@@ -5,7 +5,7 @@ import { selectPodcastById } from 'app/reducers/podcasts';
 import {
   fetchPodcasts,
   deletePodcast,
-  addPodcast
+  editPodcast
 } from 'app/actions/PodcastAction';
 import prepare from 'app/utils/prepare';
 import PodcastEditor from './components/PodcastEditor';
@@ -15,7 +15,7 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 const mapDispachToProps = {
   deletePodcast,
   push,
-  handleSubmitCallback: addPodcast
+  handleSubmitCallback: editPodcast
 };
 
 const mapStateToProps = (state, props) => {

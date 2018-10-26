@@ -128,6 +128,11 @@
   padding: 20px;
 }
 
+.extra {
+  margin-top: 10px;
+  justify-content: space-evenly;
+}
+
 .showMore {
   display: flex;
   justify-content: center;

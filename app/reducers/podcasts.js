@@ -12,7 +12,7 @@ export type PodcastEntity = {
   discription: string
 };
 
-const deleteQuote = (state: any, action: any) => {
+const deletePodcast = (state: any, action: any) => {
   switch (action.type) {
     case Podcast.DELETE.SUCCESS:
       return {
@@ -30,7 +30,7 @@ export default createEntityReducer({
     fetch: Podcast.FETCH,
     mutate: Podcast.CREATE
   },
-  mutate: deleteQuote
+  mutate: deletePodcast
 });
 
 export const selectPodcasts = createSelector(
