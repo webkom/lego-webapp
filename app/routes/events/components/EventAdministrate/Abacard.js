@@ -11,8 +11,7 @@ import styles from './Abacard.css';
 import goodSound from '../../../../assets/good-sound.mp3';
 import type { EventRegistration } from 'app/models';
 type State = {
-  showCompleted: boolean,
-  lego: any
+  showCompleted: boolean
 };
 type Props = {
   registered: Array<EventRegistration>,
@@ -30,31 +29,12 @@ type Props = {
 class Abacard extends React.Component<Props, State> {
   input: ?HTMLInputElement;
   state = {
-    showCompleted: false,
-    lego: []
+    showCompleted: false
   };
 
   showCompleted = () => {
-    this.setState({
-      showCompleted: true,
-      lego: new Array(50).fill(1).map((_, i) => (
-        <img
-          key={i}
-          alt="lego"
-          height="100"
-          width="100"
-          style={{
-            left: `${i / 51 * 80 + Math.random() * 10}%`,
-            top: `-${100 + Math.random() * 1000}px`,
-            transform: `rotate(-${Math.random() * 100}deg)`
-          }}
-          className={styles.lego}
-          src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Legobrick.png"
-        />
-      ))
-    });
+    this.setState({ showCompleted: true });
     setTimeout(() => this.setState({ showCompleted: false }), 2000);
-    setTimeout(() => this.setState({ lego: [] }), 5000);
   };
 
   handleSelect = (result: SearchResult) => {
@@ -106,12 +86,7 @@ class Abacard extends React.Component<Props, State> {
               😀
             </span>
           </h3>
-          <img
-            alt="lego"
-            height="300"
-            width="300"
-            src="https://thumbor-staging.abakus.no/WTDtxYLjdzhA6LF6hAqAMqg1qhI=/400x400/abakus_webkom.png"
-          />
+          <i className="fa fa-check" />
         </div>
         <SearchPage
           {...this.props}
@@ -124,7 +99,6 @@ class Abacard extends React.Component<Props, State> {
         <div className={styles.counter}>
           {registerCount}/{totalCapacity} har møtt opp
         </div>
-        <div>{this.state.lego}</div>
       </div>
     );
   }

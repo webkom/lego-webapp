@@ -40,21 +40,3 @@
   color: var(--lego-text-gray);
   float: right;
 }
-
-@keyframes legorotation {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    transform: rotate(1200deg);
-    opacity: 0;
-    top: 90%;
-  }
-}
-
-.lego {
-  position: absolute;
-  animation-name: legorotation;
-  animation-duration: 4s;
-}
