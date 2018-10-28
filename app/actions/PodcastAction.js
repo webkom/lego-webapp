@@ -4,6 +4,7 @@ import { Podcast } from './ActionTypes';
 import { podcastSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import type { Thunk } from 'app/types';
+import { push } from 'react-router-redux';
 
 export function fetchPodcasts() {
   return callAPI({
@@ -50,15 +51,43 @@ export function addPodcast(data: {
   description: string,
   authors: Array<number>
 }): Thunk<*> {
-  return callAPI({
-    types: Podcast.CREATE,
-    endpoint: '/podcasts/',
-    method: 'POST',
-    body: data,
-    schema: podcastSchema,
-    meta: {
-      errorMessage: 'Legg til podcast feilet',
-      successMessage: 'Podcast lagt til'
-    }
-  });
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: Podcast.CREATE,
+        endpoint: '/podcasts/',
+        method: 'POST',
+        body: data,
+        schema: podcastSchema,
+        meta: {
+          errorMessage: 'Legg til podcast feilet',
+          successMessage: 'Podcast lagt til'
+        }
+      })
+    ).then(() => dispatch(push(`podcasts/`)));
+}
+
+export function editPodcast({
+  id,
+  ...data
+}: {
+  id: number,
+  title: string,
+  source: string,
+  description: string,
+  authors: Array<number>
+}): Thunk<*> {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: Podcast.UPDATE,
+        endpoint: `/podcasts/${id}/`,
+        method: 'PUT',
+        schema: podcastSchema,
+        body: data,
+        meta: {
+          errorMessage: 'Endring av podcast feilet'
+        }
+      })
+    ).then(() => dispatch(push(`/podcasts/`)));
 }

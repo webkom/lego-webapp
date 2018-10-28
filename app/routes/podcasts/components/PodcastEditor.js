@@ -11,6 +11,7 @@ import {
   legoForm
 } from 'app/components/Form';
 import { Form, Field } from 'redux-form';
+import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 
 type Props = {
   id: number,
@@ -30,7 +31,7 @@ class PodcastEditor extends Component<Props, *> {
   render() {
     const handleDeletePodcast = () => {
       const { deletePodcast, initialValues: { id }, push } = this.props;
-      deletePodcast(id).then(() => {
+      return deletePodcast(id).then(() => {
         push('/podcasts/');
       });
     };
@@ -47,11 +48,13 @@ class PodcastEditor extends Component<Props, *> {
           <Field
             name="source"
             label="SoundCloud lenke"
+            placeholder="https://soundcloud.com/user-279926342/24-du-vil-aldri-tro-hva-disse-guttene-sa-pa-lufta"
             component={TextInput.Field}
           />
           <Field
             name="description"
             label="Beskrivelse"
+            placeholder="I ukas podcast snakker vi om..."
             component={TextArea.Field}
           />
           <Field
@@ -72,7 +75,13 @@ class PodcastEditor extends Component<Props, *> {
             {this.props.new ? 'Lag podcast' : 'Lagre podcast'}
           </Button>
           {this.props.initialValues.id && (
-            <Button onClick={handleDeletePodcast}>Delete</Button>
+            <ConfirmModalWithParent
+              title="Slett podcast"
+              message="Er du sikker på at du vil slette denne podcasten"
+              onConfirm={handleDeletePodcast}
+            >
+              <Button>Delete</Button>
+            </ConfirmModalWithParent>
           )}
         </Form>
       </Content>
@@ -82,10 +91,9 @@ class PodcastEditor extends Component<Props, *> {
 
 const onSubmit = (
   {
-    source,
-    description,
     authors,
-    thanks
+    thanks,
+    ...rest
   }: {
     source: string,
     description: string,
@@ -94,13 +102,13 @@ const onSubmit = (
   },
   dispach,
   props
-) =>
-  props.handleSubmitCallback({
-    source,
-    description,
+) => {
+  return props.handleSubmitCallback({
     authors: authors.map(user => user.value),
-    thanks: thanks.map(user => user.value)
+    thanks: thanks.map(user => user.value),
+    ...rest
   });
+};
 
 export default legoForm({
   form: 'podcastEditor',
