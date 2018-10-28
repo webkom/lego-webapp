@@ -64,7 +64,7 @@ export function addPodcast(data: {
           successMessage: 'Podcast lagt til'
         }
       })
-    ).then(() => dispatch(push(`podcasts/`)));
+    ).then(() => dispatch(push(`/podcasts/`)));
 }
 
 export function editPodcast({
