@@ -31,7 +31,7 @@ class PodcastEditor extends Component<Props, *> {
   render() {
     const handleDeletePodcast = () => {
       const { deletePodcast, initialValues: { id }, push } = this.props;
-      deletePodcast(id).then(() => {
+      return deletePodcast(id).then(() => {
         push('/podcasts/');
       });
     };
