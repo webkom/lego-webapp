@@ -18,7 +18,7 @@ const BrandPage = () => {
           </p>
           <h2>Bruk</h2>
           <p>
-            Abakus' merker inkluderer Abakus-navnet, logoen og ord som
+            Abakus{"'"} merker inkluderer Abakus-navnet, logoen og ord som
             identifiserer oss. Vær så snill å ikke modifiser merkene eller bruk
             dem på en forvirrende måte.
           </p>
