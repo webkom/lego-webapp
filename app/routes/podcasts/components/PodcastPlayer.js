@@ -19,6 +19,7 @@ import { Flex } from 'app/components/Layout';
 import Icon from 'app/components/Icon';
 import { Link } from 'react-router';
 import moment from 'moment-timezone';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
   id: number,
@@ -46,6 +47,7 @@ class LegoSoundCloudPlayer extends Component<Props, *> {
               endre den
             </Link>
           )}
+          <LoadingIndicator loading />
         </p>
       );
     }
@@ -71,7 +73,7 @@ class LegoSoundCloudPlayer extends Component<Props, *> {
             </Link>
           )}
         </div>
-        <Flex column style={{ padding: '10px' }}>
+        <Flex column style={{ padding: '10px 10px 0' }}>
           <Flex className={styles.playerRow}>
             <PlayButton className={styles.playButton} {...this.props} />
             <VolumeControl

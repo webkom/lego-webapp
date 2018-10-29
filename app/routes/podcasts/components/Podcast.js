@@ -102,7 +102,7 @@ class Podcast extends Component<Props, State> {
             </div>
           </div>
         )}
-        <div className={styles.showMore}>
+        <div className={styles.showMore} onClick={this.showMore}>
           {this.state.extended ? (
             <Icon
               onClick={this.showMore}
