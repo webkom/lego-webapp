@@ -1,3 +1,7 @@
 .root {
   color: #777;
 }
+
+ul {
+  list-style: inside;
+}

@@ -22,6 +22,28 @@ const BrandPage = () => {
             identifiserer oss. Vær så snill å ikke modifiser merkene eller bruk
             dem på en forvirrende måte.
           </p>
+          <h2>Logo</h2>
+          <p>
+            Det finnes to versjoner av Abakus-logoen. Én med svart tekst, laget
+            for lyse bakgrunner og én med hvit tekst til bruk på mørke
+            bakgrunner. Bruk den som gir best kontrast til bakgrunnen!
+          </p>
+          <p>
+            Bruk logoen fra denne siden som er i høy oppløsning og ikke
+            et screenshot fra abakus.no eller Facebook.
+          </p>
+          <p>
+            Når logoen brukes sammen med andre logoer, sørg for at det er en
+            marg tilsvarende 200% av størrelsen til logoen.
+          </p>
+          <h3>Vi ber om at du er omtenksom og ikke:</h3>
+          <ul>
+            <li>Bruker andre logoer eller lignende bilder til å representere Abakus</li>
+            <li>Roterer logoen</li>
+            <li>Endrer farger på logoen</li>
+            <li>Dekker til deler av logoen</li>
+            <li>Bruker gamle versjoner av merker eller logoen til å representere oss</li>
+          </ul>
         </div>
       </section>
     </Content>
