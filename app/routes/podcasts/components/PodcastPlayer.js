@@ -47,7 +47,7 @@ class LegoSoundCloudPlayer extends Component<Props, *> {
               endre den
             </Link>
           )}
-          <LoadingIndicator loading />
+          <LoadingIndicator key={165442} loading />
         </p>
       );
     }
