@@ -384,3 +384,10 @@ export const Podcast = {
   CREATE: generateStatuses('Podcast.CREATE'),
   UPDATE: generateStatuses('Podcast.UPDATE')
 };
+
+export const Pinned = {
+  FETCH: generateStatuses('Pinned.FETCH'),
+  DELETE: generateStatuses('Pinned.DELETE'),
+  CREATE: generateStatuses('Pinned.CREATE'),
+  UPDATE: generateStatuses('Pinned.UPDATE')
+};

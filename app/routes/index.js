@@ -7,6 +7,7 @@ import articles from './articles';
 import meetings from './meetings';
 import admin from './admin';
 import quotes from './quotes';
+import pinned from './pinned';
 import podcasts from './podcasts';
 import photos from './photos';
 import pages from './pages';
@@ -35,6 +36,7 @@ export default {
     meetings,
     admin,
     quotes,
+    pinned,
     podcasts,
     pages,
     company,

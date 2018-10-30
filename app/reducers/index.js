@@ -11,6 +11,7 @@ import companySemesters from './companySemesters';
 import emailLists from './emailLists';
 import quotes from './quotes';
 import podcasts from './podcasts';
+import pinned from './pinned';
 import galleryPictures from './galleryPictures';
 import events from './events';
 import articles from './articles';
@@ -82,6 +83,7 @@ const reducers = {
   oauth2Grants,
   pages,
   penalties,
+  pinned,
   podcasts,
   pools,
   quotes,
@@ -162,6 +164,13 @@ export const quoteSchema = new schema.Entity('quotes', {
   comments: [commentSchema]
 });
 
+export const pinnedSchema = new schema.Entity('pinned', {
+  author: userSchema,
+  targetGroups: [groupSchema],
+  event: eventSchema,
+  article: articleSchema
+});
+
 export const podcastSchema = new schema.Entity('podcasts');
 
 export const pageSchema = new schema.Entity(
@@ -202,6 +211,8 @@ export const meetingSchema = new schema.Entity('meetings', {
   comments: [commentSchema]
 });
 export const frontpageSchema = new schema.Entity('frontpage', {
+  pinnedEvents: [pinnedSchema],
+  pinnedArticles: [pinnedSchema],
   events: [eventSchema],
   articles: [articleSchema]
 });
