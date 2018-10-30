@@ -1,5 +1,7 @@
+@import 'app/styles/variables.css';
+
 .root {
-  color: #777;
+  color: var(--lego-text-gray);
 }
 
 ul {
