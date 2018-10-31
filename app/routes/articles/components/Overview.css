@@ -14,6 +14,9 @@
 
 .tagline {
   margin: 10px 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .overviewAuthor::after {
@@ -36,6 +39,7 @@
   display: flex;
   flex-direction: row;
   margin: 0 30px;
+  width: inherit;
 
   @media (--mobile-device) {
     flex-direction: column;

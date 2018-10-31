@@ -5,6 +5,7 @@ import { Article } from '../actions/ActionTypes';
 import { mutateComments } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
+import { orderBy } from 'lodash';
 
 export type ArticleEntity = {
   id: number,
@@ -57,7 +58,11 @@ export const selectArticles = createSelector(
   state => state.articles.byId,
   state => state.articles.items,
   (articlesById, articleIds) =>
-    articleIds.map(id => transformArticle(articlesById[id]))
+    orderBy(
+      articleIds.map(id => transformArticle(articlesById[id])),
+      ['createdAt', 'id'],
+      ['desc', 'desc']
+    )
 );
 
 export const selectArticlesByTag = createSelector(
