@@ -20,20 +20,30 @@
   font-style: italic;
 }
 
-.picture {
-  display: flex;
-  justify-content: center;
-}
-
 .content {
   display: flex;
   flex-direction: row;
   padding-top: 20px;
 }
 
+.picture {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .sidebar {
   flex: 1;
   min-width: 320px;
+  position: relative;
+}
+
+.frame {
+  width: 207px;
+  height: 207px;
+  margin: -2px 0 0 1px;
+  object-fit: scale-down;
+  position: absolute;
 }
 
 .rightContent {
