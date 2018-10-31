@@ -61,7 +61,7 @@ class DeleteButton extends React.Component<ButtonProps, State> {
             <input
               type="text"
               id="slettArrangement"
-              placeholder="Arrangement du vil slette"
+              placeholder="Arrangementnavn"
               onChange={e => this.setState({ arrName: e.target.value })}
             />{' '}
             <br />
