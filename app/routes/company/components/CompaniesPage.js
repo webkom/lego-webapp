@@ -12,7 +12,8 @@ type Props = {
   companies: Array<Company>,
   fetchMore: () => void,
   showFetchMore: () => void,
-  hasMore: Boolean
+  hasMore: boolean,
+  fetching: boolean
 };
 
 const CompanyItem = ({ company }: Company) => {
@@ -66,7 +67,7 @@ const CompaniesPage = (props: Props) => (
     <InfiniteScroll
       element="div"
       hasMore={props.hasMore}
-      loadMore={() => props.hasMore && props.fetchMore()}
+      loadMore={() => props.hasMore && !props.fetching && props.fetchMore()}
       initialLoad={false}
       loader={<LoadingIndicator loading />}
     >

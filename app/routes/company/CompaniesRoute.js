@@ -21,7 +21,8 @@ const mapStateToProps = (state, props) => {
     companies,
     query,
     loggedIn: props.loggedIn,
-    hasMore: state.companies.hasMore
+    hasMore: state.companies.hasMore,
+    fetching: state.companies.fetching
   };
 };
 
