@@ -30,8 +30,8 @@ export default createEntityReducer({
 function transformPinned(pinned) {
   return {
     ...pinned,
-    pinnedFrom: moment(pinned.pinnedFrom),
-    pinnedTo: moment(pinned.pinnedTo)
+    pinnedFrom: pinned && moment(pinned.pinnedFrom),
+    pinnedTo: pinned && moment(pinned.pinnedTo)
   };
 }
 

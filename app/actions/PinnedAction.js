@@ -31,12 +31,7 @@ export function deletePinned(pinnedId: number) {
   });
 }
 
-export function addPinned(data: {
-  title: string,
-  source: string,
-  description: string,
-  authors: Array<number>
-}): Thunk<*> {
+export function addPinned(data) {
   return dispatch =>
     dispatch(
       callAPI({
@@ -48,6 +43,22 @@ export function addPinned(data: {
         meta: {
           errorMessage: 'Festing av oppslag feilet',
           successMessage: 'Oppslag festet'
+        }
+      })
+    ).then(() => dispatch(push(`/pinned/`)));
+}
+
+export function editPinned({ id, ...data }) {
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: Pinned.UPDATE,
+        endpoint: `/pinned/${id}/`,
+        method: 'PUT',
+        schema: pinnedSchema,
+        body: data,
+        meta: {
+          errorMessage: 'Endring av oppslag feilet'
         }
       })
     ).then(() => dispatch(push(`/pinned/`)));

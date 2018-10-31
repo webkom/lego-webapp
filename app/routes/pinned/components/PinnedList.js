@@ -1,46 +1,15 @@
 import React from 'react';
+import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { Content } from 'app/components/Content';
-import moment from 'moment-timezone';
-
-const createPinnedLayout = pins => {
-  const layers = [];
-  for (let i = 0; i < pins.length; i++) {
-    let layer = 0;
-    for (
-      let j = 0;
-      j < (layers[layer] !== undefined ? layers[layer].length : 0);
-      j++
-    ) {
-      if (
-        layers[layer][j].pinnedFrom <= pins[i].pinnedTo &&
-        pins[i].pinnedFrom <= layers[layer][j].pinnedTo
-      ) {
-        layer++;
-        j = -1;
-      }
-    }
-    if (layer === layers.length) {
-      layers.push([]);
-    }
-    layers[layer].push(pins[i]);
-  }
-  return layers;
-};
-
-const DAYWIDTH = 100;
-
-const getPeriodLength = (start, end) => end.diff(start, 'days') * DAYWIDTH;
+import Timeline from './Timeline';
 
 const PinnedArticle = ({ article, pinnedFrom, pinnedTo, last }) => {
-  const from = moment() > pinnedFrom ? moment() : pinnedFrom;
-  const to = moment(pinnedTo).add(1, 'days');
   return (
     <div
       style={{
-        width: getPeriodLength(from, to),
-        minWidth: getPeriodLength(from, to),
-        border: '1px solid black',
-        marginLeft: getPeriodLength(last, from)
+        border: '1px dotted red',
+        padding: '0 20px',
+        borderRadius: '10px'
       }}
     >
       <div>Artikkel</div>
@@ -52,15 +21,12 @@ const PinnedArticle = ({ article, pinnedFrom, pinnedTo, last }) => {
   );
 };
 const PinnedEvent = ({ event, pinnedFrom, pinnedTo, last }) => {
-  const from = moment() > pinnedFrom ? moment() : pinnedFrom;
-  const to = moment(pinnedTo).add(1, 'days');
   return (
     <div
       style={{
-        width: getPeriodLength(from, to),
-        minWidth: getPeriodLength(from, to),
-        border: '1px solid black',
-        marginLeft: getPeriodLength(last, from)
+        border: '1px dotted orange',
+        padding: '0 20px',
+        borderRadius: '10px'
       }}
     >
       <div>Arrangement</div>
@@ -72,57 +38,18 @@ const PinnedEvent = ({ event, pinnedFrom, pinnedTo, last }) => {
   );
 };
 
-const List = ({ pins }) => (
+const List = ({ pins, actionGrant }) => (
   <Content>
-    <div
-      style={{
-        overflowX: 'scroll'
-      }}
-    >
-      <div
-        style={{
-          display: 'inline-block',
-          background: `repeating-linear-gradient(90deg, #ffffff, #ffffff ${DAYWIDTH}px, #eeeeee ${DAYWIDTH}px, #eeeeee ${2 *
-            DAYWIDTH}px)`
-        }}
-      >
-        {createPinnedLayout(pins.filter(pin => pin.pinnedTo > moment())).map(
-          (layer, i) => (
-            <div
-              key={i}
-              style={{
-                display: 'flex'
-              }}
-            >
-              {layer.map(
-                (pin, j) =>
-                  pin.contentType === 'article' ? (
-                    <PinnedArticle
-                      key={pin.id}
-                      {...pin}
-                      last={
-                        j > 0
-                          ? moment(layer[j - 1].pinnedTo).add(1, 'days')
-                          : moment()
-                      }
-                    />
-                  ) : (
-                    <PinnedEvent
-                      key={pin.id}
-                      {...pin}
-                      last={
-                        j > 0
-                          ? moment(layer[j - 1].pinnedTo).add(1, 'days')
-                          : moment()
-                      }
-                    />
-                  )
-              )}
-            </div>
-          )
-        )}
-      </div>
-    </div>
+    <NavigationTab title="Pinned">
+      {actionGrant.includes('create') && (
+        <NavigationLink to="/pinned/create">Legg til ny</NavigationLink>
+      )}
+    </NavigationTab>
+    <Timeline
+      pins={pins}
+      drawArticle={pin => <PinnedArticle {...pin} />}
+      drawEvent={pin => <PinnedEvent {...pin} />}
+    />
   </Content>
 );
 

@@ -7,6 +7,10 @@ export default {
     {
       path: 'create',
       ...resolveAsyncRoute(() => import('./PinnedCreateRoute'))
+    },
+    {
+      path: ':pinnedId/edit',
+      ...resolveAsyncRoute(() => import('./PinnedEditRoute'))
     }
   ]
 };
