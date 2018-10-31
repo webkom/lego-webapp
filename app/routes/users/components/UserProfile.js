@@ -167,7 +167,7 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
     } = this.props;
 
     //If you wonder what this is, ask somebody
-    const FRAMEID = 6065;
+    const FRAMEID = 6050;
 
     const {
       pastMemberships = [],
