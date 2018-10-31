@@ -49,18 +49,14 @@ class RandomQuote extends Component<Props, State> {
 
     return (
       <div>
-        <h2 className={styles.heading}>
-          {this.props.loggedIn && (
-            <a onClick={this.refreshQuote} className={styles.title}>
-              <i className="fa fa-refresh" />
-              <span>Tilfeldig sitat</span>
-            </a>
-          )}
-        </h2>
+        <h2>Sitat</h2>
         {this.props.loggedIn ? (
           <div>
             <div className={styles.quoteText}>{currentQuote.text}</div>
             <div className={styles.quoteSource}>-{currentQuote.source}</div>
+            <a onClick={this.refreshQuote} className={styles.title}>
+              <i className="fa fa-refresh" />
+            </a>
           </div>
         ) : (
           'Logg inn for å se sitater.'
