@@ -14,9 +14,8 @@ import {
 } from 'medium-draft';
 import importer from './importer';
 import exporter from './exporter';
-import { ImageButton } from './Sides';
+import { ImageButton, InfoButton } from './Sides';
 import { ImageBlock } from './Blocks';
-import { InfoButton } from './Sides';
 import './Editor.css';
 
 type Props = {
