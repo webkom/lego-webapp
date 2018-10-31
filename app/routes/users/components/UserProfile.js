@@ -22,6 +22,8 @@ import { EventItem } from 'app/routes/events/components/EventList';
 import EmptyState from 'app/components/EmptyState';
 import moment from 'moment-timezone';
 import type { Dateish } from 'app/models';
+import { Image } from 'app/components/Image';
+import frame from 'app/assets/frame.png';
 
 const fieldTranslations = {
   username: 'brukernavn',
@@ -164,6 +166,9 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
       changeGrade
     } = this.props;
 
+    //If you wonder what this is, ask somebody
+    const FRAMEID = 6065;
+
     const {
       pastMemberships = [],
       abakusGroups = [],
@@ -182,7 +187,6 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
           ? 'membershipsAsBadges'
           : 'membershipsAsPills'
     );
-
     const { pastMembershipsAsBadges = [] } = groupBy(
       pastMemberships.filter(Boolean),
       m =>
@@ -197,6 +201,9 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
 
         <Flex wrap className={styles.header}>
           <div className={cx(styles.sidebar, styles.picture)}>
+            {user.id == FRAMEID && (
+              <Image className={styles.frame} src={frame} />
+            )}
             <ProfilePicture user={user} size={150} />
           </div>
           <Flex column className={styles.rightContent}>
