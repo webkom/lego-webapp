@@ -13,21 +13,65 @@ type Props = {
   actionGrant: ActionGrant
 };
 
-const DeleteButton = ({
-  deleteEvent,
-  eventId
-}: {
+type ButtonProps = {
   deleteEvent: (eventId: ID) => Promise<*>,
-  eventId: ID
-}) => (
-  <ConfirmModalWithParent
-    title="Slett arrangement"
-    message="Er du sikker på at du vil slette dette arrangementet?"
-    onConfirm={() => deleteEvent(eventId)}
-  >
-    <span className={styles.deleteButton}>Slett</span>
-  </ConfirmModalWithParent>
-);
+  eventId: number,
+  title: string
+};
+
+type State = {
+  arrName: string,
+  show: boolean
+};
+
+class DeleteButton extends React.Component<ButtonProps, State> {
+  state = {
+    arrName: '',
+    show: false
+  };
+  render() {
+    const { deleteEvent, eventId, title } = this.props;
+    let deleteEventButton;
+
+    if (this.state.arrName === title) {
+      deleteEventButton = (
+        <ConfirmModalWithParent
+          title="Slett arrangement"
+          message="Er du sikker på at du vil slette dette arrangementet?"
+          onConfirm={() => deleteEvent(eventId)}
+        >
+          <span className={styles.deleteButton}>Slett</span>
+        </ConfirmModalWithParent>
+      );
+    }
+
+    return (
+      <div>
+        {this.state.show === false && (
+          <span
+            className={styles.deleteButton}
+            onClick={() => this.setState({ show: true })}
+          >
+            Slett
+          </span>
+        )}
+        {this.state.show && (
+          <form>
+            <span> Skriv inn navnet på arrangementet du vil slette: </span>
+            <input
+              type="text"
+              id="slettArrangement"
+              placeholder="Arrangementnavn"
+              onChange={e => this.setState({ arrName: e.target.value })}
+            />{' '}
+            <br />
+            {deleteEventButton}
+          </form>
+        )}
+      </div>
+    );
+  }
+}
 
 const Admin = ({ actionGrant, event, deleteEvent }: Props) => {
   const canEdit = actionGrant.includes('edit');
@@ -70,7 +114,11 @@ const Admin = ({ actionGrant, event, deleteEvent }: Props) => {
           )}
           {canDelete && (
             <li>
-              <DeleteButton eventId={event.id} deleteEvent={deleteEvent} />
+              <DeleteButton
+                eventId={event.id}
+                title={event.title}
+                deleteEvent={deleteEvent}
+              />
             </li>
           )}
         </ul>
