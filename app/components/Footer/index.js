@@ -33,8 +33,8 @@ const Footer = (props: Props) => (
             <p>
               Velkommen til LEGO, Abakus sin open-source nettside. Webkom har
               arbeidet lenge med denne siden, og håper den faller i smak. Er du
-              interesert i hvordan LEGO fungerer, eller vil rapportere en bug
-              kan du gå inn på vår github. Her tar vi gjerne imort issus og
+              interessert i hvordan LEGO fungerer, eller vil du rapportere en
+              bug, kan du gå inn på vår GitHub. Her tar vi gjerne imot issues og
               pull-requests.
               <br />
               <a

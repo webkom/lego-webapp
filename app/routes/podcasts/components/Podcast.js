@@ -83,12 +83,12 @@ class Podcast extends Component<Props, State> {
     return (
       <div className={styles.root}>
         <div>
-        <LegoSoundCloudPlayer
-          id={id}
-          clientId={CLIENT_ID}
-          resolveUrl={source}
-          actionGrant={actionGrant}
-        />
+          <LegoSoundCloudPlayer
+            id={id}
+            clientId={CLIENT_ID}
+            resolveUrl={source}
+            actionGrant={actionGrant}
+          />
         </div>
         {this.state.extended && (
           <div className={styles.more}>
