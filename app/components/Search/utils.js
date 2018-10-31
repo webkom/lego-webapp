@@ -80,6 +80,11 @@ const LINKS: Array<Link> = [
     url: '/tags'
   },
   {
+    key: 'podcasts',
+    title: 'Podcasts',
+    url: '/podcasts'
+  },
+  {
     admin: true,
     key: 'announcements',
     title: 'Kunngjøringer',
