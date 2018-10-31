@@ -15,7 +15,7 @@ type State = {
   showUpload: boolean
 };
 
-export default class ImageButton extends Component<Props, State> {
+export class ImageButton extends Component<Props, State> {
   input: ?HTMLInputElement;
 
   state = {
@@ -59,3 +59,19 @@ export default class ImageButton extends Component<Props, State> {
     );
   }
 }
+
+export const InfoButton = () => (
+  <a
+    href="https://abakus.no/articles/125"
+    rel="noopener noreferrer"
+    target="_blank"
+  >
+    <button
+      className="md-sb-button md-sb-info-button"
+      type="button"
+      title="Show editor info"
+    >
+      <i className="fa fa-info" />
+    </button>
+  </a>
+);

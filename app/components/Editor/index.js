@@ -16,6 +16,7 @@ import importer from './importer';
 import exporter from './exporter';
 import { ImageButton } from './Sides';
 import { ImageBlock } from './Blocks';
+import { InfoButton } from './Sides';
 import './Editor.css';
 
 type Props = {
@@ -124,6 +125,10 @@ export default class Editor extends Component<Props, State> {
                 {
                   title: 'Image',
                   component: ImageButton
+                },
+                {
+                  title: 'Editor info',
+                  component: InfoButton
                 }
               ]
         }
