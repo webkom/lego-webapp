@@ -14,7 +14,7 @@ import {
 } from 'medium-draft';
 import importer from './importer';
 import exporter from './exporter';
-import { ImageButton } from './Sides';
+import { ImageButton, InfoButton } from './Sides';
 import { ImageBlock } from './Blocks';
 import './Editor.css';
 
@@ -124,6 +124,10 @@ export default class Editor extends Component<Props, State> {
                 {
                   title: 'Image',
                   component: ImageButton
+                },
+                {
+                  title: 'Editor info',
+                  component: InfoButton
                 }
               ]
         }
