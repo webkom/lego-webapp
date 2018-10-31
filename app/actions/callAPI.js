@@ -6,7 +6,7 @@ import fetchJSON, {
   type HttpMethod,
   type HttpResponse
 } from 'app/utils/fetchJSON';
-import config from '../config';
+import { configWithSSR } from '../config';
 import { isArray } from 'lodash';
 import createQueryString from 'app/utils/createQueryString';
 import { logout } from 'app/actions/UserActions';
@@ -17,11 +17,11 @@ import { selectIsLoggedIn } from 'app/reducers/auth';
 
 function urlFor(resource: string) {
   if (resource.match(/^\/\//)) {
-    return config.baseUrl + resource.replace(/^\//, '');
+    return configWithSSR.baseUrl + resource.replace(/^\//, '');
   } else if (resource.match(/^http?:/) || resource.match(/^https:/)) {
     return resource;
   }
-  return config.serverUrl + resource;
+  return configWithSSR.serverUrl + resource;
 }
 
 // Todo: Middleware

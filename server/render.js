@@ -11,7 +11,7 @@ import Raven from 'raven';
 import serialize from 'serialize-javascript';
 import routes from '../app/routes';
 import configureStore from '../app/utils/configureStore';
-import config, { baseConfig } from '../config/env';
+import config from '../config/env';
 import type { $Request, $Response, Middleware } from 'express';
 import { createNewRavenInstance } from '../app/utils/universalRaven';
 import webpackClient from '../config/webpack.client.js';
@@ -210,7 +210,7 @@ function renderPage({
       <body>
         <div id="root">${body}</div>
         <script>
-           window.__CONFIG__ = ${serialize(baseConfig, { isJSON: true })};
+           window.__CONFIG__ = ${serialize(config, { isJSON: true })};
            window.__PRELOADED_STATE__ = ${serialize(state, { isJSON: true })};
         </script>
         ${
