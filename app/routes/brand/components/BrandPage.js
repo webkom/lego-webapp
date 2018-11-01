@@ -2,6 +2,7 @@ import React from 'react';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import styles from './BrandPage.css';
+import Button from '../../../components/Button';
 
 const BrandPage = () => {
   return (
@@ -44,11 +45,15 @@ const BrandPage = () => {
             <li>Dekker til deler av logoen</li>
             <li>Bruker gamle versjoner av merker eller logoen til å representere oss</li>
           </ul>
+          <h2>Logoer i vektorformat</h2>
+          <Button>
+            <a href="https://github.com/abakus-ntnu/grafisk-profil/archive/master.zip" download="proposed_file_name">Last Ned</a>
+          </Button>
         </div>
       </section>
     </Content>
   );
-}
+};
 
 
 export default BrandPage;
