@@ -13,7 +13,7 @@ const BrandPage = () =>
           Hei, vi i PR har laget noen retningslinjer for å hjelpe deg å
           bruke vårt brand og design. For å bruke logoen og designet på
           en måte som ikke er dekket av disse retningslinjene
-          kontakt oss på <a href="mailto:abakus@abakus.no">pr@abakus.no</a>
+          kontakt oss på <a className={styles.inlineLink} href="mailto:abakus@abakus.no">pr@abakus.no</a>
           og legg ved en mockup av hvordan du har tenkt til å bruke det.
         </p>
         <h2>Bruk</h2>
