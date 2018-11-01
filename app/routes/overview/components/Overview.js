@@ -7,7 +7,7 @@ import Time from 'app/components/Time';
 import { Container, Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import LatestReadme from './LatestReadme';
-import Feed from './Feed';
+// import Feed from './Feed';
 import CompactEvents from './CompactEvents';
 import { EVENT_TYPE_TO_STRING } from 'app/routes/events/utils';
 import type { Event, Article } from 'app/models';
@@ -21,8 +21,8 @@ import truncateString from 'app/utils/truncateString';
 
 type Props = {
   frontpage: Array<Object>,
-  feed: Object,
-  feedItems: Array<Object>,
+  // feed: Object,
+  // feedItems: Array<Object>,
   readmes: Array<Object>,
   loadingFrontpage: boolean
 };
@@ -90,8 +90,8 @@ class Overview extends Component<Props, State> {
     const isEvent = o => typeof o['startTime'] !== 'undefined';
     const {
       frontpage,
-      feed,
-      feedItems,
+      // feed,
+      // feedItems,
       loadingFrontpage,
       readmes
     } = this.props;
@@ -113,7 +113,29 @@ class Overview extends Component<Props, State> {
               )}
             </LoadingIndicator>
           </Flex>
-          <Feed style={{ flex: 2 }} feed={feed} feedItems={feedItems} />
+          {/* <Feed style={{ flex: 2 }} feed={feed} feedItems={feedItems} /> */}
+          <Flex column style={{ flex: '0.8', margin: 'auto' }}>
+            <p
+              className="u-ui-heading"
+              style={{ paddingTop: 0, paddingBottom: 0 }}
+            >
+              Weekly
+            </p>
+            <Flex column className={styles.weeklyArticles}>
+              {frontpage
+                .filter(item => item.documentType === 'article')
+                .filter(article => article.tags.includes('weekly'))
+                .slice(0, this.state.articlesToShow)
+                .map(article => (
+                  <ArticleItem
+                    key={article.id}
+                    item={article}
+                    url={this.itemUrl(article)}
+                    meta={this.renderMeta(article)}
+                  />
+                ))}
+            </Flex>
+          </Flex>
         </Flex>
         <Flex />
 
@@ -145,6 +167,7 @@ class Overview extends Component<Props, State> {
             <Flex className={styles.articles}>
               {frontpage
                 .filter(item => item.documentType === 'article')
+                .filter(article => !article.tags.includes('weekly'))
                 .slice(0, this.state.articlesToShow)
                 .map(article => (
                   <ArticleItem
