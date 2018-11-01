@@ -129,6 +129,7 @@ export default class EventDetail extends Component<Props> {
       pools,
       registrations,
       currentRegistration,
+      currentRegistrationIndex,
       deleteEvent,
       follow,
       unfollow
@@ -261,6 +262,7 @@ export default class EventDetail extends Component<Props> {
                   <RegistrationMeta
                     registration={currentRegistration}
                     isPriced={event.isPriced}
+                    registrationIndex={currentRegistrationIndex}
                   />
                 )}
                 <Admin

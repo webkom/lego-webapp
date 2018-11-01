@@ -27,9 +27,6 @@ import {
 import loadingIndicator from 'app/utils/loadingIndicator';
 import helmet from 'app/utils/helmet';
 
-const findCurrentRegistration = (registrations, currentUser) =>
-  registrations.find(registration => registration.user.id === currentUser.id);
-
 const mapStateToProps = (state, props) => {
   const {
     params: { eventId },
@@ -86,10 +83,19 @@ const mapStateToProps = (state, props) => {
           permissionGroups: []
         })
       : poolsWithRegistrations;
-  const currentRegistration = findCurrentRegistration(
-    registrations.concat(waitingRegistrations),
-    currentUser
+  const currentPool = pools.find(pool =>
+    pool.registrations.some(
+      registration => registration.user.id === currentUser.id
+    )
   );
+  let currentRegistration;
+  let currentRegistrationIndex;
+  if (currentPool) {
+    currentRegistrationIndex = currentPool.registrations.findIndex(
+      registration => registration.user.id === currentUser.id
+    );
+    currentRegistration = currentPool.registrations[currentRegistrationIndex];
+  }
 
   return {
     comments,
@@ -99,7 +105,8 @@ const mapStateToProps = (state, props) => {
     eventId,
     pools,
     registrations,
-    currentRegistration
+    currentRegistration,
+    currentRegistrationIndex
   };
 };
 
