@@ -114,7 +114,10 @@ class Overview extends Component<Props, State> {
             </LoadingIndicator>
           </Flex>
           {/* <Feed style={{ flex: 2 }} feed={feed} feedItems={feedItems} /> */}
-          <Flex column style={{ flex: '0.8', margin: 'auto' }}>
+          <Flex
+            column
+            style={{ flex: '1', padding: '0 10px', margin: '0 auto' }}
+          >
             <p
               className="u-ui-heading"
               style={{ paddingTop: 0, paddingBottom: 0 }}
@@ -125,7 +128,6 @@ class Overview extends Component<Props, State> {
               {frontpage
                 .filter(item => item.documentType === 'article')
                 .filter(article => article.tags.includes('weekly'))
-                .slice(0, this.state.articlesToShow)
                 .map(article => (
                   <ArticleItem
                     key={article.id}
@@ -138,7 +140,6 @@ class Overview extends Component<Props, State> {
           </Flex>
         </Flex>
         <Flex />
-
         <Flex padding={10}>
           <LatestReadme readmes={readmes} expanded={frontpage.length === 0} />
         </Flex>
