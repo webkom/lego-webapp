@@ -43,13 +43,13 @@
 .coverImage {
   width: 100%;
   height: 300px;
-  object-fit: cover;
+  object-fit: scale-down;
 }
 
 .coverImage img {
   height: 300px;
   width: 100%;
-  object-fit: cover;
+  object-fit: scale-down;
 }
 
 .logo img {
