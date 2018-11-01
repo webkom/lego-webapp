@@ -68,6 +68,34 @@
   flex-wrap: wrap;
 }
 
+.weeklyArticles {
+  border: 1px solid rgba(0, 0, 0, 0.09);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  border-radius: 3px;
+  overflow-y: auto;
+  height: 489px;
+  background: var(--lego-card-color);
+
+  @media (--mobile-device) {
+    height: auto;
+    max-height: 495px;
+  }
+}
+
+@media only screen and (max-width: 855px) {
+  .weeklyArticles {
+    height: auto;
+    max-height: 659px;
+  }
+}
+
+@-moz-document url-prefix() {
+  .content {
+    height: 490px;
+    flex: none;
+  }
+}
+
 .showMore {
   display: flex;
   justify-content: center;
