@@ -47,21 +47,23 @@ export default class QuoteList extends Component<Props, State> {
 
     return (
       <ul>
-        {quotes.map(quote => (
-          <Quote
-            actionGrant={actionGrant}
-            approve={approve}
-            unapprove={unapprove}
-            deleteQuote={deleteQuote}
-            quote={quote}
-            key={quote.id}
-            setDisplayAdmin={this.setDisplayAdmin}
-            displayAdmin={quote.id === this.state.displayAdminId}
-            currentUser={currentUser}
-            loggedIn={loggedIn}
-            comments={comments}
-          />
-        ))}
+        {quotes
+          .filter(Boolean)
+          .map(quote => (
+            <Quote
+              actionGrant={actionGrant}
+              approve={approve}
+              unapprove={unapprove}
+              deleteQuote={deleteQuote}
+              quote={quote}
+              key={quote.id}
+              setDisplayAdmin={this.setDisplayAdmin}
+              displayAdmin={quote.id === this.state.displayAdminId}
+              currentUser={currentUser}
+              loggedIn={loggedIn}
+              comments={comments}
+            />
+          ))}
       </ul>
     );
   }
