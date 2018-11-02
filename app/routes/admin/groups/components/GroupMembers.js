@@ -79,6 +79,9 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   prepare(loadData, ['params.groupId'])
 )(GroupMembers);

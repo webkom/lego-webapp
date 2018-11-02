@@ -46,6 +46,9 @@ const loadData = ({ params }, dispatch) =>
 
 export default compose(
   prepare(loadData, ['params.emailListId']),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   loadingIndicator(['emailList.name'])
 )(EmailListEditor);

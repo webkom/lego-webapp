@@ -28,4 +28,7 @@ const mapDispatchToProps = {
   updatePayment
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Attendees);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Attendees);

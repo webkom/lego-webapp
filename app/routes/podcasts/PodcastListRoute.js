@@ -15,5 +15,8 @@ const mapStateToProps = (state, props) => {
 
 export default compose(
   prepare((props, dispatch) => dispatch(fetchPodcasts())),
-  connect(mapStateToProps, null)
+  connect(
+    mapStateToProps,
+    null
+  )
 )(PodcastList);

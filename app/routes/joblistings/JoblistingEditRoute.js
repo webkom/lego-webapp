@@ -70,6 +70,9 @@ export default compose(
     }
   ),
 
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   loadingIndicator(['company.value'])
 )(JoblistingEditor);

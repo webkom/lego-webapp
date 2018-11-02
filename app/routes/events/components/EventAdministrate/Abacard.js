@@ -68,7 +68,10 @@ class Abacard extends React.Component<Props, State> {
   };
 
   render() {
-    const { registered, event: { totalCapacity } } = this.props;
+    const {
+      registered,
+      event: { totalCapacity }
+    } = this.props;
     const registerCount = registered.filter(
       reg => reg.presence === 'PRESENT' && reg.pool
     ).length;

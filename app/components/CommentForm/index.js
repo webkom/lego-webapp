@@ -119,5 +119,8 @@ export default compose(
     initialValues: {},
     destroyOnUnmount: false
   }),
-  connect(mapStateToProps, { addComment })
+  connect(
+    mapStateToProps,
+    { addComment }
+  )
 )(CommentForm);

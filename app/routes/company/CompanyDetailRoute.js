@@ -46,5 +46,8 @@ export default compose(
     componentWillReceiveProps: false
   }),
   // $FlowFixMe
-  connect(mapStateToProps, null)
+  connect(
+    mapStateToProps,
+    null
+  )
 )(CompanyDetail);

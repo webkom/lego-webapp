@@ -45,7 +45,9 @@ export default compose(
   replaceUnlessLoggedIn(LoginPage),
   dispatched(
     (props, dispatch) => {
-      const { location: { query } } = props;
+      const {
+        location: { query }
+      } = props;
       if (query.filter === 'unapproved') {
         return dispatch(fetchAllUnapproved({ loadNextPage: false }));
       }
@@ -53,5 +55,8 @@ export default compose(
     },
     { componentWillReceiveProps: false }
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(QuotePage);

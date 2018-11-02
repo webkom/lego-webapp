@@ -88,7 +88,10 @@ const propertyGenerator = (props, config) => {
 };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   prepare(({ params }, dispatch) =>
     dispatch(fetchGalleryPicture(params.galleryId, params.pictureId))
   ),

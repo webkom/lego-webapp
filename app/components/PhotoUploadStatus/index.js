@@ -113,9 +113,10 @@ const mapDispatchToProps = dispatch => ({
     })
 });
 
-const ConnectedUploadStatusCard = connect(mapStateToProps, mapDispatchToProps)(
-  UploadStatusCard
-);
+const ConnectedUploadStatusCard = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UploadStatusCard);
 
 export default ConnectedUploadStatusCard;
 

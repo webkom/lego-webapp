@@ -47,5 +47,8 @@ const mapDispatchToProps = {
 
 export default compose(
   prepare((props, dispatch) => dispatch(fetchData())),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(EventList);

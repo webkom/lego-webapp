@@ -79,4 +79,10 @@ const mapDispatchToProps = {
   autocomplete
 };
 
-export default compose(connect(null, mapDispatchToProps), withAutocomplete);
+export default compose(
+  connect(
+    null,
+    mapDispatchToProps
+  ),
+  withAutocomplete
+);

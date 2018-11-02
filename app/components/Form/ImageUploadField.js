@@ -46,4 +46,7 @@ class ImageUploadField extends Component<Props> {
   }
 }
 
-export default connect(null, { uploadFile })(createField(ImageUploadField));
+export default connect(
+  null,
+  { uploadFile }
+)(createField(ImageUploadField));

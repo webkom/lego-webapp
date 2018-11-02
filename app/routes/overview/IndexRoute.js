@@ -31,6 +31,9 @@ export default compose(
       () => (loggedIn ? dispatch(fetchPersonalFeed()) : Promise.resolve())
     )
   ),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   replaceUnlessLoggedIn(PublicFrontpage)
 )(Overview);

@@ -98,7 +98,7 @@ export const indexToSemester = (
   startSem: number,
   companySemesters?: Array<CompanySemesterEntity>
 ) => {
-  const semester = semesterNameOf((index % 2 + startSem) % 2);
+  const semester = semesterNameOf(((index % 2) + startSem) % 2);
 
   let year = 0;
   if (startSem === 0) {

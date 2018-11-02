@@ -84,7 +84,7 @@ class LegoSoundCloudPlayer extends Component<Props, *> {
             <Progress
               className={styles.progress}
               innerClassName={styles.progressInner}
-              value={currentTime / duration * 100 || 0}
+              value={(currentTime / duration) * 100 || 0}
               {...this.props}
             />
           </Flex>

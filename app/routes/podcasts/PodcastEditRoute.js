@@ -40,6 +40,9 @@ const mapStateToProps = (state, props) => {
 
 export default compose(
   prepare((props, dispatch) => dispatch(fetchPodcasts())),
-  connect(mapStateToProps, mapDispachToProps),
+  connect(
+    mapStateToProps,
+    mapDispachToProps
+  ),
   loadingIndicator(['initialValues.id'])
 )(PodcastEditor);

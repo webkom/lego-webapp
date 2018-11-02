@@ -16,5 +16,8 @@ const mapDispatchToProps = { fetchAll };
 
 export default compose(
   prepare((props, dispatch) => dispatch(fetchAll())),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(TagCloud);

@@ -21,7 +21,7 @@ function animateAbakus(
   const minX = Math.min(...xs);
   const maxX = Math.max(...xs);
   const context = canvas.getContext('2d');
-  const d = (maxX - minX) * (radius * 2 + padding) / 2 + sideWidth * 2;
+  const d = ((maxX - minX) * (radius * 2 + padding)) / 2 + sideWidth * 2;
   const offsetX = width / 2 - d;
 
   function draw(time) {

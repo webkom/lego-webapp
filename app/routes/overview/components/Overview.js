@@ -18,6 +18,7 @@ import EventItem from './EventItem';
 import ArticleItem from './ArticleItem';
 import Icon from 'app/components/Icon';
 import truncateString from 'app/utils/truncateString';
+import { Link } from 'react-router';
 
 type Props = {
   frontpage: Array<Object>,
@@ -77,9 +78,9 @@ class Overview extends Component<Props, State> {
         {item.tags &&
           item.tags.length > 0 && (
             <Tags className={styles.tagline}>
-              {item.tags
-                .slice(0, 3)
-                .map(tag => <Tag className={styles.tag} tag={tag} key={tag} />)}
+              {item.tags.slice(0, 3).map(tag => (
+                <Tag className={styles.tag} tag={tag} key={tag} />
+              ))}
             </Tags>
           )}
       </span>
@@ -118,12 +119,12 @@ class Overview extends Component<Props, State> {
             column
             style={{ flex: '1', padding: '0 10px', margin: '0 auto' }}
           >
-            <p
-              className="u-ui-heading"
-              style={{ paddingTop: 0, paddingBottom: 0 }}
-            >
-              Weekly
-            </p>
+            <Link to={'/articles?tag=weekly'}>
+              <h3 className="u-ui-heading" style={{ paddingTop: 0 }}>
+                Weekly
+              </h3>
+            </Link>
+
             <Flex column className={styles.weeklyArticles}>
               {frontpage
                 .filter(item => item.documentType === 'article')
@@ -146,7 +147,9 @@ class Overview extends Component<Props, State> {
 
         <Flex className={styles.otherItems}>
           <Flex column style={{ flex: '2' }}>
-            <p className="u-ui-heading">Arrangementer</p>
+            <Link to={'/events'}>
+              <h3 className="u-ui-heading">Arrangementer</h3>
+            </Link>
             <Flex className={styles.events}>
               {frontpage
                 .filter(item => item.documentType === 'event')
@@ -164,7 +167,9 @@ class Overview extends Component<Props, State> {
           </Flex>
 
           <Flex column style={{ flex: '1' }}>
-            <p className="u-ui-heading">Artikler</p>
+            <Link to={'/articles'}>
+              <h3 className="u-ui-heading">Artikler</h3>
+            </Link>
             <Flex className={styles.articles}>
               {frontpage
                 .filter(item => item.documentType === 'article')

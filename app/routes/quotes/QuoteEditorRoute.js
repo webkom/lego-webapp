@@ -15,5 +15,8 @@ const mapDispatchToProps = { addQuotes };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(AddQuote);

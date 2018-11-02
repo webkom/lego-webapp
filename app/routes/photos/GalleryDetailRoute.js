@@ -115,7 +115,10 @@ function metadataHelper<Props>() {
 }
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   prepare(loadData),
   loadingIndicator(['gallery.title']),
   helmet(propertyGenerator),

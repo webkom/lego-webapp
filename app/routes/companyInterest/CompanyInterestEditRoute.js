@@ -77,5 +77,8 @@ const mapDispatchToProps = (dispatch, { params }) => {
 
 export default compose(
   prepare(loadCompanyInterests),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(CompanyInterestPage);

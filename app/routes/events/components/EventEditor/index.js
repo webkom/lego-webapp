@@ -137,7 +137,9 @@ function EventEditor({
               uploadFile={uploadFile}
             />
             <Flex className={styles.tagRow}>
-              {(event.tags || []).map((tag, i) => <Tag key={i} tag={tag} />)}
+              {(event.tags || []).map((tag, i) => (
+                <Tag key={i} tag={tag} />
+              ))}
             </Flex>
           </ContentMain>
           <ContentSidebar>
@@ -232,7 +234,8 @@ function EventEditor({
                     <strong>
                       {event.addFee
                         ? addStripeFee(Number(event.priceMember))
-                        : event.priceMember},-
+                        : event.priceMember}
+                      ,-
                     </strong>
                   </i>
                 )}

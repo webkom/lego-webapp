@@ -8,4 +8,9 @@ import { push } from 'react-router-redux';
 
 const mapDispatchToProps = { mutateFunction: createEmailList, push };
 
-export default compose(connect(null, mapDispatchToProps))(EmailListEditor);
+export default compose(
+  connect(
+    null,
+    mapDispatchToProps
+  )
+)(EmailListEditor);

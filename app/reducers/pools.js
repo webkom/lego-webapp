@@ -40,7 +40,10 @@ export default createEntityReducer({
         };
       }
       case Event.SOCKET_UNREGISTRATION.SUCCESS: {
-        const { meta: { fromPool }, payload } = action;
+        const {
+          meta: { fromPool },
+          payload
+        } = action;
         const statePool = state.byId[fromPool];
         if (!fromPool || !statePool) {
           return state;

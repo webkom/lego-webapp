@@ -57,7 +57,11 @@ const ArticleDetail = ({
 
     <DisplayContent content={article.content} />
 
-    <Tags>{article.tags.map(tag => <Tag tag={tag} key={tag} />)}</Tags>
+    <Tags>
+      {article.tags.map(tag => (
+        <Tag tag={tag} key={tag} />
+      ))}
+    </Tags>
 
     {article.commentTarget && (
       <CommentView

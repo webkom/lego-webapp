@@ -25,5 +25,8 @@ export default compose(
     ({ params: { companyId } }, dispatch) => dispatch(fetchAdmin(companyId)),
     ['params.companyId']
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(CompanyContactEditor);

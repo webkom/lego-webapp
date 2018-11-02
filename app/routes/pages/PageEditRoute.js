@@ -41,7 +41,10 @@ export default compose(
   dispatched(({ params: { pageSlug } }, dispatch) =>
     dispatch(fetchPage(pageSlug))
   ),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   legoForm({
     form: 'page-edit'
   })

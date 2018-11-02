@@ -143,4 +143,7 @@ function mapDispatchToProps(dispatch: $FlowFixMe): DispatchProps {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Search);

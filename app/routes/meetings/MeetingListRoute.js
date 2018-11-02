@@ -70,5 +70,8 @@ export default compose(
   dispatched((props, dispatch) => dispatch(fetchData()), {
     componentWillReceiveProps: false
   }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(MeetingList);

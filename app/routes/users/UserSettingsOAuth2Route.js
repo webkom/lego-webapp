@@ -38,5 +38,8 @@ export default compose(
   dispatched(loadData, {
     componentWillReceiveProps: false
   }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(UserSettingsOAuth2);

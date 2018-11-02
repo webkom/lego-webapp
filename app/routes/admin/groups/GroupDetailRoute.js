@@ -21,5 +21,8 @@ function loadData({ params }, dispatch) {
 }
 export default compose(
   prepare(loadData, ['params.groupId']),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(GroupView);

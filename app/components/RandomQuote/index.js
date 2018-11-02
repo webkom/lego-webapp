@@ -74,4 +74,7 @@ function mapStateToProps(state, props) {
 
 const mapDispatchToProps = { fetchRandomQuote };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RandomQuote);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RandomQuote);

@@ -46,11 +46,9 @@ const EventSidebar = ({ events }: EventSidebarProps) => (
     <h2>Arrangementer</h2>
     <div className={`${styles.events}`}>
       <h3>Kommende</h3>
-      {events
-        .slice(0, 3)
-        .map(event => (
-          <EventItem key={event.id} imageSize="30px" event={event} />
-        ))}
+      {events.slice(0, 3).map(event => (
+        <EventItem key={event.id} imageSize="30px" event={event} />
+      ))}
     </div>
   </div>
 );

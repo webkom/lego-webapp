@@ -34,6 +34,9 @@ const loadData = ({ params }, dispatch) =>
 
 export default compose(
   prepare(loadData, ['params.emailUserId']),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   loadingIndicator(['emailUser.user.id'])
 )(EmailUserEditor);

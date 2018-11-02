@@ -19,6 +19,9 @@ const mapDispatchToProps = { push, fetch };
 
 export default compose(
   prepare(({ params }, dispatch) => dispatch(fetch(params.tagId))),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   loadingIndicator(['tag.tag'])
 )(TagDetail);

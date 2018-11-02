@@ -49,5 +49,8 @@ const mapDispatchToProps = {
 
 export default compose(
   prepare(loadSemesters),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(CompanyInterestPage);

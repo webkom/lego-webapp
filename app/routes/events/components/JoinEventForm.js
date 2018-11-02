@@ -341,7 +341,10 @@ function mapStateToProps(state, { event, registration }) {
 
 export default compose(
   // $FlowFixMe
-  connect(mapStateToProps, null),
+  connect(
+    mapStateToProps,
+    null
+  ),
   withCountdown,
   reduxForm({
     form: 'joinEvent',

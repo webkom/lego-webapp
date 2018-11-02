@@ -29,7 +29,10 @@ const Root = (props: Props) => {
 const mapDispatchToProps = {
   setStatusCode
 };
-const RouteHandler = connect(null, mapDispatchToProps)(
+const RouteHandler = connect(
+  null,
+  mapDispatchToProps
+)(
   ({
     setStatusCode,
     ...restProps
