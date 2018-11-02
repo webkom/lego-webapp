@@ -47,7 +47,7 @@ export default class QuoteList extends Component<Props, State> {
 
     return (
       <ul>
-        {quotes.map(quote => (
+        {quotes.filter(Boolean).map(quote => (
           <Quote
             actionGrant={actionGrant}
             approve={approve}
