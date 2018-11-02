@@ -89,5 +89,8 @@ const mapDispatchToProps = { updatePage };
 
 export default compose(
   prepare(loadData, ['params.pageSlug']),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(PageDetail);

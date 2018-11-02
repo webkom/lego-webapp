@@ -16,7 +16,10 @@ function mapStateToProps(state, props) {
 const mapDispatchToProps = { createPage, uploadFile, push };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   legoForm({
     form: 'page-create'
   })

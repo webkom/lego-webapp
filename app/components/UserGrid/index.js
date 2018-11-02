@@ -31,7 +31,9 @@ const UserGrid = ({
       maxHeight: maxRows * size + (maxRows - 1) * padding
     }}
   >
-    {users.map(user => <RegisteredCell key={user.id} user={user} />)}
+    {users.map(user => (
+      <RegisteredCell key={user.id} user={user} />
+    ))}
   </div>
 );
 

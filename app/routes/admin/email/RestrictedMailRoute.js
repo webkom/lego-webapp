@@ -49,6 +49,9 @@ const loadData = ({ params }, dispatch) =>
 
 export default compose(
   prepare(loadData, ['params.restrictedMailId']),
-  connect(mapStateToProps, {}),
+  connect(
+    mapStateToProps,
+    {}
+  ),
   loadingIndicator(['restrictedMail.id'])
 )(RestrictedMailEditor);

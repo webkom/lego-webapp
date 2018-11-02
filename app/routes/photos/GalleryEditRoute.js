@@ -56,7 +56,10 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   prepare(({ params }, dispatch) =>
     Promise.all([
       dispatch(fetch(params.galleryId)),

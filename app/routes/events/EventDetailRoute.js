@@ -31,7 +31,10 @@ const findCurrentRegistration = (registrations, currentUser) =>
   registrations.find(registration => registration.user.id === currentUser.id);
 
 const mapStateToProps = (state, props) => {
-  const { params: { eventId }, currentUser } = props;
+  const {
+    params: { eventId },
+    currentUser
+  } = props;
 
   const event = selectEventById(state, { eventId });
 
@@ -171,7 +174,10 @@ const propertyGenerator = (props, config) => {
 
 export default compose(
   prepare(loadData, ['params.eventId']),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   loadingIndicator(['notLoading', 'event.text']),
   helmet(propertyGenerator)
 )(EventDetail);

@@ -221,7 +221,9 @@ export default class EventDetail extends Component<Props> {
             <ContentMain>
               <DisplayContent content={event.text} />
               <Flex className={styles.tagRow}>
-                {event.tags.map((tag, i) => <Tag key={i} tag={tag} />)}
+                {event.tags.map((tag, i) => (
+                  <Tag key={i} tag={tag} />
+                ))}
               </Flex>
             </ContentMain>
             <ContentSidebar>

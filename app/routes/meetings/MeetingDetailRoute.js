@@ -32,7 +32,10 @@ const loadData = (props, dispatch) => {
 };
 
 const mapStateToProps = (state, props) => {
-  const { params: { meetingId }, currentUser } = props;
+  const {
+    params: { meetingId },
+    currentUser
+  } = props;
   const { action, token } = props.location.query;
   const meetingsToken = state.meetingsToken;
   const meeting = selectMeetingById(state, { meetingId });
@@ -78,5 +81,8 @@ const mapDispatchToProps = {
 
 export default compose(
   prepare(loadData, ['params.meetingId', 'loggedIn']),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(MeetingComponent);

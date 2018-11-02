@@ -21,5 +21,8 @@ const mapDispachToProps = {
 
 export default compose(
   prepare((props, dispatch) => dispatch(fetchPodcasts())),
-  connect(mapStateToProps, mapDispachToProps)
+  connect(
+    mapStateToProps,
+    mapDispachToProps
+  )
 )(PodcastEditor);

@@ -38,7 +38,9 @@ const OverviewItem = ({ article }: { article: ArticleEntity }) => (
       )}
       <Time time={article.createdAt} format="DD.MM.YYYY HH:mm" />
       <Tags className={styles.tagline}>
-        {article.tags.map(tag => <Tag tag={tag} key={tag} />)}
+        {article.tags.map(tag => (
+          <Tag tag={tag} key={tag} />
+        ))}
       </Tags>
     </span>
 

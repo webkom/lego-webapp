@@ -19,4 +19,7 @@ const mapDispatchToProps = {
   adminRegister
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminRegister);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AdminRegister);

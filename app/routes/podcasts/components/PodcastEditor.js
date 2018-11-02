@@ -30,7 +30,11 @@ type Props = {
 class PodcastEditor extends Component<Props, *> {
   render() {
     const handleDeletePodcast = () => {
-      const { deletePodcast, initialValues: { id }, push } = this.props;
+      const {
+        deletePodcast,
+        initialValues: { id },
+        push
+      } = this.props;
       return deletePodcast(id).then(() => {
         push('/podcasts/');
       });

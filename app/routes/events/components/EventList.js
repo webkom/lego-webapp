@@ -111,7 +111,9 @@ function EventListGroup({ name, events = [] }: EventListGroupProps) {
   return isEmpty(events) ? null : (
     <div className={styles.eventGroup}>
       <h2 className={styles.heading}>{name}</h2>
-      {events.map((event, i) => <EventItem key={i} event={event} />)}
+      {events.map((event, i) => (
+        <EventItem key={i} event={event} />
+      ))}
     </div>
   );
 }

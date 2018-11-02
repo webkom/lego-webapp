@@ -82,6 +82,9 @@ const validate = createValidator({
 });
 
 export default compose(
-  connect(null, { sendRegistrationEmail }),
+  connect(
+    null,
+    { sendRegistrationEmail }
+  ),
   reduxForm({ form: 'RegisterForm', validate })
 )(RegisterForm);

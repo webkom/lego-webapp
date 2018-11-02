@@ -27,5 +27,8 @@ const mapDispatchToProps = { submitFunction: addCompany, uploadFile };
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(CompanyEditor);

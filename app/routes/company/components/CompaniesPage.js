@@ -57,7 +57,9 @@ type CompanyListProps = {
 
 const CompanyList = ({ companies = [] }: CompanyListProps) => (
   <div className={styles.companyList}>
-    {companies.map((company, id) => <CompanyItem key={id} company={company} />)}
+    {companies.map((company, id) => (
+      <CompanyItem key={id} company={company} />
+    ))}
   </div>
 );
 

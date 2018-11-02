@@ -132,7 +132,10 @@ const mapStateToProps = state => ({ actionGrant: state.allowed.announcements });
 const mapDispatchToProps = { createAnnouncement };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   reduxForm({
     form: 'announcementInline',
     onSubmitSuccess: resetForm,

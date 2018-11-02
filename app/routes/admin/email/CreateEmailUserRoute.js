@@ -14,6 +14,9 @@ const mapStateToProps = () => ({
   }
 });
 
-export default compose(connect(mapStateToProps, mapDispatchToProps))(
-  EmailUserEditor
-);
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)(EmailUserEditor);

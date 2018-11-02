@@ -111,5 +111,8 @@ const validate = createValidator({
 });
 
 export default reduxForm({ validate, form: 'LoginForm' })(
-  connect(null, { login })(LoginForm)
+  connect(
+    null,
+    { login }
+  )(LoginForm)
 );

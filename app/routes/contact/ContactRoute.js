@@ -23,7 +23,10 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  connect(null, mapDispatchToProps),
+  connect(
+    null,
+    mapDispatchToProps
+  ),
   reduxForm({
     form: 'contactForm',
     validate,

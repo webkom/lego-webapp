@@ -281,15 +281,13 @@ export default class Table extends Component<Props, State> {
             </tr>
           }
         >
-          {data
-            .filter(this.filter)
-            .map((item, index) => (
-              <tr key={item[rowKey]}>
-                {columns.map((column, index) =>
-                  this.renderCell(column, item, index)
-                )}
-              </tr>
-            ))}
+          {data.filter(this.filter).map((item, index) => (
+            <tr key={item[rowKey]}>
+              {columns.map((column, index) =>
+                this.renderCell(column, item, index)
+              )}
+            </tr>
+          ))}
         </InfiniteScroll>
       </table>
     );

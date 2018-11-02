@@ -70,4 +70,7 @@ const mapDispatchToProps = {
   uploadFile
 };
 
-export default connect(null, mapDispatchToProps)(FileUpload);
+export default connect(
+  null,
+  mapDispatchToProps
+)(FileUpload);

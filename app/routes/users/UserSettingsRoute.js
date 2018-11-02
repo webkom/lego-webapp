@@ -35,6 +35,9 @@ const mapDispatchToProps = { updateUser, updatePicture, changePassword, push };
 
 export default compose(
   dispatched(loadData, { componentWillReceiveProps: false }),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   loadingIndicator(['user'])
 )(UserSettings);

@@ -33,5 +33,8 @@ export default compose(
     },
     ['location.query.tag']
   ),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(Overview);

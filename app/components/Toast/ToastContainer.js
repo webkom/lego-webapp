@@ -65,4 +65,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = { removeToast };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ToastContainer);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ToastContainer);

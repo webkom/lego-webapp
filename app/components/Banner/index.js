@@ -51,7 +51,8 @@ class Banner extends Component<Props, *> {
           >
             {text}
           </div>
-        )};
+        )}
+        ;
       </div>
     );
   }

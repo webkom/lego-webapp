@@ -19,6 +19,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = { fetch, push };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   prepare((props, dispatch) => dispatch(fetch()))
 )(Overview);

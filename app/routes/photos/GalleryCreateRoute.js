@@ -14,6 +14,9 @@ const mapStateToProps = () => ({
 
 const mapDispatchToProps = { submitFunction: createGallery, push };
 
-export default compose(connect(mapStateToProps, mapDispatchToProps))(
-  GalleryEditor
-);
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)(GalleryEditor);

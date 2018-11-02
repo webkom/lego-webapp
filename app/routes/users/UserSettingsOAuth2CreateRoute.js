@@ -23,7 +23,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = { createOAuth2Application };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   reduxForm({
     form: 'oauth2',
     validate

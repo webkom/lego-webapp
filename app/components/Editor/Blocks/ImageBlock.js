@@ -117,4 +117,7 @@ class ImageBlock extends Component<Props, State> {
   }
 }
 
-export default connect(null, { uploadFile })(ImageBlock);
+export default connect(
+  null,
+  { uploadFile }
+)(ImageBlock);

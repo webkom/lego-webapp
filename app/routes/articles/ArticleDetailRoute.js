@@ -34,7 +34,10 @@ const mapDispatchToProps = { fetchArticle };
 
 export default compose(
   prepare(loadData, ['params.articleId']),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   loadingIndicator(['article.content']),
   helmet((props, config) => {
     const tags = props.article.tags.map(content => ({

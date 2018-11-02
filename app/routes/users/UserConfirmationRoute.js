@@ -4,7 +4,14 @@ import { connect } from 'react-redux';
 import UserConfirmation from './components/UserConfirmation';
 import { createUser, validateRegistrationToken } from 'app/actions/UserActions';
 
-const loadData = ({ location: { query: { token } } }, dispatch) => {
+const loadData = (
+  {
+    location: {
+      query: { token }
+    }
+  },
+  dispatch
+) => {
   if (token) {
     return dispatch(validateRegistrationToken(token));
   }
@@ -20,5 +27,8 @@ const mapDispatchToProps = {
 
 export default compose(
   dispatched(loadData, { componentWillReceiveProps: false }),
-  connect(mapStateToProps, mapDispatchToProps)
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
 )(UserConfirmation);

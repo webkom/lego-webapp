@@ -77,7 +77,10 @@ export default compose(
       Promise.all([dispatch(fetchSemesters()), dispatch(fetchAllAdmin())]),
     ['params.companyId']
   ),
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   reduxForm({
     form: 'addSemester',
     validate: validateSemesterStatus,

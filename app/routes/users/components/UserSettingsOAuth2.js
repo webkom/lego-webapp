@@ -45,13 +45,15 @@ const UserSettingsOAuth2 = (props: Props) => {
         <li>
           Auth Url:{' '}
           <a href={`${config.baseUrl}/authorization/oauth2/authorize/`}>
-            {config.baseUrl}/authorization/oauth2/authorize/
+            {config.baseUrl}
+            /authorization/oauth2/authorize/
           </a>
         </li>
         <li>
           Access Token Url:{' '}
           <a href={`${config.baseUrl}/authorization/oauth2/token/`}>
-            {config.baseUrl}/authorization/oauth2/token/
+            {config.baseUrl}
+            /authorization/oauth2/token/
           </a>
         </li>
       </ul>

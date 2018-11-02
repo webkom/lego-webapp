@@ -11,4 +11,7 @@ const mapDispatchToProps = {
   resetPassword
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserResetPassword);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(UserResetPassword);

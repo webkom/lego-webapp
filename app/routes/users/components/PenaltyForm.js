@@ -124,7 +124,10 @@ const mapStateToProps = state => ({ actionGrant: state.allowed.penalties });
 const mapDispatchToProps = { addPenalty };
 
 export default compose(
-  connect(mapStateToProps, mapDispatchToProps),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   legoForm({
     form: 'penaltyInline',
     validate(values) {
