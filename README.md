@@ -145,7 +145,3 @@ Some formatting errors reported by prettier can be fixed by running
 ```bash
 $ yarn prettier
 ```
-
-```
-
-```
