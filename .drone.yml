@@ -2,34 +2,34 @@ pipeline:
   setup:
     image: node:8
     when:
-      event: push
+      event: [push, pull_request]
     commands:
       - yarn
   test:
     image: node:8
     when:
-      event: push
+      event: [push, pull_request]
     group: testing
     commands:
       - yarn test
   lint:
     image: node:8
     when:
-      event: push
+      event: [push, pull_request]
     group: testing
     commands:
       - yarn lint
   flow:
     image: node:8
     when:
-      event: push
+      event: [push, pull_request]
     group: testing
     commands:
       - yarn flow --quiet
   build:
     image: node:8
     when:
-      event: push
+      event: [push, pull_request]
       branch:
         exclude: [ prod ]
     group: testing
