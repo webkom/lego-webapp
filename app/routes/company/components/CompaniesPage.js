@@ -40,12 +40,11 @@ const CompanyItem = ({ company }: Company) => {
             </span>
           </div>
         </Link>
-        {company.website &&
-          !company.website.includes('example.com') && (
-            <a href={company.website} target="_blank">
-              <div className={styles.website}>{websiteString}</div>
-            </a>
-          )}
+        {company.website && !company.website.includes('example.com') && (
+          <a href={company.website} target="_blank">
+            <div className={styles.website}>{websiteString}</div>
+          </a>
+        )}
       </div>
     </div>
   );

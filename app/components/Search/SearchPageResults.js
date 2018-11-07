@@ -77,12 +77,11 @@ function SearchResult({ result, onSelect, isSelected }: SearchResultProps) {
         </div>
       </Flex>
 
-      {result.picture &&
-        result.picture !== 'cover' && (
-          <Flex className={styles.picture}>
-            <img src={result.picture} alt="search" role="presentation" />
-          </Flex>
-        )}
+      {result.picture && result.picture !== 'cover' && (
+        <Flex className={styles.picture}>
+          <img src={result.picture} alt="search" role="presentation" />
+        </Flex>
+      )}
     </Flex>
   );
 }

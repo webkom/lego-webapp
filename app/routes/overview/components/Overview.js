@@ -59,13 +59,12 @@ class Overview extends Component<Props, State> {
           format="DD.MM HH:mm"
         />
 
-        {item.location !== '-' &&
-          isEvent && (
-            <span>
-              <span className={styles.dot}> . </span>
-              <span> {truncateString(item.location, 10)} </span>
-            </span>
-          )}
+        {item.location !== '-' && isEvent && (
+          <span>
+            <span className={styles.dot}> . </span>
+            <span> {truncateString(item.location, 10)} </span>
+          </span>
+        )}
 
         <span>
           <span className={styles.dot}> . </span>
@@ -75,14 +74,13 @@ class Overview extends Component<Props, State> {
           </span>
         </span>
 
-        {item.tags &&
-          item.tags.length > 0 && (
-            <Tags className={styles.tagline}>
-              {item.tags.slice(0, 3).map(tag => (
-                <Tag className={styles.tag} tag={tag} key={tag} />
-              ))}
-            </Tags>
-          )}
+        {item.tags && item.tags.length > 0 && (
+          <Tags className={styles.tagline}>
+            {item.tags.slice(0, 3).map(tag => (
+              <Tag className={styles.tag} tag={tag} key={tag} />
+            ))}
+          </Tags>
+        )}
       </span>
     );
   };

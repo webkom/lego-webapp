@@ -95,9 +95,8 @@ const UserSettingsNotifications = (props: Props) => {
             const changeSetting = (changeChannel, value) => {
               props.updateNotificationSetting(
                 notificationType,
-                props.alternatives.channels.filter(
-                  channel =>
-                    changeChannel === channel ? value : channnelSetting(channel)
+                props.alternatives.channels.filter(channel =>
+                  changeChannel === channel ? value : channnelSetting(channel)
                 )
               );
             };

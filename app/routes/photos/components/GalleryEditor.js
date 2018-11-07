@@ -78,9 +78,9 @@ const photoOverlay = (photo: Object, selected: Array<number>) => (
 const renderBottom = (photo: Object, gallery: GalleryEntity) => (
   <Flex className={styles.infoOverlay} justifyContent="space-between">
     <span>{photo.active ? 'Synlig for brukere' : 'Skjult for brukere'}</span>
-    {photo.id &&
-      gallery.cover &&
-      photo.id === gallery.cover.id && <span>Cover</span>}
+    {photo.id && gallery.cover && photo.id === gallery.cover.id && (
+      <span>Cover</span>
+    )}
   </Flex>
 );
 

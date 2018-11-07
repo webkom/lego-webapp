@@ -34,13 +34,15 @@ export const selectMembershipsForGroup = createSelector(
     if (!group) return [];
     const memberships = group.memberships;
     if (!memberships) return [];
-    return memberships.map(m => membershipsById[m]).map(m => {
-      const userId = m.user;
-      const user = users[userId];
-      return {
-        ...m,
-        user
-      };
-    });
+    return memberships
+      .map(m => membershipsById[m])
+      .map(m => {
+        const userId = m.user;
+        const user = users[userId];
+        return {
+          ...m,
+          user
+        };
+      });
   }
 );

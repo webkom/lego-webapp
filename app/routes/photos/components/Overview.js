@@ -28,12 +28,11 @@ export default class Overview extends Component<Props> {
     } = this.props;
     return (
       <Content>
-        {actionGrant &&
-          actionGrant.includes('create') && (
-            <NavigationTab title="Albumer">
-              <NavigationLink to="/photos/new">Nytt album</NavigationLink>
-            </NavigationTab>
-          )}
+        {actionGrant && actionGrant.includes('create') && (
+          <NavigationTab title="Albumer">
+            <NavigationLink to="/photos/new">Nytt album</NavigationLink>
+          </NavigationTab>
+        )}
 
         <Gallery
           hasMore={hasMore}
@@ -51,13 +50,12 @@ export default class Overview extends Component<Props> {
           renderEmpty={() => (
             <EmptyState icon="photos-outline">
               <h1>Ingen synlige albumer</h1>
-              {actionGrant &&
-                actionGrant.includes('create') && (
-                  <h4>
-                    Trykk <a onClick={() => push('/photos/new')}>her</a> for å
-                    lage et nytt album
-                  </h4>
-                )}
+              {actionGrant && actionGrant.includes('create') && (
+                <h4>
+                  Trykk <a onClick={() => push('/photos/new')}>her</a> for å
+                  lage et nytt album
+                </h4>
+              )}
             </EmptyState>
           )}
           photos={galleries}

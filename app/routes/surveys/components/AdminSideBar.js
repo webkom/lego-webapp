@@ -53,19 +53,17 @@ export class AdminSideBar extends React.Component<Props, State> {
             <li>
               <Link to={`/surveys/${surveyId}/edit`}>Endre undersøkelsen</Link>
             </li>
-            {actionGrant &&
-              actionGrant.includes('edit') &&
-              shareSurvey && (
-                <div>
-                  <CheckBox
-                    onChange={() =>
-                      token ? hideSurvey(surveyId) : shareSurvey(surveyId)
-                    }
-                    value={!!token}
-                  />
-                  Del spørreundersøkelsen{' '}
-                </div>
-              )}
+            {actionGrant && actionGrant.includes('edit') && shareSurvey && (
+              <div>
+                <CheckBox
+                  onChange={() =>
+                    token ? hideSurvey(surveyId) : shareSurvey(surveyId)
+                  }
+                  value={!!token}
+                />
+                Del spørreundersøkelsen{' '}
+              </div>
+            )}
 
             {token && (
               <li>

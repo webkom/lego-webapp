@@ -424,9 +424,8 @@ export const selectRegistrationsFromPools = createSelector(
 export const getRegistrationGroups = createSelector(
   selectAllRegistrationsForEvent,
   registrations => {
-    const grouped = groupBy(
-      registrations,
-      obj => (obj.unregistrationDate.isValid() ? 'unregistered' : 'registered')
+    const grouped = groupBy(registrations, obj =>
+      obj.unregistrationDate.isValid() ? 'unregistered' : 'registered'
     );
     const registered = (grouped['registered'] || []).sort((a, b) =>
       a.registrationDate.diff(b.registrationDate)
