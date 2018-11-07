@@ -15,8 +15,13 @@
 .tagline {
   margin: 10px 0 0;
   display: flex;
+<<<<<<< Updated upstream
   flex-wrap: wrap;
   justify-content: center;
+=======
+  justify-content: center;
+  flex-wrap: wrap;
+>>>>>>> Stashed changes
 }
 
 .overviewAuthor::after {

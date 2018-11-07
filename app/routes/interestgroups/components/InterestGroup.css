@@ -1,8 +1,8 @@
 @import 'app/styles/variables.css';
 
 .logo {
-  max-height: 250px;
-  max-width: 250px;
+  max-height: 500px;
+  max-width: 500px;
 }
 
 .logoSmall {

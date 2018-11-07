@@ -82,7 +82,7 @@ export const GroupRenderer = ({ page }: { page: Object }) => {
   );
 };
 
-function PageDetail<T: Object>({
+function PageDetailOld<T: Object>({
   selectedPage,
   selectedPageInfo,
   pageHierarchy,
@@ -104,19 +104,49 @@ function PageDetail<T: Object>({
         )}
       </NavigationTab>
       <Flex className={styles.page} wrap>
+      <aside className={styles.sidebar}>
+        <PageHierarchy
+          pageHierarchy={pageHierarchy}
+          currentUrl={currentUrl}
+        />
+      </aside>
         {isComplete ? (
           <PageRenderer page={selectedPage} />
         ) : (
           <LoadingIndicator loading />
         )}
-        <aside className={styles.sidebar}>
-          <PageHierarchy
-            pageHierarchy={pageHierarchy}
-            currentUrl={currentUrl}
-          />
-        </aside>
+
       </Flex>
     </Content>
   );
 }
+
+const PageDetail=<T: Object>({
+  selectedPage,
+  selectedPageInfo,
+  pageHierarchy,
+  PageRenderer,
+  currentUrl
+}:Props<T>)=> {
+const { title, editUrl, actionGrant = [], isComplete } = selectedPageInfo;
+  return(
+    <Content>
+      <NavigationTab title={readmeIfy(title)}>
+        {actionGrant.includes('edit') &&
+          editUrl && <NavigationLink to={editUrl}>Endre</NavigationLink>}
+        {actionGrant.includes('create') && (
+          <NavigationLink to="/pages/new">Ny</NavigationLink>
+        )}
+      </NavigationTab>
+      <Flex className={styles.page} wrap>
+        <h1>Hello World!</h1>
+          <aside className={styles.sidebar}>
+            <pageHierarchy
+              pageHierarchy={pageHierarchy}
+              currentUrl={currentUrl}
+            </>
+      </Flex>
+    </Content>
+    )
+  }
 export default PageDetail;
