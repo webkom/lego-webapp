@@ -14,6 +14,7 @@ import Tag from 'app/components/Tags/Tag';
 import { FormatTime, FromToTime } from 'app/components/Time';
 import InfoList from 'app/components/InfoList';
 import { Flex } from 'app/components/Layout';
+import Tooltip from 'app/components/Tooltip';
 import { EVENT_TYPE_TO_STRING, colorForEvent } from '../../utils';
 import Admin from '../Admin';
 import RegistrationMeta from '../RegistrationMeta';
@@ -35,7 +36,20 @@ type InterestedButtonProps = {
 
 const InterestedButton = ({ isInterested }: InterestedButtonProps) => {
   const icon = isInterested ? 'star' : 'star-outline';
-  return <Icon className={styles.star} name={icon} />;
+  return (
+    <div style={{ display: 'inline-block' }}>
+      <Tooltip
+        style={{ lineHeight: '1.3rem' }}
+        content={
+          <span style={{ fontSize: '1rem', fontWeight: '100', padding: '0' }}>
+            Favoritt
+          </span>
+        }
+      >
+        <Icon className={styles.star} name={icon} />
+      </Tooltip>
+    </div>
+  );
 };
 
 type Props = {
