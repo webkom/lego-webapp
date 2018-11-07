@@ -96,6 +96,7 @@ const mapStateToProps = (state, props) => {
     );
     currentRegistration = currentPool.registrations[currentRegistrationIndex];
   }
+  const hasSimpleWaitingList = poolsWithRegistrations.length <= 1;
 
   return {
     comments,
@@ -106,7 +107,8 @@ const mapStateToProps = (state, props) => {
     pools,
     registrations,
     currentRegistration,
-    currentRegistrationIndex
+    currentRegistrationIndex,
+    hasSimpleWaitingList
   };
 };
 
