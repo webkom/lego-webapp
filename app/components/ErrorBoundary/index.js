@@ -64,12 +64,11 @@ class ErrorBoundary extends React.Component<Props, State> {
             <h3>En feil har oppstått</h3>
             <p>
               Webkom har fått beskjed om feilen.{' '}
-              {!openReportDialog &&
-                Raven.lastEventId() && (
-                  <span>
-                    Klikk <b>her</b> for å sende en rapport.
-                  </span>
-                )}
+              {!openReportDialog && Raven.lastEventId() && (
+                <span>
+                  Klikk <b>her</b> for å sende en rapport.
+                </span>
+              )}
             </p>
           </div>
         </div>

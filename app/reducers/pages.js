@@ -109,9 +109,8 @@ const separateRoles = [
 const defaultRole = 'member';
 
 const groupMemberships = memberships =>
-  groupBy(
-    sortBy(memberships, 'user.fullName'),
-    ({ role }) => (separateRoles.includes(role) ? role : defaultRole)
+  groupBy(sortBy(memberships, 'user.fullName'), ({ role }) =>
+    separateRoles.includes(role) ? role : defaultRole
   );
 
 export const selectCommitteeForPages = createSelector(

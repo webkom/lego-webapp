@@ -49,14 +49,13 @@ const mapStateToProps = (state, props) => {
         event: initialEvent,
         questions:
           survey.questions &&
-          survey.questions.map(
-            question =>
-              question.options
-                ? {
-                    ...question,
-                    options: question.options.concat({ optionText: '' })
-                  }
-                : question
+          survey.questions.map(question =>
+            question.options
+              ? {
+                  ...question,
+                  options: question.options.concat({ optionText: '' })
+                }
+              : question
           )
       };
     }

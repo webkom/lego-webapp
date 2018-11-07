@@ -29,14 +29,13 @@ const SearchResultItem = ({
           style={{ margin: '0px 12px 0px 0px' }}
         />
       )}
-      {!result.profilePicture &&
-        result.icon && (
-          <Icon
-            className={styles.searchResultItemIcon}
-            name={result.icon}
-            size={28}
-          />
-        )}
+      {!result.profilePicture && result.icon && (
+        <Icon
+          className={styles.searchResultItemIcon}
+          name={result.icon}
+          size={28}
+        />
+      )}
       <ul>
         <li className={styles.resultTitle}>
           <div className={styles.truncateTitle}>{result.title}</div>

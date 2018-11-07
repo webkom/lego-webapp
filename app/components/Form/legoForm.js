@@ -29,7 +29,7 @@ type Props = {
   /* Also pick these values based on the keys given on the array
    * Should be used when there isn't a visible field for the value,
    * at the time of submitting
-   * 
+   *
    * The id is always picked, together with all registered fields
    */
   pickAdditionalValues?: Array<string>,

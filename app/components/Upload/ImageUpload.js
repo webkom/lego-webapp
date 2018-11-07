@@ -182,16 +182,15 @@ export default class ImageUpload extends Component<Props, State> {
           backdrop
         >
           <Fragment>
-            {inModal &&
-              !preview && (
-                <div className={styles.inModalUpload}>
-                  <UploadArea
-                    onDrop={this.onDrop}
-                    multiple={multiple}
-                    image={this.state.img}
-                  />
-                </div>
-              )}
+            {inModal && !preview && (
+              <div className={styles.inModalUpload}>
+                <UploadArea
+                  onDrop={this.onDrop}
+                  multiple={multiple}
+                  image={this.state.img}
+                />
+              </div>
+            )}
             {/* $FlowFixMe */}
             {preview && (
               <Cropper
@@ -204,19 +203,18 @@ export default class ImageUpload extends Component<Props, State> {
                 guides={false}
               />
             )}
-            {multiple &&
-              !crop && (
-                <Flex wrap column>
-                  {files.map((file, index) => (
-                    <FilePreview
-                      onRemove={this.onRemove}
-                      file={file}
-                      index={index}
-                      key={index}
-                    />
-                  ))}
-                </Flex>
-              )}
+            {multiple && !crop && (
+              <Flex wrap column>
+                {files.map((file, index) => (
+                  <FilePreview
+                    onRemove={this.onRemove}
+                    file={file}
+                    index={index}
+                    key={index}
+                  />
+                ))}
+              </Flex>
+            )}
             <Flex
               wrap
               className={styles.footer}

@@ -91,8 +91,9 @@ function PageDetail<T: Object>({
   return (
     <Content>
       <NavigationTab title={readmeIfy(title)}>
-        {actionGrant.includes('edit') &&
-          editUrl && <NavigationLink to={editUrl}>Endre</NavigationLink>}
+        {actionGrant.includes('edit') && editUrl && (
+          <NavigationLink to={editUrl}>Endre</NavigationLink>
+        )}
         {actionGrant.includes('create') && (
           <NavigationLink to="/pages/new">Ny</NavigationLink>
         )}

@@ -43,23 +43,22 @@ const AnnouncementsList = ({
         createAnnouncement={createAnnouncement}
         actionGrant={actionGrant}
       />
-      {actionGrant.includes('list') &&
-        actionGrant.includes('delete') && (
-          <ContentMain>
-            <h1 className={styles.header}> Mine kunngjøringer </h1>
-            <Flex column className={styles.list}>
-              {announcements.map((a, i) => (
-                <AnnouncementItem
-                  key={i}
-                  announcement={a}
-                  sendAnnouncement={sendAnnouncement}
-                  deleteAnnouncement={deleteAnnouncement}
-                  actionGrant={actionGrant}
-                />
-              ))}
-            </Flex>
-          </ContentMain>
-        )}
+      {actionGrant.includes('list') && actionGrant.includes('delete') && (
+        <ContentMain>
+          <h1 className={styles.header}> Mine kunngjøringer </h1>
+          <Flex column className={styles.list}>
+            {announcements.map((a, i) => (
+              <AnnouncementItem
+                key={i}
+                announcement={a}
+                sendAnnouncement={sendAnnouncement}
+                deleteAnnouncement={deleteAnnouncement}
+                actionGrant={actionGrant}
+              />
+            ))}
+          </Flex>
+        </ContentMain>
+      )}
     </Content>
   );
 };

@@ -106,26 +106,25 @@ const UserSettingsOAuth2 = (props: Props) => {
           </tr>
         </thead>
         <tbody>
-          {props.grants.map(
-            (grant, key) =>
-              grant.id ? (
-                <tr key={key}>
-                  <td>{grant.application.name}</td>
-                  <td>
-                    <Time time={grant.expires} format="LLL" />
-                  </td>
-                  <td>{grant.token}</td>
-                  <td>{keys(grant.scopes).join(', ')}</td>
-                  <td>
-                    <Button
-                      size="small"
-                      onClick={() => props.deleteOAuth2Grant(grant.id)}
-                    >
-                      Fjern
-                    </Button>
-                  </td>
-                </tr>
-              ) : null
+          {props.grants.map((grant, key) =>
+            grant.id ? (
+              <tr key={key}>
+                <td>{grant.application.name}</td>
+                <td>
+                  <Time time={grant.expires} format="LLL" />
+                </td>
+                <td>{grant.token}</td>
+                <td>{keys(grant.scopes).join(', ')}</td>
+                <td>
+                  <Button
+                    size="small"
+                    onClick={() => props.deleteOAuth2Grant(grant.id)}
+                  >
+                    Fjern
+                  </Button>
+                </td>
+              </tr>
+            ) : null
           )}
           {props.grants.length === 0 && (
             <tr>

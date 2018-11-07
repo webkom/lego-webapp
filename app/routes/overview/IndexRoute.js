@@ -27,8 +27,8 @@ const mapDispatchToProps = { login, logout };
 
 export default compose(
   prepare(({ loggedIn }, dispatch) =>
-    Promise.all([dispatch(fetchData()), dispatch(fetchReadmes())]).then(
-      () => (loggedIn ? dispatch(fetchPersonalFeed()) : Promise.resolve())
+    Promise.all([dispatch(fetchData()), dispatch(fetchReadmes())]).then(() =>
+      loggedIn ? dispatch(fetchPersonalFeed()) : Promise.resolve()
     )
   ),
   connect(

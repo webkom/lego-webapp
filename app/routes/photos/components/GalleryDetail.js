@@ -71,17 +71,16 @@ export default class GalleryDetail extends Component<Props, State> {
           <NavigationLink to={'/photos'}>
             <i className="fa fa-angle-left" /> Tilbake
           </NavigationLink>
-          {actionGrant &&
-            actionGrant.includes('edit') && (
-              <div>
-                <NavigationLink onClick={() => this.toggleUpload()}>
-                  Last opp bilder
-                </NavigationLink>
-                <NavigationLink to={`/photos/${gallery.id}/edit`}>
-                  Rediger
-                </NavigationLink>
-              </div>
-            )}
+          {actionGrant && actionGrant.includes('edit') && (
+            <div>
+              <NavigationLink onClick={() => this.toggleUpload()}>
+                Last opp bilder
+              </NavigationLink>
+              <NavigationLink to={`/photos/${gallery.id}/edit`}>
+                Rediger
+              </NavigationLink>
+            </div>
+          )}
         </NavigationTab>
         <Gallery
           photos={pictures}
