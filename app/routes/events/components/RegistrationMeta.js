@@ -5,10 +5,17 @@ import { hasPaid } from '../utils';
 
 type Props = {
   registration: Object,
-  isPriced: boolean
+  isPriced: boolean,
+  registrationIndex: number,
+  hasSimpleWaitingList: boolean
 };
 
-const RegistrationMeta = ({ registration, isPriced }: Props) => (
+const RegistrationMeta = ({
+  registration,
+  isPriced,
+  registrationIndex,
+  hasSimpleWaitingList
+}: Props) => (
   <div>
     {!registration && (
       <div>
@@ -20,6 +27,11 @@ const RegistrationMeta = ({ registration, isPriced }: Props) => (
         {registration.pool ? (
           <div>
             <i className="fa fa-check-circle" /> Du er registrert
+          </div>
+        ) : hasSimpleWaitingList ? (
+          <div>
+            <i className="fa fa-pause-circle" /> Din plass i venteliste{' '}
+            <strong>{registrationIndex + 1}</strong>
           </div>
         ) : (
           <div>

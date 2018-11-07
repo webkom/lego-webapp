@@ -52,6 +52,8 @@ type Props = {
   pools: Array<Object>,
   registrations: Array<Object>,
   currentRegistration: Object,
+  currentRegistrationIndex: number,
+  hasSimpleWaitingList: boolean,
   waitingRegistrations: Array<Object>,
   register: ({
     eventId: string,
@@ -129,6 +131,8 @@ export default class EventDetail extends Component<Props> {
       pools,
       registrations,
       currentRegistration,
+      currentRegistrationIndex,
+      hasSimpleWaitingList,
       deleteEvent,
       follow,
       unfollow
@@ -261,6 +265,8 @@ export default class EventDetail extends Component<Props> {
                   <RegistrationMeta
                     registration={currentRegistration}
                     isPriced={event.isPriced}
+                    registrationIndex={currentRegistrationIndex}
+                    hasSimpleWaitingList={hasSimpleWaitingList}
                   />
                 )}
                 <Admin
