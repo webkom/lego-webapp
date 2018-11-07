@@ -52,6 +52,7 @@ type Props = {
   pools: Array<Object>,
   registrations: Array<Object>,
   currentRegistration: Object,
+  currentRegistrationIndex: number,
   waitingRegistrations: Array<Object>,
   register: ({
     eventId: string,

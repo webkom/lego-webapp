@@ -6,7 +6,7 @@ import { hasPaid } from '../utils';
 type Props = {
   registration: Object,
   isPriced: boolean,
-  registrationIndex?: Number
+  registrationIndex?: number
 };
 
 const RegistrationMeta = ({
