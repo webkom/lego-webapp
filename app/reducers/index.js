@@ -83,6 +83,7 @@ const reducers = {
   pages,
   penalties,
   podcasts,
+  polls,
   pools,
   quotes,
   readme,
@@ -159,6 +160,10 @@ export const galleryPictureSchema = new schema.Entity('galleryPictures', {
 export const gallerySchema = new schema.Entity('galleries');
 
 export const quoteSchema = new schema.Entity('quotes', {
+  comments: [commentSchema]
+});
+
+export const pollSchema = new schema.Entity('polls', {
   comments: [commentSchema]
 });
 

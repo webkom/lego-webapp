@@ -384,3 +384,11 @@ export const Podcast = {
   CREATE: generateStatuses('Podcast.CREATE'),
   UPDATE: generateStatuses('Podcast.UPDATE')
 };
+
+export const Poll = {
+  FETCH: generateStatuses('Poll.FETCH'),
+  FETCH_ALL: generateStatuses('Poll.FETCH_ALL'),
+  DELETE: generateStatuses('Poll.DELETE'),
+  CREATE: generateStatuses('Poll.CREATE'),
+  UPDATE: generateStatuses('Poll.UDATE')
+};
