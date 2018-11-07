@@ -19,7 +19,7 @@ type Props = {
  */
 function DisplayContent({ content, id, style, className }: Props) {
   return (
-    <div key={content} htmlId={id} style={style} className={className}>
+    <div key={content} id={id} style={style} className={className}>
       <Editor
         onChange={() => {}}
         onBlur={() => {}}
