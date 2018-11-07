@@ -44,7 +44,7 @@ export function createPoll(data: PollEntity) {
     );
 }
 
-export function deleteCompanyInterest(pollId: number) {
+export function deletePoll(pollId: number) {
       return callAPI({
         types: Poll.DELETE,
         endpoint: `/polls/${pollId}/`,
