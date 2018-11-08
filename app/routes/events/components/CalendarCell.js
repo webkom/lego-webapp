@@ -46,9 +46,11 @@ const renderEvent = ({
     <div>
       <h3 className={styles.eventItemTitle}>
         {title}
-        <Pill style={{ marginLeft: 10 }}>
-          {`${registrationCount} / ${totalCapacity}`}
-        </Pill>
+        {totalCapacity > 0 && (
+          <Pill style={{ marginLeft: 10 }}>
+            {`${registrationCount} / ${totalCapacity}`}
+          </Pill>
+        )}
       </h3>
 
       {description}
