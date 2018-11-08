@@ -75,11 +75,13 @@ export function EventItem({ event, showTags = true }: EventItemProps) {
       <div>
         <Link to={`/events/${event.id}`}>
           <h3 className={styles.eventItemTitle}>{event.title}</h3>
-          <Attendance
-            registrationCount={event.registrationCount}
-            totalCapacity={event.totalCapacity}
-            style={{ marginLeft: '5px', color: 'black' }}
-          />
+          {event.totalCapacity > 0 && (
+            <Attendance
+              registrationCount={event.registrationCount}
+              totalCapacity={event.totalCapacity}
+              style={{ marginLeft: '5px', color: 'black' }}
+            />
+          )}
         </Link>
 
         <div className={styles.eventTime}>
