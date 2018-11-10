@@ -1,14 +1,18 @@
 import React from 'react';
+
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import styles from './BrandPage.css';
 import Button from '../../../components/Button';
+import logosDos from 'app/assets/logos-dos.png';
+import logosDonts from 'app/assets/logos-donts.png';
+import { Flex } from 'app/components/Layout';
 
 const BrandPage = () =>
   <Content>
     <NavigationTab title="Brand Guidelines" />
     <section>
-      <div className={styles.root}>
+      <Flex className={styles.root}>
         <p>
           Hei, vi i PR har laget noen retningslinjer for å hjelpe deg å
           bruke vårt brand og design. For å bruke logoen og designet på
@@ -16,12 +20,19 @@ const BrandPage = () =>
           kontakt oss på <a className={styles.inlineLink} href="mailto:abakus@abakus.no">pr@abakus.no</a>
           og legg ved en mockup av hvordan du har tenkt til å bruke det.
         </p>
-        <h2>Bruk</h2>
-        <p>
-          Abakus{"'"} merker inkluderer Abakus-navnet, logoen og ord som
-          identifiserer oss. Vær så snill å ikke modifiser merkene eller bruk
-          dem på en forvirrende måte.
-        </p>
+        <Flex row>
+          <Flex column className={styles.colLeft}>
+            <h2>Bruk</h2>
+            <p>
+              Abakus{"'"} merker inkluderer Abakus-navnet, logoen og ord som
+              identifiserer oss. Vær så snill å ikke modifiser merkene eller bruk
+              dem på en forvirrende måte.
+            </p>
+          </Flex>
+          <Flex column className={styles.colRight}>
+            <img src={logosDos} width={200} />
+          </Flex>
+        </Flex>
         <h2>Logo</h2>
         <p>
           Det finnes to versjoner av Abakus-logoen. Én med svart tekst, laget
@@ -36,19 +47,28 @@ const BrandPage = () =>
           Når logoen brukes sammen med andre logoer, sørg for at det er en
           marg tilsvarende 200% av størrelsen til logoen.
         </p>
-        <b>Vi ber om at du er omtenksom og ikke:</b>
-        <ul>
-          <li>Bruker andre logoer eller lignende bilder til å representere Abakus</li>
-          <li>Roterer logoen</li>
-          <li>Endrer farger på logoen</li>
-          <li>Dekker til deler av logoen</li>
-          <li>Bruker gamle versjoner av merker eller logoen til å representere oss</li>
-        </ul>
-        <h2>Logoer i vektorformat</h2>
-        <Button>
-          <a href="https://github.com/abakus-ntnu/grafisk-profil/archive/master.zip" download="proposed_file_name">Last Ned</a>
-        </Button>
-      </div>
+        <Flex row>
+          <Flex column className={styles.colLeft}>
+            <b>Vi ber om at du er omtenksom og ikke:</b>
+            <ul>
+              <li>Bruker andre logoer eller lignende bilder til å representere Abakus</li>
+              <li>Roterer logoen</li>
+              <li>Endrer farger på logoen</li>
+              <li>Dekker til deler av logoen</li>
+              <li>Bruker gamle versjoner av merker eller logoen til å representere oss</li>
+            </ul>
+          </Flex>
+          <Flex column className={styles.colRight}>
+            <img src={logosDonts} width={200} />
+          </Flex>
+        </Flex>
+          <div>
+            <h2>Logoer i vektorformat</h2>
+            <Button>
+              <a href="https://github.com/abakus-ntnu/grafisk-profil/archive/master.zip" download="proposed_file_name">Last Ned</a>
+            </Button>
+          </div>
+      </Flex>
     </section>
   </Content>;
 

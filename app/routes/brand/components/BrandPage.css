@@ -2,6 +2,16 @@
 
 .root {
   color: var(--lego-text-gray);
+  flex-direction: column;
+}
+
+.colLeft {
+  flex: 3;
+}
+
+.colRight {
+  flex: 2;
+  align-items: center;
 }
 
 ul {
