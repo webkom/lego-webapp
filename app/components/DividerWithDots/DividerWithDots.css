@@ -1,0 +1,29 @@
+@import 'app/styles/variables.css';
+
+.vision__line {
+  border-left: 3px solid var(--lego-red);
+  display: flex;
+  flex-direction: column;
+  margin: 10px 2rem;
+  position: relative;
+}
+
+.dot {
+  height: 9px;
+  width: 9px;
+  background-color: var(--lego-red);
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  left: -6px;
+}
+
+.dotBottom {
+  height: 9px;
+  width: 9px;
+  background-color: var(--lego-red);
+  border-radius: 50%;
+  display: inline-block;
+  position: absolute;
+  bottom: 0;
+}

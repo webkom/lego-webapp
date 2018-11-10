@@ -1,0 +1,27 @@
+@import 'app/styles/variables.css';
+
+.vision__title {
+  font-size: 1.5rem;
+  color: var(--lego-red);
+}
+
+.vision__titleLeft {
+  text-align: right;
+}
+
+.vision__summary {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.vision__summaryLeft {
+  text-align: right;
+}
+
+.vision__paragraph {
+  opacity: 0.9;
+}
+
+.vision__paragraphLeft {
+  text-align: right;
+}

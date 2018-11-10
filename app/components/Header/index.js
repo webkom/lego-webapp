@@ -150,7 +150,7 @@ class Header extends Component<Props, State> {
                   Karriere
                 </Link>
               )}
-              <Link to="/pages/info/om-oss" activeClassName={styles.activeItem}>
+              <Link to="/pages/about" activeClassName={styles.activeItem}>
                 Om Abakus
               </Link>
             </div>

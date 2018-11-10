@@ -1,0 +1,23 @@
+.vision {
+  display: flex;
+  margin: 0 auto;
+  max-width: 44rem;
+}
+
+.vision__mainTitle {
+  font-size: 2rem;
+  line-height: 2.2rem;
+  text-align: right;
+  font-weight: bold;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.vision__sectionLeft {
+  flex-basis: 50%;
+}
+
+.vision__sectionRight {
+  flex-basis: 50%;
+  margin-top: 1.5rem;
+}
