@@ -1,0 +1,15 @@
+@import 'app/styles/variables.css';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 1rem 1rem;
+}
+
+.statistic {
+  font-size: 2.2rem;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+}

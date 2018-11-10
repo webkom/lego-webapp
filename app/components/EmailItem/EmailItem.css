@@ -1,0 +1,13 @@
+@import 'app/styles/variables.css';
+
+.container {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  flex-basis: 33.33333%;
+}
+
+.recipient {
+  font-style: italic;
+  margin-bottom: -4px;
+}

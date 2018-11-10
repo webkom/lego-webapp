@@ -1,0 +1,73 @@
+@import 'app/styles/variables.css';
+
+.pageContainer {
+  position: relative;
+  margin-bottom: 3rem;
+}
+
+.banner {
+  width: 100%;
+  max-width: 55rem;
+  display: block;
+  margin: auto auto 3rem;
+  object-fit: scale-down;
+}
+
+.statisticsContainer {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.whoWhatWhyContainer {
+  display: flex;
+}
+
+.locationContainer {
+  display: flex;
+}
+
+.emailContainer {
+  display: flex;
+}
+
+.committeeEmails {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.organizationContainer {
+  display: flex;
+}
+
+.title {
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.contactTitle {
+  color: var(--lego-red);
+  text-transform: uppercase;
+  font-size: 1.7rem;
+  text-align: center;
+}
+
+.contactTitleContainer {
+  width: 100%;
+  padding-bottom: 0.3rem;
+  max-width: 15rem;
+  margin: 0 auto 2rem;
+  border-bottom: 2px solid var(--lego-red);
+}
+
+.contactUsLink {
+  color: var(--lego-font-color);
+  font-weight: bold;
+  text-transform: uppercase;
+  position: absolute;
+  right: 30px;
+  top: 30px;
+  font-size: 1.3rem;
+}

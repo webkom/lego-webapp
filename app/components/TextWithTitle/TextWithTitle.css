@@ -1,0 +1,27 @@
+@import 'app/styles/variables.css';
+
+.container {
+  flex-basis: 33.333333%;
+  margin: 0 0.5rem;
+}
+
+.redTitle {
+  font-size: 1.2rem;
+  color: var(--lego-red);
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.smallerText {
+  font-family: 'Raleway', sans-serif;
+  line-height: 1.5rem;
+}
+
+.textContainer {
+  margin-bottom: 1.5rem;
+}
