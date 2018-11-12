@@ -163,7 +163,9 @@ class JoinEventForm extends Component<Props> {
       : false;
     const disabledForUser = !formOpen && !event.activationTime;
     const showPenaltyNotice =
-      event.heedPenalties && moment().isAfter(event.unregistrationDeadline);
+      event.heedPenalties &&
+      moment().isAfter(event.unregistrationDeadline) &&
+      registration.pool;
     const showCaptcha =
       !submitting && !registration && captchaOpen && event.useCaptcha;
     const showStripe =
