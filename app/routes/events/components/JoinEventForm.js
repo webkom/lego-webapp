@@ -25,7 +25,7 @@ type Event = Object;
 export type Props = {
   title?: string,
   event: Event,
-  registration: Object,
+  registration: ?Object,
   currentUser: Object,
   onSubmit: Object => void,
   onToken: () => void,
@@ -162,10 +162,12 @@ class JoinEventForm extends Component<Props> {
       ? isInvalid || isPristine || submitting
       : false;
     const disabledForUser = !formOpen && !event.activationTime;
-    const showPenaltyNotice =
+    const showPenaltyNotice = Boolean(
       event.heedPenalties &&
-      moment().isAfter(event.unregistrationDeadline) &&
-      registration.pool;
+        moment().isAfter(event.unregistrationDeadline) &&
+        registration &&
+        registration.pool
+    );
     const showCaptcha =
       !submitting && !registration && captchaOpen && event.useCaptcha;
     const showStripe =
