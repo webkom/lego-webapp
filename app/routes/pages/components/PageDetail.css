@@ -57,3 +57,26 @@
   width: 100%;
   object-fit: contain;
 }
+
+.heading {
+  text-align: center;
+  color: #c0392b;
+  margin: 50px 0 20px;
+}
+
+.leader {
+  margin: auto;
+}
+
+.members {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content: center;
+}
+
+.membersSection {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
