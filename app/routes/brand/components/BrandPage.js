@@ -58,6 +58,8 @@ const BrandPage = () =>
               <li>Dekker til deler av logoen</li>
               <li>Bruker gamle versjoner av merker eller logoen til å representere oss</li>
               <li>Endrer størrelsen eller forholdet mellom kula og teksten</li>
+              <li>Flytter kula eller teksten</li>
+              <li>Bruker kula for seg selv, fordi da blir det vanskelig å skjønne at det er Abakus-logoen</li>
             </ul>
           </Flex>
           <Flex column className={styles.colRight}>
