@@ -20,33 +20,34 @@ const BrandPage = () =>
           kontakt oss på <a className={styles.inlineLink} href="mailto:abakus@abakus.no">pr@abakus.no</a>
           og legg ved en mockup av hvordan du har tenkt til å bruke det.
         </p>
-        <Flex row>
-          <Flex column className={styles.colLeft}>
-            <h2>Bruk</h2>
+        <h2>Bruk</h2>
             <p>
               Abakus{"'"} merker inkluderer Abakus-navnet, logoen og ord som
               identifiserer oss. Vær så snill å ikke modifiser merkene eller bruk
               dem på en forvirrende måte.
+            </p>
+        <Flex row>
+          <Flex column className={styles.colLeft}>
+            <h2>Logo</h2>
+            <p>
+              Det finnes to versjoner av Abakus-logoen. Én med svart tekst, laget
+              for lyse bakgrunner og én med hvit tekst til bruk på mørke
+              bakgrunner. Bruk den som gir best kontrast til bakgrunnen!
+            </p>
+            <p>
+              Bruk logoen fra denne siden som er i høy oppløsning og ikke
+              et screenshot fra abakus.no eller Facebook.
+            </p>
+            <p>
+              Når logoen brukes sammen med andre logoer, sørg for at det er en
+              marg tilsvarende 200% av størrelsen til logoen.
             </p>
           </Flex>
           <Flex column className={styles.colRight}>
             <img src={logosDos} width={200} />
           </Flex>
         </Flex>
-        <h2>Logo</h2>
-        <p>
-          Det finnes to versjoner av Abakus-logoen. Én med svart tekst, laget
-          for lyse bakgrunner og én med hvit tekst til bruk på mørke
-          bakgrunner. Bruk den som gir best kontrast til bakgrunnen!
-        </p>
-        <p>
-          Bruk logoen fra denne siden som er i høy oppløsning og ikke
-          et screenshot fra abakus.no eller Facebook.
-        </p>
-        <p>
-          Når logoen brukes sammen med andre logoer, sørg for at det er en
-          marg tilsvarende 200% av størrelsen til logoen.
-        </p>
+
         <Flex row>
           <Flex column className={styles.colLeft}>
             <b>Vi ber om at du er omtenksom og ikke:</b>
@@ -56,6 +57,7 @@ const BrandPage = () =>
               <li>Endrer farger på logoen</li>
               <li>Dekker til deler av logoen</li>
               <li>Bruker gamle versjoner av merker eller logoen til å representere oss</li>
+              <li>Endrer størrelsen eller forholdet mellom kula og teksten</li>
             </ul>
           </Flex>
           <Flex column className={styles.colRight}>
