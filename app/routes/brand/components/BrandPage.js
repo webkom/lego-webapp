@@ -3,7 +3,7 @@ import React from 'react';
 import { Content } from 'app/components/Content';
 import NavigationTab from 'app/components/NavigationTab';
 import styles from './BrandPage.css';
-import Button from '../../../components/Button';
+import Button from 'app/components/Button';
 import logosDos from 'app/assets/logos-dos.png';
 import logosDonts from 'app/assets/logos-donts.png';
 import { Flex } from 'app/components/Layout';
