@@ -52,7 +52,7 @@ class Abacard extends React.Component<Props, State> {
           if (payload && payload.errorCode === 'not_registered') {
             alert('Bruker er ikke påmeldt på eventet!');
           } else if (payload && payload.errorCode === 'already_present') {
-            alert('Bruker er allerede satt som tilstede.');
+            alert(payload.error);
           } else {
             alert(
               `Det oppsto en uventet feil: ${JSON.stringify(payload || err)}`
