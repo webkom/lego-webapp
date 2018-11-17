@@ -56,8 +56,6 @@ a.transparent:hover {
   display: flex;
   width: 800px;
   flex-direction: column;
-  align-items: 'center';
-  justify-content: 'center';
 }
 
 .grid > li {

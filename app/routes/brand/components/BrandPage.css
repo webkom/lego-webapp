@@ -1,3 +1,26 @@
+@import 'app/styles/variables.css';
+
 .root {
-  color: red;
+  color: var(--lego-text-gray);
+  flex-direction: column;
+}
+
+.colLeft {
+  flex: 3;
+}
+
+.colRight {
+  flex: 2;
+  align-items: center;
+  padding-top: 10px;
+}
+
+ul {
+  list-style: outside;
+  padding-left: 1.5em;
+}
+
+.inlineLink {
+  display: inline-block;
+  padding-right: 5px;
 }
