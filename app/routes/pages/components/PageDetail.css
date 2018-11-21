@@ -1,13 +1,15 @@
 @import 'app/styles/variables.css';
 
+.cont {
+  padding: 0;
+}
+
 .root {
   composes: container from 'app/styles/utilities.css';
 }
 
 .title {
   font-size: 28px;
-
-  /** margin handled by .header **/
   margin: 0;
 }
 
@@ -25,15 +27,59 @@
   margin: 10px 0;
 }
 
+.header1 {
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 2rem;
+}
+
+.side {
+  width: 25%;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+  border-right: 2px solid var(--lego-red);
+}
+
 .sidebar {
   min-width: 150px;
   max-width: 230px;
   margin: 0 2em;
-  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
 
   @media (--mobile-device) {
     margin: 0;
   }
+}
+
+.sidebarPicture {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebarTop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebarBottom {
+  margin-top: 60px;
+}
+
+.main {
+  width: 100%;
+}
+
+.mainTxt {
+  width: 75%;
+  padding: 20px;
 }
 
 .action {
@@ -52,8 +98,18 @@
   object-fit: scale-down;
 }
 
+.oldImg {
+  filter: grayscale(100%);
+}
+
+.pictureInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .logo img {
-  height: 300px;
+  height: 275px;
   width: 100%;
   object-fit: contain;
 }

@@ -32,7 +32,7 @@ const HierarchySection = ({
       <li key="title">
         <p className={styles.header}>{title}</p>
       </li>
-    )}
+    )}{' '}
     {items.map((item, key) => (
       <li key={key}>
         <Link

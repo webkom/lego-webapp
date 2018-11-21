@@ -22,8 +22,26 @@ import HTTPError from 'app/routes/errors/HTTPError';
 
 const sections = {
   info: {
-    title: 'Informasjon',
+    title: 'Om Abakus',
     section: 'info',
+    pageSelector: selectFlatpageForPages,
+    hierarchySectionSelector: selectPagesForHierarchy,
+    PageRenderer: FlatpageRenderer,
+    fetchAll: fetchAll,
+    fetchItemActions: [fetchPage]
+  },
+  bedrifter: {
+    title: 'Bedrifter',
+    section: 'bedrifter',
+    pageSelector: selectFlatpageForPages,
+    hierarchySectionSelector: selectPagesForHierarchy,
+    PageRenderer: FlatpageRenderer,
+    fetchAll: fetchAll,
+    fetchItemActions: [fetchPage]
+  },
+  arrangementer: {
+    title: 'Arrangementer',
+    section: 'arrangementer',
     pageSelector: selectFlatpageForPages,
     hierarchySectionSelector: selectPagesForHierarchy,
     PageRenderer: FlatpageRenderer,
@@ -38,6 +56,24 @@ const sections = {
     PageRenderer: GroupRenderer,
     fetchAll: () => fetchAllWithType('komite'),
     fetchItemActions: [fetchGroup, fetchAllMemberships]
+  },
+  undergrupper: {
+    title: 'Undergrupper',
+    section: 'undergrupper',
+    pageSelector: selectFlatpageForPages,
+    hierarchySectionSelector: selectPagesForHierarchy,
+    PageRenderer: FlatpageRenderer,
+    fetchAll: fetchAll,
+    fetchItemActions: [fetchPage]
+  },
+  interessegrupper: {
+    title: 'Interessegrupper',
+    section: 'interessegrupper',
+    pageSelector: selectFlatpageForPages,
+    hierarchySectionSelector: selectPagesForHierarchy,
+    PageRenderer: FlatpageRenderer,
+    fetchAll: fetchAll,
+    fetchItemActions: [fetchPage]
   }
 };
 
