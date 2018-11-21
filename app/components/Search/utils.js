@@ -62,7 +62,7 @@ const LINKS: Array<Link> = [
   {
     key: 'quotes',
     title: 'Sitater',
-    url: '/quotes'
+    url: '/quotes/?filter=all'
   },
   {
     key: 'companies',
