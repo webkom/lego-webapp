@@ -3,13 +3,13 @@
 
 import React, { type Node } from 'react';
 import styles from './PageDetail.css';
-import { Link } from 'react-router';
 import { Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import PageHierarchy from './PageHierarchy';
 import { Content } from 'app/components/Content';
 import { readmeIfy } from 'app/components/ReadmeLogo';
 import DisplayContent from 'app/components/DisplayContent';
+import GroupMember from 'app/components/GroupMember';
 
 import type { HierarchySectionEntity } from './PageHierarchy';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
@@ -42,10 +42,6 @@ export const FlatpageRenderer = ({ page }: { page: PageEntity }) => (
   </article>
 );
 
-const RenderUser = ({ user }: Object) => (
-  <Link to={`/users/${user.username}`}>{user.fullName}</Link>
-);
-
 export const GroupRenderer = ({ page }: { page: Object }) => {
   const { membershipsByRole, text, logo } = page;
 
@@ -60,19 +56,28 @@ export const GroupRenderer = ({ page }: { page: Object }) => {
       )}
       <DisplayContent content={text} />
 
-      <h3>Medlemmer:</h3>
-      <ul>
-        {leaders.map(({ user }, key) => (
-          <li key={key}>
-            Leder: <RenderUser user={user} />
-          </li>
-        ))}
-        {members.map(({ user }, key) => (
-          <li key={key}>
-            <RenderUser user={user} />
-          </li>
-        ))}
-      </ul>
+      <h3 className={styles.heading}>MEDLEMMER</h3>
+      <div className={styles.membersSection}>
+        <div className={styles.leader}>
+          {leaders.map(({ user, profilePicture }, key) => (
+            <GroupMember
+              user={user}
+              profilePicture={profilePicture}
+              key={key}
+              leader
+            />
+          ))}
+        </div>
+        <div className={styles.members}>
+          {members.map(({ user, profilePicture }, key) => (
+            <GroupMember
+              user={user}
+              profilePicture={profilePicture}
+              key={key}
+            />
+          ))}
+        </div>
+      </div>
     </article>
   );
 };

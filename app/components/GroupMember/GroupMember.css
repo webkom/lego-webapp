@@ -1,0 +1,42 @@
+.member.leader {
+  color: red;
+  display: block;
+  text-align: center;
+  margin: auto;
+}
+
+.member.leader img {
+  border-color: #cca84c;
+}
+
+.member {
+  margin: 15px 10px;
+  flex: 1;
+  min-width: 120px;
+  font-style: italic;
+  line-height: 20px;
+  flex-grow: 0;
+  max-width: 100px;
+}
+
+.member img {
+  width: 100px;
+  display: block;
+  border-radius: 50%;
+  border: 4px solid #b8b8b8;
+  margin: auto;
+}
+
+.testing.leader {
+  max-width: 140px;
+}
+
+.title {
+  font-size: 12px;
+  font-style: normal;
+  margin: 5px 0 -3px 0;
+}
+
+.name {
+  margin-top: 5px;
+}
