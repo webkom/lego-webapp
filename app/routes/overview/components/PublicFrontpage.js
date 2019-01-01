@@ -7,7 +7,7 @@ import {
   ForgotPasswordForm
 } from 'app/components/LoginForm';
 import styles from './PublicFrontpage.css';
-import bekkLogo from 'app/assets/bekk_small.png';
+import netcompany from 'app/assets/netcompany_dark.png';
 import CompactEvents from './CompactEvents';
 import { Link } from 'react-router';
 import { Image } from 'app/components/Image';
@@ -155,13 +155,16 @@ class PublicFrontpage extends Component<Props, State> {
             </div>
 
             <div className={styles.cooperator}>
-              <a href="https://bekk.no" target="blank">
-                <img className={styles.sponsor} src={bekkLogo} alt="BEKK" />
+              <a href="https://www.netcompany.com/no" target="blank">
+                <img
+                  className={styles.sponsor}
+                  src={netcompany}
+                  alt="NETCOMPANY"
+                />
               </a>{' '}
-              Bekk er vår hovedsamarbeidspartner. De er et faglig sterkt og
-              kreativt drevet selskap, spesialisert innen strategi, teknologi og
-              design. Vi mener utviklingen drives av nysgjerrige hoder som
-              brenner for faget sitt og alltid søker nye utfordringer.
+              Vår nye hovedsamarbeidspartner er Netcompany. Hos Netcompany står
+              fag, innovasjon og samhold sterkt, og de er opptatt av å ta ansvar
+              – både for egne leveranser, for kundene og for sine ansatte.
             </div>
           </Flex>
 
