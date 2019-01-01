@@ -7,7 +7,7 @@ import Flex from 'app/components/Layout/Flex';
 import { hiddenOnMobile } from 'app/styles/utilities.css';
 import { Image } from 'app/components/Image';
 import { Link } from 'react-router';
-import bekkLogo from 'app/assets/bekk_white.png';
+import netcompany from 'app/assets/netcompany_white.svg';
 import Octocat from 'app/assets/Octocat.png';
 import Icon from 'app/components/Icon';
 import styles from './Footer.css';
@@ -77,7 +77,7 @@ const Footer = (props: Props) => (
             <p>7491 Trondheim</p>
           </div>
         </Flex>
-        <Image className={styles.bekk} src={bekkLogo} />
+        <Image className={styles.cooperator} src={netcompany} />
       </Flex>
     </div>
   </footer>
