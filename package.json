@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@webkom/react-prepare": "^0.5.5",
-    "animate.css": "3.5.2",
+    "animate.css": "3.7.0",
     "bunyan": "^1.8.12",
     "bunyan-pretty": "^0.0.1",
     "classnames": "2.2.6",
