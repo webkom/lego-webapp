@@ -15,8 +15,9 @@ import { sortSemesterChronologically } from './utils.js';
 const loadSemesters = (props, dispatch) =>
   dispatch(fetchSemestersForInterestform());
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   const semesters = selectCompanySemestersForInterestForm(state);
+  const { path } = props.route;
   if (!semesters) {
     return {
       edit: false
@@ -26,7 +27,7 @@ const mapStateToProps = state => {
   const allOtherOffers = Object.keys(OTHER_TYPES);
   const actionGrant = state.companyInterest.actionGrant;
 
-  const language = 'norwegian';
+  const language = path === 'interest' ? 'english' : 'norwegian';
   return {
     actionGrant,
     initialValues: {

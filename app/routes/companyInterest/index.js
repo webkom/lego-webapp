@@ -6,6 +6,10 @@ export default [
     ...resolveAsyncRoute(() => import('./CompanyInterestRoute'))
   },
   {
+    path: 'interest',
+    ...resolveAsyncRoute(() => import('./CompanyInterestRoute'))
+  },
+  {
     path: 'companyInterest',
     indexRoute: resolveAsyncRoute(() => import('./CompanyInterestListRoute')),
     childRoutes: [

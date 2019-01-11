@@ -151,6 +151,7 @@ const CompanyInterestPage = (props: Props) => {
   if (props.edit && !props.companyInterest) {
     return <LoadingIndicator loading />;
   }
+
   const onSubmit = data => {
     const newData = {
       companyName: data.companyName,

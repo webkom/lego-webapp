@@ -63,7 +63,8 @@ const mapStateToProps = (state, props) => {
     },
     companyInterestId,
     companyInterest,
-    edit: true
+    edit: true,
+    language: 'norwegian'
   };
 };
 
