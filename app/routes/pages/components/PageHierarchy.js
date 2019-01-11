@@ -34,7 +34,7 @@ const HierarchySection = ({
       </li>
     )}{' '}
     {items.map((item, key) => (
-      <li key={key}>
+      <li key={key} className={styles.links}>
         <Link
           style={{
             fontWeight: item.url === currentUrl ? 'bold' : 'normal'
