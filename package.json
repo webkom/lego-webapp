@@ -150,7 +150,7 @@
     "webpack": "^3.8.1",
     "webpack-dev-middleware": "^3.5.0",
     "webpack-hot-middleware": "^2.20.0",
-    "webpack-stats-plugin": "^0.1.5"
+    "webpack-stats-plugin": "^0.2.1"
   },
   "stylelint": {
     "extends": "stylelint-config-standard",
