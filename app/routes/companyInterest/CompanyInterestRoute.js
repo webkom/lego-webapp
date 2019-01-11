@@ -25,6 +25,8 @@ const mapStateToProps = state => {
   const allEvents = Object.keys(EVENT_TYPES);
   const allOtherOffers = Object.keys(OTHER_TYPES);
   const actionGrant = state.companyInterest.actionGrant;
+
+  const language = 'norwegian';
   return {
     actionGrant,
     initialValues: {
@@ -38,7 +40,8 @@ const mapStateToProps = state => {
       })),
       semesters: semesters.sort(sortSemesterChronologically)
     },
-    edit: false
+    edit: false,
+    language
   };
 };
 
