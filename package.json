@@ -103,7 +103,7 @@
     "babel-core": "^6.23.1",
     "babel-eslint": "^8.0.1",
     "babel-jest": "^21.0.2",
-    "babel-loader": "^7.1.1",
+    "babel-loader": "^8.0.5",
     "babel-plugin-lodash": "^3.2.11",
     "babel-plugin-transform-import-to-require": "^1.0.0",
     "babel-polyfill": "^6.23.0",
