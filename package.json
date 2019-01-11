@@ -95,7 +95,7 @@
     "slug": "^0.9.1",
     "source-map-support": "^0.5.8",
     "validator": "^10.10.0",
-    "victory": "^0.25.7",
+    "victory": "^31.1.0",
     "websocket.js": "^0.1.7"
   },
   "devDependencies": {
