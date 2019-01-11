@@ -38,7 +38,7 @@
     "animate.css": "3.5.2",
     "bunyan": "^1.8.12",
     "bunyan-pretty": "^0.0.1",
-    "classnames": "2.2.5",
+    "classnames": "2.2.6",
     "cookie-parser": "^1.4.3",
     "draft-convert": "^2.0.1",
     "draft-js": "^0.10.5",
