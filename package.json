@@ -72,7 +72,7 @@
     "react-infinite-scroller": "^1.0.15",
     "react-motion": "^0.5.1",
     "react-notification": "^6.6.0",
-    "react-overlays": "0.8.3",
+    "react-overlays": "1.1.1",
     "react-portal": "^4.0.0-rc.0",
     "react-redux": "^6.0.0",
     "react-router": "^4.3.1",
