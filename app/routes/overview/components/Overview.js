@@ -23,6 +23,8 @@ import NextEvent from './NextEvent';
 type Props = {
   frontpage: Array<Object>,
   readmes: Array<Object>,
+  poll: Object,
+  votePoll: () => Promise<*>,
   loadingFrontpage: boolean
 };
 

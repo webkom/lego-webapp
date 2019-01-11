@@ -36,6 +36,7 @@ import notificationSettings from './notificationSettings';
 import galleries from './galleries';
 import comments from './comments';
 import pages from './pages';
+import polls from './polls';
 import companyInterest from './companyInterest';
 import joblistings from './joblistings';
 import announcements from './announcements';
@@ -208,7 +209,8 @@ export const meetingSchema = new schema.Entity('meetings', {
 });
 export const frontpageSchema = new schema.Entity('frontpage', {
   events: [eventSchema],
-  articles: [articleSchema]
+  articles: [articleSchema],
+  poll: pollSchema
 });
 export const surveySchema = new schema.Entity('surveys', {
   event: eventSchema

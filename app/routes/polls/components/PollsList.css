@@ -1,0 +1,5 @@
+@import 'app/styles/variables.css';
+
+.pollItem {
+  color: var(--lego-font-color);
+}

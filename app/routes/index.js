@@ -23,6 +23,7 @@ import surveys from './surveys';
 import tags from './tags';
 import brand from './brand';
 import userValidator from './userValidator';
+import polls from './polls';
 
 export default {
   path: '/',
@@ -50,6 +51,7 @@ export default {
     surveys,
     tags,
     brand,
+    polls,
     userValidator,
     /* 
      This will eat all routes that are written after this 

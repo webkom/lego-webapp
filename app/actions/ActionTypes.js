@@ -390,5 +390,5 @@ export const Poll = {
   FETCH_ALL: generateStatuses('Poll.FETCH_ALL'),
   DELETE: generateStatuses('Poll.DELETE'),
   CREATE: generateStatuses('Poll.CREATE'),
-  UPDATE: generateStatuses('Poll.UDATE')
+  UPDATE: generateStatuses('Poll.UPDATE')
 };

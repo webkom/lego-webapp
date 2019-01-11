@@ -1,3 +1,6 @@
+// @flow
+
+import { createSelector } from 'reselect';
 import createEntityReducer from '../utils/createEntityReducer';
 import { Poll } from '../actions/ActionTypes';
 
@@ -17,7 +20,7 @@ type OptionEntity = {
 export default createEntityReducer({
   key: 'polls',
   types: {
-    fetch: Poll.FETCH,
+    fetch: [Poll.FETCH, Poll.FETCH_ALL],
     mutate: Poll.CREATE
   },
   mutate(state, action) {
@@ -32,3 +35,20 @@ export default createEntityReducer({
     }
   }
 });
+
+export const selectPolls = createSelector(
+  state => state.polls.byId,
+  state => state.polls.items,
+  (pollsById, pollsIds) => {
+    return pollsIds.map(id => pollsById[id]);
+  }
+);
+
+export const selectPollsById = createSelector(
+  selectPolls,
+  (state, pollsId) => pollsId,
+  (polls, pollsId) => {
+    if (!polls || !pollsId) return {};
+    return polls.find(polls => Number(polls.id) === Number(pollsId));
+  }
+);
