@@ -138,7 +138,7 @@
     "prettier": "1.15.3",
     "react-docgen": "^2.18.0",
     "react-hot-loader": "4.6.3",
-    "react-styleguidist": "^6.0.30",
+    "react-styleguidist": "^8.0.6",
     "redux-mock-store": "^1.2.2",
     "relay-compiler": "^1.6.2",
     "start-server-webpack-plugin": "^2.1.2",
