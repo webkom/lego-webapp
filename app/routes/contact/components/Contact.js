@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import type { Group } from 'app/models';
 import { Content } from 'app/components/Content';
 import ContactForm from './ContactForm';
 import type { ContactForm as ContactFormType } from 'app/reducers/contact';

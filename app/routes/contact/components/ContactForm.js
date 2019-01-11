@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Field } from 'redux-form';
+import type { Group } from 'app/models';
 
 import Button from 'app/components/Button';
 import {
@@ -22,11 +23,6 @@ type Props = FieldProps & {
   change: (field: string, value: boolean) => void,
   loggedIn: boolean,
   groups: Array<Group>
-};
-
-type Option = {
-  value: ID,
-  label: string
 };
 
 const ContactForm = (props: Props) => {
