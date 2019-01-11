@@ -183,7 +183,8 @@ class JoinEventForm extends Component<Props> {
       <Flex column className={styles.join}>
         {!formOpen && event.activationTime && (
           <div>
-            Åpner <Time time={event.activationTime} format="nowToTimeInWords" />
+            {new Date(event.activationTime) < new Date() ? 'Åpnet ' : 'Åpner '}
+            <Time time={event.activationTime} format="nowToTimeInWords" />
           </div>
         )}
         {disabledForUser && (
