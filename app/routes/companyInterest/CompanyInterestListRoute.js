@@ -35,7 +35,8 @@ const mapStateToProps = (state, props) => {
       semesterObj != null
         ? semesterToText({
             semester: semesterObj.semester,
-            year: semesterObj.year
+            year: semesterObj.year,
+            language: 'norwegian'
           })
         : 'Vis alle semestre'
   };

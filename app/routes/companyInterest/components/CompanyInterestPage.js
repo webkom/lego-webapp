@@ -30,11 +30,11 @@ export const EVENT_TYPES = {
   },
   course: {
     norwegian: 'Faglig arrangement',
-    english: 'Academic event'
+    english: 'Course or workshop'
   },
   bedex: {
     norwegian: 'Bedex',
-    english: 'BedEX'
+    english: 'BedEx'
   },
   other: {
     norwegian: 'Alternativt arrangement',
@@ -59,7 +59,8 @@ export const OTHER_TYPES = {
   },
   itdagene: {
     norwegian: 'Stand på itDAGENE',
-    english: 'Stand during itDAGENE'
+    english:
+      'Stand during itDAGENE, an independent career fair for IT students at NTNU'
   }
 };
 
@@ -136,7 +137,7 @@ const OtherBox = ({ fields, language }: FieldProps) => (
 );
 
 type Props = FieldProps & {
-  actionGrant: Array<String>,
+  allowedBdb: boolean,
   onSubmit: CompanyInterestEntity => Promise<*>,
   push: string => void,
   events: Array<Object>,
@@ -170,12 +171,10 @@ const CompanyInterestPage = (props: Props) => {
     };
 
     return props
-      .onSubmit(newData)
+      .onSubmit(newData, language === 'english')
       .then(() =>
         props.push(
-          props.actionGrant && props.actionGrant.includes('edit')
-            ? '/companyInterest/'
-            : '/pages/info/for-bedrifter'
+          props.allowedBdb ? '/companyInterest/' : '/pages/info/for-bedrifter'
         )
       )
       .catch(err => {
@@ -203,7 +202,7 @@ const CompanyInterestPage = (props: Props) => {
     contactPerson: {
       header: {
         norwegian: 'Kontaktperson',
-        english: 'Contact person'
+        english: 'Your contact person'
       },
       placeholder: {
         norwegian: 'Kari Nordmann',
@@ -232,7 +231,7 @@ const CompanyInterestPage = (props: Props) => {
     },
     create: {
       norwegian: 'Opprett bedriftsinteresse',
-      english: 'Send'
+      english: 'Submit'
     }
   };
 

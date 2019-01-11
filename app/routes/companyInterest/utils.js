@@ -57,7 +57,7 @@ export const interestText = {
       'mulig måte, ønsker vi at dere skriver litt om hvordan dere ' +
       'ønsker å gjennomføre arrangementet.',
     english:
-      'Please explain your expectations for the event to help us take your preferences ' +
+      'Please explain your expectations and plans for the event to help us take your preferences ' +
       'into consideration.'
   },
   text: {
@@ -68,8 +68,8 @@ export const interestText = {
         'tenkt dere å gjøre i kommentarfeltet. Vi i Abakus ønsker å kunne tilby ' +
         'et bredt spekter av arrangementer som er gunstig for våre studenter. ',
       english:
-        'If you want an event out of the ordinary, you can check the “other” box and ' +
-        'write a comment explaining what you have in mind. In Abakus, we want to ' +
+        'If you wish to host something different than a traditional event, you can check the “other” box and ' +
+        'write a comment explaining what you have in mind. Abakus wishes to ' +
         'offer a wide range of events that are beneficial for our students. '
     },
     second: {
@@ -78,9 +78,8 @@ export const interestText = {
         'som for eksempel hvilken teknologi dere ønsker å lære bort hvis dere ' +
         'får faglig arrangement.',
       english:
-        'The comment box can also be used for other types of information, for example' +
-        'what type(s) of technology you would like to show our students if you are ' +
-        'holding an academic event.'
+        'The comment box can also be used for other types of information, such as ' +
+        'which technologies you would like to present for our students when hosting a course or a workshop.'
     }
   }
 };

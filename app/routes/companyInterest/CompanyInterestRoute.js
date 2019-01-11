@@ -25,11 +25,11 @@ const mapStateToProps = (state, props) => {
   }
   const allEvents = Object.keys(EVENT_TYPES);
   const allOtherOffers = Object.keys(OTHER_TYPES);
-  const actionGrant = state.companyInterest.actionGrant;
+  const allowedBdb = state.allowed.bdb;
 
-  const language = path === 'interest' ? 'english' : 'norwegian';
+  const language = path === 'interest-form' ? 'english' : 'norwegian';
   return {
-    actionGrant,
+    allowedBdb,
     initialValues: {
       events: allEvents.map(event => ({
         name: event,

@@ -18,7 +18,6 @@ import { SemesterNavigation } from 'app/routes/companyInterest/utils';
 import { createValidator, required } from 'app/utils/validation';
 
 type Props = FieldProps & {
-  actionGrant: Array<String>,
   onSubmit: CompanySemesterEntity => Promise<*>,
   push: string => void,
   events: Array<Object>,
@@ -33,7 +32,9 @@ const CompanySemesterGUI = (props: Props) => {
     <Flex column>
       {semesters.map((semester, index) => (
         <Flex key={index} className={styles.guiBoxes}>
-          <div className={styles.checkboxSpan}>{semesterToText(semester)}</div>
+          <div className={styles.checkboxSpan}>
+            {semesterToText({ ...semester, language: 'norwegian' })}
+          </div>
           <Icon
             name="close-circle"
             onClick={() =>
