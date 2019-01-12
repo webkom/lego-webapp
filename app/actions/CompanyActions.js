@@ -405,7 +405,8 @@ export function editSemester({
           errorMessage: 'Endring av semester feilet',
           successMessage: `${semesterToText({
             semester,
-            year
+            year,
+            language: 'norwegian'
           })} er nå ${activeInterestForm ? 'aktivt' : 'deaktivert'}!`
         }
       })

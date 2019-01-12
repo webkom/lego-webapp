@@ -15,8 +15,9 @@ import { sortSemesterChronologically } from './utils.js';
 const loadSemesters = (props, dispatch) =>
   dispatch(fetchSemestersForInterestform());
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, props) => {
   const semesters = selectCompanySemestersForInterestForm(state);
+  const { path } = props.route;
   if (!semesters) {
     return {
       edit: false
@@ -24,9 +25,11 @@ const mapStateToProps = state => {
   }
   const allEvents = Object.keys(EVENT_TYPES);
   const allOtherOffers = Object.keys(OTHER_TYPES);
-  const actionGrant = state.companyInterest.actionGrant;
+  const allowedBdb = state.allowed.bdb;
+
+  const language = path === 'register-interest' ? 'english' : 'norwegian';
   return {
-    actionGrant,
+    allowedBdb,
     initialValues: {
       events: allEvents.map(event => ({
         name: event,
@@ -38,7 +41,8 @@ const mapStateToProps = state => {
       })),
       semesters: semesters.sort(sortSemesterChronologically)
     },
-    edit: false
+    edit: false,
+    language
   };
 };
 

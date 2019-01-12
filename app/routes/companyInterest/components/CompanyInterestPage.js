@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { semesterToText } from '../utils';
+import { interestText, semesterToText } from '../utils';
 import styles from './CompanyInterest.css';
 import {
   TextEditor,
@@ -16,23 +16,55 @@ import Flex from 'app/components/Layout/Flex';
 import { Content } from 'app/components/Content';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import Flag from 'react-world-flags';
 
 import { createValidator, required, isEmail } from 'app/utils/validation';
+import { FlexRow } from '../../../components/FlexBox';
+import { Link } from 'react-router';
 
 export const EVENT_TYPES = {
-  company_presentation: 'Bedriftspresentasjon',
-  lunch_presentation: 'Lunsjpresentasjon',
-  course: 'Faglig arrangement',
-  bedex: 'Bedex',
-  other: 'Alternativt arrangement',
-  sponsor:
-    'Revysponsor og bedriftspresentasjon i forbindelse med Abakus-revyen 2019'
+  company_presentation: {
+    norwegian: 'Bedriftspresentasjon',
+    english: 'Company presentation'
+  },
+  lunch_presentation: {
+    norwegian: 'Lunsjpresentasjon',
+    english: 'Lunch presentation'
+  },
+  course: {
+    norwegian: 'Faglig arrangement',
+    english: 'Course or workshop'
+  },
+  bedex: {
+    norwegian: 'Bedex',
+    english: 'BedEx'
+  },
+  other: {
+    norwegian: 'Alternativt arrangement',
+    english: 'Other event'
+  },
+  sponsor: {
+    norwegian:
+      'Revysponsor og bedriftspresentasjon i forbindelse med Abakus-revyen 2019',
+    english:
+      'Sponsor of the Abakus-revue and a company presentation before the revue'
+  }
 };
 
 export const OTHER_TYPES = {
-  readme: 'Annonsere i readme',
-  collaboration: 'Samarbeid med andre linjeforeninger',
-  itdagene: 'Stand på itDAGENE'
+  readme: {
+    norwegian: 'Annonsere i readme',
+    english: 'Advertisement in readme'
+  },
+  collaboration: {
+    norwegian: 'Samarbeid med andre linjeforeninger',
+    english: `Event in collaboration with other student organizations`
+  },
+  itdagene: {
+    norwegian: 'Stand på itDAGENE',
+    english:
+      'Stand during itDAGENE, an independent career fair for IT students at NTNU'
+  }
 };
 
 const eventToString = event =>
@@ -41,7 +73,7 @@ const eventToString = event =>
 const otherOffersToString = offer =>
   Object.keys(OTHER_TYPES)[Number(offer.charAt(offer.length - 2))];
 
-const SemesterBox = ({ fields }: FieldProps) => (
+const SemesterBox = ({ fields, language }: FieldProps) => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((item, index) => (
       <Flex key={index}>
@@ -55,7 +87,7 @@ const SemesterBox = ({ fields }: FieldProps) => (
             />
           </div>
           <span className={styles.checkboxSpan}>
-            {semesterToText(fields.get(index))}
+            {semesterToText({ ...fields.get(index), language })}
           </span>
         </label>
       </Flex>
@@ -63,7 +95,7 @@ const SemesterBox = ({ fields }: FieldProps) => (
   </Flex>
 );
 
-const EventBox = ({ fields }: FieldProps) => (
+const EventBox = ({ fields, language }: FieldProps) => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
       <Flex key={index}>
@@ -77,7 +109,7 @@ const EventBox = ({ fields }: FieldProps) => (
             />
           </div>
           <span className={styles.checkboxSpan}>
-            {EVENT_TYPES[eventToString(key)]}
+            {EVENT_TYPES[eventToString(key)][language]}
           </span>
         </label>
       </Flex>
@@ -85,7 +117,7 @@ const EventBox = ({ fields }: FieldProps) => (
   </Flex>
 );
 
-const OtherBox = ({ fields }: FieldProps) => (
+const OtherBox = ({ fields, language }: FieldProps) => (
   <Flex column className={styles.checkboxWrapper}>
     {fields.map((key, index) => (
       <Flex key={index}>
@@ -99,7 +131,7 @@ const OtherBox = ({ fields }: FieldProps) => (
             />
           </div>
           <span className={styles.checkboxSpan}>
-            {OTHER_TYPES[otherOffersToString(key)]}
+            {OTHER_TYPES[otherOffersToString(key)][language]}
           </span>
         </label>
       </Flex>
@@ -107,21 +139,27 @@ const OtherBox = ({ fields }: FieldProps) => (
   </Flex>
 );
 
+const LanguageFlag = ({ isEnglish }: { isEnglish: boolean }) => {
+  return <Flag code={isEnglish ? 'nor' : 'gbr'} style={{ height: '30px' }} />;
+};
+
 type Props = FieldProps & {
-  actionGrant: Array<String>,
+  allowedBdb: boolean,
   onSubmit: CompanyInterestEntity => Promise<*>,
   push: string => void,
   events: Array<Object>,
   semesters: Array<CompanySemesterEntity>,
   otherOffers: Array<Object>,
   edit: boolean,
-  companyInterest?: CompanyInterestEntity
+  companyInterest?: CompanyInterestEntity,
+  language: string
 };
 
 const CompanyInterestPage = (props: Props) => {
   if (props.edit && !props.companyInterest) {
     return <LoadingIndicator loading />;
   }
+
   const onSubmit = data => {
     const newData = {
       companyName: data.companyName,
@@ -140,12 +178,10 @@ const CompanyInterestPage = (props: Props) => {
     };
 
     return props
-      .onSubmit(newData)
+      .onSubmit(newData, isEnglish)
       .then(() =>
         props.push(
-          props.actionGrant && props.actionGrant.includes('edit')
-            ? '/companyInterest/'
-            : '/pages/info/for-bedrifter'
+          props.allowedBdb ? '/companyInterest/' : '/pages/info/for-bedrifter'
         )
       )
       .catch(err => {
@@ -155,26 +191,88 @@ const CompanyInterestPage = (props: Props) => {
       });
   };
 
+  const labels = {
+    mainHeading: {
+      norwegian: 'Meld interesse',
+      english: 'Contact us'
+    },
+    companyName: {
+      header: {
+        norwegian: 'Navn på bedrift',
+        english: 'Company'
+      },
+      placeholder: {
+        norwegian: 'Bedriftsnavn',
+        english: 'Company name'
+      }
+    },
+    contactPerson: {
+      header: {
+        norwegian: 'Kontaktperson',
+        english: 'Your contact person'
+      },
+      placeholder: {
+        norwegian: 'Kari Nordmann',
+        english: 'Jon Smith'
+      }
+    },
+    mail: {
+      norwegian: 'Mail',
+      english: 'E-Mail'
+    },
+    semester: {
+      norwegian: 'Semester',
+      english: 'Semester'
+    },
+    events: {
+      norwegian: 'Arrangementer',
+      english: 'Events'
+    },
+    otherOffers: {
+      norwegian: 'Annet',
+      english: 'Other'
+    },
+    comment: {
+      norwegian: 'Kommentar',
+      english: 'Comment'
+    },
+    create: {
+      norwegian: 'Opprett bedriftsinteresse',
+      english: 'Submit'
+    }
+  };
+
+  const { language } = props;
+  const isEnglish = language === 'english';
+
   return (
     <Content>
       <Form onSubmit={props.handleSubmit(onSubmit)}>
-        <h1 className={styles.mainHeading}>{'Meld interesse'}</h1>
+        <FlexRow alignItems={'center'} justifyContent={'space-between'}>
+          <h1 className={styles.mainHeading}>{labels.mainHeading[language]}</h1>
+          <Link
+            to={isEnglish ? '/interesse' : '/register-interest'}
+            style={{ display: props.edit ? 'none' : 'block' }}
+          >
+            <LanguageFlag isEnglish={isEnglish} />
+          </Link>
+        </FlexRow>
         <Field
-          label="Navn på bedrift"
-          placeholder="Bedriftsnavn"
+          label={labels.companyName.header[language]}
+          placeholder={labels.companyName.placeholder[language]}
           name="companyName"
           component={TextInput.Field}
           required
         />
         <Field
-          label="Kontaktperson"
-          placeholder="Ola Nordmann"
+          label={labels.contactPerson.header[language]}
+          placeholder={labels.contactPerson.placeholder[language]}
           name="contactPerson"
           component={TextInput.Field}
           required
         />
         <Field
-          label="Mail"
+          label={labels.mail[language]}
           placeholder="example@gmail.com"
           name="mail"
           component={TextInput.Field}
@@ -182,62 +280,63 @@ const CompanyInterestPage = (props: Props) => {
         />
 
         <Flex wrap justifyContent="space-between">
-          <Flex column style={{ width: '350px' }}>
+          <Flex column className={styles.interestBox}>
             <label htmlFor="semesters" className={styles.heading}>
-              Semester
+              {labels.semester[language]}
             </label>
             <FieldArray
               label="semesters"
               name="semesters"
+              language={language}
               component={SemesterBox}
             />
           </Flex>
 
-          <Flex column style={{ width: '350px' }}>
+          <Flex column className={styles.interestBox}>
             <label htmlFor="events" className={styles.heading}>
-              Arrangementer
+              {labels.events[language]}
             </label>
-            <FieldArray name="events" component={EventBox} />
+            <FieldArray
+              name="events"
+              language={language}
+              component={EventBox}
+            />
           </Flex>
 
-          <Flex column styles={{ width: '350px' }}>
+          <Flex column className={styles.interestBox}>
             <label htmlFor="otherOffers" className={styles.heading}>
-              Annet
+              {labels.otherOffers[language]}
             </label>
-            <FieldArray name="otherOffers" component={OtherBox} />
+            <FieldArray
+              name="otherOffers"
+              language={language}
+              component={OtherBox}
+            />
           </Flex>
         </Flex>
 
         <div className={styles.underline}>
-          Dersom dere ønsker noe utenfor de vanlige rammene, huk gjerne av på
-          “Alternativt arrangement” og skriv en kommentar om hva dere kunne
-          tenkt dere å gjøre i kommentarfeltet. Vi i Abakus ønsker å kunne tilby
-          et bredt spekter av arrangementer som er gunstig for våre studenter.
+          {interestText.text.first[language]}
           <br />
           <br />
-          Kommentarfeltet kan også brukes til å spesifisere annen informasjon,
-          som for eksempel hvilken teknologi dere ønsker å lære bort hvis dere
-          får faglig arrangement.
+          {interestText.text.second[language]}
         </div>
 
         <Field
-          placeholder={
-            'For at vi skal kunne legge tilrette for deres ønsker på best ' +
-            'mulig måte, ønsker vi at dere skriver litt om hvordan dere ' +
-            'ønsker å gjennomføre arrangementet.'
-          }
+          placeholder={interestText.comment[language]}
           name="comment"
           component={TextEditor.Field}
           rows={10}
           className={styles.textEditor}
-          label="Kommentar"
+          label={labels.comment[language]}
+          required
         />
 
         <Flex column className={styles.content}>
           <Button type="submit" submit>
             {props.edit
               ? 'Oppdater bedriftsinteresse'
-              : 'Opprett bedriftsinteresse'}
+              : labels.create[language]}
           </Button>
         </Flex>
       </Form>

@@ -140,7 +140,7 @@ class CompanyInterestList extends Component<Props, State> {
           id,
           year,
           semester,
-          label: semesterToText(semesterObj)
+          label: semesterToText({ ...semesterObj, language: 'norwegian' })
         };
       })
     ].sort((o1, o2) => {

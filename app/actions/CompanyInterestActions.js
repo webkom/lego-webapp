@@ -29,7 +29,10 @@ export function fetchCompanyInterest(companyInterestId: number) {
   });
 }
 
-export function createCompanyInterest(data: CompanyInterestEntity): Thunk<*> {
+export function createCompanyInterest(
+  data: CompanyInterestEntity,
+  isEnglish: boolean
+): Thunk<*> {
   return dispatch => {
     return dispatch(
       callAPI({
@@ -43,7 +46,13 @@ export function createCompanyInterest(data: CompanyInterestEntity): Thunk<*> {
         }
       })
     ).then(() =>
-      dispatch(addToast({ message: 'Bedriftsinteresse opprettet!' }))
+      dispatch(
+        addToast({
+          message: isEnglish
+            ? 'Submission successful!'
+            : 'Bedriftsinteresse opprettet!'
+        })
+      )
     );
   };
 }
