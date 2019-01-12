@@ -2,6 +2,7 @@
 
 import React from 'react';
 
+import type { Group } from 'app/models';
 import { Content } from 'app/components/Content';
 import ContactForm from './ContactForm';
 import type { ContactForm as ContactFormType } from 'app/reducers/contact';
@@ -12,13 +13,14 @@ type Props = FieldProps & {
   addToast: ({ message: string }) => void,
   reset: (form: string) => void,
   change: (field: string, value: boolean) => void,
-  loggedIn: boolean
+  loggedIn: boolean,
+  groups: Array<Group>
 };
 
 const Contact = (props: Props) => {
   return (
     <Content>
-      <h1>Kontakt HS</h1>
+      <h1>Kontaktskjema for Abakus</h1>
       <ContactForm {...props} />
     </Content>
   );

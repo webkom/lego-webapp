@@ -7,13 +7,26 @@ import { reduxForm, reset, change } from 'redux-form';
 import { createValidator, required, maxLength } from 'app/utils/validation';
 import { sendContactMessage } from 'app/actions/ContactActions';
 import { addToast } from 'app/actions/ToastActions';
+import { selectGroupsWithType } from 'app/reducers/groups';
+import { fetchAllWithType } from 'app/actions/GroupActions';
+import prepare from 'app/utils/prepare';
 import Contact from './components/Contact';
 
 const validate = createValidator({
+  recipient_group: [required()],
   title: [required(), maxLength(80)],
   message: [required()],
   captchaResponse: [required('Captcha er ikke validert')]
 });
+
+const loadData = (props, dispatch) => dispatch(fetchAllWithType('komite'));
+
+const mapStateToProps = (state, props) => {
+  const groups = selectGroupsWithType(state, { groupType: 'komite' });
+  return {
+    groups
+  };
+};
 
 const mapDispatchToProps = {
   sendContactMessage,
@@ -23,8 +36,9 @@ const mapDispatchToProps = {
 };
 
 export default compose(
+  prepare(loadData),
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   ),
   reduxForm({
