@@ -27,7 +27,7 @@ const mapStateToProps = (state, props) => {
   const allOtherOffers = Object.keys(OTHER_TYPES);
   const allowedBdb = state.allowed.bdb;
 
-  const language = path === 'interest-form' ? 'english' : 'norwegian';
+  const language = path === 'register-interest' ? 'english' : 'norwegian';
   return {
     allowedBdb,
     initialValues: {

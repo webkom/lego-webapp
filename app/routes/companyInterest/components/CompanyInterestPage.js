@@ -16,8 +16,11 @@ import Flex from 'app/components/Layout/Flex';
 import { Content } from 'app/components/Content';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
+import Flag from 'react-world-flags';
 
 import { createValidator, required, isEmail } from 'app/utils/validation';
+import { FlexRow } from '../../../components/FlexBox';
+import { Link } from 'react-router';
 
 export const EVENT_TYPES = {
   company_presentation: {
@@ -136,6 +139,10 @@ const OtherBox = ({ fields, language }: FieldProps) => (
   </Flex>
 );
 
+const LanguageFlag = ({ isEnglish }: { isEnglish: boolean }) => {
+  return <Flag code={isEnglish ? 'nor' : 'gbr'} style={{ height: '30px' }} />;
+};
+
 type Props = FieldProps & {
   allowedBdb: boolean,
   onSubmit: CompanyInterestEntity => Promise<*>,
@@ -171,7 +178,7 @@ const CompanyInterestPage = (props: Props) => {
     };
 
     return props
-      .onSubmit(newData, language === 'english')
+      .onSubmit(newData, isEnglish)
       .then(() =>
         props.push(
           props.allowedBdb ? '/companyInterest/' : '/pages/info/for-bedrifter'
@@ -236,11 +243,20 @@ const CompanyInterestPage = (props: Props) => {
   };
 
   const { language } = props;
+  const isEnglish = language === 'english';
 
   return (
     <Content>
       <Form onSubmit={props.handleSubmit(onSubmit)}>
-        <h1 className={styles.mainHeading}>{labels.mainHeading[language]}</h1>
+        <FlexRow alignItems={'center'} justifyContent={'space-between'}>
+          <h1 className={styles.mainHeading}>{labels.mainHeading[language]}</h1>
+          <Link
+            to={isEnglish ? '/interesse' : '/register-interest'}
+            style={{ display: props.edit ? 'none' : 'block' }}
+          >
+            <LanguageFlag isEnglish={isEnglish} />
+          </Link>
+        </FlexRow>
         <Field
           label={labels.companyName.header[language]}
           placeholder={labels.companyName.placeholder[language]}
@@ -313,6 +329,7 @@ const CompanyInterestPage = (props: Props) => {
           rows={10}
           className={styles.textEditor}
           label={labels.comment[language]}
+          required
         />
 
         <Flex column className={styles.content}>

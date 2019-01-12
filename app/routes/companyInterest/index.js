@@ -6,7 +6,7 @@ export default [
     ...resolveAsyncRoute(() => import('./CompanyInterestRoute'))
   },
   {
-    path: 'interest-form',
+    path: 'register-interest',
     ...resolveAsyncRoute(() => import('./CompanyInterestRoute'))
   },
   {
