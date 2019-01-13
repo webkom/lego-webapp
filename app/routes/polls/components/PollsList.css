@@ -1,5 +1,27 @@
 @import 'app/styles/variables.css';
+.pollsList {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  grid-gap: 20px;
+}
 
-.pollItem {
+.pollListItem {
   color: var(--lego-font-color);
+  background-color: var(--lego-card-color);
+  border: 1px solid rgba(222, 220, 220, 1);
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.icon {
+  color: var(--lego-red-color)
+}
+
+.heading {
+  margin-left: 15px;
+}
+
+.answeredText {
+  float: right;
 }

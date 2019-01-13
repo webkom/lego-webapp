@@ -52,3 +52,12 @@ export const selectPollsById = createSelector(
     return polls.find(polls => Number(polls.id) === Number(pollsId));
   }
 );
+
+export const selectPollByTag = createSelector(
+  selectPolls,
+  (state, tag) => tag,
+  (polls, tag) => {
+    if (!polls || !tag) return {};
+    return polls.find(polls => polls.tags.includes(tag))
+  }
+)

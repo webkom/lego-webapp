@@ -14,7 +14,7 @@ const mapStateToProps = (state, props) => {
   if (poll) return {
     poll: poll,
     fetching: state.polls.fetching,
-    actionGrant: state.polls.actionGrant,
+    actionGrant: poll.actionGrant ? poll.actionGrant : [],
     initialValues: {
       pollId: id,
       title: poll.title,
@@ -24,13 +24,13 @@ const mapStateToProps = (state, props) => {
         label: value,
         value: value
       })),
-      options: poll.options
+      options: poll.options,
     }
   };
 };
 
 
-const mapDispachToProps = {
+const mapDispatchToProps = {
   deletePoll,
   editPoll,
   votePoll
@@ -41,7 +41,7 @@ export default compose(
   prepare((props, dispatch) => dispatch(fetchPoll(props.params.pollsId))),
   connect(
     mapStateToProps,
-    mapDispachToProps
+    mapDispatchToProps
   ),
   loadingIndicator(['poll.id'])
 )(PollDetail);

@@ -13,12 +13,12 @@ import {
   selectFeedActivitesByFeedId
 } from 'app/reducers/feeds';
 import { votePoll } from 'app/actions/PollActions';
-import { selectPolls } from 'app/reducers/polls'
+import { selectPollByTag } from 'app/reducers/polls'
 
 const mapStateToProps = state => ({
   loadingFrontpage: state.frontpage.fetching,
   frontpage: selectFrontpage(state),
-  poll: selectPolls(state)[0],
+  poll: selectPollByTag(state, 'frontpage'),
   feed: selectFeedById(state, { feedId: 'personal' }),
   feedItems: selectFeedActivitesByFeedId(state, {
     feedId: 'personal'

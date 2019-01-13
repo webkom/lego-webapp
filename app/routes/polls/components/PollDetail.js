@@ -40,7 +40,7 @@ class PollDetail extends Component<Props, *> {
           </NavigationLink>}
           <NavigationLink to="/polls/">Tilbake</NavigationLink>
         </NavigationTab>
-        {!this.state.editing && <Poll poll={this.props.poll} handleVote={this.props.votePoll} />}
+        {!this.state.editing && <Poll poll={this.props.poll} handleVote={this.props.votePoll} details/>}
         {this.state.editing && <PollEditor
           initialValues={this.props.initialValues}
           editing
