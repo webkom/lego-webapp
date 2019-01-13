@@ -1,30 +1,37 @@
 @import 'app/styles/variables.css';
 
-.cardFlex {
-  display: flex;
-  flex-direction: row;
+.container {
+  display: grid;
+  grid-gap: 30px;
+  grid-template-columns: 1fr 1fr 1.3fr;
+  grid-auto-rows: auto;
+  grid-template-areas: 'welcome welcome login' 'events events hsp' 'article article readme' 'links links facebook';
 
   @media (--mobile-device) {
-    flex-direction: column;
+    grid-gap: 10px;
+    grid-template-columns: 1fr;
+    grid-template-areas: 'welcome' 'login' 'events' 'hsp' 'article' 'readme' 'links' 'facebook';
   }
 }
 
 .rootCardStyle {
   composes: withShadow from 'app/styles/utilities.css';
   background: var(--lego-card-color);
-  padding: 40px;
-  margin-bottom: 30px;
+  padding: 30px;
 
   @media (--mobile-device) {
-    margin: 0 10px 10px !important;
     padding: 15px;
   }
 }
 
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.welcome {
+  composes: rootCardStyle;
+  grid-area: welcome;
+}
+
+.login {
+  composes: rootCardStyle;
+  grid-area: login;
 }
 
 .toggleButton {
@@ -32,66 +39,46 @@
   font-size: 14px;
 }
 
-.welcome {
-  composes: rootCardStyle;
-  flex: 1.8;
-  margin-right: 30px;
-}
-
-.loginForm {
-  composes: rootCardStyle;
-  flex: 1;
-}
-
 .events {
   composes: rootCardStyle;
-  flex: 1.95;
-  margin-right: 30px;
-  color: var(--lego-font-color);
-  padding: 40px 10px 40px 20px;
-
-  @media (--mobile-device) {
-    padding: 15px 25px 15px 5px;
-  }
+  grid-area: events;
 }
 
-.cooperator {
+.hsp {
   composes: rootCardStyle;
-  flex: 1;
+  grid-area: hsp;
   text-align: center;
 }
 
-.cooperator img {
+.hsp img {
   width: 70%;
   display: block;
   margin: auto;
-  margin-bottom: 10px;
+}
 
-  @media (--mobile-device) {
-    margin: 10px 0;
-  }
+.article {
+  composes: rootCardStyle;
+  grid-area: article;
 }
 
 .readme {
   composes: rootCardStyle;
-  flex: 1;
+  grid-area: readme;
 }
 
-.articles {
+.links {
   composes: rootCardStyle;
-  flex: 1.8;
-  margin-right: 30px;
+  grid-area: links;
 }
 
-.innerArticle {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.facebook {
+  composes: rootCardStyle;
+  grid-area: facebook;
 }
 
 .articleTitle {
   display: flex;
-  width: 100%;
+  overflow: hidden;
   justify-content: space-between;
 }
 
@@ -101,9 +88,16 @@
   margin-right: 30px;
 }
 
-.facebook {
-  composes: rootCardStyle;
-  flex: 1;
+.usefulLinks a {
+  font-size: 20px;
+}
+
+.usefulLinks li {
+  margin-bottom: 15px;
+}
+
+.linkDescription {
+  margin-left: 30px;
 }
 
 .usefulLinks a {
