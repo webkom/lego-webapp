@@ -8,6 +8,7 @@ import { Container, Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import LatestReadme from './LatestReadme';
 // import Feed from './Feed';
+import NextEvent from './NextEvent';
 import CompactEvents from './CompactEvents';
 import { EVENT_TYPE_TO_STRING } from 'app/routes/events/utils';
 import type { Event, Article } from 'app/models';
@@ -95,6 +96,7 @@ class Overview extends Component<Props, State> {
       readmes
     } = this.props;
     const pinned = frontpage[0];
+    console.log(frontpage);
 
     return (
       <Container>
@@ -119,10 +121,11 @@ class Overview extends Component<Props, State> {
           >
             <Link to={'/articles?tag=weekly'}>
               <h3 className="u-ui-heading" style={{ paddingTop: 0 }}>
-                Weekly
+                Neste Påmelding!!
               </h3>
             </Link>
-
+            <NextEvent events={frontpage.filter(isEvent)} />
+            {/*
             <Flex column className={styles.weeklyArticles}>
               {frontpage
                 .filter(item => item.documentType === 'article')
@@ -136,6 +139,7 @@ class Overview extends Component<Props, State> {
                   />
                 ))}
             </Flex>
+            */}
           </Flex>
         </Flex>
         <Flex />

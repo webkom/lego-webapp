@@ -1,0 +1,34 @@
+@import 'app/styles/variables.css';
+
+.eventItem {
+  padding-left: 20px;
+  border-left: 4px solid transparent;
+  margin-bottom: 15px;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: auto;
+  grid-template-areas:
+    'title title'
+    'info image'
+    'time image';
+}
+
+.title {
+  color: #333;
+  font-weight: 700;
+  margin: 0;
+  word-break: break-word;
+  grid-area: title;
+}
+
+.info {
+  grid-area: info;
+}
+
+.time {
+  grid-area: time;
+  font-weight: 1000;
+  color: var(--lego-link-color);
+}
+
+.image { grid-area: image; }
