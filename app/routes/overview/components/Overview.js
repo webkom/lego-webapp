@@ -8,7 +8,6 @@ import { Container, Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import LatestReadme from './LatestReadme';
 // import Feed from './Feed';
-import NextEvent from './NextEvent';
 import CompactEvents from './CompactEvents';
 import { EVENT_TYPE_TO_STRING } from 'app/routes/events/utils';
 import type { Event, Article } from 'app/models';
@@ -20,6 +19,7 @@ import ArticleItem from './ArticleItem';
 import Icon from 'app/components/Icon';
 import truncateString from 'app/utils/truncateString';
 import { Link } from 'react-router';
+import NextEvent from './NextEvent';
 
 type Props = {
   frontpage: Array<Object>,
@@ -96,7 +96,6 @@ class Overview extends Component<Props, State> {
       readmes
     } = this.props;
     const pinned = frontpage[0];
-    console.log(frontpage);
 
     return (
       <Container>
@@ -121,11 +120,16 @@ class Overview extends Component<Props, State> {
           >
             <Link to={'/articles?tag=weekly'}>
               <h3 className="u-ui-heading" style={{ paddingTop: 0 }}>
-                Neste Påmelding!!
+                Kommende hendelser
               </h3>
             </Link>
             <NextEvent events={frontpage.filter(isEvent)} />
-            {/*
+
+            <Link to={'/articles?tag=weekly'}>
+              <h3 className="u-ui-heading" style={{ paddingTop: '20px' }}>
+                Weekly
+              </h3>
+            </Link>
             <Flex column className={styles.weeklyArticles}>
               {frontpage
                 .filter(item => item.documentType === 'article')
@@ -139,7 +143,6 @@ class Overview extends Component<Props, State> {
                   />
                 ))}
             </Flex>
-            */}
           </Flex>
         </Flex>
         <Flex />
