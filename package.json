@@ -95,7 +95,7 @@
     "serialize-javascript": "^1.4.0",
     "slug": "^0.9.1",
     "source-map-support": "^0.5.8",
-    "validator": "^9.2.0",
+    "validator": "^10.11.0",
     "victory": "^0.25.7",
     "websocket.js": "^0.1.7"
   },
