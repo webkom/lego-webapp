@@ -13,16 +13,30 @@
 }
 
 .info span {
-  font-weight: 1000;
   margin: 0 10px;
 }
 
 .time {
   color: var(--lego-link-color);
+  font-weight: 500;
+  font-size: 18px;
+  font-family: 'Roboto', sans-serif;
 }
 
 .alarm {
   width: 15px;
   height: 15px;
+}
+
+.filler {
+  justify-content: center;
+  align-items: center;
+  font-style: italic;
+  color: grey;
+  margin-top: 20px;
+
+  @media (--mobile-device) {
+    min-height: 0;
+  }
 }
 

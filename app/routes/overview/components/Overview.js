@@ -120,7 +120,7 @@ class Overview extends Component<Props, State> {
           >
             <Link to={'/articles?tag=weekly'}>
               <h3 className="u-ui-heading" style={{ paddingTop: 0 }}>
-                Kommende hendelser
+                Påmeldinger
               </h3>
             </Link>
             <NextEvent events={frontpage.filter(isEvent)} />
