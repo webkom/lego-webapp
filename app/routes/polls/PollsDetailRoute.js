@@ -19,6 +19,7 @@ const mapStateToProps = (state, props) => {
       pollId: id,
       title: poll.title,
       description: poll.description,
+      pinned: poll.pinned,
       tags: poll.tags.map(value => ({
         className: 'Select-create-option-placeholder',
         label: value,

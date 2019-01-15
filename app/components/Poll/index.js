@@ -3,20 +3,27 @@
 import React from 'react';
 import Button from 'app/components/Button';
 import styles from './Poll.css';
-import type PollEntity from 'app/reducers/polls';
+import type { PollEntity } from 'app/reducers/polls';
 import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
 
-type props = {
+type Props = {
   poll: PollEntity,
-  handleVote: () => Promise<*>,
-  backgroundLight: boolean,
-  truncate: number,
-  details: boolean
+  handleVote: (pollId: number, optionId: number) => Promise<*>,
+  backgroundLight?: boolean,
+  truncate?: number,
+  details?: boolean
 };
 
-class Poll extends React.Component<props, state> {
-  constructor(props) {
+type State = {
+  truncateOptions: boolean,
+  optionsToShow: Array<Object>,
+  expanded: boolean
+
+}
+
+class Poll extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     const { options } = props.poll;
     if (props.truncate && options.length > props.truncate) {
@@ -40,7 +47,7 @@ class Poll extends React.Component<props, state> {
     }
   }
   
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps: Props) {
     if (prevProps.poll.options !== this.props.poll.options) {
       this.props.truncate && !this.state.expanded
       ? this.setState({optionsToShow: this.props.poll.options.slice(0, this.props.truncate)})

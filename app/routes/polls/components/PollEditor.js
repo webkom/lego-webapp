@@ -6,19 +6,36 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import { Link } from 'react-router';
-import { push } from 'react-router-redux';
+import { fieldArrayMetaPropTypes, fieldArrayFieldsPropTypes } from 'redux-form'
 import {
   TextInput,
   SelectInput,
   TextArea,
-  legoForm
+  legoForm,
+  CheckBox
 } from 'app/components/Form';
 import { Form, Field, FieldArray } from 'redux-form';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import styles from './PollEditor.css'
 
-const renderOptions = ({ fields, meta: { touched, error } }) => {
-  return [
+type Props = {
+  pristine: Boolean,
+  submitting: Boolean,
+  editOrCreatePoll: Object => void,
+  handleSubmit: Object => void,
+  editing: Boolean,
+  initialValues: Object,
+  pollId: Number,
+  deletePoll: () => void,
+  toggleEdit: () => void
+}
+
+type FieldArrayPropTypes = {
+  fields: fieldArrayFieldsPropTypes,
+  meta: fieldArrayMetaPropTypes
+}
+
+const renderOptions = ({ fields, meta: { touched, error }} : FieldArrayPropTypes) => <div>
     <ul className={styles.options} key="options">
       {fields.map((option, i) => (
         <li className={styles.optionField} key={i}>
@@ -40,7 +57,7 @@ const renderOptions = ({ fields, meta: { touched, error } }) => {
         </ConfirmModalWithParent>
         </li>
       ))}
-    </ul>,
+    </ul>
 
     <Link
       key="addNew"
@@ -51,26 +68,10 @@ const renderOptions = ({ fields, meta: { touched, error } }) => {
     >
       <Icon name="add-circle" size={25}/> Valg
     </Link>
-  ];
-};
-
-type Props = {
-  pristine: Boolean,
-  submitting: Boolean,
-  actionGrant: Array<String>,
-  editOrCreatePoll: Object => void,
-  handleSubmit: Object => void,
-  editing: Boolean,
-  initialValues: Object,
-  pollId: Number,
-  deletePoll: () => void,
-  toggleEdit: () => void
-}
+  </div>;
 
 class EditPollForm extends Component<Props, *> {
-
   render() {
-
     const { pristine, submitting, handleSubmit, editing, deletePoll} = this.props
 
     return(
@@ -95,7 +96,11 @@ class EditPollForm extends Component<Props, *> {
           placeholder="Mer info..."
           component={TextArea.Field}
         />
-        <p>{'Bruk tagen "frontpage" for å vise avstemningen på forsiden.'}</p>
+        <Field
+          name="pinned"
+          label="Vis på forsiden"
+          component={CheckBox.Field}
+        />
         <Field
           name="tags"
           label="Tags"
@@ -120,7 +125,7 @@ class EditPollForm extends Component<Props, *> {
           submit
           className={styles.submitButton}
           >
-            {editing ? 'Endre avstemning' : 'Lag ny Avstemning'}
+            {editing ? 'Endre avstemning' : 'Lag ny avstemning'}
         </Button>
         {editing && <ConfirmModalWithParent
           title="Slett avstemning"
@@ -143,12 +148,14 @@ const onSubmit = (
     description,
     tags,
     options,
+    pinned,
     ...rest
   }: {
     title: String,
     description: String,
-    tags: Array<String>,
-    options: Array<Object>
+    tags: Array<Object>,
+    options: Array<Object>,
+    pinned: boolean
   },
   dispach,
   props
@@ -158,6 +165,7 @@ const onSubmit = (
     description,
     tags: tags ? tags.map(val => val.value) : [],
     options,
+    pinned: pinned ? pinned : false,
     ...rest
   }).then(() => props.toggleEdit())
 };
@@ -167,6 +175,7 @@ export default legoForm({
   form: 'createPollForm',
   onSubmit,
   initialValues:{
-    options: [{}, {}]
+    options: [{}, {}],
+    pinned: false
   }
 })(EditPollForm);

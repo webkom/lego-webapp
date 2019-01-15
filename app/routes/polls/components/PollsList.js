@@ -8,16 +8,17 @@ import styles from './PollsList.css';
 import Paginator from 'app/components/Paginator';
 import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import { Flex } from 'app/components/Layout' 
 
-type props = {
+type Props = {
   polls: Array<Object>,
   actionGrant: Array<String>,
-  fetching: Boolean,
-  hasMore: Boolean,
+  fetching: boolean,
+  hasMore: boolean,
   fetchAll: ({ next?: boolean }) => Promise<*>
 };
 
-const PollsList = (props: props, state) => {
+const PollsList = (props: Props) => {
   const { polls, actionGrant, fetchAll, hasMore, fetching } = props;
   return (
     <Content>
@@ -44,21 +45,21 @@ const PollsList = (props: props, state) => {
               className={styles.pollItem}
             >
               <div className={styles.pollListItem}>
-                <div style={{ display: 'flex' }}>
-                  <Icon className={styles.icon} name="stats" size="40" />
+                <Flex>
+                  <Icon className={styles.icon} name="stats" size={40} />
                   <h3 className={styles.heading}>{poll.title}</h3>
-                </div>
+                </Flex>
                 <span>{`Antall stemmer: ${poll.totalVotes}`}</span>
                 {poll.hasAnswered ? (
                   <span className={styles.answeredText}>
                     Svart
-                    <Icon name="checkmark-circle-outline" size="20" style={{marginLeft: '10px', color: 'green'}} />
+                    <Icon name="checkmark-circle-outline" size={20} style={{marginLeft: '10px', color: 'green'}} />
                   </span>
                 )
                 : (
                   <span className={styles.answeredText}>
                     Ikke svart
-                    <Icon name="close-circle" size="20" style={{marginLeft: '10px', color: '#c0392b'}} />
+                    <Icon name="close-circle" size={20} style={{marginLeft: '10px', color: '#c0392b'}} />
                   </span>
                 )}
               </div>
@@ -66,6 +67,7 @@ const PollsList = (props: props, state) => {
           ))}
         </section>
       </Paginator>
+      <LoadingIndicator loading={fetching}/>
     </Content>
   );
 };

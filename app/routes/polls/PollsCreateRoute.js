@@ -4,19 +4,13 @@ import { connect } from 'react-redux';
 import { createPoll } from 'app/actions/PollActions';
 import PollEditor from './components/PollEditor';
 
-const mapStateToProps = (state, props) => {
-  return {
-    actionGrant: state.polls.actionGrant,
-  };
-};
-
-const mapDispachToProps = {
+const mapDispatchToProps = {
   editOrCreatePoll: createPoll
 };
 
 export default compose(
   connect(
-    mapStateToProps,
-    mapDispachToProps
+    null,
+    mapDispatchToProps
   )
 )(PollEditor);

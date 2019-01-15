@@ -3,7 +3,6 @@
 import callAPI from './callAPI';
 import { Poll } from './ActionTypes';
 import { pollSchema } from '../reducers';
-import type { PollEntity } from '../reducers/polls';
 import { addToast } from './ToastActions';
 import { push } from 'react-router-redux';
 import type { Thunk } from 'app/types';
@@ -36,7 +35,12 @@ export function fetchPoll(pollId: number) {
   });
 }
 
-export function createPoll(data: PollEntity): Thunk<*> {
+export function createPoll(data: {
+  description: string,
+  pinned: boolean,
+  tags: Array<string>,
+  options: Array<Object>
+}): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
@@ -55,7 +59,13 @@ export function createPoll(data: PollEntity): Thunk<*> {
       .then(() => dispatch(push(`/polls/`)));
 }
 
-export function editPoll(data: PollEntity): Thunk<*> {
+export function editPoll(data: {
+  pollId: number,
+  description: string,
+  pinned: boolean,
+  tags: Array<string>,
+  options: Array<Object>
+}): Thunk<*> {
   return callAPI({
     types: Poll.UPDATE,
     endpoint: `/polls/${data.pollId}/`,
@@ -69,7 +79,7 @@ export function editPoll(data: PollEntity): Thunk<*> {
   });
 }
 
-export function deletePoll(pollId: number) {
+export function deletePoll(pollId: number): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
@@ -81,10 +91,10 @@ export function deletePoll(pollId: number) {
           errorMessage: 'Fjerning av avstemning feilet!'
         }
       })
-    ).then(() => dispatch(push(`/polls/`)), fetchAll());
+    ).then(() => dispatch(push(`/polls/`))).then(() => fetchAll());
 }
 
-export function votePoll(pollId: Number, optionId: Number) {
+export function votePoll(pollId: number, optionId: number) {
   return callAPI({
     types: Poll.UPDATE,
     endpoint: `/polls/${pollId}/vote/`,

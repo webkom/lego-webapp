@@ -8,6 +8,10 @@ export type PollEntity = {
   id: number,
   title: string,
   description: string,
+  pinned: boolean,
+  tags: Array<string>,
+  hasAnswered: boolean,
+  totalVotes: number,
   options: Array<OptionEntity>
 };
 
@@ -60,4 +64,9 @@ export const selectPollByTag = createSelector(
     if (!polls || !tag) return {};
     return polls.find(polls => polls.tags.includes(tag))
   }
+)
+
+export const selectPinnedPolls = createSelector(
+  selectPolls,
+  polls => polls.find(polls => polls.pinned)
 )

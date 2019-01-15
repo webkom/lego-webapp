@@ -3,25 +3,24 @@
 import React, { Component } from 'react';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import Button from 'app/components/Button';
-import Icon from 'app/components/Icon';
-import { Link } from 'react-router';
-import styles from './PollDetail.css';
-import LoadingIndicator from 'app/components/LoadingIndicator';
 import Poll from 'app/components/Poll';
 import PollEditor from './PollEditor'
 
 type Props = {
   poll: Object,
-  editPoll: () => void,
-  deletePoll: () => void,
-  votePoll: () => void,
-  fetching: Boolean,
-  actionGrant: Array,
+  editPoll: () => Promise<*>,
+  deletePoll: (id: number) => Promise<*>,
+  votePoll: () => Promise<*>,
+  fetching: boolean,
+  actionGrant: Array<string>,
   initialValues: Object
 };
 
-class PollDetail extends Component<Props, *> {
+type State = {
+  editing: boolean
+}
+
+class PollDetail extends Component<Props, State> {
   state = {
     editing: false
   }
