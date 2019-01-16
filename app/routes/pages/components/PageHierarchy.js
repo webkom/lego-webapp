@@ -39,9 +39,6 @@ const HierarchySection = ({
           className={
             item.url === currentUrl ? styles.selected : styles.nonSelected
           }
-          style={{
-            fontWeight: item.url === currentUrl ? 'bold' : 'normal'
-          }}
           to={item.url}
         >
           {readmeIfy(item.title)}

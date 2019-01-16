@@ -42,7 +42,10 @@
   font-weight: normal;
 }
 
+.selected {
+  font-weight: bold;
+}
+
 .selected::after {
   content: ' <';
-  font-weight: bold;
 }
