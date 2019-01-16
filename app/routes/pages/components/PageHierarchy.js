@@ -36,6 +36,9 @@ const HierarchySection = ({
     {items.map((item, key) => (
       <li key={key} className={styles.links}>
         <Link
+          className={
+            item.url === currentUrl ? styles.selected : styles.nonSelected
+          }
           style={{
             fontWeight: item.url === currentUrl ? 'bold' : 'normal'
           }}

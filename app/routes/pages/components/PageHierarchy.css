@@ -37,3 +37,12 @@
 .links {
   margin-left: 10px;
 }
+
+.nonSelected {
+  font-weight: normal;
+}
+
+.selected::after {
+  content: ' <';
+  font-weight: bold;
+}
