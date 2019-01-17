@@ -32,6 +32,10 @@
   font-style: italic;
   color: grey;
   margin-top: 20px;
+}
+
+.wrapper {
+  min-height: 140px;
 
   @media (--mobile-device) {
     min-height: 0;

@@ -7,7 +7,6 @@ import Time from 'app/components/Time';
 import { Container, Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import LatestReadme from './LatestReadme';
-// import Feed from './Feed';
 import CompactEvents from './CompactEvents';
 import { EVENT_TYPE_TO_STRING } from 'app/routes/events/utils';
 import type { Event, Article } from 'app/models';
@@ -19,11 +18,10 @@ import ArticleItem from './ArticleItem';
 import Icon from 'app/components/Icon';
 import truncateString from 'app/utils/truncateString';
 import { Link } from 'react-router';
+import NextEvent from './NextEvent';
 
 type Props = {
   frontpage: Array<Object>,
-  // feed: Object,
-  // feedItems: Array<Object>,
   readmes: Array<Object>,
   loadingFrontpage: boolean
 };
@@ -95,13 +93,7 @@ class Overview extends Component<Props, State> {
 
   render() {
     const isEvent = o => typeof o['startTime'] !== 'undefined';
-    const {
-      frontpage,
-      // feed,
-      // feedItems,
-      loadingFrontpage,
-      readmes
-    } = this.props;
+    const { frontpage, loadingFrontpage, readmes } = this.props;
     const pinned = frontpage[0];
     const { isMobile } = this.state;
     const compactEvents = (
@@ -177,7 +169,7 @@ class Overview extends Component<Props, State> {
     );
 
     const articles = (
-      <Flex column style={{ flex: '1' }} className={styles.articlesWrapper}>
+      <Flex column className={styles.articlesWrapper}>
         <Link to={'/articles'}>
           <h3 className="u-ui-heading">Artikler</h3>
         </Link>
@@ -198,7 +190,16 @@ class Overview extends Component<Props, State> {
       </Flex>
     );
 
-    // const feed = <Feed style={{ flex: 2 }} feed={feed} feedItems={feedItems} />
+    const nextEvent = (
+      <Flex column>
+        <Link to={'/articles'}>
+          <h3 className="u-ui-heading">Påmeldinger</h3>
+        </Link>
+        <NextEvent
+          events={frontpage.filter(item => item.documentType === 'event')}
+        />
+      </Flex>
+    );
 
     return (
       <Container>
@@ -213,6 +214,7 @@ class Overview extends Component<Props, State> {
               {events}
             </Flex>
             <Flex column className={styles.rightColumn}>
+              {nextEvent}
               {weekly}
               {articles}
             </Flex>
@@ -222,6 +224,7 @@ class Overview extends Component<Props, State> {
         isMobile && (
           <section className={styles.mobileContainer}>
             {compactEvents}
+            {nextEvent}
             {pinnedComponent}
             {readMe}
             {weekly}

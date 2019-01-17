@@ -122,7 +122,7 @@ const NextEvent = (props: { events: Array<Event> }) => {
   ).splice(0, 2);
 
   return (
-    <div style={{ minHeight: '140px' }}>
+    <div className={styles.wrapper}>
       {orderedEvents.length > 0 ? (
         orderedEvents.map(e => <EventItem key={e.id} event={e} />)
       ) : (
