@@ -30,13 +30,15 @@ type Props = {
 
 type State = {
   eventsToShow: number,
-  articlesToShow: number
+  articlesToShow: number,
+  isMobile: boolean
 };
 
 class Overview extends Component<Props, State> {
   state = {
-    eventsToShow: 6,
-    articlesToShow: 2
+    eventsToShow: 7,
+    articlesToShow: 2,
+    isMobile: window.innerWidth <= 992
   };
 
   showMore = () => {
@@ -49,6 +51,12 @@ class Overview extends Component<Props, State> {
   itemUrl = (item: Event | Article) => {
     return `/${item.eventType ? 'events' : 'articles'}/${item.id}`;
   };
+
+  componentDidMount() {
+    window.addEventListener('resize', () =>
+      this.setState({ isMobile: window.innerWidth <= 992 })
+    );
+  }
 
   renderMeta = (item: (Event | Article) & { documentType: string }) => {
     const isEvent = item.eventType ? true : false;
@@ -95,96 +103,132 @@ class Overview extends Component<Props, State> {
       readmes
     } = this.props;
     const pinned = frontpage[0];
+    const { isMobile } = this.state;
+    const compactEvents = (
+      <CompactEvents
+        events={frontpage.filter(isEvent)}
+        className={styles.compactEvents}
+      />
+    );
+
+    const pinnedComponent = (
+      <LoadingIndicator loading={loadingFrontpage}>
+        {pinned && (
+          <div className={styles.pinned}>
+            <Pinned
+              item={pinned}
+              url={this.itemUrl(pinned)}
+              meta={this.renderMeta(pinned)}
+            />
+          </div>
+        )}
+      </LoadingIndicator>
+    );
+
+    const readMe = (
+      <Flex className={styles.readMe}>
+        <LatestReadme readmes={readmes} expanded={frontpage.length === 0} />
+      </Flex>
+    );
+
+    const events = (
+      <Flex column className={styles.eventsWrapper}>
+        <Link to={'/events'}>
+          <h3 className="u-ui-heading">Arrangementer</h3>
+        </Link>
+        <Flex className={styles.events}>
+          {frontpage
+            .filter(item => item.documentType === 'event')
+            .filter(item => item != frontpage[0])
+            .slice(0, this.state.eventsToShow)
+            .map(event => (
+              <EventItem
+                key={event.id}
+                item={event}
+                url={this.itemUrl(event)}
+                meta={this.renderMeta(event)}
+              />
+            ))}
+        </Flex>
+      </Flex>
+    );
+
+    const weeklyArticle = frontpage
+      .filter(item => item.documentType === 'article')
+      .filter(article => article.tags.includes('weekly'))[0];
+
+    const weekly = (
+      <Flex column className={styles.weekly}>
+        <Link to={'/articles?tag=weekly'}>
+          <h3 className="u-ui-heading">Weekly</h3>
+        </Link>
+        <Flex column className={styles.weeklyArticles}>
+          {weeklyArticle && (
+            <ArticleItem
+              key={weeklyArticle.id}
+              item={weeklyArticle}
+              url={this.itemUrl(weeklyArticle)}
+              meta={this.renderMeta(weeklyArticle)}
+              weekly
+            />
+          )}
+        </Flex>
+      </Flex>
+    );
+
+    const articles = (
+      <Flex column style={{ flex: '1' }} className={styles.articlesWrapper}>
+        <Link to={'/articles'}>
+          <h3 className="u-ui-heading">Artikler</h3>
+        </Link>
+        <Flex className={styles.articles}>
+          {frontpage
+            .filter(item => item.documentType === 'article')
+            .filter(article => !article.tags.includes('weekly'))
+            .slice(0, this.state.articlesToShow)
+            .map(article => (
+              <ArticleItem
+                key={article.id}
+                item={article}
+                url={this.itemUrl(article)}
+                meta={this.renderMeta(article)}
+              />
+            ))}
+        </Flex>
+      </Flex>
+    );
+
+    // const feed = <Feed style={{ flex: 2 }} feed={feed} feedItems={feedItems} />
 
     return (
       <Container>
         <Helmet title="Hjem" />
-        <Flex wrap style={{ justifyContent: 'space-between' }}>
-          <Flex column style={{ flex: 2 }}>
-            <CompactEvents events={frontpage.filter(isEvent)} />
-            <LoadingIndicator loading={loadingFrontpage}>
-              {pinned && (
-                <Pinned
-                  item={pinned}
-                  url={this.itemUrl(pinned)}
-                  meta={this.renderMeta(pinned)}
-                />
-              )}
-            </LoadingIndicator>
-          </Flex>
-          {/* <Feed style={{ flex: 2 }} feed={feed} feedItems={feedItems} /> */}
-          <Flex
-            column
-            style={{ flex: '1', padding: '0 10px', margin: '0 auto' }}
-          >
-            <Link to={'/articles?tag=weekly'}>
-              <h3 className="u-ui-heading" style={{ paddingTop: 0 }}>
-                Weekly
-              </h3>
-            </Link>
-
-            <Flex column className={styles.weeklyArticles}>
-              {frontpage
-                .filter(item => item.documentType === 'article')
-                .filter(article => article.tags.includes('weekly'))
-                .map(article => (
-                  <ArticleItem
-                    key={article.id}
-                    item={article}
-                    url={this.itemUrl(article)}
-                    meta={this.renderMeta(article)}
-                  />
-                ))}
+        {//desktop version
+        !isMobile && (
+          <Flex className={styles.desktopContainer}>
+            <Flex column className={styles.leftColumn}>
+              {compactEvents}
+              {pinnedComponent}
+              {readMe}
+              {events}
+            </Flex>
+            <Flex column className={styles.rightColumn}>
+              {weekly}
+              {articles}
             </Flex>
           </Flex>
-        </Flex>
-        <Flex />
-        <Flex padding={10}>
-          <LatestReadme readmes={readmes} expanded={frontpage.length === 0} />
-        </Flex>
-
-        <Flex className={styles.otherItems}>
-          <Flex column style={{ flex: '2' }}>
-            <Link to={'/events'}>
-              <h3 className="u-ui-heading">Arrangementer</h3>
-            </Link>
-            <Flex className={styles.events}>
-              {frontpage
-                .filter(item => item.documentType === 'event')
-                .filter(item => item != frontpage[0])
-                .slice(0, this.state.eventsToShow)
-                .map(event => (
-                  <EventItem
-                    key={event.id}
-                    item={event}
-                    url={this.itemUrl(event)}
-                    meta={this.renderMeta(event)}
-                  />
-                ))}
-            </Flex>
-          </Flex>
-
-          <Flex column style={{ flex: '1' }}>
-            <Link to={'/articles'}>
-              <h3 className="u-ui-heading">Artikler</h3>
-            </Link>
-            <Flex className={styles.articles}>
-              {frontpage
-                .filter(item => item.documentType === 'article')
-                .filter(article => !article.tags.includes('weekly'))
-                .slice(0, this.state.articlesToShow)
-                .map(article => (
-                  <ArticleItem
-                    key={article.id}
-                    item={article}
-                    url={this.itemUrl(article)}
-                    meta={this.renderMeta(article)}
-                  />
-                ))}
-            </Flex>
-          </Flex>
-        </Flex>
-
+        )}
+        {//mobile version
+        isMobile && (
+          <section className={styles.mobileContainer}>
+            {compactEvents}
+            {pinnedComponent}
+            {readMe}
+            {weekly}
+            {articles}
+            {events}
+          </section>
+        )}
         {frontpage.length > 8 && (
           <div className={styles.showMore}>
             <Icon onClick={this.showMore} size={40} name="arrow-dropdown" />

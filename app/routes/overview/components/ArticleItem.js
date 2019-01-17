@@ -11,17 +11,18 @@ import styles from './ArticleItem.css';
 type Props = {
   item: Event | Article,
   url: string,
-  meta: Object
+  meta: Object,
+  weekly?: boolean
 };
 
 class ArticleItem extends Component<Props, *> {
   render() {
-    const { item, url, meta } = this.props;
+    const { item, url, meta, weekly } = this.props;
     const TITLE_MAX_LENGTH = 40;
     const DESC_MAX_LENGTH = 230;
 
     return (
-      <div className={styles.body}>
+      <div className={styles.body} style={weekly && { margin: '0' }}>
         <Flex column>
           <Flex column>
             <Link to={url} className={styles.link}>
