@@ -19,7 +19,6 @@ import ArticleItem from './ArticleItem';
 import Icon from 'app/components/Icon';
 import truncateString from 'app/utils/truncateString';
 import { Link } from 'react-router';
-import NextEvent from './NextEvent';
 
 type Props = {
   frontpage: Array<Object>,
@@ -120,16 +119,10 @@ class Overview extends Component<Props, State> {
           >
             <Link to={'/articles?tag=weekly'}>
               <h3 className="u-ui-heading" style={{ paddingTop: 0 }}>
-                Påmeldinger
-              </h3>
-            </Link>
-            <NextEvent events={frontpage.filter(isEvent)} />
-
-            <Link to={'/articles?tag=weekly'}>
-              <h3 className="u-ui-heading" style={{ paddingTop: '20px' }}>
                 Weekly
               </h3>
             </Link>
+
             <Flex column className={styles.weeklyArticles}>
               {frontpage
                 .filter(item => item.documentType === 'article')

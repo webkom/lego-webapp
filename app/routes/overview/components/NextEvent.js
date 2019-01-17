@@ -12,57 +12,33 @@ import truncateString from 'app/utils/truncateString';
 import { orderBy } from 'lodash';
 import moment from 'moment-timezone';
 import Icon from 'app/components/Icon';
+import Tooltip from 'app/components/Tooltip';
 
 type Props = {
   event: Event
 };
 
 class EventItem extends React.Component<Props, *> {
-  constructor(props) {
-    super(props);
-    this.state = {
-      time: ''
-    };
-  }
+  state = {
+    time: ''
+  };
+  interval: IntervalID;
 
   setTime(props) {
     moment.locale('no');
     let now = moment();
     let start = moment(props.event && props.event.activationTime);
-    let duration = parseInt(start.diff(now));
-    let sec = parseInt((duration / 1000) % 60);
-    let min = parseInt((duration / (1000 * 60)) % 60);
-    let hours = parseInt(duration / (1000 * 60 * 60));
-
-    hours = hours < 10 ? '0' + hours : hours;
-    min = min < 10 ? '0' + min : min;
-    sec = sec < 10 ? '0' + sec : sec;
-
-    hours = parseInt(hours);
-    if (hours < 1) {
-      this.setState({
-        time: `${min}min ${sec}sec`
-      });
-    } else if (hours < 24) {
-      this.setState({
-        time: `${hours}t ${min}min`
-      });
-    } else if (hours >= 24 && hours < 48) {
-      this.setState({
-        time: '1 dag'
-      });
-    } else if (hours >= 48 && hours < 72) {
-      this.setState({
-        time: '2 dager'
-      });
-    } else if (hours >= 72 && hours < 96) {
-      this.setState({
-        time: '3 dager'
-      });
-    }
+    let time = now.to(start);
+    const isTomorrow = moment()
+      .add('1', 'day')
+      .isSame(start, 'day');
+    this.setState({
+      time: isTomorrow ? 'i morgen' : time
+    });
   }
 
   componentDidMount() {
+    this.setTime(this.props);
     this.interval = setInterval(() => this.setTime(this.props), 1000);
   }
 
@@ -74,55 +50,77 @@ class EventItem extends React.Component<Props, *> {
     const selected = this.props.event;
     const activeString = moment(selected.activationTime).format('LLLL');
     return (
-      <Flex
-        column
-        title={`Påmelding: ${activeString}`}
-        style={{ borderColor: colorForEvent(selected.eventType) }}
-        className={styles.eventItem}
-      >
-        <Link to={`/events/${selected.id}`} className={styles.title}>
-          <h4>{truncateString(selected.title, 43)}</h4>
-        </Link>
+      <Tooltip content={activeString}>
+        <Flex
+          column
+          title={`Påmelding: ${activeString}`}
+          style={{ borderColor: colorForEvent(selected.eventType) }}
+          className={styles.eventItem}
+        >
+          <Link to={`/events/${selected.id}`} className={styles.title}>
+            <h4>{truncateString(selected.title, 43)}</h4>
+          </Link>
 
-        <div className={styles.info}>
-          <span>
-            <Image className={styles.alarm} src={alarm} />
-          </span>
-          <span style={{ color: 'grey' }}>Påmelding åpner om</span>
-          <span className={styles.time}>{this.state.time}</span>
-        </div>
-      </Flex>
+          <div className={styles.info}>
+            <span>
+              <Image className={styles.alarm} src={alarm} />
+            </span>
+            <span style={{ color: 'grey' }}>
+              Påmelding{' '}
+              {moment().isBefore(selected.activationTime) ? 'åpner' : 'åpnet'}
+            </span>
+            <span className={styles.time}>
+              {moment().isAfter(selected.activationTime) && 'for '}
+              {this.state.time.replace('minutter', 'min')}
+            </span>
+          </div>
+        </Flex>
+      </Tooltip>
     );
   }
 }
 
-// Only include evnets within 3 days of right now
-function inRange(event) {
-  let now = moment();
-  let start = moment(event && event.activationTime);
-  let diff = start.diff(now) / 1000;
-  return diff < 345600 && diff > 0;
-}
+// Component when there is no events
+const Filler = () => (
+  <Flex column className={styles.filler}>
+    <Icon size={40} name="eye-off-outline" style={{ marginRight: '5px' }} />
+    <span>Ingen påmeldinger de neste 3 dagene </span>
+  </Flex>
+);
+
+// Filter for activation
+const hasActivation = event => typeof event['activationTime'] !== 'object';
+
+// Filter for range
+const inRange = event => {
+  const start = moment(event && event.activationTime);
+  return (
+    start.isSameOrBefore(moment().add(3, 'days'), 'day') &&
+    start.isSameOrAfter(moment(), 'day')
+  );
+};
 
 const NextEvent = (props: { events: Array<Event> }) => {
-  // If activationTime is not set it will be 'null', which is an object
-  const activationFilter = o => typeof o['activationTime'] !== 'object';
-  const orderedEvents =
-    props &&
-    orderBy(props.events.filter(activationFilter).filter(inRange), [
-      'activationTime'
-    ])
-      .slice(0, 2)
-      .map(e => <EventItem key={e.id} event={e} />);
-  const filler = (
-    <Flex column className={styles.filler}>
-      <Icon size={40} name="eye-off-outline" style={{ marginRight: '5px' }} />
-      <span>Ingen påmeldinger de neste 3 dagene </span>
-    </Flex>
-  );
+  // This will prevent the filler from rendering in the
+  // split second where events have not loaded
+  if (props.events.length == 0) return null;
 
-  const output = orderedEvents.length > 0 ? orderedEvents : filler;
-  return <div style={{ minHeight: '140px' }}>{output}</div>;
+  // Sorted events based on activationfilter take out the
+  // ones that are out of range
+  const orderedEvents = orderBy(
+    props.events.filter(hasActivation).filter(inRange),
+    ['activationTime']
+  ).splice(0, 2);
+
+  return (
+    <div style={{ minHeight: '140px' }}>
+      {orderedEvents.length > 0 ? (
+        orderedEvents.map(e => <EventItem key={e.id} event={e} />)
+      ) : (
+        <Filler />
+      )}
+    </div>
+  );
 };
 
 export default NextEvent;

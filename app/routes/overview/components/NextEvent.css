@@ -19,8 +19,6 @@
 .time {
   color: var(--lego-link-color);
   font-weight: 500;
-  font-size: 18px;
-  font-family: 'Roboto', sans-serif;
 }
 
 .alarm {
@@ -39,4 +37,3 @@
     min-height: 0;
   }
 }
-
