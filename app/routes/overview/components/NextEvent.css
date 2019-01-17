@@ -1,0 +1,39 @@
+@import 'app/styles/variables.css';
+
+.eventItem {
+  padding-left: 20px;
+  border-left: 4px solid transparent;
+  margin-bottom: 15px;
+}
+
+.title {
+  color: #333;
+  font-weight: 700;
+  margin: 0;
+}
+
+.info span {
+  margin: 0 10px;
+}
+
+.time {
+  color: var(--lego-link-color);
+  font-weight: 500;
+}
+
+.alarm {
+  width: 15px;
+  height: 15px;
+}
+
+.filler {
+  justify-content: center;
+  align-items: center;
+  font-style: italic;
+  color: grey;
+  margin-top: 20px;
+
+  @media (--mobile-device) {
+    min-height: 0;
+  }
+}
