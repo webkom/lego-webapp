@@ -2,7 +2,6 @@
 
 .pollTable {
   width: 100%;
-  border: 1px var(--lego-link-color);
   font-size: 14px;
 }
 
@@ -103,4 +102,3 @@
     transition: transform 0.2s;
   }
 }
-

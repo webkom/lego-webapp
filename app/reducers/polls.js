@@ -15,10 +15,10 @@ export type PollEntity = {
   options: Array<OptionEntity>
 };
 
-type OptionEntity = {
+export type OptionEntity = {
   id: number,
   name: string,
-  value: number
+  votes: number
 };
 
 export default createEntityReducer({
@@ -62,11 +62,10 @@ export const selectPollByTag = createSelector(
   (state, tag) => tag,
   (polls, tag) => {
     if (!polls || !tag) return {};
-    return polls.find(polls => polls.tags.includes(tag))
+    return polls.find(polls => polls.tags.includes(tag));
   }
-)
+);
 
-export const selectPinnedPolls = createSelector(
-  selectPolls,
-  polls => polls.find(polls => polls.pinned)
-)
+export const selectPinnedPolls = createSelector(selectPolls, polls =>
+  polls.find(polls => polls.pinned)
+);

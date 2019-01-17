@@ -6,7 +6,7 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Button from 'app/components/Button';
 import Icon from 'app/components/Icon';
 import { Link } from 'react-router';
-import { fieldArrayMetaPropTypes, fieldArrayFieldsPropTypes } from 'redux-form'
+import { fieldArrayMetaPropTypes, fieldArrayFieldsPropTypes } from 'redux-form';
 import {
   TextInput,
   SelectInput,
@@ -16,45 +16,49 @@ import {
 } from 'app/components/Form';
 import { Form, Field, FieldArray } from 'redux-form';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
-import styles from './PollEditor.css'
+import styles from './PollEditor.css';
 
 type Props = {
-  pristine: Boolean,
-  submitting: Boolean,
-  editOrCreatePoll: Object => void,
-  handleSubmit: Object => void,
-  editing: Boolean,
+  pristine: boolean,
+  submitting: boolean,
+  editOrCreatePoll: Object => Promise<*>,
+  handleSubmit: Object => Promise<*>,
+  editing: boolean,
   initialValues: Object,
-  pollId: Number,
-  deletePoll: () => void,
+  pollId: number,
+  deletePoll: () => Promise<*>,
   toggleEdit: () => void
-}
+};
 
 type FieldArrayPropTypes = {
   fields: fieldArrayFieldsPropTypes,
   meta: fieldArrayMetaPropTypes
-}
+};
 
-const renderOptions = ({ fields, meta: { touched, error }} : FieldArrayPropTypes) => <div>
+const renderOptions = ({
+  fields,
+  meta: { touched, error }
+}: FieldArrayPropTypes) => (
+  <div>
     <ul className={styles.options} key="options">
       {fields.map((option, i) => (
         <li className={styles.optionField} key={i}>
-        <Field
-          name={`${option}.name`}
-          label={`Valg nr. ${i+1}`}
-          placeholder={`Valg ${i+1}`}
-          component={TextInput.Field}
-          required
-        />
-        <ConfirmModalWithParent
-          title="Slett valg"
-          message="Er du sikker på at du vil slette dette valget?"
-          onConfirm={() => Promise.resolve(fields.remove(i))}
-          closeOnConfirm
-          className={styles.deleteOption}
-        >
-          <Icon name="trash" className={styles.deleteOption}/>
-        </ConfirmModalWithParent>
+          <Field
+            name={`${option}.name`}
+            label={`Valg nr. ${i + 1}`}
+            placeholder={`Valg ${i + 1}`}
+            component={TextInput.Field}
+            required
+          />
+          <ConfirmModalWithParent
+            title="Slett valg"
+            message="Er du sikker på at du vil slette dette valget?"
+            onConfirm={() => Promise.resolve(fields.remove(i))}
+            closeOnConfirm
+            className={styles.deleteOption}
+          >
+            <Icon name="trash" className={styles.deleteOption} />
+          </ConfirmModalWithParent>
         </li>
       ))}
     </ul>
@@ -66,79 +70,88 @@ const renderOptions = ({ fields, meta: { touched, error }} : FieldArrayPropTypes
       }}
       className={styles.addOption}
     >
-      <Icon name="add-circle" size={25}/> Valg
+      <Icon name="add-circle" size={25} /> Valg
     </Link>
-  </div>;
+  </div>
+);
 
 class EditPollForm extends Component<Props, *> {
   render() {
-    const { pristine, submitting, handleSubmit, editing, deletePoll} = this.props
+    const {
+      pristine,
+      submitting,
+      handleSubmit,
+      editing,
+      deletePoll
+    } = this.props;
 
-    return(
+    return (
       <Content>
-      {!editing && <NavigationTab title="Ny avstemning">
-        <NavigationLink to="/polls">Tilbake</NavigationLink>
-      </NavigationTab>}
-      <Form onSubmit={handleSubmit}>
-        <Field
-          name="title"
-          label="Spørsmål"
-          placeholder="Hva er din favorittrett?"
-          component={TextInput.Field}
-          required
-        />
-        <span>
-
-        </span>
-        <Field
-          name="description"
-          label="Beskrivelse"
-          placeholder="Mer info..."
-          component={TextArea.Field}
-        />
-        <Field
-          name="pinned"
-          label="Vis på forsiden"
-          component={CheckBox.Field}
-        />
-        <Field
-          name="tags"
-          label="Tags"
-          filter={['tags.tag']}
-          placeholder="Skriv inn tags"
-          component={SelectInput.AutocompleteField}
-          multi
-          tags
-          shouldKeyDownEventCreateNewOption={({
-            keyCode
-          }: {
-            keyCode: number
-          }) => keyCode === 32 || keyCode === 13}
-        />
-        <FieldArray
-          name="options"
-          component={renderOptions}
-          rerenderOnEveryChange={true}
-        />
-        <Button
-          disabled={pristine || submitting}
-          submit
-          className={styles.submitButton}
+        {!editing && (
+          <NavigationTab title="Ny avstemning">
+            <NavigationLink to="/polls">Tilbake</NavigationLink>
+          </NavigationTab>
+        )}
+        <Form onSubmit={handleSubmit}>
+          <Field
+            name="title"
+            label="Spørsmål"
+            placeholder="Hva er din favorittrett?"
+            component={TextInput.Field}
+            required
+          />
+          <span />
+          <Field
+            name="description"
+            label="Beskrivelse"
+            placeholder="Mer info..."
+            component={TextArea.Field}
+          />
+          <Field
+            name="pinned"
+            label="Vis på forsiden"
+            component={CheckBox.Field}
+          />
+          <Field
+            name="tags"
+            label="Tags"
+            filter={['tags.tag']}
+            placeholder="Skriv inn tags"
+            component={SelectInput.AutocompleteField}
+            multi
+            tags
+            shouldKeyDownEventCreateNewOption={({
+              keyCode
+            }: {
+              keyCode: number
+            }) => keyCode === 32 || keyCode === 13}
+          />
+          <FieldArray
+            name="options"
+            component={renderOptions}
+            rerenderOnEveryChange={true}
+          />
+          <Button
+            disabled={pristine || submitting}
+            submit
+            className={styles.submitButton}
           >
             {editing ? 'Endre avstemning' : 'Lag ny avstemning'}
-        </Button>
-        {editing && <ConfirmModalWithParent
-          title="Slett avstemning"
-          message="Er du sikker på at du vil slette avstemningen?"
-          onConfirm={() => Promise.resolve(deletePoll())}
-          closeOnConfirm
-          className={styles.deletePoll}
-          >
-            <Button>Slett</Button>
-          </ConfirmModalWithParent>}
-      </Form>
-    </Content>
-    )
+          </Button>
+          {editing && (
+            <ConfirmModalWithParent
+              title="Slett avstemning"
+              message="Er du sikker på at du vil slette avstemningen?"
+              onConfirm={() => Promise.resolve(deletePoll())}
+              closeOnConfirm
+              className={styles.deletePoll}
+            >
+              <Button>Slett</Button>
+            </ConfirmModalWithParent>
+          )}
+        </Form>
+      </Content>
+    );
   }
 }
 
@@ -151,8 +164,8 @@ const onSubmit = (
     pinned,
     ...rest
   }: {
-    title: String,
-    description: String,
+    title: string,
+    description: string,
     tags: Array<Object>,
     options: Array<Object>,
     pinned: boolean
@@ -160,21 +173,22 @@ const onSubmit = (
   dispach,
   props
 ) => {
-  return props.editOrCreatePoll({
-    title,
-    description,
-    tags: tags ? tags.map(val => val.value) : [],
-    options,
-    pinned: pinned ? pinned : false,
-    ...rest
-  }).then(() => props.toggleEdit())
+  return props
+    .editOrCreatePoll({
+      title,
+      description,
+      tags: tags ? tags.map(val => val.value) : [],
+      options,
+      pinned: pinned ? pinned : false,
+      ...rest
+    })
+    .then(() => props.toggleEdit());
 };
-
 
 export default legoForm({
   form: 'createPollForm',
   onSubmit,
-  initialValues:{
+  initialValues: {
     options: [{}, {}],
     pinned: false
   }

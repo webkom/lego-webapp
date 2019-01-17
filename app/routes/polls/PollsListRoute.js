@@ -12,12 +12,11 @@ const mapStateToProps = (state, props) => {
     polls: selectPolls(state),
     actionGrant: state.polls.actionGrant,
     fetching: state.polls.fetching,
-    hasMore: state.polls.hasMore,
+    hasMore: state.polls.hasMore
   };
 };
 
 const mapDispatchToProps = { fetchAll };
-
 
 export default compose(
   prepare((props, dispatch) => dispatch(fetchAll())),

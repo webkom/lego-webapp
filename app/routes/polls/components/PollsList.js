@@ -8,7 +8,7 @@ import styles from './PollsList.css';
 import Paginator from 'app/components/Paginator';
 import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { Flex } from 'app/components/Layout' 
+import { Flex } from 'app/components/Layout';
 
 type Props = {
   polls: Array<Object>,
@@ -53,13 +53,20 @@ const PollsList = (props: Props) => {
                 {poll.hasAnswered ? (
                   <span className={styles.answeredText}>
                     Svart
-                    <Icon name="checkmark-circle-outline" size={20} style={{marginLeft: '10px', color: 'green'}} />
+                    <Icon
+                      name="checkmark-circle-outline"
+                      size={20}
+                      style={{ marginLeft: '10px', color: 'green' }}
+                    />
                   </span>
-                )
-                : (
+                ) : (
                   <span className={styles.answeredText}>
                     Ikke svart
-                    <Icon name="close-circle" size={20} style={{marginLeft: '10px', color: '#c0392b'}} />
+                    <Icon
+                      name="close-circle"
+                      size={20}
+                      style={{ marginLeft: '10px', color: '#c0392b' }}
+                    />
                   </span>
                 )}
               </div>
@@ -67,7 +74,7 @@ const PollsList = (props: Props) => {
           ))}
         </section>
       </Paginator>
-      <LoadingIndicator loading={fetching}/>
+      <LoadingIndicator loading={fetching} />
     </Content>
   );
 };

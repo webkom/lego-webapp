@@ -3,7 +3,7 @@
 import React from 'react';
 import Button from 'app/components/Button';
 import styles from './Poll.css';
-import type { PollEntity } from 'app/reducers/polls';
+import type { PollEntity, OptionEntity } from 'app/reducers/polls';
 import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
 
@@ -17,10 +17,9 @@ type Props = {
 
 type State = {
   truncateOptions: boolean,
-  optionsToShow: Array<Object>,
+  optionsToShow: Array<OptionEntity>,
   expanded: boolean
-
-}
+};
 
 class Poll extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -46,12 +45,14 @@ class Poll extends React.Component<Props, State> {
       };
     }
   }
-  
+
   componentDidUpdate(prevProps: Props) {
     if (prevProps.poll.options !== this.props.poll.options) {
       this.props.truncate && !this.state.expanded
-      ? this.setState({optionsToShow: this.props.poll.options.slice(0, this.props.truncate)})
-      : this.setState({optionsToShow: this.props.poll.options})
+        ? this.setState({
+            optionsToShow: this.props.poll.options.slice(0, this.props.truncate)
+          })
+        : this.setState({ optionsToShow: this.props.poll.options });
     }
   }
 
@@ -59,13 +60,13 @@ class Poll extends React.Component<Props, State> {
     const { poll, handleVote, backgroundLight, details, truncate } = this.props;
     const { truncateOptions, optionsToShow, expanded } = this.state;
     const { id, title, description, options, hasAnswered, totalVotes } = poll;
-    if (hasAnswered == undefined) {
-      return;
-    }
 
     const toggleTruncate = () =>
       expanded
-        ? this.setState({ optionsToShow: options.slice(0, truncate), expanded: false })
+        ? this.setState({
+            optionsToShow: options.slice(0, truncate),
+            expanded: false
+          })
         : this.setState({ optionsToShow: options, expanded: true });
 
     return (
