@@ -44,8 +44,9 @@
 
 .selected {
   font-weight: bold;
+  margin-left: -16px;
 }
 
-.selected::after {
-  content: ' <';
+.selected::before {
+  content: '\25CF ';
 }
