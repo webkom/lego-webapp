@@ -18,17 +18,22 @@ type Props = {
   event: Event
 };
 
-class EventItem extends React.Component<Props, *> {
+type State = {
+  time: string
+};
+
+class EventItem extends React.Component<Props, State> {
   state = {
     time: ''
   };
   interval: IntervalID;
 
   setTime(props) {
-    moment.locale('no');
-    let now = moment();
-    let start = moment(props.event && props.event.activationTime);
-    let time = now.to(start);
+    const now = moment();
+    const start = moment(props.event && props.event.activationTime);
+    const time = now.to(start);
+
+    // If it's 1 day left we would like to say 'i morgen' and not 1 day
     const isTomorrow = moment()
       .add('1', 'day')
       .isSame(start, 'day');
@@ -66,11 +71,13 @@ class EventItem extends React.Component<Props, *> {
               <Image className={styles.alarm} src={alarm} />
             </span>
             <span style={{ color: 'grey' }}>
-              Påmelding{' '}
+              Påmelding {/*Change based on time*/}
               {moment().isBefore(selected.activationTime) ? 'åpner' : 'åpnet'}
             </span>
             <span className={styles.time}>
+              {/*Add for if the moment has passed*/}
               {moment().isAfter(selected.activationTime) && 'for '}
+              {/*Minutter is too long of string*/}
               {this.state.time.replace('minutter', 'min')}
             </span>
           </div>
@@ -95,7 +102,9 @@ const hasActivation = event => typeof event['activationTime'] !== 'object';
 const inRange = event => {
   const start = moment(event && event.activationTime);
   return (
+    // Check that the date is within 3 days
     start.isSameOrBefore(moment().add(3, 'days'), 'day') &&
+    // Check that the date is the same day
     start.isSameOrAfter(moment(), 'day')
   );
 };
