@@ -22,10 +22,10 @@ import HTTPError from 'app/routes/errors/HTTPError';
 
 const sections = {
   info: {
-    title: 'Om Abakus',
+    title: 'Generelt',
     section: 'info',
     pageSelector: selectFlatpageForPages,
-    hierarchySectionSelector: selectPagesForHierarchy,
+    hierarchySectionSelector: selectPagesForHierarchy('generelt'),
     PageRenderer: FlatpageRenderer,
     fetchAll: fetchAll,
     fetchItemActions: [fetchPage]
@@ -34,7 +34,7 @@ const sections = {
     title: 'Bedrifter',
     section: 'bedrifter',
     pageSelector: selectFlatpageForPages,
-    hierarchySectionSelector: selectPagesForHierarchy,
+    hierarchySectionSelector: selectPagesForHierarchy('bedrifter'),
     PageRenderer: FlatpageRenderer,
     fetchAll: fetchAll,
     fetchItemActions: [fetchPage]
@@ -43,7 +43,7 @@ const sections = {
     title: 'Arrangementer',
     section: 'arrangementer',
     pageSelector: selectFlatpageForPages,
-    hierarchySectionSelector: selectPagesForHierarchy,
+    hierarchySectionSelector: selectPagesForHierarchy('arrangementer'),
     PageRenderer: FlatpageRenderer,
     fetchAll: fetchAll,
     fetchItemActions: [fetchPage]
@@ -61,7 +61,7 @@ const sections = {
     title: 'Undergrupper',
     section: 'undergrupper',
     pageSelector: selectFlatpageForPages,
-    hierarchySectionSelector: selectPagesForHierarchy,
+    hierarchySectionSelector: selectPagesForHierarchy('undergrupper'),
     PageRenderer: FlatpageRenderer,
     fetchAll: fetchAll,
     fetchItemActions: [fetchPage]
@@ -70,7 +70,7 @@ const sections = {
     title: 'Interessegrupper',
     section: 'interessegrupper',
     pageSelector: selectFlatpageForPages,
-    hierarchySectionSelector: selectPagesForHierarchy,
+    hierarchySectionSelector: selectPagesForHierarchy('interessegrupper'),
     PageRenderer: FlatpageRenderer,
     fetchAll: fetchAll,
     fetchItemActions: [fetchPage]

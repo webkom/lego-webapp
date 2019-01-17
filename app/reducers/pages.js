@@ -49,17 +49,20 @@ export const selectPages = createSelector(
     Object.keys(pagesBySlug).map(slug => pagesBySlug[slug])
 );
 
-export const selectPagesForHierarchy = createSelector(
-  state => selectPages(state),
-  (state, props) => props.title,
-  (pages, title) => ({
-    title,
-    items: pages.map(page => ({
-      url: `/pages/info/${page.slug}`,
-      title: page.title
-    }))
-  })
-);
+export const selectPagesForHierarchy = category =>
+  createSelector(
+    state => selectPages(state),
+    (state, props) => props.title,
+    (pages, title) => ({
+      title,
+      items: pages
+        .filter(page => page.category === category)
+        .map(page => ({
+          url: `/pages/info/${page.slug}`,
+          title: page.title
+        }))
+    })
+  );
 
 export const selectGroupsForHierarchy = createSelector(
   state => selectGroupsWithType(state, { groupType: 'komite' }),
