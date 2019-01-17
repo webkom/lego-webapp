@@ -21,10 +21,15 @@
   }
 }
 
+.compactLeft {
+  padding-right: 20px;
+}
+
 .compactLeft,
 .compactRight {
   flex: 1;
-  padding: 0 20px 5px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 
   @media (--mobile-device) {
     padding: 0 10px 10px;

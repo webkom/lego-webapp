@@ -46,7 +46,7 @@ class LatestReadme extends Component<Props, State> {
 
         {expanded && (
           <Flex wrap justifyContent="space-around" style={{ paddingTop: 20 }}>
-            {readmes.slice(0, 6).map(({ image, pdf, title }) => (
+            {readmes.slice(0, 4).map(({ image, pdf, title }) => (
               <a key={title} href={pdf} className={styles.thumb}>
                 <Image src={image} />
               </a>

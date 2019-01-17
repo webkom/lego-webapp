@@ -1,7 +1,6 @@
 @import 'app/styles/variables.css';
 
 .pinned {
-  padding: 10px;
   flex: 1;
   width: 100%;
 }
