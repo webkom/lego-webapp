@@ -32,15 +32,17 @@ const AnnouncementItem = ({
           )}
         </Flex>
         <Flex className={styles.msg}>{announcement.message}</Flex>
-        <Flex wrap>
-          {announcement.fromGroup && 'Sendt fra: '}
-          <Link
-            className={styles.recipients}
-            to={`/admin/groups/${announcement.fromGroup.id}/`}
-          >
-            {announcement.fromGroup.name}
-          </Link>
-        </Flex>
+        {announcement.fromGroup && (
+          <Flex wrap>
+            {'Sendt fra: '}
+            <Link
+              className={styles.recipients}
+              to={`/admin/groups/${announcement.fromGroup.id}/`}
+            >
+              {announcement.fromGroup.name}
+            </Link>
+          </Flex>
+        )}
         <Flex column>
           <span className={styles.recHeader}>Mottakere:</span>
           <Flex wrap>

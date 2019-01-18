@@ -35,7 +35,7 @@ const AnnouncementsCreate = ({
       groups: announcement.groups.map(group => group.value),
       meetings: announcement.meetings.map(meeting => meeting.value),
       events: announcement.events.map(event => event.value),
-      fromGroup: announcement.fromGroup ? announcement.fromGroup.value : null,
+      fromGroup: announcement.fromGroup,
       send
     });
   };
