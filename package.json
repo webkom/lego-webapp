@@ -143,7 +143,7 @@
     "redux-mock-store": "^1.2.2",
     "start-server-webpack-plugin": "^2.1.2",
     "style-loader": "^0.18.2",
-    "stylelint": "^9.10.0",
+    "stylelint": "^9.10.1",
     "stylelint-config-standard": "^16.0.0",
     "timekeeper": "^1.0.0",
     "url-loader": "^0.5.9",
