@@ -6,6 +6,7 @@ import styles from './Poll.css';
 import type { PollEntity, OptionEntity } from 'app/reducers/polls';
 import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
+import { Flex } from 'app/components/Layout';
 
 type Props = {
   poll: PollEntity,
@@ -28,14 +29,8 @@ class Poll extends React.Component<Props, State> {
     if (props.truncate && options.length > props.truncate) {
       this.state = {
         truncateOptions: true,
-        optionsToShow: options.slice(0, 3),
+        optionsToShow: options.slice(0, props.truncate),
         expanded: false
-      };
-    } else if (!props.truncate) {
-      this.state = {
-        truncateOptions: false,
-        optionsToShow: options,
-        expanded: true
       };
     } else {
       this.state = {
@@ -56,18 +51,22 @@ class Poll extends React.Component<Props, State> {
     }
   }
 
+  toggleTruncate = () => {
+    const { truncate, poll } = this.props;
+    const { expanded } = this.state;
+    const { options } = poll;
+    expanded
+      ? this.setState({
+          optionsToShow: options.slice(0, truncate),
+          expanded: false
+        })
+      : this.setState({ optionsToShow: options, expanded: true });
+  };
+
   render() {
-    const { poll, handleVote, backgroundLight, details, truncate } = this.props;
+    const { poll, handleVote, backgroundLight, details } = this.props;
     const { truncateOptions, optionsToShow, expanded } = this.state;
     const { id, title, description, options, hasAnswered, totalVotes } = poll;
-
-    const toggleTruncate = () =>
-      expanded
-        ? this.setState({
-            optionsToShow: options.slice(0, truncate),
-            expanded: false
-          })
-        : this.setState({ optionsToShow: options, expanded: true });
 
     return (
       <div
@@ -118,23 +117,24 @@ class Poll extends React.Component<Props, State> {
           </div>
         )}
         {!hasAnswered && (
-          <div>
+          <Flex column>
             {options &&
               optionsToShow.map(option => (
-                <Button
-                  key={option.id}
-                  className={styles.voteButton}
-                  onClick={() => handleVote(poll.id, option.id)}
-                >
-                  {option.name}
-                </Button>
+                <Flex style={{ justifyContent: 'center' }} key={option.id}>
+                  <Button
+                    className={styles.voteButton}
+                    onClick={() => handleVote(poll.id, option.id)}
+                  >
+                    {option.name}
+                  </Button>
+                </Flex>
               ))}
-          </div>
+          </Flex>
         )}
         {truncateOptions && (
           <div className={styles.moreOptionsLink}>
             <Icon
-              onClick={toggleTruncate}
+              onClick={this.toggleTruncate}
               className={styles.arrow}
               size={20}
               name={expanded ? 'arrow-up' : 'arrow-down'}

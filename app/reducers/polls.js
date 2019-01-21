@@ -32,7 +32,7 @@ export default createEntityReducer({
       case Poll.DELETE.SUCCESS:
         return {
           ...state,
-          items: state.items.filter(id => action.meta.polls !== id)
+          items: state.items.filter(id => action.meta.pollId !== id)
         };
       default:
         return state;
@@ -48,7 +48,7 @@ export const selectPolls = createSelector(
   }
 );
 
-export const selectPollsById = createSelector(
+export const selectPollById = createSelector(
   selectPolls,
   (state, pollsId) => pollsId,
   (polls, pollsId) => {

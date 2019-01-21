@@ -91,9 +91,7 @@ export function deletePoll(pollId: number): Thunk<*> {
           errorMessage: 'Fjerning av avstemning feilet!'
         }
       })
-    )
-      .then(() => dispatch(push(`/polls/`)))
-      .then(() => fetchAll());
+    ).then(() => dispatch(push(`/polls/`)));
 }
 
 export function votePoll(pollId: number, optionId: number) {

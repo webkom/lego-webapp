@@ -18,6 +18,11 @@ import { Form, Field, FieldArray } from 'redux-form';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import styles from './PollEditor.css';
 
+const keyCodes = {
+  enter: 13,
+  space: 32
+};
+
 type Props = {
   pristine: boolean,
   submitting: boolean,
@@ -124,7 +129,7 @@ class EditPollForm extends Component<Props, *> {
               keyCode
             }: {
               keyCode: number
-            }) => keyCode === 32 || keyCode === 13}
+            }) => keyCode === keyCodes.enter || keyCode === keyCodes.space}
           />
           <FieldArray
             name="options"
@@ -142,7 +147,7 @@ class EditPollForm extends Component<Props, *> {
             <ConfirmModalWithParent
               title="Slett avstemning"
               message="Er du sikker på at du vil slette avstemningen?"
-              onConfirm={() => Promise.resolve(deletePoll())}
+              onConfirm={deletePoll}
               closeOnConfirm
               className={styles.deletePoll}
             >
@@ -170,7 +175,7 @@ const onSubmit = (
     options: Array<Object>,
     pinned: boolean
   },
-  dispach,
+  dispatch,
   props
 ) => {
   return props

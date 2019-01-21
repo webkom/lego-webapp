@@ -83,6 +83,7 @@
   width: 100%;
   margin: 0 !important;
   font-size: 15px;
+  max-width: 400px;
 }
 
 .voteButton:hover {
