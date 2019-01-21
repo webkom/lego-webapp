@@ -41,7 +41,8 @@ const mapStateToProps = (state, props) => {
       addFee: valueSelector(state, 'addFee'),
       isPriced: valueSelector(state, 'isPriced'),
       eventType: valueSelector(state, 'eventType'),
-      priceMember: valueSelector(state, 'priceMember')
+      priceMember: valueSelector(state, 'priceMember'),
+      startTime: valueSelector(state, 'startTime')
     },
     pools: valueSelector(state, 'pools')
   };
