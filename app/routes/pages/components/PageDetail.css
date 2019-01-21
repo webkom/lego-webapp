@@ -46,13 +46,28 @@
   min-width: 150px;
   max-width: 230px;
   margin: 0 2em;
-  padding: 20px;
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
 
   @media (--mobile-device) {
     margin: 0;
   }
+}
+
+.sidebarHeader {
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: -10px;
+}
+
+.sidebarSubtitle {
+  margin-top: 0;
+  padding-top: 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .sidebarPicture {
@@ -100,6 +115,11 @@
 
 .oldImg {
   filter: grayscale(100%);
+}
+
+.pictureHeader {
+  margin-top: -15px;
+  margin-bottom: 5px;
 }
 
 .pictureInfo {
