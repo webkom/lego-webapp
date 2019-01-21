@@ -38,9 +38,6 @@ const InterestedButton = ({ isInterested }: InterestedButtonProps) => {
   return <Icon className={styles.star} name={icon} />;
 };
 
-/**
- *
- */
 type Props = {
   eventId: string,
   event: Object,
@@ -78,9 +75,6 @@ type Props = {
   updateUser: Object => void
 };
 
-/**
- *
- */
 export default class EventDetail extends Component<Props> {
   handleRegistration = ({ captchaResponse, feedback, type }: Object) => {
     const {
