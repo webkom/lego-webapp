@@ -185,13 +185,15 @@ function EventEditor({
               fieldClassName={styles.metaField}
               className={styles.formField}
             />
-            <Field
-              label="Sted"
-              name="location"
-              component={TextInput.Field}
-              fieldClassName={styles.metaField}
-              className={styles.formField}
-            />
+            <Tooltip content="Events som settes som TBA og ikke har noen pool vil vises som TBA på forsiden.">
+              <Field
+                label="Sted"
+                name="location"
+                component={TextInput.Field}
+                fieldClassName={styles.metaField}
+                className={styles.formField}
+              />
+            </Tooltip>
             <Field
               label="Betalt arrangement"
               name="isPriced"

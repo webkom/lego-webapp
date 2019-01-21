@@ -23,13 +23,41 @@ class EventItem extends Component<Props, *> {
     const TITLE_MAX_LENGTH = 50;
     const { registrationCount, totalCapacity, activationTime } = item;
 
-    // This value will less then 0 if activationTime has yet to come
-    const future = moment().diff(activationTime) < 0;
-    const info = future
+    /* The event tooltip is calculated based on different factors.
+     *
+     * 1) The event is yet to announced, meaning nobody has created
+     * a pool for the event and the location is set to TBA.
+     *
+     * 2) The event has no pool because no pool is needed for this
+     * event. These events will show up as 'Åpent arrangement' if
+     * they have their location set to something else then 'TBA'
+     *
+     * 3) The event is yet to open. This event will have the
+     * activationTime set to something else then 'null'
+     *
+     * 4) The event is open. Here activation time will be 'null' again
+     * and we show how many has signed up for the event.
+     *
+     * 5) The user has signed up for the event. This should also
+     * show how many users have signed up for the event.
+     *
+     */
+
+    const tba =
+      activationTime == null &&
+      !totalCapacity &&
+      !registrationCount &&
+      item.location.toLowerCase() == 'tba';
+
+    const future = moment().isBefore(activationTime);
+
+    const info = tba
+      ? 'TBA'
+      : future
       ? `Åpner ${moment(activationTime).format('dddd D MMM HH:mm')}`
       : totalCapacity == 0
       ? 'Åpent arrangement'
-      : `${registrationCount}/${totalCapacity}`;
+      : `${registrationCount}/${totalCapacity} påmeldte`;
 
     return (
       <div className={styles.body}>
