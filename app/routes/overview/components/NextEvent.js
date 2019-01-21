@@ -55,10 +55,9 @@ class EventItem extends React.Component<Props, State> {
     const selected = this.props.event;
     const activeString = moment(selected.activationTime).format('LLLL');
     return (
-      <Tooltip content={activeString}>
+      <Tooltip content={`Påmelding: ${activeString}`}>
         <Flex
           column
-          title={`Påmelding: ${activeString}`}
           style={{ borderColor: colorForEvent(selected.eventType) }}
           className={styles.eventItem}
         >
