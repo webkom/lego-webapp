@@ -12,10 +12,11 @@ import {
 import moment from 'moment-timezone';
 
 type poolProps = {
-  fields: Object
+  fields: Object,
+  startTime: Object
 };
 
-const renderPools = ({ fields }: poolProps) => (
+const renderPools = ({ fields, startTime }: poolProps) => (
   <ul style={{ flex: 1 }}>
     {fields.map((pool, index) => (
       <li key={index}>
@@ -64,7 +65,11 @@ const renderPools = ({ fields }: poolProps) => (
           fields.push({
             name: `Pool #${fields.length + 1}`,
             registrations: [],
-            activationDate: moment().toISOString(),
+            activationDate: moment(startTime)
+              .subtract(7, 'd')
+              .hour(12)
+              .minute(0)
+              .toISOString(),
             permissionGroups: []
           })
         }

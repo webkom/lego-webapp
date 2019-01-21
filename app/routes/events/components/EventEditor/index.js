@@ -292,7 +292,11 @@ function EventEditor({
               <RegisteredSummary registrations={[]} toggleModal={i => {}} />
               <AttendanceStatus title="Påmeldte" pools={pools} />
               <div className={styles.metaList}>
-                <FieldArray name="pools" component={renderPools} />
+                <FieldArray
+                  name="pools"
+                  component={renderPools}
+                  startTime={event.startTime}
+                />
               </div>
               {pools && pools.length > 1 && (
                 <Tooltip content="Tidspunkt for å slå sammen poolene">
