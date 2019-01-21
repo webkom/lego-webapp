@@ -11,6 +11,7 @@ import mergeObjects from 'app/utils/mergeObjects';
 import type { UserEntity } from 'app/reducers/users';
 import type { CompanySemesterContactedStatus, Semester } from 'app/models';
 import { selectJoblistings } from 'app/reducers/joblistings';
+import moment from 'moment-timezone';
 
 export type BaseCompanyEntity = {
   name: string,
@@ -233,7 +234,10 @@ export const selectEventsForCompany = createSelector(
   (events, companyId) => {
     if (!companyId || !events) return [];
     return events.filter(
-      event => event.company && Number(event.company.id) === Number(companyId)
+      event =>
+        event.company &&
+        Number(event.company.id) === Number(companyId) &&
+        moment().isBefore(event.startTime)
     );
   }
 );
@@ -246,7 +250,8 @@ export const selectJoblistingsForCompany = createSelector(
     return joblistings.filter(
       joblisting =>
         joblisting.company &&
-        Number(joblisting.company.id) === Number(companyId)
+        Number(joblisting.company.id) === Number(companyId) &&
+        moment().isBefore(joblisting.deadline)
     );
   }
 );
