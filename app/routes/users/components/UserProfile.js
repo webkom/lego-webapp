@@ -18,7 +18,7 @@ import { groupBy } from 'lodash';
 import { resolveGroupLink } from 'app/reducers/groups';
 import type { Group, AddPenalty, Event, ID } from 'app/models';
 import cx from 'classnames';
-import { EventItem } from 'app/routes/events/components/EventList';
+import EventItem from 'app/components/EventItem';
 import EmptyState from 'app/components/EmptyState';
 import moment from 'moment-timezone';
 import type { Dateish } from 'app/models';
