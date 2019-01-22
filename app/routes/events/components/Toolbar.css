@@ -1,32 +1,42 @@
+@import 'app/styles/variables.css';
+
 .root {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  margin-bottom: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas: 'time list calender create';
   white-space: nowrap;
+  margin-bottom: 20px;
+
+  @media (--mobile-device) {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+      'time create'
+      'list calender';
+  }
 }
 
-.section {
-  flex: 1;
+.time {
+  grid-area: time;
   display: flex;
+  justify-content: flex-start;
   align-items: center;
-  margin-bottom: 10px;
-
-  &:last-of-type {
-    margin-left: 20px;
-    justify-content: flex-end;
-  }
-
-  &:first-of-type {
-    margin-right: 20px;
-    justify-content: flex-start;
-  }
 }
 
-.buttons {
-  composes: section;
-  flex: 2;
-  justify-content: center;
+.create {
+  grid-area: create;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.list {
+  grid-area: list;
+}
+
+.calender {
+  grid-area: calender;
 }
 
 .pickerItem {

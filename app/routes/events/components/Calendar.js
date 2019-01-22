@@ -9,6 +9,7 @@ import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import CalendarCell from './CalendarCell';
 import Toolbar from './Toolbar';
 import EventFooter from './EventFooter';
+import type { ActionGrant } from 'app/models';
 
 const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
 
@@ -16,7 +17,7 @@ type Props = {
   weekOffset: number,
   date: moment,
   icalToken: string,
-  actionGrant: Object
+  actionGrant: ActionGrant
 };
 
 function pathForPrevMonth(date: moment) {

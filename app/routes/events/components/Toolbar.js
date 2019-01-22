@@ -4,13 +4,13 @@ import React, { Component } from 'react';
 import { Link, IndexLink } from 'react-router';
 import Modal from 'app/components/Modal';
 import Time from 'app/components/Time';
-import Button from 'app/components/Button';
 import EventEditor from './EventEditor';
-import { Flex } from 'app/components/Layout';
 import styles from './Toolbar.css';
+import type { ActionGrant } from 'app/models';
+import cx from 'classnames';
 
 type Props = {
-  actionGrant: /*TODO: ActionGrant */ any
+  actionGrant: ActionGrant
 };
 
 type State = {
@@ -25,34 +25,30 @@ class Toolbar extends Component<Props, State> {
   render() {
     const { actionGrant } = this.props;
     return (
-      <Flex wrap className={styles.root}>
-        <div className={styles.section}>
+      <div className={styles.root}>
+        <div className={cx(styles.section, styles.time)}>
           <Time format="ll" className={styles.timeNow} />
         </div>
 
-        <div className={styles.buttons}>
-          <IndexLink
-            to="/events"
-            activeClassName={styles.active}
-            className={styles.pickerItem}
-          >
-            Liste
-          </IndexLink>
+        <IndexLink
+          to="/events"
+          activeClassName={styles.active}
+          className={cx(styles.pickerItem, styles.list)}
+        >
+          Liste
+        </IndexLink>
 
-          <Link
-            to="/events/calendar"
-            activeClassName={styles.active}
-            className={styles.pickerItem}
-          >
-            Kalender
-          </Link>
-        </div>
+        <Link
+          to="/events/calendar"
+          activeClassName={styles.active}
+          className={cx(styles.pickerItem, styles.calender)}
+        >
+          Kalender
+        </Link>
 
-        <div className={styles.section}>
+        <div className={cx(styles.section, styles.create)}>
           {actionGrant && actionGrant.includes('create') && (
-            <Link to="/events/create">
-              <Button>Lag nytt arrangement</Button>
-            </Link>
+            <Link to="/events/create">Lag nytt</Link>
           )}
         </div>
 
@@ -64,7 +60,7 @@ class Toolbar extends Component<Props, State> {
         >
           <EventEditor />
         </Modal>
-      </Flex>
+      </div>
     );
   }
 }
