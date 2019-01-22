@@ -228,6 +228,8 @@ function transformEvent(event) {
     ...event,
     startTime: moment(event.startTime),
     endTime: moment(event.endTime),
+    activationTime:
+      event.activationTime !== null ? moment(event.activationTime) : null,
     mergeTime: event.mergeTime && moment(event.mergeTime)
   };
 }
