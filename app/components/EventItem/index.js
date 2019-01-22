@@ -10,26 +10,56 @@ import Time from 'app/components/Time';
 import Tag from 'app/components/Tags/Tag';
 import { Flex } from 'app/components/Layout';
 import type { Event } from 'app/models';
+import moment from 'moment-timezone';
 
 type AttendanceProps = {
   registrationCount: number,
-  totalCapacity: number
+  totalCapacity: number,
+  event: Event
 };
 
-const Attendance = ({ registrationCount, totalCapacity }: AttendanceProps) => {
+const Attendance = ({
+  registrationCount,
+  totalCapacity,
+  event
+}: AttendanceProps) => {
+  const future = moment().isAfter(event.activationTime);
   return (
     <Pill style={{ marginLeft: '5px', color: 'black', whiteSpace: 'nowrap' }}>
-      {`${registrationCount} / ${totalCapacity}`}
+      {future
+        ? `${totalCapacity} plasser`
+        : `${registrationCount} / ${totalCapacity}`}
     </Pill>
+  );
+};
+
+type TimeStampProps = {
+  event: Event,
+  field: string
+};
+
+const TimeStamp = ({ event, field }: TimeStampProps) => {
+  const future = moment().isAfter(event.activationTime);
+  const registration = future
+    ? `Åpner ${moment(event.activationTime).format('ll HH:mm')}`
+    : `Åpent`;
+
+  return (
+    <div className={styles.eventTime}>
+      {registration}
+      <br />
+      Starter kl: <Time time={event.startTime} format="ll HH:mm" />
+    </div>
   );
 };
 
 type EventItemProps = {
   event: Event,
+  field: string,
   showTags?: boolean
 };
 
-const EventItem = ({ event, showTags = true }: EventItemProps) => {
+const EventItem = ({ event, field, showTags = true }: EventItemProps) => {
   return (
     <div
       style={{ borderColor: colorForEvent(event.eventType) }}
@@ -42,14 +72,11 @@ const EventItem = ({ event, showTags = true }: EventItemProps) => {
             <Attendance
               registrationCount={event.registrationCount}
               totalCapacity={event.totalCapacity}
+              event={event}
             />
           )}
         </Link>
-
-        <div className={styles.eventTime}>
-          <Time time={event.startTime} format="ll HH:mm" />
-          {` • ${event.location}`}
-        </div>
+        <TimeStamp event={event} field={field} />
         {showTags && (
           <Flex wrap>
             {event.tags.map((tag, index) => (
