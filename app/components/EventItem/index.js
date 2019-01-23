@@ -41,6 +41,7 @@ type TimeStampProps = {
 
 const TimeStamp = ({ event, field }: TimeStampProps) => {
   const future = moment().isBefore(event.activationTime);
+
   const registration = future
     ? `Åpner ${moment(event.activationTime).format('ll HH:mm')}`
     : `Åpent`;

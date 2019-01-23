@@ -9,14 +9,14 @@ import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import CalendarCell from './CalendarCell';
 import Toolbar from './Toolbar';
 import EventFooter from './EventFooter';
-import type { ActionGrant } from 'app/models';
+import type { ActionGrant, IcalToken } from 'app/models';
 
 const WEEKDAYS = ['Man', 'Tir', 'Ons', 'Tor', 'Fre', 'Lør', 'Søn'];
 
 type Props = {
   weekOffset: number,
   date: moment,
-  icalToken: string,
+  icalToken: IcalToken,
   actionGrant: ActionGrant
 };
 
