@@ -10,17 +10,18 @@ import styles from './EventList.css';
 import EventFooter from './EventFooter';
 import EmptyState from 'app/components/EmptyState';
 import { isEmpty } from 'lodash';
-import type { Event, ActionGrant } from 'app/models';
+import type { Event, ActionGrant, IcalToken } from 'app/models';
 import Select from 'react-select';
 import { orderBy } from 'lodash';
 import Icon from 'app/components/Icon';
+import { EVENTFIELDS } from 'app/utils/constants';
 
 const groupEvents = ({
   events,
   field = 'startTime'
 }: {
   events: Array<Event>,
-  field: string
+  field: 'activationTime' | 'startTime'
 }) => {
   const nextWeek = moment().add(1, 'week');
   const groups = {
@@ -47,7 +48,7 @@ const EventListGroup = ({
   events = []
 }: {
   name: string,
-  field: string,
+  field: 'activationTime' | 'startTime',
   events: Array<Event>
 }) => {
   return isEmpty(events) ? null : (
@@ -63,15 +64,15 @@ const EventListGroup = ({
 type EventListProps = {
   events: Array<Event>,
   actionGrant: ActionGrant,
-  icalToken: string,
+  icalToken: IcalToken,
   showFetchMore: boolean,
   fetchMore: () => Promise<*>
 };
 
 type Option = {
-  value: Event => Event,
+  filterFunc: Event => boolean,
   label: string,
-  field: string
+  field: 'activationTime' | 'startTime'
 };
 
 type State = {
@@ -82,10 +83,9 @@ type State = {
 class EventList extends Component<EventListProps, State> {
   state = {
     selectedOption: {
-      // $FlowFixMe
-      value: event => event,
+      filterFunc: (event: Event) => event,
       label: 'Alle',
-      field: 'startTime'
+      field: EVENTFIELDS.start
     }
   };
 
@@ -95,12 +95,30 @@ class EventList extends Component<EventListProps, State> {
 
   render() {
     const { icalToken, showFetchMore, fetchMore, events } = this.props;
-    const { field, value } = this.state.selectedOption;
+    const { field, filterFunc } = this.state.selectedOption;
 
     const groupedEvents = groupEvents({
-      events: orderBy(events.filter(value), field),
+      events: orderBy(events.filter(filterFunc), field),
       field: field
     });
+
+    const options = [
+      {
+        filterFunc: event => event,
+        label: 'Vis alle',
+        field: EVENTFIELDS.start
+      },
+      {
+        filterFunc: event => event.activationTime == null,
+        label: 'Påmelding åpnet',
+        field: EVENTFIELDS.start
+      },
+      {
+        filterFunc: event => event.activationTime !== null,
+        label: 'Åpner i fremtiden',
+        field: EVENTFIELDS.activate
+      }
+    ];
 
     return (
       <div className={styles.root}>
@@ -117,23 +135,7 @@ class EventList extends Component<EventListProps, State> {
             value={this.state.selectedOption}
             onChange={this.handleChange}
             className={styles.select}
-            options={[
-              {
-                value: event => event,
-                label: 'Vis alle',
-                field: 'startTime'
-              },
-              {
-                value: event => event.activationTime == null,
-                label: 'Påmelding åpnet',
-                field: 'startTime'
-              },
-              {
-                value: event => event.activationTime !== null,
-                label: 'Åpner i fremtiden',
-                field: 'activationTime'
-              }
-            ]}
+            options={options}
           />
         </div>
         <EventListGroup
@@ -157,7 +159,9 @@ class EventList extends Component<EventListProps, State> {
             <h2 className={styles.noEvents}>Ingen kommende arrangementer</h2>
           </EmptyState>
         )}
-        {showFetchMore && <Button onClick={fetchMore}>Last inn mer</Button>}
+        {showFetchMore && field == 'startTime' && (
+          <Button onClick={fetchMore}>Last inn mer</Button>
+        )}
         <div className={styles.bottomBorder} />
         <EventFooter icalToken={icalToken} />
       </div>

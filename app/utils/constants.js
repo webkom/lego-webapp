@@ -40,3 +40,8 @@ export const roleOptions = (Object.keys(ROLES)
     value: role,
     label: ROLES[role] || startCase(role)
   })): Array<{ value: string, label: string }>);
+
+export const EVENTFIELDS = {
+  start: 'startTime',
+  activate: 'activationTime'
+};

@@ -115,12 +115,7 @@ const UpcomingEvents = ({ upcomingEvents }: UpcomingEventsProps) => (
     {upcomingEvents && upcomingEvents.length ? (
       <Flex column wrap>
         {upcomingEvents.map((event, i) => (
-          <EventItem
-            key={i}
-            event={event}
-            showTags={false}
-            field={'startTime'}
-          />
+          <EventItem key={i} event={event} showTags={false} />
         ))}
       </Flex>
     ) : (

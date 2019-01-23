@@ -192,7 +192,7 @@ class Overview extends Component<Props, State> {
 
     const nextEvent = (
       <Flex column>
-        <Link to={'/articles'}>
+        <Link to={'/events'}>
           <h3 className="u-ui-heading">Påmeldinger</h3>
         </Link>
         <NextEvent

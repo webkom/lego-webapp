@@ -26,7 +26,7 @@ class Toolbar extends Component<Props, State> {
     const { actionGrant } = this.props;
     return (
       <div className={styles.root}>
-        <div className={cx(styles.section, styles.time)}>
+        <div className={styles.time}>
           <Time format="ll" className={styles.timeNow} />
         </div>
 
@@ -46,7 +46,7 @@ class Toolbar extends Component<Props, State> {
           Kalender
         </Link>
 
-        <div className={cx(styles.section, styles.create)}>
+        <div className={styles.create}>
           {actionGrant && actionGrant.includes('create') && (
             <Link to="/events/create">Lag nytt</Link>
           )}

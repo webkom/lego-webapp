@@ -11,6 +11,7 @@ import Tag from 'app/components/Tags/Tag';
 import { Flex } from 'app/components/Layout';
 import type { Event } from 'app/models';
 import moment from 'moment-timezone';
+import { EVENTFIELDS } from 'app/utils/constants';
 
 type AttendanceProps = {
   registrationCount: number,
@@ -23,7 +24,7 @@ const Attendance = ({
   totalCapacity,
   event
 }: AttendanceProps) => {
-  const future = moment().isAfter(event.activationTime);
+  const future = moment().isBefore(event.activationTime);
   return (
     <Pill style={{ marginLeft: '5px', color: 'black', whiteSpace: 'nowrap' }}>
       {future
@@ -39,7 +40,7 @@ type TimeStampProps = {
 };
 
 const TimeStamp = ({ event, field }: TimeStampProps) => {
-  const future = moment().isAfter(event.activationTime);
+  const future = moment().isBefore(event.activationTime);
   const registration = future
     ? `Åpner ${moment(event.activationTime).format('ll HH:mm')}`
     : `Åpent`;
@@ -55,42 +56,44 @@ const TimeStamp = ({ event, field }: TimeStampProps) => {
 
 type EventItemProps = {
   event: Event,
-  field: string,
+  field?: 'activationTime' | 'startTime',
   showTags?: boolean
 };
 
-const EventItem = ({ event, field, showTags = true }: EventItemProps) => {
-  return (
-    <div
-      style={{ borderColor: colorForEvent(event.eventType) }}
-      className={styles.eventItem}
-    >
-      <div>
-        <Link to={`/events/${event.id}`}>
-          <h3 className={styles.eventItemTitle}>{event.title}</h3>
-          {event.totalCapacity > 0 && (
-            <Attendance
-              registrationCount={event.registrationCount}
-              totalCapacity={event.totalCapacity}
-              event={event}
-            />
-          )}
-        </Link>
-        <TimeStamp event={event} field={field} />
-        {showTags && (
-          <Flex wrap>
-            {event.tags.map((tag, index) => (
-              <Tag key={index} tag={tag} small />
-            ))}
-          </Flex>
+const EventItem = ({
+  event,
+  field = EVENTFIELDS.start,
+  showTags = true
+}: EventItemProps) => (
+  <div
+    style={{ borderColor: colorForEvent(event.eventType) }}
+    className={styles.eventItem}
+  >
+    <div>
+      <Link to={`/events/${event.id}`}>
+        <h3 className={styles.eventItemTitle}>{event.title}</h3>
+        {event.totalCapacity > 0 && (
+          <Attendance
+            registrationCount={event.registrationCount}
+            totalCapacity={event.totalCapacity}
+            event={event}
+          />
         )}
-      </div>
-
-      <div className={styles.companyLogo}>
-        {event.cover && <Image src={event.cover} />}
-      </div>
+      </Link>
+      <TimeStamp event={event} field={field} />
+      {showTags && (
+        <Flex wrap>
+          {event.tags.map((tag, index) => (
+            <Tag key={index} tag={tag} small />
+          ))}
+        </Flex>
+      )}
     </div>
-  );
-};
+
+    <div className={styles.companyLogo}>
+      {event.cover && <Image src={event.cover} />}
+    </div>
+  </div>
+);
 
 export default EventItem;
