@@ -9,6 +9,10 @@ export type Dateish = Moment | Date | string;
 
 export type ActionGrant = Array<string>;
 
+export type IcalToken = string;
+
+export type EventTimeType = 'activationTime' | 'startTime';
+
 export type EventType =
   | 'company_presentation'
   | 'lunch_presentation'

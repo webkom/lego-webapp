@@ -95,7 +95,7 @@ const Filler = () => (
 );
 
 // Filter for activation
-const hasActivation = event => typeof event['activationTime'] !== 'object';
+const hasActivation = event => event.activationTime !== null;
 
 // Filter for range
 const inRange = event => {

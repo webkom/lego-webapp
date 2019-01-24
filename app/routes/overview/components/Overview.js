@@ -125,7 +125,7 @@ class Overview extends Component<Props, State> {
 
     const events = (
       <Flex column className={styles.eventsWrapper}>
-        <Link to={'/events'}>
+        <Link to="/events">
           <h3 className="u-ui-heading">Arrangementer</h3>
         </Link>
         <Flex className={styles.events}>
@@ -170,7 +170,7 @@ class Overview extends Component<Props, State> {
 
     const articles = (
       <Flex column className={styles.articlesWrapper}>
-        <Link to={'/articles'}>
+        <Link to="/articles">
           <h3 className="u-ui-heading">Artikler</h3>
         </Link>
         <Flex className={styles.articles}>
@@ -192,7 +192,7 @@ class Overview extends Component<Props, State> {
 
     const nextEvent = (
       <Flex column>
-        <Link to={'/articles'}>
+        <Link to="/events">
           <h3 className="u-ui-heading">Påmeldinger</h3>
         </Link>
         <NextEvent
