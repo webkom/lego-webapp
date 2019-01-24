@@ -10,7 +10,7 @@ import styles from './EventList.css';
 import EventFooter from './EventFooter';
 import EmptyState from 'app/components/EmptyState';
 import { isEmpty } from 'lodash';
-import type { Event, ActionGrant, IcalToken } from 'app/models';
+import type { Event, ActionGrant, IcalToken, EventTimeType } from 'app/models';
 import Select from 'react-select';
 import { orderBy } from 'lodash';
 import Icon from 'app/components/Icon';
@@ -21,7 +21,7 @@ const groupEvents = ({
   field = 'startTime'
 }: {
   events: Array<Event>,
-  field: 'activationTime' | 'startTime'
+  field?: EventTimeType
 }) => {
   const nextWeek = moment().add(1, 'week');
   const groups = {
@@ -48,8 +48,8 @@ const EventListGroup = ({
   events = []
 }: {
   name: string,
-  field: 'activationTime' | 'startTime',
-  events: Array<Event>
+  field?: EventTimeType,
+  events?: Array<Event>
 }) => {
   return isEmpty(events) ? null : (
     <div className={styles.eventGroup}>
@@ -72,7 +72,7 @@ type EventListProps = {
 type Option = {
   filterFunc: Event => boolean,
   label: string,
-  field: 'activationTime' | 'startTime'
+  field: EventTimeType
 };
 
 type State = {

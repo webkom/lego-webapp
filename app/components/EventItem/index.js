@@ -9,7 +9,7 @@ import { Image } from 'app/components/Image';
 import Time from 'app/components/Time';
 import Tag from 'app/components/Tags/Tag';
 import { Flex } from 'app/components/Layout';
-import type { Event } from 'app/models';
+import type { Event, EventTimeType } from 'app/models';
 import moment from 'moment-timezone';
 import { EVENTFIELDS } from 'app/utils/constants';
 
@@ -24,10 +24,10 @@ const Attendance = ({
   totalCapacity,
   event
 }: AttendanceProps) => {
-  const future = moment().isBefore(event.activationTime);
+  const isFuture = moment().isBefore(event.activationTime);
   return (
     <Pill style={{ marginLeft: '5px', color: 'black', whiteSpace: 'nowrap' }}>
-      {future
+      {isFuture
         ? `${totalCapacity} plasser`
         : `${registrationCount} / ${totalCapacity}`}
     </Pill>
@@ -36,13 +36,13 @@ const Attendance = ({
 
 type TimeStampProps = {
   event: Event,
-  field: string
+  field: EventTimeType
 };
 
 const TimeStamp = ({ event, field }: TimeStampProps) => {
-  const future = moment().isBefore(event.activationTime);
+  const isFuture = moment().isBefore(event.activationTime);
 
-  const registration = future
+  const registration = isFuture
     ? `Åpner ${moment(event.activationTime).format('ll HH:mm')}`
     : `Åpent`;
 
@@ -57,7 +57,7 @@ const TimeStamp = ({ event, field }: TimeStampProps) => {
 
 type EventItemProps = {
   event: Event,
-  field?: 'activationTime' | 'startTime',
+  field?: EventTimeType,
   showTags?: boolean
 };
 
