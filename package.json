@@ -103,7 +103,7 @@
     "assets-webpack-plugin": "^3.5.1",
     "babel-core": "^6.23.1",
     "babel-eslint": "^8.0.1",
-    "babel-jest": "^21.0.2",
+    "babel-jest": "^24.0.0",
     "babel-loader": "^7.1.1",
     "babel-plugin-lodash": "^3.2.11",
     "babel-plugin-transform-import-to-require": "^1.0.0",
