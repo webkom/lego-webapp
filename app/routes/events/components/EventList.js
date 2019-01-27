@@ -84,7 +84,7 @@ class EventList extends Component<EventListProps, State> {
   state = {
     selectedOption: {
       filterFunc: (event: Event) => event,
-      label: 'Alle',
+      label: 'Vis alle',
       field: EVENTFIELDS.start
     }
   };
@@ -109,12 +109,16 @@ class EventList extends Component<EventListProps, State> {
         field: EVENTFIELDS.start
       },
       {
-        filterFunc: event => event.activationTime == null,
+        filterFunc: event =>
+          event.activationTime != null &&
+          event.activationTime.isBefore(moment()),
         label: 'Påmelding åpnet',
         field: EVENTFIELDS.start
       },
       {
-        filterFunc: event => event.activationTime !== null,
+        filterFunc: event =>
+          event.activationTime != null &&
+          event.activationTime.isAfter(moment()),
         label: 'Åpner i fremtiden',
         field: EVENTFIELDS.activate
       }
@@ -136,6 +140,7 @@ class EventList extends Component<EventListProps, State> {
             onChange={this.handleChange}
             className={styles.select}
             options={options}
+            clearable={false}
           />
         </div>
         <EventListGroup
