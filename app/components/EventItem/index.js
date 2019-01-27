@@ -43,8 +43,8 @@ const TimeStamp = ({ event, field }: TimeStampProps) => {
   const isFuture = moment().isBefore(event.activationTime);
 
   const registration = isFuture
-    ? `Åpner ${moment(event.activationTime).format('ll HH:mm')}`
-    : `Åpent`;
+    ? `Påmelding åpner ${moment(event.activationTime).format('ll HH:mm')}`
+    : `Påmelding åpen!`;
 
   return (
     <div className={styles.eventTime}>
