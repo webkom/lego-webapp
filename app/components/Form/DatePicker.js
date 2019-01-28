@@ -17,7 +17,8 @@ type Props = {
   className?: string,
   value: ?string,
   showTimePicker?: boolean,
-  dateFormat?: string
+  dateFormat?: string,
+  name?: string
 };
 
 type State = {
@@ -94,7 +95,7 @@ class DatePicker extends Component<Props, State> {
   };
 
   render() {
-    const { showTimePicker, className } = this.props;
+    const { showTimePicker, className, name } = this.props;
     const { date } = this.state;
 
     return (
@@ -107,6 +108,7 @@ class DatePicker extends Component<Props, State> {
             value={moment
               .tz(this.state.value, config.timezone)
               .format(this.props.dateFormat)}
+            name={name}
           />
         }
         componentClass="div"
