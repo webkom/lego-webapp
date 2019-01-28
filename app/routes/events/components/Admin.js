@@ -107,6 +107,16 @@ const Admin = ({ actionGrant, event, deleteEvent }: Props) => {
               </Link>
             )}
           </li>
+          <li>
+            <Link
+              to={{
+                pathname: `/events/create`,
+                query: { id: event.id }
+              }}
+            >
+              Lag kopi av arrangement
+            </Link>
+          </li>
           {canEdit && (
             <li>
               <Link to={`/events/${event.id}/edit`}>Rediger</Link>
