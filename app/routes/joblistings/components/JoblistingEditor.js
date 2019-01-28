@@ -157,7 +157,6 @@ class JoblistingEditor extends Component<Props, State> {
             placeholder="Søknadsfrist"
             label="Søknadsfrist"
             name="deadline"
-            id="gallery-takenAt"
             component={DatePicker.Field}
           />
           <Field
