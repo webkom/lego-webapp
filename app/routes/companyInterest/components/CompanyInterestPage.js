@@ -48,6 +48,10 @@ export const EVENT_TYPES = {
       'Revysponsor og bedriftspresentasjon i forbindelse med Abakus-revyen 2019',
     english:
       'Sponsor of the Abakus-revue and a company presentation before the revue'
+  },
+  start_up: {
+    norwegian: 'Start-up kveld',
+    english: 'Start-up night'
   }
 };
 
