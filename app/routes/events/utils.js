@@ -3,14 +3,6 @@ import { pick } from 'lodash';
 import moment from 'moment-timezone';
 import type { TransformEvent, EventType } from 'app/models';
 
-export const time = (
-  timeObject: { days?: number, hours?: number, minutes?: number } = {}
-) =>
-  moment()
-    .startOf('day')
-    .add(timeObject)
-    .toISOString();
-
 export const eventTypes = {
   company_presentation: 'Bedriftspresentasjon',
   lunch_presentation: 'Lunsjpresentasjon',

@@ -18,7 +18,8 @@ import {
   selectWaitingRegistrationsForEvent
 } from 'app/reducers/events';
 import { LoginPage } from 'app/components/LoginForm';
-import { transformEvent, time } from './utils';
+import { transformEvent } from './utils';
+import { time } from 'app/utils/time.js';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = (state, props) => {
