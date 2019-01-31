@@ -56,7 +56,7 @@ const countdownReducer = (
         registrationOpensIn: null
       };
 
-    case '1_MINUTE_LEFT':
+    case '3_MINUTE_LEFT':
       return {
         captchaOpen: true,
         formOpen: true,
