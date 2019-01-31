@@ -30,7 +30,7 @@ const COUNTDOWN_INTERVAL = 1000;
 // Must be sorted lo->hi
 const TICK_ACTIONS: Array<[number, Action]> = [
   [0, 'REGISTRATION_AVAILABLE'],
-  [180 * 1000, '3_MINUTE_LEFT'],
+  [3 * 60 * 1000, '3_MINUTE_LEFT'],
   [60 * 10000, '10_MINUTE_LEFT'],
   [Infinity, 'STILL_WAITING']
 ];
