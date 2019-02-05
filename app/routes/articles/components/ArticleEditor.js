@@ -65,6 +65,13 @@ const ArticleEditor = ({
           img={article && article.cover}
         />
         <Field
+          name="youtubeUrl"
+          label="YouTube cover url"
+          placeholder="https://www.youtube.com/watch?v=VvFj1zdT9so&t=20"
+          component={TextInput.Field}
+          aspectRatio={20 / 6}
+        />
+        <Field
           label="Festet på forsiden"
           name="pinned"
           component={CheckBox.Field}
@@ -134,6 +141,7 @@ const onSubmit = (
     ...(isNew ? {} : { id: articleId }),
     ...(data.cover ? { cover: data.cover } : {}),
     ...normalizeObjectPermissions(data),
+    youtubeUrl: data.youtubeUrl,
     title: data.title,
     author: currentUser.id,
     description: data.description,

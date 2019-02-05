@@ -21,7 +21,8 @@ type Props = {
   loggedIn: boolean,
   author: UserEntity,
   currentUser: UserEntity,
-  deleteComment: (id: ID, commentTarget: string) => Promise<*>
+  deleteComment: (id: ID, commentTarget: string) => Promise<*>,
+  youtubeParams: Object
 };
 
 /**
@@ -33,9 +34,10 @@ const ArticleDetail = ({
   loggedIn,
   currentUser,
   comments,
-  deleteComment
+  deleteComment,
+  youtubeParams
 }: Props) => (
-  <Content banner={article.cover} youtubeUrl="LDU_Txk06tM">
+  <Content banner={article.cover} youtubeParams={youtubeParams}>
     <NavigationTab
       headerClassName={styles.headerClassName}
       className={styles.articleHeader}

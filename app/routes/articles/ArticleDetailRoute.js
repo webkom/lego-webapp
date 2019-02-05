@@ -22,12 +22,21 @@ const mapStateToProps = (state, props) => {
   const comments = selectCommentsForArticle(state, { articleId });
   const author = selectUserById(state, { userId: article.author });
 
+  const youtubeParams = {};
+  if (article.youtubeUrl) {
+    const params = new URL(article.youtubeUrl).searchParams;
+    for (const [key, value] of params.entries()) {
+      youtubeParams[key] = value;
+    }
+  }
+
   return {
     fetching: state.articles.fetching,
     comments,
     article,
     articleId,
-    author
+    author,
+    youtubeParams: article.youtubeUrl ? youtubeParams : {}
   };
 };
 
