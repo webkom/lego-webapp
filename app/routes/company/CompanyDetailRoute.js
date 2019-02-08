@@ -15,17 +15,35 @@ import {
   selectEventsForCompany,
   selectJoblistingsForCompany
 } from 'app/reducers/companies';
+import { selectPagination } from '../../reducers/selectors';
+import createQueryString from 'app/utils/createQueryString';
 
-const fetchData = (props, dispatch) =>
-  Promise.all([
-    dispatch(fetchCompany(props.params.companyId)),
-    dispatch(fetchEventsForCompany(props.params.companyId)),
-    dispatch(fetchJoblistingsForCompany(props.params.companyId))
+const queryString = companyId =>
+  createQueryString({
+    company: companyId,
+    ordering: '-start_time'
+  });
+
+const fetchData = (props, dispatch) => {
+  const { companyId } = props.params;
+  return Promise.all([
+    dispatch(fetchCompany(companyId)),
+    dispatch(
+      fetchEventsForCompany({
+        queryString: queryString(companyId),
+        loadNextPage: false
+      })
+    ),
+    dispatch(fetchJoblistingsForCompany(companyId))
   ]);
+};
 
 const mapStateToProps = (state, props) => {
   const { companyId } = props.params;
   const { query } = props.location;
+  const showFetchMoreEvents = selectPagination('events', {
+    queryString: queryString(companyId)
+  })(state);
   const company = state.companies.byId[companyId];
   const companyEvents = selectEventsForCompany(state, { companyId });
   const joblistings = selectJoblistingsForCompany(state, { companyId });
@@ -36,7 +54,22 @@ const mapStateToProps = (state, props) => {
     joblistings,
     query,
     companyId,
-    loggedIn: props.currentUser
+    loggedIn: props.currentUser,
+    showFetchMoreEvents
+  };
+};
+
+const mapDispatchToProps = (dispatch, props) => {
+  const { companyId } = props.params;
+  const fetchMoreEvents = () =>
+    dispatch(
+      fetchEventsForCompany({
+        queryString: queryString(companyId),
+        loadNextPage: true
+      })
+    );
+  return {
+    fetchMoreEvents
   };
 };
 
@@ -48,6 +81,6 @@ export default compose(
   // $FlowFixMe
   connect(
     mapStateToProps,
-    null
+    mapDispatchToProps
   )
 )(CompanyDetail);
