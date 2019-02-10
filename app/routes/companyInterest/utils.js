@@ -81,5 +81,10 @@ export const interestText = {
         'The comment box can also be used for other types of information, such as ' +
         'which technologies you would like to present for our students when hosting a course or a workshop.'
     }
+  },
+  bedex: {
+    norwegian:
+      '«Husk å ranger datoer og gruppestørrelse dersom du har huket av for BedEx»',
+    english: '«Remeber to rank dates and groupsize if you have checked BedEx»'
   }
 };
