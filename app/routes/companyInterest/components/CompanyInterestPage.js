@@ -43,12 +43,6 @@ export const EVENT_TYPES = {
     norwegian: 'Alternativt arrangement',
     english: 'Other event'
   },
-  sponsor: {
-    norwegian:
-      'Revysponsor og bedriftspresentasjon i forbindelse med Abakus-revyen 2019',
-    english:
-      'Sponsor of the Abakus-revue and a company presentation before the revue'
-  },
   start_up: {
     norwegian: 'Start-up kveld',
     english: 'Start-up night'
@@ -324,6 +318,9 @@ const CompanyInterestPage = (props: Props) => {
           <br />
           <br />
           {interestText.text.second[language]}
+          <br />
+          <br />
+          {interestText.bedex[language]}
         </div>
 
         <Field
