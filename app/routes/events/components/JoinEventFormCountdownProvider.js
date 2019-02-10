@@ -6,7 +6,7 @@ import type { Dateish, Event, EventRegistration } from 'app/models';
 
 type Action =
   | 'REGISTRATION_AVAILABLE'
-  | '3_MINUTE_LEFT'
+  | '90_SECONDS_LEFT'
   | '10_MINUTE_LEFT'
   | 'STILL_WAITING'
   | 'REGISTERED_OR_REGISTRATION_ALREADY_OPENED'
@@ -30,7 +30,7 @@ const COUNTDOWN_INTERVAL = 1000;
 // Must be sorted lo->hi
 const TICK_ACTIONS: Array<[number, Action]> = [
   [0, 'REGISTRATION_AVAILABLE'],
-  [3 * 60 * 1000, '3_MINUTE_LEFT'],
+  [3 * 60 * 1000, '90_SECONDS_LEFT'],
   [60 * 10000, '10_MINUTE_LEFT'],
   [Infinity, 'STILL_WAITING']
 ];
@@ -56,7 +56,7 @@ const countdownReducer = (
         registrationOpensIn: null
       };
 
-    case '3_MINUTE_LEFT':
+    case '90_SECONDS_LEFT':
       return {
         captchaOpen: true,
         formOpen: true,
