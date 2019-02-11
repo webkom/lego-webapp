@@ -50,7 +50,7 @@ const HierarchySection = ({
 
 class AccordionContainer extends Component {
   state = {
-    isOpen: true
+    isOpen: false
   };
 
   handleClick = () => {
