@@ -67,8 +67,8 @@ const JoblistingsList = ({ joblistings }: JobListingsItemProps) => (
       <h2 className={styles.headingText}>Jobbannonser</h2>
       <h4 className={styles.headingDeadline}>Søknadsfrist:</h4>
     </Flex>
-    {joblistings.map((joblisting, i) => (
-      <JoblistingItem key={i} joblisting={joblisting} />
+    {joblistings.map(joblisting => (
+      <JoblistingItem key={joblisting.id} joblisting={joblisting} />
     ))}
   </Flex>
 );
