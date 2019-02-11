@@ -55,12 +55,25 @@ export const selectPagesForHierarchy = category =>
     (state, props) => props.title,
     (pages, title) => ({
       title,
-      items: pages
-        .filter(page => page.category === category)
-        .map(page => ({
-          url: `/pages/info/${page.slug}`,
-          title: page.title
-        }))
+      items: (category === 'generelt'
+        ? [
+            {
+              url: '/pages/about',
+              title: 'About'
+            }
+          ]
+        : []
+      ).concat(
+        sortBy(
+          pages
+            .filter(page => page.category === category)
+            .map(page => ({
+              url: `/pages/${page.category}/${page.slug}`,
+              title: page.title
+            })),
+          'title'
+        )
+      )
     })
   );
 
@@ -69,10 +82,13 @@ export const selectGroupsForHierarchy = createSelector(
   (state, props) => props.title,
   (groups, title) => ({
     title,
-    items: groups.map(page => ({
-      url: `/pages/komiteer/${page.id}`,
-      title: page.name
-    }))
+    items: sortBy(
+      groups.map(page => ({
+        url: `/pages/komiteer/${page.id}`,
+        title: page.name
+      })),
+      'title'
+    )
   })
 );
 
@@ -140,6 +156,17 @@ export const selectNotFoundpageForPages = createSelector(
   pageSlug => ({
     selectedPageInfo: {
       title: pageSlug,
+      isComplete: true
+    },
+    selectedPage: {}
+  })
+);
+
+export const selectInfoPageForPages = createSelector(
+  (state, props) => props.pageSlug,
+  pageSlug => ({
+    selectedPageInfo: {
+      title: 'About',
       isComplete: true
     },
     selectedPage: {}

@@ -10,20 +10,22 @@ import PageDetail, {
   FlatpageRenderer,
   GroupRenderer
 } from './components/PageDetail';
+import LandingPage from './components/LandingPage';
 import {
   selectPagesForHierarchy,
   selectGroupsForHierarchy,
   selectPageHierarchy,
   selectCommitteeForPages,
   selectFlatpageForPages,
-  selectNotFoundpageForPages
+  selectNotFoundpageForPages,
+  selectInfoPageForPages
 } from 'app/reducers/pages';
 import HTTPError from 'app/routes/errors/HTTPError';
 
 const sections = {
-  info: {
+  generelt: {
     title: 'Generelt',
-    section: 'info',
+    section: 'generelt',
     pageSelector: selectFlatpageForPages,
     hierarchySectionSelector: selectPagesForHierarchy('generelt'),
     PageRenderer: FlatpageRenderer,
@@ -74,6 +76,15 @@ const sections = {
     PageRenderer: FlatpageRenderer,
     fetchAll: fetchAll,
     fetchItemActions: [fetchPage]
+  },
+  about: {
+    title: 'About',
+    section: 'about',
+    pageSelector: selectInfoPageForPages,
+    hierarchySectionSelector: () => ({ title: 'hehe', items: [] }),
+    PageRenderer: LandingPage,
+    fetchAll: fetchAll,
+    fetchItemActions: []
   }
 };
 
