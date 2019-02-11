@@ -101,14 +101,13 @@ export default function configureStore(
     middlewares.push(loggerMiddleware);
   }
 
-  // $FlowFixMe
+  const composeEnhancer =
+    global.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
   const store = createStore(
     require('../reducers').default,
     initialState,
-    compose(
-      applyMiddleware(...middlewares),
-      global.devToolsExtension ? global.devToolsExtension() : f => f
-    )
+    composeEnhancer(applyMiddleware(...middlewares))
   );
 
   if (module.hot) {
