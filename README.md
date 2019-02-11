@@ -2,6 +2,8 @@
 
 > Next-gen frontend for abakus.no
 
+**Issues**: We track issues in the main repo of LEGO: https://github.com/webkom/lego
+
 ## Getting Started
 
 ### Installing dependencies
