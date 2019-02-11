@@ -27,7 +27,8 @@ import frame from 'app/assets/frame.png';
 
 const fieldTranslations = {
   username: 'brukernavn',
-  email: 'e-post'
+  email: 'e-post',
+  emailAddress: 'abakus e-post'
 };
 
 type Props = {
@@ -135,12 +136,27 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
 
   renderFields() {
     const { user } = this.props;
-    const fields = Object.keys(fieldTranslations).filter(field => user[field]);
+    let fields = Object.keys(fieldTranslations).filter(field => user[field]);
+    if (
+      ['email', 'emailAddress'].every(x => fields.includes(x)) &&
+      user['email'] == user['emailAddress']
+    ) {
+      fields.splice(fields.indexOf('emailAddress'));
+    }
     const tags = fields.map(field => {
       const translation = capitalize(fieldTranslations[field]);
       return (
         <li key={field}>
-          <strong>{translation}:</strong> {user[field]}
+          {field.toLowerCase().includes('email') ? (
+            <span>
+              <strong>{translation}:</strong>
+              <a href={`mailto: ${user[field]}`}> {user[field]}</a>
+            </span>
+          ) : (
+            <span>
+              <strong>{translation}:</strong> {user[field]}
+            </span>
+          )}
         </li>
       );
     });
