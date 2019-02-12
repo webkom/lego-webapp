@@ -28,7 +28,7 @@ import frame from 'app/assets/frame.png';
 const fieldTranslations = {
   username: 'brukernavn',
   email: 'e-post',
-  emailAddress: 'abakus e-post'
+  internalEmailAddress: 'abakus e-post'
 };
 
 type Props = {
@@ -137,12 +137,6 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
   renderFields() {
     const { user } = this.props;
     let fields = Object.keys(fieldTranslations).filter(field => user[field]);
-    if (
-      ['email', 'emailAddress'].every(x => fields.includes(x)) &&
-      user['email'] == user['emailAddress']
-    ) {
-      fields.splice(fields.indexOf('emailAddress'));
-    }
     const tags = fields.map(field => {
       const translation = capitalize(fieldTranslations[field]);
       return (
