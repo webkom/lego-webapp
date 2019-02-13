@@ -55,7 +55,7 @@ const Footer = (props: Props) => (
             </p>
           </div>
           <div className={cx(styles.section, hiddenOnMobile)}>
-            <Link to={'/quotes'} style={{ color: 'white' }}>
+            <Link to={'/quotes/?filter=all'} style={{ color: 'white' }}>
               <Icon
                 className={styles.contact}
                 size={50}
