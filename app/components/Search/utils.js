@@ -37,7 +37,7 @@ const LINKS: Array<Link> = [
   {
     key: 'aboutUs',
     title: 'Om Abakus',
-    url: '/pages/info/om-oss'
+    url: '/pages/about'
   },
   {
     key: 'readme',
