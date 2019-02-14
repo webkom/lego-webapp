@@ -62,8 +62,8 @@ const GroupMembersList = ({
       title: 'E-post',
       dataIndex: 'user.internalEmailAddress',
       search: false,
-      render: (email: string) =>
-        email && <a href={`mailto ${email}`}>{email}</a>
+      render: (internalEmail: string) =>
+        internalEmail && <a href={`mailto:${internalEmail}`}>{internalEmail}</a>
     }
   ];
   return (
