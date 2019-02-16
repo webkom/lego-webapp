@@ -9,7 +9,8 @@ type Props = {
   type?: string,
   className?: string,
   input: any,
-  meta: any
+  meta: any,
+  name: string
 };
 
 class NoSSRError {
@@ -19,17 +20,19 @@ class NoSSRError {
   }
 }
 
-function EditorField({ className, ...props }: Props) {
+function EditorField({ className, name, ...props }: Props) {
   if (!__CLIENT__) {
     throw new NoSSRError('Cannot SSR editor');
   }
   return (
-    <Editor
-      className={cx(styles.input, className)}
-      {...props}
-      {...props.input}
-      {...props.meta}
-    />
+    <div name={name}>
+      <Editor
+        className={cx(styles.input, className)}
+        {...props}
+        {...props.input}
+        {...props.meta}
+      />
+    </div>
   );
 }
 
