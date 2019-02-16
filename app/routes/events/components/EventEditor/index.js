@@ -372,10 +372,10 @@ const validate = data => {
   if (!data.eventType) {
     errors.eventType = 'Arrangementstype er påkrevet';
   }
-  if (data.priceMember > 10000) {
+  if (data.isPriced && data.priceMember > 10000) {
     errors.priceMember = 'Prisen er for høy';
   }
-  if (Number(data.priceMember) <= 0) {
+  if (data.isPriced && Number(data.priceMember) <= 0) {
     errors.priceMember = 'Prisen må være større enn 0';
   }
   if (!data.location) {
