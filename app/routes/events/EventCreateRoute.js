@@ -26,6 +26,49 @@ const mapStateToProps = (state, props) => {
     eventId
   });
 
+  const selectedValues = {
+    event: {
+      addFee: valueSelector(state, 'addFee'),
+      isPriced: valueSelector(state, 'isPriced'),
+      eventType: valueSelector(state, 'eventType'),
+      priceMember: valueSelector(state, 'priceMember'),
+      startTime: valueSelector(state, 'startTime')
+    },
+    pools: valueSelector(state, 'pools')
+  };
+
+  const initialCreateValues = {
+    initialValues: {
+      title: '',
+      startTime: time({ hours: 17, minutes: 15 }),
+      endTime: time({ hours: 20, minutes: 15 }),
+      description: '',
+      text: '',
+      eventType: '',
+      company: null,
+      responsibleGroup: null,
+      location: 'TBA',
+      isPriced: false,
+      useStripe: true,
+      priceMember: 0,
+      paymentDueDate: time({ days: 7, hours: 17, minutes: 15 }),
+      mergeTime: time({ hours: 12 }),
+      useCaptcha: true,
+      heedPenalties: true,
+      isAbakomOnly: false,
+      feedbackDescription: 'Melding til arrangører',
+      pools: [],
+      unregistrationDeadline: time({ hours: 12 })
+    },
+    actionGrant,
+    ...selectedValues
+  };
+
+  /* If there is no eventId in the params then we use the
+   * normal initalValues for a new event
+   */
+  if (!eventId) return initialCreateValues;
+
   /* This will set the initalvalues as NULL if there is an
    * eventID but the template is empty. This means the template
    * is yet to be loaded. We return NULL to prevent the initial
@@ -62,14 +105,7 @@ const mapStateToProps = (state, props) => {
       }
     },
     actionGrant,
-    event: {
-      addFee: valueSelector(state, 'addFee'),
-      isPriced: valueSelector(state, 'isPriced'),
-      eventType: valueSelector(state, 'eventType'),
-      priceMember: valueSelector(state, 'priceMember'),
-      startTime: valueSelector(state, 'startTime')
-    },
-    pools: valueSelector(state, 'pools')
+    ...selectedValues
   };
 };
 
