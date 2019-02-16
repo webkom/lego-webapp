@@ -5,6 +5,8 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const { StatsWriterPlugin } = require('webpack-stats-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
 const AssetsPlugin = require('assets-webpack-plugin');
 const packageJson = require('../package.json');
 
@@ -60,6 +62,7 @@ module.exports = {
       new webpack.optimize.MinChunkSizePlugin({
         minChunkSize: 10000
       }),
+      process.env.BUNDLE_ANALYZER && new BundleAnalyzerPlugin(),
       !isProduction && new FriendlyErrorsPlugin(),
       !isProduction && new webpack.HotModuleReplacementPlugin(),
       !isProduction && new webpack.NoEmitOnErrorsPlugin(),
