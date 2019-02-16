@@ -42,21 +42,38 @@ $ yarn ssr # or yarn ssr:staging
 
 ### Environment Variables
 
-- NODE_ENV
-- API_URL
-- WS_URL
-- BASE_URL
-- SEGMENT_WRITE_KEY
-- CAPTCHA_KEY
-- STRIPE_KEY
-- RAVEN_DSN
-- RELEASE
-- ENVIRONMENT
-- HOST
-- PORT
-- SERVER_RAVEN_DSN
-- SSR_API_URL
-- SSR_BASE_URL
+- `NODE_ENV` _(optional)_
+  - `development` during development and `production` when using in (or testing _for_) production
+- `API_URL` _(optional)_
+  - Url to the LEGO api. Usually ends with `/api/v1`
+- `WS_URL` _(optional)_
+  - Url to the LEGO websocket endpoint
+- `BASE_URL` _(optional)_
+  - Url to the base of the LEGO api. Usaully just the root domain.
+- `SEGMENT_WRITE_KEY` _(optional)_
+  - More info here: <https://segment.com/docs/guides/setup/how-do-i-find-my-write-key/>
+- `CAPTCHA_KEY` _(optional)_
+  - More info here: <https://developers.google.com/recaptcha/docs/display>
+- `STRIPE_KEY` _(optional)_
+  - More info here: <https://stripe.com/docs/keys>
+- `RAVEN_DSN` _(optional)_
+  - More info here: https://github.com/getsentry/sentry-javascript
+- `SERVER_RAVEN_DSN`_(optional)_
+  - More info here: https://github.com/getsentry/raven-node
+- `RELEASE`_(optional)_
+  - Release version used when sending exceptions to Sentry. Injected when building docker images
+- `ENVIRONMENT`_(optional)_
+  - When this isn't `production` there will be a big red development bar on the top of the page
+- `HOST`_(optional)_
+  - Used for binding port. Use `0.0.0.0` to make the server publicly accessible
+- `PORT`_(optional)_
+  - Port to bind
+- `SSR_API_URL`_(optional)_
+  - Same as `API_URL`, but used by the SSR. If this is empty, it will fallback to `API_URL`
+- `SSR_BASE_URL`_(optional)_
+  - Same as `BASE_URL`, but used by the SSR. If this is empty, it will fallback to `BASE_URL`
+
+Default values can be found in `server/env.js` and `config/env.js`.
 
 ## Documentation
 
