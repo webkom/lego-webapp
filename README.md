@@ -27,7 +27,7 @@ For instructions on how to run the backend, see
 
 It is possible to run the frontend without running the backend, by using our staging environment:
 
-```
+```bash
 $ yarn start:staging
 ```
 
@@ -146,4 +146,12 @@ Some formatting errors reported by prettier can be fixed by running
 
 ```bash
 $ yarn prettier
+```
+
+## Debugging
+
+To debug chunk size (size of the javascript sent to the browser), run
+
+```bash
+$ BUNDLE_ANALYZER=true yarn build
 ```
