@@ -75,8 +75,8 @@ const loggerMiddleware = createLogger({
 });
 
 export default function configureStore(
-  initialState: State | {||},
-  { raven, getCookie }: { raven: ?UniversalRaven, getCookie?: GetCookie }
+  initialState: State | {||} = {},
+  { raven, getCookie }: { raven: ?UniversalRaven, getCookie?: GetCookie } = {}
 ): Store {
   const messageMiddleware = createMessageMiddleware(
     message => addToast({ message }),
