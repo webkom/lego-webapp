@@ -26,61 +26,41 @@ const mapStateToProps = (state, props) => {
     eventId
   });
 
-  const initialValues = {
-    title: '',
-    startTime: time({ hours: 17, minutes: 15 }),
-    endTime: time({ hours: 20, minutes: 15 }),
-    description: '',
-    text: '',
-    eventType: '',
-    company: null,
-    responsibleGroup: null,
-    location: 'TBA',
-    isPriced: false,
-    useStripe: true,
-    priceMember: 0,
-    paymentDueDate: time({ days: 7, hours: 17, minutes: 15 }),
-    mergeTime: time({ hours: 12 }),
-    useCaptcha: true,
-    heedPenalties: true,
-    isAbakomOnly: false,
-    feedbackDescription: 'Melding til arrangører',
-    pools: [],
-    unregistrationDeadline: time({ hours: 12 })
-  };
-
+  /* This will set the initalvalues as NULL if there is an
+   * eventID but the template is empty. This means the template
+   * is yet to be loaded. We return NULL to prevent the initial
+   * values to be set to default
+   */
   if (isEmpty(eventTemplate) && eventId) {
     return { initialValues: null };
   }
 
   return {
-    initialValues: isEmpty(eventTemplate)
-      ? initialValues
-      : {
-          ...eventTemplate,
-          mergeTime: eventTemplate.mergeTime
-            ? eventTemplate.mergeTime
-            : time({ hours: 12 }),
-          priceMember: eventTemplate.priceMember / 100,
-          pools: poolsTemplate.map(pool => ({
-            activationDate: pool.activationDate,
-            capacity: pool.capacity,
-            name: pool.name,
-            registrations: [],
-            permissionGroups: (pool.permissionGroups || []).map(group => ({
-              label: group.name,
-              value: group.id
-            }))
-          })),
-          company: eventTemplate.company && {
-            label: eventTemplate.company.name,
-            value: eventTemplate.company.id
-          },
-          responsibleGroup: eventTemplate.responsibleGroup && {
-            label: eventTemplate.responsibleGroup.name,
-            value: eventTemplate.responsibleGroup.id
-          }
-        },
+    initialValues: {
+      ...eventTemplate,
+      mergeTime: eventTemplate.mergeTime
+        ? eventTemplate.mergeTime
+        : time({ hours: 12 }),
+      priceMember: eventTemplate.priceMember / 100,
+      pools: poolsTemplate.map(pool => ({
+        activationDate: pool.activationDate,
+        capacity: pool.capacity,
+        name: pool.name,
+        registrations: [],
+        permissionGroups: (pool.permissionGroups || []).map(group => ({
+          label: group.name,
+          value: group.id
+        }))
+      })),
+      company: eventTemplate.company && {
+        label: eventTemplate.company.name,
+        value: eventTemplate.company.id
+      },
+      responsibleGroup: eventTemplate.responsibleGroup && {
+        label: eventTemplate.responsibleGroup.name,
+        value: eventTemplate.responsibleGroup.id
+      }
+    },
     actionGrant,
     event: {
       addFee: valueSelector(state, 'addFee'),
@@ -100,7 +80,10 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  prepare(({ location }, dispatch) => dispatch(fetchEvent(location.query.id))),
+  prepare(
+    ({ location }, dispatch) =>
+      location.query.id && dispatch(fetchEvent(location.query.id))
+  ),
   connect(
     mapStateToProps,
     mapDispatchToProps
