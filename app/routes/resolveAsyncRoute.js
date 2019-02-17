@@ -37,15 +37,17 @@ export default function resolveAsyncRoute(
     );
   }
 
-  let component = componentFn();
-  // $FlowFixMe
-  if (component && component.__esModule) {
-    component = (component: any).default;
-  }
+  if (__DEV__) {
+    let component = componentFn();
+    // $FlowFixMe
+    if (component && component.__esModule) {
+      component = (component: any).default;
+    }
 
-  return {
-    component
-  };
+    return {
+      component
+    };
+  }
 
   return {
     getComponent(

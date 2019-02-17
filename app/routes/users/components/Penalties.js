@@ -43,9 +43,9 @@ function Penalties({
                     {penalty.weight} {word}
                   </strong>
                 </div>
-                <div>
+                <>
                   Begrunnelse: <i>{penalty.reason}</i>
-                </div>
+                </>
                 <div>
                   Utgår:{' '}
                   <i>

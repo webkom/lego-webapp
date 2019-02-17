@@ -49,6 +49,12 @@ module.exports = (env, argv) => {
       sourceMapFilename: '[file].map'
     },
 
+    optimization: {
+      splitChunks: {
+        chunks: 'all'
+      }
+    },
+
     plugins: compact([
       // Explicitly import the moment locales we care about:
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
