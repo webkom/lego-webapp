@@ -13,6 +13,7 @@ import styles from './ImageUploadField.css';
 type Props = {
   className?: string,
   style?: Object,
+  name: string,
   value?: string,
   uploadFile: UploadArgs => Promise<*>,
   onChange: (?string) => void,
@@ -28,12 +29,13 @@ class ImageUploadField extends Component<Props> {
   };
 
   render() {
-    const { className, style, ...props } = this.props;
+    const { className, name, style, ...props } = this.props;
 
     return (
       <div
         className={cx(styles.base, styles.coverImage, className && className)}
         style={style}
+        name={name}
       >
         <ImageUpload
           className={styles.textField}
