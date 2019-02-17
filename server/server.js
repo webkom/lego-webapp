@@ -20,7 +20,9 @@ app.use(cookieParser());
 const log = bunyan.createLogger({
   name: 'lego-webapp',
   release: config.release,
-  stream: process.stdout.isTTY ? bunyanPretty() : process.stdout,
+  // TODO Find out why this crashes
+  //  stream: process.stdout.isTTY ? bunyanPretty() : process.stdout,
+  stream: process.stdout,
   environment: config.environment
 });
 
@@ -35,7 +37,8 @@ if (process.env.NODE_ENV !== 'production') {
 
   app.use(
     require('webpack-dev-middleware')(compiler, {
-      publicPath: webpackClient.output.publicPath,
+      // TODO FIX This hardocded path
+      publicPath: './dist-client',
       quiet: true
     })
   );
@@ -54,7 +57,8 @@ if (fs.existsSync(styleguide)) {
   app.use('/styleguide', express.static(styleguide));
 }
 
-app.use(express.static(webpackClient.output.path));
+// TODO FIX THIS HARDCODed PATH
+app.use(express.static('./dist-client/'));
 app.use(
   morgan((tokens, req, res) => {
     log.info(

@@ -12,7 +12,7 @@ const vendors = Object.keys(packageJson.dependencies);
 
 module.exports = () => ({
   context: root,
-  devtool: 'eval',
+  mode: 'development',
   entry: {
     vendors: pullAll(vendors, dllConfig.exclude)
   },

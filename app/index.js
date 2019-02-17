@@ -20,7 +20,7 @@ import {
 
 // $FlowFixMe
 require('../app/assets/opensearch.xml');
-require('../app/assets/manifest.json');
+//require('../app/assets/manifest.json');
 require('../app/assets/favicon.png');
 require('../app/assets/icon-48x48.png');
 require('../app/assets/icon-96x96.png');

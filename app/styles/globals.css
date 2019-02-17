@@ -6,7 +6,7 @@
 
 @font-face {
   font-family: 'OCR A Extended';
-  src: url('app/assets/fonts/ocraext.ttf') format('truetype');
+  src: url('../../app/assets/fonts/ocraext.ttf') format('truetype');
 }
 
 * {

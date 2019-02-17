@@ -19,7 +19,7 @@ import type { State } from '../app/types';
 
 import 'source-map-support/register';
 
-import manifest from '../app/assets/manifest.json';
+//import manifest from '../app/assets/manifest.json';
 
 const serverSideTimeoutInMs = 4000;
 
@@ -135,11 +135,7 @@ let cachedAssets;
 function retrieveAssets() {
   if (__DEV__ || !cachedAssets) {
     const { app, vendor } = JSON.parse(
-      fs
-        .readFileSync(
-          path.join(webpackClient.output.path, 'webpack-assets.json')
-        )
-        .toString()
+      fs.readFileSync('./dist-client/webpack-assets.json').toString()
     );
 
     const styles = [app && app.css]
@@ -172,6 +168,7 @@ function renderPage({
   helmet: *
 }) {
   const { scripts, styles } = retrieveAssets();
+  //<link rel="manifest" href="${manifest}">
   return `
     <!DOCTYPE html>
     <html>
@@ -181,7 +178,6 @@ function renderPage({
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-        <link rel="manifest" href="${manifest}">
         <meta name="theme-color" content="#f2f2f1">
         <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="Abakus Søk">
         <link rel="icon" href="/icon-512x512.png" sizes="512x512"/>
