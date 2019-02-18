@@ -18,49 +18,47 @@ const DisplayVision = ({
   vision2,
   vision3,
   vision4
-}: Props) => {
-  return (
-    <div className={styles.vision}>
-      <div className={styles.sectionLeft}>
-        <h2 className={styles.visionTitle}>
-          Våre
-          <br />
-          Verdier
-        </h2>
+}: Props) => (
+  <div className={styles.vision}>
+    <div className={styles.sectionLeft}>
+      <h2 className={styles.visionTitle}>
+        Våre
+        <br />
+        Verdier
+      </h2>
 
-        <Vision
-          title={vision1.title}
-          summary={vision1.summary}
-          paragraphs={vision1.paragraphs}
-          left
-        />
-        <Vision
-          title={vision2.title}
-          summary={vision2.summary}
-          paragraphs={vision2.paragraphs}
-          left
-        />
-      </div>
-
-      <DividerWithDots
-        extraStyle={{ marginBottom: '2.2rem', marginTop: '1.2rem' }}
+      <Vision
+        title={vision1.title}
+        summary={vision1.summary}
+        paragraphs={vision1.paragraphs}
+        left
       />
-
-      <div className={styles.sectionRight}>
-        <Vision
-          title={vision3.title}
-          summary={vision3.summary}
-          paragraphs={vision3.paragraphs}
-        />
-        <Vision
-          title={vision4.title}
-          summary={vision4.summary}
-          paragraphs={vision4.paragraphs}
-        />
-      </div>
+      <Vision
+        title={vision2.title}
+        summary={vision2.summary}
+        paragraphs={vision2.paragraphs}
+        left
+      />
     </div>
-  );
-};
+
+    <DividerWithDots
+      extraStyle={{ marginBottom: '2.2rem', marginTop: '1.2rem' }}
+    />
+
+    <div className={styles.sectionRight}>
+      <Vision
+        title={vision3.title}
+        summary={vision3.summary}
+        paragraphs={vision3.paragraphs}
+      />
+      <Vision
+        title={vision4.title}
+        summary={vision4.summary}
+        paragraphs={vision4.paragraphs}
+      />
+    </div>
+  </div>
+);
 
 DisplayVision.defaultProps = {
   title: 'Våre Verdier',
