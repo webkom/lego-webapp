@@ -1,3 +1,5 @@
+@import 'app/styles/variables.css';
+
 .vision {
   display: flex;
   margin: 0 auto;
@@ -20,4 +22,29 @@
 .sectionRight {
   flex-basis: 50%;
   margin-top: 1.5rem;
+}
+
+.divWithDots {
+  margin-bottom: 2.2rem;
+  margin-top: 1.2rem;
+}
+
+@media (--mobile-device) {
+  .visionTitle {
+    font-size: 30px;
+    text-align: center;
+  }
+
+  .vision {
+    flex-wrap: wrap;
+  }
+
+  .sectionRight {
+    flex-basis: 100%;
+    margin-top: 0px;
+  }
+
+  .sectionLeft {
+    flex-basis: 100%;
+  }
 }

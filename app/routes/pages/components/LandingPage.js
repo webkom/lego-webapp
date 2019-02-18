@@ -32,9 +32,11 @@ const LandingPage = ({
 }: Props) => {
   return (
     <div className={styles.pageContainer}>
-      <a href="#contact" className={styles.contactUsLink}>
-        Kontakt oss
-      </a>
+      <div className={styles.topContainer}>
+        <a href="#contact" className={styles.contactUsLink}>
+          Kontakt oss
+        </a>
+      </div>
       <img
         className={styles.banner}
         src={banner}
@@ -64,7 +66,9 @@ const LandingPage = ({
       </div>
 
       <div className={styles.locationContainer}>
-        <Icon name="home" size={80} style={{ marginRight: '1rem' }} />
+        <div className={styles.emailIcon}>
+          <Icon name="home" size={80} style={{ marginRight: '1rem' }} />
+        </div>
         <TextWithTitle
           title="Postadresse"
           text={postAddress}
@@ -85,8 +89,8 @@ const LandingPage = ({
       </div>
 
       <div className={styles.emailContainer}>
-        <Icon name="mail" size={80} style={{ marginRight: '1rem' }} />
-        <div>
+        <Icon name="mail" size={80} className={styles.emailIcon} />
+        <div className={styles.emails}>
           <h3 className={styles.title}>E-post</h3>
           <EmailItem
             recipient="Hovedstyret"
@@ -147,7 +151,7 @@ const LandingPage = ({
 
       <div className={styles.organizationContainer}>
         <Icon name="briefcase" size={80} style={{ marginRight: '1rem' }} />
-        <div>
+        <div className={styles.organization}>
           <h3 className={styles.title}>Organisasjonsnummer</h3>
           <span>{organizationNo}</span>
         </div>

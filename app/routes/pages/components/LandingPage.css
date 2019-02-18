@@ -5,6 +5,10 @@
   margin-bottom: 3rem;
 }
 
+.topContainer {
+  display: flex;
+}
+
 .banner {
   width: 100%;
   max-width: 55rem;
@@ -18,6 +22,7 @@
   align-items: flex-end;
   flex-wrap: wrap;
   justify-content: center;
+  font-family: 'Cardo';
 }
 
 .whoWhatWhyContainer {
@@ -66,8 +71,52 @@
   color: var(--lego-font-color);
   font-weight: bold;
   text-transform: uppercase;
-  position: absolute;
+  margin-left: auto;
   right: 30px;
   top: 30px;
   font-size: 1.3rem;
+}
+
+.emailIcon {
+  margin-right: 1rem;
+}
+
+.emails {
+  margin-top: 30px;
+}
+
+.organization {
+  margin-top: 25px;
+}
+
+@media (--mobile-device) {
+  .whoWhatWhyContainer {
+    flex-wrap: wrap;
+  }
+
+  .locationContainer {
+    flex-wrap: wrap;
+  }
+
+  .emailContainer {
+    flex-wrap: wrap;
+  }
+
+  .emails {
+    margin-top: 0;
+  }
+
+  .emailIcon {
+    display: none;
+  }
+
+  .contactUsLink {
+    margin-bottom: 2px;
+  }
+
+  .topContainer {
+  }
+
+  .banner {
+  }
 }

@@ -25,3 +25,9 @@
 .textContainer {
   margin-bottom: 1.5rem;
 }
+
+@media (--mobile-device) {
+  .container {
+    flex-basis: 100%;
+  }
+}

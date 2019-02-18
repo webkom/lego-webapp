@@ -41,10 +41,7 @@ const DisplayVision = ({
       />
     </div>
 
-    <DividerWithDots
-      extraStyle={{ marginBottom: '2.2rem', marginTop: '1.2rem' }}
-    />
-
+    <DividerWithDots />
     <div className={styles.sectionRight}>
       <Vision
         title={vision3.title}
@@ -135,9 +132,7 @@ const DisplayVisionShort = ({
         <Vision title={vision2.title} summary={vision2.summary} left />
       </div>
 
-      <DividerWithDots
-        extraStyle={{ marginBottom: '2.5rem', marginTop: '1.2rem' }}
-      />
+      <DividerWithDots className={styles.divWithDots} />
 
       <div className={styles.sectionRight}>
         <Vision title={vision3.title} summary={vision3.summary} />

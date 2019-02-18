@@ -27,3 +27,9 @@
   position: absolute;
   bottom: 0;
 }
+
+@media (--mobile-device) {
+  .vision__line {
+    display: none;
+  }
+}

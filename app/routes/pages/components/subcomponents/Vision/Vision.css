@@ -25,3 +25,12 @@
 .vision__paragraphLeft {
   text-align: right;
 }
+
+@media (--mobile-device) {
+  .vision__title,
+  .vision__titleLeft,
+  .vision__summaryLeft,
+  .vision__paragraphLeft {
+    text-align: left;
+  }
+}
