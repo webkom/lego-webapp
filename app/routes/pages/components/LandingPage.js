@@ -1,6 +1,5 @@
 //@flow
 import React from 'react';
-import { Content } from 'app/components/Content';
 import Icon from 'app/components/Icon';
 
 import { DisplayVisionShort } from './subcomponents/DisplayVision';
