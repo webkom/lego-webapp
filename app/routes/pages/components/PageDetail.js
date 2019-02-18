@@ -140,7 +140,7 @@ class PageDetail extends Component<Props, State> {
           <button className={styles.sidebarOpenBtn} onClick={this.openSidebar}>
             <Icon size={30} name="arrow-forward" />
           </button>
-          <Flex className={styles.page} wrap>
+          <Flex className={styles.page}>
             <Sidebar
               categorySelected={category}
               currentUrl={currentUrl}

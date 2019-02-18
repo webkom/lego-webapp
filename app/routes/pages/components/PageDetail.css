@@ -15,12 +15,14 @@
 
 .page {
   margin: 0;
+  width: 100%;
 }
 
 .detail {
   flex: 1;
   min-width: 300px;
   width: 100%;
+  padding-right: 10px;
 }
 
 .header {
@@ -31,7 +33,7 @@
   display: flex;
   justify-content: center;
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 2em;
 }
 
 .main {
@@ -121,5 +123,9 @@
 
   .mainTxt {
     width: 100%;
+  }
+
+  .header1 {
+    font-size: 25px;
   }
 }
