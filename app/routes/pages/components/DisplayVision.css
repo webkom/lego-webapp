@@ -4,7 +4,7 @@
   max-width: 44rem;
 }
 
-.vision__mainTitle {
+.visionTitle {
   font-size: 2rem;
   line-height: 2.2rem;
   text-align: right;
@@ -13,11 +13,11 @@
   margin-bottom: 1rem;
 }
 
-.vision__sectionLeft {
+.sectionLeft {
   flex-basis: 50%;
 }
 
-.vision__sectionRight {
+.sectionRight {
   flex-basis: 50%;
   margin-top: 1.5rem;
 }

@@ -7,8 +7,8 @@ import DividerWithDots from 'app/components/DividerWithDots';
 const DisplayVision = ({ title, vision1, vision2, vision3, vision4 }) => {
   return (
     <div className={styles.vision}>
-      <div className={styles.vision__sectionLeft}>
-        <h2 className={styles.vision__mainTitle}>
+      <div className={styles.sectionLeft}>
+        <h2 className={styles.visionTitle}>
           Våre
           <br />
           Verdier
@@ -32,7 +32,7 @@ const DisplayVision = ({ title, vision1, vision2, vision3, vision4 }) => {
         extraStyle={{ marginBottom: '2.2rem', marginTop: '1.2rem' }}
       />
 
-      <div className={styles.vision__sectionRight}>
+      <div className={styles.sectionRight}>
         <Vision
           title={vision3.title}
           summary={vision3.summary}
@@ -106,8 +106,8 @@ DisplayVision.defaultProps = {
 const DisplayVisionShort = ({ title, vision1, vision2, vision3, vision4 }) => {
   return (
     <div className={styles.vision}>
-      <div className={styles.vision__sectionLeft}>
-        <h2 className={styles.vision__mainTitle}>
+      <div className={styles.sectionLeft}>
+        <h2 className={styles.visionTitle}>
           Våre
           <br />
           Verdier
@@ -121,7 +121,7 @@ const DisplayVisionShort = ({ title, vision1, vision2, vision3, vision4 }) => {
         extraStyle={{ marginBottom: '2.5rem', marginTop: '1.2rem' }}
       />
 
-      <div className={styles.vision__sectionRight}>
+      <div className={styles.sectionRight}>
         <Vision title={vision3.title} summary={vision3.summary} />
         <Vision title={vision4.title} summary={vision4.summary} />
       </div>
