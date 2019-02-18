@@ -70,6 +70,28 @@
   align-items: center;
 }
 
+.sidebarBtnDiv {
+  display: flex;
+  justify-content: flex-end;
+  width: 85%;
+}
+
+.sidebarCloseBtn {
+  width: 40px;
+  height: 25px;
+  display: none;
+  align-items: right;
+  justify-content: flex-end;
+  color: black;
+  font-size: 0.75em;
+  z-index: 10;
+
+  @media (--mobile-device) {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
 @media (--mobile-device) {
   .side,
   .sidebarPicture {
