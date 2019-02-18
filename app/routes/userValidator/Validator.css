@@ -1,0 +1,29 @@
+@import 'app/styles/variables.css';
+
+.overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 45px;
+  background: white;
+  margin: 0 35%;
+  border: 10px solid #fbfbfb;
+  border-radius: 5%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s, visibility 0.6s;
+}
+
+.overlay i {
+  font-size: 10em;
+  color: green;
+}
+
+.shown {
+  visibility: visible;
+  opacity: 1;
+}
