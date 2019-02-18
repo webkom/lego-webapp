@@ -1,13 +1,25 @@
+//@flow
 import React from 'react';
-import { Link } from 'react-router';
-import { DisplayVisionShort } from './DisplayVision';
 import { Content } from 'app/components/Content';
-import TextWithRedTitle, { TextWithTitle } from 'app/components/TextWithTitle';
-import Statistic from 'app/components/Statistic';
-import EmailItem from 'app/components/EmailItem';
 import Icon from 'app/components/Icon';
-import styles from './LandingPage.css';
+
+import { DisplayVisionShort } from './subcomponents/DisplayVision';
+import TextWithRedTitle, { TextWithTitle } from './subcomponents/TextWithTitle';
+import Statistic from './subcomponents/Statistic';
+import EmailItem from './subcomponents/EmailItem';
 import banner from 'app/assets/about-us-banner.png';
+import styles from './LandingPage.css';
+
+type Props = {
+  whoWeAre: string,
+  whatWeDo: string,
+  whyWeDoIt: string,
+  postAddress: string,
+  officeHours: string,
+  officeAddress: string,
+  webkomOfficeAddress: string,
+  organizationNo: string
+};
 
 const LandingPage = ({
   whoWeAre,
@@ -18,10 +30,9 @@ const LandingPage = ({
   officeAddress,
   webkomOfficeAddress,
   organizationNo
-}) => {
+}: Props) => {
   return (
     <Content className={styles.pageContainer}>
-      <Link to={'/pages/info/17-strategidokument'}>-> Vision page</Link>
       <a href="#contact" className={styles.contactUsLink}>
         Kontakt oss
       </a>

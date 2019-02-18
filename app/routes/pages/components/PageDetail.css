@@ -34,61 +34,6 @@
   font-size: 2rem;
 }
 
-.side {
-  width: 25%;
-  display: flex;
-  justify-content: center;
-  box-sizing: border-box;
-  border-right: 2px solid var(--lego-red);
-}
-
-.sidebar {
-  min-width: 150px;
-  max-width: 230px;
-  margin: 0 2em;
-  padding-top: 20px;
-  display: flex;
-  flex-direction: column;
-
-  @media (--mobile-device) {
-    margin: 0;
-  }
-}
-
-.sidebarHeader {
-  letter-spacing: 1.5px;
-  font-size: 28px;
-  font-weight: 900;
-  margin-bottom: -10px;
-}
-
-.sidebarSubtitle {
-  margin-top: 0;
-  padding-top: 0;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  font-size: 15px;
-  font-weight: bold;
-}
-
-.sidebarPicture {
-  margin-top: 30px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-}
-
-.sidebarTop {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.sidebarBottom {
-  margin-top: 60px;
-}
-
 .main {
   width: 100%;
 }
@@ -114,19 +59,9 @@
   object-fit: scale-down;
 }
 
-.oldImg {
-  filter: grayscale(100%);
-}
-
 .pictureHeader {
   margin-top: -15px;
   margin-bottom: 5px;
-}
-
-.pictureInfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .logo img {
@@ -158,59 +93,9 @@
   flex-direction: column;
 }
 
-.sidebarOpenBtn {
-  background-color: #f7f7f7;
-  width: 40px;
-  height: 65px;
-  position: -webkit-sticky; /* Safari */
-  position: sticky;
-  top: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0 50px 50px 0;
-  border: 1px solid #d1d1d1;
-  border-left: 0;
-  color: var(--lego-red);
-  z-index: 10;
-
-  @media (--mobile-device) {
-    display: flex;
-  }
-}
-
 @media (--mobile-device) {
-  .side,
-  .sidebarPicture {
-    display: none;
-  }
-
-  .side.isOpen {
-    display: block;
-    position: absolute;
-    z-index: 11;
-    width: 90%;
-    box-shadow: 10px 10px 27px -15px rgba(0, 0, 0, 0.75);
-    height: 100%;
-  }
-
-  .sidebar {
-    width: 100%;
-    max-width: 100%;
-    background-color: #f6f6f6;
-    height: 100%;
-  }
-
   .page {
     margin-top: -65px;
-  }
-
-  .sidebarWrapper {
-    width: 100%;
-    position: absolute;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.07);
-    z-index: 10;
   }
 
   .mainTxt {

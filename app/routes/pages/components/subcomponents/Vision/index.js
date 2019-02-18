@@ -1,8 +1,16 @@
+//@flow
 import React from 'react';
 import styles from './Vision.css';
 import cx from 'classnames';
 
-const Vision = ({ title, summary, paragraphs, left }) => {
+type Props = {
+  title: string,
+  summary: string,
+  paragraphs: string,
+  left: boolean
+};
+
+const Vision = ({ title, summary, paragraphs, left }: Props) => {
   return (
     <div>
       <h3

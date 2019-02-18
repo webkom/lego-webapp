@@ -1,8 +1,14 @@
+//@flow
 import React from 'react';
 import styles from './Statistic.css';
-import cx from 'classnames';
 
-const Statistic = ({ statistic, label, topLabel }) => {
+type Props = {
+  statistic: string,
+  label: string,
+  topLabel: string
+};
+
+const Statistic = ({ statistic, label, topLabel }: Props) => {
   return (
     <div className={styles.container}>
       {topLabel && <div className={styles.topLabel}>{topLabel}</div>}

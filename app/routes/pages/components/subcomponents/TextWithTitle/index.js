@@ -1,8 +1,14 @@
+//@flow
 import React from 'react';
 import styles from './TextWithTitle.css';
-import cx from 'classnames';
 
-const TextWithRedTitle = ({ title, text, extraStyle }) => {
+type Props = {
+  title: string,
+  text: string,
+  extraStyle: Object
+};
+
+const TextWithRedTitle = ({ title, text, extraStyle }: Props) => {
   return (
     <div className={styles.container} style={extraStyle}>
       <h2 className={styles.redTitle}>{title}</h2>
@@ -11,7 +17,7 @@ const TextWithRedTitle = ({ title, text, extraStyle }) => {
   );
 };
 
-const TextWithTitle = ({ title, text, extraStyle }) => {
+const TextWithTitle = ({ title, text, extraStyle }: Props) => {
   return (
     <div className={styles.container} style={extraStyle}>
       <h3 className={styles.title}>{title}</h3>

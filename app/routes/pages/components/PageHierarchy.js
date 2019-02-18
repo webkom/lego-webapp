@@ -48,8 +48,17 @@ const HierarchySection = ({
   </nav>
 );
 
-class AccordionContainer extends Component {
-  state = {
+type AccordionProps = {
+  title: string,
+  children: Element<*>
+};
+
+type AccordionState = {
+  isOpen: boolean
+};
+
+class AccordionContainer extends Component<AccordionProps, AccordionState> {
+  state: AccordionState = {
     isOpen: false
   };
 
@@ -58,7 +67,7 @@ class AccordionContainer extends Component {
   };
 
   render() {
-    const { title, children } = this.props;
+    const { title, children }: AccordionProps = this.props;
     return (
       <div>
         <button className={styles.dropdownBtn} onClick={this.handleClick}>

@@ -1,10 +1,24 @@
+//@flow
 import React from 'react';
 import styles from './DisplayVision.css';
-import cx from 'classnames';
-import Vision from 'app/components/Vision';
+import Vision from '../Vision';
 import DividerWithDots from 'app/components/DividerWithDots';
 
-const DisplayVision = ({ title, vision1, vision2, vision3, vision4 }) => {
+type Props = {
+  title: string,
+  vision1: Object,
+  vision2: Object,
+  vision3: Object,
+  vision4: Object
+};
+
+const DisplayVision = ({
+  title,
+  vision1,
+  vision2,
+  vision3,
+  vision4
+}: Props) => {
   return (
     <div className={styles.vision}>
       <div className={styles.sectionLeft}>
@@ -103,7 +117,13 @@ DisplayVision.defaultProps = {
   }
 };
 
-const DisplayVisionShort = ({ title, vision1, vision2, vision3, vision4 }) => {
+const DisplayVisionShort = ({
+  title,
+  vision1,
+  vision2,
+  vision3,
+  vision4
+}: Props) => {
   return (
     <div className={styles.vision}>
       <div className={styles.sectionLeft}>

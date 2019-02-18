@@ -1,8 +1,14 @@
+//@flow
+
 import React from 'react';
 import styles from './DividerWithDots.css';
 import cx from 'classnames';
 
-const DividerWithDots = ({ extraStyle }) => {
+type Props = {
+  extraStyle: object
+};
+
+const DividerWithDots = ({ extraStyle }: Props) => {
   return (
     <div className={styles.vision__line} style={extraStyle}>
       <span className={styles.dot} />
