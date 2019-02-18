@@ -43,7 +43,9 @@ export const MainPageRenderer = ({
           <img alt={`${title} page banner`} src={pageBanner} />
         </div>
       )}
-      <h1 className={styles.header1}>{readmeIfy(title)}</h1>
+      {title !== 'About' && (
+        <h1 className={styles.header1}>{readmeIfy(title)}</h1>
+      )}
       <ChildPageRenderer page={page} pageInfo={pageInfo} />
     </article>
   );
@@ -104,7 +106,7 @@ type Props = {
 
 class PageDetail extends Component<Props, State> {
   state = {
-    isOpen: true
+    isOpen: false
   };
 
   openSidebar = () =>

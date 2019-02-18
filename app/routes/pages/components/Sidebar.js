@@ -39,7 +39,7 @@ class Sidebar extends Component<Props, State> {
         <div
           className={cx(styles.side, isOpen && styles.isOpen)}
           onClick={event => {
-            // Ask someone about this (or just use gogle) <3
+            // Just werkz
             event.stopPropagation();
           }}
         >

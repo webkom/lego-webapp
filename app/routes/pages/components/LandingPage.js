@@ -32,7 +32,7 @@ const LandingPage = ({
   organizationNo
 }: Props) => {
   return (
-    <Content className={styles.pageContainer}>
+    <div className={styles.pageContainer}>
       <a href="#contact" className={styles.contactUsLink}>
         Kontakt oss
       </a>
@@ -113,7 +113,7 @@ const LandingPage = ({
           <span>{organizationNo}</span>
         </div>
       </div>
-    </Content>
+    </div>
   );
 };
 
