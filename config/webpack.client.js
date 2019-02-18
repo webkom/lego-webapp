@@ -1,5 +1,4 @@
 /* eslint no-console: 0 */
-const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 const { StatsWriterPlugin } = require('webpack-stats-plugin');
@@ -7,7 +6,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const AssetsPlugin = require('assets-webpack-plugin');
-const packageJson = require('../package.json');
 
 const root = path.resolve(__dirname, '..');
 //const dllConfig = packageJson.dllPlugin;
@@ -47,12 +45,6 @@ module.exports = (env, argv) => {
         : '[name].chunk.js',
       publicPath,
       sourceMapFilename: '[file].map'
-    },
-
-    optimization: {
-      splitChunks: {
-        chunks: 'all'
-      }
     },
 
     plugins: compact([

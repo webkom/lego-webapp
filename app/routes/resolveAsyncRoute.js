@@ -31,24 +31,6 @@ type AsyncOrSyncRouteConfig =
 export default function resolveAsyncRoute(
   componentFn: ComponentFn
 ): AsyncOrSyncRouteConfig {
-  if (typeof componentFn !== 'function') {
-    throw new TypeError(
-      'The first argument of resolveAsyncRoute() must be a function returning an import()-promise'
-    );
-  }
-
-  if (__DEV__) {
-    let component = componentFn();
-    // $FlowFixMe
-    if (component && component.__esModule) {
-      component = (component: any).default;
-    }
-
-    return {
-      component
-    };
-  }
-
   return {
     getComponent(
       location,
