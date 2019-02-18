@@ -85,6 +85,11 @@ const LINKS: Array<Link> = [
     url: '/podcasts'
   },
   {
+    key: 'polls',
+    title: 'Avstemninger',
+    url: '/polls'
+  },
+  {
     admin: true,
     key: 'announcements',
     title: 'Kunngjøringer',

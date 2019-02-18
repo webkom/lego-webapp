@@ -82,7 +82,7 @@ class Poll extends React.Component<Props, State> {
           </div>
         )}
         {hasAnswered && (
-          <div className={styles.answeredPoll}>
+          <Flex column className={styles.optionWrapper}>
             <table className={styles.pollTable}>
               <tbody>
                 {optionsToShow.map(option => (
@@ -114,10 +114,10 @@ class Poll extends React.Component<Props, State> {
                 ))}
               </tbody>
             </table>
-          </div>
+          </Flex>
         )}
         {!hasAnswered && (
-          <Flex column>
+          <Flex column className={styles.optionWrapper}>
             {options &&
               optionsToShow.map(option => (
                 <Flex style={{ justifyContent: 'center' }} key={option.id}>
@@ -131,16 +131,18 @@ class Poll extends React.Component<Props, State> {
               ))}
           </Flex>
         )}
-        {truncateOptions && (
-          <div className={styles.moreOptionsLink}>
-            <Icon
-              onClick={this.toggleTruncate}
-              className={styles.arrow}
-              size={20}
-              name={expanded ? 'arrow-up' : 'arrow-down'}
-            />
-          </div>
-        )}
+        <div style={{ height: '29px' }}>
+          {truncateOptions && (
+            <div className={styles.moreOptionsLink}>
+              <Icon
+                onClick={this.toggleTruncate}
+                className={styles.arrow}
+                size={20}
+                name={expanded ? 'arrow-up' : 'arrow-down'}
+              />
+            </div>
+          )}
+        </div>
       </div>
     );
   }

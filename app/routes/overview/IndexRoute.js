@@ -12,6 +12,8 @@ import {
   selectFeedById,
   selectFeedActivitesByFeedId
 } from 'app/reducers/feeds';
+import { selectPinnedPolls } from 'app/reducers/polls';
+import { votePoll } from 'app/actions/PollActions';
 
 const mapStateToProps = state => ({
   loadingFrontpage: state.frontpage.fetching,
@@ -20,10 +22,11 @@ const mapStateToProps = state => ({
   feedItems: selectFeedActivitesByFeedId(state, {
     feedId: 'personal'
   }),
-  readmes: state.readme
+  readmes: state.readme,
+  poll: selectPinnedPolls(state)[0]
 });
 
-const mapDispatchToProps = { login, logout };
+const mapDispatchToProps = { login, logout, votePoll };
 
 export default compose(
   prepare(({ loggedIn }, dispatch) =>

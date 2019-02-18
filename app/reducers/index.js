@@ -164,9 +164,7 @@ export const quoteSchema = new schema.Entity('quotes', {
   comments: [commentSchema]
 });
 
-export const pollSchema = new schema.Entity('polls', {
-  comments: [commentSchema]
-});
+export const pollSchema = new schema.Entity('polls');
 
 export const podcastSchema = new schema.Entity('podcasts');
 
