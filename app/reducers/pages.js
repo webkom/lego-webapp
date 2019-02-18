@@ -1,13 +1,12 @@
 // @flow
 
 import { createSelector } from 'reselect';
+import { sortBy, groupBy } from 'lodash';
 import { Page } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { selectGroupsWithType } from './groups';
 import { selectGroup } from 'app/reducers/groups';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
-
-import { sortBy, groupBy } from 'lodash';
 
 export type PageEntity = {
   id: number,
@@ -49,7 +48,7 @@ export const selectPages = createSelector(
     Object.keys(pagesBySlug).map(slug => pagesBySlug[slug])
 );
 
-export const selectPagesForHierarchy = category =>
+export const selectPagesForHierarchy = (category: string) =>
   createSelector(
     state => selectPages(state),
     (state, props) => props.title,

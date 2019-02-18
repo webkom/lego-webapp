@@ -5,7 +5,7 @@ import styles from './TextWithTitle.css';
 type Props = {
   title: string,
   text: string,
-  extraStyle: Object
+  extraStyle?: Object
 };
 
 const TextWithRedTitle = ({ title, text, extraStyle }: Props) => {

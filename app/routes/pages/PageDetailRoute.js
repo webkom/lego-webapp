@@ -104,7 +104,7 @@ const loadData = (props, dispatch) => {
     return Promise.all(
       fetchItemActions
         .map(action => dispatch(action(pageSlug)))
-        .concat(dispatch(sections.info.fetchAll()))
+        .concat(dispatch(sections.generelt.fetchAll()))
     );
   }
 

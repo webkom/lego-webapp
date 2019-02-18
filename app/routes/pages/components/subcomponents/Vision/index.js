@@ -6,8 +6,8 @@ import cx from 'classnames';
 type Props = {
   title: string,
   summary: string,
-  paragraphs: string,
-  left: boolean
+  paragraphs?: Array<string>,
+  left?: boolean
 };
 
 const Vision = ({ title, summary, paragraphs, left }: Props) => {

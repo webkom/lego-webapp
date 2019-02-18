@@ -4,7 +4,7 @@ import styles from './EmailItem.css';
 
 type Props = {
   email: string,
-  logo: any,
+  logo?: any,
   recipient: string
 };
 

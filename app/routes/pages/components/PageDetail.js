@@ -24,14 +24,6 @@ export type PageInfo = {
   actionGrant?: Array<string>
 };
 
-type Props<T> = {
-  selectedPage: T,
-  currentUrl: string,
-  selectedPageInfo: PageInfo,
-  PageRenderer: ({ page: T }) => Node,
-  pageHierarchy: Array<HierarchySectionEntity>
-};
-
 export const MainPageRenderer = ({
   page,
   pageInfo,
@@ -39,7 +31,7 @@ export const MainPageRenderer = ({
 }: {
   page: Object,
   pageInfo: Object,
-  ChildPageRenderer: ({ page: T }) => Node
+  ChildPageRenderer: ({ page: any }) => Node
 }) => {
   const pageBanner = page.logo || page.picture;
   const { title } = pageInfo;
@@ -102,7 +94,15 @@ type State = {
   isOpen: boolean
 };
 
-class PageDetail extends Component<Props<T>, State> {
+type Props = {
+  selectedPage: any,
+  currentUrl: string,
+  selectedPageInfo: PageInfo,
+  PageRenderer: ({ page: any }) => Node,
+  pageHierarchy: Array<HierarchySectionEntity>
+};
+
+class PageDetail extends Component<Props, State> {
   state = {
     isOpen: true
   };
