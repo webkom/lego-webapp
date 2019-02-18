@@ -88,19 +88,59 @@ const LandingPage = ({
         <Icon name="mail" size={80} style={{ marginRight: '1rem' }} />
         <div>
           <h3 className={styles.title}>E-post</h3>
-          <EmailItem recipient="Hovedstyret" email="abakus@abakus.no" />
+          <EmailItem
+            recipient="Hovedstyret"
+            email="abakus@abakus.no"
+            logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_hs.png"
+          />
 
           <h3 className={styles.title}>E-postadresser til komiteene</h3>
           <div className={styles.committeeEmails}>
-            <EmailItem recipient="Arrkom" email="arrkom@abakus.no" />
-            <EmailItem recipient="PR" email="pr@abakus.no" />
-            <EmailItem recipient="Koskom" email="koskom@abakus.no" />
-            <EmailItem recipient="Bedkom" email="bedkom@abakus.no" />
-            <EmailItem recipient="LaBamba" email="labamba@abakus.no" />
-            <EmailItem recipient="Webkom" email="webkom@abakus.no" />
-            <EmailItem recipient="Fagkom" email="fagkom@abakus.no" />
-            <EmailItem recipient="readme" email="readme@abakus.no" />
-            <EmailItem recipient="backup" email="backup@abakus.no" />
+            <EmailItem
+              recipient="Arrkom"
+              email="arrkom@abakus.no"
+              logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_arrkom.png"
+            />
+            <EmailItem
+              recipient="PR"
+              email="pr@abakus.no"
+              logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_pr.png"
+            />
+            <EmailItem
+              recipient="Koskom"
+              email="koskom@abakus.no"
+              logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_koskom.png"
+            />
+            <EmailItem
+              recipient="Bedkom"
+              email="bedkom@abakus.no"
+              logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_bedkom.png"
+            />
+            <EmailItem
+              recipient="LaBamba"
+              email="labamba@abakus.no"
+              logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_labamba.png"
+            />
+            <EmailItem
+              recipient="Webkom"
+              email="webkom@abakus.no"
+              logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_webkom.png"
+            />
+            <EmailItem
+              recipient="Fagkom"
+              email="fagkom@abakus.no"
+              logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_fagkom.png"
+            />
+            <EmailItem
+              recipient="readme"
+              email="readme@abakus.no"
+              logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_readme.png"
+            />
+            <EmailItem
+              recipient="backup"
+              email="backup@abakus.no"
+              logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_backup.png"
+            />
           </div>
         </div>
       </div>

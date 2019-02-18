@@ -1,6 +1,7 @@
 //@flow
 import React from 'react';
 import styles from './EmailItem.css';
+import { readmeIfy } from 'app/components/ReadmeLogo';
 
 type Props = {
   email: string,
@@ -11,9 +12,11 @@ type Props = {
 const EmailItem = ({ email, logo, recipient }: Props) => {
   return (
     <div className={styles.container}>
-      <img className={styles.logo} src={logo} alt={recipient + ' logo'} />
+      {logo && (
+        <img className={styles.logo} src={logo} alt={recipient + ' logo'} />
+      )}
       <div>
-        <div className={styles.recipient}>{recipient}</div>
+        <div className={styles.recipient}>{readmeIfy(recipient)}</div>
         <a href={`mailto:${email}`}>{email}</a>
       </div>
     </div>
