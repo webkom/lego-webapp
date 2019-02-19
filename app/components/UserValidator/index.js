@@ -1,19 +1,20 @@
 // @flow
 
 import * as React from 'react';
+import _ from 'lodash';
 import cx from 'classnames';
 import SearchPage from 'app/components/Search/SearchPage';
 import type { SearchResult } from 'app/reducers/search';
 import styles from './Validator.css';
-import { Content } from 'app/components/Content';
 
 // $FlowFixMe
-import goodSound from '../../assets/good-sound.mp3';
+import goodSound from 'app/assets/good-sound.mp3';
 type State = {
   showCompleted: boolean
 };
 type Props = {
   clearSearch: () => void,
+  handleSelect: SearchResult => Promise<void>,
   location: Object,
   onQueryChanged: string => void,
   results: Array<SearchResult>,
@@ -33,18 +34,37 @@ class Validator extends React.Component<Props, State> {
 
   handleSelect = (result: SearchResult) => {
     this.props.clearSearch();
-    const sound = new window.Audio(goodSound);
-    sound.play();
-    this.showCompleted();
-    if (this.input) {
-      this.input.focus();
-    }
-    return Promise.resolve();
+    return this.props
+      .handleSelect(result)
+      .then(
+        () => {
+          const sound = new window.Audio(goodSound);
+          sound.play();
+          this.showCompleted();
+        },
+        err => {
+          const payload = _.get(err, 'payload.response.jsonData');
+          if (payload && payload.errorCode === 'not_registered') {
+            alert('Bruker er ikke påmeldt på eventet!');
+          } else if (payload && payload.errorCode === 'already_present') {
+            alert(payload.error);
+          } else {
+            alert(
+              `Det oppsto en uventet feil: ${JSON.stringify(payload || err)}`
+            );
+          }
+        }
+      )
+      .then(() => {
+        if (this.input) {
+          this.input.focus();
+        }
+      });
   };
 
   render() {
     return (
-      <Content>
+      <div>
         <div
           className={cx(styles.overlay, {
             [styles.shown]: this.state.showCompleted
@@ -66,7 +86,7 @@ class Validator extends React.Component<Props, State> {
             this.input = input;
           }}
         />
-      </Content>
+      </div>
     );
   }
 }

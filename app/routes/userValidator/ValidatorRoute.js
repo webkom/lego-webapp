@@ -1,4 +1,5 @@
 // @flow
+import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
@@ -6,7 +7,8 @@ import { debounce } from 'lodash';
 import { dispatched } from '@webkom/react-prepare';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
-import Validator from './Validator';
+import { Content } from 'app/components/Content';
+import Validator from 'app/components/UserValidator';
 
 const searchTypes = ['users.user'];
 
@@ -30,6 +32,7 @@ const mapDispatchToProps = (dispatch, { eventId }) => {
   const url = `/validator?q=`;
   return {
     clearSearch: () => dispatch(push(url)),
+    handleSelect: () => Promise.resolve(),
     onQueryChanged: debounce(query => {
       dispatch(push(url + query));
       if (query) {
@@ -39,6 +42,12 @@ const mapDispatchToProps = (dispatch, { eventId }) => {
   };
 };
 
+const WrappedValidator = props => (
+  <Content>
+    <Validator {...props} />
+  </Content>
+);
+
 export default compose(
   dispatched(loadData, {
     componentWillReceiveProps: false
@@ -47,4 +56,4 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps
   )
-)(Validator);
+)(WrappedValidator);
