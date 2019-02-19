@@ -12,8 +12,7 @@ import Time from 'app/components/Time';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 
 type Props = {
-  feedItems: Array<any>,
-  feed: Object
+  feedItems: Array<any>
 };
 
 const FeedItem = (props: { activity: AggregatedActivity }) => {

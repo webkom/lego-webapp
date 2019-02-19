@@ -9,10 +9,6 @@ import { Flex } from 'app/components/Layout';
 import styles from './Abacard.css';
 import type {
   Event,
-  Comment,
-  EventPool,
-  ActionGrant,
-  User,
   ID,
   EventRegistration,
   EventRegistrationChargeStatus,
@@ -22,10 +18,6 @@ import type {
 export type Props = {
   eventId: number,
   event: Event,
-  comments: Array<Comment>,
-  pools: Array<EventPool>,
-  loggedIn: boolean,
-  currentUser: Object,
   error: Object,
   loading: boolean,
   registered: Array<EventRegistration>,
@@ -34,11 +26,7 @@ export type Props = {
     *
   >,
   updatePresence: (number, number, string) => Promise<*>,
-  updatePayment: (ID, ID, EventRegistrationChargeStatus) => Promise<*>,
-  usersResult: Array<User>,
-  actionGrant: ActionGrant,
-  onQueryChanged: (value: string) => any,
-  searching: boolean
+  updatePayment: (ID, ID, EventRegistrationChargeStatus) => Promise<*>
 };
 
 type State = {

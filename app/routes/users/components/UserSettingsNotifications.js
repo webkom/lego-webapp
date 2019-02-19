@@ -13,11 +13,7 @@ type Props = {
     channels: Array<string>,
     notificationTypes: Array<string>
   },
-  settings: Object,
-  updateNotificationSetting: (
-    notificationType: string,
-    channels: Array<*>
-  ) => void
+  settings: Object
 };
 
 const notificationTypeTraslations = {

@@ -8,7 +8,7 @@ import ImageUpload from 'app/components/Upload/ImageUpload';
 import { Content } from 'app/components/Content';
 import Gallery from 'app/components/Gallery';
 import type { DropFile } from 'app/components/Upload';
-import type { ID, ActionGrant } from 'app/models';
+import type { ID } from 'app/models';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
 
 type Props = {
@@ -21,8 +21,7 @@ type Props = {
   children: Element<*>,
   fetch: (galleryId: Number, args: { next: boolean }) => Promise<*>,
   push: string => Promise<*>,
-  uploadAndCreateGalleryPicture: (ID, File | Array<DropFile>) => Promise<*>,
-  actionGrant: ActionGrant
+  uploadAndCreateGalleryPicture: (ID, File | Array<DropFile>) => Promise<*>
 };
 
 type State = {

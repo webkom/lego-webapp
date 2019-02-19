@@ -18,10 +18,7 @@ import {
   legoForm
 } from 'app/components/Form';
 import { createValidator, required, isEmail } from 'app/utils/validation';
-import type {
-  CompanyEntity,
-  SubmitCompanyEntity
-} from 'app/reducers/companies';
+import type { CompanyEntity } from 'app/reducers/companies';
 
 type Props = {
   uploadFile: Object => Promise<*>,
@@ -30,7 +27,6 @@ type Props = {
   handleSubmit: ((CompanyEntity) => Promise<*>) => void,
   autoFocus: any,
   fetching: boolean,
-  submitFunction: (SubmitCompanyEntity, ?number) => Promise<*>,
   deleteCompany: number => Promise<*>
 };
 

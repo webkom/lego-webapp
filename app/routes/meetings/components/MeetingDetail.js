@@ -34,7 +34,6 @@ import InfoList from 'app/components/InfoList';
 type Props = {
   meeting: Object,
   currentUser: UserEntity,
-  showAnswer: Boolean,
   meetingInvitations: Array<MeetingInvitationEntity>,
   deleteMeeting: number => Promise<*>,
   setInvitationStatus: (

@@ -11,17 +11,14 @@ import { Content, ContentHeader } from 'app/components/Content';
 import { Link } from 'react-router';
 import { QuestionTypes } from '../../utils';
 import { SubmissionError } from 'redux-form';
-import type { UserEntity } from 'app/reducers/users';
 
 type Props = {
   survey: SurveyEntity,
   submitting: boolean,
   handleSubmit: ((Object) => Promise<*>) => void,
-  autoFocus: any,
   fetching: boolean,
   submitFunction: (Object, ?number) => Promise<*>,
-  error: Object,
-  currentUser: UserEntity
+  error: Object
 };
 
 const SubmissionEditor = ({

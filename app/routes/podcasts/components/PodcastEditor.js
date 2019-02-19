@@ -15,9 +15,6 @@ import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 
 type Props = {
   id: number,
-  createdAt: string,
-  description: string,
-  source: string,
   deletePodcast: number => Promise<*>,
   push: string => void,
   new: boolean,

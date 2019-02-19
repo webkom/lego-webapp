@@ -10,8 +10,7 @@ import { TokenNavigation } from '../../utils';
 
 type Props = {
   survey: SurveyEntity,
-  actionGrant: ActionGrant,
-  results: Object
+  actionGrant: ActionGrant
 };
 
 const SubmissionPublicResultsPage = ({ survey, actionGrant }: Props) => {

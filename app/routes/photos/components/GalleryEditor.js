@@ -37,7 +37,6 @@ type Props = {
   isNew: boolean,
   gallery: GalleryEntity,
   pictures: Array<GalleryPictureEntity>,
-  submitFunction: GalleryEntity => Promise<*>,
   handleSubmit: any => void,
   push: string => Promise<*>,
   submitting: boolean,

@@ -11,7 +11,6 @@ import styles from './UserSettingsOAuth2.css';
 type Props = {
   applications: Array<*>,
   grants: Array<*>,
-  deleteOAuth2Grant: (grantId: number) => void,
   actionGrant: Array<string>
 };
 

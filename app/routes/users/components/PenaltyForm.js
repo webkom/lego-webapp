@@ -20,11 +20,8 @@ import type { AddPenalty, ID } from 'app/models';
 type Props = {
   user: ID,
   addPenalty: AddPenalty => Promise<*>,
-  reason?: string,
-  weight?: number,
   handleSubmit: Function => void,
   actionGrant: boolean,
-  hidden?: boolean,
   button?: boolean,
   className?: string,
   reset: () => void

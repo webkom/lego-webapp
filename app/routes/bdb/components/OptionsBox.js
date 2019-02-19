@@ -4,10 +4,8 @@ import React, { Component } from 'react';
 import styles from './optionsBox.css';
 import { CheckBox, RadioButton } from 'app/components/Form';
 import { SelectInput } from 'app/components/Form';
-import type { CompanyEntity } from 'app/reducers/companies';
 
 type Props = {
-  companies: Array<CompanyEntity>,
   updateFilters: (string, mixed) => void,
   removeFilters: string => void,
   filters: Object

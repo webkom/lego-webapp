@@ -40,8 +40,7 @@ export type Props = {
   formOpen: boolean,
   captchaOpen: boolean,
   buttonOpen: boolean,
-  registrationOpensIn: ?string,
-  touch: (field: string) => void
+  registrationOpensIn: ?string
 };
 
 type SpotsLeftProps = {

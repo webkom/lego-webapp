@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import styles from '../surveys.css';
-import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import { DetailNavigation } from '../../utils';
 import { Content, ContentSection, ContentMain } from 'app/components/Content';
@@ -11,8 +10,6 @@ import AdminSideBar from '../AdminSideBar';
 import type { ActionGrant } from 'app/models';
 
 type Props = {
-  submissions: Array<SubmissionEntity>,
-  addSubmission: SubmissionEntity => Promise<*>,
   survey: SurveyEntity,
   children: React.Element<*>,
   actionGrant: ActionGrant,

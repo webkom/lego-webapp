@@ -28,8 +28,6 @@ export type Props = {
   page: Page,
   pageSlug: string,
   isNew: boolean,
-  loggedIn: boolean,
-  currentUser: any,
   uploadFile: ({ file: string, isPublic: boolean }) => Promise<*>,
   handleSubmit: Function => Promise<*>,
   updatePage: (string, Page) => Promise<*>,

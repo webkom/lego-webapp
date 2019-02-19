@@ -10,7 +10,6 @@ import { ProfilePicture } from 'app/components/Image';
 type Props = {
   id: number,
   source: string,
-  createdAt: string,
   description: string,
   authors: Array<Object>,
   thanks: Array<Object>,

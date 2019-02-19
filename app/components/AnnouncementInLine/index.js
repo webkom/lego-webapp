@@ -19,7 +19,6 @@ type Props = {
   createAnnouncement: CreateAnnouncement => Promise<*>,
   handleSubmit: Function => void,
   actionGrant: boolean,
-  hidden?: boolean,
   button?: boolean,
   className?: string
 };

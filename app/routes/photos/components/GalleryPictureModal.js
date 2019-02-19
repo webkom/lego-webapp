@@ -27,8 +27,6 @@ type Props = {
   deletePicture: (number, number) => Promise<*>,
   comments: Array<Object>,
   actionGrant: Array<string>,
-  pictures: Array<Object>,
-  hasMore: Boolean,
   fetchSiblingGallerPicture: (EntityID, EntityID, boolean) => Promise<*>,
   isFirstImage: Boolean,
   isLastImage: Boolean

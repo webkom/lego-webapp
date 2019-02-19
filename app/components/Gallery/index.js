@@ -14,7 +14,6 @@ type Props = {
   renderBottom?: Photo => Node,
   renderEmpty?: () => Node,
   margin?: number,
-  loading?: boolean,
   srcKey: string,
   photos: Array<Photo>,
   hasMore: boolean,

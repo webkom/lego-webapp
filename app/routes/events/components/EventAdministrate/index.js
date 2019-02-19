@@ -10,8 +10,6 @@ import type { EventEntity } from 'app/reducers/events';
 
 type Props = {
   children: Element<*>,
-  currentUser: Object,
-  isMe: boolean,
   event: ?EventEntity,
   params: {
     eventId: string

@@ -11,7 +11,6 @@ type Props = {
   invalid: boolean,
   pristine: boolean,
   submitting: boolean,
-  application: Object,
   handleSubmit: any => void,
   updateOAuth2Application: (application: Object) => any,
   createOAuth2Application: (application: Object) => any,

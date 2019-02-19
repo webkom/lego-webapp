@@ -9,7 +9,6 @@ import styles from '../surveys.css';
 
 type Props = {
   submissions: Array<SubmissionEntity>,
-  addSubmission: SubmissionEntity => Promise<*>,
   survey: SurveyEntity,
   hideAnswer: (number, number, number) => Promise<*>,
   showAnswer: (number, number, number) => Promise<*>

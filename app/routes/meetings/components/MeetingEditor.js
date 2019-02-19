@@ -24,7 +24,6 @@ import type { UserEntity } from 'app/reducers/users';
 
 type Props = {
   handleSubmit: Object => void,
-  handleSubmitCallback: Object => Promise<*>,
   meetingId?: string,
   meeting: Object,
   change: () => void,
@@ -34,8 +33,7 @@ type Props = {
   pristine: boolean,
   submitting: boolean,
   meetingInvitations: Array<Object>,
-  push: string => void,
-  inviteUsersAndGroups: Object => Promise<*>
+  push: string => void
 };
 
 function MeetingEditor({

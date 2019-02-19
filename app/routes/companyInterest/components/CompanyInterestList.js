@@ -26,7 +26,6 @@ export type Props = {
   hasMore: boolean,
   fetching: boolean,
   semesters: Array<CompanySemesterEntity>,
-  push: string => void,
   selectedOption: Option,
   router: any
 };

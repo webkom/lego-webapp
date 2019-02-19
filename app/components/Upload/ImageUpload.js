@@ -19,7 +19,6 @@ type Props = {
   img?: string,
   aspectRatio?: number,
   onSubmit: (File | Array<DropFile>) => void,
-  onDrop?: () => void,
   onClose?: () => void
 };
 

@@ -11,8 +11,6 @@ import type { AggregatedActivity, Activity } from './types';
 
 type Props = {
   aggregatedActivity: AggregatedActivity,
-  activity?: Activity,
-  key?: any,
   renders: Object
 };
 

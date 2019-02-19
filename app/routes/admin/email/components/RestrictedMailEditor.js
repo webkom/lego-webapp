@@ -130,8 +130,8 @@ const RestrictedMailEditor = ({
         component={SelectInput.Field}
         tags
         multi
-        isValidNewOption={({ label }: { label: string }) => isEmail()(label)[0]}
-        shouldKeyDownEventCreateNewOption={({ keyCode }: { keyCode: number }) =>
+        isValidNewOption={({ label }) => isEmail()(label)[0]}
+        shouldKeyDownEventCreateNewOption={({ keyCode }) =>
           keyCode === 32 || keyCode === 13
         }
       />

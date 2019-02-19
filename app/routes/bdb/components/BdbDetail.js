@@ -40,7 +40,6 @@ type Props = {
   editSemesterStatus: (BaseSemesterStatusEntity, ?Object) => Promise<*>,
   companyEvents: Array<Object>,
   fetching: boolean,
-  editCompany: Object => void,
   deleteCompany: number => Promise<*>
 };
 

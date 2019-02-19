@@ -1,6 +1,6 @@
 // @flow
 
-import React, { Component, type Node } from 'react';
+import React, { Component } from 'react';
 import Icon from 'app/components/Icon';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { TextInput, CheckBox } from 'app/components/Form';
@@ -16,26 +16,13 @@ type sortProps = {
   sort?: string
 };
 
-type checkFilter = {
-  label: string,
-  value: any
-};
-
 type columnProps = {
-  dataIndex: string,
-  title?: string,
-  sorter?: (any, any) => number,
-  filter?: Array<checkFilter>,
   /*
    * Map the value to to "another" value to use
    * for filtering. Eg. the result from the backend
    * is in english, and the search should be in norwegian
    *
    */
-  filterMapping?: any => any,
-  search?: boolean,
-  width?: number,
-  render?: (any, Object) => Node
 };
 
 type Props = {

@@ -14,7 +14,6 @@ import type {
 } from 'app/models';
 
 type Props = {
-  announcement: Announcement,
   announcements: Array<Announcement>,
   actionGrant: ActionGrant,
   sendAnnouncement: ID => Promise<*>,

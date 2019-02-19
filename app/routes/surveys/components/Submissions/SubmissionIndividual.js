@@ -9,7 +9,6 @@ import cx from 'classnames';
 
 type Props = {
   submissions: Array<SubmissionEntity>,
-  addSubmission: SubmissionEntity => Promise<*>,
   survey: SurveyEntity
 };
 

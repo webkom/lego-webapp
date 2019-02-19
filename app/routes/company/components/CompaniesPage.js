@@ -11,7 +11,6 @@ import type { Company } from 'app/models';
 type Props = {
   companies: Array<Company>,
   fetchMore: () => void,
-  showFetchMore: () => void,
   hasMore: boolean,
   fetching: boolean
 };

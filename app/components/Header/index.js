@@ -26,7 +26,6 @@ type Props = {
   toggleSearch: () => any,
   currentUser: UserEntity,
   loggedIn: boolean,
-  login: () => Promise<*>,
   logout: () => void,
   notificationsData: Object,
   fetchNotifications: () => void,

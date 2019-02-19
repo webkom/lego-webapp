@@ -7,7 +7,6 @@ type Props = {
   alt: string,
   className?: string,
   base64: string,
-  style?: Object,
   beforeLoadstyle?: Object,
   onLoadStyle?: Object,
   blurStr: string,

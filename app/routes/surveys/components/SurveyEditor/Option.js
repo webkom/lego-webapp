@@ -10,7 +10,6 @@ type Props = {
   questionType: string,
   option: string,
   onChange?: any => void,
-  index: number,
   remove?: () => void
 };
 

@@ -20,7 +20,6 @@ const FILE_NAME_LENGTH = 30;
 
 type Props = {
   semesterStatus: SemesterStatusEntity,
-  companyId: number,
   deleteSemesterStatus: number => Promise<*>,
   editFunction: (
     semesterStatus: SemesterStatusEntity,
