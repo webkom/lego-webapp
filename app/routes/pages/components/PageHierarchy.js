@@ -6,6 +6,33 @@ import { Link } from 'react-router';
 import styles from './PageHierarchy.css';
 import Icon from 'app/components/Icon';
 
+type Props = {
+  pageHierarchy: Array<HierarchySectionEntity>,
+  currentUrl: string,
+  currentCategory: string
+};
+
+const PageHierarchy = ({
+  pageHierarchy,
+  currentUrl,
+  currentCategory
+}: Props) => {
+  return (
+    <div className={styles.sidebar}>
+      {pageHierarchy.map((section, key) => (
+        <HierarchySection
+          hierarchySection={section}
+          key={key}
+          currentUrl={currentUrl}
+          currentCategory={currentCategory}
+        />
+      ))}
+    </div>
+  );
+};
+
+export default PageHierarchy;
+
 export type HierarchyEntity = {
   title: string,
   url: string
@@ -16,21 +43,18 @@ export type HierarchySectionEntity = {
   items: HierarchyEntity[]
 };
 
-type Props = {
-  pageHierarchy: Array<HierarchySectionEntity>,
-  currentUrl: string
-};
-
 const HierarchySection = ({
   hierarchySection: { title, items },
-  currentUrl
+  currentUrl,
+  currentCategory
 }: {
   hierarchySection: HierarchySectionEntity,
-  currentUrl: string
+  currentUrl: string,
+  currentCategory: string
 }) => (
   <nav className={styles.pageList}>
     {items.length > 0 && (
-      <AccordionContainer title={title}>
+      <AccordionContainer title={title} currentCategory={currentCategory}>
         {items.map((item, key) => (
           <div key={key} className={styles.links}>
             <Link
@@ -50,7 +74,8 @@ const HierarchySection = ({
 
 type AccordionProps = {
   title: string,
-  children: Node
+  children: Node,
+  currentCategory: string
 };
 
 type AccordionState = {
@@ -59,7 +84,12 @@ type AccordionState = {
 
 class AccordionContainer extends Component<AccordionProps, AccordionState> {
   state: AccordionState = {
-    isOpen: false
+    isOpen:
+      this.props.currentCategory === this.props.title.toLowerCase() ||
+      (this.props.currentCategory === undefined &&
+        this.props.title.toLowerCase() === 'generelt')
+        ? true
+        : false
   };
 
   handleClick = () => {
@@ -78,19 +108,3 @@ class AccordionContainer extends Component<AccordionProps, AccordionState> {
     );
   }
 }
-
-const PageHierarchy = ({ pageHierarchy, currentUrl }: Props) => {
-  return (
-    <div className={styles.sidebar}>
-      {pageHierarchy.map((section, key) => (
-        <HierarchySection
-          hierarchySection={section}
-          key={key}
-          currentUrl={currentUrl}
-        />
-      ))}
-    </div>
-  );
-};
-
-export default PageHierarchy;

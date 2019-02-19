@@ -77,9 +77,9 @@ const sections = {
     fetchAll: fetchAll,
     fetchItemActions: [fetchPage]
   },
-  about: {
-    title: 'About',
-    section: 'about',
+  'info-om-abakus': {
+    title: 'Info om Abakus',
+    section: 'info-om-abakus',
     pageSelector: selectInfoPageForPages,
     hierarchySectionSelector: () => ({ title: 'hehe', items: [] }),
     PageRenderer: LandingPage,

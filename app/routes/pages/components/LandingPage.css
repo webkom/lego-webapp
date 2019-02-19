@@ -3,6 +3,7 @@
 .pageContainer {
   position: relative;
   margin-bottom: 3rem;
+  margin-top: -2em;
 }
 
 .topContainer {
@@ -22,7 +23,7 @@
   align-items: flex-end;
   flex-wrap: wrap;
   justify-content: center;
-  font-family: 'Cardo';
+  margin-bottom: 2em;
 }
 
 .whoWhatWhyContainer {
@@ -63,7 +64,7 @@
   width: 100%;
   padding-bottom: 0.3rem;
   max-width: 15rem;
-  margin: 0 auto 2rem;
+  margin: 2em auto 2rem;
   border-bottom: 2px solid var(--lego-red);
 }
 
@@ -72,8 +73,7 @@
   font-weight: bold;
   text-transform: uppercase;
   margin-left: auto;
-  right: 30px;
-  top: 30px;
+  margin-right: 1.5em;
   font-size: 1.3rem;
 }
 
@@ -112,11 +112,5 @@
 
   .contactUsLink {
     margin-bottom: 2px;
-  }
-
-  .topContainer {
-  }
-
-  .banner {
   }
 }

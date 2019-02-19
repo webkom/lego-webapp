@@ -22,6 +22,8 @@
   flex: 1;
   min-width: 300px;
   width: 100%;
+  max-width: 685px;
+  margin: auto;
   padding-right: 10px;
 }
 
@@ -43,6 +45,7 @@
 .mainTxt {
   width: 75%;
   padding: 20px;
+  padding-bottom: 4em;
 }
 
 .action {

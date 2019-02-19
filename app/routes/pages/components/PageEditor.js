@@ -50,11 +50,11 @@ type State = {
 };
 
 const categoryOptions = [
-  { value: 'generelt', label: 'Generelt' },
-  { value: 'bedrifter', label: 'Bedrifter' },
   { value: 'arrangementer', label: 'Arrangementer' },
-  { value: 'undergrupper', label: 'Undergrupper' },
-  { value: 'interessegrupper', label: 'Interessegrupper' }
+  { value: 'bedrifter', label: 'Bedrifter' },
+  { value: 'generelt', label: 'Generelt' },
+  { value: 'interessegrupper', label: 'Interessegrupper' },
+  { value: 'undergrupper', label: 'Undergrupper' }
 ];
 
 export default class PageEditor extends Component<Props, State> {

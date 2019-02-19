@@ -4,7 +4,9 @@
   display: flex;
   flex-direction: column;
 
-  /* border-left: 1px solid #ddd; */
+  @media (--mobile-device) {
+    margin-left: 1.5em;
+  }
 }
 
 .pageList {
@@ -26,6 +28,7 @@
   font-family: Raleway;
   font-weight: bold;
   color: var(--lego-text-gray);
+  margin-bottom: 0.8em;
 }
 
 .back > i {

@@ -6,12 +6,13 @@
   justify-content: center;
   box-sizing: border-box;
   border-right: 2px solid var(--lego-red);
+  margin-bottom: 5em;
 }
 
 .sidebar {
   min-width: 150px;
   max-width: 230px;
-  margin: 0 2em;
+  margin: 0 1.5em;
   padding-top: 20px;
   display: flex;
   flex-direction: column;
@@ -23,7 +24,7 @@
 
 .sidebarHeader {
   letter-spacing: 1.5px;
-  font-size: 28px;
+  font-size: 2em;
   font-weight: 900;
   margin-bottom: -10px;
 }
@@ -52,7 +53,7 @@
 }
 
 .sidebarBottom {
-  margin-top: 60px;
+  margin-top: 1.5em;
 }
 
 .oldImg {
@@ -70,25 +71,21 @@
   align-items: center;
 }
 
-.sidebarBtnDiv {
-  display: flex;
-  justify-content: flex-end;
-  width: 85%;
-}
-
 .sidebarCloseBtn {
   width: 40px;
   height: 25px;
   display: none;
   align-items: right;
   justify-content: flex-end;
-  color: black;
+  color: var(--lego-font-color);
   font-size: 0.75em;
   z-index: 10;
 
   @media (--mobile-device) {
-    display: flex;
-    justify-content: flex-end;
+    display: inline-block;
+    position: absolute;
+    right: 0.7em;
+    top: 0.5em;
   }
 }
 
@@ -104,7 +101,7 @@
     z-index: 11;
     width: 90%;
     box-shadow: 10px 10px 27px -15px rgba(0, 0, 0, 0.75);
-    height: 82.81%;
+    height: 100%;
   }
 
   .sidebar {

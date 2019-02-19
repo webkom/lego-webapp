@@ -16,82 +16,6 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import type { PageEntity } from 'app/reducers/pages';
 import Sidebar from './Sidebar';
 
-export type PageInfo = {
-  editUrl?: string,
-  title: string,
-  /* The page is complete, and can be rendered */
-  isComplete: boolean,
-  actionGrant?: Array<string>
-};
-
-export const MainPageRenderer = ({
-  page,
-  pageInfo,
-  ChildPageRenderer
-}: {
-  page: Object,
-  pageInfo: Object,
-  ChildPageRenderer: ({ page: any }) => Node
-}) => {
-  const pageBanner = page.logo || page.picture;
-  const { title } = pageInfo;
-
-  return (
-    <article className={styles.pageWrapper}>
-      {pageBanner && (
-        <div className={styles.logo}>
-          <img alt={`${title} page banner`} src={pageBanner} />
-        </div>
-      )}
-      {title !== 'About' && (
-        <h1 className={styles.header1}>{readmeIfy(title)}</h1>
-      )}
-      <ChildPageRenderer page={page} pageInfo={pageInfo} />
-    </article>
-  );
-};
-
-export const FlatpageRenderer = ({ page }: { page: PageEntity }) => (
-  <article className={styles.detail}>
-    <DisplayContent content={page.content} />
-  </article>
-);
-
-export const GroupRenderer = ({ page }: { page: Object }) => {
-  const { membershipsByRole, text } = page;
-
-  const { leader: leaders = [], member: members = [] } = membershipsByRole;
-
-  return (
-    <article className={styles.detail}>
-      <DisplayContent content={text} />
-
-      <h3 className={styles.heading}>MEDLEMMER</h3>
-      <div className={styles.membersSection}>
-        <div className={styles.leader}>
-          {leaders.map(({ user, profilePicture }, key) => (
-            <GroupMember
-              user={user}
-              profilePicture={profilePicture}
-              key={key}
-              leader
-            />
-          ))}
-        </div>
-        <div className={styles.members}>
-          {members.map(({ user, profilePicture }, key) => (
-            <GroupMember
-              user={user}
-              profilePicture={profilePicture}
-              key={key}
-            />
-          ))}
-        </div>
-      </div>
-    </article>
-  );
-};
-
 type State = {
   isOpen: boolean
 };
@@ -175,4 +99,81 @@ class PageDetail extends Component<Props, State> {
     );
   }
 }
+
 export default PageDetail;
+
+export type PageInfo = {
+  editUrl?: string,
+  title: string,
+  /* The page is complete, and can be rendered */
+  isComplete: boolean,
+  actionGrant?: Array<string>
+};
+
+export const MainPageRenderer = ({
+  page,
+  pageInfo,
+  ChildPageRenderer
+}: {
+  page: Object,
+  pageInfo: Object,
+  ChildPageRenderer: ({ page: any }) => Node
+}) => {
+  const pageBanner = page.logo || page.picture;
+  const { title } = pageInfo;
+
+  return (
+    <article className={styles.pageWrapper}>
+      {pageBanner && (
+        <div className={styles.logo}>
+          <img alt={`${title} page banner`} src={pageBanner} />
+        </div>
+      )}
+      {title !== 'Info om Abakus' && (
+        <h1 className={styles.header1}>{readmeIfy(title)}</h1>
+      )}
+      <ChildPageRenderer page={page} pageInfo={pageInfo} />
+    </article>
+  );
+};
+
+export const FlatpageRenderer = ({ page }: { page: PageEntity }) => (
+  <article className={styles.detail}>
+    <DisplayContent content={page.content} />
+  </article>
+);
+
+export const GroupRenderer = ({ page }: { page: Object }) => {
+  const { membershipsByRole, text } = page;
+
+  const { leader: leaders = [], member: members = [] } = membershipsByRole;
+
+  return (
+    <article className={styles.detail}>
+      <DisplayContent content={text} />
+
+      <h3 className={styles.heading}>MEDLEMMER</h3>
+      <div className={styles.membersSection}>
+        <div className={styles.leader}>
+          {leaders.map(({ user, profilePicture }, key) => (
+            <GroupMember
+              user={user}
+              profilePicture={profilePicture}
+              key={key}
+              leader
+            />
+          ))}
+        </div>
+        <div className={styles.members}>
+          {members.map(({ user, profilePicture }, key) => (
+            <GroupMember
+              user={user}
+              profilePicture={profilePicture}
+              key={key}
+            />
+          ))}
+        </div>
+      </div>
+    </article>
+  );
+};

@@ -57,8 +57,8 @@ export const selectPagesForHierarchy = (category: string) =>
       items: (category === 'generelt'
         ? [
             {
-              url: '/pages/about',
-              title: 'About'
+              url: '/pages/info-om-abakus',
+              title: 'Info om Abakus'
             }
           ]
         : []
@@ -165,7 +165,7 @@ export const selectInfoPageForPages = createSelector(
   (state, props) => props.pageSlug,
   pageSlug => ({
     selectedPageInfo: {
-      title: 'About',
+      title: 'Info om Abakus',
       isComplete: true
     },
     selectedPage: {}

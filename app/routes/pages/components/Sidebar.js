@@ -47,16 +47,13 @@ class Sidebar extends Component<Props, State> {
         >
           <aside className={styles.sidebar}>
             <div className={styles.sidebarTop}>
-              <div className={styles.sidebarBtnDiv}>
-                <button
-                  className={styles.sidebarCloseBtn}
-                  onClick={handleClose}
-                >
-                  <Icon size={50} name="close" />
-                </button>
-              </div>
+              <button className={styles.sidebarCloseBtn} onClick={handleClose}>
+                <Icon size={50} name="close" />
+              </button>
               <h3 className={styles.sidebarHeader}>Om Abakus</h3>
-              <h4 className={styles.sidebarSubtitle}>{categorySelected}</h4>
+              <h4 className={styles.sidebarSubtitle}>
+                {categorySelected ? categorySelected : 'Generelt'}
+              </h4>
               <div className={styles.sidebarPicture}>
                 <h4 className={styles.pictureHeader}> {"Abakus' Fortid"}</h4>
                 <a href="https://abakus.no/photos/183/picture/460">
@@ -74,6 +71,7 @@ class Sidebar extends Component<Props, State> {
               <PageHierarchy
                 pageHierarchy={pageHierarchy}
                 currentUrl={currentUrl}
+                currentCategory={categorySelected}
               />
             </div>
           </aside>
