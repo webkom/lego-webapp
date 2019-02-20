@@ -53,8 +53,7 @@
 
 .filters {
   @media (max-width: 630px) {
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-flow: row wrap;
   }
 }
 

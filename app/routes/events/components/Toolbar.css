@@ -2,18 +2,12 @@
 
 .root {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr;
-  grid-template-areas: 'time list calender create';
+  grid-template: 'time list calender create' / 1fr 1fr 1fr 1fr/ 1fr;
   white-space: nowrap;
   margin-bottom: 20px;
 
   @media (--mobile-device) {
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    grid-template-areas:
-      'time create'
-      'list calender';
+    grid-template: 'time create' 'list calender' / 1fr 1fr / 1fr 1fr;
   }
 }
 
