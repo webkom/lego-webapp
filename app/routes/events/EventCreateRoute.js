@@ -1,20 +1,43 @@
-// @flow
-
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { formValueSelector } from 'redux-form';
 import { createEvent } from 'app/actions/EventActions';
 import { uploadFile } from 'app/actions/FileActions';
 import EventEditor from './components/EventEditor';
+import {
+  selectEventById,
+  selectPoolsWithRegistrationsForEvent
+} from 'app/reducers/events';
 import { LoginPage } from 'app/components/LoginForm';
-import { transformEvent } from './utils';
-import { time } from 'app/utils/time.js';
+import { transformEvent, time } from './utils';
+import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { isEmpty } from 'lodash';
+import { fetchEvent } from 'app/actions/EventActions';
+import loadingIndicator from 'app/utils/loadingIndicator';
 
 const mapStateToProps = (state, props) => {
   const actionGrant = state.events.actionGrant;
   const valueSelector = formValueSelector('eventEditor');
-  return {
+  const eventId = props.location.query.id;
+
+  const eventTemplate = selectEventById(state, { eventId });
+  const poolsTemplate = selectPoolsWithRegistrationsForEvent(state, {
+    eventId
+  });
+
+  const selectedValues = {
+    event: {
+      addFee: valueSelector(state, 'addFee'),
+      isPriced: valueSelector(state, 'isPriced'),
+      eventType: valueSelector(state, 'eventType'),
+      priceMember: valueSelector(state, 'priceMember'),
+      startTime: valueSelector(state, 'startTime')
+    },
+    pools: valueSelector(state, 'pools')
+  };
+
+  const initialCreateValues = {
     initialValues: {
       title: '',
       startTime: time({ hours: 17, minutes: 15 }),
@@ -38,14 +61,51 @@ const mapStateToProps = (state, props) => {
       unregistrationDeadline: time({ hours: 12 })
     },
     actionGrant,
-    event: {
-      addFee: valueSelector(state, 'addFee'),
-      isPriced: valueSelector(state, 'isPriced'),
-      eventType: valueSelector(state, 'eventType'),
-      priceMember: valueSelector(state, 'priceMember'),
-      startTime: valueSelector(state, 'startTime')
+    ...selectedValues
+  };
+
+  /* If there is no eventId in the params then we use the
+   * normal initalValues for a new event
+   */
+  if (!eventId) return initialCreateValues;
+
+  /* This will set the initalvalues as NULL if there is an
+   * eventID but the template is empty. This means the template
+   * is yet to be loaded. We return NULL to prevent the initial
+   * values to be set to default
+   */
+  if (isEmpty(eventTemplate) && eventId) {
+    return { initialValues: null };
+  }
+
+  return {
+    initialValues: {
+      ...eventTemplate,
+      mergeTime: eventTemplate.mergeTime
+        ? eventTemplate.mergeTime
+        : time({ hours: 12 }),
+      priceMember: eventTemplate.priceMember / 100,
+      pools: poolsTemplate.map(pool => ({
+        activationDate: pool.activationDate,
+        capacity: pool.capacity,
+        name: pool.name,
+        registrations: [],
+        permissionGroups: (pool.permissionGroups || []).map(group => ({
+          label: group.name,
+          value: group.id
+        }))
+      })),
+      company: eventTemplate.company && {
+        label: eventTemplate.company.name,
+        value: eventTemplate.company.id
+      },
+      responsibleGroup: eventTemplate.responsibleGroup && {
+        label: eventTemplate.responsibleGroup.name,
+        value: eventTemplate.responsibleGroup.id
+      }
     },
-    pools: valueSelector(state, 'pools')
+    actionGrant,
+    ...selectedValues
   };
 };
 
@@ -56,8 +116,13 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
+  prepare(
+    ({ location }, dispatch) =>
+      location.query.id && dispatch(fetchEvent(location.query.id))
+  ),
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )
+  ),
+  loadingIndicator(['initialValues'])
 )(EventEditor);
