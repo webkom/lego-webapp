@@ -248,12 +248,14 @@ export const selectEvents = createSelector(
   (eventsById, eventIds) => eventIds.map(id => transformEvent(eventsById[id]))
 );
 
-export const selectUpcomingEvents = createSelector(selectEvents, events =>
-  events.filter(event => event.isUsersUpcoming)
+export const selectUpcomingEvents = createSelector(
+  selectEvents,
+  events => events.filter(event => event.isUsersUpcoming)
 );
 
-export const selectSortedEvents = createSelector(selectEvents, events =>
-  events.sort((a, b) => a.startTime - b.startTime)
+export const selectSortedEvents = createSelector(
+  selectEvents,
+  events => events.sort((a, b) => a.startTime - b.startTime)
 );
 
 export const selectEventById = createSelector(
@@ -298,30 +300,33 @@ export const selectPoolsWithRegistrationsForEvent = createSelector(
     }))
 );
 
-export const selectMergedPool = createSelector(selectPoolsForEvent, pools => {
-  if (pools.length === 0) return [];
-  return [
-    {
-      name: 'Deltakere',
-      ...pools.reduce(
-        (total, pool) => {
-          const capacity = total.capacity + pool.capacity;
-          const permissionGroups = total.permissionGroups.concat(
-            pool.permissionGroups
-          );
-          const registrationCount =
-            total.registrationCount + pool.registrationCount;
-          return {
-            capacity,
-            permissionGroups,
-            registrationCount
-          };
-        },
-        { capacity: 0, permissionGroups: [], registrationCount: 0 }
-      )
-    }
-  ];
-});
+export const selectMergedPool = createSelector(
+  selectPoolsForEvent,
+  pools => {
+    if (pools.length === 0) return [];
+    return [
+      {
+        name: 'Deltakere',
+        ...pools.reduce(
+          (total, pool) => {
+            const capacity = total.capacity + pool.capacity;
+            const permissionGroups = total.permissionGroups.concat(
+              pool.permissionGroups
+            );
+            const registrationCount =
+              total.registrationCount + pool.registrationCount;
+            return {
+              capacity,
+              permissionGroups,
+              registrationCount
+            };
+          },
+          { capacity: 0, permissionGroups: [], registrationCount: 0 }
+        )
+      }
+    ];
+  }
+);
 
 export const selectMergedPoolWithRegistrations = createSelector(
   selectPoolsForEvent,
