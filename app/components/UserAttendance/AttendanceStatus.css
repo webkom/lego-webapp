@@ -1,7 +1,6 @@
 .attendanceBox {
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
+  flex-flow: row wrap;
   justify-content: flex-start;
   width: 100%;
 }

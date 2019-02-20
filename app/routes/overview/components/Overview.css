@@ -74,8 +74,7 @@
 .events {
   display: flex;
   justify-content: flex-start;
-  flex-direction: column;
-  flex-wrap: wrap;
+  flex-flow: column wrap;
 
   @media (--mobile-device) {
     margin-right: 0;
@@ -85,8 +84,7 @@
 .articles {
   display: flex;
   justify-content: space-between;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
 }
 
 .weeklyArticles {
