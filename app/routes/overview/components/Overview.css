@@ -118,3 +118,19 @@
   justify-content: center;
   cursor: pointer;
 }
+
+.desktopContainer {
+  display: flex;
+
+  @media (--mobile-device) {
+    display: none;
+  }
+}
+
+.mobileContainer {
+  display: none;
+
+  @media (--mobile-device) {
+    display: grid;
+  }
+}
