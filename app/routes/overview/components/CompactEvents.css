@@ -38,7 +38,17 @@
 
 .compactEvents li {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+}
+
+.compactEvents li > a {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 0;
+  flex-grow: 1;
+  padding-right: 10px;
 }
 
 .showMoreLink {
