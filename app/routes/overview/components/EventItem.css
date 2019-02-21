@@ -86,6 +86,7 @@
   letter-spacing: 2px;
   text-transform: uppercase;
   word-break: break-word;
+  overflow: hidden;
 
   @media (--mobile-device) {
     height: auto;
