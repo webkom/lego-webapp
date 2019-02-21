@@ -131,7 +131,6 @@ class PublicFrontpage extends Component<Props, State> {
           <CompactEvents
             events={this.props.frontpage.filter(isEvent)}
             frontpageHeading
-            titleMaxLength={20}
           />
         </div>
         <div className={styles.hsp}>

@@ -4,19 +4,17 @@ import styles from './CompactEvents.css';
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import colorForEvent from 'app/routes/events/colorForEvent';
-import truncateString from 'app/utils/truncateString';
 import { Flex } from 'app/components/Layout';
 import Time from 'app/components/Time';
 
 type Props = {
   events: Array<Object>,
-  frontpageHeading?: boolean,
-  titleMaxLength?: number
+  frontpageHeading?: boolean
 };
 
 export default class CompactEvents extends Component<Props> {
   render() {
-    const { events, frontpageHeading, titleMaxLength = 25 } = this.props;
+    const { events, frontpageHeading } = this.props;
 
     const mapEvents = eventTypes => {
       return events
@@ -27,24 +25,22 @@ export default class CompactEvents extends Component<Props> {
         .slice(0, 5)
         .map((event, key) => (
           <li key={key}>
-            <span>
-              <span
-                style={{
-                  color: colorForEvent(event.eventType),
-                  fontSize: '15px',
-                  lineHeight: '0',
-                  marginRight: '10px'
-                }}
-              >
-                <i className="fa fa-circle" />
-              </span>
-              <span>
-                <Link to={`/events/${event.id}`}>
-                  {truncateString(event.title, titleMaxLength)}
-                </Link>
-              </span>
+            <span
+              style={{
+                color: colorForEvent(event.eventType),
+                fontSize: '15px',
+                lineHeight: '0',
+                marginRight: '10px'
+              }}
+            >
+              <i className="fa fa-circle" />
             </span>
-            <Time format="dd D.MM" time={event.startTime} />
+            <Link to={`/events/${event.id}`}>{event.title}</Link>
+            <Time
+              format="dd D.MM"
+              time={event.startTime}
+              style={{ flex: '0 1 0' }}
+            />
           </li>
         ));
     };
