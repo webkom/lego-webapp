@@ -28,15 +28,13 @@ type Props = {
 
 type State = {
   eventsToShow: number,
-  articlesToShow: number,
-  isMobile: boolean
+  articlesToShow: number
 };
 
 class Overview extends Component<Props, State> {
   state = {
     eventsToShow: 7,
-    articlesToShow: 2,
-    isMobile: window.innerWidth <= 992
+    articlesToShow: 2
   };
 
   showMore = () => {
@@ -49,12 +47,6 @@ class Overview extends Component<Props, State> {
   itemUrl = (item: Event | Article) => {
     return `/${item.eventType ? 'events' : 'articles'}/${item.id}`;
   };
-
-  componentDidMount() {
-    window.addEventListener('resize', () =>
-      this.setState({ isMobile: window.innerWidth <= 992 })
-    );
-  }
 
   renderMeta = (item: (Event | Article) & { documentType: string }) => {
     const isEvent = item.eventType ? true : false;
@@ -95,7 +87,6 @@ class Overview extends Component<Props, State> {
     const isEvent = o => typeof o['startTime'] !== 'undefined';
     const { frontpage, loadingFrontpage, readmes } = this.props;
     const pinned = frontpage[0];
-    const { isMobile } = this.state;
     const compactEvents = (
       <CompactEvents
         events={frontpage.filter(isEvent)}
@@ -204,34 +195,28 @@ class Overview extends Component<Props, State> {
     return (
       <Container>
         <Helmet title="Hjem" />
-        {//desktop version
-        !isMobile && (
-          <Flex className={styles.desktopContainer}>
-            <Flex column className={styles.leftColumn}>
-              {compactEvents}
-              {pinnedComponent}
-              {readMe}
-              {events}
-            </Flex>
-            <Flex column className={styles.rightColumn}>
-              {nextEvent}
-              {weekly}
-              {articles}
-            </Flex>
-          </Flex>
-        )}
-        {//mobile version
-        isMobile && (
-          <section className={styles.mobileContainer}>
+        <Flex className={styles.desktopContainer}>
+          <Flex column className={styles.leftColumn}>
             {compactEvents}
-            {nextEvent}
             {pinnedComponent}
             {readMe}
+            {events}
+          </Flex>
+          <Flex column className={styles.rightColumn}>
+            {nextEvent}
             {weekly}
             {articles}
-            {events}
-          </section>
-        )}
+          </Flex>
+        </Flex>
+        <section className={styles.mobileContainer}>
+          {compactEvents}
+          {nextEvent}
+          {pinnedComponent}
+          {readMe}
+          {weekly}
+          {articles}
+          {events}
+        </section>
         {frontpage.length > 8 && (
           <div className={styles.showMore}>
             <Icon onClick={this.showMore} size={40} name="arrow-dropdown" />
