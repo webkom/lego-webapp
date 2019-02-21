@@ -7,7 +7,7 @@ import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor
 import { push } from 'react-router-redux';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { time } from 'app/utils/time.js';
+import time from 'app/utils/time';
 
 const mapStateToProps = () => ({
   initialValues: {
