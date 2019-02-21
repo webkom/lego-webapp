@@ -91,6 +91,7 @@ class Overview extends Component<Props, State> {
       <CompactEvents
         events={frontpage.filter(isEvent)}
         className={styles.compactEvents}
+        titleMaxLength={titleMaxLength}
       />
     );
 
