@@ -9,7 +9,8 @@ import {
   selectPoolsWithRegistrationsForEvent
 } from 'app/reducers/events';
 import { LoginPage } from 'app/components/LoginForm';
-import { transformEvent, time } from './utils';
+import { transformEvent } from './utils';
+import time from 'app/utils/time';
 import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { isEmpty } from 'lodash';
