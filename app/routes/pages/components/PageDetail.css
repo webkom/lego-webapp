@@ -18,6 +18,11 @@
   width: 100%;
 }
 
+.navTab {
+  position: relative;
+  margin-top: -2em;
+}
+
 .detail {
   flex: 1;
   min-width: 300px;
@@ -35,7 +40,10 @@
   display: flex;
   justify-content: center;
   font-weight: bold;
-  font-size: 2em;
+  font-size: 2.5em;
+  font-family: RalewayBold, sans-serif;
+  margin-top: -0.5em;
+  line-height: 1em;
 }
 
 .main {
@@ -43,8 +51,8 @@
 }
 
 .mainTxt {
-  width: 75%;
-  padding: 20px;
+  width: 100%;
+  padding: 2.5em;
   padding-bottom: 4em;
 }
 
@@ -73,6 +81,7 @@
   height: 275px;
   width: 100%;
   object-fit: contain;
+  margin-top: -2.1em;
 }
 
 .heading {
@@ -125,10 +134,17 @@
   }
 
   .mainTxt {
-    width: 100%;
+    padding: 1.5em;
+    padding-bottom: 3em;
   }
 
   .header1 {
-    font-size: 25px;
+    font-size: 1.65em;
+    text-align: center;
+    word-break: break-word;
+  }
+
+  .logo img {
+    height: 150px;
   }
 }

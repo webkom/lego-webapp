@@ -68,15 +68,6 @@ const sections = {
     fetchAll: fetchAll,
     fetchItemActions: [fetchPage]
   },
-  interessegrupper: {
-    title: 'Interessegrupper',
-    section: 'interessegrupper',
-    pageSelector: selectFlatpageForPages,
-    hierarchySectionSelector: selectPagesForHierarchy('interessegrupper'),
-    PageRenderer: FlatpageRenderer,
-    fetchAll: fetchAll,
-    fetchItemActions: [fetchPage]
-  },
   'info-om-abakus': {
     title: 'Info om Abakus',
     section: 'info-om-abakus',

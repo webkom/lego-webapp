@@ -27,6 +27,7 @@
   font-size: 2em;
   font-weight: 900;
   margin-bottom: -10px;
+  font-family: RalewayBold;
 }
 
 .sidebarSubtitle {
@@ -40,7 +41,7 @@
 
 .sidebarPicture {
   margin-top: 30px;
-  display: flex;
+  display: none;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
@@ -63,6 +64,9 @@
 .pictureHeader {
   margin-top: -15px;
   margin-bottom: 5px;
+  text-transform: uppercase;
+  font-family: RalewayBold, sans-serif;
+  letter-spacing: 1px;
 }
 
 .pictureInfo {

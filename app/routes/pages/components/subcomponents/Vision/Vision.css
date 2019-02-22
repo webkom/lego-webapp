@@ -1,36 +1,37 @@
 @import 'app/styles/variables.css';
 
-.vision__title {
-  font-size: 1.5rem;
+.title {
+  font-size: 1.3rem;
   color: var(--lego-red);
+  font-family: RalewayBold, sans-serif;
 }
 
-.vision__titleLeft {
+.titleLeft {
   text-align: right;
 }
 
-.vision__summary {
-  font-weight: bold;
+.summary {
   font-size: 1.1rem;
 }
 
-.vision__summaryLeft {
+.summaryLeft {
   text-align: right;
 }
 
-.vision__paragraph {
+.paragraph {
   opacity: 0.9;
 }
 
-.vision__paragraphLeft {
+.paragraphLeft {
   text-align: right;
 }
 
 @media (--mobile-device) {
-  .vision__title,
-  .vision__titleLeft,
-  .vision__summaryLeft,
-  .vision__paragraphLeft {
-    text-align: left;
+  .title,
+  .titleLeft,
+  .summaryLeft,
+  .paragraphLeft,
+  .summary {
+    text-align: center;
   }
 }

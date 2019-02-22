@@ -140,7 +140,7 @@ class Header extends Component<Props, State> {
               </Link>
               {!loggedIn ? (
                 <Link
-                  to="/pages/info/for-bedrifter"
+                  to="/pages/bedrifter/for-bedrifter"
                   activeClassName={styles.activeItem}
                 >
                   For bedrifter

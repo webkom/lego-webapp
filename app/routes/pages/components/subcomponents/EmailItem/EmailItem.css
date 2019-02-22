@@ -3,8 +3,12 @@
 .container {
   display: flex;
   align-items: center;
-  padding: 1rem;
+  padding: 0.8rem;
   flex-basis: 33.33333%;
+
+  @media (--mobile-device) {
+    flex-basis: 100%;
+  }
 }
 
 .recipient {

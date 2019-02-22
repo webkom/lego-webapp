@@ -21,12 +21,6 @@ const DisplayVision = ({
 }: Props) => (
   <div className={styles.vision}>
     <div className={styles.sectionLeft}>
-      <h2 className={styles.visionTitle}>
-        Våre
-        <br />
-        Verdier
-      </h2>
-
       <Vision
         title={vision1.title}
         summary={vision1.summary}
@@ -120,23 +114,20 @@ const DisplayVisionShort = ({
   vision4
 }: Props) => {
   return (
-    <div className={styles.vision}>
-      <div className={styles.sectionLeft}>
-        <h2 className={styles.visionTitle}>
-          Våre
-          <br />
-          Verdier
-        </h2>
+    <div>
+      <h2 className={styles.visionTitle}>Våre Verdier</h2>
+      <div className={styles.vision}>
+        <div className={styles.sectionLeft}>
+          <Vision title={vision1.title} summary={vision1.summary} left />
+          <Vision title={vision2.title} summary={vision2.summary} left />
+        </div>
 
-        <Vision title={vision1.title} summary={vision1.summary} left />
-        <Vision title={vision2.title} summary={vision2.summary} left />
-      </div>
+        <DividerWithDots className={styles.divWithDots} />
 
-      <DividerWithDots className={styles.divWithDots} />
-
-      <div className={styles.sectionRight}>
-        <Vision title={vision3.title} summary={vision3.summary} />
-        <Vision title={vision4.title} summary={vision4.summary} />
+        <div className={styles.sectionRight}>
+          <Vision title={vision3.title} summary={vision3.summary} />
+          <Vision title={vision4.title} summary={vision4.summary} />
+        </div>
       </div>
     </div>
   );

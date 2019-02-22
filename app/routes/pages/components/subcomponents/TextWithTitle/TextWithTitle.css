@@ -5,10 +5,11 @@
   margin: 0 0.5rem;
 }
 
-.redTitle {
+.boldTitle {
   font-size: 1.2rem;
-  color: var(--lego-red);
+  color: var(--lego-font-color);
   text-transform: uppercase;
+  font-family: RalewayBold;
 }
 
 .title {
@@ -29,5 +30,9 @@
 @media (--mobile-device) {
   .container {
     flex-basis: 100%;
+  }
+
+  .boldTitle {
+    text-align: center;
   }
 }

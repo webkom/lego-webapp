@@ -8,10 +8,10 @@ type Props = {
   extraStyle?: Object
 };
 
-const TextWithRedTitle = ({ title, text, extraStyle }: Props) => {
+const TextWithBoldTitle = ({ title, text, extraStyle }: Props) => {
   return (
     <div className={styles.container} style={extraStyle}>
-      <h2 className={styles.redTitle}>{title}</h2>
+      <h2 className={styles.boldTitle}>{title}</h2>
       <p className={styles.text}>{text}</p>
     </div>
   );
@@ -21,12 +21,12 @@ const TextWithTitle = ({ title, text, extraStyle }: Props) => {
   return (
     <div className={styles.container} style={extraStyle}>
       <h3 className={styles.title}>{title}</h3>
-      <p className={styles.textContainer}>
-        <pre className={styles.smallerText}>{text}</pre>
-      </p>
+      <pre className={styles.textContainer}>
+        <span className={styles.smallerText}>{text}</span>
+      </pre>
     </div>
   );
 };
 
-export default TextWithRedTitle;
+export default TextWithBoldTitle;
 export { TextWithTitle };

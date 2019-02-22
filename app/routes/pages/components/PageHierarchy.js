@@ -9,13 +9,15 @@ import Icon from 'app/components/Icon';
 type Props = {
   pageHierarchy: Array<HierarchySectionEntity>,
   currentUrl: string,
-  currentCategory: string
+  currentCategory: string,
+  handleCloseSidebar: any
 };
 
 const PageHierarchy = ({
   pageHierarchy,
   currentUrl,
-  currentCategory
+  currentCategory,
+  handleCloseSidebar
 }: Props) => {
   return (
     <div className={styles.sidebar}>
@@ -25,6 +27,7 @@ const PageHierarchy = ({
           key={key}
           currentUrl={currentUrl}
           currentCategory={currentCategory}
+          handleCloseSidebar={handleCloseSidebar}
         />
       ))}
     </div>
@@ -46,11 +49,13 @@ export type HierarchySectionEntity = {
 const HierarchySection = ({
   hierarchySection: { title, items },
   currentUrl,
-  currentCategory
+  currentCategory,
+  handleCloseSidebar
 }: {
   hierarchySection: HierarchySectionEntity,
   currentUrl: string,
-  currentCategory: string
+  currentCategory: string,
+  handleCloseSidebar: any
 }) => (
   <nav className={styles.pageList}>
     {items.length > 0 && (
@@ -58,6 +63,7 @@ const HierarchySection = ({
         {items.map((item, key) => (
           <div key={key} className={styles.links}>
             <Link
+              onClick={handleCloseSidebar}
               className={
                 item.url === currentUrl ? styles.selected : styles.nonSelected
               }
@@ -101,7 +107,12 @@ class AccordionContainer extends Component<AccordionProps, AccordionState> {
     return (
       <div>
         <button className={styles.dropdownBtn} onClick={this.handleClick}>
-          {title} <Icon className={styles.dropdownIcon} name="arrow-down" />
+          {title}{' '}
+          {this.state.isOpen ? (
+            <Icon className={styles.dropdownIcon} name="arrow-down" />
+          ) : (
+            <Icon className={styles.dropdownIcon} name="arrow-forward" />
+          )}
         </button>{' '}
         {this.state.isOpen ? <div>{children}</div> : null}
       </div>

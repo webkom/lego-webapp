@@ -13,3 +13,13 @@
   font-weight: bold;
   font-family: 'Roboto', sans-serif;
 }
+
+@media (--mobile-device) {
+  .statistic {
+    font-size: 1.8rem;
+  }
+
+  .container {
+    margin: 0 0.5rem 0.5rem;
+  }
+}

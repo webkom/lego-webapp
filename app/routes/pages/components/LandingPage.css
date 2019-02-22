@@ -2,19 +2,15 @@
 
 .pageContainer {
   position: relative;
-  margin-bottom: 3rem;
+  padding: 1em;
   margin-top: -2em;
-}
-
-.topContainer {
-  display: flex;
 }
 
 .banner {
   width: 100%;
   max-width: 55rem;
   display: block;
-  margin: auto auto 3rem;
+  margin: 1rem auto;
   object-fit: scale-down;
 }
 
@@ -23,7 +19,8 @@
   align-items: flex-end;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 2em;
+  margin-bottom: 2.5em;
+  margin-top: 1em;
 }
 
 .whoWhatWhyContainer {
@@ -36,6 +33,7 @@
 
 .emailContainer {
   display: flex;
+  margin-top: -2em;
 }
 
 .committeeEmails {
@@ -54,18 +52,12 @@
 }
 
 .contactTitle {
-  color: var(--lego-red);
-  text-transform: uppercase;
+  color: var(--lego-font-color);
   font-size: 1.7rem;
   text-align: center;
-}
-
-.contactTitleContainer {
-  width: 100%;
-  padding-bottom: 0.3rem;
-  max-width: 15rem;
-  margin: 2em auto 2rem;
-  border-bottom: 2px solid var(--lego-red);
+  font-family: RalewayBold, sans-serif;
+  text-transform: uppercase;
+  margin: 3rem auto 1.5rem;
 }
 
 .contactUsLink {
@@ -75,9 +67,26 @@
   margin-left: auto;
   margin-right: 1.5em;
   font-size: 1.3rem;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 
 .emailIcon {
+  margin-right: 1rem;
+  margin-top: 10px;
+}
+
+.soMeIcon {
+  margin-right: 1rem;
+}
+
+.houseIcon {
+  margin-right: 1rem;
+  margin-top: -5px;
+}
+
+.organizationIcon {
   margin-right: 1rem;
 }
 
@@ -98,19 +107,29 @@
     flex-wrap: wrap;
   }
 
-  .emailContainer {
-    flex-wrap: wrap;
-  }
-
   .emails {
     margin-top: 0;
   }
 
-  .emailIcon {
+  .emailIcon,
+  .houseIcon,
+  .organizationIcon {
     display: none;
+  }
+
+  .emailContainer {
+    margin-left: 8px;
+    margin-top: 0;
   }
 
   .contactUsLink {
     margin-bottom: 2px;
+    top: 0.5em;
+    font-size: 1.2em;
+  }
+
+  .pageContainer {
+    padding: 0;
+    padding-top: 2em;
   }
 }

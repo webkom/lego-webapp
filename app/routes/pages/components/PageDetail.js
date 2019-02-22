@@ -25,7 +25,8 @@ type Props = {
   currentUrl: string,
   selectedPageInfo: PageInfo,
   PageRenderer: ({ page: any }) => Node,
-  pageHierarchy: Array<HierarchySectionEntity>
+  pageHierarchy: Array<HierarchySectionEntity>,
+  loggedIn: boolean
 };
 
 class PageDetail extends Component<Props, State> {
@@ -49,7 +50,8 @@ class PageDetail extends Component<Props, State> {
       selectedPageInfo,
       pageHierarchy,
       PageRenderer,
-      currentUrl
+      currentUrl,
+      loggedIn
     } = this.props;
 
     if (!selectedPage) {
@@ -74,7 +76,7 @@ class PageDetail extends Component<Props, State> {
             />
 
             <div className={styles.mainTxt}>
-              <NavigationTab>
+              <NavigationTab className={styles.navTab}>
                 {actionGrant.includes('edit') && editUrl && (
                   <NavigationLink to={editUrl}>Endre</NavigationLink>
                 )}
@@ -88,6 +90,7 @@ class PageDetail extends Component<Props, State> {
                   page={selectedPage}
                   pageInfo={selectedPageInfo}
                   ChildPageRenderer={PageRenderer}
+                  loggedIn={loggedIn}
                 />
               ) : (
                 <LoadingIndicator loading />
@@ -113,11 +116,13 @@ export type PageInfo = {
 export const MainPageRenderer = ({
   page,
   pageInfo,
-  ChildPageRenderer
+  ChildPageRenderer,
+  loggedIn
 }: {
   page: Object,
   pageInfo: Object,
-  ChildPageRenderer: ({ page: any }) => Node
+  ChildPageRenderer: ({ page: any }) => Node,
+  loggedIn: boolean
 }) => {
   const pageBanner = page.logo || page.picture;
   const { title } = pageInfo;
@@ -132,7 +137,7 @@ export const MainPageRenderer = ({
       {title !== 'Info om Abakus' && (
         <h1 className={styles.header1}>{readmeIfy(title)}</h1>
       )}
-      <ChildPageRenderer page={page} pageInfo={pageInfo} />
+      <ChildPageRenderer page={page} pageInfo={pageInfo} loggedIn={loggedIn} />
     </article>
   );
 };

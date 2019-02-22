@@ -31,7 +31,7 @@ class Sidebar extends Component<Props, State> {
       isOpen,
       handleClose
     }: Props = this.props;
-    const pictureLabel = 'Listingløpet 1985';
+    // const pictureLabel = 'Hemmelig bilde';
 
     return (
       <div
@@ -54,17 +54,17 @@ class Sidebar extends Component<Props, State> {
               <h4 className={styles.sidebarSubtitle}>
                 {categorySelected ? categorySelected : 'Generelt'}
               </h4>
-              <div className={styles.sidebarPicture}>
+              {/* <div className={styles.sidebarPicture}>
                 <h4 className={styles.pictureHeader}> {"Abakus' Fortid"}</h4>
-                <a href="https://abakus.no/photos/183/picture/460">
+                <a href="https://abakus.no/">
                   <img
                     alt={pictureLabel}
                     className={styles.oldImg}
-                    src="https://thumbor.abakus.no/BT--sOMt9dTlSr93y_D3fCso9YE=/0x700/smart/scan713_OcOF51m.jpg"
+                    src="https://thumbor.abakus.no/"
                   />
                   <span className={styles.pictureInfo}>{pictureLabel}</span>
                 </a>
-              </div>
+              </div> */}
             </div>
 
             <div className={styles.sidebarBottom}>
@@ -72,6 +72,7 @@ class Sidebar extends Component<Props, State> {
                 pageHierarchy={pageHierarchy}
                 currentUrl={currentUrl}
                 currentCategory={categorySelected}
+                handleCloseSidebar={handleClose}
               />
             </div>
           </aside>
