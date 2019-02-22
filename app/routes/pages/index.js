@@ -5,12 +5,12 @@ export default {
   indexRoute: resolveAsyncRoute(() => import('./PageListRoute')),
   childRoutes: [
     {
-      path: ':section',
-      ...resolveAsyncRoute(() => import('./PageDetailRoute'))
-    },
-    {
       path: 'new',
       ...resolveAsyncRoute(() => import('./PageCreateRoute'))
+    },
+    {
+      path: ':section',
+      ...resolveAsyncRoute(() => import('./PageDetailRoute'))
     },
     {
       path: ':section/:pageSlug/edit',

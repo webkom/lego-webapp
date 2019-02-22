@@ -111,7 +111,9 @@ export const selectFlatpageForPages = createSelector(
       isComplete: !!(selectedPage && selectedPage.actionGrant),
       actionGrant: selectedPage && selectedPage.actionGrant,
       title: selectedPage && selectedPage.title,
-      editUrl: `/pages/info/${pageSlug}/edit`
+      editUrl: `/pages/${
+        selectedPage ? selectedPage.category : 'info'
+      }/${pageSlug}/edit`
     }
   })
 );

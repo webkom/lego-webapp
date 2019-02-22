@@ -117,11 +117,14 @@ export default class PageEditor extends Component<Props, State> {
     if (!isNew && !page) {
       return <LoadingIndicator loading />;
     }
+    const backUrl = isNew
+      ? '/pages/info-om-abakus'
+      : `/pages/${page.category}/${pageSlug}`;
 
     return (
       <Content>
         <NavigationTab title={page.title}>
-          <NavigationLink to={`/pages/info/${pageSlug}`}>
+          <NavigationLink to={backUrl}>
             <i className="fa fa-angle-left" /> Tilbake
           </NavigationLink>
         </NavigationTab>
