@@ -59,11 +59,11 @@ const sections = {
     fetchAll: () => fetchAllWithType('komite'),
     fetchItemActions: [fetchGroup, fetchAllMemberships]
   },
-  undergrupper: {
-    title: 'Undergrupper',
-    section: 'undergrupper',
+  grupper: {
+    title: 'Grupper',
+    section: 'grupper',
     pageSelector: selectFlatpageForPages,
-    hierarchySectionSelector: selectPagesForHierarchy('undergrupper'),
+    hierarchySectionSelector: selectPagesForHierarchy('grupper'),
     PageRenderer: FlatpageRenderer,
     fetchAll: fetchAll,
     fetchItemActions: [fetchPage]

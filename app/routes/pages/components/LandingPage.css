@@ -15,34 +15,12 @@
 }
 
 .statisticsContainer {
-  display: flex;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  justify-content: center;
   margin-bottom: 2.5em;
   margin-top: 1em;
 }
 
-.whoWhatWhyContainer {
-  display: flex;
-}
-
-.locationContainer {
-  display: flex;
-}
-
 .emailContainer {
-  display: flex;
   margin-top: -2em;
-}
-
-.committeeEmails {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.organizationContainer {
-  display: flex;
 }
 
 .title {

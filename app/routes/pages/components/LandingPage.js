@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
-
+import { Flex } from 'app/components/Layout';
 import { DisplayVisionShort } from './subcomponents/DisplayVision';
 import TextWithBoldTitle, {
   TextWithTitle
@@ -46,19 +46,24 @@ const LandingPage = ({
         alt="Abakus - Linjeforeningen for Datateknologi og Kommunikasjonsteknologi ved NTNU"
       />
 
-      <div className={styles.whoWhatWhyContainer}>
+      <Flex className={styles.whoWhatWhyContainer}>
         <TextWithBoldTitle title="Hvem vi er" text={whoWeAre} />
         <TextWithBoldTitle title="Hva vi gjør" text={whatWeDo} />
         <TextWithBoldTitle title="Hvorfor vi gjør det" text={whyWeDoIt} />
-      </div>
+      </Flex>
 
-      <div className={styles.statisticsContainer}>
+      <Flex
+        wrap
+        className={styles.statisticsContainer}
+        alignItems="flex-end"
+        justifyContent="center"
+      >
         <Statistic statistic="9" label="Komiteer" />
         <Statistic statistic="3" label="Undergrupper" />
         <Statistic statistic="24" label="Interessegrupper" />
         <Statistic statistic="800+" label="Medlemmer" />
         <Statistic topLabel="Stiftet i" statistic="1977" label="41 år" />
-      </div>
+      </Flex>
 
       <DisplayVisionShort />
 
@@ -66,7 +71,7 @@ const LandingPage = ({
         Kontakt oss
       </h2>
 
-      <div className={styles.locationContainer}>
+      <Flex className={styles.locationContainer}>
         <div className={styles.houseIcon}>
           <Icon name="home" size={80} style={{ marginRight: '1rem' }} />
         </div>
@@ -87,9 +92,9 @@ const LandingPage = ({
           text={officeHours}
           extraStyle={{ flexBasis: '33.33333%' }}
         />
-      </div>
+      </Flex>
 
-      <div className={styles.emailContainer}>
+      <Flex className={styles.emailContainer}>
         <Icon name="mail" size={80} className={styles.emailIcon} />
         <div className={styles.emails}>
           <h3 className={styles.title}>E-post</h3>
@@ -108,63 +113,26 @@ const LandingPage = ({
             logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_hs.png"
           />
           <h3 className={styles.title}>E-postadresser til komiteene</h3>
-          <div className={styles.committeeEmails}>
-            <EmailItem
-              recipient="Arrkom"
-              email="arrkom@abakus.no"
-              logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_arrkom.png"
-            />
-            <EmailItem
-              recipient="Bedkom"
-              email="bedkom@abakus.no"
-              logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_bedkom.png"
-            />
-            <EmailItem
-              recipient="Fagkom"
-              email="fagkom@abakus.no"
-              logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_fagkom.png"
-            />
-            <EmailItem
-              recipient="Koskom"
-              email="koskom@abakus.no"
-              logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_koskom.png"
-            />
-            <EmailItem
-              recipient="LaBamba"
-              email="labamba@abakus.no"
-              logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_labamba.png"
-            />
-            <EmailItem
-              recipient="PR"
-              email="pr@abakus.no"
-              logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_pr.png"
-            />
-            <EmailItem
-              recipient="Webkom"
-              email="webkom@abakus.no"
-              logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_webkom.png"
-            />
-            <EmailItem
-              recipient="readme"
-              email="readme@abakus.no"
-              logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_readme.png"
-            />
-            <EmailItem
-              recipient="backup"
-              email="backup@abakus.no"
-              logo="https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_backup.png"
-            />
-          </div>
+          <Flex wrap className={styles.committeeEmails}>
+            {committeeEmails.map((email, index) => (
+              <EmailItem
+                key={index}
+                recipient={email.recipient}
+                email={email.email}
+                logo={email.logo}
+              />
+            ))}
+          </Flex>
         </div>
-      </div>
+      </Flex>
 
-      <div className={styles.organizationContainer}>
+      <Flex>
         <Icon name="briefcase" size={80} className={styles.organizationIcon} />
         <div className={styles.organization}>
           <h3 className={styles.title}>Organisasjonsnummer</h3>
           <span>{organizationNo}</span>
         </div>
-      </div>
+      </Flex>
     </div>
   );
 };
@@ -183,5 +151,62 @@ LandingPage.defaultProps = {
   officeHours: 'Hver torsdag kl. 1215 - 1300 \npå Realfagsbygget',
   organizationNo: '98 60 37 314 MVA'
 };
+
+const committeeEmails = [
+  {
+    recipient: 'Arrkom',
+    email: 'arrkom@abakus.no',
+    logo:
+      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_arrkom.png'
+  },
+  {
+    recipient: 'Bedkom',
+    email: 'bedkom@abakus.no',
+    logo:
+      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_bedkom.png'
+  },
+  {
+    recipient: 'Fagkom',
+    email: 'fagkom@abakus.no',
+    logo:
+      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_fagkom.png'
+  },
+  {
+    recipient: 'Koskom',
+    email: 'koskom@abakus.no',
+    logo:
+      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_koskom.png'
+  },
+  {
+    recipient: 'LaBamba',
+    email: 'labamba@abakus.no',
+    logo:
+      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_labamba.png'
+  },
+  {
+    recipient: 'PR',
+    email: 'pr@abakus.no',
+    logo:
+      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_pr.png'
+  },
+  {
+    recipient: 'Webkom',
+    email: 'webkom@abakus.no',
+    logo:
+      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_webkom.png'
+  },
+  {
+    recipient: 'readme',
+    email: 'readme@abakus.no',
+    logo:
+      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_readme.png'
+  },
+  {
+    recipient: 'backup',
+    email: 'backup@abakus.no',
+    logo:
+      'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_backup.png'
+  }
+];
 
 export default LandingPage;
