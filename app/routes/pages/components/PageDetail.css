@@ -1,39 +1,59 @@
 @import 'app/styles/variables.css';
 
+.cont {
+  padding: 0;
+}
+
 .root {
   composes: container from 'app/styles/utilities.css';
 }
 
 .title {
   font-size: 28px;
-
-  /** margin handled by .header **/
   margin: 0;
 }
 
 .page {
   margin: 0;
+  width: 100%;
+}
+
+.navTab {
+  position: relative;
+  margin-top: -2em;
 }
 
 .detail {
   flex: 1;
   min-width: 300px;
   width: 100%;
+  max-width: 685px;
+  margin: auto;
+  padding-right: 10px;
 }
 
 .header {
   margin: 10px 0;
 }
 
-.sidebar {
-  min-width: 150px;
-  max-width: 230px;
-  margin: 0 2em;
-  flex: 1;
+.header1 {
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 2.5em;
+  font-family: RalewayBold, sans-serif;
+  margin-top: -0.5em;
+  line-height: 1em;
+}
 
-  @media (--mobile-device) {
-    margin: 0;
-  }
+.main {
+  width: 100%;
+}
+
+.mainTxt {
+  width: 100%;
+  padding: 2.5em;
+  padding-bottom: 4em;
 }
 
 .action {
@@ -52,10 +72,16 @@
   object-fit: scale-down;
 }
 
+.pictureHeader {
+  margin-top: -15px;
+  margin-bottom: 5px;
+}
+
 .logo img {
-  height: 300px;
+  height: 275px;
   width: 100%;
   object-fit: contain;
+  margin-top: -2.1em;
 }
 
 .heading {
@@ -79,4 +105,46 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+
+.sidebarOpenBtn {
+  background-color: #f7f7f7;
+  width: 40px;
+  height: 65px;
+  position: -webkit-sticky; /* Safari */
+  position: sticky;
+  top: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 50px 50px 0;
+  border: 1px solid #d1d1d1;
+  border-left: 0;
+  color: var(--lego-red);
+  z-index: 10;
+
+  @media (--mobile-device) {
+    display: flex;
+  }
+}
+
+@media (--mobile-device) {
+  .page {
+    margin-top: -65px;
+  }
+
+  .mainTxt {
+    padding: 1.5em;
+    padding-bottom: 3em;
+  }
+
+  .header1 {
+    font-size: 1.65em;
+    text-align: center;
+    word-break: break-word;
+  }
+
+  .logo img {
+    height: 150px;
+  }
 }

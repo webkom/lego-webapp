@@ -1,0 +1,21 @@
+@import 'app/styles/variables.css';
+
+.container {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem;
+  flex-basis: 33.33333%;
+
+  @media (--mobile-device) {
+    flex-basis: 100%;
+  }
+}
+
+.recipient {
+  margin-bottom: -8px;
+}
+
+.logo {
+  width: 40px;
+  margin-right: 0.5em;
+}

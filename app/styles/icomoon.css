@@ -11,6 +11,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'RalewayBold';
+  src: url('app/assets/fonts/Raleway-Bold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+}
+
 [class^='icon-'],
 [class*=' icon-'] {
   font-family: 'icomoon' !important;

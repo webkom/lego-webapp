@@ -1,6 +1,6 @@
 import { compose } from 'redux';
-import { dispatched } from '@webkom/react-prepare';
 import { connect } from 'react-redux';
+import prepare from 'app/utils/prepare';
 import {
   fetchAll,
   fetchPage,
@@ -38,8 +38,9 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  dispatched(({ params: { pageSlug } }, dispatch) =>
-    dispatch(fetchPage(pageSlug))
+  prepare(
+    ({ params: { pageSlug } }, dispatch) => dispatch(fetchPage(pageSlug)),
+    ['params.pageSlug']
   ),
   connect(
     mapStateToProps,

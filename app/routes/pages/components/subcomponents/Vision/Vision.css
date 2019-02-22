@@ -1,0 +1,37 @@
+@import 'app/styles/variables.css';
+
+.title {
+  font-size: 1.3rem;
+  color: var(--lego-red);
+  font-family: RalewayBold, sans-serif;
+}
+
+.titleLeft {
+  text-align: right;
+}
+
+.summary {
+  font-size: 1.1rem;
+}
+
+.summaryLeft {
+  text-align: right;
+}
+
+.paragraph {
+  opacity: 0.9;
+}
+
+.paragraphLeft {
+  text-align: right;
+}
+
+@media (--mobile-device) {
+  .title,
+  .titleLeft,
+  .summaryLeft,
+  .paragraphLeft,
+  .summary {
+    text-align: center;
+  }
+}

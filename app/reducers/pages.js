@@ -1,13 +1,12 @@
 // @flow
 
 import { createSelector } from 'reselect';
+import { sortBy, groupBy } from 'lodash';
 import { Page } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { selectGroupsWithType } from './groups';
 import { selectGroup } from 'app/reducers/groups';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
-
-import { sortBy, groupBy } from 'lodash';
 
 export type PageEntity = {
   id: number,
@@ -49,27 +48,46 @@ export const selectPages = createSelector(
     Object.keys(pagesBySlug).map(slug => pagesBySlug[slug])
 );
 
-export const selectPagesForHierarchy = createSelector(
-  state => selectPages(state),
-  (state, props) => props.title,
-  (pages, title) => ({
-    title,
-    items: pages.map(page => ({
-      url: `/pages/info/${page.slug}`,
-      title: page.title
-    }))
-  })
-);
+export const selectPagesForHierarchy = (category: string) =>
+  createSelector(
+    state => selectPages(state),
+    (state, props) => props.title,
+    (pages, title) => ({
+      title,
+      items: (category === 'generelt'
+        ? [
+            {
+              url: '/pages/info-om-abakus',
+              title: 'Info om Abakus'
+            }
+          ]
+        : []
+      ).concat(
+        sortBy(
+          pages
+            .filter(page => page.category === category)
+            .map(page => ({
+              url: `/pages/${page.category}/${page.slug}`,
+              title: page.title
+            })),
+          'title'
+        )
+      )
+    })
+  );
 
 export const selectGroupsForHierarchy = createSelector(
   state => selectGroupsWithType(state, { groupType: 'komite' }),
   (state, props) => props.title,
   (groups, title) => ({
     title,
-    items: groups.map(page => ({
-      url: `/pages/komiteer/${page.id}`,
-      title: page.name
-    }))
+    items: sortBy(
+      groups.map(page => ({
+        url: `/pages/komiteer/${page.id}`,
+        title: page.name
+      })),
+      'title'
+    )
   })
 );
 
@@ -93,7 +111,9 @@ export const selectFlatpageForPages = createSelector(
       isComplete: !!(selectedPage && selectedPage.actionGrant),
       actionGrant: selectedPage && selectedPage.actionGrant,
       title: selectedPage && selectedPage.title,
-      editUrl: `/pages/info/${pageSlug}/edit`
+      editUrl: `/pages/${
+        selectedPage ? selectedPage.category : 'info'
+      }/${pageSlug}/edit`
     }
   })
 );
@@ -137,6 +157,17 @@ export const selectNotFoundpageForPages = createSelector(
   pageSlug => ({
     selectedPageInfo: {
       title: pageSlug,
+      isComplete: true
+    },
+    selectedPage: {}
+  })
+);
+
+export const selectInfoPageForPages = createSelector(
+  (state, props) => props.pageSlug,
+  pageSlug => ({
+    selectedPageInfo: {
+      title: 'Info om Abakus',
       isComplete: true
     },
     selectedPage: {}

@@ -9,6 +9,10 @@ export default {
       ...resolveAsyncRoute(() => import('./PageCreateRoute'))
     },
     {
+      path: ':section',
+      ...resolveAsyncRoute(() => import('./PageDetailRoute'))
+    },
+    {
       path: ':section/:pageSlug/edit',
       ...resolveAsyncRoute(() => import('./PageEditRoute'))
     },

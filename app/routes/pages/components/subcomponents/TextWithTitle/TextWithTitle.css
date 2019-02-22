@@ -1,0 +1,38 @@
+@import 'app/styles/variables.css';
+
+.container {
+  flex-basis: 33.333333%;
+  margin: 0 0.5rem;
+}
+
+.boldTitle {
+  font-size: 1.2rem;
+  color: var(--lego-font-color);
+  text-transform: uppercase;
+  font-family: RalewayBold;
+}
+
+.title {
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.smallerText {
+  font-family: 'Raleway', sans-serif;
+  line-height: 1.5rem;
+}
+
+.textContainer {
+  margin-bottom: 1.5rem;
+}
+
+@media (--mobile-device) {
+  .container {
+    flex-basis: 100%;
+  }
+
+  .boldTitle {
+    text-align: center;
+  }
+}

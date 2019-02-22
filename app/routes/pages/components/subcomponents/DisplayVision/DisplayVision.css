@@ -1,0 +1,51 @@
+@import 'app/styles/variables.css';
+
+.vision {
+  display: flex;
+  margin: 0 auto;
+  max-width: 44rem;
+}
+
+.visionTitle {
+  font-size: 1.7rem;
+  line-height: 2rem;
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  font-family: RalewayBold, sans-serif;
+  text-transform: uppercase;
+}
+
+.sectionLeft {
+  flex-basis: 50%;
+}
+
+.sectionRight {
+  flex-basis: 50%;
+}
+
+.divWithDots {
+  margin-bottom: 2.2rem;
+  margin-top: 1.2rem;
+}
+
+@media (--mobile-device) {
+  .visionTitle {
+    font-size: 30px;
+    text-align: center;
+    word-spacing: normal;
+  }
+
+  .vision {
+    flex-wrap: wrap;
+  }
+
+  .sectionRight {
+    flex-basis: 100%;
+    margin-top: 0;
+  }
+
+  .sectionLeft {
+    flex-basis: 100%;
+  }
+}

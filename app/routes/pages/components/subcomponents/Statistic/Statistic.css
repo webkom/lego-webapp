@@ -1,0 +1,25 @@
+@import 'app/styles/variables.css';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 0 1rem 1rem;
+}
+
+.statistic {
+  font-size: 2.2rem;
+  font-weight: bold;
+  font-family: 'Roboto', sans-serif;
+}
+
+@media (--mobile-device) {
+  .statistic {
+    font-size: 1.8rem;
+  }
+
+  .container {
+    margin: 0 0.5rem 0.5rem;
+  }
+}

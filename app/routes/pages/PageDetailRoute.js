@@ -10,22 +10,42 @@ import PageDetail, {
   FlatpageRenderer,
   GroupRenderer
 } from './components/PageDetail';
+import LandingPage from './components/LandingPage';
 import {
   selectPagesForHierarchy,
   selectGroupsForHierarchy,
   selectPageHierarchy,
   selectCommitteeForPages,
   selectFlatpageForPages,
-  selectNotFoundpageForPages
+  selectNotFoundpageForPages,
+  selectInfoPageForPages
 } from 'app/reducers/pages';
 import HTTPError from 'app/routes/errors/HTTPError';
 
 const sections = {
-  info: {
-    title: 'Informasjon',
-    section: 'info',
+  generelt: {
+    title: 'Generelt',
+    section: 'generelt',
     pageSelector: selectFlatpageForPages,
-    hierarchySectionSelector: selectPagesForHierarchy,
+    hierarchySectionSelector: selectPagesForHierarchy('generelt'),
+    PageRenderer: FlatpageRenderer,
+    fetchAll: fetchAll,
+    fetchItemActions: [fetchPage]
+  },
+  bedrifter: {
+    title: 'Bedrifter',
+    section: 'bedrifter',
+    pageSelector: selectFlatpageForPages,
+    hierarchySectionSelector: selectPagesForHierarchy('bedrifter'),
+    PageRenderer: FlatpageRenderer,
+    fetchAll: fetchAll,
+    fetchItemActions: [fetchPage]
+  },
+  arrangementer: {
+    title: 'Arrangementer',
+    section: 'arrangementer',
+    pageSelector: selectFlatpageForPages,
+    hierarchySectionSelector: selectPagesForHierarchy('arrangementer'),
     PageRenderer: FlatpageRenderer,
     fetchAll: fetchAll,
     fetchItemActions: [fetchPage]
@@ -38,6 +58,24 @@ const sections = {
     PageRenderer: GroupRenderer,
     fetchAll: () => fetchAllWithType('komite'),
     fetchItemActions: [fetchGroup, fetchAllMemberships]
+  },
+  grupper: {
+    title: 'Grupper',
+    section: 'grupper',
+    pageSelector: selectFlatpageForPages,
+    hierarchySectionSelector: selectPagesForHierarchy('grupper'),
+    PageRenderer: FlatpageRenderer,
+    fetchAll: fetchAll,
+    fetchItemActions: [fetchPage]
+  },
+  'info-om-abakus': {
+    title: 'Info om Abakus',
+    section: 'info-om-abakus',
+    pageSelector: selectInfoPageForPages,
+    hierarchySectionSelector: () => ({ title: 'hehe', items: [] }),
+    PageRenderer: LandingPage,
+    fetchAll: fetchAll,
+    fetchItemActions: []
   }
 };
 
@@ -57,7 +95,7 @@ const loadData = (props, dispatch) => {
     return Promise.all(
       fetchItemActions
         .map(action => dispatch(action(pageSlug)))
-        .concat(dispatch(sections.info.fetchAll()))
+        .concat(dispatch(sections.generelt.fetchAll()))
     );
   }
 

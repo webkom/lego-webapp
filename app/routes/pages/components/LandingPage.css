@@ -1,0 +1,113 @@
+@import 'app/styles/variables.css';
+
+.pageContainer {
+  position: relative;
+  padding: 1em;
+  margin-top: -2em;
+}
+
+.banner {
+  width: 100%;
+  max-width: 55rem;
+  display: block;
+  margin: 1rem auto;
+  object-fit: scale-down;
+}
+
+.statisticsContainer {
+  margin-bottom: 2.5em;
+  margin-top: 1em;
+}
+
+.emailContainer {
+  margin-top: -2em;
+}
+
+.title {
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.contactTitle {
+  color: var(--lego-font-color);
+  font-size: 1.7rem;
+  text-align: center;
+  font-family: RalewayBold, sans-serif;
+  text-transform: uppercase;
+  margin: 3rem auto 1.5rem;
+}
+
+.contactUsLink {
+  color: var(--lego-font-color);
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-left: auto;
+  margin-right: 1.5em;
+  font-size: 1.3rem;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.emailIcon {
+  margin-right: 1rem;
+  margin-top: 10px;
+}
+
+.soMeIcon {
+  margin-right: 1rem;
+}
+
+.houseIcon {
+  margin-right: 1rem;
+  margin-top: -5px;
+}
+
+.organizationIcon {
+  margin-right: 1rem;
+}
+
+.emails {
+  margin-top: 30px;
+}
+
+.organization {
+  margin-top: 25px;
+}
+
+@media (--mobile-device) {
+  .whoWhatWhyContainer {
+    flex-wrap: wrap;
+  }
+
+  .locationContainer {
+    flex-wrap: wrap;
+  }
+
+  .emails {
+    margin-top: 0;
+  }
+
+  .emailIcon,
+  .houseIcon,
+  .organizationIcon {
+    display: none;
+  }
+
+  .emailContainer {
+    margin-left: 8px;
+    margin-top: 0;
+  }
+
+  .contactUsLink {
+    margin-bottom: 2px;
+    top: 0.5em;
+    font-size: 1.2em;
+  }
+
+  .pageContainer {
+    padding: 0;
+    padding-top: 2em;
+  }
+}
