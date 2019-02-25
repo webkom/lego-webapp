@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Helmet from 'react-helmet';
-import { capitalize, sumBy } from 'lodash';
+import { sumBy } from 'lodash';
 import { ProfilePicture, CircularPicture } from 'app/components/Image';
 import Card from 'app/components/Card';
 import Pill from 'app/components/Pill';
@@ -26,8 +26,28 @@ import { Image } from 'app/components/Image';
 import frame from 'app/assets/frame.png';
 
 const fieldTranslations = {
-  username: 'brukernavn',
-  email: 'e-post'
+  username: 'Brukernavn',
+  email: 'E-post',
+  internalEmailAddress: 'Abakus e-post'
+};
+
+const defaultFieldRender = (field, value) => (
+  <span>
+    <strong>{field}:</strong> {value}
+  </span>
+);
+
+const emailFieldRender = (field, value) => (
+  <span>
+    <strong>{field}:</strong>
+    <a href={`mailto:${value}`}> {value}</a>
+  </span>
+);
+
+const fieldRenders = {
+  username: defaultFieldRender,
+  email: emailFieldRender,
+  internalEmailAddress: emailFieldRender
 };
 
 type Props = {
@@ -136,14 +156,9 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
   renderFields() {
     const { user } = this.props;
     const fields = Object.keys(fieldTranslations).filter(field => user[field]);
-    const tags = fields.map(field => {
-      const translation = capitalize(fieldTranslations[field]);
-      return (
-        <li key={field}>
-          <strong>{translation}:</strong> {user[field]}
-        </li>
-      );
-    });
+    const tags = fields.map(field => (
+      <li key={field}>{fieldRenders[field](field, user[field])}</li>
+    ));
 
     return <ul>{tags}</ul>;
   }
