@@ -102,13 +102,17 @@ export default class PageEditor extends Component<Props, State> {
 
     if (this.props.isNew) {
       return this.props.createPage(body).then(result => {
-        push(`/pages/info/${result.payload.result}`);
+        const slug = result.payload.result;
+        const pageCategory = result.payload.entities.pages[slug].category;
+        push(`/pages/${pageCategory}/${slug}`);
       });
     }
 
-    return this.props
-      .updatePage(this.props.pageSlug, body)
-      .then(() => push(`/pages/info/${pageSlug}`));
+    return this.props.updatePage(pageSlug, body).then(result => {
+      const slug = result.payload.result;
+      const pageCategory = result.payload.entities.pages[slug].category;
+      push(`/pages/${pageCategory}/${slug}`);
+    });
   };
 
   render() {
