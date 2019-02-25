@@ -48,7 +48,7 @@
 }
 
 .contactUsLink {
-  color: var(--lego-font-color);
+  color: var(--lego-red);
   font-weight: bold;
   text-transform: uppercase;
   margin-left: auto;

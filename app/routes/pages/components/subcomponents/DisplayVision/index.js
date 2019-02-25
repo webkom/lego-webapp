@@ -56,7 +56,7 @@ DisplayVision.defaultProps = {
   vision1: {
     title: 'Bærekraftig',
     summary:
-      'Vi skal drive linjeforeningen for nåværende og fremtidige abakuler',
+      'Vi skal drive linjeforeningen for nåværende og fremtidige abakuler.',
     paragraphs: [
       'Vi forvalter vår eiendom på en måte som gjør at det kommer flest mulig abakuler til gode.',
       'Vi skriver erfaringsskriv for å lære av feil og forbedre det vi driver med.',
@@ -69,7 +69,7 @@ DisplayVision.defaultProps = {
   vision2: {
     title: 'Attraktiv',
     summary:
-      'Vi skal være en linjeforening som både studenter og bedrifter tiltrekkes av',
+      'Vi skal være en linjeforening som både studenter og bedrifter tiltrekkes av.',
     paragraphs: [
       'Vi tar vare på de som engasjerer seg i linjeforeningen slik at de føler det arbeidet de gjør er meningsfullt.',
       'Vi har et tilbud for alle våre studenter.',
@@ -81,7 +81,7 @@ DisplayVision.defaultProps = {
   },
   vision3: {
     title: 'Åpen',
-    summary: 'Vi er inkluderende, transparente og dyrker initiativ',
+    summary: 'Vi er inkluderende, transparente og dyrker initiativ.',
     paragraphs: [
       'Vi utfordrer bedriftene til å gi det beste tilbud til alle våre medlemmer.',
       'Vi hjelper gjerne og deler av vår kunnskap.',
@@ -94,7 +94,7 @@ DisplayVision.defaultProps = {
   vision4: {
     title: 'Proaktiv',
     summary:
-      'Vi skal aktivt se etter nye muligheter, og være obs på nye muligheter',
+      'Vi skal aktivt se etter nye muligheter, og være obs på nye muligheter.',
     paragraphs: [
       'Vi skal aktivt se etter nye muligheter, og være obs på nye utfordringer.',
       'Vi skaffer oss overblikk og gjør tiltak.',
