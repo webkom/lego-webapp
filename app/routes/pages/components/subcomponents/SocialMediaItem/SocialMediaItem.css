@@ -1,0 +1,21 @@
+@import 'app/styles/variables.css';
+
+.container {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem;
+  flex-basis: 50%;
+
+  @media (--mobile-device) {
+    flex-basis: 100%;
+  }
+}
+
+.textAndLink {
+  margin-left: 4px;
+}
+
+.textInfo {
+  margin-bottom: -8px;
+}
+

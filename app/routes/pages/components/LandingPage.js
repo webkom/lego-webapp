@@ -9,6 +9,7 @@ import TextWithBoldTitle, {
 } from './subcomponents/TextWithTitle';
 import Statistic from './subcomponents/Statistic';
 import EmailItem from './subcomponents/EmailItem';
+import SocialMediaItem from './subcomponents/SocialMediaItem';
 import banner from 'app/assets/om-abakus-banner.png';
 import styles from './LandingPage.css';
 
@@ -129,6 +130,30 @@ const LandingPage = ({
         </div>
       </Flex>
 
+      <Flex className={styles.emailContainer}>
+        <Icon name="people" size={80} className={styles.emailIcon} />
+        <div className={styles.emails}>
+          <h3 className={styles.title}>Sosiale medier</h3>
+          {loggedIn && (
+            <div>
+              Har du lyst til å følge med på hva de forskjellige delene av
+              abakus driver med? Følg oss på sosiale medier!
+            </div>
+          )}
+          <Flex wrap className={styles.committeeEmails}>
+            {socialMedia.map((socialMedia, index) => (
+              <SocialMediaItem
+                key={index}
+                icon={socialMedia.icon}
+                textInfo={socialMedia.textInfo}
+                socialMediaLink={socialMedia.socialMediaLink}
+                socialMediaName={socialMedia.socialMediaName}
+              />
+            ))}
+          </Flex>
+        </div>
+      </Flex>
+
       <Flex>
         <Icon name="briefcase" size={80} className={styles.organizationIcon} />
         <div className={styles.organization}>
@@ -209,6 +234,75 @@ const committeeEmails = [
     email: 'backup@abakus.no',
     logo:
       'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_backup.png'
+  }
+];
+
+/* The icon field refers to the name that the icon component will use.
+ * For social media such as snapchat where links are not applicable,
+ * use socialMediaName. For the field that is not used, either socialMediaName
+ * or socialMediaLink, use null.
+ * */
+
+const socialMedia = [
+  {
+    icon: 'facebook',
+    socialMediaName: null,
+    socialMediaLink: 'https://www.facebook.com/AbakusNTNU/?ref=bookmarks',
+    textInfo: 'Facebookside'
+  },
+  {
+    icon: 'instagram',
+    socialMediaName: null,
+    socialMediaLink: 'https://www.instagram.com/abakusntnu/',
+    textInfo: 'Abakus Instagram'
+  },
+  {
+    icon: 'instagram',
+    socialMediaName: null,
+    socialMediaLink: 'https://www.instagram.com/abakushs/',
+    textInfo: 'HS Instagram'
+  },
+  {
+    icon: 'snapchat',
+    socialMediaLink: null,
+    socialMediaName: 'abakusntnu',
+    textInfo: 'Abakus snapchat'
+  },
+  {
+    icon: 'facebook',
+    socialMediaLink: 'https://www.facebook.com/groups/398146436914007/',
+    socialMediaName: null,
+    textInfo: 'Facebookside for medlemmer'
+  },
+  {
+    icon: 'instagram',
+    socialMediaLink: 'https://www.instagram.com/abakusrevyen/',
+    socialMediaName: null,
+    textInfo: 'Revyens Instagram'
+  },
+  {
+    icon: 'instagram',
+    socialMediaLink: 'https://www.instagram.com/readme_abakus/',
+    socialMediaName: null,
+    textInfo: 'Instagram Readme'
+  },
+  {
+    icon: 'snapchat',
+    socialMediaLink: null,
+    socialMediaName: 'rykte',
+    textInfo: 'Readmes ryktesnap'
+  },
+  {
+    icon: 'instagram',
+    socialMediaLink: 'https://www.instagram.com/labambakjelleren/',
+    socialMediaName: null,
+    textInfo: 'Instagram Labamba'
+  },
+  {
+    icon: 'snapchat',
+    socialMediaLink: null,
+    socialMediaName: 'LaBambakjeller',
+    textInfo: 'Labambas snapchat'
   }
 ];
 
