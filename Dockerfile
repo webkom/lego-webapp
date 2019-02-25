@@ -1,7 +1,6 @@
-FROM node:8 as builder
+FROM node:11 as builder
 
-RUN mkdir /app
-WORKDIR /app
+WORKDIR /app/
 COPY . /app
 
 RUN yarn --ignore-scripts
@@ -15,7 +14,6 @@ RUN yarn build:all # includes styleguide
 
 FROM getsentry/sentry-cli:1.26.1 as sentry
 
-RUN mkdir /app
 WORKDIR /app/
 
 ARG SENTRY_AUTH_KEY
@@ -45,9 +43,8 @@ RUN sentry-cli releases finalize ${RELEASE}
 RUN sentry-cli releases deploys ${RELEASE} new -e "staging"
 RUN sentry-cli releases deploys ${RELEASE} new -e "production"
 
-FROM node:8
+FROM node:11
 MAINTAINER Abakus Webkom <webkom@abakus.no>
-RUN mkdir /app
 WORKDIR /app/
 
 ARG RELEASE
