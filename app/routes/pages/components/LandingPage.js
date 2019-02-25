@@ -52,6 +52,9 @@ const LandingPage = ({
         <TextWithBoldTitle title="Hvorfor vi gjør det" text={whyWeDoIt} />
       </Flex>
 
+      <h2 className={styles.abakusInNumbers} id="abakusInNumbers">
+        Abakus i tall{' '}
+      </h2>
       <Flex
         wrap
         className={styles.statisticsContainer}

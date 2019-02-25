@@ -29,6 +29,15 @@
   margin-bottom: 0.4rem;
 }
 
+.abakusInNumbers {
+  display: none;
+  color: var(--lego-font-color);
+  font-size: 1.7rem;
+  text-align: center;
+  font-family: RalewayBold, sans-serif;
+  text-transform: uppercase;
+}
+
 .contactTitle {
   color: var(--lego-font-color);
   font-size: 1.7rem;
@@ -77,8 +86,13 @@
 }
 
 @media (--mobile-device) {
+  .abakusInNumbers {
+    display: block;
+  }
+
   .whoWhatWhyContainer {
     flex-wrap: wrap;
+    margin-bottom: 25px;
   }
 
   .locationContainer {
@@ -109,5 +123,9 @@
   .pageContainer {
     padding: 0;
     padding-top: 2em;
+  }
+
+  .statisticsContainer {
+    display: flex;
   }
 }
