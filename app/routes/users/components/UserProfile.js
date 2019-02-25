@@ -313,7 +313,22 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
                 {loading ? (
                   <LoadingIndicator margin={'20px auto'} loading />
                 ) : (
-                  <UpcomingEvents upcomingEvents={upcomingEvents} />
+                  <UpcomingEvents
+                    upcomingEvents={upcomingEvents.filter(
+                      e => e.userReg.pool !== null
+                    )}
+                  />
+                )}
+                <h3>Arrangementer der du er på ventelista</h3>
+
+                {loading ? (
+                  <LoadingIndicator margin={'20px auto'} loading />
+                ) : (
+                  <UpcomingEvents
+                    upcomingEvents={upcomingEvents.filter(
+                      e => e.userReg.pool === null
+                    )}
+                  />
                 )}
               </div>
             )}

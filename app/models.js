@@ -63,7 +63,8 @@ export type Event = EventBase & {
   company: Company,
   comments: Array<Comment>,
   pools: Array<EventPool>,
-  survey: ?ID
+  survey: ?ID,
+  userReg: EventRegistration
 };
 
 export type TransformEvent = EventBase & {
