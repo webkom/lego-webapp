@@ -123,7 +123,8 @@ const separateRoles = [
   'active_retiree',
   'alumni',
   'retiree_email',
-  'leader'
+  'leader',
+  'co-leader'
 ];
 // Map all the other roles as if they were regular members
 const defaultRole = 'member';

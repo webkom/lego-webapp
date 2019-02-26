@@ -77,7 +77,7 @@
   margin-bottom: 5px;
 }
 
-.logo img {
+.banner img {
   height: 275px;
   width: 100%;
   object-fit: contain;
@@ -90,8 +90,22 @@
   margin: 50px 0 20px;
 }
 
+.leaderBoard {
+  display: flex;
+}
+
 .leader {
   margin: auto;
+  display: flex;
+  align-items: flex-start;
+  margin-right: 0;
+}
+
+.co_leader {
+  margin: auto;
+  display: flex;
+  align-items: flex-start;
+  margin-left: 0;
 }
 
 .members {
@@ -99,6 +113,8 @@
   flex-wrap: wrap;
   text-align: center;
   justify-content: center;
+  margin-left: -20px;
+  margin-right: -20px;
 }
 
 .membersSection {
@@ -144,7 +160,12 @@
     word-break: break-word;
   }
 
-  .logo img {
+  .banner img {
     height: 150px;
+  }
+
+  .navTab {
+    display: flex;
+    justify-content: left;
   }
 }
