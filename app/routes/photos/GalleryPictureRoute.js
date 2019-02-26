@@ -16,6 +16,7 @@ import {
 import { deletePicture } from 'app/actions/GalleryPictureActions';
 import { updateGalleryCover } from 'app/actions/GalleryActions';
 import { push } from 'react-router-redux';
+import { deleteComment } from 'app/actions/CommentActions';
 
 function mapStateToProps(state, props) {
   const { galleryId, pictureId } = props.params;
@@ -57,7 +58,8 @@ const mapDispatchToProps = {
   push,
   deletePicture,
   updateGalleryCover,
-  fetchSiblingGallerPicture
+  fetchSiblingGallerPicture,
+  deleteComment
 };
 
 const propertyGenerator = (props, config) => {

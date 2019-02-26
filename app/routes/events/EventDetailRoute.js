@@ -26,6 +26,7 @@ import {
 } from 'app/reducers/events';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import helmet from 'app/utils/helmet';
+import { deleteComment } from 'app/actions/CommentActions';
 
 const mapStateToProps = (state, props) => {
   const {
@@ -122,7 +123,8 @@ const mapDispatchToProps = {
   follow,
   unfollow,
   isUserFollowing,
-  updateUser
+  updateUser,
+  deleteComment
 };
 
 const loadData = ({ params: { eventId }, currentUser, loggedIn }, dispatch) => {

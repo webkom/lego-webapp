@@ -41,7 +41,8 @@ type Props = {
   companyEvents: Array<Object>,
   fetching: boolean,
   editCompany: Object => void,
-  deleteCompany: number => Promise<*>
+  deleteCompany: number => Promise<*>,
+  deleteComment: (id: string, commentTarget: string) => Promise<*>
 };
 
 type State = {
@@ -151,7 +152,8 @@ export default class BdbDetail extends Component<Props, State> {
       loggedIn,
       companyEvents,
       fetching,
-      deleteCompany
+      deleteCompany,
+      deleteComment
     } = this.props;
 
     if (fetching || !company.semesterStatuses) {
@@ -416,6 +418,7 @@ export default class BdbDetail extends Component<Props, State> {
               loggedIn={loggedIn}
               comments={comments}
               newOnTop
+              deleteComment={deleteComment}
             />
           )}
         </div>

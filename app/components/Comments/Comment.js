@@ -5,13 +5,17 @@ import { Link } from 'react-router';
 import Time from 'app/components/Time';
 import CommentForm from 'app/components/CommentForm';
 import { ProfilePicture } from 'app/components/Image';
-import { type CommentEntity } from 'app/reducers/comments';
 import DisplayContent from 'app/components/DisplayContent';
 import styles from './Comment.css';
+import { Flex } from 'app/components/Layout';
+import { type UserEntity } from 'app/reducers/users';
 
 type Props = {
-  comment: CommentEntity,
-  commentFormProps: Object
+  comment: Object,
+  commentFormProps: Object,
+  deleteComment: (id: string, commentTarget: string) => Promise<*>,
+  user: UserEntity,
+  commentTarget: string
 };
 
 type State = {
@@ -34,33 +38,52 @@ export default class Comment extends Component<Props, State> {
   };
 
   render() {
-    const { comment, commentFormProps } = this.props;
+    const {
+      comment,
+      commentTarget,
+      commentFormProps,
+      deleteComment,
+      user
+    } = this.props;
     const { createdAt, text, author } = comment;
     const { replyOpen } = this.state;
     return (
       <div className={styles.container}>
         <div className={styles.comment}>
-          <div className={styles.header}>
-            <ProfilePicture
-              size={40}
-              user={author}
-              style={{ marginRight: 25 }}
-            />
-
-            <Link to={`/users/${author.username}`}>{author.username}</Link>
-            <span className={styles.bullet}>•</span>
-            <Time className={styles.timestamp} time={createdAt} wordsAgo />
-            <span className={styles.bullet}>•</span>
-            <a onClick={this.toggleReply}>
-              {this.state.replyOpen ? 'Lukk svar' : 'Svar'}
-            </a>
-          </div>
+          {author && (
+            <div className={styles.header}>
+              <ProfilePicture
+                size={40}
+                user={author}
+                className={styles.profileImage}
+              />
+              <Flex className={styles.username}>
+                <Link to={`/users/${author.username}`}>{author.username}</Link>
+                <span className={styles.bullet}>•</span>
+                <Time className={styles.timestamp} time={createdAt} wordsAgo />
+                <span className={styles.bullet}>•</span>
+              </Flex>
+              <Flex className={styles.links}>
+                <a onClick={this.toggleReply}>
+                  {this.state.replyOpen ? 'Lukk svar' : 'Svar'}
+                </a>
+                {user && author.id == user.id && (
+                  <a
+                    className={styles.delete}
+                    onClick={() => deleteComment(comment.id, commentTarget)}
+                  >
+                    Slett
+                  </a>
+                )}
+              </Flex>
+            </div>
+          )}
           <div className={styles.content}>
             <DisplayContent
               id="comment-text"
               className={styles.text}
               style={{ fontStyle: this.state.replyOpen && 'italic' }}
-              content={text}
+              content={text ? text : '<p>Slettet</p>'}
             />
           </div>
         </div>

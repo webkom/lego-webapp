@@ -11,6 +11,7 @@ import { selectQuoteById, selectCommentsForQuote } from 'app/reducers/quotes';
 import { LoginPage } from 'app/components/LoginForm';
 import prepare from 'app/utils/prepare';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { deleteComment } from 'app/actions/CommentActions';
 
 const loadData = ({ params }, dispatch) => dispatch(fetchQuote(params.quoteId));
 
@@ -34,7 +35,8 @@ const mapDispatchToProps = {
   fetchQuote,
   approve,
   unapprove,
-  deleteQuote
+  deleteQuote,
+  deleteComment
 };
 
 export default compose(

@@ -14,6 +14,7 @@ import MeetingDetailLoginRoute from './MeetingDetailLoginRoute';
 import MeetingAnswer from './components/MeetingAnswer';
 import prepare from 'app/utils/prepare';
 import { selectMeetingById } from 'app/reducers/meetings';
+import { deleteComment } from 'app/actions/CommentActions';
 
 const loadMeeting = ({ loggedIn, params: { meetingId } }, dispatch) =>
   loggedIn ? dispatch(fetchMeeting(meetingId)) : Promise.resolve();
@@ -76,7 +77,8 @@ const mapDispatchToProps = {
   fetchMeeting,
   setInvitationStatus,
   deleteMeeting,
-  resetMeetingsToken
+  resetMeetingsToken,
+  deleteComment
 };
 
 export default compose(

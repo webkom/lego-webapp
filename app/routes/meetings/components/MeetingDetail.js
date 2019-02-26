@@ -47,7 +47,8 @@ type Props = {
   currentUserInvitation: MeetingInvitationEntity,
   loggedIn: boolean,
   comments: Array<Object>,
-  push: string => Promise<*>
+  push: string => Promise<*>,
+  deleteComment: (id: string, commentTarget: string) => Promise<*>
 };
 
 const UserLink = ({ user }: { user: UserEntity }) =>
@@ -115,7 +116,8 @@ class MeetingDetails extends Component<Props> {
       createdBy,
       comments,
       loggedIn,
-      currentUserInvitation
+      currentUserInvitation,
+      deleteComment
     } = this.props;
 
     if (!meeting || !currentUser) {
@@ -220,6 +222,7 @@ class MeetingDetails extends Component<Props> {
                   commentTarget={meeting.commentTarget}
                   loggedIn={loggedIn}
                   comments={comments}
+                  deleteComment={deleteComment}
                 />
               )}
             </ContentMain>

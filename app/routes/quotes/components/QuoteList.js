@@ -11,7 +11,8 @@ type Props = {
   actionGrant: Array<string>,
   currentUser: any,
   loggedIn: boolean,
-  comments: Object
+  comments: Object,
+  deleteComment: (id: string, commentTarget: string) => Promise<*>
 };
 
 type State = {
@@ -42,7 +43,8 @@ export default class QuoteList extends Component<Props, State> {
       deleteQuote,
       currentUser,
       loggedIn,
-      comments
+      comments,
+      deleteComment
     } = this.props;
 
     return (
@@ -60,6 +62,7 @@ export default class QuoteList extends Component<Props, State> {
             currentUser={currentUser}
             loggedIn={loggedIn}
             comments={comments}
+            deleteComment={deleteComment}
           />
         ))}
       </ul>

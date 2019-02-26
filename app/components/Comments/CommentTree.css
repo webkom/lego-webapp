@@ -1,3 +1,9 @@
+@import 'app/styles/variables.css';
+
 .nested {
   margin-left: 50px;
+
+  @media (--mobile-device) {
+    margin-left: 20px;
+  }
 }

@@ -3,38 +3,53 @@
 import React from 'react';
 import cx from 'classnames';
 import Comment from './Comment';
-import { type CommentEntity } from 'app/reducers/comments';
 import styles from './CommentTree.css';
+import { type UserEntity } from 'app/reducers/users';
 
 type Props = {
-  comments: Array<CommentEntity>,
+  comments: Array<Object>,
   isChild?: boolean,
   commentFormProps: Object,
-  level?: number
+  level?: number,
+  deleteComment: (id: string, commentTarget: string) => Promise<*>,
+  user: UserEntity,
+  commentTarget: string
 };
 
 function CommentTree({
   comments,
   isChild = false,
   commentFormProps,
-  level = 0
+  level = 0,
+  deleteComment,
+  user,
+  commentTarget
 }: Props) {
   const tree = comments.map(comment => {
     const className = cx(
-      isChild && level < 4 && styles.nested,
+      isChild && level < 3 && styles.nested,
       isChild ? styles.child : styles.root
     );
 
     if (comment.children.length) {
       return (
         <div key={comment.id} className={className}>
-          <Comment comment={comment} commentFormProps={commentFormProps} />
+          <Comment
+            comment={comment}
+            commentFormProps={commentFormProps}
+            deleteComment={deleteComment}
+            user={user}
+            commentTarget={commentTarget}
+          />
 
           <CommentTree
             comments={comment.children}
             isChild
             level={level + 1}
             commentFormProps={commentFormProps}
+            deleteComment={deleteComment}
+            user={user}
+            commentTarget={commentTarget}
           />
         </div>
       );
@@ -46,6 +61,9 @@ function CommentTree({
           key={comment.id}
           comment={comment}
           commentFormProps={commentFormProps}
+          deleteComment={deleteComment}
+          user={user}
+          commentTarget={commentTarget}
         />
       </div>
     );

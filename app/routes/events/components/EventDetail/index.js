@@ -72,7 +72,8 @@ type Props = {
     feedback: string
   ) => Promise<*>,
   deleteEvent: (eventId: ID) => Promise<*>,
-  updateUser: Object => void
+  updateUser: Object => void,
+  deleteComment: (id: string, commentTarget: string) => Promise<*>
 };
 
 export default class EventDetail extends Component<Props> {
@@ -129,7 +130,8 @@ export default class EventDetail extends Component<Props> {
       hasSimpleWaitingList,
       deleteEvent,
       follow,
-      unfollow
+      unfollow,
+      deleteComment
     } = this.props;
     if (!event.id) {
       return null;
@@ -328,6 +330,7 @@ export default class EventDetail extends Component<Props> {
               commentTarget={event.commentTarget}
               loggedIn={loggedIn}
               comments={comments}
+              deleteComment={deleteComment}
             />
           )}
         </Content>

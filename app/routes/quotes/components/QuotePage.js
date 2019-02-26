@@ -20,7 +20,8 @@ type Props = {
   showFetchMore: boolean,
   currentUser: any,
   loggedIn: boolean,
-  comments: Object
+  comments: Object,
+  deleteComment: (id: string, commentTarget: string) => Promise<*>
 };
 
 export default function QuotePage({
@@ -35,6 +36,7 @@ export default function QuotePage({
   currentUser,
   loggedIn,
   comments,
+  deleteComment,
   ...props
 }: Props) {
   let errorMessage = undefined;
@@ -58,6 +60,7 @@ export default function QuotePage({
           currentUser={currentUser}
           loggedIn={loggedIn}
           comments={comments}
+          deleteComment={deleteComment}
         />
       )}
       {showFetchMore && (

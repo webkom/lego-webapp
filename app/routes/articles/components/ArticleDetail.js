@@ -19,7 +19,8 @@ type Props = {
   comments: Array<CommentEntity>,
   loggedIn: boolean,
   author: UserEntity,
-  currentUser: UserEntity
+  currentUser: UserEntity,
+  deleteComment: (id: string, commentTarget: string) => Promise<*>
 };
 
 /**
@@ -30,7 +31,8 @@ const ArticleDetail = ({
   author,
   loggedIn,
   currentUser,
-  comments
+  comments,
+  deleteComment
 }: Props) => (
   <Content banner={article.cover}>
     <NavigationTab
@@ -70,6 +72,7 @@ const ArticleDetail = ({
         commentTarget={article.commentTarget}
         loggedIn={loggedIn}
         comments={comments}
+        deleteComment={deleteComment}
       />
     )}
   </Content>

@@ -18,7 +18,8 @@ type Props = {
   displayAdmin: boolean,
   currentUser: any,
   loggedIn: boolean,
-  comments: Object
+  comments: Object,
+  deleteComment: (id: string, commentTarget: string) => Promise<*>
 };
 
 type State = {
@@ -43,7 +44,8 @@ export default class Quote extends Component<Props, State> {
       displayAdmin,
       currentUser,
       loggedIn,
-      comments
+      comments,
+      deleteComment
     } = this.props;
 
     const { showComments } = this.state;
@@ -161,6 +163,7 @@ export default class Quote extends Component<Props, State> {
               loggedIn={loggedIn}
               comments={comments[quote.id]}
               displayTitle={false}
+              deleteComment={deleteComment}
             />
           </div>
         )}

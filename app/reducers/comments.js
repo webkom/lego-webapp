@@ -51,9 +51,31 @@ export function mutateComments(forTargetType: string) {
   };
 }
 
+function mutate(state: any, action: any) {
+  switch (action.type) {
+    case Comment.DELETE.SUCCESS: {
+      return {
+        ...state,
+        byId: {
+          ...state.byId,
+          [action.meta.id]: {
+            ...state.byId[action.meta.id],
+            text: null,
+            author: null
+          }
+        }
+      };
+    }
+    default: {
+      return state;
+    }
+  }
+}
+
 export default createEntityReducer({
   key: 'comments',
   types: {
     fetch: Comment.FETCH
-  }
+  },
+  mutate
 });

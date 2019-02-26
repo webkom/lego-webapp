@@ -20,6 +20,7 @@ import {
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { deleteComment } from 'app/actions/CommentActions';
 
 const loadData = ({ params: { companyId } }, dispatch) =>
   Promise.all([
@@ -49,7 +50,8 @@ const mapDispatchToProps = {
   deleteCompanyContact,
   editSemesterStatus,
   editCompany,
-  deleteCompany
+  deleteCompany,
+  deleteComment
 };
 
 export default compose(
