@@ -301,7 +301,7 @@ export default class EventDetail extends Component<Props> {
                 Bli med på dette arrangementet
               </div>
               <Link
-                to="/pages/info/26-arrangementsregler"
+                to="/pages/arrangementer/26-arrangementsregler"
                 style={{ marginTop: 0 }}
               >
                 <Flex alignItems="center">

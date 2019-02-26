@@ -66,7 +66,7 @@ const searchMapping = {
     title: 'title',
     type: 'Side',
     color: '#E8953A',
-    path: '/pages/info/',
+    path: '/pages/generelt/',
     value: 'slug',
     content: 'content'
   },

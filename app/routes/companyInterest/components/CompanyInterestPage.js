@@ -179,7 +179,9 @@ const CompanyInterestPage = (props: Props) => {
       .onSubmit(newData, isEnglish)
       .then(() =>
         props.push(
-          props.allowedBdb ? '/companyInterest/' : '/pages/info/for-bedrifter'
+          props.allowedBdb
+            ? '/companyInterest/'
+            : '/pages/bedrifter/for-bedrifter'
         )
       )
       .catch(err => {
