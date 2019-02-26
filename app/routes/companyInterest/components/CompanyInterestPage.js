@@ -16,11 +16,12 @@ import Flex from 'app/components/Layout/Flex';
 import { Content } from 'app/components/Content';
 import type { CompanyInterestEntity } from 'app/reducers/companyInterest';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
-import Flag from 'react-world-flags';
 
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { FlexRow } from '../../../components/FlexBox';
 import { Link } from 'react-router';
+import norwegian from 'app/assets/norway.svg';
+import english from 'app/assets/great_britain.svg';
 
 export const EVENT_TYPES = {
   company_presentation: {
@@ -137,8 +138,17 @@ const OtherBox = ({ fields, language }: FieldProps) => (
   </Flex>
 );
 
-const LanguageFlag = ({ isEnglish }: { isEnglish: boolean }) => {
-  return <Flag code={isEnglish ? 'nor' : 'gbr'} style={{ height: '30px' }} />;
+const LanguageFlag = ({ language }: { language: string }) => {
+  let flag;
+  switch (language) {
+    case 'english':
+      flag = norwegian;
+      break;
+    case 'norwegian':
+      flag = english;
+      break;
+  }
+  return <img src={flag} className={styles.flag} alt="country_flag" />;
 };
 
 type Props = FieldProps & {
@@ -254,7 +264,7 @@ const CompanyInterestPage = (props: Props) => {
             to={isEnglish ? '/interesse' : '/register-interest'}
             style={{ display: props.edit ? 'none' : 'block' }}
           >
-            <LanguageFlag isEnglish={isEnglish} />
+            <LanguageFlag language={language} />
           </Link>
         </FlexRow>
         <Field
