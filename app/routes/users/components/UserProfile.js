@@ -157,7 +157,9 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
     const { user } = this.props;
     const fields = Object.keys(fieldTranslations).filter(field => user[field]);
     const tags = fields.map(field => (
-      <li key={field}>{fieldRenders[field](field, user[field])}</li>
+      <li key={field}>
+        {fieldRenders[field](fieldTranslations[field], user[field])}
+      </li>
     ));
 
     return <ul>{tags}</ul>;
