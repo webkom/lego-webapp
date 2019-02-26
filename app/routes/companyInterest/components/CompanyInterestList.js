@@ -77,10 +77,11 @@ class CompanyInterestList extends Component<Props, State> {
   };
 
   handleChange = (clickedOption: Option): void => {
+    const { id } = clickedOption;
     this.props
       .fetch({
         filters: {
-          semesters: clickedOption.id
+          semesters: id !== null ? id : null
         }
       })
       .then(() => {
