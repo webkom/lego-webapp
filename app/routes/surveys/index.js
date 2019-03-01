@@ -26,9 +26,7 @@ export default {
     },
     {
       path: ':surveyId/submissions',
-      ...resolveAsyncRoute(() =>
-        import(/* webpackMode: "lazy" */ './SubmissionsRoute')
-      ),
+      ...resolveAsyncRoute(() => import('./SubmissionsRoute')),
       childRoutes: [
         {
           path: 'summary',

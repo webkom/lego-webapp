@@ -91,23 +91,12 @@ module.exports = (env, argv) => {
     },
     optimization: {
       splitChunks: {
-        chunks: 'async',
-        minSize: 30000,
-        maxSize: 0,
-        minChunks: 1,
-        maxAsyncRequests: 5,
-        maxInitialRequests: 3,
-        automaticNameDelimiter: '~',
-        name: true,
         cacheGroups: {
-          vendors: {
-            test: /[\\/]node_modules[\\/]/,
-            priority: -10
-          },
-          default: {
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true
+          vendor: {
+            chunks: 'initial',
+            name: 'vendor',
+            test: 'vendor',
+            enforce: true
           }
         }
       }
@@ -118,10 +107,7 @@ module.exports = (env, argv) => {
         {
           test: /\.jsx?$/,
           loader: 'babel-loader',
-          include: [path.resolve(root, 'app'), path.resolve(root, 'config')],
-          query: {
-            cacheDirectory: true
-          }
+          include: [path.resolve(root, 'app'), path.resolve(root, 'config')]
         },
         {
           test: /\.css$/,

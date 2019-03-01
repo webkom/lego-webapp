@@ -36,9 +36,9 @@ export default function resolveAsyncRoute(
       'The first argument of resolveAsyncRoute() must be a function returning an import()-promise'
     );
   }
+  let component = componentFn();
 
-  if (__DEV__) {
-    let component = componentFn();
+  if (!component.then) {
     // $FlowFixMe
     if (component && component.__esModule) {
       component = (component: any).default;
@@ -54,7 +54,7 @@ export default function resolveAsyncRoute(
       location,
       callback: (error: Object | null, component?: Object) => void
     ) {
-      componentFn()
+      component
         .then(module => callback(null, module.default))
         .catch(error => callback(error));
     }
