@@ -19,7 +19,7 @@ import type { State } from '../app/types';
 
 import 'source-map-support/register';
 
-//import manifest from '../app/assets/manifest.json';
+import manifest from '../app/assets/manifest.json';
 
 const serverSideTimeoutInMs = 4000;
 
@@ -135,7 +135,11 @@ let cachedAssets;
 function retrieveAssets() {
   if (__DEV__ || !cachedAssets) {
     const { app, vendor } = JSON.parse(
-      fs.readFileSync('./dist-client/webpack-assets.json').toString()
+      fs
+        .readFileSync(
+          path.join(webpackClient.outputPath, 'webpack-assets.json')
+        )
+        .toString()
     );
 
     const styles = [app && app.css]
@@ -168,7 +172,6 @@ function renderPage({
   helmet: *
 }) {
   const { scripts, styles } = retrieveAssets();
-  //<link rel="manifest" href="${manifest}">
   return `
     <!DOCTYPE html>
     <html>
@@ -192,6 +195,7 @@ function renderPage({
         <link rel="apple-touch-icon" href="/icon-96x96.png" sizes="96x96"/>
         <link rel="icon" href="/icon-48x48.png" sizes="48x48"/>
         <link rel="apple-touch-icon" href="/icon-48x48.png" sizes="48x48"/>
+        <link rel="manifest" href="${manifest}">
 
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         <meta name="mobile-web-app-capable" content="yes"/>

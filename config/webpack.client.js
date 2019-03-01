@@ -127,17 +127,17 @@ module.exports = (env, argv) => {
           }
         },
         {
-          test: /((manifest\.json|opensearch\.xml|favicon\.png)$|icon-)/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                name: '[path][name].[ext]'
-              }
-            }
-          ]
+          test: /manifest\.json/,
+          loader: 'file-loader?name=[name].[ext]',
+          type: 'javascript/auto'
+        },
+        {
+          test: /((opensearch\.xml|favicon\.png)$|icon-)/,
+          loader: 'file-loader?name=[name].[ext]'
         }
       ]
     }
   };
 };
+module.exports.outputPath = outputPath;
+module.exports.publicPath = publicPath;

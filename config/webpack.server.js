@@ -2,6 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StartServerPlugin = require('start-server-webpack-plugin');
+const nodeExternals = require('webpack-node-externals');
 const root = path.resolve(__dirname, '..');
 
 module.exports = (env, argv) => {
@@ -17,6 +18,9 @@ module.exports = (env, argv) => {
     optimization: {
       minimize: false
     },
+    externals: [
+      nodeExternals({ whitelist: ['webpack/hot/poll?1000', /css$/] })
+    ],
 
     output: {
       path: path.resolve(root, 'dist'),
@@ -31,7 +35,8 @@ module.exports = (env, argv) => {
     },
 
     plugins: [
-      !isProduction && new StartServerPlugin('server.js'),
+      !isProduction &&
+        new StartServerPlugin({ name: 'server.js', signal: true }),
       !isProduction && new webpack.HotModuleReplacementPlugin(),
       new webpack.optimize.LimitChunkCountPlugin({
         maxChunks: 1
@@ -55,7 +60,7 @@ module.exports = (env, argv) => {
 
     resolve: {
       modules: [root, 'node_modules'],
-      extensions: ['.js', '.jsx']
+      extensions: ['.js', '.jsx', '.json']
     },
 
     module: {
@@ -102,7 +107,12 @@ module.exports = (env, argv) => {
           }
         },
         {
-          test: /((manifest\.json|opensearch\.xml|favicon\.png)$|icon-)/,
+          test: /manifest\.json/,
+          loader: 'file-loader?name=[name].[ext]',
+          type: 'javascript/auto'
+        },
+        {
+          test: /((opensearch\.xml|favicon\.png)$|icon-)/,
           loader: 'file-loader?name=[name].[ext]'
         }
       ]
