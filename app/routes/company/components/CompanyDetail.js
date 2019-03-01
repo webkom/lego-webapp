@@ -59,7 +59,7 @@ const CompanyDetail = (props: Props) => {
       .map((event, i) => (
         <tr key={i}>
           <td>
-            <Link to={`events/${event.id}`}>{event.title}</Link>
+            <Link to={`/events/${event.id}`}>{event.title}</Link>
           </td>
           <td>{eventTypes[event.eventType]}</td>
           <td>
