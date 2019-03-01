@@ -57,6 +57,7 @@ if (fs.existsSync(styleguide)) {
   app.use('/styleguide', express.static(styleguide));
 }
 
+app.use(express.static(webpackClient.publicPath));
 app.use(
   morgan((tokens, req, res) => {
     log.info(

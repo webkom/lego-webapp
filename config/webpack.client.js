@@ -32,24 +32,15 @@ module.exports = (env, argv) => {
   return {
     mode: 'none',
     stats: { children: false },
-    entry: isProduction
-      ? {
-          app: ['./app/index.js'],
-          vendor: [
-            'react',
-            'react-dom',
-            'react-router',
-            'moment',
-            'moment-timezone'
-          ]
-        }
-      : {
-          app: [
+    entry: {
+      app: isProduction
+        ? ['./app/index.js']
+        : [
             'webpack-hot-middleware/client',
             'react-hot-loader/patch',
             './app/index.js'
           ]
-        },
+    },
 
     output: {
       path: outputPath,
@@ -97,6 +88,29 @@ module.exports = (env, argv) => {
     ]),
     resolve: {
       modules: [root, 'node_modules']
+    },
+    optimization: {
+      splitChunks: {
+        chunks: 'async',
+        minSize: 30000,
+        maxSize: 0,
+        minChunks: 1,
+        maxAsyncRequests: 5,
+        maxInitialRequests: 3,
+        automaticNameDelimiter: '~',
+        name: true,
+        cacheGroups: {
+          vendors: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10
+          },
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true
+          }
+        }
+      }
     },
 
     module: {
