@@ -22,8 +22,9 @@ export class ImageButton extends Component<Props, State> {
     showUpload: false
   };
 
-  onClick = () => {
+  onClick = (e: SyntheticMouseEvent<*>) => {
     this.setState({ showUpload: true });
+    e.preventDefault();
   };
 
   onSubmit = (image: File | Array<DropFile>) => {
