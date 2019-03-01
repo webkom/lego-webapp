@@ -33,22 +33,13 @@ const webpackClient = require('../config/webpack.client.js');
 if (process.env.NODE_ENV !== 'production') {
   const compiler = require('webpack')(
     webpackClient(undefined, {
-      _: [],
-      cache: null,
-      bail: null,
-      profile: null,
-      color: { level: 3, hasBasic: true, has256: true, has16m: true },
-      colors: { level: 3, hasBasic: true, has256: true, has16m: true },
-      config: '../config/webpack.client.js',
-      mode: 'development',
-      'info-verbosity': 'info',
-      infoVerbosity: 'info'
+      mode: 'development'
     })
   );
   app.use(
     require('webpack-dev-middleware')(compiler, {
       publicPath: webpackClient.publicPath,
-      quiet: false
+      quiet: true
     })
   );
 

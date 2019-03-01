@@ -1,5 +1,6 @@
 /* eslint no-console: 0 */
 const path = require('path');
+const fs = require('fs');
 const webpack = require('webpack');
 const { StatsWriterPlugin } = require('webpack-stats-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -8,7 +9,8 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 const AssetsPlugin = require('assets-webpack-plugin');
 
 const root = path.resolve(__dirname, '..');
-//const dllConfig = packageJson.dllPlugin;
+const packageJson = require('../package.json');
+const dllConfig = packageJson.dllPlugin;
 const compact = array => array.filter(Boolean);
 
 const outputPath = path.resolve(root, 'dist-client');
@@ -16,8 +18,20 @@ const publicPath = '/';
 
 module.exports = (env, argv) => {
   const isProduction = argv.mode == 'production';
+
+  const dllPath = path.resolve(root, dllConfig.path);
+  const manifestPath = path.resolve(dllPath, 'vendors.json');
+
+  if (!isProduction && !fs.existsSync(manifestPath)) {
+    console.error(
+      'The DLL manifest is missing. Please run `yarn run build:dll`'
+    );
+    process.exit(1);
+  }
+
   return {
     mode: 'none',
+    stats: { children: false },
     entry: isProduction
       ? {
           app: ['./app/index.js'],
@@ -57,6 +71,11 @@ module.exports = (env, argv) => {
         filename: '[name].css',
         chunkFilename: '[id].css'
       }),
+      !isProduction &&
+        new webpack.DllReferencePlugin({
+          context: root,
+          manifest: JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
+        }),
 
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(!isProduction),

@@ -9,6 +9,7 @@ module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
   return {
     target: 'node',
+    stats: { children: false },
     entry: {
       server: [
         !isProduction && 'webpack/hot/poll?1000',
@@ -43,7 +44,7 @@ module.exports = (env, argv) => {
       }),
       new webpack.DefinePlugin({
         __CLIENT__: false,
-        __DEV__: JSON.stringify(argv.mode !== 'production')
+        __DEV__: JSON.stringify(!isProduction)
       }),
       new webpack.LoaderOptionsPlugin({
         options: {
@@ -102,18 +103,25 @@ module.exports = (env, argv) => {
         {
           test: /\.(png|jpg|jpeg|gif|svg|bdf|woff|woff2|ttf|mp3|mp4|webm)$/,
           loader: 'url-loader',
-          query: {
-            limit: 8192
+          options: {
+            limit: 8192,
+            emitFile: false
           }
         },
         {
           test: /manifest\.json/,
           loader: 'file-loader?name=[name].[ext]',
-          type: 'javascript/auto'
+          type: 'javascript/auto',
+          options: {
+            emitFile: false
+          }
         },
         {
           test: /((opensearch\.xml|favicon\.png)$|icon-)/,
-          loader: 'file-loader?name=[name].[ext]'
+          loader: 'file-loader?name=[name].[ext]',
+          options: {
+            emitFile: false
+          }
         }
       ]
     }
