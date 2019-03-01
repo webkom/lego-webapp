@@ -84,7 +84,7 @@ export function fetchEventsForCompany(companyId: string) {
     dispatch(
       callAPI({
         types: Event.FETCH,
-        endpoint: `/events/?company=${companyId}`,
+        endpoint: `/events/?company=${companyId}&ordering=-start_time`,
         schema: [eventSchema],
         meta: {
           errorMessage: 'Henting av tilknyttede arrangementer feilet'
