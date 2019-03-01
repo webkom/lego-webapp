@@ -40,6 +40,7 @@ class Modal extends Component<Props> {
       closeOnBackdropClick,
       backdrop,
       show,
+      contentClassName,
       ...props
     } = this.props;
     return (
@@ -56,7 +57,7 @@ class Modal extends Component<Props> {
       >
         <div>
           {!closeOnBackdropClick && this.modal && this.modal.renderBackdrop()}
-          <div className={cx(styles.content, props.contentClassName)}>
+          <div className={cx(styles.content, contentClassName)}>
             <button onClick={onHide} className={styles.closeButton}>
               <Icon name="close" />
             </button>
