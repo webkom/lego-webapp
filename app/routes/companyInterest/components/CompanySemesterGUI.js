@@ -17,7 +17,7 @@ import { legoForm } from 'app/components/Form/';
 import { SemesterNavigation } from 'app/routes/companyInterest/utils';
 import { createValidator, required } from 'app/utils/validation';
 
-type Props = FieldProps & {
+type Props = {
   onSubmit: CompanySemesterEntity => Promise<*>,
   push: string => void,
   events: Array<Object>,
@@ -25,7 +25,7 @@ type Props = FieldProps & {
   autoFocus: any,
   edit: boolean,
   editSemester: CompanySemesterEntity => void
-};
+} & FieldProps;
 
 const CompanySemesterGUI = (props: Props) => {
   const activeSemesters = semesters => (
@@ -99,7 +99,7 @@ const onSubmit = ({ year, semester }, dispatch, props: Props) => {
   const { semesters, addSemester, editSemester } = props;
   const existingCompanySemester = semesters.find(companySemester => {
     return (
-      companySemester.year == Number(year) &&
+      Number(companySemester.year) == Number(year) &&
       companySemester.semester == semester
     );
   });
