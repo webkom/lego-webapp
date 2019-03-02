@@ -40,8 +40,8 @@ const mapDispatchToProps = (dispatch, { eventId }) => {
   const url = `/events/${eventId}/administrate/abacard?q=`;
   return {
     clearSearch: () => dispatch(push(url)),
-    handleSelect: ({ username }) =>
-      dispatch(markUsernamePresent(eventId, username)),
+    markUsernamePresent: (...props) => dispatch(markUsernamePresent(...props)),
+    setConsent: (...props) => dispatch(setConsent(...props)),
     onQueryChanged: debounce(query => {
       dispatch(push(url + query));
       if (query) {
