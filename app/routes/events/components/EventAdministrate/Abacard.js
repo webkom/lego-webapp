@@ -60,19 +60,41 @@ class Abacard extends React.Component<Props, State> {
     const { resolve, username } = this.state;
     return (
       <div>
-        {/* $FlowFixMe*/}
+        {/* $FlowFixMe Shitty flow types here we come!*/}
         <Validator {...validatorProps} handleSelect={handleSelect} />
         <Modal show={!!resolve} onHide={() => {}}>
           <ConfirmModal
             onCancel={async () => {
               if (!resolve) return Promise.resolve();
-              await markUsernameConsent(id.toString(), username, 'NEI');
+              try {
+                await markUsernameConsent(
+                  id.toString(),
+                  username,
+                  'PHOTO_NOT_CONSENT'
+                );
+              } catch (payload) {
+                alert(`Det oppsto en uventet feil: ${JSON.stringify(payload)}`);
+                this.setState({ resolve: null, username: '' });
+                return;
+              }
+
               await resolve();
               this.setState({ resolve: null, username: '' });
             }}
             onConfirm={async () => {
               if (!resolve) return Promise.resolve();
-              await markUsernameConsent(id.toString(), username, 'JA');
+              try {
+                await markUsernameConsent(
+                  id.toString(),
+                  username,
+                  'PHOTO_CONSENT'
+                );
+              } catch (payload) {
+                alert(`Det oppsto en uventet feil: ${JSON.stringify(payload)}`);
+                this.setState({ resolve: null, username: '' });
+                return;
+              }
+
               await resolve();
               this.setState({ resolve: null, username: '' });
             }}
