@@ -115,6 +115,7 @@ export default class Attendees extends Component<Props, State> {
           </div>
           {registered.length === 0 && <li>Ingen påmeldte</li>}
           <RegisteredTable
+            event={event}
             registered={registered}
             loading={loading}
             handlePresence={this.handlePresence}

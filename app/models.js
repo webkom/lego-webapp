@@ -64,7 +64,8 @@ export type Event = EventBase & {
   comments: Array<Comment>,
   pools: Array<EventPool>,
   survey: ?ID,
-  userReg: EventRegistration
+  userReg: EventRegistration,
+  useConsent: ?boolean
 };
 
 export type TransformEvent = EventBase & {

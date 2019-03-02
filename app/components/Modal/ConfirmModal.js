@@ -12,7 +12,9 @@ type ConfirmModalProps = {
   message: Node,
   title: string,
   disabled?: boolean,
-  errorMessage?: string
+  errorMessage?: string,
+  cancelText?: string,
+  confirmText?: string
 };
 
 export const ConfirmModal = ({
@@ -21,7 +23,9 @@ export const ConfirmModal = ({
   onCancel,
   title,
   disabled = false,
-  errorMessage = ''
+  errorMessage = '',
+  cancelText = 'Avbryt',
+  confirmText = 'Ja'
 }: ConfirmModalProps) => (
   <div className={styles.overlay}>
     <div className={styles.confirmContainer}>
@@ -29,10 +33,10 @@ export const ConfirmModal = ({
       <div className={styles.confirmMessage}>{message}</div>
       <div className={styles.buttonGroup}>
         <Button disabled={disabled} onClick={onCancel}>
-          Avbryt
+          {cancelText}
         </Button>
         <Button disabled={disabled} onClick={onConfirm}>
-          Ja
+          {confirmText}
         </Button>
         <p style={{ color: 'red' }}>{errorMessage} </p>
       </div>

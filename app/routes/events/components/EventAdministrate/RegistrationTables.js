@@ -10,7 +10,8 @@ import type {
   EventRegistration,
   EventRegistrationPresence,
   EventRegistrationChargeStatus,
-  ID
+  ID,
+  Event
 } from 'app/models';
 import Table from 'app/components/Table';
 import {
@@ -33,7 +34,8 @@ type Props = {
   ) => Promise<*>,
   handleUnregister: (registrationId: ID) => void,
   clickedUnregister: ID,
-  showUnregister: boolean
+  showUnregister: boolean,
+  event: Event
 };
 
 export class RegisteredTable extends Component<Props> {
@@ -45,7 +47,8 @@ export class RegisteredTable extends Component<Props> {
       handlePayment,
       handleUnregister,
       clickedUnregister,
-      showUnregister
+      showUnregister,
+      event
     } = this.props;
     const columns = [
       {
@@ -91,6 +94,21 @@ export class RegisteredTable extends Component<Props> {
           </Tooltip>
         )
       },
+      event.useConsent && {
+        title: 'Samtykke',
+        dataIndex: 'photoConsent',
+        render: consent =>
+          consent !== 'UNKNOWN' && (
+            <TooltipIcon
+              content={consent}
+              iconClass={
+                consent === 'PHOTO_CONSENT'
+                  ? cx('fa fa-check', styles.greenIcon)
+                  : cx('fa fa-times', styles.crossIcon)
+              }
+            />
+          )
+      },
       {
         title: 'Klassetrinn',
         dataIndex: 'user.grade',
@@ -131,11 +149,12 @@ export class RegisteredTable extends Component<Props> {
           />
         )
       }
-    ];
+    ].filter(Boolean);
     return (
       <Table
         infiniteScroll
         hasMore={false}
+        // $FlowFixMe
         columns={columns}
         loading={loading}
         data={registered}
