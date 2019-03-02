@@ -12,13 +12,15 @@ import Validator from 'app/components/UserValidator';
 import type { EventRegistration, Event } from 'app/models';
 type State = {
   // Skra
-  resolve: ?() => Promise<*>
+  resolve: ?() => Promise<*>,
+  username: string
 };
 type Props = {
   registered: Array<EventRegistration>,
   event: Event,
   clearSearch: () => void,
   markUsernamePresent: (string, string) => Promise<*>,
+  markUsernameConsent: (string, string, string) => Promise<*>,
   location: Object,
   onQueryChanged: string => void,
   results: Array<SearchResult>,
@@ -26,12 +28,13 @@ type Props = {
 };
 
 class Abacard extends React.Component<Props, State> {
-  state = { resolve: null };
+  state = { resolve: null, username: '' };
   render() {
     const {
       registered,
       event: { totalCapacity, useConsent, id },
       markUsernamePresent,
+      markUsernameConsent,
       ...validatorProps
     } = this.props;
     const registerCount = registered.filter(
@@ -43,28 +46,40 @@ class Abacard extends React.Component<Props, State> {
         const payload = get(result, 'payload.response.jsonData');
         if (payload && payload.error) return result;
 
-        if (useConsent || true) {
+        if (useConsent) {
           return new Promise(resolve =>
-            this.setState({ resolve: () => Promise.resolve(resolve(payload)) })
+            this.setState({
+              username: username,
+              resolve: () => Promise.resolve(resolve(payload))
+            })
           );
         }
         return result;
       });
 
-    const { resolve } = this.state;
+    const { resolve, username } = this.state;
     return (
       <div>
+        {/* $FlowFixMe*/}
         <Validator {...validatorProps} handleSelect={handleSelect} />
-        <Modal show={!!resolve}>
+        <Modal show={!!resolve} onHide={() => {}}>
           <ConfirmModal
-            onCancel={() => Promise.resolve()}
-            onConfirm={() => {
-              this.setState({ resolve: null });
-              return resolve ? resolve() : Promise.resolve();
+            onCancel={async () => {
+              if (!resolve) return Promise.resolve();
+              await markUsernameConsent(id.toString(), username, 'NEI');
+              await resolve();
+              this.setState({ resolve: null, username: '' });
             }}
-            message={'Hei'}
-            title="hei"
-            errorMessage="test"
+            onConfirm={async () => {
+              if (!resolve) return Promise.resolve();
+              await markUsernameConsent(id.toString(), username, 'JA');
+              await resolve();
+              this.setState({ resolve: null, username: '' });
+            }}
+            title="Jeg samtykker til at det kan tas bilder av meg ved dette arrangementet, og til at disse kan publiseres på Abakus.no."
+            message="Du kan til enhver tid trekke tilbake samtykket."
+            confirmText="Ja, jeg samtykker"
+            cancelText="NEI, jeg samtykker ikke"
           />
         </Modal>
         <div className={styles.counter}>
