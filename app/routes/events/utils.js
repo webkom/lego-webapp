@@ -59,7 +59,8 @@ const eventCreateAndUpdateFields = [
   'unregistrationDeadline',
   'pinned',
   'heedPenalties',
-  'isAbakomOnly'
+  'isAbakomOnly',
+  'useConsent'
 ];
 
 const poolCreateAndUpdateFields = [

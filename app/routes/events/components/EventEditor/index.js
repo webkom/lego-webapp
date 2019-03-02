@@ -280,6 +280,14 @@ function EventEditor({
                 normalize={v => !!v}
               />
             </Tooltip>
+            <Tooltip content="Bruk samtykke til bilder">
+              <Field
+                label="Samtykke til bilder"
+                name="useConsent"
+                component={CheckBox.Field}
+                normalize={v => !!v}
+              />
+            </Tooltip>
             <Flex column>
               <h3>Påmeldte:</h3>
               <UserGrid
