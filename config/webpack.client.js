@@ -89,18 +89,6 @@ module.exports = (env, argv) => {
     resolve: {
       modules: [root, 'node_modules']
     },
-    optimization: {
-      splitChunks: {
-        cacheGroups: {
-          vendor: {
-            chunks: 'initial',
-            name: 'vendor',
-            test: 'vendor',
-            enforce: true
-          }
-        }
-      }
-    },
 
     module: {
       rules: [
@@ -116,11 +104,7 @@ module.exports = (env, argv) => {
             {
               loader: 'css-loader',
               options: {
-                modules: true,
-                importLoaders: 1,
-                localIdentName: isProduction
-                  ? '[hash:base64:5]'
-                  : '[name]__[local]___[hash:base64:5]'
+                modules: true
               }
             },
             {

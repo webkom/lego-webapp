@@ -134,7 +134,7 @@ function render(req: $Request, res: $Response, next: Middleware) {
 let cachedAssets;
 function retrieveAssets() {
   if (__DEV__ || !cachedAssets) {
-    const { app, vendor } = JSON.parse(
+    const { app, 'vendors~app': vendor } = JSON.parse(
       fs
         .readFileSync(
           path.join(webpackClient.outputPath, 'webpack-assets.json')
@@ -142,7 +142,7 @@ function retrieveAssets() {
         .toString()
     );
 
-    const styles = [app && app.css]
+    const styles = [vendor && vendor.css, app && app.css]
       .filter(Boolean)
       .map(css => `<link rel="stylesheet" href="${css}">`)
       .join('\n');
