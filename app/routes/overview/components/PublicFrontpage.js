@@ -198,7 +198,7 @@ class PublicFrontpage extends Component<Props, State> {
             </li>
             <li>
               <a href="https://readme.abakus.no">
-                <i className="fa fa-caret-right" /> Readme
+                <i className="fa fa-caret-right" /> {readmeIfy('readme')}
               </a>
               <div className={styles.linkDescription}>
                 Abakus har sitt eget magasin skrevet av {readmeIfy('readme')}.
