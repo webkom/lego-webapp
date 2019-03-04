@@ -13,11 +13,14 @@ import Time from 'app/components/Time';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { jobType, Year } from 'app/routes/joblistings/components/Items';
+import Icon from 'app/components/Icon';
 
 type Props = {
   company: Object,
   companyEvents: Array<Object>,
-  joblistings: Array<Object>
+  joblistings: Array<Object>,
+  showFetchMoreEvents: boolean,
+  fetchMoreEvents: () => Promise<*>
 };
 
 function insertInfoBubbles(company) {
@@ -48,10 +51,17 @@ function insertInfoBubbles(company) {
 }
 
 const CompanyDetail = (props: Props) => {
-  const { company, companyEvents, joblistings } = props;
+  const {
+    company,
+    companyEvents,
+    joblistings,
+    fetchMoreEvents,
+    showFetchMoreEvents
+  } = props;
   if (!company) {
     return <LoadingIndicator loading />;
   }
+
   const events =
     companyEvents &&
     companyEvents
@@ -126,7 +136,23 @@ const CompanyDetail = (props: Props) => {
       ) : (
         <i>Ingen arrangementer.</i>
       )}
-
+      {showFetchMoreEvents && (
+        <div
+          style={{
+            display: 'flex',
+            width: '100%',
+            marginTop: '10px',
+            justifyContent: 'center'
+          }}
+        >
+          <Icon
+            name="arrow-dropdown"
+            size={35}
+            onClick={fetchMoreEvents}
+            style={{ cursor: 'pointer' }}
+          />
+        </div>
+      )}
       <h3 style={{ marginTop: '20px' }}>Bedriftens jobbannonser</h3>
       {joblistingsList.length > 0 ? (
         <table className={styles.companyEventTable}>

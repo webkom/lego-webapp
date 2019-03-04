@@ -79,19 +79,28 @@ export function fetchAdmin(companyId: number): Thunk<*> {
     );
 }
 
-export function fetchEventsForCompany(companyId: string) {
-  return (dispatch: Dispatch) =>
-    dispatch(
-      callAPI({
-        types: Event.FETCH,
-        endpoint: `/events/?company=${companyId}&ordering=-start_time`,
-        schema: [eventSchema],
-        meta: {
-          errorMessage: 'Henting av tilknyttede arrangementer feilet'
-        }
-      })
-    );
-}
+export const fetchEventsForCompany = ({
+  queryString,
+  loadNextPage = false
+}: {
+  queryString: string,
+  loadNextPage: boolean
+}): Thunk<*> => (dispatch, getState) => {
+  const endpoint = loadNextPage
+    ? getState().events.pagination[queryString].nextPage
+    : `/events/${queryString}`;
+  return dispatch(
+    callAPI({
+      types: Event.FETCH,
+      endpoint,
+      schema: [eventSchema],
+      meta: {
+        queryString,
+        errorMessage: 'Henting av tilknyttede arrangementer feilet'
+      }
+    })
+  );
+};
 
 export function fetchJoblistingsForCompany(companyId: string) {
   return (dispatch: Dispatch) =>
