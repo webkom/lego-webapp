@@ -4,14 +4,5 @@
     "@babel/plugin-syntax-dynamic-import",
     "react-hot-loader/babel",
     "@babel/plugin-proposal-class-properties"
-  ],
-  "env": {
-    "development": {
-      "plugins": ["transform-import-to-require"]
-    },
-    "test": {
-      "plugins": ["transform-import-to-require"],
-      "presets": ["latest", "react", "stage-2"]
-    }
-  }
+  ]
 }
