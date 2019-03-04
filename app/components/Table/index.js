@@ -35,7 +35,9 @@ type columnProps = {
   filterMapping?: any => any,
   search?: boolean,
   width?: number,
-  render?: (any, Object) => Node
+  render?: (any, Object) => Node,
+  // Should column be rendered. Will render when not set
+  visible?: boolean
 };
 
 type Props = {
@@ -53,6 +55,8 @@ type State = {
   isShown: Object,
   sort: sortProps
 };
+
+const isVisible = ({ visible = true }: columnProps) => visible;
 
 export default class Table extends Component<Props, State> {
   props: Props;
@@ -265,7 +269,9 @@ export default class Table extends Component<Props, State> {
       <table className={styles.table}>
         <thead>
           <tr>
-            {columns.map((column, index) => this.renderHeadCell(column, index))}
+            {columns
+              .filter(isVisible)
+              .map((column, index) => this.renderHeadCell(column, index))}
           </tr>
         </thead>
         <InfiniteScroll
@@ -283,9 +289,9 @@ export default class Table extends Component<Props, State> {
         >
           {data.filter(this.filter).map((item, index) => (
             <tr key={item[rowKey]}>
-              {columns.map((column, index) =>
-                this.renderCell(column, item, index)
-              )}
+              {columns
+                .filter(isVisible)
+                .map((column, index) => this.renderCell(column, item, index))}
             </tr>
           ))}
         </InfiniteScroll>

@@ -94,9 +94,10 @@ export class RegisteredTable extends Component<Props> {
           </Tooltip>
         )
       },
-      event.useConsent && {
+      {
         title: 'Samtykke',
         dataIndex: 'photoConsent',
+        visible: !!event.useConsent,
         render: consent =>
           consent !== 'UNKNOWN' && (
             <TooltipIcon
@@ -139,22 +140,21 @@ export class RegisteredTable extends Component<Props> {
       {
         title: 'Administrer',
         dataIndex: 'fetching',
+        visible: showUnregister,
         render: (fetching, registration) => (
           <Unregister
             fetching={fetching}
             handleUnregister={handleUnregister}
             id={registration.id}
             clickedUnregister={clickedUnregister}
-            showUnregister={showUnregister}
           />
         )
       }
-    ].filter(Boolean);
+    ];
     return (
       <Table
         infiniteScroll
         hasMore={false}
-        // $FlowFixMe
         columns={columns}
         loading={loading}
         data={registered}
