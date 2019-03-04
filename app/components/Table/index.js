@@ -56,6 +56,8 @@ type State = {
   sort: sortProps
 };
 
+const isVisible = ({ visible = true }: columnProps) => visible;
+
 export default class Table extends Component<Props, State> {
   props: Props;
   components: { [string]: ?HTMLDivElement } = {};
@@ -268,7 +270,7 @@ export default class Table extends Component<Props, State> {
         <thead>
           <tr>
             {columns
-              .filter(column => column.visible || column.visible === undefined)
+              .filter(isVisible)
               .map((column, index) => this.renderHeadCell(column, index))}
           </tr>
         </thead>
@@ -288,10 +290,7 @@ export default class Table extends Component<Props, State> {
           {data.filter(this.filter).map((item, index) => (
             <tr key={item[rowKey]}>
               {columns
-                .filter(
-                  column => column.visible || column.visible === undefined
-                )
-
+                .filter(isVisible)
                 .map((column, index) => this.renderCell(column, item, index))}
             </tr>
           ))}
