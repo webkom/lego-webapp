@@ -53,7 +53,7 @@ const LandingPage = ({
       </Flex>
 
       <h2 className={styles.abakusInNumbers} id="abakusInNumbers">
-        Abakus i tall{' '}
+        Abakus i tall
       </h2>
       <Flex
         wrap
@@ -106,7 +106,7 @@ const LandingPage = ({
         </div>
       </Flex>
 
-      <Flex className={styles.emailContainer}>
+      <Flex className={styles.socialMediaContainer}>
         <Icon name="people" size={80} className={styles.emailIcon} />
         <div className={styles.emails}>
           <h3 className={styles.title}>Sosiale medier</h3>
@@ -132,7 +132,7 @@ const LandingPage = ({
                     href="https://www.facebook.com/groups/398146436914007/"
                     className={styles.socialMediaLink}
                   >
-                    Gruppe for medlemmer
+                    Medlemsgruppe
                   </a>
                 )}
               </div>
@@ -291,16 +291,16 @@ const socialMedia = {
   instagram: [
     {
       link: 'https://www.instagram.com/abakusntnu/',
-      textInfo: 'Abakus instagram'
+      textInfo: 'Abakus - @Abakusntnu'
     },
     {
       link: 'https://www.instagram.com/abakushs/',
-      textInfo: 'HS instagram'
+      textInfo: 'Hovedstyret - @abakushs'
     }
   ],
   snapchat: [
     {
-      name: 'abakusntnu'
+      name: '@abakusntnu'
     }
   ]
 };

@@ -86,6 +86,11 @@
   margin-top: 25px;
 }
 
+.socialMediaContainer {
+  margin-top: -2em;
+  margin-bottom: 30px;
+}
+
 .socialMediaType {
   display: flex;
   flex-direction: column;

@@ -12,6 +12,7 @@
 .pageList {
   text-align: left;
   line-height: 18px;
+  width: 220px;
 }
 
 .pageList a {
