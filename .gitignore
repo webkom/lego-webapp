@@ -15,3 +15,4 @@ styleguide
 *.swp
 package-lock.json
 .idea
+report.*.json
