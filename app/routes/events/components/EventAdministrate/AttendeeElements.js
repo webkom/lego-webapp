@@ -28,8 +28,7 @@ type UnregisterProps = {
   fetching: boolean,
   handleUnregister: ID => void,
   id: ID,
-  clickedUnregister: ID,
-  showUnregister: boolean
+  clickedUnregister: ID
 };
 
 type StripeStatusProps = {
@@ -115,23 +114,21 @@ export const Unregister = ({
   fetching,
   handleUnregister,
   id,
-  clickedUnregister,
-  showUnregister
+  clickedUnregister
 }: UnregisterProps) => {
   return (
     <div>
-      {showUnregister &&
-        (fetching ? (
-          <LoadingIndicator loading={true} small />
-        ) : (
-          <a onClick={() => handleUnregister(id)}>
-            <i
-              className="fa fa-minus-circle"
-              style={{ color: '#C24538', marginRight: '5px' }}
-            />
-            {clickedUnregister === id ? 'Er du sikker?' : 'Meld av'}
-          </a>
-        ))}
+      {fetching ? (
+        <LoadingIndicator loading={true} small />
+      ) : (
+        <a onClick={() => handleUnregister(id)}>
+          <i
+            className="fa fa-minus-circle"
+            style={{ color: '#C24538', marginRight: '5px' }}
+          />
+          {clickedUnregister === id ? 'Er du sikker?' : 'Meld av'}
+        </a>
+      )}
     </div>
   );
 };
