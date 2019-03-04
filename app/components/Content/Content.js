@@ -6,6 +6,7 @@ import styles from './Content.css';
 import { Image } from 'app/components/Image';
 import Youtube from 'react-youtube';
 import Flex from '../Layout/Flex';
+import LoadingIndicator from 'app/components/LoadingIndicator';
 
 type Props = {
   banner?: string,
@@ -33,22 +34,32 @@ type Props = {
 
 function Content({ banner, youtubeParams, children, className }: Props) {
   const [isClicked, click] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   return (
     <Flex column alignItems="center">
       {youtubeParams ? (
-        <Flex
-          justifyContent={'center'}
-          className={styles.youtubeFrame}
-          style={{ paddingBottom: isClicked ? '56.25%' : '30%' }}
-        >
-          <Youtube
-            videoId={youtubeParams.v}
-            opts={{ playerVars: { start: youtubeParams.t } }}
-            onPlay={() => click(true)}
-            style={{ width: '100%' }}
+        <div>
+          <LoadingIndicator
+            loading={isLoading}
+            className={isLoading ? {} : styles.hidden}
           />
-        </Flex>
+          <Flex
+            justifyContent={'center'}
+            style={{
+              maxHeight: isLoading ? '0' : isClicked ? '619px' : '358px'
+            }}
+            className={styles.youtubeFrame}
+          >
+            <Youtube
+              videoId={youtubeParams.v}
+              opts={{ playerVars: { start: youtubeParams.t } }}
+              onStateChange={() => click(true)}
+              onReady={() => setIsLoading(false)}
+              className={isLoading ? styles.hidden : {}}
+            />
+          </Flex>
+        </div>
       ) : (
         banner && (
           <div className={cx(styles.cover, className)}>
