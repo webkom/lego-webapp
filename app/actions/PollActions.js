@@ -3,9 +3,10 @@
 import callAPI from './callAPI';
 import { Poll } from './ActionTypes';
 import { pollSchema } from '../reducers';
-import { addToast } from './ToastActions';
 import { push } from 'react-router-redux';
 import type { Thunk } from 'app/types';
+import { type OptionEntity } from 'app/reducers/polls';
+import { type Tags } from 'app/models';
 
 export function fetchAll({ next = false }: { next: boolean } = {}): Thunk<*> {
   return (dispatch, getState) => {
@@ -38,8 +39,8 @@ export function fetchPoll(pollId: number) {
 export function createPoll(data: {
   description: string,
   pinned: boolean,
-  tags: Array<string>,
-  options: Array<Object>
+  tags: Tags,
+  options: Array<{ name: string }>
 }): Thunk<*> {
   return dispatch =>
     dispatch(
@@ -54,17 +55,15 @@ export function createPoll(data: {
           successMessage: 'Avstemning lagt til!'
         }
       })
-    )
-      .then(() => addToast({ message: 'Avstemning lagt til' }))
-      .then(() => dispatch(push(`/polls/`)));
+    ).then(() => dispatch(push(`/polls/`)));
 }
 
 export function editPoll(data: {
   pollId: number,
   description: string,
   pinned: boolean,
-  tags: Array<string>,
-  options: Array<Object>
+  tags: Tags,
+  options: Array<OptionEntity | { name: string }>
 }): Thunk<*> {
   return callAPI({
     types: Poll.UPDATE,

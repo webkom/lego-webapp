@@ -3,13 +3,14 @@
 import { createSelector } from 'reselect';
 import createEntityReducer from '../utils/createEntityReducer';
 import { Poll } from '../actions/ActionTypes';
+import { type Tags, type ID } from 'app/models';
 
 export type PollEntity = {
-  id: number,
+  id: ID,
   title: string,
   description: string,
   pinned: boolean,
-  tags: Array<string>,
+  tags: Tags,
   hasAnswered: boolean,
   totalVotes: number,
   options: Array<OptionEntity>
@@ -57,6 +58,7 @@ export const selectPollById = createSelector(
   }
 );
 
-export const selectPinnedPolls = createSelector(selectPolls, polls =>
-  polls.filter(polls => polls.pinned)
+export const selectPinnedPolls = createSelector(
+  selectPolls,
+  polls => polls.filter(polls => polls.pinned)
 );

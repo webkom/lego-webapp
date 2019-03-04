@@ -7,6 +7,7 @@ import type { PollEntity, OptionEntity } from 'app/reducers/polls';
 import { Link } from 'react-router';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
+import Tooltip from 'app/components/Tooltip';
 
 type Props = {
   poll: PollEntity,
@@ -72,10 +73,15 @@ class Poll extends React.Component<Props, State> {
       <div
         className={`${styles.poll} ${backgroundLight ? styles.pollLight : ''}`}
       >
-        <Link to={`/polls/${id}`}>
-          <Icon name="stats" />
-          <span className={styles.pollHeader}>{title}</span>
-        </Link>
+        <Flex>
+          <Link to={`/polls/${id}`} style={{ flex: 1 }}>
+            <Icon name="stats" />
+            <span className={styles.pollHeader}>{title}</span>
+          </Link>
+          <Tooltip content="Avstemningen er anonym.">
+            <Icon name="information-circle-outline" size={20} />
+          </Tooltip>
+        </Flex>
         {details && (
           <div>
             <p>{description}</p>

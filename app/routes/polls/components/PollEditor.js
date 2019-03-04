@@ -17,6 +17,8 @@ import {
 import { Form, Field, FieldArray } from 'redux-form';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import styles from './PollEditor.css';
+import { type PollEntity } from 'app/reducers/polls';
+import { type ID } from 'app/models';
 
 const keyCodes = {
   enter: 13,
@@ -26,11 +28,11 @@ const keyCodes = {
 type Props = {
   pristine: boolean,
   submitting: boolean,
-  editOrCreatePoll: Object => Promise<*>,
-  handleSubmit: Object => Promise<*>,
+  editOrCreatePoll: PollEntity => Promise<*>,
+  handleSubmit: Object => Promise<*>, //TODO add reduxForm typing
   editing: boolean,
-  initialValues: Object,
-  pollId: number,
+  initialValues: PollEntity,
+  pollId: ID,
   deletePoll: () => Promise<*>,
   toggleEdit: () => void
 };
@@ -45,7 +47,7 @@ const renderOptions = ({
   meta: { touched, error }
 }: FieldArrayPropTypes) => (
   <div>
-    <ul className={styles.options} key="options">
+    <ul className={styles.options}>
       {fields.map((option, i) => (
         <li className={styles.optionField} key={i}>
           <Field
@@ -58,7 +60,7 @@ const renderOptions = ({
           <ConfirmModalWithParent
             title="Slett valg"
             message="Er du sikker på at du vil slette dette valget?"
-            onConfirm={() => Promise.resolve(fields.remove(i))}
+            onConfirm={async () => fields.remove(i)}
             closeOnConfirm
             className={styles.deleteOption}
           >
@@ -70,9 +72,7 @@ const renderOptions = ({
 
     <Link
       key="addNew"
-      onClick={() => {
-        fields.push({});
-      }}
+      onClick={() => fields.push({})}
       className={styles.addOption}
     >
       <Icon name="add-circle" size={25} /> Valg
@@ -171,14 +171,14 @@ const onSubmit = (
   }: {
     title: string,
     description: string,
-    tags: Array<Object>,
-    options: Array<Object>,
+    tags: Array<{ value: string }>,
+    options: Array<{ id: ?ID, name: string }>,
     pinned: boolean
   },
   dispatch,
   props
-) => {
-  return props
+) =>
+  props
     .editOrCreatePoll({
       title,
       description,
@@ -188,7 +188,6 @@ const onSubmit = (
       ...rest
     })
     .then(() => props.toggleEdit());
-};
 
 export default legoForm({
   form: 'createPollForm',

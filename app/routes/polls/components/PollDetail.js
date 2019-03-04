@@ -5,15 +5,18 @@ import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Poll from 'app/components/Poll';
 import PollEditor from './PollEditor';
+import { type PollEntity } from 'app/reducers/polls';
+import { type ActionGrant } from 'app/models';
+import { type ID } from 'app/models';
 
 type Props = {
-  poll: Object,
-  editPoll: () => Promise<*>,
-  deletePoll: (id: number) => Promise<*>,
-  votePoll: () => Promise<*>,
+  poll: PollEntity,
+  editPoll: PollEntity => Promise<*>,
+  deletePoll: (id: ID) => Promise<*>,
+  votePoll: (pollId: ID, optionId: ID) => Promise<*>,
   fetching: boolean,
-  actionGrant: Array<string>,
-  initialValues: Object
+  actionGrant: ActionGrant,
+  initialValues: PollEntity
 };
 
 type State = {

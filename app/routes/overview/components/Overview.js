@@ -26,7 +26,7 @@ type Props = {
   frontpage: Array<Object>,
   readmes: Array<Object>,
   loadingFrontpage: boolean,
-  poll: PollEntity,
+  poll: ?PollEntity,
   votePoll: () => Promise<*>
 };
 
@@ -201,13 +201,15 @@ class Overview extends Component<Props, State> {
         <Link to={'/polls'}>
           <h3 className="u-ui-heading">Avstemning</h3>
         </Link>
-        <Poll
-          style={{ flex: 'none' }}
-          poll={poll}
-          backgroundLight
-          truncate={3}
-          handleVote={votePoll}
-        />
+        {poll && (
+          <Poll
+            style={{ flex: 'none' }}
+            poll={poll}
+            backgroundLight
+            truncate={3}
+            handleVote={votePoll}
+          />
+        )}
       </Flex>
     );
 
@@ -217,14 +219,13 @@ class Overview extends Component<Props, State> {
         <Flex className={styles.desktopContainer}>
           <Flex column className={styles.leftColumn}>
             {compactEvents}
-            {nextEvent}
-            {pollItem}
             {pinnedComponent}
-            {readMe}
             {events}
           </Flex>
           <Flex column className={styles.rightColumn}>
             {nextEvent}
+            {pollItem}
+            {readMe}
             {weekly}
             {articles}
           </Flex>
@@ -232,6 +233,7 @@ class Overview extends Component<Props, State> {
         <section className={styles.mobileContainer}>
           {compactEvents}
           {nextEvent}
+          {pollItem}
           {pinnedComponent}
           {readMe}
           {weekly}
