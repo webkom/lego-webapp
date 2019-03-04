@@ -9,7 +9,6 @@ import TextWithBoldTitle, {
 } from './subcomponents/TextWithTitle';
 import Statistic from './subcomponents/Statistic';
 import EmailItem from './subcomponents/EmailItem';
-import SocialMediaItem from './subcomponents/SocialMediaItem';
 import banner from 'app/assets/om-abakus-banner.png';
 import styles from './LandingPage.css';
 
@@ -75,29 +74,6 @@ const LandingPage = ({
         Kontakt oss
       </h2>
 
-      <Flex className={styles.locationContainer}>
-        <div className={styles.houseIcon}>
-          <Icon name="home" size={80} style={{ marginRight: '1rem' }} />
-        </div>
-        <TextWithTitle
-          title="Postadresse"
-          text={postAddress}
-          extraStyle={{ flexBasis: '33.33333%' }}
-        />
-        <div style={{ flexBasis: '33.33333%' }}>
-          <TextWithTitle title="Besøksadresse" text={officeAddress} />
-          <TextWithTitle
-            title="Webkom's besøksadresse"
-            text={webkomOfficeAddress}
-          />
-        </div>
-        <TextWithTitle
-          title="Kontortid"
-          text={officeHours}
-          extraStyle={{ flexBasis: '33.33333%' }}
-        />
-      </Flex>
-
       <Flex className={styles.emailContainer}>
         <Icon name="mail" size={80} className={styles.emailIcon} />
         <div className={styles.emails}>
@@ -134,24 +110,87 @@ const LandingPage = ({
         <Icon name="people" size={80} className={styles.emailIcon} />
         <div className={styles.emails}>
           <h3 className={styles.title}>Sosiale medier</h3>
-          {loggedIn && (
-            <div>
-              Har du lyst til å følge med på hva de forskjellige delene av
-              abakus driver med? Følg oss på sosiale medier!
-            </div>
-          )}
+          <div>
+            Har du lyst til å følge med på hva de forskjellige delene av abakus
+            driver med? Følg oss på sosiale medier!
+          </div>
           <Flex wrap className={styles.committeeEmails}>
-            {socialMedia.map((socialMedia, index) => (
-              <SocialMediaItem
-                key={index}
-                icon={socialMedia.icon}
-                textInfo={socialMedia.textInfo}
-                socialMediaLink={socialMedia.socialMediaLink}
-                socialMediaName={socialMedia.socialMediaName}
+            <div className={styles.socialMediaType}>
+              <Icon name="logo-facebook" size={40} prefix="ion-" />
+              <div className={styles.socialMediaTypeLinks}>
+                {socialMedia.facebook.map((page, index) => (
+                  <a
+                    key={index}
+                    href={page.link}
+                    className={styles.socialMediaLink}
+                  >
+                    {page.textInfo}
+                  </a>
+                ))}
+                {loggedIn && (
+                  <a
+                    href="https://www.facebook.com/groups/398146436914007/"
+                    className={styles.socialMediaLink}
+                  >
+                    Gruppe for medlemmer
+                  </a>
+                )}
+              </div>
+            </div>
+            <div className={styles.socialMediaType}>
+              <Icon name="logo-instagram" size={40} prefix="ion-" />
+              <div className={styles.socialMediaTypeLinks}>
+                {socialMedia.instagram.map((page, index) => (
+                  <a
+                    key={index}
+                    href={page.link}
+                    className={styles.socialMediaLink}
+                  >
+                    {page.textInfo}
+                  </a>
+                ))}
+              </div>
+            </div>
+            <div className={styles.socialMediaType}>
+              <Icon
+                name="logo-snapchat"
+                size={40}
+                prefix="ion-"
+                className={styles.snapchatIcon}
               />
-            ))}
+              <div className={styles.socialMediaTypeLinks}>
+                {socialMedia.snapchat.map((page, index) => (
+                  <a key={index} className={styles.socialMediaLink}>
+                    {page.name}
+                  </a>
+                ))}
+              </div>
+            </div>
           </Flex>
         </div>
+      </Flex>
+
+      <Flex className={styles.locationContainer}>
+        <div className={styles.houseIcon}>
+          <Icon name="home" size={80} style={{ marginRight: '1rem' }} />
+        </div>
+        <TextWithTitle
+          title="Postadresse"
+          text={postAddress}
+          extraStyle={{ flexBasis: '33.33333%' }}
+        />
+        <div style={{ flexBasis: '33.33333%' }}>
+          <TextWithTitle title="Besøksadresse" text={officeAddress} />
+          <TextWithTitle
+            title="Webkom's besøksadresse"
+            text={webkomOfficeAddress}
+          />
+        </div>
+        <TextWithTitle
+          title="Kontortid"
+          text={officeHours}
+          extraStyle={{ flexBasis: '33.33333%' }}
+        />
       </Flex>
 
       <Flex>
@@ -237,73 +276,33 @@ const committeeEmails = [
   }
 ];
 
-/* The icon field refers to the name that the icon component will use.
- * For social media such as snapchat where links are not applicable,
- * use socialMediaName. For the field that is not used, either socialMediaName
- * or socialMediaLink, use null.
- * */
-
-const socialMedia = [
-  {
-    icon: 'facebook',
-    socialMediaName: null,
-    socialMediaLink: 'https://www.facebook.com/AbakusNTNU/?ref=bookmarks',
-    textInfo: 'Facebookside'
-  },
-  {
-    icon: 'instagram',
-    socialMediaName: null,
-    socialMediaLink: 'https://www.instagram.com/abakusntnu/',
-    textInfo: 'Abakus Instagram'
-  },
-  {
-    icon: 'instagram',
-    socialMediaName: null,
-    socialMediaLink: 'https://www.instagram.com/abakushs/',
-    textInfo: 'HS Instagram'
-  },
-  {
-    icon: 'snapchat',
-    socialMediaLink: null,
-    socialMediaName: 'abakusntnu',
-    textInfo: 'Abakus snapchat'
-  },
-  {
-    icon: 'facebook',
-    socialMediaLink: 'https://www.facebook.com/groups/398146436914007/',
-    socialMediaName: null,
-    textInfo: 'Facebookside for medlemmer'
-  },
-  {
-    icon: 'instagram',
-    socialMediaLink: 'https://www.instagram.com/abakusrevyen/',
-    socialMediaName: null,
-    textInfo: 'Revyens Instagram'
-  },
-  {
-    icon: 'instagram',
-    socialMediaLink: 'https://www.instagram.com/readme_abakus/',
-    socialMediaName: null,
-    textInfo: 'Instagram Readme'
-  },
-  {
-    icon: 'snapchat',
-    socialMediaLink: null,
-    socialMediaName: 'rykte',
-    textInfo: 'Readmes ryktesnap'
-  },
-  {
-    icon: 'instagram',
-    socialMediaLink: 'https://www.instagram.com/labambakjelleren/',
-    socialMediaName: null,
-    textInfo: 'Instagram Labamba'
-  },
-  {
-    icon: 'snapchat',
-    socialMediaLink: null,
-    socialMediaName: 'LaBambakjeller',
-    textInfo: 'Labambas snapchat'
-  }
-];
+const socialMedia = {
+  facebook: [
+    {
+      link: 'https://www.facebook.com/AbakusNTNU/?ref=bookmarks',
+      textInfo: 'Hovedside for Abakus'
+    },
+    {
+      link:
+        'https://www.facebook.com/Abakus-Bedriftsarrangementer-245005099523282/',
+      textInfo: 'Bedriftsarrangementer'
+    }
+  ],
+  instagram: [
+    {
+      link: 'https://www.instagram.com/abakusntnu/',
+      textInfo: 'Abakus instagram'
+    },
+    {
+      link: 'https://www.instagram.com/abakushs/',
+      textInfo: 'HS instagram'
+    }
+  ],
+  snapchat: [
+    {
+      name: 'abakusntnu'
+    }
+  ]
+};
 
 export default LandingPage;

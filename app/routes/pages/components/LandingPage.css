@@ -21,6 +21,7 @@
 
 .emailContainer {
   margin-top: -2em;
+  margin-bottom: 30px;
 }
 
 .title {
@@ -83,6 +84,43 @@
 
 .organization {
   margin-top: 25px;
+}
+
+.socialMediaType {
+  display: flex;
+  flex-direction: column;
+  flex-basis: calc(33.3333% - 12px);
+  margin: 6px;
+  align-items: center;
+
+  @media (--mobile-device) {
+    flex-direction: row;
+    flex-basis: 100%;
+    margin: auto;
+    padding: 0.8rem;
+  }
+}
+
+.socialMediaTypeLinks {
+  display: flex;
+  flex-direction: column;
+  margin: 4px;
+  align-items: center;
+  line-height: 25px;
+
+  @media (--mobile-device) {
+    margin-left: 10px;
+    align-items: flex-start;
+  }
+}
+
+.socialMediaLink {
+  margin-top: 5px;
+  line-height: 18px;
+}
+
+.snapchatIcon {
+  margin-left: -3.75px;
 }
 
 @media (--mobile-device) {
