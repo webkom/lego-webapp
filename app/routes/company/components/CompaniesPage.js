@@ -41,7 +41,7 @@ const CompanyItem = ({ company }: Company) => {
           </div>
         </Link>
         {company.website && !company.website.includes('example.com') && (
-          <a href={company.website} target="_blank">
+          <a href={company.website} rel="noopener noreferrer" target="_blank">
             <div className={styles.website}>{websiteString}</div>
           </a>
         )}

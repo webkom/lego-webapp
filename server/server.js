@@ -31,12 +31,23 @@ app.set('log', log);
 const webpackClient = require('../config/webpack.client.js');
 
 if (process.env.NODE_ENV !== 'production') {
-  const compiler = require('webpack')(webpackClient);
-
+  const compiler = require('webpack')(
+    webpackClient(undefined, {
+      mode: 'development'
+    })
+  );
   app.use(
     require('webpack-dev-middleware')(compiler, {
-      publicPath: webpackClient.output.publicPath,
-      quiet: true
+      publicPath: webpackClient.publicPath,
+      quiet: true,
+      stats: {
+        all: false,
+        modules: false,
+        errors: true,
+        warnings: true,
+        moduleTrace: true,
+        errorDetails: true
+      }
     })
   );
 
@@ -54,7 +65,7 @@ if (fs.existsSync(styleguide)) {
   app.use('/styleguide', express.static(styleguide));
 }
 
-app.use(express.static(webpackClient.output.path));
+app.use(express.static(webpackClient.outputPath));
 app.use(
   morgan((tokens, req, res) => {
     log.info(

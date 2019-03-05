@@ -134,15 +134,15 @@ function render(req: $Request, res: $Response, next: Middleware) {
 let cachedAssets;
 function retrieveAssets() {
   if (__DEV__ || !cachedAssets) {
-    const { app, vendor } = JSON.parse(
+    const { app, 'vendors~app': vendor } = JSON.parse(
       fs
         .readFileSync(
-          path.join(webpackClient.output.path, 'webpack-assets.json')
+          path.join(webpackClient.outputPath, 'webpack-assets.json')
         )
         .toString()
     );
 
-    const styles = [app && app.css]
+    const styles = [vendor && vendor.css, app && app.css]
       .filter(Boolean)
       .map(css => `<link rel="stylesheet" href="${css}">`)
       .join('\n');
@@ -181,7 +181,6 @@ function renderPage({
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
-        <link rel="manifest" href="${manifest}">
         <meta name="theme-color" content="#f2f2f1">
         <link rel="search" type="application/opensearchdescription+xml" href="/opensearch.xml" title="Abakus Søk">
         <link rel="icon" href="/icon-512x512.png" sizes="512x512"/>
@@ -196,6 +195,7 @@ function renderPage({
         <link rel="apple-touch-icon" href="/icon-96x96.png" sizes="96x96"/>
         <link rel="icon" href="/icon-48x48.png" sizes="48x48"/>
         <link rel="apple-touch-icon" href="/icon-48x48.png" sizes="48x48"/>
+        <link rel="manifest" href="${manifest}">
 
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         <meta name="mobile-web-app-capable" content="yes"/>

@@ -36,25 +36,24 @@ export default function resolveAsyncRoute(
       'The first argument of resolveAsyncRoute() must be a function returning an import()-promise'
     );
   }
-
-  if (__DEV__) {
-    let component = componentFn();
-    // $FlowFixMe
-    if (component && component.__esModule) {
-      component = (component: any).default;
-    }
-
-    return {
-      component
-    };
-  }
-
   return {
     getComponent(
       location,
       callback: (error: Object | null, component?: Object) => void
     ) {
-      componentFn()
+      let component = componentFn();
+
+      // $FlowFixMe
+      if (component && component.__esModule) {
+        // $FlowFixMe
+        component = (component: any).default;
+      }
+      if (!component.then) {
+        callback(component);
+        return;
+      }
+
+      component
         .then(module => callback(null, module.default))
         .catch(error => callback(error));
     }
