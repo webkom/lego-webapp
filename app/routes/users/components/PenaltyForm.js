@@ -36,7 +36,6 @@ type State = {
 };
 
 class PenaltyInLine extends Component<Props, State> {
-  props: Props;
   state = {
     hidden: true,
     sent: false

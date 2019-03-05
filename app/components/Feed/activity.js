@@ -21,7 +21,7 @@ type State = {
 };
 
 export default class ActivityRenderer extends Component<Props, State> {
-  state: State = {
+  state = {
     expanded: false
   };
 

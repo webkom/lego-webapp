@@ -30,7 +30,6 @@ type State = {
 };
 
 class AnnouncementInLine extends Component<Props, State> {
-  props: Props;
   state = {
     hidden: true,
     sent: false

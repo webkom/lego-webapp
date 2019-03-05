@@ -52,7 +52,7 @@ const NotificationElement = ({ notification }: { notification: Object }) => {
 };
 
 export default class NotificationsDropdown extends Component<Props, State> {
-  state: State = {
+  state = {
     notificationsOpen: false
   };
 

@@ -13,8 +13,6 @@ type Props = {
 };
 
 export default class Paginator extends React.Component<Props> {
-  props: Props;
-
   fetchNext = () => {
     if (this.props.fetchNext && !this.props.fetching) {
       this.props.fetchNext();

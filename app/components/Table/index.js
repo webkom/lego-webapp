@@ -59,10 +59,9 @@ type State = {
 const isVisible = ({ visible = true }: columnProps) => visible;
 
 export default class Table extends Component<Props, State> {
-  props: Props;
   components: { [string]: ?HTMLDivElement } = {};
 
-  state: State = {
+  state = {
     sort: {},
     filters: {},
     isShown: {}

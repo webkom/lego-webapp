@@ -17,7 +17,7 @@ type State = {
 type Props = {};
 
 class LoginPage extends Component<Props, State> {
-  state: State = {
+  state = {
     mode: 'login'
   };
 
