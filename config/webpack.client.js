@@ -30,8 +30,9 @@ module.exports = (env, argv) => {
   }
 
   return {
-    mode: 'none',
+    mode: argv.mode,
     stats: { children: false },
+    devtool: isProduction ? 'source-map' : 'cheap-module-eval-source-map',
     entry: {
       app: isProduction
         ? ['./app/index.js']
@@ -49,6 +50,7 @@ module.exports = (env, argv) => {
         ? '[name].chunk.[chunkhash:8].js'
         : '[name].chunk.js',
       publicPath,
+      pathinfo: false,
       sourceMapFilename: '[file].map'
     },
 
@@ -73,11 +75,11 @@ module.exports = (env, argv) => {
       }),
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(!isProduction),
-        __CLIENT__: true,
-        'process.env.NODE_ENV': JSON.stringify(argv.mode)
+        __CLIENT__: true
       }),
       process.env.BUNDLE_ANALYZER && new BundleAnalyzerPlugin(),
-      !isProduction && new webpack.HotModuleReplacementPlugin(),
+      !isProduction &&
+        new webpack.HotModuleReplacementPlugin({ multiStep: true }),
 
       new StatsWriterPlugin({
         filename: 'stats.json',
@@ -91,6 +93,12 @@ module.exports = (env, argv) => {
     ]),
     resolve: {
       modules: [root, 'node_modules']
+    },
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        minSize: 30000
+      }
     },
 
     module: {
@@ -140,12 +148,18 @@ module.exports = (env, argv) => {
         },
         {
           test: /manifest\.json/,
-          loader: 'file-loader?name=[name].[ext]',
-          type: 'javascript/auto'
+          loader: 'file-loader',
+          type: 'javascript/auto',
+          options: {
+            name: '[name].[ext]'
+          }
         },
         {
           test: /((opensearch\.xml|favicon\.png)$|icon-)/,
-          loader: 'file-loader?name=[name].[ext]'
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]'
+          }
         }
       ]
     }

@@ -9,6 +9,7 @@ module.exports = (env, argv) => {
   const isProduction = argv.mode === 'production';
   return {
     target: 'node',
+    devtool: 'source-map',
     stats: { children: false },
     entry: {
       server: [
@@ -36,8 +37,7 @@ module.exports = (env, argv) => {
     },
 
     plugins: [
-      !isProduction &&
-        new StartServerPlugin({ name: 'server.js', signal: true }),
+      !isProduction && new StartServerPlugin({ name: 'server.js' }),
       !isProduction && new webpack.HotModuleReplacementPlugin(),
       new webpack.optimize.LimitChunkCountPlugin({
         maxChunks: 1
@@ -97,17 +97,19 @@ module.exports = (env, argv) => {
         },
         {
           test: /manifest\.json/,
-          loader: 'file-loader?name=[name].[ext]',
+          loader: 'file-loader',
           type: 'javascript/auto',
           options: {
-            emitFile: false
+            emitFile: false,
+            name: '[name].[ext]'
           }
         },
         {
           test: /((opensearch\.xml|favicon\.png)$|icon-)/,
-          loader: 'file-loader?name=[name].[ext]',
+          loader: 'file-loader',
           options: {
-            emitFile: false
+            emitFile: false,
+            name: '[name].[ext]'
           }
         }
       ]
