@@ -56,7 +56,7 @@ const GroupMembersList = ({
       filterMapping: role =>
         role === 'member' || !ROLES[role] ? '' : ROLES[role],
       render: (role: string) =>
-        role !== 'member' && <span>{ROLES[role] || role}</span>
+        role !== 'member' && <span>{ROLES[role] || role} </span>
     },
     {
       title: 'E-post',

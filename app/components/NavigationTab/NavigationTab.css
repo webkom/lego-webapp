@@ -27,8 +27,7 @@
 
 @media (--mobile-device) {
   .container {
-    flex-wrap: wrap;
-    flex-direction: column;
+    flex-flow: column wrap;
     align-items: flex-end;
     margin-right: -15px;
   }
