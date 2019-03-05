@@ -2,7 +2,6 @@
 
 import styles from '../surveys.css';
 import React from 'react';
-import Raven from 'raven-js';
 import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextArea, RadioButton, CheckBox, legoForm } from 'app/components/Form';
@@ -170,12 +169,5 @@ const validateMandatory = (inputAnswers: Array<Object>, props) => {
 
 export default legoForm({
   form: 'submissionEditor',
-  onSubmit: (data, dispatch, props) => {
-    try {
-      return prepareToSubmit(data, props);
-    } catch (err) {
-      Raven.captureException(err);
-      throw err;
-    }
-  }
+  onSubmit: (data, dispatch, props) => prepareToSubmit(data, props)
 })(SubmissionEditor);
