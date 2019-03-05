@@ -22,8 +22,6 @@ type Props = {
 };
 
 class SurveyDetail extends Component<Props> {
-  props: Props;
-
   componentDidMount() {
     const { survey, actionGrant = [], push } = this.props;
     if (!actionGrant.includes('edit')) {

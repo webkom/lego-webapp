@@ -33,7 +33,7 @@ export default class Gallery extends PureComponent<Props, State> {
     margin: 3
   };
 
-  state: State = {
+  state = {
     containerWidth: 0
   };
 

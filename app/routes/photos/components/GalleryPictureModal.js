@@ -98,7 +98,7 @@ const RenderGalleryPicture = ({
 );
 
 export default class GalleryPictureModal extends Component<Props, State> {
-  state: State = {
+  state = {
     showMore: false,
     clickedDeletePicture: 0,
     hasNext: !this.props.isLastImage,

@@ -83,7 +83,7 @@ function TemplateTypeDropdownItems({
 }
 
 class SurveyEditor extends Component<Props, State> {
-  state: State = {
+  state = {
     templatePickerOpen: false,
     templateTypeSelected: ''
   };

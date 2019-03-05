@@ -22,7 +22,7 @@ type State = {
 };
 
 class SearchPage extends Component<Props, State> {
-  state: State = {
+  state = {
     selectedIndex: 0,
     query: this.props.location.query.q || ''
   };

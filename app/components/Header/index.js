@@ -85,7 +85,7 @@ function AccountDropdownItems({
 }
 
 class Header extends Component<Props, State> {
-  state: State = {
+  state = {
     accountOpen: false,
     shake: false,
     mode: 'login'

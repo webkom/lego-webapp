@@ -24,7 +24,7 @@ class Upload extends Component<Props, State> {
     onDrop: () => {}
   };
 
-  state: State = {
+  state = {
     files: []
   };
 

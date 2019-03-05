@@ -30,9 +30,7 @@ type State = {
 };
 
 export default class GalleryDetail extends Component<Props, State> {
-  props: Props;
-
-  state: State = {
+  state = {
     upload: false
   };
 

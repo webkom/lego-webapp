@@ -15,8 +15,6 @@ type Props = {
 };
 
 export default class RestrictedMails extends Component<Props> {
-  props: Props;
-
   render() {
     const columns = [
       {

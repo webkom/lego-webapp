@@ -38,7 +38,7 @@ type State = {
 };
 
 class Search extends Component<Props, State> {
-  state: State = {
+  state = {
     query: '',
     selectedIndex: 0
   };

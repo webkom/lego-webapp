@@ -15,8 +15,6 @@ type Props = {
 };
 
 export default class EmailUsers extends Component<Props> {
-  props: Props;
-
   render() {
     const columns = [
       {

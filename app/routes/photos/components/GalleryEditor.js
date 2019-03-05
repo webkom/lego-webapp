@@ -94,8 +94,6 @@ const renderEmpty = (gallery: GalleryEntity) => (
 );
 
 class GalleryEditor extends Component<Props, State> {
-  props: Props;
-
   state = {
     selected: []
   };

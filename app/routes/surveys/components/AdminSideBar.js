@@ -23,7 +23,7 @@ type State = {
 };
 
 export class AdminSideBar extends React.Component<Props, State> {
-  state: State = {
+  state = {
     copied: false
   };
 
