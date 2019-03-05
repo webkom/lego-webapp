@@ -1,12 +1,14 @@
 // @flow
 
 import React from 'react';
-import styles from './Company.css';
+import styles from './CompaniesPage.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Link } from 'react-router';
 import { Image } from 'app/components/Image';
 import type { Company } from 'app/models';
+import Icon from 'app/components/Icon';
+import { Flex } from 'app/components/Layout';
 
 type Props = {
   companies: Array<Company>,
@@ -30,23 +32,25 @@ const CompanyItem = ({ company }: Company) => {
             {<Image src={company.logo} />}
           </div>
           <div className={styles.companyItemTitle}>
-            <h2>{company.name}</h2>
-          </div>
-          <div className={styles.companyInfo}>
-            <span>
-              {company.joblistingCount > 0 &&
-                company.joblistingCount + ' jobbannonser'}
-            </span>
-            <span>
-              {company.eventCount > 0 && company.eventCount + ' arrangementer'}
-            </span>
+            <h3>{company.name}</h3>
           </div>
         </Link>
-        {company.website && !company.website.includes('example.com') && (
-          <a href={company.website} rel="noopener noreferrer" target="_blank">
-            <div className={styles.website}>{websiteString}</div>
+        <Flex className={styles.companyInfo}>
+          <Flex column>
+            <Icon name="briefcase" size={20} />
+            <span>{company.joblistingCount}</span>
+          </Flex>
+          <Flex column>
+            <Icon name="calendar" size={20} />
+            <span>{company.eventCount}</span>
+          </Flex>
+          <a href={company.website} target="_blank">
+            <Flex column>
+              <Icon name="at" size={20} style={{ color: '#777' }} />
+              <span />
+            </Flex>
           </a>
-        )}
+        </Flex>
       </div>
     </div>
   );

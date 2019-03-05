@@ -1,84 +1,5 @@
 @import 'app/styles/variables.css';
 
-.root {
-  composes: contentContainer from 'app/styles/utilities.css';
-}
-
-.picture {
-  background-color: ghostwhite;
-}
-
-.heading {
-  color: #777;
-  letter-spacing: 2px;
-  font-weight: 400;
-  text-transform: uppercase;
-  font-size: 20px;
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 20px;
-}
-
-.titleFlex {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: space-between;
-}
-
-.companyList {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 240px);
-  column-gap: 15px;
-  margin-bottom: 40px;
-  justify-content: space-around;
-}
-
-.website {
-  color: #777;
-}
-
-.companyItem {
-  width: 220px;
-  height: 260px;
-  padding: 10px 5px 0;
-  margin-bottom: 15px;
-  margin-left: 8px;
-  color: var(--color-black);
-  box-shadow: 5px 2px 5px #ede7e7;
-  border-radius: 2px;
-  word-wrap: break-word;
-}
-
-.companyItemContent {
-  justify-content: inherit;
-  text-align: center;
-}
-
-.companyItemTitle {
-  color: var(--lego-font-color);
-  font-weight: 700;
-  margin: 0;
-  text-overflow: clip;
-  line-height: 25px;
-}
-
-.companyInfo {
-  color: #777;
-  font-weight: 200;
-  font-style: italic;
-  line-height: 20px;
-}
-
-.companyInfo > * {
-  display: block;
-}
-
-.title {
-  font-weight: 700;
-  font-size: 200%;
-  margin-left: 0.5em;
-  background-color: 0;
-}
-
 .button {
   font-size: 1em;
 }
@@ -185,22 +106,6 @@
   width: 300px;
   line-height: 20px;
   padding: 5px;
-}
-
-.companyLogo {
-  align-items: center;
-  margin: auto;
-  height: 80px;
-}
-
-.companyLogo img {
-  object-fit: contain;
-  display: block;
-}
-
-.companyLogoDetail {
-  max-height: 300px;
-  width: 100%;
 }
 
 .image {

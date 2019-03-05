@@ -1,0 +1,103 @@
+@import 'app/styles/variables.css';
+
+.root {
+  composes: contentContainer from 'app/styles/utilities.css';
+}
+
+.picture {
+  background-color: ghostwhite;
+}
+
+.heading {
+  color: #777;
+  letter-spacing: 2px;
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: 20px;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 20px;
+}
+
+.titleFlex {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.companyList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 240px);
+  column-gap: 15px;
+  row-gap: 20px;
+  margin-bottom: 40px;
+  justify-content: space-around;
+}
+
+.website {
+  color: #777;
+}
+
+.companyItem {
+  width: 220px;
+  height: 220px;
+  padding: 10px 5px 0;
+  margin-bottom: 15px;
+  margin-left: 8px;
+  color: var(--color-black);
+  box-shadow: 5px 2px 5px #ede7e7;
+  border-radius: 2px;
+  word-wrap: break-word;
+}
+
+.companyItemContent {
+  justify-content: inherit;
+  text-align: center;
+}
+
+.companyItemTitle {
+  color: var(--lego-font-color);
+  font-weight: 700;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 25px;
+  height: 55px;
+  border-bottom: 2px solid var(--lego-red);
+}
+
+.companyItemTitle > * {
+  padding-bottom: 10px;
+}
+
+.companyInfo {
+  color: #777;
+  font-weight: 200;
+  font-style: italic;
+  width: 80%;
+  justify-content: space-around;
+  margin-left: 22px;
+  margin-top: 10px;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 200%;
+  margin-left: 0.5em;
+  background-color: 0;
+}
+
+.companyLogo {
+  align-items: center;
+  margin: auto;
+  height: 80px;
+  margin-bottom: 20px;
+}
+
+.companyLogo img {
+  object-fit: contain;
+  display: block;
+}
+
+.companyLogoDetail {
+  max-height: 300px;
+  width: 100%;
+}

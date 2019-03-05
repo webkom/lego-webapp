@@ -14,11 +14,18 @@ import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import { jobType, Year } from 'app/routes/joblistings/components/Items';
 import Icon from 'app/components/Icon';
+import moment from 'moment-timezone';
 
 type Props = {
   company: Object,
   companyEvents: Array<Object>,
   joblistings: Array<Object>,
+  showFetchMoreEvents: boolean,
+  fetchMoreEvents: () => Promise<*>
+};
+
+type EventProps = {
+  companyEvents: Array<Object>,
   showFetchMoreEvents: boolean,
   fetchMoreEvents: () => Promise<*>
 };
@@ -50,24 +57,29 @@ function insertInfoBubbles(company) {
   );
 }
 
-const CompanyDetail = (props: Props) => {
-  const {
-    company,
-    companyEvents,
-    joblistings,
-    fetchMoreEvents,
-    showFetchMoreEvents
-  } = props;
-  if (!company) {
-    return <LoadingIndicator loading />;
-  }
+class CompanyEvents extends React.Component<EventProps, *> {
+  state = {
+    viewOld: false
+  };
 
-  const events =
-    companyEvents &&
-    companyEvents
-      .sort((a, b) => new Date(b.startTime) - new Date(a.startTime))
-      .map((event, i) => (
-        <tr key={i}>
+  render() {
+    const { viewOld } = this.state;
+    const { companyEvents, showFetchMoreEvents, fetchMoreEvents } = this.props;
+
+    const sortedEvents = companyEvents.sort(
+      (a, b) => new Date(b.startTime) - new Date(a.startTime)
+    );
+
+    const upcomingEvents = sortedEvents.filter(event =>
+      moment().isBefore(moment(event.startTime))
+    );
+    const oldEvents = sortedEvents.filter(event =>
+      moment().isAfter(moment(event.startTime))
+    );
+
+    const eventTable = events =>
+      events.map(event => (
+        <tr key={event.id}>
           <td>
             <Link to={`/events/${event.id}`}>{event.title}</Link>
           </td>
@@ -80,6 +92,73 @@ const CompanyDetail = (props: Props) => {
           <td />
         </tr>
       ));
+
+    return (
+      <div>
+        <table className={styles.companyEventTable}>
+          <thead className={styles.categoryHeader}>
+            <tr>
+              <th>Tittel</th>
+              <th>Arrangementstype</th>
+              <th>Når</th>
+              <th>Hvor</th>
+              <th>Hva</th>
+              <th> </th>
+            </tr>
+          </thead>
+          <tbody>
+            {eventTable(upcomingEvents)}
+            <tr>
+              <th colSpan="2">Tidligere arrangementer</th>
+              <th />
+              <th />
+              <th colSpan="2">
+                <a
+                  onClick={() =>
+                    this.setState({ viewOld: !this.state.viewOld })
+                  }
+                >
+                  {viewOld ? 'Vis kun kommende' : 'Vis tidligere arrangementer'}
+                </a>
+              </th>
+            </tr>
+            {viewOld && eventTable(oldEvents)}
+          </tbody>
+        </table>
+        {viewOld && showFetchMoreEvents && (
+          <div
+            style={{
+              display: 'flex',
+              width: '100%',
+              marginTop: '10px',
+              justifyContent: 'center'
+            }}
+          >
+            <Icon
+              name="arrow-dropdown"
+              size={35}
+              onClick={fetchMoreEvents}
+              style={{ cursor: 'pointer' }}
+            />
+          </div>
+        )}
+      </div>
+    );
+  }
+}
+
+const CompanyDetail = (props: Props) => {
+  const {
+    company,
+    companyEvents,
+    joblistings,
+    fetchMoreEvents,
+    showFetchMoreEvents
+  } = props;
+  if (!company) {
+    return <LoadingIndicator loading />;
+  }
+
   const joblistingsList =
     joblistings &&
     joblistings.map(joblisting => (
@@ -119,39 +198,14 @@ const CompanyDetail = (props: Props) => {
       {insertInfoBubbles(company)}
 
       <h3 style={{ marginTop: '20px' }}>Bedriftens arrangementer</h3>
-      {events.length > 0 ? (
-        <table className={styles.companyEventTable}>
-          <thead className={styles.categoryHeader}>
-            <tr>
-              <th>Tittel</th>
-              <th>Arrangementstype</th>
-              <th>Når</th>
-              <th>Hvor</th>
-              <th>Hva</th>
-              <th> </th>
-            </tr>
-          </thead>
-          <tbody>{events}</tbody>
-        </table>
+      {companyEvents.length > 0 ? (
+        <CompanyEvents
+          companyEvents={companyEvents}
+          showFetchMoreEvents={showFetchMoreEvents}
+          fetchMoreEvents={fetchMoreEvents}
+        />
       ) : (
         <i>Ingen arrangementer.</i>
-      )}
-      {showFetchMoreEvents && (
-        <div
-          style={{
-            display: 'flex',
-            width: '100%',
-            marginTop: '10px',
-            justifyContent: 'center'
-          }}
-        >
-          <Icon
-            name="arrow-dropdown"
-            size={35}
-            onClick={fetchMoreEvents}
-            style={{ cursor: 'pointer' }}
-          />
-        </div>
       )}
       <h3 style={{ marginTop: '20px' }}>Bedriftens jobbannonser</h3>
       {joblistingsList.length > 0 ? (
