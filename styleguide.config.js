@@ -2,7 +2,9 @@ const path = require('path');
 
 const root = path.resolve(__dirname, '.');
 
-const webpackConfig = require('./config/webpack.client.js');
+const webpackConfig = require('./config/webpack.client.js')(undefined, {
+  mode: 'production'
+});
 webpackConfig.resolve.modules.push('lib');
 webpackConfig.module.rules.push({
   include: path.resolve(root, 'lib'),
@@ -65,9 +67,7 @@ module.exports = {
       ]
     }
   ],
-  context: {
-    state: 'lib/state_example.js'
-  },
+  context: {},
   defaultExample: false,
   require: [
     'app/styles/icomoon.css',
@@ -85,7 +85,7 @@ module.exports = {
     return `import ${import_name} from '${dir}';`;
   },
   logger: {
-    // Suppress all warnings
+    // Suppress all warnings - you can remove this when debugging
     info: () => {},
     warn: () => {}
   }
