@@ -84,7 +84,7 @@
     "react-stripe-checkout": "^2.4.0",
     "react-swipeable": "^4.2.1",
     "react-tagcloud": "^1.2.0",
-    "react-textarea-autosize": "^5.1.0",
+    "react-textarea-autosize": "^7.1.0",
     "react-treeview": "^0.4.6",
     "redux": "^3.7.2",
     "redux-form": "^6.5.0",
