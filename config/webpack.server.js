@@ -52,10 +52,8 @@ module.exports = (env, argv) => {
         }
       }),
       new MiniCssExtractPlugin({
-        // Options similar to the same options in webpackOptions.output
-        // both options are optional
-        filename: '[name].css',
-        chunkFilename: '[id].css'
+        filename: '[name].[contenthash].css',
+        chunkFilename: '[id].chunk.[contenthash].css'
       })
     ].filter(Boolean),
 
@@ -73,29 +71,18 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.css$/,
+          include: /node_modules/,
+          use: [MiniCssExtractPlugin.loader, 'css-loader']
+        },
+        {
+          test: /\.css$/,
+          exclude: /node_modules/,
           use: [
             MiniCssExtractPlugin.loader,
             {
               loader: 'css-loader',
               options: {
-                modules: true,
-                importLoaders: 1,
-                localIdentName: isProduction
-                  ? 'prod-[hash:base64:5]'
-                  : 'dev-[name]__[local]___[hash:base64:5]'
-              }
-            },
-            {
-              loader: 'postcss-loader',
-              options: {
-                ident: 'postcss',
-                plugins: () => [
-                  require('postcss-import')({
-                    path: [root]
-                  }),
-                  require('postcss-cssnext'),
-                  require('postcss-nested')
-                ]
+                modules: true
               }
             }
           ]

@@ -57,10 +57,8 @@ module.exports = (env, argv) => {
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.IgnorePlugin(/^jsdom$/),
       new MiniCssExtractPlugin({
-        // Options similar to the same options in webpackOptions.output
-        // both options are optional
-        filename: '[name].css',
-        chunkFilename: '[id].css'
+        filename: '[name].[contenthash].css',
+        chunkFilename: '[id].chunk.[contenthash].css'
       }),
       !isProduction &&
         new webpack.DllReferencePlugin({
@@ -68,6 +66,11 @@ module.exports = (env, argv) => {
           manifest: JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
         }),
 
+      new webpack.LoaderOptionsPlugin({
+        options: {
+          context: __dirname
+        }
+      }),
       new webpack.DefinePlugin({
         __DEV__: JSON.stringify(!isProduction),
         __CLIENT__: true,
@@ -99,6 +102,12 @@ module.exports = (env, argv) => {
         },
         {
           test: /\.css$/,
+          include: /node_modules/,
+          use: [MiniCssExtractPlugin.loader, 'css-loader']
+        },
+        {
+          test: /\.css$/,
+          exclude: /node_modules/,
           use: [
             MiniCssExtractPlugin.loader,
             {
