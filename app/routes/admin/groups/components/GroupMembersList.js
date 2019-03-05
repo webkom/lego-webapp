@@ -57,6 +57,13 @@ const GroupMembersList = ({
         role === 'member' || !ROLES[role] ? '' : ROLES[role],
       render: (role: string) =>
         role !== 'member' && <span>{ROLES[role] || role}</span>
+    },
+    {
+      title: 'E-post',
+      dataIndex: 'user.internalEmailAddress',
+      search: false,
+      render: (internalEmail: string) =>
+        internalEmail && <a href={`mailto:${internalEmail}`}>{internalEmail}</a>
     }
   ];
   return (
