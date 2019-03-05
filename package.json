@@ -62,7 +62,7 @@
     "raven-for-redux": "^1.2.0",
     "raven-js": "^3.21.0",
     "react": "^16.8.2",
-    "react-async-script": "^0.9.1",
+    "react-async-script": "^1.0.0",
     "react-collapse": "^4.0.3",
     "react-copy-to-clipboard": "^5.0.1",
     "react-cropper": "^0.12.0",
