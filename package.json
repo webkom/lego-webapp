@@ -134,7 +134,7 @@
     "postcss-import": "^12.0.1",
     "postcss-loader": "^3.0.0",
     "postcss-nested": "^4.1.1",
-    "prettier": "1.16.1",
+    "prettier": "1.16.4",
     "react-docgen": "^2.18.0",
     "react-hot-loader": "3.0.0-beta.4",
     "react-styleguidist": "^9.0.2",
