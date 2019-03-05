@@ -7,6 +7,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const AssetsPlugin = require('assets-webpack-plugin');
+const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 
 const root = path.resolve(__dirname, '..');
 const packageJson = require('../package.json');
@@ -85,6 +86,11 @@ module.exports = (env, argv) => {
         filename: 'stats.json',
         fields: ['assets'],
         transform: JSON.stringify
+      }),
+      new FilterWarningsPlugin({
+        // suppress conflicting order warnings from mini-css-extract-plugin.
+        // see https://github.com/webpack-contrib/mini-css-extract-plugin/issues/250
+        exclude: /Conflicting order between:/
       }),
 
       new AssetsPlugin({
