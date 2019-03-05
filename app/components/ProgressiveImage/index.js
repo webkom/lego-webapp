@@ -22,9 +22,7 @@ type State = {
 };
 
 export default class ProgressiveImage extends PureComponent<Props, State> {
-  props: Props;
-
-  state: State = {
+  state = {
     src: this.props.base64,
     style: {
       ...this.props.beforeLoadstyle,
