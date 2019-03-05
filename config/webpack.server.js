@@ -11,7 +11,7 @@ module.exports = (env, argv) => {
   return {
     target: 'node',
     devtool: 'source-map',
-    stats: { children: false },
+    stats: isProduction ? 'normal' : 'errors-only',
     entry: {
       server: [
         !isProduction && 'webpack/hot/poll?1000',

@@ -32,7 +32,7 @@ module.exports = (env, argv) => {
 
   return {
     mode: argv.mode,
-    stats: { children: false },
+    stats: isProduction ? 'normal' : 'errors-only',
     devtool: isProduction ? 'source-map' : 'cheap-module-eval-source-map',
     entry: {
       app: isProduction

@@ -39,7 +39,15 @@ if (process.env.NODE_ENV !== 'production') {
   app.use(
     require('webpack-dev-middleware')(compiler, {
       publicPath: webpackClient.publicPath,
-      quiet: true
+      quiet: true,
+      stats: {
+        all: false,
+        modules: false,
+        errors: true,
+        warnings: true,
+        moduleTrace: true,
+        errorDetails: true
+      }
     })
   );
 
