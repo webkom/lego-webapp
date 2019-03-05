@@ -91,7 +91,7 @@
     "redux-logger": "^3.0.1",
     "redux-segment": "^1.6.2",
     "redux-thunk": "^2.2.0",
-    "reselect": "2.5.4",
+    "reselect": "4.0.0",
     "serialize-javascript": "^1.4.0",
     "source-map-support": "^0.5.8",
     "validator": "^9.2.0",
