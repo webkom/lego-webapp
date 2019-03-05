@@ -8,6 +8,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const AssetsPlugin = require('assets-webpack-plugin');
 const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 const root = path.resolve(__dirname, '..');
 const packageJson = require('../package.json');
@@ -69,6 +70,7 @@ module.exports = (env, argv) => {
           manifest: JSON.parse(fs.readFileSync(manifestPath, 'utf8'))
         }),
 
+      isProduction && new OptimizeCSSAssetsPlugin({}),
       new webpack.LoaderOptionsPlugin({
         options: {
           context: __dirname
@@ -103,7 +105,15 @@ module.exports = (env, argv) => {
     optimization: {
       splitChunks: {
         chunks: 'all',
-        minSize: 30000
+        minSize: 30000,
+        cacheGroups: {
+          styles: {
+            name: 'styles',
+            test: /\.css$/,
+            chunks: 'all',
+            enforce: true
+          }
+        }
       }
     },
 
