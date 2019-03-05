@@ -125,7 +125,7 @@
     "eslint-plugin-react": "^7.12.4",
     "express": "^4.14.1",
     "file-loader": "^3.0.1",
-    "flow-bin": "0.71.0",
+    "flow-bin": "0.94.0",
     "identity-obj-proxy": "3.0.0",
     "jest": "^24.1.0",
     "lolex": "^3.1.0",
