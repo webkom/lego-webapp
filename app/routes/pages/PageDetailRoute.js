@@ -4,7 +4,11 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
 import type { Thunk } from 'app/types';
-import { fetchPage, updatePage, fetchAll } from 'app/actions/PageActions';
+import {
+  fetchPage,
+  updatePage,
+  fetchAll as fetchAllPages
+} from 'app/actions/PageActions';
 import { fetchAllMemberships } from 'app/actions/GroupActions';
 import { fetchAllWithType, fetchGroup } from 'app/actions/GroupActions';
 import PageDetail, {
@@ -40,7 +44,7 @@ const sections: {
     pageSelector: selectFlatpageForPages,
     hierarchySectionSelector: selectPagesForHierarchy('generelt'),
     PageRenderer: FlatpageRenderer,
-    fetchAll: fetchAll,
+    fetchAll: fetchAllPages,
     fetchItemActions: [fetchPage]
   },
   bedrifter: {
@@ -102,7 +106,7 @@ const loadData = (props, dispatch) => {
     return Promise.all(
       fetchItemActions
         .map(action => dispatch(action(pageSlug)))
-        .concat(dispatch(fetchAll()))
+        .concat(dispatch(fetchAllPages()))
     );
   }
 
