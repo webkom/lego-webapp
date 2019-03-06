@@ -1,9 +1,5 @@
 // @flow
 
-import 'animate.css/animate.css';
-import 'minireset.css/minireset.css';
-import 'app/styles/globals.css';
-import 'app/styles/icomoon.css';
 
 import React from 'react';
 import { setStatusCode } from 'app/actions/RoutingActions';

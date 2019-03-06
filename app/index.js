@@ -2,6 +2,20 @@
 /* eslint no-console: 0 */
 
 import 'babel-polyfill';
+import 'animate.css/animate.css';
+import 'minireset.css/minireset.css';
+import 'app/styles/globals.css';
+import 'app/styles/icomoon.css';
+import 'app/assets/manifest.json';
+import 'app/assets/favicon.png';
+import 'app/assets/icon-48x48.png';
+import 'app/assets/icon-96x96.png';
+import 'app/assets/icon-192x192.png';
+import 'app/assets/icon-256x256.png';
+import 'app/assets/icon-384x384.png';
+import 'app/assets/icon-512x512.png';
+// $FlowFixMe
+import 'app/assets/opensearch.xml';
 import moment from 'moment-timezone';
 import 'moment/locale/nb';
 import cookie from 'js-cookie';
@@ -17,17 +31,6 @@ import {
   loginAutomaticallyIfPossible,
   maybeRefreshToken
 } from 'app/actions/UserActions';
-
-// $FlowFixMe
-require('app/assets/opensearch.xml');
-require('app/assets/manifest.json');
-require('app/assets/favicon.png');
-require('app/assets/icon-48x48.png');
-require('app/assets/icon-96x96.png');
-require('app/assets/icon-192x192.png');
-require('app/assets/icon-256x256.png');
-require('app/assets/icon-384x384.png');
-require('app/assets/icon-512x512.png');
 
 moment.locale('nb-NO');
 
