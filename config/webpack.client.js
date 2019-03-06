@@ -137,7 +137,8 @@ module.exports = (env, argv) => {
             {
               loader: 'css-loader',
               options: {
-                modules: true
+                modules: true,
+                importLoaders: 1
               }
             },
             {
@@ -148,7 +149,7 @@ module.exports = (env, argv) => {
                   require('postcss-import')({
                     path: [root]
                   }),
-                  require('postcss-cssnext'),
+                  require('postcss-preset-env')(),
                   require('postcss-nested')
                 ]
               }
