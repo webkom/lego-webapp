@@ -57,10 +57,11 @@ module.exports = (env, argv) => {
         // see https://github.com/webpack-contrib/mini-css-extract-plugin/issues/250
         exclude: /Conflicting order between:/
       }),
-      new MiniCssExtractPlugin({
-        filename: '[name].[contenthash].css',
-        chunkFilename: '[id].chunk.[contenthash].css'
-      })
+      isProduction &&
+        new MiniCssExtractPlugin({
+          filename: '[name].[contenthash].css',
+          chunkFilename: '[id].chunk.[contenthash].css'
+        })
     ].filter(Boolean),
 
     resolve: {
@@ -78,20 +79,24 @@ module.exports = (env, argv) => {
         {
           test: /\.css$/,
           include: /node_modules/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader']
+          use: isProduction
+            ? [MiniCssExtractPlugin.loader, 'css-loader']
+            : 'null-loader'
         },
         {
           test: /\.css$/,
           exclude: /node_modules/,
-          use: [
-            MiniCssExtractPlugin.loader,
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true
-              }
-            }
-          ]
+          use: isProduction
+            ? [
+                MiniCssExtractPlugin.loader,
+                {
+                  loader: 'css-loader',
+                  options: {
+                    modules: true
+                  }
+                }
+              ]
+            : 'null-loader'
         },
         {
           test: /\.(png|jpg|jpeg|gif|svg|bdf|woff|woff2|ttf|mp3|mp4|webm)$/,

@@ -61,7 +61,7 @@ function render(req: $Request, res: $Response, next: Middleware) {
 
   const log = req.app.get('log');
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (__DEV__) {
     return render();
   }
 
@@ -161,10 +161,7 @@ function retrieveAssets() {
   return cachedAssets;
 }
 
-const dllPlugin =
-  process.env.NODE_ENV !== 'production'
-    ? '<script src="/vendors.dll.js"></script>'
-    : '';
+const dllPlugin = __DEV__ ? '<script src="/vendors.dll.js"></script>' : '';
 
 function renderPage({
   body,
