@@ -87,6 +87,8 @@ const legoForm = ({
 
       return onSubmit(pickedValues, dispatch, props).catch(error => {
         Raven.captureException(error);
+        /* eslint no-console: 0 */
+        if (__DEV__) console.error(error);
         if (error instanceof SubmissionError || !enableSubmissionError) {
           throw error;
         }
