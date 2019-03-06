@@ -1,6 +1,6 @@
 //@flow
 
-import { startCase } from 'lodash';
+//import { startCase } from 'lodash';
 
 export const Keyboard = {
   ESCAPE: 27,
@@ -38,7 +38,7 @@ export const roleOptions = (Object.keys(ROLES)
   .sort()
   .map(role => ({
     value: role,
-    label: ROLES[role] || startCase(role)
+    label: ROLES[role]
   })): Array<{ value: string, label: string }>);
 
 export const EVENTFIELDS = {

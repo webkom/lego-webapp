@@ -1,5 +1,4 @@
-.member.leader {
-  color: red;
+.member.leader.co_leader {
   display: block;
   text-align: center;
   margin: auto;
@@ -7,6 +6,10 @@
 
 .member.leader img {
   border-color: #cca84c;
+}
+
+.member.co_leader img {
+  border: 4px solid #b8b8b8;
 }
 
 .member {
@@ -20,7 +23,7 @@
 }
 
 .member img {
-  width: 100px;
+  width: 90px;
   display: block;
   border-radius: 50%;
   border: 4px solid #b8b8b8;
@@ -35,8 +38,13 @@
   font-size: 12px;
   font-style: normal;
   margin: 5px -3px 0;
+  display: flex;
+  justify-content: center;
 }
 
 .name {
   margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }

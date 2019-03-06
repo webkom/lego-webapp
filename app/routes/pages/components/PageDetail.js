@@ -124,16 +124,18 @@ export const MainPageRenderer = ({
   ChildPageRenderer: ({ page: any }) => Node,
   loggedIn: boolean
 }) => {
-  const pageBanner = page.logo || page.picture;
+  const pageBanner = page.logo || page.picture; //Splittet fra hverandre, var pageBanner = pic || logo
   const { title } = pageInfo;
 
   return (
     <article className={styles.pageWrapper}>
       {pageBanner && (
-        <div className={styles.logo}>
+        <div className={styles.banner}>
           <img alt={`${title} page banner`} src={pageBanner} />
         </div>
       )}
+
+      {}
       {title !== 'Info om Abakus' && (
         <h1 className={styles.header1}>{readmeIfy(title)}</h1>
       )}
@@ -151,7 +153,11 @@ export const FlatpageRenderer = ({ page }: { page: PageEntity }) => (
 export const GroupRenderer = ({ page }: { page: Object }) => {
   const { membershipsByRole, text } = page;
 
-  const { leader: leaders = [], member: members = [] } = membershipsByRole;
+  const {
+    leader: leaders = [],
+    'co-leader': co_leaders = [],
+    member: members = []
+  } = membershipsByRole;
 
   return (
     <article className={styles.detail}>
@@ -159,15 +165,27 @@ export const GroupRenderer = ({ page }: { page: Object }) => {
 
       <h3 className={styles.heading}>MEDLEMMER</h3>
       <div className={styles.membersSection}>
-        <div className={styles.leader}>
-          {leaders.map(({ user, profilePicture }, key) => (
-            <GroupMember
-              user={user}
-              profilePicture={profilePicture}
-              key={key}
-              leader
-            />
-          ))}
+        <div className={styles.leaderBoard}>
+          <div className={styles.leader}>
+            {leaders.map(({ user, profilePicture }, key) => (
+              <GroupMember
+                user={user}
+                profilePicture={profilePicture}
+                key={key}
+                leader
+              />
+            ))}
+          </div>
+          <div className={styles.co_leader}>
+            {co_leaders.map(({ user, profilePicture }, key) => (
+              <GroupMember
+                user={user}
+                profilePicture={profilePicture}
+                key={key}
+                co_leader
+              />
+            ))}
+          </div>
         </div>
         <div className={styles.members}>
           {members.map(({ user, profilePicture }, key) => (
