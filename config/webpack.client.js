@@ -60,10 +60,11 @@ module.exports = (env, argv) => {
       // Explicitly import the moment locales we care about:
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new webpack.IgnorePlugin(/^jsdom$/),
-      new MiniCssExtractPlugin({
-        filename: '[name].[contenthash].css',
-        chunkFilename: '[id].chunk.[contenthash].css'
-      }),
+      isProduction &&
+        new MiniCssExtractPlugin({
+          filename: '[name].[contenthash].css',
+          chunkFilename: '[id].chunk.[contenthash].css'
+        }),
       !isProduction &&
         new webpack.DllReferencePlugin({
           context: root,
@@ -127,7 +128,10 @@ module.exports = (env, argv) => {
         {
           test: /\.css$/,
           include: /node_modules/,
-          use: [MiniCssExtractPlugin.loader, 'css-loader']
+          use: [
+            isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+            'css-loader'
+          ]
         },
         {
           test: /\.css$/,

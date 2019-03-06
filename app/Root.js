@@ -1,6 +1,5 @@
 // @flow
 
-
 import React from 'react';
 import { setStatusCode } from 'app/actions/RoutingActions';
 import { Router } from 'react-router';
