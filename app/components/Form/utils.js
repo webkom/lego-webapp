@@ -15,10 +15,12 @@ export const handleSubmissionError = (error: any) => {
   if (!errPayload) {
     throw error;
   }
+  const { detail } = errPayload;
+  const _error = typeof detail === 'object' ? JSON.stringify(detail) : detail;
 
   throw new SubmissionError({
     ...errPayload,
-    _error: errPayload.detail
+    _error
   });
 };
 

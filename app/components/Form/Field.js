@@ -8,7 +8,11 @@ import Tooltip from 'app/components/Tooltip';
 import styles from './Field.css';
 
 const FieldError = ({ error }: { error?: string }) =>
-  error ? <div className={styles.fieldError}>{error}</div> : null;
+  error ? (
+    <div className={styles.fieldError}>
+      {typeof error === 'object' ? JSON.stringify(error) : error}
+    </div>
+  ) : null;
 
 export const RenderErrorMessage = ({
   error
