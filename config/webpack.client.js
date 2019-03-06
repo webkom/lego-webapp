@@ -149,7 +149,12 @@ module.exports = (env, argv) => {
                   require('postcss-import')({
                     path: [root]
                   }),
-                  require('postcss-preset-env')(),
+                  require('postcss-preset-env')({
+                    stage: 1,
+                    features: {
+                      'custom-media-queries': true
+                    }
+                  }),
                   require('postcss-nested')
                 ]
               }
