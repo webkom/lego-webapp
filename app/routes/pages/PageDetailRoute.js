@@ -1,8 +1,9 @@
 // @flow
-
+import * as React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
+import type { Thunk } from 'app/types';
 import { fetchPage, updatePage, fetchAll } from 'app/actions/PageActions';
 import { fetchAllMemberships } from 'app/actions/GroupActions';
 import { fetchAllWithType, fetchGroup } from 'app/actions/GroupActions';
@@ -22,7 +23,17 @@ import {
 } from 'app/reducers/pages';
 import HTTPError from 'app/routes/errors/HTTPError';
 
-const sections = {
+const sections: {
+  [section: string]: {
+    title: string,
+    section: string,
+    pageSelector: any,
+    hierarchySectionSelector: any,
+    PageRenderer: any => React.Node,
+    fetchAll?: () => Thunk<*>,
+    fetchItemActions: Array<(number => Thunk<*>) | (string => Thunk<*>)>
+  }
+} = {
   generelt: {
     title: 'Generelt',
     section: 'generelt',
@@ -38,7 +49,6 @@ const sections = {
     pageSelector: selectFlatpageForPages,
     hierarchySectionSelector: selectPagesForHierarchy('bedrifter'),
     PageRenderer: FlatpageRenderer,
-    fetchAll: fetchAll,
     fetchItemActions: [fetchPage]
   },
   arrangementer: {
@@ -47,7 +57,6 @@ const sections = {
     pageSelector: selectFlatpageForPages,
     hierarchySectionSelector: selectPagesForHierarchy('arrangementer'),
     PageRenderer: FlatpageRenderer,
-    fetchAll: fetchAll,
     fetchItemActions: [fetchPage]
   },
   komiteer: {
@@ -65,7 +74,6 @@ const sections = {
     pageSelector: selectFlatpageForPages,
     hierarchySectionSelector: selectPagesForHierarchy('grupper'),
     PageRenderer: FlatpageRenderer,
-    fetchAll: fetchAll,
     fetchItemActions: [fetchPage]
   },
   'info-om-abakus': {
@@ -74,7 +82,6 @@ const sections = {
     pageSelector: selectInfoPageForPages,
     hierarchySectionSelector: () => ({ title: 'hehe', items: [] }),
     PageRenderer: LandingPage,
-    fetchAll: fetchAll,
     fetchItemActions: []
   }
 };
@@ -95,13 +102,15 @@ const loadData = (props, dispatch) => {
     return Promise.all(
       fetchItemActions
         .map(action => dispatch(action(pageSlug)))
-        .concat(dispatch(sections.generelt.fetchAll()))
+        .concat(dispatch(fetchAll()))
     );
   }
 
   return Promise.all(
     Object.keys(sections)
-      .map(key => dispatch(sections[key].fetchAll()))
+      .map(key => sections[key].fetchAll)
+      .filter(Boolean)
+      .map(fetch => dispatch(fetch()))
       .concat(fetchItemActions.map(action => dispatch(action(pageSlug))))
   );
 };
