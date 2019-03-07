@@ -129,16 +129,18 @@ export const MainPageRenderer = ({
 
   return (
     <article className={styles.pageWrapper}>
-      {pageBanner && (
-        <div className={styles.banner}>
-          <img alt={`${title} page banner`} src={pageBanner} />
-        </div>
-      )}
+      <div className={styles.headWrapper}>
+        {pageBanner && (
+          <div className={styles.banner}>
+            <img alt={`${title} page banner`} src={pageBanner} />
+          </div>
+        )}
 
-      {}
-      {title !== 'Info om Abakus' && (
-        <h1 className={styles.header1}>{readmeIfy(title)}</h1>
-      )}
+        {}
+        {title !== 'Info om Abakus' && (
+          <h1 className={styles.header1}>{readmeIfy(title)}</h1>
+        )}
+      </div>
       <ChildPageRenderer page={page} pageInfo={pageInfo} loggedIn={loggedIn} />
     </article>
   );

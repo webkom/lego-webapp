@@ -36,13 +36,19 @@
   margin: 10px 0;
 }
 
+.headWrapper {
+  display: flex;
+  flex-flow: column wrap;
+  margin-top: 35px;
+}
+
 .header1 {
   display: flex;
   justify-content: center;
   font-weight: bold;
   font-size: 2.5em;
   font-family: RalewayBold, sans-serif;
-  margin-top: -0.5em;
+  margin-bottom: 15px;
   line-height: 1em;
 }
 
@@ -75,6 +81,10 @@
 .pictureHeader {
   margin-top: -15px;
   margin-bottom: 5px;
+}
+
+.banner {
+  padding-bottom: 2px;
 }
 
 .banner img {
@@ -158,6 +168,7 @@
     font-size: 1.65em;
     text-align: center;
     word-break: break-word;
+    margin-top: 0;
   }
 
   .banner img {
@@ -167,5 +178,10 @@
   .navTab {
     display: flex;
     justify-content: left;
+  }
+
+  .leaderBoard {
+    flex-direction: column;
+    align-self: center;
   }
 }
