@@ -8,9 +8,13 @@ import { push } from 'react-router-redux';
 
 const mapDispatchToProps = { mutateFunction: createEmailList, push };
 
+const mapStateToProps = () => ({
+  initialValues: { requireInternalAddress: true }
+});
+
 export default compose(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   )
 )(EmailListEditor);
