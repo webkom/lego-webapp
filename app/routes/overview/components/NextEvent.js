@@ -24,11 +24,11 @@ type State = {
 
 class EventItem extends React.Component<Props, State> {
   state = {
-    time: ''
+    time: EventItem.generateTime(this.props)
   };
   interval: IntervalID;
 
-  setTime(props) {
+  static generateTime(props: Props) {
     const now = moment();
     const start = moment(props.event && props.event.activationTime);
     const time = now.to(start);
@@ -37,14 +37,18 @@ class EventItem extends React.Component<Props, State> {
     const isTomorrow = moment()
       .add('1', 'day')
       .isSame(start, 'day');
+    return isTomorrow ? 'i morgen' : time;
+  }
+
+  updateTime(props) {
     this.setState({
-      time: isTomorrow ? 'i morgen' : time
+      time: EventItem.generateTime(this.props)
     });
   }
 
   componentDidMount() {
-    this.setTime(this.props);
-    this.interval = setInterval(() => this.setTime(this.props), 1000);
+    this.updateTime();
+    this.interval = setInterval(() => this.updateTime(), 1000);
   }
 
   componentWillUnmount() {
