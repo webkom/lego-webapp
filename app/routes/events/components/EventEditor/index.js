@@ -6,7 +6,10 @@ import { Link } from 'react-router';
 import renderPools, { validatePools } from './renderPools';
 import RegisteredSummary from '../RegisteredSummary';
 import UserGrid from 'app/components/UserGrid';
-import { AttendanceStatus } from 'app/components/UserAttendance';
+import {
+  AttendanceStatus,
+  ModalParentComponent
+} from 'app/components/UserAttendance';
 import Tag from 'app/components/Tags/Tag';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Field, FieldArray } from 'redux-form';
@@ -299,8 +302,15 @@ function EventEditor({
                     : []
                 }
               />
-              <RegisteredSummary registrations={[]} toggleModal={i => {}} />
-              <AttendanceStatus title="Påmeldte" pools={pools} />
+              <ModalParentComponent
+                key="modal"
+                pools={pools}
+                registrations={registrations}
+                title="Påmeldte"
+              >
+                <RegisteredSummary registrations={registrations} />
+                <AttendanceStatus />
+              </ModalParentComponent>
               <div className={styles.metaList}>
                 <FieldArray
                   name="pools"
