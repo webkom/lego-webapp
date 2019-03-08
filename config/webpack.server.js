@@ -66,7 +66,10 @@ module.exports = (env, argv) => {
 
     resolve: {
       modules: [root, 'node_modules'],
-      extensions: ['.js', '.jsx', '.json']
+      extensions: ['.js', '.jsx', '.json'],
+      alias: {
+        lodash: 'node_modules/lodash-es'
+      }
     },
 
     module: {

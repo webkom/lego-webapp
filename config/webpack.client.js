@@ -101,7 +101,10 @@ module.exports = (env, argv) => {
       })
     ]),
     resolve: {
-      modules: [root, 'node_modules']
+      modules: [root, 'node_modules'],
+      alias: {
+        lodash: 'node_modules/lodash-es'
+      }
     },
     optimization: {
       splitChunks: {
