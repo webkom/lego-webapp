@@ -3,6 +3,8 @@ pipeline:
     image: node:11
     when:
       event: [push, pull_request]
+    environment:
+      - CYPRESS_INSTALL_BINARY=0
     commands:
       - yarn --frozen-lockfile
   test:
