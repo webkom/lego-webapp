@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from 'react';
-import _ from 'lodash';
+import { get } from 'lodash';
 import cx from 'classnames';
 import SearchPage from 'app/components/Search/SearchPage';
 import type { SearchResult } from 'app/reducers/search';
@@ -43,7 +43,7 @@ class Validator extends React.Component<Props, State> {
           this.showCompleted();
         },
         err => {
-          const payload = _.get(err, 'payload.response.jsonData');
+          const payload = get(err, 'payload.response.jsonData');
           if (payload && payload.errorCode === 'not_registered') {
             alert('Bruker er ikke påmeldt på eventet!');
           } else if (payload && payload.errorCode === 'already_present') {

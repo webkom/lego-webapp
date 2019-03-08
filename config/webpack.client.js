@@ -9,6 +9,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 const AssetsPlugin = require('assets-webpack-plugin');
 const FilterWarningsPlugin = require('webpack-filter-warnings-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 
 const root = path.resolve(__dirname, '..');
 const packageJson = require('../package.json');
@@ -59,6 +60,7 @@ module.exports = (env, argv) => {
     plugins: compact([
       // Explicitly import the moment locales we care about:
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      isProduction && new DuplicatePackageCheckerPlugin(),
       new webpack.IgnorePlugin(/^jsdom$/),
       isProduction &&
         new MiniCssExtractPlugin({
@@ -101,7 +103,13 @@ module.exports = (env, argv) => {
       })
     ]),
     resolve: {
-      modules: [root, 'node_modules']
+      modules: [root, 'node_modules'],
+      alias: {
+        lodash: 'node_modules/lodash-es',
+        'moment-timezone':
+          'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
+        immutable: 'node_modules/immutable'
+      }
     },
     optimization: {
       splitChunks: {
