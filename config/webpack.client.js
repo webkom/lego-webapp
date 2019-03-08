@@ -107,7 +107,8 @@ module.exports = (env, argv) => {
       alias: {
         lodash: 'node_modules/lodash-es',
         'moment-timezone':
-          'moment-timezone/builds/moment-timezone-with-data-2012-2022.min'
+          'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
+        immutable: 'node_modules/immutable'
       }
     },
     optimization: {
