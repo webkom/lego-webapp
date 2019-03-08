@@ -68,7 +68,9 @@ module.exports = (env, argv) => {
       modules: [root, 'node_modules'],
       extensions: ['.js', '.jsx', '.json'],
       alias: {
-        lodash: 'node_modules/lodash-es'
+        lodash: 'node_modules/lodash-es',
+        'moment-timezone':
+          'moment-timezone/builds/moment-timezone-with-data-2012-2022.min'
       }
     },
 

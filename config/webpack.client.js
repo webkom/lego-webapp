@@ -105,7 +105,9 @@ module.exports = (env, argv) => {
     resolve: {
       modules: [root, 'node_modules'],
       alias: {
-        lodash: 'node_modules/lodash-es'
+        lodash: 'node_modules/lodash-es',
+        'moment-timezone':
+          'moment-timezone/builds/moment-timezone-with-data-2012-2022.min'
       }
     },
     optimization: {
