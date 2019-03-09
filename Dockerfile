@@ -56,6 +56,4 @@ COPY --from=builder /app/package.json .
 COPY --from=builder /app/styleguide styleguide
 COPY --from=builder /app/node_modules node_modules
 
-RUN yarn delete-sourcemaps
-
 ENTRYPOINT ["node", "dist/server.js"]
