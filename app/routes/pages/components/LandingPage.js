@@ -52,6 +52,9 @@ const LandingPage = ({
         <TextWithBoldTitle title="Hvorfor vi gjør det" text={whyWeDoIt} />
       </Flex>
 
+      <h2 className={styles.abakusInNumbers} id="abakusInNumbers">
+        Abakus i tall
+      </h2>
       <Flex
         wrap
         className={styles.statisticsContainer}
@@ -70,29 +73,6 @@ const LandingPage = ({
       <h2 className={styles.contactTitle} id="contact">
         Kontakt oss
       </h2>
-
-      <Flex className={styles.locationContainer}>
-        <div className={styles.houseIcon}>
-          <Icon name="home" size={80} style={{ marginRight: '1rem' }} />
-        </div>
-        <TextWithTitle
-          title="Postadresse"
-          text={postAddress}
-          extraStyle={{ flexBasis: '33.33333%' }}
-        />
-        <div style={{ flexBasis: '33.33333%' }}>
-          <TextWithTitle title="Besøksadresse" text={officeAddress} />
-          <TextWithTitle
-            title="Webkom's besøksadresse"
-            text={webkomOfficeAddress}
-          />
-        </div>
-        <TextWithTitle
-          title="Kontortid"
-          text={officeHours}
-          extraStyle={{ flexBasis: '33.33333%' }}
-        />
-      </Flex>
 
       <Flex className={styles.emailContainer}>
         <Icon name="mail" size={80} className={styles.emailIcon} />
@@ -124,6 +104,93 @@ const LandingPage = ({
             ))}
           </Flex>
         </div>
+      </Flex>
+
+      <Flex className={styles.socialMediaContainer}>
+        <Icon name="people" size={80} className={styles.emailIcon} />
+        <div className={styles.emails}>
+          <h3 className={styles.title}>Sosiale medier</h3>
+          <div>
+            Har du lyst til å følge med på hva de forskjellige delene av abakus
+            driver med? Følg oss på sosiale medier!
+          </div>
+          <Flex wrap className={styles.committeeEmails}>
+            <div className={styles.socialMediaType}>
+              <Icon name="logo-facebook" size={40} prefix="ion-" />
+              <div className={styles.socialMediaTypeLinks}>
+                {socialMedia.facebook.map((page, index) => (
+                  <a
+                    key={index}
+                    href={page.link}
+                    className={styles.socialMediaLink}
+                  >
+                    {page.textInfo}
+                  </a>
+                ))}
+                {loggedIn && (
+                  <a
+                    href="https://www.facebook.com/groups/398146436914007/"
+                    className={styles.socialMediaLink}
+                  >
+                    Medlemsgruppe
+                  </a>
+                )}
+              </div>
+            </div>
+            <div className={styles.socialMediaType}>
+              <Icon name="logo-instagram" size={40} prefix="ion-" />
+              <div className={styles.socialMediaTypeLinks}>
+                {socialMedia.instagram.map((page, index) => (
+                  <a
+                    key={index}
+                    href={page.link}
+                    className={styles.socialMediaLink}
+                  >
+                    {page.textInfo}
+                  </a>
+                ))}
+              </div>
+            </div>
+            <div className={styles.socialMediaType}>
+              <Icon
+                name="logo-snapchat"
+                size={40}
+                prefix="ion-"
+                className={styles.snapchatIcon}
+              />
+              <div className={styles.socialMediaTypeLinks}>
+                {socialMedia.snapchat.map((page, index) => (
+                  <a key={index} className={styles.socialMediaLink}>
+                    {page.name}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </Flex>
+        </div>
+      </Flex>
+
+      <Flex className={styles.locationContainer}>
+        <div className={styles.houseIcon}>
+          <Icon name="home" size={80} style={{ marginRight: '1rem' }} />
+        </div>
+        <TextWithTitle
+          title="Postadresse"
+          text={postAddress}
+          extraStyle={{ flexBasis: '33.33333%' }}
+        />
+        <div style={{ flexBasis: '33.33333%' }}>
+          <TextWithTitle title="Besøksadresse" text={officeAddress} />
+          <TextWithTitle
+            title="Webkom's besøksadresse"
+            text={webkomOfficeAddress}
+          />
+        </div>
+        <TextWithTitle
+          title="Kontortid"
+          text={officeHours}
+          extraStyle={{ flexBasis: '33.33333%' }}
+        />
       </Flex>
 
       <Flex>
@@ -208,5 +275,34 @@ const committeeEmails = [
       'https://raw.githubusercontent.com/webkom/lego/master/assets/abakus_backup.png'
   }
 ];
+
+const socialMedia = {
+  facebook: [
+    {
+      link: 'https://www.facebook.com/AbakusNTNU/?ref=bookmarks',
+      textInfo: 'Hovedside for Abakus'
+    },
+    {
+      link:
+        'https://www.facebook.com/Abakus-Bedriftsarrangementer-245005099523282/',
+      textInfo: 'Bedriftsarrangementer'
+    }
+  ],
+  instagram: [
+    {
+      link: 'https://www.instagram.com/abakusntnu/',
+      textInfo: 'Abakus - @Abakusntnu'
+    },
+    {
+      link: 'https://www.instagram.com/abakushs/',
+      textInfo: 'Hovedstyret - @abakushs'
+    }
+  ],
+  snapchat: [
+    {
+      name: '@abakusntnu'
+    }
+  ]
+};
 
 export default LandingPage;

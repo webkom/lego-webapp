@@ -21,12 +21,22 @@
 
 .emailContainer {
   margin-top: -2em;
+  margin-bottom: 30px;
 }
 
 .title {
   font-size: 1.2rem;
   line-height: 1.2rem;
   margin-bottom: 0.4rem;
+}
+
+.abakusInNumbers {
+  display: none;
+  color: var(--lego-font-color);
+  font-size: 1.7rem;
+  text-align: center;
+  font-family: RalewayBold, sans-serif;
+  text-transform: uppercase;
 }
 
 .contactTitle {
@@ -39,7 +49,7 @@
 }
 
 .contactUsLink {
-  color: var(--lego-font-color);
+  color: var(--lego-red);
   font-weight: bold;
   text-transform: uppercase;
   margin-left: auto;
@@ -76,9 +86,56 @@
   margin-top: 25px;
 }
 
+.socialMediaContainer {
+  margin-top: -2em;
+  margin-bottom: 30px;
+}
+
+.socialMediaType {
+  display: flex;
+  flex-direction: column;
+  flex-basis: calc(33.3333% - 12px);
+  margin: 6px;
+  align-items: center;
+
+  @media (--mobile-device) {
+    flex-direction: row;
+    flex-basis: 100%;
+    margin: auto;
+    padding: 0.8rem;
+  }
+}
+
+.socialMediaTypeLinks {
+  display: flex;
+  flex-direction: column;
+  margin: 4px;
+  align-items: center;
+  line-height: 25px;
+
+  @media (--mobile-device) {
+    margin-left: 10px;
+    align-items: flex-start;
+  }
+}
+
+.socialMediaLink {
+  margin-top: 5px;
+  line-height: 18px;
+}
+
+.snapchatIcon {
+  margin-left: -3.75px;
+}
+
 @media (--mobile-device) {
+  .abakusInNumbers {
+    display: block;
+  }
+
   .whoWhatWhyContainer {
     flex-wrap: wrap;
+    margin-bottom: 25px;
   }
 
   .locationContainer {
@@ -109,5 +166,9 @@
   .pageContainer {
     padding: 0;
     padding-top: 2em;
+  }
+
+  .statisticsContainer {
+    display: flex;
   }
 }

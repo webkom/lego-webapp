@@ -14,6 +14,8 @@ type Props = {
   /** Name of the icon can be found on the webpage*/
   size?: number,
   /** Name of the icon can be found on the webpage*/
+  prefix?: string,
+  /** Icon prefix. defaults to "ion-ios-" */
   style?: Object
 };
 
@@ -24,10 +26,11 @@ type Props = {
  *
  * Just like this...
  *
- * http://ionicframework.com/docs/v2/ionicons/
+ * https://infinitered.github.io/ionicons-version-3-search/
  */
 function Icon({
   name = 'star',
+  prefix = 'ion-ios-',
   scaleOnHover = false,
   className,
   style = {},
@@ -36,7 +39,7 @@ function Icon({
 }: Props) {
   return (
     <i
-      className={cx(`ion-ios-${name}`, styles.icon, className)}
+      className={cx(`${prefix}${name}`, styles.icon, className)}
       style={{ fontSize: `${size.toString()}px`, lineHeight: 1, ...style }}
       {...props}
     />
