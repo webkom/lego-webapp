@@ -9,6 +9,7 @@ import Youtube from 'react-youtube';
 import Flex from '../Layout/Flex';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import type { YoutubePlayer } from 'app/models';
+import { isEmpty } from 'lodash';
 
 type Props = {
   banner?: string,
@@ -40,7 +41,7 @@ function Content({ banner, youtubeParams, children, className }: Props) {
 
   return (
     <Flex column alignItems="center">
-      {youtubeParams ? (
+      {!isEmpty(youtubeParams) ? (
         <div>
           <LoadingIndicator
             loading={isLoading}

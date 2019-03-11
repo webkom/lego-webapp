@@ -66,10 +66,9 @@ const ArticleEditor = ({
         />
         <Field
           name="youtubeUrl"
-          label="YouTube cover url"
+          label="Cover Youtube URL (frivillig, erstatter cover-bildet med film fra YouTube)"
           placeholder="https://www.youtube.com/watch?v=VvFj1zdT9so&t=20"
           component={TextInput.Field}
-          aspectRatio={20 / 6}
         />
         <Field
           label="Festet på forsiden"

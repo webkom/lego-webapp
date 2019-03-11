@@ -11,6 +11,7 @@ import {
   selectCommentsForArticle
 } from 'app/reducers/articles';
 import { selectUserById } from 'app/reducers/users';
+import getParamsFromUrl from 'app/utils/getParamsFromUrl';
 
 function loadData(props, dispatch) {
   return dispatch(fetchArticle(props.params.articleId));
@@ -22,12 +23,10 @@ const mapStateToProps = (state, props) => {
   const comments = selectCommentsForArticle(state, { articleId });
   const author = selectUserById(state, { userId: article.author });
 
-  const youtubeParams = {};
-  if (article.youtubeUrl) {
-    const params = new URL(article.youtubeUrl).searchParams;
-    for (const [key, value] of params.entries()) {
-      youtubeParams[key] = value;
-    }
+  let youtubeParams;
+  const { youtubeUrl } = article;
+  if (youtubeUrl) {
+    youtubeParams = getParamsFromUrl(youtubeUrl);
   }
 
   return {
@@ -36,7 +35,7 @@ const mapStateToProps = (state, props) => {
     article,
     articleId,
     author,
-    youtubeParams: article.youtubeUrl ? youtubeParams : {}
+    youtubeParams: youtubeUrl ? youtubeParams : {}
   };
 };
 
