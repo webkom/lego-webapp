@@ -21,7 +21,7 @@ import cx from 'classnames';
 import EventItem from 'app/components/EventItem';
 import EmptyState from 'app/components/EmptyState';
 import moment from 'moment-timezone';
-import type { Dateish } from 'app/';
+import type { Dateish } from 'app/models';
 import { Image } from 'app/components/Image';
 import frame from 'app/assets/frame.png';
 
@@ -95,12 +95,14 @@ const BadgeTooltip = ({
 
 const GroupBadge = ({ memberships }: { memberships: Array<Object> }) => {
   const activeMemberships = memberships.find(membership => membership.isActive);
-  const [{ abakusGroup }] = memberships;
-  const sorted = orderBy(memberships, membership =>
+  const abakusGroup = memberships[0].abakusGroup;
+  if (!abakusGroup.showBadge) return null;
+  // $FlowFixMe
+  const sortedMemberships = orderBy(memberships, membership =>
     moment(membership.startDate || membership.createdAt)
   );
-  const [firstMembership] = sorted;
-  const [lastMembership] = sorted.reverse();
+  const firstMembership = sortedMemberships[0];
+  const lastMembership = sortedMemberships[sortedMemberships.length - 1];
   const { id, name, logo } = abakusGroup;
   const groupElement = (
     <Tooltip
@@ -128,14 +130,12 @@ const GroupBadge = ({ memberships }: { memberships: Array<Object> }) => {
   );
   const link = resolveGroupLink(abakusGroup);
   if (!link) {
-    return abakusGroup.showBadge && groupElement;
+    return groupElement;
   }
   return (
-    abakusGroup.showBadge && (
-      <Link key={id} to={link}>
-        {groupElement}
-      </Link>
-    )
+    <Link key={id} to={link}>
+      {groupElement}
+    </Link>
   );
 };
 
@@ -220,7 +220,7 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
           ? 'pastMembershipsAsBadges'
           : 'pastMembershipsAsPills'
     );
-    const a = pastMemberships.filter(Boolean).map(m => m.abakusGroup);
+    // $FlowFixMe
     const groupedMemberships = orderBy(
       groupBy(
         pastMembershipsAsBadges.concat(membershipsAsBadges),
