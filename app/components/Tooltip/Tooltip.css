@@ -3,6 +3,7 @@
 }
 
 .baseTooltipHover {
+  text-align: center;
   display: block;
   position: absolute;
   background: #333;
@@ -23,6 +24,8 @@
 
 .showTooltip {
   margin-top: -45px;
+  position: absolute;
+  transform: translateX(-10%);
 }
 
 .showTooltip::after {
