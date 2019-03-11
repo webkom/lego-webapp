@@ -16,14 +16,15 @@ import {
 } from 'app/components/Content';
 import { jobType, Year, Workplaces } from './Items';
 import Time from 'app/components/Time';
-import type { ID } from 'app/models';
+import type { ID, YoutubePlayer } from 'app/models';
 
 type Props = {
   joblisting: Object,
   actionGrant: /*TODO: ActionGrant */ Array<any>,
   deleteJoblisting: ID => Promise<*>,
   fetching: boolean,
-  push: string => void
+  push: string => void,
+  youtubeParams?: YoutubePlayer
 };
 
 const JoblistingDetail = ({
@@ -31,7 +32,8 @@ const JoblistingDetail = ({
   actionGrant,
   deleteJoblisting,
   push,
-  fetching = false
+  fetching = false,
+  youtubeParams
 }: Props) => {
   if (fetching || !joblisting) {
     return <LoadingIndicator loading />;
@@ -58,7 +60,7 @@ const JoblistingDetail = ({
   const canDelete = actionGrant.includes('delete');
 
   return (
-    <Content banner={joblisting.company.logo}>
+    <Content banner={joblisting.company.logo} youtubeParams={youtubeParams}>
       <ContentHeader>{joblisting.title}</ContentHeader>
       <ContentSection>
         <ContentMain>
