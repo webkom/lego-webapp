@@ -36,6 +36,8 @@ import Tooltip from 'app/components/Tooltip';
 import Icon from 'app/components/Icon';
 import type { ID } from 'app/models';
 import { validYoutubeUrl } from 'app/utils/validation';
+import { FormatTime } from 'app/components/Time';
+import moment from 'moment-timezone';
 
 type Props = {
   eventId: number,
@@ -338,6 +340,26 @@ function EventEditor({
                 normalize={v => !!v}
               />
             )}
+
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) &&
+              event.heedPenalties && (
+                <div className={styles.subSection}>
+                  <Tooltip content="Frist for påmelding - antall timer før arrangementet">
+                    <Field
+                      key="registrationDeadlineHours"
+                      label="Påmeldingsfrist"
+                      name="registrationDeadlineHours"
+                      type="number"
+                      component={TextInput.Field}
+                      fieldClassName={styles.metaField}
+                      className={styles.formField}
+                    />
+                  </Tooltip>
+                  <p className={styles.registrationDeadlineHours}>
+                    <FormatTime time={moment(event.registrationDeadline)} />
+                  </p>
+                </div>
+              )}
 
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) &&
               event.heedPenalties && (

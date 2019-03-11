@@ -218,6 +218,13 @@ export default class EventDetail extends Component<Props> {
             key: 'Avregistreringsfrist',
             value: <FormatTime time={event.unregistrationDeadline} />
           }
+        : null,
+      event.registrationDeadlineHours &&
+      !['OPEN', 'TBA'].includes(event.eventStatusType)
+        ? {
+            key: 'Påmelding stenger',
+            value: <FormatTime time={event.registrationCloseTime} />
+          }
         : null
     ];
 

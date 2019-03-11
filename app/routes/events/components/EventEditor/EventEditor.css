@@ -26,6 +26,10 @@
   padding-left: 5px;
 }
 
+.registrationDeadlineHours {
+  font-size: 100%;
+}
+
 .metaField {
   margin-bottom: 0;
 }

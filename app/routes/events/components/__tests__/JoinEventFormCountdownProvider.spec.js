@@ -30,6 +30,8 @@ const EVENT = {
   mergeTime: null,
   useCaptcha: true,
   tags: [],
+  registrationDeadlineHours: 2,
+  registrationCloseTime: moment().add(2, 'hours'),
   unregistrationDeadline: moment().add(10, 'days'),
   pinned: false,
   actionGrant: [],
