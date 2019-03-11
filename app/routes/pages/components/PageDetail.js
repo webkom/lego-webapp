@@ -135,8 +135,6 @@ export const MainPageRenderer = ({
             <img alt={`${title} page banner`} src={pageBanner} />
           </div>
         )}
-
-        {}
         {title !== 'Info om Abakus' && (
           <h1 className={styles.header1}>{readmeIfy(title)}</h1>
         )}
