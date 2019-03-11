@@ -370,10 +370,6 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
   }
 }
 
-label {
-  display: block;
-}
-
 .checkBox {
   display: block;
   margin: 10px 0;
