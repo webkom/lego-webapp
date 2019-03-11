@@ -1,0 +1,33 @@
+:global {
+  /* medium-draft has pretty opinionated css, so we override a few properties */
+  .DraftEditor-editorContainer {
+    z-index: auto;
+  }
+
+  .md-RichEditor-root {
+    padding: 0;
+  }
+
+  .md-RichEditor-editor:not(.md-RichEditor-readonly) {
+    /* Mimic the behavior of our existing editor fields: */
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 10px;
+
+    &:focus-within {
+      box-shadow: 0 0 5px #ccc;
+      border-color: #aaa;
+      outline: none;
+    }
+  }
+
+  .md-RichEditor-editor .public-DraftEditor-content,
+  .md-RichEditor-editor .public-DraftEditorPlaceholder-root {
+    margin: 0;
+    padding: 0;
+  }
+
+  .public-DraftEditorPlaceholder-root {
+    z-index: 0;
+  }
+}

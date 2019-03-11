@@ -1,137 +1,162 @@
-// @flow
-
 import React, { Component } from 'react';
-import { convertToRaw } from 'draft-js';
-import 'medium-draft/lib/index.css';
-import {
-  createEditorState,
-  Editor as DraftEditor,
-  rendererFn,
-  Block,
-  Inline,
-  INLINE_BUTTONS,
-  BLOCK_BUTTONS
-} from 'medium-draft';
-import importer from './importer';
-import exporter from './exporter';
-import { ImageButton, InfoButton } from './Sides';
-import { ImageBlock } from './Blocks';
-import './Editor.css';
+import { Editor as SlateEditor } from 'slate-react';
+import { Value } from 'slate';
+import EditList from '@guestbell/slate-edit-list';
+import { Toolbar } from './components/Toolbar';
+import { BoldMark, ItalicMark } from './components/marks';
+import styles from './Editor.css';
 
-type Props = {
-  /** Set focus when component mounts */
-  autoFocus?: boolean,
-  /** The value in the editor */
-  value?: string,
-  /** Placeholder to be shown when no content */
-  placeholder?: string,
-  simple?: boolean,
-  /** Disable editor input */
-  disabled?: boolean,
-  /** Function that returns the content as html when changed */
-  onChange: string => void,
-  /** Function that is called when editor is focused */
-  onFocus: () => void,
-  /** Function that is called when editor is blurred */
-  onBlur: () => void
-  /** Use editor in simple mode, just enable inline styling, no block styling */
-};
-
-type State = {
-  editorState: any
-};
-
-/**
- * Custom Editor component
- *
- * ### Example Usage
- * ```js
- * <Editor />
- * ```
- *
- *  ### Also avialable as a redux form field
- * ```js
- * <Field component={EditorField.Field} />
- * ```
- */
-export default class Editor extends Component<Props, State> {
-  editor: ?HTMLElement;
-
-  state = {
-    editorState: createEditorState(
-      convertToRaw(importer(this.props.value || ''))
-    )
-  };
-
-  rendererFn = (setEditorState: any => void, getEditorState: () => any) => {
-    const rFnOld = rendererFn(setEditorState, getEditorState);
-    const rFnNew = (contentBlock: any) => {
-      const type = contentBlock.getType();
-      switch (type) {
-        case Block.IMAGE:
-          return {
-            component: ImageBlock,
-            props: {
-              setEditorState,
-              getEditorState
-            }
-          };
-        default:
-          return rFnOld(contentBlock);
+const initialValue = Value.fromJSON({
+  document: {
+    nodes: [
+      {
+        object: 'block',
+        type: 'paragraph',
+        nodes: [
+          {
+            object: 'text',
+            leaves: [
+              {
+                text: 'This is a test of the slate editor'
+              }
+            ]
+          }
+        ]
+      },
+      {
+        object: 'block',
+        type: 'ul_list',
+        nodes: [
+          {
+            object: 'block',
+            type: 'list_item',
+            nodes: [
+              {
+                object: 'block',
+                type: 'paragraph',
+                nodes: [
+                  {
+                    object: 'text',
+                    leaves: [
+                      {
+                        text: 'This is an unordered list'
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
-    };
-    return rFnNew;
-  };
-
-  onChange = (editorState: any) => {
-    this.setState({ editorState }, () =>
-      this.props.onChange(exporter(this.state.editorState.getCurrentContent()))
-    );
-  };
-
-  componentDidMount() {
-    if (this.editor && this.props.autoFocus) {
-      this.editor.focus();
-    }
+    ]
   }
+});
+
+//function EditList(options) {
+//return [
+//onKeyDown(event, editor, next) {
+//const closestBlock =
+//}
+//]
+//}
+
+const plugins = [EditList()];
+
+export default class Editor extends Component<Props, State> {
+  state = {
+    value: initialValue
+  };
+
+  onChange = ({ value }) => {
+    this.setState({ value });
+  };
+
+  onKeyDown = (e, editor, next) => {
+    switch (e.key) {
+      case 'Tab':
+        e.preventDefault();
+        editor.insertText('\t');
+    }
+
+    if (!e.ctrlKey) return next();
+
+    switch (e.key) {
+      case 'b': {
+        e.preventDefault();
+        editor.toggleMark('bold');
+        break;
+      }
+      case 'i': {
+        e.preventDefault();
+        editor.toggleMark('italic');
+        break;
+      }
+      case 'l': {
+        e.preventDefault();
+        editor.toggleMark('ol_list');
+        break;
+      }
+      default: {
+        return next();
+      }
+    }
+  };
+
+  renderMark = (props, editor, next) => {
+    switch (props.mark.type) {
+      case 'bold':
+        return <BoldMark {...props} />;
+      case 'italic':
+        return <ItalicMark {...props} />;
+      default:
+        return next();
+    }
+  };
+
+  renderNode = (props, editor, next) => {
+    const { attributes, node, children } = props;
+    switch (node.type) {
+      case 'ul_list':
+        return <ul {...attributes}>{children}</ul>;
+      case 'ol_list':
+        return (
+          <ol className={styles.olList} {...attributes}>
+            {children}
+          </ol>
+        );
+      case 'list_item':
+        return (
+          <li className={styles.listItem} {...attributes}>
+            {children}
+          </li>
+        );
+      default:
+        return next();
+    }
+  };
+
+  toolbarHandler = (e, type) => {
+    e.preventDefault();
+
+    const { editor } = this.props;
+
+    editor.toggleMark(type);
+  };
 
   render() {
-    const { editorState } = this.state;
     return (
-      <DraftEditor
-        ref={node => {
-          this.editor = node;
-        }}
-        blockButtons={
-          this.props.simple
-            ? []
-            : BLOCK_BUTTONS.filter(({ style }) => style !== Block.TODO)
-        }
-        inlineButtons={INLINE_BUTTONS.filter(
-          ({ style }) => style !== Inline.HIGHLIGHT
-        )}
-        onBlur={this.props.onBlur}
-        onFocus={this.props.onFocus}
-        placeholder={this.props.placeholder}
-        editorEnabled={!this.props.disabled}
-        editorState={editorState}
-        rendererFn={this.rendererFn}
-        onChange={this.onChange}
-        sideButtons={
-          this.props.simple
-            ? []
-            : [
-                {
-                  title: 'Image',
-                  component: ImageButton
-                },
-                {
-                  title: 'Editor info',
-                  component: InfoButton
-                }
-              ]
-        }
-      />
+      <div>
+        <Toolbar handler={this.toolbarHandler} />
+        <SlateEditor
+          value={this.state.value}
+          onChange={this.onChange}
+          onKeyDown={this.onKeyDown}
+          plugins={plugins}
+          renderMark={this.renderMark}
+          renderNode={this.renderNode}
+        />
+      </div>
     );
   }
 }

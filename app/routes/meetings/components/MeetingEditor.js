@@ -21,6 +21,7 @@ import moment from 'moment-timezone';
 import config from 'app/config';
 import { unionBy } from 'lodash';
 import type { UserEntity } from 'app/reducers/users';
+import Editor from 'app/components/Editor';
 
 type Props = {
   handleSubmit: Object => void,
@@ -92,7 +93,7 @@ function MeetingEditor({
           component={TextInput.Field}
         />
         <h3>Møtereferat</h3>
-        <Field name="report" label="Referat" component={EditorField.Field} />
+        <Field name="report" label="Referat" component={Editor} />
         <div className={styles.sideBySideBoxes}>
           <div>
             <Field
