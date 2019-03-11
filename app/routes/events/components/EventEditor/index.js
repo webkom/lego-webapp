@@ -87,6 +87,13 @@ function EventEditor({
     return <div>{error.message}</div>;
   }
 
+  const eventStatusType = [
+    { value: 'TBA', label: 'TBA' },
+    { value: 'NORMAL', label: 'Vanlig' },
+    { value: 'OPEN', label: 'Åpent' },
+    { value: 'INFINITY', label: 'Uendelig' }
+  ];
+
   const color = colorForEvent(event.eventType);
   return (
     <Content>
@@ -188,91 +195,14 @@ function EventEditor({
               fieldClassName={styles.metaField}
               className={styles.formField}
             />
-            <Tooltip content="Events som settes som TBA og ikke har noen pool vil vises som TBA på forsiden.">
-              <Field
-                label="Sted"
-                name="location"
-                component={TextInput.Field}
-                fieldClassName={styles.metaField}
-                className={styles.formField}
-              />
-            </Tooltip>
             <Field
-              label="Betalt arrangement"
-              name="isPriced"
-              component={CheckBox.Field}
+              label="Status"
+              name="eventStatusType"
+              component={SelectInput.Field}
               fieldClassName={styles.metaField}
-              className={styles.formField}
-              normalize={v => !!v}
+              options={eventStatusType}
+              simpleValue
             />
-            {event.isPriced && (
-              <div>
-                <Tooltip content="Manuell betaling kan også av i etterkant">
-                  <Field
-                    label="Betaling igjennom Abakus.no"
-                    name="useStripe"
-                    component={CheckBox.Field}
-                    fieldClassName={styles.metaField}
-                    className={styles.formField}
-                    normalize={v => !!v}
-                  />
-                </Tooltip>
-                <Field
-                  label="Pris medlem"
-                  name="priceMember"
-                  type="number"
-                  component={TextInput.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                />
-                <Field
-                  label="Legg til gebyr"
-                  name="addFee"
-                  component={CheckBox.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                  normalize={v => !!v}
-                />
-                {event.priceMember > 0 && (
-                  <i>
-                    Totalt:{' '}
-                    <strong>
-                      {event.addFee
-                        ? addStripeFee(Number(event.priceMember))
-                        : event.priceMember}
-                      ,-
-                    </strong>
-                  </i>
-                )}
-                <Field
-                  label="Betalingsfrist"
-                  name="paymentDueDate"
-                  component={DatePicker.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                />
-              </div>
-            )}
-            <Tooltip content="Utsetter registrering og deler ut prikker">
-              <Field
-                label="Bruk prikker"
-                name="heedPenalties"
-                component={CheckBox.Field}
-                fieldClassName={styles.metaField}
-                className={styles.formField}
-                normalize={v => !!v}
-              />
-            </Tooltip>
-            <Tooltip content="Frist for avmelding – fører til prikk etterpå">
-              <Field
-                key="unregistrationDeadline"
-                label="Avregistreringsfrist"
-                name="unregistrationDeadline"
-                component={DatePicker.Field}
-                fieldClassName={styles.metaField}
-                className={styles.formField}
-              />
-            </Tooltip>
             <Tooltip content="Kun la medlemmer i Abakom se arrangement">
               <Field
                 label="Kun for Abakom"
@@ -283,60 +213,147 @@ function EventEditor({
                 normalize={v => !!v}
               />
             </Tooltip>
-            <Tooltip content="Bruk samtykke til bilder">
-              <Field
-                label="Samtykke til bilder"
-                name="useConsent"
-                component={CheckBox.Field}
-                normalize={v => !!v}
-              />
-            </Tooltip>
-            <Flex column>
-              <h3>Påmeldte:</h3>
-              <UserGrid
-                minRows={2}
-                maxRows={2}
-                users={
-                  registrations
-                    ? registrations.slice(0, 14).map(reg => reg.user)
-                    : []
-                }
-              />
-              <ModalParentComponent
-                key="modal"
-                pools={pools || []}
-                registrations={registrations || []}
-                title="Påmeldte"
-              >
-                <RegisteredSummary registrations={registrations} />
-                <AttendanceStatus />
-              </ModalParentComponent>
-              <div className={styles.metaList}>
-                <FieldArray
-                  name="pools"
-                  component={renderPools}
-                  startTime={event.startTime}
+            {event.eventStatusType != 'TBA' && (
+              <>
+                <Field
+                  label="Sted"
+                  name="location"
+                  component={TextInput.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
                 />
-              </div>
-              {pools && pools.length > 1 && (
-                <Tooltip content="Tidspunkt for å slå sammen poolene">
+                <Field
+                  label="Betalt arrangement"
+                  name="isPriced"
+                  component={CheckBox.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                  normalize={v => !!v}
+                />
+                {event.isPriced && (
+                  <div>
+                    <Tooltip content="Manuell betaling kan også av i etterkant">
+                      <Field
+                        label="Betaling igjennom Abakus.no"
+                        name="useStripe"
+                        component={CheckBox.Field}
+                        fieldClassName={styles.metaField}
+                        className={styles.formField}
+                        normalize={v => !!v}
+                      />
+                    </Tooltip>
+                    <Field
+                      label="Pris medlem"
+                      name="priceMember"
+                      type="number"
+                      component={TextInput.Field}
+                      fieldClassName={styles.metaField}
+                      className={styles.formField}
+                    />
+                    <Field
+                      label="Legg til gebyr"
+                      name="addFee"
+                      component={CheckBox.Field}
+                      fieldClassName={styles.metaField}
+                      className={styles.formField}
+                      normalize={v => !!v}
+                    />
+                    {event.priceMember > 0 && (
+                      <i>
+                        Totalt:{' '}
+                        <strong>
+                          {event.addFee
+                            ? addStripeFee(Number(event.priceMember))
+                            : event.priceMember}
+                          ,-
+                        </strong>
+                      </i>
+                    )}
+                    <Field
+                      label="Betalingsfrist"
+                      name="paymentDueDate"
+                      component={DatePicker.Field}
+                      fieldClassName={styles.metaField}
+                      className={styles.formField}
+                    />
+                  </div>
+                )}
+                <Tooltip content="Utsetter registrering og deler ut prikker">
                   <Field
-                    label="Sammenslåingstidspunkt"
-                    name="mergeTime"
+                    label="Bruk prikker"
+                    name="heedPenalties"
+                    component={CheckBox.Field}
+                    fieldClassName={styles.metaField}
+                    className={styles.formField}
+                    normalize={v => !!v}
+                  />
+                </Tooltip>
+                <Tooltip content="Frist for avmelding – fører til prikk etterpå">
+                  <Field
+                    key="unregistrationDeadline"
+                    label="Avregistreringsfrist"
+                    name="unregistrationDeadline"
                     component={DatePicker.Field}
                     fieldClassName={styles.metaField}
                     className={styles.formField}
                   />
                 </Tooltip>
-              )}
-              {isEditPage && (
-                <Admin
-                  actionGrant={actionGrant}
-                  event={event}
-                  deleteEvent={deleteEvent}
-                />
-              )}
-            </Flex>
+                <Tooltip content="Bruk samtykke til bilder">
+                  <Field
+                    label="Samtykke til bilder"
+                    name="useConsent"
+                    component={CheckBox.Field}
+                    normalize={v => !!v}
+                  />
+                </Tooltip>
+                <Flex column>
+                  <h3>Påmeldte:</h3>
+                  <UserGrid
+                    minRows={2}
+                    maxRows={2}
+                    users={
+                      registrations
+                        ? registrations.slice(0, 14).map(reg => reg.user)
+                        : []
+                    }
+                  />
+                  <ModalParentComponent
+                    key="modal"
+                    pools={pools || []}
+                    registrations={registrations || []}
+                    title="Påmeldte"
+                  >
+                    <RegisteredSummary registrations={registrations} />
+                    <AttendanceStatus />
+                  </ModalParentComponent>
+                  <div className={styles.metaList}>
+                    <FieldArray
+                      name="pools"
+                      component={renderPools}
+                      startTime={event.startTime}
+                    />
+                  </div>
+                  {pools && pools.length > 1 && (
+                    <Tooltip content="Tidspunkt for å slå sammen poolene">
+                      <Field
+                        label="Sammenslåingstidspunkt"
+                        name="mergeTime"
+                        component={DatePicker.Field}
+                        fieldClassName={styles.metaField}
+                        className={styles.formField}
+                      />
+                    </Tooltip>
+                  )}
+                  {isEditPage && (
+                    <Admin
+                      actionGrant={actionGrant}
+                      event={event}
+                      deleteEvent={deleteEvent}
+                    />
+                  )}
+                </Flex>
+              </>
+            )}
           </ContentSidebar>
         </ContentSection>
 

@@ -33,7 +33,8 @@ const mapStateToProps = (state, props) => {
       isPriced: valueSelector(state, 'isPriced'),
       eventType: valueSelector(state, 'eventType'),
       priceMember: valueSelector(state, 'priceMember'),
-      startTime: valueSelector(state, 'startTime')
+      startTime: valueSelector(state, 'startTime'),
+      eventStatusType: valueSelector(state, 'eventStatusType')
     },
     pools: valueSelector(state, 'pools')
   };
@@ -46,9 +47,10 @@ const mapStateToProps = (state, props) => {
       description: '',
       text: '',
       eventType: '',
+      eventStatusType: 'TBA',
       company: null,
       responsibleGroup: null,
-      location: 'TBA',
+      location: '',
       isPriced: false,
       useStripe: true,
       priceMember: 0,
