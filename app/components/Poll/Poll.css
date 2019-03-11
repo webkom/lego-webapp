@@ -1,0 +1,111 @@
+@import 'app/styles/variables.css';
+
+.optionWrapper {
+  justify-content: center;
+  min-height: 120px;
+}
+
+.pollTable {
+  width: 100%;
+  font-size: 14px;
+}
+
+.pollTable td {
+  border: 0;
+  padding: 5px;
+}
+
+.pollTable .textColumn {
+  border-right: 1px solid #c5c5c5;
+  text-align: right;
+  padding-right: 13px;
+  line-height: 16px;
+}
+
+.pollTable .graphColumn {
+  width: auto;
+  min-width: 200px;
+  padding-left: 13px;
+}
+
+.poll {
+  composes: withShadow from 'app/styles/utilities.css';
+  background: var(--lego-card-color);
+  padding: 15px 20px 8px;
+  min-height: 195px;
+}
+
+.pollLight {
+  background: var(--lego-color-gray-light);
+}
+
+.noVotes {
+  font-style: italic;
+}
+
+.pollGraph {
+  animation: graph 1.2s cubic-bezier(0.41, 0.8, 0.4, 0.94);
+  background-color: var(--lego-red-color);
+  padding-left: 8px;
+  border-radius: 2px;
+  font-style: italic;
+  font-weight: 300;
+  color: var(--color-white);
+  height: 30px;
+}
+
+.fullGraph {
+  background-color: #e7e7e7;
+  width: 100%;
+}
+
+.pollGraph span {
+  vertical-align: middle;
+}
+
+@keyframes graph {
+  from {
+    width: 1px;
+  }
+
+  to {
+    width: 100%;
+  }
+}
+
+.pollHeader {
+  border-radius: 8px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  font-size: 16px;
+  color: var(--lego-font-color);
+}
+
+.voteButton {
+  background: var(--lego-red-color);
+  color: var(--lego-color-gray-light);
+  width: 100%;
+  margin: 0 !important;
+  font-size: 15px;
+  max-width: 400px;
+}
+
+.voteButton:hover {
+  opacity: 0.8;
+}
+
+.moreOptionsLink {
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+}
+
+.arrow {
+  margin-top: 9px;
+
+  &:hover {
+    transform: scale(1.5);
+    color: var(--color-red-3);
+    transition: transform 0.2s;
+  }
+}

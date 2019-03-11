@@ -36,6 +36,7 @@ import notificationSettings from './notificationSettings';
 import galleries from './galleries';
 import comments from './comments';
 import pages from './pages';
+import polls from './polls';
 import companyInterest from './companyInterest';
 import joblistings from './joblistings';
 import announcements from './announcements';
@@ -83,6 +84,7 @@ const reducers = {
   pages,
   penalties,
   podcasts,
+  polls,
   pools,
   quotes,
   readme,
@@ -162,6 +164,8 @@ export const quoteSchema = new schema.Entity('quotes', {
   comments: [commentSchema]
 });
 
+export const pollSchema = new schema.Entity('polls');
+
 export const podcastSchema = new schema.Entity('podcasts');
 
 export const pageSchema = new schema.Entity(
@@ -203,7 +207,8 @@ export const meetingSchema = new schema.Entity('meetings', {
 });
 export const frontpageSchema = new schema.Entity('frontpage', {
   events: [eventSchema],
-  articles: [articleSchema]
+  articles: [articleSchema],
+  poll: pollSchema
 });
 export const surveySchema = new schema.Entity('surveys', {
   event: eventSchema

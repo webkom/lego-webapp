@@ -19,11 +19,15 @@ import Icon from 'app/components/Icon';
 import truncateString from 'app/utils/truncateString';
 import { Link } from 'react-router';
 import NextEvent from './NextEvent';
+import Poll from 'app/components/Poll';
+import type { PollEntity } from 'app/reducers/polls';
 
 type Props = {
   frontpage: Array<Object>,
   readmes: Array<Object>,
-  loadingFrontpage: boolean
+  loadingFrontpage: boolean,
+  poll: ?PollEntity,
+  votePoll: () => Promise<*>
 };
 
 type State = {
@@ -85,7 +89,7 @@ class Overview extends Component<Props, State> {
 
   render() {
     const isEvent = o => typeof o['startTime'] !== 'undefined';
-    const { frontpage, loadingFrontpage, readmes } = this.props;
+    const { frontpage, loadingFrontpage, readmes, poll, votePoll } = this.props;
     const pinned = frontpage[0];
     const compactEvents = (
       <CompactEvents
@@ -145,17 +149,15 @@ class Overview extends Component<Props, State> {
         <Link to={'/articles?tag=weekly'}>
           <h3 className="u-ui-heading">Weekly</h3>
         </Link>
-        <Flex column className={styles.weeklyArticles}>
-          {weeklyArticle && (
-            <ArticleItem
-              key={weeklyArticle.id}
-              item={weeklyArticle}
-              url={this.itemUrl(weeklyArticle)}
-              meta={this.renderMeta(weeklyArticle)}
-              weekly
-            />
-          )}
-        </Flex>
+        {weeklyArticle && (
+          <ArticleItem
+            key={weeklyArticle.id}
+            item={weeklyArticle}
+            url={this.itemUrl(weeklyArticle)}
+            meta={this.renderMeta(weeklyArticle)}
+            weekly
+          />
+        )}
       </Flex>
     );
 
@@ -184,11 +186,30 @@ class Overview extends Component<Props, State> {
     const nextEvent = (
       <Flex column>
         <Link to="/events">
-          <h3 className="u-ui-heading">Påmeldinger</h3>
+          <h3 className="u-ui-heading" style={{ padding: '5px 10px 10px' }}>
+            Påmeldinger
+          </h3>
         </Link>
         <NextEvent
           events={frontpage.filter(item => item.documentType === 'event')}
         />
+      </Flex>
+    );
+
+    const pollItem = (
+      <Flex column className={styles.poll}>
+        <Link to={'/polls'}>
+          <h3 className="u-ui-heading">Avstemning</h3>
+        </Link>
+        {poll && (
+          <Poll
+            style={{ flex: 'none' }}
+            poll={poll}
+            backgroundLight
+            truncate={3}
+            handleVote={votePoll}
+          />
+        )}
       </Flex>
     );
 
@@ -199,11 +220,12 @@ class Overview extends Component<Props, State> {
           <Flex column className={styles.leftColumn}>
             {compactEvents}
             {pinnedComponent}
-            {readMe}
             {events}
           </Flex>
           <Flex column className={styles.rightColumn}>
             {nextEvent}
+            {pollItem}
+            {readMe}
             {weekly}
             {articles}
           </Flex>
@@ -211,6 +233,7 @@ class Overview extends Component<Props, State> {
         <section className={styles.mobileContainer}>
           {compactEvents}
           {nextEvent}
+          {pollItem}
           {pinnedComponent}
           {readMe}
           {weekly}

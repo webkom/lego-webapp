@@ -35,7 +35,7 @@
 }
 
 .wrapper {
-  min-height: 140px;
+  min-height: 145px;
 
   @media (--mobile-device) {
     min-height: 0;

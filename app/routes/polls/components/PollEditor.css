@@ -1,0 +1,24 @@
+@import 'app/styles/variables.css';
+
+.optionField {
+  display: flex;
+}
+
+.deleteOption {
+  padding-left: 10px;
+  padding-top: 40px;
+}
+
+.addOption {
+  display: block;
+}
+
+.submitButton {
+  margin-top: 15px;
+  display: inline;
+}
+
+.deletePoll {
+  background: var(--color-red-2);
+  color: var(--color-light-gray-4);
+}
