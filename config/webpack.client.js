@@ -35,7 +35,7 @@ module.exports = (env, argv) => {
   return {
     mode: argv.mode,
     stats: isProduction ? 'normal' : 'errors-only',
-    devtool: isProduction ? 'source-map' : 'cheap-module-eval-source-map',
+    devtool: isProduction ? 'source-map' : 'eval-source-map',
     entry: {
       app: isProduction
         ? ['./app/index.js']
@@ -84,8 +84,7 @@ module.exports = (env, argv) => {
         __CLIENT__: true
       }),
       process.env.BUNDLE_ANALYZER && new BundleAnalyzerPlugin(),
-      !isProduction &&
-        new webpack.HotModuleReplacementPlugin({ multiStep: true }),
+      !isProduction && new webpack.HotModuleReplacementPlugin(),
 
       new StatsWriterPlugin({
         filename: 'stats.json',
