@@ -38,6 +38,12 @@ const mapStateToProps = (state, props) => {
 
   const actionGrant = event.actionGrant || [];
 
+  let youtubeParams = {};
+  const { youtubeUrl } = event;
+  if (youtubeUrl) {
+    youtubeParams = getParamsFromUrl(youtubeUrl);
+  }
+
   const hasFullAccess = Boolean(event.waitingRegistrations);
 
   if (!hasFullAccess) {
@@ -61,7 +67,8 @@ const mapStateToProps = (state, props) => {
       event,
       eventId,
       pools,
-      comments: []
+      comments: [],
+      youtubeParams
     };
   }
   const comments = selectCommentsForEvent(state, { eventId });
@@ -99,12 +106,6 @@ const mapStateToProps = (state, props) => {
   }
   const hasSimpleWaitingList = poolsWithRegistrations.length <= 1;
 
-  let youtubeParams;
-  const { youtubeUrl } = event;
-  if (youtubeUrl) {
-    youtubeParams = getParamsFromUrl(youtubeUrl);
-  }
-
   return {
     comments,
     actionGrant,
@@ -116,7 +117,7 @@ const mapStateToProps = (state, props) => {
     currentRegistration,
     currentRegistrationIndex,
     hasSimpleWaitingList,
-    youtubeParams: youtubeUrl ? youtubeParams : {}
+    youtubeParams
   };
 };
 

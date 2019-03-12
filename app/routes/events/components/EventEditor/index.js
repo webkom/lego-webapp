@@ -34,6 +34,7 @@ import {
 } from 'app/components/Content';
 import Tooltip from 'app/components/Tooltip';
 import type { ID } from 'app/models';
+import { validateYoutubeUrl } from 'app/utils/validation';
 
 type Props = {
   eventId: number,
@@ -120,8 +121,8 @@ function EventEditor({
         />
         <Field
           name="youtubeUrl"
-          label="Cover Youtube URL (frivillig, erstatter cover-bildet med film fra YouTube)"
-          placeholder="https://www.youtube.com/watch?v=VvFj1zdT9so&t=20"
+          label="Erstatt cover-bildet med video fra Youtube (frivillig)"
+          placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
           component={TextInput.Field}
         />
         <Field
@@ -431,7 +432,8 @@ function EventEditor({
 }
 
 const validate = data => {
-  const errors = {};
+  const errors = validateYoutubeUrl(data.youtubeUrl);
+
   if (!data.title) {
     errors.title = 'Tittel er påkrevet';
   }

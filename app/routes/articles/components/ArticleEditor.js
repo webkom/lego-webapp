@@ -19,6 +19,7 @@ import {
   legoForm
 } from 'app/components/Form';
 import { Form, Fields, Field } from 'redux-form';
+import { createValidator, validYoutubeUrl } from 'app/utils/validation';
 
 /**
  *
@@ -66,8 +67,8 @@ const ArticleEditor = ({
         />
         <Field
           name="youtubeUrl"
-          label="Cover Youtube URL (frivillig, erstatter cover-bildet med film fra YouTube)"
-          placeholder="https://www.youtube.com/watch?v=VvFj1zdT9so&t=20"
+          label="Erstatt cover-bildet med video fra Youtube (frivillig)"
+          placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
           component={TextInput.Field}
         />
         <Field
@@ -155,6 +156,9 @@ const onSubmit = (
 export default legoForm({
   destroyOnUnmount: false,
   form: 'article',
+  validate: createValidator({
+    youtubeUrl: [validYoutubeUrl()]
+  }),
   enableReinitialize: true,
   onSubmit
 })(ArticleEditor);

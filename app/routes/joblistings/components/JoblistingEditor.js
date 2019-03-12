@@ -20,6 +20,7 @@ import moment from 'moment-timezone';
 import { Content } from 'app/components/Content';
 import { Flex } from 'app/components/Layout';
 import { places, jobTypes, yearValues } from '../constants';
+import { validateYoutubeUrl } from 'app/utils/validation';
 
 import type { Joblisting, Workplace, ID } from 'app/models';
 
@@ -118,6 +119,12 @@ class JoblistingEditor extends Component<Props, State> {
         <h1 className={styles.heading}>
           {!isNew ? 'Rediger jobbannonse' : 'Legg til jobbannonse'}
         </h1>
+        <Field
+          name="youtubeUrl"
+          label="Erstatt cover-bildet med video fra Youtube (frivillig)"
+          placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
+          component={TextInput.Field}
+        />
         <Form onSubmit={handleSubmit(this.onSubmit)}>
           <Field
             placeholder="Title"
@@ -260,6 +267,7 @@ class JoblistingEditor extends Component<Props, State> {
 }
 
 const validate = ({
+  youtubeUrl,
   title,
   description,
   company,
@@ -269,7 +277,8 @@ const validate = ({
   visibleFrom,
   visibleTo
 }) => {
-  const errors = {};
+  const errors = validateYoutubeUrl(youtubeUrl, errors);
+
   if (!title) {
     errors.title = 'Du må gi jobbannonsen en tittel';
   }

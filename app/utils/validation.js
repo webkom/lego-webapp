@@ -1,5 +1,6 @@
 const EMAIL_REGEX = /.+@.+\..+/;
 const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,72}$/;
+const YOUTUBE_URL_REGEX = /(?:https?:\/\/)?(?:www[.])?(?:youtube[.]com\/watch[?]v=|youtu[.]be\/)([^&]{11})/;
 
 export const required = (message = 'Feltet må fylles ut') => value => [
   !!value,
@@ -24,6 +25,17 @@ export const isEmail = (message = 'Ugyldig e-post') =>
 export const validPassword = (
   message = 'Passordet må inneholde store og små bokstaver og tall, samt være minst 8 tegn langt.'
 ) => matchesRegex(PASSWORD_REGEX, message);
+
+export const validYoutubeUrl = (message = 'Ikke gyldig YouTube URL.') =>
+  matchesRegex(YOUTUBE_URL_REGEX, message);
+
+export const validateYoutubeUrl = (url, output = {}) => {
+  const [isValidYoutubeUrl, errorMessage] = validYoutubeUrl()(url);
+  if (url && !isValidYoutubeUrl) {
+    output.youtubeUrl = errorMessage;
+  }
+  return output;
+};
 
 export const whenPresent = validator => (value, context) =>
   value ? validator(value, context) : [true];

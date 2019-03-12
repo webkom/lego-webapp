@@ -52,14 +52,13 @@ function Content({ banner, youtubeParams, children, className }: Props) {
             style={{
               maxHeight: isLoading ? '0' : isClicked ? '619px' : '358px'
             }}
-            className={styles.youtubeFrame}
+            className={cx(styles.youtubeFrame, isLoading ? styles.hidden : {})}
           >
             <Youtube
               videoId={youtubeParams.v}
               opts={{ playerVars: { start: youtubeParams.t } }}
               onStateChange={() => click(true)}
               onReady={() => setIsLoading(false)}
-              className={isLoading ? styles.hidden : {}}
             />
           </Flex>
         </div>

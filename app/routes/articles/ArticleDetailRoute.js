@@ -23,7 +23,7 @@ const mapStateToProps = (state, props) => {
   const comments = selectCommentsForArticle(state, { articleId });
   const author = selectUserById(state, { userId: article.author });
 
-  let youtubeParams;
+  let youtubeParams = {};
   const { youtubeUrl } = article;
   if (youtubeUrl) {
     youtubeParams = getParamsFromUrl(youtubeUrl);
@@ -35,7 +35,7 @@ const mapStateToProps = (state, props) => {
     article,
     articleId,
     author,
-    youtubeParams: youtubeUrl ? youtubeParams : {}
+    youtubeParams
   };
 };
 

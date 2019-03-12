@@ -16,7 +16,7 @@ const mapStateToProps = (state, props) => {
   const { fetching } = state.joblistings;
   const actionGrant = (joblisting && joblisting.actionGrant) || [];
 
-  let youtubeParams;
+  let youtubeParams = {};
   let youtubeUrl;
   if (joblisting) {
     youtubeUrl = joblisting.youtubeUrl;
@@ -30,7 +30,7 @@ const mapStateToProps = (state, props) => {
     joblistingId,
     actionGrant,
     fetching,
-    youtubeParams: youtubeUrl ? youtubeParams : {}
+    youtubeParams
   };
 };
 
