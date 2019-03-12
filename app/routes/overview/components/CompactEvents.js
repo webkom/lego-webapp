@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 import colorForEvent from 'app/routes/events/colorForEvent';
 import { Flex } from 'app/components/Layout';
 import Time from 'app/components/Time';
+import Tooltip from 'app/components/Tooltip';
 
 type Props = {
   events: Array<Object>,
@@ -36,6 +37,18 @@ export default class CompactEvents extends Component<Props> {
               <i className="fa fa-circle" />
             </span>
             <Link to={`/events/${event.id}`}>{event.title}</Link>
+            {event.pinned && (
+              <Tooltip content="Dette arrangementet er festet til forsiden">
+                <i
+                  className="fa fa-thumb-tack"
+                  style={{
+                    transform: 'rotate(-20deg)',
+                    marginRight: '4px',
+                    color: '#BE1600'
+                  }}
+                />
+              </Tooltip>
+            )}
             <Time
               format="dd D.MM"
               time={event.startTime}
