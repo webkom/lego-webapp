@@ -6,6 +6,8 @@ import prepare from 'app/utils/prepare';
 import PollDetail from './components/PollDetail';
 import { deletePoll, editPoll, votePoll } from 'app/actions/PollActions';
 import loadingIndicator from 'app/utils/loadingIndicator';
+import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
+import { LoginPage } from 'app/components/LoginForm';
 
 const mapStateToProps = (state, props) => {
   const id = props.params.pollsId;
@@ -38,6 +40,7 @@ const mapDispatchToProps = {
 };
 
 export default compose(
+  replaceUnlessLoggedIn(LoginPage),
   prepare((props, dispatch) => dispatch(fetchPoll(props.params.pollsId))),
   connect(
     mapStateToProps,

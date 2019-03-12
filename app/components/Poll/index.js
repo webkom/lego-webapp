@@ -78,8 +78,15 @@ class Poll extends React.Component<Props, State> {
             <Icon name="stats" />
             <span className={styles.pollHeader}>{title}</span>
           </Link>
-          <Tooltip content="Avstemningen er anonym.">
-            <Icon name="information-circle-outline" size={20} />
+          <Tooltip
+            content="Avstemningen er anonym."
+            style={{ marginLeft: '-180px' }}
+          >
+            <Icon
+              name="information-circle-outline"
+              size={20}
+              style={{ marginLeft: '10px', cursor: 'pointer' }}
+            />
           </Tooltip>
         </Flex>
         {details && (
@@ -91,33 +98,38 @@ class Poll extends React.Component<Props, State> {
           <Flex column className={styles.optionWrapper}>
             <table className={styles.pollTable}>
               <tbody>
-                {optionsToShow.map(option => (
-                  <tr key={option.id}>
-                    <td className={styles.textColumn}>{option.name}</td>
-                    <td className={styles.graphColumn}>
-                      {option.votes !== 0 ? (
-                        <div className={styles.fullGraph}>
-                          <div
-                            style={{
-                              width: `${Math.round(
-                                (option.votes / totalVotes) * 100
-                              )}%`
-                            }}
-                          >
-                            <div className={styles.pollGraph}>
-                              <span>
-                                {Math.floor((option.votes / totalVotes) * 100) +
-                                  '%'}
-                              </span>
+                {optionsToShow.map(option => {
+                  const ratio = (options.length > 2 ? Math.floor : Math.round)(
+                    (option.votes / totalVotes) * 100
+                  );
+                  return (
+                    <tr key={option.id}>
+                      <td className={styles.textColumn}>{option.name}</td>
+                      <td className={styles.graphColumn}>
+                        {option.votes !== 0 ? (
+                          <div className={styles.fullGraph}>
+                            <div
+                              style={{
+                                width: `${ratio}%`
+                              }}
+                            >
+                              <div className={styles.pollGraph}>
+                                {ratio >= 18 && <span>{`${ratio}%`}</span>}
+                              </div>
                             </div>
+                            {ratio < 18 && (
+                              <span style={{ marginLeft: '2px' }}>
+                                {`${ratio}%`}
+                              </span>
+                            )}
                           </div>
-                        </div>
-                      ) : (
-                        <span className={styles.noVotes}>Ingen stemmer</span>
-                      )}
-                    </td>
-                  </tr>
-                ))}
+                        ) : (
+                          <span className={styles.noVotes}>Ingen stemmer</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </Flex>
@@ -138,16 +150,19 @@ class Poll extends React.Component<Props, State> {
           </Flex>
         )}
         <div style={{ height: '29px' }}>
-          {truncateOptions && (
-            <div className={styles.moreOptionsLink}>
-              <Icon
-                onClick={this.toggleTruncate}
-                className={styles.arrow}
-                size={20}
-                name={expanded ? 'arrow-up' : 'arrow-down'}
-              />
-            </div>
-          )}
+          <div className={styles.moreOptionsLink}>
+            <span>{`Stemmer: ${totalVotes}`}</span>
+            {truncateOptions && (
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Icon
+                  onClick={this.toggleTruncate}
+                  className={styles.arrow}
+                  size={20}
+                  name={expanded ? 'arrow-up' : 'arrow-down'}
+                />
+              </div>
+            )}
+          </div>
         </div>
       </div>
     );

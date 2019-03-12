@@ -45,8 +45,10 @@ export default class Tooltip extends Component<Props, State> {
       : styles.tooltip;
     const tooltip = list ? styles.listTooltip : styles.showTooltip;
     return (
-      <div className={className} style={style} onClick={onClick}>
-        <div className={cx(tooltipClass, tooltip)}>{content}</div>
+      <div className={className} onClick={onClick}>
+        <div className={cx(tooltipClass, tooltip)} style={style}>
+          {content}
+        </div>
         <div onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
           {children}
         </div>
