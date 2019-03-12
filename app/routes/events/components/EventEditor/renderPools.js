@@ -13,10 +13,11 @@ import moment from 'moment-timezone';
 
 type poolProps = {
   fields: Object,
-  startTime: Object
+  startTime: Object,
+  eventStatusType: string
 };
 
-const renderPools = ({ fields, startTime }: poolProps) => (
+const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
   <ul style={{ flex: 1 }}>
     {fields.map((pool, index) => (
       <li key={index}>
@@ -27,15 +28,17 @@ const renderPools = ({ fields, startTime }: poolProps) => (
           className={styles.formField}
           component={TextInput.Field}
         />
-        <Field
-          label="Kapasitet"
-          name={`pools[${index}].capacity`}
-          type="number"
-          placeholder="0 er ubegrenset"
-          fieldClassName={styles.metaField}
-          className={styles.formField}
-          component={TextInput.Field}
-        />
+        {['NORMAL'].includes(eventStatusType) && (
+          <Field
+            label="Kapasitet"
+            name={`pools[${index}].capacity`}
+            type="number"
+            placeholder="0 er ubegrenset"
+            fieldClassName={styles.metaField}
+            className={styles.formField}
+            component={TextInput.Field}
+          />
+        )}
         <Field
           label="Aktiveringstidspunkt"
           name={`pools[${index}].activationDate`}
@@ -51,32 +54,36 @@ const renderPools = ({ fields, startTime }: poolProps) => (
           component={SelectInput.AutocompleteField}
           multi
         />
-        <Button
-          disabled={fields.get(index).registrations.length > 0}
-          onClick={() => fields.remove(index)}
-        >
-          Fjern pool
-        </Button>
+        {['NORMAL'].includes(eventStatusType) && (
+          <Button
+            disabled={fields.get(index).registrations.length > 0}
+            onClick={() => fields.remove(index)}
+          >
+            Fjern pool
+          </Button>
+        )}
       </li>
     ))}
-    <li>
-      <Button
-        onClick={() =>
-          fields.push({
-            name: `Pool #${fields.length + 1}`,
-            registrations: [],
-            activationDate: moment(startTime)
-              .subtract(7, 'd')
-              .hour(12)
-              .minute(0)
-              .toISOString(),
-            permissionGroups: []
-          })
-        }
-      >
-        Legg til ny pool
-      </Button>
-    </li>
+    {['NORMAL'].includes(eventStatusType) && (
+      <li>
+        <Button
+          onClick={() =>
+            fields.push({
+              name: `Pool #${fields.length + 1}`,
+              registrations: [],
+              activationDate: moment(startTime)
+                .subtract(7, 'd')
+                .hour(12)
+                .minute(0)
+                .toISOString(),
+              permissionGroups: []
+            })
+          }
+        >
+          Legg til ny pool
+        </Button>
+      </li>
+    )}
   </ul>
 );
 
