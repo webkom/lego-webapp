@@ -1,4 +1,117 @@
 pipeline:
+  postgres:
+    image: postgres:9.5
+    detach: true
+    environment:
+      - POSTGRES_USER=lego
+    when:
+      branch:
+        - cypress
+      event: push
+      status: success
+  minio:
+    image: minio/minio
+    detach: true
+    environment:
+      - MINIO_ACCESS_KEY=lego-dev
+      - MINIO_SECRET_KEY=lego-dev
+    command: server /export
+    when:
+      branch:
+        - cypress
+      event: push
+      status: success
+  thumbor:
+    image: apsl/thumbor:latest
+    detach: true
+    environment:
+      SECURITY_KEY: 'lego-dev'
+      MAX_WIDTH: '1000'
+      MAX_HEIGHT: '800'
+      QUALITY: '98'
+      ALLOW_UNSAFE_URL: '0'
+      ALLOW_OLD_URLS: '0'
+      AWS_ACCESS_KEY_ID: 'lego-dev'
+      AWS_SECRET_ACCESS_KEY: 'lego-dev'
+      TC_AWS_LOADER_BUCKET: lego
+      TC_AWS_REGION: us-east-1
+      TC_AWS_ENDPOINT: '"http://minio:9000"'
+      LOADER: tc_aws.loaders.s3_loader
+    links:
+      - minio
+    when:
+      branch:
+        - cypress
+      event: push
+      status: success
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.1
+    detach: true
+    environment:
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - HEAP_SIZE=1g
+    when:
+      branch:
+        - cypress
+      event: push
+      status: success
+  redis:
+    image: redis
+    detach: true
+    when:
+      branch:
+        - cypress
+      event: push
+      status: success
+  api:
+    image: registry.abakus.no/webkom/lego:cypress-0
+    detach: true
+    pull: true
+    command: >
+      bash -c "./wait-for-it.sh -t 60 postgres:5432 &&
+               ./wait-for-it.sh -t 60 redis:6379 &&
+               ./wait-for-it.sh -t 60 minio:9000 &&
+               ./wait-for-it.sh -t 60 thumbor:8000 &&
+               ./wait-for-it.sh -t 60 elasticsearch:9200 &&
+               python manage.py flush --noinput &&
+               python manage.py migrate &&
+               python manage.py migrate_search &&
+               python manage.py load_fixtures --development &&
+               python manage.py rebuild_index &&
+               python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - PORT=8000
+      - ALLOWED_HOSTS=*,
+      - DATABASE_URL=postgres://lego@postgres:5432/lego
+      - SECRET_KEY=abc123
+      - SERVER_URL=http://api:8000
+      - FRONTEND_URL=http://localhost:3000
+      - CACHE_URL=rediscache://redis/0?client_class=django_redis.client.DefaultClient
+      - EMAIL_URL=smtp://localhost
+      - AWS_ACCESS_KEY_ID=lego-dev
+      - AWS_SECRET_ACCESS_KEY=lego-dev
+      - AWS_REGION=us-east-1
+      - AWS_S3_BUCKET=lego
+      - AWS_ENTRYPOINT=http://minio:9000
+      - THUMBOR_SERVER=http://thumbor:8000
+      - THUMBOR_SECURITY_KEY=lego-dev
+      - SENTRY=http://sentry:sentry@localhost/2
+      - CELERY_BROKER_URL=redis://redis/1
+      - CHANNELS_REDIS_URL=redis://redis/2
+      - ELASTICSEARCH_HOST=http://elasticsearch
+      - STRIPE_API_KEY=123
+      - STRIPE_WEBHOOK_SECRET=123
+      - CAPTCHA_KEY=123
+      - LDAP_SERVER=localhost
+      - LDAP_USER=123
+      - LDAP_PASSWORD=123
+      - APNS_CERTIFICATE=123
+    when:
+      branch:
+        - cypress
+      event: push
+      status: success
+
   setup:
     image: node:11
     when:
@@ -7,6 +120,18 @@ pipeline:
       - CYPRESS_INSTALL_BINARY=0
     commands:
       - yarn --frozen-lockfile
+  cypress:
+    image: cypress/browsers:chrome69
+    when:
+      event: [push, pull_request]
+    group: testing
+    commands:
+      - yarn start &
+      - yarn cypress install
+      - ./wait-for-it.sh -t 180 api:8000
+      - ./wait-for-it.sh -t 180 localhost:3000
+      - yarn cypress run --record
+    secrets: [cypress_record_key]
   test:
     image: node:11
     when:
