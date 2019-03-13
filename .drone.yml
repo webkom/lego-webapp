@@ -2,6 +2,7 @@ pipeline:
   postgres:
     image: postgres:9.5
     detach: true
+    group: services
     environment:
       - POSTGRES_USER=lego
     when:
@@ -12,6 +13,7 @@ pipeline:
   minio:
     image: minio/minio
     detach: true
+    group: services
     environment:
       - MINIO_ACCESS_KEY=lego-dev
       - MINIO_SECRET_KEY=lego-dev
@@ -24,6 +26,7 @@ pipeline:
   thumbor:
     image: apsl/thumbor:latest
     detach: true
+    group: services
     environment:
       SECURITY_KEY: 'lego-dev'
       MAX_WIDTH: '1000'
@@ -47,6 +50,7 @@ pipeline:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.2.1
     detach: true
+    group: services
     environment:
       - ES_JAVA_OPTS=-Xms512m -Xmx512m
       - HEAP_SIZE=1g
@@ -58,6 +62,7 @@ pipeline:
   redis:
     image: redis
     detach: true
+    group: services
     when:
       branch:
         - cypress
@@ -66,6 +71,7 @@ pipeline:
   api:
     image: registry.abakus.no/webkom/lego:cypress-0
     detach: true
+    group: services
     pull: true
     command: >
       bash -c "./wait-for-it.sh -t 60 postgres:5432 &&
@@ -125,9 +131,12 @@ pipeline:
     when:
       event: [push, pull_request]
     group: testing
+    environment:
+      - API_URL=http://api:8000/api/v1
     commands:
-      - yarn start &
+      - yarn build
       - yarn cypress install
+      - yarn ssr &
       - ./wait-for-it.sh -t 180 api:8000
       - ./wait-for-it.sh -t 180 localhost:3000
       - yarn cypress run --record
