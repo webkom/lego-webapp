@@ -57,6 +57,7 @@
 .fullGraph {
   background-color: #e7e7e7;
   width: 100%;
+  display: flex;
 }
 
 .pollGraph span {
@@ -95,13 +96,14 @@
 }
 
 .moreOptionsLink {
-  display: flex;
-  cursor: pointer;
-  justify-content: center;
+  display: grid;
+  grid: auto-flow / 3fr 1fr 3fr;
+  justify-content: space-between;
 }
 
 .arrow {
   margin-top: 9px;
+  cursor: pointer;
 
   &:hover {
     transform: scale(1.5);
