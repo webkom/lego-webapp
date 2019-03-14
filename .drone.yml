@@ -139,7 +139,7 @@ pipeline:
       - yarn ssr &
       - ./wait-for-it.sh -t 180 api:8000
       - ./wait-for-it.sh -t 180 localhost:3000
-      - yarn cypress run --record
+      - yarn cypress run --record --browser=chrome
     secrets: [cypress_record_key]
   test:
     image: node:11
