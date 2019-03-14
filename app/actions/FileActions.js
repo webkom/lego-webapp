@@ -3,7 +3,7 @@
 import { File as FileType } from './ActionTypes';
 import callAPI from './callAPI';
 import type { Thunk } from 'app/types';
-import slug from '@sindresorhus/slugify';
+import slug from 'slug';
 
 /**
  * Normalize filenames

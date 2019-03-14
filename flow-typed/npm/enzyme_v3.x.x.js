@@ -1,12 +1,11 @@
-// flow-typed signature: 9e8bdbb7ab7d8c430b492854e079b001
-// flow-typed version: 3aba3ed2b8/enzyme_v3.x.x/flow_>=v0.53.x
+// flow-typed signature: 158822d2e983e0e1fef05cdd120914d7
+// flow-typed version: 399ee728fe/enzyme_v3.x.x/flow_>=v0.53.x
 
 declare module "enzyme" {
   declare type PredicateFunction<T: Wrapper<*>> = (
     wrapper: T,
     index: number
   ) => boolean;
-  declare type NodeOrNodes = React$Node | Array<React$Node>;
   declare type UntypedSelector = string | {[key: string]: number|string|boolean};
   declare type EnzymeSelector = UntypedSelector | React$ElementType;
 
@@ -22,10 +21,10 @@ declare module "enzyme" {
     filter<T: React$ElementType>(selector: T): ReactWrapper<T>,
     filterWhere(predicate: PredicateFunction<this>): this,
     hostNodes(): this,
-    contains(nodeOrNodes: NodeOrNodes): boolean,
+    contains(nodes: React$Node): boolean,
     containsMatchingElement(node: React$Node): boolean,
-    containsAllMatchingElements(nodes: NodeOrNodes): boolean,
-    containsAnyMatchingElements(nodes: NodeOrNodes): boolean,
+    containsAllMatchingElements(nodes: React$Node): boolean,
+    containsAnyMatchingElements(nodes: React$Node): boolean,
     dive(option?: { context?: Object }): this,
     exists(selector?: EnzymeSelector): boolean,
     isEmptyRender(): boolean,
