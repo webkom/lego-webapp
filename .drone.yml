@@ -162,15 +162,15 @@ pipeline:
     group: testing
     commands:
       - yarn flow --quiet
-  build:
-    image: node:11
-    when:
-      event: [push, pull_request]
-      branch:
-        exclude: [prod]
-    group: testing
-    commands:
-      - yarn build
+#  build:
+#    image: node:12
+#    when:
+#      event: [push, pull_request]
+#      branch:
+#        exclude: [prod]
+#    group: testing
+#    commands:
+#      - yarn build
   docker:
     image: plugins/docker
     when:
