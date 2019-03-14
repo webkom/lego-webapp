@@ -6,10 +6,7 @@ pipeline:
     environment:
       - POSTGRES_USER=lego
     when:
-      branch:
-        - cypress
-      event: push
-      status: success
+      event: [push, pull_request]
   minio:
     image: minio/minio
     detach: true
@@ -19,10 +16,7 @@ pipeline:
       - MINIO_SECRET_KEY=lego-dev
     command: server /export
     when:
-      branch:
-        - cypress
-      event: push
-      status: success
+      event: [push, pull_request]
   thumbor:
     image: apsl/thumbor:latest
     detach: true
@@ -43,10 +37,7 @@ pipeline:
     links:
       - minio
     when:
-      branch:
-        - cypress
-      event: push
-      status: success
+      event: [push, pull_request]
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.2.1
     detach: true
@@ -55,19 +46,13 @@ pipeline:
       - ES_JAVA_OPTS=-Xms512m -Xmx512m
       - HEAP_SIZE=1g
     when:
-      branch:
-        - cypress
-      event: push
-      status: success
+      event: [push, pull_request]
   redis:
     image: redis
     detach: true
     group: services
     when:
-      branch:
-        - cypress
-      event: push
-      status: success
+      event: [push, pull_request]
   api:
     image: registry.abakus.no/webkom/lego:cypress-0
     detach: true
@@ -113,10 +98,7 @@ pipeline:
       - LDAP_PASSWORD=123
       - APNS_CERTIFICATE=123
     when:
-      branch:
-        - cypress
-      event: push
-      status: success
+      event: [push, pull_request]
 
   setup:
     image: node:11
@@ -126,20 +108,19 @@ pipeline:
       - CYPRESS_INSTALL_BINARY=0
     commands:
       - yarn --frozen-lockfile
-  cypress:
-    image: cypress/browsers:chrome69
+  build_and_cypress:
+    image: cypress/base:10
     when:
       event: [push, pull_request]
     group: testing
     environment:
       - API_URL=http://api:8000/api/v1
     commands:
-      - yarn build
-      - yarn cypress install
+      - yarn cypress:prepare # Runs build and cypress install
       - yarn ssr &
       - ./wait-for-it.sh -t 180 api:8000
       - ./wait-for-it.sh -t 180 localhost:3000
-      - yarn cypress run --record --browser=chrome
+      - yarn cypress run --record # --browser=chrome
     secrets: [cypress_record_key]
   test:
     image: node:11
@@ -162,15 +143,6 @@ pipeline:
     group: testing
     commands:
       - yarn flow --quiet
-#  build:
-#    image: node:12
-#    when:
-#      event: [push, pull_request]
-#      branch:
-#        exclude: [prod]
-#    group: testing
-#    commands:
-#      - yarn build
   docker:
     image: plugins/docker
     when:
