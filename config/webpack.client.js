@@ -62,6 +62,7 @@ module.exports = (env, argv) => {
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       isProduction && new DuplicatePackageCheckerPlugin(),
       new webpack.IgnorePlugin(/^jsdom$/),
+      new webpack.IgnorePlugin(/unicode\/category\/So/),
       isProduction &&
         new MiniCssExtractPlugin({
           filename: '[name].[contenthash].css',
