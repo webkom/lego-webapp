@@ -12,3 +12,10 @@
   color: var(--lego-text-gray);
   float: right;
 }
+
+.adminRegistrations {
+  font-size: 16px;
+  color: var(--lego-text-gray);
+  float: right;
+  padding-right: 15px;
+}

@@ -61,11 +61,19 @@ export class RegisteredTable extends Component<Props> {
       {
         title: 'Status',
         dataIndex: 'pool',
-        render: pool => (
+        render: (pool, registration) => (
           <TooltipIcon
-            content={pool ? 'Påmeldt' : 'Venteliste'}
+            content={
+              registration.adminRegistrationReason !== ''
+                ? 'Adminpåmeldt: ' + registration.adminRegistrationReason
+                : pool
+                ? 'Påmeldt'
+                : 'Venteliste'
+            }
             iconClass={
-              pool
+              registration.adminRegistrationReason !== ''
+                ? cx('fa fa-user-secret', styles.greenIcon)
+                : pool
                 ? cx('fa fa-check-circle', styles.greenIcon)
                 : cx('fa fa-clock-o fa-2x', styles.orangeIcon)
             }
