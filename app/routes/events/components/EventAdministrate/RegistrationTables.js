@@ -67,7 +67,7 @@ export class RegisteredTable extends Component<Props> {
             iconClass={
               pool
                 ? cx('fa fa-check-circle', styles.greenIcon)
-                : cx('fa fa-clock-o fa-2x', styles.greenIcon)
+                : cx('fa fa-clock-o fa-2x', styles.orangeIcon)
             }
           />
         )
