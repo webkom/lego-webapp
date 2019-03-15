@@ -102,6 +102,7 @@ export type EventRegistrationChargeStatus = 'manual' | 'succeeded' | 'failed';
 export type EventRegistration = {
   id: number,
   user: User,
+  adminRegistrationReason: string,
   registrationDate: Dateish,
   unregistrationDate: Dateish,
   pool: number,

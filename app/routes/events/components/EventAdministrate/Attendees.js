@@ -90,6 +90,10 @@ export default class Attendees extends Component<Props, State> {
       reg => reg.presence === 'PRESENT' && reg.pool
     ).length;
 
+    const adminRegisterCount = registered.filter(
+      reg => reg.adminRegistrationReason !== '' && reg.pool
+    ).length;
+
     if (loading) {
       return <LoadingIndicator loading />;
     }
@@ -111,6 +115,9 @@ export default class Attendees extends Component<Props, State> {
             <strong>Påmeldte:</strong>
             <div className={styles.attendees}>
               {`${registerCount}/${event.totalCapacity} har møtt opp`}
+            </div>
+            <div className={styles.adminRegistrations}>
+              {`${adminRegisterCount}/${event.totalCapacity} er adminpåmeldt`}
             </div>
           </div>
           {registered.length === 0 && <li>Ingen påmeldte</li>}
