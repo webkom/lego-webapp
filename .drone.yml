@@ -115,6 +115,9 @@ pipeline:
     group: testing
     environment:
       - API_URL=http://api:8000/api/v1
+      - BASE_URL=http://api:8000
+      - WS_URL=ws://api:8000
+      - CYPRESS_API_BASE_URL=http://api:8000
     commands:
       - yarn cypress:prepare # Runs build and cypress install
       - yarn ssr &
