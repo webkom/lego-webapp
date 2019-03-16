@@ -74,7 +74,7 @@
     "react-overlays": "0.8.3",
     "react-portal": "^4.0.0-rc.0",
     "react-redux": "^5.0.1",
-    "react-router": "^3.2.1",
+    "react-router": "^4.4.0",
     "react-router-redux": "^4.0.8",
     "react-select": "^1.0.0-rc.3",
     "react-soundplayer": "^1.0.4",
