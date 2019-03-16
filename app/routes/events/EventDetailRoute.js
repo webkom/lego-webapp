@@ -125,13 +125,11 @@ const mapDispatchToProps = {
   updateUser
 };
 
-const loadData = ({ params: { eventId }, currentUser, loggedIn }, dispatch) => {
-  const userId = currentUser.id;
-  return dispatch(fetchEvent(eventId)).then(
-    () => loggedIn && dispatch(isUserFollowing(eventId, userId))
-  );
-};
-
+const loadData = ({ params: { eventId }, loggedIn }, dispatch) =>
+  Promise.all([
+    dispatch(fetchEvent(eventId)),
+    loggedIn && dispatch(isUserFollowing(eventId))
+  ]);
 const propertyGenerator = (props, config) => {
   if (!props.event) return;
   const tags = (props.event.tags || []).map(content => ({

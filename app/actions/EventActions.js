@@ -386,13 +386,13 @@ export function unfollow(followId: number, eventId: number): Thunk<Promise<*>> {
     );
 }
 
-export function isUserFollowing(eventId: number, userId: number) {
+export function isUserFollowing(eventId: number) {
   return callAPI({
     types: Event.IS_USER_FOLLOWING,
-    endpoint: `/followers-event/?target=${eventId}&follower=${userId}`,
+    endpoint: `/followers-event/?target=${eventId}`,
     method: 'GET',
     meta: {
-      errorMessage: 'Henting av hendelse følgere feilet'
+      errorMessage: 'Henting av interesse feilet'
     }
   });
 }
