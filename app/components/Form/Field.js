@@ -14,6 +14,13 @@ const FieldError = ({ error }: { error?: string }) =>
     </div>
   ) : null;
 
+const FieldWarning = ({ warning }: { warning?: string }) =>
+  warning ? (
+    <div className={styles.fieldWarning}>
+      {typeof warning === 'object' ? JSON.stringify(warning) : warning}
+    </div>
+  ) : null;
+
 export const RenderErrorMessage = ({
   error
 }: {
@@ -26,6 +33,20 @@ export const RenderErrorMessage = ({
   }
 
   return <FieldError error={error} key={error} />;
+};
+
+export const RenderWarningMessage = ({
+  warning
+}: {
+  warning: Array<string> | string
+}) => {
+  if (Array.isArray(warning)) {
+    return (warning.map(warning => (
+      <RenderWarningMessage key={warning} warning={warning} />
+    )): Array<Node>);
+  }
+
+  return <FieldWarning warning={warning} key={warning} />;
 };
 
 export type FieldProps = {
@@ -62,8 +83,11 @@ export function createField(Component: ComponentType<*>) {
       className = null,
       ...props
     } = field;
-    const { error, touched } = meta;
+    const { error, warning, touched } = meta;
+
     const hasError = showErrors && touched && error && error.length > 0;
+    const hasWarning = showErrors && touched && warning && warning.length > 0;
+  
     return (
       <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
         <label className={cx(styles.label, labelClassName)}>
@@ -88,6 +112,7 @@ export function createField(Component: ComponentType<*>) {
           />
         </label>
         {hasError && <RenderErrorMessage error={meta.error} />}
+        {hasWarning && <RenderWarningMessage warning={meta.warning} />}
       </div>
     );
   };

@@ -19,6 +19,14 @@
   border-radius: 3px;
 }
 
+.fieldWarning {
+  background: #ff6600;
+  color: #fff;
+  padding: 5px 10px;
+  margin-top: 3px;
+  border-radius: 3px;
+}
+
 .label {
   font-size: 18px;
 }
