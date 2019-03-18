@@ -87,6 +87,9 @@ function EventEditor({
     return <div>{error.message}</div>;
   }
 
+  const isTBA = value =>
+    value && value == 'TBA' ? `Velg påmeldingstype TBA` : undefined;
+
   const eventStatusType = [
     { value: 'TBA', label: 'Ikke bestemt (TBA)' },
     { value: 'NORMAL', label: 'Vanlig påmelding (med pools)' },
@@ -223,6 +226,7 @@ function EventEditor({
                 component={TextInput.Field}
                 fieldClassName={styles.metaField}
                 className={styles.formField}
+                warn={isTBA}
               />
             )}
 

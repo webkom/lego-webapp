@@ -17,6 +17,12 @@ type poolProps = {
   eventStatusType: string
 };
 
+const minimumOne = value =>
+  value && value < 1 ? `Pools må ha minst 1 plass` : undefined;
+
+const highWarning = value =>
+  value && value >= 500 ? 'Uendlig plasser? Velg åpent event :)' : undefined;
+
 const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
   <ul style={{ flex: 1 }}>
     {fields.map((pool, index) => (
@@ -33,7 +39,9 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
             label="Kapasitet"
             name={`pools[${index}].capacity`}
             type="number"
-            placeholder="0 er ubegrenset"
+            placeholder="20,30,50"
+            validate={minimumOne}
+            warn={highWarning}
             fieldClassName={styles.metaField}
             className={styles.formField}
             component={TextInput.Field}
