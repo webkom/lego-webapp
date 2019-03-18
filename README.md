@@ -70,8 +70,13 @@ $ yarn ssr # or yarn ssr:staging
   - Port to bind
 - `SSR_API_URL`_(optional)_
   - Same as `API_URL`, but used by the SSR. If this is empty, it will fallback to `API_URL`
-- `SSR_BASE_URL`_(optional)_
-  - Same as `BASE_URL`, but used by the SSR. If this is empty, it will fallback to `BASE_URL`
+- `HTTPS`_(optional)_
+  - defaults to `false` Use <https://github.com/FiloSottile/mkcert> to generate certs for localhost: `mkcert -install && mkcert localhost`
+  - `https` is required when using the payment request API.
+- `HTTPS_CERT_KEY_FILE`_(optional)_
+  - Filename to https cert key file. Defaults to localhost-cert
+- `HTTPS_CERT_FILE`_(optional)_
+  - Filename to https cert file. Defaults to localhost-cert
 
 Default values can be found in `server/env.js` and `config/env.js`.
 
