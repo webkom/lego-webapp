@@ -60,6 +60,7 @@ const mapStateToProps = (state, props) => {
       addFee: valueSelector(state, 'addFee'),
       isPriced: valueSelector(state, 'isPriced'),
       eventType: valueSelector(state, 'eventType'),
+      eventStatusType: valueSelector(state, 'eventStatusType'),
       priceMember: valueSelector(state, 'priceMember')
     },
     eventId,

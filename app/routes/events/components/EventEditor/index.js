@@ -88,10 +88,10 @@ function EventEditor({
   }
 
   const eventStatusType = [
-    { value: 'TBA', label: 'TBA' },
-    { value: 'NORMAL', label: 'Vanlig' },
-    { value: 'OPEN', label: 'Åpent' },
-    { value: 'INFINITY', label: 'Uendelig' }
+    { value: 'TBA', label: 'Ikke bestemt (TBA)' },
+    { value: 'NORMAL', label: 'Vanlig påmelding (med pools)' },
+    { value: 'OPEN', label: 'Åpen (uten påmelding)' },
+    { value: 'INFINITE', label: 'Åpen (med påmelding)' }
   ];
 
   const color = colorForEvent(event.eventType);
@@ -143,7 +143,7 @@ function EventEditor({
             <Field
               name="text"
               component={EditorField.Field}
-              label="Hovedtext"
+              label="Hovedbeskrivelse"
               placeholder="Dette blir tidenes fest..."
               className={styles.descriptionEditor}
               uploadFile={uploadFile}
@@ -208,7 +208,7 @@ function EventEditor({
               />
             </Tooltip>
             <Field
-              label="Status"
+              label="Påmeldingstype"
               name="eventStatusType"
               component={SelectInput.Field}
               fieldClassName={styles.metaField}
@@ -216,7 +216,7 @@ function EventEditor({
               simpleValue
             />
 
-            {['NORMAL', 'OPEN', 'INFINITY'].includes(event.eventStatusType) && (
+            {['NORMAL', 'OPEN', 'INFINITE'].includes(event.eventStatusType) && (
               <Field
                 label="Sted"
                 name="location"
@@ -226,7 +226,7 @@ function EventEditor({
               />
             )}
 
-            {['NORMAL', 'INFINITY'].includes(event.eventStatusType) && (
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Field
                 label="Betalt arrangement"
                 name="isPriced"
@@ -286,7 +286,7 @@ function EventEditor({
               </div>
             )}
 
-            {['NORMAL', 'INFINITY'].includes(event.eventStatusType) && (
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Tooltip content="Utsetter registrering og deler ut prikker">
                 <Field
                   label="Bruk prikker"
@@ -299,7 +299,7 @@ function EventEditor({
               </Tooltip>
             )}
 
-            {['NORMAL', 'INFINITY'].includes(event.eventStatusType) && (
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Tooltip content="Frist for avmelding – fører til prikk etterpå">
                 <Field
                   key="unregistrationDeadline"
@@ -312,7 +312,7 @@ function EventEditor({
               </Tooltip>
             )}
 
-            {['NORMAL', 'INFINITY'].includes(event.eventStatusType) && (
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Tooltip content="Bruk samtykke til bilder">
                 <Field
                   label="Samtykke til bilder"
@@ -323,7 +323,7 @@ function EventEditor({
               </Tooltip>
             )}
 
-            {['NORMAL', 'INFINITY'].includes(event.eventStatusType) && (
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Flex column>
                 <h3>Påmeldte:</h3>
                 <UserGrid
@@ -436,6 +436,9 @@ const validate = data => {
   }
   if (!data.id && !data.cover) {
     errors.cover = 'Cover er påkrevet';
+  }
+  if (!data.eventStatusType) {
+    errors.eventStatusType = 'Påmeldingstype er påkrevd';
   }
   if (data.pools) {
     errors.pools = validatePools(data.pools);

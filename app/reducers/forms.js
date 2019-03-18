@@ -10,7 +10,7 @@ export default formReducer.plugin({
       case '@@redux-form/CHANGE':
         if (action.meta.field == 'eventStatusType') {
           switch (action.payload) {
-            case 'INFINITY':
+            case 'INFINITE':
               return {
                 ...state,
                 values: {
@@ -19,7 +19,7 @@ export default formReducer.plugin({
                     {
                       name: 'Uendelig Plasser',
                       registrations: [],
-                      activationDate: moment(event.startTime)
+                      activationDate: moment(state.values.startTime)
                         .subtract(7, 'd')
                         .hour(12)
                         .minute(0)
