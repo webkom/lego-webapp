@@ -2,19 +2,14 @@ FROM node:11
 
 MAINTAINER Abakus Webkom <webkom@abakus.no>
 
-RUN mkdir /app
 WORKDIR /app
-COPY package.json /app
-COPY yarn.lock /app
-RUN yarn install --ignore-scripts
-
 COPY . /app
 
 ARG RELEASE
+RUN yarn
 ENV NODE_ENV production
 ENV RELEASE ${RELEASE}
 
-RUN yarn run postinstall
 RUN yarn run build
 
 ENTRYPOINT ["node", "dist/server.js"]

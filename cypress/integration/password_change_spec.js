@@ -1,13 +1,7 @@
-import { c } from '../support/utils.js';
+import { field, fieldError } from '../support/utils.js';
 
 describe('Change password', () => {
   beforeEach(() => cy.login());
-
-  const field = name => cy.get(`input[name=${name}]`);
-  const fieldError = name =>
-    field(name)
-      .parents(c('Field__field'))
-      .find(c('Field__fieldError'));
 
   const password = 'Webkom123';
   const newPassword = 'Abakus123';

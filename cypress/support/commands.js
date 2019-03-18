@@ -12,3 +12,19 @@ Cypress.Commands.add('login', (username = 'webkom', password = 'Webkom123') => {
       cy.setCookie('lego.auth', body.token);
     });
 });
+
+Cypress.Commands.add(
+  'upload_file',
+  (selector, fileName, type = 'image/png') => {
+    return cy
+      .fixture(fileName, 'base64')
+      .then(Cypress.Blob.base64StringToBlob)
+      .then(blob => {
+        const nameSegments = fileName.split('/');
+        const name = nameSegments[nameSegments.length - 1];
+        const testFile = new File([blob], name, { type });
+        const event = { dataTransfer: { files: [testFile] } };
+        return cy.get(selector).trigger('drop', event);
+      });
+  }
+);

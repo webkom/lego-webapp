@@ -1,4 +1,4 @@
-import { c } from '../support/utils.js';
+import { c, field, fieldError } from '../support/utils.js';
 
 describe('Profile settings', () => {
   beforeEach(() => cy.login());
@@ -132,11 +132,6 @@ describe('Profile settings', () => {
     cy.visit('/users/me/settings/profile');
 
     const submitButton = () => cy.contains('Submit');
-    const field = name => cy.get(`input[name=${name}]`);
-    const fieldError = name =>
-      field(name)
-        .parents(c('Field__field'))
-        .find(c('Field__fieldError'));
 
     // firstName field validation
     field('firstName')
@@ -205,11 +200,6 @@ describe('Profile settings', () => {
     cy.visit('/users/me/settings/profile');
 
     const submitButton = () => cy.contains('Submit');
-    const field = name => cy.get(`input[name=${name}]`);
-    const fieldError = name =>
-      field(name)
-        .parents(c('Field__field'))
-        .find(c('Field__fieldError'));
 
     field('email')
       .clear()
