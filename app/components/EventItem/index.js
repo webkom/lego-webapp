@@ -50,7 +50,7 @@ const TimeStamp = ({ event, field }: TimeStampProps) => {
     <div className={styles.eventTime}>
       {registration}
       <br />
-      Starter kl: <Time time={event.startTime} format="ll HH:mm" />
+      Starter <Time time={event.startTime} format="ll - HH:mm" />
     </div>
   );
 };
