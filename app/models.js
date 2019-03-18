@@ -70,7 +70,8 @@ export type Event = EventBase & {
   useConsent: ?boolean,
   isUserFollowing: UserFollowing,
   unansweredSurveys: Array<ID>,
-  responsibleGroup: Group
+  responsibleGroup: Group,
+  price?: number
 };
 
 export type TransformEvent = EventBase & {
@@ -103,7 +104,8 @@ export type User = {
   username: string,
   grade: Grade,
   allergies: string,
-  profilePicture: string
+  profilePicture: string,
+  email?: string
 };
 
 export type EventRegistrationPresence = 'PRESENT' | 'NOT_PRESENT' | 'UNKNOWN';

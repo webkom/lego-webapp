@@ -8,13 +8,11 @@ import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { Form, Captcha, TextEditor } from 'app/components/Form';
 import Button from 'app/components/Button';
 import UpdateAllergies from './UpdateAllergies';
-import StripeCheckout from 'react-stripe-checkout';
-import logoImage from 'app/assets/kule.png';
+import PaymentRequestForm from './StripeElement';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import Time from 'app/components/Time';
 import { Flex } from 'app/components/Layout';
-import config from 'app/config';
 import withCountdown from './JoinEventFormCountdownProvider';
 import formStyles from 'app/components/Form/Field.css';
 import moment from 'moment-timezone';
@@ -28,7 +26,7 @@ export type Props = {
   registration: ?Object,
   currentUser: Object,
   onSubmit: Object => void,
-  onToken: () => void,
+  onToken: () => Promise<*>,
 
   updateUser: () => void,
   handleSubmit: /*TODO: SubmitHandler<>*/ any => void,
@@ -268,20 +266,11 @@ class JoinEventForm extends Component<Props> {
                     />
                   )}
                   {showStripe && (
-                    <StripeCheckout
-                      name="Abakus Linjeforening"
-                      description={event.title}
-                      image={logoImage}
-                      currency="NOK"
-                      allowRememberMe
-                      locale="no"
-                      token={onToken}
-                      stripeKey={config.stripeKey}
-                      amount={event.price}
-                      email={currentUser.email}
-                    >
-                      <Button>Betal nå</Button>
-                    </StripeCheckout>
+                    <PaymentRequestForm
+                      onToken={onToken}
+                      event={event}
+                      currentUser={currentUser}
+                    />
                   )}
                 </Flex>
               )}
