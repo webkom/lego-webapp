@@ -87,7 +87,7 @@ export function createField(Component: ComponentType<*>) {
 
     const hasError = showErrors && touched && error && error.length > 0;
     const hasWarning = showErrors && touched && warning && warning.length > 0;
-  
+
     return (
       <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
         <label className={cx(styles.label, labelClassName)}>
@@ -108,7 +108,11 @@ export function createField(Component: ComponentType<*>) {
           <Component
             {...input}
             {...props}
-            className={cx(className, hasError && styles.inputWithError)}
+            className={cx(
+              className,
+              hasWarning && styles.inputWithWarning,
+              hasError && styles.inputWithError
+            )}
           />
         </label>
         {hasError && <RenderErrorMessage error={meta.error} />}
