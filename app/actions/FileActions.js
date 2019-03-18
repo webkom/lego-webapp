@@ -3,7 +3,7 @@
 import { File as FileType } from './ActionTypes';
 import callAPI from './callAPI';
 import type { Thunk } from 'app/types';
-import slug from 'slug';
+import slug from 'slugify';
 
 /**
  * Normalize filenames
@@ -12,11 +12,11 @@ import slug from 'slug';
 const normalizeFilename: (filename: string) => string = filename => {
   const extensionIndex = filename.lastIndexOf('.');
   if (extensionIndex > 0) {
-    const name = slug(filename.substr(0, extensionIndex), { symbols: true });
+    const name = slug(filename.substr(0, extensionIndex));
     const extension = filename.substr(extensionIndex);
     return `${name}${extension}`;
   }
-  return slug(filename, { symbols: true });
+  return slug(filename);
 };
 
 export function fetchSignedPost(key: string, isPublic: boolean) {
