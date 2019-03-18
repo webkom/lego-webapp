@@ -19,13 +19,12 @@
   height: 0;
   border-width: 5px;
   border-style: solid;
-  left: 10%;
+  left: 50%;
 }
 
 .showTooltip {
-  margin-top: -45px;
+  transform: translate(-50%, -100%);
   position: absolute;
-  transform: translateX(-10%);
 }
 
 .showTooltip::after {
