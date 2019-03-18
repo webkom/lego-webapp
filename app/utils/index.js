@@ -1,4 +1,5 @@
 // @flow
+import type { ID } from 'app/models';
 
 type Tree<T: Object> = Array<
   T & {
@@ -23,8 +24,8 @@ type Tree<T: Object> = Array<
  */
 export function generateTreeStructure<
   T: {
-    id: string,
-    parent?: string
+    id: ID,
+    parent?: ID
   }
 >(nodes: Array<T>): Tree<T> {
   // Create a map of id -> node for retrievals later:

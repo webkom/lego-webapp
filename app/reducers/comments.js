@@ -4,14 +4,15 @@ import { Comment } from 'app/actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { type UserEntity } from 'app/reducers/users';
 import getEntityType from 'app/utils/getEntityType';
+import type { ID } from 'app/models';
 
 export type CommentEntity = {
-  id: string,
-  parent?: string,
+  id: ID,
+  parent?: ID,
   createdAt: string,
   children: Array<Object>,
-  text: string,
-  author: UserEntity
+  text: string | null,
+  author: UserEntity | null
 };
 
 /**

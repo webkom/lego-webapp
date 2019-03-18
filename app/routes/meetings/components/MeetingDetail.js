@@ -26,7 +26,7 @@ import type {
   MeetingInvitationStatus
 } from 'app/reducers/meetingInvitations';
 import type { UserEntity } from 'app/reducers/users';
-import type { Dateish } from 'app/models';
+import type { Dateish, ID } from 'app/models';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import { FromToTime } from 'app/components/Time';
 import InfoList from 'app/components/InfoList';
@@ -48,7 +48,7 @@ type Props = {
   loggedIn: boolean,
   comments: Array<Object>,
   push: string => Promise<*>,
-  deleteComment: (id: string, commentTarget: string) => Promise<*>
+  deleteComment: (id: ID, commentTarget: string) => Promise<*>
 };
 
 const UserLink = ({ user }: { user: UserEntity }) =>

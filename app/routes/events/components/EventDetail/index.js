@@ -1,7 +1,7 @@
 // @flow
 
 import styles from './EventDetail.css';
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, type Node } from 'react';
 import CommentView from 'app/components/Comments/CommentView';
 import Icon from 'app/components/Icon';
 import JoinEventForm from '../JoinEventForm';
@@ -25,9 +25,17 @@ import {
   ContentMain,
   ContentSidebar
 } from 'app/components/Content';
-import type { ID } from 'app/models';
 import { Link } from 'react-router';
 import UserGrid from 'app/components/UserGrid';
+import type {
+  ID,
+  EventPool,
+  EventRegistration,
+  Event,
+  ActionGrant
+} from 'app/models';
+import type { CommentEntity } from 'app/reducers/comments';
+import type { UserEntity } from 'app/reducers/users';
 
 type InterestedButtonProps = {
   isInterested: boolean
@@ -39,41 +47,41 @@ const InterestedButton = ({ isInterested }: InterestedButtonProps) => {
 };
 
 type Props = {
-  eventId: string,
-  event: Object,
+  eventId: ID,
+  event: Event,
   loggedIn: boolean,
-  currentUser: Object,
-  actionGrant: Array<string>,
-  comments: Array<Object>,
+  currentUser: UserEntity,
+  actionGrant: ActionGrant,
+  comments: Array<CommentEntity>,
   error?: Object,
-  pools: Array<Object>,
-  registrations: Array<Object>,
-  currentRegistration: Object,
+  pools: Array<EventPool>,
+  registrations: Array<EventRegistration>,
+  currentRegistration: EventRegistration,
   currentRegistrationIndex: number,
   hasSimpleWaitingList: boolean,
-  waitingRegistrations: Array<Object>,
+  waitingRegistrations: Array<EventRegistration>,
   register: ({
-    eventId: string,
+    eventId: ID,
     captchaResponse: string,
     feedback: string,
-    userId: number
+    userId: ID
   }) => Promise<*>,
-  follow: (eventId: string, userId: string) => Promise<*>,
-  unfollow: (eventId: string, userId: string) => Promise<*>,
+  follow: (eventId: ID, userId: ID) => Promise<*>,
+  unfollow: (eventId: ID, userId: ID) => Promise<*>,
   unregister: ({
-    eventId: string,
-    registrationId: number,
-    userId: number
+    eventId: ID,
+    registrationId: ID,
+    userId: ID
   }) => Promise<*>,
-  payment: (eventId: string, token: string) => Promise<*>,
+  payment: (eventId: ID, token: string) => Promise<*>,
   updateFeedback: (
-    eventId: string,
-    registrationId: number,
+    eventId: ID,
+    registrationId: ID,
     feedback: string
   ) => Promise<*>,
   deleteEvent: (eventId: ID) => Promise<*>,
-  updateUser: Object => void,
-  deleteComment: (id: string, commentTarget: string) => Promise<*>
+  updateUser: UserEntity => void,
+  deleteComment: (id: ID, commentTarget: string) => Promise<*>
 };
 
 export default class EventDetail extends Component<Props> {
@@ -146,7 +154,7 @@ export default class EventDetail extends Component<Props> {
       ? () => unfollow(event.isUserFollowing.id, event.id)
       : () => follow(currentUser.id, event.id);
 
-    const infoItems = [
+    const infoItems: Array<?{ key: string, value: Node }> = [
       event.company && {
         key: 'Arrangerende bedrift',
         value: (
@@ -185,22 +193,28 @@ export default class EventDetail extends Component<Props> {
         value: <FromToTime from={event.startTime} to={event.endTime} />
       },
       { key: 'Finner sted i', value: event.location },
-      event.activationTime && {
-        key: 'Påmelding åpner',
-        value: <FormatTime time={event.activationTime} />
-      },
-      event.unregistrationDeadline && {
-        key: 'Avregistreringsfrist',
-        value: <FormatTime time={event.unregistrationDeadline} />
-      }
+      event.activationTime
+        ? {
+            key: 'Påmelding åpner',
+            value: <FormatTime time={event.activationTime} />
+          }
+        : null,
+      event.unregistrationDeadline
+        ? {
+            key: 'Avregistreringsfrist',
+            value: <FormatTime time={event.unregistrationDeadline} />
+          }
+        : null
     ];
 
-    const paidItems = [
+    const paidItems: Array<?{ key: string, value: Node }> = [
       { key: 'Pris', value: `${event.priceMember / 100},-` },
-      event.paymentDueDate && {
-        key: 'Betalingsfrist',
-        value: <FormatTime time={event.paymentDueDate} />
-      }
+      event.paymentDueDate
+        ? {
+            key: 'Betalingsfrist',
+            value: <FormatTime time={event.paymentDueDate} />
+          }
+        : null
     ];
 
     return (
@@ -212,7 +226,7 @@ export default class EventDetail extends Component<Props> {
             className={styles.title}
           >
             {loggedIn && (
-              <InterestedButton isInterested={event.isUserFollowing} />
+              <InterestedButton isInterested={!!event.isUserFollowing} />
             )}
             {event.title}
           </ContentHeader>

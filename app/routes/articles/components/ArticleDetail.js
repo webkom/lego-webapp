@@ -12,6 +12,7 @@ import DisplayContent from 'app/components/DisplayContent';
 import type { ArticleEntity } from 'app/reducers/articles';
 import type { UserEntity } from 'app/reducers/users';
 import type { CommentEntity } from 'app/reducers/comments';
+import type { ID } from 'app/models';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 
 type Props = {
@@ -20,7 +21,7 @@ type Props = {
   loggedIn: boolean,
   author: UserEntity,
   currentUser: UserEntity,
-  deleteComment: (id: string, commentTarget: string) => Promise<*>
+  deleteComment: (id: ID, commentTarget: string) => Promise<*>
 };
 
 /**

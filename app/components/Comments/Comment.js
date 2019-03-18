@@ -9,11 +9,17 @@ import DisplayContent from 'app/components/DisplayContent';
 import styles from './Comment.css';
 import { Flex } from 'app/components/Layout';
 import { type UserEntity } from 'app/reducers/users';
+import { type CommentEntity } from 'app/reducers/comments';
+import type { ID } from 'app/models';
 
 type Props = {
-  comment: Object,
-  commentFormProps: Object,
-  deleteComment: (id: string, commentTarget: string) => Promise<*>,
+  comment: CommentEntity,
+  commentFormProps: {
+    commentTarget: string,
+    user: UserEntity,
+    loggedIn: boolean
+  },
+  deleteComment: (id: ID, commentTarget: string) => Promise<*>,
   user: UserEntity,
   commentTarget: string
 };

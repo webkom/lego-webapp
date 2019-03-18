@@ -5,13 +5,19 @@ import cx from 'classnames';
 import Comment from './Comment';
 import styles from './CommentTree.css';
 import { type UserEntity } from 'app/reducers/users';
+import { type CommentEntity } from 'app/reducers/comments';
+import { type ID } from 'app/models';
 
 type Props = {
-  comments: Array<Object>,
+  comments: Array<CommentEntity>,
   isChild?: boolean,
-  commentFormProps: Object,
+  commentFormProps: {
+    commentTarget: string,
+    user: UserEntity,
+    loggedIn: boolean
+  },
   level?: number,
-  deleteComment: (id: string, commentTarget: string) => Promise<*>,
+  deleteComment: (id: ID, commentTarget: string) => Promise<*>,
   user: UserEntity,
   commentTarget: string
 };

@@ -25,7 +25,7 @@ import type {
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 import type { UserEntity } from 'app/reducers/users';
 import Button from 'app/components/Button';
-import type { CompanySemesterContactedStatus } from 'app/models';
+import type { CompanySemesterContactedStatus, ID } from 'app/models';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 
 type Props = {
@@ -42,7 +42,7 @@ type Props = {
   fetching: boolean,
   editCompany: Object => void,
   deleteCompany: number => Promise<*>,
-  deleteComment: (id: string, commentTarget: string) => Promise<*>
+  deleteComment: (id: ID, commentTarget: string) => Promise<*>
 };
 
 type State = {

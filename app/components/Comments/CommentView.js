@@ -7,9 +7,11 @@ import CommentForm from 'app/components/CommentForm';
 import { Flex } from 'app/components/Layout';
 import type { UserEntity } from 'app/reducers/users';
 import CommentTree from './CommentTree';
+import type { CommentEntity } from 'app/reducers/comments';
+import type { ID } from 'app/models';
 
 type Props = {
-  comments: Array<Object>,
+  comments: Array<CommentEntity>,
   formDisabled?: boolean,
   commentTarget: string,
   user: UserEntity,
@@ -17,7 +19,7 @@ type Props = {
   displayTitle?: boolean,
   style?: Object,
   newOnTop?: boolean,
-  deleteComment: (id: string, commentTarget: string) => Promise<*>
+  deleteComment: (id: ID, commentTarget: string) => Promise<*>
 };
 
 const Title = ({ displayTitle }: { displayTitle: boolean }) =>

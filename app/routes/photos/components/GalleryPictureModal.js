@@ -15,6 +15,7 @@ import Modal from 'app/components/Modal';
 import styles from './GalleryPictureModal.css';
 import Swipeable from 'react-swipeable';
 import type { EntityID } from 'app/types';
+import type { ID } from 'app/models';
 
 type Props = {
   picture: Object,
@@ -32,7 +33,7 @@ type Props = {
   fetchSiblingGallerPicture: (EntityID, EntityID, boolean) => Promise<*>,
   isFirstImage: Boolean,
   isLastImage: Boolean,
-  deleteComment: (id: string, commentTarget: string) => Promise<*>
+  deleteComment: (id: ID, commentTarget: string) => Promise<*>
 };
 
 type State = {
