@@ -1,4 +1,4 @@
-Cypress.Commands.add('login', (username = 'webkom', password = 'webkom') => {
+Cypress.Commands.add('login', (username = 'webkom', password = 'Webkom123') => {
   const base = Cypress.env('API_BASE_URL') || 'http://localhost:8000';
   const url = base + '/authorization/token-auth/';
   return cy

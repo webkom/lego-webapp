@@ -12,7 +12,7 @@ describe('The Home Page and Login', () => {
     // Login
     const username = 'webkom';
     cy.get('[name=username]').type(username);
-    cy.get('[name=password]').type('webkom{enter}');
+    cy.get('[name=password]').type('Webkom123{enter}');
 
     // Click dropdown for user
     cy.get(c('Dropdown__content')).should('not.exist');
