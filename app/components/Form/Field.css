@@ -11,8 +11,20 @@
   border: 1px solid #c24538 !important;
 }
 
+.inputWithWarning {
+  border: 1px solid #ff8000 !important;
+}
+
 .fieldError {
   background: #c24538;
+  color: #fff;
+  padding: 5px 10px;
+  margin-top: 3px;
+  border-radius: 3px;
+}
+
+.fieldWarning {
+  background: #ff8000;
   color: #fff;
   padding: 5px 10px;
   margin-top: 3px;
