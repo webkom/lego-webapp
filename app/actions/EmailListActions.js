@@ -39,7 +39,7 @@ export function editEmailList(emailList: EmailListEntity) {
     schema: emailListSchema,
     body: emailList,
     meta: {
-      errorMessage: 'Endring av artikkel feilet'
+      errorMessage: 'Endring av epostliste feilet'
     }
   });
 }

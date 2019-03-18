@@ -3,13 +3,13 @@
 import React from 'react';
 import Button from 'app/components/Button';
 import { createValidator, required } from 'app/utils/validation';
-import { reduxForm } from 'redux-form';
 import { roleOptions } from 'app/utils/constants';
 import {
   TextInput,
   SelectInput,
   CheckBox,
-  handleSubmissionError
+  handleSubmissionError,
+  legoForm
 } from 'app/components/Form';
 import { Form, Field } from 'redux-form';
 import Tooltip from 'app/components/Tooltip';
@@ -22,14 +22,67 @@ export type Props = {
   mutateFunction: Object => Promise<*>
 };
 
-const EmailListEditor = ({
-  emailListId,
-  mutateFunction,
-  submitting,
-  handleSubmit,
-  push
-}: Props) => {
-  const onSubmit = data =>
+const EmailListEditor = ({ submitting, handleSubmit, emailListId }: Props) => (
+  <Form onSubmit={handleSubmit}>
+    <Field
+      required
+      placeholder="Abakus"
+      name="name"
+      label="Navnet på Epostliste"
+      component={TextInput.Field}
+    />
+    <Field
+      required
+      disabled={emailListId}
+      placeholder="abakus"
+      suffix="@abakus.no"
+      name="email"
+      label="Epost"
+      component={TextInput.Field}
+    />
+    <Field
+      label="Brukere"
+      name="users"
+      multi
+      placeholder="Inviter en ny bruker"
+      filter={['users.user']}
+      component={SelectInput.AutocompleteField}
+    />
+    <Field
+      label="Grupper"
+      name="groups"
+      multi
+      placeholder="Inviter en ny bruker"
+      filter={['users.abakusgroup']}
+      component={SelectInput.AutocompleteField}
+    />
+    <Field
+      label="Roller (hvis du lar denne stå tom betyr det at alle medlemmene i gruppene får mail!)"
+      name="groupRoles"
+      multi
+      placeholder="Velg rolle"
+      options={roleOptions}
+      component={SelectInput.Field}
+    />
+
+    <Tooltip content="Når denne er aktivert vil kun brukere med aktiv @abakus.no-adresse få mail fra denne listen">
+      <Field
+        label="Kun for for brukere med internmail (@abakus.no)"
+        name="requireInternalAddress"
+        component={CheckBox.Field}
+        normalize={v => !!v}
+      />
+    </Tooltip>
+    <Button submit disabled={submitting}>
+      {emailListId ? 'Oppdater epostliste' : 'Lag epostliste'}
+    </Button>
+  </Form>
+);
+
+export default legoForm({
+  form: 'emailList',
+  enableReinitialize: true,
+  onSubmit: (data, dispatch, { mutateFunction, emailListId, push }: Props) =>
     mutateFunction({
       id: data.id,
       email: data.email,
@@ -42,69 +95,8 @@ const EmailListEditor = ({
       if (!emailListId) {
         push(`/admin/email/lists/${payload.result}`);
       }
-    }, handleSubmissionError);
+    }, handleSubmissionError),
 
-  return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
-      <Field
-        required
-        placeholder="Abakus"
-        name="name"
-        label="Navnet på Epostliste"
-        component={TextInput.Field}
-      />
-      <Field
-        required
-        disabled={emailListId}
-        placeholder="abakus"
-        suffix="@abakus.no"
-        name="email"
-        label="Epost"
-        component={TextInput.Field}
-      />
-      <Field
-        label="Brukere"
-        name="users"
-        multi
-        placeholder="Inviter en ny bruker"
-        filter={['users.user']}
-        component={SelectInput.AutocompleteField}
-      />
-      <Field
-        label="Grupper"
-        name="groups"
-        multi
-        placeholder="Inviter en ny bruker"
-        filter={['users.abakusgroup']}
-        component={SelectInput.AutocompleteField}
-      />
-      <Field
-        label="Roller"
-        name="groupRoles"
-        multi
-        placeholder="Velg rolle"
-        options={roleOptions}
-        component={SelectInput.Field}
-      />
-
-      <Tooltip content="Når denne er aktivert vil kun brukere med aktiv @abakus.no-adresse få mail fra denne listen">
-        <Field
-          label="Kun for for brukere med internmail (@abakus.no)"
-          name="requireInternalAddress"
-          component={CheckBox.Field}
-          normalize={v => !!v}
-        />
-      </Tooltip>
-      <Button submit disabled={submitting}>
-        {emailListId ? 'Oppdater epostliste' : 'Lag epostliste'}
-      </Button>
-    </Form>
-  );
-};
-
-export default reduxForm({
-  form: 'emailList',
-  enableReinitialize: true,
   validate: createValidator({
     email: [required()],
     name: [required()]
