@@ -10,20 +10,34 @@ type Props = {
   className?: string,
   onClick?: () => void,
   style?: Object,
-  list: boolean
+  list: boolean,
+  childrenContainerRef: ?HTMLDivElement
 };
 
 type State = {
-  hovered: boolean
+  hovered: boolean,
+  childrenContainerWidth: number
 };
 
 export default class Tooltip extends Component<Props, State> {
   static defaultProps = {
-    list: false
+    list: false,
+    childrenContainerRef: React.createRef
   };
 
+  tooltip: ?HTMLDivElement;
+
+  measure() {
+    const width = this.tooltip.clientWidth;
+
+    this.setState({
+      childrenContainerWidth: width
+    });
+  }
+
   state = {
-    hovered: false
+    hovered: false,
+    childrenContainerWidth: 0
   };
 
   onMouseEnter = () => {
@@ -38,6 +52,10 @@ export default class Tooltip extends Component<Props, State> {
     });
   };
 
+  componentDidMount() {
+    this.measure();
+  }
+
   render() {
     const { content, children, className, list, style, onClick } = this.props;
     const tooltipClass = this.state.hovered
@@ -46,10 +64,22 @@ export default class Tooltip extends Component<Props, State> {
     const tooltip = list ? styles.listTooltip : styles.showTooltip;
     return (
       <div className={className} onClick={onClick}>
-        <div className={cx(tooltipClass, tooltip)} style={style}>
+        <div
+          className={cx(tooltipClass, tooltip)}
+          style={{
+            ...style,
+            marginLeft: this.state.childrenContainerWidth / 2
+          }}
+        >
           {content}
         </div>
-        <div onMouseEnter={this.onMouseEnter} onMouseLeave={this.onMouseLeave}>
+        <div
+          ref={ref => {
+            this.tooltip = ref;
+          }}
+          onMouseEnter={this.onMouseEnter}
+          onMouseLeave={this.onMouseLeave}
+        >
           {children}
         </div>
       </div>
