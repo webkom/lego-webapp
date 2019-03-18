@@ -42,7 +42,9 @@ type Props = {
   fetching: boolean,
   editCompany: Object => void,
   deleteCompany: number => Promise<*>,
-  deleteComment: (id: ID, commentTarget: string) => Promise<*>
+  deleteComment: (id: ID, commentTarget: string) => Promise<*>,
+  showFetchMoreEvents: boolean,
+  fetchMoreEvents: () => Promise<*>
 };
 
 type State = {
@@ -153,7 +155,9 @@ export default class BdbDetail extends Component<Props, State> {
       companyEvents,
       fetching,
       deleteCompany,
-      deleteComment
+      deleteComment,
+      showFetchMoreEvents,
+      fetchMoreEvents
     } = this.props;
 
     if (fetching || !company.semesterStatuses) {
@@ -397,13 +401,17 @@ export default class BdbDetail extends Component<Props, State> {
                 </thead>
                 <tbody>{events}</tbody>
               </table>
-              {this.state.eventsToDisplay === 3 && (
+              {this.state.eventsToDisplay === 3 ? (
                 <Button
                   style={{ width: '100%', marginTop: '20px' }}
                   onClick={() => this.setState({ eventsToDisplay: 100 })}
                 >
                   Vis alle arrangementer
                 </Button>
+              ) : (
+                showFetchMoreEvents && (
+                  <Button onClick={fetchMoreEvents}>Hent flere</Button>
+                )
               )}
             </div>
           ) : (
