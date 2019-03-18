@@ -1,3 +1,21 @@
-.ulList {
+.ul_list {
+  display: block;
+  list-style: disc;
+  padding-inline-start: 20px;
+}
 
+.ol_list {
+  display: block;
+  list-style: decimal;
+  padding-inline-start: 20px;
+}
+
+.li {
+  display: list-item;
+}
+
+.paragraph {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
 }

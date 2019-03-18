@@ -99,6 +99,7 @@
     "slate": "^0.44.12",
     "slate-edit-list": "^0.12.1",
     "slate-react": "^0.21.18",
+    "slate-soft-break": "^0.9.0",
     "source-map-support": "^0.5.8",
     "validator": "^9.2.0",
     "victory": "^0.25.7",

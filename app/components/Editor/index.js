@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Editor as SlateEditor } from 'slate-react';
 import { Value } from 'slate';
 import EditList from '@guestbell/slate-edit-list';
-import { Toolbar } from './components/Toolbar';
+import SoftBreak from 'slate-soft-break';
+import Toolbar from './components/Toolbar';
 import { BoldMark, ItalicMark } from './components/marks';
 import styles from './Editor.css';
 
@@ -73,12 +74,16 @@ export default class Editor extends Component<Props, State> {
   };
 
   onKeyDown = (e, editor, next) => {
-    switch (e.key) {
-      case 'Tab':
-        e.preventDefault();
-        editor.insertText('\t');
+    const { node } = this.props;
+    if (node.type == 'paragraph') {
+      switch (e.key) {
+        case 'Enter': {
+          e.preventDefault();
+          editor.setBlocks('break');
+          break;
+        }
+      }
     }
-
     if (!e.ctrlKey) return next();
 
     switch (e.key) {
@@ -94,7 +99,7 @@ export default class Editor extends Component<Props, State> {
       }
       case 'l': {
         e.preventDefault();
-        editor.toggleMark('ol_list');
+        editor.setBlocks('ol_list');
         break;
       }
       default: {
@@ -117,17 +122,27 @@ export default class Editor extends Component<Props, State> {
   renderNode = (props, editor, next) => {
     const { attributes, node, children } = props;
     switch (node.type) {
+      case 'paragraph':
+        return (
+          <p className={styles.paragraph} {...attributes}>
+            {children}
+          </p>
+        );
       case 'ul_list':
-        return <ul {...attributes}>{children}</ul>;
+        return (
+          <ul className={styles.ul_list} {...attributes}>
+            {children}
+          </ul>
+        );
       case 'ol_list':
         return (
-          <ol className={styles.olList} {...attributes}>
+          <ol className={styles.ol_list} {...attributes}>
             {children}
           </ol>
         );
       case 'list_item':
         return (
-          <li className={styles.listItem} {...attributes}>
+          <li className={styles.li} {...attributes}>
             {children}
           </li>
         );
@@ -136,23 +151,27 @@ export default class Editor extends Component<Props, State> {
     }
   };
 
-  toolbarHandler = (e, type) => {
-    e.preventDefault();
+  toolbarHandler = (e, type) => {};
 
-    const { editor } = this.props;
-
-    editor.toggleMark(type);
+  renderEditor = (props, editor, next) => {
+    const children = next();
+    return (
+      <>
+        <Toolbar editor={editor} />
+        {children}
+      </>
+    );
   };
 
   render() {
     return (
       <div>
-        <Toolbar handler={this.toolbarHandler} />
         <SlateEditor
+          renderEditor={this.renderEditor}
           value={this.state.value}
+          plugins={plugins}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
-          plugins={plugins}
           renderMark={this.renderMark}
           renderNode={this.renderNode}
         />
