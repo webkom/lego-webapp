@@ -25,6 +25,8 @@ export type EventType =
 
 type SelectInput = { label: string, value: string };
 
+export type EventStatusType = 'NORMAL' | 'OPEN' | 'TBA' | 'INFINITE';
+
 type EventBase = {
   id: ID,
   title: string,
@@ -36,6 +38,7 @@ type EventBase = {
   feedbackDescription: string,
   feedbackRequired: boolean,
   eventType: EventType,
+  eventStatusType: EventStatusType,
   location: string,
   isPriced: boolean,
   isAbakomOnly: boolean,

@@ -22,11 +22,11 @@ const TYPE_COLORS = {
   company_presentation: '#A1C34A',
   lunch_presentation: '#A1C34A',
   course: '#52B0EC',
-  kid_event: '#111',
+  kid_event: '#111111',
   party: '#FCD748',
   social: '#B11C11',
   event: '#B11C11',
-  other: '#111'
+  other: '#111111'
 };
 
 export const colorForEvent = (eventType: EventType) => {
@@ -44,15 +44,13 @@ const eventCreateAndUpdateFields = [
   'feedbackDescription',
   'feedbackRequired',
   'eventType',
+  'eventStatusType',
   'location',
   'isPriced',
   'priceMember',
   'priceGuest',
   'useStripe',
   'paymentDueDate',
-  'startTime',
-  'endTime',
-  'mergeTime',
   'useCaptcha',
   'tags',
   'pools',
@@ -63,6 +61,7 @@ const eventCreateAndUpdateFields = [
   'useConsent'
 ];
 
+// Pool fields that should be created or updated based on the API
 const poolCreateAndUpdateFields = [
   'id',
   'name',
@@ -71,35 +70,91 @@ const poolCreateAndUpdateFields = [
   'permissionGroups'
 ];
 
-export const transformEvent = (data: TransformEvent, edit: boolean = false) => {
-  let priceMember = 0;
+/* Calculate the event price
+ * @param isPriced: If the event is priced
+ * @param addFee: If the event uses Stipe and needs a fee
+ */
+const calculatePrice = data => {
   if (data.isPriced) {
-    priceMember =
-      (data.addFee ? addStripeFee(data.priceMember) : data.priceMember) * 100;
+    if (data.addFee) {
+      return addStripeFee(data.priceMember) * 100;
+    }
+    return data.priceMember * 100;
   }
-
-  return {
-    ...pick(data, eventCreateAndUpdateFields),
-    startTime: moment(data.startTime).toISOString(),
-    endTime: moment(data.endTime).toISOString(),
-    mergeTime:
-      data.pools.length >= 2 ? moment(data.mergeTime).toISOString() : null,
-    company: data.company && data.company.value,
-    responsibleGroup: data.responsibleGroup && data.responsibleGroup.value,
-    priceMember,
-    paymentDueDate: data.isPriced
-      ? moment(data.paymentDueDate).toISOString()
-      : null,
-    unregistrationDeadline: data.unregistrationDeadline
-      ? moment(data.unregistrationDeadline).toISOString()
-      : null,
-    pools: data.pools.map(pool => ({
-      ...pick(pool, poolCreateAndUpdateFields),
-      activationDate: moment(pool.activationDate).toISOString(),
-      permissionGroups: pool.permissionGroups.map(group => group.value)
-    }))
-  };
+  return 0;
 };
+/* Calculate the event location
+ * @param eventStatusType: what kind of registrationmode this event has
+ */
+const calculateLocation = data =>
+  data.eventStatusType == 'TBA' ? 'TBA' : data.location;
+
+/* Calculate the event pools
+ * @param eventStatusType: what kind of registrationmode this event has
+ * @param pools: the event groups as specified by the CreateEvent forms
+ */
+const calculatePools = data => {
+  switch (data.eventStatusType) {
+    case 'TBA':
+    case 'OPEN':
+      return [];
+    case 'INFINITE':
+      return [
+        {
+          ...pick(data.pools[0], poolCreateAndUpdateFields),
+          activationDate: moment(data.pools[0].activationDate).toISOString(),
+          permissionGroups: data.pools[0].permissionGroups.map(
+            group => group.value
+          )
+        }
+      ];
+    case 'NORMAL':
+      return data.pools.map(pool => ({
+        ...pick(pool, poolCreateAndUpdateFields),
+        activationDate: moment(pool.activationDate).toISOString(),
+        permissionGroups: pool.permissionGroups.map(group => group.value)
+      }));
+    default:
+      break;
+  }
+};
+
+/* Calculte and convert to payment due date
+ * @param paymentDueDate: date from form
+ */
+const calculatePaymentDueDate = data =>
+  data.isPriced ? moment(data.paymentDueDate).toISOString() : null;
+
+/* Calcualte and convert the registation deadline
+ * @param unregistationDeadline: data from form
+ */
+const calculateUnregistrationDeadline = data =>
+  data.unregistrationDeadline
+    ? moment(data.unregistrationDeadline).toISOString()
+    : null;
+
+/* Calculate the merge time for the pools. Only set if there are more then one pool
+ * @param mergeTime: date from form
+ */
+const calculateMergeTime = data =>
+  data.pools.length > 1 ? moment(data.mergeTime).toISOString() : null;
+
+// Takes the full data-object and input and transforms the event to the API format.
+export const transformEvent = (data: TransformEvent) => ({
+  ...pick(data, eventCreateAndUpdateFields),
+  startTime: moment(data.startTime).toISOString(),
+  endTime: moment(data.endTime).toISOString(),
+  mergeTime: calculateMergeTime(data),
+  company: data.company && data.company.value,
+  eventStatusType: data.eventStatusType,
+  responsibleGroup: data.responsibleGroup && data.responsibleGroup.value,
+  priceMember: calculatePrice(data),
+  location: calculateLocation(data),
+  paymentDueDate: calculatePaymentDueDate(data),
+  unregistrationDeadline: calculateUnregistrationDeadline(data),
+  pools: calculatePools(data),
+  useCaptcha: true // always use Captcha, this blocks the use of CLI
+});
 
 export const paymentPending = 'pending';
 export const paymentSuccess = 'succeeded';

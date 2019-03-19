@@ -8,34 +8,47 @@ import {
   SelectInput,
   Button
 } from 'app/components/Form';
+import type { Dateish, EventStatusType } from 'app/models';
 
 import moment from 'moment-timezone';
 
 type poolProps = {
   fields: Object,
-  startTime: Object
+  startTime: Dateish,
+  eventStatusType: EventStatusType
 };
 
-const renderPools = ({ fields, startTime }: poolProps) => (
+const minimumOne = value =>
+  value && value < 1 ? `Pools må ha minst 1 plass` : undefined;
+
+const highWarning = value =>
+  value && value >= 500 ? 'Åpent event gir uendelig plasser 😁' : undefined;
+
+const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
   <ul style={{ flex: 1 }}>
     {fields.map((pool, index) => (
-      <li key={index}>
-        <h4>Pool #{index + 1}</h4>
+      <li key={index} className={styles.poolBox}>
+        <h3 className={styles.poolHeader}>Pool #{index + 1}</h3>
         <Field
+          label="Navn"
           name={`pools[${index}].name`}
           fieldClassName={styles.metaField}
           className={styles.formField}
           component={TextInput.Field}
         />
-        <Field
-          label="Kapasitet"
-          name={`pools[${index}].capacity`}
-          type="number"
-          placeholder="0 er ubegrenset"
-          fieldClassName={styles.metaField}
-          className={styles.formField}
-          component={TextInput.Field}
-        />
+        {['NORMAL'].includes(eventStatusType) && (
+          <Field
+            label="Kapasitet"
+            name={`pools[${index}].capacity`}
+            type="number"
+            placeholder="20,30,50"
+            validate={minimumOne}
+            warn={highWarning}
+            fieldClassName={styles.metaField}
+            className={styles.formField}
+            component={TextInput.Field}
+          />
+        )}
         <Field
           label="Aktiveringstidspunkt"
           name={`pools[${index}].activationDate`}
@@ -51,32 +64,42 @@ const renderPools = ({ fields, startTime }: poolProps) => (
           component={SelectInput.AutocompleteField}
           multi
         />
-        <Button
-          disabled={fields.get(index).registrations.length > 0}
-          onClick={() => fields.remove(index)}
-        >
-          Fjern pool
-        </Button>
+        {['NORMAL'].includes(eventStatusType) && (
+          <div className={styles.centeredButton}>
+            <Button
+              disabled={
+                fields.get(index).registrations.length > 0 || fields.length == 1
+              }
+              onClick={() => fields.remove(index)}
+            >
+              Fjern pool
+            </Button>
+          </div>
+        )}
       </li>
     ))}
-    <li>
-      <Button
-        onClick={() =>
-          fields.push({
-            name: `Pool #${fields.length + 1}`,
-            registrations: [],
-            activationDate: moment(startTime)
-              .subtract(7, 'd')
-              .hour(12)
-              .minute(0)
-              .toISOString(),
-            permissionGroups: []
-          })
-        }
-      >
-        Legg til ny pool
-      </Button>
-    </li>
+    {['NORMAL'].includes(eventStatusType) && (
+      <li>
+        <div className={styles.centeredButton}>
+          <Button
+            onClick={() =>
+              fields.push({
+                name: `Pool #${fields.length + 1}`,
+                registrations: [],
+                activationDate: moment(startTime)
+                  .subtract(7, 'd')
+                  .hour(12)
+                  .minute(0)
+                  .toISOString(),
+                permissionGroups: []
+              })
+            }
+          >
+            Legg til ny pool
+          </Button>
+        </div>
+      </li>
+    )}
   </ul>
 );
 

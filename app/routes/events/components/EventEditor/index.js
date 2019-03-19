@@ -4,8 +4,6 @@ import styles from './EventEditor.css';
 import React from 'react';
 import { Link } from 'react-router';
 import renderPools, { validatePools } from './renderPools';
-import RegisteredSummary from '../RegisteredSummary';
-import UserGrid from 'app/components/UserGrid';
 import {
   AttendanceStatus,
   ModalParentComponent
@@ -87,6 +85,19 @@ function EventEditor({
     return <div>{error.message}</div>;
   }
 
+  const isTBA = value =>
+    value && value == 'TBA' ? `Velg påmeldingstype TBA` : undefined;
+
+  const tooLow = value =>
+    value && value <= 3 ? `Summen må være strørre enn 3 kr` : undefined;
+
+  const eventStatusType = [
+    { value: 'TBA', label: 'Ikke bestemt (TBA)' },
+    { value: 'NORMAL', label: 'Vanlig påmelding (med pools)' },
+    { value: 'OPEN', label: 'Åpen (uten påmelding)' },
+    { value: 'INFINITE', label: 'Åpen (med påmelding)' }
+  ];
+
   const color = colorForEvent(event.eventType);
   return (
     <Content>
@@ -126,7 +137,8 @@ function EventEditor({
         </Flex>
         <Field
           name="description"
-          placeholder="Kalenderbeskrivelse"
+          label="Kalenderbeskrivelse"
+          placeholder="Kom på fest den..."
           className={styles.description}
           component={TextEditor.Field}
         />
@@ -135,6 +147,7 @@ function EventEditor({
             <Field
               name="text"
               component={EditorField.Field}
+              label="Hovedbeskrivelse"
               placeholder="Dette blir tidenes fest..."
               className={styles.descriptionEditor}
               uploadFile={uploadFile}
@@ -172,7 +185,7 @@ function EventEditor({
               filter={['users.abakusgroup']}
               fieldClassName={styles.metaField}
               component={SelectInput.AutocompleteField}
-              placeholder="Gruppe med ansvar for arrangement"
+              placeholder="Ansvar for arrangement"
             />
             <Field
               label="Starter"
@@ -188,28 +201,55 @@ function EventEditor({
               fieldClassName={styles.metaField}
               className={styles.formField}
             />
-            <Tooltip content="Events som settes som TBA og ikke har noen pool vil vises som TBA på forsiden.">
+
+            <Tooltip content="Kun la medlemmer i Abakom se arrangement">
+              <Field
+                label="Kun for Abakom"
+                name="isAbakomOnly"
+                component={CheckBox.Field}
+                fieldClassName={styles.metaField}
+                className={styles.formField}
+                normalize={v => !!v}
+              />
+            </Tooltip>
+
+            <Field
+              label="Påmeldingstype"
+              name="eventStatusType"
+              component={SelectInput.Field}
+              fieldClassName={styles.metaField}
+              options={eventStatusType}
+              simpleValue
+            />
+
+            {['NORMAL', 'OPEN', 'INFINITE'].includes(event.eventStatusType) && (
               <Field
                 label="Sted"
                 name="location"
+                placeholder="Den gode nabo, R5, ..."
                 component={TextInput.Field}
                 fieldClassName={styles.metaField}
                 className={styles.formField}
+                warn={isTBA}
               />
-            </Tooltip>
-            <Field
-              label="Betalt arrangement"
-              name="isPriced"
-              component={CheckBox.Field}
-              fieldClassName={styles.metaField}
-              className={styles.formField}
-              normalize={v => !!v}
-            />
+            )}
+
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
+              <Field
+                label="Betalt arrangement"
+                name="isPriced"
+                component={CheckBox.Field}
+                fieldClassName={styles.metaField}
+                className={styles.formField}
+                normalize={v => !!v}
+              />
+            )}
+
             {event.isPriced && (
-              <div>
+              <div className={styles.subSection}>
                 <Tooltip content="Manuell betaling kan også av i etterkant">
                   <Field
-                    label="Betaling igjennom Abakus.no"
+                    label="Betaling via Abakus.no"
                     name="useStripe"
                     component={CheckBox.Field}
                     fieldClassName={styles.metaField}
@@ -217,6 +257,20 @@ function EventEditor({
                     normalize={v => !!v}
                   />
                 </Tooltip>
+                {event.useStripe && (
+                  <div className={styles.subSection}>
+                    <Tooltip content="Legger automatisk transaksjonskostnaden til prisen">
+                      <Field
+                        label="Legg til systemgebyr"
+                        name="addFee"
+                        component={CheckBox.Field}
+                        fieldClassName={styles.metaField}
+                        className={styles.formField}
+                        normalize={v => !!v}
+                      />
+                    </Tooltip>
+                  </div>
+                )}
                 <Field
                   label="Pris medlem"
                   name="priceMember"
@@ -224,15 +278,9 @@ function EventEditor({
                   component={TextInput.Field}
                   fieldClassName={styles.metaField}
                   className={styles.formField}
+                  warn={tooLow}
                 />
-                <Field
-                  label="Legg til gebyr"
-                  name="addFee"
-                  component={CheckBox.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                  normalize={v => !!v}
-                />
+
                 {event.priceMember > 0 && (
                   <i>
                     Totalt:{' '}
@@ -253,7 +301,8 @@ function EventEditor({
                 />
               </div>
             )}
-            <Tooltip content="Utsetter registrering og deler ut prikker">
+
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Field
                 label="Bruk prikker"
                 name="heedPenalties"
@@ -262,118 +311,114 @@ function EventEditor({
                 className={styles.formField}
                 normalize={v => !!v}
               />
-            </Tooltip>
-            <Tooltip content="Frist for avmelding – fører til prikk etterpå">
-              <Field
-                key="unregistrationDeadline"
-                label="Avregistreringsfrist"
-                name="unregistrationDeadline"
-                component={DatePicker.Field}
-                fieldClassName={styles.metaField}
-                className={styles.formField}
-              />
-            </Tooltip>
-            <Tooltip content="Kun la medlemmer i Abakom se arrangement">
-              <Field
-                label="Kun for Abakom"
-                name="isAbakomOnly"
-                component={CheckBox.Field}
-                fieldClassName={styles.metaField}
-                className={styles.formField}
-                normalize={v => !!v}
-              />
-            </Tooltip>
-            <Tooltip content="Bruk samtykke til bilder">
-              <Field
-                label="Samtykke til bilder"
-                name="useConsent"
-                component={CheckBox.Field}
-                normalize={v => !!v}
-              />
-            </Tooltip>
-            <Flex column>
-              <h3>Påmeldte:</h3>
-              <UserGrid
-                minRows={2}
-                maxRows={2}
-                users={
-                  registrations
-                    ? registrations.slice(0, 14).map(reg => reg.user)
-                    : []
-                }
-              />
-              <ModalParentComponent
-                key="modal"
-                pools={pools || []}
-                registrations={registrations || []}
-                title="Påmeldte"
-              >
-                <RegisteredSummary registrations={registrations} />
-                <AttendanceStatus />
-              </ModalParentComponent>
-              <div className={styles.metaList}>
-                <FieldArray
-                  name="pools"
-                  component={renderPools}
-                  startTime={event.startTime}
+            )}
+
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) &&
+              event.heedPenalties && (
+                <div className={styles.subSection}>
+                  <Tooltip content="Frist for avmelding – fører til prikk etterpå">
+                    <Field
+                      key="unregistrationDeadline"
+                      label="Avregistreringsfrist"
+                      name="unregistrationDeadline"
+                      component={DatePicker.Field}
+                      fieldClassName={styles.metaField}
+                      className={styles.formField}
+                    />
+                  </Tooltip>
+                </div>
+              )}
+
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
+              <Tooltip content="Bruk samtykke til bilder">
+                <Field
+                  label="Samtykke til bilder"
+                  name="useConsent"
+                  component={CheckBox.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                  normalize={v => !!v}
                 />
-              </div>
-              {pools && pools.length > 1 && (
-                <Tooltip content="Tidspunkt for å slå sammen poolene">
+              </Tooltip>
+            )}
+
+            {['NORMAL', 'INFINITE', 'OPEN'].includes(event.eventStatusType) && (
+              <Tooltip content="Et spørsmål alle må svare på før de melder seg på">
+                <Field
+                  name="feedbackRequired"
+                  label="Obligatorisk spørsmål"
+                  component={CheckBox.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                  normalize={v => !!v}
+                />
+              </Tooltip>
+            )}
+            {['NORMAL', 'INFINITE', 'OPEN'].includes(event.eventStatusType) &&
+              event.feedbackRequired && (
+                <div className={styles.subSection}>
                   <Field
-                    label="Sammenslåingstidspunkt"
-                    name="mergeTime"
-                    component={DatePicker.Field}
+                    name="feedbackDescription"
+                    placeholder="Burger eller sushi?"
+                    component={TextInput.Field}
                     fieldClassName={styles.metaField}
                     className={styles.formField}
                   />
-                </Tooltip>
+                </div>
               )}
-              {isEditPage && (
-                <Admin
-                  actionGrant={actionGrant}
-                  event={event}
-                  deleteEvent={deleteEvent}
-                />
-              )}
-            </Flex>
+
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
+              <Flex column>
+                <h3>Pools</h3>
+                <ModalParentComponent
+                  key="modal"
+                  pools={pools || []}
+                  registrations={registrations || []}
+                  title="Påmeldte"
+                >
+                  <AttendanceStatus />
+                </ModalParentComponent>
+                <div className={styles.metaList}>
+                  <FieldArray
+                    name="pools"
+                    component={renderPools}
+                    startTime={event.startTime}
+                    eventStatusType={event.eventStatusType}
+                  />
+                </div>
+                {pools && pools.length > 1 && (
+                  <Tooltip content="Tidspunkt for å slå sammen poolene">
+                    <Field
+                      label="Sammenslåingstidspunkt"
+                      name="mergeTime"
+                      component={DatePicker.Field}
+                      fieldClassName={styles.metaField}
+                      className={styles.formField}
+                    />
+                  </Tooltip>
+                )}
+                {isEditPage && (
+                  <Admin
+                    actionGrant={actionGrant}
+                    event={event}
+                    deleteEvent={deleteEvent}
+                  />
+                )}
+              </Flex>
+            )}
           </ContentSidebar>
         </ContentSection>
 
-        <Flex wrapReverse>
-          <Flex column className={styles.join}>
-            <Flex column>
-              <Field
-                label="Tilbakemeldingsbeskrivelse"
-                name="feedbackDescription"
-                placeholder="E.g. Melding til arrangører"
-                component={TextInput.Field}
-              />
-              <Field
-                name="feedbackRequired"
-                label="Tvungen tilbakemelding"
-                component={CheckBox.Field}
-                normalize={v => !!v}
-              />
-              <Field
-                name="useCaptcha"
-                label="Bruk Captcha ved påmelding"
-                component={CheckBox.Field}
-                normalize={v => !!v}
-              />
-              <div>
-                <Button disabled={pristine || submitting} submit>
-                  LAGRE
-                </Button>
-              </div>
-              {isEditPage && (
-                <Link to={`/events/${event.id}`}>
-                  <Button>TILBAKE</Button>
-                </Link>
-              )}
-            </Flex>
-          </Flex>
-        </Flex>
+        <div>
+          {isEditPage && (
+            <Link to={`/events/${event.id}`}>
+              <Button style={{ marginRight: '20px' }}>TILBAKE</Button>
+            </Link>
+          )}
+          <Button disabled={pristine || submitting} submit>
+            {isEditPage ? 'LAGRE ENDRINGER' : 'OPPRETT'}
+          </Button>
+        </div>
       </Form>
     </Content>
   );
@@ -402,8 +447,14 @@ const validate = data => {
   if (!data.id && !data.cover) {
     errors.cover = 'Cover er påkrevet';
   }
+  if (!data.eventStatusType) {
+    errors.eventStatusType = 'Påmeldingstype er påkrevd';
+  }
   if (data.pools) {
     errors.pools = validatePools(data.pools);
+  }
+  if (data.feedbackRequired && !data.feedbackDescription) {
+    errors.feedbackDescription = 'Kan ikke være tomt';
   }
   return errors;
 };

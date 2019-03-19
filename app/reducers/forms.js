@@ -2,8 +2,69 @@
 
 import { reducer as formReducer } from 'redux-form';
 import { Event } from '../actions/ActionTypes';
+import moment from 'moment-timezone';
 
 export default formReducer.plugin({
+  eventEditor: (state, action) => {
+    switch (action.type) {
+      case '@@redux-form/CHANGE':
+        if (action.meta.field !== 'eventStatusType') {
+          return state;
+        }
+
+        switch (action.payload) {
+          case 'INFINITE':
+            return {
+              ...state,
+              values: {
+                ...state.values,
+                pools: [
+                  {
+                    name: 'Alle',
+                    registrations: [],
+                    activationDate: moment(state.values.startTime)
+                      .subtract(7, 'd')
+                      .hour(12)
+                      .minute(0)
+                      .toISOString(),
+                    permissionGroups: []
+                  }
+                ]
+              }
+            };
+          case 'NORMAL':
+            return {
+              ...state,
+              values: {
+                ...state.values,
+                pools: [
+                  {
+                    name: 'Pool #1',
+                    registrations: [],
+                    activationDate: moment(state.values.startTime)
+                      .subtract(7, 'd')
+                      .hour(12)
+                      .minute(0)
+                      .toISOString(),
+                    permissionGroups: []
+                  }
+                ]
+              }
+            };
+          default:
+            return {
+              ...state,
+              values: {
+                ...state.values,
+                pools: []
+              }
+            };
+        }
+      default:
+        return state;
+    }
+  },
+
   joinEvent: (state, action) => {
     switch (action.type) {
       case Event.REQUEST_REGISTER.BEGIN:
