@@ -80,24 +80,24 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
     ))}
     {['NORMAL'].includes(eventStatusType) && (
       <li>
-          <div className={styles.centeredButton}>
-        <Button
-          onClick={() =>
-            fields.push({
-              name: `Pool #${fields.length + 1}`,
-              registrations: [],
-              activationDate: moment(startTime)
-                .subtract(7, 'd')
-                .hour(12)
-                .minute(0)
-                .toISOString(),
-              permissionGroups: []
-            })
-          }
-        >
-          Legg til ny pool
-        </Button>
-          </div>
+        <div className={styles.centeredButton}>
+          <Button
+            onClick={() =>
+              fields.push({
+                name: `Pool #${fields.length + 1}`,
+                registrations: [],
+                activationDate: moment(startTime)
+                  .subtract(7, 'd')
+                  .hour(12)
+                  .minute(0)
+                  .toISOString(),
+                permissionGroups: []
+              })
+            }
+          >
+            Legg til ny pool
+          </Button>
+        </div>
       </li>
     )}
   </ul>

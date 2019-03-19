@@ -59,3 +59,9 @@
   justify-content: center;
   margin-top: 10px;
 }
+
+.subSection {
+  margin-left: 10px;
+  border-left: 4px solid var(--lego-red);
+  padding: 0 0 10px 10px;
+}

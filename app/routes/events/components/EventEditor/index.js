@@ -221,6 +221,7 @@ function EventEditor({
               <Field
                 label="Sted"
                 name="location"
+                placeholder="Den gode nabo, R5, ..."
                 component={TextInput.Field}
                 fieldClassName={styles.metaField}
                 className={styles.formField}
@@ -240,7 +241,7 @@ function EventEditor({
             )}
 
             {event.isPriced && (
-              <div>
+              <div className={styles.subSection}>
                 <Tooltip content="Manuell betaling kan også av i etterkant">
                   <Field
                     label="Betaling igjennom Abakus.no"
@@ -259,14 +260,18 @@ function EventEditor({
                   fieldClassName={styles.metaField}
                   className={styles.formField}
                 />
-                <Field
-                  label="Legg til gebyr"
-                  name="addFee"
-                  component={CheckBox.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                  normalize={v => !!v}
-                />
+                {event.useStripe && (
+                  <Tooltip content="Legger automatisk til transaksjonskostnaden til prisen">
+                    <Field
+                      label="Legg til systemgebyr"
+                      name="addFee"
+                      component={CheckBox.Field}
+                      fieldClassName={styles.metaField}
+                      className={styles.formField}
+                      normalize={v => !!v}
+                    />
+                  </Tooltip>
+                )}
                 {event.priceMember > 0 && (
                   <i>
                     Totalt:{' '}
@@ -289,30 +294,31 @@ function EventEditor({
             )}
 
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
-              <Tooltip content="Utsetter registrering og deler ut prikker">
-                <Field
-                  label="Bruk prikker"
-                  name="heedPenalties"
-                  component={CheckBox.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                  normalize={v => !!v}
-                />
-              </Tooltip>
+              <Field
+                label="Bruk prikker"
+                name="heedPenalties"
+                component={CheckBox.Field}
+                fieldClassName={styles.metaField}
+                className={styles.formField}
+                normalize={v => !!v}
+              />
             )}
 
-            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
-              <Tooltip content="Frist for avmelding – fører til prikk etterpå">
-                <Field
-                  key="unregistrationDeadline"
-                  label="Avregistreringsfrist"
-                  name="unregistrationDeadline"
-                  component={DatePicker.Field}
-                  fieldClassName={styles.metaField}
-                  className={styles.formField}
-                />
-              </Tooltip>
-            )}
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) &&
+              event.heedPenalties && (
+                <div className={styles.subSection}>
+                  <Tooltip content="Frist for avmelding – fører til prikk etterpå">
+                    <Field
+                      key="unregistrationDeadline"
+                      label="Avregistreringsfrist"
+                      name="unregistrationDeadline"
+                      component={DatePicker.Field}
+                      fieldClassName={styles.metaField}
+                      className={styles.formField}
+                    />
+                  </Tooltip>
+                </div>
+              )}
 
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Tooltip content="Bruk samtykke til bilder">
@@ -320,6 +326,8 @@ function EventEditor({
                   label="Samtykke til bilder"
                   name="useConsent"
                   component={CheckBox.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
                   normalize={v => !!v}
                 />
               </Tooltip>
