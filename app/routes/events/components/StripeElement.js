@@ -93,7 +93,7 @@ class PaymentRequestForm extends React.Component<FormProps, State> {
 
         {this.state.canMakePayment === false && (
           <StripeCheckout
-            name="Abakus Linjeforening"
+            name="Abakus"
             description={event.title}
             image={logoImage}
             currency="NOK"
