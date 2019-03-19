@@ -62,6 +62,8 @@ const initialValue = Value.fromJSON({
 //]
 //}
 
+const DEFAULT_BLOCK = 'paragraph';
+
 const plugins = [EditList()];
 
 export default class Editor extends Component<Props, State> {
@@ -69,21 +71,50 @@ export default class Editor extends Component<Props, State> {
     value: initialValue
   };
 
+  ref = editor => {
+    this.editor = editor;
+  };
+
   onChange = ({ value }) => {
     this.setState({ value });
   };
 
-  onKeyDown = (e, editor, next) => {
-    const { node } = this.props;
-    if (node.type == 'paragraph') {
-      switch (e.key) {
-        case 'Enter': {
-          e.preventDefault();
-          editor.setBlocks('break');
-          break;
-        }
+  hasBlock = type => {
+    const { value } = this.state;
+    return value.blocks.some(node => node.type === type);
+  };
+
+  toggleBlock = (e, type) => {
+    e.preventDefault();
+    const editor = this.editor;
+    const { value } = editor;
+    const { document } = value;
+
+    const isType = value.blocks.some(block => {
+      return !!document.getClosest(block.key);
+    });
+
+    if (type !== 'ul_list' && type !== 'ol_list') {
+      const isActive = this.hasBlock(type);
+      isActive ? editor.setBlocks(DEFAULT_BLOCK) : editor.setBlocks(type);
+    } else {
+      const isList = this.hasBlock('ol_list') || this.hasBlock('ul_list');
+      if (isType && isList) {
+        editor
+          .setBlocks(DEFAULT_BLOCK)
+          .unwrapBlock('ul_list')
+          .unwrapBlock('ol_list');
+      } else if (isList) {
+        editor
+          .unwrapBlock(type === 'ul_list' ? 'ol_list' : 'ul_list')
+          .wrapBlock(type);
+      } else {
+        editor.setBlocks(type);
       }
     }
+  };
+
+  onKeyDown = (e, editor, next) => {
     if (!e.ctrlKey) return next();
 
     switch (e.key) {
@@ -99,7 +130,7 @@ export default class Editor extends Component<Props, State> {
       }
       case 'l': {
         e.preventDefault();
-        editor.setBlocks('ol_list');
+        editor.setBlocks('ul_list');
         break;
       }
       default: {
@@ -146,18 +177,22 @@ export default class Editor extends Component<Props, State> {
             {children}
           </li>
         );
+      case 'code':
+        return (
+          <pre {...attributes}>
+            <code>{children}</code>
+          </pre>
+        );
       default:
         return next();
     }
   };
 
-  toolbarHandler = (e, type) => {};
-
   renderEditor = (props, editor, next) => {
     const children = next();
     return (
       <>
-        <Toolbar editor={editor} />
+        <Toolbar editor={editor} toggleBlock={this.toggleBlock} />
         {children}
       </>
     );
@@ -169,6 +204,7 @@ export default class Editor extends Component<Props, State> {
         <SlateEditor
           renderEditor={this.renderEditor}
           value={this.state.value}
+          ref={this.ref}
           plugins={plugins}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}

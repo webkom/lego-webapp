@@ -2,12 +2,14 @@
   display: block;
   list-style: disc;
   padding-inline-start: 20px;
+  padding-left: 20px;
 }
 
 .ol_list {
   display: block;
   list-style: decimal;
   padding-inline-start: 20px;
+  padding-left: 20px;
 }
 
 .li {

@@ -17,16 +17,23 @@ export default class Toolbar extends React.Component<Props, State> {
   }
 
   render() {
+    const { toggleBlock } = this.props;
     return (
       <div>
-        <button onClick={e => this.toggleMark(e, 'bold')}>
+        <button type="button" onMouseDown={e => this.toggleMark(e, 'bold')}>
           <i className="fa fa-bold" />
         </button>
-        <button onPointerDown={e => this.toggleMark(e, 'italic')}>
+        <button type="button" onMouseDown={e => this.toggleMark(e, 'italic')}>
           <i className="fa fa-italic" />
         </button>
-        <button onPointerDown={e => this.toggleBlock(e, 'ul_list')}>
-          <i className="fa fa-list" />
+        <button type="button" onPointerDown={e => toggleBlock(e, 'ul_list')}>
+          <i className="fa fa-list-ul" />
+        </button>
+        <button type="button" onPointerDown={e => toggleBlock(e, 'ol_list')}>
+          <i className="fa fa-list-ol" />
+        </button>
+        <button type="button" onPointerDown={e => toggleBlock(e, 'code')}>
+          <i className="fa fa-code" />
         </button>
       </div>
     );
