@@ -12,6 +12,7 @@ import DisplayContent from 'app/components/DisplayContent';
 import type { ArticleEntity } from 'app/reducers/articles';
 import type { UserEntity } from 'app/reducers/users';
 import type { CommentEntity } from 'app/reducers/comments';
+import type { ID } from 'app/models';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 
 type Props = {
@@ -19,7 +20,8 @@ type Props = {
   comments: Array<CommentEntity>,
   loggedIn: boolean,
   author: UserEntity,
-  currentUser: UserEntity
+  currentUser: UserEntity,
+  deleteComment: (id: ID, commentTarget: string) => Promise<*>
 };
 
 /**
@@ -30,7 +32,8 @@ const ArticleDetail = ({
   author,
   loggedIn,
   currentUser,
-  comments
+  comments,
+  deleteComment
 }: Props) => (
   <Content banner={article.cover}>
     <NavigationTab
@@ -70,6 +73,7 @@ const ArticleDetail = ({
         commentTarget={article.commentTarget}
         loggedIn={loggedIn}
         comments={comments}
+        deleteComment={deleteComment}
       />
     )}
   </Content>

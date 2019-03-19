@@ -5,9 +5,10 @@ import { generateTreeStructure } from 'app/utils';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import CommentForm from 'app/components/CommentForm';
 import { Flex } from 'app/components/Layout';
-import type { CommentEntity } from 'app/reducers/comments';
 import type { UserEntity } from 'app/reducers/users';
 import CommentTree from './CommentTree';
+import type { CommentEntity } from 'app/reducers/comments';
+import type { ID } from 'app/models';
 
 type Props = {
   comments: Array<CommentEntity>,
@@ -17,7 +18,8 @@ type Props = {
   loggedIn: boolean,
   displayTitle?: boolean,
   style?: Object,
-  newOnTop?: boolean
+  newOnTop?: boolean,
+  deleteComment: (id: ID, commentTarget: string) => Promise<*>
 };
 
 const Title = ({ displayTitle }: { displayTitle: boolean }) =>
@@ -32,9 +34,11 @@ const CommentView = (props: Props) => {
     loggedIn,
     style,
     displayTitle = true,
-    newOnTop = false
+    newOnTop = false,
+    deleteComment
   } = props;
   const commentFormProps = { commentTarget, user, loggedIn };
+
   const tree = generateTreeStructure(comments);
 
   return (
@@ -50,6 +54,9 @@ const CommentView = (props: Props) => {
             <CommentTree
               comments={newOnTop ? tree.reverse() : tree}
               commentFormProps={commentFormProps}
+              deleteComment={deleteComment}
+              user={user}
+              commentTarget={commentTarget}
             />
           )}
         </LoadingIndicator>

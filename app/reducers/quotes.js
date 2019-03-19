@@ -5,14 +5,17 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
 import { mutateComments } from 'app/reducers/comments';
 import joinReducers from 'app/utils/joinReducers';
+import type { ID } from 'app/models';
 
 export type QuoteEntity = {
-  id: number,
+  id: ID,
   text: string,
   source: string,
   approved: boolean,
-  comments: Array<number>,
-  commentCount: string
+  comments: Object,
+  commentCount: string,
+  commentTarget: string,
+  createdAt?: string
 };
 
 function mutateQuote(state: any, action: any) {

@@ -1,12 +1,18 @@
+@import 'app/styles/variables.css';
+
 .container {
   background-color: white;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
   border: 1px solid rgba(0, 0, 0, 0.04);
-  margin-bottom: 1em;
+  margin-bottom: 15px;
   padding: 25px;
   align-items: center;
   display: flex;
   flex-direction: column;
+
+  @media (--mobile-device) {
+    padding: 8px;
+  }
 }
 
 .comment {
@@ -22,6 +28,14 @@
   }
 }
 
+.profileImage {
+  margin-right: 45px;
+
+  @media (--mobile-device) {
+    margin-right: 5px;
+  }
+}
+
 .content {
   display: flex;
   flex: 1;
@@ -33,21 +47,52 @@
   align-items: center;
   margin-bottom: 10px;
   font-size: 18px;
-  flex-direction: row;
+  width: inherit;
+}
+
+.username {
+  align-items: center;
+
+  @media (--mobile-device) {
+    flex-direction: column;
+    padding-top: 16px;
+    margin-right: 10px;
+  }
 }
 
 .bullet {
   color: #888;
   padding: 0 8px;
-  font-size: 0.6rem;
+  font-size: 15px;
+
+  @media (--mobile-device) {
+    display: none;
+  }
 }
 
 .timestamp {
   color: #777;
-  font-size: 0.9rem;
+  font-size: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  @media (--mobile-device) {
+    padding: none;
+    font-size: 10px;
+  }
 }
 
 .text {
   font-size: 1.1rem;
   margin: 0;
+}
+
+.links {
+  flex-grow: 1;
+  justify-content: space-between;
+}
+
+.delete {
+  margin-left: 10px;
 }

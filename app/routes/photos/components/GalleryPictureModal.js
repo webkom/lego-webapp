@@ -15,6 +15,7 @@ import Modal from 'app/components/Modal';
 import styles from './GalleryPictureModal.css';
 import Swipeable from 'react-swipeable';
 import type { EntityID } from 'app/types';
+import type { ID } from 'app/models';
 
 type Props = {
   picture: Object,
@@ -31,7 +32,8 @@ type Props = {
   hasMore: Boolean,
   fetchSiblingGallerPicture: (EntityID, EntityID, boolean) => Promise<*>,
   isFirstImage: Boolean,
-  isLastImage: Boolean
+  isLastImage: Boolean,
+  deleteComment: (id: ID, commentTarget: string) => Promise<*>
 };
 
 type State = {
@@ -195,7 +197,8 @@ export default class GalleryPictureModal extends Component<Props, State> {
       loggedIn,
       push,
       gallery,
-      actionGrant
+      actionGrant,
+      deleteComment
     } = this.props;
     const { showMore } = this.state;
 
@@ -329,6 +332,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
                   commentTarget={picture.commentTarget}
                   loggedIn={loggedIn}
                   comments={comments}
+                  deleteComment={deleteComment}
                 />
               </Flex>
             )}

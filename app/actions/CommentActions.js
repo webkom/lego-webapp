@@ -5,6 +5,7 @@ import { commentSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Comment } from './ActionTypes';
 import type { Thunk } from 'app/types';
+import { type ID } from 'app/models';
 
 export type CommentEntity = {
   text: string,
@@ -51,4 +52,18 @@ export function addComment({
         dispatch(stopSubmit('comment', errors));
       });
   };
+}
+
+export function deleteComment(commentId: ID, commentTarget: string) {
+  return callAPI({
+    types: Comment.DELETE,
+    endpoint: `/comments/${commentId}/`,
+    method: 'DELETE',
+    meta: {
+      id: commentId,
+      commentTarget,
+      errorMessage: 'Sletting av kommentar feilet',
+      successMessage: 'Kommentar slettet'
+    }
+  });
 }

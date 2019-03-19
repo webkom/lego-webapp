@@ -7,18 +7,21 @@ import { Link } from 'react-router';
 import Dropdown from 'app/components/Dropdown';
 import Icon from 'app/components/Icon';
 import CommentView from 'app/components/Comments/CommentView';
+import type { ID, ActionGrant } from 'app/models';
+import type { QuoteEntity } from 'app/reducers/quotes';
 
 type Props = {
-  quote: Object,
+  quote: QuoteEntity,
   deleteQuote: number => Promise<*>,
   approve: number => Promise<*>,
   unapprove: number => Promise<*>,
-  actionGrant: Array<string>,
+  actionGrant: ActionGrant,
   setDisplayAdmin: number => void,
   displayAdmin: boolean,
   currentUser: any,
   loggedIn: boolean,
-  comments: Object
+  comments: Object,
+  deleteComment: (id: ID, commentTarget: string) => Promise<*>
 };
 
 type State = {
@@ -43,7 +46,8 @@ export default class Quote extends Component<Props, State> {
       displayAdmin,
       currentUser,
       loggedIn,
-      comments
+      comments,
+      deleteComment
     } = this.props;
 
     const { showComments } = this.state;
@@ -161,6 +165,7 @@ export default class Quote extends Component<Props, State> {
               loggedIn={loggedIn}
               comments={comments[quote.id]}
               displayTitle={false}
+              deleteComment={deleteComment}
             />
           </div>
         )}

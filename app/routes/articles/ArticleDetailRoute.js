@@ -4,6 +4,7 @@ import prepare from 'app/utils/prepare';
 import helmet from 'app/utils/helmet';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import { fetchArticle } from 'app/actions/ArticleActions';
+import { deleteComment } from 'app/actions/CommentActions';
 import ArticleDetail from './components/ArticleDetail';
 import {
   selectArticleById,
@@ -30,7 +31,7 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-const mapDispatchToProps = { fetchArticle };
+const mapDispatchToProps = { fetchArticle, deleteComment };
 
 export default compose(
   prepare(loadData, ['params.articleId']),

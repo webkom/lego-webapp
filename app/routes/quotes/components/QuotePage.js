@@ -6,12 +6,13 @@ import styles from './Quotes.css';
 import cx from 'classnames';
 import { navigation } from '../utils';
 import Button from 'app/components/Button';
-import type { ActionGrant } from 'app/models';
+import type { ActionGrant, ID } from 'app/models';
+import type { QuoteEntity } from 'app/reducers/quotes';
 
 type Props = {
   comments: Array<Object>,
   query: Object,
-  quotes: Array<Object>,
+  quotes: Array<QuoteEntity>,
   actionGrant: ActionGrant,
   approve: number => Promise<*>,
   unapprove: number => Promise<*>,
@@ -20,7 +21,8 @@ type Props = {
   showFetchMore: boolean,
   currentUser: any,
   loggedIn: boolean,
-  comments: Object
+  comments: Object,
+  deleteComment: (id: ID, commentTarget: string) => Promise<*>
 };
 
 export default function QuotePage({
@@ -35,6 +37,7 @@ export default function QuotePage({
   currentUser,
   loggedIn,
   comments,
+  deleteComment,
   ...props
 }: Props) {
   let errorMessage = undefined;
@@ -58,6 +61,7 @@ export default function QuotePage({
           currentUser={currentUser}
           loggedIn={loggedIn}
           comments={comments}
+          deleteComment={deleteComment}
         />
       )}
       {showFetchMore && (

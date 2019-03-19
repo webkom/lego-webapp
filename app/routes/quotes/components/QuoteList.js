@@ -2,16 +2,19 @@
 
 import React, { Component } from 'react';
 import Quote from './Quote';
+import type { ID, ActionGrant } from 'app/models';
+import type { QuoteEntity } from 'app/reducers/quotes';
 
 type Props = {
-  quotes: Array<Object>,
+  quotes: Array<QuoteEntity>,
   approve: number => Promise<*>,
   deleteQuote: number => Promise<*>,
   unapprove: number => Promise<*>,
-  actionGrant: Array<string>,
+  actionGrant: ActionGrant,
   currentUser: any,
   loggedIn: boolean,
-  comments: Object
+  comments: Object,
+  deleteComment: (id: ID, commentTarget: string) => Promise<*>
 };
 
 type State = {
@@ -42,7 +45,8 @@ export default class QuoteList extends Component<Props, State> {
       deleteQuote,
       currentUser,
       loggedIn,
-      comments
+      comments,
+      deleteComment
     } = this.props;
 
     return (
@@ -60,6 +64,7 @@ export default class QuoteList extends Component<Props, State> {
             currentUser={currentUser}
             loggedIn={loggedIn}
             comments={comments}
+            deleteComment={deleteComment}
           />
         ))}
       </ul>

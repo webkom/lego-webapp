@@ -31,6 +31,7 @@ type EventBase = {
   cover: string,
   description: string,
   createdAt: ?Dateish,
+  createdBy: User,
   text: string,
   feedbackDescription: string,
   feedbackRequired: boolean,
@@ -62,10 +63,14 @@ export type Event = EventBase & {
   thumbnail: ?string,
   company: Company,
   comments: Array<Comment>,
+  commentTarget: string,
   pools: Array<EventPool>,
   survey: ?ID,
   userReg: EventRegistration,
-  useConsent: ?boolean
+  useConsent: ?boolean,
+  isUserFollowing: UserFollowing,
+  unansweredSurveys: Array<ID>,
+  responsibleGroup: Group
 };
 
 export type TransformEvent = EventBase & {
@@ -76,6 +81,12 @@ export type TransformEvent = EventBase & {
 };
 
 export type Tags = string;
+
+export type UserFollowing = {
+  id: ID,
+  follower: User,
+  target: ID
+};
 
 export type Article = Object;
 export type Feed = Object;
@@ -150,7 +161,8 @@ export type Group = {
   description: string,
   text: string,
   logo: ?string,
-  showBadge: boolean
+  showBadge: boolean,
+  contactEmail: string
 };
 
 export type GroupMembership = {

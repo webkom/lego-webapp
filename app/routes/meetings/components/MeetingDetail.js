@@ -26,7 +26,7 @@ import type {
   MeetingInvitationStatus
 } from 'app/reducers/meetingInvitations';
 import type { UserEntity } from 'app/reducers/users';
-import type { Dateish } from 'app/models';
+import type { Dateish, ID } from 'app/models';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import { FromToTime } from 'app/components/Time';
 import InfoList from 'app/components/InfoList';
@@ -47,7 +47,8 @@ type Props = {
   currentUserInvitation: MeetingInvitationEntity,
   loggedIn: boolean,
   comments: Array<Object>,
-  push: string => Promise<*>
+  push: string => Promise<*>,
+  deleteComment: (id: ID, commentTarget: string) => Promise<*>
 };
 
 const UserLink = ({ user }: { user: UserEntity }) =>
@@ -115,7 +116,8 @@ class MeetingDetails extends Component<Props> {
       createdBy,
       comments,
       loggedIn,
-      currentUserInvitation
+      currentUserInvitation,
+      deleteComment
     } = this.props;
 
     if (!meeting || !currentUser) {
@@ -220,6 +222,7 @@ class MeetingDetails extends Component<Props> {
                   commentTarget={meeting.commentTarget}
                   loggedIn={loggedIn}
                   comments={comments}
+                  deleteComment={deleteComment}
                 />
               )}
             </ContentMain>
