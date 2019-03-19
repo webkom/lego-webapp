@@ -11,6 +11,7 @@ import {
   ModalParentComponent
 } from 'app/components/UserAttendance';
 import Tag from 'app/components/Tags/Tag';
+import moment from 'moment-timezone';
 import { FormatTime, FromToTime } from 'app/components/Time';
 import InfoList from 'app/components/InfoList';
 import { Flex } from 'app/components/Layout';
@@ -261,7 +262,10 @@ export default class EventDetail extends Component<Props> {
                       registrations={registrations}
                       title="Påmeldte"
                     >
-                      <RegisteredSummary registrations={registrations} />
+                      <RegisteredSummary
+                        registrations={registrations}
+                        currentRegistration={currentRegistration}
+                      />
                       <AttendanceStatus />
                     </ModalParentComponent>
                   </Fragment>
@@ -271,6 +275,8 @@ export default class EventDetail extends Component<Props> {
 
                 {loggedIn && (
                   <RegistrationMeta
+                    useConsent={event.useConsent}
+                    hasEnded={moment(event.endTime).isBefore(moment())}
                     registration={currentRegistration}
                     isPriced={event.isPriced}
                     registrationIndex={currentRegistrationIndex}

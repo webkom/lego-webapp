@@ -67,7 +67,7 @@ export type Event = EventBase & {
   pools: Array<EventPool>,
   survey: ?ID,
   userReg: EventRegistration,
-  useConsent: ?boolean,
+  useConsent: boolean,
   isUserFollowing: UserFollowing,
   unansweredSurveys: Array<ID>,
   responsibleGroup: Group,
@@ -109,6 +109,10 @@ export type User = {
 };
 
 export type EventRegistrationPresence = 'PRESENT' | 'NOT_PRESENT' | 'UNKNOWN';
+export type EventRegistrationPhotoConsent =
+  | 'PHOTO_NOT_CONSENT'
+  | 'PHOTO_CONSENT'
+  | 'UNKNOWN';
 
 export type EventRegistrationChargeStatus =
   | 'pending'
@@ -127,7 +131,8 @@ export type EventRegistration = {
   presence: EventRegistrationPresence,
   chargeStatus: EventRegistrationChargeStatus,
   feedback: string,
-  sharedMemberships?: number
+  sharedMemberships?: number,
+  consent: EventRegistrationPhotoConsent
 };
 
 type EventPoolBase = {
