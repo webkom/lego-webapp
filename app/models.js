@@ -110,7 +110,12 @@ export type User = {
 
 export type EventRegistrationPresence = 'PRESENT' | 'NOT_PRESENT' | 'UNKNOWN';
 
-export type EventRegistrationChargeStatus = 'manual' | 'succeeded' | 'failed';
+export type EventRegistrationChargeStatus =
+  | 'pending'
+  | 'manual'
+  | 'succeeded'
+  | 'failed'
+  | 'card_declined';
 
 export type EventRegistration = {
   id: number,
