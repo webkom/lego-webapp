@@ -92,27 +92,29 @@ const calculateLocation = data =>
  * @param pools: the event groups as specified by the CreateEvent forms
  */
 const calcualtePools = data => {
-  let pools = [];
-  if (data.eventStatusType == 'TBA' || data.eventStatusType == 'OPEN') {
-    pools = [];
-  } else if (data.eventStatusType == 'INFINITE') {
-    pools = [
-      {
-        ...pick(data.pools[0], poolCreateAndUpdateFields),
-        activationDate: moment(data.pools[0].activationDate).toISOString(),
-        permissionGroups: data.pools[0].permissionGroups.map(
-          group => group.value
-        )
-      }
-    ];
-  } else if (data.eventStatusType == 'NORMAL') {
-    pools = data.pools.map(pool => ({
-      ...pick(pool, poolCreateAndUpdateFields),
-      activationDate: moment(pool.activationDate).toISOString(),
-      permissionGroups: pool.permissionGroups.map(group => group.value)
-    }));
+  switch (data.eventStatusType) {
+    case 'TBA':
+    case 'OPEN':
+      return [];
+    case 'INFINITE':
+      return [
+        {
+          ...pick(data.pools[0], poolCreateAndUpdateFields),
+          activationDate: moment(data.pools[0].activationDate).toISOString(),
+          permissionGroups: data.pools[0].permissionGroups.map(
+            group => group.value
+          )
+        }
+      ];
+    case 'NORMAL':
+      return data.pools.map(pool => ({
+        ...pick(pool, poolCreateAndUpdateFields),
+        activationDate: moment(pool.activationDate).toISOString(),
+        permissionGroups: pool.permissionGroups.map(group => group.value)
+      }));
+    default:
+      break;
   }
-  return pools;
 };
 
 /* Calculte and convert to payment due date

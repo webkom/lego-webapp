@@ -8,20 +8,21 @@ import {
   SelectInput,
   Button
 } from 'app/components/Form';
+import type { Dateish, EventStatusType } from 'app/models';
 
 import moment from 'moment-timezone';
 
 type poolProps = {
   fields: Object,
-  startTime: Object,
-  eventStatusType: string
+  startTime: Dateish,
+  eventStatusType: EventStatusType
 };
 
 const minimumOne = value =>
   value && value < 1 ? `Pools må ha minst 1 plass` : undefined;
 
 const highWarning = value =>
-  value && value >= 500 ? 'Uendlig plasser? Velg åpent event :)' : undefined;
+  value && value >= 500 ? 'Åpent event gir uendelig plasser 😁' : undefined;
 
 const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
   <ul style={{ flex: 1 }}>
@@ -64,7 +65,9 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
         />
         {['NORMAL'].includes(eventStatusType) && (
           <Button
-            disabled={fields.get(index).registrations.length > 0}
+            disabled={
+              fields.get(index).registrations.length > 0 || fields.length == 1
+            }
             onClick={() => fields.remove(index)}
           >
             Fjern pool

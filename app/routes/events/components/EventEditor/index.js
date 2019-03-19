@@ -5,7 +5,6 @@ import React from 'react';
 import { Link } from 'react-router';
 import renderPools, { validatePools } from './renderPools';
 import RegisteredSummary from '../RegisteredSummary';
-import UserGrid from 'app/components/UserGrid';
 import {
   AttendanceStatus,
   ModalParentComponent
@@ -330,15 +329,6 @@ function EventEditor({
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Flex column>
                 <h3>Påmeldte:</h3>
-                <UserGrid
-                  minRows={2}
-                  maxRows={2}
-                  users={
-                    registrations
-                      ? registrations.slice(0, 14).map(reg => reg.user)
-                      : []
-                  }
-                />
                 <ModalParentComponent
                   key="modal"
                   pools={pools || []}
