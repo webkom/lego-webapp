@@ -160,6 +160,8 @@ export const paymentPending = 'pending';
 export const paymentSuccess = 'succeeded';
 export const paymentFailure = 'failed';
 export const paymentManual = 'manual';
+export const paymentCardDeclined = 'card_declined';
+export const paymentCardExpired = 'expired_card';
 
 const paymentSuccessMappings = {
   [paymentManual]: true,

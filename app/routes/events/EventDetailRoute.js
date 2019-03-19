@@ -12,7 +12,6 @@ import {
   unfollow,
   isUserFollowing
 } from 'app/actions/EventActions';
-import { updateUser } from 'app/actions/UserActions';
 import EventDetail from './components/EventDetail';
 import {
   selectEventById,
@@ -123,7 +122,6 @@ const mapDispatchToProps = {
   follow,
   unfollow,
   isUserFollowing,
-  updateUser,
   deleteComment
 };
 

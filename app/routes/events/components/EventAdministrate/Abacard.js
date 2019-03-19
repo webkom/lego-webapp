@@ -9,7 +9,11 @@ import Modal from 'app/components/Modal';
 import Validator from 'app/components/UserValidator';
 
 // $FlowFixMe
-import type { EventRegistration, Event } from 'app/models';
+import type {
+  EventRegistration,
+  EventRegistrationPhotoConsent,
+  Event
+} from 'app/models';
 type State = {
   // Skra
   resolve: ?() => Promise<*>,
@@ -20,7 +24,11 @@ type Props = {
   event: Event,
   clearSearch: () => void,
   markUsernamePresent: (string, string) => Promise<*>,
-  markUsernameConsent: (string, string, string) => Promise<*>,
+  markUsernameConsent: (
+    string,
+    string,
+    EventRegistrationPhotoConsent
+  ) => Promise<*>,
   location: Object,
   onQueryChanged: string => void,
   results: Array<SearchResult>,
