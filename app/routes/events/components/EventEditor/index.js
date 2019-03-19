@@ -4,7 +4,6 @@ import styles from './EventEditor.css';
 import React from 'react';
 import { Link } from 'react-router';
 import renderPools, { validatePools } from './renderPools';
-import RegisteredSummary from '../RegisteredSummary';
 import {
   AttendanceStatus,
   ModalParentComponent
@@ -328,14 +327,13 @@ function EventEditor({
 
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Flex column>
-                <h3>Påmeldte:</h3>
+                <h3>Pools</h3>
                 <ModalParentComponent
                   key="modal"
                   pools={pools || []}
                   registrations={registrations || []}
                   title="Påmeldte"
                 >
-                  <RegisteredSummary registrations={registrations} />
                   <AttendanceStatus />
                 </ModalParentComponent>
                 <div className={styles.metaList}>

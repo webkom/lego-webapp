@@ -43,3 +43,19 @@
 .metaList > span {
   display: flex;
 }
+
+.poolHeader {
+  text-align: center;
+}
+
+.poolBox {
+  background: rgba(200, 200, 200, 0.5);
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.centeredButton {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}

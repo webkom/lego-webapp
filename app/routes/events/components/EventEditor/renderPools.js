@@ -27,9 +27,10 @@ const highWarning = value =>
 const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
   <ul style={{ flex: 1 }}>
     {fields.map((pool, index) => (
-      <li key={index}>
-        <h4>Pool #{index + 1}</h4>
+      <li key={index} className={styles.poolBox}>
+        <h3 className={styles.poolHeader}>Pool #{index + 1}</h3>
         <Field
+          label="Navn"
           name={`pools[${index}].name`}
           fieldClassName={styles.metaField}
           className={styles.formField}
@@ -64,19 +65,22 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
           multi
         />
         {['NORMAL'].includes(eventStatusType) && (
-          <Button
-            disabled={
-              fields.get(index).registrations.length > 0 || fields.length == 1
-            }
-            onClick={() => fields.remove(index)}
-          >
-            Fjern pool
-          </Button>
+          <div className={styles.centeredButton}>
+            <Button
+              disabled={
+                fields.get(index).registrations.length > 0 || fields.length == 1
+              }
+              onClick={() => fields.remove(index)}
+            >
+              Fjern pool
+            </Button>
+          </div>
         )}
       </li>
     ))}
     {['NORMAL'].includes(eventStatusType) && (
       <li>
+          <div className={styles.centeredButton}>
         <Button
           onClick={() =>
             fields.push({
@@ -93,6 +97,7 @@ const renderPools = ({ fields, startTime, eventStatusType }: poolProps) => (
         >
           Legg til ny pool
         </Button>
+          </div>
       </li>
     )}
   </ul>
