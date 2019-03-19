@@ -1,0 +1,13 @@
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.4);
+  z-index: 2;
+}
+
+.overlayParent {
+  width: 100%;
+  position: relative;
+}

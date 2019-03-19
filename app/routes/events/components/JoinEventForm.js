@@ -16,7 +16,7 @@ import { Flex } from 'app/components/Layout';
 import withCountdown from './JoinEventFormCountdownProvider';
 import formStyles from 'app/components/Form/Field.css';
 import moment from 'moment-timezone';
-import { paymentPending, paymentSuccess, paymentManual } from '../utils';
+import { paymentSuccess, paymentManual } from '../utils';
 
 type Event = Object;
 
@@ -159,7 +159,7 @@ class JoinEventForm extends Component<Props> {
     const disabledButton = !registration
       ? isInvalid || isPristine || submitting
       : false;
-    const disabledForUser = !formOpen && !event.activationTime;
+    const disabledForUser = !formOpen && !event.activationTime && !registration;
     const showPenaltyNotice = Boolean(
       event.heedPenalties &&
         moment().isAfter(event.unregistrationDeadline) &&
@@ -173,9 +173,7 @@ class JoinEventForm extends Component<Props> {
       event.price > 0 &&
       registration &&
       registration.pool &&
-      ![paymentPending, paymentManual, paymentSuccess].includes(
-        registration.chargeStatus
-      );
+      ![paymentManual, paymentSuccess].includes(registration.chargeStatus);
 
     return (
       <Flex column className={styles.join}>
@@ -265,11 +263,12 @@ class JoinEventForm extends Component<Props> {
                       spotsLeft={event.spotsLeft}
                     />
                   )}
-                  {showStripe && (
+                  {registration && showStripe && (
                     <PaymentRequestForm
                       onToken={onToken}
                       event={event}
                       currentUser={currentUser}
+                      chargeStatus={registration.chargeStatus}
                     />
                   )}
                 </Flex>
