@@ -37,7 +37,8 @@ type columnProps = {
   width?: number,
   render?: (any, Object) => Node,
   // Should column be rendered. Will render when not set
-  visible?: boolean
+  visible?: boolean,
+  center?: boolean
 };
 
 type Props = {
@@ -110,20 +111,31 @@ export default class Table extends Component<Props, State> {
 
   renderCell = (column: columnProps, data: Object, index: number) => {
     const cellData = get(data, column.dataIndex);
+    const {
+      render = (cellData, data) => cellData,
+      dataIndex,
+      center = false
+    } = column;
     return (
-      <td key={`${column.dataIndex}-${index}-${data.id}`}>
-        {column.render ? column.render(cellData, data) : cellData}
+      <td
+        key={`${dataIndex}-${index}-${data.id}`}
+        style={center ? { textAlign: 'center' } : {}}
+      >
+        {render(cellData, data)}
       </td>
     );
   };
 
   renderHeadCell = (
-    { dataIndex, search, title, sorter, filter }: columnProps,
+    { dataIndex, search, title, sorter, filter, center = false }: columnProps,
     index: number
   ) => {
     const { filters, isShown } = this.state;
     return (
-      <th key={`${dataIndex}-${index}`}>
+      <th
+        key={`${dataIndex}-${index}`}
+        style={center ? { textAlign: 'center' } : {}}
+      >
         {title}
         {sorter && (
           <div className={styles.sorter}>

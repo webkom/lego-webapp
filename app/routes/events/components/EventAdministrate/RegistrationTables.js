@@ -37,6 +37,16 @@ type Props = {
   showUnregister: boolean,
   event: Event
 };
+const GradeRenderer = (group: { name: string }) =>
+  !!group && (
+    <Tooltip content={group.name}>
+      <span>
+        {group.name
+          .replace('Kommunikasjonsteknologi', 'Komtek')
+          .replace('Datateknologi', 'Data')}
+      </span>
+    </Tooltip>
+  );
 
 export class RegisteredTable extends Component<Props> {
   render() {
@@ -60,6 +70,7 @@ export class RegisteredTable extends Component<Props> {
       },
       {
         title: 'Status',
+        center: true,
         dataIndex: 'pool',
         render: (pool, registration) => (
           <TooltipIcon
@@ -106,6 +117,7 @@ export class RegisteredTable extends Component<Props> {
         title: 'Samtykke',
         dataIndex: 'photoConsent',
         visible: !!event.useConsent,
+        center: true,
         render: consent =>
           consent !== 'UNKNOWN' && (
             <TooltipIcon
@@ -121,11 +133,13 @@ export class RegisteredTable extends Component<Props> {
       {
         title: 'Klassetrinn',
         dataIndex: 'user.grade',
-        render: grade => <span>{grade ? grade.name : ''}</span>
+        render: GradeRenderer
       },
       {
         title: 'Betaling',
         dataIndex: 'chargeStatus',
+        visible: event.isPriced,
+        center: true,
         render: (chargeStatus, registration) => (
           <StripeStatus
             id={registration.id}
@@ -269,7 +283,7 @@ export class UnregisteredTable extends Component<UnregisteredTableProps> {
       {
         title: 'Klassetrinn',
         dataIndex: 'user.grade',
-        render: grade => <span>{grade ? grade.name : ''}</span>
+        render: GradeRenderer
       }
     ];
     return (
