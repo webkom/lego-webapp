@@ -67,14 +67,14 @@ const RegistrationMeta = ({
   <div>
     {!registration && (
       <div>
-        <i className="fa fa-exclamation-circle" /> Du er ikke registrert
+        <i className="fa fa-exclamation-circle" /> Du er ikke påmeldt
       </div>
     )}
     {registration && (
       <div>
         {registration.pool ? (
           <div>
-            <i className="fa fa-check-circle" /> Du er registrert
+            <i className="fa fa-check-circle" /> Du er påmeldt
           </div>
         ) : hasSimpleWaitingList ? (
           <div>

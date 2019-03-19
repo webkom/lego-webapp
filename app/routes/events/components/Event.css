@@ -67,6 +67,7 @@
 }
 
 .joinHeader {
+  margin-top: 20px;
   font-size: 20px;
   color: var(--lego-color-gray);
   text-transform: uppercase;
