@@ -282,6 +282,14 @@ class JoinEventForm extends Component<Props> {
             </Form>
           </Flex>
         )}
+        {!formOpen && registration && showStripe && (
+          <PaymentRequestForm
+            onToken={onToken}
+            event={event}
+            currentUser={currentUser}
+            chargeStatus={registration.chargeStatus}
+          />
+        )}
       </Flex>
     );
   }
