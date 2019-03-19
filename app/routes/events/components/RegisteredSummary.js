@@ -8,16 +8,22 @@ import { Flex } from 'app/components/Layout';
 import type { EventRegistration } from 'app/models';
 
 type RegistrationProps = {
-  registration: EventRegistration
+  registration: EventRegistration,
+  currentRegistration?: ?EventRegistration
 };
 
-const Registration = ({ registration }: RegistrationProps) => (
+const Registration = ({
+  registration,
+  currentRegistration
+}: RegistrationProps) => (
   <Tooltip content={registration.user.fullName}>
     <Link
       to={`/users/${registration.user.username}`}
       style={{ color: 'inherit' }}
     >
-      {registration.user.firstName.split(' ')[0]}
+      {registration.id === (currentRegistration && currentRegistration.id)
+        ? 'Du'
+        : registration.user.firstName.split(' ')[0]}
     </Link>
   </Tooltip>
 );
@@ -59,22 +65,32 @@ const RegistrationList = ({
 
 type RegisteredSummaryProps = {
   registrations: Array<EventRegistration>,
+  currentRegistration?: ?EventRegistration,
   toggleModal?: number => void
 };
 
 const RegisteredSentence = ({
   registrations,
-  toggleModal
+  toggleModal,
+  currentRegistration
 }: RegisteredSummaryProps) => {
   switch (registrations.length) {
     case 0:
       return 'Ingen';
     case 1:
-      return <Registration registration={registrations[0]} />;
+      return (
+        <Registration
+          currentRegistration={currentRegistration}
+          registration={registrations[0]}
+        />
+      );
     case 2:
       return (
         <Flex>
-          <Registration registration={registrations[0]} />
+          <Registration
+            currentRegistration={currentRegistration}
+            registration={registrations[0]}
+          />
           {' og '}
           <Registration registration={registrations[1]} />
         </Flex>
@@ -83,7 +99,10 @@ const RegisteredSentence = ({
       // For more than 2 registrations we add a clickable `more` link:
       return (
         <Flex>
-          <Registration registration={registrations[0]} />
+          <Registration
+            currentRegistration={currentRegistration}
+            registration={registrations[0]}
+          />
           {', '}
           <Registration registration={registrations[1]} />
           {' og '}

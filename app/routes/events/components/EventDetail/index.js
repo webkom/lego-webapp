@@ -337,7 +337,7 @@ export default class EventDetail extends Component<Props> {
           </Link>
           {loggedIn && (
             <p>
-              Du kan oppdatere dine allergier og preferanser{' '}
+              Du kan oppdatere dine allergier og preferanser
               <Link to="/users/me"> her</Link>.
             </p>
           )}
