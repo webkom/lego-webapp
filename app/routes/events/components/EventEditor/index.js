@@ -88,6 +88,9 @@ function EventEditor({
   const isTBA = value =>
     value && value == 'TBA' ? `Velg påmeldingstype TBA` : undefined;
 
+  const tooLow = value =>
+    value && value <= 3 ? `Summen må være strørre enn 3 kr` : undefined;
+
   const eventStatusType = [
     { value: 'TBA', label: 'Ikke bestemt (TBA)' },
     { value: 'NORMAL', label: 'Vanlig påmelding (med pools)' },
@@ -198,6 +201,7 @@ function EventEditor({
               fieldClassName={styles.metaField}
               className={styles.formField}
             />
+
             <Tooltip content="Kun la medlemmer i Abakom se arrangement">
               <Field
                 label="Kun for Abakom"
@@ -208,6 +212,7 @@ function EventEditor({
                 normalize={v => !!v}
               />
             </Tooltip>
+
             <Field
               label="Påmeldingstype"
               name="eventStatusType"
@@ -244,7 +249,7 @@ function EventEditor({
               <div className={styles.subSection}>
                 <Tooltip content="Manuell betaling kan også av i etterkant">
                   <Field
-                    label="Betaling igjennom Abakus.no"
+                    label="Betaling via Abakus.no"
                     name="useStripe"
                     component={CheckBox.Field}
                     fieldClassName={styles.metaField}
@@ -252,6 +257,20 @@ function EventEditor({
                     normalize={v => !!v}
                   />
                 </Tooltip>
+                {event.useStripe && (
+                  <div className={styles.subSection}>
+                    <Tooltip content="Legger automatisk transaksjonskostnaden til prisen">
+                      <Field
+                        label="Legg til systemgebyr"
+                        name="addFee"
+                        component={CheckBox.Field}
+                        fieldClassName={styles.metaField}
+                        className={styles.formField}
+                        normalize={v => !!v}
+                      />
+                    </Tooltip>
+                  </div>
+                )}
                 <Field
                   label="Pris medlem"
                   name="priceMember"
@@ -259,19 +278,9 @@ function EventEditor({
                   component={TextInput.Field}
                   fieldClassName={styles.metaField}
                   className={styles.formField}
+                  warn={tooLow}
                 />
-                {event.useStripe && (
-                  <Tooltip content="Legger automatisk til transaksjonskostnaden til prisen">
-                    <Field
-                      label="Legg til systemgebyr"
-                      name="addFee"
-                      component={CheckBox.Field}
-                      fieldClassName={styles.metaField}
-                      className={styles.formField}
-                      normalize={v => !!v}
-                    />
-                  </Tooltip>
-                )}
+
                 {event.priceMember > 0 && (
                   <i>
                     Totalt:{' '}
@@ -333,6 +342,31 @@ function EventEditor({
               </Tooltip>
             )}
 
+            {['NORMAL', 'INFINITE', 'OPEN'].includes(event.eventStatusType) && (
+              <Tooltip content="Et spørsmål alle må svare på før de melder seg på">
+                <Field
+                  name="feedbackRequired"
+                  label="Obligatorisk spørsmål"
+                  component={CheckBox.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                  normalize={v => !!v}
+                />
+              </Tooltip>
+            )}
+            {['NORMAL', 'INFINITE', 'OPEN'].includes(event.eventStatusType) &&
+              event.feedbackRequired && (
+                <div className={styles.subSection}>
+                  <Field
+                    name="feedbackDescription"
+                    placeholder="Burger eller sushi?"
+                    component={TextInput.Field}
+                    fieldClassName={styles.metaField}
+                    className={styles.formField}
+                  />
+                </div>
+              )}
+
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Flex column>
                 <h3>Pools</h3>
@@ -375,40 +409,16 @@ function EventEditor({
           </ContentSidebar>
         </ContentSection>
 
-        <Flex wrapReverse>
-          <Flex column className={styles.join}>
-            <Flex column>
-              <Field
-                label="Tilbakemeldingsbeskrivelse"
-                name="feedbackDescription"
-                placeholder="E.g. Melding til arrangører"
-                component={TextInput.Field}
-              />
-              <Field
-                name="feedbackRequired"
-                label="Tvungen tilbakemelding"
-                component={CheckBox.Field}
-                normalize={v => !!v}
-              />
-              <Field
-                name="useCaptcha"
-                label="Bruk Captcha ved påmelding"
-                component={CheckBox.Field}
-                normalize={v => !!v}
-              />
-              <div>
-                <Button disabled={pristine || submitting} submit>
-                  LAGRE
-                </Button>
-              </div>
-              {isEditPage && (
-                <Link to={`/events/${event.id}`}>
-                  <Button>TILBAKE</Button>
-                </Link>
-              )}
-            </Flex>
-          </Flex>
-        </Flex>
+        <div>
+          {isEditPage && (
+            <Link to={`/events/${event.id}`}>
+              <Button style={{ marginRight: '20px' }}>TILBAKE</Button>
+            </Link>
+          )}
+          <Button disabled={pristine || submitting} submit>
+            {isEditPage ? 'LAGRE ENDRINGER' : 'OPPRETT'}
+          </Button>
+        </div>
       </Form>
     </Content>
   );
@@ -442,6 +452,9 @@ const validate = data => {
   }
   if (data.pools) {
     errors.pools = validatePools(data.pools);
+  }
+  if (data.feedbackRequired && !data.feedbackDescription) {
+    errors.feedbackDescription = 'Kan ikke være tomt';
   }
   return errors;
 };

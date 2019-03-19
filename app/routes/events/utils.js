@@ -75,12 +75,14 @@ const poolCreateAndUpdateFields = [
  * @param addFee: If the event uses Stipe and needs a fee
  */
 const calculatePrice = data => {
-  let price = 0;
-  price = data.isPriced ? data.priceMember : price;
-  price = data.addFee ? addStripeFee(data.priceMember) * 100 : price;
-  return price;
+  if (data.isPriced) {
+    if (data.addFee) {
+      return addStripeFee(data.priceMember) * 100;
+    }
+    return data.priceMember * 100;
+  }
+  return 0;
 };
-
 /* Calculate the event location
  * @param eventStatusType: what kind of registrationmode this event has
  */
@@ -91,7 +93,7 @@ const calculateLocation = data =>
  * @param eventStatusType: what kind of registrationmode this event has
  * @param pools: the event groups as specified by the CreateEvent forms
  */
-const calcualtePools = data => {
+const calculatePools = data => {
   switch (data.eventStatusType) {
     case 'TBA':
     case 'OPEN':
@@ -120,7 +122,7 @@ const calcualtePools = data => {
 /* Calculte and convert to payment due date
  * @param paymentDueDate: date from form
  */
-const calcualtePaymentDueDate = data =>
+const calculatePaymentDueDate = data =>
   data.isPriced ? moment(data.paymentDueDate).toISOString() : null;
 
 /* Calcualte and convert the registation deadline
@@ -148,9 +150,10 @@ export const transformEvent = (data: TransformEvent) => ({
   responsibleGroup: data.responsibleGroup && data.responsibleGroup.value,
   priceMember: calculatePrice(data),
   location: calculateLocation(data),
-  paymentDueDate: calcualtePaymentDueDate(data),
+  paymentDueDate: calculatePaymentDueDate(data),
   unregistrationDeadline: calculateUnregistrationDeadline(data),
-  pools: calcualtePools(data)
+  pools: calculatePools(data),
+  useCaptcha: true // always use Captcha, this blocks the use of CLI
 });
 
 export const paymentPending = 'pending';
