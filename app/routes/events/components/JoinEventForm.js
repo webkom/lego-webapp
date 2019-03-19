@@ -260,34 +260,35 @@ class JoinEventForm extends Component<Props> {
                   </Flex>
                 )}
                 {buttonOpen && !submitting && (
-                  <Flex alignItems="center" justifyContent="space-between">
-                    <SubmitButton
-                      disabled={disabledButton}
-                      onSubmit={this.submitWithType(
-                        handleSubmit,
-                        feedbackName,
-                        registrationType
-                      )}
-                      type={registrationType}
-                      title={title || joinTitle}
-                      showPenaltyNotice={showPenaltyNotice}
-                    />
-                    {registration && showStripe && (
-                      <PaymentRequestForm
-                        onToken={onToken}
-                        event={event}
-                        currentUser={currentUser}
-                        chargeStatus={registration.chargeStatus}
+                  <>
+                    <Flex alignItems="center" justifyContent="space-between">
+                      <SubmitButton
+                        disabled={disabledButton}
+                        onSubmit={this.submitWithType(
+                          handleSubmit,
+                          feedbackName,
+                          registrationType
+                        )}
+                        type={registrationType}
+                        title={title || joinTitle}
+                        showPenaltyNotice={showPenaltyNotice}
                       />
-                    )}
-
+                      {registration && showStripe && (
+                        <PaymentRequestForm
+                          onToken={onToken}
+                          event={event}
+                          currentUser={currentUser}
+                          chargeStatus={registration.chargeStatus}
+                        />
+                      )}
+                    </Flex>
                     {!registration && (
                       <SpotsLeft
                         activeCapacity={event.activeCapacity}
                         spotsLeft={event.spotsLeft}
                       />
                     )}
-                  </Flex>
+                  </>
                 )}
                 {submitting && (
                   <LoadingIndicator

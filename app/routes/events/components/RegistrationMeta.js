@@ -89,6 +89,8 @@ const PresenceStatus = ({
           <i className="fa fa-check-circle" /> Oppmøte ble ikke sjekktet
         </>
       );
+    default:
+      return null;
   }
 };
 
