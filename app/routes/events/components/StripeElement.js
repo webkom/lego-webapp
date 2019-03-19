@@ -26,7 +26,7 @@ type FormProps = Props & { stripe: { paymentRequest: Object => Object } };
 
 type State = {
   paymentRequest: Object,
-  canMakePayment: boolean
+  canMakePayment?: boolean
 };
 
 const paymentButtonWidth = 130;
@@ -59,7 +59,7 @@ class PaymentRequestForm extends React.Component<FormProps, State> {
     });
 
     this.state = {
-      canMakePayment: false,
+      canMakePayment: undefined,
       paymentRequest
     };
   }
@@ -77,7 +77,7 @@ class PaymentRequestForm extends React.Component<FormProps, State> {
             }}
           />
         )}
-        {this.state.canMakePayment ? (
+        {this.state.canMakePayment && (
           <div style={{ width: 130 }}>
             <PaymentRequestButtonElement
               paymentRequest={this.state.paymentRequest}
@@ -89,7 +89,9 @@ class PaymentRequestForm extends React.Component<FormProps, State> {
               }}
             />
           </div>
-        ) : (
+        )}
+
+        {this.state.canMakePayment === false && (
           <StripeCheckout
             name="Abakus Linjeforening"
             description={event.title}
