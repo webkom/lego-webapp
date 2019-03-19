@@ -1,5 +1,5 @@
-// flow-typed signature: 158822d2e983e0e1fef05cdd120914d7
-// flow-typed version: 399ee728fe/enzyme_v3.x.x/flow_>=v0.53.x
+// flow-typed signature: f6bad512110ebc6da85b1ddda297fe3d
+// flow-typed version: f04d291d8b/enzyme_v3.x.x/flow_>=v0.53.x
 
 declare module "enzyme" {
   declare type PredicateFunction<T: Wrapper<*>> = (
@@ -14,6 +14,7 @@ declare module "enzyme" {
   declare type CheerioWrapper = any;
 
   declare class Wrapper<RootComponent> {
+    equals(node: React$Element<any>): boolean,
     find(selector: UntypedSelector): this,
     find<T: React$ElementType>(selector: T): ReactWrapper<T>,
     findWhere(predicate: PredicateFunction<this>): this,

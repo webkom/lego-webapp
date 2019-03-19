@@ -1,10 +1,12 @@
 /* eslint-disable no-console */
 
 import 'babel-polyfill';
-import http from 'http';
 import { JSDOM } from 'jsdom';
 import app from './server';
 import Raven from 'raven';
+import https from 'https';
+import http from 'http';
+import fs from 'fs';
 import config from './env';
 
 Raven.config(config.ravenDsn, {
@@ -18,11 +20,19 @@ Raven.config(config.ravenDsn, {
 const { window } = new JSDOM('<!doctype html><html><body></body></html>');
 global.HTMLElement = window.HTMLElement;
 
-const server = http.createServer(app);
+const server = config.https
+  ? https.createServer(
+      {
+        cert: fs.readFileSync(config.httpsCertFile, 'utf8'),
+        key: fs.readFileSync(config.httpsCertKeyFile, 'utf8')
+      },
+      app
+    )
+  : http.createServer(app);
 let currentApp = app;
 const log = app.get('log');
 
-app.listen(app.get('port'), app.get('host'), err => {
+server.listen(app.get('port'), app.get('host'), err => {
   if (err) {
     log.error(err, 'could_not_start_server');
   }
