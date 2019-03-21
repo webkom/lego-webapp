@@ -119,12 +119,6 @@ class JoblistingEditor extends Component<Props, State> {
         <h1 className={styles.heading}>
           {!isNew ? 'Rediger jobbannonse' : 'Legg til jobbannonse'}
         </h1>
-        <Field
-          name="youtubeUrl"
-          label="Erstatt cover-bildet med video fra Youtube (frivillig)"
-          placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
-          component={TextInput.Field}
-        />
         <Form onSubmit={handleSubmit(this.onSubmit)}>
           <Field
             placeholder="Title"
@@ -223,6 +217,12 @@ class JoblistingEditor extends Component<Props, State> {
             component={SelectInput.Field}
           />
           <Field
+            name="youtubeUrl"
+            label="Bruk video fra Youtube som cover (frivillig)"
+            placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
+            component={TextInput.Field}
+          />
+          <Field
             name="description"
             className={styles.descriptionField}
             label="Søknadsintro"
@@ -277,7 +277,7 @@ const validate = ({
   visibleFrom,
   visibleTo
 }) => {
-  const errors = validateYoutubeUrl(youtubeUrl, errors);
+  const errors = validateYoutubeUrl(youtubeUrl);
 
   if (!title) {
     errors.title = 'Du må gi jobbannonsen en tittel';

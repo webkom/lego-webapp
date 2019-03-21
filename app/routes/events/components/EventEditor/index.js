@@ -452,7 +452,7 @@ const validate = data => {
   if (!data.location) {
     errors.location = 'Lokasjon er påkrevet';
   }
-  if (!data.id && !data.cover) {
+  if (!data.id && (!data.cover && !data.youtubeUrl)) {
     errors.cover = 'Cover er påkrevet';
   }
   if (!data.eventStatusType) {
