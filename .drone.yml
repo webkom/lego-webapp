@@ -54,7 +54,7 @@ pipeline:
     when:
       event: [push, pull_request]
   api:
-    image: registry.abakus.no/webkom/lego:cypress-1
+    image: registry.abakus.no/webkom/lego:latest
     detach: true
     group: services
     pull: true
