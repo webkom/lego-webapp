@@ -21,3 +21,7 @@ report.*.json
 # Certs
 localhost.pem
 localhost-key.pem
+
+# Cypress
+cypress/screenshots
+cypress/videos

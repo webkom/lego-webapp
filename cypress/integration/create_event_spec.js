@@ -5,17 +5,17 @@ describe('Create event', () => {
 
   it('Makes sure required fields are filled before allowing submit', () => {
     cy.visit('/events/create');
-    // Check that validation errors show only after we click "LAGRE"
+    // Check that validation errors show only after we click "OPPRETT"
     fieldError('cover').should('not.exist');
     fieldError('title').should('not.exist');
     fieldError('description').should('not.exist');
     fieldError('eventType').should('not.exist');
 
-    cy.contains('button', 'LAGRE').should('be.disabled');
-    // click editor to initialize form and enable LAGRE button
+    cy.contains('button', 'OPPRETT').should('be.disabled');
+    // click editor to initialize form and enable OPPRETT button
     cy.get('div[name="text"]').click();
 
-    cy.contains('button', 'LAGRE')
+    cy.contains('button', 'OPPRETT')
       .should('not.be.disabled')
       .click();
 
@@ -70,7 +70,7 @@ describe('Create event', () => {
     cy.focused().type('{enter}', { force: true });
     fieldError('eventType').should('not.exist');
 
-    cy.contains('button', 'LAGRE')
+    cy.contains('button', 'OPPRETT')
       .should('not.be.disabled')
       .click();
 
@@ -175,7 +175,7 @@ describe('Create event', () => {
     cy.focused().type('sos{enter}', { force: true });
 
     // Create event
-    cy.contains('button', 'LAGRE')
+    cy.contains('button', 'OPPRETT')
       .should('not.be.disabled')
       .click();
 
