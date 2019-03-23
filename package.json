@@ -86,7 +86,7 @@
     "react-textarea-autosize": "^5.1.0",
     "react-treeview": "^0.4.6",
     "redux": "^3.7.2",
-    "redux-form": "^6.5.0",
+    "redux-form": "^5.4.0",
     "redux-logger": "^3.0.1",
     "redux-segment": "^1.6.2",
     "redux-thunk": "^2.2.0",
