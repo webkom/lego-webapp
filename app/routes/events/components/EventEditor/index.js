@@ -33,8 +33,9 @@ import {
   ContentSidebar
 } from 'app/components/Content';
 import Tooltip from 'app/components/Tooltip';
+import Icon from 'app/components/Icon';
 import type { ID } from 'app/models';
-import { validateYoutubeUrl } from 'app/utils/validation';
+import { validYoutubeUrl } from 'app/utils/validation';
 
 type Props = {
   eventId: number,
@@ -119,12 +120,30 @@ function EventEditor({
           aspectRatio={20 / 6}
           img={event.cover}
         />
-        <Field
-          name="youtubeUrl"
-          label="Erstatt cover-bildet med video fra Youtube (frivillig)"
-          placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
-          component={TextInput.Field}
-        />
+        <Flex>
+          <Field
+            name="youtubeUrl"
+            label={
+              <Flex>
+                <div>Erstatt cover-bildet med video fra YouTube</div>
+                <div style={{ marginLeft: '5px' }}>
+                  <Tooltip
+                    style={{ marginLeft: '3px' }}
+                    content="Valgfritt felt. Videoen erstatter ikke coveret i listen over arrangementer."
+                  >
+                    <Icon
+                      name="information-circle-outline"
+                      size={20}
+                      style={{ cursor: 'pointer' }}
+                    />
+                  </Tooltip>
+                </div>
+              </Flex>
+            }
+            placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
+            component={TextInput.Field}
+          />
+        </Flex>
         <Field
           label="Festet på forsiden"
           name="pinned"
@@ -432,7 +451,14 @@ function EventEditor({
 }
 
 const validate = data => {
-  const errors = validateYoutubeUrl(data.youtubeUrl);
+  const errors = {};
+
+  const [isValidYoutubeUrl, errorMessage = ''] = validYoutubeUrl()(
+    data.youtubeUrl
+  );
+  if (!isValidYoutubeUrl) {
+    errors.youtubeUrl = errorMessage;
+  }
 
   if (!data.title) {
     errors.title = 'Tittel er påkrevet';
@@ -452,7 +478,7 @@ const validate = data => {
   if (!data.location) {
     errors.location = 'Lokasjon er påkrevet';
   }
-  if (!data.id && (!data.cover && !data.youtubeUrl)) {
+  if (!data.id && !data.cover) {
     errors.cover = 'Cover er påkrevet';
   }
   if (!data.eventStatusType) {

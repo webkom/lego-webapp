@@ -20,6 +20,9 @@ import {
 } from 'app/components/Form';
 import { Form, Fields, Field } from 'redux-form';
 import { createValidator, validYoutubeUrl } from 'app/utils/validation';
+import Flex from 'app/components/Layout/Flex';
+import Tooltip from 'app/components/Tooltip';
+import Icon from 'app/components/Icon';
 
 /**
  *
@@ -65,12 +68,30 @@ const ArticleEditor = ({
           aspectRatio={20 / 6}
           img={article && article.cover}
         />
-        <Field
-          name="youtubeUrl"
-          label="Erstatt cover-bildet med video fra Youtube (frivillig)"
-          placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
-          component={TextInput.Field}
-        />
+        <Flex>
+          <Field
+            name="youtubeUrl"
+            label={
+              <Flex>
+                <div>Erstatt cover-bildet med video fra YouTube</div>
+                <div style={{ marginLeft: '5px' }}>
+                  <Tooltip
+                    style={{ marginLeft: '3px' }}
+                    content="Valgfritt felt. Videoen erstatter ikke coveret i listen over artikler."
+                  >
+                    <Icon
+                      name="information-circle-outline"
+                      size={20}
+                      style={{ cursor: 'pointer' }}
+                    />
+                  </Tooltip>
+                </div>
+              </Flex>
+            }
+            placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
+            component={TextInput.Field}
+          />
+        </Flex>
         <Field
           label="Festet på forsiden"
           name="pinned"

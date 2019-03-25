@@ -29,14 +29,6 @@ export const validPassword = (
 export const validYoutubeUrl = (message = 'Ikke gyldig YouTube URL.') =>
   matchesRegex(YOUTUBE_URL_REGEX, message);
 
-export const validateYoutubeUrl = (url, output = {}) => {
-  const [isValidYoutubeUrl, errorMessage] = validYoutubeUrl()(url);
-  if (url && !isValidYoutubeUrl) {
-    output.youtubeUrl = errorMessage;
-  }
-  return output;
-};
-
 export const whenPresent = validator => (value, context) =>
   value ? validator(value, context) : [true];
 

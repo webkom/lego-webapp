@@ -20,7 +20,9 @@ import moment from 'moment-timezone';
 import { Content } from 'app/components/Content';
 import { Flex } from 'app/components/Layout';
 import { places, jobTypes, yearValues } from '../constants';
-import { validateYoutubeUrl } from 'app/utils/validation';
+import { validYoutubeUrl } from 'app/utils/validation';
+import Tooltip from 'app/components/Tooltip';
+import Icon from 'app/components/Icon';
 
 import type { Joblisting, Workplace, ID } from 'app/models';
 
@@ -216,12 +218,30 @@ class JoblistingEditor extends Component<Props, State> {
             options={this.state.responsibleOptions}
             component={SelectInput.Field}
           />
-          <Field
-            name="youtubeUrl"
-            label="Bruk video fra Youtube som cover (frivillig)"
-            placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
-            component={TextInput.Field}
-          />
+          <Flex>
+            <Field
+              name="youtubeUrl"
+              label={
+                <Flex>
+                  <div>Erstatt cover-bildet med video fra YouTube</div>
+                  <div style={{ marginLeft: '5px' }}>
+                    <Tooltip
+                      style={{ marginLeft: '3px' }}
+                      content="Valgfritt felt. Videoen erstatter ikke coveret i listen over jobbannonser."
+                    >
+                      <Icon
+                        name="information-circle-outline"
+                        size={20}
+                        style={{ cursor: 'pointer' }}
+                      />
+                    </Tooltip>
+                  </div>
+                </Flex>
+              }
+              placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
+              component={TextInput.Field}
+            />
+          </Flex>
           <Field
             name="description"
             className={styles.descriptionField}
@@ -277,7 +297,12 @@ const validate = ({
   visibleFrom,
   visibleTo
 }) => {
-  const errors = validateYoutubeUrl(youtubeUrl);
+  const errors = {};
+
+  const [isValidYoutubeUrl, errorMessage = ''] = validYoutubeUrl()(youtubeUrl);
+  if (!isValidYoutubeUrl) {
+    errors.youtubeUrl = errorMessage;
+  }
 
   if (!title) {
     errors.title = 'Du må gi jobbannonsen en tittel';
