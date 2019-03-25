@@ -14,7 +14,7 @@ import GroupChange from './GroupChange.js';
 import styles from './UserProfile.css';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
-import { groupBy } from 'lodash';
+import { groupBy, orderBy } from 'lodash';
 import { resolveGroupLink } from 'app/reducers/groups';
 import type { Group, AddPenalty, Event, ID } from 'app/models';
 import cx from 'classnames';
@@ -80,6 +80,7 @@ const GroupPill = ({ group }: { group: Group }) =>
 
 const BadgeTooltip = ({
   group,
+  role,
   start,
   end
 }: {
@@ -92,41 +93,49 @@ const BadgeTooltip = ({
   return `${group.name} (${startYear} - ${endYear})`;
 };
 
-const GroupBadge = ({
-  group,
-  start,
-  end
-}: {
-  group: Group,
-  start: Dateish,
-  end?: ?Dateish
-}) => {
+const GroupBadge = ({ memberships }: { memberships: Array<Object> }) => {
+  const activeMemberships = memberships.find(membership => membership.isActive);
+  const abakusGroup = memberships[0].abakusGroup;
+  if (!abakusGroup.showBadge) return null;
+  // $FlowFixMe
+  const sortedMemberships = orderBy(memberships, membership =>
+    moment(membership.startDate || membership.createdAt)
+  );
+  const firstMembership = sortedMemberships[0];
+  const lastMembership = sortedMemberships[sortedMemberships.length - 1];
+  const { id, name, logo } = abakusGroup;
   const groupElement = (
     <Tooltip
-      key={group.id}
-      content={<BadgeTooltip group={group} end={end} start={start} />}
+      key={id}
+      content={
+        <BadgeTooltip
+          group={abakusGroup}
+          start={firstMembership.startDate || firstMembership.createdAt}
+          end={lastMembership.endDate}
+        />
+      }
     >
       <CircularPicture
-        alt={group.name}
-        src={group.logo}
+        alt={name}
+        src={logo}
         size={50}
         style={{
           margin: '10px 5px',
-          ...(end ? { filter: 'grayscale(100%)', opacity: '0.7' } : {})
+          ...(!activeMemberships
+            ? { filter: 'grayscale(100%)', opacity: '0.7' }
+            : {})
         }}
       />
     </Tooltip>
   );
-  const link = resolveGroupLink(group);
+  const link = resolveGroupLink(abakusGroup);
   if (!link) {
     return groupElement;
   }
   return (
-    group.showBadge && (
-      <Link key={group.id} to={resolveGroupLink(group)}>
-        {groupElement}
-      </Link>
-    )
+    <Link key={id} to={link}>
+      {groupElement}
+    </Link>
   );
 };
 
@@ -211,7 +220,15 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
           ? 'pastMembershipsAsBadges'
           : 'pastMembershipsAsPills'
     );
-    const a = pastMemberships.filter(Boolean).map(m => m.abakusGroup);
+    // $FlowFixMe
+    const groupedMemberships = orderBy(
+      groupBy(
+        pastMembershipsAsBadges.concat(membershipsAsBadges),
+        'abakusGroup.id'
+      ),
+      memberships => !memberships.some(membership => membership.isActive)
+    );
+
     return (
       <div className={styles.root}>
         <Helmet title={`${firstName} ${lastName}`} />
@@ -231,19 +248,10 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
               ))}
             </Flex>
             <Flex>
-              {membershipsAsBadges.map(membership => (
+              {Object.keys(groupedMemberships).map(groupId => (
                 <GroupBadge
-                  group={membership.abakusGroup}
-                  start={membership.createdAt}
-                  key={membership.id}
-                />
-              ))}
-              {pastMembershipsAsBadges.map(membership => (
-                <GroupBadge
-                  group={membership.abakusGroup}
-                  start={membership.startDate}
-                  end={membership.endDate}
-                  key={membership.id}
+                  memberships={groupedMemberships[groupId]}
+                  key={groupId}
                 />
               ))}
             </Flex>
