@@ -11,6 +11,13 @@ steps:
     CYPRESS_INSTALL_BINARY: 0
   commands:
     - yarn --frozen-lockfile
+  resources:
+    limits:
+      cpu: 1
+      memory: 400Mi
+    requests:
+      cpu: 0.5
+      memory: 400Mi
 - name: build_and_cypress
   # image: cypress/base:10 # Tests exit and "succeed" prematurely with this for some reason
   image: cypress/browsers:chrome69
@@ -32,6 +39,13 @@ steps:
     - ./wait-for-it.sh -t 180 localhost:3000
     - yarn cypress run --record
     - echo "finished."
+  resources:
+    limits:
+      cpu: 1
+      memory: 600Mi
+    requests:
+      cpu: 0.5
+      memory: 400Mi
   secrets: [cypress_record_key]
 - name: test
   image: node:11
@@ -40,6 +54,13 @@ steps:
   depends_on: [ setup ]
   commands:
     - yarn test
+  resources:
+    limits:
+      cpu: 0.6
+      memory: 300Mi
+    requests:
+      cpu: 0.4
+      memory: 300Mi
 - name: lint
   image: node:11
   when:
@@ -47,6 +68,13 @@ steps:
   depends_on: [ setup ]
   commands:
     - yarn lint
+  resources:
+    limits:
+      cpu: 0.5
+      memory: 300Mi
+    requests:
+      cpu: 0.3
+      memory: 300Mi
 - name: flow
   image: node:11
   when:
@@ -54,6 +82,13 @@ steps:
   depends_on: [ setup ]
   commands:
     - yarn flow --quiet
+  resources:
+    limits:
+      cpu: 0.5
+      memory: 300Mi
+    requests:
+      cpu: 0.3
+      memory: 300Mi
 - name: docker
   image: plugins/docker
   when:
@@ -80,6 +115,13 @@ steps:
     SENTRY_AUTH_KEY:
         from_secret: sentry_auth_key
   depends_on: [build_and_cypress, test, lint, flow]
+  resources:
+    limits:
+      cpu: 1
+      memory: 1000Mi
+    requests:
+      cpu: 0.5
+      memory: 400Mi
 
 services:
 - name: postgres
@@ -90,6 +132,13 @@ services:
     POSTGRES_USER: lego
   when:
     event: push
+  resources:
+    limits:
+      cpu: 0.6
+      memory: 400Mi
+    requests:
+      cpu: 0.4
+      memory: 400Mi
 - name: minio
   image: minio/minio
   ports:
@@ -100,6 +149,13 @@ services:
   command: [ "server", "/export" ]
   when:
     event: push
+  resources:
+    limits:
+      cpu: 0.4
+      memory: 300Mi
+    requests:
+      cpu: 0.3
+      memory: 200Mi
 - name: thumbor
   image: apsl/thumbor:latest
   commands:
@@ -123,6 +179,13 @@ services:
     LOADER: tc_aws.loaders.s3_loader
   when:
     event: push
+  resources:
+    limits:
+      cpu: 0.4
+      memory: 300Mi
+    requests:
+      cpu: 0.3
+      memory: 200Mi
 - name: elasticsearch
   image: docker.elastic.co/elasticsearch/elasticsearch:6.2.1
   ports:
@@ -132,12 +195,26 @@ services:
     HEAP_SIZE: 1g
   when:
     event: push
+  resources:
+    limits:
+      cpu: 1
+      memory: 1500Mi
+    requests:
+      cpu: 0.5
+      memory: 500Mi
 - name: redis
   image: redis
   ports:
     - 6379
   when:
     event: push
+  resources:
+    limits:
+      cpu: 0.4
+      memory: 400Mi
+    requests:
+      cpu: 0.2
+      memory: 200Mi
 - name: api
   image: registry.abakus.no/webkom/lego:latest
   pull: always
@@ -186,6 +263,13 @@ services:
     APNS_CERTIFICATE: 123
   when:
     event: push
+  resources:
+    limits:
+      cpu: 1
+      memory: 600Mi
+    requests:
+      cpu: 0.5
+      memory: 300Mi
 
 image_pull_secrets:
 - dockerconfigjson
