@@ -26,7 +26,6 @@ import {
 import loadingIndicator from 'app/utils/loadingIndicator';
 import helmet from 'app/utils/helmet';
 import { deleteComment } from 'app/actions/CommentActions';
-import getParamsFromUrl from 'app/utils/getParamsFromUrl';
 
 const mapStateToProps = (state, props) => {
   const {
@@ -37,12 +36,6 @@ const mapStateToProps = (state, props) => {
   const event = selectEventById(state, { eventId });
 
   const actionGrant = event.actionGrant || [];
-
-  let youtubeParams = {};
-  const { youtubeUrl } = event;
-  if (youtubeUrl) {
-    youtubeParams = getParamsFromUrl(youtubeUrl);
-  }
 
   const hasFullAccess = Boolean(event.waitingRegistrations);
 
@@ -67,8 +60,7 @@ const mapStateToProps = (state, props) => {
       event,
       eventId,
       pools,
-      comments: [],
-      youtubeParams
+      comments: []
     };
   }
   const comments = selectCommentsForEvent(state, { eventId });
@@ -116,8 +108,7 @@ const mapStateToProps = (state, props) => {
     registrations,
     currentRegistration,
     currentRegistrationIndex,
-    hasSimpleWaitingList,
-    youtubeParams
+    hasSimpleWaitingList
   };
 };
 

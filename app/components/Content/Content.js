@@ -8,12 +8,12 @@ import { Image } from 'app/components/Image';
 import Youtube from 'react-youtube';
 import Flex from '../Layout/Flex';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import type { YoutubePlayer } from 'app/models';
 import { isEmpty } from 'lodash';
+import getParamsFromUrl from 'app/utils/getParamsFromUrl';
 
 type Props = {
   banner?: string,
-  youtubeParams?: YoutubePlayer,
+  youtubeUrl?: string,
   className?: string,
   children: Node
 };
@@ -35,9 +35,10 @@ type Props = {
  * ```
  */
 
-function Content({ banner, youtubeParams, children, className }: Props) {
+function Content({ banner, youtubeUrl, children, className }: Props) {
   const [isClicked, click] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const youtubeParams = youtubeUrl && getParamsFromUrl(youtubeUrl);
 
   return (
     <Flex column alignItems="center">

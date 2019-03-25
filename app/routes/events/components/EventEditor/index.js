@@ -459,7 +459,6 @@ const validate = data => {
   if (!isValidYoutubeUrl) {
     errors.youtubeUrl = errorMessage;
   }
-
   if (!data.title) {
     errors.title = 'Tittel er påkrevet';
   }

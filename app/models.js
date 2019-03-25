@@ -225,8 +225,3 @@ export type AddPenalty = {
   weight: number,
   sourceEvent: ID
 };
-
-export type YoutubePlayer = {
-  v: string, // Video id
-  t: string // Start time in video
-};

@@ -33,8 +33,7 @@ import type {
   EventPool,
   EventRegistration,
   Event,
-  ActionGrant,
-  YoutubePlayer
+  ActionGrant
 } from 'app/models';
 import type { CommentEntity } from 'app/reducers/comments';
 import type { UserEntity } from 'app/reducers/users';
@@ -82,8 +81,7 @@ type Props = {
     feedback: string
   ) => Promise<*>,
   deleteEvent: (eventId: ID) => Promise<*>,
-  deleteComment: (id: ID, commentTarget: string) => Promise<*>,
-  youtubeParams?: YoutubePlayer
+  deleteComment: (id: ID, commentTarget: string) => Promise<*>
 };
 
 export default class EventDetail extends Component<Props> {
@@ -140,8 +138,7 @@ export default class EventDetail extends Component<Props> {
       deleteEvent,
       follow,
       unfollow,
-      deleteComment,
-      youtubeParams
+      deleteComment
     } = this.props;
     if (!event.id) {
       return null;
@@ -223,7 +220,7 @@ export default class EventDetail extends Component<Props> {
       <div>
         <Content
           banner={event.cover || (event.company && event.company.logo)}
-          youtubeParams={youtubeParams}
+          youtubeUrl={event.youtubeUrl}
         >
           <ContentHeader
             borderColor={color}

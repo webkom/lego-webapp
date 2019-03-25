@@ -1,5 +1,7 @@
-// Convert params from url into JSON object
-const getParamsFromUrl = url => {
+//@flow
+
+// Convert params from url into object
+const getParamsFromUrl = (url: string) => {
   let params = {};
   const urlObj = new URL(url);
   const { searchParams, hostname } = urlObj;
@@ -13,6 +15,7 @@ const getParamsFromUrl = url => {
   return params;
 };
 
+// Convert special urls on the form "youtu.be/{id}&t={seconds}" into object
 const handleYoutubeUrl = (urlObj, params) => {
   const { pathname, search } = urlObj;
   const videoId = pathname.substring(1);
