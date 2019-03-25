@@ -8,7 +8,7 @@ steps:
   environment:
     POSTGRES_USER: lego
   when:
-    event: [push, pull_request]
+    event: push
 - name: minio
   image: minio/minio
   detach: true
@@ -18,7 +18,7 @@ steps:
   commands:
     - server /export
   when:
-    event: [push, pull_request]
+    event: push
 - name: thumbor
   image: apsl/thumbor:latest
   detach: true
@@ -38,7 +38,7 @@ steps:
   links:
     - minio
   when:
-    event: [push, pull_request]
+    event: push
 - name: elasticsearch
   image: docker.elastic.co/elasticsearch/elasticsearch:6.2.1
   detach: true
@@ -46,12 +46,12 @@ steps:
     ES_JAVA_OPTS: -Xms512m -Xmx512m
     HEAP_SIZE: 1g
   when:
-    event: [push, pull_request]
+    event: push
 - name: redis
   image: redis
   detach: true
   when:
-    event: [push, pull_request]
+    event: push
 - name: api
   image: registry.abakus.no/webkom/lego:latest
   detach: true
@@ -96,12 +96,12 @@ steps:
     LDAP_PASSWORD: 123
     APNS_CERTIFICATE: 123
   when:
-    event: [push, pull_request]
+    event: push
 - name: setup
   image: node:11
   depends_on: [ clone ]
   when:
-    event: [push, pull_request]
+    event: push
   environment:
     CYPRESS_INSTALL_BINARY: 0
   commands:
@@ -110,7 +110,7 @@ steps:
   # image: cypress/base:10 # Tests exit and "succeed" prematurely with this for some reason
   image: cypress/browsers:chrome69
   when:
-    event: [push, pull_request]
+    event: push
   depends_on: [ setup ]
   environment:
     API_URL: http://api:8000/api/v1
@@ -129,21 +129,21 @@ steps:
 - name: test
   image: node:11
   when:
-    event: [push, pull_request]
+    event: push
   depends_on: [ setup ]
   commands:
     - yarn test
 - name: lint
   image: node:11
   when:
-    event: [push, pull_request]
+    event: push
   depends_on: [ setup ]
   commands:
     - yarn lint
 - name: flow
   image: node:11
   when:
-    event: [push, pull_request]
+    event: push
   depends_on: [ setup ]
   commands:
     - yarn flow --quiet
