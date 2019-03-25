@@ -90,3 +90,25 @@
 .registrationSection {
   flex-wrap: wrap-reverse;
 }
+
+.penalties {
+  padding: 10px;
+  border-radius: 10px;
+  background: var(--color-red-4);
+  text-align: center;
+}
+
+.penalties > p {
+  color: white;
+  font-weight: bold;
+  margin: 0;
+}
+
+.penalties > a {
+  font-weight: bold;
+  color: var(--color-event-red);
+}
+
+.penalties > a:hover {
+  color: var(--color-black);
+}

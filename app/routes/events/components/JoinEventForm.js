@@ -3,6 +3,7 @@
 import styles from './Event.css';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 import { compose } from 'redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
 import { Form, Captcha, TextEditor } from 'app/components/Form';
@@ -15,8 +16,15 @@ import { Flex } from 'app/components/Layout';
 import withCountdown from './JoinEventFormCountdownProvider';
 import formStyles from 'app/components/Form/Field.css';
 import moment from 'moment-timezone';
-import { paymentSuccess, paymentManual } from '../utils';
+import {
+  paymentSuccess,
+  paymentManual,
+  sumPenalties,
+  penaltyHours
+} from '../utils';
 import { registrationIsClosed } from '../utils';
+import { selectUserWithGroups } from 'app/reducers/users';
+import { selectPenaltyByUserId } from 'app/reducers/penalties';
 
 type Event = Object;
 
@@ -38,6 +46,7 @@ export type Props = {
   captchaOpen: boolean,
   buttonOpen: boolean,
   registrationOpensIn: ?string,
+  penalties: Array<Object>,
   touch: (field: string) => void
 };
 
@@ -144,6 +153,7 @@ class JoinEventForm extends Component<Props> {
       submitting,
       buttonOpen,
       formOpen,
+      penalties,
       captchaOpen,
       registrationOpensIn
     } = this.props;
@@ -217,6 +227,19 @@ class JoinEventForm extends Component<Props> {
                     ? 'Åpnet '
                     : 'Åpner '}
                   <Time time={event.activationTime} format="nowToTimeInWords" />
+                  {sumPenalties(penalties) > 0 && (
+                    <div className={styles.penalties}>
+                      <p>
+                        NB! Påmeldingen din er forskyvet med{' '}
+                        {penaltyHours(penalties)} timer fordi du har{' '}
+                        {sumPenalties(penalties)}{' '}
+                        {sumPenalties(penalties) > 1 ? 'prikker' : 'prikk'}
+                      </p>
+                      <Link to={`/pages/arrangementer/26-arrangementsregler`}>
+                        Les mer om prikker her
+                      </Link>
+                    </div>
+                  )}
                 </div>
               )}
               {disabledForUser && (
@@ -356,7 +379,15 @@ function mapStateToProps(state, { event, registration }) {
       }
     };
   }
-  return {};
+  const user = state.auth
+    ? selectUserWithGroups(state, { username: state.auth.username })
+    : null;
+  const penalties = user
+    ? selectPenaltyByUserId(state, { userId: user.id })
+    : [];
+  return {
+    penalties
+  };
 }
 
 export default compose(

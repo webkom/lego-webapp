@@ -1,7 +1,7 @@
 // @flow
-import { pick } from 'lodash';
+import { pick, sumBy } from 'lodash';
 import moment from 'moment-timezone';
-import type { TransformEvent, Event, EventType } from 'app/models';
+import type { TransformEvent, Event, EventType, AddPenalty } from 'app/models';
 
 // Current eventTypes
 export const EVENT_CONSTANTS: { [EventType]: string } = {
@@ -187,5 +187,21 @@ export const registrationCloseTime = (event: Event) =>
   moment(event.startTime).subtract(event.registrationDeadlineHours, 'hours');
 
 export const registrationIsClosed = (event: Event) => {
-  return moment().isAfter(registrationCloseTime(event));
+  return moment().isAfter(registrationCloseTime(event))
+};
+
+export const sumPenalties = (penalties: Array<AddPenalty>) =>
+  sumBy(penalties, 'weight');
+
+export const penaltyHours = (penalties: Array<AddPenalty>) => {
+  switch (sumPenalties(penalties)) {
+    case 0:
+      return 0;
+    case 1:
+      return 3;
+    case 2:
+      return 12;
+    default:
+      return 0;
+  }
 };
