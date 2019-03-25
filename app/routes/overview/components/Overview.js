@@ -37,7 +37,7 @@ type State = {
 
 class Overview extends Component<Props, State> {
   state = {
-    eventsToShow: 7,
+    eventsToShow: 9,
     articlesToShow: 2
   };
 
@@ -146,17 +146,19 @@ class Overview extends Component<Props, State> {
 
     const weekly = (
       <Flex column className={styles.weekly}>
-        <Link to={'/articles?tag=weekly'}>
-          <h3 className="u-ui-heading">Weekly</h3>
-        </Link>
         {weeklyArticle && (
-          <ArticleItem
-            key={weeklyArticle.id}
-            item={weeklyArticle}
-            url={this.itemUrl(weeklyArticle)}
-            meta={this.renderMeta(weeklyArticle)}
-            weekly
-          />
+          <>
+            <Link to={'/articles?tag=weekly'}>
+              <h3 className="u-ui-heading">Weekly</h3>
+            </Link>
+            <ArticleItem
+              key={weeklyArticle.id}
+              item={weeklyArticle}
+              url={this.itemUrl(weeklyArticle)}
+              meta={this.renderMeta(weeklyArticle)}
+              weekly
+            />
+          </>
         )}
       </Flex>
     );
@@ -198,17 +200,19 @@ class Overview extends Component<Props, State> {
 
     const pollItem = (
       <Flex column className={styles.poll}>
-        <Link to={'/polls'}>
-          <h3 className="u-ui-heading">Avstemning</h3>
-        </Link>
         {poll && (
-          <Poll
-            style={{ flex: 'none' }}
-            poll={poll}
-            backgroundLight
-            truncate={3}
-            handleVote={votePoll}
-          />
+          <>
+            <Link to={'/polls'}>
+              <h3 className="u-ui-heading">Avstemning</h3>
+            </Link>
+            <Poll
+              style={{ flex: 'none' }}
+              poll={poll}
+              backgroundLight
+              truncate={3}
+              handleVote={votePoll}
+            />
+          </>
         )}
       </Flex>
     );
