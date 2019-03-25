@@ -2,6 +2,7 @@
 
 import React, { Component, Fragment } from 'react';
 import { pick } from 'lodash';
+import moment from 'moment-timezone';
 import zxcvbn from 'zxcvbn';
 import Bar from 'react-meter-bar';
 import styles from './PasswordStrengthMeter.css';
@@ -27,6 +28,12 @@ class PasswordStrengthMeter extends Component<Props> {
     tips.push(zxcvbnValue.feedback.warning);
     tips = tips.map(tip => passwordFeedbackMessages[tip]).filter(Boolean);
 
+    let crackTimeSec =
+      zxcvbnValue.crack_times_seconds.offline_slow_hashing_1e4_per_second;
+    let crackTimeDuration = moment.duration(crackTimeSec, 'seconds').humanize();
+    let crackTime =
+      crackTimeSec > 2 ? crackTimeDuration : crackTimeSec + ' sekunder';
+
     return (
       <Fragment>
         <div className={styles.removeLabels}>
@@ -39,9 +46,16 @@ class PasswordStrengthMeter extends Component<Props> {
           />
         </div>
         {password && (
-          <div>
-            <strong>Passordstyrke: </strong> {passwordLabel[zxcvbnValue.score]}{' '}
-          </div>
+          <Fragment>
+            <span>
+              <strong>Passordstyrke: </strong>{' '}
+              {passwordLabel[zxcvbnValue.score]}
+            </span>
+            <p>
+              Dette passordet hadde tatt en maskin {crackTime} å knekke @ 10^4
+              Hash/s.
+            </p>
+          </Fragment>
         )}
         {password && zxcvbnValue.score < 2 && (
           <ul className={styles.tipsList}>
