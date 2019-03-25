@@ -5,7 +5,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
-import { Form, Captcha, TextEditor } from 'app/components/Form';
+import { Form, Captcha, TextInput } from 'app/components/Form';
 import Button from 'app/components/Button';
 import PaymentRequestForm from './StripeElement';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
@@ -224,26 +224,13 @@ class JoinEventForm extends Component<Props> {
                     id={feedbackName}
                     placeholder="Melding til arrangører"
                     name={feedbackName}
-                    component={TextEditor.Field}
+                    component={TextInput.Field}
+                    suffix={'Lagre'}
                     labelClassName={styles.feedbackLabel}
                     className={styles.feedbackText}
                     fieldClassName={styles.feedbackField}
                     rows={1}
                   />
-                  {registration && (
-                    <Button
-                      type="button"
-                      onClick={this.submitWithType(
-                        handleSubmit,
-                        feedbackName,
-                        'feedback'
-                      )}
-                      className={styles.feedbackUpdateButton}
-                      disabled={pristine}
-                    >
-                      Oppdater
-                    </Button>
-                  )}
                 </Flex>
                 {showCaptcha && (
                   <Field
@@ -261,7 +248,11 @@ class JoinEventForm extends Component<Props> {
                 )}
                 {buttonOpen && !submitting && (
                   <>
-                    <Flex alignItems="center" justifyContent="space-between">
+                    <Flex
+                      column
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
                       <SubmitButton
                         disabled={disabledButton}
                         onSubmit={this.submitWithType(
@@ -274,12 +265,16 @@ class JoinEventForm extends Component<Props> {
                         showPenaltyNotice={showPenaltyNotice}
                       />
                       {registration && showStripe && (
-                        <PaymentRequestForm
-                          onToken={onToken}
-                          event={event}
-                          currentUser={currentUser}
-                          chargeStatus={registration.chargeStatus}
-                        />
+                        <div style={{ width: '100%' }}>
+                          <div className={styles.joinHeader}>Betaling</div>
+                          Du skal betale 254,-
+                          <PaymentRequestForm
+                            onToken={onToken}
+                            event={event}
+                            currentUser={currentUser}
+                            chargeStatus={registration.chargeStatus}
+                          />
+                        </div>
                       )}
                     </Flex>
                     {!registration && (

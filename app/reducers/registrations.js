@@ -1,6 +1,6 @@
 // @flow
 
-import { union } from 'lodash';
+import { union, get } from 'lodash';
 import { Event } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { normalize } from 'normalizr';
@@ -34,13 +34,22 @@ export default createEntityReducer({
         if (!registration) {
           return state;
         }
+        console.log('dsada');
+        let paymentErrorData = {};
+        if (action.type === Event.SOCKET_PAYMENT.FAILURE) {
+          paymentErrorData.paymentError = get(action, 'meta.errorMessage');
+        }
         return {
           ...state,
           byId: {
             ...state.byId,
             [registration.id]: {
-              ...omit(state.byId[registration.id], 'unregistrationDate'),
-              ...registration
+              ...omit(state.byId[registration.id], [
+                'unregistrationDate',
+                'paymentError'
+              ]),
+              ...registration,
+              ...paymentErrorData
             }
           },
           items: union(state.items, [registration.id])

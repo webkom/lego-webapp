@@ -212,6 +212,7 @@ function renderPage({
       </head>
       <body>
         <div id="root">${body}</div>
+
         <script>
            window.__CONFIG__ = ${serialize(config, { isJSON: true })};
            window.__PRELOADED_STATE__ = ${serialize(state, { isJSON: true })};
@@ -228,6 +229,8 @@ function renderPage({
         }
         <script async src="https://js.stripe.com/v2/"></script>
         <script async src="https://js.stripe.com/v3/"></script>
+        <script async src="https://pay.google.com/gp/p/js/pay.js"></script>
+
         ${dllPlugin}
         ${scripts}
       </body>
