@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import type { Event, Article } from 'app/models';
+import type { Article } from 'app/models';
 import { Image } from 'app/components/Image';
 import truncateString from 'app/utils/truncateString';
 import { Flex } from 'app/components/Layout';
@@ -9,7 +9,7 @@ import { Link } from 'react-router';
 import styles from './ArticleItem.css';
 
 type Props = {
-  item: Event | Article,
+  item: Article,
   url: string,
   meta: Object,
   weekly?: boolean
