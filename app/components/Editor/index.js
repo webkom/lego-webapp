@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 import { Editor as SlateEditor } from 'slate-react';
 import { Value } from 'slate';
-import EditList from '@guestbell/slate-edit-list';
-import SoftBreak from 'slate-soft-break';
 import Toolbar from './components/Toolbar';
-import { BoldMark, ItalicMark } from './components/marks';
+import {
+  BoldMark,
+  ItalicMark,
+  UnderlineMark,
+  CodeMark,
+  LinkMark
+} from './components/marks';
 import styles from './Editor.css';
+import editList from './plugins/editList';
+import NoEmpty from 'slate-no-empty';
+import InsertImages from 'slate-drop-or-paste-images';
+import ImageUpload from 'app/components/Upload/ImageUpload';
 
 const initialValue = Value.fromJSON({
   document: {
@@ -49,26 +57,92 @@ const initialValue = Value.fromJSON({
             ]
           }
         ]
+      },
+      {
+        object: 'block',
+        type: 'ol_list',
+        nodes: [
+          {
+            object: 'block',
+            type: 'list_item',
+            nodes: [
+              {
+                object: 'block',
+                type: 'paragraph',
+                nodes: [
+                  {
+                    object: 'text',
+                    leaves: [
+                      {
+                        text: 'This is an ordered list'
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
       }
     ]
   }
 });
 
-//function EditList(options) {
-//return [
-//onKeyDown(event, editor, next) {
-//const closestBlock =
-//}
-//]
-//}
+function insertTab(options) {
+  return {
+    onKeyDown(event, editor, next) {
+      if (event.key == 'Tab') {
+        event.preventDefault();
+        editor.insertText('\t');
+      } else return next();
+    }
+  };
+}
+
+function softEnter(types) {
+  return {
+    onKeyDown(event, editor, next) {
+      if (!editor.value.blocks.some(block => types.includes(block.type))) {
+        return next();
+      }
+      if (event.key == 'Enter') {
+        // if user is holding shift, default behaviour, (new block)
+        if (event.shiftKey) return next();
+        event.preventDefault();
+        editor.insertText('\n');
+      } else return next();
+    }
+  };
+}
+
+function images() {
+  return InsertImages({
+    extensions: ['png', 'jpeg'],
+    insertImage: (editor, file) => {
+      return editor.insertBlock({
+        type: 'image',
+        isVoid: true,
+        data: { file }
+      });
+    }
+  });
+}
 
 const DEFAULT_BLOCK = 'paragraph';
 
-const plugins = [EditList()];
+const plugins = [
+  editList(),
+  insertTab(),
+  softEnter(['code-block']),
+  NoEmpty(),
+  images()
+];
 
 export default class Editor extends Component<Props, State> {
   state = {
-    value: initialValue
+    value: initialValue,
+    showUpload: false,
+    image: null
   };
 
   ref = editor => {
@@ -80,8 +154,8 @@ export default class Editor extends Component<Props, State> {
   };
 
   hasBlock = type => {
-    const { value } = this.state;
-    return value.blocks.some(node => node.type === type);
+    const { value } = this.editor;
+    return value.blocks.some(node => node.type == type);
   };
 
   toggleBlock = (e, type) => {
@@ -91,25 +165,42 @@ export default class Editor extends Component<Props, State> {
     const { document } = value;
 
     const isType = value.blocks.some(block => {
-      return !!document.getClosest(block.key);
+      return !!document.getClosest(block.key, parent => parent.type === type);
     });
 
     if (type !== 'ul_list' && type !== 'ol_list') {
       const isActive = this.hasBlock(type);
       isActive ? editor.setBlocks(DEFAULT_BLOCK) : editor.setBlocks(type);
     } else {
-      const isList = this.hasBlock('ol_list') || this.hasBlock('ul_list');
+      const isList = value.blocks.some(
+        block =>
+          !!document.getClosest(block.key, node => node.type === 'list_item')
+      );
+
+      const closest = document.getClosest(
+        editor.value.startBlock.key,
+        a => a.type == 'ol_list' || a.type == 'ul_list'
+      );
+
+      const isType = closest && closest.type === type;
+
       if (isType && isList) {
         editor
-          .setBlocks(DEFAULT_BLOCK)
+          .unwrapBlock('list_item')
           .unwrapBlock('ul_list')
           .unwrapBlock('ol_list');
       } else if (isList) {
         editor
-          .unwrapBlock(type === 'ul_list' ? 'ol_list' : 'ul_list')
-          .wrapBlock(type);
+          .unwrapBlock('list_item')
+          .unwrapBlock(type == 'ol_list' ? 'ul_list' : 'ol_list')
+          .wrapBlock(type)
+          .wrapBlock('list_item')
+          .mergeNodeByKey();
       } else {
-        editor.setBlocks(type);
+        editor
+          .wrapBlock(type)
+          .wrapBlock('list_item')
+          .setBlocks(DEFAULT_BLOCK);
       }
     }
   };
@@ -145,6 +236,12 @@ export default class Editor extends Component<Props, State> {
         return <BoldMark {...props} />;
       case 'italic':
         return <ItalicMark {...props} />;
+      case 'underline':
+        return <UnderlineMark {...props} />;
+      case 'code':
+        return <CodeMark {...props} />;
+      case 'link':
+        return <LinkMark {...props} />;
       default:
         return next();
     }
@@ -177,11 +274,19 @@ export default class Editor extends Component<Props, State> {
             {children}
           </li>
         );
-      case 'code':
+      case 'code-block':
         return (
           <pre {...attributes}>
             <code>{children}</code>
           </pre>
+        );
+      case 'image':
+        return (
+          <img
+            src={attributes.data.file}
+            alt="Bildet kunne ikke vises"
+            {...attributes}
+          />
         );
       default:
         return next();
@@ -192,6 +297,14 @@ export default class Editor extends Component<Props, State> {
     const children = next();
     return (
       <>
+        {this.state.showUpload && (
+          <ImageUpload
+            onSubmit={this.submitImage}
+            isModal
+            crop
+            img={this.state.image}
+          />
+        )}
         <Toolbar editor={editor} toggleBlock={this.toggleBlock} />
         {children}
       </>
@@ -200,7 +313,7 @@ export default class Editor extends Component<Props, State> {
 
   render() {
     return (
-      <div>
+      <div className={styles.root}>
         <SlateEditor
           renderEditor={this.renderEditor}
           value={this.state.value}

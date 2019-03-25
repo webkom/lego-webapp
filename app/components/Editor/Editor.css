@@ -1,3 +1,9 @@
+.root {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  padding: 0 10px;
+}
+
 .ul_list {
   display: block;
   list-style: disc;
@@ -14,6 +20,21 @@
 
 .li {
   display: list-item;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+}
+
+.ul_list > ul {
+  list-style: circle;
+}
+
+.ol_list > ol {
+  list-style: lower-alpha;
+}
+
+.li > p {
+  margin-block-start: 0;
+  margin-block-end: 0;
 }
 
 .paragraph {

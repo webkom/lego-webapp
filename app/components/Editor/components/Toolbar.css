@@ -1,0 +1,25 @@
+.root {
+  border-bottom: 1px solid #ddd;
+  padding-left: 10px;
+}
+
+.root > button {
+  border-radius: 2px;
+  margin: 2px;
+  height: 30px;
+  width: 30px;
+}
+
+.active {
+  background-color: #eee;
+}
+
+.inactive:hover {
+  background-color: #eee;
+}
+
+.linkInput {
+  position: relative;
+  top: -30px;
+  right: 50%;
+}
