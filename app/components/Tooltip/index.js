@@ -80,6 +80,7 @@ export default class Tooltip extends Component<Props, State> {
       pointerToThe
     } = this.props;
     let renderToTheClass = styles.renderFromCenter;
+    let startPointChildren = 2;
     if (!list) {
       switch (renderToThe) {
         case 'left':
@@ -89,9 +90,6 @@ export default class Tooltip extends Component<Props, State> {
           renderToTheClass = styles.renderToTheRight;
           break;
       }
-    }
-    let startPointChildren = 2;
-    if (!list) {
       switch (pointerToThe) {
         case 'left':
           startPointChildren = 9;
