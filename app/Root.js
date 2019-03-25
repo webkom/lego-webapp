@@ -2,11 +2,12 @@
 
 import React from 'react';
 import { setStatusCode } from 'app/actions/RoutingActions';
-import { Router } from 'react-router';
+import { Router, applyRouterMiddleware } from 'react-router';
 import { Provider } from 'react-redux';
 import type { Store } from 'app/types';
 import { connect } from 'react-redux';
 import ErrorBoundary from 'app/components/ErrorBoundary';
+import { useScroll } from 'react-router-scroll';
 
 type Props = {
   store: Store
@@ -35,7 +36,11 @@ const RouteHandler = connect(
     setStatusCode: (statusCode: ?number) => void
   }) => (
     <ErrorBoundary openReportDialog>
-      <Router onError={err => setStatusCode(500)} {...restProps} />
+      <Router
+        onError={err => setStatusCode(500)}
+        {...restProps}
+        render={applyRouterMiddleware(useScroll())}
+      />
     </ErrorBoundary>
   )
 );
