@@ -68,18 +68,18 @@ steps:
       from_secret: docker_username
     password:
       from_secret: docker_password
+    tags:
+      - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+    build_args:
+      - RELEASE=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+      - SENTRY_AUTH_KEY
+      - SENTRY_ORG=webkom
+      - SENTRY_PROJECT=lego-webapp
+      - SENTRY_URL=https://sentry.abakus.no/
   environment:
     SENTRY_AUTH_KEY:
         from_secret: sentry_auth_key
   depends_on: [build_and_cypress, test, lint, flow]
-  tags:
-    - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
-  build_args:
-    - RELEASE=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
-    - SENTRY_AUTH_KEY
-    - SENTRY_ORG=webkom
-    - SENTRY_PROJECT=lego-webapp
-    - SENTRY_URL=https://sentry.abakus.no/
 
 services:
 - name: postgres
