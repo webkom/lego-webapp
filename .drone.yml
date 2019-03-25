@@ -5,6 +5,8 @@ steps:
 - name: postgres
   image: postgres:9.5
   detach: true
+  ports:
+    - 5432
   environment:
     POSTGRES_USER: lego
   when:
@@ -12,6 +14,8 @@ steps:
 - name: minio
   image: minio/minio
   detach: true
+  ports:
+    - 9000
   environment:
     MINIO_ACCESS_KEY: lego-dev
     MINIO_SECRET_KEY: lego-dev
@@ -22,6 +26,8 @@ steps:
 - name: thumbor
   image: apsl/thumbor:latest
   detach: true
+  ports:
+    - 8000
   environment:
     SECURITY_KEY: 'lego-dev'
     MAX_WIDTH: '1000'
@@ -42,6 +48,8 @@ steps:
 - name: elasticsearch
   image: docker.elastic.co/elasticsearch/elasticsearch:6.2.1
   detach: true
+  ports:
+    - 9200
   environment:
     ES_JAVA_OPTS: -Xms512m -Xmx512m
     HEAP_SIZE: 1g
@@ -50,12 +58,16 @@ steps:
 - name: redis
   image: redis
   detach: true
+  ports:
+    - 6379
   when:
     event: push
 - name: api
   image: registry.abakus.no/webkom/lego:latest
   detach: true
   pull: true
+  ports:
+    - 8000
   commands: 
   - ./wait-for-it.sh -t 60 postgres:5432
   - ./wait-for-it.sh -t 60 redis:6379
