@@ -14,6 +14,7 @@ import {
 import { Field } from 'redux-form';
 import { Link } from 'react-router-dom';
 import { createValidator, required, validPassword } from 'app/utils/validation';
+import PasswordField from './PasswordField';
 
 type Props = {
   token: string,
@@ -75,13 +76,7 @@ const UserConfirmation = ({
             label="Brukernavn"
             component={TextInput.Field}
           />
-          <Field
-            name="password"
-            type="password"
-            placeholder="Passord"
-            label="Passord"
-            component={TextInput.Field}
-          />
+          <PasswordField />
           <Field
             name="firstName"
             placeholder="Fornavn"
