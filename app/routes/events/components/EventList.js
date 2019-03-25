@@ -55,7 +55,7 @@ const EventListGroup = ({
     <div className={styles.eventGroup}>
       <h2 className={styles.heading}>{name}</h2>
       {events.map((event, i) => (
-        <EventItem key={i} event={event} field={field} />
+        <EventItem key={i} event={event} field={field} showTags={false} />
       ))}
     </div>
   );
