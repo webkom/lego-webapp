@@ -1,6 +1,6 @@
 // @flow
 
-import { union } from 'lodash';
+import { union, get } from 'lodash';
 import { Event } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { normalize } from 'normalizr';
@@ -28,7 +28,6 @@ export default createEntityReducer({
           );
           break;
         }
-
         case Event.REQUEST_REGISTER.SUCCESS:
         case Event.ADMIN_REGISTER.SUCCESS:
         case Event.SOCKET_REGISTRATION.SUCCESS:

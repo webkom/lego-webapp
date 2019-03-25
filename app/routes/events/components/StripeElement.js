@@ -4,16 +4,19 @@ import {
   injectStripe,
   PaymentRequestButtonElement,
   Elements,
-  StripeProvider
+  StripeProvider,
+  CardCVCElement,
+  CardExpiryElement,
+  CardNumberElement
 } from 'react-stripe-elements';
 import config from 'app/config';
 import StripeCheckout from 'react-stripe-checkout';
 import Button from 'app/components/Button';
 import styles from './StripeElement.css';
+import stripeStyles from './Stripe.css';
 import logoImage from 'app/assets/kule.png';
 import type { EventRegistrationChargeStatus, User, Event } from 'app/models';
 
-import { paymentPending } from '../utils';
 
 type Props = {
   event: Event,
@@ -28,14 +31,72 @@ type State = {
   paymentRequest: Object,
   canMakePayment?: boolean
 };
+const createOptions = (fontSize, padding) => {
+  return {
+    style: {
+      base: {
+        fontSize,
+        color: '#424770',
+        letterSpacing: '0.025em',
+        fontFamily: 'Source Code Pro, monospace',
+        '::placeholder': {
+          color: '#aab7c4'
+        },
+        padding
+      },
+      invalid: {
+        color: '#9e2146'
+      }
+    }
+  };
+};
+class _SplitForm extends React.Component {
+  handleSubmit = ev => {
+    ev.preventDefault();
+    if (this.props.stripe) {
+      this.props.stripe
+        .createToken()
+        .then(payload => console.log('[token]', payload));
+    } else {
+      console.log("Stripe.js hasn't loaded yet.");
+    }
+  };
+  render() {
+    return (
+      <form style={{ width: '100%' }} onSubmit={this.handleSubmit}>
+        <label>
+          Kortnummer
+          <CardNumberElement
+            className={stripeStyles.StripeElement}
+            {...createOptions(this.props.fontSize)}
+          />
+        </label>
+        <label>
+          Utløpsdato
+          <CardExpiryElement
+            className={stripeStyles.StripeElement}
+            {...createOptions(this.props.fontSize)}
+          />
+        </label>
+        <label>
+          CVC
+          <CardCVCElement
+            className={stripeStyles.StripeElement}
+            {...createOptions(this.props.fontSize)}
+          />
+        </label>
+        <button>Betal</button>
+      </form>
+    );
+  }
+}
 
-const paymentButtonWidth = 130;
-
-class PaymentRequestForm extends React.Component<FormProps, State> {
+class _PaymentRequestForm extends React.Component<FormProps, State> {
   constructor(props) {
     super(props);
 
     const { event, onToken } = props;
+    console.log(props.stripe);
 
     const paymentRequest = props.stripe.paymentRequest({
       currency: 'nok',
@@ -55,6 +116,7 @@ class PaymentRequestForm extends React.Component<FormProps, State> {
     });
 
     paymentRequest.canMakePayment().then(result => {
+      console.log('Res:', result);
       this.setState({ canMakePayment: !!result });
     });
 
@@ -66,29 +128,18 @@ class PaymentRequestForm extends React.Component<FormProps, State> {
 
   render() {
     const { chargeStatus, event, onToken, currentUser } = this.props;
-    const showOverlay = chargeStatus === paymentPending;
     return (
-      <div className={styles.overlayParent}>
-        {showOverlay && (
-          <div
-            className={styles.overlay}
+      <div style={{ flex: 1 }}>
+        {this.state.canMakePayment && (
+          <PaymentRequestButtonElement
+            paymentRequest={this.state.paymentRequest}
+            className={stripeStyles.PaymentRequestButton}
             style={{
-              width: paymentButtonWidth
+              paymentRequestButton: {
+                height: '41px'
+              }
             }}
           />
-        )}
-        {this.state.canMakePayment && (
-          <div style={{ width: 130 }}>
-            <PaymentRequestButtonElement
-              paymentRequest={this.state.paymentRequest}
-              className="PaymentRequestButton"
-              style={{
-                paymentRequestButton: {
-                  height: '41px'
-                }
-              }}
-            />
-          </div>
         )}
 
         {this.state.canMakePayment === false && (
@@ -111,13 +162,19 @@ class PaymentRequestForm extends React.Component<FormProps, State> {
     );
   }
 }
-const InjectedForm = injectStripe(PaymentRequestForm);
+const PaymentRequestForm = injectStripe(_PaymentRequestForm);
+const SplitForm = injectStripe(_SplitForm);
 
 // TODO Move this to a "global" thing
 const WithProvider = (props: Props) => (
   <StripeProvider apiKey={config.stripeKey}>
     <Elements locale="no">
-      <InjectedForm {...props} />
+      <>
+        <div style={{ flexDirection: 'column', display: 'flex' }}>
+          <PaymentRequestForm {...props} />
+        </div>
+        <SplitForm {...props} fontSize={'18px'} />
+      </>
     </Elements>
   </StripeProvider>
 );

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { compose } from 'redux';
 import { reduxForm, Field, SubmissionError } from 'redux-form';
-import { Form, Captcha, TextEditor } from 'app/components/Form';
+import { Form, Captcha, TextInput } from 'app/components/Form';
 import Button from 'app/components/Button';
 import PaymentRequestForm from './StripeElement';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
@@ -318,12 +318,16 @@ class JoinEventForm extends Component<Props> {
                             showPenaltyNotice={showPenaltyNotice}
                           />
                           {registration && showStripe && (
+                        <div style={{ width: '100%' }}>
+                          <div className={styles.joinHeader}>Betaling</div>
+                          Du skal betale 254,-
                             <PaymentRequestForm
                               onPaymentMethod={onPaymentMethod}
                               event={event}
                               currentUser={currentUser}
                               chargeStatus={registration.chargeStatus}
                             />
+                        </div>
                           )}
                         </Flex>
                         {!registration && (
