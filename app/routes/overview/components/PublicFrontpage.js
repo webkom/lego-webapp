@@ -221,7 +221,6 @@ class PublicFrontpage extends Component<Props, State> {
             title="facebook"
             scrolling="no"
             frameBorder="0"
-            allowTransparency="true"
           />
         </div>
       </Container>

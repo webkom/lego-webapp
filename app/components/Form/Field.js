@@ -7,9 +7,15 @@ import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import styles from './Field.css';
 
-const FieldError = ({ error }: { error?: string }) =>
+const FieldError = ({
+  error,
+  fieldName
+}: {
+  error?: string,
+  fieldName?: string
+}) =>
   error ? (
-    <div className={styles.fieldError}>
+    <div className={styles.fieldError} data-error-field-name={fieldName}>
       {typeof error === 'object' ? JSON.stringify(error) : error}
     </div>
   ) : null;
@@ -22,17 +28,19 @@ const FieldWarning = ({ warning }: { warning?: string }) =>
   ) : null;
 
 export const RenderErrorMessage = ({
-  error
+  error,
+  fieldName
 }: {
-  error: Array<string> | string
+  error: Array<string> | string,
+  fieldName?: string
 }) => {
   if (Array.isArray(error)) {
     return (error.map(error => (
-      <RenderErrorMessage key={error} error={error} />
+      <RenderErrorMessage key={error} error={error} fieldName={fieldName} />
     )): Array<Node>);
   }
 
-  return <FieldError error={error} key={error} />;
+  return <FieldError error={error} fieldName={fieldName} />;
 };
 
 export const RenderWarningMessage = ({
@@ -87,7 +95,7 @@ export function createField(Component: ComponentType<*>) {
 
     const hasError = showErrors && touched && error && error.length > 0;
     const hasWarning = showErrors && touched && warning && warning.length > 0;
-
+    const fieldName = input && input.name;
     return (
       <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
         <label className={cx(styles.label, labelClassName)}>
@@ -115,7 +123,9 @@ export function createField(Component: ComponentType<*>) {
             )}
           />
         </label>
-        {hasError && <RenderErrorMessage error={meta.error} />}
+        {hasError && (
+          <RenderErrorMessage error={meta.error} fieldName={fieldName} />
+        )}
         {hasWarning && <RenderWarningMessage warning={meta.warning} />}
       </div>
     );
