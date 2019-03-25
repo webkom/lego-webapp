@@ -6,6 +6,7 @@ import cx from 'classnames';
 import { ProfilePicture } from 'app/components/Image';
 import styles from './AttendanceModal.css';
 import { flatMap } from 'lodash';
+import Button from '../Button';
 
 type Pool = {
   name: string,
@@ -21,15 +22,16 @@ export type Props = {
 };
 
 const Tab = ({ name, index, activePoolIndex, togglePool }: any) => (
-  <a
+  <Button
     className={cx(
       styles.navButton,
       activePoolIndex === index && styles.activeItem
     )}
+    flat
     onClick={() => togglePool(index)}
   >
     {name}
-  </a>
+  </Button>
 );
 
 type State = {

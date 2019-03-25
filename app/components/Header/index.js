@@ -10,6 +10,7 @@ import Search from '../Search';
 import { ProfilePicture } from '../Image';
 import FancyNodesCanvas from './FancyNodesCanvas';
 import NotificationsDropdown from '../HeaderNotifications';
+import Button from '../Button';
 import styles from './Header.css';
 import {
   LoginForm,
@@ -75,10 +76,10 @@ function AccountDropdownItems({
       </Dropdown.ListItem>
       <Dropdown.Divider />
       <Dropdown.ListItem>
-        <a onClick={() => (logout(), onClose())}>
+        <Button flat onClick={() => (logout(), onClose())}>
           Logg ut
           <Icon name="log-out" size={24} />
-        </a>
+        </Button>
       </Dropdown.ListItem>
     </Dropdown.List>
   );

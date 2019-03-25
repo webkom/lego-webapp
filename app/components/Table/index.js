@@ -10,6 +10,7 @@ import { isEmpty } from 'lodash';
 import InfiniteScroll from 'react-infinite-scroller';
 import styles from './Table.css';
 import { get } from 'lodash';
+import Button from '../Button';
 
 type sortProps = {
   direction?: 'asc' | 'desc',
@@ -217,13 +218,14 @@ export default class Table extends Component<Props, State> {
                     onChange={() => this.onFilterInput(value, dataIndex)}
                   />
                 ))}
-                <a
+                <Button
+                  flat
                   onClick={() =>
                     this.setState({ filters: { [dataIndex]: undefined } })
                   }
                 >
                   Nullstill
-                </a>
+                </Button>
               </div>
             </Overlay>
           </div>

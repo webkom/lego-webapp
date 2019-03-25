@@ -77,3 +77,15 @@
 .large {
   font-size: 1.4rem;
 }
+
+.flatButton {
+  font-family: 'Verdana', sans-serif;
+  font-size: 1em;
+  text-align: left;
+  color: var(--lego-link-color);
+  background: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+}
