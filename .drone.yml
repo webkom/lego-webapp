@@ -1,168 +1,175 @@
-pipeline:
-  postgres:
-    image: postgres:9.5
-    detach: true
-    group: services
-    environment:
-      - POSTGRES_USER=lego
-    when:
-      event: [push, pull_request]
-  minio:
-    image: minio/minio
-    detach: true
-    group: services
-    environment:
-      - MINIO_ACCESS_KEY=lego-dev
-      - MINIO_SECRET_KEY=lego-dev
-    command: server /export
-    when:
-      event: [push, pull_request]
-  thumbor:
-    image: apsl/thumbor:latest
-    detach: true
-    group: services
-    environment:
-      SECURITY_KEY: 'lego-dev'
-      MAX_WIDTH: '1000'
-      MAX_HEIGHT: '800'
-      QUALITY: '98'
-      ALLOW_UNSAFE_URL: '0'
-      ALLOW_OLD_URLS: '0'
-      AWS_ACCESS_KEY_ID: 'lego-dev'
-      AWS_SECRET_ACCESS_KEY: 'lego-dev'
-      TC_AWS_LOADER_BUCKET: lego
-      TC_AWS_REGION: us-east-1
-      TC_AWS_ENDPOINT: '"http://minio:9000"'
-      LOADER: tc_aws.loaders.s3_loader
-    links:
-      - minio
-    when:
-      event: [push, pull_request]
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.1
-    detach: true
-    group: services
-    environment:
-      - ES_JAVA_OPTS=-Xms512m -Xmx512m
-      - HEAP_SIZE=1g
-    when:
-      event: [push, pull_request]
-  redis:
-    image: redis
-    detach: true
-    group: services
-    when:
-      event: [push, pull_request]
-  api:
-    image: registry.abakus.no/webkom/lego:latest
-    detach: true
-    group: services
-    pull: true
-    command: >
-      bash -c "./wait-for-it.sh -t 60 postgres:5432 &&
-               ./wait-for-it.sh -t 60 redis:6379 &&
-               ./wait-for-it.sh -t 60 minio:9000 &&
-               ./wait-for-it.sh -t 60 thumbor:8000 &&
-               ./wait-for-it.sh -t 60 elasticsearch:9200 &&
-               python manage.py reset_db --noinput &&
-               python manage.py migrate &&
-               python manage.py migrate_search &&
-               python manage.py load_fixtures --development &&
-               python manage.py rebuild_index &&
-               python manage.py runserver 0.0.0.0:8000"
-    environment:
-      - PORT=8000
-      - ALLOWED_HOSTS=*,
-      - DATABASE_URL=postgres://lego@postgres:5432/lego
-      - SECRET_KEY=abc123
-      - SERVER_URL=http://api:8000
-      - FRONTEND_URL=http://localhost:3000
-      - CACHE_URL=rediscache://redis/0?client_class=django_redis.client.DefaultClient
-      - EMAIL_URL=smtp://localhost
-      - AWS_ACCESS_KEY_ID=lego-dev
-      - AWS_SECRET_ACCESS_KEY=lego-dev
-      - AWS_REGION=us-east-1
-      - AWS_S3_BUCKET=lego
-      - AWS_ENTRYPOINT=http://minio:9000
-      - THUMBOR_SERVER=http://thumbor:8000
-      - THUMBOR_SECURITY_KEY=lego-dev
-      - SENTRY=http://sentry:sentry@localhost/2
-      - CELERY_BROKER_URL=redis://redis/1
-      - CHANNELS_REDIS_URL=redis://redis/2
-      - ELASTICSEARCH_HOST=http://elasticsearch
-      - STRIPE_API_KEY=123
-      - STRIPE_WEBHOOK_SECRET=123
-      - CAPTCHA_KEY=123
-      - LDAP_SERVER=localhost
-      - LDAP_USER=123
-      - LDAP_PASSWORD=123
-      - APNS_CERTIFICATE=123
-    when:
-      event: [push, pull_request]
-  setup:
-    image: node:11
-    when:
-      event: [push, pull_request]
-    environment:
-      - CYPRESS_INSTALL_BINARY=0
-    commands:
-      - yarn --frozen-lockfile
-  build_and_cypress:
-    # image: cypress/base:10 # Tests exit and "succeed" prematurely with this for some reason
-    image: cypress/browsers:chrome69
-    when:
-      event: [push, pull_request]
-    group: testing
-    environment:
-      - API_URL=http://api:8000/api/v1
-      - BASE_URL=http://api:8000
-      - WS_URL=ws://api:8000
-      - CYPRESS_API_BASE_URL=http://api:8000
-      # - ENVIRONMENT=production # Disable because of secure cookies breaking SSR
-    commands:
-      - yarn cypress:prepare # Runs build and cypress install
-      - yarn ssr &
-      - ./wait-for-it.sh -t 180 api:8000
-      - ./wait-for-it.sh -t 180 localhost:3000
-      - yarn cypress run --record
-      - echo "finished."
-    secrets: [cypress_record_key]
-  test:
-    image: node:11
-    when:
-      event: [push, pull_request]
-    group: testing
-    commands:
-      - yarn test
-  lint:
-    image: node:11
-    when:
-      event: [push, pull_request]
-    group: testing
-    commands:
-      - yarn lint
-  flow:
-    image: node:11
-    when:
-      event: [push, pull_request]
-    group: testing
-    commands:
-      - yarn flow --quiet
-  docker:
-    image: plugins/docker
-    when:
-      branch:
-        - prod
-      event: push
-      status: success
+kind: pipeline
+name: default
+
+steps:
+- name: postgres
+  image: postgres:9.5
+  detach: true
+  environment:
+    POSTGRES_USER: lego
+  when:
+    event: [push, pull_request]
+- name: minio
+  image: minio/minio
+  detach: true
+  environment:
+    MINIO_ACCESS_KEY: lego-dev
+    MINIO_SECRET_KEY: lego-dev
+  commands:
+    - server /export
+  when:
+    event: [push, pull_request]
+- name: thumbor
+  image: apsl/thumbor:latest
+  detach: true
+  environment:
+    SECURITY_KEY: 'lego-dev'
+    MAX_WIDTH: '1000'
+    MAX_HEIGHT: '800'
+    QUALITY: '98'
+    ALLOW_UNSAFE_URL: '0'
+    ALLOW_OLD_URLS: '0'
+    AWS_ACCESS_KEY_ID: 'lego-dev'
+    AWS_SECRET_ACCESS_KEY: 'lego-dev'
+    TC_AWS_LOADER_BUCKET: lego
+    TC_AWS_REGION: us-east-1
+    TC_AWS_ENDPOINT: '"http://minio:9000"'
+    LOADER: tc_aws.loaders.s3_loader
+  links:
+    - minio
+  when:
+    event: [push, pull_request]
+- name: elasticsearch
+  image: docker.elastic.co/elasticsearch/elasticsearch:6.2.1
+  detach: true
+  environment:
+    ES_JAVA_OPTS: -Xms512m -Xmx512m
+    HEAP_SIZE: 1g
+  when:
+    event: [push, pull_request]
+- name: redis
+  image: redis
+  detach: true
+  when:
+    event: [push, pull_request]
+- name: api
+  image: registry.abakus.no/webkom/lego:latest
+  detach: true
+  pull: true
+  commands: 
+  - ./wait-for-it.sh -t 60 postgres:5432
+  - ./wait-for-it.sh -t 60 redis:6379
+  - ./wait-for-it.sh -t 60 minio:9000
+  - ./wait-for-it.sh -t 60 thumbor:8000
+  - ./wait-for-it.sh -t 60 elasticsearch:9200
+  - python manage.py reset_db --noinput
+  - python manage.py migrate
+  - python manage.py migrate_search
+  - python manage.py load_fixtures --development
+  - python manage.py rebuild_index
+  - python manage.py runserver 0.0.0.0:8000
+  environment:
+    PORT: 8000
+    ALLOWED_HOSTS: "*,"
+    DATABASE_URL: postgres://lego@postgres:5432/lego
+    SECRET_KEY: abc123
+    SERVER_URL: http://api:8000
+    FRONTEND_URL: http://localhost:3000
+    CACHE_URL: rediscache://redis/0?client_class=django_redis.client.DefaultClient
+    EMAIL_URL: smtp://localhost
+    AWS_ACCESS_KEY_ID: lego-dev
+    AWS_SECRET_ACCESS_KEY: lego-dev
+    AWS_REGION: us-east-1
+    AWS_S3_BUCKET: lego
+    AWS_ENTRYPOINT: http://minio:9000
+    THUMBOR_SERVER: http://thumbor:8000
+    THUMBOR_SECURITY_KEY: lego-dev
+    SENTRY: http://sentry:sentry@localhost/2
+    CELERY_BROKER_URL: redis://redis/1
+    CHANNELS_REDIS_URL: redis://redis/2
+    ELASTICSEARCH_HOST: http://elasticsearch
+    STRIPE_API_KEY: 123
+    STRIPE_WEBHOOK_SECRET: 123
+    CAPTCHA_KEY: 123
+    LDAP_SERVER: localhost
+    LDAP_USER: 123
+    LDAP_PASSWORD: 123
+    APNS_CERTIFICATE: 123
+  when:
+    event: [push, pull_request]
+- name: setup
+  image: node:11
+  depends_on: [ clone ]
+  when:
+    event: [push, pull_request]
+  environment:
+    CYPRESS_INSTALL_BINARY: 0
+  commands:
+    - yarn --frozen-lockfile
+- name: build_and_cypress
+  # image: cypress/base:10 # Tests exit and "succeed" prematurely with this for some reason
+  image: cypress/browsers:chrome69
+  when:
+    event: [push, pull_request]
+  depends_on: [ setup ]
+  environment:
+    API_URL: http://api:8000/api/v1
+    BASE_URL: http://api:8000
+    WS_URL: ws://api:8000
+    CYPRESS_API_BASE_URL: http://api:8000
+    # - ENVIRONMENT=production # Disable because of secure cookies breaking SSR
+  commands:
+    - yarn cypress:prepare # Runs build and cypress install
+    - yarn ssr &
+    - ./wait-for-it.sh -t 180 api:8000
+    - ./wait-for-it.sh -t 180 localhost:3000
+    - yarn cypress run --record
+    - echo "finished."
+  secrets: [cypress_record_key]
+- name: test
+  image: node:11
+  when:
+    event: [push, pull_request]
+  depends_on: [ setup ]
+  commands:
+    - yarn test
+- name: lint
+  image: node:11
+  when:
+    event: [push, pull_request]
+  depends_on: [ setup ]
+  commands:
+    - yarn lint
+- name: flow
+  image: node:11
+  when:
+    event: [push, pull_request]
+  depends_on: [ setup ]
+  commands:
+    - yarn flow --quiet
+- name: docker
+  image: plugins/docker
+  when:
+    branch:
+      - prod
+    event: push
+    status: success
+  settings:
     registry: https://registry.abakus.no
     repo: registry.abakus.no/webkom/lego-webapp
-    secrets: [docker_username, docker_password, sentry_auth_key]
-    tags:
-      - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
-    build_args:
-      - RELEASE=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
-      - SENTRY_AUTH_KEY
-      - SENTRY_ORG=webkom
-      - SENTRY_PROJECT=lego-webapp
-      - SENTRY_URL=https://sentry.abakus.no/
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+  environment:
+    SENTRY_AUTH_KEY:
+        from_secret: sentry_auth_key
+  depends_on: [build_and_cypress, test, lint, flow]
+  tags:
+    - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+  build_args:
+    - RELEASE=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+    - SENTRY_AUTH_KEY
+    - SENTRY_ORG=webkom
+    - SENTRY_PROJECT=lego-webapp
+    - SENTRY_URL=https://sentry.abakus.no/
