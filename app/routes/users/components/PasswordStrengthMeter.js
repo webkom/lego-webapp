@@ -1,41 +1,54 @@
 // @flow
 
 import React, { Component, Fragment } from 'react';
+import { pick } from 'lodash';
 import zxcvbn from 'zxcvbn';
+import Bar from 'react-meter-bar';
 import styles from './PasswordStrengthMeter.css';
+import {
+  passwordLabel,
+  barColor,
+  passwordFeedbackMessages
+} from './passwordStrengthVariables';
 
 type Props = {
-  password: string
+  password: string,
+  user: Object
 };
 
 class PasswordStrengthMeter extends Component<Props> {
-  passwordLabel = {
-    0: 'Veldig svakt',
-    1: 'Svakt',
-    2: 'OK',
-    3: 'Bra',
-    4: 'Sterkt'
-  };
-
   render() {
-    const { password } = this.props;
-    const zxcvbnValue = zxcvbn(password);
-    console.log(zxcvbnValue);
+    const { password, user } = this.props;
+    const zxcvbnValue = zxcvbn(
+      password,
+      Object.values(pick(user, ['username', 'firstName', 'lastName']))
+    );
+    let tips = zxcvbnValue.feedback.suggestions;
+    tips.push(zxcvbnValue.feedback.warning);
+    tips = tips.map(tip => passwordFeedbackMessages[tip]).filter(Boolean);
+
     return (
       <Fragment>
-        <meter
-          className={styles.passwordStrengthMeter}
-          value={zxcvbnValue.score}
-          max="4"
-          optimum="4"
-          high="3"
-          low="2"
-        />
+        <div className={styles.removeLabels}>
+          <Bar
+            labels={[1, 2, 3, 4, 5]}
+            labelColor="#000"
+            progress={zxcvbnValue.score * 25}
+            barColor={barColor[zxcvbnValue.score]}
+            seperatorColor="#fff"
+          />
+        </div>
         {password && (
           <div>
-            <strong>Passordstyrke: </strong>{' '}
-            {this.passwordLabel[zxcvbnValue.score]}{' '}
+            <strong>Passordstyrke: </strong> {passwordLabel[zxcvbnValue.score]}{' '}
           </div>
+        )}
+        {password && zxcvbnValue.score < 2 && (
+          <ul className={styles.tipsList}>
+            {tips.map((value, key) => {
+              return <li key={key}>{value}</li>;
+            })}
+          </ul>
         )}
       </Fragment>
     );

@@ -5,11 +5,15 @@ import { TextInput } from 'app/components/Form';
 import { Field } from 'redux-form';
 import PasswordStrengthMeter from './PasswordStrengthMeter';
 
+type Props = {
+  user: Object
+};
+
 type State = {
   password: string
 };
 
-class PasswordField extends Component<State> {
+class PasswordField extends Component<Props, State> {
   state = {
     password: ''
   };
@@ -25,7 +29,10 @@ class PasswordField extends Component<State> {
           component={TextInput.Field}
           onChange={e => this.setState({ password: e.target.value })}
         />
-        <PasswordStrengthMeter password={this.state.password} />
+        <PasswordStrengthMeter
+          password={this.state.password}
+          user={this.props.user}
+        />
       </Fragment>
     );
   }

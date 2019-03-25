@@ -18,6 +18,7 @@ import PasswordField from './PasswordField';
 
 type Props = {
   token: string,
+  user: Object,
   handleSubmit: (Function) => void,
   createUser: (token: string, data: Object) => void,
   router: any,
@@ -26,6 +27,7 @@ type Props = {
 
 const UserConfirmation = ({
   token,
+  user,
   handleSubmit,
   createUser,
   router,
@@ -76,7 +78,7 @@ const UserConfirmation = ({
             label="Brukernavn"
             component={TextInput.Field}
           />
-          <PasswordField />
+          <PasswordField user={user} />
           <Field
             name="firstName"
             placeholder="Fornavn"
