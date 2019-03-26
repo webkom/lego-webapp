@@ -11,10 +11,12 @@ import {
   validPassword,
   sameAs,
 } from 'app/utils/validation';
+import PasswordField from './PasswordField';
 
 type Props = FormProps & {
   push: (string) => void,
   changePassword: (Object) => Promise<void>,
+  user: Object,
 };
 
 const ChangePassword = ({
@@ -22,6 +24,7 @@ const ChangePassword = ({
   invalid,
   pristine,
   submitting,
+  user,
   ...props
 }: Props) => {
   const disabledButton = invalid || pristine || submitting;
@@ -34,12 +37,7 @@ const ChangePassword = ({
         type="password"
         component={TextInput.Field}
       />
-      <Field
-        label="Nytt passord"
-        name="newPassword"
-        type="password"
-        component={TextInput.Field}
-      />
+      <PasswordField user={user} label="Nytt passord" name="newPassword" />
       <Field
         label="Nytt passord (gjenta)"
         name="retypeNewPassword"

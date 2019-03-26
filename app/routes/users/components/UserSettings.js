@@ -157,7 +157,11 @@ const UserSettings = (props: Props) => {
       {isMe && (
         <div className={styles.changePassword}>
           <h2>Endre passord</h2>
-          <ChangePassword push={push} changePassword={changePassword} />
+          <ChangePassword
+            push={push}
+            changePassword={changePassword}
+            user={user}
+          />
         </div>
       )}
     </div>
