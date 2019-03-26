@@ -21,8 +21,8 @@ const mapStateToProps = (state, props) => {
       username: valueSelector(state, 'username'),
       firstName: valueSelector(state, 'firstName'),
       lastName: valueSelector(state, 'lastName'),
-      allergies: valueSelector(state, 'allergies')
-    }
+      allergies: valueSelector(state, 'allergies'),
+    },
   };
 };
 

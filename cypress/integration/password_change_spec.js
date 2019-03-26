@@ -37,7 +37,7 @@ describe('Change password', () => {
     fieldError('newPassword').should('exist');
     cy.contains('Change Password').should('be.disabled');
 
-    field('newPassword').clear().type(weakServerPassword).blur();
+    field('newPassword').clear().type(newPassword).blur();
     field('retypeNewPassword').clear().type(weakPassword).blur();
     fieldError('newPassword').should('not.exist');
     fieldError('retypeNewPassword').should('contain', 'ikke like');

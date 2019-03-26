@@ -4,17 +4,19 @@ import React, { Component, Fragment } from 'react';
 import { pick } from 'lodash';
 import moment from 'moment-timezone';
 import zxcvbn from 'zxcvbn';
-import Bar from 'react-meter-bar';
+import Bar from '@webkom/react-meter-bar';
+import '@webkom/react-meter-bar/dist/Bar.css';
 import styles from './PasswordStrengthMeter.css';
 import {
   passwordLabel,
   barColor,
-  passwordFeedbackMessages
+  passwordFeedbackMessages,
 } from './passwordStrengthVariables';
+import { type UserEntity } from 'app/reducers/users';
 
 type Props = {
   password: string,
-  user: Object
+  user: UserEntity,
 };
 
 class PasswordStrengthMeter extends Component<Props> {
@@ -26,7 +28,7 @@ class PasswordStrengthMeter extends Component<Props> {
     );
     let tips = zxcvbnValue.feedback.suggestions;
     tips.push(zxcvbnValue.feedback.warning);
-    tips = tips.map(tip => passwordFeedbackMessages[tip]).filter(Boolean);
+    tips = tips.map((tip) => passwordFeedbackMessages[tip]).filter(Boolean);
 
     let crackTimeSec =
       zxcvbnValue.crack_times_seconds.offline_slow_hashing_1e4_per_second;
@@ -57,7 +59,7 @@ class PasswordStrengthMeter extends Component<Props> {
             </p>
           </Fragment>
         )}
-        {password && zxcvbnValue.score < 2 && (
+        {password && zxcvbnValue.score < 3 && (
           <ul className={styles.tipsList}>
             {tips.map((value, key) => {
               return <li key={key}>{value}</li>;

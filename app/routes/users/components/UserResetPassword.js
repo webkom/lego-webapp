@@ -1,10 +1,15 @@
 // @flow
 import React from 'react';
-import { reduxForm, type FormProps } from 'redux-form';
+import { reduxForm, type FormProps, Field } from 'redux-form';
 import { Content } from 'app/components/Content';
-import { Form, Button } from 'app/components/Form';
-import { createValidator, required, validPassword } from 'app/utils/validation';
 import type { Action } from 'app/types';
+import { Form, Button, TextInput } from 'app/components/Form';
+import {
+  createValidator,
+  required,
+  validPassword,
+  sameAs,
+} from 'app/utils/validation';
 import PasswordField from './PasswordField';
 
 type Props = {
@@ -23,6 +28,16 @@ const UserResetPassword = ({
   push,
 }: Props) => {
   const disabledButton = invalid || pristine || submitting;
+  const dummyUser = {
+    id: 0,
+    username: '',
+    fullName: '',
+    firstName: '',
+    lastName: '',
+    gender: '',
+    profilePicture: '',
+    selectedTheme: '',
+  };
   return (
     <Content>
       <h1>Tilbakestill Passord</h1>
@@ -32,7 +47,13 @@ const UserResetPassword = ({
             resetPassword({ token, ...props }).then(() => push('/'))
           )}
         >
-          <PasswordField label="Nytt passord" />
+          <PasswordField label="Nytt passord" user={dummyUser} />
+          <Field
+            label="Nytt passord (gjenta)"
+            name="retypeNewPassword"
+            type="password"
+            component={TextInput.Field}
+          />
           <Button submit disabled={disabledButton}>
             Tilbakestill passord
           </Button>
@@ -46,6 +67,10 @@ const UserResetPassword = ({
 
 const validate = createValidator({
   password: [required(), validPassword()],
+  retypeNewPassword: [
+    required(),
+    sameAs('password', 'Passordene er ikke like'),
+  ],
 });
 
 export default reduxForm({

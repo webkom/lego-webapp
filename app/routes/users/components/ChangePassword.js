@@ -12,11 +12,18 @@ import {
   sameAs,
 } from 'app/utils/validation';
 import PasswordField from './PasswordField';
+import { type UserEntity } from 'app/reducers/users';
+
+type PasswordPayload = {
+  newPassword: string,
+  password: string,
+  retype_new_password: string,
+};
 
 type Props = FormProps & {
   push: (string) => void,
-  changePassword: (Object) => Promise<void>,
-  user: Object,
+  changePassword: (PasswordPayload) => Promise<void>,
+  user: UserEntity,
 };
 
 const ChangePassword = ({

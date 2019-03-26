@@ -1,11 +1,9 @@
-// @flow
-
 export const passwordLabel = {
   0: 'Veldig svakt',
   1: 'Svakt',
   2: 'OK',
   3: 'Bra',
-  4: 'Sterkt'
+  4: 'Sterkt',
 };
 
 export const barColor = {
@@ -13,7 +11,7 @@ export const barColor = {
   1: '#F25F5C',
   2: '#FFE066',
   3: '#70C1B3',
-  4: '#006600'
+  4: '#006600',
 };
 
 export const passwordFeedbackMessages = {
@@ -57,5 +55,5 @@ export const passwordFeedbackMessages = {
   "Reversed words aren't much harder to guess":
     'Reverserte ord er nesten like enkle å gjette som originalordet.',
   "Predictable substitutions like '@' instead of 'a' don't help very much":
-    "Forutsigbare erstatninger som '@' istedenfor 'a' gir ingen stor forbedring."
+    "Forutsigbare erstatninger som '@' istedenfor 'a' gir ingen stor forbedring.",
 };
