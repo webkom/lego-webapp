@@ -116,7 +116,7 @@ const InjectedForm = injectStripe(PaymentRequestForm);
 // TODO Move this to a "global" thing
 const WithProvider = (props: Props) => (
   <StripeProvider apiKey={config.stripeKey}>
-    <Elements>
+    <Elements locale="no">
       <InjectedForm {...props} />
     </Elements>
   </StripeProvider>
