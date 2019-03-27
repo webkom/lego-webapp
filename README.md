@@ -1,4 +1,4 @@
-# lego-webapp [![DroneCI](https://ci.abakus.no/api/badges/webkom/lego-webapp/status.svg?branch=master)](https://ci.abakus.no/webkom/lego-webapp) [![dependencies Status](https://david-dm.org/webkom/lego-webapp/status.svg)](https://david-dm.org/webkom/lego-webapp)
+# lego-webapp [![DroneCI](https://ci-v1.abakus.no/api/badges/webkom/lego-webapp/status.svg?branch=master)](https://ci-v1.abakus.no/webkom/lego-webapp) [![dependencies Status](https://david-dm.org/webkom/lego-webapp/status.svg)](https://david-dm.org/webkom/lego-webapp)
 
 > Next-gen frontend for abakus.no
 
