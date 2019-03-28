@@ -39,7 +39,7 @@ describe('Create event', () => {
     fieldError('cover').should('not.exist');
 
     field('title')
-      .type('Pils på Webkomkontoret!')
+      .type('Skrive tester på Webkomkontoret!')
       .blur();
     fieldError('title').should('not.exist');
 
@@ -78,7 +78,7 @@ describe('Create event', () => {
     cy.url().should('contain', '/events/');
 
     // Verify that created event looks good..
-    cy.contains('Pils på Webkomkontoret!');
+    cy.contains('Skrive tester på Webkomkontoret!');
     cy.contains('Sosialt');
   });
 
