@@ -11,6 +11,7 @@ describe('The Home Page and Login', () => {
   it('can log in from homepage', () => {
     // Login
     const username = 'webkom';
+
     cy.get('[name=username]').type(username);
     cy.get('[name=password]').type('Webkom123{enter}');
 

@@ -1,7 +1,10 @@
 import { c, field, fieldError } from '../support/utils.js';
 
 describe('Create event', () => {
-  beforeEach(() => cy.login());
+  beforeEach(() => {
+    cy.resetDb();
+    cy.login();
+  });
 
   it('Makes sure required fields are filled before allowing submit', () => {
     cy.visit('/events/create');

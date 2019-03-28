@@ -19,7 +19,7 @@ steps:
     depends_on: [setup]
     resources:
       limits:
-        cpu: 3
+        cpu: 4
         memory: 800Mi
       requests:
         cpu: 0.5
@@ -32,6 +32,7 @@ steps:
       BASE_URL: http://api:8000
       WS_URL: ws://api:8000
       CYPRESS_API_BASE_URL: http://api:8000
+      CYPRESS_RESET_DB_API: http://legocypresshelper:3030
       # - ENVIRONMENT=production # Disable because of secure cookies breaking SSR
       CYPRESS_RECORD_KEY:
         from_secret: cypress_record_key
@@ -40,6 +41,7 @@ steps:
       - yarn ssr &
       - ./wait-for-it.sh -t 180 api:8000
       - ./wait-for-it.sh -t 180 localhost:3000
+      - ./wait-for-it.sh -t 180 legocypresshelper:3030
       - yarn cypress run --record
       - echo "finished."
     secrets: [cypress_record_key]
@@ -100,6 +102,19 @@ services:
       POSTGRES_USER: lego
     when:
       event: push
+  - name: legocypresshelper
+    image: abakus/lego-cypress-helper:latest
+    ports:
+      - 3030
+    environment:
+      PG_HOST: postgres
+      PG_USERNAME: lego
+      PG_DATABASE: lego
+    commands:
+      - cd /app
+      - ./wait-for-it.sh -t 420 api:8000 # Wait for API because it runs migrations+fixtures
+      - node index.js
+      - echo "server stopped"
   - name: minio
     image: minio/minio
     ports:

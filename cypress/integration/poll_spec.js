@@ -1,10 +1,13 @@
 import { c, field, fieldError } from '../support/utils.js';
 
 describe('Polls', () => {
-  beforeEach(() => cy.login());
+  beforeEach(() => {
+    cy.resetDb();
+    cy.login();
+  });
 
   const poll_form = {
-    title: `testquestion ${+new Date()}`, // Make every title unique so tests cannot pass because of a leftover poll
+    title: 'testquestion',
     description: 'this is a poll',
     pinned: false,
     tag: 'webkom',
@@ -13,22 +16,7 @@ describe('Polls', () => {
     choice_3: 'Choice C'
   };
 
-  const makePoll = () => ({
-    title: `testquestion ${+new Date()}`, // Make every title unique so tests cannot pass because of a leftover poll
-    description: 'this is a poll',
-    pinned: true,
-    tags: ['webkom'],
-    options: [
-      {
-        name: 'A'
-      },
-      {
-        name: 'B'
-      }
-    ]
-  });
-
-  it.only('can create and delete poll', () => {
+  it('can create poll', () => {
     cy.visit('/polls');
 
     cy.contains('a', 'Lag ny').click();
@@ -107,6 +95,73 @@ describe('Polls', () => {
     cy.contains(poll_form.choice_3);
     // TODO: poll does not show its tags
     // cy.contains(poll_form.tag);
+  });
+
+  it('can answer poll', () => {
+    cy.visit('/polls/2');
+    cy.contains('Stemmer: 9');
+    cy.contains('yo').click();
+    cy.contains('Stemmer: 10');
+  });
+
+  it('can edit poll and answer it on frontpage', () => {
+    cy.visit('/polls/1');
+    cy.contains('a', 'Rediger').click();
+    field('title')
+      .clear()
+      .type(poll_form.title);
+    field('pinned').check();
+
+    cy.get(c('PollEditor__deleteOption'))
+      .first()
+      .click();
+    cy.get(c('Modal__content'))
+      .should('be.visible')
+      .contains('Ja')
+      .click();
+    cy.get(c('PollEditor__deleteOption'))
+      .first()
+      .click();
+    cy.get(c('Modal__content'))
+      .should('be.visible')
+      .contains('Ja')
+      .click();
+
+    cy.contains('a', 'Valg').click();
+    cy.contains('a', 'Valg').click();
+
+    field('options[0].name')
+      .type(poll_form.choice_1)
+      .blur();
+    field('options[1].name')
+      .type(poll_form.choice_2)
+      .blur();
+
+    cy.contains('Endre avstemning').click();
+
+    // cannot check url because there is no url change on save, so let's check that the button disappears
+    cy.contains('Endre avstemning').should('not.exist');
+    cy.contains(poll_form.title);
+    cy.contains(poll_form.choice_1);
+    cy.contains(poll_form.choice_2);
+
+    cy.visit('/');
+    cy.contains('Avstemning');
+    cy.contains(poll_form.title);
+    cy.contains('Stemmer: 0');
+    cy.contains(poll_form.choice_1).click();
+    cy.contains('Stemmer: 1');
+    cy.contains('a', poll_form.title).click();
+    cy.url().should('include', '/polls');
+  });
+
+  it('can delete poll', () => {
+    cy.visit('/polls');
+    cy.get(c('PollsList__pollListItem')).should('have.length', 2);
+
+    cy.get(c('PollsList__heading'))
+      .first()
+      .click();
 
     cy.contains('a', 'Rediger').click();
     cy.contains('Slett').click();
@@ -116,24 +171,9 @@ describe('Polls', () => {
       .click();
 
     cy.get(c('Modal__content')).should('not.exist');
-    cy.contains(poll_form.title).should('not.exist');
+
+    cy.visit('/polls');
+
+    cy.get(c('PollsList__pollListItem')).should('have.length', 1);
   });
-
-  it.skip('can see and answer poll from frontpage', () => {
-    // TODO: create poll before voting..
-    cy.visit('/');
-    cy.contains('Avstemning');
-    cy.contains(poll_form.title);
-    cy.contains('Stemmer: 0');
-    cy.contains(poll_form.choices[0]).click();
-    cy.contains('Stemmer: 1');
-    cy.contains('a', poll_form.title).click();
-    cy.url().should('include', '/polls');
-  });
-
-  it.skip('can answer poll', () => {});
-
-  it.skip('can edit poll', () => {});
-
-  it.skip('can delete poll', () => {});
 });

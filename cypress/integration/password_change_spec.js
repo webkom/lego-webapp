@@ -1,7 +1,10 @@
 import { field, fieldError } from '../support/utils.js';
 
 describe('Change password', () => {
-  beforeEach(() => cy.login());
+  beforeEach(() => {
+    cy.resetDb();
+    cy.login();
+  });
 
   const password = 'Webkom123';
   const newPassword = 'Abakus123';
@@ -22,24 +25,6 @@ describe('Change password', () => {
     cy.contains('Change Password').should('be.disabled');
     field('retypeNewPassword')
       .type(newPassword)
-      .blur();
-    cy.contains('Change Password')
-      .should('not.be.disabled')
-      .click();
-
-    cy.url().should('not.include', `/users/me/settings/profile`);
-    cy.url().should('include', `/users/me`);
-
-    // Change password back
-    cy.contains('a', 'Innstillinger').click();
-    field('password')
-      .type(newPassword)
-      .blur();
-    field('newPassword')
-      .type(password)
-      .blur();
-    field('retypeNewPassword')
-      .type(password)
       .blur();
     cy.contains('Change Password')
       .should('not.be.disabled')

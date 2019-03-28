@@ -28,3 +28,11 @@ Cypress.Commands.add(
       });
   }
 );
+
+Cypress.Commands.add('resetDb', () => {
+  const resetDbApi = Cypress.env('RESET_DB_API') || 'http://localhost:3030';
+  return cy.request({
+    method: 'POST',
+    url: resetDbApi
+  });
+});
