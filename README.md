@@ -1,8 +1,12 @@
-# lego-webapp [![DroneCI](https://ci-v1.abakus.no/api/badges/webkom/lego-webapp/status.svg?branch=master)](https://ci-v1.abakus.no/webkom/lego-webapp) [![dependencies Status](https://david-dm.org/webkom/lego-webapp/status.svg)](https://david-dm.org/webkom/lego-webapp)
+# lego-webapp [![DroneCI](https://ci-v1.abakus.no/api/badges/webkom/lego-webapp/status.svg?branch=master)](https://ci-v1.abakus.no/webkom/lego-webapp) [![dependencies Status](https://david-dm.org/webkom/lego-webapp/status.svg)](https://david-dm.org/webkom/lego-webapp) [![devdependencies Status](https://david-dm.org/webkom/lego-webapp/dev-status.svg)](https://david-dm.org/webkom/lego-webapp?type=dev)
 
-> Next-gen frontend for abakus.no
+> Open source frontend for abakus.no
 
-**Issues**: We track issues in the main repo of LEGO: https://github.com/webkom/lego
+[![MIT](https://badgen.net/badge/license/MIT/blue)](https://en.wikipedia.org/wiki/MIT_License) [![last commit](https://badgen.net/github/last-commit/webkom/lego-webapp/)](https://github.com/webkom/lego-webapp/commits/master) [![coontibutors](https://badgen.net/github/contributors/webkom/lego-webapp)](https://github.com/webkom/lego-webapp/graphs/contributors)
+
+> **Issues**: We track issues in the main repo of LEGO: https://github.com/webkom/lego
+
+[![open issues](https://badgen.net/github/open-issues/webkom/lego)](https://github.com/webkom/lego/issues)
 
 ## Getting Started
 
