@@ -2,190 +2,204 @@ kind: pipeline
 name: default
 
 steps:
-- name: setup
-  image: node:11
-  depends_on: [ clone ]
-  when:
-    event: push
-  environment:
-    CYPRESS_INSTALL_BINARY: 0
-  commands:
-    - yarn --frozen-lockfile
-- name: build_and_cypress
-  # image: cypress/base:10 # Tests exit and "succeed" prematurely with this for some reason
-  image: cypress/browsers:chrome69
-  when:
-    event: push
-  depends_on: [ setup ]
-  environment:
-    API_URL: http://api:8000/api/v1
-    BASE_URL: http://api:8000
-    WS_URL: ws://api:8000
-    CYPRESS_API_BASE_URL: http://api:8000
-    # - ENVIRONMENT=production # Disable because of secure cookies breaking SSR
-    CYPRESS_RECORD_KEY:
-      from_secret: cypress_record_key
-  commands:
-    - yarn cypress:prepare # Runs build and cypress install
-    - yarn ssr &
-    - ./wait-for-it.sh -t 180 api:8000
-    - ./wait-for-it.sh -t 180 localhost:3000
-    - yarn cypress run --record
-    - echo "finished."
-  secrets: [cypress_record_key]
-- name: test
-  image: node:11
-  when:
-    event: push
-  depends_on: [ setup ]
-  commands:
-    - yarn test
-- name: lint
-  image: node:11
-  when:
-    event: push
-  depends_on: [ setup ]
-  commands:
-    - yarn lint
-- name: flow
-  image: node:11
-  when:
-    event: push
-  depends_on: [ setup ]
-  commands:
-    - yarn flow --quiet
-- name: docker
-  image: plugins/docker
-  when:
-    branch:
-      - prod
-    event: push
-    status: success
-  settings:
-    registry: https://registry.abakus.no
-    repo: registry.abakus.no/webkom/lego-webapp
-    username:
-      from_secret: docker_username
-    password:
-      from_secret: docker_password
-    tags:
-      - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
-    build_args:
-      - RELEASE=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
-      - SENTRY_AUTH_KEY
-      - SENTRY_ORG=webkom
-      - SENTRY_PROJECT=lego-webapp
-      - SENTRY_URL=https://sentry.abakus.no/
-  environment:
-    SENTRY_AUTH_KEY:
+  - name: setup
+    image: node:11
+    depends_on: [clone]
+    when:
+      event: push
+    environment:
+      CYPRESS_INSTALL_BINARY: 0
+    commands:
+      - yarn --frozen-lockfile
+  - name: build_and_cypress
+    # image: cypress/base:10 # Tests exit and "succeed" prematurely with this for some reason
+    image: cypress/browsers:chrome69
+    when:
+      event: push
+    depends_on: [setup]
+    resources:
+      limits:
+        cpu: 3
+        memory: 800Mi
+      requests:
+        cpu: 0.5
+        memory: 500Mi
+    volumes:
+      - name: droneshm
+        path: /dev/shm
+    environment:
+      API_URL: http://api:8000/api/v1
+      BASE_URL: http://api:8000
+      WS_URL: ws://api:8000
+      CYPRESS_API_BASE_URL: http://api:8000
+      # - ENVIRONMENT=production # Disable because of secure cookies breaking SSR
+      CYPRESS_RECORD_KEY:
+        from_secret: cypress_record_key
+    commands:
+      - yarn cypress:prepare # Runs build and cypress install
+      - yarn ssr &
+      - ./wait-for-it.sh -t 180 api:8000
+      - ./wait-for-it.sh -t 180 localhost:3000
+      - yarn cypress run --record
+      - echo "finished."
+    secrets: [cypress_record_key]
+  - name: test
+    image: node:11
+    when:
+      event: push
+    depends_on: [setup]
+    commands:
+      - yarn test
+  - name: lint
+    image: node:11
+    when:
+      event: push
+    depends_on: [setup]
+    commands:
+      - yarn lint
+  - name: flow
+    image: node:11
+    when:
+      event: push
+    depends_on: [setup]
+    commands:
+      - yarn flow --quiet
+  - name: docker
+    image: plugins/docker
+    when:
+      branch:
+        - prod
+      event: push
+      status: success
+    settings:
+      registry: https://registry.abakus.no
+      repo: registry.abakus.no/webkom/lego-webapp
+      username:
+        from_secret: docker_username
+      password:
+        from_secret: docker_password
+      tags:
+        - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+      build_args:
+        - RELEASE=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
+        - SENTRY_AUTH_KEY
+        - SENTRY_ORG=webkom
+        - SENTRY_PROJECT=lego-webapp
+        - SENTRY_URL=https://sentry.abakus.no/
+    environment:
+      SENTRY_AUTH_KEY:
         from_secret: sentry_auth_key
-  depends_on: [build_and_cypress, test, lint, flow]
+    depends_on: [build_and_cypress, test, lint, flow]
 
 services:
-- name: postgres
-  image: postgres:9.5
-  ports: 
-    - 5432
-  environment:
-    POSTGRES_USER: lego
-  when:
-    event: push
-- name: minio
-  image: minio/minio
-  ports:
-    - 9000
-  environment:
-    MINIO_ACCESS_KEY: lego-dev
-    MINIO_SECRET_KEY: lego-dev
-  command: [ "server", "/export" ]
-  when:
-    event: push
-- name: thumbor
-  image: apsl/thumbor:latest
-  commands:
-    - echo "starting thumbor"
-    - /docker-entrypoint.sh thumbor
-  ports:
-    - 80
-  environment:
-    SECURITY_KEY: 'lego-dev'
-    MAX_WIDTH: '1000'
-    MAX_HEIGHT: '800'
-    QUALITY: '98'
-    ALLOW_UNSAFE_URL: '0'
-    ALLOW_OLD_URLS: '0'
-    THUMBOR_PORT: 80
-    AWS_ACCESS_KEY_ID: 'lego-dev'
-    AWS_SECRET_ACCESS_KEY: 'lego-dev'
-    TC_AWS_LOADER_BUCKET: lego
-    TC_AWS_REGION: us-east-1
-    TC_AWS_ENDPOINT: '"http://minio:9000"'
-    LOADER: tc_aws.loaders.s3_loader
-  when:
-    event: push
-- name: elasticsearch
-  image: docker.elastic.co/elasticsearch/elasticsearch:6.2.1
-  ports:
-    - 9200
-  environment:
-    ES_JAVA_OPTS: -Xms512m -Xmx512m
-    HEAP_SIZE: 1g
-  when:
-    event: push
-- name: redis
-  image: redis
-  ports:
-    - 6379
-  when:
-    event: push
-- name: api
-  image: registry.abakus.no/webkom/lego:latest
-  pull: always
-  ports:
-    - 8000
-  commands: 
-  - sleep 30 # If we don't sleep, the service hostnames may not resolve
-  - ./wait-for-it.sh -t 60 postgres:5432
-  - ./wait-for-it.sh -t 60 redis:6379
-  - ./wait-for-it.sh -t 60 minio:9000
-  - ./wait-for-it.sh -t 60 thumbor:80
-  - ./wait-for-it.sh -t 60 elasticsearch:9200
-  - cd /app # Workdir is webapp code by default
-  - python manage.py reset_db --noinput
-  - python manage.py migrate
-  - python manage.py migrate_search
-  - python manage.py load_fixtures --development
-  - python manage.py rebuild_index
-  - python manage.py runserver 0.0.0.0:8000
-  environment:
-    PORT: 8000
-    ALLOWED_HOSTS: "*,"
-    DATABASE_URL: postgres://lego@postgres:5432/lego
-    SECRET_KEY: abc123
-    SERVER_URL: http://api:8000
-    FRONTEND_URL: http://localhost:3000
-    CACHE_URL: rediscache://redis/0?client_class=django_redis.client.DefaultClient
-    EMAIL_URL: smtp://localhost
-    AWS_ACCESS_KEY_ID: lego-dev
-    AWS_SECRET_ACCESS_KEY: lego-dev
-    AWS_REGION: us-east-1
-    AWS_S3_BUCKET: lego
-    AWS_ENTRYPOINT: http://minio:9000
-    THUMBOR_SERVER: http://thumbor:80
-    THUMBOR_SECURITY_KEY: lego-dev
-    SENTRY: http://sentry:sentry@localhost/2
-    CELERY_BROKER_URL: redis://redis/1
-    CHANNELS_REDIS_URL: redis://redis/2
-    ELASTICSEARCH_HOST: http://elasticsearch
-    STRIPE_API_KEY: 123
-    STRIPE_WEBHOOK_SECRET: 123
-    CAPTCHA_KEY: 123
-    LDAP_SERVER: localhost
-    LDAP_USER: 123
-    LDAP_PASSWORD: 123
-    APNS_CERTIFICATE: 123
-  when:
-    event: push
+  - name: postgres
+    image: postgres:9.5
+    ports:
+      - 5432
+    environment:
+      POSTGRES_USER: lego
+    when:
+      event: push
+  - name: minio
+    image: minio/minio
+    ports:
+      - 9000
+    environment:
+      MINIO_ACCESS_KEY: lego-dev
+      MINIO_SECRET_KEY: lego-dev
+    command: ['server', '/export']
+    when:
+      event: push
+  - name: thumbor
+    image: apsl/thumbor:latest
+    commands:
+      - echo "starting thumbor"
+      - /docker-entrypoint.sh thumbor
+    ports:
+      - 80
+    environment:
+      SECURITY_KEY: 'lego-dev'
+      MAX_WIDTH: '1000'
+      MAX_HEIGHT: '800'
+      QUALITY: '98'
+      ALLOW_UNSAFE_URL: '0'
+      ALLOW_OLD_URLS: '0'
+      THUMBOR_PORT: 80
+      AWS_ACCESS_KEY_ID: 'lego-dev'
+      AWS_SECRET_ACCESS_KEY: 'lego-dev'
+      TC_AWS_LOADER_BUCKET: lego
+      TC_AWS_REGION: us-east-1
+      TC_AWS_ENDPOINT: '"http://minio:9000"'
+      LOADER: tc_aws.loaders.s3_loader
+    when:
+      event: push
+  - name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.1
+    ports:
+      - 9200
+    environment:
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      HEAP_SIZE: 1g
+    when:
+      event: push
+  - name: redis
+    image: redis
+    ports:
+      - 6379
+    when:
+      event: push
+  - name: api
+    image: registry.abakus.no/webkom/lego:latest
+    pull: always
+    ports:
+      - 8000
+    commands:
+      - sleep 30 # If we don't sleep, the service hostnames may not resolve
+      - ./wait-for-it.sh -t 60 postgres:5432
+      - ./wait-for-it.sh -t 60 redis:6379
+      - ./wait-for-it.sh -t 60 minio:9000
+      - ./wait-for-it.sh -t 60 thumbor:80
+      - ./wait-for-it.sh -t 60 elasticsearch:9200
+      - cd /app # Workdir is webapp code by default
+      - python manage.py reset_db --noinput
+      - python manage.py migrate
+      - python manage.py migrate_search
+      - python manage.py load_fixtures --development
+      - python manage.py rebuild_index
+      - python manage.py runserver 0.0.0.0:8000
+    environment:
+      PORT: 8000
+      ALLOWED_HOSTS: '*,'
+      DATABASE_URL: postgres://lego@postgres:5432/lego
+      SECRET_KEY: abc123
+      SERVER_URL: http://api:8000
+      FRONTEND_URL: http://localhost:3000
+      CACHE_URL: rediscache://redis/0?client_class=django_redis.client.DefaultClient
+      EMAIL_URL: smtp://localhost
+      AWS_ACCESS_KEY_ID: lego-dev
+      AWS_SECRET_ACCESS_KEY: lego-dev
+      AWS_REGION: us-east-1
+      AWS_S3_BUCKET: lego
+      AWS_ENTRYPOINT: http://minio:9000
+      THUMBOR_SERVER: http://thumbor:80
+      THUMBOR_SECURITY_KEY: lego-dev
+      SENTRY: http://sentry:sentry@localhost/2
+      CELERY_BROKER_URL: redis://redis/1
+      CHANNELS_REDIS_URL: redis://redis/2
+      ELASTICSEARCH_HOST: http://elasticsearch
+      STRIPE_API_KEY: 123
+      STRIPE_WEBHOOK_SECRET: 123
+      CAPTCHA_KEY: 123
+      LDAP_SERVER: localhost
+      LDAP_USER: 123
+      LDAP_PASSWORD: 123
+      APNS_CERTIFICATE: 123
+    when:
+      event: push
 
 image_pull_secrets:
-- dockerconfigjson
+  - dockerconfigjson
+
+volumes:
+  - name: droneshm
+    temp: {}
