@@ -17,6 +17,16 @@ steps:
     when:
       event: push
     depends_on: [setup]
+    resources:
+      limits:
+        cpu: 3
+        memory: 800Mi
+      requests:
+        cpu: 0.5
+        memory: 500Mi
+    volumes:
+      - name: droneshm
+        path: /dev/shm
     environment:
       API_URL: http://api:8000/api/v1
       BASE_URL: http://api:8000
@@ -189,3 +199,7 @@ services:
 
 image_pull_secrets:
   - dockerconfigjson
+
+volumes:
+  - name: droneshm
+    temp: {}
