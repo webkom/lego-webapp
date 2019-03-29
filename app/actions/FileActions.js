@@ -5,6 +5,7 @@ import callAPI from './callAPI';
 import type { Thunk } from 'app/types';
 import slug from 'slugify';
 
+const slugOpts = { remove: /[#*+~.()'"!:@]/g };
 /**
  * Normalize filenames
  * Remove non-word chars and replace spaces.
@@ -12,11 +13,11 @@ import slug from 'slugify';
 const normalizeFilename: (filename: string) => string = filename => {
   const extensionIndex = filename.lastIndexOf('.');
   if (extensionIndex > 0) {
-    const name = slug(filename.substr(0, extensionIndex));
+    const name = slug(filename.substr(0, extensionIndex), slugOpts);
     const extension = filename.substr(extensionIndex);
     return `${name}${extension}`;
   }
-  return slug(filename);
+  return slug(filename, slugOpts);
 };
 
 export function fetchSignedPost(key: string, isPublic: boolean) {
