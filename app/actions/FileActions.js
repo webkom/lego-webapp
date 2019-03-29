@@ -28,6 +28,9 @@ export function fetchSignedPost(key: string, isPublic: boolean) {
     body: {
       key: normalizeFilename(key),
       public: isPublic
+    },
+    meta: {
+      errorMessage: 'Filopplasting feilet'
     }
   });
 }
@@ -65,7 +68,8 @@ export function uploadFile({
           requiresAuthentication: false,
           meta: {
             fileKey: action.payload.file_key,
-            fileToken: action.payload.file_token
+            fileToken: action.payload.file_token,
+            errorMessage: 'Filopplasting feilet'
           }
         })
       );
