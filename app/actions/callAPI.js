@@ -60,7 +60,8 @@ type CallAPIOptions = {
   cacheSeconds?: number,
   propagateError?: boolean,
   disableOptimistic?: boolean,
-  requiresAuthentication?: boolean
+  requiresAuthentication?: boolean,
+  timeout?: number
 };
 
 function toHttpRequestOptions(
@@ -71,7 +72,8 @@ function toHttpRequestOptions(
     headers: options.headers || {},
     body: options.body,
     json: options.json,
-    files: options.files
+    files: options.files,
+    timeout: options.timeout
   };
 }
 
@@ -91,7 +93,8 @@ export default function callAPI({
   propagateError = false,
   disableOptimistic = false,
   requiresAuthentication = true,
-  mapper
+  mapper,
+  timeout
 }: CallAPIOptions): Thunk<Promise<any>> {
   return (dispatch, getState) => {
     const methodUpperCase = method.toUpperCase();
@@ -103,7 +106,8 @@ export default function callAPI({
       body,
       files,
       headers,
-      json
+      json,
+      timeout
     });
 
     const state = getState();

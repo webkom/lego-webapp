@@ -35,13 +35,17 @@ export function fetchSignedPost(key: string, isPublic: boolean) {
 export type UploadArgs = {
   file: File,
   fileName?: string,
-  isPublic?: boolean
+  isPublic?: boolean,
+  // Use big timeouts for big files. See app/utils/fetchJSON.js for more info
+  // In ms. aka. 2sec = 2 * 1000;
+  timeout?: number
 };
 
 export function uploadFile({
   file,
   fileName,
-  isPublic = false
+  isPublic = false,
+  timeout
 }: UploadArgs): Thunk<*> {
   return dispatch =>
     dispatch(fetchSignedPost(fileName || file.name, isPublic)).then(action => {
@@ -53,7 +57,7 @@ export function uploadFile({
           endpoint: action.payload.url,
           body: action.payload.fields,
           files: [file],
-          timeout: 0,
+          timeout,
           json: false,
           headers: {
             Accept: 'application/json'
