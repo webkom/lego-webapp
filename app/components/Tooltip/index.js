@@ -11,8 +11,8 @@ type Props = {
   onClick?: () => void,
   style?: Object,
   list?: boolean,
-  renderToThe?: string,
-  pointerToThe?: string
+  renderDirection?: string,
+  pointerPosition?: string
 };
 
 type State = {
@@ -22,10 +22,10 @@ type State = {
 
 /**
  * A tooltip that appears when you hover over the component placed within.
- * The tooltip will by default be centered, however it supports a 'renderToThe'
- * prop that will make it render either to the left. The pointer
+ * The tooltip will by default be centered, however it supports a 'renderDirection'
+ * prop that will make it render either to the left or the right from the postion of the pointer. The pointer
  * (the small arrow that points towards the component within the tooltip) will
- * also default to center, and it can be adjusted with the 'pointerToThe' prop.
+ * also default to center, and it can be adjusted with the 'pointerPosition' prop.
  * Both props can be set as either 'left' or 'right'.
  */
 
@@ -76,21 +76,21 @@ export default class Tooltip extends Component<Props, State> {
       list,
       style,
       onClick,
-      renderToThe,
-      pointerToThe
+      renderDirection,
+      pointerPosition
     } = this.props;
-    let renderToTheClass = styles.renderFromCenter;
+    let renderDirectionClass = styles.renderFromCenter;
     let startPointChildren = 2;
     if (!list) {
-      switch (renderToThe) {
+      switch (renderDirection) {
         case 'left':
-          renderToTheClass = styles.renderToTheLeft;
+          renderDirectionClass = styles.renderDirectionLeft;
           break;
         case 'right':
-          renderToTheClass = styles.renderToTheRight;
+          renderDirectionClass = styles.renderDirectionRight;
           break;
       }
-      switch (pointerToThe) {
+      switch (pointerPosition) {
         case 'left':
           startPointChildren = 9;
           break;
@@ -113,7 +113,7 @@ export default class Tooltip extends Component<Props, State> {
           onMouseLeave={this.onMouseLeave}
         >
           <div
-            className={cx(tooltipClass, tooltip, renderToTheClass)}
+            className={cx(tooltipClass, tooltip, renderDirectionClass)}
             style={{
               ...style,
               marginLeft:

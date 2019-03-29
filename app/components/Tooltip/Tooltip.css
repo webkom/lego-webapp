@@ -26,19 +26,19 @@
   border-color: #333 transparent transparent;
 }
 
-.renderToTheLeft {
+.renderDirectionLeft {
   transform: translate(-90%, -100%);
 }
 
-.renderToTheLeft::after {
+.renderDirectionLeft::after {
   left: 90%;
 }
 
-.renderToTheRight {
+.renderDirectionRight {
   transform: translate(-10%, -100%);
 }
 
-.renderToTheRight::after {
+.renderDirectionRight::after {
   left: 10%;
 }
 
