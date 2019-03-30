@@ -6323,7 +6323,7 @@ is-typedarray@~1.0.0:
   resolved "https://registry.yarnpkg.com/is-typedarray/-/is-typedarray-1.0.0.tgz#e479c80858df0c1b11ddda6940f96011fcda4a9a"
   integrity sha1-5HnICFjfDBsR3dppQPlgEfzaSpo=
 
-is-url@^1.2.2:
+is-url@^1.2.2, is-url@^1.2.4:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/is-url/-/is-url-1.2.4.tgz#04a4df46d28c4cff3d73d01ff06abeb318a1aa52"
   integrity sha512-ITvGim8FhRiYe4IQ5uHSkj7pVaPDrCTkNd3yq3cV7iZAcJdHTUMPMEHcqSOy9xZ9qFenQCvi+2wjH9a1nXqHww==
@@ -11542,6 +11542,13 @@ slate-hotkeys@^0.2.9:
   dependencies:
     is-hotkey "0.1.4"
     slate-dev-environment "^0.2.2"
+
+slate-html-serializer@^0.7.36:
+  version "0.7.36"
+  resolved "https://registry.yarnpkg.com/slate-html-serializer/-/slate-html-serializer-0.7.36.tgz#012673768fc4c03536f76eb732a98bd2f62ad228"
+  integrity sha512-m10WJlZqAs1r8A8yas8uHJxb7WHIgE9zDBr2CEpXXI8GrcKNxxxKvaGmnsc7ndaBqAzU00ft0jJBng/BsWN+8g==
+  dependencies:
+    type-of "^2.0.1"
 
 slate-no-empty@^0.1.0:
   version "0.1.0"

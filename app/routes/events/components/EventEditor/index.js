@@ -146,8 +146,8 @@ function EventEditor({
           <ContentMain>
             <Field
               name="text"
-              component={EditorField.Field}
               label="Hovedbeskrivelse"
+              component={EditorField}
               placeholder="Dette blir tidenes fest..."
               className={styles.descriptionEditor}
               uploadFile={uploadFile}

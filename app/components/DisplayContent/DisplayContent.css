@@ -1,24 +1,59 @@
-.base {
-  word-break: break-word;
+.root {
+  padding: 0 10px;
+}
 
-  div[data-type='todo'] > input {
-    cursor: pointer;
-    float: left;
-    position: relative;
-    top: 4px;
-    left: -4px;
-  }
+.root a {
+  cursor: pointer;
+}
 
-  ul {
-    margin-left: 15px;
-  }
+.root code {
+  background-color: #efefef;
+  padding: 2px 3px;
+  border-radius: 2px;
+}
 
-  ol {
-    margin-left: 15px;
-  }
+.root pre {
+  background-color: #efefef;
+  border-radius: 2px;
+  padding-left: 5px;
+  margin: 10px 0;
+}
 
-  figure {
-    text-align: center;
-    font-size: 13px;
-  }
+.root ul {
+  display: block;
+  list-style: disc;
+  padding-inline-start: 20px;
+  padding-left: 20px;
+}
+
+.root ol {
+  display: block;
+  list-style: decimal;
+  padding-inline-start: 20px;
+  padding-left: 20px;
+}
+
+.root li {
+  display: list-item;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+}
+
+.root ul > ul {
+  list-style: circle;
+}
+
+.root ol > ol {
+  list-style: lower-alpha;
+}
+
+.root li > p {
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+.root > p {
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
 }

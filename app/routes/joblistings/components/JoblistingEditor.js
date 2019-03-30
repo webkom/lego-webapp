@@ -220,7 +220,7 @@ class JoblistingEditor extends Component<Props, State> {
             className={styles.descriptionField}
             label="Søknadsintro"
             placeholder="Søknadsintro"
-            component={EditorField.Field}
+            component={EditorField}
             required
           />
           <Field
@@ -228,7 +228,7 @@ class JoblistingEditor extends Component<Props, State> {
             className={styles.textField}
             label="Søknadstekst:"
             placeholder="Søknadstekst"
-            component={EditorField.Field}
+            component={EditorField}
             required
           />
           <Flex

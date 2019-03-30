@@ -1,6 +1,7 @@
 .root {
   border-bottom: 1px solid #ddd;
   padding-left: 10px;
+  position: relative;
 }
 
 .root > button {
@@ -19,7 +20,36 @@
 }
 
 .linkInput {
-  position: relative;
-  top: -30px;
-  right: 50%;
+  position: absolute;
+  top: 30px;
+  left: 40%;
+  border: 1px solid #ddd;
+  border-radius: 2px;
+  background-color: #fefefe;
+  padding: 15px;
+}
+
+.linkInput input {
+  border: 1px solid #cdcdcd;
+  border-radius: 4px;
+  height: 30px;
+  padding: 5px;
+}
+
+.linkInput input:focus {
+  outline: none;
+  box-shadow: 2px 2px 1px #efefef;
+}
+
+.linkInput button {
+  border: 1px solid #cdcdcd;
+  border-radius: 3px;
+  background-color: #fafafa;
+  padding: 6px;
+  margin-left: 5px;
+}
+
+.linkInput button:hover {
+  background-color: #fefefe;
+  border-color: #c1c1c1;
 }

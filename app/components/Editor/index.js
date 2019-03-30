@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
 import { Editor as SlateEditor } from 'slate-react';
-import { Value } from 'slate';
+import { Value, Block } from 'slate';
 import Toolbar from './components/Toolbar';
 import {
   BoldMark,
   ItalicMark,
   UnderlineMark,
-  CodeMark,
-  LinkMark
+  CodeMark
 } from './components/marks';
+import ImageBlock from './components/blocks';
+import MazeMap from './components/MazeMap';
 import styles from './Editor.css';
 import editList from './plugins/editList';
+import pasteLink from './plugins/pasteLink';
 import NoEmpty from 'slate-no-empty';
-import InsertImages from 'slate-drop-or-paste-images';
-import ImageUpload from 'app/components/Upload/ImageUpload';
+import { html } from './serializer';
 
 const initialValue = Value.fromJSON({
   document: {
@@ -24,63 +25,7 @@ const initialValue = Value.fromJSON({
         nodes: [
           {
             object: 'text',
-            leaves: [
-              {
-                text: 'This is a test of the slate editor'
-              }
-            ]
-          }
-        ]
-      },
-      {
-        object: 'block',
-        type: 'ul_list',
-        nodes: [
-          {
-            object: 'block',
-            type: 'list_item',
-            nodes: [
-              {
-                object: 'block',
-                type: 'paragraph',
-                nodes: [
-                  {
-                    object: 'text',
-                    leaves: [
-                      {
-                        text: 'This is an unordered list'
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        object: 'block',
-        type: 'ol_list',
-        nodes: [
-          {
-            object: 'block',
-            type: 'list_item',
-            nodes: [
-              {
-                object: 'block',
-                type: 'paragraph',
-                nodes: [
-                  {
-                    object: 'text',
-                    leaves: [
-                      {
-                        text: 'This is an ordered list'
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
+            leaves: []
           }
         ]
       }
@@ -88,6 +33,26 @@ const initialValue = Value.fromJSON({
   }
 });
 
+const schema = {
+  document: {
+    last: { type: 'paragraph' },
+    normalize: (editor, { code, node, child }) => {
+      switch (code) {
+        case 'last_child_type_invalid': {
+          const paragraph = Block.create('paragraph');
+          return editor.insertNodeByKey(node.key, node.nodes.size, paragraph);
+        }
+      }
+    }
+  },
+  blocks: {
+    image: {
+      isVoid: true
+    }
+  }
+};
+
+// Simply enables the user to insert tabs when editing
 function insertTab(options) {
   return {
     onKeyDown(event, editor, next) {
@@ -98,6 +63,11 @@ function insertTab(options) {
     }
   };
 }
+
+/*  softEnter(Array<string>) => onKeyDown()
+ *  A plugin that enables soft enter if selection has blocks
+ *  of a type specified. Takes an array of types as its only argument
+ */
 
 function softEnter(types) {
   return {
@@ -116,17 +86,32 @@ function softEnter(types) {
 }
 
 function images() {
-  return InsertImages({
-    extensions: ['png', 'jpeg'],
-    insertImage: (editor, file) => {
-      return editor.insertBlock({
-        type: 'image',
-        isVoid: true,
-        data: { file }
-      });
+  return {
+    commands: {
+      insertImage(editor, file) {
+        const imageUrl = URL.createObjectURL(file);
+        editor.insertBlock({ data: { file, imageUrl }, type: 'image' });
+      }
     }
-  });
+  };
 }
+
+// A set of commands and queries to edit links
+const linkCommands = {
+  commands: {
+    wrapLink(editor, url) {
+      editor.wrapInline({ data: { url: url, text: url }, type: 'link' });
+    },
+    unwrapLink(editor) {
+      editor.unwrapInline('link');
+    }
+  },
+  queries: {
+    isLinkActive(editor) {
+      editor.value.inlines.some(inline => inline.type == 'link');
+    }
+  }
+};
 
 const DEFAULT_BLOCK = 'paragraph';
 
@@ -135,12 +120,17 @@ const plugins = [
   insertTab(),
   softEnter(['code-block']),
   NoEmpty(),
+  linkCommands,
+  pasteLink(),
   images()
 ];
 
 export default class Editor extends Component<Props, State> {
   state = {
-    value: initialValue,
+    editorValue: this.props.value
+      ? html.deserialize(this.props.value)
+      : initialValue,
+    value: this.props.value,
     showUpload: false,
     image: null
   };
@@ -150,7 +140,8 @@ export default class Editor extends Component<Props, State> {
   };
 
   onChange = ({ value }) => {
-    this.setState({ value });
+    this.setState({ editorValue: value });
+    this.props.onChange(html.serialize(value));
   };
 
   hasBlock = type => {
@@ -161,47 +152,10 @@ export default class Editor extends Component<Props, State> {
   toggleBlock = (e, type) => {
     e.preventDefault();
     const editor = this.editor;
-    const { value } = editor;
-    const { document } = value;
-
-    const isType = value.blocks.some(block => {
-      return !!document.getClosest(block.key, parent => parent.type === type);
-    });
 
     if (type !== 'ul_list' && type !== 'ol_list') {
       const isActive = this.hasBlock(type);
       isActive ? editor.setBlocks(DEFAULT_BLOCK) : editor.setBlocks(type);
-    } else {
-      const isList = value.blocks.some(
-        block =>
-          !!document.getClosest(block.key, node => node.type === 'list_item')
-      );
-
-      const closest = document.getClosest(
-        editor.value.startBlock.key,
-        a => a.type == 'ol_list' || a.type == 'ul_list'
-      );
-
-      const isType = closest && closest.type === type;
-
-      if (isType && isList) {
-        editor
-          .unwrapBlock('list_item')
-          .unwrapBlock('ul_list')
-          .unwrapBlock('ol_list');
-      } else if (isList) {
-        editor
-          .unwrapBlock('list_item')
-          .unwrapBlock(type == 'ol_list' ? 'ul_list' : 'ol_list')
-          .wrapBlock(type)
-          .wrapBlock('list_item')
-          .mergeNodeByKey();
-      } else {
-        editor
-          .wrapBlock(type)
-          .wrapBlock('list_item')
-          .setBlocks(DEFAULT_BLOCK);
-      }
     }
   };
 
@@ -221,7 +175,17 @@ export default class Editor extends Component<Props, State> {
       }
       case 'l': {
         e.preventDefault();
-        editor.setBlocks('ul_list');
+        editor.setListType('ul_list');
+        break;
+      }
+      case 'z': {
+        e.preventDefault();
+        editor.undo();
+        break;
+      }
+      case 'r': {
+        e.preventDefault();
+        editor.redo();
         break;
       }
       default: {
@@ -240,21 +204,29 @@ export default class Editor extends Component<Props, State> {
         return <UnderlineMark {...props} />;
       case 'code':
         return <CodeMark {...props} />;
-      case 'link':
-        return <LinkMark {...props} />;
       default:
         return next();
     }
   };
 
   renderNode = (props, editor, next) => {
-    const { attributes, node, children } = props;
+    const { attributes, node, children, isFocused } = props;
     switch (node.type) {
       case 'paragraph':
         return (
           <p className={styles.paragraph} {...attributes}>
             {children}
           </p>
+        );
+      case 'h1':
+        return <h2 {...attributes}>{children}</h2>;
+      case 'h4':
+        return <h4 {...attributes}>{children}</h4>;
+      case 'link':
+        return (
+          <a {...attributes} href={node.data.url}>
+            {children}
+          </a>
         );
       case 'ul_list':
         return (
@@ -280,14 +252,23 @@ export default class Editor extends Component<Props, State> {
             <code>{children}</code>
           </pre>
         );
-      case 'image':
+      case 'image': {
         return (
-          <img
-            src={attributes.data.file}
-            alt="Bildet kunne ikke vises"
+          <ImageBlock
+            editor={editor}
+            node={node}
+            imageUrl={node.data.get('imageUrl')}
+            src={node.data.get('src')}
+            file={node.data.get('file')}
+            isFocused={isFocused}
             {...attributes}
+            attributes={attributes}
           />
         );
+      }
+      case 'mazeMap': {
+        return <MazeMap {...attributes} />;
+      }
       default:
         return next();
     }
@@ -297,32 +278,49 @@ export default class Editor extends Component<Props, State> {
     const children = next();
     return (
       <>
-        {this.state.showUpload && (
-          <ImageUpload
-            onSubmit={this.submitImage}
-            isModal
-            crop
-            img={this.state.image}
-          />
+        {!this.props.disabled && !this.props.simple && (
+          <Toolbar editor={editor} toggleBlock={this.toggleBlock} />
         )}
-        <Toolbar editor={editor} toggleBlock={this.toggleBlock} />
         {children}
       </>
     );
   };
 
+  // Calling onBlur and onFocus methods passed down
+  // via props to make the editor work with redux-form
+  onFocus = (event, editor, next) => {
+    event.preventDefault();
+    this.props.onFocus();
+  };
+
+  onBlur = (event, editor, next) => {
+    event.preventDefault();
+    this.props.onBlur();
+  };
+
   render() {
     return (
-      <div className={styles.root}>
+      <div
+        onFocus={this.onFocus}
+        className={
+          this.props.disabled || this.props.simple
+            ? styles.disabled
+            : styles.root
+        }
+      >
         <SlateEditor
+          autoFocus={this.props.autoFocus}
           renderEditor={this.renderEditor}
-          value={this.state.value}
+          value={this.state.editorValue}
           ref={this.ref}
           plugins={plugins}
           onChange={this.onChange}
           onKeyDown={this.onKeyDown}
+          schema={schema}
           renderMark={this.renderMark}
           renderNode={this.renderNode}
+          readOnly={this.props.disabled}
+          placeholder={this.props.placeholder}
         />
       </div>
     );

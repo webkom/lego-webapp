@@ -67,7 +67,7 @@ function GroupForm({
         label="Beskrivelse"
         placeholder="Vil du strikke din egen lue? Eller har du allerede […]"
         name="text"
-        component={EditorField.Field}
+        component={EditorField}
       />
       <Field
         name="logo"

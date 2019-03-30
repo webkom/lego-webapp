@@ -14,7 +14,7 @@ import type { CommentEntity } from 'app/actions/CommentActions';
 import styles from './CommentForm.css';
 
 // TODO: This can be removed if the editor importer gets an actual empty state.
-const EMPTY_STATE = '<p class="unstyled"><br/></p>';
+const EMPTY_STATE = '<p></p>';
 
 const validate = values => {
   const errors = {};

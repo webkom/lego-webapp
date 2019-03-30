@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Editor from 'app/components/Editor';
+import styles from './DisplayContent.css';
 
 type Props = {
   /** The content to be displayed - the text */
@@ -19,16 +20,13 @@ type Props = {
  */
 function DisplayContent({ content, id, style, className }: Props) {
   return (
-    <div key={content} id={id} style={style} className={className}>
-      <Editor
-        onChange={() => {}}
-        onBlur={() => {}}
-        onFocus={() => {}}
-        value={content}
-        placeholder=""
-        disabled
-      />
-    </div>
+    <div
+      key={content}
+      id={id}
+      style={style}
+      className={styles.root}
+      dangerouslySetInnerHTML={{ __html: content }}
+    />
   );
 }
 

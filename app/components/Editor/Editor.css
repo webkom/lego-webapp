@@ -4,6 +4,28 @@
   padding: 0 10px;
 }
 
+.disabled {
+  border: none;
+  padding: 0 10px;
+}
+
+.root a {
+  cursor: default;
+}
+
+.root code {
+  background-color: #efefef;
+  padding: 2px 3px;
+  border-radius: 2px;
+}
+
+.root pre {
+  background-color: #efefef;
+  border-radius: 2px;
+  padding-left: 5px;
+  margin: 10px 0;
+}
+
 .ul_list {
   display: block;
   list-style: disc;
@@ -41,4 +63,8 @@
   display: block;
   margin-block-start: 1em;
   margin-block-end: 1em;
+}
+
+.imgSelected {
+  border: 2px solid blue;
 }

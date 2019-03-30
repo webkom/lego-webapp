@@ -114,7 +114,7 @@ const ArticleEditor = ({
           placeholder="Write your article here..."
           name="content"
           label="Content"
-          component={EditorField.Field}
+          component={EditorField}
         />
         <Button className={styles.submitButton} type="submit">
           {isNew ? 'Create' : 'Save'}

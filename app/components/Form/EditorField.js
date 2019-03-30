@@ -26,12 +26,7 @@ function EditorField({ className, name, ...props }: Props) {
   }
   return (
     <div name={name}>
-      <Editor
-        className={cx(styles.input, className)}
-        {...props}
-        {...props.input}
-        {...props.meta}
-      />
+      <Editor {...props} {...props.input} {...props.meta} />
     </div>
   );
 }
