@@ -6,6 +6,7 @@ import type { SurveyEntity } from 'app/reducers/surveys';
 import type { QuestionEntity } from 'app/reducers/surveys';
 import Results from './Results';
 import styles from '../surveys.css';
+import Button from 'app/components/Button';
 
 type Props = {
   submissions: Array<SubmissionEntity>,
@@ -39,21 +40,23 @@ const SubmissionSummary = ({
             >
               <span>{answer.answerText}</span>
               {answer.hideFromPublic ? (
-                <a
+                <Button
+                  flat
                   onClick={() =>
                     showAnswer(survey.id, submission.id, answer.id)
                   }
                 >
                   vis
-                </a>
+                </Button>
               ) : (
-                <a
+                <Button
+                  flat
                   onClick={() =>
                     hideAnswer(survey.id, submission.id, answer.id)
                   }
                 >
                   skjul
-                </a>
+                </Button>
               )}
             </li>
           )

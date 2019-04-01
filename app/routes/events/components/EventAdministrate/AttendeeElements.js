@@ -5,6 +5,7 @@ import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
 import cx from 'classnames';
 import LoadingIndicator from 'app/components/LoadingIndicator';
+import Button from 'app/components/Button';
 import type {
   EventRegistrationChargeStatus,
   EventRegistrationPresence,
@@ -48,9 +49,13 @@ export const TooltipIcon = ({
 }: TooltipIconProps) => {
   return (
     <Tooltip className={styles.cell} content={content}>
-      <a className={cx(transparent && styles.transparent)} onClick={onClick}>
+      <Button
+        flat
+        className={cx(transparent && styles.transparent)}
+        onClick={onClick}
+      >
         <i className={iconClass} />
-      </a>
+      </Button>
     </Tooltip>
   );
 };
@@ -121,13 +126,13 @@ export const Unregister = ({
       {fetching ? (
         <LoadingIndicator loading={true} small />
       ) : (
-        <a onClick={() => handleUnregister(id)}>
+        <Button flat onClick={() => handleUnregister(id)}>
           <i
             className="fa fa-minus-circle"
             style={{ color: '#C24538', marginRight: '5px' }}
           />
           {clickedUnregister === id ? 'Er du sikker?' : 'Meld av'}
-        </a>
+        </Button>
       )}
     </div>
   );

@@ -77,9 +77,13 @@ class PenaltyInLine extends Component<Props, State> {
             {showLabel && (
               <div>
                 {!this.state.sent ? (
-                  <a onClick={this.handleHide} className={cx(className)}>
+                  <Button
+                    flat
+                    onClick={this.handleHide}
+                    className={cx(className)}
+                  >
                     Lag ny prikk
-                  </a>
+                  </Button>
                 ) : (
                   <i>Prikken er registrert</i>
                 )}

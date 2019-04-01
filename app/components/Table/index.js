@@ -211,12 +211,13 @@ export default class Table extends Component<Props, State> {
             >
               <div className={styles.checkbox}>
                 {filter.map(({ label, value }) => (
-                  <CheckBox
-                    key={label}
-                    label={label}
-                    value={value === this.state.filters[dataIndex]}
-                    onChange={() => this.onFilterInput(value, dataIndex)}
-                  />
+                  <p key={label}>
+                    <CheckBox
+                      label={label}
+                      value={value === this.state.filters[dataIndex]}
+                      onChange={() => this.onFilterInput(value, dataIndex)}
+                    />
+                  </p>
                 ))}
                 <Button
                   flat

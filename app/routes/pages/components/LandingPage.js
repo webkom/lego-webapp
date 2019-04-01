@@ -11,6 +11,7 @@ import Statistic from './subcomponents/Statistic';
 import EmailItem from './subcomponents/EmailItem';
 import banner from 'app/assets/om-abakus-banner.png';
 import styles from './LandingPage.css';
+import Button from 'app/components/Button';
 
 type Props = {
   whoWeAre: string,
@@ -160,9 +161,9 @@ const LandingPage = ({
               />
               <div className={styles.socialMediaTypeLinks}>
                 {socialMedia.snapchat.map((page, index) => (
-                  <a key={index} className={styles.socialMediaLink}>
+                  <Button flat key={index} className={styles.socialMediaLink}>
                     {page.name}
-                  </a>
+                  </Button>
                 ))}
               </div>
             </div>

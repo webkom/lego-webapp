@@ -5,6 +5,7 @@ import { FormatTime } from 'app/components/Time';
 import PenaltyForm from './PenaltyForm';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import type { AddPenalty } from 'app/models';
+import Button from 'app/components/Button';
 
 type Penalty = {
   id: number,
@@ -58,7 +59,7 @@ function Penalties({
                     message="Er du sikker på at du vil slette denne prikken?"
                     onConfirm={() => deletePenalty(penalty.id)}
                   >
-                    <a>Slett prikk </a>
+                    <Button flat>Slett prikk </Button>
                   </ConfirmModalWithParent>
                 )}
               </li>

@@ -79,8 +79,8 @@
 }
 
 .flatButton {
-  font-family: 'Verdana', sans-serif;
-  font-size: 1em;
+  font-family: inherit;
+  font-size: inherit;
   text-align: left;
   color: var(--lego-link-color);
   background: none;
