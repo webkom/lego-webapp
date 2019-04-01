@@ -14,7 +14,8 @@
     "expect": true,
     "jest": true,
     "__DEV__": true,
-    "__CLIENT__": true
+    "__CLIENT__": true,
+    "Maze": any
   },
   "rules": {
     "react/prop-types": 2,

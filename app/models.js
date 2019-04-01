@@ -79,6 +79,7 @@ export type Event = EventBase & {
   unansweredSurveys: Array<ID>,
   responsibleGroup: Group,
   price?: number,
+  mazemapPoi: number,
 };
 
 export type TransformEvent = EventBase & {
