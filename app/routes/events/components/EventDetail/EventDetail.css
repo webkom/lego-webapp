@@ -30,3 +30,7 @@
 .unansweredSurveys h3 {
   color: var(--color-red-3);
 }
+
+.mazemap {
+  min-height: 400px;
+}
