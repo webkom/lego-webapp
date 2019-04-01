@@ -67,17 +67,23 @@ class Poll extends React.Component<Props, State> {
   // As described in: https://stackoverflow.com/questions/13483430/how-to-make-rounded-percentages-add-up-to-100
   optionsWithRatios = (options, optionsToShow) => {
     const totalVotes = options.reduce((a, option) => a + option.votes, 0);
-    const ratios = optionsToShow.map(option => {
+    return optionsToShow.map(option => {
       return {...option, "ratio": option.votes / totalVotes * 100}
     });
-    const off = 100 - ratios.reduce((a, option) => a + Math.floor(option.ratio), 0);
-    return ratios
-        .sort(option => Math.floor(option.ratio) - option.ratio)
+  };
+
+  perfectRatios = (options) => {
+    const off = 100 - options.reduce((a, option) => a + Math.floor(option.ratio), 0);
+    return options
+        .sort((a, b) => {
+          const aDiff = a.ratio - Math.floor(a.ratio);
+          const bDiff = b.ratio - Math.floor(b.ratio);
+          return aDiff <= bDiff;
+        })
         .map((option, index) => {
           return {...option, "ratio": Math.floor(option.ratio) + (index < off ? 1 : 0)}
         })
-        .sort(option => option.ratio)
-        .reverse();
+        .sort((a, b) => a.ratio > b.ratio)
   };
 
   render() {
@@ -114,27 +120,27 @@ class Poll extends React.Component<Props, State> {
           <Flex column className={styles.optionWrapper}>
             <table className={styles.pollTable}>
               <tbody>
-                {this.optionsWithRatios(options, optionsToShow).map(option => {
+                {this.perfectRatios(this.optionsWithRatios(options, optionsToShow)).map(({id, name, votes, ratio}) => {
                   return (
-                    <tr key={option.id}>
-                      <td className={styles.textColumn}>{option.name}</td>
+                    <tr key={id}>
+                      <td className={styles.textColumn}>{name}</td>
                       <td className={styles.graphColumn}>
-                        {option.votes === 0 ? (
+                        {votes === 0 ? (
                             <span className={styles.noVotes}>Ingen stemmer</span>
                             ) : (
                           <div className={styles.fullGraph}>
                             <div
                               style={{
-                                width: `${option.ratio}%`
+                                width: `${ratio}%`
                               }}
                             >
                               <div className={styles.pollGraph}>
-                                {option.ratio >= 18 && <span>{`${option.ratio}%`}</span>}
+                                {ratio >= 18 && <span>{`${ratio}%`}</span>}
                               </div>
                             </div>
-                            {option.ratio < 18 && (
+                            {ratio < 18 && (
                               <span style={{ marginLeft: '2px' }}>
-                                {`${option.ratio}%`}
+                                {`${ratio}%`}
                               </span>
                             )}
                           </div>
