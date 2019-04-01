@@ -8,7 +8,7 @@ import { Link } from 'react-router';
 import { Flex } from 'app/components/Layout';
 import { colorForEvent } from 'app/routes/events/utils';
 import styles from './EventItem.css';
-import eventStatus from 'app/utils/eventStatus';
+import { eventStatus } from 'app/utils/eventStatus';
 
 type Props = {
   item: Event,

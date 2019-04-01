@@ -10,27 +10,21 @@ import Time from 'app/components/Time';
 import Tag from 'app/components/Tags/Tag';
 import { Flex } from 'app/components/Layout';
 import type { Event, EventTimeType } from 'app/models';
-import moment from 'moment-timezone';
 import { EVENTFIELDS } from 'app/utils/constants';
+import { eventStatus, eventAttendance } from 'app/utils/eventStatus';
 
 type AttendanceProps = {
-  registrationCount: number,
-  totalCapacity: number,
   event: Event
 };
 
-const Attendance = ({
-  registrationCount,
-  totalCapacity,
-  event
-}: AttendanceProps) => {
-  const isFuture = moment().isBefore(event.activationTime);
+const Attendance = ({ event }: AttendanceProps) => {
+  const attendance = eventAttendance(event);
   return (
-    <Pill style={{ marginLeft: '5px', color: 'black', whiteSpace: 'nowrap' }}>
-      {isFuture
-        ? `${totalCapacity} plasser`
-        : `${registrationCount} / ${totalCapacity}`}
-    </Pill>
+    attendance && (
+      <Pill style={{ marginLeft: '5px', color: 'black', whiteSpace: 'nowrap' }}>
+        {attendance}
+      </Pill>
+    )
   );
 };
 
@@ -40,16 +34,15 @@ type TimeStampProps = {
 };
 
 const TimeStamp = ({ event, field }: TimeStampProps) => {
-  const isFuture = moment().isBefore(event.activationTime);
-
-  const registration = isFuture
-    ? `Påmelding åpner ${moment(event.activationTime).format('ll HH:mm')}`
-    : `Påmelding åpen!`;
-
+  const registration = eventStatus(event, true);
   return (
     <div className={styles.eventTime}>
-      {registration}
-      <br />
+      {registration && (
+        <span>
+          {registration}
+          <br />
+        </span>
+      )}
       Starter <Time time={event.startTime} format="ll - HH:mm" />
     </div>
   );
