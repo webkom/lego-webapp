@@ -218,7 +218,10 @@ export default class EventDetail extends Component<Props> {
 
     return (
       <div>
-        <Content banner={event.cover || (event.company && event.company.logo)}>
+        <Content
+          banner={event.cover || (event.company && event.company.logo)}
+          youtubeUrl={event.youtubeUrl}
+        >
           <ContentHeader
             borderColor={color}
             onClick={onRegisterClick}

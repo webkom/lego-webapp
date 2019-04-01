@@ -19,6 +19,10 @@ import {
   legoForm
 } from 'app/components/Form';
 import { Form, Fields, Field } from 'redux-form';
+import { createValidator, validYoutubeUrl } from 'app/utils/validation';
+import Flex from 'app/components/Layout/Flex';
+import Tooltip from 'app/components/Tooltip';
+import Icon from 'app/components/Icon';
 
 /**
  *
@@ -64,6 +68,30 @@ const ArticleEditor = ({
           aspectRatio={20 / 6}
           img={article && article.cover}
         />
+        <Flex>
+          <Field
+            name="youtubeUrl"
+            label={
+              <Flex>
+                <div>Erstatt cover-bildet med video fra YouTube</div>
+                <div style={{ marginLeft: '5px' }}>
+                  <Tooltip
+                    style={{ marginLeft: '3px' }}
+                    content="Valgfritt felt. Videoen erstatter ikke coveret i listen over artikler."
+                  >
+                    <Icon
+                      name="information-circle-outline"
+                      size={20}
+                      style={{ cursor: 'pointer' }}
+                    />
+                  </Tooltip>
+                </div>
+              </Flex>
+            }
+            placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
+            component={TextInput.Field}
+          />
+        </Flex>
         <Field
           label="Festet på forsiden"
           name="pinned"
@@ -134,6 +162,7 @@ const onSubmit = (
     ...(isNew ? {} : { id: articleId }),
     ...(data.cover ? { cover: data.cover } : {}),
     ...normalizeObjectPermissions(data),
+    youtubeUrl: data.youtubeUrl,
     title: data.title,
     author: currentUser.id,
     description: data.description,
@@ -148,6 +177,9 @@ const onSubmit = (
 export default legoForm({
   destroyOnUnmount: false,
   form: 'article',
+  validate: createValidator({
+    youtubeUrl: [validYoutubeUrl()]
+  }),
   enableReinitialize: true,
   onSubmit
 })(ArticleEditor);
