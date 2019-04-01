@@ -1,9 +1,11 @@
 // @flow
 
 import { createSelector } from 'reselect';
+import { get } from 'lodash';
 import { Search } from '../actions/ActionTypes';
 import moment from 'moment-timezone';
 import { resolveGroupLink } from 'app/reducers/groups';
+import { categoryOptions } from 'app/reducers/pages';
 
 export type SearchResult = {
   label: string,
@@ -64,14 +66,15 @@ const searchMapping = {
     icon: 'paper-outline',
     label: 'title',
     title: 'title',
-    type: 'Side',
+    type: page =>
+      'Infoside - ' +
+      get(categoryOptions.find(val => val.value === page.category), 'label'),
     color: '#E8953A',
-    path: '/pages/generelt/',
+    link: page => `/pages/${page.category}/${page.slug}`,
     value: 'slug',
     content: 'content'
   },
   'gallery.gallery': {
-    profilePicture: 'picture',
     label: 'title',
     title: 'title',
     type: 'Galleri',
@@ -91,17 +94,11 @@ const searchMapping = {
     value: 'id',
     content: 'description'
   },
-  'companies.companycontact': {
-    label: 'name',
-    title: 'name',
-    company: 'company',
-    value: 'id'
-  },
   'tags.tag': {
     label: 'id',
     title: 'id',
     type: 'Tag',
-    path: '/tags/', // Not yet implemented
+    path: '/tags/',
     icon: 'pricetags',
     value: 'tag',
     color: '#000000'
