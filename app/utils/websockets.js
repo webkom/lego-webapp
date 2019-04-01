@@ -26,8 +26,8 @@ export default function createWebSocketMiddleware() {
         };
 
         if (
-          payload.user.id === meta.currentUser.id &&
-          type === Event.SOCKET_REGISTRATION.SUCCESS
+          type === Event.SOCKET_REGISTRATION.SUCCESS &&
+          payload.user.id === meta.currentUser.id
         ) {
           store.dispatch(isUserFollowing(meta.eventId));
         }
