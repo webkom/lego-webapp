@@ -34,7 +34,7 @@ class SearchPage extends Component<Props, State> {
       Math.max(nextProps.results.length - 1, 0)
     );
 
-    this.setState({ selectedIndex });
+    this.setState({ selectedIndex, query: nextProps.location.query.q });
   }
 
   handleKeyDown = (e: KeyboardEvent) => {
