@@ -47,7 +47,7 @@ const searchMapping = {
     color: '#52B0EC',
     path: '/articles/',
     value: 'id',
-    content: 'description'
+    content: item => item['description']
   },
   'events.event': {
     label: event =>
@@ -60,7 +60,7 @@ const searchMapping = {
     picture: 'cover',
     path: '/events/',
     value: 'id',
-    content: 'description'
+    content: item => item['description']
   },
   'flatpages.page': {
     icon: 'paper-outline',
@@ -72,7 +72,7 @@ const searchMapping = {
     color: '#E8953A',
     link: page => `/pages/${page.category}/${page.slug}`,
     value: 'slug',
-    content: 'content'
+    content: item => item['content']
   },
   'gallery.gallery': {
     label: 'title',
@@ -82,7 +82,7 @@ const searchMapping = {
     icon: 'photos',
     path: '/photos/',
     value: 'id',
-    content: 'text'
+    content: item => item['text']
   },
   'companies.company': {
     icon: 'briefcase',
@@ -92,7 +92,7 @@ const searchMapping = {
     color: '#E8953A',
     path: '/companies/',
     value: 'id',
-    content: 'description'
+    content: item => item['description']
   },
   'tags.tag': {
     label: 'id',
