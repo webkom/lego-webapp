@@ -62,15 +62,17 @@ const BrandPage = () => (
               <li>Endrer farger på logoen</li>
               <li>Dekker til deler av logoen</li>
               <li>
+                Bruker kula for seg selv, fordi da blir det vanskelig å skjønne
+                at det er Abakus-logoen
+              </li>
+              <li>
                 Bruker gamle versjoner av merker eller logoen til å representere
                 oss
               </li>
               <li>Endrer størrelsen eller forholdet mellom kula og teksten</li>
-              <li>Flytter kula eller teksten</li>
-              <li>
-                Bruker kula for seg selv, fordi da blir det vanskelig å skjønne
-                at det er Abakus-logoen
-              </li>
+              <li>Flytter kula eller teksten i forhold til hverandre</li>
+              <li>Legge til skygge på logoen</li>
+              <li>Gjøre logoen delvis gjennomsiktig</li>
             </ul>
           </Flex>
           <Flex column className={styles.colRight}>
@@ -82,6 +84,32 @@ const BrandPage = () => (
           <Button>
             <a
               href="https://github.com/abakus-ntnu/grafisk-profil/archive/master.zip"
+              download="proposed_file_name"
+            >
+              Last Ned
+            </a>
+          </Button>
+          <h2>Abakusfarger</h2>
+          <ul>
+            <li>Hvit: CMYK(0,0,0,0)</li>
+            <li>Svart: CMYK(0,0,0,95)</li>
+            <li>Lysegrå: CMYK(48,39,42,39) HEX(525251)</li>
+            <li>Grå: CMYK(53,44,46,52) HEX(343434)</li>
+            <li>
+              Lyserød: CMYK(1,98,98,0) — (Fra logo:)(5,100,100,1) HEX(E20D13)
+            </li>
+            <li>
+              Mørkerød: CMYK(20,99,100,13) — (Fra logo:)(18,100,100,9)
+              HEX(BC1818)
+            </li>
+          </ul>
+          <h2>Powerpointmal</h2>
+          <p>
+            Denne malen skal brukes for presentasjoner som holdes i Abakus-regi
+          </p>
+          <Button>
+            <a
+              href="https://github.com/abakus-ntnu/grafisk-profil/blob/master/maler/Abakus%20-%20Presentasjonsmal.pptx?raw=true"
               download="proposed_file_name"
             >
               Last Ned
