@@ -80,7 +80,7 @@ const BrandPage = () => (
           </Flex>
         </Flex>
         <div>
-          <h2>Logoer i vektorformat</h2>
+          <h2 className={styles.h2Padding}>Logoer i vektorformat</h2>
           <Button>
             <a
               href="https://github.com/abakus-ntnu/grafisk-profil/archive/master.zip"
@@ -89,7 +89,7 @@ const BrandPage = () => (
               Last Ned
             </a>
           </Button>
-          <h2>Abakusfarger</h2>
+          <h2 className={styles.h2Padding}>Abakusfarger</h2>
           <ul>
             <li>Hvit: CMYK(0,0,0,0)</li>
             <li>Svart: CMYK(0,0,0,95)</li>
@@ -103,7 +103,7 @@ const BrandPage = () => (
               HEX(BC1818)
             </li>
           </ul>
-          <h2>Powerpointmal</h2>
+          <h2 className={styles.h2Padding}>Powerpointmal</h2>
           <p>
             Denne malen skal brukes for presentasjoner som holdes i Abakus-regi
           </p>
