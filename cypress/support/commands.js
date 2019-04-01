@@ -1,17 +1,43 @@
-Cypress.Commands.add('login', (username = 'webkom', password = 'Webkom123') => {
-  const base = Cypress.env('API_BASE_URL') || 'http://localhost:8000';
-  const url = base + '/authorization/token-auth/';
-  return cy
-    .request({
-      method: 'POST',
-      url: url,
-      body: { username, password }
-    })
-    .its('body')
-    .then(body => {
-      cy.setCookie('lego.auth', body.token);
+Cypress.Commands.add(
+  'getAuthToken',
+  (username = 'webkom', password = 'Webkom123') => {
+    const base = Cypress.env('API_BASE_URL') || 'http://localhost:8000';
+    const url = base + '/authorization/token-auth/';
+    return cy
+      .request({
+        method: 'POST',
+        url: url,
+        body: { username, password }
+      })
+      .its('body')
+      .then(body => body.token);
+  }
+);
+
+Cypress.Commands.add('setAuthToken', token => cy.setCookie('lego.auth', token));
+
+Cypress.Commands.add('login', (username = 'webkom', password = 'Webkom123') =>
+  cy.getAuthToken(username, password).then(cy.setAuthToken)
+);
+
+const cachedTokens = {};
+
+// We can cache auth tokens between runs because they are JWT, so a DB reset should not affect them
+// Use login instead of you change passwords and want to see that login works or if you are doing
+// anything else that might be affected by caching.
+Cypress.Commands.add(
+  'cachedLogin',
+  (username = 'webkom', password = 'Webkom123') => {
+    if (cachedTokens[username]) {
+      cy.log('cached token found');
+      return cy.setAuthToken(cachedTokens[username]);
+    }
+    return cy.getAuthToken(username, password).then(token => {
+      cachedTokens[username] = token;
+      return cy.setAuthToken(token);
     });
-});
+  }
+);
 
 Cypress.Commands.add(
   'upload_file',
@@ -36,3 +62,7 @@ Cypress.Commands.add('resetDb', () => {
     url: resetDbApi
   });
 });
+
+Cypress.Commands.overwrite('type', (originalFn, subject, string, options) =>
+  originalFn(subject, string, Object.assign({}, options, { delay: 1 }))
+);

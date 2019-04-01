@@ -3,7 +3,7 @@ import { field, fieldError } from '../support/utils.js';
 describe('Change password', () => {
   beforeEach(() => {
     cy.resetDb();
-    cy.login();
+    cy.cachedLogin();
   });
 
   const password = 'Webkom123';

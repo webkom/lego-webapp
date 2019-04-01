@@ -3,7 +3,7 @@ import { c, field, fieldError } from '../support/utils.js';
 describe('Profile settings', () => {
   beforeEach(() => {
     cy.resetDb();
-    cy.login();
+    cy.cachedLogin();
   });
 
   // This user is in initial backend

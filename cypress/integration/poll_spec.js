@@ -3,7 +3,7 @@ import { c, field, fieldError } from '../support/utils.js';
 describe('Polls', () => {
   beforeEach(() => {
     cy.resetDb();
-    cy.login();
+    cy.cachedLogin();
   });
 
   const poll_form = {

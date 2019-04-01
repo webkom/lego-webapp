@@ -3,7 +3,7 @@ import { c, field, fieldError } from '../support/utils.js';
 describe('Create event', () => {
   beforeEach(() => {
     cy.resetDb();
-    cy.login();
+    cy.cachedLogin();
   });
 
   it('Makes sure required fields are filled before allowing submit', () => {
