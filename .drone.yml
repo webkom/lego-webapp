@@ -11,12 +11,42 @@ steps:
       CYPRESS_INSTALL_BINARY: 0
     commands:
       - yarn --frozen-lockfile
-  - name: build_and_cypress
-    # image: cypress/base:10 # Tests exit and "succeed" prematurely with this for some reason
+  - name: build
+    image: node:11
+    depends_on: [setup]
+    when:
+      event: push
+    commands:
+      - yarn build
+  - name: ssr
+    image: node:11
+    depends_on: [build]
+    when:
+      event: push
+    ports:
+      - 3000
+    environment:
+      API_URL: http://api:8000/api/v1
+      BASE_URL: http://api:8000
+      WS_URL: ws://api:8000
+    detach: true
+    commands:
+      - yarn ssr
+  - name: install_cypress
     image: cypress/browsers:chrome69
     when:
       event: push
     depends_on: [setup]
+    environment:
+      CYPRESS_CACHE_FOLDER: /drone/src/.cypress_cache
+    commands:
+      - yarn cypress install
+  - name: cypress
+    # image: cypress/base:10 # tests exit and "succeed" prematurely with this for some reason
+    image: cypress/browsers:chrome69
+    when:
+      event: push
+    depends_on: [install_cypress, ssr]
     resources:
       limits:
         cpu: 4
@@ -28,19 +58,15 @@ steps:
       - name: droneshm
         path: /dev/shm
     environment:
-      API_URL: http://api:8000/api/v1
-      BASE_URL: http://api:8000
-      WS_URL: ws://api:8000
       CYPRESS_API_BASE_URL: http://api:8000
       CYPRESS_RESET_DB_API: http://legocypresshelper:3030
-      # - ENVIRONMENT=production # Disable because of secure cookies breaking SSR
+      CYPRESS_BASE_URL: http://ssr:3000
+      CYPRESS_CACHE_FOLDER: /drone/src/.cypress_cache
       CYPRESS_RECORD_KEY:
         from_secret: cypress_record_key
     commands:
-      - yarn cypress:prepare # Runs build and cypress install
-      - yarn ssr &
       - ./wait-for-it.sh -t 180 api:8000
-      - ./wait-for-it.sh -t 180 localhost:3000
+      - ./wait-for-it.sh -t 180 ssr:3000
       - ./wait-for-it.sh -t 180 legocypresshelper:3030
       - yarn cypress run --record
       - echo "finished."
@@ -91,7 +117,7 @@ steps:
     environment:
       SENTRY_AUTH_KEY:
         from_secret: sentry_auth_key
-    depends_on: [build_and_cypress, test, lint, flow]
+    depends_on: [build, cypress, test, lint, flow]
 
 services:
   - name: postgres
@@ -104,6 +130,8 @@ services:
       event: push
   - name: legocypresshelper
     image: abakus/lego-cypress-helper:latest
+    when:
+      event: push
     ports:
       - 3030
     environment:
@@ -112,7 +140,7 @@ services:
       PG_DATABASE: lego
     commands:
       - cd /app
-      - ./wait-for-it.sh -t 420 api:8000 # Wait for API because it runs migrations+fixtures
+      - ./wait-for-it.sh -t 420 api:8000 # wait for api because it runs migrations+fixtures
       - node index.js
       - echo "server stopped"
   - name: minio
@@ -169,13 +197,13 @@ services:
     ports:
       - 8000
     commands:
-      - sleep 30 # If we don't sleep, the service hostnames may not resolve
+      - sleep 30 # if we don't sleep, the service hostnames may not resolve
       - ./wait-for-it.sh -t 60 postgres:5432
       - ./wait-for-it.sh -t 60 redis:6379
       - ./wait-for-it.sh -t 60 minio:9000
       - ./wait-for-it.sh -t 60 thumbor:80
       - ./wait-for-it.sh -t 60 elasticsearch:9200
-      - cd /app # Workdir is webapp code by default
+      - cd /app # workdir is webapp code by default
       - python manage.py reset_db --noinput
       - python manage.py migrate
       - python manage.py migrate_search
@@ -188,7 +216,7 @@ services:
       DATABASE_URL: postgres://lego@postgres:5432/lego
       SECRET_KEY: abc123
       SERVER_URL: http://api:8000
-      FRONTEND_URL: http://localhost:3000
+      FRONTEND_URL: http://ssr:3000
       CACHE_URL: rediscache://redis/0?client_class=django_redis.client.DefaultClient
       EMAIL_URL: smtp://localhost
       AWS_ACCESS_KEY_ID: lego-dev
