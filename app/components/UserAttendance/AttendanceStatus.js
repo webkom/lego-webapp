@@ -4,6 +4,7 @@ import React from 'react';
 import styles from './AttendanceStatus.css';
 import withModal from './withModal';
 import type { EventPool } from 'app/models';
+import Button from 'app/components/Button';
 
 type AttendanceElementProps = {
   pool: EventPool,
@@ -18,16 +19,18 @@ const AttendanceElement = ({
 }: AttendanceElementProps) => {
   const totalCount = registrations ? registrations.length : registrationCount;
   const Status = () => (
-    <strong>{`${totalCount}/${capacity ? capacity : '∞'}`}</strong>
+    <strong>
+      <p>{`${totalCount}/${capacity ? capacity : '∞'}`}</p>
+    </strong>
   );
 
   return (
     <div className={styles.poolBox}>
       <strong>{name}</strong>
       {registrations ? (
-        <a onClick={() => toggleModal(index)}>
+        <Button flat onClick={() => toggleModal(index)}>
           <Status />
-        </a>
+        </Button>
       ) : (
         <Status />
       )}

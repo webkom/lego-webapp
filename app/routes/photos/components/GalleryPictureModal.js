@@ -16,6 +16,7 @@ import styles from './GalleryPictureModal.css';
 import Swipeable from 'react-swipeable';
 import type { EntityID } from 'app/types';
 import type { ID } from 'app/models';
+import Button from 'app/components/Button';
 
 type Props = {
   picture: Object,
@@ -89,13 +90,13 @@ const RenderGalleryPicture = ({
   clickedDeletePicture: number
 }) => (
   <div>
-    <a onClick={() => handleDelete(id)}>
+    <Button flat onClick={() => handleDelete(id)}>
       <i
         className="fa fa-minus-circle"
         style={{ color: '#C24538', padding: '15px' }}
       />
       {clickedDeletePicture === id ? 'Er du sikker?' : 'Slett'}
-    </a>
+    </Button>
   </div>
 );
 

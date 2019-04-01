@@ -9,6 +9,7 @@ import Icon from 'app/components/Icon';
 import CommentView from 'app/components/Comments/CommentView';
 import type { ID, ActionGrant } from 'app/models';
 import type { QuoteEntity } from 'app/reducers/quotes';
+import Button from 'app/components/Button';
 
 type Props = {
   quote: QuoteEntity,
@@ -82,7 +83,8 @@ export default class Quote extends Component<Props, State> {
 
             <div className={styles.bottomRight}>
               <div className={styles.commentCount}>
-                <a
+                <Button
+                  flat
                   onClick={() =>
                     this.setState(state => ({
                       showComments: !state.showComments
@@ -94,7 +96,7 @@ export default class Quote extends Component<Props, State> {
                     style={{ marginRight: '5px' }}
                   />
                   {quote.comments ? quote.comments.length : quote.commentCount}
-                </a>
+                </Button>
               </div>
 
               {actionGrant && actionGrant.includes('approve') && (
@@ -112,7 +114,8 @@ export default class Quote extends Component<Props, State> {
                   >
                     <Dropdown.List>
                       <Dropdown.ListItem>
-                        <a
+                        <Button
+                          flat
                           className="approveQuote"
                           onClick={() =>
                             quote.approved
@@ -121,12 +124,13 @@ export default class Quote extends Component<Props, State> {
                           }
                         >
                           {quote.approved ? 'Fjern Godkjenning' : 'Godkjenn'}
-                        </a>
+                        </Button>
                       </Dropdown.ListItem>
                       <Dropdown.Divider />
                       {!this.state.deleting ? (
                         <Dropdown.ListItem>
-                          <a
+                          <Button
+                            flat
                             className={styles.deleteQuote}
                             onClick={e => {
                               if (e) {
@@ -137,17 +141,18 @@ export default class Quote extends Component<Props, State> {
                             }}
                           >
                             Slett
-                          </a>
+                          </Button>
                         </Dropdown.ListItem>
                       ) : (
                         <Dropdown.ListItem>
-                          <a
+                          <Button
+                            flat
                             className={styles.deleteQuote}
                             onClick={() => deleteQuote(quote.id)}
                             style={{ fontWeight: 600 }}
                           >
                             Er du sikker?
-                          </a>
+                          </Button>
                         </Dropdown.ListItem>
                       )}
                     </Dropdown.List>

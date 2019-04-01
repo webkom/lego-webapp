@@ -46,13 +46,13 @@ const RenderCompanyActions = ({
   fetching: boolean,
   clickedCompanyInterest: number
 }) => (
-  <a onClick={() => handleDelete(id)}>
+  <Button flat onClick={() => handleDelete(id)}>
     <i
       className="fa fa-minus-circle"
       style={{ color: '#C24538', marginRight: '5px' }}
     />
     {clickedCompanyInterest === id ? 'Er du sikker?' : 'Slett'}
-  </a>
+  </Button>
 );
 
 class CompanyInterestList extends Component<Props, State> {

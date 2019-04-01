@@ -10,6 +10,7 @@ import { isEmpty } from 'lodash';
 import InfiniteScroll from 'react-infinite-scroller';
 import styles from './Table.css';
 import { get } from 'lodash';
+import Button from '../Button';
 
 type sortProps = {
   direction?: 'asc' | 'desc',
@@ -210,20 +211,22 @@ export default class Table extends Component<Props, State> {
             >
               <div className={styles.checkbox}>
                 {filter.map(({ label, value }) => (
-                  <CheckBox
-                    key={label}
-                    label={label}
-                    value={value === this.state.filters[dataIndex]}
-                    onChange={() => this.onFilterInput(value, dataIndex)}
-                  />
+                  <p key={label}>
+                    <CheckBox
+                      label={label}
+                      value={value === this.state.filters[dataIndex]}
+                      onChange={() => this.onFilterInput(value, dataIndex)}
+                    />
+                  </p>
                 ))}
-                <a
+                <Button
+                  flat
                   onClick={() =>
                     this.setState({ filters: { [dataIndex]: undefined } })
                   }
                 >
                   Nullstill
-                </a>
+                </Button>
               </div>
             </Overlay>
           </div>
