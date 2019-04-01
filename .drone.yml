@@ -130,6 +130,7 @@ services:
       event: push
   - name: legocypresshelper
     image: abakus/lego-cypress-helper:latest
+    pull: always
     when:
       event: push
     ports:
@@ -176,15 +177,6 @@ services:
       LOADER: tc_aws.loaders.s3_loader
     when:
       event: push
-  - name: elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:6.2.1
-    ports:
-      - 9200
-    environment:
-      ES_JAVA_OPTS: -Xms512m -Xmx512m
-      HEAP_SIZE: 1g
-    when:
-      event: push
   - name: redis
     image: redis
     ports:
@@ -192,7 +184,7 @@ services:
     when:
       event: push
   - name: api
-    image: registry.abakus.no/webkom/lego:latest
+    image: registry.abakus.no/webkom/lego:pgsearch
     pull: always
     ports:
       - 8000
@@ -202,7 +194,6 @@ services:
       - ./wait-for-it.sh -t 60 redis:6379
       - ./wait-for-it.sh -t 60 minio:9000
       - ./wait-for-it.sh -t 60 thumbor:80
-      - ./wait-for-it.sh -t 60 elasticsearch:9200
       - cd /app # workdir is webapp code by default
       - python manage.py reset_db --noinput
       - python manage.py migrate
@@ -229,7 +220,6 @@ services:
       SENTRY: http://sentry:sentry@localhost/2
       CELERY_BROKER_URL: redis://redis/1
       CHANNELS_REDIS_URL: redis://redis/2
-      ELASTICSEARCH_HOST: http://elasticsearch
       STRIPE_API_KEY: 123
       STRIPE_WEBHOOK_SECRET: 123
       CAPTCHA_KEY: 123
@@ -237,6 +227,8 @@ services:
       LDAP_USER: 123
       LDAP_PASSWORD: 123
       APNS_CERTIFICATE: 123
+      SEARCH_BACKEND: postgres
+      ELASTICSEARCH_HOST: ignored
     when:
       event: push
 
