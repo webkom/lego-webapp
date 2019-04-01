@@ -203,9 +203,7 @@ const transformResult = result => {
     }
   });
 
-  //if (!item.link && !item.path) return null;
-
-  item.link = item.link || item.path + item.value;
+  item.link = fields.link ? item.link : item.path + item.value;
   return item;
 };
 

@@ -115,7 +115,7 @@ class Search extends Component<Props, State> {
           <SearchResults
             query={query}
             searching={searching}
-            results={results}
+            results={results.filter(({ link }) => link)}
             navigationLinks={regularLinks}
             adminLinks={adminLinks}
             onCloseSearch={onCloseSearch}

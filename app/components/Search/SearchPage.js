@@ -93,7 +93,7 @@ class SearchPage extends Component<Props, State> {
           onKeyDown={this.handleKeyDown}
           onSelect={this.handleSelect}
           query={this.state.query}
-          results={results}
+          results={results.filter(({ link }) => link)}
           selectedIndex={this.state.selectedIndex}
         />
       </div>
