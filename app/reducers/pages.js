@@ -174,3 +174,9 @@ export const selectInfoPageForPages = createSelector(
     selectedPage: {}
   })
 );
+export const categoryOptions = [
+  { value: 'arrangementer', label: 'Arrangementer' },
+  { value: 'bedrifter', label: 'Bedrifter' },
+  { value: 'generelt', label: 'Generelt' },
+  { value: 'grupper', label: 'Grupper' }
+];

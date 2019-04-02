@@ -1,9 +1,11 @@
 // @flow
 
 import { createSelector } from 'reselect';
+import { get } from 'lodash';
 import { Search } from '../actions/ActionTypes';
 import moment from 'moment-timezone';
 import { resolveGroupLink } from 'app/reducers/groups';
+import { categoryOptions } from 'app/reducers/pages';
 
 export type SearchResult = {
   label: string,
@@ -45,7 +47,7 @@ const searchMapping = {
     color: '#52B0EC',
     path: '/articles/',
     value: 'id',
-    content: 'description'
+    content: item => item['description']
   },
   'events.event': {
     label: event =>
@@ -58,20 +60,21 @@ const searchMapping = {
     picture: 'cover',
     path: '/events/',
     value: 'id',
-    content: 'description'
+    content: item => item['description']
   },
   'flatpages.page': {
     icon: 'paper-outline',
     label: 'title',
     title: 'title',
-    type: 'Side',
+    type: page =>
+      'Infoside - ' +
+      get(categoryOptions.find(val => val.value === page.category), 'label'),
     color: '#E8953A',
-    path: '/pages/generelt/',
+    link: page => `/pages/${page.category}/${page.slug}`,
     value: 'slug',
-    content: 'content'
+    content: item => item['content']
   },
   'gallery.gallery': {
-    profilePicture: 'picture',
     label: 'title',
     title: 'title',
     type: 'Galleri',
@@ -79,7 +82,7 @@ const searchMapping = {
     icon: 'photos',
     path: '/photos/',
     value: 'id',
-    content: 'text'
+    content: item => item['text']
   },
   'companies.company': {
     icon: 'briefcase',
@@ -89,19 +92,13 @@ const searchMapping = {
     color: '#E8953A',
     path: '/companies/',
     value: 'id',
-    content: 'description'
-  },
-  'companies.companycontact': {
-    label: 'name',
-    title: 'name',
-    company: 'company',
-    value: 'id'
+    content: item => item['description']
   },
   'tags.tag': {
     label: 'id',
     title: 'id',
     type: 'Tag',
-    path: '/tags/', // Not yet implemented
+    path: '/tags/',
     icon: 'pricetags',
     value: 'tag',
     color: '#000000'
@@ -203,9 +200,7 @@ const transformResult = result => {
     }
   });
 
-  //if (!item.link && !item.path) return null;
-
-  item.link = item.link || item.path + item.value;
+  item.link = fields.link ? item.link : item.path + item.value;
   return item;
 };
 

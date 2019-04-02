@@ -62,17 +62,17 @@ class Search extends Component<Props, State> {
         });
         break;
 
-      case Keyboard.ENTER:
+      case Keyboard.ENTER: {
         e.preventDefault();
-        if (this.state.selectedIndex === 0) {
+        const result = this.props.results[this.state.selectedIndex - 1];
+        if (this.state.selectedIndex === 0 || !result) {
           this.props.openSearchRoute(this.state.query);
         } else {
-          const result = this.props.results[this.state.selectedIndex - 1];
           this.props.push(result.link);
         }
         this.props.onCloseSearch();
         break;
-
+      }
       default:
     }
   };
@@ -115,7 +115,7 @@ class Search extends Component<Props, State> {
           <SearchResults
             query={query}
             searching={searching}
-            results={results}
+            results={results.filter(({ link }) => link)}
             navigationLinks={regularLinks}
             adminLinks={adminLinks}
             onCloseSearch={onCloseSearch}
