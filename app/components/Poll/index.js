@@ -64,7 +64,6 @@ class Poll extends React.Component<Props, State> {
       : this.setState({ optionsToShow: options, expanded: true });
   };
 
-  // As described in: https://stackoverflow.com/questions/13483430/how-to-make-rounded-percentages-add-up-to-100
   optionsWithRatios = (options, optionsToShow) => {
     const totalVotes = options.reduce((a, option) => a + option.votes, 0);
     return optionsToShow.map(option => {
@@ -72,18 +71,19 @@ class Poll extends React.Component<Props, State> {
     });
   };
 
+  // As described in: https://stackoverflow.com/questions/13483430/how-to-make-rounded-percentages-add-up-to-100
   perfectRatios = (options) => {
     const off = 100 - options.reduce((a, option) => a + Math.floor(option.ratio), 0);
     return options
         .sort((a, b) => {
-          const aDiff = a.ratio - Math.floor(a.ratio);
-          const bDiff = b.ratio - Math.floor(b.ratio);
-          return aDiff <= bDiff;
+          const aMantissa = a.ratio - Math.floor(a.ratio);
+          const bMantissa = b.ratio - Math.floor(b.ratio);
+          return aMantissa < bMantissa;
         })
         .map((option, index) => {
           return {...option, "ratio": Math.floor(option.ratio) + (index < off ? 1 : 0)}
         })
-        .sort((a, b) => a.ratio > b.ratio)
+        .sort((a, b) => b.ratio - a.ratio)
   };
 
   render() {
