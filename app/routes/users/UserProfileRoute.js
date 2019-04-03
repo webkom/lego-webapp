@@ -10,10 +10,10 @@ import {
   changeGrade
 } from 'app/actions/UserActions';
 import { fetchAllWithType } from 'app/actions/GroupActions';
-import { fetchUpcoming } from 'app/actions/EventActions';
+import { fetchPrevious, fetchUpcoming } from 'app/actions/EventActions';
 import { fetchUserFeed } from 'app/actions/FeedActions';
 import { selectUserWithGroups } from 'app/reducers/users';
-import { selectUpcomingEvents } from 'app/reducers/events';
+import { selectPreviousEvents, selectUpcomingEvents } from 'app/reducers/events';
 import { selectGroupsWithType } from 'app/reducers/groups';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import loadingIndicator from 'app/utils/loadingIndicator';
@@ -24,6 +24,7 @@ import { LoginPage } from 'app/components/LoginForm';
 const loadData = ({ params: { username } }, dispatch) => {
   return dispatch(fetchUser(username)).then(action =>
     Promise.all([
+      dispatch(fetchPrevious()),
       dispatch(fetchUpcoming()),
       dispatch(fetchAllWithType('klasse'))
     ])
@@ -42,6 +43,7 @@ const mapStateToProps = (state, props) => {
   const user = selectUserWithGroups(state, { username });
   let feed;
   let feedItems;
+  const previousEvents = selectPreviousEvents(state);
   const upcomingEvents = selectUpcomingEvents(state);
   let penalties;
   if (user) {
@@ -67,6 +69,7 @@ const mapStateToProps = (state, props) => {
     auth: state.auth,
     loggedIn: props.loggedIn,
     user,
+    previousEvents,
     upcomingEvents,
     feed,
     feedItems,

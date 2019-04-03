@@ -19,6 +19,22 @@ export type EventEntity = {
 
 function mutateEvent(state: any, action: any) {
   switch (action.type) {
+    case Event.FETCH_PREVIOUS.SUCCESS: {
+      const events = action.payload.result.reduce(
+          (total, id) => ({
+            ...total,
+            [id]: {
+              ...action.payload.entities.events[id],
+              isUsersUpcoming: false
+            }
+          }),
+          {}
+      );
+      return {
+        ...state,
+        byId: mergeObjects(state.byId, events)
+      };
+    }
     case Event.FETCH_UPCOMING.SUCCESS: {
       const events = action.payload.result.reduce(
         (total, id) => ({
@@ -218,7 +234,7 @@ const mutate = joinReducers(mutateComments('events'), mutateEvent);
 export default createEntityReducer({
   key: 'events',
   types: {
-    fetch: [Event.FETCH, Event.FETCH_UPCOMING]
+    fetch: [Event.FETCH, Event.FETCH_PREVIOUS, Event.FETCH_UPCOMING]
   },
   mutate
 });
@@ -246,6 +262,11 @@ export const selectEvents = createSelector(
   state => state.events.byId,
   state => state.events.items,
   (eventsById, eventIds) => eventIds.map(id => transformEvent(eventsById[id]))
+);
+
+export const selectPreviousEvents = createSelector(
+    selectEvents,
+    events => events.filter(event => !event.isUsersUpcoming)
 );
 
 export const selectUpcomingEvents = createSelector(

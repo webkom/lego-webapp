@@ -57,6 +57,7 @@ type Props = {
   feed: Object,
   isMe: boolean,
   loading: boolean,
+  previousEvents: Array<Event>,
   upcomingEvents: Array<Event>,
   addPenalty: AddPenalty => void,
   deletePenalty: number => Promise<*>,
@@ -65,6 +66,10 @@ type Props = {
   groups: Array<Group>,
   canChangeGrade: boolean,
   changeGrade: (ID, string) => Promise<*>
+};
+
+type PreviousEventsProps = {
+  previousEvents: Array<Event>
 };
 
 type UpcomingEventsProps = {
@@ -139,6 +144,25 @@ const GroupBadge = ({ memberships }: { memberships: Array<Object> }) => {
   );
 };
 
+const PreviousEvents = ({ previousEvents }: PreviousEventsProps) => (
+    <div>
+      {previousEvents && previousEvents.length ? (
+          <Flex column wrap>
+            {previousEvents.map((event, i) => (
+                <EventItem key={i} event={event} showTags={false} />
+            ))}
+          </Flex>
+      ) : (
+          <EmptyState>
+            <h2 className={styles.emptyState}>
+              {previousEvents.length}
+              Du har ingen tidligere arrangementer
+            </h2>
+          </EmptyState>
+      )}
+    </div>
+);
+
 const UpcomingEvents = ({ upcomingEvents }: UpcomingEventsProps) => (
   <div>
     {upcomingEvents && upcomingEvents.length ? (
@@ -182,6 +206,7 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
       feedItems,
       feed,
       loading,
+      previousEvents,
       upcomingEvents,
       addPenalty,
       deletePenalty,
@@ -362,6 +387,16 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
               <Feed items={feedItems} feed={feed} />
             ) : (
               <LoadingIndicator loading />
+            )}
+            <h3>Dine tidligere arrangementer ({previousEvents.length})</h3>
+            {loading ? (
+                <LoadingIndicator margin={'20px auto'} loading />
+            ) : (
+                <PreviousEvents
+                    previousEvents={previousEvents.filter(
+                        e => e.userReg.pool !== null
+                    )}
+                />
             )}
           </div>
         </Flex>
