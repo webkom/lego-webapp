@@ -3,13 +3,15 @@ import Html from 'slate-html-serializer';
 
 const BLOCK_TAGS = {
   p: 'paragraph',
-  h2: 'h1',
+  h2: 'h2',
   h4: 'h4',
   ul: 'ul_list',
   ol: 'ol_list',
   li: 'list_item',
   pre: 'code-block',
-  img: 'image'
+  figure: 'figure',
+  img: 'image',
+  figcaption: 'image_caption'
 };
 
 const INLINE_TAGS = {
@@ -24,28 +26,48 @@ const MARK_TAGS = {
 };
 
 const rules = [
+  // Blocks
   {
     deserialize(el, next) {
       const type = BLOCK_TAGS[el.tagName.toLowerCase()];
       if (type) {
-        if (type == 'image') {
-          return {
-            object: 'block',
-            type: type,
-            data: {
-              src: el.getAttribute('src'),
-              fileKey: el.getAttribute('data-file-key')
-            }
-          };
+        switch (type) {
+          case 'figure': {
+            return {
+              object: 'block',
+              type: type,
+              data: {},
+              nodes: next(el.childNodes)
+            };
+          }
+          case 'image': {
+            return {
+              object: 'block',
+              type: type,
+              data: {
+                src: el.getAttribute('src'),
+                fileKey: el.getAttribute('data-file-key')
+              }
+            };
+          }
+          case 'image_caption': {
+            return {
+              object: 'block',
+              type: type,
+              data: {},
+              nodes: next(el.childNodes)
+            };
+          }
+          default:
+            return {
+              object: 'block',
+              type: type,
+              data: {
+                className: el.getAttribute('class')
+              },
+              nodes: next(el.childNodes)
+            };
         }
-        return {
-          object: 'block',
-          type: type,
-          data: {
-            className: el.getAttribute('class')
-          },
-          nodes: next(el.childNodes)
-        };
       }
     },
     serialize(obj, children) {
@@ -53,7 +75,7 @@ const rules = [
         switch (obj.type) {
           case 'paragraph':
             return <p>{children}</p>;
-          case 'h1':
+          case 'h2':
             return <h2>{children}</h2>;
           case 'h4':
             return <h4>{children}</h4>;
@@ -70,6 +92,8 @@ const rules = [
                 <code>{children}</code>
               </pre>
             );
+          case 'figure':
+            return <figure>{children}</figure>;
           case 'image':
             return (
               <img
@@ -78,10 +102,13 @@ const rules = [
                 alt="Placeholder"
               />
             );
+          case 'image_caption':
+            return <figcaption>{children}</figcaption>;
         }
       }
     }
   },
+  // Inlines
   {
     deserialize(el, next) {
       const type = INLINE_TAGS[el.tagName.toLowerCase()];
@@ -111,6 +138,7 @@ const rules = [
       }
     }
   },
+  // Marks
   {
     deserialize(el, next) {
       const type = MARK_TAGS[el.tagName.toLowerCase()];

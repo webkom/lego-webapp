@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {Component, createRef} from 'react'
 import styles from './Toolbar.css';
 import ImageUpload from 'app/components/Upload/ImageUpload';
-import type { DropFile } from 'app/components/Upload';
 
-class ToolbarButton extends React.Component<Props, State> {
+
+class ToolbarButton extends Component<ButtonProps, {}> {
   handleClick(e) {
     this.props.handler(e);
   }
@@ -25,7 +25,9 @@ class ToolbarButton extends React.Component<Props, State> {
   }
 }
 
-class LinkInput extends React.Component<Props, State> {
+
+class LinkInput extends Component<LinkInputProps, LinkInputState> {
+
   state = {
     value: this.props.activeLink ? this.props.activeLink.data.get('url') : ''
   };
@@ -68,7 +70,8 @@ class LinkInput extends React.Component<Props, State> {
   }
 }
 
-export default class Toolbar extends React.Component<Props, State> {
+
+export default class Toolbar extends Component<Props, State> {
   state = {
     insertingLink: false,
     insertingImage: false
@@ -141,10 +144,18 @@ export default class Toolbar extends React.Component<Props, State> {
 
   updateLink(data) {
     const { editor } = this.props;
+    const { selection } = editor.value;
+    const { start, isCollapsed } = selection;
 
     if (this.checkActiveInline('link')) {
       editor.setNodeByKey(this.getCurrentLink().key, { data, type: 'link' });
     } else {
+      if (isCollapsed) {
+        editor
+          .insertText(data.url)
+          .moveAnchorTo(start.offset)
+          .moveFocusTo(start.offset + data.url.length);
+      }
       editor.wrapLink(data.url);
     }
   }
@@ -179,7 +190,7 @@ export default class Toolbar extends React.Component<Props, State> {
       <div className={styles.root}>
         <ToolbarButton
           active={this.checkActiveBlock('h1')}
-          handler={e => toggleBlock(e, 'h1')}
+          handler={(e: React.SyntheticEvent<any>) => toggleBlock(e, 'h1')}
         >
           H1
         </ToolbarButton>
@@ -251,7 +262,7 @@ export default class Toolbar extends React.Component<Props, State> {
             activeLink={this.getCurrentLink()}
           />
         )}
-        <ToolbarButton handler={e => this.insertImage(e)}>
+        <ToolbarButton handler={e => this.insertImage(e)} active={insertingImage}>
           <i className="fa fa-image" />
         </ToolbarButton>
         {insertingImage && (

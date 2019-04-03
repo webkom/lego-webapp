@@ -1,16 +1,21 @@
 .root {
   border: 1px solid #ccc;
   border-radius: 3px;
-  padding: 0 10px;
+  padding: 10px;
+}
+
+.root:focus-within {
+  box-shadow: 0 0 5px #ccc;
+  border-color: #aaa;
+  outline: none;
 }
 
 .disabled {
   border: none;
-  padding: 0 10px;
 }
 
 .root a {
-  cursor: default;
+  cursor: text;
 }
 
 .root code {
@@ -50,8 +55,16 @@
   list-style: circle;
 }
 
+.ul_list > ul > ul {
+  list-style: square;
+}
+
 .ol_list > ol {
   list-style: lower-alpha;
+}
+
+.ol_list > ol > ol {
+  list-style: lower-roman;
 }
 
 .li > p {
@@ -63,8 +76,22 @@
   display: block;
   margin-block-start: 1em;
   margin-block-end: 1em;
+  line-height: 24px;
+}
+
+.figure {
+  background-color: #fcfcfc;
+  padding: 20px 10px 0;
+  border: 0.5px solid #f4f4f4;
+  border-radius: 2px;
+}
+
+.figcaption {
+  text-align: center;
+  font-size: 14px;
 }
 
 .imgSelected {
-  border: 2px solid blue;
+  border: 2px solid #ccc;
+  box-shadow: 0 0 8px #ccc;
 }

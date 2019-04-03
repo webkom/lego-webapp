@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Editor from 'app/components/Editor';
-import styles from './DisplayContent.css';
 
 type Props = {
   /** The content to be displayed - the text */
@@ -20,13 +19,9 @@ type Props = {
  */
 function DisplayContent({ content, id, style, className }: Props) {
   return (
-    <div
-      key={content}
-      id={id}
-      style={style}
-      className={styles.root}
-      dangerouslySetInnerHTML={{ __html: content }}
-    />
+    <div key={content} id={id} style={style}>
+      <Editor value={content} disabled />
+    </div>
   );
 }
 

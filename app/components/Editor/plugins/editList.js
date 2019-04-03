@@ -4,7 +4,7 @@
  *  Commands:
  *    increaeListDepth(editor) => void, increase the list depth of a selected list item
  *    decreaseListDepth(editor) => void, decrease the list depth of a selected list item
- *    setListType(editor, type: string) => void, sets the type of list or makes list TODO
+ *    setListType(editor, type: string) => void, sets the type of list or makes list
  *
  *  Queries:
  *    isList(editor) => boolean, returns true if there is a list in the current selection

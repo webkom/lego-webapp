@@ -25,7 +25,7 @@ class ImageBlock extends React.Component<Props, State> {
         onLoad={() => URL.revokeObjectURL(imageUrl)}
         src={src ? src : imageUrl}
         alt="Bildet kunne ikke vises"
-        className={isFocused && styles.imgSelected}
+        className={isFocused ? styles.imgSelected : styles.img}
         {...attributes}
       />
     );
