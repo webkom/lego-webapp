@@ -5,6 +5,8 @@ import Button from 'app/components/Button';
 import styles from './Poll.css';
 import type { PollEntity, OptionEntity } from 'app/reducers/polls';
 import { Link } from 'react-router';
+import { _, sortBy } from 'lodash';
+
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
@@ -74,12 +76,7 @@ class Poll extends React.Component<Props, State> {
   // As described in: https://stackoverflow.com/questions/13483430/how-to-make-rounded-percentages-add-up-to-100
   perfectRatios = (options) => {
     const off = 100 - options.reduce((a, option) => a + Math.floor(option.ratio), 0);
-    return options
-        .sort((a, b) => {
-          const aMantissa = a.ratio - Math.floor(a.ratio);
-          const bMantissa = b.ratio - Math.floor(b.ratio);
-          return aMantissa < bMantissa;
-        })
+    return sortBy(options, (o) =>  Math.floor(o.ratio) - o.ratio)
         .map((option, index) => {
           return {...option, "ratio": Math.floor(option.ratio) + (index < off ? 1 : 0)}
         })
