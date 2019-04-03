@@ -13,7 +13,10 @@ import { fetchAllWithType } from 'app/actions/GroupActions';
 import { fetchPrevious, fetchUpcoming } from 'app/actions/EventActions';
 import { fetchUserFeed } from 'app/actions/FeedActions';
 import { selectUserWithGroups } from 'app/reducers/users';
-import { selectPreviousEvents, selectUpcomingEvents } from 'app/reducers/events';
+import {
+  selectPreviousEvents,
+  selectUpcomingEvents
+} from 'app/reducers/events';
 import { selectGroupsWithType } from 'app/reducers/groups';
 import { selectPenaltyByUserId } from 'app/reducers/penalties';
 import loadingIndicator from 'app/utils/loadingIndicator';

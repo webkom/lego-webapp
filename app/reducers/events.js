@@ -21,14 +21,14 @@ function mutateEvent(state: any, action: any) {
   switch (action.type) {
     case Event.FETCH_PREVIOUS.SUCCESS: {
       const events = action.payload.result.reduce(
-          (total, id) => ({
-            ...total,
-            [id]: {
-              ...action.payload.entities.events[id],
-              isUsersUpcoming: false
-            }
-          }),
-          {}
+        (total, id) => ({
+          ...total,
+          [id]: {
+            ...action.payload.entities.events[id],
+            isUsersUpcoming: false
+          }
+        }),
+        {}
       );
       return {
         ...state,
@@ -265,8 +265,8 @@ export const selectEvents = createSelector(
 );
 
 export const selectPreviousEvents = createSelector(
-    selectEvents,
-    events => events.filter(event => event.isUsersUpcoming === false)
+  selectEvents,
+  events => events.filter(event => event.isUsersUpcoming === false)
 );
 
 export const selectUpcomingEvents = createSelector(

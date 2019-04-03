@@ -70,7 +70,7 @@ type Props = {
 
 type EventsProps = {
   events: Array<Event>,
-  noEventsMessage: string,
+  noEventsMessage: string
 };
 
 const GroupPill = ({ group }: { group: Group }) =>
@@ -142,21 +142,19 @@ const GroupBadge = ({ memberships }: { memberships: Array<Object> }) => {
 };
 
 const ListEvents = ({ events, noEventsMessage }: EventsProps) => (
-    <div>
-      {event && event.length ? (
-          <Flex column wrap>
-            {event.map((event, i) => (
-                <EventItem key={i} event={event} showTags={false} />
-            ))}
-          </Flex>
-      ) : (
-          <EmptyState>
-            <h2 className={styles.emptyState}>
-              {noEventsMessage}
-            </h2>
-          </EmptyState>
-      )}
-    </div>
+  <div>
+    {event && event.length ? (
+      <Flex column wrap>
+        {event.map((event, i) => (
+          <EventItem key={i} event={event} showTags={false} />
+        ))}
+      </Flex>
+    ) : (
+      <EmptyState>
+        <h2 className={styles.emptyState}>{noEventsMessage}</h2>
+      </EmptyState>
+    )}
+  </div>
 );
 
 export default class UserProfile extends Component<Props, UpcomingEventsProps> {
@@ -341,10 +339,11 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
                 {loading ? (
                   <LoadingIndicator margin={'20px auto'} loading />
                 ) : (
-                  <UpcomingEvents
+                  <ListEvents
                     upcomingEvents={upcomingEvents.filter(
                       e => e.userReg.pool !== null
                     )}
+                    noEventsMessage="Du har ingen kommende arrangementer"
                   />
                 )}
                 <h3>Arrangementer der du er på ventelista</h3>
@@ -352,12 +351,10 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
                 {loading ? (
                   <LoadingIndicator margin={'20px auto'} loading />
                 ) : (
-                    <ListEvents
-                        events={previousEvents.filter(
-                            e => e.userReg.pool !== null
-                        )}
-                        noEventsMessage="Du har ingen kommende arrangementer"
-                    />
+                  <ListEvents
+                    events={previousEvents.filter(e => e.userReg.pool !== null)}
+                    noEventsMessage="Du har ingen kommende arrangementer"
+                  />
                 )}
               </div>
             )}
@@ -369,14 +366,12 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
             )}
             <h3>Dine tidligere arrangementer ({previousEvents.length})</h3>
             {loading ? (
-                <LoadingIndicator margin={'20px auto'} loading />
+              <LoadingIndicator margin={'20px auto'} loading />
             ) : (
-                <ListEvents
-                    events={previousEvents.filter(
-                        e => e.userReg.pool !== null
-                    )}
-                    noEventsMessage="Du har ingen tidligere arrangementer"
-                />
+              <ListEvents
+                events={previousEvents.filter(e => e.userReg.pool !== null)}
+                noEventsMessage="Du har ingen tidligere arrangementer"
+              />
             )}
           </div>
         </Flex>

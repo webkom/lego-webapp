@@ -24,18 +24,18 @@ export function fetchEvent(eventId: string) {
 }
 
 export function fetchPrevious(): Thunk<*> {
-    return dispatch =>
-        dispatch(
-            callAPI({
-                types: Event.FETCH_PREVIOUS,
-                endpoint: '/events/previous/',
-                schema: [eventSchema],
-                meta: {
-                    errorMessage: 'Henting av hendelser feilet'
-                },
-                propagateError: true
-            })
-        );
+  return dispatch =>
+    dispatch(
+      callAPI({
+        types: Event.FETCH_PREVIOUS,
+        endpoint: '/events/previous/',
+        schema: [eventSchema],
+        meta: {
+          errorMessage: 'Henting av hendelser feilet'
+        },
+        propagateError: true
+      })
+    );
 }
 
 export function fetchUpcoming(): Thunk<*> {
