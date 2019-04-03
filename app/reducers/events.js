@@ -266,7 +266,7 @@ export const selectEvents = createSelector(
 
 export const selectPreviousEvents = createSelector(
     selectEvents,
-    events => events.filter(event => !event.isUsersUpcoming)
+    events => events.filter(event => event.isUsersUpcoming === false)
 );
 
 export const selectUpcomingEvents = createSelector(
