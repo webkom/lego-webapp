@@ -47,8 +47,8 @@ pipeline:
   api:
     image: registry.abakus.no/webkom/lego:latest
     detach: true
-    group: services
     pull: true
+    group: services
     command: >
       bash -c "./wait-for-it.sh -t 60 postgres:5432 &&
                ./wait-for-it.sh -t 60 redis:6379 &&
@@ -93,6 +93,7 @@ pipeline:
     image: abakus/lego-cypress-helper:latest
     detach: true
     pull: true
+    group: services
     when:
       event: [push]
     environment:
@@ -163,13 +164,15 @@ pipeline:
     group: testing
     commands:
       - yarn flow --quiet
-  # install_cypress:
-  #   image: node:11
-  #   when:
-  #     event: [push]
-  #   group: testing
-  #   commands:
-  #     - yarn cypress install
+  install_cypress:
+    image: node:11
+    when:
+      event: [push]
+    group: testing
+    environment:
+      - CYPRESS_CACHE_FOLDER=/drone/src/.cypress_cache
+    commands:
+      - yarn cypress install
   ssr:
     image: node:11
     detach: true
@@ -189,9 +192,9 @@ pipeline:
       - CYPRESS_API_BASE_URL=http://api:8000
       - CYPRESS_RESET_DB_API=http://legocypresshelper:3030
       - CYPRESS_BASE_URL=http://ssr:3000
+      - CYPRESS_CACHE_FOLDER=/drone/src/.cypress_cache
     secrets: [cypress_record_key]
     commands:
-      - yarn cypress install
       - ./wait-for-it.sh -t 180 ssr:3000
       - ./wait-for-it.sh -t 180 legocypresshelper:3030
       - yarn cypress run --record
