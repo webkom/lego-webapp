@@ -5,8 +5,7 @@ import Button from 'app/components/Button';
 import styles from './Poll.css';
 import type { PollEntity, OptionEntity } from 'app/reducers/polls';
 import { Link } from 'react-router';
-import { _, sortBy } from 'lodash';
-
+import { sortBy } from 'lodash';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
@@ -69,19 +68,23 @@ class Poll extends React.Component<Props, State> {
   optionsWithPerfectRatios = (options, optionsToShow) => {
     const totalVotes = options.reduce((a, option) => a + option.votes, 0);
     const ratios = optionsToShow.map(option => {
-      return {...option, "ratio": option.votes / totalVotes * 100}
+      return { ...option, ratio: (option.votes / totalVotes) * 100 };
     });
     return this.perfectRatios(ratios);
   };
 
   // As described in: https://stackoverflow.com/questions/13483430/how-to-make-rounded-percentages-add-up-to-100
-  perfectRatios = (options) => {
-    const off = 100 - options.reduce((a, option) => a + Math.floor(option.ratio), 0);
-    return sortBy(options, (o) =>  Math.floor(o.ratio) - o.ratio)
-        .map((option, index) => {
-          return {...option, "ratio": Math.floor(option.ratio) + (index < off ? 1 : 0)}
-        })
-        .sort((a, b) => b.ratio - a.ratio)
+  perfectRatios = options => {
+    const off =
+      100 - options.reduce((a, option) => a + Math.floor(option.ratio), 0);
+    return sortBy(options, o => Math.floor(o.ratio) - o.ratio)
+      .map((option, index) => {
+        return {
+          ...option,
+          ratio: Math.floor(option.ratio) + (index < off ? 1 : 0)
+        };
+      })
+      .sort((a, b) => b.ratio - a.ratio);
   };
 
   render() {
@@ -90,11 +93,11 @@ class Poll extends React.Component<Props, State> {
     const { id, title, description, options, hasAnswered, totalVotes } = poll;
 
     return (
-        <div
-            className={`${styles.poll} ${backgroundLight ? styles.pollLight : ''}`}
-        >
-          <Flex>
-            <Link to={`/polls/${id}`} style={{ flex: 1 }}>
+      <div
+        className={`${styles.poll} ${backgroundLight ? styles.pollLight : ''}`}
+      >
+        <Flex>
+          <Link to={`/polls/${id}`} style={{ flex: 1 }}>
             <Icon name="stats" />
             <span className={styles.pollHeader}>{title}</span>
           </Link>
@@ -118,35 +121,39 @@ class Poll extends React.Component<Props, State> {
           <Flex column className={styles.optionWrapper}>
             <table className={styles.pollTable}>
               <tbody>
-                {this.optionsWithPerfectRatios(options, optionsToShow).map(({id, name, votes, ratio}) => {
-                  return (
-                    <tr key={id}>
-                      <td className={styles.textColumn}>{name}</td>
-                      <td className={styles.graphColumn}>
-                        {votes === 0 ? (
-                            <span className={styles.noVotes}>Ingen stemmer</span>
-                            ) : (
-                          <div className={styles.fullGraph}>
-                            <div
-                              style={{
-                                width: `${ratio}%`
-                              }}
-                            >
-                              <div className={styles.pollGraph}>
-                                {ratio >= 18 && <span>{`${ratio}%`}</span>}
+                {this.optionsWithPerfectRatios(options, optionsToShow).map(
+                  ({ id, name, votes, ratio }) => {
+                    return (
+                      <tr key={id}>
+                        <td className={styles.textColumn}>{name}</td>
+                        <td className={styles.graphColumn}>
+                          {votes === 0 ? (
+                            <span className={styles.noVotes}>
+                              Ingen stemmer
+                            </span>
+                          ) : (
+                            <div className={styles.fullGraph}>
+                              <div
+                                style={{
+                                  width: `${ratio}%`
+                                }}
+                              >
+                                <div className={styles.pollGraph}>
+                                  {ratio >= 18 && <span>{`${ratio}%`}</span>}
+                                </div>
                               </div>
+                              {ratio < 18 && (
+                                <span style={{ marginLeft: '2px' }}>
+                                  {`${ratio}%`}
+                                </span>
+                              )}
                             </div>
-                            {ratio < 18 && (
-                              <span style={{ marginLeft: '2px' }}>
-                                {`${ratio}%`}
-                              </span>
-                            )}
-                          </div>
-                        )}
-                      </td>
-                    </tr>
-                  );
-                })}
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  }
+                )}
               </tbody>
             </table>
           </Flex>
