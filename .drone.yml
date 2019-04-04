@@ -201,6 +201,3 @@ pipeline:
       - SENTRY_ORG=webkom
       - SENTRY_PROJECT=lego-webapp
       - SENTRY_URL=https://sentry.abakus.no/
-# volumes:
-#   shm:
-#     driver: local
