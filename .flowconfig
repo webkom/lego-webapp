@@ -4,6 +4,7 @@
 .*/node_modules/react-motion*
 .*/node_modules/jss/*
 .*/node_modules/findup/*
+.*/.cypress_cache/*
 
 ; https://github.com/facebook/draft-js/issues/1621
 .*/node_modules/draft-js/lib/ContentBlock.js.flow
