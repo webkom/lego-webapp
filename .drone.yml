@@ -170,6 +170,7 @@ pipeline:
       - yarn ssr
   cypress:
     image: cypress/browsers:chrome69
+    shm_size: 100000000
     when:
       event: [push]
     environment:
