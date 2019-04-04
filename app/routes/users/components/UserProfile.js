@@ -369,7 +369,10 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
               <LoadingIndicator margin={'20px auto'} loading />
             ) : (
               <ListEvents
-                events={previousEvents.filter(e => e.userReg.pool !== null)}
+                events={
+                  previousEvents.filter(e => e.userReg.pool !== null)
+                      .sort((a, b) => b.startTime - a.startTime)
+                }
                 noEventsMessage="Du har ingen tidligere arrangementer"
               />
             )}
