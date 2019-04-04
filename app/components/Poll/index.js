@@ -66,11 +66,12 @@ class Poll extends React.Component<Props, State> {
       : this.setState({ optionsToShow: options, expanded: true });
   };
 
-  optionsWithRatios = (options, optionsToShow) => {
+  optionsWithPerfectRatios = (options, optionsToShow) => {
     const totalVotes = options.reduce((a, option) => a + option.votes, 0);
-    return optionsToShow.map(option => {
+    const ratios = optionsToShow.map(option => {
       return {...option, "ratio": option.votes / totalVotes * 100}
     });
+    return this.perfectRatios(ratios);
   };
 
   // As described in: https://stackoverflow.com/questions/13483430/how-to-make-rounded-percentages-add-up-to-100
@@ -117,7 +118,7 @@ class Poll extends React.Component<Props, State> {
           <Flex column className={styles.optionWrapper}>
             <table className={styles.pollTable}>
               <tbody>
-                {this.perfectRatios(this.optionsWithRatios(options, optionsToShow)).map(({id, name, votes, ratio}) => {
+                {this.optionsWithPerfectRatios(options, optionsToShow).map(({id, name, votes, ratio}) => {
                   return (
                     <tr key={id}>
                       <td className={styles.textColumn}>{name}</td>
