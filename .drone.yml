@@ -113,36 +113,20 @@ pipeline:
       - CYPRESS_INSTALL_BINARY=0
     commands:
       - yarn --frozen-lockfile
-  build:
+  build_server:
     image: node:11
     when:
       event: [push]
     group: testing
     commands:
-      - yarn build
-  # build_and_cypress:
-  #   image: cypress/browsers:chrome69
-  #   when:
-  #     event: [push]
-  #   group: testing
-  #   # volumes:
-  #   #  - /tmp/drone/${DRONE_COMMIT_SHA}/shm:/dev/shm
-  #   # - shm:/dev/shm
-  #   environment:
-  #     - API_URL=http://api:8000/api/v1
-  #     - BASE_URL=http://api:8000
-  #     - WS_URL=ws://api:8000
-  #     - CYPRESS_API_BASE_URL=http://api:8000
-  #     - CYPRESS_RESET_DB_API=http://legocypresshelper:3030
-  #   commands:
-  #     - yarn cypress:prepare # Runs build and cypress install
-  #     - yarn ssr &
-  #     - ./wait-for-it.sh -t 180 api:8000
-  #     - ./wait-for-it.sh -t 180 localhost:3000
-  #     - ./wait-for-it.sh -t 180 legocypresshelper:3030
-  #     - yarn cypress run --record
-  #     - echo "finished."
-  #   secrets: [cypress_record_key]
+      - yarn build:server
+  build_client:
+    image: node:11
+    when:
+      event: [push]
+    group: testing
+    commands:
+      - yarn build:client
   test:
     image: node:11
     when:
