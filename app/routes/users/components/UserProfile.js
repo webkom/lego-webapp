@@ -143,9 +143,9 @@ const GroupBadge = ({ memberships }: { memberships: Array<Object> }) => {
 
 const ListEvents = ({ events, noEventsMessage }: EventsProps) => (
   <div>
-    {event && event.length ? (
+    {events && events.length ? (
       <Flex column wrap>
-        {event.map((event, i) => (
+        {events.map((event, i) => (
           <EventItem key={i} event={event} showTags={false} />
         ))}
       </Flex>
@@ -340,7 +340,7 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
                   <LoadingIndicator margin={'20px auto'} loading />
                 ) : (
                   <ListEvents
-                    upcomingEvents={upcomingEvents.filter(
+                    events={upcomingEvents.filter(
                       e => e.userReg.pool !== null
                     )}
                     noEventsMessage="Du har ingen kommende arrangementer"
@@ -352,7 +352,7 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
                   <LoadingIndicator margin={'20px auto'} loading />
                 ) : (
                   <ListEvents
-                    events={previousEvents.filter(e => e.userReg.pool !== null)}
+                    events={upcomingEvents.filter(e => e.userReg.pool === null)}
                     noEventsMessage="Du har ingen kommende arrangementer"
                   />
                 )}
