@@ -197,7 +197,7 @@ pipeline:
       - ${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
     build_args:
       - RELEASE=${DRONE_BRANCH}-${DRONE_COMMIT_SHA:0:7}
-      - SENTRY_AUTH_KEY
+      - SENTRY_AUTH_TOKEN
       - SENTRY_ORG=webkom
       - SENTRY_PROJECT=lego-webapp
       - SENTRY_URL=https://sentry.abakus.no/
