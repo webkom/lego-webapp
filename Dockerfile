@@ -5,10 +5,7 @@ COPY . /app
 
 RUN yarn --ignore-scripts
 
-ARG RELEASE
-
 ENV NODE_ENV production
-ENV RELEASE ${RELEASE}
 
 RUN yarn build:all # includes styleguide
 
@@ -26,19 +23,20 @@ ENV SENTRY_AUTH_TOKEN ${SENTRY_AUTH_TOKEN}
 ENV SENTRY_ORG ${SENTRY_ORG}
 ENV SENTRY_PROJECT ${SENTRY_PROJECT}
 ENV SENTRY_URL ${SENTRY_URL}
+ENV RELEASE ${RELEASE}
 
 COPY --from=builder /app/dist dist
 COPY --from=builder /app/dist-client dist-client
 
 RUN sentry-cli releases new ${RELEASE}
 RUN sentry-cli releases \
-files ${RELEASE} upload-sourcemaps \
---rewrite --url-prefix='~/' \
-'./dist-client/'
+  files ${RELEASE} upload-sourcemaps \
+  --rewrite --url-prefix='~/' \
+  './dist-client/'
 RUN sentry-cli releases \
-files ${RELEASE} upload-sourcemaps \
---rewrite --url-prefix="/app/dist/" \
-'./dist/'
+  files ${RELEASE} upload-sourcemaps \
+  --rewrite --url-prefix="/app/dist/" \
+  './dist/'
 RUN sentry-cli releases finalize ${RELEASE}
 RUN sentry-cli releases deploys ${RELEASE} new -e "staging"
 RUN sentry-cli releases deploys ${RELEASE} new -e "production"
