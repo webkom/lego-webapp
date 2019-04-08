@@ -30,6 +30,7 @@ import HTTPError from '../errors/HTTPError';
 import { setStatusCode } from 'app/actions/RoutingActions';
 import config from 'app/config';
 import coverPhoto from 'app/assets/cover.png';
+import { withRouter } from 'react-router-dom';
 
 type Props = {
   statusCode: number,
@@ -42,6 +43,7 @@ type Props = {
 
 class AppChildren extends PureComponent<Props> {
   render() {
+    console.log(this.props);
     return (
       <div style={{ flex: 1 }}>
         <ErrorBoundary resetOnChange={this.props.location}>
@@ -69,6 +71,7 @@ type AppProps = any;
 
 class App extends PureComponent<AppProps> {
   render() {
+    console.log(this.props);
     return (
       <div
         className={cx(styles.appRoute, {
@@ -109,7 +112,6 @@ class App extends PureComponent<AppProps> {
           markAllNotifications={this.props.markAllNotifications}
           fetchNotificationData={this.props.fetchNotificationData}
         />
-
         <AppChildren
           currentUser={this.props.currentUser}
           loggedIn={this.props.loggedIn}
@@ -119,6 +121,7 @@ class App extends PureComponent<AppProps> {
         >
           {this.props.children}
         </AppChildren>
+
         <PhotoUploadStatus />
 
         <Footer {...this.props} />
@@ -135,8 +138,7 @@ function mapStateToProps(state) {
     notificationsData: state.notificationsFeed,
     notifications: selectFeedActivitesByFeedId(state, {
       feedId: 'notifications'
-    }),
-    statusCode: state.routing.statusCode
+    })
   };
 }
 

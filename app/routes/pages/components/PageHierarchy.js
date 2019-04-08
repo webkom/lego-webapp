@@ -2,7 +2,7 @@
 import { readmeIfy } from 'app/components/ReadmeLogo';
 
 import React, { Component, type Node } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import styles from './PageHierarchy.css';
 import Icon from 'app/components/Icon';
 

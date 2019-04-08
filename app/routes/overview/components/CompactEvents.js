@@ -2,7 +2,7 @@
 
 import styles from './CompactEvents.css';
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { colorForEvent } from 'app/routes/events/utils';
 import { Flex } from 'app/components/Layout';
 import Time from 'app/components/Time';

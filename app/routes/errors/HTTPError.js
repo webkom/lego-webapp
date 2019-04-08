@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import { Container, Flex } from 'app/components/Layout';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import renderAbakus from './renderAbakus';
 
 const HTTPMapping = {

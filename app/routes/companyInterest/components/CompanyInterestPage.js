@@ -20,7 +20,7 @@ import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { FlexRow } from '../../../components/FlexBox';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import norwegian from 'app/assets/norway.svg';
 import english from 'app/assets/great_britain.svg';
 

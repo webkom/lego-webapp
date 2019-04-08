@@ -7,7 +7,7 @@ import Button from 'app/components/Button';
 import { TextArea, RadioButton, CheckBox, legoForm } from 'app/components/Form';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import { Content, ContentHeader } from 'app/components/Content';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { QuestionTypes } from '../../utils';
 import { SubmissionError } from 'redux-form';
 import type { UserEntity } from 'app/reducers/users';

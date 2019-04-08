@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { RegisteredTable, UnregisteredTable } from './RegistrationTables';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import moment from 'moment-timezone';

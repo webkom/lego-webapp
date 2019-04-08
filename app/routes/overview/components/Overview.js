@@ -17,7 +17,7 @@ import EventItem from './EventItem';
 import ArticleItem from './ArticleItem';
 import Icon from 'app/components/Icon';
 import truncateString from 'app/utils/truncateString';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import NextEvent from './NextEvent';
 import Poll from 'app/components/Poll';
 import type { PollEntity } from 'app/reducers/polls';

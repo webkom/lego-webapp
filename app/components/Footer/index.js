@@ -6,7 +6,7 @@ import RandomQuote from '../RandomQuote';
 import Flex from 'app/components/Layout/Flex';
 import { hiddenOnMobile } from 'app/styles/utilities.css';
 import { Image } from 'app/components/Image';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import netcompany from 'app/assets/netcompany_white.svg';
 import Octocat from 'app/assets/Octocat.png';
 import Icon from 'app/components/Icon';

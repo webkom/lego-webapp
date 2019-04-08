@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './styles.css';
 import Pill from 'app/components/Pill';
 import { colorForEvent } from 'app/routes/events/utils';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
 import Time from 'app/components/Time';
 import Tag from 'app/components/Tags/Tag';

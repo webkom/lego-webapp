@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
 import styles from './surveyDetail.css';
 import type { SurveyEntity } from 'app/reducers/surveys';

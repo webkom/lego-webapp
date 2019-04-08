@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Helmet from 'react-helmet';
 import { sumBy } from 'lodash';
 import { ProfilePicture, CircularPicture } from 'app/components/Image';

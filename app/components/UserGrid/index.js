@@ -2,7 +2,7 @@
 import React from 'react';
 import type { User } from 'app/models';
 
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Tooltip from 'app/components/Tooltip';
 import { ProfilePicture } from 'app/components/Image';
 

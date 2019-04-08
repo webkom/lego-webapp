@@ -1,7 +1,7 @@
 // @flow
 
 import React, { type Node } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 import styles from './NavigationLink.css';
 
