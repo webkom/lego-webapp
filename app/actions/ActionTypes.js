@@ -14,6 +14,7 @@ function generateStatuses(name) {
 export const Event = {
   CLEAR: 'Event.CLEAR',
   FETCH: generateStatuses('Event.FETCH'),
+  FETCH_PREVIOUS: generateStatuses('Event.FETCH_PREVIOUS'),
   FETCH_UPCOMING: generateStatuses('Event.FETCH_UPCOMING'),
   CREATE: generateStatuses('Event.CREATE'),
   EDIT: generateStatuses('Event.EDIT'),

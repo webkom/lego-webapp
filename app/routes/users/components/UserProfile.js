@@ -57,6 +57,7 @@ type Props = {
   feed: Object,
   isMe: boolean,
   loading: boolean,
+  previousEvents: Array<Event>,
   upcomingEvents: Array<Event>,
   addPenalty: AddPenalty => void,
   deletePenalty: number => Promise<*>,
@@ -67,8 +68,9 @@ type Props = {
   changeGrade: (ID, string) => Promise<*>
 };
 
-type UpcomingEventsProps = {
-  upcomingEvents: Array<Event>
+type EventsProps = {
+  events: Array<Event>,
+  noEventsMessage: string
 };
 
 const GroupPill = ({ group }: { group: Group }) =>
@@ -139,25 +141,23 @@ const GroupBadge = ({ memberships }: { memberships: Array<Object> }) => {
   );
 };
 
-const UpcomingEvents = ({ upcomingEvents }: UpcomingEventsProps) => (
+const ListEvents = ({ events, noEventsMessage }: EventsProps) => (
   <div>
-    {upcomingEvents && upcomingEvents.length ? (
+    {events && events.length ? (
       <Flex column wrap>
-        {upcomingEvents.map((event, i) => (
+        {events.map((event, i) => (
           <EventItem key={i} event={event} showTags={false} />
         ))}
       </Flex>
     ) : (
       <EmptyState>
-        <h2 className={styles.emptyState}>
-          Du har ingen kommende arrangementer
-        </h2>
+        <h2 className={styles.emptyState}>{noEventsMessage}</h2>
       </EmptyState>
     )}
   </div>
 );
 
-export default class UserProfile extends Component<Props, UpcomingEventsProps> {
+export default class UserProfile extends Component<Props, EventsProps> {
   sumPenalties() {
     return sumBy(this.props.penalties, 'weight');
   }
@@ -182,6 +182,7 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
       feedItems,
       feed,
       loading,
+      previousEvents,
       upcomingEvents,
       addPenalty,
       deletePenalty,
@@ -338,10 +339,9 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
                 {loading ? (
                   <LoadingIndicator margin={'20px auto'} loading />
                 ) : (
-                  <UpcomingEvents
-                    upcomingEvents={upcomingEvents.filter(
-                      e => e.userReg.pool !== null
-                    )}
+                  <ListEvents
+                    events={upcomingEvents.filter(e => e.userReg.pool !== null)}
+                    noEventsMessage="Du har ingen kommende arrangementer"
                   />
                 )}
                 <h3>Arrangementer der du er på ventelista</h3>
@@ -349,10 +349,9 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
                 {loading ? (
                   <LoadingIndicator margin={'20px auto'} loading />
                 ) : (
-                  <UpcomingEvents
-                    upcomingEvents={upcomingEvents.filter(
-                      e => e.userReg.pool === null
-                    )}
+                  <ListEvents
+                    events={upcomingEvents.filter(e => e.userReg.pool === null)}
+                    noEventsMessage="Du har ingen kommende arrangementer"
                   />
                 )}
               </div>
@@ -362,6 +361,27 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
               <Feed items={feedItems} feed={feed} />
             ) : (
               <LoadingIndicator loading />
+            )}
+            <h3>
+              Dine tidligere arrangementer (
+              {previousEvents === undefined ? 0 : previousEvents.length})
+            </h3>
+            {loading ? (
+              <LoadingIndicator margin={'20px auto'} loading />
+            ) : (
+              <ListEvents
+                events={
+                  previousEvents === undefined
+                    ? []
+                    : orderBy(
+                        previousEvents
+                          .filter(e => e.userReg.pool !== null)
+                          .filter(e => e.userReg.presence !== 'NOT_PRESENT'),
+                        'startTime'
+                      ).reverse()
+                }
+                noEventsMessage="Du har ingen tidligere arrangementer"
+              />
             )}
           </div>
         </Flex>
