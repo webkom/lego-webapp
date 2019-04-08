@@ -157,7 +157,7 @@ const ListEvents = ({ events, noEventsMessage }: EventsProps) => (
   </div>
 );
 
-export default class UserProfile extends Component<Props, UpcomingEventsProps> {
+export default class UserProfile extends Component<Props, EventsProps> {
   sumPenalties() {
     return sumBy(this.props.penalties, 'weight');
   }
@@ -362,15 +362,24 @@ export default class UserProfile extends Component<Props, UpcomingEventsProps> {
             ) : (
               <LoadingIndicator loading />
             )}
-            <h3>Dine tidligere arrangementer ({previousEvents.length})</h3>
+            <h3>
+              Dine tidligere arrangementer (
+              {previousEvents === undefined ? 0 : previousEvents.length})
+            </h3>
             {loading ? (
               <LoadingIndicator margin={'20px auto'} loading />
             ) : (
               <ListEvents
-                events={previousEvents
-                  .filter(e => e.userReg.pool !== null)
-                  .filter(e => e.userReg.presence !== 'NOT_PRESENT')
-                  .sort((a, b) => b.startTime - a.startTime)}
+                events={
+                  previousEvents === undefined
+                    ? []
+                    : orderBy(
+                        previousEvents
+                          .filter(e => e.userReg.pool !== null)
+                          .filter(e => e.userReg.presence !== 'NOT_PRESENT'),
+                        'startTime'
+                      ).reverse()
+                }
                 noEventsMessage="Du har ingen tidligere arrangementer"
               />
             )}
