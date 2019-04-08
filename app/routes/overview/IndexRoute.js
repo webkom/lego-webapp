@@ -30,7 +30,10 @@ const mapDispatchToProps = { login, logout, votePoll };
 
 export default compose(
   prepare(({ loggedIn }, dispatch) =>
-    Promise.all([dispatch(fetchData()), dispatch(fetchReadmes())]).then(() =>
+    Promise.all([
+      dispatch(fetchData()),
+      dispatch(fetchReadmes(loggedIn ? 4 : 1))
+    ]).then(() =>
       loggedIn ? dispatch(fetchPersonalFeed()) : Promise.resolve()
     )
   ),

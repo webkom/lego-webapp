@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import styles from './RandomQuote.css';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
 import { connect } from 'react-redux';
+import Button from '../Button';
 
 type Props = {
   fetchRandomQuote: () => Promise<Object>,
@@ -54,9 +55,9 @@ class RandomQuote extends Component<Props, State> {
           <div>
             <div className={styles.quoteText}>{currentQuote.text}</div>
             <div className={styles.quoteSource}>-{currentQuote.source}</div>
-            <a onClick={this.refreshQuote} className={styles.title}>
+            <Button flat onClick={this.refreshQuote} className={styles.title}>
               <i className="fa fa-refresh" />
-            </a>
+            </Button>
           </div>
         ) : (
           'Logg inn for å se sitater.'

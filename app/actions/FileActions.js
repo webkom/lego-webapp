@@ -5,6 +5,7 @@ import callAPI from './callAPI';
 import type { Thunk } from 'app/types';
 import slug from 'slugify';
 
+const slugOpts = { remove: /[#*+~.()'"!:@]/g };
 /**
  * Normalize filenames
  * Remove non-word chars and replace spaces.
@@ -12,11 +13,11 @@ import slug from 'slugify';
 const normalizeFilename: (filename: string) => string = filename => {
   const extensionIndex = filename.lastIndexOf('.');
   if (extensionIndex > 0) {
-    const name = slug(filename.substr(0, extensionIndex));
+    const name = slug(filename.substr(0, extensionIndex), slugOpts);
     const extension = filename.substr(extensionIndex);
     return `${name}${extension}`;
   }
-  return slug(filename);
+  return slug(filename, slugOpts);
 };
 
 export function fetchSignedPost(key: string, isPublic: boolean) {
@@ -27,6 +28,9 @@ export function fetchSignedPost(key: string, isPublic: boolean) {
     body: {
       key: normalizeFilename(key),
       public: isPublic
+    },
+    meta: {
+      errorMessage: 'Filopplasting feilet'
     }
   });
 }
@@ -34,13 +38,17 @@ export function fetchSignedPost(key: string, isPublic: boolean) {
 export type UploadArgs = {
   file: File,
   fileName?: string,
-  isPublic?: boolean
+  isPublic?: boolean,
+  // Use big timeouts for big files. See app/utils/fetchJSON.js for more info
+  // In ms. aka. 2sec = 2 * 1000;
+  timeout?: number
 };
 
 export function uploadFile({
   file,
   fileName,
-  isPublic = false
+  isPublic = false,
+  timeout
 }: UploadArgs): Thunk<*> {
   return dispatch =>
     dispatch(fetchSignedPost(fileName || file.name, isPublic)).then(action => {
@@ -52,7 +60,7 @@ export function uploadFile({
           endpoint: action.payload.url,
           body: action.payload.fields,
           files: [file],
-          timeout: 0,
+          timeout,
           json: false,
           headers: {
             Accept: 'application/json'
@@ -60,7 +68,8 @@ export function uploadFile({
           requiresAuthentication: false,
           meta: {
             fileKey: action.payload.file_key,
-            fileToken: action.payload.file_token
+            fileToken: action.payload.file_token,
+            errorMessage: 'Filopplasting feilet'
           }
         })
       );

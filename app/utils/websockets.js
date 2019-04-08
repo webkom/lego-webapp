@@ -4,6 +4,8 @@ import createQueryString from './createQueryString';
 import { addToast } from 'app/actions/ToastActions';
 import { User } from 'app/actions/ActionTypes';
 import { selectCurrentUser } from 'app/reducers/auth';
+import { isUserFollowing } from 'app/actions/EventActions';
+import { Event } from '../actions/ActionTypes';
 
 export default function createWebSocketMiddleware() {
   let socket = null;
@@ -22,6 +24,13 @@ export default function createWebSocketMiddleware() {
           ...socketMeta,
           currentUser: selectCurrentUser(store.getState())
         };
+
+        if (
+          type === Event.SOCKET_REGISTRATION.SUCCESS &&
+          payload.user.id === meta.currentUser.id
+        ) {
+          store.dispatch(isUserFollowing(meta.eventId));
+        }
 
         store.dispatch({ type, payload, meta });
         const message = meta.successMessage || meta.errorMessage;

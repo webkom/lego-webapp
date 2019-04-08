@@ -1,7 +1,7 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import { Content } from 'app/components/Content';
 import { search } from 'app/actions/SearchActions';
 import SearchPage from 'app/components/Search/SearchPage';
@@ -30,9 +30,6 @@ const mapDispatchToProps = dispatch => ({
   handleSelect: result => dispatch(push(result.link)),
   onQueryChanged: debounce(query => {
     dispatch(push(`/search?q=${query}`));
-    if (query) {
-      dispatch(search(query));
-    }
   }, 300)
 });
 
@@ -45,9 +42,7 @@ function SearchPageWrapper(props) {
 }
 
 export default compose(
-  dispatched(loadData, {
-    componentWillReceiveProps: false
-  }),
+  prepare(loadData, ['location.query.q']),
   connect(
     mapStateToProps,
     mapDispatchToProps

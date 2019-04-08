@@ -8,10 +8,7 @@
     "prettier/flowtype",
     "prettier/react"
   ],
-  "plugins": [
-    "react",
-    "flowtype",
-  ],
+  "plugins": ["react", "flowtype"],
   "globals": {
     "log": true,
     "expect": true,
@@ -22,7 +19,8 @@
   "rules": {
     "react/prop-types": 2,
     "react/display-name": 2,
-    "flowtype/no-types-missing-file-annotation": 2
+    "flowtype/no-types-missing-file-annotation": 2,
+    "jsx-a11y/anchor-is-valid": 2
   },
   "settings": {
     "import/resolver": {

@@ -53,7 +53,8 @@ type EventBase = {
   useCaptcha: boolean,
   tags: Array<Tags>,
   unregistrationDeadline: Dateish,
-  pinned: boolean
+  pinned: boolean,
+  youtubeUrl: string
 };
 
 export type Event = EventBase & {

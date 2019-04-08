@@ -21,7 +21,9 @@ type Props = {
   /** Primary button styling */
   primary?: boolean,
   /** Danger button styling */
-  danger?: boolean
+  danger?: boolean,
+  /** Make it look like a link */
+  flat?: boolean
 };
 
 /**
@@ -39,16 +41,16 @@ function Button({
   submit,
   pending = false,
   dark = false,
+  flat = false,
   ...rest
 }: Props) {
   return (
     <button
-      className={cx(
-        styles.button,
-        styles[size],
-        dark && styles.dark,
-        className
-      )}
+      className={
+        flat
+          ? cx(styles.flatButton, className)
+          : cx(styles.button, styles[size], dark && styles.dark, className)
+      }
       type={submit ? 'submit' : 'button'}
       {...rest}
     >

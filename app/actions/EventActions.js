@@ -380,7 +380,7 @@ export function follow(userId: number, eventId: number): Thunk<*> {
           follower: userId
         },
         meta: {
-          errorMessage: 'Registering av interesse feilet'
+          errorMessage: 'Registrering av interesse feilet'
         }
       })
     );

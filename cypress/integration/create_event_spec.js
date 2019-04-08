@@ -1,7 +1,10 @@
 import { c, field, fieldError } from '../support/utils.js';
 
 describe('Create event', () => {
-  beforeEach(() => cy.login());
+  beforeEach(() => {
+    cy.resetDb();
+    cy.cachedLogin();
+  });
 
   it('Makes sure required fields are filled before allowing submit', () => {
     cy.visit('/events/create');
@@ -39,7 +42,7 @@ describe('Create event', () => {
     fieldError('cover').should('not.exist');
 
     field('title')
-      .type('Pils på Webkomkontoret!')
+      .type('Skrive tester på Webkomkontoret!')
       .blur();
     fieldError('title').should('not.exist');
 
@@ -78,7 +81,7 @@ describe('Create event', () => {
     cy.url().should('contain', '/events/');
 
     // Verify that created event looks good..
-    cy.contains('Pils på Webkomkontoret!');
+    cy.contains('Skrive tester på Webkomkontoret!');
     cy.contains('Sosialt');
   });
 

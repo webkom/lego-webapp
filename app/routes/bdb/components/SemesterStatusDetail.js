@@ -15,6 +15,7 @@ import truncateString from 'app/utils/truncateString';
 import type { CompanySemesterContactedStatus } from 'app/models';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';
 import cx from 'classnames';
+import Button from 'app/components/Button';
 
 const FILE_NAME_LENGTH = 30;
 
@@ -104,7 +105,8 @@ export default class SemesterStatusDetail extends Component<Props, State> {
         ))}
         <td>
           <span style={{ display: 'flex', flexDirection: 'row' }}>
-            <a
+            <Button
+              flat
               onClick={() =>
                 this.setState(state => ({
                   editing: !state.editing
@@ -115,7 +117,7 @@ export default class SemesterStatusDetail extends Component<Props, State> {
                 className="fa fa-pencil"
                 style={{ marginRight: '5px', color: 'orange' }}
               />
-            </a>
+            </Button>
             <ConfirmModalWithParent
               title="Slett semesterstatus"
               message={`Er du sikker på at du vil slette semesterstatusen for ${humanReadableSemester}? Alle filer for dette semesteret vil bli slettet.`}

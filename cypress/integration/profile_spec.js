@@ -1,7 +1,10 @@
 import { c, field, fieldError } from '../support/utils.js';
 
 describe('Profile settings', () => {
-  beforeEach(() => cy.login());
+  beforeEach(() => {
+    cy.resetDb();
+    cy.cachedLogin();
+  });
 
   // This user is in initial backend
   const initialUser = {
@@ -139,14 +142,7 @@ describe('Profile settings', () => {
       .blur();
 
     fieldError('firstName').should('contain', 'må fylles ut');
-
     submitButton().should('be.disabled');
-
-    field('firstName')
-      .type(initialUser.firstName)
-      .blur();
-
-    submitButton().should('not.be.disabled');
 
     // lastName field validation
     field('lastName')
@@ -154,17 +150,7 @@ describe('Profile settings', () => {
       .blur();
 
     fieldError('lastName').should('contain', 'må fylles ut');
-
     submitButton().should('be.disabled');
-
-    field('lastName')
-      .type(initialUser.lastName)
-      .blur();
-
-    submitButton().should('not.be.disabled');
-
-    cy.get('input[name=gender]').check(initialUser.gender);
-    submitButton().should('not.be.disabled');
 
     // allergies field validation
     field('allergies')
@@ -172,7 +158,6 @@ describe('Profile settings', () => {
       .blur();
 
     fieldError('allergies').should('not.exist');
-    submitButton().should('not.be.disabled');
 
     // email field validation
     field('email')
@@ -180,20 +165,7 @@ describe('Profile settings', () => {
       .blur();
 
     fieldError('email').should('contain', 'må fylles ut');
-
     submitButton().should('be.disabled');
-
-    field('email')
-      .type(initialUser.email)
-      .blur();
-
-    submitButton()
-      .should('not.be.disabled')
-      .click();
-
-    // TODO: Should use me in URL instead of username
-    // cy.url().should('include', '/users/me');
-    cy.url().should('include', `/users/${initialUser.username}`);
   });
 
   it('does not allow user to set @abakus.no email', () => {

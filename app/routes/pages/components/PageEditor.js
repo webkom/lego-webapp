@@ -18,6 +18,7 @@ import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import { Field } from 'redux-form';
 import { Content } from 'app/components/Content';
 import { get } from 'lodash';
+import { categoryOptions } from 'app/reducers/pages';
 
 type Page = {
   title: string,
@@ -48,13 +49,6 @@ type State = {
   },
   images: { [key: string]: string }
 };
-
-const categoryOptions = [
-  { value: 'arrangementer', label: 'Arrangementer' },
-  { value: 'bedrifter', label: 'Bedrifter' },
-  { value: 'generelt', label: 'Generelt' },
-  { value: 'grupper', label: 'Grupper' }
-];
 
 export default class PageEditor extends Component<Props, State> {
   state = {

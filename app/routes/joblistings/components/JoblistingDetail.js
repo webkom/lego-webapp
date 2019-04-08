@@ -58,7 +58,10 @@ const JoblistingDetail = ({
   const canDelete = actionGrant.includes('delete');
 
   return (
-    <Content banner={joblisting.company.logo}>
+    <Content
+      banner={joblisting.company.logo}
+      youtubeUrl={joblisting.youtubeUrl}
+    >
       <ContentHeader>{joblisting.title}</ContentHeader>
       <ContentSection>
         <ContentMain>
