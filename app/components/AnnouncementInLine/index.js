@@ -83,7 +83,8 @@ class AnnouncementInLine extends Component<Props, State> {
               </Button>
             )}
             {showLabel && (
-              <a
+              <Button
+                flat
                 onClick={this.handleHide}
                 className={cx(
                   button ? styles.labelButton : styles.label,
@@ -91,7 +92,7 @@ class AnnouncementInLine extends Component<Props, State> {
                 )}
               >
                 {!this.state.sent ? ' Ny kunngjøring ' : ' Kunngjøring sendt '}
-              </a>
+              </Button>
             )}
 
             {showForm && (

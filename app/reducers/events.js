@@ -111,10 +111,10 @@ function mutateEvent(state: any, action: any) {
       if (!stateEvent) {
         return state;
       }
-      const activationTime =
-        registration.user.id === currentUser.id
-          ? activationTimeFromMeta
-          : stateEvent.activationTime;
+      const isMe = registration.user.id === currentUser.id;
+      const activationTime = isMe
+        ? activationTimeFromMeta
+        : stateEvent.activationTime;
       return {
         ...state,
         byId: {
@@ -133,7 +133,10 @@ function mutateEvent(state: any, action: any) {
               waitingRegistrations: stateEvent.waitingRegistrations.filter(
                 id => id !== action.payload.id
               )
-            })
+            }),
+            isUserFollowing: isMe
+              ? undefined
+              : state.byId[eventId].isUserFollowing
           }
         }
       };

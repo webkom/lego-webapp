@@ -5,6 +5,7 @@ import Dropdown from 'app/components/Dropdown';
 import styles from './bdb.css';
 import cx from 'classnames';
 import Icon from 'app/components/Icon';
+import Button from 'app/components/Button';
 import {
   sortStatusesByProminence,
   getStatusString,
@@ -52,7 +53,7 @@ export default class SemesterStatusContent extends Component<Props, State> {
     const dropDownItems = (
       <Dropdown.List>
         {statusCodes.map((statusString, j) => (
-          <a key={j} onClick={e => editFunction(statusString)}>
+          <Button flat key={j} onClick={e => editFunction(statusString)}>
             <Dropdown.ListItem className={styles.dropDownItem}>
               <div>
                 {semesterStatus.contactedStatus.indexOf(statusString) !== -1 ? (
@@ -83,7 +84,7 @@ export default class SemesterStatusContent extends Component<Props, State> {
               />
             </Dropdown.ListItem>
             {j !== statusCodes.length - 1 && <Dropdown.Divider />}
-          </a>
+          </Button>
         ))}
       </Dropdown.List>
     );

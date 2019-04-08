@@ -13,3 +13,4 @@ dist-client
 styleguide
 .css.tmp.md
 *.log
+.cypress_cache

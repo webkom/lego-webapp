@@ -10,6 +10,7 @@ import Gallery from 'app/components/Gallery';
 import type { DropFile } from 'app/components/Upload';
 import type { ID, ActionGrant } from 'app/models';
 import type { GalleryPictureEntity } from 'app/reducers/galleryPictures';
+import Button from 'app/components/Button';
 
 type Props = {
   gallery: Object,
@@ -91,8 +92,11 @@ export default class GalleryDetail extends Component<Props, State> {
             <EmptyState icon="photos-outline">
               <h1>Ingen bilder</h1>
               <h4>
-                Trykk <a onClick={() => this.toggleUpload()}>her</a> for å legge
-                inn bilder
+                Trykk{' '}
+                <Button flat onClick={() => this.toggleUpload()}>
+                  <b>her</b>
+                </Button>{' '}
+                for å legge inn bilder
               </h4>
             </EmptyState>
           )}

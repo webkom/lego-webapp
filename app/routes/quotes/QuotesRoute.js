@@ -16,6 +16,7 @@ import {
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectPagination } from '../../reducers/selectors';
+import { deleteComment } from 'app/actions/CommentActions';
 
 const mapStateToProps = (state, props) => {
   const queryString = ['?approved=true', '?approved=false'];
@@ -38,7 +39,8 @@ const mapDispatchToProps = {
   fetchMore: ({ approved }) =>
     approved
       ? fetchAllApproved({ loadNextPage: true })
-      : fetchAllUnapproved({ loadNextPage: true })
+      : fetchAllUnapproved({ loadNextPage: true }),
+  deleteComment
 };
 
 export default compose(

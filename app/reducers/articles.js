@@ -20,7 +20,8 @@ export type ArticleEntity = {
   text: string,
   tags: Array<string>,
   actionGrant: Object,
-  comments: Array<number>
+  comments: Array<number>,
+  youtubeUrl: string
 };
 
 function mutateArticle(state: any, action: any) {

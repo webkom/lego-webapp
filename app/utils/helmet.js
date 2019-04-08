@@ -22,7 +22,7 @@ type PropertyGenerator = (
   href?: string
 }>;
 
-export default function helmet<T>(propertyGenerator: PropertyGenerator) {
+export default function helmet<T>(propertyGenerator: ?PropertyGenerator) {
   return (Component: ComponentType<T>) => ({
     PropertyGenerator,
     ...props
@@ -30,10 +30,11 @@ export default function helmet<T>(propertyGenerator: PropertyGenerator) {
     propertyGenerator: PropertyGenerator
   }) => [
     <Helmet key="helmet">
-      {propertyGenerator(props, config).map(
-        ({ element, children, ...props }, index) =>
-          createElement(element || 'meta', { key: index, ...props }, children)
-      )}
+      {!!propertyGenerator &&
+        propertyGenerator(props, config).map(
+          ({ element, children, ...props }, index) =>
+            createElement(element || 'meta', { key: index, ...props }, children)
+        )}
     </Helmet>,
     <Component key="component" {...props} />
   ];

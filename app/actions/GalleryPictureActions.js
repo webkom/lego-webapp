@@ -3,7 +3,7 @@
 import { GalleryPicture, Gallery } from './ActionTypes';
 import { galleryPictureSchema } from 'app/reducers';
 import { uploadFile } from './FileActions';
-import { chunk } from 'lodash';
+import PromisePool from 'es6-promise-pool';
 import { type GalleryPictureEntity } from 'app/reducers/galleryPictures';
 import callAPI from 'app/actions/callAPI';
 import type { EntityID } from 'app/types';
@@ -113,38 +113,43 @@ export function CreateGalleryPicture(galleryPicture: { galleryId: number }) {
     }
   });
 }
-const delay = time => new Promise(res => setTimeout(() => res(), time));
 
-const MAX_UPLOADS = 15;
+const MAX_UPLOADS = 3;
 
-async function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
-  for (const fileChunk of chunk(files, MAX_UPLOADS)) {
-    await Promise.all(
-      fileChunk.map(file =>
-        dispatch(uploadFile({ file }))
-          .then(action => {
-            if (!action || !action.meta) return;
-            return dispatch(
-              CreateGalleryPicture({
-                galleryId,
-                file: action.meta.fileToken,
-                active: true
-              })
-            );
-          })
-          .catch(error => {
-            dispatch({
-              type: GalleryPicture.UPLOAD.FAILURE,
-              meta: { fileName: file.name }
-            });
-          })
-      )
+function uploadGalleryPicturesInTurn(files, galleryId, dispatch) {
+  const uploadPicture = async file => {
+    const action = await dispatch(uploadFile({ file, timeout: 3 * 60 * 1000 }));
+
+    if (!action || !action.meta) return;
+
+    return dispatch(
+      CreateGalleryPicture({
+        galleryId,
+        file: action.meta.fileToken,
+        active: true
+      })
     );
-    // Delay after each chunk in order to keep CPU and
-    // memory-usage relatively low.
-    // TODO implement a non-pool based approach, with n parallel uploads.
-    await delay(200);
-  }
+  };
+
+  const uploadPictureWithErrorhandler = file =>
+    uploadPicture(file).catch(error => {
+      dispatch({
+        type: GalleryPicture.UPLOAD.FAILURE,
+        error: true,
+        meta: {
+          fileName: file.name,
+          errorMessage: 'Opplasting av bilde feilet.'
+        }
+      });
+    });
+
+  const promiseProducer = function*() {
+    for (const file of files) {
+      yield uploadPictureWithErrorhandler(file);
+    }
+  };
+  const _data = promiseProducer();
+  return new PromisePool(() => _data.next().value, MAX_UPLOADS).start();
 }
 
 export function uploadAndCreateGalleryPicture(

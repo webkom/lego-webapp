@@ -101,14 +101,11 @@ class Poll extends React.Component<Props, State> {
             <Icon name="stats" />
             <span className={styles.pollHeader}>{title}</span>
           </Link>
-          <Tooltip
-            content="Avstemningen er anonym."
-            style={{ marginLeft: '-180px' }}
-          >
+          <Tooltip content="Avstemningen er anonym." renderDirection="left">
             <Icon
               name="information-circle-outline"
               size={20}
-              style={{ marginLeft: '10px', cursor: 'pointer' }}
+              style={{ cursor: 'pointer' }}
             />
           </Tooltip>
         </Flex>

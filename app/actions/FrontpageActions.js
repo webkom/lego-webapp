@@ -1,8 +1,11 @@
 // @flow
 
 import callAPI from 'app/actions/callAPI';
+
 import { Frontpage, Readme } from './ActionTypes';
 import { frontpageSchema } from 'app/reducers';
+
+const gql = String.raw;
 
 export function fetchData() {
   return callAPI({
@@ -18,38 +21,28 @@ export function fetchData() {
 
 const readmeUrl = 'https://readme-as-a-function.abakus.no/';
 
-const readmeFragment = `
-fragment readmeFragment on ReadmeUtgave {
+// $FlowFixMe
+const readmeFragment = gql`
+  fragment readmeFragment on ReadmeUtgave {
     title
     image
     pdf
     year
     utgave
-}
-
+  }
 `;
-//
-//const latestReadme = `
-//{
-//    latestReadme{
-//    ...readmeFragment
-//    }
-//
-//}
-//${readmeFragment}
-//`;
-//
-const readmeUtgaver = `
-query readmeUtgaver($first: Int){
-    readmeUtgaver(first: $first){
-    ...readmeFragment
+
+// $FlowFixMe
+const readmeUtgaver = gql`
+  query readmeUtgaver($first: Int) {
+    readmeUtgaver(first: $first) {
+      ...readmeFragment
     }
-
-}
-${readmeFragment}
+  }
+  ${readmeFragment}
 `;
 
-export function fetchReadmes() {
+export function fetchReadmes(first: number) {
   // $FlowFixMe
   return async dispatch => {
     try {
@@ -62,7 +55,7 @@ export function fetchReadmes() {
         body: JSON.stringify({
           operationName: null,
           query: readmeUtgaver,
-          variables: { first: 6 }
+          variables: { first }
         })
       });
 

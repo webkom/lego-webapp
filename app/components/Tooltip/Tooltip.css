@@ -19,13 +19,6 @@
   height: 0;
   border-width: 5px;
   border-style: solid;
-  left: 10%;
-}
-
-.showTooltip {
-  margin-top: -45px;
-  position: absolute;
-  transform: translateX(-10%);
 }
 
 .showTooltip::after {
@@ -33,9 +26,34 @@
   border-color: #333 transparent transparent;
 }
 
+.renderDirectionLeft {
+  transform: translate(-90%, -100%);
+}
+
+.renderDirectionLeft::after {
+  left: 90%;
+}
+
+.renderDirectionRight {
+  transform: translate(-10%, -100%);
+}
+
+.renderDirectionRight::after {
+  left: 10%;
+}
+
+.renderFromCenter {
+  transform: translate(-50%, -100%);
+}
+
+.renderFromCenter::after {
+  left: 50%;
+}
+
 .listTooltip {
   flex-direction: column;
   margin-top: 30px;
+  transform: translateX(-50%);
 }
 
 .listTooltip::after {

@@ -38,7 +38,7 @@ const UserGrid = ({
 );
 
 export const RegisteredCell = ({ user }: { user: User }) => (
-  <Tooltip content={user.fullName}>
+  <Tooltip style={{ marginTop: '-7px' }} content={user.fullName}>
     <Link to={`/users/${user.username}`}>
       <ProfilePicture
         size={56}

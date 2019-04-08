@@ -5,6 +5,7 @@ import { RadioButton, TextInput, CheckBox } from 'app/components/Form';
 import { Field } from 'redux-form';
 import styles from '../surveys.css';
 import { QuestionTypes } from 'app/routes/surveys/utils';
+import Button from 'app/components/Button';
 
 type Props = {
   questionType: string,
@@ -16,9 +17,9 @@ type Props = {
 
 const RemoveButton = ({ remove }: { remove?: () => void }) =>
   remove ? (
-    <a onClick={remove} className={styles.removeOption}>
+    <Button flat onClick={remove} className={styles.removeOption}>
       <span>x</span>
-    </a>
+    </Button>
   ) : null;
 
 const Option = (props: Props) => {

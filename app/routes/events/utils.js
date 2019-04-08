@@ -153,7 +153,8 @@ export const transformEvent = (data: TransformEvent) => ({
   paymentDueDate: calculatePaymentDueDate(data),
   unregistrationDeadline: calculateUnregistrationDeadline(data),
   pools: calculatePools(data),
-  useCaptcha: true // always use Captcha, this blocks the use of CLI
+  useCaptcha: true, // always use Captcha, this blocks the use of CLI
+  youtubeUrl: data.youtubeUrl
 });
 
 export const paymentPending = 'pending';

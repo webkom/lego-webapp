@@ -35,7 +35,7 @@ const ArticleDetail = ({
   comments,
   deleteComment
 }: Props) => (
-  <Content banner={article.cover}>
+  <Content banner={article.cover} youtubeUrl={article.youtubeUrl}>
     <NavigationTab
       headerClassName={styles.headerClassName}
       className={styles.articleHeader}

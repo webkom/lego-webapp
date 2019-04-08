@@ -20,6 +20,7 @@ import moment from 'moment-timezone';
 import { Content } from 'app/components/Content';
 import { Flex } from 'app/components/Layout';
 import { places, jobTypes, yearValues } from '../constants';
+import { validYoutubeUrl } from 'app/utils/validation';
 
 import type { Joblisting, Workplace, ID } from 'app/models';
 
@@ -215,6 +216,14 @@ class JoblistingEditor extends Component<Props, State> {
             options={this.state.responsibleOptions}
             component={SelectInput.Field}
           />
+          <Flex>
+            <Field
+              name="youtubeUrl"
+              label="YouTube-video som cover"
+              placeholder="https://www.youtube.com/watch?v=bLHL75H_VEM&t=5"
+              component={TextInput.Field}
+            />
+          </Flex>
           <Field
             name="description"
             className={styles.descriptionField}
@@ -260,6 +269,7 @@ class JoblistingEditor extends Component<Props, State> {
 }
 
 const validate = ({
+  youtubeUrl,
   title,
   description,
   company,
@@ -270,6 +280,12 @@ const validate = ({
   visibleTo
 }) => {
   const errors = {};
+
+  const [isValidYoutubeUrl, errorMessage = ''] = validYoutubeUrl()(youtubeUrl);
+  if (!isValidYoutubeUrl) {
+    errors.youtubeUrl = errorMessage;
+  }
+
   if (!title) {
     errors.title = 'Du må gi jobbannonsen en tittel';
   }

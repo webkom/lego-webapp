@@ -6,6 +6,7 @@ import EmptyState from 'app/components/EmptyState';
 import { Content } from 'app/components/Content';
 import Gallery, { type Photo } from 'app/components/Gallery';
 import styles from './Overview.css';
+import Button from 'app/components/Button';
 
 type Props = {
   fetching: boolean,
@@ -52,8 +53,11 @@ export default class Overview extends Component<Props> {
               <h1>Ingen synlige albumer</h1>
               {actionGrant && actionGrant.includes('create') && (
                 <h4>
-                  Trykk <a onClick={() => push('/photos/new')}>her</a> for å
-                  lage et nytt album
+                  Trykk{' '}
+                  <Button flat onClick={() => push('/photos/new')}>
+                    <b>her</b>
+                  </Button>{' '}
+                  for å lage et nytt album
                 </h4>
               )}
             </EmptyState>

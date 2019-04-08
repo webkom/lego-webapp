@@ -11,6 +11,7 @@ import { Flex } from 'app/components/Layout';
 import { type UserEntity } from 'app/reducers/users';
 import { type CommentEntity } from 'app/reducers/comments';
 import type { ID } from 'app/models';
+import Button from '../Button';
 
 type Props = {
   comment: CommentEntity,
@@ -70,16 +71,17 @@ export default class Comment extends Component<Props, State> {
                 <span className={styles.bullet}>•</span>
               </Flex>
               <Flex className={styles.links}>
-                <a onClick={this.toggleReply}>
+                <Button flat onClick={this.toggleReply}>
                   {this.state.replyOpen ? 'Lukk svar' : 'Svar'}
-                </a>
+                </Button>
                 {user && author.id == user.id && (
-                  <a
+                  <Button
+                    flat
                     className={styles.delete}
                     onClick={() => deleteComment(comment.id, commentTarget)}
                   >
                     Slett
-                  </a>
+                  </Button>
                 )}
               </Flex>
             </div>
