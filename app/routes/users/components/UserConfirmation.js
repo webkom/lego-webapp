@@ -12,7 +12,7 @@ import {
   legoForm
 } from 'app/components/Form';
 import { Field } from 'redux-form';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { createValidator, required, validPassword } from 'app/utils/validation';
 
 type Props = {

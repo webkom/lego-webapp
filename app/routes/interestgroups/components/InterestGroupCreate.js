@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import GroupForm from 'app/components/GroupForm';
 import { Flex } from 'app/components/Layout';
 import { Content } from 'app/components/Content';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 export default class InterestGroupEdit extends Component<{
   initialValues: Object,

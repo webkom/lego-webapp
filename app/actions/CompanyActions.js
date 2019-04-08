@@ -11,7 +11,7 @@ import {
 } from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import { startSubmit, stopSubmit } from 'redux-form';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import type { Thunk } from 'app/types';
 import { addToast } from 'app/actions/ToastActions';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';

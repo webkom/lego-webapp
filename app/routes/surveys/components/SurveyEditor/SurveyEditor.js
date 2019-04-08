@@ -17,7 +17,7 @@ import type { SurveyEntity } from 'app/reducers/surveys';
 import { Content } from 'app/components/Content';
 import type { FieldProps } from 'redux-form';
 import Icon from 'app/components/Icon';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Dropdown from 'app/components/Dropdown';
 import { eventTypeToString, EVENT_CONSTANTS } from 'app/routes/events/utils';
 import Time from 'app/components/Time';

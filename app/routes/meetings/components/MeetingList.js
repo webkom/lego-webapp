@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
 import Time from 'app/components/Time';
 import Pill from 'app/components/Pill';

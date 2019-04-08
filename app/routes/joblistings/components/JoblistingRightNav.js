@@ -2,7 +2,7 @@
 
 import styles from './JoblistingRightNav.css';
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Flex } from 'app/components/Layout';
 import { CheckBox, RadioButton } from 'app/components/Form/';
 import Button from 'app/components/Button';

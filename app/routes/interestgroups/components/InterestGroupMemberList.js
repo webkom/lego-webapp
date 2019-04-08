@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import Modal from 'app/components/Modal';
 import styles from './InterestGroupMemberList.css';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { ProfilePicture } from 'app/components/Image';
 import Tooltip from 'app/components/Tooltip';
 import { Flex } from 'app/components/Layout';

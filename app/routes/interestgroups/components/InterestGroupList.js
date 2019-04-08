@@ -5,7 +5,7 @@ import React from 'react';
 import InterestGroupComponent from './InterestGroup';
 import Button from 'app/components/Button';
 import { Content } from 'app/components/Content';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import type { ActionGrant, Group } from 'app/models';
 

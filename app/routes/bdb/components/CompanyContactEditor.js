@@ -7,7 +7,7 @@ import { Field } from 'redux-form';
 import Button from 'app/components/Button';
 import { TextInput } from 'app/components/Form';
 import LoadingIndicator from 'app/components/LoadingIndicator';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { createValidator, required, isEmail } from 'app/utils/validation';
 import { reduxForm } from 'redux-form';
 import { DetailNavigation } from '../utils';

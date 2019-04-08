@@ -7,7 +7,7 @@ import CommentView from 'app/components/Comments/CommentView';
 import Tag from 'app/components/Tags/Tag';
 import Tags from 'app/components/Tags';
 import LegoReactions from 'app/components/LegoReactions';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import moment from 'moment-timezone';
 import DisplayContent from 'app/components/DisplayContent';
 import type { ArticleEntity } from 'app/reducers/articles';

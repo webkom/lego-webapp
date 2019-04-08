@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import styles from './JoblistingList.css';
 import { Image } from 'app/components/Image';
 import Time from 'app/components/Time';
