@@ -11,7 +11,7 @@ import { selectSurveyById } from 'app/reducers/surveys';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import loadingIndicator from 'app/utils/loadingIndicator';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 
 const loadData = ({ params: { surveyId } }, dispatch) =>
   dispatch(fetchSurvey(surveyId));

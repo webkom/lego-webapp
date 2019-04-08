@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchCompanyContacts } from 'app/actions/CompanyActions';
 import { createJoblisting } from 'app/actions/JoblistingActions';
 import JoblistingEditor from 'app/routes/joblistings/components/JoblistingEditor';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import time from 'app/utils/time';

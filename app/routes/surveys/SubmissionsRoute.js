@@ -17,7 +17,7 @@ import SubmissionPage from './components/Submissions/SubmissionPage';
 import { compose } from 'redux';
 import { selectSurveySubmissions } from 'app/reducers/surveySubmissions';
 import { selectSurveyById } from 'app/reducers/surveys';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';

@@ -4,7 +4,7 @@ import { fetchWithToken } from 'app/actions/SurveyActions';
 import SubmissionPublicResults from './components/Submissions/SubmissionPublicResults';
 import { compose } from 'redux';
 import { selectSurveyById } from 'app/reducers/surveys';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import loadingIndicator from 'app/utils/loadingIndicator';
 
 const loadData = (props, dispatch) => {

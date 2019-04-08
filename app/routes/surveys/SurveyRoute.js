@@ -6,7 +6,7 @@ import { compose } from 'redux';
 import { selectSurveys } from 'app/reducers/surveys';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 
 const loadData = (props, dispatch) => dispatch(fetchAll());
 
