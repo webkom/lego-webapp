@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { createCompanyInterest } from 'app/actions/CompanyInterestActions';
 import { fetchSemestersForInterestform } from 'app/actions/CompanyActions';
 import { compose } from 'redux';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import CompanyInterestPage, {
   EVENT_TYPES,
   OTHER_TYPES

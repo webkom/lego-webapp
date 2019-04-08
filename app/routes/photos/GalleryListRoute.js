@@ -2,7 +2,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
 import { fetch } from 'app/actions/GalleryActions';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import Overview from './components/Overview';
 import { selectGalleries } from 'app/reducers/galleries';
 

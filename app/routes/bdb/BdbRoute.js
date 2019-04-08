@@ -13,7 +13,7 @@ import { selectCompanies } from 'app/reducers/companies';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 
 const loadData = (props, dispatch) =>
   dispatch(fetchSemesters()).then(() => dispatch(fetchAllAdmin()));

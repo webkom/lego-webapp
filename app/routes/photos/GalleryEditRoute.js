@@ -13,7 +13,7 @@ import {
   updateGallery,
   updateGalleryCover
 } from 'app/actions/GalleryActions';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import GalleryEditor from './components/GalleryEditor';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';

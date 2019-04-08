@@ -13,7 +13,7 @@ import { selectCompanySemestersForInterestForm } from 'app/reducers/companySemes
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 import prepare from 'app/utils/prepare';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { semesterToText } from './utils';
 import type { CompanySemesterEntity } from 'app/reducers/companySemesters';
 

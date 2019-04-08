@@ -3,7 +3,7 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import prepare from 'app/utils/prepare';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import UserSettings from './components/UserSettings';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import { selectUserByUsername } from 'app/reducers/users';
