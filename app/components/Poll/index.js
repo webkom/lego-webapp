@@ -24,6 +24,10 @@ type State = {
   expanded: boolean
 };
 
+type OptionEntityRatio = OptionEntity & {
+  ratio: number
+};
+
 class Poll extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -65,7 +69,10 @@ class Poll extends React.Component<Props, State> {
       : this.setState({ optionsToShow: options, expanded: true });
   };
 
-  optionsWithPerfectRatios = (options, optionsToShow) => {
+  optionsWithPerfectRatios = (
+    options: Array<OptionEntity>,
+    optionsToShow: Array<OptionEntity>
+  ) => {
     const totalVotes = options.reduce((a, option) => a + option.votes, 0);
     const ratios = optionsToShow.map(option => {
       return { ...option, ratio: (option.votes / totalVotes) * 100 };
@@ -74,7 +81,7 @@ class Poll extends React.Component<Props, State> {
   };
 
   // As described in: https://stackoverflow.com/questions/13483430/how-to-make-rounded-percentages-add-up-to-100
-  perfectRatios = options => {
+  perfectRatios = (options: Array<OptionEntityRatio>) => {
     const off =
       100 - options.reduce((a, option) => a + Math.floor(option.ratio), 0);
     return sortBy(options, o => Math.floor(o.ratio) - o.ratio)
