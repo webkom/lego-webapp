@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import cx from 'classnames';
 import { ProfilePicture } from 'app/components/Image';
 import styles from './AttendanceModal.css';

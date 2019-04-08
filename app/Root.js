@@ -2,21 +2,24 @@
 
 import React from 'react';
 import { setStatusCode } from 'app/actions/RoutingActions';
-import { Router, applyRouterMiddleware } from 'react-router';
 import { hot } from 'react-hot-loader/root';
+import { Route } from 'react-router-dom';
 import { ConnectedRouter } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import type { Store } from 'app/types';
 import { connect } from 'react-redux';
 import ErrorBoundary from 'app/components/ErrorBoundary';
-import { useScroll } from 'react-router-scroll';
+import type { History } from 'history';
+import AppRoute from './routes/app';
 
 type Props = {
-  store: Store
+  store: Store,
+  history: History
 };
 
 const Root = (props: Props) => {
-  const { store, ...restProps } = props;
+  const { store, history, ...restProps } = props;
+  console.log(restProps);
   return (
     <Provider store={store}>
       <ConnectedRouter history={history}>
@@ -26,6 +29,21 @@ const Root = (props: Props) => {
   );
 };
 
+const RouteWithSubRoutes = route => {
+  console.log(route);
+  return (
+    <>
+      <Route
+        path={route.path}
+        render={props =>
+          props.component && (
+            <route.component {...props} routes={route.childRoutes} />
+          )
+        }
+      />
+    </>
+  );
+};
 const mapDispatchToProps = {
   setStatusCode
 };
@@ -35,34 +53,22 @@ const RouteHandler = connect(
 )(
   ({
     setStatusCode,
+    routes,
     ...restProps
   }: {
     setStatusCode: (statusCode: ?number) => void
-  }) => (
-    <ErrorBoundary openReportDialog>
-      <Router
-        onError={err => setStatusCode(500)}
-        {...restProps}
-        render={applyRouterMiddleware(
-          useScroll((prevRouterProps, { location, routes }) => {
-            if (
-              prevRouterProps &&
-              location.pathname === prevRouterProps.location.pathname
-            )
-              return false;
-            if (
-              routes
-                .concat(prevRouterProps ? prevRouterProps.routes : [])
-                .some(route => route.ignoreScrollBehavior)
-            ) {
-              return false;
-            }
-            return true;
-          })
-        )}
-      />
-    </ErrorBoundary>
-  )
+  }) => {
+    console.log(restProps);
+    return (
+      <ErrorBoundary openReportDialog>
+        <routes.component {...restProps}>
+          {routes.childRoutes.map((route, i) => (
+            <RouteWithSubRoutes key={i} {...route} />
+          ))}
+        </routes.component>
+      </ErrorBoundary>
+    );
+  }
 );
 
 export default hot(Root);

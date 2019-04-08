@@ -2,7 +2,7 @@
 import React from 'react';
 import GroupMembersList from '../GroupMembersList';
 import { shallow } from 'enzyme';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const memberships = [
   {

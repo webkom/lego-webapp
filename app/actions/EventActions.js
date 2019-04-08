@@ -1,6 +1,6 @@
 // @flow
 
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { eventSchema, eventAdministrateSchema } from 'app/reducers';
 import createQueryString from 'app/utils/createQueryString';
 import callAPI from 'app/actions/callAPI';

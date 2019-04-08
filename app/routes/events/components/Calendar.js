@@ -4,7 +4,7 @@ import styles from './Calendar.css';
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import moment from 'moment-timezone';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import createMonthlyCalendar from 'app/utils/createMonthlyCalendar';
 import CalendarCell from './CalendarCell';
 import Toolbar from './Toolbar';

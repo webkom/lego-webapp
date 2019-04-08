@@ -4,7 +4,7 @@ import styles from './InterestGroup.css';
 import React from 'react';
 import { Image } from 'app/components/Image';
 import { Flex } from 'app/components/Layout';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import type { Group } from 'app/models';
 
 // TODO: rather handle this in the backend

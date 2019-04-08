@@ -4,7 +4,7 @@ import { Article } from './ActionTypes';
 import { articleSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import type { EntityID, ArticleEntity, Thunk } from 'app/types';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 
 export function fetchArticle(articleId: EntityID) {
   return callAPI({

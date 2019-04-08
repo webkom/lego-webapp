@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import styles from './NextEvent.css';
 import { colorForEvent } from 'app/routes/events/utils';
 import { Flex } from 'app/components/Layout';

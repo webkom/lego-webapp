@@ -5,7 +5,7 @@ import { normalize } from 'normalizr';
 import config from 'app/config';
 import cookie from 'js-cookie';
 import moment from 'moment-timezone';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { userSchema, penaltySchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { User, FetchHistory, Penalty } from './ActionTypes';

@@ -4,7 +4,7 @@ import Helmet from 'react-helmet';
 import { map, toPairs } from 'lodash';
 import { Content } from 'app/components/Content';
 import styles from './TagDetail.css';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 type Props = {
   tag: Object

@@ -19,7 +19,7 @@ import { normalizeObjectPermissions } from 'app/components/Form/ObjectPermission
 import { Field, Fields } from 'redux-form';
 import { Flex } from 'app/components/Layout';
 import { Content } from 'app/components/Content';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Icon from 'app/components/Icon';
 import EmptyState from 'app/components/EmptyState';
 import GalleryEditorActions from './GalleryEditorActions';

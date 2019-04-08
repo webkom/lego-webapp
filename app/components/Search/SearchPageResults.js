@@ -2,7 +2,7 @@
 import React from 'react';
 import type { SearchResult as SearchResultType } from 'app/reducers/search';
 import EmptyState from 'app/components/EmptyState';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { ProfilePicture } from 'app/components/Image';
 import truncateString from 'app/utils/truncateString';
 import Icon from 'app/components/Icon';

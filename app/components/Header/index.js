@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Link, IndexLink } from 'react-router';
+import { Link, NavLink } from 'react-router-dom';
 import { Modal } from 'react-overlays';
 import Dropdown from '../Dropdown';
 import Icon from '../Icon';
@@ -60,14 +60,10 @@ function AccountDropdownItems({
   return (
     <Dropdown.List>
       <Dropdown.ListItem>
-        <Link
-          to="/users/me"
-          onClick={onClose}
-          style={{ color: 'var(--lego-color-gray)' }}
-        >
+        <NavLink to="/users/me" onClick={onClose} style={{ color: 'var(--lego-color-gray)' }}>
           <strong>{username}</strong>
           <Icon name="contact" size={24} />
-        </Link>
+        </NavLink>
       </Dropdown.ListItem>
       <Dropdown.Divider />
       <Dropdown.ListItem>
@@ -143,33 +139,39 @@ class Header extends Component<Props, State> {
       <header className={styles.header}>
         <FancyNodesCanvas height={300} />
         <div className={styles.content}>
+<<<<<<< HEAD
           <IndexLink to="/" className={styles.logo}>
             <Image src={getLogoImage()} alt="" />
           </IndexLink>
+=======
+          <Link to="/" className={styles.logo}>
+            <Image src={logoImage} alt="" />
+          </Link>
+>>>>>>> Try to add react-router v5, and fail...
 
           <div className={styles.menu}>
             <div className={styles.navigation}>
-              <Link to="/events" activeClassName={styles.activeItem}>
+              <NavLink to="/events" activeClassName={styles.activeItem}>
                 Arrangementer
-              </Link>
+              </NavLink>
               {!loggedIn ? (
-                <Link
+                <NavLink
                   to="/pages/bedrifter/for-bedrifter"
                   activeClassName={styles.activeItem}
                 >
                   For bedrifter
-                </Link>
+                </NavLink>
               ) : (
-                <Link to="/joblistings" activeClassName={styles.activeItem}>
+                <NavLink to="/joblistings" activeClassName={styles.activeItem}>
                   Karriere
-                </Link>
+                </NavLink>
               )}
-              <Link
+              <NavLink
                 to="/pages/info-om-abakus"
                 activeClassName={styles.activeItem}
               >
                 Om Abakus
-              </Link>
+              </NavLink>
             </div>
 
             <div className={styles.buttonGroup}>

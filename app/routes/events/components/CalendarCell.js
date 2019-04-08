@@ -4,7 +4,7 @@ import React from 'react';
 import moment from 'moment-timezone';
 import { connect } from 'react-redux';
 import cx from 'classnames';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { createSelector } from 'reselect';
 import Circle from 'app/components/Circle';
 import Popover from 'app/components/Popover';

@@ -8,7 +8,7 @@ import Button from 'app/components/Button';
 import { Field, reduxForm } from 'redux-form';
 import { Flex } from 'app/components/Layout';
 import { Content } from 'app/components/Content';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Modal from 'app/components/Modal';
 import styles from './GalleryPictureModal.css';
 import { Image } from 'app/components/Image';

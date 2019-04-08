@@ -104,11 +104,10 @@ const reducers = {
 
 export type Reducers = typeof reducers;
 
-const appReducer = combineReducers(reducers);
-
 export default function rootReducer(history) {
-  return appReducer({
-    router: connectRouter(history)
+  return combineReducers({
+    router: connectRouter(history),
+    ...reducers
   });
 }
 

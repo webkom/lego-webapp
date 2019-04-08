@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Button from 'app/components/Button';
 import Card from 'app/components/Card';
 import Time from 'app/components/Time';

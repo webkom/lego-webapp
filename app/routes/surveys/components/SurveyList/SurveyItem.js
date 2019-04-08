@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
 import { Image } from 'app/components/Image';
 import styles from '../surveys.css';

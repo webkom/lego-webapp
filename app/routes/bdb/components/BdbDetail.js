@@ -12,7 +12,7 @@ import {
 import InfoBubble from 'app/components/InfoBubble';
 import CommentView from 'app/components/Comments/CommentView';
 import Time from 'app/components/Time';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { Image } from 'app/components/Image';
 import SemesterStatusDetail from './SemesterStatusDetail';

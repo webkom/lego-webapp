@@ -2,7 +2,7 @@ import React from 'react';
 import GroupTree from '../GroupTree';
 import TreeView from 'react-treeview';
 import { shallow } from 'enzyme';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const groups = [
   {

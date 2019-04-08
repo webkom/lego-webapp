@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Link, IndexLink } from 'react-router';
+import { Link, NavLink } from 'react-router-dom';
 import Modal from 'app/components/Modal';
 import Time from 'app/components/Time';
 import EventEditor from './EventEditor';
@@ -30,21 +30,21 @@ class Toolbar extends Component<Props, State> {
           <Time format="ll" className={styles.timeNow} />
         </div>
 
-        <IndexLink
+        <NavLink
           to="/events"
           activeClassName={styles.active}
           className={cx(styles.pickerItem, styles.list)}
         >
           Liste
-        </IndexLink>
+        </NavLink>
 
-        <Link
+        <NavLink
           to="/events/calendar"
           activeClassName={styles.active}
           className={cx(styles.pickerItem, styles.calender)}
         >
           Kalender
-        </Link>
+        </NavLink>
 
         <div className={styles.create}>
           {actionGrant && actionGrant.includes('create') && (

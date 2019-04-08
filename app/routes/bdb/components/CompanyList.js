@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import styles from './bdb.css';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import CompanySingleRow from './CompanySingleRow';
 import { indexToSemester } from '../utils.js';
 import Icon from 'app/components/Icon';
