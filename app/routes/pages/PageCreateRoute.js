@@ -4,7 +4,7 @@ import { createPage } from 'app/actions/PageActions';
 import PageEditor from './components/PageEditor';
 import { uploadFile } from 'app/actions/FileActions';
 import { legoForm } from 'app/components/Form';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 
 function mapStateToProps(state, props) {
   return {

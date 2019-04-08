@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { fetch } from 'app/actions/TagActions';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import prepare from 'app/utils/prepare';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import TagDetail from './components/TagDetail';
 import { selectTagById } from 'app/reducers/tags';
 

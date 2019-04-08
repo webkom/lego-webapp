@@ -2,7 +2,7 @@
 
 import { schema } from 'normalizr';
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
+import { connectRouter } from 'connected-react-router';
 import routing from './routing';
 import allowed from './allowed';
 import form from './forms';
@@ -92,7 +92,6 @@ const reducers = {
   readme,
   registrations,
   restrictedMails,
-  routing: joinReducers(routing, routerReducer),
   search,
   emojis,
   reactions,
@@ -107,17 +106,10 @@ export type Reducers = typeof reducers;
 
 const appReducer = combineReducers(reducers);
 
-export default function rootReducer(state: State, action: Action) {
-  if (action.type === User.LOGOUT) {
-    return appReducer(
-      {
-        routing: state.routing
-      },
-      action
-    );
-  }
-
-  return appReducer(state, action);
+export default function rootReducer(history) {
+  return appReducer({
+    router: connectRouter(history)
+  });
 }
 
 export const restrictedMailSchema = new schema.Entity('restrictedMails');

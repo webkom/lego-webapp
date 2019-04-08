@@ -12,7 +12,7 @@ import { selectArticleById } from 'app/reducers/articles';
 import { objectPermissionsToInitialValues } from 'app/components/Form/ObjectPermissions';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 
 const mapStateToProps = (state, props) => {
   const { articleId } = props.params;

@@ -3,7 +3,7 @@
 import callAPI from './callAPI';
 import { Poll } from './ActionTypes';
 import { pollSchema } from '../reducers';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import type { Thunk } from 'app/types';
 import { type OptionEntity } from 'app/reducers/polls';
 import { type Tags } from 'app/models';

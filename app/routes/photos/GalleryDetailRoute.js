@@ -12,7 +12,7 @@ import {
   fetch,
   uploadAndCreateGalleryPicture
 } from 'app/actions/GalleryPictureActions';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import GalleryDetail from './components/GalleryDetail';
 import { selectGalleryById } from 'app/reducers/galleries';
 import { SelectGalleryPicturesByGalleryId } from 'app/reducers/galleryPictures';
