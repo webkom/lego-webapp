@@ -12,7 +12,7 @@ import CompanyInterestPage, {
 } from './components/CompanyInterestPage';
 import { selectCompanyInterestById } from 'app/reducers/companyInterest';
 import { selectCompanySemesters } from 'app/reducers/companySemesters';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import prepare from 'app/utils/prepare';
 
 const loadCompanyInterests = (props, dispatch) => {

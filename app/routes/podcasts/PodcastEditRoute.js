@@ -9,7 +9,7 @@ import {
 } from 'app/actions/PodcastAction';
 import prepare from 'app/utils/prepare';
 import PodcastEditor from './components/PodcastEditor';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import loadingIndicator from 'app/utils/loadingIndicator';
 
 const mapDispachToProps = {

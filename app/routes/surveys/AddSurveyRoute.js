@@ -5,7 +5,7 @@ import { formValueSelector } from 'redux-form';
 import SurveyEditor from './components/SurveyEditor/SurveyEditor';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { initialQuestion } from './components/SurveyEditor/SurveyEditor';
 import prepare from 'app/utils/prepare';
 import { selectSurveyTemplate } from 'app/reducers/surveys';

@@ -3,6 +3,7 @@
 import React from 'react';
 import { setStatusCode } from 'app/actions/RoutingActions';
 import { Router, applyRouterMiddleware } from 'react-router';
+import { ConnectedRouter } from 'connected-react-router';
 import { Provider } from 'react-redux';
 import type { Store } from 'app/types';
 import { connect } from 'react-redux';
@@ -17,7 +18,9 @@ const Root = (props: Props) => {
   const { store, ...restProps } = props;
   return (
     <Provider store={store}>
-      <RouteHandler {...restProps} />
+      <ConnectedRouter history={history}>
+        <RouteHandler {...restProps} />
+      </ConnectedRouter>
     </Provider>
   );
 };

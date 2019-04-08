@@ -2,7 +2,7 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { debounce } from 'lodash';
 import { dispatched } from '@webkom/react-prepare';
 import { autocomplete } from 'app/actions/SearchActions';

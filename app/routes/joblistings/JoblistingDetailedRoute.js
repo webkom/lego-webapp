@@ -7,7 +7,7 @@ import {
 import JoblistingDetail from './components/JoblistingDetail';
 import { selectJoblistingById } from 'app/reducers/joblistings';
 import { compose } from 'redux';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 
 const mapStateToProps = (state, props) => {
   const { joblistingId } = props.params;

@@ -15,7 +15,7 @@ import {
 } from 'app/reducers/galleryPictures';
 import { deletePicture } from 'app/actions/GalleryPictureActions';
 import { updateGalleryCover } from 'app/actions/GalleryActions';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { deleteComment } from 'app/actions/CommentActions';
 
 function mapStateToProps(state, props) {

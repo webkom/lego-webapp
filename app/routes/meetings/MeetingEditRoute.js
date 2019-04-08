@@ -1,7 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
 import { dispatched } from '@webkom/react-prepare';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { compose } from 'redux';
 import MeetingEditor from './components/MeetingEditor';
 import {
