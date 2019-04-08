@@ -9,7 +9,7 @@ import {
 import styles from './PublicFrontpage.css';
 import netcompany from 'app/assets/netcompany_dark.png';
 import CompactEvents from './CompactEvents';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
 import truncateString from 'app/utils/truncateString';
 import Time from 'app/components/Time';

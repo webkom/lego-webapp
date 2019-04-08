@@ -9,7 +9,7 @@ import Icon from 'app/components/Icon';
 import throttle from 'lodash/throttle';
 import ProgressiveImage from 'app/components/ProgressiveImage';
 import Dropdown from 'app/components/Dropdown';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import CommentView from 'app/components/Comments/CommentView';
 import Modal from 'app/components/Modal';
 import styles from './GalleryPictureModal.css';

@@ -4,7 +4,7 @@ import React from 'react';
 import styles from './Company.css';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import InfiniteScroll from 'react-infinite-scroller';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Image } from 'app/components/Image';
 import type { Company } from 'app/models';
 

@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import styles from './surveys.css';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import type { ActionGrant } from 'app/models';
 import { ContentSidebar } from 'app/components/Content';
 import { CopyToClipboard } from 'react-copy-to-clipboard';

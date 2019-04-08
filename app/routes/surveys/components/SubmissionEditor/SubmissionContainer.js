@@ -4,7 +4,7 @@ import React from 'react';
 import type { SurveyEntity } from 'app/reducers/surveys';
 import type { SubmissionEntity } from 'app/reducers/surveySubmissions';
 import { Content } from 'app/components/Content';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import AlreadyAnswered from './AlreadyAnswered';
 import SubmissionEditor from './SubmissionEditor';
 import moment from 'moment-timezone';

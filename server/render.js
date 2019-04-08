@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { match, RouterContext } from 'react-router';
+import { match, StaticRouter } from 'react-router';
 import { Provider } from 'react-redux';
 import { prepare } from '@webkom/react-prepare';
 import Helmet from 'react-helmet';
@@ -88,7 +88,12 @@ function render(req: $Request, res: $Response, next: Middleware) {
     );
     const app = (
       <Provider store={store}>
-        <RouterContext {...renderProps} createElement={createElement} />
+        <StaticRouter
+          location={req.url}
+          context={renderProps.context}
+          {...renderProps}
+        />
+        {createElement}
       </Provider>
     );
 

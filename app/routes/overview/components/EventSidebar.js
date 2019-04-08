@@ -2,7 +2,7 @@
 
 import styles from './EventSidebar.css';
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Octagon from 'app/components/Octagon';
 import { Image } from 'app/components/Image';
 import { colorForEvent } from 'app/routes/events/utils';

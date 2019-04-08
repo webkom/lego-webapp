@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import styles from './Banner.css';
 import cx from 'classnames';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 type Props = {
   /** Text of banner */

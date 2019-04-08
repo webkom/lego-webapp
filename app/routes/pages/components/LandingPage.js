@@ -1,6 +1,6 @@
 //@flow
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import { DisplayVisionShort } from './subcomponents/DisplayVision';

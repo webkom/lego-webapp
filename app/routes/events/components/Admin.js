@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import type { ID, Event, ActionGrant } from 'app/models';
 import AnnouncementInLine from 'app/components/AnnouncementInLine';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';

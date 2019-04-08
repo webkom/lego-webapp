@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import styles from './Podcast.css';
 import LegoSoundCloudPlayer from './PodcastPlayer.js';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Icon from 'app/components/Icon';
 import { ProfilePicture } from 'app/components/Image';
 

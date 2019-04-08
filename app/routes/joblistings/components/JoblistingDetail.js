@@ -1,7 +1,7 @@
 // @flow
 
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import LoadingIndicator from 'app/components/LoadingIndicator/';
 import DisplayContent from 'app/components/DisplayContent';
 import { ConfirmModalWithParent } from 'app/components/Modal/ConfirmModal';

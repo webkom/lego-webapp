@@ -8,7 +8,7 @@ import { createLogger } from 'redux-logger';
 import jwtDecode from 'jwt-decode';
 import { browserHistory } from 'react-router';
 import { routerMiddleware } from 'connected-react-router';
-import { createBrowserHistory } from 'history';
+import { createBrowserHistory, createMemoryHistory } from 'history';
 import createRavenMiddleware from 'raven-for-redux';
 import { addToast } from 'app/actions/ToastActions';
 import promiseMiddleware from './promiseMiddleware';
@@ -16,7 +16,7 @@ import { selectCurrentUser } from 'app/reducers/auth';
 import createMessageMiddleware from './messageMiddleware';
 import type { State, Store, GetCookie } from 'app/types';
 import { omit } from 'lodash';
-import createRootReducer from './reducers';
+import createRootReducer from '../reducers';
 
 const trackerMiddleware = createTracker({
   mapper: {
@@ -76,7 +76,9 @@ const loggerMiddleware = createLogger({
   collapsed: true
 });
 
-export const history = createBrowserHistory();
+export const history = __CLIENT__
+  ? createBrowserHistory()
+  : createMemoryHistory();
 
 export default function configureStore(
   initialState: State | {||} = {},

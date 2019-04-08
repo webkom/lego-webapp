@@ -2,7 +2,7 @@
 
 import styles from './Registrations.css';
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Tooltip from 'app/components/Tooltip';
 import { Flex } from 'app/components/Layout';
 import type { EventRegistration } from 'app/models';

@@ -6,7 +6,7 @@ import Icon from '../Icon';
 import { activityRenderers } from '../Feed';
 import Time from 'app/components/Time';
 import styles from './HeaderNotifications.css';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import { toSpan } from '../Feed/context';
 

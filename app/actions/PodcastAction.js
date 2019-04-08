@@ -4,7 +4,7 @@ import { Podcast } from './ActionTypes';
 import { podcastSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import type { Thunk } from 'app/types';
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 
 export function fetchPodcasts() {
   return callAPI({

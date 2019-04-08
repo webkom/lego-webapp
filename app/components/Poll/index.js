@@ -4,7 +4,7 @@ import React from 'react';
 import Button from 'app/components/Button';
 import styles from './Poll.css';
 import type { PollEntity, OptionEntity } from 'app/reducers/polls';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Icon from 'app/components/Icon';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';

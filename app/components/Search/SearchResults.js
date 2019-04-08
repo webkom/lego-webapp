@@ -3,7 +3,7 @@
 import React from 'react';
 import styles from './Search.css';
 import cx from 'classnames';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { ProfilePicture } from '../Image';
 import Icon from '../Icon';
 import ResolveLink from 'app/components/ResolveLink';

@@ -1,7 +1,7 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import Time from 'app/components/Time';
 import CommentForm from 'app/components/CommentForm';
 import { ProfilePicture } from 'app/components/Image';

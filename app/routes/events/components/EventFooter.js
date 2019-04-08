@@ -1,6 +1,6 @@
 //@flow
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import styles from './EventFooter.css';
 import { hiddenOnMobile } from 'app/styles/utilities.css';
 import cx from 'classnames';

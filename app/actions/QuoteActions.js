@@ -1,6 +1,6 @@
 // @flow
 
-import { push } from 'react-router-redux';
+import { push } from 'connected-react-router';
 import { startSubmit, stopSubmit } from 'redux-form';
 import { quoteSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';

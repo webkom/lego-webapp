@@ -21,10 +21,8 @@ import 'moment/locale/nb';
 import cookie from 'js-cookie';
 import config from 'app/config';
 import raven from 'raven-js';
-import { browserHistory } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
 import { isEmpty } from 'lodash';
-import configureStore from 'app/utils/configureStore';
+import configureStore, { history } from 'app/utils/configureStore';
 import renderApp from './render';
 import { fetchMeta } from 'app/actions/MetaActions';
 import {
@@ -60,8 +58,6 @@ if (isEmpty(preloadedState)) {
 } else {
   store.dispatch(maybeRefreshToken());
 }
-
-const history = syncHistoryWithStore(browserHistory, store);
 
 store.dispatch({ type: 'REHYDRATED' });
 

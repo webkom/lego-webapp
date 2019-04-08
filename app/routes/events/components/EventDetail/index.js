@@ -27,7 +27,7 @@ import {
   ContentMain,
   ContentSidebar
 } from 'app/components/Content';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import UserGrid from 'app/components/UserGrid';
 import type {
   ID,
