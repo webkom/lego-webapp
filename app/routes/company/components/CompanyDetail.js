@@ -27,7 +27,7 @@ function insertInfoBubbles(company) {
   const infos = [
     ['call', company.phone, 'Telefon'],
     ['at', company.website, 'Nettside'],
-    ['home', company.address, 'Addresse'],
+    ['home', company.address, 'Adresse'],
     ['briefcase', company.companyType, 'Type bedrift']
   ];
 
