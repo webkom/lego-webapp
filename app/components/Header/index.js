@@ -181,6 +181,7 @@ class Header extends Component<Props, State> {
                   triggerComponent={
                     <ProfilePicture
                       size={30}
+                      alt="user"
                       user={this.props.currentUser}
                       style={{ verticalAlign: 'middle' }}
                     />
