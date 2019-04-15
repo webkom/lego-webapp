@@ -6,16 +6,21 @@ describe('Create event', () => {
     cy.cachedLogin();
   });
 
-  const openMenu = () => {
+  // Open the hambuermenu and select by name, then assert by path
+  const openMenuAndSelect = (name, path) => {
     cy.get(c('buttonGroup')).within(() => {
       cy.get(c('searchIcon')).click();
     });
+    cy.get(c('Search__navigationFlex')).within(() => {
+      cy.contains(name).click();
+    });
+    cy.url().should('contain', path);
   };
 
   it('should be able to navigate to events', () => {
     cy.visit('/');
     cy.get(c('navigation')).within(() => {
-      cy.get(a('/events')).click();
+      cy.contains('Arrangementer').click();
     });
     cy.url().should('contain', '/events');
     cy.contains('Denne uken');
@@ -25,7 +30,7 @@ describe('Create event', () => {
   it('should be able to navigate to joblistings', () => {
     cy.visit('/');
     cy.get(c('navigation')).within(() => {
-      cy.get(a('/joblistings')).click();
+      cy.contains('Karriere').click();
     });
     cy.url().should('contain', '/joblistings');
     cy.contains('Jobbannonser');
@@ -35,7 +40,7 @@ describe('Create event', () => {
   it('should be able to navigate to about-page', () => {
     cy.visit('/');
     cy.get(c('navigation')).within(() => {
-      cy.get(a('/pages/info-om-abakus')).click();
+      cy.contains('Om Abakus').click();
     });
     cy.url().should('contain', '/pages/info-om-abakus');
     cy.contains('Generelt');
@@ -71,28 +76,28 @@ describe('Create event', () => {
 
     // Go to users settings
     cy.get(c('Dropdown')).within(() => {
-      cy.get(a('/users/me/settings/profile')).click();
+      cy.contains('Innstillinger').click();
     });
     cy.url().should('contain', '/users/me/settings');
     cy.contains('Brukernavn');
 
     // Go to notifications
     cy.get(c('NavigationTab')).within(() => {
-      cy.get(a('/users/me/settings/notifications')).click();
+      cy.contains('Notifikasjoner').click();
     });
     cy.url().should('contain', '/users/me/settings/notifications');
     cy.contains('Eposter som sendes direkte til deg');
 
     // Go to OAuth2
     cy.get(c('NavigationTab')).within(() => {
-      cy.get(a('/users/me/settings/oauth2')).click();
+      cy.contains('OAuth2').click();
     });
     cy.url().should('contain', '/users/me/settings/oauth2');
     cy.contains('Denne nettsiden benytter seg av et API');
 
     // Go to student confirmation
     cy.get(c('NavigationTab')).within(() => {
-      cy.get(a('/users/me/settings/student-confirmation')).click();
+      cy.contains('Verifiser studentstatus').click();
     });
     cy.url().should('contain', '/users/me/settings/student-confirmation');
     cy.contains('NTNU Brukernavn');
@@ -106,7 +111,7 @@ describe('Create event', () => {
 
     // Go to meetings
     cy.get(c('Dropdown')).within(() => {
-      cy.get(a('/meetings/')).click();
+      cy.contains('Møteinnkallinger').click();
     });
     cy.url().should('contain', '/meetings');
     cy.contains('Dine Møter');
@@ -114,7 +119,7 @@ describe('Create event', () => {
 
     // Go to create new
     cy.get(c('NavigationTab')).within(() => {
-      cy.get(a('/meetings/create/')).click();
+      cy.contains('Nytt møte').click();
     });
     cy.url().should('contain', '/meetings/create');
     cy.contains('Nytt møte');
@@ -122,7 +127,7 @@ describe('Create event', () => {
 
     // Go back to meetings
     cy.get(c('NavigationTab')).within(() => {
-      cy.get(a('/meetings/')).click();
+      cy.contains('Mine møter').click();
     });
     cy.url().should('contain', '/meetings');
     cy.contains('Dine Møter');
@@ -132,7 +137,9 @@ describe('Create event', () => {
     cy.visit('/');
 
     // Go to the extended menu
-    openMenu();
+    cy.get(c('buttonGroup')).within(() => {
+      cy.get(c('searchIcon')).click();
+    });
     cy.url().should('contain', '/');
     cy.contains('Sider');
     cy.contains('Arrangementer');
@@ -149,115 +156,59 @@ describe('Create event', () => {
     cy.visit('/');
 
     // Events
-    openMenu();
-    cy.get(c('Search__navigationFlex')).within(() => {
-      cy.get(a('/events')).click();
-    });
-    cy.url().should('contain', '/events');
+    openMenuAndSelect('Arrangementer', '/events');
     cy.contains('Liste');
 
     // Articles
-    openMenu();
-    cy.get(c('Search__navigationFlex')).within(() => {
-      cy.get(a('/articles')).click();
-    });
-    cy.url().should('contain', '/articles');
+    openMenuAndSelect('Artikler', '/articles');
     cy.contains('Ny artikkel');
 
     // Polls
-    openMenu();
-    cy.get(c('Search__navigationFlex')).within(() => {
-      cy.get(a('/polls')).click();
-    });
-    cy.url().should('contain', '/polls');
+    openMenuAndSelect('Avstemninger', '/polls');
     cy.contains('Avstemninger');
 
     // Companies
-    openMenu();
-    cy.get(c('Search__navigationFlex')).within(() => {
-      cy.get(a('/companies')).click();
-    });
-    cy.url().should('contain', '/companies');
+    openMenuAndSelect('Bedrifter', '/companies');
     cy.contains('Bedrifter');
 
     // Gallery
-    openMenu();
-    cy.get(c('Search__navigationFlex')).within(() => {
-      cy.get(a('/photos')).click();
-    });
-    cy.url().should('contain', '/photos');
+    openMenuAndSelect('Bilder', '/photos');
     cy.contains('Albumer');
 
     // Interestgroups
-    openMenu();
-    cy.get(c('Search__navigationFlex')).within(() => {
-      cy.get(a('/interestgroups')).click();
-    });
-    cy.url().should('contain', '/interestgroups');
+    openMenuAndSelect('Interessegrupper', '/interestgroups');
     cy.contains('Interessegrupper');
 
     // Joblistings
-    openMenu();
-    cy.get(c('Search__navigationFlex')).within(() => {
-      cy.get(a('/joblistings')).click();
-    });
-    cy.url().should('contain', '/joblistings');
+    openMenuAndSelect('Jobbannonser', '/joblistings');
     cy.contains('Søknadsfrist');
 
     // Contacs
-    openMenu();
-    cy.get(c('Search__navigationFlex')).within(() => {
-      cy.get(a('/contact')).click();
-    });
-    cy.url().should('contain', '/contact');
+    openMenuAndSelect('Kontakt Abakus', '/contact');
     cy.contains('Kontaktskjema for Abakus');
 
     // Meetings
-    openMenu();
-    cy.get(c('Search__navigationFlex')).within(() => {
-      cy.get(a('/meetings')).click();
-    });
-    cy.url().should('contain', '/meetings');
+    openMenuAndSelect('Møter', '/meetings');
     cy.contains('Dine Møter');
 
     // About
-    openMenu();
-    cy.get(c('Search__navigationFlex')).within(() => {
-      cy.get(a('/pages/info-om-abakus')).click();
-    });
-    cy.url().should('contain', '/pages/info-om-abakus');
+    openMenuAndSelect('Om Abakus', '/pages/info-om-abakus');
     cy.contains('Generelt');
 
     // Podcast
-    openMenu();
-    cy.get(c('Search__navigationFlex')).within(() => {
-      cy.get(a('/podcasts')).click();
-    });
-    cy.url().should('contain', '/podcasts');
+    openMenuAndSelect('Podcasts', '/podcasts');
     cy.contains('Podcasts');
 
     // Profile
-    openMenu();
-    cy.get(c('Search__navigationFlex')).within(() => {
-      cy.get(a('/users/me')).click();
-    });
-    cy.url().should('contain', '/users/me');
+    openMenuAndSelect('Profil', '/users/me');
     cy.contains('Brukerinfo');
 
     // Quotes
-    openMenu();
-    cy.get(c('Search__navigationFlex')).within(() => {
-      cy.get(a('/quotes/?filter=all')).click();
-    });
-    cy.url().should('contain', '/quotes/?filter=all');
+    openMenuAndSelect('Sitater', '/quotes/?filter=all');
     cy.contains('Just do it!');
 
     // Tags
-    openMenu();
-    cy.get(c('Search__navigationFlex')).within(() => {
-      cy.get(a('/tags')).click();
-    });
-    cy.url().should('contain', '/tags');
+    openMenuAndSelect('Tags', '/tags');
     cy.contains('lorem');
   });
 
@@ -269,7 +220,7 @@ describe('Create event', () => {
 
     // Logg out
     cy.get(c('Dropdown')).within(() => {
-      cy.get(c('Button')).click();
+      cy.contains('Logg ut').click();
     });
     cy.url().should('contain', '/');
     cy.contains('Velkommen til Abakus');
