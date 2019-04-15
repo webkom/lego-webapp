@@ -4,5 +4,22 @@
     "@babel/plugin-syntax-dynamic-import",
     "react-hot-loader/babel",
     "@babel/plugin-proposal-class-properties"
+  ],
+  "overrides": [
+    {
+      "test": ["./app/**/*.ts"],
+      "presets": [
+        "@babel/preset-typescript",
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "node": "current"
+            }
+          }
+        ],
+        "@babel/preset-react"
+      ]
+    }
   ]
 }
