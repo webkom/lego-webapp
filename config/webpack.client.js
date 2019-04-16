@@ -38,11 +38,11 @@ module.exports = (env, argv) => {
     devtool: isProduction ? 'source-map' : 'eval-source-map',
     entry: {
       app: isProduction
-        ? ['./app/index.js']
+        ? ['./app/index.ts']
         : [
             'webpack-hot-middleware/client',
             'react-hot-loader/patch',
-            './app/index.js'
+            './app/index.ts'
           ]
     },
 
@@ -103,6 +103,7 @@ module.exports = (env, argv) => {
     ]),
     resolve: {
       modules: [root, 'node_modules'],
+      extensions: ['.tsx', '.ts', '.js'],
       alias: {
         lodash: 'node_modules/lodash-es',
         'moment-timezone':
@@ -128,6 +129,11 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
+          test: /\.ts?$/,
+          loader: 'ts-loader',
+          include: [path.resolve(root, 'app'), path.resolve(root, 'config')]
+        },
+        {
           test: /\.jsx?$/,
           loader: 'babel-loader',
           include: [path.resolve(root, 'app'), path.resolve(root, 'config')]
@@ -137,7 +143,14 @@ module.exports = (env, argv) => {
           include: /node_modules/,
           use: [
             isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
-            'css-loader'
+            {
+              loader: 'typings-for-css-modules-loader',
+              options: {
+                modules: true,
+                namedExport: true,
+                camelCase: true
+              }
+            }
           ]
         },
         {
