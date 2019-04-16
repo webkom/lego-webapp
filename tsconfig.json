@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "baseUrl": "./",
+    "outDir": "./dist/",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "noEmit": true,
+    "strict": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "jsx": "react",
+    "sourceMap": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "noImplicitAny": false
+  },
+  "include": ["app/**/*"],
+  "exclude": ["node_modules/**/*", "dist/**/*"],
+  "linterOptions": {
+    "exclude": ["config/**/*.js", "node_modules/**/*.ts"]
+  },
+  "rules": {
+    "interface-name": [true, "never-prefix"]
+  }
+}
