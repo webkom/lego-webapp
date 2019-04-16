@@ -141,13 +141,13 @@ pipeline:
     group: testing
     commands:
       - yarn lint
-  flow:
+  typescript:
     image: node:11
     when:
       event: [push]
     group: testing
     commands:
-      - yarn flow --quiet
+      - yarn check-types
   install_cypress:
     image: node:11
     when:

@@ -12,10 +12,10 @@ import serialize from 'serialize-javascript';
 import routes from '../app/routes';
 import configureStore from '../app/utils/configureStore';
 import config from '../config/env';
-import type { $Request, $Response, Middleware } from 'express';
+import { $Request, $Response, Middleware } from 'express';
 import { createNewRavenInstance } from '../app/utils/universalRaven';
 import webpackClient from '../config/webpack.client.js';
-import type { State } from '../app/types';
+import { State } from '../app/types';
 
 import 'source-map-support/register';
 

@@ -1,5 +1,5 @@
-// @flow
-import type { $Request, $Response } from 'express';
+
+import { $Request, $Response } from 'express';
 import config from '../config/env';
 
 export default function healthCheck(req: $Request, res: $Response) {
