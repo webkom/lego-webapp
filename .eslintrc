@@ -1,14 +1,13 @@
 {
   "extends": [
-    "react-app",
-    "eslint:recommended",
-    "plugin:flowtype/recommended",
+    "airbnb-typescript",
     "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
     "prettier",
-    "prettier/flowtype",
-    "prettier/react"
+    "prettier/react",
+    "prettier/@typescript-eslint"
   ],
-  "plugins": ["react", "flowtype"],
+  "plugins": ["react", "@typescript-eslint"],
   "globals": {
     "log": true,
     "expect": true,
