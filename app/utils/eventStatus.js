@@ -11,6 +11,7 @@ const eventStatus = (event: Event, pill: boolean = false) => {
     registrationCount,
     totalCapacity,
     activationTime,
+    isAdmitted,
     eventStatusType
   } = event;
 
@@ -27,7 +28,7 @@ const eventStatus = (event: Event, pill: boolean = false) => {
       }
       return 'Åpent med påmelding';
     case 'NORMAL':
-      if (activationTime === null) {
+      if (!isAdmitted && activationTime === null) {
         return 'Ingen påmeldingsrett';
       }
       // Check if the event is in the future
@@ -42,9 +43,9 @@ const eventStatus = (event: Event, pill: boolean = false) => {
 };
 
 const eventAttendance = (event: Event) => {
-  const { registrationCount, totalCapacity, activationTime } = event;
+  const { registrationCount, totalCapacity, activationTime, isAdmitted } = event;
 
-  if (activationTime === null) {
+  if (!isAdmitted && activationTime === null) {
     return false;
   }
 

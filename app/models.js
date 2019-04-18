@@ -60,6 +60,7 @@ type EventBase = {
 export type Event = EventBase & {
   actionGrant: Array<string>,
   activationTime: ?Dateish,
+  isAdmitted: ?boolean,
   activeCapacity: number,
   registrationCount: number,
   waitingRegistrationCount: number,
