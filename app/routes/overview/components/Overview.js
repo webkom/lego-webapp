@@ -27,7 +27,8 @@ type Props = {
   readmes: Array<Object>,
   loadingFrontpage: boolean,
   poll: ?PollEntity,
-  votePoll: () => Promise<*>
+  votePoll: () => Promise<*>,
+  loggedIn: boolean
 };
 
 type State = {
@@ -89,7 +90,14 @@ class Overview extends Component<Props, State> {
 
   render() {
     const isEvent = o => typeof o['startTime'] !== 'undefined';
-    const { frontpage, loadingFrontpage, readmes, poll, votePoll } = this.props;
+    const {
+      loggedIn,
+      frontpage,
+      loadingFrontpage,
+      readmes,
+      poll,
+      votePoll
+    } = this.props;
     const pinned = frontpage[0];
     const compactEvents = (
       <CompactEvents
@@ -134,6 +142,7 @@ class Overview extends Component<Props, State> {
                 item={event}
                 url={this.itemUrl(event)}
                 meta={this.renderMeta(event)}
+                loggedIn={loggedIn}
               />
             ))}
         </Flex>

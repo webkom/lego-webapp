@@ -10,46 +10,40 @@ import Time from 'app/components/Time';
 import Tag from 'app/components/Tags/Tag';
 import { Flex } from 'app/components/Layout';
 import type { Event, EventTimeType } from 'app/models';
-import moment from 'moment-timezone';
 import { EVENTFIELDS } from 'app/utils/constants';
+import { eventStatus, eventAttendance } from 'app/utils/eventStatus';
 
 type AttendanceProps = {
-  registrationCount: number,
-  totalCapacity: number,
   event: Event
 };
 
-const Attendance = ({
-  registrationCount,
-  totalCapacity,
-  event
-}: AttendanceProps) => {
-  const isFuture = moment().isBefore(event.activationTime);
+const Attendance = ({ event }: AttendanceProps) => {
+  const attendance = eventAttendance(event);
   return (
-    <Pill style={{ marginLeft: '5px', color: 'black', whiteSpace: 'nowrap' }}>
-      {isFuture
-        ? `${totalCapacity} plasser`
-        : `${registrationCount} / ${totalCapacity}`}
-    </Pill>
+    attendance && (
+      <Pill style={{ marginLeft: '5px', color: 'black', whiteSpace: 'nowrap' }}>
+        {attendance}
+      </Pill>
+    )
   );
 };
 
 type TimeStampProps = {
   event: Event,
-  field: EventTimeType
+  field: EventTimeType,
+  loggedIn: boolean
 };
 
-const TimeStamp = ({ event, field }: TimeStampProps) => {
-  const isFuture = moment().isBefore(event.activationTime);
-
-  const registration = isFuture
-    ? `Påmelding åpner ${moment(event.activationTime).format('ll HH:mm')}`
-    : `Påmelding åpen!`;
-
+const TimeStamp = ({ event, field, loggedIn }: TimeStampProps) => {
+  const registration = eventStatus(event, loggedIn, true);
   return (
     <div className={styles.eventTime}>
-      {registration}
-      <br />
+      {registration && (
+        <span>
+          {registration}
+          <br />
+        </span>
+      )}
       Starter <Time time={event.startTime} format="ll - HH:mm" />
     </div>
   );
@@ -58,13 +52,15 @@ const TimeStamp = ({ event, field }: TimeStampProps) => {
 type EventItemProps = {
   event: Event,
   field?: EventTimeType,
-  showTags?: boolean
+  showTags?: boolean,
+  loggedIn: boolean
 };
 
 const EventItem = ({
   event,
   field = EVENTFIELDS.start,
-  showTags = true
+  showTags = true,
+  loggedIn = false
 }: EventItemProps) => (
   <div
     style={{ borderColor: colorForEvent(event.eventType) }}
@@ -81,7 +77,7 @@ const EventItem = ({
           />
         )}
       </Link>
-      <TimeStamp event={event} field={field} />
+      <TimeStamp event={event} field={field} loggedIn={loggedIn} />
       {showTags && (
         <Flex wrap>
           {event.tags.map((tag, index) => (

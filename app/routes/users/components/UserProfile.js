@@ -56,6 +56,7 @@ type Props = {
   feedItems: Array<any>,
   feed: Object,
   isMe: boolean,
+  loggedIn: boolean,
   loading: boolean,
   previousEvents: Array<Event>,
   upcomingEvents: Array<Event>,
@@ -70,7 +71,8 @@ type Props = {
 
 type EventsProps = {
   events: Array<Event>,
-  noEventsMessage: string
+  noEventsMessage: string,
+  loggedIn: boolean
 };
 
 const GroupPill = ({ group }: { group: Group }) =>
@@ -141,12 +143,17 @@ const GroupBadge = ({ memberships }: { memberships: Array<Object> }) => {
   );
 };
 
-const ListEvents = ({ events, noEventsMessage }: EventsProps) => (
+const ListEvents = ({ events, noEventsMessage, loggedIn }: EventsProps) => (
   <div>
     {events && events.length ? (
       <Flex column wrap>
         {events.map((event, i) => (
-          <EventItem key={i} event={event} showTags={false} />
+          <EventItem
+            key={i}
+            event={event}
+            showTags={false}
+            loggedIn={loggedIn}
+          />
         ))}
       </Flex>
     ) : (
@@ -178,6 +185,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
     const {
       user,
       isMe,
+      loggedIn,
       showSettings,
       feedItems,
       feed,
@@ -342,6 +350,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
                   <ListEvents
                     events={upcomingEvents.filter(e => e.userReg.pool !== null)}
                     noEventsMessage="Du har ingen kommende arrangementer"
+                    loggedIn={loggedIn}
                   />
                 )}
                 <h3>Arrangementer der du er på ventelista</h3>
@@ -352,6 +361,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
                   <ListEvents
                     events={upcomingEvents.filter(e => e.userReg.pool === null)}
                     noEventsMessage="Du har ingen kommende arrangementer"
+                    loggedIn={loggedIn}
                   />
                 )}
               </div>
@@ -381,6 +391,7 @@ export default class UserProfile extends Component<Props, EventsProps> {
                       ).reverse()
                 }
                 noEventsMessage="Du har ingen tidligere arrangementer"
+                loggedIn={loggedIn}
               />
             )}
           </div>

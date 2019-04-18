@@ -8,18 +8,19 @@ import { Link } from 'react-router';
 import { Flex } from 'app/components/Layout';
 import { colorForEvent } from 'app/routes/events/utils';
 import styles from './EventItem.css';
-import eventStatus from 'app/utils/eventStatus';
+import { eventStatus } from 'app/utils/eventStatus';
 
 type Props = {
   item: Event,
   url: string,
-  meta: Element<'span'> | null
+  meta: Element<'span'> | null,
+  loggedIn: boolean
 };
 
 class EventItem extends Component<Props, *> {
   render() {
-    const { item, url, meta } = this.props;
-    const info = eventStatus(item);
+    const { item, url, meta, loggedIn } = this.props;
+    const info = eventStatus(item, loggedIn);
 
     return (
       <div className={styles.body}>
