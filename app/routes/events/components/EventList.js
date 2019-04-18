@@ -45,17 +45,25 @@ const groupEvents = ({
 const EventListGroup = ({
   name,
   field = 'startTime',
-  events = []
+  events = [],
+  loggedIn = false
 }: {
   name: string,
   field?: EventTimeType,
-  events?: Array<Event>
+  events?: Array<Event>,
+  loggedIn: boolean
 }) => {
   return isEmpty(events) ? null : (
     <div className={styles.eventGroup}>
       <h2 className={styles.heading}>{name}</h2>
       {events.map((event, i) => (
-        <EventItem key={i} event={event} field={field} showTags={false} />
+        <EventItem
+          key={i}
+          event={event}
+          field={field}
+          showTags={false}
+          loggedIn={loggedIn}
+        />
       ))}
     </div>
   );
@@ -66,7 +74,8 @@ type EventListProps = {
   actionGrant: ActionGrant,
   icalToken: IcalToken,
   showFetchMore: boolean,
-  fetchMore: () => Promise<*>
+  fetchMore: () => Promise<*>,
+  loggedIn: boolean
 };
 
 type Option = {
@@ -94,7 +103,13 @@ class EventList extends Component<EventListProps, State> {
   };
 
   render() {
-    const { icalToken, showFetchMore, fetchMore, events } = this.props;
+    const {
+      icalToken,
+      showFetchMore,
+      fetchMore,
+      events,
+      loggedIn
+    } = this.props;
     const { field, filterFunc } = this.state.selectedOption;
 
     const groupedEvents = groupEvents({
@@ -147,16 +162,19 @@ class EventList extends Component<EventListProps, State> {
           name="Denne uken"
           events={groupedEvents.currentWeek}
           field={field}
+          loggedIn={loggedIn}
         />
         <EventListGroup
           name="Neste uke"
           events={groupedEvents.nextWeek}
           field={field}
+          loggedIn={loggedIn}
         />
         <EventListGroup
           name="Senere"
           events={groupedEvents.later}
           field={field}
+          loggedIn={loggedIn}
         />
 
         {isEmpty(this.props.events) && (

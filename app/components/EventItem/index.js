@@ -30,11 +30,12 @@ const Attendance = ({ event }: AttendanceProps) => {
 
 type TimeStampProps = {
   event: Event,
-  field: EventTimeType
+  field: EventTimeType,
+  loggedIn: boolean
 };
 
-const TimeStamp = ({ event, field }: TimeStampProps) => {
-  const registration = eventStatus(event, true);
+const TimeStamp = ({ event, field, loggedIn }: TimeStampProps) => {
+  const registration = eventStatus(event, loggedIn, true);
   return (
     <div className={styles.eventTime}>
       {registration && (
@@ -51,13 +52,15 @@ const TimeStamp = ({ event, field }: TimeStampProps) => {
 type EventItemProps = {
   event: Event,
   field?: EventTimeType,
-  showTags?: boolean
+  showTags?: boolean,
+  loggedIn: boolean
 };
 
 const EventItem = ({
   event,
   field = EVENTFIELDS.start,
-  showTags = true
+  showTags = true,
+  loggedIn = false
 }: EventItemProps) => (
   <div
     style={{ borderColor: colorForEvent(event.eventType) }}
@@ -74,7 +77,7 @@ const EventItem = ({
           />
         )}
       </Link>
-      <TimeStamp event={event} field={field} />
+      <TimeStamp event={event} field={field} loggedIn={loggedIn} />
       {showTags && (
         <Flex wrap>
           {event.tags.map((tag, index) => (

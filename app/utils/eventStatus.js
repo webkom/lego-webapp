@@ -5,8 +5,11 @@ import moment from 'moment-timezone';
 
 // Calculate diplay message for an event based on
 // eventStatusType, activationTime, capacity and totalCapacity
-
-const eventStatus = (event: Event, pill: boolean = false) => {
+const eventStatus = (
+  event: Event,
+  loggedIn: boolean = false,
+  isPill: boolean = false
+) => {
   const {
     registrationCount,
     totalCapacity,
@@ -23,33 +26,42 @@ const eventStatus = (event: Event, pill: boolean = false) => {
     case 'OPEN':
       return 'Åpent arrangement';
     case 'INFINITE':
-      if (activationTime === null) {
+      if (!loggedIn) {
+        return 'Logg inn for å melde deg på';
+      } else if (activationTime === null) {
         return 'Ingen påmeldingsrett';
       }
       return 'Åpent med påmelding';
     case 'NORMAL':
-      if (!isAdmitted && activationTime === null) {
+      if (!loggedIn) {
+        return 'Logg inn for å melde deg på';
+      } else if (!isAdmitted && activationTime === null) {
         return 'Ingen påmeldingsrett';
       }
       // Check if the event is in the future
       if (future) {
-        return `Åpner ${moment(activationTime).format('dddd D MMM HH:mm')}`
+        return `Åpner ${moment(activationTime).format('dddd D MMM HH:mm')}`;
       }
-      return pill ? false : `${registrationCount}/${totalCapacity} påmeldte`;
+      return isPill ? false : `${registrationCount}/${totalCapacity} påmeldte`;
     default:
       return '';
   }
 };
 
 const eventAttendance = (event: Event) => {
-  const { registrationCount, totalCapacity, activationTime, isAdmitted } = event;
+  const {
+    registrationCount,
+    totalCapacity,
+    activationTime,
+    isAdmitted
+  } = event;
 
   if (!isAdmitted && activationTime === null) {
     return false;
   }
 
   const isFuture = moment().isBefore(activationTime);
-  return isFuture
+  return isFuture && !isAdmitted
     ? `${totalCapacity} plasser`
     : `${registrationCount} / ${totalCapacity}`;
 };
