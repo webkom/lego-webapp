@@ -32,11 +32,10 @@ const eventStatus = (event: Event, pill: boolean = false) => {
         return 'Ingen påmeldingsrett';
       }
       // Check if the event is in the future
-      return future
-        ? `Åpner ${moment(activationTime).format('dddd D MMM HH:mm')}`
-        : pill
-        ? false
-        : `${registrationCount}/${totalCapacity} påmeldte`;
+      if (future) {
+        return `Åpner ${moment(activationTime).format('dddd D MMM HH:mm')}`
+      }
+      return pill ? false : `${registrationCount}/${totalCapacity} påmeldte`;
     default:
       return '';
   }
