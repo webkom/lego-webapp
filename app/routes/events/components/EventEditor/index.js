@@ -368,7 +368,7 @@ function EventEditor({
               </Tooltip>
             )}
 
-            {['NORMAL', 'INFINITE', 'OPEN'].includes(event.eventStatusType) && (
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Tooltip content="Et spørsmål alle må svare på før de melder seg på">
                 <Field
                   name="feedbackRequired"
