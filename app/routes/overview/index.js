@@ -1,3 +1,4 @@
+import Overview from './IndexRoute';
 export default {
-  component: require('./IndexRoute').default
+  component: Overview
 };

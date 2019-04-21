@@ -57,7 +57,6 @@ const RouteHandler = connect(
   }: {
     setStatusCode: (statusCode: ?number) => void
   }) => {
-    console.log(restProps);
     return (
       <ErrorBoundary openReportDialog>
         <routes.component {...restProps}>

@@ -55,10 +55,7 @@ class AppChildren extends PureComponent<Props> {
               location={this.props.location}
             />
           ) : (
-            React.cloneElement(this.props.children, {
-              currentUser: this.props.currentUser,
-              loggedIn: this.props.loggedIn
-            })
+            this.props.children
           )}
         </ErrorBoundary>
       </div>
