@@ -1,8 +1,9 @@
 import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
+import EventListRoute from './EventListRoute';
 
 export default {
-  path: 'events',
-  indexRoute: resolveAsyncRoute(() => import('./EventListRoute')),
+  path: '/events',
+  component: EventListRoute,
   childRoutes: [
     {
       path: 'calendar',

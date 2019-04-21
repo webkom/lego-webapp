@@ -2,7 +2,7 @@ import resolveAsyncRoute from 'app/routes/resolveAsyncRoute';
 
 export default {
   path: 'pages/',
-  indexRoute: resolveAsyncRoute(() => import('./PageListRoute')),
+  component: require('./PageListRoute'),
   childRoutes: [
     {
       path: 'new',
