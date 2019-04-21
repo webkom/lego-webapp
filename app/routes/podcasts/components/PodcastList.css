@@ -3,3 +3,26 @@
   justify-content: center;
   cursor: pointer;
 }
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.snap {
+  border: 1px red dashed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  padding: 10px;
+
+  img {
+    height: 100px;
+    width: 100px;
+  }
+}
+
+.message {
+  margin-left: 10px;
+}

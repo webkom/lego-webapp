@@ -6,6 +6,7 @@ import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
 import Icon from 'app/components/Icon';
 import styles from './PodcastList.css';
+import awSnap from 'app/assets/sentry-aw-snap.svg';
 
 type Props = {
   podcasts: Array<Object>,
@@ -44,13 +45,23 @@ class PodcastList extends Component<Props, State> {
           )}
         </NavigationTab>
 
+        <div className={styles.container}>
+          <div className={styles.snap}>
+            <img src={awSnap} alt="snap" />
+            <div className={styles.message}>
+              <h3>Denne siden opplever litt problemer</h3>
+              <p>Webkom jobber saken</p>
+            </div>
+          </div>
+        </div>
+        {/*
         {elements}
-
         {podcasts.length > this.state.items && (
           <div className={styles.showMore}>
             <Icon onClick={this.showMore} size={40} name="arrow-dropdown" />
           </div>
         )}
+        */}
       </Content>
     );
   }
