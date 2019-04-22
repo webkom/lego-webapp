@@ -82,7 +82,7 @@
     "react-soundplayer": "^1.0.4",
     "react-stickynode": "^2.1.1",
     "react-stripe-checkout": "^2.4.0",
-    "react-stripe-elements": "^2.0.3",
+    "react-stripe-elements": "^3.0.0",
     "react-swipeable": "^4.2.1",
     "react-tagcloud": "^1.2.0",
     "react-textarea-autosize": "^5.1.0",
