@@ -6,6 +6,8 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import moment from 'moment-timezone';
 import produce from 'immer';
 
+type State = any;
+
 export default createEntityReducer({
   key: 'announcements',
   types: {
@@ -20,7 +22,7 @@ export default createEntityReducer({
           newState.byId[action.meta.announcementId].sent = moment();
           break;
       }
-    })
+    )
 });
 
 export const selectAnnouncements = createSelector(

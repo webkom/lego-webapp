@@ -16,6 +16,7 @@ export type CommentEntity = {
   author: UserEntity | null
 };
 
+type State = any;
 /**
  * Used by the individual entity reducers
  */
@@ -35,18 +36,23 @@ export function mutateComments(forTargetType: string) {
           }
         }
       }
-    });
+    );
   };
 }
 
-function mutate(state: any, action: any) {
-  return produce(state, newState => {
-    switch (action.type) {
-      case Comment.DELETE.SUCCESS:
-        newState.byId[action.meta.id].text = null;
-        newState.byId[action.meta.id].author = null;
+type CommentState = any;
+
+function mutate(state: CommentState, action: any): CommentState {
+  return produce(
+    state,
+    (newState: CommentState): void => {
+      switch (action.type) {
+        case Comment.DELETE.SUCCESS:
+          newState.byId[action.meta.id].text = null;
+          newState.byId[action.meta.id].author = null;
+      }
     }
-  });
+  );
 }
 
 export default createEntityReducer({
