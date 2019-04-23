@@ -5,6 +5,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import { type UserEntity } from 'app/reducers/users';
 import getEntityType from 'app/utils/getEntityType';
 import type { ID } from 'app/models';
+import produce from 'immer';
 
 export type CommentEntity = {
   id: ID,
@@ -20,57 +21,32 @@ export type CommentEntity = {
  */
 export function mutateComments(forTargetType: string) {
   return (state: any, action: any) => {
-    switch (action.type) {
-      case Comment.ADD.SUCCESS: {
-        const [serverTargetType, targetId] = action.meta.contentTarget.split(
-          '-'
-        );
-        const targetType = getEntityType(serverTargetType);
-        if (targetType !== forTargetType) {
-          return state;
-        }
-
-        return {
-          ...state,
-          byId: {
-            ...state.byId,
-            [targetId]: {
-              ...state.byId[targetId],
-              comments: [
-                ...(state.byId[targetId].comments || []),
-                action.payload.result
-              ]
-            }
+    return produce(state, newState => {
+      switch (action.type) {
+        case Comment.ADD.SUCCESS: {
+          const [serverTargetType, targetId] = action.meta.contentTarget.split(
+            '-'
+          );
+          const targetType = getEntityType(serverTargetType);
+          if (targetType === forTargetType) {
+            newState.byId[targetId].comments =
+              newState.byId[targetId].comments || [];
+            newState.byId[targetId].comments.push(action.payload.result);
           }
-        };
+        }
       }
-
-      default: {
-        return state;
-      }
-    }
+    });
   };
 }
 
 function mutate(state: any, action: any) {
-  switch (action.type) {
-    case Comment.DELETE.SUCCESS: {
-      return {
-        ...state,
-        byId: {
-          ...state.byId,
-          [action.meta.id]: {
-            ...state.byId[action.meta.id],
-            text: null,
-            author: null
-          }
-        }
-      };
+  return produce(state, newState => {
+    switch (action.type) {
+      case Comment.DELETE.SUCCESS:
+        newState.byId[action.meta.id].text = null;
+        newState.byId[action.meta.id].author = null;
     }
-    default: {
-      return state;
-    }
-  }
+  });
 }
 
 export default createEntityReducer({
