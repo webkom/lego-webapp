@@ -10,6 +10,7 @@ import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
 import mergeObjects from 'app/utils/mergeObjects';
 import { groupBy, orderBy } from 'lodash';
+import produce from 'immer';
 
 export type EventEntity = {
   id: number,
@@ -17,213 +18,131 @@ export type EventEntity = {
   comments: Array<number>
 };
 
-function mutateEvent(state: any, action: any) {
-  switch (action.type) {
-    case Event.FETCH_PREVIOUS.SUCCESS: {
-      const events = action.payload.result.reduce(
-        (total, id) => ({
-          ...total,
-          [id]: {
-            ...action.payload.entities.events[id],
-            isUsersUpcoming: false
-          }
-        }),
-        {}
-      );
-      return {
-        ...state,
-        byId: mergeObjects(state.byId, events)
-      };
-    }
-    case Event.FETCH_UPCOMING.SUCCESS: {
-      const events = action.payload.result.reduce(
-        (total, id) => ({
-          ...total,
-          [id]: {
-            ...action.payload.entities.events[id],
-            isUsersUpcoming: true
-          }
-        }),
-        {}
-      );
-      return {
-        ...state,
-        byId: mergeObjects(state.byId, events)
-      };
-    }
-    case Event.SOCKET_EVENT_UPDATED: {
-      const events = normalize(action.payload, eventSchema).entities.events;
-      return {
-        ...state,
-        byId: mergeObjects(state.byId, events)
-      };
-    }
-    case Event.CLEAR: {
-      return {
-        ...state,
-        items: [],
-        pagination: {}
-      };
-    }
-    case Event.REQUEST_REGISTER.BEGIN: {
-      return {
-        ...state,
-        byId: {
-          ...state.byId,
-          [action.meta.id]: {
-            ...state.byId[action.meta.id],
-            loading: true
-          }
+type State = any;
+
+function mutateEvent(state: State, action: any): State {
+  return produce(
+    state,
+    (newState: State): void => {
+      switch (action.type) {
+        case Event.FETCH_PREVIOUS.SUCCESS:
+          Object.values(action.payloads.entities.events).forEach(event => {
+            newState.byId[event.id] = { ...event, isUsersUpcoming: false };
+          });
+          break;
+
+        case Event.FETCH_UPCOMING.SUCCESS:
+          Object.values(action.payloads.entities.events).forEach(event => {
+            newState.byId[event.id] = { ...event, isUsersUpcoming: true };
+          });
+          break;
+
+        case Event.DELETE.SUCCESS:
+          newState.items = newState.items.filter(id => id !== action.meta.id);
+          break;
+
+        case Event.SOCKET_EVENT_UPDATED: {
+          const events = normalize(action.payload, eventSchema).entities.events;
+          newState.byId = mergeObjects(newState.byId, events);
+          break;
         }
-      };
-    }
-    case Event.SOCKET_REGISTRATION.SUCCESS: {
-      const eventId = action.meta.eventId;
-      const registration = action.payload;
-      const stateEvent = state.byId[eventId];
-      if (!stateEvent) {
-        return state;
-      }
-      let registrationCount = stateEvent.registrationCount;
-      let waitingRegistrations = stateEvent.waitingRegistrations;
-      let waitingRegistrationCount = stateEvent.waitingRegistrationCount;
-      if (!registration.pool) {
-        waitingRegistrationCount = waitingRegistrationCount + 1;
-        if (waitingRegistrations) {
-          waitingRegistrations = [...waitingRegistrations, registration.id];
-        }
-      } else {
-        registrationCount++;
-      }
-      return {
-        ...state,
-        byId: {
-          ...state.byId,
-          [eventId]: {
-            ...stateEvent,
-            loading: false,
-            registrationCount,
-            ...(waitingRegistrations && { waitingRegistrations }),
-            waitingRegistrationCount
+
+        case Event.CLEAR:
+          newState.items = [];
+          newState.pagination = {};
+          break;
+
+        case Event.REQUEST_REGISTER.BEGIN:
+          newState.byId[action.meta.id].loading = true;
+          break;
+
+        case Event.SOCKET_REGISTRATION.SUCCESS: {
+          const eventId = action.meta.eventId;
+          const registration = action.payload;
+          const stateEvent = newState.byId[eventId];
+          if (!stateEvent) {
+            return;
           }
-        }
-      };
-    }
-    case Event.SOCKET_UNREGISTRATION.SUCCESS: {
-      const {
-        eventId,
-        activationTime: activationTimeFromMeta,
-        fromPool,
-        currentUser
-      } = action.meta;
-      const stateEvent = state.byId[eventId];
-      const registration = action.payload;
-      if (!stateEvent) {
-        return state;
-      }
-      const isMe = registration.user.id === currentUser.id;
-      const activationTime = isMe
-        ? activationTimeFromMeta
-        : stateEvent.activationTime;
-      return {
-        ...state,
-        byId: {
-          ...state.byId,
-          [eventId]: {
-            ...stateEvent,
-            loading: false,
-            activationTime,
-            registrationCount: fromPool
-              ? stateEvent.registrationCount - 1
-              : stateEvent.registrationCount,
-            waitingRegistrationCount: fromPool
-              ? stateEvent.waitingRegistrationCount
-              : stateEvent.waitingRegistrationCount - 1,
-            ...(stateEvent.waitingRegistrations && {
-              waitingRegistrations: stateEvent.waitingRegistrations.filter(
-                id => id !== registration.id
-              )
-            }),
-            isUserFollowing: isMe
-              ? undefined
-              : state.byId[eventId].isUserFollowing
-          }
-        }
-      };
-    }
-    case Event.SOCKET_REGISTRATION.FAILURE: {
-      const { eventId } = action.meta;
-      return {
-        ...state,
-        byId: {
-          ...state.byId,
-          [eventId]: {
-            ...state.byId[eventId],
-            loading: false
-          }
-        }
-      };
-    }
-    case Event.REQUEST_REGISTER.FAILURE: {
-      return {
-        ...state,
-        byId: {
-          ...state.byId,
-          [action.meta.id]: {
-            ...state.byId[action.meta.id],
-            loading: false
-          }
-        }
-      };
-    }
-    case Event.FOLLOW.SUCCESS: {
-      const eventId = action.payload.target;
-      return {
-        ...state,
-        byId: {
-          ...state.byId,
-          [eventId]: {
-            ...state.byId[eventId],
-            isUserFollowing: action.payload
-          }
-        }
-      };
-    }
-    case Event.UNFOLLOW.SUCCESS: {
-      const eventId = action.meta.eventId;
-      return {
-        ...state,
-        byId: {
-          ...state.byId,
-          [eventId]: {
-            ...state.byId[eventId],
-            isUserFollowing: undefined
-          }
-        }
-      };
-    }
-    case Event.IS_USER_FOLLOWING.SUCCESS: {
-      // NOTE: assume we've only asked for a single event.
-      if (action.payload.length > 0) {
-        const eventId = action.payload[0].target;
-        return {
-          ...state,
-          byId: {
-            ...state.byId,
-            [eventId]: {
-              ...state.byId[eventId],
-              isUserFollowing: action.payload[0]
+          let registrationCount = stateEvent.registrationCount;
+          let waitingRegistrations = stateEvent.waitingRegistrations;
+          let waitingRegistrationCount = stateEvent.waitingRegistrationCount;
+          if (!registration.pool) {
+            waitingRegistrationCount = waitingRegistrationCount + 1;
+            if (waitingRegistrations) {
+              waitingRegistrations = [...waitingRegistrations, registration.id];
             }
+          } else {
+            registrationCount++;
           }
-        };
-      } else {
-        // leave undefined to be false.
-        return state;
+
+          stateEvent.loading = false;
+          stateEvent.registrationCount = registrationCount;
+          stateEvent.waitingRegistrationCount = waitingRegistrationCount;
+          if (waitingRegistrations) {
+            stateEvent.waitingRegistrations = waitingRegistrations;
+          }
+          break;
+        }
+
+        case Event.SOCKET_UNREGISTRATION.SUCCESS: {
+          const {
+            eventId,
+            activationTime: activationTimeFromMeta,
+            fromPool,
+            currentUser
+          } = action.meta;
+          const stateEvent = newState.byId[eventId];
+          const registration = action.payload;
+          if (!stateEvent) {
+            return;
+          }
+          const isMe = registration.user.id === currentUser.id;
+
+          stateEvent.loading = false;
+          if (isMe) {
+            stateEvent.activationTime = activationTimeFromMeta;
+            stateEvent.isUserFollowing = undefined;
+          }
+          if (fromPool) {
+            stateEvent.registrationCount--;
+          } else {
+            stateEvent.waitingRegistrationCount--;
+          }
+          if (stateEvent.waitingRegistrations) {
+            stateEvent.waitingRegistrations = stateEvent.waitingRegistrations.filter(
+              id => id !== action.payload.id
+            );
+          }
+          break;
+        }
+
+        case Event.SOCKET_REGISTRATION.FAILURE:
+          newState.byId[action.meta.eventId].loading = false;
+          break;
+
+        case Event.REQUEST_REGISTER.FAILURE:
+          newState.byId[action.meta.eventId].loading = false;
+          break;
+
+        case Event.FOLLOW.SUCCESS:
+          newState.byId[action.payload.target].isUserFollowing = action.payload;
+          break;
+
+        case Event.UNFOLLOW.SUCCESS:
+          newState.byId[action.meta.eventId].isUserFollowing = undefined;
+          break;
+
+        case Event.IS_USER_FOLLOWING.SUCCESS: {
+          // NOTE: assume we've only asked for a single event.
+          if (action.payload.length > 0) {
+            const eventId = action.payload[0].target;
+            newState.byId[eventId].isUserFollowing = action.payload[0];
+          }
+          break;
+        }
       }
     }
-    default:
-      return state;
-  }
+  );
 }
 
 const mutate = joinReducers(mutateComments('events'), mutateEvent);
