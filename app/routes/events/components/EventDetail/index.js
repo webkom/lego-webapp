@@ -212,7 +212,7 @@ export default class EventDetail extends Component<Props> {
             value: <FormatTime time={event.activationTime} />
           }
         : null,
-      event.unregistrationDeadline
+      event.unregistrationDeadline && event.eventStatusType !== 'OPEN'
         ? {
             key: 'Avregistreringsfrist',
             value: <FormatTime time={event.unregistrationDeadline} />
@@ -264,77 +264,86 @@ export default class EventDetail extends Component<Props> {
                   <InfoList items={paidItems} />
                 </div>
               )}
-              <Flex column>
-                <h3>Påmeldte</h3>
-                {registrations ? (
-                  <Fragment>
-                    <UserGrid
-                      minRows={2}
-                      maxRows={2}
-                      users={registrations.slice(0, 14).map(reg => reg.user)}
-                    />
-                    <ModalParentComponent
-                      key="modal"
-                      pools={pools}
-                      registrations={registrations}
-                      title="Påmeldte"
-                    >
-                      <RegisteredSummary
-                        registrations={registrations}
-                        currentRegistration={currentRegistration}
+              {event.eventStatusType === 'OPEN' ? (
+                <Flex column>
+                  <div className={styles.joinHeader}>Påmelding</div>
+                  <div>Dette arrangementet krever ingen påmelding</div>
+                </Flex>
+              ) : (
+                <Flex column>
+                  <h3>Påmeldte</h3>
+                  {registrations ? (
+                    <Fragment>
+                      <UserGrid
+                        minRows={2}
+                        maxRows={2}
+                        users={registrations.slice(0, 14).map(reg => reg.user)}
                       />
-                      <AttendanceStatus />
-                    </ModalParentComponent>
-                  </Fragment>
-                ) : (
-                  <AttendanceStatus pools={pools} />
-                )}
+                      <ModalParentComponent
+                        key="modal"
+                        pools={pools}
+                        registrations={registrations}
+                        title="Påmeldte"
+                      >
+                        <RegisteredSummary
+                          registrations={registrations}
+                          currentRegistration={currentRegistration}
+                        />
+                        <AttendanceStatus />
+                      </ModalParentComponent>
+                    </Fragment>
+                  ) : (
+                    <AttendanceStatus pools={pools} />
+                  )}
 
-                {loggedIn && (
-                  <RegistrationMeta
-                    useConsent={event.useConsent}
-                    hasEnded={moment(event.endTime).isBefore(moment())}
-                    registration={currentRegistration}
-                    isPriced={event.isPriced}
-                    registrationIndex={currentRegistrationIndex}
-                    hasSimpleWaitingList={hasSimpleWaitingList}
-                  />
-                )}
-
-                {event.unansweredSurveys &&
-                event.unansweredSurveys.length > 0 ? (
-                  <div className={styles.unansweredSurveys}>
-                    <h3>
-                      Du kan ikke melde deg på dette arrangementet fordi du har
-                      ubesvarte spørreundersøkelser.
-                    </h3>
-                    <p>
-                      Man må svare på alle spørreundersøkelser for tidligere
-                      arrangementer før man kan melde seg på nye arrangementer.
-                      Du kan svare på undersøkelsene dine ved å trykke på
-                      følgende linker:
-                    </p>
-                    <ul>
-                      {event.unansweredSurveys.map((surveyId, i) => (
-                        <li key={surveyId}>
-                          <Link to={`/surveys/${surveyId}`}>
-                            Undersøkelse {i + 1}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : (
-                  <div>
-                    <JoinEventForm
-                      event={event}
+                  {loggedIn && (
+                    <RegistrationMeta
+                      useConsent={event.useConsent}
+                      hasEnded={moment(event.endTime).isBefore(moment())}
                       registration={currentRegistration}
-                      currentUser={currentUser}
-                      onToken={this.handleToken}
-                      onSubmit={this.handleRegistration}
+                      isPriced={event.isPriced}
+                      registrationIndex={currentRegistrationIndex}
+                      hasSimpleWaitingList={hasSimpleWaitingList}
                     />
-                  </div>
-                )}
+                  )}
+
+                  {event.unansweredSurveys &&
+                  event.unansweredSurveys.length > 0 ? (
+                    <div className={styles.unansweredSurveys}>
+                      <h3>
+                        Du kan ikke melde deg på dette arrangementet fordi du
+                        har ubesvarte spørreundersøkelser.
+                      </h3>
+                      <p>
+                        Man må svare på alle spørreundersøkelser for tidligere
+                        arrangementer før man kan melde seg på nye
+                        arrangementer. Du kan svare på undersøkelsene dine ved å
+                        trykke på følgende linker:
+                      </p>
+                      <ul>
+                        {event.unansweredSurveys.map((surveyId, i) => (
+                          <li key={surveyId}>
+                            <Link to={`/surveys/${surveyId}`}>
+                              Undersøkelse {i + 1}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : (
+                    <div>
+                      <JoinEventForm
+                        event={event}
+                        registration={currentRegistration}
+                        currentUser={currentUser}
+                        onToken={this.handleToken}
+                        onSubmit={this.handleRegistration}
+                      />
+                    </div>
+                  )}
+                </Flex>
+              )}
+              <Flex column>
                 <Admin
                   actionGrant={actionGrant}
                   event={event}
