@@ -182,7 +182,7 @@ pipeline:
     commands:
       - ./wait-for-it.sh -t 180 ssr:3000
       - ./wait-for-it.sh -t 180 legocypresshelper:3030
-      - yarn cypress run # --record
+      - yarn cypress run --record
   docker:
     image: plugins/docker
     when:

@@ -1,10 +1,8 @@
 // @flow
 
 import React, { Component } from 'react';
-import Podcast from './Podcast.js';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
-import Icon from 'app/components/Icon';
 import styles from './PodcastList.css';
 import awSnap from 'app/assets/sentry-aw-snap.svg';
 
@@ -27,15 +25,7 @@ class PodcastList extends Component<Props, State> {
   };
 
   render() {
-    const { podcasts, actionGrant } = this.props;
-    const elements = podcasts
-      .map(podcast => {
-        return (
-          <Podcast key={podcast.id} {...podcast} actionGrant={actionGrant} />
-        );
-      })
-      .reverse()
-      .splice(0, this.state.items);
+    const { actionGrant } = this.props;
 
     return (
       <Content>
@@ -54,14 +44,6 @@ class PodcastList extends Component<Props, State> {
             </div>
           </div>
         </div>
-        {/*
-        {elements}
-        {podcasts.length > this.state.items && (
-          <div className={styles.showMore}>
-            <Icon onClick={this.showMore} size={40} name="arrow-dropdown" />
-          </div>
-        )}
-        */}
       </Content>
     );
   }
