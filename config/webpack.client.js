@@ -38,11 +38,11 @@ module.exports = (env, argv) => {
     devtool: isProduction ? 'source-map' : 'eval-source-map',
     entry: {
       app: isProduction
-        ? ['./app/index.ts']
+        ? ['./app/index.tsx']
         : [
             'webpack-hot-middleware/client',
             'react-hot-loader/patch',
-            './app/index.ts'
+            './app/index.tsx'
           ]
     },
 
@@ -129,7 +129,7 @@ module.exports = (env, argv) => {
     module: {
       rules: [
         {
-          test: /\.ts?$/,
+          test: /\.tsx?$/,
           loader: 'ts-loader',
           include: [path.resolve(root, 'app'), path.resolve(root, 'config')]
         },
@@ -143,14 +143,7 @@ module.exports = (env, argv) => {
           include: /node_modules/,
           use: [
             isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
-            {
-              loader: 'typings-for-css-modules-loader',
-              options: {
-                modules: true,
-                namedExport: true,
-                camelCase: true
-              }
-            }
+            'typings-for-css-modules?modules'
           ]
         },
         {

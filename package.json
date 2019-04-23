@@ -24,7 +24,6 @@
     "lint:css": "stylelint './app/**/*.css'",
     "lint:prettier": "prettier '**/*.{tsx,css,md}' --check",
     "prettier": "prettier '**/*.{tsx,css,md}' --write",
-    "check-types": "tsc",
     "tscov": "tscov -m 90",
     "styleguide": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist server",
     "styleguide:build": "bash lib/generateCssDocs.sh && NODE_ENV=production styleguidist build"
