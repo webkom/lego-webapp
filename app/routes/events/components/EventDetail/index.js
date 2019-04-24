@@ -212,7 +212,8 @@ export default class EventDetail extends Component<Props> {
             value: <FormatTime time={event.activationTime} />
           }
         : null,
-      event.unregistrationDeadline && event.eventStatusType !== 'OPEN'
+      event.unregistrationDeadline &&
+      !['OPEN', 'TBA'].includes(event.eventStatusType)
         ? {
             key: 'Avregistreringsfrist',
             value: <FormatTime time={event.unregistrationDeadline} />
@@ -264,11 +265,8 @@ export default class EventDetail extends Component<Props> {
                   <InfoList items={paidItems} />
                 </div>
               )}
-              {event.eventStatusType === 'OPEN' ? (
-                <Flex column>
-                  <div className={styles.joinHeader}>Påmelding</div>
-                  <div>Dette arrangementet krever ingen påmelding</div>
-                </Flex>
+              {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
+                <JoinEventForm event={event} />
               ) : (
                 <Flex column>
                   <h3>Påmeldte</h3>
