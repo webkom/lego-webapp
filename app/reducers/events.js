@@ -10,6 +10,7 @@ import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
 import mergeObjects from 'app/utils/mergeObjects';
 import { groupBy, orderBy } from 'lodash';
+import { pull } from 'lodash';
 import produce from 'immer';
 
 export type EventEntity = {
@@ -40,7 +41,7 @@ const mutateEvent = produce(
         break;
 
       case Event.DELETE.SUCCESS:
-        newState.items = newState.items.filter(id => id !== action.meta.id);
+        pull(newState.items, action.meta.id);
         break;
 
       case Event.SOCKET_EVENT_UPDATED: {

@@ -7,7 +7,6 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import type Moment from 'moment-timezone';
 import { mutateComments } from 'app/reducers/comments';
 import joinReducers from 'app/utils/joinReducers';
-import produce from 'immer';
 
 export type MeetingEntity = {
   id: number,

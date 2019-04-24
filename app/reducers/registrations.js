@@ -75,8 +75,8 @@ export default createEntityReducer({
             transformedPayload,
             registrationSchema
           ).entities.registrations;
-          (newState.byId = mergeObjects(newState.byId, registrations)),
-            (newState.items = union(newState.items, [action.payload.id]));
+          newState.byId = mergeObjects(newState.byId, registrations);
+          newState.items = union(newState.items, [action.payload.id]);
           break;
         }
       }

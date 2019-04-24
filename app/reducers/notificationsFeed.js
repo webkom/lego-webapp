@@ -1,7 +1,6 @@
 // @flow
 
 import { NotificationsFeed } from '../actions/ActionTypes';
-import type { Action } from 'app/types';
 import produce from 'immer';
 
 const initialState = {
@@ -12,7 +11,7 @@ const initialState = {
 type State = typeof initialState;
 
 const notificationsFeed = produce(
-  (newState: State, action: Action): void | State => {
+  (newState: State, action: any): void | State => {
     switch (action.type) {
       case NotificationsFeed.FETCH_DATA.SUCCESS:
         newState.unreadCount = action.payload.unreadCount;

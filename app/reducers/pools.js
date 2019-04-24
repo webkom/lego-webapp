@@ -5,6 +5,7 @@ import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
 import { union } from 'lodash';
 import mergeObjects from 'app/utils/mergeObjects';
+import { pull } from 'lodash';
 import produce from 'immer';
 
 type State = any;
@@ -49,9 +50,7 @@ export default createEntityReducer({
             return;
           }
           if (statePool.registrations) {
-            statePool.registrations = statePool.registrations.filter(
-              reg => reg !== payload.id
-            );
+            pull(statePool.registrations, payload.id);
           }
           statePool.registrationCount--;
           break;

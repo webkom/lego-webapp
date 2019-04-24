@@ -2,9 +2,8 @@
 import { createSelector } from 'reselect';
 import { Group, Membership } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import without from 'lodash/without';
-import union from 'lodash/union';
 import type { ID } from 'app/models';
+import { pull, union } from 'lodash';
 import produce from 'immer';
 
 export const resolveGroupLink = (group: { type: string, id: ID }) => {
@@ -35,12 +34,9 @@ export default createEntityReducer({
           );
           break;
 
-        case Membership.REMOVE.SUCCESS: {
-          const { groupId, id } = action.meta;
-          const group = newState.byId[groupId];
-          newState.byId[groupId].memberships = without(group.memberships, id);
+        case Membership.REMOVE.SUCCESS:
+          pull(newState.byId[action.meta.groupId].memberships, action.meta.id);
           break;
-        }
 
         case Group.MEMBERSHIP_FETCH.SUCCESS:
           newState.byId[action.meta.groupId].memberships = union(

@@ -10,6 +10,7 @@ import { selectCompanySemesters } from './companySemesters';
 import type { UserEntity } from 'app/reducers/users';
 import type { CompanySemesterContactedStatus, Semester } from 'app/models';
 import { selectJoblistings } from 'app/reducers/joblistings';
+import { pull, remove } from 'lodash';
 import produce from 'immer';
 
 export type BaseCompanyEntity = {
