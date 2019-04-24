@@ -1,19 +1,18 @@
+// @flow
 import { Routing } from 'app/actions/ActionTypes';
+import produce from 'immer';
 
 const initialState = {
   statusCode: null
 };
 
-export default function routing(state = initialState, action) {
+type State = typeof initialState;
+
+const routing = produce((newState: State, action: any): void => {
   switch (action.type) {
-    case Routing.SET_STATUS_CODE: {
-      return {
-        ...state,
-        statusCode: action.payload
-      };
-    }
-    default: {
-      return state;
-    }
+    case Routing.SET_STATUS_CODE:
+      newState.statusCode = action.payload;
   }
-}
+}, initialState);
+
+export default routing;

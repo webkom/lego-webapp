@@ -7,6 +7,7 @@ import { mutateReactions } from 'app/reducers/reactions';
 import joinReducers from 'app/utils/joinReducers';
 import type { ID } from 'app/models';
 import { type ReactionEntity } from 'app/reducers/reactions';
+import produce from 'immer';
 
 export type QuoteEntity = {
   id: ID,
@@ -19,38 +20,21 @@ export type QuoteEntity = {
   createdAt?: string
 };
 
-function mutateQuote(state: any, action: any) {
-  switch (action.type) {
-    case Quote.UNAPPROVE.SUCCESS: {
-      const { quoteId } = action.meta;
-      return {
-        ...state,
-        byId: {
-          ...state.byId,
-          [quoteId]: {
-            ...state.byId[quoteId],
-            approved: false
-          }
-        }
-      };
+type State = any;
+
+const mutateQuote = produce(
+  (newState: State, action: any): void => {
+    switch (action.type) {
+      case Quote.UNAPPROVE.SUCCESS:
+        newState.byId[action.meta.quoteId].approved = false;
+        break;
+
+      case Quote.APPROVE.SUCCESS:
+        newState.byId[action.meta.quoteId].approved = true;
+        break;
     }
-    case Quote.APPROVE.SUCCESS: {
-      const { quoteId } = action.meta;
-      return {
-        ...state,
-        byId: {
-          ...state.byId,
-          [quoteId]: {
-            ...state.byId[quoteId],
-            approved: true
-          }
-        }
-      };
-    }
-    default:
-      return state;
   }
-}
+);
 
 const mutate = joinReducers(mutateReactions('quotes'), mutateQuote);
 

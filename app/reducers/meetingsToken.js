@@ -1,6 +1,7 @@
 // @flow
 
 import { Meeting } from '../actions/ActionTypes';
+import produce from 'immer';
 
 const initialState = {
   response: '',
@@ -11,14 +12,12 @@ const initialState = {
 
 type State = typeof initialState;
 
-export default function meetingsToken(
-  state: State = initialState,
-  action: any
-) {
+const meetingsToken = produce((newState: State, action: any): void | State => {
   switch (action.type) {
-    case Meeting.ANSWER_INVITATION_TOKEN.FAILURE: {
-      return { ...initialState, status: 'FAILURE' };
-    }
+    case Meeting.ANSWER_INVITATION_TOKEN.FAILURE:
+      newState.status = 'FAILURE';
+      break;
+
     case Meeting.ANSWER_INVITATION_TOKEN.SUCCESS: {
       const { meeting, user, status } = action.payload;
 
@@ -29,10 +28,11 @@ export default function meetingsToken(
         status
       };
     }
+
     case Meeting.RESET_MEETINGS_TOKEN: {
       return initialState;
     }
-    default:
-      return state;
   }
-}
+}, initialState);
+
+export default meetingsToken;

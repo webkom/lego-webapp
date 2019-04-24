@@ -5,6 +5,7 @@ import { selectMeetingById } from './meetings';
 import { createSelector } from 'reselect';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import type { UserEntity } from './users';
+import produce from 'immer';
 
 export const statusesText = {
   NO_ANSWER: 'Ikke svart',
@@ -32,27 +33,21 @@ export type MeetingInvitationEntity = {
 export default createEntityReducer({
   key: 'meetingInvitations',
   types: {},
-  mutate(state, action) {
-    switch (action.type) {
-      case Meeting.SET_INVITATION_STATUS.SUCCESS: {
-        const { meetingId, status, user } = action.meta;
-        const invitationId = getMeetingInvitationId(meetingId, user.username);
-        return {
-          ...state,
-          byId: {
-            ...state.byId,
-            [invitationId]: {
-              ...state.byId[invitationId],
-              status: status
-            }
-          }
-        };
+  mutate: produce(
+    (newState: State, action: any): void => {
+      switch (action.type) {
+        case Meeting.SET_INVITATION_STATUS.SUCCESS: {
+          const { meetingId, status, user } = action.meta;
+          const invitationId = getMeetingInvitationId(meetingId, user.username);
+          newState.byId[invitationId].status = status;
+          break;
+        }
       }
-      default:
-        return state;
     }
-  }
+  )
 });
+
+type State = any;
 
 export const selectMeetingInvitation = createSelector(
   state => state.meetingInvitations.byId,

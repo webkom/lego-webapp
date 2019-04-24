@@ -17,6 +17,8 @@ export type PageEntity = {
   picture: string
 };
 
+type State = any;
+
 export default createEntityReducer({
   key: 'pages',
   types: {

@@ -1,12 +1,12 @@
 //@flow
 import { Readme } from 'app/actions/ActionTypes';
+import produce from 'immer';
 
-function mutateReadme(state: any, action: any) {
+const mutateReadme = produce((newState: any, action: any): void => {
   switch (action.type) {
     case Readme.FETCH.SUCCESS:
       return action.payload;
-    default:
-      return state || [];
   }
-}
+}, []);
+
 export default mutateReadme;

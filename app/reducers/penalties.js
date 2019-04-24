@@ -3,6 +3,8 @@ import { createSelector } from 'reselect';
 import { Penalty } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 
+type State = any;
+
 export default createEntityReducer({
   key: 'penalties',
   types: {

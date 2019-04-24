@@ -2,6 +2,7 @@
 
 import { NotificationsFeed } from '../actions/ActionTypes';
 import type { Action } from 'app/types';
+import produce from 'immer';
 
 const initialState = {
   unreadCount: 0,
@@ -10,20 +11,19 @@ const initialState = {
 
 type State = typeof initialState;
 
-export default function notificationsFeed(
-  state: State = initialState,
-  action: Action
-) {
-  switch (action.type) {
-    case NotificationsFeed.FETCH_DATA.SUCCESS:
-      return {
-        ...state,
-        ...action.payload
-      };
-    case NotificationsFeed.MARK_ALL.SUCCESS:
-      return initialState;
-    default: {
-      return state;
+const notificationsFeed = produce(
+  (newState: State, action: Action): void | State => {
+    switch (action.type) {
+      case NotificationsFeed.FETCH_DATA.SUCCESS:
+        newState.unreadCount = action.payload.unreadCount;
+        newState.unseenCount = action.payload.unseenCount;
+        break;
+
+      case NotificationsFeed.MARK_ALL.SUCCESS:
+        return initialState;
     }
-  }
-}
+  },
+  initialState
+);
+
+export default notificationsFeed;

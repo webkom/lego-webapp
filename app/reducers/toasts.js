@@ -1,7 +1,7 @@
 // @flow
 
 import { Toasts } from '../actions/ActionTypes';
-import { union } from 'lodash';
+import produce from 'immer';
 
 type Toast = {
   id: number,
@@ -17,26 +17,19 @@ type State = {
   items: Array<Toast>
 };
 
-export default function toasts(state: State = initialState, action: any) {
+const toasts = produce((newState: State, action: any): void => {
   switch (action.type) {
     case Toasts.TOAST_ADDED:
-      return {
-        ...state,
-        items: union(state.items, [action.payload])
-      };
+      newState.items.push(action.payload);
+      break;
 
     case Toasts.TOAST_REMOVED:
-      return {
-        ...state,
-        items: (state.items.map(toast => {
-          if (toast.id === action.payload.id) {
-            return { ...toast, removed: true };
-          }
-          return toast;
-        }): Array<Toast>)
-      };
-
-    default:
-      return state;
+      newState.items.forEach(toast => {
+        if (toast.id === action.payload.id) {
+          toast.removed = true;
+        }
+      });
   }
-}
+}, initialState);
+
+export default toasts;

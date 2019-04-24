@@ -19,7 +19,7 @@ export function fetchNotificationSettings() {
     types: NotificationSettings.FETCH,
     endpoint: '/notification-settings/',
     meta: {
-      errorMessage: 'Henting av varslingsintillinger feilet'
+      errorMessage: 'Henting av varslingsinntillinger feilet'
     },
     propagateError: true
   });
@@ -39,7 +39,8 @@ export function updateNotificationSetting(
       channels
     },
     meta: {
-      errorMessage: 'Oppdatering av varslingsintillinger feilet'
+      errorMessage: 'Oppdatering av varslingsinntillinger feilet',
+      successMessage: 'Varslingsinnstillinger oppdatert'
     }
   });
 }

@@ -24,6 +24,8 @@ export type OAuth2GrantEntity = {
   scopes: Object
 };
 
+type State = any;
+
 export const oauth2Applications = createEntityReducer({
   key: 'oauth2Application',
   types: {
