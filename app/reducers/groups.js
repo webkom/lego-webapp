@@ -5,7 +5,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import without from 'lodash/without';
 import union from 'lodash/union';
 import type { ID } from 'app/models';
-import mergeObjects from 'app/utils/mergeObjects';
+import produce from 'immer';
 
 export const resolveGroupLink = (group: { type: string, id: ID }) => {
   switch (group.type) {
@@ -18,53 +18,39 @@ export const resolveGroupLink = (group: { type: string, id: ID }) => {
   }
 };
 
+type State = any;
+
 export default createEntityReducer({
   key: 'groups',
   types: {
     fetch: Group.FETCH,
     mutate: Group.MEMBERSHIP_FETCH
   },
-  mutate(state, action) {
-    const replaceMemberships = memberships => {
-      return mergeObjects(state, {
-        byId: {
-          [action.meta.groupId]: { memberships }
-        }
-      });
-    };
+  mutate: produce(
+    (newState: State, action: any): void => {
+      switch (action.type) {
+        case Membership.CREATE.SUCCESS:
+          newState.byId[action.meta.groupId].memberships.push(
+            action.payload.result
+          );
+          break;
 
-    switch (action.type) {
-      case Membership.CREATE.SUCCESS: {
-        const { groupId } = action.meta;
-        const group = state.byId[groupId];
-        const memberships = group.memberships.concat(action.payload.result);
-        return replaceMemberships(memberships);
+        case Membership.REMOVE.SUCCESS: {
+          const { groupId, id } = action.meta;
+          const group = newState.byId[groupId];
+          newState.byId[groupId].memberships = without(group.memberships, id);
+          break;
+        }
+
+        case Group.MEMBERSHIP_FETCH.SUCCESS:
+          newState.byId[action.meta.groupId].memberships = union(
+            newState.byId[action.meta.groupId].memberships,
+            action.payload.result
+          );
+          break;
       }
-      case Membership.REMOVE.SUCCESS: {
-        const { groupId, id } = action.meta;
-        const group = state.byId[groupId];
-        const memberships = without(group.memberships, id);
-        return replaceMemberships(memberships);
-      }
-      case Group.MEMBERSHIP_FETCH.SUCCESS: {
-        return {
-          ...state,
-          byId: {
-            ...state.byId,
-            [action.meta.groupId]: {
-              ...state.byId[action.meta.groupId],
-              memberships: union(
-                state.byId[action.meta.groupId].memberships,
-                action.payload.result
-              )
-            }
-          }
-        };
-      }
-      default:
-        return state;
     }
-  }
+  )
 });
 
 export const selectGroup = createSelector(

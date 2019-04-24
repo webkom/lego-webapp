@@ -136,8 +136,8 @@ function mutateCompanies(state: State, action) {
         }
       }
     }
-  );
-}
+  }
+);
 
 const mutate = joinReducers(mutateComments('companies'), mutateCompanies);
 

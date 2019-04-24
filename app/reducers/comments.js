@@ -36,24 +36,20 @@ export function mutateComments(forTargetType: string) {
           }
         }
       }
-    );
-  };
-}
+    }
+  );
 
 type CommentState = any;
 
-function mutate(state: CommentState, action: any): CommentState {
-  return produce(
-    state,
-    (newState: CommentState): void => {
-      switch (action.type) {
-        case Comment.DELETE.SUCCESS:
-          newState.byId[action.meta.id].text = null;
-          newState.byId[action.meta.id].author = null;
-      }
+const mutate = produce(
+  (newState: CommentState, action: any): void => {
+    switch (action.type) {
+      case Comment.DELETE.SUCCESS:
+        newState.byId[action.meta.id].text = null;
+        newState.byId[action.meta.id].author = null;
     }
-  );
-}
+  }
+);
 
 export default createEntityReducer({
   key: 'comments',
