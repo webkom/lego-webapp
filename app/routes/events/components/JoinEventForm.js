@@ -192,112 +192,134 @@ class JoinEventForm extends Component<Props> {
       );
     }
 
+    const registrationMessage = event => {
+      switch (event.eventStatusType) {
+        case 'OPEN':
+          return <div>Dette arrangementet krever ingen påmelding</div>;
+        case 'TBA':
+          return (
+            <div>Påmelding til dette arrangementet er ikke bestemt enda</div>
+          );
+        default:
+          return null;
+      }
+    };
+
     return (
       <>
         <div className={styles.joinHeader}>Påmelding</div>
         <Flex column className={styles.join}>
-          {!formOpen && event.activationTime && (
-            <div>
-              {new Date(event.activationTime) < new Date()
-                ? 'Åpnet '
-                : 'Åpner '}
-              <Time time={event.activationTime} format="nowToTimeInWords" />
-            </div>
-          )}
-          {disabledForUser && (
-            <div>Du kan ikke melde deg på dette arrangementet.</div>
-          )}
-          {formOpen && (
-            <Flex column>
-              <Form
-                onSubmit={this.submitWithType(
-                  handleSubmit,
-                  feedbackName,
-                  registrationType
-                )}
-              >
-                <label className={formStyles.label} htmlFor={feedbackName}>
-                  {feedbackLabel}
-                </label>
-                <Flex style={{ marginBottom: '20px' }}>
-                  <Field
-                    id={feedbackName}
-                    placeholder="Melding til arrangører"
-                    name={feedbackName}
-                    component={TextEditor.Field}
-                    labelClassName={styles.feedbackLabel}
-                    className={styles.feedbackText}
-                    fieldClassName={styles.feedbackField}
-                    rows={1}
-                  />
-                  {registration && (
-                    <Button
-                      type="button"
-                      onClick={this.submitWithType(
-                        handleSubmit,
-                        feedbackName,
-                        'feedback'
-                      )}
-                      className={styles.feedbackUpdateButton}
-                      disabled={pristine}
-                    >
-                      Oppdater
-                    </Button>
-                  )}
-                </Flex>
-                {showCaptcha && (
-                  <Field
-                    name="captchaResponse"
-                    fieldStyle={{ width: 304 }}
-                    component={Captcha.Field}
-                  />
-                )}
-                {event.activationTime && registrationOpensIn && (
-                  <Flex alignItems="center">
-                    <Button disabled={disabledButton}>
-                      {`Åpner om ${registrationOpensIn}`}
-                    </Button>
-                  </Flex>
-                )}
-                {buttonOpen && !submitting && (
-                  <>
-                    <Flex alignItems="center" justifyContent="space-between">
-                      <SubmitButton
-                        disabled={disabledButton}
-                        onSubmit={this.submitWithType(
-                          handleSubmit,
-                          feedbackName,
-                          registrationType
-                        )}
-                        type={registrationType}
-                        title={title || joinTitle}
-                        showPenaltyNotice={showPenaltyNotice}
+          {['OPEN', 'TBA'].includes(event.eventStatusType) ? (
+            registrationMessage(event)
+          ) : (
+            <>
+              {!formOpen && event.activationTime && (
+                <div>
+                  {new Date(event.activationTime) < new Date()
+                    ? 'Åpnet '
+                    : 'Åpner '}
+                  <Time time={event.activationTime} format="nowToTimeInWords" />
+                </div>
+              )}
+              {disabledForUser && (
+                <div>Du kan ikke melde deg på dette arrangementet.</div>
+              )}
+              {formOpen && (
+                <Flex column>
+                  <Form
+                    onSubmit={this.submitWithType(
+                      handleSubmit,
+                      feedbackName,
+                      registrationType
+                    )}
+                  >
+                    <label className={formStyles.label} htmlFor={feedbackName}>
+                      {feedbackLabel}
+                    </label>
+                    <Flex style={{ marginBottom: '20px' }}>
+                      <Field
+                        id={feedbackName}
+                        placeholder="Melding til arrangører"
+                        name={feedbackName}
+                        component={TextEditor.Field}
+                        labelClassName={styles.feedbackLabel}
+                        className={styles.feedbackText}
+                        fieldClassName={styles.feedbackField}
+                        rows={1}
                       />
-                      {registration && showStripe && (
-                        <PaymentRequestForm
-                          onToken={onToken}
-                          event={event}
-                          currentUser={currentUser}
-                          chargeStatus={registration.chargeStatus}
-                        />
+                      {registration && (
+                        <Button
+                          type="button"
+                          onClick={this.submitWithType(
+                            handleSubmit,
+                            feedbackName,
+                            'feedback'
+                          )}
+                          className={styles.feedbackUpdateButton}
+                          disabled={pristine}
+                        >
+                          Oppdater
+                        </Button>
                       )}
                     </Flex>
-                    {!registration && (
-                      <SpotsLeft
-                        activeCapacity={event.activeCapacity}
-                        spotsLeft={event.spotsLeft}
+                    {showCaptcha && (
+                      <Field
+                        name="captchaResponse"
+                        fieldStyle={{ width: 304 }}
+                        component={Captcha.Field}
                       />
                     )}
-                  </>
-                )}
-                {submitting && (
-                  <LoadingIndicator
-                    loading
-                    loadingStyle={{ margin: '5px auto' }}
-                  />
-                )}
-              </Form>
-            </Flex>
+                    {event.activationTime && registrationOpensIn && (
+                      <Flex alignItems="center">
+                        <Button disabled={disabledButton}>
+                          {`Åpner om ${registrationOpensIn}`}
+                        </Button>
+                      </Flex>
+                    )}
+                    {buttonOpen && !submitting && (
+                      <>
+                        <Flex
+                          alignItems="center"
+                          justifyContent="space-between"
+                        >
+                          <SubmitButton
+                            disabled={disabledButton}
+                            onSubmit={this.submitWithType(
+                              handleSubmit,
+                              feedbackName,
+                              registrationType
+                            )}
+                            type={registrationType}
+                            title={title || joinTitle}
+                            showPenaltyNotice={showPenaltyNotice}
+                          />
+                          {registration && showStripe && (
+                            <PaymentRequestForm
+                              onToken={onToken}
+                              event={event}
+                              currentUser={currentUser}
+                              chargeStatus={registration.chargeStatus}
+                            />
+                          )}
+                        </Flex>
+                        {!registration && (
+                          <SpotsLeft
+                            activeCapacity={event.activeCapacity}
+                            spotsLeft={event.spotsLeft}
+                          />
+                        )}
+                      </>
+                    )}
+                    {submitting && (
+                      <LoadingIndicator
+                        loading
+                        loadingStyle={{ margin: '5px auto' }}
+                      />
+                    )}
+                  </Form>
+                </Flex>
+              )}
+            </>
           )}
         </Flex>
       </>
