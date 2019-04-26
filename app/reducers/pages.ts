@@ -1,5 +1,3 @@
-
-
 import { createSelector } from 'reselect';
 import { sortBy, groupBy } from 'lodash';
 import { Page } from '../actions/ActionTypes';
@@ -7,15 +5,6 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import { selectGroupsWithType } from './groups';
 import { selectGroup } from 'app/reducers/groups';
 import { selectMembershipsForGroup } from 'app/reducers/memberships';
-
-export type PageEntity = {
-  id: number,
-  title: string,
-  slug: string,
-  content: string,
-  comments: Array<number>,
-  picture: string
-};
 
 export default createEntityReducer({
   key: 'pages',

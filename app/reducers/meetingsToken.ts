@@ -1,5 +1,3 @@
-
-
 import { Meeting } from '../actions/ActionTypes';
 
 const initialState = {

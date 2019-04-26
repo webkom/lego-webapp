@@ -1,28 +1,9 @@
-
-
 import { createSelector } from 'reselect';
 import { Article } from '../actions/ActionTypes';
 import { mutateComments } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { orderBy } from 'lodash';
-
-export type ArticleEntity = {
-  id: number,
-  title: string,
-  commentTarget: string,
-  description: string,
-  author: Object,
-  cover: string,
-  createdAt: string,
-  content: string,
-  startTime: string,
-  text: string,
-  tags: Array<string>,
-  actionGrant: Object,
-  comments: Array<number>,
-  youtubeUrl: string
-};
 
 function mutateArticle(state: any, action: any) {
   switch (action.type) {

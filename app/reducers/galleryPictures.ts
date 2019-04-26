@@ -3,16 +3,7 @@ import { Gallery, GalleryPicture } from 'app/actions/ActionTypes';
 import { mutateComments } from 'app/reducers/comments';
 import joinReducers from 'app/utils/joinReducers';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import { ID } from 'app/models';
-
-export interface UploadStatus {
-  imageCount: number;
-  successCount: number;
-  failCount: number;
-  failedImages: Array<string>;
-  lastUploadedImage?: ID;
-  showStatus: boolean;
-}
+import { UploadStatus } from 'app/types/utils';
 
 export const initialUploadStatus: UploadStatus = {
   imageCount: 0,
@@ -21,19 +12,6 @@ export const initialUploadStatus: UploadStatus = {
   failCount: 0,
   showStatus: false
 };
-
-export interface GalleryPictureEntity {
-  id: number;
-  title: string;
-  gallery: number;
-  description: string;
-  text: string;
-  active: boolean;
-  comments: Array<number>;
-  file: string;
-  thumbnail: string;
-  rawFile: string;
-}
 
 function mutateGalleryPicture(state: any, action: any) {
   const { uploadStatus = initialUploadStatus } = state;

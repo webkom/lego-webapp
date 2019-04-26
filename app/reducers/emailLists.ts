@@ -1,25 +1,7 @@
-
-
 import { createSelector } from 'reselect';
 import { EmailList } from '../actions/ActionTypes';
 import { mutateComments } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
-
-export type EmailListEntity = {
-  id: number,
-  title: string,
-  commentTarget: string,
-  description: string,
-  author: number,
-  cover: string,
-  createdAt: string,
-  content: string,
-  startTime: string,
-  text: string,
-  tags: Array<string>,
-  actionGrant: Object,
-  comments: Array<number>
-};
 
 const mutate = mutateComments('emailLists');
 

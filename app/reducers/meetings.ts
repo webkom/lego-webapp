@@ -1,29 +1,9 @@
-
-
 import { Meeting } from '../actions/ActionTypes';
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import Moment from 'moment-timezone';
 import { mutateComments } from 'app/reducers/comments';
 import joinReducers from 'app/utils/joinReducers';
-
-export type MeetingEntity = {
-  id: number;
-  title: string;
-  location: string;
-  startTime: Moment;
-  endTime: Moment;
-  report: string;
-  invitations: Array<number>;
-  reportAuthor: number;
-  createdBy: number;
-};
-
-export type MeetingSection = {
-  title: string;
-  meetings: Array<MeetingEntity>;
-};
 
 function mutateMeetings(state: any, action: any) {
   switch (action.type) {

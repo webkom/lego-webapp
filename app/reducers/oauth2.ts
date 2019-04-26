@@ -1,28 +1,7 @@
-
 import { createSelector } from 'reselect';
 
 import { OAuth2 } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
-
-export type OAuth2ApplicationEntity = {
-  id: number,
-  name: string,
-  description: string,
-  redirectUris: string,
-  clientId: string,
-  clientSecret: string
-};
-
-export type OAuth2GrantEntity = {
-  application: {
-    id: number,
-    name: string,
-    description: string
-  },
-  token: string,
-  expires: string,
-  scopes: Object
-};
 
 export const oauth2Applications = createEntityReducer({
   key: 'oauth2Application',

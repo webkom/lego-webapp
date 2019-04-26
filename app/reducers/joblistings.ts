@@ -1,5 +1,3 @@
-
-
 import { Joblistings } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';

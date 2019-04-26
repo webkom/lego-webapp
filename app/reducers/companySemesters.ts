@@ -1,16 +1,7 @@
-
-
 import { Company } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
 import { sortSemesterChronologically } from 'app/routes/companyInterest/utils';
-
-export type CompanySemesterEntity = {
-  id?: number,
-  semester: string,
-  year: number | string,
-  activeInterestForm?: boolean
-};
 
 export default createEntityReducer({
   key: 'companySemesters',

@@ -1,10 +1,7 @@
-
-
 import { Meeting } from '../actions/ActionTypes';
 import { selectMeetingById } from './meetings';
 import { createSelector } from 'reselect';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import { UserEntity } from './users';
 
 export const statusesText = {
   NO_ANSWER: 'Ikke svart',

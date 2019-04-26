@@ -1,24 +1,6 @@
-
-
 import { createSelector } from 'reselect';
 import { CompanyInterestForm } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import { CompanySemesterEntity } from 'app/reducers/companySemesters';
-
-export type CompanyInterestEntity = {
-  id: number;
-  companyName: string;
-  mail: string;
-  contactPerson: string;
-  companyPresentation: boolean;
-  course: boolean;
-  lunchPresentation: boolean;
-  readme: boolean;
-  collaboration: boolean;
-  itdagene: boolean;
-  comment: boolean;
-  semesters: Array<CompanySemesterEntity>;
-};
 
 export default createEntityReducer({
   key: 'companyInterest',

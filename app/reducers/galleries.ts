@@ -1,18 +1,7 @@
-
-
 import { createSelector } from 'reselect';
 import { Gallery } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import defaultAlbumCover from 'app/assets/default-album-cover.jpg';
-
-export type GalleryEntity = {
-  id: number,
-  title: string,
-  description: string,
-  text?: string,
-  comments?: Array<number>,
-  cover?: Object
-};
 
 function mutate(state: any, action: any) {
   switch (action.type) {

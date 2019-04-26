@@ -1,15 +1,6 @@
-
-
 import { createSelector } from 'reselect';
 import { User } from '../actions/ActionTypes';
-
-type State = {
-  id: ?number,
-  username: ?string,
-  token: ?string,
-  loginFailed: boolean,
-  loggingIn: boolean
-};
+import { Auth } from 'app/types/utils';
 
 const initialState = {
   username: null,
@@ -21,7 +12,7 @@ const initialState = {
   studentConfirmed: null
 };
 
-export default function auth(state: State = initialState, action: any): State {
+export default function auth(state: Auth = initialState, action: any): Auth {
   switch (action.type) {
     case User.LOGIN.BEGIN:
       return {

@@ -1,16 +1,6 @@
-
-
 import { createSelector } from 'reselect';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Podcast } from '../actions/ActionTypes';
-
-export type PodcastEntity = {
-  id: number,
-  createdAt: string,
-  source: string,
-  title: string,
-  discription: string
-};
 
 const deletePodcast = (state: any, action: any) => {
   switch (action.type) {

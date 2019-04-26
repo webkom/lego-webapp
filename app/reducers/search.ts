@@ -1,22 +1,9 @@
-
-
 import { createSelector } from 'reselect';
 import { get } from 'lodash';
 import { Search } from '../actions/ActionTypes';
 import moment from 'moment-timezone';
 import { resolveGroupLink } from 'app/reducers/groups';
 import { categoryOptions } from 'app/reducers/pages';
-
-export type SearchResult = {
-  label: string,
-  color: string,
-  picture: string,
-  path: string,
-  value: string,
-  link: string,
-  content: string,
-  icon: string
-};
 
 const initialState = {
   results: [],

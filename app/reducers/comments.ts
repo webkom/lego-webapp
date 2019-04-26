@@ -1,21 +1,7 @@
 import { Comment } from 'app/actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import { UserEntity } from 'app/reducers/users';
 import getEntityType from 'app/utils/getEntityType';
-import { ID } from 'app/models';
 
-export interface CommentEntity {
-  id: ID;
-  parent?: ID;
-  createdAt: string;
-  children: Array<Object>;
-  text: string | null;
-  author: UserEntity | null;
-}
-
-/**
- * Used by the individual entity reducers
- */
 export function mutateComments(forTargetType: string) {
   return (state: any, action: any) => {
     switch (action.type) {

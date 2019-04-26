@@ -1,9 +1,6 @@
-
-
 import keyBy from 'lodash/keyBy';
 
 import { NotificationSettings } from 'app/actions/ActionTypes';
-import { Action } from 'app/types';
 
 type State = {
   channels: Array<string>;

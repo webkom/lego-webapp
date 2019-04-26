@@ -1,5 +1,3 @@
-
-
 import { createSelector } from 'reselect';
 import { Announcements } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';

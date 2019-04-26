@@ -1,5 +1,3 @@
-
-
 import moment from 'moment-timezone';
 import { createSelector } from 'reselect';
 import { Event } from '../actions/ActionTypes';
@@ -10,12 +8,6 @@ import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
 import mergeObjects from 'app/utils/mergeObjects';
 import { groupBy, orderBy } from 'lodash';
-
-export type EventEntity = {
-  id: number,
-  title: string,
-  comments: Array<number>
-};
 
 function mutateEvent(state: any, action: any) {
   switch (action.type) {

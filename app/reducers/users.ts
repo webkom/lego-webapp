@@ -1,5 +1,3 @@
-
-
 import { union, find } from 'lodash';
 import { createSelector } from 'reselect';
 import { User, Event } from '../actions/ActionTypes';
@@ -7,17 +5,6 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 import { normalize } from 'normalizr';
 import { eventSchema, registrationSchema } from 'app/reducers';
 import mergeObjects from 'app/utils/mergeObjects';
-
-export type UserEntity = {
-  id: number,
-  username: string,
-  fullName: string,
-  firstName: string,
-  lastName: string,
-  gender: string,
-  profilePicture: string,
-  emailListsEnabled?: boolean
-};
 
 export default createEntityReducer({
   key: 'users',

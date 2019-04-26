@@ -1,5 +1,3 @@
-
-
 import { Meta } from '../actions/ActionTypes';
 
 const initialState = {

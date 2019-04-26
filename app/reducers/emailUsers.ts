@@ -1,16 +1,6 @@
-
-
 import { createSelector } from 'reselect';
 import { EmailUser } from '../actions/ActionTypes';
-import { type UserEntity } from 'app/reducers/users';
 import createEntityReducer from 'app/utils/createEntityReducer';
-
-export type EmailUserEntity = {
-  id: number,
-  user: UserEntity,
-  internalEmailEnabled: boolean,
-  internalEmail: string
-};
 
 export default createEntityReducer({
   key: 'emailUsers',

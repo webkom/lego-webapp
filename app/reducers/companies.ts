@@ -1,5 +1,3 @@
-
-
 import { Company } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
@@ -8,71 +6,7 @@ import { mutateComments } from 'app/reducers/comments';
 import joinReducers from 'app/utils/joinReducers';
 import { selectCompanySemesters } from './companySemesters';
 import mergeObjects from 'app/utils/mergeObjects';
-import { UserEntity } from 'app/reducers/users';
-import { CompanySemesterContactedStatus, Semester } from 'app/models';
 import { selectJoblistings } from 'app/reducers/joblistings';
-
-export type BaseCompanyEntity = {
-  name: string,
-  companyId?: number,
-  description?: string,
-  studentContact?: UserEntity,
-  phone?: string,
-  companyType?: string,
-  website?: string,
-  address?: string,
-  paymentMail?: string,
-  active?: boolean,
-  adminComment?: string,
-  companyType?: string,
-  commentTarget: string,
-  comments: Array<{ id: string, parent: string }>,
-  // $FlowFixMe
-  semesterStatuses: Array<SemesterStatusEntity>,
-  logo?: string,
-  files?: Array<Object>,
-  companyContacts: Array<CompanyContactEntity>
-};
-
-export type CompanyEntity = BaseCompanyEntity & { id: number };
-
-export type SubmitCompanyEntity = {
-  ...BaseCompanyEntity,
-  studentContact?: number
-};
-
-export type BaseSemesterStatusEntity = {
-  id?: number,
-  companyId?: number,
-  semester?: number,
-  contactedStatus: Array<CompanySemesterContactedStatus>,
-  contract?: string,
-  contractName?: string,
-  statistics?: string,
-  statisticsName?: string,
-  evaluation?: string,
-  evaluationName?: string
-};
-
-export type SemesterStatusEntity = BaseSemesterStatusEntity & {
-  id: number,
-  semester: Semester,
-  year: string
-};
-
-export type BaseCompanyContactEntity = {
-  id?: number,
-  name: string,
-  role?: string,
-  mail?: string,
-  phone?: string,
-  mobile?: string
-};
-
-export type CompanyContactEntity = {
-  ...BaseCompanyContactEntity,
-  id: number
-};
 
 function mutateCompanies(state, action) {
   switch (action.type) {

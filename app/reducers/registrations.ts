@@ -1,5 +1,3 @@
-
-
 import { union } from 'lodash';
 import { Event } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';

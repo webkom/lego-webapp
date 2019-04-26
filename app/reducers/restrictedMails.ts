@@ -1,20 +1,6 @@
-
-
 import { createSelector } from 'reselect';
 import { RestrictedMail } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
-
-export type RestrictedMailEntity = {
-  id: number,
-  fromAddress: string,
-  hideAddress: boolean,
-  used: boolean,
-  users: Array<number>,
-  groups: Array<number>,
-  events: Array<number>,
-  meetings: Array<number>,
-  rawAddresses: Array<string>
-};
 
 export default createEntityReducer({
   key: 'restrictedMails',

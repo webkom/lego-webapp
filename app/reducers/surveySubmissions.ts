@@ -1,29 +1,7 @@
-
-
 import { SurveySubmission } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
-import { OptionEntity, SurveyEntity, QuestionEntity } from './surveys';
-import { UserEntity } from 'app/reducers/users';
 import mergeObjects from 'app/utils/mergeObjects';
-
-export type SubmissionEntity = {
-  id: number;
-  user: UserEntity;
-  survey: SurveyEntity;
-  submitted: boolean;
-  submittedTime?: string;
-  answers: Array<AnswerEntity>;
-};
-
-export type AnswerEntity = {
-  id: number;
-  submission: SubmissionEntity;
-  question: QuestionEntity;
-  answerText: string;
-  selectedOptions: Array<OptionEntity>;
-  hideFromPublic: boolean;
-};
 
 function mutateSurveySubmissions(state, action) {
   switch (action.type) {

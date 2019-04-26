@@ -1,4 +1,3 @@
-
 import { createSelector } from 'reselect';
 import { Penalty } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';

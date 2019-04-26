@@ -4,10 +4,9 @@ import { Group, Membership } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import without from 'lodash/without';
 import union from 'lodash/union';
-import { ID } from 'app/models';
 import mergeObjects from 'app/utils/mergeObjects';
 
-export const resolveGroupLink = (group: { type: string, id: ID }) => {
+export const resolveGroupLink = (group: { type: string; id: ID }) => {
   switch (group.type) {
     case 'interesse':
       return `/interestgroups/${group.id}`;

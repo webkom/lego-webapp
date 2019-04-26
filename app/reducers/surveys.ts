@@ -1,37 +1,8 @@
-
-
 import { Survey } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { createSelector } from 'reselect';
 import { selectEvents } from './events';
 import { omit } from 'lodash';
-import { EventType } from 'app/models';
-
-export type SurveyEntity = {
-  id: number;
-  title: string;
-  event: any;
-  activeFrom?: string;
-  questions: Array<QuestionEntity>;
-  templateType?: EventType;
-  token?: string;
-  results?: Object;
-  submissionCount?: number;
-};
-
-export type QuestionEntity = {
-  id: number;
-  questionType: string;
-  questionText: string;
-  mandatory?: boolean;
-  options: Array<OptionEntity>;
-  relativeIndex: number;
-};
-
-export type OptionEntity = {
-  id: number;
-  optionText: string;
-};
 
 export default createEntityReducer({
   key: 'surveys',

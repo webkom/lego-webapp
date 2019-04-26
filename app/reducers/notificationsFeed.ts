@@ -1,7 +1,4 @@
-
-
 import { NotificationsFeed } from '../actions/ActionTypes';
-import { Action } from 'app/types';
 
 const initialState = {
   unreadCount: 0,
