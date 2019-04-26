@@ -4,7 +4,7 @@ import { createSelector } from 'reselect';
 import { Announcements } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import moment from 'moment-timezone';
-import { pull } from 'lodash';
+import { without } from 'lodash';
 import produce from 'immer';
 
 type State = any;
@@ -25,7 +25,7 @@ export default createEntityReducer({
 <<<<<<< HEAD
 =======
         case Announcements.DELETE.SUCCESS:
-          pull(newState.items, action.meta.announcementId);
+          newState.items = without(newState.items, action.meta.announcementId);
           break;
 >>>>>>> Use lodash pull and remove instead of filter in reducers
       }

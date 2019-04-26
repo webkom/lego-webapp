@@ -3,6 +3,11 @@
 import { createSelector } from 'reselect';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import { Podcast } from '../actions/ActionTypes';
+<<<<<<< HEAD
+=======
+import { without } from 'lodash';
+import produce from 'immer';
+>>>>>>> Use without instead of pull, refactor some logic for better readability
 
 export type PodcastEntity = {
   id: number,
@@ -12,6 +17,20 @@ export type PodcastEntity = {
   discription: string
 };
 
+<<<<<<< HEAD
+=======
+type State = any;
+
+const deletePodcast = produce(
+  (newState: State, action: any): void => {
+    switch (action.type) {
+      case Podcast.DELETE.SUCCESS:
+        newState.items = without(newState.items, action.meta.podcastId);
+    }
+  }
+);
+
+>>>>>>> Use without instead of pull, refactor some logic for better readability
 export default createEntityReducer({
   key: 'podcasts',
   types: {

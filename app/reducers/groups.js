@@ -3,7 +3,7 @@ import { createSelector } from 'reselect';
 import { Group, Membership } from '../actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import type { ID } from 'app/models';
-import { pull, union } from 'lodash';
+import { without, union } from 'lodash';
 import produce from 'immer';
 
 export const resolveGroupLink = (group: { type: string, id: ID }) => {
@@ -35,7 +35,10 @@ export default createEntityReducer({
           break;
 
         case Membership.REMOVE.SUCCESS:
-          pull(newState.byId[action.meta.groupId].memberships, action.meta.id);
+          newState.byId[action.meta.groupId].memberships = without(
+            newState.byId[action.meta.groupId].memberships,
+            action.meta.id
+          );
           break;
 
         case Group.MEMBERSHIP_FETCH.SUCCESS:

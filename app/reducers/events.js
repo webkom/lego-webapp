@@ -10,7 +10,7 @@ import { normalize } from 'normalizr';
 import { eventSchema } from 'app/reducers';
 import mergeObjects from 'app/utils/mergeObjects';
 import { groupBy, orderBy } from 'lodash';
-import { pull } from 'lodash';
+import { without } from 'lodash';
 import produce from 'immer';
 
 export type EventEntity = {
@@ -25,23 +25,27 @@ const mutateEvent = produce(
   (newState: State, action: any): void => {
     switch (action.type) {
       case Event.FETCH_PREVIOUS.SUCCESS:
-        Object.entries(action.payloads.entities.events).forEach(
-          ([eventId, event]) => {
-            newState.byId[eventId] = { ...event, isUsersUpcoming: false };
-          }
-        );
+        for (const eventId in action.payload.entities.events) {
+          const event = action.payload.entities.events[eventId];
+          newState.byId[eventId] = produce(
+            event,
+            e => (e.isUsersUpcoming = false)
+          );
+        }
         break;
 
       case Event.FETCH_UPCOMING.SUCCESS:
-        Object.entries(action.payloads.entities.events).forEach(
-          ([eventId, event]) => {
-            newState.byId[eventId] = { ...event, isUsersUpcoming: true };
-          }
-        );
+        for (const eventId in action.payload.entities.events) {
+          const event = action.payload.entities.events[eventId];
+          newState.byId[eventId] = produce(
+            event,
+            e => (e.isUsersUpcoming = true)
+          );
+        }
         break;
 
       case Event.DELETE.SUCCESS:
-        pull(newState.items, action.meta.id);
+        newState.items = without(newState.items, action.meta.id);
         break;
 
       case Event.SOCKET_EVENT_UPDATED: {
