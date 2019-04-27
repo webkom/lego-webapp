@@ -51,12 +51,6 @@ function mutateEvent(state: any, action: any) {
         byId: mergeObjects(state.byId, events)
       };
     }
-    case Event.DELETE.SUCCESS: {
-      return {
-        ...state,
-        items: state.items.filter(id => id !== action.meta.id)
-      };
-    }
     case Event.SOCKET_EVENT_UPDATED: {
       const events = normalize(action.payload, eventSchema).entities.events;
       return {
@@ -237,7 +231,8 @@ const mutate = joinReducers(mutateComments('events'), mutateEvent);
 export default createEntityReducer({
   key: 'events',
   types: {
-    fetch: [Event.FETCH, Event.FETCH_PREVIOUS, Event.FETCH_UPCOMING]
+    fetch: [Event.FETCH, Event.FETCH_PREVIOUS, Event.FETCH_UPCOMING],
+    delete: Event.DELETE
   },
   mutate
 });

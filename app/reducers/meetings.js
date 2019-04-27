@@ -27,11 +27,6 @@ export type MeetingSection = {
 
 function mutateMeetings(state: any, action: any) {
   switch (action.type) {
-    case Meeting.DELETE.SUCCESS:
-      return {
-        ...state,
-        items: state.items.filter(id => action.meta.meetingId !== id)
-      };
     default:
       return state;
   }
@@ -43,7 +38,8 @@ export default createEntityReducer({
   key: 'meetings',
   types: {
     fetch: Meeting.FETCH,
-    mutate: Meeting.CREATE
+    mutate: Meeting.CREATE,
+    delete: Meeting.DELETE
   },
   mutate
 });
