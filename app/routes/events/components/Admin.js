@@ -56,7 +56,7 @@ class DeleteButton extends React.Component<ButtonProps, State> {
           </span>
         )}
         {this.state.show && (
-          <form>
+          <>
             <span> Skriv inn navnet på arrangementet du vil slette: </span>
             <input
               type="text"
@@ -66,7 +66,7 @@ class DeleteButton extends React.Component<ButtonProps, State> {
             />{' '}
             <br />
             {deleteEventButton}
-          </form>
+          </>
         )}
       </div>
     );
