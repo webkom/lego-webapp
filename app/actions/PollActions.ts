@@ -6,7 +6,7 @@ import { pollSchema } from '../reducers';
 import { push } from 'react-router-redux';
 import { Thunk } from 'app/types';
 import { type OptionEntity } from 'app/reducers/polls';
-import { type Tags } from 'app/models';
+import { type Tags } from 'app/types/models';
 
 export function fetchAll({ next = false }: { next: boolean } = {}): Thunk<*> {
   return (dispatch, getState) => {

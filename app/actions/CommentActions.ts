@@ -5,7 +5,7 @@ import { commentSchema } from 'app/reducers';
 import callAPI from 'app/actions/callAPI';
 import { Comment } from './ActionTypes';
 import { Thunk } from 'app/types';
-import { type ID } from 'app/models';
+import { type ID } from 'app/types/models';
 
 export type CommentEntity = {
   text: string,

@@ -12,7 +12,7 @@ import { User, FetchHistory, Penalty } from './ActionTypes';
 import { uploadFile } from './FileActions';
 import { fetchMeta } from './MetaActions';
 import { Thunk, Action, Token, EncodedToken, GetCookie } from 'app/types';
-import { AddPenalty, ID } from 'app/models';
+import { AddPenalty, ID } from 'app/types/models';
 import { setStatusCode } from './RoutingActions';
 
 const USER_STORAGE_KEY = 'lego.auth';

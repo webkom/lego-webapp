@@ -6,7 +6,7 @@ import createQueryString from 'app/utils/createQueryString';
 import callAPI from 'app/actions/callAPI';
 import { Event } from './ActionTypes';
 import { addToast } from 'app/actions/ToastActions';
-import { EventRegistrationPresence } from 'app/models';
+import { EventRegistrationPresence } from 'app/types/models';
 import { Thunk, Action } from 'app/types';
 
 export const waitinglistPoolId = -1;
