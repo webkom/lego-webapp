@@ -1,6 +1,6 @@
 import createEntityReducer, {
   fetching,
-  entities
+  updateEntities
 } from '../createEntityReducer';
 import joinReducers from '../joinReducers';
 import { eventSchema } from 'app/reducers';
@@ -282,7 +282,7 @@ describe('entities()', () => {
       items: []
     };
 
-    const reducer = entities('users');
+    const reducer = updateEntities({}, 'users');
 
     const user = {
       id: 1,
@@ -311,7 +311,7 @@ describe('entities()', () => {
   });
 
   it('should merge carefully', () => {
-    const reducer = entities('events');
+    const reducer = updateEntities({}, 'events');
     const events = [
       {
         id: 1,

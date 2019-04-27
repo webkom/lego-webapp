@@ -1,6 +1,6 @@
 // @flow
 
-import { isArray, get, union, isEmpty } from 'lodash';
+import { omit, without, isArray, get, union, isEmpty } from 'lodash';
 import { parse } from 'qs';
 import joinReducers from 'app/utils/joinReducers';
 import mergeObjects from 'app/utils/mergeObjects';
@@ -10,14 +10,31 @@ import type { Reducer, AsyncActionType } from 'app/types';
 type EntityReducerOptions = {
   key: string,
   types: {
-    fetch?: ?AsyncActionType | Array<?AsyncActionType>,
-    mutate?: ?AsyncActionType
+    fetch?: AsyncActionType | Array<AsyncActionType>,
+    mutate?: AsyncActionType | Array<AsyncActionType>,
+    delete?: AsyncActionType | Array<AsyncActionType>
   },
   mutate?: Reducer,
   initialState?: Object
 };
 
-export function fetching(fetchType?: ?AsyncActionType) {
+const defaultState = {
+  actionGrant: [],
+  pagination: {},
+  byId: {},
+  items: []
+};
+
+const toArray = <T>(value: T | Array<T>) => {
+  if (value) {
+    return isArray(value) ? value : [value];
+  }
+  return [];
+};
+
+const isNumber = id => !isNaN(Number(id)) && !isNaN(parseInt(id, 10));
+
+export function fetching(fetchType: AsyncActionType) {
   return (state: any = { fetching: false }, action: any) => {
     if (!fetchType) {
       return state;
@@ -37,18 +54,8 @@ export function fetching(fetchType?: ?AsyncActionType) {
   };
 }
 
-const isNumber = id => !isNaN(Number(id)) && !isNaN(parseInt(id, 10));
-
-export function entities(key: string, fetchType?: ?AsyncActionType) {
-  return (
-    state: any = {
-      actionGrant: [],
-      pagination: {},
-      byId: {},
-      items: []
-    },
-    action: any
-  ) => {
+export function updateEntities(fetchType: AsyncActionType, key: string) {
+  return (state: any = defaultState, action: any) => {
     const primaryKey = get(action, ['meta', 'schemaKey']) === key;
     const result = get(action, ['payload', 'entities', key], {});
 
@@ -74,7 +81,7 @@ export function entities(key: string, fetchType?: ?AsyncActionType) {
       !action.payload ||
       (isEmpty(result) &&
         !isEmpty(actionGrant) &&
-        action.type !== get(fetchType, 'SUCCESS'))
+        action.type !== fetchType.SUCCESS)
     )
       return state;
 
@@ -99,12 +106,28 @@ export function entities(key: string, fetchType?: ?AsyncActionType) {
   };
 }
 
-export function optimistic(mutateType?: ?AsyncActionType) {
+/* This part of CER will handle deletion of values of a given entity.
+ * For actions of the type given into `types.delete` when setting up CER will be deleted.
+ *
+ * Make sure to set `meta.id` in the action.
+ */
+export function deleteEntities(deleteType: AsyncActionType) {
+  return (state: any = defaultState, action: any) => {
+    const resultId = action.meta && action.meta.id;
+
+    if (action.type !== deleteType.SUCCESS || !resultId) return state;
+
+    return {
+      ...state,
+      byId: omit(state.byId, resultId),
+      items: without(state.items, resultId)
+    };
+  };
+}
+
+export function optimistic(mutateType: AsyncActionType) {
   return (state: any, action: any) => {
-    if (
-      !mutateType ||
-      ![mutateType.FAILURE, mutateType.SUCCESS].includes(action.type)
-    ) {
+    if (![mutateType.FAILURE, mutateType.SUCCESS].includes(action.type)) {
       return state;
     }
 
@@ -119,9 +142,9 @@ export function optimistic(mutateType?: ?AsyncActionType) {
   };
 }
 
-export function paginationReducer(key: string, fetchType?: ?AsyncActionType) {
+export function paginationReducer(fetchType: AsyncActionType) {
   return (state: any, action: any) => {
-    if (action.type !== get(fetchType, 'SUCCESS')) {
+    if (action.type !== fetchType.SUCCESS) {
       return state;
     }
 
@@ -161,8 +184,6 @@ export default function createEntityReducer({
   mutate,
   initialState = {}
 }: EntityReducerOptions) {
-  const { fetch, mutate: mutateType } = types;
-
   const finalInitialState = {
     actionGrant: [],
     pagination: {},
@@ -173,16 +194,20 @@ export default function createEntityReducer({
     ...initialState
   };
 
-  const fetchTypes = isArray(fetch) ? fetch : [fetch];
+  const fetchTypes = toArray(types.fetch);
+  const deleteTypes = toArray(types.delete);
+  const mutateTypes = toArray(types.mutate);
+
   const reduce = joinReducers(
     ...fetchTypes.map(fetchType =>
       joinReducers(
         fetching(fetchType),
-        entities(key, fetchType),
-        paginationReducer(key, fetchType)
+        updateEntities(fetchType, key),
+        paginationReducer(fetchType)
       )
     ),
-    optimistic(mutateType),
+    ...deleteTypes.map(deleteType => deleteEntities(deleteType)),
+    ...mutateTypes.map(mutateType => optimistic(mutateType)),
     mutate
   );
 
