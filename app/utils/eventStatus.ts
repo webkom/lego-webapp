@@ -1,6 +1,4 @@
-
-
-import { Event } from 'app/models';
+import { Event } from 'app/types/models';
 import moment from 'moment-timezone';
 
 // Calculate diplay message for an event based on

@@ -1,5 +1,3 @@
-
-
 const entityTypeMappings = {
   'events.event': 'events',
   'articles.article': 'articles',

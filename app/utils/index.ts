@@ -1,5 +1,5 @@
 
-import { ID } from 'app/models';
+import { ID } from 'app/types/models';
 
 type Tree<T: Object> = Array<
   T & {
