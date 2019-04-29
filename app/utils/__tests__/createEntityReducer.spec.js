@@ -1,16 +1,24 @@
 import createEntityReducer, {
   fetching,
-  updateEntities
+  updateEntities,
+  deleteEntities
 } from '../createEntityReducer';
 import joinReducers from '../joinReducers';
 import { eventSchema } from 'app/reducers';
 import { normalize } from 'normalizr';
 
 const FETCH = {
-  BEGIN: 'FETCH_BEGIN',
-  SUCCESS: 'FETCH_SUCCESS',
-  FAILURE: 'FETCH_FAILURE'
+  BEGIN: 'FETCH.BEGIN',
+  SUCCESS: 'FETCH.SUCCESS',
+  FAILURE: 'FETCH.FAILURE'
 };
+const DELETE = {
+  BEGIN: 'DELETE.BEGIN',
+  SUCCESS: 'DELETE.SUCCESS',
+  FAILURE: 'DELETE.FAILURE'
+};
+
+const SMASH = 'SMASH';
 
 const reducer = createEntityReducer({
   key: 'events',
@@ -21,7 +29,7 @@ const reducer = createEntityReducer({
     smashed: false
   },
   mutate: (state, action) => {
-    if (action.type === 'SMASH') {
+    if (action.type === SMASH) {
       return { ...state, smashed: true };
     }
     return state;
@@ -29,9 +37,15 @@ const reducer = createEntityReducer({
 });
 
 const FETCH_OTHER = {
-  BEGIN: 'FETCH_OTHER_BEGIN',
-  SUCCESS: 'FETCH_OTHER_SUCCESS',
-  FAILURE: 'FETCH_OTHER_FAILURE'
+  BEGIN: 'FETCH_OTHER.BEGIN',
+  SUCCESS: 'FETCH_OTHER.SUCCESS',
+  FAILURE: 'FETCH_OTHER.FAILURE'
+};
+
+const DELETE_OTHER = {
+  BEGIN: 'DELETE_OTHER.BEGIN',
+  SUCCESS: 'DELETE_OTHER.SUCCESS',
+  FAILURE: 'DELETE_OTHER.FAILURE'
 };
 
 const otherReducer = createEntityReducer({
@@ -43,7 +57,7 @@ const otherReducer = createEntityReducer({
     smashed: false
   },
   mutate: (state, action) => {
-    if (action.type === 'SMASH') {
+    if (action.type === SMASH) {
       return { ...state, smashed: true };
     }
     return state;
@@ -52,7 +66,7 @@ const otherReducer = createEntityReducer({
 
 describe('createEntityReducer', () => {
   it('should reduce', () => {
-    expect(reducer(undefined, { type: 'SMASH' })).toEqual({
+    expect(reducer(undefined, { type: SMASH })).toEqual({
       actionGrant: [],
       byId: {},
       items: [],
@@ -272,10 +286,24 @@ describe('fetching()', () => {
       fetching: false
     });
   });
+  it('should handle multiple fetching types', () => {
+    const reducer = fetching([FETCH, FETCH_OTHER]);
+    expect(reducer({ fetching: false }, { type: FETCH.BEGIN })).toEqual({
+      fetching: true
+    });
+
+    expect(reducer({ fetching: true }, { type: FETCH_OTHER.SUCCESS })).toEqual({
+      fetching: false
+    });
+
+    expect(reducer({ fetching: false }, { type: DELETE.SUCCESS })).toEqual({
+      fetching: false
+    });
+  });
 });
 
-describe('entities()', () => {
-  it('store entities', () => {
+describe('updateEntities()', () => {
+  it('should store entities', () => {
     const state = {
       actionGrant: [],
       byId: {},
@@ -370,6 +398,182 @@ describe('entities()', () => {
           title: 'First Event',
           comments: [],
           extra: 'Foo'
+        },
+        2: {
+          id: 2,
+          title: 'Second Event',
+          comments: []
+        }
+      },
+      items: [1, 2],
+      pagination: {}
+    });
+  });
+});
+
+describe('deleteEntities()', () => {
+  it('should delete the given entity', () => {
+    const reducer = deleteEntities(DELETE, 'events');
+
+    const state = {
+      actionGrant: [],
+      byId: {
+        1: {
+          id: 1,
+          title: 'First Event',
+          comments: []
+        },
+        2: {
+          id: 2,
+          title: 'Second Event',
+          comments: []
+        }
+      },
+      items: [1, 2],
+      pagination: {}
+    };
+
+    const action = {
+      type: DELETE.SUCCESS,
+      meta: { id: 1 }
+    };
+    expect(reducer(state, action)).toEqual({
+      actionGrant: [],
+      byId: {
+        2: {
+          id: 2,
+          title: 'Second Event',
+          comments: []
+        }
+      },
+      items: [2],
+      pagination: {}
+    });
+  });
+  it('should handle deleteTypes as array', () => {
+    const reducer = deleteEntities([DELETE, DELETE_OTHER], 'events');
+
+    const state = {
+      actionGrant: [],
+      byId: {
+        1: {
+          id: 1,
+          title: 'First Event',
+          comments: []
+        },
+        2: {
+          id: 2,
+          title: 'Second Event',
+          comments: []
+        },
+        3: {
+          id: 3,
+          title: 'Third Event',
+          comments: []
+        }
+      },
+      items: [1, 2, 3],
+      pagination: {}
+    };
+
+    const actions = [
+      {
+        type: DELETE.SUCCESS,
+        meta: { id: 1 }
+      },
+      {
+        type: DELETE.SUCCESS,
+        meta: { id: 3 }
+      }
+    ];
+    expect(actions.reduce(reducer, state)).toEqual({
+      actionGrant: [],
+      byId: {
+        2: {
+          id: 2,
+          title: 'Second Event',
+          comments: []
+        }
+      },
+      items: [2],
+      pagination: {}
+    });
+  });
+  it('should not delete on error', () => {
+    const reducer = deleteEntities(DELETE, 'events');
+
+    const state = {
+      actionGrant: [],
+      byId: {
+        1: {
+          id: 1,
+          title: 'Second Event',
+          comments: []
+        },
+        2: {
+          id: 2,
+          title: 'Second Event',
+          comments: []
+        }
+      },
+      items: [1, 2],
+      pagination: {}
+    };
+
+    const action = {
+      type: DELETE.FAILED,
+      meta: { id: 1 }
+    };
+    expect(reducer(state, action)).toEqual({
+      actionGrant: [],
+      byId: {
+        1: {
+          id: 1,
+          title: 'Second Event',
+          comments: []
+        },
+        2: {
+          id: 2,
+          title: 'Second Event',
+          comments: []
+        }
+      },
+      items: [1, 2],
+      pagination: {}
+    });
+  });
+  it('should only delete on matching type', () => {
+    const reducer = deleteEntities(DELETE, 'events');
+
+    const state = {
+      actionGrant: [],
+      byId: {
+        1: {
+          id: 1,
+          title: 'Second Event',
+          comments: []
+        },
+        2: {
+          id: 2,
+          title: 'Second Event',
+          comments: []
+        }
+      },
+      items: [1, 2],
+      pagination: {}
+    };
+
+    const action = {
+      type: DELETE_OTHER.SUCCESS,
+      meta: { id: 1 }
+    };
+    expect(reducer(state, action)).toEqual({
+      actionGrant: [],
+      byId: {
+        1: {
+          id: 1,
+          title: 'Second Event',
+          comments: []
         },
         2: {
           id: 2,
