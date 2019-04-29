@@ -13,7 +13,7 @@
   letter-spacing: 2px;
   font-weight: 400;
   text-transform: uppercase;
-  font-size: 20px;
+  font-size: 24px;
   border-bottom: 1px solid #ddd;
   margin-bottom: 20px;
 }
@@ -34,7 +34,7 @@
 }
 
 .website {
-  color: #777;
+  color: var(--lego-link-color);
 }
 
 .companyItem {
@@ -60,12 +60,18 @@
   text-overflow: ellipsis;
   overflow: hidden;
   line-height: 25px;
-  height: 55px;
+  height: 46px;
   border-bottom: 2px solid var(--lego-red);
 }
 
 .companyItemTitle > * {
   padding-bottom: 10px;
+}
+
+.iconLink {
+  color: var(--lego-link-color);
+  display: flex;
+  justify-content: center;
 }
 
 .companyInfo {
@@ -75,7 +81,7 @@
   width: 80%;
   justify-content: space-around;
   margin-left: 22px;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .title {
@@ -89,7 +95,8 @@
   align-items: center;
   margin: auto;
   height: 80px;
-  margin-bottom: 20px;
+  margin-bottom: -7px;
+  margin-top: 20px;
 }
 
 .companyLogo img {
@@ -100,4 +107,58 @@
 .companyLogoDetail {
   max-height: 300px;
   width: 100%;
+}
+
+.briefcaseCount {
+  margin-right: 5px;
+}
+
+.calendarCount {
+  margin-right: 5px;
+}
+
+.iconInfo {
+  margin-left: 10px;
+  margin-bottom: 10px;
+  margin-right: 30px;
+}
+
+.iconInfoPlacement {
+  flex-flow: row;
+  display: flex;
+  align-content: stretch;
+  justify-content: center;
+  margin-top: 38px;
+  margin-bottom: 39px;
+}
+
+.infoText {
+  display: flex;
+  font-size: var(--font-size);
+}
+
+.readMore {
+  display: none;
+  font-family: Raleway;
+  font-size: var(--font-size);
+  color: var(--lego-red);
+  margin-top: 17px;
+}
+
+@media (--small-viewport) {
+  .root {
+    padding: 27px;
+  }
+
+  .iconInfoPlacement {
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 30px;
+    margin-top: 29px;
+  }
+
+  .readMore {
+    display: contents;
+    margin-top: 20px;
+  }
 }
