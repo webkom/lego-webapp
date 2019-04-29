@@ -22,7 +22,7 @@ export function deletePage(pageSlug: string) {
     endpoint: `/pages/${pageSlug}/`,
     method: 'DELETE',
     meta: {
-      pageSlug,
+      id: pageSlug,
       errorMessage: 'Sletting av side feilet'
     }
   });

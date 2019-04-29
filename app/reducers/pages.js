@@ -21,18 +21,8 @@ export default createEntityReducer({
   key: 'pages',
   types: {
     fetch: Page.FETCH,
-    mutate: Page.CREATE
-  },
-  mutate(state, action) {
-    switch (action.type) {
-      case Page.DELETE.SUCCESS:
-        return {
-          ...state,
-          items: state.items.filter(id => action.meta.pageSlug !== id)
-        };
-      default:
-        return state;
-    }
+    mutate: Page.CREATE,
+    delete: Page.DELETE
   }
 });
 
