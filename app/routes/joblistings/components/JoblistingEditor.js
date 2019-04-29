@@ -121,8 +121,8 @@ class JoblistingEditor extends Component<Props, State> {
         </h1>
         <Form onSubmit={handleSubmit(this.onSubmit)}>
           <Field
-            placeholder="Title"
-            label="Title"
+            placeholder="Tittel"
+            label="Tittel"
             name="title"
             component={TextInput.Field}
             required
