@@ -282,7 +282,7 @@ describe('entities()', () => {
       items: []
     };
 
-    const reducer = updateEntities({}, 'users');
+    const reducer = updateEntities(FETCH, 'users');
 
     const user = {
       id: 1,
@@ -311,7 +311,7 @@ describe('entities()', () => {
   });
 
   it('should merge carefully', () => {
-    const reducer = updateEntities({}, 'events');
+    const reducer = updateEntities(FETCH, 'events');
     const events = [
       {
         id: 1,
