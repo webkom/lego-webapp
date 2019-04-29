@@ -76,7 +76,7 @@ const CompanyList = ({ companies = [] }: CompanyListProps) => (
   </div>
 );
 
-type State = { expandend: boolean };
+type State = { expanded: boolean };
 class CompaniesPage extends React.Component<Props, State> {
   state = { expanded: false };
   top = React.createRef();
@@ -127,7 +127,7 @@ class CompaniesPage extends React.Component<Props, State> {
               className={cx(styles.readMore, 'accordion')}
               onClick={() => {
                 this.setState({ expanded: false });
-                this.top.current.scrollIntoView();
+                this.top.current && this.top.current.scrollIntoView();
               }}
             >
               Vis mindre
