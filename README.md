@@ -1,4 +1,4 @@
-# lego-webapp [![DroneCI](https://ci-v1.abakus.no/api/badges/webkom/lego-webapp/status.svg?branch=master)](https://ci-v1.abakus.no/webkom/lego-webapp) [![dependencies Status](https://david-dm.org/webkom/lego-webapp/status.svg)](https://david-dm.org/webkom/lego-webapp) [![devdependencies Status](https://david-dm.org/webkom/lego-webapp/dev-status.svg)](https://david-dm.org/webkom/lego-webapp?type=dev)
+# lego-webapp [![DroneCI](https://ci.abakus.no/api/badges/webkom/lego-webapp/status.svg?branch=master)](https://ci.abakus.no/webkom/lego-webapp) [![dependencies Status](https://david-dm.org/webkom/lego-webapp/status.svg)](https://david-dm.org/webkom/lego-webapp) [![devdependencies Status](https://david-dm.org/webkom/lego-webapp/dev-status.svg)](https://david-dm.org/webkom/lego-webapp?type=dev)
 
 > Open source frontend for abakus.no
 
