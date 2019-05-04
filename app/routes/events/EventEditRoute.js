@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import { frontloadConnect } from 'react-frontload';
 import { formValueSelector } from 'redux-form';
 import {
   fetchEvent,
@@ -23,7 +23,7 @@ import time from 'app/utils/time';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
 
 const mapStateToProps = (state, props) => {
-  const eventId = props.params.eventId;
+  const eventId = props.match.params.eventId;
   const event = selectEventById(state, { eventId });
   const actionGrant = event.actionGrant || [];
   const pools = selectPoolsWithRegistrationsForEvent(state, { eventId });
@@ -81,17 +81,20 @@ const mapDispatchToProps = {
   setCoverPhoto
 };
 
+const initialFetch = props => {
+  const eventId = props.match.params.eventId;
+  props.fetchEvent(eventId);
+};
+
 export default compose(
-  replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { eventId } }, dispatch) => dispatch(fetchEvent(eventId)),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
   connect(
     mapStateToProps,
     mapDispatchToProps
   ),
-  loadingIndicator(['event.title'])
+  frontloadConnect(initialFetch, {
+    onMount: true,
+    onUpdate: false
+  }),
+  replaceUnlessLoggedIn(LoginPage)
+  //loadingIndicator(['event.title'])
 )(EventEditor);

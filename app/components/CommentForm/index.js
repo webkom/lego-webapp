@@ -109,7 +109,9 @@ function mapStateToProps(state, props) {
   const values = getFormValues(props.form)(state);
   return {
     isOpen:
-      meta && (meta.text.active || (values && values.text !== EMPTY_STATE))
+      meta &&
+      meta.text &&
+      (meta.text.active || (values && values.text !== EMPTY_STATE))
   };
 }
 

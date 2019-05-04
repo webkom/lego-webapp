@@ -91,6 +91,7 @@ class Overview extends Component<Props, State> {
     const isEvent = o => typeof o['startTime'] !== 'undefined';
     const { frontpage, loadingFrontpage, readmes, poll, votePoll } = this.props;
     const pinned = frontpage[0];
+    console.log(this.props);
     const compactEvents = (
       <CompactEvents
         events={frontpage.filter(isEvent)}

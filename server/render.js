@@ -16,6 +16,7 @@ import type { $Request, $Response, Middleware } from 'express';
 import { createNewRavenInstance } from '../app/utils/universalRaven';
 import webpackClient from '../config/webpack.client.js';
 import type { State } from '../app/types';
+import { frontloadServerRender } from 'react-frontload';
 
 import 'source-map-support/register';
 
@@ -34,7 +35,7 @@ class TimeoutError {
 
 const prepareWithTimeout = app =>
   Promise.race([
-    prepare(app),
+    frontloadServerRender(),
     new Promise(resolve => {
       setTimeout(resolve, serverSideTimeoutInMs);
     }).then(() => {

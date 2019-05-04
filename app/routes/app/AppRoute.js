@@ -1,10 +1,9 @@
 // @flow
 
 import styles from './AppRoute.css';
-import React, { PureComponent, type Element } from 'react';
+import React, { PureComponent, type Element, cloneElement } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
 import Helmet from 'react-helmet';
 import {
   loginAutomaticallyIfPossible,
@@ -30,7 +29,7 @@ import HTTPError from '../errors/HTTPError';
 import { setStatusCode } from 'app/actions/RoutingActions';
 import config from 'app/config';
 import coverPhoto from 'app/assets/cover.png';
-import { withRouter } from 'react-router-dom';
+import { frontloadConnect } from 'react-frontload';
 
 type Props = {
   statusCode: number,
@@ -41,9 +40,24 @@ type Props = {
   loggedIn: boolean
 };
 
+export const UserContext = React.createContext();
+
 class AppChildren extends PureComponent<Props> {
   render() {
-    console.log(this.props);
+    const children = React.Children.map(this.props.children, child =>
+      cloneElement(child, {
+        passedProps: {
+          currentUser: this.props.currentUser,
+          loggedIn: this.props.loggedIn
+        }
+      })
+    );
+
+    const userValue = {
+      currentUser: this.props.currentUser,
+      loggedIn: this.props.loggedIn
+    };
+
     return (
       <div style={{ flex: 1 }}>
         <ErrorBoundary resetOnChange={this.props.location}>
@@ -55,7 +69,9 @@ class AppChildren extends PureComponent<Props> {
               location={this.props.location}
             />
           ) : (
-            this.props.children
+            <UserContext.Provider value={userValue}>
+              {children}
+            </UserContext.Provider>
           )}
         </ErrorBoundary>
       </div>
@@ -68,7 +84,6 @@ type AppProps = any;
 
 class App extends PureComponent<AppProps> {
   render() {
-    console.log(this.props);
     return (
       <div
         className={cx(styles.appRoute, {
@@ -139,12 +154,6 @@ function mapStateToProps(state) {
   };
 }
 
-function fetchInitialOnServer(props, dispatch) {
-  return dispatch(loginAutomaticallyIfPossible()).then(() =>
-    dispatch(fetchMeta())
-  );
-}
-
 const mapDispatchToProps = {
   toggleSearch,
   logout: logoutWithRedirect,
@@ -152,17 +161,22 @@ const mapDispatchToProps = {
   fetchNotificationFeed,
   markAllNotifications,
   fetchNotificationData,
-  setStatusCode
+  setStatusCode,
+  loginAutomaticallyIfPossible
 };
 
-export default compose(
-  dispatched(fetchInitialOnServer, {
-    componentDidMount: false,
-    componentWillReceiveProps: false
-  }),
-  dispatched((props, dispatch) => dispatch(fetchNotificationData())),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)(App);
+const fetchFrontpage = props => {
+  props.loginAutomaticallyIfPossible();
+  props.fetchNotificationData();
+  props.fetchNotificationFeed();
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
+  frontloadConnect(fetchFrontpage, {
+    onMount: true,
+    onUpdate: false
+  })(App)
+);
