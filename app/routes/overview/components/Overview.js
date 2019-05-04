@@ -100,6 +100,7 @@ class Overview extends Component<Props, State> {
       votePoll
     } = this.props;
     const pinned = frontpage[0];
+    console.log(this.props);
     const compactEvents = (
       <CompactEvents
         events={frontpage.filter(isEvent)}
