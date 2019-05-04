@@ -1,6 +1,8 @@
+import * as React from 'react';
+import { Route } from 'react-router-dom';
 import { AppRoute } from './app';
-import overview from './overview';
-import events from './events';
+import Overview from './overview';
+import Events from './events';
 import company from './company';
 import users from './users';
 import articles from './articles';
@@ -24,13 +26,12 @@ import tags from './tags';
 import brand from './brand';
 import userValidator from './userValidator';
 import polls from './polls';
+import RouteWrapper from 'app/components/RouteWrapper';
 
-export default {
+const old = {
   path: '/',
   component: AppRoute,
-  indexRoute: overview,
   childRoutes: [
-    events,
     users,
     articles,
     photos,
@@ -60,3 +61,18 @@ export default {
     pageNotFound
   ]
 };
+
+const RouterConfig = () => (
+  <>
+    <Route path="/" component={AppWrapper} />
+  </>
+);
+
+const AppWrapper = props => (
+  <AppRoute {...props}>
+    <RouteWrapper exact path="/" Component={Overview} />
+    <Events />
+  </AppRoute>
+);
+
+export default RouterConfig;

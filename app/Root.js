@@ -11,6 +11,9 @@ import { connect } from 'react-redux';
 import ErrorBoundary from 'app/components/ErrorBoundary';
 import type { History } from 'history';
 import AppRoute from './routes/app';
+import { Frontload } from 'react-frontload';
+import RouteConfig from './routes';
+import EventList from 'app/routes/events/EventListRoute';
 
 type Props = {
   store: Store,
@@ -19,31 +22,17 @@ type Props = {
 
 const Root = (props: Props) => {
   const { store, history, ...restProps } = props;
-  console.log(restProps);
   return (
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        <RouteHandler {...restProps} />
+        <Frontload noServerRender={true}>
+          <RouteConfig {...restProps} />
+        </Frontload>
       </ConnectedRouter>
     </Provider>
   );
 };
 
-const RouteWithSubRoutes = route => {
-  console.log(route);
-  return (
-    <>
-      <Route
-        path={route.path}
-        render={props =>
-          props.component && (
-            <route.component {...props} routes={route.childRoutes} />
-          )
-        }
-      />
-    </>
-  );
-};
 const mapDispatchToProps = {
   setStatusCode
 };
@@ -58,15 +47,7 @@ const RouteHandler = connect(
   }: {
     setStatusCode: (statusCode: ?number) => void
   }) => {
-    return (
-      <ErrorBoundary openReportDialog>
-        <routes.component {...restProps}>
-          {routes.childRoutes.map((route, i) => (
-            <RouteWithSubRoutes key={i} {...route} />
-          ))}
-        </routes.component>
-      </ErrorBoundary>
-    );
+    return <ErrorBoundary openReportDialog />;
   }
 );
 

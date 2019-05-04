@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
+import { frontloadConnect } from 'react-frontload';
 import {
   fetchEvent,
   deleteEvent,
@@ -29,7 +29,9 @@ import { deleteComment } from 'app/actions/CommentActions';
 
 const mapStateToProps = (state, props) => {
   const {
-    params: { eventId },
+    match: {
+      params: { eventId }
+    },
     currentUser
   } = props;
 
@@ -180,11 +182,14 @@ const propertyGenerator = (props, config) => {
 };
 
 export default compose(
-  prepare(loadData, ['params.eventId']),
   connect(
     mapStateToProps,
     mapDispatchToProps
   ),
+  frontloadConnect(loadData, {
+    onMount: true,
+    onUpdate: false
+  }),
   loadingIndicator(['notLoading', 'event.text']),
   helmet(propertyGenerator)
 )(EventDetail);
