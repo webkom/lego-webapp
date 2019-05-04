@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import { fetchList } from 'app/actions/EventActions';
 import prepare from 'app/utils/prepare';
 import Calendar from './components/Calendar';
+import { frontloadConnect } from 'react-frontload';
 
 const getDate = ({ params }) => {
   const year = params.year || moment().year();
@@ -13,8 +14,8 @@ const getDate = ({ params }) => {
   return moment([parseInt(year, 10), parseInt(month, 10) - 1]);
 };
 
-const loadData = (props, dispatch) => {
-  const date = getDate(props);
+const loadData = props => {
+  const date = getDate(props.match);
   if (date.isValid()) {
     const dateAfter = date
       .clone()
@@ -24,15 +25,11 @@ const loadData = (props, dispatch) => {
       .clone()
       .endOf('month')
       .endOf('week');
-    return dispatch(
-      fetchList({
-        dateAfter: dateAfter.format('YYYY-MM-DD'),
-        dateBefore: dateBefore.format('YYYY-MM-DD')
-      })
-    );
+    props.fetchList({
+      dateAfter: dateAfter.format('YYYY-MM-DD'),
+      dateBefore: dateBefore.format('YYYY-MM-DD')
+    });
   }
-
-  return Promise.resolve();
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -40,7 +37,7 @@ const mapStateToProps = (state, ownProps) => {
   const icalToken = user ? user.icalToken : null;
   const actionGrant = state.events.actionGrant;
   return {
-    date: getDate(ownProps),
+    date: getDate(ownProps.match),
     actionGrant,
     icalToken
   };
@@ -48,10 +45,12 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = { fetchList };
 
-export default compose(
-  prepare(loadData, ['params.year', 'params.month']),
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )
-)(Calendar);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(
+  frontloadConnect(loadData, {
+    onMount: true,
+    onUpdate: false
+  })(Calendar)
+);

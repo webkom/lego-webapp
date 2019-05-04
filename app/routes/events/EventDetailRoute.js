@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import prepare from 'app/utils/prepare';
+import { frontloadConnect } from 'react-frontload';
 import {
   fetchEvent,
   deleteEvent,
@@ -29,7 +29,9 @@ import { deleteComment } from 'app/actions/CommentActions';
 
 const mapStateToProps = (state, props) => {
   const {
-    params: { eventId },
+    match: {
+      params: { eventId }
+    },
     currentUser
   } = props;
 
@@ -125,11 +127,6 @@ const mapDispatchToProps = {
   deleteComment
 };
 
-const loadData = ({ params: { eventId }, loggedIn }, dispatch) =>
-  Promise.all([
-    dispatch(fetchEvent(eventId)),
-    loggedIn && dispatch(isUserFollowing(eventId))
-  ]);
 const propertyGenerator = (props, config) => {
   if (!props.event) return;
   const tags = (props.event.tags || []).map(content => ({
@@ -179,12 +176,28 @@ const propertyGenerator = (props, config) => {
   ];
 };
 
+const loadData = props => {
+  const {
+    match: {
+      params: { eventId }
+    },
+    loggedIn
+  } = props;
+  return Promise.all([
+    props.fetchEvent(eventId),
+    loggedIn && props.isUserFollowing(eventId)
+  ]);
+};
+
 export default compose(
-  prepare(loadData, ['params.eventId']),
   connect(
     mapStateToProps,
     mapDispatchToProps
   ),
+  frontloadConnect(loadData, {
+    onMount: true,
+    onUpdate: false
+  }),
   loadingIndicator(['notLoading', 'event.text']),
   helmet(propertyGenerator)
 )(EventDetail);
