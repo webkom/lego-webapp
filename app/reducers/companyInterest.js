@@ -24,18 +24,8 @@ export default createEntityReducer({
   key: 'companyInterest',
   types: {
     fetch: CompanyInterestForm.FETCH_ALL,
-    mutate: CompanyInterestForm.CREATE
-  },
-  mutate(state, action) {
-    switch (action.type) {
-      case CompanyInterestForm.DELETE.SUCCESS:
-        return {
-          ...state,
-          items: state.items.filter(id => action.meta.companyInterestId !== id)
-        };
-      default:
-        return state;
-    }
+    mutate: CompanyInterestForm.CREATE,
+    delete: CompanyInterestForm.DELETE
   }
 });
 

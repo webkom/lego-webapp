@@ -33,13 +33,13 @@ export function fetchPodcast(podcastId: number) {
   });
 }
 
-export function deletePodcast(podcastId: number) {
+export function deletePodcast(id: number) {
   return callAPI({
     types: Podcast.DELETE,
-    endpoint: `/podcasts/${podcastId}/`,
+    endpoint: `/podcasts/${id}/`,
     method: 'DELETE',
     meta: {
-      podcastId: Number(podcastId),
+      id,
       errorMessage: 'Sletting av podcast feilet'
     }
   });

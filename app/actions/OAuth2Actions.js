@@ -69,15 +69,15 @@ export function fetchOAuth2Grants() {
   });
 }
 
-export function deleteOAuth2Grant(grantId: number) {
+export function deleteOAuth2Grant(id: number) {
   return callAPI({
     types: OAuth2.DELETE_GRANT,
     method: 'DELETE',
-    endpoint: `/oauth2-access-tokens/${grantId}/`,
+    endpoint: `/oauth2-access-tokens/${id}/`,
     schema: oauth2GrantSchema,
     meta: {
-      errorMessage: 'Sletting av OAuth2 stipend feilet.',
-      grantId
+      id,
+      errorMessage: 'Sletting av OAuth2 stipend feilet.'
     },
     propagateError: true
   });

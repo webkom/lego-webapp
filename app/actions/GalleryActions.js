@@ -95,14 +95,14 @@ export function updateGalleryCover(id: EntityID, cover: EntityID) {
   });
 }
 
-export function deleteGallery(galleryId: EntityID) {
+export function deleteGallery(id: EntityID) {
   return callAPI({
     types: Gallery.DELETE,
-    endpoint: `/galleries/${galleryId}/`,
+    endpoint: `/galleries/${id}/`,
     method: 'DELETE',
     schema: gallerySchema,
     meta: {
-      galleryId,
+      id,
       errorMessage: 'Sletting av galleri feilet'
     }
   });

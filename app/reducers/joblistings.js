@@ -8,19 +8,8 @@ export default createEntityReducer({
   key: 'joblistings',
   types: {
     fetch: Joblistings.FETCH,
-    mutate: Joblistings.CREATE
-  },
-  mutate(state, action) {
-    switch (action.type) {
-      case Joblistings.DELETE.SUCCESS: {
-        return {
-          ...state,
-          items: state.items.filter(id => id !== action.meta.id)
-        };
-      }
-      default:
-        return state;
-    }
+    mutate: Joblistings.CREATE,
+    delete: Joblistings.DELETE
   }
 });
 

@@ -54,7 +54,7 @@ export function deleteSubmission(surveyId: number, submissionId: number) {
     method: 'DELETE',
     meta: {
       surveyId,
-      submissionId,
+      id: submissionId,
       errorMessage: 'Sletting av svar feilet',
       successMessage: 'Svar slettet.'
     }

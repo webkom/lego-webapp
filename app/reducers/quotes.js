@@ -20,13 +20,6 @@ export type QuoteEntity = {
 
 function mutateQuote(state: any, action: any) {
   switch (action.type) {
-    case Quote.DELETE.SUCCESS: {
-      const { quoteId } = action.meta;
-      return {
-        ...state,
-        items: state.items.filter(id => id !== quoteId)
-      };
-    }
     case Quote.UNAPPROVE.SUCCESS: {
       const { quoteId } = action.meta;
       return {
@@ -64,7 +57,8 @@ export default createEntityReducer({
   key: 'quotes',
   types: {
     fetch: Quote.FETCH,
-    mutate: Quote.ADD
+    mutate: Quote.ADD,
+    delete: Quote.DELETE
   },
   mutate
 });

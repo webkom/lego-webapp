@@ -78,15 +78,15 @@ export function editPoll(data: {
   });
 }
 
-export function deletePoll(pollId: number): Thunk<*> {
+export function deletePoll(id: number): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({
         types: Poll.DELETE,
-        endpoint: `/polls/${pollId}/`,
+        endpoint: `/polls/${id}/`,
         method: 'DELETE',
         meta: {
-          pollId,
+          id,
           errorMessage: 'Fjerning av avstemning feilet!'
         }
       })

@@ -9,7 +9,8 @@ export default createEntityReducer({
   key: 'announcements',
   types: {
     fetch: Announcements.FETCH_ALL,
-    mutate: Announcements.CREATE
+    mutate: Announcements.CREATE,
+    delete: Announcements.DELETE
   },
   mutate(state, action) {
     switch (action.type) {
@@ -26,11 +27,6 @@ export default createEntityReducer({
           }
         };
       }
-      case Announcements.DELETE.SUCCESS:
-        return {
-          ...state,
-          items: state.items.filter(id => action.meta.announcementId !== id)
-        };
       default:
         return state;
     }

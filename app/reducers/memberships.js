@@ -7,22 +7,8 @@ export default createEntityReducer({
   key: 'memberships',
   types: {
     mutate: Membership.JOIN_GROUP,
-    fetch: Group.MEMBERSHIP_FETCH
-  },
-  mutate(state, action) {
-    switch (action.type) {
-      case Membership.LEAVE_GROUP.SUCCESS: {
-        const { groupId, username } = action.meta;
-        return {
-          ...state,
-          items: state.items.filter(i => {
-            const m = state.byId[i];
-            return m.abakusGroup !== groupId || m.user !== username;
-          })
-        };
-      }
-    }
-    return state;
+    fetch: Group.MEMBERSHIP_FETCH,
+    delete: Membership.LEAVE_GROUP
   }
 });
 

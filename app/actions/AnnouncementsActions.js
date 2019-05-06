@@ -70,13 +70,13 @@ export function sendAnnouncement(announcementId: number) {
   });
 }
 
-export function deleteAnnouncement(announcementId: number) {
+export function deleteAnnouncement(id: number) {
   return callAPI({
     types: Announcements.DELETE,
-    endpoint: `/announcements/${announcementId}/`,
+    endpoint: `/announcements/${id}/`,
     method: 'DELETE',
     meta: {
-      announcementId,
+      id,
       errorMessage: 'Sletting av kunngjøringer feilet'
     }
   });

@@ -4,7 +4,6 @@ import { createSelector } from 'reselect';
 import { Article } from '../actions/ActionTypes';
 import { mutateComments } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
-import joinReducers from 'app/utils/joinReducers';
 import { orderBy } from 'lodash';
 
 export type ArticleEntity = {
@@ -24,29 +23,14 @@ export type ArticleEntity = {
   youtubeUrl: string
 };
 
-function mutateArticle(state: any, action: any) {
-  switch (action.type) {
-    case Article.DELETE.SUCCESS: {
-      const { articleId } = action.meta;
-      return {
-        ...state,
-        items: state.items.filter(id => id !== articleId)
-      };
-    }
-    default:
-      return state;
-  }
-}
-
-const mutate = joinReducers(mutateComments('articles'), mutateArticle);
-
 export default createEntityReducer({
   key: 'articles',
   types: {
     fetch: Article.FETCH,
-    mutate: Article.CREATE
+    mutate: Article.CREATE,
+    delete: Article.DELETE
   },
-  mutate
+  mutate: mutateComments('articles')
 });
 
 function transformArticle(article) {
