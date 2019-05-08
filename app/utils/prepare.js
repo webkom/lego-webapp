@@ -2,6 +2,7 @@
 import { get } from 'lodash';
 import { prepared } from '@webkom/react-prepare';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import type { Dispatch } from 'app/types';
 
 type PrepareFn = (props: Object, dispatch: Dispatch<*>) => Promise<*>;
@@ -22,13 +23,13 @@ export default function prepare(
       .concat('loggedIn')
       .some(key => get(oldProps, key) !== get(newProps, key));
 
-  return comp =>
+  return compose(
     connect(
       () => ({}),
       dispatch => ({ dispatch })
-    )(
-      prepared(props => prepareFn(props, props.dispatch), {
-        componentWillReceiveProps
-      })(comp)
-    );
+    ),
+    prepared(props => prepareFn(props, props.dispatch), {
+      componentWillReceiveProps
+    })
+  );
 }
