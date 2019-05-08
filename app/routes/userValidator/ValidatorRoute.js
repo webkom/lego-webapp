@@ -12,10 +12,10 @@ import Validator from 'app/components/UserValidator';
 
 const searchTypes = ['users.user'];
 
-const loadData = (props, dispatch) => {
+const loadData = async (props, dispatch) => {
   const query = props.location.query.q;
   if (query) {
-    dispatch(autocomplete(query, searchTypes));
+    await dispatch(autocomplete(query, searchTypes));
   }
 };
 
