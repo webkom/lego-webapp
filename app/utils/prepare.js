@@ -1,8 +1,8 @@
 // @flow
-import { type ComponentType } from 'react';
 import { get } from 'lodash';
 import { prepared } from '@webkom/react-prepare';
 import { connect } from 'react-redux';
+import { compose } from 'redux';
 import type { Dispatch } from 'app/types';
 
 type PrepareFn = (props: Object, dispatch: Dispatch<*>) => Promise<*>;
@@ -13,7 +13,7 @@ type PrepareFn = (props: Object, dispatch: Dispatch<*>) => Promise<*>;
  *
  * watchProps supports any strings that can be passed to _.get.
  */
-export default function prepare<Props: Object>(
+export default function prepare(
   prepareFn: PrepareFn,
   watchProps?: Array<string> = [],
   opts?: Object = {}
@@ -24,14 +24,14 @@ export default function prepare<Props: Object>(
       .concat('loggedIn')
       .some(key => get(oldProps, key) !== get(newProps, key));
 
-  return (comp: ComponentType<Props>) =>
+  return compose(
     connect(
       () => ({}),
       dispatch => ({ dispatch })
-    )(
-      prepared(props => prepareFn(props, props.dispatch), {
-        componentWillReceiveProps,
-        ...opts
-      })(comp)
-    );
+    ),
+    prepared((props, ctx) => prepareFn(props, props.dispatch || ctx.dispatch), {
+      componentWillReceiveProps,
+      ...opts
+    })
+  );
 }
