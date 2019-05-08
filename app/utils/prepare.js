@@ -1,6 +1,7 @@
 // @flow
 import { get } from 'lodash';
-import { dispatched } from '@webkom/react-prepare';
+import { prepared } from '@webkom/react-prepare';
+import { connect } from 'react-redux';
 import type { Dispatch } from 'app/types';
 
 type PrepareFn = (props: Object, dispatch: Dispatch<*>) => Promise<*>;
@@ -21,5 +22,13 @@ export default function prepare(
       .concat('loggedIn')
       .some(key => get(oldProps, key) !== get(newProps, key));
 
-  return dispatched(prepareFn, { componentWillReceiveProps });
+  return comp =>
+    connect(
+      () => ({}),
+      dispatch => ({ dispatch })
+    )(
+      prepared(props => prepareFn(props, props.dispatch), {
+        componentWillReceiveProps
+      })(comp)
+    );
 }
