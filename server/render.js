@@ -32,9 +32,9 @@ class TimeoutError {
   }
 }
 
-const prepareWithTimeout = (app, { dispatch }) =>
+const prepareWithTimeout = app =>
   Promise.race([
-    prepare(app, {}, { dispatch }),
+    prepare(app),
     new Promise(resolve => {
       setTimeout(resolve, serverSideTimeoutInMs);
     }).then(() => {
@@ -112,7 +112,7 @@ function render(req: $Request, res: $Response, next: Middleware) {
       return render(body, state);
     };
 
-    prepareWithTimeout(app, store)
+    prepareWithTimeout(app)
       .then(
         () => respond(),
         error => {
