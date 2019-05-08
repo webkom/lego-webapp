@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import { fetchAll } from 'app/actions/JoblistingActions';
 import JoblistingPage from './components/JoblistingPage';
 import { compose } from 'redux';
@@ -75,9 +75,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = { fetchAll };
 
 export default compose(
-  dispatched((props, dispatch) => dispatch(fetchAll()), {
-    componentWillReceiveProps: false
-  }),
+  prepare((props, dispatch) => dispatch(fetchAll())),
   connect(
     mapStateToProps,
     mapDispatchToProps

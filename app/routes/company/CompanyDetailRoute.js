@@ -2,7 +2,7 @@
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import {
   fetch as fetchCompany,
   fetchEventsForCompany,
@@ -75,9 +75,7 @@ const mapDispatchToProps = (dispatch, props) => {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(fetchData, {
-    componentWillReceiveProps: false
-  }),
+  prepare(fetchData),
   // $FlowFixMe
   connect(
     mapStateToProps,

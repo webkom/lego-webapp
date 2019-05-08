@@ -1,4 +1,5 @@
 // @flow
+import { type ComponentType } from 'react';
 import { get } from 'lodash';
 import { prepared } from '@webkom/react-prepare';
 import { connect } from 'react-redux';
@@ -12,9 +13,10 @@ type PrepareFn = (props: Object, dispatch: Dispatch<*>) => Promise<*>;
  *
  * watchProps supports any strings that can be passed to _.get.
  */
-export default function prepare(
+export default function prepare<Props: Object>(
   prepareFn: PrepareFn,
-  watchProps?: Array<string> = []
+  watchProps?: Array<string> = [],
+  opts?: Object = {}
 ) {
   // Returns true if any of the given watchProps have changed:
   const componentWillReceiveProps = (oldProps, newProps) =>
@@ -22,13 +24,14 @@ export default function prepare(
       .concat('loggedIn')
       .some(key => get(oldProps, key) !== get(newProps, key));
 
-  return comp =>
+  return (comp: ComponentType<Props>) =>
     connect(
       () => ({}),
       dispatch => ({ dispatch })
     )(
       prepared(props => prepareFn(props, props.dispatch), {
-        componentWillReceiveProps
+        componentWillReceiveProps,
+        ...opts
       })(comp)
     );
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import StudentConfirmation from './components/StudentConfirmation';
@@ -30,7 +30,7 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  dispatched(loadData, { componentWillReceiveProps: false }),
+  prepare(loadData),
   connect(
     mapStateToProps,
     mapDispatchToProps

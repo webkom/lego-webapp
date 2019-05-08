@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { debounce } from 'lodash';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
 import { Content } from 'app/components/Content';
@@ -49,9 +49,7 @@ const WrappedValidator = props => (
 );
 
 export default compose(
-  dispatched(loadData, {
-    componentWillReceiveProps: false
-  }),
+  prepare(loadData),
   connect(
     mapStateToProps,
     mapDispatchToProps

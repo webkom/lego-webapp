@@ -1,7 +1,7 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PageList from './components/PageList';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import { fetchAll } from 'app/actions/PageActions';
 
 const mapStateToProps = (state, props) => ({
@@ -11,9 +11,7 @@ const mapStateToProps = (state, props) => ({
 const mapDispatchToProps = { fetchAll };
 
 export default compose(
-  dispatched((props, dispatch) => dispatch(fetchAll()), {
-    componentWillReceiveProps: false
-  }),
+  prepare((props, dispatch) => dispatch(fetchAll())),
   connect(
     mapStateToProps,
     mapDispatchToProps

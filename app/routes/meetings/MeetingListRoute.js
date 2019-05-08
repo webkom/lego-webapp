@@ -1,7 +1,7 @@
 // @flow
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import { fetchAll } from 'app/actions/MeetingActions';
 import { LoginPage } from 'app/components/LoginForm';
 import { selectGroupedMeetings } from 'app/reducers/meetings';
@@ -67,9 +67,7 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched((props, dispatch) => dispatch(fetchData()), {
-    componentWillReceiveProps: false
-  }),
+  prepare((props, dispatch) => dispatch(fetchData())),
   connect(
     mapStateToProps,
     mapDispatchToProps

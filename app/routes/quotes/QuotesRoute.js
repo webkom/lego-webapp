@@ -8,7 +8,7 @@ import {
   deleteQuote
 } from 'app/actions/QuoteActions';
 import QuotePage from './components/QuotePage';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import {
   selectSortedQuotes,
   selectCommentsForQuotes
@@ -45,18 +45,15 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    (props, dispatch) => {
-      const {
-        location: { query }
-      } = props;
-      if (query.filter === 'unapproved') {
-        return dispatch(fetchAllUnapproved({ loadNextPage: false }));
-      }
-      return dispatch(fetchAllApproved({ loadNextPage: false }));
-    },
-    { componentWillReceiveProps: false }
-  ),
+  prepare((props, dispatch) => {
+    const {
+      location: { query }
+    } = props;
+    if (query.filter === 'unapproved') {
+      return dispatch(fetchAllUnapproved({ loadNextPage: false }));
+    }
+    return dispatch(fetchAllApproved({ loadNextPage: false }));
+  }),
   connect(
     mapStateToProps,
     mapDispatchToProps

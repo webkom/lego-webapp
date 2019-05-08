@@ -2,7 +2,7 @@
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 
 import UserSettingsNotifications from './components/UserSettingsNotifications';
 import {
@@ -34,9 +34,7 @@ const mapStateToProps = (state, { currentUser }) => {
 const mapDispatchToProps = { updateNotificationSetting, updateUser };
 
 export default compose(
-  dispatched(loadData, {
-    componentWillReceiveProps: false
-  }),
+  prepare(loadData),
   connect(
     mapStateToProps,
     mapDispatchToProps
