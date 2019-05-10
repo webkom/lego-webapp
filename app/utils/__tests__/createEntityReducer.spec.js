@@ -338,6 +338,62 @@ describe('createAndUpdateEntities()', () => {
     });
   });
 
+  it('should update pagination data in correct places', () => {
+    // TODO remove pagination from 'createAndUpdateReducer'
+    // Should be handled by paginationReducer
+    const state = {
+      actionGrant: [],
+      byId: {},
+      items: [],
+      pagination: {}
+    };
+
+    const usersReducer = createAndUpdateEntities(FETCH, 'users');
+    const otherReducer = createAndUpdateEntities(FETCH, 'other');
+
+    const user = {
+      id: 1,
+      name: 'Hanse'
+    };
+
+    const action = {
+      type: 'FETCH_USERS',
+      payload: {
+        entities: {
+          users: {
+            1: user
+          }
+        },
+        next: 'abc',
+        result: [1]
+      },
+      meta: {
+        schemaKey: 'users', // injected in callAPI
+        queryString: '?qs'
+      }
+    };
+
+    expect(otherReducer(state, action)).toEqual({
+      actionGrant: [],
+      byId: {},
+      items: [],
+      pagination: {}
+    });
+    expect(usersReducer(state, action)).toEqual({
+      actionGrant: [],
+      byId: {
+        1: user
+      },
+      items: [1],
+      pagination: {
+        '?qs': {
+          nextPage: 'abc',
+          queryString: '?qs'
+        }
+      }
+    });
+  });
+
   it('should merge carefully', () => {
     const reducer = createAndUpdateEntities(FETCH, 'events');
     const events = [

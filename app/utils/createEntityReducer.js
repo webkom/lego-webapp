@@ -90,7 +90,7 @@ export function createAndUpdateEntities(
 
     let pagination = state.pagination;
     const queryString = action.meta && action.meta.queryString;
-    if (!action.cached && queryString !== undefined) {
+    if (primaryKey && !action.cached && queryString !== undefined) {
       pagination = {
         ...state.pagination,
         [queryString]: {
@@ -161,6 +161,7 @@ export function optimistic(mutateTypes: ?EntityReducerTypes) {
   };
 }
 
+// TODO Make this the only spot handling pagination
 export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
   return (state: any, action: any) => {
     if (
