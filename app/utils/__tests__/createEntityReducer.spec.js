@@ -1,6 +1,6 @@
 import createEntityReducer, {
   fetching,
-  updateEntities,
+  createAndUpdateEntities,
   deleteEntities
 } from '../createEntityReducer';
 import joinReducers from '../joinReducers';
@@ -302,7 +302,7 @@ describe('fetching()', () => {
   });
 });
 
-describe('updateEntities()', () => {
+describe('createAndUpdateEntities()', () => {
   it('should store entities', () => {
     const state = {
       actionGrant: [],
@@ -310,7 +310,7 @@ describe('updateEntities()', () => {
       items: []
     };
 
-    const reducer = updateEntities(FETCH, 'users');
+    const reducer = createAndUpdateEntities(FETCH, 'users');
 
     const user = {
       id: 1,
@@ -339,7 +339,7 @@ describe('updateEntities()', () => {
   });
 
   it('should merge carefully', () => {
-    const reducer = updateEntities(FETCH, 'events');
+    const reducer = createAndUpdateEntities(FETCH, 'events');
     const events = [
       {
         id: 1,
@@ -531,7 +531,7 @@ describe('deleteEntities()', () => {
           comments: []
         }
       },
-      items: ['1', 2, 3, 4],
+      items: ['1', 'string-key', 2, 3, 4],
       pagination: {}
     };
 

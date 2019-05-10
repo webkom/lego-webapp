@@ -53,7 +53,10 @@ export function fetching(fetchTypes: ?EntityReducerTypes) {
   };
 }
 
-export function updateEntities(fetchTypes: ?EntityReducerTypes, key: string) {
+export function createAndUpdateEntities(
+  fetchTypes: ?EntityReducerTypes,
+  key: string
+) {
   return (state: any = defaultState, action: any) => {
     if (!action.payload) return state;
     const primaryKey = get(action, ['meta', 'schemaKey']) === key;
@@ -215,7 +218,7 @@ export default function createEntityReducer({
   const { fetch: fetchTypes, delete: deleteTypes, mutate: mutateTypes } = types;
   const reduce = joinReducers(
     fetching(fetchTypes),
-    updateEntities(fetchTypes, key),
+    createAndUpdateEntities(fetchTypes, key),
     paginationReducer(fetchTypes),
     deleteEntities(deleteTypes),
     optimistic(mutateTypes),
