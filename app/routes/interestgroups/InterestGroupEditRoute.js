@@ -1,7 +1,7 @@
 // @flow
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import { formValueSelector } from 'redux-form';
 import {
   fetchInterestGroup,
@@ -31,12 +31,8 @@ const mapStateToProps = (state, props) => {
 };
 
 export default compose(
-  dispatched(
-    ({ params: { interestGroupId } }, dispatch) =>
-      dispatch(fetchInterestGroup(Number(interestGroupId))),
-    {
-      componentWillReceiveProps: false
-    }
+  prepare(({ params: { interestGroupId } }, dispatch) =>
+    dispatch(fetchInterestGroup(Number(interestGroupId)))
   ),
   connect(
     mapStateToProps,

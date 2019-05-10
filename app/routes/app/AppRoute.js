@@ -4,7 +4,7 @@ import styles from './AppRoute.css';
 import React, { PureComponent, type Element } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import Helmet from 'react-helmet';
 import {
   loginAutomaticallyIfPossible,
@@ -157,11 +157,11 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  dispatched(fetchInitialOnServer, {
+  prepare(fetchInitialOnServer, [], {
     componentDidMount: false,
     componentWillReceiveProps: false
   }),
-  dispatched((props, dispatch) => dispatch(fetchNotificationData())),
+  prepare((props, dispatch) => dispatch(fetchNotificationData())),
   connect(
     mapStateToProps,
     mapDispatchToProps

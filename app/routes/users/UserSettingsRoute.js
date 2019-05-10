@@ -2,7 +2,7 @@
 
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import { push } from 'react-router-redux';
 import UserSettings from './components/UserSettings';
 import loadingIndicator from 'app/utils/loadingIndicator';
@@ -34,7 +34,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = { updateUser, updatePicture, changePassword, push };
 
 export default compose(
-  dispatched(loadData, { componentWillReceiveProps: false }),
+  prepare(loadData),
   connect(
     mapStateToProps,
     mapDispatchToProps

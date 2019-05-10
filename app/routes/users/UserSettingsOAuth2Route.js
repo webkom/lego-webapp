@@ -1,7 +1,7 @@
 // @flow
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import UserSettingsOAuth2 from './components/UserSettingsOAuth2';
 import {
   fetchOAuth2Applications,
@@ -35,9 +35,7 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  dispatched(loadData, {
-    componentWillReceiveProps: false
-  }),
+  prepare(loadData),
   connect(
     mapStateToProps,
     mapDispatchToProps

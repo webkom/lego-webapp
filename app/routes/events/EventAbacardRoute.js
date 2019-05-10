@@ -3,7 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { debounce } from 'lodash';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import { autocomplete } from 'app/actions/SearchActions';
 import { selectAutocompleteRedux as selectAutocomplete } from 'app/reducers/search';
 import {
@@ -16,10 +16,10 @@ import { getRegistrationGroups } from 'app/reducers/events';
 
 const searchTypes = ['users.user'];
 
-const loadData = (props, dispatch) => {
+const loadData = async (props, dispatch) => {
   const query = props.location.query.q;
   if (query) {
-    dispatch(autocomplete(query, searchTypes));
+    await dispatch(autocomplete(query, searchTypes));
   }
 };
 
@@ -55,9 +55,7 @@ const mapDispatchToProps = (dispatch, { eventId }) => {
 };
 
 export default compose(
-  dispatched(loadData, {
-    componentWillReceiveProps: false
-  }),
+  prepare(loadData),
   connect(
     mapStateToProps,
     mapDispatchToProps

@@ -6,6 +6,7 @@ import { User } from 'app/actions/ActionTypes';
 import { createTracker, EventTypes } from 'redux-segment';
 import { createLogger } from 'redux-logger';
 import jwtDecode from 'jwt-decode';
+import config from 'app/config';
 import { browserHistory } from 'react-router';
 import { routerMiddleware } from 'react-router-redux';
 import createRavenMiddleware from 'raven-for-redux';
@@ -89,7 +90,7 @@ export default function configureStore(
     promiseMiddleware(),
     raven && createRavenMiddleware(raven, ravenMiddlewareOptions),
     messageMiddleware,
-    trackerMiddleware
+    config.environment === 'production' && trackerMiddleware
   ].filter(Boolean);
 
   if (__CLIENT__) {

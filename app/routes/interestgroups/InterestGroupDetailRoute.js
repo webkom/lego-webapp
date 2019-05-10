@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import {
   fetchInterestGroup,
   joinInterestGroup,
@@ -33,12 +33,8 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  dispatched(
-    ({ params: { interestGroupId } }, dispatch) =>
-      dispatch(fetchInterestGroup(Number(interestGroupId))),
-    {
-      componentWillReceiveProps: false
-    }
+  prepare(({ params: { interestGroupId } }, dispatch) =>
+    dispatch(fetchInterestGroup(Number(interestGroupId)))
   ),
   connect(
     mapStateToProps,

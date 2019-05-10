@@ -2,7 +2,7 @@
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import {
   fetchAll,
   createInterestGroup
@@ -18,9 +18,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = { fetchAll, createInterestGroup };
 
 export default compose(
-  dispatched((props, dispatch) => dispatch(fetchAll()), {
-    componentWillReceiveProps: false
-  }),
+  prepare((props, dispatch) => dispatch(fetchAll())),
   connect(
     mapStateToProps,
     mapDispatchToProps

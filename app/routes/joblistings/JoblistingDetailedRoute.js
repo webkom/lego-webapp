@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import {
   fetchJoblisting,
   deleteJoblisting
@@ -26,12 +26,8 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = { fetchJoblisting, deleteJoblisting, push };
 
 export default compose(
-  dispatched(
-    ({ params: { joblistingId } }, dispatch) =>
-      dispatch(fetchJoblisting(joblistingId)),
-    {
-      componentWillReceiveProps: false
-    }
+  prepare(({ params: { joblistingId } }, dispatch) =>
+    dispatch(fetchJoblisting(joblistingId))
   ),
   connect(
     mapStateToProps,

@@ -1,4 +1,4 @@
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import UserConfirmation from './components/UserConfirmation';
@@ -26,7 +26,7 @@ const mapDispatchToProps = {
 };
 
 export default compose(
-  dispatched(loadData, { componentWillReceiveProps: false }),
+  prepare(loadData),
   connect(
     mapStateToProps,
     mapDispatchToProps

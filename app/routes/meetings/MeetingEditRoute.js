@@ -1,6 +1,6 @@
 // @flow
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import { push } from 'react-router-redux';
 import { compose } from 'redux';
 import MeetingEditor from './components/MeetingEditor';
@@ -58,11 +58,8 @@ const mapStateToProps = (state, props) => {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { meetingId } }, dispatch) => dispatch(fetchMeeting(meetingId)),
-    {
-      componentWillReceiveProps: false
-    }
+  prepare(({ params: { meetingId } }, dispatch) =>
+    dispatch(fetchMeeting(meetingId))
   ),
   connect(
     mapStateToProps,

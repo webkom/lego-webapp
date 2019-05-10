@@ -2,7 +2,7 @@
 
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 
 import TimelinePage from './components/TimelinePage';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
@@ -26,9 +26,7 @@ const mapStateToProps = (state: Object) => ({
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(loadData, {
-    componentWillReceiveProps: false
-  }),
+  prepare(loadData),
   // $FlowFixMe
   connect(mapStateToProps)
 )(TimelinePage);

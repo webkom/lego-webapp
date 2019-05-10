@@ -1,7 +1,7 @@
 // @flow
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import { push } from 'react-router-redux';
 import {
   fetchJoblisting,
@@ -62,12 +62,8 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { joblistingId } }, dispatch) =>
-      dispatch(fetchJoblisting(joblistingId)),
-    {
-      componentWillReceiveProps: false
-    }
+  prepare(({ params: { joblistingId } }, dispatch) =>
+    dispatch(fetchJoblisting(joblistingId))
   ),
 
   connect(

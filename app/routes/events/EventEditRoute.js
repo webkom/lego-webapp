@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { dispatched } from '@webkom/react-prepare';
+import prepare from 'app/utils/prepare';
 import { formValueSelector } from 'redux-form';
 import {
   fetchEvent,
@@ -83,12 +83,7 @@ const mapDispatchToProps = {
 
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
-  dispatched(
-    ({ params: { eventId } }, dispatch) => dispatch(fetchEvent(eventId)),
-    {
-      componentWillReceiveProps: false
-    }
-  ),
+  prepare(({ params: { eventId } }, dispatch) => dispatch(fetchEvent(eventId))),
   connect(
     mapStateToProps,
     mapDispatchToProps
