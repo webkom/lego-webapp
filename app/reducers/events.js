@@ -406,7 +406,18 @@ export const selectAllRegistrationsForEvent = createSelector(
         const user = registration.user.id
           ? registration.user
           : usersById[registration.user];
-        return transformRegistration({ ...registration, user });
+        return transformRegistration({
+          ...registration,
+          user,
+          createdBy:
+            registration.createdBy !== null
+              ? usersById[registration.createdBy]
+              : null,
+          updatedBy:
+            registration.updatedBy !== null
+              ? usersById[registration.updatedBy]
+              : null
+        });
       })
       .filter(reg => reg.event == eventId)
 );

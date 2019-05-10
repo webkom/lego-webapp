@@ -129,6 +129,8 @@ export type EventRegistrationChargeStatus =
 export type EventRegistration = {
   id: number,
   user: User,
+  createdBy?: User,
+  updatedBy?: User,
   adminRegistrationReason: string,
   registrationDate: Dateish,
   unregistrationDate: Dateish,

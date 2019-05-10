@@ -1,6 +1,7 @@
 //@flow
 
 //import { startCase } from 'lodash';
+import config from 'app/config';
 
 export const Keyboard = {
   ESCAPE: 27,
@@ -45,3 +46,14 @@ export const EVENTFIELDS = {
   start: 'startTime',
   activate: 'activationTime'
 };
+
+/*
+ * Use the production group ID (11) if the ENVIRONMENT environment value is (production)
+ * (i.e. abakus.no, webapp-staging.abakus.no) or if it's run locally through yarn start:staging (local_staging).
+ * Use the local backend group ID (12) if the webapp is running with yarn start.
+ */
+export const WEBKOM_GROUP_ID = ['production', 'local_staging'].includes(
+  config.environment
+)
+  ? 11
+  : 12;

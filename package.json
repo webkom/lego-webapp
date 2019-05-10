@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack --config config/webpack.server.js --mode=development",
-    "start:staging": "API_URL=https://lego-staging.abakus.no/api/v1 BASE_URL=https://lego-staging.abakus.no WS_URL=wss://ws-staging.abakus.no CAPTCHA_KEY=6LfS1TQUAAAAAIcxgj4EfkM7lwWeG9efLvS37tCW yarn start",
+    "start:staging": "API_URL=https://lego-staging.abakus.no/api/v1 BASE_URL=https://lego-staging.abakus.no WS_URL=wss://ws-staging.abakus.no CAPTCHA_KEY=6LfS1TQUAAAAAIcxgj4EfkM7lwWeG9efLvS37tCW ENVIRONMENT=local_staging yarn start",
     "ssr:staging": "API_URL=https://lego-staging.abakus.no/api/v1 BASE_URL=https://lego-staging.abakus.no WS_URL=wss://ws-staging.abakus.no CAPTCHA_KEY=6LfS1TQUAAAAAIcxgj4EfkM7lwWeG9efLvS37tCW yarn ssr",
     "ssr": "echo \"Remember that SSR does not have hot reloading, build with \"yarn build\"\" && node ./dist/server.js",
     "build": "concurrently \"yarn run build:server\" \"yarn run build:client\"",
