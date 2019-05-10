@@ -1,6 +1,6 @@
 import createEntityReducer, {
   fetching,
-  updateEntities,
+  createAndUpdateEntities,
   deleteEntities
 } from '../createEntityReducer';
 import joinReducers from '../joinReducers';
@@ -302,7 +302,7 @@ describe('fetching()', () => {
   });
 });
 
-describe('updateEntities()', () => {
+describe('createAndUpdateEntities()', () => {
   it('should store entities', () => {
     const state = {
       actionGrant: [],
@@ -310,7 +310,7 @@ describe('updateEntities()', () => {
       items: []
     };
 
-    const reducer = updateEntities(FETCH, 'users');
+    const reducer = createAndUpdateEntities(FETCH, 'users');
 
     const user = {
       id: 1,
@@ -338,8 +338,64 @@ describe('updateEntities()', () => {
     });
   });
 
+  it('should update pagination data in correct places', () => {
+    // TODO remove pagination from 'createAndUpdateReducer'
+    // Should be handled by paginationReducer
+    const state = {
+      actionGrant: [],
+      byId: {},
+      items: [],
+      pagination: {}
+    };
+
+    const usersReducer = createAndUpdateEntities(FETCH, 'users');
+    const otherReducer = createAndUpdateEntities(FETCH, 'other');
+
+    const user = {
+      id: 1,
+      name: 'Hanse'
+    };
+
+    const action = {
+      type: 'FETCH_USERS',
+      payload: {
+        entities: {
+          users: {
+            1: user
+          }
+        },
+        next: 'abc',
+        result: [1]
+      },
+      meta: {
+        schemaKey: 'users', // injected in callAPI
+        queryString: '?qs'
+      }
+    };
+
+    expect(otherReducer(state, action)).toEqual({
+      actionGrant: [],
+      byId: {},
+      items: [],
+      pagination: {}
+    });
+    expect(usersReducer(state, action)).toEqual({
+      actionGrant: [],
+      byId: {
+        1: user
+      },
+      items: [1],
+      pagination: {
+        '?qs': {
+          nextPage: 'abc',
+          queryString: '?qs'
+        }
+      }
+    });
+  });
+
   it('should merge carefully', () => {
-    const reducer = updateEntities(FETCH, 'events');
+    const reducer = createAndUpdateEntities(FETCH, 'events');
     const events = [
       {
         id: 1,
@@ -484,6 +540,73 @@ describe('deleteEntities()', () => {
       {
         type: DELETE.SUCCESS,
         meta: { id: 3 }
+      }
+    ];
+    expect(actions.reduce(reducer, state)).toEqual({
+      actionGrant: [],
+      byId: {
+        2: {
+          id: 2,
+          title: 'Second Event',
+          comments: []
+        }
+      },
+      items: [2],
+      pagination: {}
+    });
+  });
+  it('should handle numbers and strings as keys', () => {
+    const reducer = deleteEntities([DELETE, DELETE_OTHER], 'events');
+
+    const state = {
+      actionGrant: [],
+      byId: {
+        1: {
+          id: '1',
+          title: 'First Event',
+          comments: []
+        },
+        2: {
+          id: 2,
+          title: 'Second Event',
+          comments: []
+        },
+        'string-key': {
+          id: 'string-key',
+          title: 'Third Event',
+          comments: []
+        },
+        3: {
+          id: 3,
+          title: 'Third Event',
+          comments: []
+        },
+        4: {
+          id: 4,
+          title: 'Third Event',
+          comments: []
+        }
+      },
+      items: ['1', 'string-key', 2, 3, 4],
+      pagination: {}
+    };
+
+    const actions = [
+      {
+        type: DELETE.SUCCESS,
+        meta: { id: 1 }
+      },
+      {
+        type: DELETE.SUCCESS,
+        meta: { id: 'string-key' }
+      },
+      {
+        type: DELETE.SUCCESS,
+        meta: { id: '3' }
+      },
+      {
+        type: DELETE.SUCCESS,
+        meta: { id: 4 }
       }
     ];
     expect(actions.reduce(reducer, state)).toEqual({

@@ -7,18 +7,8 @@ export default createEntityReducer({
   key: 'penalties',
   types: {
     fetch: Penalty.FETCH,
-    mutate: Penalty.CREATE
-  },
-  mutate(state, action) {
-    switch (action.type) {
-      case Penalty.DELETE.SUCCESS:
-        return {
-          ...state,
-          items: state.items.filter(id => action.meta.penaltyId !== id)
-        };
-      default:
-        return state;
-    }
+    mutate: Penalty.CREATE,
+    delete: Penalty.DELETE
   }
 });
 

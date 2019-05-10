@@ -110,7 +110,8 @@ const mutate = joinReducers(
 export default createEntityReducer({
   key: 'galleryPictures',
   types: {
-    fetch: GalleryPicture.FETCH
+    fetch: GalleryPicture.FETCH,
+    delete: GalleryPicture.DELETE
   },
   mutate
 });

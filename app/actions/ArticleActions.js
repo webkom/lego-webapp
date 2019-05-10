@@ -34,13 +34,13 @@ export function createArticle({ id, ...data }: ArticleEntity): Thunk<*> {
     ).then(res => dispatch(push(`/articles/${(res: any).payload.result}/`)));
 }
 
-export function deleteArticle(articleId: number) {
+export function deleteArticle(id: number) {
   return callAPI({
     types: Article.DELETE,
-    endpoint: `/articles/${articleId}/`,
+    endpoint: `/articles/${id}/`,
     method: 'DELETE',
     meta: {
-      articleId: Number(articleId),
+      id,
       errorMessage: 'Sletting av artikkel feilet'
     }
   });

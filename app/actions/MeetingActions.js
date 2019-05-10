@@ -107,7 +107,7 @@ export function deleteMeeting(id: number): Thunk<*> {
     endpoint: `/meetings/${id}/`,
     method: 'DELETE',
     meta: {
-      meetingId: id,
+      id,
       errorMessage: 'Sletting av møte feilet'
     }
   });

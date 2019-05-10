@@ -154,13 +154,13 @@ export function addQuotes({
   };
 }
 
-export function deleteQuote(quoteId: number) {
+export function deleteQuote(id: number) {
   return callAPI({
     types: Quote.DELETE,
-    endpoint: `/quotes/${quoteId}/`,
+    endpoint: `/quotes/${id}/`,
     method: 'DELETE',
     meta: {
-      quoteId: Number(quoteId),
+      id,
       errorMessage: 'Sletting av quote feilet'
     }
   });

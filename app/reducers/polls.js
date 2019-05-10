@@ -26,18 +26,8 @@ export default createEntityReducer({
   key: 'polls',
   types: {
     fetch: [Poll.FETCH, Poll.FETCH_ALL],
-    mutate: Poll.CREATE
-  },
-  mutate(state, action) {
-    switch (action.type) {
-      case Poll.DELETE.SUCCESS:
-        return {
-          ...state,
-          items: state.items.filter(id => action.meta.pollId !== id)
-        };
-      default:
-        return state;
-    }
+    mutate: Poll.CREATE,
+    delete: Poll.DELETE
   }
 });
 

@@ -53,7 +53,10 @@ export function fetching(fetchTypes: ?EntityReducerTypes) {
   };
 }
 
-export function updateEntities(fetchTypes: ?EntityReducerTypes, key: string) {
+export function createAndUpdateEntities(
+  fetchTypes: ?EntityReducerTypes,
+  key: string
+) {
   return (state: any = defaultState, action: any) => {
     if (!action.payload) return state;
     const primaryKey = get(action, ['meta', 'schemaKey']) === key;
@@ -87,7 +90,7 @@ export function updateEntities(fetchTypes: ?EntityReducerTypes, key: string) {
 
     let pagination = state.pagination;
     const queryString = action.meta && action.meta.queryString;
-    if (!action.cached && queryString !== undefined) {
+    if (primaryKey && !action.cached && queryString !== undefined) {
       pagination = {
         ...state.pagination,
         [queryString]: {
@@ -127,7 +130,12 @@ export function deleteEntities(deleteTypes: ?EntityReducerTypes) {
     return {
       ...state,
       byId: omit(state.byId, resultId),
-      items: without(state.items, resultId)
+      items: without(
+        state.items,
+        ...(isNumber(resultId)
+          ? [Number(resultId), resultId.toString()]
+          : [resultId])
+      )
     };
   };
 }
@@ -153,6 +161,7 @@ export function optimistic(mutateTypes: ?EntityReducerTypes) {
   };
 }
 
+// TODO Make this the only spot handling pagination
 export function paginationReducer(fetchTypes: ?EntityReducerTypes) {
   return (state: any, action: any) => {
     if (
@@ -210,7 +219,7 @@ export default function createEntityReducer({
   const { fetch: fetchTypes, delete: deleteTypes, mutate: mutateTypes } = types;
   const reduce = joinReducers(
     fetching(fetchTypes),
-    updateEntities(fetchTypes, key),
+    createAndUpdateEntities(fetchTypes, key),
     paginationReducer(fetchTypes),
     deleteEntities(deleteTypes),
     optimistic(mutateTypes),

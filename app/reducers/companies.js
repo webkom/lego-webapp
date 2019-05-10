@@ -76,13 +76,6 @@ export type CompanyContactEntity = {
 
 function mutateCompanies(state, action) {
   switch (action.type) {
-    case Company.DELETE.SUCCESS: {
-      return {
-        ...state,
-        items: state.items.filter(id => id !== action.meta.id)
-      };
-    }
-
     case Company.ADD_SEMESTER_STATUS.SUCCESS: {
       const companyId = action.meta.companyId;
       const semesterStatuses = state.byId[companyId].semesterStatuses.concat(
@@ -175,7 +168,8 @@ export default createEntityReducer({
   key: 'companies',
   types: {
     fetch: Company.FETCH,
-    mutate: Company.ADD
+    mutate: Company.ADD,
+    delete: Company.DELETE
   },
   mutate
 });

@@ -89,7 +89,7 @@ export function removeInterestGroup(id: string): Thunk<*> {
         endpoint: `/groups/${id}/`,
         method: 'DELETE',
         meta: {
-          groupId: id,
+          id,
           errorMessage: 'Sletting av interessegruppe feilet'
         }
       })

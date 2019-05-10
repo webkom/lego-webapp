@@ -34,21 +34,8 @@ export const oauth2Applications = createEntityReducer({
 export const oauth2Grants = createEntityReducer({
   key: 'oauth2Grant',
   types: {
-    fetch: OAuth2.FETCH_GRANTS
-  },
-  mutate(state, action) {
-    switch (action.type) {
-      case OAuth2.DELETE_GRANT.SUCCESS: {
-        return {
-          ...state,
-          items: state.items.filter(
-            grant => Number(grant) !== Number(action.meta.grantId)
-          )
-        };
-      }
-      default:
-        return state;
-    }
+    fetch: OAuth2.FETCH_GRANTS,
+    delete: OAuth2.DELETE_GRANT
   }
 });
 

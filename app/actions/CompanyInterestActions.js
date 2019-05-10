@@ -65,7 +65,7 @@ export function deleteCompanyInterest(id: number): Thunk<*> {
         endpoint: `/company-interests/${id}/`,
         method: 'DELETE',
         meta: {
-          companyInterestId: id,
+          id,
           errorMessage: 'Fjerning av bedriftsinteresse feilet!'
         }
       })
