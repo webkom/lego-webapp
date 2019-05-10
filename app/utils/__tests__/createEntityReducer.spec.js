@@ -499,6 +499,73 @@ describe('deleteEntities()', () => {
       pagination: {}
     });
   });
+  it('should handle numbers and strings as keys', () => {
+    const reducer = deleteEntities([DELETE, DELETE_OTHER], 'events');
+
+    const state = {
+      actionGrant: [],
+      byId: {
+        1: {
+          id: '1',
+          title: 'First Event',
+          comments: []
+        },
+        2: {
+          id: 2,
+          title: 'Second Event',
+          comments: []
+        },
+        'string-key': {
+          id: 'string-key',
+          title: 'Third Event',
+          comments: []
+        },
+        3: {
+          id: 3,
+          title: 'Third Event',
+          comments: []
+        },
+        4: {
+          id: 4,
+          title: 'Third Event',
+          comments: []
+        }
+      },
+      items: ['1', 2, 3, 4],
+      pagination: {}
+    };
+
+    const actions = [
+      {
+        type: DELETE.SUCCESS,
+        meta: { id: 1 }
+      },
+      {
+        type: DELETE.SUCCESS,
+        meta: { id: 'string-key' }
+      },
+      {
+        type: DELETE.SUCCESS,
+        meta: { id: '3' }
+      },
+      {
+        type: DELETE.SUCCESS,
+        meta: { id: 4 }
+      }
+    ];
+    expect(actions.reduce(reducer, state)).toEqual({
+      actionGrant: [],
+      byId: {
+        2: {
+          id: 2,
+          title: 'Second Event',
+          comments: []
+        }
+      },
+      items: [2],
+      pagination: {}
+    });
+  });
   it('should not delete on error', () => {
     const reducer = deleteEntities(DELETE, 'events');
 

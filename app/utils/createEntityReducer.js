@@ -127,7 +127,12 @@ export function deleteEntities(deleteTypes: ?EntityReducerTypes) {
     return {
       ...state,
       byId: omit(state.byId, resultId),
-      items: without(state.items, resultId)
+      items: without(
+        state.items,
+        ...(isNumber(resultId)
+          ? [Number(resultId), resultId.toString()]
+          : [resultId])
+      )
     };
   };
 }
