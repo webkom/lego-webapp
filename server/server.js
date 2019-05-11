@@ -30,7 +30,7 @@ app.set('log', log);
 
 const webpackClient = require('../config/webpack.client.js');
 
-if (process.env.NODE_ENV !== 'production') {
+if (__DEV__) {
   const compiler = require('webpack')(
     webpackClient(undefined, {
       mode: 'development'
