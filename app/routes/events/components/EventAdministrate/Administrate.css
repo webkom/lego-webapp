@@ -24,6 +24,15 @@
   grid-template-columns: repeat(5, 20%);
 }
 
+.webkomIcon {
+  font-size: 1.1em;
+  background: #e20d13;
+  color: #fff;
+  display: inline-block;
+  border-radius: 60px;
+  padding: 0.1em 0.2em;
+}
+
 .greenIcon {
   font-size: 1.5em;
   color: green;

@@ -6,6 +6,7 @@ import { Link } from 'react-router';
 import Tooltip from 'app/components/Tooltip';
 import Time from 'app/components/Time';
 import cx from 'classnames';
+import { WEBKOM_GROUP_ID } from 'app/utils/constants';
 import type {
   EventRegistration,
   EventRegistrationPresence,
@@ -48,6 +49,41 @@ const GradeRenderer = (group: { name: string }) =>
     </Tooltip>
   );
 
+const hasWebkomGroup = user => user.abakusGroups.includes(WEBKOM_GROUP_ID);
+
+const getRegistrationInfo = (pool, registration) => {
+  let registrationInfo = {
+    reason: 'Venteliste',
+    icon: cx('fa fa-clock-o fa-2x', styles.orangeIcon)
+  };
+  if (registration.adminRegistrationReason !== '') {
+    registrationInfo.icon = cx('fa fa-user-secret', styles.greenIcon);
+    if (registration.createdBy !== null) {
+      if (
+        hasWebkomGroup(registration.user) &&
+        hasWebkomGroup(registration.createdBy)
+      ) {
+        registrationInfo.icon = cx('fa fa-power-off', styles.webkomIcon);
+        registrationInfo.reason = `Webkompåmeldt av ${
+          registration.createdBy.username
+        }: ${registration.adminRegistrationReason}`;
+      } else {
+        registrationInfo.reason = `Adminpåmeldt av ${
+          registration.createdBy.username
+        }: ${registration.adminRegistrationReason}`;
+      }
+    } else {
+      registrationInfo.reason = `Adminpåmeldt: ${
+        registration.adminRegistrationReason
+      }`;
+    }
+  } else if (pool) {
+    registrationInfo.reason = 'Påmeldt';
+    registrationInfo.icon = cx('fa fa-check-circle', styles.greenIcon);
+  }
+  return registrationInfo;
+};
+
 export class RegisteredTable extends Component<Props> {
   render() {
     const {
@@ -72,24 +108,15 @@ export class RegisteredTable extends Component<Props> {
         title: 'Status',
         center: true,
         dataIndex: 'pool',
-        render: (pool, registration) => (
-          <TooltipIcon
-            content={
-              registration.adminRegistrationReason !== ''
-                ? 'Adminpåmeldt: ' + registration.adminRegistrationReason
-                : pool
-                ? 'Påmeldt'
-                : 'Venteliste'
-            }
-            iconClass={
-              registration.adminRegistrationReason !== ''
-                ? cx('fa fa-user-secret', styles.greenIcon)
-                : pool
-                ? cx('fa fa-check-circle', styles.greenIcon)
-                : cx('fa fa-clock-o fa-2x', styles.orangeIcon)
-            }
-          />
-        )
+        render: (pool, registration) => {
+          const registrationInfo = getRegistrationInfo(pool, registration);
+          return (
+            <TooltipIcon
+              content={registrationInfo.reason}
+              iconClass={registrationInfo.icon}
+            />
+          );
+        }
       },
       {
         title: 'Til stede',
