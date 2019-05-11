@@ -1,6 +1,5 @@
 //@flow
 
-//import { startCase } from 'lodash';
 import config from 'app/config';
 
 export const Keyboard = {
