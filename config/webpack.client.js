@@ -98,12 +98,15 @@ module.exports = (env, argv) => {
       }),
 
       new AssetsPlugin({
-        path: path.join(root, 'dist-client')
+        path: outputPath
       })
     ]),
     resolve: {
       modules: [root, 'node_modules'],
       alias: {
+        // react-hot-loader imports merge like this "require('lodash/merge')"
+        // Aka. doesn't support our lodash-es alias by default
+        'lodash/merge': 'node_modules/lodash/merge.js',
         lodash: 'node_modules/lodash-es',
         'moment-timezone':
           'moment-timezone/builds/moment-timezone-with-data-2012-2022.min',
