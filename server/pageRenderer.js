@@ -55,6 +55,7 @@ export default function pageRenderer({
   helmet
 }: PageRendererProps = {}) {
   const { scripts, styles } = retrieveAssets();
+  const isSSR = body === '' ? 'false' : 'true';
   return `
     <!DOCTYPE html>
     <html>
@@ -97,6 +98,7 @@ export default function pageRenderer({
         <script>
            window.__CONFIG__ = ${serialize(config, { isJSON: true })};
            window.__PRELOADED_STATE__ = ${serialize(state, { isJSON: true })};
+           window.__IS_SSR__ = ${isSSR};
         </script>
         ${
           config.environment === 'production'

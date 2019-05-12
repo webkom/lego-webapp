@@ -23,7 +23,6 @@ import config from 'app/config';
 import raven from 'raven-js';
 import { browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
-import { isEmpty } from 'lodash';
 import configureStore from 'app/utils/configureStore';
 import renderApp from './render';
 import { fetchMeta } from 'app/actions/MetaActions';
@@ -47,28 +46,30 @@ raven
   .install();
 
 const preloadedState = window.__PRELOADED_STATE__;
+const isSSR = window.__IS_SSR__;
+
 const store = configureStore(preloadedState, {
   raven,
   getCookie: key => cookie.get(key)
 });
 
-if (isEmpty(preloadedState)) {
+if (isSSR) {
+  store.dispatch(maybeRefreshToken());
+} else {
   store
     .dispatch(loginAutomaticallyIfPossible())
     .then(() => store.dispatch(fetchMeta()))
     .then(() => store.dispatch(maybeRefreshToken()));
-} else {
-  store.dispatch(maybeRefreshToken());
 }
 
 const history = syncHistoryWithStore(browserHistory, store);
 
 store.dispatch({ type: 'REHYDRATED' });
 
-renderApp(store, history);
+renderApp({ store, history, isSSR });
 
 if (module.hot) {
   module.hot.accept('./render', () => {
-    renderApp(store, history);
+    renderApp({ store, history, isSSR });
   });
 }
