@@ -23,6 +23,11 @@ class TimeoutError {
     this.error = new Error(msg);
   }
 }
+const isTimeoutError = (error: Error) => error instanceof TimeoutError;
+const isReactHooksError = (error: Object) =>
+  typeof error === 'object' &&
+  error.name === 'Invariant Violation' &&
+  error.stack.includes('https://fb.me/react-invalid-hook-call');
 
 const prepareWithTimeout = app =>
   Promise.race([
@@ -108,9 +113,12 @@ const createServerSideRenderer = (
       .then(
         () => respond(),
         error => {
-          if (error instanceof TimeoutError) {
+          if (isTimeoutError(error)) {
             reportError(error.error);
             return render();
+          }
+          if (isReactHooksError(error)) {
+            return respond();
           }
           reportError(error);
           respond();
