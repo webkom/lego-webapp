@@ -55,7 +55,6 @@
     "moment-timezone": "^0.5.23",
     "morgan": "^1.9.1",
     "normalizr": "^3.2.2",
-    "parse5": "^3.0.2",
     "prop-types": "^15.7.2",
     "qs": "^6.5.1",
     "raven": "^2.3.0",
