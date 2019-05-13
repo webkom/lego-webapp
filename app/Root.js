@@ -3,6 +3,7 @@
 import React from 'react';
 import { setStatusCode } from 'app/actions/RoutingActions';
 import { Router, applyRouterMiddleware } from 'react-router';
+import { hot } from 'react-hot-loader/root';
 import { Provider } from 'react-redux';
 import type { Store } from 'app/types';
 import { connect } from 'react-redux';
@@ -45,4 +46,4 @@ const RouteHandler = connect(
   )
 );
 
-export default Root;
+export default hot(Root);
