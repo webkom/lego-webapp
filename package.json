@@ -51,7 +51,7 @@
     "jwt-decode": "2.2.0",
     "lodash-es": "^4.17.11",
     "medium-draft": "^0.6.0-beta1",
-    "minireset.css": "^0.0.4",
+    "minireset.css": "^0.0.5",
     "moment-timezone": "^0.5.23",
     "morgan": "^1.9.1",
     "normalizr": "^3.2.2",
