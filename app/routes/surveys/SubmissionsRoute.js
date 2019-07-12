@@ -9,7 +9,7 @@ import {
   showAnswer
 } from 'app/actions/SurveySubmissionActions';
 import {
-  fetch as fetchSurvey,
+  fetchSurvey,
   shareSurvey,
   hideSurvey
 } from 'app/actions/SurveyActions';

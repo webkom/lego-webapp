@@ -7,7 +7,7 @@ import type { Thunk } from 'app/types';
 import moment from 'moment-timezone';
 import type { SurveyEntity } from 'app/reducers/surveys';
 
-export function fetch(surveyId: number): Thunk<*> {
+export function fetchSurvey(surveyId: number): Thunk<*> {
   return dispatch =>
     dispatch(
       callAPI({

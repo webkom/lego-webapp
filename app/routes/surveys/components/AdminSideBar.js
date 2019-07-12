@@ -21,13 +21,13 @@ type Props = {
 
 type State = {
   copied: boolean,
-  exported: ?{ url: string, filename: string }
+  generatedCSV: ?{ url: string, filename: string }
 };
 
 export class AdminSideBar extends React.Component<Props, State> {
   state = {
     copied: false,
-    exported: undefined
+    generatedCSV: undefined
   };
 
   render() {
@@ -40,7 +40,7 @@ export class AdminSideBar extends React.Component<Props, State> {
       exportSurvey
     } = this.props;
 
-    const { exported } = this.state;
+    const { generatedCSV } = this.state;
 
     const canEdit = actionGrant.includes('edit');
 
@@ -89,14 +89,16 @@ export class AdminSideBar extends React.Component<Props, State> {
             {actionGrant &&
               actionGrant.includes('csv') &&
               exportSurvey &&
-              (exported ? (
-                <a href={exported.url} download={exported.filename}>
+              (generatedCSV ? (
+                <a href={generatedCSV.url} download={generatedCSV.filename}>
                   Last ned
                 </a>
               ) : (
                 <Button
                   onClick={async () =>
-                    this.setState({ exported: await exportSurvey(surveyId) })
+                    this.setState({
+                      generatedCSV: await exportSurvey(surveyId)
+                    })
                   }
                 >
                   Eksporter til csv
