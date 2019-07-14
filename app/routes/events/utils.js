@@ -8,8 +8,9 @@ export type eventTypes = $Values<typeof EVENT_CONSTANTS>;
 
 // Current eventTypes
 export const EVENT_CONSTANTS: eventTypes = {
-  company_presentation: 'Bedriftspresentasjon',
+  company_presentation: 'Bedpres',
   lunch_presentation: 'Lunsjpresentasjon',
+  alternative_presentation: 'Alternativt bedpres',
   course: 'Kurs',
   party: 'Fest',
   social: 'Sosialt',
@@ -27,6 +28,7 @@ export const eventTypeToString = (eventType: eventTypes) => {
 export const COLOR_CONSTANTS: eventTypes = {
   company_presentation: '#A1C34A',
   lunch_presentation: '#A1C34A',
+  alternative_presentation: '#8A2BE2',
   course: '#52B0EC',
   party: '#FCD748',
   social: '#B11C11',
