@@ -16,7 +16,7 @@ import { FormatTime, FromToTime } from 'app/components/Time';
 import InfoList from 'app/components/InfoList';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
-import { EVENT_TYPE_TO_STRING, colorForEvent } from '../../utils';
+import { eventTypeToString, colorForEvent } from '../../utils';
 import Admin from '../Admin';
 import RegistrationMeta from '../RegistrationMeta';
 import DisplayContent from 'app/components/DisplayContent';
@@ -199,7 +199,7 @@ export default class EventDetail extends Component<Props> {
       },
       {
         key: 'Hva',
-        value: EVENT_TYPE_TO_STRING(event.eventType)
+        value: eventTypeToString(event.eventType)
       },
       {
         key: 'Når',

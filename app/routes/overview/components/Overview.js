@@ -8,7 +8,7 @@ import { Container, Flex } from 'app/components/Layout';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import LatestReadme from './LatestReadme';
 import CompactEvents from './CompactEvents';
-import { EVENT_TYPE_TO_STRING } from 'app/routes/events/utils';
+import { eventTypeToString } from 'app/routes/events/utils';
 import type { Event, Article } from 'app/models';
 import Tag from 'app/components/Tags/Tag';
 import Tags from 'app/components/Tags';
@@ -73,7 +73,7 @@ class Overview extends Component<Props, State> {
           <span className={styles.dot}> . </span>
           <span>
             {' '}
-            {isEvent ? EVENT_TYPE_TO_STRING(item.eventType) : 'Artikkel'}{' '}
+            {isEvent ? eventTypeToString(item.eventType) : 'Artikkel'}{' '}
           </span>
         </span>
 

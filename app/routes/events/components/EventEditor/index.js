@@ -24,7 +24,7 @@ import {
   legoForm
 } from 'app/components/Form';
 import { Flex } from 'app/components/Layout';
-import { addStripeFee, eventTypes, colorForEvent } from '../../utils';
+import { addStripeFee, EVENT_CONSTANTS, colorForEvent } from '../../utils';
 import Admin from '../Admin';
 import {
   Content,
@@ -191,8 +191,8 @@ function EventEditor({
               simpleValue
               fieldClassName={styles.metaField}
               component={SelectInput.Field}
-              options={Object.keys(eventTypes).map(type => ({
-                label: eventTypes[type],
+              options={Object.keys(EVENT_CONSTANTS).map(type => ({
+                label: EVENT_CONSTANTS[type],
                 value: type
               }))}
               placeholder="Arrangementstype"
