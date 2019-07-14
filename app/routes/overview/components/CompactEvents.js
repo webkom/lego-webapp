@@ -3,7 +3,7 @@
 import styles from './CompactEvents.css';
 import React, { Component } from 'react';
 import { Link } from 'react-router';
-import colorForEvent from 'app/routes/events/colorForEvent';
+import { colorForEvent } from 'app/routes/events/utils';
 import { Flex } from 'app/components/Layout';
 import Time from 'app/components/Time';
 import Tooltip from 'app/components/Tooltip';
