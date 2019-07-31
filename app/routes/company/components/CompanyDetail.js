@@ -8,7 +8,7 @@ import { Image } from 'app/components/Image';
 import InfoBubble from 'app/components/InfoBubble';
 import { Link } from 'react-router';
 import truncateString from 'app/utils/truncateString';
-import { eventTypes } from 'app/routes/events/utils';
+import { EVENT_CONSTANTS } from 'app/routes/events/utils';
 import Time from 'app/components/Time';
 import NavigationTab from 'app/components/NavigationTab';
 import NavigationLink from 'app/components/NavigationTab/NavigationLink';
@@ -71,7 +71,7 @@ const CompanyDetail = (props: Props) => {
           <td>
             <Link to={`/events/${event.id}`}>{event.title}</Link>
           </td>
-          <td>{eventTypes[event.eventType]}</td>
+          <td>{EVENT_CONSTANTS[event.eventType]}</td>
           <td>
             <Time time={event.startTime} format="DD.MM.YYYY" />
           </td>

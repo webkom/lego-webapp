@@ -5,20 +5,10 @@ import styles from './EventFooter.css';
 import { hiddenOnMobile } from 'app/styles/utilities.css';
 import cx from 'classnames';
 
-import colorForEvent from '../colorForEvent';
+import { eventTypeToString, colorForEvent, EVENT_CONSTANTS } from '../utils';
 
 import Circle from 'app/components/Circle';
 import config from 'app/config';
-
-const eventTypes = [
-  { eventType: 'company_presentation', name: 'Bedpress' },
-  { eventType: 'lunch_presentation', name: 'Lunsjpresentasjon' },
-  { eventType: 'course', name: 'Kurs' },
-  { eventType: 'party', name: 'Fest' },
-  { eventType: 'social', name: 'Sosialt' },
-  { eventType: 'event', name: 'Arrangement' },
-  { eventType: 'other', name: 'Annet' }
-];
 
 const icalTypes = [
   { name: 'events', title: 'Alle arrangementer' },
@@ -32,6 +22,7 @@ const getIcalUrlGoogle = (icalToken, icalType) => {
   const icalUrl = getIcalUrl(icalToken, icalType).replace(/^https/i, 'http');
   return `https://www.google.com/calendar/render?cid=${icalUrl}`;
 };
+
 type Props = {
   icalToken: string
 };
@@ -75,10 +66,10 @@ const EventFooter = ({ icalToken }: Props) => (
       <div className={styles.section}>
         <h3>Fargekoder</h3>
         <ul>
-          {eventTypes.map(({ eventType, name }, id) => (
-            <li key={id}>
-              <Circle color={colorForEvent(eventType)} />
-              <span className={styles.eventType}>{name}</span>
+          {Object.keys(EVENT_CONSTANTS).map((e, i) => (
+            <li key={i}>
+              <Circle color={colorForEvent(e)} />
+              <span className={styles.eventType}>{eventTypeToString(e)}</span>
             </li>
           ))}
         </ul>
