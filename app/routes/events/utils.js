@@ -8,7 +8,7 @@ export type eventTypes = $Values<typeof EVENT_CONSTANTS>;
 
 // Current eventTypes
 export const EVENT_CONSTANTS: eventTypes = {
-  company_presentation: 'Bedpres',
+  company_presentation: 'Bedprespresentasjon',
   lunch_presentation: 'Lunsjpresentasjon',
   alternative_presentation: 'Alternativt bedpres',
   course: 'Kurs',
@@ -19,7 +19,7 @@ export const EVENT_CONSTANTS: eventTypes = {
   other: 'Annet'
 };
 
-// Returns the sting representation of an eventType
+// Returns the string representation of an eventType
 export const eventTypeToString = (eventType: eventTypes) => {
   return EVENT_CONSTANTS[eventType] || EVENT_CONSTANTS['other'];
 };
