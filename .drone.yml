@@ -168,21 +168,21 @@ pipeline:
       - WS_URL=ws://api:8000
     commands:
       - yarn ssr
-  cypress:
-    image: cypress/browsers:chrome69
-    shm_size: 100000000 # 100MB
-    when:
-      event: [push]
-    environment:
-      - CYPRESS_API_BASE_URL=http://api:8000
-      - CYPRESS_RESET_DB_API=http://legocypresshelper:3030
-      - CYPRESS_BASE_URL=http://ssr:3000
-      - CYPRESS_CACHE_FOLDER=/drone/src/.cypress_cache
-    secrets: [cypress_record_key]
-    commands:
-      - ./wait-for-it.sh -t 180 ssr:3000
-      - ./wait-for-it.sh -t 180 legocypresshelper:3030
-      - yarn cypress run --record
+# cypress:
+#   image: cypress/browsers:chrome69
+#   shm_size: 100000000 # 100MB
+#   when:
+#      event: [push]
+#   environment:
+#     - CYPRESS_API_BASE_URL=http://api:8000
+#     - CYPRESS_RESET_DB_API=http://legocypresshelper:3030
+#     - CYPRESS_BASE_URL=http://ssr:3000
+#     - CYPRESS_CACHE_FOLDER=/drone/src/.cypress_cache
+#   secrets: [cypress_record_key]
+#   commands:
+#     - ./wait-for-it.sh -t 180 ssr:3000
+#     - ./wait-for-it.sh -t 180 legocypresshelper:3030
+#     - yarn cypress run --record
   docker:
     image: plugins/docker
     when:
