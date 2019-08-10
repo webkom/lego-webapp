@@ -94,7 +94,7 @@ DisplayVision.defaultProps = {
   vision4: {
     title: 'Proaktiv',
     summary:
-      'Vi skal aktivt se etter nye muligheter, og være obs på nye muligheter.',
+      'Vi skal aktivt se etter nye muligheter, og være obs på nye utfordringer.',
     paragraphs: [
       'Vi skal aktivt se etter nye muligheter, og være obs på nye utfordringer.',
       'Vi skaffer oss overblikk og gjør tiltak.',
