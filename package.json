@@ -83,7 +83,7 @@
     "react-stickynode": "^2.1.1",
     "react-stripe-checkout": "^2.4.0",
     "react-stripe-elements": "^2.0.3",
-    "react-swipeable": "^4.2.1",
+    "react-swipeable": "5.0.0",
     "react-tagcloud": "^1.2.0",
     "react-textarea-autosize": "^5.1.0",
     "react-treeview": "^0.4.6",
