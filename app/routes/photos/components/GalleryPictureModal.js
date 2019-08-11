@@ -13,7 +13,7 @@ import { Link } from 'react-router';
 import CommentView from 'app/components/Comments/CommentView';
 import Modal from 'app/components/Modal';
 import styles from './GalleryPictureModal.css';
-import Swipeable from 'react-swipeable';
+import { Swipeable, RIGHT, LEFT } from 'react-swipeable';
 import type { EntityID } from 'app/types';
 import type { ID } from 'app/models';
 import Button from 'app/components/Button';
@@ -181,12 +181,9 @@ export default class GalleryPictureModal extends Component<Props, State> {
     }
   };
 
-  handleSwipeRight = () => {
-    this.previousGalleryPicture();
-  };
-
-  handleSwipeLeft = () => {
-    this.nextGalleryPicture();
+  handleSwipe = ({ dir }: { dir: RIGHT | LEFT }) => {
+    dir === RIGHT && this.previousGalleryPicture();
+    dir === LEFT && this.nextGalleryPicture();
   };
 
   render() {
@@ -204,10 +201,7 @@ export default class GalleryPictureModal extends Component<Props, State> {
     const { showMore } = this.state;
 
     return (
-      <Swipeable
-        onSwipingLeft={this.handleSwipeLeft}
-        onSwipingRight={this.handleSwipeRight}
-      >
+      <Swipeable onSwiping={this.handleSwipe}>
         <Modal
           onHide={() => push(`/photos/${gallery.id}`)}
           backdropClassName={styles.backdrop}

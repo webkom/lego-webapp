@@ -8,7 +8,7 @@ export type eventTypes = $Values<typeof EVENT_CONSTANTS>;
 
 // Current eventTypes
 export const EVENT_CONSTANTS: eventTypes = {
-  company_presentation: 'Bedprespresentasjon',
+  company_presentation: 'Bedriftspresentasjon',
   lunch_presentation: 'Lunsjpresentasjon',
   alternative_presentation: 'Alternativt bedpres',
   course: 'Kurs',
