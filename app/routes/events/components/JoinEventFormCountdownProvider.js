@@ -132,13 +132,12 @@ function withCountdown(WrappedComponent: ComponentType<Props>) {
     }
 
     setupEventCountdown = (event: Event, registration: ?EventRegistration) => {
-      const { activationTime, startTime } = event;
+      const { activationTime, startTime, registrationDeadlineHours } = event;
       const poolActivationTime = moment(activationTime);
       const currentTime = moment();
 
-      // TODO: the 2 hour subtract is a hardcoded close time and should be improved
       const registrationIsClosed = currentTime.isAfter(
-        moment(startTime).subtract(2, 'hours')
+        moment(startTime).subtract(registrationDeadlineHours, 'hours')
       );
       if ((!registration && !activationTime) || registrationIsClosed) {
         this.dispatch('REGISTRATION_NOT_AVAILABLE');

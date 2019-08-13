@@ -38,7 +38,13 @@ const mapStateToProps = (state, props) => {
       eventType: valueSelector(state, 'eventType'),
       priceMember: valueSelector(state, 'priceMember'),
       startTime: valueSelector(state, 'startTime'),
-      eventStatusType: valueSelector(state, 'eventStatusType')
+      eventStatusType: valueSelector(state, 'eventStatusType'),
+      registrationDeadline:
+        valueSelector(state, 'startTime') &&
+        moment(valueSelector(state, 'startTime')).subtract(
+          valueSelector(state, 'registrationDeadlineHours'),
+          'hours'
+        )
     },
     pools: valueSelector(state, 'pools')
   };
@@ -111,18 +117,6 @@ const mapStateToProps = (state, props) => {
       responsibleGroup: eventTemplate.responsibleGroup && {
         label: eventTemplate.responsibleGroup.name,
         value: eventTemplate.responsibleGroup.id
-      },
-      event: {
-        addFee: valueSelector(state, 'addFee'),
-        isPriced: valueSelector(state, 'isPriced'),
-        eventType: valueSelector(state, 'eventType'),
-        priceMember: valueSelector(state, 'priceMember'),
-        registrationDeadline:
-          valueSelector(state, 'startTime') &&
-          moment(valueSelector(state, 'startTime')).subtract(
-            valueSelector(state, 'registrationDeadlineHours'),
-            'hours'
-          )
       }
     },
     actionGrant,
