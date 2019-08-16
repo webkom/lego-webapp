@@ -53,7 +53,6 @@ type EventBase = {
   useCaptcha: boolean,
   tags: Array<Tags>,
   registrationDeadlineHours: number,
-  registrationCloseTime: Dateish,
   unregistrationDeadline: Dateish,
   pinned: boolean,
   youtubeUrl: string

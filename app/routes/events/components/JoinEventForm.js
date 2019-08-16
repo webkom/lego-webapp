@@ -16,6 +16,7 @@ import withCountdown from './JoinEventFormCountdownProvider';
 import formStyles from 'app/components/Form/Field.css';
 import moment from 'moment-timezone';
 import { paymentSuccess, paymentManual } from '../utils';
+import { registrationIsClosed } from '../utils';
 
 type Event = Object;
 
@@ -173,11 +174,8 @@ class JoinEventForm extends Component<Props> {
       registration &&
       registration.pool &&
       ![paymentManual, paymentSuccess].includes(registration.chargeStatus);
-    const registrationIsOver = moment().isAfter(
-      moment(event.registrationCloseTime)
-    );
 
-    if (registrationIsOver) {
+    if (registrationIsClosed(event)) {
       return (
         <>
           {!formOpen && registration && showStripe && (

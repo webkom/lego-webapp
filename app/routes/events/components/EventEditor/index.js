@@ -350,10 +350,10 @@ function EventEditor({
                 </div>
               )}
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
-              <Tooltip content="Frist for påmelding - antall timer før arrangementet">
+              <Tooltip content="Frist for påmelding/avmelding - antall timer før arrangementet. Det er ikke mulig å melde seg hverken på eller av etter denne fristen">
                 <Field
                   key="registrationDeadlineHours"
-                  label="Påmelding stenger (standard 2 timer)"
+                  label="Antall timer før"
                   name="registrationDeadlineHours"
                   type="number"
                   component={TextInput.Field}

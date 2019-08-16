@@ -3,6 +3,7 @@
 import React, { Component, type Node, type ComponentType } from 'react';
 import moment from 'moment-timezone';
 import type { Dateish, Event, EventRegistration } from 'app/models';
+import { registrationIsClosed } from '../utils';
 
 type Action =
   | 'REGISTRATION_AVAILABLE'
@@ -132,19 +133,15 @@ function withCountdown(WrappedComponent: ComponentType<Props>) {
     }
 
     setupEventCountdown = (event: Event, registration: ?EventRegistration) => {
-      const { activationTime, startTime, registrationDeadlineHours } = event;
+      const { activationTime } = event;
       const poolActivationTime = moment(activationTime);
-      const currentTime = moment();
 
-      const registrationIsClosed = currentTime.isAfter(
-        moment(startTime).subtract(registrationDeadlineHours, 'hours')
-      );
-      if ((!registration && !activationTime) || registrationIsClosed) {
+      if ((!registration && !activationTime) || registrationIsClosed(event)) {
         this.dispatch('REGISTRATION_NOT_AVAILABLE');
         return;
       }
 
-      if (registration || poolActivationTime.isBefore(currentTime)) {
+      if (registration || poolActivationTime.isBefore(moment())) {
         this.dispatch('REGISTERED_OR_REGISTRATION_ALREADY_OPENED');
         return;
       }
