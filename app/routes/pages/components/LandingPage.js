@@ -12,6 +12,7 @@ import EmailItem from './subcomponents/EmailItem';
 import banner from 'app/assets/om-abakus-banner.png';
 import styles from './LandingPage.css';
 import Button from 'app/components/Button';
+import moment from 'moment-timezone';
 
 type Props = {
   whoWeAre: string,
@@ -66,7 +67,11 @@ const LandingPage = ({
         <Statistic statistic="3" label="Undergrupper" />
         <Statistic statistic="24" label="Interessegrupper" />
         <Statistic statistic="800+" label="Medlemmer" />
-        <Statistic topLabel="Stiftet i" statistic="1977" label="42 år" />
+        <Statistic
+          topLabel="Stiftet i"
+          statistic="1977"
+          label={`${moment().year() - 1977} år`}
+        />
       </Flex>
 
       <DisplayVisionShort />
