@@ -15,7 +15,6 @@ export type CompanyInterestEntity = {
   lunchPresentation: boolean,
   readme: boolean,
   collaboration: boolean,
-  itdagene: boolean,
   comment: boolean,
   semesters: Array<CompanySemesterEntity>
 };
