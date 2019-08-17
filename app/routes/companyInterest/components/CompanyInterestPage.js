@@ -58,11 +58,6 @@ export const OTHER_TYPES = {
   collaboration: {
     norwegian: 'Samarbeid med andre linjeforeninger',
     english: `Event in collaboration with other student organizations`
-  },
-  itdagene: {
-    norwegian: 'Stand på itDAGENE',
-    english:
-      'Stand during itDAGENE, an independent career fair for IT students at NTNU'
   }
 };
 
