@@ -1,7 +1,7 @@
 // @flow
 import { pick } from 'lodash';
 import moment from 'moment-timezone';
-import type { TransformEvent } from 'app/models';
+import type { TransformEvent, Event } from 'app/models';
 
 // Value type based on the EVENT_CONSTANTS
 export type eventTypes = $Values<typeof EVENT_CONSTANTS>;
@@ -63,6 +63,7 @@ const eventCreateAndUpdateFields = [
   'useCaptcha',
   'tags',
   'pools',
+  'registrationDeadlineHours',
   'unregistrationDeadline',
   'pinned',
   'heedPenalties',
@@ -184,3 +185,10 @@ export const hasPaid = (chargeStatus: string) =>
   paymentSuccessMappings[chargeStatus];
 
 export const addStripeFee = (price: number) => Math.ceil(price * 1.012 + 1.8);
+
+export const registrationCloseTime = (event: Event) =>
+  moment(event.startTime).subtract(event.registrationDeadlineHours, 'hours');
+
+export const registrationIsClosed = (event: Event) => {
+  return moment().isAfter(registrationCloseTime(event));
+};

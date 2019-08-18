@@ -52,6 +52,7 @@ type EventBase = {
   mergeTime: ?Dateish,
   useCaptcha: boolean,
   tags: Array<Tags>,
+  registrationDeadlineHours: number,
   unregistrationDeadline: Dateish,
   pinned: boolean,
   youtubeUrl: string

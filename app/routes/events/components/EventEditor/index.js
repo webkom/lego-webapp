@@ -36,6 +36,8 @@ import Tooltip from 'app/components/Tooltip';
 import Icon from 'app/components/Icon';
 import type { ID } from 'app/models';
 import { validYoutubeUrl } from 'app/utils/validation';
+import { FormatTime } from 'app/components/Time';
+import moment from 'moment-timezone';
 
 type Props = {
   eventId: number,
@@ -227,7 +229,6 @@ function EventEditor({
               fieldClassName={styles.metaField}
               className={styles.formField}
             />
-
             <Tooltip content="Kun la medlemmer i Abakom se arrangement">
               <Field
                 label="Kun for Abakom"
@@ -238,7 +239,6 @@ function EventEditor({
                 normalize={v => !!v}
               />
             </Tooltip>
-
             <Field
               label="Påmeldingstype"
               name="eventStatusType"
@@ -247,7 +247,6 @@ function EventEditor({
               options={eventStatusType}
               simpleValue
             />
-
             {['NORMAL', 'OPEN', 'INFINITE'].includes(event.eventStatusType) && (
               <Field
                 label="Sted"
@@ -259,7 +258,6 @@ function EventEditor({
                 warn={isTBA}
               />
             )}
-
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Field
                 label="Betalt arrangement"
@@ -270,7 +268,6 @@ function EventEditor({
                 normalize={v => !!v}
               />
             )}
-
             {event.isPriced && (
               <div className={styles.subSection}>
                 <Tooltip content="Manuell betaling kan også av i etterkant">
@@ -327,7 +324,6 @@ function EventEditor({
                 />
               </div>
             )}
-
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Field
                 label="Bruk prikker"
@@ -338,7 +334,6 @@ function EventEditor({
                 normalize={v => !!v}
               />
             )}
-
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) &&
               event.heedPenalties && (
                 <div className={styles.subSection}>
@@ -354,7 +349,23 @@ function EventEditor({
                   </Tooltip>
                 </div>
               )}
-
+            {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
+              <Tooltip content="Frist for påmelding/avmelding - antall timer før arrangementet. Det er ikke mulig å melde seg hverken på eller av etter denne fristen">
+                <Field
+                  key="registrationDeadlineHours"
+                  label="Antall timer før"
+                  name="registrationDeadlineHours"
+                  type="number"
+                  component={TextInput.Field}
+                  fieldClassName={styles.metaField}
+                  className={styles.formField}
+                />
+                <p className={styles.registrationDeadlineHours}>
+                  Stenger:{' '}
+                  <FormatTime time={moment(event.registrationDeadline)} />
+                </p>
+              </Tooltip>
+            )}
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Tooltip content="Bruk samtykke til bilder">
                 <Field
@@ -367,7 +378,6 @@ function EventEditor({
                 />
               </Tooltip>
             )}
-
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Tooltip content="Et spørsmål alle må svare på før de melder seg på">
                 <Field
@@ -392,7 +402,6 @@ function EventEditor({
                   />
                 </div>
               )}
-
             {['NORMAL', 'INFINITE'].includes(event.eventStatusType) && (
               <Flex column>
                 <h3>Pools</h3>
@@ -452,7 +461,7 @@ function EventEditor({
 
 const validate = data => {
   const errors = {};
-
+  const isPositiveNumeric = value => /^\d+$/.test(value);
   const [isValidYoutubeUrl, errorMessage = ''] = validYoutubeUrl()(
     data.youtubeUrl
   );
@@ -488,6 +497,9 @@ const validate = data => {
   }
   if (data.feedbackRequired && !data.feedbackDescription) {
     errors.feedbackDescription = 'Kan ikke være tomt';
+  }
+  if (!isPositiveNumeric(data.registrationDeadlineHours)) {
+    errors.registrationDeadlineHours = 'Kun hele timer';
   }
   return errors;
 };

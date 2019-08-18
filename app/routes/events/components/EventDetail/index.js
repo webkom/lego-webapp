@@ -16,7 +16,11 @@ import { FormatTime, FromToTime } from 'app/components/Time';
 import InfoList from 'app/components/InfoList';
 import { Flex } from 'app/components/Layout';
 import Tooltip from 'app/components/Tooltip';
-import { eventTypeToString, colorForEvent } from '../../utils';
+import {
+  eventTypeToString,
+  colorForEvent,
+  registrationCloseTime
+} from '../../utils';
 import Admin from '../Admin';
 import RegistrationMeta from '../RegistrationMeta';
 import DisplayContent from 'app/components/DisplayContent';
@@ -210,6 +214,13 @@ export default class EventDetail extends Component<Props> {
         ? {
             key: 'Påmelding åpner',
             value: <FormatTime time={event.activationTime} />
+          }
+        : null,
+      event.registrationDeadlineHours &&
+      !['OPEN', 'TBA'].includes(event.eventStatusType)
+        ? {
+            value: <FormatTime time={registrationCloseTime(event)} />,
+            key: 'Påmelding stenger'
           }
         : null,
       event.unregistrationDeadline &&
