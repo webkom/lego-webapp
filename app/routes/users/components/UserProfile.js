@@ -340,6 +340,12 @@ export default class UserProfile extends Component<Props, EventsProps> {
             )}
           </div>
           <div className={styles.rightContent}>
+            <h3>Nylig Aktivitet</h3>
+            {feed ? (
+              <Feed items={feedItems} feed={feed} />
+            ) : (
+              <LoadingIndicator loading />
+            )}
             {isMe && (
               <div className={styles.bottomMargin}>
                 <h3>Dine kommende arrangementer</h3>
@@ -364,35 +370,31 @@ export default class UserProfile extends Component<Props, EventsProps> {
                     loggedIn={loggedIn}
                   />
                 )}
+                <h3>
+                  Dine tidligere arrangementer (
+                  {previousEvents === undefined ? 0 : previousEvents.length})
+                </h3>
+                {loading ? (
+                  <LoadingIndicator margin={'20px auto'} loading />
+                ) : (
+                  <ListEvents
+                    events={
+                      previousEvents === undefined
+                        ? []
+                        : orderBy(
+                            previousEvents
+                              .filter(e => e.userReg.pool !== null)
+                              .filter(
+                                e => e.userReg.presence !== 'NOT_PRESENT'
+                              ),
+                            'startTime'
+                          ).reverse()
+                    }
+                    noEventsMessage="Du har ingen tidligere arrangementer"
+                    loggedIn={loggedIn}
+                  />
+                )}
               </div>
-            )}
-            <h3>Nylig Aktivitet</h3>
-            {feed ? (
-              <Feed items={feedItems} feed={feed} />
-            ) : (
-              <LoadingIndicator loading />
-            )}
-            <h3>
-              Dine tidligere arrangementer (
-              {previousEvents === undefined ? 0 : previousEvents.length})
-            </h3>
-            {loading ? (
-              <LoadingIndicator margin={'20px auto'} loading />
-            ) : (
-              <ListEvents
-                events={
-                  previousEvents === undefined
-                    ? []
-                    : orderBy(
-                        previousEvents
-                          .filter(e => e.userReg.pool !== null)
-                          .filter(e => e.userReg.presence !== 'NOT_PRESENT'),
-                        'startTime'
-                      ).reverse()
-                }
-                noEventsMessage="Du har ingen tidligere arrangementer"
-                loggedIn={loggedIn}
-              />
             )}
           </div>
         </Flex>
