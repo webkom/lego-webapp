@@ -1,8 +1,7 @@
-// flow-typed signature: 91db18ca1dfb5f6956dd505954c9ec55
-// flow-typed version: c7f4cf7a4d/express_v4.x.x/flow_>=v0.32.x <=v0.92.x
+// flow-typed signature: 3981cb29b9fff6abc7f33fd4095e2b25
+// flow-typed version: def1ce6bf5/express_v4.x.x/flow_>=v0.32.x <=v0.92.x
 
-import * as http from 'http';
-import type { Socket } from 'net';
+import * as http from "http";
 
 declare type express$RouterOptions = {
   caseSensitive?: boolean,
@@ -23,7 +22,7 @@ declare class express$Request extends http$IncomingMessage mixins express$Reques
   baseUrl: string;
   body: mixed;
   cookies: {[cookie: string]: string};
-  connection: Socket;
+  connection: net$Socket;
   fresh: boolean;
   hostname: string;
   ip: string;
@@ -46,7 +45,7 @@ declare class express$Request extends http$IncomingMessage mixins express$Reques
   acceptsEncodings(...encoding: Array<string>): string | false;
   acceptsLanguages(...lang: Array<string>): string | false;
   header(field: string): string | void;
-  is(type: string): boolean;
+  is(type: string): string | false;
   param(name: string, defaultValue?: string): string | void;
 }
 

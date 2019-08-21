@@ -1,5 +1,5 @@
-// flow-typed signature: 87dc85fab2898ee0b31032578f05fc57
-// flow-typed version: 71723e3707/lolex_v2.x.x/flow_>=v0.64.x
+// flow-typed signature: 428b45eb213c1e478737cb5ff6dd5cc0
+// flow-typed version: c6154227d1/lolex_v2.x.x/flow_>=v0.64.x <=v0.103.x
 
 // @flow
 declare module 'lolex' {

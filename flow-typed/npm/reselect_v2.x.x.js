@@ -1,5 +1,5 @@
-// flow-typed signature: ba7be7dfb17af288826efbc4be90c1a8
-// flow-typed version: 5d8678f464/reselect_v2.x.x/flow_>=v0.28.x
+// flow-typed signature: 2fce4a5d563c7de1f6e1b63910cc3a8a
+// flow-typed version: c6154227d1/reselect_v2.x.x/flow_>=v0.28.x <=v0.103.x
 
 type Selector<TState, TProps, TResult> = {
   (state: TState, props: TProps, ...rest: any[]): TResult

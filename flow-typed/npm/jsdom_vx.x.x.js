@@ -1,4 +1,4 @@
-// flow-typed signature: b5c8e54131e020e1bfe1dee04c0a09aa
+// flow-typed signature: 3a4d64e531666d0f32393ebbd19147b8
 // flow-typed version: <<STUB>>/jsdom_v^11.6.2/flow_v0.71.0
 
 /**
@@ -90,14 +90,6 @@ declare module 'jsdom/lib/jsdom/living/attributes/NamedNodeMap-impl' {
   declare module.exports: any;
 }
 
-declare module 'jsdom/lib/jsdom/living/constraint-validation/DefaultConstraintValidation-impl' {
-  declare module.exports: any;
-}
-
-declare module 'jsdom/lib/jsdom/living/constraint-validation/ValidityState-impl' {
-  declare module.exports: any;
-}
-
 declare module 'jsdom/lib/jsdom/living/domparsing/DOMParser-impl' {
   declare module.exports: any;
 }
@@ -158,10 +150,6 @@ declare module 'jsdom/lib/jsdom/living/events/ProgressEvent-impl' {
   declare module.exports: any;
 }
 
-declare module 'jsdom/lib/jsdom/living/events/StorageEvent-impl' {
-  declare module.exports: any;
-}
-
 declare module 'jsdom/lib/jsdom/living/events/TouchEvent-impl' {
   declare module.exports: any;
 }
@@ -187,6 +175,10 @@ declare module 'jsdom/lib/jsdom/living/file-api/FileList-impl' {
 }
 
 declare module 'jsdom/lib/jsdom/living/file-api/FileReader-impl' {
+  declare module.exports: any;
+}
+
+declare module 'jsdom/lib/jsdom/living/form-data-symbols' {
   declare module.exports: any;
 }
 
@@ -834,18 +826,6 @@ declare module 'jsdom/lib/jsdom/living/generated/ShadowRootInit' {
   declare module.exports: any;
 }
 
-declare module 'jsdom/lib/jsdom/living/generated/Storage' {
-  declare module.exports: any;
-}
-
-declare module 'jsdom/lib/jsdom/living/generated/StorageEvent' {
-  declare module.exports: any;
-}
-
-declare module 'jsdom/lib/jsdom/living/generated/StorageEventInit' {
-  declare module.exports: any;
-}
-
 declare module 'jsdom/lib/jsdom/living/generated/SupportedType' {
   declare module.exports: any;
 }
@@ -914,10 +894,6 @@ declare module 'jsdom/lib/jsdom/living/generated/utils' {
   declare module.exports: any;
 }
 
-declare module 'jsdom/lib/jsdom/living/generated/ValidityState' {
-  declare module.exports: any;
-}
-
 declare module 'jsdom/lib/jsdom/living/generated/VisibilityState' {
   declare module.exports: any;
 }
@@ -975,10 +951,6 @@ declare module 'jsdom/lib/jsdom/living/helpers/internal-constants' {
 }
 
 declare module 'jsdom/lib/jsdom/living/helpers/json' {
-  declare module.exports: any;
-}
-
-declare module 'jsdom/lib/jsdom/living/helpers/namespaces' {
   declare module.exports: any;
 }
 
@@ -1526,10 +1498,6 @@ declare module 'jsdom/lib/jsdom/living/websockets/WebSocket-impl' {
   declare module.exports: any;
 }
 
-declare module 'jsdom/lib/jsdom/living/webstorage/Storage-impl' {
-  declare module.exports: any;
-}
-
 declare module 'jsdom/lib/jsdom/living/window/BarProp-impl' {
   declare module.exports: any;
 }
@@ -1658,12 +1626,6 @@ declare module 'jsdom/lib/jsdom/living/attributes/Attr-impl.js' {
 declare module 'jsdom/lib/jsdom/living/attributes/NamedNodeMap-impl.js' {
   declare module.exports: $Exports<'jsdom/lib/jsdom/living/attributes/NamedNodeMap-impl'>;
 }
-declare module 'jsdom/lib/jsdom/living/constraint-validation/DefaultConstraintValidation-impl.js' {
-  declare module.exports: $Exports<'jsdom/lib/jsdom/living/constraint-validation/DefaultConstraintValidation-impl'>;
-}
-declare module 'jsdom/lib/jsdom/living/constraint-validation/ValidityState-impl.js' {
-  declare module.exports: $Exports<'jsdom/lib/jsdom/living/constraint-validation/ValidityState-impl'>;
-}
 declare module 'jsdom/lib/jsdom/living/domparsing/DOMParser-impl.js' {
   declare module.exports: $Exports<'jsdom/lib/jsdom/living/domparsing/DOMParser-impl'>;
 }
@@ -1709,9 +1671,6 @@ declare module 'jsdom/lib/jsdom/living/events/PopStateEvent-impl.js' {
 declare module 'jsdom/lib/jsdom/living/events/ProgressEvent-impl.js' {
   declare module.exports: $Exports<'jsdom/lib/jsdom/living/events/ProgressEvent-impl'>;
 }
-declare module 'jsdom/lib/jsdom/living/events/StorageEvent-impl.js' {
-  declare module.exports: $Exports<'jsdom/lib/jsdom/living/events/StorageEvent-impl'>;
-}
 declare module 'jsdom/lib/jsdom/living/events/TouchEvent-impl.js' {
   declare module.exports: $Exports<'jsdom/lib/jsdom/living/events/TouchEvent-impl'>;
 }
@@ -1732,6 +1691,9 @@ declare module 'jsdom/lib/jsdom/living/file-api/FileList-impl.js' {
 }
 declare module 'jsdom/lib/jsdom/living/file-api/FileReader-impl.js' {
   declare module.exports: $Exports<'jsdom/lib/jsdom/living/file-api/FileReader-impl'>;
+}
+declare module 'jsdom/lib/jsdom/living/form-data-symbols.js' {
+  declare module.exports: $Exports<'jsdom/lib/jsdom/living/form-data-symbols'>;
 }
 declare module 'jsdom/lib/jsdom/living/generated/AbortController.js' {
   declare module.exports: $Exports<'jsdom/lib/jsdom/living/generated/AbortController'>;
@@ -2216,15 +2178,6 @@ declare module 'jsdom/lib/jsdom/living/generated/SelectionMode.js' {
 declare module 'jsdom/lib/jsdom/living/generated/ShadowRootInit.js' {
   declare module.exports: $Exports<'jsdom/lib/jsdom/living/generated/ShadowRootInit'>;
 }
-declare module 'jsdom/lib/jsdom/living/generated/Storage.js' {
-  declare module.exports: $Exports<'jsdom/lib/jsdom/living/generated/Storage'>;
-}
-declare module 'jsdom/lib/jsdom/living/generated/StorageEvent.js' {
-  declare module.exports: $Exports<'jsdom/lib/jsdom/living/generated/StorageEvent'>;
-}
-declare module 'jsdom/lib/jsdom/living/generated/StorageEventInit.js' {
-  declare module.exports: $Exports<'jsdom/lib/jsdom/living/generated/StorageEventInit'>;
-}
 declare module 'jsdom/lib/jsdom/living/generated/SupportedType.js' {
   declare module.exports: $Exports<'jsdom/lib/jsdom/living/generated/SupportedType'>;
 }
@@ -2276,9 +2229,6 @@ declare module 'jsdom/lib/jsdom/living/generated/UIEventInit.js' {
 declare module 'jsdom/lib/jsdom/living/generated/utils.js' {
   declare module.exports: $Exports<'jsdom/lib/jsdom/living/generated/utils'>;
 }
-declare module 'jsdom/lib/jsdom/living/generated/ValidityState.js' {
-  declare module.exports: $Exports<'jsdom/lib/jsdom/living/generated/ValidityState'>;
-}
 declare module 'jsdom/lib/jsdom/living/generated/VisibilityState.js' {
   declare module.exports: $Exports<'jsdom/lib/jsdom/living/generated/VisibilityState'>;
 }
@@ -2323,9 +2273,6 @@ declare module 'jsdom/lib/jsdom/living/helpers/internal-constants.js' {
 }
 declare module 'jsdom/lib/jsdom/living/helpers/json.js' {
   declare module.exports: $Exports<'jsdom/lib/jsdom/living/helpers/json'>;
-}
-declare module 'jsdom/lib/jsdom/living/helpers/namespaces.js' {
-  declare module.exports: $Exports<'jsdom/lib/jsdom/living/helpers/namespaces'>;
 }
 declare module 'jsdom/lib/jsdom/living/helpers/ordered-set.js' {
   declare module.exports: $Exports<'jsdom/lib/jsdom/living/helpers/ordered-set'>;
@@ -2734,9 +2681,6 @@ declare module 'jsdom/lib/jsdom/living/websockets/WebSocket-impl-browser.js' {
 }
 declare module 'jsdom/lib/jsdom/living/websockets/WebSocket-impl.js' {
   declare module.exports: $Exports<'jsdom/lib/jsdom/living/websockets/WebSocket-impl'>;
-}
-declare module 'jsdom/lib/jsdom/living/webstorage/Storage-impl.js' {
-  declare module.exports: $Exports<'jsdom/lib/jsdom/living/webstorage/Storage-impl'>;
 }
 declare module 'jsdom/lib/jsdom/living/window/BarProp-impl.js' {
   declare module.exports: $Exports<'jsdom/lib/jsdom/living/window/BarProp-impl'>;

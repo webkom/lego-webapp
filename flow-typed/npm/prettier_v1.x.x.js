@@ -1,5 +1,5 @@
-// flow-typed signature: 066c92e9ccb5f0711df8d73cbca837d6
-// flow-typed version: 9e32affdbd/prettier_v1.x.x/flow_>=v0.56.x
+// flow-typed signature: 776ea3eddbfbd955ba69a2b42f244eda
+// flow-typed version: a3dbb68519/prettier_v1.x.x/flow_>=v0.56.x <=v0.83.x
 
 declare module "prettier" {
   declare export type AST = Object;
@@ -8,6 +8,7 @@ declare module "prettier" {
 
   declare export type PrettierParserName =
     | "babylon"
+    | "babel-flow"
     | "flow"
     | "typescript"
     | "postcss"

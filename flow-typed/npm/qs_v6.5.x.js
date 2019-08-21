@@ -1,5 +1,5 @@
-// flow-typed signature: 715c2f8b80fc0049acaff07253098596
-// flow-typed version: a7cda84c32/qs_v6.5.x/flow_>=v0.45.x
+// flow-typed signature: d569013c0e793c15e415d186d2bb1d2d
+// flow-typed version: c6154227d1/qs_v6.5.x/flow_>=v0.45.x <=v0.103.x
 
 declare module "qs" {
   declare type ParseOptions = {

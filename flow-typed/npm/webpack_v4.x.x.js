@@ -1,5 +1,5 @@
-// flow-typed signature: 72cb54db24df27a7bac24b0b302df296
-// flow-typed version: 6cb74e5628/webpack_v4.x.x/flow_>=v0.71.x
+// flow-typed signature: 6461023a13da7fe15c4d76d0dbb26239
+// flow-typed version: c6154227d1/webpack_v4.x.x/flow_>=v0.71.x <=v0.103.x
 
 import * as http from 'http';
 import fs from 'fs';
@@ -581,6 +581,13 @@ declare module 'webpack' {
     watchOptions?: WatchOptions,
   };
 
+  declare class EnvironmentPlugin {
+    constructor(env: { [string]: mixed } | string[]): $ElementType<
+      $NonMaybeType<$PropertyType<ResolveOptions, 'plugins'>>,
+      number
+    >;
+  }
+
   declare function builder(
     options: WebpackOptions,
     callback?: Callback
@@ -590,5 +597,7 @@ declare module 'webpack' {
     callback?: Callback
   ): WebpackMultiCompiler;
 
-  declare module.exports: typeof builder;
+  declare module.exports: typeof builder & {
+    EnvironmentPlugin: typeof EnvironmentPlugin,
+  };
 }
