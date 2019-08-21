@@ -1,5 +1,5 @@
-// flow-typed signature: 4850a295b0a6cab60f9421a95997888f
-// flow-typed version: 5b150db5b6/raven-js_v3.17.x/flow_>=v0.38.x
+// flow-typed signature: b12e5cb1cec17e7d27b27cfd96abd629
+// flow-typed version: c6154227d1/raven-js_v3.17.x/flow_>=v0.38.x <=v0.103.x
 
 type LogLevel = "critical" | "error" | "warning" | "info" | "debug";
 

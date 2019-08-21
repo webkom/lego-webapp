@@ -1,4 +1,4 @@
-// flow-typed signature: 79014d872afbdb59a0ded6716b083518
+// flow-typed signature: 8898c0a1d028377c713fd3f47b2776fa
 // flow-typed version: <<STUB>>/medium-draft_v^0.6.0-beta1/flow_v0.71.0
 
 /**
@@ -31,10 +31,6 @@ declare module 'medium-draft/dist/medium-draft-importer' {
 }
 
 declare module 'medium-draft/dist/medium-draft' {
-  declare module.exports: any;
-}
-
-declare module 'medium-draft/example/index' {
   declare module.exports: any;
 }
 
@@ -106,59 +102,11 @@ declare module 'medium-draft/lib/components/toolbar' {
   declare module.exports: any;
 }
 
-declare module 'medium-draft/lib/createEditor' {
-  declare module.exports: any;
-}
-
 declare module 'medium-draft/lib/editor' {
   declare module.exports: any;
 }
 
 declare module 'medium-draft/lib/exporter' {
-  declare module.exports: any;
-}
-
-declare module 'medium-draft/lib/handlers/blockRendererFn' {
-  declare module.exports: any;
-}
-
-declare module 'medium-draft/lib/handlers/blockRenderMap' {
-  declare module.exports: any;
-}
-
-declare module 'medium-draft/lib/handlers/blockStyleFn' {
-  declare module.exports: any;
-}
-
-declare module 'medium-draft/lib/handlers/handleBeforeInput' {
-  declare module.exports: any;
-}
-
-declare module 'medium-draft/lib/handlers/handleKeyCommand' {
-  declare module.exports: any;
-}
-
-declare module 'medium-draft/lib/handlers/handlePastedText' {
-  declare module.exports: any;
-}
-
-declare module 'medium-draft/lib/handlers/handleReturn' {
-  declare module.exports: any;
-}
-
-declare module 'medium-draft/lib/handlers/index' {
-  declare module.exports: any;
-}
-
-declare module 'medium-draft/lib/handlers/keyBindingFn' {
-  declare module.exports: any;
-}
-
-declare module 'medium-draft/lib/handlers/onTab' {
-  declare module.exports: any;
-}
-
-declare module 'medium-draft/lib/handlers/onUpArrow' {
   declare module.exports: any;
 }
 
@@ -216,9 +164,6 @@ declare module 'medium-draft/dist/medium-draft-importer.js' {
 declare module 'medium-draft/dist/medium-draft.js' {
   declare module.exports: $Exports<'medium-draft/dist/medium-draft'>;
 }
-declare module 'medium-draft/example/index.js' {
-  declare module.exports: $Exports<'medium-draft/example/index'>;
-}
 declare module 'medium-draft/lib/components/addbutton.js' {
   declare module.exports: $Exports<'medium-draft/lib/components/addbutton'>;
 }
@@ -270,47 +215,11 @@ declare module 'medium-draft/lib/components/stylebutton.js' {
 declare module 'medium-draft/lib/components/toolbar.js' {
   declare module.exports: $Exports<'medium-draft/lib/components/toolbar'>;
 }
-declare module 'medium-draft/lib/createEditor.js' {
-  declare module.exports: $Exports<'medium-draft/lib/createEditor'>;
-}
 declare module 'medium-draft/lib/editor.js' {
   declare module.exports: $Exports<'medium-draft/lib/editor'>;
 }
 declare module 'medium-draft/lib/exporter.js' {
   declare module.exports: $Exports<'medium-draft/lib/exporter'>;
-}
-declare module 'medium-draft/lib/handlers/blockRendererFn.js' {
-  declare module.exports: $Exports<'medium-draft/lib/handlers/blockRendererFn'>;
-}
-declare module 'medium-draft/lib/handlers/blockRenderMap.js' {
-  declare module.exports: $Exports<'medium-draft/lib/handlers/blockRenderMap'>;
-}
-declare module 'medium-draft/lib/handlers/blockStyleFn.js' {
-  declare module.exports: $Exports<'medium-draft/lib/handlers/blockStyleFn'>;
-}
-declare module 'medium-draft/lib/handlers/handleBeforeInput.js' {
-  declare module.exports: $Exports<'medium-draft/lib/handlers/handleBeforeInput'>;
-}
-declare module 'medium-draft/lib/handlers/handleKeyCommand.js' {
-  declare module.exports: $Exports<'medium-draft/lib/handlers/handleKeyCommand'>;
-}
-declare module 'medium-draft/lib/handlers/handlePastedText.js' {
-  declare module.exports: $Exports<'medium-draft/lib/handlers/handlePastedText'>;
-}
-declare module 'medium-draft/lib/handlers/handleReturn.js' {
-  declare module.exports: $Exports<'medium-draft/lib/handlers/handleReturn'>;
-}
-declare module 'medium-draft/lib/handlers/index.js' {
-  declare module.exports: $Exports<'medium-draft/lib/handlers/index'>;
-}
-declare module 'medium-draft/lib/handlers/keyBindingFn.js' {
-  declare module.exports: $Exports<'medium-draft/lib/handlers/keyBindingFn'>;
-}
-declare module 'medium-draft/lib/handlers/onTab.js' {
-  declare module.exports: $Exports<'medium-draft/lib/handlers/onTab'>;
-}
-declare module 'medium-draft/lib/handlers/onUpArrow.js' {
-  declare module.exports: $Exports<'medium-draft/lib/handlers/onUpArrow'>;
 }
 declare module 'medium-draft/lib/importer.js' {
   declare module.exports: $Exports<'medium-draft/lib/importer'>;

@@ -1,4 +1,4 @@
-// flow-typed signature: f0a59e3e73823ae2c3fe1b34c896a36b
+// flow-typed signature: e65197776769cbfd573cdb5abd474179
 // flow-typed version: <<STUB>>/concurrently_v^3.5.0/flow_v0.71.0
 
 /**
@@ -22,23 +22,7 @@ declare module 'concurrently' {
  * require those files directly. Feel free to delete any files that aren't
  * needed.
  */
-declare module 'concurrently/src/findChild' {
-  declare module.exports: any;
-}
-
 declare module 'concurrently/src/main' {
-  declare module.exports: any;
-}
-
-declare module 'concurrently/src/parseCmds' {
-  declare module.exports: any;
-}
-
-declare module 'concurrently/src/pkgInfo' {
-  declare module.exports: any;
-}
-
-declare module 'concurrently/test/support/read-echo' {
   declare module.exports: any;
 }
 
@@ -46,15 +30,7 @@ declare module 'concurrently/test/support/signal' {
   declare module.exports: any;
 }
 
-declare module 'concurrently/test/test-findChild' {
-  declare module.exports: any;
-}
-
 declare module 'concurrently/test/test-functional' {
-  declare module.exports: any;
-}
-
-declare module 'concurrently/test/test-parseCmds' {
   declare module.exports: any;
 }
 
@@ -63,32 +39,14 @@ declare module 'concurrently/test/utils' {
 }
 
 // Filename aliases
-declare module 'concurrently/src/findChild.js' {
-  declare module.exports: $Exports<'concurrently/src/findChild'>;
-}
 declare module 'concurrently/src/main.js' {
   declare module.exports: $Exports<'concurrently/src/main'>;
-}
-declare module 'concurrently/src/parseCmds.js' {
-  declare module.exports: $Exports<'concurrently/src/parseCmds'>;
-}
-declare module 'concurrently/src/pkgInfo.js' {
-  declare module.exports: $Exports<'concurrently/src/pkgInfo'>;
-}
-declare module 'concurrently/test/support/read-echo.js' {
-  declare module.exports: $Exports<'concurrently/test/support/read-echo'>;
 }
 declare module 'concurrently/test/support/signal.js' {
   declare module.exports: $Exports<'concurrently/test/support/signal'>;
 }
-declare module 'concurrently/test/test-findChild.js' {
-  declare module.exports: $Exports<'concurrently/test/test-findChild'>;
-}
 declare module 'concurrently/test/test-functional.js' {
   declare module.exports: $Exports<'concurrently/test/test-functional'>;
-}
-declare module 'concurrently/test/test-parseCmds.js' {
-  declare module.exports: $Exports<'concurrently/test/test-parseCmds'>;
 }
 declare module 'concurrently/test/utils.js' {
   declare module.exports: $Exports<'concurrently/test/utils'>;

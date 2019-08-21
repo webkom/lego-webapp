@@ -1,5 +1,5 @@
-// flow-typed signature: fcefa82e5302cfe96bbeda57c93fcc28
-// flow-typed version: 8c429e7eef/slugify_v1.x.x/flow_>=v0.34.x
+// flow-typed signature: 9a29e7bc0add83448741a921404a7376
+// flow-typed version: c6154227d1/slugify_v1.x.x/flow_>=v0.34.x <=v0.103.x
 
 declare module "slugify" {
   declare type SlugifyOptions = {

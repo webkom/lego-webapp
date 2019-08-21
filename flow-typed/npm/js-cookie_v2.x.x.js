@@ -1,5 +1,5 @@
-// flow-typed signature: 09c1fe82fbc9e980fc0fd1c8dee0628b
-// flow-typed version: 91c31c78d9/js-cookie_v2.x.x/flow_>=v0.38.x
+// flow-typed signature: aad6a85a62cb80a57d9e73fa787f25c1
+// flow-typed version: c6154227d1/js-cookie_v2.x.x/flow_>=v0.38.x <=v0.103.x
 
 declare module 'js-cookie' {
     declare type CookieOptions = {
