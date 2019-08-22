@@ -21,9 +21,7 @@ import { push } from 'react-router-redux';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
-import config from 'app/config';
-
-const getCsvUrl = surveyId => `${config.serverUrl}/surveys/${surveyId}/csv/`;
+import { getCsvUrl } from './utils';
 
 const loadData = (props, dispatch) => {
   const { surveyId } = props.params;

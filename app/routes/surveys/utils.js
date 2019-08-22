@@ -6,6 +6,7 @@ import NavigationLink from 'app/components/NavigationTab/NavigationLink';
 import moment from 'moment-timezone';
 import styles from './components/surveys.css';
 import { type ActionGrant } from 'app/models';
+import config from 'app/config';
 
 const questionStrings = {
   single: 'single_choice',
@@ -91,3 +92,6 @@ export const CHART_COLORS = [
   '#ff87eb',
   '#000000'
 ];
+
+export const getCsvUrl = (surveyId: string) =>
+  `${config.serverUrl}/surveys/${surveyId}/csv/`;
