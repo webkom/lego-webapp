@@ -72,7 +72,7 @@ const mapStateToProps = (state, props) => {
       useConsent: false,
       feedbackDescription: '',
       pools: [],
-      unregistrationDeadline: time({ hours: 12 }),
+      unregistrationDeadline: time({ hours: 24 }),
       registrationDeadlineHours: 2
     },
     actionGrant,
