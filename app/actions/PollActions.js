@@ -28,7 +28,7 @@ export function fetchAll({ next = false }: { next: boolean } = {}): Thunk<*> {
 export function fetchPoll(pollId: number) {
   return callAPI({
     types: Poll.FETCH,
-    endpoint: `/polls/${pollId}`,
+    endpoint: `/polls/${pollId}/`,
     schema: pollSchema,
     meta: {
       errorMessage: 'Henting av avstemning feilet'
