@@ -73,6 +73,15 @@ const EmailListEditor = ({ submitting, handleSubmit, emailListId }: Props) => (
         normalize={v => !!v}
       />
     </Tooltip>
+
+    <Tooltip content="Her kan du legge til e-postene til de som skal ha mailer fra gruppemailen, men ikke er medlem av abakus">
+      <Field
+        label="E-poster for medlemmer utenfor abakus"
+        name="additionalEmails"
+        placeholder="Skriv inn e-post her"
+        component={TextInput.Field}
+      />
+    </Tooltip>
     <Button submit disabled={submitting}>
       {emailListId ? 'Oppdater epostliste' : 'Lag epostliste'}
     </Button>
@@ -90,7 +99,8 @@ export default legoForm({
       requireInternalAddress: data.requireInternalAddress,
       groupRoles: (data.groupRoles || []).map(groupRole => groupRole.value),
       groups: (data.groups || []).map(group => group.value),
-      users: (data.users || []).map(user => user.value)
+      users: (data.users || []).map(user => user.value),
+      additionalEmails: (data.additionalEmails || []).map(email => email.value)
     }).then(({ payload }) => {
       if (!emailListId) {
         push(`/admin/email/lists/${payload.result}`);
