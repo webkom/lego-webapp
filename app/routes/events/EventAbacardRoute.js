@@ -45,12 +45,16 @@ const mapDispatchToProps = (dispatch, { eventId }) => {
     clearSearch: () => dispatch(push(url)),
     markUsernamePresent: (...props) => dispatch(markUsernamePresent(...props)),
     markUsernameConsent: (...props) => dispatch(markUsernameConsent(...props)),
-    onQueryChanged: debounce(query => {
-      dispatch(push(url + query));
-      if (query) {
-        dispatch(autocomplete(query, searchTypes));
-      }
-    }, 300)
+    onQueryChanged: debounce(
+      query => {
+        dispatch(push(url + query));
+        if (query) {
+          dispatch(autocomplete(query, searchTypes));
+        }
+      },
+      300,
+      { leading: true }
+    )
   };
 };
 
