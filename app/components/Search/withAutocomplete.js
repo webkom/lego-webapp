@@ -67,7 +67,9 @@ function withAutocomplete<Props: {}>(WrappedComponent: ComponentType<Props>) {
         <WrappedComponent
           {...restProps}
           options={this.state.result}
-          onSearch={debounce(query => this.handleSearch(query, filter), 300)}
+          onSearch={debounce(query => this.handleSearch(query, filter), 300, {
+            leading: true
+          })}
           fetching={this.state.searching}
         />
       );
