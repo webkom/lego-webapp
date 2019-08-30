@@ -33,6 +33,7 @@
     "url": "github.com/webkom/lego-webapp"
   },
   "dependencies": {
+    "@webkom/lego-editor": "^1.0.0",
     "@sentry/browser": "^5.15.4",
     "@sentry/integrations": "^5.15.4",
     "@sentry/node": "^5.15.4",

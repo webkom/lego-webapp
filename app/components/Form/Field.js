@@ -76,7 +76,10 @@ export type FormProps = {
  *
  * http://redux-form.com/6.0.5/docs/api/Field.md/
  */
-export function createField(Component: ComponentType<*>) {
+export function createField(
+  Component: ComponentType<*>,
+  useLabel?: boolean = true
+) {
   const Field = (field: FormProps) => {
     const {
       input,
@@ -96,7 +99,7 @@ export function createField(Component: ComponentType<*>) {
     const hasError = showErrors && touched && error && error.length > 0;
     const hasWarning = showErrors && touched && warning && warning.length > 0;
     const fieldName = input && input.name;
-    return (
+    return useLabel ? (
       <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
         <label className={cx(styles.label, labelClassName)}>
           <Flex>
@@ -123,6 +126,33 @@ export function createField(Component: ComponentType<*>) {
             )}
           />
         </label>
+        {hasError && (
+          <RenderErrorMessage error={meta.error} fieldName={fieldName} />
+        )}
+        {hasWarning && <RenderWarningMessage warning={meta.warning} />}
+      </div>
+    ) : (
+      <div className={cx(styles.field, fieldClassName)} style={fieldStyle}>
+        <Flex>
+          {label && <div>{label}</div>}
+          {description && (
+            <Tooltip style={{ display: 'inline-block' }} content={description}>
+              <div style={{ marginLeft: '10px' }}>
+                <Icon size={32} name="help" />
+              </div>
+            </Tooltip>
+          )}
+          {required && <span className={styles.required}>*</span>}
+        </Flex>
+        <Component
+          {...input}
+          {...props}
+          className={cx(
+            className,
+            hasWarning && styles.inputWithWarning,
+            hasError && styles.inputWithError
+          )}
+        />
         {hasError && (
           <RenderErrorMessage error={meta.error} fieldName={fieldName} />
         )}
