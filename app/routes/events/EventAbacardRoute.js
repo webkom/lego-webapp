@@ -50,7 +50,7 @@ const mapDispatchToProps = (dispatch, { eventId }) => {
       if (query) {
         dispatch(autocomplete(query, searchTypes));
       }
-    }, 300)
+    }, 100)
   };
 };
 

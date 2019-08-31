@@ -15,7 +15,6 @@ import type {
   Event
 } from 'app/models';
 type State = {
-  // Skra
   resolve: ?() => Promise<*>,
   username: string
 };
