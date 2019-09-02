@@ -5,15 +5,18 @@ import helmet from 'app/utils/helmet';
 import loadingIndicator from 'app/utils/loadingIndicator';
 import { fetchArticle } from 'app/actions/ArticleActions';
 import { deleteComment } from 'app/actions/CommentActions';
+import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
+import { fetchEmojis } from 'app/actions/EmojiActions';
 import ArticleDetail from './components/ArticleDetail';
 import {
   selectArticleById,
   selectCommentsForArticle
 } from 'app/reducers/articles';
 import { selectUserById } from 'app/reducers/users';
+import { selectEmojis } from 'app/reducers/emojis';
 
 function loadData(props, dispatch) {
-  return dispatch(fetchArticle(props.params.articleId));
+  return dispatch(fetchArticle(props.params.articleId), fetchEmojis());
 }
 
 const mapStateToProps = (state, props) => {
@@ -21,17 +24,26 @@ const mapStateToProps = (state, props) => {
   const article = selectArticleById(state, { articleId });
   const comments = selectCommentsForArticle(state, { articleId });
   const author = selectUserById(state, { userId: article.author });
+  const emojis = selectEmojis(state);
 
   return {
     fetching: state.articles.fetching,
+    fetchingEmojis: state.emojis.fetching,
     comments,
     article,
     articleId,
-    author
+    author,
+    emojis
   };
 };
 
-const mapDispatchToProps = { fetchArticle, deleteComment };
+const mapDispatchToProps = {
+  fetchArticle,
+  fetchEmojis,
+  deleteComment,
+  addReaction,
+  deleteReaction
+};
 
 export default compose(
   prepare(loadData, ['params.articleId']),

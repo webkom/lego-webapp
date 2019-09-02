@@ -34,7 +34,7 @@ type Props = {
   fetchSiblingGallerPicture: (EntityID, EntityID, boolean) => Promise<*>,
   isFirstImage: Boolean,
   isLastImage: Boolean,
-  deleteComment: (id: ID, commentTarget: string) => Promise<*>
+  deleteComment: (id: ID, contentTarget: string) => Promise<*>
 };
 
 type State = {
@@ -324,13 +324,13 @@ export default class GalleryPictureModal extends Component<Props, State> {
                 )}
               </p>
             </Flex>
-            {picture.commentTarget && (
+            {picture.contentTarget && (
               <Flex className={styles.pictureDescription}>
                 <CommentView
                   style={{ width: '100%' }}
                   formEnabled
                   user={currentUser}
-                  commentTarget={picture.commentTarget}
+                  contentTarget={picture.contentTarget}
                   loggedIn={loggedIn}
                   comments={comments}
                   deleteComment={deleteComment}

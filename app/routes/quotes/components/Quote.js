@@ -22,7 +22,7 @@ type Props = {
   currentUser: any,
   loggedIn: boolean,
   comments: Object,
-  deleteComment: (id: ID, commentTarget: string) => Promise<*>
+  deleteComment: (id: ID, contentTarget: string) => Promise<*>
 };
 
 type State = {
@@ -162,11 +162,11 @@ export default class Quote extends Component<Props, State> {
             </div>
           </div>
         </div>
-        {quote.commentTarget && showComments && (
+        {quote.contentTarget && showComments && (
           <div className={styles.comments}>
             <CommentView
               user={currentUser}
-              commentTarget={quote.commentTarget}
+              contentTarget={quote.contentTarget}
               loggedIn={loggedIn}
               comments={comments[quote.id]}
               displayTitle={false}

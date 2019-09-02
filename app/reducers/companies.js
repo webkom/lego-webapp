@@ -25,7 +25,7 @@ export type BaseCompanyEntity = {
   active?: boolean,
   adminComment?: string,
   companyType?: string,
-  commentTarget: string,
+  contentTarget: string,
   comments: Array<{ id: string, parent: string }>,
   // $FlowFixMe
   semesterStatuses: Array<SemesterStatusEntity>,

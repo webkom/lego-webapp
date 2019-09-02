@@ -25,7 +25,7 @@ const validate = values => {
 };
 
 type Props = FieldProps & {
-  commentTarget: string,
+  contentTarget: string,
   user: Object,
   loggedIn: boolean,
   addComment: CommentEntity => void,
@@ -41,9 +41,9 @@ class CommentForm extends Component<Props> {
   };
 
   onSubmit = ({ text }) => {
-    const { commentTarget, parent } = this.props;
+    const { contentTarget, parent } = this.props;
     this.props.addComment({
-      commentTarget,
+      contentTarget,
       text,
       parent
     });

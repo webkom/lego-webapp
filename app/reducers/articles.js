@@ -2,14 +2,16 @@
 
 import { createSelector } from 'reselect';
 import { Article } from '../actions/ActionTypes';
+import { mutateReactions } from 'app/reducers/reactions';
 import { mutateComments } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import joinReducers from 'app/utils/joinReducers';
 import { orderBy } from 'lodash';
 
 export type ArticleEntity = {
   id: number,
   title: string,
-  commentTarget: string,
+  contentTarget: string,
   description: string,
   author: Object,
   cover: string,
@@ -18,6 +20,8 @@ export type ArticleEntity = {
   startTime: string,
   text: string,
   tags: Array<string>,
+  reactionsGrouped: Array<Object>,
+  reactions: Array<Object>,
   actionGrant: Object,
   comments: Array<number>,
   youtubeUrl: string
@@ -30,7 +34,7 @@ export default createEntityReducer({
     mutate: Article.CREATE,
     delete: Article.DELETE
   },
-  mutate: mutateComments('articles')
+  mutate: joinReducers(mutateComments('articles'), mutateReactions('articles'))
 });
 
 function transformArticle(article) {
@@ -69,5 +73,16 @@ export const selectCommentsForArticle = createSelector(
   (article, commentsById) => {
     if (!article) return [];
     return (article.comments || []).map(commentId => commentsById[commentId]);
+  }
+);
+
+export const selectReactionsForArticle = createSelector(
+  selectArticleById,
+  state => state.reactions.byId,
+  (article, reactionsById) => {
+    if (!article) return [];
+    return (article.reactionsGrouped || []).map(
+      reactionId => reactionsById[reactionId]
+    );
   }
 );

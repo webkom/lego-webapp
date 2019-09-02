@@ -33,7 +33,7 @@ class Podcast extends Component<Props, State> {
   };
 
   render() {
-    const CLIENT_ID = 'E8IqLGTYxHll6SyaM7LKrMzKveWkcrjg';
+    const CLIENT_ID = 'WOwjzZGoYrSrOOAILojG4miJtS4pZjSg';
 
     const {
       id,

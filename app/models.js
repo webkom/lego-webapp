@@ -68,7 +68,7 @@ export type Event = EventBase & {
   thumbnail: ?string,
   company: Company,
   comments: Array<Comment>,
-  commentTarget: string,
+  contentTarget: string,
   pools: Array<EventPool>,
   survey: ?ID,
   userReg: EventRegistration,

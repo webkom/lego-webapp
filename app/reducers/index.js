@@ -44,6 +44,8 @@ import feedActivities from './feedActivities';
 import feeds from './feeds';
 import frontpage from './frontpage';
 import surveys from './surveys';
+import emojis from './emojis';
+import reactions from './reactions';
 import readme from './readme';
 import surveySubmissions from './surveySubmissions';
 import tags from './tags';
@@ -92,6 +94,8 @@ const reducers = {
   restrictedMails,
   routing: joinReducers(routing, routerReducer),
   search,
+  emojis,
+  reactions,
   surveySubmissions,
   surveys,
   tags,
@@ -149,8 +153,10 @@ export const eventAdministrateSchema = new schema.Entity('events', {
   unregistered: [registrationSchema],
   waitingRegistrations: [registrationSchema]
 });
+export const reactionSchema = new schema.Entity('reactions');
 export const articleSchema = new schema.Entity('articles', {
   comments: [commentSchema],
+  reactions: [reactionSchema],
   author: userSchema
 });
 
@@ -210,6 +216,11 @@ export const frontpageSchema = new schema.Entity('frontpage', {
   articles: [articleSchema],
   poll: pollSchema
 });
+export const emojiSchema = new schema.Entity(
+  'emojis',
+  {},
+  { idAttribute: 'shortCode' }
+);
 export const surveySchema = new schema.Entity('surveys', {
   event: eventSchema
 });

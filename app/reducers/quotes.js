@@ -14,7 +14,7 @@ export type QuoteEntity = {
   approved: boolean,
   comments: Object,
   commentCount: string,
-  commentTarget: string,
+  contentTarget: string,
   createdAt?: string
 };
 

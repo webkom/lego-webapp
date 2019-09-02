@@ -42,7 +42,7 @@ type Props = {
   fetching: boolean,
   editCompany: Object => void,
   deleteCompany: number => Promise<*>,
-  deleteComment: (id: ID, commentTarget: string) => Promise<*>,
+  deleteComment: (id: ID, contentTarget: string) => Promise<*>,
   showFetchMoreEvents: boolean,
   fetchMoreEvents: () => Promise<*>
 };
@@ -419,10 +419,10 @@ export default class BdbDetail extends Component<Props, State> {
           )}
           <div style={{ clear: 'both', marginBottom: '30px' }} />
 
-          {company.commentTarget && (
+          {company.contentTarget && (
             <CommentView
               user={currentUser}
-              commentTarget={company.commentTarget}
+              contentTarget={company.contentTarget}
               loggedIn={loggedIn}
               comments={comments}
               newOnTop

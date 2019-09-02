@@ -14,7 +14,7 @@ type Props = {
   currentUser: any,
   loggedIn: boolean,
   comments: Object,
-  deleteComment: (id: ID, commentTarget: string) => Promise<*>
+  deleteComment: (id: ID, contentTarget: string) => Promise<*>
 };
 
 type State = {
