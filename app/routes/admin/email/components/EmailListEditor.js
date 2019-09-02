@@ -100,7 +100,7 @@ export default legoForm({
       groupRoles: (data.groupRoles || []).map(groupRole => groupRole.value),
       groups: (data.groups || []).map(group => group.value),
       users: (data.users || []).map(user => user.value),
-      additionalEmails: (data.additionalEmails || []).map(email => email.value)
+      additionalEmails: data.additionalEmails
     }).then(({ payload }) => {
       if (!emailListId) {
         push(`/admin/email/lists/${payload.result}`);
