@@ -70,7 +70,7 @@ const ReactionPicker = ({
     setSearchString(null);
   });
   const onSearch = useCallback(searchString =>
-    setSearchString(searchString.toLowerCase())
+    setSearchString(searchString.trim().toLowerCase())
   );
 
   return (

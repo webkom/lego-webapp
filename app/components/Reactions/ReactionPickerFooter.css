@@ -1,3 +1,5 @@
+@import 'app/styles/variables.css';
+
 .reactionPickerFooter {
   height: 40px;
   padding: 5px;
@@ -6,6 +8,20 @@
   justify-content: space-between;
 }
 
-.reactionPickerSearch {
+.reactionPickerSearchNormal {
   padding: 2px;
+  display: none;
+
+  @media (--mobile-device) {
+    display: block;
+  }
+}
+
+.reactionPickerSearchAutoComplete {
+  padding: 2px;
+  display: display;
+
+  @media (--mobile-device) {
+    display: none;
+  }
 }

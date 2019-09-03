@@ -9,13 +9,27 @@ type Props = {
 
 const ReactionPickerFooter = ({ onSearch }: Props) => (
   <div className={styles.reactionPickerFooter}>
-    <input
-      className={styles.reactionPickerSearch}
-      onInput={e => onSearch(e.target.value)}
-      placeholder="Søk..."
-      maxLength="15"
-      autoFocus
-    />
+    {[
+      {
+        style: styles.reactionPickerSearchAutoComplete,
+        autoFocus: true
+      },
+      {
+        style: styles.reactionPickerSearchNormal,
+        autoFocus: false
+      }
+    ].map(k => {
+      return (
+        <input
+          key={`reaction-search-autofocus-${k.autoFocus}`}
+          className={k.style}
+          onInput={e => onSearch(e.target.value)}
+          placeholder="Søk..."
+          maxLength="15"
+          ref={input => input && k.autoFocus && input.focus()}
+        />
+      );
+    })}
   </div>
 );
 

@@ -1,6 +1,14 @@
+@import 'app/styles/variables.css';
+
 .reactionPicker {
   height: 300px;
   width: 420px;
+
+  @media (--mobile-device) {
+    max-width: 420px;
+    width: 94vw;
+  }
+
   color: rgb(85, 84, 89);
   font-size: 0.95rem;
   background: rgb(247, 247, 247) none repeat scroll 0% 0%;

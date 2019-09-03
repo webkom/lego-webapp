@@ -60,7 +60,6 @@ export function mutateReactions(forTargetType: string) {
                       }
                     : []
                 )
-                .sort((a, b) => b.count - a.count)
             }
           }
         };
@@ -92,7 +91,6 @@ export function mutateReactions(forTargetType: string) {
                   return reaction;
                 })
                 .filter(reaction => reaction.count !== 0)
-                .sort((a, b) => b.count - a.count)
             }
           }
         };
