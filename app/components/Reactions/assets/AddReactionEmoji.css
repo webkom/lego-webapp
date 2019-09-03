@@ -1,0 +1,14 @@
+.container {
+  margin-top: 4px;
+  margin-right: 0;
+}
+
+.emoji {
+  -ms-transform: rotate(360deg);
+  -webkit-transform: rotate(360deg);
+  transform: rotate(360deg);
+}
+
+.smiley {
+  padding-left: 3px;
+}

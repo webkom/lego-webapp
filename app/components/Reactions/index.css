@@ -16,3 +16,7 @@
   bottom: 100%;
   margin-bottom: 10px;
 }
+
+.addReactionEmojiContainer {
+  list-style: none;
+}

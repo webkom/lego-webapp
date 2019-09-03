@@ -7,6 +7,7 @@ import type { EmojiEntity } from 'app/reducers/emojis';
 import type { ID } from 'app/models';
 import reactionStyles from './Reaction.css';
 import ReactionPicker from './ReactionPicker';
+import AddReactionEmoji from './assets/AddReactionEmoji';
 
 type Props = {
   children: Node,
@@ -24,6 +25,7 @@ type Props = {
 
 type State = {
   hovered: boolean,
+  addEmojiHovered: boolean,
   reactionPickerOpen: boolean,
   fetchedEmojis: boolean
 };
@@ -33,6 +35,7 @@ class Reactions extends React.Component<Props, State> {
 
   state = {
     hovered: false,
+    addEmojiHovered: false,
     reactionPickerOpen: false,
     fetchedEmojis: false
   };
@@ -46,6 +49,18 @@ class Reactions extends React.Component<Props, State> {
   onMouseLeave = () => {
     this.setState({
       hovered: false
+    });
+  };
+
+  onAddEmojiEnter = () => {
+    this.setState({
+      addEmojiHovered: true
+    });
+  };
+
+  onAddEmojiLeave = () => {
+    this.setState({
+      addEmojiHovered: false
     });
   };
 
@@ -84,7 +99,7 @@ class Reactions extends React.Component<Props, State> {
       deleteReaction,
       contentTarget
     } = this.props;
-    const { reactionPickerOpen } = this.state;
+    const { reactionPickerOpen, addEmojiHovered } = this.state;
     return (
       <div
         className={styles.reactionsContainer}
@@ -101,10 +116,10 @@ class Reactions extends React.Component<Props, State> {
           <div
             className={classNames(reactionStyles.reaction, styles.addReaction)}
             onClick={this.toggleReactionPicker}
+            onMouseEnter={this.onAddEmojiEnter}
+            onMouseLeave={this.onAddEmojiLeave}
           >
-            <span role="img" aria-label="Add">
-              ➕
-            </span>
+            <AddReactionEmoji color={addEmojiHovered ? '#E20D13' : '#F7A4A6'} />
           </div>
         </div>
         {reactionPickerOpen && (
