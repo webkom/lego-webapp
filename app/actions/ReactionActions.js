@@ -33,7 +33,7 @@ export function addReaction({
       })
     ).catch(action => {
       const status = action.payload.response.status;
-      let errorMessage = 'Reaksjon feilen';
+      let errorMessage = 'Reaksjon feilet';
       if (status === 409) {
         errorMessage = 'Du har allerede reagert med denne emojien';
       } else if (status === 413) {
