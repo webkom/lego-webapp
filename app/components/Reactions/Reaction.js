@@ -18,7 +18,7 @@ type Props = {
   }) => Promise<*>,
   deleteReaction: ({ reactionId: ID, contentTarget: string }) => Promise<*>,
   hasReacted: boolean,
-  reactionId: number,
+  reactionId: ID,
   contentTarget: string
 };
 

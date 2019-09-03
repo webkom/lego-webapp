@@ -10,7 +10,7 @@ export type ReactionEntity = {
   emoji: string,
   unicodeString: string,
   count: number,
-  hasReacted?: boolean
+  hasReacted: boolean
 };
 
 export function mutateReactions(forTargetType: string) {

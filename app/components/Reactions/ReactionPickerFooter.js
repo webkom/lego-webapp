@@ -21,7 +21,7 @@ const ReactionPickerFooter = ({ onSearch }: Props) => (
     ].map(k => {
       return (
         <input
-          key={`reaction-search-autofocus-${k.autoFocus}`}
+          key={`reaction-search-autofocus-${k.autoFocus ? 'on' : 'off'}`}
           className={k.style}
           onInput={e => onSearch(e.target.value)}
           placeholder="Søk..."

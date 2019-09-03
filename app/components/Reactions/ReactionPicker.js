@@ -28,7 +28,7 @@ const ReactionPicker = ({
   deleteReaction,
   contentTarget
 }: Props) => {
-  const [activeCategory, setActiveCategory] = useState('people');
+  const [activeCategory, setActiveCategory] = useState(null);
   const [searchString, setSearchString] = useState(null);
 
   const categories = useMemo(() => {
@@ -36,7 +36,12 @@ const ReactionPicker = ({
       return {};
     }
     const mappedCategories = {};
+    let activeCategorySet = false;
     emojis.forEach(emoji => {
+      if (!activeCategorySet) {
+        setActiveCategory(emoji.category);
+        activeCategorySet = true;
+      }
       if (emoji.category in mappedCategories) {
         mappedCategories[emoji.category]['emojis'].push(emoji);
       } else {
@@ -52,8 +57,6 @@ const ReactionPicker = ({
   const searchResults = useMemo(() => {
     if (searchString === null || searchString === '') {
       return null;
-    } else if (searchString === '') {
-      return [];
     }
     return emojis.filter(emoji => {
       const idMatches = emoji.shortCode.toLowerCase().includes(searchString);

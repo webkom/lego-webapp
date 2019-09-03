@@ -9,8 +9,6 @@ type Props = {
   size?: string
 };
 
-//       <g-emoji fallback-src="t-rex.png" alias="T-Rex">{unicodeString}</g-emoji>
-
 const Emoji = ({ shortCode, unicodeString, size = 'inherit' }: Props) => {
   return (
     <div

@@ -2,6 +2,7 @@
 
 import { Emoji } from 'app/actions/ActionTypes';
 import createEntityReducer from 'app/utils/createEntityReducer';
+import type { ID } from 'app/models';
 import { createSelector } from 'reselect';
 
 export type EmojiEntity = {
@@ -11,7 +12,7 @@ export type EmojiEntity = {
   fitzpatrickScale: boolean,
   category: string,
   hasReacted?: boolean,
-  reactionId?: number
+  reactionId?: ID
 };
 
 export const selectEmojis = createSelector(

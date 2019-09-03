@@ -7,6 +7,7 @@ import { mutateComments } from 'app/reducers/comments';
 import createEntityReducer from 'app/utils/createEntityReducer';
 import joinReducers from 'app/utils/joinReducers';
 import { orderBy } from 'lodash';
+import { type ReactionEntity } from 'app/reducers/reactions';
 
 export type ArticleEntity = {
   id: number,
@@ -20,8 +21,8 @@ export type ArticleEntity = {
   startTime: string,
   text: string,
   tags: Array<string>,
-  reactionsGrouped: Array<Object>,
-  reactions: Array<Object>,
+  reactionsGrouped: Array<ReactionEntity>,
+  reactions: Array<ReactionEntity>,
   actionGrant: Object,
   comments: Array<number>,
   youtubeUrl: string

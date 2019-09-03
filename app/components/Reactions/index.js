@@ -37,12 +37,6 @@ class Reactions extends React.Component<Props, State> {
     fetchedEmojis: false
   };
 
-  constructor() {
-    super();
-
-    this.handleOutsideClick = this.handleOutsideClick.bind(this);
-  }
-
   onMouseEnter = () => {
     this.setState({
       hovered: true

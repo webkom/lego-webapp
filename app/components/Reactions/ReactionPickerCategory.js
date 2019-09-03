@@ -38,8 +38,8 @@ class ReactionPickerCategory extends React.Component<Props> {
   render() {
     const { isActive, name, onCategoryClick } = this.props;
 
-    let containerClasses = [styles.reactionPickerCategoryContainer];
-    let categoryClasses = [styles.reactionPickerCategory];
+    const containerClasses = [styles.reactionPickerCategoryContainer];
+    const categoryClasses = [styles.reactionPickerCategory];
     if (isActive) {
       containerClasses.push(styles.isActiveContainer);
       categoryClasses.push(styles.isActiveCategory);
