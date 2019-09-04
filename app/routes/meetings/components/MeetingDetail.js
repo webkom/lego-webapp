@@ -48,7 +48,7 @@ type Props = {
   loggedIn: boolean,
   comments: Array<Object>,
   push: string => Promise<*>,
-  deleteComment: (id: ID, commentTarget: string) => Promise<*>
+  deleteComment: (id: ID, contentTarget: string) => Promise<*>
 };
 
 const UserLink = ({ user }: { user: UserEntity }) =>
@@ -216,10 +216,10 @@ class MeetingDetails extends Component<Props> {
           </ContentSection>
           <ContentSection>
             <ContentMain>
-              {meeting.commentTarget && (
+              {meeting.contentTarget && (
                 <CommentView
                   user={currentUser}
-                  commentTarget={meeting.commentTarget}
+                  contentTarget={meeting.contentTarget}
                   loggedIn={loggedIn}
                   comments={comments}
                   deleteComment={deleteComment}

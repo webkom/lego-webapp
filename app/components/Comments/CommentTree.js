@@ -12,14 +12,14 @@ type Props = {
   comments: Array<CommentEntity>,
   isChild?: boolean,
   commentFormProps: {
-    commentTarget: string,
+    contentTarget: string,
     user: UserEntity,
     loggedIn: boolean
   },
   level?: number,
-  deleteComment: (id: ID, commentTarget: string) => Promise<*>,
+  deleteComment: (id: ID, contentTarget: string) => Promise<*>,
   user: UserEntity,
-  commentTarget: string
+  contentTarget: string
 };
 
 function CommentTree({
@@ -29,7 +29,7 @@ function CommentTree({
   level = 0,
   deleteComment,
   user,
-  commentTarget
+  contentTarget
 }: Props) {
   const tree = comments.map(comment => {
     const className = cx(
@@ -45,7 +45,7 @@ function CommentTree({
             commentFormProps={commentFormProps}
             deleteComment={deleteComment}
             user={user}
-            commentTarget={commentTarget}
+            contentTarget={contentTarget}
           />
 
           <CommentTree
@@ -55,7 +55,7 @@ function CommentTree({
             commentFormProps={commentFormProps}
             deleteComment={deleteComment}
             user={user}
-            commentTarget={commentTarget}
+            contentTarget={contentTarget}
           />
         </div>
       );
@@ -69,7 +69,7 @@ function CommentTree({
           commentFormProps={commentFormProps}
           deleteComment={deleteComment}
           user={user}
-          commentTarget={commentTarget}
+          contentTarget={contentTarget}
         />
       </div>
     );

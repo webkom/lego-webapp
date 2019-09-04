@@ -16,13 +16,13 @@ import Button from '../Button';
 type Props = {
   comment: CommentEntity,
   commentFormProps: {
-    commentTarget: string,
+    contentTarget: string,
     user: UserEntity,
     loggedIn: boolean
   },
-  deleteComment: (id: ID, commentTarget: string) => Promise<*>,
+  deleteComment: (id: ID, contentTarget: string) => Promise<*>,
   user: UserEntity,
-  commentTarget: string
+  contentTarget: string
 };
 
 type State = {
@@ -47,7 +47,7 @@ export default class Comment extends Component<Props, State> {
   render() {
     const {
       comment,
-      commentTarget,
+      contentTarget,
       commentFormProps,
       deleteComment,
       user
@@ -78,7 +78,7 @@ export default class Comment extends Component<Props, State> {
                   <Button
                     flat
                     className={styles.delete}
-                    onClick={() => deleteComment(comment.id, commentTarget)}
+                    onClick={() => deleteComment(comment.id, contentTarget)}
                   >
                     Slett
                   </Button>
@@ -98,7 +98,7 @@ export default class Comment extends Component<Props, State> {
 
         {replyOpen && (
           <CommentForm
-            form={`comment.${commentFormProps.commentTarget}-${comment.id}`}
+            form={`comment.${commentFormProps.contentTarget}-${comment.id}`}
             parent={comment.id}
             submitText="Send svar"
             inlineMode

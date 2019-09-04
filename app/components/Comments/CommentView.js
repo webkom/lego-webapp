@@ -13,13 +13,13 @@ import type { ID } from 'app/models';
 type Props = {
   comments: Array<CommentEntity>,
   formDisabled?: boolean,
-  commentTarget: string,
+  contentTarget: string,
   user: UserEntity,
   loggedIn: boolean,
   displayTitle?: boolean,
   style?: Object,
   newOnTop?: boolean,
-  deleteComment: (id: ID, commentTarget: string) => Promise<*>
+  deleteComment: (id: ID, contentTarget: string) => Promise<*>
 };
 
 const Title = ({ displayTitle }: { displayTitle: boolean }) =>
@@ -29,7 +29,7 @@ const CommentView = (props: Props) => {
   const {
     comments,
     formDisabled = false,
-    commentTarget,
+    contentTarget,
     user,
     loggedIn,
     style,
@@ -37,7 +37,7 @@ const CommentView = (props: Props) => {
     newOnTop = false,
     deleteComment
   } = props;
-  const commentFormProps = { commentTarget, user, loggedIn };
+  const commentFormProps = { contentTarget, user, loggedIn };
 
   const tree = generateTreeStructure(comments);
 
@@ -56,7 +56,7 @@ const CommentView = (props: Props) => {
               commentFormProps={commentFormProps}
               deleteComment={deleteComment}
               user={user}
-              commentTarget={commentTarget}
+              contentTarget={contentTarget}
             />
           )}
         </LoadingIndicator>
@@ -64,7 +64,7 @@ const CommentView = (props: Props) => {
         {!formDisabled && (
           <div>
             <CommentForm
-              form={`comment.${commentFormProps.commentTarget}`}
+              form={`comment.${commentFormProps.contentTarget}`}
               {...commentFormProps}
             />
           </div>

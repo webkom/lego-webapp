@@ -1,0 +1,27 @@
+@import 'app/styles/variables.css';
+
+.reactionPickerFooter {
+  height: 40px;
+  padding: 5px;
+  border-top: 1px solid rgba(0, 0, 0, 0.15);
+  display: flex;
+  justify-content: space-between;
+}
+
+.reactionPickerSearchNormal {
+  padding: 2px;
+  display: none;
+
+  @media (--mobile-device) {
+    display: block;
+  }
+}
+
+.reactionPickerSearchAutoComplete {
+  padding: 2px;
+  display: display;
+
+  @media (--mobile-device) {
+    display: none;
+  }
+}

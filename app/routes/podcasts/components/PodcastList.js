@@ -1,10 +1,11 @@
 // @flow
 
 import React, { Component } from 'react';
+import Podcast from './Podcast.js';
 import { Content } from 'app/components/Content';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
+import Icon from 'app/components/Icon';
 import styles from './PodcastList.css';
-import awSnap from 'app/assets/sentry-aw-snap.svg';
 
 type Props = {
   podcasts: Array<Object>,
@@ -25,7 +26,15 @@ class PodcastList extends Component<Props, State> {
   };
 
   render() {
-    const { actionGrant } = this.props;
+    const { podcasts, actionGrant } = this.props;
+    const elements = podcasts
+      .map(podcast => {
+        return (
+          <Podcast key={podcast.id} {...podcast} actionGrant={actionGrant} />
+        );
+      })
+      .reverse()
+      .splice(0, this.state.items);
 
     return (
       <Content>
@@ -35,15 +44,12 @@ class PodcastList extends Component<Props, State> {
           )}
         </NavigationTab>
 
-        <div className={styles.container}>
-          <div className={styles.snap}>
-            <img src={awSnap} alt="snap" />
-            <div className={styles.message}>
-              <h3>Denne siden opplever litt problemer</h3>
-              <p>Webkom jobber saken</p>
-            </div>
+        {elements}
+        {podcasts.length > this.state.items && (
+          <div className={styles.showMore}>
+            <Icon onClick={this.showMore} size={40} name="arrow-dropdown" />
           </div>
-        </div>
+        )}
       </Content>
     );
   }

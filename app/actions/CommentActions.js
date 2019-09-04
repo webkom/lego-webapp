@@ -9,13 +9,13 @@ import { type ID } from 'app/models';
 
 export type CommentEntity = {
   text: string,
-  commentTarget: string,
+  contentTarget: string,
   parent: string
 };
 
 export function addComment({
   text,
-  commentTarget,
+  contentTarget,
   parent
 }: CommentEntity): Thunk<*> {
   return dispatch => {
@@ -28,11 +28,11 @@ export function addComment({
         method: 'POST',
         body: {
           text,
-          comment_target: commentTarget,
+          content_target: contentTarget,
           ...(parent ? { parent } : {})
         },
         meta: {
-          commentTarget,
+          contentTarget,
           errorMessage: 'Legg til kommentar feilet'
         },
         schema: commentSchema
@@ -40,7 +40,7 @@ export function addComment({
     )
       .then(() => {
         dispatch(stopSubmit('comment'));
-        let formName = `comment.${commentTarget}`;
+        let formName = `comment.${contentTarget}`;
         if (parent) {
           formName += `-${parent}`;
         }
@@ -54,14 +54,14 @@ export function addComment({
   };
 }
 
-export function deleteComment(commentId: ID, commentTarget: string) {
+export function deleteComment(commentId: ID, contentTarget: string) {
   return callAPI({
     types: Comment.DELETE,
     endpoint: `/comments/${commentId}/`,
     method: 'DELETE',
     meta: {
       id: commentId,
-      commentTarget,
+      contentTarget,
       errorMessage: 'Sletting av kommentar feilet',
       successMessage: 'Kommentar slettet'
     }

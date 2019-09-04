@@ -8,7 +8,7 @@ import createEntityReducer from 'app/utils/createEntityReducer';
 export type EmailListEntity = {
   id: number,
   title: string,
-  commentTarget: string,
+  contentTarget: string,
   description: string,
   author: number,
   cover: string,

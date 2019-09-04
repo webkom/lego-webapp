@@ -99,7 +99,7 @@ type Props = {
     feedback: string
   ) => Promise<*>,
   deleteEvent: (eventId: ID) => Promise<*>,
-  deleteComment: (id: ID, commentTarget: string) => Promise<*>
+  deleteComment: (id: ID, contentTarget: string) => Promise<*>
 };
 
 export default class EventDetail extends Component<Props> {
@@ -377,11 +377,11 @@ export default class EventDetail extends Component<Props> {
             </p>
           )}
 
-          {event.commentTarget && (
+          {event.contentTarget && (
             <CommentView
               style={{ marginTop: 20 }}
               user={currentUser}
-              commentTarget={event.commentTarget}
+              contentTarget={event.contentTarget}
               loggedIn={loggedIn}
               comments={comments}
               deleteComment={deleteComment}

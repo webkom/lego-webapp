@@ -304,6 +304,11 @@ export const SurveySubmission = {
   SHOW_ANSWER: generateStatuses('SurveySubmission.SHOW_ANSWER')
 };
 
+export const Emoji = {
+  FETCH: generateStatuses('Emoji.FETCH'),
+  FETCH_ALL: generateStatuses('Emoji.FETCH_ALL')
+};
+
 /**
  *
  */
@@ -393,4 +398,12 @@ export const Poll = {
   DELETE: generateStatuses('Poll.DELETE'),
   CREATE: generateStatuses('Poll.CREATE'),
   UPDATE: generateStatuses('Poll.UPDATE')
+};
+
+/**
+ *
+ */
+export const Reaction = {
+  ADD: generateStatuses('Reaction.ADD'),
+  DELETE: generateStatuses('Reaction.DELETE')
 };
