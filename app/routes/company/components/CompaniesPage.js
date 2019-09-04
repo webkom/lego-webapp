@@ -28,12 +28,13 @@ const CompanyItem = ({ company }: Company) => {
   return (
     <div className={styles.companyItem}>
       <div className={styles.companyItemContent}>
-        <Link to={`/companies/${company.id}`}>
-          <div className={styles.companyLogo}>
-            {<Image src={company.logo} />}
-          </div>
-          <div className={styles.companyItemTitle} />
-        </Link>
+        <div className={styles.companyLogoContainer}>
+          <Link to={`/companies/${company.id}`}>
+            <div className={styles.companyLogo}>
+              {<Image src={company.logo} />}
+            </div>
+          </Link>
+        </div>
         <Flex className={styles.companyInfo}>
           <Flex column>
             <Icon name="md-briefcase" prefix="ion-" size={20} />
