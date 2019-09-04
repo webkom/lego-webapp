@@ -107,6 +107,7 @@ const searchEmojis = (emojis, searchString) => {
       undefined
     ) {
       matchingEmojis.push(emoji);
+      return true;
     } else {
       return true;
     }
@@ -121,7 +122,7 @@ const searchEmojis = (emojis, searchString) => {
    *   - ":costa_rica:" (match = ":<c>ost<a>_<r>ica")
    *   - ":christmas_tree:" (match = ":<c>hristm<a>s_t<r>ee")
    */
-  var results = fuzzy.filter(searchString, currentEmojis, {
+  const results = fuzzy.filter(searchString, currentEmojis, {
     pre: '<',
     post: '>',
     extract: emoji => {
@@ -129,11 +130,7 @@ const searchEmojis = (emojis, searchString) => {
     }
   });
 
-  currentEmojis = results.forEach(result => {
-    matchingEmojis.push(result.original);
-  });
-
-  return matchingEmojis;
+  return [...matchingEmojis, ...results.map(result => result.original)];
 };
 
 const ReactionPicker = ({
