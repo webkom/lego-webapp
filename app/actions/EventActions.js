@@ -264,13 +264,13 @@ export function adminRegister(
   });
 }
 
-export function payment(eventId: number, token: string) {
+export function payment(eventId: number, paymentMethod: Object) {
   return callAPI({
     types: Event.PAYMENT_QUEUE,
     endpoint: `/events/${eventId}/payment/`,
     method: 'POST',
     body: {
-      token
+      paymentMethodId: paymentMethod.id
     },
     meta: {
       errorMessage: 'Betaling feilet'

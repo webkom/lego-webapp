@@ -95,7 +95,7 @@ type Props = {
     registrationId: ID,
     userId: ID
   }) => Promise<*>,
-  payment: (eventId: ID, token: string) => Promise<*>,
+  payment: (eventId: ID, paymentMethod: Object) => Promise<*>,
   updateFeedback: (
     eventId: ID,
     registrationId: ID,
@@ -139,8 +139,9 @@ export default class EventDetail extends Component<Props> {
     }
   };
 
-  handleToken = (token: Object) => {
-    this.props.payment(this.props.event.id, token.id);
+  handlePaymentMethod = (paymentMethod: Object) => {
+    response = this.props.payment(this.props.event.id, paymentMethod);
+    console.log(response);
   };
 
   render() {
@@ -354,7 +355,7 @@ export default class EventDetail extends Component<Props> {
                         event={event}
                         registration={currentRegistration}
                         currentUser={currentUser}
-                        onToken={this.handleToken}
+                        onPaymentMethod={this.handlePaymentMethod}
                         onSubmit={this.handleRegistration}
                       />
                     </div>
