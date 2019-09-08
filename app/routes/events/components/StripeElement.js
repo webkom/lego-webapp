@@ -10,18 +10,13 @@ import {
   CardNumberElement
 } from 'react-stripe-elements';
 import config from 'app/config';
-import StripeCheckout from 'react-stripe-checkout';
-import Button from 'app/components/Button';
-import styles from './StripeElement.css';
 import stripeStyles from './Stripe.css';
-import logoImage from 'app/assets/kule.png';
 import type { EventRegistrationChargeStatus, User, Event } from 'app/models';
-
 
 type Props = {
   event: Event,
   currentUser: User,
-  onToken: (token: string) => Promise<*>,
+  onPaymentMethod: (paymentMethod: Object) => Promise<*>,
   chargeStatus: EventRegistrationChargeStatus
 };
 
@@ -50,13 +45,20 @@ const createOptions = (fontSize, padding) => {
     }
   };
 };
-class _SplitForm extends React.Component {
+class _SplitForm extends React.Component<FormProps> {
   handleSubmit = ev => {
     ev.preventDefault();
     if (this.props.stripe) {
       this.props.stripe
-        .createToken()
+        .createPaymentMethod('card', {
+          billing_details: { name: 'Ola Nordmann' }
+        })
         .then(payload => console.log('[token]', payload));
+      //.then(paymentMethod => this.onPaymentMethod(paymentMethod))
+      // This may actually be done the other way, that is, call server, then
+      // call stripe.handleCardPayment(secret, elements) (recommended by stripe)
+      // https://stripe.com/docs/payments/payment-intents/migration/automatic-confirmation#elements
+      // well need to use webhooks in this case, in order to confirm the payment
     } else {
       console.log("Stripe.js hasn't loaded yet.");
     }
@@ -64,28 +66,29 @@ class _SplitForm extends React.Component {
   render() {
     return (
       <form style={{ width: '100%' }} onSubmit={this.handleSubmit}>
-        <label>
+        <label className={stripeStyles.StripeLabel}>
           Kortnummer
           <CardNumberElement
             className={stripeStyles.StripeElement}
             {...createOptions(this.props.fontSize)}
           />
         </label>
-        <label>
+        <label className={stripeStyles.StripeLabel}>
           Utløpsdato
           <CardExpiryElement
             className={stripeStyles.StripeElement}
             {...createOptions(this.props.fontSize)}
           />
         </label>
-        <label>
+        <label className={stripeStyles.StripeLabel}>
           CVC
           <CardCVCElement
             className={stripeStyles.StripeElement}
+            onReady={() => this.setState({})}
             {...createOptions(this.props.fontSize)}
           />
         </label>
-        <button>Betal</button>
+        <button className={stripeStyles.StripeButton}>Betal</button>
       </form>
     );
   }
@@ -95,8 +98,7 @@ class _PaymentRequestForm extends React.Component<FormProps, State> {
   constructor(props) {
     super(props);
 
-    const { event, onToken } = props;
-    console.log(props.stripe);
+    const { event, onPaymentMethod } = props;
 
     const paymentRequest = props.stripe.paymentRequest({
       currency: 'nok',
@@ -110,8 +112,8 @@ class _PaymentRequestForm extends React.Component<FormProps, State> {
       country: 'NO'
     });
 
-    paymentRequest.on('token', async ({ complete, token, ...data }) => {
-      await onToken(token);
+    paymentRequest.on('paymentmethod', async ({ paymentMethod, complete }) => {
+      await onPaymentMethod(paymentMethod);
       complete('success');
     });
 
@@ -127,7 +129,7 @@ class _PaymentRequestForm extends React.Component<FormProps, State> {
   }
 
   render() {
-    const { chargeStatus, event, onToken, currentUser } = this.props;
+    const { chargeStatus } = this.props;
     return (
       <div style={{ flex: 1 }}>
         {this.state.canMakePayment && (
@@ -140,23 +142,6 @@ class _PaymentRequestForm extends React.Component<FormProps, State> {
               }
             }}
           />
-        )}
-
-        {this.state.canMakePayment === false && (
-          <StripeCheckout
-            name="Abakus"
-            description={event.title}
-            image={logoImage}
-            currency="NOK"
-            allowRememberMe
-            locale="no"
-            token={onToken}
-            stripeKey={config.stripeKey}
-            amount={event.price}
-            email={currentUser.email}
-          >
-            <Button style={{ width: 130 }}>Betal nå</Button>
-          </StripeCheckout>
         )}
       </div>
     );
