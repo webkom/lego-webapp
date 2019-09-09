@@ -86,24 +86,25 @@ export class AdminSideBar extends React.Component<Props, State> {
                 </CopyToClipboard>
               </li>
             )}
-            {actionGrant &&
-              actionGrant.includes('csv') &&
-              exportSurvey &&
-              (generatedCSV ? (
-                <a href={generatedCSV.url} download={generatedCSV.filename}>
-                  Last ned
-                </a>
-              ) : (
-                <Button
-                  onClick={async () =>
-                    this.setState({
-                      generatedCSV: await exportSurvey(surveyId)
-                    })
-                  }
-                >
-                  Eksporter til csv
-                </Button>
-              ))}
+            {actionGrant && actionGrant.includes('csv') && exportSurvey && (
+              <div style={{ marginTop: '5px' }}>
+                {generatedCSV ? (
+                  <a href={generatedCSV.url} download={generatedCSV.filename}>
+                    Last ned
+                  </a>
+                ) : (
+                  <Button
+                    onClick={async () =>
+                      this.setState({
+                        generatedCSV: await exportSurvey(surveyId)
+                      })
+                    }
+                  >
+                    Eksporter til CSV
+                  </Button>
+                )}
+              </div>
+            )}
           </ul>
         </ContentSidebar>
       )
