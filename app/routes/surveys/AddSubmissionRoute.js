@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
 import { addSubmission } from '../../actions/SurveySubmissionActions';
-import { fetch } from 'app/actions/SurveyActions';
+import { fetchSurvey } from 'app/actions/SurveyActions';
 import { fetchUserSubmission } from 'app/actions/SurveySubmissionActions';
 import SubmissionContainer from './components/SubmissionEditor/SubmissionContainer';
 import { selectSurveyById } from 'app/reducers/surveys';
@@ -15,7 +15,7 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 
 const loadData = ({ params: { surveyId }, currentUser }, dispatch) =>
   Promise.all([
-    dispatch(fetch(surveyId)),
+    dispatch(fetchSurvey(surveyId)),
     currentUser.id && dispatch(fetchUserSubmission(surveyId, currentUser.id))
   ]);
 

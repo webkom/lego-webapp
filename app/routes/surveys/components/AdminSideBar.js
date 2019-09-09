@@ -15,16 +15,19 @@ type Props = {
   actionGrant: ActionGrant,
   token?: string,
   shareSurvey: number => Promise<*>,
-  hideSurvey: number => Promise<*>
+  hideSurvey: number => Promise<*>,
+  exportSurvey?: number => Promise<*>
 };
 
 type State = {
-  copied: boolean
+  copied: boolean,
+  generatedCSV: ?{ url: string, filename: string }
 };
 
 export class AdminSideBar extends React.Component<Props, State> {
   state = {
-    copied: false
+    copied: false,
+    generatedCSV: undefined
   };
 
   render() {
@@ -33,8 +36,11 @@ export class AdminSideBar extends React.Component<Props, State> {
       actionGrant = [],
       token,
       shareSurvey,
-      hideSurvey
+      hideSurvey,
+      exportSurvey
     } = this.props;
+
+    const { generatedCSV } = this.state;
 
     const canEdit = actionGrant.includes('edit');
 
@@ -61,10 +67,9 @@ export class AdminSideBar extends React.Component<Props, State> {
                   }
                   value={!!token}
                 />
-                Del spørreundersøkelsen{' '}
+                Del spørreundersøkelsen
               </div>
             )}
-
             {token && (
               <li>
                 <CopyToClipboard
@@ -80,6 +85,25 @@ export class AdminSideBar extends React.Component<Props, State> {
                   </Button>
                 </CopyToClipboard>
               </li>
+            )}
+            {actionGrant && actionGrant.includes('csv') && exportSurvey && (
+              <div style={{ marginTop: '5px' }}>
+                {generatedCSV ? (
+                  <a href={generatedCSV.url} download={generatedCSV.filename}>
+                    Last ned
+                  </a>
+                ) : (
+                  <Button
+                    onClick={async () =>
+                      this.setState({
+                        generatedCSV: await exportSurvey(surveyId)
+                      })
+                    }
+                  >
+                    Eksporter til CSV
+                  </Button>
+                )}
+              </div>
             )}
           </ul>
         </ContentSidebar>

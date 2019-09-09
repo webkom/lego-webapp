@@ -1,6 +1,10 @@
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
-import { fetch, shareSurvey, hideSurvey } from 'app/actions/SurveyActions';
+import {
+  fetchSurvey,
+  shareSurvey,
+  hideSurvey
+} from 'app/actions/SurveyActions';
 import SurveyDetail from './components/SurveyDetail';
 import { compose } from 'redux';
 import { selectSurveyById } from 'app/reducers/surveys';
@@ -10,7 +14,7 @@ import loadingIndicator from 'app/utils/loadingIndicator';
 import { push } from 'react-router-redux';
 
 const loadData = ({ params: { surveyId } }, dispatch) =>
-  dispatch(fetch(surveyId));
+  dispatch(fetchSurvey(surveyId));
 
 const mapStateToProps = (state, props) => {
   const surveyId = Number(props.params.surveyId);

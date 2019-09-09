@@ -18,11 +18,19 @@ type Props = {
   actionGrant: ActionGrant,
   isSummary: boolean,
   shareSurvey: number => Promise<*>,
-  hideSurvey: number => Promise<*>
+  hideSurvey: number => Promise<*>,
+  exportSurvey: number => Promise<*>
 };
 
 const SubmissionPage = (props: Props) => {
-  const { survey, actionGrant, isSummary, hideSurvey, shareSurvey } = props;
+  const {
+    survey,
+    actionGrant,
+    isSummary,
+    hideSurvey,
+    shareSurvey,
+    exportSurvey
+  } = props;
 
   return (
     <Content className={styles.surveyDetail} banner={survey.event.cover}>
@@ -55,6 +63,7 @@ const SubmissionPage = (props: Props) => {
           token={survey.token}
           shareSurvey={shareSurvey}
           hideSurvey={hideSurvey}
+          exportSurvey={exportSurvey}
         />
       </ContentSection>
     </Content>

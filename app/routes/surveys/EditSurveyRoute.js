@@ -1,7 +1,11 @@
 import { connect } from 'react-redux';
 import prepare from 'app/utils/prepare';
 import { compose } from 'redux';
-import { editSurvey, fetch, fetchTemplate } from '../../actions/SurveyActions';
+import {
+  editSurvey,
+  fetchSurvey,
+  fetchTemplate
+} from 'app/actions/SurveyActions';
 import SurveyEditor from './components/SurveyEditor/SurveyEditor';
 import { LoginPage } from 'app/components/LoginForm';
 import replaceUnlessLoggedIn from 'app/utils/replaceUnlessLoggedIn';
@@ -16,10 +20,10 @@ const loadData = (props, dispatch) => {
   if (templateType) {
     return Promise.all([
       dispatch(fetchTemplate(templateType)),
-      dispatch(fetch(surveyId))
+      dispatch(fetchSurvey(surveyId))
     ]);
   }
-  return dispatch(fetch(surveyId));
+  return dispatch(fetchSurvey(surveyId));
 };
 
 const mapStateToProps = (state, props) => {
