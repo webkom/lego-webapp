@@ -2076,10 +2076,10 @@
     "@webassemblyjs/wast-parser" "1.9.0"
     "@xtuc/long" "4.2.2"
 
-"@webkom/lego-editor@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@webkom/lego-editor/-/lego-editor-1.0.0.tgz#22a755b984812b61e0d4979256500c5bc56744a1"
-  integrity sha512-F7AIm+E3Yhs9/DXWzFFb7H0FyJUFPKxkfG+VtE4Zr/GnMMFQzXgnpbgIe3s/QzlP6tRBqpuzqahwarhyNIwghA==
+"@webkom/lego-editor@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@webkom/lego-editor/-/lego-editor-1.0.1.tgz#c486f61d7c4f1f44a6870e5aeba12c5d946e0908"
+  integrity sha512-z18DZ6CyfmjPyGR2vbnPOmlAEK1UWT0FLKtnvennmzJM+g9Hi6EjNcZo4aztTUt3/z7xz1TstxQS5PmYchF/sQ==
   dependencies:
     classnames "^2.2.6"
     is-url "^1.2.4"
@@ -4714,7 +4714,7 @@ draft-convert@^2.1.8:
     immutable "~3.7.4"
     invariant "^2.2.1"
 
-draft-js@^0.10.3, draft-js@^0.10.5:
+draft-js@^0.10.5:
   version "0.10.5"
   resolved "https://registry.yarnpkg.com/draft-js/-/draft-js-0.10.5.tgz#bfa9beb018fe0533dbb08d6675c371a6b08fa742"
   integrity sha512-LE6jSCV9nkPhfVX2ggcRLA4FKs6zWq9ceuO/88BpXdNCS7mjRTgs0NsV6piUCJX9YxMsB9An33wnkMmU2sD2Zg==
@@ -8565,16 +8565,6 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
-medium-draft@^0.6.0-beta1:
-  version "0.6.0-beta1"
-  resolved "https://registry.yarnpkg.com/medium-draft/-/medium-draft-0.6.0-beta1.tgz#de1a786a73bd0d6c2cbaae09f4451108828a0f69"
-  integrity sha512-qb0dvFfrI7r64FXLaY4LwAx0VFij6j5gADUrUncsNAN/JrCcgvh7+mWdkMG7NKAq7CNfzthFfGmKJjOuGIU+Ag==
-  dependencies:
-    draft-js "^0.10.3"
-    immutable "~3.7.4"
-    prop-types "^15.5.8"
-    react-transition-group "^1.1.2"
-
 mem@^4.0.0:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/mem/-/mem-4.3.0.tgz#461af497bc4ae09608cdb2e60eefb69bff744178"
@@ -11296,6 +11286,7 @@ react-textarea-autosize@^5.1.0:
   dependencies:
     prop-types "^15.6.0"
 
+<<<<<<< HEAD
 react-transition-group@^1.1.2:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-1.2.1.tgz#e11f72b257f921b213229a774df46612346c7ca6"
@@ -11308,6 +11299,9 @@ react-transition-group@^1.1.2:
     warning "^3.0.0"
 
 react-transition-group@^2.2.0, react-transition-group@^2.5.0:
+=======
+react-transition-group@^2.2.0:
+>>>>>>> remove old editor
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.9.0.tgz#df9cdb025796211151a436c69a8f3b97b5b07c8d"
   integrity sha512-+HzNTCHpeQyl4MJ/bdE0u6XRMe9+XG/+aL4mCxVN4DnPBQ0/5bfHWPDuOZUzYdMj94daZaZdCCc1Dzt9R/xSSg==

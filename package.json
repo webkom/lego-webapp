@@ -33,11 +33,11 @@
     "url": "github.com/webkom/lego-webapp"
   },
   "dependencies": {
-    "@webkom/lego-editor": "^1.0.0",
+    "@webkom/lego-editor": "1.0.1",
+    "@webkom/react-prepare": "0.7.0",
     "@sentry/browser": "^5.15.4",
     "@sentry/integrations": "^5.15.4",
     "@sentry/node": "^5.15.4",
-    "@webkom/react-prepare": "0.7.0",
     "animate.css": "^3.7.0",
     "bunyan": "^1.8.12",
     "bunyan-pretty": "^0.0.1",
@@ -57,7 +57,6 @@
     "jsdom": "^15.1.1",
     "jwt-decode": "2.2.0",
     "lodash-es": "^4.17.15",
-    "medium-draft": "^0.6.0-beta1",
     "minireset.css": "^0.0.6",
     "moment-timezone": "^0.5.27",
     "morgan": "^1.9.1",

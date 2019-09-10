@@ -1,7 +1,11 @@
 //@flow
 
 import React from 'react';
-import Editor from 'app/components/Editor';
+import Editor from '@webkom/lego-editor';
+import '@webkom/lego-editor/dist/Editor.css';
+import '@webkom/lego-editor/dist/components/Toolbar.css';
+import '@webkom/lego-editor/dist/components/ImageUpload.css';
+import 'react-image-crop/dist/ReactCrop.css';
 
 type Props = {
   /** The content to be displayed - the text */
