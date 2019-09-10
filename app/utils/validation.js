@@ -1,4 +1,4 @@
-const EMAIL_REGEX = /.+@.+\..+/;
+export const EMAIL_REGEX = /.+@.+\..+/;
 const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,72}$/;
 const YOUTUBE_URL_REGEX = /(?:https?:\/\/)?(?:www[.])?(?:youtube[.]com\/watch[?]v=|youtu[.]be\/)([^&]{11})/;
 

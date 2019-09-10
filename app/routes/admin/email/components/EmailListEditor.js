@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Button from 'app/components/Button';
-import { createValidator, required } from 'app/utils/validation';
+import { createValidator, required, EMAIL_REGEX} from 'app/utils/validation';
 import { roleOptions } from 'app/utils/constants';
 import {
   TextInput,
@@ -79,7 +79,9 @@ const EmailListEditor = ({ submitting, handleSubmit, emailListId }: Props) => (
         label="E-poster for medlemmer utenfor abakus"
         name="additionalEmails"
         placeholder="Skriv inn e-post her"
-        component={TextInput.Field}
+        component={SelectInput.Field}
+        multi
+        tags
       />
     </Tooltip>
     <Button submit disabled={submitting}>
@@ -100,7 +102,7 @@ export default legoForm({
       groupRoles: (data.groupRoles || []).map(groupRole => groupRole.value),
       groups: (data.groups || []).map(group => group.value),
       users: (data.users || []).map(user => user.value),
-      additionalEmails: data.additionalEmails.split(',')
+        additionalEmails: (data.additionalEmails || []).map(email => email.value)
     }).then(({ payload }) => {
       if (!emailListId) {
         push(`/admin/email/lists/${payload.result}`);
@@ -109,6 +111,10 @@ export default legoForm({
 
   validate: createValidator({
     email: [required()],
-    name: [required()]
+    name: [required()],
+    additionalEmails: [
+        //check if all emails entered are valid
+        value => [value.every(email => EMAIL_REGEX.test(email.value)), "Ugyldig e-post"]
+    ]
   })
 })(EmailListEditor);
