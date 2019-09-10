@@ -15,7 +15,6 @@ type Props = {
 
 export default class EmailLists extends Component<Props> {
   render() {
-    console.log(this.props.emailLists);
     const columns = [
       {
         title: 'Navn',

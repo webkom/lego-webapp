@@ -33,6 +33,7 @@ const mapStateToProps = (state, { routeParams }) => {
         label: user.fullName,
         value: user.id
       })),
+      // $FlowFixMe
       additionalEmails: (emailList.additionalEmails || []).map(
         additionalEmail => ({
           label: additionalEmail,
