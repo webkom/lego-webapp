@@ -61,6 +61,7 @@ export default class CompactEvents extends Component<Props> {
     const presentations = mapEvents([
       'company_presentation',
       'lunch_presentation',
+      'alternative_presentation',
       'course'
     ]);
     const leftEvents =
