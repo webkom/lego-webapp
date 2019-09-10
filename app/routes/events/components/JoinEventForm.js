@@ -34,7 +34,7 @@ export type Props = {
   registration: ?Object,
   currentUser: Object,
   onSubmit: Object => void,
-  onPaymentMethod: () => Promise<*>,
+  createPaymentIntent: () => Promise<*>,
 
   handleSubmit: /*TODO: SubmitHandler<>*/ any => void,
 
@@ -147,7 +147,7 @@ class JoinEventForm extends Component<Props> {
       registration,
       currentUser,
       handleSubmit,
-      onPaymentMethod,
+      createPaymentIntent,
       invalid,
       pristine,
       submitting,
@@ -190,7 +190,7 @@ class JoinEventForm extends Component<Props> {
         <>
           {!formOpen && registration && showStripe && (
             <PaymentRequestForm
-              paymentMethod={onPaymentMethod}
+              createPaymentIntent={createPaymentIntent}
               event={event}
               currentUser={currentUser}
               chargeStatus={registration.chargeStatus}
@@ -338,7 +338,7 @@ class JoinEventForm extends Component<Props> {
                       <div className={styles.joinHeader}>Betaling</div>
                       Du skal betale 254,-
                       <PaymentRequestForm
-                        onPaymentMethod={onPaymentMethod}
+                        createPaymentIntent={createPaymentIntent}
                         event={event}
                         currentUser={currentUser}
                         chargeStatus={registration.chargeStatus}

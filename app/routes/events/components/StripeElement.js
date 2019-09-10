@@ -16,11 +16,18 @@ import type { EventRegistrationChargeStatus, User, Event } from 'app/models';
 type Props = {
   event: Event,
   currentUser: User,
-  onPaymentMethod: (paymentMethod: Object) => Promise<*>,
+  createPaymentIntent: () => Promise<*>,
   chargeStatus: EventRegistrationChargeStatus
 };
 
-type FormProps = Props & { stripe: { paymentRequest: Object => Object } };
+type FormProps = Props & {
+  stripe: {
+    paymentRequest: Object => Object,
+    handleCardPayment: string => Promise<*>,
+    confirmPaymentIntent: (string, Object) => Promise<*>
+  },
+  fontSize: number
+};
 
 type State = {
   paymentRequest: Object,
@@ -49,18 +56,11 @@ class _SplitForm extends React.Component<FormProps> {
   handleSubmit = ev => {
     ev.preventDefault();
     if (this.props.stripe) {
-      this.props.stripe
-        .createPaymentMethod('card', {
-          billing_details: { name: 'Ola Nordmann' }
-        })
-        .then(payload => console.log('[token]', payload));
-      //.then(paymentMethod => this.onPaymentMethod(paymentMethod))
-      // This may actually be done the other way, that is, call server, then
-      // call stripe.handleCardPayment(secret, elements) (recommended by stripe)
-      // https://stripe.com/docs/payments/payment-intents/migration/automatic-confirmation#elements
-      // well need to use webhooks in this case, in order to confirm the payment
-    } else {
-      console.log("Stripe.js hasn't loaded yet.");
+      this.props
+        .createPaymentIntent()
+        .then(({ payload }) =>
+          this.props.stripe.handleCardPayment(payload.clientSecret)
+        );
     }
   };
   render() {
@@ -98,7 +98,7 @@ class _PaymentRequestForm extends React.Component<FormProps, State> {
   constructor(props) {
     super(props);
 
-    const { event, onPaymentMethod } = props;
+    const { event, createPaymentIntent } = props;
 
     const paymentRequest = props.stripe.paymentRequest({
       currency: 'nok',
@@ -113,12 +113,25 @@ class _PaymentRequestForm extends React.Component<FormProps, State> {
     });
 
     paymentRequest.on('paymentmethod', async ({ paymentMethod, complete }) => {
-      await onPaymentMethod(paymentMethod);
-      complete('success');
+      const { stripe } = this.props;
+      const { payload: clientSecret } = await createPaymentIntent();
+      const { error: confirmError } = await stripe.confirmPaymentIntent(
+        clientSecret,
+        {
+          payment_method: paymentMethod.id
+        }
+      );
+      if (confirmError) {
+        complete('fail');
+      } else {
+        const { error, paymentIntent } = await stripe.handleCardPayment(
+          clientSecret
+        );
+        complete('success');
+      }
     });
 
     paymentRequest.canMakePayment().then(result => {
-      console.log('Res:', result);
       this.setState({ canMakePayment: !!result });
     });
 
@@ -153,14 +166,16 @@ const SplitForm = injectStripe(_SplitForm);
 // TODO Move this to a "global" thing
 const WithProvider = (props: Props) => (
   <StripeProvider apiKey={config.stripeKey}>
-    <Elements locale="no">
-      <>
-        <div style={{ flexDirection: 'column', display: 'flex' }}>
+    <>
+      <div style={{ flexDirection: 'column', display: 'flex' }}>
+        <Elements locale="no">
           <PaymentRequestForm {...props} />
-        </div>
+        </Elements>
+      </div>
+      <Elements locale="no">
         <SplitForm {...props} fontSize={'18px'} />
-      </>
-    </Elements>
+      </Elements>
+    </>
   </StripeProvider>
 );
 export default WithProvider;
