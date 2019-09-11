@@ -41,6 +41,7 @@
   flex-direction: row;
   align-items: center;
   padding-right: 15px;
+  word-break: break-word;
 }
 
 .unRead {
