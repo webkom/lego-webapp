@@ -2,7 +2,7 @@ import Poll from '../.';
 
 const props = {
   poll: {
-    option: undefined
+    options: [{ votes: 1 }]
   }
 };
 

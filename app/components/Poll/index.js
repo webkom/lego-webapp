@@ -20,7 +20,8 @@ type Props = {
 
 type State = {
   truncateOptions: boolean,
-  optionsToShow: Array<OptionEntity>,
+  allOptions: Array<OptionEntityRatio>,
+  optionsToShow: Array<OptionEntityRatio>,
   expanded: boolean
 };
 
@@ -31,16 +32,18 @@ type OptionEntityRatio = OptionEntity & {
 class Poll extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
-    const { options } = props.poll;
+    const options = this.optionsWithPerfectRatios(props.poll.options);
     if (props.truncate && options.length > props.truncate) {
       this.state = {
         truncateOptions: true,
+        allOptions: options,
         optionsToShow: options.slice(0, props.truncate),
         expanded: false
       };
     } else {
       this.state = {
         truncateOptions: false,
+        allOptions: options,
         optionsToShow: options,
         expanded: true
       };
@@ -49,32 +52,33 @@ class Poll extends React.Component<Props, State> {
 
   componentDidUpdate(prevProps: Props) {
     if (prevProps.poll.options !== this.props.poll.options) {
+      const options = this.optionsWithPerfectRatios(this.props.poll.options);
       this.props.truncate && !this.state.expanded
         ? this.setState({
-            optionsToShow: this.props.poll.options.slice(0, this.props.truncate)
+            allOptions: options,
+            optionsToShow: options.slice(0, this.props.truncate)
           })
-        : this.setState({ optionsToShow: this.props.poll.options });
+        : this.setState({
+            allOptions: options,
+            optionsToShow: options
+          });
     }
   }
 
   toggleTruncate = () => {
-    const { truncate, poll } = this.props;
-    const { expanded } = this.state;
-    const { options } = poll;
+    const { truncate } = this.props;
+    const { expanded, allOptions } = this.state;
     expanded
       ? this.setState({
-          optionsToShow: options.slice(0, truncate),
+          optionsToShow: allOptions.slice(0, truncate),
           expanded: false
         })
-      : this.setState({ optionsToShow: options, expanded: true });
+      : this.setState({ optionsToShow: allOptions, expanded: true });
   };
 
-  optionsWithPerfectRatios = (
-    options: Array<OptionEntity>,
-    optionsToShow: Array<OptionEntity>
-  ) => {
+  optionsWithPerfectRatios = (options: Array<OptionEntity>) => {
     const totalVotes = options.reduce((a, option) => a + option.votes, 0);
-    const ratios = optionsToShow.map(option => {
+    const ratios = options.map(option => {
       return { ...option, ratio: (option.votes / totalVotes) * 100 };
     });
     return this.perfectRatios(ratios);
@@ -125,39 +129,35 @@ class Poll extends React.Component<Props, State> {
           <Flex column className={styles.optionWrapper}>
             <table className={styles.pollTable}>
               <tbody>
-                {this.optionsWithPerfectRatios(options, optionsToShow).map(
-                  ({ id, name, votes, ratio }) => {
-                    return (
-                      <tr key={id}>
-                        <td className={styles.textColumn}>{name}</td>
-                        <td className={styles.graphColumn}>
-                          {votes === 0 ? (
-                            <span className={styles.noVotes}>
-                              Ingen stemmer
-                            </span>
-                          ) : (
-                            <div className={styles.fullGraph}>
-                              <div
-                                style={{
-                                  width: `${ratio}%`
-                                }}
-                              >
-                                <div className={styles.pollGraph}>
-                                  {ratio >= 18 && <span>{`${ratio}%`}</span>}
-                                </div>
+                {optionsToShow.map(({ id, name, votes, ratio }) => {
+                  return (
+                    <tr key={id}>
+                      <td className={styles.textColumn}>{name}</td>
+                      <td className={styles.graphColumn}>
+                        {votes === 0 ? (
+                          <span className={styles.noVotes}>Ingen stemmer</span>
+                        ) : (
+                          <div className={styles.fullGraph}>
+                            <div
+                              style={{
+                                width: `${ratio}%`
+                              }}
+                            >
+                              <div className={styles.pollGraph}>
+                                {ratio >= 18 && <span>{`${ratio}%`}</span>}
                               </div>
-                              {ratio < 18 && (
-                                <span style={{ marginLeft: '2px' }}>
-                                  {`${ratio}%`}
-                                </span>
-                              )}
                             </div>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  }
-                )}
+                            {ratio < 18 && (
+                              <span style={{ marginLeft: '2px' }}>
+                                {`${ratio}%`}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </Flex>
