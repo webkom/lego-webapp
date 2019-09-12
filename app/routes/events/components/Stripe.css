@@ -1,10 +1,4 @@
-.Checkout {
-  margin: 0 auto;
-  max-width: 800px;
-  box-sizing: border-box;
-  padding: 0 5px;
-}
-
+@import 'app/styles/variables.css';
 .StripeLabel {
   color: #6b7c93;
   font-weight: 300;
@@ -61,4 +55,21 @@
     rgba(0, 0, 0, 0.0784314) 0 1px 3px;
   -webkit-transition: all 150ms ease;
   transition: all 150ms ease;
+}
+
+.error {
+  background: #c24538;
+  color: #fff;
+  padding: 5px 10px;
+  margin-top: 3px;
+  border-radius: 3px;
+}
+
+.success {
+  background: #52ce67;
+  color: #fff;
+  padding: 5px 10px;
+  margin-top: 3px;
+  border-radius: 3px;
+  transition: background 0.8s ease-in;
 }

@@ -29,8 +29,18 @@ type FormProps = Props & {
   fontSize: number
 };
 
+type FormState = {
+  error?: {
+    type: string,
+    code: string,
+    message: string,
+    doc_url: string
+  },
+  success?: boolean
+};
+
 type State = {
-  paymentRequest: Object,
+  paymentRequest?: Object,
   canMakePayment?: boolean
 };
 const createOptions = (fontSize, padding) => {
@@ -52,19 +62,24 @@ const createOptions = (fontSize, padding) => {
     }
   };
 };
-class _SplitForm extends React.Component<FormProps> {
-  handleSubmit = ev => {
+class _SplitForm extends React.Component<FormProps, FormState> {
+  state = {};
+  handleSubmit = async ev => {
     ev.preventDefault();
-    if (this.props.stripe) {
-      this.props
-        .createPaymentIntent()
-        .then(({ payload }) =>
-          this.props.stripe.handleCardPayment(payload.clientSecret)
-        );
+    const { stripe, createPaymentIntent } = this.props;
+    if (stripe) {
+      const { payload } = await createPaymentIntent();
+      const { error } = await stripe.handleCardPayment(payload.clientSecret);
+      if (error) {
+        this.setState({ error });
+      } else {
+        this.setState({ success: true });
+      }
     }
   };
   render() {
-    return (
+    const { success, error } = this.state;
+    return !success ? (
       <form style={{ width: '100%' }} onSubmit={this.handleSubmit}>
         <label className={stripeStyles.StripeLabel}>
           Kortnummer
@@ -89,16 +104,27 @@ class _SplitForm extends React.Component<FormProps> {
           />
         </label>
         <button className={stripeStyles.StripeButton}>Betal</button>
+        {error && <div className={stripeStyles.error}>{error.message}</div>}
       </form>
+    ) : (
+      <div className={stripeStyles.success}>
+        {success &&
+          `Din betaling på ${this.props.event.price / 100} kr ble godkjent.`}
+      </div>
     );
   }
 }
 
-class _PaymentRequestForm extends React.Component<FormProps, State> {
+class _PaymentRequestForm extends React.Component<
+  FormProps,
+  State & FormState
+> {
   constructor(props) {
     super(props);
 
-    const { event, createPaymentIntent } = props;
+    this.state = {};
+
+    const { event } = props;
 
     const paymentRequest = props.stripe.paymentRequest({
       currency: 'nok',
@@ -113,7 +139,7 @@ class _PaymentRequestForm extends React.Component<FormProps, State> {
     });
 
     paymentRequest.on('paymentmethod', async ({ paymentMethod, complete }) => {
-      const { stripe } = this.props;
+      const { stripe, createPaymentIntent } = this.props;
       const { payload: clientSecret } = await createPaymentIntent();
       const { error: confirmError } = await stripe.confirmPaymentIntent(
         clientSecret,
@@ -124,10 +150,13 @@ class _PaymentRequestForm extends React.Component<FormProps, State> {
       if (confirmError) {
         complete('fail');
       } else {
-        const { error, paymentIntent } = await stripe.handleCardPayment(
-          clientSecret
-        );
         complete('success');
+        const { error } = await stripe.handleCardPayment(clientSecret);
+        if (error) {
+          this.setState({ error });
+        } else {
+          this.setState({ success: true });
+        }
       }
     });
 
@@ -142,19 +171,33 @@ class _PaymentRequestForm extends React.Component<FormProps, State> {
   }
 
   render() {
-    const { chargeStatus } = this.props;
+    const { success, error } = this.state;
     return (
       <div style={{ flex: 1 }}>
         {this.state.canMakePayment && (
-          <PaymentRequestButtonElement
-            paymentRequest={this.state.paymentRequest}
-            className={stripeStyles.PaymentRequestButton}
-            style={{
-              paymentRequestButton: {
-                height: '41px'
-              }
-            }}
-          />
+          <>
+            !success ?
+            <>
+              <PaymentRequestButtonElement
+                paymentRequest={this.state.paymentRequest}
+                className={stripeStyles.PaymentRequestButton}
+                style={{
+                  paymentRequestButton: {
+                    height: '41px'
+                  }
+                }}
+              />
+              {error && (
+                <div className={stripeStyles.error}>{error.message}</div>
+              )}
+            </>{' '}
+            :
+            <div className={stripeStyles.success}>
+              {success &&
+                `Din betaling på ${this.props.event.price /
+                  100} kr ble godkjent.`}
+            </div>
+          </>
         )}
       </div>
     );
