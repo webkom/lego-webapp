@@ -38,7 +38,7 @@ class LatestReadme extends Component<Props, State> {
     return (
       <Flex column className={styles.latestReadme}>
         <button className={styles.heading} onClick={toggle}>
-          <Flex justifyContent="space-between">
+          <Flex justifyContent="space-between" alignItems="center">
             {readmeIfy('readme')}
             <Icon name={expanded ? 'close' : 'arrow-down'} />
           </Flex>

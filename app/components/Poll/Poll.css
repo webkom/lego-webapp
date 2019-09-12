@@ -36,7 +36,7 @@
 }
 
 .pollLight {
-  background: var(--lego-color-gray-light);
+  background: var(--lego-card-color);
 }
 
 .noVotes {
