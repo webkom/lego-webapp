@@ -1,4 +1,5 @@
 @import 'app/styles/variables.css';
+
 .StripeLabel {
   color: #6b7c93;
   font-weight: 300;
@@ -6,6 +7,7 @@
 }
 
 .StripeButton {
+  width: 100%;
   white-space: nowrap;
   border: 0;
   outline: 0;
@@ -35,6 +37,27 @@
   box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
 }
 
+.elementsFieldset {
+  margin: 1em 0;
+  padding: 1em;
+  border: 1px solid #6772e585;
+  border-radius: 8px;
+}
+
+.elementsLedgend {
+  text-align: center;
+  padding: 0 1em;
+  color: #6b7c93;
+  font-weight: 300;
+  letter-spacing: 0.025em;
+}
+
+.formSeparator {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+}
+
 .StripeElement {
   display: block;
   margin: 10px 0 20px;
@@ -61,7 +84,7 @@
   background: #c24538;
   color: #fff;
   padding: 5px 10px;
-  margin-top: 3px;
+  margin-bottom: 1em;
   border-radius: 3px;
 }
 

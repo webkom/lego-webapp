@@ -268,7 +268,7 @@ export function payment(eventId: number) {
   return callAPI({
     types: Event.PAYMENT_QUEUE,
     endpoint: `/events/${eventId}/payment/`,
-    method: 'GET',
+    method: 'POST',
     meta: {
       errorMessage: 'Betaling feilet'
     }
