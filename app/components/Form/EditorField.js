@@ -30,8 +30,10 @@ class NoSSRError {
 
 const mapDispatchToProps = dispatch => {
   return {
-    uploadFile: async file =>
-      dispatch(uploadFile({ file, isPublic: true })).then(await {})
+    uploadFile: async file => {
+      const response = await dispatch(uploadFile({ file, isPublic: true }));
+      return { fileKey: response.meta.fileKey };
+    }
   };
 };
 
@@ -52,7 +54,6 @@ const EditorFieldComponent = ({
   if (!__CLIENT__) {
     throw new NoSSRError('Cannot SSR editor');
   }
-  console.log(uploadFile);
   return (
     <div name={name}>
       {initialized && (
@@ -73,6 +74,7 @@ const EditorField = connect(
   mapDispatchToProps
 )(EditorFieldComponent);
 
+// $FlowFixMe
 EditorField.Field = connect(
   null,
   mapDispatchToProps
