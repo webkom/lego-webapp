@@ -150,7 +150,7 @@
     "style-loader": "^0.23.1",
     "stylelint": "^9.10.1",
     "stylelint-config-standard": "^16.0.0",
-    "timekeeper": "^1.0.0",
+    "timekeeper": "^2.2.0",
     "url-loader": "^1.1.2",
     "webpack": "^4.31.0",
     "webpack-bundle-analyzer": "^3.3.2",
