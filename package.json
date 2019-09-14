@@ -60,7 +60,7 @@
     "prop-types": "^15.7.2",
     "qs": "^6.5.1",
     "raven": "^2.3.0",
-    "raven-for-redux": "^1.2.0",
+    "raven-for-redux": "^1.4.0",
     "raven-js": "^3.21.0",
     "react": "^16.8.6",
     "react-collapse": "^4.0.3",
