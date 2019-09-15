@@ -7,6 +7,9 @@ import { generateTreeStructure } from '../../../utils';
 import { MemoryRouter } from 'react-router-dom';
 
 describe('<CommentTree />', () => {
+  beforeAll(() => {
+    window.getSelection = () => {};
+  });
   const tree = generateTreeStructure(comments);
 
   it('should render the top level comments at root level ', () => {
