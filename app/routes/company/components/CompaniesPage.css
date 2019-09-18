@@ -87,6 +87,9 @@
 
 .companyLogoContainer {
   height: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
 }
 
 .title {
@@ -99,7 +102,6 @@
 .companyLogo {
   align-items: center;
   margin: auto;
-  height: 100%;
   justify-content: center;
   display: flex;
   padding: 0 21px;
