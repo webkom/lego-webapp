@@ -182,18 +182,20 @@ export const selectCompanies = createSelector(
   (companyIds, companiesById, usersById, state) => {
     if (companyIds.length === 0) return [];
     const companySemesters = selectCompanySemesters(state);
-    return companyIds.map(companyId => {
-      const company = companiesById[companyId];
-      return {
-        ...company,
-        studentContact: usersById[company.studentContact]
-          ? usersById[company.studentContact]
-          : company.studentContact,
-        semesterStatuses:
-          company &&
-          selectSemesterStatuses(company.semesterStatuses, companySemesters)
-      };
-    });
+    return companyIds
+      .map(companyId => {
+        const company = companiesById[companyId];
+        return {
+          ...company,
+          studentContact: usersById[company.studentContact]
+            ? usersById[company.studentContact]
+            : company.studentContact,
+          semesterStatuses:
+            company &&
+            selectSemesterStatuses(company.semesterStatuses, companySemesters)
+        };
+      })
+      .sort((a, b) => (a.name < b.name ? -1 : 1));
   }
 );
 
