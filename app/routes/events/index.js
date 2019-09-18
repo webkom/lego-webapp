@@ -8,6 +8,8 @@ import DetailRoute from './EventDetailRoute';
 import EventListRoute from './EventListRoute';
 import { UserContext } from 'app/routes/app/AppRoute';
 import EventEditRoute from './EventEditRoute';
+import EventAdministrateRoute from './EventAdministrateRoute';
+import EventAttendeeRoute from './EventAttendeeRoute';
 
 const old = {
   path: '/events',
@@ -66,12 +68,12 @@ const eventRoute = ({ match }) => (
       <Switch>
         <RouteWrapper exact path={`${match.path}`} Component={EventListRoute} />
         <Route path={`${match.path}/calendar`} component={CalendarRoute} />
-        {/*<Route
+        <Route
           exact
           path={`${match.path}/calendar`}
           component={({ match }) => (
             <>
-            <Route path={`${match.path}/calendar`} component={CalendarRoute} />
+              <Route exact path={`${match.path}`} component={CalendarRoute} />
               <Route
                 path={`${match.path}/:year`}
                 component={({ match }) => (
@@ -83,7 +85,7 @@ const eventRoute = ({ match }) => (
               />
             </>
           )}
-        />*/}
+        />
         <Route path={`${match.path}/create`} component={CreateRoute} />
         <RouteWrapper
           exact
@@ -95,6 +97,22 @@ const eventRoute = ({ match }) => (
           path={`${match.path}/:eventId/edit`}
           passedProps={{ currentUser, loggedIn }}
           Component={EventEditRoute}
+        />
+        <RouteWrapper
+          path={`${match.path}/:eventId/administrate`}
+          Component={({ match }) => (
+            <>
+              <Route
+                exact
+                path={`${match.path}`}
+                component={EventAdministrateRoute}
+              />
+              <Route
+                path={`${match.path}/attendees`}
+                component={EventAttendeeRoute}
+              />
+            </>
+          )}
         />
       </Switch>
     )}
