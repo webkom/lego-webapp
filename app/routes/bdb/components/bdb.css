@@ -293,12 +293,11 @@ background-color. By making it this way I don't have to rewrite it 🤷 */
 }
 
 .description {
-  font-style: italic;
-  margin: 0 0 30px;
-  line-height: 20px;
-  border-left: 1px solid #666;
+  margin: 0 0 35px;
+  line-height: 24px;
+  border-left: 4px solid #999;
   padding-left: 20px;
-  max-width: 60%;
+  max-width: 90%;
 
   @media (--small-viewport) {
     max-width: 100%;

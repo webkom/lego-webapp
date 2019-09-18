@@ -206,7 +206,14 @@ export default class BdbDetail extends Component<Props, State> {
                   onConfirm={() => this.deleteCompanyContact(contact.id)}
                   closeOnConfirm
                 >
-                  <i className="fa fa-times" style={{ color: '#d13c32' }} />
+                  <i
+                    className="fa fa-times"
+                    style={{
+                      color: '#d13c32',
+                      position: 'relative',
+                      top: '5px'
+                    }}
+                  />
                 </ConfirmModalWithParent>
               </span>
             </div>
