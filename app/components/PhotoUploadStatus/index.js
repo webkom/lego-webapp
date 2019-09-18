@@ -12,6 +12,7 @@ import {
   type GalleryPictureEntity,
   initialUploadStatus
 } from 'app/reducers/galleryPictures';
+import { Image } from 'app/components/Image';
 
 type StateProps = {
   uploadStatus: UploadStatus,
@@ -85,7 +86,7 @@ const UploadStatusCard = ({
       )}
 
       {lastImage && (
-        <img
+        <Image
           alt="Last"
           style={{ width: 250, height: 100, objectFit: 'cover' }}
           src={lastImage.thumbnail}

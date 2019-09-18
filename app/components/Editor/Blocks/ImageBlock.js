@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import type { UploadArgs } from 'app/actions/FileActions';
 import { uploadFile } from 'app/actions/FileActions';
 import styles from './ImageBlock.css';
+import { Image } from 'app/components/Image';
 
 type Props = {
   block: BlockNodeRecord,
@@ -99,7 +100,7 @@ class ImageBlock extends Component<Props, State> {
       <div>
         <div className={cx('md-block-image-inner-container', styles.center)}>
           {this.state.uploading && <div className={styles.loader} />}
-          <img
+          <Image
             role="presentation"
             alt={block.getText() || ''}
             className={cx(

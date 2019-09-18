@@ -9,6 +9,7 @@ import {
   CheckBox,
   Form
 } from 'app/components/Form';
+import { Image } from 'app/components/Image';
 import LoadingIndicator from 'app/components/LoadingIndicator';
 import { reduxForm, Field, SubmissionError, FieldArray } from 'redux-form';
 import type { FieldProps } from 'redux-form';
@@ -143,7 +144,7 @@ const LanguageFlag = ({ language }: { language: string }) => {
       flag = english;
       break;
   }
-  return <img src={flag} className={styles.flag} alt="country_flag" />;
+  return <Image src={flag} className={styles.flag} alt="country_flag" />;
 };
 
 type Props = FieldProps & {

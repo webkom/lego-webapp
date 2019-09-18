@@ -2,6 +2,7 @@
 import React from 'react';
 import styles from './EmailItem.css';
 import { readmeIfy } from 'app/components/ReadmeLogo';
+import { Image } from 'app/components/Image';
 
 type Props = {
   email: string,
@@ -13,7 +14,7 @@ const EmailItem = ({ email, logo, recipient }: Props) => {
   return (
     <div className={styles.container}>
       {logo && (
-        <img className={styles.logo} src={logo} alt={recipient + ' logo'} />
+        <Image className={styles.logo} src={logo} alt={recipient + ' logo'} />
       )}
       <div>
         <div className={styles.recipient}>{readmeIfy(recipient)}</div>

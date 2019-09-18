@@ -8,6 +8,7 @@ import truncateString from 'app/utils/truncateString';
 import Icon from 'app/components/Icon';
 import styles from './SearchPageResults.css';
 import { Flex } from 'app/components/Layout';
+import { Image } from 'app/components/Image';
 
 type Props = {
   query: string,
@@ -79,7 +80,7 @@ function SearchResult({ result, onSelect, isSelected }: SearchResultProps) {
 
       {result.picture && result.picture !== 'cover' && (
         <Flex className={styles.picture}>
-          <img src={result.picture} alt="search" role="presentation" />
+          <Image src={result.picture} alt="search" role="presentation" />
         </Flex>
       )}
     </Flex>

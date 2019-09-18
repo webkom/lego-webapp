@@ -11,6 +11,7 @@ import { Content } from 'app/components/Content';
 import { Link } from 'react-router';
 import Modal from 'app/components/Modal';
 import styles from './GalleryPictureModal.css';
+import { Image } from 'app/components/Image';
 
 type Props = {
   picture: Object,
@@ -55,7 +56,7 @@ const GalleryPictureEditModal = ({
       <Content className={styles.topContent}>
         <Flex width="100%" justifyContent="space-between" alignItems="center">
           <Flex justifyContent="space-between">
-            <img
+            <Image
               className={styles.galleryThumbnail}
               alt="some alt"
               src={gallery.cover.thumbnail}

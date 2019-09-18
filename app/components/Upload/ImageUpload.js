@@ -11,6 +11,7 @@ import Button from 'app/components/Button';
 import Upload from 'app/components/Upload';
 import type { DropFile } from 'app/components/Upload';
 import styles from './UploadImage.css';
+import { Image } from 'app/components/Image';
 
 type Props = {
   crop?: boolean,
@@ -74,7 +75,9 @@ const UploadArea = ({ multiple, onDrop, image }: UploadAreaProps) => {
           {`Dropp ${word} her eller trykk for å velge fra fil`}
         </h1>
       </div>
-      {image && <img alt="presentation" className={styles.image} src={image} />}
+      {image && (
+        <Image alt="presentation" className={styles.image} src={image} />
+      )}
     </Upload>
   );
 };

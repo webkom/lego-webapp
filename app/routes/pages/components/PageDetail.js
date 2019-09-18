@@ -10,6 +10,7 @@ import { readmeIfy } from 'app/components/ReadmeLogo';
 import DisplayContent from 'app/components/DisplayContent';
 import GroupMember from 'app/components/GroupMember';
 import Icon from 'app/components/Icon';
+import { Image } from 'app/components/Image';
 
 import type { HierarchySectionEntity } from './PageHierarchy';
 import NavigationTab, { NavigationLink } from 'app/components/NavigationTab';
@@ -132,7 +133,7 @@ export const MainPageRenderer = ({
       <div className={styles.headWrapper}>
         {pageBanner && (
           <div className={styles.banner}>
-            <img alt={`${title} page banner`} src={pageBanner} />
+            <Image alt={`${title} page banner`} src={pageBanner} />
           </div>
         )}
         {title !== 'Info om Abakus' && (

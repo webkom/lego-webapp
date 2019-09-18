@@ -5,19 +5,19 @@ import CircularPicture from './CircularPicture';
 
 type Props = {
   user: any,
+  alt: string,
   size: number,
   style?: Object
 };
 
-function ProfilePicture({ user, size = 100, style, ...props }: Props) {
-  return (
-    <CircularPicture
-      src={user.profilePicture}
-      size={size}
-      style={style}
-      {...props}
-    />
-  );
-}
+const ProfilePicture = ({ alt, user, size = 100, style, ...props }: Props) => (
+  <CircularPicture
+    alt={alt}
+    src={user.profilePicture}
+    size={size}
+    style={style}
+    {...props}
+  />
+);
 
 export default ProfilePicture;

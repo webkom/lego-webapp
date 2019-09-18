@@ -5,23 +5,25 @@ import Image from './Image';
 
 type Props = {
   src: any,
+  alt: string,
   size: number,
   style?: Object
 };
 
-function CircularPicture({ src, size = 100, style, ...props }: Props) {
-  return (
-    <Image
-      src={src}
-      style={{
-        width: size,
-        height: size,
-        borderRadius: size / 2,
-        ...style
-      }}
-      {...props}
-    />
-  );
-}
+const CircularPicture = ({ src, alt, size = 100, style, ...props }: Props) => (
+  <Image
+    src={src}
+    alt={alt}
+    width={size}
+    height={size}
+    style={{
+      ...style,
+      borderRadius: size / 2,
+      width: size,
+      height: size
+    }}
+    {...props}
+  />
+);
 
 export default CircularPicture;

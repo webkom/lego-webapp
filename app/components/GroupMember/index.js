@@ -5,6 +5,7 @@ import styles from './GroupMember.css';
 import { Link } from 'react-router';
 import cx from 'classnames';
 import type { User } from 'app/models';
+import { Image } from 'app/components/Image';
 
 type Props = {
   user: User,
@@ -22,7 +23,7 @@ const GroupMember = ({ user, profilePicture, leader, co_leader }: Props) => {
           co_leader && styles.co_leader
         )}
       >
-        <img alt="profilePicture" src={user.profilePicture} />
+        <Image alt="profilePicture" src={user.profilePicture} />
         {leader && <div className={styles.title}>LEDER</div>}
         {co_leader && <div className={styles.title}>NESTLEDER</div>}
         <div className={styles.name}>{user.fullName}</div>

@@ -3,6 +3,7 @@ import * as React from 'react';
 import Raven from 'raven-js';
 import styles from './ErrorBoundary.css';
 import awSnap from 'app/assets/sentry-aw-snap.svg';
+import { Image } from 'app/components/Image';
 
 type Props = {
   openReportDialog?: boolean,
@@ -59,7 +60,7 @@ class ErrorBoundary extends React.Component<Props, State> {
           className={styles.snap}
           onClick={() => !openReportDialog && this.openDialog()}
         >
-          <img src={awSnap} alt="snap" />
+          <Image src={awSnap} alt="snap" />
           <div className={styles.message}>
             <h3>En feil har oppstått</h3>
             <p>

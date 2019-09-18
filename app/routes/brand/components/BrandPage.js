@@ -7,6 +7,7 @@ import Button from 'app/components/Button';
 import logosDos from 'app/assets/logos-dos.png';
 import logosDonts from 'app/assets/logos-donts.png';
 import { Flex } from 'app/components/Layout';
+import { Image } from 'app/components/Image';
 
 const BrandPage = () => (
   <Content>
@@ -46,7 +47,7 @@ const BrandPage = () => (
             </p>
           </Flex>
           <Flex column className={styles.colRight}>
-            <img src={logosDos} alt="Allowed examples" width={200} />
+            <Image src={logosDos} alt="Allowed examples" width={200} />
           </Flex>
         </Flex>
 
@@ -76,7 +77,7 @@ const BrandPage = () => (
             </ul>
           </Flex>
           <Flex column className={styles.colRight}>
-            <img src={logosDonts} alt="Not allowed examples" width={200} />
+            <Image src={logosDonts} alt="Not allowed examples" width={200} />
           </Flex>
         </Flex>
         <div>
