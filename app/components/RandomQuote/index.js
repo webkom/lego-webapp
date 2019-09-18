@@ -1,82 +1,39 @@
 // @flow
-
-import React, { Component } from 'react';
-import styles from './RandomQuote.css';
+import { compose } from 'redux';
+import prepare from 'app/utils/prepare';
 import { fetchRandomQuote } from 'app/actions/QuoteActions';
 import { connect } from 'react-redux';
-import Button from '../Button';
-
-type Props = {
-  fetchRandomQuote: () => Promise<Object>,
-  loggedIn: boolean
-};
-
-type State = {
-  currentQuote: /*TODO: Quote*/ Object
-};
-
-class RandomQuote extends Component<Props, State> {
-  state = {
-    currentQuote: {}
-  };
-
-  _isMounted = false;
-
-  componentDidMount() {
-    this._isMounted = true;
-    if (this.props.loggedIn) this.refreshQuote();
-  }
-
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-
-  // eslint-disable-next-line
-  componentWillReceiveProps(newProps) {
-    if (newProps.loggedIn) this.refreshQuote();
-  }
-
-  refreshQuote = () => {
-    this.props.fetchRandomQuote().then(action => {
-      if (this._isMounted && action.payload) {
-        this.setState({
-          currentQuote: action.payload.entities.quotes[action.payload.result]
-        });
-      }
-    });
-  };
-
-  render() {
-    const { currentQuote } = this.state;
-
-    return (
-      <div>
-        <h2>Sitat</h2>
-        {this.props.loggedIn ? (
-          <div>
-            <div className={styles.quoteText}>{currentQuote.text}</div>
-            <div className={styles.quoteSource}>-{currentQuote.source}</div>
-            <Button flat onClick={this.refreshQuote} className={styles.title}>
-              <i className="fa fa-refresh" />
-            </Button>
-          </div>
-        ) : (
-          'Logg inn for å se sitater.'
-        )}
-      </div>
-    );
-  }
-}
+import RandomQuote from './RandomQuote';
+import { addReaction, deleteReaction } from 'app/actions/ReactionActions';
+import { selectEmojis } from 'app/reducers/emojis';
+import { selectRandomQuote } from 'app/reducers/randomQuote';
+import { fetchEmojis } from 'app/actions/EmojiActions';
+import loadingIndicator from 'app/utils/loadingIndicator';
 
 function mapStateToProps(state, props) {
+  const emojis = selectEmojis(state);
+  const currentQuote = selectRandomQuote(state); // TODO: make
   return {
-    loggedIn: props.loggedIn
+    loggedIn: props.loggedIn,
+    emojis,
+    fetchingEmojis: state.emojis.fetching,
+    fetching: state.quotes.fetching,
+    currentQuote
   };
 }
 
-const mapDispatchToProps = { fetchRandomQuote };
+const mapDispatchToProps = {
+  fetchRandomQuote,
+  addReaction,
+  deleteReaction,
+  fetchEmojis
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
+export default compose(
+  prepare((props, dispatch) => dispatch(fetchRandomQuote(), fetchEmojis())),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  loadingIndicator(['currentQuote.id'])
 )(RandomQuote);

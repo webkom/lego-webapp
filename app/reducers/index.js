@@ -10,6 +10,7 @@ import companies from './companies';
 import companySemesters from './companySemesters';
 import emailLists from './emailLists';
 import quotes from './quotes';
+import randomQuote from './randomQuote';
 import podcasts from './podcasts';
 import galleryPictures from './galleryPictures';
 import events from './events';
@@ -89,6 +90,7 @@ const reducers = {
   polls,
   pools,
   quotes,
+  randomQuote,
   readme,
   registrations,
   restrictedMails,
@@ -166,9 +168,9 @@ export const galleryPictureSchema = new schema.Entity('galleryPictures', {
 
 export const gallerySchema = new schema.Entity('galleries');
 
-export const quoteSchema = new schema.Entity('quotes', {
-  comments: [commentSchema]
-});
+export const quoteSchema = new schema.Entity('quotes');
+
+export const randomQuoteSchema = new schema.Entity('randomQuote');
 
 export const pollSchema = new schema.Entity('polls');
 

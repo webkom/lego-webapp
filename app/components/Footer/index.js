@@ -62,7 +62,14 @@ const Footer = (props: Props) => (
                 name="contacts-outline"
               />
             </Link>
-            <RandomQuote loggedIn={props.loggedIn} />
+            <div>temp footer content</div>
+            {
+              //
+              // <div>
+              //   <h3>Sitat</h3>
+              //   <RandomQuote loggedIn={props.loggedIn} />
+              // </div>
+            }
           </div>
           <div className={styles.section}>
             <Icon

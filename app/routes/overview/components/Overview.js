@@ -21,6 +21,7 @@ import { Link } from 'react-router';
 import NextEvent from './NextEvent';
 import Poll from 'app/components/Poll';
 import type { PollEntity } from 'app/reducers/polls';
+import RandomQuote from 'app/components/RandomQuote';
 
 type Props = {
   frontpage: Array<Object>,
@@ -226,6 +227,15 @@ class Overview extends Component<Props, State> {
       </Flex>
     );
 
+    const quoteItem = (
+      <Flex column>
+        <Link to={'/quotes'}>
+          <h3 className="u-ui-heading">AbaQuote</h3>
+        </Link>
+        <RandomQuote loggedIn={loggedIn} className={styles.quote} />
+      </Flex>
+    );
+
     return (
       <Container>
         <Helmet title="Hjem" />
@@ -238,6 +248,7 @@ class Overview extends Component<Props, State> {
           <Flex column className={styles.rightColumn}>
             {nextEvent}
             {pollItem}
+            {quoteItem}
             {readMe}
             {weekly}
             {articles}
@@ -247,6 +258,7 @@ class Overview extends Component<Props, State> {
           {compactEvents}
           {nextEvent}
           {pollItem}
+          {quoteItem}
           {pinnedComponent}
           {readMe}
           {weekly}
