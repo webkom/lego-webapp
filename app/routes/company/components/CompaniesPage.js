@@ -38,19 +38,25 @@ const CompanyItem = ({ company }: Company) => {
               {company.joblistingCount}
             </span>
           </Flex>
-          <div className={styles.iconLink}>
-            <a href={company.website} target="_blank" rel="noopener noreferrer">
-              <Flex column>
-                <Icon
-                  name="at"
-                  size={20}
-                  style={{ color: 'var(--lego-link-color)' }}
-                />
-                <span />
-                Link her
-              </Flex>
-            </a>
-          </div>
+          {company.website && (
+            <div className={styles.iconLink}>
+              <a
+                href={company.website}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Flex column>
+                  <Icon
+                    name="at"
+                    size={20}
+                    style={{ color: 'var(--lego-link-color)' }}
+                  />
+                  <span />
+                  Link her
+                </Flex>
+              </a>
+            </div>
+          )}
           <Flex column>
             <Icon name="md-calendar" prefix="ion-" size={20} />
             <span className={styles.calendarCount}>{company.eventCount}</span>

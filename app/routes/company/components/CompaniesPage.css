@@ -80,7 +80,8 @@
   color: #777;
   font-weight: 200;
   font-style: italic;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding: 0 30px;
   border-top: 2px solid var(--lego-red);
   padding-top: 20px;
 }
