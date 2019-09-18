@@ -17,7 +17,9 @@ type Props = {
 };
 
 const CompanyItem = ({ company }: Company) => {
-  const [protocol, , domain] = company.website.split('/');
+  const [protocol, , domain] = company.website
+    ? company.website.split('/')
+    : ['', '', ''];
   const websiteString = `${protocol}//${domain}`;
 
   return (
