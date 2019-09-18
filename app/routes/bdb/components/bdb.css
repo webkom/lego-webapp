@@ -179,11 +179,8 @@
 }
 
 .dropDownItem {
-  padding: 5px 10px;
   font-size: 12px;
-  display: flex;
   justify-content: space-between;
-  flex-direction: row;
   width: 100%;
 }
 

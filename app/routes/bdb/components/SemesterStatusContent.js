@@ -53,17 +53,19 @@ export default class SemesterStatusContent extends Component<Props, State> {
     const dropDownItems = (
       <Dropdown.List>
         {statusCodes.map((statusString, j) => (
-          <Button flat key={j} onClick={e => editFunction(statusString)}>
-            <Dropdown.ListItem className={styles.dropDownItem}>
+          <Dropdown.ListItem key={j} className={styles.dropDownItem}>
+            <Button flat onClick={e => editFunction(statusString)}>
               <div>
                 {semesterStatus.contactedStatus.indexOf(statusString) !== -1 ? (
                   <Icon
                     name="checkmark"
                     style={{
                       color: 'green',
-                      marginRight: '5px'
+                      marginRight: '5px',
+                      position: 'relative',
+                      top: '5px'
                     }}
-                    size={300}
+                    size={25}
                   />
                 ) : (
                   <div
@@ -82,9 +84,9 @@ export default class SemesterStatusContent extends Component<Props, State> {
                   styles.lazyCircle
                 )}
               />
-            </Dropdown.ListItem>
+            </Button>
             {j !== statusCodes.length - 1 && <Dropdown.Divider />}
-          </Button>
+          </Dropdown.ListItem>
         ))}
       </Dropdown.List>
     );
