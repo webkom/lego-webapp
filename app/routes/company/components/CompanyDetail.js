@@ -113,13 +113,14 @@ class CompanyEvents extends React.Component<EventProps, *> {
               <th />
               <th />
               <th colSpan="2">
-                <a
+                <button
+                  className={styles.showAllEventsButton}
                   onClick={() =>
                     this.setState({ viewOld: !this.state.viewOld })
                   }
                 >
                   {viewOld ? 'Vis kun kommende' : 'Vis tidligere arrangementer'}
-                </a>
+                </button>
               </th>
             </tr>
             {viewOld && eventTable(oldEvents)}

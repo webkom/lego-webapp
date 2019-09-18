@@ -16,6 +16,12 @@
   justify-content: space-between;
 }
 
+.showAllEventsButton {
+  color: var(--lego-link-color);
+  font-size: var(--font-size-large);
+  margin-left: -9px;
+}
+
 .editLink {
   margin-top: 0.2em;
   margin-right: 0.5em;

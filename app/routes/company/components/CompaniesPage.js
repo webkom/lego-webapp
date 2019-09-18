@@ -21,10 +21,6 @@ type Props = {
 };
 
 const CompanyItem = ({ company }: Company) => {
-  const [protocol, , domain] = company.website
-    ? company.website.split('/')
-    : ['', '', ''];
-  const websiteString = `${protocol}//${domain}`;
   return (
     <div className={styles.companyItem}>
       <div className={styles.companyItemContent}>
