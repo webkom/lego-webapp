@@ -236,6 +236,11 @@
   position: absolute;
 }
 
+.quoteReactions {
+  order: 4;
+  margin-left: 125px;
+}
+
 @media (--small-viewport) {
   .quoteContainer {
     margin: 0 15px;
@@ -287,5 +292,9 @@
     border: 0;
     margin: 0 0 0 100px;
     font-size: 20px;
+  }
+
+  .quoteReactions {
+    margin-left: 0;
   }
 }
