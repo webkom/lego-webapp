@@ -10,7 +10,6 @@ import { selectSortedEvents } from 'app/reducers/events';
 import moment from 'moment-timezone';
 import { selectPagination } from '../../reducers/selectors';
 import createQueryString from 'app/utils/createQueryString';
-import { frontloadConnect } from 'react-frontload';
 
 const mapStateToProps = (state, ownProps) => {
   const dateAfter = moment().format('YYYY-MM-DD');
@@ -42,17 +41,14 @@ const fetchData = ({
   });
 
 const mapDispatchToProps = {
-  loadData: () => fetchData(),
   fetchMore: () => fetchData({ refresh: false, loadNextPage: true }),
   reload: () => fetchData({ refresh: true })
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(
-  frontloadConnect(async props => await props.loadData(), {
-    onMount: true,
-    onUpdate: false
-  })(EventList)
-);
+export default compose(
+  prepare((props, dispatch) => dispatch(fetchData())),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)(EventList);

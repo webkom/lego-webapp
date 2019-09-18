@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { frontloadConnect } from 'react-frontload';
+import prepare from 'app/utils/prepare';
 import {
   fetchEvent,
   deleteEvent,
@@ -176,7 +176,7 @@ const propertyGenerator = (props, config) => {
   ];
 };
 
-const loadData = props => {
+const loadData = (props, dispatch) => {
   const {
     match: {
       params: { eventId }
@@ -184,20 +184,17 @@ const loadData = props => {
     loggedIn
   } = props;
   return Promise.all([
-    props.fetchEvent(eventId),
-    loggedIn && props.isUserFollowing(eventId)
+    dispatch(fetchEvent(eventId)),
+    loggedIn && dispatch(isUserFollowing(eventId))
   ]);
 };
 
 export default compose(
+  prepare(loadData, ['match.params.eventId']),
   connect(
     mapStateToProps,
     mapDispatchToProps
   ),
-  frontloadConnect(loadData, {
-    onMount: true,
-    onUpdate: false
-  }),
   loadingIndicator(['notLoading', 'event.text']),
   helmet(propertyGenerator)
 )(EventDetail);

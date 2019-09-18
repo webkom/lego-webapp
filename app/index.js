@@ -21,7 +21,6 @@ import 'moment/locale/nb';
 import cookie from 'js-cookie';
 import config from 'app/config';
 import raven from 'raven-js';
-import { isEmpty } from 'lodash';
 import configureStore, { history } from 'app/utils/configureStore';
 import renderApp from './render';
 import { fetchMeta } from 'app/actions/MetaActions';

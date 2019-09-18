@@ -134,7 +134,8 @@ const mapDispatchToProps = {
 export default compose(
   replaceUnlessLoggedIn(LoginPage),
   prepare(
-    (props, dispatch) => props.match.params.id && dispatch(fetchEvent(props.match.params.id)),
+    (props, dispatch) =>
+      props.match.params.id && dispatch(fetchEvent(props.match.params.id))
   ),
   connect(
     mapStateToProps,
