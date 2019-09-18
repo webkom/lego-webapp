@@ -8,6 +8,7 @@ import { navigation } from '../utils';
 import Button from 'app/components/Button';
 import type { ActionGrant, ID } from 'app/models';
 import type { QuoteEntity } from 'app/reducers/quotes';
+import type { EmojiEntity } from 'app/reducers/emojis';
 
 type Props = {
   reactions: Array<Object>,
@@ -48,7 +49,7 @@ export default function QuotePage({
   deleteReaction,
   emojis,
   fetchEmojis,
-  ...props
+  fetchingEmojis
 }: Props) {
   let errorMessage = undefined;
   if (quotes.length === 0) {
@@ -75,6 +76,7 @@ export default function QuotePage({
           deleteReaction={deleteReaction}
           emojis={emojis}
           fetchEmojis={fetchEmojis}
+          fetchingEmojis={fetchingEmojis}
         />
       )}
       {showFetchMore && (
